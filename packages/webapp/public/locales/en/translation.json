@@ -46,8 +46,8 @@
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
     "EDIT_CUSTOM_TASK": "Edit custom task",
     "FIELD_WORK_VIEW": {
-      "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",
       "FIELD_WORK_TASK": "field work task",
+      "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",
       "TYPE": {
         "COVERING_SOIL": "Covering soil",
         "FENCING": "Fencing",
@@ -73,6 +73,46 @@
     },
     "HOW_MUCH_IS_HARVESTED": "How much is being harvested?",
     "HR": "/hr",
+    "IRRIGATION_VIEW": {
+      "BRAND_TOOLTIP": "This task is for watering your location. If you want to install irrigation, create a field work task instead.",
+      "CALCULATE_WATER_USAGE": "Calculate Water Usage",
+      "DEFAULT_APPLICATION_DEPTH": "Set as default application depth for this location",
+      "DEFAULT_LOCATION_FLOW_RATE": "Set as default flow rate for this location",
+      "DEPTH": "Depth",
+      "ESTIMATED_APPLICATION_DEPTH": "Estimated application depth",
+      "ESTIMATED_DURATION": "Estimated Duration",
+      "ESTIMATED_FLOW_RATE": "Estimated flow rate",
+      "ESTIMATED_WATER_USAGE": "Estimated water usage",
+      "HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE": "How do you measure water use for this irrigation type?",
+      "IRRIGATED_AREA": "Irrigated area",
+      "IRRIGATION_TYPE_CHAR_LIMIT": "Irrigation type must be less than 100 characters",
+      "LOCATION_SIZE": "Location size",
+      "NOT_SURE": "Not sure?",
+      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "% of location to be irrigated",
+      "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "Set as default measurement for this irrigation type",
+      "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "Set as default type for this location",
+      "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "Tell us about your Irrigation Task",
+      "TOTAL_WATER_USAGE": "Total Water Usage",
+      "TYPE": {
+        "CHANNEL": "Channel",
+        "DRIP": "Drip",
+        "FLOOD": "Flood",
+        "HAND_WATERING": "Hand Watering",
+        "OTHER": "Other",
+        "PIVOT": "Pivot",
+        "SPRINKLER": "Sprinkler",
+        "SUB_SURFACE": "Subsurface"
+      },
+      "TYPE_OF_IRRIGATION": "Type of Irrigation",
+      "VOLUME": "Volume",
+      "WATER_USE_CALCULATOR": "Water Use Calculator",
+      "WATER_USE_CALCULATOR_INFO": {
+        "PHRASE1": "This calculator helps you calculate water usage based on ",
+        "PHRASE2": "If you would prefer to calculate based on",
+        "PHRASE3": "please go back and select"
+      },
+      "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?"
+    },
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
     "NEED_MANAGEMENT_PLAN": "You'll need an active or planned crop plan before you can schedule a harvest task or transplant task. Go to the crop catalogue to create a plan now.",
     "NO_MANAGEMENT_PLAN": "No eligible crop plans",
@@ -118,47 +158,7 @@
     "TRANSPLANT_METHOD": "Transplant method",
     "WAGE_OVERRIDE": "Wage override",
     "WHAT_PLANTING_METHOD": "What is the transplanting method?",
-    "WILD_CROP": "Wild crops",
-    "IRRIGATION_VIEW": {
-      "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "Tell us about your Irrigation Task",
-      "BRAND_TOOLTIP": "This task is for watering your location. If you want to install irrigation, create a field work task instead.",
-      "TYPE_OF_IRRIGATION": "Type of Irrigation",
-      "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?",
-      "IRRIGATION_TYPE_CHAR_LIMIT": "Irrigation type must be less than 100 characters",
-      "TYPE": {
-        "HAND_WATERING": "Hand Watering",
-        "CHANNEL": "Channel",
-        "DRIP": "Drip",
-        "FLOOD": "Flood",
-        "PIVOT": "Pivot",
-        "SPRINKLER": "Sprinkler",
-        "SUB_SURFACE": "Subsurface",
-        "OTHER": "Other"
-      },
-      "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "Set as default type for this location",
-      "HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE": "How do you measure water use for this irrigation type?",
-      "VOLUME": "Volume",
-      "DEPTH": "Depth",
-      "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "Set as default measurement for this irrigation type",
-      "ESTIMATED_WATER_USAGE": "Estimated water usage",
-      "NOT_SURE": "Not sure?",
-      "CALCULATE_WATER_USAGE": "Calculate Water Usage",
-      "WATER_USE_CALCULATOR": "Water Use Calculator",
-      "WATER_USE_CALCULATOR_INFO": {
-        "PHRASE1": "This calculator helps you calculate water usage based on ",
-        "PHRASE2": "If you would prefer to calculate based on",
-        "PHRASE3": "please go back and select"
-      },
-      "ESTIMATED_FLOW_RATE": "Estimated flow rate",
-      "DEFAULT_LOCATION_FLOW_RATE": "Set as default flow rate for this location",
-      "ESTIMATED_DURATION": "Estimated Duration",
-      "ESTIMATED_APPLICATION_DEPTH": "Estimated application depth",
-      "DEFAULT_APPLICATION_DEPTH": "Set as default application depth for this location",
-      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "% of location to be irrigated",
-      "TOTAL_WATER_USAGE": "Total Water Usage",
-      "LOCATION_SIZE": "Location size",
-      "IRRIGATED_AREA": "Irrigated area"
-    }
+    "WILD_CROP": "Wild crops"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
@@ -285,33 +285,25 @@
     "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",
     "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with  personally identifying information removed",
     "CREATE_BUTTON": "Create Account",
+    "DEFAULT_LANGUAGE": "English",
+    "DEFAULT_LANGUAGE_VALUE": "en",
     "EMAIL": "Email",
     "FULL_NAME": "Full name",
     "GENDER": "Gender",
     "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with  personally identifying information removed",
-    "PASSWORD": "Password",
-    "TITLE": "Create new user account",
     "LANGUAGE_PREFERENCE": "Language preference",
-    "DEFAULT_LANGUAGE": "English",
-    "DEFAULT_LANGUAGE_VALUE": "en"
+    "PASSWORD": "Password",
+    "TITLE": "Create new user account"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link to a compliance file",
     "ADD_CROP": "Add a crop",
     "ADD_IMAGE": "Add Custom Image",
-    "VARIETAL_SUBTITLE": "Tell us about the specific varietal or cultivar you intend to grow",
-    "VARIETAL_IMAGE": "Customize image for varietal or cultivar",
-    "VARIETAL_IMAGE_INFO": "If you would like this varietal or cultivar to have a different image from the default crop, you can customize the image here.",
-    "VARIETY_COMMON_NAME": "Common Name",
-    "DUPLICATE_VARIETY": "A variety of this crop with the same name already exists on your farm",
-    "VARIETY_VARIETAL": "Varietal",
-    "VARIETY_CULTIVAR": "Cultivar",
-    "CULTIVAR_SUBTEXT": "Learn more about cultivars",
-    "VARIETAL_SUBTEXT": "Learn more about varietals",
-    "CULTIVAR_PLACEHOLDER": "Ex. Red Delicious",
-    "VARIETAL_PLACEHOLDER": "Ex. Cabernet sauvignon",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
+    "CULTIVAR_PLACEHOLDER": "Ex. Red Delicious",
+    "CULTIVAR_SUBTEXT": "Learn more about cultivars",
+    "DUPLICATE_VARIETY": "A variety of this crop with the same name already exists on your farm",
     "EDIT_CROP": "Edit crop",
     "EDIT_MODAL": {
       "BODY": "Editing this crop will not modify any existing crop plans. Only crop plans created after your edits will be impacted. Proceed to edit?",
@@ -326,11 +318,19 @@
     "PERENNIAL": "Perennial",
     "PERFORM_SEARCH": "Did you perform a commercial availability search?",
     "PHYSIOLOGY_AND_ANATOMY": "Physiology and Anatomy",
-    "TREATED": "Have the seeds for this crop been treated?",
-    "UPLOAD_LATER": "You can upload files at a later time as well",
     "REPEAT_PLAN_MODAL": {
       "DELETED_PLANS": "Deleted crop plans that were part of this repetition won’t be shown."
-    }
+    },
+    "TREATED": "Have the seeds for this crop been treated?",
+    "UPLOAD_LATER": "You can upload files at a later time as well",
+    "VARIETAL_IMAGE": "Customize image for varietal or cultivar",
+    "VARIETAL_IMAGE_INFO": "If you would like this varietal or cultivar to have a different image from the default crop, you can customize the image here.",
+    "VARIETAL_PLACEHOLDER": "Ex. Cabernet sauvignon",
+    "VARIETAL_SUBTEXT": "Learn more about varietals",
+    "VARIETAL_SUBTITLE": "Tell us about the specific varietal or cultivar you intend to grow",
+    "VARIETY_COMMON_NAME": "Common Name",
+    "VARIETY_CULTIVAR": "Cultivar",
+    "VARIETY_VARIETAL": "Varietal"
   },
   "CROP_CATALOGUE": {
     "ADD_CROP": "Add a new crop",
@@ -345,6 +345,7 @@
     "CROP_GROUP_TOOL_TIP": "Selecting a crop group allows LiteFarm to pre-populate a lot of information about this crop such as growing season, nutritional values, and estimated annual yield. Don't worry, you can change these values below once you've selected a crop group.",
     "CROP_STATUS": "Crop status on:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
+    "DUPLICATE_CROP": "A crop with the same name, genus, and species already exists on your farm",
     "FILTER": {
       "LOCATION": "Location",
       "STATUS": "Status",
@@ -361,8 +362,7 @@
     "NOMINATE_CROP_TOOLTIP": "Nominating this crop for inclusion in the LiteFarm crop catalogue grants the LiteFarm team permission to share information about this crop with a specialist in your region. Approved crops will become part of the crop catalogue shown to all users.",
     "ON_YOUR_FARM": "On your farm",
     "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
-    "SPECIES": "Species",
-    "DUPLICATE_CROP": "A crop with the same name, genus, and species already exists on your farm"
+    "SPECIES": "Species"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Add a plan",
@@ -388,6 +388,14 @@
     "TERMINATE": "Terminate",
     "TRANSPLANT": "Transplant"
   },
+  "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
+    "SUBTITLE": "You’ve indicated you’ll be planting an organic crop in a non-organic location. Do you want to proceed?",
+    "TITLE": "You’ve selected a non-organic location!"
+  },
+  "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
+    "SUBTITLE": "You’ve indicated you’ll be planting a non-organic crop in an organic location. Do you want to proceed?",
+    "TITLE": "You’ve selected an organic location!"
+  },
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Add a new variety",
     "CROP_VARIETIES": "variety",
@@ -403,24 +411,24 @@
   "DATE_RANGE": {
     "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
     "HELP_TITLE": "Date Range Help",
-    "TITLE": "Filter Report by Date",
-    "INVALID_RANGE_MESSAGE": "End date must be after start date to return results"
+    "INVALID_RANGE_MESSAGE": "End date must be after start date to return results",
+    "TITLE": "Filter Report by Date"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "From",
-    "TO": "To",
-    "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date",
+    "REVENUE_HELP_BODY": "Only plans that have a planned or completed harvest task within the indicated date range will be shown.",
     "REVENUE_HELP_TITLE": "Date Range Help",
-    "REVENUE_HELP_BODY": "Only plans that have a planned or completed harvest task within the indicated date range will be shown."
+    "TO": "To",
+    "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date"
   },
   "DAYS_OF_WEEK_SELECT": {
-    "SUNDAY": "S",
-    "MONDAY": "M",
-    "TUESDAY": "T",
-    "WEDNESDAY": "W",
-    "THURSDAY": "T",
     "FRIDAY": "F",
-    "SATURDAY": "S"
+    "MONDAY": "M",
+    "SATURDAY": "S",
+    "SUNDAY": "S",
+    "THURSDAY": "T",
+    "TUESDAY": "T",
+    "WEDNESDAY": "W"
   },
   "DOCUMENTS": {
     "ADD": {
@@ -440,7 +448,6 @@
     "CANCEL_MODAL": "document creation",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
-    "VIEW_DETAIL": "View detail page to download multiple files",
     "EDIT_DOCUMENT": "Edit document",
     "FILTER": {
       "TITLE": "Documents Filter",
@@ -471,7 +478,8 @@
     "UNARCHIVE_DOCUMENT": "Unarchive document?",
     "UNARCHIVE_DOCUMENT_TEXT": "Unarchiving this document will return it to your list of currently valid documents. Valid documents will be exported for your certifications. Do you want to proceed?",
     "UNARCHIVED": "Unarchived",
-    "VALID": "Valid"
+    "VALID": "Valid",
+    "VIEW_DETAIL": "View detail page to download multiple files"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",
@@ -481,6 +489,10 @@
     "ONE_SPECIAL_CHARACTER": "at least one special character (! @ # $ % ^ & *)",
     "ONE_UPPER_CASE": "at least one upper case character",
     "TOO_SHORT": "at least 8 characters"
+  },
+  "ENTITY_TYPES": {
+    "LOCATION": "Location",
+    "TASK": "Task"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -515,7 +527,6 @@
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
-    "TUTORIALS": "Map Tutorials",
     "AREA_DETAILS": {
       "NETWORK": "Network connectivity issues.",
       "PERIMETER": "Perimeter",
@@ -536,54 +547,54 @@
       "WIDTH": "Buffer zone width"
     },
     "BULK_UPLOAD_SENSORS": {
-      "TITLE": "Add sensors to map",
-      "UPLOAD_LINK_MESSAGE": "Download this template",
-      "UPLOAD_INSTRUCTION_MESSAGE": "for correct formatting.",
-      "UPLOAD_PLACEHOLDER": "Upload CSV file",
-      "INVALID_FILE_TYPE": "Upload file must be a csv,",
+      "DOWNLOAD_FILE": {
+        "DEFAULT": "Something went wrong. Please contact support@litefarm.org for assistance.",
+        "PARTIAL_SUCCESS_BOTTOM_TEXT": "They should now be visible on your farm map. These sensors will be ignored in future uploads\n\n",
+        "PARTIAL_SUCCESS_TOP_TEXT": "The following sensors in your file uploaded successfully or already exist on your farm:\n\n",
+        "ROW": "[Row: {{ row }}][Column: {{ column }}] {{- errorMessage }} {{ value }}\n",
+        "SOME_ERRORS": "Unfortunately, there were some errors with your upload:\n\n"
+      },
       "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "click here to download the template",
-      "UPLOAD_ERROR_MESSAGE": "There were some issues with your upload. ",
-      "UPLOAD_ERROR_LINK": "Click here to view them.",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "No sensors found, please check your upload and try again.",
-      "SENSOR_FIELDS": {
-        "NAME": "Name",
-        "LATITUDE": "Latitude",
-        "LONGITUDE": "Longitude",
-        "READING_TYPES": "Reading_types",
-        "SENSOR_EXTERNAL_ID": "External_ID",
-        "DEPTH": "Depth_cm",
-        "BRAND": "Brand",
-        "MODEL": "Model"
-      },
-      "VALIDATION": {
-        "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
-        "MISSING_COLUMNS": "Columns are required/missing.",
-        "EXTERNAL_ID": "Invalid external id, must be between 1 and 40 characters.",
-        "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
-        "SENSOR_LATITUDE": "Invalid latitude value, must be between -85 and 85. and fewer than 10 decimals.",
-        "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
-        "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: soil_water_content, soil_water_potential, temperature.",
-        "SENSOR_DEPTH": "Invalid depth value, must be between 0 and 1000.",
-        "SENSOR_BRAND": "Invalid brand name, must be between 1 and 100 characters.",
-        "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",
-        "SENSOR_HARDWARE_VERSION": "Invalid hardware version name, must be between 1 and 100 characters."
-      },
+      "INVALID_FILE_TYPE": "Upload file must be a csv,",
       "SENSOR_CLAIM_ERROR": {
         "ALREADY_OCCUPIED": "Sensor \"{{ sensorId }}\" already registered to another organization, please contact Ensemble support at support@esci.io to troubleshoot.",
         "DOES_NOT_EXIST": "Sensor \"{{ sensorId }}\" does not exist in the Ensemble database. Please ensure that you have spelled the External_ID properly for this entry, and that the sensor is an Ensemble sensor.",
         "INTERNAL_ERROR": "Sensor \"{{ sensorId }}\" failed to upload successfully, please reach out to LiteFarm support at support@litefarm.org to troubleshoot."
       },
-      "DOWNLOAD_FILE": {
-        "ROW": "[Row: {{ row }}][Column: {{ column }}] {{- errorMessage }} {{ value }}\n",
-        "PARTIAL_SUCCESS_TOP_TEXT": "The following sensors in your file uploaded successfully or already exist on your farm:\n\n",
-        "PARTIAL_SUCCESS_BOTTOM_TEXT": "They should now be visible on your farm map. These sensors will be ignored in future uploads\n\n",
-        "SOME_ERRORS": "Unfortunately, there were some errors with your upload:\n\n",
-        "DEFAULT": "Something went wrong. Please contact support@litefarm.org for assistance."
+      "SENSOR_FIELDS": {
+        "BRAND": "Brand",
+        "DEPTH": "Depth_cm",
+        "LATITUDE": "Latitude",
+        "LONGITUDE": "Longitude",
+        "MODEL": "Model",
+        "NAME": "Name",
+        "READING_TYPES": "Reading_types",
+        "SENSOR_EXTERNAL_ID": "External_ID"
+      },
+      "TITLE": "Add sensors to map",
+      "UPLOAD_ERROR_LINK": "Click here to view them.",
+      "UPLOAD_ERROR_MESSAGE": "There were some issues with your upload. ",
+      "UPLOAD_INSTRUCTION_MESSAGE": "for correct formatting.",
+      "UPLOAD_LINK_MESSAGE": "Download this template",
+      "UPLOAD_PLACEHOLDER": "Upload CSV file",
+      "VALIDATION": {
+        "EXTERNAL_ID": "Invalid external id, must be between 1 and 40 characters.",
+        "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
+        "MISSING_COLUMNS": "Columns are required/missing.",
+        "SENSOR_BRAND": "Invalid brand name, must be between 1 and 100 characters.",
+        "SENSOR_DEPTH": "Invalid depth value, must be between 0 and 1000.",
+        "SENSOR_HARDWARE_VERSION": "Invalid hardware version name, must be between 1 and 100 characters.",
+        "SENSOR_LATITUDE": "Invalid latitude value, must be between -85 and 85. and fewer than 10 decimals.",
+        "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
+        "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",
+        "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
+        "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: soil_water_content, soil_water_potential, temperature."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
-      "TITLE": "This is taking longer than expected...",
-      "BODY": "We’ll notify you once your upload is complete and your sensors have been created. Feel free to navigate away from this window."
+      "BODY": "We’ll notify you once your upload is complete and your sensors have been created. Feel free to navigate away from this window.",
+      "TITLE": "This is taking longer than expected..."
     },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Edit ceremonial area",
@@ -604,8 +615,8 @@
       "DOWNLOAD": "Download",
       "EMAIL_TO_ME": "Email to me",
       "EMAILING": "Emailing",
-      "TITLE": "Export your farm map",
-      "LOADING": "Loading..."
+      "LOADING": "Loading...",
+      "TITLE": "Export your farm map"
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Edit farm site boundary",
@@ -684,12 +695,12 @@
       "POINTS": "Points",
       "RESIDENCE": "Residence",
       "SATELLITE": "Satellite background",
+      "SENSOR": "Sensor",
       "SHOW_ALL": "Show all",
       "SURFACE_WATER": "Surface water",
       "TITLE": "Filter your map",
       "WATERCOURSE": "Watercourse",
-      "WV": "Water valve",
-      "SENSOR": "Sensor"
+      "WV": "Water valve"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Edit natural area",
@@ -720,8 +731,8 @@
     "TAB": {
       "CROPS": "Crops",
       "DETAILS": "Details",
-      "TASKS": "Tasks",
-      "READINGS": "Readings"
+      "READINGS": "Readings",
+      "TASKS": "Tasks"
     },
     "TITLE": "Farm map",
     "TUTORIAL": {
@@ -747,6 +758,7 @@
         "TITLE": "Draw a line"
       }
     },
+    "TUTORIALS": "Map Tutorials",
     "UNABLE_TO_RETIRE": {
       "BODY": "You can only retire locations that have no active or planned crops or tasks.",
       "TITLE": "Unable to retire"
@@ -774,8 +786,8 @@
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "VARIETY": "Variety",
-      "SUPPLIER": "Supplier"
+      "SUPPLIER": "Supplier",
+      "VARIETY": "Variety"
     }
   },
   "FILE_SIZE_MODAL": {
@@ -794,9 +806,9 @@
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Estimated annual revenue",
       "ESTIMATED_ANNUAL_YIELD": "Estimated annual harvest",
+      "ESTIMATED_CROP_REVENUE": "Estimated crop revenue",
       "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
-      "TITLE": "Estimated Revenue",
-      "ESTIMATED_CROP_REVENUE": "Estimated crop revenue"
+      "TITLE": "Estimated Revenue"
     },
     "REVENUE": "Revenue",
     "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",
@@ -853,8 +865,8 @@
       "SPECIES_COUNT_plural": "{{count}} species",
       "TITLE": "Biodiversity"
     },
-    "CURRENT": "Current",
     "CLICK_TO_CALCULATE": "Click to calculate",
+    "CURRENT": "Current",
     "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
     "LABOUR_HAPPINESS": {
       "HEADER": "Tasks",
@@ -910,6 +922,7 @@
     "TITLE": "Create your account"
   },
   "INVITE_USER": {
+    "ALREADY_EXISTING_EMAIL_ERROR": "A user with that email already has access to this farm",
     "BIRTH_YEAR": "Birth Year",
     "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",
     "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with personally identifying information removed",
@@ -922,7 +935,6 @@
     "GENDER": "Gender",
     "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with personally identifying information removed",
     "INVALID_EMAIL_ERROR": "Please enter a valid email",
-    "ALREADY_EXISTING_EMAIL_ERROR": "A user with that email already has access to this farm",
     "INVITE": "Invite",
     "LANGUAGE_OF_INVITE": "Language of invitation",
     "PHONE": "Phone",
@@ -936,6 +948,15 @@
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Let us show you a couple of important things!",
     "SUCCESSFULLY_JOINED": "You have successfully joined"
+  },
+  "LOCATION_CREATION": {
+    "CREATE_BUTTON": "Create location",
+    "CROP_PLAN_BODY": "You’ll need a Field, Garden, Greenhouse, or Buffer Zone before you can finish this crop plan. Do you want to create one now?",
+    "GO_BACK_BUTTON": "Go back",
+    "TASK_BODY": "You’ll need at least one location before you can create a task. Do you want to create a location now?",
+    "TASK_BODY_WORKER": "You’ll need management to create at least one location before you can create a task.",
+    "TASK_TITLE": "No locations for tasks",
+    "TITLE": "No locations found!"
   },
   "LOCATION_CROPS": {
     "ACTIVE_CROPS": "Active crops",
@@ -1012,6 +1033,7 @@
     "ADD_MANAGEMENT_PLAN": "Add a crop plan",
     "AGE": "Age",
     "AS_COVER_CROP": "As cover crop",
+    "ASSIGN_ALL_TASKS": "All tasks generated as part of this crop plan will be assigned to this individual. You can modify this assignment later",
     "BEDS": "Beds",
     "BROADCAST": "Broadcast or drill",
     "COMPLETE_PLAN": {
@@ -1022,8 +1044,8 @@
       "COMPLETE_DATE": "Completed date",
       "COMPLETE_PLAN": "Complete plan",
       "DATE_OF_CHANGE": "Date of status change",
-      "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
       "FUTURE_DATE_INVALID": "May not be in the future",
+      "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
       "RATING": "Rate this crop plan",
       "REASON": {
         "CROP_FAILURE": "Crop failure",
@@ -1042,20 +1064,22 @@
     "CONTAINER_TYPE": "Type of container",
     "COVER_INFO": "Selecting cover crop will create a field work task to terminate the cover crop at the end of the season. Selecting for harvest will create a harvest task instead.",
     "COVER_OR_HARVEST": "Is this being grown as a cover crop or for harvest?",
+    "CROP_PLAN_REPEAT": "This crop plan repeats",
+    "CROP_PLAN_REPEAT_SUBTEXT": "Clicking 'Save' will immediately save this crop plan. You'll then be prompted to describe how it repeats.",
     "DAYS_FROM_PLANTING": "Days from planting to:",
     "DAYS_FROM_SEEDING": "Days from seed to:",
     "DAYS_TO_HARVEST": "Days from transplant to next harvest:",
     "DAYS_TO_TERMINATION": "Days from transplant to termination:",
     "DELETE": {
-      "DELETE_PLAN": "Delete crop plan",
-      "DELETE_PLAN_QUESTION": "Delete crop plan?",
-      "DELETE_PLAN_MESSAGE": "This crop plan and all its tasks will be removed from your farm. If you would like to keep a record of this crop plan, click \"Abandon\" instead.",
-      "CONFIRM_DELETION": "Confirm deletion",
-      "CANT_DELETE_MODIFIED_PLAN": "Can't delete crop plan",
-      "CANT_DELETE_ABANDON_INSTEAD": "Do you want to abandon this crop plan instead?",
       "CANT_DELETE_ABANDON": "Abandon",
-      "SUCCESS": "Crop plan successfully deleted",
-      "FAILED": "Failed to delete crop plan"
+      "CANT_DELETE_ABANDON_INSTEAD": "Do you want to abandon this crop plan instead?",
+      "CANT_DELETE_MODIFIED_PLAN": "Can't delete crop plan",
+      "CONFIRM_DELETION": "Confirm deletion",
+      "DELETE_PLAN": "Delete crop plan",
+      "DELETE_PLAN_MESSAGE": "This crop plan and all its tasks will be removed from your farm. If you would like to keep a record of this crop plan, click \"Abandon\" instead.",
+      "DELETE_PLAN_QUESTION": "Delete crop plan?",
+      "FAILED": "Failed to delete crop plan",
+      "SUCCESS": "Crop plan successfully deleted"
     },
     "DETAIL_SPOTLIGHT_CONTENTS": "Here you can edit your crop details.",
     "DETAIL_SPOTLIGHT_TITLE": "Details",
@@ -1110,6 +1134,10 @@
     "PLANTS_PER_CONTAINER": "# of plants/container",
     "RATE_THIS_MANAGEMENT_PLAN": "Plan rating",
     "REMOVE_PIN": "Remove pin",
+    "REPEATED_MP_SPOTLIGHT": {
+      "BODY": "You can click here to see all crop plans in this group. Modifying an individual crop plan won’t change anything about others in the group.",
+      "TITLE": "Congrats! You’ve created your first repeating crop plan!"
+    },
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "Were the rows all the same length?",
       "LENGTH_OF_ROW": "Length of row",
@@ -1161,23 +1189,7 @@
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "WHERE_START_LOCATION": "Where is your starting location?",
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
-    "WILD_CROP": "Are you harvesting a wild crop?",
-    "ASSIGN_ALL_TASKS": "All tasks generated as part of this crop plan will be assigned to this individual. You can modify this assignment later",
-    "CROP_PLAN_REPEAT": "This crop plan repeats",
-    "CROP_PLAN_REPEAT_SUBTEXT": "Clicking 'Save' will immediately save this crop plan. You'll then be prompted to describe how it repeats.",
-    "REPEATED_MP_SPOTLIGHT": {
-      "BODY": "You can click here to see all crop plans in this group. Modifying an individual crop plan won’t change anything about others in the group.",
-      "TITLE": "Congrats! You’ve created your first repeating crop plan!"
-    }
-  },
-  "LOCATION_CREATION": {
-    "TITLE": "No locations found!",
-    "CROP_PLAN_BODY": "You’ll need a Field, Garden, Greenhouse, or Buffer Zone before you can finish this crop plan. Do you want to create one now?",
-    "TASK_TITLE": "No locations for tasks",
-    "TASK_BODY": "You’ll need at least one location before you can create a task. Do you want to create a location now?",
-    "TASK_BODY_WORKER": "You’ll need management to create at least one location before you can create a task.",
-    "GO_BACK_BUTTON": "Go back",
-    "CREATE_BUTTON": "Create location"
+    "WILD_CROP": "Are you harvesting a wild crop?"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
@@ -1196,28 +1208,19 @@
       "MANAGE_EMPLOYEE": "Manage your employees",
       "MANAGE_TASK": "Manage your tasks",
       "MAP_FARM": "Map your farm",
-      "SEE_UPDATES": "See important updates",
       "NOTIFICATION": "Here you can:, • See important updates, • Manage your tasks, • Coordinate farm activities",
       "NOTIFICATION_TITLE": "This is your notification centre",
       "PROFILE": "Here you will find:, • Your info, • Helpful tips, • The log out button",
       "PROFILE_TITLE": "This is your profile",
       "SEE_TASK": "See what else is going on",
+      "SEE_UPDATES": "See important updates",
       "TASK_TITLE": "This is your farm tasks",
       "TIPS": "Helpful tips",
       "YOU_CAN": "Here you can:",
       "YOU_WILL_FIND": "Here you will find:"
     }
   },
-  "ENTITY_TYPES": {
-    "TASK": "Task",
-    "LOCATION": "Location"
-  },
   "NOTIFICATION": {
-    "TIMELINE": {
-      "HEADING": "Notification timeline",
-      "VIEW_NOW": "View now",
-      "MORE_RECENT_NOTIFICATION": "There are more recent notifications about this {{entityType}}."
-    },
     "DAILY_TASKS_DUE_TODAY": {
       "BODY": "You have tasks due today.",
       "TITLE": "Tasks due today"
@@ -1225,6 +1228,14 @@
     "NONE_TO_DISPLAY": "There are no notifications to display.",
     "NOTIFICATION_TEASER": "Coming Soon!",
     "PAGE_TITLE": "Notifications",
+    "SENSOR_BULK_UPLOAD_FAIL": {
+      "BODY": "Your sensor upload has some errors. Click “Take me there” to view the details.",
+      "TITLE": "Sensor upload errors"
+    },
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
+      "BODY": "Your sensor upload has completed successfully.",
+      "TITLE": "Sensor upload completed"
+    },
     "TAKE_ME_THERE": "Take me there",
     "TASK_ABANDONED": {
       "BODY": "A {{taskType}} task assigned to you has been abandoned by {{abandoner}}.",
@@ -1238,6 +1249,10 @@
       "BODY": "A {{taskType}} task assigned to you has been marked completed by {{assigner}}.",
       "TITLE": "Task completed"
     },
+    "TASK_DELETED": {
+      "BODY": "A {{taskType}} task assigned to you has been deleted by {{abandoner}}.",
+      "TITLE": "Task deleted"
+    },
     "TASK_REASSIGNED": {
       "BODY": "A {{taskType}} task previously assigned to you has been assigned to someone else by {{assigner}}.",
       "TITLE": "Task re-assigned"
@@ -1246,21 +1261,14 @@
       "BODY": "{{editor}} has marked a {{taskType}} task as unassigned.",
       "TITLE": "Task unassigned"
     },
-    "TASK_DELETED": {
-      "BODY": "A {{taskType}} task assigned to you has been deleted by {{abandoner}}.",
-      "TITLE": "Task deleted"
+    "TIMELINE": {
+      "HEADING": "Notification timeline",
+      "MORE_RECENT_NOTIFICATION": "There are more recent notifications about this {{entityType}}.",
+      "VIEW_NOW": "View now"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
       "BODY": "You have unassigned tasks due this week.",
       "TITLE": "Unassigned tasks"
-    },
-    "SENSOR_BULK_UPLOAD_SUCCESS": {
-      "BODY": "Your sensor upload has completed successfully.",
-      "TITLE": "Sensor upload completed"
-    },
-    "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "Your sensor upload has some errors. Click “Take me there” to view the details.",
-      "TITLE": "Sensor upload errors"
     }
   },
   "OUTRO": {
@@ -1320,10 +1328,10 @@
     },
     "ACCOUNT_TAB": "Account",
     "ERROR": {
-      "PHONE_NUMBER_LENGTH": "Phone number must be fewer than 20 characters",
       "FARM_NAME_LENGTH": "Farm name cannot exceed 255 characters",
       "FIRST_NAME_LENGTH": "First name cannot exceed 255 characters",
       "LAST_NAME_LENGTH": "Last name cannot exceed 255 characters",
+      "PHONE_NUMBER_LENGTH": "Phone number must be fewer than 20 characters",
       "USER_ADDRESS_LENGTH": "User address cannot exceed 255 characters"
     },
     "FARM": {
@@ -1343,12 +1351,12 @@
       "FARM_OWNER": "Farm Owner",
       "FARM_WORKER": "Farm Worker",
       "HOURLY": "hourly",
+      "INVALID_REVOKE_ACCESS": "Cannot revoke access",
       "INVITE_USER": "Invite User",
+      "LAST_ADMIN_ERROR": "We’re unable to revoke access to this user because they are the last manager at this farm. If you would like to delete your farm, create a ticket by clicking <1>here</1> instead.",
       "PAY": "Pay",
       "RESTORE_ACCESS": "Restore User Access",
       "REVOKE_ACCESS": "Revoke User Access",
-      "INVALID_REVOKE_ACCESS": "Cannot revoke access",
-      "LAST_ADMIN_ERROR": "We’re unable to revoke access to this user because they are the last manager at this farm. If you would like to delete your farm, create a ticket by clicking <1>here</1> instead.",
       "ROLE": "Role",
       "ROLE_CHANGE_ALERT": "Role change will take full effect upon next login. Workers cannot set themselves to Admins.",
       "SEARCH": "Search",
@@ -1375,42 +1383,42 @@
     "CLEAR_ALL": "Clear all"
   },
   "REPEAT_PLAN": {
-    "MENU": "Repeat crop plan",
-    "TITLE": "Repeat a crop plan",
-    "REPEAT_PLAN_FLOW": "crop plan repetition",
-    "SUBTITLE": "Copy this crop plan and all its tasks according to the following schedule",
-    "PLAN_NAME": "Repeating crop plan name",
-    "REPETITIONS_OF": "Repetitions of {{planName}}",
-    "DUPLICATE_NAME": "A crop plan with this name already exists. Please choose another.",
-    "START_DATE": "Beginning",
-    "EARLIEST_TASK": "{{date}} is the earliest task {{dateType}} date from the original plan",
-    "COMPLETION": "completion",
-    "DUE": "due",
-    "REPEAT_EVERY": "Repeat every",
-    "REPEAT_ON": "Repeat on",
-    "FINISH": "Finish",
     "AFTER": "After",
-    "REPETITIONS": "repetitions",
-    "ON": "On",
+    "COMPLETION": "completion",
+    "CONFIRMATION": {
+      "AFTER_REPETITIONS": "after <1>{{number}}</1> repetitions.",
+      "BEGINNING": "Beginning",
+      "CROP_NAME": "Crop plan name",
+      "FINISHING": "Finishing",
+      "HEADER": "Confirm how this plan repeats",
+      "ON_DATE": "on {{date}}",
+      "WILL_CREATE": "This will create",
+      "WILL_CREATE_BODY": "<0>{{numberOfPlans}}</0> new crop plans and <2>{{numberOfTasks}}</2> new tasks",
+      "WILL_REPEAT": "This plan will repeat"
+    },
+    "DUE": "due",
+    "DUPLICATE_NAME": "A crop plan with this name already exists. Please choose another.",
+    "EARLIEST_TASK": "{{date}} is the earliest task {{dateType}} date from the original plan",
+    "FINISH": "Finish",
     "INTERVAL": {
       "DAY": "day(s)",
-      "WEEK": "week(s)",
       "MONTH": "month(s)",
+      "WEEK": "week(s)",
       "YEAR": "year(s)"
     },
-    "REPEAT_LIMIT_ERROR": "Cannot repeat this plan more than 20 times",
     "LATER_DATE_ERROR": "Please select a date after the starting date",
-    "CONFIRMATION": {
-      "HEADER": "Confirm how this plan repeats",
-      "CROP_NAME": "Crop plan name",
-      "BEGINNING": "Beginning",
-      "FINISHING": "Finishing",
-      "WILL_REPEAT": "This plan will repeat",
-      "WILL_CREATE": "This will create",
-      "ON_DATE": "on {{date}}",
-      "WILL_CREATE_BODY": "<0>{{numberOfPlans}}</0> new crop plans and <2>{{numberOfTasks}}</2> new tasks",
-      "AFTER_REPETITIONS": "after <1>{{number}}</1> repetitions."
-    }
+    "MENU": "Repeat crop plan",
+    "ON": "On",
+    "PLAN_NAME": "Repeating crop plan name",
+    "REPEAT_EVERY": "Repeat every",
+    "REPEAT_LIMIT_ERROR": "Cannot repeat this plan more than 20 times",
+    "REPEAT_ON": "Repeat on",
+    "REPEAT_PLAN_FLOW": "crop plan repetition",
+    "REPETITIONS": "repetitions",
+    "REPETITIONS_OF": "Repetitions of {{planName}}",
+    "START_DATE": "Beginning",
+    "SUBTITLE": "Copy this crop plan and all its tasks according to the following schedule",
+    "TITLE": "Repeat a crop plan"
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Got it",
@@ -1432,13 +1440,13 @@
       "CUSTOMER_NAME": "Customer name",
       "CUSTOMER_NAME_REQUIRED": "Required",
       "DATE": "Date",
+      "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Crop variety",
         "QUANTITY": "Quantity",
         "TOTAL": "Total"
       },
-      "TITLE": "Add new sale",
-      "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999"
+      "TITLE": "Add new sale"
     },
     "DETAIL": {
       "ACTION": "Action",
@@ -1521,98 +1529,98 @@
     }
   },
   "SENSOR": {
-    "SENSOR_NAME": "Sensor name",
-    "LATITUDE": "Latitude",
-    "LONGTITUDE": "Longtitude",
-    "READING": {
-      "TYPES": "Reading types",
-      "SOIL_WATER_CONTENT": "Soil water content",
-      "SOIL_WATER_POTENTIAL": "Soil water potential",
-      "TEMPERATURE": "Temperature",
-      "UNKNOWN": "Unknown"
-    },
-    "DEPTH": "Depth",
     "BRAND": "Brand",
-    "VALIDATION": {
-      "READING_TYPES": "Sensor reading types are required"
-    },
-    "MODAL": {
-      "TITLE": "Change reading types?",
-      "BODY": "Changing the reading types for this sensor will modify what readings LiteFarm can show. Do you want to proceed?"
-    },
     "BRAND_HELPTEXT": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
-    "MODEL": "Model",
-    "MODEL_HELPTEXT": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
-    "EXTERNAL_IDENTIFIER": "External identifier",
-    "PART_NUMBER": "Part Number",
-    "HARDWARE_VERSION": "Hardware version",
-    "NO_DATA_FOUND": "No sensor readings found",
-    "NO_DATA": "(no data)",
-    "LAST_UPDATED": "Last updated {{latestReadingUpdate}}",
+    "DAYS_AGO": "{{time}} day(s) ago",
+    "DEPTH": "Depth",
     "DETAIL": {
-      "RETIRE": "Retire",
+      "BRAND": "Brand",
+      "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
+      "DEPTH": "Depth",
       "EDIT": "Edit",
-      "NAME": "Sensor Name",
+      "EXTERNAL_ID_TOOLTIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
+      "EXTERNAL_IDENTIFIER": "External Identifier",
+      "HARDWARE_VERSION": "Hardware Version",
       "LATITUDE": "Latitude",
       "LONGITUDE": "Longitude",
       "MODEL": "Model",
+      "NAME": "Sensor Name",
       "PART_NUMBER": "Part Number",
-      "HARDWARE_VERSION": "Hardware Version",
-      "EXTERNAL_ID_TOOLTIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
-      "EXTERNAL_IDENTIFIER": "External Identifier",
-      "DEPTH": "Depth",
-      "BRAND": "Brand",
-      "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
-      "READING_TYPES": "Reading types"
+      "READING_TYPES": "Reading types",
+      "RETIRE": "Retire"
     },
-    "VIEW_HEADER": {
-      "READINGS": "Readings",
-      "TASKS": "Tasks",
-      "DETAILS": "Details"
+    "EXTERNAL_IDENTIFIER": "External identifier",
+    "HARDWARE_VERSION": "Hardware version",
+    "HOURS_AGO": "{{time}} hour(s) ago",
+    "LAST_UPDATED": "Last updated {{latestReadingUpdate}}",
+    "LATITUDE": "Latitude",
+    "LONGTITUDE": "Longtitude",
+    "MINUTES_AGO": "{{time}} minute(s) ago",
+    "MODAL": {
+      "BODY": "Changing the reading types for this sensor will modify what readings LiteFarm can show. Do you want to proceed?",
+      "TITLE": "Change reading types?"
+    },
+    "MODEL": "Model",
+    "MODEL_HELPTEXT": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
+    "MONTHS_AGO": "{{time}} month(s) ago",
+    "NO_DATA": "(no data)",
+    "NO_DATA_FOUND": "No sensor readings found",
+    "PART_NUMBER": "Part Number",
+    "READING": {
+      "SOIL_WATER_CONTENT": "Soil water content",
+      "SOIL_WATER_POTENTIAL": "Soil water potential",
+      "TEMPERATURE": "Temperature",
+      "TYPES": "Reading types",
+      "UNKNOWN": "Unknown"
+    },
+    "READINGS_PREVIEW": {
+      "SOIL_WATER_POTENTIAL": "Current soil water potential",
+      "TEMPERATURE": "Current soil temp"
     },
     "RETIRE": {
-      "TITLE": "Retire sensor?",
-      "RETIRE": "Retire",
-      "CANCEL": "Cancel",
       "BODY": "Retiring this sensor will remove it and any readings associated with it from your farm as well as closing any connections with the sensor provider. Do you want to proceed?",
+      "CANCEL": "Cancel",
+      "RETIRE": "Retire",
+      "RETIRE_FAILURE": "There was an error retiring this sensor",
       "RETIRE_SUCCESS": "Successfully retired sensor",
-      "RETIRE_FAILURE": "There was an error retiring this sensor"
+      "TITLE": "Retire sensor?"
     },
+    "SECONDS_AGO": "{{time}} second(s) ago",
     "SENSOR_FORECAST": {
-      "TITLE": "Today's forecast",
       "HIGH_AND_LOW_TEMPERATURE": "High and low temperature: {{high}}{{unit}} / {{low}}{{unit}}",
+      "TITLE": "Today's forecast",
       "WEATHER_STATION": "Weather station: {{weatherStationLocation}}"
     },
-    "TEMPERATURE_READINGS_OF_SENSOR": {
-      "TITLE": "Soil temperature",
-      "Y_AXIS_LABEL": "in {{units}}",
-      "C": "Celsius (°C)",
-      "F": "Fahrenheit (°F)",
-      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"
-    },
-    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
-      "TITLE": "Soil water potential",
-      "Y_AXIS_LABEL": "in {{units}}",
-      "KPA": "kilopascals (kPa)",
-      "PSI": "pounds per square inch (psi)"
+    "SENSOR_NAME": "Sensor name",
+    "SENSOR_READING_CHART_SPOTLIGHT": {
+      "CONTENT": "Individual sensors can be shown or hidden by clicking their labels here.",
+      "TITLE": "Series can be hidden"
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
       "TITLE": "Soil water content",
       "Y_AXIS_LABEL": "in {{units}}"
     },
-    "READINGS_PREVIEW": {
-      "TEMPERATURE": "Current soil temp",
-      "SOIL_WATER_POTENTIAL": "Current soil water potential"
+    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
+      "KPA": "kilopascals (kPa)",
+      "PSI": "pounds per square inch (psi)",
+      "TITLE": "Soil water potential",
+      "Y_AXIS_LABEL": "in {{units}}"
     },
-    "SENSOR_READING_CHART_SPOTLIGHT": {
-      "TITLE": "Series can be hidden",
-      "CONTENT": "Individual sensors can be shown or hidden by clicking their labels here."
+    "TEMPERATURE_READINGS_OF_SENSOR": {
+      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
+      "C": "Celsius (°C)",
+      "F": "Fahrenheit (°F)",
+      "TITLE": "Soil temperature",
+      "Y_AXIS_LABEL": "in {{units}}"
     },
-    "SECONDS_AGO": "{{time}} second(s) ago",
-    "MINUTES_AGO": "{{time}} minute(s) ago",
-    "HOURS_AGO": "{{time}} hour(s) ago",
-    "DAYS_AGO": "{{time}} day(s) ago",
-    "MONTHS_AGO": "{{time}} month(s) ago"
+    "VALIDATION": {
+      "READING_TYPES": "Sensor reading types are required"
+    },
+    "VIEW_HEADER": {
+      "DETAILS": "Details",
+      "READINGS": "Readings",
+      "TASKS": "Tasks"
+    }
   },
   "SIGNUP": {
     "CHANGES": "Read about the changes",
@@ -1668,10 +1676,10 @@
     "ABANDON": {
       "ABANDON": "Abandon",
       "DATE": "Abandonment date",
-      "WHICH_DATE": "Which date?",
+      "DATE_ANOTHER": "Another date",
       "DATE_ORIGINAL": "The original due date",
       "DATE_TODAY": "Today",
-      "DATE_ANOTHER": "Another date",
+      "EXPLANATION": "Explanation",
       "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",
       "NOTES": "Task abandonment notes",
       "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
@@ -1685,10 +1693,10 @@
         "WEATHER": "Weather"
       },
       "REASON_FOR_ABANDONMENT": "Reason for abandoning",
-      "EXPLANATION": "Explanation",
       "TITLE": "Abandon task",
       "WHAT_HAPPENED": "What happened?",
-      "WHEN": "When was the task abandoned?"
+      "WHEN": "When was the task abandoned?",
+      "WHICH_DATE": "Which date?"
     },
     "ABANDON_TASK": "Abandon this task",
     "ABANDON_TASK_DURATION": "Was any work completed for this task?",
@@ -1718,6 +1726,17 @@
     "COMPLETION_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
     "CREATE_CUSTOM_HARVEST_USE": "Create a custom harvest use",
     "CURRENT": "Current",
+    "DELETE": {
+      "CANT_DELETE_ABANDON": "Go to crop plan",
+      "CANT_DELETE_ABANDON_INSTEAD": "Do you want to abandon the crop plan instead?",
+      "CANT_DELETE_PLANTING_TASK": "Can't delete planting task",
+      "CONFIRM_DELETION": "Confirm deletion",
+      "DELETE_TASK": "Delete task",
+      "DELETE_TASK_MESSAGE": "This task will be removed from your farm. If you would like to keep a record of this task, click \"Abandon\" instead.",
+      "DELETE_TASK_QUESTION": "Delete task?",
+      "FAILED": "Failed to delete task",
+      "SUCCESS": "Task successfully deleted"
+    },
     "DESCRIBE_HARVEST_USE": "Describe harvest use",
     "DETAILS": "Details",
     "DID_YOU_ENJOY": "Did you enjoy this task?",
@@ -1771,18 +1790,7 @@
     "TODO": "To do",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned",
-    "DELETE": {
-      "DELETE_TASK": "Delete task",
-      "DELETE_TASK_QUESTION": "Delete task?",
-      "DELETE_TASK_MESSAGE": "This task will be removed from your farm. If you would like to keep a record of this task, click \"Abandon\" instead.",
-      "CONFIRM_DELETION": "Confirm deletion",
-      "CANT_DELETE_PLANTING_TASK": "Can't delete planting task",
-      "CANT_DELETE_ABANDON_INSTEAD": "Do you want to abandon the crop plan instead?",
-      "CANT_DELETE_ABANDON": "Go to crop plan",
-      "SUCCESS": "Task successfully deleted",
-      "FAILED": "Failed to delete task"
-    }
+    "UNASSIGNED": "Unassigned"
   },
   "UNIT": {
     "TIME": {
@@ -1793,6 +1801,17 @@
     },
     "VALID_VALUE": "Please enter a value between 0-"
   },
+  "UNKNOWN_RECORD": {
+    "CANT_FIND": "Oops! We weren’t able to find that.",
+    "MAYBE_LATER": "Maybe it’ll turnip later.",
+    "UNKNOWN_RECORD": "Unknown record"
+  },
+  "WAGE": {
+    "ERROR": "Wage must be a valid, non-negative decimal number",
+    "HOURLY_WAGE": "Hourly Wage",
+    "HOURLY_WAGE_RANGE_ERROR": "Hourly Wage must be a positive number less than 999,999,999",
+    "HOURLY_WAGE_TOOLTIP": "Hourly wages can be set by selecting an individual on the People tab under 'my farm'."
+  },
   "WEATHER": {
     "HUMIDITY": "Humidity",
     "WIND": "Wind"
@@ -1802,24 +1821,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
-  },
-  "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
-    "TITLE": "You’ve selected a non-organic location!",
-    "SUBTITLE": "You’ve indicated you’ll be planting an organic crop in a non-organic location. Do you want to proceed?"
-  },
-  "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
-    "TITLE": "You’ve selected an organic location!",
-    "SUBTITLE": "You’ve indicated you’ll be planting a non-organic crop in an organic location. Do you want to proceed?"
-  },
-  "WAGE": {
-    "ERROR": "Wage must be a valid, non-negative decimal number",
-    "HOURLY_WAGE": "Hourly Wage",
-    "HOURLY_WAGE_RANGE_ERROR": "Hourly Wage must be a positive number less than 999,999,999",
-    "HOURLY_WAGE_TOOLTIP": "Hourly wages can be set by selecting an individual on the People tab under 'my farm'."
-  },
-  "UNKNOWN_RECORD": {
-    "UNKNOWN_RECORD": "Unknown record",
-    "CANT_FIND": "Oops! We weren’t able to find that.",
-    "MAYBE_LATER": "Maybe it’ll turnip later."
   }
 }

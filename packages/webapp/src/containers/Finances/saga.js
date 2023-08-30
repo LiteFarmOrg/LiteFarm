@@ -188,10 +188,9 @@ export function* retireCustomExpenseTypeSaga(action) {
   try {
     const result = yield call(axios.delete, `${expenseTypeUrl}/${expense_type_id}`, header);
     if (result) {
-      history.push('/finances');
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.DELETE')));
-      //yield call(getFarmExpenseTypeSaga);
-      //console.log("make it here")
+      yield call(getFarmExpenseTypeSaga);
+      history.push('/finances');
     }
   } catch (e) {
     console.log('failed to delete new expense type in the database');

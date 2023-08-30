@@ -39,7 +39,8 @@ function ReadOnlyCustomExpense({ history, match }) {
     history.push(onEditPath);
   };
 
-  const onRetire = () => {
+  const onRetire = (e) => {
+    e.preventDefault();
     dispatch(retireCustomExpenseType(expense_type_id));
   };
 

@@ -496,12 +496,12 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ALL_FIELDS_REQUIRED": "Todos los campos son obligatorios",
+      "FLOW": "MISSING",
       "MIN_ERROR": "Por favor ingrese un valor mayor que ",
       "REQUIRED_ERROR": "Se requiere gasto",
+      "TITLE": "MISSING",
       "TITLE_1": "Nuevo gasto (1 de 2)",
       "TITLE_2": "Nuevo gasto (2 de 2)",
-      "TITLE": "MISSING",
-      "FLOW": "MISSING",
       "WHICH_TYPES_TO_RECORD": "MISSING"
     },
     "ADD_MORE_ITEMS": "Agrega más unidades",
@@ -809,10 +809,10 @@
       "ESTIMATED_PRICE_PER_UNIT": "Precio estimado por unidad",
       "TITLE": "Ingresos estimados"
     },
+    "MANAGE_CUSTOM_TYPE": "Administrar tipos personalizados",
     "REVENUE": "Ingresos",
     "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas",
-    "WHOLE_FARM_REVENUE": "Ingresos de toda la granja",
-    "MANAGE_CUSTOM_TYPE": "Administrar tipos personalizados"
+    "WHOLE_FARM_REVENUE": "Ingresos de toda la granja"
   },
   "FORM_VALIDATION": {
     "OVER_255_CHARS": "El texto no puede superar los 255 caracteres"
@@ -1489,8 +1489,8 @@
       "FINANCE_HELP": "Ayuda financiera",
       "LABOUR_LABEL": "Trabajo",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
-        "TITLE": "Administrar tipos de gasto personalizados",
-        "BODY": "Aquí puede agregar, modificar o eliminar tipos de gasto personalizados para su granja."
+        "BODY": "Aquí puede agregar, modificar o eliminar tipos de gasto personalizados para su granja.",
+        "TITLE": "Administrar tipos de gasto personalizados"
       },
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "REVENUE": "Ingresos",

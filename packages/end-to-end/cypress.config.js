@@ -1,9 +1,15 @@
-const { defineConfig } = require("cypress");
+const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
-  e2e: {
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
+  projectId: '45vid6',
+  defaultCommandTimeout: 90 * 1000,
+  env: {
+    'cypress-react-selector': {
+      root: '#root',
     },
+  },
+  e2e: {
+    baseUrl: 'http://localhost:3000',
+    specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
   },
 });

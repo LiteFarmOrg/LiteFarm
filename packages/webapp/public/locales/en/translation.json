@@ -1480,6 +1480,11 @@
       "EXPENSES": "Expenses",
       "FINANCE_HELP": "Finance Help",
       "LABOUR_LABEL": "Labour",
+      "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
+        "TITLE": "Manage custom expense types",
+        "BODY": "Here you can add, modify, or retire expense types personalized to your farm."
+      },
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "Manage custom type",
       "OTHER_EXPENSES_LABEL": "Other Expenses",
       "REVENUE": "Revenue",
       "TITLE": "Finances",

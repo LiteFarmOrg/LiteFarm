@@ -20,6 +20,7 @@ const initialState = {
   planting_task: false,
   sensor_reading_chart: false,
   repeat_management_plan_creation: false,
+  manage_custom_expense_type: false,
 };
 
 const showedSpotlightSlice = createSlice({

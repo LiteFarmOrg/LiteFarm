@@ -41,6 +41,7 @@ const showedSpotlightController = {
             'management_plan_creation',
             'sensor_reading_chart',
             'repeat_management_plan_creation',
+            'manage_custom_expense_type',
           )
           .findById(user_id);
         res.status(200).send(data);

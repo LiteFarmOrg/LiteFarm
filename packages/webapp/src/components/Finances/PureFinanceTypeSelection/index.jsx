@@ -24,6 +24,8 @@ import { tileTypes } from '../../Tile/constants';
 import { ReactComponent as GearIcon } from '../../../assets/images/gear.svg';
 import styles from './styles.module.scss';
 
+const FallbackWrapper = ({ children }) => children;
+
 export default function PureFinanceTypeSelection({
   title,
   types,
@@ -37,42 +39,45 @@ export default function PureFinanceTypeSelection({
   progressValue,
   useHookFormPersist,
   iconLinkId,
+  Wrapper = FallbackWrapper,
 }) {
   const { t } = useTranslation();
   const { historyCancel } = useHookFormPersist();
 
   return (
-    <Form
-      buttonGroup={
-        onContinue && (
-          <Button disabled={!isTypeSelected} onClick={onContinue} type={'submit'} fullLength>
-            {t('common:CONTINUE')}
-          </Button>
-        )
-      }
-    >
-      <MultiStepPageTitle
-        onGoBack={onGoBack}
-        onCancel={historyCancel}
-        cancelModalTitle={cancelTitle}
-        title={title}
-        value={progressValue}
-        style={{ marginBottom: '24px' }}
-      />
-      <Main className={styles.leadText}>{leadText}</Main>
-      <Tiles tileType={tileTypes.ICON_LABEL} tileData={types} formatTileData={formatTileData} />
-      <div className={styles.manageCustomTypeLinkContainer}>
-        <IconLink
-          id={iconLinkId}
-          icon={<GearIcon style={{ transform: 'translate(0px, 2px)' }} />}
-          onClick={onGoToManageCustomType}
-          isIconClickable
-          underlined={false}
-        >
-          {t('FINANCES.MANAGE_CUSTOM_TYPE')}
-        </IconLink>
-      </div>
-    </Form>
+    <Wrapper>
+      <Form
+        buttonGroup={
+          onContinue && (
+            <Button disabled={!isTypeSelected} onClick={onContinue} type={'submit'} fullLength>
+              {t('common:CONTINUE')}
+            </Button>
+          )
+        }
+      >
+        <MultiStepPageTitle
+          onGoBack={onGoBack}
+          onCancel={historyCancel}
+          cancelModalTitle={cancelTitle}
+          title={title}
+          value={progressValue}
+          style={{ marginBottom: '24px' }}
+        />
+        <Main className={styles.leadText}>{leadText}</Main>
+        <Tiles tileType={tileTypes.ICON_LABEL} tileData={types} formatTileData={formatTileData} />
+        <div className={styles.manageCustomTypeLinkContainer}>
+          <IconLink
+            id={iconLinkId}
+            icon={<GearIcon style={{ transform: 'translate(0px, 2px)' }} />}
+            onClick={onGoToManageCustomType}
+            isIconClickable
+            underlined={false}
+          >
+            {t('FINANCES.MANAGE_CUSTOM_TYPE')}
+          </IconLink>
+        </div>
+      </Form>
+    </Wrapper>
   );
 }
 
@@ -89,4 +94,6 @@ PureFinanceTypeSelection.prototype = {
   progressValue: PropTypes.number,
   useHookFormPersist: PropTypes.func,
   iconLinkId: PropTypes.string,
+  /** used for spotlight */
+  Wrapper: PropTypes.node,
 };

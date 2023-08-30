@@ -73,36 +73,35 @@ class ExpenseCategories extends Component {
     const { expenseTypes } = this.props;
 
     return (
-      <ManageCustomExpenseTypesSpotlight>
-        <HookFormPersistProvider>
-          <PureFinanceTypeSelection
-            title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE')}
-            leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
-            cancelTitle={this.props.t('EXPENSE.ADD_EXPENSE.FLOW')}
-            types={expenseTypes}
-            onContinue={this.nextPage}
-            onGoBack={this.props.history.back}
-            progressValue={50}
-            onGoToManageCustomType={() => history.push('/add_expense/manage_custom_expenses')}
-            isTypeSelected={!!this.state.selectedTypes.length}
-            formatTileData={(data) => {
-              const { farm_id, expense_translation_key, expense_type_id, expense_name } = data;
+      <HookFormPersistProvider>
+        <PureFinanceTypeSelection
+          title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE')}
+          leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
+          cancelTitle={this.props.t('EXPENSE.ADD_EXPENSE.FLOW')}
+          types={expenseTypes}
+          onContinue={this.nextPage}
+          onGoBack={this.props.history.back}
+          progressValue={50}
+          onGoToManageCustomType={() => history.push('/add_expense/manage_custom_expenses')}
+          isTypeSelected={!!this.state.selectedTypes.length}
+          formatTileData={(data) => {
+            const { farm_id, expense_translation_key, expense_type_id, expense_name } = data;
 
-              return {
-                key: expense_type_id,
-                tileKey: expense_type_id,
-                icon: icons[farm_id ? 'OTHER' : expense_translation_key],
-                label: farm_id ? expense_name : this.props.t(`expense:${expense_translation_key}`),
-                onClick: () => this.addRemoveType(expense_type_id),
-                selected: this.state.selectedTypes.includes(expense_type_id),
-                className: styles.labelIcon,
-              };
-            }}
-            useHookFormPersist={this.props.useHookFormPersist}
-            iconLinkId={'manageCustomExpenseType'}
-          />
-        </HookFormPersistProvider>
-      </ManageCustomExpenseTypesSpotlight>
+            return {
+              key: expense_type_id,
+              tileKey: expense_type_id,
+              icon: icons[farm_id ? 'OTHER' : expense_translation_key],
+              label: farm_id ? expense_name : this.props.t(`expense:${expense_translation_key}`),
+              onClick: () => this.addRemoveType(expense_type_id),
+              selected: this.state.selectedTypes.includes(expense_type_id),
+              className: styles.labelIcon,
+            };
+          }}
+          useHookFormPersist={this.props.useHookFormPersist}
+          iconLinkId={'manageCustomExpenseType'}
+          Wrapper={ManageCustomExpenseTypesSpotlight}
+        />
+      </HookFormPersistProvider>
     );
   }
 }

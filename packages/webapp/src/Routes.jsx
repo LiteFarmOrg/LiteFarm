@@ -597,11 +597,15 @@ const Routes = () => {
             <Route path="/add_expense" exact component={AddExpense} />
             <Route path="/add_expense/add_custom_expense" exact component={AddCustomExpense} />
             <Route
-              path="/add_expense/readonly_custom_expense"
+              path="/add_expense/readonly_custom_expense/:expense_type_id"
               exact
               component={ReadOnlyCustomExpense}
             />
-            <Route path="/add_expense/edit_custom_expense" exact component={EditCustomExpense} />
+            <Route
+              path="/add_expense/edit_custom_expense/:expense_type_id"
+              exact
+              component={EditCustomExpense}
+            />
             <Route path="/edit_expense" exact component={TempEditExpense} />
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
@@ -885,11 +889,15 @@ const Routes = () => {
             <Route path="/add_expense" exact component={AddExpense} />
             <Route path="/add_expense/add_custom_expense" exact component={AddCustomExpense} />
             <Route
-              path="/add_expense/readonly_custom_expense"
+              path="/add_expense/readonly_custom_expense/:expense_type_id"
               exact
               component={ReadOnlyCustomExpense}
             />
-            <Route path="/add_expense/edit_custom_expense" exact component={EditCustomExpense} />
+            <Route
+              path="/add_expense/edit_custom_expense/:expense_type_id"
+              exact
+              component={EditCustomExpense}
+            />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
             <Route

@@ -24,6 +24,7 @@ import {
   GET_FARM_EXPENSE_TYPE,
   GET_EXPENSE,
   GET_SALES,
+  RETIRE_CUSTOM_EXPENSE_TYPE,
   SET_DATE_RANGE,
   SET_EXPENSE_TYPE,
   SET_EXPENSE,
@@ -98,6 +99,13 @@ export const addCustomExpenseType = (custom_expense_type) => {
   return {
     type: ADD_CUSTOM_EXPENSE_TYPE,
     custom_expense_type,
+  };
+};
+
+export const retireCustomExpenseType = (expense_type_id) => {
+  return {
+    type: RETIRE_CUSTOM_EXPENSE_TYPE,
+    expense_type_id,
   };
 };
 

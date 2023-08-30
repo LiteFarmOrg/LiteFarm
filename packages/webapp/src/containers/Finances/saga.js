@@ -21,8 +21,10 @@ import {
   DELETE_EXPENSES,
   DELETE_SALE,
   GET_DEFAULT_EXPENSE_TYPE,
+  GET_FARM_EXPENSE_TYPE,
   GET_EXPENSE,
   GET_SALES,
+  RETIRE_CUSTOM_EXPENSE_TYPE,
   TEMP_DELETE_EXPENSE,
   TEMP_EDIT_EXPENSE,
   UPDATE_SALE,
@@ -162,7 +164,6 @@ export function* addCustomExpenseTypeSaga(action) {
   const { expenseTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  console.log(action);
   const { expense_name } = action.custom_expense_type;
 
   try {
@@ -170,11 +171,31 @@ export function* addCustomExpenseTypeSaga(action) {
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.ADD')));
       yield call(getFarmExpenseTypeSaga);
-      history.push('/manage_custom_expense_types');
+      history.push('/finances');
     }
   } catch (e) {
     console.log('failed to add new expense type to the database');
     yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE_TYPE.ERROR.ADD')));
+  }
+}
+
+export function* retireCustomExpenseTypeSaga(action) {
+  const { expenseTypeUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  const { expense_type_id } = action;
+
+  try {
+    const result = yield call(axios.delete, `${expenseTypeUrl}/${expense_type_id}`, header);
+    if (result) {
+      history.push('/finances');
+      yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.DELETE')));
+      //yield call(getFarmExpenseTypeSaga);
+      //console.log("make it here")
+    }
+  } catch (e) {
+    console.log('failed to delete new expense type in the database');
+    yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE_TYPE.ERROR.DELETE')));
   }
 }
 
@@ -303,7 +324,9 @@ export default function* financeSaga() {
   yield takeLeading(ADD_OR_UPDATE_SALE, addSale);
   yield takeLatest(GET_EXPENSE, getExpenseSaga);
   yield takeLatest(GET_DEFAULT_EXPENSE_TYPE, getDefaultExpenseTypeSaga);
+  yield takeLatest(GET_FARM_EXPENSE_TYPE, getFarmExpenseTypeSaga);
   yield takeLeading(ADD_CUSTOM_EXPENSE_TYPE, addCustomExpenseTypeSaga);
+  yield takeLeading(RETIRE_CUSTOM_EXPENSE_TYPE, retireCustomExpenseTypeSaga);
   yield takeLeading(ADD_EXPENSES, addExpensesSaga);
   yield takeLeading(DELETE_SALE, deleteSale);
   yield takeLeading(DELETE_EXPENSES, deleteExpensesSaga);

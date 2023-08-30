@@ -29,6 +29,11 @@ const expenseTypeSelector = createSelector(financeSelector, (state) => {
   return state.expense_types.filter((type) => !type.deleted);
 });
 
+const expenseTypeByIdSelector = (expense_type_id) =>
+  createSelector(financeSelector, (state) => {
+    return state.expense_types.find((type) => type.expense_type_id == expense_type_id);
+  });
+
 const expenseDetailDateSelector = createSelector(
   financeSelector,
   (state) => state.expense_detail_date,
@@ -62,6 +67,7 @@ export {
   expenseSelector,
   expenseTypeSelector,
   allExpenseTypeSelector,
+  expenseTypeByIdSelector,
   expenseDetailDateSelector,
   selectedExpenseSelector,
   expenseDetailSelector,

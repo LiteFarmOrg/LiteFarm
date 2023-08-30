@@ -27,13 +27,13 @@ const expenseSelector = createSelector(financeSelector, (state) => state.expense
 const allExpenseTypeSelector = createSelector(financeSelector, (state) => state.expense_types);
 
 const expenseTypeSelector = createSelector(financeSelector, (state) => {
-  return state.expense_types.filter((type) => !type.deleted);
+  return state.expense_types?.filter((type) => !type.deleted);
 });
 
 const expenseTypeTileContentsSelector = createSelector(financeSelector, (state) => {
   const defaultTypes = [];
   const customTypes = [];
-  state.expense_types.forEach((type) => {
+  state.expense_types?.forEach((type) => {
     if (!type.deleted) {
       const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
       arrayToUpdate.push(type);

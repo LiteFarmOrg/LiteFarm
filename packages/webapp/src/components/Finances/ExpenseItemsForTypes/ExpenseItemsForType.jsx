@@ -69,9 +69,9 @@ export default function ExpenseItemsForType({
 }
 
 ExpenseItemsForType.propTypes = {
-  type: PropTypes.string,
+  type: PropTypes.shape({ id: PropTypes.string, name: PropTypes.string }),
   register: PropTypes.func,
-  control: PropTypes.func,
+  control: PropTypes.any,
   setValue: PropTypes.func,
   setExpenseDetail: PropTypes.func,
   errors: PropTypes.object,

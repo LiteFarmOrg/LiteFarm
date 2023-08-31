@@ -28,3 +28,24 @@
   stroke: var(--grey600);
   transform: translate(0px, 6px);
 }
+
+// ExpenseItemsForType
+.expenseItemsForType {
+  margin-bottom: 40px;
+
+  &:last-child {
+    margin-bottom: 28px;
+  }
+}
+
+.type {
+  line-height: 20px;
+  margin-bottom: 8px;
+}
+
+.box {
+  border: solid 1px var(--grey400);
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 6px;
+}

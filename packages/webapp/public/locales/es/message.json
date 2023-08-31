@@ -85,12 +85,14 @@
     "ERROR": {
       "ABANDON": "¡No se pudo abandonar el plan de cultivo!",
       "COMPLETE": "¡No se pudo completar el plan de cultivo!",
-      "POST": "No se pudo agregar plan de cultivo"
+      "DELETE": "¡No se pudo elimiar el plan de cultivo!",
+      "POST": "¡No se pudo agregar plan de cultivo!"
     },
     "SUCCESS": {
       "ABANDON": "¡Plan de gestión abandonado con éxito!",
       "COMPLETE": "¡Plan de gestión completado con éxito!",
-      "POST": "Plan de cultivo agregado exitosamente"
+      "DELETE": "¡Plan de cultivo eliminado exitosamente!",
+      "POST": "¡Plan de cultivo agregado exitosamente!"
     }
   },
   "MAP": {
@@ -115,6 +117,14 @@
       "EDIT": "Plan de cultivo actualizado con éxito"
     }
   },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": "Fallo al repetir {{planName}}"
+    },
+    "SUCCESS": {
+      "POST": "{{planName}} se ha repetido con éxito"
+    }
+  },
   "REVENUE": {
     "ERROR": {
       "EDIT": "No se pudieron actualizar los ingresos"
@@ -134,6 +144,10 @@
       "DELETE": "Venta borrada exitosamente",
       "UPDATE": "Venta actualizada exitosamente"
     }
+  },
+  "SENSOR": {
+    "ERROR_UPDATE": "No se pudo actualizar el sensor",
+    "SUCCESSFUL_UPDATE": "Sensor actualizado con éxito"
   },
   "TASK": {
     "ABANDON": {
@@ -169,8 +183,8 @@
       "AGREEMENT": "No se pudo actualizar el acuerdo del(a) usuario",
       "EXISTS": "Usuario ya existe en la red de trabajo de LiteFarm",
       "INVITE": "Error al crear cuenta de usuario. Por favor contacte LiteFarm por asistencia.",
-      "NOTHING_CHANGED": "Nada ha cambiado",
       "MAX_RESET_EMAILS": "Se le ha enviado un enlace de restablecimiento de contraseña, por favor verifique su bandeja de entrada y su carpeta de correo no deseado.",
+      "NOTHING_CHANGED": "Nada ha cambiado",
       "RESET_PASSWORD": "Error al enviar email para cambiar contraseña. Por favor contacte LiteFarm por asistencia.",
       "RESTORE": "Hubo un error al restaurar acceso",
       "REVOKE": "Hubo un error al revocar acceso",
@@ -183,9 +197,5 @@
       "REVOKE": "Acceso de usuario(a) revocado!",
       "UPDATE": "Información del(a) usuario(a) actualizada exitosamente!"
     }
-  },
-  "SENSOR": {
-    "SUCCESSFUL_UPDATE": "Sensor actualizado con éxito",
-    "ERROR_UPDATE": "No se pudo actualizar el sensor"
   }
 }

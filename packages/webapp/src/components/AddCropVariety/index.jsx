@@ -33,6 +33,12 @@ export default function PureAddCropVariety({
   const LIFE_CYCLE = 'lifecycle';
   const CROP_VARIETY_PHOTO_URL = 'crop_variety_photo_url';
   const HS_CODE_ID = 'hs_code_id';
+
+  const cropTranslationKey = crop.crop_translation_key;
+  const cropNameLabel = cropTranslationKey
+    ? t(`crop:${cropTranslationKey}`)
+    : crop.crop_common_name;
+
   const {
     register,
     handleSubmit,
@@ -45,6 +51,7 @@ export default function PureAddCropVariety({
     shouldUnregister: true,
     defaultValues: {
       crop_variety_photo_url: crop.crop_photo_url,
+      crop_variety_name: cropNameLabel,
       [LIFE_CYCLE]: crop[LIFE_CYCLE],
       [HS_CODE_ID]: crop?.[HS_CODE_ID],
       ...persistedFormData,
@@ -70,10 +77,6 @@ export default function PureAddCropVariety({
   const lifeCycleRegister = register(LIFE_CYCLE, { required: true });
   const imageUrlRegister = register(CROP_VARIETY_PHOTO_URL, { required: false });
   const crop_variety_photo_url = watch(CROP_VARIETY_PHOTO_URL);
-  const cropTranslationKey = crop.crop_translation_key;
-  const cropNameLabel = cropTranslationKey
-    ? t(`crop:${cropTranslationKey}`)
-    : crop.crop_common_name;
 
   const scientificNameLabel =
     truncateText(crop.crop_genus, 22) + ' ' + truncateText(crop.crop_specie, 22);

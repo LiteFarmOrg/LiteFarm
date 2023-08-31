@@ -12,7 +12,7 @@ import RadioGroup from '../../Form/RadioGroup';
 import Rating from '../../Rating';
 import styles from './styles.module.scss';
 import { getObjectInnerValues } from '../../../util';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import { getDateInputFormat } from '../../../util/moment';
 import { isNotInFuture } from '../../Form/Input/utils';
 import { useIsTaskType } from '../../../containers/Task/useIsTaskType';
@@ -171,7 +171,7 @@ export default function PureTaskComplete({
             validate: isNotInFuture,
           })}
           label={t('TASK.ABANDON.WHICH_DATE')}
-          errors={errors[ANOTHER_DATE] ? isNotInFuture() : null}
+          errors={getInputErrors(errors, ANOTHER_DATE)}
           style={{ marginBottom: '24px' }}
           type={'date'}
           max={date_today}

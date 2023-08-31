@@ -577,6 +577,7 @@ const userFarmController = {
           const user = await UserModel.getUserByEmail(email);
           await EmailModel.createTokenSendEmail(
             {
+              first_name: user ? user.first_name : '',
               email,
               gender,
               birth_year,

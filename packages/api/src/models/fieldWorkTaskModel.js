@@ -65,6 +65,19 @@ class FieldWorkTaskModel extends BaseModel {
       },
     };
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      field_work_type_id: 'keep',
+      // relationMappings
+      task: 'omit',
+      field_work_task_type: 'omit',
+    };
+  }
 }
 
 export default FieldWorkTaskModel;

@@ -8,7 +8,9 @@ import { Title } from '../../Typography';
 import ReactSelect from '../../Form/ReactSelect';
 import Rating from '../../Rating';
 import InputAutoSize from '../../Form/InputAutoSize';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
+import { StatusLabel } from '../../CardWithStatus/StatusLabel';
+import { managementPlanStatusTranslateKey } from '../../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
 import { getDateInputFormat } from '../../../util/moment';
 import AbandonManagementPlanModal from '../../Modals/AbandonManagementPlanModal';
 import i18n from '../../../locales/i18n';
@@ -38,6 +40,7 @@ export function PureCompleteManagementPlan({
   isAbandonPage,
   reasonOptions,
   start_date,
+  status,
 }) {
   const { t } = useTranslation();
   const DATE = isAbandonPage ? 'abandon_date' : 'complete_date';
@@ -62,28 +65,45 @@ export function PureCompleteManagementPlan({
 
   const [showAbandonModal, setShowAbandonModal] = useState(false);
 
+  const completed = status === 'completed';
+  const abandoned = status === 'abandoned';
+
   const disabled = !isValid;
 
   return (
     <Form
       buttonGroup={
-        <Button disabled={disabled} fullLength>
-          {isAbandonPage ? t('common:MARK_ABANDON') : t('common:MARK_COMPLETE')}
-        </Button>
+        completed || abandoned ? null : (
+          <Button disabled={disabled} fullLength>
+            {isAbandonPage ? t('common:MARK_ABANDON') : t('common:MARK_COMPLETE')}
+          </Button>
+        )
       }
       onSubmit={handleSubmit(isAbandonPage ? () => setShowAbandonModal(true) : onSubmit)}
     >
       <CropHeader variety={crop_variety} onBackClick={onGoBack} />
-      <Title
-        style={{
-          marginTop: '24px',
-          marginBottom: '32px',
-        }}
-      >
-        {isAbandonPage
-          ? t('MANAGEMENT_PLAN.COMPLETE_PLAN.ABANDON_PLAN')
-          : t('MANAGEMENT_PLAN.COMPLETE_PLAN.COMPLETE_PLAN')}
-      </Title>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Title
+          style={{
+            marginTop: '24px',
+            marginBottom: '32px',
+          }}
+        >
+          {isAbandonPage
+            ? t('MANAGEMENT_PLAN.COMPLETE_PLAN.ABANDON_PLAN')
+            : t('MANAGEMENT_PLAN.COMPLETE_PLAN.COMPLETE_PLAN')}
+        </Title>
+        {(completed || abandoned) && (
+          <StatusLabel
+            style={{
+              marginTop: '24px',
+              marginBottom: '32px',
+            }}
+            label={t(`MANAGEMENT_PLAN.STATUS.${managementPlanStatusTranslateKey[status]}`)}
+            color={status}
+          />
+        )}
+      </div>
       <Input
         style={{ marginBottom: '40px' }}
         label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.DATE_OF_CHANGE')}
@@ -91,10 +111,11 @@ export function PureCompleteManagementPlan({
           required: true,
           validate: isNotInFuture,
         })}
-        errors={errors[DATE] ? isNotInFuture() : null}
+        errors={getInputErrors(errors, DATE)}
         type={'date'}
         max={getDateInputFormat()}
         min={start_date}
+        disabled={completed || abandoned}
         required
       />
       {isAbandonPage && (
@@ -110,6 +131,7 @@ export function PureCompleteManagementPlan({
                 onChange={(e) => {
                   onChange(e);
                 }}
+                isDisabled={abandoned}
                 value={value}
                 style={{ marginBottom: '40px' }}
                 placeholder={t(`common:SELECT`)}
@@ -120,6 +142,7 @@ export function PureCompleteManagementPlan({
             <Input
               style={{ marginBottom: '40px' }}
               label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.WHAT_HAPPENED')}
+              disabled={abandoned}
               hookFormRegister={register(CREATED_ABANDON_REASON)}
               optional
             />
@@ -134,6 +157,7 @@ export function PureCompleteManagementPlan({
             stars={value}
             onRate={onChange}
             style={{ marginBottom: '40px' }}
+            disabled={completed || abandoned}
             optional
             label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.RATING')}
           />
@@ -146,6 +170,7 @@ export function PureCompleteManagementPlan({
           maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.COMPLETE_PLAN.NOTES_CHAR_LIMIT') },
         })}
         optional
+        disabled={completed || abandoned}
         errors={errors[NOTES]?.message}
       />
       {showAbandonModal && isAbandonPage && (

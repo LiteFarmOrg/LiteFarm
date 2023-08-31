@@ -243,6 +243,9 @@ const AbandonManagementPlan = React.lazy(() =>
   import('./containers/Crop/CompleteManagementPlan/AbandonManagementPlan'),
 );
 const RepeatCropPlan = React.lazy(() => import('./containers/Crop/RepeatCropPlan'));
+const RepeatCropPlanConfirmation = React.lazy(() =>
+  import('./containers/Crop/RepeatCropPlan/Confirmation'),
+);
 
 const TaskAssignment = React.lazy(() => import('./containers/Task/TaskAssignment'));
 const TaskDetails = React.lazy(() => import('./containers/Task/TaskDetails'));
@@ -291,7 +294,6 @@ const Notification = React.lazy(() => import('./containers/Notification'));
 const NotificationReadOnly = React.lazy(() =>
   import('./containers/Notification/NotificationReadOnly'),
 );
-const Forbidden = React.lazy(() => import('./containers/ErrorHandler/Forbidden/Forbidden'));
 const UnknownRecord = React.lazy(() =>
   import('./containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
@@ -490,6 +492,11 @@ const Routes = () => {
               component={RepeatCropPlan}
             />
             <Route
+              path="/crop/:variety_id/management_plan/:management_plan_id/repeat_confirmation"
+              exact
+              component={RepeatCropPlanConfirmation}
+            />
+            <Route
               path="/crop/:variety_id/management_plan/:management_plan_id/edit"
               exact
               component={EditManagementDetails}
@@ -635,7 +642,6 @@ const Routes = () => {
               exact
               component={NotificationReadOnly}
             />
-            <Route path="/403" exact component={Forbidden} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
               to={'/'}
@@ -784,6 +790,11 @@ const Routes = () => {
               path="/crop/:variety_id/management_plan/:management_plan_id/repeat"
               exact
               component={RepeatCropPlan}
+            />
+            <Route
+              path="/crop/:variety_id/management_plan/:management_plan_id/repeat_confirmation"
+              exact
+              component={RepeatCropPlanConfirmation}
             />
             <Route
               path="/crop/:variety_id/:management_plan_id/complete_management_plan"
@@ -935,7 +946,6 @@ const Routes = () => {
               exact
               component={NotificationReadOnly}
             />
-            <Route path="/403" exact component={Forbidden} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>
@@ -1030,7 +1040,6 @@ const Routes = () => {
               exact
               component={NotificationReadOnly}
             />
-            <Route path="/403" exact component={Forbidden} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>

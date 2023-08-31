@@ -26,6 +26,12 @@
   margin-bottom: 8px;
 }
 
+.taskSubtext {
+  margin-left: 4px;
+  opacity: 0.6;
+  padding-top: 4px;
+}
+
 .repeatEvery {
   display: flex;
   gap: 24px;
@@ -52,4 +58,23 @@
 .finishOnDateErrors {
   margin-left: 12px;
   margin-top: -4px;
+}
+
+// Confirmation
+.confirmationItem {
+  margin-bottom: 24px;
+}
+
+.confirmationLabel {
+  margin-top: 0px;
+  margin-bottom: 4px;
+}
+
+.confirmationData {
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.confirmationHighlight {
+  color: var(--teal700);
 }

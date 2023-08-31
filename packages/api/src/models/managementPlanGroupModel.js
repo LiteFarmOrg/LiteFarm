@@ -60,6 +60,9 @@ class ManagementPlanGroup extends baseModel {
       },
     };
   }
+  static get hidden() {
+    return baseModel.hidden.concat(['repetition_config']);
+  }
 }
 
 export default ManagementPlanGroup;

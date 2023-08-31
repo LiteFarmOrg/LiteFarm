@@ -13,10 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PureRepeatCropPlan from '../../../components/RepeatCropPlan';
-import { useSelector } from 'react-redux';
-import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  hookFormPersistSelector,
+  setPersistedPaths,
+} from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import {
   managementPlanSelector,
@@ -26,9 +29,17 @@ import { tasksByManagementPlanIdSelector } from '../../taskSlice';
 import { getDateInputFormat } from '../../../util/moment';
 
 function RepeatCropPlan({ history, match }) {
+  const dispatch = useDispatch();
+  const { management_plan_id, variety_id } = match.params;
+  useEffect(() => {
+    dispatch(
+      setPersistedPaths([
+        `/crop/${variety_id}/management_plan/${management_plan_id}/repeat`,
+        `/crop/${variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
+      ]),
+    );
+  }, []);
   const persistedFormData = useSelector(hookFormPersistSelector);
-
-  const management_plan_id = match.params.management_plan_id;
 
   const plan = useSelector(managementPlanSelector(management_plan_id));
 
@@ -47,6 +58,7 @@ function RepeatCropPlan({ history, match }) {
   const onContinue = () => {
     history.push(
       `/crop/${plan.crop_variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
+      { origStartDate: firstTaskDate },
     );
   };
 
@@ -56,6 +68,7 @@ function RepeatCropPlan({ history, match }) {
         cropPlan={plan}
         farmManagementPlansForCrop={farmManagementPlansForCropVariety}
         origStartDate={firstTaskDate}
+        origStartDateType={sortedTasks[0].complete_date ? 'completion' : 'due'}
         onGoBack={() => history.back()}
         onContinue={onContinue}
         persistedFormData={persistedFormData}

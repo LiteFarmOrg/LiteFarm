@@ -80,8 +80,12 @@ const getStyles = ({
       [`--rtp-arrow-${isVertical ? opositeSide[horizontalAlign] : verticalAlign}`]:
         height - 10 + arrowOffset + 'px',
       [`--rtp-arrow-${opositeSide[position]}`]: -height + 'px',
-      [`--rtp-arrow-border-${isVertical ? 'left' : 'top'}`]: `${width / 2}px solid transparent`,
-      [`--rtp-arrow-border-${isVertical ? 'right' : 'bottom'}`]: `${width / 2}px solid transparent`,
+      [`--rtp-arrow-border-${isVertical ? 'left' : 'top'}`]: popoverStyles.noArrow
+        ? ''
+        : `${width / 2}px solid transparent`,
+      [`--rtp-arrow-border-${isVertical ? 'right' : 'bottom'}`]: popoverStyles.noArrow
+        ? ''
+        : `${width / 2}px solid transparent`,
       [`--rtp-arrow-border-${position}`]: `${height}px solid ${colors.grey100}`,
     };
   },

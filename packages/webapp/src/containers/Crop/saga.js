@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading, all } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector, patchFarmSuccess } from '../userFarmSlice';
 import {
@@ -32,7 +32,7 @@ import i18n from '../../locales/i18n';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasksSuccessSaga } from '../Task/saga';
-import { setPersistedPaths } from './../hooks/useHookFormPersist/hookFormPersistSlice';
+import { CROP_PLAN_NAME } from '../../components/RepeatCropPlan/constants';
 
 const DEC = 10;
 
@@ -71,15 +71,6 @@ export function* postManagementPlanSaga({ payload: managementPlanData }) {
     // conditionally render pathname
     const path = repeat_crop_plan ? 'repeat' : 'tasks';
 
-    // set up repeat crop plan form state persistence
-    repeat_crop_plan &&
-      (yield put(
-        setPersistedPaths([
-          `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/repeat`,
-          `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/repeat_confirmation`,
-        ]),
-      ));
-
     yield call(onReqSuccessSaga, {
       pathname: `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/${path}`,
       state: { fromCreation: true },
@@ -88,6 +79,45 @@ export function* postManagementPlanSaga({ payload: managementPlanData }) {
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.POST')));
+  }
+}
+
+export const postRepeatCropPlan = createAction(`postRepeatCropPlanSaga`);
+
+export function* postRepeatCropPlanSaga({
+  payload: { crop_variety_id, management_plan_id, startDates, repeatDetails },
+}) {
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  const { managementPlanURL } = apiConfig;
+  const planName = repeatDetails[CROP_PLAN_NAME];
+
+  try {
+    const result = yield call(
+      axios.post,
+      `${managementPlanURL}/repeat_plan`,
+      { management_plan_id, start_dates: startDates, repeat_details: repeatDetails },
+      header,
+    );
+
+    const managementPlans = [];
+    let managementTasks = [];
+
+    result.data.forEach(({ management_plan, tasks }) => {
+      managementPlans.push(management_plan);
+      managementTasks = managementTasks.concat(tasks);
+    });
+
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: managementPlans });
+    yield call(getTasksSuccessSaga, { payload: managementTasks });
+
+    yield call(onReqSuccessSaga, {
+      pathname: `/crop/${crop_variety_id}/management`,
+      message: i18n.t('message:REPEAT_PLAN.SUCCESS.POST', { planName }),
+    });
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:REPEAT_PLAN.ERROR.POST', { planName })));
   }
 }
 
@@ -136,19 +166,24 @@ export function* patchManagementPlanSaga({ payload: managementPlan }) {
 
 export const deleteManagementPlan = createAction(`deleteManagementPlanSaga`);
 
-export function* deleteManagementPlanSaga({ payload: management_plan_id }) {
-  const currentDate = formatDate(new Date());
+export function* deleteManagementPlanSaga({ payload }) {
+  const { management_plan_id, variety_id } = payload;
+
   const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.delete, managementPlanURL + `/${management_plan_id}`, header);
+
     yield put(deleteManagementPlanSuccess(management_plan_id));
-    yield put(enqueueSuccessSnackbar(i18n.t('message:CROP.SUCCESS.DELETE')));
+
+    history.push(`/crop/${variety_id}/management`);
+
+    yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.DELETE')));
   } catch (e) {
-    console.log('Failed To Delete Field Crop Error: ', e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:CROP.ERROR.DELETE')));
+    console.log('Failed To Delete Management Plan Error: ', e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.DELETE')));
   }
 }
 
@@ -166,6 +201,7 @@ const formatDate = (currDate) => {
 
 export default function* managementPlanSaga() {
   yield takeLeading(postManagementPlan.type, postManagementPlanSaga);
+  yield takeLeading(postRepeatCropPlan.type, postRepeatCropPlanSaga);
   yield takeLeading(patchFarmDefaultInitialLocation.type, patchFarmDefaultInitialLocationSaga);
   yield takeLatest(getExpiredManagementPlans.type, getExpiredManagementPlansSaga);
   yield takeLeading(deleteManagementPlan.type, deleteManagementPlanSaga);

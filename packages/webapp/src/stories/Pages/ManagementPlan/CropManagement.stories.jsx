@@ -3,6 +3,7 @@ import PureCropManagement from '../../../components/Crop/Management';
 import decorator from '../config/Decorators';
 import { Abandoned, Active, Completed, Planned } from '../../Card/ManagementPlanCard.stories';
 import { chromaticSmallScreen } from '../config/chromatic';
+import { commonArgs, planBaseContents } from '../../Modal/CropPlansModal.stories';
 
 export default {
   title: 'Form/Crop/Management',
@@ -84,5 +85,25 @@ ManagementWithManyCards.args = {
   managementPlanCardContents: getManagementPlanCardContents(100),
 };
 ManagementWithManyCards.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const ManagementWithRepeatPlanCards = Template.bind({});
+ManagementWithRepeatPlanCards.args = {
+  ...commonArgs,
+  managementPlanCardContents: [
+    ...getManagementPlanCardContents(2),
+    ...[...Array(5)].map((item, index) => {
+      return {
+        ...planBaseContents,
+        repetition_count: 5,
+        repetition_number: index + 1,
+        startDate: `0${index + 7}-01-2023`,
+        endDate: `0${index + 8}-02-2023`,
+      };
+    }),
+  ],
+};
+ManagementWithRepeatPlanCards.parameters = {
   ...chromaticSmallScreen,
 };

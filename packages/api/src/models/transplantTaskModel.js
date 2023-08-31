@@ -68,6 +68,20 @@ class transplantTaskModel extends Model {
       },
     };
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      planting_management_plan_id: 'edit',
+      prev_planting_management_plan_id: 'edit',
+      // relationMappings
+      task: 'edit',
+      planting_management_plan: 'omit',
+    };
+  }
 }
 
 export default transplantTaskModel;

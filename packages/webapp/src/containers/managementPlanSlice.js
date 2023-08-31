@@ -21,6 +21,10 @@ export const getManagementPlan = (obj) => {
       'rating',
       'complete_notes',
       'abandon_reason',
+      'management_plan_group_id',
+      'repetition_number',
+      'management_plan_group',
+      'harvested_to_date',
     ],
   );
 };
@@ -35,6 +39,16 @@ const updateOneManagementPlan = (state, { payload }) => {
   state.loading = false;
   state.error = null;
   managementPlanAdapter.upsertOne(state, getManagementPlan(payload));
+};
+
+const addAllManagementPlan = (state, { payload: managementPlans }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  managementPlanAdapter.setAll(
+    state,
+    managementPlans.map((managementPlan) => getManagementPlan(managementPlan)),
+  );
 };
 
 const addManyManagementPlan = (state, { payload: managementPlans }) => {
@@ -61,6 +75,7 @@ const managementPlanSlice = createSlice({
   reducers: {
     onLoadingManagementPlanStart: onLoadingStart,
     onLoadingManagementPlanFail: onLoadingFail,
+    getAllManagementPlansSuccess: addAllManagementPlan,
     getManagementPlansSuccess: addManyManagementPlan,
     deleteManagementPlanSuccess: managementPlanAdapter.removeOne,
     deleteManagementPlansSuccess: managementPlanAdapter.removeMany,
@@ -69,6 +84,7 @@ const managementPlanSlice = createSlice({
 });
 export const {
   getManagementPlansSuccess,
+  getAllManagementPlansSuccess,
   onLoadingManagementPlanStart,
   onLoadingManagementPlanFail,
   deleteManagementPlanSuccess,
@@ -200,7 +216,6 @@ export const isCompletedManagementPlan = (managementPlan) => {
 export const getCompletedManagementPlans = (managementPlans) =>
   managementPlans.filter((managementPlan) => isCompletedManagementPlan(managementPlan));
 
-
 export const currentManagementPlansSelector = createSelector(
   [managementPlansSelector, lastActiveDatetimeSelector],
   (managementPlans, lastActiveDatetime) => {
@@ -298,15 +313,13 @@ export const currentManagementPlanByCropIdSelector = (crop_id) =>
 export const abandonedManagementPlanByCropIdSelector = (crop_id) =>
   createSelector(
     [managementPlanByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
-    (managementPlans) =>
-      getAbandonedManagementPlans(managementPlans),
+    (managementPlans) => getAbandonedManagementPlans(managementPlans),
   );
 
 export const completedManagementPlanByCropIdSelector = (crop_id) =>
   createSelector(
     [managementPlanByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
-    (managementPlans) =>
-      getCompletedManagementPlans(managementPlans),
+    (managementPlans) => getCompletedManagementPlans(managementPlans),
   );
 
 export const plannedManagementPlanByCropIdSelector = (crop_id) =>
@@ -399,3 +412,10 @@ export const expiredManagementPlanByCropVarietyIdSelector = (crop_variety_id) =>
     (managementPlans, lastActiveDate) =>
       getExpiredManagementPlans(managementPlans, new Date(lastActiveDate).getTime()),
   );
+
+export const managementPlanByManagementPlanIDSelector = (management_plan_id) =>
+  createSelector([managementPlansSelector], (managementPlans) => {
+    return managementPlans.filter(
+      (managementPlan) => managementPlan.management_plan_id === parseInt(management_plan_id),
+    );
+  });

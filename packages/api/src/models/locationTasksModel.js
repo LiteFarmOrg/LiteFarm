@@ -36,6 +36,17 @@ class LocationTaskModel extends Model {
       },
     };
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      task_id: 'omit',
+      location_id: 'edit',
+      // relationMappings
+    };
+  }
 }
 
 export default LocationTaskModel;

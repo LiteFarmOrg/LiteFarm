@@ -499,6 +499,7 @@
       "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
       "FLOW": "Création d'une dépense",
       "MIN_ERROR": "Veuillez saisir une valeur supérieure à ",
+      "NEW_EXPENSE_ITEM": "MISSING",
       "REQUIRED_ERROR": "Une dépense est requise",
       "TITLE": "Ajouter une dépense",
       "TITLE_1": "Nouvelle dépense (1 sur 2)",

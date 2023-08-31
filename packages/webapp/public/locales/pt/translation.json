@@ -498,6 +498,7 @@
       "ALL_FIELDS_REQUIRED": "Todos os campos são obrigatórios",
       "FLOW": "MISSING",
       "MIN_ERROR": "Insira um valor maior que ",
+      "NEW_EXPENSE_ITEM": "MISSING",
       "REQUIRED_ERROR": "Expense is required",
       "TITLE": "MISSING",
       "TITLE_1": "Despesa Nova (1 de 2)",

@@ -499,6 +499,7 @@
       "ALL_FIELDS_REQUIRED": "All fields are required",
       "FLOW": "expense creation",
       "MIN_ERROR": "Please enter a value greater than ",
+      "NEW_EXPENSE_ITEM": "New expense item",
       "REQUIRED_ERROR": "Expense is required",
       "TITLE": "Add expense",
       "TITLE_1": "New Expense (1 of 2)",

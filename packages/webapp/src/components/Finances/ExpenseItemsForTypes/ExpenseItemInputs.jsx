@@ -18,16 +18,10 @@ import { useTranslation } from 'react-i18next';
 import { IconLink } from '../../Typography';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import Input, { numberOnKeyDown } from '../../Form/Input';
+import { NOTE, VALUE } from './constants';
 import styles from './styles.module.scss';
 
-export default function ExpenseItemInputs({
-  register,
-  itemNameFieldName,
-  valueFieldName,
-  onRemove,
-  onChange,
-  getErrors,
-}) {
+export default function ExpenseItemInputs({ register, onRemove, onChange, getErrors }) {
   const { t } = useTranslation();
 
   return (
@@ -35,9 +29,9 @@ export default function ExpenseItemInputs({
       <Input
         style={{ marginBottom: '24px' }}
         label={t('EXPENSE.ITEM_NAME')}
-        onChange={(e) => onChange(e, itemNameFieldName)}
-        errors={getErrors(itemNameFieldName)}
-        hookFormRegister={register(itemNameFieldName, {
+        onChange={(e) => onChange(e, NOTE)}
+        errors={getErrors(NOTE)}
+        hookFormRegister={register(NOTE, {
           required: true,
           maxLength: {
             value: 100,
@@ -52,9 +46,9 @@ export default function ExpenseItemInputs({
         onKeyDown={numberOnKeyDown}
         min="0.01"
         step="0.01"
-        onChange={(e) => onChange(e, valueFieldName)}
-        errors={getErrors(valueFieldName)}
-        hookFormRegister={register(valueFieldName, {
+        onChange={(e) => onChange(e, VALUE)}
+        errors={getErrors(VALUE)}
+        hookFormRegister={register(VALUE, {
           required: true,
           valueAsNumber: true,
           min: { value: 0.01 },
@@ -75,8 +69,6 @@ export default function ExpenseItemInputs({
 
 ExpenseItemInputs.propTypes = {
   register: PropTypes.func,
-  itemNameFieldName: PropTypes.string,
-  valueFieldName: PropTypes.string,
   onRemove: PropTypes.func,
   onChange: PropTypes.func,
   getErrors: PropTypes.func,

@@ -19,7 +19,6 @@ import { useFieldArray } from 'react-hook-form';
 import { AddLink, Main } from '../../Typography';
 import ExpenseItemInputs from './ExpenseItemInputs';
 import { getInputErrors } from '../../Form/Input';
-import { NOTE, VALUE } from './constants';
 import styles from './styles.module.scss';
 
 export default function ExpenseItemsForType({
@@ -42,8 +41,6 @@ export default function ExpenseItemsForType({
             return (
               <ExpenseItemInputs
                 key={field.id}
-                itemNameFieldName={NOTE}
-                valueFieldName={VALUE}
                 onRemove={() => {
                   remove(index);
                   setExpenseDetail();

@@ -23,7 +23,7 @@ export const up = async function (knex) {
     table.string('updated_by_user_id').references('user_id').inTable('users');
     table.dateTime('created_at').notNullable();
     table.dateTime('updated_at').notNullable();
-    table.string('revenue_translation_name').notNullable();
+    table.string('revenue_translation_key').notNullable();
   });
 
   await knex.schema.alterTable('sale', (table) => {
@@ -40,7 +40,7 @@ export const up = async function (knex) {
     updated_by_user_id: '1',
     created_at: new Date('2000/1/1').toISOString(),
     updated_at: new Date('2000/1/1').toISOString(),
-    revenue_translation_name: 'CROP_SALE',
+    revenue_translation_key: 'CROP_SALE',
   });
 
   // Reference crop_sale type for all existing records

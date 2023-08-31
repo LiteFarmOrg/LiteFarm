@@ -109,7 +109,7 @@ class AddExpense extends Component {
           <HookFormPersistProvider>
             <ExpenseItemsForTypes
               types={Object.keys(expenseNames).map((id) => ({ name: expenseNames[id], id }))}
-              setExpenseDetail={(data) => this.setState({ expenseDetail: data })}
+              setExpenses={(data) => this.setState({ expenseDetail: data })}
               setIsValid={(isValid) => this.setState({ isValid })}
             />
           </HookFormPersistProvider>

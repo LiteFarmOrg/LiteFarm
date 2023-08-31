@@ -26,7 +26,7 @@ export default function ExpenseItemsForType({
   register,
   control,
   setValue,
-  setExpenseDetail,
+  setExpenses,
   errors,
 }) {
   const { t } = useTranslation();
@@ -43,14 +43,14 @@ export default function ExpenseItemsForType({
                 key={field.id}
                 onRemove={() => {
                   remove(index);
-                  setExpenseDetail();
+                  setExpenses();
                 }}
                 register={(fieldName, options) =>
                   register(`${type.id}.${index}.${fieldName}`, options)
                 }
                 onChange={(e, fieldName) => {
                   setValue(`${type.id}.${index}.${fieldName}`, e.target.value);
-                  setExpenseDetail();
+                  setExpenses();
                 }}
                 getErrors={(fieldName) =>
                   getInputErrors(errors, `${type.id}.${index}.${fieldName}`)
@@ -70,6 +70,6 @@ ExpenseItemsForType.propTypes = {
   register: PropTypes.func,
   control: PropTypes.any,
   setValue: PropTypes.func,
-  setExpenseDetail: PropTypes.func,
+  setExpenses: PropTypes.func,
   errors: PropTypes.object,
 };

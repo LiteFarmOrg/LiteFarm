@@ -30,15 +30,15 @@ export default function ExpenseItemsForTypes({ types, setIsValid, ...props }) {
     defaultValues: {},
   });
 
-  const setExpenseDetail = () => {
-    props.setExpenseDetail(getValues());
+  const setExpenses = () => {
+    props.setExpenses(getValues());
   };
 
   useEffect(() => {
     types.forEach(({ id }) => {
       setValue(id, [{ [NOTE]: '', [VALUE]: null }]);
     });
-    setExpenseDetail();
+    setExpenses();
   }, []);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function ExpenseItemsForTypes({ types, setIsValid, ...props }) {
         register={register}
         control={control}
         setValue={setValue}
-        setExpenseDetail={setExpenseDetail}
+        setExpenses={setExpenses}
         errors={errors}
       />
     );
@@ -62,6 +62,6 @@ export default function ExpenseItemsForTypes({ types, setIsValid, ...props }) {
 
 ExpenseItemsForTypes.propTypes = {
   types: PropTypes.array,
-  setExpenseDetail: PropTypes.func,
+  setExpenses: PropTypes.func,
   setIsValid: PropTypes.func,
 };

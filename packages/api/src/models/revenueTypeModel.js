@@ -24,6 +24,11 @@ class RevenueType extends baseModel {
     return 'revenue_type_id';
   }
 
+  // Overriding the baseModel hidden to return the 'deleted' field
+  static get hidden() {
+    return ['created_at', 'created_by_user_id', 'updated_by_user_id', 'updated_at'];
+  }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.
@@ -34,7 +39,7 @@ class RevenueType extends baseModel {
 
       properties: {
         revenue_type_id: { type: 'integer' },
-        revenue_name: { type: 'string', minLength: 1, maxLength: 255 },
+        revenue_name: { type: 'string', minLength: 1, maxLength: 100 },
         farm_id: { type: 'string' },
         revenue_translation_key: { type: 'string' },
         ...this.baseProperties,

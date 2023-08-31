@@ -27,6 +27,7 @@ import {
   RETIRE_CUSTOM_EXPENSE_TYPE,
   TEMP_DELETE_EXPENSE,
   TEMP_EDIT_EXPENSE,
+  UPDATE_CUSTOM_EXPENSE_TYPE,
   UPDATE_SALE,
 } from './constants';
 import { setExpenseType, setExpense, setSalesInState } from './actions';
@@ -179,6 +180,31 @@ export function* addCustomExpenseTypeSaga(action) {
   }
 }
 
+export function* updateCustomExpenseTypeSaga(action) {
+  const { expenseTypeUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  const { expense_type_id } = action;
+  const { expense_type_name } = action.custom_expense_type;
+
+  try {
+    const result = yield call(
+      axios.put,
+      `${expenseTypeUrl}/${expense_type_id}`,
+      { farm_id, expense_type_name },
+      header,
+    );
+    if (result) {
+      yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.UPDATE')));
+      yield call(getFarmExpenseTypeSaga);
+      history.push('/finances');
+    }
+  } catch (e) {
+    console.log('failed to update expense type in the database');
+    yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE_TYPE.ERROR.UPDATE')));
+  }
+}
+
 export function* retireCustomExpenseTypeSaga(action) {
   const { expenseTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -325,6 +351,7 @@ export default function* financeSaga() {
   yield takeLatest(GET_DEFAULT_EXPENSE_TYPE, getDefaultExpenseTypeSaga);
   yield takeLatest(GET_FARM_EXPENSE_TYPE, getFarmExpenseTypeSaga);
   yield takeLeading(ADD_CUSTOM_EXPENSE_TYPE, addCustomExpenseTypeSaga);
+  yield takeLeading(UPDATE_CUSTOM_EXPENSE_TYPE, updateCustomExpenseTypeSaga);
   yield takeLeading(RETIRE_CUSTOM_EXPENSE_TYPE, retireCustomExpenseTypeSaga);
   yield takeLeading(ADD_EXPENSES, addExpensesSaga);
   yield takeLeading(DELETE_SALE, deleteSale);

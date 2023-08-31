@@ -16,28 +16,25 @@ import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-//TODO: make this saga
-//import { updateExpenseType } from '../saga';
-import useHookFormPersist from '../../hooks/useHookFormPersist';
-//import { expenseTypeSelector } from '../selectors';
+import { updateCustomExpenseType } from '../actions';
+import { expenseTypeByIdSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 
-function EditCustomExpense({ history }) {
+function EditCustomExpense({ history, match }) {
+  const expense_type_id = match.params.expense_type_id;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const onGoBackPath = '/add_expense/readonly_custom_expense';
+  const onGoBackPath = `/add_expense/readonly_custom_expense/${expense_type_id}`;
   const persistedPaths = [onGoBackPath];
-  const { persistedData } = useHookFormPersist();
-  // const selectedCustomExpenseType = useSelector(expenseTypeSelector(persistedData.expense_type_id));
-  // const { expense_name } = selectedCustomExpenseType;
-  const expense_name = 'test name 123';
+  const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));
+  const { expense_name } = selectedCustomExpenseType;
 
   const handleGoBack = () => {
     history.back();
   };
 
   const onSubmit = (payload) => {
-    // dispatch(updateExpenseType(payload));
+    dispatch(updateCustomExpenseType(payload, expense_type_id));
   };
 
   return (

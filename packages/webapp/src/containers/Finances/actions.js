@@ -39,6 +39,7 @@ import {
   TEMP_EDIT_EXPENSE,
   TEMP_SET_EXPENSE_TO_EDIT,
   UPDATE_SALE,
+  UPDATE_CUSTOM_EXPENSE_TYPE,
 } from './constants';
 
 export const getSales = () => {
@@ -105,6 +106,14 @@ export const addCustomExpenseType = (custom_expense_type) => {
 export const retireCustomExpenseType = (expense_type_id) => {
   return {
     type: RETIRE_CUSTOM_EXPENSE_TYPE,
+    expense_type_id,
+  };
+};
+
+export const updateCustomExpenseType = (payload, expense_type_id) => {
+  return {
+    type: UPDATE_CUSTOM_EXPENSE_TYPE,
+    custom_expense_type: payload,
     expense_type_id,
   };
 };

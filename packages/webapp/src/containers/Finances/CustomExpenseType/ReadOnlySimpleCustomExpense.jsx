@@ -26,7 +26,7 @@ function ReadOnlyCustomExpense({ history, match }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const onGoBackPath = '/add_expense/manage_custom_expenses';
-  const onEditPath = '/add_expense/edit_custom_expense';
+  const onEditPath = `/add_expense/edit_custom_expense/${expense_type_id}`;
   const persistedPaths = [onGoBackPath, onEditPath];
   const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));
   const { expense_name } = selectedCustomExpenseType;

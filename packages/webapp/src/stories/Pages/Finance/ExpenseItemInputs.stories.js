@@ -12,14 +12,14 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import ExpenseItemsForTypes from '../../../components/Finances/AddExpense/ExpenseItemsForTypes';
+import AddExpense from '../../../components/Finances/AddExpense';
 import decorators from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
-  title: 'Page/Finance/ExpenseItemsForTypes',
+  title: 'Page/Finance/AddExpense',
   decorators: decorators,
-  component: ExpenseItemsForTypes,
+  component: AddExpense,
 };
 
 export const Primary = {
@@ -29,8 +29,9 @@ export const Primary = {
       { name: 'Fuel', id: '1fd86136-22a9-11ee-9683-e66db4bef552' },
       { name: 'Land', id: '1fd86168-22a9-11ee-9683-e66db4bef552' },
     ],
-    setExpenses: (data) => console.log(`Expense data: ${JSON.stringify(data)}`),
-    setIsValid: () => ({}),
+    onGoBack: () => ({}),
+    onSubmit: () => ({}),
+    useHookFormPersist: () => ({}),
   },
   parameters: { ...chromaticSmallScreen },
 };

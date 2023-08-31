@@ -15,3 +15,5 @@
 
 export const NOTE = 'note';
 export const VALUE = 'value';
+export const DATE = 'date';
+export const EXPENSE_DETAIL = 'expenseDetail';

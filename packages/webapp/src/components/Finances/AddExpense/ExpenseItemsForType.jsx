@@ -19,18 +19,15 @@ import { useFieldArray } from 'react-hook-form';
 import { AddLink, Main } from '../../Typography';
 import ExpenseItemInputs from './ExpenseItemInputs';
 import { getInputErrors } from '../../Form/Input';
+import { NOTE, VALUE, EXPENSE_DETAIL } from './constants';
 import styles from './styles.module.scss';
 
-export default function ExpenseItemsForType({
-  type,
-  register,
-  control,
-  setValue,
-  setExpenses,
-  errors,
-}) {
+export default function ExpenseItemsForType({ type, register, control, setValue, errors }) {
   const { t } = useTranslation();
-  const { fields, append, remove } = useFieldArray({ control, name: type.id });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: `${EXPENSE_DETAIL}.${type.id}`,
+  });
 
   return (
     <div className={styles.expenseItemsForType}>
@@ -43,24 +40,24 @@ export default function ExpenseItemsForType({
                 key={field.id}
                 onRemove={() => {
                   remove(index);
-                  setExpenses();
                 }}
                 register={(fieldName, options) =>
-                  register(`${type.id}.${index}.${fieldName}`, options)
+                  register(`${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`, options)
                 }
                 onChange={(e, fieldName) => {
-                  setValue(`${type.id}.${index}.${fieldName}`, e.target.value);
-                  setExpenses();
+                  setValue(`${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`, e.target.value);
                 }}
                 getErrors={(fieldName) =>
-                  getInputErrors(errors, `${type.id}.${index}.${fieldName}`)
+                  getInputErrors(errors, `${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`)
                 }
               />
             );
           })}
         </div>
       ) : null}
-      <AddLink onClick={append}>{t('common:ADD_ANOTHER_ITEM')}</AddLink>
+      <AddLink onClick={() => append({ [NOTE]: '', [VALUE]: null })}>
+        {t('common:ADD_ANOTHER_ITEM')}
+      </AddLink>
     </div>
   );
 }
@@ -70,6 +67,5 @@ ExpenseItemsForType.propTypes = {
   register: PropTypes.func,
   control: PropTypes.any,
   setValue: PropTypes.func,
-  setExpenses: PropTypes.func,
   errors: PropTypes.object,
 };

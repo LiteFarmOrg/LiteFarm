@@ -36,10 +36,15 @@ export default function DeleteBox({
       </h3>
       <p>{message}</p>
       <div className={styles.deleteBoxButtons}>
-        <Button data-cy="taskReadOnly-complete" color={'secondary'} onClick={onCancel}>
+        <Button
+          type="button"
+          data-cy="taskReadOnly-complete"
+          color={'secondary'}
+          onClick={onCancel}
+        >
           {t('common:CANCEL')}
         </Button>
-        <Button data-cy="taskReadOnly-complete" color={color} onClick={onOk}>
+        <Button type="button" data-cy="taskReadOnly-complete" color={color} onClick={onOk}>
           {primaryButtonLabel}
         </Button>
       </div>

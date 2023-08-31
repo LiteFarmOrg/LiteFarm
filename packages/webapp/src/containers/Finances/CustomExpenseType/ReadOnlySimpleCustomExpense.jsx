@@ -40,7 +40,6 @@ function ReadOnlyCustomExpense({ history, match }) {
   };
 
   const onRetire = (e) => {
-    e.preventDefault();
     dispatch(retireCustomExpenseType(expense_type_id));
   };
 

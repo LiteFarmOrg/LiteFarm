@@ -24,7 +24,7 @@ function EditCustomExpense({ history, match }) {
   const expense_type_id = match.params.expense_type_id;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const onGoBackPath = `/add_expense/readonly_custom_expense/${expense_type_id}`;
+  const onGoBackPath = `/readonly_custom_expense/${expense_type_id}`;
   const persistedPaths = [onGoBackPath];
   const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));
   const { expense_name } = selectedCustomExpenseType;

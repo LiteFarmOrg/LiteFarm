@@ -172,7 +172,7 @@ export function* addCustomExpenseTypeSaga(action) {
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.ADD')));
       yield call(getFarmExpenseTypeSaga);
-      history.push('/finances');
+      history.push('/manage_custom_expenses');
     }
   } catch (e) {
     console.log('failed to add new expense type to the database');
@@ -197,7 +197,7 @@ export function* updateCustomExpenseTypeSaga(action) {
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.UPDATE')));
       yield call(getFarmExpenseTypeSaga);
-      history.push('/finances');
+      history.push('/manage_custom_expenses');
     }
   } catch (e) {
     console.log('failed to update expense type in the database');
@@ -216,7 +216,7 @@ export function* retireCustomExpenseTypeSaga(action) {
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.DELETE')));
       yield call(getFarmExpenseTypeSaga);
-      history.push('/finances');
+      history.push('/manage_custom_expenses');
     }
   } catch (e) {
     console.log('failed to delete new expense type in the database');

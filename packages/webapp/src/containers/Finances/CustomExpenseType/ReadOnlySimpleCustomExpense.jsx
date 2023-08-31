@@ -25,8 +25,8 @@ function ReadOnlyCustomExpense({ history, match }) {
   const expense_type_id = match.params.expense_type_id;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const onGoBackPath = '/add_expense/manage_custom_expenses';
-  const onEditPath = `/add_expense/edit_custom_expense/${expense_type_id}`;
+  const onGoBackPath = '/manage_custom_expenses';
+  const onEditPath = `/edit_custom_expense/${expense_type_id}`;
   const persistedPaths = [onGoBackPath, onEditPath];
   const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));
   const { expense_name } = selectedCustomExpenseType;

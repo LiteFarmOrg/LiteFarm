@@ -595,14 +595,14 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
-            <Route path="/add_expense/add_custom_expense" exact component={AddCustomExpense} />
+            <Route path="/add_custom_expense" exact component={AddCustomExpense} />
             <Route
-              path="/add_expense/readonly_custom_expense/:expense_type_id"
+              path="/readonly_custom_expense/:expense_type_id"
               exact
               component={ReadOnlyCustomExpense}
             />
             <Route
-              path="/add_expense/edit_custom_expense/:expense_type_id"
+              path="/edit_custom_expense/:expense_type_id"
               exact
               component={EditCustomExpense}
             />
@@ -887,14 +887,14 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
-            <Route path="/add_expense/add_custom_expense" exact component={AddCustomExpense} />
+            <Route path="/add_custom_expense" exact component={AddCustomExpense} />
             <Route
-              path="/add_expense/readonly_custom_expense/:expense_type_id"
+              path="/readonly_custom_expense/:expense_type_id"
               exact
               component={ReadOnlyCustomExpense}
             />
             <Route
-              path="/add_expense/edit_custom_expense/:expense_type_id"
+              path="/edit_custom_expense/:expense_type_id"
               exact
               component={EditCustomExpense}
             />

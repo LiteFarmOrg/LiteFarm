@@ -1,29 +1,19 @@
 import React, { Component } from 'react';
-import moment from 'moment';
-import PageTitle from '../../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../../styles.module.scss';
-import styles from './styles.module.scss';
 import { expenseTypeSelector, selectedExpenseSelector } from '../../selectors';
 import history from '../../../../history';
-import DateContainer from '../../../../components/Inputs/DateContainer';
-import ExpenseItemsForTypes from '../../../../components/Finances/AddExpense/ExpenseItemsForTypes';
-import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
-import footerStyles from '../../../../components/LogFooter/styles.module.scss';
 import { addExpenses } from '../../actions';
 import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
+import PureAddExpense from '../../../../components/Finances/AddExpense';
 
 class AddExpense extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: moment(),
-      expenseDetail: {},
       expenseNames: {},
-      isValid: {},
     };
-    this.setDate = this.setDate.bind(this);
     this.getTypeName = this.getTypeName.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -48,18 +38,14 @@ class AddExpense extends Component {
     return 'NAME NOT FOUND';
   }
 
-  setDate(date) {
-    this.setState({
-      date: date,
-    });
-  }
-
-  handleSubmit() {
-    const { expenseDetail } = this.state;
+  handleSubmit(formData) {
+    const { expenseDetail, date } = formData;
     let data = [];
     let keys = Object.keys(expenseDetail);
     let farm_id = this.props.farm.farm_id;
-    let date = this.state.date;
+    const [year, month, day] = date.split('-');
+    const expenseDate = new Date(+year, +month - 1, +day).toISOString();
+
     let missingText = false;
     for (let k of keys) {
       let values = expenseDetail[k];
@@ -74,7 +60,7 @@ class AddExpense extends Component {
             note: v.note,
             value: value,
             expense_type_id: k,
-            expense_date: date,
+            expense_date: expenseDate,
           };
           data.push(temp);
         }
@@ -94,37 +80,13 @@ class AddExpense extends Component {
   render() {
     const { expenseNames } = this.state;
     return (
-      <div className={defaultStyles.financesContainer}>
-        <PageTitle
-          backUrl="/expense_categories"
-          title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE_2')}
+      <HookFormPersistProvider>
+        <PureAddExpense
+          types={Object.keys(expenseNames).map((id) => ({ name: expenseNames[id], id }))}
+          onGoBack={history.back}
+          onSubmit={this.handleSubmit}
         />
-        <DateContainer
-          date={this.state.date}
-          onDateChange={this.setDate}
-          placeholder={this.props.t('EXPENSE.EDIT_EXPENSE.DATE_PLACEHOLDER')}
-          allowPast={true}
-        />
-        <div>
-          <HookFormPersistProvider>
-            <ExpenseItemsForTypes
-              types={Object.keys(expenseNames).map((id) => ({ name: expenseNames[id], id }))}
-              setExpenses={(data) => this.setState({ expenseDetail: data })}
-              setIsValid={(isValid) => this.setState({ isValid })}
-            />
-          </HookFormPersistProvider>
-        </div>
-        <div>
-          <div className={footerStyles.bottomContainer}>
-            <div className={footerStyles.cancelButton} onClick={() => history.push('/finances')}>
-              {this.props.t('common:CANCEL')}
-            </div>
-            <div className="btn btn-primary" onClick={() => this.handleSubmit()}>
-              {this.state.isValid ? this.props.t('common:SAVE') : 'ERROR'}
-            </div>
-          </div>
-        </div>
-      </div>
+      </HookFormPersistProvider>
     );
   }
 }

@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import { expenseTypeSelector, selectedExpenseSelector } from '../../selectors';
 import history from '../../../../history';
 import DateContainer from '../../../../components/Inputs/DateContainer';
-import ExpenseItemsForTypes from '../../../../components/Finances/ExpenseItemsForTypes';
+import ExpenseItemsForTypes from '../../../../components/Finances/AddExpense/ExpenseItemsForTypes';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import footerStyles from '../../../../components/LogFooter/styles.module.scss';
 import { addExpenses } from '../../actions';

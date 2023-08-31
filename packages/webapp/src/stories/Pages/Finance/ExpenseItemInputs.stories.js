@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import ExpenseItemsForTypes from '../../../components/Finances/ExpenseItemsForTypes';
+import ExpenseItemsForTypes from '../../../components/Finances/AddExpense/ExpenseItemsForTypes';
 import decorators from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 

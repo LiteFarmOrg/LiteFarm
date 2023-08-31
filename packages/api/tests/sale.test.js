@@ -388,6 +388,7 @@ describe('Sale Tests', () => {
             crop_variety_id: cropVariety2.crop_variety_id,
           },
         ],
+        revenue_type_id: 1,
       };
     });
 

@@ -514,6 +514,7 @@
       "TITLE_2": "Editar gastos (2 de 2)"
     },
     "ITEM": "Unidad",
+    "ITEM_NAME": "MISSING",
     "NAME": "Nombre",
     "NO_EXPENSE": "Sin gasto",
     "NO_EXPENSE_YEAR": "Ud. no tiene gasto registrado para este año",

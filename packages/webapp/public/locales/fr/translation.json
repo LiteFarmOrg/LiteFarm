@@ -515,6 +515,7 @@
       "TITLE_2": "Modifier la dépense (2 sur 2)"
     },
     "ITEM": "Nom",
+    "ITEM_NAME": "MISSING",
     "NAME": "de l'article",
     "NO_EXPENSE": "Aucune dépense trouvée",
     "NO_EXPENSE_YEAR": "Vous n'avez enregistré aucune dépense pour cette année",

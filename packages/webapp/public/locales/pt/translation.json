@@ -514,6 +514,7 @@
       "TITLE_2": "Editar Despesa (2 de 2)"
     },
     "ITEM": "Item",
+    "ITEM_NAME": "MISSING",
     "NAME": "Nome",
     "NO_EXPENSE": "Nenhuma despesa encontrada",
     "NO_EXPENSE_YEAR": "Você não tem despesas registradas para este ano",

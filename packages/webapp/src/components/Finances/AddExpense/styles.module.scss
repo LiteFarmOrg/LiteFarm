@@ -23,10 +23,16 @@
   font-size: 14px;
 }
 
+p.iconLink {
+  display: flex;
+  align-items: start;
+  height: 16px;
+}
+
 .icon {
   fill: var(--grey600);
   stroke: var(--grey600);
-  transform: translate(0px, 6px);
+  transform: translate(0px, -5px);
 }
 
 // ExpenseItemsForType

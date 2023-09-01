@@ -496,17 +496,11 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "ALL_FIELDS_REQUIRED": "All fields are required",
       "FLOW": "expense creation",
-      "MIN_ERROR": "Please enter a value greater than ",
       "NEW_EXPENSE_ITEM": "New expense item",
-      "REQUIRED_ERROR": "Expense is required",
       "TITLE": "Add expense",
-      "TITLE_1": "New Expense (1 of 2)",
-      "TITLE_2": "New Expense (2 of 2)",
       "WHICH_TYPES_TO_RECORD": "Which types of expenses would you like to record?"
     },
-    "ADD_MORE_ITEMS": "Add more items",
     "DETAILED_HISTORY": "Detailed History",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Choose a Date",

@@ -43,10 +43,10 @@ router.delete(
   farmExpenseTypeController.delFarmExpenseType(),
 );
 
-router.put(
+router.patch(
   '/:expense_type_id',
   hasFarmAccess({ params: 'expense_type_id' }),
-  checkScope(['add:expense_types']),
+  checkScope(['edit:expense_types']),
   farmExpenseTypeController.updateFarmExpenseType(),
 );
 

@@ -59,14 +59,14 @@ describe('Expense Type Tests', () => {
       .end(callback);
   }
 
-  function putExpenseTypeRequest(
+  function patchExpenseTypeRequest(
     data,
     { user_id = newOwner.user_id, farm_id = farm.farm_id },
     callback,
   ) {
     chai
       .request(server)
-      .put(`/expense_type/${data.expense_type_id}`)
+      .patch(`/expense_type/${data.expense_type_id}`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -322,7 +322,6 @@ describe('Expense Type Tests', () => {
     test('Owner should get 403 if they try to delete default expense type', async (done) => {
       const { mainFarm, user } = await returnUserFarms(1);
       const expense = await returnDefaultExpenseType();
-      //console.log(expense);
       deleteRequest(expense.expense_type, { user_id: expense.user_id }, (err, res) => {
         expect(res.status).toBe(403);
         done();
@@ -441,7 +440,7 @@ describe('Expense Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const expense = await returnExpenseType(mainFarm);
 
-      putExpenseTypeRequest(
+      patchExpenseTypeRequest(
         expense.expense_type,
         { user_id: user.user_id, farm_id: mainFarm.farm_id },
         async (err, res) => {
@@ -460,7 +459,7 @@ describe('Expense Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(2);
       const expense = await returnExpenseType(mainFarm);
 
-      putExpenseTypeRequest(
+      patchExpenseTypeRequest(
         expense.expense_type,
         { user_id: user.user_id, farm_id: mainFarm.farm_id },
         async (err, res) => {
@@ -479,13 +478,13 @@ describe('Expense Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(3);
       const expense = await returnExpenseType(mainFarm);
 
-      putExpenseTypeRequest(
+      patchExpenseTypeRequest(
         expense.expense_type,
         { user_id: user.user_id, farm_id: mainFarm.farm_id },
         async (err, res) => {
           expect(res.status).toBe(403);
           expect(res.error.text).toBe(
-            'User does not have the following permission(s): add:expense_types',
+            'User does not have the following permission(s): edit:expense_types',
           );
           done();
         },
@@ -496,7 +495,7 @@ describe('Expense Type Tests', () => {
       const expense = await returnExpenseType(mainFarm);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
-      putExpenseTypeRequest(
+      patchExpenseTypeRequest(
         expense.expense_type,
         {
           user_id: unAuthorizedUser.user_id,
@@ -505,7 +504,7 @@ describe('Expense Type Tests', () => {
         async (err, res) => {
           expect(res.status).toBe(403);
           expect(res.error.text).toBe(
-            'User does not have the following permission(s): add:expense_types',
+            'User does not have the following permission(s): edit:expense_types',
           );
           done();
         },

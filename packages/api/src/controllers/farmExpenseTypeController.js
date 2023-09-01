@@ -23,23 +23,26 @@ const farmExpenseTypeController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
+        const farm_id = req.headers.farm_id;
         const data = req.body;
         data.expense_translation_key = data.expense_name;
 
-        // check if records exixts in DB
-        const record = await ExpenseTypeModel.query()
-          .where({
-            expense_name: data.expense_name,
-            farm_id: data.farm_id,
-          })
-          .first();
-
-        //if record exists then set 'deleted' column to false
+        const record = await ExpenseTypeModel.existsInFarm(farm_id, data.expense_name);
+        // if record exists in db
         if (record) {
-          record['deleted'] = false;
-          await baseController.put(ExpenseTypeModel, record.expense_type_id, record, req, { trx });
-          await trx.commit();
-          res.status(204).send();
+          // if not deleted, means it is a active expense type
+          // throw conflict error
+          if (record.deleted === false) {
+            return res.status(409).send();
+          } else {
+            // if its deleted, them make it active
+            record.deleted = false;
+            await baseController.put(ExpenseTypeModel, record.expense_type_id, record, req, {
+              trx,
+            });
+            await trx.commit();
+            res.status(201).send(record);
+          }
         } else {
           const result = await baseController.postWithResponse(ExpenseTypeModel, data, req, {
             trx,
@@ -122,21 +125,13 @@ const farmExpenseTypeController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const { expense_type_id } = req.params;
+      const farm_id = req.headers.farm_id;
       const data = req.body;
       data.expense_translation_key = data.expense_name;
 
       try {
-        // check if records exixts in DB
-        const record = await ExpenseTypeModel.query()
-          .where({
-            expense_name: data.expense_name,
-            farm_id: data.farm_id,
-          })
-          .whereNot(ExpenseTypeModel.idColumn, expense_type_id)
-          .first();
-
         // if record exists throw Conflict error
-        if (record) {
+        if (await ExpenseTypeModel.existsInFarm(farm_id, data.expense_name, expense_type_id)) {
           return res.status(409).send();
         }
 

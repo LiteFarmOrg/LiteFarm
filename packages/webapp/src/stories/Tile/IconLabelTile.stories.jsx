@@ -42,3 +42,12 @@ export const Selected = {
     selected: true,
   },
 };
+
+export const LongLabel = {
+  args: {
+    tileKey: 'key',
+    icon: <SoilAmendment />,
+    label: 'Long label that does not fit in the tile',
+    onClick: () => console.log('clicked!'),
+  },
+};

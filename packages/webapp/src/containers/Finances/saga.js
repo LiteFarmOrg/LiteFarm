@@ -19,14 +19,14 @@ import {
   ADD_REMOVE_EXPENSE,
   DELETE_EXPENSES,
   DELETE_SALE,
-  GET_DEFAULT_EXPENSE_TYPE,
+  GET_FARM_EXPENSE_TYPE,
   GET_EXPENSE,
   GET_SALES,
   TEMP_DELETE_EXPENSE,
   TEMP_EDIT_EXPENSE,
   UPDATE_SALE,
 } from './constants';
-import { setDefaultExpenseType, setExpense, setSalesInState } from './actions';
+import { setExpenseType, setExpense, setSalesInState } from './actions';
 import { call, put, select, takeLatest, takeLeading, race, take } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
@@ -127,15 +127,15 @@ export function* getExpenseSaga() {
   }
 }
 
-export function* getDefaultExpenseTypeSaga() {
+export function* getFarmExpenseTypeSaga() {
   const { expenseTypeDefaultUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.get, expenseTypeDefaultUrl, header);
+    const result = yield call(axios.get, `${expenseTypeDefaultUrl}/farm/${farm_id}`, header);
     if (result) {
-      yield put(setDefaultExpenseType(result.data));
+      yield put(setExpenseType(result.data));
     }
   } catch (e) {
     console.log('failed to fetch expenses from database');
@@ -266,7 +266,7 @@ export default function* financeSaga() {
   yield takeLatest(GET_SALES, getSales);
   yield takeLeading(ADD_OR_UPDATE_SALE, addSale);
   yield takeLatest(GET_EXPENSE, getExpenseSaga);
-  yield takeLatest(GET_DEFAULT_EXPENSE_TYPE, getDefaultExpenseTypeSaga);
+  yield takeLatest(GET_FARM_EXPENSE_TYPE, getFarmExpenseTypeSaga);
   yield takeLeading(ADD_EXPENSES, addExpensesSaga);
   yield takeLeading(DELETE_SALE, deleteSale);
   yield takeLeading(DELETE_EXPENSES, deleteExpensesSaga);

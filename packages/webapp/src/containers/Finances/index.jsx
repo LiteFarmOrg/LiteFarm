@@ -19,7 +19,13 @@ import styles from './styles.module.scss';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { dateRangeSelector, expenseSelector, salesSelector } from './selectors';
-import { getDefaultExpenseType, getExpense, getSales, setDateRange } from './actions';
+import {
+  getFarmExpenseType,
+  getExpense,
+  getSales,
+  setDateRange,
+  setSelectedExpenseTypes,
+} from './actions';
 import { calcOtherExpense, calcTotalLabour, calcActualRevenue } from './util';
 import Moment from 'moment';
 import { roundToTwoDecimal } from '../../util';
@@ -35,6 +41,7 @@ import { Semibold, Title } from '../../components/Typography';
 import grabCurrencySymbol from '../../util/grabCurrencySymbol';
 import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
 import { isTaskType } from '../Task/useIsTaskType';
+import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 const moment = extendMoment(Moment);
 
@@ -67,8 +74,9 @@ class Finances extends Component {
     const { dateRange } = this.props;
     this.props.dispatch(getSales());
     this.props.dispatch(getExpense());
-    this.props.dispatch(getDefaultExpenseType());
+    this.props.dispatch(getFarmExpenseType());
     this.props.dispatch(getManagementPlansAndTasks());
+    this.props.dispatch(setSelectedExpenseTypes([]));
     //TODO fetch userFarm
     if (dateRange && dateRange.startDate && dateRange.endDate) {
       this.setState({
@@ -82,16 +90,6 @@ class Finances extends Component {
           endDate: this.state.endDate,
         }),
       );
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (
-      this.props.sales !== prevProps.sales ||
-      this.props.expenses !== prevProps.expenses ||
-      this.props.dateRange !== prevProps.dateRange
-    ) {
     }
   }
 
@@ -249,6 +247,7 @@ class Finances extends Component {
             sm
             style={{ height: '48px' }}
             onClick={() => {
+              this.props.dispatch(setPersistedPaths(['/expense_categories', '/add_expense']));
               history.push('/expense_categories');
             }}
           >

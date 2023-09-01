@@ -497,10 +497,13 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
+      "FLOW": "Création d'une dépense",
       "MIN_ERROR": "Veuillez saisir une valeur supérieure à ",
       "REQUIRED_ERROR": "Une dépense est requise",
+      "TITLE": "Ajouter une dépense",
       "TITLE_1": "Nouvelle dépense (1 sur 2)",
-      "TITLE_2": "Nouvelle dépense (2 sur 2)"
+      "TITLE_2": "Nouvelle dépense (2 sur 2)",
+      "WHICH_TYPES_TO_RECORD": "Quel type de dépense voulez-vous enregistrer\u00a0?"
     },
     "ADD_MORE_ITEMS": "Ajouter d'autres articles",
     "DETAILED_HISTORY": "Historique détaillé",
@@ -807,6 +810,7 @@
       "ESTIMATED_PRICE_PER_UNIT": "Estimation du prix unitaire",
       "TITLE": "Chiffre d'affaires estimé"
     },
+    "MANAGE_CUSTOM_TYPE": "MISSING",
     "REVENUE": "Revenu",
     "VIEW_WITHIN_DATE_RANGE": "Voir les revenus dans cette plage de dates",
     "WHOLE_FARM_REVENUE": "Revenu total de la ferme"
@@ -1485,7 +1489,6 @@
       "EXPENSES": "Dépenses",
       "FINANCE_HELP": "Aide Financière",
       "LABOUR_LABEL": "Coûts de main-d'œuvre",
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
         "BODY": "MISSING",
         "TITLE": "MISSING"

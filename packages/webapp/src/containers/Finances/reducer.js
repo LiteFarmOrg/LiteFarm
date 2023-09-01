@@ -16,7 +16,7 @@
 import {
   SET_CROP_SALES_IN_STATE,
   SET_DATE_RANGE,
-  SET_DEFAULT_EXPENSE_TYPE,
+  SET_EXPENSE_TYPE,
   SET_EXPENSE,
   SET_EXPENSE_DETAIL_DATE,
   SET_EXPENSE_DETAIL_ITEM,
@@ -54,7 +54,7 @@ function financeReducer(state = initialState, action) {
       return Object.assign({}, state, {
         expenses: action.expenses,
       });
-    case SET_DEFAULT_EXPENSE_TYPE:
+    case SET_EXPENSE_TYPE:
       return Object.assign({}, state, {
         expense_types: action.expense_types,
       });

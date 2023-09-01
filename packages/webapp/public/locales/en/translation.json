@@ -497,10 +497,13 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ALL_FIELDS_REQUIRED": "All fields are required",
+      "FLOW": "expense creation",
       "MIN_ERROR": "Please enter a value greater than ",
       "REQUIRED_ERROR": "Expense is required",
+      "TITLE": "Add expense",
       "TITLE_1": "New Expense (1 of 2)",
-      "TITLE_2": "New Expense (2 of 2)"
+      "TITLE_2": "New Expense (2 of 2)",
+      "WHICH_TYPES_TO_RECORD": "Which types of expenses would you like to record?"
     },
     "ADD_MORE_ITEMS": "Add more items",
     "DETAILED_HISTORY": "Detailed History",
@@ -807,6 +810,7 @@
       "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
       "TITLE": "Estimated Revenue"
     },
+    "MANAGE_CUSTOM_TYPE": "Manage custom type",
     "REVENUE": "Revenue",
     "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",
     "WHOLE_FARM_REVENUE": "Whole farm revenue"
@@ -1483,7 +1487,6 @@
       "EXPENSES": "Expenses",
       "FINANCE_HELP": "Finance Help",
       "LABOUR_LABEL": "Labour",
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "Manage custom type",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
         "BODY": "Here you can add, modify, or retire expense types personalized to your farm.",
         "TITLE": "Manage custom expense types"

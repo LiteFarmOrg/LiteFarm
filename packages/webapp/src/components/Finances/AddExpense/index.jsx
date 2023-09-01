@@ -100,11 +100,13 @@ export default function PureAddExpense({ types, onGoBack, onSubmit, useHookFormP
   );
 }
 
-PureAddExpense.proptype = {
-  types: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-  }),
+PureAddExpense.propTypes = {
+  types: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  ),
   onGoBack: PropTypes.func,
   onSubmit: PropTypes.func,
   useHookFormPersist: PropTypes.func,

@@ -33,13 +33,14 @@ class Sale extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['customer_name', 'sale_date', 'farm_id'],
+      required: ['customer_name', 'sale_date', 'farm_id', 'revenue_type_id'],
 
       properties: {
         sale_id: { type: 'integer' },
         customer_name: { type: 'string', minLength: 1, maxLength: 255 },
         sale_date: { type: 'string', minLength: 1, maxLength: 255 },
         farm_id: { type: 'string' },
+        revenue_type_id: { type: 'integer' },
         ...this.baseProperties,
       },
       additionalProperties: false,

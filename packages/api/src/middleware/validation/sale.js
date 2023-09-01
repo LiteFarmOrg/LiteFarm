@@ -15,18 +15,21 @@
 
 async function validateSale(req, res, next) {
   // TODO replace upsertGraph
-  const { crop_variety_sale } = req.body;
-  if (!(crop_variety_sale && crop_variety_sale[0])) {
-    return res.status(400).send('Crop is required');
+  const { crop_variety_sale, general_sale } = req.body;
+  if (!(crop_variety_sale && crop_variety_sale[0]) && !general_sale) {
+    return res.status(400).send('crop_variety_sale or general_sale is required');
   }
-  for (const singleCropVarietySale of crop_variety_sale) {
-    if (
-      !singleCropVarietySale.crop_variety_id ||
-      singleCropVarietySale.managementPlan ||
-      singleCropVarietySale.farm ||
-      singleCropVarietySale.crop_variety
-    ) {
-      return res.status(400).send('Crop is required');
+
+  if (crop_variety_sale) {
+    for (const singleCropVarietySale of crop_variety_sale) {
+      if (
+        !singleCropVarietySale.crop_variety_id ||
+        singleCropVarietySale.managementPlan ||
+        singleCropVarietySale.farm ||
+        singleCropVarietySale.crop_variety
+      ) {
+        return res.status(400).send('Crop is required');
+      }
     }
   }
   return next();

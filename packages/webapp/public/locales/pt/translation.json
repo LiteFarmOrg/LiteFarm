@@ -497,8 +497,9 @@
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "MISSING",
       "ALL_FIELDS_REQUIRED": "Todos os campos são obrigatórios",
-      "CUSTOM_EXPENSE_TYPE": "MISSING",
       "CUSTOM_EXPENSE_NAME": "MISSING",
+      "CUSTOM_EXPENSE_TYPE": "MISSING",
+      "DUPLICATE_NAME": "MISSING",
       "MIN_ERROR": "Insira um valor maior que ",
       "REQUIRED_ERROR": "Expense is required",
       "TITLE_1": "Despesa Nova (1 de 2)",

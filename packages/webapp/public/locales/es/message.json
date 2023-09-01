@@ -56,6 +56,18 @@
       "UPDATE": "Gastos actualizados exitosamente!!"
     }
   },
+  "EXPENSE_TYPE": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
   "FARM": {
     "ERROR": {
       "ADD": "No se pudo agregar finca. Por favor contacte LiteFarm por asistencia",

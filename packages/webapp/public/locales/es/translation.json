@@ -499,6 +499,7 @@
       "ALL_FIELDS_REQUIRED": "Todos los campos son obligatorios",
       "CUSTOM_EXPENSE_NAME": "MISSING",
       "CUSTOM_EXPENSE_TYPE": "MISSING",
+      "DUPLICATE_NAME": "MISSING",
       "MIN_ERROR": "Por favor ingrese un valor mayor que ",
       "REQUIRED_ERROR": "Se requiere gasto",
       "TITLE_1": "Nuevo gasto (1 de 2)",

@@ -33,7 +33,7 @@ export const up = async function (knex) {
   // Prepopulate with one revenue type (crop_sale)
   await knex('revenue_type').insert({
     revenue_type_id: 1,
-    revenue_name: 'crop_sale',
+    revenue_name: 'Crop Sale',
     farm_id: null,
     deleted: false,
     created_by_user_id: '1',

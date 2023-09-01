@@ -25,9 +25,28 @@ import { IconLink } from '../../Typography';
 import { MdOutlineInventory2 } from 'react-icons/md';
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 
-// onSubmit: should be used in Add, Edit view
-// onClick: should be used in Read-only view
-// defaultValue: should be used in Read-only, Edit view
+/**
+ * React component for the addition of custom type with just a name field this form has add,
+ * edit and read-only functionality.
+ *
+ * @param {Object} props - The component's props.
+ * @param {function} props.handleGoBack - A callback function for handling the "Go Back" action.
+ * @param {function} [props.onSubmit] - Used in edit and add view, a callback function for handling form submission.
+ * @param {function} [props.onClick] - Used in read-only view, a callback function for handling button click.
+ * @param {string} props.view - The view mode ('read-only', 'add' or 'edit').
+ * @param {string} props.buttonText - The text to display on the main button.
+ * @param {string} props.pageTitle - The title to display on the page.
+ * @param {string} props.inputLabel - The label for the input field.
+ * @param {string} props.customTypeRegister - The name for registering the input field.
+ * @param {any} [props.defaultValue] - Used in read-only and edit view, the default value for the input field.
+ * @param {function} [props.onRetire] - A callback function for retiring the custom type.
+ * @param {string} [props.retireLinkText] - The text for the retirement link.
+ * @param {string} [props.retireHeader] - The header text for the retirement confirmation box.
+ * @param {string} [props.retireMessage] - The message text for the retirement confirmation box.
+ * @param {number} [props.inputMaxChars=100] - The maximum number of characters allowed in the input field.
+ * @param {function} [props.validateInput] - A custom validation function for the input field.
+ * @returns {JSX.Element} A React component representing the custom type form.
+ */
 const PureSimpleCustomType = ({
   handleGoBack,
   onSubmit,
@@ -43,6 +62,7 @@ const PureSimpleCustomType = ({
   retireHeader,
   retireMessage,
   inputMaxChars = 100,
+  validateInput,
 }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -83,6 +103,7 @@ const PureSimpleCustomType = ({
             value: inputMaxChars,
             message: t('common:CHAR_LIMIT_ERROR', { value: inputMaxChars }),
           },
+          validate: validateInput,
         })}
         name={customTypeRegister}
         errors={getInputErrors(errors, customTypeRegister)}
@@ -141,6 +162,7 @@ PureSimpleCustomType.propTypes = {
   retireHeader: PropTypes.string,
   retireMessage: PropTypes.string,
   inputMaxChars: PropTypes.number,
+  validateInput: PropTypes.func,
 };
 
 export default PureSimpleCustomType;

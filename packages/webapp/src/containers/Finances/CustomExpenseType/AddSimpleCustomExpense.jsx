@@ -15,13 +15,15 @@
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addCustomExpenseType } from '../actions';
+import { expenseTypeSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 
 function AddCustomExpense({ history }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const expenseTypes = useSelector(expenseTypeSelector);
 
   const handleGoBack = () => {
     history.back();
@@ -29,6 +31,17 @@ function AddCustomExpense({ history }) {
 
   const onSubmit = (payload) => {
     dispatch(addCustomExpenseType(payload));
+  };
+
+  const validateUniqueTypeName = (value) => {
+    const expenseNameExists = expenseTypes.some((type) => {
+      return type.expense_name === value;
+    });
+
+    if (expenseNameExists) {
+      return t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME');
+    }
+    return true;
   };
 
   return (
@@ -41,6 +54,7 @@ function AddCustomExpense({ history }) {
         pageTitle={t('EXPENSE.ADD_EXPENSE.ADD_CUSTOM_EXPENSE')}
         inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
         customTypeRegister={CUSTOM_EXPENSE_NAME}
+        validateInput={validateUniqueTypeName}
       />
     </HookFormPersistProvider>
   );

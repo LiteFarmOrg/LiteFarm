@@ -17,7 +17,7 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCustomExpenseType } from '../actions';
-import { expenseTypeByIdSelector } from '../selectors';
+import { expenseTypeByIdSelector, expenseTypeSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 
 function EditCustomExpense({ history, match }) {
@@ -27,6 +27,7 @@ function EditCustomExpense({ history, match }) {
   const onGoBackPath = `/readonly_custom_expense/${expense_type_id}`;
   const persistedPaths = [onGoBackPath];
   const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));
+  const expenseTypes = useSelector(expenseTypeSelector);
   const { expense_name } = selectedCustomExpenseType;
 
   const handleGoBack = () => {
@@ -35,6 +36,17 @@ function EditCustomExpense({ history, match }) {
 
   const onSubmit = (payload) => {
     dispatch(updateCustomExpenseType(payload, expense_type_id));
+  };
+
+  const validateUniqueTypeName = (value) => {
+    const expenseNameExists = expenseTypes.some((type) => {
+      return type.expense_name === value;
+    });
+
+    if (expenseNameExists) {
+      return t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME');
+    }
+    return true;
   };
 
   return (
@@ -49,6 +61,7 @@ function EditCustomExpense({ history, match }) {
         persistedPaths={persistedPaths}
         customTypeRegister={CUSTOM_EXPENSE_NAME}
         defaultValue={expense_name}
+        validateInput={validateUniqueTypeName}
       />
     </HookFormPersistProvider>
   );

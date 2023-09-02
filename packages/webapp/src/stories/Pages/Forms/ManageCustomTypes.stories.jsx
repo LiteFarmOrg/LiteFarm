@@ -14,13 +14,13 @@
  */
 import decorators from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
-import ManageCustomType from '../../../components/Forms/ManageCustomType';
+import ManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
 import { ReactComponent as OtherIcon } from '../../../assets/images/log/other.svg';
 
 export default {
   title: 'Form/ManageCustomTypes',
   decorators: decorators,
-  component: ManageCustomType,
+  component: ManageCustomTypes,
 };
 
 const customTypes = [

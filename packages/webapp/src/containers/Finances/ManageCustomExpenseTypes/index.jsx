@@ -14,7 +14,7 @@
  */
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import PureManageCustomTypes from '../../../components/Forms/ManageCustomType';
+import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { selectedExpenseSelector } from '../selectors';
 import { setSelectedExpenseTypes } from '../actions';

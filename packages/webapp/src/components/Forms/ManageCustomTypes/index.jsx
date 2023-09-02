@@ -18,7 +18,7 @@ import { PropTypes } from 'prop-types';
 import { AddLink } from '../../Typography';
 import PageTitle from '../../PageTitle/v2';
 import Form from '../../Form';
-import Tiles from '../../../components/Tile/Tiles';
+import Tiles from '../../Tile/Tiles';
 import IconLabelTile from '../../Tile/IconLabelTile';
 import { tileTypes } from '../../Tile/constants';
 

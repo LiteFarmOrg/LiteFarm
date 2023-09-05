@@ -82,7 +82,7 @@ class ExpenseCategories extends Component {
           onContinue={this.nextPage}
           onGoBack={this.props.history.back}
           progressValue={33}
-          onGoToManageCustomType={() => history.push('/manage_custom_expense')}
+          onGoToManageCustomType={() => history.push('/manage_custom_expenses')}
           isTypeSelected={!!this.state.selectedTypes.length}
           formatTileData={(data) => {
             const { farm_id, expense_translation_key, expense_type_id, expense_name } = data;

@@ -587,7 +587,7 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
-            <Route path="/manage_custom_expense" exact component={ManageExpenseTypes} />
+            <Route path="/manage_custom_expenses" exact component={ManageExpenseTypes} />
             <Route path="/edit_expense" exact component={TempEditExpense} />
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
@@ -869,7 +869,7 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
-            <Route path="/manage_custom_expense" exact component={ManageExpenseTypes} />
+            <Route path="/manage_custom_expenses" exact component={ManageExpenseTypes} />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
             <Route

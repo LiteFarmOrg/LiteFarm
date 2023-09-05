@@ -251,7 +251,7 @@ class Finances extends Component {
                 setPersistedPaths([
                   '/expense_categories',
                   '/add_expense',
-                  '/manage_custom_expense',
+                  '/manage_custom_expenses',
                 ]),
               );
               history.push('/expense_categories');

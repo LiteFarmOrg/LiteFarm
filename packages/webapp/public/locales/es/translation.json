@@ -1426,6 +1426,13 @@
     "DESCRIPTION": "Alguien lo contactará dentro de 48 horas.",
     "TITLE": "Solicitud de ayuda enviada"
   },
+  "REVENUE": {
+    "ADD_REVENUE": {
+      "ADD_CUSTOM_REVENUE": "MISSING",
+      "CUSTOM_REVENUE_NAME": "MISSING",
+      "DUPLICATE_NAME": "MISSING"
+    }
+  },
   "ROLE_SELECTION": {
     "FARM_EO": "Oficial de extensión",
     "FARM_MANAGER": "Gerente o jefe(a) de la finca",

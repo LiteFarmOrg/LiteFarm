@@ -1425,6 +1425,13 @@
     "DESCRIPTION": "Someone will be in touch within 48 hours.",
     "TITLE": "Help request submitted"
   },
+  "REVENUE": {
+    "ADD_REVENUE": {
+      "ADD_CUSTOM_REVENUE": "Add custom revenue",
+      "CUSTOM_REVENUE_NAME": "Custom revenue name",
+      "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another."
+    }
+  },
   "ROLE_SELECTION": {
     "FARM_EO": "Extension Officer",
     "FARM_MANAGER": "Farm Manager",

@@ -1429,7 +1429,12 @@
     "ADD_REVENUE": {
       "ADD_CUSTOM_REVENUE": "Add custom revenue",
       "CUSTOM_REVENUE_NAME": "Custom revenue name",
+      "CUSTOM_REVENUE_TYPE": "MISSING",
       "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another."
+    },
+    "EDIT_REVENUE": {
+      "RETIRE_REVENUE_MESSAGE": "MISSING",
+      "RETIRE_REVENUE_TYPE": "MISSING"
     }
   },
   "ROLE_SELECTION": {

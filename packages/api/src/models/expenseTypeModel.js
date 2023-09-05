@@ -42,28 +42,6 @@ class ExpenseType extends baseModel {
       additionalProperties: false,
     };
   }
-
-  /**
-   * Check if records exists in DB
-   * @param {number} farm_id
-   * @param {String} expense_name
-   * @param {number} expense_type_id - Expesnse type id to be excluded while checking records
-   * @static
-   * @async
-   * @returns {String} - Object DB record
-   */
-  static async existsInFarm(farm_id, expense_name, expense_type_id = '') {
-    let query = this.query().context({ showHidden: true }).where({
-      expense_name,
-      farm_id,
-    });
-
-    if (expense_type_id) {
-      query = query.whereNot({ expense_type_id });
-    }
-
-    return query.first();
-  }
 }
 
 export default ExpenseType;

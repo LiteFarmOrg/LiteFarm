@@ -25,9 +25,9 @@ const farmExpenseTypeController = {
       try {
         const farm_id = req.headers.farm_id;
         const data = req.body;
-        data.expense_translation_key = data.expense_name;
+        data.expense_translation_key = baseController.formatTranslationKey(data.expense_name);
 
-        const record = await ExpenseTypeModel.existsInFarm(farm_id, data.expense_name);
+        const record = await this.existsInFarm(farm_id, data.expense_name);
         // if record exists in db
         if (record) {
           // if not deleted, means it is a active expense type
@@ -127,13 +127,14 @@ const farmExpenseTypeController = {
       const { expense_type_id } = req.params;
       const farm_id = req.headers.farm_id;
       const data = req.body;
-      data.expense_translation_key = data.expense_name;
 
       try {
         // if record exists throw Conflict error
-        if (await ExpenseTypeModel.existsInFarm(farm_id, data.expense_name, expense_type_id)) {
+        if (await this.existsInFarm(farm_id, data.expense_name, expense_type_id)) {
           return res.status(409).send();
         }
+
+        data.expense_translation_key = baseController.formatTranslationKey(data.expense_name);
 
         const result = await baseController.put(ExpenseTypeModel, expense_type_id, data, req, {
           trx,
@@ -145,6 +146,27 @@ const farmExpenseTypeController = {
         return res.status(400).send(error);
       }
     };
+  },
+
+  /**
+   * Check if records exists in DB
+   * @param {number} farm_id
+   * @param {String} expense_name
+   * @param {number} expense_type_id - Expesnse type id to be excluded while checking records
+   * @async
+   * @returns {Promise} - Object DB record promise
+   */
+  existsInFarm(farm_id, expense_name, expense_type_id = '') {
+    let query = ExpenseTypeModel.query().context({ showHidden: true }).where({
+      expense_name,
+      farm_id,
+    });
+
+    if (expense_type_id) {
+      query = query.whereNot({ expense_type_id });
+    }
+
+    return query.first();
   },
 };
 

@@ -170,5 +170,14 @@ export default {
   async eager(model, subModel, trx) {
     return await model.query(trx).eager(subModel);
   },
+
+  /**
+   * Format transaltion key
+   * @param {String} key
+   * @returns {String} - Formatted key
+   */
+  formatTranslationKey(key) {
+    return key.toUpperCase().trim().replaceAll(' ', '_');
+  },
 };
 //export trx;

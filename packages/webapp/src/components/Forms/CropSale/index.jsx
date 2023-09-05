@@ -13,7 +13,7 @@ import { Error } from '../../Typography';
 import { harvestAmounts } from '../../../util/convert-units/unit';
 import { getDateInputFormat } from '../../../util/moment';
 
-const SaleForm = ({
+const CropSaleForm = ({
   cropVarietyOptions,
   onSubmit,
   onClickDelete,
@@ -253,4 +253,4 @@ const SaleForm = ({
   );
 };
 
-export default SaleForm;
+export default CropSaleForm;

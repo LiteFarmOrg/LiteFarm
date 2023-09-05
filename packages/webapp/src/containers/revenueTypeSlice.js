@@ -93,7 +93,7 @@ export const revenueTypesSelector = createSelector(
   [revenueTypeSelectors.selectAll, loginSelector],
   (revenueTypes, { farm_id, deleted }) => {
     return revenueTypes.filter(
-      (revenue) => (revenue.farm_id === farm_id || !revenue.farm_id) && !deleted,
+      (revenue) => (revenue.farm_id === farm_id || !revenue.farm_id) && !revenue.deleted,
     );
   },
 );

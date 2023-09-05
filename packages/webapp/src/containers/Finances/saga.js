@@ -35,7 +35,7 @@ import i18n from '../../locales/i18n';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { getRevenueTypesSuccess } from '../revenueTypeSlice';
+import { getRevenueTypesSuccess, deleteRevenueTypeSuccess } from '../revenueTypeSlice';
 
 export function* getSales() {
   const { salesURL } = apiConfig;
@@ -258,6 +258,25 @@ export function* getRevenueTypesSaga() {
   }
 }
 
+export const deleteRevenueType = createAction('deleteRevenueTypeSaga');
+
+export function* deleteRevenueTypeSaga({ payload: id }) {
+  const { revenueTypeUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(axios.delete, `${revenueTypeUrl}/${id}`, header);
+
+    if (result) {
+      yield put(deleteRevenueTypeSuccess(id));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.DELETE')));
+      history.back();
+    }
+  } catch (e) {
+    yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.DELETE')));
+  }
+}
+
 export const patchEstimatedCropRevenue = createAction(`patchEstimatedCropRevenueSaga`);
 export function* patchEstimatedCropRevenueSaga({ payload: managementPlan }) {
   const { managementPlanURL } = apiConfig;
@@ -286,6 +305,7 @@ export default function* financeSaga() {
   yield takeLatest(GET_EXPENSE, getExpenseSaga);
   yield takeLatest(GET_FARM_EXPENSE_TYPE, getFarmExpenseTypeSaga);
   yield takeLatest(getRevenueTypes.type, getRevenueTypesSaga);
+  yield takeLatest(deleteRevenueType.type, deleteRevenueTypeSaga);
   yield takeLeading(ADD_EXPENSES, addExpensesSaga);
   yield takeLeading(DELETE_SALE, deleteSale);
   yield takeLeading(DELETE_EXPENSES, deleteExpensesSaga);

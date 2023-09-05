@@ -12,18 +12,24 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { addPersistedPaths } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import { selectedExpenseSelector } from '../selectors';
 import { setSelectedExpenseTypes } from '../actions';
 import { icons } from '../NewExpense/ExpenseCategories';
 import labelIconStyles from '../NewExpense/ExpenseCategories/styles.module.scss';
 import useCustomExpenseTypeTileContents from '../useCustomExpenseTypeTileContents';
 
-const addCustomTypePath = '/add_task/add_custom_expense_type';
-const editCustomTypePath = '/add_task/edit_custom_expense_type';
+const addCustomTypePath = '/add_custom_expense';
+
+const getPaths = (typeId) => ({
+  readOnly: `/readOnly_custom_expense/${typeId}`,
+  edit: `/edit_custom_expense/${typeId}`,
+});
 
 export default function ManageExpenseTypes({ history }) {
   const { t } = useTranslation();
@@ -35,9 +41,23 @@ export default function ManageExpenseTypes({ history }) {
     if (!selectedExpenseTypes.includes(typeId)) {
       dispatch(setSelectedExpenseTypes([...selectedExpenseTypes, typeId]));
     }
-    history.push(editCustomTypePath);
+    const { readOnly } = getPaths(typeId);
+    history.push(readOnly);
   };
   const customTypes = useCustomExpenseTypeTileContents();
+
+  useEffect(() => {
+    if (!customTypes?.length) {
+      return;
+    }
+
+    const paths = [addCustomTypePath];
+    customTypes.forEach(({ expense_type_id }) => {
+      const { readOnly, edit } = getPaths(expense_type_id);
+      [readOnly, edit].forEach((path) => paths.push(path));
+    });
+    dispatch(addPersistedPaths(paths));
+  }, [customTypes]);
 
   return (
     <HookFormPersistProvider>

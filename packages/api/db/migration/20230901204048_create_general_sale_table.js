@@ -20,7 +20,7 @@
 export const up = async function (knex) {
   await knex.schema.createTable('general_sale', (table) => {
     table.integer('sale_id').references('sale_id').inTable('sale');
-    table.integer('sale_value');
+    table.float('sale_value');
     table.string('notes');
   });
 };

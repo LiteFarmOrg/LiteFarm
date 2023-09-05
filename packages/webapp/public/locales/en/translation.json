@@ -1429,12 +1429,12 @@
     "ADD_REVENUE": {
       "ADD_CUSTOM_REVENUE": "Add custom revenue",
       "CUSTOM_REVENUE_NAME": "Custom revenue name",
-      "CUSTOM_REVENUE_TYPE": "MISSING",
+      "CUSTOM_REVENUE_TYPE": "Custom revenue type",
       "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another."
     },
     "EDIT_REVENUE": {
-      "RETIRE_REVENUE_MESSAGE": "MISSING",
-      "RETIRE_REVENUE_TYPE": "MISSING"
+      "RETIRE_REVENUE_MESSAGE": "Retiring this revenue type will remove it as a possible choice for future expenses. You can still search and filter for historical instances of this expense type on the Finances tab.",
+      "RETIRE_REVENUE_TYPE": "Retire revenue type"
     }
   },
   "ROLE_SELECTION": {

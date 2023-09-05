@@ -35,6 +35,7 @@ import i18n from '../../locales/i18n';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { createAction } from '@reduxjs/toolkit';
+import { getRevenueTypesSuccess } from '../revenueTypeSlice';
 
 export function* getSales() {
   const { salesURL } = apiConfig;
@@ -240,6 +241,23 @@ export function* tempEditExpenseSaga(action) {
   }
 }
 
+export const getRevenueTypes = createAction('getRevenueTypesSaga');
+
+export function* getRevenueTypesSaga() {
+  const { revenueTypeUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(axios.get, `${revenueTypeUrl}/farm/${farm_id}`, header);
+    if (result) {
+      yield put(getRevenueTypesSuccess(result.data));
+    }
+  } catch (e) {
+    console.log('failed to fetch revenue types from database');
+  }
+}
+
 export const patchEstimatedCropRevenue = createAction(`patchEstimatedCropRevenueSaga`);
 export function* patchEstimatedCropRevenueSaga({ payload: managementPlan }) {
   const { managementPlanURL } = apiConfig;
@@ -267,6 +285,7 @@ export default function* financeSaga() {
   yield takeLeading(ADD_OR_UPDATE_SALE, addSale);
   yield takeLatest(GET_EXPENSE, getExpenseSaga);
   yield takeLatest(GET_FARM_EXPENSE_TYPE, getFarmExpenseTypeSaga);
+  yield takeLatest(getRevenueTypes.type, getRevenueTypesSaga);
   yield takeLeading(ADD_EXPENSES, addExpensesSaga);
   yield takeLeading(DELETE_SALE, deleteSale);
   yield takeLeading(DELETE_EXPENSES, deleteExpensesSaga);

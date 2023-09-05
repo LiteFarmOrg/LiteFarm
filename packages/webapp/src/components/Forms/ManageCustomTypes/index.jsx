@@ -17,7 +17,6 @@ import { useForm } from 'react-hook-form';
 import { PropTypes } from 'prop-types';
 import { AddLink } from '../../Typography';
 import PageTitle from '../../PageTitle/v2';
-import Form from '../../Form';
 import Tiles from '../../Tile/Tiles';
 import IconLabelTile from '../../Tile/IconLabelTile';
 import { tileTypes } from '../../Tile/constants';
@@ -45,9 +44,9 @@ export default function ManageCustomTypes({
   const selectedTileId = watch(customTypeFieldName);
 
   return (
-    <Form>
-      <PageTitle style={{ marginBottom: '20px' }} title={title} onGoBack={handleGoBack} />
-      <AddLink style={{ paddingBottom: '20px' }} onClick={onAddType}>
+    <div style={{ padding: '24px' }}>
+      <PageTitle style={{ marginBottom: '24px' }} title={title} onGoBack={handleGoBack} />
+      <AddLink style={{ paddingBottom: '24px' }} onClick={onAddType}>
         {addLinkText}
       </AddLink>
       <Tiles tileType={tileTypes.ICON_LABEL} tileData={tileData} formatTileData={formatTileData}>
@@ -70,7 +69,7 @@ export default function ManageCustomTypes({
           );
         })}
       </Tiles>
-    </Form>
+    </div>
   );
 }
 

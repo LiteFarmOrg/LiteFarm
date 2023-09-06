@@ -14,6 +14,7 @@
  */
 
 import { createSelector } from 'reselect/es';
+import i18n from '../../locales/i18n';
 
 const financeSelector = (state) => state.financeReducer.financeReducer || {};
 
@@ -29,10 +30,33 @@ const expenseTypeSelector = createSelector(financeSelector, (state) => {
   return state.expense_types.filter((type) => !type.deleted);
 });
 
-const expenseTypeByIdSelector = (expense_type_id) =>
+const expenseTypeByIdSelector = (expense_type_id) => {
   createSelector(financeSelector, (state) => {
     return state.expense_types.find((type) => type.expense_type_id == expense_type_id);
   });
+};
+
+const expenseTypeTileContentsSelector = createSelector(financeSelector, (state) => {
+  const defaultTypes = [];
+  const customTypes = [];
+  state.expense_types?.forEach((type) => {
+    if (!type.deleted) {
+      const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
+      arrayToUpdate.push(type);
+    }
+  });
+
+  return [
+    ...defaultTypes.sort((typeA, typeB) =>
+      i18n
+        .t(`expense:${typeA.expense_translation_key}`)
+        .localeCompare(i18n.t(`expense:${typeB.expense_translation_key}`)),
+    ),
+    ...customTypes.sort((typeA, typeB) =>
+      typeA.expense_translation_key.localeCompare(typeB.expense_translation_key),
+    ),
+  ];
+});
 
 const expenseDetailDateSelector = createSelector(
   financeSelector,
@@ -68,6 +92,7 @@ export {
   expenseTypeSelector,
   allExpenseTypeSelector,
   expenseTypeByIdSelector,
+  expenseTypeTileContentsSelector,
   expenseDetailDateSelector,
   selectedExpenseSelector,
   expenseDetailSelector,

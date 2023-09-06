@@ -500,10 +500,13 @@
       "CUSTOM_EXPENSE_NAME": "MISSING",
       "CUSTOM_EXPENSE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING",
+      "FLOW": "MISSING",
       "MIN_ERROR": "Insira um valor maior que ",
       "REQUIRED_ERROR": "Expense is required",
+      "TITLE": "MISSING",
       "TITLE_1": "Despesa Nova (1 de 2)",
-      "TITLE_2": "Despesa Nova (2 de 2)"
+      "TITLE_2": "Despesa Nova (2 de 2)",
+      "WHICH_TYPES_TO_RECORD": "MISSING"
     },
     "ADD_MORE_ITEMS": "Adicionar mais itens",
     "DETAILED_HISTORY": "História Detalhada",
@@ -812,6 +815,7 @@
       "ESTIMATED_PRICE_PER_UNIT": "Preço por unidade estimado",
       "TITLE": "Receita Estimada"
     },
+    "MANAGE_CUSTOM_TYPE": "MISSING",
     "REVENUE": "Receita",
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
     "WHOLE_FARM_REVENUE": "Receita de toda a propriedade"
@@ -1491,7 +1495,6 @@
       "EXPENSES": "Despesas",
       "FINANCE_HELP": "Ajuda Financeira",
       "LABOUR_LABEL": "Trabalho",
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
         "BODY": "MISSING",
         "TITLE": "MISSING"

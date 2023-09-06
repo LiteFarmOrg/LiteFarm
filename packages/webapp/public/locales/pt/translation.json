@@ -496,12 +496,9 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE_TYPE": "MISSING",
-      "ALL_FIELDS_REQUIRED": "Todos os campos são obrigatórios",
       "FLOW": "MISSING",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
-      "MIN_ERROR": "Insira um valor maior que ",
       "NEW_EXPENSE_ITEM": "MISSING",
-      "REQUIRED_ERROR": "Expense is required",
       "TITLE": "MISSING",
       "WHICH_TYPES_TO_RECORD": "MISSING"
     },

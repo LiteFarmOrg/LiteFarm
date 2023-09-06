@@ -497,12 +497,9 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE_TYPE": "MISSING",
-      "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
       "FLOW": "Création d'une dépense",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
-      "MIN_ERROR": "Veuillez saisir une valeur supérieure à ",
       "NEW_EXPENSE_ITEM": "MISSING",
-      "REQUIRED_ERROR": "Une dépense est requise",
       "TITLE": "Ajouter une dépense",
       "WHICH_TYPES_TO_RECORD": "Quel type de dépense voulez-vous enregistrer\u00a0?"
     },

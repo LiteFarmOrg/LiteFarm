@@ -96,6 +96,8 @@ export default {
   salesURL,
   //cropSalesURL,
   expenseUrl,
+  expenseTypeUrl,
+  revenueTypeUrl,
   //contactURL,
   //farmDataUrl,
   userFarmUrl,

@@ -255,9 +255,8 @@ export function* getRevenueTypesSaga() {
 
   try {
     const result = yield call(axios.get, `${revenueTypeUrl}/farm/${farm_id}`, header);
-    if (result) {
-      yield put(getRevenueTypesSuccess(result.data));
-    }
+
+    yield put(getRevenueTypesSuccess(result.data));
   } catch (e) {
     console.log('failed to fetch revenue types from database');
   }
@@ -270,13 +269,10 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    const result = yield call(axios.delete, `${revenueTypeUrl}/${id}`, header);
+    yield call(axios.delete, `${revenueTypeUrl}/${id}`, header);
 
-    if (result) {
-      yield put(deleteRevenueTypeSuccess(id));
-      yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.DELETE')));
-      history.back();
-    }
+    yield put(deleteRevenueTypeSuccess(id));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.DELETE')));
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.DELETE')));
   }
@@ -284,12 +280,11 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
 
 export const addCustomRevenueType = createAction('addRevenueTypeSaga');
 
-export function* addRevenueTypeSaga({ payload: data }) {
+export function* addRevenueTypeSaga({ payload: { revenue_name } }) {
   const { revenueTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
-  let { revenue_name } = data;
   const body = {
     revenue_name,
     farm_id: farm_id,
@@ -297,10 +292,9 @@ export function* addRevenueTypeSaga({ payload: data }) {
 
   try {
     const result = yield call(axios.post, revenueTypeUrl, body, header);
-    if (result) {
-      yield put(postRevenueTypeSuccess(result.data));
-      yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.ADD')));
-    }
+
+    yield put(postRevenueTypeSuccess(result.data));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.ADD')));
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.ADD')));
   }
@@ -314,16 +308,15 @@ export function* updateRevenueTypeSaga({ payload: { revenue_type_id, revenue_nam
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(
+    yield call(
       axios.patch,
       `${revenueTypeUrl}/${revenue_type_id}`,
       { revenue_name, farm_id },
       header,
     );
-    if (result) {
-      yield put(putRevenueTypeSuccess({ revenue_type_id, revenue_name }));
-      yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.UPDATE')));
-    }
+
+    yield put(putRevenueTypeSuccess({ revenue_type_id, revenue_name }));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.UPDATE')));
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.UPDATE')));
   }

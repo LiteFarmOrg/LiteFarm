@@ -127,6 +127,7 @@ const farmExpenseTypeController = {
       const { expense_type_id } = req.params;
       const farm_id = req.headers.farm_id;
       const data = req.body;
+      data.farm_id = farm_id;
 
       try {
         // if record exists throw Conflict error

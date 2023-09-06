@@ -27,7 +27,7 @@ const expenseSelector = createSelector(financeSelector, (state) => state.expense
 const allExpenseTypeSelector = createSelector(financeSelector, (state) => state.expense_types);
 
 const expenseTypeSelector = createSelector(financeSelector, (state) => {
-  return state.expense_types.filter((type) => !type.deleted);
+  return state.expense_types?.filter((type) => !type.deleted);
 });
 
 const expenseTypeByIdSelector = (expense_type_id) => {

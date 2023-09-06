@@ -1,0 +1,57 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+// ExpenseItemInputs
+.expenseItem:not(:last-child) {
+  margin-bottom: 24px;
+}
+
+.iconLink {
+  color: var(--grey600);
+  font-size: 14px;
+}
+
+p.iconLink {
+  display: flex;
+  align-items: start;
+  height: 16px;
+}
+
+.icon {
+  fill: var(--grey600);
+  stroke: var(--grey600);
+  transform: translate(0px, -5px);
+}
+
+// ExpenseItemsForType
+.expenseItemsForType {
+  margin-bottom: 40px;
+
+  &:last-child {
+    margin-bottom: 28px;
+  }
+}
+
+.type {
+  line-height: 20px;
+  margin-bottom: 8px;
+}
+
+.box {
+  border: solid 1px var(--grey400);
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 6px;
+}

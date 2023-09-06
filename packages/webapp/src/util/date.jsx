@@ -25,3 +25,24 @@ export const getDateWithDayOfWeek = (date, language = 'en') => {
     new Date(year, month - 1, day),
   );
 };
+
+/**
+ * Generate date in YYYY-MM-DD format.
+ * @param {number} year ex. 2023
+ * @param {number} month ex. 8
+ * @param {number} day ex. 1
+ * @returns {string} Date in YYYY-MM-DD format. ex. "2023-08-01"
+ */
+export const getDateInYYYYMMDD = (year, month, day) => {
+  return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+};
+
+/**
+ * Generate local date in YYYY-MM-DD format from a Date object.
+ * @param {date} Date ex. new Date(2023, 8, 1)
+ * @returns {string} Date in YYYY-MM-DD format. ex. "2023-09-01"
+ */
+export const getLocalDateInYYYYDDMM = (date = new Date()) => {
+  const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
+  return getDateInYYYYMMDD(year, month, day);
+};

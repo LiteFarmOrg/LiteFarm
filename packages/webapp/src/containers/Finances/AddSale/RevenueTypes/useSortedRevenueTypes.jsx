@@ -16,18 +16,18 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-// import { getRevenueTypes } from '../../saga';
-// import { revenueTypesSelector } from '../../../revenueTypeSlice';
+import { getRevenueTypes } from '../../saga';
+import { revenueTypesSelector } from '../../../revenueTypeSlice';
 
 export default function useSortedRevenueTypes() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const [sortedtypes, setSortedTypes] = useState([]);
-  const revenueTypes = []; //useSelector(revenueTypesSelector);
+  const revenueTypes = useSelector(revenueTypesSelector);
 
   useEffect(() => {
-    // dispatch(getRevenueTypes())
+    dispatch(getRevenueTypes());
   }, []);
 
   useEffect(() => {

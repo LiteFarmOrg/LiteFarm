@@ -20,7 +20,6 @@ import ModalComponent from '../ModalComponent/v2';
 import { ManagementPlanCard } from '../../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
 import { CardWithStatusContainer } from '../../CardWithStatus/CardWithStatusContainer/CardWithStatusContainer';
 import useWindowInnerHeight from '../../../containers/hooks/useWindowInnerHeight';
-import useElementHeight from '../../hooks/useElementHeight';
 import styles from './styles.module.scss';
 
 const MODAL_MARGIN = 32;

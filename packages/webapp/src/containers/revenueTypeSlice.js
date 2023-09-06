@@ -45,10 +45,18 @@ const softDeleteRevenueType = (state, { payload: revenue_type_id }) => {
   revenueTypeAdapter.updateOne(state, { id: revenue_type_id, changes: { deleted: true } });
 };
 
-const updateOneRevenueType = (state, { payload: revenueType }) => {
+const addOneRevenueType = (state, { payload }) => {
+  state.loading = false;
+  state.error = null;
+  revenueTypeAdapter.upsertOne(state, getRevenueType(payload));
+};
+
+const updateOneRevenueType = (state, { payload: { revenue_type_id, revenue_name } }) => {
+  state.loading = false;
+  state.error = null;
   revenueTypeAdapter.updateOne(state, {
-    changes: revenueType,
-    id: revenueType.revenue_type_id,
+    id: revenue_type_id,
+    changes: { revenue_name },
   });
 };
 
@@ -68,6 +76,7 @@ const revenueTypeSlice = createSlice({
     onLoadingRevenueTypeFail: onLoadingFail,
     getRevenueTypesSuccess: addManyRevenueTypes,
     deleteRevenueTypeSuccess: softDeleteRevenueType,
+    postRevenueTypeSuccess: addOneRevenueType,
     putRevenueTypeSuccess: updateOneRevenueType,
   },
 });
@@ -76,6 +85,7 @@ export const {
   onLoadingRevenueTypeFail,
   getRevenueTypesSuccess,
   deleteRevenueTypeSuccess,
+  postRevenueTypeSuccess,
   putRevenueTypeSuccess,
 } = revenueTypeSlice.actions;
 

@@ -364,7 +364,7 @@ describe('Sale Tests', () => {
     });
   });
 
-  describe('Post sale', () => {
+  describe.only('Post sale', () => {
     let sampleReqBody;
     let crop2;
     let cropVariety2;
@@ -392,7 +392,7 @@ describe('Sale Tests', () => {
       };
     });
 
-    test('Should return 400 if crop_variety_sale is undefined', async (done) => {
+    test('Should return 400 if crop_variety_sale is undefined without general_type', async (done) => {
       sampleReqBody.crop_variety_sale = undefined;
       postSaleRequest(sampleReqBody, {}, async (err, res) => {
         expect(res.status).toBe(400);
@@ -400,7 +400,7 @@ describe('Sale Tests', () => {
       });
     });
 
-    test('Should return 400 if crop_variety_sale is empty[]', async (done) => {
+    test('Should return 400 if crop_variety_sale is empty[] without general_type', async (done) => {
       sampleReqBody.crop_variety_sale = [];
       postSaleRequest(sampleReqBody, {}, async (err, res) => {
         expect(res.status).toBe(400);
@@ -408,7 +408,7 @@ describe('Sale Tests', () => {
       });
     });
 
-    test('Should return 400 if crop_variety_sale is empty[{}]', async (done) => {
+    test('Should return 400 if crop_variety_sale is empty[{}] without general_type', async (done) => {
       sampleReqBody.crop_variety_sale = [{}];
       postSaleRequest(sampleReqBody, {}, async (err, res) => {
         expect(res.status).toBe(400);

@@ -145,6 +145,18 @@
       "EDIT": "Revenue successfully updated"
     }
   },
+  "REVENUE_TYPE": {
+    "ERROR": {
+      "ADD": "Failed to add revenue type",
+      "DELETE": "Failed to retire revenue type",
+      "UPDATE": "Failed to update revenue type"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully added revenue type",
+      "DELETE": "Successfully retired revenue type",
+      "UPDATE": "Successfully updated revenue type"
+    }
+  },
   "SALE": {
     "ERROR": {
       "ADD": "Failed to add sale",

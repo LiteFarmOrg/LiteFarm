@@ -38,6 +38,12 @@ import i18n from '../../locales/i18n';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { createAction } from '@reduxjs/toolkit';
+import {
+  getRevenueTypesSuccess,
+  deleteRevenueTypeSuccess,
+  postRevenueTypeSuccess,
+  putRevenueTypeSuccess,
+} from '../revenueTypeSlice';
 
 export function* getSales() {
   const { salesURL } = apiConfig;
@@ -306,6 +312,82 @@ export function* tempEditExpenseSaga(action) {
   }
 }
 
+export const getRevenueTypes = createAction('getRevenueTypesSaga');
+
+export function* getRevenueTypesSaga() {
+  const { revenueTypeUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(axios.get, `${revenueTypeUrl}/farm/${farm_id}`, header);
+
+    yield put(getRevenueTypesSuccess(result.data));
+  } catch (e) {
+    console.log('failed to fetch revenue types from database');
+  }
+}
+
+export const deleteRevenueType = createAction('deleteRevenueTypeSaga');
+
+export function* deleteRevenueTypeSaga({ payload: id }) {
+  const { revenueTypeUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    yield call(axios.delete, `${revenueTypeUrl}/${id}`, header);
+
+    yield put(deleteRevenueTypeSuccess(id));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.DELETE')));
+  } catch (e) {
+    yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.DELETE')));
+  }
+}
+
+export const addCustomRevenueType = createAction('addRevenueTypeSaga');
+
+export function* addRevenueTypeSaga({ payload: { revenue_name } }) {
+  const { revenueTypeUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  const body = {
+    revenue_name,
+    farm_id: farm_id,
+  };
+
+  try {
+    const result = yield call(axios.post, revenueTypeUrl, body, header);
+
+    yield put(postRevenueTypeSuccess(result.data));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.ADD')));
+  } catch (e) {
+    yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.ADD')));
+  }
+}
+
+export const updateCustomRevenueType = createAction('updateRevenueTypeSaga');
+
+export function* updateRevenueTypeSaga({ payload: { revenue_type_id, revenue_name } }) {
+  const { revenueTypeUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    yield call(
+      axios.patch,
+      `${revenueTypeUrl}/${revenue_type_id}`,
+      { revenue_name, farm_id },
+      header,
+    );
+
+    yield put(putRevenueTypeSuccess({ revenue_type_id, revenue_name }));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.UPDATE')));
+  } catch (e) {
+    yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.UPDATE')));
+  }
+}
+
 export const patchEstimatedCropRevenue = createAction(`patchEstimatedCropRevenueSaga`);
 export function* patchEstimatedCropRevenueSaga({ payload: managementPlan }) {
   const { managementPlanURL } = apiConfig;
@@ -336,6 +418,10 @@ export default function* financeSaga() {
   yield takeLeading(ADD_CUSTOM_EXPENSE_TYPE, addCustomExpenseTypeSaga);
   yield takeLeading(UPDATE_CUSTOM_EXPENSE_TYPE, updateCustomExpenseTypeSaga);
   yield takeLeading(RETIRE_CUSTOM_EXPENSE_TYPE, retireCustomExpenseTypeSaga);
+  yield takeLatest(getRevenueTypes.type, getRevenueTypesSaga);
+  yield takeLatest(deleteRevenueType.type, deleteRevenueTypeSaga);
+  yield takeLatest(addCustomRevenueType.type, addRevenueTypeSaga);
+  yield takeLatest(updateCustomRevenueType.type, updateRevenueTypeSaga);
   yield takeLeading(ADD_EXPENSES, addExpensesSaga);
   yield takeLeading(DELETE_SALE, deleteSale);
   yield takeLeading(DELETE_EXPENSES, deleteExpensesSaga);

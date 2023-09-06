@@ -145,6 +145,18 @@
       "EDIT": "Receita atualizada com sucesso"
     }
   },
+  "REVENUE_TYPE": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
   "SALE": {
     "ERROR": {
       "ADD": "Falha ao adicionar venda",

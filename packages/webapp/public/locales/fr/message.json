@@ -145,6 +145,18 @@
       "EDIT": "Chiffre d'affaires mis à jour avec succès"
     }
   },
+  "REVENUE_TYPE": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
   "SALE": {
     "ERROR": {
       "ADD": "Impossible d'ajouter la vente",

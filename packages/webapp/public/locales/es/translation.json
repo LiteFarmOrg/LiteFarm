@@ -500,13 +500,11 @@
       "FLOW": "MISSING",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "MIN_ERROR": "Por favor ingrese un valor mayor que ",
+      "NEW_EXPENSE_ITEM": "MISSING",
       "REQUIRED_ERROR": "Se requiere gasto",
       "TITLE": "MISSING",
-      "TITLE_1": "Nuevo gasto (1 de 2)",
-      "TITLE_2": "Nuevo gasto (2 de 2)",
       "WHICH_TYPES_TO_RECORD": "MISSING"
     },
-    "ADD_MORE_ITEMS": "Agrega más unidades",
     "DETAILED_HISTORY": "Historia detallada",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Elige una fecha",
@@ -516,6 +514,7 @@
       "TITLE_2": "Editar gastos (2 de 2)"
     },
     "ITEM": "Unidad",
+    "ITEM_NAME": "MISSING",
     "NAME": "Nombre",
     "NO_EXPENSE": "Sin gasto",
     "NO_EXPENSE_YEAR": "Ud. no tiene gasto registrado para este año",

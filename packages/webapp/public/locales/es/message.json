@@ -133,6 +133,18 @@
       "EDIT": "Ingresos actualizados correctamente"
     }
   },
+  "REVENUE_TYPE": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
   "SALE": {
     "ERROR": {
       "ADD": "No se pudo agregar venta",

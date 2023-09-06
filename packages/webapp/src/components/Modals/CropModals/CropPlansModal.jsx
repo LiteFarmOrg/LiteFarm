@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Main } from '../../Typography';
@@ -20,7 +20,6 @@ import ModalComponent from '../ModalComponent/v2';
 import { ManagementPlanCard } from '../../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
 import { CardWithStatusContainer } from '../../CardWithStatus/CardWithStatusContainer/CardWithStatusContainer';
 import useWindowInnerHeight from '../../../containers/hooks/useWindowInnerHeight';
-import useElementHeight from '../../hooks/useElementHeight';
 import styles from './styles.module.scss';
 
 const MODAL_MARGIN = 32;
@@ -37,26 +36,33 @@ export default function CropPlansModal({
   const infoRef = useRef(null);
 
   const windowHeight = useWindowInnerHeight();
-  const { elementHeight: infoHeight } = useElementHeight(infoRef);
+  const [hasAllIterations, setHasAllIterations] = useState(true);
+  const [infoHeight, setInfoHeight] = useState(null);
 
   const contentHeight = useMemo(() => {
     return windowHeight - (MODAL_MARGIN * 2 + MODAL_PADDING * 2 + TITLE_HEIGHT + (infoHeight || 0));
   }, [windowHeight, infoHeight]);
 
-  const hasAllIterations = useMemo(() => {
-    return managementPlanCardContents[0].repetition_count === managementPlanCardContents.length;
+  useEffect(() => {
+    setHasAllIterations(
+      managementPlanCardContents[0].repetition_count === managementPlanCardContents.length,
+    );
   }, [managementPlanCardContents]);
+
+  useEffect(() => {
+    setInfoHeight(infoRef?.current?.offsetHeight || null);
+  }, [hasAllIterations]);
 
   return (
     <ModalComponent
       title={managementPlanCardContents[0].managementPlanName}
       dismissModal={dismissModal}
     >
-      <div ref={infoRef}>
-        {!hasAllIterations && (
+      {!hasAllIterations && (
+        <div ref={infoRef}>
           <Main className={styles.infoText}>{t('CROP.REPEAT_PLAN_MODAL.DELETED_PLANS')}</Main>
-        )}
-      </div>
+        </div>
+      )}
       <div className={styles.content} style={{ maxHeight: contentHeight }}>
         <CardWithStatusContainer style={{ gridTemplateColumns: 'repeat(1, 1fr)' }}>
           {managementPlanCardContents.map((managementPlan, index) => {

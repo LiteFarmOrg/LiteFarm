@@ -94,6 +94,27 @@ export const setExpense = (expenses) => {
     expenses,
   };
 };
+export const addCustomExpenseType = (custom_expense_type) => {
+  return {
+    type: ADD_CUSTOM_EXPENSE_TYPE,
+    custom_expense_type,
+  };
+};
+
+export const retireCustomExpenseType = (expense_type_id) => {
+  return {
+    type: RETIRE_CUSTOM_EXPENSE_TYPE,
+    expense_type_id,
+  };
+};
+
+export const updateCustomExpenseType = (payload, expense_type_id) => {
+  return {
+    type: UPDATE_CUSTOM_EXPENSE_TYPE,
+    custom_expense_type: payload,
+    expense_type_id,
+  };
+};
 
 export const setExpenseType = (expense_types) => {
   return {

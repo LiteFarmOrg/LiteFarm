@@ -14,7 +14,6 @@
  */
 
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
-import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { retireCustomExpenseType } from '../actions';
@@ -25,18 +24,15 @@ function ReadOnlyCustomExpense({ history, match }) {
   const expense_type_id = match.params.expense_type_id;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const onGoBackPath = '/manage_custom_expenses';
-  const onEditPath = `/edit_custom_expense/${expense_type_id}`;
-  const persistedPaths = [onGoBackPath, onEditPath];
   const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));
   const { expense_name } = selectedCustomExpenseType;
 
   const handleGoBack = () => {
-    history.back();
+    history.push('/manage_custom_expenses');
   };
 
   const handleEdit = () => {
-    history.push(onEditPath);
+    history.push(`/edit_custom_expense/${expense_type_id}`);
   };
 
   const onRetire = (e) => {
@@ -44,23 +40,20 @@ function ReadOnlyCustomExpense({ history, match }) {
   };
 
   return (
-    <HookFormPersistProvider>
-      <PureSimpleCustomType
-        handleGoBack={handleGoBack}
-        onClick={handleEdit}
-        view="read-only"
-        buttonText={t('common:EDIT')}
-        pageTitle={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_TYPE')}
-        inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
-        persistedPaths={persistedPaths}
-        customTypeRegister={CUSTOM_EXPENSE_NAME}
-        defaultValue={expense_name}
-        onRetire={onRetire}
-        retireLinkText={t('EXPENSE.EDIT_EXPENSE.RETIRE_EXPENSE_TYPE')}
-        retireHeader={t('EXPENSE.EDIT_EXPENSE.RETIRE_EXPENSE_TYPE')}
-        retireMessage={t('EXPENSE.EDIT_EXPENSE.RETIRE_EXPENSE_MESSAGE')}
-      />
-    </HookFormPersistProvider>
+    <PureSimpleCustomType
+      handleGoBack={handleGoBack}
+      onClick={handleEdit}
+      view="read-only"
+      buttonText={t('common:EDIT')}
+      pageTitle={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_TYPE')}
+      inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
+      customTypeRegister={CUSTOM_EXPENSE_NAME}
+      defaultValue={expense_name}
+      onRetire={onRetire}
+      retireLinkText={t('EXPENSE.EDIT_EXPENSE.RETIRE_EXPENSE_TYPE')}
+      retireHeader={t('EXPENSE.EDIT_EXPENSE.RETIRE_EXPENSE_TYPE')}
+      retireMessage={t('EXPENSE.EDIT_EXPENSE.RETIRE_EXPENSE_MESSAGE')}
+    />
   );
 }
 

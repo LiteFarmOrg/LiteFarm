@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
-import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCustomExpenseType } from '../actions';
@@ -25,14 +24,12 @@ function EditCustomExpense({ history, match }) {
   const expense_type_id = match.params.expense_type_id;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const onGoBackPath = `/readonly_custom_expense/${expense_type_id}`;
-  const persistedPaths = [onGoBackPath];
   const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));
   const { expense_name } = selectedCustomExpenseType;
   const expenseTypes = useSelector(expenseTypeSelector);
 
   const handleGoBack = () => {
-    history.push(onGoBackPath);
+    history.push(`/readonly_custom_expense/${expense_type_id}`);
   };
 
   const onSubmit = (payload) => {
@@ -40,24 +37,21 @@ function EditCustomExpense({ history, match }) {
   };
 
   return (
-    <HookFormPersistProvider>
-      <PureSimpleCustomType
-        handleGoBack={handleGoBack}
-        onSubmit={onSubmit}
-        view="edit"
-        buttonText={t('common:SAVE')}
-        pageTitle={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_TYPE')}
-        inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
-        persistedPaths={persistedPaths}
-        customTypeRegister={CUSTOM_EXPENSE_NAME}
-        defaultValue={expense_name}
-        validateInput={hookFormUniquePropertyValidation(
-          expenseTypes,
-          'expense_name',
-          t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
-        )}
-      />
-    </HookFormPersistProvider>
+    <PureSimpleCustomType
+      handleGoBack={handleGoBack}
+      onSubmit={onSubmit}
+      view="edit"
+      buttonText={t('common:SAVE')}
+      pageTitle={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_TYPE')}
+      inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
+      customTypeRegister={CUSTOM_EXPENSE_NAME}
+      defaultValue={expense_name}
+      validateInput={hookFormUniquePropertyValidation(
+        expenseTypes,
+        'expense_name',
+        t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
+      )}
+    />
   );
 }
 

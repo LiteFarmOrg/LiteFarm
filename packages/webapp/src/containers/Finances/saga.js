@@ -175,13 +175,13 @@ export function* updateCustomExpenseTypeSaga(action) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   const { expense_type_id } = action;
-  const { expense_type_name } = action.custom_expense_type;
+  const { expense_name } = action.custom_expense_type;
 
   try {
     const result = yield call(
-      axios.put,
+      axios.patch,
       `${expenseTypeUrl}/${expense_type_id}`,
-      { farm_id, expense_type_name },
+      { farm_id, expense_name },
       header,
     );
     if (result) {

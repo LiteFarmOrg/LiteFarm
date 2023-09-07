@@ -30,13 +30,18 @@ const DateRangeSelector = ({ changeDateMethod, hideTooltip }) => {
 
   const dateRange = useSelector(dateRangeSelector);
 
-  const [startDate, setStartDate] = useState(
-    dateRange && dateRange.startDate ? moment(dateRange.startDate) : moment().startOf('year'),
-  );
-  const [endDate, setEndDate] = useState(
-    dateRange && dateRange.endDate ? moment(dateRange.endDate) : moment().endOf('year'),
-  );
-  const [validRange, setValidRange] = useState(startDate <= endDate);
+  let initialStartDate, initialEndDate;
+  if (dateRange && dateRange.startDate && dateRange.endDate) {
+    initialStartDate = moment(dateRange.startDate);
+    initialEndDate = moment(dateRange.endDate);
+  } else {
+    initialStartDate = moment().startOf('year');
+    initialEndDate = moment().endOf('year');
+  }
+
+  const [startDate, setStartDate] = useState(initialStartDate);
+  const [endDate, setEndDate] = useState(initialEndDate);
+  const [validRange, setValidRange] = useState(initialStartDate <= initialEndDate);
 
   const changeStartDate = (date) => {
     if (date > endDate) {

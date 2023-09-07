@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addCustomExpenseType } from '../actions';
 import { expenseTypeSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
+import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
 
 function AddCustomExpense({ history }) {
   const { t } = useTranslation();
@@ -33,17 +34,6 @@ function AddCustomExpense({ history }) {
     dispatch(addCustomExpenseType(payload));
   };
 
-  const validateUniqueTypeName = (value) => {
-    const expenseNameExists = expenseTypes.some((type) => {
-      return type.expense_name === value;
-    });
-
-    if (expenseNameExists) {
-      return t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME');
-    }
-    return true;
-  };
-
   return (
     <HookFormPersistProvider>
       <PureSimpleCustomType
@@ -54,7 +44,11 @@ function AddCustomExpense({ history }) {
         pageTitle={t('EXPENSE.ADD_EXPENSE.ADD_CUSTOM_EXPENSE')}
         inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
         customTypeRegister={CUSTOM_EXPENSE_NAME}
-        validateInput={validateUniqueTypeName}
+        validateInput={hookFormUniquePropertyValidation(
+          expenseTypes,
+          'expense_name',
+          t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
+        )}
       />
     </HookFormPersistProvider>
   );

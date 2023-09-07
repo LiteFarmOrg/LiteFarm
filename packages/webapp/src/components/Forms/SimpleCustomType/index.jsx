@@ -24,6 +24,7 @@ import PropTypes from 'prop-types';
 import { IconLink } from '../../Typography';
 import { MdOutlineInventory2 } from 'react-icons/md';
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
+import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 
 /**
  * React component for the addition of custom type with just a name field this form has add,
@@ -99,10 +100,7 @@ const PureSimpleCustomType = ({
         label={inputLabel}
         hookFormRegister={register(customTypeRegister, {
           required: true,
-          maxLength: {
-            value: inputMaxChars,
-            message: t('common:CHAR_LIMIT_ERROR', { value: inputMaxChars }),
-          },
+          maxLength: hookFormMaxCharsValidation(inputMaxChars),
           validate: validateInput,
         })}
         name={customTypeRegister}

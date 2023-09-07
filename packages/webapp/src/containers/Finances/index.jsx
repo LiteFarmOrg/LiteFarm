@@ -36,7 +36,7 @@ import { managementPlansSelector } from '../managementPlanSlice';
 import { getManagementPlansAndTasks } from '../saga';
 import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
-import grabCurrencySymbol from '../../util/grabCurrencySymbol';
+import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
 import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
 import { isTaskType } from '../Task/useIsTaskType';
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -57,7 +57,7 @@ const Finances = () => {
 
   const [startDate, setStartDate] = useState(moment().startOf('year'));
   const [endDate, setEndDate] = useState(moment().endOf('year'));
-  const [currencySymbol, setCurrencySymbol] = useState(grabCurrencySymbol());
+  const currencySymbol = useCurrencySymbol();
 
   const dispatch = useDispatch();
 

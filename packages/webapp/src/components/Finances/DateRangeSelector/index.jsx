@@ -25,10 +25,10 @@ import { Semibold } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 
 const DateRangeSelector = ({ changeDateMethod, hideTooltip }) => {
-  const dateRange = useSelector((state) => dateRangeSelector(state));
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const { t } = useTranslation();
+  const dateRange = useSelector(dateRangeSelector);
 
   const [startDate, setStartDate] = useState(
     dateRange && dateRange.startDate ? moment(dateRange.startDate) : moment().startOf('year'),
@@ -37,13 +37,6 @@ const DateRangeSelector = ({ changeDateMethod, hideTooltip }) => {
     dateRange && dateRange.endDate ? moment(dateRange.endDate) : moment().endOf('year'),
   );
   const [validRange, setValidRange] = useState(startDate <= endDate);
-
-  useEffect(() => {
-    setStartDate(
-      dateRange && dateRange.startDate ? moment(dateRange.startDate) : moment().startOf('year'),
-    );
-    setEndDate(dateRange && dateRange.endDate ? moment(dateRange.endDate) : moment().endOf('year'));
-  }, [dateRange]);
 
   const changeStartDate = (date) => {
     if (date > endDate) {

@@ -14,7 +14,6 @@
  */
 
 import {
-  ADD_CUSTOM_EXPENSE_TYPE,
   ADD_EXPENSES,
   ADD_OR_UPDATE_SALE,
   ADD_REMOVE_EXPENSE,
@@ -23,10 +22,8 @@ import {
   GET_FARM_EXPENSE_TYPE,
   GET_EXPENSE,
   GET_SALES,
-  RETIRE_CUSTOM_EXPENSE_TYPE,
   TEMP_DELETE_EXPENSE,
   TEMP_EDIT_EXPENSE,
-  UPDATE_CUSTOM_EXPENSE_TYPE,
   UPDATE_SALE,
 } from './constants';
 import { setExpenseType, setExpense, setSalesInState } from './actions';
@@ -151,11 +148,12 @@ export function* getFarmExpenseTypeSaga() {
   }
 }
 
-export function* addCustomExpenseTypeSaga(action) {
+export const addCustomExpenseType = createAction('addCustomExpenseTypeSaga');
+
+export function* addCustomExpenseTypeSaga({ payload: { expense_name } }) {
   const { expenseTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  const { expense_name } = action.custom_expense_type;
 
   try {
     const result = yield call(axios.post, expenseTypeUrl, { farm_id, expense_name }, header);
@@ -170,12 +168,12 @@ export function* addCustomExpenseTypeSaga(action) {
   }
 }
 
-export function* updateCustomExpenseTypeSaga(action) {
+export const updateCustomExpenseType = createAction('updateCustomExpenseTypeSaga');
+
+export function* updateCustomExpenseTypeSaga({ payload: { expense_name, expense_type_id } }) {
   const { expenseTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  const { expense_type_id } = action;
-  const { expense_name } = action.custom_expense_type;
 
   try {
     const result = yield call(
@@ -195,11 +193,12 @@ export function* updateCustomExpenseTypeSaga(action) {
   }
 }
 
-export function* retireCustomExpenseTypeSaga(action) {
+export const retireCustomExpenseType = createAction('retireCustomExpenseTypeSaga');
+
+export function* retireCustomExpenseTypeSaga({ payload: { expense_type_id } }) {
   const { expenseTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  const { expense_type_id } = action;
 
   try {
     const result = yield call(axios.delete, `${expenseTypeUrl}/${expense_type_id}`, header);
@@ -415,9 +414,9 @@ export default function* financeSaga() {
   yield takeLeading(ADD_OR_UPDATE_SALE, addSale);
   yield takeLatest(GET_EXPENSE, getExpenseSaga);
   yield takeLatest(GET_FARM_EXPENSE_TYPE, getFarmExpenseTypeSaga);
-  yield takeLeading(ADD_CUSTOM_EXPENSE_TYPE, addCustomExpenseTypeSaga);
-  yield takeLeading(UPDATE_CUSTOM_EXPENSE_TYPE, updateCustomExpenseTypeSaga);
-  yield takeLeading(RETIRE_CUSTOM_EXPENSE_TYPE, retireCustomExpenseTypeSaga);
+  yield takeLeading(addCustomExpenseType.type, addCustomExpenseTypeSaga);
+  yield takeLeading(updateCustomExpenseType.type, updateCustomExpenseTypeSaga);
+  yield takeLeading(retireCustomExpenseType.type, retireCustomExpenseTypeSaga);
   yield takeLatest(getRevenueTypes.type, getRevenueTypesSaga);
   yield takeLatest(deleteRevenueType.type, deleteRevenueTypeSaga);
   yield takeLatest(addCustomRevenueType.type, addRevenueTypeSaga);

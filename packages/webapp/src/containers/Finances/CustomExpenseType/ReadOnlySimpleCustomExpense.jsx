@@ -16,7 +16,7 @@
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { retireCustomExpenseType } from '../actions';
+import { retireCustomExpenseType } from '../saga';
 import { expenseTypeByIdSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 
@@ -35,8 +35,8 @@ function ReadOnlyCustomExpense({ history, match }) {
     history.push(`/edit_custom_expense/${expense_type_id}`);
   };
 
-  const onRetire = (e) => {
-    dispatch(retireCustomExpenseType(expense_type_id));
+  const onRetire = () => {
+    dispatch(retireCustomExpenseType({ expense_type_id }));
   };
 
   return (

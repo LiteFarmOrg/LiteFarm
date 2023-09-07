@@ -14,7 +14,6 @@
  */
 
 import {
-  ADD_CUSTOM_EXPENSE_TYPE,
   ADD_EXPENSES,
   ADD_OR_UPDATE_SALE,
   ADD_REMOVE_EXPENSE,
@@ -23,7 +22,6 @@ import {
   GET_FARM_EXPENSE_TYPE,
   GET_EXPENSE,
   GET_SALES,
-  RETIRE_CUSTOM_EXPENSE_TYPE,
   SET_DATE_RANGE,
   SET_EXPENSE_TYPE,
   SET_EXPENSE,
@@ -38,7 +36,6 @@ import {
   TEMP_EDIT_EXPENSE,
   TEMP_SET_EXPENSE_TO_EDIT,
   UPDATE_SALE,
-  UPDATE_CUSTOM_EXPENSE_TYPE,
 } from './constants';
 
 export const getSales = () => {
@@ -92,27 +89,6 @@ export const setExpense = (expenses) => {
   return {
     type: SET_EXPENSE,
     expenses,
-  };
-};
-export const addCustomExpenseType = (custom_expense_type) => {
-  return {
-    type: ADD_CUSTOM_EXPENSE_TYPE,
-    custom_expense_type,
-  };
-};
-
-export const retireCustomExpenseType = (expense_type_id) => {
-  return {
-    type: RETIRE_CUSTOM_EXPENSE_TYPE,
-    expense_type_id,
-  };
-};
-
-export const updateCustomExpenseType = (payload, expense_type_id) => {
-  return {
-    type: UPDATE_CUSTOM_EXPENSE_TYPE,
-    custom_expense_type: payload,
-    expense_type_id,
   };
 };
 

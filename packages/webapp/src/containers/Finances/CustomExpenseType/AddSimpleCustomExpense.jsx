@@ -15,7 +15,7 @@
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCustomExpenseType } from '../actions';
+import { addCustomExpenseType } from '../saga';
 import { expenseTypeSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
 import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';

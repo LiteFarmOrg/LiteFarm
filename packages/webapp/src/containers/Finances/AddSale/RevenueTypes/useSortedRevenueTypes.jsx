@@ -34,10 +34,8 @@ export default function useSortedRevenueTypes() {
     const defaultTypes = [];
     const customTypes = [];
     revenueTypes?.forEach((type) => {
-      if (!type.deleted) {
-        const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
-        arrayToUpdate.push(type);
-      }
+      const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
+      arrayToUpdate.push(type);
     });
 
     const allTypes = [

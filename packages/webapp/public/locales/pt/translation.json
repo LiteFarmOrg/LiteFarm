@@ -495,7 +495,11 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "ADD_CUSTOM_EXPENSE": "MISSING",
       "ADD_CUSTOM_EXPENSE_TYPE": "MISSING",
+      "CUSTOM_EXPENSE_NAME": "MISSING",
+      "CUSTOM_EXPENSE_TYPE": "MISSING",
+      "DUPLICATE_NAME": "MISSING",
       "FLOW": "MISSING",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "NEW_EXPENSE_ITEM": "MISSING",
@@ -507,6 +511,8 @@
       "DATE_PLACEHOLDER": "Escolha uma data",
       "DESELECTING_CATEGORY": "Desmarcar uma categoria removerá as despesas existentes nesta categoria deste registro de despesas.",
       "REMOVE_ALL": "Você removeu todas as despesas, clique em Salvar para enviar.",
+      "RETIRE_EXPENSE_MESSAGE": "MISSING",
+      "RETIRE_EXPENSE_TYPE": "MISSING",
       "TITLE_1": "Editar Despesa (1 de 2)",
       "TITLE_2": "Editar Despesa (2 de 2)"
     },
@@ -1434,19 +1440,22 @@
   },
   "SALE": {
     "ADD_SALE": {
+      "ADD_REVENUE": "MISSING",
       "CROP_PLACEHOLDER": "Selecione o cultivo",
       "CROP_REQUIRED": "O cultivo é necessário",
       "CROP_VARIETY": "Variedade de cultivo",
       "CUSTOMER_NAME": "Nome do Cliente",
       "CUSTOMER_NAME_REQUIRED": "Nome do Cliente é necessário",
       "DATE": "Data",
+      "FLOW": "MISSING",
       "SALE_VALUE_ERROR": "O valor da venda deve ser um número acima de 0 e abaixo de 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Variedades de cultivo",
         "QUANTITY": "Quantidade",
         "TOTAL": "Total"
       },
-      "TITLE": "Adicionar nova venda"
+      "TITLE": "Adicionar nova venda",
+      "WHICH_TYPE_TO_RECORD": "MISSING"
     },
     "DETAIL": {
       "ACTION": "Ação",

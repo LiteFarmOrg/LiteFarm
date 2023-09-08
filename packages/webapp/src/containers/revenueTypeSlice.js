@@ -101,7 +101,7 @@ export const revenueTypeEntitiesSelector = revenueTypeSelectors.selectEntities;
 
 export const revenueTypesSelector = createSelector(
   [revenueTypeSelectors.selectAll, loginSelector],
-  (revenueTypes, { farm_id, deleted }) => {
+  (revenueTypes, { farm_id }) => {
     return revenueTypes.filter(
       (revenue) => (revenue.farm_id === farm_id || !revenue.farm_id) && !revenue.deleted,
     );

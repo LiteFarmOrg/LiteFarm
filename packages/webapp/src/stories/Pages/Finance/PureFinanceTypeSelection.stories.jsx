@@ -16,6 +16,7 @@ import decorators from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 import PureFinanceTypeSelection from '../../../components/Finances/PureFinanceTypeSelection';
 import { icons } from '../../../containers/Finances/NewExpense/ExpenseCategories';
+import { icons as revenueTypeIcons } from '../../../containers/Finances/AddSale/RevenueTypes';
 
 export default {
   title: 'Page/Finance/PureFinanceTypeSelection',
@@ -93,7 +94,7 @@ export const Expense = {
   args: {
     title: 'Add Expense',
     leadText: 'Which types of expenses would you like to record?',
-    cancelTitle: 'Expense creation',
+    cancelTitle: 'expense creation',
     types: expenseTypes,
     onContinue: () => console.log('CONTINUE'),
     onGoBack: () => console.log('Go back'),
@@ -111,7 +112,7 @@ export const Expense = {
         onClick: () => console.log(`${expense_name} clicked!`),
       };
     },
-    useHookFormPersist: () => ({}),
+    useHookFormPersist: () => ({ historyCancel: () => ({}) }),
   },
   parameters: { ...chromaticSmallScreen },
 };
@@ -124,15 +125,23 @@ const revenueTypes = [
     deleted: false,
     revenue_translation_key: 'CROP_SALE',
   },
+  {
+    revenue_name: 'Custom',
+    farm_id: '474069c6-22a9-11ee-a59f-e66db4bef552',
+    revenue_type_id: '1fd85a60-22a9-11ee-9683-e66db4bef553',
+    deleted: false,
+    revenue_translation_key: 'CUSTOM',
+  },
 ];
 
 export const Revenue = {
   args: {
     title: 'Add Revenue',
     leadText: 'Which type of revenue would you like to record?',
-    cancelTitle: 'Revenue creation',
+    cancelTitle: 'revenue creation',
     types: revenueTypes,
     onGoBack: () => console.log('Go back'),
+    onCancel: () => console.log('Cancel'),
     progressValue: 50,
     onGoToManageCustomType: () => console.log('Go to Management Custom Type'),
     isTypeSelected: false,
@@ -142,12 +151,12 @@ export const Revenue = {
       return {
         key: revenue_translation_key,
         tileKey: revenue_translation_key,
-        icon: icons['SEEDS'],
+        icon: farm_id ? revenueTypeIcons['CUSTOM'] : revenueTypeIcons['CROP_SALE'],
         label: revenue_name,
         onClick: () => console.log(`${revenue_name} clicked!`),
       };
     },
-    useHookFormPersist: () => ({}),
+    useHookFormPersist: () => ({ historyCancel: () => ({}) }),
   },
   parameters: { ...chromaticSmallScreen },
 };

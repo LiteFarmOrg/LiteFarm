@@ -73,6 +73,15 @@ const ReadOnlyCustomExpense = React.lazy(() =>
 const EditCustomExpense = React.lazy(() =>
   import('./containers/Finances/CustomExpenseType/EditSimpleCustomExpense'),
 );
+const AddCustomRevenue = React.lazy(() =>
+  import('./containers/Finances/CustomRevenueType/AddCustomRevenue'),
+);
+const ReadOnlyCustomRevenue = React.lazy(() =>
+  import('./containers/Finances/CustomRevenueType/ReadOnlyCustomRevenue'),
+);
+const EditCustomRevenue = React.lazy(() =>
+  import('./containers/Finances/CustomRevenueType/EditCustomRevenue'),
+);
 const TempEditExpense = React.lazy(() =>
   import('./containers/Finances/EditExpense/TempEditExpense'),
 );
@@ -606,6 +615,17 @@ const Routes = () => {
               exact
               component={EditCustomExpense}
             />
+            <Route path="/add_custom_revenue" exact component={AddCustomRevenue} />
+            <Route
+              path="/readonly_custom_revenue/:revenue_type_id"
+              exact
+              component={ReadOnlyCustomRevenue}
+            />
+            <Route
+              path="/edit_custom_revenue/:revenue_type_id"
+              exact
+              component={EditCustomRevenue}
+            />
             <Route path="/edit_expense" exact component={TempEditExpense} />
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
@@ -897,6 +917,17 @@ const Routes = () => {
               path="/edit_custom_expense/:expense_type_id"
               exact
               component={EditCustomExpense}
+            />
+            <Route path="/add_custom_revenue" exact component={AddCustomRevenue} />
+            <Route
+              path="/readonly_custom_revenue/:revenue_type_id"
+              exact
+              component={ReadOnlyCustomRevenue}
+            />
+            <Route
+              path="/edit_custom_revenue/:revenue_type_id"
+              exact
+              component={EditCustomRevenue}
             />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />

@@ -21,6 +21,7 @@ import Input, { getInputErrors } from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import PageTitle from '../../PageTitle/v2';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
+import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 
 const SALE_DATE = 'sale_date';
 const SALE_CUSTOMER = 'customer_name';
@@ -80,14 +81,12 @@ const GeneralRevenue = ({ onSubmit, title, dateLabel, customerLabel, currency, s
         errors={getInputErrors(errors, SALE_VALUE)}
       />
       <InputAutoSize
-        style={{}}
+        style={{ marginBottom: '40px' }}
         label={t('LOG_COMMON.NOTES')}
         optional={true}
-        hookFormRegister={register(NOTES, {
-          maxLength: { value: 10000, message: t('ADD_TASK.TASK_NOTES_CHAR_LIMIT') },
-        })}
+        hookFormRegister={register(NOTES, { maxLength: hookFormMaxCharsValidation(10000) })}
         name={NOTES}
-        errors={errors[NOTES]?.message}
+        errors={getInputErrors(errors, NOTES)}
       />
     </Form>
   );

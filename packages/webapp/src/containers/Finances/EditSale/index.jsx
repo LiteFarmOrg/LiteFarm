@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import defaultStyles from '../styles.module.scss';
-import SaleForm from '../../../components/Forms/Sale';
+import CropSaleForm from '../../../components/Forms/CropSale';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { deleteSale, updateSale } from '../actions';
 import { selectedSaleSelector } from '../selectors';
@@ -70,7 +70,7 @@ function EditSale({ history }) {
 
   return (
     <>
-      <SaleForm
+      <CropSaleForm
         cropVarietyOptions={cropVarietyOptions}
         onSubmit={onSubmit}
         title={t('SALE.EDIT_SALE.TITLE')}

@@ -7,6 +7,8 @@ import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSl
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
+import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { revenueTypeSelector } from '../../revenueTypeSlice';
 
 const formTypes = {
   CROP_SALE: 'crop_sale',
@@ -17,18 +19,23 @@ function AddSale() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  // TODO: get formType programmatically
-  const formType = formTypes.GENERAL;
-
   const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
   const farm = useSelector(userFarmSelector);
   const system = useSelector(measurementSelector);
+  const persistedFormData = useSelector(hookFormPersistSelector);
+  const { revenue_type_id } = persistedFormData || {};
+  const revenueType = useSelector(revenueTypeSelector(revenue_type_id));
+
+  // TODO: get formType programmatically
+  const formType = formTypes.GENERAL;
 
   const onSubmit = (data) => {
     const addSale = {
       customer_name: data.customer_name,
       sale_date: data.sale_date,
       farm_id: farm.farm_id,
+      // TODO: LF-3629
+      // revenue_type_id
     };
 
     if (formType === formTypes.CROP_SALE) {
@@ -93,9 +100,8 @@ function AddSale() {
   }
 
   if (formType === formTypes.GENERAL) {
-    // TODO: get revenue type name
-    const revenueType = 'Revenue type';
-    const title = t('common:ADD_ITEM', { itemName: revenueType });
+    const { revenue_name } = revenueType;
+    const title = t('common:ADD_ITEM', { itemName: revenue_name });
     return <GeneralIncomeForm {...commonProps} title={title} />;
   }
 

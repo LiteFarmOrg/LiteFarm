@@ -20,9 +20,7 @@ import Button from '../../Form/Button';
 import Input, { getInputErrors } from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import PageTitle from '../../PageTitle/v2';
-// TODO: replace the function in https://github.com/LiteFarmOrg/LiteFarm/pull/2858
-import { getDateInputFormat } from '../../../util/moment';
-// import { getLocalDateInYYYYDDMM } from '../../../util/date';
+import { getLocalDateInYYYYDDMM } from '../../../util/date';
 
 const SALE_DATE = 'sale_date';
 const SALE_CUSTOMER = 'customer_name';
@@ -40,7 +38,7 @@ const GeneralIncome = ({ onSubmit, title, dateLabel, customerLabel, currency, sa
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      [SALE_DATE]: sale?.[SALE_DATE] ? getDateInputFormat(sale[SALE_DATE]) : undefined,
+      [SALE_DATE]: getLocalDateInYYYYDDMM(sale?.[SALE_DATE]),
       [SALE_CUSTOMER]: sale?.[SALE_CUSTOMER] || '',
       [GENERAL_SALE]: sale?.[GENERAL_SALE] || {
         sale_value: null,

@@ -64,6 +64,15 @@ const ExpenseCategories = React.lazy(() =>
   import('./containers/Finances/NewExpense/ExpenseCategories'),
 );
 const AddExpense = React.lazy(() => import('./containers/Finances/NewExpense/AddExpense'));
+const AddCustomExpense = React.lazy(() =>
+  import('./containers/Finances/CustomExpenseType/AddSimpleCustomExpense'),
+);
+const ReadOnlyCustomExpense = React.lazy(() =>
+  import('./containers/Finances/CustomExpenseType/ReadOnlySimpleCustomExpense'),
+);
+const EditCustomExpense = React.lazy(() =>
+  import('./containers/Finances/CustomExpenseType/EditSimpleCustomExpense'),
+);
 const TempEditExpense = React.lazy(() =>
   import('./containers/Finances/EditExpense/TempEditExpense'),
 );
@@ -586,6 +595,17 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
+            <Route path="/add_custom_expense" exact component={AddCustomExpense} />
+            <Route
+              path="/readonly_custom_expense/:expense_type_id"
+              exact
+              component={ReadOnlyCustomExpense}
+            />
+            <Route
+              path="/edit_custom_expense/:expense_type_id"
+              exact
+              component={EditCustomExpense}
+            />
             <Route path="/edit_expense" exact component={TempEditExpense} />
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
@@ -867,6 +887,17 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
+            <Route path="/add_custom_expense" exact component={AddCustomExpense} />
+            <Route
+              path="/readonly_custom_expense/:expense_type_id"
+              exact
+              component={ReadOnlyCustomExpense}
+            />
+            <Route
+              path="/edit_custom_expense/:expense_type_id"
+              exact
+              component={EditCustomExpense}
+            />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
             <Route

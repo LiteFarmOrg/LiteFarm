@@ -495,6 +495,10 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "ADD_CUSTOM_EXPENSE": "MISSING",
+      "CUSTOM_EXPENSE_NAME": "MISSING",
+      "CUSTOM_EXPENSE_TYPE": "MISSING",
+      "DUPLICATE_NAME": "MISSING",
       "FLOW": "MISSING",
       "NEW_EXPENSE_ITEM": "MISSING",
       "TITLE": "MISSING",
@@ -505,6 +509,8 @@
       "DATE_PLACEHOLDER": "Elige una fecha",
       "DESELECTING_CATEGORY": "Anular la selección de una categoría eliminará los gastos existentes bajo dicha categoría para este registro de gastos.",
       "REMOVE_ALL": "Ud. eliminó todos los gastos, haga clic en Guardar y así actualizar el cambio.",
+      "RETIRE_EXPENSE_MESSAGE": "MISSING",
+      "RETIRE_EXPENSE_TYPE": "MISSING",
       "TITLE_1": "Editar gastos (1 de 2)",
       "TITLE_2": "Editar gastos (2 de 2)"
     },

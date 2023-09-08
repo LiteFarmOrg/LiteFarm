@@ -4,7 +4,7 @@ import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
-import { expenseSelector, expenseToDetailSelector, expenseTypeSelector } from '../selectors';
+import { expenseSelector, expenseToDetailSelector, allExpenseTypeSelector } from '../selectors';
 import { tempDeleteExpense, tempSetEditExpense } from '../actions';
 import history from '../../../history';
 import ConfirmModal from '../../../components/Modals/Confirm';
@@ -207,7 +207,7 @@ const mapStateToProps = (state) => {
   return {
     // expense_detail_date: expenseDetailDateSelector(state),
     expenses: expenseSelector(state),
-    expenseTypes: expenseTypeSelector(state),
+    expenseTypes: allExpenseTypeSelector(state),
     farm: userFarmSelector(state),
     expense: expenseToDetailSelector(state),
   };

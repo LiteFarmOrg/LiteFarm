@@ -496,6 +496,10 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "ADD_CUSTOM_EXPENSE": "MISSING",
+      "CUSTOM_EXPENSE_NAME": "MISSING",
+      "CUSTOM_EXPENSE_TYPE": "MISSING",
+      "DUPLICATE_NAME": "MISSING",
       "FLOW": "Création d'une dépense",
       "NEW_EXPENSE_ITEM": "MISSING",
       "TITLE": "Ajouter une dépense",
@@ -506,6 +510,8 @@
       "DATE_PLACEHOLDER": "Choisissez une date",
       "DESELECTING_CATEGORY": "La désélection d'une catégorie supprimera les dépenses existantes dans cette catégorie pour ce journal des dépenses.",
       "REMOVE_ALL": "Vous avez supprimé toutes les dépenses, cliquez sur Enregistrer pour valider.",
+      "RETIRE_EXPENSE_MESSAGE": "MISSING",
+      "RETIRE_EXPENSE_TYPE": "MISSING",
       "TITLE_1": "Modifier les dépenses (1 sur 2)",
       "TITLE_2": "Modifier la dépense (2 sur 2)"
     },
@@ -1432,19 +1438,22 @@
   },
   "SALE": {
     "ADD_SALE": {
+      "ADD_REVENUE": "MISSING",
       "CROP_PLACEHOLDER": "Selectionner une culture",
       "CROP_REQUIRED": "Réponse requise",
       "CROP_VARIETY": "Variété de la culture",
       "CUSTOMER_NAME": "Nom du Client",
       "CUSTOMER_NAME_REQUIRED": "Réponse requise",
       "DATE": "Date",
+      "FLOW": "MISSING",
       "SALE_VALUE_ERROR": "La valeur de vente doit être un nombre positif moins que 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Variété de la culture",
         "QUANTITY": "Quantité",
         "TOTAL": "Total"
       },
-      "TITLE": "Ajouter nouvelle vente"
+      "TITLE": "Ajouter nouvelle vente",
+      "WHICH_TYPE_TO_RECORD": "MISSING"
     },
     "DETAIL": {
       "ACTION": "Action",

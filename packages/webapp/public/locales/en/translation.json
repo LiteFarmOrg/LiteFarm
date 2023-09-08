@@ -496,6 +496,10 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "ADD_CUSTOM_EXPENSE": "Add custom expense",
+      "CUSTOM_EXPENSE_NAME": "Custom expense name",
+      "CUSTOM_EXPENSE_TYPE": "Custom expense type",
+      "DUPLICATE_NAME": "An expense type with this name already exists. Please choose another.",
       "FLOW": "expense creation",
       "NEW_EXPENSE_ITEM": "New expense item",
       "TITLE": "Add expense",
@@ -506,6 +510,8 @@
       "DATE_PLACEHOLDER": "Choose a Date",
       "DESELECTING_CATEGORY": "Deselecting a category will remove existing expenses under this category for this expenses log.",
       "REMOVE_ALL": "You removed all expenses, click Save to submit.",
+      "RETIRE_EXPENSE_MESSAGE": "Retiring this expense type will remove it as a possible choice for future expenses. You can still search and filter for historical instances of this expense type on the Finances tab.",
+      "RETIRE_EXPENSE_TYPE": "Retire expense type",
       "TITLE_1": "Edit Expense(1 of 2)",
       "TITLE_2": "Edit Expense (2 of 2)"
     },
@@ -1430,19 +1436,22 @@
   },
   "SALE": {
     "ADD_SALE": {
+      "ADD_REVENUE": "Add revenue",
       "CROP_PLACEHOLDER": "Select crop",
       "CROP_REQUIRED": "Required",
       "CROP_VARIETY": "Crop variety",
       "CUSTOMER_NAME": "Customer name",
       "CUSTOMER_NAME_REQUIRED": "Required",
       "DATE": "Date",
+      "FLOW": "revenue creation",
       "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Crop variety",
         "QUANTITY": "Quantity",
         "TOTAL": "Total"
       },
-      "TITLE": "Add new sale"
+      "TITLE": "Add new sale",
+      "WHICH_TYPE_TO_RECORD": "What type of revenue would you like to record?"
     },
     "DETAIL": {
       "ACTION": "Action",

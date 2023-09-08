@@ -56,6 +56,18 @@
       "UPDATE": "Despesas atualizadas com sucesso!"
     }
   },
+  "EXPENSE_TYPE": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
   "FARM": {
     "ERROR": {
       "ADD": "Falha ao adicionar sito novo, favor entre em contato com o Litefarm para obter assistência",

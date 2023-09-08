@@ -28,7 +28,7 @@ function ReadOnlyCustomExpense({ history, match }) {
   const { expense_name } = selectedCustomExpenseType;
 
   const handleGoBack = () => {
-    history.push('/manage_custom_expenses');
+    history.back();
   };
 
   const handleEdit = () => {

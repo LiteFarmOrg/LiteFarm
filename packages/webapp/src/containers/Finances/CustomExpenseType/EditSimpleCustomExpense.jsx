@@ -29,7 +29,7 @@ function EditCustomExpense({ history, match }) {
   const expenseTypes = useSelector(expenseTypeSelector);
 
   const handleGoBack = () => {
-    history.push(`/readonly_custom_expense/${expense_type_id}`);
+    history.back();
   };
 
   const onSubmit = (payload) => {

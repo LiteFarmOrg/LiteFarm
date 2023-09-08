@@ -38,7 +38,7 @@ class GeneralSale extends Model {
           type: 'number',
           format: 'float',
         },
-        notes: { type: ['string', 'null'] },
+        notes: { type: ['string', 'null'], maxLength: 10000 },
       },
       additionalProperties: false,
     };

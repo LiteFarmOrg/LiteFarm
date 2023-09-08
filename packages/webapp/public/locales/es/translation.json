@@ -495,25 +495,27 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "ALL_FIELDS_REQUIRED": "Todos los campos son obligatorios",
+      "ADD_CUSTOM_EXPENSE": "MISSING",
+      "CUSTOM_EXPENSE_NAME": "MISSING",
+      "CUSTOM_EXPENSE_TYPE": "MISSING",
+      "DUPLICATE_NAME": "MISSING",
       "FLOW": "MISSING",
-      "MIN_ERROR": "Por favor ingrese un valor mayor que ",
-      "REQUIRED_ERROR": "Se requiere gasto",
+      "NEW_EXPENSE_ITEM": "MISSING",
       "TITLE": "MISSING",
-      "TITLE_1": "Nuevo gasto (1 de 2)",
-      "TITLE_2": "Nuevo gasto (2 de 2)",
       "WHICH_TYPES_TO_RECORD": "MISSING"
     },
-    "ADD_MORE_ITEMS": "Agrega más unidades",
     "DETAILED_HISTORY": "Historia detallada",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Elige una fecha",
       "DESELECTING_CATEGORY": "Anular la selección de una categoría eliminará los gastos existentes bajo dicha categoría para este registro de gastos.",
       "REMOVE_ALL": "Ud. eliminó todos los gastos, haga clic en Guardar y así actualizar el cambio.",
+      "RETIRE_EXPENSE_MESSAGE": "MISSING",
+      "RETIRE_EXPENSE_TYPE": "MISSING",
       "TITLE_1": "Editar gastos (1 de 2)",
       "TITLE_2": "Editar gastos (2 de 2)"
     },
     "ITEM": "Unidad",
+    "ITEM_NAME": "MISSING",
     "NAME": "Nombre",
     "NO_EXPENSE": "Sin gasto",
     "NO_EXPENSE_YEAR": "Ud. no tiene gasto registrado para este año",

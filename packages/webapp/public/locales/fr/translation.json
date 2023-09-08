@@ -496,25 +496,27 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "ALL_FIELDS_REQUIRED": "Tous les champs sont requis",
+      "ADD_CUSTOM_EXPENSE": "MISSING",
+      "CUSTOM_EXPENSE_NAME": "MISSING",
+      "CUSTOM_EXPENSE_TYPE": "MISSING",
+      "DUPLICATE_NAME": "MISSING",
       "FLOW": "Création d'une dépense",
-      "MIN_ERROR": "Veuillez saisir une valeur supérieure à ",
-      "REQUIRED_ERROR": "Une dépense est requise",
+      "NEW_EXPENSE_ITEM": "MISSING",
       "TITLE": "Ajouter une dépense",
-      "TITLE_1": "Nouvelle dépense (1 sur 2)",
-      "TITLE_2": "Nouvelle dépense (2 sur 2)",
       "WHICH_TYPES_TO_RECORD": "Quel type de dépense voulez-vous enregistrer\u00a0?"
     },
-    "ADD_MORE_ITEMS": "Ajouter d'autres articles",
     "DETAILED_HISTORY": "Historique détaillé",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Choisissez une date",
       "DESELECTING_CATEGORY": "La désélection d'une catégorie supprimera les dépenses existantes dans cette catégorie pour ce journal des dépenses.",
       "REMOVE_ALL": "Vous avez supprimé toutes les dépenses, cliquez sur Enregistrer pour valider.",
+      "RETIRE_EXPENSE_MESSAGE": "MISSING",
+      "RETIRE_EXPENSE_TYPE": "MISSING",
       "TITLE_1": "Modifier les dépenses (1 sur 2)",
       "TITLE_2": "Modifier la dépense (2 sur 2)"
     },
     "ITEM": "Nom",
+    "ITEM_NAME": "MISSING",
     "NAME": "de l'article",
     "NO_EXPENSE": "Aucune dépense trouvée",
     "NO_EXPENSE_YEAR": "Vous n'avez enregistré aucune dépense pour cette année",

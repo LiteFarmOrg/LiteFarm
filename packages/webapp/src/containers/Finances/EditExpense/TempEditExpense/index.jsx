@@ -6,7 +6,7 @@ import defaultStyles from '../../styles.module.scss';
 import styles from './styles.module.scss';
 import {
   expenseDetailSelector,
-  expenseTypeSelector,
+  allExpenseTypeSelector,
   selectedEditExpenseSelector,
   tempExpenseToEditSelector,
 } from '../../selectors';
@@ -122,7 +122,7 @@ class TempEditExpense extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    expenseTypes: expenseTypeSelector(state),
+    expenseTypes: allExpenseTypeSelector(state),
     selectedEditExpense: selectedEditExpenseSelector(state),
     currentExpenseDetail: expenseDetailSelector(state),
     expenseToEdit: tempExpenseToEditSelector(state),

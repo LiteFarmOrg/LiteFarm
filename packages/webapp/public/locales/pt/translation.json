@@ -495,25 +495,27 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "ALL_FIELDS_REQUIRED": "Todos os campos são obrigatórios",
+      "ADD_CUSTOM_EXPENSE": "MISSING",
+      "CUSTOM_EXPENSE_NAME": "MISSING",
+      "CUSTOM_EXPENSE_TYPE": "MISSING",
+      "DUPLICATE_NAME": "MISSING",
       "FLOW": "MISSING",
-      "MIN_ERROR": "Insira um valor maior que ",
-      "REQUIRED_ERROR": "Expense is required",
+      "NEW_EXPENSE_ITEM": "MISSING",
       "TITLE": "MISSING",
-      "TITLE_1": "Despesa Nova (1 de 2)",
-      "TITLE_2": "Despesa Nova (2 de 2)",
       "WHICH_TYPES_TO_RECORD": "MISSING"
     },
-    "ADD_MORE_ITEMS": "Adicionar mais itens",
     "DETAILED_HISTORY": "História Detalhada",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Escolha uma data",
       "DESELECTING_CATEGORY": "Desmarcar uma categoria removerá as despesas existentes nesta categoria deste registro de despesas.",
       "REMOVE_ALL": "Você removeu todas as despesas, clique em Salvar para enviar.",
+      "RETIRE_EXPENSE_MESSAGE": "MISSING",
+      "RETIRE_EXPENSE_TYPE": "MISSING",
       "TITLE_1": "Editar Despesa (1 de 2)",
       "TITLE_2": "Editar Despesa (2 de 2)"
     },
     "ITEM": "Item",
+    "ITEM_NAME": "MISSING",
     "NAME": "Nome",
     "NO_EXPENSE": "Nenhuma despesa encontrada",
     "NO_EXPENSE_YEAR": "Você não tem despesas registradas para este ano",

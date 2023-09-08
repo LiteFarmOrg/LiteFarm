@@ -56,6 +56,18 @@
       "UPDATE": "Dépenses mises à jour avec succès !"
     }
   },
+  "EXPENSE_TYPE": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
   "FARM": {
     "ERROR": {
       "ADD": "Impossible d'ajouter une ferme. Veuillez contacter LiteFarm pour obtenir de l'aide",
@@ -131,6 +143,18 @@
     },
     "SUCCESS": {
       "EDIT": "Chiffre d'affaires mis à jour avec succès"
+    }
+  },
+  "REVENUE_TYPE": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "SALE": {

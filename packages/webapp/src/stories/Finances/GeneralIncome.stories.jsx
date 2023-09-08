@@ -12,12 +12,12 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import GeneralIncome from '../../components/Forms/GeneralIncome';
+import GeneralRevenue from '../../components/Forms/GeneralRevenue';
 import { componentDecorators } from '../Pages/config/Decorators';
 
 export default {
-  title: 'Components/GeneralIncome',
-  component: GeneralIncome,
+  title: 'Components/GeneralRevenue',
+  component: GeneralRevenue,
   decorators: componentDecorators,
 };
 

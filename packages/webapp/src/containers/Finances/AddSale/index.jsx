@@ -1,6 +1,6 @@
 import React from 'react';
 import CropSaleForm from '../../../components/Forms/CropSale';
-import GeneralIncomeForm from '../../../components/Forms/GeneralIncome';
+import GeneralRevenueForm from '../../../components/Forms/GeneralRevenue';
 import { addOrUpdateSale } from '../actions';
 import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
@@ -102,7 +102,7 @@ function AddSale() {
   if (formType === formTypes.GENERAL) {
     const { revenue_name } = revenueType;
     const title = t('common:ADD_ITEM', { itemName: revenue_name });
-    return <GeneralIncomeForm {...commonProps} title={title} />;
+    return <GeneralRevenueForm {...commonProps} title={title} />;
   }
 
   return null;

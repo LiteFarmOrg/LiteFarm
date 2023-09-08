@@ -28,7 +28,7 @@ const GENERAL_SALE = 'general_sale';
 const SALE_VALUE = `${GENERAL_SALE}.sale_value`;
 const NOTES = `${GENERAL_SALE}.notes`;
 
-const GeneralIncome = ({ onSubmit, title, dateLabel, customerLabel, currency, sale }) => {
+const GeneralRevenue = ({ onSubmit, title, dateLabel, customerLabel, currency, sale }) => {
   const { t } = useTranslation();
 
   const {
@@ -93,4 +93,4 @@ const GeneralIncome = ({ onSubmit, title, dateLabel, customerLabel, currency, sa
   );
 };
 
-export default GeneralIncome;
+export default GeneralRevenue;

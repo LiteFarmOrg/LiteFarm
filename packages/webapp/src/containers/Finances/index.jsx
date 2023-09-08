@@ -257,7 +257,10 @@ class Finances extends Component {
             sm
             style={{ height: '48px' }}
             onClick={() => {
-              history.push('add_sale');
+              this.props.dispatch(
+                setPersistedPaths(['/revenue_types', '/add_sale', '/manage_custom_revenues']),
+              );
+              history.push('/revenue_types');
             }}
           >
             {this.props.t('SALE.FINANCES.ADD_NEW_SALE')}

@@ -25,9 +25,6 @@ function ReadOnlyCustomRevenue({ history, match }) {
   const { revenue_type_id } = match.params;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const onGoBackPath = '/manage_custom_revenues';
-  const onEditPath = `/edit_custom_revenue/${revenue_type_id}`;
-  const persistedPaths = [onGoBackPath, onEditPath];
   const selectedCustomRevenueType = useSelector(revenueTypeByIdSelector(revenue_type_id));
   const { revenue_name } = selectedCustomRevenueType;
 
@@ -36,7 +33,7 @@ function ReadOnlyCustomRevenue({ history, match }) {
   };
 
   const handleEdit = () => {
-    history.push(onEditPath);
+    history.push(`/edit_custom_revenue/${revenue_type_id}`);
   };
 
   const onRetire = (e) => {
@@ -44,23 +41,20 @@ function ReadOnlyCustomRevenue({ history, match }) {
   };
 
   return (
-    <HookFormPersistProvider>
-      <PureSimpleCustomType
-        handleGoBack={handleGoBack}
-        onClick={handleEdit}
-        view="read-only"
-        buttonText={t('common:EDIT')}
-        pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
-        inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
-        persistedPaths={persistedPaths}
-        customTypeRegister={CUSTOM_REVENUE_NAME}
-        defaultValue={revenue_name}
-        onRetire={onRetire}
-        retireLinkText={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
-        retireHeader={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
-        retireMessage={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_MESSAGE')}
-      />
-    </HookFormPersistProvider>
+    <PureSimpleCustomType
+      handleGoBack={handleGoBack}
+      onClick={handleEdit}
+      view="read-only"
+      buttonText={t('common:EDIT')}
+      pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
+      inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
+      customTypeRegister={CUSTOM_REVENUE_NAME}
+      defaultValue={revenue_name}
+      onRetire={onRetire}
+      retireLinkText={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
+      retireHeader={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
+      retireMessage={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_MESSAGE')}
+    />
   );
 }
 

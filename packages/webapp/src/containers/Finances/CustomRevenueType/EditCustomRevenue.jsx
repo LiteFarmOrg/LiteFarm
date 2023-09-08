@@ -17,17 +17,16 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCustomRevenueType } from '../saga';
-import { revenueTypeByIdSelector, revenueTypeSelector } from '../../revenueTypeSlice';
+import { revenueTypeByIdSelector, revenueTypesSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME } from './constants';
+import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
 
 function EditCustomExpense({ history, match }) {
   const { revenue_type_id } = match.params;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const onGoBackPath = `/readonly_custom_revenue/${revenue_type_id}`;
-  const persistedPaths = [onGoBackPath];
   const selectedCustomRevenueType = useSelector(revenueTypeByIdSelector(revenue_type_id));
-  const revenueTypes = useSelector(revenueTypeSelector);
+  const revenueTypes = useSelector(revenueTypesSelector);
   const { revenue_name } = selectedCustomRevenueType;
 
   const handleGoBack = () => {
@@ -38,32 +37,22 @@ function EditCustomExpense({ history, match }) {
     dispatch(updateCustomRevenueType(payload, revenue_type_id));
   };
 
-  const validateUniqueTypeName = (value) => {
-    const revenueNameExists = revenueTypes.some((type) => {
-      return type.revenue_name === value;
-    });
-
-    if (revenueNameExists) {
-      return t('REVENUE.ADD_REVENUE.DUPLICATE_NAME');
-    }
-    return true;
-  };
-
   return (
-    <HookFormPersistProvider>
-      <PureSimpleCustomType
-        handleGoBack={handleGoBack}
-        onSubmit={onSubmit}
-        view="edit"
-        buttonText={t('common:SAVE')}
-        pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
-        inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
-        persistedPaths={persistedPaths}
-        customTypeRegister={CUSTOM_REVENUE_NAME}
-        defaultValue={revenue_name}
-        validateInput={validateUniqueTypeName}
-      />
-    </HookFormPersistProvider>
+    <PureSimpleCustomType
+      handleGoBack={handleGoBack}
+      onSubmit={onSubmit}
+      view="edit"
+      buttonText={t('common:SAVE')}
+      pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
+      inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
+      customTypeRegister={CUSTOM_REVENUE_NAME}
+      defaultValue={revenue_name}
+      validateInput={hookFormUniquePropertyValidation(
+        revenueTypes,
+        'revenue_name',
+        t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
+      )}
+    />
   );
 }
 

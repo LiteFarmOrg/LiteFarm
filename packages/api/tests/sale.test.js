@@ -365,7 +365,7 @@ describe('Sale Tests', () => {
     });
   });
 
-  describe.only('Post sale', () => {
+  describe('Post sale', () => {
     let sampleReqBody;
     let crop2;
     let cropVariety2;

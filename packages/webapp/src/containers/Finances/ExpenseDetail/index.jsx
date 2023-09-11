@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
@@ -9,42 +9,38 @@ import { tempDeleteExpense, tempSetEditExpense } from '../actions';
 import history from '../../../history';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
-import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import DropdownButton from '../../../components/Form/DropDownButton';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
+import { useSelector, useDispatch } from 'react-redux';
 
-class ExpenseDetail extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      date: null,
-      expenseItems: [],
-      total: 0,
-      filteredExpenses: [],
-      currencySymbol: '$',
-      showModal: false, // for confirming deleting all expenses
-    };
-    this.getExpensesByDate = this.getExpensesByDate.bind(this);
-    this.getExpenseType = this.getExpenseType.bind(this);
-    // this.editExpenses = this.editExpenses.bind(this);
-    this.editExpense = this.editExpense.bind(this);
-  }
+const ExpenseDetail = () => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
 
-  componentDidMount() {
-    const { farm, expense } = this.props;
-    this.setState({ currencySymbol: grabCurrencySymbol() });
+  const [date, setDate] = useState(null);
+  const [expenseItems, setExpenseItems] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [filteredExpenses, setFilteredExpenses] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
+  const expenses = useSelector(expenseSelector);
+  const expenseTypes = useSelector(allExpenseTypeSelector);
+  const farm = useSelector(userFarmSelector);
+  const expense = useSelector(expenseToDetailSelector);
+
+  useEffect(() => {
     const language = getLanguageFromLocalStorage();
-    const date = moment(expense.expense_date).locale(language).format('MMM DD, YYYY');
-    this.setState({
-      date,
-    });
-    this.getExpensesByDate();
-  }
+    const dateValue = moment(expense.expense_date).locale(language).format('MMM DD, YYYY');
+    setDate(dateValue);
+    getExpensesByDate();
+  }, []);
 
-  getExpensesByDate() {
-    const { expenses, expense } = this.props;
+  const currencySymbol = useCurrencySymbol();
+
+  const getExpensesByDate = () => {
     let targetDate = moment(expense.expense_date).format('YYYY-MM-DD');
     let dict = {};
     let total = 0;
@@ -57,7 +53,7 @@ class ExpenseDetail extends Component {
         filteredExpenses.push(e);
         if (!dict.hasOwnProperty(id)) {
           dict[id] = {
-            type_name: this.getExpenseType(id),
+            type_name: getExpenseType(id),
             items: [
               {
                 note: e.note,
@@ -74,86 +70,74 @@ class ExpenseDetail extends Component {
       }
     }
 
-    this.setState({
-      expenseItems: Object.values(dict),
-      total: total.toFixed(2),
-      filteredExpenses,
-    });
-  }
+    setExpenseItems(Object.values(dict));
+    setTotal(total.toFixed(2));
+    setFilteredExpenses(filteredExpenses);
+  };
 
-  getExpenseType(id) {
-    const { expenseTypes } = this.props;
+  const getExpenseType = (id) => {
     for (let type of expenseTypes) {
       if (type.expense_type_id === id) {
-        return this.props.t(`expense:${type.expense_translation_key}`);
+        return t(`expense:${type.expense_translation_key}`);
       }
     }
     return 'TYPE_NOT_FOUND';
-  }
+  };
 
-  handleDeleteExpenses = () => {
-    this.setState({ showModal: true });
+  const handleDeleteExpenses = () => {
+    setShowModal(true);
   };
 
   // TODO: replace when expense items are split by expense
-  deleteExpense = () => {
-    const { expense } = this.props;
-    this.props.dispatch(tempDeleteExpense(expense.expense_item_id));
+  const deleteExpense = () => {
+    dispatch(tempDeleteExpense(expense.expense_item_id));
   };
   // deleteExpenses = () => {
   //   // eslint-disable-next-line
   //   let farmIDs = [];
-  //   const { filteredExpenses } = this.state;
   //   for (let f of filteredExpenses) {
   //     farmIDs.push(f.farm_expense_id);
   //   }
   //   if (farmIDs.length > 0) {
-  //     this.props.dispatch(deleteExpenses(farmIDs));
+  //     dispatch(deleteExpenses(farmIDs));
   //     history.push('/other_expense');
   //   }
   // };
 
   //TODO remove edit expense related functions
-  editExpense() {
+  const editExpense = () => {
     // editExpenses() {
     // TODO: use the commented out code for when expense items are split by expense
-    // const { filteredExpenses } = this.state;
-    // this.props.dispatch(setEditExpenses(filteredExpenses));
+    // dispatch(setEditExpenses(filteredExpenses));
     // history.push('/edit_expense_categories');
 
     // temporary implementation to edit expense items separately
-    const { expense } = this.props;
-    this.props.dispatch(tempSetEditExpense(expense));
+    dispatch(tempSetEditExpense(expense));
     history.push('/edit_expense');
-  }
+  };
 
-  render() {
-    const { date, expenseItems, total } = this.state;
-    const { expense } = this.props;
-    const dropDown = 0;
-    const options = [
-      {
-        text: this.props.t('common:EDIT'),
-        onClick: () => this.editExpense(),
-      },
-      { text: this.props.t('common:DELETE'), onClick: () => this.handleDeleteExpenses() },
-    ];
+  const dropDown = 0;
+  const options = [
+    {
+      text: t('common:EDIT'),
+      onClick: () => editExpense(),
+    },
+    { text: t('common:DELETE'), onClick: () => handleDeleteExpenses() },
+  ];
 
-    return (
-      <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl="/other_expense" title={this.props.t('SALE.EXPENSE_DETAIL.TITLE')} />
-        <div className={styles.innerInfo}>
-          <h4>{date}</h4>
-          <DropdownButton options={options}>
-            {this.props.t('SALE.EXPENSE_DETAIL.ACTION')}
-          </DropdownButton>
-        </div>
+  return (
+    <div className={defaultStyles.financesContainer}>
+      <PageTitle backUrl="/other_expense" title={t('SALE.EXPENSE_DETAIL.TITLE')} />
+      <div className={styles.innerInfo}>
+        <h4>{date}</h4>
+        <DropdownButton options={options}>{t('SALE.EXPENSE_DETAIL.ACTION')}</DropdownButton>
+      </div>
 
-        <div className={styles.itemContainer}>
-          <Semibold>{this.props.t('SALE.EXPENSE_DETAIL.DESCRIPTION')}</Semibold>
-          <div>{this.props.t('SALE.EXPENSE_DETAIL.COST')}</div>
-        </div>
-        {/* {expenseItems.length > 0 &&
+      <div className={styles.itemContainer}>
+        <Semibold>{t('SALE.EXPENSE_DETAIL.DESCRIPTION')}</Semibold>
+        <div>{t('SALE.EXPENSE_DETAIL.COST')}</div>
+      </div>
+      {/* {expenseItems.length > 0 &&
           expenseItems.map((e) => {
             return (
               <div key={e.type_name}>
@@ -166,7 +150,7 @@ class ExpenseDetail extends Component {
                       <div key={i.note + i.value.toString()} className={styles.itemContainer}>
                         <div>{'- ' + i.note}</div>
                         <div className={styles.greenText}>
-                          {this.state.currencySymbol + i.value.toFixed(2).toString()}
+                          {currencySymbol + i.value.toFixed(2).toString()}
                         </div>
                       </div>
                     );
@@ -174,49 +158,32 @@ class ExpenseDetail extends Component {
               </div>
             );
           })} */}
-        <div key={expense.type}>
-          <div className={styles.typeNameContainer}>
-            <Semibold>{expense.type}</Semibold>
-          </div>
-          <div key={expense.note + expense.amount.toString()} className={styles.itemContainer}>
-            <div style={{ overflowWrap: 'anywhere' }}>{'- ' + expense.note}</div>
-            <div className={styles.greenText}>{expense.amount}</div>
-          </div>
+      <div key={expense.type}>
+        <div className={styles.typeNameContainer}>
+          <Semibold>{expense.type}</Semibold>
         </div>
-        {/* <div className={styles.itemContainer}>
-          <Semibold>{this.props.t('SALE.EXPENSE_DETAIL.TOTAL')}</Semibold>
+        <div key={expense.note + expense.amount.toString()} className={styles.itemContainer}>
+          <div style={{ overflowWrap: 'anywhere' }}>{'- ' + expense.note}</div>
+          <div className={styles.greenText}>{expense.amount}</div>
+        </div>
+      </div>
+      {/* <div className={styles.itemContainer}>
+          <Semibold>{t('SALE.EXPENSE_DETAIL.TOTAL')}</Semibold>
           <div className={styles.greenText} id="total-amount">
-            {this.state.currencySymbol + total}
+            {currencySymbol + total}
           </div>
         </div> */}
-        <ConfirmModal
-          open={this.state.showModal}
-          onClose={() => this.setState({ showModal: false })}
-          onConfirm={() => {
-            this.deleteExpense();
-            this.setState({ showModal: false });
-          }}
-          message={this.props.t('SALE.EXPENSE_DETAIL.TEMP_DELETE_CONFIRMATION')}
-        />
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    // expense_detail_date: expenseDetailDateSelector(state),
-    expenses: expenseSelector(state),
-    expenseTypes: allExpenseTypeSelector(state),
-    farm: userFarmSelector(state),
-    expense: expenseToDetailSelector(state),
-  };
+      <ConfirmModal
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={() => {
+          deleteExpense();
+          setShowModal(false);
+        }}
+        message={t('SALE.EXPENSE_DETAIL.TEMP_DELETE_CONFIRMATION')}
+      />
+    </div>
+  );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(ExpenseDetail));
+export default ExpenseDetail;

@@ -22,6 +22,7 @@ import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
+import Demo from './Demo';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -43,8 +44,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const DEMO = true;
+
 function App() {
   const classes = useStyles();
+  if (DEMO) {
+    return <Demo />;
+  }
   return (
     <>
       <div className={clsx(classes.container, classes.defaultHeight, classes.webkitHeight)}>
@@ -69,6 +75,22 @@ function App() {
             content={(key, message) => <NotistackSnackbar id={key} message={message} />}
           >
             <Routes />
+            <button
+              onClick={() => {
+                // history.back();
+                // setTimeout(() => {
+                //   console.log('pushing...', history.location.pathname);
+                //   history.push(history.location.pathname);
+                // }, 2000);
+                history.go(-2);
+                setTimeout(() => {
+                  console.log('pushing...', history.location.pathname);
+                  history.push(history.location.pathname);
+                }, 2000);
+              }}
+            >
+              BACK
+            </button>
           </SnackbarProvider>
         </div>
       </div>

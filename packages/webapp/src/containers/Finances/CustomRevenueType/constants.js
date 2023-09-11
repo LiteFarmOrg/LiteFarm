@@ -1,1 +1,1 @@
-export const CUSTOM_REVENUE_NAME = 'custom_revenue_name';
+export const CUSTOM_REVENUE_NAME = 'revenue_name';

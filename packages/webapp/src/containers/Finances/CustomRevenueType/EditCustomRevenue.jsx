@@ -13,11 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
-import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCustomRevenueType } from '../saga';
-import { revenueTypeByIdSelector, revenueTypesSelector } from '../../revenueTypeSlice';
+import { revenueTypeSelector, revenueTypesSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME } from './constants';
 import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
 
@@ -25,7 +24,7 @@ function EditCustomExpense({ history, match }) {
   const { revenue_type_id } = match.params;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const selectedCustomRevenueType = useSelector(revenueTypeByIdSelector(revenue_type_id));
+  const selectedCustomRevenueType = useSelector(revenueTypeSelector(Number(revenue_type_id)));
   const revenueTypes = useSelector(revenueTypesSelector);
   const { revenue_name } = selectedCustomRevenueType;
 
@@ -34,7 +33,7 @@ function EditCustomExpense({ history, match }) {
   };
 
   const onSubmit = (payload) => {
-    dispatch(updateCustomRevenueType(payload, revenue_type_id));
+    dispatch(updateCustomRevenueType({ ...payload, revenue_type_id: Number(revenue_type_id) }));
   };
 
   return (

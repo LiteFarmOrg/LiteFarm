@@ -14,18 +14,17 @@
  */
 
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
-import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { retireCustomRevenueType } from '../saga';
-import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
+import { deleteRevenueType } from '../saga';
+import { revenueTypeSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME } from './constants';
 
 function ReadOnlyCustomRevenue({ history, match }) {
   const { revenue_type_id } = match.params;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const selectedCustomRevenueType = useSelector(revenueTypeByIdSelector(revenue_type_id));
+  const selectedCustomRevenueType = useSelector(revenueTypeSelector(Number(revenue_type_id)));
   const { revenue_name } = selectedCustomRevenueType;
 
   const handleGoBack = () => {
@@ -36,8 +35,8 @@ function ReadOnlyCustomRevenue({ history, match }) {
     history.push(`/edit_custom_revenue/${revenue_type_id}`);
   };
 
-  const onRetire = (e) => {
-    dispatch(retireCustomRevenueType(revenue_type_id));
+  const onRetire = () => {
+    dispatch(deleteRevenueType(Number(revenue_type_id)));
   };
 
   return (

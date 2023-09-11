@@ -26,16 +26,15 @@ function AddSale() {
   const { revenue_type_id } = persistedFormData || {};
   const revenueType = useSelector(revenueTypeSelector(revenue_type_id));
 
-  // TODO: get formType programmatically
-  const formType = formTypes.GENERAL;
+  // TODO: come back once LF-3595 is complete
+  const formType = revenueType.farm_id ? formTypes.GENERAL : formTypes.CROP_SALE;
 
   const onSubmit = (data) => {
     const addSale = {
       customer_name: data.customer_name,
       sale_date: data.sale_date,
       farm_id: farm.farm_id,
-      // TODO: LF-3629
-      // revenue_type_id
+      revenue_type_id,
     };
 
     if (formType === formTypes.CROP_SALE) {

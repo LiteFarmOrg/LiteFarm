@@ -29,24 +29,40 @@ const GENERAL_SALE = 'general_sale';
 const SALE_VALUE = `${GENERAL_SALE}.sale_value`;
 const NOTES = `${GENERAL_SALE}.notes`;
 
-const GeneralRevenue = ({ onSubmit, title, dateLabel, customerLabel, currency, sale }) => {
+const GeneralRevenue = ({
+  onSubmit,
+  title,
+  dateLabel,
+  customerLabel,
+  currency,
+  sale,
+  useHookFormPersist,
+  persistedFormData,
+}) => {
   const { t } = useTranslation();
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    getValues,
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      [SALE_DATE]: getLocalDateInYYYYDDMM(sale?.[SALE_DATE]),
-      [SALE_CUSTOMER]: sale?.[SALE_CUSTOMER] || '',
-      [GENERAL_SALE]: sale?.[GENERAL_SALE] || {
-        sale_value: null,
-        notes: '',
-      },
+      [SALE_DATE]:
+        (sale?.[SALE_DATE] && getLocalDateInYYYYDDMM(sale.SALE_DATE)) ||
+        persistedFormData?.[SALE_DATE] ||
+        getLocalDateInYYYYDDMM(),
+      [SALE_CUSTOMER]: sale?.[SALE_CUSTOMER] || persistedFormData?.[SALE_CUSTOMER] || '',
+      [GENERAL_SALE]: sale?.[GENERAL_SALE] ||
+        persistedFormData?.[GENERAL_SALE] || {
+          sale_value: null,
+          notes: '',
+        },
     },
   });
+
+  useHookFormPersist(getValues);
 
   return (
     <Form

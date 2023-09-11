@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { revenueTypeSelector } from '../../revenueTypeSlice';
 
 const formTypes = {
@@ -101,7 +102,11 @@ function AddSale() {
   if (formType === formTypes.GENERAL) {
     const { revenue_name } = revenueType;
     const title = t('common:ADD_ITEM', { itemName: revenue_name });
-    return <GeneralRevenueForm {...commonProps} title={title} />;
+    return (
+      <HookFormPersistProvider>
+        <GeneralRevenueForm {...commonProps} title={title} />
+      </HookFormPersistProvider>
+    );
   }
 
   return null;

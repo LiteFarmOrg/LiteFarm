@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import React from 'react';
-import { useForm } from 'react-hook-form';
 import { PropTypes } from 'prop-types';
 import { AddLink } from '../../Typography';
 import PageTitle from '../../PageTitle/v2';
@@ -28,21 +27,8 @@ export default function ManageCustomTypes({
   onAddType,
   tileData,
   formatTileData,
-  customTypeFieldName,
-  persistedFormData,
-  useHookFormPersist,
-  getIsSelected,
   onTileClick,
 }) {
-  const { getValues, setValue, register, watch } = useForm({
-    defaultValues: persistedFormData,
-    mode: 'onChange',
-  });
-
-  useHookFormPersist(getValues);
-  register(customTypeFieldName);
-  const selectedTileId = watch(customTypeFieldName);
-
   return (
     <div style={{ padding: '24px' }}>
       <PageTitle style={{ marginBottom: '24px' }} title={title} onGoBack={handleGoBack} />
@@ -53,19 +39,9 @@ export default function ManageCustomTypes({
         {tileData.map((data) => {
           const tileProps = formatTileData(data);
           const { tileKey } = tileProps;
-          const selected = getIsSelected ? getIsSelected(tileKey) : selectedTileId === tileKey;
 
           return (
-            <IconLabelTile
-              {...tileProps}
-              key={tileKey}
-              selected={selected}
-              onClick={() => {
-                // pass id so the next page knows which custom type is being edited
-                setValue(customTypeFieldName, tileKey);
-                onTileClick(tileKey);
-              }}
-            />
+            <IconLabelTile {...tileProps} key={tileKey} onClick={() => onTileClick(tileKey)} />
           );
         })}
       </Tiles>
@@ -80,9 +56,5 @@ ManageCustomTypes.propTypes = {
   onAddType: PropTypes.func,
   tileData: PropTypes.array,
   formatTileData: PropTypes.func,
-  customTypeFieldName: PropTypes.string,
-  persistedFormData: PropTypes.object,
-  useHookFormPersist: PropTypes.func,
-  getIsSelected: PropTypes.func,
   onTileClick: PropTypes.func,
 };

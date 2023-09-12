@@ -16,7 +16,6 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
-import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { addPersistedPaths } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import { selectedExpenseSelector } from '../selectors';
 import { setSelectedExpenseTypes } from '../actions';
@@ -60,28 +59,24 @@ export default function ManageExpenseTypes({ history }) {
   }, [customTypes]);
 
   return (
-    <HookFormPersistProvider>
-      <PureManageCustomTypes
-        title={t('EXPENSE.ADD_EXPENSE.MANAGE_CUSTOM_EXPENSE_TYPE')}
-        handleGoBack={history.back}
-        addLinkText={t('EXPENSE.ADD_EXPENSE.ADD_CUSTOM_EXPENSE_TYPE')}
-        onAddType={() => history.push(addCustomTypePath)}
-        tileData={customTypes}
-        getIsSelected={(typeId) => selectedExpenseTypes?.includes(typeId)}
-        onTileClick={onTileClick}
-        customTypeFieldName={'expense_type_id'}
-        formatTileData={(data) => {
-          const { farm_id, expense_translation_key, expense_name, expense_type_id } = data;
+    <PureManageCustomTypes
+      title={t('EXPENSE.ADD_EXPENSE.MANAGE_CUSTOM_EXPENSE_TYPE')}
+      handleGoBack={history.back}
+      addLinkText={t('EXPENSE.ADD_EXPENSE.ADD_CUSTOM_EXPENSE_TYPE')}
+      onAddType={() => history.push(addCustomTypePath)}
+      tileData={customTypes}
+      onTileClick={onTileClick}
+      formatTileData={(data) => {
+        const { farm_id, expense_translation_key, expense_name, expense_type_id } = data;
 
-          return {
-            key: expense_type_id,
-            tileKey: expense_type_id,
-            icon: icons[farm_id ? 'OTHER' : expense_translation_key],
-            label: farm_id ? expense_name : t(`expense:${expense_translation_key}`),
-            className: labelIconStyles.labelIcon,
-          };
-        }}
-      />
-    </HookFormPersistProvider>
+        return {
+          key: expense_type_id,
+          tileKey: expense_type_id,
+          icon: icons[farm_id ? 'OTHER' : expense_translation_key],
+          label: farm_id ? expense_name : t(`expense:${expense_translation_key}`),
+          className: labelIconStyles.labelIcon,
+        };
+      }}
+    />
   );
 }

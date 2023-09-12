@@ -247,13 +247,7 @@ class Finances extends Component {
             sm
             style={{ height: '48px' }}
             onClick={() => {
-              this.props.dispatch(
-                setPersistedPaths([
-                  '/expense_categories',
-                  '/add_expense',
-                  '/manage_custom_expenses',
-                ]),
-              );
+              this.props.dispatch(setPersistedPaths(['/expense_categories', '/add_expense']));
               history.push('/expense_categories');
             }}
           >

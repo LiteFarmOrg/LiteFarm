@@ -1429,6 +1429,18 @@
     "DESCRIPTION": "Alguém entrará em contato em 48 horas.",
     "TITLE": "Pedido de ajuda enviado"
   },
+  "REVENUE": {
+    "ADD_REVENUE": {
+      "ADD_CUSTOM_REVENUE": "MISSING",
+      "CUSTOM_REVENUE_NAME": "MISSING",
+      "CUSTOM_REVENUE_TYPE": "MISSING",
+      "DUPLICATE_NAME": "MISSING"
+    },
+    "EDIT_REVENUE": {
+      "RETIRE_REVENUE_MESSAGE": "MISSING",
+      "RETIRE_REVENUE_TYPE": "MISSING"
+    }
+  },
   "ROLE_SELECTION": {
     "FARM_EO": "Agente de Extensão/Técnico",
     "FARM_MANAGER": "Gerente do sítio/fazenda",

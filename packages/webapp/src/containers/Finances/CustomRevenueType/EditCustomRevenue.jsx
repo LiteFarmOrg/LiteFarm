@@ -15,25 +15,25 @@
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCustomExpenseType } from '../saga';
-import { expenseTypeByIdSelector, expenseTypeSelector } from '../selectors';
-import { CUSTOM_EXPENSE_NAME } from './constants';
+import { updateCustomRevenueType } from '../saga';
+import { revenueTypeSelector, revenueTypesSelector } from '../../revenueTypeSlice';
+import { CUSTOM_REVENUE_NAME } from './constants';
 import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
 
 function EditCustomExpense({ history, match }) {
-  const expense_type_id = match.params.expense_type_id;
+  const { revenue_type_id } = match.params;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));
-  const { expense_name } = selectedCustomExpenseType;
-  const expenseTypes = useSelector(expenseTypeSelector);
+  const selectedCustomRevenueType = useSelector(revenueTypeSelector(Number(revenue_type_id)));
+  const revenueTypes = useSelector(revenueTypesSelector);
+  const { revenue_name } = selectedCustomRevenueType;
 
   const handleGoBack = () => {
     history.back();
   };
 
   const onSubmit = (payload) => {
-    dispatch(updateCustomExpenseType({ ...payload, expense_type_id }));
+    dispatch(updateCustomRevenueType({ ...payload, revenue_type_id: Number(revenue_type_id) }));
   };
 
   return (
@@ -42,14 +42,14 @@ function EditCustomExpense({ history, match }) {
       onSubmit={onSubmit}
       view="edit"
       buttonText={t('common:SAVE')}
-      pageTitle={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_TYPE')}
-      inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
-      customTypeRegister={CUSTOM_EXPENSE_NAME}
-      defaultValue={expense_name}
+      pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
+      inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
+      customTypeRegister={CUSTOM_REVENUE_NAME}
+      defaultValue={revenue_name}
       validateInput={hookFormUniquePropertyValidation(
-        expenseTypes,
-        'expense_name',
-        t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
+        revenueTypes,
+        'revenue_name',
+        t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
       )}
     />
   );

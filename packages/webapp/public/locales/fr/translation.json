@@ -1429,6 +1429,18 @@
     "DESCRIPTION": "Vous serez contacté dans les 48 heures.",
     "TITLE": "Demande d'aide soumise"
   },
+  "REVENUE": {
+    "ADD_REVENUE": {
+      "ADD_CUSTOM_REVENUE": "MISSING",
+      "CUSTOM_REVENUE_NAME": "MISSING",
+      "CUSTOM_REVENUE_TYPE": "MISSING",
+      "DUPLICATE_NAME": "MISSING"
+    },
+    "EDIT_REVENUE": {
+      "RETIRE_REVENUE_MESSAGE": "MISSING",
+      "RETIRE_REVENUE_TYPE": "MISSING"
+    }
+  },
   "ROLE_SELECTION": {
     "FARM_EO": "Agent de vulgarisation",
     "FARM_MANAGER": "Gestionnaire de ferme",

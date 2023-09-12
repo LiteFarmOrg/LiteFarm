@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import { pagePaths } from './constants';
 
 const BrowserButtons = ({ pop, push, pointer, history }) => (
@@ -40,13 +40,13 @@ export const WindowBar = ({
             pushPage(urlPath);
           }
         }}
-        style={{ border: 'none', background: 'transparent', width: 80 }}
+        style={{ border: 'none', background: 'transparent', width: 100, fontSize: 14 }}
       />
     </div>
   </div>
 );
 
-export const Navs = ({ setHistory, setPointer, pointer, history }) => (
+export const Navs = ({ setHistory, setPointer, pointer, history, setHistoryAction }) => (
   <div style={{ border: 'solid 2px grey', borderBottom: 'solid 1px grey', padding: 15 }}>
     <span>Navs: </span>
     {['/home', '/task', '/map', '/finance'].map((page) => {
@@ -61,10 +61,12 @@ export const Navs = ({ setHistory, setPointer, pointer, history }) => (
               historyCopy.push(page);
               setHistory(historyCopy);
               setPointer(historyCopy.length - 1);
+              setHistoryAction('PUSH');
               return;
             }
             setHistory([...history, page]);
             setPointer(pointer + 1);
+            setHistoryAction('PUSH');
           }}
         >
           {page}
@@ -74,7 +76,14 @@ export const Navs = ({ setHistory, setPointer, pointer, history }) => (
   </div>
 );
 
-export const CurrentPage = ({ currentPath, goBackButton, formButtons }) => {
+export const CurrentPage = ({
+  currentPath,
+  goBackButton,
+  formButtons,
+  historyCancel,
+  value,
+  setValue,
+}) => {
   const index = pagePaths.indexOf(currentPath);
   return (
     <div
@@ -88,8 +97,26 @@ export const CurrentPage = ({ currentPath, goBackButton, formButtons }) => {
         alignItems: 'center',
         justifyContent: 'space-between',
         fontWeight: 'bold',
+        position: 'relative',
       }}
     >
+      {[4, 5].includes(index) ? (
+        <div style={{ position: 'absolute', top: 0, right: 0 }}>
+          <button onClick={historyCancel}>Cancel</button>
+        </div>
+      ) : null}
+      {index === 5 && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 45,
+          }}
+        >
+          <div style={{ height: 20 }}>
+            Value: <input value={value} onChange={(e) => setValue(e.target.value)} />
+          </div>
+        </div>
+      )}
       {goBackButton(index)}
       <span style={{ paddingTop: index === 3 ? 21 : 0 }}>{currentPath}</span>
       {formButtons(index)}
@@ -110,9 +137,13 @@ export default function Browser({
   urlPath,
   setUrlPath,
   pushPage,
+  setHistoryAction,
+  historyCancel,
+  value,
+  setValue,
 }) {
   return (
-    <div style={{ width: 400, margin: 20 }}>
+    <div style={{ width: 450, margin: 20 }}>
       <WindowBar
         currentPath={currentPath}
         pop={pop}
@@ -123,11 +154,20 @@ export default function Browser({
         setUrlPath={setUrlPath}
         pushPage={pushPage}
       />
-      <Navs setHistory={setHistory} setPointer={setPointer} pointer={pointer} history={history} />
+      <Navs
+        setHistory={setHistory}
+        setPointer={setPointer}
+        pointer={pointer}
+        history={history}
+        setHistoryAction={setHistoryAction}
+      />
       <CurrentPage
         currentPath={currentPath}
         goBackButton={goBackButton}
         formButtons={formButtons}
+        historyCancel={historyCancel}
+        value={value}
+        setValue={setValue}
       />
     </div>
   );

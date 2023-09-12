@@ -12,7 +12,7 @@ export default function Stack({ paths, pointer, name, style }) {
           display: 'flex',
           flexDirection: 'column',
           width: 200,
-          height: 300,
+          height: 330,
           margin: 30,
           marginBottom: 10,
           alignItems: 'center',

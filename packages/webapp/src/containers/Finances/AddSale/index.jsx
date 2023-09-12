@@ -28,7 +28,7 @@ function AddSale() {
   const revenueType = useSelector(revenueTypeSelector(revenue_type_id));
 
   // TODO: come back once LF-3595 is complete
-  const formType = revenueType.farm_id ? formTypes.GENERAL : formTypes.CROP_SALE;
+  const formType = revenueType?.farm_id ? formTypes.GENERAL : formTypes.CROP_SALE;
 
   const onSubmit = (data) => {
     const addSale = {

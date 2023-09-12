@@ -496,22 +496,27 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "ALL_FIELDS_REQUIRED": "All fields are required",
-      "MIN_ERROR": "Please enter a value greater than ",
-      "REQUIRED_ERROR": "Expense is required",
-      "TITLE_1": "New Expense (1 of 2)",
-      "TITLE_2": "New Expense (2 of 2)"
+      "ADD_CUSTOM_EXPENSE": "Add custom expense",
+      "CUSTOM_EXPENSE_NAME": "Custom expense name",
+      "CUSTOM_EXPENSE_TYPE": "Custom expense type",
+      "DUPLICATE_NAME": "An expense type with this name already exists. Please choose another.",
+      "FLOW": "expense creation",
+      "NEW_EXPENSE_ITEM": "New expense item",
+      "TITLE": "Add expense",
+      "WHICH_TYPES_TO_RECORD": "Which types of expenses would you like to record?"
     },
-    "ADD_MORE_ITEMS": "Add more items",
     "DETAILED_HISTORY": "Detailed History",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Choose a Date",
       "DESELECTING_CATEGORY": "Deselecting a category will remove existing expenses under this category for this expenses log.",
       "REMOVE_ALL": "You removed all expenses, click Save to submit.",
+      "RETIRE_EXPENSE_MESSAGE": "Retiring this expense type will remove it as a possible choice for future expenses. You can still search and filter for historical instances of this expense type on the Finances tab.",
+      "RETIRE_EXPENSE_TYPE": "Retire expense type",
       "TITLE_1": "Edit Expense(1 of 2)",
       "TITLE_2": "Edit Expense (2 of 2)"
     },
     "ITEM": "Item",
+    "ITEM_NAME": "Item Name",
     "NAME": "Name",
     "NO_EXPENSE": "No expense found",
     "NO_EXPENSE_YEAR": "You have no expense recorded for this year",
@@ -807,6 +812,7 @@
       "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
       "TITLE": "Estimated Revenue"
     },
+    "MANAGE_CUSTOM_TYPE": "Manage custom type",
     "REVENUE": "Revenue",
     "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",
     "WHOLE_FARM_REVENUE": "Whole farm revenue"
@@ -1421,6 +1427,18 @@
     "DESCRIPTION": "Someone will be in touch within 48 hours.",
     "TITLE": "Help request submitted"
   },
+  "REVENUE": {
+    "ADD_REVENUE": {
+      "ADD_CUSTOM_REVENUE": "Add custom revenue",
+      "CUSTOM_REVENUE_NAME": "Custom revenue name",
+      "CUSTOM_REVENUE_TYPE": "Custom revenue type",
+      "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another."
+    },
+    "EDIT_REVENUE": {
+      "RETIRE_REVENUE_MESSAGE": "Retiring this revenue type will remove it as a possible choice for future expenses. You can still search and filter for historical instances of this expense type on the Finances tab.",
+      "RETIRE_REVENUE_TYPE": "Retire revenue type"
+    }
+  },
   "ROLE_SELECTION": {
     "FARM_EO": "Extension Officer",
     "FARM_MANAGER": "Farm Manager",
@@ -1430,19 +1448,22 @@
   },
   "SALE": {
     "ADD_SALE": {
+      "ADD_REVENUE": "Add revenue",
       "CROP_PLACEHOLDER": "Select crop",
       "CROP_REQUIRED": "Required",
       "CROP_VARIETY": "Crop variety",
       "CUSTOMER_NAME": "Customer name",
       "CUSTOMER_NAME_REQUIRED": "Required",
       "DATE": "Date",
+      "FLOW": "revenue creation",
       "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Crop variety",
         "QUANTITY": "Quantity",
         "TOTAL": "Total"
       },
-      "TITLE": "Add new sale"
+      "TITLE": "Add new sale",
+      "WHICH_TYPE_TO_RECORD": "What type of revenue would you like to record?"
     },
     "DETAIL": {
       "ACTION": "Action",
@@ -1483,7 +1504,6 @@
       "EXPENSES": "Expenses",
       "FINANCE_HELP": "Finance Help",
       "LABOUR_LABEL": "Labour",
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "Manage custom type",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
         "BODY": "Here you can add, modify, or retire expense types personalized to your farm.",
         "TITLE": "Manage custom expense types"

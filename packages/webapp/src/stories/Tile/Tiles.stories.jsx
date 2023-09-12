@@ -41,19 +41,21 @@ const tileLengthTest =
   };
 
 export const IconLabeTilesAsChildren = {
-  args: {
-    children: new Array(6).fill().map((item, index) => {
-      return (
-        <IconLabelTile
-          key={index}
-          icon={<SoilAmendment />}
-          label={'Label'}
-          onClick={() => console.log('clicked!')}
-          selected={false}
-        />
-      );
-    }),
-  },
+  render: () => (
+    <Tiles>
+      {new Array(6).fill().map((item, index) => {
+        return (
+          <IconLabelTile
+            key={index}
+            icon={<SoilAmendment />}
+            label={'Label'}
+            onClick={() => console.log('clicked!')}
+            selected={false}
+          />
+        );
+      })}
+    </Tiles>
+  ),
   play: tileLengthTest(6, ['Label']),
 };
 

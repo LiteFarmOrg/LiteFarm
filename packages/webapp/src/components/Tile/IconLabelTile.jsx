@@ -17,12 +17,20 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 
-export default function IconLabelTile({ tileKey, icon, label, onClick, selected, ...props }) {
+export default function IconLabelTile({
+  tileKey,
+  icon,
+  label,
+  onClick,
+  selected,
+  className,
+  ...props
+}) {
   return (
     <div
       key={tileKey}
       onClick={onClick}
-      className={clsx(styles.typeContainer, selected && styles.typeContainerSelected)}
+      className={clsx(className, styles.typeContainer, selected && styles.typeContainerSelected)}
       {...props}
     >
       {icon}
@@ -37,4 +45,5 @@ IconLabelTile.propTypes = {
   label: PropTypes.string,
   onClick: PropTypes.func,
   selected: PropTypes.bool,
+  className: PropTypes.string,
 };

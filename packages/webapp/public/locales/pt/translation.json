@@ -495,22 +495,27 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "ALL_FIELDS_REQUIRED": "Todos os campos são obrigatórios",
-      "MIN_ERROR": "Insira um valor maior que ",
-      "REQUIRED_ERROR": "Expense is required",
-      "TITLE_1": "Despesa Nova (1 de 2)",
-      "TITLE_2": "Despesa Nova (2 de 2)"
+      "ADD_CUSTOM_EXPENSE": "MISSING",
+      "CUSTOM_EXPENSE_NAME": "MISSING",
+      "CUSTOM_EXPENSE_TYPE": "MISSING",
+      "DUPLICATE_NAME": "MISSING",
+      "FLOW": "MISSING",
+      "NEW_EXPENSE_ITEM": "MISSING",
+      "TITLE": "MISSING",
+      "WHICH_TYPES_TO_RECORD": "MISSING"
     },
-    "ADD_MORE_ITEMS": "Adicionar mais itens",
     "DETAILED_HISTORY": "História Detalhada",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Escolha uma data",
       "DESELECTING_CATEGORY": "Desmarcar uma categoria removerá as despesas existentes nesta categoria deste registro de despesas.",
       "REMOVE_ALL": "Você removeu todas as despesas, clique em Salvar para enviar.",
+      "RETIRE_EXPENSE_MESSAGE": "MISSING",
+      "RETIRE_EXPENSE_TYPE": "MISSING",
       "TITLE_1": "Editar Despesa (1 de 2)",
       "TITLE_2": "Editar Despesa (2 de 2)"
     },
     "ITEM": "Item",
+    "ITEM_NAME": "MISSING",
     "NAME": "Nome",
     "NO_EXPENSE": "Nenhuma despesa encontrada",
     "NO_EXPENSE_YEAR": "Você não tem despesas registradas para este ano",
@@ -806,6 +811,7 @@
       "ESTIMATED_PRICE_PER_UNIT": "Preço por unidade estimado",
       "TITLE": "Receita Estimada"
     },
+    "MANAGE_CUSTOM_TYPE": "MISSING",
     "REVENUE": "Receita",
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
     "WHOLE_FARM_REVENUE": "Receita de toda a propriedade"
@@ -1423,6 +1429,18 @@
     "DESCRIPTION": "Alguém entrará em contato em 48 horas.",
     "TITLE": "Pedido de ajuda enviado"
   },
+  "REVENUE": {
+    "ADD_REVENUE": {
+      "ADD_CUSTOM_REVENUE": "MISSING",
+      "CUSTOM_REVENUE_NAME": "MISSING",
+      "CUSTOM_REVENUE_TYPE": "MISSING",
+      "DUPLICATE_NAME": "MISSING"
+    },
+    "EDIT_REVENUE": {
+      "RETIRE_REVENUE_MESSAGE": "MISSING",
+      "RETIRE_REVENUE_TYPE": "MISSING"
+    }
+  },
   "ROLE_SELECTION": {
     "FARM_EO": "Agente de Extensão/Técnico",
     "FARM_MANAGER": "Gerente do sítio/fazenda",
@@ -1432,19 +1450,22 @@
   },
   "SALE": {
     "ADD_SALE": {
+      "ADD_REVENUE": "MISSING",
       "CROP_PLACEHOLDER": "Selecione o cultivo",
       "CROP_REQUIRED": "O cultivo é necessário",
       "CROP_VARIETY": "Variedade de cultivo",
       "CUSTOMER_NAME": "Nome do Cliente",
       "CUSTOMER_NAME_REQUIRED": "Nome do Cliente é necessário",
       "DATE": "Data",
+      "FLOW": "MISSING",
       "SALE_VALUE_ERROR": "O valor da venda deve ser um número acima de 0 e abaixo de 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Variedades de cultivo",
         "QUANTITY": "Quantidade",
         "TOTAL": "Total"
       },
-      "TITLE": "Adicionar nova venda"
+      "TITLE": "Adicionar nova venda",
+      "WHICH_TYPE_TO_RECORD": "MISSING"
     },
     "DETAIL": {
       "ACTION": "Ação",
@@ -1485,7 +1506,6 @@
       "EXPENSES": "Despesas",
       "FINANCE_HELP": "Ajuda Financeira",
       "LABOUR_LABEL": "Trabalho",
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
         "BODY": "MISSING",
         "TITLE": "MISSING"

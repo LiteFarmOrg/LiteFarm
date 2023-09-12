@@ -44,8 +44,7 @@ const farmExpenseTypeController = {
         const farm_id = req.params.farm_id;
         const result = await ExpenseTypeModel.query()
           .where('farm_id', null)
-          .orWhere('farm_id', farm_id)
-          .whereNotDeleted();
+          .orWhere('farm_id', farm_id);
         res.status(200).send(result);
       } catch (error) {
         res.status(400).json({

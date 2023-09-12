@@ -19,11 +19,11 @@ import {
   ADD_REMOVE_EXPENSE,
   DELETE_EXPENSES,
   DELETE_SALE,
-  GET_DEFAULT_EXPENSE_TYPE,
+  GET_FARM_EXPENSE_TYPE,
   GET_EXPENSE,
   GET_SALES,
   SET_DATE_RANGE,
-  SET_DEFAULT_EXPENSE_TYPE,
+  SET_EXPENSE_TYPE,
   SET_EXPENSE,
   SET_EXPENSE_DETAIL_DATE,
   SET_EXPENSE_DETAIL_ITEM,
@@ -92,16 +92,16 @@ export const setExpense = (expenses) => {
   };
 };
 
-export const getDefaultExpenseType = () => {
+export const setExpenseType = (expense_types) => {
   return {
-    type: GET_DEFAULT_EXPENSE_TYPE,
+    type: SET_EXPENSE_TYPE,
+    expense_types,
   };
 };
 
-export const setDefaultExpenseType = (expense_types) => {
+export const getFarmExpenseType = () => {
   return {
-    type: SET_DEFAULT_EXPENSE_TYPE,
-    expense_types,
+    type: GET_FARM_EXPENSE_TYPE,
   };
 };
 

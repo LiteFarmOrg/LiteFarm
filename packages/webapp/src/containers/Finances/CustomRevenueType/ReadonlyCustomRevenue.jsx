@@ -16,27 +16,27 @@
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { retireCustomExpenseType } from '../saga';
-import { expenseTypeByIdSelector } from '../selectors';
-import { CUSTOM_EXPENSE_NAME } from './constants';
+import { deleteRevenueType } from '../saga';
+import { revenueTypeSelector } from '../../revenueTypeSlice';
+import { CUSTOM_REVENUE_NAME } from './constants';
 
-function ReadOnlyCustomExpense({ history, match }) {
-  const expense_type_id = match.params.expense_type_id;
+function ReadOnlyCustomRevenue({ history, match }) {
+  const { revenue_type_id } = match.params;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));
-  const { expense_name } = selectedCustomExpenseType;
+  const selectedCustomRevenueType = useSelector(revenueTypeSelector(Number(revenue_type_id)));
+  const { revenue_name } = selectedCustomRevenueType;
 
   const handleGoBack = () => {
     history.back();
   };
 
   const handleEdit = () => {
-    history.push(`/edit_custom_expense/${expense_type_id}`);
+    history.push(`/edit_custom_revenue/${revenue_type_id}`);
   };
 
   const onRetire = () => {
-    dispatch(retireCustomExpenseType({ expense_type_id }));
+    dispatch(deleteRevenueType(Number(revenue_type_id)));
   };
 
   return (
@@ -45,16 +45,16 @@ function ReadOnlyCustomExpense({ history, match }) {
       onClick={handleEdit}
       view="read-only"
       buttonText={t('common:EDIT')}
-      pageTitle={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_TYPE')}
-      inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
-      customTypeRegister={CUSTOM_EXPENSE_NAME}
-      defaultValue={expense_name}
+      pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
+      inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
+      customTypeRegister={CUSTOM_REVENUE_NAME}
+      defaultValue={revenue_name}
       onRetire={onRetire}
-      retireLinkText={t('EXPENSE.EDIT_EXPENSE.RETIRE_EXPENSE_TYPE')}
-      retireHeader={t('EXPENSE.EDIT_EXPENSE.RETIRE_EXPENSE_TYPE')}
-      retireMessage={t('EXPENSE.EDIT_EXPENSE.RETIRE_EXPENSE_MESSAGE')}
+      retireLinkText={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
+      retireHeader={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
+      retireMessage={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_MESSAGE')}
     />
   );
 }
 
-export default ReadOnlyCustomExpense;
+export default ReadOnlyCustomRevenue;

@@ -18,7 +18,7 @@
  * @returns { Promise<void> }
  */
 export const up = async function (knex) {
-  await knex.raw('ALTER SEQUENCE revenue_type_revenue_type_id_seq RESTART WITH 1');
+  await knex.raw('ALTER SEQUENCE revenue_type_revenue_type_id_seq RESTART WITH 2');
 };
 
 /**

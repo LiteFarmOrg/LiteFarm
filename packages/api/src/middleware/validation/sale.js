@@ -15,9 +15,11 @@
 
 async function validateSale(req, res, next) {
   // TODO replace upsertGraph
-  const { crop_variety_sale, general_sale } = req.body;
-  if (!(crop_variety_sale && crop_variety_sale[0]) && !general_sale) {
-    return res.status(400).send('crop_variety_sale or general_sale is required');
+  const { crop_variety_sale, revenue_type_id } = req.body;
+  // TODO: implement properly once LF-3595 is complete
+  const isCropRevenue = revenue_type_id === 1;
+  if (isCropRevenue && !(crop_variety_sale && crop_variety_sale[0])) {
+    return res.status(400).send('crop_variety_sale is required');
   }
 
   if (crop_variety_sale) {

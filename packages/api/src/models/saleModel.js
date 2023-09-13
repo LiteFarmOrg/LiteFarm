@@ -41,6 +41,11 @@ class Sale extends baseModel {
         sale_date: { type: 'string', minLength: 1, maxLength: 255 },
         farm_id: { type: 'string' },
         revenue_type_id: { type: 'integer' },
+        value: {
+          type: 'number',
+          format: 'float',
+        },
+        note: { type: ['string', 'null'], maxLength: 10000 },
         ...this.baseProperties,
       },
       additionalProperties: false,

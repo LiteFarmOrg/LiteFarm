@@ -43,7 +43,10 @@ class ExpenseCategories extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTypes: this.props.selectedExpense,
+      // filter out previously selected and retired types
+      selectedTypes: this.props.selectedExpense.filter((typeId) => {
+        return this.props.expenseTypes.some(({ expense_type_id }) => expense_type_id === typeId);
+      }),
     };
 
     this.addRemoveType = this.addRemoveType.bind(this);

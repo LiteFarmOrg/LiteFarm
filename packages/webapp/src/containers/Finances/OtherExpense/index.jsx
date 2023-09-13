@@ -1,7 +1,21 @@
-import React, { Component } from 'react';
+/*
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import PageTitle from '../../../components/PageTitle';
-import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
 import { dateRangeSelector, expenseSelector, allExpenseTypeSelector } from '../selectors';
@@ -10,72 +24,51 @@ import { getExpense, setExpenseDetailItem } from '../actions';
 import history from '../../../history';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { BsCaretRight } from 'react-icons/bs';
-import { userFarmSelector } from '../../userFarmSlice';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
-import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
+import { useSelector, useDispatch } from 'react-redux';
 
-class OtherExpense extends Component {
-  constructor(props) {
-    super(props);
-    let startDate, endDate;
-    const { dateRange } = this.props;
-    if (dateRange && dateRange.startDate && dateRange.endDate) {
-      startDate = moment(dateRange.startDate);
-      endDate = moment(dateRange.endDate);
-    } else {
-      startDate = moment().startOf('year');
-      endDate = moment().endOf('year');
-    }
+const OtherExpense = () => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
 
-    this.state = {
-      startDate,
-      endDate,
-      totalExpense: 0,
-      subTotal: 0,
-      sortMonth: 0,
-      dropDownTitle: 'All Months',
-      dButtonStyle: {
-        background: '#fff',
-        color: '#333',
-        borderColor: '#fff',
-        boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.2)',
-        width: '100%',
-        marginBottom: '10px',
-      },
-      currencySymbol: grabCurrencySymbol(),
-    };
-    this.computeTable = this.computeTable.bind(this);
-    this.getExpenseType = this.getExpenseType.bind(this);
-    this.computeDetailedTable = this.computeDetailedTable.bind(this);
-    this.changeDate = this.changeDate.bind(this);
+  const expenses = useSelector(expenseSelector);
+  const expenseTypes = useSelector(allExpenseTypeSelector);
+  const dateRange = useSelector(dateRangeSelector);
+
+  let initialStartDate, initialEndDate;
+  if (dateRange && dateRange.startDate && dateRange.endDate) {
+    initialStartDate = moment(dateRange.startDate);
+    initialEndDate = moment(dateRange.endDate);
+  } else {
+    initialStartDate = moment().startOf('year');
+    initialEndDate = moment().endOf('year');
   }
+  const [startDate, setStartDate] = useState(initialStartDate);
+  const [endDate, setEndDate] = useState(initialEndDate);
+  const currencySymbol = useCurrencySymbol();
 
-  componentDidMount() {
-    this.props.dispatch(getExpense());
-  }
+  useEffect(() => {
+    dispatch(getExpense());
+  }, []);
 
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (this.props.expenses !== prevProps.expenses) {
-      this.computeTable();
-      this.computeDetailedTable();
-    }
-  }
+  useEffect(() => {
+    computeTable();
+    computeDetailedTable();
+  }, [expenses]);
 
-  changeDate(type, date) {
+  const changeDate = (type, date) => {
     if (type === 'start') {
-      this.setState({ startDate: date });
+      setStartDate(date);
     } else if (type === 'end') {
-      this.setState({ endDate: date });
+      setEndDate(date);
     } else {
       console.log('Error, type not specified');
     }
-  }
+  };
 
-  computeTable() {
-    const { expenses } = this.props;
-    const { startDate, endDate } = this.state;
+  const computeTable = () => {
     let dict = {};
 
     for (let e of expenses) {
@@ -87,7 +80,7 @@ class OtherExpense extends Component {
       ) {
         let id = e.expense_type_id;
         if (!dict.hasOwnProperty(id)) {
-          let typeName = this.getExpenseType(id);
+          let typeName = getExpenseType(id);
           dict[id] = {
             type: typeName,
             amount: e.value,
@@ -110,11 +103,9 @@ class OtherExpense extends Component {
       total += dict[k].amount;
     }
     return [data, total.toFixed(2)];
-  }
+  };
 
-  computeDetailedTable() {
-    const { expenses } = this.props;
-    const { startDate, endDate } = this.state;
+  const computeDetailedTable = () => {
     let detailedHistory = [];
 
     let subTotal = 0;
@@ -130,8 +121,8 @@ class OtherExpense extends Component {
         subTotal += amount;
         detailedHistory.push({
           date: moment(e.expense_date),
-          type: this.getExpenseType(e.expense_type_id),
-          amount: this.state.currencySymbol + amount.toFixed(2).toString(),
+          type: getExpenseType(e.expense_type_id),
+          amount: currencySymbol + amount.toFixed(2).toString(),
           expense_date: e.expense_date,
           note: e.note,
           expense_item_id: e.farm_expense_id,
@@ -140,150 +131,130 @@ class OtherExpense extends Component {
       }
     }
     return [detailedHistory, subTotal.toFixed(2)];
-  }
+  };
 
-  getExpenseType(id) {
-    const { expenseTypes } = this.props;
+  const getExpenseType = (id) => {
     for (let type of expenseTypes) {
       if (type.expense_type_id === id) {
-        return this.props.t(`expense:${type.expense_translation_key}`);
+        return t(`expense:${type.expense_translation_key}`);
       }
     }
     return 'TYPE_NOT_FOUND';
-  }
+  };
 
-  render() {
-    const [data, totalData] = this.computeTable();
-    const [detailedHistory, totalDetailed] = this.computeDetailedTable();
+  const [data, totalData] = computeTable();
+  const [detailedHistory, totalDetailed] = computeDetailedTable();
 
-    const columns = [
-      {
-        id: 'type',
-        Header: this.props.t('SALE.SUMMARY.TYPE'),
-        accessor: (d) => d.type,
-        minWidth: 80,
-        Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
-      },
-      {
-        id: 'amount',
-        Header: this.props.t('SALE.SUMMARY.AMOUNT'),
-        accessor: 'amount',
-        minWidth: 75,
-        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
-        Footer: <div>{this.state.currencySymbol + totalData}</div>,
-      },
-    ];
+  const columns = [
+    {
+      id: 'type',
+      Header: t('SALE.SUMMARY.TYPE'),
+      accessor: (d) => d.type,
+      minWidth: 80,
+      Footer: <div>{t('SALE.SUMMARY.TOTAL')}</div>,
+    },
+    {
+      id: 'amount',
+      Header: t('SALE.SUMMARY.AMOUNT'),
+      accessor: 'amount',
+      minWidth: 75,
+      Cell: (d) => <span>{`${currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
+      Footer: <div>{currencySymbol + totalData}</div>,
+    },
+  ];
 
-    const detailedColumns = [
-      {
-        id: 'date',
-        Header: this.props.t('SALE.LABOUR.TABLE.DATE'),
-        Cell: (d) => <span>{d.value.toDate().toLocaleDateString()}</span>,
-        accessor: (d) => d.date,
-        minWidth: 70,
-        Footer: <div>{this.props.t('SALE.SUMMARY.SUBTOTAL')}</div>,
-      },
-      {
-        id: 'type',
-        Header: this.props.t('SALE.LABOUR.TABLE.TYPE'),
-        accessor: (d) => d.type,
-        minWidth: 55,
-      },
-      {
-        id: 'name',
-        Header: this.props.t('common:NAME'),
-        accessor: (d) => d.note,
-        minWidth: 55,
-      },
-      {
-        id: 'amount',
-        Header: this.props.t('SALE.LABOUR.TABLE.AMOUNT'),
-        accessor: 'value',
-        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
-        minWidth: 55,
-        Footer: <div>{this.state.currencySymbol + totalDetailed}</div>,
-      },
-      {
-        id: 'chevron',
-        maxWidth: 25,
-        accessor: () => <BsCaretRight />,
-      },
-    ];
+  const detailedColumns = [
+    {
+      id: 'date',
+      Header: t('SALE.LABOUR.TABLE.DATE'),
+      Cell: (d) => <span>{d.value.toDate().toLocaleDateString()}</span>,
+      accessor: (d) => d.date,
+      minWidth: 70,
+      Footer: <div>{t('SALE.SUMMARY.SUBTOTAL')}</div>,
+    },
+    {
+      id: 'type',
+      Header: t('SALE.LABOUR.TABLE.TYPE'),
+      accessor: (d) => d.type,
+      minWidth: 55,
+    },
+    {
+      id: 'name',
+      Header: t('common:NAME'),
+      accessor: (d) => d.note,
+      minWidth: 55,
+    },
+    {
+      id: 'amount',
+      Header: t('SALE.LABOUR.TABLE.AMOUNT'),
+      accessor: 'value',
+      Cell: (d) => <span>{`${currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
+      minWidth: 55,
+      Footer: <div>{currencySymbol + totalDetailed}</div>,
+    },
+    {
+      id: 'chevron',
+      maxWidth: 25,
+      accessor: () => <BsCaretRight />,
+    },
+  ];
 
-    return (
-      <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl="/Finances" title={this.props.t('EXPENSE.OTHER_EXPENSES_TITLE')} />
-        <DateRangeSelector changeDateMethod={this.changeDate} />
+  return (
+    <div className={defaultStyles.financesContainer}>
+      <PageTitle backUrl="/Finances" title={t('EXPENSE.OTHER_EXPENSES_TITLE')} />
+      <DateRangeSelector changeDateMethod={changeDate} />
 
-        <Semibold style={{ marginBottom: '16px' }}>{this.props.t('EXPENSE.SUMMARY')}</Semibold>
-        <div className={styles.tableContainer} style={{ marginBottom: '16px' }}>
-          {data.length > 0 && (
+      <Semibold style={{ marginBottom: '16px' }}>{t('EXPENSE.SUMMARY')}</Semibold>
+      <div className={styles.tableContainer} style={{ marginBottom: '16px' }}>
+        {data.length > 0 && (
+          <Table
+            columns={columns}
+            data={data}
+            showPagination={true}
+            pageSizeOptions={[5, 10, 20, 50]}
+            defaultPageSize={5}
+            minRows={5}
+            className="-striped -highlight"
+          />
+        )}
+        {data.length === 0 && <h4>{t('EXPENSE.NO_EXPENSE_YEAR')}</h4>}
+      </div>
+      <Semibold style={{ marginBottom: '16px' }}>{t('EXPENSE.DETAILED_HISTORY')}</Semibold>
+      <div className={styles.tableContainer}>
+        {detailedHistory.length > 0 && (
+          <div>
             <Table
-              columns={columns}
-              data={data}
+              columns={detailedColumns}
+              data={detailedHistory}
               showPagination={true}
               pageSizeOptions={[5, 10, 20, 50]}
               defaultPageSize={5}
               minRows={5}
               className="-striped -highlight"
+              getTdProps={(state, rowInfo, column, instance) => {
+                return {
+                  onClick: (e, handleOriginal) => {
+                    if (rowInfo && rowInfo.original) {
+                      dispatch(setExpenseDetailItem(rowInfo.original));
+                      history.push('/expense_detail');
+                    }
+                    if (handleOriginal) {
+                      handleOriginal();
+                    }
+                  },
+                };
+              }}
             />
-          )}
-          {data.length === 0 && <h4>{this.props.t('EXPENSE.NO_EXPENSE_YEAR')}</h4>}
-        </div>
-        <Semibold style={{ marginBottom: '16px' }}>
-          {this.props.t('EXPENSE.DETAILED_HISTORY')}
-        </Semibold>
-        <div className={styles.tableContainer}>
-          {detailedHistory.length > 0 && (
-            <div>
-              <Table
-                columns={detailedColumns}
-                data={detailedHistory}
-                showPagination={true}
-                pageSizeOptions={[5, 10, 20, 50]}
-                defaultPageSize={5}
-                minRows={5}
-                className="-striped -highlight"
-                getTdProps={(state, rowInfo, column, instance) => {
-                  return {
-                    onClick: (e, handleOriginal) => {
-                      if (rowInfo && rowInfo.original) {
-                        this.props.dispatch(setExpenseDetailItem(rowInfo.original));
-                        history.push('/expense_detail');
-                      }
-                      if (handleOriginal) {
-                        handleOriginal();
-                      }
-                    },
-                  };
-                }}
-              />
-            </div>
-          )}
-          {detailedHistory.length === 0 && (
-            <div>
-              <h5>{this.props.t('EXPENSE.NO_EXPENSE')}</h5>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
+        {detailedHistory.length === 0 && (
+          <div>
+            <h5>{t('EXPENSE.NO_EXPENSE')}</h5>
+          </div>
+        )}
       </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    expenses: expenseSelector(state),
-    expenseTypes: allExpenseTypeSelector(state),
-    dateRange: dateRangeSelector(state),
-    farm: userFarmSelector(state),
-  };
+    </div>
+  );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(OtherExpense));
+export default OtherExpense;

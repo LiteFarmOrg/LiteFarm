@@ -17,7 +17,6 @@ import Model from './baseFormatModel.js';
 
 import baseModel from './baseModel.js';
 import cropVarietySaleModel from './cropVarietySaleModel.js';
-import generalSaleModel from './generalSaleModel.js';
 
 class Sale extends baseModel {
   static get tableName() {
@@ -72,17 +71,6 @@ class Sale extends baseModel {
         join: {
           from: 'sale.sale_id',
           to: 'crop_variety_sale.sale_id',
-        },
-      },
-      general_sale: {
-        relation: Model.HasOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        modelClass: generalSaleModel,
-        join: {
-          from: 'sale.sale_id',
-          to: 'general_sale.sale_id',
         },
       },
     };

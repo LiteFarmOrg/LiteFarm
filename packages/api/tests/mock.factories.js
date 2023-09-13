@@ -2112,6 +2112,27 @@ function fakeNotification(defaultData = {}) {
   };
 }
 
+function fakeRevenueType(defaultData = {}) {
+  return {
+    revenue_name: faker.lorem.word(),
+    revenue_translation_key: faker.lorem.word(),
+    ...defaultData,
+  };
+}
+
+async function revenue_typeFactory(
+  { promisedFarm = farmFactory() } = {},
+  revenueType = fakeRevenueType(),
+) {
+  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const base = baseProperties(user_id);
+  return knex('revenue_type')
+    .insert({ farm_id, ...revenueType, ...base })
+    .returning('*');
+}
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -2237,5 +2258,6 @@ export default {
   fakeOrganicHistory,
   organic_historyFactory,
   notification_userFactory,
+  revenue_typeFactory,
   baseProperties,
 };

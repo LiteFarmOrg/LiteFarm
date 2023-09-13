@@ -13,12 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { selectedExpenseSelector } from '../selectors';
-import { setSelectedExpenseTypes } from '../actions';
 import { icons } from '../NewExpense/ExpenseCategories';
 import labelIconStyles from '../NewExpense/ExpenseCategories/styles.module.scss';
 import useCustomExpenseTypeTileContents from '../useCustomExpenseTypeTileContents';
@@ -33,20 +31,14 @@ const getPaths = (typeId) => ({
 export default function ManageExpenseTypes({ history }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
-  const selectedExpenseTypes = useSelector(selectedExpenseSelector);
+  const customTypes = useCustomExpenseTypeTileContents();
 
   const onTileClick = (typeId) => {
-    if (!selectedExpenseTypes.includes(typeId)) {
-      dispatch(setSelectedExpenseTypes([...selectedExpenseTypes, typeId]));
-    }
-
     const { readOnly, edit } = getPaths(typeId);
     dispatch(setPersistedPaths([readOnly, edit]));
 
     history.push(readOnly);
   };
-  const customTypes = useCustomExpenseTypeTileContents();
 
   useEffect(() => {
     // Manipulate page navigation by pushing "/expense_categories" on top of "/Finances".

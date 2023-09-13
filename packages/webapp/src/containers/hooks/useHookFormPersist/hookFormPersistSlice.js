@@ -53,9 +53,6 @@ const hookFormPersistSlice = createSlice({
     setPersistedPaths: (state, { payload: persistedPaths }) => {
       state.persistedPaths = persistedPaths;
     },
-    addPersistedPaths: (state, { payload: persistedPaths }) => {
-      state.persistedPaths = [...new Set([...state.persistedPaths, ...persistedPaths])];
-    },
     resetAndUnLockFormData: (state) => initialState,
 
     setSubmissionIdCertificationFormData: (state, { payload: submission_id }) => {
@@ -95,7 +92,6 @@ export const {
   upsertFormData,
   setFormData,
   setPersistedPaths,
-  addPersistedPaths,
   hookFormPersistUnMount,
   resetAndUnLockFormData,
   setSubmissionIdCertificationFormData,

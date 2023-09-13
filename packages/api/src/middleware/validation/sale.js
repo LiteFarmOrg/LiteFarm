@@ -22,7 +22,7 @@ async function validateSale(req, res, next) {
     return res.status(400).send('crop_variety_sale is required');
   }
 
-  if (crop_variety_sale) {
+  if (isCropRevenue && crop_variety_sale) {
     for (const singleCropVarietySale of crop_variety_sale) {
       if (
         !singleCropVarietySale.crop_variety_id ||

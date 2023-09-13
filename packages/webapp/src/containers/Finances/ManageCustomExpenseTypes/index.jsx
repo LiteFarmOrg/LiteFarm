@@ -40,30 +40,47 @@ export default function ManageExpenseTypes({ history }) {
     if (!selectedExpenseTypes.includes(typeId)) {
       dispatch(setSelectedExpenseTypes([...selectedExpenseTypes, typeId]));
     }
-    const { readOnly } = getPaths(typeId);
+
+    const { readOnly, edit } = getPaths(typeId);
+    dispatch(setPersistedPaths([readOnly, edit]));
+
     history.push(readOnly);
   };
   const customTypes = useCustomExpenseTypeTileContents();
 
   useEffect(() => {
-    if (!customTypes?.length) {
-      return;
-    }
-
-    const paths = [addCustomTypePath];
-    customTypes.forEach(({ expense_type_id }) => {
-      const { readOnly, edit } = getPaths(expense_type_id);
-      [readOnly, edit].forEach((path) => paths.push(path));
+    // Manipulate page navigation by pushing "/expense_categories" on top of "/Finances".
+    // When browser's back button or form's back button is clicked, we want to
+    // navigate the user to "/expense_categories" not "/Finances".
+    const unlisten = history.listen(() => {
+      if (history.action === 'POP' && history.location.pathname === '/Finances') {
+        dispatch(setPersistedPaths(['/expense_categories', '/add_expense']));
+        unlisten();
+        history.push('/expense_categories');
+      } else if (
+        // unlisten when the user gets out of the page without going back to '/Finances'.
+        // pathname: "/manage_custom_expenses" happens when the user lands on this page.
+        !(
+          history.location.pathname === `/manage_custom_expenses` ||
+          (history.action === 'POP' && history.location.pathname === '/Finances')
+        )
+      ) {
+        unlisten();
+      }
     });
-    dispatch(setPersistedPaths(paths));
-  }, [customTypes]);
+  }, []);
+
+  const onAddType = () => {
+    setPersistedPaths(addCustomTypePath);
+    history.push(addCustomTypePath);
+  };
 
   return (
     <PureManageCustomTypes
       title={t('EXPENSE.ADD_EXPENSE.MANAGE_CUSTOM_EXPENSE_TYPE')}
       handleGoBack={history.back}
       addLinkText={t('EXPENSE.ADD_EXPENSE.ADD_CUSTOM_EXPENSE_TYPE')}
-      onAddType={() => history.push(addCustomTypePath)}
+      onAddType={onAddType}
       tileData={customTypes}
       onTileClick={onTileClick}
       formatTileData={(data) => {

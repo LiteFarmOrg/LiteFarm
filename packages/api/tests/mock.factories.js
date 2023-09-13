@@ -2112,6 +2112,23 @@ function fakeNotification(defaultData = {}) {
   };
 }
 
+async function populateDefaultRevenueTypes() {
+  const types = [
+    { revenue_name: 'Crop Sale', revenue_type_id: 1, revenue_translation_key: 'CROP_SALE' },
+  ];
+  for (const { revenue_name, revenue_type_id, revenue_translation_key } of types) {
+    const [revenueTypeInDb] = await knex('revenue_type').where({
+      revenue_type_id,
+    });
+    if (!revenueTypeInDb) {
+      const base = baseProperties(1);
+      return knex('revenue_type')
+        .insert({ revenue_name, revenue_type_id, revenue_translation_key, ...base })
+        .returning('*');
+    }
+  }
+}
+
 function fakeRevenueType(defaultData = {}) {
   return {
     revenue_name: faker.lorem.word(),
@@ -2258,6 +2275,7 @@ export default {
   fakeOrganicHistory,
   organic_historyFactory,
   notification_userFactory,
+  populateDefaultRevenueTypes,
   revenue_typeFactory,
   baseProperties,
 };

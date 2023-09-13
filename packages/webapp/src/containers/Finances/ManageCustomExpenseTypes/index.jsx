@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
-import { addPersistedPaths } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
+import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { selectedExpenseSelector } from '../selectors';
 import { setSelectedExpenseTypes } from '../actions';
 import { icons } from '../NewExpense/ExpenseCategories';
@@ -55,7 +55,7 @@ export default function ManageExpenseTypes({ history }) {
       const { readOnly, edit } = getPaths(expense_type_id);
       [readOnly, edit].forEach((path) => paths.push(path));
     });
-    dispatch(addPersistedPaths(paths));
+    dispatch(setPersistedPaths(paths));
   }, [customTypes]);
 
   return (

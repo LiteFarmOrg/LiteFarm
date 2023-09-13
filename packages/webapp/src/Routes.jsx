@@ -28,7 +28,6 @@ import { userFarmSelector } from './containers/userFarmSlice';
 import { chooseFarmFlowSelector } from './containers/ChooseFarm/chooseFarmFlowSlice';
 import useScrollToTop from './containers/hooks/useScrollToTop';
 import { useReduxSnackbar } from './containers/Snackbar/useReduxSnackbar';
-import ManageExpenseTypes from './containers/Finances/ManageCustomExpenseTypes';
 
 //dynamic imports
 const Home = React.lazy(() => import('./containers/Home'));
@@ -66,6 +65,9 @@ const ExpenseCategories = React.lazy(() =>
   import('./containers/Finances/NewExpense/ExpenseCategories'),
 );
 const AddExpense = React.lazy(() => import('./containers/Finances/NewExpense/AddExpense'));
+const ManageExpenseTypes = React.lazy(() =>
+  import('./containers/Finances/ManageCustomExpenseTypes'),
+);
 const AddCustomExpense = React.lazy(() =>
   import('./containers/Finances/CustomExpenseType/AddSimpleCustomExpense'),
 );

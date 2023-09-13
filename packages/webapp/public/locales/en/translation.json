@@ -505,6 +505,12 @@
       "TITLE": "Add expense",
       "WHICH_TYPES_TO_RECORD": "Which types of expenses would you like to record?"
     },
+    "DELETE": {
+      "CONFIRM": "Confirm deletion",
+      "HEADER": "Delete expense?",
+      "LINK": "Delete expense",
+      "MESSAGE": "This will remove the expense from your farm's records. It will no longer be reflected in any financial summaries."
+    },
     "DETAILED_HISTORY": "Detailed History",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Choose a Date",
@@ -522,6 +528,7 @@
     "NO_EXPENSE_YEAR": "You have no expense recorded for this year",
     "OTHER_EXPENSES_TITLE": "Other Expenses",
     "SUMMARY": "Summary",
+    "TYPE": "Type",
     "VALUE": "Value"
   },
   "EXPIRED_TOKEN": {

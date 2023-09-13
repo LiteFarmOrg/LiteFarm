@@ -504,6 +504,12 @@
       "TITLE": "MISSING",
       "WHICH_TYPES_TO_RECORD": "MISSING"
     },
+    "DELETE": {
+      "CONFIRM": "MISSING",
+      "HEADER": "MISSING",
+      "LINK": "MISSING",
+      "MESSAGE": "MISSING"
+    },
     "DETAILED_HISTORY": "Historia detallada",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Elige una fecha",
@@ -521,6 +527,7 @@
     "NO_EXPENSE_YEAR": "Ud. no tiene gasto registrado para este año",
     "OTHER_EXPENSES_TITLE": "Otros gastos",
     "SUMMARY": "Resumen",
+    "TYPE": "MISSING",
     "VALUE": "Valor"
   },
   "EXPIRED_TOKEN": {

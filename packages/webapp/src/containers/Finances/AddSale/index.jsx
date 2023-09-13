@@ -48,7 +48,8 @@ function AddSale() {
         };
       });
     } else if (formType === formTypes.GENERAL) {
-      addSale.general_sale = data.general_sale;
+      // addSale.note = data.note;
+      // addSale.value = data.value;
     }
 
     dispatch(addOrUpdateSale(addSale));

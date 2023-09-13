@@ -25,9 +25,8 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 
 const SALE_DATE = 'sale_date';
 const SALE_CUSTOMER = 'customer_name';
-const GENERAL_SALE = 'general_sale';
-const SALE_VALUE = `${GENERAL_SALE}.sale_value`;
-const NOTES = `${GENERAL_SALE}.notes`;
+const VALUE = `value`;
+const NOTE = `note`;
 
 const GeneralRevenue = ({
   onSubmit,
@@ -54,11 +53,8 @@ const GeneralRevenue = ({
         persistedFormData?.[SALE_DATE] ||
         getLocalDateInYYYYDDMM(),
       [SALE_CUSTOMER]: sale?.[SALE_CUSTOMER] || persistedFormData?.[SALE_CUSTOMER] || '',
-      [GENERAL_SALE]: sale?.[GENERAL_SALE] ||
-        persistedFormData?.[GENERAL_SALE] || {
-          sale_value: null,
-          notes: '',
-        },
+      [VALUE]: sale?.[VALUE] || null,
+      [NOTE]: sale?.[NOTE] || '',
     },
   });
 
@@ -91,18 +87,18 @@ const GeneralRevenue = ({
       <Input
         label={t('SALE.DETAIL.VALUE')}
         type="number"
-        hookFormRegister={register(SALE_VALUE, { required: true, valueAsNumber: true })}
+        hookFormRegister={register(VALUE, { required: true, valueAsNumber: true })}
         currency={currency}
         style={{ marginBottom: '40px' }}
-        errors={getInputErrors(errors, SALE_VALUE)}
+        errors={getInputErrors(errors, VALUE)}
       />
       <InputAutoSize
         style={{ marginBottom: '40px' }}
         label={t('LOG_COMMON.NOTES')}
         optional={true}
-        hookFormRegister={register(NOTES, { maxLength: hookFormMaxCharsValidation(10000) })}
-        name={NOTES}
-        errors={getInputErrors(errors, NOTES)}
+        hookFormRegister={register(NOTE, { maxLength: hookFormMaxCharsValidation(10000) })}
+        name={NOTE}
+        errors={getInputErrors(errors, NOTE)}
       />
     </Form>
   );

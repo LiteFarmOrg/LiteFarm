@@ -532,34 +532,38 @@ describe('Sale Tests', () => {
         });
       });
 
-      // const testGeneralSale = (done, userId) => {
-      //   delete sampleReqBody.crop_variety_sale;
-      //   sampleReqBody.general_sale = { sale_value: 50.5, notes: 'notes' };
+      const testGeneralSale = async (done, userId) => {
+        // TODO: update once LF-3595 is complete
+        const [{ revenue_type_id }] = await mocks.revenue_typeFactory({
+          promisedFarm: [{ farm_id: farm.farm_id }],
+        });
+        delete sampleReqBody.crop_variety_sale;
+        sampleReqBody.value = 50.5;
+        sampleReqBody.note = 'notes';
+        sampleReqBody.revenue_type_id = revenue_type_id;
 
-      //   postSaleRequest(sampleReqBody, { user_id: userId }, async (err, res) => {
-      //     expect(res.status).toBe(201);
-      //     const sales = await saleModel.query().where('farm_id', farm.farm_id);
-      //     expect(sales.length).toBe(1);
-      //     expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
-      //     const generalSale = await generalSaleModel.query().where('sale_id', sales[0].sale_id);
-      //     expect(generalSale.length).toBe(1);
-      //     expect(generalSale[0].sale_value).toBe(sampleReqBody.general_sale.sale_value);
-      //     expect(generalSale[0].notes).toBe(sampleReqBody.general_sale.notes);
-      //     done();
-      //   });
-      // };
+        postSaleRequest(sampleReqBody, { user_id: userId }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const sales = await saleModel.query().where('farm_id', farm.farm_id);
+          expect(sales.length).toBe(1);
+          expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
+          expect(sales[0].value).toBe(sampleReqBody.value);
+          expect(sales[0].note).toBe(sampleReqBody.note);
+          done();
+        });
+      };
 
-      // test(`Owner should post and get a general sale`, async (done) => {
-      //   testGeneralSale(done, owner.userId);
-      // });
+      test(`Owner should post and get a general sale`, async (done) => {
+        testGeneralSale(done, owner.userId);
+      });
 
-      // test(`Manager should post and get a general sale`, async (done) => {
-      //   testGeneralSale(done, manager.userId);
-      // });
+      test(`Manager should post and get a general sale`, async (done) => {
+        testGeneralSale(done, manager.userId);
+      });
 
-      // test(`Worker should post and get a general sale`, async (done) => {
-      //   testGeneralSale(done, worker.userId);
-      // });
+      test(`Worker should post and get a general sale`, async (done) => {
+        testGeneralSale(done, worker.userId);
+      });
 
       test('should return 403 status if sale is posted by unauthorized user', async (done) => {
         postSaleRequest(sampleReqBody, { user_id: unAuthorizedUser.user_id }, async (err, res) => {

@@ -18,11 +18,33 @@
  * @returns { Promise<void> }
  */
 export const up = async function (knex) {
-  await knex.raw('ALTER SEQUENCE revenue_type_revenue_type_id_seq RESTART WITH 2');
+  await knex('revenue_type').where({ revenue_type_id: 1 }).delete();
+  await knex('revenue_type').insert({
+    revenue_name: 'Crop Sale',
+    farm_id: null,
+    deleted: false,
+    created_by_user_id: '1',
+    updated_by_user_id: '1',
+    created_at: new Date('2000/1/1').toISOString(),
+    updated_at: new Date('2000/1/1').toISOString(),
+    revenue_translation_key: 'CROP_SALE',
+  });
 };
 
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-export const down = async function () {};
+export const down = async function (knex) {
+  await knex('revenue_type').insert({
+    revenue_type_id: 1,
+    revenue_name: 'Crop Sale',
+    farm_id: null,
+    deleted: false,
+    created_by_user_id: '1',
+    updated_by_user_id: '1',
+    created_at: new Date('2000/1/1').toISOString(),
+    updated_at: new Date('2000/1/1').toISOString(),
+    revenue_translation_key: 'CROP_SALE',
+  });
+};

@@ -33,3 +33,18 @@
 @mixin smallShadow2() {
   box-shadow: 0px 2px 4px rgba(102, 115, 138, 0.3);
 }
+
+@mixin truncateText($line) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+
+  @if $line > 1 {
+    display: -webkit-box;
+    -webkit-line-clamp: $line;
+    -webkit-box-orient: vertical;
+  } @else {
+    display: inline-block; 
+    white-space: nowrap; 
+  }
+}

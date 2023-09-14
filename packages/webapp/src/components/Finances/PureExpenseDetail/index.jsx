@@ -31,12 +31,12 @@ import { getDateFromDateTimeString } from '../../../util/moment';
 import { NOTE, VALUE, DATE, TYPE } from '../AddExpense/constants';
 
 const PureExpenseDetail = ({
+  pageTitle,
   handleGoBack,
   onSubmit = () => {},
+  onRetire = () => {},
   view,
   buttonText,
-  onRetire = () => {},
-  pageTitle,
   inputMaxChars = 100,
   expense,
   expenseTypeReactSelectOptions,

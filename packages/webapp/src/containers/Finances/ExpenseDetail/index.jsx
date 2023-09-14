@@ -5,22 +5,21 @@ import { deleteExpense } from '../actions';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import PureExpenseDetail from '../../../components/Finances/PureExpenseDetail';
-import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { updateExpense } from '../saga';
 
 const ExpenseDetail = ({ history, match }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  // used to returning to edit view via back/forwards
-  const { historyCancel } = useHookFormPersist();
+  useHookFormPersist(); // To clear form history after editing
 
   const isEditing = match.path.endsWith('/edit');
 
   const { expense_id } = match.params;
 
-  const expenseTypes = useSelector(allExpenseTypeSelector); // check this is what we want
+  const expenseTypes = useSelector(allExpenseTypeSelector);
   const expenses = useSelector(expenseSelector);
 
   const expense = expenses.find((record) => record.farm_expense_id === expense_id);
@@ -31,12 +30,24 @@ const ExpenseDetail = ({ history, match }) => {
     }
   }, [expense, history]);
 
-  const expenseTypeReactSelectOptions = expenseTypes.map((type) => {
-    return {
-      value: type.expense_type_id,
-      label: type.farm_id ? type.expense_name : t(`expense:${type.expense_translation_key}`),
-    };
-  });
+  // Dropdown should include the current expense's type even if it has been retired
+  // No other retired types should be shown
+  const expenseTypeReactSelectOptions = expenseTypes
+    .map((type) => {
+      if (type.deleted && type.expense_type_id !== expense?.expense_type_id) {
+        return null;
+      } else {
+        const retireSuffix = type.deleted ? ` ${t('EXPENSE.EDIT_EXPENSE.RETIRED')}` : '';
+
+        return {
+          value: type.expense_type_id,
+          label: type.farm_id
+            ? type.expense_name + retireSuffix
+            : t(`expense:${type.expense_translation_key}`),
+        };
+      }
+    })
+    .filter(Boolean);
 
   const handleSubmit = (formData) => {
     let data = {
@@ -46,7 +57,6 @@ const ExpenseDetail = ({ history, match }) => {
       value: parseFloat(parseFloat(formData.value).toFixed(2)),
     };
 
-    historyCancel();
     dispatch(updateExpense({ expense_id, data }));
   };
 
@@ -60,18 +70,13 @@ const ExpenseDetail = ({ history, match }) => {
   };
 
   const handleGoBack = () => {
-    const unlisten = history.listen(() => {
-      if (history.action === 'POP' && !isEditing) {
-        unlisten();
-        history.push('/other_expense');
-      }
-    });
     history.back();
   };
 
   return (
     expense && (
       <PureExpenseDetail
+        key={isEditing ? 'editing' : 'readonly'} // remount the component
         pageTitle={isEditing ? t('EXPENSE.EDIT_EXPENSE.TITLE') : t('SALE.EXPENSE_DETAIL.TITLE')}
         expense={expense}
         handleGoBack={handleGoBack}
@@ -80,7 +85,6 @@ const ExpenseDetail = ({ history, match }) => {
         view={isEditing ? 'edit' : 'read-only'}
         buttonText={isEditing ? t('common:UPDATE') : t('common:EDIT')}
         expenseTypeReactSelectOptions={expenseTypeReactSelectOptions}
-        useHookFormPersist={useHookFormPersist}
       />
     )
   );

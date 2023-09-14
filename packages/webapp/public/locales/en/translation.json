@@ -518,6 +518,7 @@
       "REMOVE_ALL": "You removed all expenses, click Save to submit.",
       "RETIRE_EXPENSE_MESSAGE": "Retiring this expense type will remove it as a possible choice for future expenses. You can still search and filter for historical instances of this expense type on the Finances tab.",
       "RETIRE_EXPENSE_TYPE": "Retire expense type",
+      "RETIRED": "(retired)",
       "TITLE": "Edit Expense",
       "TITLE_1": "Edit Expense(1 of 2)",
       "TITLE_2": "Edit Expense (2 of 2)"

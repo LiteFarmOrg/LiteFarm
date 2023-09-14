@@ -308,7 +308,7 @@ export function* editExpenseSaga(action) {
         yield put(setExpense(result.data));
       }
     }
-    history.push(`/expense/${expense_id}`);
+    history.push('/other_expense');
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.UPDATE')));

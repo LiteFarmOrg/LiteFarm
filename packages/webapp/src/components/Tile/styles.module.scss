@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../assets/mixin';
+
 .typeContainer {
   display: flex;
   flex-direction: column;
@@ -56,12 +58,7 @@
 }
 
 .taskTypeLabelContainer {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  @include truncateText(2);
 }
 
 .matrixContainer {
@@ -139,5 +136,43 @@
 @media only screen and (min-width: 1024px) {
   .matrixContainer {
     gap: 25px
+  }
+}
+
+.labelIconInfoTile {
+  font-weight: 600;
+  padding: 14px 10px;
+
+  div, p {
+    @include truncateText(1);
+  }
+}
+
+.tilesWrapper {
+  overflow-y: auto;
+}
+
+// media query should be set in the component
+.swipable {
+  flex-wrap: nowrap;
+  gap: 16px;
+
+  .labelIconInfoTile {
+    flex-shrink: 0;
+    width: 88px;
+    height: 110px;
+    font-size: 12px;
+    line-height: 16px;
+    padding-bottom: 12px;
+
+    svg {
+      width: 48px;
+      height: 48px;
+    }
+    p {
+      margin-top: 2px;
+      font-size: 10px;
+      line-height: 12px;
+    }
   }
 }

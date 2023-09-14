@@ -36,9 +36,10 @@ const PureExpenseDetail = ({
   view,
   buttonText,
   onRetire = () => {},
+  pageTitle,
   inputMaxChars = 100,
   expense,
-  expenseTypeOptions,
+  expenseTypeReactSelectOptions,
 }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -52,7 +53,9 @@ const PureExpenseDetail = ({
     defaultValues: {
       [NOTE]: expense.note,
       [DATE]: getDateFromDateTimeString(expense.expense_date),
-      [TYPE]: expenseTypeOptions.find((option) => option.value === expense.expense_type_id),
+      [TYPE]: expenseTypeReactSelectOptions.find(
+        (option) => option.value === expense.expense_type_id,
+      ),
       [VALUE]: expense.value,
     },
   });
@@ -69,11 +72,7 @@ const PureExpenseDetail = ({
         </Button>
       }
     >
-      <PageTitle
-        style={{ marginBottom: '20px' }}
-        onGoBack={handleGoBack}
-        title={t('SALE.EXPENSE_DETAIL.TITLE')}
-      />
+      <PageTitle style={{ marginBottom: '20px' }} onGoBack={handleGoBack} title={pageTitle} />
       <Input
         style={{ marginBottom: '20px' }}
         label={t('EXPENSE.ITEM_NAME')}
@@ -105,7 +104,7 @@ const PureExpenseDetail = ({
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('EXPENSE.TYPE')}
-            options={expenseTypeOptions}
+            options={expenseTypeReactSelectOptions}
             onChange={(e) => {
               onChange(e);
             }}
@@ -165,14 +164,15 @@ const PureExpenseDetail = ({
 };
 
 PureExpenseDetail.propTypes = {
+  pageTitle: PropTypes.string,
   handleGoBack: PropTypes.func,
   onSubmit: PropTypes.func,
   onRetire: PropTypes.func,
   view: PropTypes.oneOf(['add', 'read-only', 'edit']),
   buttonText: PropTypes.string,
   inputMaxChars: PropTypes.number,
-  expenseTypeOptions: PropTypes.arrayOf(PropTypes.object),
   expense: PropTypes.object,
+  expenseTypeReactSelectOptions: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default PureExpenseDetail;

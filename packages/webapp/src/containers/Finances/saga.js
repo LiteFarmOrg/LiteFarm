@@ -311,6 +311,30 @@ export function* tempEditExpenseSaga(action) {
   }
 }
 
+export const updateExpense = createAction('editExpenseSaga');
+
+export function* editExpenseSaga(action) {
+  const { expenseUrl } = apiConfig;
+  const { expense_id, data } = action.payload;
+
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    let result = yield call(axios.patch, `${expenseUrl}/${expense_id}`, data, header);
+    if (result) {
+      yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE.SUCCESS.UPDATE')));
+      result = yield call(axios.get, `${expenseUrl}/farm/${farm_id}`, header);
+      if (result) {
+        yield put(setExpense(result.data));
+      }
+    }
+    history.push(`/expense/${expense_id}`);
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.UPDATE')));
+  }
+}
+
 export const getRevenueTypes = createAction('getRevenueTypesSaga');
 
 export function* getRevenueTypesSaga() {
@@ -428,5 +452,6 @@ export default function* financeSaga() {
   yield takeLeading(ADD_REMOVE_EXPENSE, addRemoveExpenseSaga);
   yield takeLeading(UPDATE_SALE, updateSaleSaga);
   yield takeLeading(TEMP_EDIT_EXPENSE, tempEditExpenseSaga);
+  yield takeLeading(updateExpense.type, editExpenseSaga);
   yield takeLeading(patchEstimatedCropRevenue.type, patchEstimatedCropRevenueSaga);
 }

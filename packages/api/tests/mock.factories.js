@@ -2121,7 +2121,7 @@ async function populateDefaultRevenueTypes() {
     if (!revenueTypeInDb) {
       const base = baseProperties(1);
       return knex('revenue_type')
-        .insert({ revenue_name, revenue_type_id, revenue_translation_key, ...base })
+        .insert({ revenue_name, revenue_translation_key, ...base })
         .returning('*');
     }
   }

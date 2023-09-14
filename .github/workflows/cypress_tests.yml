@@ -2,9 +2,9 @@ name: Run cypress happy path test
 
 on:
   workflow_dispatch:
-  # pull_request:
-  #   branches:
-  #     - integration
+  pull_request:
+    branches:
+      - e2e_test_mika
 
 jobs:
   build:
@@ -55,7 +55,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2
         with:
-           version: latest
+          version: latest
       - name: Run Webapp
         working-directory: packages/webapp
         run: |
@@ -68,7 +68,7 @@ jobs:
           VITE_DO_BUCKET_NAME: litefarm
           NODE_ENV: development
           VITE_API_URL: http://localhost:5000
-          
+
       - name: Run E2E test
         continue-on-error: true
         env:
@@ -88,13 +88,13 @@ jobs:
           record: true
           parallel: true
           group: "UI - Chrome"
-          
+
       - name: Archive backend logs
         uses: actions/upload-artifact@v3
         with:
           name: logs
           path: packages/api/logs
-          
+
       - name: set code coverage badge
         run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/webapp/coverage/coverage-summary.json'
         env:

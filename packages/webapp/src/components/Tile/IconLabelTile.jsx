@@ -15,12 +15,14 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { Info } from '../Typography';
 import styles from './styles.module.scss';
 
 export default function IconLabelTile({
   tileKey,
   icon,
   label,
+  info,
   onClick,
   selected,
   className,
@@ -35,6 +37,7 @@ export default function IconLabelTile({
     >
       {icon}
       <div className={styles.taskTypeLabelContainer}>{label}</div>
+      {info && <Info className={styles.infoContainer}>{info}</Info>}
     </div>
   );
 }
@@ -43,6 +46,7 @@ IconLabelTile.propTypes = {
   tileKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.node,
   label: PropTypes.string,
+  info: PropTypes.string,
   onClick: PropTypes.func,
   selected: PropTypes.bool,
   className: PropTypes.string,

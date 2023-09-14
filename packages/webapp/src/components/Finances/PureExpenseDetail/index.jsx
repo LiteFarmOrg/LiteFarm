@@ -89,12 +89,9 @@ const PureExpenseDetail = ({
         style={{ marginBottom: '20px' }}
         label={t('common:DATE')}
         type={'date'}
-        hookFormRegister={register(DATE, {
-          required: true,
-        })}
+        hookFormRegister={register(DATE, { required: true })}
         name={DATE}
         errors={getInputErrors(errors, DATE)}
-        optional={false}
         disabled={disabledInput}
       />
       <Controller
@@ -120,6 +117,8 @@ const PureExpenseDetail = ({
         type={'number'}
         hookFormRegister={register(VALUE, {
           required: true,
+          valueAsNumber: true,
+          min: { value: 0 },
         })}
         currency={useCurrencySymbol()}
         name={VALUE}

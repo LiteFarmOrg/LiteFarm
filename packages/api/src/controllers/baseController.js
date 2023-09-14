@@ -108,6 +108,17 @@ export default {
       .returning('*');
   },
 
+  async patch(model, id, data, req, { trx = null, context = {} } = {}) {
+    const resource = removeAdditionalProperties(model, data);
+    const table_id = model.idColumn;
+
+    return await model
+      .query(trx)
+      .context({ user_id: req?.auth?.user_id, ...context })
+      .where(table_id, id)
+      .patch(resource);
+  },
+
   async delete(model, id, req, { trx = null, context = {} } = {}) {
     const table_id = model.idColumn;
     return await model

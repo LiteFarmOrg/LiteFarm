@@ -100,6 +100,12 @@ const farmExpenseTypeController = {
         res.sendStatus(403);
       }
       try {
+        // do not allow operations to deleted records
+        if (await this.isDeleted(req.params.expense_type_id)) {
+          return res.status(404).send();
+        }
+
+        // soft delete the record
         const isDeleted = await baseController.delete(
           ExpenseTypeModel,
           req.params.expense_type_id,
@@ -127,17 +133,21 @@ const farmExpenseTypeController = {
       const { expense_type_id } = req.params;
       const farm_id = req.headers.farm_id;
       const data = req.body;
-      data.farm_id = farm_id;
 
       try {
-        // if record exists throw Conflict error
+        // do not allow update to deleted records
+        if (await this.isDeleted(expense_type_id)) {
+          return res.status(404).send();
+        }
+
+        // if record exists then throw Conflict error
         if (await this.existsInFarm(farm_id, data.expense_name, expense_type_id)) {
           return res.status(409).send();
         }
 
         data.expense_translation_key = baseController.formatTranslationKey(data.expense_name);
 
-        const result = await baseController.put(ExpenseTypeModel, expense_type_id, data, req, {
+        const result = await baseController.patch(ExpenseTypeModel, expense_type_id, data, req, {
           trx,
         });
         await trx.commit();
@@ -168,6 +178,24 @@ const farmExpenseTypeController = {
     }
 
     return query.first();
+  },
+
+  /**
+   * To check if record is deleted or not
+   * @param {number} expense_type_id - Expesnse type id
+   * @async
+   * @returns {Boolean} - true or false
+   */
+  async isDeleted(expense_type_id) {
+    const expense = await ExpenseTypeModel.query()
+      .context({ showHidden: true })
+      .where({
+        expense_type_id,
+      })
+      .select('deleted')
+      .first();
+
+    return expense.deleted;
   },
 };
 

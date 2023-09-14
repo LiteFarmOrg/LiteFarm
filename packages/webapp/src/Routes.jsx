@@ -604,6 +604,8 @@ const Routes = () => {
             <Route path="/labour" exact component={Labour} />
             <Route path="/other_expense" exact component={OtherExpense} />
             <Route path="/expense_detail" exact component={ExpenseDetail} />
+            <Route path="/expense/:expense_id/" exact component={ExpenseDetail} />
+            <Route path="/expense/:expense_id/edit" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
             <Route path="/add_custom_expense" exact component={AddCustomExpense} />
@@ -908,6 +910,8 @@ const Routes = () => {
             <Route path="/labour" exact component={Labour} />
             <Route path="/other_expense" exact component={OtherExpense} />
             <Route path="/expense_detail" exact component={ExpenseDetail} />
+            <Route path="/expense/:expense_id/" exact component={ExpenseDetail} />
+            <Route path="/expense/:expense_id/edit" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
             <Route path="/add_custom_expense" exact component={AddCustomExpense} />

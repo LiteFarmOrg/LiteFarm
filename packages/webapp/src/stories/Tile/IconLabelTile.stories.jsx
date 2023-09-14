@@ -16,6 +16,7 @@ import React from 'react';
 import IconLabelTile from '../../components/Tile/IconLabelTile';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
+import styles from '../../components/Tile/styles.module.scss';
 
 export default {
   title: 'Components/Tile/IconLabelTile',
@@ -49,5 +50,27 @@ export const LongLabel = {
     icon: <SoilAmendment />,
     label: 'Long label that does not fit in the tile',
     onClick: () => console.log('clicked!'),
+  },
+};
+
+export const WithInfo = {
+  args: {
+    tileKey: 'key',
+    icon: <SoilAmendment />,
+    label: '$100.50',
+    info: 'Info',
+    onClick: () => console.log('clicked!'),
+    className: styles.labelIconInfoTile,
+  },
+};
+
+export const WithLongInfo = {
+  args: {
+    tileKey: 'key',
+    icon: <SoilAmendment />,
+    label: '$100.50',
+    info: 'Very long information',
+    onClick: () => console.log('clicked!'),
+    className: styles.labelIconInfoTile,
   },
 };

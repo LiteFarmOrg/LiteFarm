@@ -20,6 +20,7 @@ import Tiles from '../../components/Tile/Tiles';
 import IconLabelTile from '../../components/Tile/IconLabelTile';
 import { tileTypes } from '../../components/Tile/constants';
 import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
+import styles from '../../components/Tile/styles.module.scss';
 
 export default {
   title: 'Components/Tile/Tiles',
@@ -100,4 +101,39 @@ export const IconLabelTilesAsDataWithFormatFunction = {
     },
   },
   play: tileLengthTest(6, ['Label']),
+};
+
+export const SwipableLabelIconTiles = {
+  args: {
+    tileType: tileTypes.ICON_LABEL,
+    tileData: new Array(10).fill().map((item, index) => {
+      return {
+        key: index,
+        icon: <SoilAmendment />,
+        label: 'Label',
+        onClick: () => console.log('clicked!'),
+        selected: false,
+        className: styles.labelIconInfoTile,
+      };
+    }),
+    maxSwipableWidth: 850,
+  },
+};
+
+export const SwipableLabelIconInfoTiles = {
+  args: {
+    tileType: tileTypes.ICON_LABEL,
+    tileData: new Array(10).fill().map((item, index) => {
+      return {
+        key: index,
+        icon: <SoilAmendment />,
+        label: index % 2 ? '$987654321.25' : '$50.55',
+        info: index % 2 ? 'Long label test' : 'Label',
+        onClick: () => console.log('clicked!'),
+        selected: false,
+        className: styles.labelIconInfoTile,
+      };
+    }),
+    maxSwipableWidth: 850,
+  },
 };

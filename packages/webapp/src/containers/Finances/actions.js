@@ -29,7 +29,7 @@ import {
   SET_SALES_IN_STATE,
   SET_SELECTED_EXPENSE_TYPE,
   SET_SELECTED_SALE,
-  TEMP_DELETE_EXPENSE,
+  DELETE_EXPENSE,
   UPDATE_SALE,
 } from './constants';
 
@@ -128,9 +128,9 @@ export const deleteExpenses = (ids) => {
   };
 };
 
-export const tempDeleteExpense = (expense_id) => {
+export const deleteExpense = (expense_id) => {
   return {
-    type: TEMP_DELETE_EXPENSE,
+    type: DELETE_EXPENSE,
     expense_id,
   };
 };

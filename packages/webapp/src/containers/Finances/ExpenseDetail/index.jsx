@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import { expenseSelector, expenseToDetailSelector, allExpenseTypeSelector } from '../selectors';
-import { tempDeleteExpense, tempEditExpense } from '../actions';
+import { expenseSelector, allExpenseTypeSelector } from '../selectors';
+import { deleteExpense } from '../actions';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import PureExpenseDetail from '../../../components/Finances/PureExpenseDetail';
@@ -56,7 +56,7 @@ const ExpenseDetail = ({ history, match }) => {
   };
 
   const onRetire = () => {
-    dispatch(tempDeleteExpense(expense_id));
+    dispatch(deleteExpense(expense_id));
   };
 
   const handleGoBack = () => {

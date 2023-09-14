@@ -22,7 +22,7 @@ import {
   GET_FARM_EXPENSE_TYPE,
   GET_EXPENSE,
   GET_SALES,
-  TEMP_DELETE_EXPENSE,
+  DELETE_EXPENSE,
   UPDATE_SALE,
 } from './constants';
 import { setExpenseType, setExpense, setSalesInState } from './actions';
@@ -231,7 +231,7 @@ export function* addExpensesSaga(action) {
   }
 }
 
-export function* tempDeleteExpenseSaga(action) {
+export function* deleteExpenseSaga(action) {
   const { expenseUrl } = apiConfig;
   const { expense_id } = action;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -428,7 +428,7 @@ export default function* financeSaga() {
   yield takeLeading(ADD_EXPENSES, addExpensesSaga);
   yield takeLeading(DELETE_SALE, deleteSale);
   yield takeLeading(DELETE_EXPENSES, deleteExpensesSaga);
-  yield takeLeading(TEMP_DELETE_EXPENSE, tempDeleteExpenseSaga);
+  yield takeLeading(DELETE_EXPENSE, deleteExpenseSaga);
   yield takeLeading(ADD_REMOVE_EXPENSE, addRemoveExpenseSaga);
   yield takeLeading(UPDATE_SALE, updateSaleSaga);
   yield takeLeading(updateExpense.type, editExpenseSaga);

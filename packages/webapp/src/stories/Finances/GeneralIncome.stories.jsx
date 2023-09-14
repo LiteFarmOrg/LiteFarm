@@ -27,5 +27,6 @@ export const Primary = {
     title: 'Add sale',
     dateLabel: 'Date',
     customerLabel: 'Customer name',
+    useHookFormPersist: () => ({}),
   },
 };

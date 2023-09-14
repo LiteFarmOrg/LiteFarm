@@ -36,7 +36,7 @@ export default function IconLabelTile({
       {...props}
     >
       {icon}
-      <div className={styles.taskTypeLabelContainer}>{label}</div>
+      <div className={styles.typeLabelContainer}>{label}</div>
       {info && <Info className={styles.infoContainer}>{info}</Info>}
     </div>
   );

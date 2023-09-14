@@ -37,7 +37,7 @@ const args = {
     expense_type_id: 'e4c53d48-16f6-11ee-b336-0242ac120004',
     value: 800,
   },
-  expenseTypeOptions: [
+  expenseTypeReactSelectOptions: [
     {
       value: 'e4c53d48-16f6-11ee-b336-0242ac120004',
       label: 'Equipment',
@@ -79,6 +79,7 @@ const args = {
 
 export const ReadOnlyView = Template.bind({});
 ReadOnlyView.args = {
+  pageTitle: 'Expense Detail',
   view: 'read-only',
   buttonText: 'Edit',
   ...args,
@@ -86,6 +87,7 @@ ReadOnlyView.args = {
 
 export const EditView = Template.bind({});
 EditView.args = {
+  pageTitle: 'Edit Expense',
   view: 'edit',
   buttonText: 'Update',
   ...args,

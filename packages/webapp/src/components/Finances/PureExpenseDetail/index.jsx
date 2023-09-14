@@ -72,9 +72,9 @@ const PureExpenseDetail = ({
         </Button>
       }
     >
-      <PageTitle style={{ marginBottom: '20px' }} onGoBack={handleGoBack} title={pageTitle} />
+      <PageTitle style={{ marginBottom: '24px' }} onGoBack={handleGoBack} title={pageTitle} />
       <Input
-        style={{ marginBottom: '20px' }}
+        style={{ marginBottom: '24px' }}
         label={t('EXPENSE.ITEM_NAME')}
         hookFormRegister={register(NOTE, {
           required: true,
@@ -86,7 +86,7 @@ const PureExpenseDetail = ({
         disabled={disabledInput}
       />
       <Input
-        style={{ marginBottom: '20px' }}
+        style={{ marginBottom: '24px' }}
         label={t('common:DATE')}
         type={'date'}
         hookFormRegister={register(DATE, { required: true })}
@@ -107,12 +107,12 @@ const PureExpenseDetail = ({
             }}
             isDisabled={disabledInput}
             value={value}
-            style={{ marginBottom: '20px' }}
+            style={{ marginBottom: '24px' }}
           />
         )}
       />
       <Input
-        style={{ marginBottom: '20px' }}
+        style={{ marginBottom: '24px' }}
         label={t('EXPENSE.VALUE')}
         type={'number'}
         hookFormRegister={register(VALUE, {

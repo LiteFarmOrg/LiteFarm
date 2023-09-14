@@ -103,7 +103,7 @@ export const IconLabelTilesAsDataWithFormatFunction = {
   play: tileLengthTest(6, ['Label']),
 };
 
-export const SwipableLabelIconTiles = {
+export const SwipeableLabelIconTiles = {
   args: {
     tileType: tileTypes.ICON_LABEL,
     tileData: new Array(10).fill().map((item, index) => {
@@ -116,11 +116,11 @@ export const SwipableLabelIconTiles = {
         className: styles.labelIconInfoTile,
       };
     }),
-    maxSwipableWidth: 850,
+    maxSwipeableWidth: 850,
   },
 };
 
-export const SwipableLabelIconInfoTiles = {
+export const SwipeableLabelIconInfoTiles = {
   args: {
     tileType: tileTypes.ICON_LABEL,
     tileData: new Array(10).fill().map((item, index) => {
@@ -134,6 +134,6 @@ export const SwipableLabelIconInfoTiles = {
         className: styles.labelIconInfoTile,
       };
     }),
-    maxSwipableWidth: 850,
+    maxSwipeableWidth: 850,
   },
 };

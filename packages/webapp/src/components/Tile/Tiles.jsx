@@ -26,7 +26,7 @@ const tileComponents = {
 /**
  * A component that places tiles so that the empty space is evenly distributed for any window sizes.
  * Either "children" or "tileType" and "tileData" props are required.
- * If maxSwipableWidth is given, tiles will be swipable when the browser size is less than or equal to maxSwipableWidth.
+ * If maxSwipeableWidth is given, tiles will be swipeable when the browser size is less than or equal to maxSwipeableWidth.
  * See packages/webapp/src/stories/Tile/Tiles.stories.jsx for examples.
  */
 export default function Tiles({
@@ -34,35 +34,35 @@ export default function Tiles({
   tileType,
   tileData,
   formatTileData,
-  maxSwipableWidth,
+  maxSwipeableWidth,
   ...props
 }) {
-  const queryToMatch = maxSwipableWidth ? `(max-width: ${maxSwipableWidth}px)` : '';
-  const [isSwipableView, setIsSwipableView] = useState(
-    maxSwipableWidth ? window.matchMedia(queryToMatch).matches : false,
+  const queryToMatch = maxSwipeableWidth ? `(max-width: ${maxSwipeableWidth}px)` : '';
+  const [isSwipeableView, setIsSwipeableView] = useState(
+    maxSwipeableWidth ? window.matchMedia(queryToMatch).matches : false,
   );
 
   useEffect(() => {
-    if (!maxSwipableWidth) {
+    if (!maxSwipeableWidth) {
       return;
     }
 
     // https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
     const media = window.matchMedia(queryToMatch);
 
-    if (media.matches !== isSwipableView) {
-      setIsSwipableView(media.matches);
+    if (media.matches !== isSwipeableView) {
+      setIsSwipeableView(media.matches);
     }
 
     const listner = () => {
-      setIsSwipableView(media.matches);
+      setIsSwipeableView(media.matches);
     };
 
-    // listen browser size change and set isSwipableView to true if window width <= maxSwipableWidth
+    // listen browser size change and set isSwipeableView to true if window width <= maxSwipeableWidth
     media.addEventListener('change', listner);
 
     return () => media.removeEventListener('change', listner);
-  }, [maxSwipableWidth]);
+  }, [maxSwipeableWidth]);
 
   const tiles = useMemo(() => {
     if (children || !tileType || !tileData) {
@@ -77,7 +77,7 @@ export default function Tiles({
 
   return (
     <div className={styles.tilesWrapper}>
-      <div className={clsx(styles.matrixContainer, isSwipableView && styles.swipable)} {...props}>
+      <div className={clsx(styles.matrixContainer, isSwipeableView && styles.swipeable)} {...props}>
         {tiles}
       </div>
     </div>
@@ -90,5 +90,5 @@ Tiles.propTypes = {
   tileData: PropTypes.array,
   /* formatTileData must return an object that has "key" */
   formatTileData: PropTypes.func,
-  maxSwipableWidth: PropTypes.number,
+  maxSwipeableWidth: PropTypes.number,
 };

@@ -36,14 +36,13 @@ const expenseTypeByIdSelector = (expense_type_id) => {
   });
 };
 
-const expenseTypeTileContentsSelector = createSelector(financeSelector, (state) => {
+const sortExpenseTypes = (expenseTypes) => {
   const defaultTypes = [];
   const customTypes = [];
-  state.expense_types?.forEach((type) => {
-    if (!type.deleted) {
-      const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
-      arrayToUpdate.push(type);
-    }
+
+  expenseTypes?.forEach((type) => {
+    const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
+    arrayToUpdate.push(type);
   });
 
   return [
@@ -56,6 +55,14 @@ const expenseTypeTileContentsSelector = createSelector(financeSelector, (state) 
       typeA.expense_translation_key.localeCompare(typeB.expense_translation_key),
     ),
   ];
+};
+
+const allExpenseTypeTileContentsSelector = createSelector(financeSelector, (state) => {
+  return sortExpenseTypes(state.expense_types);
+});
+
+const expenseTypeTileContentsSelector = createSelector(financeSelector, (state) => {
+  return sortExpenseTypes(state.expense_types).filter((type) => !type.deleted);
 });
 
 const expenseDetailDateSelector = createSelector(
@@ -77,6 +84,7 @@ export {
   expenseTypeSelector,
   allExpenseTypeSelector,
   expenseTypeByIdSelector,
+  allExpenseTypeTileContentsSelector,
   expenseTypeTileContentsSelector,
   expenseDetailDateSelector,
   selectedExpenseSelector,

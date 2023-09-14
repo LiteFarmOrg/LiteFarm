@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import { expenseSelector, allExpenseTypeSelector } from '../selectors';
+import { expenseSelector, allExpenseTypeTileContentsSelector } from '../selectors';
 import { deleteExpense } from '../actions';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,7 +19,7 @@ const ExpenseDetail = ({ history, match }) => {
 
   const { expense_id } = match.params;
 
-  const expenseTypes = useSelector(allExpenseTypeSelector);
+  const allSortedExpenseTypes = useSelector(allExpenseTypeTileContentsSelector);
   const expenses = useSelector(expenseSelector);
 
   const expense = expenses.find((record) => record.farm_expense_id === expense_id);
@@ -30,12 +30,22 @@ const ExpenseDetail = ({ history, match }) => {
     }
   }, [expense, history]);
 
-  // Dropdown should include the current expense's type even if it has been retired
-  // No other retired types should be shown
-  const expenseTypeReactSelectOptions = expenseTypes
+  const expenseTypeReactSelectOptions = allSortedExpenseTypes
+    // Retired at end
+    .sort((a, b) => {
+      if (a.deleted && !b.deleted) {
+        return 1;
+      } else if (b.deleted && !a.deleted) {
+        return -1;
+      } else {
+        return 0;
+      }
+    })
     .map((type) => {
       if (type.deleted && type.expense_type_id !== expense?.expense_type_id) {
-        return null;
+        // Dropdown should include the current expense's type even if it has been retired
+        // No other retired types should be shown
+        return;
       } else {
         const retireSuffix = type.deleted ? ` ${t('EXPENSE.EDIT_EXPENSE.RETIRED')}` : '';
 

@@ -68,21 +68,25 @@ jobs:
           VITE_DO_BUCKET_NAME: litefarm
           NODE_ENV: development
           VITE_API_URL: http://localhost:5000
+          CYPRESS_COVERAGE: true
 
-      - name: Install E2E packages
-        working-directory: packages/end-to-end
-        run: |
-          npm install
-
-      - name: Run E2E test
+      - name: Run E2E test (Spanish)
         continue-on-error: true
         env:
-          VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
-          VITE_ENV: development
-          VITE_GOOGLE_OAUTH_CLIENT_ID: ${{secrets.VITE_GOOGLE_OAUTH_CLIENT_ID}}
-          VITE_DO_BUCKET_NAME: litefarm
-          NODE_ENV: development
-          VITE_API_URL: http://localhost:5000
+          CYPRESS_RECORD_KEY: "c0685451-2bc1-404e-884e-bfd4699520b2"
+          CYPRESS_USER: 1
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: packages/end-to-end
+          headed: true
+          browser: chrome
+          record: true
+          parallel: true
+          group: "UI - Chrome"
+
+      - name: Run E2E test (English)
+        continue-on-error: true
+        env:
           CYPRESS_RECORD_KEY: "c0685451-2bc1-404e-884e-bfd4699520b2"
           CYPRESS_USER: 0
         uses: cypress-io/github-action@v6
@@ -100,36 +104,6 @@ jobs:
           name: logs
           path: packages/api/logs
 
-      - name: Find coverage file
-        working-directory: "."
-        run: |
-          FILE_NAME="coverage-summary.json"
-          FOUND_PATH=$(find . -type f -name "$FILE_NAME")
-
-          if [[ ! -z "$FOUND_PATH" ]]; then
-            echo "File found at: $FOUND_PATH"
-          else
-            echo "File not found!"
-          fi
-
-      - name: Archive code coverage results
-        uses: actions/upload-artifact@v3
-        with:
-          name: code-coverage-report
-          path: packages/end-to-end/coverage/coverage-summary.json
-
-      - name: Archive code coverage results webapp
-        uses: actions/upload-artifact@v3
-        with:
-          name: code-coverage-report
-          path: packages/webapp/coverage/coverage-summary.json
-
-      - name: Archive code coverage results webapp
-        uses: actions/upload-artifact@v3
-        with:
-          name: code-coverage-report
-          path: coverage/coverage-summary.json
-
       - name: set code coverage badge
         working-directory: "."
         run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/end-to-end/coverage/coverage-summary.json'
@@ -138,7 +112,7 @@ jobs:
 
       - name: Set code coverage commit status
         continue-on-error: true
-        working-directory: packages/webapp
+        working-directory: packages/end-to-end
         run: npx set-gh-status
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

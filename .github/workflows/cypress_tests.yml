@@ -69,6 +69,11 @@ jobs:
           NODE_ENV: development
           VITE_API_URL: http://localhost:5000
 
+      - name: Install E2E packages
+        working-directory: packages/end-to-end
+        run: |
+          npm install
+
       - name: Run E2E test
         continue-on-error: true
         env:

@@ -96,7 +96,7 @@ jobs:
           path: packages/api/logs
 
       - name: set code coverage badge
-        run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/webapp/coverage/coverage-summary.json'
+        run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/end-to-end/coverage/coverage-summary.json'
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 

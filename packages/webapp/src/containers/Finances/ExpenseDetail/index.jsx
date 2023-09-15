@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import { expenseSelector, allExpenseTypeTileContentsSelector } from '../selectors';
+import {
+  expenseSelector,
+  expenseTypeTileContentsSelector,
+  expenseTypeByIdSelector,
+} from '../selectors';
 import { deleteExpense } from '../actions';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,7 +23,7 @@ const ExpenseDetail = ({ history, match }) => {
 
   const { expense_id } = match.params;
 
-  const allSortedExpenseTypes = useSelector(allExpenseTypeTileContentsSelector);
+  const sortedExpenseTypes = useSelector(expenseTypeTileContentsSelector);
   const expenses = useSelector(expenseSelector);
 
   const expense = expenses.find((record) => record.farm_expense_id === expense_id);
@@ -30,34 +34,23 @@ const ExpenseDetail = ({ history, match }) => {
     }
   }, [expense, history]);
 
-  const expenseTypeReactSelectOptions = allSortedExpenseTypes
-    // Retired at end
-    .sort((a, b) => {
-      if (a.deleted && !b.deleted) {
-        return 1;
-      } else if (b.deleted && !a.deleted) {
-        return -1;
-      } else {
-        return 0;
-      }
-    })
-    .map((type) => {
-      if (type.deleted && type.expense_type_id !== expense?.expense_type_id) {
-        // Dropdown should include the current expense's type even if it has been retired
-        // No other retired types should be shown
-        return;
-      } else {
-        const retireSuffix = type.deleted ? ` ${t('EXPENSE.EDIT_EXPENSE.RETIRED')}` : '';
+  const currentExpenseType = useSelector(expenseTypeByIdSelector(expense.expense_type_id));
 
-        return {
-          value: type.expense_type_id,
-          label: type.farm_id
-            ? type.expense_name + retireSuffix
-            : t(`expense:${type.expense_translation_key}`),
-        };
-      }
-    })
-    .filter(Boolean);
+  // Dropdown should include the current expense's type even if it has been retired
+  const expenseTypeArray = sortedExpenseTypes.concat(
+    currentExpenseType.deleted ? currentExpenseType : [],
+  );
+
+  const expenseTypeReactSelectOptions = expenseTypeArray.map((type) => {
+    const retireSuffix = type.deleted ? ` ${t('EXPENSE.EDIT_EXPENSE.RETIRED')}` : '';
+
+    return {
+      value: type.expense_type_id,
+      label: type.farm_id
+        ? type.expense_name + retireSuffix
+        : t(`expense:${type.expense_translation_key}`),
+    };
+  });
 
   const handleSubmit = (formData) => {
     let data = {

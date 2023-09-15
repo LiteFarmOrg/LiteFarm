@@ -59,7 +59,7 @@ const PureExpenseDetail = ({
       [VALUE]: expense.value,
     },
   });
-  const readonly = view === 'read-only' || false;
+  const readonly = view === 'read-only';
   const disabledInput = readonly;
   const disabledButton = (!isValid || !isDirty) && !readonly;
 
@@ -102,9 +102,7 @@ const PureExpenseDetail = ({
           <ReactSelect
             label={t('EXPENSE.TYPE')}
             options={expenseTypeReactSelectOptions}
-            onChange={(e) => {
-              onChange(e);
-            }}
+            onChange={onChange}
             isDisabled={disabledInput}
             value={value}
             style={{ marginBottom: '24px' }}

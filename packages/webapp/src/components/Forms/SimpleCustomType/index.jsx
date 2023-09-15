@@ -76,7 +76,7 @@ const PureSimpleCustomType = ({
     mode: 'onChange',
     defaultValues: { [customTypeRegister]: defaultValue || undefined },
   });
-  const readonly = view === 'read-only' || false;
+  const readonly = view === 'read-only';
   const disabledInput = readonly;
   const disabledButton = (!isValid || !isDirty) && !readonly;
 

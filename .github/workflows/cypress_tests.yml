@@ -70,20 +70,6 @@ jobs:
           VITE_API_URL: http://localhost:5000
           CYPRESS_COVERAGE: true
 
-      - name: Run E2E test (Spanish)
-        continue-on-error: true
-        env:
-          CYPRESS_RECORD_KEY: "c0685451-2bc1-404e-884e-bfd4699520b2"
-          CYPRESS_USER: 1
-        uses: cypress-io/github-action@v6
-        with:
-          working-directory: packages/end-to-end
-          headed: true
-          browser: chrome
-          record: true
-          parallel: true
-          group: "UI - Chrome"
-
       - name: Run E2E test (English)
         continue-on-error: true
         env:

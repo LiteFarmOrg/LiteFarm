@@ -102,7 +102,7 @@ jobs:
           path: packages/end-to-end/coverage/coverage-summary.json
 
       - name: set code coverage badge
-        working-directory: ${GITHUB_WORKSPACE}
+        working-directory: "."
         run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/end-to-end/coverage/coverage-summary.json'
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

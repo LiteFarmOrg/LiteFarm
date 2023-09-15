@@ -92,6 +92,7 @@ const PureSimpleCustomType = ({
           fullLength
           disabled={disabledButton}
           onClick={onClick ? onClick : undefined}
+          type={view === 'read-only' ? 'button' : 'submit'}
         >
           {buttonText}
         </Button>

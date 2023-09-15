@@ -95,17 +95,17 @@ jobs:
           name: logs
           path: packages/api/logs
 
-      - name: set code coverage badge
-        run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/end-to-end/coverage/coverage-summary.json'
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage-report
-          working-directory: packages/webapp
-          path: coverage/coverage-summary.json
+          path: packages/end-to-end/coverage/coverage-summary.json
+
+      - name: set code coverage badge
+        working-directory: ${GITHUB_WORKSPACE}
+        run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/end-to-end/coverage/coverage-summary.json'
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       - name: Set code coverage commit status
         continue-on-error: true

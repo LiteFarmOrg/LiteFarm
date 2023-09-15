@@ -4,7 +4,7 @@
   "description": "LiteFarm Web application",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "CYPRESS_COVERAGE=TRUE vite --host",
     "build": "tsc && NODE_OPTIONS=--max_old_space_size=3000 vite build",
     "preview": "vite preview",
     "lint": "eslint src",

@@ -4,6 +4,7 @@
   "ACTIVE": "Active",
   "ADD": "Add",
   "ADD_ANOTHER_ITEM": "Add another item",
+  "ADD_ITEM": "Add {{itemName}}",
   "ALL": "All",
   "APPLY": "Apply",
   "BACK": "Go Back",

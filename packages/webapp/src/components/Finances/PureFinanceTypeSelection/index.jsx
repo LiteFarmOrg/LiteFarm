@@ -15,6 +15,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { IconLink, Main } from '../../Typography';
 import Form from '../../Form';
@@ -36,13 +37,16 @@ export default function PureFinanceTypeSelection({
   onGoToManageCustomType,
   isTypeSelected,
   formatTileData,
+  getFormatTileDataFunc,
   progressValue,
   useHookFormPersist,
+  persistedFormData = {},
   iconLinkId,
   Wrapper = FallbackWrapper,
 }) {
   const { t } = useTranslation();
-  const { historyCancel } = useHookFormPersist();
+  const { getValues, setValue } = useForm({ defaultValues: persistedFormData });
+  const { historyCancel } = useHookFormPersist(getValues);
 
   return (
     <Wrapper>
@@ -64,7 +68,11 @@ export default function PureFinanceTypeSelection({
           style={{ marginBottom: '24px' }}
         />
         <Main className={styles.leadText}>{leadText}</Main>
-        <Tiles tileType={tileTypes.ICON_LABEL} tileData={types} formatTileData={formatTileData} />
+        <Tiles
+          tileType={tileTypes.ICON_LABEL}
+          tileData={types}
+          formatTileData={getFormatTileDataFunc ? getFormatTileDataFunc(setValue) : formatTileData}
+        />
         <div className={styles.manageCustomTypeLinkContainer}>
           <IconLink
             id={iconLinkId}
@@ -91,8 +99,11 @@ PureFinanceTypeSelection.prototype = {
   onGoToManageCustomType: PropTypes.func,
   isTypeSelected: PropTypes.bool,
   formatTileData: PropTypes.func,
+  /** takes setValue returned from useForm */
+  getFormatTileDataFunc: PropTypes.func,
   progressValue: PropTypes.number,
   useHookFormPersist: PropTypes.func,
+  persistedFormData: PropTypes.object,
   iconLinkId: PropTypes.string,
   /** used for spotlight */
   Wrapper: PropTypes.node,

@@ -103,7 +103,14 @@ jobs:
       - name: Find coverage file
         working-directory: "."
         run: |
-          find . -name coverage-summary.json
+          FILE_NAME="coverage-summary.json"
+          FOUND_PATH=$(find . -type f -name "$FILE_NAME")
+
+          if [[ ! -z "$FOUND_PATH" ]]; then
+            echo "File found at: $FOUND_PATH"
+          else
+            echo "File not found!"
+          fi
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3

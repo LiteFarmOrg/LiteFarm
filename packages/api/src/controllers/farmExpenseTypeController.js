@@ -134,6 +134,11 @@ const farmExpenseTypeController = {
       const data = req.body;
 
       try {
+        // do not allow updating of farm_id
+        if (data.farm_id && (data.farm_id !== farm_id)) {
+          res.status(400).send();
+        }
+        
         // do not allow update to deleted records
         if (await this.isDeleted(expense_type_id)) {
           return res.status(404).send();

@@ -23,11 +23,33 @@ const farmExpenseTypeController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
+        const farm_id = req.headers.farm_id;
         const data = req.body;
-        data.expense_translation_key = data.expense_name;
-        const result = await baseController.postWithResponse(ExpenseTypeModel, data, req, { trx });
-        await trx.commit();
-        res.status(201).send(result);
+        data.expense_translation_key = baseController.formatTranslationKey(data.expense_name);
+
+        const record = await this.existsInFarm(farm_id, data.expense_name);
+        // if record exists in db
+        if (record) {
+          // if not deleted, means it is a active expense type
+          // throw conflict error
+          if (record.deleted === false) {
+            return res.status(409).send();
+          } else {
+            // if its deleted, them make it active
+            record.deleted = false;
+            await baseController.put(ExpenseTypeModel, record.expense_type_id, record, req, {
+              trx,
+            });
+            await trx.commit();
+            res.status(201).send(record);
+          }
+        } else {
+          const result = await baseController.postWithResponse(ExpenseTypeModel, data, req, {
+            trx,
+          });
+          await trx.commit();
+          res.status(201).send(result);
+        }
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
@@ -77,6 +99,12 @@ const farmExpenseTypeController = {
         res.sendStatus(403);
       }
       try {
+        // do not allow operations to deleted records
+        if (await this.isDeleted(req.params.expense_type_id)) {
+          return res.status(404).send();
+        }
+
+        // soft delete the record
         const isDeleted = await baseController.delete(
           ExpenseTypeModel,
           req.params.expense_type_id,
@@ -96,6 +124,82 @@ const farmExpenseTypeController = {
         });
       }
     };
+  },
+
+  updateFarmExpenseType() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      const { expense_type_id } = req.params;
+      const farm_id = req.headers.farm_id;
+      const data = req.body;
+
+      try {
+        // do not allow updating of farm_id
+        if (data.farm_id && data.farm_id !== farm_id) {
+          return res.status(400).send();
+        }
+
+        // do not allow update to deleted records
+        if (await this.isDeleted(expense_type_id)) {
+          return res.status(404).send();
+        }
+
+        // if record exists then throw Conflict error
+        if (await this.existsInFarm(farm_id, data.expense_name, expense_type_id)) {
+          return res.status(409).send();
+        }
+
+        data.expense_translation_key = baseController.formatTranslationKey(data.expense_name);
+
+        const result = await baseController.patch(ExpenseTypeModel, expense_type_id, data, req, {
+          trx,
+        });
+        await trx.commit();
+        return result ? res.status(204).send() : res.status(404).send('Expense type not found');
+      } catch (error) {
+        await trx.rollback();
+        return res.status(400).send(error);
+      }
+    };
+  },
+
+  /**
+   * Check if records exists in DB
+   * @param {number} farm_id
+   * @param {String} expense_name
+   * @param {number} expense_type_id - Expesnse type id to be excluded while checking records
+   * @async
+   * @returns {Promise} - Object DB record promise
+   */
+  existsInFarm(farm_id, expense_name, expense_type_id = '') {
+    let query = ExpenseTypeModel.query().context({ showHidden: true }).where({
+      expense_name,
+      farm_id,
+    });
+
+    if (expense_type_id) {
+      query = query.whereNot({ expense_type_id });
+    }
+
+    return query.first();
+  },
+
+  /**
+   * To check if record is deleted or not
+   * @param {number} expense_type_id - Expesnse type id
+   * @async
+   * @returns {Boolean} - true or false
+   */
+  async isDeleted(expense_type_id) {
+    const expense = await ExpenseTypeModel.query()
+      .context({ showHidden: true })
+      .where({
+        expense_type_id,
+      })
+      .select('deleted')
+      .first();
+
+    return expense.deleted;
   },
 };
 

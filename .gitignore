@@ -6,8 +6,9 @@ packages/api/.env.local
 packages/api/tickets
 packages/api/.env
 packages/webapp/.env
-packages/webapp/cypress/videos
-packages/webapp/cypress/screenshots
+packages/end-to-end/cypress/videos
+packages/end-to-end/cypress/screenshots
+packages/end-to-end/coverage
 packages/webapp/.nyc_output
 packages/webapp/.nyc_output/out.json
 packages/webapp/cypress.env.json

@@ -25,15 +25,34 @@ const revenueTypeController = {
       try {
         const farm_id = req.headers.farm_id;
         const data = req.body;
-        data.revenue_translation_key = data.revenue_name;
-        const result = await baseController.postWithResponse(
-          RevenueTypeModel,
-          { ...data, farm_id },
-          req,
-          { trx },
-        );
-        await trx.commit();
-        return res.status(201).send(result);
+        data.revenue_translation_key = baseController.formatTranslationKey(data.revenue_name);
+
+        const record = await this.existsInFarm(farm_id, data.revenue_name);
+        // if record exists in db
+        if (record) {
+          // if not deleted, means it is a active revenue type
+          // throw conflict error
+          if (record.deleted === false) {
+            return res.status(409).send();
+          } else {
+            // if its deleted, them make it active
+            record.deleted = false;
+            await baseController.put(RevenueTypeModel, record.revenue_type_id, record, req, {
+              trx,
+            });
+            await trx.commit();
+            res.status(201).send(record);
+          }
+        } else {
+          const result = await baseController.postWithResponse(
+            RevenueTypeModel,
+            { ...data, farm_id },
+            req,
+            { trx },
+          );
+          await trx.commit();
+          return res.status(201).send(result);
+        }
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
@@ -48,7 +67,7 @@ const revenueTypeController = {
     return async (req, res) => {
       // debugger;
       try {
-        const farm_id = req.params.farm_id;
+        const farm_id = req.headers.farm_id;
         const rows = await RevenueTypeModel.query().where('farm_id', null).orWhere({ farm_id });
         if (!rows.length) {
           return res.sendStatus(404);
@@ -89,6 +108,11 @@ const revenueTypeController = {
       // debugger;
       const trx = await transaction.start(Model.knex());
       try {
+        // do not allow operations to deleted records
+        if (await this.isDeleted(req.params.revenue_type_id)) {
+          return res.status(404).send();
+        }
+
         const isDeleted = await baseController.delete(
           RevenueTypeModel,
           req.params.revenue_type_id,
@@ -114,30 +138,71 @@ const revenueTypeController = {
   updateRevenueType() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
+      const { revenue_type_id } = req.params;
       const farm_id = req.headers.farm_id;
-      const data = req.body;
+      const data = (({ revenue_name }) => ({ revenue_name }))(req.body);
 
       try {
-        data.revenue_translation_key = data.revenue_name;
+        // do not allow update to deleted records
+        if (await this.isDeleted(revenue_type_id)) {
+          return res.status(404).send();
+        }
 
-        const result = await baseController.put(
-          RevenueTypeModel,
-          req.params.revenue_type_id,
-          { ...data, farm_id },
-          req,
-          {
-            trx,
-          },
-        );
+        // if record exists then throw Conflict error
+        if (await this.existsInFarm(farm_id, data.revenue_name, revenue_type_id)) {
+          return res.status(409).send();
+        }
+
+        data.revenue_translation_key = baseController.formatTranslationKey(data.revenue_name);
+
+        const result = await baseController.patch(RevenueTypeModel, revenue_type_id, data, req, {
+          trx,
+        });
         await trx.commit();
-        return result
-          ? res.status(201).send(result)
-          : res.status(404).send('Revenue type not found');
+        return result ? res.sendStatus(204) : res.sendStatus(404);
       } catch (error) {
         await trx.rollback();
         return res.status(400).send(error);
       }
     };
+  },
+
+  /**
+   * Check if records exists in DB
+   * @param {number} farm_id
+   * @param {String} revennue_name
+   * @param {number} revenue_type_id - Revenue type id to be excluded while checking records
+   * @async
+   * @returns {Promise} - Object DB record promise
+   */
+  existsInFarm(farm_id, revenue_name, revenue_type_id = '') {
+    let query = RevenueTypeModel.query().context({ showHidden: true }).where({
+      revenue_name,
+      farm_id,
+    });
+
+    if (revenue_type_id) {
+      query = query.whereNot({ revenue_type_id });
+    }
+
+    return query.first();
+  },
+
+  /**
+   * To check if record is deleted or not
+   * @param {number} revenue_type_id - Revenue type id
+   * @returns {Boolean} - true or false
+   */
+  async isDeleted(revenue_type_id) {
+    const revenue = await RevenueTypeModel.query()
+      .context({ showHidden: true })
+      .where({
+        revenue_type_id,
+      })
+      .select('deleted')
+      .first();
+
+    return revenue.deleted;
   },
 };
 

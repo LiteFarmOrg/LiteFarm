@@ -26,12 +26,7 @@ router.post(
   checkScope(['add:revenue_types']),
   RevenueTypeController.addType(),
 );
-router.get(
-  '/farm/:farm_id',
-  hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:revenue_types']),
-  RevenueTypeController.getAllTypes(),
-);
+router.get('/', checkScope(['get:revenue_types']), RevenueTypeController.getAllTypes());
 router.get(
   '/:revenue_type_id',
   hasFarmAccess({ params: 'revenue_type_id' }),

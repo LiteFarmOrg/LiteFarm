@@ -109,6 +109,7 @@ async function tableCleanup(knex) {
     DELETE FROM "fertilizer";
     DELETE FROM "farmExpense";
     DELETE FROM "farmExpenseType";
+    DELETE FROM "revenue_type";
     DELETE FROM "disease";
     DELETE FROM "pesticide";
     DELETE FROM "task_type";

@@ -497,10 +497,12 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "Add custom expense",
+      "ADD_CUSTOM_EXPENSE_TYPE": "Add custom expense type",
       "CUSTOM_EXPENSE_NAME": "Custom expense name",
       "CUSTOM_EXPENSE_TYPE": "Custom expense type",
       "DUPLICATE_NAME": "An expense type with this name already exists. Please choose another.",
       "FLOW": "expense creation",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "Manage custom expense types",
       "NEW_EXPENSE_ITEM": "New expense item",
       "TITLE": "Add expense",
       "WHICH_TYPES_TO_RECORD": "Which types of expenses would you like to record?"

@@ -12,11 +12,11 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { setFormData } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { ReactComponent as CropSaleIcon } from '../../../../assets/images/log/crop_sale.svg';
 import { ReactComponent as CustomTypeIcon } from '../../../../assets/images/log/custom_revenue.svg';
 import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
@@ -30,12 +30,30 @@ export const icons = {
 
 export default function RevenueTypes({ useHookFormPersist, history }) {
   const { t } = useTranslation(['translation', 'revenue']);
-  const dispatch = useDispatch();
   const revenueTypes = useSortedRevenueTypes();
+  const persistedFormData = useSelector(hookFormPersistSelector);
 
-  const onTileClick = (typeId) => {
-    dispatch(setFormData({ revenue_type_id: typeId }));
-    history.push('/add_sale');
+  const getOnTileClickFunc = (setValue) => {
+    return (typeId) => {
+      setValue('revenue_type_id', typeId);
+      history.push('/add_sale');
+    };
+  };
+
+  const getFormatTileDataFunc = (setValue) => {
+    return (data) => {
+      const { farm_id, revenue_translation_key, revenue_type_id, revenue_name } = data;
+
+      return {
+        key: revenue_type_id,
+        tileKey: revenue_type_id,
+        icon: icons[farm_id ? 'CUSTOM' : revenue_translation_key],
+        label: farm_id ? revenue_name : t(`revenue:${revenue_translation_key}`),
+        onClick: () => getOnTileClickFunc(setValue)(revenue_type_id),
+        className: styles.labelIcon,
+        selected: persistedFormData?.revenue_type_id === revenue_type_id,
+      };
+    };
   };
 
   return (
@@ -48,18 +66,7 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
         onGoBack={history.back}
         progressValue={33}
         onGoToManageCustomType={() => history.push('/manage_custom_revenues')}
-        formatTileData={(data) => {
-          const { farm_id, revenue_translation_key, revenue_type_id, revenue_name } = data;
-
-          return {
-            key: revenue_type_id,
-            tileKey: revenue_type_id,
-            icon: icons[farm_id ? 'CUSTOM' : revenue_translation_key],
-            label: farm_id ? revenue_name : t(`revenue:${revenue_translation_key}`),
-            onClick: () => onTileClick(revenue_type_id),
-            className: styles.labelIcon,
-          };
-        }}
+        getFormatTileDataFunc={getFormatTileDataFunc}
         useHookFormPersist={useHookFormPersist}
       />
     </HookFormPersistProvider>

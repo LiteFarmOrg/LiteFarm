@@ -76,6 +76,7 @@ async function tableCleanup(knex) {
     DELETE FROM "price";
     DELETE FROM "crop_variety_sale";
     DELETE FROM "sale";
+    DELETE FROM "revenue_type";
     DELETE FROM "broadcast_method";
     DELETE FROM "container_method";
     DELETE FROM "row_method";

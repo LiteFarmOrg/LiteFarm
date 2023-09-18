@@ -43,7 +43,10 @@ class ExpenseCategories extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTypes: this.props.selectedExpense,
+      // filter out previously selected and retired types
+      selectedTypes: this.props.selectedExpense.filter((typeId) => {
+        return this.props.expenseTypes.some(({ expense_type_id }) => expense_type_id === typeId);
+      }),
     };
 
     this.addRemoveType = this.addRemoveType.bind(this);
@@ -82,7 +85,7 @@ class ExpenseCategories extends Component {
           onContinue={this.nextPage}
           onGoBack={this.props.history.back}
           progressValue={33}
-          onGoToManageCustomType={() => history.push('/manage_custom_expense')}
+          onGoToManageCustomType={() => history.push('/manage_custom_expenses')}
           isTypeSelected={!!this.state.selectedTypes.length}
           formatTileData={(data) => {
             const { farm_id, expense_translation_key, expense_type_id, expense_name } = data;

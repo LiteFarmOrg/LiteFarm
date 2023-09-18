@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCustomExpenseType } from '../saga';
@@ -37,21 +38,23 @@ function EditCustomExpense({ history, match }) {
   };
 
   return (
-    <PureSimpleCustomType
-      handleGoBack={handleGoBack}
-      onSubmit={onSubmit}
-      view="edit"
-      buttonText={t('common:SAVE')}
-      pageTitle={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_TYPE')}
-      inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
-      customTypeRegister={CUSTOM_EXPENSE_NAME}
-      defaultValue={expense_name}
-      validateInput={hookFormUniquePropertyValidation(
-        expenseTypes,
-        'expense_name',
-        t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
-      )}
-    />
+    <HookFormPersistProvider>
+      <PureSimpleCustomType
+        handleGoBack={handleGoBack}
+        onSubmit={onSubmit}
+        view="edit"
+        buttonText={t('common:SAVE')}
+        pageTitle={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_TYPE')}
+        inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
+        customTypeRegister={CUSTOM_EXPENSE_NAME}
+        defaultValue={expense_name}
+        validateInput={hookFormUniquePropertyValidation(
+          expenseTypes,
+          'expense_name',
+          t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
+        )}
+      />
+    </HookFormPersistProvider>
   );
 }
 

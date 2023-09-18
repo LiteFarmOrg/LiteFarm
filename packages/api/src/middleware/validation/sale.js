@@ -15,18 +15,23 @@
 
 async function validateSale(req, res, next) {
   // TODO replace upsertGraph
-  const { crop_variety_sale } = req.body;
-  if (!(crop_variety_sale && crop_variety_sale[0])) {
-    return res.status(400).send('Crop is required');
+  const { crop_variety_sale, revenue_type_id } = req.body;
+  // TODO: implement properly once LF-3595 is complete
+  const isCropRevenue = revenue_type_id === 1;
+  if (isCropRevenue && !(crop_variety_sale && crop_variety_sale[0])) {
+    return res.status(400).send('crop_variety_sale is required');
   }
-  for (const singleCropVarietySale of crop_variety_sale) {
-    if (
-      !singleCropVarietySale.crop_variety_id ||
-      singleCropVarietySale.managementPlan ||
-      singleCropVarietySale.farm ||
-      singleCropVarietySale.crop_variety
-    ) {
-      return res.status(400).send('Crop is required');
+
+  if (isCropRevenue && crop_variety_sale) {
+    for (const singleCropVarietySale of crop_variety_sale) {
+      if (
+        !singleCropVarietySale.crop_variety_id ||
+        singleCropVarietySale.managementPlan ||
+        singleCropVarietySale.farm ||
+        singleCropVarietySale.crop_variety
+      ) {
+        return res.status(400).send('Crop is required');
+      }
     }
   }
   return next();

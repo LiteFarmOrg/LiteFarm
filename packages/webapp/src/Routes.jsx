@@ -65,6 +65,9 @@ const ExpenseCategories = React.lazy(() =>
   import('./containers/Finances/NewExpense/ExpenseCategories'),
 );
 const AddExpense = React.lazy(() => import('./containers/Finances/NewExpense/AddExpense'));
+const ManageExpenseTypes = React.lazy(() =>
+  import('./containers/Finances/ManageCustomExpenseTypes'),
+);
 const AddCustomExpense = React.lazy(() =>
   import('./containers/Finances/CustomExpenseType/AddSimpleCustomExpense'),
 );
@@ -606,6 +609,7 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
+            <Route path="/manage_custom_expenses" exact component={ManageExpenseTypes} />
             <Route path="/add_custom_expense" exact component={AddCustomExpense} />
             <Route
               path="/readonly_custom_expense/:expense_type_id"
@@ -910,6 +914,7 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
+            <Route path="/manage_custom_expenses" exact component={ManageExpenseTypes} />
             <Route path="/add_custom_expense" exact component={AddCustomExpense} />
             <Route
               path="/readonly_custom_expense/:expense_type_id"

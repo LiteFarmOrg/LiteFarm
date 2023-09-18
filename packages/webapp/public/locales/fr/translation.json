@@ -497,10 +497,12 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "MISSING",
+      "ADD_CUSTOM_EXPENSE_TYPE": "MISSING",
       "CUSTOM_EXPENSE_NAME": "MISSING",
       "CUSTOM_EXPENSE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING",
       "FLOW": "Création d'une dépense",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "NEW_EXPENSE_ITEM": "MISSING",
       "TITLE": "Ajouter une dépense",
       "WHICH_TYPES_TO_RECORD": "Quel type de dépense voulez-vous enregistrer\u00a0?"

@@ -8,7 +8,7 @@ import { dateRangeSelector, salesSelector } from '../selectors';
 import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import { AddLink, Semibold } from '../../../components/Typography';
 import DateRangePicker from '../../../components/Form/DateRangePicker';
-import ActualCropRevenue from '../ActualCropRevenue';
+import ActualRevenueItem from '../ActualRevenueItem';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 import { calcActualRevenue, filterSalesByDateRange } from '../util';
 import { setDateRange } from '../actions';
@@ -100,7 +100,7 @@ export default function ActualRevenue({ history, match }) {
         style={{ marginBottom: '8px' }}
       />
       {filteredSales.map((sale) => (
-        <ActualCropRevenue
+        <ActualRevenueItem
           key={sale.sale_id}
           sale={sale}
           history={history}

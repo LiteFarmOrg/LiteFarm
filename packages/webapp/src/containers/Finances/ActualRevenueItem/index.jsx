@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { getRevenueFormType } from '../util';
 import { revenueFormTypes } from '../constants';
 
-const ActualCropRevenue = ({ sale, history, ...props }) => {
+const ActualRevenueItem = ({ sale, history, ...props }) => {
   const { t } = useTranslation();
   const { sale_date, customer_name, crop_variety_sale, revenue_type_id, sale_id, value } = sale;
 
@@ -72,8 +72,8 @@ const ActualCropRevenue = ({ sale, history, ...props }) => {
   );
 };
 
-ActualCropRevenue.prototype = {
+ActualRevenueItem.prototype = {
   isDropDown: PropTypes.bool,
 };
 
-export default ActualCropRevenue;
+export default ActualRevenueItem;

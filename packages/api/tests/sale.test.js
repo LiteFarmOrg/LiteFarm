@@ -31,6 +31,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 import mocks from './mock.factories.js';
 import saleModel from '../src/models/saleModel.js';
 import cropVarietySaleModel from '../src/models/cropVarietySaleModel.js';
+import revenueTypeModel from '../src/models/revenueTypeModel.js';
 
 describe('Sale Tests', () => {
   let token;
@@ -601,6 +602,7 @@ describe('Sale Tests', () => {
     let cropVarietySale2;
     let newCrop;
     let newCropVariety;
+    let cropSaleRevenueType;
 
     beforeEach(async () => {
       [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
@@ -615,6 +617,10 @@ describe('Sale Tests', () => {
       });
       [newCrop] = await mocks.cropFactory({ promisedFarm: [farm], createdUser: [owner] });
       [newCropVariety] = await mocks.crop_varietyFactory({ promisedCrop: [newCrop] });
+      cropSaleRevenueType = await revenueTypeModel
+        .query()
+        .where('revenue_name', 'Crop Sale')
+        .first();
 
       patchData = {
         customer_name: 'patched customer name',
@@ -639,6 +645,7 @@ describe('Sale Tests', () => {
             sale_value: 7777,
           },
         ],
+        revenue_type_id: cropSaleRevenueType.revenue_type_id,
       };
     });
 

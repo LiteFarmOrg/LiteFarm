@@ -46,6 +46,7 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
  * @param {string} [props.retireMessage] - The message text for the retirement confirmation box.
  * @param {number} [props.inputMaxChars=100] - The maximum number of characters allowed in the input field.
  * @param {function} [props.validateInput] - A custom validation function for the input field.
+ * @param {function} [props.useHookFormPersist] - useHookFormPersist hook.
  * @returns {JSX.Element} A React component representing the custom type form.
  */
 const PureSimpleCustomType = ({
@@ -64,6 +65,7 @@ const PureSimpleCustomType = ({
   retireMessage,
   inputMaxChars = 100,
   validateInput,
+  useHookFormPersist = () => ({}),
 }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -79,6 +81,7 @@ const PureSimpleCustomType = ({
   const readonly = view === 'read-only' || false;
   const disabledInput = readonly;
   const disabledButton = (!isValid || !isDirty) && !readonly;
+  useHookFormPersist();
 
   return (
     <Form
@@ -89,6 +92,7 @@ const PureSimpleCustomType = ({
           fullLength
           disabled={disabledButton}
           onClick={onClick ? onClick : undefined}
+          type={view === 'read-only' ? 'button' : 'submit'}
         >
           {buttonText}
         </Button>
@@ -161,6 +165,7 @@ PureSimpleCustomType.propTypes = {
   retireMessage: PropTypes.string,
   inputMaxChars: PropTypes.number,
   validateInput: PropTypes.func,
+  useHookFormPersist: PropTypes.func,
 };
 
 export default PureSimpleCustomType;

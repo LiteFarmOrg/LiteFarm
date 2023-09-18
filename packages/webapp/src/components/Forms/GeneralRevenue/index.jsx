@@ -37,6 +37,7 @@ const GeneralRevenue = ({
   sale,
   useHookFormPersist,
   persistedFormData,
+  onClickDelete,
 }) => {
   const { t } = useTranslation();
 
@@ -49,11 +50,11 @@ const GeneralRevenue = ({
     mode: 'onChange',
     defaultValues: {
       [SALE_DATE]:
-        (sale?.[SALE_DATE] && getLocalDateInYYYYDDMM(sale.SALE_DATE)) ||
+        (sale?.[SALE_DATE] && getLocalDateInYYYYDDMM(new Date(sale[SALE_DATE]))) ||
         persistedFormData?.[SALE_DATE] ||
         getLocalDateInYYYYDDMM(),
       [SALE_CUSTOMER]: sale?.[SALE_CUSTOMER] || persistedFormData?.[SALE_CUSTOMER] || '',
-      [VALUE]: sale?.[VALUE] || null,
+      [VALUE]: !isNaN(sale?.[VALUE]) ? sale[VALUE] : null,
       [NOTE]: sale?.[NOTE] || '',
     },
   });
@@ -64,9 +65,16 @@ const GeneralRevenue = ({
     <Form
       onSubmit={handleSubmit(onSubmit)}
       buttonGroup={
-        <Button disabled={!isValid} fullLength type={'submit'}>
-          {t('common:SAVE')}
-        </Button>
+        <>
+          {onClickDelete && (
+            <Button color={'secondary'} fullLength onClick={onClickDelete} type={'button'}>
+              {t('common:DELETE')}
+            </Button>
+          )}
+          <Button disabled={!isValid} fullLength type={'submit'}>
+            {t('common:SAVE')}
+          </Button>
+        </>
       }
     >
       <PageTitle title={title} onGoBack={() => history.back()} style={{ marginBottom: '24px' }} />

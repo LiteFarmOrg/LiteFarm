@@ -91,17 +91,6 @@ describe('Revenue Type Tests', () => {
   }
   const getRequestAsPromise = util.promisify(getRequest);
 
-  //   function getDefaultRequest({ user_id = newOwner.user_id, farm_id = farm1.farm_id }, callback) {
-  //     chai
-  //       .request(server)
-  //       .get(`/revenue_type`)
-  //       .set('user_id', user_id)
-  //       .set('farm_id', farm_id)
-  //       // .send(farm_id)
-  //       .end(callback);
-  //   }
-  //   const getDefaultRequestAsPromise = util.promisify(getDefaultRequest);
-
   function deleteRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
     const { revenue_type_id } = data;
     chai

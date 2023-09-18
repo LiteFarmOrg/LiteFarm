@@ -27,7 +27,11 @@ const revenueTypeController = {
         const data = req.body;
         data.revenue_translation_key = baseController.formatTranslationKey(data.revenue_name);
 
-        const record = await this.existsInFarm(farm_id, data.revenue_name);
+        const record = await baseController.existsInTable(RevenueTypeModel, {
+          revenue_name: data.revenue_name,
+          farm_id,
+        });
+
         // if record exists in db
         if (record) {
           // if not deleted, means it is a active revenue type
@@ -109,7 +113,11 @@ const revenueTypeController = {
       const trx = await transaction.start(Model.knex());
       try {
         // do not allow operations to deleted records
-        if (await this.isDeleted(req.params.revenue_type_id)) {
+        if (
+          await baseController.isDeleted(RevenueTypeModel, {
+            revenue_type_id: req.params.revenue_type_id,
+          })
+        ) {
           return res.status(404).send();
         }
 
@@ -144,12 +152,21 @@ const revenueTypeController = {
 
       try {
         // do not allow update to deleted records
-        if (await this.isDeleted(revenue_type_id)) {
+        if (await baseController.isDeleted(RevenueTypeModel, { revenue_type_id })) {
           return res.status(404).send();
         }
 
         // if record exists then throw Conflict error
-        if (await this.existsInFarm(farm_id, data.revenue_name, revenue_type_id)) {
+        if (
+          await baseController.existsInTable(
+            RevenueTypeModel,
+            {
+              revenue_name: data.revenue_name,
+              farm_id,
+            },
+            { revenue_type_id },
+          )
+        ) {
           return res.status(409).send();
         }
 
@@ -165,44 +182,6 @@ const revenueTypeController = {
         return res.status(400).send(error);
       }
     };
-  },
-
-  /**
-   * Check if records exists in DB
-   * @param {number} farm_id
-   * @param {String} revennue_name
-   * @param {number} revenue_type_id - Revenue type id to be excluded while checking records
-   * @async
-   * @returns {Promise} - Object DB record promise
-   */
-  existsInFarm(farm_id, revenue_name, revenue_type_id = '') {
-    let query = RevenueTypeModel.query().context({ showHidden: true }).where({
-      revenue_name,
-      farm_id,
-    });
-
-    if (revenue_type_id) {
-      query = query.whereNot({ revenue_type_id });
-    }
-
-    return query.first();
-  },
-
-  /**
-   * To check if record is deleted or not
-   * @param {number} revenue_type_id - Revenue type id
-   * @returns {Boolean} - true or false
-   */
-  async isDeleted(revenue_type_id) {
-    const revenue = await RevenueTypeModel.query()
-      .context({ showHidden: true })
-      .where({
-        revenue_type_id,
-      })
-      .select('deleted')
-      .first();
-
-    return revenue.deleted;
   },
 };
 

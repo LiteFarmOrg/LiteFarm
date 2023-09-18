@@ -190,5 +190,40 @@ export default {
   formatTranslationKey(key) {
     return key.toUpperCase().trim().replaceAll(' ', '_');
   },
+
+  /**
+   * To check if record is deleted or not
+   * @param {Object} model - Database model instance
+   * @param {object} where - 'Where' condition to fetch record
+   * @async
+   * @returns {Boolean} - true or false
+   */
+  async isDeleted(model, where) {
+    const record = await model
+      .query()
+      .context({ showHidden: true })
+      .where(where)
+      .select('deleted')
+      .first();
+
+    return record.deleted;
+  },
+
+  /**
+   * Check if records exists in table
+   * @param {object} model - Database model instance
+   * @param {object} where - 'Where' condition to fetch record
+   * @param {object} whereNot - 'WhereNot' condition to fetch record
+   * @returns {Promise} - Object DB record promise
+   */
+  existsInTable(model, where, whereNot = {}) {
+    let query = model.query().context({ showHidden: true }).where(where);
+
+    if (Object.keys(whereNot)) {
+      query = query.whereNot(whereNot);
+    }
+
+    return query.first();
+  },
 };
 //export trx;

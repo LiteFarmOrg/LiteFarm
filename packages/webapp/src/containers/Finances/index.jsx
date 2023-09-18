@@ -41,6 +41,7 @@ import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSl
 import { isTaskType } from '../Task/useIsTaskType';
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useTranslation } from 'react-i18next';
+import { downloadFinanceReport } from './saga';
 
 const moment = extendMoment(Moment);
 
@@ -154,7 +155,21 @@ const Finances = () => {
           {t('SALE.FINANCES.ADD_NEW_SALE')}
         </Button>
       </div>
-
+      <Button
+        style={{ height: '48px', marginInline: '4px' }}
+        onClick={() => {
+          dispatch(
+            downloadFinanceReport({
+              revenue: totalRevenue,
+              expenses: totalExpense,
+              balance: (parseFloat(totalRevenue) - parseFloat(totalExpense)).toFixed(2),
+            }),
+          );
+        }}
+        color="success"
+      >
+        Download Report
+      </Button>
       <hr />
       <DateRangeSelector changeDateMethod={changeDate} />
 

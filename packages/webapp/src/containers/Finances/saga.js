@@ -41,6 +41,7 @@ import {
   postRevenueTypeSuccess,
   putRevenueTypeSuccess,
 } from '../revenueTypeSlice';
+import { saveAs } from 'file-saver';
 
 export function* getSales() {
   const { salesURL } = apiConfig;
@@ -409,6 +410,27 @@ export function* patchEstimatedCropRevenueSaga({ payload: managementPlan }) {
   }
 }
 
+export const downloadFinanceReport = createAction('downloadFinanceReportSaga');
+
+export function* downloadFinanceReportSaga({ payload: data }) {
+  const { financeReportUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(axios.post, `${financeReportUrl}/farm/${farm_id}`, data, {
+      ...header,
+      responseType: 'arraybuffer',
+    });
+    console.log({ result });
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    saveAs(blob, `finance-report.xlsx`);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export default function* financeSaga() {
   yield takeLatest(GET_SALES, getSales);
   yield takeLeading(ADD_OR_UPDATE_SALE, addSale);
@@ -429,4 +451,5 @@ export default function* financeSaga() {
   yield takeLeading(UPDATE_SALE, updateSaleSaga);
   yield takeLeading(TEMP_EDIT_EXPENSE, tempEditExpenseSaga);
   yield takeLeading(patchEstimatedCropRevenue.type, patchEstimatedCropRevenueSaga);
+  yield takeLeading(downloadFinanceReport.type, downloadFinanceReportSaga);
 }

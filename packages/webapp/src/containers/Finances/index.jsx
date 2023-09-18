@@ -146,7 +146,7 @@ const Finances = () => {
         <Button
           style={{ height: '48px' }}
           onClick={() => {
-            dispatch(setPersistedPaths(['/revenue_types', '/add_sale', '/manage_custom_revenues']));
+            dispatch(setPersistedPaths(['/revenue_types', '/add_sale']));
             history.push('/revenue_types');
           }}
           color="success"

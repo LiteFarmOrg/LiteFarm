@@ -12,15 +12,19 @@ import ActualRevenueItem from '../ActualRevenueItem';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 import { calcActualRevenue, filterSalesByDateRange } from '../util';
 import { setDateRange } from '../actions';
+import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const onGoBack = () => history.back();
-  const onAddRevenue = () => history.push(`/add_sale`);
+  const onAddRevenue = () => {
+    dispatch(setPersistedPaths(['/revenue_types', '/add_sale']));
+    history.push('/revenue_types');
+  };
   // TODO: refactor sale data after finance reducer is remade
   const sales = useSelector(salesSelector);
   const dateRange = useSelector(dateRangeSelector);
-  const dispatch = useDispatch();
 
   const year = new Date().getFullYear();
 

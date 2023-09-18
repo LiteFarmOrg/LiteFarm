@@ -24,7 +24,7 @@ import useCustomExpenseTypeTileContents from '../useCustomExpenseTypeTileContent
 const addCustomTypePath = '/add_custom_expense';
 
 const getPaths = (typeId) => ({
-  readOnly: `/readOnly_custom_expense/${typeId}`,
+  readOnly: `/readonly_custom_expense/${typeId}`,
   edit: `/edit_custom_expense/${typeId}`,
 });
 

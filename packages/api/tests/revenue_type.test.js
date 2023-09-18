@@ -116,14 +116,14 @@ describe('Revenue Type Tests', () => {
   }
 
   async function returnRevenueType(mainFarm) {
-    const [revenue_type] = await mocks.farmRevenueTypeFactory({ promisedFarm: [mainFarm] });
+    const [revenue_type] = await mocks.revenue_typeFactory({ promisedFarm: [mainFarm] });
     return { revenue_type };
   }
 
   async function returnDefaultRevenueType() {
     const defaultFarm = mocks.farmFactory();
     defaultFarm.farm_id = null;
-    const [revenue_type] = await mocks.farmRevenueTypeFactory({ promisedFarm: [defaultFarm] });
+    const [revenue_type] = await mocks.revenue_typeFactory({ promisedFarm: [defaultFarm] });
     return { revenue_type };
   }
 

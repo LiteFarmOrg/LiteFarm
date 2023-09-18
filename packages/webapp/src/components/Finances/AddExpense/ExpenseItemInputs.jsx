@@ -21,7 +21,7 @@ import Input, { numberOnKeyDown } from '../../Form/Input';
 import { NOTE, VALUE } from './constants';
 import styles from './styles.module.scss';
 
-export default function ExpenseItemInputs({ register, onRemove, onChange, getErrors }) {
+export default function ExpenseItemInputs({ register, onRemove, getErrors }) {
   const { t } = useTranslation();
 
   return (
@@ -29,7 +29,6 @@ export default function ExpenseItemInputs({ register, onRemove, onChange, getErr
       <Input
         style={{ marginBottom: '24px' }}
         label={t('EXPENSE.ITEM_NAME')}
-        onChange={(e) => onChange(e, NOTE)}
         errors={getErrors(NOTE)}
         hookFormRegister={register(NOTE, {
           required: true,
@@ -46,7 +45,6 @@ export default function ExpenseItemInputs({ register, onRemove, onChange, getErr
         onKeyDown={numberOnKeyDown}
         min="0.01"
         step="0.01"
-        onChange={(e) => onChange(e, VALUE)}
         errors={getErrors(VALUE)}
         hookFormRegister={register(VALUE, {
           required: true,

@@ -31,6 +31,7 @@ import Moment from 'moment';
 import { roundToTwoDecimal } from '../../util';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
 import InfoBoxComponent from '../../components/InfoBoxComponent';
+import SummaryCard from '../../components/Card/SummaryCard';
 import { extendMoment } from 'moment-range';
 import { managementPlansSelector } from '../managementPlanSlice';
 import { getManagementPlansAndTasks } from '../saga';
@@ -129,8 +130,29 @@ const Finances = () => {
   return (
     <div className={styles.financesContainer}>
       <Title style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.TITLE')}</Title>
-      <hr />
-      <Semibold style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.ACTION')}</Semibold>
+
+      <DateRangeSelector changeDateMethod={changeDate} />
+
+      <div className={styles.summaryCardContainer}>
+        <SummaryCard
+          label={t('SALE.FINANCES.SUMMARY.BALANCE')}
+          size="lg"
+          data={currencySymbol + (parseFloat(totalRevenue) - parseFloat(totalExpense)).toFixed(2)}
+        />
+
+        <div className={styles.summaryCardInnerContainer}>
+          <SummaryCard
+            label={t('SALE.FINANCES.SUMMARY.EXPENSES')}
+            color="negative"
+            data={currencySymbol + totalExpense}
+          />
+          <SummaryCard
+            label={t('SALE.FINANCES.SUMMARY.REVENUE')}
+            color="positive"
+            data={currencySymbol + totalRevenue}
+          />
+        </div>
+      </div>
 
       <div className={styles.buttonContainer}>
         <Button
@@ -151,12 +173,9 @@ const Finances = () => {
           }}
           color="success"
         >
-          {t('SALE.FINANCES.ADD_NEW_SALE')}
+          {t('SALE.FINANCES.ADD_NEW_REVENUE')}
         </Button>
       </div>
-
-      <hr />
-      <DateRangeSelector changeDateMethod={changeDate} />
 
       <hr />
       <div data-test="finance_summary" className={styles.align}>

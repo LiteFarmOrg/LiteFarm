@@ -1511,6 +1511,11 @@
       },
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "REVENUE": "Ingresos",
+      "SUMMARY": {
+        "BALANCE": "MISSING",
+        "EXPENSES": "MISSING",
+        "REVENUE": "MISSING"
+      },
       "TITLE": "Finanzas",
       "UNALLOCATED_CROP": "No asignada",
       "UNALLOCATED_TIP": "Que es no asignada?"

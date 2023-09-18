@@ -29,14 +29,32 @@
   justify-content: space-between;
 }
 
+.summaryCardContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 16px;
+}
+
+.summaryCardInnerContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
 .buttonContainer {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 16px;
   button {
-    width: 90%;
-    margin: 0.25em;
+    width: 100%;
   }
 }
 
@@ -123,7 +141,6 @@
   h5 {
     text-align: center;
   }
-  margin-bottom: 20px;
 }
 
 .dateText {

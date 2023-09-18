@@ -1510,6 +1510,11 @@
       },
       "OTHER_EXPENSES_LABEL": "Other Expenses",
       "REVENUE": "Revenue",
+      "SUMMARY": {
+        "BALANCE": "My balance",
+        "EXPENSES": "Total expenses",
+        "REVENUE": "Total revenue"
+      },
       "TITLE": "Finances",
       "UNALLOCATED_CROP": "Unallocated",
       "UNALLOCATED_TIP": "What is unallocated?"

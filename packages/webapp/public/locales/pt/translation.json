@@ -1512,6 +1512,11 @@
       },
       "OTHER_EXPENSES_LABEL": "Outras despesas",
       "REVENUE": "Receita",
+      "SUMMARY": {
+        "BALANCE": "MISSING",
+        "EXPENSES": "MISSING",
+        "REVENUE": "MISSING"
+      },
       "TITLE": "Finanças",
       "UNALLOCATED_CROP": "Não atribuído",
       "UNALLOCATED_TIP": "O que não está atribuído?"

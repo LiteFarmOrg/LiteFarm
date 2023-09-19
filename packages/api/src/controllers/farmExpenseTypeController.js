@@ -27,7 +27,7 @@ const farmExpenseTypeController = {
         const data = req.body;
         data.expense_translation_key = baseController.formatTranslationKey(data.expense_name);
 
-        const record = await this.existsInFarm(farm_id, data.expense_name);
+        const record = await this.existsInFarm(farm_id, data.expense_name, trx);
         // if record exists in db
         if (record) {
           // if not deleted, means it is a active expense type
@@ -102,7 +102,7 @@ const farmExpenseTypeController = {
       }
       try {
         // do not allow operations to deleted records
-        if (await this.isDeleted(req.params.expense_type_id)) {
+        if (await this.isDeleted(req.params.expense_type_id, trx)) {
           await trx.rollback();
           return res.status(404).send();
         }
@@ -144,13 +144,13 @@ const farmExpenseTypeController = {
         }
 
         // do not allow update to deleted records
-        if (await this.isDeleted(expense_type_id)) {
+        if (await this.isDeleted(expense_type_id, trx)) {
           await trx.rollback();
           return res.status(404).send();
         }
 
         // if record exists then throw Conflict error
-        if (await this.existsInFarm(farm_id, data.expense_name, expense_type_id)) {
+        if (await this.existsInFarm(farm_id, data.expense_name, expense_type_id, trx)) {
           await trx.rollback();
           return res.status(409).send();
         }
@@ -177,8 +177,8 @@ const farmExpenseTypeController = {
    * @async
    * @returns {Promise} - Object DB record promise
    */
-  existsInFarm(farm_id, expense_name, expense_type_id = '') {
-    let query = ExpenseTypeModel.query().context({ showHidden: true }).where({
+  existsInFarm(farm_id, expense_name, expense_type_id = '', trx) {
+    let query = ExpenseTypeModel.query(trx).context({ showHidden: true }).where({
       expense_name,
       farm_id,
     });
@@ -196,8 +196,8 @@ const farmExpenseTypeController = {
    * @async
    * @returns {Boolean} - true or false
    */
-  async isDeleted(expense_type_id) {
-    const expense = await ExpenseTypeModel.query()
+  async isDeleted(expense_type_id, trx) {
+    const expense = await ExpenseTypeModel.query(trx)
       .context({ showHidden: true })
       .where({
         expense_type_id,

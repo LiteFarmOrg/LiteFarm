@@ -17,9 +17,10 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { IconLink } from '../../Typography';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
-import Input, { numberOnKeyDown } from '../../Form/Input';
+import Input from '../../Form/Input';
 import { NOTE, VALUE } from './constants';
 import styles from './styles.module.scss';
+import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
 export default function ExpenseItemInputs({ register, onRemove, getErrors }) {
   const { t } = useTranslation();
@@ -42,15 +43,13 @@ export default function ExpenseItemInputs({ register, onRemove, getErrors }) {
         style={{ marginBottom: '24px' }}
         type="number"
         label={t('EXPENSE.VALUE')}
-        onKeyDown={numberOnKeyDown}
-        min="0.01"
-        step="0.01"
         errors={getErrors(VALUE)}
         hookFormRegister={register(VALUE, {
           required: true,
           valueAsNumber: true,
-          min: { value: 0.01 },
+          min: { value: 0 },
         })}
+        currency={useCurrencySymbol()}
       />
       <IconLink
         className={styles.iconLink}

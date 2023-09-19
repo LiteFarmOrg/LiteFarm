@@ -497,13 +497,21 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "Add custom expense",
+      "ADD_CUSTOM_EXPENSE_TYPE": "Add custom expense type",
       "CUSTOM_EXPENSE_NAME": "Custom expense name",
       "CUSTOM_EXPENSE_TYPE": "Custom expense type",
       "DUPLICATE_NAME": "An expense type with this name already exists. Please choose another.",
       "FLOW": "expense creation",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "Manage custom expense types",
       "NEW_EXPENSE_ITEM": "New expense item",
       "TITLE": "Add expense",
       "WHICH_TYPES_TO_RECORD": "Which types of expenses would you like to record?"
+    },
+    "DELETE": {
+      "CONFIRM": "Confirm deletion",
+      "HEADER": "Delete expense?",
+      "LINK": "Delete expense",
+      "MESSAGE": "This will remove the expense from your farm's records. It will no longer be reflected in any financial summaries."
     },
     "DETAILED_HISTORY": "Detailed History",
     "EDIT_EXPENSE": {
@@ -512,6 +520,8 @@
       "REMOVE_ALL": "You removed all expenses, click Save to submit.",
       "RETIRE_EXPENSE_MESSAGE": "Retiring this expense type will remove it as a possible choice for future expenses. You can still search and filter for historical instances of this expense type on the Finances tab.",
       "RETIRE_EXPENSE_TYPE": "Retire expense type",
+      "RETIRED": "(retired)",
+      "TITLE": "Edit Expense",
       "TITLE_1": "Edit Expense(1 of 2)",
       "TITLE_2": "Edit Expense (2 of 2)"
     },
@@ -522,6 +532,7 @@
     "NO_EXPENSE_YEAR": "You have no expense recorded for this year",
     "OTHER_EXPENSES_TITLE": "Other Expenses",
     "SUMMARY": "Summary",
+    "TYPE": "Type",
     "VALUE": "Value"
   },
   "EXPIRED_TOKEN": {

@@ -27,12 +27,13 @@ const farmExpenseTypeController = {
         const data = req.body;
         data.expense_translation_key = baseController.formatTranslationKey(data.expense_name);
 
-        const record = await this.existsInFarm(farm_id, data.expense_name);
+        const record = await this.existsInFarm(trx, farm_id, data.expense_name);
         // if record exists in db
         if (record) {
           // if not deleted, means it is a active expense type
           // throw conflict error
           if (record.deleted === false) {
+            await trx.rollback();
             return res.status(409).send();
           } else {
             // if its deleted, them make it active
@@ -96,11 +97,13 @@ const farmExpenseTypeController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       if (req.headers.farm_id == null) {
+        await trx.rollback();
         res.sendStatus(403);
       }
       try {
         // do not allow operations to deleted records
-        if (await this.isDeleted(req.params.expense_type_id)) {
+        if (await this.isDeleted(req.params.expense_type_id, trx)) {
+          await trx.rollback();
           return res.status(404).send();
         }
 
@@ -136,16 +139,19 @@ const farmExpenseTypeController = {
       try {
         // do not allow updating of farm_id
         if (data.farm_id && data.farm_id !== farm_id) {
+          await trx.rollback();
           return res.status(400).send();
         }
 
         // do not allow update to deleted records
-        if (await this.isDeleted(expense_type_id)) {
+        if (await this.isDeleted(expense_type_id, trx)) {
+          await trx.rollback();
           return res.status(404).send();
         }
 
         // if record exists then throw Conflict error
-        if (await this.existsInFarm(farm_id, data.expense_name, expense_type_id)) {
+        if (await this.existsInFarm(trx, farm_id, data.expense_name, expense_type_id)) {
+          await trx.rollback();
           return res.status(409).send();
         }
 
@@ -165,14 +171,15 @@ const farmExpenseTypeController = {
 
   /**
    * Check if records exists in DB
+   * @param {Object} trx - transaction object
    * @param {number} farm_id
    * @param {String} expense_name
    * @param {number} expense_type_id - Expesnse type id to be excluded while checking records
    * @async
    * @returns {Promise} - Object DB record promise
    */
-  existsInFarm(farm_id, expense_name, expense_type_id = '') {
-    let query = ExpenseTypeModel.query().context({ showHidden: true }).where({
+  existsInFarm(trx, farm_id, expense_name, expense_type_id = '') {
+    let query = ExpenseTypeModel.query(trx).context({ showHidden: true }).where({
       expense_name,
       farm_id,
     });
@@ -187,11 +194,12 @@ const farmExpenseTypeController = {
   /**
    * To check if record is deleted or not
    * @param {number} expense_type_id - Expesnse type id
+   * @param {Object} trx - transaction object
    * @async
    * @returns {Boolean} - true or false
    */
-  async isDeleted(expense_type_id) {
-    const expense = await ExpenseTypeModel.query()
+  async isDeleted(expense_type_id, trx) {
+    const expense = await ExpenseTypeModel.query(trx)
       .context({ showHidden: true })
       .where({
         expense_type_id,

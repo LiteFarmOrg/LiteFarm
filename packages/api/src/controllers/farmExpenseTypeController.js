@@ -27,7 +27,7 @@ const farmExpenseTypeController = {
         const data = req.body;
         data.expense_translation_key = baseController.formatTranslationKey(data.expense_name);
 
-        const record = await this.existsInFarm(farm_id, data.expense_name, trx);
+        const record = await this.existsInFarm(trx, farm_id, data.expense_name);
         // if record exists in db
         if (record) {
           // if not deleted, means it is a active expense type
@@ -150,7 +150,7 @@ const farmExpenseTypeController = {
         }
 
         // if record exists then throw Conflict error
-        if (await this.existsInFarm(farm_id, data.expense_name, expense_type_id, trx)) {
+        if (await this.existsInFarm(trx, farm_id, data.expense_name, expense_type_id)) {
           await trx.rollback();
           return res.status(409).send();
         }
@@ -177,7 +177,7 @@ const farmExpenseTypeController = {
    * @async
    * @returns {Promise} - Object DB record promise
    */
-  existsInFarm(farm_id, expense_name, expense_type_id = '', trx) {
+  existsInFarm(trx, farm_id, expense_name, expense_type_id = '') {
     let query = ExpenseTypeModel.query(trx).context({ showHidden: true }).where({
       expense_name,
       farm_id,

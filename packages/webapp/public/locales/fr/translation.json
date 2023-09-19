@@ -507,6 +507,12 @@
       "TITLE": "Ajouter une dépense",
       "WHICH_TYPES_TO_RECORD": "Quel type de dépense voulez-vous enregistrer\u00a0?"
     },
+    "DELETE": {
+      "CONFIRM": "MISSING",
+      "HEADER": "MISSING",
+      "LINK": "MISSING",
+      "MESSAGE": "MISSING"
+    },
     "DETAILED_HISTORY": "Historique détaillé",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Choisissez une date",
@@ -514,6 +520,8 @@
       "REMOVE_ALL": "Vous avez supprimé toutes les dépenses, cliquez sur Enregistrer pour valider.",
       "RETIRE_EXPENSE_MESSAGE": "MISSING",
       "RETIRE_EXPENSE_TYPE": "MISSING",
+      "RETIRED": "MISSING",
+      "TITLE": "MISSING",
       "TITLE_1": "Modifier les dépenses (1 sur 2)",
       "TITLE_2": "Modifier la dépense (2 sur 2)"
     },
@@ -524,6 +532,7 @@
     "NO_EXPENSE_YEAR": "Vous n'avez enregistré aucune dépense pour cette année",
     "OTHER_EXPENSES_TITLE": "Autres dépenses",
     "SUMMARY": "Résumé",
+    "TYPE": "MISSING",
     "VALUE": "Valeur"
   },
   "EXPIRED_TOKEN": {

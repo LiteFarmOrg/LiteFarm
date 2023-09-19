@@ -506,6 +506,12 @@
       "TITLE": "MISSING",
       "WHICH_TYPES_TO_RECORD": "MISSING"
     },
+    "DELETE": {
+      "CONFIRM": "MISSING",
+      "HEADER": "MISSING",
+      "LINK": "MISSING",
+      "MESSAGE": "MISSING"
+    },
     "DETAILED_HISTORY": "História Detalhada",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Escolha uma data",
@@ -513,6 +519,8 @@
       "REMOVE_ALL": "Você removeu todas as despesas, clique em Salvar para enviar.",
       "RETIRE_EXPENSE_MESSAGE": "MISSING",
       "RETIRE_EXPENSE_TYPE": "MISSING",
+      "RETIRED": "MISSING",
+      "TITLE": "MISSING",
       "TITLE_1": "Editar Despesa (1 de 2)",
       "TITLE_2": "Editar Despesa (2 de 2)"
     },
@@ -523,6 +531,7 @@
     "NO_EXPENSE_YEAR": "Você não tem despesas registradas para este ano",
     "OTHER_EXPENSES_TITLE": "Outras despesas",
     "SUMMARY": "Resumo",
+    "TYPE": "MISSING",
     "VALUE": "Valor"
   },
   "EXPIRED_TOKEN": {

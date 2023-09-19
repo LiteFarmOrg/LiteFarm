@@ -22,8 +22,7 @@ import {
   GET_FARM_EXPENSE_TYPE,
   GET_EXPENSE,
   GET_SALES,
-  TEMP_DELETE_EXPENSE,
-  TEMP_EDIT_EXPENSE,
+  DELETE_EXPENSE,
   UPDATE_SALE,
 } from './constants';
 import { setExpenseType, setExpense, setSalesInState } from './actions';
@@ -232,7 +231,7 @@ export function* addExpensesSaga(action) {
   }
 }
 
-export function* tempDeleteExpenseSaga(action) {
+export function* deleteExpenseSaga(action) {
   const { expenseUrl } = apiConfig;
   const { expense_id } = action;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -292,9 +291,12 @@ export function* addRemoveExpenseSaga(action) {
   }
 }
 
-export function* tempEditExpenseSaga(action) {
+export const updateExpense = createAction('editExpenseSaga');
+
+export function* editExpenseSaga(action) {
   const { expenseUrl } = apiConfig;
-  const { expense_id, data } = action;
+  const { expense_id, data } = action.payload;
+
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
@@ -306,7 +308,9 @@ export function* tempEditExpenseSaga(action) {
         yield put(setExpense(result.data));
       }
     }
+    history.push('/other_expense');
   } catch (e) {
+    console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.UPDATE')));
   }
 }
@@ -424,9 +428,9 @@ export default function* financeSaga() {
   yield takeLeading(ADD_EXPENSES, addExpensesSaga);
   yield takeLeading(DELETE_SALE, deleteSale);
   yield takeLeading(DELETE_EXPENSES, deleteExpensesSaga);
-  yield takeLeading(TEMP_DELETE_EXPENSE, tempDeleteExpenseSaga);
+  yield takeLeading(DELETE_EXPENSE, deleteExpenseSaga);
   yield takeLeading(ADD_REMOVE_EXPENSE, addRemoveExpenseSaga);
   yield takeLeading(UPDATE_SALE, updateSaleSaga);
-  yield takeLeading(TEMP_EDIT_EXPENSE, tempEditExpenseSaga);
+  yield takeLeading(updateExpense.type, editExpenseSaga);
   yield takeLeading(patchEstimatedCropRevenue.type, patchEstimatedCropRevenueSaga);
 }

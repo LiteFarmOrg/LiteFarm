@@ -86,9 +86,6 @@ const ReadOnlyCustomRevenue = React.lazy(() =>
 const EditCustomRevenue = React.lazy(() =>
   import('./containers/Finances/CustomRevenueType/EditCustomRevenue'),
 );
-const TempEditExpense = React.lazy(() =>
-  import('./containers/Finances/EditExpense/TempEditExpense'),
-);
 const SaleDetail = React.lazy(() => import('./containers/Finances/SaleDetail'));
 const ExpiredTokenScreen = React.lazy(() => import('./containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('./containers/Map'));
@@ -606,7 +603,8 @@ const Routes = () => {
             <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
             <Route path="/labour" exact component={Labour} />
             <Route path="/other_expense" exact component={OtherExpense} />
-            <Route path="/expense_detail" exact component={ExpenseDetail} />
+            <Route path="/expense/:expense_id/" exact component={ExpenseDetail} />
+            <Route path="/expense/:expense_id/edit" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
             <Route path="/manage_custom_expenses" exact component={ManageExpenseTypes} />
@@ -632,7 +630,6 @@ const Routes = () => {
               exact
               component={EditCustomRevenue}
             />
-            <Route path="/edit_expense" exact component={TempEditExpense} />
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/callback" component={Callback} />
@@ -911,7 +908,8 @@ const Routes = () => {
             <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
             <Route path="/labour" exact component={Labour} />
             <Route path="/other_expense" exact component={OtherExpense} />
-            <Route path="/expense_detail" exact component={ExpenseDetail} />
+            <Route path="/expense/:expense_id/" exact component={ExpenseDetail} />
+            <Route path="/expense/:expense_id/edit" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
             <Route path="/manage_custom_expenses" exact component={ManageExpenseTypes} />
@@ -945,7 +943,6 @@ const Routes = () => {
               component={ComplianceInfo}
             />
 
-            <Route path="/edit_expense" exact component={TempEditExpense} />
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />

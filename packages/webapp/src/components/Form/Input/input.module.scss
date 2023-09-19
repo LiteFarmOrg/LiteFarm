@@ -129,6 +129,7 @@ input:focus::placeholder {
   position: absolute;
   left: 0;
   transform: translate(8px, 34px);
+  z-index: 1; // otherwise hidden behind the disabled background color
 }
 
 .leaf {

@@ -342,6 +342,7 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
 
     yield put(deleteRevenueTypeSuccess(id));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.DELETE')));
+    history.push('/manage_custom_revenues');
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.DELETE')));
   }
@@ -364,6 +365,7 @@ export function* addRevenueTypeSaga({ payload: { revenue_name } }) {
 
     yield put(postRevenueTypeSuccess(result.data));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.ADD')));
+    history.push('/manage_custom_revenues');
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.ADD')));
   }
@@ -386,6 +388,7 @@ export function* updateRevenueTypeSaga({ payload: { revenue_type_id, revenue_nam
 
     yield put(putRevenueTypeSuccess({ revenue_type_id, revenue_name }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.UPDATE')));
+    history.push('/manage_custom_revenues');
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.UPDATE')));
   }

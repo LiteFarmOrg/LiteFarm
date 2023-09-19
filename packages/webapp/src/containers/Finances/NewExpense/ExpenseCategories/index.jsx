@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
-import styles from './styles.module.scss';
 import { expenseTypeTileContentsSelector, selectedExpenseSelector } from '../../selectors';
 import { ReactComponent as EquipIcon } from '../../../../assets/images/log/equipment.svg';
 import { ReactComponent as SoilAmendmentIcon } from '../../../../assets/images/log/fertilizing.svg';
@@ -18,6 +17,7 @@ import PropTypes from 'prop-types';
 import ManageCustomExpenseTypesSpotlight from '../ManageCustomExpenseTypesSpotlight';
 import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
+import labelIconStyles from '../../../../components/Tile/styles.module.scss';
 
 export const icons = {
   EQUIPMENT: <EquipIcon />,
@@ -97,7 +97,7 @@ class ExpenseCategories extends Component {
               label: farm_id ? expense_name : this.props.t(`expense:${expense_translation_key}`),
               onClick: () => this.addRemoveType(expense_type_id),
               selected: this.state.selectedTypes.includes(expense_type_id),
-              className: styles.labelIcon,
+              className: labelIconStyles.boldLabelIcon,
             };
           }}
           useHookFormPersist={this.props.useHookFormPersist}

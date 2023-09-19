@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { icons } from '../NewExpense/ExpenseCategories';
-import labelIconStyles from '../NewExpense/ExpenseCategories/styles.module.scss';
+import labelIconStyles from '../../../components/Tile/styles.module.scss';
 import useCustomExpenseTypeTileContents from '../useCustomExpenseTypeTileContents';
 
 const addCustomTypePath = '/add_custom_expense';
@@ -83,7 +83,7 @@ export default function ManageExpenseTypes({ history }) {
           tileKey: expense_type_id,
           icon: icons[farm_id ? 'OTHER' : expense_translation_key],
           label: farm_id ? expense_name : t(`expense:${expense_translation_key}`),
-          className: labelIconStyles.labelIcon,
+          className: labelIconStyles.boldLabelIcon,
         };
       }}
     />

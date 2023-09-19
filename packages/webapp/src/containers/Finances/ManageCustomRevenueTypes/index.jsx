@@ -19,7 +19,7 @@ import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useSortedCustomRevenueTypes from '../useSortedCustomRevenueTypes';
 import { icons } from '../AddSale/RevenueTypes';
-import labelIconStyles from '.././../../components/Tile/styles.module.scss';
+import labelIconStyles from '../../../components/Tile/styles.module.scss';
 
 const addCustomTypePath = '/add_custom_revenue';
 

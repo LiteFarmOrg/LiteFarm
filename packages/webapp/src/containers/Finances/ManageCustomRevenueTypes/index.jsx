@@ -17,21 +17,21 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { icons } from '../NewExpense/ExpenseCategories';
+import useSortedCustomRevenueTypes from '../useSortedCustomRevenueTypes';
+import { icons } from '../AddSale/RevenueTypes';
 import labelIconStyles from '../../../components/Tile/styles.module.scss';
-import useCustomExpenseTypeTileContents from '../useCustomExpenseTypeTileContents';
 
-const addCustomTypePath = '/add_custom_expense';
+const addCustomTypePath = '/add_custom_revenue';
 
 const getPaths = (typeId) => ({
-  readOnly: `/readonly_custom_expense/${typeId}`,
-  edit: `/edit_custom_expense/${typeId}`,
+  readOnly: `/readonly_custom_revenue/${typeId}`,
+  edit: `/edit_custom_revenue/${typeId}`,
 });
 
-export default function ManageExpenseTypes({ history }) {
+export default function ManageRevenueTypes({ history }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const customTypes = useCustomExpenseTypeTileContents();
+  const customTypes = useSortedCustomRevenueTypes();
 
   const onTileClick = (typeId) => {
     const { readOnly, edit } = getPaths(typeId);
@@ -41,19 +41,19 @@ export default function ManageExpenseTypes({ history }) {
   };
 
   useEffect(() => {
-    // Manipulate page navigation by pushing "/expense_categories" on top of "/Finances".
+    // Manipulate page navigation by pushing "/revenue_types" on top of "/Finances".
     // When browser's back button or form's back button is clicked, we want to
-    // navigate the user to "/expense_categories" not "/Finances".
+    // navigate the user to "/revenue_types" not "/Finances".
     const unlisten = history.listen(() => {
       if (history.action === 'POP' && history.location.pathname === '/Finances') {
-        dispatch(setPersistedPaths(['/expense_categories', '/add_expense']));
+        dispatch(setPersistedPaths(['/revenue_types', '/add_sale']));
         unlisten();
-        history.push('/expense_categories');
+        history.push('/revenue_types');
       } else if (
         // unlisten when the user gets out of the page without going back to '/Finances'.
-        // pathname: "/manage_custom_expenses" happens when the user lands on this page.
+        // pathname: "/manage_custom_revenue" happens when the user lands on this page.
         !(
-          history.location.pathname === `/manage_custom_expenses` ||
+          history.location.pathname === `/manage_custom_revenue` ||
           (history.action === 'POP' && history.location.pathname === '/Finances')
         )
       ) {
@@ -69,20 +69,20 @@ export default function ManageExpenseTypes({ history }) {
 
   return (
     <PureManageCustomTypes
-      title={t('EXPENSE.ADD_EXPENSE.MANAGE_CUSTOM_EXPENSE_TYPE')}
+      title={t('SALE.ADD_SALE.MANAGE_CUSTOM_REVENUE_TYPE')}
       handleGoBack={history.back}
-      addLinkText={t('EXPENSE.ADD_EXPENSE.ADD_CUSTOM_EXPENSE_TYPE')}
+      addLinkText={t('SALE.ADD_SALE.ADD_CUSTOM_REVENUE_TYPE')}
       onAddType={onAddType}
       tileData={customTypes}
       onTileClick={onTileClick}
       formatTileData={(data) => {
-        const { farm_id, expense_translation_key, expense_name, expense_type_id } = data;
+        const { farm_id, revenue_translation_key, revenue_name, revenue_type_id } = data;
 
         return {
-          key: expense_type_id,
-          tileKey: expense_type_id,
-          icon: icons[farm_id ? 'OTHER' : expense_translation_key],
-          label: farm_id ? expense_name : t(`expense:${expense_translation_key}`),
+          key: revenue_type_id,
+          tileKey: revenue_type_id,
+          icon: icons[farm_id ? 'CUSTOM' : revenue_translation_key],
+          label: farm_id ? revenue_name : t(`revenue:${revenue_translation_key}`),
           className: labelIconStyles.boldLabelIcon,
         };
       }}

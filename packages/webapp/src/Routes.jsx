@@ -53,6 +53,9 @@ const Biodiversity = React.lazy(() => import('./containers/Insights/Biodiversity
 const Prices = React.lazy(() => import('./containers/Insights/Prices'));
 const RevenueTypes = React.lazy(() => import('./containers/Finances/AddSale/RevenueTypes'));
 const AddSale = React.lazy(() => import('./containers/Finances/AddSale'));
+const ManageRevenueTypes = React.lazy(() =>
+  import('./containers/Finances/ManageCustomRevenueTypes'),
+);
 const EditSale = React.lazy(() => import('./containers/Finances/EditSale'));
 const LegacyEstimatedRevenue = React.lazy(() =>
   import('./containers/Finances/LegacyEstimatedRevenue'),
@@ -598,6 +601,7 @@ const Routes = () => {
             />
             <Route path="/revenue_types" exact component={RevenueTypes} />
             <Route path="/add_sale" exact component={AddSale} />
+            <Route path="/manage_custom_revenues" exact component={ManageRevenueTypes} />
             <Route path="/edit_sale" exact component={EditSale} />
             <Route path="/temp_estimated_revenue" exact component={LegacyEstimatedRevenue} />
             <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
@@ -903,6 +907,7 @@ const Routes = () => {
             />
             <Route path="/revenue_types" exact component={RevenueTypes} />
             <Route path="/add_sale" exact component={AddSale} />
+            <Route path="/manage_custom_revenues" exact component={ManageRevenueTypes} />
             <Route path="/edit_sale" exact component={EditSale} />
             <Route path="/temp_estimated_revenue" exact component={LegacyEstimatedRevenue} />
             <Route path="/estimated_revenue" exact component={EstimatedRevenue} />

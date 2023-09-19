@@ -1459,6 +1459,7 @@
   },
   "SALE": {
     "ADD_SALE": {
+      "ADD_CUSTOM_REVENUE_TYPE": "Add custom revenue type",
       "ADD_REVENUE": "Add revenue",
       "CROP_PLACEHOLDER": "Select crop",
       "CROP_REQUIRED": "Required",
@@ -1467,6 +1468,7 @@
       "CUSTOMER_NAME_REQUIRED": "Required",
       "DATE": "Date",
       "FLOW": "revenue creation",
+      "MANAGE_CUSTOM_REVENUE_TYPE": "Manage custom revenue types",
       "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Crop variety",

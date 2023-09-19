@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright (c) 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,8 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const NOTE = 'note';
-export const VALUE = 'value';
-export const DATE = 'date';
-export const EXPENSE_DETAIL = 'expenseDetail';
-export const TYPE = 'type';
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const up = async function (knex) {
+  await knex.schema.alterTable('sale', (table) => {
+    table.float('value');
+    table.string('note');
+  });
+};
+
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const down = async function (knex) {
+  await knex.schema.alterTable('sale', (table) => {
+    table.dropColumn('value');
+    table.dropColumn('note');
+  });
+};

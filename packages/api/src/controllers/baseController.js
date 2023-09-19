@@ -108,6 +108,17 @@ export default {
       .returning('*');
   },
 
+  async patch(model, id, data, req, { trx = null, context = {} } = {}) {
+    const resource = removeAdditionalProperties(model, data);
+    const table_id = model.idColumn;
+
+    return await model
+      .query(trx)
+      .context({ user_id: req?.auth?.user_id, ...context })
+      .where(table_id, id)
+      .patch(resource);
+  },
+
   async delete(model, id, req, { trx = null, context = {} } = {}) {
     const table_id = model.idColumn;
     return await model
@@ -169,6 +180,15 @@ export default {
   // see http://vincit.github.io/objection.js/#eager-loading
   async eager(model, subModel, trx) {
     return await model.query(trx).eager(subModel);
+  },
+
+  /**
+   * Format transaltion key
+   * @param {String} key
+   * @returns {String} - Formatted key
+   */
+  formatTranslationKey(key) {
+    return key.toUpperCase().trim().replaceAll(' ', '_');
   },
 };
 //export trx;

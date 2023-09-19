@@ -139,6 +139,15 @@
   }
 }
 
+.boldLabelIcon {
+  font-weight: 600;
+
+  svg {
+    border-top: solid 3px transparent;
+    border-bottom: solid 3px transparent;
+  }
+}
+
 .labelIconInfoTile {
   font-weight: 600;
   padding: 14px 10px;

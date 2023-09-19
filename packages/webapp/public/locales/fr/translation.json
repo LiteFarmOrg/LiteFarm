@@ -497,13 +497,21 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "MISSING",
+      "ADD_CUSTOM_EXPENSE_TYPE": "MISSING",
       "CUSTOM_EXPENSE_NAME": "MISSING",
       "CUSTOM_EXPENSE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING",
       "FLOW": "Création d'une dépense",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "NEW_EXPENSE_ITEM": "MISSING",
       "TITLE": "Ajouter une dépense",
       "WHICH_TYPES_TO_RECORD": "Quel type de dépense voulez-vous enregistrer\u00a0?"
+    },
+    "DELETE": {
+      "CONFIRM": "MISSING",
+      "HEADER": "MISSING",
+      "LINK": "MISSING",
+      "MESSAGE": "MISSING"
     },
     "DETAILED_HISTORY": "Historique détaillé",
     "EDIT_EXPENSE": {
@@ -512,6 +520,8 @@
       "REMOVE_ALL": "Vous avez supprimé toutes les dépenses, cliquez sur Enregistrer pour valider.",
       "RETIRE_EXPENSE_MESSAGE": "MISSING",
       "RETIRE_EXPENSE_TYPE": "MISSING",
+      "RETIRED": "MISSING",
+      "TITLE": "MISSING",
       "TITLE_1": "Modifier les dépenses (1 sur 2)",
       "TITLE_2": "Modifier la dépense (2 sur 2)"
     },
@@ -522,6 +532,7 @@
     "NO_EXPENSE_YEAR": "Vous n'avez enregistré aucune dépense pour cette année",
     "OTHER_EXPENSES_TITLE": "Autres dépenses",
     "SUMMARY": "Résumé",
+    "TYPE": "MISSING",
     "VALUE": "Valeur"
   },
   "EXPIRED_TOKEN": {
@@ -1450,6 +1461,7 @@
   },
   "SALE": {
     "ADD_SALE": {
+      "ADD_CUSTOM_REVENUE_TYPE": "MISSING",
       "ADD_REVENUE": "MISSING",
       "CROP_PLACEHOLDER": "Selectionner une culture",
       "CROP_REQUIRED": "Réponse requise",
@@ -1458,6 +1470,7 @@
       "CUSTOMER_NAME_REQUIRED": "Réponse requise",
       "DATE": "Date",
       "FLOW": "MISSING",
+      "MANAGE_CUSTOM_REVENUE_TYPE": "MISSING",
       "SALE_VALUE_ERROR": "La valeur de vente doit être un nombre positif moins que 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Variété de la culture",

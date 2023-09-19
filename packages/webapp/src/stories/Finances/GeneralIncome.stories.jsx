@@ -12,9 +12,21 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import GeneralRevenue from '../../components/Forms/GeneralRevenue';
+import { componentDecorators } from '../Pages/config/Decorators';
 
-export const NOTE = 'note';
-export const VALUE = 'value';
-export const DATE = 'date';
-export const EXPENSE_DETAIL = 'expenseDetail';
-export const TYPE = 'type';
+export default {
+  title: 'Components/GeneralRevenue',
+  component: GeneralRevenue,
+  decorators: componentDecorators,
+};
+
+export const Primary = {
+  args: {
+    onSubmit: console.log,
+    title: 'Add sale',
+    dateLabel: 'Date',
+    customerLabel: 'Customer name',
+    useHookFormPersist: () => ({}),
+  },
+};

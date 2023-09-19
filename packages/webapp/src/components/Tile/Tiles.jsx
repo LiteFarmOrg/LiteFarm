@@ -54,14 +54,14 @@ export default function Tiles({
       setIsSwipeableView(media.matches);
     }
 
-    const listner = () => {
+    const listener = () => {
       setIsSwipeableView(media.matches);
     };
 
     // listen browser size change and set isSwipeableView to true if window width <= maxSwipeableWidth
-    media.addEventListener('change', listner);
+    media.addEventListener('change', listener);
 
-    return () => media.removeEventListener('change', listner);
+    return () => media.removeEventListener('change', listener);
   }, [maxSwipeableWidth]);
 
   const tiles = useMemo(() => {

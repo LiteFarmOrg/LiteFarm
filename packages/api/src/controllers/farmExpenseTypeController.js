@@ -171,6 +171,7 @@ const farmExpenseTypeController = {
 
   /**
    * Check if records exists in DB
+   * @param {Object} trx - transaction object
    * @param {number} farm_id
    * @param {String} expense_name
    * @param {number} expense_type_id - Expesnse type id to be excluded while checking records
@@ -193,6 +194,7 @@ const farmExpenseTypeController = {
   /**
    * To check if record is deleted or not
    * @param {number} expense_type_id - Expesnse type id
+   * @param {Object} trx - transaction object
    * @async
    * @returns {Boolean} - true or false
    */

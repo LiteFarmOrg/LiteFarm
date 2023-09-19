@@ -33,6 +33,7 @@ const farmExpenseTypeController = {
           // if not deleted, means it is a active expense type
           // throw conflict error
           if (record.deleted === false) {
+            await trx.rollback();
             return res.status(409).send();
           } else {
             // if its deleted, them make it active
@@ -96,11 +97,13 @@ const farmExpenseTypeController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       if (req.headers.farm_id == null) {
+        await trx.rollback();
         res.sendStatus(403);
       }
       try {
         // do not allow operations to deleted records
         if (await this.isDeleted(req.params.expense_type_id)) {
+          await trx.rollback();
           return res.status(404).send();
         }
 
@@ -136,16 +139,19 @@ const farmExpenseTypeController = {
       try {
         // do not allow updating of farm_id
         if (data.farm_id && data.farm_id !== farm_id) {
+          await trx.rollback();
           return res.status(400).send();
         }
 
         // do not allow update to deleted records
         if (await this.isDeleted(expense_type_id)) {
+          await trx.rollback();
           return res.status(404).send();
         }
 
         // if record exists then throw Conflict error
         if (await this.existsInFarm(farm_id, data.expense_name, expense_type_id)) {
+          await trx.rollback();
           return res.status(409).send();
         }
 

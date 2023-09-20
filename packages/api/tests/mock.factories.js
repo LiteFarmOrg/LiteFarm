@@ -2119,6 +2119,7 @@ async function populateDefaultRevenueTypes() {
       revenue_name: 'Crop Sale',
     });
     if (!revenueTypeInDb) {
+      console.log('COULD NOT FIND CROP SALE REVENUE TYPE IN DB');
       const base = baseProperties(1);
       return knex('revenue_type')
         .insert({ revenue_name, revenue_translation_key, ...base })

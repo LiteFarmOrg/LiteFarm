@@ -22,7 +22,7 @@ import { NOTE, VALUE } from './constants';
 import styles from './styles.module.scss';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
-export default function ExpenseItemInputs({ register, onRemove, onChange, getErrors }) {
+export default function ExpenseItemInputs({ register, onRemove, getErrors }) {
   const { t } = useTranslation();
 
   return (
@@ -30,7 +30,6 @@ export default function ExpenseItemInputs({ register, onRemove, onChange, getErr
       <Input
         style={{ marginBottom: '24px' }}
         label={t('EXPENSE.ITEM_NAME')}
-        onChange={(e) => onChange(e, NOTE)}
         errors={getErrors(NOTE)}
         hookFormRegister={register(NOTE, {
           required: true,
@@ -44,7 +43,6 @@ export default function ExpenseItemInputs({ register, onRemove, onChange, getErr
         style={{ marginBottom: '24px' }}
         type="number"
         label={t('EXPENSE.VALUE')}
-        onChange={(e) => onChange(e, VALUE)}
         errors={getErrors(VALUE)}
         hookFormRegister={register(VALUE, {
           required: true,

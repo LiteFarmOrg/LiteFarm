@@ -387,6 +387,8 @@ describe('Sale Tests', () => {
         .where('revenue_name', 'Crop Sale')
         .first();
 
+      console.log(cropSaleRevenueType.revenue_type_id);
+
       sampleReqBody = {
         ...mocks.fakeSale(),
         farm_id: farm.farm_id,

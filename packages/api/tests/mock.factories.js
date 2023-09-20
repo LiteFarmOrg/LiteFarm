@@ -365,19 +365,6 @@ async function farmExpenseTypeFactory(
     .returning('*');
 }
 
-// async function farmRevenueTypeFactory(
-//   { promisedFarm = farmFactory() } = {},
-//   revenue_type = fakeRevenueType(),
-// ) {
-//   const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
-//   const [{ farm_id }] = farm;
-//   const [{ user_id }] = user;
-//   const base = baseProperties(user_id);
-//   return knex('revenue_type')
-//     .insert({ farm_id, ...revenue_type, ...base })
-//     .returning('*');
-// }
-
 async function farmExpenseFactory(
   { promisedExpenseType = farmExpenseTypeFactory(), promisedUserFarm = userFarmFactory() } = {},
   expense = fakeExpense(),
@@ -1714,15 +1701,6 @@ function fakeExpenseType(defaultData = {}) {
     ...defaultData,
   };
 }
-
-// function fakeRevenueType(defaultData = {}) {
-//   const name = faker.finance.transactionType();
-//   return {
-//     revenue_name: name,
-//     revenue_translation_key: name,
-//     ...defaultData,
-//   };
-// }
 
 function fakeCropVarietySale(defaultData = {}) {
   return {

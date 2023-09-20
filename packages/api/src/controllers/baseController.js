@@ -219,7 +219,7 @@ export default {
   existsInTable(model, where, whereNot = {}) {
     let query = model.query().context({ showHidden: true }).where(where);
 
-    if (Object.keys(whereNot)) {
+    if (Object.keys(whereNot).length > 0) {
       query = query.whereNot(whereNot);
     }
 

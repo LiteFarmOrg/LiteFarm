@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright (c) 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -37,6 +37,7 @@ const revenueTypeController = {
           // if not deleted, means it is a active revenue type
           // throw conflict error
           if (record.deleted === false) {
+            await trx.rollback();
             return res.status(409).send();
           } else {
             // if its deleted, them make it active
@@ -45,7 +46,7 @@ const revenueTypeController = {
               trx,
             });
             await trx.commit();
-            res.status(201).send(record);
+            res.status(204).send(record);
           }
         } else {
           const result = await baseController.postWithResponse(
@@ -69,7 +70,6 @@ const revenueTypeController = {
 
   getAllTypes() {
     return async (req, res) => {
-      // debugger;
       try {
         const farm_id = req.headers.farm_id;
         const rows = await RevenueTypeModel.query().where('farm_id', null).orWhere({ farm_id });
@@ -109,7 +109,6 @@ const revenueTypeController = {
 
   delType() {
     return async (req, res) => {
-      // debugger;
       const trx = await transaction.start(Model.knex());
       try {
         // do not allow operations to deleted records
@@ -118,6 +117,7 @@ const revenueTypeController = {
             revenue_type_id: req.params.revenue_type_id,
           })
         ) {
+          await trx.rollback();
           return res.status(404).send();
         }
 
@@ -148,11 +148,12 @@ const revenueTypeController = {
       const trx = await transaction.start(Model.knex());
       const { revenue_type_id } = req.params;
       const farm_id = req.headers.farm_id;
-      const data = (({ revenue_name }) => ({ revenue_name }))(req.body);
+      const data = { revenue_name: req.body.revenue_name };
 
       try {
         // do not allow update to deleted records
         if (await baseController.isDeleted(RevenueTypeModel, { revenue_type_id })) {
+          await trx.rollback();
           return res.status(404).send();
         }
 
@@ -167,6 +168,7 @@ const revenueTypeController = {
             { revenue_type_id },
           )
         ) {
+          await trx.rollback();
           return res.status(409).send();
         }
 

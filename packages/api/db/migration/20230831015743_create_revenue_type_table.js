@@ -70,6 +70,10 @@ export const up = async function (knex) {
     { role_id: 3, permission_id: 141 },
     { role_id: 5, permission_id: 141 },
   ]);
+
+  // Log created table
+  const allRevenueTypes = await knex('revenue_type').select();
+  console.log('Contents of revenue_type table after migration:', allRevenueTypes);
 };
 
 export const down = async function (knex) {

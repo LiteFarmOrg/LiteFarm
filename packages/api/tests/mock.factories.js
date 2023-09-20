@@ -2113,6 +2113,10 @@ function fakeNotification(defaultData = {}) {
 }
 
 async function populateDefaultRevenueTypes() {
+  // Log current state of table
+  const allRevenueTypes = await knex('revenue_type').select();
+  console.log('Contents of revenue_type table during test:', allRevenueTypes);
+
   const types = [{ revenue_name: 'Crop Sale', revenue_translation_key: 'CROP_SALE' }];
   for (const { revenue_name, revenue_translation_key } of types) {
     const [revenueTypeInDb] = await knex('revenue_type').where({

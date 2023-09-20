@@ -27,7 +27,7 @@ import {
   userFarmSelector,
 } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getManagementPlansAndTasks } from '../saga';
+import { getCropsAndManagementPlans } from '../saga';
 import TaskCard from './TaskCard';
 import { onAddTask } from './onAddTask';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
@@ -48,7 +48,7 @@ import { IS_ASCENDING } from '../Filter/constants';
 import { WEEKLY_UNASSIGNED_TASKS, DAILY_TASKS_DUE_TODAY } from '../Notification/constants';
 import { filteredTaskCardContentSelector } from './taskCardContentSelector';
 import TaskCount from '../../components/Task/TaskCount';
-import { getTaskTypes } from './saga';
+import { getHarvestUseTypes, getProducts, getTasks, getTaskTypes } from './saga';
 import { getAllUserFarmsByFarmId } from '../Profile/People/saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../taskTypeSlice';
 import { getSupportedTaskTypesSet } from '../../components/Task/getSupportedTaskTypesSet';
@@ -99,10 +99,13 @@ export default function TaskPage({ history }) {
   }, [activeUsers.length, taskTypes.length]);
 
   useEffect(() => {
+    dispatch(getTasks());
     dispatch(getTaskTypes());
+    dispatch(getProducts());
+    dispatch(getHarvestUseTypes());
     dispatch(getAllUserFarmsByFarmId());
-    dispatch(getManagementPlansAndTasks());
     dispatch(resetAndUnLockFormData());
+    dispatch(getCropsAndManagementPlans());
 
     const context = history.location?.state;
 

@@ -1,6 +1,6 @@
 {
   "name": "litefarm-webapp",
-  "version": "3.3.2",
+  "version": "3.4.0",
   "description": "LiteFarm Web application",
   "type": "module",
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "tsc && NODE_OPTIONS=--max_old_space_size=3000 vite build",
     "preview": "vite preview",
     "lint": "eslint src",
-    "i18n": "npx i18next 'src/**/*.{js,jsx,ts,tsx}' -c 'src/locales/i18next-parser.config.js'",
+    "i18n": "npx i18next 'src/**/*.{js,jsx,ts,tsx}' -c src/locales/i18next-parser.config.cjs",
     "chromatic": "npx chromatic --project-token gb9nrdyzl8b",
     "chromatic-local": "./node_modules/.bin/chromatic --project-token 594bdec1c518",
     "format": "npx prettier --write ./src",
@@ -111,7 +111,7 @@
     "sass": "^1.56.1",
     "storybook": "7.0.27",
     "typescript": "^4.9.5",
-    "vite": "^4.1.1",
+    "vite": "^4.1.5",
     "vite-plugin-istanbul": "^4.0.0",
     "vite-plugin-pwa": "^0.14.3",
     "vite-plugin-svgr": "^2.4.0"

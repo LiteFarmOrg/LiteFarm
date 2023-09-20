@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
@@ -54,7 +54,6 @@ export default function PureRepeatCropPlan({
   onContinue = () => {},
   useHookFormPersist,
   persistedFormData,
-  persistedPaths,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   const {
@@ -72,6 +71,7 @@ export default function PureRepeatCropPlan({
     defaultValues: {
       [CROP_PLAN_NAME]: t('REPEAT_PLAN.REPETITIONS_OF', {
         planName: cropPlan.name,
+        interpolation: { escapeValue: false },
       }),
       [PLAN_START_DATE]: origStartDate,
       [REPEAT_FREQUENCY]: '1',
@@ -83,7 +83,7 @@ export default function PureRepeatCropPlan({
     },
   });
 
-  const { historyCancel } = useHookFormPersist(getValues, persistedPaths);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const intervalOptions = [
     { value: 'day', label: t('REPEAT_PLAN.INTERVAL.DAY') },
@@ -110,14 +110,19 @@ export default function PureRepeatCropPlan({
   }, []);
 
   // Update DaysOfWeekSelect selection
-  useEffect(() => {
+  const onPlantDateOrRepeatIntervalChange = useCallback((repeatInterval, planStartDate) => {
     if (repeatInterval.value !== 'week') {
       return;
     }
     const dayOfWeekString = getWeekday(planStartDate);
-
     setValue(DAYS_OF_WEEK, [dayOfWeekString]);
-  }, [planStartDate, repeatInterval]);
+  }, []);
+  const onPlantDateChange = useCallback((e) => {
+    onPlantDateOrRepeatIntervalChange(getValues(REPEAT_INTERVAL), e.target.value);
+  }, []);
+  const onRepeatIntervalChange = useCallback((e) => {
+    onPlantDateOrRepeatIntervalChange(e, getValues(PLAN_START_DATE));
+  }, []);
 
   // Populate monthly options React Select
   useEffect(() => {
@@ -252,6 +257,7 @@ export default function PureRepeatCropPlan({
             label={t('REPEAT_PLAN.START_DATE')}
             hookFormRegister={register(PLAN_START_DATE, { required: true })}
             errors={getInputErrors(errors, PLAN_START_DATE)}
+            onChange={onPlantDateChange}
           />
 
           <Main className={styles.taskSubtext}>
@@ -296,6 +302,7 @@ export default function PureRepeatCropPlan({
                   options={intervalOptions}
                   onChange={(e) => {
                     onChange(e);
+                    onRepeatIntervalChange(e);
                   }}
                   value={value}
                   style={{ width: '100%' }}

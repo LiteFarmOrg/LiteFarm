@@ -12,18 +12,4 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useMemo } from 'react';
-
-const useElementHeight = (ref) => {
-  const elementHeight = useMemo(() => {
-    if (!ref?.current) {
-      return;
-    }
-
-    return ref.current.offsetHeight;
-  }, [ref.current]);
-
-  return { elementHeight };
-};
-
-export default useElementHeight;
+export const CUSTOM_EXPENSE_NAME = 'expense_name';

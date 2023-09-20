@@ -8,6 +8,7 @@ import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import {
   addManyTasksFromGetReq,
+  addAllTasksFromGetReq,
   putTasksSuccess,
   putTaskSuccess,
   deleteTaskSuccess,
@@ -353,10 +354,39 @@ export function* getTasksSaga() {
   try {
     yield put(onLoadingTaskStart());
     const result = yield call(axios.get, `${taskUrl}/${farm_id}`, header);
-    yield call(getTasksSuccessSaga, { payload: result.data });
+    yield call(getAllTasksSuccessSaga, { payload: result.data });
   } catch (e) {
     console.log(e);
   }
+}
+
+export function* getAllTasksSuccessSaga({ payload: tasks }) {
+  const taskTypeEntities = yield select(taskTypeEntitiesSelector);
+  const tasksByTranslationKeyDefault = Object.keys(taskTypeActionMap).reduce(
+    (tasksByTranslationKeyDefault, task_translation_key) => {
+      tasksByTranslationKeyDefault[task_translation_key] = [];
+      return tasksByTranslationKeyDefault;
+    },
+    {},
+  );
+  const tasksByTranslationKey = tasks.reduce((tasksByTranslationKey, task) => {
+    const { task_translation_key } = taskTypeEntities[task.task_type_id];
+    if (taskTypeActionMap[task_translation_key]) {
+      tasksByTranslationKey[task_translation_key].push(task[task_translation_key.toLowerCase()]);
+    }
+    return tasksByTranslationKey;
+  }, tasksByTranslationKeyDefault);
+  for (const task_translation_key in taskTypeActionMap) {
+    try {
+      yield taskTypeActionMap[task_translation_key].success(
+        tasksByTranslationKey[task_translation_key],
+      );
+    } catch (e) {
+      yield put(taskTypeActionMap[task_translation_key].fail(e));
+      console.log(e);
+    }
+  }
+  yield put(addAllTasksFromGetReq(tasks));
 }
 
 const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {

@@ -25,17 +25,17 @@ export default function PureManagementDetail({
 }) {
   const { t } = useTranslation();
 
-  const title = plan.name;
+  const title = plan?.name;
   const isValidDate =
-    getDateInputFormat(plan.abandon_date) !== 'Invalid date' ||
-    getDateInputFormat(plan.complete_date) !== 'Invalid date';
+    getDateInputFormat(plan?.abandon_date) !== 'Invalid date' ||
+    getDateInputFormat(plan?.complete_date) !== 'Invalid date';
   const isSomethingElse =
-    plan.abandon_reason !== 'CROP_FAILURE' &&
-    plan.abandon_reason !== 'LABOUR_ISSUE' &&
-    plan.abandon_reason !== 'MARKET_PROBLEM' &&
-    plan.abandon_reason !== 'WEATHER' &&
-    plan.abandon_reason !== 'MACHINERY_ISSUE' &&
-    plan.abandon_reason !== 'SCHEDULING_ISSUE';
+    plan?.abandon_reason !== 'CROP_FAILURE' &&
+    plan?.abandon_reason !== 'LABOUR_ISSUE' &&
+    plan?.abandon_reason !== 'MARKET_PROBLEM' &&
+    plan?.abandon_reason !== 'WEATHER' &&
+    plan?.abandon_reason !== 'MACHINERY_ISSUE' &&
+    plan?.abandon_reason !== 'SCHEDULING_ISSUE';
 
   const {
     register,
@@ -47,29 +47,33 @@ export default function PureManagementDetail({
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      abandon_date: isValidDate ? getDateInputFormat(plan.abandon_date) : '',
+      abandon_date: isValidDate ? getDateInputFormat(plan?.abandon_date) : '',
       abandon_reason: isSomethingElse
-        ? plan.abandon_reason
-        : t(`MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.${plan.abandon_reason}`),
-      complete_date: isValidDate ? getDateInputFormat(plan.complete_date) : '',
-      complete_notes: plan.complete_notes,
-      notes: plan.notes,
+        ? plan?.abandon_reason
+        : t(`MANAGEMENT_PLAN.COMPLETE_PLAN.REASON.${plan?.abandon_reason}`),
+      complete_date: isValidDate ? getDateInputFormat(plan?.complete_date) : '',
+      complete_notes: plan?.complete_notes,
+      notes: plan?.notes,
       crop_management_plan: {
-        estimated_yield: plan.estimated_yield,
-        estimated_yield_unit: plan.estimated_yield_unit,
+        estimated_yield: plan?.estimated_yield,
+        estimated_yield_unit: plan?.estimated_yield_unit,
       },
+      harvested_to_date: plan?.harvested_to_date ?? 0,
+      harvested_to_date_unit: null,
     },
     shouldUnregister: false,
     mode: 'onChange',
   });
 
-  const isAbandoned = plan.abandon_date ? true : false;
-  const isCompleted = plan.complete_date ? true : false;
+  const isAbandoned = plan?.abandon_date ? true : false;
+  const isCompleted = plan?.complete_date ? true : false;
   const DATE_OF_STATUS_CHANGE = isAbandoned ? 'abandon_date' : 'complete_date';
   const ABANDON_REASON = 'abandon_reason';
   const DATE = isAbandoned ? 'ABANDON_DATE' : 'COMPLETE_DATE';
   const COMPLETE_NOTES = 'complete_notes';
   const PLAN_NOTES = 'notes';
+  const HARVESTED_TO_DATE = 'harvested_to_date';
+  const HARVESTED_TO_DATE_UNIT = 'harvested_to_date_unit';
   const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
   const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
 
@@ -190,6 +194,23 @@ export default function PureManagementDetail({
         control={control}
         required={true}
         disabled={true}
+      />
+
+      <Unit
+        style={{ marginBottom: '46px' }}
+        register={register}
+        unitType={seedYield}
+        name={HARVESTED_TO_DATE}
+        label={t('MANAGEMENT_PLAN.HARVEST_TO_DATE')}
+        displayUnitName={HARVESTED_TO_DATE_UNIT}
+        hookFormGetValue={getValues}
+        hookFromWatch={watch}
+        control={control}
+        hookFormSetValue={setValue}
+        system={system}
+        disabled
+        toolTipContent={t('MANAGEMENT_PLAN.HARVEST_TO_DATE_INFO')}
+        required // just to not show (optional) in the label
       />
     </Layout>
   );

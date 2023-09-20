@@ -8,8 +8,6 @@ import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import IncompleteTaskModal from '../../Modals/IncompleteTaskModal';
 import RouterTab from '../../RouterTab';
-import { useDispatch } from 'react-redux';
-import { setPersistedPaths } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
@@ -34,17 +32,10 @@ export default function PureManagementTasks({
 }) {
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
-
   const title = plan?.name;
+  const hasTasks = !!children?.length;
 
   const onRepeatPlan = (crop_id, plan_id) => {
-    dispatch(
-      setPersistedPaths([
-        `/crop/${crop_id}/management_plan/${plan_id}/repeat`,
-        `/crop/${crop_id}/management_plan/${plan_id}/repeat_confirmation`,
-      ]),
-    );
     history.push(`/crop/${crop_id}/management_plan/${plan_id}/repeat`);
   };
 
@@ -90,7 +81,7 @@ export default function PureManagementTasks({
         <Label className={styles.title} style={{ marginTop: '24px' }}>
           {title}
         </Label>
-        {isAdmin && (
+        {isAdmin && hasTasks && (
           <BsThreeDotsVertical
             className={styles.menuIcon}
             onClick={() => {

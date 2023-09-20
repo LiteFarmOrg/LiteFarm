@@ -44,6 +44,10 @@ describe('Sale Tests', () => {
     token = global.token;
   });
 
+  beforeAll(async () => {
+    await mocks.populateDefaultRevenueTypes();
+  });
+
   function postSaleRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
     chai
       .request(server)
@@ -388,6 +392,7 @@ describe('Sale Tests', () => {
             crop_variety_id: cropVariety2.crop_variety_id,
           },
         ],
+        revenue_type_id: 1,
       };
     });
 
@@ -529,6 +534,39 @@ describe('Sale Tests', () => {
           );
           done();
         });
+      });
+
+      const testGeneralSale = async (done, userId) => {
+        // TODO: update once LF-3595 is complete
+        const [{ revenue_type_id }] = await mocks.revenue_typeFactory({
+          promisedFarm: [{ farm_id: farm.farm_id }],
+        });
+        delete sampleReqBody.crop_variety_sale;
+        sampleReqBody.value = 50.5;
+        sampleReqBody.note = 'notes';
+        sampleReqBody.revenue_type_id = revenue_type_id;
+
+        postSaleRequest(sampleReqBody, { user_id: userId }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const sales = await saleModel.query().where('farm_id', farm.farm_id);
+          expect(sales.length).toBe(1);
+          expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
+          expect(sales[0].value).toBe(sampleReqBody.value);
+          expect(sales[0].note).toBe(sampleReqBody.note);
+          done();
+        });
+      };
+
+      test(`Owner should post and get a general sale`, async (done) => {
+        testGeneralSale(done, owner.userId);
+      });
+
+      test(`Manager should post and get a general sale`, async (done) => {
+        testGeneralSale(done, manager.userId);
+      });
+
+      test(`Worker should post and get a general sale`, async (done) => {
+        testGeneralSale(done, worker.userId);
       });
 
       test('should return 403 status if sale is posted by unauthorized user', async (done) => {

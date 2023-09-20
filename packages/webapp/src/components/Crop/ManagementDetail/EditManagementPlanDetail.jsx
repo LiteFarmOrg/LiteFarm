@@ -27,11 +27,11 @@ export default function PureEditManagementDetail({ onBack, variety, plan, system
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      notes: plan.notes,
-      name: plan.name,
+      notes: plan?.notes,
+      name: plan?.name,
       crop_management_plan: {
-        estimated_yield: plan.estimated_yield,
-        estimated_yield_unit: plan.estimated_yield_unit,
+        estimated_yield: plan?.estimated_yield,
+        estimated_yield_unit: plan?.estimated_yield_unit,
       },
     },
     shouldUnregister: false,

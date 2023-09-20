@@ -394,10 +394,7 @@ const managementPlanController = {
             ...plantTasks,
           ].map(({ task_id }) => task_id);
 
-          await TaskModel.query(trx)
-            .context(req.auth)
-            .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
-            .delete();
+          const deletedTasks = [];
 
           await Promise.all(
             taskIdsRelatedToOneManagementPlan.map(async (task_id) => {
@@ -411,16 +408,21 @@ const managementPlanController = {
                 return;
               }
 
-              await sendTaskNotification(
-                [assignee_user_id],
+              deletedTasks.push({
+                assignee_user_id: [assignee_user_id],
                 user_id,
                 task_id,
-                TaskNotificationTypes.TASK_DELETED,
+                type: TaskNotificationTypes.TASK_DELETED,
                 task_translation_key,
                 farm_id,
-              );
+              });
             }),
           );
+
+          await TaskModel.query(trx)
+            .context(req.auth)
+            .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
+            .delete();
 
           const taskIdsRelatedToManyManagementPlans = tasksWithManagementPlanCount
             .filter(({ count }) => Number(count) > 1)
@@ -434,13 +436,29 @@ const managementPlanController = {
               [management_plan_id, taskIdsRelatedToManyManagementPlans],
             ));
 
-          return await ManagementPlanModel.query(trx)
+          const delPlan = await ManagementPlanModel.query(trx)
             .context(req.auth)
             .where({ management_plan_id })
             .delete();
+
+          if (delPlan) {
+            return deletedTasks;
+          } else {
+            return delPlan;
+          }
         });
 
         if (result) {
+          result.map(async (task) => {
+            await sendTaskNotification(
+              task.assignee_user_id,
+              task.user_id,
+              task.task_id,
+              task.type,
+              task.task_translation_key,
+              task.farm_id,
+            );
+          });
           return res.sendStatus(200);
         } else {
           return res.sendStatus(404);

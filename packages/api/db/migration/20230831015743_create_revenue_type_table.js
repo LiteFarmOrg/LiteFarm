@@ -31,20 +31,21 @@ export const up = async function (knex) {
   });
 
   // Prepopulate with one revenue type (crop_sale)
-  await knex('revenue_type').insert({
-    revenue_type_id: 1,
-    revenue_name: 'Crop Sale',
-    farm_id: null,
-    deleted: false,
-    created_by_user_id: '1',
-    updated_by_user_id: '1',
-    created_at: new Date('2000/1/1').toISOString(),
-    updated_at: new Date('2000/1/1').toISOString(),
-    revenue_translation_key: 'CROP_SALE',
-  });
+  const [cropSale] = await knex('revenue_type')
+    .insert({
+      revenue_name: 'Crop Sale',
+      farm_id: null,
+      deleted: false,
+      created_by_user_id: '1',
+      updated_by_user_id: '1',
+      created_at: new Date('2000/1/1').toISOString(),
+      updated_at: new Date('2000/1/1').toISOString(),
+      revenue_translation_key: 'CROP_SALE',
+    })
+    .returning('revenue_type_id');
 
   // Reference crop_sale type for all existing records
-  await knex('sale').update({ revenue_type_id: 1 });
+  await knex('sale').update({ revenue_type_id: cropSale.revenue_type_id });
 
   // Add  permissions
   await knex('permissions').insert([

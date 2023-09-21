@@ -27,7 +27,7 @@ const revenueTypeController = {
         const data = req.body;
         data.revenue_translation_key = baseController.formatTranslationKey(data.revenue_name);
 
-        const record = await baseController.existsInTable(RevenueTypeModel, {
+        const record = await baseController.existsInTable(trx, RevenueTypeModel, {
           revenue_name: data.revenue_name,
           farm_id,
         });
@@ -68,7 +68,7 @@ const revenueTypeController = {
     };
   },
 
-  getAllTypes() {
+  getFarmRevenueType() {
     return async (req, res) => {
       try {
         const farm_id = req.headers.farm_id;
@@ -113,7 +113,7 @@ const revenueTypeController = {
       try {
         // do not allow operations to deleted records
         if (
-          await baseController.isDeleted(RevenueTypeModel, {
+          await baseController.isDeleted(trx, RevenueTypeModel, {
             revenue_type_id: req.params.revenue_type_id,
           })
         ) {
@@ -152,7 +152,7 @@ const revenueTypeController = {
 
       try {
         // do not allow update to deleted records
-        if (await baseController.isDeleted(RevenueTypeModel, { revenue_type_id })) {
+        if (await baseController.isDeleted(trx, RevenueTypeModel, { revenue_type_id })) {
           await trx.rollback();
           return res.status(404).send();
         }
@@ -160,6 +160,7 @@ const revenueTypeController = {
         // if record exists then throw Conflict error
         if (
           await baseController.existsInTable(
+            trx,
             RevenueTypeModel,
             {
               revenue_name: data.revenue_name,

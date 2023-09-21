@@ -84,7 +84,7 @@ describe('Revenue Type Tests', () => {
   function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
     chai
       .request(server)
-      .get(`/revenue_type`)
+      .get(`/revenue_type/farm/${farm_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .end(callback);

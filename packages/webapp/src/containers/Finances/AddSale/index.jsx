@@ -10,11 +10,8 @@ import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { revenueTypeSelector } from '../../revenueTypeSlice';
-
-const formTypes = {
-  CROP_SALE: 'crop_sale',
-  GENERAL: 'general',
-};
+import { getRevenueFormType } from '../util';
+import { revenueFormTypes as formTypes } from '../constants';
 
 function AddSale() {
   const { t } = useTranslation();
@@ -27,8 +24,7 @@ function AddSale() {
   const { revenue_type_id } = persistedFormData || {};
   const revenueType = useSelector(revenueTypeSelector(revenue_type_id));
 
-  // TODO: come back once LF-3595 is complete
-  const formType = revenueType?.farm_id ? formTypes.GENERAL : formTypes.CROP_SALE;
+  const formType = getRevenueFormType(revenueType);
 
   const onSubmit = (data) => {
     const addSale = {

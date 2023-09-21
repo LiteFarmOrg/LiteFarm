@@ -15,6 +15,7 @@
 
 import moment from 'moment';
 import { roundToTwoDecimal } from '../../util';
+import { revenueFormTypes } from './constants';
 
 export function calcTotalLabour(tasks, startDate, endDate) {
   let total = 0.0;
@@ -98,3 +99,8 @@ export function calcActualRevenue(sales, startDate, endDate) {
   }
   return total;
 }
+
+export const getRevenueFormType = (revenueType) => {
+  // TODO: LF-3595 - properly determine the form type
+  return revenueType?.farm_id ? revenueFormTypes.GENERAL : revenueFormTypes.CROP_SALE;
+};

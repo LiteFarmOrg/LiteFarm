@@ -68,7 +68,7 @@ const revenueTypeController = {
     };
   },
 
-  getAllTypes() {
+  getFarmRevenueType() {
     return async (req, res) => {
       try {
         const farm_id = req.headers.farm_id;

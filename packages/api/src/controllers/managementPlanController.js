@@ -450,14 +450,21 @@ const managementPlanController = {
         });
 
         if (result) {
-          result.map(async (task) => {
-            await sendTaskNotification(
-              task.assignee_user_id,
-              task.user_id,
-              task.task_id,
-              task.type,
-              task.task_translation_key,
-              task.farm_id,
+          Promise.all(
+            result.map(async (task) => {
+              await sendTaskNotification(
+                task.assignee_user_id,
+                task.user_id,
+                task.task_id,
+                task.type,
+                task.task_translation_key,
+                task.farm_id,
+              );
+            }),
+          ).catch((error) => {
+            console.log(
+              'Error while sending notifications about deleted tasks for a deleted management plan: ',
+              error,
             );
           });
           return res.sendStatus(200);

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
+ *  Copyright 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -19,11 +19,8 @@
  */
 
 export const up = async function (knex) {
-  const GuernseyExists = await knex('countries')
-    .select('*')
-    .where('country_name', 'Guernsey')
-    .first();
-  const AlandExists = await knex('countries').select('*').where('country_name', 'Guernsey').first();
+  const GuernseyExists = await knex('countries').select('*').where('country_code', 'GG').first();
+  const AlandExists = await knex('countries').select('*').where('country_code', 'AX').first();
   if (!GuernseyExists) {
     await knex('countries').insert([
       {

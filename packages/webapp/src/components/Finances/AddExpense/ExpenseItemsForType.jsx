@@ -44,9 +44,6 @@ export default function ExpenseItemsForType({ type, register, control, setValue,
                 register={(fieldName, options) =>
                   register(`${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`, options)
                 }
-                onChange={(e, fieldName) => {
-                  setValue(`${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`, e.target.value);
-                }}
                 getErrors={(fieldName) =>
                   getInputErrors(errors, `${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`)
                 }

@@ -12,12 +12,16 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import RevenueTypeModel from '../../models/revenueTypeModel.js';
 
 async function validateSale(req, res, next) {
   // TODO replace upsertGraph
   const { crop_variety_sale, revenue_type_id } = req.body;
   // TODO: implement properly once LF-3595 is complete
-  const isCropRevenue = revenue_type_id === 1;
+  const cropSaleRevenueType = await RevenueTypeModel.query()
+    .where('revenue_name', 'Crop Sale')
+    .first();
+  const isCropRevenue = revenue_type_id === cropSaleRevenueType.revenue_type_id;
   if (isCropRevenue && !(crop_variety_sale && crop_variety_sale[0])) {
     return res.status(400).send('crop_variety_sale is required');
   }

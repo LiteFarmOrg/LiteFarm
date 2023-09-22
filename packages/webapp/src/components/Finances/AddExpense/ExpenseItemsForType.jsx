@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -35,15 +35,19 @@ export default function ExpenseItemsForType({ type, register, control, getValues
     name: `${EXPENSE_DETAIL}.${type.id}`,
   });
 
-  useEffect(() => {
-    // Before unmounting, unselect previously selected expense types that have no items.
-    // If the user removes items for the type, it will be unselected in the previous page when going back.
-    return () => {
-      if (!getValues(`${EXPENSE_DETAIL}.${type.id}`).length) {
-        dispatch(setSelectedExpenseTypes(selectedExpense.filter((id) => id !== type.id)));
-      }
-    };
-  }, []);
+  // Unselect the type when all items are removed, select the type when the first item is added.
+  // If the user removes items for the type, it will be unselected in the previous page when going back.
+  const handleSelectedExpenseTypes = (actionType) => {
+    const itemsLength = getValues(`${EXPENSE_DETAIL}.${type.id}`).length;
+    const allItemsRemoved = itemsLength === 0;
+    const firstItemAdded = actionType === 'add' && itemsLength === 1;
+
+    if (allItemsRemoved) {
+      dispatch(setSelectedExpenseTypes(selectedExpense.filter((id) => id !== type.id)));
+    } else if (firstItemAdded) {
+      dispatch(setSelectedExpenseTypes([...new Set([...selectedExpense, type.id])]));
+    }
+  };
 
   return (
     <div className={styles.expenseItemsForType}>
@@ -56,6 +60,7 @@ export default function ExpenseItemsForType({ type, register, control, getValues
                 key={field.id}
                 onRemove={() => {
                   remove(index);
+                  handleSelectedExpenseTypes('remove');
                 }}
                 register={(fieldName, options) =>
                   register(`${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`, options)
@@ -68,7 +73,12 @@ export default function ExpenseItemsForType({ type, register, control, getValues
           })}
         </div>
       ) : null}
-      <AddLink onClick={() => append({ [NOTE]: '', [VALUE]: null })}>
+      <AddLink
+        onClick={() => {
+          append({ [NOTE]: '', [VALUE]: null });
+          handleSelectedExpenseTypes('add');
+        }}
+      >
         {t('common:ADD_ANOTHER_ITEM')}
       </AddLink>
     </div>

@@ -12,7 +12,8 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useFieldArray } from 'react-hook-form';
@@ -20,14 +21,29 @@ import { AddLink, Main } from '../../Typography';
 import ExpenseItemInputs from './ExpenseItemInputs';
 import { getInputErrors } from '../../Form/Input';
 import { NOTE, VALUE, EXPENSE_DETAIL } from './constants';
+import { selectedExpenseSelector } from '../../../containers/Finances/selectors';
+import { setSelectedExpenseTypes } from '../../../containers/Finances/actions';
 import styles from './styles.module.scss';
 
-export default function ExpenseItemsForType({ type, register, control, setValue, errors }) {
+export default function ExpenseItemsForType({ type, register, control, getValues, errors }) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const selectedExpense = useSelector(selectedExpenseSelector);
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: `${EXPENSE_DETAIL}.${type.id}`,
   });
+
+  useEffect(() => {
+    // Before unmounting, unselect previously selected expense types that have no items.
+    // If the user removes items for the type, it will be unselected in the previous page when going back.
+    return () => {
+      if (!getValues(`${EXPENSE_DETAIL}.${type.id}`).length) {
+        dispatch(setSelectedExpenseTypes(selectedExpense.filter((id) => id !== type.id)));
+      }
+    };
+  }, []);
 
   return (
     <div className={styles.expenseItemsForType}>
@@ -63,6 +79,6 @@ ExpenseItemsForType.propTypes = {
   type: PropTypes.shape({ id: PropTypes.string, name: PropTypes.string }),
   register: PropTypes.func,
   control: PropTypes.any,
-  setValue: PropTypes.func,
+  getValues: PropTypes.func,
   errors: PropTypes.object,
 };

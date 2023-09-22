@@ -81,7 +81,7 @@ export default function PureAddExpense({
     register,
     control,
     watch,
-    setValue,
+    getValues,
     formState: { isValid, errors },
     handleSubmit,
   } = useForm({
@@ -132,7 +132,7 @@ export default function PureAddExpense({
             type={type}
             register={register}
             control={control}
-            setValue={setValue}
+            getValues={getValues}
             errors={errors}
           />
         );

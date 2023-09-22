@@ -44,13 +44,19 @@ const SaleController = {
   patchSales() {
     return async (req, res) => {
       const { sale_id } = req.params;
-      const { customer_name, sale_date } = req.body;
+      const { customer_name, sale_date, value, note } = req.body;
       const saleData = {};
       if (customer_name) {
         saleData.customer_name = customer_name;
       }
       if (sale_date) {
         saleData.sale_date = sale_date;
+      }
+
+      // TODO: LF-3595 - properly determine if value and note need to be updated
+      if (!req.body.crop_variety_sale?.length) {
+        saleData.value = value;
+        saleData.note = note;
       }
 
       const trx = await transaction.start(Model.knex());
@@ -65,22 +71,25 @@ const SaleController = {
           return res.status(400).send('failed to patch data');
         }
 
-        const deletedExistingCropVarietySale = await CropVarietySaleModel.query(trx)
-          .where('sale_id', sale_id)
-          .delete();
-        if (!deletedExistingCropVarietySale) {
-          await trx.rollback();
-          return res.status(400).send('failed to delete existing crop variety sales');
-        }
+        // TODO: LF-3595 - properly determine if crop_variety_sale needs to be updated
+        if (req.body.crop_variety_sale?.length) {
+          const deletedExistingCropVarietySale = await CropVarietySaleModel.query(trx)
+            .where('sale_id', sale_id)
+            .delete();
+          if (!deletedExistingCropVarietySale) {
+            await trx.rollback();
+            return res.status(400).send('failed to delete existing crop variety sales');
+          }
 
-        const { crop_variety_sale } = req.body;
-        if (!crop_variety_sale.length) {
-          await trx.rollback();
-          return res.status(400).send('should not patch sale with no crop variety sales');
-        }
-        for (const cvs of crop_variety_sale) {
-          cvs.sale_id = parseInt(sale_id);
-          await CropVarietySaleModel.query(trx).context(req.auth).insert(cvs);
+          const { crop_variety_sale } = req.body;
+          if (!crop_variety_sale.length) {
+            await trx.rollback();
+            return res.status(400).send('should not patch sale with no crop variety sales');
+          }
+          for (const cvs of crop_variety_sale) {
+            cvs.sale_id = parseInt(sale_id);
+            await CropVarietySaleModel.query(trx).context(req.auth).insert(cvs);
+          }
         }
 
         await trx.commit();

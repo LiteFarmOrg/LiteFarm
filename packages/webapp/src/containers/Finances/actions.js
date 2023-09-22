@@ -26,15 +26,10 @@ import {
   SET_EXPENSE_TYPE,
   SET_EXPENSE,
   SET_EXPENSE_DETAIL_DATE,
-  SET_EXPENSE_DETAIL_ITEM,
-  SET_EXPENSES_TO_EDIT,
   SET_SALES_IN_STATE,
-  SET_SELECTED_EDIT_EXPENSE,
   SET_SELECTED_EXPENSE_TYPE,
   SET_SELECTED_SALE,
-  TEMP_DELETE_EXPENSE,
-  TEMP_EDIT_EXPENSE,
-  TEMP_SET_EXPENSE_TO_EDIT,
+  DELETE_EXPENSE,
   UPDATE_SALE,
 } from './constants';
 
@@ -119,13 +114,6 @@ export const setExpenseDetailDate = (expense_detail_date) => {
   };
 };
 
-export const setExpenseDetailItem = (expense) => {
-  return {
-    type: SET_EXPENSE_DETAIL_ITEM,
-    expense,
-  };
-};
-
 export const setSelectedExpenseTypes = (expense_types) => {
   return {
     type: SET_SELECTED_EXPENSE_TYPE,
@@ -140,39 +128,10 @@ export const deleteExpenses = (ids) => {
   };
 };
 
-export const tempDeleteExpense = (expense_id) => {
+export const deleteExpense = (expense_id) => {
   return {
-    type: TEMP_DELETE_EXPENSE,
+    type: DELETE_EXPENSE,
     expense_id,
-  };
-};
-
-export const setEditExpenses = (expenses) => {
-  return {
-    type: SET_EXPENSES_TO_EDIT,
-    expenses,
-  };
-};
-
-export const tempSetEditExpense = (expense) => {
-  return {
-    type: TEMP_SET_EXPENSE_TO_EDIT,
-    expense,
-  };
-};
-
-export const tempEditExpense = (expense_id, data) => {
-  return {
-    type: TEMP_EDIT_EXPENSE,
-    expense_id,
-    data,
-  };
-};
-
-export const setSelectedEditExpense = (expense_types) => {
-  return {
-    type: SET_SELECTED_EDIT_EXPENSE,
-    expense_types,
   };
 };
 

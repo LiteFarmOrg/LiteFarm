@@ -21,7 +21,7 @@ import { ReactComponent as CropSaleIcon } from '../../../../assets/images/log/cr
 import { ReactComponent as CustomTypeIcon } from '../../../../assets/images/log/custom_revenue.svg';
 import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
 import useSortedRevenueTypes from './useSortedRevenueTypes';
-import styles from '../../NewExpense/ExpenseCategories/styles.module.scss';
+import labelIconStyles from '../../../../components/Tile/styles.module.scss';
 
 export const icons = {
   CROP_SALE: <CropSaleIcon />,
@@ -50,7 +50,7 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
         icon: icons[farm_id ? 'CUSTOM' : revenue_translation_key],
         label: farm_id ? revenue_name : t(`revenue:${revenue_translation_key}`),
         onClick: () => getOnTileClickFunc(setValue)(revenue_type_id),
-        className: styles.labelIcon,
+        className: labelIconStyles.boldLabelIcon,
         selected: persistedFormData?.revenue_type_id === revenue_type_id,
       };
     };

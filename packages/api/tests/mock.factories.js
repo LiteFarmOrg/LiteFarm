@@ -2128,9 +2128,10 @@ async function populateDefaultRevenueTypes() {
 }
 
 function fakeRevenueType(defaultData = {}) {
+  const name = faker.lorem.word();
   return {
-    revenue_name: faker.lorem.word(),
-    revenue_translation_key: faker.lorem.word(),
+    revenue_name: name,
+    revenue_translation_key: name,
     ...defaultData,
   };
 }
@@ -2275,5 +2276,6 @@ export default {
   notification_userFactory,
   populateDefaultRevenueTypes,
   revenue_typeFactory,
+  fakeRevenueType,
   baseProperties,
 };

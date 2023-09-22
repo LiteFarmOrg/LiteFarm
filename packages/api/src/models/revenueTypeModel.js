@@ -42,6 +42,7 @@ class RevenueType extends baseModel {
         revenue_name: { type: 'string', minLength: 1, maxLength: 100 },
         farm_id: { type: 'string' },
         revenue_translation_key: { type: 'string' },
+        agriculture_associated: { type: 'boolean' },
         crop_generated: { type: 'boolean' },
         ...this.baseProperties,
       },

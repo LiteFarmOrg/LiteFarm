@@ -25,7 +25,7 @@ function ReadOnlyCustomRevenue({ history, match }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const selectedCustomRevenueType = useSelector(revenueTypeSelector(Number(revenue_type_id)));
-  const { revenue_name } = selectedCustomRevenueType;
+  const { revenue_name, agriculture_associated, crop_generated } = selectedCustomRevenueType;
 
   const handleGoBack = () => {
     history.back();
@@ -53,6 +53,8 @@ function ReadOnlyCustomRevenue({ history, match }) {
       retireLinkText={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
       retireHeader={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
       retireMessage={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_MESSAGE')}
+      agricultureRadio={{ name: 'agriculture_associated', defaultValue: agriculture_associated }}
+      cropGeneratedRadio={{ name: 'crop_generated', defaultValue: crop_generated }}
     />
   );
 }

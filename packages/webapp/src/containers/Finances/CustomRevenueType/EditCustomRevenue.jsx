@@ -26,7 +26,7 @@ function EditCustomExpense({ history, match }) {
   const dispatch = useDispatch();
   const selectedCustomRevenueType = useSelector(revenueTypeSelector(Number(revenue_type_id)));
   const revenueTypes = useSelector(revenueTypesSelector);
-  const { revenue_name } = selectedCustomRevenueType;
+  const { revenue_name, agriculture_associated, crop_generated } = selectedCustomRevenueType;
 
   const handleGoBack = () => {
     history.back();
@@ -51,6 +51,8 @@ function EditCustomExpense({ history, match }) {
         'revenue_name',
         t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
       )}
+      agricultureRadio={{ name: 'agriculture_associated', defaultValue: agriculture_associated }}
+      cropGeneratedRadio={{ name: 'crop_generated', defaultValue: crop_generated }}
     />
   );
 }

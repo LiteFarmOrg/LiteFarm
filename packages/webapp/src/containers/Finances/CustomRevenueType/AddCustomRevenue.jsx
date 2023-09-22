@@ -47,6 +47,8 @@ function AddCustomRevenue({ history }) {
         'revenue_name',
         t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
       )}
+      agricultureRadio={{ name: 'agriculture_associated', defaultValue: undefined }}
+      cropGeneratedRadio={{ name: 'crop_generated', defaultValue: undefined }}
     />
   );
 }

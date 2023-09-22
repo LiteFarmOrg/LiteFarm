@@ -19,6 +19,7 @@ import styles from './styles.module.scss';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { dateRangeSelector, expenseSelector, salesSelector } from './selectors';
+import { allRevenueTypesSelector } from '../revenueTypeSlice';
 import {
   getFarmExpenseType,
   getExpense,
@@ -34,6 +35,7 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
 import { managementPlansSelector } from '../managementPlanSlice';
 import { getManagementPlansAndTasks } from '../saga';
+import { getRevenueTypes } from './saga';
 import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
 import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
@@ -52,6 +54,7 @@ const Finances = () => {
   const expenses = useSelector(expenseSelector);
   const managementPlans = useSelector(managementPlansSelector);
   const dateRange = useSelector(dateRangeSelector);
+  const allRevenueTypes = useSelector(allRevenueTypesSelector);
 
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
 
@@ -65,6 +68,7 @@ const Finances = () => {
     dispatch(getSales());
     dispatch(getExpense());
     dispatch(getFarmExpenseType());
+    dispatch(getRevenueTypes());
     dispatch(getManagementPlansAndTasks());
     dispatch(setSelectedExpenseTypes([]));
 
@@ -120,7 +124,7 @@ const Finances = () => {
     return parseFloat(totalRevenue).toFixed(2);
   };
 
-  const totalRevenue = calcActualRevenue(sales, startDate, endDate).toFixed(2);
+  const totalRevenue = calcActualRevenue(sales, startDate, endDate, allRevenueTypes).toFixed(2);
   const estimatedRevenue = getEstimatedRevenue(managementPlans);
   const labourExpense = roundToTwoDecimal(calcTotalLabour(tasks, startDate, endDate));
   const otherExpense = calcOtherExpense(expenses, startDate, endDate);

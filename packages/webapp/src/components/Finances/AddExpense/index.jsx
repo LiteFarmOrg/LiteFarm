@@ -75,7 +75,6 @@ export default function PureAddExpense({
   persistedFormData,
 }) {
   const { t } = useTranslation();
-  const { historyCancel } = useHookFormPersist();
 
   const {
     register,
@@ -91,6 +90,8 @@ export default function PureAddExpense({
       [EXPENSE_DETAIL]: getDefaultExpenseDetail(types, persistedFormData?.[EXPENSE_DETAIL]),
     },
   });
+
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const expenseDetail = watch(EXPENSE_DETAIL);
 

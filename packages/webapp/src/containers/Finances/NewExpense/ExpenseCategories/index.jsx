@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import ManageCustomExpenseTypesSpotlight from '../ManageCustomExpenseTypesSpotlight';
 import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import labelIconStyles from '../../../../components/Tile/styles.module.scss';
 
 export const icons = {
@@ -51,6 +52,18 @@ class ExpenseCategories extends Component {
 
     this.addRemoveType = this.addRemoveType.bind(this);
     this.nextPage = this.nextPage.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    // "this.props.selectedExpense" is updated in useEffect cleanup function in ExpenseItemsForType,
+    // which happens after the constructor is called. This is to sync state's selectedExpense and props's selectedExpense
+    if (this.props.selectedExpense.length !== prevProps.selectedExpense.length) {
+      this.setState({
+        selectedTypes: this.props.selectedExpense.filter((typeId) => {
+          return this.props.expenseTypes.some(({ expense_type_id }) => expense_type_id === typeId);
+        }),
+      });
+    }
   }
 
   nextPage(event) {
@@ -117,6 +130,7 @@ const mapStateToProps = (state) => {
   return {
     expenseTypes: expenseTypeTileContentsSelector(state),
     selectedExpense: selectedExpenseSelector(state),
+    persistedFormData: hookFormPersistSelector(state),
   };
 };
 

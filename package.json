@@ -23,8 +23,5 @@
     "verbose": true,
     "testURL": "http://localhost/",
     "testEnvironment": "node"
-  },
-  "dependencies": {
-    "exceljs": "4.3.0"
   }
 }

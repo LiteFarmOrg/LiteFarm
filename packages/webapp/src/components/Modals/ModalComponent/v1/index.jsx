@@ -12,6 +12,7 @@ export default function ModalComponent({
   descriptions,
   buttonLabel,
   buttonColor,
+  error,
 }) {
   const buttonStyles = {
     letterSpacing: '0.4005px',
@@ -26,7 +27,9 @@ export default function ModalComponent({
         {title}
       </Title>
       {descriptions.map((description) => (
-        <Title style={{ marginBottom: 0, textAlign: 'center' }}>{description}</Title>
+        <Title key={description} style={{ marginBottom: 0, textAlign: 'center' }}>
+          {description}
+        </Title>
       ))}
       <Button
         fullLength
@@ -37,6 +40,7 @@ export default function ModalComponent({
       >
         {buttonLabel}
       </Button>
+      {error && <span className={styles.error}>{error}</span>}
     </div>
   );
 }

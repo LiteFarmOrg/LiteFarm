@@ -24,7 +24,7 @@ import { getFirstNameLastName } from '../../util';
 import { axios } from '../saga';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import { setCustomSignUpErrorKey } from '../customSignUpSlice';
+import { setCustomSignUpErrorKey, setPasswordResetError } from '../customSignUpSlice';
 
 const loginUrl = (email) => `${url}/login/user/${email}`;
 const loginWithPasswordUrl = () => `${url}/login`;
@@ -151,7 +151,7 @@ export function* sendResetPasswordEmailSaga({ payload: email }) {
     const result = yield call(axios.post, resetPasswordUrl(), { email });
   } catch (e) {
     if (e.response.data === 'Reached maximum number of available reset tokens') {
-      yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.MAX_RESET_EMAILS')));
+      yield put(setPasswordResetError(i18n.t('message:USER.ERROR.MAX_RESET_EMAILS')));
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.RESET_PASSWORD')));
     }

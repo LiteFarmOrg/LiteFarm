@@ -17,11 +17,11 @@ import RevenueTypeModel from '../../models/revenueTypeModel.js';
 async function validateSale(req, res, next) {
   // TODO replace upsertGraph
   const { crop_variety_sale, revenue_type_id } = req.body;
-  // TODO: implement properly once LF-3595 is complete
-  const cropSaleRevenueType = await RevenueTypeModel.query()
-    .where('revenue_name', 'Crop Sale')
-    .first();
-  const isCropRevenue = revenue_type_id === cropSaleRevenueType.revenue_type_id;
+
+  const revenueType = await RevenueTypeModel.query().findById(revenue_type_id);
+
+  const isCropRevenue = revenueType.crop_generated;
+
   if (isCropRevenue && !(crop_variety_sale && crop_variety_sale[0])) {
     return res.status(400).send('crop_variety_sale is required');
   }

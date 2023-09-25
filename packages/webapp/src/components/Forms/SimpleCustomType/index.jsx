@@ -123,13 +123,7 @@ const PureSimpleCustomType = ({
       />
       {agricultureRadio && (
         <>
-          <Main
-            style={
-              view !== 'add'
-                ? { paddingBlock: '12px', color: 'var(--grey600)' }
-                : { paddingBlock: '12px' }
-            }
-          >
+          <Main style={{ paddingBlock: '12px' }}>
             Is the revenue associated with agricultural activities?
           </Main>
 
@@ -150,15 +144,7 @@ const PureSimpleCustomType = ({
 
           {getValues(agricultureRadio.name) && (
             <>
-              <Main
-                style={
-                  view !== 'add'
-                    ? { paddingBottom: '12px', color: 'var(--grey600)' }
-                    : { paddingBottom: '12px' }
-                }
-              >
-                Is this revenue generated from crops?
-              </Main>
+              <Main style={{ paddingBottom: '12px' }}>Is this revenue generated from crops?</Main>
               <RadioGroup
                 hookFormControl={control}
                 name={cropGeneratedRadio.name}

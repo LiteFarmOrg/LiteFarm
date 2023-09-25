@@ -37,10 +37,10 @@ export default function ExpenseItemsForType({ type, register, control, getValues
 
   // Unselect the type when all items are removed, select the type when the first item is added.
   // If the user removes items for the type, it will be unselected in the previous page when going back.
-  const handleSelectedExpenseTypes = (actionType) => {
+  const handleSelectedExpenseTypes = (operationType) => {
     const itemsLength = getValues(`${EXPENSE_DETAIL}.${type.id}`).length;
     const allItemsRemoved = itemsLength === 0;
-    const firstItemAdded = actionType === 'add' && itemsLength === 1;
+    const firstItemAdded = operationType === 'add' && itemsLength === 1;
 
     if (allItemsRemoved) {
       dispatch(setSelectedExpenseTypes(selectedExpense.filter((id) => id !== type.id)));

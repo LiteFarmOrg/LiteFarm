@@ -1441,6 +1441,8 @@
   "REVENUE": {
     "ADD_REVENUE": {
       "ADD_CUSTOM_REVENUE": "Add custom revenue",
+      "ASSOCIATED_WITH_AGRICULTURE": "Is the revenue associated with agricultural activities?",
+      "CROP_GENERATED": "Is this revenue generated from crops?",
       "CUSTOM_REVENUE_NAME": "Custom revenue name",
       "CUSTOM_REVENUE_TYPE": "Custom revenue type",
       "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another."

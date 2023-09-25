@@ -123,19 +123,17 @@ const PureSimpleCustomType = ({
       />
       {agricultureRadio && (
         <>
-          <Main style={{ paddingBlock: '12px' }}>
-            Is the revenue associated with agricultural activities?
-          </Main>
+          <Main style={{ paddingBlock: '12px' }}>{agricultureRadio.text}</Main>
 
           <RadioGroup
             hookFormControl={control}
             name={agricultureRadio.name}
             radios={[
               {
-                label: 'Yes',
+                label: t('common:YES'),
                 value: true,
               },
-              { label: 'No', value: false },
+              { label: t('common:NO'), value: false },
             ]}
             required
             style={{ paddingBottom: '16px' }}
@@ -144,16 +142,16 @@ const PureSimpleCustomType = ({
 
           {getValues(agricultureRadio.name) && (
             <>
-              <Main style={{ paddingBottom: '12px' }}>Is this revenue generated from crops?</Main>
+              <Main style={{ paddingBottom: '12px' }}>{cropGeneratedRadio.text}</Main>
               <RadioGroup
                 hookFormControl={control}
                 name={cropGeneratedRadio.name}
                 radios={[
                   {
-                    label: 'Yes',
+                    label: t('common:YES'),
                     value: true,
                   },
-                  { label: 'No', value: false },
+                  { label: t('common:NO'), value: false },
                 ]}
                 required={getValues(agricultureRadio.name)}
                 style={{ paddingBottom: '16px' }}

@@ -53,8 +53,16 @@ function ReadOnlyCustomRevenue({ history, match }) {
       retireLinkText={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
       retireHeader={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
       retireMessage={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_MESSAGE')}
-      agricultureRadio={{ name: 'agriculture_associated', defaultValue: agriculture_associated }}
-      cropGeneratedRadio={{ name: 'crop_generated', defaultValue: crop_generated }}
+      agricultureRadio={{
+        name: 'agriculture_associated',
+        defaultValue: agriculture_associated,
+        text: t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE'),
+      }}
+      cropGeneratedRadio={{
+        name: 'crop_generated',
+        defaultValue: crop_generated,
+        text: t('REVENUE.ADD_REVENUE.CROP_GENERATED'),
+      }}
     />
   );
 }

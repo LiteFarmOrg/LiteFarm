@@ -51,8 +51,16 @@ function EditCustomExpense({ history, match }) {
         'revenue_name',
         t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
       )}
-      agricultureRadio={{ name: 'agriculture_associated', defaultValue: agriculture_associated }}
-      cropGeneratedRadio={{ name: 'crop_generated', defaultValue: crop_generated }}
+      agricultureRadio={{
+        name: 'agriculture_associated',
+        defaultValue: agriculture_associated,
+        text: t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE'),
+      }}
+      cropGeneratedRadio={{
+        name: 'crop_generated',
+        defaultValue: crop_generated,
+        text: t('REVENUE.ADD_REVENUE.CROP_GENERATED'),
+      }}
     />
   );
 }

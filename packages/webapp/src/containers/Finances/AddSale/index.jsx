@@ -9,12 +9,12 @@ import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { revenueTypeSelector } from '../../revenueTypeSlice';
+import { revenueTypeSelector, revenueTypesSelector } from '../../revenueTypeSlice';
 import { getRevenueFormType } from '../util';
 import { revenueFormTypes as formTypes } from '../constants';
 
 function AddSale() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'revenue']);
   const dispatch = useDispatch();
 
   const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
@@ -23,6 +23,21 @@ function AddSale() {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { revenue_type_id } = persistedFormData || {};
   const revenueType = useSelector(revenueTypeSelector(revenue_type_id));
+  const revenueTypes = useSelector(revenueTypesSelector);
+
+  // Dropdown should include the current expense's type even if it has been retired
+  const revenueTypesArray = revenueTypes?.concat(revenueType?.deleted ? revenueType : []);
+
+  const revenueTypeReactSelectOptions = revenueTypesArray?.map((type) => {
+    const retireSuffix = type.deleted ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : '';
+
+    return {
+      value: type.revenue_type_id,
+      label: type.farm_id
+        ? type.revenue_name + retireSuffix
+        : t(`revenue:${type.revenue_translation_key}`),
+    };
+  });
 
   const formType = getRevenueFormType(revenueType);
 
@@ -90,8 +105,10 @@ function AddSale() {
       <CropSaleForm
         {...commonProps}
         cropVarietyOptions={cropVarietyOptions}
+        revenueTypeOptions={revenueTypeReactSelectOptions}
         system={system}
         managementPlans={managementPlans}
+        view="add"
       />
     );
   }

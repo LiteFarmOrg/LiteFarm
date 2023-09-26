@@ -23,7 +23,7 @@ const ActualRevenueItem = ({ sale, history, ...props }) => {
 
   const onClickForward = () => {
     dispatch(setSelectedSale(sale));
-    history.push(`/edit_sale`);
+    history.push(`/revenue/${sale_id}`);
   };
 
   const getFinanceGroupProps = () => {

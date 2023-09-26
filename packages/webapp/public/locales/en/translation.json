@@ -1447,7 +1447,9 @@
     },
     "EDIT_REVENUE": {
       "RETIRE_REVENUE_MESSAGE": "Retiring this revenue type will remove it as a possible choice for future expenses. You can still search and filter for historical instances of this expense type on the Finances tab.",
-      "RETIRE_REVENUE_TYPE": "Retire revenue type"
+      "RETIRE_REVENUE_TYPE": "Retire revenue type",
+      "RETIRED": "(retired)",
+      "REVENUE_TYPE": "Revenue type"
     }
   },
   "ROLE_SELECTION": {

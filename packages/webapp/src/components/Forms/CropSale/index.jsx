@@ -2,6 +2,8 @@ import styles from './styles.module.scss';
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
+import { Controller } from 'react-hook-form';
+import ReactSelect from '../../Form/ReactSelect';
 import Button from '../../Form/Button';
 import Input, { getInputErrors } from '../../Form/Input';
 import Unit from '../../Form/Unit';
@@ -15,6 +17,7 @@ import { getDateInputFormat } from '../../../util/moment';
 
 const CropSaleForm = ({
   cropVarietyOptions,
+  revenueTypeOptions,
   onSubmit,
   onClickDelete,
   title,
@@ -24,6 +27,7 @@ const CropSaleForm = ({
   currency,
   sale,
   managementPlans,
+  view,
 }) => {
   // Reformat selector to match component format
   // TODO: match component to selector format
@@ -54,6 +58,8 @@ const CropSaleForm = ({
   const { t } = useTranslation();
   const SALE_DATE = 'sale_date';
   const SALE_CUSTOMER = 'customer_name';
+  const REVENUE_TYPE = 'revenue_type';
+  const REVENUE_TYPE_ID = 'revenue_type_id';
   const CHOSEN_VARIETIES = 'crop_variety_sale';
 
   const {
@@ -70,8 +76,11 @@ const CropSaleForm = ({
     shouldUnregister: true,
     defaultValues: {
       [SALE_DATE]: getDateInputFormat(sale?.sale_date) || getDateInputFormat(),
-      customer_name: sale?.customer_name,
-      crop_variety_sale: existingSales ?? undefined,
+      [SALE_CUSTOMER]: sale?.customer_name,
+      [REVENUE_TYPE_ID]: revenueTypeOptions.find(
+        (option) => option.value === sale?.revenue_type_id,
+      ),
+      [CHOSEN_VARIETIES]: existingSales ?? undefined,
     },
   });
 
@@ -86,6 +95,11 @@ const CropSaleForm = ({
   const [chosenOptions, setChosenOptions] = useState([]);
   const [cropVarietyRegisterNames, setCropVarietyRegisterNames] = useState({});
   const [cropVarietyRegisters, setCropVarietyRegisters] = useState({});
+
+  const readonly = view === 'read-only';
+  const disabledInput = readonly;
+  const disabledButton = !isValid && !readonly;
+  //const disabledButton = (!isValid || !isDirty) && !readonly;
 
   // Run once and do not assess filter validity -- needed for edit sale
   useEffect(() => {
@@ -194,6 +208,23 @@ const CropSaleForm = ({
         errors={getInputErrors(errors, SALE_CUSTOMER)}
         type={'text'}
       />
+      {view != 'add' && (
+        <Controller
+          control={control}
+          name={REVENUE_TYPE_ID}
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) => (
+            <ReactSelect
+              data-cy="cropSaleForm-typeSelect"
+              label={t('REVENUE.EDIT_REVENUE.REVENUE_TYPE')}
+              options={revenueTypeOptions}
+              style={{ marginBottom: '40px' }}
+              onChange={onChange}
+              value={value}
+            />
+          )}
+        />
+      )}
       <FilterPillSelect
         subject={t('SALE.ADD_SALE.CROP_VARIETY')}
         options={filter.options}

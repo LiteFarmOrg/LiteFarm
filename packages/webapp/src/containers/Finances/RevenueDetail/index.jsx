@@ -6,7 +6,7 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import { deleteSale, updateSale } from '../actions';
 import { selectedSaleSelector } from '../selectors';
 import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
-import { revenueTypeSelector } from '../../revenueTypeSlice';
+import { revenueTypeSelector, revenueTypesSelector } from '../../revenueTypeSlice';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -15,14 +15,29 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { revenueFormTypes as formTypes } from '../constants';
 import { getRevenueFormType } from '../util';
 
-function EditSale({ history }) {
-  const { t } = useTranslation();
+function SaleDetail({ history, match }) {
+  const { t } = useTranslation(['translation', 'revenue']);
   const dispatch = useDispatch();
+
   const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
   const farm = useSelector(userFarmSelector);
   const system = useSelector(measurementSelector);
   const sale = useSelector(selectedSaleSelector) || {};
   const revenueType = useSelector(revenueTypeSelector(sale?.revenue_type_id));
+  const revenueTypes = useSelector(revenueTypesSelector);
+
+  // Dropdown should include the current expense's type even if it has been retired
+  const revenueTypesArray = revenueTypes?.concat(revenueType?.deleted ? revenueType : []);
+
+  const revenueTypeReactSelectOptions = revenueTypesArray?.map((type) => {
+    const retireSuffix = type.deleted ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : '';
+    return {
+      value: type.revenue_type_id,
+      label: type.farm_id
+        ? type.revenue_name + retireSuffix
+        : t(`revenue:${type.revenue_translation_key}`),
+    };
+  });
 
   const formType = getRevenueFormType(revenueType);
 
@@ -97,8 +112,10 @@ function EditSale({ history }) {
         <CropSaleForm
           {...commonProps}
           cropVarietyOptions={cropVarietyOptions}
+          revenueTypeOptions={revenueTypeReactSelectOptions}
           system={system}
           managementPlans={managementPlans}
+          view="read-only"
         />
       ) : (
         <HookFormPersistProvider>
@@ -115,4 +132,4 @@ function EditSale({ history }) {
   );
 }
 
-export default EditSale;
+export default SaleDetail;

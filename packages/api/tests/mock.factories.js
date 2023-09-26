@@ -2113,15 +2113,22 @@ function fakeNotification(defaultData = {}) {
 }
 
 async function populateDefaultRevenueTypes() {
-  const types = [{ revenue_name: 'Crop Sale', revenue_translation_key: 'CROP_SALE' }];
-  for (const { revenue_name, revenue_translation_key } of types) {
-    const [revenueTypeInDb] = await knex('revenue_type').where({
+  const types = [
+    {
       revenue_name: 'Crop Sale',
+      revenue_translation_key: 'CROP_SALE',
+      agriculture_associated: true,
+      crop_generated: true,
+    },
+  ];
+  for (const type of types) {
+    const [revenueTypeInDb] = await knex('revenue_type').where({
+      revenue_name: type.revenue_name,
     });
     if (!revenueTypeInDb) {
       const base = baseProperties(1);
       return knex('revenue_type')
-        .insert({ revenue_name, revenue_translation_key, ...base })
+        .insert({ ...type, ...base })
         .returning('*');
     }
   }

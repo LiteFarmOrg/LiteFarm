@@ -421,6 +421,20 @@
     "TO": "À",
     "TO_MUST_BE_AFTER_FROM": "La date 'De' doit précéder la date 'À'"
   },
+  "DATE_RANGE_SELECTOR": {
+    "BACK": "MISSING",
+    "CLEAR_DATES": "MISSING",
+    "CUSTOM": "MISSING",
+    "CUSTOM_RANGE": "MISSING",
+    "LAST_FOURTEEN_DAYS": "MISSING",
+    "LAST_MONTH": "MISSING",
+    "LAST_SEVEN_DAYS": "MISSING",
+    "LAST_THIRTY_DAYS": "MISSING",
+    "LAST_WEEK": "MISSING",
+    "THIS_MONTH": "MISSING",
+    "THIS_WEEK": "MISSING",
+    "THIS_YEAR": "MISSING"
+  },
   "DAYS_OF_WEEK_SELECT": {
     "FRIDAY": "V",
     "MONDAY": "L",

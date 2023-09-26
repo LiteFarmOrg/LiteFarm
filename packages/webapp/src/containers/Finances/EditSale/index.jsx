@@ -34,7 +34,7 @@ function EditSale({ history }) {
       customer_name: data.customer_name,
       sale_date: data.sale_date,
       farm_id: farm.farm_id,
-      revenue_type_id: data.revenue_type_id,
+      revenue_type_id: sale.revenue_type_id,
     };
 
     if (formType === formTypes.CROP_SALE) {

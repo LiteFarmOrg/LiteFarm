@@ -1,0 +1,51 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+ 
+// CustomDateRangeSelector
+.customDateRangeSelector {
+  position: absolute;
+  top: 100%;
+  left: 2px;
+  width: calc(100% - 4px);
+  height: 405px;
+  padding: 6px 15px 15px 15px;
+  background: var(--white, #fff);
+  border-radius: 4px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.backButton {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 600;
+
+  svg {
+    stroke-width: 1px;
+  }
+}
+
+.clearDates {
+  font-size: 14px;
+  color: var(--brown700);
+}

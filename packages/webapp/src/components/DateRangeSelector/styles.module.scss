@@ -13,6 +13,37 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
  
+.wrapper {
+  position: relative;
+}
+
+.window {
+  display: flex;
+}
+
+.windowValue {
+  color: var(--grey900);
+  font-weight: 700;
+  margin-left: 10px;
+}
+
+.selectedMenuOptionInMenu {
+  color: var(--grey900);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--grey900);
+    margin-right: 8px;
+  }
+}
+
 // CustomDateRangeSelector
 .customDateRangeSelector {
   position: absolute;

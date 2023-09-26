@@ -15,7 +15,8 @@
     "storybook": "storybook dev -p 6006 public",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "test": "vitest"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",

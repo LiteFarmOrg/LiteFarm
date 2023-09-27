@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCustomRevenueType } from '../saga';
 import { revenueTypeSelector, revenueTypesSelector } from '../../revenueTypeSlice';
-import { CUSTOM_REVENUE_NAME } from './constants';
+import { CUSTOM_REVENUE_NAME, AGRICULTURE_ASSOCIATED, CROP_GENERATED } from './constants';
 import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
 
 function EditCustomExpense({ history, match }) {
@@ -52,12 +52,12 @@ function EditCustomExpense({ history, match }) {
         t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
       )}
       agricultureRadio={{
-        name: 'agriculture_associated',
+        name: AGRICULTURE_ASSOCIATED,
         defaultValue: agriculture_associated,
         text: t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE'),
       }}
       cropGeneratedRadio={{
-        name: 'crop_generated',
+        name: CROP_GENERATED,
         defaultValue: crop_generated,
         text: t('REVENUE.ADD_REVENUE.CROP_GENERATED'),
       }}

@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteRevenueType } from '../saga';
 import { revenueTypeSelector } from '../../revenueTypeSlice';
-import { CUSTOM_REVENUE_NAME } from './constants';
+import { CUSTOM_REVENUE_NAME, AGRICULTURE_ASSOCIATED, CROP_GENERATED } from './constants';
 
 function ReadOnlyCustomRevenue({ history, match }) {
   const { revenue_type_id } = match.params;
@@ -54,12 +54,12 @@ function ReadOnlyCustomRevenue({ history, match }) {
       retireHeader={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
       retireMessage={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_MESSAGE')}
       agricultureRadio={{
-        name: 'agriculture_associated',
+        name: AGRICULTURE_ASSOCIATED,
         defaultValue: agriculture_associated,
         text: t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE'),
       }}
       cropGeneratedRadio={{
-        name: 'crop_generated',
+        name: CROP_GENERATED,
         defaultValue: crop_generated,
         text: t('REVENUE.ADD_REVENUE.CROP_GENERATED'),
       }}

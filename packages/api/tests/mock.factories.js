@@ -2144,8 +2144,8 @@ function fakeRevenueType(defaultData = {}) {
 }
 
 async function revenue_typeFactory(
-  { promisedFarm = farmFactory() } = {},
-  revenueType = fakeRevenueType(),
+  { promisedFarm = farmFactory(), properties = {} } = {},
+  revenueType = fakeRevenueType(properties),
 ) {
   const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
   const [{ farm_id }] = farm;

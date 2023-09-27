@@ -545,9 +545,9 @@ describe('Sale Tests', () => {
       });
 
       const testGeneralSale = async (done, userId) => {
-        // TODO: update once LF-3595 is complete
         const [{ revenue_type_id }] = await mocks.revenue_typeFactory({
           promisedFarm: [{ farm_id: farm.farm_id }],
+          properties: { agriculture_associated: true, crop_generated: false },
         });
         delete sampleReqBody.crop_variety_sale;
         sampleReqBody.value = 50.5;

@@ -424,7 +424,6 @@
   "DATE_RANGE_SELECTOR": {
     "BACK": "back",
     "CLEAR_DATES": "Clear dates",
-    "CUSTOM": "Custom",
     "CUSTOM_RANGE": "Pick a custom range",
     "LAST_FOURTEEN_DAYS": "Last 14 days",
     "LAST_MONTH": "Last month",

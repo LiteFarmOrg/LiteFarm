@@ -19,6 +19,7 @@ import { addCustomRevenueType } from '../saga';
 import { revenueTypesSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME } from './constants';
 import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function AddCustomRevenue({ history }) {
   const { t } = useTranslation();
@@ -34,20 +35,22 @@ function AddCustomRevenue({ history }) {
   };
 
   return (
-    <PureSimpleCustomType
-      handleGoBack={handleGoBack}
-      onSubmit={onSubmit}
-      view="add"
-      buttonText={t('common:SAVE')}
-      pageTitle={t('REVENUE.ADD_REVENUE.ADD_CUSTOM_REVENUE')}
-      inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
-      customTypeRegister={CUSTOM_REVENUE_NAME}
-      validateInput={hookFormUniquePropertyValidation(
-        revenueTypes,
-        'revenue_name',
-        t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
-      )}
-    />
+    <HookFormPersistProvider>
+      <PureSimpleCustomType
+        handleGoBack={handleGoBack}
+        onSubmit={onSubmit}
+        view="add"
+        buttonText={t('common:SAVE')}
+        pageTitle={t('REVENUE.ADD_REVENUE.ADD_CUSTOM_REVENUE')}
+        inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
+        customTypeRegister={CUSTOM_REVENUE_NAME}
+        validateInput={hookFormUniquePropertyValidation(
+          revenueTypes,
+          'revenue_name',
+          t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
+        )}
+      />
+    </HookFormPersistProvider>
   );
 }
 

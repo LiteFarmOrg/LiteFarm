@@ -51,11 +51,13 @@ function AddCustomRevenue({ history }) {
         name: 'agriculture_associated',
         defaultValue: undefined,
         text: t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE'),
+        warning: t('REVENUE.ADD_REVENUE.CANNOT_BE_CHANGED'),
       }}
       cropGeneratedRadio={{
         name: 'crop_generated',
         defaultValue: undefined,
         text: t('REVENUE.ADD_REVENUE.CROP_GENERATED'),
+        warning: t('REVENUE.ADD_REVENUE.CANNOT_BE_CHANGED'),
       }}
     />
   );

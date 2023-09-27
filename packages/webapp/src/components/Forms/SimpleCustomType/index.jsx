@@ -21,7 +21,7 @@ import PageTitle from '../../PageTitle/v2';
 import Input, { getInputErrors } from '../../Form/Input';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
-import { IconLink, Main } from '../../Typography';
+import { IconLink, Main, Info } from '../../Typography';
 import { MdOutlineInventory2 } from 'react-icons/md';
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
@@ -136,13 +136,15 @@ const PureSimpleCustomType = ({
               { label: t('common:NO'), value: false },
             ]}
             required
-            style={{ paddingBottom: '16px' }}
             disabled={view !== 'add'}
           />
+          {agricultureRadio.warning && <Info>{agricultureRadio.warning}</Info>}
 
           {getValues(agricultureRadio.name) && (
             <>
-              <Main style={{ paddingBottom: '12px' }}>{cropGeneratedRadio.text}</Main>
+              <Main style={{ paddingTop: '32px', paddingBottom: '12px' }}>
+                {cropGeneratedRadio.text}
+              </Main>
               <RadioGroup
                 hookFormControl={control}
                 name={cropGeneratedRadio.name}
@@ -157,6 +159,7 @@ const PureSimpleCustomType = ({
                 style={{ paddingBottom: '16px' }}
                 disabled={view !== 'add'}
               />
+              {cropGeneratedRadio.warning && <Info>{cropGeneratedRadio.warning}</Info>}
             </>
           )}
         </>

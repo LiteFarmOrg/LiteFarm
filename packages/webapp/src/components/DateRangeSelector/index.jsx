@@ -57,11 +57,14 @@ export default function DateRangeSelector({
     { value: rangeOptions.CUSTOM, label: t('DATE_RANGE_SELECTOR.CUSTOM_RANGE') },
   ];
 
+  // set defaultCustomDateRange if exists
   useEffect(() => {
     if (defaultDateRangeOptionValue !== rangeOptions.CUSTOM) {
       return;
     }
     const { [FROM_DATE]: defaultFromDate, [TO_DATE]: defaultToDate } = defaultCustomDateRange;
+
+    // if the range does not have both FROM_DATE and TO_DATE, reset the option to "this year"
     if (!defaultFromDate || !defaultToDate) {
       setValue(DATE_RANGE, options[0]);
       return;
@@ -73,7 +76,7 @@ export default function DateRangeSelector({
 
   useEffect(() => {
     if (selectedDateRangeOption?.value && selectedDateRangeOption.value !== rangeOptions.CUSTOM) {
-      // // TODO: set values
+      // TODO: set values
       setValue(FROM_DATE, '');
       setValue(TO_DATE, '');
     }

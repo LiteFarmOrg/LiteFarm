@@ -46,7 +46,7 @@ const revenueTypeController = {
               trx,
             });
             await trx.commit();
-            res.status(204).send(record);
+            res.status(200).send(record);
           }
         } else {
           const result = await baseController.postWithResponse(

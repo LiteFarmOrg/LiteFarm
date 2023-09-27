@@ -53,7 +53,7 @@ export default function ManageRevenueTypes({ history }) {
         // unlisten when the user gets out of the page without going back to '/Finances'.
         // pathname: "/manage_custom_revenue" happens when the user lands on this page.
         !(
-          history.location.pathname === `/manage_custom_revenue` ||
+          history.location.pathname === `/manage_custom_revenues` ||
           (history.action === 'POP' && history.location.pathname === '/Finances')
         )
       ) {

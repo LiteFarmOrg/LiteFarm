@@ -19,6 +19,7 @@ import { updateCustomRevenueType } from '../saga';
 import { revenueTypeSelector, revenueTypesSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME, AGRICULTURE_ASSOCIATED, CROP_GENERATED } from './constants';
 import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function EditCustomExpense({ history, match }) {
   const { revenue_type_id } = match.params;
@@ -37,31 +38,33 @@ function EditCustomExpense({ history, match }) {
   };
 
   return (
-    <PureSimpleCustomType
-      handleGoBack={handleGoBack}
-      onSubmit={onSubmit}
-      view="edit"
-      buttonText={t('common:SAVE')}
-      pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
-      inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
-      customTypeRegister={CUSTOM_REVENUE_NAME}
-      defaultValue={revenue_name}
-      validateInput={hookFormUniquePropertyValidation(
-        revenueTypes,
-        'revenue_name',
-        t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
-      )}
-      agricultureRadio={{
-        name: AGRICULTURE_ASSOCIATED,
-        defaultValue: agriculture_associated,
-        text: t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE'),
-      }}
-      cropGeneratedRadio={{
-        name: CROP_GENERATED,
-        defaultValue: crop_generated,
-        text: t('REVENUE.ADD_REVENUE.CROP_GENERATED'),
-      }}
-    />
+    <HookFormPersistProvider>
+      <PureSimpleCustomType
+        handleGoBack={handleGoBack}
+        onSubmit={onSubmit}
+        view="edit"
+        buttonText={t('common:SAVE')}
+        pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
+        inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
+        customTypeRegister={CUSTOM_REVENUE_NAME}
+        defaultValue={revenue_name}
+        validateInput={hookFormUniquePropertyValidation(
+          revenueTypes,
+          'revenue_name',
+          t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
+        )}
+        agricultureRadio={{
+          name: AGRICULTURE_ASSOCIATED,
+          defaultValue: agriculture_associated,
+          text: t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE'),
+        }}
+        cropGeneratedRadio={{
+          name: CROP_GENERATED,
+          defaultValue: crop_generated,
+          text: t('REVENUE.ADD_REVENUE.CROP_GENERATED'),
+        }}
+      />
+    </HookFormPersistProvider>
   );
 }
 

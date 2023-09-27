@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteRevenueType } from '../saga';
 import { revenueTypeSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME, AGRICULTURE_ASSOCIATED, CROP_GENERATED } from './constants';
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function ReadOnlyCustomRevenue({ history, match }) {
   const { revenue_type_id } = match.params;
@@ -40,30 +41,32 @@ function ReadOnlyCustomRevenue({ history, match }) {
   };
 
   return (
-    <PureSimpleCustomType
-      handleGoBack={handleGoBack}
-      onClick={handleEdit}
-      view="read-only"
-      buttonText={t('common:EDIT')}
-      pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
-      inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
-      customTypeRegister={CUSTOM_REVENUE_NAME}
-      defaultValue={revenue_name}
-      onRetire={onRetire}
-      retireLinkText={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
-      retireHeader={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
-      retireMessage={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_MESSAGE')}
-      agricultureRadio={{
-        name: AGRICULTURE_ASSOCIATED,
-        defaultValue: agriculture_associated,
-        text: t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE'),
-      }}
-      cropGeneratedRadio={{
-        name: CROP_GENERATED,
-        defaultValue: crop_generated,
-        text: t('REVENUE.ADD_REVENUE.CROP_GENERATED'),
-      }}
-    />
+    <HookFormPersistProvider>
+      <PureSimpleCustomType
+        handleGoBack={handleGoBack}
+        onClick={handleEdit}
+        view="read-only"
+        buttonText={t('common:EDIT')}
+        pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
+        inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
+        customTypeRegister={CUSTOM_REVENUE_NAME}
+        defaultValue={revenue_name}
+        onRetire={onRetire}
+        retireLinkText={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
+        retireHeader={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
+        retireMessage={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_MESSAGE')}
+        agricultureRadio={{
+          name: AGRICULTURE_ASSOCIATED,
+          defaultValue: agriculture_associated,
+          text: t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE'),
+        }}
+        cropGeneratedRadio={{
+          name: CROP_GENERATED,
+          defaultValue: crop_generated,
+          text: t('REVENUE.ADD_REVENUE.CROP_GENERATED'),
+        }}
+      />
+    </HookFormPersistProvider>
   );
 }
 

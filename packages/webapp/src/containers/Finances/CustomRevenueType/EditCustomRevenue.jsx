@@ -20,6 +20,7 @@ import { revenueTypeSelector, revenueTypesSelector } from '../../revenueTypeSlic
 import { CUSTOM_REVENUE_NAME, AGRICULTURE_ASSOCIATED, CROP_GENERATED } from './constants';
 import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import CustomRevenueRadios from './CustomRevenueRadios';
 
 function EditCustomExpense({ history, match }) {
   const { revenue_type_id } = match.params;
@@ -53,15 +54,12 @@ function EditCustomExpense({ history, match }) {
           'revenue_name',
           t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
         )}
-        agricultureRadio={{
-          name: AGRICULTURE_ASSOCIATED,
-          defaultValue: agriculture_associated,
-          text: t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE'),
-        }}
-        cropGeneratedRadio={{
-          name: CROP_GENERATED,
-          defaultValue: crop_generated,
-          text: t('REVENUE.ADD_REVENUE.CROP_GENERATED'),
+        customRadioGroup={({ control, watch }) => (
+          <CustomRevenueRadios control={control} watch={watch} view="edit" />
+        )}
+        customRadioDefaultValues={{
+          [AGRICULTURE_ASSOCIATED]: agriculture_associated,
+          [CROP_GENERATED]: crop_generated,
         }}
       />
     </HookFormPersistProvider>

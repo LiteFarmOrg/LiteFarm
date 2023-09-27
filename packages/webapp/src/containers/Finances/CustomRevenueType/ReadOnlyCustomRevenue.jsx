@@ -20,6 +20,7 @@ import { deleteRevenueType } from '../saga';
 import { revenueTypeSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME, AGRICULTURE_ASSOCIATED, CROP_GENERATED } from './constants';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import CustomRevenueRadios from './CustomRevenueRadios';
 
 function ReadOnlyCustomRevenue({ history, match }) {
   const { revenue_type_id } = match.params;
@@ -55,15 +56,12 @@ function ReadOnlyCustomRevenue({ history, match }) {
         retireLinkText={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
         retireHeader={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
         retireMessage={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_MESSAGE')}
-        agricultureRadio={{
-          name: AGRICULTURE_ASSOCIATED,
-          defaultValue: agriculture_associated,
-          text: t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE'),
-        }}
-        cropGeneratedRadio={{
-          name: CROP_GENERATED,
-          defaultValue: crop_generated,
-          text: t('REVENUE.ADD_REVENUE.CROP_GENERATED'),
+        customRadioGroup={({ control, watch }) => (
+          <CustomRevenueRadios control={control} watch={watch} view="read-only" />
+        )}
+        customRadioDefaultValues={{
+          [AGRICULTURE_ASSOCIATED]: agriculture_associated,
+          [CROP_GENERATED]: crop_generated,
         }}
       />
     </HookFormPersistProvider>

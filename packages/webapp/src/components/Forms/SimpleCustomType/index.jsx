@@ -21,11 +21,10 @@ import PageTitle from '../../PageTitle/v2';
 import Input, { getInputErrors } from '../../Form/Input';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
-import { IconLink, Main, Info } from '../../Typography';
+import { IconLink } from '../../Typography';
 import { MdOutlineInventory2 } from 'react-icons/md';
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
-import RadioGroup from '../../Form/RadioGroup';
 
 /**
  * React component for the addition of custom type with just a name field this form has add,
@@ -48,6 +47,8 @@ import RadioGroup from '../../Form/RadioGroup';
  * @param {number} [props.inputMaxChars=100] - The maximum number of characters allowed in the input field.
  * @param {function} [props.validateInput] - A custom validation function for the input field.
  * @param {function} [props.useHookFormPersist] - useHookFormPersist hook.
+ * @param {function} [props.customRadioGroup] - A function to render a custom radio group.
+ * @param {Object} [props.customRadioDefaultValues={}] - Default values for the custom radio group.
  * @returns {JSX.Element} A React component representing the custom type form.
  */
 const PureSimpleCustomType = ({
@@ -67,8 +68,8 @@ const PureSimpleCustomType = ({
   inputMaxChars = 100,
   validateInput,
   useHookFormPersist = () => ({}),
-  agricultureRadio,
-  cropGeneratedRadio,
+  customRadioGroup,
+  customRadioDefaultValues = {},
 }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -77,23 +78,19 @@ const PureSimpleCustomType = ({
     handleSubmit,
     register,
     control,
-    getValues,
     watch,
     formState: { errors, isValid, isDirty },
   } = useForm({
     mode: 'onChange',
     defaultValues: {
       [customTypeRegister]: defaultValue || undefined,
-      [agricultureRadio?.name]: agricultureRadio?.defaultValue,
-      [cropGeneratedRadio?.name]: cropGeneratedRadio?.defaultValue,
+      ...customRadioDefaultValues,
     },
   });
   const readonly = view === 'read-only';
   const disabledInput = readonly;
   const disabledButton = (!isValid || !isDirty) && !readonly;
   useHookFormPersist();
-
-  const agriculture_radio = watch(agricultureRadio?.name);
 
   return (
     <Form
@@ -124,48 +121,9 @@ const PureSimpleCustomType = ({
         optional={false}
         disabled={disabledInput}
       />
-      {agricultureRadio && (
-        <>
-          <Main style={{ paddingBlock: '12px' }}>{agricultureRadio.text}</Main>
 
-          <RadioGroup
-            hookFormControl={control}
-            name={agricultureRadio.name}
-            radios={[
-              {
-                label: t('common:YES'),
-                value: true,
-              },
-              { label: t('common:NO'), value: false },
-            ]}
-            required
-            disabled={view !== 'add'}
-          />
-          {agricultureRadio.warning && <Info>{agricultureRadio.warning}</Info>}
+      {customRadioGroup && customRadioGroup({ control, watch })}
 
-          {agriculture_radio && (
-            <>
-              <Main style={{ paddingTop: '32px', paddingBottom: '12px' }}>
-                {cropGeneratedRadio.text}
-              </Main>
-              <RadioGroup
-                hookFormControl={control}
-                name={cropGeneratedRadio.name}
-                radios={[
-                  {
-                    label: t('common:YES'),
-                    value: true,
-                  },
-                  { label: t('common:NO'), value: false },
-                ]}
-                required={agriculture_radio}
-                disabled={view !== 'add'}
-              />
-              {cropGeneratedRadio.warning && <Info>{cropGeneratedRadio.warning}</Info>}
-            </>
-          )}
-        </>
-      )}
       <div style={{ marginTop: 'auto' }}>
         {readonly && !isDeleting && (
           <IconLink
@@ -220,6 +178,8 @@ PureSimpleCustomType.propTypes = {
   inputMaxChars: PropTypes.number,
   validateInput: PropTypes.func,
   useHookFormPersist: PropTypes.func,
+  customRadioGroup: PropTypes.func,
+  customRadioDefaultValues: PropTypes.object,
 };
 
 export default PureSimpleCustomType;

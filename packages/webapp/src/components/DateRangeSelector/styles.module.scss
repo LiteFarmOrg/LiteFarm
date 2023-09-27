@@ -23,8 +23,11 @@
 
 .windowValue {
   color: var(--grey900);
-  font-weight: 700;
   margin-left: 10px;
+
+  &:not(.invalid) {
+    font-weight: 700;
+  }
 }
 
 .selectedMenuOptionInMenu {

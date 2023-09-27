@@ -16,6 +16,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
+import clsx from 'clsx';
 import { ClickAwayListener } from '@mui/material';
 import { ReactComponent as Calendar } from '../../assets/images/dateInput/calendar.svg';
 import CustomDateRangeSelector from './CustomDateRangeSelector';
@@ -90,18 +91,21 @@ export default function DateRangeSelector({
     }
 
     let formattedOption = data.label;
+    let className = '';
 
     if (data.value === rangeOptions.CUSTOM) {
-      formattedOption =
-        isValid && customFromDate && customToDate
-          ? `${customFromDate} - ${customToDate}`
-          : t('DATE_RANGE_SELECTOR.CUSTOM');
+      if (isValid && customFromDate && customToDate) {
+        formattedOption = `${customFromDate} - ${customToDate}`;
+      } else {
+        formattedOption = 'yyyy-mm-dd - yyyy-mm-dd';
+        className = styles.invalid;
+      }
     }
 
     return (
       <div className={styles.window}>
         <Calendar />
-        <span className={styles.windowValue}>{formattedOption}</span>
+        <span className={clsx(styles.windowValue, className)}>{formattedOption}</span>
       </div>
     );
   };

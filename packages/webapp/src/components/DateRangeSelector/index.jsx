@@ -40,7 +40,6 @@ export default function DateRangeSelector({
 
   const { t } = useTranslation();
   const selectRef = useRef(null);
-  const isValidRef = useRef(isValid);
 
   const customFromDate = watch(FROM_DATE);
   const customToDate = watch(TO_DATE);
@@ -71,10 +70,6 @@ export default function DateRangeSelector({
     setValue(FROM_DATE, defaultFromDate);
     setValue(TO_DATE, defaultToDate);
   }, []);
-
-  useEffect(() => {
-    isValidRef.current = isValid;
-  }, [isValid]);
 
   useEffect(() => {
     if (selectedDateRangeOption?.value && selectedDateRangeOption.value !== rangeOptions.CUSTOM) {
@@ -116,18 +111,15 @@ export default function DateRangeSelector({
   };
 
   const onClickAway = () => {
+    if (!(isValid && customFromDate && customToDate)) {
+      setValue(DATE_RANGE, options[0]);
+    }
     setIsCustomDatePickerOpen(false);
   };
 
   const onBack = () => {
     setIsCustomDatePickerOpen(false);
     selectRef.current.focus();
-  };
-
-  const onCloseCustomDateRangeSelector = () => {
-    if (!(isValidRef.current && customFromDate && customToDate)) {
-      setValue(DATE_RANGE, options[0]);
-    }
   };
 
   return (
@@ -164,8 +156,8 @@ export default function DateRangeSelector({
             getValues={getValues}
             control={control}
             onBack={onBack}
-            onCleanUp={onCloseCustomDateRangeSelector}
             onClear={clearCustomDateRange}
+            isValid={!!(isValid && customFromDate && customToDate)}
           />
         )}
       </div>

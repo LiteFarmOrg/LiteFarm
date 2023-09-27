@@ -77,6 +77,11 @@
   svg {
     stroke-width: 1px;
   }
+
+  &.disabled {
+    cursor: default;
+    color: var(--btnDisabled);
+  }
 }
 
 .clearDates {

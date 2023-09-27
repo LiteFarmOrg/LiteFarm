@@ -12,9 +12,10 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 import { BsChevronLeft } from 'react-icons/bs';
 import { Underlined } from '../Typography';
 import DateRangePicker from '../Form/DateRangePicker';
@@ -27,18 +28,17 @@ export default function CustomDateRangeSelector({
   control,
   onBack,
   onClear,
-  onCleanUp,
+  isValid,
 }) {
   const { t } = useTranslation();
-
-  useEffect(() => {
-    return () => onCleanUp();
-  }, []);
 
   return (
     <div className={styles.customDateRangeSelector}>
       <div className={styles.buttons}>
-        <div className={styles.backButton} onClick={onBack}>
+        <div
+          className={clsx(styles.backButton, !isValid && styles.disabled)}
+          onClick={isValid ? onBack : undefined}
+        >
           <BsChevronLeft />
           {t('DATE_RANGE_SELECTOR.BACK')}
         </div>
@@ -62,5 +62,5 @@ CustomDateRangeSelector.propTypes = {
   control: PropTypes.object.isRequired,
   onBack: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
-  onCleanUp: PropTypes.func.isRequired,
+  isValid: PropTypes.bool.isRequired,
 };

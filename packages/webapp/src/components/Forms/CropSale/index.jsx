@@ -6,6 +6,7 @@ import { Controller } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import Button from '../../Form/Button';
 import Input, { getInputErrors } from '../../Form/Input';
+import InputAutoSize from '../../Form/InputAutoSize';
 import Unit from '../../Form/Unit';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import { useForm } from 'react-hook-form';
@@ -13,7 +14,9 @@ import PageTitle from '../../PageTitle/v2';
 import FilterPillSelect from '../../Filter/FilterPillSelect';
 import { Error } from '../../Typography';
 import { harvestAmounts } from '../../../util/convert-units/unit';
-import { getDateInputFormat } from '../../../util/moment';
+import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
+import { revenueFormTypes } from '../../../containers/Finances/constants';
+import { getLocalDateInYYYYDDMM } from '../../../util/date';
 
 const CropSaleForm = ({
   cropVarietyOptions,
@@ -28,10 +31,14 @@ const CropSaleForm = ({
   sale,
   managementPlans,
   view,
+  onTypeChange,
+  formType,
+  useHookFormPersist,
+  persistedFormData,
 }) => {
   // Reformat selector to match component format
   // TODO: match component to selector format
-  const existingSales = sale?.crop_variety_sale.reduce(
+  const existingSales = sale?.crop_variety_sale?.reduce(
     (acc, cur) => ({
       ...acc,
       [cur.crop_variety_id]: {
@@ -61,6 +68,8 @@ const CropSaleForm = ({
   const REVENUE_TYPE = 'revenue_type';
   const REVENUE_TYPE_ID = 'revenue_type_id';
   const CHOSEN_VARIETIES = 'crop_variety_sale';
+  const NOTE = 'note';
+  const VALUE = 'value';
 
   const {
     register,
@@ -73,21 +82,31 @@ const CropSaleForm = ({
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    shouldUnregister: true,
     defaultValues: {
-      [SALE_DATE]: getDateInputFormat(sale?.sale_date) || getDateInputFormat(),
-      [SALE_CUSTOMER]: sale?.customer_name,
+      [SALE_DATE]:
+        (sale?.[SALE_DATE] && getLocalDateInYYYYDDMM(new Date(sale[SALE_DATE]))) ||
+        persistedFormData?.[SALE_DATE] ||
+        getLocalDateInYYYYDDMM(),
+      [SALE_CUSTOMER]: sale?.[SALE_CUSTOMER] || persistedFormData?.[SALE_CUSTOMER] || '',
       [REVENUE_TYPE_ID]: revenueTypeOptions.find(
         (option) => option.value === sale?.revenue_type_id,
       ),
       [CHOSEN_VARIETIES]: existingSales ?? undefined,
+      [NOTE]: sale?.[NOTE] || persistedFormData?.[NOTE] || '',
+      [VALUE]: !isNaN(sale?.[VALUE])
+        ? sale[VALUE]
+        : !isNaN(persistedFormData?.[VALUE])
+        ? persistedFormData[VALUE]
+        : null,
     },
   });
+
+  useHookFormPersist(getValues);
 
   const saleDateRegister = register(SALE_DATE, { required: true });
   const saleCustomerRegister = register(SALE_CUSTOMER, { required: true });
   // FilterPillSelect does not support register yet, so const definition not needed
-  register(CHOSEN_VARIETIES, { required: true });
+  register(CHOSEN_VARIETIES, { required: formType === revenueFormTypes.GENERAL ? false : true });
 
   const [isDirty, setIsDirty] = useState(false);
   const [filterState, setFilterState] = useState({});
@@ -106,7 +125,7 @@ const CropSaleForm = ({
     const activeOptions = cropVarietyOptions.filter((cvs) =>
       existingSales?.[cvs.value] ? true : false,
     );
-    activeOptions.length ?? setIsFilterValid(true);
+    (activeOptions.length || formType === revenueFormTypes.GENERAL) ?? setIsFilterValid(true);
     // Input does not support registering like Unit, dynamically register here
     let dynamicRegisterNames = {};
     let dynamicRegister = {};
@@ -144,7 +163,9 @@ const CropSaleForm = ({
       );
       let dynamicRegisterNames = {};
       let dynamicRegister = {};
-      activeOptions.length ? setIsFilterValid(true) : setIsFilterValid(false);
+      activeOptions.length || formType === revenueFormTypes.GENERAL
+        ? setIsFilterValid(true)
+        : setIsFilterValid(false);
       // Input does not support registering like Unit, dynamically register here
       cropVarietyOptions.forEach((option) => {
         const isActive = filterState[STATUS][option.label].active;
@@ -219,26 +240,52 @@ const CropSaleForm = ({
               label={t('REVENUE.EDIT_REVENUE.REVENUE_TYPE')}
               options={revenueTypeOptions}
               style={{ marginBottom: '40px' }}
-              onChange={onChange}
+              onChange={(e) => {
+                onTypeChange(e.value);
+                onChange(e);
+              }}
               value={value}
             />
           )}
         />
       )}
-      <FilterPillSelect
-        subject={t('SALE.ADD_SALE.CROP_VARIETY')}
-        options={filter.options}
-        filterKey={filter.filterKey}
-        style={{ marginBottom: !isFilterValid ? '0' : '32px' }}
-        filterRef={filterRef}
-        key={filter.filterKey}
-        onChange={onFilter}
-      />
-      {!isFilterValid && (
-        <Error style={{ marginBottom: '32px' }}>{t('SALE.ADD_SALE.CROP_REQUIRED')}</Error>
+      {formType === revenueFormTypes.CROP_SALE && (
+        <>
+          <FilterPillSelect
+            subject={t('SALE.ADD_SALE.CROP_VARIETY')}
+            options={filter.options}
+            filterKey={filter.filterKey}
+            style={{ marginBottom: !isFilterValid ? '0' : '32px' }}
+            filterRef={filterRef}
+            key={filter.filterKey}
+            onChange={onFilter}
+          />
+          {!isFilterValid && (
+            <Error style={{ marginBottom: '32px' }}>{t('SALE.ADD_SALE.CROP_REQUIRED')}</Error>
+          )}
+        </>
       )}
-      <hr className={styles.thinHr} />
-      {chosenOptions &&
+      {formType === revenueFormTypes.GENERAL && (
+        <Input
+          label={t('SALE.DETAIL.VALUE')}
+          type="number"
+          hookFormRegister={register(VALUE, { required: true, valueAsNumber: true })}
+          currency={currency}
+          style={{ marginBottom: '40px' }}
+          errors={getInputErrors(errors, VALUE)}
+        />
+      )}
+      <InputAutoSize
+        style={{ marginBottom: '40px' }}
+        label={t('LOG_COMMON.NOTES')}
+        optional={true}
+        hookFormRegister={register(NOTE, { maxLength: hookFormMaxCharsValidation(10000) })}
+        name={NOTE}
+        errors={getInputErrors(errors, NOTE)}
+      />
+      {formType === revenueFormTypes.CROP_SALE && <hr className={styles.thinHr} />}
+      {formType === revenueFormTypes.CROP_SALE &&
+        chosenOptions &&
         chosenOptions.map((c) => {
           const managementPlan = managementPlans.find((mp) => mp.crop_variety_id == c.value);
           return (

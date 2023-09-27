@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import defaultStyles from '../styles.module.scss';
 import CropSaleForm from '../../../components/Forms/CropSale';
-import GeneralRevenueForm from '../../../components/Forms/GeneralRevenue';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { deleteSale, updateSale } from '../actions';
 import { selectedSaleSelector } from '../selectors';
@@ -22,8 +20,8 @@ function SaleDetail({ history, match }) {
   const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
   const farm = useSelector(userFarmSelector);
   const system = useSelector(measurementSelector);
-  const sale = useSelector(selectedSaleSelector) || {};
-  const revenueType = useSelector(revenueTypeSelector(sale?.revenue_type_id));
+  const saleDetail = useSelector(selectedSaleSelector) || {};
+  const revenueType = useSelector(revenueTypeSelector(saleDetail?.revenue_type_id));
   const revenueTypes = useSelector(revenueTypesSelector);
 
   // Dropdown should include the current expense's type even if it has been retired
@@ -39,7 +37,22 @@ function SaleDetail({ history, match }) {
     };
   });
 
-  const formType = getRevenueFormType(revenueType);
+  const [formType, setFormType] = useState(getRevenueFormType(revenueType));
+  const [sale, setSale] = useState(saleDetail);
+
+  const onTypeChange = (typeId) => {
+    const newRevenueType = revenueTypes.find((type) => type.revenue_type_id === typeId);
+    const newFormType = getRevenueFormType(newRevenueType);
+    let updatedSale = sale;
+    updatedSale.revenue_type_id = typeId;
+    if (newFormType === formTypes.CROP_SALE) {
+      setFormType(formTypes.CROP_SALE);
+    }
+    if (newFormType === formTypes.GENERAL) {
+      setFormType(formTypes.GENERAL);
+    }
+    setSale(updatedSale);
+  };
 
   const [showModal, setShowModal] = useState(false);
 
@@ -49,10 +62,12 @@ function SaleDetail({ history, match }) {
       customer_name: data.customer_name,
       sale_date: data.sale_date,
       farm_id: farm.farm_id,
-      revenue_type_id: data.revenue_type_id,
+      revenue_type_id: data.revenue_type_id.value,
+      note: data.note ? data.note : null,
     };
 
     if (formType === formTypes.CROP_SALE) {
+      editedSale.value = null;
       editedSale.crop_variety_sale = Object.values(data.crop_variety_sale).map((c) => {
         return {
           sale_value: c.sale_value,
@@ -62,7 +77,7 @@ function SaleDetail({ history, match }) {
         };
       });
     } else if (formType === formTypes.GENERAL) {
-      editedSale.note = data.note;
+      editedSale.crop_variety_sale = null;
       editedSale.value = data.value;
     }
 
@@ -96,32 +111,26 @@ function SaleDetail({ history, match }) {
 
   const cropVarietyOptions = getCropVarietyOptions() || [];
 
-  const commonProps = {
-    onSubmit,
-    title: t('SALE.EDIT_SALE.TITLE'),
-    dateLabel: t('SALE.EDIT_SALE.DATE'),
-    customerLabel: t('SALE.ADD_SALE.CUSTOMER_NAME'),
-    currency: useCurrencySymbol(),
-    sale,
-    onClickDelete: () => setShowModal(true),
-  };
-
   return (
     <>
-      {formType === formTypes.CROP_SALE ? (
+      <HookFormPersistProvider>
         <CropSaleForm
-          {...commonProps}
           cropVarietyOptions={cropVarietyOptions}
-          revenueTypeOptions={revenueTypeReactSelectOptions}
           system={system}
           managementPlans={managementPlans}
+          formType={formType}
+          onSubmit={onSubmit}
+          title={t('SALE.EDIT_SALE.TITLE')}
+          dateLabel={t('SALE.EDIT_SALE.DATE')}
+          customerLabel={t('SALE.ADD_SALE.CUSTOMER_NAME')}
+          currency={useCurrencySymbol()}
+          sale={sale}
+          onClickDelete={() => setShowModal(true)}
+          revenueTypeOptions={revenueTypeReactSelectOptions}
+          onTypeChange={onTypeChange}
           view="read-only"
         />
-      ) : (
-        <HookFormPersistProvider>
-          <GeneralRevenueForm {...commonProps} />
-        </HookFormPersistProvider>
-      )}
+      </HookFormPersistProvider>
       <ConfirmModal
         open={showModal}
         onClose={() => setShowModal(false)}

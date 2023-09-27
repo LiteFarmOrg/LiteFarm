@@ -17,6 +17,7 @@ import baseController from '../controllers/baseController.js';
 
 import SaleModel from '../models/saleModel.js';
 import CropVarietySaleModel from '../models/cropVarietySaleModel.js';
+import RevenueType from '../models/revenueTypeModel.js';
 import { transaction, Model } from 'objection';
 
 const SaleController = {
@@ -44,35 +45,50 @@ const SaleController = {
   patchSales() {
     return async (req, res) => {
       const { sale_id } = req.params;
-      const { customer_name, sale_date, value, note } = req.body;
-      const saleData = {};
-      if (customer_name) {
-        saleData.customer_name = customer_name;
-      }
-      if (sale_date) {
-        saleData.sale_date = sale_date;
-      }
-
-      // TODO: LF-3595 - properly determine if value and note need to be updated
-      if (!req.body.crop_variety_sale?.length) {
-        saleData.value = value;
-        saleData.note = note;
-      }
+      const { customer_name, sale_date, value, note, revenue_type_id } = req.body;
+      const saleData = {
+        customer_name,
+        sale_date,
+        note,
+        revenue_type_id,
+      };
 
       const trx = await transaction.start(Model.knex());
       try {
-        const saleResult = await SaleModel.query(trx)
+        const oldSale = await SaleModel.query(trx)
+          .context(req.auth)
+          .join('revenue_type', 'sale.revenue_type_id', '=', 'revenue_type.revenue_type_id')
+          .where('sale_id', sale_id)
+          .first();
+        const oldRevenueType = await RevenueType.query(trx)
+          .context(req.auth)
+          .where('revenue_type_id', oldSale.revenue_type_id)
+          .first();
+        const newRevenueType = await RevenueType.query(trx)
+          .context(req.auth)
+          .where('revenue_type_id', revenue_type_id)
+          .first();
+
+        // TODO: LF-3595 - properly determine if value needs to be updated, using crop sale column
+        const isCropSale = Boolean(!newRevenueType.farm_id);
+        const wasCropSale = Boolean(!oldRevenueType.farm_id);
+        if (isCropSale) {
+          saleData.value = null;
+        } else {
+          saleData.value = value;
+        }
+
+        const newSale = await SaleModel.query(trx)
           .context(req.auth)
           .where('sale_id', sale_id)
           .patch(saleData)
           .returning('*');
-        if (!saleResult) {
+        if (!newSale) {
           await trx.rollback();
           return res.status(400).send('failed to patch data');
         }
-
         // TODO: LF-3595 - properly determine if crop_variety_sale needs to be updated
-        if (req.body.crop_variety_sale?.length) {
+        if (wasCropSale) {
           const deletedExistingCropVarietySale = await CropVarietySaleModel.query(trx)
             .where('sale_id', sale_id)
             .delete();
@@ -80,7 +96,9 @@ const SaleController = {
             await trx.rollback();
             return res.status(400).send('failed to delete existing crop variety sales');
           }
+        }
 
+        if (isCropSale) {
           const { crop_variety_sale } = req.body;
           if (!crop_variety_sale.length) {
             await trx.rollback();

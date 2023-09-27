@@ -1,6 +1,5 @@
 import React from 'react';
 import CropSaleForm from '../../../components/Forms/CropSale';
-import GeneralRevenueForm from '../../../components/Forms/GeneralRevenue';
 import { addOrUpdateSale } from '../actions';
 import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
@@ -91,39 +90,28 @@ function AddSale() {
     return cropVarietyOptions;
   };
 
-  const commonProps = {
-    onSubmit,
-    title: t('SALE.ADD_SALE.TITLE'),
-    dateLabel: t('SALE.ADD_SALE.DATE'),
-    customerLabel: t('SALE.ADD_SALE.CUSTOMER_NAME'),
-    currency: useCurrencySymbol(),
-  };
-
-  if (formType === formTypes.CROP_SALE) {
-    const cropVarietyOptions = getCropVarietyOptions() || [];
-    return (
+  const cropVarietyOptions = getCropVarietyOptions() || [];
+  const title =
+    formType === formTypes.GENERAL
+      ? t('common:ADD_ITEM', { itemName: revenueType.revenue_name })
+      : t('SALE.ADD_SALE.TITLE');
+  return (
+    <HookFormPersistProvider>
       <CropSaleForm
-        {...commonProps}
+        onSubmit={onSubmit}
+        dateLabel={t('SALE.ADD_SALE.DATE')}
+        customerLabel={t('SALE.ADD_SALE.CUSTOMER_NAME')}
+        currency={useCurrencySymbol()}
         cropVarietyOptions={cropVarietyOptions}
         revenueTypeOptions={revenueTypeReactSelectOptions}
         system={system}
         managementPlans={managementPlans}
         view="add"
+        title={title}
+        formType={formType}
       />
-    );
-  }
-
-  if (formType === formTypes.GENERAL) {
-    const { revenue_name } = revenueType;
-    const title = t('common:ADD_ITEM', { itemName: revenue_name });
-    return (
-      <HookFormPersistProvider>
-        <GeneralRevenueForm {...commonProps} title={title} />
-      </HookFormPersistProvider>
-    );
-  }
-
-  return null;
+    </HookFormPersistProvider>
+  );
 }
 
 export default AddSale;

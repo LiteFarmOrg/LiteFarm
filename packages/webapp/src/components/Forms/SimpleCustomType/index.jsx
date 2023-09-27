@@ -78,6 +78,7 @@ const PureSimpleCustomType = ({
     register,
     control,
     getValues,
+    watch,
     formState: { errors, isValid, isDirty },
   } = useForm({
     mode: 'onChange',
@@ -91,6 +92,8 @@ const PureSimpleCustomType = ({
   const disabledInput = readonly;
   const disabledButton = (!isValid || !isDirty) && !readonly;
   useHookFormPersist();
+
+  const agriculture_radio = watch(agricultureRadio?.name);
 
   return (
     <Form
@@ -140,7 +143,7 @@ const PureSimpleCustomType = ({
           />
           {agricultureRadio.warning && <Info>{agricultureRadio.warning}</Info>}
 
-          {getValues(agricultureRadio.name) && (
+          {agriculture_radio && (
             <>
               <Main style={{ paddingTop: '32px', paddingBottom: '12px' }}>
                 {cropGeneratedRadio.text}
@@ -155,8 +158,7 @@ const PureSimpleCustomType = ({
                   },
                   { label: t('common:NO'), value: false },
                 ]}
-                required={getValues(agricultureRadio.name)}
-                style={{ paddingBottom: '16px' }}
+                required={agriculture_radio}
                 disabled={view !== 'add'}
               />
               {cropGeneratedRadio.warning && <Info>{cropGeneratedRadio.warning}</Info>}

@@ -22,8 +22,37 @@ import { ReactComponent as Calendar } from '../../assets/images/dateInput/calend
 import CustomDateRangeSelector from './CustomDateRangeSelector';
 import ReactSelect from '../Form/ReactSelect';
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
+import { getLocalDateInYYYYDDMM, addDaysToDate } from '../../util/date';
 import { DATE_RANGE, dateRangeOptions as rangeOptions } from './constants';
 import styles from './styles.module.scss';
+
+/**
+ * Returns fromDate max value (the previous day of customToDate)
+ * and toDate min value (the next day of customFromDate).
+ *
+ * @typedef {object} minMaxDates
+ * @property {string} fromDateMax - date in YYYY-MM-DD format
+ * @property {string} toDateMin - date in YYYY-MM-DD format
+ *
+ * @param {string} customFromDate - date in YYYY-MM-DD format
+ * @param {string} customToDate - date in YYYY-MM-DD format
+ * @returns {minMaxDates}
+ */
+const getMinMaxDates = (customFromDate, customToDate) => {
+  // convert YYYY-MM-DD to Date() format
+  const [fromDate, toDate] = [customFromDate, customToDate].map((date) => {
+    if (!date) {
+      return undefined;
+    }
+    const [year, month, day] = date.split('-');
+    return new Date(+year, +month - 1, +day);
+  });
+
+  return {
+    fromDateMax: toDate && getLocalDateInYYYYDDMM(addDaysToDate(new Date(toDate), -1)),
+    toDateMin: fromDate && getLocalDateInYYYYDDMM(addDaysToDate(new Date(fromDate), 1)),
+  };
+};
 
 export default function DateRangeSelector({
   register,
@@ -161,6 +190,7 @@ export default function DateRangeSelector({
             onBack={onBack}
             onClear={clearCustomDateRange}
             isValid={!!(isValid && customFromDate && customToDate)}
+            {...getMinMaxDates(customFromDate, customToDate)}
           />
         )}
       </div>

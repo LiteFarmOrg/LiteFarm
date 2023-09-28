@@ -19,7 +19,6 @@ import clsx from 'clsx';
 import { BsChevronLeft } from 'react-icons/bs';
 import { Underlined } from '../Typography';
 import DateRangePicker from '../Form/DateRangePicker';
-import { addDaysToDate } from '../../util/moment';
 import styles from './styles.module.scss';
 
 export default function CustomDateRangeSelector({
@@ -29,6 +28,8 @@ export default function CustomDateRangeSelector({
   onBack,
   onClear,
   isValid,
+  fromDateMax,
+  toDateMin,
 }) {
   const { t } = useTranslation();
 
@@ -50,7 +51,8 @@ export default function CustomDateRangeSelector({
         register={register}
         getValues={getValues}
         control={control}
-        fromProps={{ max: addDaysToDate(new Date(), -1, { toUTC: false }) }}
+        fromProps={{ max: fromDateMax }}
+        toProps={{ min: toDateMin }}
       />
     </div>
   );
@@ -63,4 +65,6 @@ CustomDateRangeSelector.propTypes = {
   onBack: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   isValid: PropTypes.bool.isRequired,
+  fromDateMax: PropTypes.string,
+  toDateMin: PropTypes.string,
 };

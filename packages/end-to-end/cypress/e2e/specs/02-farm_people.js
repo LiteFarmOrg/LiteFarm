@@ -14,6 +14,19 @@ describe.only('Farm People', () => {
         (data) => {
           // Use the loaded data
           translation = data;
+
+          cy.visit('/');
+          cy.get('[data-cy=email]', { timeout: 60 * 1000 }).should('exist');
+          cy.get('[data-cy=continue]').should('exist');
+          cy.get('[data-cy=continue]').should('be.disabled');
+          cy.get('[data-cy=continueGoogle]').should('exist');
+          cy.loginOrCreateAccount(
+            user.email,
+            user.password,
+            user.name,
+            user.language,
+            translation['SLIDE_MENU']['CROPS'],
+          );
         },
       );
 
@@ -22,13 +35,6 @@ describe.only('Farm People', () => {
         // Use the loaded data
         roles = data;
       });
-
-      cy.visit('/');
-      cy.get('[data-cy=email]', { timeout: 60 * 1000 }).should('exist');
-      cy.get('[data-cy=continue]').should('exist');
-      cy.get('[data-cy=continue]').should('be.disabled');
-      cy.get('[data-cy=continueGoogle]').should('exist');
-      cy.loginOrCreateAccount(user.email, user.password, user.name, user.language);
     });
   });
 

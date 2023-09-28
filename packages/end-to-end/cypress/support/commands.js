@@ -25,43 +25,47 @@ Cypress.Commands.add('waitUntilAnyVisible', (selector1, selector2, timeout = 100
   return checkVisibility();
 });
 
-Cypress.Commands.add('loginOrCreateAccount', (email, password, fullName, language) => {
-  //Login page
-  cy.get('[data-cy=email]').type(email);
-  cy.intercept('GET', '**/login/user/' + email, (req) => {
-    delete req.headers['if-none-match'];
-  }).as('emailLogin');
-  cy.get('[data-cy=continue]').should('exist').and('be.enabled').click();
+Cypress.Commands.add(
+  'loginOrCreateAccount',
+  (email, password, fullName, language, crop_menu_name) => {
+    //Login page
+    cy.get('[data-cy=email]').type(email);
+    cy.intercept('GET', '**/login/user/' + email, (req) => {
+      delete req.headers['if-none-match'];
+    }).as('emailLogin');
+    cy.get('[data-cy=continue]').should('exist').and('be.enabled').click();
 
-  cy.waitUntilAnyVisible('[data-cy=createUser-email]', '[data-cy=enterPassword-password]');
+    cy.waitUntilAnyVisible('[data-cy=createUser-email]', '[data-cy=enterPassword-password]');
 
-  // Check if we are on pasword page or create account and act accordingly
-  cy.get('[data-cy=createUser-email]', { timeout: 0 }).then(($element) => {
-    if ($element.is(':visible')) {
-      cy.get('[data-cy=createUser-fullName]').type(fullName);
+    // Check if we are on pasword page or create account and act accordingly
+    cy.get('[data-cy=createUser-email]', { timeout: 0 }).then(($element) => {
+      if ($element.is(':visible')) {
+        cy.get('[data-cy=createUser-fullName]').type(fullName);
 
-      // cy.get('[id$=react-select-3-input]').type(language+'{enter}');
-      cy.contains('English')
-        .parent()
-        .find('input')
-        .type(language + '{enter}');
+        // cy.get('[id$=react-select-3-input]').type(language+'{enter}');
+        cy.contains('English')
+          .parent()
+          .find('input')
+          .type(language + '{enter}');
 
-      cy.get('[data-cy=createUser-password]').type(password);
-      cy.get('[data-cy=createUser-create]').should('exist').and('be.enabled').click();
+        cy.get('[data-cy=createUser-password]').type(password);
+        cy.get('[data-cy=createUser-create]').should('exist').and('be.enabled').click();
 
-      cy.intercept('POST', '**/user').as('createUser');
-      cy.get('[data-cy=getStarted]').should('exist').and('not.be.disabled').click();
+        cy.intercept('POST', '**/user').as('createUser');
+        cy.get('[data-cy=getStarted]').should('exist').and('not.be.disabled').click();
 
-      cy.addFarm('UBC FARM', '49.250833, -123.2410777');
-      cy.onboardCompleteQuestions('Manager');
-    } else {
-      cy.get('[data-cy=enterPassword-password]').type(password);
-      cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
+        cy.addFarm('UBC FARM', '49.250833, -123.2410777');
+        cy.onboardCompleteQuestions('Manager');
+        cy.acceptSlideMenuSpotlights(crop_menu_name);
+      } else {
+        cy.get('[data-cy=enterPassword-password]').type(password);
+        cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
 
-      cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
-    }
-  });
-});
+        cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
+      }
+    });
+  },
+);
 
 Cypress.Commands.add('addFarm', (farmName, location) => {
   cy.url().should('include', '/add_farm');
@@ -136,10 +140,20 @@ Cypress.Commands.add('onboardCompleteQuestions', (role) => {
   // Outro
   cy.url().should('include', '/outro');
   cy.get('[data-cy=outro-finish]').should('exist').and('not.be.disabled').click();
+});
 
+Cypress.Commands.add('acceptSlideMenuSpotlights', (crop_menu_name) => {
   // Check the spotlights
   cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
   cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+
+  // Mark spotlights in crops
+  cy.get('[data-cy=navbar-hamburger]').should('exist').click();
+  cy.contains(crop_menu_name).should('exist').click();
+  cy.url().should('include', '/crop_catalogue');
+
   cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
   cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
 });

@@ -9,6 +9,7 @@ import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSl
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
+import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { revenueFormTypes as formTypes } from '../constants';
 import { getRevenueFormType } from '../util';
@@ -16,6 +17,9 @@ import { getRevenueFormType } from '../util';
 function SaleDetail({ history, match }) {
   const { t } = useTranslation(['translation', 'revenue']);
   const dispatch = useDispatch();
+
+  const isEditing = match.path.endsWith('/edit');
+  const { sale_id } = match.params;
 
   const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
   const farm = useSelector(userFarmSelector);
@@ -55,6 +59,11 @@ function SaleDetail({ history, match }) {
   };
 
   const [showModal, setShowModal] = useState(false);
+
+  const handleEdit = () => {
+    dispatch(setPersistedPaths([`/revenue/${sale_id}/edit`]));
+    history.push(`/revenue/${sale_id}/edit`);
+  };
 
   const onSubmit = (data) => {
     const editedSale = {
@@ -119,7 +128,8 @@ function SaleDetail({ history, match }) {
           system={system}
           managementPlans={managementPlans}
           formType={formType}
-          onSubmit={onSubmit}
+          onClick={isEditing ? undefined : handleEdit}
+          onSubmit={isEditing ? onSubmit : undefined}
           title={t('SALE.EDIT_SALE.TITLE')}
           dateLabel={t('SALE.EDIT_SALE.DATE')}
           customerLabel={t('SALE.ADD_SALE.CUSTOMER_NAME')}
@@ -128,7 +138,8 @@ function SaleDetail({ history, match }) {
           onClickDelete={() => setShowModal(true)}
           revenueTypeOptions={revenueTypeReactSelectOptions}
           onTypeChange={onTypeChange}
-          view="read-only"
+          view={isEditing ? 'edit' : 'read-only'}
+          buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
         />
       </HookFormPersistProvider>
       <ConfirmModal

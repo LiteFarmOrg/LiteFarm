@@ -22,6 +22,7 @@ const CropSaleForm = ({
   cropVarietyOptions,
   revenueTypeOptions,
   onSubmit,
+  onClick,
   onClickDelete,
   title,
   dateLabel,
@@ -35,6 +36,7 @@ const CropSaleForm = ({
   formType,
   useHookFormPersist,
   persistedFormData,
+  buttonText,
 }) => {
   // Reformat selector to match component format
   // TODO: match component to selector format
@@ -198,19 +200,33 @@ const CropSaleForm = ({
     }
   }, [cropVarietyOptions, filterState, isDirty, register, t, unregister]);
 
+  // Separating these into separate vs prop rendered nodes prevents form submission onClick for noSubmitButton
+  const noSubmitButton = (
+    <Button
+      color={'secondary'}
+      fullLength
+      disabled={disabledButton}
+      onClick={onClick}
+      type={'button'}
+    >
+      {' '}
+      {buttonText}
+    </Button>
+  );
+  const submitButton = (
+    <Button color={'primary'} fullLength disabled={disabledButton} type={'submit'}>
+      {' '}
+      {buttonText}
+    </Button>
+  );
+
   return (
     <Form
       onSubmit={handleSubmit(onSubmit)}
       buttonGroup={
         <>
-          {onClickDelete && (
-            <Button color={'secondary'} fullLength onClick={onClickDelete} type={'button'}>
-              {t('common:DELETE')}
-            </Button>
-          )}
-          <Button disabled={!isValid} fullLength type={'submit'}>
-            {t('common:SAVE')}
-          </Button>
+          {onClick && noSubmitButton}
+          {onSubmit && submitButton}
         </>
       }
     >
@@ -221,6 +237,7 @@ const CropSaleForm = ({
         style={{ marginBottom: '40px', marginTop: '40px' }}
         type={'date'}
         errors={getInputErrors(errors, SALE_DATE)}
+        disabled={disabledInput}
       />
       <Input
         label={customerLabel}
@@ -228,6 +245,7 @@ const CropSaleForm = ({
         style={{ marginBottom: '40px' }}
         errors={getInputErrors(errors, SALE_CUSTOMER)}
         type={'text'}
+        disabled={disabledInput}
       />
       {view != 'add' && (
         <Controller
@@ -245,6 +263,7 @@ const CropSaleForm = ({
                 onChange(e);
               }}
               value={value}
+              isDisabled={disabledInput}
             />
           )}
         />
@@ -259,6 +278,7 @@ const CropSaleForm = ({
             filterRef={filterRef}
             key={filter.filterKey}
             onChange={onFilter}
+            isDisabled={disabledInput}
           />
           {!isFilterValid && (
             <Error style={{ marginBottom: '32px' }}>{t('SALE.ADD_SALE.CROP_REQUIRED')}</Error>
@@ -273,6 +293,7 @@ const CropSaleForm = ({
           currency={currency}
           style={{ marginBottom: '40px' }}
           errors={getInputErrors(errors, VALUE)}
+          disabled={disabledInput}
         />
       )}
       <InputAutoSize
@@ -282,6 +303,7 @@ const CropSaleForm = ({
         hookFormRegister={register(NOTE, { maxLength: hookFormMaxCharsValidation(10000) })}
         name={NOTE}
         errors={getInputErrors(errors, NOTE)}
+        disabled={disabledInput}
       />
       {formType === revenueFormTypes.CROP_SALE && <hr className={styles.thinHr} />}
       {formType === revenueFormTypes.CROP_SALE &&
@@ -314,6 +336,7 @@ const CropSaleForm = ({
                   control={control}
                   style={{ marginBottom: '40px' }}
                   required
+                  disabled={disabledInput}
                 />
                 <Input
                   label={`${t('SALE.ADD_SALE.TABLE_HEADERS.TOTAL')} (${currency})`}
@@ -322,6 +345,7 @@ const CropSaleForm = ({
                   currency={currency}
                   style={{ marginBottom: '40px' }}
                   errors={getInputErrors(errors, cropVarietyRegisterNames[c.value].SALE_VALUE)}
+                  disabled={disabledInput}
                 />
               </div>
             </div>

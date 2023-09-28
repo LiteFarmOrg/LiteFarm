@@ -86,7 +86,7 @@ const ExpenseDetail = ({ history, match }) => {
         onSubmit={isEditing ? handleSubmit : handleEdit}
         onRetire={onRetire}
         view={isEditing ? 'edit' : 'read-only'}
-        buttonText={isEditing ? t('common:UPDATE') : t('common:EDIT')}
+        buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
         expenseTypeReactSelectOptions={expenseTypeReactSelectOptions}
       />
     )

@@ -83,19 +83,34 @@ const PureSimpleCustomType = ({
   const disabledButton = (!isValid || !isDirty) && !readonly;
   useHookFormPersist();
 
+  // Separating these into separate vs prop rendered nodes prevents form submission onClick for noSubmitButton
+  const noSubmitButton = (
+    <Button
+      color={'secondary'}
+      fullLength
+      disabled={disabledButton}
+      onClick={onClick}
+      type={'button'}
+    >
+      {' '}
+      {buttonText}
+    </Button>
+  );
+  const submitButton = (
+    <Button color={'primary'} fullLength disabled={disabledButton} type={'submit'}>
+      {' '}
+      {buttonText}
+    </Button>
+  );
+
   return (
     <Form
       onSubmit={onSubmit ? handleSubmit(onSubmit) : undefined}
       buttonGroup={
-        <Button
-          color={'primary'}
-          fullLength
-          disabled={disabledButton}
-          onClick={onClick ? onClick : undefined}
-          type={view === 'read-only' ? 'button' : 'submit'}
-        >
-          {buttonText}
-        </Button>
+        <>
+          {onClick && noSubmitButton}
+          {onSubmit && submitButton}
+        </>
       }
     >
       <PageTitle style={{ marginBottom: '20px' }} onGoBack={handleGoBack} title={pageTitle} />

@@ -41,6 +41,7 @@ import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSl
 import { isTaskType } from '../Task/useIsTaskType';
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useTranslation } from 'react-i18next';
+import { getRevenueTypes } from './saga';
 
 const moment = extendMoment(Moment);
 
@@ -65,6 +66,7 @@ const Finances = () => {
     dispatch(getSales());
     dispatch(getExpense());
     dispatch(getFarmExpenseType());
+    dispatch(getRevenueTypes());
     dispatch(getManagementPlansAndTasks());
     dispatch(setSelectedExpenseTypes([]));
 

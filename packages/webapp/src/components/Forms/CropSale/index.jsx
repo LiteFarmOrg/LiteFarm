@@ -17,6 +17,9 @@ import { harvestAmounts } from '../../../util/convert-units/unit';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { revenueFormTypes } from '../../../containers/Finances/constants';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
+import { IconLink } from '../../Typography';
+import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
+import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 
 const CropSaleForm = ({
   cropVarietyOptions,
@@ -37,6 +40,7 @@ const CropSaleForm = ({
   useHookFormPersist,
   persistedFormData,
   buttonText,
+  onRetire = () => {},
 }) => {
   // Reformat selector to match component format
   // TODO: match component to selector format
@@ -63,8 +67,10 @@ const CropSaleForm = ({
       label: cvs.label,
     })),
   };
-  // Unique hook form names
+
   const { t } = useTranslation();
+  const [isDeleting, setIsDeleting] = useState(false);
+  // Unique hook form names
   const SALE_DATE = 'sale_date';
   const SALE_CUSTOMER = 'customer_name';
   const REVENUE_TYPE = 'revenue_type';
@@ -351,6 +357,38 @@ const CropSaleForm = ({
             </div>
           );
         })}
+      <div style={{ marginTop: 'auto' }}>
+        {readonly && !isDeleting && (
+          <IconLink
+            style={{ color: 'var(--grey600)' }}
+            icon={
+              <TrashIcon
+                style={{
+                  fill: 'var(--grey600)',
+                  stroke: 'var(--grey600)',
+                  transform: 'translate(0px, 6px)',
+                }}
+              />
+            }
+            onClick={() => setIsDeleting(true)}
+            isIconClickable
+          >
+            {t('REVENUE.DELETE.LINK')}
+          </IconLink>
+        )}
+
+        {isDeleting && (
+          <DeleteBox
+            color="error"
+            onOk={onRetire}
+            onCancel={() => setIsDeleting(false)}
+            header={t('REVENUE.DELETE.HEADER')}
+            headerIcon={<TrashIcon />}
+            message={t('REVENUE.DELETE.MESSAGE')}
+            primaryButtonLabel={t('REVENUE.DELETE.CONFIRM')}
+          />
+        )}
+      </div>
     </Form>
   );
 };

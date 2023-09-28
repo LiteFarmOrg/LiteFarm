@@ -15,7 +15,7 @@
 
 import {
   ADD_EXPENSES,
-  ADD_OR_UPDATE_SALE,
+  ADD_SALE,
   ADD_REMOVE_EXPENSE,
   DELETE_EXPENSES,
   DELETE_SALE,
@@ -46,9 +46,9 @@ export const setSalesInState = (sales) => {
   };
 };
 
-export const addOrUpdateSale = (sale) => {
+export const addSale = (sale) => {
   return {
-    type: ADD_OR_UPDATE_SALE,
+    type: ADD_SALE,
     sale,
   };
 };

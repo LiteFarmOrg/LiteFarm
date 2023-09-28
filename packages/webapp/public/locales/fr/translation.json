@@ -1447,6 +1447,12 @@
       "CUSTOM_REVENUE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING"
     },
+    "DELETE": {
+      "CONFIRM": "MISSING",
+      "HEADER": "MISSING",
+      "LINK": "MISSING",
+      "MESSAGE": "MISSING"
+    },
     "EDIT_REVENUE": {
       "RETIRE_REVENUE_MESSAGE": "MISSING",
       "RETIRE_REVENUE_TYPE": "MISSING",

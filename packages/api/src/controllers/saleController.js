@@ -22,7 +22,7 @@ import { transaction, Model } from 'objection';
 
 const SaleController = {
   // this messed the update up as field Crop id is the same and it will change for all sales with the same field crop id!
-  addOrUpdateSale() {
+  addSale() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {

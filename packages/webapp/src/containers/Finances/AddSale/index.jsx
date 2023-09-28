@@ -1,6 +1,6 @@
 import React from 'react';
 import CropSaleForm from '../../../components/Forms/CropSale';
-import { addOrUpdateSale } from '../actions';
+import { addSale } from '../actions';
 import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,15 +41,16 @@ function AddSale() {
   const formType = getRevenueFormType(revenueType);
 
   const onSubmit = (data) => {
-    const addSale = {
+    const editedSale = {
       customer_name: data.customer_name,
       sale_date: data.sale_date,
       farm_id: farm.farm_id,
-      revenue_type_id,
+      revenue_type_id: revenue_type_id,
+      note: data.note ? data.note : null,
     };
 
     if (formType === formTypes.CROP_SALE) {
-      addSale.crop_variety_sale = Object.values(data.crop_variety_sale).map((c) => {
+      editedSale.crop_variety_sale = Object.values(data.crop_variety_sale).map((c) => {
         return {
           sale_value: c.sale_value,
           quantity: c.quantity,
@@ -58,11 +59,10 @@ function AddSale() {
         };
       });
     } else if (formType === formTypes.GENERAL) {
-      addSale.note = data.note;
-      addSale.value = data.value;
+      editedSale.value = data.value;
     }
 
-    dispatch(addOrUpdateSale(addSale));
+    dispatch(addSale(editedSale));
   };
 
   const getCropVarietyOptions = () => {
@@ -109,6 +109,7 @@ function AddSale() {
         view="add"
         title={title}
         formType={formType}
+        buttonText={t('common:SAVE')}
       />
     </HookFormPersistProvider>
   );

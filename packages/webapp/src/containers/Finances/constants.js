@@ -14,7 +14,7 @@
  */
 
 export const GET_SALES = 'GET_SALES';
-export const ADD_OR_UPDATE_SALE = 'ADD_OR_UPDATE_SALE';
+export const ADD_SALE = 'ADD_SALE';
 export const SET_SALES_IN_STATE = 'SET_SALES_IN_STATE';
 export const SET_CROP_SALES_IN_STATE = 'SET_CROP_SALES_IN_STATE';
 export const DELETE_SALE = 'DELETE_SALE';

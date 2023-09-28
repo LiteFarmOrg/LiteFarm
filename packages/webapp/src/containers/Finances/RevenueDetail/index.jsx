@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import CropSaleForm from '../../../components/Forms/CropSale';
-import ConfirmModal from '../../../components/Modals/Confirm';
 import { deleteSale, updateSale } from '../actions';
 import { selectedSaleSelector } from '../selectors';
 import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
@@ -58,11 +57,13 @@ function SaleDetail({ history, match }) {
     setSale(updatedSale);
   };
 
-  const [showModal, setShowModal] = useState(false);
-
   const handleEdit = () => {
     dispatch(setPersistedPaths([`/revenue/${sale_id}/edit`]));
     history.push(`/revenue/${sale_id}/edit`);
+  };
+
+  const onRetire = () => {
+    dispatch(deleteSale(sale));
   };
 
   const onSubmit = (data) => {
@@ -121,34 +122,26 @@ function SaleDetail({ history, match }) {
   const cropVarietyOptions = getCropVarietyOptions() || [];
 
   return (
-    <>
-      <HookFormPersistProvider>
-        <CropSaleForm
-          cropVarietyOptions={cropVarietyOptions}
-          system={system}
-          managementPlans={managementPlans}
-          formType={formType}
-          onClick={isEditing ? undefined : handleEdit}
-          onSubmit={isEditing ? onSubmit : undefined}
-          title={t('SALE.EDIT_SALE.TITLE')}
-          dateLabel={t('SALE.EDIT_SALE.DATE')}
-          customerLabel={t('SALE.ADD_SALE.CUSTOMER_NAME')}
-          currency={useCurrencySymbol()}
-          sale={sale}
-          onClickDelete={() => setShowModal(true)}
-          revenueTypeOptions={revenueTypeReactSelectOptions}
-          onTypeChange={onTypeChange}
-          view={isEditing ? 'edit' : 'read-only'}
-          buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
-        />
-      </HookFormPersistProvider>
-      <ConfirmModal
-        open={showModal}
-        onClose={() => setShowModal(false)}
-        onConfirm={() => dispatch(deleteSale(sale))}
-        message={t('SALE.EDIT_SALE.DELETE_CONFIRMATION')}
+    <HookFormPersistProvider>
+      <CropSaleForm
+        cropVarietyOptions={cropVarietyOptions}
+        system={system}
+        managementPlans={managementPlans}
+        formType={formType}
+        onClick={isEditing ? undefined : handleEdit}
+        onSubmit={isEditing ? onSubmit : undefined}
+        title={t('SALE.EDIT_SALE.TITLE')}
+        dateLabel={t('SALE.EDIT_SALE.DATE')}
+        customerLabel={t('SALE.ADD_SALE.CUSTOMER_NAME')}
+        currency={useCurrencySymbol()}
+        sale={sale}
+        revenueTypeOptions={revenueTypeReactSelectOptions}
+        onTypeChange={onTypeChange}
+        view={isEditing ? 'edit' : 'read-only'}
+        buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
+        onRetire={onRetire}
       />
-    </>
+    </HookFormPersistProvider>
   );
 }
 

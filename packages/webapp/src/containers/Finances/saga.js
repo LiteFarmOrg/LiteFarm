@@ -15,7 +15,7 @@
 
 import {
   ADD_EXPENSES,
-  ADD_OR_UPDATE_SALE,
+  ADD_SALE,
   ADD_REMOVE_EXPENSE,
   DELETE_EXPENSES,
   DELETE_SALE,
@@ -62,19 +62,13 @@ export function* addSale(action) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
-  const addOrUpdateSuccess = action.sale.sale_id
-    ? i18n.t('message:SALE.SUCCESS.UPDATE')
-    : i18n.t('message:SALE.SUCCESS.ADD');
-  const addOrUpdateFail = action.sale.sale_id
-    ? i18n.t('message:SALE.ERROR.UPDATE')
-    : i18n.t('message:SALE.ERROR.ADD');
   try {
     const result = yield call(axios.post, salesURL, action.sale, header);
-    yield put(enqueueSuccessSnackbar(addOrUpdateSuccess));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.ADD')));
     yield call(getSales);
     history.push('/finances');
   } catch (e) {
-    yield put(enqueueErrorSnackbar(addOrUpdateFail));
+    yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.ADD')));
   }
 }
 
@@ -418,7 +412,7 @@ export function* patchEstimatedCropRevenueSaga({ payload: managementPlan }) {
 
 export default function* financeSaga() {
   yield takeLatest(GET_SALES, getSales);
-  yield takeLeading(ADD_OR_UPDATE_SALE, addSale);
+  yield takeLeading(ADD_SALE, addSale);
   yield takeLatest(GET_EXPENSE, getExpenseSaga);
   yield takeLatest(GET_FARM_EXPENSE_TYPE, getFarmExpenseTypeSaga);
   yield takeLeading(addCustomExpenseType.type, addCustomExpenseTypeSaga);

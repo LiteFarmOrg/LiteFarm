@@ -82,6 +82,7 @@ const PureSimpleCustomType = ({
     formState: { errors, isValid, isDirty },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
     defaultValues: {
       [customTypeRegister]: defaultValue || undefined,
       ...customRadioDefaultValues,

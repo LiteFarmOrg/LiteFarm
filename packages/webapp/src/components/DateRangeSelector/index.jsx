@@ -103,14 +103,6 @@ export default function DateRangeSelector({
     setValue(TO_DATE, defaultToDate);
   }, []);
 
-  useEffect(() => {
-    if (selectedDateRangeOption?.value && selectedDateRangeOption.value !== rangeOptions.CUSTOM) {
-      // TODO: set values
-      setValue(FROM_DATE, '');
-      setValue(TO_DATE, '');
-    }
-  }, [selectedDateRangeOption]);
-
   const formatOptionLabel = (data, formatOptionLabelMeta) => {
     if (formatOptionLabelMeta.context === 'menu') {
       const selected = formatOptionLabelMeta.selectValue[0]?.value === data.value;

@@ -30,13 +30,13 @@ import styles from './styles.module.scss';
  * Returns fromDate max value (the previous day of customToDate)
  * and toDate min value (the next day of customFromDate).
  *
- * @typedef {object} minMaxDates
+ * @typedef {object} MinMaxDates
  * @property {string} fromDateMax - date in YYYY-MM-DD format
  * @property {string} toDateMin - date in YYYY-MM-DD format
  *
  * @param {string} customFromDate - date in YYYY-MM-DD format
  * @param {string} customToDate - date in YYYY-MM-DD format
- * @returns {minMaxDates}
+ * @returns {MinMaxDates}
  */
 const getMinMaxDates = (customFromDate, customToDate) => {
   // convert YYYY-MM-DD to Date() format

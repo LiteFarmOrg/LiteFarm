@@ -16,7 +16,7 @@ export function PureResetPasswordComponent({ onClick, changeText, passwordResetE
       title={title}
       descriptions={[descriptionTop, descriptionBottom]}
       buttonLabel={buttonLabel}
-      disabled={changeText}
+      disabled={!!passwordResetError || changeText}
       icon={<MailIconImg />}
       error={passwordResetError}
     />

@@ -60,10 +60,10 @@ export const updateSale = (sale) => {
   };
 };
 
-export const deleteSale = (sale) => {
+export const deleteSale = (sale_id) => {
   return {
     type: DELETE_SALE,
-    sale,
+    sale_id,
   };
 };
 

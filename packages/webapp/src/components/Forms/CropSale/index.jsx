@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import styles from './styles.module.scss';
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,13 +35,21 @@ import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import { IconLink } from '../../Typography';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
+import {
+  SALE_DATE,
+  SALE_CUSTOMER,
+  REVENUE_TYPE_ID,
+  NOTE,
+  VALUE,
+  CHOSEN_VARIETIES,
+  STATUS,
+} from '../GeneralRevenue/constants';
 
 const CropSaleForm = ({
   cropVarietyOptions,
   revenueTypeOptions,
   onSubmit,
   onClick,
-  onClickDelete,
   title,
   dateLabel,
   customerLabel,
@@ -41,6 +64,7 @@ const CropSaleForm = ({
   persistedFormData,
   buttonText,
   onRetire = () => {},
+  handleGoBack,
 }) => {
   // Reformat selector to match component format
   // TODO: match component to selector format
@@ -57,7 +81,6 @@ const CropSaleForm = ({
     {},
   );
   // FilterPillSelect details
-  const STATUS = 'STATUS';
   const filterRef = useRef({});
   const filter = {
     filterKey: STATUS,
@@ -70,14 +93,6 @@ const CropSaleForm = ({
 
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
-  // Unique hook form names
-  const SALE_DATE = 'sale_date';
-  const SALE_CUSTOMER = 'customer_name';
-  const REVENUE_TYPE = 'revenue_type';
-  const REVENUE_TYPE_ID = 'revenue_type_id';
-  const CHOSEN_VARIETIES = 'crop_variety_sale';
-  const NOTE = 'note';
-  const VALUE = 'value';
 
   const {
     register,
@@ -96,9 +111,8 @@ const CropSaleForm = ({
         persistedFormData?.[SALE_DATE] ||
         getLocalDateInYYYYDDMM(),
       [SALE_CUSTOMER]: sale?.[SALE_CUSTOMER] || persistedFormData?.[SALE_CUSTOMER] || '',
-      [REVENUE_TYPE_ID]: revenueTypeOptions.find(
-        (option) => option.value === sale?.revenue_type_id,
-      ),
+      [REVENUE_TYPE_ID]:
+        revenueTypeOptions?.find((option) => option.value === sale?.revenue_type_id) || null,
       [CHOSEN_VARIETIES]: existingSales ?? undefined,
       [NOTE]: sale?.[NOTE] || persistedFormData?.[NOTE] || '',
       [VALUE]: !isNaN(sale?.[VALUE])
@@ -236,7 +250,7 @@ const CropSaleForm = ({
         </>
       }
     >
-      <PageTitle title={title} onGoBack={() => history.back()} style={{ marginBottom: '24px' }} />
+      <PageTitle title={title} onGoBack={handleGoBack} style={{ marginBottom: '24px' }} />
       <Input
         label={dateLabel}
         hookFormRegister={saleDateRegister}

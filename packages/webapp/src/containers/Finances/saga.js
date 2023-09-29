@@ -94,11 +94,12 @@ export function* updateSaleSaga(action) {
 
 export function* deleteSale(action) {
   const { salesURL } = apiConfig;
+  const { sale_id } = action;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.delete, salesURL + '/' + action.sale.sale_id, header);
+    const result = yield call(axios.delete, salesURL + '/' + sale_id, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.DELETE')));
     yield call(getSales);
     history.push('/finances');

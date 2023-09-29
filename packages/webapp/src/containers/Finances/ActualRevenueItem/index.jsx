@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FinanceGroup from '../../../components/Finances/FinanceGroup';
 import { getManagementPlanCardDate } from '../../../util/moment';
 import { cropVarietyEntitiesSelector } from '../../cropVarietySlice';
-import { revenueTypeSelector } from '../../revenueTypeSlice';
+import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
 import { setSelectedSale } from '../actions';
 import { getMass, getMassUnit, roundToTwoDecimal } from '../../../util';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +19,7 @@ const ActualRevenueItem = ({ sale, history, ...props }) => {
 
   // TODO: optimize this - put in parent component or seek by id
   const cropVarietyEntities = useSelector(cropVarietyEntitiesSelector);
-  const revenueType = useSelector(revenueTypeSelector(revenue_type_id));
+  const revenueType = useSelector(revenueTypeByIdSelector(revenue_type_id));
 
   const onClickForward = () => {
     dispatch(setSelectedSale(sale));

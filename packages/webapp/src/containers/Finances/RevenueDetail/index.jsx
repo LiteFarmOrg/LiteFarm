@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CropSaleForm from '../../../components/Forms/CropSale';
 import { deleteSale, updateSale } from '../actions';
-import { selectedSaleSelector } from '../selectors';
+import { revenueByIdSelector, salesSelector, selectedSaleSelector } from '../selectors';
 import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
-import { revenueTypeSelector, revenueTypesSelector } from '../../revenueTypeSlice';
+import { revenueTypeByIdSelector, revenueTypesSelector } from '../../revenueTypeSlice';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { revenueFormTypes as formTypes } from '../constants';
 import { getRevenueFormType } from '../util';
+import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 
 function SaleDetail({ history, match }) {
   const { t } = useTranslation(['translation', 'revenue']);
@@ -20,18 +21,29 @@ function SaleDetail({ history, match }) {
   const isEditing = match.path.endsWith('/edit');
   const { sale_id } = match.params;
 
+  const revenueTypes = useSortedRevenueTypes();
+  const sale = useSelector(revenueByIdSelector(sale_id));
+
+  useEffect(() => {
+    if (!sale) {
+      history.replace('/unknown_record');
+    }
+  }, [sale, history]);
+
+  const revenueType = useSelector(revenueTypeByIdSelector(sale.revenue_type_id));
+
+  const [updatedSale, setSale] = useState(sale);
+
+  // Other crop specific selectors
   const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
-  const farm = useSelector(userFarmSelector);
   const system = useSelector(measurementSelector);
-  const saleDetail = useSelector(selectedSaleSelector) || {};
-  const revenueType = useSelector(revenueTypeSelector(saleDetail?.revenue_type_id));
-  const revenueTypes = useSelector(revenueTypesSelector);
 
   // Dropdown should include the current expense's type even if it has been retired
   const revenueTypesArray = revenueTypes?.concat(revenueType?.deleted ? revenueType : []);
 
   const revenueTypeReactSelectOptions = revenueTypesArray?.map((type) => {
     const retireSuffix = type.deleted ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : '';
+
     return {
       value: type.revenue_type_id,
       label: type.farm_id
@@ -40,38 +52,11 @@ function SaleDetail({ history, match }) {
     };
   });
 
-  const [formType, setFormType] = useState(getRevenueFormType(revenueType));
-  const [sale, setSale] = useState(saleDetail);
-
-  const onTypeChange = (typeId) => {
-    const newRevenueType = revenueTypes.find((type) => type.revenue_type_id === typeId);
-    const newFormType = getRevenueFormType(newRevenueType);
-    let updatedSale = sale;
-    updatedSale.revenue_type_id = typeId;
-    if (newFormType === formTypes.CROP_SALE) {
-      setFormType(formTypes.CROP_SALE);
-    }
-    if (newFormType === formTypes.GENERAL) {
-      setFormType(formTypes.GENERAL);
-    }
-    setSale(updatedSale);
-  };
-
-  const handleEdit = () => {
-    dispatch(setPersistedPaths([`/revenue/${sale_id}/edit`]));
-    history.push(`/revenue/${sale_id}/edit`);
-  };
-
-  const onRetire = () => {
-    dispatch(deleteSale(sale));
-  };
-
   const onSubmit = (data) => {
-    const editedSale = {
-      sale_id: sale.sale_id,
+    let editedSale = {
+      sale_id: sale_id,
       customer_name: data.customer_name,
       sale_date: data.sale_date,
-      farm_id: farm.farm_id,
       revenue_type_id: data.revenue_type_id.value,
       note: data.note ? data.note : null,
     };
@@ -92,6 +77,35 @@ function SaleDetail({ history, match }) {
     }
 
     dispatch(updateSale(editedSale));
+  };
+
+  const handleEdit = () => {
+    dispatch(setPersistedPaths([`/revenue/${sale_id}/edit`]));
+    history.push(`/revenue/${sale_id}/edit`);
+  };
+
+  const onRetire = () => {
+    dispatch(deleteSale(sale_id));
+  };
+
+  const handleGoBack = () => {
+    history.back();
+  };
+
+  const [formType, setFormType] = useState(getRevenueFormType(revenueType));
+
+  const onTypeChange = (typeId) => {
+    const newRevenueType = revenueTypes.find((type) => type.revenue_type_id === typeId);
+    const newFormType = getRevenueFormType(newRevenueType);
+    let changedSale = updatedSale;
+    changedSale.revenue_type_id = typeId;
+    if (newFormType === formTypes.CROP_SALE) {
+      setFormType(formTypes.CROP_SALE);
+    }
+    if (newFormType === formTypes.GENERAL) {
+      setFormType(formTypes.GENERAL);
+    }
+    setSale(changedSale);
   };
 
   const getCropVarietyOptions = () => {
@@ -134,12 +148,13 @@ function SaleDetail({ history, match }) {
         dateLabel={t('SALE.EDIT_SALE.DATE')}
         customerLabel={t('SALE.ADD_SALE.CUSTOMER_NAME')}
         currency={useCurrencySymbol()}
-        sale={sale}
+        sale={updatedSale}
         revenueTypeOptions={revenueTypeReactSelectOptions}
         onTypeChange={onTypeChange}
         view={isEditing ? 'edit' : 'read-only'}
         buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
         onRetire={onRetire}
+        handleGoBack={handleGoBack}
       />
     </HookFormPersistProvider>
   );

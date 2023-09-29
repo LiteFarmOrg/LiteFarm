@@ -17,14 +17,14 @@ import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteRevenueType } from '../saga';
-import { revenueTypeSelector } from '../../revenueTypeSlice';
+import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME } from './constants';
 
 function ReadOnlyCustomRevenue({ history, match }) {
   const { revenue_type_id } = match.params;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const selectedCustomRevenueType = useSelector(revenueTypeSelector(Number(revenue_type_id)));
+  const selectedCustomRevenueType = useSelector(revenueTypeByIdSelector(Number(revenue_type_id)));
   const { revenue_name } = selectedCustomRevenueType;
 
   const handleGoBack = () => {

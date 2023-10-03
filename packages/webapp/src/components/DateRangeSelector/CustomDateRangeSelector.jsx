@@ -17,17 +17,19 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { BsChevronLeft } from 'react-icons/bs';
-import { Underlined } from '../Typography';
-import DateRangePicker from '../Form/DateRangePicker';
+import { Semibold, Underlined } from '../Typography';
+import { FromToDateContainer } from '../Inputs/DateContainer';
 import styles from './styles.module.scss';
 
 export default function CustomDateRangeSelector({
-  register,
-  getValues,
-  control,
   onBack,
   onClear,
   isValid,
+  validRange,
+  startDate,
+  endDate,
+  changeStartDate,
+  changeEndDate,
   fromDateMax,
   toDateMin,
 }) {
@@ -47,24 +49,32 @@ export default function CustomDateRangeSelector({
           {t('DATE_RANGE_SELECTOR.CLEAR_DATES')}
         </Underlined>
       </div>
-      <DateRangePicker
-        register={register}
-        getValues={getValues}
-        control={control}
+      <FromToDateContainer
+        onStartDateChange={changeStartDate}
+        onEndDateChange={changeEndDate}
+        endDate={endDate}
+        startDate={startDate}
         fromProps={{ max: fromDateMax }}
         toProps={{ min: toDateMin }}
       />
+      {startDate && endDate && !validRange && (
+        <Semibold style={{ textAlign: 'center', color: 'red' }}>
+          {t('DATE_RANGE.INVALID_RANGE_MESSAGE')}
+        </Semibold>
+      )}
     </div>
   );
 }
 
 CustomDateRangeSelector.propTypes = {
-  register: PropTypes.func.isRequired,
-  getValues: PropTypes.func.isRequired,
-  control: PropTypes.object.isRequired,
   onBack: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   isValid: PropTypes.bool.isRequired,
+  validRange: PropTypes.bool.isRequired,
+  startDate: PropTypes.object,
+  endDate: PropTypes.object,
+  changeStartDate: PropTypes.func.isRequired,
+  changeEndDate: PropTypes.func.isRequired,
   fromDateMax: PropTypes.string,
   toDateMin: PropTypes.string,
 };

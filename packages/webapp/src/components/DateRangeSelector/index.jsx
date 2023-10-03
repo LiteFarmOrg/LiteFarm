@@ -15,64 +15,34 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Controller } from 'react-hook-form';
 import clsx from 'clsx';
 import { ClickAwayListener } from '@mui/material';
 import { ReactComponent as Calendar } from '../../assets/images/dateInput/calendar.svg';
 import CustomDateRangeSelector from './CustomDateRangeSelector';
 import ReactSelect from '../Form/ReactSelect';
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
-import { getLocalDateInYYYYDDMM, addDaysToDate } from '../../util/date';
-import { DATE_RANGE, dateRangeOptions as rangeOptions } from './constants';
+import { dateRangeOptions as rangeOptions } from './constants';
 import styles from './styles.module.scss';
 
-/**
- * Returns fromDate max value (the previous day of customToDate)
- * and toDate min value (the next day of customFromDate).
- *
- * @typedef {object} MinMaxDates
- * @property {string} fromDateMax - date in YYYY-MM-DD format
- * @property {string} toDateMin - date in YYYY-MM-DD format
- *
- * @param {string} customFromDate - date in YYYY-MM-DD format
- * @param {string} customToDate - date in YYYY-MM-DD format
- * @returns {MinMaxDates}
- */
-const getMinMaxDates = (customFromDate, customToDate) => {
-  // convert YYYY-MM-DD to Date() format
-  const [fromDate, toDate] = [customFromDate, customToDate].map((date) => {
-    if (!date) {
-      return undefined;
-    }
-    const [year, month, day] = date.split('-');
-    return new Date(+year, +month - 1, +day);
-  });
-
-  return {
-    fromDateMax: toDate && getLocalDateInYYYYDDMM(addDaysToDate(new Date(toDate), -1)),
-    toDateMin: fromDate && getLocalDateInYYYYDDMM(addDaysToDate(new Date(fromDate), 1)),
-  };
-};
-
 export default function DateRangeSelector({
-  register,
-  watch,
-  setValue,
-  getValues,
-  formState: { isValid },
-  control,
   defaultDateRangeOptionValue,
   defaultCustomDateRange = {},
   placeholder,
+  changeDateMethod,
 }) {
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
 
   const { t } = useTranslation();
   const selectRef = useRef(null);
 
-  const customFromDate = watch(FROM_DATE);
-  const customToDate = watch(TO_DATE);
-  const selectedDateRangeOption = watch(DATE_RANGE);
+  const [customFromDate, setCustomFromDate] = useState(undefined);
+  const [customToDate, setCustomToDate] = useState(undefined);
+  const [validRange, setValidRange] = useState(true);
+  const [areValidDates, setAreValidDates] = useState(
+    customFromDate?.isValid() && customToDate?.isValid(),
+  );
+
+  const isValid = !!(areValidDates && validRange && customFromDate && customToDate);
 
   const options = [
     { value: rangeOptions.THIS_YEAR, label: t('DATE_RANGE_SELECTOR.THIS_YEAR') },
@@ -95,13 +65,18 @@ export default function DateRangeSelector({
 
     // if the range does not have both FROM_DATE and TO_DATE, reset the option to "this year"
     if (!defaultFromDate || !defaultToDate) {
-      setValue(DATE_RANGE, options[0]);
+      setSelectedDateRangeOption(options[0]);
       return;
     }
 
-    setValue(FROM_DATE, defaultFromDate);
-    setValue(TO_DATE, defaultToDate);
+    setCustomFromDate(defaultFromDate);
+    setCustomToDate(defaultToDate);
+    setValidRange(defaultFromDate <= defaultToDate);
   }, []);
+
+  useEffect(() => {
+    setAreValidDates(customFromDate?.isValid() && customToDate?.isValid());
+  }, [customFromDate, customToDate]);
 
   const formatOptionLabel = (data, formatOptionLabelMeta) => {
     if (formatOptionLabelMeta.context === 'menu') {
@@ -113,8 +88,10 @@ export default function DateRangeSelector({
     let className = '';
 
     if (data.value === rangeOptions.CUSTOM) {
-      if (isValid && customFromDate && customToDate) {
-        formattedOption = `${customFromDate} - ${customToDate}`;
+      if (isValid) {
+        formattedOption = [customFromDate, customToDate]
+          .map((date) => date.format('YYYY-MM-DD'))
+          .join(' - ');
       } else {
         formattedOption = 'yyyy-mm-dd - yyyy-mm-dd';
         className = styles.invalid;
@@ -129,14 +106,18 @@ export default function DateRangeSelector({
     );
   };
 
+  const setSelectedDateRangeOption = (option) => {
+    selectRef.current.setValue(option);
+  };
+
   const clearCustomDateRange = () => {
-    setValue(FROM_DATE, '');
-    setValue(TO_DATE, '');
+    setCustomFromDate(undefined);
+    setCustomToDate(undefined);
   };
 
   const onClickAway = () => {
-    if (!(isValid && customFromDate && customToDate)) {
-      setValue(DATE_RANGE, options[0]);
+    if (!isValid) {
+      setSelectedDateRangeOption(options[0]);
     }
     setIsCustomDatePickerOpen(false);
   };
@@ -146,43 +127,50 @@ export default function DateRangeSelector({
     selectRef.current.focus();
   };
 
+  const changeStartDate = (date) => {
+    setValidRange(date <= customToDate);
+    setCustomFromDate(date);
+    changeDateMethod('start', date);
+  };
+
+  const changeEndDate = (date) => {
+    setValidRange(customFromDate <= date);
+    setCustomToDate(date);
+    changeDateMethod('end', date);
+  };
+
   return (
     <ClickAwayListener onClickAway={onClickAway}>
       <div className={styles.wrapper}>
-        <Controller
-          control={control}
-          name={DATE_RANGE}
+        <ReactSelect
+          ref={selectRef}
+          options={options}
+          placeholder={placeholder}
+          openMenuOnFocus={true}
+          onMenuOpen={() => setIsCustomDatePickerOpen(false)}
+          onChange={(e) => {
+            if (e?.value === rangeOptions.CUSTOM) {
+              setIsCustomDatePickerOpen(true);
+            }
+          }}
+          formatOptionLabel={formatOptionLabel}
           defaultValue={
             defaultDateRangeOptionValue &&
             options.find(({ value }) => value === defaultDateRangeOptionValue)
           }
-          render={({ field }) => (
-            <ReactSelect
-              {...field}
-              ref={selectRef}
-              options={options}
-              placeholder={placeholder}
-              openMenuOnFocus={true}
-              onMenuOpen={() => setIsCustomDatePickerOpen(false)}
-              onChange={(e) => {
-                if (e.value === rangeOptions.CUSTOM) {
-                  setIsCustomDatePickerOpen(true);
-                }
-                field.onChange(e);
-              }}
-              formatOptionLabel={formatOptionLabel}
-            />
-          )}
         />
         {isCustomDatePickerOpen && (
           <CustomDateRangeSelector
-            register={register}
-            getValues={getValues}
-            control={control}
             onBack={onBack}
             onClear={clearCustomDateRange}
-            isValid={!!(isValid && customFromDate && customToDate)}
-            {...getMinMaxDates(customFromDate, customToDate)}
+            isValid={isValid}
+            validRange={validRange}
+            changeStartDate={changeStartDate}
+            changeEndDate={changeEndDate}
+            startDate={customFromDate}
+            endDate={customToDate}
+            fromDateMax={customToDate?.format('YYYY-MM-DD')}
+            toDateMin={customFromDate?.format('YYYY-MM-DD')}
           />
         )}
       </div>
@@ -191,16 +179,11 @@ export default function DateRangeSelector({
 }
 
 DateRangeSelector.propTypes = {
-  register: PropTypes.func.isRequired,
-  getValues: PropTypes.func.isRequired,
-  control: PropTypes.object.isRequired,
-  watch: PropTypes.func.isRequired,
-  setValue: PropTypes.func.isRequired,
-  formState: PropTypes.shape({ isValid: PropTypes.bool }).isRequired,
   defaultDateRangeOptionValue: PropTypes.string,
   defaultCustomDateRange: PropTypes.shape({
-    [FROM_DATE]: PropTypes.string,
-    [TO_DATE]: PropTypes.string,
+    [FROM_DATE]: PropTypes.object,
+    [TO_DATE]: PropTypes.object,
   }),
   placeholder: PropTypes.string,
+  changeDateMethod: PropTypes.func,
 };

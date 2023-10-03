@@ -13,10 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { Suspense } from 'react';
-import { useForm } from 'react-hook-form';
 import { within, userEvent, waitFor, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import selectEvent from 'react-select-event';
+import moment from 'moment';
 import DateRangeSelector from '../../components/DateRangeSelector';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { dateRangeOptions } from '../../components/DateRangeSelector/constants';
@@ -28,48 +28,24 @@ export default {
   decorators: componentDecorators,
 };
 
-const useFormMethods = () => {
-  const {
-    register,
-    watch,
-    setValue,
-    getValues,
-    setError,
-    control,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm({
-    mode: 'onChange',
-  });
-
-  return {
-    register,
-    watch,
-    setValue,
-    getValues,
-    setError,
-    control,
-    handleSubmit,
-    formState: { errors, isValid },
-  };
+const commonArgs = {
+  onChangeDate: () => ({}),
+  changeDateMethod: () => ({}),
 };
 
 export const WithPlaceholder = {
-  render: () => {
-    const formMethods = useFormMethods();
-
-    return <DateRangeSelector {...formMethods} placeholder="Select Date Range" />;
+  args: {
+    ...commonArgs,
+    placeholder: 'Select Date Range',
   },
 };
 
 export const WithDefaultOption = {
   render: () => {
-    const formMethods = useFormMethods();
-
     return (
       <Suspense fallback={'Loading...'}>
         <DateRangeSelector
-          {...formMethods}
+          {...commonArgs}
           defaultDateRangeOptionValue={dateRangeOptions.THIS_YEAR}
         />
       </Suspense>
@@ -113,28 +89,31 @@ export const WithDefaultOption = {
     await userEvent.type(input2, '2022-11-01');
     expect(selectedOptionText).toBeInTheDocument();
 
-    let errorMessage = await canvas.findByText(`'To' date must come after the 'From' date`);
+    let errorMessage = await canvas.findByText(
+      `End date must be after start date to return results`,
+    );
     expect(errorMessage).toBeInTheDocument();
 
     // if the user clicks outside the selector while entered custom data range is invalid,
     // selected option should be reset to "This year"
     // test fails with test-runner
     // await userEvent.click(document.body);
-    // await waitFor(() => (selectedOptionText = canvas.getByText('This year')));
+    // selectedOptionText = await canvas.findByText('This year');
     // expect(selectedOptionText).toBeInTheDocument();
   },
 };
 
 export const WithDefaultCustomDateRange = {
   render: () => {
-    const formMethods = useFormMethods();
-
     return (
       <Suspense fallback={'Loading...'}>
         <DateRangeSelector
-          {...formMethods}
+          {...commonArgs}
           defaultDateRangeOptionValue={dateRangeOptions.CUSTOM}
-          defaultCustomDateRange={{ [FROM_DATE]: '2023-01-01', [TO_DATE]: '2024-01-01' }}
+          defaultCustomDateRange={{
+            [FROM_DATE]: moment('2023-01-01'),
+            [TO_DATE]: moment('2024-01-01'),
+          }}
         />
       </Suspense>
     );
@@ -175,7 +154,7 @@ export const WithDefaultCustomDateRange = {
     const clearButton = canvas.getByText('Clear dates');
     await userEvent.click(clearButton);
 
-    const errorMessage = canvas.queryByText(`'To' date must come after the 'From' date`);
+    const errorMessage = canvas.queryByText(`End date must be after start date to return results`);
     expect(errorMessage).not.toBeInTheDocument();
 
     await userEvent.clear(input1);

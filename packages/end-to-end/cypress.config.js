@@ -1,8 +1,9 @@
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
-  projectId: 'y3sswj',
+  projectId: 'wzcbom',
   defaultCommandTimeout: 90 * 1000,
+  video: true,
   env: {
     'cypress-react-selector': {
       root: '#root',

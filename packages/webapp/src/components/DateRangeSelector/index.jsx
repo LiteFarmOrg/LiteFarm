@@ -27,6 +27,7 @@ import styles from './styles.module.scss';
 export default function DateRangeSelector({
   defaultDateRangeOptionValue,
   defaultCustomDateRange = {},
+  setDateRangeOptionValue,
   placeholder,
   changeDateMethod,
 }) {
@@ -152,6 +153,7 @@ export default function DateRangeSelector({
             if (e?.value === rangeOptions.CUSTOM) {
               setIsCustomDatePickerOpen(true);
             }
+            setDateRangeOptionValue && e?.value && setDateRangeOptionValue(e.value);
           }}
           formatOptionLabel={formatOptionLabel}
           defaultValue={
@@ -186,4 +188,5 @@ DateRangeSelector.propTypes = {
   }),
   placeholder: PropTypes.string,
   changeDateMethod: PropTypes.func,
+  setDateRangeOptionValue: PropTypes.func,
 };

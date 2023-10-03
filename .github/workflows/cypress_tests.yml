@@ -73,7 +73,7 @@ jobs:
       - name: Run E2E test (English)
         continue-on-error: true
         env:
-          CYPRESS_RECORD_KEY: "c0685451-2bc1-404e-884e-bfd4699520b2"
+          CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
           CYPRESS_USER: 0
         uses: cypress-io/github-action@v6
         with:

@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import moment from 'moment';
 import PageTitle from '../../../components/PageTitle';
 import defaultStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
-import { dateRangeSelector, expenseSelector, allExpenseTypeSelector } from '../selectors';
+import { expenseSelector, allExpenseTypeSelector } from '../selectors';
 import Table from '../../../components/Table';
 import { getExpense } from '../actions';
 import history from '../../../history';
@@ -28,6 +28,8 @@ import { useTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { useSelector, useDispatch } from 'react-redux';
+import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
+import { SUNDAY } from '../../../util/dateRange';
 
 const OtherExpense = () => {
   const { t } = useTranslation();
@@ -35,18 +37,7 @@ const OtherExpense = () => {
 
   const expenses = useSelector(expenseSelector);
   const expenseTypes = useSelector(allExpenseTypeSelector);
-  const dateRange = useSelector(dateRangeSelector);
-
-  let initialStartDate, initialEndDate;
-  if (dateRange && dateRange.startDate && dateRange.endDate) {
-    initialStartDate = moment(dateRange.startDate);
-    initialEndDate = moment(dateRange.endDate);
-  } else {
-    initialStartDate = moment().startOf('year');
-    initialEndDate = moment().endOf('year');
-  }
-  const [startDate, setStartDate] = useState(initialStartDate);
-  const [endDate, setEndDate] = useState(initialEndDate);
+  const { startDate, endDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
   const currencySymbol = useCurrencySymbol();
 
   useEffect(() => {
@@ -57,16 +48,6 @@ const OtherExpense = () => {
     computeTable();
     computeDetailedTable();
   }, [expenses]);
-
-  const changeDate = (type, date) => {
-    if (type === 'start') {
-      setStartDate(date);
-    } else if (type === 'end') {
-      setEndDate(date);
-    } else {
-      console.log('Error, type not specified');
-    }
-  };
 
   const computeTable = () => {
     let dict = {};
@@ -202,7 +183,7 @@ const OtherExpense = () => {
   return (
     <div className={defaultStyles.financesContainer}>
       <PageTitle backUrl="/Finances" title={t('EXPENSE.OTHER_EXPENSES_TITLE')} />
-      <DateRangeSelector changeDateMethod={changeDate} />
+      <DateRangeSelector />
 
       <Semibold style={{ marginBottom: '16px' }}>{t('EXPENSE.SUMMARY')}</Semibold>
       <div className={styles.tableContainer} style={{ marginBottom: '16px' }}>

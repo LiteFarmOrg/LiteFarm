@@ -34,6 +34,7 @@ export default function CustomDateRangeSelector({
   toDateMin,
 }) {
   const { t } = useTranslation();
+  const inputStyle = { classes: { container: { minWidth: 'calc((100% - 24px) / 2)' } } };
 
   return (
     <div className={styles.customDateRangeSelector}>
@@ -54,8 +55,8 @@ export default function CustomDateRangeSelector({
         onEndDateChange={changeEndDate}
         endDate={endDate}
         startDate={startDate}
-        fromProps={{ max: fromDateMax }}
-        toProps={{ min: toDateMin }}
+        fromProps={{ max: fromDateMax, ...inputStyle }}
+        toProps={{ min: toDateMin, ...inputStyle }}
       />
       {startDate && endDate && !validRange && (
         <Semibold style={{ textAlign: 'center', color: 'red' }}>

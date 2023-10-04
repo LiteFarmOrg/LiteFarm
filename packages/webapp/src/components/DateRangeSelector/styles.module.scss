@@ -66,6 +66,19 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 14px;
+
+  // override styles set to child components
+  @media screen and (max-width: 370px) {
+    + div {
+      flex-direction: row;
+      gap: 24px;
+    }
+  }
+  + div div {
+    > div, input {
+      min-width: 100% !important;
+    }
+  }
 }
 
 .backButton {

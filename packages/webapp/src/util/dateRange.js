@@ -26,21 +26,11 @@ export const weekdayNumbers = {
 };
 
 /**
- * Returns startDate and endDate of the week of the given date.
- * If weekStartDay is Monday, Sunday's day number is adjusted to 7 for the calculation like below.
+ * Calculates the start and end dates of the week containing the given date.
  *
- * Starting with Monday
- * | M | T | W | T | F | S | S |
- * | - | - | - | - | - | - | - |
- * | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
- *
- * @typedef {object} StartEndDates
- * @property {string} startDate - date in YYYY-MM-DD format
- * @property {string} endDate - date in YYYY-MM-DD format
- *
- * @param {date} Date ex. new Date(2023, 10, 1)
- * @param {string} weekStartDay "Sunday" or "Monday"
- * @returns {StartEndDates}
+ * @param {Date} Date The date for which to calculate the week's start and end dates.
+ * @param {string} weekStartDay "Sunday" or "Monday" - a day that should be considered as the week start day.
+ * @returns {{ startDate: string, endDate: string }} - An object containing the start and end dates of the week in the "YYYY-MM-DD" format.
  */
 export function getStartAndEndDateOfWeek(date, weekStartDay) {
   const weekDayNumber = date.getDay();
@@ -85,44 +75,34 @@ export default class DateRange {
     this.weekStartDay = [SUNDAY, MONDAY].includes(weekStartDay) ? weekStartDay : SUNDAY;
   }
 
+  getLastDaysOptionDateRange(days) {
+    return {
+      startDate: getLocalDateInYYYYDDMM(addDaysToDate(this.baseDate, -days)),
+      endDate: getLocalDateInYYYYDDMM(this.baseDate),
+    };
+  }
+
+  getLastWeekDateRange() {
+    const lastWeekDate = addDaysToDate(this.baseDate, -7);
+    return getStartAndEndDateOfWeek(lastWeekDate, this.weekStartDay);
+  }
+
+  getLastMonthDateRange() {
+    const lastMonthDate = new Date(this.baseDate.getFullYear(), this.baseDate.getMonth() - 1, 1);
+    return getStartAndEndDateOfMonth(lastMonthDate);
+  }
+
   getDates(range) {
-    if (range === options.THIS_YEAR) {
-      return getStartAndEndDateOfYear(this.baseDate);
-    }
-    if (range === options.LAST_7_DAYS) {
-      return {
-        startDate: getLocalDateInYYYYDDMM(addDaysToDate(this.baseDate, -6)),
-        endDate: getLocalDateInYYYYDDMM(this.baseDate),
-      };
-    }
-    if (range === options.LAST_14_DAYS) {
-      return {
-        startDate: getLocalDateInYYYYDDMM(addDaysToDate(this.baseDate, -13)),
-        endDate: getLocalDateInYYYYDDMM(this.baseDate),
-      };
-    }
-    if (range === options.LAST_30_DAYS) {
-      return {
-        startDate: getLocalDateInYYYYDDMM(addDaysToDate(this.baseDate, -29)),
-        endDate: getLocalDateInYYYYDDMM(this.baseDate),
-      };
-    }
-    if (range === options.THIS_WEEK) {
-      return getStartAndEndDateOfWeek(this.baseDate, this.weekStartDay);
-    }
-    if (range === options.LAST_WEEK) {
-      const lastWeekDate = addDaysToDate(this.baseDate, -7);
-      return getStartAndEndDateOfWeek(lastWeekDate, this.weekStartDay);
-    }
-    if (range === options.THIS_MONTH) {
-      return getStartAndEndDateOfMonth(this.baseDate);
-    }
-    if (range === options.LAST_MONTH) {
-      const lastMonthDate = new Date(this.baseDate.getFullYear(), this.baseDate.getMonth() - 1, 1);
-      return getStartAndEndDateOfMonth(lastMonthDate);
-    }
-    if (range === options.CUSTOM) {
-      return { startDate: '', endDate: '' };
-    }
+    return {
+      [options.THIS_YEAR]: () => getStartAndEndDateOfYear(this.baseDate),
+      [options.LAST_7_DAYS]: () => this.getLastDaysOptionDateRange(6),
+      [options.LAST_14_DAYS]: () => this.getLastDaysOptionDateRange(13),
+      [options.LAST_30_DAYS]: () => this.getLastDaysOptionDateRange(29),
+      [options.THIS_WEEK]: () => getStartAndEndDateOfWeek(this.baseDate, this.weekStartDay),
+      [options.LAST_WEEK]: () => this.getLastWeekDateRange(),
+      [options.THIS_MONTH]: () => getStartAndEndDateOfMonth(this.baseDate),
+      [options.LAST_MONTH]: () => this.getLastMonthDateRange(),
+      [options.CUSTOM]: () => ({ startDate: '', endDate: '' }),
+    }[range]();
   }
 }

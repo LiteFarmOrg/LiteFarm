@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { Suspense } from 'react';
-import { within, userEvent, waitFor, screen } from '@storybook/testing-library';
+import { within, userEvent, screen, fireEvent } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import selectEvent from 'react-select-event';
 import moment from 'moment';
@@ -48,6 +48,7 @@ export const WithDefaultOption = {
           {...commonArgs}
           defaultDateRangeOptionValue={dateRangeOptions.THIS_YEAR}
         />
+        <div style={{ color: 'transparent' }}>Click Away Test</div>
       </Suspense>
     );
   },
@@ -72,6 +73,7 @@ export const WithDefaultOption = {
 
     const backButton = await canvas.findByText('back');
     expect(backButton).toBeInTheDocument();
+    expect(backButton).toHaveStyle('color: #d4dae3');
 
     await userEvent.click(backButton);
     expect(backButton).toBeInTheDocument();
@@ -89,17 +91,16 @@ export const WithDefaultOption = {
     await userEvent.type(input2, '2022-11-01');
     expect(selectedOptionText).toBeInTheDocument();
 
-    let errorMessage = await canvas.findByText(
+    const errorMessage = await canvas.findByText(
       `End date must be after start date to return results`,
     );
     expect(errorMessage).toBeInTheDocument();
 
-    // if the user clicks outside the selector while entered custom data range is invalid,
-    // selected option should be reset to "This year"
-    // test fails with test-runner
-    // await userEvent.click(document.body);
-    // selectedOptionText = await canvas.findByText('This year');
-    // expect(selectedOptionText).toBeInTheDocument();
+    // This does not pass when rerunning on storybook UI
+    const clickAwayTestElement = canvas.getByText('Click Away Test');
+    await userEvent.click(clickAwayTestElement);
+    selectedOptionText = await canvas.findByText('This year');
+    expect(selectedOptionText).toBeInTheDocument();
   },
 };
 
@@ -127,15 +128,8 @@ export const WithDefaultCustomDateRange = {
     const select = canvas.getByRole('combobox');
     await selectEvent.openMenu(select);
 
-    // test fails without these 5 lines
-    let option = screen.getByText('Last 7 days');
-    await userEvent.click(option);
-    await selectEvent.openMenu(select);
-    option = screen.getAllByText('Last 7 days')[1];
-    expect(option).toHaveStyle('font-weight: 700');
-
-    option = screen.getByText('Pick a custom range');
-    await userEvent.click(option);
+    let option = screen.getByText('Pick a custom range');
+    await fireEvent.click(option);
 
     const [input1, input2] = await canvas.findAllByTestId('input');
     await userEvent.clear(input1);

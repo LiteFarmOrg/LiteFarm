@@ -13,8 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const DATE_RANGE = 'date_range';
-
 export const dateRangeOptions = {
   THIS_YEAR: 'this_year',
   LAST_7_DAYS: 'last_seven_days',

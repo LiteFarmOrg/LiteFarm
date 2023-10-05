@@ -35,7 +35,7 @@ class RevenueType extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['revenue_name', 'farm_id'],
+      required: ['revenue_name', 'farm_id', 'agriculture_associated'],
 
       properties: {
         revenue_type_id: { type: 'integer' },

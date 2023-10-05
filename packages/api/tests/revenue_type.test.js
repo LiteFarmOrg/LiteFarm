@@ -116,19 +116,25 @@ describe('Revenue Type Tests', () => {
   }
 
   async function returnRevenueType(mainFarm) {
-    const [revenue_type] = await mocks.revenue_typeFactory({ promisedFarm: [mainFarm] });
+    const [revenue_type] = await mocks.revenue_typeFactory({
+      promisedFarm: [mainFarm],
+      properties: { agriculture_associated: true },
+    });
     return { revenue_type };
   }
 
   async function returnDefaultRevenueType() {
     const defaultFarm = mocks.farmFactory();
     defaultFarm.farm_id = null;
-    const [revenue_type] = await mocks.revenue_typeFactory({ promisedFarm: [defaultFarm] });
+    const [revenue_type] = await mocks.revenue_typeFactory({
+      promisedFarm: [defaultFarm],
+      properties: { agriculture_associated: true },
+    });
     return { revenue_type };
   }
 
   function getFakeRevenueType(farm_id) {
-    const revenue = mocks.fakeRevenueType();
+    const revenue = mocks.fakeRevenueType({ agriculture_associated: true });
     return { ...revenue, farm_id };
   }
 

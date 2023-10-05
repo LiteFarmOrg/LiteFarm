@@ -26,7 +26,7 @@ import { useTranslation } from 'react-i18next';
 import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
 import { dateRangeOptions } from '../../DateRangeSelector/constants';
 
-const FinanceDateRangeSelector = ({ changeDateMethod = () => ({}), hideTooltip }) => {
+const FinanceDateRangeSelector = ({ hideTooltip }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -39,10 +39,9 @@ const FinanceDateRangeSelector = ({ changeDateMethod = () => ({}), hideTooltip }
     initialEndDate = moment(dateRange.endDate);
   }
 
-  const changeDateMethodWithSetDateRange = (type, date) => {
+  const changeDate = (type, date) => {
     const newStartDate = type === 'start' ? date : dateRange.startDate;
     const newEndDate = type === 'end' ? date : dateRange.endDate;
-    changeDateMethod(type, date);
     dispatch(setDateRange({ ...dateRange, startDate: newStartDate, endDate: newEndDate }));
   };
 
@@ -69,7 +68,7 @@ const FinanceDateRangeSelector = ({ changeDateMethod = () => ({}), hideTooltip }
         defaultDateRangeOptionValue={initialOption}
         defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}
         setDateRangeOptionValue={setDateRangeOptionValue}
-        changeDateMethod={changeDateMethodWithSetDateRange}
+        changeDateMethod={changeDate}
         dateRange={dateRange}
       />
     </div>

@@ -18,6 +18,10 @@ async function validateSale(req, res, next) {
   // TODO replace upsertGraph
   const { crop_variety_sale, revenue_type_id } = req.body;
 
+  if (!revenue_type_id) {
+    return res.status(400).send('revenue type is required');
+  }
+
   const revenueType = await RevenueTypeModel.query().findById(revenue_type_id);
 
   const isCropRevenue = revenueType.crop_generated;

@@ -54,6 +54,10 @@ const SaleController = {
         saleData.sale_date = sale_date;
       }
 
+      if (!revenue_type_id) {
+        return res.status(400).send('revenue type is required');
+      }
+
       const revenueType = await RevenueTypeModel.query().findById(revenue_type_id);
 
       if (!revenueType.crop_generated) {

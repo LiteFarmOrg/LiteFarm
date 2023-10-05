@@ -272,8 +272,10 @@ export const getBiodiversityAPI = async (pointData, countData) => {
     return makePolygon(points.grid_points.sort(compareLatLong));
   });
 
+  // Handle one polygon and one species type at a time
   for (const polygon of polygons) {
     for (const label in filterDictionary) {
+      // First API call to get the count
       const qs = {
         geometry: polygon,
         limit: 300,
@@ -287,10 +289,14 @@ export const getBiodiversityAPI = async (pointData, countData) => {
         },
       });
       const { count, results } = JSON.parse(data);
+
+      // If we're over API limit, exit and show error
       if (count > BIODIVERSITY_API_OFFSET_LIMIT) {
         throw new Error('API_OFFSET_LIMIT');
       }
       processBiodiversityResults(results, label);
+
+      // Do the subsequent API calls concurrently
       const apiCalls = [];
       for (let i = 300; i < count; i += 300) {
         apiCalls.push(
@@ -313,11 +319,7 @@ export const getBiodiversityAPI = async (pointData, countData) => {
           }),
         );
       }
-      try {
-        await Promise.allSettled(apiCalls);
-      } catch (error) {
-        throw error;
-      }
+      await Promise.all(apiCalls);
     }
 
     for (const label in speciesCount) {

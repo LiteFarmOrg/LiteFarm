@@ -20,6 +20,7 @@ const testCases = [
   {
     date: [2023, 12, 31, SUNDAY], // Sunday
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2023-01-01', endDate: '2023-12-31' },
       THIS_YEAR: { startDate: '2023-01-01', endDate: '2023-12-31' },
       LAST_7_DAYS: { startDate: '2023-12-25', endDate: '2023-12-31' },
       LAST_14_DAYS: { startDate: '2023-12-18', endDate: '2023-12-31' },
@@ -33,6 +34,7 @@ const testCases = [
   {
     date: [2023, 12, 31, MONDAY],
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2023-01-01', endDate: '2023-12-31' },
       THIS_YEAR: { startDate: '2023-01-01', endDate: '2023-12-31' },
       LAST_7_DAYS: { startDate: '2023-12-25', endDate: '2023-12-31' },
       LAST_14_DAYS: { startDate: '2023-12-18', endDate: '2023-12-31' },
@@ -46,6 +48,7 @@ const testCases = [
   {
     date: [2024, '01', '01', SUNDAY], // Monday
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2024-01-01', endDate: '2024-01-01' },
       THIS_YEAR: { startDate: '2024-01-01', endDate: '2024-12-31' },
       LAST_7_DAYS: { startDate: '2023-12-26', endDate: '2024-01-01' },
       LAST_14_DAYS: { startDate: '2023-12-19', endDate: '2024-01-01' },
@@ -59,6 +62,7 @@ const testCases = [
   {
     date: [2024, '01', '01', MONDAY],
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2024-01-01', endDate: '2024-01-01' },
       THIS_WEEK: { startDate: '2024-01-01', endDate: '2024-01-07' },
       LAST_WEEK: { startDate: '2023-12-25', endDate: '2023-12-31' },
     },
@@ -66,6 +70,7 @@ const testCases = [
   {
     date: [2024, '02', '29', SUNDAY], // Thursday
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2024-01-01', endDate: '2024-02-29' },
       THIS_YEAR: { startDate: '2024-01-01', endDate: '2024-12-31' },
       LAST_7_DAYS: { startDate: '2024-02-23', endDate: '2024-02-29' },
       LAST_14_DAYS: { startDate: '2024-02-16', endDate: '2024-02-29' },
@@ -79,6 +84,7 @@ const testCases = [
   {
     date: [2024, '02', '29', MONDAY],
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2024-01-01', endDate: '2024-02-29' },
       THIS_WEEK: { startDate: '2024-02-26', endDate: '2024-03-03' },
       LAST_WEEK: { startDate: '2024-02-19', endDate: '2024-02-25' },
     },
@@ -86,6 +92,7 @@ const testCases = [
   {
     date: [2023, '11', '07', SUNDAY], // Tuesday
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2023-01-01', endDate: '2023-11-07' },
       THIS_YEAR: { startDate: '2023-01-01', endDate: '2023-12-31' },
       LAST_7_DAYS: { startDate: '2023-11-01', endDate: '2023-11-07' },
       LAST_14_DAYS: { startDate: '2023-10-25', endDate: '2023-11-07' },
@@ -99,6 +106,7 @@ const testCases = [
   {
     date: [2023, '11', '07', MONDAY],
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2023-01-01', endDate: '2023-11-07' },
       THIS_WEEK: { startDate: '2023-11-06', endDate: '2023-11-12' },
       LAST_WEEK: { startDate: '2023-10-30', endDate: '2023-11-05' },
     },
@@ -106,6 +114,7 @@ const testCases = [
   {
     date: [2024, '03', '13', SUNDAY], // Wednesday
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2024-01-01', endDate: '2024-03-13' },
       THIS_YEAR: { startDate: '2024-01-01', endDate: '2024-12-31' },
       LAST_7_DAYS: { startDate: '2024-03-07', endDate: '2024-03-13' },
       LAST_14_DAYS: { startDate: '2024-02-29', endDate: '2024-03-13' },
@@ -119,6 +128,7 @@ const testCases = [
   {
     date: [2024, '03', '13', MONDAY], // Wednesday
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2024-01-01', endDate: '2024-03-13' },
       THIS_WEEK: { startDate: '2024-03-11', endDate: '2024-03-17' },
       LAST_WEEK: { startDate: '2024-03-04', endDate: '2024-03-10' },
     },
@@ -126,6 +136,7 @@ const testCases = [
   {
     date: [2025, '03', '13', SUNDAY], // Thursday
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2025-01-01', endDate: '2025-03-13' },
       THIS_YEAR: { startDate: '2025-01-01', endDate: '2025-12-31' },
       LAST_7_DAYS: { startDate: '2025-03-07', endDate: '2025-03-13' },
       LAST_14_DAYS: { startDate: '2025-02-28', endDate: '2025-03-13' },
@@ -139,6 +150,7 @@ const testCases = [
   {
     date: [2025, '03', '13', MONDAY],
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2025-01-01', endDate: '2025-03-13' },
       THIS_WEEK: { startDate: '2025-03-10', endDate: '2025-03-16' },
       LAST_WEEK: { startDate: '2025-03-03', endDate: '2025-03-09' },
     },
@@ -146,6 +158,7 @@ const testCases = [
   {
     date: [2024, '07', '19', SUNDAY], // Friday
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2024-01-01', endDate: '2024-07-19' },
       THIS_YEAR: { startDate: '2024-01-01', endDate: '2024-12-31' },
       LAST_7_DAYS: { startDate: '2024-07-13', endDate: '2024-07-19' },
       LAST_14_DAYS: { startDate: '2024-07-06', endDate: '2024-07-19' },
@@ -159,6 +172,7 @@ const testCases = [
   {
     date: [2024, '07', '19', MONDAY],
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2024-01-01', endDate: '2024-07-19' },
       THIS_WEEK: { startDate: '2024-07-15', endDate: '2024-07-21' },
       LAST_WEEK: { startDate: '2024-07-08', endDate: '2024-07-14' },
     },
@@ -166,6 +180,7 @@ const testCases = [
   {
     date: [2024, '10', '26', SUNDAY], // Saturday
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2024-01-01', endDate: '2024-10-26' },
       THIS_YEAR: { startDate: '2024-01-01', endDate: '2024-12-31' },
       LAST_7_DAYS: { startDate: '2024-10-20', endDate: '2024-10-26' },
       LAST_14_DAYS: { startDate: '2024-10-13', endDate: '2024-10-26' },
@@ -179,6 +194,7 @@ const testCases = [
   {
     date: [2024, '10', '26', MONDAY],
     expectedResults: {
+      YEAR_TO_DATE: { startDate: '2024-01-01', endDate: '2024-10-26' },
       THIS_WEEK: { startDate: '2024-10-21', endDate: '2024-10-27' },
       LAST_WEEK: { startDate: '2024-10-14', endDate: '2024-10-20' },
     },

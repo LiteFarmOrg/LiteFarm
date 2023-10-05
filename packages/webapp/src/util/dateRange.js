@@ -69,6 +69,15 @@ export function getStartAndEndDateOfYear(date) {
   };
 }
 
+export function getStartAndEndDateOfYearToDate(date) {
+  const startDate = new Date(date.getFullYear(), 0, 1);
+
+  return {
+    startDate: getLocalDateInYYYYDDMM(startDate),
+    endDate: getLocalDateInYYYYDDMM(date),
+  };
+}
+
 export default class DateRange {
   constructor(date = new Date(), weekStartDay = SUNDAY) {
     this.baseDate = date;
@@ -94,6 +103,7 @@ export default class DateRange {
 
   getDates(range) {
     return {
+      [options.YEAR_TO_DATE]: () => getStartAndEndDateOfYearToDate(this.baseDate),
       [options.THIS_YEAR]: () => getStartAndEndDateOfYear(this.baseDate),
       [options.LAST_7_DAYS]: () => this.getLastDaysOptionDateRange(6),
       [options.LAST_14_DAYS]: () => this.getLastDaysOptionDateRange(13),

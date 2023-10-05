@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import Button from '../../../Form/Button';
 import React from 'react';
-import { Title } from '../../../Typography';
+import { Error, Title } from '../../../Typography';
 import PropTypes from 'prop-types';
 
 export default function ModalComponent({
@@ -40,7 +40,7 @@ export default function ModalComponent({
       >
         {buttonLabel}
       </Button>
-      {error && <span className={styles.error}>{error}</span>}
+      {error && <Error className={styles.error}>{error}</Error>}
     </div>
   );
 }

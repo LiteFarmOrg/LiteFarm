@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
@@ -21,7 +22,8 @@ import { ReactComponent as Calendar } from '../../assets/images/dateInput/calend
 import CustomDateRangeSelector from './CustomDateRangeSelector';
 import ReactSelect from '../Form/ReactSelect';
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
-import { dateRangeOptions as rangeOptions } from './constants';
+import { dateRangeSelector } from '../../containers/Finances/selectors';
+import { dateRangeOptions, dateRangeOptions as rangeOptions } from './constants';
 import styles from './styles.module.scss';
 
 export default function DateRangeSelector({
@@ -34,6 +36,7 @@ export default function DateRangeSelector({
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
 
   const { t } = useTranslation();
+  const dateRange = useSelector(dateRangeSelector);
   const selectRef = useRef(null);
 
   const [customFromDate, setCustomFromDate] = useState(undefined);
@@ -117,6 +120,9 @@ export default function DateRangeSelector({
   };
 
   const onClickAway = () => {
+    if (dateRange.option !== dateRangeOptions.CUSTOM) {
+      return;
+    }
     if (!isValid) {
       setSelectedDateRangeOption(options[0]);
     }

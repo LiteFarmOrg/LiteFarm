@@ -54,10 +54,10 @@ function EditCustomExpense({ history, match }) {
           'revenue_name',
           t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
         )}
-        customRadioGroup={({ control, watch }) => (
+        customFormFields={({ control, watch }) => (
           <CustomRevenueRadios control={control} watch={watch} view="edit" />
         )}
-        customRadioDefaultValues={{
+        customFieldsDefaultValues={{
           [AGRICULTURE_ASSOCIATED]: agriculture_associated,
           [CROP_GENERATED]: crop_generated,
         }}

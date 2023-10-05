@@ -47,8 +47,8 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
  * @param {number} [props.inputMaxChars=100] - The maximum number of characters allowed in the input field.
  * @param {function} [props.validateInput] - A custom validation function for the input field.
  * @param {function} [props.useHookFormPersist] - useHookFormPersist hook.
- * @param {function} [props.customRadioGroup] - A function to render a custom radio group.
- * @param {Object} [props.customRadioDefaultValues={}] - Default values for the custom radio group.
+ * @param {function} [props.customFormFields] - A function to render additional form fields.
+ * @param {Object} [props.customFieldsDefaultValues={}] - Default values for the additional fields.
  * @returns {JSX.Element} A React component representing the custom type form.
  */
 const PureSimpleCustomType = ({
@@ -68,8 +68,8 @@ const PureSimpleCustomType = ({
   inputMaxChars = 100,
   validateInput,
   useHookFormPersist = () => ({}),
-  customRadioGroup,
-  customRadioDefaultValues = {},
+  customFormFields,
+  customFieldsDefaultValues = {},
 }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -85,7 +85,7 @@ const PureSimpleCustomType = ({
     shouldUnregister: true,
     defaultValues: {
       [customTypeRegister]: defaultValue || undefined,
-      ...customRadioDefaultValues,
+      ...customFieldsDefaultValues,
     },
   });
   const readonly = view === 'read-only';
@@ -123,7 +123,7 @@ const PureSimpleCustomType = ({
         disabled={disabledInput}
       />
 
-      {customRadioGroup && customRadioGroup({ control, watch })}
+      {customFormFields && customFormFields({ control, watch })}
 
       <div style={{ marginTop: 'auto' }}>
         {readonly && !isDeleting && (
@@ -179,8 +179,8 @@ PureSimpleCustomType.propTypes = {
   inputMaxChars: PropTypes.number,
   validateInput: PropTypes.func,
   useHookFormPersist: PropTypes.func,
-  customRadioGroup: PropTypes.func,
-  customRadioDefaultValues: PropTypes.object,
+  customFormFields: PropTypes.func,
+  customFieldsDefaultValues: PropTypes.object,
 };
 
 export default PureSimpleCustomType;

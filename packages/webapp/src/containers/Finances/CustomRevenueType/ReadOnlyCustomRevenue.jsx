@@ -56,10 +56,10 @@ function ReadOnlyCustomRevenue({ history, match }) {
         retireLinkText={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
         retireHeader={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
         retireMessage={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_MESSAGE')}
-        customRadioGroup={({ control, watch }) => (
+        customFormFields={({ control, watch }) => (
           <CustomRevenueRadios control={control} watch={watch} view="read-only" />
         )}
-        customRadioDefaultValues={{
+        customFieldsDefaultValues={{
           [AGRICULTURE_ASSOCIATED]: agriculture_associated,
           [CROP_GENERATED]: crop_generated,
         }}

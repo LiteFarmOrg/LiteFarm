@@ -50,7 +50,7 @@ function AddCustomRevenue({ history }) {
           'revenue_name',
           t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
         )}
-        customRadioGroup={({ control, watch }) => (
+        customFormFields={({ control, watch }) => (
           <CustomRevenueRadios control={control} watch={watch} view="add" />
         )}
       />

@@ -51,8 +51,6 @@ const CropSaleForm = ({
   onSubmit,
   onClick,
   title,
-  dateLabel,
-  customerLabel,
   system,
   currency,
   sale,
@@ -252,7 +250,7 @@ const CropSaleForm = ({
     >
       <PageTitle title={title} onGoBack={handleGoBack} style={{ marginBottom: '24px' }} />
       <Input
-        label={dateLabel}
+        label={t('FINANCES.DATE')}
         hookFormRegister={saleDateRegister}
         style={{ marginBottom: '40px', marginTop: '40px' }}
         type={'date'}
@@ -260,7 +258,7 @@ const CropSaleForm = ({
         disabled={disabledInput}
       />
       <Input
-        label={customerLabel}
+        label={t('SALE.DETAIL.CUSTOMER_NAME')}
         hookFormRegister={saleCustomerRegister}
         style={{ marginBottom: '40px' }}
         errors={getInputErrors(errors, SALE_CUSTOMER)}

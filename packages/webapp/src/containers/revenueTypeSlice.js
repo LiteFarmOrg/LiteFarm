@@ -17,6 +17,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util/pick';
 import { createSelector } from 'reselect';
+import i18n from '../locales/i18n';
 
 export const getRevenueType = (obj) => {
   return pick(obj, [
@@ -117,3 +118,31 @@ export const allRevenueTypesSelector = createSelector(
 
 export const revenueTypeByIdSelector = (revenue_type_id) => (state) =>
   revenueTypeSelectors.selectById(state, revenue_type_id);
+
+const sortRevenueTypes = (revenueTypes) => {
+  const defaultTypes = [];
+  const customTypes = [];
+
+  revenueTypes?.forEach((type) => {
+    const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
+    arrayToUpdate.push(type);
+  });
+
+  return [
+    ...defaultTypes.sort((typeA, typeB) =>
+      i18n
+        .t(`revenue:${typeA.revenue_translation_key}`)
+        .localeCompare(i18n.t(`expense:${typeB.revenue_translation_key}`)),
+    ),
+    ...customTypes.sort((typeA, typeB) =>
+      typeA.revenue_translation_key.localeCompare(typeB.revenue_translation_key),
+    ),
+  ];
+};
+
+export const revenueTypeTileContentsSelector = createSelector(
+  [revenueTypeSelectors.selectAll],
+  (revenueTypes) => {
+    return sortRevenueTypes(revenueTypes).filter((type) => !type.deleted);
+  },
+);

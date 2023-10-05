@@ -38,7 +38,7 @@ const revenueByIdSelector = (sale_id) => {
 
 const expenseByIdSelector = (expense_id) => {
   return createSelector(financeSelector, (state) => {
-    return state.expenses.find((expense) => expense.expense_id == expense_id);
+    return state.expenses.find((expense) => expense.farm_expense_id == expense_id);
   });
 };
 

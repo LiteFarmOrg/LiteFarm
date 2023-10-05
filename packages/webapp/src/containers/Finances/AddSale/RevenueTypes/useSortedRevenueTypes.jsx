@@ -23,7 +23,7 @@ export default function useSortedRevenueTypes() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const [sortedtypes, setSortedTypes] = useState([]);
+  const [sortedtypes, setSortedTypes] = useState(null);
   const revenueTypes = useSelector(revenueTypesSelector);
 
   useEffect(() => {

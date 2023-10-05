@@ -25,3 +25,7 @@ export const VALUE = `value`;
 // crop sale
 export const CHOSEN_VARIETIES = 'crop_variety_sale';
 export const STATUS = 'STATUS';
+export const CROP_VARIETY_ID = 'crop_variety_id';
+export const QUANTITY = 'quantity';
+export const QUANTITY_UNIT = 'quantity_unit';
+export const SALE_VALUE = 'sale_value';

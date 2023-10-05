@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { revenueTypeByIdSelector, revenueTypesSelector } from '../../revenueTypeSlice';
+import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
 import { getRevenueFormType } from '../util';
 import { revenueFormTypes as formTypes } from '../constants';
 

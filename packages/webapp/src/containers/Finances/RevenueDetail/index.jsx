@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import CropSaleForm from '../../../components/Forms/CropSale';
 import { deleteSale, updateSale } from '../actions';
-import { revenueByIdSelector, salesSelector, selectedSaleSelector } from '../selectors';
-import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
-import { revenueTypeByIdSelector, revenueTypesSelector } from '../../revenueTypeSlice';
+import { revenueByIdSelector } from '../selectors';
+import { measurementSelector } from '../../userFarmSlice';
+import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -13,15 +13,24 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { revenueFormTypes as formTypes } from '../constants';
 import { getRevenueFormType } from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
+import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
+import { getCustomFormChildrenDefaultValues } from '../../../components/Forms/CropSale/useCropSaleInputs';
+import { useCropSaleInputs } from '../../../components/Forms/CropSale/useCropSaleInputs';
+import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import useHookFormPersist from '../../hooks/useHookFormPersist';
+import { revenueTypeTileContentsSelector } from '../../revenueTypeSlice';
 
 function SaleDetail({ history, match }) {
   const { t } = useTranslation(['translation', 'revenue']);
   const dispatch = useDispatch();
 
+  useHookFormPersist();
+
   const isEditing = match.path.endsWith('/edit');
   const { sale_id } = match.params;
 
-  const revenueTypes = useSortedRevenueTypes();
+  const revenueTypes = useSelector(revenueTypeTileContentsSelector);
+  //const revenueTypes = useSortedRevenueTypes();
   const sale = useSelector(revenueByIdSelector(sale_id));
 
   useEffect(() => {
@@ -32,13 +41,7 @@ function SaleDetail({ history, match }) {
 
   const revenueType = useSelector(revenueTypeByIdSelector(sale.revenue_type_id));
 
-  const [updatedSale, setSale] = useState(sale);
-
-  // Other crop specific selectors
-  const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
-  const system = useSelector(measurementSelector);
-
-  // Dropdown should include the current expense's type even if it has been retired
+  // Dropdown should include the current revenue's type even if it has been retired
   const revenueTypesArray = revenueTypes?.concat(revenueType?.deleted ? revenueType : []);
 
   const revenueTypeReactSelectOptions = revenueTypesArray?.map((type) => {
@@ -92,71 +95,42 @@ function SaleDetail({ history, match }) {
     history.back();
   };
 
+  // Review after merging LF-3595
+  // Handles changing the type
   const [formType, setFormType] = useState(getRevenueFormType(revenueType));
 
-  const onTypeChange = (typeId) => {
+  const onTypeChange = (typeId, setValue, REVENUE_TYPE_ID) => {
+    const newType = revenueTypeReactSelectOptions?.find((option) => option.value === typeId);
+    setValue(REVENUE_TYPE_ID, newType);
     const newRevenueType = revenueTypes.find((type) => type.revenue_type_id === typeId);
     const newFormType = getRevenueFormType(newRevenueType);
-    let changedSale = updatedSale;
-    changedSale.revenue_type_id = typeId;
     if (newFormType === formTypes.CROP_SALE) {
       setFormType(formTypes.CROP_SALE);
     }
     if (newFormType === formTypes.GENERAL) {
       setFormType(formTypes.GENERAL);
     }
-    setSale(changedSale);
   };
-
-  const getCropVarietyOptions = () => {
-    if (!managementPlans || managementPlans.length === 0) {
-      return;
-    }
-
-    let cropVarietyOptions = [];
-    let cropVarietySet = new Set();
-
-    for (let mp of managementPlans) {
-      if (!cropVarietySet.has(mp.crop_variety_id)) {
-        cropVarietyOptions.push({
-          label: mp.crop_variety_name
-            ? `${mp.crop_variety_name}, ${t(`crop:${mp.crop_translation_key}`)}`
-            : t(`crop:${mp.crop_translation_key}`),
-          value: mp.crop_variety_id,
-        });
-        cropVarietySet.add(mp.crop_variety_id);
-      }
-    }
-
-    cropVarietyOptions.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
-
-    return cropVarietyOptions;
-  };
-
-  const cropVarietyOptions = getCropVarietyOptions() || [];
-
   return (
-    <HookFormPersistProvider>
-      <CropSaleForm
-        cropVarietyOptions={cropVarietyOptions}
-        system={system}
-        managementPlans={managementPlans}
-        formType={formType}
-        onClick={isEditing ? undefined : handleEdit}
-        onSubmit={isEditing ? onSubmit : undefined}
-        title={t('SALE.EDIT_SALE.TITLE')}
-        dateLabel={t('SALE.EDIT_SALE.DATE')}
-        customerLabel={t('SALE.ADD_SALE.CUSTOMER_NAME')}
-        currency={useCurrencySymbol()}
-        sale={updatedSale}
-        revenueTypeOptions={revenueTypeReactSelectOptions}
-        onTypeChange={onTypeChange}
-        view={isEditing ? 'edit' : 'read-only'}
-        buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
-        onRetire={onRetire}
-        handleGoBack={handleGoBack}
-      />
-    </HookFormPersistProvider>
+    <GeneralRevenue
+      key={isEditing ? 'editing' : 'readonly'}
+      onSubmit={isEditing ? onSubmit : undefined}
+      title={t('SALE.EDIT_SALE.TITLE')}
+      currency={useCurrencySymbol()}
+      sale={sale}
+      customFormChildren={useCropSaleInputs}
+      customFormChildrenDefaultValues={
+        formType === formTypes.CROP_SALE ? getCustomFormChildrenDefaultValues(sale) : undefined
+      }
+      view={isEditing ? 'edit' : 'read-only'}
+      handleGoBack={handleGoBack}
+      onClick={isEditing ? undefined : handleEdit}
+      revenueTypeOptions={revenueTypeReactSelectOptions}
+      onTypeChange={onTypeChange}
+      buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
+      formType={formType}
+      onRetire={onRetire}
+    />
   );
 }
 

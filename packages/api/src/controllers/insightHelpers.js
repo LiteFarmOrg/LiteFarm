@@ -271,9 +271,7 @@ export const getBiodiversityAPI = async (pointData, countData) => {
   });
 
   for (const polygon of polygons) {
-    console.log(polygon);
     for (const label in filterDictionary) {
-      console.log(label);
       const qs = {
         geometry: polygon,
         limit: 300,
@@ -286,9 +284,7 @@ export const getBiodiversityAPI = async (pointData, countData) => {
           offset: 0,
         },
       });
-      console.log(`first call done for ${label}`);
       const { count, results } = JSON.parse(data);
-      console.log(count);
       processBiodiversityResults(results, label);
       const apiCalls = [];
       for (let i = 300; i < count; i += 300) {
@@ -312,22 +308,15 @@ export const getBiodiversityAPI = async (pointData, countData) => {
           }),
         );
       }
-      console.log(`${apiCalls.length} calls for ${label}`);
       await Promise.allSettled(apiCalls);
-      console.log(`api calls done for ${label}`);
     }
 
     for (const label in speciesCount) {
-      console.log(`parsing ${label}`);
-      console.log(speciesCount[label]);
-      console.log(parsedSpecies.length);
-      console.log((speciesCount[label] / parsedSpecies.length) * 100);
       resultData.data.push({
         name: label,
         count: speciesCount[label],
         percent: (speciesCount[label] / parsedSpecies.length) * 100,
       });
-      console.log(resultData.data);
     }
     resultData.preview = parsedSpecies.length;
     return resultData;

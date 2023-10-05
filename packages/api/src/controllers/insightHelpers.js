@@ -17,6 +17,8 @@ import rp from 'request-promise';
 
 import endPoints from '../endPoints.js';
 
+const BIODIVERSITY_API_OFFSET_LIMIT = 100000;
+
 // helper functions
 
 // helpers for Soil OM
@@ -285,6 +287,9 @@ export const getBiodiversityAPI = async (pointData, countData) => {
         },
       });
       const { count, results } = JSON.parse(data);
+      if (count > BIODIVERSITY_API_OFFSET_LIMIT) {
+        throw new Error('API_OFFSET_LIMIT');
+      }
       processBiodiversityResults(results, label);
       const apiCalls = [];
       for (let i = 300; i < count; i += 300) {
@@ -308,7 +313,11 @@ export const getBiodiversityAPI = async (pointData, countData) => {
           }),
         );
       }
-      await Promise.allSettled(apiCalls);
+      try {
+        await Promise.allSettled(apiCalls);
+      } catch (error) {
+        throw error;
+      }
     }
 
     for (const label in speciesCount) {

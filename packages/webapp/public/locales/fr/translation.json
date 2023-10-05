@@ -857,7 +857,12 @@
       "AMPHIBIANS": "Amphibiens",
       "BIRDS": "Oiseaux",
       "CROP_VARIETIES": "Variété de la culture",
-      "ERROR": {
+      "API_OFFSET_LIMIT_ERROR": {
+        "BODY": "MISSING",
+        "PREVIEW": "Unavailable",
+        "TITLE": "Il y a eu un problème."
+      },
+      "GENERIC_ERROR": {
         "BODY": "LiteFarm génère des données sur la biodiversité à partir de différentes sources mais est incapable de le faire en ce moment. Veuillez réessayer dans {{minutes}} minutes.",
         "PREVIEW": "Indisponible",
         "TITLE": "Il y a eu un problème."

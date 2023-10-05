@@ -857,8 +857,13 @@
       "AMPHIBIANS": "Amphibians",
       "BIRDS": "Birds",
       "CROP_VARIETIES": "Crop varieties",
-      "ERROR": {
+      "GENERIC_ERROR": {
         "BODY": "LiteFarm generates biodiversity insights based on several sources and was unable to do so at this time. Please try again after {{minutes}} minutes.",
+        "PREVIEW": "Unavailable",
+        "TITLE": "There was a problem"
+      },
+      "API_OFFSET_LIMIT_ERROR": {
+        "BODY": "Your farm boundary is too large, we are unable to provide accurate Biodiversity insights. Try creating smaller farm boundaries.",
         "PREVIEW": "Unavailable",
         "TITLE": "There was a problem"
       },

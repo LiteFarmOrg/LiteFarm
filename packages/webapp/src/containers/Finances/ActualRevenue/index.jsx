@@ -3,18 +3,18 @@ import Layout from '../../../components/Layout';
 import PageTitle from '../../../components/PageTitle/v2';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
-import { dateRangeSelector, salesSelector } from '../selectors';
+import { salesSelector } from '../selectors';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import { AddLink, Semibold } from '../../../components/Typography';
-import DateRangePicker from '../../../components/Form/DateRangePicker';
 import ActualRevenueItem from '../ActualRevenueItem';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 import { calcActualRevenue, filterSalesByDateRange } from '../util';
-import { setDateRange } from '../actions';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getRevenueTypes } from '../saga';
+import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
+import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
+import { SUNDAY } from '../../../util/dateRange';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -26,44 +26,8 @@ export default function ActualRevenue({ history, match }) {
   };
   // TODO: refactor sale data after finance reducer is remade
   const sales = useSelector(salesSelector);
-  const dateRange = useSelector(dateRangeSelector);
   const allRevenueTypes = useSelector(allRevenueTypesSelector);
-
-  const year = new Date().getFullYear();
-
-  const {
-    register,
-    getValues,
-    watch,
-    control,
-    formState: { errors, isValid },
-  } = useForm({
-    mode: 'onBlur',
-    shouldUnregister: true,
-    defaultValues: {
-      from_date: dateRange?.startDate
-        ? new Date(
-            typeof dateRange.startDate === 'string'
-              ? dateRange.startDate.split('T')[0] + 'T00:00:00.000Z'
-              : dateRange.startDate,
-          )
-            .toISOString()
-            .split('T')[0]
-        : `${year}-01-01`,
-      to_date: dateRange?.endDate
-        ? new Date(
-            typeof dateRange.endDate === 'string'
-              ? dateRange.endDate.split('T')[0] + 'T00:00:00.000Z'
-              : dateRange.endDate,
-          )
-            .toISOString()
-            .split('T')[0]
-        : `${year}-12-31`,
-    },
-  });
-
-  const fromDate = watch('from_date');
-  const toDate = watch('to_date');
+  const { startDate: fromDate, endDate: toDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
 
   const revenueForWholeFarm = useMemo(
     () => calcActualRevenue(sales, fromDate, toDate, allRevenueTypes),
@@ -79,10 +43,6 @@ export default function ActualRevenue({ history, match }) {
       dispatch(getRevenueTypes());
     }
   }, []);
-
-  useEffect(() => {
-    dispatch(setDateRange({ startDate: fromDate, endDate: toDate }));
-  }, [fromDate, toDate]);
 
   return (
     <Layout>
@@ -100,12 +60,7 @@ export default function ActualRevenue({ history, match }) {
       <Semibold style={{ marginBottom: '24px' }} sm>
         {t('FINANCES.VIEW_WITHIN_DATE_RANGE')}
       </Semibold>
-      <DateRangePicker
-        register={register}
-        control={control}
-        getValues={getValues}
-        style={{ marginBottom: '24px' }}
-      />
+      <DateRangeSelector />
 
       <FinanceListHeader
         firstColumn={t('FINANCES.DATE')}

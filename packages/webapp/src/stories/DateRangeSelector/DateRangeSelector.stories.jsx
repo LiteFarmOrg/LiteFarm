@@ -46,7 +46,7 @@ export const WithDefaultOption = {
       <Suspense fallback={'Loading...'}>
         <DateRangeSelector
           {...commonArgs}
-          defaultDateRangeOptionValue={dateRangeOptions.THIS_YEAR}
+          defaultDateRangeOptionValue={dateRangeOptions.YEAR_TO_DATE}
         />
         <div style={{ color: 'transparent' }}>Click Away Test</div>
       </Suspense>
@@ -55,7 +55,7 @@ export const WithDefaultOption = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    let selectedOptionText = await canvas.findByText('This year');
+    let selectedOptionText = await canvas.findByText('Year to date');
     expect(selectedOptionText).toBeInTheDocument();
 
     const select = canvas.getByRole('combobox');
@@ -99,7 +99,7 @@ export const WithDefaultOption = {
     // This does not pass when rerunning on storybook UI
     const clickAwayTestElement = canvas.getByText('Click Away Test');
     await userEvent.click(clickAwayTestElement);
-    selectedOptionText = await canvas.findByText('This year');
+    selectedOptionText = await canvas.findByText('Year to date');
     expect(selectedOptionText).toBeInTheDocument();
   },
 };

@@ -14,7 +14,7 @@
  */
 
 export const dateRangeOptions = {
-  THIS_YEAR: 'this_year',
+  YEAR_TO_DATE: 'year_to_date',
   LAST_7_DAYS: 'last_seven_days',
   LAST_14_DAYS: 'last_fourteen_days',
   LAST_30_DAYS: 'last_thirty_days',

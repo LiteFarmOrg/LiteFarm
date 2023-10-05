@@ -431,7 +431,7 @@
     "LAST_WEEK": "MISSING",
     "THIS_MONTH": "MISSING",
     "THIS_WEEK": "MISSING",
-    "THIS_YEAR": "MISSING"
+    "YEAR_TO_DATE": "MISSING"
   },
   "DAYS_OF_WEEK_SELECT": {
     "FRIDAY": "V",

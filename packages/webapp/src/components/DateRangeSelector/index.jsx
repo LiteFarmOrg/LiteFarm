@@ -46,7 +46,7 @@ export default function DateRangeSelector({
   const isValid = !!(areValidDates && validRange && customFromDate && customToDate);
 
   const options = [
-    { value: rangeOptions.THIS_YEAR, label: t('DATE_RANGE_SELECTOR.THIS_YEAR') },
+    { value: rangeOptions.YEAR_TO_DATE, label: t('DATE_RANGE_SELECTOR.YEAR_TO_DATE') },
     { value: rangeOptions.LAST_7_DAYS, label: t('DATE_RANGE_SELECTOR.LAST_SEVEN_DAYS') },
     { value: rangeOptions.LAST_14_DAYS, label: t('DATE_RANGE_SELECTOR.LAST_FOURTEEN_DAYS') },
     { value: rangeOptions.LAST_30_DAYS, label: t('DATE_RANGE_SELECTOR.LAST_THIRTY_DAYS') },
@@ -64,7 +64,7 @@ export default function DateRangeSelector({
     }
     const { [FROM_DATE]: defaultFromDate, [TO_DATE]: defaultToDate } = defaultCustomDateRange;
 
-    // if the range does not have both FROM_DATE and TO_DATE, reset the option to "this year"
+    // if the range does not have both FROM_DATE and TO_DATE, reset the option to "Year to date"
     if (!defaultFromDate || !defaultToDate) {
       setSelectedDateRangeOption(options[0]);
       return;

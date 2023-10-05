@@ -57,12 +57,16 @@ Cypress.Commands.add(
         cy.addFarm('UBC FARM', '49.250833, -123.2410777');
         cy.onboardCompleteQuestions('Manager');
         cy.acceptSlideMenuSpotlights(crop_menu_name);
+
+        cy.createFirstLocation();
       } else {
         cy.get('[data-cy=enterPassword-password]').type(password);
         cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
 
         cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
       }
+      cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled');
+      cy.visit('/');
     });
   },
 );
@@ -140,6 +144,57 @@ Cypress.Commands.add('onboardCompleteQuestions', (role) => {
   // Outro
   cy.url().should('include', '/outro');
   cy.get('[data-cy=outro-finish]').should('exist').and('not.be.disabled').click();
+});
+
+Cypress.Commands.add('createFirstLocation', () => {
+  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });
+  cy.get('[data-cy=navbar-option]')
+    .eq(1)
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+
+  //arrive at farm map page and draw a field
+  cy.url().should('include', '/map');
+  cy.get('[data-cy=spotlight-next]', { timeout: 60 * 1000 })
+    .should('exist')
+    .and('not.be.disabled')
+    .click();
+  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+  cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+
+  cy.get('[data-cy="map-selection"]').should('be.visible');
+
+  cy.get('[data-cy=map-drawer]').should('exist').and('not.be.disabled').click();
+
+  cy.get('[data-cy=map-mapContainer]', { timeout: 60 * 1000 })
+    .find('button', { timeout: 60 * 1000 })
+    .eq(2)
+    .should('exist')
+    .and('be.visible');
+  cy.get('[data-cy=mapTutorial-continue]').should('exist').and('not.be.disabled').click();
+
+  cy.get('[data-cy=map-mapContainer]').click(500, 300);
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(300, { log: false });
+  cy.get('[data-cy=map-mapContainer]').click(700, 300);
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(300, { log: false });
+  cy.get('[data-cy=map-mapContainer]').click(700, 400);
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(300, { log: false });
+  cy.get('[data-cy=map-mapContainer]').click(500, 400);
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(300, { log: false });
+  cy.get('[data-cy=map-mapContainer]').click(500, 300);
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(300, { log: false });
+  cy.get('[data-cy=mapTutorial-continue]').should('exist').and('not.be.disabled').click();
+  cy.get('[data-cy=map-drawCompleteContinue]').should('exist').and('not.be.disabled').click();
+
+  cy.get('[data-cy=areaDetails-name]').should('exist').type('First Field');
+  cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
 });
 
 Cypress.Commands.add('acceptSlideMenuSpotlights', (crop_menu_name) => {

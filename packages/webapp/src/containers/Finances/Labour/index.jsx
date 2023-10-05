@@ -15,20 +15,15 @@ import { Main } from '../../../components/Typography';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import DropdownButton from '../../../components/Form/DropDownButton';
 import { tasksSelector } from '../../taskSlice';
+import { setDateRange } from '../actions';
+import { dateRangeOptions } from '../../../components/DateRangeSelector/constants';
+import DateRange, { SUNDAY } from '../../../util/dateRange';
 
 class Labour extends Component {
   constructor(props) {
     super(props);
-
-    let startDate, endDate;
-    const { dateRange } = this.props;
-    if (dateRange && dateRange.startDate && dateRange.endDate) {
-      startDate = moment(dateRange.startDate);
-      endDate = moment(dateRange.endDate);
-    } else {
-      startDate = moment().startOf('year');
-      endDate = moment().endOf('year');
-    }
+    const dateRange = new DateRange(new Date(), SUNDAY);
+    const { startDate, endDate } = this.getDates(dateRange);
 
     this.state = {
       startDate,
@@ -42,25 +37,38 @@ class Labour extends Component {
         width: '100%',
       },
       sortYear: moment().year(),
+      dateRange,
     };
 
     this.sortBy = this.sortBy.bind(this);
-    this.changeDate = this.changeDate.bind(this);
   }
 
-  changeDate(type, date) {
-    if (type === 'start') {
-      this.setState({ startDate: date });
-    } else if (type === 'end') {
-      this.setState({ endDate: date });
-    } else {
-      console.log('Error, type not specified');
-    }
-  }
   sortBy(type) {
     this.setState({
       dropDownTitle: type,
     });
+  }
+
+  componentDidMount() {
+    if (!this.props.dateRange?.option) {
+      setDateRange({ ...this.props.dateRange, option: dateRangeOptions.YEAR_TO_DATE });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.dateRange !== prevProps.dateRange) {
+      this.setState(this.getDates());
+    }
+  }
+
+  getDates(dateRange = this.state.dateRange) {
+    const option = this.props.dateRange?.option || dateRangeOptions.YEAR_TO_DATE;
+    return option === dateRangeOptions.CUSTOM
+      ? {
+          startDate: this.props.dateRange?.startDate || undefined,
+          endDate: this.props.dateRange?.endDate || undefined,
+        }
+      : dateRange.getDates(option);
   }
 
   render() {
@@ -79,7 +87,7 @@ class Labour extends Component {
     return (
       <div className={defaultStyles.financesContainer}>
         <PageTitle backUrl="/Finances" title={this.props.t('SALE.LABOUR.TITLE')} />
-        <DateRangeSelector changeDateMethod={this.changeDate} />
+        <DateRangeSelector />
         <div className={styles.topButtonContainer}>
           <Main>{this.props.t('SALE.LABOUR.BY')}</Main>
           <div className={styles.dropDownContainer}>

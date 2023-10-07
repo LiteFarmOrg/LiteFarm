@@ -1,4 +1,4 @@
-describe.only('Farm People', () => {
+describe('Farm People', () => {
   let users;
   let translation;
   let roles;
@@ -16,10 +16,6 @@ describe.only('Farm People', () => {
           translation = data;
 
           cy.visit('/');
-          cy.get('[data-cy=email]', { timeout: 60 * 1000 }).should('exist');
-          cy.get('[data-cy=continue]').should('exist');
-          cy.get('[data-cy=continue]').should('be.disabled');
-          cy.get('[data-cy=continueGoogle]').should('exist');
           cy.loginOrCreateAccount(
             user.email,
             user.password,

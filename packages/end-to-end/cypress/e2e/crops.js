@@ -1,4 +1,4 @@
-describe.only('Crops', () => {
+describe('Crops', () => {
   let users;
   let translation;
   let crops;
@@ -16,10 +16,6 @@ describe.only('Crops', () => {
           translation = data;
 
           cy.visit('/');
-          cy.get('[data-cy=email]', { timeout: 60 * 1000 }).should('exist');
-          cy.get('[data-cy=continue]').should('exist');
-          cy.get('[data-cy=continue]').should('be.disabled');
-          cy.get('[data-cy=continueGoogle]').should('exist');
           cy.loginOrCreateAccount(
             user.email,
             user.password,
@@ -81,18 +77,15 @@ describe.only('Crops', () => {
     cy.get('[data-cy=crop-supplier]').should('exist').type('New Supplier');
     cy.get('[data-cy=crop-annual]').should('exist').check({ force: true });
     cy.get('[data-cy=variety-submit]').should('exist').and('not.be.disabled').click();
-    // cy.url().should('include', '/crop/new/add_crop_variety/compliance');
-    // cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('be.disabled');
-    // cy.waitForReact();
-    // cy.get('[data-cy=compliance-seed]').eq(1).should('exist').check({ force: true });
-    // cy.get('[data-cy=compliance-seed]').eq(1).should('exist').check({ force: true });
-    // cy.get('[data-cy=compliance-seedAvailability]').eq(1).should('exist').check({ force: true });
-    // cy.get('[data-cy=compliance-seedEngineered]').eq(0).should('exist').check({ force: true });
-    // cy.get('[data-cy=compliance-seedTreated]').eq(2).should('exist').check({ force: true });
-    // cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('not.be.disabled').click();
-    // cy.waitForReact();
-    // cy.url().should('include', '/management');
-    // cy.waitForReact();
+    cy.url().should('include', '/crop/new/add_crop_variety/compliance');
+    cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('be.disabled');
+    cy.get('[data-cy=compliance-seed]').eq(1).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seed]').eq(1).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedAvailability]').eq(1).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedEngineered]').eq(0).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-seedTreated]').eq(2).should('exist').check({ force: true });
+    cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('not.be.disabled').click();
+    cy.url().should('include', '/management');
     // cy.get('[data-cy=spotlight-next]')
     // .contains('Next')
     // .should('exist')

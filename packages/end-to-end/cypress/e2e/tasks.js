@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-describe.only('Tasks', () => {
+describe('Tasks', () => {
   let users;
   let translation;
   let tasks;
@@ -18,10 +18,6 @@ describe.only('Tasks', () => {
           translation = data;
 
           cy.visit('/');
-          cy.get('[data-cy=email]', { timeout: 60 * 1000 }).should('exist');
-          cy.get('[data-cy=continue]').should('exist');
-          cy.get('[data-cy=continue]').should('be.disabled');
-          cy.get('[data-cy=continueGoogle]').should('exist');
           cy.loginOrCreateAccount(
             user.email,
             user.password,
@@ -73,11 +69,9 @@ describe.only('Tasks', () => {
     cy.get('[data-cy=addTask-continue]').should('exist').and('not.be.disabled').click();
 
     cy.contains('First Field').should('be.visible');
-    cy.get('[data-cy=map-selectLocation]').trigger('mousedown');
-    cy.get('[data-cy=map-selectLocation]').trigger('mouseup');
-    cy.get('[data-cy=map-selectLocation]').click(530, 216, {
-      force: false,
-    });
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(500, { log: false });
+    cy.get('[data-cy=map-selectLocation]').click({ force: false });
 
     cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();

@@ -57,16 +57,17 @@ Cypress.Commands.add(
         cy.addFarm('UBC FARM', '49.250833, -123.2410777');
         cy.onboardCompleteQuestions('Manager');
         cy.acceptSlideMenuSpotlights(crop_menu_name);
-
         cy.createFirstLocation();
+        cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled');
+        cy.visit('/');
       } else {
         cy.get('[data-cy=enterPassword-password]').type(password);
         cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
 
         cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
+        cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled');
+        cy.visit('/');
       }
-      cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled');
-      cy.visit('/');
     });
   },
 );
@@ -83,21 +84,20 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
 });
 
 Cypress.Commands.add('onboardCompleteQuestions', (role) => {
-  cy.clock();
+  // cy.clock();
   cy.url().should('include', '/role_selection');
-  cy.tick();
+  // cy.tick();
   cy.get('[data-cy=roleSelection-continue]').should('exist').and('be.disabled');
   cy.waitForReact();
   cy.get('[data-cy=roleSelection-role]').should('exist').check(role, { force: true });
   cy.get('[data-cy=roleSelection-continue]').should('not.be.disabled').click();
-  cy.clock().then((clock) => {
-    clock.restore();
-  });
+  // cy.clock().then((clock) => {
+  //   clock.restore();
+  // });
 
   // Give Concent
   cy.log('giveConsent');
   cy.url().should('include', '/consent');
-  cy.waitForReact();
   cy.get('[data-cy=consentPage-content]').should('exist');
   cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=checkbox-component]').should('exist').click();
@@ -115,13 +115,10 @@ Cypress.Commands.add('onboardCompleteQuestions', (role) => {
   cy.url().should('include', '/certification/selection');
   cy.get('[data-cy=certificationSelection-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=certificationSelection-type]').should('exist');
-  cy.waitForReact();
   cy.get('[type="radio"]').first().check({ force: true });
   cy.get('[data-cy=certificationSelection-continue]').should('not.be.disabled').click();
 
   // Select certifier
-  cy.log('Select Certifier');
-
   cy.url().should('include', '/certification/certifier/selection');
   cy.get('[data-cy=certifierSelection-proceed]').should('exist').and('be.disabled');
   cy.get('[data-cy=certifierSelection-item]').should('exist').eq(1).click();

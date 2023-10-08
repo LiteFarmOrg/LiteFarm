@@ -39,6 +39,18 @@ describe('Tasks', () => {
   after(() => {});
 
   it('CheckTasksNavigation', () => {
+    // Confirm that location exists
+    cy.get('[data-cy=home-farmButton]')
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.get('[data-cy=navbar-option]')
+      .eq(1)
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
+    cy.contains('First Field').should('be.visible');
+
     // Add a crop variety
     cy.get('[data-cy=navbar-hamburger]').should('exist').click();
     cy.contains(translation['SLIDE_MENU']['TASKS']).should('exist').click();

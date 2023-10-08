@@ -192,6 +192,8 @@ Cypress.Commands.add('createFirstLocation', () => {
 
   cy.get('[data-cy=areaDetails-name]').should('exist').type('First Field');
   cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
+
+  cy.get('[data-cy=snackBar').should('exist').and('be.visible');
 });
 
 Cypress.Commands.add('acceptSlideMenuSpotlights', (crop_menu_name) => {

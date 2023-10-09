@@ -193,6 +193,16 @@ Cypress.Commands.add('createFirstLocation', () => {
   cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
 
   cy.get('[data-cy=snackBar').should('exist').and('be.visible');
+
+  // Confirm that location exists
+  cy.visit('/');
+  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });
+  cy.get('[data-cy=navbar-option]')
+    .eq(1)
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.contains('First Field').should('be.visible');
 });
 
 Cypress.Commands.add('acceptSlideMenuSpotlights', (crop_menu_name) => {

@@ -194,6 +194,8 @@ Cypress.Commands.add('createFirstLocation', () => {
 
   cy.get('[data-cy=snackBar').should('exist').and('be.visible');
 
+  cy.waitForReact();
+
   // Confirm that location exists
   cy.visit('/');
   cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });

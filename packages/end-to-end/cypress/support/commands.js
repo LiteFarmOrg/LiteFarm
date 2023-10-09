@@ -160,15 +160,17 @@ Cypress.Commands.add('createFirstLocation', () => {
   cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
   cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
 
+  cy.contains('Field').should('be.visible').click();
+
   cy.get('[data-cy="map-selection"]').should('be.visible');
 
-  cy.get('[data-cy=map-drawer]').should('exist').and('not.be.disabled').click();
+  // cy.get('[data-cy=map-drawer]').should('exist').and('not.be.disabled').click();
 
-  cy.get('[data-cy=map-mapContainer]', { timeout: 60 * 1000 })
-    .find('button', { timeout: 60 * 1000 })
-    .eq(2)
-    .should('exist')
-    .and('be.visible');
+  // cy.get('[data-cy=map-mapContainer]', { timeout: 60 * 1000 })
+  //   .find('button', { timeout: 60 * 1000 })
+  //   .eq(2)
+  //   .should('exist')
+  //   .and('be.visible');
   cy.get('[data-cy=mapTutorial-continue]').should('exist').and('not.be.disabled').click();
 
   cy.get('[data-cy=map-mapContainer]').click(500, 300);
@@ -193,6 +195,7 @@ Cypress.Commands.add('createFirstLocation', () => {
   cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
 
   cy.get('[data-cy=snackBar').should('exist').and('be.visible');
+  cy.get('div[data-cy="snackBar"]').find('[class*="button"]:first').click();
 
   cy.waitForReact();
 

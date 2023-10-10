@@ -424,11 +424,15 @@ export function* downloadFinanceReportSaga({ payload: data }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    const result = yield call(axios.post, `${financeReportUrl}/farm/${farm_id}`, data, {
-      ...header,
-      responseType: 'arraybuffer',
-    });
-    console.log({ result });
+    const result = yield call(
+      axios.post,
+      `${financeReportUrl}/farm/${farm_id}`,
+      { ...data, farm_id },
+      {
+        ...header,
+        responseType: 'arraybuffer',
+      },
+    );
     const blob = new Blob([result.data], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });

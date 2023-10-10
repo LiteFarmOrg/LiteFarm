@@ -81,7 +81,7 @@ jobs:
           headed: true
           browser: chrome
           record: true
-          parallel: true
+          parallel: false
           group: "UI - Chrome"
 
       - name: Archive backend logs

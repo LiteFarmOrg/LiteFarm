@@ -27,19 +27,6 @@ export default function PureDocumentTile({
 
   return (
     <div className={styles.previewWrapper}>
-      {multipleFiles && (
-        <div style={{ position: 'absolute', right: 1, top: 1, zIndex: 1000 }}>
-          <Infoi
-            style={{
-              backgroundColor: '#028577',
-              fill: 'white',
-              borderRadius: '50%',
-              zIndex: 1000,
-            }}
-            content={t('DOCUMENTS.VIEW_DETAIL')}
-          ></Infoi>
-        </div>
-      )}
       <div className={clsx(styles.container, className)} onClick={onClick}>
         {preview ? (
           imageComponent({
@@ -82,7 +69,6 @@ export default function PureDocumentTile({
         </div>
       </div>
       {fileUrl &&
-        !multipleFiles &&
         fileDownloadComponent({
           className: styles.downloadContainer,
           fileUrl,

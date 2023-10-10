@@ -80,7 +80,6 @@ const Biodiversity = () => {
         <BiodiversityLoadingModal
           dismissModal={dismissModal}
           loadingError={biodiversityError}
-          minutes={30 - getMinutesSinceTime(biodiversityData.timeFetched)}
         />
       ) : (
         biodiversityInfoItems

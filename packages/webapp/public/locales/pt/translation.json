@@ -862,7 +862,7 @@
         "TITLE": "MISSING"
       },
       "GENERIC_ERROR": {
-        "BODY": "A LiteFarm gera insights de biodiversidade com base em várias fontes e não conseguiu fazê-lo no momento. Tente novamente após {{minutos}} minutos, por favor.",
+        "BODY": "A LiteFarm gera insights de biodiversidade com base em várias fontes e não conseguiu fazê-lo no momento. Tente novamente mais tarde, por favor.",
         "PREVIEW": "Indisponível",
         "TITLE": "Tinha um problema"
       },

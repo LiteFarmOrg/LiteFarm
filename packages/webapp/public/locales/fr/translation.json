@@ -863,7 +863,7 @@
         "TITLE": "Il y a eu un problème."
       },
       "GENERIC_ERROR": {
-        "BODY": "LiteFarm génère des données sur la biodiversité à partir de différentes sources mais est incapable de le faire en ce moment. Veuillez réessayer dans {{minutes}} minutes.",
+        "BODY": "LiteFarm génère des données sur la biodiversité à partir de différentes sources mais est incapable de le faire en ce moment. Veuillez réessayer plus tard.",
         "PREVIEW": "Indisponible",
         "TITLE": "Il y a eu un problème."
       },

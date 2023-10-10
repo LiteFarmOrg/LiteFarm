@@ -857,12 +857,12 @@
       "BIRDS": "Aves",
       "CROP_VARIETIES": "Variedades de cultivos",
       "API_OFFSET_LIMIT_ERROR": {
-        "BODY": "Los límites de su granja son demasiado amplios, no podemos proveerle un reporte de Biodiversidad. Intente crear límites más pequeños.",
+        "BODY": "Hay demasiadas observaciones de biodiversidad dentro del límite de su granja para poder generar un reporte con exactitud, por favor reduzca el límite de su granja e inténtelo nuevamente.",
         "PREVIEW": "Unavailable",
         "TITLE": "Hubo un problema"
       },
       "GENERIC_ERROR": {
-        "BODY": "LiteFarm genera información sobre la biodiversidad basada en varias fuentes y no pudo hacerlo en este momento. Vuelva a intentarlo después de {{minutos}} minutos.",
+        "BODY": "LiteFarm genera información sobre la biodiversidad basada en varias fuentes y no pudo hacerlo en este momento. Vuelva a intentarlo más tarde.",
         "PREVIEW": "Indisponible",
         "TITLE": "Hubo un problema"
       },

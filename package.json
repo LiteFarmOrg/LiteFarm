@@ -23,5 +23,8 @@
     "verbose": true,
     "testURL": "http://localhost/",
     "testEnvironment": "node"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1"
   }
 }

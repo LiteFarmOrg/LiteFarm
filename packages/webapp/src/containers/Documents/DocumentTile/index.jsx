@@ -7,7 +7,6 @@ import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentica
 import { mediaEnum } from '../../../containers/MediaWithAuthentication/constants';
 import { useTranslation } from 'react-i18next';
 import { DocumentIcon } from '../../../components/Icons/DocumentIcon';
-import Infoi from '../../../components/Tooltip/Infoi';
 
 export default function PureDocumentTile({
   className,
@@ -18,10 +17,9 @@ export default function PureDocumentTile({
   onClick,
   noExpiration,
   extensionName,
-  fileUrl,
+  fileUrls,
   imageComponent = (props) => <MediaWithAuthentication {...props} />,
   fileDownloadComponent = (props) => <MediaWithAuthentication {...props} />,
-  multipleFiles = false,
 }) {
   const { t } = useTranslation();
 
@@ -31,7 +29,7 @@ export default function PureDocumentTile({
         {preview ? (
           imageComponent({
             className: styles.img,
-            fileUrl: preview,
+            fileUrls: [preview],
             mediaType: mediaEnum.IMAGE,
           })
         ) : (
@@ -68,12 +66,13 @@ export default function PureDocumentTile({
           )}
         </div>
       </div>
-      {fileUrl &&
+      {fileUrls?.length > 0 &&
         fileDownloadComponent({
           className: styles.downloadContainer,
-          fileUrl,
-          title: `${title}.${extensionName}`,
-          mediaType: mediaEnum.DOCUMENT,
+          fileUrls,
+          title,
+          extensionName,
+          mediaType: fileUrls?.length > 1 ? mediaEnum.ZIP : mediaEnum.DOCUMENT,
         })}
     </div>
   );
@@ -87,5 +86,5 @@ PureDocumentTile.prototype = {
   preview: PropTypes.string,
   onClick: PropTypes.func,
   extensionName: PropTypes.string,
-  fileUrl: PropTypes.string,
+  fileUrls: PropTypes.arrayOf(PropTypes.string),
 };

@@ -133,8 +133,7 @@ export default function Documents({ history }) {
                       extensionName={document?.files?.[0]?.file_name.split('.').pop()}
                       onClick={() => tileClick(document.document_id)}
                       key={document.document_id}
-                      multipleFiles={document?.files?.length > 1}
-                      fileUrl={document?.files?.at(-1)?.url}
+                      fileUrls={document?.files?.map((file) => file.url)}
                     />
                   );
                 })}
@@ -160,8 +159,7 @@ export default function Documents({ history }) {
                       extensionName={document?.files?.[0]?.file_name.split('.').pop()}
                       onClick={() => tileClick(document.document_id)}
                       key={document.document_id}
-                      multipleFiles={document?.files?.length > 1}
-                      fileUrl={document?.files?.at(-1)?.url}
+                      fileUrls={document?.files?.map((file) => file.url)}
                     />
                   );
                 })}

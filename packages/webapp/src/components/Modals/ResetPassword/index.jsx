@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal, ModalComponent } from '../';
 
-export function PureResetPasswordComponent({ onClick, changeText }) {
+export function PureResetPasswordComponent({ onClick, changeText, passwordResetError }) {
   const { t } = useTranslation();
   const title = t('PASSWORD_RESET.TITLE');
   const descriptionTop = t('PASSWORD_RESET.DESCRIPTION_TOP');
@@ -16,16 +16,26 @@ export function PureResetPasswordComponent({ onClick, changeText }) {
       title={title}
       descriptions={[descriptionTop, descriptionBottom]}
       buttonLabel={buttonLabel}
-      disabled={changeText}
+      disabled={!!passwordResetError || changeText}
       icon={<MailIconImg />}
+      error={passwordResetError}
     />
   );
 }
 
-export default function ResetPasswordModal({ onClick, dismissModal, changeText }) {
+export default function ResetPasswordModal({
+  onClick,
+  dismissModal,
+  changeText,
+  passwordResetError,
+}) {
   return (
     <Modal dismissModal={dismissModal}>
-      <PureResetPasswordComponent onClick={onClick} changeText={changeText} />
+      <PureResetPasswordComponent
+        onClick={onClick}
+        changeText={changeText}
+        passwordResetError={passwordResetError}
+      />
     </Modal>
   );
 }

@@ -54,7 +54,9 @@ describe('Tasks', () => {
   it('CreateCleanTask', () => {
     cy.get('[data-cy=navbar-hamburger]').should('exist').click();
     cy.contains(translation['SLIDE_MENU']['TASKS']).should('exist').click();
+    cy.waitForReact();
     cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();
+    cy.waitForReact();
     cy.contains(tasks['CLEANING_TASK']).should('exist').click();
 
     //Create an unassigned cleaning task due tomorrow

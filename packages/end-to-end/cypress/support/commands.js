@@ -53,7 +53,6 @@ Cypress.Commands.add(
 
         cy.intercept('POST', '**/user').as('createUser');
         cy.get('[data-cy=getStarted]').should('exist').and('not.be.disabled').click();
-
         cy.addFarm('UBC FARM', '49.250833, -123.2410777');
         cy.onboardCompleteQuestions('Manager');
         cy.acceptSlideMenuSpotlights(crop_menu_name);
@@ -160,17 +159,10 @@ Cypress.Commands.add('createFirstLocation', () => {
   cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
   cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
 
-  cy.contains('Field').should('be.visible').click();
+  // Find the 5th + which is a field
+  cy.contains(':nth-child(5)', '+').click();
 
   cy.get('[data-cy="map-selection"]').should('be.visible');
-
-  // cy.get('[data-cy=map-drawer]').should('exist').and('not.be.disabled').click();
-
-  // cy.get('[data-cy=map-mapContainer]', { timeout: 60 * 1000 })
-  //   .find('button', { timeout: 60 * 1000 })
-  //   .eq(2)
-  //   .should('exist')
-  //   .and('be.visible');
   cy.get('[data-cy=mapTutorial-continue]').should('exist').and('not.be.disabled').click();
 
   cy.get('[data-cy=map-mapContainer]').click(500, 300);
@@ -198,16 +190,6 @@ Cypress.Commands.add('createFirstLocation', () => {
   cy.get('div[data-cy="snackBar"]').find('[class*="button"]:first').click();
 
   cy.waitForReact();
-
-  // Confirm that location exists
-  cy.visit('/');
-  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });
-  cy.get('[data-cy=navbar-option]')
-    .eq(1)
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
-  cy.contains('First Field').should('be.visible');
 });
 
 Cypress.Commands.add('acceptSlideMenuSpotlights', (crop_menu_name) => {

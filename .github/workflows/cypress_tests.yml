@@ -99,7 +99,7 @@ jobs:
       - name: Set code coverage commit status
         continue-on-error: true
         working-directory: packages/end-to-end
-        run: npx set-gh-status
+        run: npx set-gh-status -t ${{secrets.GITHUB_TOKEN}}
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GH_SHA: ${{ github.event.after }}

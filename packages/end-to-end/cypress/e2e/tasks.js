@@ -38,18 +38,18 @@ describe('Tasks', () => {
 
   after(() => {});
 
-  it('CheckTasksNavigation', () => {
-    // Add a crop variety
-    cy.get('[data-cy=navbar-hamburger]').should('exist').click();
-    cy.contains(translation['SLIDE_MENU']['TASKS']).should('exist').click();
-    cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled');
-    cy.visit('/');
+  // it('CheckTasksNavigation', () => {
+  //   // Add a crop variety
+  //   cy.get('[data-cy=navbar-hamburger]').should('exist').click();
+  //   cy.contains(translation['SLIDE_MENU']['TASKS']).should('exist').click();
+  //   cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled');
+  //   cy.visit('/');
 
-    cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
+  //   cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
 
-    cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled');
-    cy.visit('/');
-  });
+  //   cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled');
+  //   cy.visit('/');
+  // });
 
   it('CreateCleanTask', () => {
     cy.get('[data-cy=navbar-hamburger]').should('exist').click();

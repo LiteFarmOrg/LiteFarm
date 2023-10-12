@@ -158,8 +158,8 @@ Cypress.Commands.add('createFirstLocation', () => {
   cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
   cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
 
-  // Find the 5th + which is a field
-  cy.contains(':nth-child(5)', '+').click();
+  // Find the 6th + which is a field
+  cy.contains(':nth-child(6)', '+').click();
 
   cy.get('[data-cy="map-selection"]').should('be.visible');
   cy.get('[data-cy=mapTutorial-continue]').should('exist').and('not.be.disabled').click();
@@ -189,6 +189,16 @@ Cypress.Commands.add('createFirstLocation', () => {
   cy.get('div[data-cy="snackBar"]').find('[class*="button"]:first').click();
 
   cy.waitForReact();
+
+  // Confirm that location exists
+  cy.visit('/');
+  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });
+  cy.get('[data-cy=navbar-option]')
+    .eq(1)
+    .should('exist')
+    .and('not.be.disabled')
+    .click({ force: true });
+  cy.contains('First Field').should('be.visible');
 });
 
 Cypress.Commands.add('acceptSlideMenuSpotlights', (crop_menu_name) => {

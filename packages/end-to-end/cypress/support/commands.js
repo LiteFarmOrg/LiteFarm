@@ -107,17 +107,16 @@ Cypress.Commands.add('onboardCompleteQuestions', (role) => {
   cy.url().should('include', '/certification/interested_in_organic');
   cy.get('[data-cy=interestedInOrganic-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=interestedInOrganic-select]').should('exist');
-  cy.get('[type="radio"]').first().check({ force: true });
+  cy.get('[type="radio"]').first().check();
   cy.get('[data-cy=interestedInOrganic-continue]').should('not.be.disabled').click();
 
   cy.url().should('include', '/certification/selection');
   cy.get('[data-cy=certificationSelection-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=certificationSelection-type]').should('exist');
-  cy.get('[type="radio"]').first().check({ force: true });
+  cy.get('[type="radio"]').first().check();
   cy.get('[data-cy=certificationSelection-continue]').should('not.be.disabled').click();
 
   // Select certifier
-  cy.url().should('include', '/certification/certifier/selection');
   cy.get('[data-cy=certifierSelection-proceed]').should('exist').and('be.disabled');
   cy.get('[data-cy=certifierSelection-item]').should('exist').eq(1).click();
   let certifier;

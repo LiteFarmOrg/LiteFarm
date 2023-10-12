@@ -23,7 +23,7 @@ import CustomDateRangeSelector from './CustomDateRangeSelector';
 import ReactSelect from '../Form/ReactSelect';
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
 import { dateRangeSelector } from '../../containers/Finances/selectors';
-import { dateRangeOptions, dateRangeOptions as rangeOptions } from './constants';
+import { dateRangeOptions as rangeOptions } from './constants';
 import styles from './styles.module.scss';
 
 export default function DateRangeSelector({

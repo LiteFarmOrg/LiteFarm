@@ -20,5 +20,5 @@ Variety.args = {
   type: 'CROP_COMPLIANCE',
   date: "May 01 21'",
   preview: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/blueberry.webp`,
-  imageComponent: ({ fileUrl }) => <img src={fileUrl} />,
+  imageComponent: ({ fileUrls }) => <img src={fileUrls[0]} />,
 };

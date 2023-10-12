@@ -41,12 +41,12 @@ export default function DateRangeSelector({
 
   const [customFromDate, setCustomFromDate] = useState(undefined);
   const [customToDate, setCustomToDate] = useState(undefined);
-  const [validRange, setValidRange] = useState(true);
+  const [isValidRange, setIsValidRange] = useState(true);
   const [areValidDates, setAreValidDates] = useState(
     customFromDate?.isValid() && customToDate?.isValid(),
   );
 
-  const isValid = !!(areValidDates && validRange && customFromDate && customToDate);
+  const isValid = !!(areValidDates && isValidRange);
 
   const options = [
     { value: rangeOptions.YEAR_TO_DATE, label: t('DATE_RANGE_SELECTOR.YEAR_TO_DATE') },
@@ -75,7 +75,7 @@ export default function DateRangeSelector({
 
     setCustomFromDate(defaultFromDate);
     setCustomToDate(defaultToDate);
-    setValidRange(defaultFromDate <= defaultToDate);
+    setIsValidRange(defaultFromDate <= defaultToDate);
   }, []);
 
   useEffect(() => {
@@ -135,13 +135,13 @@ export default function DateRangeSelector({
   };
 
   const changeStartDate = (date) => {
-    setValidRange(date <= customToDate);
+    setIsValidRange(date <= customToDate);
     setCustomFromDate(date);
     changeDateMethod('start', date);
   };
 
   const changeEndDate = (date) => {
-    setValidRange(customFromDate <= date);
+    setIsValidRange(customFromDate <= date);
     setCustomToDate(date);
     changeDateMethod('end', date);
   };
@@ -172,7 +172,7 @@ export default function DateRangeSelector({
             onBack={onBack}
             onClear={clearCustomDateRange}
             isValid={isValid}
-            validRange={validRange}
+            isValidRange={isValidRange}
             changeStartDate={changeStartDate}
             changeEndDate={changeEndDate}
             startDate={customFromDate}

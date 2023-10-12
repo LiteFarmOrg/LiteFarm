@@ -25,7 +25,7 @@ export default function CustomDateRangeSelector({
   onBack,
   onClear,
   isValid,
-  validRange,
+  isValidRange,
   startDate,
   endDate,
   changeStartDate,
@@ -59,7 +59,7 @@ export default function CustomDateRangeSelector({
         fromProps={{ max: fromDateMax, ...inputStyle }}
         toProps={{ min: toDateMin, ...inputStyle }}
       />
-      {startDate && endDate && !validRange && (
+      {startDate && endDate && !isValidRange && (
         <Semibold style={{ textAlign: 'center', color: 'red' }}>
           {t('DATE_RANGE.INVALID_RANGE_MESSAGE')}
         </Semibold>
@@ -72,7 +72,7 @@ CustomDateRangeSelector.propTypes = {
   onBack: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   isValid: PropTypes.bool.isRequired,
-  validRange: PropTypes.bool.isRequired,
+  isValidRange: PropTypes.bool.isRequired,
   startDate: PropTypes.object,
   endDate: PropTypes.object,
   changeStartDate: PropTypes.func.isRequired,

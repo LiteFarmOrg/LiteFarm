@@ -45,8 +45,19 @@ class RevenueType extends baseModel {
         agriculture_associated: { type: 'boolean' },
         crop_generated: { type: 'boolean' },
         ...this.baseProperties,
+        additionalProperties: false,
       },
-      additionalProperties: false,
+      if: {
+        type: 'object',
+        properties: {
+          agriculture_associated: { const: true },
+        },
+        required: ['agriculture_associated'],
+      },
+      then: {
+        type: 'object',
+        required: ['crop_generated'],
+      },
     };
   }
 }

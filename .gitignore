@@ -11,7 +11,7 @@ packages/webapp/cypress/screenshots
 packages/webapp/.nyc_output
 packages/webapp/.nyc_output/out.json
 packages/webapp/cypress.env.json
-.vscode
+.vscode/settings.json
 .DS_Store
 .env
 packages/webapp/cypress/integration/1-getting-started

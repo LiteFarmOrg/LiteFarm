@@ -5,7 +5,7 @@
   "main": "./api/src/server.js",
   "type": "module",
   "scripts": {
-    "test": "jest --runInBand",
+    "test": "node --inspect ./node_modules/.bin/jest --runInBand",
     "test-ci": "NODE_ENV=pipeline jest --runInBand --forceExit",
     "test-end2end": "jest endToEnd",
     "jest-w": "jest --watch",

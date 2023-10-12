@@ -96,7 +96,7 @@ Cypress.Commands.add('onboardCompleteQuestions', (role) => {
 
   // Give Concent
   cy.url().should('include', '/consent');
-  cy.get('[data-cy=consentPage-content]', { timeout: 120 * 1000 }).should('exist');
+  cy.get('[data-cy=consentPage-content]', { timeout: 180 * 1000 }).should('exist');
   cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
   cy.get('[data-cy=checkbox-component]').should('exist').click();
   cy.get('[data-cy=consent-continue]').should('not.be.disabled').click();

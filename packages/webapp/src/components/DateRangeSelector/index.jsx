@@ -41,11 +41,9 @@ export default function DateRangeSelector({
 
   const [customFromDate, setCustomFromDate] = useState(undefined);
   const [customToDate, setCustomToDate] = useState(undefined);
-  const [isValidRange, setIsValidRange] = useState(true);
-  const [areValidDates, setAreValidDates] = useState(
-    customFromDate?.isValid() && customToDate?.isValid(),
-  );
 
+  const isValidRange = customFromDate <= customToDate;
+  const areValidDates = customFromDate?.isValid() && customToDate?.isValid();
   const isValid = !!(areValidDates && isValidRange);
 
   const options = [
@@ -75,12 +73,7 @@ export default function DateRangeSelector({
 
     setCustomFromDate(defaultFromDate);
     setCustomToDate(defaultToDate);
-    setIsValidRange(defaultFromDate <= defaultToDate);
   }, []);
-
-  useEffect(() => {
-    setAreValidDates(customFromDate?.isValid() && customToDate?.isValid());
-  }, [customFromDate, customToDate]);
 
   const formatOptionLabel = (data, formatOptionLabelMeta) => {
     if (formatOptionLabelMeta.context === 'menu') {
@@ -135,13 +128,11 @@ export default function DateRangeSelector({
   };
 
   const changeStartDate = (date) => {
-    setIsValidRange(date <= customToDate);
     setCustomFromDate(date);
     changeDateMethod('start', date);
   };
 
   const changeEndDate = (date) => {
-    setIsValidRange(customFromDate <= date);
     setCustomToDate(date);
     changeDateMethod('end', date);
   };

@@ -39,13 +39,14 @@ export default function CustomDateRangeSelector({
   return (
     <div className={styles.customDateRangeSelector}>
       <div className={styles.buttons}>
-        <div
+        <button
           className={clsx(styles.backButton, !isValid && styles.disabled)}
-          onClick={isValid ? onBack : undefined}
+          onClick={onBack}
+          disabled={!isValid}
         >
           <BsChevronLeft />
           {t('DATE_RANGE_SELECTOR.BACK')}
-        </div>
+        </button>
         <Underlined className={styles.clearDates} onClick={onClear}>
           {t('DATE_RANGE_SELECTOR.CLEAR_DATES')}
         </Underlined>

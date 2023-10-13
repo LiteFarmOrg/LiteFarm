@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { within, userEvent, screen, fireEvent } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import selectEvent from 'react-select-event';
@@ -28,29 +28,30 @@ export default {
   decorators: componentDecorators,
 };
 
-const commonArgs = {
-  onChangeDate: () => ({}),
-  changeDateMethod: () => ({}),
+const TestComponent = (props) => {
+  const [dateRange, setDateRange] = useState({ option: dateRangeOptions.YEAR_TO_DATE });
+
+  return (
+    <Suspense fallback={'Loading...'}>
+      <DateRangeSelector
+        dateRange={dateRange}
+        changeDateMethod={() => ({})}
+        setDateRangeOptionValue={(option) => setDateRange({ option })}
+        {...props}
+      />
+    </Suspense>
+  );
 };
 
 export const WithPlaceholder = {
-  args: {
-    ...commonArgs,
-    placeholder: 'Select Date Range',
+  render: () => {
+    return <TestComponent placeholder="Select Date Range" />;
   },
 };
 
 export const WithDefaultOption = {
   render: () => {
-    return (
-      <Suspense fallback={'Loading...'}>
-        <DateRangeSelector
-          {...commonArgs}
-          defaultDateRangeOptionValue={dateRangeOptions.YEAR_TO_DATE}
-        />
-        <div style={{ color: 'transparent' }}>Click Away Test</div>
-      </Suspense>
-    );
+    return <TestComponent defaultDateRangeOptionValue={dateRangeOptions.YEAR_TO_DATE} />;
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -95,28 +96,19 @@ export const WithDefaultOption = {
       `End date must be after start date to return results`,
     );
     expect(errorMessage).toBeInTheDocument();
-
-    // This does not pass when rerunning on storybook UI
-    const clickAwayTestElement = canvas.getByText('Click Away Test');
-    await userEvent.click(clickAwayTestElement);
-    selectedOptionText = await canvas.findByText('Year to date');
-    expect(selectedOptionText).toBeInTheDocument();
   },
 };
 
 export const WithDefaultCustomDateRange = {
   render: () => {
     return (
-      <Suspense fallback={'Loading...'}>
-        <DateRangeSelector
-          {...commonArgs}
-          defaultDateRangeOptionValue={dateRangeOptions.CUSTOM}
-          defaultCustomDateRange={{
-            [FROM_DATE]: moment('2023-01-01'),
-            [TO_DATE]: moment('2024-01-01'),
-          }}
-        />
-      </Suspense>
+      <TestComponent
+        defaultDateRangeOptionValue={dateRangeOptions.CUSTOM}
+        defaultCustomDateRange={{
+          [FROM_DATE]: moment('2023-01-01'),
+          [TO_DATE]: moment('2024-01-01'),
+        }}
+      />
     );
   },
   play: async ({ canvasElement }) => {

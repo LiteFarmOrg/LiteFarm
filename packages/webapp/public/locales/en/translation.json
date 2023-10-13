@@ -478,8 +478,7 @@
     "UNARCHIVE_DOCUMENT": "Unarchive document?",
     "UNARCHIVE_DOCUMENT_TEXT": "Unarchiving this document will return it to your list of currently valid documents. Valid documents will be exported for your certifications. Do you want to proceed?",
     "UNARCHIVED": "Unarchived",
-    "VALID": "Valid",
-    "VIEW_DETAIL": "View detail page to download multiple files"
+    "VALID": "Valid"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",
@@ -1441,6 +1440,10 @@
   "REVENUE": {
     "ADD_REVENUE": {
       "ADD_CUSTOM_REVENUE": "Add custom revenue",
+      "ASSOCIATED_WITH_AGRICULTURE": "Is the revenue associated with agricultural activities?",
+      "CANNOT_BE_CHANGED": "This cannot be changed",
+      "CANNOT_BE_CHANGED_LATER": "This cannot be changed later",
+      "CROP_GENERATED": "Is this revenue generated from crops?",
       "CUSTOM_REVENUE_NAME": "Custom revenue name",
       "CUSTOM_REVENUE_TYPE": "Custom revenue type",
       "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another."

@@ -26,6 +26,8 @@ export const getRevenueType = (obj) => {
     'revenue_translation_key',
     'farm_id',
     'deleted',
+    'agriculture_associated',
+    'crop_generated',
   ]);
 };
 

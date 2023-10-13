@@ -16,8 +16,8 @@
 import baseController from '../controllers/baseController.js';
 
 import SaleModel from '../models/saleModel.js';
+import RevenueTypeModel from '../models/revenueTypeModel.js';
 import CropVarietySaleModel from '../models/cropVarietySaleModel.js';
-import RevenueType from '../models/revenueTypeModel.js';
 import { transaction, Model } from 'objection';
 
 const SaleController = {
@@ -52,6 +52,12 @@ const SaleController = {
         note,
         revenue_type_id,
       };
+      if (!revenue_type_id) {
+        return res.status(400).send('revenue type is required');
+      }
+
+      // TODO Consider using findById for below
+      // const revenueType = await RevenueTypeModel.query().findById(revenue_type_id);
 
       const trx = await transaction.start(Model.knex());
       try {
@@ -60,11 +66,11 @@ const SaleController = {
           .join('revenue_type', 'sale.revenue_type_id', '=', 'revenue_type.revenue_type_id')
           .where('sale_id', sale_id)
           .first();
-        const oldRevenueType = await RevenueType.query(trx)
+        const oldRevenueType = await RevenueTypeModel.query(trx)
           .context(req.auth)
           .where('revenue_type_id', oldSale.revenue_type_id)
           .first();
-        const newRevenueType = await RevenueType.query(trx)
+        const newRevenueType = await RevenueTypeModel.query(trx)
           .context(req.auth)
           .where('revenue_type_id', revenue_type_id)
           .first();

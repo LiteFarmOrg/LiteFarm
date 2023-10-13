@@ -326,6 +326,8 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const { management_plan_id } = req.params;
+        const { user_id } = req.auth;
+        const { farm_id } = req.headers;
 
         const managementPlan = await ManagementPlanModel.query()
           .context(req.auth)
@@ -393,10 +395,36 @@ const managementPlanController = {
             ...plantTasks,
           ].map(({ task_id }) => task_id);
 
+          const deletedTasks = [];
+
+          await Promise.all(
+            taskIdsRelatedToOneManagementPlan.map(async (task_id) => {
+              const { task_translation_key } = await TaskModel.getTaskType(task_id);
+              const { assignee_user_id } = await TaskModel.query(trx)
+                .select('assignee_user_id')
+                .where({ task_id })
+                .first();
+
+              if (!assignee_user_id) {
+                return;
+              }
+
+              deletedTasks.push({
+                assignee_user_id: [assignee_user_id],
+                user_id,
+                task_id,
+                type: TaskNotificationTypes.TASK_DELETED,
+                task_translation_key,
+                farm_id,
+              });
+            }),
+          );
+
           await TaskModel.query(trx)
             .context(req.auth)
             .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
             .delete();
+
           const taskIdsRelatedToManyManagementPlans = tasksWithManagementPlanCount
             .filter(({ count }) => Number(count) > 1)
             .map(({ task_id }) => task_id);
@@ -409,13 +437,36 @@ const managementPlanController = {
               [management_plan_id, taskIdsRelatedToManyManagementPlans],
             ));
 
-          return await ManagementPlanModel.query(trx)
+          const delPlan = await ManagementPlanModel.query(trx)
             .context(req.auth)
             .where({ management_plan_id })
             .delete();
+
+          if (delPlan) {
+            return deletedTasks;
+          } else {
+            return delPlan;
+          }
         });
 
         if (result) {
+          Promise.all(
+            result.map(async (task) => {
+              await sendTaskNotification(
+                task.assignee_user_id,
+                task.user_id,
+                task.task_id,
+                task.type,
+                task.task_translation_key,
+                task.farm_id,
+              );
+            }),
+          ).catch((error) => {
+            console.log(
+              'Error while sending notifications about deleted tasks for a deleted management plan: ',
+              error,
+            );
+          });
           return res.sendStatus(200);
         } else {
           return res.sendStatus(404);

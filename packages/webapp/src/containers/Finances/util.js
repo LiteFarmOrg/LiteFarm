@@ -84,15 +84,28 @@ export function filterSalesByDateRange(sales, startDate, endDate) {
   return [];
 }
 
-export function calcActualRevenue(sales, startDate, endDate) {
+export function calcActualRevenue(sales, startDate, endDate, revenueTypes) {
   let total = 0.0;
+  const revenueTypesMap = {};
 
   if (sales && Array.isArray(sales)) {
     for (const s of sales) {
+      if (!revenueTypesMap[s.revenue_type_id]) {
+        revenueTypesMap[s.revenue_type_id] = revenueTypes.find(
+          ({ revenue_type_id }) => revenue_type_id === s.revenue_type_id,
+        );
+      }
+      const revenueType = revenueTypesMap[s.revenue_type_id];
+      const formType = getRevenueFormType(revenueType);
+
       const saleDate = moment(s.sale_date);
       if (saleDate.isSameOrAfter(startDate, 'day') && saleDate.isSameOrBefore(endDate, 'day')) {
-        for (const c of s.crop_variety_sale) {
-          total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(c.sale_value));
+        if (formType === revenueFormTypes.CROP_SALE) {
+          for (const c of s.crop_variety_sale) {
+            total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(c.sale_value));
+          }
+        } else if (formType === revenueFormTypes.GENERAL) {
+          total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(s.value));
         }
       }
     }
@@ -101,6 +114,5 @@ export function calcActualRevenue(sales, startDate, endDate) {
 }
 
 export const getRevenueFormType = (revenueType) => {
-  // TODO: LF-3595 - properly determine the form type
-  return revenueType?.farm_id ? revenueFormTypes.GENERAL : revenueFormTypes.CROP_SALE;
+  return revenueType?.crop_generated ? revenueFormTypes.CROP_SALE : revenueFormTypes.GENERAL;
 };

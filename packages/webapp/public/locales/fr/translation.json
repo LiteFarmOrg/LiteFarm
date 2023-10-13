@@ -478,8 +478,7 @@
     "UNARCHIVE_DOCUMENT": "Désarchiver le document\u00a0?",
     "UNARCHIVE_DOCUMENT_TEXT": "L'annulation de l'archivage de ce document remettra celui-ci dans votre liste de documents valides. Les documents valides seront exportés pour vos certifications. Voulez-vous continuer\u00a0?",
     "UNARCHIVED": "Désarchivés",
-    "VALID": "Valide",
-    "VIEW_DETAIL": "Voir la page détails pour télécharger plusieurs documents"
+    "VALID": "Valide"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Mot de passe oublié\u00a0?",
@@ -1443,6 +1442,10 @@
   "REVENUE": {
     "ADD_REVENUE": {
       "ADD_CUSTOM_REVENUE": "MISSING",
+      "ASSOCIATED_WITH_AGRICULTURE": "MISSING",
+      "CANNOT_BE_CHANGED": "MISSING",
+      "CANNOT_BE_CHANGED_LATER": "MISSING",
+      "CROP_GENERATED": "MISSING",
       "CUSTOM_REVENUE_NAME": "MISSING",
       "CUSTOM_REVENUE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING"

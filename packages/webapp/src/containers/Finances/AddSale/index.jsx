@@ -96,14 +96,11 @@ function AddSale() {
   };
 
   const cropVarietyOptions = getCropVarietyOptions() || [];
-  const title =
-    formType === formTypes.GENERAL
-      ? t('common:ADD_ITEM', { itemName: revenueType.revenue_name })
-      : t('SALE.ADD_SALE.TITLE');
+
   return (
     <GeneralRevenue
       onSubmit={onSubmit}
-      title={title}
+      title={t('common:ADD_ITEM', { itemName: revenueType?.revenue_name })}
       currency={useCurrencySymbol()}
       useCustomFormChildren={useCropSaleInputs}
       view={'add'}

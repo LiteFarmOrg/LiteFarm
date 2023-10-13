@@ -78,7 +78,7 @@ function AddSale() {
 
   const commonProps = {
     onSubmit,
-    title: t('SALE.ADD_SALE.TITLE'),
+    title: t('common:ADD_ITEM', { itemName: revenueType?.revenue_name }),
     dateLabel: t('SALE.ADD_SALE.DATE'),
     customerLabel: t('SALE.ADD_SALE.CUSTOMER_NAME'),
     currency: useCurrencySymbol(),
@@ -97,11 +97,9 @@ function AddSale() {
   }
 
   if (formType === formTypes.GENERAL) {
-    const { revenue_name } = revenueType;
-    const title = t('common:ADD_ITEM', { itemName: revenue_name });
     return (
       <HookFormPersistProvider>
-        <GeneralRevenueForm {...commonProps} title={title} />
+        <GeneralRevenueForm {...commonProps} />
       </HookFormPersistProvider>
     );
   }

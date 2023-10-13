@@ -20,6 +20,7 @@ import { revenueTypesSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME } from './constants';
 import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import CustomRevenueRadios from './CustomRevenueRadios';
 
 function AddCustomRevenue({ history }) {
   const { t } = useTranslation();
@@ -48,6 +49,9 @@ function AddCustomRevenue({ history }) {
           revenueTypes,
           'revenue_name',
           t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
+        )}
+        customFormFields={({ control, watch }) => (
+          <CustomRevenueRadios control={control} watch={watch} view="add" />
         )}
       />
     </HookFormPersistProvider>

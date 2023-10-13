@@ -114,6 +114,5 @@ export function calcActualRevenue(sales, startDate, endDate, revenueTypes) {
 }
 
 export const getRevenueFormType = (revenueType) => {
-  // TODO: LF-3595 - properly determine the form type
-  return revenueType?.farm_id ? revenueFormTypes.GENERAL : revenueFormTypes.CROP_SALE;
+  return revenueType?.crop_generated ? revenueFormTypes.CROP_SALE : revenueFormTypes.GENERAL;
 };

@@ -17,9 +17,10 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCustomRevenueType } from '../saga';
 import { revenueTypeSelector, revenueTypesSelector } from '../../revenueTypeSlice';
-import { CUSTOM_REVENUE_NAME } from './constants';
+import { CUSTOM_REVENUE_NAME, AGRICULTURE_ASSOCIATED, CROP_GENERATED } from './constants';
 import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import CustomRevenueRadios from './CustomRevenueRadios';
 
 function EditCustomExpense({ history, match }) {
   const { revenue_type_id } = match.params;
@@ -27,7 +28,7 @@ function EditCustomExpense({ history, match }) {
   const dispatch = useDispatch();
   const selectedCustomRevenueType = useSelector(revenueTypeSelector(Number(revenue_type_id)));
   const revenueTypes = useSelector(revenueTypesSelector);
-  const { revenue_name } = selectedCustomRevenueType;
+  const { revenue_name, agriculture_associated, crop_generated } = selectedCustomRevenueType;
 
   const handleGoBack = () => {
     history.back();
@@ -53,6 +54,13 @@ function EditCustomExpense({ history, match }) {
           'revenue_name',
           t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
         )}
+        customFormFields={({ control, watch }) => (
+          <CustomRevenueRadios control={control} watch={watch} view="edit" />
+        )}
+        customFieldsDefaultValues={{
+          [AGRICULTURE_ASSOCIATED]: agriculture_associated,
+          [CROP_GENERATED]: crop_generated,
+        }}
       />
     </HookFormPersistProvider>
   );

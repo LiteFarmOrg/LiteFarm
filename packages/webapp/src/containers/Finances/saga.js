@@ -350,13 +350,17 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
 
 export const addCustomRevenueType = createAction('addRevenueTypeSaga');
 
-export function* addRevenueTypeSaga({ payload: { revenue_name } }) {
+export function* addRevenueTypeSaga({
+  payload: { revenue_name, agriculture_associated, crop_generated },
+}) {
   const { revenueTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   const body = {
     revenue_name,
+    agriculture_associated,
+    crop_generated,
     farm_id: farm_id,
   };
 

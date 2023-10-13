@@ -16,6 +16,7 @@
 import baseController from '../controllers/baseController.js';
 
 import SaleModel from '../models/saleModel.js';
+import RevenueTypeModel from '../models/revenueTypeModel.js';
 import CropVarietySaleModel from '../models/cropVarietySaleModel.js';
 import { transaction, Model } from 'objection';
 
@@ -44,7 +45,7 @@ const SaleController = {
   patchSales() {
     return async (req, res) => {
       const { sale_id } = req.params;
-      const { customer_name, sale_date, value, note } = req.body;
+      const { customer_name, sale_date, value, note, revenue_type_id } = req.body;
       const saleData = {};
       if (customer_name) {
         saleData.customer_name = customer_name;
@@ -53,8 +54,13 @@ const SaleController = {
         saleData.sale_date = sale_date;
       }
 
-      // TODO: LF-3595 - properly determine if value and note need to be updated
-      if (!req.body.crop_variety_sale?.length) {
+      if (!revenue_type_id) {
+        return res.status(400).send('revenue type is required');
+      }
+
+      const revenueType = await RevenueTypeModel.query().findById(revenue_type_id);
+
+      if (!revenueType.crop_generated) {
         saleData.value = value;
         saleData.note = note;
       }
@@ -71,8 +77,7 @@ const SaleController = {
           return res.status(400).send('failed to patch data');
         }
 
-        // TODO: LF-3595 - properly determine if crop_variety_sale needs to be updated
-        if (req.body.crop_variety_sale?.length) {
+        if (revenueType.crop_generated) {
           const deletedExistingCropVarietySale = await CropVarietySaleModel.query(trx)
             .where('sale_id', sale_id)
             .delete();

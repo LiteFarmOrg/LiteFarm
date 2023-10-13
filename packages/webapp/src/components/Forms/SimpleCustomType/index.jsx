@@ -47,6 +47,8 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
  * @param {number} [props.inputMaxChars=100] - The maximum number of characters allowed in the input field.
  * @param {function} [props.validateInput] - A custom validation function for the input field.
  * @param {function} [props.useHookFormPersist] - useHookFormPersist hook.
+ * @param {function} [props.customFormFields] - A function to render additional form fields.
+ * @param {Object} [props.customFieldsDefaultValues={}] - Default values for the additional fields.
  * @returns {JSX.Element} A React component representing the custom type form.
  */
 const PureSimpleCustomType = ({
@@ -66,6 +68,8 @@ const PureSimpleCustomType = ({
   inputMaxChars = 100,
   validateInput,
   useHookFormPersist = () => ({}),
+  customFormFields,
+  customFieldsDefaultValues = {},
 }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -73,10 +77,16 @@ const PureSimpleCustomType = ({
   const {
     handleSubmit,
     register,
+    control,
+    watch,
     formState: { errors, isValid, isDirty },
   } = useForm({
     mode: 'onChange',
-    defaultValues: { [customTypeRegister]: defaultValue || undefined },
+    shouldUnregister: true,
+    defaultValues: {
+      [customTypeRegister]: defaultValue || undefined,
+      ...customFieldsDefaultValues,
+    },
   });
   const readonly = view === 'read-only';
   const disabledInput = readonly;
@@ -112,6 +122,9 @@ const PureSimpleCustomType = ({
         optional={false}
         disabled={disabledInput}
       />
+
+      {customFormFields && customFormFields({ control, watch })}
+
       <div style={{ marginTop: 'auto' }}>
         {readonly && !isDeleting && (
           <IconLink
@@ -166,6 +179,8 @@ PureSimpleCustomType.propTypes = {
   inputMaxChars: PropTypes.number,
   validateInput: PropTypes.func,
   useHookFormPersist: PropTypes.func,
+  customFormFields: PropTypes.func,
+  customFieldsDefaultValues: PropTypes.object,
 };
 
 export default PureSimpleCustomType;

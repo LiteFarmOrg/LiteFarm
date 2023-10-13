@@ -16,7 +16,7 @@
 export const up = async function (knex) {
   await knex.schema.createTable('finance_report', (table) => {
     table.increments('finance_report_id').primary();
-    table.uuid('farm_id').references('farm_id').inTable('farm').defaultTo(null);
+    table.uuid('farm_id').references('farm_id').inTable('farm').notNullable();
     table.string('created_by_user_id').references('user_id').inTable('users');
     table.string('updated_by_user_id').references('user_id').inTable('users');
     table.dateTime('created_at').notNullable();

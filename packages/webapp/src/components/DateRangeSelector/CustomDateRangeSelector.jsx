@@ -19,6 +19,7 @@ import clsx from 'clsx';
 import { BsChevronLeft } from 'react-icons/bs';
 import { Semibold, Underlined } from '../Typography';
 import { FromToDateContainer } from '../Inputs/DateContainer';
+import TextButton from '../Form/Button/TextButton';
 import styles from './styles.module.scss';
 
 export default function CustomDateRangeSelector({
@@ -39,15 +40,10 @@ export default function CustomDateRangeSelector({
   return (
     <div className={styles.customDateRangeSelector}>
       <div className={styles.buttons}>
-        <button
-          type="button"
-          className={clsx(styles.backButton, !isValid && styles.disabled)}
-          onClick={onBack}
-          disabled={!isValid}
-        >
+        <TextButton className={clsx(styles.backButton)} onClick={onBack} disabled={!isValid}>
           <BsChevronLeft />
           {t('DATE_RANGE_SELECTOR.BACK')}
-        </button>
+        </TextButton>
         <Underlined className={styles.clearDates} onClick={onClear}>
           {t('DATE_RANGE_SELECTOR.CLEAR_DATES')}
         </Underlined>

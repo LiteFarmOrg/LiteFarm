@@ -28,14 +28,12 @@ export default function ExpenseItemInputs({ register, onRemove, getErrors }) {
   return (
     <div className={styles.expenseItem}>
       <Input
-        style={{ marginBottom: '24px' }}
         label={t('common:DATE')}
         type={'date'}
         hookFormRegister={register(DATE, { required: true })}
         errors={getErrors(DATE)}
       />
       <Input
-        style={{ marginBottom: '24px' }}
         label={t('EXPENSE.ITEM_NAME')}
         errors={getErrors(NOTE)}
         hookFormRegister={register(NOTE, {
@@ -47,7 +45,6 @@ export default function ExpenseItemInputs({ register, onRemove, getErrors }) {
         })}
       />
       <Input
-        style={{ marginBottom: '24px' }}
         type="number"
         label={t('EXPENSE.VALUE')}
         errors={getErrors(VALUE)}

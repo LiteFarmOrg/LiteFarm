@@ -40,39 +40,40 @@ class AddExpense extends Component {
 
   handleSubmit(formData) {
     const { expenseDetail } = formData;
-    let data = [];
-    let keys = Object.keys(expenseDetail);
+    let formattedData = [];
+    let expenseTypeIds = Object.keys(expenseDetail);
     let farm_id = this.props.farm.farm_id;
 
     let missingText = false;
-    for (let k of keys) {
-      let values = expenseDetail[k];
+    for (let expenseTypeId of expenseTypeIds) {
+      let itemsOfExpenseType = expenseDetail[expenseTypeId];
 
-      for (let v of values) {
-        if (v.note === '') {
+      for (let expenseItem of itemsOfExpenseType) {
+        if (expenseItem.note === '') {
           missingText = true;
         } else {
-          let value = parseFloat(parseFloat(v.value).toFixed(2));
-          const [year, month, day] = v.date.split('-');
+          let value = parseFloat(expenseItem.value.toFixed(2));
+
+          const [year, month, day] = expenseItem.date.split('-');
           const expenseDate = new Date(+year, +month - 1, +day).toISOString();
-          let temp = {
+
+          formattedData.push({
             farm_id,
-            note: v.note,
+            note: expenseItem.note,
             value: value,
-            expense_type_id: k,
+            expense_type_id: expenseTypeId,
             expense_date: expenseDate,
-          };
-          data.push(temp);
+          });
         }
       }
     }
 
     if (
       !missingText &&
-      data.length &&
-      data.filter((d) => d.value <= 0 || isNaN(d.value)).length === 0
+      formattedData.length &&
+      formattedData.filter((expense) => expense.value <= 0 || isNaN(expense.value)).length === 0
     ) {
-      this.props.dispatch(addExpenses(data));
+      this.props.dispatch(addExpenses(formattedData));
       history.push('/finances');
     }
   }

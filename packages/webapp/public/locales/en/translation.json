@@ -855,18 +855,11 @@
   "INSIGHTS": {
     "BIODIVERSITY": {
       "AMPHIBIANS": "Amphibians",
+      "API_OFFSET_LIMIT_ERROR_MESSAGE": "There are too many biodiversity observations within your farm boundary to report accurately, please reduce the size of your farm boundary and try again.",
       "BIRDS": "Birds",
       "CROP_VARIETIES": "Crop varieties",
-      "GENERIC_ERROR": {
-        "BODY": "LiteFarm generates biodiversity insights based on several sources and was unable to do so at this time. Please try again later.",
-        "PREVIEW": "Unavailable",
-        "TITLE": "There was a problem"
-      },
-      "API_OFFSET_LIMIT_ERROR": {
-        "BODY": "There are too many biodiversity observations within your farm boundary to report accurately, please reduce the size of your farm boundary and try again.",
-        "PREVIEW": "Unavailable",
-        "TITLE": "There was a problem"
-      },
+      "ERROR_TITLE": "There was a problem",
+      "GENERIC_ERROR_MESSAGE": "LiteFarm generates biodiversity insights based on several sources and was unable to do so at this time. Please try again later.",
       "HEADER": "Number of species",
       "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity within your farm boundary(ies). You can increase the crop biodiversity on your farm by planting new varieties. You can increase the non-crop biodiversity count on your farm by recording sightings on https://inaturalist.org/app",
       "INSECTS": "Insects",

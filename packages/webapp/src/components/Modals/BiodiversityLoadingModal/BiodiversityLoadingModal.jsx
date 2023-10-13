@@ -24,13 +24,11 @@ const BiodiversityLoadingModal = ({ dismissModal, loadingError }) => {
   const { t } = useTranslation();
   return loadingError ? (
     <ModalComponent
-      title={loadingError === 'API_OFFSET_LIMIT'
-        ? [t('INSIGHTS.BIODIVERSITY.API_OFFSET_LIMIT_ERROR.TITLE')]
-        : [t('INSIGHTS.BIODIVERSITY.GENERIC_ERROR.TITLE')]
-      }
-      contents={loadingError === 'API_OFFSET_LIMIT'
-        ? [t('INSIGHTS.BIODIVERSITY.API_OFFSET_LIMIT_ERROR.BODY')]
-        : [t('INSIGHTS.BIODIVERSITY.GENERIC_ERROR.BODY')]
+      title={[t('INSIGHTS.BIODIVERSITY.ERROR_TITLE')]}
+      contents={
+        loadingError === 'API_OFFSET_LIMIT'
+          ? [t('INSIGHTS.BIODIVERSITY.API_OFFSET_LIMIT_ERROR_MESSAGE')]
+          : [t('INSIGHTS.BIODIVERSITY.GENERIC_ERROR_MESSAGE')]
       }
       dismissModal={dismissModal}
       icon={HazardIcon}

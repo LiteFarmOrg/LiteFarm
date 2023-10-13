@@ -255,12 +255,12 @@ export const getBiodiversityAPI = async (pointData, countData) => {
     Mammals: 0,
   };
 
-  const parsedSpecies = [];
+  const parsedSpecies = new Set();
 
   const processBiodiversityResults = (results, label) => {
-    results.map((result) => {
-      if (!parsedSpecies.includes(result.speciesKey)) {
-        parsedSpecies.push(result.speciesKey);
+    results.forEach((result) => {
+      if (!parsedSpecies.has(result.speciesKey)) {
+        parsedSpecies.add(result.speciesKey);
         speciesCount[label]++;
       }
     });
@@ -328,10 +328,10 @@ export const getBiodiversityAPI = async (pointData, countData) => {
     resultData.data.push({
       name: label,
       count: speciesCount[label],
-      percent: (speciesCount[label] / parsedSpecies.length) * 100,
+      percent: (speciesCount[label] / parsedSpecies.size) * 100,
     });
   }
-  resultData.preview = parsedSpecies.length;
+  resultData.preview = parsedSpecies.size;
   return resultData;
 };
 

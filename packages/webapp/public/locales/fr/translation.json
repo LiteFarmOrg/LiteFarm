@@ -855,18 +855,11 @@
   "INSIGHTS": {
     "BIODIVERSITY": {
       "AMPHIBIANS": "Amphibiens",
+      "API_OFFSET_LIMIT_ERROR_MESSAGE": "MISSING",
       "BIRDS": "Oiseaux",
       "CROP_VARIETIES": "Variété de la culture",
-      "API_OFFSET_LIMIT_ERROR": {
-        "BODY": "MISSING",
-        "PREVIEW": "Unavailable",
-        "TITLE": "Il y a eu un problème."
-      },
-      "GENERIC_ERROR": {
-        "BODY": "LiteFarm génère des données sur la biodiversité à partir de différentes sources mais est incapable de le faire en ce moment. Veuillez réessayer plus tard.",
-        "PREVIEW": "Indisponible",
-        "TITLE": "Il y a eu un problème."
-      },
+      "ERROR_TITLE": "Il y a eu un problème.",
+      "GENERIC_ERROR_MESSAGE": "LiteFarm génère des données sur la biodiversité à partir de différentes sources mais est incapable de le faire en ce moment. Veuillez réessayer plus tard.",
       "HEADER": "Nombre d'espèces",
       "INFO": "La biodiversité est bénéfique pour l'Homme et la planète. Nous mesurons la richesse en espèces à partir de tous les enregistrements connus de la biodiversité sur votre ferme à partir des limites de vos champs. Vous pouvez accroître la biodiversité (hors cultures) de votre ferme en enregistrant vos observations sur le site https:// www.inaturalist.org/app.",
       "INSECTS": "Insectes",

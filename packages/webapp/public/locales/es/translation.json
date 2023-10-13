@@ -854,18 +854,11 @@
   "INSIGHTS": {
     "BIODIVERSITY": {
       "AMPHIBIANS": "Anfibio",
+      "API_OFFSET_LIMIT_ERROR_MESSAGE": "Hay demasiadas observaciones de biodiversidad dentro del límite de su granja para poder generar un reporte con exactitud, por favor reduzca el límite de su granja e inténtelo nuevamente.",
       "BIRDS": "Aves",
       "CROP_VARIETIES": "Variedades de cultivos",
-      "API_OFFSET_LIMIT_ERROR": {
-        "BODY": "Hay demasiadas observaciones de biodiversidad dentro del límite de su granja para poder generar un reporte con exactitud, por favor reduzca el límite de su granja e inténtelo nuevamente.",
-        "PREVIEW": "Unavailable",
-        "TITLE": "Hubo un problema"
-      },
-      "GENERIC_ERROR": {
-        "BODY": "LiteFarm genera información sobre la biodiversidad basada en varias fuentes y no pudo hacerlo en este momento. Vuelva a intentarlo más tarde.",
-        "PREVIEW": "Indisponible",
-        "TITLE": "Hubo un problema"
-      },
+      "ERROR_TITLE": "Hubo un problema",
+      "GENERIC_ERROR_MESSAGE": "LiteFarm genera información sobre la biodiversidad basada en varias fuentes y no pudo hacerlo en este momento. Vuelva a intentarlo más tarde.",
       "HEADER": "Numero de especies",
       "INFO": "La biodiversidad es excelente para las personas y el planeta. Contamos la riqueza de especies en su granja desde conocidos registros de biodiversidad. Puede aumentar la biodiversidad de los cultivos en su granja agregando mayor cantidad de cultivos. Puede aumentar el recuento de biodiversidad no agrícola en su granja registrando ubicaciones en https://www.inaturalist.org/app.",
       "INSECTS": "Insectos",

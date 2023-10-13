@@ -854,18 +854,11 @@
   "INSIGHTS": {
     "BIODIVERSITY": {
       "AMPHIBIANS": "Anfíbios",
+      "API_OFFSET_LIMIT_ERROR_MESSAGE": "MISSING",
       "BIRDS": "Aves",
       "CROP_VARIETIES": "Variedades de cultivos",
-      "API_OFFSET_LIMIT_ERROR": {
-        "BODY": "MISSING",
-        "PREVIEW": "Unavailable",
-        "TITLE": "MISSING"
-      },
-      "GENERIC_ERROR": {
-        "BODY": "A LiteFarm gera insights de biodiversidade com base em várias fontes e não conseguiu fazê-lo no momento. Tente novamente mais tarde, por favor.",
-        "PREVIEW": "Indisponível",
-        "TITLE": "Tinha um problema"
-      },
+      "ERROR_TITLE": "Tinha um problema",
+      "GENERIC_ERROR_MESSAGE": "A LiteFarm gera insights de biodiversidade com base em várias fontes e não conseguiu fazê-lo no momento. Tente novamente mais tarde, por favor.",
       "HEADER": "Número de espécies",
       "INFO": "A biodiversidade é ótima para as pessoas e para o planeta. Contabilizamos a riqueza de espécies a partir de todos os registros conhecidos sobre a biodiversidade ao redor de sua fazenda. Você pode aumentar a contagem de espécies em sua fazenda utilizando o https://www.inaturalist.org/app.",
       "INSECTS": "Insetos",

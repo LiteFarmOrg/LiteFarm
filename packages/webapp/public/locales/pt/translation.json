@@ -477,8 +477,7 @@
     "UNARCHIVE_DOCUMENT": "Documento desarquivado?",
     "UNARCHIVE_DOCUMENT_TEXT": "Desarquivar este documento irá devolvê-lo à sua lista de documentos atualmente válidos. Os documentos válidos serão exportados para suas certificações. Você quer prosseguir?",
     "UNARCHIVED": "Desarquivado",
-    "VALID": "Válido",
-    "VIEW_DETAIL": "Veja a página de detalhes para baixar vários arquivos"
+    "VALID": "Válido"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Esqueceu sua senha?",

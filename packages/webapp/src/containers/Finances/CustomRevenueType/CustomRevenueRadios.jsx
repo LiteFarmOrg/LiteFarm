@@ -34,6 +34,11 @@ function CustomRevenueRadios({ control, watch, view }) {
 
   const isAgricultureAssociated = watch(AGRICULTURE_ASSOCIATED);
 
+  const CANNOT_CHANGE_WARNING = {
+    add: 'REVENUE.ADD_REVENUE.CANNOT_BE_CHANGED_LATER',
+    edit: 'REVENUE.ADD_REVENUE.CANNOT_BE_CHANGED',
+  };
+
   return (
     <>
       <Main style={{ paddingBlock: '12px' }}>
@@ -53,7 +58,8 @@ function CustomRevenueRadios({ control, watch, view }) {
         required
         disabled={view === 'edit' || view === 'read-only'}
       />
-      {view === 'add' && <Info>{t('REVENUE.ADD_REVENUE.CANNOT_BE_CHANGED')}</Info>}
+
+      {(view === 'add' || view === 'edit') && <Info>{t(CANNOT_CHANGE_WARNING[view])}</Info>}
 
       {isAgricultureAssociated && (
         <>
@@ -73,7 +79,8 @@ function CustomRevenueRadios({ control, watch, view }) {
             required={isAgricultureAssociated}
             disabled={view === 'edit' || view === 'read-only'}
           />
-          {view === 'add' && <Info>{t('REVENUE.ADD_REVENUE.CANNOT_BE_CHANGED')}</Info>}
+
+          {(view === 'add' || view === 'edit') && <Info>{t(CANNOT_CHANGE_WARNING[view])}</Info>}
         </>
       )}
     </>

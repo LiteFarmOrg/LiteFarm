@@ -14,6 +14,7 @@
  */
 import { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -28,6 +29,8 @@ import Button from '../../Form/Button';
 import styles from './styles.module.scss';
 
 const More = ({ onClickLoadMore, onClickMore, invisibleRowCount, dense, colSpan }) => {
+  const { t } = useTranslation();
+
   if (invisibleRowCount <= 0) {
     return null;
   }
@@ -38,7 +41,7 @@ const More = ({ onClickLoadMore, onClickMore, invisibleRowCount, dense, colSpan 
         <TableCell colSpan={colSpan} className={clsx(styles.tableCell, dense && styles.dense)}>
           <button onClick={onClickMore} className={styles.moreButton}>
             <BsThreeDots />
-            <span>{`+ ${invisibleRowCount} more`}</span>
+            <span>{t('TABLE.NUMBER_MORE', { number: invisibleRowCount })}</span>
           </button>
         </TableCell>
       </TableRow>
@@ -54,7 +57,7 @@ const More = ({ onClickLoadMore, onClickMore, invisibleRowCount, dense, colSpan 
           color={'secondary'}
           sm={true}
         >
-          + Load more
+          {t('TABLE.LOAD_MORE')}
         </Button>
       </TableCell>
     </TableRow>

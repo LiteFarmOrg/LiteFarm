@@ -40,6 +40,7 @@ export default function CustomDateRangeSelector({
     <div className={styles.customDateRangeSelector}>
       <div className={styles.buttons}>
         <button
+          type="button"
           className={clsx(styles.backButton, !isValid && styles.disabled)}
           onClick={onBack}
           disabled={!isValid}

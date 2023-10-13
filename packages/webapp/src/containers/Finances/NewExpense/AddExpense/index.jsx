@@ -39,12 +39,10 @@ class AddExpense extends Component {
   }
 
   handleSubmit(formData) {
-    const { expenseDetail, date } = formData;
+    const { expenseDetail } = formData;
     let data = [];
     let keys = Object.keys(expenseDetail);
     let farm_id = this.props.farm.farm_id;
-    const [year, month, day] = date.split('-');
-    const expenseDate = new Date(+year, +month - 1, +day).toISOString();
 
     let missingText = false;
     for (let k of keys) {
@@ -55,6 +53,8 @@ class AddExpense extends Component {
           missingText = true;
         } else {
           let value = parseFloat(parseFloat(v.value).toFixed(2));
+          const [year, month, day] = v.date.split('-');
+          const expenseDate = new Date(+year, +month - 1, +day).toISOString();
           let temp = {
             farm_id,
             note: v.note,

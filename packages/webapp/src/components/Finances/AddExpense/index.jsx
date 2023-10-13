@@ -39,7 +39,7 @@ const getDefaultValuesForType = (persistedFormDataForType) => {
   if (persistedFormDataForType?.length && Object.keys(persistedFormDataForType[0]).length) {
     return persistedFormDataForType;
   }
-  return [{ [NOTE]: '', [VALUE]: null }];
+  return [{ [DATE]: getLocalDateInYYYYDDMM(), [NOTE]: '', [VALUE]: null }];
 };
 
 /**
@@ -86,7 +86,6 @@ export default function PureAddExpense({
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
-      [DATE]: getLocalDateInYYYYDDMM(),
       [EXPENSE_DETAIL]: getDefaultExpenseDetail(types, persistedFormData?.[EXPENSE_DETAIL]),
     },
   });
@@ -117,14 +116,6 @@ export default function PureAddExpense({
         title={t('EXPENSE.ADD_EXPENSE.NEW_EXPENSE_ITEM')}
         value={66}
         style={{ marginBottom: '24px' }}
-      />
-      <Input
-        style={{ marginBottom: '40px' }}
-        type={'date'}
-        label={t('common:DATE')}
-        hookFormRegister={register(DATE, { required: true })}
-        errors={getInputErrors(errors, DATE)}
-        required
       />
       {types.map((type) => {
         return (

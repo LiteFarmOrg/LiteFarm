@@ -1,10 +1,22 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import React, { useState, useEffect } from 'react';
-import CropSaleForm from '../../../components/Forms/CropSale';
 import { deleteSale, updateSale } from '../actions';
 import { revenueByIdSelector } from '../selectors';
-import { measurementSelector } from '../../userFarmSlice';
 import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
-import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
@@ -14,32 +26,34 @@ import { revenueFormTypes as formTypes } from '../constants';
 import { getRevenueFormType } from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
-import { getCustomFormChildrenDefaultValues } from '../../../components/Forms/CropSale/useCropSaleInputs';
-import { useCropSaleInputs } from '../../../components/Forms/CropSale/useCropSaleInputs';
+import { useCropSaleInputs, getCustomFormChildrenDefaultValues } from '../useCropSaleInputs';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { revenueTypeTileContentsSelector } from '../../revenueTypeSlice';
 
 function SaleDetail({ history, match }) {
-  const { t } = useTranslation(['translation', 'revenue']);
-  const dispatch = useDispatch();
-
-  useHookFormPersist();
-
   const isEditing = match.path.endsWith('/edit');
   const { sale_id } = match.params;
 
-  const revenueTypes = useSelector(revenueTypeTileContentsSelector);
-  //const revenueTypes = useSortedRevenueTypes();
-  const sale = useSelector(revenueByIdSelector(sale_id));
+  // To clear form history after editing
+  useHookFormPersist();
+  const { t } = useTranslation(['translation', 'revenue']);
+  const dispatch = useDispatch();
 
+  const revenueTypes = useSelector(revenueTypeTileContentsSelector);
+  // Doesnt populate unless used with hook form persist (but consider adding back persist because while this form doesnt need to persist -- others might want to)
+  // const revenueTypes = useSortedRevenueTypes();
+  const sale = useSelector(revenueByIdSelector(sale_id));
+  const revenueType = useSelector(revenueTypeByIdSelector(sale?.revenue_type_id));
+
+  // Review after merging LF-3595
+  // Handles changing the type
+  const [formType, setFormType] = useState(getRevenueFormType(revenueType));
   useEffect(() => {
     if (!sale) {
       history.replace('/unknown_record');
     }
   }, [sale, history]);
-
-  const revenueType = useSelector(revenueTypeByIdSelector(sale.revenue_type_id));
 
   // Dropdown should include the current revenue's type even if it has been retired
   const revenueTypesArray = revenueTypes?.concat(revenueType?.deleted ? revenueType : []);
@@ -95,10 +109,6 @@ function SaleDetail({ history, match }) {
     history.back();
   };
 
-  // Review after merging LF-3595
-  // Handles changing the type
-  const [formType, setFormType] = useState(getRevenueFormType(revenueType));
-
   const onTypeChange = (typeId, setValue, REVENUE_TYPE_ID) => {
     const newType = revenueTypeReactSelectOptions?.find((option) => option.value === typeId);
     setValue(REVENUE_TYPE_ID, newType);
@@ -111,6 +121,7 @@ function SaleDetail({ history, match }) {
       setFormType(formTypes.GENERAL);
     }
   };
+
   return (
     <GeneralRevenue
       key={isEditing ? 'editing' : 'readonly'}
@@ -118,7 +129,7 @@ function SaleDetail({ history, match }) {
       title={t('SALE.EDIT_SALE.TITLE')}
       currency={useCurrencySymbol()}
       sale={sale}
-      customFormChildren={useCropSaleInputs}
+      useCustomFormChildren={useCropSaleInputs}
       customFormChildrenDefaultValues={
         formType === formTypes.CROP_SALE ? getCustomFormChildrenDefaultValues(sale) : undefined
       }

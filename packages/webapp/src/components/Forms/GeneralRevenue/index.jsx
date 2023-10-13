@@ -45,7 +45,7 @@ const GeneralRevenue = ({
   onTypeChange,
   buttonText,
   customFormChildrenDefaultValues,
-  customFormChildren = () => {},
+  useCustomFormChildren = () => {},
   formType,
   onRetire,
 }) => {
@@ -92,7 +92,7 @@ const GeneralRevenue = ({
   // TODO: LF-3680 fix isDirty for dynamic fields
   // const disabledButton = (!isValid || !isDirty) && !readonly;
 
-  const customChildren = customFormChildren(
+  const customChildren = useCustomFormChildren(
     reactHookFormFunctions,
     formType,
     sale,
@@ -170,7 +170,7 @@ const GeneralRevenue = ({
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <ReactSelect
-              data-cy="cropSaleForm-typeSelect"
+              data-cy="generalRevenue-typeSelect"
               label={t('REVENUE.EDIT_REVENUE.REVENUE_TYPE')}
               options={revenueTypeOptions}
               style={{ marginBottom: '40px' }}

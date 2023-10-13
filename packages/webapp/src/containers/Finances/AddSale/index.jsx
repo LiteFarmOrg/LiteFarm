@@ -1,5 +1,21 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import React from 'react';
-import CropSaleForm from '../../../components/Forms/CropSale';
+import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
+import { useCropSaleInputs } from '../useCropSaleInputs';
 import { addSale } from '../actions';
 import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
@@ -85,22 +101,16 @@ function AddSale() {
       ? t('common:ADD_ITEM', { itemName: revenueType.revenue_name })
       : t('SALE.ADD_SALE.TITLE');
   return (
-    <HookFormPersistProvider>
-      <CropSaleForm
-        onSubmit={onSubmit}
-        dateLabel={t('SALE.ADD_SALE.DATE')}
-        customerLabel={t('SALE.ADD_SALE.CUSTOMER_NAME')}
-        currency={useCurrencySymbol()}
-        cropVarietyOptions={cropVarietyOptions}
-        system={system}
-        managementPlans={managementPlans}
-        view="add"
-        title={title}
-        formType={formType}
-        buttonText={t('common:SAVE')}
-        handleGoBack={handleGoBack}
-      />
-    </HookFormPersistProvider>
+    <GeneralRevenue
+      onSubmit={onSubmit}
+      title={title}
+      currency={useCurrencySymbol()}
+      useCustomFormChildren={useCropSaleInputs}
+      view={'add'}
+      handleGoBack={handleGoBack}
+      buttonText={t('common:SAVE')}
+      formType={formType}
+    />
   );
 }
 

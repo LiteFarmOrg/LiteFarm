@@ -17,8 +17,7 @@ import React from 'react';
 import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
 import { useCropSaleInputs } from '../useCropSaleInputs';
 import { addSale } from '../actions';
-import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
-import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
+import { userFarmSelector } from '../../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
@@ -32,9 +31,7 @@ function AddSale() {
   const { t } = useTranslation(['translation', 'revenue']);
   const dispatch = useDispatch();
 
-  const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
   const farm = useSelector(userFarmSelector);
-  const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { revenue_type_id } = persistedFormData || {};
   const revenueType = useSelector(revenueTypeByIdSelector(revenue_type_id));
@@ -70,44 +67,19 @@ function AddSale() {
     history.back();
   };
 
-  const getCropVarietyOptions = () => {
-    if (!managementPlans || managementPlans.length === 0) {
-      return;
-    }
-
-    let cropVarietyOptions = [];
-    let cropVarietySet = new Set();
-
-    for (let mp of managementPlans) {
-      if (!cropVarietySet.has(mp.crop_variety_id)) {
-        cropVarietyOptions.push({
-          label: mp.crop_variety_name
-            ? `${mp.crop_variety_name}, ${t(`crop:${mp.crop_translation_key}`)}`
-            : t(`crop:${mp.crop_translation_key}`),
-          value: mp.crop_variety_id,
-        });
-        cropVarietySet.add(mp.crop_variety_id);
-      }
-    }
-
-    cropVarietyOptions.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
-
-    return cropVarietyOptions;
-  };
-
-  const cropVarietyOptions = getCropVarietyOptions() || [];
-
   return (
-    <GeneralRevenue
-      onSubmit={onSubmit}
-      title={t('common:ADD_ITEM', { itemName: revenueType?.revenue_name })}
-      currency={useCurrencySymbol()}
-      useCustomFormChildren={useCropSaleInputs}
-      view={'add'}
-      handleGoBack={handleGoBack}
-      buttonText={t('common:SAVE')}
-      formType={formType}
-    />
+    <HookFormPersistProvider>
+      <GeneralRevenue
+        onSubmit={onSubmit}
+        title={t('common:ADD_ITEM', { itemName: revenueType?.revenue_name })}
+        currency={useCurrencySymbol()}
+        useCustomFormChildren={useCropSaleInputs}
+        view={'add'}
+        handleGoBack={handleGoBack}
+        buttonText={t('common:SAVE')}
+        formType={formType}
+      />
+    </HookFormPersistProvider>
   );
 }
 

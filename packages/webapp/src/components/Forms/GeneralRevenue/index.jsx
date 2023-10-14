@@ -61,7 +61,9 @@ const GeneralRevenue = ({
         getLocalDateInYYYYDDMM(),
       [SALE_CUSTOMER]: sale?.[SALE_CUSTOMER] || persistedFormData?.[SALE_CUSTOMER] || '',
       [REVENUE_TYPE_ID]:
-        revenueTypeOptions?.find((option) => option.value === sale?.revenue_type_id) || null,
+        revenueTypeOptions?.find((option) => option.value === sale?.revenue_type_id) ||
+        persistedFormData?.[REVENUE_TYPE_ID] ||
+        null,
       [VALUE]: !isNaN(sale?.[VALUE])
         ? sale[VALUE]
         : !isNaN(persistedFormData?.[VALUE])
@@ -84,6 +86,10 @@ const GeneralRevenue = ({
   } = reactHookFormFunctions;
 
   //useHookFormPersist(getValues);
+
+  useEffect(() => {
+    console.log(getValues());
+  });
 
   const readonly = view === 'read-only';
   const disabledInput = readonly;

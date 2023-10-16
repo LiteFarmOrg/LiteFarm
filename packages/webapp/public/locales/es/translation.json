@@ -420,6 +420,19 @@
     "TO": "Hasta",
     "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'"
   },
+  "DATE_RANGE_SELECTOR": {
+    "BACK": "MISSING",
+    "CLEAR_DATES": "MISSING",
+    "CUSTOM_RANGE": "MISSING",
+    "LAST_FOURTEEN_DAYS": "MISSING",
+    "LAST_MONTH": "MISSING",
+    "LAST_SEVEN_DAYS": "MISSING",
+    "LAST_THIRTY_DAYS": "MISSING",
+    "LAST_WEEK": "MISSING",
+    "THIS_MONTH": "MISSING",
+    "THIS_WEEK": "MISSING",
+    "YEAR_TO_DATE": "MISSING"
+  },
   "DAYS_OF_WEEK_SELECT": {
     "FRIDAY": "V",
     "MONDAY": "L",

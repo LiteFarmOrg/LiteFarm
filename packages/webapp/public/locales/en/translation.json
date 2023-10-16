@@ -421,6 +421,19 @@
     "TO": "To",
     "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date"
   },
+  "DATE_RANGE_SELECTOR": {
+    "BACK": "back",
+    "CLEAR_DATES": "Clear dates",
+    "CUSTOM_RANGE": "Pick a custom range",
+    "LAST_FOURTEEN_DAYS": "Last 14 days",
+    "LAST_MONTH": "Last month",
+    "LAST_SEVEN_DAYS": "Last 7 days",
+    "LAST_THIRTY_DAYS": "Last 30 days",
+    "LAST_WEEK": "Last week",
+    "THIS_MONTH": "This month",
+    "THIS_WEEK": "This week",
+    "YEAR_TO_DATE": "Year to date"
+  },
   "DAYS_OF_WEEK_SELECT": {
     "FRIDAY": "F",
     "MONDAY": "M",

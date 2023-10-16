@@ -7,8 +7,8 @@ import Input from '../Input';
 import { useWatch } from 'react-hook-form';
 import InfoBoxComponent from '../../InfoBoxComponent';
 
-const FROM_DATE = 'from_date';
-const TO_DATE = 'to_date';
+export const FROM_DATE = 'from_date';
+export const TO_DATE = 'to_date';
 
 const DateRangePicker = ({
   register,

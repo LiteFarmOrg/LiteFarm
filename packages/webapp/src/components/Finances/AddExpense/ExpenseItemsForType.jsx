@@ -20,7 +20,8 @@ import { useFieldArray } from 'react-hook-form';
 import { AddLink, Main } from '../../Typography';
 import ExpenseItemInputs from './ExpenseItemInputs';
 import { getInputErrors } from '../../Form/Input';
-import { NOTE, VALUE, EXPENSE_DETAIL } from './constants';
+import { DATE, NOTE, VALUE, EXPENSE_DETAIL } from './constants';
+import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import { selectedExpenseSelector } from '../../../containers/Finances/selectors';
 import { setSelectedExpenseTypes } from '../../../containers/Finances/actions';
 import styles from './styles.module.scss';
@@ -75,7 +76,7 @@ export default function ExpenseItemsForType({ type, register, control, getValues
       ) : null}
       <AddLink
         onClick={() => {
-          append({ [NOTE]: '', [VALUE]: null });
+          append({ [DATE]: getLocalDateInYYYYDDMM(), [NOTE]: '', [VALUE]: null });
           handleSelectedExpenseTypes('add');
         }}
       >

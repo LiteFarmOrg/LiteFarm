@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { IconLink } from '../../Typography';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import Input from '../../Form/Input';
-import { NOTE, VALUE } from './constants';
+import { DATE, NOTE, VALUE } from './constants';
 import styles from './styles.module.scss';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
@@ -28,7 +28,12 @@ export default function ExpenseItemInputs({ register, onRemove, getErrors }) {
   return (
     <div className={styles.expenseItem}>
       <Input
-        style={{ marginBottom: '24px' }}
+        label={t('common:DATE')}
+        type={'date'}
+        hookFormRegister={register(DATE, { required: true })}
+        errors={getErrors(DATE)}
+      />
+      <Input
         label={t('EXPENSE.ITEM_NAME')}
         errors={getErrors(NOTE)}
         hookFormRegister={register(NOTE, {
@@ -40,7 +45,6 @@ export default function ExpenseItemInputs({ register, onRemove, getErrors }) {
         })}
       />
       <Input
-        style={{ marginBottom: '24px' }}
         type="number"
         label={t('EXPENSE.VALUE')}
         errors={getErrors(VALUE)}

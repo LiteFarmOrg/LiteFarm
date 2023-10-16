@@ -104,7 +104,6 @@ export default class DateRange {
   getDates(range) {
     return {
       [options.YEAR_TO_DATE]: () => getStartAndEndDateOfYearToDate(this.baseDate),
-      [options.THIS_YEAR]: () => getStartAndEndDateOfYear(this.baseDate),
       [options.LAST_7_DAYS]: () => this.getLastDaysOptionDateRange(6),
       [options.LAST_14_DAYS]: () => this.getLastDaysOptionDateRange(13),
       [options.LAST_30_DAYS]: () => this.getLastDaysOptionDateRange(29),

@@ -20,6 +20,7 @@ import {
   QUANTITY,
   QUANTITY_UNIT,
   SALE_VALUE,
+  REVENUE_TYPE_ID,
 } from '../../components/Forms/GeneralRevenue/constants';
 import FilterPillSelect from '../../components/Filter/FilterPillSelect';
 import { Error } from '../../components/Typography';
@@ -27,7 +28,6 @@ import CropSaleItem from '../../components/Forms/GeneralRevenue/CropSaleItem';
 import { STATUS } from '../../components/Forms/GeneralRevenue/constants';
 import { useTranslation } from 'react-i18next';
 import styles from '../../components/Forms/GeneralRevenue/styles.module.scss';
-import { revenueFormTypes } from './constants';
 import { useSelector } from 'react-redux';
 import { currentAndPlannedManagementPlansSelector } from '../managementPlanSlice';
 import { measurementSelector } from '../userFarmSlice';
@@ -133,7 +133,6 @@ const getInputs = (
       CHOSEN_VARIETY: `${CHOSEN_VARIETIES}.${option.value}`,
     };
 
-    //unregister(optionRegisterNames.CHOSEN_VARIETY);
     reactHookFormFunctions.unregister([
       optionRegisterNames.CROP_VARIETY_ID,
       optionRegisterNames.SALE_VALUE,
@@ -141,10 +140,6 @@ const getInputs = (
       optionRegisterNames.QUANTITY_UNIT,
       optionRegisterNames.CHOSEN_VARIETY,
     ]);
-    // unregister(optionRegisterNames.SALE_VALUE);
-    // unregister(optionRegisterNames.QUANTITY);
-    // unregister(optionRegisterNames.QUANTITY_UNIT);
-    // unregister(optionRegisterNames.CHOSEN_VARIETY);
   });
 
   return activeOptions.map((c) => {
@@ -199,56 +194,61 @@ export const getCustomFormChildrenDefaultValues = (sale) => {
  * for crop sale inputs and filter selection.
  *
  * @param {Object} reactHookFormFunctions - Functions provided by React Hook Form library for form management.
- * @param {string} formType - The type of the revenue form.
  * @param {Object} sale - The sale data object containing crop variety sale information.
  * @param {string} currency - The currency used for sale values.
  * @param {boolean} disabledInput - A flag indicating whether the input fields should be disabled.
- * @param {string} view - The view mode (readonly/edit) for the crop sale inputs.
+ * @param {Object[]} revenueTypes - The array of selectable revenue type options.
+ * @param {Object} selectedTypeOption - The react select filter option that is currently selected.
  * @returns {JSX.Element|null} JSX elements for crop sale inputs and filter selection, or null if not a crop sale form.
  */
 export const useCropSaleInputs = (
   reactHookFormFunctions,
-  formType,
   sale,
   currency,
   disabledInput,
-  view,
+  revenueTypes,
+  selectedTypeOption,
 ) => {
   const { register } = reactHookFormFunctions;
   const { t } = useTranslation();
 
   const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
   const system = useSelector(measurementSelector);
+  const selectedRevenueType = revenueTypes?.find(
+    (t) => t.revenue_type_id === selectedTypeOption.value,
+  );
 
-  const isCropSale = formType === revenueFormTypes.CROP_SALE;
+  const isCropSale = selectedRevenueType?.crop_generated;
+
+  //TODO: handle register/unregister of crop_variety sale
   isCropSale
     ? register(CHOSEN_VARIETIES, {
-        required: formType === revenueFormTypes.CROP_SALE ? true : false,
+        required: isCropSale ? true : false,
       })
     : null;
 
-  // If not memoized - infinte re-render of GeneralRevenue when deselecting filter option
+  // If not memoized - infinite re-render of GeneralRevenue when deselecting filter option
   const cropVarietyFilterOptions = useMemo(() => {
     return getCropVarietyFilterOptions(managementPlans, t);
   }, [managementPlans, t]);
 
-  // FilterPillSelect details
   const existingSales = reformatSaleData(sale);
+
+  // FilterPillSelect details
+
   const filterRef = useRef({});
   const [isDirty, setIsDirty] = useState(false);
   const [filterState, setFilterState] = useState({});
   const [isFilterValid, setIsFilterValid] = useState(true);
 
-  const filter = useMemo(() => {
-    return {
-      filterKey: STATUS,
-      options: cropVarietyFilterOptions.map((cvs) => ({
-        value: cvs.label,
-        default: existingSales?.[cvs.value] ? true : false,
-        label: cvs.label,
-      })),
-    };
-  }, [cropVarietyFilterOptions, existingSales]);
+  const filter = {
+    filterKey: STATUS,
+    options: cropVarietyFilterOptions.map((cvs) => ({
+      value: cvs.label,
+      default: existingSales?.[cvs.value] ? true : false,
+      label: cvs.label,
+    })),
+  };
 
   const onFilter = () => {
     setFilterState(filterRef.current);
@@ -302,11 +302,11 @@ export const useCropSaleInputs = (
     <>
       <FilterPillSelect
         subject={t('SALE.ADD_SALE.CROP_VARIETY')}
-        options={filter.options}
-        filterKey={filter.filterKey}
+        options={filter?.options}
+        filterKey={filter?.filterKey}
         style={{ marginBottom: !isFilterValid ? '0' : '32px' }}
         filterRef={filterRef}
-        key={filter.filterKey}
+        key={filter?.filterKey}
         onChange={onFilter}
         isDisabled={disabledInput}
       />

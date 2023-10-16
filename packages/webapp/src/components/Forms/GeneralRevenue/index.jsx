@@ -27,8 +27,6 @@ import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { SALE_DATE, SALE_CUSTOMER, VALUE, NOTE, REVENUE_TYPE_ID } from './constants';
-import { revenueFormTypes } from '../../../containers/Finances/constants';
-import { getRevenueFormType } from '../../../containers/Finances/util';
 //import useHookFormPersist from '../../../containers/hooks/useHookFormPersist';
 
 const GeneralRevenue = ({
@@ -46,7 +44,8 @@ const GeneralRevenue = ({
   buttonText,
   customFormChildrenDefaultValues,
   useCustomFormChildren = () => {},
-  formType,
+  revenueType,
+  revenueTypes,
   onRetire,
 }) => {
   const { t } = useTranslation();
@@ -62,7 +61,9 @@ const GeneralRevenue = ({
       [SALE_CUSTOMER]: sale?.[SALE_CUSTOMER] || persistedFormData?.[SALE_CUSTOMER] || '',
       [REVENUE_TYPE_ID]:
         revenueTypeOptions?.find((option) => option.value === sale?.revenue_type_id) ||
-        persistedFormData?.[REVENUE_TYPE_ID] ||
+        revenueTypeOptions?.find(
+          (option) => option.value === persistedFormData?.[REVENUE_TYPE_ID],
+        ) ||
         null,
       [VALUE]: !isNaN(sale?.[VALUE])
         ? sale[VALUE]
@@ -87,9 +88,7 @@ const GeneralRevenue = ({
 
   //useHookFormPersist(getValues);
 
-  useEffect(() => {
-    console.log(getValues());
-  });
+  const selectedTypeOption = watch(REVENUE_TYPE_ID);
 
   const readonly = view === 'read-only';
   const disabledInput = readonly;
@@ -100,11 +99,12 @@ const GeneralRevenue = ({
 
   const customChildren = useCustomFormChildren(
     reactHookFormFunctions,
-    formType,
     sale,
     currency,
     disabledInput,
-    view,
+    revenueType,
+    revenueTypes,
+    selectedTypeOption,
   );
 
   // Separating these into separate vs prop rendered nodes prevents form submission onClick for noSubmitButton
@@ -197,7 +197,7 @@ const GeneralRevenue = ({
           label={t('SALE.DETAIL.VALUE')}
           type="number"
           hookFormRegister={register(VALUE, {
-            required: formType === revenueFormTypes.GENERAL ? true : false,
+            required: customChildren ? false : true,
             valueAsNumber: true,
           })}
           currency={currency}

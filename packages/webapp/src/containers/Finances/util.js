@@ -15,7 +15,6 @@
 
 import moment from 'moment';
 import { roundToTwoDecimal } from '../../util';
-import { revenueFormTypes } from './constants';
 
 export function calcTotalLabour(tasks, startDate, endDate) {
   let total = 0.0;
@@ -96,15 +95,14 @@ export function calcActualRevenue(sales, startDate, endDate, revenueTypes) {
         );
       }
       const revenueType = revenueTypesMap[s.revenue_type_id];
-      const formType = getRevenueFormType(revenueType);
 
       const saleDate = moment(s.sale_date);
       if (saleDate.isSameOrAfter(startDate, 'day') && saleDate.isSameOrBefore(endDate, 'day')) {
-        if (formType === revenueFormTypes.CROP_SALE) {
+        if (revenueType.crop_generated) {
           for (const c of s.crop_variety_sale) {
             total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(c.sale_value));
           }
-        } else if (formType === revenueFormTypes.GENERAL) {
+        } else if (!revenueType.crop_generated) {
           total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(s.value));
         }
       }
@@ -112,7 +110,3 @@ export function calcActualRevenue(sales, startDate, endDate, revenueTypes) {
   }
   return total;
 }
-
-export const getRevenueFormType = (revenueType) => {
-  return revenueType?.crop_generated ? revenueFormTypes.CROP_SALE : revenueFormTypes.GENERAL;
-};

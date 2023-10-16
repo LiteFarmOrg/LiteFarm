@@ -56,28 +56,14 @@ const SaleController = {
         return res.status(400).send('revenue type is required');
       }
 
-      // TODO Consider using findById for below
-      // const revenueType = await RevenueTypeModel.query().findById(revenue_type_id);
-
       const trx = await transaction.start(Model.knex());
       try {
-        const oldSale = await SaleModel.query(trx)
-          .context(req.auth)
-          .join('revenue_type', 'sale.revenue_type_id', '=', 'revenue_type.revenue_type_id')
-          .where('sale_id', sale_id)
-          .first();
-        const oldRevenueType = await RevenueTypeModel.query(trx)
-          .context(req.auth)
-          .where('revenue_type_id', oldSale.revenue_type_id)
-          .first();
-        const newRevenueType = await RevenueTypeModel.query(trx)
-          .context(req.auth)
-          .where('revenue_type_id', revenue_type_id)
-          .first();
+        const oldSale = await SaleModel.query(trx).findById(sale_id);
+        const oldRevenueType = await RevenueTypeModel.query(trx).findById(oldSale.revenue_type_id);
+        const newRevenueType = await RevenueTypeModel.query(trx).findById(revenue_type_id);
 
-        // TODO: LF-3595 - properly determine if value needs to be updated, using crop sale column
-        const isCropSale = Boolean(!newRevenueType.farm_id);
-        const wasCropSale = Boolean(!oldRevenueType.farm_id);
+        const isCropSale = Boolean(newRevenueType.crop_generated);
+        const wasCropSale = Boolean(oldRevenueType.crop_generated);
         if (isCropSale) {
           saleData.value = null;
         } else {
@@ -93,17 +79,19 @@ const SaleController = {
           await trx.rollback();
           return res.status(400).send('failed to patch data');
         }
-        // TODO: LF-3595 - properly determine if crop_variety_sale needs to be updated
+
+        // Hard delete old crop variety sales
         if (wasCropSale) {
-          const deletedExistingCropVarietySale = await CropVarietySaleModel.query(trx)
+          const deletedExistingCropVarietySales = await CropVarietySaleModel.query(trx)
             .where('sale_id', sale_id)
             .delete();
-          if (!deletedExistingCropVarietySale) {
+          if (!deletedExistingCropVarietySales) {
             await trx.rollback();
             return res.status(400).send('failed to delete existing crop variety sales');
           }
         }
 
+        // Add updated crop variety sales
         if (isCropSale) {
           const { crop_variety_sale } = req.body;
           if (!crop_variety_sale.length) {

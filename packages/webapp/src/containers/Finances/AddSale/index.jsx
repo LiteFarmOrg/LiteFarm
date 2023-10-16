@@ -23,9 +23,7 @@ import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
-import { getRevenueFormType } from '../util';
-import { revenueFormTypes as formTypes } from '../constants';
+import { revenueTypeByIdSelector, revenueTypeTileContentsSelector } from '../../revenueTypeSlice';
 
 function AddSale() {
   const { t } = useTranslation(['translation', 'revenue']);
@@ -35,19 +33,29 @@ function AddSale() {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { revenue_type_id } = persistedFormData || {};
   const revenueType = useSelector(revenueTypeByIdSelector(revenue_type_id));
+  const revenueTypes = useSelector(revenueTypeTileContentsSelector);
 
-  const formType = getRevenueFormType(revenueType);
+  const revenueTypeReactSelectOptions = revenueTypes?.map((type) => {
+    const retireSuffix = type.deleted ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : '';
+
+    return {
+      value: type.revenue_type_id,
+      label: type.farm_id
+        ? type.revenue_name + retireSuffix
+        : t(`revenue:${type.revenue_translation_key}`),
+    };
+  });
 
   const onSubmit = (data) => {
     const editedSale = {
       customer_name: data.customer_name,
       sale_date: data.sale_date,
       farm_id: farm.farm_id,
-      revenue_type_id: revenue_type_id,
+      revenue_type_id: data.revenue_type_id,
       note: data.note ? data.note : null,
     };
 
-    if (formType === formTypes.CROP_SALE) {
+    if (revenueType.crop_generated) {
       editedSale.crop_variety_sale = Object.values(data.crop_variety_sale).map((c) => {
         return {
           sale_value: c.sale_value,
@@ -56,7 +64,7 @@ function AddSale() {
           crop_variety_id: c.crop_variety_id,
         };
       });
-    } else if (formType === formTypes.GENERAL) {
+    } else if (!revenueType.crop_generated) {
       editedSale.value = data.value;
     }
 
@@ -77,7 +85,9 @@ function AddSale() {
         view={'add'}
         handleGoBack={handleGoBack}
         buttonText={t('common:SAVE')}
-        formType={formType}
+        revenueType={revenueType}
+        revenueTypes={revenueTypes}
+        revenueTypeOptions={revenueTypeReactSelectOptions}
       />
     </HookFormPersistProvider>
   );

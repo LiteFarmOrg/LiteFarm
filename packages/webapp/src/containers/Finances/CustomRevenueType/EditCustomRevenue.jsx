@@ -22,7 +22,7 @@ import { hookFormUniquePropertyValidation } from '../../../components/Form/hookf
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import CustomRevenueRadios from './CustomRevenueRadios';
 
-function EditCustomExpense({ history, match }) {
+function EditCustomRevenue({ history, match }) {
   const { revenue_type_id } = match.params;
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -66,4 +66,4 @@ function EditCustomExpense({ history, match }) {
   );
 }
 
-export default EditCustomExpense;
+export default EditCustomRevenue;

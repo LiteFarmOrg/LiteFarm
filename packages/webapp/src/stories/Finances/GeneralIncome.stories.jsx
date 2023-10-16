@@ -19,8 +19,6 @@ import {
   useCropSaleInputs,
   getCustomFormChildrenDefaultValues,
 } from '../../containers/Finances/useCropSaleInputs';
-import { getRevenueFormType } from '../../containers/Finances/util';
-import { revenueFormTypes as formTypes } from '../../containers/Finances/constants';
 
 const cropSale = {
   sale_id: 17,
@@ -64,6 +62,7 @@ const revenueTypes = [
     revenue_translation_key: 'CROP_SALE',
     farm_id: null,
     deleted: false,
+    crop_generated: true,
   },
   {
     revenue_type_id: 2,
@@ -71,6 +70,7 @@ const revenueTypes = [
     revenue_translation_key: 'GENERAL_SALE',
     farm_id: 1,
     deleted: false,
+    crop_generated: false,
   },
 ];
 const revenueTypeOptions = [
@@ -85,29 +85,16 @@ const revenueTypeOptions = [
 ];
 
 const GeneralRevenueWithState = (props) => {
-  const { view, sale } = props;
-  let formType;
-  if (sale?.value) {
-    formType = 'general';
-  }
-  if (sale?.crop_variety_sale) {
-    formType = 'crop_sale';
-  }
+  const { view, sale, revenueType } = props;
 
   const [isEditing, setIsEditing] = useState(false);
-  const [updatedFormType, setFormType] = useState(formType ? formType : undefined);
+  const [selectedRevenueType, setSelectedRevenueType] = useState(revenueType);
 
   const onTypeChange = (typeId, setValue, REVENUE_TYPE_ID) => {
     const newType = revenueTypes.find((option) => option.value === typeId);
     setValue(REVENUE_TYPE_ID, newType);
     const newRevenueType = revenueTypes.find((type) => type.revenue_type_id === typeId);
-    const newFormType = getRevenueFormType(newRevenueType);
-    if (newFormType === formTypes.CROP_SALE) {
-      setFormType(formTypes.CROP_SALE);
-    }
-    if (newFormType === formTypes.GENERAL) {
-      setFormType(formTypes.GENERAL);
-    }
+    setSelectedRevenueType(newRevenueType);
   };
   if (view === 'add') {
     return <GeneralRevenue {...props} />;
@@ -120,14 +107,12 @@ const GeneralRevenueWithState = (props) => {
         handleGoBack={isEditing ? () => setIsEditing(false) : () => {}}
         onClick={isEditing ? undefined : () => setIsEditing(true)}
         buttonText={isEditing ? 'Save' : 'Edit'}
-        formType={updatedFormType}
         useCustomFormChildren={useCropSaleInputs}
         customFormChildrenDefaultValues={
-          updatedFormType === formTypes.CROP_SALE
-            ? getCustomFormChildrenDefaultValues(sale)
-            : undefined
+          selectedRevenueType.crop_generated ? getCustomFormChildrenDefaultValues(sale) : undefined
         }
         onTypeChange={onTypeChange}
+        revenueType={selectedRevenueType}
         {...props}
       />
     );
@@ -154,7 +139,10 @@ AddCropSale.args = {
   view: 'add',
   handleGoBack: () => {},
   buttonText: 'Save',
-  formType: 'crop_sale',
+  revenueType: revenueTypes[0],
+  revenueTypes,
+  persistedFormData: { revenue_type_id: 1 },
+  revenueTypeOptions,
 };
 
 export const AddGeneralSale = Template.bind({});
@@ -168,7 +156,10 @@ AddGeneralSale.args = {
   view: 'add',
   handleGoBack: () => {},
   buttonText: 'Save',
-  formType: 'general',
+  revenueType: revenueTypes[1],
+  revenueTypes,
+  persistedFormData: { revenue_type_id: 2 },
+  revenueTypeOptions,
 };
 
 export const DetailGeneralSale = Template.bind({});
@@ -181,6 +172,8 @@ DetailGeneralSale.args = {
   sale: generalSale,
   revenueTypeOptions,
   onRetire: () => {},
+  revenueType: revenueTypes[1],
+  revenueTypes,
 };
 
 export const DetailCropSale = Template.bind({});
@@ -192,4 +185,6 @@ DetailCropSale.args = {
   sale: cropSale,
   revenueTypeOptions,
   onRetire: () => {},
+  revenueType: revenueTypes[0],
+  revenueTypes,
 };

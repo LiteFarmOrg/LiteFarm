@@ -8,8 +8,6 @@ import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
 import { setSelectedSale } from '../actions';
 import { getMass, getMassUnit, roundToTwoDecimal } from '../../../util';
 import { useTranslation } from 'react-i18next';
-import { getRevenueFormType } from '../util';
-import { revenueFormTypes } from '../constants';
 
 const ActualRevenueItem = ({ sale, history, ...props }) => {
   const { t } = useTranslation();
@@ -27,7 +25,7 @@ const ActualRevenueItem = ({ sale, history, ...props }) => {
   };
 
   const getFinanceGroupProps = () => {
-    if (getRevenueFormType(revenueType) === revenueFormTypes.CROP_SALE) {
+    if (revenueType.crop_generated) {
       const quantity_unit = getMassUnit();
       return {
         totalAmount: crop_variety_sale.reduce((total, sale) => total + sale.sale_value, 0),

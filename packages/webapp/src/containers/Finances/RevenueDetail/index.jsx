@@ -22,8 +22,6 @@ import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { revenueFormTypes as formTypes } from '../constants';
-import { getRevenueFormType } from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
 import { useCropSaleInputs, getCustomFormChildrenDefaultValues } from '../useCropSaleInputs';
@@ -48,7 +46,7 @@ function SaleDetail({ history, match }) {
 
   // Review after merging LF-3595
   // Handles changing the type
-  const [formType, setFormType] = useState(getRevenueFormType(revenueType));
+  const [selectedRevenueType, setSelectedRevenueType] = useState(revenueType);
   useEffect(() => {
     if (!sale) {
       history.replace('/unknown_record');
@@ -78,7 +76,7 @@ function SaleDetail({ history, match }) {
       note: data.note ? data.note : null,
     };
 
-    if (formType === formTypes.CROP_SALE) {
+    if (revenueType.crop_generated) {
       editedSale.value = null;
       editedSale.crop_variety_sale = Object.values(data.crop_variety_sale).map((c) => {
         return {
@@ -88,7 +86,7 @@ function SaleDetail({ history, match }) {
           crop_variety_id: c.crop_variety_id,
         };
       });
-    } else if (formType === formTypes.GENERAL) {
+    } else if (!revenueType.crop_generated) {
       editedSale.crop_variety_sale = null;
       editedSale.value = data.value;
     }
@@ -112,14 +110,8 @@ function SaleDetail({ history, match }) {
   const onTypeChange = (typeId, setValue, REVENUE_TYPE_ID) => {
     const newType = revenueTypeReactSelectOptions?.find((option) => option.value === typeId);
     setValue(REVENUE_TYPE_ID, newType);
-    const newRevenueType = revenueTypes.find((type) => type.revenue_type_id === typeId);
-    const newFormType = getRevenueFormType(newRevenueType);
-    if (newFormType === formTypes.CROP_SALE) {
-      setFormType(formTypes.CROP_SALE);
-    }
-    if (newFormType === formTypes.GENERAL) {
-      setFormType(formTypes.GENERAL);
-    }
+    const revenueType = revenueTypes.find((type) => type.revenue_type_id === typeId);
+    setSelectedRevenueType(revenueType);
   };
 
   return (
@@ -131,7 +123,7 @@ function SaleDetail({ history, match }) {
       sale={sale}
       useCustomFormChildren={useCropSaleInputs}
       customFormChildrenDefaultValues={
-        formType === formTypes.CROP_SALE ? getCustomFormChildrenDefaultValues(sale) : undefined
+        revenueType.crop_generated ? getCustomFormChildrenDefaultValues(sale) : undefined
       }
       view={isEditing ? 'edit' : 'read-only'}
       handleGoBack={handleGoBack}
@@ -139,8 +131,9 @@ function SaleDetail({ history, match }) {
       revenueTypeOptions={revenueTypeReactSelectOptions}
       onTypeChange={onTypeChange}
       buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
-      formType={formType}
       onRetire={onRetire}
+      revenueType={selectedRevenueType}
+      revenueTypes={revenueTypesArray}
     />
   );
 }

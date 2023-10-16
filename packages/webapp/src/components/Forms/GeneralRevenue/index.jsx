@@ -87,7 +87,7 @@ const GeneralRevenue = ({
   } = reactHookFormFunctions;
 
   //useHookFormPersist(getValues);
-
+  console.log(getValues());
   const selectedTypeOption = watch(REVENUE_TYPE_ID);
 
   const readonly = view === 'read-only';
@@ -102,7 +102,6 @@ const GeneralRevenue = ({
     sale,
     currency,
     disabledInput,
-    revenueType,
     revenueTypes,
     selectedTypeOption,
   );

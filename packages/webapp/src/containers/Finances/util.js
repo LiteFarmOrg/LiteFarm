@@ -95,14 +95,13 @@ export function calcActualRevenue(sales, startDate, endDate, revenueTypes) {
         );
       }
       const revenueType = revenueTypesMap[s.revenue_type_id];
-
       const saleDate = moment(s.sale_date);
       if (saleDate.isSameOrAfter(startDate, 'day') && saleDate.isSameOrBefore(endDate, 'day')) {
-        if (revenueType.crop_generated) {
+        if (revenueType?.crop_generated) {
           for (const c of s.crop_variety_sale) {
             total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(c.sale_value));
           }
-        } else if (!revenueType.crop_generated) {
+        } else if (!revenueType?.crop_generated) {
           total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(s.value));
         }
       }

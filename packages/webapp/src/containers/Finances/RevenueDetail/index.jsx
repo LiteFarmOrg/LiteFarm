@@ -75,8 +75,10 @@ function SaleDetail({ history, match }) {
       revenue_type_id: data.revenue_type_id.value,
       note: data.note ? data.note : null,
     };
-
-    if (revenueType.crop_generated) {
+    const newRevenueType = revenueTypes.find(
+      (type) => type.revenue_type_id === data.revenue_type_id.value,
+    );
+    if (newRevenueType.crop_generated) {
       editedSale.value = null;
       editedSale.crop_variety_sale = Object.values(data.crop_variety_sale).map((c) => {
         return {
@@ -86,7 +88,7 @@ function SaleDetail({ history, match }) {
           crop_variety_id: c.crop_variety_id,
         };
       });
-    } else if (!revenueType.crop_generated) {
+    } else if (!newRevenueType.crop_generated) {
       editedSale.crop_variety_sale = null;
       editedSale.value = data.value;
     }

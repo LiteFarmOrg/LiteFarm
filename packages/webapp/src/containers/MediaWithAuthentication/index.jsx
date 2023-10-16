@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { mediaEnum } from './constants';
 import { ReactComponent as Download } from '../../assets/images/farmMapFilter/Download.svg';
-import * as JSZip from 'jszip';
+import JSZip from 'jszip';
 
 export function MediaWithAuthentication({
   fileUrls = [],
@@ -42,7 +42,7 @@ export function MediaWithAuthentication({
             }),
           );
           const content = await zip.generateAsync({ type: 'base64' });
-          setZipContent(content);
+          subscribed && setZipContent(content);
         } else {
           const fileUrl = fileUrls[0];
           if (fileUrl) {
@@ -71,6 +71,7 @@ export function MediaWithAuthentication({
     element.download = `${title}.${extensionName}`;
     document.body.appendChild(element);
     element.click();
+    document.body.removeChild(element);
   };
 
   const handleZipDownload = () => {
@@ -79,6 +80,7 @@ export function MediaWithAuthentication({
     element.download = `${title}.zip`;
     document.body.appendChild(element);
     element.click();
+    document.body.removeChild(element);
   };
 
   const renderMediaComponent = () => {

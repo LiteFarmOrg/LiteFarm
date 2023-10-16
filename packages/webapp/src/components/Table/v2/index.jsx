@@ -88,8 +88,6 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-const ITEMS_TO_ADD_PER_CLICK = 5;
-
 /**
  * A table component built utilizing the Material Ui Table.
  * https://mui.com/material-ui/react-table/
@@ -104,6 +102,7 @@ export default function EnhancedTable(props) {
     showPagination,
     pageSizeOptions = [5, 10, 20, 50],
     onClickMore,
+    itemsToAddPerLoadMoreClick = 5,
     dense = true,
     shouldFixTableLayout = false,
     defaultOrderBy = '',
@@ -138,7 +137,7 @@ export default function EnhancedTable(props) {
   };
 
   const onClickLoadMore = () => {
-    const rowCount = Math.min(rowsPerPage + ITEMS_TO_ADD_PER_CLICK, data.length);
+    const rowCount = Math.min(rowsPerPage + itemsToAddPerLoadMoreClick, data.length);
     setRowsPerPage(rowCount);
   };
 
@@ -201,7 +200,7 @@ export default function EnhancedTable(props) {
             })}
             {emptyRows > 0 && (
               <TableRow style={{ height: (dense ? 40 : 56) * emptyRows }}>
-                <TableCell colSpan={fullColSpan} sx={{ border: 'none' }} />
+                <TableCell colSpan={fullColSpan} className={styles.tableCell} />
               </TableRow>
             )}
             {!showPagination && (
@@ -275,7 +274,9 @@ EnhancedTable.propTypes = {
   dense: PropTypes.bool,
   FooterCell: PropTypes.elementType,
   onClickMore: PropTypes.func,
+  itemsToAddPerLoadMoreClick: PropTypes.number,
   onRowClick: PropTypes.func,
+  /** should be true when setting column width */
   shouldFixTableLayout: PropTypes.bool,
   defaultOrderBy: PropTypes.string,
 };

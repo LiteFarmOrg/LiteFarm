@@ -15,7 +15,6 @@
 import React from 'react';
 import { componentDecorators } from '../Pages/config/Decorators';
 import Table from '../../components/Table/v2';
-import styles from '../../components/Table/v2/styles.module.scss';
 
 export default {
   title: 'Components/Tables/V2',
@@ -97,7 +96,7 @@ const getCropSalesData = (length) => {
   ].slice(0, length);
 };
 
-const FooterCell = (props) => (
+const FooterCell = () => (
   <div
     style={{
       width: '100%',
@@ -106,7 +105,7 @@ const FooterCell = (props) => (
       justifyContent: 'space-between',
       alignItems: 'center',
       height: 40,
-      paddingLeft: 20,
+      paddingLeft: 12,
       paddingRight: 12,
     }}
   >
@@ -216,6 +215,9 @@ const getTasksLabourColumns = () => {
       label: 'Tasks',
       Footer: 'DAILY TOTAL',
       component: 'th',
+      columnProps: {
+        style: { width: '33%' },
+      },
     },
     {
       id: 'time',
@@ -225,7 +227,9 @@ const getTasksLabourColumns = () => {
       format: (d) => `${d.time} h`,
       align: 'right',
       Footer: <b>89 h</b>,
-      maxWidth: 80,
+      columnProps: {
+        style: { width: '33%' },
+      },
     },
     {
       id: 'labourCost',
@@ -243,6 +247,9 @@ const getTasksLabourColumns = () => {
       },
       align: 'right',
       Footer: <b>$3732.50</b>,
+      columnProps: {
+        style: { width: '33%' },
+      },
     },
   ];
 };
@@ -266,6 +273,20 @@ export const TasksLabour = {
         data={getTasksLabourData(10)}
         minRows={5}
         onClickMore={() => console.log('Go to labour page')}
+      />
+    </BackgroundColorProvider>
+  ),
+};
+
+export const TasksLabourWithPagination = {
+  render: () => (
+    <BackgroundColorProvider>
+      <Table
+        columns={getTasksLabourColumns()}
+        data={getTasksLabourData(10)}
+        minRows={5}
+        onClickMore={() => console.log('Go to labour page')}
+        showPagination
       />
     </BackgroundColorProvider>
   ),

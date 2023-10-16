@@ -29,25 +29,25 @@ export default function EnhancedTableHead({ columns, order, orderBy, onRequestSo
   return (
     <TableHead>
       <TableRow className={styles.tableRow}>
-        {columns.map((column) => {
-          if (!column.id) {
+        {columns.map(({ id, align, columnProps, label }) => {
+          if (!id) {
             return null;
           }
           return (
             <TableCell
-              key={column.id}
-              align={column.align || 'left'}
-              sortDirection={orderBy === column.id ? order : false}
+              key={id}
+              align={align || 'left'}
+              sortDirection={orderBy === id ? order : false}
               className={clsx(styles.tableCell, styles.tableHead, dense && styles.dense)}
-              {...column.columnProps}
+              {...columnProps}
             >
               <TableSortLabel
-                active={orderBy === column.id}
-                direction={orderBy === column.id ? order : 'asc'}
-                onClick={createSortHandler(column.id)}
+                active={orderBy === id}
+                direction={orderBy === id ? order : 'asc'}
+                onClick={createSortHandler(id)}
                 IconComponent={ChevronDown}
               >
-                {column.label}
+                {label}
               </TableSortLabel>
             </TableCell>
           );

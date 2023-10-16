@@ -45,28 +45,48 @@ const SaleController = {
   patchSales() {
     return async (req, res) => {
       const { sale_id } = req.params;
-      const { customer_name, sale_date, value, note, revenue_type_id } = req.body;
+      const {
+        customer_name,
+        sale_date,
+        value,
+        note,
+        revenue_type_id,
+        crop_variety_sale,
+      } = req.body;
       const saleData = {
         customer_name,
         sale_date,
         note,
         revenue_type_id,
       };
-      if (!revenue_type_id) {
-        return res.status(400).send('revenue type is required');
-      }
 
       const trx = await transaction.start(Model.knex());
       try {
         const oldSale = await SaleModel.query(trx).findById(sale_id);
         const oldRevenueType = await RevenueTypeModel.query(trx).findById(oldSale.revenue_type_id);
-        const newRevenueType = await RevenueTypeModel.query(trx).findById(revenue_type_id);
-
+        const newRevenueType = revenue_type_id
+          ? await RevenueTypeModel.query(trx).findById(revenue_type_id)
+          : oldRevenueType;
         const isCropSale = Boolean(newRevenueType.crop_generated);
         const wasCropSale = Boolean(oldRevenueType.crop_generated);
-        if (isCropSale) {
-          saleData.value = null;
-        } else {
+        const saleTypeChanged = isCropSale != wasCropSale;
+
+        if (isCropSale && value) {
+          return res.status(400).send('cannot add value to crop sale');
+        }
+        if (!isCropSale && crop_variety_sale) {
+          return res
+            .status(400)
+            .send('must be crop generated revenue type to add crop variety sale');
+        }
+        if (saleTypeChanged && isCropSale && !crop_variety_sale) {
+          return res.status(400).send('cannot change type without correct values');
+        }
+        if (saleTypeChanged && !isCropSale && !value) {
+          return res.status(400).send('cannot change type without correct values');
+        }
+
+        if (!isCropSale) {
           saleData.value = value;
         }
 
@@ -79,28 +99,29 @@ const SaleController = {
           await trx.rollback();
           return res.status(400).send('failed to patch data');
         }
-
-        // Hard delete old crop variety sales
-        if (wasCropSale) {
-          const deletedExistingCropVarietySales = await CropVarietySaleModel.query(trx)
-            .where('sale_id', sale_id)
-            .delete();
-          if (!deletedExistingCropVarietySales) {
-            await trx.rollback();
-            return res.status(400).send('failed to delete existing crop variety sales');
+        if (revenue_type_id) {
+          // Hard delete old crop variety sales
+          if (wasCropSale) {
+            const deletedExistingCropVarietySales = await CropVarietySaleModel.query(trx)
+              .where('sale_id', sale_id)
+              .delete();
+            if (!deletedExistingCropVarietySales) {
+              await trx.rollback();
+              return res.status(400).send('failed to delete existing crop variety sales');
+            }
           }
-        }
 
-        // Add updated crop variety sales
-        if (isCropSale) {
-          const { crop_variety_sale } = req.body;
-          if (!crop_variety_sale.length) {
-            await trx.rollback();
-            return res.status(400).send('should not patch sale with no crop variety sales');
-          }
-          for (const cvs of crop_variety_sale) {
-            cvs.sale_id = parseInt(sale_id);
-            await CropVarietySaleModel.query(trx).context(req.auth).insert(cvs);
+          // Add updated crop variety sales
+          if (isCropSale) {
+            const { crop_variety_sale } = req.body;
+            if (!crop_variety_sale.length) {
+              await trx.rollback();
+              return res.status(400).send('should not patch sale with no crop variety sales');
+            }
+            for (const cvs of crop_variety_sale) {
+              cvs.sale_id = parseInt(sale_id);
+              await CropVarietySaleModel.query(trx).context(req.auth).insert(cvs);
+            }
           }
         }
 

@@ -15,7 +15,7 @@
 
 import React from 'react';
 import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
-import { useCropSaleInputs } from '../useCropSaleInputs';
+import useCropSaleInputs from '../useCropSaleInputs';
 import { addSale } from '../actions';
 import { userFarmSelector } from '../../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';

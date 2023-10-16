@@ -201,15 +201,15 @@ export const getCustomFormChildrenDefaultValues = (sale) => {
  * @param {Object} selectedTypeOption - The react select filter option that is currently selected.
  * @returns {JSX.Element|null} JSX elements for crop sale inputs and filter selection, or null if not a crop sale form.
  */
-export const useCropSaleInputs = (
+export default function useCropSaleInputs(
   reactHookFormFunctions,
   sale,
   currency,
   disabledInput,
   revenueTypes,
   selectedTypeOption,
-) => {
-  const { register } = reactHookFormFunctions;
+) {
+  const { register, watch } = reactHookFormFunctions;
   const { t } = useTranslation();
 
   const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
@@ -226,6 +226,8 @@ export const useCropSaleInputs = (
         required: isCropSale ? true : false,
       })
     : null;
+
+  const chosenVarieties = watch(CHOSEN_VARIETIES);
 
   // If not memoized - infinite re-render of GeneralRevenue when deselecting filter option
   const cropVarietyFilterOptions = useMemo(() => {
@@ -245,7 +247,7 @@ export const useCropSaleInputs = (
     filterKey: STATUS,
     options: cropVarietyFilterOptions.map((cvs) => ({
       value: cvs.label,
-      default: existingSales?.[cvs.value] ? true : false,
+      default: chosenVarieties?.[cvs.value] ? true : false,
       label: cvs.label,
     })),
   };
@@ -317,4 +319,4 @@ export const useCropSaleInputs = (
       {fields}
     </>
   ) : null;
-};
+}

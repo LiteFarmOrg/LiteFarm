@@ -302,11 +302,11 @@ export const useCropSaleInputs = (
     <>
       <FilterPillSelect
         subject={t('SALE.ADD_SALE.CROP_VARIETY')}
-        options={filter?.options}
-        filterKey={filter?.filterKey}
+        options={filter.options}
+        filterKey={filter.filterKey}
         style={{ marginBottom: !isFilterValid ? '0' : '32px' }}
         filterRef={filterRef}
-        key={filter?.filterKey}
+        key={filter.filterKey}
         onChange={onFilter}
         isDisabled={disabledInput}
       />

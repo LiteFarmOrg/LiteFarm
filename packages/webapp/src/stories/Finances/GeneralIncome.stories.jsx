@@ -15,8 +15,7 @@
 import GeneralRevenue from '../../components/Forms/GeneralRevenue';
 import { componentDecorators } from '../Pages/config/Decorators';
 import React, { useState } from 'react';
-import {
-  useCropSaleInputs,
+import useCropSaleInputs, {
   getCustomFormChildrenDefaultValues,
 } from '../../containers/Finances/useCropSaleInputs';
 

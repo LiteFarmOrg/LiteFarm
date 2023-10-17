@@ -299,23 +299,21 @@ export const getBiodiversityAPI = async (pointData, countData) => {
       // Do the subsequent API calls concurrently
       for (let i = 300; i < count; i += 300) {
         apiCalls.push(
-          new Promise((resolve, reject) => {
-            rp({
-              uri: endPoints.gbifAPI,
-              qs: {
-                ...qs,
-                offset: i,
-              },
+          rp({
+            uri: endPoints.gbifAPI,
+            qs: {
+              ...qs,
+              offset: i,
+            },
+          })
+            .then((data) => {
+              const { results } = JSON.parse(data);
+              processBiodiversityResults(results, label);
+              return Promise.resolve();
             })
-              .then((data) => {
-                const { results } = JSON.parse(data);
-                processBiodiversityResults(results, label);
-                resolve();
-              })
-              .catch((error) => {
-                reject(error);
-              });
-          }),
+            .catch((error) => {
+              return Promise.reject(error);
+            }),
         );
       }
     }

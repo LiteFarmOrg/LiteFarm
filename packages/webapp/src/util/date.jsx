@@ -46,3 +46,15 @@ export const getLocalDateInYYYYDDMM = (date = new Date()) => {
   const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
   return getDateInYYYYMMDD(year, month, day);
 };
+
+/**
+ * Adds a specified number of days to a given date.
+ *
+ * @param {Date} date - The initial date to which days should be added. ex. new Date(2023, 10, 1)
+ * @param {number} days - The number of days to add to the initial date. (Could be a negative number)
+ * @returns {Date} - A new Date object representing the result of adding the specified days to the initial date.
+ */
+export function addDaysToDate(date, days) {
+  const newDate = new Date(date.getTime());
+  return new Date(newDate.setDate(newDate.getDate() + days));
+}

@@ -44,7 +44,7 @@ const args = {
     },
     {
       value: 'e4c5495a-16f6-11ee-b336-0242ac120004',
-      label: 'Pesticide',
+      label: 'Pest Control',
     },
     {
       value: 'e4c54ac2-16f6-11ee-b336-0242ac120004',
@@ -60,7 +60,7 @@ const args = {
     },
     {
       value: 'e4c54b9e-16f6-11ee-b336-0242ac120004',
-      label: 'Seeds',
+      label: 'Seeds and Plants',
     },
     {
       value: 'e4c548e2-16f6-11ee-b336-0242ac120004',
@@ -69,6 +69,26 @@ const args = {
     {
       value: 'e4c54bda-16f6-11ee-b336-0242ac120004',
       label: 'Miscellaneous',
+    },
+    {
+      label: 'Utilities',
+      value: 'dbdbf7fe-6d2b-11ee-85e7-ce0b8496eaa9',
+    },
+    {
+      label: 'Labour',
+      value: 'dbdbfaba-6d2b-11ee-85e7-ce0b8496eaa9',
+    },
+    {
+      label: 'Infrastructure',
+      value: 'dbdbfad8-6d2b-11ee-85e7-ce0b8496eaa9',
+    },
+    {
+      label: 'Transportation',
+      value: 'dbdbfaec-6d2b-11ee-85e7-ce0b8496eaa9',
+    },
+    {
+      label: 'Services',
+      value: 'dbdbfaf6-6d2b-11ee-85e7-ce0b8496eaa9',
     },
     {
       value: '7829cf9a-4cfd-11ee-87e2-0242ac130004',

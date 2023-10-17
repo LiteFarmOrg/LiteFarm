@@ -2,10 +2,15 @@
   "EQUIPMENT": "Équipment",
   "FERTILIZER": "Engrais",
   "MACHINERY": "Machinerie",
-  "PESTICIDE": "Pesticide",
+  "PEST_CONTROL": "MISSING",
   "FUEL": "Carburant",
   "LAND": "Terrain",
-  "SEEDS": "Graines",
+  "SEEDS_AND_PLANTS": "MISSING",
   "MISCELLANEOUS": "MISSING",
-  "SOIL_AMENDMENT": "Amendement de sol"
+  "SOIL_AMENDMENT": "Amendement de sol",
+  "UTILITIES": "MISSING",
+  "LABOUR": "MISSING",
+  "INFRASTRUCTURE": "MISSING",
+  "TRANSPORTATION": "MISSING",
+  "SERVICES": "MISSING"
 }

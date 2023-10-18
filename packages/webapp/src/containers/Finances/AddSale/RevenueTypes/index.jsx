@@ -48,7 +48,7 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
         key: revenue_type_id,
         tileKey: revenue_type_id,
         icon: icons[farm_id ? 'CUSTOM' : revenue_translation_key],
-        label: farm_id ? revenue_name : t(`revenue:${revenue_translation_key}`),
+        label: farm_id ? revenue_name : t(`revenue:${revenue_translation_key}.REVENUE_NAME`),
         onClick: () => getOnTileClickFunc(setValue)(revenue_type_id),
         className: labelIconStyles.boldLabelIcon,
         selected: persistedFormData?.revenue_type_id === revenue_type_id,

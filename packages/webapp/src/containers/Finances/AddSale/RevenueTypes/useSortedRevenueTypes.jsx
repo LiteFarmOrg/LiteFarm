@@ -40,8 +40,8 @@ export default function useSortedRevenueTypes() {
 
     const allTypes = [
       ...defaultTypes.sort((typeA, typeB) =>
-        t(`revenue:${typeA.revenue_translation_key}`).localeCompare(
-          t(`revenue:${typeB.revenue_translation_key}`),
+        t(`revenue:${typeA.revenue_translation_key}.REVENUE_NAME`).localeCompare(
+          t(`revenue:${typeB.revenue_translation_key}.REVENUE_NAME`),
         ),
       ),
       ...customTypes.sort((typeA, typeB) =>

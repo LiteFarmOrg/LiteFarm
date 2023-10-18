@@ -1,16 +1,58 @@
 {
-  "EQUIPMENT": "Equipamento",
-  "FERTILIZER": "Fertilizante",
-  "SOIL_AMENDMENT": "Adubação e Correção do Solo",
-  "MACHINERY": "Maquinário",
-  "PEST_CONTROL": "MISSING",
-  "FUEL": "Combustível",
-  "LAND": "Terra",
-  "SEEDS_AND_PLANTS": "MISSING",
-  "MISCELLANEOUS": "MISSING",
-  "UTILITIES": "MISSING",
-  "LABOUR": "MISSING",
-  "INFRASTRUCTURE": "MISSING",
-  "TRANSPORTATION": "MISSING",
-  "SERVICES": "MISSING"
+  "EQUIPMENT": {
+    "EXPENSE_NAME": "Equipamento",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  },
+  "FERTILIZER": {
+    "EXPENSE_NAME": "Fertilizante",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  },
+  "SOIL_AMENDMENT": {
+    "EXPENSE_NAME": "Adubação e Correção do Solo",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  },
+  "MACHINERY": {
+    "EXPENSE_NAME": "Maquinário",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  },
+  "PEST_CONTROL": {
+    "EXPENSE_NAME": "MISSING",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  },
+  "FUEL": {
+    "EXPENSE_NAME": "Combustível",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  },
+  "LAND": {
+    "EXPENSE_NAME": "Terra",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  },
+  "SEEDS_AND_PLANTS": {
+    "EXPENSE_NAME": "MISSING",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  },
+  "MISCELLANEOUS": {
+    "EXPENSE_NAME": "MISSING",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  },
+  "UTILITIES": {
+    "EXPENSE_NAME": "MISSING",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  },
+  "LABOUR": {
+    "EXPENSE_NAME": "MISSING",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  },
+  "INFRASTRUCTURE": {
+    "EXPENSE_NAME": "MISSING",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  },
+  "TRANSPORTATION": {
+    "EXPENSE_NAME": "MISSING",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  },
+  "SERVICES": {
+    "EXPENSE_NAME": "MISSING",
+    "CUSTOM_DESCRIPTION": "MISSING"
+  }
 }

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { dateRangeSelector } from '../../containers/Finances/selectors';
 import DateRange, { MONDAY, SUNDAY } from '../../util/dateRange';
@@ -31,10 +31,11 @@ export default function useDateRangeSelector({
   const [dates, setDates] = useState({ startDate: '', endDate: '' });
   const customDateRange = useSelector(dateRangeSelector);
   const dateRange = new DateRange(new Date(), weekStartDate);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!customDateRange?.option) {
-      setDateRange({ ...customDateRange, option: dateRangeOptions.YEAR_TO_DATE });
+      dispatch(setDateRange({ ...customDateRange, option: dateRangeOptions.YEAR_TO_DATE }));
     }
 
     const option = customDateRange?.option || defaultOption;

@@ -142,7 +142,7 @@ export const addRemoveExpense = (addRemoveObj) => {
   };
 };
 
-//range obj = {startDate: ..., endDate...}
+//range obj = {startDate: ..., endDate..., option: ...}
 export const setDateRange = (rangeObj) => {
   return {
     type: SET_DATE_RANGE,

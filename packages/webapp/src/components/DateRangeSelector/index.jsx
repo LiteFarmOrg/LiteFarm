@@ -111,7 +111,7 @@ export default function DateRangeSelector({
   };
 
   const onClickAway = () => {
-    if (dateRange.option !== rangeOptions.CUSTOM) {
+    if (dateRange?.option !== rangeOptions.CUSTOM) {
       return;
     }
     if (!isValid) {

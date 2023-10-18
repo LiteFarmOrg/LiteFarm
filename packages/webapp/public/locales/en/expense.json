@@ -3,10 +3,6 @@
     "EXPENSE_NAME": "Equipment",
     "CUSTOM_DESCRIPTION": "Expenses related to simple tools, supplies, and parts for operating your farm."
   },
-  "FERTILIZER": {
-    "EXPENSE_NAME": "Fertilizer",
-    "CUSTOM_DESCRIPTION": "Expenses related to simple tools, supplies, and parts for operating your farm."
-  },
   "SOIL_AMENDMENT": {
     "EXPENSE_NAME": "Soil Amendment",
     "CUSTOM_DESCRIPTION": "Expenses related to additives such as fertilizers that improve the attributes of your soil."

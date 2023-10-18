@@ -3,10 +3,6 @@
     "EXPENSE_NAME": "Équipment",
     "CUSTOM_DESCRIPTION": "MISSING"
   },
-  "FERTILIZER": {
-    "EXPENSE_NAME": "Engrais",
-    "CUSTOM_DESCRIPTION": "MISSING"
-  },
   "SOIL_AMENDMENT": {
     "EXPENSE_NAME": "Amendement de sol",
     "CUSTOM_DESCRIPTION": "MISSING"

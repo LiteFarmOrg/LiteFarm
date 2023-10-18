@@ -41,6 +41,7 @@ class ExpenseType extends baseModel {
         expense_name: { type: 'string', minLength: 1, maxLength: 255 },
         farm_id: { type: 'string' },
         expense_translation_key: { type: 'string' },
+        custom_description: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,

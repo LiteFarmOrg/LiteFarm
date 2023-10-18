@@ -47,7 +47,7 @@ function AddSale() {
   });
 
   const onSubmit = (data) => {
-    const editedSale = {
+    const newSale = {
       customer_name: data.customer_name,
       sale_date: data.sale_date,
       farm_id: farm.farm_id,
@@ -58,7 +58,7 @@ function AddSale() {
       (type) => type.revenue_type_id === data.revenue_type_id.value,
     );
     if (newRevenueType.crop_generated) {
-      editedSale.crop_variety_sale = Object.values(data.crop_variety_sale).map((c) => {
+      newSale.crop_variety_sale = Object.values(data.crop_variety_sale).map((c) => {
         return {
           sale_value: c.sale_value,
           quantity: c.quantity,
@@ -67,10 +67,10 @@ function AddSale() {
         };
       });
     } else if (!newRevenueType.crop_generated) {
-      editedSale.value = data.value;
+      newSale.value = data.value;
     }
 
-    dispatch(addSale(editedSale));
+    dispatch(addSale(newSale));
   };
 
   const handleGoBack = () => {

@@ -134,7 +134,7 @@ const sortRevenueTypes = (revenueTypes) => {
     ...defaultTypes.sort((typeA, typeB) =>
       i18n
         .t(`revenue:${typeA.revenue_translation_key}`)
-        .localeCompare(i18n.t(`expense:${typeB.revenue_translation_key}`)),
+        .localeCompare(i18n.t(`revenue:${typeB.revenue_translation_key}`)),
     ),
     ...customTypes.sort((typeA, typeB) =>
       typeA.revenue_translation_key.localeCompare(typeB.revenue_translation_key),

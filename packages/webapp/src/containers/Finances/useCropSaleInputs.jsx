@@ -15,12 +15,11 @@
 
 import { useState, useRef, useEffect, useMemo } from 'react';
 import {
-  CHOSEN_VARIETIES,
+  CROP_VARIETY_SALE,
   CROP_VARIETY_ID,
   QUANTITY,
   QUANTITY_UNIT,
   SALE_VALUE,
-  REVENUE_TYPE_ID,
 } from '../../components/Forms/GeneralRevenue/constants';
 import FilterPillSelect from '../../components/Filter/FilterPillSelect';
 import { Error } from '../../components/Typography';
@@ -93,7 +92,15 @@ const getCropVarietyFilterOptions = (managementPlans, t) => {
     }
   }
 
-  cropVarietyFilterOptions.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
+  cropVarietyFilterOptions.sort((a, b) => {
+    if (a.label > b.label) {
+      return 1;
+    } else if (b.label > a.label) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
 
   return cropVarietyFilterOptions;
 };
@@ -126,11 +133,11 @@ const getInputs = (
 ) => {
   inactiveOptions?.forEach((option) => {
     const optionRegisterNames = {
-      CROP_VARIETY_ID: `${CHOSEN_VARIETIES}.${option.value}.${CROP_VARIETY_ID}`,
-      SALE_VALUE: `${CHOSEN_VARIETIES}.${option.value}.${SALE_VALUE}`,
-      QUANTITY: `${CHOSEN_VARIETIES}.${option.value}.${QUANTITY}`,
-      QUANTITY_UNIT: `${CHOSEN_VARIETIES}.${option.value}.${QUANTITY_UNIT}`,
-      CHOSEN_VARIETY: `${CHOSEN_VARIETIES}.${option.value}`,
+      CROP_VARIETY_ID: `${CROP_VARIETY_SALE}.${option.value}.${CROP_VARIETY_ID}`,
+      SALE_VALUE: `${CROP_VARIETY_SALE}.${option.value}.${SALE_VALUE}`,
+      QUANTITY: `${CROP_VARIETY_SALE}.${option.value}.${QUANTITY}`,
+      QUANTITY_UNIT: `${CROP_VARIETY_SALE}.${option.value}.${QUANTITY_UNIT}`,
+      CHOSEN_VARIETY: `${CROP_VARIETY_SALE}.${option.value}`,
     };
 
     reactHookFormFunctions.unregister([
@@ -163,13 +170,13 @@ const getInputs = (
  *
  * This function takes a sale object, reformats the sale data, and returns an object
  * containing default values for a react hook form custom form children. The default values are structured
- * using the CHOSEN_VARIETIES key, and the values are obtained from the reformatted sale data.
+ * using the CROP_VARIETY_SALE key, and the values are obtained from the reformatted sale data.
  *
  * @param {Object} sale - The sale data object to extract default values from.
  * @returns {Object} An object containing default values for custom form children.
  * The default values are structured as follows:
  * {
- *   [CHOSEN_VARIETIES]: {
+ *   [CROP_VARIETY_SALE]: {
  *     [crop_variety_id]: {
  *       crop_variety_id: number,
  *       quantity: number,
@@ -182,7 +189,7 @@ const getInputs = (
 export const getCustomFormChildrenDefaultValues = (sale) => {
   const existingSales = reformatSaleData(sale);
   return {
-    [CHOSEN_VARIETIES]: existingSales ?? undefined,
+    [CROP_VARIETY_SALE]: existingSales ?? undefined,
   };
 };
 
@@ -222,12 +229,12 @@ export default function useCropSaleInputs(
 
   //TODO: handle register/unregister of crop_variety sale
   isCropSale
-    ? register(CHOSEN_VARIETIES, {
+    ? register(CROP_VARIETY_SALE, {
         required: isCropSale ? true : false,
       })
     : null;
 
-  const chosenVarieties = watch(CHOSEN_VARIETIES);
+  const chosenVarieties = watch(CROP_VARIETY_SALE);
 
   // If not memoized - infinite re-render of GeneralRevenue when deselecting filter option
   const cropVarietyFilterOptions = useMemo(() => {

@@ -27,7 +27,9 @@ import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { SALE_DATE, SALE_CUSTOMER, VALUE, NOTE, REVENUE_TYPE_ID } from './constants';
+import PropTypes from 'prop-types';
 //import useHookFormPersist from '../../../containers/hooks/useHookFormPersist';
+import styles from './styles.module.scss';
 
 const GeneralRevenue = ({
   onSubmit,
@@ -44,33 +46,49 @@ const GeneralRevenue = ({
   buttonText,
   customFormChildrenDefaultValues,
   useCustomFormChildren = () => {},
-  revenueType,
   revenueTypes,
   onRetire,
 }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
 
+  let defaultValues = {
+    [SALE_DATE]: getLocalDateInYYYYDDMM(),
+    [SALE_CUSTOMER]: '',
+    [REVENUE_TYPE_ID]: null,
+    [VALUE]: null,
+    [NOTE]: '',
+  };
+  if (sale) {
+    defaultValues = {
+      [SALE_DATE]: getLocalDateInYYYYDDMM(new Date(sale[SALE_DATE])),
+      [SALE_CUSTOMER]: sale[SALE_CUSTOMER],
+      [REVENUE_TYPE_ID]: revenueTypeOptions?.find((option) => {
+        return option.value === sale.revenue_type_id;
+      }),
+      [VALUE]: !isNaN(sale?.[VALUE]) ? sale[VALUE] : null,
+      [NOTE]: sale[NOTE],
+    };
+  } else if (persistedFormData) {
+    defaultValues = {
+      [SALE_DATE]: getLocalDateInYYYYDDMM(persistedFormData[SALE_DATE]),
+      [SALE_CUSTOMER]: persistedFormData[SALE_CUSTOMER],
+      [REVENUE_TYPE_ID]: revenueTypeOptions?.find((option) => {
+        return option.value === persistedFormData?.[REVENUE_TYPE_ID];
+      }),
+      [VALUE]: !isNaN(persistedFormData[VALUE]) ? persistedFormData[VALUE] : null,
+      [NOTE]: persistedFormData[NOTE],
+    };
+  }
+
   const reactHookFormFunctions = useForm({
     mode: 'onChange',
     defaultValues: {
-      [SALE_DATE]:
-        (sale?.[SALE_DATE] && getLocalDateInYYYYDDMM(new Date(sale[SALE_DATE]))) ||
-        persistedFormData?.[SALE_DATE] ||
-        getLocalDateInYYYYDDMM(),
-      [SALE_CUSTOMER]: sale?.[SALE_CUSTOMER] || persistedFormData?.[SALE_CUSTOMER] || '',
-      [REVENUE_TYPE_ID]:
-        revenueTypeOptions?.find((option) => option.value === sale?.revenue_type_id) ||
-        revenueTypeOptions?.find(
-          (option) => option.value === persistedFormData?.[REVENUE_TYPE_ID],
-        ) ||
-        null,
-      [VALUE]: !isNaN(sale?.[VALUE])
-        ? sale[VALUE]
-        : !isNaN(persistedFormData?.[VALUE])
-        ? persistedFormData[VALUE]
-        : null,
-      [NOTE]: sale?.[NOTE] || persistedFormData?.[NOTE] || '',
+      [SALE_DATE]: defaultValues[SALE_DATE],
+      [SALE_CUSTOMER]: defaultValues[SALE_CUSTOMER],
+      [REVENUE_TYPE_ID]: defaultValues[REVENUE_TYPE_ID],
+      [VALUE]: defaultValues[VALUE],
+      [NOTE]: defaultValues[NOTE],
       ...customFormChildrenDefaultValues,
     },
   });
@@ -238,6 +256,25 @@ const GeneralRevenue = ({
       </div>
     </Form>
   );
+};
+
+GeneralRevenue.propTypes = {
+  onSubmit: PropTypes.func,
+  title: PropTypes.string,
+  currency: PropTypes.string,
+  sale: PropTypes.object,
+  useHookFormPersist: PropTypes.func,
+  persistedFormData: PropTypes.object,
+  view: PropTypes.oneOf(['add', 'read-only', 'edit']),
+  handleGoBack: PropTypes.func,
+  onClick: PropTypes.func,
+  revenueTypeOptions: PropTypes.array,
+  onTypeChange: PropTypes.func,
+  buttonText: PropTypes.string,
+  customFormChildrenDefaultValues: PropTypes.object,
+  useCustomFormChildren: PropTypes.func,
+  revenueTypes: PropTypes.array,
+  onRetire: PropTypes.func,
 };
 
 export default GeneralRevenue;

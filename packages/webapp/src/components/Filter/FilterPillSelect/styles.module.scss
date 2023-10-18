@@ -48,7 +48,7 @@
 }
 
 .disabled {
-  background-color: var(--inputDisabled) !important;
+  background-color: var(--inputDisabled);
   color: var(--grey600);
   border-color: var(--inputDefault);
 }

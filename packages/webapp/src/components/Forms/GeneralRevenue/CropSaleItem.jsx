@@ -15,13 +15,20 @@
 
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import { harvestAmounts } from '../../../util/convert-units/unit';
-import { CHOSEN_VARIETIES, CROP_VARIETY_ID, SALE_VALUE } from './constants';
+import {
+  CROP_VARIETY_SALE,
+  CROP_VARIETY_ID,
+  SALE_VALUE,
+  QUANTITY,
+  QUANTITY_UNIT,
+} from './constants';
 import Unit from '../../Form/Unit';
 import Input, { getInputErrors } from '../../Form/Input';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
+import PropTypes from 'prop-types';
 
-export default function CropSaleItem({
+function CropSaleItem({
   managementPlan,
   system,
   currency,
@@ -39,8 +46,8 @@ export default function CropSaleItem({
     watch,
     formState: { errors },
   } = reactHookFormFunctions;
-  const saleValueRegisterName = `${CHOSEN_VARIETIES}.${cropVarietyId}.${SALE_VALUE}`;
-  const cropVarietyIdRegisterName = `${CHOSEN_VARIETIES}.${cropVarietyId}.${CROP_VARIETY_ID}`;
+  const saleValueRegisterName = `${CROP_VARIETY_SALE}.${cropVarietyId}.${SALE_VALUE}`;
+  const cropVarietyIdRegisterName = `${CROP_VARIETY_SALE}.${cropVarietyId}.${CROP_VARIETY_ID}`;
 
   register(cropVarietyIdRegisterName, {
     required: true,
@@ -59,15 +66,14 @@ export default function CropSaleItem({
         <Unit
           label={t('SALE.ADD_SALE.TABLE_HEADERS.QUANTITY')}
           register={register}
-          name={`${CHOSEN_VARIETIES}.${cropVarietyId}.quantity`}
-          displayUnitName={`${CHOSEN_VARIETIES}.${cropVarietyId}.quantity_unit`}
+          name={`${CROP_VARIETY_SALE}.${cropVarietyId}.${QUANTITY}`}
+          displayUnitName={`${CROP_VARIETY_SALE}.${cropVarietyId}.${QUANTITY_UNIT}`}
           unitType={harvestAmounts}
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
           hookFromWatch={watch}
           control={control}
-          style={{ marginBottom: '40px' }}
           required
           disabled={disabledInput}
         />
@@ -81,7 +87,6 @@ export default function CropSaleItem({
             max: { value: 999999999, message: t('SALE.ADD_SALE.SALE_VALUE_ERROR') },
           })}
           currency={currency}
-          style={{ marginBottom: '40px' }}
           errors={getInputErrors(errors, saleValueRegisterName)}
           disabled={disabledInput}
         />
@@ -89,3 +94,14 @@ export default function CropSaleItem({
     </div>
   );
 }
+
+CropSaleItem.propTypes = {
+  managementPlan: PropTypes.object,
+  system: PropTypes.string,
+  currency: PropTypes.string,
+  reactHookFormFunctions: PropTypes.object,
+  cropVarietyId: PropTypes.string,
+  disabledInput: PropTypes.bool,
+};
+
+export default CropSaleItem;

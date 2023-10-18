@@ -505,6 +505,8 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const { management_plan_id } = req.params;
+        const { user_id } = req.auth;
+        const { farm_id } = req.headers;
 
         const managementPlan = await ManagementPlanModel.query()
           .context(req.auth)
@@ -575,6 +577,32 @@ const managementPlanController = {
             ...transplantTasks,
             ...plantTasks,
           ].map(({ task_id }) => task_id);
+
+          const abandonedTasks = [];
+
+          await Promise.all(
+            taskIdsRelatedToOneManagementPlan.map(async (task_id) => {
+              const { task_translation_key } = await TaskModel.getTaskType(task_id);
+              const { assignee_user_id } = await TaskModel.query(trx)
+                .select('assignee_user_id')
+                .where({ task_id })
+                .first();
+
+              if (!assignee_user_id) {
+                return;
+              }
+
+              abandonedTasks.push({
+                assignee_user_id: [assignee_user_id],
+                user_id,
+                task_id,
+                type: TaskNotificationTypes.TASK_ABANDONED,
+                task_translation_key,
+                farm_id,
+              });
+            }),
+          );
+
           await TaskModel.query(trx)
             .context(req.auth)
             .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
@@ -592,13 +620,31 @@ const managementPlanController = {
               'delete from "management_tasks" using "planting_management_plan" where "planting_management_plan"."planting_management_plan_id" = "management_tasks"."planting_management_plan_id" and "planting_management_plan"."management_plan_id" = ? and "management_tasks"."task_id" = ANY(?)',
               [management_plan_id, taskIdsRelatedToManyManagementPlans],
             ));
-          return await ManagementPlanModel.query()
+          const abandonedPlan = await ManagementPlanModel.query(trx)
             .context(req.auth)
             .where({ management_plan_id })
             .patch(_pick(req.body, ['abandon_date', 'complete_notes', 'rating', 'abandon_reason']));
-        });
 
+          return abandonedPlan ? abandonedTasks : abandonedPlan;
+        });
         if (result) {
+          Promise.all(
+            result.map(async (task) => {
+              await sendTaskNotification(
+                task.assignee_user_id,
+                task.user_id,
+                task.task_id,
+                task.type,
+                task.task_translation_key,
+                task.farm_id,
+              );
+            }),
+          ).catch((error) => {
+            console.log(
+              'Error while sending notifications about abandoned tasks for a abandoned management plan: ',
+              error,
+            );
+          });
           return res.sendStatus(200);
         } else {
           return res.sendStatus(404);

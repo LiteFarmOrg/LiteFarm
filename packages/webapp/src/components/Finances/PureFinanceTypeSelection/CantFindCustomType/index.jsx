@@ -14,6 +14,7 @@
  */
 
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
 import styles from './styles.module.scss';
 import { IconLink } from '../../../Typography';
@@ -72,4 +73,10 @@ export const CantFindCustomType = ({ customTypeMessages, iconLinkId, onGoToManag
       </div>
     </div>
   );
+};
+
+CantFindCustomType.prototype = {
+  customTypeMessages: PropTypes.object,
+  onGoToManageCustomType: PropTypes.func,
+  iconLinkId: PropTypes.string,
 };

@@ -113,6 +113,11 @@ export const Expense = {
       };
     },
     useHookFormPersist: () => ({ historyCancel: () => ({}) }),
+    customTypeMessages: {
+      info: 'You can also create your own custom expense types!',
+      manage: 'Manage your custom expenses',
+      misc: true,
+    },
   },
   parameters: { ...chromaticSmallScreen },
 };
@@ -157,6 +162,10 @@ export const Revenue = {
       };
     },
     useHookFormPersist: () => ({ historyCancel: () => ({}) }),
+    customTypeMessages: {
+      info: 'You can also create your own custom revenue types!',
+      manage: 'Manage your custom revenues',
+    },
   },
   parameters: { ...chromaticSmallScreen },
 };

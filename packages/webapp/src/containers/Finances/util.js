@@ -14,8 +14,9 @@
  */
 
 import moment from 'moment';
-import { roundToTwoDecimal } from '../../util';
+import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
 import { revenueFormTypes } from './constants';
+import i18n from '../../locales/i18n';
 
 export function calcTotalLabour(tasks, startDate, endDate) {
   let total = 0.0;
@@ -115,4 +116,109 @@ export function calcActualRevenue(sales, startDate, endDate, revenueTypes) {
 
 export const getRevenueFormType = (revenueType) => {
   return revenueType?.crop_generated ? revenueFormTypes.CROP_SALE : revenueFormTypes.GENERAL;
+};
+
+export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
+  const groupingOptions = [
+    {
+      key: 'assignee_user_id',
+      label: 'tasksByEmployee',
+      taskObject: (task, groupKey) => {
+        const assignee = users.find((user) => user.user_id == groupKey);
+        return {
+          ...task,
+          employee: `${assignee.first_name} ${assignee.last_name.substring(0, 1).toUpperCase()}.`,
+        };
+      },
+    },
+    {
+      key: 'task_type_id',
+      label: 'tasksByTaskType',
+      taskObject: (task, groupKey) => {
+        const taskType = taskTypes.find((taskType) => taskType.task_type_id == groupKey);
+        return {
+          ...task,
+          taskType: i18n.t(`task:${taskType.task_translation_key}`),
+        };
+      },
+    },
+  ];
+  const labourItemGroups = {};
+  groupingOptions.forEach((option) => {
+    const groupedTasks = Object.groupBy(tasks, (task) => task[option.key]);
+    const items = Object.keys(groupedTasks).map((groupKey) => {
+      const tasksInGroup = groupedTasks[groupKey].map((task) => {
+        const minutes = parseInt(task.duration, 10);
+        const hours = roundToTwoDecimal(minutes / 60);
+        const rate = roundToTwoDecimal(task.wage_at_moment);
+        const labourCost = roundToTwoDecimal(rate * hours);
+        return {
+          ...task,
+          time: hours,
+          labourCost,
+        };
+      });
+      const time = tasksInGroup.reduce((sum, task) => sum + task.time, 0);
+      const labourCost = tasksInGroup.reduce((sum, task) => sum + task.labourCost, 0);
+
+      return option.taskObject(
+        {
+          time,
+          labourCost,
+        },
+        groupKey,
+      );
+    });
+    labourItemGroups[option.label] = items;
+  });
+
+  return labourItemGroups;
+};
+
+export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
+  const revenueItems = sales.map((sale) => {
+    const revenueType = revenueTypes.find(
+      (revenueType) => revenueType.revenue_type_id === sale.revenue_type_id,
+    );
+    if (getRevenueFormType(revenueType) === revenueFormTypes.CROP_SALE) {
+      const quantityUnit = getMassUnit();
+      const cropVarietySale = sale.crop_variety_sale;
+      return {
+        sale,
+        totalAmount: cropVarietySale.reduce((total, sale) => total + sale.sale_value, 0),
+        financeItemsProps: cropVarietySale.map((cvs) => {
+          const convertedQuantity = roundToTwoDecimal(getMass(cvs.quantity).toString());
+          const {
+            crop_variety_name: cropVarietyName,
+            crop: { crop_translation_key },
+          } = cropVarieties.find(
+            (cropVariety) => cropVariety.crop_variety_id === cvs.crop_variety_id,
+          );
+          const title = cropVarietyName
+            ? `${cropVarietyName}, ${i18n.t(`crop:${crop_translation_key}`)}`
+            : i18n.t(`crop:${crop_translation_key}`);
+          return {
+            key: cvs.crop_variety_id,
+            title,
+            subtitle: `${convertedQuantity} ${quantityUnit}`,
+            amount: cvs.sale_value,
+          };
+        }),
+      };
+    } else {
+      return {
+        sale,
+        totalAmount: sale.value || 0,
+        financeItemsProps: [
+          {
+            key: sale.sale_id,
+            title: revenueType.revenue_name,
+            amount: sale.value || 0,
+          },
+        ],
+      };
+    }
+  });
+
+  return revenueItems;
 };

@@ -5,16 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { dateRangeSelector, salesSelector } from '../selectors';
-import { allRevenueTypesSelector } from '../../revenueTypeSlice';
+import { allRevenueTypesSelector, revenueTypeSelector } from '../../revenueTypeSlice';
 import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import { AddLink, Semibold } from '../../../components/Typography';
 import DateRangePicker from '../../../components/Form/DateRangePicker';
 import ActualRevenueItem from '../ActualRevenueItem';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
-import { calcActualRevenue, filterSalesByDateRange } from '../util';
+import { calcActualRevenue, filterSalesByDateRange, mapSalesToRevenueItems } from '../util';
 import { setDateRange } from '../actions';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getRevenueTypes } from '../saga';
+import { cropVarietySelector } from '../../cropVarietySlice';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -28,6 +29,8 @@ export default function ActualRevenue({ history, match }) {
   const sales = useSelector(salesSelector);
   const dateRange = useSelector(dateRangeSelector);
   const allRevenueTypes = useSelector(allRevenueTypesSelector);
+  const getRevenueType = (id) => useSelector(revenueTypeSelector(id));
+  const getCropVariety = (id) => useSelector(cropVarietySelector(id));
 
   const year = new Date().getFullYear();
 
@@ -73,6 +76,7 @@ export default function ActualRevenue({ history, match }) {
     () => filterSalesByDateRange(sales, fromDate, toDate),
     [sales, fromDate, toDate],
   );
+  const revenueItems = mapSalesToRevenueItems(filteredSales, getRevenueType, getCropVariety, t);
 
   useEffect(() => {
     if (!allRevenueTypes?.length) {
@@ -112,10 +116,10 @@ export default function ActualRevenue({ history, match }) {
         secondColumn={t('FINANCES.REVENUE')}
         style={{ marginBottom: '8px' }}
       />
-      {filteredSales.map((sale) => (
+      {revenueItems.map((item) => (
         <ActualRevenueItem
-          key={sale.sale_id}
-          sale={sale}
+          key={item.key}
+          revenueItem={item}
           history={history}
           style={{ marginBottom: '16px' }}
         />

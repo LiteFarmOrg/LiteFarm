@@ -68,6 +68,10 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
         onGoToManageCustomType={() => history.push('/manage_custom_revenues')}
         getFormatTileDataFunc={getFormatTileDataFunc}
         useHookFormPersist={useHookFormPersist}
+        customTypeMessages={{
+          info: t('FINANCES.CANT_FIND.INFO_REVENUE'),
+          manage: t('FINANCES.CANT_FIND.MANAGE_REVENUE'),
+        }}
       />
     </HookFormPersistProvider>
   );

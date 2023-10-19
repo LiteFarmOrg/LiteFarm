@@ -827,6 +827,12 @@
       "ADD_REVENUE": "Add revenue",
       "TITLE": "Actual Revenue"
     },
+    "CANT_FIND": {
+      "INFO": "You can also create your own custom expense types!",
+      "MAIN": "Can't find a suitable category?",
+      "MANAGE": "Manage your custom expenses",
+      "MISC_EXPENSE": "Or <1>create a <1>Miscellaneous</1> expense</1>"
+    },
     "DATE": "Date",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Estimated annual revenue",

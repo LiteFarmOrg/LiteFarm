@@ -826,6 +826,12 @@
       "ADD_REVENUE": "Agregar ingresos",
       "TITLE": "Ingresos reales"
     },
+    "CANT_FIND": {
+      "INFO": "MISSING",
+      "MAIN": "MISSING",
+      "MANAGE": "MISSING",
+      "MISC_EXPENSE": "MISSING"
+    },
     "DATE": "Fecha",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Ingresos anuales estimados",

@@ -826,6 +826,12 @@
       "ADD_REVENUE": "Adicionar Receita",
       "TITLE": "Receita atual"
     },
+    "CANT_FIND": {
+      "INFO": "MISSING",
+      "MAIN": "MISSING",
+      "MANAGE": "MISSING",
+      "MISC_EXPENSE": "MISSING"
+    },
     "DATE": "Data",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Rendimento anual estimada",

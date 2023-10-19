@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -22,13 +22,18 @@ import { ReactComponent as Edit } from '../../../../assets/images/edit.svg';
 import { ReactComponent as UncheckedEnabled } from '../../../../assets/images/unchecked-enabled.svg';
 import { ReactComponent as CheckedEnabled } from '../../../../assets/images/checked-enabled.svg';
 
-export const CantFindCustomType = ({ customTypeMessages, iconLinkId, onGoToManageCustomType }) => {
+export const CantFindCustomType = ({
+  customTypeMessages,
+  miscellaneousConfig,
+  iconLinkId,
+  onGoToManageCustomType,
+}) => {
   const { t } = useTranslation();
 
-  const [isChecked, setIsChecked] = useState(false);
+  const isChecked = miscellaneousConfig?.selected;
 
   const handleCheck = () => {
-    setIsChecked((current) => !current);
+    miscellaneousConfig?.addRemove();
   };
 
   return (
@@ -51,9 +56,9 @@ export const CantFindCustomType = ({ customTypeMessages, iconLinkId, onGoToManag
             {customTypeMessages.manage}
           </IconLink>
 
-          {customTypeMessages.misc && (
+          {miscellaneousConfig && (
             <div className={styles.miscellaneous} onClick={handleCheck}>
-              <p className={styles.miscText}>
+              <p className={styles.miscellaneousText}>
                 <Trans i18nKey="FINANCES.CANT_FIND.MISC_EXPENSE">
                   Or
                   <span className={styles.underlined}>
@@ -75,8 +80,15 @@ export const CantFindCustomType = ({ customTypeMessages, iconLinkId, onGoToManag
   );
 };
 
-CantFindCustomType.prototype = {
-  customTypeMessages: PropTypes.object,
+CantFindCustomType.propTypes = {
+  customTypeMessages: PropTypes.shape({
+    info: PropTypes.string,
+    manage: PropTypes.string,
+  }),
+  miscellaneousConfig: PropTypes.shape({
+    addRemove: PropTypes.func,
+    selected: PropTypes.bool,
+  }),
+  iconLinkId: PropTypes.string, // id used by spotlight
   onGoToManageCustomType: PropTypes.func,
-  iconLinkId: PropTypes.string,
 };

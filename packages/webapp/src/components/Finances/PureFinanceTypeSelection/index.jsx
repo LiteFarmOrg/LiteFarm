@@ -44,6 +44,7 @@ export default function PureFinanceTypeSelection({
   iconLinkId,
   Wrapper = FallbackWrapper,
   customTypeMessages = {},
+  miscellaneousConfig,
 }) {
   const { t } = useTranslation();
   const { getValues, setValue } = useForm({ defaultValues: persistedFormData });
@@ -77,6 +78,7 @@ export default function PureFinanceTypeSelection({
         <div className={styles.cantFindWrapper}>
           <CantFindCustomType
             customTypeMessages={customTypeMessages}
+            miscellaneousConfig={miscellaneousConfig}
             iconLinkId={iconLinkId}
             onGoToManageCustomType={onGoToManageCustomType}
           />
@@ -101,8 +103,15 @@ PureFinanceTypeSelection.prototype = {
   progressValue: PropTypes.number,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
-  iconLinkId: PropTypes.string,
-  customTypeMessages: PropTypes.object,
+  customTypeMessages: PropTypes.shape({
+    info: PropTypes.string,
+    manage: PropTypes.string,
+  }),
+  miscellaneousConfig: PropTypes.shape({
+    addRemove: PropTypes.func,
+    selected: PropTypes.bool,
+  }),
   /** used for spotlight */
+  iconLinkId: PropTypes.string,
   Wrapper: PropTypes.node,
 };

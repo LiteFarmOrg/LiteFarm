@@ -102,6 +102,14 @@ class ExpenseCategories extends Component {
           useHookFormPersist={this.props.useHookFormPersist}
           iconLinkId={'manageCustomExpenseType'}
           Wrapper={ManageCustomExpenseTypesSpotlight}
+          customTypeMessages={{
+            info: this.props.t('FINANCES.CANT_FIND.INFO_EXPENSE'),
+            manage: this.props.t('FINANCES.CANT_FIND.MANAGE_EXPENSE'),
+          }}
+          miscellaneousConfig={{
+            addRemove: () => this.addRemoveType(miscellaneous_type_id),
+            selected: this.state.selectedTypes.includes(miscellaneous_type_id),
+          }}
         />
       </HookFormPersistProvider>
     );

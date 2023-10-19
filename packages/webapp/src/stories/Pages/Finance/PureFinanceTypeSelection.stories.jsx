@@ -116,7 +116,11 @@ export const Expense = {
     customTypeMessages: {
       info: 'You can also create your own custom expense types!',
       manage: 'Manage your custom expenses',
-      misc: true,
+      miscellaneous: true,
+    },
+    miscellaneousConfig: {
+      addRemove: () => console.log('Miscellaneous clicked!'),
+      selected: false,
     },
   },
   parameters: { ...chromaticSmallScreen },

@@ -103,3 +103,9 @@
   padding: 0;
   border-bottom: none;
 }
+
+.pagination {
+  > div > div svg:nth-child(3)  {
+    color: var(--grey600);
+  }
+}

@@ -250,6 +250,7 @@ export default function EnhancedTable(props) {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          className={styles.pagination}
         />
       )}
     </Box>

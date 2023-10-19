@@ -14,4 +14,5 @@
  */
 export const tileTypes = {
   ICON_LABEL: 'iconLabel',
+  ICON_DESCRIPTION_LIST: 'iconDescriptionList',
 };

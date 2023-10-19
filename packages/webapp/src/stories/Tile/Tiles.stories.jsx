@@ -18,6 +18,7 @@ import { within } from '@storybook/testing-library';
 import { componentDecorators } from '../Pages/config/Decorators';
 import Tiles from '../../components/Tile/Tiles';
 import IconLabelTile from '../../components/Tile/IconLabelTile';
+import IconDescriptionListTile from '../../components/Tile/IconDescriptionListTile';
 import { tileTypes } from '../../components/Tile/constants';
 import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
 
@@ -99,5 +100,24 @@ export const IconLabelTilesAsDataWithFormatFunction = {
       };
     },
   },
+  play: tileLengthTest(6, ['Label']),
+};
+
+export const IconDescriptionListTilesAsChildren = {
+  render: () => (
+    <Tiles>
+      {new Array(6).fill().map((item, index) => {
+        return (
+          <IconDescriptionListTile
+            key={index}
+            icon={<SoilAmendment />}
+            label={'Label'}
+            onClick={() => console.log('clicked!')}
+            selected={false}
+          />
+        );
+      })}
+    </Tiles>
+  ),
   play: tileLengthTest(6, ['Label']),
 };

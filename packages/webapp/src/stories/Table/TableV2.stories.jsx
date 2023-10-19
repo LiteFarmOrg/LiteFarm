@@ -13,18 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import React from 'react';
-import { componentDecorators } from '../Pages/config/Decorators';
+import { v2TableDecorator } from '../Pages/config/Decorators';
 import Table from '../../components/Table/v2';
 
 export default {
   title: 'Components/Tables/V2',
   component: Table,
-  decorators: componentDecorators,
+  decorators: v2TableDecorator,
 };
-
-const BackgroundColorProvider = ({ children }) => (
-  <div style={{ background: '#F6FBFA', padding: 10 }}>{children}</div>
-);
 
 const getCropSalesColumns = (mobileView = true) => {
   return [
@@ -120,30 +116,22 @@ const FooterCell = () => (
 );
 
 export const CropSalesMobileView = {
-  render: () => (
-    <BackgroundColorProvider>
-      <Table
-        columns={getCropSalesColumns()}
-        data={getCropSalesData(10)}
-        minRows={10}
-        shouldFixTableLayout={true}
-        FooterCell={FooterCell}
-      />
-    </BackgroundColorProvider>
-  ),
+  args: {
+    columns: getCropSalesColumns(),
+    data: getCropSalesData(10),
+    minRows: 10,
+    shouldFixTableLayout: true,
+    FooterCell: FooterCell,
+  },
 };
 
 export const CropSalesDesktopView = {
-  render: () => (
-    <BackgroundColorProvider>
-      <Table
-        columns={getCropSalesColumns(false)}
-        data={getCropSalesData(10)}
-        minRows={10}
-        shouldFixTableLayout={true}
-      />
-    </BackgroundColorProvider>
-  ),
+  args: {
+    columns: getCropSalesColumns(false),
+    data: getCropSalesData(10),
+    minRows: 10,
+    shouldFixTableLayout: true,
+  },
 };
 
 const getEmployeesLabourColumns = () => {
@@ -194,16 +182,12 @@ const getEmployeesLabourData = (length) => {
 };
 
 export const EmployeesLabour = {
-  render: () => (
-    <BackgroundColorProvider>
-      <Table
-        columns={getEmployeesLabourColumns()}
-        data={getEmployeesLabourData(10)}
-        minRows={10}
-        onClickMore={() => console.log('Go to labour page')}
-      />
-    </BackgroundColorProvider>
-  ),
+  args: {
+    columns: getEmployeesLabourColumns(),
+    data: getEmployeesLabourData(10),
+    minRows: 10,
+    onClickMore: () => console.log('Go to labour page'),
+  },
 };
 
 const getTasksLabourColumns = () => {
@@ -266,28 +250,20 @@ const getTasksLabourData = (length) => {
 };
 
 export const TasksLabour = {
-  render: () => (
-    <BackgroundColorProvider>
-      <Table
-        columns={getTasksLabourColumns()}
-        data={getTasksLabourData(10)}
-        minRows={5}
-        onClickMore={() => console.log('Go to labour page')}
-      />
-    </BackgroundColorProvider>
-  ),
+  args: {
+    columns: getTasksLabourColumns(),
+    data: getTasksLabourData(10),
+    minRows: 5,
+    onClickMore: () => console.log('Go to labour page'),
+  },
 };
 
 export const TasksLabourWithPagination = {
-  render: () => (
-    <BackgroundColorProvider>
-      <Table
-        columns={getTasksLabourColumns()}
-        data={getTasksLabourData(10)}
-        minRows={5}
-        onClickMore={() => console.log('Go to labour page')}
-        showPagination
-      />
-    </BackgroundColorProvider>
-  ),
+  args: {
+    columns: getTasksLabourColumns(),
+    data: getTasksLabourData(10),
+    minRows: 5,
+    onClickMore: () => console.log('Go to labour page'),
+    showPagination: true,
+  },
 };

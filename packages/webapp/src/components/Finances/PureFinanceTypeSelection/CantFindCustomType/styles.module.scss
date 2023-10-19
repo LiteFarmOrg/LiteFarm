@@ -1,0 +1,130 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+// 100vw background colour on small screens
+.background {
+  position: relative;
+  width: 100vw;
+
+  background: var(--brown200);
+  left: 50%;
+  transform: translateX(-50%);
+
+  @media screen and (min-width: 640px) {
+    width: 100%;
+  }
+}
+
+.container {
+  width: 100%;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+
+  @media screen and (min-width: 640px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.textContainer,
+.linkContainer {
+  display: flex;
+  width: 100%;
+  padding-inline: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.textContainer {
+  gap: 8px;
+}
+
+.linkContainer {
+  gap: 12px;
+
+  @media screen and (min-width: 640px) {
+    width: fit-content;
+    gap: 8px;
+  }
+}
+
+.linkContainer > * {
+  white-space: nowrap;
+}
+
+/* Styles taken from Figma */
+.title,
+.subtitle,
+.checkboxText {
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Open Sans;
+  font-size: 14px;
+  font-style: normal;
+  text-align: start;
+}
+
+.subtitle,
+.checkboxText {
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.title {
+  color: var(--brown900);
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.subtitle {
+  color: var(--brown700);
+}
+
+.manageCustomLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  svg {
+    width: 24px;
+  }
+}
+
+.miscellaneous {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.miscText {
+  color: var(--grey600);
+}
+
+.underlined {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.checkbox {
+  cursor: pointer;
+}

@@ -207,7 +207,7 @@ export default function EnhancedTable(props) {
               <More
                 onClickMore={onClickMore}
                 onClickLoadMore={onClickLoadMore}
-                invisibleRowCount={!showPagination && data.length - rowsPerPage}
+                invisibleRowCount={data.length - rowsPerPage}
                 dense={dense}
                 colSpan={fullColSpan}
               />

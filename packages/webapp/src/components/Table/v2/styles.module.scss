@@ -25,7 +25,7 @@
   }
 }
 
-.tableHead, .tableCell, .tableCell div {
+.tableHead, .tableCell, .tableCell div, .headerLabel {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -33,6 +33,14 @@
 
 .tableHead {
   font-weight: 700;
+
+  > span {
+    width: 100%;
+  }
+}
+
+.headerLabel {
+  max-width: calc(100% - 17px); // 17px = svg's width
 }
 
 .tableCell {

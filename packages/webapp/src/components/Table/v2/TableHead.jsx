@@ -47,7 +47,7 @@ export default function EnhancedTableHead({ columns, order, orderBy, onRequestSo
                 onClick={createSortHandler(id)}
                 IconComponent={ChevronDown}
               >
-                {label}
+                <span className={styles.headerLabel}>{label}</span>
               </TableSortLabel>
             </TableCell>
           );

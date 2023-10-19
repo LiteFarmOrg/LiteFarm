@@ -1,9 +1,6 @@
 name: "Chromatic"
 
-on:
-  pull_request:
-    branches:
-      - integration
+on: pull_request
 
 jobs:
   chromatic-deployment:

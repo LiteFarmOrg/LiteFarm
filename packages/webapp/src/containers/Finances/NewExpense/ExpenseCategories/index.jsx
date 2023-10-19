@@ -9,7 +9,6 @@ import { ReactComponent as MachineIcon } from '../../../../assets/images/log/mac
 import { ReactComponent as SeedIcon } from '../../../../assets/images/log/seeding.svg';
 import { ReactComponent as OtherIcon } from '../../../../assets/images/log/other.svg';
 import { ReactComponent as LandIcon } from '../../../../assets/images/log/land.svg';
-import { ReactComponent as MiscellaneousIcon } from '../../../../assets/images/log/miscellaneous.svg';
 import { setSelectedExpenseTypes } from '../../actions';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
@@ -28,15 +27,6 @@ export const icons = {
   SEEDS: <SeedIcon />,
   OTHER: <OtherIcon />,
   LAND: <LandIcon />,
-  MISCELLANEOUS: (
-    <MiscellaneousIcon
-      style={{
-        border: 'solid 10px transparent',
-        filter:
-          'invert(30%) sepia(94%) saturate(787%) hue-rotate(136deg) brightness(103%) contrast(98%)',
-      }}
-    />
-  ),
 };
 
 class ExpenseCategories extends Component {
@@ -75,13 +65,22 @@ class ExpenseCategories extends Component {
   render() {
     const { expenseTypes } = this.props;
 
+    const miscellaneous_type_id = expenseTypes.find(
+      (expenseType) => expenseType.expense_translation_key == 'MISCELLANEOUS',
+    ).expense_type_id;
+
+    // Do not display miscellaneous as a visible tile
+    const filteredExpenseTypes = expenseTypes.filter(
+      (expenseType) => expenseType.expense_type_id !== miscellaneous_type_id,
+    );
+
     return (
       <HookFormPersistProvider>
         <PureFinanceTypeSelection
           title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE')}
           leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
           cancelTitle={this.props.t('EXPENSE.ADD_EXPENSE.FLOW')}
-          types={expenseTypes}
+          types={filteredExpenseTypes}
           onContinue={this.nextPage}
           onGoBack={this.props.history.back}
           progressValue={33}

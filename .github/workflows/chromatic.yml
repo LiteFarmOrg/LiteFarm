@@ -1,8 +1,8 @@
-name: 'Chromatic'
+name: "Chromatic"
 
 on:
   push:
-    branches: [ integration ]
+    branches: [integration]
 
 jobs:
   chromatic-deployment:
@@ -10,21 +10,19 @@ jobs:
     defaults:
       run:
         working-directory: packages/webapp
-    strategy:
-      matrix:
-        node-version: [ 16 ]
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout repo
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: pnpm/action-setup@v2.0.1
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.0.1
         with:
           version: 6.26.1
       - name: Install dependencies
         run: pnpm install
-
       - name: Publish to Chromatic
-        env:
-          NODE_OPTIONS: "--max-old-space-size=8192"
-        run: ./node_modules/.bin/chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}

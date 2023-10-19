@@ -828,9 +828,11 @@
       "TITLE": "Chiffre d'affaires réel"
     },
     "CANT_FIND": {
-      "INFO": "MISSING",
+      "INFO_EXPENSE": "MISSING",
+      "INFO_REVENUE": "MISSING",
       "MAIN": "MISSING",
-      "MANAGE": "MISSING",
+      "MANAGE_EXPENSE": "MISSING",
+      "MANAGE_REVENUE": "MISSING",
       "MISC_EXPENSE": "MISSING"
     },
     "DATE": "Date",

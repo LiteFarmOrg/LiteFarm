@@ -21,7 +21,7 @@ import { ReactComponent as Edit } from '../../../../assets/images/edit.svg';
 import { ReactComponent as UncheckedEnabled } from '../../../../assets/images/unchecked-enabled.svg';
 import { ReactComponent as CheckedEnabled } from '../../../../assets/images/checked-enabled.svg';
 
-export const CantFindCustomType = ({ iconLinkId, onGoToManageCustomType }) => {
+export const CantFindCustomType = ({ customTypeMessages, iconLinkId, onGoToManageCustomType }) => {
   const { t } = useTranslation();
 
   const [isChecked, setIsChecked] = useState(false);
@@ -35,8 +35,9 @@ export const CantFindCustomType = ({ iconLinkId, onGoToManageCustomType }) => {
       <div className={styles.container}>
         <div className={styles.textContainer}>
           <h3 className={styles.title}>{t('FINANCES.CANT_FIND.MAIN')}</h3>
-          <p className={styles.subtitle}>{t('FINANCES.CANT_FIND.INFO')}</p>
+          <p className={styles.subtitle}>{customTypeMessages.info}</p>
         </div>
+
         <div className={styles.linkContainer}>
           <IconLink
             className={styles.manageCustomLink}
@@ -46,23 +47,27 @@ export const CantFindCustomType = ({ iconLinkId, onGoToManageCustomType }) => {
             isIconClickable
             underlined
           >
-            {t('FINANCES.CANT_FIND.MANAGE')}
+            {customTypeMessages.manage}
           </IconLink>
-          <div className={styles.miscellaneous} onClick={handleCheck}>
-            <p className={styles.miscText}>
-              <Trans i18nKey="FINANCES.CANT_FIND.MISC_EXPENSE">
-                Or
-                <span className={styles.underlined}>
-                  create a <b>Miscellaneous</b> expense
-                </span>
-              </Trans>
-            </p>
-            {isChecked ? (
-              <CheckedEnabled className={styles.checkbox} />
-            ) : (
-              <UncheckedEnabled className={styles.checkbox} />
-            )}
-          </div>
+
+          {customTypeMessages.misc && (
+            <div className={styles.miscellaneous} onClick={handleCheck}>
+              <p className={styles.miscText}>
+                <Trans i18nKey="FINANCES.CANT_FIND.MISC_EXPENSE">
+                  Or
+                  <span className={styles.underlined}>
+                    create a <b>Miscellaneous</b> expense
+                  </span>
+                </Trans>
+              </p>
+
+              {isChecked ? (
+                <CheckedEnabled className={styles.checkbox} />
+              ) : (
+                <UncheckedEnabled className={styles.checkbox} />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

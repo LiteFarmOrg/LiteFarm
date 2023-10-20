@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { dateRangeSelector } from '../../containers/Finances/selectors';
@@ -21,36 +21,26 @@ import { dateRangeOptions } from './constants';
 import { setDateRange } from '../../containers/Finances/actions';
 
 /**
- * When dateRange option in Redux store is custom, returns startDate and endDate in the store.
- * Otherwise, returns dates by calculating them using DateRange class.
+ * Returns startDate and endDate in the store.
+ * If they are not defined, set the default option and dates.
  */
-export default function useDateRangeSelector({
-  weekStartDate = SUNDAY,
-  defaultOption = dateRangeOptions.YEAR_TO_DATE,
-}) {
-  const [dates, setDates] = useState({ startDate: '', endDate: '' });
-  const customDateRange = useSelector(dateRangeSelector);
-  const dateRange = new DateRange(new Date(), weekStartDate);
+export default function useDateRangeSelector({ weekStartDate = SUNDAY }) {
+  const dateRange = useSelector(dateRangeSelector);
   const dispatch = useDispatch();
 
+  const dateRangeUtil = new DateRange(new Date(), weekStartDate);
+  const option = dateRange.option || dateRangeOptions.YEAR_TO_DATE;
+
   useEffect(() => {
-    if (!customDateRange?.option) {
-      dispatch(setDateRange({ ...customDateRange, option: dateRangeOptions.YEAR_TO_DATE }));
+    if ((!dateRange.startDate || !dateRange.endDate) && option !== dateRangeOptions.CUSTOM) {
+      const { startDate, endDate } = dateRangeUtil.getDates(option);
+      dispatch(setDateRange({ option, startDate, endDate }));
     }
+  }, []);
 
-    const option = customDateRange?.option || defaultOption;
-    const { startDate, endDate } =
-      option === dateRangeOptions.CUSTOM
-        ? { startDate: customDateRange.startDate, endDate: customDateRange.endDate }
-        : dateRange.getDates(option);
-
-    setDates({ startDate, endDate });
-  }, [customDateRange]);
-
-  return dates;
+  return { startDate: dateRange.startDate, endDate: dateRange.endDate };
 }
 
 useDateRangeSelector.propTypes = {
   weekStartDate: PropTypes.oneOf([SUNDAY, MONDAY]),
-  defaultOption: PropTypes.oneOf(Object.values(dateRangeOptions)),
 };

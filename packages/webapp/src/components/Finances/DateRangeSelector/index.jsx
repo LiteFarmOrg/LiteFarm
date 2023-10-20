@@ -25,28 +25,47 @@ import { Semibold } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
 import { dateRangeOptions } from '../../DateRangeSelector/constants';
+import DateRange, { SUNDAY } from '../../../util/dateRange';
+
+const isDateValid = (date) => {
+  return date ? moment(date).isValid() : false;
+};
 
 const FinanceDateRangeSelector = ({ hideTooltip }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const dateRange = useSelector(dateRangeSelector);
-  const initialOption = dateRange?.option || dateRangeOptions.YEAR_TO_DATE;
+  const { option, customRange = {} } = useSelector(dateRangeSelector);
+  const initialOption = option || dateRangeOptions.YEAR_TO_DATE;
+  const dateRangeUtil = new DateRange(new Date(), SUNDAY);
 
-  let initialStartDate, initialEndDate;
-  if (dateRange && dateRange.startDate && dateRange.endDate) {
-    initialStartDate = moment(dateRange.startDate);
-    initialEndDate = moment(dateRange.endDate);
-  }
+  const initialStartDate = customRange.startDate && moment(customRange.startDate);
+  const initialEndDate = customRange.endDate && moment(customRange.endDate);
 
   const changeDate = (type, date) => {
-    const newStartDate = type === 'start' ? date : dateRange.startDate;
-    const newEndDate = type === 'end' ? date : dateRange.endDate;
-    dispatch(setDateRange({ ...dateRange, startDate: newStartDate, endDate: newEndDate }));
+    const startDate = type === 'start' ? date : customRange.startDate;
+    const endDate = type === 'end' ? date : customRange.endDate;
+
+    const newDateRange = { customRange: { startDate, endDate } };
+
+    // If both dates are valid, update dates and the option
+    if ([startDate, endDate].every(isDateValid)) {
+      newDateRange.option = dateRangeOptions.CUSTOM;
+      newDateRange.startDate = startDate;
+      newDateRange.endDate = endDate;
+    }
+    dispatch(setDateRange(newDateRange));
   };
 
-  const setDateRangeOptionValue = (value) => {
-    dispatch(setDateRange({ ...dateRange, option: value }));
+  const onChangeDateRangeOption = (value) => {
+    if (
+      value === dateRangeOptions.CUSTOM &&
+      Object.keys(customRange).some((date) => !isDateValid(date))
+    ) {
+      return;
+    }
+    const { startDate, endDate } = dateRangeUtil.getDates(value);
+    dispatch(setDateRange({ option: value, startDate, endDate }));
   };
 
   return (
@@ -67,9 +86,8 @@ const FinanceDateRangeSelector = ({ hideTooltip }) => {
       <DateRangeSelector
         defaultDateRangeOptionValue={initialOption}
         defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}
-        setDateRangeOptionValue={setDateRangeOptionValue}
+        onChangeDateRangeOption={onChangeDateRangeOption}
         changeDateMethod={changeDate}
-        dateRange={dateRange}
       />
     </div>
   );

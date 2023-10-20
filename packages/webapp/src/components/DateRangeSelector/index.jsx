@@ -27,10 +27,9 @@ import styles from './styles.module.scss';
 export default function DateRangeSelector({
   defaultDateRangeOptionValue,
   defaultCustomDateRange = {},
-  setDateRangeOptionValue,
+  onChangeDateRangeOption,
   placeholder,
   changeDateMethod,
-  dateRange,
 }) {
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
 
@@ -82,7 +81,7 @@ export default function DateRangeSelector({
     let formattedOption = data.label;
     let className = '';
 
-    if (data.value === rangeOptions.CUSTOM) {
+    if (isCustomDatePickerOpen) {
       if (isValid) {
         formattedOption = [customFromDate, customToDate]
           .map((date) => date.format('YYYY-MM-DD'))
@@ -111,7 +110,7 @@ export default function DateRangeSelector({
   };
 
   const onClickAway = () => {
-    if (dateRange?.option !== rangeOptions.CUSTOM) {
+    if (!isCustomDatePickerOpen) {
       return;
     }
     if (!isValid) {
@@ -148,7 +147,7 @@ export default function DateRangeSelector({
             if (e?.value === rangeOptions.CUSTOM) {
               setIsCustomDatePickerOpen(true);
             }
-            setDateRangeOptionValue && e?.value && setDateRangeOptionValue(e.value);
+            onChangeDateRangeOption && e?.value && onChangeDateRangeOption(e.value);
           }}
           formatOptionLabel={formatOptionLabel}
           defaultValue={
@@ -183,5 +182,5 @@ DateRangeSelector.propTypes = {
   }),
   placeholder: PropTypes.string,
   changeDateMethod: PropTypes.func,
-  setDateRangeOptionValue: PropTypes.func,
+  onChangeDateRangeOption: PropTypes.func,
 };

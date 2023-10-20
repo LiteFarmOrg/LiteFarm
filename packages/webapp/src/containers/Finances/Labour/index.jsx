@@ -50,8 +50,8 @@ class Labour extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.dateRange?.option) {
-      setDateRange({ ...this.props.dateRange, option: dateRangeOptions.YEAR_TO_DATE });
+    if (!this.props.dateRange.startDate || !this.props.dateRange.endDate) {
+      this.props.dispatch(setDateRange(this.getDates()));
     }
   }
 
@@ -62,11 +62,11 @@ class Labour extends Component {
   }
 
   getDates(dateRange = this.state.dateRange) {
-    const option = this.props.dateRange?.option || dateRangeOptions.YEAR_TO_DATE;
+    const option = this.props.dateRange.option || dateRangeOptions.YEAR_TO_DATE;
     return option === dateRangeOptions.CUSTOM
       ? {
-          startDate: this.props.dateRange?.startDate || undefined,
-          endDate: this.props.dateRange?.endDate || undefined,
+          startDate: this.props.dateRange.startDate || undefined,
+          endDate: this.props.dateRange.endDate || undefined,
         }
       : dateRange.getDates(option);
   }

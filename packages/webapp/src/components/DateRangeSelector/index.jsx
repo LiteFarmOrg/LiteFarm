@@ -21,7 +21,7 @@ import { ReactComponent as Calendar } from '../../assets/images/dateInput/calend
 import CustomDateRangeSelector from './CustomDateRangeSelector';
 import ReactSelect from '../Form/ReactSelect';
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
-import { dateRangeOptions, dateRangeOptions as rangeOptions } from './constants';
+import { dateRangeOptions as rangeOptions } from './constants';
 import styles from './styles.module.scss';
 
 export default function DateRangeSelector({
@@ -82,7 +82,7 @@ export default function DateRangeSelector({
     let formattedOption = data.label;
     let className = '';
 
-    if (isCustomDatePickerOpen || dateRange.option === dateRangeOptions.CUSTOM) {
+    if (data.value === rangeOptions.CUSTOM) {
       if (isValid) {
         formattedOption = [customFromDate, customToDate]
           .map((date) => date.format('YYYY-MM-DD'))

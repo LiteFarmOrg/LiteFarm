@@ -1506,10 +1506,9 @@
       "ACTION": "Action",
       "CROP": "Crop",
       "CUSTOMER_NAME": "Customer Name",
-      "DATE": "Date",
       "DELETE_CONFIRMATION": "Are you sure you want to delete this sale?",
       "QUANTITY": "Quantity",
-      "TITLE": "Sale Detail",
+      "TITLE": "Revenue Detail",
       "VALUE": "Value"
     },
     "EDIT_SALE": {

@@ -1509,7 +1509,7 @@
       "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
       "DELETE_CONFIRMATION": "Está seguro que quiere borrar esta venta?",
       "QUANTITY": "Cantidad",
-      "TITLE": "Detalle de la venta",
+      "TITLE": "MISSING",
       "VALUE": "Valor"
     },
     "EDIT_SALE": {

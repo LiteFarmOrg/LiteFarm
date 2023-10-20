@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { deleteSale, updateSale } from '../actions';
 import { revenueByIdSelector } from '../selectors';
 import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
@@ -21,15 +21,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
 import useCropSaleInputs, { getCustomFormChildrenDefaultValues } from '../useCropSaleInputs';
-import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { revenueTypeTileContentsSelector } from '../../revenueTypeSlice';
+import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions } from '../util';
 
-function SaleDetail({ history, match }) {
+function RevenueDetail({ history, match }) {
   const isEditing = match.path.endsWith('/edit');
   const { sale_id } = match.params;
 
@@ -39,14 +37,9 @@ function SaleDetail({ history, match }) {
   const dispatch = useDispatch();
 
   const revenueTypes = useSelector(revenueTypeTileContentsSelector);
-  // Doesnt populate unless used with hook form persist (but consider adding back persist because while this form doesnt need to persist -- others might want to)
-  // const revenueTypes = useSortedRevenueTypes();
   const sale = useSelector(revenueByIdSelector(sale_id));
   const revenueType = useSelector(revenueTypeByIdSelector(sale?.revenue_type_id));
 
-  // Review after merging LF-3595
-  // Handles changing the type
-  const [selectedRevenueType, setSelectedRevenueType] = useState(revenueType);
   useEffect(() => {
     if (!sale) {
       history.replace('/unknown_record');
@@ -55,44 +48,10 @@ function SaleDetail({ history, match }) {
 
   // Dropdown should include the current revenue's type even if it has been retired
   const revenueTypesArray = revenueTypes?.concat(revenueType?.deleted ? revenueType : []);
-
-  const revenueTypeReactSelectOptions = revenueTypesArray?.map((type) => {
-    const retireSuffix = type.deleted ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : '';
-
-    return {
-      value: type.revenue_type_id,
-      label: type.farm_id
-        ? type.revenue_name + retireSuffix
-        : t(`revenue:${type.revenue_translation_key}`),
-    };
-  });
+  const revenueTypeReactSelectOptions = mapRevenueTypesToReactSelectOptions(revenueTypesArray);
 
   const onSubmit = (data) => {
-    let editedSale = {
-      sale_id: sale_id,
-      customer_name: data.customer_name,
-      sale_date: data.sale_date,
-      revenue_type_id: data.revenue_type_id.value,
-      note: data.note ? data.note : null,
-    };
-    const newRevenueType = revenueTypes.find(
-      (type) => type.revenue_type_id === data.revenue_type_id.value,
-    );
-    if (newRevenueType.crop_generated) {
-      editedSale.value = null;
-      editedSale.crop_variety_sale = Object.values(data.crop_variety_sale).map((c) => {
-        return {
-          sale_value: c.sale_value,
-          quantity: c.quantity,
-          quantity_unit: c.quantity_unit.label,
-          crop_variety_id: c.crop_variety_id,
-        };
-      });
-    } else if (!newRevenueType.crop_generated) {
-      editedSale.crop_variety_sale = null;
-      editedSale.value = data.value;
-    }
-
+    const editedSale = mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, null);
     dispatch(updateSale(editedSale));
   };
 
@@ -109,18 +68,16 @@ function SaleDetail({ history, match }) {
     history.back();
   };
 
-  const onTypeChange = (typeId, setValue, REVENUE_TYPE_ID) => {
+  const onTypeChange = (typeId, setValue, REVENUE_TYPE_OPTION) => {
     const newType = revenueTypeReactSelectOptions?.find((option) => option.value === typeId);
-    setValue(REVENUE_TYPE_ID, newType);
-    const revenueType = revenueTypes.find((type) => type.revenue_type_id === typeId);
-    setSelectedRevenueType(revenueType);
+    setValue(REVENUE_TYPE_OPTION, newType);
   };
 
   return (
     <GeneralRevenue
       key={isEditing ? 'editing' : 'readonly'}
       onSubmit={isEditing ? onSubmit : undefined}
-      title={t('SALE.EDIT_SALE.TITLE')}
+      title={t('SALE.DETAIL.TITLE')}
       currency={useCurrencySymbol()}
       sale={sale}
       useCustomFormChildren={useCropSaleInputs}
@@ -134,10 +91,9 @@ function SaleDetail({ history, match }) {
       onTypeChange={onTypeChange}
       buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
       onRetire={onRetire}
-      revenueType={selectedRevenueType}
       revenueTypes={revenueTypesArray}
     />
   );
 }
 
-export default SaleDetail;
+export default RevenueDetail;

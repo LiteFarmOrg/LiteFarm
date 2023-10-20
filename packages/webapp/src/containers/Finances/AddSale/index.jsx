@@ -24,6 +24,7 @@ import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { revenueTypeByIdSelector, revenueTypeTileContentsSelector } from '../../revenueTypeSlice';
+import { mapRevenueTypesToReactSelectOptions, mapRevenueFormDataToApiCallFormat } from '../util';
 
 function AddSale() {
   const { t } = useTranslation(['translation', 'revenue']);
@@ -35,41 +36,10 @@ function AddSale() {
   const revenueType = useSelector(revenueTypeByIdSelector(revenue_type_id));
   const revenueTypes = useSelector(revenueTypeTileContentsSelector);
 
-  const revenueTypeReactSelectOptions = revenueTypes?.map((type) => {
-    const retireSuffix = type.deleted ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : '';
-
-    return {
-      value: type.revenue_type_id,
-      label: type.farm_id
-        ? type.revenue_name + retireSuffix
-        : t(`revenue:${type.revenue_translation_key}`),
-    };
-  });
+  const revenueTypeReactSelectOptions = mapRevenueTypesToReactSelectOptions(revenueTypes);
 
   const onSubmit = (data) => {
-    const newSale = {
-      customer_name: data.customer_name,
-      sale_date: data.sale_date,
-      farm_id: farm.farm_id,
-      revenue_type_id: data.revenue_type_id.value,
-      note: data.note ? data.note : null,
-    };
-    const newRevenueType = revenueTypes.find(
-      (type) => type.revenue_type_id === data.revenue_type_id.value,
-    );
-    if (newRevenueType.crop_generated) {
-      newSale.crop_variety_sale = Object.values(data.crop_variety_sale).map((c) => {
-        return {
-          sale_value: c.sale_value,
-          quantity: c.quantity,
-          quantity_unit: c.quantity_unit.label,
-          crop_variety_id: c.crop_variety_id,
-        };
-      });
-    } else if (!newRevenueType.crop_generated) {
-      newSale.value = data.value;
-    }
-
+    const newSale = mapRevenueFormDataToApiCallFormat(data, revenueTypes, null, farm.farm_id);
     dispatch(addSale(newSale));
   };
 
@@ -87,7 +57,6 @@ function AddSale() {
         view={'add'}
         handleGoBack={handleGoBack}
         buttonText={t('common:SAVE')}
-        revenueType={revenueType}
         revenueTypes={revenueTypes}
         revenueTypeOptions={revenueTypeReactSelectOptions}
       />

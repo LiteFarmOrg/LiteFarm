@@ -89,11 +89,9 @@ const GeneralRevenueWithState = (props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedRevenueType, setSelectedRevenueType] = useState(revenueType);
 
-  const onTypeChange = (typeId, setValue, REVENUE_TYPE_ID) => {
+  const onTypeChange = (typeId, setValue, REVENUE_TYPE_OPTION) => {
     const newType = revenueTypes.find((option) => option.value === typeId);
-    setValue(REVENUE_TYPE_ID, newType);
-    const newRevenueType = revenueTypes.find((type) => type.revenue_type_id === typeId);
-    setSelectedRevenueType(newRevenueType);
+    setValue(REVENUE_TYPE_OPTION, newType);
   };
   if (view === 'add') {
     return <GeneralRevenue {...props} />;

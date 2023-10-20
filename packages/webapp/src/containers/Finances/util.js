@@ -15,6 +15,19 @@
 
 import moment from 'moment';
 import { roundToTwoDecimal } from '../../util';
+import { useTranslation } from 'react-i18next';
+import {
+  CROP_VARIETY_ID,
+  CROP_VARIETY_SALE,
+  CUSTOMER_NAME,
+  NOTE,
+  QUANTITY,
+  QUANTITY_UNIT,
+  REVENUE_TYPE_OPTION,
+  SALE_DATE,
+  SALE_VALUE,
+  VALUE,
+} from '../../components/Forms/GeneralRevenue/constants';
 
 export function calcTotalLabour(tasks, startDate, endDate) {
   let total = 0.0;
@@ -101,11 +114,54 @@ export function calcActualRevenue(sales, startDate, endDate, revenueTypes) {
           for (const c of s.crop_variety_sale) {
             total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(c.sale_value));
           }
-        } else if (!revenueType?.crop_generated) {
+        } else {
           total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(s.value));
         }
       }
     }
   }
   return total;
+}
+
+export function mapRevenueTypesToReactSelectOptions(revenueTypes) {
+  const { t } = useTranslation();
+  return revenueTypes?.map((type) => {
+    const retireSuffix = type.deleted ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : '';
+
+    return {
+      value: type.revenue_type_id,
+      label: type.farm_id
+        ? type.revenue_name + retireSuffix
+        : t(`revenue:${type.revenue_translation_key}`),
+    };
+  });
+}
+
+export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, farm_id) {
+  let sale = {
+    sale_id: sale_id ?? undefined,
+    farm_id: farm_id ?? undefined,
+    customer_name: data[CUSTOMER_NAME],
+    sale_date: data[SALE_DATE],
+    revenue_type_id: data[REVENUE_TYPE_OPTION].value,
+    note: data.note ? data[NOTE] : null,
+  };
+  const revenueType = revenueTypes.find(
+    (type) => type.revenue_type_id === data[REVENUE_TYPE_OPTION].value,
+  );
+  if (revenueType.crop_generated) {
+    sale.value = undefined;
+    sale.crop_variety_sale = Object.values(data[CROP_VARIETY_SALE]).map((c) => {
+      return {
+        sale_value: c[SALE_VALUE],
+        quantity: c[QUANTITY],
+        quantity_unit: c[QUANTITY_UNIT].label,
+        crop_variety_id: c[CROP_VARIETY_ID],
+      };
+    });
+  } else {
+    sale.crop_variety_sale = undefined;
+    sale.value = data[VALUE];
+  }
+  return sale;
 }

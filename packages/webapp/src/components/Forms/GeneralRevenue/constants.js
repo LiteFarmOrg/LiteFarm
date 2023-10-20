@@ -15,9 +15,10 @@
 
 // Common generic revenue
 export const SALE_DATE = 'sale_date';
-export const SALE_CUSTOMER = 'customer_name';
+export const CUSTOMER_NAME = 'customer_name';
 export const NOTE = `note`;
 export const REVENUE_TYPE_ID = 'revenue_type_id';
+export const REVENUE_TYPE_OPTION = 'revenue_type_option';
 
 // generic revenue total
 export const VALUE = `value`;

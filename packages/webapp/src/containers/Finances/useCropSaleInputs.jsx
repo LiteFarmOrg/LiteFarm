@@ -132,21 +132,15 @@ const getInputs = (
   inactiveOptions,
 ) => {
   inactiveOptions?.forEach((option) => {
-    const optionRegisterNames = {
-      CROP_VARIETY_ID: `${CROP_VARIETY_SALE}.${option.value}.${CROP_VARIETY_ID}`,
-      SALE_VALUE: `${CROP_VARIETY_SALE}.${option.value}.${SALE_VALUE}`,
-      QUANTITY: `${CROP_VARIETY_SALE}.${option.value}.${QUANTITY}`,
-      QUANTITY_UNIT: `${CROP_VARIETY_SALE}.${option.value}.${QUANTITY_UNIT}`,
-      CHOSEN_VARIETY: `${CROP_VARIETY_SALE}.${option.value}`,
-    };
+    const optionRegisterNames = [
+      `${CROP_VARIETY_SALE}.${option.value}.${CROP_VARIETY_ID}`,
+      `${CROP_VARIETY_SALE}.${option.value}.${SALE_VALUE}`,
+      `${CROP_VARIETY_SALE}.${option.value}.${QUANTITY}`,
+      `${CROP_VARIETY_SALE}.${option.value}.${QUANTITY_UNIT}`,
+      `${CROP_VARIETY_SALE}.${option.value}`,
+    ];
 
-    reactHookFormFunctions.unregister([
-      optionRegisterNames.CROP_VARIETY_ID,
-      optionRegisterNames.SALE_VALUE,
-      optionRegisterNames.QUANTITY,
-      optionRegisterNames.QUANTITY_UNIT,
-      optionRegisterNames.CHOSEN_VARIETY,
-    ]);
+    reactHookFormFunctions.unregister(optionRegisterNames);
   });
 
   return activeOptions.map((c) => {
@@ -222,7 +216,7 @@ export default function useCropSaleInputs(
   const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
   const system = useSelector(measurementSelector);
   const selectedRevenueType = revenueTypes?.find(
-    (t) => t.revenue_type_id === selectedTypeOption.value,
+    (t) => t.revenue_type_id === selectedTypeOption?.value,
   );
 
   const isCropSale = selectedRevenueType?.crop_generated;
@@ -236,7 +230,8 @@ export default function useCropSaleInputs(
 
   const chosenVarieties = watch(CROP_VARIETY_SALE);
 
-  // If not memoized - infinite re-render of GeneralRevenue when deselecting filter option
+  // If not memoized - useEffect dependency below causes infinite re-render of GeneralRevenue
+  // when deselecting filter option
   const cropVarietyFilterOptions = useMemo(() => {
     return getCropVarietyFilterOptions(managementPlans, t);
   }, [managementPlans, t]);

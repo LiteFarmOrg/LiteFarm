@@ -69,23 +69,25 @@ const SaleController = {
           : oldRevenueType;
         const isCropSale = Boolean(newRevenueType.crop_generated);
         const wasCropSale = Boolean(oldRevenueType.crop_generated);
-        const saleTypeChanged = isCropSale != wasCropSale;
 
         if (isCropSale && value) {
+          await trx.rollback();
           return res.status(400).send('cannot add value to crop sale');
         }
         if (!isCropSale && crop_variety_sale) {
+          await trx.rollback();
           return res
             .status(400)
             .send('must be crop generated revenue type to add crop variety sale');
         }
-        if (saleTypeChanged && isCropSale && !crop_variety_sale) {
-          return res.status(400).send('cannot change type without correct values');
-        }
-        if (saleTypeChanged && !isCropSale && !value) {
-          return res.status(400).send('cannot change type without correct values');
+        if (isCropSale) {
+          if (crop_variety_sale && !crop_variety_sale?.length) {
+            await trx.rollback();
+            return res.status(400).send('crop sales cannot be empty');
+          }
         }
 
+        // Value lives on the Sale model, crop sales are handled differently
         if (!isCropSale) {
           saleData.value = value;
         }
@@ -99,29 +101,23 @@ const SaleController = {
           await trx.rollback();
           return res.status(400).send('failed to patch data');
         }
-        if (revenue_type_id) {
-          // Hard delete old crop variety sales
-          if (wasCropSale) {
-            const deletedExistingCropVarietySales = await CropVarietySaleModel.query(trx)
-              .where('sale_id', sale_id)
-              .delete();
-            if (!deletedExistingCropVarietySales) {
-              await trx.rollback();
-              return res.status(400).send('failed to delete existing crop variety sales');
-            }
-          }
 
-          // Add updated crop variety sales
-          if (isCropSale) {
-            const { crop_variety_sale } = req.body;
-            if (!crop_variety_sale.length) {
-              await trx.rollback();
-              return res.status(400).send('should not patch sale with no crop variety sales');
-            }
-            for (const cvs of crop_variety_sale) {
-              cvs.sale_id = parseInt(sale_id);
-              await CropVarietySaleModel.query(trx).context(req.auth).insert(cvs);
-            }
+        // Hard delete previous crop variety sales
+        if ((wasCropSale && isCropSale && crop_variety_sale) || (wasCropSale && !isCropSale)) {
+          const deletedExistingCropVarietySales = await CropVarietySaleModel.query(trx)
+            .where('sale_id', sale_id)
+            .delete();
+          if (!deletedExistingCropVarietySales) {
+            await trx.rollback();
+            return res.status(400).send('failed to delete existing crop variety sales');
+          }
+        }
+
+        // Add back updated crop variety sales
+        if (isCropSale && crop_variety_sale) {
+          for (const cvs of crop_variety_sale) {
+            cvs.sale_id = parseInt(sale_id);
+            await CropVarietySaleModel.query(trx).context(req.auth).insert(cvs);
           }
         }
 

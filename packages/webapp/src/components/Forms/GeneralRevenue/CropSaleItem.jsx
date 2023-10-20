@@ -96,12 +96,12 @@ function CropSaleItem({
 }
 
 CropSaleItem.propTypes = {
-  managementPlan: PropTypes.object,
-  system: PropTypes.string,
-  currency: PropTypes.string,
-  reactHookFormFunctions: PropTypes.object,
-  cropVarietyId: PropTypes.string,
-  disabledInput: PropTypes.bool,
+  managementPlan: PropTypes.object.isRequired,
+  system: PropTypes.string.isRequired,
+  currency: PropTypes.string.isRequired,
+  reactHookFormFunctions: PropTypes.object.isRequired,
+  cropVarietyId: PropTypes.string.isRequired,
+  disabledInput: PropTypes.bool.isRequired,
 };
 
 export default CropSaleItem;

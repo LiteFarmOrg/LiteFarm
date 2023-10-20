@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -26,17 +26,21 @@ import { ReactComponent as TrashIcon } from '../../../assets/images/document/tra
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
-import { SALE_DATE, SALE_CUSTOMER, VALUE, NOTE, REVENUE_TYPE_ID } from './constants';
+import {
+  SALE_DATE,
+  CUSTOMER_NAME,
+  VALUE,
+  NOTE,
+  REVENUE_TYPE_OPTION,
+  REVENUE_TYPE_ID,
+} from './constants';
 import PropTypes from 'prop-types';
-//import useHookFormPersist from '../../../containers/hooks/useHookFormPersist';
-import styles from './styles.module.scss';
 
 const GeneralRevenue = ({
   onSubmit,
   title,
   currency,
   sale,
-  useHookFormPersist,
   persistedFormData,
   view,
   handleGoBack,
@@ -52,43 +56,20 @@ const GeneralRevenue = ({
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
 
-  let defaultValues = {
-    [SALE_DATE]: getLocalDateInYYYYDDMM(),
-    [SALE_CUSTOMER]: '',
-    [REVENUE_TYPE_ID]: null,
-    [VALUE]: null,
-    [NOTE]: '',
-  };
-  if (sale) {
-    defaultValues = {
-      [SALE_DATE]: getLocalDateInYYYYDDMM(new Date(sale[SALE_DATE])),
-      [SALE_CUSTOMER]: sale[SALE_CUSTOMER],
-      [REVENUE_TYPE_ID]: revenueTypeOptions?.find((option) => {
-        return option.value === sale.revenue_type_id;
-      }),
-      [VALUE]: !isNaN(sale?.[VALUE]) ? sale[VALUE] : null,
-      [NOTE]: sale[NOTE],
-    };
-  } else if (persistedFormData) {
-    defaultValues = {
-      [SALE_DATE]: getLocalDateInYYYYDDMM(persistedFormData[SALE_DATE]),
-      [SALE_CUSTOMER]: persistedFormData[SALE_CUSTOMER],
-      [REVENUE_TYPE_ID]: revenueTypeOptions?.find((option) => {
-        return option.value === persistedFormData?.[REVENUE_TYPE_ID];
-      }),
-      [VALUE]: !isNaN(persistedFormData[VALUE]) ? persistedFormData[VALUE] : null,
-      [NOTE]: persistedFormData[NOTE],
-    };
-  }
+  const data = sale || persistedFormData;
 
   const reactHookFormFunctions = useForm({
     mode: 'onChange',
     defaultValues: {
-      [SALE_DATE]: defaultValues[SALE_DATE],
-      [SALE_CUSTOMER]: defaultValues[SALE_CUSTOMER],
-      [REVENUE_TYPE_ID]: defaultValues[REVENUE_TYPE_ID],
-      [VALUE]: defaultValues[VALUE],
-      [NOTE]: defaultValues[NOTE],
+      [SALE_DATE]: data[SALE_DATE]
+        ? getLocalDateInYYYYDDMM(new Date(data[SALE_DATE]))
+        : getLocalDateInYYYYDDMM(),
+      [CUSTOMER_NAME]: data[CUSTOMER_NAME] ?? null,
+      [REVENUE_TYPE_OPTION]: revenueTypeOptions?.find((option) => {
+        return option.value === data[REVENUE_TYPE_ID];
+      }),
+      [VALUE]: !isNaN(data[VALUE]) ? data[VALUE] : null,
+      [NOTE]: data[NOTE] ?? null,
       ...customFormChildrenDefaultValues,
     },
   });
@@ -97,20 +78,16 @@ const GeneralRevenue = ({
     register,
     handleSubmit,
     formState: { errors, isValid },
-    getValues,
     watch,
     control,
-    reset,
     setValue,
   } = reactHookFormFunctions;
 
-  //useHookFormPersist(getValues);
-  const selectedTypeOption = watch(REVENUE_TYPE_ID);
+  const selectedTypeOption = watch(REVENUE_TYPE_OPTION);
 
   const readonly = view === 'read-only';
   const disabledInput = readonly;
   const disabledButton = !isValid && !readonly;
-
   // TODO: LF-3680 fix isDirty for dynamic fields
   // const disabledButton = (!isValid || !isDirty) && !readonly;
 
@@ -132,13 +109,11 @@ const GeneralRevenue = ({
       onClick={onClick}
       type={'button'}
     >
-      {' '}
       {buttonText}
     </Button>
   );
   const submitButton = (
     <Button color={'primary'} fullLength disabled={disabledButton} type={'submit'}>
-      {' '}
       {buttonText}
     </Button>
   );
@@ -156,15 +131,15 @@ const GeneralRevenue = ({
       <PageTitle
         title={title}
         onGoBack={() => {
-          handleGoBack(reset);
+          handleGoBack();
         }}
         style={{ marginBottom: '24px' }}
       />
       <Input
         label={t('SALE.DETAIL.CUSTOMER_NAME')}
-        hookFormRegister={register(SALE_CUSTOMER, { required: true })}
+        hookFormRegister={register(CUSTOMER_NAME, { required: true })}
         style={{ marginBottom: '40px' }}
-        errors={getInputErrors(errors, SALE_CUSTOMER)}
+        errors={getInputErrors(errors, CUSTOMER_NAME)}
         type={'text'}
         disabled={disabledInput}
       />
@@ -188,7 +163,7 @@ const GeneralRevenue = ({
       {view != 'add' && (
         <Controller
           control={control}
-          name={REVENUE_TYPE_ID}
+          name={REVENUE_TYPE_OPTION}
           rules={{ required: true }}
           render={({ field: { onChange, value } }) => (
             <ReactSelect
@@ -197,7 +172,7 @@ const GeneralRevenue = ({
               options={revenueTypeOptions}
               style={{ marginBottom: '40px' }}
               onChange={(e) => {
-                onTypeChange(e.value, setValue, REVENUE_TYPE_ID);
+                onTypeChange(e.value, setValue, REVENUE_TYPE_OPTION);
                 onChange(e);
               }}
               value={value}
@@ -260,20 +235,20 @@ const GeneralRevenue = ({
 
 GeneralRevenue.propTypes = {
   onSubmit: PropTypes.func,
-  title: PropTypes.string,
-  currency: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  currency: PropTypes.string.isRequired,
   sale: PropTypes.object,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
-  view: PropTypes.oneOf(['add', 'read-only', 'edit']),
-  handleGoBack: PropTypes.func,
+  view: PropTypes.oneOf(['add', 'read-only', 'edit']).isRequired,
+  handleGoBack: PropTypes.func.isRequired,
   onClick: PropTypes.func,
-  revenueTypeOptions: PropTypes.array,
+  revenueTypeOptions: PropTypes.array.isRequired,
   onTypeChange: PropTypes.func,
-  buttonText: PropTypes.string,
+  buttonText: PropTypes.string.isRequired,
   customFormChildrenDefaultValues: PropTypes.object,
   useCustomFormChildren: PropTypes.func,
-  revenueTypes: PropTypes.array,
+  revenueTypes: PropTypes.array.isRequired,
   onRetire: PropTypes.func,
 };
 

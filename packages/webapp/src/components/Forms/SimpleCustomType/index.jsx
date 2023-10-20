@@ -102,13 +102,11 @@ const PureSimpleCustomType = ({
       onClick={onClick}
       type={'button'}
     >
-      {' '}
       {buttonText}
     </Button>
   );
   const submitButton = (
     <Button color={'primary'} fullLength disabled={disabledButton} type={'submit'}>
-      {' '}
       {buttonText}
     </Button>
   );

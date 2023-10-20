@@ -20,8 +20,7 @@ const CropSaleItemWithHookForm = (props) => {
   const reactHookFormFunctions = useForm({
     mode: 'onChange',
   });
-  const { watch, handleSubmit } = reactHookFormFunctions;
-  console.log(watch());
+  const { handleSubmit } = reactHookFormFunctions;
   return (
     <form onSubmit={handleSubmit((data) => console.log(data))}>
       <CropSaleItem reactHookFormFunctions={reactHookFormFunctions} {...props} />

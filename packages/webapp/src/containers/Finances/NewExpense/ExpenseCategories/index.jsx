@@ -21,12 +21,17 @@ import labelIconStyles from '../../../../components/Tile/styles.module.scss';
 export const icons = {
   EQUIPMENT: <EquipIcon />,
   SOIL_AMENDMENT: <SoilAmendmentIcon />,
-  PESTICIDE: <PestIcon />,
+  PEST_CONTROL: <PestIcon />,
   FUEL: <FuelIcon />,
   MACHINERY: <MachineIcon />,
-  SEEDS: <SeedIcon />,
+  SEEDS_AND_PLANTS: <SeedIcon />,
   OTHER: <OtherIcon />,
   LAND: <LandIcon />,
+  UTILITIES: <OtherIcon />,
+  LABOUR: <OtherIcon />,
+  INFRASTRUCTURE: <OtherIcon />,
+  TRANSPORTATION: <OtherIcon />,
+  SERVICES: <OtherIcon />,
 };
 
 class ExpenseCategories extends Component {

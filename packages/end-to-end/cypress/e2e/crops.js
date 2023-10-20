@@ -106,13 +106,11 @@ describe('Crops', () => {
     cy.get('[data-cy="plantingMethod-submit"]').should('exist').and('not.be.disabled').click();
 
     // Row length
-    cy.get('[type="radio"]').first().check();
-    cy.get('[type="radio"]').first().click();
+    cy.get('[data-cy=rowMethod-equalLength]').first().check();
+
     cy.get('[data-cy="rowMethod-rows"]').should('exist').type('15{enter}');
     cy.get('[data-cy="rowMethod-length"]').should('exist').type('15{enter}');
     cy.get('[data-cy="rowMethod-spacing"]').should('exist').type('15{enter}');
-    // cy.get('[data-cy="rowMethod-spacing"]').trigger('mousedown')
-    cy.contains(translation['MANAGEMENT_PLAN']['PLANT_SPACING']).trigger('mousedown');
     cy.contains(translation['MANAGEMENT_PLAN']['PLANT_SPACING']).click({ force: true });
 
     cy.get('[data-cy="rowMethod-yield"]').should('exist').type('15');

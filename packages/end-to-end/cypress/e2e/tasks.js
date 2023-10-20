@@ -24,6 +24,7 @@ describe('Tasks', () => {
             user.name,
             user.language,
             translation['SLIDE_MENU']['CROPS'],
+            translation['FARM_MAP']['MAP_FILTER']['FIELD'],
           );
         },
       );
@@ -37,6 +38,16 @@ describe('Tasks', () => {
   });
 
   after(() => {});
+
+  // Utility function to click a button if it exists and is not disabled
+  const clickIfExistsAndEnabled = (selector) => {
+    cy.get('body').then(($body) => {
+      if ($body.find(selector).length > 0) {
+        // Check if the element exists
+        cy.get(selector).should('not.be.disabled').click();
+      }
+    });
+  };
 
   it('CheckTasksNavigation', () => {
     // Add a crop variety
@@ -85,7 +96,8 @@ describe('Tasks', () => {
 
     cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click();
     // TODO next line will not appear if there is no crop, so ideally we will check for that screen, so we don't depend on the the order
-    cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click();
+    clickIfExistsAndEnabled('[data-cy=addTask-cropsContinue]');
+    // cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click();
     cy.waitForReact();

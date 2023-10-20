@@ -1,4 +1,4 @@
-name: "UI Unit Tests"
+name: "Webapp Unit Tests"
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - integration
 
 jobs:
-  ui_unit_tests:
+  webapp_unit_tests:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -21,4 +21,4 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Run unit tests
-        run: pnpm test
+        run: ./node_modules/.bin/vitest

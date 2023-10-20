@@ -89,7 +89,6 @@ const FinanceDateRangeSelector = ({ hideTooltip }) => {
         defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}
         onChangeDateRangeOption={onChangeDateRangeOption}
         changeDateMethod={changeDate}
-        dateRange={dateRange}
       />
     </div>
   );

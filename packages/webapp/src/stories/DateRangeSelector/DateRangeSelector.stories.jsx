@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import { within, userEvent, screen, fireEvent } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import selectEvent from 'react-select-event';
@@ -29,16 +29,11 @@ export default {
 };
 
 const TestComponent = (props) => {
-  const [dateRange, setDateRange] = useState({
-    option: props.defaultDateRangeOptionValue || dateRangeOptions.YEAR_TO_DATE,
-  });
-
   return (
     <Suspense fallback={'Loading...'}>
       <DateRangeSelector
-        dateRange={dateRange}
         changeDateMethod={() => ({})}
-        onChangeDateRangeOption={(option) => setDateRange({ option })}
+        onChangeDateRangeOption={() => ({})}
         {...props}
       />
     </Suspense>

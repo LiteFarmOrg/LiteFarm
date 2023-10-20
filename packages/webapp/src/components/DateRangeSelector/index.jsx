@@ -30,7 +30,6 @@ export default function DateRangeSelector({
   onChangeDateRangeOption,
   placeholder,
   changeDateMethod,
-  dateRange,
 }) {
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
 

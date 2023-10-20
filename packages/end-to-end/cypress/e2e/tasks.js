@@ -1,5 +1,28 @@
 import moment from 'moment';
 
+// Utility function to check Redux state with a retry mechanism
+const checkReduxState = (endTime) => {
+  const currentTime = new Date().getTime();
+
+  if (currentTime > endTime) {
+    throw new Error('Timed out waiting for Redux state to populate');
+  }
+
+  cy.window()
+    .its('store')
+    .invoke('getState')
+    .its('entitiesReducer')
+    .its('fieldReducer')
+    .its('ids')
+    .then((ids) => {
+      if (ids.length === 0) {
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500); // Wait for 500ms before retrying
+        checkReduxState(endTime);
+      }
+    });
+};
+
 describe('Tasks', () => {
   let users;
   let translation;
@@ -26,6 +49,9 @@ describe('Tasks', () => {
             translation['SLIDE_MENU']['CROPS'],
             translation['FARM_MAP']['MAP_FILTER']['FIELD'],
           );
+
+          const endTime = new Date().getTime() + 60000; // Set the end time to 60 seconds from now
+          checkReduxState(endTime);
         },
       );
 
@@ -119,9 +145,8 @@ describe('Tasks', () => {
     cy.get('[data-cy=map-selectLocation]').click({ force: false });
 
     cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click();
-    // TODO next line will not appear if there is no crop, so ideally we will check for that screen, so we don't depend on the the order
+    // Next step is dependant on the fact whether crop exists
     clickIfExistsAndEnabled('[data-cy=addTask-cropsContinue]');
-    // cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click();
     cy.waitForReact();

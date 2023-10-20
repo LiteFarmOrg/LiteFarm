@@ -3,9 +3,14 @@
   "FERTILIZER": "Fertilizer",
   "SOIL_AMENDMENT": "Soil Amendment",
   "MACHINERY": "Machinery",
-  "PESTICIDE": "Pesticide",
+  "PEST_CONTROL": "Pest Control",
   "FUEL": "Fuel",
   "LAND": "Land",
-  "SEEDS": "Seeds",
-  "MISCELLANEOUS": "Miscellaneous"
+  "SEEDS_AND_PLANTS": "Seeds and Plants",
+  "MISCELLANEOUS": "Miscellaneous",
+  "UTILITIES": "Utilities",
+  "LABOUR": "Labour",
+  "INFRASTRUCTURE": "Infrastructure",
+  "TRANSPORTATION": "Transportation",
+  "SERVICES": "Services"
 }

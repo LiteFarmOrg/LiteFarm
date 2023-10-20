@@ -71,7 +71,7 @@ const getCropSalesColumns = (mobileView = true) => {
       align: 'right',
       Footer: mobileView ? null : <b>$17571.5</b>,
       columnProps: {
-        style: { width: '25%' },
+        style: { width: '100px' },
       },
     },
   ];

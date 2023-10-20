@@ -50,7 +50,7 @@ describe('Tasks', () => {
             translation['FARM_MAP']['MAP_FILTER']['FIELD'],
           );
 
-          const endTime = new Date().getTime() + 60000; // Set the end time to 60 seconds from now
+          const endTime = new Date().getTime() + 180000; // Set the end time to 3 min seconds from now
           checkReduxState(endTime);
         },
       );

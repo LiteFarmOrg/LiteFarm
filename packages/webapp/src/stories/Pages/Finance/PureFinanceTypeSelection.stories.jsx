@@ -58,14 +58,6 @@ const expenseTypes = [
     custom_description: null,
   },
   {
-    expense_name: 'Miscellaneous',
-    farm_id: null,
-    expense_type_id: '1fd8619a-22a9-11ee-9683-e66db4bef552',
-    deleted: false,
-    expense_translation_key: 'MISCELLANEOUS',
-    custom_description: null,
-  },
-  {
     expense_name: 'Pest Control',
     farm_id: null,
     expense_type_id: '1fd86118-22a9-11ee-9683-e66db4bef552',

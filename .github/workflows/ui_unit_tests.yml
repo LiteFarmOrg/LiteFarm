@@ -1,0 +1,24 @@
+name: "UI Unit Tests"
+
+on:
+  pull_request:
+    branches:
+      - integration
+
+jobs:
+  ui_unit_tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/webapp
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.26.1
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run unit tests
+        run: pnpm test

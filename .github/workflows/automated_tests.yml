@@ -36,18 +36,12 @@ jobs:
       # Checkout the current code in the repository
       - name: Check out repository code
         uses: actions/checkout@v3
-      # Install BE dependencies
-      - name: Install BE dependencies
+      # Install all the dependencies
+      - name: Install dependencies
         run: cd packages/api && npm ci && cd ../shared && npm ci
       # Run migrations on the database
       - name: Setup database
         run: cd packages/api && npm run migrate:pipeline:db
       # Run all the CI tests
-      - name: Run BE tests
+      - name: Run tests
         run: cd packages/api && npm run test-ci
-      # Run UI unit tests
-      # Install UI dependencies
-      - name: Install UI dependencies
-        run: cd packages/webapp && pnpm install
-      - name: Run UI tests
-        run: cd packages/webapp && pnpm test

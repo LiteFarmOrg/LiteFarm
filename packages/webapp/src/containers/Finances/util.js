@@ -14,9 +14,13 @@
  */
 
 import moment from 'moment';
+import lodashGroupBy from 'lodash.groupBy';
 import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
-import { revenueFormTypes } from './constants';
+import { LABOUR_ITEMS_GROUPING_OPTIONS, revenueFormTypes } from './constants';
 import i18n from '../../locales/i18n';
+
+// Polyfill for tests and older browsers
+const groupBy = typeof Object.groupBy === 'function' ? Object.groupBy : lodashGroupBy;
 
 export function calcTotalLabour(tasks, startDate, endDate) {
   let total = 0.0;
@@ -122,7 +126,7 @@ export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
   const groupingOptions = [
     {
       key: 'assignee_user_id',
-      label: 'tasksByEmployee',
+      label: LABOUR_ITEMS_GROUPING_OPTIONS.EMPLOYEE,
       taskObject: (task, groupKey) => {
         const assignee = users.find((user) => user.user_id == groupKey);
         return {
@@ -133,7 +137,7 @@ export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
     },
     {
       key: 'task_type_id',
-      label: 'tasksByTaskType',
+      label: LABOUR_ITEMS_GROUPING_OPTIONS.TASK_TYPE,
       taskObject: (task, groupKey) => {
         const taskType = taskTypes.find((taskType) => taskType.task_type_id == groupKey);
         return {
@@ -145,7 +149,7 @@ export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
   ];
   const labourItemGroups = {};
   groupingOptions.forEach((option) => {
-    const groupedTasks = Object.groupBy(tasks, (task) => task[option.key]);
+    const groupedTasks = groupBy(tasks, (task) => task[option.key]);
     const items = Object.keys(groupedTasks).map((groupKey) => {
       const tasksInGroup = groupedTasks[groupKey].map((task) => {
         const minutes = parseInt(task.duration, 10);
@@ -163,7 +167,7 @@ export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
 
       return option.taskObject(
         {
-          time,
+          time: roundToTwoDecimal(time),
           labourCost,
         },
         groupKey,

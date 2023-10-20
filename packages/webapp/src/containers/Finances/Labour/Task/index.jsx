@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { taskTypesSelector } from '../../../taskTypeSlice';
 import { userFarmsByFarmSelector } from '../../../userFarmSlice';
 import { mapTasksToLabourItems } from '../../util';
+import { LABOUR_ITEMS_GROUPING_OPTIONS } from '../../constants';
 
 const Task = ({ currencySymbol, tasks, startDate, endDate }) => {
   const { t } = useTranslation();
@@ -23,7 +24,7 @@ const Task = ({ currencySymbol, tasks, startDate, endDate }) => {
         task.duration)
     );
   });
-  const { tasksByTaskType: data } = mapTasksToLabourItems(
+  const { [LABOUR_ITEMS_GROUPING_OPTIONS.TASK_TYPE]: data } = mapTasksToLabourItems(
     filteredTasks,
     taskTypes,
     userFarmsOfFarm,

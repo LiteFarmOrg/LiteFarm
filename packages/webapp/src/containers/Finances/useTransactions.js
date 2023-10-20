@@ -16,6 +16,7 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import lodashGroupBy from 'lodash.groupBy';
 import { expenseSelector, salesSelector, allExpenseTypeSelector } from './selectors';
 import { tasksSelector } from '../taskSlice';
 import { taskTypesSelector } from '../taskTypeSlice';
@@ -25,6 +26,7 @@ import { roundToTwoDecimal } from '../../util';
 import { cropVarietiesSelector } from '../cropVarietySlice';
 import { mapSalesToRevenueItems, mapTasksToLabourItems } from './util';
 import i18n from '../../locales/i18n';
+import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
 
 const transactionTypeEnum = {
   expense: 'EXPENSE',
@@ -32,13 +34,16 @@ const transactionTypeEnum = {
   revenue: 'REVENUE',
 };
 
-const buildLabourTransactionsFromTasks = (
+// Polyfill for tests and older browsers
+const groupBy = typeof Object.groupBy === 'function' ? Object.groupBy : lodashGroupBy;
+
+const buildLabourTransactionsFromTasks = ({
   tasks,
   taskTypes,
   users,
   dateFilter,
   expenseTypeFilter,
-) => {
+}) => {
   const filteredTasks = tasks
     .map((task) => ({ ...task, date: task.complete_date ?? task.abandon_date }))
     .filter(
@@ -48,16 +53,19 @@ const buildLabourTransactionsFromTasks = (
           (moment(task.date).isSameOrAfter(dateFilter.startDate, 'day') &&
             moment(task.date).isSameOrBefore(dateFilter.endDate, 'day'))) &&
         // We don't have an actual Labour expense type, but we allow to filter by it in the Expense types filter.
-        (!expenseTypeFilter || expenseTypeFilter.includes(transactionTypeEnum.labourExpense)),
+        expenseTypeFilter?.includes(transactionTypeEnum.labourExpense),
     );
+
   // We only want to show one Labour transaction per day. When expanding the item details on how that transaction was summed up from tasks will be displayed.
-  const groupedTasks = Object.groupBy(filteredTasks, ({ date }) => date);
+  const groupedTasks = groupBy(filteredTasks, ({ date }) => date);
   const groupedTransactions = [];
 
   Object.keys(groupedTasks).forEach((date) => {
     const labourItems = mapTasksToLabourItems(groupedTasks[date], taskTypes, users);
-    console.log(labourItems);
-    const amount = labourItems.tasksByEmployee.reduce((sum, task) => sum + task.labourCost, 0);
+    const amount = labourItems[LABOUR_ITEMS_GROUPING_OPTIONS.EMPLOYEE].reduce(
+      (sum, task) => sum + task.labourCost,
+      0,
+    );
     if (amount > 0) {
       groupedTransactions.push({
         date,
@@ -71,14 +79,14 @@ const buildLabourTransactionsFromTasks = (
   return groupedTransactions;
 };
 
-const buildExpenseTransactions = (expenses, expenseTypes, dateFilter, expenseTypeFilter) => {
+const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseTypeFilter }) => {
   return expenses
     .filter(
       (expense) =>
         (!dateFilter ||
           (moment(expense.expense_date).isSameOrAfter(dateFilter.startDate, 'day') &&
             moment(expense.expense_date).isSameOrBefore(dateFilter.endDate, 'day'))) &&
-        (!expenseTypeFilter || expenseTypeFilter.includes(expense.expense_type_id)) &&
+        expenseTypeFilter?.includes(expense.expense_type_id) &&
         expense.value > 0,
     )
     .map((expense) => {
@@ -86,9 +94,10 @@ const buildExpenseTransactions = (expenses, expenseTypes, dateFilter, expenseTyp
         (expenseType) => expenseType.expense_type_id === expense.expense_type_id,
       );
       return {
+        icon: expenseType?.farm_id ? 'OTHER' : expenseType?.expense_translation_key,
         date: expense.expense_date,
         transactionType: transactionTypeEnum.expense,
-        typeLabel: expenseType.farm_id
+        typeLabel: expenseType?.farm_id
           ? expenseType?.expense_name
           : i18n.t(`expense:${expenseType?.expense_translation_key}`),
         amount: -roundToTwoDecimal(expense.value),
@@ -97,30 +106,30 @@ const buildExpenseTransactions = (expenses, expenseTypes, dateFilter, expenseTyp
     });
 };
 
-const buildRevenueTransactions = (
+const buildRevenueTransactions = ({
   sales,
   revenueTypes,
   cropVarieties,
   dateFilter,
   revenueTypeFilter,
-) => {
+}) => {
   const filteredSales = sales.filter(
     (sale) =>
       (!dateFilter ||
         (moment(sale.sale_date).isSameOrAfter(dateFilter.startDate, 'day') &&
           moment(sale.sale_date).isSameOrBefore(dateFilter.endDate, 'day'))) &&
-      (!revenueTypeFilter || revenueTypeFilter.includes(sale.revenue_type_id)),
+      revenueTypeFilter?.includes(sale.revenue_type_id),
   );
 
   // We only want to show one revenue transaction per type per day. When expanding the item details on how that transaction was summed up from tasks will be displayed.
-  const groupedByRevenueTypeSales = Object.groupBy(
+  const groupedByRevenueTypeSales = groupBy(
     filteredSales,
     ({ revenue_type_id }) => revenue_type_id,
   );
   const groupedTransactions = [];
 
   Object.keys(groupedByRevenueTypeSales).forEach((revenueTypeId) => {
-    const groupedByDateSales = Object.groupBy(
+    const groupedByDateSales = groupBy(
       groupedByRevenueTypeSales[revenueTypeId],
       ({ sale_date }) => sale_date,
     );
@@ -135,9 +144,10 @@ const buildRevenueTransactions = (
         cropVarieties,
       );
       groupedTransactions.push({
+        icon: revenueType?.farm_id ? 'OTHER' : revenueType?.revenue_translation_key,
         date,
         transactionType: transactionTypeEnum.revenue,
-        typeLabel: revenueType.farm_id
+        typeLabel: revenueType?.farm_id
           ? revenueType?.revenue_name
           : i18n.t(`revenue:${revenueType?.revenue_translation_key}`),
         amount: revenueItems.reduce((sum, item) => sum + item.totalAmount, 0),
@@ -149,42 +159,30 @@ const buildRevenueTransactions = (
   return groupedTransactions;
 };
 
-export default function useTransactions(dateFilter, expenseTypeFilter, revenueTypeFilter) {
-  const sales = useSelector(salesSelector);
-  const tasks = useSelector(tasksSelector);
-  const expenses = useSelector(expenseSelector);
-  const expenseTypes = useSelector(allExpenseTypeSelector);
-  const revenueTypes = useSelector(allRevenueTypesSelector);
-  const taskTypes = useSelector(taskTypesSelector);
-  const cropVarieties = useSelector(cropVarietiesSelector);
-  const users = useSelector(userFarmsByFarmSelector);
-
-  const transactions = useMemo(
-    () => [
-      ...buildLabourTransactionsFromTasks(tasks, taskTypes, users, dateFilter, expenseTypeFilter),
-      ...buildExpenseTransactions(expenses, expenseTypes, dateFilter, expenseTypeFilter),
-      ...buildRevenueTransactions(
-        sales,
-        revenueTypes,
-        cropVarieties,
-        dateFilter,
-        revenueTypeFilter,
-      ),
-    ],
-    [
+export const buildTransactions = ({
+  sales,
+  tasks,
+  expenses,
+  expenseTypes,
+  revenueTypes,
+  taskTypes,
+  cropVarieties,
+  users,
+  dateFilter,
+  expenseTypeFilter,
+  revenueTypeFilter,
+}) => {
+  const transactions = [
+    ...buildLabourTransactionsFromTasks({ tasks, taskTypes, users, dateFilter, expenseTypeFilter }),
+    ...buildExpenseTransactions({ expenses, expenseTypes, dateFilter, expenseTypeFilter }),
+    ...buildRevenueTransactions({
       sales,
-      tasks,
-      expenses,
-      expenseTypes,
       revenueTypes,
-      taskTypes,
       cropVarieties,
-      users,
-      buildLabourTransactionsFromTasks,
-      buildExpenseTransactions,
-      buildRevenueTransactions,
-    ],
-  );
+      dateFilter,
+      revenueTypeFilter,
+    }),
+  ];
 
   const sortedTransactions = transactions.sort((a, b) => {
     if (a.date > b.date) {
@@ -197,4 +195,47 @@ export default function useTransactions(dateFilter, expenseTypeFilter, revenueTy
   });
 
   return sortedTransactions;
-}
+};
+
+const useTransactions = ({ dateFilter, expenseTypeFilter, revenueTypeFilter }) => {
+  const sales = useSelector(salesSelector);
+  const tasks = useSelector(tasksSelector);
+  const expenses = useSelector(expenseSelector);
+  const expenseTypes = useSelector(allExpenseTypeSelector);
+  const revenueTypes = useSelector(allRevenueTypesSelector);
+  const taskTypes = useSelector(taskTypesSelector);
+  const cropVarieties = useSelector(cropVarietiesSelector);
+  const users = useSelector(userFarmsByFarmSelector);
+
+  const transactions = useMemo(
+    () =>
+      buildTransactions({
+        sales,
+        tasks,
+        expenses,
+        expenseTypes,
+        revenueTypes,
+        taskTypes,
+        cropVarieties,
+        users,
+        dateFilter,
+        expenseTypeFilter,
+        revenueTypeFilter,
+      }),
+    [
+      sales,
+      tasks,
+      expenses,
+      expenseTypes,
+      revenueTypes,
+      taskTypes,
+      cropVarieties,
+      users,
+      buildTransactions,
+    ],
+  );
+
+  return transactions;
+};
+
+export default useTransactions;

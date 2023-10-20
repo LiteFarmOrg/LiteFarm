@@ -36,3 +36,8 @@ export const revenueFormTypes = {
   CROP_SALE: 'crop_sale',
   GENERAL: 'general',
 };
+
+export const LABOUR_ITEMS_GROUPING_OPTIONS = {
+  EMPLOYEE: 'EMPLOYEE',
+  TASK_TYPE: 'TASK_TYPE',
+};

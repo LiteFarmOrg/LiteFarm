@@ -15,7 +15,7 @@ import { calcActualRevenue, filterSalesByDateRange, mapSalesToRevenueItems } fro
 import { setDateRange } from '../actions';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getRevenueTypes } from '../saga';
-import { cropVarietySelector } from '../../cropVarietySlice';
+import { cropVarietiesSelector } from '../../cropVarietySlice';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -29,8 +29,7 @@ export default function ActualRevenue({ history, match }) {
   const sales = useSelector(salesSelector);
   const dateRange = useSelector(dateRangeSelector);
   const allRevenueTypes = useSelector(allRevenueTypesSelector);
-  const getRevenueType = (id) => useSelector(revenueTypeSelector(id));
-  const getCropVariety = (id) => useSelector(cropVarietySelector(id));
+  const cropVarieties = useSelector(cropVarietiesSelector);
 
   const year = new Date().getFullYear();
 
@@ -76,7 +75,10 @@ export default function ActualRevenue({ history, match }) {
     () => filterSalesByDateRange(sales, fromDate, toDate),
     [sales, fromDate, toDate],
   );
-  const revenueItems = mapSalesToRevenueItems(filteredSales, getRevenueType, getCropVariety, t);
+  const revenueItems = useMemo(
+    () => mapSalesToRevenueItems(filteredSales, allRevenueTypes, cropVarieties),
+    [filteredSales, allRevenueTypes, cropVarieties],
+  );
 
   useEffect(() => {
     if (!allRevenueTypes?.length) {

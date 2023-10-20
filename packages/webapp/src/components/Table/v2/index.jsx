@@ -82,15 +82,15 @@ export default function EnhancedTable(props) {
     columns,
     data,
     FooterCell,
-    minRows = 10,
+    minRows,
     onRowClick,
     showPagination,
-    pageSizeOptions = [5, 10, 20, 50],
+    pageSizeOptions,
     onClickMore,
-    itemsToAddPerLoadMoreClick = 5,
-    dense = true,
-    shouldFixTableLayout = false,
-    defaultOrderBy = '',
+    itemsToAddPerLoadMoreClick,
+    dense,
+    shouldFixTableLayout,
+    defaultOrderBy,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -252,11 +252,11 @@ EnhancedTable.propTypes = {
       Footer: PropTypes.node,
       columnProps: PropTypes.object,
     }),
-  ),
-  data: PropTypes.array,
+  ).isRequired,
+  data: PropTypes.array.isRequired,
   showPagination: PropTypes.bool,
   pageSizeOptions: PropTypes.arrayOf(PropTypes.number),
-  minRows: PropTypes.number,
+  minRows: PropTypes.number.isRequired,
   dense: PropTypes.bool,
   FooterCell: PropTypes.elementType,
   onClickMore: PropTypes.func,
@@ -265,4 +265,12 @@ EnhancedTable.propTypes = {
   /** should be true when setting column width */
   shouldFixTableLayout: PropTypes.bool,
   defaultOrderBy: PropTypes.string,
+};
+EnhancedTable.defaultProps = {
+  minRows: 10,
+  pageSizeOptions: [5, 10, 20, 50],
+  itemsToAddPerLoadMoreClick: 5,
+  dense: true,
+  shouldFixTableLayout: false,
+  defaultOrderBy: '',
 };

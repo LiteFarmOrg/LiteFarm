@@ -50,6 +50,35 @@ describe('Tasks', () => {
             translation['FARM_MAP']['MAP_FILTER']['FIELD'],
           );
 
+          // Get location data from API
+          cy.window()
+            .its('localStorage')
+            .invoke('getItem', 'id_token')
+            .then((token) => {
+              cy.window()
+                .its('store')
+                .invoke('getState')
+                .its('entitiesReducer')
+                .its('userFarmReducer')
+                .its('farm_id')
+                .then((farm_id) => {
+                  // Do something with farm_id
+                  console.log(farm_id);
+
+                  cy.request({
+                    method: 'GET',
+                    url: 'http://localhost:5001/location/farm/' + farm_id,
+                    headers: {
+                      Authorization: 'Bearer ' + token,
+                      farm_id: farm_id,
+                    },
+                  }).then((response) => {
+                    console.log(response); // Log the entire response
+                    console.log(response.body); // Log just the response body if preferred
+                  });
+                });
+            });
+
           const endTime = new Date().getTime() + 180000; // Set the end time to 3 min seconds from now
           checkReduxState(endTime);
         },

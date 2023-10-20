@@ -35,7 +35,8 @@ const FinanceDateRangeSelector = ({ hideTooltip }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const { option, customRange = {} } = useSelector(dateRangeSelector);
+  const dateRange = useSelector(dateRangeSelector);
+  const { option, customRange = {} } = dateRange;
   const initialOption = option || dateRangeOptions.YEAR_TO_DATE;
   const dateRangeUtil = new DateRange(new Date(), SUNDAY);
 
@@ -88,6 +89,7 @@ const FinanceDateRangeSelector = ({ hideTooltip }) => {
         defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}
         onChangeDateRangeOption={onChangeDateRangeOption}
         changeDateMethod={changeDate}
+        dateRange={dateRange}
       />
     </div>
   );

@@ -29,14 +29,16 @@ export default {
 };
 
 const TestComponent = (props) => {
-  const [dateRange, setDateRange] = useState({ option: dateRangeOptions.YEAR_TO_DATE });
+  const [dateRange, setDateRange] = useState({
+    option: props.defaultDateRangeOptionValue || dateRangeOptions.YEAR_TO_DATE,
+  });
 
   return (
     <Suspense fallback={'Loading...'}>
       <DateRangeSelector
         dateRange={dateRange}
         changeDateMethod={() => ({})}
-        setDateRangeOptionValue={(option) => setDateRange({ option })}
+        onChangeDateRangeOption={(option) => setDateRange({ option })}
         {...props}
       />
     </Suspense>

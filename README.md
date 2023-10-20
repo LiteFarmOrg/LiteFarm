@@ -313,7 +313,7 @@ Notes:
 You can use Storybook to visualize and test out the UI components used throughout the app.
 
 - To view Storybook on your local environment, run `pnmp storybook` on the `packages/webapp` directory and navigate to http://localhost:6006
-- To view the deployed version of Storybook, which is updated automatically with the latest changes on the integratio branch, go to https://65316fc4f177c73a9181a843-yobioprfjv.chromatic.com
+- To view the deployed version of Storybook, which is updated automatically with the latest changes on the integration branch, go to https://65316fc4f177c73a9181a843-yobioprfjv.chromatic.com
 
 ## How to Contribute
 

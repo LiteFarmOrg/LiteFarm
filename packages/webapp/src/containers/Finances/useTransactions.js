@@ -16,7 +16,7 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import lodashGroupBy from 'lodash.groupBy';
+import { groupBy as lodashGroupBy } from 'lodash';
 import { expenseSelector, salesSelector, allExpenseTypeSelector } from './selectors';
 import { tasksSelector } from '../taskSlice';
 import { taskTypesSelector } from '../taskTypeSlice';

@@ -21,4 +21,4 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Run unit tests
-        run: ./node_modules/.bin/vitest
+        run: pnpm test

@@ -14,7 +14,7 @@
  */
 
 import moment from 'moment';
-import lodashGroupBy from 'lodash.groupBy';
+import { groupBy as lodashGroupBy } from 'lodash';
 import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
 import { LABOUR_ITEMS_GROUPING_OPTIONS, revenueFormTypes } from './constants';
 import i18n from '../../locales/i18n';

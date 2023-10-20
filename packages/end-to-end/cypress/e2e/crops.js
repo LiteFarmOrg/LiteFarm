@@ -112,10 +112,9 @@ describe('Crops', () => {
     cy.get('[data-cy="rowMethod-length"]').should('exist').type('15{enter}');
     cy.get('[data-cy="rowMethod-spacing"]').should('exist').type('15{enter}');
     cy.contains(translation['MANAGEMENT_PLAN']['PLANT_SPACING']).click({ force: true });
-
     cy.get('[data-cy="rowMethod-yield"]').should('exist').type('15');
-
-    cy.get('[data-cy="rowMethod-submit"]').should('exist').click();
+    cy.contains(translation['MANAGEMENT_PLAN']['PLANT_SPACING']).click({ force: true });
+    cy.get('[data-cy="rowMethod-submit"]').should('exist').and('not.be.disabled').click();
 
     cy.get('[data-cy="planGuidance-submit"]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy="cropPlan-save"]').should('exist').and('not.be.disabled').click();

@@ -45,7 +45,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "immer": "^9.0.16",
     "jszip": "^3.10.1",
-    "lodash.groupby": "^4.6.0",
+    "lodash-es": "^4.17.21",
     "moment": "^2.29.4",
     "moment-range": "^4.0.2",
     "notistack": "^3.0.1",

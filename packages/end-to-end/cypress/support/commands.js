@@ -27,7 +27,7 @@ Cypress.Commands.add('waitUntilAnyVisible', (selector1, selector2, timeout = 100
 
 Cypress.Commands.add(
   'loginOrCreateAccount',
-  (email, password, fullName, language, crop_menu_name) => {
+  (email, password, fullName, language, crop_menu_name, fieldString) => {
     //Login page
     cy.get('[data-cy=email]').type(email);
     cy.intercept('GET', '**/login/user/' + email, (req) => {
@@ -56,7 +56,7 @@ Cypress.Commands.add(
         cy.addFarm('UBC FARM', '49.250833, -123.2410777');
         cy.onboardCompleteQuestions('Manager');
         cy.acceptSlideMenuSpotlights(crop_menu_name);
-        cy.createFirstLocation();
+        cy.createFirstLocation(fieldString);
         cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled');
         cy.visit('/');
       } else {
@@ -140,7 +140,7 @@ Cypress.Commands.add('onboardCompleteQuestions', (role) => {
   cy.get('[data-cy=outro-finish]').should('exist').and('not.be.disabled').click();
 });
 
-Cypress.Commands.add('createFirstLocation', () => {
+Cypress.Commands.add('createFirstLocation', (fieldString) => {
   cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });
   cy.get('[data-cy=navbar-option]')
     .eq(1)
@@ -158,8 +158,8 @@ Cypress.Commands.add('createFirstLocation', () => {
   cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
   cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
 
-  // Find the 6th + which is a field
-  cy.contains(':nth-child(6)', '+').click();
+  // Select "Field"
+  cy.contains(fieldString).click();
 
   cy.get('[data-cy="map-selection"]').should('be.visible');
   cy.get('[data-cy=mapTutorial-continue]').should('exist').and('not.be.disabled').click();
@@ -199,6 +199,15 @@ Cypress.Commands.add('createFirstLocation', () => {
     .and('not.be.disabled')
     .click({ force: true });
   cy.contains('First Field').should('be.visible');
+
+  // Check that it is in Redux
+  cy.window()
+    .its('store')
+    .invoke('getState')
+    .its('entitiesReducer')
+    .its('fieldReducer')
+    .its('ids')
+    .should('not.be.empty');
 });
 
 Cypress.Commands.add('acceptSlideMenuSpotlights', (crop_menu_name) => {

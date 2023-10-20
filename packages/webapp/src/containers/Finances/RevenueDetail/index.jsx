@@ -77,7 +77,7 @@ function RevenueDetail({ history, match }) {
     <GeneralRevenue
       key={isEditing ? 'editing' : 'readonly'}
       onSubmit={isEditing ? onSubmit : undefined}
-      title={t('SALE.DETAIL.TITLE')}
+      title={isEditing ? t('SALE.EDIT_SALE.TITLE') : t('SALE.DETAIL.TITLE')}
       currency={useCurrencySymbol()}
       sale={sale}
       useCustomFormChildren={useCropSaleInputs}

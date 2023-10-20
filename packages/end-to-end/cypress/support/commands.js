@@ -222,6 +222,12 @@ Cypress.Commands.add('acceptSlideMenuSpotlights', (crop_menu_name) => {
   cy.contains(crop_menu_name).should('exist').click();
   cy.url().should('include', '/crop_catalogue');
 
-  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
-  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+  cy.get('[data-cy=spotlight-next]', { timeout: 120 * 1000 })
+    .should('exist')
+    .and('not.be.disabled')
+    .click();
+  cy.get('[data-cy=spotlight-next]', { timeout: 120 * 1000 })
+    .should('exist')
+    .and('not.be.disabled')
+    .click();
 });

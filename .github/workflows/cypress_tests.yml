@@ -26,6 +26,8 @@ jobs:
       postgres:
         image: postgres:13
         env:
+          POSTGRES_DB: "pg-litefarm"
+          POSTGRES_USER: "postgres"
           POSTGRES_PASSWORD: "postgres"
           # POSTGRES_HOST: localhost
           # POSTGRES_HOST: postgres
@@ -48,6 +50,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Run initdb
+        run: |
+          docker exec -it postgres initdb -D /var/lib/postgresql/data
 
       - name: Run API in background
         working-directory: packages/api

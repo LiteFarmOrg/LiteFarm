@@ -6,14 +6,21 @@ const LocationController = {
   getLocationsByFarm() {
     return async (req, res, next) => {
       const { farm_id } = req.params;
-      const locations = await LocationModel.query().where({ 'location.farm_id': farm_id })
-        .withGraphJoined(`[
-          figure.[area, line, point], 
-          gate, water_valve, field, garden, buffer_zone, watercourse, fence, 
-          ceremonial_area, residence, surface_water, natural_area,
-          greenhouse, barn, farm_site_boundary, sensor, location_defaults
-        ]`);
-      return res.status(200).send(locations);
+      try {
+        const locations = await LocationModel.query().where({ 'location.farm_id': farm_id })
+          .withGraphJoined(`[
+            figure.[area, line, point], 
+            gate, water_valve, field, garden, buffer_zone, watercourse, fence, 
+            ceremonial_area, residence, surface_water, natural_area,
+            greenhouse, barn, farm_site_boundary, sensor, location_defaults
+          ]`);
+        return res.status(200).send(locations);
+      } catch (error) {
+        console.log(error);
+        return res.status(400).json({
+          error,
+        });
+      }
     };
   },
 

@@ -24,7 +24,7 @@ jobs:
     timeout-minutes: 30
     services:
       postgres:
-        image: postgres:13
+        image: postgres
         env:
           POSTGRES_DB: "pg-litefarm"
           POSTGRES_USER: "postgres"
@@ -53,7 +53,7 @@ jobs:
 
       - name: Run initdb
         run: |
-          docker exec -it postgres13 initdb -D /var/lib/postgresql/data
+          docker exec -it postgres initdb -D /var/lib/postgresql/data
 
       - name: Run API in background
         working-directory: packages/api

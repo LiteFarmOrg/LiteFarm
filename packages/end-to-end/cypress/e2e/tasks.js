@@ -67,7 +67,7 @@ describe('Tasks', () => {
 
                   cy.request({
                     method: 'GET',
-                    url: 'http://localhost:5001/location/farm/' + farm_id,
+                    url: 'http://localhost:5000/location/farm/' + farm_id,
                     headers: {
                       Authorization: 'Bearer ' + token,
                       farm_id: farm_id,

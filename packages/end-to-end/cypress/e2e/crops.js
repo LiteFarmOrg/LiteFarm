@@ -23,7 +23,7 @@ describe('Crops', () => {
             user.name,
             user.language,
             translation['SLIDE_MENU']['CROPS'],
-            translation['FARM_MAP']['MAP_FILTER']['FIELD'],
+            translation['FARM_MAP']['MAP_FILTER']['GARDEN'],
           );
         },
       );

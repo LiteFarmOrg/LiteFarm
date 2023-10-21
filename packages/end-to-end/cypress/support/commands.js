@@ -205,7 +205,7 @@ Cypress.Commands.add('createFirstLocation', (fieldString) => {
     .its('store')
     .invoke('getState')
     .its('entitiesReducer')
-    .its('fieldReducer')
+    .its('gardenReducer')
     .its('ids')
     .should('not.be.empty');
 

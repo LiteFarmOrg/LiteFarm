@@ -12,7 +12,7 @@ const checkReduxState = (endTime) => {
     .its('store')
     .invoke('getState')
     .its('entitiesReducer')
-    .its('fieldReducer')
+    .its('gardenReducer')
     .its('ids')
     .then((ids) => {
       if (ids.length === 0) {
@@ -47,7 +47,7 @@ describe('Tasks', () => {
             user.name,
             user.language,
             translation['SLIDE_MENU']['CROPS'],
-            translation['FARM_MAP']['MAP_FILTER']['FIELD'],
+            translation['FARM_MAP']['MAP_FILTER']['GARDEN'],
           );
 
           // Get location data from API
@@ -93,16 +93,6 @@ describe('Tasks', () => {
   });
 
   after(() => {});
-
-  // Utility function to click a button if it exists and is not disabled
-  const clickIfExistsAndEnabled = (selector) => {
-    cy.get('body').then(($body) => {
-      if ($body.find(selector).length > 0) {
-        // Check if the element exists
-        cy.get(selector).should('not.be.disabled').click();
-      }
-    });
-  };
 
   it('CheckTasksNavigation', () => {
     // Confirm that location exists
@@ -151,7 +141,7 @@ describe('Tasks', () => {
       .its('store')
       .invoke('getState')
       .its('entitiesReducer')
-      .its('fieldReducer')
+      .its('gardenReducer')
       .its('ids')
       .should('not.be.empty');
 
@@ -174,8 +164,17 @@ describe('Tasks', () => {
     cy.get('[data-cy=map-selectLocation]').click({ force: false });
 
     cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click();
-    // Next step is dependant on the fact whether crop exists
-    clickIfExistsAndEnabled('[data-cy=addTask-cropsContinue]');
+
+    cy.contains(translation['ADD_TASK']['AFFECT_PLANS'], { timeout: 3000 })
+      .then(() => {
+        // If the text exists within 3 seconds, click the specific button
+        cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click();
+      })
+      .then(null, () => {
+        // If the text does not appear within 3 seconds, just log a message and continue
+        cy.log('Text not found after 3 seconds. Continuing...');
+      });
+
     cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click();
     cy.waitForReact();

@@ -51,10 +51,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Run initdb
-        run: |
-          docker exec -it postgres initdb -D /var/lib/postgresql/data
-
       - name: Run API in background
         working-directory: packages/api
         run: |

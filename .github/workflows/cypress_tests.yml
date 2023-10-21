@@ -18,7 +18,7 @@ jobs:
         # take the current commit + timestamp together
         # the typical value would be something like
         # "sha-5d3fe...35d3-time-1620841214"
-        run: echo "value=sha-$GITHUB_SHA-time-$(date +"%s")" >> $GITHUB_OUTPUT
+        run: echo "value=sha-$GITHUB_SHA-time-$(date +'%s')" >> ${{github.workspace}}/uuid
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -106,7 +106,7 @@ jobs:
           record: true
           parallel: false
           group: "UI - Chrome"
-          ci-build-id: ${{ needs.prepare.outputs.uuid }}
+          ci-build-id: ${{needs.prepare.outputs.uuid}}
 
       - name: Archive backend logs
         uses: actions/upload-artifact@v3

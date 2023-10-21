@@ -39,6 +39,9 @@ jobs:
         ports:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
+        volumes:
+          - ./initdb.d:/docker-entrypoint-initdb.d
+          - postgres-data:/var/lib/postgresql/data
     # strategy:
     #   matrix:
     #     node-version: [16.15.0]

@@ -22,7 +22,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    container: node:16.15.0
     services:
       postgres:
         image: postgres:13
@@ -35,7 +34,9 @@ jobs:
           --health-interval 5s
           --health-timeout 5s
           --health-retries 5
-
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
     # strategy:
     #   matrix:
     #     node-version: [16.15.0]

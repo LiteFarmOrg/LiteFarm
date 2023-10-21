@@ -27,11 +27,10 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_DB: "pg-litefarm"
           POSTGRES_USER: "postgres"
           POSTGRES_PASSWORD: "postgres"
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
+          # POSTGRES_HOST: localhost
+          # POSTGRES_HOST: postgres
         ports:
           - "5432:5432"
         options: >-

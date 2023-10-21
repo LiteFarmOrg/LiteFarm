@@ -22,16 +22,29 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     timeout-minutes: 30
+    container: node:16.15.0
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: "pg-litefarm"
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "postgres"
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
     env:
       JWT_SECRET: This_will_(really)_work
       JWT_INVITE_SECRET: Any_arbitrary_string_will_do
       JWT_RESET_SECRET: Production_is_secured_with_a_long_random_string
       JWT_FARM_SECRET: Here_we_can_use_friendly_explanations
       JWT_SCHEDULER_SECRET: Another_token_was_needed_for_the_scheduler
-      DEV_DATABASE_HOST: localhost
-      DEV_DATABASE: pg-litefarm
-      DEV_DATABASE_USER: postgres
-      DEV_DATABASE_PASSWORD: postgres
       GOOGLE_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
       VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
       VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
@@ -42,20 +55,6 @@ jobs:
         node-version: [16.15.0]
 
     steps:
-      - uses: ikalnytskyi/action-setup-postgres@v3
-        with:
-          username: ${{env.DEV_DATABASE_USER}}
-          password: ${{env.DEV_DATABASE_PASSWORD}}
-          database: ${{env.DEV_DATABASE}}
-          port: 5432
-
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
       - name: Run API in background
         working-directory: packages/api
         run: |

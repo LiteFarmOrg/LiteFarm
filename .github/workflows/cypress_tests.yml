@@ -94,7 +94,6 @@ jobs:
           VITE_API_URL: http://localhost:5000
           CYPRESS_COVERAGE: true
       - name: Run E2E test (English)
-        continue-on-error: true
         env:
           CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
           CYPRESS_USER: 0

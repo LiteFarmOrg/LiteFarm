@@ -45,6 +45,16 @@ jobs:
     # strategy:
     #   matrix:
     #     node-version: [16.15.0]
+    env:
+      JWT_SECRET: This_will_(really)_work
+      JWT_INVITE_SECRET: Any_arbitrary_string_will_do
+      JWT_RESET_SECRET: Production_is_secured_with_a_long_random_string
+      JWT_FARM_SECRET: Here_we_can_use_friendly_explanations
+      JWT_SCHEDULER_SECRET: Another_token_was_needed_for_the_scheduler
+      GOOGLE_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
+      VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
+      VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
+      NODE_ENV: development
 
     steps:
       - uses: actions/checkout@v2
@@ -61,18 +71,11 @@ jobs:
           cd ../api && npm run migrate:dev:db
           npm run start &
         env:
-          JWT_SECRET: This_will_(really)_work
-          JWT_INVITE_SECRET: Any_arbitrary_string_will_do
-          JWT_RESET_SECRET: Production_is_secured_with_a_long_random_string
-          JWT_FARM_SECRET: Here_we_can_use_friendly_explanations
-          JWT_SCHEDULER_SECRET: Another_token_was_needed_for_the_scheduler
           PORT: 5000
           DEV_DATABASE_HOST: localhost
           DEV_DATABASE: pg-litefarm
           DEV_DATABASE_USER: postgres
           DEV_DATABASE_PASSWORD: postgres
-          GOOGLE_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
-          VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
           NODE_ENV: development
 
       - uses: pnpm/action-setup@v2
@@ -84,12 +87,6 @@ jobs:
           pnpm install --config.auto-install-peers=true --no-frozen-lockfile --force
           pnpm dev &
         env:
-          JWT_SECRET: This_will_(really)_work
-          JWT_INVITE_SECRET: Any_arbitrary_string_will_do
-          JWT_RESET_SECRET: Production_is_secured_with_a_long_random_string
-          JWT_FARM_SECRET: Here_we_can_use_friendly_explanations
-          JWT_SCHEDULER_SECRET: Another_token_was_needed_for_the_scheduler
-          VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
           VITE_ENV: development
           VITE_GOOGLE_OAUTH_CLIENT_ID: ${{secrets.VITE_GOOGLE_OAUTH_CLIENT_ID}}
           VITE_DO_BUCKET_NAME: litefarm

@@ -53,7 +53,7 @@ jobs:
 
       - name: Run initdb
         run: |
-          docker exec -it postgres:13 initdb -D /var/lib/postgresql/data
+          docker exec -it postgres13 initdb -D /var/lib/postgresql/data
 
       - name: Run API in background
         working-directory: packages/api

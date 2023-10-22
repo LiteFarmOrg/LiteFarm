@@ -30,9 +30,9 @@ jobs:
         volumes:
           - ./initdb.d:/docker-entrypoint-initdb.d
           - postgres-data:/var/lib/postgresql/data
-    # strategy:
-    #   matrix:
-    #     node-version: [16.15.0]
+    strategy:
+      matrix:
+        node-version: [16.15.0]
     env:
       JWT_SECRET: This_will_(really)_work
       JWT_INVITE_SECRET: Any_arbitrary_string_will_do

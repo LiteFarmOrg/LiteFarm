@@ -36,14 +36,13 @@ const expenseTypeByIdSelector = (expense_type_id) => {
   });
 };
 
-const expenseTypeTileContentsSelector = createSelector(financeSelector, (state) => {
+const sortExpenseTypes = (expenseTypes) => {
   const defaultTypes = [];
   const customTypes = [];
-  state.expense_types?.forEach((type) => {
-    if (!type.deleted) {
-      const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
-      arrayToUpdate.push(type);
-    }
+
+  expenseTypes?.forEach((type) => {
+    const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
+    arrayToUpdate.push(type);
   });
 
   return [
@@ -56,6 +55,14 @@ const expenseTypeTileContentsSelector = createSelector(financeSelector, (state) 
       typeA.expense_translation_key.localeCompare(typeB.expense_translation_key),
     ),
   ];
+};
+
+const allExpenseTypeTileContentsSelector = createSelector(financeSelector, (state) => {
+  return sortExpenseTypes(state.expense_types);
+});
+
+const expenseTypeTileContentsSelector = createSelector(financeSelector, (state) => {
+  return sortExpenseTypes(state.expense_types).filter((type) => !type.deleted);
 });
 
 const expenseDetailDateSelector = createSelector(
@@ -68,21 +75,6 @@ const selectedExpenseSelector = createSelector(
   (state) => state.selected_expense_types,
 );
 
-const expenseToDetailSelector = createSelector(financeSelector, (state) => state.expense_to_detail);
-
-const financeFormSelector = (state) => state.financeReducer.forms || {};
-
-const expenseDetailSelector = createSelector(financeFormSelector, (state) => state.expenseDetail);
-
-const expensesToEditSelector = createSelector(financeSelector, (state) => state.expenses_to_edit);
-
-const tempExpenseToEditSelector = createSelector(financeSelector, (state) => state.expense_to_edit);
-
-const selectedEditExpenseSelector = createSelector(
-  financeSelector,
-  (state) => state.selected_edit_expense,
-);
-
 const dateRangeSelector = createSelector(financeSelector, (state) => state.date_range);
 
 export {
@@ -92,13 +84,9 @@ export {
   expenseTypeSelector,
   allExpenseTypeSelector,
   expenseTypeByIdSelector,
+  allExpenseTypeTileContentsSelector,
   expenseTypeTileContentsSelector,
   expenseDetailDateSelector,
   selectedExpenseSelector,
-  expenseDetailSelector,
-  expensesToEditSelector,
-  selectedEditExpenseSelector,
   dateRangeSelector,
-  expenseToDetailSelector,
-  tempExpenseToEditSelector,
 };

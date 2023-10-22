@@ -23,33 +23,74 @@ import Button from '../../Form/Button';
 import { NOTE, VALUE, DATE, EXPENSE_DETAIL } from './constants';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 
-const getDefaultExpenseDetail = (types) => {
+/**
+ * Function that generates defaultValues for a type.
+ * Return persisted data if exists, otherwise, return [{ [NOTE]: '', [VALUE]: null }].
+ *
+ * @typedef ExpenseItemValues
+ * @type {object}
+ * @property {string} note - note
+ * @property {number} value - value
+ *
+ * @param {Array<ExpenseItemValues>} persistedFormDataForType Data user entered. It could be [], [{}] or undefined.
+ * @returns {Array<ExpenseItemValues>}
+ */
+const getDefaultValuesForType = (persistedFormDataForType) => {
+  if (persistedFormDataForType?.length && Object.keys(persistedFormDataForType[0]).length) {
+    return persistedFormDataForType;
+  }
+  return [{ [DATE]: getLocalDateInYYYYDDMM(), [NOTE]: '', [VALUE]: null }];
+};
+
+/**
+ * Function that generates default expenseDetail.
+ *
+ * @typedef ExpenseType
+ * @type {Object}
+ * @property {string} name - name of the type
+ * @property {string} id - id of the type
+ *
+ * @typedef ExpenseDetailData
+ * @type {Object}
+ * @property {Object} - key: typeId of string, value: array of { [NOTE]: <note>, [VALUE]: <value> }
+ *
+ * @param {Array<ExpenseType>} types Types that the user selected in the previous page.
+ * @param {ExpenseDetailData} persistedExpenseDetailData Data user entered. It could be undefined.
+ * @returns {ExpenseDetailData}
+ */
+const getDefaultExpenseDetail = (types, persistedExpenseDetailData) => {
   return types.reduce((expenseDetail, { id }) => {
     return {
       ...expenseDetail,
-      [id]: [{ [NOTE]: '', [VALUE]: null }],
+      [id]: getDefaultValuesForType(persistedExpenseDetailData?.[id]),
     };
   }, {});
 };
 
-export default function PureAddExpense({ types, onGoBack, onSubmit, useHookFormPersist }) {
+export default function PureAddExpense({
+  types,
+  onGoBack,
+  onSubmit,
+  useHookFormPersist,
+  persistedFormData,
+}) {
   const { t } = useTranslation();
-  const { historyCancel } = useHookFormPersist();
 
   const {
     register,
     control,
     watch,
-    setValue,
+    getValues,
     formState: { isValid, errors },
     handleSubmit,
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
-      [DATE]: getLocalDateInYYYYDDMM(),
-      [EXPENSE_DETAIL]: getDefaultExpenseDetail(types),
+      [EXPENSE_DETAIL]: getDefaultExpenseDetail(types, persistedFormData?.[EXPENSE_DETAIL]),
     },
   });
+
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const expenseDetail = watch(EXPENSE_DETAIL);
 
@@ -76,14 +117,6 @@ export default function PureAddExpense({ types, onGoBack, onSubmit, useHookFormP
         value={66}
         style={{ marginBottom: '24px' }}
       />
-      <Input
-        style={{ marginBottom: '40px' }}
-        type={'date'}
-        label={t('common:DATE')}
-        hookFormRegister={register(DATE, { required: true })}
-        errors={getInputErrors(errors, DATE)}
-        required
-      />
       {types.map((type) => {
         return (
           <ExpenseItemsForType
@@ -91,7 +124,7 @@ export default function PureAddExpense({ types, onGoBack, onSubmit, useHookFormP
             type={type}
             register={register}
             control={control}
-            setValue={setValue}
+            getValues={getValues}
             errors={errors}
           />
         );

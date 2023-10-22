@@ -46,6 +46,9 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
  * @param {string} [props.retireMessage] - The message text for the retirement confirmation box.
  * @param {number} [props.inputMaxChars=100] - The maximum number of characters allowed in the input field.
  * @param {function} [props.validateInput] - A custom validation function for the input field.
+ * @param {function} [props.useHookFormPersist] - useHookFormPersist hook.
+ * @param {function} [props.customFormFields] - A function to render additional form fields.
+ * @param {Object} [props.customFieldsDefaultValues={}] - Default values for the additional fields.
  * @returns {JSX.Element} A React component representing the custom type form.
  */
 const PureSimpleCustomType = ({
@@ -64,6 +67,9 @@ const PureSimpleCustomType = ({
   retireMessage,
   inputMaxChars = 100,
   validateInput,
+  useHookFormPersist = () => ({}),
+  customFormFields,
+  customFieldsDefaultValues = {},
 }) => {
   const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -71,14 +77,21 @@ const PureSimpleCustomType = ({
   const {
     handleSubmit,
     register,
+    control,
+    watch,
     formState: { errors, isValid, isDirty },
   } = useForm({
     mode: 'onChange',
-    defaultValues: { [customTypeRegister]: defaultValue || undefined },
+    shouldUnregister: true,
+    defaultValues: {
+      [customTypeRegister]: defaultValue || undefined,
+      ...customFieldsDefaultValues,
+    },
   });
-  const readonly = view === 'read-only' || false;
+  const readonly = view === 'read-only';
   const disabledInput = readonly;
   const disabledButton = (!isValid || !isDirty) && !readonly;
+  useHookFormPersist();
 
   return (
     <Form
@@ -89,6 +102,7 @@ const PureSimpleCustomType = ({
           fullLength
           disabled={disabledButton}
           onClick={onClick ? onClick : undefined}
+          type={view === 'read-only' ? 'button' : 'submit'}
         >
           {buttonText}
         </Button>
@@ -108,6 +122,9 @@ const PureSimpleCustomType = ({
         optional={false}
         disabled={disabledInput}
       />
+
+      {customFormFields && customFormFields({ control, watch })}
+
       <div style={{ marginTop: 'auto' }}>
         {readonly && !isDeleting && (
           <IconLink
@@ -161,6 +178,9 @@ PureSimpleCustomType.propTypes = {
   retireMessage: PropTypes.string,
   inputMaxChars: PropTypes.number,
   validateInput: PropTypes.func,
+  useHookFormPersist: PropTypes.func,
+  customFormFields: PropTypes.func,
+  customFieldsDefaultValues: PropTypes.object,
 };
 
 export default PureSimpleCustomType;

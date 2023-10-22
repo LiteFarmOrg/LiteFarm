@@ -20,7 +20,7 @@ import defaultStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
 import { dateRangeSelector, expenseSelector, allExpenseTypeSelector } from '../selectors';
 import Table from '../../../components/Table';
-import { getExpense, setExpenseDetailItem } from '../actions';
+import { getExpense } from '../actions';
 import history from '../../../history';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { BsCaretRight } from 'react-icons/bs';
@@ -136,7 +136,7 @@ const OtherExpense = () => {
   const getExpenseType = (id) => {
     for (let type of expenseTypes) {
       if (type.expense_type_id === id) {
-        return t(`expense:${type.expense_translation_key}`);
+        return type.farm_id ? type.expense_name : t(`expense:${type.expense_translation_key}`);
       }
     }
     return 'TYPE_NOT_FOUND';
@@ -235,8 +235,8 @@ const OtherExpense = () => {
                 return {
                   onClick: (e, handleOriginal) => {
                     if (rowInfo && rowInfo.original) {
-                      dispatch(setExpenseDetailItem(rowInfo.original));
-                      history.push('/expense_detail');
+                      const expense_id = rowInfo.original.expense_item_id;
+                      history.push(`/expense/${expense_id}`);
                     }
                     if (handleOriginal) {
                       handleOriginal();

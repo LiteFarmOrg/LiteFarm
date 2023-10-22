@@ -31,6 +31,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 import mocks from './mock.factories.js';
 import saleModel from '../src/models/saleModel.js';
 import cropVarietySaleModel from '../src/models/cropVarietySaleModel.js';
+import revenueTypeModel from '../src/models/revenueTypeModel.js';
 
 describe('Sale Tests', () => {
   let token;
@@ -42,6 +43,10 @@ describe('Sale Tests', () => {
 
   beforeAll(() => {
     token = global.token;
+  });
+
+  beforeAll(async () => {
+    await mocks.populateDefaultRevenueTypes();
   });
 
   function postSaleRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
@@ -370,11 +375,18 @@ describe('Sale Tests', () => {
     let cropVariety2;
     let someoneElsecrop;
     let someoneElseVariety;
+    let cropSaleRevenueType;
     beforeEach(async () => {
       [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
       [cropVariety2] = await mocks.crop_varietyFactory({ promisedCrop: [crop2] });
       [someoneElsecrop] = await mocks.cropFactory();
       [someoneElseVariety] = await mocks.crop_varietyFactory({ promisedCrop: [someoneElsecrop] });
+
+      cropSaleRevenueType = await revenueTypeModel
+        .query()
+        .where('revenue_name', 'Crop Sale')
+        .first();
+
       sampleReqBody = {
         ...mocks.fakeSale(),
         farm_id: farm.farm_id,
@@ -388,7 +400,7 @@ describe('Sale Tests', () => {
             crop_variety_id: cropVariety2.crop_variety_id,
           },
         ],
-        revenue_type_id: 1,
+        revenue_type_id: cropSaleRevenueType.revenue_type_id,
       };
     });
 
@@ -532,6 +544,39 @@ describe('Sale Tests', () => {
         });
       });
 
+      const testGeneralSale = async (done, userId) => {
+        const [{ revenue_type_id }] = await mocks.revenue_typeFactory({
+          promisedFarm: [{ farm_id: farm.farm_id }],
+          properties: { agriculture_associated: true, crop_generated: false },
+        });
+        delete sampleReqBody.crop_variety_sale;
+        sampleReqBody.value = 50.5;
+        sampleReqBody.note = 'notes';
+        sampleReqBody.revenue_type_id = revenue_type_id;
+
+        postSaleRequest(sampleReqBody, { user_id: userId }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const sales = await saleModel.query().where('farm_id', farm.farm_id);
+          expect(sales.length).toBe(1);
+          expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
+          expect(sales[0].value).toBe(sampleReqBody.value);
+          expect(sales[0].note).toBe(sampleReqBody.note);
+          done();
+        });
+      };
+
+      test(`Owner should post and get a general sale`, async (done) => {
+        testGeneralSale(done, owner.userId);
+      });
+
+      test(`Manager should post and get a general sale`, async (done) => {
+        testGeneralSale(done, manager.userId);
+      });
+
+      test(`Worker should post and get a general sale`, async (done) => {
+        testGeneralSale(done, worker.userId);
+      });
+
       test('should return 403 status if sale is posted by unauthorized user', async (done) => {
         postSaleRequest(sampleReqBody, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
           expect(res.status).toBe(403);
@@ -564,6 +609,7 @@ describe('Sale Tests', () => {
     let cropVarietySale2;
     let newCrop;
     let newCropVariety;
+    let cropSaleRevenueType;
 
     beforeEach(async () => {
       [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
@@ -578,6 +624,10 @@ describe('Sale Tests', () => {
       });
       [newCrop] = await mocks.cropFactory({ promisedFarm: [farm], createdUser: [owner] });
       [newCropVariety] = await mocks.crop_varietyFactory({ promisedCrop: [newCrop] });
+      cropSaleRevenueType = await revenueTypeModel
+        .query()
+        .where('revenue_name', 'Crop Sale')
+        .first();
 
       patchData = {
         customer_name: 'patched customer name',
@@ -602,6 +652,7 @@ describe('Sale Tests', () => {
             sale_value: 7777,
           },
         ],
+        revenue_type_id: cropSaleRevenueType.revenue_type_id,
       };
     });
 

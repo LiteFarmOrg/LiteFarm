@@ -420,6 +420,19 @@
     "TO": "Até",
     "TO_MUST_BE_AFTER_FROM": "A data 'Até' deve ser depois da data 'De'"
   },
+  "DATE_RANGE_SELECTOR": {
+    "BACK": "MISSING",
+    "CLEAR_DATES": "MISSING",
+    "CUSTOM_RANGE": "MISSING",
+    "LAST_FOURTEEN_DAYS": "MISSING",
+    "LAST_MONTH": "MISSING",
+    "LAST_SEVEN_DAYS": "MISSING",
+    "LAST_THIRTY_DAYS": "MISSING",
+    "LAST_WEEK": "MISSING",
+    "THIS_MONTH": "MISSING",
+    "THIS_WEEK": "MISSING",
+    "YEAR_TO_DATE": "MISSING"
+  },
   "DAYS_OF_WEEK_SELECT": {
     "FRIDAY": "S",
     "MONDAY": "S",
@@ -477,8 +490,7 @@
     "UNARCHIVE_DOCUMENT": "Documento desarquivado?",
     "UNARCHIVE_DOCUMENT_TEXT": "Desarquivar este documento irá devolvê-lo à sua lista de documentos atualmente válidos. Os documentos válidos serão exportados para suas certificações. Você quer prosseguir?",
     "UNARCHIVED": "Desarquivado",
-    "VALID": "Válido",
-    "VIEW_DETAIL": "Veja a página de detalhes para baixar vários arquivos"
+    "VALID": "Válido"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Esqueceu sua senha?",
@@ -496,13 +508,21 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "MISSING",
+      "ADD_CUSTOM_EXPENSE_TYPE": "MISSING",
       "CUSTOM_EXPENSE_NAME": "MISSING",
       "CUSTOM_EXPENSE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING",
       "FLOW": "MISSING",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "NEW_EXPENSE_ITEM": "MISSING",
       "TITLE": "MISSING",
       "WHICH_TYPES_TO_RECORD": "MISSING"
+    },
+    "DELETE": {
+      "CONFIRM": "MISSING",
+      "HEADER": "MISSING",
+      "LINK": "MISSING",
+      "MESSAGE": "MISSING"
     },
     "DETAILED_HISTORY": "História Detalhada",
     "EDIT_EXPENSE": {
@@ -511,6 +531,8 @@
       "REMOVE_ALL": "Você removeu todas as despesas, clique em Salvar para enviar.",
       "RETIRE_EXPENSE_MESSAGE": "MISSING",
       "RETIRE_EXPENSE_TYPE": "MISSING",
+      "RETIRED": "MISSING",
+      "TITLE": "MISSING",
       "TITLE_1": "Editar Despesa (1 de 2)",
       "TITLE_2": "Editar Despesa (2 de 2)"
     },
@@ -521,6 +543,7 @@
     "NO_EXPENSE_YEAR": "Você não tem despesas registradas para este ano",
     "OTHER_EXPENSES_TITLE": "Outras despesas",
     "SUMMARY": "Resumo",
+    "TYPE": "MISSING",
     "VALUE": "Valor"
   },
   "EXPIRED_TOKEN": {
@@ -843,13 +866,11 @@
   "INSIGHTS": {
     "BIODIVERSITY": {
       "AMPHIBIANS": "Anfíbios",
+      "API_OFFSET_LIMIT_ERROR_MESSAGE": "MISSING",
       "BIRDS": "Aves",
       "CROP_VARIETIES": "Variedades de cultivos",
-      "ERROR": {
-        "BODY": "A LiteFarm gera insights de biodiversidade com base em várias fontes e não conseguiu fazê-lo no momento. Tente novamente após {{minutos}} minutos, por favor.",
-        "PREVIEW": "Indisponível",
-        "TITLE": "Tinha um problema"
-      },
+      "ERROR_TITLE": "Tinha um problema",
+      "GENERIC_ERROR_MESSAGE": "A LiteFarm gera insights de biodiversidade com base em várias fontes e não conseguiu fazê-lo no momento. Tente novamente mais tarde, por favor.",
       "HEADER": "Número de espécies",
       "INFO": "A biodiversidade é ótima para as pessoas e para o planeta. Contabilizamos a riqueza de espécies a partir de todos os registros conhecidos sobre a biodiversidade ao redor de sua fazenda. Você pode aumentar a contagem de espécies em sua fazenda utilizando o https://www.inaturalist.org/app.",
       "INSECTS": "Insetos",
@@ -1432,6 +1453,10 @@
   "REVENUE": {
     "ADD_REVENUE": {
       "ADD_CUSTOM_REVENUE": "MISSING",
+      "ASSOCIATED_WITH_AGRICULTURE": "MISSING",
+      "CANNOT_BE_CHANGED": "MISSING",
+      "CANNOT_BE_CHANGED_LATER": "MISSING",
+      "CROP_GENERATED": "MISSING",
       "CUSTOM_REVENUE_NAME": "MISSING",
       "CUSTOM_REVENUE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING"
@@ -1450,6 +1475,7 @@
   },
   "SALE": {
     "ADD_SALE": {
+      "ADD_CUSTOM_REVENUE_TYPE": "MISSING",
       "ADD_REVENUE": "MISSING",
       "CROP_PLACEHOLDER": "Selecione o cultivo",
       "CROP_REQUIRED": "O cultivo é necessário",
@@ -1458,6 +1484,7 @@
       "CUSTOMER_NAME_REQUIRED": "Nome do Cliente é necessário",
       "DATE": "Data",
       "FLOW": "MISSING",
+      "MANAGE_CUSTOM_REVENUE_TYPE": "MISSING",
       "SALE_VALUE_ERROR": "O valor da venda deve ser um número acima de 0 e abaixo de 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Variedades de cultivo",

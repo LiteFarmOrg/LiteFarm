@@ -87,7 +87,7 @@ export function* getBiodiversityData() {
   } catch (e) {
     console.log(e);
     yield put(setBiodiversityLoading(false));
-    yield put(setBiodiversityError(true, Date.now()));
+    yield put(setBiodiversityError(e.response?.data?.error ?? true, Date.now()));
     console.log('failed to fetch biodiversity data from db');
   }
 }

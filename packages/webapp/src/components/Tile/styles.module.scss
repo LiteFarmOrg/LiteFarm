@@ -141,3 +141,12 @@
     gap: 25px
   }
 }
+
+.boldLabelIcon {
+  font-weight: 600;
+
+  svg {
+    border-top: solid 3px transparent;
+    border-bottom: solid 3px transparent;
+  }
+}

@@ -18,7 +18,16 @@ import express from 'express';
 const router = express.Router();
 import exportController from '../controllers/exportController.js';
 import multerDiskUpload from '../util/fileUpload.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import checkScope from '../middleware/acl/checkScope.js';
 
 router.post('/map/farm/:farm_id', multerDiskUpload, exportController.sendMapToEmail());
+
+router.post(
+  '/finances/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['add:finance_report']),
+  exportController.createFinanceReport(),
+);
 
 export default router;

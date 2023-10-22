@@ -19,6 +19,7 @@ import styles from './styles.module.scss';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { dateRangeSelector, expenseSelector, salesSelector } from './selectors';
+import { allRevenueTypesSelector } from '../revenueTypeSlice';
 import {
   getFarmExpenseType,
   getExpense,
@@ -34,6 +35,7 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
 import { managementPlansSelector } from '../managementPlanSlice';
 import { getManagementPlansAndTasks } from '../saga';
+import { getRevenueTypes } from './saga';
 import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
 import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
@@ -41,6 +43,7 @@ import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSl
 import { isTaskType } from '../Task/useIsTaskType';
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useTranslation } from 'react-i18next';
+import { downloadFinanceReport } from './saga';
 
 const moment = extendMoment(Moment);
 
@@ -52,6 +55,7 @@ const Finances = () => {
   const expenses = useSelector(expenseSelector);
   const managementPlans = useSelector(managementPlansSelector);
   const dateRange = useSelector(dateRangeSelector);
+  const allRevenueTypes = useSelector(allRevenueTypesSelector);
 
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
 
@@ -65,6 +69,7 @@ const Finances = () => {
     dispatch(getSales());
     dispatch(getExpense());
     dispatch(getFarmExpenseType());
+    dispatch(getRevenueTypes());
     dispatch(getManagementPlansAndTasks());
     dispatch(setSelectedExpenseTypes([]));
 
@@ -120,7 +125,7 @@ const Finances = () => {
     return parseFloat(totalRevenue).toFixed(2);
   };
 
-  const totalRevenue = calcActualRevenue(sales, startDate, endDate).toFixed(2);
+  const totalRevenue = calcActualRevenue(sales, startDate, endDate, allRevenueTypes).toFixed(2);
   const estimatedRevenue = getEstimatedRevenue(managementPlans);
   const labourExpense = roundToTwoDecimal(calcTotalLabour(tasks, startDate, endDate));
   const otherExpense = calcOtherExpense(expenses, startDate, endDate);
@@ -146,7 +151,7 @@ const Finances = () => {
         <Button
           style={{ height: '48px' }}
           onClick={() => {
-            dispatch(setPersistedPaths(['/revenue_types', '/add_sale', '/manage_custom_revenues']));
+            dispatch(setPersistedPaths(['/revenue_types', '/add_sale']));
             history.push('/revenue_types');
           }}
           color="success"
@@ -154,7 +159,21 @@ const Finances = () => {
           {t('SALE.FINANCES.ADD_NEW_SALE')}
         </Button>
       </div>
-
+      <Button
+        style={{ height: '48px', marginInline: '4px' }}
+        onClick={() => {
+          dispatch(
+            downloadFinanceReport({
+              revenue: totalRevenue,
+              expenses: totalExpense,
+              balance: (parseFloat(totalRevenue) - parseFloat(totalExpense)).toFixed(2),
+            }),
+          );
+        }}
+        color="success"
+      >
+        Download Report
+      </Button>
       <hr />
       <DateRangeSelector changeDateMethod={changeDate} />
 

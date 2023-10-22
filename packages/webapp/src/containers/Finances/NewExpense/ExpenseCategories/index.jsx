@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
-import styles from './styles.module.scss';
 import { expenseTypeTileContentsSelector, selectedExpenseSelector } from '../../selectors';
 import { ReactComponent as EquipIcon } from '../../../../assets/images/log/equipment.svg';
 import { ReactComponent as SoilAmendmentIcon } from '../../../../assets/images/log/fertilizing.svg';
@@ -18,14 +17,15 @@ import PropTypes from 'prop-types';
 import ManageCustomExpenseTypesSpotlight from '../ManageCustomExpenseTypesSpotlight';
 import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
+import labelIconStyles from '../../../../components/Tile/styles.module.scss';
 
 export const icons = {
   EQUIPMENT: <EquipIcon />,
   SOIL_AMENDMENT: <SoilAmendmentIcon />,
-  PESTICIDE: <PestIcon />,
+  PEST_CONTROL: <PestIcon />,
   FUEL: <FuelIcon />,
   MACHINERY: <MachineIcon />,
-  SEEDS: <SeedIcon />,
+  SEEDS_AND_PLANTS: <SeedIcon />,
   OTHER: <OtherIcon />,
   LAND: <LandIcon />,
   MISCELLANEOUS: (
@@ -37,13 +37,21 @@ export const icons = {
       }}
     />
   ),
+  UTILITIES: <OtherIcon />,
+  LABOUR: <OtherIcon />,
+  INFRASTRUCTURE: <OtherIcon />,
+  TRANSPORTATION: <OtherIcon />,
+  SERVICES: <OtherIcon />,
 };
 
 class ExpenseCategories extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTypes: this.props.selectedExpense,
+      // filter out previously selected and retired types
+      selectedTypes: this.props.selectedExpense.filter((typeId) => {
+        return this.props.expenseTypes.some(({ expense_type_id }) => expense_type_id === typeId);
+      }),
     };
 
     this.addRemoveType = this.addRemoveType.bind(this);
@@ -82,7 +90,7 @@ class ExpenseCategories extends Component {
           onContinue={this.nextPage}
           onGoBack={this.props.history.back}
           progressValue={33}
-          onGoToManageCustomType={() => history.push('/manage_custom_expense')}
+          onGoToManageCustomType={() => history.push('/manage_custom_expenses')}
           isTypeSelected={!!this.state.selectedTypes.length}
           formatTileData={(data) => {
             const { farm_id, expense_translation_key, expense_type_id, expense_name } = data;
@@ -94,7 +102,7 @@ class ExpenseCategories extends Component {
               label: farm_id ? expense_name : this.props.t(`expense:${expense_translation_key}`),
               onClick: () => this.addRemoveType(expense_type_id),
               selected: this.state.selectedTypes.includes(expense_type_id),
-              className: styles.labelIcon,
+              className: labelIconStyles.boldLabelIcon,
             };
           }}
           useHookFormPersist={this.props.useHookFormPersist}

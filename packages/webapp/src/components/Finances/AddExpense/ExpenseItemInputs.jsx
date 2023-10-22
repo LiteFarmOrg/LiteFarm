@@ -17,19 +17,24 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { IconLink } from '../../Typography';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
-import Input, { numberOnKeyDown } from '../../Form/Input';
-import { NOTE, VALUE } from './constants';
+import Input from '../../Form/Input';
+import { DATE, NOTE, VALUE } from './constants';
 import styles from './styles.module.scss';
+import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
-export default function ExpenseItemInputs({ register, onRemove, onChange, getErrors }) {
+export default function ExpenseItemInputs({ register, onRemove, getErrors }) {
   const { t } = useTranslation();
 
   return (
     <div className={styles.expenseItem}>
       <Input
-        style={{ marginBottom: '24px' }}
+        label={t('common:DATE')}
+        type={'date'}
+        hookFormRegister={register(DATE, { required: true })}
+        errors={getErrors(DATE)}
+      />
+      <Input
         label={t('EXPENSE.ITEM_NAME')}
-        onChange={(e) => onChange(e, NOTE)}
         errors={getErrors(NOTE)}
         hookFormRegister={register(NOTE, {
           required: true,
@@ -40,19 +45,15 @@ export default function ExpenseItemInputs({ register, onRemove, onChange, getErr
         })}
       />
       <Input
-        style={{ marginBottom: '24px' }}
         type="number"
         label={t('EXPENSE.VALUE')}
-        onKeyDown={numberOnKeyDown}
-        min="0.01"
-        step="0.01"
-        onChange={(e) => onChange(e, VALUE)}
         errors={getErrors(VALUE)}
         hookFormRegister={register(VALUE, {
           required: true,
           valueAsNumber: true,
-          min: { value: 0.01 },
+          min: { value: 0 },
         })}
+        currency={useCurrencySymbol()}
       />
       <IconLink
         className={styles.iconLink}

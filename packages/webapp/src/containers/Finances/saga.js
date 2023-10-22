@@ -22,8 +22,7 @@ import {
   GET_FARM_EXPENSE_TYPE,
   GET_EXPENSE,
   GET_SALES,
-  TEMP_DELETE_EXPENSE,
-  TEMP_EDIT_EXPENSE,
+  DELETE_EXPENSE,
   UPDATE_SALE,
 } from './constants';
 import { setExpenseType, setExpense, setSalesInState } from './actions';
@@ -41,6 +40,7 @@ import {
   postRevenueTypeSuccess,
   putRevenueTypeSuccess,
 } from '../revenueTypeSlice';
+import { saveAs } from 'file-saver';
 
 export function* getSales() {
   const { salesURL } = apiConfig;
@@ -232,7 +232,7 @@ export function* addExpensesSaga(action) {
   }
 }
 
-export function* tempDeleteExpenseSaga(action) {
+export function* deleteExpenseSaga(action) {
   const { expenseUrl } = apiConfig;
   const { expense_id } = action;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -292,9 +292,12 @@ export function* addRemoveExpenseSaga(action) {
   }
 }
 
-export function* tempEditExpenseSaga(action) {
+export const updateExpense = createAction('editExpenseSaga');
+
+export function* editExpenseSaga(action) {
   const { expenseUrl } = apiConfig;
-  const { expense_id, data } = action;
+  const { expense_id, data } = action.payload;
+
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
@@ -306,7 +309,9 @@ export function* tempEditExpenseSaga(action) {
         yield put(setExpense(result.data));
       }
     }
+    history.push('/other_expense');
   } catch (e) {
+    console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.UPDATE')));
   }
 }
@@ -338,6 +343,7 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
 
     yield put(deleteRevenueTypeSuccess(id));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.DELETE')));
+    history.push('/manage_custom_revenues');
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.DELETE')));
   }
@@ -345,13 +351,17 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
 
 export const addCustomRevenueType = createAction('addRevenueTypeSaga');
 
-export function* addRevenueTypeSaga({ payload: { revenue_name } }) {
+export function* addRevenueTypeSaga({
+  payload: { revenue_name, agriculture_associated, crop_generated },
+}) {
   const { revenueTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   const body = {
     revenue_name,
+    agriculture_associated,
+    crop_generated,
     farm_id: farm_id,
   };
 
@@ -360,6 +370,7 @@ export function* addRevenueTypeSaga({ payload: { revenue_name } }) {
 
     yield put(postRevenueTypeSuccess(result.data));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.ADD')));
+    history.push('/manage_custom_revenues');
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.ADD')));
   }
@@ -382,6 +393,7 @@ export function* updateRevenueTypeSaga({ payload: { revenue_type_id, revenue_nam
 
     yield put(putRevenueTypeSuccess({ revenue_type_id, revenue_name }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.UPDATE')));
+    history.push('/manage_custom_revenues');
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.UPDATE')));
   }
@@ -409,6 +421,31 @@ export function* patchEstimatedCropRevenueSaga({ payload: managementPlan }) {
   }
 }
 
+export const downloadFinanceReport = createAction('downloadFinanceReportSaga');
+
+export function* downloadFinanceReportSaga({ payload: data }) {
+  const { financeReportUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(
+      axios.post,
+      `${financeReportUrl}/farm/${farm_id}`,
+      { ...data, farm_id },
+      {
+        ...header,
+        responseType: 'arraybuffer',
+      },
+    );
+    const blob = new Blob([result.data], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    saveAs(blob, `finance-report.xlsx`);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export default function* financeSaga() {
   yield takeLatest(GET_SALES, getSales);
   yield takeLeading(ADD_OR_UPDATE_SALE, addSale);
@@ -424,9 +461,10 @@ export default function* financeSaga() {
   yield takeLeading(ADD_EXPENSES, addExpensesSaga);
   yield takeLeading(DELETE_SALE, deleteSale);
   yield takeLeading(DELETE_EXPENSES, deleteExpensesSaga);
-  yield takeLeading(TEMP_DELETE_EXPENSE, tempDeleteExpenseSaga);
+  yield takeLeading(DELETE_EXPENSE, deleteExpenseSaga);
   yield takeLeading(ADD_REMOVE_EXPENSE, addRemoveExpenseSaga);
   yield takeLeading(UPDATE_SALE, updateSaleSaga);
-  yield takeLeading(TEMP_EDIT_EXPENSE, tempEditExpenseSaga);
+  yield takeLeading(updateExpense.type, editExpenseSaga);
   yield takeLeading(patchEstimatedCropRevenue.type, patchEstimatedCropRevenueSaga);
+  yield takeLeading(downloadFinanceReport.type, downloadFinanceReportSaga);
 }

@@ -15,7 +15,8 @@
     "storybook": "storybook dev -p 6006 public",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "test": "vitest"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -43,6 +44,7 @@
     "i18next-browser-languagedetector": "^6.1.8",
     "i18next-xhr-backend": "^3.2.2",
     "immer": "^9.0.16",
+    "jszip": "^3.10.1",
     "moment": "^2.29.4",
     "moment-range": "^4.0.2",
     "notistack": "^3.0.1",
@@ -114,7 +116,8 @@
     "vite": "^4.1.5",
     "vite-plugin-istanbul": "^4.0.0",
     "vite-plugin-pwa": "^0.14.3",
-    "vite-plugin-svgr": "^2.4.0"
+    "vite-plugin-svgr": "^2.4.0",
+    "vitest": "^0.34.5"
   },
   "pnpm": {
     "overrides": {

@@ -108,6 +108,17 @@ export default {
       .returning('*');
   },
 
+  async patch(model, id, data, req, { trx = null, context = {} } = {}) {
+    const resource = removeAdditionalProperties(model, data);
+    const table_id = model.idColumn;
+
+    return await model
+      .query(trx)
+      .context({ user_id: req?.auth?.user_id, ...context })
+      .where(table_id, id)
+      .patch(resource);
+  },
+
   async delete(model, id, req, { trx = null, context = {} } = {}) {
     const table_id = model.idColumn;
     return await model
@@ -169,6 +180,52 @@ export default {
   // see http://vincit.github.io/objection.js/#eager-loading
   async eager(model, subModel, trx) {
     return await model.query(trx).eager(subModel);
+  },
+
+  /**
+   * Format transaltion key
+   * @param {String} key
+   * @returns {String} - Formatted key
+   */
+  formatTranslationKey(key) {
+    return key.toUpperCase().trim().replaceAll(' ', '_');
+  },
+
+  /**
+   * To check if record is deleted or not
+   * @param {Object} trx - Transaction object
+   * @param {Object} model - Database model instance
+   * @param {object} where - 'Where' condition to fetch record
+   * @async
+   * @returns {Boolean} - true or false
+   */
+  async isDeleted(trx, model, where) {
+    const record = await model
+      .query(trx)
+      .context({ showHidden: true })
+      .where(where)
+      .select('deleted')
+      .first();
+
+    return record.deleted;
+  },
+
+  /**
+   * Check if records exists in table
+   * @param {object} trx - Transaction object
+   * @param {object} model - Database model instance
+   * @param {object} where - 'Where' condition to fetch record
+   * @param {object} whereNot - 'WhereNot' condition to fetch record
+   * @returns {Promise} - Object DB record promise
+   */
+  existsInTable(trx, model, where, whereNot = {}) {
+    let query = model.query(trx).context({ showHidden: true }).where(where);
+
+    if (Object.keys(whereNot).length > 0) {
+      query = query.whereNot(whereNot);
+    }
+
+    return query.first();
   },
 };
 //export trx;

@@ -166,19 +166,19 @@ Cypress.Commands.add('createFirstLocation', (fieldString) => {
 
   cy.get('[data-cy=map-mapContainer]').click(500, 300);
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(300, { log: false });
+  cy.wait(400, { log: false });
   cy.get('[data-cy=map-mapContainer]').click(700, 300);
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(300, { log: false });
+  cy.wait(400, { log: false });
   cy.get('[data-cy=map-mapContainer]').click(700, 400);
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(300, { log: false });
+  cy.wait(400, { log: false });
   cy.get('[data-cy=map-mapContainer]').click(500, 400);
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(300, { log: false });
+  cy.wait(400, { log: false });
   cy.get('[data-cy=map-mapContainer]').click(500, 300);
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(300, { log: false });
+  cy.wait(400, { log: false });
   cy.get('[data-cy=mapTutorial-continue]').should('exist').and('not.be.disabled').click();
   cy.get('[data-cy=map-drawCompleteContinue]').should('exist').and('not.be.disabled').click();
 

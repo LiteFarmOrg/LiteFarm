@@ -81,7 +81,7 @@ describe('Crops', () => {
     cy.window()
       .its('store')
       .invoke('getState')
-      .its('entitiesReducer.showedSpotlightReducer.management_plan_creation')
+      .its('entitiesReducer.showedSpotlightReducer.crop_catalog')
       .then((managementPlanCreation) => {
         if (!managementPlanCreation) {
           // Checks if the value is false

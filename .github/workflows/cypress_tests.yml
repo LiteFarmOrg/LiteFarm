@@ -112,17 +112,3 @@ jobs:
         with:
           name: logs
           path: packages/api/logs
-
-      - name: set code coverage badge
-        working-directory: "."
-        run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/end-to-end/coverage/coverage-summary.json'
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
-      - name: Set code coverage commit status
-        continue-on-error: true
-        working-directory: packages/end-to-end
-        run: npx set-gh-status -m "Update coverage badge"
-        env:
-          SET_STATUS_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          GH_SHA: ${{ github.event.after }}

@@ -76,8 +76,19 @@ describe('Crops', () => {
     cy.get('[data-cy=compliance-seedEngineered]').eq(0).should('exist').check({ force: true });
     cy.get('[data-cy=compliance-seedTreated]').eq(2).should('exist').check({ force: true });
     cy.get('[data-cy=compliance-newVarietySave]').should('exist').and('not.be.disabled').click();
-    cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
-    cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+
+    // Check if spotlight was shown
+    cy.window()
+      .its('store')
+      .invoke('getState')
+      .its('entitiesReducer.showedSpotlightReducer.management_plan_creation')
+      .then((managementPlanCreation) => {
+        if (!managementPlanCreation) {
+          // Checks if the value is false
+          cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+          cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+        }
+      });
 
     // Add Management Plan
     cy.contains(translation['CROP_DETAIL']['ADD_PLAN']).click();
@@ -119,6 +130,17 @@ describe('Crops', () => {
     cy.get('[data-cy="planGuidance-submit"]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy="cropPlan-save"]').should('exist').and('not.be.disabled').click();
 
-    cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+    // Check if spotlight was shown
+    cy.window()
+      .its('store')
+      .invoke('getState')
+      .its('entitiesReducer.showedSpotlightReducer.crop_variety_detail')
+      .then((managementPlanCreation) => {
+        if (!managementPlanCreation) {
+          // Checks if the value is false
+          cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+          cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+        }
+      });
   });
 });

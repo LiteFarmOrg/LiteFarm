@@ -7,18 +7,6 @@ on:
       - e2e_test_mika
 
 jobs:
-  # single job that generates and outputs a common id
-  prepare:
-    runs-on: ubuntu-latest
-    outputs:
-      uuid: ${{ steps.uuid.outputs.value }}
-    steps:
-      - name: Generate unique ID 💎
-        id: uuid
-        # take the current commit + timestamp together
-        # the typical value would be something like
-        # "sha-5d3fe...35d3-time-1620841214"
-        run: echo "value=sha-$GITHUB_SHA-time-$(date +'%s')" >> ${{github.workspace}}/uuid
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -105,7 +93,7 @@ jobs:
           record: true
           parallel: false
           group: "UI - Chrome"
-          ci-build-id: ${{needs.prepare.outputs.uuid}}
+          ci-build-id: ${{ github.run_id }}
 
       - name: Archive backend logs
         uses: actions/upload-artifact@v3

@@ -17,7 +17,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
 import styles from './styles.module.scss';
-import { IconLink } from '../../../Typography';
+import { IconLink, Semibold, Text } from '../../../Typography';
+import TextButton from '../../../Form/Button/TextButton';
 import { ReactComponent as Edit } from '../../../../assets/images/edit.svg';
 import { ReactComponent as UncheckedEnabled } from '../../../../assets/images/unchecked-enabled.svg';
 import { ReactComponent as CheckedEnabled } from '../../../../assets/images/checked-enabled.svg';
@@ -40,8 +41,10 @@ export const CantFindCustomType = ({
     <div className={styles.background}>
       <div className={styles.container}>
         <div className={styles.textContainer}>
-          <h3 className={styles.title}>{t('FINANCES.CANT_FIND.MAIN')}</h3>
-          <p className={styles.subtitle}>{customTypeMessages.info}</p>
+          <Semibold sm className={styles.title}>
+            {t('FINANCES.CANT_FIND.MAIN')}
+          </Semibold>
+          <Text className={styles.subtitle}>{customTypeMessages.info}</Text>
         </div>
 
         <div className={styles.linkContainer}>
@@ -57,22 +60,22 @@ export const CantFindCustomType = ({
           </IconLink>
 
           {miscellaneousConfig && (
-            <div className={styles.miscellaneous} onClick={handleCheck}>
-              <p className={styles.miscellaneousText}>
+            <TextButton className={styles.miscellaneous} onClick={handleCheck}>
+              <Text className={styles.miscellaneousText}>
                 <Trans i18nKey="FINANCES.CANT_FIND.MISC_EXPENSE">
                   Or
                   <span className={styles.underlined}>
                     create a <b>Miscellaneous</b> expense
                   </span>
                 </Trans>
-              </p>
+              </Text>
 
               {isChecked ? (
                 <CheckedEnabled className={styles.checkbox} />
               ) : (
                 <UncheckedEnabled className={styles.checkbox} />
               )}
-            </div>
+            </TextButton>
           )}
         </div>
       </div>

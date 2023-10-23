@@ -69,27 +69,13 @@
   white-space: nowrap;
 }
 
-/* Styles taken from Figma */
-.title,
 .subtitle,
 .checkboxText {
-  font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Open Sans;
-  font-size: 14px;
-  font-style: normal;
-  text-align: start;
-}
-
-.subtitle,
-.checkboxText {
-  font-weight: 400;
   line-height: 18px;
 }
 
 .title {
   color: var(--brown900);
-  font-weight: 700;
-  line-height: 16px;
 }
 
 .subtitle {
@@ -118,13 +104,4 @@
 
 .underlined {
   text-decoration: underline;
-  cursor: pointer;
-}
-
-.bold {
-  font-weight: 700;
-}
-
-.checkbox {
-  cursor: pointer;
 }

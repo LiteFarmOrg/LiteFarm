@@ -50,7 +50,7 @@ describe('Tasks', () => {
             translation['FARM_MAP']['MAP_FILTER']['GARDEN'],
           );
 
-          const endTime = new Date().getTime() + 180000; // Set the end time to 3 min seconds from now
+          const endTime = new Date().getTime() + 15000; // Set the end time to 15 seconds from now
           checkReduxState(endTime);
         },
       );
@@ -136,54 +136,46 @@ describe('Tasks', () => {
 
     cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click();
 
-    cy.contains(translation['ADD_TASK']['AFFECT_PLANS'], { timeout: 3000 })
-      .then(() => {
-        // If the text exists within 3 seconds, click the specific button
-        cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click();
-      })
-      .then(null, () => {
-        // If the text does not appear within 3 seconds, just log a message and continue
-        cy.log('Text not found after 3 seconds. Continuing...');
-      });
+    cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click();
 
     cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click();
     cy.waitForReact();
   });
 
-  //   it('CreateFieldWorkTask', () => {
-  //     cy.get('[data-cy=navbar-hamburger]').should('exist').click();
-  //     cy.contains(translation['SLIDE_MENU']['TASKS']).should('exist').click();
-  //     cy.waitForReact();
-  //     cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();
-  //     cy.waitForReact();
-  //     cy.contains(tasks['FIELD_WORK_TASK']).should('exist').click();
+  it('CreateFieldWorkTask', () => {
+    cy.get('[data-cy=navbar-hamburger]').should('exist').click();
+    cy.contains(translation['SLIDE_MENU']['TASKS']).should('exist').click();
+    cy.waitForReact();
+    cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();
+    cy.waitForReact();
+    cy.contains(tasks['FIELD_WORK_TASK'])
+      .should('exist')
+      .and('not.be.disabled')
+      .click({ force: true });
 
-  //     //Create an unassigned cleaning task due tomorrow
-  //     const date = new Date();
-  //     date.setDate(date.getDate() + 1);
-  //     const getDateInputFormat = (date) => moment(date).format('YYYY-MM-DD');
-  //     const dueDate = getDateInputFormat(date);
-  //     cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+    //Create an unassigned cleaning task due tomorrow
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    const getDateInputFormat = (date) => moment(date).format('YYYY-MM-DD');
+    const dueDate = getDateInputFormat(date);
+    cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+    cy.get('[data-cy=addTask-continue]').should('exist').and('not.be.disabled').click();
 
-  //     cy.get('[data-cy=addTask-continue]').should('exist').and('not.be.disabled').click();
+    cy.contains('First Field').should('be.visible');
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(500, { log: false });
+    cy.get('[data-cy=map-selectLocation]').click({ force: false });
+    cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click();
 
-  //     cy.contains('First Field').should('be.visible');
-  //     // eslint-disable-next-line cypress/no-unnecessary-waiting
-  //     cy.wait(500, { log: false });
-  //     cy.get('[data-cy=map-selectLocation]').click({ force: false });
+    cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click();
 
-  //     cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click();
-  //     cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();
-  //     cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click();
-  //     cy.waitForReact();
-  //   });
+    // Select type of work
+    cy.get('[data-cy="react-select').find('input').click();
+    cy.contains(translation['ADD_TASK']['FIELD_WORK_VIEW']['TYPE']['PRUNING']).click();
 
-  //   cy.get('[data-cy=task-selection]').eq(index).click();
-  //   cy.createAFieldWorkTask();
-  //   //cy.get('._contentContainer_nkx8u_1').contains('Successfully created task').should('exist');
-  //   cy.url().should('include', '/tasks');
-  //   cy.waitForReact();
-  //   cy.get('[data-cy=taskCard]').should('exist');
-  //   cy.contains('Create').should('exist').and('not.be.disabled').click({ force: true });
+    cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();
+    cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click();
+    cy.waitForReact();
+  });
 });

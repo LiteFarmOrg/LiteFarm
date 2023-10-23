@@ -4,9 +4,15 @@ on:
   push:
     branches:
       - integration
+    paths:
+      - "./packages/webapp/**/**.stories.jsx"
+      - "./packages/webapp/.storybook"
   pull_request:
     branches:
       - integration
+    paths:
+      - "./packages/webapp/**/**.stories.jsx"
+      - "./packages/webapp/.storybook"
 
 jobs:
   chromatic-deployment:

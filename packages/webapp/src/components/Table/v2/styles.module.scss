@@ -1,0 +1,111 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.table {
+  &.fixed {
+    table-layout: fixed;
+  }
+}
+
+.tableRow {
+  &.clickable {
+    cursor: pointer;
+  }
+}
+
+.tableHead, .tableCell, .tableCell div, .headerLabel {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.tableHead {
+  font-weight: 700;
+
+  > span {
+    width: 100%;
+  }
+}
+
+.headerLabel {
+  max-width: calc(100% - 17px); // 17px = svg's width
+}
+
+.tableCell {
+  padding: 0 12px;
+  height: 56px;
+  border-bottom: solid 1px var(--grey200);
+
+  &:not(.tableHead) {
+    background-color: var(--white, #fff);
+  }
+  &.tableHead {
+    border-bottom: none;
+  }
+
+  &.dense {
+    padding: 0 12px;
+    height: 40px;
+  }
+}
+
+.loadMoreCell {
+  text-align: center;
+  border-bottom: none;
+  padding-top: 24px;
+}
+
+.loadMoreButton {
+  display: inline-block;
+  height: 34px;
+  padding: 0 8px;
+  border-radius: 8px;
+}
+
+.moreButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--teal700);
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+  width: 100%;
+  cursor: pointer;
+
+  svg {
+    stroke-width: 1px;
+  }
+}
+
+.footer {
+  .tableCell {
+    background-color: var(--grey200);
+    height: 40px;
+  }
+}
+
+.footerCell {
+  padding: 0;
+  border-bottom: none;
+}
+
+.pagination {
+  > div > div svg:nth-child(3)  {
+    color: var(--grey600);
+  }
+}

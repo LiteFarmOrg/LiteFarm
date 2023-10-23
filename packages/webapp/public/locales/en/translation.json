@@ -1708,9 +1708,11 @@
     "TITLE": "Switching Farms"
   },
   "TABLE": {
+    "LOAD_MORE": "+ Load more",
     "LOADING_TEXT": "Loading...",
     "NEXT_TEXT": "Next",
     "NO_DATA_TEXT": "No rows found",
+    "NUMBER_MORE": "+ {{number}} more",
     "OF_TEXT": "of",
     "PAGE_TEXT": "Page",
     "PREVIOUS_TEXT": "Previous",

@@ -22,3 +22,5 @@ jobs:
         run: pnpm install
       - name: Publish to Chromatic
         run: pnpm chromatic
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}

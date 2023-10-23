@@ -47,7 +47,8 @@ const Task = ({ currencySymbol, tasks, startDate, endDate }) => {
     {
       id: 'labour_cost',
       Header: t('SALE.LABOUR.TABLE.LABOUR_COST'),
-      accessor: (d) => `${currencySymbol}${d.labourCost.toFixed(2)}`,
+      accessor: (d) => d.labourCost,
+      Cell: (row) => `${currencySymbol}${row.value.toFixed(2)}`,
     },
   ];
 

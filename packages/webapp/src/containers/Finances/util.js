@@ -205,6 +205,8 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
             key: cvs.crop_variety_id,
             title,
             subtitle: `${convertedQuantity} ${quantityUnit}`,
+            quantity: convertedQuantity,
+            quantityUnit,
             amount: cvs.sale_value,
           };
         }),

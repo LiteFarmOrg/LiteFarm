@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
+ *  Copyright 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import { cropVarietiesSelector } from '../cropVarietySlice';
 import { mapSalesToRevenueItems, mapTasksToLabourItems } from './util';
 import i18n from '../../locales/i18n';
 import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
+import { getComparator } from '../../util/sort';
 
 const transactionTypeEnum = {
   expense: 'EXPENSE',
@@ -94,7 +95,7 @@ const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseT
         (expenseType) => expenseType.expense_type_id === expense.expense_type_id,
       );
       return {
-        icon: expenseType?.farm_id ? 'OTHER' : expenseType?.expense_translation_key,
+        icon: expenseType?.farm_id ? 'CUSTOM' : expenseType?.expense_translation_key,
         date: expense.expense_date,
         transactionType: transactionTypeEnum.expense,
         typeLabel: expenseType?.farm_id
@@ -120,43 +121,24 @@ const buildRevenueTransactions = ({
           moment(sale.sale_date).isSameOrBefore(dateFilter.endDate, 'day'))) &&
       revenueTypeFilter?.includes(sale.revenue_type_id),
   );
+  const revenueItems = mapSalesToRevenueItems(filteredSales, revenueTypes, cropVarieties);
 
-  // We only want to show one revenue transaction per type per day. When expanding the item details on how that transaction was summed up from tasks will be displayed.
-  const groupedByRevenueTypeSales = groupBy(
-    filteredSales,
-    ({ revenue_type_id }) => revenue_type_id,
-  );
-  const groupedTransactions = [];
-
-  Object.keys(groupedByRevenueTypeSales).forEach((revenueTypeId) => {
-    const groupedByDateSales = groupBy(
-      groupedByRevenueTypeSales[revenueTypeId],
-      ({ sale_date }) => sale_date,
-    );
+  return revenueItems.map((item) => {
     const revenueType = revenueTypes.find(
-      (revenueType) => revenueType.revenue_type_id == revenueTypeId,
+      (revenueType) => revenueType.revenue_type_id == item.sale.revenue_type_id,
     );
-
-    Object.keys(groupedByDateSales).forEach((date) => {
-      const revenueItems = mapSalesToRevenueItems(
-        groupedByDateSales[date],
-        revenueTypes,
-        cropVarieties,
-      );
-      groupedTransactions.push({
-        icon: revenueType?.farm_id ? 'OTHER' : revenueType?.revenue_translation_key,
-        date,
-        transactionType: transactionTypeEnum.revenue,
-        typeLabel: revenueType?.farm_id
-          ? revenueType?.revenue_name
-          : i18n.t(`revenue:${revenueType?.revenue_translation_key}`),
-        amount: revenueItems.reduce((sum, item) => sum + item.totalAmount, 0),
-        items: revenueItems,
-      });
-    });
+    return {
+      icon: revenueType?.farm_id ? 'CUSTOM' : revenueType?.revenue_translation_key,
+      date: item.sale.sale_date,
+      transactionType: transactionTypeEnum.revenue,
+      typeLabel: revenueType?.farm_id
+        ? revenueType?.revenue_name
+        : i18n.t(`revenue:${revenueType?.revenue_translation_key}`),
+      amount: item.totalAmount,
+      note: item.sale.customer_name,
+      items: item.financeItemsProps,
+    };
   });
-
-  return groupedTransactions;
 };
 
 export const buildTransactions = ({
@@ -184,15 +166,7 @@ export const buildTransactions = ({
     }),
   ];
 
-  const sortedTransactions = transactions.sort((a, b) => {
-    if (a.date > b.date) {
-      return -1;
-    }
-    if (a.date < b.date) {
-      return 1;
-    }
-    return 0;
-  });
+  const sortedTransactions = transactions.sort(getComparator('desc', 'date'));
 
   return sortedTransactions;
 };

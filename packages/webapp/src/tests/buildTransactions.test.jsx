@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import { expect, describe, test } from 'vitest';
 import { buildTransactions } from '../containers/Finances/useTransactions';
 
@@ -48,44 +63,8 @@ const testData = {
       ],
     },
     {
-      sale_id: 13,
-      customer_name: 'Customer 2',
-      sale_date: '2023-10-17T00:00:00.000Z',
-      farm_id: '58079f32-6222-11ee-be35-0242ac180006',
-      revenue_type_id: 1,
-      value: null,
-      note: null,
-      crop_variety_sale: [
-        {
-          sale_id: 13,
-          quantity: 10,
-          sale_value: 10,
-          crop_variety_id: 'b8b73f02-676f-11ee-af19-0242ac180007',
-          quantity_unit: 'kg',
-        },
-      ],
-    },
-    {
-      sale_id: 14,
-      customer_name: 'Customer 3',
-      sale_date: '2023-10-17T00:00:00.000Z',
-      farm_id: '58079f32-6222-11ee-be35-0242ac180006',
-      revenue_type_id: 1,
-      value: null,
-      note: null,
-      crop_variety_sale: [
-        {
-          sale_id: 14,
-          quantity: 10,
-          sale_value: 10,
-          crop_variety_id: 'b8b73f02-676f-11ee-af19-0242ac180007',
-          quantity_unit: 'kg',
-        },
-      ],
-    },
-    {
       sale_id: 16,
-      customer_name: 'Customer 4',
+      customer_name: 'Customer 2',
       sale_date: '2023-10-18T00:00:00.000Z',
       farm_id: '58079f32-6222-11ee-be35-0242ac180006',
       revenue_type_id: 1,
@@ -110,7 +89,7 @@ const testData = {
     },
     {
       sale_id: 18,
-      customer_name: 'test',
+      customer_name: 'Customer 3',
       sale_date: '2023-10-18T00:00:00.000Z',
       farm_id: '58079f32-6222-11ee-be35-0242ac180006',
       revenue_type_id: 2,
@@ -296,140 +275,34 @@ const allResults = [
     transactionType: 'REVENUE',
     typeLabel: 'CROP_SALE',
     amount: 30,
+    note: 'Customer 2',
     items: [
       {
-        sale: {
-          sale_id: 16,
-          customer_name: 'Customer 4',
-          sale_date: '2023-10-18T00:00:00.000Z',
-          farm_id: '58079f32-6222-11ee-be35-0242ac180006',
-          revenue_type_id: 1,
-          value: null,
-          note: null,
-          crop_variety_sale: [
-            {
-              sale_id: 16,
-              quantity: 10,
-              sale_value: 10,
-              crop_variety_id: 'b8b73f02-676f-11ee-af19-0242ac180007',
-              quantity_unit: 'kg',
-            },
-            {
-              sale_id: 16,
-              quantity: 10,
-              sale_value: 20,
-              crop_variety_id: 'e19e81de-6e16-11ee-8cc5-0242ac180005',
-              quantity_unit: 'mt',
-            },
-          ],
-        },
-        totalAmount: 30,
-        financeItemsProps: [
-          {
-            key: 'b8b73f02-676f-11ee-af19-0242ac180007',
-            title: 'Abiu, ABIU',
-            subtitle: '10 kg',
-            amount: 10,
-          },
-          {
-            key: 'e19e81de-6e16-11ee-8cc5-0242ac180005',
-            title: 'Abricot, ABRICOT',
-            subtitle: '10 kg',
-            amount: 20,
-          },
-        ],
+        amount: 10,
+        key: 'b8b73f02-676f-11ee-af19-0242ac180007',
+        subtitle: '10 kg',
+        title: 'Abiu, ABIU',
+        quantity: 10,
+        quantityUnit: 'kg',
+      },
+      {
+        amount: 20,
+        key: 'e19e81de-6e16-11ee-8cc5-0242ac180005',
+        subtitle: '10 kg',
+        title: 'Abricot, ABRICOT',
+        quantity: 10,
+        quantityUnit: 'kg',
       },
     ],
   },
   {
-    icon: 'OTHER',
+    icon: 'CUSTOM',
     date: '2023-10-18T00:00:00.000Z',
     transactionType: 'REVENUE',
     typeLabel: 'Custom type',
     amount: 200,
-    items: [
-      {
-        sale: {
-          sale_id: 18,
-          customer_name: 'test',
-          sale_date: '2023-10-18T00:00:00.000Z',
-          farm_id: '58079f32-6222-11ee-be35-0242ac180006',
-          revenue_type_id: 2,
-          value: 200,
-          note: '',
-          crop_variety_sale: [],
-        },
-        totalAmount: 200,
-        financeItemsProps: [{ key: 18, title: 'Custom type', amount: 200 }],
-      },
-    ],
-  },
-  {
-    icon: 'CROP_SALE',
-    date: '2023-10-17T00:00:00.000Z',
-    transactionType: 'REVENUE',
-    typeLabel: 'CROP_SALE',
-    amount: 20,
-    items: [
-      {
-        sale: {
-          sale_id: 13,
-          customer_name: 'Customer 2',
-          sale_date: '2023-10-17T00:00:00.000Z',
-          farm_id: '58079f32-6222-11ee-be35-0242ac180006',
-          revenue_type_id: 1,
-          value: null,
-          note: null,
-          crop_variety_sale: [
-            {
-              sale_id: 13,
-              quantity: 10,
-              sale_value: 10,
-              crop_variety_id: 'b8b73f02-676f-11ee-af19-0242ac180007',
-              quantity_unit: 'kg',
-            },
-          ],
-        },
-        totalAmount: 10,
-        financeItemsProps: [
-          {
-            key: 'b8b73f02-676f-11ee-af19-0242ac180007',
-            title: 'Abiu, ABIU',
-            subtitle: '10 kg',
-            amount: 10,
-          },
-        ],
-      },
-      {
-        sale: {
-          sale_id: 14,
-          customer_name: 'Customer 3',
-          sale_date: '2023-10-17T00:00:00.000Z',
-          farm_id: '58079f32-6222-11ee-be35-0242ac180006',
-          revenue_type_id: 1,
-          value: null,
-          note: null,
-          crop_variety_sale: [
-            {
-              sale_id: 14,
-              quantity: 10,
-              sale_value: 10,
-              crop_variety_id: 'b8b73f02-676f-11ee-af19-0242ac180007',
-              quantity_unit: 'kg',
-            },
-          ],
-        },
-        totalAmount: 10,
-        financeItemsProps: [
-          {
-            key: 'b8b73f02-676f-11ee-af19-0242ac180007',
-            title: 'Abiu, ABIU',
-            subtitle: '10 kg',
-            amount: 10,
-          },
-        ],
-      },
-    ],
+    note: 'Customer 3',
+    items: [{ key: 18, title: 'Custom type', amount: 200 }],
   },
   {
     date: '2023-10-14T00:00:00.000',
@@ -454,35 +327,15 @@ const allResults = [
     transactionType: 'REVENUE',
     typeLabel: 'CROP_SALE',
     amount: 100,
+    note: 'Customer 1',
     items: [
       {
-        sale: {
-          sale_id: 9,
-          customer_name: 'Customer 1',
-          sale_date: '2023-10-12T00:00:00.000Z',
-          farm_id: '58079f32-6222-11ee-be35-0242ac180006',
-          revenue_type_id: 1,
-          value: null,
-          note: null,
-          crop_variety_sale: [
-            {
-              sale_id: 9,
-              quantity: 10,
-              sale_value: 100,
-              crop_variety_id: 'b8b73f02-676f-11ee-af19-0242ac180007',
-              quantity_unit: 'kg',
-            },
-          ],
-        },
-        totalAmount: 100,
-        financeItemsProps: [
-          {
-            key: 'b8b73f02-676f-11ee-af19-0242ac180007',
-            title: 'Abiu, ABIU',
-            subtitle: '10 kg',
-            amount: 100,
-          },
-        ],
+        key: 'b8b73f02-676f-11ee-af19-0242ac180007',
+        title: 'Abiu, ABIU',
+        subtitle: '10 kg',
+        amount: 100,
+        quantity: 10,
+        quantityUnit: 'kg',
       },
     ],
   },
@@ -522,7 +375,7 @@ describe('buildTransactions test', () => {
       ...testData,
       expenseTypeFilter: [expenseTypeFilter[0]],
     });
-    const expectedResults = filterResultsByIndex([8]);
+    const expectedResults = filterResultsByIndex([7]);
     expect(transactions).toEqual(expectedResults);
   });
 
@@ -531,7 +384,7 @@ describe('buildTransactions test', () => {
       ...testData,
       revenueTypeFilter: [revenueTypeFilter[0]],
     });
-    const expectedResults = filterResultsByIndex([4, 6, 9]);
+    const expectedResults = filterResultsByIndex([4, 8]);
     expect(transactions).toEqual(expectedResults);
   });
 
@@ -541,7 +394,7 @@ describe('buildTransactions test', () => {
       expenseTypeFilter: [expenseTypeFilter[0]],
       revenueTypeFilter: [revenueTypeFilter[0]],
     });
-    const expectedResults = filterResultsByIndex([4, 6, 8, 9]);
+    const expectedResults = filterResultsByIndex([4, 7, 8]);
     expect(transactions).toEqual(expectedResults);
   });
 
@@ -556,7 +409,7 @@ describe('buildTransactions test', () => {
       expenseTypeFilter: [expenseTypeFilter[0]],
       revenueTypeFilter: [revenueTypeFilter[0]],
     });
-    const expectedResults = filterResultsByIndex([4, 6, 8]);
+    const expectedResults = filterResultsByIndex([4, 7]);
     expect(transactions).toEqual(expectedResults);
   });
 });

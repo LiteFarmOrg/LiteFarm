@@ -65,3 +65,14 @@ DisabledSmall.args = {
   disabled: true,
   sm: true,
 };
+
+const style = {
+  background: 'linear-gradient(to right, orange , yellow, green, cyan, blue, violet)',
+};
+
+export const InjectStyle = TemplateWithText.bind({});
+InjectStyle.args = {
+  color: 'primary',
+  label: 'Button',
+  style: style,
+};

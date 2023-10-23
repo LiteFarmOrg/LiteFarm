@@ -13,7 +13,7 @@
   },
   "PEST_CONTROL": {
     "EXPENSE_NAME": "Pest Control",
-    "CUSTOM_DESCRIPTION": "Expenses related to the purchase of ingredients, products, and devices used to  manage unwanted species."
+    "CUSTOM_DESCRIPTION": "Expenses related to the purchase of ingredients, products, and devices used to manage unwanted species."
   },
   "FUEL": {
     "EXPENSE_NAME": "Fuel",

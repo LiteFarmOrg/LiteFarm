@@ -80,11 +80,9 @@ const SaleController = {
             .status(400)
             .send('must be crop generated revenue type to add crop variety sale');
         }
-        if (isCropSale) {
-          if (crop_variety_sale && !crop_variety_sale?.length) {
-            await trx.rollback();
-            return res.status(400).send('crop sales cannot be empty');
-          }
+        if (isCropSale && crop_variety_sale && !crop_variety_sale.length) {
+          await trx.rollback();
+          return res.status(400).send('crop sales cannot be empty');
         }
 
         // Value lives on the Sale model, crop sales are handled differently

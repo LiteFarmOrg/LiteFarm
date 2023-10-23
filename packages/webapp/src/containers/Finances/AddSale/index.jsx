@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
 import useCropSaleInputs from '../useCropSaleInputs';
 import { addSale } from '../actions';
@@ -25,6 +25,7 @@ import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookForm
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { revenueTypeByIdSelector, revenueTypeTileContentsSelector } from '../../revenueTypeSlice';
 import { mapRevenueTypesToReactSelectOptions, mapRevenueFormDataToApiCallFormat } from '../util';
+import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 
 function AddSale() {
   const { t } = useTranslation(['translation', 'revenue']);
@@ -33,8 +34,9 @@ function AddSale() {
   const farm = useSelector(userFarmSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { revenue_type_id } = persistedFormData || {};
+
   const revenueType = useSelector(revenueTypeByIdSelector(revenue_type_id));
-  const revenueTypes = useSelector(revenueTypeTileContentsSelector);
+  const revenueTypes = useSortedRevenueTypes();
 
   const revenueTypeReactSelectOptions = mapRevenueTypesToReactSelectOptions(revenueTypes);
 

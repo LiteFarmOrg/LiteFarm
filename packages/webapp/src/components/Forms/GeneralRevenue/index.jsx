@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -84,6 +84,17 @@ const GeneralRevenue = ({
   } = reactHookFormFunctions;
 
   const selectedTypeOption = watch(REVENUE_TYPE_OPTION);
+
+  useEffect(() => {
+    if (revenueTypeOptions?.length && !selectedTypeOption) {
+      setValue(
+        REVENUE_TYPE_OPTION,
+        revenueTypeOptions?.find((option) => {
+          return option.value === data[REVENUE_TYPE_ID];
+        }),
+      );
+    }
+  }, [revenueTypeOptions]);
 
   const readonly = view === 'read-only';
   const disabledInput = readonly;
@@ -172,7 +183,7 @@ const GeneralRevenue = ({
               options={revenueTypeOptions}
               style={{ marginBottom: '40px' }}
               onChange={(e) => {
-                onTypeChange(e.value, setValue, REVENUE_TYPE_OPTION);
+                onTypeChange(e.value, setValue);
                 onChange(e);
               }}
               value={value}

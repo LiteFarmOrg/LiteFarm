@@ -26,6 +26,8 @@ import useCropSaleInputs, { getCustomFormChildrenDefaultValues } from '../useCro
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { revenueTypeTileContentsSelector } from '../../revenueTypeSlice';
 import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions } from '../util';
+import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
+import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/constants';
 
 function RevenueDetail({ history, match }) {
   const isEditing = match.path.endsWith('/edit');
@@ -35,8 +37,7 @@ function RevenueDetail({ history, match }) {
   useHookFormPersist();
   const { t } = useTranslation(['translation', 'revenue']);
   const dispatch = useDispatch();
-
-  const revenueTypes = useSelector(revenueTypeTileContentsSelector);
+  const revenueTypes = useSortedRevenueTypes();
   const sale = useSelector(revenueByIdSelector(sale_id));
   const revenueType = useSelector(revenueTypeByIdSelector(sale?.revenue_type_id));
 
@@ -68,7 +69,7 @@ function RevenueDetail({ history, match }) {
     history.back();
   };
 
-  const onTypeChange = (typeId, setValue, REVENUE_TYPE_OPTION) => {
+  const onTypeChange = (typeId, setValue) => {
     const newType = revenueTypeReactSelectOptions?.find((option) => option.value === typeId);
     setValue(REVENUE_TYPE_OPTION, newType);
   };
@@ -82,7 +83,7 @@ function RevenueDetail({ history, match }) {
       sale={sale}
       useCustomFormChildren={useCropSaleInputs}
       customFormChildrenDefaultValues={
-        revenueType.crop_generated ? getCustomFormChildrenDefaultValues(sale) : undefined
+        revenueType?.crop_generated ? getCustomFormChildrenDefaultValues(sale) : undefined
       }
       view={isEditing ? 'edit' : 'read-only'}
       handleGoBack={handleGoBack}

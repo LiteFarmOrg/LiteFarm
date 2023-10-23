@@ -3,9 +3,14 @@
   "FERTILIZER": "Fertilizante",
   "SOIL_AMENDMENT": "Aditivo de suelo",
   "MACHINERY": "Maquinaria",
-  "PESTICIDE": "Pesticida",
+  "PEST_CONTROL": "MISSING",
   "FUEL": "Combustible",
   "LAND": "Tierra o terreno",
-  "SEEDS": "Semillas",
-  "MISCELLANEOUS": "MISSING"
+  "SEEDS_AND_PLANTS": "MISSING",
+  "MISCELLANEOUS": "MISSING",
+  "UTILITIES": "MISSING",
+  "LABOUR": "MISSING",
+  "INFRASTRUCTURE": "MISSING",
+  "TRANSPORTATION": "MISSING",
+  "SERVICES": "MISSING"
 }

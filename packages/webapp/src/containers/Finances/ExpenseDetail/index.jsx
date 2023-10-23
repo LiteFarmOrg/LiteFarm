@@ -48,7 +48,7 @@ const ExpenseDetail = ({ history, match }) => {
       value: type.expense_type_id,
       label: type.farm_id
         ? type.expense_name + retireSuffix
-        : t(`expense:${type.expense_translation_key}`),
+        : t(`expense:${type.expense_translation_key}.EXPENSE_NAME`),
     };
   });
 

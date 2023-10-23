@@ -136,7 +136,9 @@ const OtherExpense = () => {
   const getExpenseType = (id) => {
     for (let type of expenseTypes) {
       if (type.expense_type_id === id) {
-        return type.farm_id ? type.expense_name : t(`expense:${type.expense_translation_key}`);
+        return type.farm_id
+          ? type.expense_name
+          : t(`expense:${type.expense_translation_key}.EXPENSE_NAME`);
       }
     }
     return 'TYPE_NOT_FOUND';

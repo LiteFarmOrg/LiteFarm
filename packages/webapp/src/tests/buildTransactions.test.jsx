@@ -345,8 +345,18 @@ const filterResultsByIndex = (indexList) =>
   allResults.filter((_result, i) => indexList.includes(i));
 
 describe('buildTransactions test', () => {
-  test('Should return empty list if no revenue/expense type filters applied', () => {
+  test('Should return all transactions if no filters applied', () => {
     const transactions = buildTransactions(testData);
+    console.log(transactions.length);
+    expect(transactions).toEqual(allResults);
+  });
+
+  test('Should return empty list if empty revenue/expense type filters applied', () => {
+    const transactions = buildTransactions({
+      ...testData,
+      expenseTypeFilter: [],
+      revenueTypeFilter: [],
+    });
     expect(transactions).toEqual([]);
   });
 
@@ -374,6 +384,7 @@ describe('buildTransactions test', () => {
     const transactions = buildTransactions({
       ...testData,
       expenseTypeFilter: [expenseTypeFilter[0]],
+      revenueTypeFilter: [],
     });
     const expectedResults = filterResultsByIndex([7]);
     expect(transactions).toEqual(expectedResults);
@@ -382,6 +393,7 @@ describe('buildTransactions test', () => {
   test('Should return list of transactions filtered by revenue type', () => {
     const transactions = buildTransactions({
       ...testData,
+      expenseTypeFilter: [],
       revenueTypeFilter: [revenueTypeFilter[0]],
     });
     const expectedResults = filterResultsByIndex([4, 8]);

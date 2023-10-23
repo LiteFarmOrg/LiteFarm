@@ -14,7 +14,8 @@
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
     "precommit": "lint-staged",
-    "test": "vitest"
+    "test": "vitest",
+    "chromatic": "chromatic --exit-zero-on-changes"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",

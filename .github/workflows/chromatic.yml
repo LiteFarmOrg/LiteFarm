@@ -2,8 +2,6 @@ name: "Chromatic"
 on:
   workflow_dispatch:
   push:
-    branches:
-      - integration
 
 jobs:
   chromatic-deployment:
@@ -23,6 +21,4 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Publish to Chromatic
-        env:
-          NODE_OPTIONS: "--max-old-space-size=8192"
-        run: ./node_modules/.bin/chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        run: pnpm chromatic

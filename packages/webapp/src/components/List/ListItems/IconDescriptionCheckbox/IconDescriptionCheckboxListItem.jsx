@@ -45,7 +45,7 @@ export default function IconDescriptionCheckboxListItem({
 }
 
 IconDescriptionCheckboxListItem.propTypes = {
-  tileKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  listItemKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.node,
   label: PropTypes.string,
   onClick: PropTypes.func,

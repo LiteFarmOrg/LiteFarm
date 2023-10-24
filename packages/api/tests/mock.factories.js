@@ -2117,7 +2117,7 @@ async function populateDefaultRevenueTypes() {
     {
       revenue_name: 'Crop Sale',
       revenue_translation_key: 'CROP_SALE',
-      agriculture_associated: true,
+      agriculture_associated: null,
       crop_generated: true,
     },
   ];

@@ -26,11 +26,6 @@
   padding: 0 4px;
   overflow: hidden;
   cursor: pointer;
-
-  font-size: 14px;
-  line-height: 18px;
-  color: var(--fontColor);
-  font-family: 'Open Sans', 'SansSerif', serif;
 }
 
 .icon {
@@ -45,7 +40,7 @@
 }
 
 
-.listItem--selected,
+.listItem__selected,
 .listItem:active {
   background-color: var(--teal100);
 }
@@ -61,18 +56,22 @@
   margin: 9px 0px;
 }
 
-.content__label {
+.content_label {
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--teal700);
   font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
 
-.content__description {
+.content_description {
   color: var(--grey600);
+  font-size: 12px;
+  line-height: 14px;
 }
 
 .checkbox {

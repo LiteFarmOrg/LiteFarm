@@ -16,6 +16,8 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
+import { ReactComponent as UncheckedEnabled } from '../../../../assets/images/unchecked-enabled.svg';
+import { ReactComponent as CheckedEnabled } from '../../../../assets/images/checked-enabled.svg';
 
 export default function IconDescriptionCheckboxListItem({
   listItemKey,
@@ -31,15 +33,19 @@ export default function IconDescriptionCheckboxListItem({
     <div
       key={listItemKey}
       onClick={onClick}
-      className={clsx(className, styles.listItem, selected && styles['listItem--selected'])}
+      className={clsx(className, styles.listItem, selected && styles.listItem__selected)}
       {...props}
     >
       <div className={styles.icon}>{icon}</div>
       <div className={styles.content}>
-        <div className={styles.content__label}>{label}</div>
-        {description && <div className={styles.content__description}>{description}</div>}
+        <div className={styles.content_label}>{label}</div>
+        {description && <div className={styles.content_description}>{description}</div>}
       </div>
-      <input className={styles.checkbox} type="checkbox" checked={selected} />
+      {selected ? (
+        <CheckedEnabled className={styles.checkbox} />
+      ) : (
+        <UncheckedEnabled className={styles.checkbox} />
+      )}
     </div>
   );
 }

@@ -26,7 +26,6 @@ import { ReactComponent as MachineIcon } from '../../assets/images/log/machinery
 import { ReactComponent as SeedIcon } from '../../assets/images/log/seeding.svg';
 import { ReactComponent as OtherIcon } from '../../assets/images/log/other.svg';
 import { ReactComponent as LandIcon } from '../../assets/images/log/land.svg';
-import { ReactComponent as MiscellaneousIcon } from '../../assets/images/log/miscellaneous.svg';
 
 export default {
   title: 'Components/List/List',
@@ -43,15 +42,6 @@ const icons = {
   SEEDS_AND_PLANTS: <SeedIcon />,
   OTHER: <OtherIcon />,
   LAND: <LandIcon />,
-  MISCELLANEOUS: (
-    <MiscellaneousIcon
-      style={{
-        border: 'solid 10px transparent',
-        filter:
-          'invert(30%) sepia(94%) saturate(787%) hue-rotate(136deg) brightness(103%) contrast(98%)',
-      }}
-    />
-  ),
   UTILITIES: <OtherIcon />,
   LABOUR: <OtherIcon />,
   INFRASTRUCTURE: <OtherIcon />,
@@ -95,15 +85,6 @@ const expenseTypes = [
     expense_translation_key: 'MACHINERY',
     custom_description:
       'Expenses related to the purchase, lease, rental, and maintenance of machinery.',
-  },
-  {
-    expense_name: 'Miscellaneous',
-    farm_id: null,
-    expense_type_id: '1fd8619a-22a9-11ee-9683-e66db4bef552',
-    deleted: false,
-    expense_translation_key: 'MISCELLANEOUS',
-    custom_description:
-      'Everything else. Consider creating a custom expense type if you will have additional expenses like this in the future.',
   },
   {
     expense_name: 'Pest Control',

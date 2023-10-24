@@ -1,6 +1,6 @@
 @import '../../../assets/mixin';
 .primary {
-  background-color: 'red';
+  background-color: 'var(--btnPrimary)';
   color: var(--fontColor);
   text-decoration: none;
   box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);

@@ -67,7 +67,7 @@ DisabledSmall.args = {
 };
 
 const style = {
-  background: 'linear-gradient(to right, orange , yellow, green, cyan, blue, violet)',
+  background: 'linear-gradient(to right, orange , yellow)',
 };
 
 export const InjectStyle = TemplateWithText.bind({});

@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
@@ -33,13 +33,23 @@ export default function CustomDateRangeSelector({
   changeEndDate,
   fromDateMax,
   toDateMin,
-  cleanup,
+  resetDateRangeOption,
 }) {
   const { t } = useTranslation();
   const inputStyle = { classes: { container: { minWidth: 'calc((100% - 24px) / 2)' } } };
 
+  const isValidRef = useRef(isValid);
+
   useEffect(() => {
-    return () => cleanup?.();
+    isValidRef.current = isValid;
+  }, [isValid]);
+
+  useEffect(() => {
+    return () => {
+      if (!isValidRef.current) {
+        resetDateRangeOption();
+      }
+    };
   }, []);
 
   return (
@@ -81,5 +91,5 @@ CustomDateRangeSelector.propTypes = {
   changeEndDate: PropTypes.func.isRequired,
   fromDateMax: PropTypes.string,
   toDateMin: PropTypes.string,
-  cleanup: PropTypes.func,
+  resetDateRangeOption: PropTypes.func,
 };

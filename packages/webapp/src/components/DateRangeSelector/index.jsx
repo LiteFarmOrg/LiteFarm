@@ -42,7 +42,6 @@ export default function DateRangeSelector({
   const isValidRange = customFromDate <= customToDate;
   const areValidDates = customFromDate?.isValid() && customToDate?.isValid();
   const isValid = !!(areValidDates && isValidRange);
-  const isValidRef = useRef(isValid);
 
   const options = [
     { value: rangeOptions.YEAR_TO_DATE, label: t('DATE_RANGE_SELECTOR.YEAR_TO_DATE') },
@@ -72,10 +71,6 @@ export default function DateRangeSelector({
     setCustomFromDate(defaultFromDate);
     setCustomToDate(defaultToDate);
   }, []);
-
-  useEffect(() => {
-    isValidRef.current = isValid;
-  }, [isValid]);
 
   const formatOptionLabel = (data, formatOptionLabelMeta) => {
     if (formatOptionLabelMeta.context === 'menu') {
@@ -119,12 +114,6 @@ export default function DateRangeSelector({
       return;
     }
     setIsCustomDatePickerOpen(false);
-  };
-
-  const cleanup = () => {
-    if (!isValidRef?.current) {
-      setSelectedDateRangeOption(options[0]);
-    }
   };
 
   const onBack = () => {
@@ -176,7 +165,7 @@ export default function DateRangeSelector({
             endDate={customToDate}
             fromDateMax={customToDate?.format('YYYY-MM-DD')}
             toDateMin={customFromDate?.format('YYYY-MM-DD')}
-            cleanup={cleanup}
+            resetDateRangeOption={() => setSelectedDateRangeOption(options[0])}
           />
         )}
       </div>

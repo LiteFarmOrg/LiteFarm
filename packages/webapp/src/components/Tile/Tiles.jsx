@@ -15,13 +15,11 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import IconLabelTile from './IconLabelTile';
-import IconDescriptionListTile from './IconDescriptionListTile';
 import { tileTypes } from './constants';
 import styles from './styles.module.scss';
 
 const tileComponents = {
   [tileTypes.ICON_LABEL]: (props) => <IconLabelTile {...props} />,
-  [tileTypes.ICON_DESCRIPTION_LIST]: (props) => <IconDescriptionListTile {...props} />,
 };
 
 /**

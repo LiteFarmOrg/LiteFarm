@@ -48,9 +48,9 @@ export default function List({
   }, [children, listItemType, listItemData, formatListItemData]);
 
   return (
-    <div className={styles.list} {...props}>
+    <ul className={styles.list} {...props}>
       {listItems}
-    </div>
+    </ul>
   );
 }
 

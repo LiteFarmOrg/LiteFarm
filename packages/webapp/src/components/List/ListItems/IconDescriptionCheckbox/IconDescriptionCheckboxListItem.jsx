@@ -30,7 +30,7 @@ export default function IconDescriptionCheckboxListItem({
   ...props
 }) {
   return (
-    <div
+    <li
       key={listItemKey}
       onClick={onClick}
       className={clsx(className, styles.listItem, selected && styles.listItem__selected)}
@@ -46,7 +46,7 @@ export default function IconDescriptionCheckboxListItem({
       ) : (
         <UncheckedEnabled className={styles.checkbox} />
       )}
-    </div>
+    </li>
   );
 }
 

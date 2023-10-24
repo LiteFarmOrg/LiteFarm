@@ -146,7 +146,7 @@ describe('Tasks', () => {
     cy.get('[data-cy=taskCard]').first().click();
     cy.get('[data-cy=taskReadOnly-complete]').click();
     cy.get('[data-cy=beforeComplete-submit]').click();
-    cy.get('[data-cy=harvestComplete-rating]').check();
+    cy.get('[data-cy=harvestComplete-rating]').check({ force: true });
     cy.get('[data-cy=harvestComplete-save]').click();
   });
 
@@ -189,7 +189,7 @@ describe('Tasks', () => {
     cy.get('[data-cy=taskCard]').first().click();
     cy.get('[data-cy=taskReadOnly-complete]').click();
     cy.get('[data-cy=beforeComplete-submit]').click();
-    cy.get('[data-cy=harvestComplete-rating]').check();
+    cy.get('[data-cy=harvestComplete-rating]').check({ force: true });
     cy.get('[data-cy=harvestComplete-save]').click();
   });
 });

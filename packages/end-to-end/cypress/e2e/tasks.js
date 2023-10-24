@@ -141,6 +141,13 @@ describe('Tasks', () => {
     cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click();
     cy.waitForReact();
+
+    // Open the card and mark as complete
+    cy.get('[data-cy=taskCard]').first().click();
+    cy.get('[data-cy=taskReadOnly-complete]').click();
+    cy.get('[data-cy=beforeComplete-submit]').click();
+    cy.get('[data-cy=checkbox-component]').check();
+    cy.get('[data-cy=harvestComplete-save]').click();
   });
 
   it('CreateFieldWorkTask', () => {
@@ -177,5 +184,12 @@ describe('Tasks', () => {
     cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click();
     cy.waitForReact();
+
+    // Open the card and mark as complete
+    cy.get('[data-cy=taskCard]').first().click();
+    cy.get('[data-cy=taskReadOnly-complete]').click();
+    cy.get('[data-cy=beforeComplete-submit]').click();
+    cy.get('[data-cy=harvestComplete-rating]').check();
+    cy.get('[data-cy=harvestComplete-save]').click();
   });
 });

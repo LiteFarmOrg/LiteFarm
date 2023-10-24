@@ -14,4 +14,5 @@
  */
 export const listItemTypes = {
   ICON_DESCRIPTION_CHECKBOX: 'iconDescriptionCheckbox',
+  ICON_DESCRIPTION: 'iconDescription',
 };

@@ -26,6 +26,8 @@ import { ReactComponent as MachineIcon } from '../../assets/images/log/machinery
 import { ReactComponent as SeedIcon } from '../../assets/images/log/seeding.svg';
 import { ReactComponent as OtherIcon } from '../../assets/images/log/other.svg';
 import { ReactComponent as LandIcon } from '../../assets/images/log/land.svg';
+import { ReactComponent as CropSaleIcon } from '../../assets/images/log/crop_sale.svg';
+import { ReactComponent as CustomTypeIcon } from '../../assets/images/log/custom_revenue.svg';
 
 export default {
   title: 'Components/List/List',
@@ -47,6 +49,8 @@ const icons = {
   INFRASTRUCTURE: <OtherIcon />,
   TRANSPORTATION: <OtherIcon />,
   SERVICES: <OtherIcon />,
+  CROP_SALE: <CropSaleIcon />,
+  CUSTOM: <CustomTypeIcon />,
 };
 
 const expenseTypes = [
@@ -165,7 +169,26 @@ const expenseTypes = [
   },
 ];
 
-export const IconDescriptionListTilesAsChildren = {
+const revenueTypes = [
+  {
+    revenue_name: 'Crop sale',
+    farm_id: null,
+    revenue_type_id: '1fd85a60-22a9-11ee-9683-e66db4bef552',
+    deleted: false,
+    revenue_translation_key: 'CROP_SALE',
+    custom_description: 'Revenues associated with the sale of crops harvested from this farm.',
+  },
+  {
+    revenue_name: 'Custom',
+    farm_id: '474069c6-22a9-11ee-a59f-e66db4bef552',
+    revenue_type_id: '1fd85a60-22a9-11ee-9683-e66db4bef553',
+    deleted: false,
+    revenue_translation_key: 'CUSTOM',
+    custom_description: 'This a short description of the new type',
+  },
+];
+
+export const IconDescriptionCheckboxListItemsAsChildren = {
   args: {
     listItemType: listItemTypes.ICON_DESCRIPTION_CHECKBOX,
     listItemData: expenseTypes.map((item, index) => {
@@ -175,6 +198,21 @@ export const IconDescriptionListTilesAsChildren = {
         label: item.expense_name,
         onClick: () => console.log('clicked!'),
         selected: false,
+        description: item.custom_description,
+      };
+    }),
+  },
+};
+
+export const IconDescriptionListItemsAsChildren = {
+  args: {
+    listItemType: listItemTypes.ICON_DESCRIPTION,
+    listItemData: revenueTypes.map((item, index) => {
+      return {
+        listItemKey: item.revenue_type_id,
+        icon: icons[item.farm_id ? 'CUSTOM' : item.revenue_translation_key],
+        label: item.revenue_name,
+        onClick: () => console.log('clicked!'),
         description: item.custom_description,
       };
     }),

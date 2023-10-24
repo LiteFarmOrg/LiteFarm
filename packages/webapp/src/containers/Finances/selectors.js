@@ -30,6 +30,18 @@ const expenseTypeSelector = createSelector(financeSelector, (state) => {
   return state.expense_types?.filter((type) => !type.deleted);
 });
 
+const revenueByIdSelector = (sale_id) => {
+  return createSelector(financeSelector, (state) => {
+    return state.sales.find((sale) => sale.sale_id == sale_id);
+  });
+};
+
+const expenseByIdSelector = (expense_id) => {
+  return createSelector(financeSelector, (state) => {
+    return state.expenses.find((expense) => expense.farm_expense_id == expense_id);
+  });
+};
+
 const expenseTypeByIdSelector = (expense_type_id) => {
   return createSelector(financeSelector, (state) => {
     return state.expense_types.find((type) => type.expense_type_id == expense_type_id);
@@ -84,6 +96,8 @@ export {
   expenseTypeSelector,
   allExpenseTypeSelector,
   expenseTypeByIdSelector,
+  revenueByIdSelector,
+  expenseByIdSelector,
   allExpenseTypeTileContentsSelector,
   expenseTypeTileContentsSelector,
   expenseDetailDateSelector,

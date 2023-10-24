@@ -117,5 +117,5 @@ export const allRevenueTypesSelector = createSelector(
   },
 );
 
-export const revenueTypeSelector = (revenue_type_id) => (state) =>
+export const revenueTypeByIdSelector = (revenue_type_id) => (state) =>
   revenueTypeSelectors.selectById(state, revenue_type_id);

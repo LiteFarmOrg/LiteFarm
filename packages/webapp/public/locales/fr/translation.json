@@ -1461,9 +1461,17 @@
       "CUSTOM_REVENUE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING"
     },
+    "DELETE": {
+      "CONFIRM": "MISSING",
+      "HEADER": "MISSING",
+      "LINK": "MISSING",
+      "MESSAGE": "MISSING"
+    },
     "EDIT_REVENUE": {
       "RETIRE_REVENUE_MESSAGE": "MISSING",
-      "RETIRE_REVENUE_TYPE": "MISSING"
+      "RETIRE_REVENUE_TYPE": "MISSING",
+      "RETIRED": "MISSING",
+      "REVENUE_TYPE": "MISSING"
     }
   },
   "ROLE_SELECTION": {
@@ -1500,13 +1508,13 @@
       "CUSTOMER_NAME": "Nom de Client",
       "DELETE_CONFIRMATION": "Êtes-vous sûr que vous voulez supprimer cette vente\u00a0?",
       "QUANTITY": "Quantité",
-      "TITLE": "Détails de vente",
+      "TITLE": "MISSING",
       "VALUE": "Valeur"
     },
     "EDIT_SALE": {
       "DATE": "Date",
       "DELETE_CONFIRMATION": "Êtes-vous sûr que vous voulez supprimer cette vente\u00a0?",
-      "TITLE": "Modifier la vente"
+      "TITLE": "MISSING"
     },
     "ESTIMATED_REVENUE": {
       "CALCULATION": "Calcul",

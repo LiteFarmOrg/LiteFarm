@@ -16,17 +16,17 @@ import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCustomRevenueType } from '../saga';
-import { revenueTypeSelector, revenueTypesSelector } from '../../revenueTypeSlice';
+import { revenueTypeByIdSelector, revenueTypesSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME, AGRICULTURE_ASSOCIATED, CROP_GENERATED } from './constants';
 import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import CustomRevenueRadios from './CustomRevenueRadios';
 
-function EditCustomExpense({ history, match }) {
+function EditCustomRevenue({ history, match }) {
   const { revenue_type_id } = match.params;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const selectedCustomRevenueType = useSelector(revenueTypeSelector(Number(revenue_type_id)));
+  const selectedCustomRevenueType = useSelector(revenueTypeByIdSelector(Number(revenue_type_id)));
   const revenueTypes = useSelector(revenueTypesSelector);
   const { revenue_name, agriculture_associated, crop_generated } = selectedCustomRevenueType;
 
@@ -66,4 +66,4 @@ function EditCustomExpense({ history, match }) {
   );
 }
 
-export default EditCustomExpense;
+export default EditCustomRevenue;

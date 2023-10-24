@@ -61,7 +61,10 @@ const FilterPillSelect = ({
 
   return (
     <div className={clsx(styles.container, open && styles.openContainer)} style={style}>
-      <div className={clsx(styles.head, open && styles.openHead)} onClick={() => setOpen(!open)}>
+      <div
+        className={clsx(styles.head, open && styles.openHead, isDisabled && styles.disabled)}
+        onClick={isDisabled ? null : () => setOpen(!open)}
+      >
         <div>{subject}</div>
         {counter > 0 && (
           <>

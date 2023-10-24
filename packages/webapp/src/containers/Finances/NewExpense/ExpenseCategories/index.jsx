@@ -22,10 +22,10 @@ import labelIconStyles from '../../../../components/Tile/styles.module.scss';
 export const icons = {
   EQUIPMENT: <EquipIcon />,
   SOIL_AMENDMENT: <SoilAmendmentIcon />,
-  PESTICIDE: <PestIcon />,
+  PEST_CONTROL: <PestIcon />,
   FUEL: <FuelIcon />,
   MACHINERY: <MachineIcon />,
-  SEEDS: <SeedIcon />,
+  SEEDS_AND_PLANTS: <SeedIcon />,
   OTHER: <OtherIcon />,
   LAND: <LandIcon />,
   MISCELLANEOUS: (
@@ -37,6 +37,11 @@ export const icons = {
       }}
     />
   ),
+  UTILITIES: <OtherIcon />,
+  LABOUR: <OtherIcon />,
+  INFRASTRUCTURE: <OtherIcon />,
+  TRANSPORTATION: <OtherIcon />,
+  SERVICES: <OtherIcon />,
 };
 
 class ExpenseCategories extends Component {
@@ -94,7 +99,9 @@ class ExpenseCategories extends Component {
               key: expense_type_id,
               tileKey: expense_type_id,
               icon: icons[farm_id ? 'OTHER' : expense_translation_key],
-              label: farm_id ? expense_name : this.props.t(`expense:${expense_translation_key}`),
+              label: farm_id
+                ? expense_name
+                : this.props.t(`expense:${expense_translation_key}.EXPENSE_NAME`),
               onClick: () => this.addRemoveType(expense_type_id),
               selected: this.state.selectedTypes.includes(expense_type_id),
               className: labelIconStyles.boldLabelIcon,

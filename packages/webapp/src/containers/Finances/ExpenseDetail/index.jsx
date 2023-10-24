@@ -4,6 +4,7 @@ import {
   expenseSelector,
   expenseTypeTileContentsSelector,
   expenseTypeByIdSelector,
+  expenseByIdSelector,
 } from '../selectors';
 import { deleteExpense } from '../actions';
 import { useTranslation } from 'react-i18next';
@@ -24,9 +25,7 @@ const ExpenseDetail = ({ history, match }) => {
   const { expense_id } = match.params;
 
   const sortedExpenseTypes = useSelector(expenseTypeTileContentsSelector);
-  const expenses = useSelector(expenseSelector);
-
-  const expense = expenses.find((record) => record.farm_expense_id === expense_id);
+  const expense = useSelector(expenseByIdSelector(expense_id));
 
   useEffect(() => {
     if (!expense) {
@@ -48,7 +47,7 @@ const ExpenseDetail = ({ history, match }) => {
       value: type.expense_type_id,
       label: type.farm_id
         ? type.expense_name + retireSuffix
-        : t(`expense:${type.expense_translation_key}`),
+        : t(`expense:${type.expense_translation_key}.EXPENSE_NAME`),
     };
   });
 
@@ -86,7 +85,7 @@ const ExpenseDetail = ({ history, match }) => {
         onSubmit={isEditing ? handleSubmit : handleEdit}
         onRetire={onRetire}
         view={isEditing ? 'edit' : 'read-only'}
-        buttonText={isEditing ? t('common:UPDATE') : t('common:EDIT')}
+        buttonText={isEditing ? t('common:SAVE') : t('common:EDIT')}
         expenseTypeReactSelectOptions={expenseTypeReactSelectOptions}
       />
     )

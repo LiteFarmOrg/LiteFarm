@@ -96,3 +96,13 @@ export const componentDecoratorsWithoutPadding = [
     return story();
   },
 ];
+
+export const v2TableDecorator = [
+  (story) => {
+    return (
+      <div style={{ padding: '24px' }}>
+        <div style={{ background: '#F6FBFA', padding: 10 }}>{story()}</div>
+      </div>
+    );
+  },
+];

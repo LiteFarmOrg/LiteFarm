@@ -31,6 +31,8 @@ const expenseTypes = [
     expense_type_id: '1fd85a60-22a9-11ee-9683-e66db4bef552',
     deleted: false,
     expense_translation_key: 'EQUIPMENT',
+    custom_description:
+      'Expenses related to simple tools, supplies, and parts for operating your farm.',
   },
   {
     expense_name: 'Fuel',
@@ -38,6 +40,8 @@ const expenseTypes = [
     expense_type_id: '1fd86136-22a9-11ee-9683-e66db4bef552',
     deleted: false,
     expense_translation_key: 'FUEL',
+    custom_description:
+      'Expenses related to the fuelling of infrastructure, vehicles, machinery, and equipment.',
   },
   {
     expense_name: 'Land',
@@ -45,6 +49,8 @@ const expenseTypes = [
     expense_type_id: '1fd86168-22a9-11ee-9683-e66db4bef552',
     deleted: false,
     expense_translation_key: 'LAND',
+    custom_description:
+      'Expenses related to the purchase, financing, lease, rental, access, tax, and other fees for land ownership or use.',
   },
   {
     expense_name: 'Machinery',
@@ -52,27 +58,35 @@ const expenseTypes = [
     expense_type_id: '1fd86154-22a9-11ee-9683-e66db4bef552',
     deleted: false,
     expense_translation_key: 'MACHINERY',
+    custom_description:
+      'Expenses related to the purchase, lease, rental, and maintenance of machinery.',
   },
   {
-    expense_name: 'Other',
+    expense_name: 'Miscellaneous',
     farm_id: null,
     expense_type_id: '1fd8619a-22a9-11ee-9683-e66db4bef552',
     deleted: false,
-    expense_translation_key: 'OTHER',
+    expense_translation_key: 'MISCELLANEOUS',
+    custom_description:
+      'Everything else. Consider creating a custom expense type if you will have additional expenses like this in the future.',
   },
   {
-    expense_name: 'Pesticide',
+    expense_name: 'Pest Control',
     farm_id: null,
     expense_type_id: '1fd86118-22a9-11ee-9683-e66db4bef552',
     deleted: false,
-    expense_translation_key: 'PESTICIDE',
+    expense_translation_key: 'PEST_CONTROL',
+    custom_description:
+      'Expenses related to the purchase of ingredients, products, and devices used to  manage unwanted species.',
   },
   {
-    expense_name: 'Seeds',
+    expense_name: 'Seeds and Plants',
     farm_id: null,
     expense_type_id: '1fd86186-22a9-11ee-9683-e66db4bef552',
     deleted: false,
-    expense_translation_key: 'SEEDS',
+    expense_translation_key: 'SEEDS_AND_PLANTS',
+    custom_description:
+      'Purchases of seeds, starts, and seedlings used in planting and transplanting.',
   },
   {
     expense_name: 'Soil Amendment',
@@ -80,6 +94,50 @@ const expenseTypes = [
     expense_type_id: '1fd8605a-22a9-11ee-9683-e66db4bef552',
     deleted: false,
     expense_translation_key: 'SOIL_AMENDMENT',
+    custom_description:
+      'Expenses related to additives such as fertilizers that improve the attributes of your soil.',
+  },
+  {
+    expense_name: 'Utilities',
+    farm_id: null,
+    expense_type_id: 'dbdbf7fe-6d2b-11ee-85e7-ce0b8496eaa9',
+    deleted: false,
+    expense_translation_key: 'UTILITIES',
+    custom_description:
+      'Recurring expenses related to electricity, gas, water (including irrigation), garbage collection, and other periodic services.',
+  },
+  {
+    expense_name: 'Labour',
+    farm_id: null,
+    expense_type_id: 'dbdbfaba-6d2b-11ee-85e7-ce0b8496eaa9',
+    deleted: false,
+    expense_translation_key: 'LABOUR',
+    custom_description: 'Expenses related to employed and contracted individuals.',
+  },
+  {
+    expense_name: 'Infrastructure',
+    farm_id: null,
+    expense_type_id: 'dbdbfad8-6d2b-11ee-85e7-ce0b8496eaa9',
+    deleted: false,
+    expense_translation_key: 'INFRASTRUCTURE',
+    custom_description: 'Expenses related to building or improving structures on the farm.',
+  },
+  {
+    expense_name: 'Transportation',
+    farm_id: null,
+    expense_type_id: 'dbdbfaec-6d2b-11ee-85e7-ce0b8496eaa9',
+    deleted: false,
+    expense_translation_key: 'TRANSPORTATION',
+    custom_description: 'Expenses related to moving inputs, outputs, and people.',
+  },
+  {
+    expense_name: 'Services',
+    farm_id: null,
+    expense_type_id: 'dbdbfaf6-6d2b-11ee-85e7-ce0b8496eaa9',
+    deleted: false,
+    expense_translation_key: 'SERVICES',
+    custom_description:
+      'Expenses related to other services such as licensing, certification, agronomy support, testing, marketing, and others.',
   },
   {
     expense_name: 'New type',
@@ -87,6 +145,7 @@ const expenseTypes = [
     expense_type_id: '461d2e5e-3d4c-11ee-ba15-e66db4bef552',
     deleted: false,
     expense_translation_key: 'NEW',
+    custom_description: 'This a short description of the new type',
   },
 ];
 
@@ -124,6 +183,7 @@ const revenueTypes = [
     revenue_type_id: '1fd85a60-22a9-11ee-9683-e66db4bef552',
     deleted: false,
     revenue_translation_key: 'CROP_SALE',
+    custom_description: 'Revenues associated with the sale of crops harvested from this farm.',
   },
   {
     revenue_name: 'Custom',
@@ -131,6 +191,7 @@ const revenueTypes = [
     revenue_type_id: '1fd85a60-22a9-11ee-9683-e66db4bef553',
     deleted: false,
     revenue_translation_key: 'CUSTOM',
+    custom_description: 'This a short description of the new type',
   },
 ];
 

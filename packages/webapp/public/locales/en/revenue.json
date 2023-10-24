@@ -1,3 +1,6 @@
 {
-  "CROP_SALE": "Crop Sale"
+  "CROP_SALE": {
+    "REVENUE_NAME": "Crop Sale",
+    "CUSTOM_DESCRIPTION": "Revenues associated with the sale of crops harvested from this farm."
+  }
 }

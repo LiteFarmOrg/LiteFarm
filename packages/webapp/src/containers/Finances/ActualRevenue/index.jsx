@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { dateRangeSelector, salesSelector } from '../selectors';
-import { allRevenueTypesSelector, revenueTypeSelector } from '../../revenueTypeSlice';
+import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import { AddLink, Semibold } from '../../../components/Typography';
 import DateRangePicker from '../../../components/Form/DateRangePicker';
@@ -120,7 +120,7 @@ export default function ActualRevenue({ history, match }) {
       />
       {revenueItems.map((item) => (
         <ActualRevenueItem
-          key={item.key}
+          key={item.sale.sale_id}
           revenueItem={item}
           history={history}
           style={{ marginBottom: '16px' }}

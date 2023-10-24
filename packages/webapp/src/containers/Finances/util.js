@@ -195,7 +195,7 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
     const revenueType = revenueTypes.find(
       (revenueType) => revenueType.revenue_type_id === sale.revenue_type_id,
     );
-    if (getRevenueFormType(revenueType) === REVENUE_FORM_TYPES.CROP_SALE) {
+    if (revenueType?.crop_generated) {
       const quantityUnit = getMassUnit();
       const cropVarietySale = sale.crop_variety_sale;
       return {
@@ -239,6 +239,7 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
 
   return revenueItems;
 };
+
 export function mapRevenueTypesToReactSelectOptions(revenueTypes) {
   const { t } = useTranslation();
   return revenueTypes?.map((type) => {

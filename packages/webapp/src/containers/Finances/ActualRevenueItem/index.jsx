@@ -6,13 +6,13 @@ import { getManagementPlanCardDate } from '../../../util/moment';
 import { setSelectedSale } from '../actions';
 
 const ActualRevenueItem = ({ revenueItem, history, ...props }) => {
-  const { sale_date, customer_name } = revenueItem.sale;
+  const { sale_id, sale_date, customer_name } = revenueItem.sale;
 
   const dispatch = useDispatch();
 
   const onClickForward = () => {
     dispatch(setSelectedSale(revenueItem.sale));
-    history.push(`/edit_sale`);
+    history.push(`/revenue/${sale_id}`);
   };
 
   return (

@@ -17,13 +17,13 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import { IconLink, Main } from '../../Typography';
+import { Main } from '../../Typography';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import Tiles from '../../Tile/Tiles';
 import { tileTypes } from '../../Tile/constants';
-import { ReactComponent as GearIcon } from '../../../assets/images/gear.svg';
 import styles from './styles.module.scss';
+import { CantFindCustomType } from './CantFindCustomType';
 
 const FallbackWrapper = ({ children }) => children;
 
@@ -43,6 +43,8 @@ export default function PureFinanceTypeSelection({
   persistedFormData = {},
   iconLinkId,
   Wrapper = FallbackWrapper,
+  customTypeMessages = {},
+  miscellaneousConfig,
 }) {
   const { t } = useTranslation();
   const { getValues, setValue } = useForm({ defaultValues: persistedFormData });
@@ -73,16 +75,13 @@ export default function PureFinanceTypeSelection({
           tileData={types}
           formatTileData={getFormatTileDataFunc ? getFormatTileDataFunc(setValue) : formatTileData}
         />
-        <div className={styles.manageCustomTypeLinkContainer}>
-          <IconLink
-            id={iconLinkId}
-            icon={<GearIcon style={{ transform: 'translate(0px, 2px)' }} />}
-            onClick={onGoToManageCustomType}
-            isIconClickable
-            underlined={false}
-          >
-            {t('FINANCES.MANAGE_CUSTOM_TYPE')}
-          </IconLink>
+        <div className={styles.cantFindWrapper}>
+          <CantFindCustomType
+            customTypeMessages={customTypeMessages}
+            miscellaneousConfig={miscellaneousConfig}
+            iconLinkId={iconLinkId}
+            onGoToManageCustomType={onGoToManageCustomType}
+          />
         </div>
       </Form>
     </Wrapper>
@@ -104,7 +103,15 @@ PureFinanceTypeSelection.prototype = {
   progressValue: PropTypes.number,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
-  iconLinkId: PropTypes.string,
+  customTypeMessages: PropTypes.shape({
+    info: PropTypes.string,
+    manage: PropTypes.string,
+  }),
+  miscellaneousConfig: PropTypes.shape({
+    addRemove: PropTypes.func,
+    selected: PropTypes.bool,
+  }),
   /** used for spotlight */
+  iconLinkId: PropTypes.string,
   Wrapper: PropTypes.node,
 };

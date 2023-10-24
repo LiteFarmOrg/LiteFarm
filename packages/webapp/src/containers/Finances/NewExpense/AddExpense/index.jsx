@@ -32,7 +32,9 @@ class AddExpense extends Component {
 
     for (let { expense_type_id, expense_translation_key, farm_id, expense_name } of expenseTypes) {
       if (expense_type_id === id) {
-        return farm_id ? expense_name : this.props.t(`expense:${expense_translation_key}`);
+        return farm_id
+          ? expense_name
+          : this.props.t(`expense:${expense_translation_key}.EXPENSE_NAME`);
       }
     }
     return 'NAME NOT FOUND';

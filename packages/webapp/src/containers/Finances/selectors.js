@@ -48,8 +48,8 @@ const sortExpenseTypes = (expenseTypes) => {
   return [
     ...defaultTypes.sort((typeA, typeB) =>
       i18n
-        .t(`expense:${typeA.expense_translation_key}`)
-        .localeCompare(i18n.t(`expense:${typeB.expense_translation_key}`)),
+        .t(`expense:${typeA.expense_translation_key}.EXPENSE_NAME`)
+        .localeCompare(i18n.t(`expense:${typeB.expense_translation_key}.EXPENSE_NAME`)),
     ),
     ...customTypes.sort((typeA, typeB) =>
       typeA.expense_translation_key.localeCompare(typeB.expense_translation_key),

@@ -1718,9 +1718,11 @@
     "TITLE": "Mudar de sítio/fazenda"
   },
   "TABLE": {
+    "LOAD_MORE": "MISSING",
     "LOADING_TEXT": "carregando...",
     "NEXT_TEXT": "Próxima",
     "NO_DATA_TEXT": "Nenhum usuário encontrado",
+    "NUMBER_MORE": "MISSING",
     "OF_TEXT": "de",
     "PAGE_TEXT": "Página",
     "PREVIOUS_TEXT": "Anterior",

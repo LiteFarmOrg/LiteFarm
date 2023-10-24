@@ -1718,9 +1718,11 @@
     "TITLE": "Changement de Ferme"
   },
   "TABLE": {
+    "LOAD_MORE": "MISSING",
     "LOADING_TEXT": "Chargement en cours...",
     "NEXT_TEXT": "Suivant",
     "NO_DATA_TEXT": "Aucune rangée trouvée",
+    "NUMBER_MORE": "MISSING",
     "OF_TEXT": "de",
     "PAGE_TEXT": "Page",
     "PREVIOUS_TEXT": "Précédent",

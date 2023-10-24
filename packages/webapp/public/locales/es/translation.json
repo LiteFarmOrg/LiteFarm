@@ -1717,9 +1717,11 @@
     "TITLE": "Cambiando de finca"
   },
   "TABLE": {
+    "LOAD_MORE": "MISSING",
     "LOADING_TEXT": "Cargando...",
     "NEXT_TEXT": "Siguiente",
     "NO_DATA_TEXT": "No se encontro información",
+    "NUMBER_MORE": "MISSING",
     "OF_TEXT": "De",
     "PAGE_TEXT": "Pagina",
     "PREVIOUS_TEXT": "Previa",

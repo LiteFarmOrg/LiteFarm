@@ -12,26 +12,21 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
- .leadText {
-  margin-bottom: 24px;
-}
 
-.cantFindWrapper {
-  margin-top: auto;
-  padding-top: 24px;
-  padding-bottom: 72px;
-}
+// Common generic revenue
+export const SALE_DATE = 'sale_date';
+export const CUSTOMER_NAME = 'customer_name';
+export const NOTE = `note`;
+export const REVENUE_TYPE_ID = 'revenue_type_id';
+export const REVENUE_TYPE_OPTION = 'revenue_type_option';
 
-.manageCustomTypeLinkContainer {
-  flex: 1;
-  display: flex;
-  align-items: flex-end;
-  margin-top: 24px;
-  margin-bottom: -14px;
-  z-index: 1;
+// generic revenue total
+export const VALUE = `value`;
 
-  span {
-    color: var(--grey600);
-    font-size: 14px;
-  }
-}
+// crop sale
+export const CROP_VARIETY_SALE = 'crop_variety_sale';
+export const STATUS = 'STATUS';
+export const CROP_VARIETY_ID = 'crop_variety_id';
+export const QUANTITY = 'quantity';
+export const QUANTITY_UNIT = 'quantity_unit';
+export const SALE_VALUE = 'sale_value';

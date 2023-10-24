@@ -77,13 +77,22 @@ class ExpenseCategories extends Component {
   render() {
     const { expenseTypes } = this.props;
 
+    const miscellaneous_type_id = expenseTypes.find(
+      (expenseType) => expenseType.expense_translation_key == 'MISCELLANEOUS',
+    ).expense_type_id;
+
+    // Do not display miscellaneous as a visible tile
+    const filteredExpenseTypes = expenseTypes.filter(
+      (expenseType) => expenseType.expense_type_id !== miscellaneous_type_id,
+    );
+
     return (
       <HookFormPersistProvider>
         <PureFinanceTypeSelection
           title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE')}
           leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
           cancelTitle={this.props.t('EXPENSE.ADD_EXPENSE.FLOW')}
-          types={expenseTypes}
+          types={filteredExpenseTypes}
           onContinue={this.nextPage}
           onGoBack={this.props.history.back}
           progressValue={33}
@@ -96,7 +105,9 @@ class ExpenseCategories extends Component {
               key: expense_type_id,
               tileKey: expense_type_id,
               icon: icons[farm_id ? 'OTHER' : expense_translation_key],
-              label: farm_id ? expense_name : this.props.t(`expense:${expense_translation_key}`),
+              label: farm_id
+                ? expense_name
+                : this.props.t(`expense:${expense_translation_key}.EXPENSE_NAME`),
               onClick: () => this.addRemoveType(expense_type_id),
               selected: this.state.selectedTypes.includes(expense_type_id),
               className: labelIconStyles.boldLabelIcon,
@@ -105,6 +116,14 @@ class ExpenseCategories extends Component {
           useHookFormPersist={this.props.useHookFormPersist}
           iconLinkId={'manageCustomExpenseType'}
           Wrapper={ManageCustomExpenseTypesSpotlight}
+          customTypeMessages={{
+            info: this.props.t('FINANCES.CANT_FIND.INFO_EXPENSE'),
+            manage: this.props.t('FINANCES.CANT_FIND.MANAGE_EXPENSE'),
+          }}
+          miscellaneousConfig={{
+            addRemove: () => this.addRemoveType(miscellaneous_type_id),
+            selected: this.state.selectedTypes.includes(miscellaneous_type_id),
+          }}
         />
       </HookFormPersistProvider>
     );

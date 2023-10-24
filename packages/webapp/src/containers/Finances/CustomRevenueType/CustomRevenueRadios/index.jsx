@@ -18,7 +18,7 @@ import styles from './styles.module.scss';
 import { Main, Info } from '../../../../components/Typography';
 import RadioGroup from '../../../../components/Form/RadioGroup';
 import { useTranslation } from 'react-i18next';
-import { AGRICULTURE_ASSOCIATED, CROP_GENERATED } from '../constants';
+import { CROP_GENERATED } from '../constants';
 import PropTypes from 'prop-types';
 
 /**
@@ -33,8 +33,6 @@ import PropTypes from 'prop-types';
 function CustomRevenueRadios({ control, watch, view }) {
   const { t } = useTranslation();
 
-  // const isAgricultureAssociated = watch(AGRICULTURE_ASSOCIATED);
-
   const CANNOT_CHANGE_WARNING = {
     add: 'REVENUE.ADD_REVENUE.CANNOT_BE_CHANGED_LATER',
     edit: 'REVENUE.ADD_REVENUE.CANNOT_BE_CHANGED',
@@ -42,29 +40,6 @@ function CustomRevenueRadios({ control, watch, view }) {
 
   return (
     <>
-      {/* Temporarily hidden for Nov 2023 Release */}
-
-      {/* <Main className={styles.agricultureQuestion}>
-        {t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE')}
-      </Main> */}
-
-      {/* <RadioGroup
-        hookFormControl={control}
-        name={AGRICULTURE_ASSOCIATED}
-        radios={[
-          {
-            label: t('common:YES'),
-            value: true,
-          },
-          { label: t('common:NO'), value: false },
-        ]}
-        required
-        disabled={view === 'edit' || view === 'read-only'}
-      />
-      {(view === 'add' || view === 'edit') && <Info>{t(CANNOT_CHANGE_WARNING[view])}</Info>} */}
-
-      {/* {isAgricultureAssociated && ( 
-        <> */}
       <Main className={styles.cropGeneratedQuestion}>
         {t('REVENUE.ADD_REVENUE.CROP_GENERATED')}
       </Main>
@@ -78,13 +53,10 @@ function CustomRevenueRadios({ control, watch, view }) {
           },
           { label: t('common:NO'), value: false },
         ]}
-        // required={isAgricultureAssociated}
         required={true}
         disabled={view === 'edit' || view === 'read-only'}
       />
       {(view === 'add' || view === 'edit') && <Info>{t(CANNOT_CHANGE_WARNING[view])}</Info>}
-      {/* </>
-      )} */}
     </>
   );
 }

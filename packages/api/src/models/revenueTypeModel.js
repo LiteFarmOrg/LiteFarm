@@ -48,18 +48,6 @@ class RevenueType extends baseModel {
         ...this.baseProperties,
         additionalProperties: false,
       },
-      /* Temporarily hidden for Nov 2023 release */
-      // if: {
-      //   type: 'object',
-      //   properties: {
-      //     agriculture_associated: { const: true },
-      //   },
-      //   required: ['agriculture_associated'],
-      // },
-      // then: {
-      //   type: 'object',
-      //   required: ['crop_generated'],
-      // },
     };
   }
 }

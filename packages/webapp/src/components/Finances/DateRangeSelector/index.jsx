@@ -51,7 +51,6 @@ const FinanceDateRangeSelector = ({ hideTooltip }) => {
 
     // If both dates are valid, update dates and the option
     if ([startDate, endDate].every(isDateValid)) {
-      newDateRange.option = dateRangeOptions.CUSTOM;
       newDateRange.startDate = startDate;
       newDateRange.endDate = endDate;
     }
@@ -59,14 +58,16 @@ const FinanceDateRangeSelector = ({ hideTooltip }) => {
   };
 
   const onChangeDateRangeOption = (value) => {
-    if (
-      value === dateRangeOptions.CUSTOM &&
-      Object.keys(customRange).some((date) => !isDateValid(date))
+    let newDateRange = {};
+    if (value !== dateRangeOptions.CUSTOM) {
+      newDateRange = dateRangeUtil.getDates(value);
+    } else if (
+      Object.keys(customRange).length === 2 &&
+      Object.values(customRange).every((date) => date && isDateValid(date))
     ) {
-      return;
+      newDateRange = customRange;
     }
-    const { startDate, endDate } = dateRangeUtil.getDates(value);
-    dispatch(setDateRange({ option: value, startDate, endDate }));
+    dispatch(setDateRange({ option: value, ...newDateRange }));
   };
 
   return (

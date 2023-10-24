@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 .defaultFormDropDown {
   width: 100%;
   padding-bottom: 15px;
@@ -13,7 +28,7 @@
     line-height: 1.1;
   }
 }
-
+  
 .banner {
   display: flex;
   hr {
@@ -32,6 +47,7 @@
   p:last-child {
     flex-basis: 35%;
   }
+
   p {
     font-size: 14px;
     line-height: 24px;
@@ -90,13 +106,18 @@
 .sale {
   display: flex;
 }
-
-.saleDetails {
+.saleItemContainer {
   display: flex;
+  margin-top: 32px;
+  margin-bottom: 32px;
 }
 
-.saleInputs {
+.saleItemInputGroup {
   min-width: 200px;
   flex-grow: 1;
   margin-left: 24px
+}
+
+.saleItemInputGroup > * {
+  margin-bottom: 40px;
 }

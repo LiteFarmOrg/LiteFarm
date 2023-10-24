@@ -56,7 +56,6 @@ const AddSale = React.lazy(() => import('./containers/Finances/AddSale'));
 const ManageRevenueTypes = React.lazy(() =>
   import('./containers/Finances/ManageCustomRevenueTypes'),
 );
-const EditSale = React.lazy(() => import('./containers/Finances/EditSale'));
 const LegacyEstimatedRevenue = React.lazy(() =>
   import('./containers/Finances/LegacyEstimatedRevenue'),
 );
@@ -89,7 +88,7 @@ const ReadOnlyCustomRevenue = React.lazy(() =>
 const EditCustomRevenue = React.lazy(() =>
   import('./containers/Finances/CustomRevenueType/EditCustomRevenue'),
 );
-const SaleDetail = React.lazy(() => import('./containers/Finances/SaleDetail'));
+const RevenueDetail = React.lazy(() => import('./containers/Finances/RevenueDetail'));
 const ExpiredTokenScreen = React.lazy(() => import('./containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('./containers/Map'));
 const MapVideo = React.lazy(() => import('./components/Map/Videos'));
@@ -602,7 +601,8 @@ const Routes = () => {
             <Route path="/revenue_types" exact component={RevenueTypes} />
             <Route path="/add_sale" exact component={AddSale} />
             <Route path="/manage_custom_revenues" exact component={ManageRevenueTypes} />
-            <Route path="/edit_sale" exact component={EditSale} />
+            <Route path="/revenue/:sale_id/" exact component={RevenueDetail} />
+            <Route path="/revenue/:sale_id/edit" exact component={RevenueDetail} />
             <Route path="/temp_estimated_revenue" exact component={LegacyEstimatedRevenue} />
             <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
             <Route path="/labour" exact component={Labour} />
@@ -634,7 +634,6 @@ const Routes = () => {
               exact
               component={EditCustomRevenue}
             />
-            <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
@@ -908,7 +907,8 @@ const Routes = () => {
             <Route path="/revenue_types" exact component={RevenueTypes} />
             <Route path="/add_sale" exact component={AddSale} />
             <Route path="/manage_custom_revenues" exact component={ManageRevenueTypes} />
-            <Route path="/edit_sale" exact component={EditSale} />
+            <Route path="/revenue/:sale_id/" exact component={RevenueDetail} />
+            <Route path="/revenue/:sale_id/edit" exact component={RevenueDetail} />
             <Route path="/temp_estimated_revenue" exact component={LegacyEstimatedRevenue} />
             <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
             <Route path="/labour" exact component={Labour} />
@@ -947,8 +947,6 @@ const Routes = () => {
               exact
               component={ComplianceInfo}
             />
-
-            <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/soilom" exact component={SoilOM} />

@@ -46,3 +46,9 @@
   color: var(--teal700);
   margin-right: 6px;
 }
+
+.disabled {
+  background-color: var(--inputDisabled);
+  color: var(--grey600);
+  border-color: var(--inputDefault);
+}

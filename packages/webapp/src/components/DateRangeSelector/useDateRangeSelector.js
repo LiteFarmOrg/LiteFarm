@@ -15,7 +15,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { dateRangeSelector } from '../../containers/Finances/selectors';
+import { dateRangeDataSelector } from '../../containers/Finances/selectors';
 import DateRange, { MONDAY, SUNDAY } from '../../util/dateRange';
 import { dateRangeOptions } from './constants';
 import { setDateRange } from '../../containers/Finances/actions';
@@ -25,7 +25,7 @@ import { setDateRange } from '../../containers/Finances/actions';
  * If they are not defined, set the default option and dates.
  */
 export default function useDateRangeSelector({ weekStartDate = SUNDAY }) {
-  const dateRange = useSelector(dateRangeSelector);
+  const dateRange = useSelector(dateRangeDataSelector);
   const dispatch = useDispatch();
 
   const dateRangeUtil = new DateRange(new Date(), weekStartDate);

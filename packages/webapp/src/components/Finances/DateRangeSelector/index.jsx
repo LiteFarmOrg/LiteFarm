@@ -20,7 +20,7 @@ import DateRangeSelector from '../../DateRangeSelector';
 import { setDateRange } from '../../../containers/Finances/actions';
 import moment from 'moment';
 import InfoBoxComponent from '../../InfoBoxComponent';
-import { dateRangeSelector } from '../../../containers/Finances/selectors';
+import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
 import { Semibold } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
@@ -35,7 +35,7 @@ const FinanceDateRangeSelector = ({ hideTooltip }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const dateRange = useSelector(dateRangeSelector);
+  const dateRange = useSelector(dateRangeDataSelector);
   const { option, customRange = {} } = dateRange;
   const initialOption = option || dateRangeOptions.YEAR_TO_DATE;
   const dateRangeUtil = new DateRange(new Date(), SUNDAY);

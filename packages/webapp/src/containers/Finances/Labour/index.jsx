@@ -6,7 +6,7 @@ import defaultStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
 import Employee from './Employee';
 import Task from './Task';
-import { dateRangeSelector } from '../selectors';
+import { dateRangeDataSelector } from '../selectors';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
@@ -120,7 +120,7 @@ class Labour extends Component {
 const mapStateToProps = (state) => {
   return {
     tasks: tasksSelector(state),
-    dateRange: dateRangeSelector(state),
+    dateRange: dateRangeDataSelector(state),
     farm: userFarmSelector(state),
     managementPlans: currentAndPlannedManagementPlansSelector(state),
   };

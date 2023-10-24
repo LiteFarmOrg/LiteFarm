@@ -44,6 +44,24 @@ export const WithPlaceholder = {
   render: () => {
     return <TestComponent placeholder="Select Date Range" />;
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const select = await canvas.findByRole('combobox');
+    await selectEvent.openMenu(select);
+
+    let option = await screen.findByText('Pick a custom range');
+    await fireEvent.click(option);
+
+    const [input1] = await canvas.findAllByTestId('input');
+    await fireEvent.click(option);
+
+    await userEvent.type(input1, '2023-11-01');
+    await selectEvent.openMenu(select);
+
+    const selectedOptionText = await canvas.findByText('Year to date');
+    expect(selectedOptionText).toBeInTheDocument();
+  },
 };
 
 export const WithDefaultOption = {

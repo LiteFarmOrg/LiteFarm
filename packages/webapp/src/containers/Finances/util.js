@@ -15,9 +15,22 @@
 
 import moment from 'moment';
 import { groupBy as lodashGroupBy } from 'lodash-es';
+import { useTranslation } from 'react-i18next';
 import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
-import { LABOUR_ITEMS_GROUPING_OPTIONS, revenueFormTypes } from './constants';
+import { LABOUR_ITEMS_GROUPING_OPTIONS, REVENUE_FORM_TYPES } from './constants';
 import i18n from '../../locales/i18n';
+import {
+  CROP_VARIETY_ID,
+  CROP_VARIETY_SALE,
+  CUSTOMER_NAME,
+  NOTE,
+  QUANTITY,
+  QUANTITY_UNIT,
+  REVENUE_TYPE_OPTION,
+  SALE_DATE,
+  SALE_VALUE,
+  VALUE,
+} from '../../components/Forms/GeneralRevenue/constants';
 
 // Polyfill for tests and older browsers
 const groupBy = typeof Object.groupBy === 'function' ? Object.groupBy : lodashGroupBy;
@@ -101,15 +114,13 @@ export function calcActualRevenue(sales, startDate, endDate, revenueTypes) {
         );
       }
       const revenueType = revenueTypesMap[s.revenue_type_id];
-      const formType = getRevenueFormType(revenueType);
-
       const saleDate = moment(s.sale_date);
       if (saleDate.isSameOrAfter(startDate, 'day') && saleDate.isSameOrBefore(endDate, 'day')) {
-        if (formType === revenueFormTypes.CROP_SALE) {
+        if (revenueType?.crop_generated) {
           for (const c of s.crop_variety_sale) {
             total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(c.sale_value));
           }
-        } else if (formType === revenueFormTypes.GENERAL) {
+        } else {
           total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(s.value));
         }
       }
@@ -119,7 +130,7 @@ export function calcActualRevenue(sales, startDate, endDate, revenueTypes) {
 }
 
 export const getRevenueFormType = (revenueType) => {
-  return revenueType?.crop_generated ? revenueFormTypes.CROP_SALE : revenueFormTypes.GENERAL;
+  return revenueType?.crop_generated ? REVENUE_FORM_TYPES.CROP_SALE : REVENUE_FORM_TYPES.GENERAL;
 };
 
 export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
@@ -184,7 +195,7 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
     const revenueType = revenueTypes.find(
       (revenueType) => revenueType.revenue_type_id === sale.revenue_type_id,
     );
-    if (getRevenueFormType(revenueType) === revenueFormTypes.CROP_SALE) {
+    if (getRevenueFormType(revenueType) === REVENUE_FORM_TYPES.CROP_SALE) {
       const quantityUnit = getMassUnit();
       const cropVarietySale = sale.crop_variety_sale;
       return {
@@ -228,3 +239,45 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
 
   return revenueItems;
 };
+export function mapRevenueTypesToReactSelectOptions(revenueTypes) {
+  const { t } = useTranslation();
+  return revenueTypes?.map((type) => {
+    const retireSuffix = type.deleted ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : '';
+
+    return {
+      value: type.revenue_type_id,
+      label: type.farm_id
+        ? type.revenue_name + retireSuffix
+        : t(`revenue:${type.revenue_translation_key}.REVENUE_NAME`),
+    };
+  });
+}
+
+export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, farm_id) {
+  let sale = {
+    sale_id: sale_id ?? undefined,
+    farm_id: farm_id ?? undefined,
+    customer_name: data[CUSTOMER_NAME],
+    sale_date: data[SALE_DATE],
+    revenue_type_id: data[REVENUE_TYPE_OPTION].value,
+    note: data.note ? data[NOTE] : null,
+  };
+  const revenueType = revenueTypes.find(
+    (type) => type.revenue_type_id === data[REVENUE_TYPE_OPTION].value,
+  );
+  if (revenueType.crop_generated) {
+    sale.value = undefined;
+    sale.crop_variety_sale = Object.values(data[CROP_VARIETY_SALE]).map((c) => {
+      return {
+        sale_value: c[SALE_VALUE],
+        quantity: c[QUANTITY],
+        quantity_unit: c[QUANTITY_UNIT].label,
+        crop_variety_id: c[CROP_VARIETY_ID],
+      };
+    });
+  } else {
+    sale.crop_variety_sale = undefined;
+    sale.value = data[VALUE];
+  }
+  return sale;
+}

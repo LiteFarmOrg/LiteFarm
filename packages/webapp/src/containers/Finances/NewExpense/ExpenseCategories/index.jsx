@@ -99,7 +99,9 @@ class ExpenseCategories extends Component {
               key: expense_type_id,
               tileKey: expense_type_id,
               icon: icons[farm_id ? 'OTHER' : expense_translation_key],
-              label: farm_id ? expense_name : this.props.t(`expense:${expense_translation_key}`),
+              label: farm_id
+                ? expense_name
+                : this.props.t(`expense:${expense_translation_key}.EXPENSE_NAME`),
               onClick: () => this.addRemoveType(expense_type_id),
               selected: this.state.selectedTypes.includes(expense_type_id),
               className: labelIconStyles.boldLabelIcon,

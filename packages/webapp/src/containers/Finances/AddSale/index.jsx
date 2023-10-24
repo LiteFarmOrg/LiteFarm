@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
 import useCropSaleInputs from '../useCropSaleInputs';
 import { addSale } from '../actions';
@@ -23,7 +23,7 @@ import { useTranslation } from 'react-i18next';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { revenueTypeByIdSelector, revenueTypeTileContentsSelector } from '../../revenueTypeSlice';
+import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
 import { mapRevenueTypesToReactSelectOptions, mapRevenueFormDataToApiCallFormat } from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 
@@ -34,10 +34,8 @@ function AddSale() {
   const farm = useSelector(userFarmSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { revenue_type_id } = persistedFormData || {};
-
   const revenueType = useSelector(revenueTypeByIdSelector(revenue_type_id));
   const revenueTypes = useSortedRevenueTypes();
-
   const revenueTypeReactSelectOptions = mapRevenueTypesToReactSelectOptions(revenueTypes);
 
   const onSubmit = (data) => {

@@ -24,7 +24,6 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
 import useCropSaleInputs, { getCustomFormChildrenDefaultValues } from '../useCropSaleInputs';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
-import { revenueTypeTileContentsSelector } from '../../revenueTypeSlice';
 import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions } from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/constants';

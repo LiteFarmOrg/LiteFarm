@@ -141,10 +141,3 @@ const sortRevenueTypes = (revenueTypes) => {
     ),
   ];
 };
-
-export const revenueTypeTileContentsSelector = createSelector(
-  [revenueTypeSelectors.selectAll],
-  (revenueTypes) => {
-    return sortRevenueTypes(revenueTypes).filter((type) => !type.deleted);
-  },
-);

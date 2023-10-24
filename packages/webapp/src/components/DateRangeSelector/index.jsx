@@ -162,6 +162,7 @@ export default function DateRangeSelector({
             defaultDateRangeOptionValue &&
             options.find(({ value }) => value === defaultDateRangeOptionValue)
           }
+          isSearchable={false}
         />
         {isCustomDatePickerOpen && (
           <CustomDateRangeSelector

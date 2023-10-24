@@ -62,15 +62,6 @@ const expenseTypes = [
       'Expenses related to the purchase, lease, rental, and maintenance of machinery.',
   },
   {
-    expense_name: 'Miscellaneous',
-    farm_id: null,
-    expense_type_id: '1fd8619a-22a9-11ee-9683-e66db4bef552',
-    deleted: false,
-    expense_translation_key: 'MISCELLANEOUS',
-    custom_description:
-      'Everything else. Consider creating a custom expense type if you will have additional expenses like this in the future.',
-  },
-  {
     expense_name: 'Pest Control',
     farm_id: null,
     expense_type_id: '1fd86118-22a9-11ee-9683-e66db4bef552',
@@ -172,6 +163,15 @@ export const Expense = {
       };
     },
     useHookFormPersist: () => ({ historyCancel: () => ({}) }),
+    customTypeMessages: {
+      info: 'You can also create your own custom expense types!',
+      manage: 'Manage your custom expenses',
+      miscellaneous: true,
+    },
+    miscellaneousConfig: {
+      addRemove: () => console.log('Miscellaneous clicked!'),
+      selected: false,
+    },
   },
   parameters: { ...chromaticSmallScreen },
 };
@@ -218,6 +218,10 @@ export const Revenue = {
       };
     },
     useHookFormPersist: () => ({ historyCancel: () => ({}) }),
+    customTypeMessages: {
+      info: 'You can also create your own custom revenue types!',
+      manage: 'Manage your custom revenues',
+    },
   },
   parameters: { ...chromaticSmallScreen },
 };

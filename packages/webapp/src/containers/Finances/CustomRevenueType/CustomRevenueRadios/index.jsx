@@ -33,7 +33,7 @@ import PropTypes from 'prop-types';
 function CustomRevenueRadios({ control, watch, view }) {
   const { t } = useTranslation();
 
-  const isAgricultureAssociated = watch(AGRICULTURE_ASSOCIATED);
+  // const isAgricultureAssociated = watch(AGRICULTURE_ASSOCIATED);
 
   const CANNOT_CHANGE_WARNING = {
     add: 'REVENUE.ADD_REVENUE.CANNOT_BE_CHANGED_LATER',
@@ -42,11 +42,13 @@ function CustomRevenueRadios({ control, watch, view }) {
 
   return (
     <>
-      <Main className={styles.agricultureQuestion}>
-        {t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE')}
-      </Main>
+      {/* Temporarily hidden for Nov 2023 Release */}
 
-      <RadioGroup
+      {/* <Main className={styles.agricultureQuestion}>
+        {t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE')}
+      </Main> */}
+
+      {/* <RadioGroup
         hookFormControl={control}
         name={AGRICULTURE_ASSOCIATED}
         radios={[
@@ -59,29 +61,30 @@ function CustomRevenueRadios({ control, watch, view }) {
         required
         disabled={view === 'edit' || view === 'read-only'}
       />
-      {(view === 'add' || view === 'edit') && <Info>{t(CANNOT_CHANGE_WARNING[view])}</Info>}
+      {(view === 'add' || view === 'edit') && <Info>{t(CANNOT_CHANGE_WARNING[view])}</Info>} */}
 
-      {isAgricultureAssociated && (
-        <>
-          <Main className={styles.cropGeneratedQuestion}>
-            {t('REVENUE.ADD_REVENUE.CROP_GENERATED')}
-          </Main>
-          <RadioGroup
-            hookFormControl={control}
-            name={CROP_GENERATED}
-            radios={[
-              {
-                label: t('common:YES'),
-                value: true,
-              },
-              { label: t('common:NO'), value: false },
-            ]}
-            required={isAgricultureAssociated}
-            disabled={view === 'edit' || view === 'read-only'}
-          />
-          {(view === 'add' || view === 'edit') && <Info>{t(CANNOT_CHANGE_WARNING[view])}</Info>}
-        </>
-      )}
+      {/* {isAgricultureAssociated && ( 
+        <> */}
+      <Main className={styles.cropGeneratedQuestion}>
+        {t('REVENUE.ADD_REVENUE.CROP_GENERATED')}
+      </Main>
+      <RadioGroup
+        hookFormControl={control}
+        name={CROP_GENERATED}
+        radios={[
+          {
+            label: t('common:YES'),
+            value: true,
+          },
+          { label: t('common:NO'), value: false },
+        ]}
+        // required={isAgricultureAssociated}
+        required={true}
+        disabled={view === 'edit' || view === 'read-only'}
+      />
+      {(view === 'add' || view === 'edit') && <Info>{t(CANNOT_CHANGE_WARNING[view])}</Info>}
+      {/* </>
+      )} */}
     </>
   );
 }

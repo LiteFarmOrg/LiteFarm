@@ -355,7 +355,7 @@ export function* addRevenueTypeSaga({
 
   const body = {
     revenue_name,
-    agriculture_associated,
+    agriculture_associated: null,
     crop_generated,
     farm_id: farm_id,
   };

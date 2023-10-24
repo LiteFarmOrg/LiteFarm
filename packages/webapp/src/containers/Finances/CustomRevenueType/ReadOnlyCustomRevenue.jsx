@@ -60,7 +60,7 @@ function ReadOnlyCustomRevenue({ history, match }) {
           <CustomRevenueRadios control={control} watch={watch} view="read-only" />
         )}
         customFieldsDefaultValues={{
-          [AGRICULTURE_ASSOCIATED]: agriculture_associated,
+          // [AGRICULTURE_ASSOCIATED]: agriculture_associated,
           [CROP_GENERATED]: crop_generated,
         }}
       />

@@ -58,7 +58,7 @@ function EditCustomRevenue({ history, match }) {
           <CustomRevenueRadios control={control} watch={watch} view="edit" />
         )}
         customFieldsDefaultValues={{
-          [AGRICULTURE_ASSOCIATED]: agriculture_associated,
+          // [AGRICULTURE_ASSOCIATED]: agriculture_associated,
           [CROP_GENERATED]: crop_generated,
         }}
       />

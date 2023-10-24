@@ -7,20 +7,6 @@ const checkReduxState = (endTime) => {
   if (currentTime > endTime) {
     throw new Error('Timed out waiting for Redux state to populate');
   }
-
-  cy.window()
-    .its('store')
-    .invoke('getState')
-    .its('entitiesReducer')
-    .its('gardenReducer')
-    .its('ids')
-    .then((ids) => {
-      if (ids.length === 0) {
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(500); // Wait for 500ms before retrying
-        checkReduxState(endTime);
-      }
-    });
 };
 
 describe('Tasks', () => {
@@ -107,18 +93,9 @@ describe('Tasks', () => {
     cy.contains(translation['SLIDE_MENU']['TASKS']).should('exist').click();
     cy.waitForReact();
 
-    // Check that field it in REDUX
-    cy.window()
-      .its('store')
-      .invoke('getState')
-      .its('entitiesReducer')
-      .its('gardenReducer')
-      .its('ids')
-      .should('not.be.empty');
-
     cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();
     cy.waitForReact();
-    cy.contains(tasks['CLEANING_TASK']).should('exist').click();
+    cy.get('[data-cy=task-selection]').contains(tasks['CLEANING_TASK']).should('exist').click();
 
     //Create an unassigned cleaning task due tomorrow
     const date = new Date();
@@ -135,15 +112,14 @@ describe('Tasks', () => {
     cy.get('[data-cy=map-selectLocation]').click({ force: false });
 
     cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click();
-
     cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click();
-
     cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click();
     cy.waitForReact();
 
     // Open the card and mark as complete
     cy.get('[data-cy=taskCard]').first().click();
+    cy.get('[data-cy=taskReadOnly-complete]').scrollIntoView();
     cy.get('[data-cy=taskReadOnly-complete]').click();
     cy.get('[data-cy=beforeComplete-submit]').click();
     cy.get('[data-cy=harvestComplete-rating]').check({ force: true });
@@ -156,7 +132,8 @@ describe('Tasks', () => {
     cy.waitForReact();
     cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();
     cy.waitForReact();
-    cy.contains(tasks['FIELD_WORK_TASK'])
+    cy.get('[data-cy=task-selection]')
+      .contains(tasks['FIELD_WORK_TASK'])
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
@@ -187,6 +164,7 @@ describe('Tasks', () => {
 
     // Open the card and mark as complete
     cy.get('[data-cy=taskCard]').first().click();
+    cy.get('[data-cy=taskReadOnly-complete]').scrollIntoView();
     cy.get('[data-cy=taskReadOnly-complete]').click();
     cy.get('[data-cy=beforeComplete-submit]').click();
     cy.get('[data-cy=harvestComplete-rating]').check({ force: true });

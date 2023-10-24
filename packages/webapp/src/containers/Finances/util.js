@@ -132,7 +132,7 @@ export function mapRevenueTypesToReactSelectOptions(revenueTypes) {
       value: type.revenue_type_id,
       label: type.farm_id
         ? type.revenue_name + retireSuffix
-        : t(`revenue:${type.revenue_translation_key}`),
+        : t(`revenue:${type.revenue_translation_key}.REVENUE_NAME`),
     };
   });
 }

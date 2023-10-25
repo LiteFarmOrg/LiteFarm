@@ -87,7 +87,7 @@ export default function DateRangeSelector({
           .map((date) => date.format('YYYY-MM-DD'))
           .join(' - ');
       } else {
-        formattedOption = 'yyyy-mm-dd - yyyy-mm-dd';
+        formattedOption = 'yyyy.mm.dd - yyyy.mm.dd';
         className = styles.invalid;
       }
     }

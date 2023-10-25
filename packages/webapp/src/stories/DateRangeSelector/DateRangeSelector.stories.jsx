@@ -94,7 +94,7 @@ export const WithDefaultOption = {
     await userEvent.click(backButton);
     expect(backButton).toBeInTheDocument();
 
-    selectedOptionText = canvas.getByText('yyyy-mm-dd - yyyy-mm-dd');
+    selectedOptionText = canvas.getByText('yyyy.mm.dd - yyyy.mm.dd');
     expect(selectedOptionText).toBeInTheDocument();
 
     const [input1, input2] = canvas.getAllByTestId('input');
@@ -142,7 +142,7 @@ export const WithDefaultCustomDateRange = {
     await userEvent.clear(input1);
     await userEvent.clear(input2);
 
-    selectedOptionText = canvas.getByText('yyyy-mm-dd - yyyy-mm-dd');
+    selectedOptionText = canvas.getByText('yyyy.mm.dd - yyyy.mm.dd');
 
     await userEvent.type(input1, '2021-01-01');
     expect(selectedOptionText).toBeInTheDocument();

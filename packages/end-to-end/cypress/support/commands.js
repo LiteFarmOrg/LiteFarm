@@ -164,6 +164,7 @@ Cypress.Commands.add('createFirstLocation', (fieldString) => {
   cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
 
   cy.wait('@googleMapsApiCall');
+  cy.waitForReact();
 
   // Select "Field"
   cy.contains(fieldString).click();

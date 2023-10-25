@@ -33,3 +33,24 @@
   font-size: 12px;
   line-height: 16px;
 }
+
+.expandableItem {
+  padding: 12px;
+  align-items: center;
+}
+
+.expandableItemWrapper {
+  border: solid 1px transparent;
+  border-bottom: solid 1px var(--grey200);
+
+  &.expanded {
+    background-color: #F6FBFA;
+    border: solid 1px var(--grey400);
+    box-shadow: 0px 0px 4px 0px #66738A1A;
+    border-radius: 1px;
+  }
+
+  &:hover {
+    background-color: var(--grey200);
+  }
+}

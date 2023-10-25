@@ -18,9 +18,10 @@ import { expect } from '@storybook/jest';
 import { within, userEvent, waitForElementToBeRemoved } from '@storybook/testing-library';
 import Expandable from '../../components/Expandable/ExpandableItem';
 import useExpandable from '../../components/Expandable/useExpandableItem';
+import TransactionItem from '../../components/Finances/Transaction/Mobile/Item';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
-import styles from './styles.module.scss';
+import styles from '../../components/Finances/Transaction/Mobile/styles.module.scss';
 
 export default {
   title: 'Components/Expandable',
@@ -32,21 +33,21 @@ const data = [
   {
     transaction: 'Summer Harvest',
     type: 'Crop sales',
-    amount: '+ €17551.50',
+    amount: 17551.5,
     expandedContent: 'Expanded content 1',
     icon: <SoilAmendment />,
   },
   {
     transaction: 'Gas refill',
     type: 'Fuel',
-    amount: '- €873.00',
+    amount: -873.0,
     expandedContent: 'Expanded content 2',
     icon: <SoilAmendment />,
   },
   {
     transaction: 'Pesticide and traps',
     type: 'Pest control',
-    amount: '- €873.00',
+    amount: -873.0,
     expandedContent: 'Expanded content 3',
     icon: <SoilAmendment />,
   },
@@ -54,16 +55,13 @@ const data = [
 
 const MainContent = ({ transaction, type, amount, icon }) => {
   return (
-    <div className={styles.mainContent}>
-      <div className={styles.mainContentLeft}>
-        <div>{icon}</div>
-        <div>
-          <div className={styles.mainContentTitle}>{transaction}</div>
-          <div className={styles.mainContentInfo}>{type}</div>
-        </div>
-      </div>
-      <div>{amount}</div>
-    </div>
+    <TransactionItem
+      transaction={transaction}
+      type={type}
+      amount={amount}
+      icon={icon}
+      currencySymbol="€"
+    />
   );
 };
 
@@ -73,14 +71,17 @@ const Test = ({ defaultExpandedIds = [], isSingleExpandable, iconClickOnly }) =>
   return data.map((values, index) => {
     const isExpanded = expandedIds.includes(index);
     return (
-      <div key={index} className={clsx(styles.item, isExpanded && styles.expanded)}>
+      <div
+        key={index}
+        className={clsx(styles.expandableItemWrapper, isExpanded && styles.expanded)}
+      >
         <Expandable
           isExpanded={isExpanded}
           onClick={() => toggleExpanded(index)}
           mainContent={<MainContent {...values} />}
           expandedContent={<div className={styles.expandedContent}>{values.expandedContent}</div>}
           iconClickOnly={iconClickOnly}
-          classes={{ mainContentWithIcon: styles.mainContentWithIcon, icon: styles.icon }}
+          classes={{ mainContentWithIcon: styles.expandableItem }}
         />
       </div>
     );

@@ -31,3 +31,28 @@
   color: var(--green800);
   background-color: var(--green100);
 }
+
+// ExpandedContent
+.expandedContent {
+  margin: 0 5px 6px 5px;
+}
+
+button.toDetail {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19px;
+  border-radius: 4px;
+  background-color: #EDF5F3;
+  color: var(--teal900);
+
+  svg {
+    stroke-width: 1px;
+    margin-left: 8px;
+  }
+}

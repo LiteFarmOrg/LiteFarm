@@ -845,6 +845,10 @@
     },
     "MANAGE_CUSTOM_TYPE": "Manage custom type",
     "REVENUE": "Revenue",
+    "TRANSACTION": {
+      "VIEW_AND_EDIT": "View & edit",
+      "VIEW_DETAILS": "View details"
+    },
     "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",
     "WHOLE_FARM_REVENUE": "Whole farm revenue"
   },

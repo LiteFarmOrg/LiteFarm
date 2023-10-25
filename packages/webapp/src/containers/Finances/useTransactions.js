@@ -29,7 +29,7 @@ import i18n from '../../locales/i18n';
 import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
 import { getComparator } from '../../util/sort';
 
-const transactionTypeEnum = {
+export const transactionTypeEnum = {
   expense: 'EXPENSE',
   labourExpense: 'LABOUR_EXPENSE',
   revenue: 'REVENUE',

@@ -42,6 +42,10 @@ function EditCustomRevenue({ history, match }) {
   const revenueTypesWithoutSelectedType = revenueTypes.filter((type) => {
     return revenue_type_id != type.revenue_type_id;
   });
+  const translatedRevenueName = farm_id
+    ? revenue_name
+    : t(`revenue:${revenue_translation_key}.REVENUE_NAME`);
+
   const handleGoBack = () => {
     history.back();
   };
@@ -60,7 +64,7 @@ function EditCustomRevenue({ history, match }) {
         pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
         inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
         nameFieldRegisterName={CUSTOM_REVENUE_NAME}
-        typeDetails={{ name: revenue_name, description: translatedCustomDescription }}
+        typeDetails={{ name: translatedRevenueName, description: translatedCustomDescription }}
         validateInput={hookFormUniquePropertyValidation(
           revenueTypesWithoutSelectedType,
           'revenue_name',

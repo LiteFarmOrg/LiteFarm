@@ -31,6 +31,9 @@ function ReadOnlyCustomExpense({ history, match }) {
   const translatedCustomDescription = farm_id
     ? custom_description
     : t(`expense:${expense_translation_key}.CUSTOM_DESCRIPTION`);
+  const translatedExpenseName = farm_id
+    ? expense_name
+    : t(`expense:${expense_translation_key}.EXPENSE_NAME`);
 
   const handleGoBack = () => {
     history.back();
@@ -54,7 +57,7 @@ function ReadOnlyCustomExpense({ history, match }) {
         pageTitle={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_TYPE')}
         inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
         nameFieldRegisterName={CUSTOM_EXPENSE_NAME}
-        typeDetails={{ name: expense_name, description: translatedCustomDescription }}
+        typeDetails={{ name: translatedExpenseName, description: translatedCustomDescription }}
         onRetire={onRetire}
         retireLinkText={t('EXPENSE.EDIT_EXPENSE.RETIRE_EXPENSE_TYPE')}
         retireHeader={t('EXPENSE.EDIT_EXPENSE.RETIRE_EXPENSE_TYPE')}

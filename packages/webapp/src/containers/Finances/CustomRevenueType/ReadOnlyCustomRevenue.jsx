@@ -38,6 +38,9 @@ function ReadOnlyCustomRevenue({ history, match }) {
   const translatedCustomDescription = farm_id
     ? custom_description
     : t(`revenue:${revenue_translation_key}.CUSTOM_DESCRIPTION`);
+  const translatedRevenueName = farm_id
+    ? revenue_name
+    : t(`revenue:${revenue_translation_key}.REVENUE_NAME`);
 
   const handleGoBack = () => {
     history.back();
@@ -61,7 +64,7 @@ function ReadOnlyCustomRevenue({ history, match }) {
         pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
         inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
         nameFieldRegisterName={CUSTOM_REVENUE_NAME}
-        typeDetails={{ name: revenue_name, description: translatedCustomDescription }}
+        typeDetails={{ name: translatedRevenueName, description: translatedCustomDescription }}
         onRetire={onRetire}
         retireLinkText={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
         retireHeader={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}

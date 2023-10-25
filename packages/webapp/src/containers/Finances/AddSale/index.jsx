@@ -28,7 +28,7 @@ import { mapRevenueTypesToReactSelectOptions, mapRevenueFormDataToApiCallFormat 
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 
 function AddSale() {
-  const { t } = useTranslation(['translation', 'revenue']);
+  const { t } = useTranslation(['translation', 'revenue', 'common']);
   const dispatch = useDispatch();
 
   const farm = useSelector(userFarmSelector);
@@ -37,6 +37,10 @@ function AddSale() {
   const revenueType = useSelector(revenueTypeByIdSelector(revenue_type_id));
   const revenueTypes = useSortedRevenueTypes();
   const revenueTypeReactSelectOptions = mapRevenueTypesToReactSelectOptions(revenueTypes);
+  const { revenue_name, revenue_translation_key, farm_id } = revenueType;
+  const translatedRevenueName = farm_id
+    ? revenue_name
+    : t(`revenue:${revenue_translation_key}.REVENUE_NAME`);
 
   const onSubmit = (data) => {
     const newSale = mapRevenueFormDataToApiCallFormat(data, revenueTypes, null, farm.farm_id);
@@ -51,7 +55,7 @@ function AddSale() {
     <HookFormPersistProvider>
       <GeneralRevenue
         onSubmit={onSubmit}
-        title={t('common:ADD_ITEM', { itemName: revenueType?.revenue_name })}
+        title={t('common:ADD_ITEM', { itemName: translatedRevenueName })}
         currency={useCurrencySymbol()}
         useCustomFormChildren={useCropSaleInputs}
         view={'add'}

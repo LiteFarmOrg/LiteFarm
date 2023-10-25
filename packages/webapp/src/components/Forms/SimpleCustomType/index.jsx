@@ -80,7 +80,7 @@ const PureSimpleCustomType = ({
     register,
     control,
     watch,
-    formState: { errors, isValid, isDirty, dirtyFields },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,

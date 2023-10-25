@@ -31,6 +31,9 @@ function EditCustomExpense({ history, match }) {
   const translatedCustomDescription = farm_id
     ? custom_description
     : t(`expense:${expense_translation_key}.CUSTOM_DESCRIPTION`);
+  const translatedExpenseName = farm_id
+    ? expense_name
+    : t(`expense:${expense_translation_key}.EXPENSE_NAME`);
   const expenseTypes = useSelector(expenseTypeSelector);
   const expenseTypesWithoutSelectedType = expenseTypes.filter((type) => {
     return expense_type_id != type.expense_type_id;
@@ -54,7 +57,7 @@ function EditCustomExpense({ history, match }) {
         pageTitle={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_TYPE')}
         inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
         nameFieldRegisterName={CUSTOM_EXPENSE_NAME}
-        typeDetails={{ name: expense_name, description: translatedCustomDescription }}
+        typeDetails={{ name: translatedExpenseName, description: translatedCustomDescription }}
         validateInput={hookFormUniquePropertyValidation(
           expenseTypesWithoutSelectedType,
           'expense_name',

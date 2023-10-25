@@ -100,7 +100,7 @@ const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseT
         transactionType: transactionTypeEnum.expense,
         typeLabel: expenseType?.farm_id
           ? expenseType?.expense_name
-          : i18n.t(`expense:${expenseType?.expense_translation_key}`),
+          : i18n.t(`expense:${expenseType?.expense_translation_key}.EXPENSE_NAME`),
         amount: -roundToTwoDecimal(expense.value),
         note: expense.note,
       };

@@ -34,6 +34,11 @@
   line-height: 16px;
 }
 
+// TransactionList
+.transactionList {
+  margin-bottom: 85px;
+}
+
 .expandableItem {
   padding: 12px;
   align-items: center;
@@ -53,4 +58,15 @@
   &:hover {
     background-color: var(--grey200);
   }
+}
+
+// load more button
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 24px;
+}
+
+.loadMoreButton {
+  border-radius: 8px;
 }

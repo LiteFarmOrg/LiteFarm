@@ -846,6 +846,7 @@
     "MANAGE_CUSTOM_TYPE": "MISSING",
     "REVENUE": "Revenu",
     "TRANSACTION": {
+      "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
       "VIEW_DETAILS": "MISSING"
     },

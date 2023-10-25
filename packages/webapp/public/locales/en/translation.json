@@ -846,6 +846,7 @@
     "MANAGE_CUSTOM_TYPE": "Manage custom type",
     "REVENUE": "Revenue",
     "TRANSACTION": {
+      "LABOUR_EXPENSE": "Labour expense",
       "VIEW_AND_EDIT": "View & edit",
       "VIEW_DETAILS": "View details"
     },

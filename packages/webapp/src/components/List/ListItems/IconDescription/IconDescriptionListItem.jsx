@@ -50,7 +50,7 @@ export default function IconDescriptionListItem({
       {...props}
     >
       <div className={styles.icon}>{icon}</div>
-      <div className={styles.content}>
+      <div className={clsx(styles.content, !actionIcon && styles.content__marginRight)}>
         <div className={styles.content_label}>{label}</div>
         {description && <div className={styles.content_description}>{description}</div>}
       </div>

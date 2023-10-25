@@ -236,9 +236,10 @@ const allResults = [
     icon: 'INFRASTRUCTURE',
     date: '2023-10-28T03:00:00.000Z',
     transactionType: 'EXPENSE',
-    typeLabel: 'INFRASTRUCTURE',
+    typeLabel: 'INFRASTRUCTURE.EXPENSE_NAME',
     amount: -20,
     note: 'Expense 2',
+    relatedId: 'c239a46a-69e6-11ee-8e6f-0242ac180006',
   },
   {
     date: '2023-10-24T00:00:00.000',
@@ -265,15 +266,16 @@ const allResults = [
     icon: 'INFRASTRUCTURE',
     date: '2023-10-19T03:00:00.000Z',
     transactionType: 'EXPENSE',
-    typeLabel: 'INFRASTRUCTURE',
+    typeLabel: 'INFRASTRUCTURE.EXPENSE_NAME',
     amount: -100,
     note: 'Expense 3',
+    relatedId: '39bc4644-6e8a-11ee-a583-0242ac180005',
   },
   {
     icon: 'CROP_SALE',
     date: '2023-10-18T00:00:00.000Z',
     transactionType: 'REVENUE',
-    typeLabel: 'CROP_SALE',
+    typeLabel: 'CROP_SALE.REVENUE_NAME',
     amount: 30,
     note: 'Customer 2',
     items: [
@@ -294,6 +296,7 @@ const allResults = [
         quantityUnit: 'kg',
       },
     ],
+    relatedId: 16,
   },
   {
     icon: 'CUSTOM',
@@ -303,6 +306,7 @@ const allResults = [
     amount: 200,
     note: 'Customer 3',
     items: [{ key: 18, title: 'Custom type', amount: 200 }],
+    relatedId: 18,
   },
   {
     date: '2023-10-14T00:00:00.000',
@@ -317,15 +321,16 @@ const allResults = [
     icon: 'EQUIPMENT',
     date: '2023-10-13T03:00:00.000Z',
     transactionType: 'EXPENSE',
-    typeLabel: 'EQUIPMENT',
+    typeLabel: 'EQUIPMENT.EXPENSE_NAME',
     amount: -10,
     note: 'Expense 1',
+    relatedId: 'aff01e2e-69e6-11ee-9b0c-0242ac180006',
   },
   {
     icon: 'CROP_SALE',
     date: '2023-10-12T00:00:00.000Z',
     transactionType: 'REVENUE',
-    typeLabel: 'CROP_SALE',
+    typeLabel: 'CROP_SALE.REVENUE_NAME',
     amount: 100,
     note: 'Customer 1',
     items: [
@@ -338,6 +343,7 @@ const allResults = [
         quantityUnit: 'kg',
       },
     ],
+    relatedId: 9,
   },
 ];
 
@@ -347,7 +353,6 @@ const filterResultsByIndex = (indexList) =>
 describe('buildTransactions test', () => {
   test('Should return all transactions if no filters applied', () => {
     const transactions = buildTransactions(testData);
-    console.log(transactions.length);
     expect(transactions).toEqual(allResults);
   });
 

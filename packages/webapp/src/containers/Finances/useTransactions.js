@@ -103,6 +103,7 @@ const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseT
           : i18n.t(`expense:${expenseType?.expense_translation_key}.EXPENSE_NAME`),
         amount: -roundToTwoDecimal(expense.value),
         note: expense.note,
+        relatedId: expense.farm_expense_id,
       };
     });
 };
@@ -133,10 +134,11 @@ const buildRevenueTransactions = ({
       transactionType: transactionTypeEnum.revenue,
       typeLabel: revenueType?.farm_id
         ? revenueType?.revenue_name
-        : i18n.t(`revenue:${revenueType?.revenue_translation_key}`),
+        : i18n.t(`revenue:${revenueType?.revenue_translation_key}.REVENUE_NAME`),
       amount: item.totalAmount,
       note: item.sale.customer_name,
       items: item.financeItemsProps,
+      relatedId: item.sale.sale_id,
     };
   });
 };

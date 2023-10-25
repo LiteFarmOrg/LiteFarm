@@ -14,14 +14,16 @@
  */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import IconDescriptionCheckboxListItem from './ListItems/IconDescriptionCheckbox/IconDescriptionCheckboxListItem';
 import IconDescriptionListItem from './ListItems/IconDescription/IconDescriptionListItem';
 import { listItemTypes } from './constants';
 import styles from './styles.module.scss';
 
 const listItemComponents = {
   [listItemTypes.ICON_DESCRIPTION_CHECKBOX]: (props) => (
-    <IconDescriptionCheckboxListItem {...props} />
+    <IconDescriptionListItem actionIcon={'checkbox'} {...props} />
+  ),
+  [listItemTypes.ICON_DESCRIPTION_CHEVRON]: (props) => (
+    <IconDescriptionListItem actionIcon={'chevron'} {...props} />
   ),
   [listItemTypes.ICON_DESCRIPTION]: (props) => <IconDescriptionListItem {...props} />,
 };

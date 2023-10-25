@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 export const listItemTypes = {
-  ICON_DESCRIPTION_CHECKBOX: 'iconDescriptionCheckbox',
   ICON_DESCRIPTION: 'iconDescription',
+  ICON_DESCRIPTION_CHECKBOX: 'iconDescriptionCheckbox',
+  ICON_DESCRIPTION_CHEVRON: 'iconDescriptionChevron',
 };

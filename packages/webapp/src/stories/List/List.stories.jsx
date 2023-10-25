@@ -13,21 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import React from 'react';
-import { expect } from '@storybook/jest';
-import { within } from '@storybook/testing-library';
 import { componentDecorators } from '../Pages/config/Decorators';
 import List from '../../components/List';
 import { listItemTypes } from '../../components/List/constants';
-import { ReactComponent as EquipIcon } from '../../assets/images/log/equipment.svg';
-import { ReactComponent as SoilAmendmentIcon } from '../../assets/images/log/fertilizing.svg';
-import { ReactComponent as PestIcon } from '../../assets/images/log/bug.svg';
-import { ReactComponent as FuelIcon } from '../../assets/images/log/fuel.svg';
-import { ReactComponent as MachineIcon } from '../../assets/images/log/machinery.svg';
-import { ReactComponent as SeedIcon } from '../../assets/images/log/seeding.svg';
-import { ReactComponent as OtherIcon } from '../../assets/images/log/other.svg';
-import { ReactComponent as LandIcon } from '../../assets/images/log/land.svg';
-import { ReactComponent as CropSaleIcon } from '../../assets/images/log/crop_sale.svg';
-import { ReactComponent as CustomTypeIcon } from '../../assets/images/log/custom_revenue.svg';
+import { icons as revenueIcons } from '../../containers/Finances/AddSale/RevenueTypes';
+import { icons as expenseIcons } from '../../containers/Finances/NewExpense/ExpenseCategories';
 
 export default {
   title: 'Components/List/List',
@@ -36,21 +26,8 @@ export default {
 };
 
 const icons = {
-  EQUIPMENT: <EquipIcon />,
-  SOIL_AMENDMENT: <SoilAmendmentIcon />,
-  PEST_CONTROL: <PestIcon />,
-  FUEL: <FuelIcon />,
-  MACHINERY: <MachineIcon />,
-  SEEDS_AND_PLANTS: <SeedIcon />,
-  OTHER: <OtherIcon />,
-  LAND: <LandIcon />,
-  UTILITIES: <OtherIcon />,
-  LABOUR: <OtherIcon />,
-  INFRASTRUCTURE: <OtherIcon />,
-  TRANSPORTATION: <OtherIcon />,
-  SERVICES: <OtherIcon />,
-  CROP_SALE: <CropSaleIcon />,
-  CUSTOM: <CustomTypeIcon />,
+  ...revenueIcons,
+  ...expenseIcons,
 };
 
 const expenseTypes = [
@@ -198,6 +175,21 @@ export const IconDescriptionCheckboxListItemsAsChildren = {
         label: item.expense_name,
         onClick: () => console.log('clicked!'),
         selected: false,
+        description: item.custom_description,
+      };
+    }),
+  },
+};
+
+export const IconDescriptionChevronListItemsAsChildren = {
+  args: {
+    listItemType: listItemTypes.ICON_DESCRIPTION_CHEVRON,
+    listItemData: revenueTypes.map((item, index) => {
+      return {
+        listItemKey: item.revenue_type_id,
+        icon: icons[item.farm_id ? 'OTHER' : item.revenue_translation_key],
+        label: item.revenue_name,
+        onClick: () => console.log('clicked!'),
         description: item.custom_description,
       };
     }),

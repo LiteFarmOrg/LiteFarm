@@ -18,32 +18,18 @@ import { componentDecorators } from '../Pages/config/Decorators';
 import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
 
 export default {
-  title: 'Components/List/IconDescriptionCheckboxListItem',
+  title: 'Components/List/IconDescriptionChevronListItem',
   component: IconDescriptionListItem,
   decorators: componentDecorators,
 };
 
 export const Default = {
   args: {
-    actionIcon: 'checkbox',
+    actionIcon: 'chevron',
     listItemKey: 'key',
     icon: <SoilAmendment />,
     label: 'Utilities',
     onClick: () => console.log('clicked!'),
-    selected: false,
-    description:
-      'Recurring expenses related to electricity, gas, water (including irrigation), garbage collection, and other periodic services.',
-  },
-};
-
-export const Selected = {
-  args: {
-    actionIcon: 'checkbox',
-    listItemKey: 'key',
-    icon: <SoilAmendment />,
-    label: 'Utilities',
-    onClick: () => console.log('clicked!'),
-    selected: true,
     description:
       'Recurring expenses related to electricity, gas, water (including irrigation), garbage collection, and other periodic services.',
   },
@@ -51,13 +37,12 @@ export const Selected = {
 
 export const MaxCharText = {
   args: {
-    actionIcon: 'checkbox',
+    actionIcon: 'chevron',
     listItemKey: 'key',
     icon: <SoilAmendment />,
     label:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pellentesque metus nec neque sed.',
     onClick: () => console.log('clicked!'),
-    selected: false,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut ornare eros. Nunc quis faucibus libero. Phasellus sodales porta auctor. Nulla feugiat ligula enim, sit amet posuere ex vestibulum eget. Praesent non augue vel ante lacinia sodales in et morbi.',
   },
@@ -65,11 +50,10 @@ export const MaxCharText = {
 
 export const NoDescription = {
   args: {
-    actionIcon: 'checkbox',
+    actionIcon: 'chevron',
     listItemKey: 'key',
     icon: <SoilAmendment />,
     label: 'Utilites',
-    selected: false,
     onClick: () => console.log('clicked!'),
   },
 };

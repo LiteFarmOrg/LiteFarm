@@ -31,7 +31,7 @@
 .icon {
   width: 36px;
   height: 36px;
-  margin: 18px 9px;
+  margin: 16px 8px;
 
   svg {
     width: 36px;
@@ -40,6 +40,7 @@
 }
 
 
+.listItem__selected,
 .listItem:active {
   background-color: var(--teal100);
 }
@@ -52,7 +53,7 @@
 
 .content {
   width: 100%;
-  margin: 9px 9px;
+  margin: 8px 0px;
 }
 
 .content_label {
@@ -71,4 +72,17 @@
   color: var(--grey600);
   font-size: 12px;
   line-height: 14px;
+}
+
+.checkbox {
+  width: 26px;
+  height: 26px;
+  margin: 16px 8px;
+}
+
+.chevron {
+  width: 26px;
+  height: 26px;
+  margin: 16px 8px;
+  color: var(--buttonPrimary);
 }

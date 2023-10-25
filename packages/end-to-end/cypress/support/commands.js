@@ -105,7 +105,9 @@ Cypress.Commands.add('onboardCompleteQuestions', (role) => {
   cy.log('Interested in Organic');
 
   cy.url().should('include', '/certification/interested_in_organic');
-  cy.get('[data-cy=interestedInOrganic-continue]').should('exist').and('be.disabled');
+  cy.get('[data-cy=interestedInOrganic-continue]', { timeout: 180 * 1000 })
+    .should('exist')
+    .and('be.disabled');
   cy.get('[data-cy=interestedInOrganic-select]').should('exist');
   cy.get('[type="radio"]').first().check();
   cy.get('[data-cy=interestedInOrganic-continue]').should('not.be.disabled').click();

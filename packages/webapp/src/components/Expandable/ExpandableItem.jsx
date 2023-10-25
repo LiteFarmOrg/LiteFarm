@@ -60,7 +60,7 @@ export default function ExpandableItem({
         </div>
         <div
           onClick={onIconClick}
-          className={clsx(iconClickOnly && styles.clickable, classes.icon)}
+          className={clsx(styles.iconWrapper, iconClickOnly && styles.clickable, classes.icon)}
         >
           {icons[isExpanded ? 'up' : 'down']}
         </div>

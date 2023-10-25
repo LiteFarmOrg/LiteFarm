@@ -25,6 +25,7 @@ import { IconLink } from '../../Typography';
 import { MdOutlineInventory2 } from 'react-icons/md';
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
+import { CUSTOM_DESCRIPTION, DESCRIPTION_MAX_CHARS } from './constants';
 
 /**
  * React component for the addition of custom type with just a name field this form has add,
@@ -38,8 +39,8 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
  * @param {string} props.buttonText - The text to display on the main button.
  * @param {string} props.pageTitle - The title to display on the page.
  * @param {string} props.inputLabel - The label for the input field.
- * @param {string} props.customTypeRegister - The name for registering the input field.
- * @param {any} [props.defaultValue] - Used in read-only and edit view, the default value for the input field.
+ * @param {string} props.nameFieldRegisterName - The name for registering the input field.
+ * @param {Object} [props.typeDetails={}] - Used in read-only and edit view, the default values for the input and description field.
  * @param {function} [props.onRetire] - A callback function for retiring the custom type.
  * @param {string} [props.retireLinkText] - The text for the retirement link.
  * @param {string} [props.retireHeader] - The header text for the retirement confirmation box.
@@ -59,8 +60,8 @@ const PureSimpleCustomType = ({
   buttonText,
   pageTitle,
   inputLabel,
-  customTypeRegister,
-  defaultValue,
+  nameFieldRegisterName,
+  typeDetails,
   onRetire = () => {},
   retireLinkText,
   retireHeader,
@@ -79,12 +80,13 @@ const PureSimpleCustomType = ({
     register,
     control,
     watch,
-    formState: { errors, isValid, isDirty },
+    formState: { errors, isValid, isDirty, dirtyFields },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      [customTypeRegister]: defaultValue || undefined,
+      [nameFieldRegisterName]: typeDetails?.name || undefined,
+      [CUSTOM_DESCRIPTION]: typeDetails?.description || undefined,
       ...customFieldsDefaultValues,
     },
   });
@@ -125,19 +127,28 @@ const PureSimpleCustomType = ({
       <Input
         style={{ marginBottom: '20px' }}
         label={inputLabel}
-        hookFormRegister={register(customTypeRegister, {
+        hookFormRegister={register(nameFieldRegisterName, {
           required: true,
           maxLength: hookFormMaxCharsValidation(inputMaxChars),
           validate: validateInput,
         })}
-        name={customTypeRegister}
-        errors={getInputErrors(errors, customTypeRegister)}
+        name={nameFieldRegisterName}
+        errors={getInputErrors(errors, nameFieldRegisterName)}
         optional={false}
         disabled={disabledInput}
       />
-
+      <Input
+        style={{ marginBottom: '20px' }}
+        label={t('common:DESCRIPTION')}
+        hookFormRegister={register(CUSTOM_DESCRIPTION, {
+          maxLength: hookFormMaxCharsValidation(DESCRIPTION_MAX_CHARS),
+        })}
+        name={CUSTOM_DESCRIPTION}
+        errors={getInputErrors(errors, CUSTOM_DESCRIPTION)}
+        optional={true}
+        disabled={disabledInput}
+      />
       {customFormFields && customFormFields({ control, watch })}
-
       <div style={{ marginTop: 'auto' }}>
         {readonly && !isDeleting && (
           <IconLink
@@ -183,8 +194,8 @@ PureSimpleCustomType.propTypes = {
   buttonText: PropTypes.string,
   pageTitle: PropTypes.string,
   inputLabel: PropTypes.string,
-  customTypeRegister: PropTypes.string,
-  defaultValue: PropTypes.string,
+  nameFieldRegisterName: PropTypes.string,
+  typeDetails: PropTypes.object,
   onRetire: PropTypes.func,
   retireLinkText: PropTypes.string,
   retireHeader: PropTypes.string,

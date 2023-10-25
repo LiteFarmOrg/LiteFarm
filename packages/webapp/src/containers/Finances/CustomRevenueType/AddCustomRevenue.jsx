@@ -44,7 +44,7 @@ function AddCustomRevenue({ history }) {
         buttonText={t('common:SAVE')}
         pageTitle={t('REVENUE.ADD_REVENUE.ADD_CUSTOM_REVENUE')}
         inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
-        customTypeRegister={CUSTOM_REVENUE_NAME}
+        nameFieldRegisterName={CUSTOM_REVENUE_NAME}
         validateInput={hookFormUniquePropertyValidation(
           revenueTypes,
           'revenue_name',

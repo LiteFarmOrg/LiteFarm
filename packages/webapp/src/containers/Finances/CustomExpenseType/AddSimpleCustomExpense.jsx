@@ -43,7 +43,7 @@ function AddCustomExpense({ history }) {
         buttonText={t('common:SAVE')}
         pageTitle={t('EXPENSE.ADD_EXPENSE.ADD_CUSTOM_EXPENSE')}
         inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
-        customTypeRegister={CUSTOM_EXPENSE_NAME}
+        nameFieldRegisterName={CUSTOM_EXPENSE_NAME}
         validateInput={hookFormUniquePropertyValidation(
           expenseTypes,
           'expense_name',

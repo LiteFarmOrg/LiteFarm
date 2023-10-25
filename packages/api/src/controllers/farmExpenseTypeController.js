@@ -38,6 +38,7 @@ const farmExpenseTypeController = {
           } else {
             // if its deleted, them make it active
             record.deleted = false;
+            record.custom_description = data.custom_description ?? null;
             await baseController.put(ExpenseTypeModel, record.expense_type_id, record, req, {
               trx,
             });

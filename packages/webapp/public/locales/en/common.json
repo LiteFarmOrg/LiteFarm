@@ -18,6 +18,7 @@
   "CREATE": "Create",
   "DATE": "Date",
   "DELETE": "Delete",
+  "DESCRIPTION": "Description",
   "DO_NOT_SHOW": "Don’t show this message again.",
   "EDIT": "Edit",
   "EDIT_DATE": "Edit date",

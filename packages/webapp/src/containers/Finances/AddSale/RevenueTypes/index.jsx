@@ -17,8 +17,8 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { ReactComponent as CropSaleIcon } from '../../../../assets/images/log/crop_sale.svg';
-import { ReactComponent as CustomTypeIcon } from '../../../../assets/images/log/custom_revenue.svg';
+import { ReactComponent as CropSaleIcon } from '../../../../assets/images/finance/Crop-sale-icn.svg';
+import { ReactComponent as CustomTypeIcon } from '../../../../assets/images/finance/Custom-revenue.svg';
 import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
 import useSortedRevenueTypes from './useSortedRevenueTypes';
 import labelIconStyles from '../../../../components/Tile/styles.module.scss';
@@ -68,6 +68,10 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
         onGoToManageCustomType={() => history.push('/manage_custom_revenues')}
         getFormatTileDataFunc={getFormatTileDataFunc}
         useHookFormPersist={useHookFormPersist}
+        customTypeMessages={{
+          info: t('FINANCES.CANT_FIND.INFO_REVENUE'),
+          manage: t('FINANCES.CANT_FIND.MANAGE_REVENUE'),
+        }}
       />
     </HookFormPersistProvider>
   );

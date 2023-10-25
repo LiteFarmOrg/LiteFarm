@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { expenseTypeTileContentsSelector, selectedExpenseSelector } from '../../selectors';
-import { ReactComponent as EquipIcon } from '../../../../assets/images/log/equipment.svg';
-import { ReactComponent as SoilAmendmentIcon } from '../../../../assets/images/log/fertilizing.svg';
-import { ReactComponent as PestIcon } from '../../../../assets/images/log/bug.svg';
-import { ReactComponent as FuelIcon } from '../../../../assets/images/log/fuel.svg';
-import { ReactComponent as MachineIcon } from '../../../../assets/images/log/machinery.svg';
-import { ReactComponent as SeedIcon } from '../../../../assets/images/log/seeding.svg';
-import { ReactComponent as OtherIcon } from '../../../../assets/images/log/other.svg';
-import { ReactComponent as LandIcon } from '../../../../assets/images/log/land.svg';
-import { ReactComponent as MiscellaneousIcon } from '../../../../assets/images/log/miscellaneous.svg';
+import { ReactComponent as EquipIcon } from '../../../../assets/images/finance/Equipment-icn.svg';
+import { ReactComponent as SoilAmendmentIcon } from '../../../../assets/images/finance/Soil-amendment-icn.svg';
+import { ReactComponent as PestIcon } from '../../../../assets/images/finance/Pest-icn.svg';
+import { ReactComponent as FuelIcon } from '../../../../assets/images/finance/Fuel-icn.svg';
+import { ReactComponent as MachineIcon } from '../../../../assets/images/finance/Machinery-icn.svg';
+import { ReactComponent as SeedIcon } from '../../../../assets/images/finance/Seeds-icn.svg';
+import { ReactComponent as OtherIcon } from '../../../../assets/images/finance/Custom-expense.svg';
+import { ReactComponent as LandIcon } from '../../../../assets/images/finance/Land-icn.svg';
+import { ReactComponent as MiscellaneousIcon } from '../../../../assets/images/finance/Miscellaneous-icn.svg';
+import { ReactComponent as UtilitiesIcon } from '../../../../assets/images/finance/Utilities-icn.svg';
+import { ReactComponent as LabourIcon } from '../../../../assets/images/finance/Labour-icn.svg';
+import { ReactComponent as InfrastructureIcon } from '../../../../assets/images/finance/Infrastructure-icn.svg';
+import { ReactComponent as TransportationIcon } from '../../../../assets/images/finance/Transportation-icn.svg';
+import { ReactComponent as ServicesIcon } from '../../../../assets/images/finance/Services-icn.svg';
 import { setSelectedExpenseTypes } from '../../actions';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
@@ -28,20 +33,12 @@ export const icons = {
   SEEDS_AND_PLANTS: <SeedIcon />,
   OTHER: <OtherIcon />,
   LAND: <LandIcon />,
-  MISCELLANEOUS: (
-    <MiscellaneousIcon
-      style={{
-        border: 'solid 10px transparent',
-        filter:
-          'invert(30%) sepia(94%) saturate(787%) hue-rotate(136deg) brightness(103%) contrast(98%)',
-      }}
-    />
-  ),
-  UTILITIES: <OtherIcon />,
-  LABOUR: <OtherIcon />,
-  INFRASTRUCTURE: <OtherIcon />,
-  TRANSPORTATION: <OtherIcon />,
-  SERVICES: <OtherIcon />,
+  MISCELLANEOUS: <MiscellaneousIcon />,
+  UTILITIES: <UtilitiesIcon />,
+  LABOUR: <LabourIcon />,
+  INFRASTRUCTURE: <InfrastructureIcon />,
+  TRANSPORTATION: <TransportationIcon />,
+  SERVICES: <ServicesIcon />,
 };
 
 class ExpenseCategories extends Component {
@@ -80,13 +77,22 @@ class ExpenseCategories extends Component {
   render() {
     const { expenseTypes } = this.props;
 
+    const miscellaneous_type_id = expenseTypes.find(
+      (expenseType) => expenseType.expense_translation_key == 'MISCELLANEOUS',
+    ).expense_type_id;
+
+    // Do not display miscellaneous as a visible tile
+    const filteredExpenseTypes = expenseTypes.filter(
+      (expenseType) => expenseType.expense_type_id !== miscellaneous_type_id,
+    );
+
     return (
       <HookFormPersistProvider>
         <PureFinanceTypeSelection
           title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE')}
           leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
           cancelTitle={this.props.t('EXPENSE.ADD_EXPENSE.FLOW')}
-          types={expenseTypes}
+          types={filteredExpenseTypes}
           onContinue={this.nextPage}
           onGoBack={this.props.history.back}
           progressValue={33}
@@ -110,6 +116,14 @@ class ExpenseCategories extends Component {
           useHookFormPersist={this.props.useHookFormPersist}
           iconLinkId={'manageCustomExpenseType'}
           Wrapper={ManageCustomExpenseTypesSpotlight}
+          customTypeMessages={{
+            info: this.props.t('FINANCES.CANT_FIND.INFO_EXPENSE'),
+            manage: this.props.t('FINANCES.CANT_FIND.MANAGE_EXPENSE'),
+          }}
+          miscellaneousConfig={{
+            addRemove: () => this.addRemoveType(miscellaneous_type_id),
+            selected: this.state.selectedTypes.includes(miscellaneous_type_id),
+          }}
         />
       </HookFormPersistProvider>
     );

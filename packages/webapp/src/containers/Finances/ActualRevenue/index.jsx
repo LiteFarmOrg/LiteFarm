@@ -9,9 +9,10 @@ import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import { AddLink, Semibold } from '../../../components/Typography';
 import ActualRevenueItem from '../ActualRevenueItem';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
-import { calcActualRevenue, filterSalesByDateRange } from '../util';
+import { calcActualRevenue, filterSalesByDateRange, mapSalesToRevenueItems } from '../util';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getRevenueTypes } from '../saga';
+import { cropVarietiesSelector } from '../../cropVarietySlice';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../../util/dateRange';
@@ -27,6 +28,7 @@ export default function ActualRevenue({ history, match }) {
   // TODO: refactor sale data after finance reducer is remade
   const sales = useSelector(salesSelector);
   const allRevenueTypes = useSelector(allRevenueTypesSelector);
+  const cropVarieties = useSelector(cropVarietiesSelector);
   const { startDate: fromDate, endDate: toDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
 
   const revenueForWholeFarm = useMemo(
@@ -36,6 +38,10 @@ export default function ActualRevenue({ history, match }) {
   const filteredSales = useMemo(
     () => filterSalesByDateRange(sales, fromDate, toDate),
     [sales, fromDate, toDate],
+  );
+  const revenueItems = useMemo(
+    () => mapSalesToRevenueItems(filteredSales, allRevenueTypes, cropVarieties),
+    [filteredSales, allRevenueTypes, cropVarieties],
   );
 
   useEffect(() => {
@@ -67,10 +73,10 @@ export default function ActualRevenue({ history, match }) {
         secondColumn={t('FINANCES.REVENUE')}
         style={{ marginBottom: '8px' }}
       />
-      {filteredSales.map((sale) => (
+      {revenueItems.map((item) => (
         <ActualRevenueItem
-          key={sale.sale_id}
-          sale={sale}
+          key={item.sale.sale_id}
+          revenueItem={item}
           history={history}
           style={{ marginBottom: '16px' }}
         />

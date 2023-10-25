@@ -144,6 +144,8 @@ Cypress.Commands.add('onboardCompleteQuestions', (role) => {
 
 Cypress.Commands.add('createFirstLocation', (fieldString) => {
   cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });
+
+  cy.intercept('GET', '**/maps.googleapis.com/maps/api/**').as('googleMapsApiCall');
   cy.get('[data-cy=navbar-option]')
     .eq(1)
     .should('exist')
@@ -152,6 +154,7 @@ Cypress.Commands.add('createFirstLocation', (fieldString) => {
 
   //arrive at farm map page and draw a field
   cy.url().should('include', '/map');
+
   cy.get('[data-cy=spotlight-next]', { timeout: 60 * 1000 })
     .should('exist')
     .and('not.be.disabled')
@@ -159,6 +162,8 @@ Cypress.Commands.add('createFirstLocation', (fieldString) => {
   cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
   cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
   cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+
+  cy.wait('@googleMapsApiCall');
 
   // Select "Field"
   cy.contains(fieldString).click();

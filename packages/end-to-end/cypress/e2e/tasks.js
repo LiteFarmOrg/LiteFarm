@@ -157,6 +157,7 @@ describe('Tasks', () => {
     // Select type of work
     cy.get('[data-cy="react-select').find('input').click();
     cy.contains(translation['ADD_TASK']['FIELD_WORK_VIEW']['TYPE']['PRUNING']).click();
+    cy.get('[data-cy="react-select').find('input').click();
 
     cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click();

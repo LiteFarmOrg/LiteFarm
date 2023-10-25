@@ -31,3 +31,13 @@ export const ADD_REMOVE_EXPENSE = 'ADD_REMOVE_EXPENSE';
 export const SET_DATE_RANGE = 'SET_DATE_RANGE';
 export const UPDATE_SALE = 'UPDATE_SALE';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+
+export const REVENUE_FORM_TYPES = {
+  CROP_SALE: 'crop_sale',
+  GENERAL: 'general',
+};
+
+export const LABOUR_ITEMS_GROUPING_OPTIONS = {
+  EMPLOYEE: 'EMPLOYEE',
+  TASK_TYPE: 'TASK_TYPE',
+};

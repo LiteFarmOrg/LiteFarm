@@ -13,19 +13,25 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { expect, describe, test } from 'vitest';
 import { getFirstNameLastName } from '../util';
 
 describe('Util test', () => {
-  //TODO: fix jest config
-  it('getFirstNameLastName test', () => {
-    let [first_name, last_name] = getFirstNameLastName('first');
-    expect(first_name).be('first');
-    expect(last_name).be('');
-    [first_name, last_name] = getFirstNameLastName('first last');
-    expect(first_name).be('first');
-    expect(last_name).be('last');
-    [first_name, last_name] = getFirstNameLastName('first middle last');
-    expect(first_name).be('first');
-    expect(last_name).be('middle last');
+  describe('getFirstNameLastName test', () => {
+    test('should parse name with only first name correctly', () => {
+      const { first_name, last_name } = getFirstNameLastName('first');
+      expect(first_name).toEqual('first');
+      expect(last_name).toEqual('');
+    });
+    test('should parse name with first and last names correctly', () => {
+      const { first_name, last_name } = getFirstNameLastName('first last');
+      expect(first_name).toEqual('first');
+      expect(last_name).toEqual('last');
+    });
+    test('should parse name with first, middle and last names correctly', () => {
+      const { first_name, last_name } = getFirstNameLastName('first middle last');
+      expect(first_name).toEqual('first');
+      expect(last_name).toEqual('middle last');
+    });
   });
 });

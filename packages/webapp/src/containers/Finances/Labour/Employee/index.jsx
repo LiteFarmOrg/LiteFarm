@@ -4,53 +4,32 @@ import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { userFarmsByFarmSelector } from '../../../userFarmSlice';
 import { useSelector } from 'react-redux';
-import { roundToTwoDecimal } from '../../../../util';
+import { mapTasksToLabourItems } from '../../util';
+import { taskTypesSelector } from '../../../taskTypeSlice';
+import { LABOUR_ITEMS_GROUPING_OPTIONS } from '../../constants';
 
 const Employee = ({ currencySymbol, tasks, startDate, endDate }) => {
-  let data = [];
-  let sortObj = {};
   const { t } = useTranslation();
+  const taskTypes = useSelector(taskTypesSelector);
   const userFarmsOfFarm = useSelector(userFarmsByFarmSelector);
-  for (let task of tasks) {
-    const assignee = userFarmsOfFarm.find((user) => user.user_id === task.assignee_user_id);
+  const filteredTasks = tasks.filter((task) => {
     const completedTime = moment(task.complete_date);
     const abandonedTime = moment(task.abandon_date);
-    if (
+    return (
       (completedTime.isSameOrAfter(startDate, 'day') &&
         completedTime.isSameOrBefore(endDate, 'day') &&
         task.duration) ||
       (abandonedTime.isSameOrAfter(startDate, 'day') &&
         abandonedTime.isSameOrBefore(endDate, 'day') &&
         task.duration)
-    ) {
-      const minutes = parseInt(task.duration, 10);
-      const hours = roundToTwoDecimal(minutes / 60);
-      const rate = roundToTwoDecimal(task.wage_at_moment);
-      const labour_cost = roundToTwoDecimal(rate * hours);
-
-      if (sortObj.hasOwnProperty(task.assignee_user_id)) {
-        let referenceObj = sortObj[task.assignee_user_id];
-        referenceObj.labour_cost = roundToTwoDecimal(roundToTwoDecimal(referenceObj.labour_cost) + labour_cost);
-        referenceObj.hours = roundToTwoDecimal(referenceObj.hours + hours);
-      } else {
-        sortObj[task.assignee_user_id] = {
-          hours,
-          labour_cost,
-          employee: `${assignee.first_name} ${assignee.last_name.substring(0, 1).toUpperCase()}.`,
-        };
-      }
-    }
-  }
-
-  let keys = Object.keys(sortObj);
-
-  for (let k of keys) {
-    data.push({
-      employee: sortObj[k].employee,
-      time: sortObj[k].hours.toFixed(2) + ' HR',
-      labour_cost: currencySymbol + sortObj[k].labour_cost.toFixed(2),
-    });
-  }
+    );
+  });
+  const { [LABOUR_ITEMS_GROUPING_OPTIONS.EMPLOYEE]: data } = mapTasksToLabourItems(
+    filteredTasks,
+    taskTypes,
+    userFarmsOfFarm,
+    currencySymbol,
+  );
 
   const columns = [
     {
@@ -68,7 +47,8 @@ const Employee = ({ currencySymbol, tasks, startDate, endDate }) => {
     {
       id: 'labour_cost',
       Header: t('SALE.LABOUR.TABLE.LABOUR_COST'),
-      accessor: (d) => d.labour_cost,
+      accessor: (d) => d.labourCost,
+      Cell: (row) => `${currencySymbol}${row.value.toFixed(2)}`,
     },
   ];
 

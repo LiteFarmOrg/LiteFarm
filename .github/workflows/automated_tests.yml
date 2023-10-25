@@ -1,4 +1,4 @@
-name: 'Automated Tests'
+name: "Automated Tests"
 
 on:
   pull_request:
@@ -13,9 +13,9 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_DB: 'test_farm'
-          POSTGRES_USER: 'postgres'
-          POSTGRES_PASSWORD: 'pipeline'
+          POSTGRES_DB: "test_farm"
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "pipeline"
           POSTGRES_HOST: postgres
           POSTGRES_PORT: 5432
         ports:
@@ -45,4 +45,3 @@ jobs:
       # Run all the CI tests
       - name: Run tests
         run: cd packages/api && npm run test-ci
-

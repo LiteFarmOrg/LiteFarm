@@ -499,6 +499,7 @@ describe('Sale Tests', () => {
           const sales = await saleModel.query().where('farm_id', farm.farm_id);
           expect(sales.length).toBe(1);
           expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
+          expect(sales[0].revenue_type_id).toBe(sampleReqBody.revenue_type_id);
           const cropVarietySales = await cropVarietySaleModel
             .query()
             .where('sale_id', sales[0].sale_id);
@@ -516,6 +517,7 @@ describe('Sale Tests', () => {
           const sales = await saleModel.query().where('farm_id', farm.farm_id);
           expect(sales.length).toBe(1);
           expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
+          expect(sales[0].revenue_type_id).toBe(sampleReqBody.revenue_type_id);
           const cropVarietySales = await cropVarietySaleModel
             .query()
             .where('sale_id', sales[0].sale_id);
@@ -533,6 +535,7 @@ describe('Sale Tests', () => {
           const sales = await saleModel.query().where('farm_id', farm.farm_id);
           expect(sales.length).toBe(1);
           expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
+          expect(sales[0].revenue_type_id).toBe(sampleReqBody.revenue_type_id);
           const cropVarietySales = await cropVarietySaleModel
             .query()
             .where('sale_id', sales[0].sale_id);
@@ -547,7 +550,7 @@ describe('Sale Tests', () => {
       const testGeneralSale = async (done, userId) => {
         const [{ revenue_type_id }] = await mocks.revenue_typeFactory({
           promisedFarm: [{ farm_id: farm.farm_id }],
-          properties: { agriculture_associated: true, crop_generated: false },
+          properties: { agriculture_associated: null, crop_generated: false },
         });
         delete sampleReqBody.crop_variety_sale;
         sampleReqBody.value = 50.5;
@@ -561,6 +564,7 @@ describe('Sale Tests', () => {
           expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
           expect(sales[0].value).toBe(sampleReqBody.value);
           expect(sales[0].note).toBe(sampleReqBody.note);
+          expect(sales[0].revenue_type_id).toBe(sampleReqBody.revenue_type_id);
           done();
         });
       };
@@ -612,7 +616,14 @@ describe('Sale Tests', () => {
     let cropSaleRevenueType;
 
     beforeEach(async () => {
-      [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
+      cropSaleRevenueType = await revenueTypeModel
+        .query()
+        .where('revenue_name', 'Crop Sale')
+        .first();
+      [sale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: cropSaleRevenueType.revenue_type_id }),
+      );
       [cropVariety2] = await mocks.crop_varietyFactory({ promisedCrop: [crop] });
       [cropVarietySale1] = await mocks.crop_variety_saleFactory({
         promisedCropVariety: [cropVariety],
@@ -624,10 +635,6 @@ describe('Sale Tests', () => {
       });
       [newCrop] = await mocks.cropFactory({ promisedFarm: [farm], createdUser: [owner] });
       [newCropVariety] = await mocks.crop_varietyFactory({ promisedCrop: [newCrop] });
-      cropSaleRevenueType = await revenueTypeModel
-        .query()
-        .where('revenue_name', 'Crop Sale')
-        .first();
 
       patchData = {
         customer_name: 'patched customer name',
@@ -764,7 +771,10 @@ describe('Sale Tests', () => {
       });
 
       test('Worker should patch a sale that they created', async (done) => {
-        let [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
+        let [workersSale] = await mocks.saleFactory(
+          { promisedUserFarm: [workerFarm] },
+          mocks.fakeSale({ revenue_type_id: cropSaleRevenueType.revenue_type_id }),
+        );
         let [workersCropVarietySale] = await mocks.crop_variety_saleFactory({
           promisedCropVariety: [cropVariety],
           promisedSale: [workersSale],

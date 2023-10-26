@@ -30,6 +30,18 @@ const expenseTypeSelector = createSelector(financeSelector, (state) => {
   return state.expense_types?.filter((type) => !type.deleted);
 });
 
+const revenueByIdSelector = (sale_id) => {
+  return createSelector(financeSelector, (state) => {
+    return state.sales.find((sale) => sale.sale_id == sale_id);
+  });
+};
+
+const expenseByIdSelector = (expense_id) => {
+  return createSelector(financeSelector, (state) => {
+    return state.expenses.find((expense) => expense.farm_expense_id == expense_id);
+  });
+};
+
 const expenseTypeByIdSelector = (expense_type_id) => {
   return createSelector(financeSelector, (state) => {
     return state.expense_types.find((type) => type.expense_type_id == expense_type_id);
@@ -48,8 +60,8 @@ const sortExpenseTypes = (expenseTypes) => {
   return [
     ...defaultTypes.sort((typeA, typeB) =>
       i18n
-        .t(`expense:${typeA.expense_translation_key}`)
-        .localeCompare(i18n.t(`expense:${typeB.expense_translation_key}`)),
+        .t(`expense:${typeA.expense_translation_key}.EXPENSE_NAME`)
+        .localeCompare(i18n.t(`expense:${typeB.expense_translation_key}.EXPENSE_NAME`)),
     ),
     ...customTypes.sort((typeA, typeB) =>
       typeA.expense_translation_key.localeCompare(typeB.expense_translation_key),
@@ -84,6 +96,8 @@ export {
   expenseTypeSelector,
   allExpenseTypeSelector,
   expenseTypeByIdSelector,
+  revenueByIdSelector,
+  expenseByIdSelector,
   allExpenseTypeTileContentsSelector,
   expenseTypeTileContentsSelector,
   expenseDetailDateSelector,

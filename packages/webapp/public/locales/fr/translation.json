@@ -827,6 +827,14 @@
       "ADD_REVENUE": "Ajouter des revenus",
       "TITLE": "Chiffre d'affaires réel"
     },
+    "CANT_FIND": {
+      "INFO_EXPENSE": "MISSING",
+      "INFO_REVENUE": "MISSING",
+      "MAIN": "MISSING",
+      "MANAGE_EXPENSE": "MISSING",
+      "MANAGE_REVENUE": "MISSING",
+      "MISC_EXPENSE": "MISSING"
+    },
     "DATE": "Date",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Revenu annuel estimé",
@@ -1461,9 +1469,17 @@
       "CUSTOM_REVENUE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING"
     },
+    "DELETE": {
+      "CONFIRM": "MISSING",
+      "HEADER": "MISSING",
+      "LINK": "MISSING",
+      "MESSAGE": "MISSING"
+    },
     "EDIT_REVENUE": {
       "RETIRE_REVENUE_MESSAGE": "MISSING",
-      "RETIRE_REVENUE_TYPE": "MISSING"
+      "RETIRE_REVENUE_TYPE": "MISSING",
+      "RETIRED": "MISSING",
+      "REVENUE_TYPE": "MISSING"
     }
   },
   "ROLE_SELECTION": {
@@ -1500,13 +1516,13 @@
       "CUSTOMER_NAME": "Nom de Client",
       "DELETE_CONFIRMATION": "Êtes-vous sûr que vous voulez supprimer cette vente\u00a0?",
       "QUANTITY": "Quantité",
-      "TITLE": "Détails de vente",
+      "TITLE": "MISSING",
       "VALUE": "Valeur"
     },
     "EDIT_SALE": {
       "DATE": "Date",
       "DELETE_CONFIRMATION": "Êtes-vous sûr que vous voulez supprimer cette vente\u00a0?",
-      "TITLE": "Modifier la vente"
+      "TITLE": "MISSING"
     },
     "ESTIMATED_REVENUE": {
       "CALCULATION": "Calcul",
@@ -1710,9 +1726,11 @@
     "TITLE": "Changement de Ferme"
   },
   "TABLE": {
+    "LOAD_MORE": "MISSING",
     "LOADING_TEXT": "Chargement en cours...",
     "NEXT_TEXT": "Suivant",
     "NO_DATA_TEXT": "Aucune rangée trouvée",
+    "NUMBER_MORE": "MISSING",
     "OF_TEXT": "de",
     "PAGE_TEXT": "Page",
     "PREVIOUS_TEXT": "Précédent",

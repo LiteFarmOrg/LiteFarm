@@ -1,0 +1,92 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.listItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--green100);
+  box-shadow: 0 2px 10px #ededed;
+  border-radius: 4px;
+  width: 100%;
+  min-height: 64px;
+  padding: 0 4px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+  margin: 16px 8px;
+
+  svg {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+
+.listItem__selected,
+.listItem:active {
+  background-color: var(--teal100);
+}
+
+@media (hover: hover) {
+  .listItem:hover {
+    background-color: var(--teal100);
+  }
+}
+
+.content {
+  width: 100%;
+  margin: 8px 0px;
+}
+
+.content__marginRight {
+  margin-right: 8px;
+}
+
+.content_label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--teal700);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.content_description {
+  color: var(--grey600);
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.checkbox {
+  width: 26px;
+  height: 26px;
+  margin: 16px 8px;
+}
+
+.chevron {
+  width: 26px;
+  height: 26px;
+  margin: 16px 8px;
+  color: var(--buttonPrimary);
+}

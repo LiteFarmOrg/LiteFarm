@@ -1,0 +1,123 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.defaultFormDropDown {
+  width: 100%;
+  padding-bottom: 15px;
+  font-size: 1.8rem;
+  label {
+    font-weight: 300;
+    line-height: 20px;
+    font-size: 1.8rem;
+    width: 75px;
+  }
+  input {
+    height: 30px;
+    line-height: 1.1;
+  }
+}
+  
+.banner {
+  display: flex;
+  hr {
+    background-color: black;
+    height: 2px;
+  }
+
+  p:first-child {
+    flex-basis: 30%;
+  }
+
+  p:nth-child(2) {
+    flex-basis: 35%;
+  }
+
+  p:last-child {
+    flex-basis: 35%;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--fontColor);
+    font-style: normal;
+    font-weight: normal;
+    font-family: 'Open Sans', 'SansSerif', serif;
+  }
+}
+
+.thinHr {
+  background-color: lightgrey;
+  height: 1px;
+}
+.thinHr2 {
+  background-color: lightgrey;
+  height: 1px;
+  margin-bottom: 18px;
+}
+
+.dateContainer {
+  label {
+    font-style: normal;
+    font-weight: normal;
+    color: var(--labels);
+    font-size: 14px;
+    line-height: 16px;
+    font-family: 'Open Sans', 'SansSerif', serif;
+    margin-bottom: 4px;
+  }
+  padding-top: 10px;
+  width: 100%;
+  margin: 0 0 18px;
+}
+
+.date {
+  input {
+    font-size: 1.8rem;
+    border: 1px solid #d3d3d3;
+    width: 125px;
+    border-radius: 5px;
+    background-color: hsl(0, 0%, 98%);
+  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  ::placeholder {
+    color: #00756a;
+  }
+}
+
+.saleContainer {
+  width: 100%;
+}
+
+.sale {
+  display: flex;
+}
+.saleItemContainer {
+  display: flex;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.saleItemInputGroup {
+  min-width: 200px;
+  flex-grow: 1;
+  margin-left: 24px
+}
+
+.saleItemInputGroup > * {
+  margin-bottom: 40px;
+}

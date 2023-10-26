@@ -17,8 +17,8 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { ReactComponent as CropSaleIcon } from '../../../../assets/images/log/crop_sale.svg';
-import { ReactComponent as CustomTypeIcon } from '../../../../assets/images/log/custom_revenue.svg';
+import { ReactComponent as CropSaleIcon } from '../../../../assets/images/finance/Crop-sale-icn.svg';
+import { ReactComponent as CustomTypeIcon } from '../../../../assets/images/finance/Custom-revenue.svg';
 import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
 import useSortedRevenueTypes from './useSortedRevenueTypes';
 import labelIconStyles from '../../../../components/Tile/styles.module.scss';
@@ -48,7 +48,7 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
         key: revenue_type_id,
         tileKey: revenue_type_id,
         icon: icons[farm_id ? 'CUSTOM' : revenue_translation_key],
-        label: farm_id ? revenue_name : t(`revenue:${revenue_translation_key}`),
+        label: farm_id ? revenue_name : t(`revenue:${revenue_translation_key}.REVENUE_NAME`),
         onClick: () => getOnTileClickFunc(setValue)(revenue_type_id),
         className: labelIconStyles.boldLabelIcon,
         selected: persistedFormData?.revenue_type_id === revenue_type_id,
@@ -68,6 +68,10 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
         onGoToManageCustomType={() => history.push('/manage_custom_revenues')}
         getFormatTileDataFunc={getFormatTileDataFunc}
         useHookFormPersist={useHookFormPersist}
+        customTypeMessages={{
+          info: t('FINANCES.CANT_FIND.INFO_REVENUE'),
+          manage: t('FINANCES.CANT_FIND.MANAGE_REVENUE'),
+        }}
       />
     </HookFormPersistProvider>
   );

@@ -27,12 +27,6 @@ const revenueTypeController = {
         const data = req.body;
         data.revenue_translation_key = baseController.formatTranslationKey(data.revenue_name);
 
-        if (!data.agriculture_associated && data.crop_generated) {
-          return res.status(400).json({
-            error: 'Revenues not associated with agriculture cannot be generated from crops',
-          });
-        }
-
         const record = await baseController.existsInTable(trx, RevenueTypeModel, {
           revenue_name: data.revenue_name,
           farm_id,

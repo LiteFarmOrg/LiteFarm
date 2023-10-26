@@ -21,7 +21,7 @@ export default function TransactionList({ startDate, endDate }) {
   const expenseTypeFilter = null;
   const revenueTypeFilter = null;
 
-  const transactions = useTransactions(dateFilter, expenseTypeFilter, revenueTypeFilter);
+  const transactions = useTransactions({ dateFilter, expenseTypeFilter, revenueTypeFilter });
 
   return <PureTransactionList data={transactions} />;
 }

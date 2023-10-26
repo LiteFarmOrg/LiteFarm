@@ -56,6 +56,7 @@ const generateRows = (t, data, currencySymbol) => {
           expandedContent={<ExpandedContent data={values} />}
           iconClickOnly={false}
           classes={{ mainContentWithIcon: styles.expandableItem }}
+          key={`transaction-${index}`}
         />
       </div>,
     );

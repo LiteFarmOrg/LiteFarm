@@ -82,6 +82,7 @@ const Test = ({ defaultExpandedIds = [], isSingleExpandable, iconClickOnly }) =>
           expandedContent={<div className={styles.expandedContent}>{values.expandedContent}</div>}
           iconClickOnly={iconClickOnly}
           classes={{ mainContentWithIcon: styles.expandableItem }}
+          key={index}
         />
       </div>
     );

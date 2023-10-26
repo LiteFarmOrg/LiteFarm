@@ -20,8 +20,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { Main } from '../../Typography';
 import Form from '../../Form';
 import Button from '../../Form/Button';
-import Tiles from '../../Tile/Tiles';
-import { tileTypes } from '../../Tile/constants';
+import List from '../../List';
 import styles from './styles.module.scss';
 import { CantFindCustomType } from './CantFindCustomType';
 
@@ -38,6 +37,7 @@ export default function PureFinanceTypeSelection({
   isTypeSelected,
   formatTileData,
   getFormatTileDataFunc,
+  listItemType,
   progressValue,
   useHookFormPersist,
   persistedFormData = {},
@@ -70,10 +70,12 @@ export default function PureFinanceTypeSelection({
           style={{ marginBottom: '24px' }}
         />
         <Main className={styles.leadText}>{leadText}</Main>
-        <Tiles
-          tileType={tileTypes.ICON_LABEL}
-          tileData={types}
-          formatTileData={getFormatTileDataFunc ? getFormatTileDataFunc(setValue) : formatTileData}
+        <List
+          listItemType={listItemType}
+          listItemData={types}
+          formatListItemData={
+            getFormatTileDataFunc ? getFormatTileDataFunc(setValue) : formatTileData
+          }
         />
         <div className={styles.cantFindWrapper}>
           <CantFindCustomType

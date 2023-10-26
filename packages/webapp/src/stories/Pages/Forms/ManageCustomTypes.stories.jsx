@@ -56,7 +56,6 @@ export const Expense = {
 
       return {
         key: expense_type_id,
-        listItemKey: expense_type_id,
         icon: <OtherIcon />,
         label: expense_name,
         description: custom_description,

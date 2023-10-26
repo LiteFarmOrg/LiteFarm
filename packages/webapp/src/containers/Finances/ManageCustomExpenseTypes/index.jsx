@@ -85,7 +85,6 @@ export default function ManageExpenseTypes({ history }) {
 
         return {
           key: expense_type_id,
-          listItemKey: expense_type_id,
           icon: icons[farm_id ? 'OTHER' : expense_translation_key],
           label: farm_id ? expense_name : t(`expense:${expense_translation_key}.EXPENSE_NAME`),
           className: labelIconStyles.boldLabelIcon,

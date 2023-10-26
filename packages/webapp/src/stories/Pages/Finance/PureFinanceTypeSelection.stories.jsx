@@ -157,7 +157,6 @@ export const Expense = {
 
       return {
         key: expense_translation_key,
-        listItemKey: expense_translation_key,
         icon: icons[farm_id ? 'OTHER' : expense_translation_key],
         label: expense_name,
         onClick: () => console.log(`${expense_name} clicked!`),
@@ -214,7 +213,6 @@ export const Revenue = {
 
       return {
         key: revenue_translation_key,
-        listItemKey: revenue_translation_key,
         icon: farm_id ? revenueTypeIcons['CUSTOM'] : revenueTypeIcons['CROP_SALE'],
         label: revenue_name,
         onClick: () => console.log(`${revenue_name} clicked!`),

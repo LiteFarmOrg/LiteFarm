@@ -85,7 +85,6 @@ export default function ManageRevenueTypes({ history }) {
 
         return {
           key: revenue_type_id,
-          listItemKey: revenue_type_id,
           icon: icons[farm_id ? 'CUSTOM' : revenue_translation_key],
           label: farm_id ? revenue_name : t(`revenue:${revenue_translation_key}.REVENUE_NAME`),
           className: labelIconStyles.boldLabelIcon,

@@ -44,6 +44,7 @@ import { isTaskType } from '../Task/useIsTaskType';
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useTranslation } from 'react-i18next';
 import { downloadFinanceReport } from './saga';
+import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
 
 const moment = extendMoment(Moment);
 
@@ -136,7 +137,6 @@ const Finances = () => {
       <Title style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.TITLE')}</Title>
       <hr />
       <Semibold style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.ACTION')}</Semibold>
-
       <div className={styles.buttonContainer}>
         <Button
           style={{ height: '48px' }}
@@ -176,7 +176,7 @@ const Finances = () => {
       </Button>
       <hr />
       <DateRangeSelector changeDateMethod={changeDate} />
-
+      <FinancesCarrousel />
       <hr />
       <div data-test="finance_summary" className={styles.align}>
         <Semibold style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.EXPENSES')}</Semibold>

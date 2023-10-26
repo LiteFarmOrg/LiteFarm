@@ -18,7 +18,7 @@ import styles from './styles.module.scss';
 import { Main, Info } from '../../../../components/Typography';
 import RadioGroup from '../../../../components/Form/RadioGroup';
 import { useTranslation } from 'react-i18next';
-import { AGRICULTURE_ASSOCIATED, CROP_GENERATED } from '../constants';
+import { CROP_GENERATED } from '../constants';
 import PropTypes from 'prop-types';
 
 /**
@@ -33,8 +33,6 @@ import PropTypes from 'prop-types';
 function CustomRevenueRadios({ control, watch, view }) {
   const { t } = useTranslation();
 
-  const isAgricultureAssociated = watch(AGRICULTURE_ASSOCIATED);
-
   const CANNOT_CHANGE_WARNING = {
     add: 'REVENUE.ADD_REVENUE.CANNOT_BE_CHANGED_LATER',
     edit: 'REVENUE.ADD_REVENUE.CANNOT_BE_CHANGED',
@@ -42,13 +40,12 @@ function CustomRevenueRadios({ control, watch, view }) {
 
   return (
     <>
-      <Main className={styles.agricultureQuestion}>
-        {t('REVENUE.ADD_REVENUE.ASSOCIATED_WITH_AGRICULTURE')}
+      <Main className={styles.cropGeneratedQuestion}>
+        {t('REVENUE.ADD_REVENUE.CROP_GENERATED')}
       </Main>
-
       <RadioGroup
         hookFormControl={control}
-        name={AGRICULTURE_ASSOCIATED}
+        name={CROP_GENERATED}
         radios={[
           {
             label: t('common:YES'),
@@ -56,32 +53,10 @@ function CustomRevenueRadios({ control, watch, view }) {
           },
           { label: t('common:NO'), value: false },
         ]}
-        required
+        required={true}
         disabled={view === 'edit' || view === 'read-only'}
       />
       {(view === 'add' || view === 'edit') && <Info>{t(CANNOT_CHANGE_WARNING[view])}</Info>}
-
-      {isAgricultureAssociated && (
-        <>
-          <Main className={styles.cropGeneratedQuestion}>
-            {t('REVENUE.ADD_REVENUE.CROP_GENERATED')}
-          </Main>
-          <RadioGroup
-            hookFormControl={control}
-            name={CROP_GENERATED}
-            radios={[
-              {
-                label: t('common:YES'),
-                value: true,
-              },
-              { label: t('common:NO'), value: false },
-            ]}
-            required={isAgricultureAssociated}
-            disabled={view === 'edit' || view === 'read-only'}
-          />
-          {(view === 'add' || view === 'edit') && <Info>{t(CANNOT_CHANGE_WARNING[view])}</Info>}
-        </>
-      )}
     </>
   );
 }

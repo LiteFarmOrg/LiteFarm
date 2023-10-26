@@ -550,7 +550,7 @@ describe('Sale Tests', () => {
       const testGeneralSale = async (done, userId) => {
         const [{ revenue_type_id }] = await mocks.revenue_typeFactory({
           promisedFarm: [{ farm_id: farm.farm_id }],
-          properties: { agriculture_associated: true, crop_generated: false },
+          properties: { agriculture_associated: null, crop_generated: false },
         });
         delete sampleReqBody.crop_variety_sale;
         sampleReqBody.value = 50.5;

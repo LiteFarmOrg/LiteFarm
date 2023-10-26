@@ -15,9 +15,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsChevronRight } from 'react-icons/bs';
-import TextButton from '../../Form/Button/TextButton';
-import history from '../../../history';
-import { transactionTypeEnum } from '../../../containers/Finances/useTransactions';
+import TextButton from '../../../Form/Button/TextButton';
+import history from '../../../../history';
+import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
 import styles from './styles.module.scss';
 
 // TODO LF-3748, 3749, 3761

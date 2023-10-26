@@ -60,6 +60,11 @@
 .mainContentLeft {
   display: flex;
   gap: 4px;
+  width: calc(100% - 80px);
+}
+
+.mainContentText {
+  width: calc(100% - 41px);
 }
 
 .mainContentTitle {
@@ -69,4 +74,10 @@
 .mainContentInfo {
   font-size: 12px;
   line-height: 16px;
+}
+
+.mainContentTitle, .mainContentInfo, .amount {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

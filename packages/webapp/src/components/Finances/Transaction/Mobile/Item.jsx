@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import clsx from 'clsx';
 import { ReactComponent as CropSaleIcon } from '../../../../assets/images/finance/transaction/Crop-sale-icn.svg';
 import { ReactComponent as CustomTypeIcon } from '../../../../assets/images/finance/transaction/Custom-revenue.svg';
 import { ReactComponent as EquipIcon } from '../../../../assets/images/finance/transaction/Equipment-icn.svg';
@@ -61,12 +62,17 @@ export default function TransactionItem({ iconKey, transaction, type, amount, cu
     <div className={styles.mainContent}>
       <div className={styles.mainContentLeft}>
         <div>{icons[iconKey]}</div>
-        <div>
+        <div className={styles.mainContentText}>
           <div className={styles.mainContentTitle}>{transaction}</div>
           <div className={styles.mainContentInfo}>{type}</div>
         </div>
       </div>
-      <div className={commonStyles[+amount < 0 ? 'negativeValue' : 'positiveValue']}>
+      <div
+        className={clsx(
+          styles.amount,
+          commonStyles[+amount < 0 ? 'negativeValue' : 'positiveValue'],
+        )}
+      >
         {formatAmount(amount, currencySymbol)}
       </div>
     </div>

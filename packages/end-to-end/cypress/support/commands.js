@@ -146,6 +146,10 @@ Cypress.Commands.add('createFirstLocation', (fieldString) => {
   cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });
 
   cy.intercept('GET', '**/maps.googleapis.com/maps/api/**').as('googleMapsApiCall');
+  cy.intercept('GET', 'https://maps.googleapis.com/maps-api-v3/api/js/54/11/marker.js').as(
+    'markerJsRequest',
+  );
+
   cy.get('[data-cy=navbar-option]')
     .eq(1)
     .should('exist')
@@ -164,6 +168,7 @@ Cypress.Commands.add('createFirstLocation', (fieldString) => {
   cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
 
   cy.wait('@googleMapsApiCall');
+  cy.wait('@markerJsRequest');
   cy.waitForReact();
 
   // Select "Field"

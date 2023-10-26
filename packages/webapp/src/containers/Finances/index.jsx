@@ -44,6 +44,7 @@ import { isTaskType } from '../Task/useIsTaskType';
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useTranslation } from 'react-i18next';
 import { downloadFinanceReport } from './saga';
+import TransactionList from './TransactionList';
 
 const moment = extendMoment(Moment);
 
@@ -235,6 +236,7 @@ const Finances = () => {
           </div>
         </div>
       </div>
+      <TransactionList startDate={startDate} endDate={endDate} />
     </div>
   );
 };

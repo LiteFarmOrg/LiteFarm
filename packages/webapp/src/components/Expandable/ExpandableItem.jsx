@@ -32,6 +32,7 @@ export default function ExpandableItem({
   expandedContent,
   iconClickOnly = true,
   classes = {},
+  key,
 }) {
   const onElementClick = () => {
     if (!iconClickOnly) {
@@ -45,6 +46,8 @@ export default function ExpandableItem({
     }
   };
 
+  const id = `expanded-content-${key}`;
+
   return (
     <>
       <div
@@ -54,6 +57,8 @@ export default function ExpandableItem({
           classes.mainContentWithIcon,
         )}
         onClick={onElementClick}
+        aria-controls={id}
+        aria-expanded={isExpanded}
       >
         <div className={clsx(styles.mainContentWrapper, classes.mainContentWrapper)}>
           {mainContent}
@@ -65,7 +70,7 @@ export default function ExpandableItem({
           {icons[isExpanded ? 'up' : 'down']}
         </div>
       </div>
-      <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+      <Collapse id={id} in={isExpanded} timeout="auto" unmountOnExit>
         {expandedContent}
       </Collapse>
     </>
@@ -82,4 +87,5 @@ ExpandableItem.propTypes = {
     mainContentWithIcon: PropTypes.string,
     icon: PropTypes.string,
   }),
+  key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

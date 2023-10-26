@@ -31,8 +31,8 @@ const components = {
 const getDetailPageLink = ({ transactionType, relatedId }) => {
   return {
     LABOUR_EXPENSE: '/labour',
-    EXPENSE: `expense/${relatedId}`,
-    REVENUE: `revenue/${relatedId}`,
+    EXPENSE: `/expense/${relatedId}`,
+    REVENUE: `/revenue/${relatedId}`,
   }[transactionType];
 };
 

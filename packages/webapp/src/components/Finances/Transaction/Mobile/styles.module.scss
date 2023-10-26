@@ -13,27 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-// TransactionItem
-.mainContent {
- display: flex;
- justify-content: space-between;
- align-items: center;
-}
-
-.mainContentLeft {
-  display: flex;
-  gap: 4px;
-}
-
-.mainContentTitle {
-  font-weight: 700;
-}
-
-.mainContentInfo {
-  font-size: 12px;
-  line-height: 16px;
-}
-
 // TransactionList
 .transactionList {
   margin-bottom: 85px;
@@ -69,4 +48,25 @@
 
 .loadMoreButton {
   border-radius: 8px;
+}
+
+// TransactionItem
+.mainContent {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+}
+
+.mainContentLeft {
+  display: flex;
+  gap: 4px;
+}
+
+.mainContentTitle {
+  font-weight: 700;
+}
+
+.mainContentInfo {
+  font-size: 12px;
+  line-height: 16px;
 }

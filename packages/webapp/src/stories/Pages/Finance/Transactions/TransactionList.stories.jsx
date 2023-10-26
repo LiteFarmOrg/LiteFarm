@@ -131,9 +131,9 @@ const data = [
   },
 ];
 
-export const SimpleTransactionItem = {
+export const List = {
   args: {
-    list: data,
+    data,
     minRows: 5,
   },
 };

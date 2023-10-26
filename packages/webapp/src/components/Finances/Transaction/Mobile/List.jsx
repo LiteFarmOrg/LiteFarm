@@ -63,20 +63,20 @@ const generateRows = (t, data, currencySymbol) => {
   return rows;
 };
 
-export default function TransactionList({ list, minRows = 10 }) {
+export default function TransactionList({ data, minRows = 10 }) {
   const [visibleRows, setVisibleRows] = useState(minRows);
 
   const { t } = useTranslation(['translation', 'expense', 'revenue']);
   const currencySymbol = useCurrencySymbol();
 
   const onClickLoadMore = () => {
-    setVisibleRows(Math.min(visibleRows + minRows, list.length));
+    setVisibleRows(Math.min(visibleRows + minRows, data.length));
   };
 
   return (
     <div className={styles.transactionList}>
-      <div>{generateRows(t, list.slice(0, visibleRows), currencySymbol)}</div>
-      {list.length > visibleRows && (
+      <div>{generateRows(t, data.slice(0, visibleRows), currencySymbol)}</div>
+      {data.length > visibleRows && (
         <div className={styles.buttonWrapper}>
           <Button
             className={styles.loadMoreButton}

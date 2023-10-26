@@ -50,7 +50,7 @@ const FinancesCarrousel = () => {
                   </div>
                   <BsChevronRight />
                 </TextButton>
-                <div>
+                <div className={styles.expenseContainer}>
                   <Text className={styles.expenseTitle}>Total expenses</Text>
                   <p className={clsx([styles.stat, styles.expenseStat])}>$33,023</p>
                 </div>

@@ -1,6 +1,7 @@
 .carrouselContainer {
   display: flex;
   height: 128px;
+  width: 0;
 
   @media only screen and (min-width: 768px) {
     height: 144px;
@@ -11,11 +12,11 @@
   border-radius: 4px;
   box-shadow: 1px 0px 8px 0px rgba(0, 0, 0, 0.15);
 
-  &:first {
-    width: 278px;
+  &:first-child {
+    min-width: 278px;
 
     @media only screen and (min-width: 768px) {
-      width: 294px;
+      min-width: 294px;
     }
   }
 }

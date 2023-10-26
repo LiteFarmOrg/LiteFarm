@@ -41,6 +41,10 @@
   }
 }
 
+.expenseContainer {
+  padding: 4px;
+}
+
 .revenueTitle, .expenseTitle, .revenueStat, .expenseStat {
   text-shadow: 0px 0.5px 0px #11615D;
 }
@@ -63,6 +67,7 @@
 
 .stat {
   font-weight: 700;
+  font-size: 18px;
 }
 
 .totalExpensesContainer {

@@ -54,7 +54,7 @@ export default function ExpandedContent({ data }) {
         {toDetailText}
         <BsChevronRight />
       </TextButton>
-      {components[componentKey](data)}
+      {components[componentKey]({ data })}
     </div>
   );
 }

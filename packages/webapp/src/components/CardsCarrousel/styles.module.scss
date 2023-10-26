@@ -1,0 +1,47 @@
+.carrouselContainer {
+  display: flex;
+  height: 128px;
+
+  @media only screen and (min-width: 768px) {
+    height: 144px;
+  }
+}
+
+.card {
+  border-radius: 4px;
+  box-shadow: 1px 0px 8px 0px rgba(0, 0, 0, 0.15);
+
+  &:first {
+    width: 278px;
+
+    @media only screen and (min-width: 768px) {
+      width: 294px;
+    }
+  }
+}
+
+.activeCard {
+  border-radius: 4px;
+  flex-grow: 1;
+}
+
+.inactiveCard {
+  border-radius: 0 4px 4px 0;
+  padding-right: 8px;
+  padding-left: -2px;
+
+  @media only screen and (min-width: 1024px) {
+    padding-right: 20px;
+    padding-left: 24px;
+  }
+}
+
+.inactiveIcon {
+  height: 36px;
+  width: 36px;
+
+  svg {
+    width: 36px;
+    height: 36px;
+  }
+}

@@ -36,8 +36,8 @@ export default function DateRangeSelector({
   const { t } = useTranslation();
   const selectRef = useRef(null);
 
-  const [customFromDate, setCustomFromDate] = useState(undefined);
-  const [customToDate, setCustomToDate] = useState(undefined);
+  const [customFromDate, setCustomFromDate] = useState(defaultCustomDateRange[FROM_DATE]);
+  const [customToDate, setCustomToDate] = useState(defaultCustomDateRange[TO_DATE]);
 
   const isValidRange = customFromDate <= customToDate;
   const areValidDates = customFromDate?.isValid() && customToDate?.isValid();
@@ -55,22 +55,11 @@ export default function DateRangeSelector({
     { value: rangeOptions.CUSTOM, label: t('DATE_RANGE_SELECTOR.CUSTOM_RANGE') },
   ];
 
-  // set defaultCustomDateRange if exists
   useEffect(() => {
-    if (defaultDateRangeOptionValue !== rangeOptions.CUSTOM) {
-      return;
-    }
-    const { [FROM_DATE]: defaultFromDate, [TO_DATE]: defaultToDate } = defaultCustomDateRange;
-
-    // if the range does not have both FROM_DATE and TO_DATE, reset the option to "Year to date"
-    if (!defaultFromDate || !defaultToDate) {
+    if (!isValid & !isCustomDatePickerOpen) {
       setSelectedDateRangeOption(options[0]);
-      return;
     }
-
-    setCustomFromDate(defaultFromDate);
-    setCustomToDate(defaultToDate);
-  }, []);
+  }, [isValid, isCustomDatePickerOpen]);
 
   const formatOptionLabel = (data, formatOptionLabelMeta) => {
     if (formatOptionLabelMeta.context === 'menu') {
@@ -165,7 +154,6 @@ export default function DateRangeSelector({
             endDate={customToDate}
             fromDateMax={customToDate?.format('YYYY-MM-DD')}
             toDateMin={customFromDate?.format('YYYY-MM-DD')}
-            resetDateRangeOption={() => setSelectedDateRangeOption(options[0])}
           />
         )}
       </div>

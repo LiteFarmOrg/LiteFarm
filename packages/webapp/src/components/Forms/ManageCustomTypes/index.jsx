@@ -16,9 +16,8 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { AddLink } from '../../Typography';
 import PageTitle from '../../PageTitle/v2';
-import Tiles from '../../Tile/Tiles';
-import IconLabelTile from '../../Tile/IconLabelTile';
-import { tileTypes } from '../../Tile/constants';
+import List from '../../List';
+import { listItemTypes } from '../../List/constants';
 
 export default function ManageCustomTypes({
   title,
@@ -27,7 +26,6 @@ export default function ManageCustomTypes({
   onAddType,
   tileData,
   formatTileData,
-  onTileClick,
 }) {
   return (
     <div style={{ padding: '24px' }}>
@@ -35,16 +33,11 @@ export default function ManageCustomTypes({
       <AddLink style={{ paddingBottom: '24px' }} onClick={onAddType}>
         {addLinkText}
       </AddLink>
-      <Tiles tileType={tileTypes.ICON_LABEL} tileData={tileData} formatTileData={formatTileData}>
-        {tileData.map((data) => {
-          const tileProps = formatTileData(data);
-          const { tileKey } = tileProps;
-
-          return (
-            <IconLabelTile {...tileProps} key={tileKey} onClick={() => onTileClick(tileKey)} />
-          );
-        })}
-      </Tiles>
+      <List
+        listItemType={listItemTypes.ICON_DESCRIPTION_CHEVRON}
+        listItemData={tileData}
+        formatListItemData={formatTileData}
+      />
     </div>
   );
 }

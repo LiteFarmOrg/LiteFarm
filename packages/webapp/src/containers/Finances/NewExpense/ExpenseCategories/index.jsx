@@ -110,7 +110,7 @@ class ExpenseCategories extends Component {
 
             return {
               key: expense_type_id,
-              tileKey: expense_type_id,
+              listItemKey: expense_type_id,
               icon: icons[farm_id ? 'OTHER' : expense_translation_key],
               label: farm_id
                 ? expense_name

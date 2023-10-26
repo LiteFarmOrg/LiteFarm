@@ -157,7 +157,7 @@ const revenueTypeController = {
       const farm_id = req.headers.farm_id;
       const data = {
         revenue_name: req.body.revenue_name,
-        custom_description: req.body.custom_description ?? null,
+        custom_description: req.body.custom_description ?? undefined,
       };
 
       try {

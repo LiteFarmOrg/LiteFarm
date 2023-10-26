@@ -183,22 +183,12 @@ const useTransactions = ({ dateFilter, expenseTypeFilter, revenueTypeFilter }) =
   const cropVarieties = useSelector(cropVarietiesSelector);
   const users = useSelector(userFarmsByFarmSelector);
 
-  const transactions = useMemo(
-    () =>
-      buildTransactions({
-        sales,
-        tasks,
-        expenses,
-        expenseTypes,
-        revenueTypes,
-        taskTypes,
-        cropVarieties,
-        users,
-        dateFilter,
-        expenseTypeFilter,
-        revenueTypeFilter,
-      }),
-    [
+  const transactions = useMemo(() => {
+    if (!expenseTypes?.length || !revenueTypes?.length) {
+      return [];
+    }
+
+    return buildTransactions({
       sales,
       tasks,
       expenses,
@@ -207,9 +197,21 @@ const useTransactions = ({ dateFilter, expenseTypeFilter, revenueTypeFilter }) =
       taskTypes,
       cropVarieties,
       users,
-      buildTransactions,
-    ],
-  );
+      dateFilter,
+      expenseTypeFilter,
+      revenueTypeFilter,
+    });
+  }, [
+    sales,
+    tasks,
+    expenses,
+    expenseTypes,
+    revenueTypes,
+    taskTypes,
+    cropVarieties,
+    users,
+    buildTransactions,
+  ]);
 
   return transactions;
 };

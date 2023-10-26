@@ -74,9 +74,14 @@ export default function ManageExpenseTypes({ history }) {
       addLinkText={t('EXPENSE.ADD_EXPENSE.ADD_CUSTOM_EXPENSE_TYPE')}
       onAddType={onAddType}
       tileData={customTypes}
-      onTileClick={onTileClick}
       formatTileData={(data) => {
-        const { farm_id, expense_translation_key, expense_name, expense_type_id } = data;
+        const {
+          farm_id,
+          expense_translation_key,
+          expense_name,
+          expense_type_id,
+          custom_description,
+        } = data;
 
         return {
           key: expense_type_id,
@@ -84,6 +89,10 @@ export default function ManageExpenseTypes({ history }) {
           icon: icons[farm_id ? 'OTHER' : expense_translation_key],
           label: farm_id ? expense_name : t(`expense:${expense_translation_key}.EXPENSE_NAME`),
           className: labelIconStyles.boldLabelIcon,
+          description: farm_id
+            ? custom_description
+            : t(`expense:${expense_translation_key}.CUSTOM_DESCRIPTION`),
+          onClick: () => onTileClick(expense_type_id),
         };
       }}
     />

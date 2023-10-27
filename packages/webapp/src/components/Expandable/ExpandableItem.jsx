@@ -32,7 +32,7 @@ export default function ExpandableItem({
   expandedContent,
   iconClickOnly = true,
   classes = {},
-  key,
+  itemKey,
 }) {
   const onElementClick = () => {
     if (!iconClickOnly) {
@@ -46,7 +46,7 @@ export default function ExpandableItem({
     }
   };
 
-  const id = `expanded-content-${key}`;
+  const id = `expanded-content-${itemKey}`;
 
   return (
     <>

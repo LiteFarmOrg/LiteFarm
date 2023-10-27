@@ -42,7 +42,7 @@
     border-radius: 1px;
   }
 
-  &:hover {
+  &:hover:not(.expanded) {
     background-color: var(--grey200);
   }
 }

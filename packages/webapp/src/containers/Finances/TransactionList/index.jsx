@@ -16,6 +16,8 @@ import PureTransactionList from '../../../components/Finances/Transaction/Mobile
 import useTransactions from '../useTransactions';
 
 export default function TransactionList({ startDate, endDate }) {
+  const mobileView = true;
+
   const dateFilter = { startDate, endDate };
   // TODO: LF-3752
   const expenseTypeFilter = null;
@@ -23,5 +25,5 @@ export default function TransactionList({ startDate, endDate }) {
 
   const transactions = useTransactions({ dateFilter, expenseTypeFilter, revenueTypeFilter });
 
-  return <PureTransactionList data={transactions} />;
+  return <PureTransactionList data={transactions} mobileView={mobileView} />;
 }

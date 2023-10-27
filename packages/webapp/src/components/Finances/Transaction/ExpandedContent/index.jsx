@@ -36,7 +36,7 @@ const getDetailPageLink = ({ transactionType, relatedId }) => {
   }[transactionType];
 };
 
-export default function ExpandedContent({ data }) {
+export default function ExpandedContent({ data, currencySymbol, mobileView }) {
   const { typeLabel, transactionType } = data;
 
   const { t } = useTranslation();
@@ -55,7 +55,7 @@ export default function ExpandedContent({ data }) {
         {toDetailText}
         <BsChevronRight />
       </TextButton>
-      <Component data={data} />
+      <Component data={data} currencySymbol={currencySymbol} mobileView={mobileView} />
     </div>
   );
 }

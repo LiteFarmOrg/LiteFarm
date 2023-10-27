@@ -26,8 +26,6 @@ const getCropSalesColumns = (mobileView = true) => {
   return [
     {
       id: 'crop',
-      numeric: false,
-      disablePadding: true,
       label: 'Crops',
       Footer: mobileView ? null : 'DAILY TOTAL',
       format: (d) =>
@@ -44,8 +42,6 @@ const getCropSalesColumns = (mobileView = true) => {
     },
     {
       id: mobileView ? null : 'quantity',
-      numeric: true,
-      disablePadding: true,
       label: mobileView ? null : 'Quantity',
       format: (d) => (mobileView ? null : `${Math.abs(d.quantity).toFixed(2)} kg`),
       align: 'right',
@@ -56,8 +52,6 @@ const getCropSalesColumns = (mobileView = true) => {
     },
     {
       id: 'revenue',
-      numeric: true,
-      disablePadding: true,
       label: 'Revenue',
       format: (d) => {
         const sign = '$';
@@ -138,15 +132,11 @@ const getEmployeesLabourColumns = () => {
   return [
     {
       id: 'employee',
-      numeric: false,
-      disablePadding: true,
       label: 'Employee',
       Footer: 'DAILY TOTAL',
     },
     {
       id: 'time',
-      numeric: true,
-      disablePadding: true,
       label: 'Time',
       format: (d) => `${d.time} h`,
       align: 'right',
@@ -154,8 +144,6 @@ const getEmployeesLabourColumns = () => {
     },
     {
       id: 'labourCost',
-      numeric: true,
-      disablePadding: true,
       label: 'Labour cost',
       format: (d) => {
         const sign = '$';
@@ -194,8 +182,6 @@ const getTasksLabourColumns = () => {
   return [
     {
       id: 'task',
-      numeric: false,
-      disablePadding: true,
       label: 'Tasks',
       Footer: 'DAILY TOTAL',
       component: 'th',
@@ -205,8 +191,6 @@ const getTasksLabourColumns = () => {
     },
     {
       id: 'time',
-      numeric: true,
-      disablePadding: true,
       label: 'Time',
       format: (d) => `${d.time} h`,
       align: 'right',
@@ -217,8 +201,6 @@ const getTasksLabourColumns = () => {
     },
     {
       id: 'labourCost',
-      numeric: true,
-      disablePadding: true,
       label: 'Labour cost',
       format: (d) => {
         const sign = '$';

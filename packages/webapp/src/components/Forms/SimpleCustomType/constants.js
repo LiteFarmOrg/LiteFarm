@@ -14,4 +14,4 @@
  */
 
 export const CUSTOM_DESCRIPTION = 'custom_description';
-export const DESCRIPTION_MAX_CHARS = 256;
+export const DESCRIPTION_MAX_CHARS = 125;

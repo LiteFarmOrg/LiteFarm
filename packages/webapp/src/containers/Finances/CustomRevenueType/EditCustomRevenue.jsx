@@ -57,6 +57,7 @@ function EditCustomRevenue({ history, match }) {
         buttonText={t('common:SAVE')}
         pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
         inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
+        descriptionLabel={t('REVENUE.CUSTOM_REVENUE_DESCRIPTION')}
         nameFieldRegisterName={CUSTOM_REVENUE_NAME}
         typeDetails={{ name: translatedRevenueName, description: translatedCustomDescription }}
         validateInput={hookFormUniquePropertyValidation(

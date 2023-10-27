@@ -519,6 +519,7 @@
       "TITLE": "Ajouter une dépense",
       "WHICH_TYPES_TO_RECORD": "Quel type de dépense voulez-vous enregistrer\u00a0?"
     },
+    "CUSTOM_EXPENSE_DESCRIPTION": "MISSING",
     "DELETE": {
       "CONFIRM": "MISSING",
       "HEADER": "MISSING",
@@ -1469,6 +1470,7 @@
       "CUSTOM_REVENUE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING"
     },
+    "CUSTOM_REVENUE_DESCRIPTION": "MISSING",
     "DELETE": {
       "CONFIRM": "MISSING",
       "HEADER": "MISSING",

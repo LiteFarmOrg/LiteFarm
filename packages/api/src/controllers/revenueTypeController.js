@@ -26,6 +26,8 @@ const revenueTypeController = {
         const farm_id = req.headers.farm_id;
         const data = req.body;
         data.revenue_translation_key = baseController.formatTranslationKey(data.revenue_name);
+        //prevent empty strings
+        data.custom_description = data.custom_description || undefined;
 
         const record = await baseController.existsInTable(trx, RevenueTypeModel, {
           revenue_name: data.revenue_name,
@@ -42,7 +44,7 @@ const revenueTypeController = {
           } else {
             // if its deleted, them make it active
             record.deleted = false;
-            record.custom_description = data.custom_description ?? null;
+            record.custom_description = data.custom_description || undefined;
             await baseController.put(RevenueTypeModel, record.revenue_type_id, record, req, {
               trx,
             });
@@ -151,7 +153,7 @@ const revenueTypeController = {
       const farm_id = req.headers.farm_id;
       const data = {
         revenue_name: req.body.revenue_name,
-        custom_description: req.body.custom_description ?? undefined,
+        custom_description: req.body.custom_description || undefined,
       };
 
       try {

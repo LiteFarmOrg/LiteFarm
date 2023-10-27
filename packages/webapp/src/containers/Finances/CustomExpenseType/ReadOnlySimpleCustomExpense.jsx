@@ -56,6 +56,7 @@ function ReadOnlyCustomExpense({ history, match }) {
         buttonText={t('common:EDIT')}
         pageTitle={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_TYPE')}
         inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
+        descriptionLabel={t('EXPENSE.CUSTOM_EXPENSE_DESCRIPTION')}
         nameFieldRegisterName={CUSTOM_EXPENSE_NAME}
         typeDetails={{ name: translatedExpenseName, description: translatedCustomDescription }}
         onRetire={onRetire}

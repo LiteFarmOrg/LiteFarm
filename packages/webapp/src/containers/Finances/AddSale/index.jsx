@@ -55,7 +55,10 @@ function AddSale() {
     <HookFormPersistProvider>
       <GeneralRevenue
         onSubmit={onSubmit}
-        title={t('common:ADD_ITEM', { itemName: translatedRevenueName })}
+        title={t('common:ADD_ITEM', {
+          itemName: translatedRevenueName,
+          interpolation: { escapeValue: false },
+        })}
         currency={useCurrencySymbol()}
         useCustomFormChildren={useCropSaleInputs}
         view={'add'}

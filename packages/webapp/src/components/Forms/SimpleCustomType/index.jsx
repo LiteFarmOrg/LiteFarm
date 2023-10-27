@@ -19,6 +19,7 @@ import { useForm } from 'react-hook-form';
 import Form from '../../Form';
 import PageTitle from '../../PageTitle/v2';
 import Input, { getInputErrors } from '../../Form/Input';
+import InputAutoSize from '../../Form/InputAutoSize';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import { IconLink } from '../../Typography';
@@ -60,6 +61,7 @@ const PureSimpleCustomType = ({
   buttonText,
   pageTitle,
   inputLabel,
+  descriptionLabel,
   nameFieldRegisterName,
   typeDetails,
   onRetire = () => {},
@@ -93,7 +95,7 @@ const PureSimpleCustomType = ({
   const readonly = view === 'read-only';
   const disabledInput = readonly;
   const disabledButton = (!isValid || !isDirty) && !readonly;
-  useHookFormPersist();
+  const { historyCancel } = useHookFormPersist();
 
   // Separating these into separate vs prop rendered nodes prevents form submission onClick for noSubmitButton
   const noSubmitButton = (
@@ -123,7 +125,12 @@ const PureSimpleCustomType = ({
         </>
       }
     >
-      <PageTitle style={{ marginBottom: '20px' }} onGoBack={handleGoBack} title={pageTitle} />
+      <PageTitle
+        style={{ marginBottom: '20px' }}
+        onGoBack={handleGoBack}
+        title={pageTitle}
+        onCancel={historyCancel}
+      />
       <Input
         style={{ marginBottom: '20px' }}
         label={inputLabel}
@@ -136,17 +143,22 @@ const PureSimpleCustomType = ({
         errors={getInputErrors(errors, nameFieldRegisterName)}
         optional={false}
         disabled={disabledInput}
+        placeholder={inputLabel}
       />
-      <Input
+      <InputAutoSize
         style={{ marginBottom: '20px' }}
-        label={t('common:DESCRIPTION')}
+        label={descriptionLabel}
         hookFormRegister={register(CUSTOM_DESCRIPTION, {
           maxLength: hookFormMaxCharsValidation(DESCRIPTION_MAX_CHARS),
         })}
         name={CUSTOM_DESCRIPTION}
-        errors={getInputErrors(errors, CUSTOM_DESCRIPTION)}
+        errors={errors[CUSTOM_DESCRIPTION]?.message}
         optional={true}
         disabled={disabledInput}
+        minRows={3}
+        placeholder={`${descriptionLabel} - ${t('common:MAX_CHARS', {
+          value: DESCRIPTION_MAX_CHARS,
+        })}`}
       />
       {customFormFields && customFormFields({ control, watch })}
       <div style={{ marginTop: 'auto' }}>

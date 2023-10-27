@@ -38,7 +38,7 @@ const farmExpenseTypeController = {
           } else {
             // if its deleted, them make it active
             record.deleted = false;
-            record.custom_description = data.custom_description ?? null;
+            record.custom_description = data.custom_description || undefined;
             await baseController.put(ExpenseTypeModel, record.expense_type_id, record, req, {
               trx,
             });
@@ -46,6 +46,8 @@ const farmExpenseTypeController = {
             res.status(201).send(record);
           }
         } else {
+          //prevent empty strings
+          data.custom_description = data.custom_description || undefined;
           const result = await baseController.postWithResponse(ExpenseTypeModel, data, req, {
             trx,
           });
@@ -157,6 +159,8 @@ const farmExpenseTypeController = {
         }
 
         data.expense_translation_key = baseController.formatTranslationKey(data.expense_name);
+        //prevent empty strings
+        data.custom_description = data.custom_description || undefined;
 
         const result = await baseController.patch(ExpenseTypeModel, expense_type_id, data, req, {
           trx,

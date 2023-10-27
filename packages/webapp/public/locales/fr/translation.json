@@ -848,6 +848,8 @@
       "REVENUE_TYPES": "MISSING"
     },
     "TRANSACTION": {
+      "CROPS": "MISSING",
+      "DAILY_TOTAL": "MISSING",
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
       "VIEW_DETAILS": "MISSING"

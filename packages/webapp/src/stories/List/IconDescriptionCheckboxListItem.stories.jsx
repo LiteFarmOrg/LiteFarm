@@ -49,7 +49,8 @@ export const Selected = {
   },
 };
 
-export const MaxCharText = {
+//Max chars currently sits at 100 for label and 125 on SimpleCustomType form
+export const SimpleCustomTypeMaxCharText = {
   args: {
     actionIcon: 'checkbox',
     listItemKey: 'key',
@@ -59,7 +60,7 @@ export const MaxCharText = {
     onClick: () => console.log('clicked!'),
     selected: false,
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut ornare eros. Nunc quis faucibus libero. Phasellus sodales porta auctor. Nulla feugiat ligula enim, sit amet posuere ex vestibulum eget. Praesent non augue vel ante lacinia sodales in et morbi.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu urna laoreet, hendrerit tortor a, cursus mauris accumsan.',
   },
 };
 

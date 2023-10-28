@@ -144,7 +144,7 @@ const expenseTypes = [
 export const Expense = {
   args: {
     title: 'Add Expense',
-    leadText: 'Which types of expenses would you like to record?',
+    leadText: 'Pick your expense types below:',
     cancelTitle: 'expense creation',
     types: expenseTypes,
     onContinue: () => console.log('CONTINUE'),

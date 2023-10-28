@@ -517,7 +517,7 @@
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Manage custom expense types",
       "NEW_EXPENSE_ITEM": "New expense item",
       "TITLE": "Add expense",
-      "WHICH_TYPES_TO_RECORD": "Which types of expenses would you like to record?"
+      "WHICH_TYPES_TO_RECORD": "Pick your expense types below:"
     },
     "DELETE": {
       "CONFIRM": "Confirm deletion",
@@ -1510,7 +1510,7 @@
         "TOTAL": "Total"
       },
       "TITLE": "Add new sale",
-      "WHICH_TYPE_TO_RECORD": "What type of revenue would you like to record?"
+      "WHICH_TYPE_TO_RECORD": "Pick your revenue type below:"
     },
     "DETAIL": {
       "ACTION": "Action",

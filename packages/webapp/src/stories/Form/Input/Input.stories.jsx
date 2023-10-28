@@ -165,6 +165,13 @@ SearchBar.args = {
   isSearchBar: true,
 };
 
+/* Note: the conditional rendering of the clear search cross (based on the input ref) does not work in the Storybook UI but works in app */
+export const SearchBarWithText = Template.bind({});
+SearchBarWithText.args = {
+  isSearchBar: true,
+  defaultValue: 'crop',
+};
+
 export const Password = Template.bind({});
 Password.args = {
   label: 'Password',

@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +24,9 @@ import Button from '../../Form/Button';
 import List from '../../List';
 import styles from './styles.module.scss';
 import { CantFindCustomType } from './CantFindCustomType';
+import useSearchFilter from '../../../containers/hooks/useSearchFilter';
+import { NoSearchResults } from '../../Card/NoSearchResults';
+import PureSearchbarAndFilter from '../../PopupFilter/PureSearchbarAndFilter';
 
 const FallbackWrapper = ({ children }) => children;
 
@@ -45,10 +49,20 @@ export default function PureFinanceTypeSelection({
   Wrapper = FallbackWrapper,
   customTypeMessages = {},
   miscellaneousConfig,
+  getSearchableString,
+  searchPlaceholderText = '',
 }) {
   const { t } = useTranslation();
   const { getValues, setValue } = useForm({ defaultValues: persistedFormData });
   const { historyCancel } = useHookFormPersist(getValues);
+
+  const [filteredTypes, filter, setFilter] = useSearchFilter(types, getSearchableString);
+
+  const onFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+
+  const hasSearchResults = filteredTypes.length !== 0;
 
   return (
     <Wrapper>
@@ -69,10 +83,21 @@ export default function PureFinanceTypeSelection({
           value={progressValue}
           style={{ marginBottom: '24px' }}
         />
-        <Main className={styles.leadText}>{leadText}</Main>
+        <PureSearchbarAndFilter
+          className={styles.searchBar}
+          value={filter}
+          onChange={onFilterChange}
+          disableFilter={true}
+          placeholderText={searchPlaceholderText}
+        />
+        {hasSearchResults ? (
+          <Main className={styles.leadText}>{leadText}</Main>
+        ) : (
+          <NoSearchResults className={styles.noResultsCard} searchTerm={filter} />
+        )}
         <List
           listItemType={listItemType}
-          listItemData={types}
+          listItemData={filteredTypes}
           formatListItemData={
             getFormatTileDataFunc ? getFormatTileDataFunc(setValue) : formatTileData
           }
@@ -90,7 +115,7 @@ export default function PureFinanceTypeSelection({
   );
 }
 
-PureFinanceTypeSelection.prototype = {
+PureFinanceTypeSelection.propTypes = {
   title: PropTypes.string,
   types: PropTypes.array,
   leadText: PropTypes.string,
@@ -113,7 +138,9 @@ PureFinanceTypeSelection.prototype = {
     addRemove: PropTypes.func,
     selected: PropTypes.bool,
   }),
+  getSearchableString: PropTypes.func,
+  searchPlaceholderText: PropTypes.string,
   /** used for spotlight */
   iconLinkId: PropTypes.string,
-  Wrapper: PropTypes.node,
+  Wrapper: PropTypes.func,
 };

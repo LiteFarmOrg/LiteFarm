@@ -1588,6 +1588,12 @@
       "VALUE": "Value"
     }
   },
+  "SEARCH": {
+    "CLEAR_TERMS": "Why not try a different search to discover new possibilities?",
+    "CLEAR_TERMS_AND_FILTERS": "Why not explore different terms or simply clear the filters to discover new possibilities?",
+    "NO_RESULTS_FOR": "Sorry, we couldn't find any results for your search term <1>'{{searchTerm}}'</1>",
+    "ZERO": "0 results"
+  },
   "SENSOR": {
     "BRAND": "Brand",
     "BRAND_HELPTEXT": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",

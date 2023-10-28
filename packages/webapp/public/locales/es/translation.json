@@ -1589,6 +1589,12 @@
       "VALUE": "Valor"
     }
   },
+  "SEARCH": {
+    "CLEAR_TERMS": "MISSING",
+    "CLEAR_TERMS_AND_FILTERS": "MISSING",
+    "NO_RESULTS_FOR": "MISSING",
+    "ZERO": "MISSING"
+  },
   "SENSOR": {
     "BRAND": "Marca",
     "BRAND_HELPTEXT": "A continuación se muestran las marcas con las que LiteFarm puede integrarse. Si ya no desea utilizar esta marca de sensores, retire este sensor.",

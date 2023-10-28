@@ -3,6 +3,7 @@ import Input from '../../Form/Input';
 import { makeStyles } from '@mui/styles';
 import { colors } from '../../../assets/theme';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 
 const useStyles = makeStyles({
   container: {
@@ -26,12 +27,6 @@ const useStyles = makeStyles({
     color: colors.grey600,
     cursor: 'pointer',
   },
-  pillContainer: {
-    paddingBottom: '16px',
-    flexWrap: 'wrap',
-    display: 'flex',
-    gap: '16px',
-  },
 });
 
 export default function PureSearchbarAndFilter({
@@ -40,22 +35,24 @@ export default function PureSearchbarAndFilter({
   onChange,
   isFilterActive,
   disableFilter = false,
+  placeholderText,
+  className = '',
 }) {
   const classes = useStyles();
   return (
     <>
-      <div className={classes.container}>
+      <div className={clsx(classes.container, className)}>
         <Input
-          data-cy="crops-search"
           isSearchBar
           classes={{ container: { flexGrow: 1 } }}
           value={value}
           onChange={onChange}
+          placeholder={placeholderText}
         />
         {!disableFilter && (
           <>
             {isFilterActive && <div className={classes.circle} />}
-            <FiFilter data-cy="tasks-filter" className={classes.filter} onClick={onFilterOpen} />
+            <FiFilter className={classes.filter} onClick={onFilterOpen} />
           </>
         )}
       </div>
@@ -69,4 +66,6 @@ PureSearchbarAndFilter.propTypes = {
   onChange: PropTypes.func,
   isFilterActive: PropTypes.bool,
   disableFilter: PropTypes.bool,
+  placeholderText: PropTypes.string, // if not supplied, isSearchbar default is common:SEARCH
+  className: PropTypes.string,
 };

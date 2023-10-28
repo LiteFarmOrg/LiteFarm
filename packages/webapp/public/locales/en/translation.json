@@ -845,6 +845,10 @@
     },
     "MANAGE_CUSTOM_TYPE": "Manage custom type",
     "REVENUE": "Revenue",
+    "SEARCH": {
+      "EXPENSE_TYPES": "Search expense type",
+      "REVENUE_TYPES": "Search revenue type"
+    },
     "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",
     "WHOLE_FARM_REVENUE": "Whole farm revenue"
   },

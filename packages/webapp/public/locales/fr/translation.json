@@ -845,6 +845,10 @@
     },
     "MANAGE_CUSTOM_TYPE": "MISSING",
     "REVENUE": "Revenu",
+    "SEARCH": {
+      "EXPENSE_TYPES": "MISSING",
+      "REVENUE_TYPES": "MISSING"
+    },
     "VIEW_WITHIN_DATE_RANGE": "Voir les revenus dans cette plage de dates",
     "WHOLE_FARM_REVENUE": "Revenu total de la ferme"
   },

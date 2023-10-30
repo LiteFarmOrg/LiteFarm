@@ -42,7 +42,7 @@ const Rows = ({ t, data, currencySymbol, mobileView }) => {
   const rows = [];
   let groupDate = null;
 
-  data.forEach((values, index) => {
+  data.forEach((values) => {
     const itemDate = new Date(values.date);
 
     if (!isSameDay(groupDate, itemDate)) {
@@ -54,16 +54,15 @@ const Rows = ({ t, data, currencySymbol, mobileView }) => {
       );
     }
 
-    const isExpanded = expandedIds.includes(index);
+    const { transactionType, relatedId, date } = values;
+    const key = `${transactionType}+${relatedId || date}`;
+    const isExpanded = expandedIds.includes(key);
 
     rows.push(
-      <div
-        key={index}
-        className={clsx(styles.expandableItemWrapper, isExpanded && styles.expanded)}
-      >
+      <div key={key} className={clsx(styles.expandableItemWrapper, isExpanded && styles.expanded)}>
         <ExpandableItem
           isExpanded={isExpanded}
-          onClick={() => toggleExpanded(index)}
+          onClick={() => toggleExpanded(key)}
           mainContent={<MainContent t={t} {...values} currencySymbol={currencySymbol} />}
           expandedContent={
             <ExpandedContent
@@ -74,7 +73,7 @@ const Rows = ({ t, data, currencySymbol, mobileView }) => {
           }
           iconClickOnly={false}
           classes={{ mainContentWithIcon: styles.expandableItem }}
-          itemKey={`transaction-${index}`}
+          itemKey={`transaction-${key}`}
         />
       </div>,
     );

@@ -8,13 +8,19 @@ const CardsCarrousel = ({ cards }) => {
   const [activeCardId, setActiveCardId] = useState(cards[0]?.id);
   const [sortedCards, setSortedCards] = useState(cards);
 
+  const sortCards = (selectedCard) => {
+    return [selectedCard, ...cards.filter((card) => card.id !== selectedCard.id)];
+  };
+
   useEffect(() => {
-    setSortedCards(cards);
+    const selectedCard = cards.find((card) => card.id === activeCardId);
+    const newSortedCards = sortCards(selectedCard);
+    setSortedCards(newSortedCards);
   }, [cards]);
 
   const onCardClick = (selectedCard) => {
-    setSortedCards([selectedCard, ...sortedCards.filter((card) => card.id !== selectedCard.id)]);
     setActiveCardId(selectedCard.id);
+    setSortedCards(sortCards(selectedCard));
   };
 
   return (

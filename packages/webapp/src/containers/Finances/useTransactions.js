@@ -211,6 +211,9 @@ const useTransactions = ({ dateFilter, expenseTypeFilter, revenueTypeFilter }) =
     cropVarieties,
     users,
     buildTransactions,
+    dateFilter,
+    expenseTypeFilter,
+    revenueTypeFilter,
   ]);
 
   return transactions;

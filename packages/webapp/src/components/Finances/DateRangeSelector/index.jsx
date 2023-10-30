@@ -19,9 +19,7 @@ import styles from './styles.module.scss';
 import DateRangeSelector from '../../DateRangeSelector';
 import { setDateRange } from '../../../containers/Finances/actions';
 import moment from 'moment';
-import InfoBoxComponent from '../../InfoBoxComponent';
 import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
-import { Semibold } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
 import { dateRangeOptions } from '../../DateRangeSelector/constants';
@@ -72,19 +70,6 @@ const FinanceDateRangeSelector = ({ hideTooltip }) => {
 
   return (
     <div className={styles.rangeContainer}>
-      <div className={styles.titleContainer}>
-        <Semibold style={{ textAlign: 'left', marginBottom: '20px' }}>
-          {t('DATE_RANGE.TITLE')}
-        </Semibold>
-        {!hideTooltip && (
-          <InfoBoxComponent
-            customStyle={{ float: 'right' }}
-            title={t('DATE_RANGE.HELP_TITLE')}
-            body={t('DATE_RANGE.HELP_BODY')}
-          />
-        )}
-      </div>
-
       <DateRangeSelector
         defaultDateRangeOptionValue={initialOption}
         defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}

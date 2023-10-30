@@ -16,16 +16,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
-import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { expenseSelector, salesSelector } from './selectors';
 import { allRevenueTypesSelector } from '../revenueTypeSlice';
 import { getFarmExpenseType, getExpense, getSales, setSelectedExpenseTypes } from './actions';
 import { calcOtherExpense, calcTotalLabour, calcActualRevenue } from './util';
 import Moment from 'moment';
-import { roundToTwoDecimal } from '../../util';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
-import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
 import { managementPlansSelector } from '../managementPlanSlice';
 import { getManagementPlansAndTasks } from '../saga';
@@ -94,19 +91,18 @@ const Finances = () => {
           }
         });
     }
-    return parseFloat(totalRevenue).toFixed(2);
+    return parseFloat(totalRevenue).toFixed(0);
   };
 
-  const totalRevenue = calcActualRevenue(sales, startDate, endDate, allRevenueTypes).toFixed(2);
+  const totalRevenue = calcActualRevenue(sales, startDate, endDate, allRevenueTypes).toFixed(0);
   const estimatedRevenue = getEstimatedRevenue(managementPlans);
-  const labourExpense = calcTotalLabour(tasks, startDate, endDate).toFixed(2);
-  const otherExpense = calcOtherExpense(expenses, startDate, endDate).toFixed(2);
-  const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(2);
+  const labourExpense = calcTotalLabour(tasks, startDate, endDate).toFixed(0);
+  const otherExpense = calcOtherExpense(expenses, startDate, endDate).toFixed(0);
+  const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(0);
 
   return (
     <div className={styles.financesContainer}>
       <Title style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.TITLE')}</Title>
-      <hr />
       <Semibold style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.ACTION')}</Semibold>
       <div className={styles.buttonContainer}>
         <Button
@@ -145,16 +141,17 @@ const Finances = () => {
       >
         Download Report
       </Button>
-      <hr />
       <DateRangeSelector />
-      <FinancesCarrousel
-        totalExpense={totalExpense}
-        totalRevenue={totalRevenue}
-        labourExpense={labourExpense}
-        otherExpense={otherExpense}
-        estimatedRevenue={estimatedRevenue}
-        currencySymbol={currencySymbol}
-      />
+      <div className={styles.carrouselContainer}>
+        <FinancesCarrousel
+          totalExpense={totalExpense}
+          totalRevenue={totalRevenue}
+          labourExpense={labourExpense}
+          otherExpense={otherExpense}
+          estimatedRevenue={estimatedRevenue}
+          currencySymbol={currencySymbol}
+        />
+      </div>
     </div>
   );
 };

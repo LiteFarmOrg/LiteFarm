@@ -1,5 +1,7 @@
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import { useTranslation } from 'react-i18next';
+import { BsChevronRight } from 'react-icons/bs';
 import CardsCarrousel from '../../CardsCarrousel';
 import { ReactComponent as ProfitLossIconDark } from '../../../assets/images/finance/Profit-loss-icn-dark.svg';
 import { ReactComponent as ProfitLossIconLight } from '../../../assets/images/finance/Profit-loss-icn-light.svg';
@@ -7,7 +9,6 @@ import { ReactComponent as ExpenseIcon } from '../../../assets/images/finance/Ex
 import { ReactComponent as CropIcon } from '../../../assets/images/finance/Crop-icn.svg';
 import styles from './styles.module.scss';
 import { Semibold, Text } from '../../Typography';
-import { BsChevronRight } from 'react-icons/bs';
 import clsx from 'clsx';
 
 ChartJS.register(ArcElement, Tooltip);
@@ -30,6 +31,8 @@ const FinancesCarrousel = ({
   estimatedRevenue,
   currencySymbol,
 }) => {
+  const { t } = useTranslation();
+
   const expenseChartData = {
     labels: ['Total other', 'Total labour'],
     datasets: [
@@ -39,6 +42,8 @@ const FinancesCarrousel = ({
       },
     ],
   };
+
+  const profitLoss = totalRevenue - totalExpense;
 
   const cards = [
     {
@@ -70,12 +75,15 @@ const FinancesCarrousel = ({
             <ProfitLossIconLight />
             <Text className={styles.profitLossTitle}>Profit / Loss</Text>
             <p className={clsx([styles.stat, styles.profitLossStat])}>
+              {profitLoss < 0 ? '-' : ''}
               {currencySymbol}
-              {totalRevenue - totalExpense}
+              {Math.abs(profitLoss)}
             </p>
           </div>
         </div>
       ),
+      note: t('SALE.FINANCES.CARROUSEL_TEXT.GENERIC'),
+      noteColor: '#72B8B0',
     },
     {
       id: 'expenses',
@@ -125,6 +133,8 @@ const FinancesCarrousel = ({
           </div>
         </div>
       ),
+      note: t('SALE.FINANCES.CARROUSEL_TEXT.GENERIC'),
+      noteColor: '#AA5F04',
     },
     {
       id: 'crop-revenue',
@@ -145,6 +155,8 @@ const FinancesCarrousel = ({
           </div>
         </div>
       ),
+      note: t('SALE.FINANCES.CARROUSEL_TEXT.ESTIMATED_REVENUE'),
+      noteColor: '#72B8B0',
     },
   ];
 

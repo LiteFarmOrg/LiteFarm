@@ -26,10 +26,12 @@ import {
 
 import { combineForms } from 'react-redux-form';
 import { combineReducers } from 'redux';
+import { dateRangeOptions } from '../../components/DateRangeSelector/constants';
 
 const initialState = {
   sales: null,
   cropSales: null,
+  date_range: { option: dateRangeOptions.YEAR_TO_DATE },
 };
 
 function financeReducer(state = initialState, action) {
@@ -64,7 +66,7 @@ function financeReducer(state = initialState, action) {
       });
     case SET_DATE_RANGE:
       return Object.assign({}, state, {
-        date_range: action.rangeObj,
+        date_range: { ...state.date_range, ...action.rangeObj },
       });
     default:
       return state;

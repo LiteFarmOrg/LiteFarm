@@ -1,4 +1,5 @@
 {
+  "/>,": "MISSING",
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",
     "DISABLE_GEO_LOCATION": "Location services must be enabled to find your current location.",
@@ -1545,9 +1546,10 @@
       "BALANCE_EXPLANATION": "We compute a real-time balance (‘cost of production’) for each crop on your farm. This is a simple equation of expenses minus revenue.  Expenses for each crop are calculated from two parts, one part is the labour expenses from hours logged for farm activities, the other part is from the other expenses logged for the whole farm. Where expenses are logged for the whole farm we equally divide them amongst the crops on the farm. Unallocated means that a shift(s) has been submitted for a field when there is not a crop yet on that field. This shift(s) will be assigned to crops as they are added to that field within the financial reporting time window.",
       "BALANCE_FOR_FARM": "Balance (Whole Farm)",
       "CARROUSEL_TEXT": {
-        "GENERIC": "*These numbers are based on your date / filter selection",
-        "ESTIMATED_REVENUE": "This number (static) reflects your future estimated harvest"
+        "ESTIMATED_REVENUE": "This number (static) reflects your future estimated harvest",
+        "GENERIC": "*These numbers are based on your date / filter selection"
       },
+      "ESTIMATED_HARVEST_REVENUE": "Estimated harvest revenue",
       "EXPENSES": "Expenses",
       "FINANCE_HELP": "Finance Help",
       "LABOUR_LABEL": "Labour",
@@ -1555,9 +1557,15 @@
         "BODY": "Here you can add, modify, or retire expense types personalized to your farm.",
         "TITLE": "Manage custom expense types"
       },
+      "OTHER_EXPENSES": "Other expenses",
       "OTHER_EXPENSES_LABEL": "Other Expenses",
+      "PROFIT_LOSS": "Profit / Loss",
       "REVENUE": "Revenue",
       "TITLE": "Finances",
+      "TOTAL_EXPENSES": "Total expenses",
+      "TOTAL_LABOUR": "Total labour",
+      "TOTAL_OTHER": "Total other",
+      "TOTAL_REVENUE": "Total revenue",
       "UNALLOCATED_CROP": "Unallocated",
       "UNALLOCATED_TIP": "What is unallocated?"
     },

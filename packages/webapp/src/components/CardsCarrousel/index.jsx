@@ -59,6 +59,7 @@ const CardsCarrousel = ({ cards }) => {
           ) : (
             <TextButton
               key={card.id}
+              aria-label={card.label}
               onClick={() => onCardClick(card)}
               className={clsx([styles.card, styles.inactiveCard])}
               style={{
@@ -84,6 +85,7 @@ CardsCarrousel.propTypes = {
   cards: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
       inactiveBackgroundColor: PropTypes.string,
       inactiveIcon: PropTypes.node,
       activeContent: PropTypes.node,

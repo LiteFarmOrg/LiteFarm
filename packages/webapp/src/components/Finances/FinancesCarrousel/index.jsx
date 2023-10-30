@@ -66,8 +66,9 @@ const FinancesCarrousel = ({
   const cards = [
     {
       id: 'profit-loss',
+      label: t('SALE.FINANCES.PROFIT_LOSS'),
       inactiveBackgroundColor: 'var(--teal700)',
-      inactiveIcon: <ProfitLossIconDark />,
+      inactiveIcon: <ProfitLossIconDark role="img" aria-label={t('SALE.FINANCES.PROFIT_LOSS')} />,
       activeContent: (
         <div className={clsx([styles.cardContent, styles.profitLossCardContent])}>
           <div className={styles.revenueExpensesContainer}>
@@ -76,7 +77,7 @@ const FinancesCarrousel = ({
               onClick={() => history.push('/finances/actual_revenue')}
             >
               <div>
-                <Text className={styles.revenueTitle}>Total revenue</Text>
+                <Text className={styles.revenueTitle}>{t('SALE.FINANCES.TOTAL_REVENUE')}</Text>
                 <p className={clsx([styles.stat, styles.revenueStat])}>
                   {currencySymbol}
                   {totalRevenue}
@@ -85,7 +86,7 @@ const FinancesCarrousel = ({
               <BsChevronRight />
             </TextButton>
             <div className={styles.expenseContainer}>
-              <Text className={styles.expenseTitle}>Total expenses</Text>
+              <Text className={styles.expenseTitle}>{t('SALE.FINANCES.TOTAL_EXPENSES')}</Text>
               <p className={clsx([styles.stat, styles.expenseStat])}>
                 {currencySymbol}
                 {totalExpense}
@@ -93,8 +94,8 @@ const FinancesCarrousel = ({
             </div>
           </div>
           <div className={styles.profitLossSummaryContainer}>
-            <ProfitLossIconLight />
-            <Text className={styles.profitLossTitle}>Profit / Loss</Text>
+            <ProfitLossIconLight role="img" aria-label={t('SALE.FINANCES.PROFIT_LOSS')} />
+            <Text className={styles.profitLossTitle}>{t('SALE.FINANCES.PROFIT_LOSS')}</Text>
             <p className={clsx([styles.stat, styles.profitLossStat])}>
               {profitLoss < 0 ? '-' : ''}
               {currencySymbol}
@@ -108,12 +109,15 @@ const FinancesCarrousel = ({
     },
     {
       id: 'expenses',
+      label: t('SALE.FINANCES.EXPENSES'),
       inactiveBackgroundColor: 'var(--white)',
-      inactiveIcon: <ExpenseIcon />,
+      inactiveIcon: <ExpenseIcon aria-label={t('SALE.FINANCES.EXPENSES')} />,
       activeContent: (
         <div className={styles.cardContent}>
           <div className={styles.totalExpensesContainer}>
-            <Semibold className={styles.totalExpensesTitle}>Total expenses</Semibold>
+            <Semibold className={styles.totalExpensesTitle}>
+              {t('SALE.FINANCES.TOTAL_EXPENSES')}
+            </Semibold>
             <div className={styles.expensesChartContainer}>
               <div className={styles.expensesChart}>
                 <Doughnut
@@ -136,7 +140,9 @@ const FinancesCarrousel = ({
               onClick={() => history.push('/labour')}
             >
               <div>
-                <Text className={styles.labourExpensesTitle}>Total labour</Text>
+                <Text className={styles.labourExpensesTitle}>
+                  {t('SALE.FINANCES.TOTAL_LABOUR')}
+                </Text>
                 <p className={clsx([styles.stat, styles.labourExpensesStat])}>
                   {currencySymbol}
                   {labourExpense}
@@ -149,7 +155,7 @@ const FinancesCarrousel = ({
               onClick={() => history.push('/other_expense')}
             >
               <div>
-                <Text className={styles.otherExpensesTitle}>Total other</Text>
+                <Text className={styles.otherExpensesTitle}>{t('SALE.FINANCES.TOTAL_OTHER')}</Text>
                 <p className={clsx([styles.stat, styles.otherExpensesStat])}>
                   {currencySymbol}
                   {otherExpense}
@@ -161,21 +167,31 @@ const FinancesCarrousel = ({
         </div>
       ),
       note: t('SALE.FINANCES.CARROUSEL_TEXT.GENERIC'),
-      noteColor: '#AA5F04',
+      noteColor: 'var(--brown700)',
     },
     {
       id: 'crop-revenue',
+      label: t('SALE.FINANCES.ESTIMATED_HARVEST_REVENUE'),
       inactiveBackgroundColor: 'var(--green400)',
-      inactiveIcon: <CropIcon />,
+      inactiveIcon: (
+        <CropIcon role="img" aria-label={t('SALE.FINANCES.ESTIMATED_HARVEST_REVENUE')} />
+      ),
       activeContent: (
         <div className={clsx([styles.cardContent, styles.estimatedRevenueCardContent])}>
-          <CropIcon width={56} height={56} />
+          <CropIcon
+            width={56}
+            height={56}
+            role="img"
+            aria-label={t('SALE.FINANCES.ESTIMATED_HARVEST_REVENUE')}
+          />
           <TextButton
             className={styles.estimatedRevenueContainer}
             onClick={() => history.push('/estimated_revenue')}
           >
             <div>
-              <Text className={styles.estimatedRevenueTitle}>Estimated harvest revenue</Text>
+              <Text className={styles.estimatedRevenueTitle}>
+                {t('SALE.FINANCES.ESTIMATED_HARVEST_REVENUE')}
+              </Text>
               <p className={styles.stat}>
                 {currencySymbol}
                 {estimatedRevenue}

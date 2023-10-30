@@ -234,11 +234,11 @@
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "Il semblerait que LiteFarm n'exporte pas actuellement au format de votre certificateur. Vous pouvez toujours exporter vos documents mais votre certificateur peut avoir besoin d'informations supplémentaires. Nous vous les enverrons à\u00a0:",
-    "EMAIL": "Adresse courriel",
-    "EMAIL_ERROR": "Adresse courriel valide requise",
+    "EMAIL": "Courriel",
+    "EMAIL_ERROR": "Courriel valide requis",
     "EXPORT": "Exporter",
     "EXPORT_DOCS": "Exporter les documents de certification",
-    "EXPORT_DOWNLOADING_MESSAGE": "Téléchargement de vos dossiers de certification biologique ...",
+    "EXPORT_DOWNLOADING_MESSAGE": "Téléchargement de vos documents de certification biologique ...",
     "EXPORT_FILE_TITLE": "Certification biologique",
     "FILES_ARE_READY": "Vos fichiers de certification sont maintenant prêts à être exportés. Nous vous les enverrons à\u00a0:",
     "FLOW_TITLE": "export des documents de certification",
@@ -656,7 +656,7 @@
       "TITLE": "Ajouter une clôture"
     },
     "FIELD": {
-      "DATE": "Date de transition admissible",
+      "DATE": "Date de début de transition",
       "EDIT_TITLE": "Modifier le champ",
       "FIELD_TYPE": "De quel type de champ s'agit-il\u00a0?",
       "NAME": "Nom du champ",
@@ -666,7 +666,7 @@
       "TRANSITIONING": "Transition"
     },
     "GARDEN": {
-      "DATE": "Date de transition admissible",
+      "DATE": "Date de début de transition",
       "EDIT_TITLE": "Modifier le jardin",
       "GARDEN_TYPE": "Quel type de jardin est-ce\u00a0?",
       "NAME": "Nom du jardin",
@@ -682,7 +682,7 @@
     },
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Y a-t-il un enrichissement en CO₂\u00a0?",
-      "DATE": "Date de transition admissible",
+      "DATE": "Date de début de transition",
       "EDIT_TITLE": "Modifier la serre",
       "GREENHOUSE_HEATED": "La serre est-elle chauffée\u00a0?",
       "GREENHOUSE_TYPE": "De quel type de serre s'agit-il\u00a0?",
@@ -1486,7 +1486,7 @@
     "FARM_EO": "Agent de vulgarisation",
     "FARM_MANAGER": "Gestionnaire de ferme",
     "FARM_OWNER": "Propriétaire de la ferme",
-    "IS_OWNER_OPERATED": "Ce propriétaire de la ferme est-il employé\u00a0?",
+    "IS_OWNER_OPERATED": "Cette ferme est-elle gérée par le propriétaire \u00a0?",
     "TITLE": "Quel est votre rôle à la ferme\u00a0?"
   },
   "SALE": {

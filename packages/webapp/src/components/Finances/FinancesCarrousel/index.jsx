@@ -1,8 +1,23 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
 import { BsChevronRight } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import CardsCarrousel from '../../CardsCarrousel';
 import { ReactComponent as ProfitLossIconDark } from '../../../assets/images/finance/Profit-loss-icn-dark.svg';
 import { ReactComponent as ProfitLossIconLight } from '../../../assets/images/finance/Profit-loss-icn-light.svg';
@@ -176,6 +191,16 @@ const FinancesCarrousel = ({
   ];
 
   return <CardsCarrousel cards={cards} />;
+};
+
+FinancesCarrousel.propTypes = {
+  totalExpense: PropTypes.string.isRequired,
+  totalRevenue: PropTypes.string.isRequired,
+  labourExpense: PropTypes.string.isRequired,
+  otherExpense: PropTypes.string.isRequired,
+  estimatedRevenue: PropTypes.string.isRequired,
+  currencySymbol: PropTypes.string.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default FinancesCarrousel;

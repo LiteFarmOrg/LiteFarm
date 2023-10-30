@@ -39,8 +39,8 @@ export default function PureFinanceTypeSelection({
   onGoBack,
   onGoToManageCustomType,
   isTypeSelected,
-  formatTileData,
-  getFormatTileDataFunc,
+  formatListItemData,
+  getFormatListItemDataFunc,
   listItemType,
   progressValue,
   useHookFormPersist,
@@ -99,7 +99,7 @@ export default function PureFinanceTypeSelection({
           listItemType={listItemType}
           listItemData={filteredTypes}
           formatListItemData={
-            getFormatTileDataFunc ? getFormatTileDataFunc(setValue) : formatTileData
+            getFormatListItemDataFunc ? getFormatListItemDataFunc(setValue) : formatListItemData
           }
         />
         <div className={styles.cantFindWrapper}>
@@ -124,9 +124,9 @@ PureFinanceTypeSelection.propTypes = {
   onGoBack: PropTypes.func,
   onGoToManageCustomType: PropTypes.func,
   isTypeSelected: PropTypes.bool,
-  formatTileData: PropTypes.func,
+  formatListItemData: PropTypes.func,
   /** takes setValue returned from useForm */
-  getFormatTileDataFunc: PropTypes.func,
+  getFormatListItemDataFunc: PropTypes.func,
   progressValue: PropTypes.number,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,

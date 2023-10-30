@@ -33,7 +33,7 @@ export default function ManageExpenseTypes({ history }) {
   const dispatch = useDispatch();
   const customTypes = useCustomExpenseTypeTileContents();
 
-  const onTileClick = (typeId) => {
+  const onItemClick = (typeId) => {
     const { readOnly, edit } = getPaths(typeId);
     dispatch(setPersistedPaths([readOnly, edit]));
 
@@ -73,25 +73,17 @@ export default function ManageExpenseTypes({ history }) {
       handleGoBack={history.back}
       addLinkText={t('EXPENSE.ADD_EXPENSE.ADD_CUSTOM_EXPENSE_TYPE')}
       onAddType={onAddType}
-      tileData={customTypes}
-      formatTileData={(data) => {
-        const {
-          farm_id,
-          expense_translation_key,
-          expense_name,
-          expense_type_id,
-          custom_description,
-        } = data;
+      listItemData={customTypes}
+      formatListItemData={(data) => {
+        const { expense_name, expense_type_id, custom_description } = data;
 
         return {
           key: expense_type_id,
-          icon: icons[farm_id ? 'OTHER' : expense_translation_key],
-          label: farm_id ? expense_name : t(`expense:${expense_translation_key}.EXPENSE_NAME`),
+          icon: icons['OTHER'],
+          label: expense_name,
           className: labelIconStyles.boldLabelIcon,
-          description: farm_id
-            ? custom_description
-            : t(`expense:${expense_translation_key}.CUSTOM_DESCRIPTION`),
-          onClick: () => onTileClick(expense_type_id),
+          description: custom_description,
+          onClick: () => onItemClick(expense_type_id),
         };
       }}
     />

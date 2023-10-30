@@ -50,7 +50,7 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
     };
   };
 
-  const getFormatTileDataFunc = (setValue) => {
+  const getFormatListItemDataFunc = (setValue) => {
     return (data) => {
       const {
         farm_id,
@@ -84,7 +84,7 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
         onGoBack={history.back}
         progressValue={33}
         onGoToManageCustomType={() => history.push('/manage_custom_revenues')}
-        getFormatTileDataFunc={getFormatTileDataFunc}
+        getFormatListItemDataFunc={getFormatListItemDataFunc}
         listItemType={listItemTypes.ICON_DESCRIPTION}
         useHookFormPersist={useHookFormPersist}
         customTypeMessages={{

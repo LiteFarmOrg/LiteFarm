@@ -75,22 +75,14 @@ export default function ManageRevenueTypes({ history }) {
       onAddType={onAddType}
       tileData={customTypes}
       formatTileData={(data) => {
-        const {
-          farm_id,
-          revenue_translation_key,
-          revenue_name,
-          revenue_type_id,
-          custom_description,
-        } = data;
+        const { revenue_name, revenue_type_id, custom_description } = data;
 
         return {
           key: revenue_type_id,
-          icon: icons[farm_id ? 'CUSTOM' : revenue_translation_key],
-          label: farm_id ? revenue_name : t(`revenue:${revenue_translation_key}.REVENUE_NAME`),
+          icon: icons['CUSTOM'],
+          label: revenue_name,
           className: labelIconStyles.boldLabelIcon,
-          description: farm_id
-            ? custom_description
-            : t(`revenue:${revenue_translation_key}.REVENUE_NAME`),
+          description: custom_description,
           onClick: () => onTileClick(revenue_type_id),
         };
       }}

@@ -75,22 +75,14 @@ export default function ManageExpenseTypes({ history }) {
       onAddType={onAddType}
       tileData={customTypes}
       formatTileData={(data) => {
-        const {
-          farm_id,
-          expense_translation_key,
-          expense_name,
-          expense_type_id,
-          custom_description,
-        } = data;
+        const { expense_name, expense_type_id, custom_description } = data;
 
         return {
           key: expense_type_id,
-          icon: icons[farm_id ? 'OTHER' : expense_translation_key],
-          label: farm_id ? expense_name : t(`expense:${expense_translation_key}.EXPENSE_NAME`),
+          icon: icons['OTHER'],
+          label: expense_name,
           className: labelIconStyles.boldLabelIcon,
-          description: farm_id
-            ? custom_description
-            : t(`expense:${expense_translation_key}.CUSTOM_DESCRIPTION`),
+          description: custom_description,
           onClick: () => onTileClick(expense_type_id),
         };
       }}

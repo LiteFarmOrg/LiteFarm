@@ -99,7 +99,7 @@ class ExpenseCategories extends Component {
           progressValue={33}
           onGoToManageCustomType={() => history.push('/manage_custom_expenses')}
           isTypeSelected={!!this.state.selectedTypes.length}
-          formatTileData={(data) => {
+          formatListItemData={(data) => {
             const {
               farm_id,
               expense_translation_key,

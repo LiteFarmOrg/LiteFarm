@@ -24,8 +24,8 @@ export default function ManageCustomTypes({
   handleGoBack,
   addLinkText,
   onAddType,
-  tileData,
-  formatTileData,
+  listItemData,
+  formatListItemData,
 }) {
   return (
     <div style={{ padding: '24px' }}>
@@ -35,8 +35,8 @@ export default function ManageCustomTypes({
       </AddLink>
       <List
         listItemType={listItemTypes.ICON_DESCRIPTION_CHEVRON}
-        listItemData={tileData}
-        formatListItemData={formatTileData}
+        listItemData={listItemData}
+        formatListItemData={formatListItemData}
       />
     </div>
   );
@@ -47,7 +47,7 @@ ManageCustomTypes.propTypes = {
   handleGoBack: PropTypes.func,
   addLinkText: PropTypes.string,
   onAddType: PropTypes.func,
-  tileData: PropTypes.array,
-  formatTileData: PropTypes.func,
-  onTileClick: PropTypes.func,
+  listItemData: PropTypes.array,
+  formatListItemData: PropTypes.func,
+  onItemClick: PropTypes.func,
 };

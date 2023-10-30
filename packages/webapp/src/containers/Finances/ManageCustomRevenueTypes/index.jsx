@@ -33,7 +33,7 @@ export default function ManageRevenueTypes({ history }) {
   const dispatch = useDispatch();
   const customTypes = useSortedCustomRevenueTypes();
 
-  const onTileClick = (typeId) => {
+  const onItemClick = (typeId) => {
     const { readOnly, edit } = getPaths(typeId);
     dispatch(setPersistedPaths([readOnly, edit]));
 
@@ -73,8 +73,8 @@ export default function ManageRevenueTypes({ history }) {
       handleGoBack={history.back}
       addLinkText={t('SALE.ADD_SALE.ADD_CUSTOM_REVENUE_TYPE')}
       onAddType={onAddType}
-      tileData={customTypes}
-      formatTileData={(data) => {
+      listItemData={customTypes}
+      formatListItemData={(data) => {
         const { revenue_name, revenue_type_id, custom_description } = data;
 
         return {
@@ -83,7 +83,7 @@ export default function ManageRevenueTypes({ history }) {
           label: revenue_name,
           className: labelIconStyles.boldLabelIcon,
           description: custom_description,
-          onClick: () => onTileClick(revenue_type_id),
+          onClick: () => onItemClick(revenue_type_id),
         };
       }}
     />

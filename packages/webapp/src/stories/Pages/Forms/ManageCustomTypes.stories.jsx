@@ -48,10 +48,10 @@ export const Expense = {
     handleGoBack: () => console.log('back'),
     addLinkText: 'Add custom expense type',
     onAddType: () => console.log('add'),
-    tileData: customTypes,
-    onTileClick: (key) => console.log(`${key} clicked!`),
+    listItemData: customTypes,
+    onItemClick: (key) => console.log(`${key} clicked!`),
     customTypeFieldName: 'expense_type_id',
-    formatTileData: (data) => {
+    formatListItemData: (data) => {
       const { expense_name, expense_type_id, custom_description } = data;
 
       return {

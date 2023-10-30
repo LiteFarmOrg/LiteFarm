@@ -33,7 +33,7 @@ export default function ManageExpenseTypes({ history }) {
   const dispatch = useDispatch();
   const customTypes = useCustomExpenseTypeTileContents();
 
-  const onTileClick = (typeId) => {
+  const onItemClick = (typeId) => {
     const { readOnly, edit } = getPaths(typeId);
     dispatch(setPersistedPaths([readOnly, edit]));
 
@@ -73,8 +73,8 @@ export default function ManageExpenseTypes({ history }) {
       handleGoBack={history.back}
       addLinkText={t('EXPENSE.ADD_EXPENSE.ADD_CUSTOM_EXPENSE_TYPE')}
       onAddType={onAddType}
-      tileData={customTypes}
-      formatTileData={(data) => {
+      listItemData={customTypes}
+      formatListItemData={(data) => {
         const { expense_name, expense_type_id, custom_description } = data;
 
         return {
@@ -83,7 +83,7 @@ export default function ManageExpenseTypes({ history }) {
           label: expense_name,
           className: labelIconStyles.boldLabelIcon,
           description: custom_description,
-          onClick: () => onTileClick(expense_type_id),
+          onClick: () => onItemClick(expense_type_id),
         };
       }}
     />

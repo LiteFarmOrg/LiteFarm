@@ -152,7 +152,7 @@ export const Expense = {
     progressValue: 50,
     onGoToManageCustomType: () => console.log('Go to Management Custom Type'),
     isTypeSelected: false,
-    formatTileData: (data) => {
+    formatListItemData: (data) => {
       const { farm_id, expense_translation_key, expense_name, custom_description } = data;
 
       return {
@@ -208,7 +208,7 @@ export const Revenue = {
     progressValue: 50,
     onGoToManageCustomType: () => console.log('Go to Management Custom Type'),
     isTypeSelected: false,
-    formatTileData: (data) => {
+    formatListItemData: (data) => {
       const { farm_id, revenue_translation_key, revenue_name, custom_description } = data;
 
       return {

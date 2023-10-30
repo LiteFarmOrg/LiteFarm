@@ -29,7 +29,7 @@ const isDateValid = (date) => {
   return date ? moment(date).isValid() : false;
 };
 
-const FinanceDateRangeSelector = ({ hideTooltip }) => {
+const FinanceDateRangeSelector = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 

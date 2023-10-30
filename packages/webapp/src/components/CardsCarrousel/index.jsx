@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import TextButton from '../Form/Button/TextButton';
@@ -7,6 +7,10 @@ import styles from './styles.module.scss';
 const CardsCarrousel = ({ cards }) => {
   const [activeCardId, setActiveCardId] = useState(cards[0]?.id);
   const [sortedCards, setSortedCards] = useState(cards);
+
+  useEffect(() => {
+    setSortedCards(cards);
+  }, [cards]);
 
   const onCardClick = (selectedCard) => {
     setSortedCards([selectedCard, ...sortedCards.filter((card) => card.id !== selectedCard.id)]);

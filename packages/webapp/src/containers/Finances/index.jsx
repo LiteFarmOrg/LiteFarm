@@ -128,8 +128,8 @@ const Finances = () => {
 
   const totalRevenue = calcActualRevenue(sales, startDate, endDate, allRevenueTypes).toFixed(2);
   const estimatedRevenue = getEstimatedRevenue(managementPlans);
-  const labourExpense = roundToTwoDecimal(calcTotalLabour(tasks, startDate, endDate));
-  const otherExpense = calcOtherExpense(expenses, startDate, endDate);
+  const labourExpense = calcTotalLabour(tasks, startDate, endDate).toFixed(2);
+  const otherExpense = calcOtherExpense(expenses, startDate, endDate).toFixed(2);
   const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(2);
 
   return (
@@ -176,65 +176,14 @@ const Finances = () => {
       </Button>
       <hr />
       <DateRangeSelector changeDateMethod={changeDate} />
-      <FinancesCarrousel />
-      <hr />
-      <div data-test="finance_summary" className={styles.align}>
-        <Semibold style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.EXPENSES')}</Semibold>
-        <DescriptiveButton
-          label={t('SALE.FINANCES.LABOUR_LABEL')}
-          number={currencySymbol + labourExpense.toFixed(2)}
-          onClick={() => history.push('/labour')}
-        />
-        <DescriptiveButton
-          label={t('SALE.FINANCES.OTHER_EXPENSES_LABEL')}
-          number={currencySymbol + otherExpense.toFixed(2)}
-          onClick={() => history.push('/other_expense')}
-        />
-
-        <hr />
-        <Semibold style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.REVENUE')}</Semibold>
-        <DescriptiveButton
-          label={t('SALE.FINANCES.ACTUAL_REVENUE_LABEL')}
-          number={currencySymbol + totalRevenue}
-          onClick={() => history.push('/finances/actual_revenue')}
-        />
-        <DescriptiveButton
-          label={t('SALE.FINANCES.ACTUAL_REVENUE_ESTIMATED')}
-          number={currencySymbol + estimatedRevenue}
-          onClick={() => history.push('/estimated_revenue')}
-        />
-
-        <hr />
-        <div>
-          <Semibold style={{ marginBottom: '8px', float: 'left' }}>
-            {t('SALE.FINANCES.BALANCE_FOR_FARM')}
-          </Semibold>
-          <InfoBoxComponent
-            customStyle={{
-              float: 'right',
-              fontSize: '80%',
-              position: 'relative',
-            }}
-            title={t('SALE.FINANCES.FINANCE_HELP')}
-            body={t('SALE.FINANCES.BALANCE_EXPLANATION')}
-          />
-        </div>
-        <div className={styles.greyBox}>
-          <div className={styles.balanceDetail}>
-            <p>{t('SALE.FINANCES.REVENUE')}:</p> <p>{currencySymbol + totalRevenue}</p>
-          </div>
-          <div className={styles.balanceDetail}>
-            <p>{t('SALE.FINANCES.EXPENSES')}:</p>
-            <p>{currencySymbol + totalExpense.toString()}</p>
-          </div>
-          <div className={styles.balanceDetail}>
-            <p>{t('SALE.FINANCES.BALANCE')}:</p>
-            <p>
-              {currencySymbol + (parseFloat(totalRevenue) - parseFloat(totalExpense)).toFixed(2)}
-            </p>
-          </div>
-        </div>
-      </div>
+      <FinancesCarrousel
+        totalExpense={totalExpense}
+        totalRevenue={totalRevenue}
+        labourExpense={labourExpense}
+        otherExpense={otherExpense}
+        estimatedRevenue={estimatedRevenue}
+        currencySymbol={currencySymbol}
+      />
     </div>
   );
 };

@@ -13,6 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.cropGeneratedQuestion {
-  padding-block: 12px;
+.list {
+  width: 100%;
+  display: inline-flex;
+  flex-flow: row wrap;
+  row-gap: 8px;
 }

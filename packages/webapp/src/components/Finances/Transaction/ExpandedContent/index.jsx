@@ -47,6 +47,7 @@ export default function ExpandedContent({ data }) {
       : t('FINANCES.TRANSACTION.VIEW_AND_EDIT');
 
   const componentKey = typeLabel === 'Crop Sale' ? 'CROP_SALE' : transactionType;
+  const Component = components[componentKey];
 
   return (
     <div className={styles.expandedContent}>
@@ -54,7 +55,7 @@ export default function ExpandedContent({ data }) {
         {toDetailText}
         <BsChevronRight />
       </TextButton>
-      {components[componentKey]({ data })}
+      <Component data={data} />
     </div>
   );
 }

@@ -219,7 +219,7 @@ const ReactSelect = React.forwardRef(function ReactSelect(
             ),
             ...components,
           }}
-          isSearchable={options?.length > 8 || isSearchable}
+          isSearchable={isSearchable ?? options?.length > 8}
           ref={ref}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
@@ -266,7 +266,7 @@ const ReactSelect = React.forwardRef(function ReactSelect(
             ),
             ...components,
           }}
-          isSearchable={options?.length > 8 || isSearchable}
+          isSearchable={isSearchable ?? options?.length > 8}
           ref={ref}
           defaultValue={defaultValue}
           isDisabled={isDisabled}

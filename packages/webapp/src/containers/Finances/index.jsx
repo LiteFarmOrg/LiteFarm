@@ -13,20 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
-import { dateRangeSelector, expenseSelector, salesSelector } from './selectors';
+import { expenseSelector, salesSelector } from './selectors';
 import { allRevenueTypesSelector } from '../revenueTypeSlice';
-import {
-  getFarmExpenseType,
-  getExpense,
-  getSales,
-  setDateRange,
-  setSelectedExpenseTypes,
-} from './actions';
+import { getFarmExpenseType, getExpense, getSales, setSelectedExpenseTypes } from './actions';
 import { calcOtherExpense, calcTotalLabour, calcActualRevenue } from './util';
 import Moment from 'moment';
 import { roundToTwoDecimal } from '../../util';
@@ -44,6 +38,8 @@ import { isTaskType } from '../Task/useIsTaskType';
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useTranslation } from 'react-i18next';
 import { downloadFinanceReport } from './saga';
+import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';
+import { SUNDAY } from '../../util/dateRange';
 import TransactionList from './TransactionList';
 
 const moment = extendMoment(Moment);
@@ -55,13 +51,10 @@ const Finances = () => {
   const tasks = useSelector(tasksSelector);
   const expenses = useSelector(expenseSelector);
   const managementPlans = useSelector(managementPlansSelector);
-  const dateRange = useSelector(dateRangeSelector);
   const allRevenueTypes = useSelector(allRevenueTypesSelector);
 
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
-
-  const [startDate, setStartDate] = useState(moment().startOf('year'));
-  const [endDate, setEndDate] = useState(moment().endOf('year'));
+  const { startDate, endDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
   const currencySymbol = useCurrencySymbol();
 
   const dispatch = useDispatch();
@@ -73,29 +66,7 @@ const Finances = () => {
     dispatch(getRevenueTypes());
     dispatch(getManagementPlansAndTasks());
     dispatch(setSelectedExpenseTypes([]));
-
-    if (dateRange && dateRange.startDate && dateRange.endDate) {
-      setStartDate(dateRange.startDate);
-      setEndDate(dateRange.endDate);
-    } else {
-      dispatch(
-        setDateRange({
-          startDate,
-          endDate,
-        }),
-      );
-    }
   }, []);
-
-  const changeDate = (type, date) => {
-    if (type === 'start') {
-      setStartDate(date);
-    } else if (type === 'end') {
-      setEndDate(date);
-    } else {
-      console.log('Error, type not specified');
-    }
-  };
 
   const getEstimatedRevenue = (managementPlans) => {
     let totalRevenue = 0;
@@ -176,7 +147,7 @@ const Finances = () => {
         Download Report
       </Button>
       <hr />
-      <DateRangeSelector changeDateMethod={changeDate} />
+      <DateRangeSelector />
 
       <hr />
       <div data-test="finance_summary" className={styles.align}>

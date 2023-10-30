@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import { within, userEvent, screen, fireEvent } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import selectEvent from 'react-select-event';
@@ -29,14 +29,11 @@ export default {
 };
 
 const TestComponent = (props) => {
-  const [dateRange, setDateRange] = useState({ option: dateRangeOptions.YEAR_TO_DATE });
-
   return (
     <Suspense fallback={'Loading...'}>
       <DateRangeSelector
-        dateRange={dateRange}
         changeDateMethod={() => ({})}
-        setDateRangeOptionValue={(option) => setDateRange({ option })}
+        onChangeDateRangeOption={() => ({})}
         {...props}
       />
     </Suspense>
@@ -46,6 +43,24 @@ const TestComponent = (props) => {
 export const WithPlaceholder = {
   render: () => {
     return <TestComponent placeholder="Select Date Range" />;
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const select = await canvas.findByRole('combobox');
+    await selectEvent.openMenu(select);
+
+    let option = await screen.findByText('Pick a custom range');
+    await fireEvent.click(option);
+
+    const [input1] = await canvas.findAllByTestId('input');
+    await fireEvent.click(option);
+
+    await userEvent.type(input1, '2023-11-01');
+    await selectEvent.openMenu(select);
+
+    const selectedOptionText = await canvas.findByText('Year to date');
+    expect(selectedOptionText).toBeInTheDocument();
   },
 };
 
@@ -79,7 +94,7 @@ export const WithDefaultOption = {
     await userEvent.click(backButton);
     expect(backButton).toBeInTheDocument();
 
-    selectedOptionText = canvas.getByText('yyyy-mm-dd - yyyy-mm-dd');
+    selectedOptionText = canvas.getByText('yyyy.mm.dd - yyyy.mm.dd');
     expect(selectedOptionText).toBeInTheDocument();
 
     const [input1, input2] = canvas.getAllByTestId('input');
@@ -127,7 +142,7 @@ export const WithDefaultCustomDateRange = {
     await userEvent.clear(input1);
     await userEvent.clear(input2);
 
-    selectedOptionText = canvas.getByText('yyyy-mm-dd - yyyy-mm-dd');
+    selectedOptionText = canvas.getByText('yyyy.mm.dd - yyyy.mm.dd');
 
     await userEvent.type(input1, '2021-01-01');
     expect(selectedOptionText).toBeInTheDocument();

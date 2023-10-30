@@ -87,7 +87,7 @@ const selectedExpenseSelector = createSelector(
   (state) => state.selected_expense_types,
 );
 
-const dateRangeSelector = createSelector(financeSelector, (state) => state.date_range);
+const dateRangeDataSelector = createSelector(financeSelector, (state) => state.date_range);
 
 export {
   salesSelector,
@@ -102,5 +102,5 @@ export {
   expenseTypeTileContentsSelector,
   expenseDetailDateSelector,
   selectedExpenseSelector,
-  dateRangeSelector,
+  dateRangeDataSelector,
 };

@@ -2,6 +2,7 @@ import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
 import { BsChevronRight } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 import CardsCarrousel from '../../CardsCarrousel';
 import { ReactComponent as ProfitLossIconDark } from '../../../assets/images/finance/Profit-loss-icn-dark.svg';
 import { ReactComponent as ProfitLossIconLight } from '../../../assets/images/finance/Profit-loss-icn-light.svg';
@@ -10,6 +11,7 @@ import { ReactComponent as CropIcon } from '../../../assets/images/finance/Crop-
 import styles from './styles.module.scss';
 import { Semibold, Text } from '../../Typography';
 import clsx from 'clsx';
+import TextButton from '../../Form/Button/TextButton';
 
 ChartJS.register(ArcElement, Tooltip);
 
@@ -30,6 +32,7 @@ const FinancesCarrousel = ({
   otherExpense,
   estimatedRevenue,
   currencySymbol,
+  history,
 }) => {
   const { t } = useTranslation();
 
@@ -53,7 +56,10 @@ const FinancesCarrousel = ({
       activeContent: (
         <div className={clsx([styles.cardContent, styles.profitLossCardContent])}>
           <div className={styles.revenueExpensesContainer}>
-            <div className={styles.revenueContainer}>
+            <TextButton
+              className={styles.revenueContainer}
+              onClick={() => history.push('/finances/actual_revenue')}
+            >
               <div>
                 <Text className={styles.revenueTitle}>Total revenue</Text>
                 <p className={clsx([styles.stat, styles.revenueStat])}>
@@ -62,7 +68,7 @@ const FinancesCarrousel = ({
                 </p>
               </div>
               <BsChevronRight />
-            </div>
+            </TextButton>
             <div className={styles.expenseContainer}>
               <Text className={styles.expenseTitle}>Total expenses</Text>
               <p className={clsx([styles.stat, styles.expenseStat])}>
@@ -110,7 +116,10 @@ const FinancesCarrousel = ({
             </div>
           </div>
           <div className={styles.expensesStatsContainer}>
-            <div className={styles.labourExpensesContainer}>
+            <TextButton
+              className={styles.labourExpensesContainer}
+              onClick={() => history.push('/labour')}
+            >
               <div>
                 <Text className={styles.labourExpensesTitle}>Total labour</Text>
                 <p className={clsx([styles.stat, styles.labourExpensesStat])}>
@@ -119,8 +128,11 @@ const FinancesCarrousel = ({
                 </p>
               </div>
               <BsChevronRight />
-            </div>
-            <div className={styles.otherExpensesContainer}>
+            </TextButton>
+            <TextButton
+              className={styles.otherExpensesContainer}
+              onClick={() => history.push('/other_expense')}
+            >
               <div>
                 <Text className={styles.otherExpensesTitle}>Total other</Text>
                 <p className={clsx([styles.stat, styles.otherExpensesStat])}>
@@ -129,7 +141,7 @@ const FinancesCarrousel = ({
                 </p>
               </div>
               <BsChevronRight />
-            </div>
+            </TextButton>
           </div>
         </div>
       ),
@@ -143,7 +155,10 @@ const FinancesCarrousel = ({
       activeContent: (
         <div className={clsx([styles.cardContent, styles.estimatedRevenueCardContent])}>
           <CropIcon width={56} height={56} />
-          <div className={styles.estimatedRevenueContainer}>
+          <TextButton
+            className={styles.estimatedRevenueContainer}
+            onClick={() => history.push('/estimated_revenue')}
+          >
             <div>
               <Text className={styles.estimatedRevenueTitle}>Estimated harvest revenue</Text>
               <p className={styles.stat}>
@@ -152,7 +167,7 @@ const FinancesCarrousel = ({
               </p>
             </div>
             <BsChevronRight />
-          </div>
+          </TextButton>
         </div>
       ),
       note: t('SALE.FINANCES.CARROUSEL_TEXT.ESTIMATED_REVENUE'),

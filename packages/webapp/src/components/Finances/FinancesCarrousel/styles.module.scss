@@ -3,6 +3,10 @@
   width: 100%;
   height: 100%;
   border-radius: 4px;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .profitLossCardContent {
@@ -20,7 +24,7 @@
   border-radius: 4px 0 0 4px;
 
   @media (min-width: 768px) {
-    padding: 24px 16px;
+    padding: 16px;
   }
 }
 
@@ -29,6 +33,7 @@
   flex-grow: 1;
   padding: 16px 8px;
   border-radius: 0 4px 4px 0;
+  text-align: center;
 
   @media (min-width: 768px) {
     padding: 24px 16px;

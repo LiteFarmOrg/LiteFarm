@@ -41,7 +41,7 @@ import { SUNDAY } from '../../util/dateRange';
 
 const moment = extendMoment(Moment);
 
-const Finances = () => {
+const Finances = ({ history }) => {
   const { t } = useTranslation();
 
   const sales = useSelector(salesSelector);
@@ -150,6 +150,7 @@ const Finances = () => {
           otherExpense={otherExpense}
           estimatedRevenue={estimatedRevenue}
           currencySymbol={currencySymbol}
+          history={history}
         />
       </div>
     </div>

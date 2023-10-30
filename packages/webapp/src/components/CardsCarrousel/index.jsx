@@ -29,12 +29,23 @@ const CardsCarrousel = ({ cards }) => {
       <div className={styles.carrouselContainer}>
         {sortedCards.map((card, index) => {
           const isActive = activeCard.id === card.id;
-          return (
+          return isActive ? (
+            <div
+              key={card.id}
+              className={clsx([styles.card, styles.activeCard])}
+              style={{
+                marginTop: index * 8,
+                marginBottom: index * 8,
+                zIndex: sortedCards.length - index,
+              }}
+            >
+              {card.activeContent}
+            </div>
+          ) : (
             <TextButton
               key={card.id}
-              disabled={isActive}
               onClick={() => onCardClick(card)}
-              className={clsx([styles.card, isActive ? styles.activeCard : styles.inactiveCard])}
+              className={clsx([styles.card, styles.inactiveCard])}
               style={{
                 marginTop: index * 8,
                 marginBottom: index * 8,
@@ -42,8 +53,7 @@ const CardsCarrousel = ({ cards }) => {
                 zIndex: sortedCards.length - index,
               }}
             >
-              {!isActive && <div className={styles.inactiveIcon}>{card.inactiveIcon}</div>}
-              {isActive && card.activeContent}
+              <div className={styles.inactiveIcon}>{card.inactiveIcon}</div>
             </TextButton>
           );
         })}

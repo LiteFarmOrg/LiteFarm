@@ -1,5 +1,4 @@
 {
-  "/>,": "MISSING",
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Dirección es obligatoria",
     "DISABLE_GEO_LOCATION": "Los servicios de ubicación deben estar habilitados para encontrar su ubicación actual.",

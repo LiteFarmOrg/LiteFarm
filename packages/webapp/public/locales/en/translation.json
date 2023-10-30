@@ -1,5 +1,4 @@
 {
-  "/>,": "MISSING",
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",
     "DISABLE_GEO_LOCATION": "Location services must be enabled to find your current location.",

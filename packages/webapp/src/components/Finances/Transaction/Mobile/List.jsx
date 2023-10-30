@@ -35,7 +35,7 @@ export const MainContent = ({ t, note, typeLabel, amount, icon, currencySymbol }
   );
 };
 
-const generateRows = (t, data, currencySymbol) => {
+const Rows = ({ t, data, currencySymbol }) => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const rows = [];
 
@@ -61,7 +61,7 @@ const generateRows = (t, data, currencySymbol) => {
       </div>,
     );
   });
-  return rows;
+  return <div>{rows}</div>;
 };
 
 export default function TransactionList({ data, minRows = 10 }) {
@@ -76,7 +76,7 @@ export default function TransactionList({ data, minRows = 10 }) {
 
   return (
     <div className={styles.transactionList}>
-      <div>{generateRows(t, data.slice(0, visibleRows), currencySymbol)}</div>
+      <Rows t={t} data={data.slice(0, visibleRows)} currencySymbol={currencySymbol} />
       {data.length > visibleRows && (
         <div className={styles.buttonWrapper}>
           <Button

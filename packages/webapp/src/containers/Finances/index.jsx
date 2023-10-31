@@ -41,6 +41,8 @@ import { downloadFinanceReport } from './saga';
 import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../util/dateRange';
 import TransactionList from './TransactionList';
+import TransactionFilter from './TransactionFilter';
+import { transactionsFilterSelector } from '../filterSlice';
 
 const moment = extendMoment(Moment);
 
@@ -52,6 +54,9 @@ const Finances = () => {
   const expenses = useSelector(expenseSelector);
   const managementPlans = useSelector(managementPlansSelector);
   const allRevenueTypes = useSelector(allRevenueTypesSelector);
+  const { EXPENSE_TYPE: expenseTypeFilter, REVENUE_TYPE: revenueTypeFilter } = useSelector(
+    transactionsFilterSelector,
+  );
 
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
   const { startDate, endDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
@@ -147,7 +152,10 @@ const Finances = () => {
         Download Report
       </Button>
       <hr />
-      <DateRangeSelector />
+      <div className={styles.filterBar}>
+        <DateRangeSelector />
+        <TransactionFilter />
+      </div>
 
       <hr />
       <div data-test="finance_summary" className={styles.align}>
@@ -207,7 +215,12 @@ const Finances = () => {
           </div>
         </div>
       </div>
-      <TransactionList startDate={startDate} endDate={endDate} />
+      <TransactionList
+        startDate={startDate}
+        endDate={endDate}
+        expenseTypeFilter={expenseTypeFilter}
+        revenueTypeFilter={revenueTypeFilter}
+      />
     </div>
   );
 };

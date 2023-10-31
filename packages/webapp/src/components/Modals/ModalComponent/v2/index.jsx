@@ -31,10 +31,8 @@ export default function ModalComponent({
           <Semibold
             style={{
               color,
-              marginBottom: '16px',
-              display: 'inline-flex',
-              gap: '8px',
             }}
+            className={styles.title}
           >
             {warning && <VscWarning style={{ marginTop: '1px' }} />}
             {error && <FiSlash style={{ marginTop: '1px' }} />}

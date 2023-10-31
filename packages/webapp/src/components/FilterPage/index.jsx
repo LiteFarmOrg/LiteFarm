@@ -45,7 +45,7 @@ const PureFilterPage = ({
         </Button>
       }
     >
-      <PageTitle title={title} onGoBack={onGoBack} />
+      {title && <PageTitle title={title} onGoBack={onGoBack} />}
 
       <div style={{ margin: '24px 0' }}>
         <Underlined style={{ color: '#AA5F04' }} onClick={() => resetFilter()}>
@@ -116,16 +116,3 @@ PureFilterPage.prototype = {
 };
 
 export default PureFilterPage;
-
-// // TRUST THE NATURAL RECURSION
-// const recursiveFilterReset = (filter) => {
-//   Object.keys(filter).forEach((key) => {
-//     const value = filter[key];
-//     if (typeof value === 'boolean') {
-//       filter[key] = false;
-//     } else {
-//       filter[key] = recursiveFilterReset(value);
-//     }
-//   });
-//   return filter;
-// };

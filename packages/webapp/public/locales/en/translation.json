@@ -843,6 +843,12 @@
       "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
       "TITLE": "Estimated Revenue"
     },
+    "FILTER": {
+      "EXPENSE_TYPE": "Expense types",
+      "HELP_TEXT": "Feel free to use the filters below to fine-tune your transaction list and make it work just the way you want!",
+      "REVENUE_TYPE": "Revenue types",
+      "TITLE": "Filter transactions"
+    },
     "MANAGE_CUSTOM_TYPE": "Manage custom type",
     "REVENUE": "Revenue",
     "TRANSACTION": {

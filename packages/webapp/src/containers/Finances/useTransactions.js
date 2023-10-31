@@ -54,7 +54,7 @@ const buildLabourTransactionsFromTasks = ({
           (moment(task.date).isSameOrAfter(dateFilter.startDate, 'day') &&
             moment(task.date).isSameOrBefore(dateFilter.endDate, 'day'))) &&
         // We don't have an actual Labour expense type, but we allow to filter by it in the Expense types filter.
-        (!expenseTypeFilter || expenseTypeFilter?.includes(transactionTypeEnum.labourExpense)),
+        (!expenseTypeFilter || expenseTypeFilter[transactionTypeEnum.labourExpense]?.active),
     );
 
   // We only want to show one Labour transaction per day. When expanding the item details on how that transaction was summed up from tasks will be displayed.
@@ -87,7 +87,7 @@ const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseT
         (!dateFilter ||
           (moment(expense.expense_date).isSameOrAfter(dateFilter.startDate, 'day') &&
             moment(expense.expense_date).isSameOrBefore(dateFilter.endDate, 'day'))) &&
-        (!expenseTypeFilter || expenseTypeFilter?.includes(expense.expense_type_id)) &&
+        (!expenseTypeFilter || expenseTypeFilter[expense.expense_type_id]?.active) &&
         expense.value > 0,
     )
     .map((expense) => {
@@ -120,7 +120,7 @@ const buildRevenueTransactions = ({
       (!dateFilter ||
         (moment(sale.sale_date).isSameOrAfter(dateFilter.startDate, 'day') &&
           moment(sale.sale_date).isSameOrBefore(dateFilter.endDate, 'day'))) &&
-      (!revenueTypeFilter || revenueTypeFilter?.includes(sale.revenue_type_id)),
+      (!revenueTypeFilter || revenueTypeFilter[sale.revenue_type_id]?.active),
   );
   const revenueItems = mapSalesToRevenueItems(filteredSales, revenueTypes, cropVarieties);
 

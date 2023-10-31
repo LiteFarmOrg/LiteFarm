@@ -15,11 +15,13 @@
 import PureTransactionList from '../../../components/Finances/Transaction/Mobile/List';
 import useTransactions from '../useTransactions';
 
-export default function TransactionList({ startDate, endDate }) {
+export default function TransactionList({
+  startDate,
+  endDate,
+  expenseTypeFilter,
+  revenueTypeFilter,
+}) {
   const dateFilter = { startDate, endDate };
-  // TODO: LF-3752
-  const expenseTypeFilter = null;
-  const revenueTypeFilter = null;
 
   const transactions = useTransactions({ dateFilter, expenseTypeFilter, revenueTypeFilter });
 

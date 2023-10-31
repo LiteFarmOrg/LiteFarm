@@ -656,7 +656,7 @@
       "TITLE": "Ajouter une clôture"
     },
     "FIELD": {
-      "DATE": "Date de début de transition",
+      "DATE": "Fin de période de transition",
       "EDIT_TITLE": "Modifier le champ",
       "FIELD_TYPE": "De quel type de champ s'agit-il\u00a0?",
       "NAME": "Nom du champ",
@@ -666,7 +666,7 @@
       "TRANSITIONING": "Transition"
     },
     "GARDEN": {
-      "DATE": "Date de début de transition",
+      "DATE": "Fin de période de transition",
       "EDIT_TITLE": "Modifier le jardin",
       "GARDEN_TYPE": "Quel type de jardin est-ce\u00a0?",
       "NAME": "Nom du jardin",
@@ -682,7 +682,7 @@
     },
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Y a-t-il un enrichissement en CO₂\u00a0?",
-      "DATE": "Date de début de transition",
+      "DATE": "Fin de période de transition",
       "EDIT_TITLE": "Modifier la serre",
       "GREENHOUSE_HEATED": "La serre est-elle chauffée\u00a0?",
       "GREENHOUSE_TYPE": "De quel type de serre s'agit-il\u00a0?",

@@ -18,4 +18,10 @@
   display: inline-flex;
   flex-flow: row wrap;
   row-gap: 8px;
+  padding-bottom: 16px;
+
+  @media screen and (min-width: 640px) {
+    row-gap: 16px;
+    padding-bottom: 0;
+  }
 }

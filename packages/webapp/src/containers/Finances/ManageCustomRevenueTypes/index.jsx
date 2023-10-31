@@ -33,7 +33,7 @@ export default function ManageRevenueTypes({ history }) {
   const dispatch = useDispatch();
   const customTypes = useSortedCustomRevenueTypes();
 
-  const onTileClick = (typeId) => {
+  const onItemClick = (typeId) => {
     const { readOnly, edit } = getPaths(typeId);
     dispatch(setPersistedPaths([readOnly, edit]));
 
@@ -73,17 +73,17 @@ export default function ManageRevenueTypes({ history }) {
       handleGoBack={history.back}
       addLinkText={t('SALE.ADD_SALE.ADD_CUSTOM_REVENUE_TYPE')}
       onAddType={onAddType}
-      tileData={customTypes}
-      onTileClick={onTileClick}
-      formatTileData={(data) => {
-        const { farm_id, revenue_translation_key, revenue_name, revenue_type_id } = data;
+      listItemData={customTypes}
+      formatListItemData={(data) => {
+        const { revenue_name, revenue_type_id, custom_description } = data;
 
         return {
           key: revenue_type_id,
-          tileKey: revenue_type_id,
-          icon: icons[farm_id ? 'CUSTOM' : revenue_translation_key],
-          label: farm_id ? revenue_name : t(`revenue:${revenue_translation_key}.REVENUE_NAME`),
+          icon: icons['CUSTOM'],
+          label: revenue_name,
           className: labelIconStyles.boldLabelIcon,
+          description: custom_description,
+          onClick: () => onItemClick(revenue_type_id),
         };
       }}
     />

@@ -849,6 +849,11 @@
       "EXPENSE_TYPES": "MISSING",
       "REVENUE_TYPES": "MISSING"
     },
+    "TRANSACTION": {
+      "LABOUR_EXPENSE": "MISSING",
+      "VIEW_AND_EDIT": "MISSING",
+      "VIEW_DETAILS": "MISSING"
+    },
     "VIEW_WITHIN_DATE_RANGE": "Voir les revenus dans cette plage de dates",
     "WHOLE_FARM_REVENUE": "Revenu total de la ferme"
   },

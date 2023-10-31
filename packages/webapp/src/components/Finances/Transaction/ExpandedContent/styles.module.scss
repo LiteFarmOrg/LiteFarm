@@ -12,23 +12,29 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
- 
- .mainContentWithIcon {
+
+
+// ExpandedContent
+.expandedContent {
+  margin: 0 4px 8px 4px;
+}
+
+button.toDetail {
   display: flex;
-}
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19px;
+  border-radius: 4px;
+  background-color: #EDF5F3;
+  color: var(--teal900);
 
-.mainContentWrapper {
-  width: calc(100% - 24px);
-}
-
-.clickable {
-  cursor: pointer;
-}
-
-.icon {
-  color: var(--grey500);
-}
-
-.iconWrapper {
-  height: 24px;
+  svg {
+    stroke-width: 1px;
+    margin-left: 8px;
+  }
 }

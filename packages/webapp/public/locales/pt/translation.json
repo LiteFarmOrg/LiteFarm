@@ -848,6 +848,11 @@
       "EXPENSE_TYPES": "MISSING",
       "REVENUE_TYPES": "MISSING"
     },
+    "TRANSACTION": {
+      "LABOUR_EXPENSE": "MISSING",
+      "VIEW_AND_EDIT": "MISSING",
+      "VIEW_DETAILS": "MISSING"
+    },
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
     "WHOLE_FARM_REVENUE": "Receita de toda a propriedade"
   },

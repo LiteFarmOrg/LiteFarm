@@ -27,18 +27,17 @@ import styles from './styles.module.scss';
 export default function DateRangeSelector({
   defaultDateRangeOptionValue,
   defaultCustomDateRange = {},
-  setDateRangeOptionValue,
+  onChangeDateRangeOption,
   placeholder,
   changeDateMethod,
-  dateRange,
 }) {
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
 
   const { t } = useTranslation();
   const selectRef = useRef(null);
 
-  const [customFromDate, setCustomFromDate] = useState(undefined);
-  const [customToDate, setCustomToDate] = useState(undefined);
+  const [customFromDate, setCustomFromDate] = useState(defaultCustomDateRange[FROM_DATE]);
+  const [customToDate, setCustomToDate] = useState(defaultCustomDateRange[TO_DATE]);
 
   const isValidRange = customFromDate <= customToDate;
   const areValidDates = customFromDate?.isValid() && customToDate?.isValid();
@@ -56,22 +55,11 @@ export default function DateRangeSelector({
     { value: rangeOptions.CUSTOM, label: t('DATE_RANGE_SELECTOR.CUSTOM_RANGE') },
   ];
 
-  // set defaultCustomDateRange if exists
   useEffect(() => {
-    if (defaultDateRangeOptionValue !== rangeOptions.CUSTOM) {
-      return;
-    }
-    const { [FROM_DATE]: defaultFromDate, [TO_DATE]: defaultToDate } = defaultCustomDateRange;
-
-    // if the range does not have both FROM_DATE and TO_DATE, reset the option to "Year to date"
-    if (!defaultFromDate || !defaultToDate) {
+    if (!isValid & !isCustomDatePickerOpen) {
       setSelectedDateRangeOption(options[0]);
-      return;
     }
-
-    setCustomFromDate(defaultFromDate);
-    setCustomToDate(defaultToDate);
-  }, []);
+  }, [isValid, isCustomDatePickerOpen]);
 
   const formatOptionLabel = (data, formatOptionLabelMeta) => {
     if (formatOptionLabelMeta.context === 'menu') {
@@ -88,7 +76,7 @@ export default function DateRangeSelector({
           .map((date) => date.format('YYYY-MM-DD'))
           .join(' - ');
       } else {
-        formattedOption = 'yyyy-mm-dd - yyyy-mm-dd';
+        formattedOption = 'yyyy.mm.dd - yyyy.mm.dd';
         className = styles.invalid;
       }
     }
@@ -102,7 +90,7 @@ export default function DateRangeSelector({
   };
 
   const setSelectedDateRangeOption = (option) => {
-    selectRef.current.setValue(option);
+    selectRef.current?.setValue(option);
   };
 
   const clearCustomDateRange = () => {
@@ -111,11 +99,8 @@ export default function DateRangeSelector({
   };
 
   const onClickAway = () => {
-    if (dateRange.option !== rangeOptions.CUSTOM) {
+    if (!isCustomDatePickerOpen) {
       return;
-    }
-    if (!isValid) {
-      setSelectedDateRangeOption(options[0]);
     }
     setIsCustomDatePickerOpen(false);
   };
@@ -148,13 +133,14 @@ export default function DateRangeSelector({
             if (e?.value === rangeOptions.CUSTOM) {
               setIsCustomDatePickerOpen(true);
             }
-            setDateRangeOptionValue && e?.value && setDateRangeOptionValue(e.value);
+            onChangeDateRangeOption && e?.value && onChangeDateRangeOption(e.value);
           }}
           formatOptionLabel={formatOptionLabel}
           defaultValue={
             defaultDateRangeOptionValue &&
             options.find(({ value }) => value === defaultDateRangeOptionValue)
           }
+          isSearchable={false}
         />
         {isCustomDatePickerOpen && (
           <CustomDateRangeSelector
@@ -183,5 +169,5 @@ DateRangeSelector.propTypes = {
   }),
   placeholder: PropTypes.string,
   changeDateMethod: PropTypes.func,
-  setDateRangeOptionValue: PropTypes.func,
+  onChangeDateRangeOption: PropTypes.func,
 };

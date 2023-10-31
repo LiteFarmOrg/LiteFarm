@@ -282,3 +282,8 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
   }
   return sale;
 }
+
+export const formatAmount = (amount, symbol) => {
+  const sign = amount > 0 ? '+ ' : '- ';
+  return `${amount ? sign : ''}${symbol}${Math.abs(amount)}`;
+};

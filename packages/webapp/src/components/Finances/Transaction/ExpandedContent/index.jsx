@@ -18,13 +18,13 @@ import { BsChevronRight } from 'react-icons/bs';
 import TextButton from '../../../Form/Button/TextButton';
 import history from '../../../../history';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
+import GeneralTransactionTable from './GeneralTransactionTable';
 import CropSaleTable from './CropSaleTable';
 import styles from './styles.module.scss';
 
-// TODO LF-3748, 3749
 const components = {
-  EXPENSE: (props) => <div>expense placeholder</div>,
-  REVENUE: (props) => <div>revenue placeholder</div>,
+  EXPENSE: (props) => <GeneralTransactionTable {...props} />,
+  REVENUE: (props) => <GeneralTransactionTable {...props} />,
   LABOUR_EXPENSE: (props) => <div>labour placeholder</div>,
   CROP_SALE: (props) => <CropSaleTable {...props} />,
 };

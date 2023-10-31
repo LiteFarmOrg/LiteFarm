@@ -19,13 +19,14 @@
 }
 
 .expandableItem {
-  padding: 12px;
+  padding: 12px 0px 12px;
   align-items: center;
 }
 
 .expandableItemWrapper {
   border: solid 1px transparent;
   border-bottom: solid 1px var(--grey200);
+  margin: 8px 0;
 
   &.expanded {
     background-color: #F6FBFA;

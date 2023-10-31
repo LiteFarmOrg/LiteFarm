@@ -832,6 +832,7 @@
       "MANAGE_REVENUE": "MISSING",
       "MISC_EXPENSE": "MISSING"
     },
+    "COST": "Costo",
     "DATE": "Fecha",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Ingresos anuales estimados",
@@ -840,6 +841,7 @@
       "ESTIMATED_PRICE_PER_UNIT": "Precio estimado por unidad",
       "TITLE": "Ingresos estimados"
     },
+    "EXPENSES": "Gastos",
     "MANAGE_CUSTOM_TYPE": "Administrar tipos personalizados",
     "REVENUE": "Ingresos",
     "SEARCH": {
@@ -1580,7 +1582,6 @@
       "CROPS": "Cultivos",
       "EMPLOYEES": "Empleados",
       "TABLE": {
-        "AMOUNT": "Monto",
         "CROP": "Cultivo",
         "DATE": "Fecha",
         "EMPLOYEE": "Empleado",
@@ -1594,7 +1595,6 @@
       "TITLE": "Trabajo"
     },
     "SUMMARY": {
-      "AMOUNT": "Monto",
       "CROP": "Cultivo",
       "DATE": "Fecha",
       "DETAILED_HISTORY": "Historia detallada",

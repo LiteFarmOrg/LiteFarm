@@ -3,11 +3,12 @@ import Input from '../../Form/Input';
 import { makeStyles } from '@mui/styles';
 import { colors } from '../../../assets/theme';
 import PropTypes from 'prop-types';
+import FilterButton from '../../Filter/FilterButton';
 
 const useStyles = makeStyles({
   container: {
     display: 'flex',
-    gap: '16px',
+    gap: '8px',
     position: 'relative',
     alignItems: 'center',
     paddingBottom: '16px',
@@ -52,12 +53,7 @@ export default function PureSearchbarAndFilter({
           value={value}
           onChange={onChange}
         />
-        {!disableFilter && (
-          <>
-            {isFilterActive && <div className={classes.circle} />}
-            <FiFilter data-cy="tasks-filter" className={classes.filter} onClick={onFilterOpen} />
-          </>
-        )}
+        {!disableFilter && <FilterButton isFilterActive={isFilterActive} onClick={onFilterOpen} />}
       </div>
     </>
   );

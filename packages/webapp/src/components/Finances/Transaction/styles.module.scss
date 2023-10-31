@@ -13,15 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.list {
-  width: 100%;
-  display: inline-flex;
-  flex-flow: row wrap;
-  row-gap: 8px;
-  padding-bottom: 16px;
+// transaction amount
+.negativeValue {
+  font-weight: 600;
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: var(--red700);
+  background-color: var(--red200);
+}
 
-  @media screen and (min-width: 640px) {
-    row-gap: 16px;
-    padding-bottom: 0;
-  }
+.positiveValue {
+  font-weight: 600;
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: var(--green800);
+  background-color: var(--green100);
 }

@@ -12,16 +12,16 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import PureTransactionList from '../../../components/Finances/Transaction/Mobile/List';
+import useTransactions from '../useTransactions';
 
-.list {
-  width: 100%;
-  display: inline-flex;
-  flex-flow: row wrap;
-  row-gap: 8px;
-  padding-bottom: 16px;
+export default function TransactionList({ startDate, endDate }) {
+  const dateFilter = { startDate, endDate };
+  // TODO: LF-3752
+  const expenseTypeFilter = null;
+  const revenueTypeFilter = null;
 
-  @media screen and (min-width: 640px) {
-    row-gap: 16px;
-    padding-bottom: 0;
-  }
+  const transactions = useTransactions({ dateFilter, expenseTypeFilter, revenueTypeFilter });
+
+  return <PureTransactionList data={transactions} />;
 }

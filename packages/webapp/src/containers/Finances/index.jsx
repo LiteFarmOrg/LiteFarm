@@ -38,6 +38,7 @@ import { downloadFinanceReport } from './saga';
 import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
 import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../util/dateRange';
+import TransactionList from './TransactionList';
 
 const moment = extendMoment(Moment);
 
@@ -153,6 +154,7 @@ const Finances = ({ history }) => {
           history={history}
         />
       </div>
+      <TransactionList startDate={startDate} endDate={endDate} />
     </div>
   );
 };

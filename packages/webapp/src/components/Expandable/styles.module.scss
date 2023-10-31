@@ -18,7 +18,7 @@
 }
 
 .mainContentWrapper {
-  flex: 1;
+  width: calc(100% - 24px);
 }
 
 .clickable {
@@ -27,4 +27,8 @@
 
 .icon {
   color: var(--grey500);
+}
+
+.iconWrapper {
+  height: 24px;
 }

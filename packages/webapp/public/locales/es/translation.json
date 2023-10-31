@@ -844,6 +844,11 @@
     },
     "MANAGE_CUSTOM_TYPE": "Administrar tipos personalizados",
     "REVENUE": "Ingresos",
+    "TRANSACTION": {
+      "LABOUR_EXPENSE": "MISSING",
+      "VIEW_AND_EDIT": "MISSING",
+      "VIEW_DETAILS": "MISSING"
+    },
     "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas",
     "WHOLE_FARM_REVENUE": "Ingresos de toda la granja"
   },

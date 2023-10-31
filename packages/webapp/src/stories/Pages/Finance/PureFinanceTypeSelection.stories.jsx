@@ -17,6 +17,7 @@ import { chromaticSmallScreen } from '../config/chromatic';
 import PureFinanceTypeSelection from '../../../components/Finances/PureFinanceTypeSelection';
 import { icons } from '../../../containers/Finances/NewExpense/ExpenseCategories';
 import { icons as revenueTypeIcons } from '../../../containers/Finances/AddSale/RevenueTypes';
+import { listItemTypes } from '../../../components/List/constants';
 
 export default {
   title: 'Page/Finance/PureFinanceTypeSelection',
@@ -151,17 +152,18 @@ export const Expense = {
     progressValue: 50,
     onGoToManageCustomType: () => console.log('Go to Management Custom Type'),
     isTypeSelected: false,
-    formatTileData: (data) => {
-      const { farm_id, expense_translation_key, expense_name } = data;
+    formatListItemData: (data) => {
+      const { farm_id, expense_translation_key, expense_name, custom_description } = data;
 
       return {
         key: expense_translation_key,
-        tileKey: expense_translation_key,
         icon: icons[farm_id ? 'OTHER' : expense_translation_key],
         label: expense_name,
         onClick: () => console.log(`${expense_name} clicked!`),
+        description: custom_description,
       };
     },
+    listItemType: listItemTypes.ICON_DESCRIPTION_CHECKBOX,
     useHookFormPersist: () => ({ historyCancel: () => ({}) }),
     customTypeMessages: {
       info: 'You can also create your own custom expense types!',
@@ -206,17 +208,18 @@ export const Revenue = {
     progressValue: 50,
     onGoToManageCustomType: () => console.log('Go to Management Custom Type'),
     isTypeSelected: false,
-    formatTileData: (data) => {
-      const { farm_id, revenue_translation_key, revenue_name } = data;
+    formatListItemData: (data) => {
+      const { farm_id, revenue_translation_key, revenue_name, custom_description } = data;
 
       return {
         key: revenue_translation_key,
-        tileKey: revenue_translation_key,
         icon: farm_id ? revenueTypeIcons['CUSTOM'] : revenueTypeIcons['CROP_SALE'],
         label: revenue_name,
         onClick: () => console.log(`${revenue_name} clicked!`),
+        description: custom_description,
       };
     },
+    listItemType: listItemTypes.ICON_DESCRIPTION,
     useHookFormPersist: () => ({ historyCancel: () => ({}) }),
     customTypeMessages: {
       info: 'You can also create your own custom revenue types!',

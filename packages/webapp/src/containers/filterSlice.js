@@ -39,8 +39,8 @@ const initialTasksFilter = {
   IS_ASCENDING: false,
 };
 const initialTransactionsFilter = {
-  EXPENSE_TYPE: {},
-  REVENUE_TYPE: {},
+  EXPENSE_TYPE: undefined,
+  REVENUE_TYPE: undefined,
 };
 
 export const initialState = {

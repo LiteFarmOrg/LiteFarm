@@ -19,7 +19,7 @@ const TransactionsFilterContent = ({ transactionsFilter, filterRef }) => {
       filterKey: EXPENSE_TYPE,
       options: expenseTypes.map((type) => ({
         value: type.expense_type_id,
-        default: transactionsFilter[EXPENSE_TYPE][type.expense_type_id]?.active ?? false,
+        default: transactionsFilter[EXPENSE_TYPE]?.[type.expense_type_id]?.active ?? true,
         label: type.farm_id
           ? type.expense_name
           : t(`expense:${type.expense_translation_key}.EXPENSE_NAME`),
@@ -30,7 +30,7 @@ const TransactionsFilterContent = ({ transactionsFilter, filterRef }) => {
       filterKey: REVENUE_TYPE,
       options: revenueTypes.map((type) => ({
         value: type.revenue_type_id,
-        default: transactionsFilter[REVENUE_TYPE][type.revenue_type_id]?.active ?? false,
+        default: transactionsFilter[REVENUE_TYPE]?.[type.revenue_type_id]?.active ?? true,
         label: type.farm_id
           ? type.revenue_name
           : t(`revenue:${type.revenue_translation_key}.REVENUE_NAME`),

@@ -9,8 +9,6 @@ import {
 } from '../../filterSlice';
 import ModalComponent from '../../../components/Modals/ModalComponent/v2';
 import TransactionsFilterContent from '../../Filter/Transactions';
-import { Semibold } from '../../../components/Typography';
-import styles from './styles.module.scss';
 import Button from '../../../components/Form/Button';
 
 const TransactionFilter = () => {

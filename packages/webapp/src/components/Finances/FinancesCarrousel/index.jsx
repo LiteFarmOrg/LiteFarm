@@ -76,13 +76,14 @@ const FinancesCarrousel = ({
               className={styles.revenueContainer}
               onClick={() => history.push('/finances/actual_revenue')}
             >
-              <div>
-                <Text className={styles.revenueTitle}>{t('SALE.FINANCES.TOTAL_REVENUE')}</Text>
-                <p className={clsx([styles.stat, styles.revenueStat])}>
+              <span>
+                <span className={styles.revenueTitle}>{t('SALE.FINANCES.TOTAL_REVENUE')}</span>
+                <span className={clsx([styles.stat, styles.revenueStat])}>
+                  <br></br>
                   {currencySymbol}
                   {totalRevenue}
-                </p>
-              </div>
+                </span>
+              </span>
               <BsChevronRight />
             </TextButton>
             <div className={styles.expenseContainer}>
@@ -110,7 +111,7 @@ const FinancesCarrousel = ({
     {
       id: 'expenses',
       label: t('SALE.FINANCES.EXPENSES'),
-      inactiveBackgroundColor: 'var(--white)',
+      inactiveBackgroundColor: '#FFF',
       inactiveIcon: <ExpenseIcon aria-label={t('SALE.FINANCES.EXPENSES')} />,
       activeContent: (
         <div className={styles.cardContent}>
@@ -139,28 +140,30 @@ const FinancesCarrousel = ({
               className={styles.labourExpensesContainer}
               onClick={() => history.push('/labour')}
             >
-              <div>
-                <Text className={styles.labourExpensesTitle}>
+              <span>
+                <span className={styles.labourExpensesTitle}>
                   {t('SALE.FINANCES.TOTAL_LABOUR')}
-                </Text>
-                <p className={clsx([styles.stat, styles.labourExpensesStat])}>
+                </span>
+                <span className={clsx([styles.stat, styles.labourExpensesStat])}>
+                  <br></br>
                   {currencySymbol}
                   {labourExpense}
-                </p>
-              </div>
+                </span>
+              </span>
               <BsChevronRight />
             </TextButton>
             <TextButton
               className={styles.otherExpensesContainer}
               onClick={() => history.push('/other_expense')}
             >
-              <div>
-                <Text className={styles.otherExpensesTitle}>{t('SALE.FINANCES.TOTAL_OTHER')}</Text>
-                <p className={clsx([styles.stat, styles.otherExpensesStat])}>
+              <span>
+                <span className={styles.otherExpensesTitle}>{t('SALE.FINANCES.TOTAL_OTHER')}</span>
+                <span className={clsx([styles.stat, styles.otherExpensesStat])}>
+                  <br></br>
                   {currencySymbol}
                   {otherExpense}
-                </p>
-              </div>
+                </span>
+              </span>
               <BsChevronRight />
             </TextButton>
           </div>
@@ -188,15 +191,16 @@ const FinancesCarrousel = ({
             className={styles.estimatedRevenueContainer}
             onClick={() => history.push('/estimated_revenue')}
           >
-            <div>
-              <Text className={styles.estimatedRevenueTitle}>
+            <span>
+              <span className={styles.estimatedRevenueTitle}>
                 {t('SALE.FINANCES.ESTIMATED_HARVEST_REVENUE')}
-              </Text>
-              <p className={styles.stat}>
+              </span>
+              <span className={styles.stat}>
+                <br></br>
                 {currencySymbol}
                 {estimatedRevenue}
-              </p>
-            </div>
+              </span>
+            </span>
             <BsChevronRight />
           </TextButton>
         </div>

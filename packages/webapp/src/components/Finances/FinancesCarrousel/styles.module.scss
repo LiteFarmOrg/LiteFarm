@@ -27,7 +27,7 @@
 .revenueExpensesContainer {
   background-color: color-mix(in srgb, var(--teal100), transparent 75%);
   flex-grow: 1;
-  padding: 16px 8px;
+  padding: 12px 8px;
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -35,7 +35,7 @@
   border-radius: 4px 0 0 4px;
 
   @media (min-width: 768px) {
-    padding: 16px;
+    padding: 24px 16px;
   }
 }
 
@@ -61,6 +61,12 @@
   padding: 4px;
 }
 
+.revenueTitle, .labourExpensesTitle, .otherExpensesTitle, .expenseTitle, .profitLossTitle {
+  font-family: 'Open Sans', 'SansSerif', serif;
+  font-size: 14px;
+  line-height: 18px;
+}
+
 .revenueTitle, .expenseTitle, .revenueStat, .expenseStat {
   text-shadow: 0px 0.5px 0px #11615D;
 }
@@ -84,6 +90,8 @@
 .stat {
   font-weight: 700;
   font-size: 18px;
+  line-height: 22px;
+  font-family: 'Open Sans', 'SansSerif', serif;
 }
 
 .totalExpensesContainer {
@@ -97,7 +105,7 @@
 .expensesStatsContainer {
   background-color: #FFF4D9;
   flex-grow: 1;
-  padding: 16px 8px;
+  padding: 12px 8px;
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -119,6 +127,7 @@
   position: relative;
   height: 100px;
   width: 100px;
+  margin: auto;
 
   @media (min-width: 768px) {
     height: 116px;
@@ -197,6 +206,8 @@
 
 .estimatedRevenueTitle {
   font-size: 12px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  line-height: 24px;
 }
 
 .estimatedRevenueContainer {

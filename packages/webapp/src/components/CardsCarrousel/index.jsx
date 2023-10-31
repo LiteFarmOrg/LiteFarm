@@ -69,7 +69,7 @@ const CardsCarrousel = ({ cards }) => {
                 zIndex: sortedCards.length - index,
               }}
             >
-              <div className={styles.inactiveIcon}>{card.inactiveIcon}</div>
+              {card.inactiveIcon}
             </TextButton>
           );
         })}

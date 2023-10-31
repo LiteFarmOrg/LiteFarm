@@ -40,6 +40,7 @@ import { useTranslation } from 'react-i18next';
 import { downloadFinanceReport } from './saga';
 import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../util/dateRange';
+import TransactionList from './TransactionList';
 
 const moment = extendMoment(Moment);
 
@@ -206,6 +207,7 @@ const Finances = () => {
           </div>
         </div>
       </div>
+      <TransactionList startDate={startDate} endDate={endDate} />
     </div>
   );
 };

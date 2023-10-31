@@ -12,23 +12,22 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
- 
- .mainContentWithIcon {
-  display: flex;
+
+// transaction amount
+.negativeValue {
+  font-weight: 600;
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: var(--red700);
+  background-color: var(--red200);
 }
 
-.mainContentWrapper {
-  width: calc(100% - 24px);
-}
-
-.clickable {
-  cursor: pointer;
-}
-
-.icon {
-  color: var(--grey500);
-}
-
-.iconWrapper {
-  height: 24px;
+.positiveValue {
+  font-weight: 600;
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: var(--green800);
+  background-color: var(--green100);
 }

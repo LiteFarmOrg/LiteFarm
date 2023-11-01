@@ -55,7 +55,7 @@ const FinancesCarrousel = ({
     labels: ['Total other', 'Total labour'],
     datasets: [
       {
-        data: [11500, 21523],
+        data: [otherExpense, labourExpense],
         backgroundColor: ['#FFB800', '#AA5F04'],
       },
     ],
@@ -123,7 +123,7 @@ const FinancesCarrousel = ({
               <div className={styles.expensesChart}>
                 <Doughnut
                   data={expenseChartData}
-                  options={{ cutout: '70%', borderWidth: 0 }}
+                  options={{ cutout: '70%', borderWidth: 0, animation: false }}
                   plugins={[ShadowPlugin]}
                 />
               </div>

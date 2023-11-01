@@ -65,6 +65,8 @@
   font-family: 'Open Sans', 'SansSerif', serif;
   font-size: 14px;
   line-height: 18px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .revenueTitle, .expenseTitle, .revenueStat, .expenseStat {
@@ -207,7 +209,8 @@
 .estimatedRevenueTitle {
   font-size: 12px;
   font-family: 'Open Sans', 'SansSerif', serif;
-  line-height: 24px;
+  line-height: 12px;
+  vertical-align: top;
 }
 
 .estimatedRevenueContainer {

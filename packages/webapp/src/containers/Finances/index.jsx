@@ -40,26 +40,26 @@ import { useTranslation } from 'react-i18next';
 import { downloadFinanceReport } from './saga';
 import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../util/dateRange';
-import TransactionList from './TransactionList';
 import TransactionFilter from './TransactionFilter';
 import { transactionsFilterSelector } from '../filterSlice';
+import useTransactions from './useTransactions';
+import PureTransactionList from '../../components/Finances/Transaction/Mobile/List';
 
 const moment = extendMoment(Moment);
 
 const Finances = () => {
   const { t } = useTranslation();
 
-  const sales = useSelector(salesSelector);
   const tasks = useSelector(tasksSelector);
   const expenses = useSelector(expenseSelector);
   const managementPlans = useSelector(managementPlansSelector);
-  const allRevenueTypes = useSelector(allRevenueTypesSelector);
   const { EXPENSE_TYPE: expenseTypeFilter, REVENUE_TYPE: revenueTypeFilter } = useSelector(
     transactionsFilterSelector,
   );
-
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
   const { startDate, endDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
+  const dateFilter = { startDate, endDate };
+  const transactions = useTransactions({ dateFilter, expenseTypeFilter, revenueTypeFilter });
   const currencySymbol = useCurrencySymbol();
 
   const dispatch = useDispatch();
@@ -102,10 +102,10 @@ const Finances = () => {
     return parseFloat(totalRevenue).toFixed(2);
   };
 
-  const totalRevenue = calcActualRevenue(sales, startDate, endDate, allRevenueTypes).toFixed(2);
+  const totalRevenue = calcActualRevenue(transactions).toFixed(2);
   const estimatedRevenue = getEstimatedRevenue(managementPlans);
-  const labourExpense = roundToTwoDecimal(calcTotalLabour(tasks, startDate, endDate));
-  const otherExpense = calcOtherExpense(expenses, startDate, endDate);
+  const labourExpense = roundToTwoDecimal(calcTotalLabour(transactions));
+  const otherExpense = calcOtherExpense(transactions);
   const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(2);
 
   return (
@@ -215,12 +215,7 @@ const Finances = () => {
           </div>
         </div>
       </div>
-      <TransactionList
-        startDate={startDate}
-        endDate={endDate}
-        expenseTypeFilter={expenseTypeFilter}
-        revenueTypeFilter={revenueTypeFilter}
-      />
+      <PureTransactionList data={transactions} />
     </div>
   );
 };

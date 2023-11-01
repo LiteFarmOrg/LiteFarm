@@ -133,7 +133,7 @@ const AddProduct = ({
         </>
       )}
       <Unit
-        label={t('ADD_PRODUCT.QUANTITY')}
+        label={t('common:QUANTITY')}
         data-cy="soilAmendment-quantity"
         hasLeaf
         style={{ marginBottom: '40px' }}

@@ -515,7 +515,7 @@
       "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "NEW_EXPENSE_ITEM": "MISSING",
       "TITLE": "Ajouter une dépense",
-      "WHICH_TYPES_TO_RECORD": "Quel type de dépense voulez-vous enregistrer\u00a0?"
+      "WHICH_TYPES_TO_RECORD": "MISSING"
     },
     "DELETE": {
       "CONFIRM": "MISSING",
@@ -843,6 +843,10 @@
     },
     "MANAGE_CUSTOM_TYPE": "MISSING",
     "REVENUE": "Revenu",
+    "SEARCH": {
+      "EXPENSE_TYPES": "MISSING",
+      "REVENUE_TYPES": "MISSING"
+    },
     "TRANSACTION": {
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
@@ -1600,6 +1604,12 @@
       "TYPE": "Type",
       "VALUE": "Valeur"
     }
+  },
+  "SEARCH": {
+    "CLEAR_TERMS": "MISSING",
+    "CLEAR_TERMS_AND_FILTERS": "MISSING",
+    "NO_RESULTS_FOR": "MISSING",
+    "ZERO": "MISSING"
   },
   "SENSOR": {
     "BRAND": "Marque",

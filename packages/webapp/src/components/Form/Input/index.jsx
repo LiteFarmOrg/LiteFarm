@@ -10,7 +10,9 @@ import {
   MdKeyboardArrowUp,
   MdKeyboardArrowDown,
 } from 'react-icons/md';
-import { BiSearchAlt2 } from 'react-icons/bi';
+import { ReactComponent as SearchIcon } from '../../../assets/images/search.svg';
+import { ReactComponent as SearchClearIcon } from '../../../assets/images/search-close.svg';
+import TextButton from '../Button/TextButton';
 import { mergeRefs } from '../utils';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
@@ -139,7 +141,7 @@ const Input = ({
           }}
         />
       )}
-      {isSearchBar && <BiSearchAlt2 className={styles.searchIcon} />}
+      {isSearchBar && <SearchIcon className={styles.searchIcon} />}
       {isPassword &&
         !showError &&
         (showPassword ? (
@@ -219,6 +221,11 @@ const Input = ({
               onClick={decrement}
             />
           </div>
+        )}
+        {isSearchBar && input?.current?.value && (
+          <TextButton onClick={onClear}>
+            <SearchClearIcon className={styles.searchClearIcon} />
+          </TextButton>
         )}
       </div>
       {info && !showError && <Info style={classes.info}>{info}</Info>}

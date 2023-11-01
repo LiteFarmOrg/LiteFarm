@@ -515,7 +515,7 @@
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Manage custom expense types",
       "NEW_EXPENSE_ITEM": "New expense item",
       "TITLE": "Add expense",
-      "WHICH_TYPES_TO_RECORD": "Which types of expenses would you like to record?"
+      "WHICH_TYPES_TO_RECORD": "Pick your expense types below:"
     },
     "DELETE": {
       "CONFIRM": "Confirm deletion",
@@ -843,6 +843,10 @@
     },
     "MANAGE_CUSTOM_TYPE": "Manage custom type",
     "REVENUE": "Revenue",
+    "SEARCH": {
+      "EXPENSE_TYPES": "Search expense type",
+      "REVENUE_TYPES": "Search revenue type"
+    },
     "TRANSACTION": {
       "LABOUR_EXPENSE": "Labour expense",
       "VIEW_AND_EDIT": "View & edit",
@@ -1508,7 +1512,7 @@
         "TOTAL": "Total"
       },
       "TITLE": "Add new sale",
-      "WHICH_TYPE_TO_RECORD": "What type of revenue would you like to record?"
+      "WHICH_TYPE_TO_RECORD": "Pick your revenue type below:"
     },
     "DETAIL": {
       "ACTION": "Action",
@@ -1599,6 +1603,12 @@
       "TYPE": "Type",
       "VALUE": "Value"
     }
+  },
+  "SEARCH": {
+    "CLEAR_TERMS": "Why not try a different search to discover new possibilities?",
+    "CLEAR_TERMS_AND_FILTERS": "Why not explore different terms or simply clear the filters to discover new possibilities?",
+    "NO_RESULTS_FOR": "Sorry, we couldn't find any results for your search term <1>'{{searchTerm}}'</1>",
+    "ZERO": "0 results"
   },
   "SENSOR": {
     "BRAND": "Brand",

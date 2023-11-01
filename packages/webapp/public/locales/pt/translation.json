@@ -842,6 +842,10 @@
     },
     "MANAGE_CUSTOM_TYPE": "MISSING",
     "REVENUE": "Receita",
+    "SEARCH": {
+      "EXPENSE_TYPES": "MISSING",
+      "REVENUE_TYPES": "MISSING"
+    },
     "TRANSACTION": {
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
@@ -1600,6 +1604,12 @@
       "TYPE": "Tipo",
       "VALUE": "Valor"
     }
+  },
+  "SEARCH": {
+    "CLEAR_TERMS": "MISSING",
+    "CLEAR_TERMS_AND_FILTERS": "MISSING",
+    "NO_RESULTS_FOR": "MISSING",
+    "ZERO": "MISSING"
   },
   "SENSOR": {
     "BRAND": "Marca",

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactSelect from '../../Form/ReactSelect';
 import produce from 'immer';
@@ -12,6 +12,7 @@ export const FilterMultiSelect = ({
   shouldReset,
   options = [],
   onChange,
+  className,
 }) => {
   const { t } = useTranslation(['common']);
 
@@ -56,6 +57,7 @@ export const FilterMultiSelect = ({
         onChange?.(value);
       }}
       isMulti
+      className={className}
     />
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import CheckBoxPill from '../CheckBoxPill';
@@ -15,6 +15,7 @@ const FilterPillSelect = ({
   options = [],
   onChange,
   isDisabled = false,
+  className,
 }) => {
   const [open, setOpen] = useState(false);
   const defaultFilterState = useMemo(() => {
@@ -60,7 +61,7 @@ const FilterPillSelect = ({
   }, [shouldReset]);
 
   return (
-    <div className={clsx(styles.container, open && styles.openContainer)} style={style}>
+    <div className={clsx(styles.container, open && styles.openContainer, className)} style={style}>
       <div
         className={clsx(styles.head, open && styles.openHead, isDisabled && styles.disabled)}
         onClick={isDisabled ? null : () => setOpen(!open)}

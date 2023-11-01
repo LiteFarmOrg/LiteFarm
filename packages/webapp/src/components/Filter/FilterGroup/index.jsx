@@ -5,8 +5,9 @@ import { DATE, DATE_RANGE, PILL_SELECT, SEARCHABLE_MULTI_SELECT } from '../filte
 import { FilterDateRange } from '../FilterDateRange';
 import { FilterMultiSelect } from '../FilterMultiSelect';
 import { FilterDate } from '../FilterDate';
+import styles from './styles.module.scss';
 
-const FilterGroup = ({ filters, filterRef }) => {
+const FilterGroup = ({ filters, filterRef, onChange }) => {
   return filters.map((filter) => {
     if ((filter.type === PILL_SELECT || !filter.type) && filter.options.length > 0) {
       return (
@@ -14,9 +15,10 @@ const FilterGroup = ({ filters, filterRef }) => {
           subject={filter.subject}
           options={filter.options}
           filterKey={filter.filterKey}
-          style={{ marginBottom: '32px' }}
+          className={styles.filter}
           filterRef={filterRef}
           key={filter.filterKey}
+          onChange={onChange}
         />
       );
     } else if (filter.type === DATE_RANGE) {
@@ -24,7 +26,8 @@ const FilterGroup = ({ filters, filterRef }) => {
         <FilterDateRange
           key={filter.subject}
           filterRef={filterRef}
-          style={{ marginBottom: '32px' }}
+          className={styles.filter}
+          onChange={onChange}
           {...filter}
         />
       );
@@ -34,22 +37,16 @@ const FilterGroup = ({ filters, filterRef }) => {
           subject={filter.subject}
           options={filter.options}
           filterKey={filter.filterKey}
-          style={{ marginBottom: '32px' }}
+          className={styles.filter}
           filterRef={filterRef}
           key={filter.filterKey}
+          onChange={onChange}
         />
       );
     } else if (filter.type === DATE) {
       return <FilterDate {...filter} key={filter.subject} filterRef={filterRef} />;
     }
   });
-};
-
-FilterGroup.prototype = {
-  subject: PropTypes.string,
-  items: PropTypes.array,
-  onGoBack: PropTypes.func,
-  hasDateRangeFilter: PropTypes.bool,
 };
 
 export default FilterGroup;

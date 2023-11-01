@@ -22,6 +22,7 @@ import { revenueTypesSelector } from '../../revenueTypeSlice';
 import FilterGroup from '../../../components/Filter/FilterGroup';
 import { Semibold } from '../../../components/Typography';
 import styles from './styles.module.scss';
+import { transactionTypeEnum } from '../../Finances/useTransactions';
 
 const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) => {
   const { t } = useTranslation(['translation', 'filter']);
@@ -32,13 +33,21 @@ const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) =
     {
       subject: t('FINANCES.FILTER.EXPENSE_TYPE'),
       filterKey: EXPENSE_TYPE,
-      options: expenseTypes.map((type) => ({
-        value: type.expense_type_id,
-        default: transactionsFilter[EXPENSE_TYPE]?.[type.expense_type_id]?.active ?? true,
-        label: type.farm_id
-          ? type.expense_name
-          : t(`expense:${type.expense_translation_key}.EXPENSE_NAME`),
-      })),
+      options: [
+        ...expenseTypes.map((type) => ({
+          value: type.expense_type_id,
+          default: transactionsFilter[EXPENSE_TYPE]?.[type.expense_type_id]?.active ?? true,
+          label: type.farm_id
+            ? type.expense_name
+            : t(`expense:${type.expense_translation_key}.EXPENSE_NAME`),
+        })),
+        {
+          value: transactionTypeEnum.labourExpense,
+          default:
+            transactionsFilter[EXPENSE_TYPE]?.[transactionTypeEnum.labourExpense]?.active ?? true,
+          label: t('SALE.FINANCES.LABOUR_LABEL'),
+        },
+      ],
     },
     {
       subject: t('FINANCES.FILTER.REVENUE_TYPE'),

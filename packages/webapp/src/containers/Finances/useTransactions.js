@@ -58,7 +58,7 @@ const buildLabourTransactionsFromTasks = ({
           (moment(task.date).isSameOrAfter(dateFilter.startDate, 'day') &&
             moment(task.date).isSameOrBefore(dateFilter.endDate, 'day'))) &&
         // We don't have an actual Labour expense type, but we allow to filter by it in the Expense types filter.
-        (!expenseTypeFilter || expenseTypeFilter[labourExpenseType.expense_type_id]?.active),
+        (!expenseTypeFilter || expenseTypeFilter[transactionTypeEnum.labourExpense]?.active),
     );
 
   // We only want to show one Labour transaction per day. When expanding the item details on how that transaction was summed up from tasks will be displayed.

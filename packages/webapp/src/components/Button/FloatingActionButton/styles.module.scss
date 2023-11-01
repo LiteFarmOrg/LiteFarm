@@ -1,4 +1,47 @@
-.floatingActionButton{
-  color: var(--yellow300);
-  background-color: var(--yellow300);
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.floatingActionButton {
+  position: relative;
+
+  &::before, &::after {
+    content: "";
+    position: absolute;
+    background-color: var(--brown900);
+    transition: 0.5s;
+  }
+
+  &::before {
+    left: calc(50% - 2px);
+    top: calc(50% - 12px);
+    width: 4px;
+    height: 24px;
+  }
+
+  &::after {
+    left: calc(50% - 12px);
+    top: calc(50% - 2px);
+    width: 24px;
+    height: 4px;
+  }
+
+  &:hover {
+    background-color: var(--yellow700);
+
+    &::before, &::after {
+      background-color: #fff;
+    }
+  }
 }

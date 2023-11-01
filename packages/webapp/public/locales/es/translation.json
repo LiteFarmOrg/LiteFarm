@@ -842,6 +842,12 @@
       "ESTIMATED_PRICE_PER_UNIT": "Precio estimado por unidad",
       "TITLE": "Ingresos estimados"
     },
+    "FILTER": {
+      "EXPENSE_TYPE": "Tipos de gastos",
+      "HELP_TEXT": "Utilice estos filtros para ajustar la lista de transacciones y adecuarla a sus necesidades",
+      "REVENUE_TYPE": "Tipos de ingresos",
+      "TITLE": "Filtrar transacciones"
+    },
     "MANAGE_CUSTOM_TYPE": "Administrar tipos personalizados",
     "REVENUE": "Ingresos",
     "TRANSACTION": {
@@ -1559,7 +1565,7 @@
       },
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "REVENUE": "Ingresos",
-      "TITLE": "Finanzas",
+      "TITLE": "Resumen de finanzas",
       "UNALLOCATED_CROP": "No asignada",
       "UNALLOCATED_TIP": "Que es no asignada?"
     },

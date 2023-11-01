@@ -843,6 +843,12 @@
       "ESTIMATED_PRICE_PER_UNIT": "Estimation du prix unitaire",
       "TITLE": "Chiffre d'affaires estimé"
     },
+    "FILTER": {
+      "EXPENSE_TYPE": "MISSING",
+      "HELP_TEXT": "MISSING",
+      "REVENUE_TYPE": "MISSING",
+      "TITLE": "MISSING"
+    },
     "MANAGE_CUSTOM_TYPE": "MISSING",
     "REVENUE": "Revenu",
     "TRANSACTION": {
@@ -1560,7 +1566,7 @@
       },
       "OTHER_EXPENSES_LABEL": "Autres dépenses",
       "REVENUE": "Revenu",
-      "TITLE": "Finances",
+      "TITLE": "MISSING",
       "UNALLOCATED_CROP": "Non-Alloué",
       "UNALLOCATED_TIP": "Non-Alloué ça veut dire quoi\u00a0?"
     },

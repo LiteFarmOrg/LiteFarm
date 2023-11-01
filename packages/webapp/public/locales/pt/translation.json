@@ -842,6 +842,12 @@
       "ESTIMATED_PRICE_PER_UNIT": "Preço por unidade estimado",
       "TITLE": "Receita Estimada"
     },
+    "FILTER": {
+      "EXPENSE_TYPE": "MISSING",
+      "HELP_TEXT": "MISSING",
+      "REVENUE_TYPE": "MISSING",
+      "TITLE": "MISSING"
+    },
     "MANAGE_CUSTOM_TYPE": "MISSING",
     "REVENUE": "Receita",
     "TRANSACTION": {
@@ -1560,7 +1566,7 @@
       },
       "OTHER_EXPENSES_LABEL": "Outras despesas",
       "REVENUE": "Receita",
-      "TITLE": "Finanças",
+      "TITLE": "MISSING",
       "UNALLOCATED_CROP": "Não atribuído",
       "UNALLOCATED_TIP": "O que não está atribuído?"
     },

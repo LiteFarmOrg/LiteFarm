@@ -1,10 +1,26 @@
-import { useEffect, useMemo, useState } from 'react';
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://wwwl.gnu.org/licenses/>.
+ */
+
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import CheckBoxPill from '../CheckBoxPill';
 import clsx from 'clsx';
 import { BsChevronDown } from 'react-icons/bs';
 import produce from 'immer';
+import FilterControls from '../FilterControls';
 
 const FilterPillSelect = ({
   subject,
@@ -16,6 +32,7 @@ const FilterPillSelect = ({
   onChange,
   isDisabled = false,
   className,
+  showIndividualControls = false,
 }) => {
   const [open, setOpen] = useState(false);
   const defaultFilterState = useMemo(() => {
@@ -47,50 +64,79 @@ const FilterPillSelect = ({
     filterRef.current[filterKey] = filterState;
   }, [filterState]);
 
-  useEffect(() => {
-    if (shouldReset) {
+  const updateAllFilters = useCallback(
+    (active) => {
       const initState = options.reduce((defaultFilterState, option) => {
         defaultFilterState[option.value] = {
-          active: false,
+          active,
           label: option.label,
         };
         return defaultFilterState;
       }, {});
       setFilterState(initState);
+      onChange?.();
+    },
+    [options, defaultFilterState],
+  );
+
+  useEffect(() => {
+    if (shouldReset) {
+      updateAllFilters(false);
     }
-  }, [shouldReset]);
+  }, [shouldReset, updateAllFilters]);
+
+  const selectAllDisabled = useMemo(
+    () => !options.some((option) => !filterState[option.value]?.active),
+    [options, filterState],
+  );
+  const clearAllDisabled = useMemo(
+    () => !options.some((option) => filterState[option.value]?.active),
+    [options, filterState],
+  );
 
   return (
-    <div className={clsx(styles.container, open && styles.openContainer, className)} style={style}>
+    <>
       <div
-        className={clsx(styles.head, open && styles.openHead, isDisabled && styles.disabled)}
-        onClick={isDisabled ? null : () => setOpen(!open)}
+        className={clsx(styles.container, open && styles.openContainer, className)}
+        style={style}
       >
-        <div>{subject}</div>
-        {counter > 0 && (
-          <>
-            <div className={styles.circle} />
-            <div style={{ flexGrow: '1' }} />
-            <div className={styles.counter}>{`${counter}`}</div>
-          </>
-        )}
-        <BsChevronDown style={open ? { transform: 'scaleY(-1)' } : {}} />
+        <div
+          className={clsx(styles.head, open && styles.openHead, isDisabled && styles.disabled)}
+          onClick={isDisabled ? null : () => setOpen(!open)}
+        >
+          <div>{subject}</div>
+          {counter > 0 && (
+            <>
+              <div className={styles.circle} />
+              <div style={{ flexGrow: '1' }} />
+              <div className={styles.counter}>{`${counter}`}</div>
+            </>
+          )}
+          <BsChevronDown style={open ? { transform: 'scaleY(-1)' } : {}} />
+        </div>
+        <fieldset className={styles.dropdown} style={{ display: open ? 'flex' : 'none' }}>
+          {options.map((option) => {
+            return (
+              <CheckBoxPill
+                label={option.label}
+                value={option.value}
+                checked={filterState[option.value].active}
+                updateFilterState={updateFilterState}
+                key={option.value}
+                isDisabled={isDisabled}
+              />
+            );
+          })}
+        </fieldset>
       </div>
-      <fieldset className={styles.dropdown} style={{ display: open ? 'flex' : 'none' }}>
-        {options.map((option) => {
-          return (
-            <CheckBoxPill
-              label={option.label}
-              value={option.value}
-              checked={filterState[option.value].active}
-              updateFilterState={updateFilterState}
-              key={option.value}
-              isDisabled={isDisabled}
-            />
-          );
-        })}
-      </fieldset>
-    </div>
+      {showIndividualControls && (
+        <FilterControls
+          updateFilters={updateAllFilters}
+          selectAllDisabled={selectAllDisabled}
+          clearAllDisabled={clearAllDisabled}
+        />
+      )}
+    </>
   );
 };
 
@@ -99,6 +145,7 @@ FilterPillSelect.prototype = {
   options: PropTypes.array,
   filterKey: PropTypes.string,
   shouldReset: PropTypes.number,
+  shouldSelectAll: PropTypes.number,
 };
 
 export default FilterPillSelect;

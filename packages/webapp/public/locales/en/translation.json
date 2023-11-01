@@ -820,7 +820,9 @@
     "TITLE": "File size too large"
   },
   "FILTER": {
-    "CLEAR_ALL_FILTERS": "Clear all filters"
+    "CLEAR_ALL": "Clear all",
+    "CLEAR_ALL_FILTERS": "Clear all filters",
+    "SELECT_ALL": "Select all"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {

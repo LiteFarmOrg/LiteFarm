@@ -21,48 +21,54 @@ import { FilterMultiSelect } from '../FilterMultiSelect';
 import { FilterDate } from '../FilterDate';
 import styles from './styles.module.scss';
 
-const FilterGroup = ({ filters, filterRef, onChange, shouldReset }) => {
+const FilterItem = ({ filter, showIndividualFilterControls, ...props }) => {
+  if ((filter.type === PILL_SELECT || !filter.type) && filter.options.length > 0) {
+    return (
+      <FilterPillSelect
+        subject={filter.subject}
+        options={filter.options}
+        filterKey={filter.filterKey}
+        key={filter.filterKey}
+        showIndividualControls={showIndividualFilterControls}
+        {...props}
+      />
+    );
+  } else if (filter.type === DATE_RANGE) {
+    return <FilterDateRange key={filter.subject} {...filter} {...props} />;
+  } else if (filter.type === SEARCHABLE_MULTI_SELECT) {
+    return (
+      <FilterMultiSelect
+        subject={filter.subject}
+        options={filter.options}
+        filterKey={filter.filterKey}
+        key={filter.filterKey}
+        {...props}
+      />
+    );
+  } else if (filter.type === DATE) {
+    return <FilterDate {...filter} key={filter.subject} {...props} />;
+  }
+};
+
+const FilterGroup = ({
+  filters,
+  filterRef,
+  onChange,
+  shouldReset,
+  showIndividualFilterControls = false,
+}) => {
   return filters.map((filter) => {
-    if ((filter.type === PILL_SELECT || !filter.type) && filter.options.length > 0) {
-      return (
-        <FilterPillSelect
-          subject={filter.subject}
-          options={filter.options}
-          filterKey={filter.filterKey}
-          className={styles.filter}
+    return (
+      <div key={filter.filterKey ?? filter.subject} className={styles.filterContainer}>
+        <FilterItem
+          filter={filter}
           filterRef={filterRef}
-          key={filter.filterKey}
-          shouldReset={shouldReset}
           onChange={onChange}
-        />
-      );
-    } else if (filter.type === DATE_RANGE) {
-      return (
-        <FilterDateRange
-          key={filter.subject}
-          filterRef={filterRef}
-          className={styles.filter}
           shouldReset={shouldReset}
-          onChange={onChange}
-          {...filter}
+          showIndividualFilterControls={showIndividualFilterControls}
         />
-      );
-    } else if (filter.type === SEARCHABLE_MULTI_SELECT) {
-      return (
-        <FilterMultiSelect
-          subject={filter.subject}
-          options={filter.options}
-          filterKey={filter.filterKey}
-          className={styles.filter}
-          filterRef={filterRef}
-          key={filter.filterKey}
-          shouldReset={shouldReset}
-          onChange={onChange}
-        />
-      );
-    } else if (filter.type === DATE) {
-      return <FilterDate {...filter} key={filter.subject} filterRef={filterRef} />;
-    }
+      </div>
+    );
   });
 };
 
@@ -85,6 +91,11 @@ FilterGroup.propTypes = {
   }).isRequired,
   onChange: PropTypes.func,
   shouldReset: PropTypes.bool,
+  showIndividualFilterControls: PropTypes.bool,
+};
+
+FilterGroup.defaultProps = {
+  showIndividualFilterControls: false,
 };
 
 export default FilterGroup;

@@ -65,7 +65,12 @@ const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) =
   return (
     <>
       <Semibold className={styles.helpText}>{t('FINANCES.FILTER.HELP_TEXT')}</Semibold>
-      <FilterGroup filters={filters} filterRef={filterRef} onChange={onChange} />
+      <FilterGroup
+        filters={filters}
+        filterRef={filterRef}
+        onChange={onChange}
+        showIndividualFilterControls
+      />
     </>
   );
 };

@@ -13,6 +13,14 @@
  *  GNU General Public License for more details, see <https://wwwl.gnu.org/licenses/>.
  */
 
-.filterContainer {
-  margin-bottom: 32px;
+.filterControlsContainer {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.filterControl {
+  text-decoration-line: underline;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  color: var(--brown700);
 }

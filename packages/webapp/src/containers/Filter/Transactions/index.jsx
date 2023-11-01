@@ -1,4 +1,19 @@
-import React from 'react';
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../constants';
@@ -44,6 +59,14 @@ const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) =
       <FilterGroup filters={filters} filterRef={filterRef} onChange={onChange} />
     </>
   );
+};
+
+const filterShape = { active: PropTypes.bool, label: PropTypes.string };
+
+TransactionFilterContent.propTypes = {
+  transactionsFilter: PropTypes.objectOf(PropTypes.shape(filterShape)).isRequired,
+  filterRef: PropTypes.shape({ current: PropTypes.shape(filterShape) }).isRequired,
+  onChange: PropTypes.func,
 };
 
 export default TransactionFilterContent;

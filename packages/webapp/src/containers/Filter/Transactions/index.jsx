@@ -8,7 +8,7 @@ import FilterGroup from '../../../components/Filter/FilterGroup';
 import { Semibold } from '../../../components/Typography';
 import styles from './styles.module.scss';
 
-const TransactionsFilterContent = ({ transactionsFilter, filterRef }) => {
+const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) => {
   const { t } = useTranslation(['translation', 'filter']);
   const expenseTypes = useSelector(expenseTypeSelector);
   const revenueTypes = useSelector(revenueTypesSelector);
@@ -41,9 +41,9 @@ const TransactionsFilterContent = ({ transactionsFilter, filterRef }) => {
   return (
     <>
       <Semibold className={styles.helpText}>{t('FINANCES.FILTER.HELP_TEXT')}</Semibold>
-      <FilterGroup filters={filters} filterRef={filterRef} />{' '}
+      <FilterGroup filters={filters} filterRef={filterRef} onChange={onChange} />
     </>
   );
 };
 
-export default TransactionsFilterContent;
+export default TransactionFilterContent;

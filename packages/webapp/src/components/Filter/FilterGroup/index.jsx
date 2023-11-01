@@ -7,7 +7,7 @@ import { FilterMultiSelect } from '../FilterMultiSelect';
 import { FilterDate } from '../FilterDate';
 import styles from './styles.module.scss';
 
-const FilterGroup = ({ filters, filterRef, onChange }) => {
+const FilterGroup = ({ filters, filterRef, onChange, shouldReset }) => {
   return filters.map((filter) => {
     if ((filter.type === PILL_SELECT || !filter.type) && filter.options.length > 0) {
       return (
@@ -18,6 +18,7 @@ const FilterGroup = ({ filters, filterRef, onChange }) => {
           className={styles.filter}
           filterRef={filterRef}
           key={filter.filterKey}
+          shouldReset={shouldReset}
           onChange={onChange}
         />
       );
@@ -27,6 +28,7 @@ const FilterGroup = ({ filters, filterRef, onChange }) => {
           key={filter.subject}
           filterRef={filterRef}
           className={styles.filter}
+          shouldReset={shouldReset}
           onChange={onChange}
           {...filter}
         />
@@ -40,6 +42,7 @@ const FilterGroup = ({ filters, filterRef, onChange }) => {
           className={styles.filter}
           filterRef={filterRef}
           key={filter.filterKey}
+          shouldReset={shouldReset}
           onChange={onChange}
         />
       );

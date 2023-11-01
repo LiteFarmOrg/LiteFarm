@@ -8,12 +8,13 @@ import {
   transactionsFilterSelector,
 } from '../../filterSlice';
 import ModalComponent from '../../../components/Modals/ModalComponent/v2';
-import TransactionsFilterContent from '../../Filter/Transactions';
+import TransactionFilterContent from '../../Filter/Transactions';
 import Button from '../../../components/Form/Button';
 
 const TransactionFilter = () => {
   const { t } = useTranslation();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
   const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('transactions'));
 
   const transactionsFilter = useSelector(transactionsFilterSelector);
@@ -34,14 +35,15 @@ const TransactionFilter = () => {
           title={t('FINANCES.FILTER.TITLE')}
           dismissModal={() => setIsFilterOpen(false)}
           buttonGroup={
-            <Button fullLength onClick={handleApply} color={'primary'}>
+            <Button fullLength onClick={handleApply} color={'primary'} disabled={!isDirty}>
               {t('common:APPLY')}
             </Button>
           }
         >
-          <TransactionsFilterContent
+          <TransactionFilterContent
             transactionsFilter={transactionsFilter}
             filterRef={filterRef}
+            onChange={() => !isDirty && setIsDirty(true)}
           />
         </ModalComponent>
       )}

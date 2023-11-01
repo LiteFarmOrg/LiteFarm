@@ -23,6 +23,7 @@ import ManageCustomExpenseTypesSpotlight from '../ManageCustomExpenseTypesSpotli
 import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import labelIconStyles from '../../../../components/Tile/styles.module.scss';
+import { listItemTypes } from '../../../../components/List/constants';
 
 export const icons = {
   EQUIPMENT: <EquipIcon />,
@@ -98,12 +99,17 @@ class ExpenseCategories extends Component {
           progressValue={33}
           onGoToManageCustomType={() => history.push('/manage_custom_expenses')}
           isTypeSelected={!!this.state.selectedTypes.length}
-          formatTileData={(data) => {
-            const { farm_id, expense_translation_key, expense_type_id, expense_name } = data;
+          formatListItemData={(data) => {
+            const {
+              farm_id,
+              expense_translation_key,
+              expense_type_id,
+              expense_name,
+              custom_description,
+            } = data;
 
             return {
               key: expense_type_id,
-              tileKey: expense_type_id,
               icon: icons[farm_id ? 'OTHER' : expense_translation_key],
               label: farm_id
                 ? expense_name
@@ -111,8 +117,12 @@ class ExpenseCategories extends Component {
               onClick: () => this.addRemoveType(expense_type_id),
               selected: this.state.selectedTypes.includes(expense_type_id),
               className: labelIconStyles.boldLabelIcon,
+              description: farm_id
+                ? custom_description
+                : this.props.t(`expense:${expense_translation_key}.CUSTOM_DESCRIPTION`),
             };
           }}
+          listItemType={listItemTypes.ICON_DESCRIPTION_CHECKBOX}
           useHookFormPersist={this.props.useHookFormPersist}
           iconLinkId={'manageCustomExpenseType'}
           Wrapper={ManageCustomExpenseTypesSpotlight}

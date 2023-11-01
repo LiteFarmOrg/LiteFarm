@@ -13,15 +13,28 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.list {
-  width: 100%;
-  display: inline-flex;
-  flex-flow: row wrap;
-  row-gap: 8px;
-  padding-bottom: 16px;
 
-  @media screen and (min-width: 640px) {
-    row-gap: 16px;
-    padding-bottom: 0;
+// ExpandedContent
+.expandedContent {
+  margin: 0 4px 8px 4px;
+}
+
+button.toDetail {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19px;
+  border-radius: 4px;
+  background-color: #EDF5F3;
+  color: var(--teal900);
+
+  svg {
+    stroke-width: 1px;
+    margin-left: 8px;
   }
 }

@@ -15,7 +15,7 @@
 import decorators from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 import ManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
-import { ReactComponent as OtherIcon } from '../../../assets/images/log/other.svg';
+import { ReactComponent as OtherIcon } from '../../../assets/images/finance/Custom-expense.svg';
 
 export default {
   title: 'Form/ManageCustomTypes',
@@ -30,6 +30,7 @@ const customTypes = [
     expense_type_id: '461d2e5e-3d4c-11ee-ba15-e66db4bef552',
     deleted: false,
     expense_translation_key: 'CUSTOM',
+    custom_description: 'A user-provided description of this type',
   },
   {
     expense_name: 'Custom type 2',
@@ -37,6 +38,7 @@ const customTypes = [
     expense_type_id: '461d2e5e-3d4c-11ee-ba15-e66db4bef553',
     deleted: false,
     expense_translation_key: 'CUSTOM_2',
+    custom_description: 'A user-provided description of this type',
   },
 ];
 
@@ -46,17 +48,17 @@ export const Expense = {
     handleGoBack: () => console.log('back'),
     addLinkText: 'Add custom expense type',
     onAddType: () => console.log('add'),
-    tileData: customTypes,
-    onTileClick: (key) => console.log(`${key} clicked!`),
+    listItemData: customTypes,
+    onItemClick: (key) => console.log(`${key} clicked!`),
     customTypeFieldName: 'expense_type_id',
-    formatTileData: (data) => {
-      const { expense_name, expense_type_id } = data;
+    formatListItemData: (data) => {
+      const { expense_name, expense_type_id, custom_description } = data;
 
       return {
         key: expense_type_id,
-        tileKey: expense_type_id,
         icon: <OtherIcon />,
         label: expense_name,
+        description: custom_description,
       };
     },
     useHookFormPersist: () => ({}),

@@ -19,12 +19,13 @@ import TextButton from '../../../Form/Button/TextButton';
 import history from '../../../../history';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
 import styles from './styles.module.scss';
+import LabourTable from './LabourTable';
 
 // TODO LF-3748, 3749, 3761
 const components = {
   EXPENSE: (props) => <div>expense placeholder</div>,
   REVENUE: (props) => <div>revenue placeholder</div>,
-  LABOUR_EXPENSE: (props) => <div>labour placeholder</div>,
+  LABOUR_EXPENSE: ({ data }) => <LabourTable transaction={data} />,
   CROP_SALE: (props) => <div>crop sale placeholder</div>,
 };
 
@@ -43,7 +44,7 @@ export default function ExpandedContent({ data }) {
 
   const toDetailText =
     transactionType === transactionTypeEnum.labourExpense
-      ? t('FINANCES.TRANSACTION.VIEW_DETAILS')
+      ? t('FINANCES.TRANSACTION.VIEW_LABOUR')
       : t('FINANCES.TRANSACTION.VIEW_AND_EDIT');
 
   const componentKey = typeLabel === 'Crop Sale' ? 'CROP_SALE' : transactionType;

@@ -71,7 +71,7 @@ const FilterPillSelect = ({
           <>
             <div className={styles.circle} />
             <div style={{ flexGrow: '1' }} />
-            <div className={styles.counter}>{`+${counter}`}</div>
+            <div className={styles.counter}>{`${counter}`}</div>
           </>
         )}
         <BsChevronDown style={open ? { transform: 'scaleY(-1)' } : {}} />

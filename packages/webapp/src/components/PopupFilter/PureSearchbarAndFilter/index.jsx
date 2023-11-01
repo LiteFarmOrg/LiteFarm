@@ -12,6 +12,7 @@ const useStyles = makeStyles({
     position: 'relative',
     alignItems: 'center',
     paddingBottom: '16px',
+    height: '64px',
   },
   circle: {
     position: 'absolute',

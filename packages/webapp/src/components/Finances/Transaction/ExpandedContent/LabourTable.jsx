@@ -43,6 +43,9 @@ export default function LabourTable({ transaction }) {
         id: 'employee',
         label: t('SALE.LABOUR.TABLE.EMPLOYEE'),
         Footer: <div className={styles.footer}>{t('SALE.LABOUR.TABLE.DAILY_TOTAL')}</div>,
+        columnProps: {
+          style: { width: '33.33%' },
+        },
       },
       {
         id: 'time',
@@ -50,6 +53,9 @@ export default function LabourTable({ transaction }) {
         format: (d) => `${d.time} h`,
         align: 'right',
         Footer: <b>{employeeTotalHours} h</b>,
+        columnProps: {
+          style: { width: '33.33%' },
+        },
       },
       {
         id: 'labourCost',
@@ -69,6 +75,9 @@ export default function LabourTable({ transaction }) {
             {Math.abs(transaction.amount).toFixed(2)}
           </b>
         ),
+        columnProps: {
+          style: { width: '33.33%' },
+        },
       },
     ],
     [transaction, currencySymbol],
@@ -82,7 +91,7 @@ export default function LabourTable({ transaction }) {
         Footer: <div className={styles.footer}>{t('SALE.LABOUR.TABLE.DAILY_TOTAL')}</div>,
         component: 'th',
         columnProps: {
-          style: { width: '33%' },
+          style: { width: '33.33%' },
         },
       },
       {
@@ -92,7 +101,7 @@ export default function LabourTable({ transaction }) {
         align: 'right',
         Footer: <b>{taskTotalHours} h</b>,
         columnProps: {
-          style: { width: '33%' },
+          style: { width: '33.33%' },
         },
       },
       {
@@ -114,7 +123,7 @@ export default function LabourTable({ transaction }) {
           </b>
         ),
         columnProps: {
-          style: { width: '33%' },
+          style: { width: '33.33%' },
         },
       },
     ],

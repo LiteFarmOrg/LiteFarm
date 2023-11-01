@@ -33,6 +33,7 @@
   flex-direction: column;
   justify-content: space-between;
   border-radius: 4px 0 0 4px;
+  width: 50%;
 
   @media (min-width: 768px) {
     padding: 24px 16px;
@@ -45,16 +46,21 @@
   padding: 16px 8px;
   border-radius: 0 4px 4px 0;
   text-align: center;
+  width: 50%;
 
   @media (min-width: 768px) {
     padding: 24px 16px;
   }
+
+  &.loss {
+    .profitLossTitle, .profitLossStat {
+      color: var(--red700)
+    }
+  }
 }
 
 .revenueContainer {
-  &:hover {
-    background-color: #3EA397;
-  }
+  background-color: #3EA397;
 }
 
 .expenseContainer {
@@ -77,7 +83,7 @@
   text-shadow: 0px 0.5px 0px #A7CFC9;
 }
 
-.revenueContainer, .revenueTitle, .revenueStat {
+.revenueContainer {
   color: #54FF8E;
 }
 
@@ -88,6 +94,7 @@
 .profitLossTitle, .profitLossStat {
   color: #3EA397;
 }
+
 
 .stat {
   font-weight: 700;
@@ -111,7 +118,8 @@
   text-align: left;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 4px;
   border-radius: 0 4px 4px 0;
 
   @media (min-width: 768px) {
@@ -173,9 +181,7 @@
 }
 
 .labourExpensesContainer, .otherExpensesContainer {
-  &:hover {
-    background-color: #FFEFCF;
-  }
+  background-color: #FFEFCF;
 }
 
 .labourExpensesContainer {
@@ -187,12 +193,10 @@
 }
 
 .labourExpensesTitle, .labourExpensesStat {
-  color: var(--yellow700);
   text-shadow: 0px 0.5px 0px var(--brown700);
 }
 
 .otherExpensesTitle, .otherExpensesStat {
-  color: var(--brown700);
   text-shadow: 0px 0.5px 0px var(--yellow700);
 }
 
@@ -202,7 +206,7 @@
   align-items: center;
 }
 
-.estimatedRevenueContainer, .estimatedRevenueTitle {
+.estimatedRevenueContainer {
   color: var(--teal700);
 }
 
@@ -215,8 +219,11 @@
 
 .estimatedRevenueContainer {
   margin-left: 16px;
+  background-color: #ABEBC1;
+}
 
-  &:hover {
-    background-color: #ABEBC1;
-  }
+.clickableContainer:hover {
+  background-color: color-mix(in srgb, var(--grey900), transparent 75%);
+  color: var(--teal100);
+  text-shadow: none;
 }

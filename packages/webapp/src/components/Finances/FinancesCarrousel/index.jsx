@@ -21,6 +21,8 @@ import PropTypes from 'prop-types';
 import CardsCarrousel from '../../CardsCarrousel';
 import { ReactComponent as ProfitLossIconDark } from '../../../assets/images/finance/Profit-loss-icn-dark.svg';
 import { ReactComponent as ProfitLossIconLight } from '../../../assets/images/finance/Profit-loss-icn-light.svg';
+import { ReactComponent as ProfitLossIconRedDark } from '../../../assets/images/finance/Profit-loss-icn-red-dark.svg';
+import { ReactComponent as ProfitLossIconRedLight } from '../../../assets/images/finance/Profit-loss-icn-red-light.svg';
 import { ReactComponent as ExpenseIcon } from '../../../assets/images/finance/Expense-icn.svg';
 import { ReactComponent as CropIcon } from '../../../assets/images/finance/Crop-icn.svg';
 import styles from './styles.module.scss';
@@ -52,10 +54,10 @@ const FinancesCarrousel = ({
   const { t } = useTranslation();
 
   const expenseChartData = {
-    labels: ['Total other', 'Total labour'],
+    labels: [t('SALE.FINANCES.TOTAL_LABOUR'), t('SALE.FINANCES.TOTAL_OTHER')],
     datasets: [
       {
-        data: [otherExpense, labourExpense],
+        data: [labourExpense, otherExpense],
         backgroundColor: ['#FFB800', '#AA5F04'],
       },
     ],
@@ -63,17 +65,20 @@ const FinancesCarrousel = ({
 
   const profitLoss = totalRevenue - totalExpense;
 
+  const ProfitLossLight = profitLoss < 0 ? ProfitLossIconRedLight : ProfitLossIconLight;
+  const ProfitLossDark = profitLoss < 0 ? ProfitLossIconRedDark : ProfitLossIconDark;
+
   const cards = [
     {
       id: 'profit-loss',
       label: t('SALE.FINANCES.PROFIT_LOSS'),
       inactiveBackgroundColor: 'var(--teal700)',
-      inactiveIcon: <ProfitLossIconDark role="img" aria-label={t('SALE.FINANCES.PROFIT_LOSS')} />,
+      inactiveIcon: <ProfitLossDark role="img" aria-label={t('SALE.FINANCES.PROFIT_LOSS')} />,
       activeContent: (
         <div className={clsx([styles.cardContent, styles.profitLossCardContent])}>
           <div className={styles.revenueExpensesContainer}>
             <TextButton
-              className={styles.revenueContainer}
+              className={clsx([styles.revenueContainer, styles.clickableContainer])}
               onClick={() => history.push('/finances/actual_revenue')}
             >
               <span>
@@ -84,7 +89,7 @@ const FinancesCarrousel = ({
                   {totalRevenue}
                 </span>
               </span>
-              <BsChevronRight />
+              <BsChevronRight width={16} height={16} />
             </TextButton>
             <div className={styles.expenseContainer}>
               <Text className={styles.expenseTitle}>{t('SALE.FINANCES.TOTAL_EXPENSES')}</Text>
@@ -94,8 +99,8 @@ const FinancesCarrousel = ({
               </p>
             </div>
           </div>
-          <div className={styles.profitLossSummaryContainer}>
-            <ProfitLossIconLight role="img" aria-label={t('SALE.FINANCES.PROFIT_LOSS')} />
+          <div className={clsx([styles.profitLossSummaryContainer, profitLoss < 0 && styles.loss])}>
+            <ProfitLossLight role="img" aria-label={t('SALE.FINANCES.PROFIT_LOSS')} />
             <Text className={styles.profitLossTitle}>{t('SALE.FINANCES.PROFIT_LOSS')}</Text>
             <p className={clsx([styles.stat, styles.profitLossStat])}>
               {profitLoss < 0 ? '-' : ''}
@@ -137,7 +142,7 @@ const FinancesCarrousel = ({
           </div>
           <div className={styles.expensesStatsContainer}>
             <TextButton
-              className={styles.labourExpensesContainer}
+              className={clsx([styles.labourExpensesContainer, styles.clickableContainer])}
               onClick={() => history.push('/labour')}
             >
               <span>
@@ -150,10 +155,10 @@ const FinancesCarrousel = ({
                   {labourExpense}
                 </span>
               </span>
-              <BsChevronRight />
+              <BsChevronRight width={16} height={16} />
             </TextButton>
             <TextButton
-              className={styles.otherExpensesContainer}
+              className={clsx([styles.otherExpensesContainer, styles.clickableContainer])}
               onClick={() => history.push('/other_expense')}
             >
               <span>
@@ -164,7 +169,7 @@ const FinancesCarrousel = ({
                   {otherExpense}
                 </span>
               </span>
-              <BsChevronRight />
+              <BsChevronRight width={16} height={16} />
             </TextButton>
           </div>
         </div>
@@ -188,7 +193,7 @@ const FinancesCarrousel = ({
             aria-label={t('SALE.FINANCES.ESTIMATED_HARVEST_REVENUE')}
           />
           <TextButton
-            className={styles.estimatedRevenueContainer}
+            className={clsx([styles.estimatedRevenueContainer, styles.clickableContainer])}
             onClick={() => history.push('/estimated_revenue')}
           >
             <span>
@@ -201,7 +206,7 @@ const FinancesCarrousel = ({
                 {estimatedRevenue}
               </span>
             </span>
-            <BsChevronRight />
+            <BsChevronRight width={16} height={16} />
           </TextButton>
         </div>
       ),

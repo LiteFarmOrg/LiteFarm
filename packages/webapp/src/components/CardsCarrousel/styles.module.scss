@@ -29,8 +29,12 @@
   box-shadow: 1px 0px 8px 0px rgba(0, 0, 0, 0.15);
 
   &:first-child {
+    @media only screen and (max-width: 768px) {
+      max-width: 294px;
+    }
+
     @media only screen and (min-width: 768px) {
-      min-width: 294px;
+      min-width: 310px;
     }
   }
 }

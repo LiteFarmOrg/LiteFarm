@@ -1,6 +1,6 @@
 {
   "CROP_SALE": {
-    "REVENUE_NAME": "MISSING",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "REVENUE_NAME": "Vente",
+    "CUSTOM_DESCRIPTION": "Revenus liés à la vente des récoltes de cette exploitation."
   }
 }

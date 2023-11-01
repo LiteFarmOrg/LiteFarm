@@ -1,14 +1,14 @@
 {
   "CLAY": "Argile",
-  "CLAY_LOAM": "Limon Argileux",
-  "LOAM": "Limon",
-  "LOAMY_SAND": "Limon Sableux",
+  "CLAY_LOAM": "Loam Argileux",
+  "LOAM": "Loam",
+  "LOAMY_SAND": "Sable loameux",
   "SAND": "Sable",
   "SANDY_CLAY": "Argile Sableuse",
-  "SANDY_CLAYLOAM": "Limon Argilo-Sableux",
-  "SANDY_LOAM": "Sable Limoneux",
+  "SANDY_CLAYLOAM": "Loam Argilo-Sableux",
+  "SANDY_LOAM": "Loam Sableux",
   "SILT": "Limon",
-  "SILT_LOAM": "Limon Limoneux",
-  "SILTY_CLAY": "Limon fin Argileux",
-  "SILTY_CLAYLOAM": "Limon Argileux Fin"
+  "SILT_LOAM": "Loam Limoneux",
+  "SILTY_CLAY": "Argile Limoneux",
+  "SILTY_CLAYLOAM": "Loam Argilo-Limoneux"
 }

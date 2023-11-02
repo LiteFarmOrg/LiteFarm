@@ -2,7 +2,7 @@ import React from 'react';
 import Pill from '../../components/Filter/Pill';
 
 export default {
-  title: 'Components/FilterPill',
+  title: 'Components/Filters/FilterPill',
   component: Pill,
 };
 

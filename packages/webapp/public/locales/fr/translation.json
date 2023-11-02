@@ -17,7 +17,6 @@
   "ADD_PRODUCT": {
     "PRESS_ENTER": "Tapez et appuyez sur Entrée pour ajouter...",
     "PRODUCT_LABEL": "Produit",
-    "QUANTITY": "Quantité",
     "SUPPLIER_LABEL": "Fournisseur"
   },
   "ADD_TASK": {
@@ -134,7 +133,7 @@
     "PLANTING_METHOD": "Méthode de plantation",
     "PLANTING_STOCK": "Matériel de plantation",
     "PLANTING_TASK": "Tâche de plantation",
-    "PLANTING_TASK_MODAL": "Accédez au catalogue des cultures pour sélectionner la culture que vous souhaitez planter et créer un nouveau plan de culture.",
+    "PLANTING_TASK_MODAL": "Démarrer une nouvelle tâche de plantation crée un nouveau plan de gestion. Accédez au catalogue des cultures pour sélectionner la culture que vous souhaitez planter.",
     "QUANTITY": "Quantité",
     "RETIRE_CUSTOM_TASK": "Retirer la tâche personnalisée\u00a0?",
     "RETIRE_CUSTOM_TASK_CONTENT": "Voulez-vous vraiment supprimer cette tâche personnalisée\u00a0?",
@@ -517,7 +516,7 @@
       "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
       "NEW_EXPENSE_ITEM": "MISSING",
       "TITLE": "Ajouter une dépense",
-      "WHICH_TYPES_TO_RECORD": "Quel type de dépense voulez-vous enregistrer\u00a0?"
+      "WHICH_TYPES_TO_RECORD": "MISSING"
     },
     "DELETE": {
       "CONFIRM": "MISSING",
@@ -845,6 +844,10 @@
     },
     "MANAGE_CUSTOM_TYPE": "MISSING",
     "REVENUE": "Revenu",
+    "SEARCH": {
+      "EXPENSE_TYPES": "MISSING",
+      "REVENUE_TYPES": "MISSING"
+    },
     "TRANSACTION": {
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
@@ -1509,7 +1512,6 @@
       "SALE_VALUE_ERROR": "La valeur de vente doit être un nombre positif moins que 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Variété de la culture",
-        "QUANTITY": "Quantité",
         "TOTAL": "Total"
       },
       "TITLE": "Ajouter nouvelle vente",
@@ -1520,7 +1522,6 @@
       "CROP": "Culture",
       "CUSTOMER_NAME": "Nom de Client",
       "DELETE_CONFIRMATION": "Êtes-vous sûr que vous voulez supprimer cette vente\u00a0?",
-      "QUANTITY": "Quantité",
       "TITLE": "MISSING",
       "VALUE": "Valeur"
     },
@@ -1551,6 +1552,11 @@
       "BALANCE": "Solde",
       "BALANCE_EXPLANATION": "Nous calculons un solde en temps réel («\u00a0coût de production\u00a0») pour chaque culture de votre ferme. Il s'agit d'une simple équation des dépenses moins les revenus. Les dépenses pour chaque culture sont calculées à partir de deux parties, une partie est le les dépenses de main-d'œuvre provenant des heures enregistrées pour les activités agricoles, l'autre partie provient des autres dépenses enregistrées pour l'ensemble de la ferme. Lorsque les dépenses sont enregistrées pour l'ensemble de la ferme, nous les répartissons également entre les cultures de la ferme. Non alloué signifie qu'un ou plusieurs quarts de travail a été soumis pour un champ alors qu'il n'y a pas encore de culture sur ce champ. Ce ou ces quarts de travail seront attribués aux cultures au fur et à mesure qu'elles sont ajoutées à ce champ dans la fenêtre de temps de rapport financier. ",
       "BALANCE_FOR_FARM": "Solde (Toute la ferme)",
+      "CARROUSEL_TEXT": {
+        "ESTIMATED_REVENUE": "MISSING",
+        "GENERIC": "MISSING"
+      },
+      "ESTIMATED_HARVEST_REVENUE": "MISSING",
       "EXPENSES": "Dépenses",
       "FINANCE_HELP": "Aide Financière",
       "LABOUR_LABEL": "Coûts de main-d'œuvre",
@@ -1559,8 +1565,13 @@
         "TITLE": "MISSING"
       },
       "OTHER_EXPENSES_LABEL": "Autres dépenses",
+      "PROFIT_LOSS": "MISSING",
       "REVENUE": "Revenu",
       "TITLE": "Finances",
+      "TOTAL_EXPENSES": "MISSING",
+      "TOTAL_LABOUR": "MISSING",
+      "TOTAL_OTHER": "MISSING",
+      "TOTAL_REVENUE": "MISSING",
       "UNALLOCATED_CROP": "Non-Alloué",
       "UNALLOCATED_TIP": "Non-Alloué ça veut dire quoi\u00a0?"
     },
@@ -1594,6 +1605,12 @@
       "TYPE": "Type",
       "VALUE": "Valeur"
     }
+  },
+  "SEARCH": {
+    "CLEAR_TERMS": "MISSING",
+    "CLEAR_TERMS_AND_FILTERS": "MISSING",
+    "NO_RESULTS_FOR": "MISSING",
+    "ZERO": "MISSING"
   },
   "SENSOR": {
     "BRAND": "Marque",

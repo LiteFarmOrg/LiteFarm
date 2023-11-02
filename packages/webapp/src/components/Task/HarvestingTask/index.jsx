@@ -139,7 +139,7 @@ function HarvestForm({
         <Unit
           register={register}
           style={{ marginBottom: '10px' }}
-          label={t('ADD_TASK.QUANTITY')}
+          label={t('common:QUANTITY')}
           name={quantityName}
           displayUnitName={`harvest_tasks.${index}.` + HARVEST_QUANTITY_UNIT}
           unitType={harvestAmounts}

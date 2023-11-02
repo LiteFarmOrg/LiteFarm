@@ -17,7 +17,6 @@
   "ADD_PRODUCT": {
     "PRESS_ENTER": "Escriba y presione enter para agregar...",
     "PRODUCT_LABEL": "Producto",
-    "QUANTITY": "Cantidad",
     "SUPPLIER_LABEL": "Proveedor/a"
   },
   "ADD_TASK": {
@@ -135,7 +134,6 @@
     "PLANTING_STOCK": "Plantón",
     "PLANTING_TASK": "Tarea de plantar",
     "PLANTING_TASK_MODAL": "Comenzar una nueva tarea de plantar crea un nuevo plan de cultivo. Vaya al catálogo de cultivos para seleccionar el cultivo que le gustaría plantar.",
-    "QUANTITY": "Cantidad",
     "RETIRE_CUSTOM_TASK": "¿Retirar tarea personalizada?",
     "RETIRE_CUSTOM_TASK_CONTENT": "¿Está seguro de que desea eliminar esta tarea personalizada?",
     "SEED": "Semilla",
@@ -844,6 +842,10 @@
     },
     "MANAGE_CUSTOM_TYPE": "Administrar tipos personalizados",
     "REVENUE": "Ingresos",
+    "SEARCH": {
+      "EXPENSE_TYPES": "MISSING",
+      "REVENUE_TYPES": "MISSING"
+    },
     "TRANSACTION": {
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
@@ -1508,7 +1510,6 @@
       "SALE_VALUE_ERROR": "El valor de venta debe ser un número positivo menor a 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Variedad de cultivo",
-        "QUANTITY": "Cantidad",
         "TOTAL": "Total"
       },
       "TITLE": "Agregue nueva venta",
@@ -1519,7 +1520,6 @@
       "CROP": "Cultivo",
       "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
       "DELETE_CONFIRMATION": "Está seguro que quiere borrar esta venta?",
-      "QUANTITY": "Cantidad",
       "TITLE": "MISSING",
       "VALUE": "Valor"
     },
@@ -1550,6 +1550,11 @@
       "BALANCE": "Balance",
       "BALANCE_EXPLANATION": "Calculamos un saldo en tiempo real (\"costo de producción\") para cada cultivo en su granja. Esta es una ecuación simple de gastos menos ingresos. Los gastos de cada cultivo se calculan a partir de dos partes, una parte son los gastos de mano de obra de las horas registradas para las actividades agrícolas, la otra parte son los otros gastos registrados para toda la finca. Cuando se registran los gastos de toda la finca, los dividimos equitativamente entre los cultivos de la finca. 'Sin asignar' significa que se ha enviado un turno para un campo cuando todavía no hay un cultivo en ese campo. Este (los) turno (s) se asignarán a los cultivos a medida que se agreguen a ese campo dentro de la ventana de tiempo del informe financiero.",
       "BALANCE_FOR_FARM": "Balance (Finca completa)",
+      "CARROUSEL_TEXT": {
+        "ESTIMATED_REVENUE": "Esta cifra (estática) refleja una estimación de su futura cosecha",
+        "GENERIC": "*Estas cifras se basan en su selección de fecha y filtros"
+      },
+      "ESTIMATED_HARVEST_REVENUE": "Ingresos de cosecha estimados",
       "EXPENSES": "Gastos",
       "FINANCE_HELP": "Ayuda financiera",
       "LABOUR_LABEL": "Trabajo",
@@ -1558,8 +1563,13 @@
         "TITLE": "Administrar tipos de gasto personalizados"
       },
       "OTHER_EXPENSES_LABEL": "Otros gastos",
+      "PROFIT_LOSS": "Ganancia / Pérdida",
       "REVENUE": "Ingresos",
       "TITLE": "Finanzas",
+      "TOTAL_EXPENSES": "Gastos totales",
+      "TOTAL_LABOUR": "Total empleo",
+      "TOTAL_OTHER": "Total otros",
+      "TOTAL_REVENUE": "Ingresos totales",
       "UNALLOCATED_CROP": "No asignada",
       "UNALLOCATED_TIP": "Que es no asignada?"
     },
@@ -1593,6 +1603,12 @@
       "TYPE": "Tipo",
       "VALUE": "Valor"
     }
+  },
+  "SEARCH": {
+    "CLEAR_TERMS": "MISSING",
+    "CLEAR_TERMS_AND_FILTERS": "MISSING",
+    "NO_RESULTS_FOR": "MISSING",
+    "ZERO": "MISSING"
   },
   "SENSOR": {
     "BRAND": "Marca",

@@ -1,0 +1,69 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+ 
+.carrouselContainer {
+  display: flex;
+  height: 128px;
+  width: 100%;
+
+  @media only screen and (min-width: 768px) {
+    height: 144px; 
+    width: 0;
+  }
+}
+
+.card {
+  border-radius: 4px;
+  box-shadow: 1px 0px 8px 0px rgba(0, 0, 0, 0.15);
+
+  &:first-child {
+    @media only screen and (max-width: 768px) {
+      max-width: 294px;
+    }
+
+    @media only screen and (min-width: 768px) {
+      min-width: 310px;
+    }
+  }
+}
+
+.activeCard {
+  border-radius: 4px;
+  flex-grow: 1;
+}
+
+.inactiveCard {
+  border-radius: 0 4px 4px 0;
+  padding-right: 8px;
+  margin-left: -2px;
+
+  @media only screen and (min-width: 1024px) {
+    padding-right: 20px;
+    padding-left: 24px;
+  }
+}
+
+.inactiveIcon {
+  svg {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.cardNote {
+  font-size: 12px;
+  line-height: 12px;
+  margin-top: 4px;
+}

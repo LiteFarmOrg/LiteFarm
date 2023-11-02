@@ -144,7 +144,7 @@ const expenseTypes = [
 export const Expense = {
   args: {
     title: 'Add Expense',
-    leadText: 'Which types of expenses would you like to record?',
+    leadText: 'Pick your expense types below:',
     cancelTitle: 'expense creation',
     types: expenseTypes,
     onContinue: () => console.log('CONTINUE'),
@@ -174,6 +174,9 @@ export const Expense = {
       addRemove: () => console.log('Miscellaneous clicked!'),
       selected: false,
     },
+    getSearchableString: (type) =>
+      [type.expense_name, type.custom_description].filter(Boolean).join(' '),
+    searchPlaceholderText: 'Search expense type',
   },
   parameters: { ...chromaticSmallScreen },
 };
@@ -225,6 +228,9 @@ export const Revenue = {
       info: 'You can also create your own custom revenue types!',
       manage: 'Manage your custom revenues',
     },
+    getSearchableString: (type) =>
+      [type.revenue_name, type.custom_description].filter(Boolean).join(' '),
+    searchPlaceholderText: 'Search revenue type',
   },
   parameters: { ...chromaticSmallScreen },
 };

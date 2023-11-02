@@ -17,7 +17,6 @@
   "ADD_PRODUCT": {
     "PRESS_ENTER": "Digite e pressione enter para adicionar...",
     "PRODUCT_LABEL": "Produto",
-    "QUANTITY": "Quantidade",
     "SUPPLIER_LABEL": "Fornecedor"
   },
   "ADD_TASK": {
@@ -135,7 +134,6 @@
     "PLANTING_STOCK": "Muda",
     "PLANTING_TASK": "Tarefa de plantio",
     "PLANTING_TASK_MODAL": "Quando se inicia uma nova tarefa de plantio, um novo plano de cultivo é criado. Vá ao catálogo de cultivos para selecionar o cultivo que você gostaria de plantar.",
-    "QUANTITY": "Quantidade",
     "RETIRE_CUSTOM_TASK": "Retirar tarefa personalizada?",
     "RETIRE_CUSTOM_TASK_CONTENT": "Tem certeza que você quer deletar essa tarefa?",
     "SEED": "Semente",
@@ -844,6 +842,10 @@
     },
     "MANAGE_CUSTOM_TYPE": "MISSING",
     "REVENUE": "Receita",
+    "SEARCH": {
+      "EXPENSE_TYPES": "MISSING",
+      "REVENUE_TYPES": "MISSING"
+    },
     "TRANSACTION": {
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
@@ -1509,7 +1511,6 @@
       "SALE_VALUE_ERROR": "O valor da venda deve ser um número acima de 0 e abaixo de 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Variedades de cultivo",
-        "QUANTITY": "Quantidade",
         "TOTAL": "Total"
       },
       "TITLE": "Adicionar nova venda",
@@ -1520,7 +1521,6 @@
       "CROP": "Cultivo",
       "CUSTOMER_NAME": "Nome do Cliente",
       "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir esta venda?",
-      "QUANTITY": "Quantidade",
       "TITLE": "MISSING",
       "VALUE": "Valor"
     },
@@ -1551,6 +1551,11 @@
       "BALANCE": "Saldo",
       "BALANCE_EXPLANATION": "Calculamos o balanço financeiro (\"custo de produção\") em tempo real para cada safra em sua fazenda a partir de uma equação simples de despesas menos receita. As despesas de cada safra são calculadas em duas partes: uma parte corresponde às despesas com mão de obra calculadas a partir das horas registradas para atividades da fazenda, a outra parte é das demais despesas registradas para toda a fazenda. Onde as despesas são registradas para toda a fazenda, nós as dividimos igualmente entre os cultivos existentes. Não alocado significa que um turno de trabalho foi registrado em um campo onde ainda não havia nenhum cultivo. O custo com mão de obra deste turno será atribuído a uma safra na medida em que cultivos forem adicionados ao campo onde o trabalho foi realizado, considerando a janela de tempo do relatório financeiro.",
       "BALANCE_FOR_FARM": "Saldo (Fazenda Inteira)",
+      "CARROUSEL_TEXT": {
+        "ESTIMATED_REVENUE": "MISSING",
+        "GENERIC": "MISSING"
+      },
+      "ESTIMATED_HARVEST_REVENUE": "MISSING",
       "EXPENSES": "Despesas",
       "FINANCE_HELP": "Ajuda Financeira",
       "LABOUR_LABEL": "Trabalho",
@@ -1559,8 +1564,13 @@
         "TITLE": "MISSING"
       },
       "OTHER_EXPENSES_LABEL": "Outras despesas",
+      "PROFIT_LOSS": "MISSING",
       "REVENUE": "Receita",
       "TITLE": "Finanças",
+      "TOTAL_EXPENSES": "MISSING",
+      "TOTAL_LABOUR": "MISSING",
+      "TOTAL_OTHER": "MISSING",
+      "TOTAL_REVENUE": "MISSING",
       "UNALLOCATED_CROP": "Não atribuído",
       "UNALLOCATED_TIP": "O que não está atribuído?"
     },
@@ -1594,6 +1604,12 @@
       "TYPE": "Tipo",
       "VALUE": "Valor"
     }
+  },
+  "SEARCH": {
+    "CLEAR_TERMS": "MISSING",
+    "CLEAR_TERMS_AND_FILTERS": "MISSING",
+    "NO_RESULTS_FOR": "MISSING",
+    "ZERO": "MISSING"
   },
   "SENSOR": {
     "BRAND": "Marca",

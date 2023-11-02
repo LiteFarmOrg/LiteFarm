@@ -61,10 +61,12 @@
   "SUBMIT": "Soumettre",
   "SUBMITTING": "Soumission en cours...",
   "THATS_FINE": "C'est bien",
+  "TODAY": "MISSING",
   "UPDATE": "Mettre à Jour",
   "UPLOAD": "Télécharger",
   "UPLOADING": "Téléchargement...",
   "WORD_LIMIT_ERROR": "Seulement les charactères{{value}} peuvent être affichés",
   "YEAR": "Année",
-  "YES": "Oui"
+  "YES": "Oui",
+  "YESTERDAY": "MISSING"
 }

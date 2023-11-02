@@ -113,7 +113,7 @@
       "WHAT_TYPE_OF_IRRIGATION": "Quel type d'irrigation\u00a0?"
     },
     "MANAGE_CUSTOM_TASKS": "Gérer les tâches personnalisées",
-    "NEED_MANAGEMENT_PLAN": "Vous avez besoin d'un plan de culture actif ou planifié avant de pouvoir programmer une tâche de récolte ou une tâche de transplantation. Accédez au catalogue de cultures pour créer un plan maintenant.",
+    "NEED_MANAGEMENT_PLAN": "Vous avez besoin d'un plan de culture actif ou planifié avant de pouvoir programmer une tâche de récolte ou une tâche de plantation. Accédez au catalogue de cultures pour créer un plan maintenant.",
     "NO_MANAGEMENT_PLAN": "Aucun plan de culture éligible",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Lutte biologique",
@@ -154,7 +154,7 @@
     "TASK": "tâche",
     "TASK_NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Parlez-nous de",
-    "TRANSPLANT_METHOD": "Méthode de transplantation",
+    "TRANSPLANT_METHOD": "Méthode de repiquage",
     "WAGE_OVERRIDE": "Dérogation de salaire",
     "WHAT_PLANTING_METHOD": "Quelle est la méthode de repiquage\u00a0?",
     "WILD_CROP": "Cultures sauvages"
@@ -385,7 +385,7 @@
     "PLANT": "Plantation",
     "SEED": "Semis",
     "TERMINATE": "Terminer",
-    "TRANSPLANT": "Transplantation"
+    "TRANSPLANT": "Repiquage"
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
     "SUBTITLE": "Vous avez indiqué que vous alliez planter une culture biologique dans un endroit non biologique. Voulez-vous continuer\u00a0?",

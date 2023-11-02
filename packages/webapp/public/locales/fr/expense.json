@@ -25,7 +25,7 @@
   },
   "SEEDS_AND_PLANTS": {
     "EXPENSE_NAME":  "Semences et plantes",
-    "CUSTOM_DESCRIPTION" : "Achats de semences, de jeunes pousses et de plants utilisés pour la plantation et la transplantation."
+    "CUSTOM_DESCRIPTION" : "Achats de semences, de jeunes pousses et de plants utilisés pour la plantation et le repiquage."
   },
   "MISCELLANEOUS": {
     "EXPENSE_NAME": "Divers",

@@ -72,8 +72,8 @@ export default function CropSaleTable({ data, currencySymbol, mobileView }) {
   const { t } = useTranslation();
   const { items, amount, relatedId } = data;
   const quantityUnit = items?.[0]?.quantityUnit;
-  let quantityTotal = items.reduce((total, { quantity }) => total + quantity, 0);
-  quantityTotal += ` ${quantityUnit}`;
+  const quantityTotal = items.reduce((total, { quantity }) => total + quantity, 0);
+  const quantityWithUnit = `${quantityTotal} ${quantityUnit}`;
   const totalAmount = `${currencySymbol} ${amount.toFixed(2)}`;
 
   if (!items?.length) {
@@ -82,13 +82,13 @@ export default function CropSaleTable({ data, currencySymbol, mobileView }) {
 
   return (
     <Table
-      columns={getColumns(t, mobileView, totalAmount, quantityTotal, currencySymbol)}
+      columns={getColumns(t, mobileView, totalAmount, quantityWithUnit, currencySymbol)}
       data={items}
       minRows={10}
       shouldFixTableLayout={true}
       FooterCell={
         mobileView
-          ? () => <FooterCell t={t} totalAmount={totalAmount} quantityTotal={quantityTotal} />
+          ? () => <FooterCell t={t} totalAmount={totalAmount} quantityTotal={quantityWithUnit} />
           : null
       }
       onClickMore={() => history.push(`/revenue/${relatedId}`)}

@@ -29,8 +29,8 @@ const TransactionFilter = () => {
 
   return (
     <>
-      {/* TODO LF-3750 replace this with PureSearchBarAndFilter when search bar is responsive */}
       <FilterButton onClick={() => setIsFilterOpen(true)} isFilterActive={isFilterActive} />
+      {/* TODO LF-3751 show contents on drawer instead of modal component for mobile view */}
       {isFilterOpen && (
         <ModalComponent
           title={t('FINANCES.FILTER.TITLE')}

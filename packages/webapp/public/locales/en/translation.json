@@ -1479,7 +1479,7 @@
       "MESSAGE": "This will remove the revenue from your farm's records. It will no longer be reflected in any financial summaries."
     },
     "EDIT_REVENUE": {
-      "RETIRE_REVENUE_MESSAGE": "Retiring this revenue type will remove it as a possible choice for future expenses. You can still search and filter for historical instances of this expense type on the Finances tab.",
+      "RETIRE_REVENUE_MESSAGE": "Retiring this revenue type will remove it as a possible choice for future incomes. You can still search and filter for previous incomes this type on the Finances tab.",
       "RETIRE_REVENUE_TYPE": "Retire revenue type",
       "RETIRED": "(retired)",
       "REVENUE_TYPE": "Revenue type"

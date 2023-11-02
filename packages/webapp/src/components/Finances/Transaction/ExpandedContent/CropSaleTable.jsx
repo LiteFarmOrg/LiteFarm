@@ -52,9 +52,9 @@ const getColumns = (t, mobileView, totalAmount, quantityTotal, currencySymbol) =
     id: 'amount',
     label: t('FINANCES.REVENUE'),
     align: 'right',
-    format: (d) => `${currencySymbol} ${Math.abs(d.amount).toFixed(2)}`,
+    format: (d) => `${currencySymbol}${Math.abs(d.amount).toFixed(2)}`,
     columnProps: {
-      style: { width: '250px', paddingRight: `${mobileView ? 9 : 75}px` },
+      style: { width: '100px', paddingRight: `${mobileView ? 9 : 75}px` },
     },
     Footer: mobileView ? null : <div className={styles.bold}>{totalAmount}</div>,
   },
@@ -74,7 +74,7 @@ export default function CropSaleTable({ data, currencySymbol, mobileView }) {
   const quantityUnit = items?.[0]?.quantityUnit;
   const quantityTotal = items.reduce((total, { quantity }) => total + quantity, 0);
   const quantityWithUnit = `${quantityTotal} ${quantityUnit}`;
-  const totalAmount = `${currencySymbol} ${amount.toFixed(2)}`;
+  const totalAmount = `${currencySymbol}${amount.toFixed(2)}`;
 
   if (!items?.length) {
     return null;

@@ -13,24 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import moment from 'moment';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './styles.module.scss';
-import DateRangeSelector from '../../DateRangeSelector';
 import { setDateRange } from '../../../containers/Finances/actions';
-import moment from 'moment';
 import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
-import { useTranslation } from 'react-i18next';
-import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
-import { dateRangeOptions } from '../../DateRangeSelector/constants';
 import DateRange, { SUNDAY } from '../../../util/dateRange';
+import DateRangeSelector from '../../DateRangeSelector';
+import { dateRangeOptions } from '../../DateRangeSelector/constants';
+import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
+import styles from './styles.module.scss';
 
 const isDateValid = (date) => {
   return date ? moment(date).isValid() : false;
 };
 
-const FinanceDateRangeSelector = () => {
-  const { t } = useTranslation();
+const FinanceDateRangeSelector = ({ onChange }) => {
   const dispatch = useDispatch();
 
   const dateRange = useSelector(dateRangeDataSelector);
@@ -52,20 +51,20 @@ const FinanceDateRangeSelector = () => {
       newDateRange.startDate = startDate;
       newDateRange.endDate = endDate;
     }
-    dispatch(setDateRange(newDateRange));
+    onChange ? onChange(newDateRange) : dispatch(setDateRange(newDateRange));
   };
 
   const onChangeDateRangeOption = (value) => {
-    let newDateRange = {};
+    let newDateRange = { option: value };
     if (value !== dateRangeOptions.CUSTOM) {
-      newDateRange = dateRangeUtil.getDates(value);
+      newDateRange = { ...newDateRange, ...dateRangeUtil.getDates(value) };
     } else if (
       Object.keys(customRange).length === 2 &&
       Object.values(customRange).every((date) => date && isDateValid(date))
     ) {
-      newDateRange = customRange;
+      newDateRange = { ...newDateRange, ...customRange };
     }
-    dispatch(setDateRange({ option: value, ...newDateRange }));
+    onChange ? onChange(newDateRange) : dispatch(setDateRange(newDateRange));
   };
 
   return (
@@ -78,6 +77,10 @@ const FinanceDateRangeSelector = () => {
       />
     </div>
   );
+};
+
+FinanceDateRangeSelector.propTypes = {
+  onChange: PropTypes.func,
 };
 
 export default FinanceDateRangeSelector;

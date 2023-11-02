@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DropdownButton({ options, children, defaultOpen }) {
+export default function DropdownButton({ options, children, defaultOpen = false }) {
   const classes = useStyles();
   const [isOpen, setOpen] = useState(defaultOpen);
   const anchorRef = useRef(null);

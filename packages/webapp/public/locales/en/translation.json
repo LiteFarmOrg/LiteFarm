@@ -1555,6 +1555,7 @@
       },
       "ESTIMATED_HARVEST_REVENUE": "Estimated harvest revenue",
       "EXPENSES": "Expenses",
+      "EXPORT_REPORT": "Export report",
       "FINANCE_HELP": "Finance Help",
       "LABOUR_LABEL": "Labour",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
@@ -1565,6 +1566,7 @@
       "OTHER_EXPENSES_LABEL": "Other Expenses",
       "PROFIT_LOSS": "Profit / Loss",
       "REVENUE": "Revenue",
+      "REPORT": "Report",
       "TITLE": "Finances",
       "TOTAL_EXPENSES": "Total expenses",
       "TOTAL_LABOUR": "Total labour",

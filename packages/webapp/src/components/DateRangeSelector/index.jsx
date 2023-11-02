@@ -12,15 +12,15 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import clsx from 'clsx';
 import { ClickAwayListener } from '@mui/material';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as Calendar } from '../../assets/images/dateInput/calendar.svg';
-import CustomDateRangeSelector from './CustomDateRangeSelector';
-import ReactSelect from '../Form/ReactSelect';
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
+import ReactSelect from '../Form/ReactSelect';
+import CustomDateRangeSelector from './CustomDateRangeSelector';
 import { dateRangeOptions as rangeOptions } from './constants';
 import styles from './styles.module.scss';
 

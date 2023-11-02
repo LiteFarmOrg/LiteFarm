@@ -13,32 +13,31 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styles from './styles.module.scss';
-import history from '../../history';
-import { expenseSelector, salesSelector } from './selectors';
-import { allRevenueTypesSelector } from '../revenueTypeSlice';
-import { getFarmExpenseType, getExpense, getSales, setSelectedExpenseTypes } from './actions';
-import { calcOtherExpense, calcTotalLabour, calcActualRevenue } from './util';
 import Moment from 'moment';
-import DateRangeSelector from '../../components/Finances/DateRangeSelector';
 import { extendMoment } from 'moment-range';
-import { managementPlansSelector } from '../managementPlanSlice';
-import { getManagementPlansAndTasks } from '../saga';
-import { getRevenueTypes } from './saga';
-import Button from '../../components/Form/Button';
-import { Semibold, Title } from '../../components/Typography';
-import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
-import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
-import { isTaskType } from '../Task/useIsTaskType';
-import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { downloadFinanceReport } from './saga';
-import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
+import { useDispatch, useSelector } from 'react-redux';
 import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';
+import DateRangeSelector from '../../components/Finances/DateRangeSelector';
+import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
+import Button from '../../components/Form/Button';
+import { Title } from '../../components/Typography';
 import { SUNDAY } from '../../util/dateRange';
+import { isTaskType } from '../Task/useIsTaskType';
+import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
+import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { managementPlansSelector } from '../managementPlanSlice';
+import { allRevenueTypesSelector } from '../revenueTypeSlice';
+import { getManagementPlansAndTasks } from '../saga';
+import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
+import Report from './Report';
 import TransactionList from './TransactionList';
+import { getExpense, getFarmExpenseType, getSales, setSelectedExpenseTypes } from './actions';
+import { downloadFinanceReport, getRevenueTypes } from './saga';
+import { expenseSelector, salesSelector } from './selectors';
+import styles from './styles.module.scss';
+import { calcActualRevenue, calcOtherExpense, calcTotalLabour } from './util';
 
 const moment = extendMoment(Moment);
 
@@ -103,11 +102,14 @@ const Finances = ({ history }) => {
 
   return (
     <div className={styles.financesContainer}>
-      <Title style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.TITLE')}</Title>
-      <Semibold style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.ACTION')}</Semibold>
+      <div className={styles.titleContainer}>
+        <Title>{t('SALE.FINANCES.TITLE')}</Title>
+        <Report />
+      </div>
       <div className={styles.buttonContainer}>
         <Button
           style={{ height: '48px' }}
+          p
           onClick={() => {
             dispatch(setPersistedPaths(['/expense_categories', '/add_expense']));
             history.push('/expense_categories');

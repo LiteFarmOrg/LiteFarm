@@ -38,7 +38,7 @@ const getDetailPageLink = ({ transactionType, relatedId }) => {
 };
 
 export default function ExpandedContent({ data, currencySymbol, mobileView }) {
-  const { typeLabel, transactionType } = data;
+  const { transactionType, cropGenerated } = data;
 
   const { t } = useTranslation();
 
@@ -47,7 +47,7 @@ export default function ExpandedContent({ data, currencySymbol, mobileView }) {
       ? t('FINANCES.TRANSACTION.VIEW_DETAILS')
       : t('FINANCES.TRANSACTION.VIEW_AND_EDIT');
 
-  const componentKey = typeLabel === 'Crop Sale' ? 'CROP_SALE' : transactionType;
+  const componentKey = cropGenerated ? 'CROP_SALE' : transactionType;
   const Component = components[componentKey];
 
   return (

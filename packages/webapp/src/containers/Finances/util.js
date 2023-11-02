@@ -223,6 +223,7 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
             amount: cvs.sale_value,
           };
         }),
+        cropGenerated: true,
       };
     } else {
       return {

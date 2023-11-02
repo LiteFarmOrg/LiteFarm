@@ -48,9 +48,9 @@ const Rows = ({ t, data, currencySymbol, mobileView }) => {
     if (!isSameDay(groupDate, itemDate)) {
       groupDate = itemDate;
       rows.push(
-        <div key={values.date} className={styles.transactionDate}>
+        <h4 key={values.date} className={styles.transactionDate}>
           {formatTransactionDate(itemDate)}
-        </div>,
+        </h4>,
       );
     }
 

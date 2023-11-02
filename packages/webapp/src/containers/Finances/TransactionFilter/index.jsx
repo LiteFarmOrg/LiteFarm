@@ -29,6 +29,7 @@ const TransactionFilter = () => {
 
   return (
     <>
+      {/* TODO LF-3750 replace this with PureSearchBarAndFilter when search bar is responsive */}
       <FilterButton onClick={() => setIsFilterOpen(true)} isFilterActive={isFilterActive} />
       {isFilterOpen && (
         <ModalComponent

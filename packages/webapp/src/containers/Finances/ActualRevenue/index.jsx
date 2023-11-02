@@ -9,13 +9,19 @@ import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import { AddLink, Semibold } from '../../../components/Typography';
 import ActualRevenueItem from '../ActualRevenueItem';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
-import { calcActualRevenue, filterSalesByDateRange, mapSalesToRevenueItems } from '../util';
+import {
+  calcActualRevenue,
+  calcActualRevenueFromRevenueItems,
+  filterSalesByDateRange,
+  mapSalesToRevenueItems,
+} from '../util';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getRevenueTypes } from '../saga';
 import { cropVarietiesSelector } from '../../cropVarietySlice';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../../util/dateRange';
+import useTransactions from '../useTransactions';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -31,10 +37,6 @@ export default function ActualRevenue({ history, match }) {
   const cropVarieties = useSelector(cropVarietiesSelector);
   const { startDate: fromDate, endDate: toDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
 
-  const revenueForWholeFarm = useMemo(
-    () => calcActualRevenue(sales, fromDate, toDate, allRevenueTypes),
-    [sales, fromDate, toDate, allRevenueTypes],
-  );
   const filteredSales = useMemo(
     () => filterSalesByDateRange(sales, fromDate, toDate),
     [sales, fromDate, toDate],
@@ -42,6 +44,10 @@ export default function ActualRevenue({ history, match }) {
   const revenueItems = useMemo(
     () => mapSalesToRevenueItems(filteredSales, allRevenueTypes, cropVarieties),
     [filteredSales, allRevenueTypes, cropVarieties],
+  );
+  const revenueForWholeFarm = useMemo(
+    () => calcActualRevenueFromRevenueItems(revenueItems),
+    [revenueItems],
   );
 
   useEffect(() => {

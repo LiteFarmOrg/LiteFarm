@@ -86,6 +86,10 @@ export function calcActualRevenue(transactions) {
     .reduce((sum, curTransaction) => sum + curTransaction.amount, 0);
 }
 
+export function calcActualRevenueFromRevenueItems(revenueItems) {
+  return revenueItems.reduce((sum, curItem) => sum + curItem.totalAmount, 0);
+}
+
 export const getRevenueFormType = (revenueType) => {
   return revenueType?.crop_generated ? REVENUE_FORM_TYPES.CROP_SALE : REVENUE_FORM_TYPES.GENERAL;
 };

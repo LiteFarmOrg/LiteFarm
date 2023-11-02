@@ -16,32 +16,36 @@
 .floatingActionButton {
   position: relative;
 
-  &::before, &::after {
-    content: "";
-    position: absolute;
-    background-color: var(--brown900);
-    transition: 0.5s;
-  }
-
-  &::before {
-    left: calc(50% - 2px);
-    top: calc(50% - 12px);
-    width: 4px;
-    height: 24px;
-  }
-
-  &::after {
-    left: calc(50% - 12px);
-    top: calc(50% - 2px);
-    width: 24px;
-    height: 4px;
-  }
-
   &:hover {
     background-color: var(--yellow700);
+  }
 
+  &.add {
     &::before, &::after {
-      background-color: #fff;
+      content: "";
+      position: absolute;
+      background-color: var(--brown900);
+      transition: 0.5s;
+    }
+
+    &::before {
+      left: calc(50% - 2px);
+      top: calc(50% - 12px);
+      width: 4px;
+      height: 24px;
+    }
+
+    &::after {
+      left: calc(50% - 12px);
+      top: calc(50% - 2px);
+      width: 24px;
+      height: 4px;
+    }
+
+    &:hover {
+      &::before, &::after {
+        background-color: #fff;
+      }
     }
   }
 }

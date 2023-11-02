@@ -13,9 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import React from 'react';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
 import { Fab } from '@mui/material';
 import styles from './styles.module.scss';
 
-export default function FloatingActionButton() {
-  return <Fab color="yellow300" className={styles.floatingActionButton} />;
+export default function FloatingActionButton({ type }) {
+  return <Fab color="yellow300" className={clsx(styles.floatingActionButton, styles[type])} />;
 }
+
+FloatingActionButton.propTypes = {
+  type: PropTypes.oneOf(['add']),
+};

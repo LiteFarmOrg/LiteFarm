@@ -1,16 +1,17 @@
-import styles from './styles.module.scss';
-import React from 'react';
-import { Info, Semibold } from '../../../Typography';
 import PropTypes from 'prop-types';
-import { Modal } from '../../index';
+import React from 'react';
 import { VscWarning } from 'react-icons/vsc';
+import { Info, Semibold } from '../../../Typography';
+import { Modal } from '../../index';
+import styles from './styles.module.scss';
 
-import { colors } from '../../../../assets/theme';
+import clsx from 'clsx';
 import { FiSlash } from 'react-icons/fi';
 import Infoi from '../../../Tooltip/Infoi';
 
 export default function ModalComponent({
   title,
+  titleClassName,
   icon,
   contents,
   dismissModal,
@@ -23,17 +24,18 @@ export default function ModalComponent({
   if (warning && error) {
     console.error('warning and error cannot be true at the same time');
   }
-  const color = error ? colors.red700 : warning ? colors.brown700 : colors.teal700;
+  let titleColorClass = '';
+  if (error) {
+    titleColorClass = styles.error;
+  }
+  if (warning) {
+    titleColorClass = styles.warning;
+  }
   return (
     <Modal dismissModal={dismissModal}>
       <div className={styles.container}>
         {!!title && (
-          <Semibold
-            style={{
-              color,
-            }}
-            className={styles.title}
-          >
+          <Semibold className={clsx([styles.title, titleColorClass, titleClassName])}>
             {warning && <VscWarning style={{ marginTop: '1px' }} />}
             {error && <FiSlash style={{ marginTop: '1px' }} />}
             {icon && icon}

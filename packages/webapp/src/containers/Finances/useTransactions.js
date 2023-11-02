@@ -13,21 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { groupBy as lodashGroupBy } from 'lodash-es';
+import moment from 'moment';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
-import { groupBy as lodashGroupBy } from 'lodash-es';
-import { expenseSelector, salesSelector, allExpenseTypeSelector } from './selectors';
+import i18n from '../../locales/i18n';
+import { roundToTwoDecimal } from '../../util';
+import { getComparator } from '../../util/sort';
+import { cropVarietiesSelector } from '../cropVarietySlice';
+import { allRevenueTypesSelector } from '../revenueTypeSlice';
 import { tasksSelector } from '../taskSlice';
 import { taskTypesSelector } from '../taskTypeSlice';
-import { allRevenueTypesSelector } from '../revenueTypeSlice';
 import { userFarmsByFarmSelector } from '../userFarmSlice';
-import { roundToTwoDecimal } from '../../util';
-import { cropVarietiesSelector } from '../cropVarietySlice';
-import { mapSalesToRevenueItems, mapTasksToLabourItems } from './util';
-import i18n from '../../locales/i18n';
 import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
-import { getComparator } from '../../util/sort';
+import { allExpenseTypeSelector, expenseSelector, salesSelector } from './selectors';
+import { mapSalesToRevenueItems, mapTasksToLabourItems } from './util';
 
 export const transactionTypeEnum = {
   expense: 'EXPENSE',
@@ -44,11 +44,7 @@ const buildLabourTransactionsFromTasks = ({
   users,
   dateFilter,
   expenseTypeFilter,
-  expenseTypes,
 }) => {
-  const labourExpenseType = expenseTypes.find(
-    (expense) => expense.expense_translation_key === 'LABOUR',
-  );
   const filteredTasks = tasks
     .map((task) => ({ ...task, date: task.complete_date ?? task.abandon_date }))
     .filter(
@@ -167,7 +163,6 @@ export const buildTransactions = ({
       users,
       dateFilter,
       expenseTypeFilter,
-      expenseTypes,
     }),
     ...buildExpenseTransactions({ expenses, expenseTypes, dateFilter, expenseTypeFilter }),
     ...buildRevenueTransactions({

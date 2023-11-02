@@ -1,27 +1,25 @@
 import React, { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
+import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
+import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
+import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import Layout from '../../../components/Layout';
 import PageTitle from '../../../components/PageTitle/v2';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { salesSelector } from '../selectors';
-import { allRevenueTypesSelector } from '../../revenueTypeSlice';
-import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import { AddLink, Semibold } from '../../../components/Typography';
+import { SUNDAY } from '../../../util/dateRange';
+import { cropVarietiesSelector } from '../../cropVarietySlice';
+import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import ActualRevenueItem from '../ActualRevenueItem';
-import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
+import { getRevenueTypes } from '../saga';
+import { salesSelector } from '../selectors';
 import {
-  calcActualRevenue,
   calcActualRevenueFromRevenueItems,
   filterSalesByDateRange,
   mapSalesToRevenueItems,
 } from '../util';
-import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getRevenueTypes } from '../saga';
-import { cropVarietiesSelector } from '../../cropVarietySlice';
-import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
-import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
-import { SUNDAY } from '../../../util/dateRange';
-import useTransactions from '../useTransactions';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();

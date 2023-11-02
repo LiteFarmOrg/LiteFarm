@@ -14,11 +14,11 @@
  */
 
 import PropTypes from 'prop-types';
-import FilterPillSelect from '../FilterPillSelect';
-import { DATE, DATE_RANGE, PILL_SELECT, SEARCHABLE_MULTI_SELECT } from '../filterTypes';
+import { FilterDate } from '../FilterDate';
 import { FilterDateRange } from '../FilterDateRange';
 import { FilterMultiSelect } from '../FilterMultiSelect';
-import { FilterDate } from '../FilterDate';
+import FilterPillSelect from '../FilterPillSelect';
+import { DATE, DATE_RANGE, PILL_SELECT, SEARCHABLE_MULTI_SELECT } from '../filterTypes';
 import styles from './styles.module.scss';
 
 const FilterItem = ({ filter, showIndividualFilterControls, ...props }) => {
@@ -90,7 +90,7 @@ FilterGroup.propTypes = {
     current: PropTypes.shape({ active: PropTypes.bool, label: PropTypes.string }),
   }).isRequired,
   onChange: PropTypes.func,
-  shouldReset: PropTypes.bool,
+  shouldReset: PropTypes.number,
   showIndividualFilterControls: PropTypes.bool,
 };
 

@@ -4,12 +4,7 @@ import Layout from '../Layout';
 import PageTitle from '../PageTitle/v2';
 import { Underlined } from '../Typography';
 import { useTranslation } from 'react-i18next';
-import FilterPillSelect from '../Filter/FilterPillSelect';
 import Button from '../Form/Button';
-import { DATE, DATE_RANGE, PILL_SELECT, SEARCHABLE_MULTI_SELECT } from '../Filter/filterTypes';
-import { FilterDateRange } from '../Filter/FilterDateRange';
-import { FilterMultiSelect } from '../Filter/FilterMultiSelect';
-import { FilterDate } from '../Filter/FilterDate';
 import FilterGroup from '../Filter/FilterGroup';
 
 const PureFilterPage = ({

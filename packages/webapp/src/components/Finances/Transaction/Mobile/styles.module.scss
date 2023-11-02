@@ -23,17 +23,17 @@
   line-height: 16px;
   padding-top: 16px;
   padding-bottom: 8px;
+  margin-top: 16px;
 }
 
 .expandableItem {
-  padding: 12px 0px;
+  padding: 12px 0;
   align-items: center;
 }
 
 .expandableItemWrapper {
   border: solid 1px transparent;
   border-bottom: solid 1px var(--grey200);
-  margin: 8px 0;
 
   &.expanded {
     background-color: #F6FBFA;

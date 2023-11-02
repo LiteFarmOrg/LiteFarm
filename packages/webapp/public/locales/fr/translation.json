@@ -818,7 +818,9 @@
     "TITLE": "Taille du fichier trop grande"
   },
   "FILTER": {
-    "CLEAR_ALL_FILTERS": "Effacer tous les filtres"
+    "CLEAR_ALL": "MISSING",
+    "CLEAR_ALL_FILTERS": "Effacer tous les filtres",
+    "SELECT_ALL": "MISSING"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {

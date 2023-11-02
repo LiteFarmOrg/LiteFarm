@@ -26,4 +26,13 @@
   margin-bottom: 16px;
   display: inline-flex;
   gap: 8px;
+  color: var(--teal700);
+
+  &.error {
+    color: var(--red700);
+  }
+
+  &.warning {
+    color: var(--brown700);
+  }
 }

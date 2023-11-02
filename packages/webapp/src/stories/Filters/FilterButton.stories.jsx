@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { componentDecorators } from '../Pages/config/Decorators';
 import FilterButton from '../../components/Filter/FilterButton';
+import { componentDecorators } from '../Pages/config/Decorators';
 
 export default {
   title: 'Components/Filters/FilterButton',
@@ -35,6 +35,6 @@ export const Active = {
 
 export const Inactive = {
   args: {
-    isFilterActive: true,
+    isFilterActive: false,
   },
 };

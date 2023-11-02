@@ -817,7 +817,9 @@
     "TITLE": "Tamaño de archivo demasiado grande"
   },
   "FILTER": {
-    "CLEAR_ALL_FILTERS": "Borrar todos los filtros"
+    "CLEAR_ALL": "MISSING",
+    "CLEAR_ALL_FILTERS": "Borrar todos los filtros",
+    "SELECT_ALL": "MISSING"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {

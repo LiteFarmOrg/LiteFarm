@@ -13,36 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.leadText {
-  margin-top: 16px;
-  margin-bottom: 8px;
-}
+.container {
+  width: 100%;
+  padding: 16px;
+  text-align: center;
 
-.searchBar {
-  margin-top: -8px;
-  margin-bottom: -16px;
-}
-
-.noResultsCard {
-  margin-top: 24px;
-}
-
-.cantFindWrapper {
-  margin-top: auto;
-  padding-top: 24px;
-  padding-bottom: 72px;
-}
-
-.manageCustomTypeLinkContainer {
-  flex: 1;
   display: flex;
-  align-items: flex-end;
-  margin-top: 24px;
-  margin-bottom: -14px;
-  z-index: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 
-  span {
-    color: var(--grey600);
-    font-size: 14px;
-  }
+  border-radius: 4px;
+  background: var(--grey200);
 }

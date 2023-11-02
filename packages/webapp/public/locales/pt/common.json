@@ -47,6 +47,7 @@
   "PAST": "Passado",
   "PLANNED": "Planejado",
   "PROCEED": "Continuar",
+  "QUANTITY": "Quantidade",
   "REMOVE": "Remover",
   "REMOVE_ITEM": "MISSING",
   "REQUIRED": "Obrigatório",
@@ -60,10 +61,12 @@
   "SUBMIT": "Enviar",
   "SUBMITTING": "Enviando...",
   "THATS_FINE": "Está bom",
+  "TODAY": "MISSING",
   "UPDATE": "Atualizar",
   "UPLOAD": "Carregar",
   "UPLOADING": "Carregando",
   "WORD_LIMIT_ERROR": "Somente {{value}} caractéres podem ser exibidos",
   "YEAR": "Ano",
-  "YES": "Sim"
+  "YES": "Sim",
+  "YESTERDAY": "MISSING"
 }

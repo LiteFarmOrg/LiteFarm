@@ -17,6 +17,8 @@ import moment from 'moment';
 import { groupBy as lodashGroupBy } from 'lodash-es';
 import { useTranslation } from 'react-i18next';
 import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { isSameDay } from '../../util/date';
 import { LABOUR_ITEMS_GROUPING_OPTIONS, REVENUE_FORM_TYPES } from './constants';
 import i18n from '../../locales/i18n';
 import {
@@ -241,4 +243,20 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
 export const formatAmount = (amount, symbol) => {
   const sign = amount > 0 ? '+ ' : '- ';
   return `${amount ? sign : ''}${symbol}${Math.abs(amount)}`;
+};
+
+export const formatTransactionDate = (date, language = getLanguageFromLocalStorage()) => {
+  if (!date) {
+    return '';
+  }
+  const dateObj = new Date(date);
+  const today = new Date();
+  if (isSameDay(dateObj, today)) {
+    return i18n.t('common:TODAY');
+  }
+  const yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+  if (isSameDay(dateObj, yesterday)) {
+    return i18n.t('common:YESTERDAY');
+  }
+  return new Intl.DateTimeFormat(language, { dateStyle: 'long' }).format(dateObj);
 };

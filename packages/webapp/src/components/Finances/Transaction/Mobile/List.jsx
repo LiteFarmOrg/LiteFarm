@@ -21,6 +21,8 @@ import Button from '../../../Form/Button';
 import TransactionItem from './Item';
 import useExpandable from '../../../Expandable/useExpandableItem';
 import { useCurrencySymbol } from '../../../../containers/hooks/useCurrencySymbol';
+import { isSameDay } from '../../../../util/date';
+import { formatTransactionDate } from '../../../../containers/Finances/util';
 import styles from './styles.module.scss';
 
 export const MainContent = ({ t, note, typeLabel, amount, icon, currencySymbol }) => {
@@ -38,9 +40,19 @@ export const MainContent = ({ t, note, typeLabel, amount, icon, currencySymbol }
 const Rows = ({ t, data, currencySymbol }) => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const rows = [];
+  let groupDate = null;
 
   data.forEach((values, index) => {
-    // TODO: LF-3746 add "date" row as necessary
+    const itemDate = new Date(values.date);
+
+    if (!isSameDay(groupDate, itemDate)) {
+      groupDate = itemDate;
+      rows.push(
+        <div key={values.date} className={styles.transactionDate}>
+          {formatTransactionDate(itemDate)}
+        </div>,
+      );
+    }
 
     const isExpanded = expandedIds.includes(index);
 

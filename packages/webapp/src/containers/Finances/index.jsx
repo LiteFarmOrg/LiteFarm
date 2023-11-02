@@ -16,16 +16,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
-import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { expenseSelector, salesSelector } from './selectors';
 import { allRevenueTypesSelector } from '../revenueTypeSlice';
 import { getFarmExpenseType, getExpense, getSales, setSelectedExpenseTypes } from './actions';
 import { calcOtherExpense, calcTotalLabour, calcActualRevenue } from './util';
 import Moment from 'moment';
-import { roundToTwoDecimal } from '../../util';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
-import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
 import { managementPlansSelector } from '../managementPlanSlice';
 import { getManagementPlansAndTasks } from '../saga';
@@ -38,16 +35,18 @@ import { isTaskType } from '../Task/useIsTaskType';
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useTranslation } from 'react-i18next';
 import { downloadFinanceReport } from './saga';
+import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
 import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../util/dateRange';
 import TransactionFilter from './TransactionFilter';
 import { transactionsFilterSelector } from '../filterSlice';
 import useTransactions from './useTransactions';
 import PureTransactionList from '../../components/Finances/Transaction/Mobile/List';
+import { roundToTwoDecimal } from '../../util';
 
 const moment = extendMoment(Moment);
 
-const Finances = () => {
+const Finances = ({ history }) => {
   const { t } = useTranslation();
 
   const tasks = useSelector(tasksSelector);
@@ -99,21 +98,19 @@ const Finances = () => {
           }
         });
     }
-    return parseFloat(totalRevenue).toFixed(2);
+    return parseFloat(totalRevenue).toFixed(0);
   };
 
-  const totalRevenue = calcActualRevenue(transactions).toFixed(2);
+  const totalRevenue = calcActualRevenue(transactions).toFixed(0);
   const estimatedRevenue = getEstimatedRevenue(managementPlans);
-  const labourExpense = roundToTwoDecimal(calcTotalLabour(transactions));
-  const otherExpense = calcOtherExpense(transactions);
-  const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(2);
+  const labourExpense = roundToTwoDecimal(calcTotalLabour(transactions)).toFixed(0);
+  const otherExpense = calcOtherExpense(transactions).toFixed(0);
+  const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(0);
 
   return (
     <div className={styles.financesContainer}>
       <Title style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.TITLE')}</Title>
-      <hr />
       <Semibold style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.ACTION')}</Semibold>
-
       <div className={styles.buttonContainer}>
         <Button
           style={{ height: '48px' }}
@@ -156,64 +153,16 @@ const Finances = () => {
         <DateRangeSelector />
         <TransactionFilter />
       </div>
-
-      <hr />
-      <div data-test="finance_summary" className={styles.align}>
-        <Semibold style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.EXPENSES')}</Semibold>
-        <DescriptiveButton
-          label={t('SALE.FINANCES.LABOUR_LABEL')}
-          number={currencySymbol + labourExpense.toFixed(2)}
-          onClick={() => history.push('/labour')}
+      <div className={styles.carrouselContainer}>
+        <FinancesCarrousel
+          totalExpense={totalExpense}
+          totalRevenue={totalRevenue}
+          labourExpense={labourExpense}
+          otherExpense={otherExpense}
+          estimatedRevenue={estimatedRevenue}
+          currencySymbol={currencySymbol}
+          history={history}
         />
-        <DescriptiveButton
-          label={t('SALE.FINANCES.OTHER_EXPENSES_LABEL')}
-          number={currencySymbol + otherExpense.toFixed(2)}
-          onClick={() => history.push('/other_expense')}
-        />
-
-        <hr />
-        <Semibold style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.REVENUE')}</Semibold>
-        <DescriptiveButton
-          label={t('SALE.FINANCES.ACTUAL_REVENUE_LABEL')}
-          number={currencySymbol + totalRevenue}
-          onClick={() => history.push('/finances/actual_revenue')}
-        />
-        <DescriptiveButton
-          label={t('SALE.FINANCES.ACTUAL_REVENUE_ESTIMATED')}
-          number={currencySymbol + estimatedRevenue}
-          onClick={() => history.push('/estimated_revenue')}
-        />
-
-        <hr />
-        <div>
-          <Semibold style={{ marginBottom: '8px', float: 'left' }}>
-            {t('SALE.FINANCES.BALANCE_FOR_FARM')}
-          </Semibold>
-          <InfoBoxComponent
-            customStyle={{
-              float: 'right',
-              fontSize: '80%',
-              position: 'relative',
-            }}
-            title={t('SALE.FINANCES.FINANCE_HELP')}
-            body={t('SALE.FINANCES.BALANCE_EXPLANATION')}
-          />
-        </div>
-        <div className={styles.greyBox}>
-          <div className={styles.balanceDetail}>
-            <p>{t('SALE.FINANCES.REVENUE')}:</p> <p>{currencySymbol + totalRevenue}</p>
-          </div>
-          <div className={styles.balanceDetail}>
-            <p>{t('SALE.FINANCES.EXPENSES')}:</p>
-            <p>{currencySymbol + totalExpense.toString()}</p>
-          </div>
-          <div className={styles.balanceDetail}>
-            <p>{t('SALE.FINANCES.BALANCE')}:</p>
-            <p>
-              {currencySymbol + (parseFloat(totalRevenue) - parseFloat(totalExpense)).toFixed(2)}
-            </p>
-          </div>
-        </div>
       </div>
       <PureTransactionList data={transactions} />
     </div>

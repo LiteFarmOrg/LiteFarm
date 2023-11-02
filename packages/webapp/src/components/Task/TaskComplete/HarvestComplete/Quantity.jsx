@@ -68,7 +68,7 @@ export default function PureHarvestCompleteQuantity({
       <Unit
         data-cy="harvestQuantity-quantity"
         register={register}
-        label={t('ADD_TASK.QUANTITY')}
+        label={t('common:QUANTITY')}
         name={ACTUAL_HARVEST_QUANTITY}
         displayUnitName={ACTUAL_HARVEST_QUANTITY_UNIT}
         unitType={harvestAmounts}

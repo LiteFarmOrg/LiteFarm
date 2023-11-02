@@ -46,6 +46,7 @@
   "PAST": "Past",
   "PLANNED": "Planned",
   "PROCEED": "Proceed",
+  "QUANTITY": "Quantity",
   "REMOVE": "Remove",
   "REMOVE_ITEM": "Remove item",
   "REQUIRED": "Required",
@@ -59,10 +60,12 @@
   "SUBMIT": "Submit",
   "SUBMITTING": "Submitting...",
   "THATS_FINE": "That’s fine",
+  "TODAY": "Today",
   "UPDATE": "Update",
   "UPLOAD": "Upload",
   "UPLOADING": "Uploading...",
   "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
   "YEAR": "Year",
-  "YES": "Yes"
+  "YES": "Yes",
+  "YESTERDAY": "Yesterday"
 }

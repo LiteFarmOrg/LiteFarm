@@ -963,7 +963,7 @@
     "TITLE": "Créez votre compte"
   },
   "INVITE_USER": {
-    "ALREADY_EXISTING_EMAIL_ERROR": "Un utilisateur avec cette Courriel a déjà accès à cette ferme",
+    "ALREADY_EXISTING_EMAIL_ERROR": "Un utilisateur avec ce courriel a déjà accès à cette ferme",
     "BIRTH_YEAR": "Année de naissance",
     "BIRTH_YEAR_ERROR": "L'année de naissance doit être comprise entre 1900 et",
     "BIRTH_YEAR_TOOLTIP": "Les informations sur l'âge sont collectées à des fins de recherche uniquement et ne seront partagées qu'une fois les informations d'identification personnelle supprimées",
@@ -975,7 +975,7 @@
     "FULL_NAME": "Nom complet",
     "GENDER": "Genre",
     "GENDER_TOOLTIP": "Les informations sur le genre sont collectées à des fins de recherche uniquement et ne seront partagées qu'une fois les informations d'identification personnelle supprimées",
-    "INVALID_EMAIL_ERROR": "Veuillez saisir une Courriel valide",
+    "INVALID_EMAIL_ERROR": "Veuillez saisir un courriel valide",
     "INVITE": "Inviter",
     "LANGUAGE_OF_INVITE": "Langue d'invitation",
     "PHONE": "Téléphone",
@@ -1719,8 +1719,8 @@
     "SIGN_IN": "Se Connecter",
     "SSO_ERROR": "Veuillez connecter par cliquer le bouton Google au-dessus",
     "USED_INVITATION_LINK_ERROR": "Cette invitation a déjà été utilisée, veuillez vous connecter pour accéder à cette ferme",
-    "WELCOME_BACK": "Content de te revoir\u00a0!",
-    "WRONG_BROWSER": "LiteFarm n'est pas optimisé pour cette navigateur de Web.",
+    "WELCOME_BACK": "Content de vous revoir\u00a0!",
+    "WRONG_BROWSER": "LiteFarm n'est pas optimisé pour ce navigateur de Web.",
     "WRONG_BROWSER_BOTTOM": "Veuillez reconnecter avec Chrome."
   },
   "SLIDE_MENU": {
@@ -1738,7 +1738,7 @@
   },
   "SURVEY_STACK": {
     "PRODUCED": "Produit le",
-    "SURVEY_ADDENDUM": "Addenda au sondage",
+    "SURVEY_ADDENDUM": "Annexe au questionnaire",
     "TITLE": "{{certification}} certification de {{certifier}}"
   },
   "SWITCH_OUTRO": {
@@ -1751,7 +1751,7 @@
     "LOAD_MORE": "MISSING",
     "LOADING_TEXT": "Chargement en cours...",
     "NEXT_TEXT": "Suivant",
-    "NO_DATA_TEXT": "Aucune rangée trouvée",
+    "NO_DATA_TEXT": "Aucune donnée trouvée",
     "NUMBER_MORE": "MISSING",
     "OF_TEXT": "de",
     "PAGE_TEXT": "Page",
@@ -1766,12 +1766,12 @@
       "DATE_ORIGINAL": "La date d'échéance initiale",
       "DATE_TODAY": "Aujourd'hui",
       "EXPLANATION": "Explication",
-      "INFO": "Abandonner cette tâche changera son statut à Abandonné et la supprimera de tous utilisateurs sure les listes 'À faire' et 'non-assigné'.",
+      "INFO": "Abandonner cette tâche changera son statut à Abandonné et la supprimera pour tous utilisateurs sur les listes 'À faire' et 'non-assigné'.",
       "NOTES": "Notes d'abandon de tâche",
       "NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
       "REASON": {
         "CROP_FAILURE": "Échec de la culture",
-        "LABOUR_ISSUE": "Problème du travail",
+        "LABOUR_ISSUE": "Problème de travail",
         "MACHINERY_ISSUE": "Problème de machine",
         "MARKET_PROBLEM": "Problème de marché",
         "OTHER": "Autre",
@@ -1782,9 +1782,9 @@
       "TITLE": "Abandonner la tâche",
       "WHAT_HAPPENED": "Que s'est-il passé\u00a0?",
       "WHEN": "Quand la tâche a-t-elle été abandonnée\u00a0?",
-      "WHICH_DATE": "Quelle date\u00a0?"
+      "WHICH_DATE": "À quelle date\u00a0?"
     },
-    "ABANDON_TASK": "Laisser cette tâche",
+    "ABANDON_TASK": "Abandonner cette tâche",
     "ABANDON_TASK_DURATION": "Des travaux ont-ils été réalisés pour cette tâche\u00a0?",
     "ABANDON_TASK_HELPTEXT": "Les travaux effectués pour cette tâche abandonnée seront intégrés aux coûts de main-d’œuvre. Si aucun travail n’a été effectué, veuillez plutôt le sélectionner.",
     "ABANDONMENT_DETAILS": "Détails de l'abandon de tâche",
@@ -1802,7 +1802,7 @@
       "DATE": "Date d'achèvement",
       "WHEN": "Quand la tâche a-t-elle été terminée\u00a0?"
     },
-    "COMPLETE_HARVEST_QUANTITY": "Combien a été récolté\u00a0?",
+    "COMPLETE_HARVEST_QUANTITY": "Quelle quantité a été récoltée\u00a0?",
     "COMPLETE_TASK": "Terminer la tâche",
     "COMPLETE_TASK_CHANGES": "Avez-vous dû apporter des modifications à cette tâche\u00a0?",
     "COMPLETE_TASK_DURATION": "Combien de temps la tâche a-t-elle pris pour se terminer\u00a0?",
@@ -1829,24 +1829,24 @@
     "DUE_DATE": "Date d'échéance",
     "DURATION": "Durée",
     "FILTER": {
-      "ASCENDING": "du plus ancien",
-      "ASSIGNEE": "Cessionnaire",
+      "ASCENDING": "du plus vieux",
+      "ASSIGNEE": "Responsable",
       "CROP": "Culture",
       "DATE_RANGE": "Filtrer par plage de dates",
       "DESCENDING": "du plus récent",
-      "FROM": "De",
+      "FROM": "Du",
       "LOCATION": "Emplacement",
       "MY_TASK": "Mes tâches",
       "SORT_BY": "Trier par",
       "STATUS": "Status",
       "TITLE": "Filtre de tâches",
-      "TO": "De",
+      "TO": "Au",
       "TYPE": "Type",
       "UNASSIGNED": "Non attribué",
       "VIEW": "Regarder"
     },
-    "HARVEST_USE": "Utilisation de la récolte",
-    "HARVEST_USE_ALREADY_EXISTS": "L'utilisation de la récolte existe déjà",
+    "HARVEST_USE": "Usage de la récolte",
+    "HARVEST_USE_ALREADY_EXISTS": "Cet usage de la récolte existe déjà",
     "HOW_WILL_HARVEST_BE_USED": "Comment la récolte sera-t-elle utilisée\u00a0?",
     "IRRIGATION_LOCATION": "Sélectionner un emplacement d’irrigation",
     "LOCATIONS": "Emplacement(s)",
@@ -1875,8 +1875,8 @@
     "TASKS_COUNT_other": "{{count}} tâches",
     "TASKS_COUNT_plural": "{{count}} tâches",
     "TODO": "À faire",
-    "TRANSPLANT": "Transplantation",
-    "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de transplantation",
+    "TRANSPLANT": "Repiquage",
+    "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de repiquage",
     "UNASSIGNED": "Non attribué"
   },
   "UNIT": {

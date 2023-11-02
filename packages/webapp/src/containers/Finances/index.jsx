@@ -42,15 +42,11 @@ import TransactionFilter from './TransactionFilter';
 import { transactionsFilterSelector } from '../filterSlice';
 import useTransactions from './useTransactions';
 import PureTransactionList from '../../components/Finances/Transaction/Mobile/List';
-import { roundToTwoDecimal } from '../../util';
 
 const moment = extendMoment(Moment);
 
 const Finances = ({ history }) => {
   const { t } = useTranslation();
-
-  const tasks = useSelector(tasksSelector);
-  const expenses = useSelector(expenseSelector);
   const managementPlans = useSelector(managementPlansSelector);
   const { EXPENSE_TYPE: expenseTypeFilter, REVENUE_TYPE: revenueTypeFilter } = useSelector(
     transactionsFilterSelector,
@@ -103,7 +99,7 @@ const Finances = ({ history }) => {
 
   const totalRevenue = calcActualRevenue(transactions).toFixed(0);
   const estimatedRevenue = getEstimatedRevenue(managementPlans);
-  const labourExpense = roundToTwoDecimal(calcTotalLabour(transactions)).toFixed(0);
+  const labourExpense = calcTotalLabour(transactions).toFixed(0);
   const otherExpense = calcOtherExpense(transactions).toFixed(0);
   const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(0);
 

@@ -1,0 +1,87 @@
+/*
+ *  Copyright (c) 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.drawerContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.7s, visibility 0.7s;
+
+  &.openC {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.drawerBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.drawer {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  right: 0;
+  transition: bottom 0.3s ease-in-out;
+  background-color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  z-index: 999;
+  padding: 16px;
+  max-height: 75vh;
+  max-width: 600px;
+  margin: auto;
+  &.openD {
+    bottom: 0;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  height: 35px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.close {
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > svg {
+    font-size: 35px;
+    color: var(--grey600);
+  }
+}

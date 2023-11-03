@@ -17,14 +17,14 @@
   position: relative;
 
   &:hover, &[aria-expanded="true"] {
-    background-color: var(--yellow700);
+    background-color: #E3B000;
   }
 
   &.add {
     &::before, &::after {
       content: "";
       position: absolute;
-      background-color: var(--brown900);
+      background-color: #634D00;
       transition: 0.5s;
     }
 

@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Fab } from '@mui/material';

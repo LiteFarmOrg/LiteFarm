@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as ReportIcon } from '../../../assets/images/finance/Report-icn.svg';
@@ -21,26 +21,35 @@ import FinanceDateRangeSelector from '../../../components/Finances/DateRangeSele
 import Button from '../../../components/Form/Button';
 import TextButton from '../../../components/Form/Button/TextButton';
 import ModalComponent from '../../../components/Modals/ModalComponent/v2';
-import { LABOUR_ITEMS_GROUPING_OPTIONS } from '../constants';
+import { Semibold, Text } from '../../../components/Typography';
+import TransactionFilterContent from '../../Filter/Transactions';
+import { EXPENSE_TYPE, REVENUE_TYPE } from '../../Filter/constants';
+import { transactionsFilterSelector } from '../../filterSlice';
 import { downloadFinanceReport } from '../saga';
 import { dateRangeDataSelector } from '../selectors';
-import useTransactions, { transactionTypeEnum } from '../useTransactions';
+import useTransactions from '../useTransactions';
 import styles from './styles.module.scss';
 
 const Report = () => {
   const { t } = useTranslation();
 
   const dateRange = useSelector(dateRangeDataSelector);
-  // const defaultTransactionsFilter = useSelector(transactionsFilterSelector);
+  const defaultTransactionsFilter = useSelector(transactionsFilterSelector);
 
   const [isExportReportOpen, setIsExportReportOpen] = useState(false);
   const [dateFilter, setDateFilter] = useState(dateRange);
 
   const dispatch = useDispatch();
   const filterRef = useRef({});
-  const transactions = useTransactions({ dateFilter });
+  const transactions = useTransactions({
+    dateFilter,
+    expenseTypeFilter: filterRef.current[EXPENSE_TYPE],
+    revenueTypeFilter: filterRef.current[REVENUE_TYPE],
+  });
 
-  const sumTransactionAmount = (transactionType) => {
+  // Not needed for current report but will be needed for income statement
+
+  /*   const sumTransactionAmount = (transactionType) => {
     const filteredTransactions = transactions.filter(
       (transaction) => transaction.transactionType === transactionType,
     );
@@ -94,17 +103,13 @@ const Report = () => {
       });
     });
     return summary;
-  }, [transactions]);
+  }, [transactions]); */
 
   const handleExport = () => {
     setIsExportReportOpen(false);
     dispatch(
       downloadFinanceReport({
         transactions,
-        expenseSummary,
-        revenueSummary,
-        cropRevenueSummary,
-        labourSummary,
         config: {
           dateFilter,
           typesFilter: filterRef.current,
@@ -130,11 +135,18 @@ const Report = () => {
             </Button>
           }
         >
-          <FinanceDateRangeSelector onChange={setDateFilter} />
-          {/*           <TransactionFilterContent
-            transactionsFilter={defaultTransactionsFilter}
-            filterRef={filterRef}
-          /> */}
+          <div className={styles.exportContents}>
+            <Semibold className={styles.helpText}>{t('SALE.FINANCES.REPORT_HELP_TEXT')}</Semibold>
+            <div className={styles.dateFilterContainer}>
+              <Text>Date</Text>
+              <FinanceDateRangeSelector onChange={setDateFilter} />
+            </div>
+            <TransactionFilterContent
+              transactionsFilter={defaultTransactionsFilter}
+              filterRef={filterRef}
+              filterContainerClassName={styles.filterContainer}
+            />
+          </div>
         </ModalComponent>
       )}
     </>

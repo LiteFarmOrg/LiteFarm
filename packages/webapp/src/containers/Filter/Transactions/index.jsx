@@ -17,12 +17,10 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import FilterGroup from '../../../components/Filter/FilterGroup';
-import { Semibold } from '../../../components/Typography';
 import { allExpenseTypeSelector } from '../../Finances/selectors';
 import { transactionTypeEnum } from '../../Finances/useTransactions';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../constants';
-import styles from './styles.module.scss';
 
 const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) => {
   const { t } = useTranslation(['translation', 'filter']);
@@ -66,15 +64,12 @@ const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) =
   ];
 
   return (
-    <div className={styles.filterContents}>
-      <Semibold className={styles.helpText}>{t('FINANCES.FILTER.HELP_TEXT')}</Semibold>
-      <FilterGroup
-        filters={filters}
-        filterRef={filterRef}
-        onChange={onChange}
-        showIndividualFilterControls
-      />
-    </div>
+    <FilterGroup
+      filters={filters}
+      filterRef={filterRef}
+      onChange={onChange}
+      showIndividualFilterControls
+    />
   );
 };
 

@@ -8,5 +8,27 @@
 }
 
 .title {
-  color: #FFF;
+  color: #000;
+}
+
+.helpText {
+  margin-bottom: 24px;
+}
+
+.exportContents {
+  overflow-y: auto;
+  margin: 0 -24px;
+  padding: 0 24px;
+}
+
+.dateFilterContainer {
+  margin-bottom: 24px;
+}
+
+.filterContainer {
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }

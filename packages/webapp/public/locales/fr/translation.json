@@ -1567,6 +1567,7 @@
       },
       "ESTIMATED_HARVEST_REVENUE": "MISSING",
       "EXPENSES": "Dépenses",
+      "EXPORT_REPORT": "MISSING",
       "FINANCE_HELP": "Aide Financière",
       "LABOUR_LABEL": "Coûts de main-d'œuvre",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
@@ -1575,6 +1576,8 @@
       },
       "OTHER_EXPENSES_LABEL": "Autres dépenses",
       "PROFIT_LOSS": "MISSING",
+      "REPORT": "MISSING",
+      "REPORT_HELP_TEXT": "MISSING",
       "REVENUE": "Revenu",
       "TITLE": "MISSING",
       "TOTAL_EXPENSES": "MISSING",

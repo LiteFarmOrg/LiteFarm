@@ -53,6 +53,7 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }) => {
 const FilterGroup = ({
   filters,
   filterRef,
+  filterContainerClassName,
   onChange,
   shouldReset,
   showIndividualFilterControls = false,
@@ -89,6 +90,7 @@ FilterGroup.propTypes = {
   filterRef: PropTypes.shape({
     current: PropTypes.shape({ active: PropTypes.bool, label: PropTypes.string }),
   }).isRequired,
+  filterContainerClassName: PropTypes.string,
   onChange: PropTypes.func,
   shouldReset: PropTypes.number,
   showIndividualFilterControls: PropTypes.bool,

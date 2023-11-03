@@ -14,16 +14,21 @@
  */
 import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import styles from './styles.module.scss';
 
-const FloatingMenu = forwardRef(({ options, menuListProps = {}, ...props }, ref) => {
+const FloatingMenu = forwardRef(({ options, classes = {}, ...props }, ref) => {
   return (
-    <MenuList {...menuListProps} ref={ref} className={styles.menuList} {...props}>
+    <MenuList ref={ref} className={clsx(styles.menuList, classes.menuList)} {...props}>
       {options.map(({ label, onClick }, index) => {
         return (
-          <MenuItem key={index} onClick={onClick} className={styles.menuItem}>
+          <MenuItem
+            key={index}
+            onClick={onClick}
+            className={clsx(styles.menuItem, classes.menuItem)}
+          >
             {label}
           </MenuItem>
         );
@@ -40,7 +45,10 @@ FloatingMenu.propTypes = {
       onClick: PropTypes.func,
     }),
   ),
-  menuListProps: PropTypes.object,
+  classes: PropTypes.shape({
+    menuList: PropTypes.string,
+    menuItem: PropTypes.string,
+  }),
 };
 
 export default FloatingMenu;

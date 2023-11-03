@@ -38,21 +38,23 @@ import { downloadFinanceReport } from './saga';
 import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
 import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../util/dateRange';
-import TransactionList from './TransactionList';
+import TransactionFilter from './TransactionFilter';
+import { transactionsFilterSelector } from '../filterSlice';
+import useTransactions from './useTransactions';
+import PureTransactionList from '../../components/Finances/Transaction/Mobile/List';
 
 const moment = extendMoment(Moment);
 
 const Finances = ({ history }) => {
   const { t } = useTranslation();
-
-  const sales = useSelector(salesSelector);
-  const tasks = useSelector(tasksSelector);
-  const expenses = useSelector(expenseSelector);
   const managementPlans = useSelector(managementPlansSelector);
-  const allRevenueTypes = useSelector(allRevenueTypesSelector);
-
+  const { EXPENSE_TYPE: expenseTypeFilter, REVENUE_TYPE: revenueTypeFilter } = useSelector(
+    transactionsFilterSelector,
+  );
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
   const { startDate, endDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
+  const dateFilter = { startDate, endDate };
+  const transactions = useTransactions({ dateFilter, expenseTypeFilter, revenueTypeFilter });
   const currencySymbol = useCurrencySymbol();
 
   const dispatch = useDispatch();
@@ -95,10 +97,10 @@ const Finances = ({ history }) => {
     return parseFloat(totalRevenue).toFixed(0);
   };
 
-  const totalRevenue = calcActualRevenue(sales, startDate, endDate, allRevenueTypes).toFixed(0);
+  const totalRevenue = calcActualRevenue(transactions).toFixed(0);
   const estimatedRevenue = getEstimatedRevenue(managementPlans);
-  const labourExpense = calcTotalLabour(tasks, startDate, endDate).toFixed(0);
-  const otherExpense = calcOtherExpense(expenses, startDate, endDate).toFixed(0);
+  const labourExpense = calcTotalLabour(transactions).toFixed(0);
+  const otherExpense = calcOtherExpense(transactions).toFixed(0);
   const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(0);
 
   return (
@@ -142,7 +144,11 @@ const Finances = ({ history }) => {
       >
         Download Report
       </Button>
-      <DateRangeSelector />
+      <hr />
+      <div className={styles.filterBar}>
+        <DateRangeSelector />
+        <TransactionFilter />
+      </div>
       <div className={styles.carrouselContainer}>
         <FinancesCarrousel
           totalExpense={totalExpense}
@@ -154,7 +160,7 @@ const Finances = ({ history }) => {
           history={history}
         />
       </div>
-      <TransactionList startDate={startDate} endDate={endDate} />
+      <PureTransactionList data={transactions} />
     </div>
   );
 };

@@ -11,7 +11,6 @@
   "CANCEL": "Annuler",
   "CHANGE": "Modifier",
   "CHAR_LIMIT_ERROR": "Limité à {{value}} caractères",
-  "CLEAR_ALL_FILTERS": "Effacer Tout les Filtres",
   "CLOSE": "Fermer",
   "CONFIRM": "Valider",
   "CONTINUE": "Continuer",
@@ -61,10 +60,12 @@
   "SUBMIT": "Soumettre",
   "SUBMITTING": "Soumission en cours...",
   "THATS_FINE": "C'est bien",
+  "TODAY": "MISSING",
   "UPDATE": "Mettre à Jour",
   "UPLOAD": "Télécharger",
   "UPLOADING": "Téléchargement...",
   "WORD_LIMIT_ERROR": "Limité à {{value}} mots",
   "YEAR": "Année",
-  "YES": "Oui"
+  "YES": "Oui",
+  "YESTERDAY": "MISSING"
 }

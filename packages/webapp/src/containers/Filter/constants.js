@@ -29,3 +29,6 @@ export const FROM_DATE = 'FROM_DATE';
 export const TO_DATE = 'TO_DATE';
 export const FOR_REVIEW = 'FOR_REVIEW';
 export const IS_ASCENDING = 'IS_ASCENDING';
+
+export const EXPENSE_TYPE = 'EXPENSE_TYPE';
+export const REVENUE_TYPE = 'REVENUE_TYPE';

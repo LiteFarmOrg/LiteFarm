@@ -17,6 +17,8 @@ import moment from 'moment';
 import { groupBy as lodashGroupBy } from 'lodash-es';
 import { useTranslation } from 'react-i18next';
 import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { isSameDay } from '../../util/date';
 import { LABOUR_ITEMS_GROUPING_OPTIONS, REVENUE_FORM_TYPES } from './constants';
 import i18n from '../../locales/i18n';
 import {
@@ -31,33 +33,17 @@ import {
   SALE_VALUE,
   VALUE,
 } from '../../components/Forms/GeneralRevenue/constants';
+import { transactionTypeEnum } from './useTransactions';
 
 // Polyfill for tests and older browsers
 const groupBy = typeof Object.groupBy === 'function' ? Object.groupBy : lodashGroupBy;
 
-export function calcTotalLabour(tasks, startDate, endDate) {
-  let total = 0.0;
-  if (Array.isArray(tasks)) {
-    for (const t of tasks) {
-      const completedTime = moment(t.complete_date);
-      const abandonedTime = moment(t.abandon_date);
-      if (
-        (completedTime.isSameOrAfter(startDate, 'day') &&
-          completedTime.isSameOrBefore(endDate, 'day') &&
-          t.duration) ||
-        (abandonedTime.isSameOrAfter(startDate, 'day') &&
-          abandonedTime.isSameOrBefore(endDate, 'day') &&
-          t.duration)
-      ) {
-        // TODO: possibly implement check when wage can be yearly
-        // if (s.wage.type === 'hourly')
-        const rate = roundToTwoDecimal(t.wage_at_moment);
-        const hoursWorked = roundToTwoDecimal(t.duration / 60);
-        total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(rate * hoursWorked));
-      }
-    }
-  }
-  return total;
+export function calcTotalLabour(transactions) {
+  return Math.abs(
+    transactions
+      .filter((transaction) => transaction.transactionType === transactionTypeEnum.labourExpense)
+      .reduce((sum, curTransaction) => sum + curTransaction.amount, 0),
+  );
 }
 
 export const sortByDate = (data) => {
@@ -76,20 +62,12 @@ export const filterSalesByCurrentYear = (sales) => {
   });
 };
 
-export function calcOtherExpense(expenses, startDate, endDate) {
-  let total = 0.0;
-  if (Array.isArray(expenses)) {
-    for (const e of expenses) {
-      const expenseDate = moment(e.expense_date);
-      if (
-        expenseDate.isSameOrAfter(startDate, 'day') &&
-        expenseDate.isSameOrBefore(endDate, 'day')
-      ) {
-        total = roundToTwoDecimal(total + roundToTwoDecimal(e.value));
-      }
-    }
-  }
-  return total;
+export function calcOtherExpense(transactions) {
+  return Math.abs(
+    transactions
+      .filter((transaction) => transaction.transactionType === transactionTypeEnum.expense)
+      .reduce((sum, curTransaction) => sum + curTransaction.amount, 0),
+  );
 }
 
 export function filterSalesByDateRange(sales, startDate, endDate) {
@@ -102,31 +80,14 @@ export function filterSalesByDateRange(sales, startDate, endDate) {
   return [];
 }
 
-export function calcActualRevenue(sales, startDate, endDate, revenueTypes) {
-  let total = 0.0;
-  const revenueTypesMap = {};
+export function calcActualRevenue(transactions) {
+  return transactions
+    .filter((transaction) => transaction.transactionType === transactionTypeEnum.revenue)
+    .reduce((sum, curTransaction) => sum + curTransaction.amount, 0);
+}
 
-  if (sales && Array.isArray(sales)) {
-    for (const s of sales) {
-      if (!revenueTypesMap[s.revenue_type_id]) {
-        revenueTypesMap[s.revenue_type_id] = revenueTypes.find(
-          ({ revenue_type_id }) => revenue_type_id === s.revenue_type_id,
-        );
-      }
-      const revenueType = revenueTypesMap[s.revenue_type_id];
-      const saleDate = moment(s.sale_date);
-      if (saleDate.isSameOrAfter(startDate, 'day') && saleDate.isSameOrBefore(endDate, 'day')) {
-        if (revenueType?.crop_generated) {
-          for (const c of s.crop_variety_sale) {
-            total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(c.sale_value));
-          }
-        } else {
-          total = roundToTwoDecimal(roundToTwoDecimal(total) + roundToTwoDecimal(s.value));
-        }
-      }
-    }
-  }
-  return total;
+export function calcActualRevenueFromRevenueItems(revenueItems) {
+  return revenueItems.reduce((sum, curItem) => sum + curItem.totalAmount, 0);
 }
 
 export const getRevenueFormType = (revenueType) => {
@@ -221,6 +182,7 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
             amount: cvs.sale_value,
           };
         }),
+        cropGenerated: true,
       };
     } else {
       return {
@@ -285,5 +247,21 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
 
 export const formatAmount = (amount, symbol) => {
   const sign = amount > 0 ? '+ ' : '- ';
-  return `${amount ? sign : ''}${symbol}${Math.abs(amount)}`;
+  return `${amount ? sign : ''}${symbol}${Math.abs(amount).toFixed(2)}`;
+};
+
+export const formatTransactionDate = (date, language = getLanguageFromLocalStorage()) => {
+  if (!date) {
+    return '';
+  }
+  const dateObj = new Date(date);
+  const today = new Date();
+  if (isSameDay(dateObj, today)) {
+    return i18n.t('common:TODAY');
+  }
+  const yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+  if (isSameDay(dateObj, yesterday)) {
+    return i18n.t('common:YESTERDAY');
+  }
+  return new Intl.DateTimeFormat(language, { dateStyle: 'long' }).format(dateObj);
 };

@@ -160,14 +160,10 @@ export default function EnhancedTable(props) {
                   onClick={(event) => handleRowClick(event, row)}
                   className={clsx(styles.tableRow, onRowClick && styles.clickable)}
                 >
-                  {columns.map(({ id, format, accessor, align, columnProps }) => {
+                  {columns.map(({ id, format, align, columnProps }) => {
                     if (!id) {
                       return null;
                     }
-
-                    const dataGetter = accessor || id;
-                    const data =
-                      typeof dataGetter === 'function' ? dataGetter(row) : row[dataGetter];
 
                     return (
                       <TableCell
@@ -176,7 +172,7 @@ export default function EnhancedTable(props) {
                         align={align || 'left'}
                         {...columnProps}
                       >
-                        {format ? format(row) : data}
+                        {format ? format(row) : row[id]}
                       </TableCell>
                     );
                   })}
@@ -247,7 +243,6 @@ EnhancedTable.propTypes = {
     PropTypes.shape({
       id: PropTypes.string,
       format: PropTypes.func,
-      accessor: PropTypes.func,
       align: PropTypes.oneOf(['left', 'right']),
       Footer: PropTypes.node,
       columnProps: PropTypes.object,

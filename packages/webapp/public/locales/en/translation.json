@@ -818,7 +818,9 @@
     "TITLE": "File size too large"
   },
   "FILTER": {
-    "CLEAR_ALL_FILTERS": "Clear all filters"
+    "CLEAR_ALL": "Clear all",
+    "CLEAR_ALL_FILTERS": "Clear all filters",
+    "SELECT_ALL": "Select all"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
@@ -841,6 +843,12 @@
       "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
       "TITLE": "Estimated Revenue"
     },
+    "FILTER": {
+      "EXPENSE_TYPE": "Expense types",
+      "HELP_TEXT": "Feel free to use the filters below to fine-tune your transaction list and make it work just the way you want!",
+      "REVENUE_TYPE": "Revenue types",
+      "TITLE": "Filter transactions"
+    },
     "MANAGE_CUSTOM_TYPE": "Manage custom type",
     "REVENUE": "Revenue",
     "SEARCH": {
@@ -848,6 +856,8 @@
       "REVENUE_TYPES": "Search revenue type"
     },
     "TRANSACTION": {
+      "CROPS": "Crops",
+      "DAILY_TOTAL": "DAILY TOTAL",
       "LABOUR_EXPENSE": "Labour expense",
       "VIEW_AND_EDIT": "View & edit",
       "VIEW_DETAILS": "View details"
@@ -1565,7 +1575,7 @@
       "OTHER_EXPENSES_LABEL": "Other Expenses",
       "PROFIT_LOSS": "Profit / Loss",
       "REVENUE": "Revenue",
-      "TITLE": "Finances",
+      "TITLE": "Finances overview",
       "TOTAL_EXPENSES": "Total expenses",
       "TOTAL_LABOUR": "Total labour",
       "TOTAL_OTHER": "Total other",

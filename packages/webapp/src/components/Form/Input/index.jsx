@@ -47,6 +47,7 @@ const Input = ({
   placeholder,
   currency,
   stepper = false,
+  className = '',
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -107,7 +108,7 @@ const Input = ({
 
   return (
     <div
-      className={clsx(styles.container)}
+      className={clsx(styles.container, className)}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
       {(label || toolTipContent || icon) && (
@@ -275,6 +276,7 @@ Input.propTypes = {
   max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   min: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   placeholder: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default Input;

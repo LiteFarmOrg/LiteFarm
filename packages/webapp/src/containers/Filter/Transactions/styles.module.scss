@@ -16,3 +16,10 @@
 .helpText {
   margin: 16px 0 36px;
 }
+
+.filterContents {
+  overflow-y: auto;
+  // Removes parent's padding and adds internal padding so that the scroll bar shows on the side of the modal
+  margin: 0 -24px;
+  padding: 24px;
+}

@@ -13,14 +13,14 @@
  *  GNU General Public License for more details, see <https://wwwl.gnu.org/licenses/>.
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import styles from './styles.module.scss';
-import CheckBoxPill from '../CheckBoxPill';
 import clsx from 'clsx';
-import { BsChevronDown } from 'react-icons/bs';
 import produce from 'immer';
+import PropTypes, { string } from 'prop-types';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { BsChevronDown } from 'react-icons/bs';
+import CheckBoxPill from '../CheckBoxPill';
 import FilterControls from '../FilterControls';
+import styles from './styles.module.scss';
 
 const FilterPillSelect = ({
   subject,
@@ -145,7 +145,12 @@ FilterPillSelect.prototype = {
   options: PropTypes.array,
   filterKey: PropTypes.string,
   shouldReset: PropTypes.number,
-  shouldSelectAll: PropTypes.number,
+  showIndividualControls: PropTypes.bool,
+  className: string,
+};
+
+FilterPillSelect.defaultProps = {
+  showIndividualControls: false,
 };
 
 export default FilterPillSelect;

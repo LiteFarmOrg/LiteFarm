@@ -31,7 +31,7 @@ const TransactionFilter = () => {
   const { t } = useTranslation();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
-  const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('transactions'));
+  const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('transactions', true));
 
   const transactionsFilter = useSelector(transactionsFilterSelector);
   const dispatch = useDispatch();

@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import ReactSelect from '../../Form/ReactSelect';
 import produce from 'immer';
+import PropTypes from 'prop-types';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import ReactSelect from '../../Form/ReactSelect';
 
 export const FilterMultiSelect = ({
   subject,
@@ -67,4 +67,5 @@ FilterMultiSelect.prototype = {
   options: PropTypes.array,
   filterKey: PropTypes.string,
   shouldReset: PropTypes.number,
+  className: PropTypes.string,
 };

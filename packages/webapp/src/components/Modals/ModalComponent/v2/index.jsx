@@ -71,4 +71,5 @@ ModalComponent.prototype = {
   children: PropTypes.node,
   warning: PropTypes.bool,
   tooltipContent: PropTypes.string,
+  titleClassName: PropTypes.string,
 };

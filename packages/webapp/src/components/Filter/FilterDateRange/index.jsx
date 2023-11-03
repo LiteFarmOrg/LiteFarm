@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import Switch from '../../Form/Switch';
-import DateRangePicker from '../../Form/DateRangePicker';
-import { getDateInputFormat } from '../../../util/moment';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { getDateInputFormat } from '../../../util/moment';
+import DateRangePicker from '../../Form/DateRangePicker';
+import Switch from '../../Form/Switch';
 import styles from './styles.module.scss';
 
 export function FilterDateRange({
@@ -94,4 +94,5 @@ FilterDateRange.prototype = {
   selected: PropTypes.bool,
   removable: PropTypes.bool,
   shouldReset: PropTypes.number,
+  className: PropTypes.string,
 };

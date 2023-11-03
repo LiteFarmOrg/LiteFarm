@@ -15,8 +15,8 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { getDateInputFormat } from '../util/moment';
 import i18n from '../locales/i18n';
+import { getDateInputFormat } from '../util/moment';
 
 const initialCropCatalogueFilter = {
   STATUS: {},
@@ -241,10 +241,11 @@ export const transactionsFilterSelector = createSelector(
   (filterReducer) => filterReducer.transactions,
 );
 
-export const isFilterCurrentlyActiveSelector = (pageFilterKey) => {
+export const isFilterCurrentlyActiveSelector = (pageFilterKey, defaultAllActive = false) => {
   return createSelector([filterReducerSelector], (filterReducer) => {
     const targetPageFilter = filterReducer[pageFilterKey];
     let isActive = false;
+    let allActive = null;
 
     for (const filterKey in targetPageFilter) {
       const filter = targetPageFilter[filterKey];
@@ -254,9 +255,17 @@ export const isFilterCurrentlyActiveSelector = (pageFilterKey) => {
         isActive = Object.values(filter).reduce((acc, curr) => {
           return acc || curr.active;
         }, isActive);
+        // Only keep calculating this if it's the first filter or if the previous ones have checked true
+        if (allActive === null || allActive === true) {
+          allActive = Object.values(filter).every((filter) => filter.active);
+        }
       } else {
         isActive = isActive || filterType === 'string';
       }
+    }
+
+    if (defaultAllActive && allActive !== null) {
+      isActive = !allActive;
     }
 
     return isActive;

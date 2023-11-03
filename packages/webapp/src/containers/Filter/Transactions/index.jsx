@@ -16,18 +16,18 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { EXPENSE_TYPE, REVENUE_TYPE } from '../constants';
-import { expenseTypeSelector } from '../../Finances/selectors';
-import { revenueTypesSelector } from '../../revenueTypeSlice';
 import FilterGroup from '../../../components/Filter/FilterGroup';
 import { Semibold } from '../../../components/Typography';
-import styles from './styles.module.scss';
+import { allExpenseTypeSelector } from '../../Finances/selectors';
 import { transactionTypeEnum } from '../../Finances/useTransactions';
+import { allRevenueTypesSelector } from '../../revenueTypeSlice';
+import { EXPENSE_TYPE, REVENUE_TYPE } from '../constants';
+import styles from './styles.module.scss';
 
 const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) => {
   const { t } = useTranslation(['translation', 'filter']);
-  const expenseTypes = useSelector(expenseTypeSelector);
-  const revenueTypes = useSelector(revenueTypesSelector);
+  const expenseTypes = useSelector(allExpenseTypeSelector);
+  const revenueTypes = useSelector(allRevenueTypesSelector);
 
   const filters = [
     {
@@ -36,6 +36,7 @@ const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) =
       options: [
         ...expenseTypes.map((type) => ({
           value: type.expense_type_id,
+          // This sets the initial state of the filter pill
           default: transactionsFilter[EXPENSE_TYPE]?.[type.expense_type_id]?.active ?? true,
           label: type.farm_id
             ? type.expense_name
@@ -43,6 +44,7 @@ const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) =
         })),
         {
           value: transactionTypeEnum.labourExpense,
+          // This sets the initial state of the filter pill
           default:
             transactionsFilter[EXPENSE_TYPE]?.[transactionTypeEnum.labourExpense]?.active ?? true,
           label: t('SALE.FINANCES.LABOUR_LABEL'),
@@ -54,6 +56,7 @@ const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) =
       filterKey: REVENUE_TYPE,
       options: revenueTypes.map((type) => ({
         value: type.revenue_type_id,
+        // This sets the initial state of the filter pill
         default: transactionsFilter[REVENUE_TYPE]?.[type.revenue_type_id]?.active ?? true,
         label: type.farm_id
           ? type.revenue_name
@@ -63,7 +66,7 @@ const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) =
   ];
 
   return (
-    <>
+    <div className={styles.filterContents}>
       <Semibold className={styles.helpText}>{t('FINANCES.FILTER.HELP_TEXT')}</Semibold>
       <FilterGroup
         filters={filters}
@@ -71,7 +74,7 @@ const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) =
         onChange={onChange}
         showIndividualFilterControls
       />
-    </>
+    </div>
   );
 };
 

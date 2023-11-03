@@ -22,7 +22,12 @@ import { transactionTypeEnum } from '../../Finances/useTransactions';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../constants';
 
-const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) => {
+const TransactionFilterContent = ({
+  transactionsFilter,
+  filterRef,
+  filterContainerClassName,
+  onChange,
+}) => {
   const { t } = useTranslation(['translation', 'filter']);
   const expenseTypes = useSelector(allExpenseTypeSelector);
   const revenueTypes = useSelector(allRevenueTypesSelector);
@@ -67,6 +72,7 @@ const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) =
     <FilterGroup
       filters={filters}
       filterRef={filterRef}
+      filterContainerClassName={filterContainerClassName}
       onChange={onChange}
       showIndividualFilterControls
     />
@@ -78,6 +84,7 @@ const filterShape = { active: PropTypes.bool, label: PropTypes.string };
 TransactionFilterContent.propTypes = {
   transactionsFilter: PropTypes.objectOf(PropTypes.shape(filterShape)).isRequired,
   filterRef: PropTypes.shape({ current: PropTypes.shape(filterShape) }).isRequired,
+  filterContainerClassName: PropTypes.string,
   onChange: PropTypes.func,
 };
 

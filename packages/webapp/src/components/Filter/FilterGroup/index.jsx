@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://wwwl.gnu.org/licenses/>.
  */
 
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { FilterDate } from '../FilterDate';
 import { FilterDateRange } from '../FilterDateRange';
@@ -60,7 +61,10 @@ const FilterGroup = ({
 }) => {
   return filters.map((filter) => {
     return (
-      <div key={filter.filterKey ?? filter.subject} className={styles.filterContainer}>
+      <div
+        key={filter.filterKey ?? filter.subject}
+        className={clsx([styles.filterContainer, filterContainerClassName])}
+      >
         <FilterItem
           filter={filter}
           filterRef={filterRef}

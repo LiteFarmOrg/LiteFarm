@@ -1574,6 +1574,10 @@
         "BODY": "Aquí puede agregar, modificar o eliminar tipos de gasto personalizados para su granja.",
         "TITLE": "Administrar tipos de gasto personalizados"
       },
+      "MANAGE_CUSTOM_REVENUE_TYPES_SPOTLIGHT": {
+        "BODY": "Aquí puede agregar, modificar o eliminar tipos de ingreso personalizados para su granja.",
+        "TITLE": "Administrar tipos de ingreso personalizados"
+      },
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "PROFIT_LOSS": "Ganancia / Pérdida",
       "REVENUE": "Ingresos",

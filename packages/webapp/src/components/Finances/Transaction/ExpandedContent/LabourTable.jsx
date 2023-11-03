@@ -146,10 +146,20 @@ export default function LabourTable({ data: transaction, currencySymbol }) {
         ]}
       />
       {activeTab === 'employee' && (
-        <EnhancedTable columns={employeeColumns} data={transaction.items.EMPLOYEE} minRow={10} />
+        <EnhancedTable
+          columns={employeeColumns}
+          data={transaction.items.EMPLOYEE}
+          minRow={10}
+          shouldFixTableLayout={true}
+        />
       )}
       {activeTab === 'tasks' && (
-        <EnhancedTable columns={tasksColumns} data={transaction.items.TASK_TYPE} minRow={10} />
+        <EnhancedTable
+          columns={tasksColumns}
+          data={transaction.items.TASK_TYPE}
+          minRow={10}
+          shouldFixTableLayout={true}
+        />
       )}
     </div>
   );

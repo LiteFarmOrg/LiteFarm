@@ -107,12 +107,18 @@ export default function PureCollapsibleSearch({
         </Modal>
       )}
 
-      <TextButton className={clsx(styles.searchButton, isSearchActive && styles.active)}>
+      <TextButton
+        className={clsx(styles.searchButton, isSearchActive && styles.active)}
+        onClick={onSearchOpen}
+      >
+        <SearchIcon className={styles.searchIcon} />
+      </TextButton>
+
+      {isSearchActive && (
         <div className={styles.circleContainer}>
           <div className={styles.circle} />
         </div>
-        <SearchIcon className={styles.searchIcon} onClick={onSearchOpen} />
-      </TextButton>
+      )}
     </div>
   );
 }

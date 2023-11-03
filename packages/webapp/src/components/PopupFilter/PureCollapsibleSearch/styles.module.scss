@@ -14,13 +14,13 @@
  */
 
 .container {
+  position: relative;
   .searchBar {
     display: none;
   }
 }
 
 .searchButton {
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,21 +66,21 @@
       fill: var(--teal600);
     }
   }
+}
 
-  .circleContainer {
-    position: absolute;
-    top: 2px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
+.circleContainer {
+  position: absolute;
+  top: 3px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
-  .circle {
-    width: 6px;
-    height: 6px;
-    border-radius: 3px;
-    background-color: var(--teal600);
-  }
+.circle {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background-color: var(--teal600);
 }
 
 .modalSearchbar {

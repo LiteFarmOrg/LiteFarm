@@ -10,6 +10,7 @@
   svg {
     font-size: 20px;
   }
+  max-height: calc(100vh - 64px);
 }
 
 .buttonGroup {
@@ -19,5 +20,20 @@
 
   button {
     min-width: 96px
+  }
+}
+
+.title {
+  margin-bottom: 16px;
+  display: inline-flex;
+  gap: 8px;
+  color: var(--teal700);
+
+  &.error {
+    color: var(--red700);
+  }
+
+  &.warning {
+    color: var(--brown700);
   }
 }

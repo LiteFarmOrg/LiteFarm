@@ -12,16 +12,31 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import PureTransactionList from '../../../components/Finances/Transaction/Mobile/List';
-import useTransactions from '../useTransactions';
 
-export default function TransactionList({ startDate, endDate }) {
-  const dateFilter = { startDate, endDate };
-  // TODO: LF-3752
-  const expenseTypeFilter = null;
-  const revenueTypeFilter = null;
+import { componentDecorators } from '../Pages/config/Decorators';
+import FilterControls from '../../components/Filter/FilterControls';
 
-  const transactions = useTransactions({ dateFilter, expenseTypeFilter, revenueTypeFilter });
+export default {
+  title: 'Components/Filters/FilterControls',
+  component: FilterControls,
+  decorators: componentDecorators,
+  args: {
+    updateFilters: () => {
+      console.log('Filters should be updated!');
+    },
+  },
+};
 
-  return <PureTransactionList data={transactions} />;
-}
+export const Default = {};
+
+export const SelectAllDisabled = {
+  args: {
+    selectAllDisabled: true,
+  },
+};
+
+export const ClearAllDisabled = {
+  args: {
+    clearAllDisabled: true,
+  },
+};

@@ -817,7 +817,9 @@
     "TITLE": "Tamaño de archivo demasiado grande"
   },
   "FILTER": {
-    "CLEAR_ALL_FILTERS": "Borrar todos los filtros"
+    "CLEAR_ALL": "MISSING",
+    "CLEAR_ALL_FILTERS": "Borrar todos los filtros",
+    "SELECT_ALL": "MISSING"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
@@ -840,6 +842,12 @@
       "ESTIMATED_PRICE_PER_UNIT": "Precio estimado por unidad",
       "TITLE": "Ingresos estimados"
     },
+    "FILTER": {
+      "EXPENSE_TYPE": "Tipos de gastos",
+      "HELP_TEXT": "Utilice estos filtros para ajustar la lista de transacciones y adecuarla a sus necesidades",
+      "REVENUE_TYPE": "Tipos de ingresos",
+      "TITLE": "Filtrar transacciones"
+    },
     "MANAGE_CUSTOM_TYPE": "Administrar tipos personalizados",
     "REVENUE": "Ingresos",
     "SEARCH": {
@@ -847,6 +855,8 @@
       "REVENUE_TYPES": "MISSING"
     },
     "TRANSACTION": {
+      "CROPS": "MISSING",
+      "DAILY_TOTAL": "MISSING",
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
       "VIEW_DETAILS": "MISSING"
@@ -1565,7 +1575,7 @@
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "PROFIT_LOSS": "Ganancia / Pérdida",
       "REVENUE": "Ingresos",
-      "TITLE": "Finanzas",
+      "TITLE": "Resumen de finanzas",
       "TOTAL_EXPENSES": "Gastos totales",
       "TOTAL_LABOUR": "Total empleo",
       "TOTAL_OTHER": "Total otros",

@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import Switch from '../../Form/Switch';
-import DateRangePicker from '../../Form/DateRangePicker';
+import { useEffect, useState } from 'react';
 import { getDateInputFormat } from '../../../util/moment';
+import DateRangePicker from '../../Form/DateRangePicker';
+import Switch from '../../Form/Switch';
+import styles from './styles.module.scss';
 
 export function FilterDateRange({
   setDirty,
@@ -13,6 +15,7 @@ export function FilterDateRange({
   filterRef,
   shouldReset,
   style,
+  className,
 }) {
   const [fromDate, setFromDate] = useState(defaultFromDate ?? '');
   const [toDate, setToDate] = useState(defaultToDate ?? '');
@@ -66,7 +69,7 @@ export function FilterDateRange({
     setDirty?.();
   };
   return (
-    <div style={{ display: 'flex', gap: '24px', flexDirection: 'column', ...style }}>
+    <div className={clsx([styles.container, className])} style={style}>
       <Switch label={subject} checked={showDateFilter} onChange={onSwitchClick} />
       {showDateFilter && (
         <>
@@ -91,4 +94,5 @@ FilterDateRange.prototype = {
   selected: PropTypes.bool,
   removable: PropTypes.bool,
   shouldReset: PropTypes.number,
+  className: PropTypes.string,
 };

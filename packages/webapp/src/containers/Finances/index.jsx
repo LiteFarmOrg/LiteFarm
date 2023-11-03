@@ -160,7 +160,7 @@ const Finances = ({ history }) => {
           history={history}
         />
       </div>
-      <PureTransactionList data={transactions} />
+      <PureTransactionList data={transactions} mobileView={true} />
     </div>
   );
 };

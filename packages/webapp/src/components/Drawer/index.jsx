@@ -21,8 +21,11 @@ import { BsX } from 'react-icons/bs';
 
 const Drawer = ({ title, isOpen, onClose, children }) => {
   return (
-    <div className={clsx(styles.drawerContainer, isOpen ? styles.openC : '')}>
-      <div className={styles.drawerBackdrop} onClick={onClose}></div>
+    <div>
+      <div
+        className={clsx(styles.drawerBackdrop, isOpen ? styles.openC : '')}
+        onClick={onClose}
+      ></div>
       <div className={clsx(styles.drawer, isOpen ? styles.openD : '')}>
         <div className={styles.header}>
           <div className={styles.title}>{title}</div>
@@ -30,7 +33,7 @@ const Drawer = ({ title, isOpen, onClose, children }) => {
             <BsX />
           </div>
         </div>
-        <div>{children}</div>
+        <div className={styles.content}>{children}</div>
       </div>
     </div>
   );

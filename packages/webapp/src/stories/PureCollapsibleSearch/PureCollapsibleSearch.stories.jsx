@@ -19,7 +19,7 @@ import { componentDecorators } from '../Pages/config/Decorators';
 import { Main, Info } from '../../components/Typography';
 
 export default {
-  title: 'Components/CollapsibleSearch',
+  title: 'Components/PureCollapsibleSearch',
   component: PureCollapsibleSearch,
   decorators: componentDecorators,
 };

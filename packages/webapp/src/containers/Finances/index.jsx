@@ -16,9 +16,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
-import history from '../../history';
-import { expenseSelector, salesSelector } from './selectors';
-import { allRevenueTypesSelector } from '../revenueTypeSlice';
 import { getFarmExpenseType, getExpense, getSales, setSelectedExpenseTypes } from './actions';
 import { calcOtherExpense, calcTotalLabour, calcActualRevenue } from './util';
 import Moment from 'moment';
@@ -30,7 +27,7 @@ import { getRevenueTypes } from './saga';
 import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
 import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
-import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
+import { taskEntitiesByManagementPlanIdSelector } from '../taskSlice';
 import { isTaskType } from '../Task/useIsTaskType';
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useTranslation } from 'react-i18next';

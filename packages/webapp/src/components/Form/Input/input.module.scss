@@ -81,15 +81,27 @@ input:focus::placeholder {
 .sm {
   margin-left: 8px;
 }
+
 .searchIcon {
-  color: var(--iconDefault);
+  width: 22px;
+  height: 22px;
   position: absolute;
-  font-size: 20px;
-  transform: translate(11px, 15px);
+  left: 11px;
+  top: 13px;
 }
+
+.searchClearIcon {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  right: 12px;
+  top: 15px;
+}
+
 .searchBar {
   padding-left: 40px;
 }
+
 .visibilityIcon {
   position: absolute;
   right: 0;

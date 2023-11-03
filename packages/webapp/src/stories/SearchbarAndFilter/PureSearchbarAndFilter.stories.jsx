@@ -9,10 +9,23 @@ export default {
 };
 
 const Template = (args) => <PureSearchbarAndFilter {...args} />;
-export const InActive = Template.bind({});
-InActive.args = {};
 
-export const Active = Template.bind({});
-Active.args = {
-  filterOptions: ['Active', 'Planned', 'Complete', 'Abandoned', 'Needs Plan'],
+export const WithInactiveFilter = Template.bind({});
+WithInactiveFilter.args = {
+  isFilterActive: false,
+};
+
+export const WithActiveFilter = Template.bind({});
+WithActiveFilter.args = {
+  isFilterActive: true,
+};
+
+export const WithoutFilter = Template.bind({});
+WithoutFilter.args = {
+  disableFilter: true,
+};
+
+export const WithCustomPlaceholder = Template.bind({});
+WithCustomPlaceholder.args = {
+  placeholderText: 'Search expense types',
 };

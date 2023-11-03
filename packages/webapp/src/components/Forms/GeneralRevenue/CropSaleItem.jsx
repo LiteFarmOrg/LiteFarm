@@ -64,7 +64,7 @@ function CropSaleItem({
       />
       <div className={styles.saleItemInputGroup}>
         <Unit
-          label={t('SALE.ADD_SALE.TABLE_HEADERS.QUANTITY')}
+          label={t('common:QUANTITY')}
           register={register}
           name={`${CROP_VARIETY_SALE}.${cropVarietyId}.${QUANTITY}`}
           displayUnitName={`${CROP_VARIETY_SALE}.${cropVarietyId}.${QUANTITY_UNIT}`}

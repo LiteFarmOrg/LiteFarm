@@ -29,7 +29,7 @@ button.toDetail {
   font-weight: 600;
   line-height: 19px;
   border-radius: 4px;
-  background-color: #EDF5F3;
+  background-color: #edf5f3;
   color: var(--teal900);
 
   svg {
@@ -62,5 +62,43 @@ button.toDetail {
 
   .footer {
     text-transform: uppercase;
+  }
+}
+
+.bold {
+  font-weight: bold;
+}
+
+// Crop sales
+.mobileCrops {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mobileCropsTitle {
+  font-weight: 600;
+}
+
+.mobileCropsQuantity {
+  color: var(--grey500);
+  font-size: 12px;
+}
+
+.mobileCropSaleFooterCell {
+  width: 100%;
+  background-color: var(--grey200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  padding-left: 8px;
+  padding-right: 9px;
+
+  > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

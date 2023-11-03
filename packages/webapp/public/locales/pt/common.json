@@ -11,7 +11,6 @@
   "CANCEL": "Cancelar",
   "CHANGE": "MISSING",
   "CHAR_LIMIT_ERROR": "MISSING",
-  "CLEAR_ALL_FILTERS": "Remover todos os filtros",
   "CLOSE": "Fechar",
   "CONFIRM": "Confirmar",
   "CONTINUE": "Continuar",
@@ -33,6 +32,7 @@
   "MARK_ABANDON": "Abandonar",
   "MARK_COMPLETE": "Marcar completo",
   "MARK_COMPLETED": "Marcar concluído",
+  "MAX_CHARS": "MISSING",
   "MAX_ERROR": "Insira um valor menor que {{value}}",
   "MIN_ERROR": "Insira um valor maior que {{value}}",
   "NAME": "Nome",
@@ -47,6 +47,7 @@
   "PAST": "Passado",
   "PLANNED": "Planejado",
   "PROCEED": "Continuar",
+  "QUANTITY": "Quantidade",
   "REMOVE": "Remover",
   "REMOVE_ITEM": "MISSING",
   "REQUIRED": "Obrigatório",
@@ -60,10 +61,12 @@
   "SUBMIT": "Enviar",
   "SUBMITTING": "Enviando...",
   "THATS_FINE": "Está bom",
+  "TODAY": "MISSING",
   "UPDATE": "Atualizar",
   "UPLOAD": "Carregar",
   "UPLOADING": "Carregando",
   "WORD_LIMIT_ERROR": "Somente {{value}} caractéres podem ser exibidos",
   "YEAR": "Ano",
-  "YES": "Sim"
+  "YES": "Sim",
+  "YESTERDAY": "MISSING"
 }

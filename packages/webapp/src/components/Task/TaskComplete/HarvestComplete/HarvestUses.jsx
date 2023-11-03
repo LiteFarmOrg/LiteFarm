@@ -142,7 +142,7 @@ export default function PureHarvestUses({
               data-cy="harvestUses-quantity"
               register={register}
               style={{ marginBottom: '14px', marginTop: '40px', zIndex: '0' }}
-              label={t('ADD_TASK.QUANTITY')}
+              label={t('common:QUANTITY')}
               name={`harvest_uses.${index}.` + HARVEST_USE_QUANTITY}
               displayUnitName={`harvest_uses.${index}.` + HARVEST_USE_QUANTITY_UNIT}
               unitType={harvestAmounts}

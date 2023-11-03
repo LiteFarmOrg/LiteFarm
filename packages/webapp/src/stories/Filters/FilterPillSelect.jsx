@@ -2,7 +2,7 @@ import React from 'react';
 import FilterPillSelect from '../../components/Filter/FilterPillSelect';
 
 export default {
-  title: 'Components/Filter',
+  title: 'Components/Filters/FilterPillSelect',
   component: FilterPillSelect,
 };
 

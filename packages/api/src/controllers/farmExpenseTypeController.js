@@ -26,6 +26,8 @@ const farmExpenseTypeController = {
         const farm_id = req.headers.farm_id;
         const data = req.body;
         data.expense_translation_key = baseController.formatTranslationKey(data.expense_name);
+        //prevent empty strings
+        data.custom_description = data.custom_description || null;
 
         const record = await this.existsInFarm(trx, farm_id, data.expense_name);
         // if record exists in db
@@ -38,6 +40,7 @@ const farmExpenseTypeController = {
           } else {
             // if its deleted, them make it active
             record.deleted = false;
+            record.custom_description = data.custom_description;
             await baseController.put(ExpenseTypeModel, record.expense_type_id, record, req, {
               trx,
             });
@@ -156,6 +159,8 @@ const farmExpenseTypeController = {
         }
 
         data.expense_translation_key = baseController.formatTranslationKey(data.expense_name);
+        //prevent empty strings
+        data.custom_description = data.custom_description || null;
 
         const result = await baseController.patch(ExpenseTypeModel, expense_type_id, data, req, {
           trx,

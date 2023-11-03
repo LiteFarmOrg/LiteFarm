@@ -21,6 +21,8 @@ import Button from '../../../Form/Button';
 import TransactionItem from './Item';
 import useExpandable from '../../../Expandable/useExpandableItem';
 import { useCurrencySymbol } from '../../../../containers/hooks/useCurrencySymbol';
+import { isSameDay } from '../../../../util/date';
+import { formatTransactionDate } from '../../../../containers/Finances/util';
 import styles from './styles.module.scss';
 
 export const MainContent = ({ t, note, typeLabel, amount, icon, currencySymbol }) => {
@@ -35,28 +37,43 @@ export const MainContent = ({ t, note, typeLabel, amount, icon, currencySymbol }
   );
 };
 
-const Rows = ({ t, data, currencySymbol }) => {
+const Rows = ({ t, data, currencySymbol, mobileView }) => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const rows = [];
+  let groupDate = null;
 
-  data.forEach((values, index) => {
-    // TODO: LF-3746 add "date" row as necessary
+  data.forEach((values) => {
+    const itemDate = new Date(values.date);
 
-    const isExpanded = expandedIds.includes(index);
+    if (!isSameDay(groupDate, itemDate)) {
+      groupDate = itemDate;
+      rows.push(
+        <h4 key={values.date} className={styles.transactionDate}>
+          {formatTransactionDate(itemDate)}
+        </h4>,
+      );
+    }
+
+    const { transactionType, relatedId, date } = values;
+    const key = `${transactionType}+${relatedId || date}`;
+    const isExpanded = expandedIds.includes(key);
 
     rows.push(
-      <div
-        key={index}
-        className={clsx(styles.expandableItemWrapper, isExpanded && styles.expanded)}
-      >
+      <div key={key} className={clsx(styles.expandableItemWrapper, isExpanded && styles.expanded)}>
         <ExpandableItem
           isExpanded={isExpanded}
-          onClick={() => toggleExpanded(index)}
+          onClick={() => toggleExpanded(key)}
           mainContent={<MainContent t={t} {...values} currencySymbol={currencySymbol} />}
-          expandedContent={<ExpandedContent data={values} />}
+          expandedContent={
+            <ExpandedContent
+              data={values}
+              currencySymbol={currencySymbol}
+              mobileView={mobileView}
+            />
+          }
           iconClickOnly={false}
           classes={{ mainContentWithIcon: styles.expandableItem }}
-          itemKey={`transaction-${index}`}
+          itemKey={`transaction-${key}`}
         />
       </div>,
     );
@@ -64,7 +81,7 @@ const Rows = ({ t, data, currencySymbol }) => {
   return <div>{rows}</div>;
 };
 
-export default function TransactionList({ data, minRows = 10 }) {
+export default function TransactionList({ data, minRows = 10, mobileView }) {
   const [visibleRows, setVisibleRows] = useState(minRows);
 
   const { t } = useTranslation(['translation', 'expense', 'revenue']);
@@ -76,7 +93,12 @@ export default function TransactionList({ data, minRows = 10 }) {
 
   return (
     <div className={styles.transactionList}>
-      <Rows t={t} data={data.slice(0, visibleRows)} currencySymbol={currencySymbol} />
+      <Rows
+        t={t}
+        data={data.slice(0, visibleRows)}
+        currencySymbol={currencySymbol}
+        mobileView={mobileView}
+      />
       {data.length > visibleRows && (
         <div className={styles.buttonWrapper}>
           <Button

@@ -18,15 +18,16 @@ import { BsChevronRight } from 'react-icons/bs';
 import TextButton from '../../../Form/Button/TextButton';
 import history from '../../../../history';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
+import CropSaleTable from './CropSaleTable';
 import styles from './styles.module.scss';
 import LabourTable from './LabourTable';
 
-// TODO LF-3748, 3749, 3761
+// TODO LF-3748, 3749
 const components = {
   EXPENSE: (props) => <div>expense placeholder</div>,
   REVENUE: (props) => <div>revenue placeholder</div>,
   LABOUR_EXPENSE: ({ data }) => <LabourTable transaction={data} />,
-  CROP_SALE: (props) => <div>crop sale placeholder</div>,
+  CROP_SALE: (props) => <CropSaleTable {...props} />,
 };
 
 const getDetailPageLink = ({ transactionType, relatedId }) => {
@@ -37,8 +38,8 @@ const getDetailPageLink = ({ transactionType, relatedId }) => {
   }[transactionType];
 };
 
-export default function ExpandedContent({ data }) {
-  const { typeLabel, transactionType } = data;
+export default function ExpandedContent({ data, currencySymbol, mobileView }) {
+  const { transactionType, cropGenerated } = data;
 
   const { t } = useTranslation();
 
@@ -47,7 +48,7 @@ export default function ExpandedContent({ data }) {
       ? t('FINANCES.TRANSACTION.VIEW_LABOUR')
       : t('FINANCES.TRANSACTION.VIEW_AND_EDIT');
 
-  const componentKey = typeLabel === 'Crop Sale' ? 'CROP_SALE' : transactionType;
+  const componentKey = cropGenerated ? 'CROP_SALE' : transactionType;
   const Component = components[componentKey];
 
   return (
@@ -56,7 +57,7 @@ export default function ExpandedContent({ data }) {
         {toDetailText}
         <BsChevronRight />
       </TextButton>
-      <Component data={data} />
+      <Component data={data} currencySymbol={currencySymbol} mobileView={mobileView} />
     </div>
   );
 }

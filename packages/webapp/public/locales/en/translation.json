@@ -17,7 +17,6 @@
   "ADD_PRODUCT": {
     "PRESS_ENTER": "Type and press enter to add...",
     "PRODUCT_LABEL": "Product",
-    "QUANTITY": "Quantity",
     "SUPPLIER_LABEL": "Supplier"
   },
   "ADD_TASK": {
@@ -135,7 +134,6 @@
     "PLANTING_STOCK": "Planting stock",
     "PLANTING_TASK": "Planting Task",
     "PLANTING_TASK_MODAL": "Starting a new planting task creates a new crop plan. Go to the crop catalogue to select the crop you would like to plant.",
-    "QUANTITY": "Quantity",
     "RETIRE_CUSTOM_TASK": "Retire custom task?",
     "RETIRE_CUSTOM_TASK_CONTENT": "Are you sure you want to delete this custom task?",
     "SEED": "Seed",
@@ -517,8 +515,9 @@
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Manage custom expense types",
       "NEW_EXPENSE_ITEM": "New expense item",
       "TITLE": "Add expense",
-      "WHICH_TYPES_TO_RECORD": "Which types of expenses would you like to record?"
+      "WHICH_TYPES_TO_RECORD": "Pick your expense types below:"
     },
+    "CUSTOM_EXPENSE_DESCRIPTION": "Custom expense description",
     "DELETE": {
       "CONFIRM": "Confirm deletion",
       "HEADER": "Delete expense?",
@@ -820,7 +819,9 @@
     "TITLE": "File size too large"
   },
   "FILTER": {
-    "CLEAR_ALL_FILTERS": "Clear all filters"
+    "CLEAR_ALL": "Clear all",
+    "CLEAR_ALL_FILTERS": "Clear all filters",
+    "SELECT_ALL": "Select all"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
@@ -843,9 +844,21 @@
       "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
       "TITLE": "Estimated Revenue"
     },
+    "FILTER": {
+      "EXPENSE_TYPE": "Expense types",
+      "HELP_TEXT": "Feel free to use the filters below to fine-tune your transaction list and make it work just the way you want!",
+      "REVENUE_TYPE": "Revenue types",
+      "TITLE": "Filter transactions"
+    },
     "MANAGE_CUSTOM_TYPE": "Manage custom type",
     "REVENUE": "Revenue",
+    "SEARCH": {
+      "EXPENSE_TYPES": "Search expense type",
+      "REVENUE_TYPES": "Search revenue type"
+    },
     "TRANSACTION": {
+      "CROPS": "Crops",
+      "DAILY_TOTAL": "DAILY TOTAL",
       "LABOUR_EXPENSE": "Labour expense",
       "VIEW_AND_EDIT": "View & edit",
       "VIEW_LABOUR": "View labour expenses"
@@ -1472,6 +1485,7 @@
       "CUSTOM_REVENUE_TYPE": "Custom revenue type",
       "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another."
     },
+    "CUSTOM_REVENUE_DESCRIPTION": "Custom revenue description",
     "DELETE": {
       "CONFIRM": "Confirm deletion",
       "HEADER": "Delete revenue?",
@@ -1507,18 +1521,16 @@
       "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Crop variety",
-        "QUANTITY": "Quantity",
         "TOTAL": "Total"
       },
       "TITLE": "Add new sale",
-      "WHICH_TYPE_TO_RECORD": "What type of revenue would you like to record?"
+      "WHICH_TYPE_TO_RECORD": "Pick your revenue type below:"
     },
     "DETAIL": {
       "ACTION": "Action",
       "CROP": "Crop",
       "CUSTOMER_NAME": "Customer Name",
       "DELETE_CONFIRMATION": "Are you sure you want to delete this sale?",
-      "QUANTITY": "Quantity",
       "TITLE": "Revenue Detail",
       "VALUE": "Value"
     },
@@ -1549,6 +1561,11 @@
       "BALANCE": "Balance",
       "BALANCE_EXPLANATION": "We compute a real-time balance (‘cost of production’) for each crop on your farm. This is a simple equation of expenses minus revenue.  Expenses for each crop are calculated from two parts, one part is the labour expenses from hours logged for farm activities, the other part is from the other expenses logged for the whole farm. Where expenses are logged for the whole farm we equally divide them amongst the crops on the farm. Unallocated means that a shift(s) has been submitted for a field when there is not a crop yet on that field. This shift(s) will be assigned to crops as they are added to that field within the financial reporting time window.",
       "BALANCE_FOR_FARM": "Balance (Whole Farm)",
+      "CARROUSEL_TEXT": {
+        "ESTIMATED_REVENUE": "This number (static) reflects your future estimated harvest",
+        "GENERIC": "*These numbers are based on your date / filter selection"
+      },
+      "ESTIMATED_HARVEST_REVENUE": "Estimated harvest revenue",
       "EXPENSES": "Expenses",
       "FINANCE_HELP": "Finance Help",
       "LABOUR_LABEL": "Labour",
@@ -1556,9 +1573,15 @@
         "BODY": "Here you can add, modify, or retire expense types personalized to your farm.",
         "TITLE": "Manage custom expense types"
       },
+      "OTHER_EXPENSES": "Other expenses",
       "OTHER_EXPENSES_LABEL": "Other Expenses",
+      "PROFIT_LOSS": "Profit / Loss",
       "REVENUE": "Revenue",
-      "TITLE": "Finances",
+      "TITLE": "Finances overview",
+      "TOTAL_EXPENSES": "Total expenses",
+      "TOTAL_LABOUR": "Total labour",
+      "TOTAL_OTHER": "Total other",
+      "TOTAL_REVENUE": "Total revenue",
       "UNALLOCATED_CROP": "Unallocated",
       "UNALLOCATED_TIP": "What is unallocated?"
     },
@@ -1593,6 +1616,12 @@
       "TYPE": "Type",
       "VALUE": "Value"
     }
+  },
+  "SEARCH": {
+    "CLEAR_TERMS": "Why not try a different search to discover new possibilities?",
+    "CLEAR_TERMS_AND_FILTERS": "Why not explore different terms or simply clear the filters to discover new possibilities?",
+    "NO_RESULTS_FOR": "Sorry, we couldn't find any results for your search term <1>'{{searchTerm}}'</1>",
+    "ZERO": "0 results"
   },
   "SENSOR": {
     "BRAND": "Brand",

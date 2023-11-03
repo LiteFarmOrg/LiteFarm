@@ -18,14 +18,15 @@ import { BsChevronRight } from 'react-icons/bs';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
 import history from '../../../../history';
 import TextButton from '../../../Form/Button/TextButton';
+import CropSaleTable from './CropSaleTable';
 import styles from './styles.module.scss';
 
-// TODO LF-3748, 3749, 3761
+// TODO LF-3748, 3749
 const components = {
   EXPENSE: (props) => <div>expense placeholder</div>,
   REVENUE: (props) => <div>revenue placeholder</div>,
   LABOUR_EXPENSE: (props) => <div>labour placeholder</div>,
-  CROP_REVENUE: (props) => <div>crop sale placeholder</div>,
+  CROP_REVENUE: (props) => <CropSaleTable {...props} />,
 };
 
 const getDetailPageLink = ({ transactionType, relatedId }) => {
@@ -37,7 +38,7 @@ const getDetailPageLink = ({ transactionType, relatedId }) => {
   }[transactionType];
 };
 
-export default function ExpandedContent({ data }) {
+export default function ExpandedContent({ data, currencySymbol, mobileView }) {
   const { transactionType } = data;
 
   const { t } = useTranslation();
@@ -55,7 +56,7 @@ export default function ExpandedContent({ data }) {
         {toDetailText}
         <BsChevronRight />
       </TextButton>
-      <Component data={data} />
+      <Component data={data} currencySymbol={currencySymbol} mobileView={mobileView} />
     </div>
   );
 }

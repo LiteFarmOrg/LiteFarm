@@ -1,17 +1,18 @@
-import { FiFilter } from 'react-icons/fi';
 import Input from '../../Form/Input';
 import { makeStyles } from '@mui/styles';
 import { colors } from '../../../assets/theme';
 import PropTypes from 'prop-types';
+import FilterButton from '../../Filter/FilterButton';
 import clsx from 'clsx';
 
 const useStyles = makeStyles({
   container: {
     display: 'flex',
-    gap: '16px',
+    gap: '8px',
     position: 'relative',
     alignItems: 'center',
     paddingBottom: '16px',
+    height: '64px',
   },
   circle: {
     position: 'absolute',
@@ -49,12 +50,7 @@ export default function PureSearchbarAndFilter({
           onChange={onChange}
           placeholder={placeholderText}
         />
-        {!disableFilter && (
-          <>
-            {isFilterActive && <div className={classes.circle} />}
-            <FiFilter className={classes.filter} onClick={onFilterOpen} />
-          </>
-        )}
+        {!disableFilter && <FilterButton isFilterActive={isFilterActive} onClick={onFilterOpen} />}
       </div>
     </>
   );

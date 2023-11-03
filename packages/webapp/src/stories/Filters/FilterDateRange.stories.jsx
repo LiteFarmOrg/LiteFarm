@@ -2,7 +2,7 @@ import React from 'react';
 import { FilterDateRange } from '../../components/Filter/FilterDateRange';
 
 export default {
-  title: 'Components/FilterDateRange',
+  title: 'Components/Filters/FilterDateRange',
   component: FilterDateRange,
 };
 

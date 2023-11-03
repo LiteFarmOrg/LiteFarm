@@ -15,8 +15,8 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { getDateInputFormat } from '../util/moment';
 import i18n from '../locales/i18n';
+import { getDateInputFormat } from '../util/moment';
 
 const initialCropCatalogueFilter = {
   STATUS: {},
@@ -28,7 +28,7 @@ const initialDocumentsFilter = {
   TYPE: {},
   VALID_ON: undefined,
 };
-const intialTasksFilter = {
+const initialTasksFilter = {
   STATUS: {},
   TYPE: {},
   LOCATION: {},
@@ -38,11 +38,16 @@ const intialTasksFilter = {
   TO_DATE: undefined,
   IS_ASCENDING: false,
 };
+const initialTransactionsFilter = {
+  EXPENSE_TYPE: undefined,
+  REVENUE_TYPE: undefined,
+};
 
 export const initialState = {
   cropCatalogue: initialCropCatalogueFilter,
   documents: initialDocumentsFilter,
-  tasks: intialTasksFilter,
+  tasks: initialTasksFilter,
+  transactions: initialTransactionsFilter,
 };
 
 const filterSliceReducer = createSlice({
@@ -78,11 +83,11 @@ const filterSliceReducer = createSlice({
       Object.assign(state.documents, documentsFilter);
     },
     clearTasksFilter: (state) => {
-      state.tasks = intialTasksFilter;
+      state.tasks = initialTasksFilter;
     },
     resetTasksFilter: (state, { payload: { user_id, userFarms } }) => {
       state.tasks = {
-        ...intialTasksFilter,
+        ...initialTasksFilter,
         ASSIGNEE: userFarms.reduce((assignees, userFarm) => {
           assignees[userFarm.user_id] = {
             active: false,
@@ -104,7 +109,7 @@ const filterSliceReducer = createSlice({
       const oneWeekFromDate = new Date(date.valueOf());
       oneWeekFromDate.setDate(date.getDate() + 6);
       state.tasks = {
-        ...intialTasksFilter,
+        ...initialTasksFilter,
         ASSIGNEE: Object.keys(state.tasks.ASSIGNEE).reduce((assignees, assigneeUserId) => {
           assignees[assigneeUserId] = {
             active: false,
@@ -127,7 +132,7 @@ const filterSliceReducer = createSlice({
       const dayBefore = new Date(date.valueOf());
       dayBefore.setDate(date.getDate() - 1);
       state.tasks = {
-        ...intialTasksFilter,
+        ...initialTasksFilter,
         ASSIGNEE: Object.keys(state.tasks.ASSIGNEE).reduce((assignees, assigneeUserId) => {
           assignees[assigneeUserId] = {
             active: false,
@@ -178,6 +183,12 @@ const filterSliceReducer = createSlice({
         },
       };
     },
+    resetTransactionsFilter: (state) => {
+      state.transactions = initialTransactionsFilter;
+    },
+    setTransactionsFilter: (state, { payload: transactionsFilter }) => {
+      Object.assign(state.transactions, transactionsFilter);
+    },
   },
 });
 
@@ -198,6 +209,8 @@ export const {
   setTasksFilterUnassignedDueThisWeek,
   setTasksFilterDueToday,
   updateTasksFilterObjects,
+  resetTransactionsFilter,
+  setTransactionsFilter,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
 
@@ -223,11 +236,16 @@ export const cropCatalogueFilterDateSelector = createSelector(
   [cropCatalogueFilterSelector],
   (cropCatalogueFilter) => cropCatalogueFilter.date || getDateInputFormat(new Date()),
 );
+export const transactionsFilterSelector = createSelector(
+  [filterReducerSelector],
+  (filterReducer) => filterReducer.transactions,
+);
 
-export const isFilterCurrentlyActiveSelector = (pageFilterKey) => {
+export const isFilterCurrentlyActiveSelector = (pageFilterKey, defaultAllActive = false) => {
   return createSelector([filterReducerSelector], (filterReducer) => {
     const targetPageFilter = filterReducer[pageFilterKey];
     let isActive = false;
+    let allActive = null;
 
     for (const filterKey in targetPageFilter) {
       const filter = targetPageFilter[filterKey];
@@ -237,9 +255,17 @@ export const isFilterCurrentlyActiveSelector = (pageFilterKey) => {
         isActive = Object.values(filter).reduce((acc, curr) => {
           return acc || curr.active;
         }, isActive);
+        // Only keep calculating this if it's the first filter or if the previous ones have checked true
+        if (allActive === null || allActive === true) {
+          allActive = Object.values(filter).every((filter) => filter.active);
+        }
       } else {
         isActive = isActive || filterType === 'string';
       }
+    }
+
+    if (defaultAllActive && allActive !== null) {
+      isActive = !allActive;
     }
 
     return isActive;

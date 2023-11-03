@@ -59,3 +59,10 @@
     justify-content: space-between;
   }
 }
+
+.filterBar {
+  display: flex;
+  gap: 8px;
+  height: 48px;
+  margin-bottom: 8px;
+}

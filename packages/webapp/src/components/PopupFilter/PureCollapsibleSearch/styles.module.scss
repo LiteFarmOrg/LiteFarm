@@ -1,0 +1,117 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.container {
+  .searchBar {
+    display: none;
+  }
+}
+
+.searchButton {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+
+  border: 1px solid var(--grey400);
+  background: var(--grey200);
+  box-shadow: 0px 1px 0px 0px rgba(4, 43, 73, 0.1);
+
+  .searchIcon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    transform: translateX(1px);
+
+    path {
+      fill: var(--grey600);
+    }
+  }
+}
+
+.searchButton:hover {
+  border: 1px solid var(--grey600);
+  background: var(--white, #fff);
+}
+
+// To disable native focus styling (dark black border) after enter-submit
+.searchButton:focus {
+  outline: none;
+}
+
+.searchButton.active {
+  border: 1px solid var(--teal500);
+  background: var(--teal100);
+  box-shadow: 0px 1px 0px 0px rgba(4, 43, 73, 0.1);
+
+  .searchIcon {
+    transform: translate(2px, 1px);
+
+    path {
+      fill: var(--teal600);
+    }
+  }
+
+  .circleContainer {
+    position: absolute;
+    top: 2px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .circle {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: var(--teal600);
+  }
+}
+
+.modalSearchbar {
+  min-width: 240px;
+  border-radius: 4px;
+  border: 1px solid var(--grey400);
+  background: #fff;
+  box-shadow: 0px 1px 0px 0px rgba(4, 43, 73, 0.1);
+
+  /* Don't show green focus outline (per Figma) */
+  input:focus:enabled {
+    border: 1px solid var(--grey400);
+  }
+}
+
+/* Desktop view */
+@media only screen and (min-width: 768px) {
+  .container {
+    .searchBar {
+      display: block;
+      min-width: 240px;
+      flex-grow: 1;
+    }
+  }
+
+  .searchButton {
+    display: none;
+  }
+
+  // Only relevant if resizing screen beyond breakpoint with modal open
+  .modalContent {
+    display: none;
+  }
+}

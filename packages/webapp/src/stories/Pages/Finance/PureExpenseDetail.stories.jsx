@@ -29,8 +29,6 @@ const args = {
   handleGoBack: () => {
     console.log('Go back');
   },
-  inputLabel: 'Custom Type Name',
-  customTypeRegister: 'custom_type_name',
   expense: {
     note: 'Farm kitten',
     expense_date: '2023-09-06T07:00:00.000Z',

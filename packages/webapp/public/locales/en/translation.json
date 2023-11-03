@@ -517,6 +517,7 @@
       "TITLE": "Add expense",
       "WHICH_TYPES_TO_RECORD": "Pick your expense types below:"
     },
+    "CUSTOM_EXPENSE_DESCRIPTION": "Custom expense description",
     "DELETE": {
       "CONFIRM": "Confirm deletion",
       "HEADER": "Delete expense?",
@@ -1484,6 +1485,7 @@
       "CUSTOM_REVENUE_TYPE": "Custom revenue type",
       "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another."
     },
+    "CUSTOM_REVENUE_DESCRIPTION": "Custom revenue description",
     "DELETE": {
       "CONFIRM": "Confirm deletion",
       "HEADER": "Delete revenue?",

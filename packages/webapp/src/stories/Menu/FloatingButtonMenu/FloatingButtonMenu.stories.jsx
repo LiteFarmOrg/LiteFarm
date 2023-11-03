@@ -12,36 +12,21 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import FloatingButtonMenu from '../../../components/Menu/FloatingButtonMenu';
+import { componentDecorators } from '../../Pages/config/Decorators';
 
-// Menu
-.menuList {
-  padding: 8px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  margin-bottom: 4px;
-}
+export default {
+  title: 'Components/Menu/FloatingButtonMenu',
+  component: FloatingButtonMenu,
+  decorators: componentDecorators,
+};
 
-.menuItem {
-  height: 48px;
-  padding: 8px 16px;
-  color: #996E00;
-  background-color: var(--yellow100);
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 24px;
-  text-align: center;
-
-  &:hover {
-    background-color: var(--yellow700);
-  }
-}
-
-// Button + Menu
-.buttonWrapper {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-}
+export const AddTransaction = {
+  args: {
+    type: 'add',
+    options: [
+      { label: '+ Add Revenue', onClick: () => console.log('Add Revenue') },
+      { label: '+ Add Expense', onClick: () => console.log('Add Expense') },
+    ],
+  },
+};

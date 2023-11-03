@@ -20,7 +20,6 @@ import DateRangeSelector from '../../DateRangeSelector';
 import { setDateRange } from '../../../containers/Finances/actions';
 import moment from 'moment';
 import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
-import { useTranslation } from 'react-i18next';
 import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
 import { dateRangeOptions } from '../../DateRangeSelector/constants';
 import DateRange, { SUNDAY } from '../../../util/dateRange';
@@ -30,7 +29,6 @@ const isDateValid = (date) => {
 };
 
 const FinanceDateRangeSelector = () => {
-  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const dateRange = useSelector(dateRangeDataSelector);

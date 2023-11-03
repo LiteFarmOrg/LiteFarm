@@ -1,7 +1,7 @@
-import React from 'react';
-import ModalComponent from './ModalComponent/v1';
 import Dialog from '@mui/material/Dialog';
 import { makeStyles } from '@mui/styles';
+import React from 'react';
+import ModalComponent from './ModalComponent/v1';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -12,7 +12,12 @@ const useStyles = makeStyles((theme) => ({
 function Modal({ children, dismissModal }) {
   const classes = useStyles();
   return (
-    <Dialog PaperProps={{ className: classes.paper }} open={true} onClose={dismissModal}>
+    <Dialog
+      PaperProps={{ className: classes.paper }}
+      open={true}
+      onClose={dismissModal}
+      scroll="paper"
+    >
       {children}
     </Dialog>
   );

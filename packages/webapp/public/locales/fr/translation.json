@@ -818,7 +818,9 @@
     "TITLE": "Taille du fichier trop grande"
   },
   "FILTER": {
-    "CLEAR_ALL_FILTERS": "Effacer tous les filtres"
+    "CLEAR_ALL": "MISSING",
+    "CLEAR_ALL_FILTERS": "Effacer tous les filtres",
+    "SELECT_ALL": "MISSING"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
@@ -843,6 +845,12 @@
       "TITLE": "Chiffre d'affaires estimé"
     },
     "EXPENSES": "Dépenses",
+    "FILTER": {
+      "EXPENSE_TYPE": "MISSING",
+      "HELP_TEXT": "MISSING",
+      "REVENUE_TYPE": "MISSING",
+      "TITLE": "MISSING"
+    },
     "MANAGE_CUSTOM_TYPE": "MISSING",
     "REVENUE": "Revenu",
     "SEARCH": {
@@ -1570,7 +1578,7 @@
       "OTHER_EXPENSES_LABEL": "Autres dépenses",
       "PROFIT_LOSS": "MISSING",
       "REVENUE": "Revenu",
-      "TITLE": "Finances",
+      "TITLE": "MISSING",
       "TOTAL_EXPENSES": "MISSING",
       "TOTAL_LABOUR": "MISSING",
       "TOTAL_OTHER": "MISSING",

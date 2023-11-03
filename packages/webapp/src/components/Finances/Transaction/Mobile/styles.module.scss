@@ -19,6 +19,7 @@
 }
 
 .transactionDate {
+  font-weight: normal;
   font-size: 12px;
   line-height: 16px;
   padding-top: 16px;
@@ -42,7 +43,7 @@
     border-radius: 1px;
   }
 
-  &:hover {
+  &:hover:not(.expanded) {
     background-color: var(--grey200);
   }
 }
@@ -68,7 +69,7 @@
 .mainContentLeft {
   display: flex;
   gap: 4px;
-  width: calc(100% - 80px);
+  width: calc(100% - 100px);
 }
 
 .mainContentText {

@@ -223,13 +223,19 @@ const testData = {
   ],
 };
 
-const expenseTypeFilter = [
-  '699743b4-09ea-11ee-81ec-7ac3b12dfaeb',
-  'eec8809a-6e7e-11ee-ae85-0242ac180005',
-  'LABOUR_EXPENSE',
-];
+const expenseTypeFilter = {
+  '699743b4-09ea-11ee-81ec-7ac3b12dfaeb': {
+    active: true,
+  },
+  'eec8809a-6e7e-11ee-ae85-0242ac180005': {
+    active: true,
+  },
+  LABOUR_EXPENSE: {
+    active: true,
+  },
+};
 
-const revenueTypeFilter = [1, 2];
+const revenueTypeFilter = { 1: { active: true }, 2: { active: true } };
 
 const allResults = [
   {
@@ -389,30 +395,34 @@ describe('buildTransactions test', () => {
   });
 
   test('Should return list of transactions filtered by expense type', () => {
+    const firstFilterKey = Object.keys(expenseTypeFilter)[0];
     const transactions = buildTransactions({
       ...testData,
-      expenseTypeFilter: [expenseTypeFilter[0]],
-      revenueTypeFilter: [],
+      expenseTypeFilter: { [firstFilterKey]: expenseTypeFilter[firstFilterKey] },
+      revenueTypeFilter: {},
     });
     const expectedResults = filterResultsByIndex([7]);
     expect(transactions).toEqual(expectedResults);
   });
 
   test('Should return list of transactions filtered by revenue type', () => {
+    const firstFilterKey = Object.keys(revenueTypeFilter)[0];
     const transactions = buildTransactions({
       ...testData,
-      expenseTypeFilter: [],
-      revenueTypeFilter: [revenueTypeFilter[0]],
+      expenseTypeFilter: {},
+      revenueTypeFilter: { [firstFilterKey]: revenueTypeFilter[firstFilterKey] },
     });
     const expectedResults = filterResultsByIndex([4, 8]);
     expect(transactions).toEqual(expectedResults);
   });
 
   test('Should return list of transactions filtered by expense and revenue type', () => {
+    const firstExpenseFilterKey = Object.keys(expenseTypeFilter)[0];
+    const firstRevenueFilterKey = Object.keys(revenueTypeFilter)[0];
     const transactions = buildTransactions({
       ...testData,
-      expenseTypeFilter: [expenseTypeFilter[0]],
-      revenueTypeFilter: [revenueTypeFilter[0]],
+      expenseTypeFilter: { [firstExpenseFilterKey]: expenseTypeFilter[firstExpenseFilterKey] },
+      revenueTypeFilter: { [firstRevenueFilterKey]: revenueTypeFilter[firstRevenueFilterKey] },
     });
     const expectedResults = filterResultsByIndex([4, 7, 8]);
     expect(transactions).toEqual(expectedResults);
@@ -423,11 +433,13 @@ describe('buildTransactions test', () => {
       startDate: '2023-10-13T03:00:00.000Z',
       endDate: '2024-10-28T02:59:59.999Z',
     };
+    const firstExpenseFilterKey = Object.keys(expenseTypeFilter)[0];
+    const firstRevenueFilterKey = Object.keys(revenueTypeFilter)[0];
     const transactions = buildTransactions({
       ...testData,
       dateFilter,
-      expenseTypeFilter: [expenseTypeFilter[0]],
-      revenueTypeFilter: [revenueTypeFilter[0]],
+      expenseTypeFilter: { [firstExpenseFilterKey]: expenseTypeFilter[firstExpenseFilterKey] },
+      revenueTypeFilter: { [firstRevenueFilterKey]: revenueTypeFilter[firstRevenueFilterKey] },
     });
     const expectedResults = filterResultsByIndex([4, 7]);
     expect(transactions).toEqual(expectedResults);

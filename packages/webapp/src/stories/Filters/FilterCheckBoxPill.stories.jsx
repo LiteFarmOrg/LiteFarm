@@ -2,7 +2,7 @@ import React from 'react';
 import CheckBoxPill from '../../components/Filter/CheckBoxPill';
 
 export default {
-  title: 'Components/FilterCheckBoxPill',
+  title: 'Components/Filters/FilterCheckBoxPill',
   component: CheckBoxPill,
 };
 

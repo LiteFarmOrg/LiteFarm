@@ -36,8 +36,8 @@
     "CUSTOM_DESCRIPTION": "Recurring expenses related to electricity, gas, water (including irrigation), garbage collection, and other periodic services."
   },
   "LABOUR": {
-    "EXPENSE_NAME": "Labour",
-    "CUSTOM_DESCRIPTION": "Expenses related to employed and contracted individuals."
+    "EXPENSE_NAME": "Contract labour",
+    "CUSTOM_DESCRIPTION": "Expenses related to contracted individuals."
   },
   "INFRASTRUCTURE": {
     "EXPENSE_NAME": "Infrastructure",

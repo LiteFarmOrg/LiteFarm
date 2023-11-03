@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import history from '../../history';
@@ -42,6 +42,9 @@ import TransactionFilter from './TransactionFilter';
 import { transactionsFilterSelector } from '../filterSlice';
 import useTransactions from './useTransactions';
 import PureTransactionList from '../../components/Finances/Transaction/Mobile/List';
+import PureCollapsibleSearch from '../../components/PopupFilter/PureCollapsibleSearch';
+import useSearchFilter from '../hooks/useSearchFilter';
+import NoSearchResults from '../../components/Card/NoSearchResults';
 
 const moment = extendMoment(Moment);
 
@@ -56,6 +59,7 @@ const Finances = ({ history }) => {
   const dateFilter = { startDate, endDate };
   const transactions = useTransactions({ dateFilter, expenseTypeFilter, revenueTypeFilter });
   const currencySymbol = useCurrencySymbol();
+  const overlayRef = useRef(null);
 
   const dispatch = useDispatch();
 
@@ -97,10 +101,21 @@ const Finances = ({ history }) => {
     return parseFloat(totalRevenue).toFixed(0);
   };
 
-  const totalRevenue = calcActualRevenue(transactions).toFixed(0);
+  const makeTransactionsSearchableString = (transaction) =>
+    [transaction.note, transaction.typeLabel || t('SALE.FINANCES.LABOUR_EXPENSE')]
+      .filter(Boolean)
+      .join(' ');
+
+  const [filteredTransactions, searchString, setSearchString] = useSearchFilter(
+    transactions,
+    makeTransactionsSearchableString,
+  );
+  const hasSearchResults = filteredTransactions.length !== 0;
+
+  const totalRevenue = calcActualRevenue(filteredTransactions).toFixed(0);
   const estimatedRevenue = getEstimatedRevenue(managementPlans);
-  const labourExpense = calcTotalLabour(transactions).toFixed(0);
-  const otherExpense = calcOtherExpense(transactions).toFixed(0);
+  const labourExpense = calcTotalLabour(filteredTransactions).toFixed(0);
+  const otherExpense = calcOtherExpense(filteredTransactions).toFixed(0);
   const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(0);
 
   return (
@@ -145,9 +160,17 @@ const Finances = ({ history }) => {
         Download Report
       </Button>
       <hr />
-      <div className={styles.filterBar}>
-        <DateRangeSelector />
-        <TransactionFilter />
+      <div className={styles.filterBar} ref={overlayRef}>
+        <DateRangeSelector className={styles.dateRangeSelector} />
+        <div className={styles.filterBarButtons}>
+          <PureCollapsibleSearch
+            value={searchString}
+            onChange={(e) => setSearchString(e.target.value)}
+            isSearchActive={!!searchString}
+            containerRef={overlayRef}
+          />
+          <TransactionFilter />
+        </div>
       </div>
       <div className={styles.carrouselContainer}>
         <FinancesCarrousel
@@ -160,7 +183,15 @@ const Finances = ({ history }) => {
           history={history}
         />
       </div>
-      <PureTransactionList data={transactions} />
+      {hasSearchResults ? (
+        <PureTransactionList data={filteredTransactions} />
+      ) : (
+        <NoSearchResults
+          className={styles.noResultsCard}
+          searchTerm={searchString}
+          includeFiltersInClearSuggestion
+        />
+      )}
     </div>
   );
 };

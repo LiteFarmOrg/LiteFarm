@@ -16,7 +16,7 @@ import FloatingActionButton from '../../components/Button/FloatingActionButton';
 import { componentDecorators } from '../Pages/config/Decorators';
 
 export default {
-  title: 'Components/FloatingActionButton',
+  title: 'Components/Button/FloatingActionButton',
   component: FloatingActionButton,
   decorators: componentDecorators,
 };

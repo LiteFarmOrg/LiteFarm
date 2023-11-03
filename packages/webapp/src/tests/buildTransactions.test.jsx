@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { expect, describe, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { buildTransactions } from '../containers/Finances/useTransactions';
 
 const testData = {
@@ -280,7 +280,7 @@ const allResults = [
   {
     icon: 'CROP_SALE',
     date: '2023-10-18T00:00:00.000Z',
-    transactionType: 'REVENUE',
+    transactionType: 'CROP_REVENUE',
     typeLabel: 'CROP_SALE.REVENUE_NAME',
     amount: 30,
     note: 'Customer 2',
@@ -337,7 +337,7 @@ const allResults = [
   {
     icon: 'CROP_SALE',
     date: '2023-10-12T00:00:00.000Z',
-    transactionType: 'REVENUE',
+    transactionType: 'CROP_REVENUE',
     typeLabel: 'CROP_SALE.REVENUE_NAME',
     amount: 100,
     note: 'Customer 1',

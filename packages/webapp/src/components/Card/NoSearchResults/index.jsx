@@ -31,12 +31,14 @@ export const NoSearchResults = ({
   return (
     <div className={clsx(styles.container, className)} style={style}>
       <Semibold>{t('SEARCH.ZERO')}</Semibold>
-      <Text className={styles.noResultsForText}>
-        <Trans i18nKey="SEARCH.NO_RESULTS_FOR" shouldUnescape>
-          Sorry, we couldn&apos;t find any results for your search term
-          <b>&apos;{{ searchTerm }}&apos;</b>
-        </Trans>
-      </Text>
+      {searchTerm && (
+        <Text className={styles.noResultsForText}>
+          <Trans i18nKey="SEARCH.NO_RESULTS_FOR" shouldUnescape>
+            Sorry, we couldn&apos;t find any results for your search term
+            <b>&apos;{{ searchTerm }}&apos;</b>
+          </Trans>
+        </Text>
+      )}
       {includeFiltersInClearSuggestion ? (
         <Text>{t('SEARCH.CLEAR_TERMS_AND_FILTERS')}</Text>
       ) : (

@@ -23,12 +23,14 @@ import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
 import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
 import { dateRangeOptions } from '../../DateRangeSelector/constants';
 import DateRange, { SUNDAY } from '../../../util/dateRange';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
 const isDateValid = (date) => {
   return date ? moment(date).isValid() : false;
 };
 
-const FinanceDateRangeSelector = () => {
+const FinanceDateRangeSelector = ({ className }) => {
   const dispatch = useDispatch();
 
   const dateRange = useSelector(dateRangeDataSelector);
@@ -67,7 +69,7 @@ const FinanceDateRangeSelector = () => {
   };
 
   return (
-    <div className={styles.rangeContainer}>
+    <div className={clsx(styles.rangeContainer, className)}>
       <DateRangeSelector
         defaultDateRangeOptionValue={initialOption}
         defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}
@@ -76,6 +78,10 @@ const FinanceDateRangeSelector = () => {
       />
     </div>
   );
+};
+
+FinanceDateRangeSelector.PropTypes = {
+  className: PropTypes.string,
 };
 
 export default FinanceDateRangeSelector;

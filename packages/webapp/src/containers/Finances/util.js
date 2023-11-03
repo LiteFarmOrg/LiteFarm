@@ -223,6 +223,7 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
             amount: cvs.sale_value,
           };
         }),
+        cropGenerated: true,
       };
     } else {
       return {
@@ -287,7 +288,7 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
 
 export const formatAmount = (amount, symbol) => {
   const sign = amount > 0 ? '+ ' : '- ';
-  return `${amount ? sign : ''}${symbol}${Math.abs(amount)}`;
+  return `${amount ? sign : ''}${symbol}${Math.abs(amount).toFixed(2)}`;
 };
 
 export const formatTransactionDate = (date, language = getLanguageFromLocalStorage()) => {

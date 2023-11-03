@@ -848,6 +848,8 @@
       "REVENUE_TYPES": "Search revenue type"
     },
     "TRANSACTION": {
+      "CROPS": "Crops",
+      "DAILY_TOTAL": "DAILY TOTAL",
       "LABOUR_EXPENSE": "Labour expense",
       "VIEW_AND_EDIT": "View & edit",
       "VIEW_DETAILS": "View details"

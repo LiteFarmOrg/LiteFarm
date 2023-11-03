@@ -26,7 +26,7 @@ import LabourTable from './LabourTable';
 const components = {
   EXPENSE: (props) => <div>expense placeholder</div>,
   REVENUE: (props) => <div>revenue placeholder</div>,
-  LABOUR_EXPENSE: ({ data }) => <LabourTable transaction={data} />,
+  LABOUR_EXPENSE: (props) => <LabourTable {...props} />,
   CROP_SALE: (props) => <CropSaleTable {...props} />,
 };
 

@@ -19,11 +19,9 @@ import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import EnhancedTable from '../../../Table/v2';
 import StateTab from '../../../RouterTab/StateTab';
-import { useCurrencySymbol } from '../../../../containers/hooks/useCurrencySymbol';
 
-export default function LabourTable({ transaction }) {
+export default function LabourTable({ data: transaction, currencySymbol }) {
   const { t } = useTranslation();
-  const currencySymbol = useCurrencySymbol();
 
   const [activeTab, setActiveTab] = useState('employee');
 
@@ -158,7 +156,7 @@ export default function LabourTable({ transaction }) {
 }
 
 LabourTable.propTypes = {
-  transaction: PropTypes.shape({
+  data: PropTypes.shape({
     items: PropTypes.shape({
       EMPLOYEE: PropTypes.arrayOf(
         PropTypes.shape({

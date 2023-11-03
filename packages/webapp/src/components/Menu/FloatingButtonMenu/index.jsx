@@ -36,6 +36,7 @@ export default function FloatingButtonMenu({
   options,
   menuPlacement = 'top-end',
   transformOrigin,
+  menu,
   classes = {},
 }) {
   const [open, setOpen] = useState(false);
@@ -89,14 +90,14 @@ export default function FloatingButtonMenu({
           >
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
-                <FloatingMenu
-                  menuListProps={{
-                    autoFocusItem: open,
-                    id: 'composition-menu',
-                    'aria-labelledby': 'composition-button',
-                  }}
-                  options={options}
-                />
+                {menu || (
+                  <FloatingMenu
+                    autoFocusItem={open}
+                    id="composition-menu"
+                    aria-labelledby="composition-button"
+                    options={options}
+                  />
+                )}
               </ClickAwayListener>
             </Paper>
           </Grow>
@@ -113,7 +114,8 @@ FloatingButtonMenu.propTypes = {
       label: PropTypes.string,
       onClick: PropTypes.func,
     }),
-  ).isRequired,
+  ),
   menuPlacement: PropTypes.oneOf(['top-end', 'bottom-start']),
   transformOrigin: PropTypes.oneOf(['bottom right', 'left top', 'left bottom']),
+  menu: PropTypes.node,
 };

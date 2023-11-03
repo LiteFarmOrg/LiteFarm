@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import FloatingButtonMenu from '../../../components/Menu/FloatingButtonMenu';
+import FloatingMenu from '../../../components/Menu/FloatingButtonMenu/FloatingMenu';
 import { componentDecorators } from '../../Pages/config/Decorators';
 
 export default {
@@ -21,12 +22,26 @@ export default {
   decorators: componentDecorators,
 };
 
-export const AddTransaction = {
+export const withOptions = {
   args: {
     type: 'add',
     options: [
       { label: '+ Add Revenue', onClick: () => console.log('Add Revenue') },
       { label: '+ Add Expense', onClick: () => console.log('Add Expense') },
     ],
+  },
+};
+
+export const withMenu = {
+  args: {
+    type: 'add',
+    menu: (
+      <FloatingMenu
+        options={[
+          { label: '+ Add Revenue', onClick: () => console.log('Add Revenue') },
+          { label: '+ Add Expense', onClick: () => console.log('Add Expense') },
+        ]}
+      />
+    ),
   },
 };

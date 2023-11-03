@@ -12,16 +12,26 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
+import React, { forwardRef } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Fab } from '@mui/material';
 import styles from './styles.module.scss';
 
-export default function FloatingActionButton({ type }) {
-  return <Fab color="yellow300" className={clsx(styles.floatingActionButton, styles[type])} />;
-}
+const FloatingActionButton = forwardRef(({ type, className, ...props }, ref) => {
+  return (
+    <Fab
+      color="yellow300"
+      className={clsx(styles.floatingActionButton, styles[type])}
+      ref={ref}
+      {...props}
+    />
+  );
+});
 
+FloatingActionButton.displayName = 'FloatingActionButton';
 FloatingActionButton.propTypes = {
   type: PropTypes.oneOf(['add']),
 };
+
+export default FloatingActionButton;

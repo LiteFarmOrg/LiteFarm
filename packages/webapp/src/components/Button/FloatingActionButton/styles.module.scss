@@ -16,7 +16,7 @@
 .floatingActionButton {
   position: relative;
 
-  &:hover {
+  &:hover, &[aria-expanded="true"] {
     background-color: var(--yellow700);
   }
 
@@ -42,7 +42,7 @@
       height: 4px;
     }
 
-    &:hover {
+    &:hover, &[aria-expanded="true"] {
       &::before, &::after {
         background-color: #fff;
       }

@@ -20,10 +20,15 @@ import { useTranslation } from 'react-i18next';
 import EnhancedTable from '../../../Table/v2';
 import StateTab from '../../../RouterTab/StateTab';
 
+const tabsEnum = {
+  EMPLOYEE: 'employee',
+  TASKS: 'tasks',
+};
+
 export default function LabourTable({ data: transaction, currencySymbol }) {
   const { t } = useTranslation();
 
-  const [activeTab, setActiveTab] = useState('employee');
+  const [activeTab, setActiveTab] = useState(tabsEnum.EMPLOYEE);
 
   const employeeTotalHours = useMemo(
     () => calculateTotalHours(transaction.items.EMPLOYEE),
@@ -145,7 +150,7 @@ export default function LabourTable({ data: transaction, currencySymbol }) {
           },
         ]}
       />
-      {activeTab === 'employee' && (
+      {activeTab === tabsEnum.EMPLOYEE && (
         <EnhancedTable
           columns={employeeColumns}
           data={transaction.items.EMPLOYEE}
@@ -153,7 +158,7 @@ export default function LabourTable({ data: transaction, currencySymbol }) {
           shouldFixTableLayout={true}
         />
       )}
-      {activeTab === 'tasks' && (
+      {activeTab === tabsEnum.TASKS && (
         <EnhancedTable
           columns={tasksColumns}
           data={transaction.items.TASK_TYPE}

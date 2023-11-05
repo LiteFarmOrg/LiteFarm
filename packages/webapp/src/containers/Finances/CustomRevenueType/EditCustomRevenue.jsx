@@ -24,11 +24,21 @@ import CustomRevenueRadios from './CustomRevenueRadios';
 
 function EditCustomRevenue({ history, match }) {
   const { revenue_type_id } = match.params;
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'revenue', 'common']);
   const dispatch = useDispatch();
   const selectedCustomRevenueType = useSelector(revenueTypeByIdSelector(Number(revenue_type_id)));
   const revenueTypes = useSelector(revenueTypesSelector);
-  const { revenue_name, crop_generated } = selectedCustomRevenueType;
+  const { revenue_name, crop_generated, custom_description, farm_id, revenue_translation_key } =
+    selectedCustomRevenueType;
+  const translatedCustomDescription = farm_id
+    ? custom_description
+    : t(`revenue:${revenue_translation_key}.CUSTOM_DESCRIPTION`);
+  const revenueTypesWithoutSelectedType = revenueTypes.filter((type) => {
+    return revenue_type_id != type.revenue_type_id;
+  });
+  const translatedRevenueName = farm_id
+    ? revenue_name
+    : t(`revenue:${revenue_translation_key}.REVENUE_NAME`);
 
   const handleGoBack = () => {
     history.back();
@@ -47,10 +57,11 @@ function EditCustomRevenue({ history, match }) {
         buttonText={t('common:SAVE')}
         pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
         inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
-        customTypeRegister={CUSTOM_REVENUE_NAME}
-        defaultValue={revenue_name}
+        descriptionLabel={t('REVENUE.CUSTOM_REVENUE_DESCRIPTION')}
+        nameFieldRegisterName={CUSTOM_REVENUE_NAME}
+        typeDetails={{ name: translatedRevenueName, description: translatedCustomDescription }}
         validateInput={hookFormUniquePropertyValidation(
-          revenueTypes,
+          revenueTypesWithoutSelectedType,
           'revenue_name',
           t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
         )}

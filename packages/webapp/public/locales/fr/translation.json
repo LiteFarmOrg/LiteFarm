@@ -518,6 +518,7 @@
       "TITLE": "Ajouter une dépense",
       "WHICH_TYPES_TO_RECORD": "MISSING"
     },
+    "CUSTOM_EXPENSE_DESCRIPTION": "MISSING",
     "DELETE": {
       "CONFIRM": "MISSING",
       "HEADER": "MISSING",
@@ -1487,6 +1488,7 @@
       "CUSTOM_REVENUE_TYPE" : "Type de revenu personnalisé",
       "DUPLICATE_NAME" : "Un type de revenu portant ce nom existe déjà.  Veuillez en choisir un autre."
     },
+    "CUSTOM_REVENUE_DESCRIPTION": "MISSING",
     "DELETE": {
       "CONFIRM" : "Confirmer la suppression",
       "HEADER" : "Supprimer le revenu ?",

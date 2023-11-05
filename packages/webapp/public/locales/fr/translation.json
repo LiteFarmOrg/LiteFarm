@@ -421,17 +421,17 @@
     "TO_MUST_BE_AFTER_FROM": "La date 'De' doit précéder la date 'À'"
   },
   "DATE_RANGE_SELECTOR": {
-    "BACK": "MISSING",
-    "CLEAR_DATES": "MISSING",
-    "CUSTOM_RANGE": "MISSING",
-    "LAST_FOURTEEN_DAYS": "MISSING",
-    "LAST_MONTH": "MISSING",
-    "LAST_SEVEN_DAYS": "MISSING",
-    "LAST_THIRTY_DAYS": "MISSING",
-    "LAST_WEEK": "MISSING",
-    "THIS_MONTH": "MISSING",
-    "THIS_WEEK": "MISSING",
-    "YEAR_TO_DATE": "MISSING"
+    "BACK": "Retour",
+    "CLEAR_DATES": "Effacer toutes les dates",
+    "CUSTOM_RANGE": "Intervalle personnalisé",
+    "LAST_FOURTEEN_DAYS": "Derniers 14 jours",
+    "LAST_MONTH": "Dernier mois",
+    "LAST_SEVEN_DAYS": "Derniers 7 jours",
+    "LAST_THIRTY_DAYS": "Derniers 30 jours",
+    "LAST_WEEK": "Dernière semaine",
+    "THIS_MONTH": "Ce mois",
+    "THIS_WEEK": "Cette semaine",
+    "YEAR_TO_DATE": "1 annnée"
   },
   "DAYS_OF_WEEK_SELECT": {
     "FRIDAY": "V",
@@ -439,8 +439,8 @@
     "SATURDAY": "S",
     "SUNDAY": "D",
     "THURSDAY": "J",
-    "TUESDAY": "M",
-    "WEDNESDAY": "M"
+    "TUESDAY": "Ma",
+    "WEDNESDAY": "Me"
   },
   "DOCUMENTS": {
     "ADD": {
@@ -817,12 +817,12 @@
   },
   "FILE_SIZE_MODAL": {
     "BODY": "Les fichiers ne peuvent pas dépasser 10MB.",
-    "TITLE": "Taille du fichier trop grande"
+    "TITLE": "Fichier trop volumineux"
   },
   "FILTER": {
-    "CLEAR_ALL": "MISSING",
+    "CLEAR_ALL": "Effacer la sélection",
     "CLEAR_ALL_FILTERS": "Effacer tous les filtres",
-    "SELECT_ALL": "MISSING"
+    "SELECT_ALL": "Sélectionner tout"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
@@ -1619,10 +1619,10 @@
     }
   },
   "SEARCH": {
-    "CLEAR_TERMS": "MISSING",
-    "CLEAR_TERMS_AND_FILTERS": "MISSING",
-    "NO_RESULTS_FOR": "MISSING",
-    "ZERO": "MISSING"
+    "CLEAR_TERMS": "Pourquoi ne pas essayer d'autres termes pour découvrir d'autres possibilités ?",
+    "CLEAR_TERMS_AND_FILTERS": "Pourquoi ne pas supprimer ces filtres et introduire d'autres termes ?",
+    "NO_RESULTS_FOR": "Aucun résultat pour <1>'{{searchTerm}}'",
+    "ZERO": "Aucun résultat"
   },
   "SENSOR": {
     "BRAND": "Marque",
@@ -1760,11 +1760,11 @@
     "TITLE": "Changement de Ferme"
   },
   "TABLE": {
-    "LOAD_MORE": "MISSING",
+    "LOAD_MORE": "+ continuer",
     "LOADING_TEXT": "Chargement en cours...",
     "NEXT_TEXT": "Suivant",
     "NO_DATA_TEXT": "Aucune donnée trouvée",
-    "NUMBER_MORE": "MISSING",
+    "NUMBER_MORE": "+ {{number}} lignes",
     "OF_TEXT": "de",
     "PAGE_TEXT": "Page",
     "PREVIOUS_TEXT": "Précédent",

@@ -836,6 +836,7 @@
       "MANAGE_REVENUE": "Manage your custom revenues",
       "MISC_EXPENSE": "Or <1>create a <1>Miscellaneous</1> expense</1>"
     },
+    "COST": "Cost",
     "DATE": "Date",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Estimated annual revenue",
@@ -844,6 +845,7 @@
       "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
       "TITLE": "Estimated Revenue"
     },
+    "EXPENSES": "Expenses",
     "FILTER": {
       "EXPENSE_TYPE": "Expense types",
       "HELP_TEXT": "Feel free to use the filters below to fine-tune your transaction list and make it work just the way you want!",
@@ -1590,7 +1592,6 @@
       "CROPS": "Crops",
       "EMPLOYEES": "Employees",
       "TABLE": {
-        "AMOUNT": "Amount",
         "CROP": "Crop",
         "DAILY_TOTAL": "Daily total",
         "DATE": "Date",
@@ -1605,7 +1606,6 @@
       "TITLE": "Labour"
     },
     "SUMMARY": {
-      "AMOUNT": "Amount",
       "CROP": "Crop",
       "DATE": "Date",
       "DETAILED_HISTORY": "Detailed History",

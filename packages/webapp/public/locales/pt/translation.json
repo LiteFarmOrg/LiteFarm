@@ -835,6 +835,7 @@
       "MANAGE_REVENUE": "MISSING",
       "MISC_EXPENSE": "MISSING"
     },
+    "COST": "Custo",
     "DATE": "Data",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Rendimento anual estimada",
@@ -843,6 +844,7 @@
       "ESTIMATED_PRICE_PER_UNIT": "Preço por unidade estimado",
       "TITLE": "Receita Estimada"
     },
+    "EXPENSES": "Despesas",
     "FILTER": {
       "EXPENSE_TYPE": "MISSING",
       "HELP_TEXT": "MISSING",
@@ -1591,7 +1593,6 @@
       "CROPS": "Cultivos",
       "EMPLOYEES": "Funcionários",
       "TABLE": {
-        "AMOUNT": "Valor",
         "CROP": "Cultivo",
         "DAILY_TOTAL": "MISSING",
         "DATE": "Data",
@@ -1606,7 +1607,6 @@
       "TITLE": "Trabalho"
     },
     "SUMMARY": {
-      "AMOUNT": "Valor",
       "CROP": "Cultivo",
       "DATE": "Data",
       "DETAILED_HISTORY": "História Detalhada",

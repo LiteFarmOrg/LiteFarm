@@ -837,6 +837,7 @@
       "MANAGE_REVENUE": "MISSING",
       "MISC_EXPENSE": "MISSING"
     },
+    "COST": "Coût",
     "DATE": "Date",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Revenu annuel estimé",
@@ -845,6 +846,7 @@
       "ESTIMATED_PRICE_PER_UNIT": "Estimation du prix unitaire",
       "TITLE": "Chiffre d'affaires estimé"
     },
+    "EXPENSES": "Dépenses",
     "FILTER": {
       "EXPENSE_TYPE": "MISSING",
       "HELP_TEXT": "MISSING",
@@ -1592,7 +1594,6 @@
       "CROPS": "Cultures",
       "EMPLOYEES": "Employés",
       "TABLE": {
-        "AMOUNT": "Quantité",
         "CROP": "Culture",
         "DAILY_TOTAL": "MISSING",
         "DATE": "Date",
@@ -1607,7 +1608,6 @@
       "TITLE": "Travail"
     },
     "SUMMARY": {
-      "AMOUNT": "Quantité",
       "CROP": "Culture",
       "DATE": "Date",
       "DETAILED_HISTORY": "Historique détaillée",

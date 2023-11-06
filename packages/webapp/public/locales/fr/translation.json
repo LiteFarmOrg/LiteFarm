@@ -827,6 +827,9 @@
       "ADD_REVENUE": "Ajouter des revenus",
       "TITLE": "Chiffre d'affaires réel"
     },
+    "ADD_EXPENSE": "MISSING",
+    "ADD_REVENUE": "MISSING",
+    "ADD_TRANSACTION": "MISSING",
     "CANT_FIND": {
       "INFO_EXPENSE": "MISSING",
       "INFO_REVENUE": "MISSING",

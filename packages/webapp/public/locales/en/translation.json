@@ -827,6 +827,9 @@
       "ADD_REVENUE": "Add revenue",
       "TITLE": "Actual Revenue"
     },
+    "ADD_EXPENSE": "+ Add expense",
+    "ADD_REVENUE": "+ Add revenue",
+    "ADD_TRANSACTION": "+ Add transaction",
     "CANT_FIND": {
       "INFO_EXPENSE": "You can also create your own custom expense types!",
       "INFO_REVENUE": "You can also create your own custom revenue types!",

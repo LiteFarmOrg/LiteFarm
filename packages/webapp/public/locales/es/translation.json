@@ -826,6 +826,9 @@
       "ADD_REVENUE": "Agregar ingresos",
       "TITLE": "Ingresos reales"
     },
+    "ADD_EXPENSE": "MISSING",
+    "ADD_REVENUE": "MISSING",
+    "ADD_TRANSACTION": "MISSING",
     "CANT_FIND": {
       "INFO_EXPENSE": "MISSING",
       "INFO_REVENUE": "MISSING",

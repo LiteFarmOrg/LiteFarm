@@ -861,7 +861,7 @@
       "DAILY_TOTAL": "DAILY TOTAL",
       "LABOUR_EXPENSE": "Labour expense",
       "VIEW_AND_EDIT": "View & edit",
-      "VIEW_DETAILS": "View details"
+      "VIEW_LABOUR": "View labour expenses"
     },
     "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",
     "WHOLE_FARM_REVENUE": "Whole farm revenue"
@@ -1592,6 +1592,7 @@
       "TABLE": {
         "AMOUNT": "Amount",
         "CROP": "Crop",
+        "DAILY_TOTAL": "Daily total",
         "DATE": "Date",
         "EMPLOYEE": "Employee",
         "EST_REVENUE": "Estimated Revenue",

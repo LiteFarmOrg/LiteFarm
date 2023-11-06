@@ -20,12 +20,13 @@ import history from '../../../../history';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
 import CropSaleTable from './CropSaleTable';
 import styles from './styles.module.scss';
+import LabourTable from './LabourTable';
 
 // TODO LF-3748, 3749
 const components = {
   EXPENSE: (props) => <div>expense placeholder</div>,
   REVENUE: (props) => <div>revenue placeholder</div>,
-  LABOUR_EXPENSE: (props) => <div>labour placeholder</div>,
+  LABOUR_EXPENSE: (props) => <LabourTable {...props} />,
   CROP_SALE: (props) => <CropSaleTable {...props} />,
 };
 
@@ -44,7 +45,7 @@ export default function ExpandedContent({ data, currencySymbol, mobileView }) {
 
   const toDetailText =
     transactionType === transactionTypeEnum.labourExpense
-      ? t('FINANCES.TRANSACTION.VIEW_DETAILS')
+      ? t('FINANCES.TRANSACTION.VIEW_LABOUR')
       : t('FINANCES.TRANSACTION.VIEW_AND_EDIT');
 
   const componentKey = cropGenerated ? 'CROP_SALE' : transactionType;

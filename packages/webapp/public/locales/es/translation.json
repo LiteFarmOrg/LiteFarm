@@ -860,7 +860,7 @@
       "DAILY_TOTAL": "MISSING",
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
-      "VIEW_DETAILS": "MISSING"
+      "VIEW_LABOUR": "MISSING"
     },
     "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas",
     "WHOLE_FARM_REVENUE": "Ingresos de toda la granja"
@@ -1592,6 +1592,7 @@
       "TABLE": {
         "AMOUNT": "Monto",
         "CROP": "Cultivo",
+        "DAILY_TOTAL": "MISSING",
         "DATE": "Fecha",
         "EMPLOYEE": "Empleado",
         "EST_REVENUE": "Ingreso estimado",

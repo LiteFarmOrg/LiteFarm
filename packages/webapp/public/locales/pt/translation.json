@@ -860,7 +860,7 @@
       "DAILY_TOTAL": "MISSING",
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
-      "VIEW_DETAILS": "MISSING"
+      "VIEW_LABOUR": "MISSING"
     },
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
     "WHOLE_FARM_REVENUE": "Receita de toda a propriedade"
@@ -1593,6 +1593,7 @@
       "TABLE": {
         "AMOUNT": "Valor",
         "CROP": "Cultivo",
+        "DAILY_TOTAL": "MISSING",
         "DATE": "Data",
         "EMPLOYEE": "Trabalhador(a)",
         "EST_REVENUE": "Receita estimada",

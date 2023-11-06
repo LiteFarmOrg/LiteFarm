@@ -861,7 +861,7 @@
       "DAILY_TOTAL": "MISSING",
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
-      "VIEW_DETAILS": "MISSING"
+      "VIEW_LABOUR": "MISSING"
     },
     "VIEW_WITHIN_DATE_RANGE": "Voir les revenus dans cette plage de dates",
     "WHOLE_FARM_REVENUE": "Revenu total de la ferme"
@@ -1593,6 +1593,7 @@
       "TABLE": {
         "AMOUNT": "Quantité",
         "CROP": "Culture",
+        "DAILY_TOTAL": "MISSING",
         "DATE": "Date",
         "EMPLOYEE": "Employé",
         "EST_REVENUE": "Revenu estimé",

@@ -31,6 +31,7 @@ const getDefaultTransformOrigin = (menuPlacement) => {
   return defaultTransformOrigin[menuPlacement] || 'left bottom';
 };
 
+// Sample code can be found here: https://mui.com/material-ui/react-menu/#menulist-composition
 export default function FloatingButtonMenu({
   type,
   options,
@@ -114,6 +115,7 @@ FloatingButtonMenu.propTypes = {
       onClick: PropTypes.func,
     }),
   ),
+  // coule be improved using the example in this page: https://mui.com/material-ui/react-popper/#positioned-popper
   menuPlacement: PropTypes.oneOf(['top-end', 'bottom-start']),
   transformOrigin: PropTypes.oneOf(['bottom right', 'left top', 'left bottom']),
   Menu: PropTypes.elementType,

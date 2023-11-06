@@ -145,13 +145,18 @@ export function* getFarmExpenseTypeSaga() {
 
 export const addCustomExpenseType = createAction('addCustomExpenseTypeSaga');
 
-export function* addCustomExpenseTypeSaga({ payload: { expense_name } }) {
+export function* addCustomExpenseTypeSaga({ payload: { expense_name, custom_description } }) {
   const { expenseTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.post, expenseTypeUrl, { farm_id, expense_name }, header);
+    const result = yield call(
+      axios.post,
+      expenseTypeUrl,
+      { farm_id, expense_name, custom_description },
+      header,
+    );
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.ADD')));
       yield call(getFarmExpenseTypeSaga);
@@ -165,7 +170,9 @@ export function* addCustomExpenseTypeSaga({ payload: { expense_name } }) {
 
 export const updateCustomExpenseType = createAction('updateCustomExpenseTypeSaga');
 
-export function* updateCustomExpenseTypeSaga({ payload: { expense_name, expense_type_id } }) {
+export function* updateCustomExpenseTypeSaga({
+  payload: { expense_name, expense_type_id, custom_description },
+}) {
   const { expenseTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -174,7 +181,7 @@ export function* updateCustomExpenseTypeSaga({ payload: { expense_name, expense_
     const result = yield call(
       axios.patch,
       `${expenseTypeUrl}/${expense_type_id}`,
-      { farm_id, expense_name },
+      { farm_id, expense_name, custom_description },
       header,
     );
     if (result) {
@@ -346,7 +353,9 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
 
 export const addCustomRevenueType = createAction('addRevenueTypeSaga');
 
-export function* addRevenueTypeSaga({ payload: { revenue_name, crop_generated } }) {
+export function* addRevenueTypeSaga({
+  payload: { revenue_name, crop_generated, custom_description },
+}) {
   const { revenueTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -356,6 +365,7 @@ export function* addRevenueTypeSaga({ payload: { revenue_name, crop_generated } 
     agriculture_associated: null,
     crop_generated,
     farm_id: farm_id,
+    custom_description,
   };
 
   try {
@@ -371,7 +381,9 @@ export function* addRevenueTypeSaga({ payload: { revenue_name, crop_generated } 
 
 export const updateCustomRevenueType = createAction('updateRevenueTypeSaga');
 
-export function* updateRevenueTypeSaga({ payload: { revenue_type_id, revenue_name } }) {
+export function* updateRevenueTypeSaga({
+  payload: { revenue_type_id, revenue_name, custom_description },
+}) {
   const { revenueTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -380,11 +392,11 @@ export function* updateRevenueTypeSaga({ payload: { revenue_type_id, revenue_nam
     yield call(
       axios.patch,
       `${revenueTypeUrl}/${revenue_type_id}`,
-      { revenue_name, farm_id },
+      { revenue_name, farm_id, custom_description },
       header,
     );
 
-    yield put(putRevenueTypeSuccess({ revenue_type_id, revenue_name }));
+    yield put(putRevenueTypeSuccess({ revenue_type_id, revenue_name, custom_description }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.UPDATE')));
     history.push('/manage_custom_revenues');
   } catch (e) {

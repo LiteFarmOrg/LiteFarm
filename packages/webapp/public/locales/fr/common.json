@@ -33,6 +33,7 @@
   "MARK_ABANDON": "Abandonner",
   "MARK_COMPLETE": "Marquer Complète",
   "MARK_COMPLETED": "Marquer Complèté",
+  "MAX_CHARS": "MISSING",
   "MAX_ERROR": "Veuillez saisir une valeur inférieure à {{value}}",
   "MIN_ERROR": "Veuillez saisir une valeur supérieur à {{value}}",
   "NAME": "Nom",

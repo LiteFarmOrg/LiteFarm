@@ -516,6 +516,7 @@
       "TITLE": "MISSING",
       "WHICH_TYPES_TO_RECORD": "MISSING"
     },
+    "CUSTOM_EXPENSE_DESCRIPTION": "MISSING",
     "DELETE": {
       "CONFIRM": "MISSING",
       "HEADER": "MISSING",
@@ -861,7 +862,7 @@
       "DAILY_TOTAL": "MISSING",
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
-      "VIEW_DETAILS": "MISSING"
+      "VIEW_LABOUR": "MISSING"
     },
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
     "WHOLE_FARM_REVENUE": "Receita de toda a propriedade"
@@ -1488,6 +1489,7 @@
       "CUSTOM_REVENUE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING"
     },
+    "CUSTOM_REVENUE_DESCRIPTION": "MISSING",
     "DELETE": {
       "CONFIRM": "MISSING",
       "HEADER": "MISSING",
@@ -1592,6 +1594,7 @@
       "EMPLOYEES": "Funcionários",
       "TABLE": {
         "CROP": "Cultivo",
+        "DAILY_TOTAL": "MISSING",
         "DATE": "Data",
         "EMPLOYEE": "Trabalhador(a)",
         "EST_REVENUE": "Receita estimada",

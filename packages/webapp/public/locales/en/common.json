@@ -33,6 +33,7 @@
   "MARK_ABANDON": "Abandon",
   "MARK_COMPLETE": "Mark Complete",
   "MARK_COMPLETED": "Mark completed",
+  "MAX_CHARS": "Max {{value}} characters",
   "MAX_ERROR": "Please enter a value less than {{value}}",
   "MIN_ERROR": "Please enter a value greater than {{value}}",
   "NAME": "Name",

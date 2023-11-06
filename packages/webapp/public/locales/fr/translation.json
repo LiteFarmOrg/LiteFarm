@@ -517,6 +517,7 @@
       "TITLE": "Ajouter une dépense",
       "WHICH_TYPES_TO_RECORD": "MISSING"
     },
+    "CUSTOM_EXPENSE_DESCRIPTION": "MISSING",
     "DELETE": {
       "CONFIRM": "MISSING",
       "HEADER": "MISSING",
@@ -862,7 +863,7 @@
       "DAILY_TOTAL": "MISSING",
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
-      "VIEW_DETAILS": "MISSING"
+      "VIEW_LABOUR": "MISSING"
     },
     "VIEW_WITHIN_DATE_RANGE": "Voir les revenus dans cette plage de dates",
     "WHOLE_FARM_REVENUE": "Revenu total de la ferme"
@@ -1488,6 +1489,7 @@
       "CUSTOM_REVENUE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING"
     },
+    "CUSTOM_REVENUE_DESCRIPTION": "MISSING",
     "DELETE": {
       "CONFIRM": "MISSING",
       "HEADER": "MISSING",
@@ -1592,6 +1594,7 @@
       "EMPLOYEES": "Employés",
       "TABLE": {
         "CROP": "Culture",
+        "DAILY_TOTAL": "MISSING",
         "DATE": "Date",
         "EMPLOYEE": "Employé",
         "EST_REVENUE": "Revenu estimé",

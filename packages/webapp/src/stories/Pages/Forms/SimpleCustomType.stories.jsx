@@ -30,7 +30,7 @@ const args = {
     console.log('Go back');
   },
   inputLabel: 'Custom Type Name',
-  customTypeRegister: 'custom_type_name',
+  nameFieldRegisterName: 'custom_type_name',
 };
 
 export const AddCustomType = Template.bind({});

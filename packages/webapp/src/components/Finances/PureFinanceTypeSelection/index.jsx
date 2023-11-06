@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -20,10 +21,12 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { Main } from '../../Typography';
 import Form from '../../Form';
 import Button from '../../Form/Button';
-import Tiles from '../../Tile/Tiles';
-import { tileTypes } from '../../Tile/constants';
+import List from '../../List';
 import styles from './styles.module.scss';
 import { CantFindCustomType } from './CantFindCustomType';
+import useSearchFilter from '../../../containers/hooks/useSearchFilter';
+import { NoSearchResults } from '../../Card/NoSearchResults';
+import PureSearchbarAndFilter from '../../PopupFilter/PureSearchbarAndFilter';
 
 const FallbackWrapper = ({ children }) => children;
 
@@ -36,8 +39,9 @@ export default function PureFinanceTypeSelection({
   onGoBack,
   onGoToManageCustomType,
   isTypeSelected,
-  formatTileData,
-  getFormatTileDataFunc,
+  formatListItemData,
+  getFormatListItemDataFunc,
+  listItemType,
   progressValue,
   useHookFormPersist,
   persistedFormData = {},
@@ -45,10 +49,20 @@ export default function PureFinanceTypeSelection({
   Wrapper = FallbackWrapper,
   customTypeMessages = {},
   miscellaneousConfig,
+  getSearchableString,
+  searchPlaceholderText = '',
 }) {
   const { t } = useTranslation();
   const { getValues, setValue } = useForm({ defaultValues: persistedFormData });
   const { historyCancel } = useHookFormPersist(getValues);
+
+  const [filteredTypes, filter, setFilter] = useSearchFilter(types, getSearchableString);
+
+  const onFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+
+  const hasSearchResults = filteredTypes.length !== 0;
 
   return (
     <Wrapper>
@@ -69,11 +83,24 @@ export default function PureFinanceTypeSelection({
           value={progressValue}
           style={{ marginBottom: '24px' }}
         />
-        <Main className={styles.leadText}>{leadText}</Main>
-        <Tiles
-          tileType={tileTypes.ICON_LABEL}
-          tileData={types}
-          formatTileData={getFormatTileDataFunc ? getFormatTileDataFunc(setValue) : formatTileData}
+        <PureSearchbarAndFilter
+          className={styles.searchBar}
+          value={filter}
+          onChange={onFilterChange}
+          disableFilter={true}
+          placeholderText={searchPlaceholderText}
+        />
+        {hasSearchResults ? (
+          <Main className={styles.leadText}>{leadText}</Main>
+        ) : (
+          <NoSearchResults className={styles.noResultsCard} searchTerm={filter} />
+        )}
+        <List
+          listItemType={listItemType}
+          listItemData={filteredTypes}
+          formatListItemData={
+            getFormatListItemDataFunc ? getFormatListItemDataFunc(setValue) : formatListItemData
+          }
         />
         <div className={styles.cantFindWrapper}>
           <CantFindCustomType
@@ -88,7 +115,7 @@ export default function PureFinanceTypeSelection({
   );
 }
 
-PureFinanceTypeSelection.prototype = {
+PureFinanceTypeSelection.propTypes = {
   title: PropTypes.string,
   types: PropTypes.array,
   leadText: PropTypes.string,
@@ -97,9 +124,9 @@ PureFinanceTypeSelection.prototype = {
   onGoBack: PropTypes.func,
   onGoToManageCustomType: PropTypes.func,
   isTypeSelected: PropTypes.bool,
-  formatTileData: PropTypes.func,
+  formatListItemData: PropTypes.func,
   /** takes setValue returned from useForm */
-  getFormatTileDataFunc: PropTypes.func,
+  getFormatListItemDataFunc: PropTypes.func,
   progressValue: PropTypes.number,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
@@ -111,7 +138,9 @@ PureFinanceTypeSelection.prototype = {
     addRemove: PropTypes.func,
     selected: PropTypes.bool,
   }),
+  getSearchableString: PropTypes.func,
+  searchPlaceholderText: PropTypes.string,
   /** used for spotlight */
   iconLinkId: PropTypes.string,
-  Wrapper: PropTypes.node,
+  Wrapper: PropTypes.func,
 };

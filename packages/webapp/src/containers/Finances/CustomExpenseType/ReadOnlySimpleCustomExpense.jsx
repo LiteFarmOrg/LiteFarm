@@ -26,7 +26,14 @@ function ReadOnlyCustomExpense({ history, match }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));
-  const { expense_name } = selectedCustomExpenseType;
+  const { expense_name, custom_description, farm_id, expense_translation_key } =
+    selectedCustomExpenseType;
+  const translatedCustomDescription = farm_id
+    ? custom_description
+    : t(`expense:${expense_translation_key}.CUSTOM_DESCRIPTION`);
+  const translatedExpenseName = farm_id
+    ? expense_name
+    : t(`expense:${expense_translation_key}.EXPENSE_NAME`);
 
   const handleGoBack = () => {
     history.back();
@@ -49,8 +56,9 @@ function ReadOnlyCustomExpense({ history, match }) {
         buttonText={t('common:EDIT')}
         pageTitle={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_TYPE')}
         inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
-        customTypeRegister={CUSTOM_EXPENSE_NAME}
-        defaultValue={expense_name}
+        descriptionLabel={t('EXPENSE.CUSTOM_EXPENSE_DESCRIPTION')}
+        nameFieldRegisterName={CUSTOM_EXPENSE_NAME}
+        typeDetails={{ name: translatedExpenseName, description: translatedCustomDescription }}
         onRetire={onRetire}
         retireLinkText={t('EXPENSE.EDIT_EXPENSE.RETIRE_EXPENSE_TYPE')}
         retireHeader={t('EXPENSE.EDIT_EXPENSE.RETIRE_EXPENSE_TYPE')}

@@ -19,12 +19,14 @@ import { useForm } from 'react-hook-form';
 import Form from '../../Form';
 import PageTitle from '../../PageTitle/v2';
 import Input, { getInputErrors } from '../../Form/Input';
+import InputAutoSize from '../../Form/InputAutoSize';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import { IconLink } from '../../Typography';
 import { MdOutlineInventory2 } from 'react-icons/md';
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
+import { CUSTOM_DESCRIPTION, DESCRIPTION_MAX_CHARS } from './constants';
 
 /**
  * React component for the addition of custom type with just a name field this form has add,
@@ -38,8 +40,8 @@ import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
  * @param {string} props.buttonText - The text to display on the main button.
  * @param {string} props.pageTitle - The title to display on the page.
  * @param {string} props.inputLabel - The label for the input field.
- * @param {string} props.customTypeRegister - The name for registering the input field.
- * @param {any} [props.defaultValue] - Used in read-only and edit view, the default value for the input field.
+ * @param {string} props.nameFieldRegisterName - The name for registering the input field.
+ * @param {Object} [props.typeDetails={}] - Used in read-only and edit view, the default values for the input and description field.
  * @param {function} [props.onRetire] - A callback function for retiring the custom type.
  * @param {string} [props.retireLinkText] - The text for the retirement link.
  * @param {string} [props.retireHeader] - The header text for the retirement confirmation box.
@@ -59,8 +61,9 @@ const PureSimpleCustomType = ({
   buttonText,
   pageTitle,
   inputLabel,
-  customTypeRegister,
-  defaultValue,
+  descriptionLabel,
+  nameFieldRegisterName,
+  typeDetails,
   onRetire = () => {},
   retireLinkText,
   retireHeader,
@@ -84,14 +87,15 @@ const PureSimpleCustomType = ({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      [customTypeRegister]: defaultValue || undefined,
+      [nameFieldRegisterName]: typeDetails?.name || undefined,
+      [CUSTOM_DESCRIPTION]: typeDetails?.description || undefined,
       ...customFieldsDefaultValues,
     },
   });
   const readonly = view === 'read-only';
   const disabledInput = readonly;
   const disabledButton = (!isValid || !isDirty) && !readonly;
-  useHookFormPersist();
+  const { historyCancel } = useHookFormPersist();
 
   // Separating these into separate vs prop rendered nodes prevents form submission onClick for noSubmitButton
   const noSubmitButton = (
@@ -121,23 +125,42 @@ const PureSimpleCustomType = ({
         </>
       }
     >
-      <PageTitle style={{ marginBottom: '20px' }} onGoBack={handleGoBack} title={pageTitle} />
+      <PageTitle
+        style={{ marginBottom: '20px' }}
+        onGoBack={handleGoBack}
+        title={pageTitle}
+        onCancel={historyCancel}
+      />
       <Input
         style={{ marginBottom: '20px' }}
         label={inputLabel}
-        hookFormRegister={register(customTypeRegister, {
+        hookFormRegister={register(nameFieldRegisterName, {
           required: true,
           maxLength: hookFormMaxCharsValidation(inputMaxChars),
           validate: validateInput,
         })}
-        name={customTypeRegister}
-        errors={getInputErrors(errors, customTypeRegister)}
+        name={nameFieldRegisterName}
+        errors={getInputErrors(errors, nameFieldRegisterName)}
         optional={false}
         disabled={disabledInput}
+        placeholder={inputLabel}
       />
-
+      <InputAutoSize
+        style={{ marginBottom: '20px' }}
+        label={descriptionLabel}
+        hookFormRegister={register(CUSTOM_DESCRIPTION, {
+          maxLength: hookFormMaxCharsValidation(DESCRIPTION_MAX_CHARS),
+        })}
+        name={CUSTOM_DESCRIPTION}
+        errors={errors[CUSTOM_DESCRIPTION]?.message}
+        optional={true}
+        disabled={disabledInput}
+        minRows={3}
+        placeholder={`${descriptionLabel} - ${t('common:MAX_CHARS', {
+          value: DESCRIPTION_MAX_CHARS,
+        })}`}
+      />
       {customFormFields && customFormFields({ control, watch })}
-
       <div style={{ marginTop: 'auto' }}>
         {readonly && !isDeleting && (
           <IconLink
@@ -183,8 +206,8 @@ PureSimpleCustomType.propTypes = {
   buttonText: PropTypes.string,
   pageTitle: PropTypes.string,
   inputLabel: PropTypes.string,
-  customTypeRegister: PropTypes.string,
-  defaultValue: PropTypes.string,
+  nameFieldRegisterName: PropTypes.string,
+  typeDetails: PropTypes.object,
   onRetire: PropTypes.func,
   retireLinkText: PropTypes.string,
   retireHeader: PropTypes.string,

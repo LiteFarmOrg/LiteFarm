@@ -13,86 +13,69 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
-import { FromToDateContainer } from '../../../components/Inputs/DateContainer';
+import DateRangeSelector from '../../DateRangeSelector';
 import { setDateRange } from '../../../containers/Finances/actions';
 import moment from 'moment';
-import InfoBoxComponent from '../../InfoBoxComponent';
-import { dateRangeSelector } from '../../../containers/Finances/selectors';
-import { Semibold } from '../../Typography';
-import { useTranslation } from 'react-i18next';
+import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
+import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
+import { dateRangeOptions } from '../../DateRangeSelector/constants';
+import DateRange, { SUNDAY } from '../../../util/dateRange';
 
-const DateRangeSelector = ({ changeDateMethod, hideTooltip }) => {
-  const { t } = useTranslation();
+const isDateValid = (date) => {
+  return date ? moment(date).isValid() : false;
+};
+
+const FinanceDateRangeSelector = () => {
   const dispatch = useDispatch();
 
-  const dateRange = useSelector(dateRangeSelector);
+  const dateRange = useSelector(dateRangeDataSelector);
+  const { option, customRange = {} } = dateRange;
+  const initialOption = option || dateRangeOptions.YEAR_TO_DATE;
+  const dateRangeUtil = new DateRange(new Date(), SUNDAY);
 
-  let initialStartDate, initialEndDate;
-  if (dateRange && dateRange.startDate && dateRange.endDate) {
-    initialStartDate = moment(dateRange.startDate);
-    initialEndDate = moment(dateRange.endDate);
-  } else {
-    initialStartDate = moment().startOf('year');
-    initialEndDate = moment().endOf('year');
-  }
+  const initialStartDate = customRange.startDate && moment(customRange.startDate);
+  const initialEndDate = customRange.endDate && moment(customRange.endDate);
 
-  const [startDate, setStartDate] = useState(initialStartDate);
-  const [endDate, setEndDate] = useState(initialEndDate);
-  const [validRange, setValidRange] = useState(initialStartDate <= initialEndDate);
+  const changeDate = (type, date) => {
+    const startDate = type === 'start' ? date : customRange.startDate;
+    const endDate = type === 'end' ? date : customRange.endDate;
 
-  const changeStartDate = (date) => {
-    if (date > endDate) {
-      setValidRange(false);
-      return;
+    const newDateRange = { customRange: { startDate, endDate } };
+
+    // If both dates are valid, update dates and the option
+    if ([startDate, endDate].every(isDateValid)) {
+      newDateRange.startDate = startDate;
+      newDateRange.endDate = endDate;
     }
-    setValidRange(true);
-    setStartDate(date);
-    dispatch(setDateRange({ startDate: date, endDate }));
-    changeDateMethod('start', date);
+    dispatch(setDateRange(newDateRange));
   };
 
-  const changeEndDate = (date) => {
-    if (date < startDate) {
-      setValidRange(false);
-      return;
+  const onChangeDateRangeOption = (value) => {
+    let newDateRange = {};
+    if (value !== dateRangeOptions.CUSTOM) {
+      newDateRange = dateRangeUtil.getDates(value);
+    } else if (
+      Object.keys(customRange).length === 2 &&
+      Object.values(customRange).every((date) => date && isDateValid(date))
+    ) {
+      newDateRange = customRange;
     }
-    setValidRange(true);
-    setEndDate(date);
-    dispatch(setDateRange({ startDate, endDate: date }));
-    changeDateMethod('end', date);
+    dispatch(setDateRange({ option: value, ...newDateRange }));
   };
 
   return (
     <div className={styles.rangeContainer}>
-      <div className={styles.titleContainer}>
-        <Semibold style={{ textAlign: 'left', marginBottom: '20px' }}>
-          {t('DATE_RANGE.TITLE')}
-        </Semibold>
-        {!hideTooltip && (
-          <InfoBoxComponent
-            customStyle={{ float: 'right' }}
-            title={t('DATE_RANGE.HELP_TITLE')}
-            body={t('DATE_RANGE.HELP_BODY')}
-          />
-        )}
-      </div>
-
-      <FromToDateContainer
-        onStartDateChange={changeStartDate}
-        onEndDateChange={changeEndDate}
-        endDate={endDate}
-        startDate={startDate}
+      <DateRangeSelector
+        defaultDateRangeOptionValue={initialOption}
+        defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}
+        onChangeDateRangeOption={onChangeDateRangeOption}
+        changeDateMethod={changeDate}
       />
-      {!validRange && (
-        <Semibold style={{ textAlign: 'center', color: 'red' }}>
-          {t('DATE_RANGE.INVALID_RANGE_MESSAGE')}
-        </Semibold>
-      )}
     </div>
   );
 };
 
-export default DateRangeSelector;
+export default FinanceDateRangeSelector;

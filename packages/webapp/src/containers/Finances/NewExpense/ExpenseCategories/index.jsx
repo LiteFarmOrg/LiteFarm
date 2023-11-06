@@ -23,6 +23,7 @@ import ManageCustomExpenseTypesSpotlight from '../ManageCustomExpenseTypesSpotli
 import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import labelIconStyles from '../../../../components/Tile/styles.module.scss';
+import { listItemTypes } from '../../../../components/List/constants';
 
 export const icons = {
   EQUIPMENT: <EquipIcon />,
@@ -53,6 +54,7 @@ class ExpenseCategories extends Component {
 
     this.addRemoveType = this.addRemoveType.bind(this);
     this.nextPage = this.nextPage.bind(this);
+    this.getSearchableString = this.getSearchableString.bind(this);
   }
 
   nextPage(event) {
@@ -73,6 +75,15 @@ class ExpenseCategories extends Component {
       selectedTypes,
     });
   }
+
+  getSearchableString = (type) => {
+    const description =
+      type.farm_id === null
+        ? this.props.t(`expense:${type.expense_translation_key}.CUSTOM_DESCRIPTION`)
+        : type.custom_description;
+
+    return [type.expense_name, description].filter(Boolean).join(' ');
+  };
 
   render() {
     const { expenseTypes } = this.props;
@@ -98,12 +109,17 @@ class ExpenseCategories extends Component {
           progressValue={33}
           onGoToManageCustomType={() => history.push('/manage_custom_expenses')}
           isTypeSelected={!!this.state.selectedTypes.length}
-          formatTileData={(data) => {
-            const { farm_id, expense_translation_key, expense_type_id, expense_name } = data;
+          formatListItemData={(data) => {
+            const {
+              farm_id,
+              expense_translation_key,
+              expense_type_id,
+              expense_name,
+              custom_description,
+            } = data;
 
             return {
               key: expense_type_id,
-              tileKey: expense_type_id,
               icon: icons[farm_id ? 'OTHER' : expense_translation_key],
               label: farm_id
                 ? expense_name
@@ -111,8 +127,12 @@ class ExpenseCategories extends Component {
               onClick: () => this.addRemoveType(expense_type_id),
               selected: this.state.selectedTypes.includes(expense_type_id),
               className: labelIconStyles.boldLabelIcon,
+              description: farm_id
+                ? custom_description
+                : this.props.t(`expense:${expense_translation_key}.CUSTOM_DESCRIPTION`),
             };
           }}
+          listItemType={listItemTypes.ICON_DESCRIPTION_CHECKBOX}
           useHookFormPersist={this.props.useHookFormPersist}
           iconLinkId={'manageCustomExpenseType'}
           Wrapper={ManageCustomExpenseTypesSpotlight}
@@ -124,6 +144,8 @@ class ExpenseCategories extends Component {
             addRemove: () => this.addRemoveType(miscellaneous_type_id),
             selected: this.state.selectedTypes.includes(miscellaneous_type_id),
           }}
+          getSearchableString={this.getSearchableString}
+          searchPlaceholderText={this.props.t('FINANCES.SEARCH.EXPENSE_TYPES')}
         />
       </HookFormPersistProvider>
     );

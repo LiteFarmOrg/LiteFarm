@@ -24,10 +24,17 @@ import CustomRevenueRadios from './CustomRevenueRadios';
 
 function ReadOnlyCustomRevenue({ history, match }) {
   const { revenue_type_id } = match.params;
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'revenue', 'common']);
   const dispatch = useDispatch();
   const selectedCustomRevenueType = useSelector(revenueTypeByIdSelector(Number(revenue_type_id)));
-  const { revenue_name, crop_generated } = selectedCustomRevenueType;
+  const { revenue_name, crop_generated, farm_id, custom_description, revenue_translation_key } =
+    selectedCustomRevenueType;
+  const translatedCustomDescription = farm_id
+    ? custom_description
+    : t(`revenue:${revenue_translation_key}.CUSTOM_DESCRIPTION`);
+  const translatedRevenueName = farm_id
+    ? revenue_name
+    : t(`revenue:${revenue_translation_key}.REVENUE_NAME`);
 
   const handleGoBack = () => {
     history.back();
@@ -50,8 +57,9 @@ function ReadOnlyCustomRevenue({ history, match }) {
         buttonText={t('common:EDIT')}
         pageTitle={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_TYPE')}
         inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
-        customTypeRegister={CUSTOM_REVENUE_NAME}
-        defaultValue={revenue_name}
+        descriptionLabel={t('REVENUE.CUSTOM_REVENUE_DESCRIPTION')}
+        nameFieldRegisterName={CUSTOM_REVENUE_NAME}
+        typeDetails={{ name: translatedRevenueName, description: translatedCustomDescription }}
         onRetire={onRetire}
         retireLinkText={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}
         retireHeader={t('REVENUE.EDIT_REVENUE.RETIRE_REVENUE_TYPE')}

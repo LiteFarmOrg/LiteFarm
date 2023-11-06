@@ -44,7 +44,7 @@ class RevenueType extends baseModel {
         revenue_translation_key: { type: 'string' },
         agriculture_associated: { type: 'null' },
         crop_generated: { type: 'boolean' },
-        custom_description: { type: ['string', 'null'] },
+        custom_description: { type: ['string', 'null'], minLength: 1, maxLength: 125 },
         ...this.baseProperties,
         additionalProperties: false,
       },

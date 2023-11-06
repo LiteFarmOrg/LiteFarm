@@ -1,0 +1,92 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+// TransactionList
+.transactionList {
+  margin-bottom: 85px;
+}
+
+.transactionDate {
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  margin-top: 16px;
+}
+
+.expandableItem {
+  padding: 12px 0;
+  align-items: center;
+}
+
+.expandableItemWrapper {
+  border: solid 1px transparent;
+  border-bottom: solid 1px var(--grey200);
+
+  &.expanded {
+    background-color: #F6FBFA;
+    border: solid 1px var(--grey400);
+    box-shadow: 0px 0px 4px 0px #66738A1A;
+    border-radius: 1px;
+  }
+
+  &:hover:not(.expanded) {
+    background-color: var(--grey200);
+  }
+}
+
+// load more button
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+  padding-top: 24px;
+}
+
+.loadMoreButton {
+  border-radius: 8px;
+}
+
+// TransactionItem
+.mainContent {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+}
+
+.mainContentLeft {
+  display: flex;
+  gap: 4px;
+  width: calc(100% - 100px);
+}
+
+.mainContentText {
+  width: calc(100% - 41px);
+}
+
+.mainContentTitle {
+  font-weight: 700;
+}
+
+.mainContentInfo {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.mainContentTitle, .mainContentInfo, .amount {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

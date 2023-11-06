@@ -12,8 +12,19 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
- .leadText {
-  margin-bottom: 24px;
+
+.leadText {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.searchBar {
+  margin-top: -8px;
+  margin-bottom: -16px;
+}
+
+.noResultsCard {
+  margin-top: 24px;
 }
 
 .cantFindWrapper {

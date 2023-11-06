@@ -1,0 +1,229 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.cardContent {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+}
+
+.profitLossCardContent {
+  background-color: var(--teal700);
+}
+
+.revenueExpensesContainer {
+  background-color: color-mix(in srgb, var(--teal100), transparent 75%);
+  flex-grow: 1;
+  padding: 12px 8px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 4px 0 0 4px;
+  width: 50%;
+
+  @media (min-width: 768px) {
+    padding: 24px 16px;
+  }
+}
+
+.profitLossSummaryContainer {
+  background-color: color-mix(in srgb, var(--teal100), transparent 20%);
+  flex-grow: 1;
+  padding: 16px 8px;
+  border-radius: 0 4px 4px 0;
+  text-align: center;
+  width: 50%;
+
+  @media (min-width: 768px) {
+    padding: 24px 16px;
+  }
+
+  &.loss {
+    .profitLossTitle, .profitLossStat {
+      color: var(--red700)
+    }
+  }
+}
+
+.revenueContainer {
+  background-color: #3EA397;
+}
+
+.expenseContainer {
+  padding: 4px;
+}
+
+.revenueTitle, .labourExpensesTitle, .otherExpensesTitle, .expenseTitle, .profitLossTitle {
+  font-family: 'Open Sans', 'SansSerif', serif;
+  font-size: 14px;
+  line-height: 18px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.revenueTitle, .expenseTitle, .revenueStat, .expenseStat {
+  text-shadow: 0px 0.5px 0px #11615D;
+}
+
+.profitLossTitle, .profitLossStat {
+  text-shadow: 0px 0.5px 0px #A7CFC9;
+}
+
+.revenueContainer {
+  color: #54FF8E;
+}
+
+.expenseTitle, .expenseStat {
+  color: #FFD900;
+}
+
+.profitLossTitle, .profitLossStat {
+  color: #3EA397;
+}
+
+
+.stat {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.totalExpensesContainer {
+  background-color: #FFFAF0;
+  flex-grow: 1;
+  padding: 4px;
+  text-align: left;
+  border-radius: 4px 0 0 4px;
+}
+
+.expensesStatsContainer {
+  background-color: #FFF4D9;
+  flex-grow: 1;
+  padding: 12px 8px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 0 4px 4px 0;
+
+  @media (min-width: 768px) {
+    padding: 24px 16px;
+  }
+}
+
+.totalExpensesTitle {
+  font-size: 12px;
+  line-height: 16px;
+  margin-bottom: 4px;
+}
+
+.expensesChartContainer {
+  position: relative;
+  height: 100px;
+  width: 100px;
+  margin: auto;
+
+  @media (min-width: 768px) {
+    height: 116px;
+    width: 116px;
+  }
+}
+
+.expensesChart {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+
+  @media (min-width: 768px) {
+    height: 116px;
+    width: 116px;
+  }
+}
+
+.totalExpensesStatContainer {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.totalExpensesStat {
+  color: var(--red700);
+  text-shadow: 0px 1px 0px #FFC1BF;
+}
+
+.labourExpensesContainer, .otherExpensesContainer, .estimatedRevenueContainer, .revenueContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  border-radius: 4px;
+  padding: 4px;
+  text-align: left;
+}
+
+.labourExpensesContainer, .otherExpensesContainer {
+  background-color: #FFEFCF;
+}
+
+.labourExpensesContainer {
+  color: var(--yellow700);
+}
+
+.otherExpensesContainer {
+  color: var(--brown700);
+}
+
+.labourExpensesTitle, .labourExpensesStat {
+  text-shadow: 0px 0.5px 0px var(--brown700);
+}
+
+.otherExpensesTitle, .otherExpensesStat {
+  text-shadow: 0px 0.5px 0px var(--yellow700);
+}
+
+.estimatedRevenueCardContent {
+  background-color: var(--green400);
+  padding: 20px;
+  align-items: center;
+}
+
+.estimatedRevenueContainer {
+  color: var(--teal700);
+}
+
+.estimatedRevenueTitle {
+  font-size: 12px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  line-height: 12px;
+  vertical-align: top;
+}
+
+.estimatedRevenueContainer {
+  margin-left: 16px;
+  background-color: #ABEBC1;
+}
+
+.clickableContainer:hover {
+  background-color: color-mix(in srgb, var(--grey900), transparent 75%);
+  color: var(--teal100);
+  text-shadow: none;
+}

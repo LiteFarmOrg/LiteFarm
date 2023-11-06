@@ -16,8 +16,13 @@
 .floatingActionButton {
   position: relative;
 
-  &:hover, &[aria-expanded="true"] {
+  &[aria-expanded="true"] {
     background-color: #E3B000;
+  }
+  @media (hover: hover) {
+    &:hover {
+      background-color: #E3B000;
+    }
   }
 
   &.add {
@@ -42,9 +47,16 @@
       height: 4px;
     }
 
-    &:hover, &[aria-expanded="true"] {
+    &[aria-expanded="true"] {
       &::before, &::after {
         background-color: #fff;
+      }
+    }
+    @media (hover: hover) {
+      &:hover {
+        &::before, &::after {
+          background-color: #fff;
+        }
       }
     }
   }

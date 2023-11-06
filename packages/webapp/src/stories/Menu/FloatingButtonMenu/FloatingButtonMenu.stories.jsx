@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { forwardRef } from 'react';
 import FloatingButtonMenu from '../../../components/Menu/FloatingButtonMenu';
 import FloatingMenu from '../../../components/Menu/FloatingButtonMenu/FloatingMenu';
 import { componentDecorators } from '../../Pages/config/Decorators';
@@ -32,16 +33,23 @@ export const withOptions = {
   },
 };
 
+const Menu = forwardRef((props, ref) => {
+  return (
+    <FloatingMenu
+      ref={ref}
+      options={[
+        { label: '+ Add Revenue', onClick: () => console.log('Add Revenue') },
+        { label: '+ Add Expense', onClick: () => console.log('Add Expense') },
+      ]}
+      {...props}
+    />
+  );
+});
+Menu.displayName = 'Menu';
+
 export const withMenu = {
   args: {
     type: 'add',
-    menu: (
-      <FloatingMenu
-        options={[
-          { label: '+ Add Revenue', onClick: () => console.log('Add Revenue') },
-          { label: '+ Add Expense', onClick: () => console.log('Add Expense') },
-        ]}
-      />
-    ),
+    Menu,
   },
 };

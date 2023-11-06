@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import DropdownButton from '../../components/Form/DropDownButton';
 import FloatingMenu from '../../components/Menu/FloatingButtonMenu/FloatingMenu';
 import { componentDecorators } from '../Pages/config/Decorators';
@@ -24,6 +25,23 @@ export const WithoutArrowIcon = {
   },
 };
 
+const Menu = forwardRef((props, ref) => (
+  <FloatingMenu
+    classes={
+      {
+        // TODO: set width
+        // menuList:
+      }
+    }
+    options={[
+      { label: '+ Add revenue', onClick: () => console.log('Add revenue') },
+      { label: '+ Add expense', onClick: () => console.log('Add Eepense') },
+    ]}
+    ref={ref}
+  />
+));
+Menu.displayName = 'Menu';
+
 export const WithCustomizedMenu = {
   args: {
     children: '+ Add transaction',
@@ -33,19 +51,6 @@ export const WithCustomizedMenu = {
       // TODO: set button size
       // button:
     },
-    menu: (
-      <FloatingMenu
-        classes={
-          {
-            // TODO: set width
-            // menuList:
-          }
-        }
-        options={[
-          { label: '+ Add revenue', onClick: () => console.log('Add revenue') },
-          { label: '+ Add expense', onClick: () => console.log('Add Eepense') },
-        ]}
-      />
-    ),
+    Menu,
   },
 };

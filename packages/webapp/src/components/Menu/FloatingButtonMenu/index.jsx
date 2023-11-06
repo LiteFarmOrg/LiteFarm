@@ -36,7 +36,7 @@ export default function FloatingButtonMenu({
   options,
   menuPlacement = 'top-end',
   transformOrigin,
-  menu,
+  Menu,
   classes = {},
 }) {
   const [open, setOpen] = useState(false);
@@ -64,6 +64,12 @@ export default function FloatingButtonMenu({
     prevOpen.current = open;
   }, [open]);
 
+  const menuProps = {
+    autoFocusItem: open,
+    id: 'composition-menu',
+    'aria-labelledby': 'composition-button',
+  };
+
   return (
     <div className={clsx(styles.buttonWrapper, classes.button)}>
       <FloatingActionButton
@@ -90,14 +96,7 @@ export default function FloatingButtonMenu({
           >
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
-                {menu || (
-                  <FloatingMenu
-                    autoFocusItem={open}
-                    id="composition-menu"
-                    aria-labelledby="composition-button"
-                    options={options}
-                  />
-                )}
+                {Menu ? <Menu {...menuProps} /> : <FloatingMenu {...menuProps} options={options} />}
               </ClickAwayListener>
             </Paper>
           </Grow>
@@ -117,5 +116,5 @@ FloatingButtonMenu.propTypes = {
   ),
   menuPlacement: PropTypes.oneOf(['top-end', 'bottom-start']),
   transformOrigin: PropTypes.oneOf(['bottom right', 'left top', 'left bottom']),
-  menu: PropTypes.node,
+  Menu: PropTypes.elementType,
 };

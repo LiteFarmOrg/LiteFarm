@@ -25,7 +25,7 @@ export default function DropdownButton({
   children,
   defaultOpen = false,
   noIcon,
-  menu,
+  Menu,
   type,
   classes: propClasses = {},
 }) {
@@ -49,6 +49,12 @@ export default function DropdownButton({
     setOpen(false);
   };
 
+  const menuProps = {
+    autoFocusItem: isOpen,
+    id: 'composition-menu',
+    'aria-labelledby': 'composition-button',
+  };
+
   return (
     <>
       <Button
@@ -56,6 +62,10 @@ export default function DropdownButton({
         onClick={handleToggle}
         inputRef={anchorRef}
         className={clsx(type && styles[type], propClasses.button)}
+        id="composition-button"
+        aria-controls={open ? 'composition-menu' : undefined}
+        aria-expanded={open ? 'true' : undefined}
+        aria-haspopup="true"
       >
         {children}
         {!noIcon && (
@@ -75,8 +85,10 @@ export default function DropdownButton({
       >
         <Paper>
           <ClickAwayListener onClickAway={handleClose}>
-            {menu || (
-              <MenuList>
+            {Menu ? (
+              <Menu {...menuProps} />
+            ) : (
+              <MenuList {...menuProps}>
                 {options.map((option, index) => (
                   <MenuItem key={index} onClick={(event) => handleMenuItemClick(option)}>
                     {option.text}
@@ -101,7 +113,7 @@ DropdownButton.propTypes = {
   children: PropTypes.string,
   defaultOpen: PropTypes.bool,
   noIcon: PropTypes.bool,
-  menu: PropTypes.node,
+  Menu: PropTypes.elementType,
   type: PropTypes.oneOf(['v2']),
   classes: PropTypes.shape({
     button: PropTypes.string,

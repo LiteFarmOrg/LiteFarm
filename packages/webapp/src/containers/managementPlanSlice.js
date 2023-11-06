@@ -63,7 +63,6 @@ const addManyManagementPlan = (state, { payload: managementPlans }) => {
 };
 
 const deleteOneManagementPlan = (state, { payload }) => {
-  console.log({ payload });
   const managementPlan = state.entities[payload];
   if (managementPlan) {
     managementPlan.deleted = true;

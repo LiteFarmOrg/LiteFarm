@@ -18,7 +18,7 @@ export default function ManagementDetails({ history, match }) {
   const plan = useSelector(managementPlanSelector(management_plan_id));
 
   useEffect(() => {
-    if (plan === undefined) {
+    if (!plan || plan.deleted) {
       history.replace(`/crop/${variety_id}/management`);
     }
   }, [plan, history]);

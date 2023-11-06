@@ -13,12 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
-import history from '../../history';
-import { expenseSelector, salesSelector } from './selectors';
-import { allRevenueTypesSelector } from '../revenueTypeSlice';
 import { getFarmExpenseType, getExpense, getSales, setSelectedExpenseTypes } from './actions';
 import { calcOtherExpense, calcTotalLabour, calcActualRevenue } from './util';
 import Moment from 'moment';
@@ -28,11 +25,10 @@ import { managementPlansSelector } from '../managementPlanSlice';
 import { getManagementPlansAndTasks } from '../saga';
 import { getRevenueTypes } from './saga';
 import Button from '../../components/Form/Button';
-import { Semibold, Title } from '../../components/Typography';
+import { Title } from '../../components/Typography';
 import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
-import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
+import { taskEntitiesByManagementPlanIdSelector } from '../taskSlice';
 import { isTaskType } from '../Task/useIsTaskType';
-import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useTranslation } from 'react-i18next';
 import { downloadFinanceReport } from './saga';
 import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
@@ -42,6 +38,7 @@ import TransactionFilter from './TransactionFilter';
 import { transactionsFilterSelector } from '../filterSlice';
 import useTransactions from './useTransactions';
 import PureTransactionList from '../../components/Finances/Transaction/Mobile/List';
+import AddTransactionButton from '../../components/Finances/AddTransactionButton';
 
 const moment = extendMoment(Moment);
 
@@ -106,29 +103,6 @@ const Finances = ({ history }) => {
   return (
     <div className={styles.financesContainer}>
       <Title style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.TITLE')}</Title>
-      <Semibold style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.ACTION')}</Semibold>
-      <div className={styles.buttonContainer}>
-        <Button
-          style={{ height: '48px' }}
-          onClick={() => {
-            dispatch(setPersistedPaths(['/expense_categories', '/add_expense']));
-            history.push('/expense_categories');
-          }}
-          color="success"
-        >
-          {t('SALE.FINANCES.ADD_NEW_EXPENSE')}
-        </Button>
-        <Button
-          style={{ height: '48px' }}
-          onClick={() => {
-            dispatch(setPersistedPaths(['/revenue_types', '/add_sale']));
-            history.push('/revenue_types');
-          }}
-          color="success"
-        >
-          {t('SALE.FINANCES.ADD_NEW_SALE')}
-        </Button>
-      </div>
       <Button
         style={{ height: '48px', marginInline: '4px' }}
         onClick={() => {
@@ -159,6 +133,7 @@ const Finances = ({ history }) => {
           currencySymbol={currencySymbol}
           history={history}
         />
+        <AddTransactionButton />
       </div>
       <PureTransactionList data={transactions} />
     </div>

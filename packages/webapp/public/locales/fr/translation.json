@@ -1557,12 +1557,9 @@
       "TITLE": "Détail de la dépense"
     },
     "FINANCES": {
-      "ACTION": "Action",
       "ACTUAL": "Actual",
       "ACTUAL_REVENUE_ESTIMATED": "Estimé",
       "ACTUAL_REVENUE_LABEL": "Réel",
-      "ADD_NEW_EXPENSE": "Ajouter une nouvelle dépense",
-      "ADD_NEW_SALE": "Ajouter une nouvelle vente",
       "BALANCE": "Solde",
       "BALANCE_EXPLANATION": "Nous calculons un solde en temps réel («\u00a0coût de production\u00a0») pour chaque culture de votre ferme. Il s'agit d'une simple équation des dépenses moins les revenus. Les dépenses pour chaque culture sont calculées à partir de deux parties, une partie est le les dépenses de main-d'œuvre provenant des heures enregistrées pour les activités agricoles, l'autre partie provient des autres dépenses enregistrées pour l'ensemble de la ferme. Lorsque les dépenses sont enregistrées pour l'ensemble de la ferme, nous les répartissons également entre les cultures de la ferme. Non alloué signifie qu'un ou plusieurs quarts de travail a été soumis pour un champ alors qu'il n'y a pas encore de culture sur ce champ. Ce ou ces quarts de travail seront attribués aux cultures au fur et à mesure qu'elles sont ajoutées à ce champ dans la fenêtre de temps de rapport financier. ",
       "BALANCE_FOR_FARM": "Solde (Toute la ferme)",

@@ -87,3 +87,14 @@
   min-height: 32px;
   padding: 0 16px;
 }
+
+.textButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+    color: var(--grey500);
+  }
+}

@@ -17,6 +17,8 @@ import UserModel from '../models/userModel.js';
 
 import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
 import FarmModel from '../models/farmModel.js';
+import FinanceReportModel from '../models/financeReportModel.js';
+import { generateFinanceReport } from '../util/generateFinanceReport.js';
 
 const exportController = {
   sendMapToEmail() {
@@ -40,6 +42,37 @@ const exportController = {
       } catch (error) {
         console.log(error);
         res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+  createFinanceReport() {
+    return async (req, res) => {
+      try {
+        const data = req.body;
+
+        // Generate xlsx
+        const workbook = generateFinanceReport(data);
+        const buffer = await workbook.xlsx.writeBuffer();
+
+        // If successful, create a record in the finance_report table
+        await FinanceReportModel.query()
+          .insert({
+            farm_id: data.farm_id,
+            file_type: 'xlsx',
+          })
+          .context({ user_id: req.auth.user_id });
+
+        res.setHeader('Content-Disposition', 'attachment; filename=financereport.xlsx');
+        res.setHeader(
+          'Content-Type',
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        );
+        res.status(200).send(buffer);
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({
           error,
         });
       }

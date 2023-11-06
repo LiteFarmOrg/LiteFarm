@@ -12,6 +12,7 @@ const entitiesGetters = {
   price_id: fromPrice,
   farm_expense_id: fromFarmExpense,
   expense_type_id: fromFarmExpenseType,
+  revenue_type_id: fromRevenueType,
   farm_id: (farm_id) => ({ farm_id }),
   locationIds: fromLocationIds,
   locations: fromLocations,
@@ -243,6 +244,10 @@ function fromFarmExpense(farm_expense_id) {
 
 function fromFarmExpenseType(expense_type_id) {
   return knex('farmExpenseType').where({ expense_type_id }).first();
+}
+
+function fromRevenueType(revenue_type_id) {
+  return knex('revenue_type').where({ revenue_type_id }).first();
 }
 
 function fromSale(sale_id) {

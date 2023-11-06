@@ -24,6 +24,10 @@ class ExpenseType extends baseModel {
     return 'expense_type_id';
   }
 
+  static get hidden() {
+    return ['created_at', 'created_by_user_id', 'updated_by_user_id', 'updated_at'];
+  }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.
@@ -37,6 +41,7 @@ class ExpenseType extends baseModel {
         expense_name: { type: 'string', minLength: 1, maxLength: 255 },
         farm_id: { type: 'string' },
         expense_translation_key: { type: 'string' },
+        custom_description: { type: ['string', 'null'], minLength: 1, maxLength: 125 },
         ...this.baseProperties,
       },
       additionalProperties: false,

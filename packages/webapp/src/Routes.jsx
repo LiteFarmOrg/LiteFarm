@@ -51,10 +51,10 @@ const SoilOM = React.lazy(() => import('./containers/Insights/SoilOM'));
 const LabourHappiness = React.lazy(() => import('./containers/Insights/LabourHappiness'));
 const Biodiversity = React.lazy(() => import('./containers/Insights/Biodiversity'));
 const Prices = React.lazy(() => import('./containers/Insights/Prices'));
+const RevenueTypes = React.lazy(() => import('./containers/Finances/AddSale/RevenueTypes'));
 const AddSale = React.lazy(() => import('./containers/Finances/AddSale'));
-const EditSale = React.lazy(() => import('./containers/Finances/EditSale'));
-const LegacyEstimatedRevenue = React.lazy(() =>
-  import('./containers/Finances/LegacyEstimatedRevenue'),
+const ManageRevenueTypes = React.lazy(() =>
+  import('./containers/Finances/ManageCustomRevenueTypes'),
 );
 const EstimatedRevenue = React.lazy(() => import('./containers/Finances/EstimatedRevenue'));
 const Labour = React.lazy(() => import('./containers/Finances/Labour'));
@@ -64,10 +64,28 @@ const ExpenseCategories = React.lazy(() =>
   import('./containers/Finances/NewExpense/ExpenseCategories'),
 );
 const AddExpense = React.lazy(() => import('./containers/Finances/NewExpense/AddExpense'));
-const TempEditExpense = React.lazy(() =>
-  import('./containers/Finances/EditExpense/TempEditExpense'),
+const ManageExpenseTypes = React.lazy(() =>
+  import('./containers/Finances/ManageCustomExpenseTypes'),
 );
-const SaleDetail = React.lazy(() => import('./containers/Finances/SaleDetail'));
+const AddCustomExpense = React.lazy(() =>
+  import('./containers/Finances/CustomExpenseType/AddSimpleCustomExpense'),
+);
+const ReadOnlyCustomExpense = React.lazy(() =>
+  import('./containers/Finances/CustomExpenseType/ReadOnlySimpleCustomExpense'),
+);
+const EditCustomExpense = React.lazy(() =>
+  import('./containers/Finances/CustomExpenseType/EditSimpleCustomExpense'),
+);
+const AddCustomRevenue = React.lazy(() =>
+  import('./containers/Finances/CustomRevenueType/AddCustomRevenue'),
+);
+const ReadOnlyCustomRevenue = React.lazy(() =>
+  import('./containers/Finances/CustomRevenueType/ReadOnlyCustomRevenue'),
+);
+const EditCustomRevenue = React.lazy(() =>
+  import('./containers/Finances/CustomRevenueType/EditCustomRevenue'),
+);
+const RevenueDetail = React.lazy(() => import('./containers/Finances/RevenueDetail'));
 const ExpiredTokenScreen = React.lazy(() => import('./containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('./containers/Map'));
 const MapVideo = React.lazy(() => import('./components/Map/Videos'));
@@ -577,17 +595,41 @@ const Routes = () => {
               exact
               component={UpdateEstimatedCropRevenue}
             />
+            <Route path="/revenue_types" exact component={RevenueTypes} />
             <Route path="/add_sale" exact component={AddSale} />
-            <Route path="/edit_sale" exact component={EditSale} />
-            <Route path="/temp_estimated_revenue" exact component={LegacyEstimatedRevenue} />
+            <Route path="/manage_custom_revenues" exact component={ManageRevenueTypes} />
+            <Route path="/revenue/:sale_id/" exact component={RevenueDetail} />
+            <Route path="/revenue/:sale_id/edit" exact component={RevenueDetail} />
             <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
             <Route path="/labour" exact component={Labour} />
             <Route path="/other_expense" exact component={OtherExpense} />
-            <Route path="/expense_detail" exact component={ExpenseDetail} />
+            <Route path="/expense/:expense_id/" exact component={ExpenseDetail} />
+            <Route path="/expense/:expense_id/edit" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
-            <Route path="/edit_expense" exact component={TempEditExpense} />
-            <Route path="/sale_detail" exact component={SaleDetail} />
+            <Route path="/manage_custom_expenses" exact component={ManageExpenseTypes} />
+            <Route path="/add_custom_expense" exact component={AddCustomExpense} />
+            <Route
+              path="/readonly_custom_expense/:expense_type_id"
+              exact
+              component={ReadOnlyCustomExpense}
+            />
+            <Route
+              path="/edit_custom_expense/:expense_type_id"
+              exact
+              component={EditCustomExpense}
+            />
+            <Route path="/add_custom_revenue" exact component={AddCustomRevenue} />
+            <Route
+              path="/readonly_custom_revenue/:revenue_type_id"
+              exact
+              component={ReadOnlyCustomRevenue}
+            />
+            <Route
+              path="/edit_custom_revenue/:revenue_type_id"
+              exact
+              component={EditCustomRevenue}
+            />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
@@ -858,15 +900,41 @@ const Routes = () => {
               exact
               component={UpdateEstimatedCropRevenue}
             />
+            <Route path="/revenue_types" exact component={RevenueTypes} />
             <Route path="/add_sale" exact component={AddSale} />
-            <Route path="/edit_sale" exact component={EditSale} />
-            <Route path="/temp_estimated_revenue" exact component={LegacyEstimatedRevenue} />
+            <Route path="/manage_custom_revenues" exact component={ManageRevenueTypes} />
+            <Route path="/revenue/:sale_id/" exact component={RevenueDetail} />
+            <Route path="/revenue/:sale_id/edit" exact component={RevenueDetail} />
             <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
             <Route path="/labour" exact component={Labour} />
             <Route path="/other_expense" exact component={OtherExpense} />
-            <Route path="/expense_detail" exact component={ExpenseDetail} />
+            <Route path="/expense/:expense_id/" exact component={ExpenseDetail} />
+            <Route path="/expense/:expense_id/edit" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
+            <Route path="/manage_custom_expenses" exact component={ManageExpenseTypes} />
+            <Route path="/add_custom_expense" exact component={AddCustomExpense} />
+            <Route
+              path="/readonly_custom_expense/:expense_type_id"
+              exact
+              component={ReadOnlyCustomExpense}
+            />
+            <Route
+              path="/edit_custom_expense/:expense_type_id"
+              exact
+              component={EditCustomExpense}
+            />
+            <Route path="/add_custom_revenue" exact component={AddCustomRevenue} />
+            <Route
+              path="/readonly_custom_revenue/:revenue_type_id"
+              exact
+              component={ReadOnlyCustomRevenue}
+            />
+            <Route
+              path="/edit_custom_revenue/:revenue_type_id"
+              exact
+              component={EditCustomRevenue}
+            />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
             <Route
@@ -874,9 +942,6 @@ const Routes = () => {
               exact
               component={ComplianceInfo}
             />
-
-            <Route path="/edit_expense" exact component={TempEditExpense} />
-            <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/soilom" exact component={SoilOM} />

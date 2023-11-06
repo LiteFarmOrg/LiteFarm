@@ -1,106 +1,81 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+/*
+ *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
-import { FromToDateContainer } from '../../../components/Inputs/DateContainer';
+import DateRangeSelector from '../../DateRangeSelector';
 import { setDateRange } from '../../../containers/Finances/actions';
 import moment from 'moment';
-import InfoBoxComponent from '../../InfoBoxComponent';
-import { dateRangeSelector } from '../../../containers/Finances/selectors';
-import { Semibold } from '../../Typography';
-import { withTranslation } from 'react-i18next';
+import { dateRangeDataSelector } from '../../../containers/Finances/selectors';
+import { FROM_DATE, TO_DATE } from '../../Form/DateRangePicker';
+import { dateRangeOptions } from '../../DateRangeSelector/constants';
+import DateRange, { SUNDAY } from '../../../util/dateRange';
 
-class DateRangeSelector extends Component {
-  constructor(props) {
-    super(props);
-    let startDate, endDate, validRange;
-    const { dateRange } = this.props;
-    if (dateRange && dateRange.startDate && dateRange.endDate) {
-      startDate = moment(dateRange.startDate);
-      endDate = moment(dateRange.endDate);
-    } else {
-      startDate = moment().startOf('year');
-      endDate = moment().endOf('year');
-    }
-    startDate <= endDate ? (validRange = true) : (validRange = false);
-
-    this.state = {
-      startDate,
-      endDate,
-      validRange,
-    };
-    this.changeStartDate.bind(this);
-    this.changeEndDate.bind(this);
-  }
-
-  changeStartDate = (date) => {
-    if (date > this.state.endDate) {
-      this.setState({ validRange: false });
-      return;
-    }
-    this.setState({ validRange: true });
-    this.setState({ startDate: date });
-    const endDate = this.state.endDate;
-    this.props.dispatch(setDateRange({ startDate: date, endDate }));
-    this.props.changeDateMethod('start', date);
-  };
-
-  changeEndDate = (date) => {
-    if (date < this.state.startDate) {
-      this.setState({ validRange: false });
-      return;
-    }
-    this.setState({ validRange: true });
-    this.setState({ endDate: date });
-    const startDate = this.state.startDate;
-    this.props.dispatch(setDateRange({ startDate, endDate: date }));
-    this.props.changeDateMethod('end', date);
-  };
-
-  render() {
-    const { hideTooltip } = this.props;
-    const changeDateToParent = this.props.changeDateMethod;
-
-    return (
-      <div className={styles.rangeContainer}>
-        <div className={styles.titleContainer}>
-          <Semibold style={{ textAlign: 'left', marginBottom: '20px' }}>
-            {this.props.t('DATE_RANGE.TITLE')}
-          </Semibold>
-          {!hideTooltip && (
-            <InfoBoxComponent
-              customStyle={{ float: 'right' }}
-              title={this.props.t('DATE_RANGE.HELP_TITLE')}
-              body={this.props.t('DATE_RANGE.HELP_BODY')}
-            />
-          )}
-        </div>
-
-        <FromToDateContainer
-          onStartDateChange={this.changeStartDate}
-          onEndDateChange={this.changeEndDate}
-          endDate={this.state.endDate}
-          startDate={this.state.startDate}
-        />
-        {!this.state.validRange && (
-          <Semibold style={{ textAlign: 'center', color: 'red' }}>
-            {this.props.t('DATE_RANGE.INVALID_RANGE_MESSAGE')}
-          </Semibold>
-        )}
-      </div>
-    );
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  };
+const isDateValid = (date) => {
+  return date ? moment(date).isValid() : false;
 };
 
-const mapStateToProps = (state) => {
-  return {
-    dateRange: dateRangeSelector(state),
+const FinanceDateRangeSelector = () => {
+  const dispatch = useDispatch();
+
+  const dateRange = useSelector(dateRangeDataSelector);
+  const { option, customRange = {} } = dateRange;
+  const initialOption = option || dateRangeOptions.YEAR_TO_DATE;
+  const dateRangeUtil = new DateRange(new Date(), SUNDAY);
+
+  const initialStartDate = customRange.startDate && moment(customRange.startDate);
+  const initialEndDate = customRange.endDate && moment(customRange.endDate);
+
+  const changeDate = (type, date) => {
+    const startDate = type === 'start' ? date : customRange.startDate;
+    const endDate = type === 'end' ? date : customRange.endDate;
+
+    const newDateRange = { customRange: { startDate, endDate } };
+
+    // If both dates are valid, update dates and the option
+    if ([startDate, endDate].every(isDateValid)) {
+      newDateRange.startDate = startDate;
+      newDateRange.endDate = endDate;
+    }
+    dispatch(setDateRange(newDateRange));
   };
+
+  const onChangeDateRangeOption = (value) => {
+    let newDateRange = {};
+    if (value !== dateRangeOptions.CUSTOM) {
+      newDateRange = dateRangeUtil.getDates(value);
+    } else if (
+      Object.keys(customRange).length === 2 &&
+      Object.values(customRange).every((date) => date && isDateValid(date))
+    ) {
+      newDateRange = customRange;
+    }
+    dispatch(setDateRange({ option: value, ...newDateRange }));
+  };
+
+  return (
+    <div className={styles.rangeContainer}>
+      <DateRangeSelector
+        defaultDateRangeOptionValue={initialOption}
+        defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}
+        onChangeDateRangeOption={onChangeDateRangeOption}
+        changeDateMethod={changeDate}
+      />
+    </div>
+  );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(DateRangeSelector));
+export default FinanceDateRangeSelector;

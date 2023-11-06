@@ -20,12 +20,16 @@ import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as HazardIcon } from '../../../assets/images/warning.svg';
 
-const BiodiversityLoadingModal = ({ dismissModal, loadingError, minutes }) => {
+const BiodiversityLoadingModal = ({ dismissModal, loadingError }) => {
   const { t } = useTranslation();
   return loadingError ? (
     <ModalComponent
-      title={t('INSIGHTS.BIODIVERSITY.ERROR.TITLE')}
-      contents={[t('INSIGHTS.BIODIVERSITY.ERROR.BODY', { minutes })]}
+      title={[t('INSIGHTS.BIODIVERSITY.ERROR_TITLE')]}
+      contents={
+        loadingError === 'API_OFFSET_LIMIT'
+          ? [t('INSIGHTS.BIODIVERSITY.API_OFFSET_LIMIT_ERROR_MESSAGE')]
+          : [t('INSIGHTS.BIODIVERSITY.GENERIC_ERROR_MESSAGE')]
+      }
       dismissModal={dismissModal}
       icon={HazardIcon}
       buttonGroup={

@@ -1,0 +1,104 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+// ExpandedContent
+.expandedContent {
+  margin: 0 4px 8px 4px;
+}
+
+button.toDetail {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19px;
+  border-radius: 4px;
+  background-color: #edf5f3;
+  color: var(--teal900);
+
+  svg {
+    stroke-width: 1px;
+    margin-left: 8px;
+  }
+}
+
+.labourTable {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+
+  .tabs {
+    margin: 4px 0px 24px 0px;
+    padding-block: 16px;
+    width: 100%;
+    max-width: 448px;
+    min-width: fit-content;
+
+    /* Tab text */
+    > h4 {
+      padding-inline: 64px;
+      font-size: 16px;
+      padding: 8px 16px;
+    }
+  }
+
+  .footer {
+    text-transform: uppercase;
+    overflow: visible;
+  }
+}
+
+.bold {
+  font-weight: bold;
+}
+
+// Crop sales
+.mobileCrops {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mobileCropsTitle {
+  font-weight: 600;
+}
+
+.mobileCropsQuantity {
+  color: var(--grey500);
+  font-size: 12px;
+}
+
+.mobileCropSaleFooterCell {
+  width: 100%;
+  background-color: var(--grey200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  padding-left: 8px;
+  padding-right: 9px;
+
+  > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

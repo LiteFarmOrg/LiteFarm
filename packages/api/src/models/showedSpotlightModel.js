@@ -72,6 +72,8 @@ class ShowedSpotlight extends Model {
         repeat_management_plan_creation_end: { type: ['string', 'null'] },
         manage_custom_expense_type: { type: 'boolean' },
         manage_custom_expense_type_end: { type: ['string', 'null'] },
+        manage_custom_revenue_type: { type: 'boolean' },
+        manage_custom_revenue_type_end: { type: ['string', 'null'] },
       },
     };
   }

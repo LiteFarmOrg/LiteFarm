@@ -18,6 +18,8 @@ export default function InputAutoSize({
   optional,
   onChange,
   errors,
+  disabled,
+  placeholder,
   ...props
 }) {
   const input = useRef();
@@ -54,6 +56,8 @@ export default function InputAutoSize({
           onBlur?.(e);
           hookFormRegister?.onBlur(e);
         }}
+        disabled={disabled}
+        placeholder={!disabled && placeholder}
         {...props}
       />
       {errors ? <Error style={classes.errors}>{errors}</Error> : null}

@@ -29,7 +29,7 @@ router.post(
   validateSale,
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:sales']),
-  SaleController.addOrUpdateSale(),
+  SaleController.addSale(),
 );
 router.get(
   '/:farm_id',

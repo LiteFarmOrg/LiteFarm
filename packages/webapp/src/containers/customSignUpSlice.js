@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   customSignUpErrorKey: null,
+  passwordResetError: null,
 };
 
 const customSignUpSlice = createSlice({
@@ -11,12 +12,18 @@ const customSignUpSlice = createSlice({
     setCustomSignUpErrorKey: (state, { payload: { key } }) => {
       state.customSignUpErrorKey = key;
     },
+    setPasswordResetError: (state, { payload: error }) => {
+      state.passwordResetError = error;
+    },
   },
 });
 
-export const { setCustomSignUpErrorKey } = customSignUpSlice.actions;
+export const { setCustomSignUpErrorKey, setPasswordResetError } = customSignUpSlice.actions;
 
 export const customSignUpErrorKeySelector = (state) =>
   state.tempStateReducer[customSignUpSlice.name]?.customSignUpErrorKey;
+
+export const passwordResetErrorSelector = (state) =>
+  state.tempStateReducer[customSignUpSlice.name]?.passwordResetError;
 
 export default customSignUpSlice.reducer;

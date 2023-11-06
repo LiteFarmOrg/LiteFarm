@@ -54,7 +54,9 @@ export const documentUrl = `${URI}/document`;
 export const salesURL = URI + '/sale';
 //export const cropSalesURL = URI + '/crop_sale';
 export const expenseUrl = URI + '/expense';
-export const expenseTypeDefaultUrl = URI + '/expense_type';
+export const expenseTypeUrl = `${URI}/expense_type`;
+export const revenueTypeUrl = URI + '/revenue_type';
+export const financeReportUrl = URI + '/export/finances';
 //export const contactURL = URI + '/contact';
 //export const farmDataUrl = URI + '/farmdata';
 export const userFarmUrl = `${URI}/user_farm`;
@@ -95,7 +97,9 @@ export default {
   salesURL,
   //cropSalesURL,
   expenseUrl,
-  expenseTypeDefaultUrl,
+  expenseTypeUrl,
+  revenueTypeUrl,
+  financeReportUrl,
   //contactURL,
   //farmDataUrl,
   userFarmUrl,

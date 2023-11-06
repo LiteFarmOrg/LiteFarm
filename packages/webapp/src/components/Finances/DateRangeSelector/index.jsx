@@ -80,7 +80,7 @@ const FinanceDateRangeSelector = ({ className }) => {
   );
 };
 
-FinanceDateRangeSelector.PropTypes = {
+FinanceDateRangeSelector.propTypes = {
   className: PropTypes.string,
 };
 

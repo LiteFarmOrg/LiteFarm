@@ -42,7 +42,7 @@ export default function PureCollapsibleSearch({
     onSearchClose();
   };
 
-  // Position modal searchbar correctly
+  // Position modal searchbar
   useLayoutEffect(() => {
     let resizeObserver;
 
@@ -53,6 +53,7 @@ export default function PureCollapsibleSearch({
         setModalStyle({
           position: 'absolute',
           top: `${rect.top}px`,
+          /* If a containerRef is not provided, the position of the search button will be used to calculate the placement of the modal, and the width will be 95vw */
           left: ref === searchRef.current ? undefined : `${rect.left}px`,
           width: ref === searchRef.current ? '95vw' : `${rect.width}px`,
           margin: 0,

@@ -516,6 +516,7 @@
       "TITLE": "MISSING",
       "WHICH_TYPES_TO_RECORD": "MISSING"
     },
+    "CUSTOM_EXPENSE_DESCRIPTION": "MISSING",
     "DELETE": {
       "CONFIRM": "MISSING",
       "HEADER": "MISSING",
@@ -834,6 +835,7 @@
       "MANAGE_REVENUE": "MISSING",
       "MISC_EXPENSE": "MISSING"
     },
+    "COST": "Costo",
     "DATE": "Fecha",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Ingresos anuales estimados",
@@ -842,6 +844,7 @@
       "ESTIMATED_PRICE_PER_UNIT": "Precio estimado por unidad",
       "TITLE": "Ingresos estimados"
     },
+    "EXPENSES": "Gastos",
     "FILTER": {
       "EXPENSE_TYPE": "Tipos de gastos",
       "HELP_TEXT": "Utilice estos filtros para ajustar la lista de transacciones y adecuarla a sus necesidades",
@@ -859,7 +862,7 @@
       "DAILY_TOTAL": "MISSING",
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
-      "VIEW_DETAILS": "MISSING"
+      "VIEW_LABOUR": "MISSING"
     },
     "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas",
     "WHOLE_FARM_REVENUE": "Ingresos de toda la granja"
@@ -1485,6 +1488,7 @@
       "CUSTOM_REVENUE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING"
     },
+    "CUSTOM_REVENUE_DESCRIPTION": "MISSING",
     "DELETE": {
       "CONFIRM": "MISSING",
       "HEADER": "MISSING",
@@ -1572,6 +1576,10 @@
         "BODY": "Aquí puede agregar, modificar o eliminar tipos de gasto personalizados para su granja.",
         "TITLE": "Administrar tipos de gasto personalizados"
       },
+      "MANAGE_CUSTOM_REVENUE_TYPES_SPOTLIGHT": {
+        "BODY": "Aquí puede agregar, modificar o eliminar tipos de ingreso personalizados para su granja.",
+        "TITLE": "Administrar tipos de ingreso personalizados"
+      },
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "PROFIT_LOSS": "Ganancia / Pérdida",
       "REVENUE": "Ingresos",
@@ -1588,8 +1596,8 @@
       "CROPS": "Cultivos",
       "EMPLOYEES": "Empleados",
       "TABLE": {
-        "AMOUNT": "Monto",
         "CROP": "Cultivo",
+        "DAILY_TOTAL": "MISSING",
         "DATE": "Fecha",
         "EMPLOYEE": "Empleado",
         "EST_REVENUE": "Ingreso estimado",
@@ -1602,7 +1610,6 @@
       "TITLE": "Trabajo"
     },
     "SUMMARY": {
-      "AMOUNT": "Monto",
       "CROP": "Cultivo",
       "DATE": "Fecha",
       "DETAILED_HISTORY": "Historia detallada",

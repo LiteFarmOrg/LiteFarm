@@ -181,7 +181,7 @@ const Finances = ({ history }) => {
         />
       </div>
       {hasSearchResults ? (
-        <PureTransactionList data={filteredTransactions} />
+        <PureTransactionList data={filteredTransactions} mobileView={true} />
       ) : (
         <NoSearchResults
           className={styles.noResultsCard}

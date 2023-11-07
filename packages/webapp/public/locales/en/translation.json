@@ -517,6 +517,7 @@
       "TITLE": "Add expense",
       "WHICH_TYPES_TO_RECORD": "Pick your expense types below:"
     },
+    "CUSTOM_EXPENSE_DESCRIPTION": "Custom expense description",
     "DELETE": {
       "CONFIRM": "Confirm deletion",
       "HEADER": "Delete expense?",
@@ -835,6 +836,7 @@
       "MANAGE_REVENUE": "Manage your custom revenues",
       "MISC_EXPENSE": "Or <1>create a <1>Miscellaneous</1> expense</1>"
     },
+    "COST": "Cost",
     "DATE": "Date",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Estimated annual revenue",
@@ -843,6 +845,7 @@
       "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
       "TITLE": "Estimated Revenue"
     },
+    "EXPENSES": "Expenses",
     "FILTER": {
       "EXPENSE_TYPE": "Expense types",
       "HELP_TEXT": "Feel free to use the filters below to fine-tune your transaction list and make it work just the way you want!",
@@ -860,7 +863,7 @@
       "DAILY_TOTAL": "DAILY TOTAL",
       "LABOUR_EXPENSE": "Labour expense",
       "VIEW_AND_EDIT": "View & edit",
-      "VIEW_DETAILS": "View details"
+      "VIEW_LABOUR": "View labour expenses"
     },
     "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",
     "WHOLE_FARM_REVENUE": "Whole farm revenue"
@@ -1484,6 +1487,7 @@
       "CUSTOM_REVENUE_TYPE": "Custom revenue type",
       "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another."
     },
+    "CUSTOM_REVENUE_DESCRIPTION": "Custom revenue description",
     "DELETE": {
       "CONFIRM": "Confirm deletion",
       "HEADER": "Delete revenue?",
@@ -1491,7 +1495,7 @@
       "MESSAGE": "This will remove the revenue from your farm's records. It will no longer be reflected in any financial summaries."
     },
     "EDIT_REVENUE": {
-      "RETIRE_REVENUE_MESSAGE": "Retiring this revenue type will remove it as a possible choice for future expenses. You can still search and filter for historical instances of this expense type on the Finances tab.",
+      "RETIRE_REVENUE_MESSAGE": "Retiring this revenue type will remove it as a possible choice for future incomes. You can still search and filter for previous incomes this type on the Finances tab.",
       "RETIRE_REVENUE_TYPE": "Retire revenue type",
       "RETIRED": "(retired)",
       "REVENUE_TYPE": "Revenue type"
@@ -1571,6 +1575,10 @@
         "BODY": "Here you can add, modify, or retire expense types personalized to your farm.",
         "TITLE": "Manage custom expense types"
       },
+      "MANAGE_CUSTOM_REVENUE_TYPES_SPOTLIGHT": {
+        "BODY": "Here you can add, modify, or retire revenue types personalized to your farm.",
+        "TITLE": "Manage custom revenue types"
+      },
       "OTHER_EXPENSES": "Other expenses",
       "OTHER_EXPENSES_LABEL": "Other Expenses",
       "PROFIT_LOSS": "Profit / Loss",
@@ -1588,8 +1596,8 @@
       "CROPS": "Crops",
       "EMPLOYEES": "Employees",
       "TABLE": {
-        "AMOUNT": "Amount",
         "CROP": "Crop",
+        "DAILY_TOTAL": "Daily total",
         "DATE": "Date",
         "EMPLOYEE": "Employee",
         "EST_REVENUE": "Estimated Revenue",
@@ -1602,7 +1610,6 @@
       "TITLE": "Labour"
     },
     "SUMMARY": {
-      "AMOUNT": "Amount",
       "CROP": "Crop",
       "DATE": "Date",
       "DETAILED_HISTORY": "Detailed History",

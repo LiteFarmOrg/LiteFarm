@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-
 // ExpandedContent
 .expandedContent {
   margin: 0 4px 8px 4px;
@@ -30,12 +29,39 @@ button.toDetail {
   font-weight: 600;
   line-height: 19px;
   border-radius: 4px;
-  background-color: #EDF5F3;
+  background-color: #edf5f3;
   color: var(--teal900);
 
   svg {
     stroke-width: 1px;
     margin-left: 8px;
+  }
+}
+
+.labourTable {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+
+  .tabs {
+    margin: 4px 0px 24px 0px;
+    padding-block: 16px;
+    width: 100%;
+    max-width: 448px;
+    min-width: fit-content;
+
+    /* Tab text */
+    > h4 {
+      padding-inline: 64px;
+      font-size: 16px;
+      padding: 8px 16px;
+    }
+  }
+
+  .footer {
+    text-transform: uppercase;
+    overflow: visible;
   }
 }
 
@@ -60,9 +86,9 @@ button.toDetail {
   font-size: 12px;
 }
 
-.mobileCropSaleFooterCell { 
+.mobileCropSaleFooterCell {
   width: 100%;
-  background-color:var(--grey200);
+  background-color: var(--grey200);
   display: flex;
   justify-content: space-between;
   align-items: center;

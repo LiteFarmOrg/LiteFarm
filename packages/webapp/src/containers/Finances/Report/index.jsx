@@ -41,6 +41,7 @@ const Report = () => {
   const [defaultTransactionsFilter, setDefaultTransactionsFilter] = useState(
     dashboardTransactionsFilter,
   );
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const dispatch = useDispatch();
   const filterRef = useRef({});
@@ -58,6 +59,10 @@ const Report = () => {
   useEffect(() => {
     setDefaultTransactionsFilter(dashboardTransactionsFilter);
   }, [dashboardTransactionsFilter]);
+
+  const onValidityChange = (isValid) => {
+    setIsButtonDisabled(!isValid);
+  };
 
   // Not needed for current report but will be needed for income statement
 
@@ -128,6 +133,8 @@ const Report = () => {
         },
       }),
     );
+    setDateFilter(dashboardDateFilter);
+    setDefaultTransactionsFilter(dashboardTransactionsFilter);
   };
 
   return (
@@ -142,7 +149,7 @@ const Report = () => {
           titleClassName={styles.title}
           dismissModal={() => setIsExportReportOpen(false)}
           buttonGroup={
-            <Button fullLength onClick={handleExport} color={'primary'}>
+            <Button fullLength onClick={handleExport} color={'primary'} disabled={isButtonDisabled}>
               {t('common:EXPORT')}
             </Button>
           }
@@ -151,7 +158,13 @@ const Report = () => {
             <Semibold className={styles.helpText}>{t('SALE.FINANCES.REPORT_HELP_TEXT')}</Semibold>
             <div className={styles.dateFilterContainer}>
               <Text>Date</Text>
-              <FinanceDateRangeSelector onChange={setDateFilter} />
+              <FinanceDateRangeSelector
+                value={dateFilter}
+                onChange={(dateRange) => {
+                  setDateFilter({ ...dateFilter, ...dateRange });
+                }}
+                onValidityChange={onValidityChange}
+              />
             </div>
             <TransactionFilterContent
               transactionsFilter={defaultTransactionsFilter}

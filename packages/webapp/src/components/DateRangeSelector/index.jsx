@@ -30,6 +30,7 @@ export default function DateRangeSelector({
   onChangeDateRangeOption,
   placeholder,
   changeDateMethod,
+  onValidityChange,
 }) {
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
   const [isCustomOptionSelected, setIsCustomOptionSelected] = useState(false);
@@ -42,7 +43,7 @@ export default function DateRangeSelector({
 
   const isValidRange = customFromDate <= customToDate;
   const areValidDates = customFromDate?.isValid() && customToDate?.isValid();
-  const isValid = !!(areValidDates && isValidRange);
+  const isValid = !isCustomOptionSelected || !!(areValidDates && isValidRange);
 
   const options = [
     { value: rangeOptions.YEAR_TO_DATE, label: t('DATE_RANGE_SELECTOR.YEAR_TO_DATE') },
@@ -57,7 +58,11 @@ export default function DateRangeSelector({
   ];
 
   useEffect(() => {
-    if (!isValid & !isCustomDatePickerOpen && isCustomOptionSelected) {
+    onValidityChange?.(isValid);
+  }, [isValid, onValidityChange]);
+
+  useEffect(() => {
+    if (!isValid & !isCustomDatePickerOpen) {
       setSelectedDateRangeOption(options[0]);
     }
   }, [isValid, isCustomDatePickerOpen]);
@@ -175,4 +180,5 @@ DateRangeSelector.propTypes = {
   placeholder: PropTypes.string,
   changeDateMethod: PropTypes.func,
   onChangeDateRangeOption: PropTypes.func,
+  onValidityChange: PropTypes.func,
 };

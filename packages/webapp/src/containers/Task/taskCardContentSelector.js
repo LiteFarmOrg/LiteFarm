@@ -12,7 +12,7 @@ import { IS_ASCENDING } from '../Filter/constants';
 const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
   return tasks.reduce((filteredTasks, task) => {
     const managementPlans = task.managementPlans;
-    if (!managementPlans.every((plan) => plan.deleted)) {
+    if (!managementPlans.length || managementPlans.some((plan) => !plan.deleted)) {
       filteredTasks.push({
         task_id: task.task_id,
         taskType: task.taskType,

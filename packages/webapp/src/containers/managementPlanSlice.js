@@ -62,15 +62,15 @@ const addManyManagementPlan = (state, { payload: managementPlans }) => {
   );
 };
 
-const deleteOneManagementPlan = (state, { payload }) => {
-  const managementPlan = state.entities[payload];
+const deleteOneManagementPlan = (state, { payload: managementPlanId }) => {
+  const managementPlan = state.entities[managementPlanId];
   if (managementPlan) {
     managementPlan.deleted = true;
   }
 };
 
-const deleteManyManagementPlans = (state, { payload }) => {
-  payload.forEach((id) => {
+const deleteManyManagementPlans = (state, { payload: managementPlanIds }) => {
+  managementPlanIds.forEach((id) => {
     const managementPlan = state.entities[id];
     if (managementPlan) {
       managementPlan.deleted = true;

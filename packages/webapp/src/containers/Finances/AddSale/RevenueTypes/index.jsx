@@ -12,17 +12,18 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { useSelector } from 'react-redux';
 import { ReactComponent as CropSaleIcon } from '../../../../assets/images/finance/Crop-sale-icn.svg';
 import { ReactComponent as CustomTypeIcon } from '../../../../assets/images/finance/Custom-revenue.svg';
 import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
-import useSortedRevenueTypes from './useSortedRevenueTypes';
-import labelIconStyles from '../../../../components/Tile/styles.module.scss';
 import { listItemTypes } from '../../../../components/List/constants';
+import labelIconStyles from '../../../../components/Tile/styles.module.scss';
+import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import ManageCustomRevenueTypesSpotlight from '../ManageCustomRevenueTypeSpotlight';
+import useSortedRevenueTypes from './useSortedRevenueTypes';
 
 export const icons = {
   CROP_SALE: <CropSaleIcon />,
@@ -93,6 +94,8 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
         }}
         getSearchableString={getSearchableString}
         searchPlaceholderText={t('FINANCES.SEARCH.REVENUE_TYPES')}
+        iconLinkId={'manageCustomRevenueType'}
+        Wrapper={ManageCustomRevenueTypesSpotlight}
       />
     </HookFormPersistProvider>
   );

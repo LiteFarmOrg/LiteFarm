@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import TextButton from '../Form/Button/TextButton';
 import styles from './styles.module.scss';
 
@@ -51,16 +51,12 @@ const CardsCarrousel = ({ cards }) => {
               style={{
                 marginTop: index * 8,
                 marginBottom: index * 8,
-                zIndex: sortedCards.length - index,
               }}
             >
               {card.activeContent}
             </div>
           ) : (
-            <TextButton
-              key={card.id}
-              aria-label={card.label}
-              onClick={() => onCardClick(card)}
+            <div
               className={clsx([styles.card, styles.inactiveCard])}
               style={{
                 marginTop: index * 8,
@@ -69,8 +65,15 @@ const CardsCarrousel = ({ cards }) => {
                 zIndex: sortedCards.length - index,
               }}
             >
-              {card.inactiveIcon}
-            </TextButton>
+              <TextButton
+                key={card.id}
+                aria-label={card.label}
+                onClick={() => onCardClick(card)}
+                className={styles.inactiveCardButton}
+              >
+                {card.inactiveIcon}
+              </TextButton>
+            </div>
           );
         })}
       </div>

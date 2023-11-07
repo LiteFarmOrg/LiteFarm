@@ -138,7 +138,7 @@ const OtherExpense = () => {
     },
     {
       id: 'amount',
-      Header: t('SALE.SUMMARY.AMOUNT'),
+      Header: t('common:AMOUNT'),
       accessor: 'amount',
       minWidth: 75,
       Cell: (d) => <span>{`${currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
@@ -169,7 +169,7 @@ const OtherExpense = () => {
     },
     {
       id: 'amount',
-      Header: t('SALE.LABOUR.TABLE.AMOUNT'),
+      Header: t('common:AMOUNT'),
       accessor: 'value',
       Cell: (d) => <span>{`${currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
       minWidth: 55,

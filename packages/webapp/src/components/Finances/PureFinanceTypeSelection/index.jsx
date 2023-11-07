@@ -142,5 +142,5 @@ PureFinanceTypeSelection.propTypes = {
   searchPlaceholderText: PropTypes.string,
   /** used for spotlight */
   iconLinkId: PropTypes.string,
-  Wrapper: PropTypes.func,
+  Wrapper: PropTypes.elementType,
 };

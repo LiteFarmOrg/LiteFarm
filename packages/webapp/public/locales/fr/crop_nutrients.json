@@ -10,8 +10,8 @@
   "IRON": "Fer",
   "MAGNESIUM": "Magnésium",
   "PH": "pH",
-  "K": "K",
-  "NA": "NA",
+  "K": "Potassium (K)",
+  "NA": "Sodium (Na)",
   "ZINC": "Zinc",
   "COPPER": "Cuivre",
   "MANGANESE": "Manganèse",
@@ -24,5 +24,5 @@
   "FOLATE": "Folate",
   "VITAMIN_B12": "Vitamine B12",
   "MAX_ROOTING": "Enracinement Maximal",
-  "NUTRIENT_CREDITS": "Crédits de Nutriments"
+  "NUTRIENT_CREDITS": "Nutriments supplémentaires"
 }

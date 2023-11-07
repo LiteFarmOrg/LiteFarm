@@ -516,6 +516,7 @@
       "TITLE": "MISSING",
       "WHICH_TYPES_TO_RECORD": "MISSING"
     },
+    "CUSTOM_EXPENSE_DESCRIPTION": "MISSING",
     "DELETE": {
       "CONFIRM": "MISSING",
       "HEADER": "MISSING",
@@ -834,6 +835,7 @@
       "MANAGE_REVENUE": "MISSING",
       "MISC_EXPENSE": "MISSING"
     },
+    "COST": "Custo",
     "DATE": "Data",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "Rendimento anual estimada",
@@ -842,6 +844,7 @@
       "ESTIMATED_PRICE_PER_UNIT": "Preço por unidade estimado",
       "TITLE": "Receita Estimada"
     },
+    "EXPENSES": "Despesas",
     "FILTER": {
       "EXPENSE_TYPE": "MISSING",
       "HELP_TEXT": "MISSING",
@@ -859,7 +862,7 @@
       "DAILY_TOTAL": "MISSING",
       "LABOUR_EXPENSE": "MISSING",
       "VIEW_AND_EDIT": "MISSING",
-      "VIEW_DETAILS": "MISSING"
+      "VIEW_LABOUR": "MISSING"
     },
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
     "WHOLE_FARM_REVENUE": "Receita de toda a propriedade"
@@ -1486,6 +1489,7 @@
       "CUSTOM_REVENUE_TYPE": "MISSING",
       "DUPLICATE_NAME": "MISSING"
     },
+    "CUSTOM_REVENUE_DESCRIPTION": "MISSING",
     "DELETE": {
       "CONFIRM": "MISSING",
       "HEADER": "MISSING",
@@ -1574,6 +1578,10 @@
         "BODY": "MISSING",
         "TITLE": "MISSING"
       },
+      "MANAGE_CUSTOM_REVENUE_TYPES_SPOTLIGHT": {
+        "BODY": "MISSING",
+        "TITLE": "MISSING"
+      },
       "OTHER_EXPENSES_LABEL": "Outras despesas",
       "PROFIT_LOSS": "MISSING",
       "REPORT": "MISSING",
@@ -1592,8 +1600,8 @@
       "CROPS": "Cultivos",
       "EMPLOYEES": "Funcionários",
       "TABLE": {
-        "AMOUNT": "Valor",
         "CROP": "Cultivo",
+        "DAILY_TOTAL": "MISSING",
         "DATE": "Data",
         "EMPLOYEE": "Trabalhador(a)",
         "EST_REVENUE": "Receita estimada",
@@ -1606,7 +1614,6 @@
       "TITLE": "Trabalho"
     },
     "SUMMARY": {
-      "AMOUNT": "Valor",
       "CROP": "Cultivo",
       "DATE": "Data",
       "DETAILED_HISTORY": "História Detalhada",

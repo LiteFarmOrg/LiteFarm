@@ -19,13 +19,14 @@ import { transactionTypeEnum } from '../../../../containers/Finances/useTransact
 import history from '../../../../history';
 import TextButton from '../../../Form/Button/TextButton';
 import CropSaleTable from './CropSaleTable';
+import GeneralTransactionTable from './GeneralTransactionTable';
+import LabourTable from './LabourTable';
 import styles from './styles.module.scss';
 
-// TODO LF-3748, 3749
 const components = {
-  EXPENSE: (props) => <div>expense placeholder</div>,
-  REVENUE: (props) => <div>revenue placeholder</div>,
-  LABOUR_EXPENSE: (props) => <div>labour placeholder</div>,
+  EXPENSE: (props) => <GeneralTransactionTable {...props} />,
+  REVENUE: (props) => <GeneralTransactionTable {...props} />,
+  LABOUR_EXPENSE: (props) => <LabourTable {...props} />,
   CROP_REVENUE: (props) => <CropSaleTable {...props} />,
 };
 
@@ -45,7 +46,7 @@ export default function ExpandedContent({ data, currencySymbol, mobileView }) {
 
   const toDetailText =
     transactionType === transactionTypeEnum.labourExpense
-      ? t('FINANCES.TRANSACTION.VIEW_DETAILS')
+      ? t('FINANCES.TRANSACTION.VIEW_LABOUR')
       : t('FINANCES.TRANSACTION.VIEW_AND_EDIT');
 
   const Component = components[transactionType];

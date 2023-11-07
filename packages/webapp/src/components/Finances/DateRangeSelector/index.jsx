@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import clsx from 'clsx';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -29,7 +30,7 @@ const isDateValid = (date) => {
   return date ? moment(date).isValid() : false;
 };
 
-const FinanceDateRangeSelector = ({ onChange }) => {
+const FinanceDateRangeSelector = ({ onChange, className }) => {
   const dispatch = useDispatch();
 
   const dateRange = useSelector(dateRangeDataSelector);
@@ -68,7 +69,7 @@ const FinanceDateRangeSelector = ({ onChange }) => {
   };
 
   return (
-    <div className={styles.rangeContainer}>
+    <div className={clsx(styles.rangeContainer, className)}>
       <DateRangeSelector
         defaultDateRangeOptionValue={initialOption}
         defaultCustomDateRange={{ [FROM_DATE]: initialStartDate, [TO_DATE]: initialEndDate }}
@@ -81,6 +82,7 @@ const FinanceDateRangeSelector = ({ onChange }) => {
 
 FinanceDateRangeSelector.propTypes = {
   onChange: PropTypes.func,
+  className: PropTypes.string,
 };
 
 export default FinanceDateRangeSelector;

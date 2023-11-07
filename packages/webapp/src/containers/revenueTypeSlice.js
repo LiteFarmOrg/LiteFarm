@@ -54,12 +54,15 @@ const addOneRevenueType = (state, { payload }) => {
   revenueTypeAdapter.upsertOne(state, getRevenueType(payload));
 };
 
-const updateOneRevenueType = (state, { payload: { revenue_type_id, revenue_name } }) => {
+const updateOneRevenueType = (
+  state,
+  { payload: { revenue_type_id, revenue_name, custom_description } },
+) => {
   state.loading = false;
   state.error = null;
   revenueTypeAdapter.updateOne(state, {
     id: revenue_type_id,
-    changes: { revenue_name },
+    changes: { revenue_name, custom_description },
   });
 };
 

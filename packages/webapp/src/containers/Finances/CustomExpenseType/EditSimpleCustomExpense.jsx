@@ -26,8 +26,18 @@ function EditCustomExpense({ history, match }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const selectedCustomExpenseType = useSelector(expenseTypeByIdSelector(expense_type_id));
-  const { expense_name } = selectedCustomExpenseType;
+  const { expense_name, custom_description, farm_id, expense_translation_key } =
+    selectedCustomExpenseType;
+  const translatedCustomDescription = farm_id
+    ? custom_description
+    : t(`expense:${expense_translation_key}.CUSTOM_DESCRIPTION`);
+  const translatedExpenseName = farm_id
+    ? expense_name
+    : t(`expense:${expense_translation_key}.EXPENSE_NAME`);
   const expenseTypes = useSelector(expenseTypeSelector);
+  const expenseTypesWithoutSelectedType = expenseTypes.filter((type) => {
+    return expense_type_id != type.expense_type_id;
+  });
 
   const handleGoBack = () => {
     history.back();
@@ -46,10 +56,11 @@ function EditCustomExpense({ history, match }) {
         buttonText={t('common:SAVE')}
         pageTitle={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_TYPE')}
         inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
-        customTypeRegister={CUSTOM_EXPENSE_NAME}
-        defaultValue={expense_name}
+        descriptionLabel={t('EXPENSE.CUSTOM_EXPENSE_DESCRIPTION')}
+        nameFieldRegisterName={CUSTOM_EXPENSE_NAME}
+        typeDetails={{ name: translatedExpenseName, description: translatedCustomDescription }}
         validateInput={hookFormUniquePropertyValidation(
-          expenseTypes,
+          expenseTypesWithoutSelectedType,
           'expense_name',
           t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
         )}

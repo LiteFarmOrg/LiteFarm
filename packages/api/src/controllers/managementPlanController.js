@@ -357,7 +357,6 @@ const managementPlanController = {
                   'management_tasks.planting_management_plan_id',
                 )
                 .join('task', 'task.task_id', 'management_tasks.task_id')
-                .whereNull('task.complete_date')
                 .whereIn(
                   'management_tasks.task_id',
                   tasks.map(({ task_id }) => task_id),
@@ -375,7 +374,6 @@ const managementPlanController = {
               'transplant_task.planting_management_plan_id',
             )
             .join('task', 'task.task_id', 'transplant_task.task_id')
-            .whereNull('task.complete_date')
             .where('planting_management_plan.management_plan_id', management_plan_id);
 
           const plantTasks = await PlantTaskModel.query(trx)
@@ -386,9 +384,26 @@ const managementPlanController = {
               'plant_task.planting_management_plan_id',
             )
             .join('task', 'task.task_id', 'plant_task.task_id')
-            .whereNull('task.complete_date')
             .where('planting_management_plan.management_plan_id', management_plan_id);
 
+          // Reject deletion if any of the tasks are completed or abandoned
+          const allTaskIds = [
+            ...tasksWithManagementPlanCount,
+            ...transplantTasks,
+            ...plantTasks,
+          ].map(({ task_id }) => task_id);
+          const abandonedTasks = await TaskModel.query(trx)
+            .select('*')
+            .whereIn('task_id', allTaskIds)
+            .whereNotNull('abandon_date');
+          const completedTasks = await TaskModel.query(trx)
+            .select('*')
+            .whereIn('task_id', allTaskIds)
+            .whereNotNull('complete_date');
+
+          if (abandonedTasks.length || completedTasks.length) {
+            throw 'Cannot delete management plan with completed or abandonded tasks';
+          }
           const taskIdsRelatedToOneManagementPlan = [
             ...tasksWithManagementPlanCount.filter(({ count }) => count === '1'),
             ...transplantTasks,

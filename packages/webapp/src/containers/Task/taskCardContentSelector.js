@@ -10,22 +10,25 @@ import { filterTasks } from './tasksFilter';
 import { IS_ASCENDING } from '../Filter/constants';
 
 const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
-  return tasks.map((task) => {
+  return tasks.reduce((filteredTasks, task) => {
     const managementPlans = task.managementPlans;
-    return {
-      task_id: task.task_id,
-      taskType: task.taskType,
-      status: getTaskStatus(task),
-      cropVarietyName: getCropVarietyName(managementPlans),
-      locationName: getLocationNameOfTask(managementPlans, task.locations, task.taskType),
-      completeOrDueDate: getTaskCardDate(task.complete_date || task.due_date),
-      assignee: task.assignee,
-      happiness: task.happiness,
-      abandon_date: task.abandon_date,
-      date: task.abandon_date || task.complete_date || task.due_date,
-      wage_at_moment: task.wage_at_moment,
-    };
-  });
+    if (!managementPlans.every((plan) => plan.deleted)) {
+      filteredTasks.push({
+        task_id: task.task_id,
+        taskType: task.taskType,
+        status: getTaskStatus(task),
+        cropVarietyName: getCropVarietyName(managementPlans),
+        locationName: getLocationNameOfTask(managementPlans, task.locations, task.taskType),
+        completeOrDueDate: getTaskCardDate(task.complete_date || task.due_date),
+        assignee: task.assignee,
+        happiness: task.happiness,
+        abandon_date: task.abandon_date,
+        date: task.abandon_date || task.complete_date || task.due_date,
+        wage_at_moment: task.wage_at_moment,
+      });
+    }
+    return filteredTasks;
+  }, []);
 };
 
 export const sortTaskCardContent = (taskCardContents, isAscending = true) =>

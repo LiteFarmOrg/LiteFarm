@@ -39,15 +39,6 @@
   }
 }
 
-@keyframes card-to-front {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 @keyframes card-swapping {
   from {
     opacity: 0.5;
@@ -69,7 +60,7 @@
   padding-right: 8px;
   animation: card-swapping 300ms ease-out;
 
-  @media only screen and (min-width: 1024px) {
+  @media only screen and (min-width: 768px) {
     padding-right: 20px;
     padding-left: 24px;
   }
@@ -77,9 +68,11 @@
 
 .inactiveCardButton {
   height: 100%;
-  width: calc(100% - 2px);
-  overflow: hidden;
-  direction: rtl;
+  @media only screen and (max-width: 768px) {
+    width: calc(100% - 2px);
+    overflow: hidden;
+    direction: rtl;
+  }
 }
 
 .inactiveIcon {

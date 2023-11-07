@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as ReportIcon } from '../../../assets/images/finance/Report-icn.svg';
@@ -33,11 +33,14 @@ import styles from './styles.module.scss';
 const Report = () => {
   const { t } = useTranslation();
 
-  const dateRange = useSelector(dateRangeDataSelector);
-  const defaultTransactionsFilter = useSelector(transactionsFilterSelector);
+  const dashboardDateFilter = useSelector(dateRangeDataSelector);
+  const dashboardTransactionsFilter = useSelector(transactionsFilterSelector);
 
   const [isExportReportOpen, setIsExportReportOpen] = useState(false);
-  const [dateFilter, setDateFilter] = useState(dateRange);
+  const [dateFilter, setDateFilter] = useState(dashboardDateFilter);
+  const [defaultTransactionsFilter, setDefaultTransactionsFilter] = useState(
+    dashboardTransactionsFilter,
+  );
 
   const dispatch = useDispatch();
   const filterRef = useRef({});
@@ -46,6 +49,15 @@ const Report = () => {
     expenseTypeFilter: filterRef.current[EXPENSE_TYPE],
     revenueTypeFilter: filterRef.current[REVENUE_TYPE],
   });
+
+  // If dashboard filters change, update report filters
+  useEffect(() => {
+    setDateFilter(dashboardDateFilter);
+  }, [dashboardDateFilter]);
+
+  useEffect(() => {
+    setDefaultTransactionsFilter(dashboardTransactionsFilter);
+  }, [dashboardTransactionsFilter]);
 
   // Not needed for current report but will be needed for income statement
 

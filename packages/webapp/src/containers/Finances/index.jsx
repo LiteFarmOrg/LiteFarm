@@ -35,7 +35,7 @@ import { taskEntitiesByManagementPlanIdSelector } from '../taskSlice';
 import Report from './Report';
 import TransactionFilter from './TransactionFilter';
 import { getExpense, getFarmExpenseType, getSales, setSelectedExpenseTypes } from './actions';
-import { downloadFinanceReport, getRevenueTypes } from './saga';
+import { getRevenueTypes } from './saga';
 import styles from './styles.module.scss';
 import useTransactions from './useTransactions';
 import { calcActualRevenue, calcOtherExpense, calcTotalLabour } from './util';
@@ -109,7 +109,6 @@ const Finances = ({ history }) => {
       <div className={styles.buttonContainer}>
         <Button
           style={{ height: '48px' }}
-          p
           onClick={() => {
             dispatch(setPersistedPaths(['/expense_categories', '/add_expense']));
             history.push('/expense_categories');
@@ -129,22 +128,6 @@ const Finances = ({ history }) => {
           {t('SALE.FINANCES.ADD_NEW_SALE')}
         </Button>
       </div>
-      <Button
-        style={{ height: '48px', marginInline: '4px' }}
-        onClick={() => {
-          dispatch(
-            downloadFinanceReport({
-              revenue: totalRevenue,
-              expenses: totalExpense,
-              balance: (parseFloat(totalRevenue) - parseFloat(totalExpense)).toFixed(2),
-            }),
-          );
-        }}
-        color="success"
-      >
-        Download Report
-      </Button>
-      <hr />
       <div className={styles.filterBar}>
         <DateRangeSelector />
         <TransactionFilter />

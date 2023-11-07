@@ -142,7 +142,6 @@ const buildRevenueTransactions = ({
       note: item.sale.customer_name,
       items: item.financeItemsProps,
       relatedId: item.sale.sale_id,
-      cropGenerated: item.cropGenerated || false,
     };
   });
 };

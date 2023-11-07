@@ -32,6 +32,7 @@ export default function DateRangeSelector({
   changeDateMethod,
 }) {
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
+  const [isCustomOptionSelected, setIsCustomOptionSelected] = useState(false);
 
   const { t } = useTranslation();
   const selectRef = useRef(null);
@@ -56,7 +57,7 @@ export default function DateRangeSelector({
   ];
 
   useEffect(() => {
-    if (!isValid & !isCustomDatePickerOpen) {
+    if (!isValid & !isCustomDatePickerOpen && isCustomOptionSelected) {
       setSelectedDateRangeOption(options[0]);
     }
   }, [isValid, isCustomDatePickerOpen]);
@@ -132,7 +133,11 @@ export default function DateRangeSelector({
           onChange={(e) => {
             if (e?.value === rangeOptions.CUSTOM) {
               setIsCustomDatePickerOpen(true);
+              setIsCustomOptionSelected(true);
+            } else {
+              setIsCustomOptionSelected(false);
             }
+            clearCustomDateRange();
             onChangeDateRangeOption && e?.value && onChangeDateRangeOption(e.value);
           }}
           formatOptionLabel={formatOptionLabel}

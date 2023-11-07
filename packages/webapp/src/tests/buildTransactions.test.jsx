@@ -303,7 +303,6 @@ const allResults = [
       },
     ],
     relatedId: 16,
-    cropGenerated: true,
   },
   {
     icon: 'CUSTOM',
@@ -314,7 +313,6 @@ const allResults = [
     note: 'Customer 3',
     items: [{ key: 18, title: 'Custom type', amount: 200 }],
     relatedId: 18,
-    cropGenerated: false,
   },
   {
     date: '2023-10-14T00:00:00.000',
@@ -352,7 +350,6 @@ const allResults = [
       },
     ],
     relatedId: 9,
-    cropGenerated: true,
   },
 ];
 

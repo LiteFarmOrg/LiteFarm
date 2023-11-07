@@ -63,7 +63,7 @@ const FilterGroup = ({
     return (
       <div
         key={filter.filterKey ?? filter.subject}
-        className={clsx([styles.filterContainer, filterContainerClassName])}
+        className={clsx(styles.filterContainer, filterContainerClassName)}
       >
         <FilterItem
           filter={filter}

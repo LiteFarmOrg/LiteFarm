@@ -6,29 +6,17 @@
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "No se pudo crear el documento",
-      "FAILED_ARCHIVE": "No se pudo archivar el documento",
-      "FAILED_UNARCHIVE": "No se pudo desarchivar el documento",
       "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos",
       "UPDATE": "No se pudo actualizar el documento"
     },
     "SUCCESS": {
-      "ARCHIVE": "Documento archivado exitosamente",
       "CREATE": "Documento creado exitosamente",
-      "UNARCHIVE": "Documento desarchivado con éxito",
       "UPDATE": "Documento actualizado exitosamente"
     }
   },
   "BULK_UPLOAD": {
     "ERROR": {
       "UPLOAD": "No se pudo subir el archivo CSV"
-    }
-  },
-  "CROP": {
-    "ERROR": {
-      "DELETE": "No se pudo borrar campo de cultivo"
-    },
-    "SUCCESS": {
-      "DELETE": "Cultivo borrado exitosamente"
     }
   },
   "CROP_VARIETY": {
@@ -187,8 +175,7 @@
       "SUCCESS": "Tarea creada con éxito"
     },
     "UPDATE": {
-      "FAILED": "No se pudo completar la tarea",
-      "SUCCESS": "Tarea creada con éxito"
+      "FAILED": "No se pudo completar la tarea"
     }
   },
   "TASK_TYPE": {
@@ -208,7 +195,6 @@
       "EXISTS": "Usuario ya existe en la red de trabajo de LiteFarm",
       "INVITE": "Error al crear cuenta de usuario. Por favor contacte LiteFarm por asistencia.",
       "MAX_RESET_EMAILS": "Se le ha enviado un enlace de restablecimiento de contraseña, por favor verifique su bandeja de entrada y su carpeta de correo no deseado.",
-      "NOTHING_CHANGED": "Nada ha cambiado",
       "RESET_PASSWORD": "Error al enviar email para cambiar contraseña. Por favor contacte LiteFarm por asistencia.",
       "RESTORE": "Hubo un error al restaurar acceso",
       "REVOKE": "Hubo un error al revocar acceso",

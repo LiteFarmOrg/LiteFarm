@@ -11,7 +11,6 @@
     "FARM_NAME_ERROR": "Limite de caractères dépassée pour le nom de la ferme",
     "INVALID_FARM_LOCATION": "Aucun pays pour cet emplacement",
     "LOCATING": "Localisation en cours...",
-    "NO_ADDRESS": "L'emplacement entré n'a pas été trouvé\u00a0! Veuillez essayer d'entrer la longitude et la latitude",
     "TELL_US_ABOUT_YOUR_FARM": "Parlez-nous de votre ferme"
   },
   "ADD_PRODUCT": {
@@ -45,18 +44,9 @@
     "DO_YOU_WANT_TO_ASSIGN": "Souhaitez-vous affecter la tâche maintenant\u00a0?",
     "EDIT_CUSTOM_TASK": "Modifier la tâche personnalisée",
     "FIELD_WORK_VIEW": {
-      "FIELD_WORK_TASK": "travail de terrain",
       "OTHER_TYPE_OF_FIELD_WORK": "Décrivez le type de travail de terrain",
       "TYPE": {
-        "COVERING_SOIL": "Terre de couverture",
-        "FENCING": "Pose de clôture",
-        "OTHER": "Autre",
-        "PREPARING_BEDS_OR_ROWS": "Preparation des plates-bandes ou rangées",
-        "PRUNING": "Émondage",
-        "SHADE_CLOTH": "Toile à ombrer",
-        "TERMINATION": "Finitions",
-        "TILLAGE": "Labourage",
-        "WEEDING": "Désherbage"
+        "OTHER": "Autre"
       },
       "TYPE_OF_FIELD_WORK": "Type de travail de terrain"
     },
@@ -90,17 +80,9 @@
       "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "% de l’emplacement à irriguer",
       "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "Sélectionner ce type de mesure par défaut pour ce type d'irrigation\u00a0?",
       "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "Sélectionner ce type par défaut pour cet emplacement",
-      "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "Parlez-nous de votre tâche d’irrigation",
       "TOTAL_WATER_USAGE": "Utilisation totale de l’eau",
       "TYPE": {
-        "CHANNEL": "Irrigation des canaux",
-        "DRIP": "Irrigation goutte à goutte",
-        "FLOOD": "Irrigation par inondation",
-        "HAND_WATERING": "Arrosage manuel",
-        "OTHER": "Autre type d'irrigation",
-        "PIVOT": "Irrigation par pivot",
-        "SPRINKLER": "Irrigation par aspersion",
-        "SUB_SURFACE": "Irrigation souterraine"
+        "OTHER": "Autre type d'irrigation"
       },
       "TYPE_OF_IRRIGATION": "Type d'arrosage",
       "VOLUME": "Volume",
@@ -134,7 +116,6 @@
     "PLANTING_STOCK": "Matériel de plantation",
     "PLANTING_TASK": "Tâche de plantation",
     "PLANTING_TASK_MODAL": "Démarrer une nouvelle tâche de plantation crée un nouveau plan de gestion. Accédez au catalogue des cultures pour sélectionner la culture que vous souhaitez planter.",
-    "QUANTITY": "Quantité",
     "RETIRE_CUSTOM_TASK": "Retirer la tâche personnalisée\u00a0?",
     "RETIRE_CUSTOM_TASK_CONTENT": "Voulez-vous vraiment supprimer cette tâche personnalisée\u00a0?",
     "SEED": "Semer",
@@ -233,8 +214,6 @@
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "Il semblerait que LiteFarm n'exporte pas actuellement au format de votre certificateur. Vous pouvez toujours exporter vos documents mais votre certificateur peut avoir besoin d'informations supplémentaires. Nous vous les enverrons à\u00a0:",
-    "EMAIL": "Courriel",
-    "EMAIL_ERROR": "Courriel valide requis",
     "EXPORT": "Exporter",
     "EXPORT_DOCS": "Exporter les documents de certification",
     "EXPORT_DOWNLOADING_MESSAGE": "Téléchargement de vos documents de certification biologique ...",
@@ -248,7 +227,6 @@
     "ORGANIC_CERTIFICATION_FROM": "Certification biologique de",
     "SELECT_REPORTING_PERIOD": "Sélectionnez votre période de rapport",
     "UH_OH": "Oups\u00a0!",
-    "WHERE_TO_SEND_DOCS": "Où voulez-vous que vos documents soient envoyés\u00a0?",
     "WOULD_LIKE_ANSWERS": "Votre certificateur aimerait que vous répondiez à quelques questions supplémentaires avant que nous puissions exporter vos documents."
   },
   "CERTIFICATIONS_MODAL": {
@@ -295,7 +273,6 @@
     "TITLE": "Créer un nouveau compte utilisateur"
   },
   "CROP": {
-    "ADD_COMPLIANCE_FILE": "Lien vers un fichier de conformité",
     "ADD_CROP": "Ajouter une culture",
     "ADD_IMAGE": "Ajouter une image personnalisée",
     "ANNUAL": "Annuelle",
@@ -321,7 +298,6 @@
       "DELETED_PLANS": "Les plans de culture supprimés qui faisaient partie de cette répétition ne seront pas affichés."
     },
     "TREATED": "Les semences de cette culture ont-elles été traitées\u00a0?",
-    "UPLOAD_LATER": "Vous pourrez également télécharger des fichiers plus tard",
     "VARIETAL_IMAGE": "Personnaliser l’image pour la variété ou le cultivar",
     "VARIETAL_IMAGE_INFO": "Si vous souhaitez que cette variété ou ce cultivar ait une image différente de la culture par défaut, vous pouvez personnaliser l’image ici.",
     "VARIETAL_PLACEHOLDER": "P. ex. Cabernet sauvignon",
@@ -342,7 +318,6 @@
     "CROP_CATALOGUE": "Catalogue des cultures",
     "CROP_GROUP": "Recadrer le groupe",
     "CROP_GROUP_TOOL_TIP": "La sélection d'un groupe de cultures permet à LiteFarm de précompléter de nombreuses informations sur cette culture, telles que la saison de croissance, les valeurs nutritionnelles et le rendement estimé. Ne vous inquiétez pas: vous pouvez modifier ces valeurs ci-dessous une fois que vous avez sélectionné un groupe de cultures.",
-    "CROP_STATUS": "État de la culture sur\u00a0:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Renseigner les informations nécessaires pour la production biologique",
     "DUPLICATE_CROP": "Une culture avec le même nom, genre et espèce existe déjà à votre ferme",
     "FILTER": {
@@ -398,7 +373,6 @@
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Ajouter une nouvelle variété",
     "CROP_VARIETIES": "variété",
-    "NEEDS_PLAN": "Plan requis",
     "RETIRE": {
       "CONFIRMATION": "Retirer cette culture la supprimera de votre catalogue de cultures, ainsi que tous ses plans de culture. Voulez-vous continuer\u00a0?",
       "RETIRE_CROP_TITLE": "Retirer la culture\u00a0?",
@@ -408,10 +382,7 @@
     "SUPPLIER": "Fournisseur"
   },
   "DATE_RANGE": {
-    "HELP_BODY": "Sélectionnez la plage de dates pour créer un rapport financier pour votre ferme pour une fenêtre de temps donnée.",
-    "HELP_TITLE": "Aide sur la plage de dates",
-    "INVALID_RANGE_MESSAGE": "La date 'De' doit précéder la date 'À' que des résultats soient retournés",
-    "TITLE": "Filtrer le rapport par date"
+    "INVALID_RANGE_MESSAGE": "La date 'De' doit précéder la date 'À' que des résultats soient retournés"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "De",
@@ -452,9 +423,6 @@
       "VALID_UNTIL": "Valable jusqu'au"
     },
     "ADD_DOCUMENT": "Ajouter un nouveau document",
-    "ARCHIVE": "Archiver",
-    "ARCHIVE_DOCUMENT": "Archiver document\u00a0?",
-    "ARCHIVE_DOCUMENT_TEXT": "L'archivage de ce document le déplacera vers la section archivée de vos documents, mais ne le supprimera pas. Les documents archivés ne seront pas exportés pour vos certifications. Voulez-vous continuer\u00a0?",
     "ARCHIVED": "Archivé",
     "CANCEL": "Annuler",
     "CANCEL_MODAL": "création de document",
@@ -486,10 +454,6 @@
       "SOIL_SAMPLE_RESULTS": "Résultats des échantillons de sol",
       "WATER_SAMPLE_RESULTS": "Résultats des échantillons d'eau"
     },
-    "UNARCHIVE": "Désarchiver",
-    "UNARCHIVE_DOCUMENT": "Désarchiver le document\u00a0?",
-    "UNARCHIVE_DOCUMENT_TEXT": "L'annulation de l'archivage de ce document remettra celui-ci dans votre liste de documents valides. Les documents valides seront exportés pour vos certifications. Voulez-vous continuer\u00a0?",
-    "UNARCHIVED": "Désarchivés",
     "VALID": "Valide"
   },
   "ENTER_PASSWORD": {
@@ -500,10 +464,6 @@
     "ONE_SPECIAL_CHARACTER": "au moins un caractère spécial (! @ # $ % ^ & *)",
     "ONE_UPPER_CASE": "au moins une majuscule",
     "TOO_SHORT": "au moins 8 caractères"
-  },
-  "ENTITY_TYPES": {
-    "LOCATION": "emplacement",
-    "TASK": "tâche"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -527,9 +487,6 @@
     },
     "DETAILED_HISTORY": "Historique détaillé",
     "EDIT_EXPENSE": {
-      "DATE_PLACEHOLDER": "Choisissez une date",
-      "DESELECTING_CATEGORY": "La désélection d'une catégorie supprimera les dépenses existantes dans cette catégorie pour ce journal des dépenses.",
-      "REMOVE_ALL": "Vous avez supprimé toutes les dépenses, cliquez sur Enregistrer pour valider.",
       "RETIRE_EXPENSE_MESSAGE": "MISSING",
       "RETIRE_EXPENSE_TYPE": "MISSING",
       "RETIRED": "MISSING",
@@ -537,9 +494,7 @@
       "TITLE_1": "Modifier les dépenses (1 sur 2)",
       "TITLE_2": "Modifier la dépense (2 sur 2)"
     },
-    "ITEM": "Nom",
     "ITEM_NAME": "MISSING",
-    "NAME": "de l'article",
     "NO_EXPENSE": "Aucune dépense trouvée",
     "NO_EXPENSE_YEAR": "Vous n'avez enregistré aucune dépense pour cette année",
     "OTHER_EXPENSES_TITLE": "Autres dépenses",
@@ -548,7 +503,6 @@
     "VALUE": "Valeur"
   },
   "EXPIRED_TOKEN": {
-    "RESET_PASSWORD": "Ce lien a expiré",
     "RESET_PASSWORD_LINK": "Envoyer un nouveau lien de mot de passe."
   },
   "FARM_MAP": {
@@ -560,15 +514,9 @@
     "BARN": {
       "ANIMALS": "Cette zone est-elle utilisée pour loger des animaux\u00a0?",
       "COLD_STORAGE": "Cette grange a-t-elle une chambre froide\u00a0?",
-      "EDIT_TITLE": "Modifier la grange",
-      "NAME": "Nom de la grange",
-      "TITLE": "Ajouter une grange",
       "WASH_PACK": "Cette grange a-t-elle une station de lavage et d'emballage\u00a0?"
     },
     "BUFFER_ZONE": {
-      "EDIT_TITLE": "Modifier la zone tampon",
-      "NAME": "Nom de la zone tampon",
-      "TITLE": "Ajouter une zone tampon",
       "WIDTH": "Largeur de la zone tampon"
     },
     "BULK_UPLOAD_SENSORS": {
@@ -582,11 +530,6 @@
       "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "Cliquez ici pour télécharger le modèle",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "Aucun capteur trouvé, veuillez vérifier votre téléversement et essayer à nouveau.",
       "INVALID_FILE_TYPE": "Le fichier téléversé doit être un fichier csv",
-      "SENSOR_CLAIM_ERROR": {
-        "ALREADY_OCCUPIED": "Le capteur \"{{ sensorId }}\" est déjà enregistré chez une autre organisation. Veuillez contacter le support d'Ensemble à support@esci.io pour résoudre ce problème.",
-        "DOES_NOT_EXIST": "Le capteur \"{{ sensorId }}\" n'existe pas dans la base de données d'Ensemble. Veuillez vous assurer que vous avez bien orthographié l'ID externe pour cette entrée, et que le capteur est un capteur d'Ensemble.",
-        "INTERNAL_ERROR": "Le téléchargement du capteur \"{{ sensorId }}\" a échoué, veuillez communiquer avec le support de LiteFarm à support@litefarm.org pour résoudre."
-      },
       "SENSOR_FIELDS": {
         "BRAND": "Marque",
         "DEPTH": "Profondeur_cm",
@@ -604,93 +547,56 @@
       "UPLOAD_LINK_MESSAGE": "Télécharger ce modèle",
       "UPLOAD_PLACEHOLDER": "Téléverser le fichier CSV",
       "VALIDATION": {
-        "EXTERNAL_ID": "ID externe non valide, il doit être compris entre 1 et 20 caractères.",
         "FILE_ROW_LIMIT_EXCEEDED": "Limite de lignes du fichier dépassée. Le nombre maximum de capteurs téléchargeable dans un fichier est de 100.",
-        "MISSING_COLUMNS": "Les colonnes sont requises ou manquantes",
-        "SENSOR_BRAND": "Nom de marque non valide, il doit être compris entre 1 et 100 caractères.",
-        "SENSOR_DEPTH": "Valeur de profondeur non valide, elle doit être comprise entre 0 et 1000.",
-        "SENSOR_HARDWARE_VERSION": "Version matérielle non valide, elle doit être comprise entre 1 et 100 caractères.",
         "SENSOR_LATITUDE": "La valeur de latitude n'est pas valide, elle doit être comprise entre -85 et 85 et avec moins de 10 décimales.",
         "SENSOR_LONGITUDE": "La valeur de longitude n'est pas valide, elle doit être comprise entre -180 et 180 et avec moins de 10 décimales.",
-        "SENSOR_MODEL": "Nom de modèle non valide, il doit être compris entre 1 et 100 caractères.",
-        "SENSOR_NAME": "Nom de capteur non valide, if doit être compris entre 1 et 100 caractères.",
-        "SENSOR_READING_TYPES": "Type de données relevées non valide détecté\u00a0: {{ reading_types }}. Les valeurs valides sont\u00a0: teneur_en_eau_du_sol, potentiel_hydrique_du_sol, température."
+        "SENSOR_NAME": "Nom de capteur non valide, if doit être compris entre 1 et 100 caractères."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
       "BODY": "Nous vous informerons quand votre téléchargement est terminé et vos capteurs ont été créés. Vous pouvez quitter cette fenêtre.",
       "TITLE": "Cela prend plus de temps que prévu..."
     },
-    "CEREMONIAL_AREA": {
-      "EDIT_TITLE": "Modifier la zone de cérémonie",
-      "NAME": "Nom de la zone de cérémonie",
-      "TITLE": "Ajouter une zone de cérémonie"
-    },
     "CONFIRM_RETIRE": {
       "BODY": "Retirer cet emplacement le supprimera de la carte de la ferme.",
       "TITLE": "Retirer l'emplacement\u00a0?"
     },
     "DRAWING_MANAGER": {
-      "REDRAW": "Redessiner",
-      "ZERO_AREA_DETECTED": "Champ sans surface détectée. Veuillez ajouter plus de points au dessin actuel ou dessiner à nouveau.",
-      "ZERO_LENGTH_DETECTED": "Ligne sans longueur détectée. Veuillez dessiner à nouveau."
+      "REDRAW": "Redessiner"
     },
     "EXPORT_MODAL": {
       "BODY": "Comment voulez-vous exporter la carte de votre ferme\u00a0?",
       "DOWNLOAD": "Télécharger",
       "EMAIL_TO_ME": "Envoyez-moi un courriel",
       "EMAILING": "Envoi en cours",
-      "LOADING": "Chargement...",
       "TITLE": "Exportez la carte de votre ferme"
     },
-    "FARM_SITE_BOUNDARY": {
-      "EDIT_TITLE": "Modifier les limites du site de la ferme",
-      "NAME": "Nom de la limite du site de la ferme",
-      "TITLE": "Ajouter une limite de site de ferme"
-    },
     "FENCE": {
-      "EDIT_TITLE": "Modifier la clôture",
       "LENGTH": "Longueur totale",
-      "NAME": "Nom de la clôture",
-      "PRESSURE_TREATED": "Cette clôture est-elle traitée sous pression\u00a0?",
-      "TITLE": "Ajouter une clôture"
+      "PRESSURE_TREATED": "Cette clôture est-elle traitée sous pression\u00a0?"
     },
     "FIELD": {
       "DATE": "Fin de période de transition",
-      "EDIT_TITLE": "Modifier le champ",
       "FIELD_TYPE": "De quel type de champ s'agit-il\u00a0?",
-      "NAME": "Nom du champ",
       "NON_ORGANIC": "Non-bio",
       "ORGANIC": "Biologique",
-      "TITLE": "Ajouter un champ",
       "TRANSITIONING": "Transition"
     },
     "GARDEN": {
       "DATE": "Fin de période de transition",
-      "EDIT_TITLE": "Modifier le jardin",
       "GARDEN_TYPE": "Quel type de jardin est-ce\u00a0?",
-      "NAME": "Nom du jardin",
       "NON_ORGANIC": "Non-bio",
       "ORGANIC": "Biologique",
-      "TITLE": "Ajouter un jardin",
       "TRANSITIONING": "Transition"
-    },
-    "GATE": {
-      "EDIT_TITLE": "Modifier le portail",
-      "NAME": "Nom du portail",
-      "TITLE": "Ajouter un portail"
     },
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Y a-t-il un enrichissement en CO₂\u00a0?",
       "DATE": "Fin de période de transition",
-      "EDIT_TITLE": "Modifier la serre",
       "GREENHOUSE_HEATED": "La serre est-elle chauffée\u00a0?",
       "GREENHOUSE_TYPE": "De quel type de serre s'agit-il\u00a0?",
-      "NAME": "Nom de la serre",
       "NON_ORGANIC": "Non-bio",
       "ORGANIC": "Biologique",
       "SUPPLEMENTAL_LIGHTING": "Y a-t-il un éclairage supplémentaire\u00a0?",
-      "TITLE": "Ajouter une serre",
       "TRANSITIONING": "Transition"
     },
     "LINE_DETAILS": {
@@ -727,17 +633,7 @@
       "WATERCOURSE": "Flux d'eau",
       "WV": "Vanne à eau"
     },
-    "NATURAL_AREA": {
-      "EDIT_TITLE": "Modifier l'espace naturel",
-      "NAME": "Nom de l'espace naturel",
-      "TITLE": "Ajouter un espace naturel"
-    },
     "NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
-    "RESIDENCE": {
-      "EDIT_TITLE": "Modifier la résidence",
-      "NAME": "Nom de la résidence",
-      "TITLE": "Ajouter résidence"
-    },
     "SPOTLIGHT": {
       "ADD": "Ajouter des emplacements à votre carte",
       "ADD_TITLE": "Ajouter à votre carte",
@@ -748,10 +644,7 @@
       "HERE_YOU_CAN": "Ici, vous pouvez\u00a0:"
     },
     "SURFACE_WATER": {
-      "EDIT_TITLE": "Modifier l'eau de surface",
-      "IRRIGATION": "Cette zone est-elle utilisée pour l'irrigation\u00a0?",
-      "NAME": "Nom de l'eau de surface",
-      "TITLE": "Ajouter l'eau de surface"
+      "IRRIGATION": "Cette zone est-elle utilisée pour l'irrigation\u00a0?"
     },
     "TAB": {
       "CROPS": "Cultures",
@@ -789,23 +682,17 @@
       "TITLE": "Incapable à retirer"
     },
     "WATER_VALVE": {
-      "EDIT_TITLE": "Modifier la vanne",
       "GROUNDWATER": "Eaux souterraines",
       "MAX_FLOW_RATE": "Flux maximum",
       "MUNICIPAL_WATER": "Eau municipale",
-      "NAME": "Nom de la vanne",
       "RAIN_WATER": "Eau de pluie",
       "SURFACE_WATER": "Eau de surface",
-      "TITLE": "Ajouter une vanne",
       "WATER_VALVE_TYPE": "Quelle est la source de l'eau\u00a0?"
     },
     "WATERCOURSE": {
       "BUFFER": "Tampon rivarain",
-      "EDIT_TITLE": "Modifier le cours d'eau",
       "IRRIGATION": "Cette zone est-elle utilisée pour l'irrigation\u00a0?",
       "LENGTH": "Longueur totale",
-      "NAME": "Nom du cours d'eau",
-      "TITLE": "Ajouter un cours d'eau",
       "WIDTH": "Largeur du cours d'eau"
     }
   },
@@ -856,7 +743,6 @@
       "REVENUE_TYPE": "MISSING",
       "TITLE": "MISSING"
     },
-    "MANAGE_CUSTOM_TYPE": "MISSING",
     "REVENUE": "Revenu",
     "SEARCH": {
       "EXPENSE_TYPES": "MISSING",
@@ -909,16 +795,13 @@
       "INSECTS": "Insectes",
       "LOADING": {
         "BODY": "Nous générons les dernières données sur la biodiversité de votre ferme. Cela peut prendre jusqu’à 60 secondes.",
-        "PREVIEW": "Chargement en cours...",
         "TITLE": "Nous générons les données de biodiversité les plus récentes..."
       },
       "MAMMALS": "Mammifères",
       "PLANTS": "Plantes",
-      "SPECIES_COUNT": "{{count}} espèces",
       "SPECIES_COUNT_one": "{{count}} espèce",
       "SPECIES_COUNT_many": "{{count}} espèces",
       "SPECIES_COUNT_other": "{{count}} espèces",
-      "SPECIES_COUNT_plural": "{{count}} espèces",
       "TITLE": "Biodiversité"
     },
     "CLICK_TO_CALCULATE": "Cliquez pour calculer",
@@ -931,11 +814,9 @@
     },
     "PRICES": {
       "INFO": "Nous vous montrons la tendance de vos prix de vente pour chacun de vos produits, et la comparons aux prix de ventes des mêmes produits rapportés par d’autres fermes proches de vous qui font partie du réseau LiteFarm.",
-      "NEARBY_FARMS": "Le prix moyen du réseau est basé sur les prix de {{count}} autres fermes dans votre région",
       "NEARBY_FARMS_one": "Le prix moyen du réseau est basé sur le prix de {{count}} autre ferme dans votre région",
       "NEARBY_FARMS_many": "Le prix moyen du réseau est basé sur les prix de {{count}} autres fermes dans votre région",
       "NEARBY_FARMS_other": "Le prix moyen du réseau est basé sur les prix de {{count}} autres fermes dans votre région",
-      "NEARBY_FARMS_plural": "Le prix moyen du réseau est basé sur les prix de {{count}} autres fermes dans votre région",
       "NETWORK_PRICE": "Prix moyen du réseau",
       "NO_ADDRESS": "Vous n'avez actuellement pas d'adresse à LiteFarm. Veuillez la mettre à jour dans votre profil pour obtenir des informations sur les prix à proximité\u00a0!",
       "OWN_PRICE": "Votre propre prix",
@@ -1024,59 +905,29 @@
   },
   "LOG_COMMON": {
     "ADD_A_LOG": "Ajouter un journal",
-    "ALL_CROPS": "Toutes les cultures",
-    "ALL_LOCATIONS": "Tous les emplacements",
-    "CROP": "Crop",
     "DELETE_CONFIRMATION": "Voulez-vous vraiment supprimer ce journal\u00a0?",
     "EDIT_A_LOG": "Modifier un journal",
     "FROM": "De",
     "LOCATION": "Emplacement",
-    "LOCATIONS": "Emplacements",
     "NOTES": "Notes",
     "QUANTITY": "Quantité",
-    "SELECT_CROP": "Sélectionner la culture",
     "SELECT_LOCATION": "Sélectionner l'emplacement",
-    "SELECT_LOCATIONS": "Sélectionner les emplacements",
-    "SELECT_TYPE": "Sélectionner Type",
-    "TO": "À",
-    "TYPE": "Type",
-    "WARNING": "Pour utiliser ce type de journal, veuillez ajouter des cultures aux champs. Vous pouvez le faire en naviguant vers Champs -> Votre champ -> Nouvelle culture de champ"
+    "TO": "À"
   },
   "LOG_DETAIL": {
     "NO": "Non",
     "YES": "Oui"
-  },
-  "LOG_FIELD_WORK": {
-    "DISCING": "Disquage",
-    "MULCH_TILL": "Paillis au Sol",
-    "PLOW": "labour",
-    "RIDGE_TILL": "Travail sur billons",
-    "RIPPING": "Déchirer",
-    "ZONE_TILL": "Travail en zones"
   },
   "LOG_HARVEST": {
     "ADD_CUSTOM_HARVEST_USE": "Ajouter une utilisation de récolte personnalisée",
     "CROP": "Culture",
     "CROP_PLACEHOLDER": "Sélectionnez une culture",
     "CUSTOM_HARVEST_USE": "Utilisations de cultures personnalisées",
-    "DISEASE": "Maladie",
-    "HARVEST": "Récolte",
     "HARVEST_ALLOCATION_SUBTITLE": "Environ quelle quantité de la récolte sera utilisée pour chaque objectif\u00a0?",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Montant à allouer",
-    "HARVEST_QUANTITY": "Quantité de récolte",
-    "HARVEST_USE": "Utilisation de la récolte",
     "HARVEST_USE_TYPE_SUBTITLE": "Comment la récolte sera-t-elle utilisée\u00a0?",
-    "OTHER": "Autre",
-    "PEST": "Organismes nuisibles",
     "QUANTITY_ERROR": "La quantité doit comporter jusqu'à 2 décimales",
-    "TITLE": "Journal de récolte",
-    "WEED": "Mauvaise herbe"
-  },
-  "LOG_IRRIGATION": {
-    "DRIP": "Goutte",
-    "FLOOD": "Inondation",
-    "SPRINKLER": "Arroseur",
-    "SUBSURFACE": "Sous-surface"
+    "TITLE": "Journal de récolte"
   },
   "MANAGEMENT_DETAIL": {
     "ABANDON_PLAN": "Abandonner",
@@ -1094,11 +945,9 @@
     "BEDS": "Planches",
     "BROADCAST": "semis homogène ou en poquets",
     "COMPLETE_PLAN": {
-      "ABANDON_DATE": "Date d'abandon",
       "ABANDON_NOTES": "Notes d'abandon",
       "ABANDON_PLAN": "Abandonner le plan",
       "ABANDON_REASON": "Raison de l'abandon",
-      "COMPLETE_DATE": "Date de fin",
       "COMPLETE_PLAN": "Plan terminé",
       "DATE_OF_CHANGE": "Date de changement de statut",
       "FUTURE_DATE_INVALID": "Doit être révolue",
@@ -1134,9 +983,7 @@
       "CONFIRM_DELETION": "Confirmer la suppression",
       "DELETE_PLAN": "Supprimer le plan de culture",
       "DELETE_PLAN_MESSAGE": "Ce plan de culture et toutes ses tâches seront supprimés de votre ferme. Si vous voulez conserver une trace de ce plan de culture, cliquez plutôt sur \"Abandonner\"",
-      "DELETE_PLAN_QUESTION": "Supprimer le plan de culture?",
-      "FAILED": "Le plan de culture n'a pas pu être supprimé",
-      "SUCCESS": "Le plan de culture a bien été supprimé"
+      "DELETE_PLAN_QUESTION": "Supprimer le plan de culture?"
     },
     "DETAIL_SPOTLIGHT_CONTENTS": "Ici, vous pouvez modifier les détails de votre culture.",
     "DETAIL_SPOTLIGHT_TITLE": "Détails",
@@ -1180,7 +1027,6 @@
     "PLANT_SPACING": "Espacement des plantes",
     "PLANTED_ALREADY": "Cette culture est-elle déjà en terre, ou allez-vous l'installer\u00a0?",
     "PLANTING": "à installer",
-    "REPHRASING": "Bertrand",
     "PLANTING_DATE": "Quelle est votre date de plantation\u00a0?",
     "PLANTING_DATE_INFO": "Date de semis basée sur l'âge de la culture\u00a0: {{seed_date}}",
     "PLANTING_DATE_LABEL": "Date de plantation",
@@ -1206,7 +1052,6 @@
     "ROWS": "Lignes",
     "SEED_DATE": "Quelle est votre date de semis\u00a0?",
     "SEED_OR_SEEDLING": "Quel est votre point de départ pour cette culture\u00a0?",
-    "REPHRASING": "Bertrand",
     "SEEDING_DATE": "Date de semis",
     "SEEDLING": "Plant ou matériel de plantation",
     "SEEDLING_AGE": "Quel âge a le plant ou le matériel de plantation\u00a0?",
@@ -1217,12 +1062,6 @@
     "SELECTED_STARTING_LOCATION": "Sélectionnez toujours ceci comme emplacement de départ pour les cultures qui seront transplantées",
     "SPOTLIGHT_HERE_YOU_CAN": "Ici, vous pouvez\u00a0:",
     "STARTED": "Commencé",
-    "STATUS": {
-      "ABANDONED": "Abandonné",
-      "ACTIVE": "Actif",
-      "COMPLETED": "Terminé",
-      "PLANNED": "Planifié"
-    },
     "SUPPLIER": "Fournisseur",
     "TERMINATION": "clôture",
     "TERMINATION_DATE": "Quand voulez vous clôturer cette culture\u00a0?",
@@ -1230,7 +1069,6 @@
     "TRANSPLANT": "Repiquage",
     "TRANSPLANT_DATE": "Quelle est la date de repiquage\u00a0?",
     "TRANSPLANT_LOCATION": "Où sera placée la culture après repiquage\u00a0?",
-    "REPHRASING": "Bertrand",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "repiquée",
@@ -1243,7 +1081,6 @@
         "TEXT": "emplacement de {{fill}}"
       }
     },
-    "VARIETY": "Variété",
     "WHAT_IS_AGE": "Quel est l'âge de la récolte\u00a0?",
     "WHAT_WAS_PLANTING_METHOD": "Quelle était la méthode de plantation\u00a0?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Sélectionner la bonne méthode de plantation aidera LiteFarm à estimer plus précisément la quantité de graines nécessaires, le rendement et d'autres informations utiles.",
@@ -1261,16 +1098,13 @@
     "SPOTLIGHT": {
       "COORDINATE_ACTIVITIES": "Coordonner les activités de la ferme",
       "EDIT_FARM_SETTING": "Modifier les paramètres de votre ferme",
-      "FARM": "Ici vous pouvez\u00a0:, • Modifier les paramètres de votre ferme, • Cartographier votre ferme, • Gérer vos employés",
       "FARM_TITLE": "Ceci est le profil de votre ferme",
       "INFO": "Vos informations",
       "LOG_OUT": "Le bouton de déconnexion",
       "MANAGE_EMPLOYEE": "Gérer vos employés",
       "MANAGE_TASK": "Gérer vos tâches",
       "MAP_FARM": "Cartographier votre ferme",
-      "NOTIFICATION": "Ici vous pouvez\u00a0:, • Voir les mises à jour importantes, • Gérez vos tâches, • Coordonner les activités de la ferme",
       "NOTIFICATION_TITLE": "Ceci est votre centre de notification",
-      "PROFILE": "Vous trouverez ici\u00a0:, • Vos informations, • Des conseils utiles, • Le bouton de déconnexion",
       "PROFILE_TITLE": "Ceci est votre profil",
       "SEE_TASK": "Voir les mises à jour importantes",
       "SEE_UPDATES": "Voir les mises à jour importantes",
@@ -1281,54 +1115,13 @@
     }
   },
   "NOTIFICATION": {
-    "DAILY_TASKS_DUE_TODAY": {
-      "BODY": "Vous avez des tâches à accomplir aujourd'hui.",
-      "TITLE": "Tâches à accomplir aujourd'hui"
-    },
     "NONE_TO_DISPLAY": "Il n'y a aucune notification à afficher.",
-    "NOTIFICATION_TEASER": "Bientôt disponible\u00a0!",
     "PAGE_TITLE": "Notifications",
-    "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "Quelques erreurs sont survenues pendant votre téléchargement de capteur. Cliquez sur “Allons-y” pour voir les détails.",
-      "TITLE": "Erreurs de téléchargement du capteur"
-    },
-    "SENSOR_BULK_UPLOAD_SUCCESS": {
-      "BODY": "Le chargement de votre capteur a été terminé avec succès",
-      "TITLE": "Chargement du capteur terminé"
-    },
     "TAKE_ME_THERE": "Allons-y\u00a0!",
-    "TASK_ABANDONED": {
-      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été abandonnée par {{abandoner}}.",
-      "TITLE": "Tâche abandonnée"
-    },
-    "TASK_ASSIGNED": {
-      "BODY": "Une tâche de {{taskType}} vous a été assignée par {{assigner}}.",
-      "TITLE": "Tâche assignée"
-    },
-    "TASK_COMPLETED_BY_OTHER_USER": {
-      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été marquée comme accomplie par {{assigner}}.",
-      "TITLE": "Tâche accomplie"
-    },
-    "TASK_DELETED": {
-      "BODY": "La {{taskType}} tâche qu'on vous a envoyée a été annulée par {{abandoner}}.",
-      "TITLE": "Tâche annulée"
-    },
-    "TASK_REASSIGNED": {
-      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été attribuée à quelqu'un d'autre par {{assigner}}.",
-      "TITLE": "Tâche réattribuée"
-    },
-    "TASK_UNASSIGNED": {
-      "BODY": "{{editor}} a marqué une tâche de {{taskType}} comme non attribuée.",
-      "TITLE": "Tâche non attribuée"
-    },
     "TIMELINE": {
       "HEADING": "Chronologie de la notification",
       "MORE_RECENT_NOTIFICATION": "Il y a des notifications plus récentes au sujet de cette {{entityType}}.",
       "VIEW_NOW": "Afficher"
-    },
-    "WEEKLY_UNASSIGNED_TASKS": {
-      "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine.",
-      "TITLE": "Tâches non attribuées"
     }
   },
   "OUTRO": {
@@ -1380,7 +1173,6 @@
       "FRENCH": "français",
       "LANGUAGE": "Langue",
       "LAST_NAME": "Nom de famille",
-      "PERSONAL_INFORMATION": "Mes informations",
       "PHONE_NUMBER": "Numéro de téléphone",
       "PORTUGUESE": "portugais",
       "SPANISH": "espagnol",
@@ -1406,22 +1198,13 @@
     "FARM_TAB": "Ferme",
     "PEOPLE": {
       "DO_YOU_WANT_TO_REMOVE": "Voulez-vous enlever cet utilisateur de votre ferme\u00a0?",
-      "EO": "Officier de vulgarisation",
-      "FARM_MANAGER": "Gestionnaire de ferme",
-      "FARM_OWNER": "Propriétaire de la ferme",
-      "FARM_WORKER": "Ouvrier agricole",
-      "HOURLY": "horaire",
       "INVALID_REVOKE_ACCESS": "Impossible de révoquer l’accès",
       "INVITE_USER": "Inviter un utilisateur",
       "LAST_ADMIN_ERROR": "Nous ne pouvons pas révoquer l’accès à cet utilisateur parce qu’il est le dernier gestionnaire de cette ferme. Si vous souhaitez supprimer votre ferme, créez un billet en cliquant <1>ici</1>.",
-      "PAY": "Payer",
       "RESTORE_ACCESS": "Restaurer l'accès utilisateur",
       "REVOKE_ACCESS": "Révoquer l'accès utilisateur",
-      "ROLE": "Rôle",
-      "ROLE_CHANGE_ALERT": "Le changement de rôle prendra pleinement effet lors de la prochaine connexion. Les travailleurs ne peuvent pas se définir comme administrateurs.",
       "SEARCH": "Chercher",
-      "THIS_WILL_REMOVE": "Cette action enlèvera l'utilisateur de votre ferme.",
-      "USERS_FOUND": "Utilisateurs trouvés"
+      "THIS_WILL_REMOVE": "Cette action enlèvera l'utilisateur de votre ferme."
     },
     "PEOPLE_TAB": "Personnes",
     "TABLE": {
@@ -1488,9 +1271,6 @@
   "REVENUE": {
     "ADD_REVENUE": {
       "ADD_CUSTOM_REVENUE": "Ajouter un revenu personnalisé",
-      "ASSOCIATED_WITH_AGRICULTURE": "Ce revenu est-il associé à des activités agricoles ?",
-      "CANNOT_BE_CHANGED": "Ceci ne peut pas être modifié",
-      "CANNOT_BE_CHANGED_LATER": "Ceci ne peut être modifié ultérieurement",
       "CROP_GENERATED": "Ce revenu est-il généré par des cultures ?",
       "CUSTOM_REVENUE_NAME": "Nom du revenu personnalisé",
       "CUSTOM_REVENUE_TYPE": "Type de revenu personnalisé",
@@ -1521,54 +1301,28 @@
     "ADD_SALE": {
       "ADD_CUSTOM_REVENUE_TYPE": "MISSING",
       "ADD_REVENUE": "MISSING",
-      "CROP_PLACEHOLDER": "Selectionner une culture",
       "CROP_REQUIRED": "Réponse requise",
       "CROP_VARIETY": "Variété de la culture",
-      "CUSTOMER_NAME": "Nom du Client",
-      "CUSTOMER_NAME_REQUIRED": "Réponse requise",
-      "DATE": "Date",
       "FLOW": "MISSING",
       "MANAGE_CUSTOM_REVENUE_TYPE": "MISSING",
       "SALE_VALUE_ERROR": "La valeur de vente doit être un nombre positif moins que 999,999,999",
       "TABLE_HEADERS": {
-        "CROP_VARIETIES": "Variété de la culture",
         "TOTAL": "Total"
       },
-      "TITLE": "Ajouter nouvelle vente",
       "WHICH_TYPE_TO_RECORD": "MISSING"
     },
     "DETAIL": {
-      "ACTION": "Action",
-      "CROP": "Culture",
       "CUSTOMER_NAME": "Nom de Client",
-      "DELETE_CONFIRMATION": "Êtes-vous sûr que vous voulez supprimer cette vente\u00a0?",
       "TITLE": "MISSING",
       "VALUE": "Valeur"
     },
     "EDIT_SALE": {
-      "DATE": "Date",
-      "DELETE_CONFIRMATION": "Êtes-vous sûr que vous voulez supprimer cette vente\u00a0?",
       "TITLE": "MISSING"
     },
-    "ESTIMATED_REVENUE": {
-      "CALCULATION": "Calcul",
-      "CALCULATION_DESCRIPTION": "Nous calculons les revenus estimés à l'aide de la date de fin des cultures estimée dans le module Champs. Pour inclure une culture dans le calcul de vos revenus estimés, assurez-vous de saisir sa date de fin dans la date de fin de votre rapport financier.",
-      "TITLE": "Chiffre d'affaires estimé"
-    },
     "EXPENSE_DETAIL": {
-      "ACTION": "Action",
-      "COST": "Coût",
-      "DESCRIPTION": "Description de la dépense",
-      "TEMP_DELETE_CONFIRMATION": "Êtes-vous sûr de vouloir supprimer cette dépense\u00a0?",
       "TITLE": "Détail de la dépense"
     },
     "FINANCES": {
-      "ACTUAL": "Actual",
-      "ACTUAL_REVENUE_ESTIMATED": "Estimé",
-      "ACTUAL_REVENUE_LABEL": "Réel",
-      "BALANCE": "Solde",
-      "BALANCE_EXPLANATION": "Nous calculons un solde en temps réel («\u00a0coût de production\u00a0») pour chaque culture de votre ferme. Il s'agit d'une simple équation des dépenses moins les revenus. Les dépenses pour chaque culture sont calculées à partir de deux parties, une partie est le les dépenses de main-d'œuvre provenant des heures enregistrées pour les activités agricoles, l'autre partie provient des autres dépenses enregistrées pour l'ensemble de la ferme. Lorsque les dépenses sont enregistrées pour l'ensemble de la ferme, nous les répartissons également entre les cultures de la ferme. Non alloué signifie qu'un ou plusieurs quarts de travail a été soumis pour un champ alors qu'il n'y a pas encore de culture sur ce champ. Ce ou ces quarts de travail seront attribués aux cultures au fur et à mesure qu'elles sont ajoutées à ce champ dans la fenêtre de temps de rapport financier. ",
-      "BALANCE_FOR_FARM": "Solde (Toute la ferme)",
       "CARROUSEL_TEXT": {
         "ESTIMATED_REVENUE": "MISSING",
         "GENERIC": "MISSING"
@@ -1576,7 +1330,7 @@
       "ESTIMATED_HARVEST_REVENUE": "MISSING",
       "EXPENSES": "Dépenses",
       "EXPORT_REPORT": "MISSING",
-      "FINANCE_HELP": "Aide Financière",
+      "LABOUR_EXPENSE": "MISSING",
       "LABOUR_LABEL": "Coûts de main-d'œuvre",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
         "BODY": "MISSING",
@@ -1586,29 +1340,22 @@
         "BODY": "MISSING",
         "TITLE": "MISSING"
       },
-      "OTHER_EXPENSES_LABEL": "Autres dépenses",
       "PROFIT_LOSS": "MISSING",
       "REPORT": "MISSING",
       "REPORT_HELP_TEXT": "MISSING",
-      "REVENUE": "Revenu",
       "TITLE": "MISSING",
       "TOTAL_EXPENSES": "MISSING",
       "TOTAL_LABOUR": "MISSING",
       "TOTAL_OTHER": "MISSING",
-      "TOTAL_REVENUE": "MISSING",
-      "UNALLOCATED_CROP": "Non-Alloué",
-      "UNALLOCATED_TIP": "Non-Alloué ça veut dire quoi\u00a0?"
+      "TOTAL_REVENUE": "MISSING"
     },
     "LABOUR": {
       "BY": "Par",
-      "CROPS": "Cultures",
       "EMPLOYEES": "Employés",
       "TABLE": {
-        "CROP": "Culture",
         "DAILY_TOTAL": "MISSING",
         "DATE": "Date",
         "EMPLOYEE": "Employé",
-        "EST_REVENUE": "Revenu estimé",
         "LABOUR_COST": "Coût de travail",
         "TASK": "Tâche",
         "TIME": "Temps",
@@ -1618,15 +1365,9 @@
       "TITLE": "Travail"
     },
     "SUMMARY": {
-      "CROP": "Culture",
-      "DATE": "Date",
-      "DETAILED_HISTORY": "Historique détaillée",
       "SUBTOTAL": "Sous-total",
-      "SUMMARY": "Résumé",
-      "TITLE": "Ventes",
       "TOTAL": "Total",
-      "TYPE": "Type",
-      "VALUE": "Valeur"
+      "TYPE": "Type"
     }
   },
   "SEARCH": {
@@ -1647,17 +1388,13 @@
       "EDIT": "Modifier",
       "EXTERNAL_ID_TOOLTIP": "Cet identifiant est utilisé pour identifier uniquement le capteur dans d’autres systèmes intégrés et ne peut pas être modifié. S’il n’est plus utilisé, essayez de retirer ce capteur et d’en ajouter un nouveau.",
       "EXTERNAL_IDENTIFIER": "Identifiant externe",
-      "HARDWARE_VERSION": "Version matérielle",
       "LATITUDE": "Latitude",
       "LONGITUDE": "Longitude",
       "MODEL": "Modèle",
       "NAME": "Nom du capteur",
-      "PART_NUMBER": "Numéro de pièce",
-      "READING_TYPES": "Types de lectures",
       "RETIRE": "Retirer"
     },
     "EXTERNAL_IDENTIFIER": "Identifiant externe",
-    "HARDWARE_VERSION": "Version matérielle",
     "HOURS_AGO": "il y a {{time}} heure(s)",
     "LAST_UPDATED": "Dernière mise à jour à {{latestReadingUpdate}}",
     "LATITUDE": "Latitude",
@@ -1672,11 +1409,7 @@
     "MONTHS_AGO": "il y a {{time}} mois",
     "NO_DATA": "(aucune donnée)",
     "NO_DATA_FOUND": "Aucun donnée de capteurs trouvé.",
-    "PART_NUMBER": "Numéro de pièce",
     "READING": {
-      "SOIL_WATER_CONTENT": "Teneur en eau du sol",
-      "SOIL_WATER_POTENTIAL": "Potentiel hydrique du sol",
-      "TEMPERATURE": "Température",
       "TYPES": "Type de données relevées par les capteurs",
       "UNKNOWN": "Inconnue"
     },
@@ -1703,22 +1436,8 @@
       "CONTENT": "Les capteurs individuels peuvent être affichés ou masqués en cliquant sur leurs étiquettes ici.",
       "TITLE": "Les séries peuvent être masquées"
     },
-    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
-      "TITLE": "Teneur en eau du sol",
-      "Y_AXIS_LABEL": "en {{units}}"
-    },
-    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
-      "KPA": "kilopascals (kPa)",
-      "PSI": "livres par pouce carré (psi)",
-      "TITLE": "Potentiel hydrique du sol",
-      "Y_AXIS_LABEL": "en {{units}}"
-    },
     "TEMPERATURE_READINGS_OF_SENSOR": {
-      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour",
-      "C": "Celsius (°C)",
-      "F": "Fahrenheit (°F)",
-      "TITLE": "Température du sol",
-      "Y_AXIS_LABEL": "en {{units}}"
+      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour"
     },
     "VALIDATION": {
       "READING_TYPES": "Les types de données relevées par les capteurs sont requis"
@@ -1733,14 +1452,11 @@
     "CHANGES": "En savoir plus sur les changements",
     "EMAIL_INVALID": "Courriel non-valide",
     "ENTER_EMAIL": "Entrez votre Courriel",
-    "EXPIRED_ERROR": "Nous avons mis à jour notre infrastructure et vous devriez réinitialiser votre mot de passe. Vérifiez votre boîte de courriels pour continuer.",
     "EXPIRED_INVITATION_LINK_ERROR": "Invitation invalide ou expirée",
     "GOOGLE_BUTTON": "CONTINUER AVEC GOOGLE",
-    "INVITED_ERROR": "L'invitation à la ferme vous a été envoyée par e-mail, veuillez vérifier votre boîte de réception et votre dossier spam.",
     "LITEFARM_UPDATED": "LiteFarm v3.4 est maintenant disponible\u00a0!",
     "PASSWORD_ERROR": "Mot de passe incorrect",
     "SIGN_IN": "Se Connecter",
-    "SSO_ERROR": "Veuillez connecter par cliquer le bouton Google au-dessus",
     "USED_INVITATION_LINK_ERROR": "Cette invitation a déjà été utilisée, veuillez vous connecter pour accéder à cette ferme",
     "WELCOME_BACK": "Content de vous revoir\u00a0!",
     "WRONG_BROWSER": "LiteFarm n'est pas optimisé pour ce navigateur de Web.",
@@ -1815,7 +1531,6 @@
     "ADD_HARVEST_USE": "Ajouter une autre utilisation de récolte",
     "ADD_TASK": "Créer une tâche",
     "ADD_TASK_FLOW": "création de tâche",
-    "ALL": "Tout",
     "AMOUNT_TO_ALLOCATE": "Montant à allouer",
     "CARD": {
       "MULTIPLE_CROPS": "Plusieurs cultures",
@@ -1857,13 +1572,11 @@
       "CROP": "Culture",
       "DATE_RANGE": "Filtrer par plage de dates",
       "DESCENDING": "du plus récent",
-      "FROM": "Du",
       "LOCATION": "Emplacement",
       "MY_TASK": "Mes tâches",
       "SORT_BY": "Trier par",
       "STATUS": "Status",
       "TITLE": "Filtre de tâches",
-      "TO": "Au",
       "TYPE": "Type",
       "UNASSIGNED": "Non attribué",
       "VIEW": "Regarder"
@@ -1884,20 +1597,10 @@
     "SELECT_DATE": "Sélectionnez la date de la tâche",
     "SELECT_TASK_LOCATIONS": "Sélectionnez le(s) emplacement(s) de la tâche",
     "SELECT_WILD_CROP": "Cette tâche cible une culture sauvage",
-    "STATUS": {
-      "ABANDONED": "Abandonnée",
-      "COMPLETED": "Terminée",
-      "FOR_REVIEW": "Pour évaluer",
-      "LATE": "En retard",
-      "PLANNED": "Planifiée"
-    },
     "TASK": "tâche",
-    "TASKS_COUNT": "{{count}} tâche",
     "TASKS_COUNT_one": "{{count}} tâche",
     "TASKS_COUNT_many": "{{count}} tâches",
     "TASKS_COUNT_other": "{{count}} tâches",
-    "TASKS_COUNT_plural": "{{count}} tâches",
-    "TODO": "À faire",
     "TRANSPLANT": "Repiquage",
     "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de repiquage",
     "UNASSIGNED": "Non attribué"

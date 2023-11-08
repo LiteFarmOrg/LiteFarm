@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PureInvitedUserCreateAccountPage from '../../components/InvitedUserCreateAccount';
+import PureCreateUserAccount from '../../components/CreateUserAccount';
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -11,16 +11,26 @@ export default function SSOUserCreateAccountInfo({ history }) {
   const { user } = history.location.state;
   const { email, full_name: name } = user;
   const dispatch = useDispatch();
-  const onSubmit = (data) => {
-    dispatch(patchSSOUserInfo({ user: { ...data, email } }));
+
+  const onSignUp = ({ language, ...otherFormData }) => {
+    dispatch(
+      patchSSOUserInfo({ user: { ...otherFormData, language_preference: language, email } }),
+    );
   };
+
+  const onGoBack = () => {
+    //  TODO LF-3798: Going back (including with browser back button) will not work in this flow as the SSO user account was already created at the point of interacting with the Google Login button
+  };
+
   return (
-    <PureInvitedUserCreateAccountPage
-      onSubmit={onSubmit}
+    <PureCreateUserAccount
+      onSignUp={onSignUp}
       email={email}
       name={name}
       title={t('INVITATION.YOUR_INFORMATION')}
       buttonText={t('common:SAVE')}
+      isNotSSO={false}
+      onGoBack={onGoBack}
     />
   );
 }

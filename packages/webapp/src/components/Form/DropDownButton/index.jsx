@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import clsx from 'clsx';
 import Button from '../Button';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Paper from '@mui/material/Paper';
@@ -8,6 +9,7 @@ import MenuList from '@mui/material/MenuList';
 import { MdArrowDropDown } from 'react-icons/md';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
+import styles from './styles.module.scss';
 
 const useStyles = makeStyles((theme) => ({
   svg: {
@@ -18,7 +20,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DropdownButton({ options, children, defaultOpen = false }) {
+export default function DropdownButton({
+  options,
+  children,
+  defaultOpen = false,
+  noIcon,
+  Menu,
+  type,
+  classes: propClasses = {},
+}) {
   const classes = useStyles();
   const [isOpen, setOpen] = useState(defaultOpen);
   const anchorRef = useRef(null);
@@ -39,14 +49,31 @@ export default function DropdownButton({ options, children, defaultOpen = false 
     setOpen(false);
   };
 
+  const menuProps = {
+    autoFocusItem: isOpen,
+    id: 'composition-menu',
+    'aria-labelledby': 'composition-button',
+  };
+
   return (
     <>
-      <Button sm onClick={handleToggle} inputRef={anchorRef}>
+      <Button
+        sm
+        onClick={handleToggle}
+        inputRef={anchorRef}
+        className={clsx(type && styles[type], propClasses.button)}
+        id="composition-button"
+        aria-controls={open ? 'composition-menu' : undefined}
+        aria-expanded={open ? 'true' : undefined}
+        aria-haspopup="true"
+      >
         {children}
-        <MdArrowDropDown
-          className={classes.svg}
-          style={{ transform: `translateX(4px) scaleY(${isOpen ? -1 : 1})` }}
-        />
+        {!noIcon && (
+          <MdArrowDropDown
+            className={classes.svg}
+            style={{ transform: `translateX(4px) scaleY(${isOpen ? -1 : 1})` }}
+          />
+        )}
       </Button>
       <Popper
         placement={'bottom-end'}
@@ -58,13 +85,17 @@ export default function DropdownButton({ options, children, defaultOpen = false 
       >
         <Paper>
           <ClickAwayListener onClickAway={handleClose}>
-            <MenuList>
-              {options.map((option, index) => (
-                <MenuItem key={index} onClick={(event) => handleMenuItemClick(option)}>
-                  {option.text}
-                </MenuItem>
-              ))}
-            </MenuList>
+            {Menu ? (
+              <Menu {...menuProps} />
+            ) : (
+              <MenuList {...menuProps}>
+                {options.map((option, index) => (
+                  <MenuItem key={index} onClick={(event) => handleMenuItemClick(option)}>
+                    {option.text}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            )}
           </ClickAwayListener>
         </Paper>
       </Popper>
@@ -81,4 +112,10 @@ DropdownButton.propTypes = {
   ),
   children: PropTypes.string,
   defaultOpen: PropTypes.bool,
+  noIcon: PropTypes.bool,
+  Menu: PropTypes.elementType,
+  type: PropTypes.oneOf(['v2']),
+  classes: PropTypes.shape({
+    button: PropTypes.string,
+  }),
 };

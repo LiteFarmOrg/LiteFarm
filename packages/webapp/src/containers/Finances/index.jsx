@@ -20,17 +20,16 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import NoSearchResults from '../../components/Card/NoSearchResults';
 import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';
+import AddTransactionButton from '../../components/Finances/AddTransactionButton';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
 import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
 import PureTransactionList from '../../components/Finances/Transaction/Mobile/List';
-import Button from '../../components/Form/Button';
 import PureCollapsibleSearch from '../../components/PopupFilter/PureCollapsibleSearch';
 import { Title } from '../../components/Typography';
 import { SUNDAY } from '../../util/dateRange';
 import { isTaskType } from '../Task/useIsTaskType';
 import { transactionsFilterSelector } from '../filterSlice';
 import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
-import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import useSearchFilter from '../hooks/useSearchFilter';
 import { managementPlansSelector } from '../managementPlanSlice';
 import { getManagementPlansAndTasks } from '../saga';
@@ -121,28 +120,6 @@ const Finances = ({ history }) => {
         <Title>{t('SALE.FINANCES.TITLE')}</Title>
         <Report />
       </div>
-      <div className={styles.buttonContainer}>
-        <Button
-          style={{ height: '48px' }}
-          onClick={() => {
-            dispatch(setPersistedPaths(['/expense_categories', '/add_expense']));
-            history.push('/expense_categories');
-          }}
-          color="success"
-        >
-          {t('SALE.FINANCES.ADD_NEW_EXPENSE')}
-        </Button>
-        <Button
-          style={{ height: '48px' }}
-          onClick={() => {
-            dispatch(setPersistedPaths(['/revenue_types', '/add_sale']));
-            history.push('/revenue_types');
-          }}
-          color="success"
-        >
-          {t('SALE.FINANCES.ADD_NEW_SALE')}
-        </Button>
-      </div>
       <div className={styles.filterBar} ref={overlayRef}>
         <DateRangeSelector className={styles.dateRangeSelector} />
         <div className={styles.filterBarButtons}>
@@ -165,6 +142,7 @@ const Finances = ({ history }) => {
           currencySymbol={currencySymbol}
           history={history}
         />
+        <AddTransactionButton />
       </div>
       {hasSearchResults ? (
         <PureTransactionList data={filteredTransactions} mobileView={true} />

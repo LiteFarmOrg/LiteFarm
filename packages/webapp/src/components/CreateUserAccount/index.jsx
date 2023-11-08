@@ -11,7 +11,7 @@ import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../locales/i18n';
 
-export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
+export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNotSSO }) {
   const {
     register,
     handleSubmit,
@@ -72,7 +72,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
     localStorage.setItem('litefarm_lang', language);
   }, [language]);
 
-  const disabled = !isDirty || !isValid || !isPasswordValid;
+  const disabled = !isDirty || !isValid || (isNotSSO && !isPasswordValid);
 
   const onSubmit = (data) => {
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
@@ -86,9 +86,11 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
       onSubmit={handleSubmit(onSubmit, onError)}
       buttonGroup={
         <>
-          <Button onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
-            {t('common:BACK')}
-          </Button>
+          {isNotSSO && ( // TODO LF-3798: Back button doesn't work in SSO as it will direct to Welcome Screen
+            <Button onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
+              {t('common:BACK')}
+            </Button>
+          )}
           <Button data-cy="createUser-create" disabled={disabled} type={'submit'} fullLength>
             {t('CREATE_USER.CREATE_BUTTON')}
           </Button>
@@ -166,23 +168,34 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         }
         optional
       />
-      <Input
-        data-cy="createUser-password"
-        style={{ marginBottom: '28px' }}
-        label={t('CREATE_USER.PASSWORD')}
-        type={PASSWORD}
-        hookFormRegister={register(PASSWORD)}
-      />
-      <PasswordError
-        hasNoDigit={hasNoDigit}
-        hasNoSymbol={hasNoSymbol}
-        hasNoUpperCase={hasNoUpperCase}
-        isTooShort={isTooShort}
-      />
+      {isNotSSO && (
+        <>
+          <Input
+            data-cy="createUser-password"
+            style={{ marginBottom: '28px' }}
+            label={t('CREATE_USER.PASSWORD')}
+            type={PASSWORD}
+            hookFormRegister={register(PASSWORD)}
+          />
+          <PasswordError
+            hasNoDigit={hasNoDigit}
+            hasNoSymbol={hasNoSymbol}
+            hasNoUpperCase={hasNoUpperCase}
+            isTooShort={isTooShort}
+          />
+        </>
+      )}
     </Form>
   );
 }
 
-PureCreateUserAccount.prototype = {
-  onLogin: PropTypes.func,
+PureCreateUserAccount.propTypes = {
+  onSignUp: PropTypes.func.isRequired,
+  onGoBack: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+  isNotSSO: PropTypes.bool,
+};
+
+PureCreateUserAccount.defaultProps = {
+  isNotSSO: true,
 };

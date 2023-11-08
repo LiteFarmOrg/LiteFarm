@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
 import TaskCard from '../../Task/TaskCard';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 import { onAddTask } from '../../Task/onAddTask';
 import { getManagementPlansAndTasks } from '../../saga';
@@ -19,6 +19,9 @@ export default function ManagementTasks({ history, match, location }) {
 
   const management_plan_id = match.params.management_plan_id;
   const plan = useSelector(managementPlanSelector(management_plan_id));
+
+  const [showCannotDeleteModal, setShowCannotDeleteModal] = useState(false);
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
 
   useEffect(() => {
     if (plan === undefined) {
@@ -52,6 +55,16 @@ export default function ManagementTasks({ history, match, location }) {
 
   const pendingTasks = useSelector(pendingTasksByManagementPlanIdSelector(management_plan_id));
   const taskCardContents = useSelector(taskCardContentByManagementPlanSelector(management_plan_id));
+
+  const onClickDelete = () => {
+    // dispatch(
+    //   checkLocationDependencies({
+    //     management_plan_id,
+    //     setShowConfirmDeleteModal,
+    //     setShowCannotDeleteModal,
+    //   }),
+    // );
+  };
 
   const onDelete = () => {
     dispatch(deleteManagementPlan({ variety_id, management_plan_id }));

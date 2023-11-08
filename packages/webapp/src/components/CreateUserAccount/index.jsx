@@ -1,7 +1,7 @@
 import Form from '../Form';
 import Button from '../Form/Button';
 import Input, { integerOnKeyDown } from '../Form/Input';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
@@ -17,8 +17,6 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
     handleSubmit,
     watch,
     control,
-    setValue,
-
     formState: { isDirty, isValid, errors },
   } = useForm({
     mode: 'onTouched',
@@ -115,7 +113,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
       <Controller
         control={control}
         name={GENDER}
-        render={({ field: { onChange, onBlur, value } }) => (
+        render={({ field: { onChange, value } }) => (
           <ReactSelect
             data-cy="createUser-gender"
             label={t('CREATE_USER.GENDER')}
@@ -132,21 +130,21 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
         data-cy="createUser-language"
         control={control}
         name={LANGUAGE}
-        render={({ field: { onChange, onBlur, value } }) => (
-          value && setLanguage(value.value),
-          (
-            <ReactSelect
-              label={t('CREATE_USER.LANGUAGE_PREFERENCE')}
-              options={languageOptions}
-              onChange={onChange}
-              value={languageOptions[languageOption]}
-              style={{ marginBottom: '28px' }}
-              defaultValue={{
-                value: t('CREATE_USER.DEFAULT_LANGUAGE_VALUE'),
-                label: t('CREATE_USER.DEFAULT_LANGUAGE'),
-              }}
-            />
-          )
+        render={({ field: { onChange } }) => (
+          <ReactSelect
+            label={t('CREATE_USER.LANGUAGE_PREFERENCE')}
+            options={languageOptions}
+            onChange={(selectedOption) => {
+              setLanguage(selectedOption.value);
+              onChange(selectedOption);
+            }}
+            value={languageOptions[languageOption]}
+            style={{ marginBottom: '28px' }}
+            defaultValue={{
+              value: t('CREATE_USER.DEFAULT_LANGUAGE_VALUE'),
+              label: t('CREATE_USER.DEFAULT_LANGUAGE'),
+            }}
+          />
         )}
       />
       <Input

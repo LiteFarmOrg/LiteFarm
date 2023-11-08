@@ -13,14 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import moment from 'moment';
 import { groupBy as lodashGroupBy } from 'lodash-es';
+import moment from 'moment';
 import { useTranslation } from 'react-i18next';
-import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
-import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import { isSameDay } from '../../util/date';
-import { LABOUR_ITEMS_GROUPING_OPTIONS, REVENUE_FORM_TYPES } from './constants';
-import i18n from '../../locales/i18n';
 import {
   CROP_VARIETY_ID,
   CROP_VARIETY_SALE,
@@ -33,6 +28,11 @@ import {
   SALE_VALUE,
   VALUE,
 } from '../../components/Forms/GeneralRevenue/constants';
+import i18n from '../../locales/i18n';
+import { getMass, getMassUnit, roundToTwoDecimal } from '../../util';
+import { isSameDay } from '../../util/date';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { LABOUR_ITEMS_GROUPING_OPTIONS, REVENUE_FORM_TYPES } from './constants';
 import { transactionTypeEnum } from './useTransactions';
 
 // Polyfill for tests and older browsers
@@ -182,7 +182,6 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
             amount: cvs.sale_value,
           };
         }),
-        cropGenerated: true,
       };
     } else {
       return {

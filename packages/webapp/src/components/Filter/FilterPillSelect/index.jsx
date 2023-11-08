@@ -46,12 +46,11 @@ const FilterPillSelect = ({
   }, []);
   const [filterState, setFilterState] = useState(defaultFilterState);
   const updateFilterState = (value) => {
-    setFilterState((filterState) => {
-      return produce(filterState, (filterState) => {
-        filterState[value].active = !filterState[value].active;
-      });
+    const newFilterState = produce(filterState, (filterState) => {
+      filterState[value].active = !filterState[value].active;
     });
-    onChange?.(value);
+    setFilterState(newFilterState);
+    onChange?.(newFilterState);
   };
   const counter = useMemo(
     () =>
@@ -74,7 +73,7 @@ const FilterPillSelect = ({
         return defaultFilterState;
       }, {});
       setFilterState(initState);
-      onChange?.();
+      onChange?.(initState);
     },
     [options, defaultFilterState],
   );

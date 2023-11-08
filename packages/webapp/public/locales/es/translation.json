@@ -1570,6 +1570,7 @@
       },
       "ESTIMATED_HARVEST_REVENUE": "Ingresos de cosecha estimados",
       "EXPENSES": "Gastos",
+      "EXPORT_REPORT": "MISSING",
       "FINANCE_HELP": "Ayuda financiera",
       "LABOUR_LABEL": "Trabajo",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
@@ -1582,6 +1583,8 @@
       },
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "PROFIT_LOSS": "Ganancia / Pérdida",
+      "REPORT": "MISSING",
+      "REPORT_HELP_TEXT": "MISSING",
       "REVENUE": "Ingresos",
       "TITLE": "Resumen de finanzas",
       "TOTAL_EXPENSES": "Gastos totales",

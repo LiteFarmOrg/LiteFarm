@@ -35,6 +35,16 @@
   }
 }
 
+.titleContainer {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  @media only screen and (max-width: 768px) {
+    justify-content: space-between;
+  }
+}
+
 .filterBar {
   width: 100%;
   display: flex;

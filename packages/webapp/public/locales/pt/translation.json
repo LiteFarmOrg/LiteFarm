@@ -1571,6 +1571,7 @@
       },
       "ESTIMATED_HARVEST_REVENUE": "MISSING",
       "EXPENSES": "Despesas",
+      "EXPORT_REPORT": "MISSING",
       "FINANCE_HELP": "Ajuda Financeira",
       "LABOUR_LABEL": "Trabalho",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
@@ -1583,6 +1584,8 @@
       },
       "OTHER_EXPENSES_LABEL": "Outras despesas",
       "PROFIT_LOSS": "MISSING",
+      "REPORT": "MISSING",
+      "REPORT_HELP_TEXT": "MISSING",
       "REVENUE": "Receita",
       "TITLE": "MISSING",
       "TOTAL_EXPENSES": "MISSING",

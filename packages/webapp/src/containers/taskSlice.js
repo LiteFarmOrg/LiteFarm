@@ -253,6 +253,9 @@ export const tasksSelector = createSelector(
   [taskEntitiesSelector, loginSelector],
   (taskEntities, { farm_id }) => {
     return Object.values(taskEntities).filter(({ locations, managementPlans, taskType }) => {
+      if (managementPlans.length && managementPlans.every(({ deleted }) => deleted)) {
+        return false;
+      }
       for (const location of locations) {
         if (location.farm_id === farm_id) {
           return true;

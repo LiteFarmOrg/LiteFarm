@@ -7,13 +7,7 @@ import Layout from '../../Layout';
 import { useForm } from 'react-hook-form';
 import Input from '../../Form/Input';
 
-const PureEditCustomTask = ({
-  handleGoBack,
-  handleEdit,
-  handleRetire,
-  selectedType,
-  useHookFormPersist,
-}) => {
+const PureEditCustomTask = ({ handleGoBack, handleEdit, handleRetire, selectedType }) => {
   const { t } = useTranslation();
   const {
     register,
@@ -22,7 +16,6 @@ const PureEditCustomTask = ({
     mode: 'onChange',
     defaultValues: { task_name: selectedType?.task_name },
   });
-  useHookFormPersist();
   const TASK_NAME = 'task_name';
   const [showRetire, setShowRetire] = useState(false);
   return (

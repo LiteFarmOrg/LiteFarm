@@ -219,7 +219,7 @@ const ReactSelect = React.forwardRef(function ReactSelect(
             ),
             ...components,
           }}
-          isSearchable={isSearchable ?? options?.length > 8}
+          isSearchable={true} // CreatableSelects must be searchable to accept input
           ref={ref}
           defaultValue={defaultValue}
           isDisabled={isDisabled}

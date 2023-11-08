@@ -48,13 +48,13 @@
       "FIELD_WORK_TASK": "travail de terrain",
       "OTHER_TYPE_OF_FIELD_WORK": "Décrivez le type de travail de terrain",
       "TYPE": {
-        "COVERING_SOIL": "Terre de couverture",
+        "COVERING_SOIL": "Couverture du sol",
         "FENCING": "Pose de clôture",
         "OTHER": "Autre",
         "PREPARING_BEDS_OR_ROWS": "Preparation des plates-bandes ou rangées",
         "PRUNING": "Émondage",
-        "SHADE_CLOTH": "Toile à ombrer",
-        "TERMINATION": "Finitions",
+        "SHADE_CLOTH": "Ombrage",
+        "TERMINATION": "Finition",
         "TILLAGE": "Labourage",
         "WEEDING": "Désherbage"
       },

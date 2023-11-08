@@ -34,21 +34,19 @@ const Report = () => {
   const { t } = useTranslation();
 
   const dashboardDateFilter = useSelector(dateRangeDataSelector);
-  const dashboardTransactionsFilter = useSelector(transactionsFilterSelector);
+  const dashboardTypesFilter = useSelector(transactionsFilterSelector);
 
   const [isExportReportOpen, setIsExportReportOpen] = useState(false);
   const [dateFilter, setDateFilter] = useState(dashboardDateFilter);
-  const [defaultTransactionsFilter, setDefaultTransactionsFilter] = useState(
-    dashboardTransactionsFilter,
-  );
+  const [typesFilter, setTypesFilter] = useState(dashboardTypesFilter);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const dispatch = useDispatch();
   const filterRef = useRef({});
   const transactions = useTransactions({
     dateFilter,
-    expenseTypeFilter: filterRef.current[EXPENSE_TYPE],
-    revenueTypeFilter: filterRef.current[REVENUE_TYPE],
+    expenseTypeFilter: typesFilter?.[EXPENSE_TYPE],
+    revenueTypeFilter: typesFilter?.[REVENUE_TYPE],
   });
 
   // If dashboard filters change, update report filters
@@ -57,11 +55,17 @@ const Report = () => {
   }, [dashboardDateFilter]);
 
   useEffect(() => {
-    setDefaultTransactionsFilter(dashboardTransactionsFilter);
-  }, [dashboardTransactionsFilter]);
+    setTypesFilter(dashboardTypesFilter);
+  }, [dashboardTypesFilter]);
 
   const onValidityChange = (isValid) => {
     setIsButtonDisabled(!isValid);
+  };
+
+  const dismissModal = () => {
+    setIsExportReportOpen(false);
+    setDateFilter(dashboardDateFilter);
+    setTypesFilter(dashboardTypesFilter);
   };
 
   // Not needed for current report but will be needed for income statement
@@ -123,18 +127,16 @@ const Report = () => {
   }, [transactions]); */
 
   const handleExport = () => {
-    setIsExportReportOpen(false);
     dispatch(
       downloadFinanceReport({
         transactions,
         config: {
           dateFilter,
-          typesFilter: filterRef.current,
+          typesFilter,
         },
       }),
     );
-    setDateFilter(dashboardDateFilter);
-    setDefaultTransactionsFilter(dashboardTransactionsFilter);
+    dismissModal();
   };
 
   return (
@@ -147,7 +149,7 @@ const Report = () => {
         <ModalComponent
           title={t('SALE.FINANCES.EXPORT_REPORT')}
           titleClassName={styles.title}
-          dismissModal={() => setIsExportReportOpen(false)}
+          dismissModal={dismissModal}
           buttonGroup={
             <Button fullLength onClick={handleExport} color={'primary'} disabled={isButtonDisabled}>
               {t('common:EXPORT')}
@@ -167,9 +169,12 @@ const Report = () => {
               />
             </div>
             <TransactionFilterContent
-              transactionsFilter={defaultTransactionsFilter}
+              transactionsFilter={dashboardTypesFilter}
               filterRef={filterRef}
               filterContainerClassName={styles.filterContainer}
+              onChange={(filterKey, filterState) =>
+                setTypesFilter({ ...typesFilter, [filterKey]: filterState })
+              }
             />
           </div>
         </ModalComponent>

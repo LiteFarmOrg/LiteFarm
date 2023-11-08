@@ -68,7 +68,7 @@ const FilterGroup = ({
         <FilterItem
           filter={filter}
           filterRef={filterRef}
-          onChange={onChange}
+          onChange={(filterState) => onChange(filter.filterKey, filterState)}
           shouldReset={shouldReset}
           showIndividualFilterControls={showIndividualFilterControls}
         />

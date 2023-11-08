@@ -1176,7 +1176,8 @@
     "PLAN_NOTES": "Notes de plan",
     "PLANT_SPACING": "Espacement des plantes",
     "PLANTED_ALREADY": "Cette culture est-elle déjà en terre, ou allez-vous l'installer\u00a0?",
-    "PLANTING": "à installer", "REPHRASING":"Bertrand",
+    "PLANTING": "à installer",
+    "REPHRASING": "Bertrand",
     "PLANTING_DATE": "Quelle est votre date de plantation\u00a0?",
     "PLANTING_DATE_INFO": "Date de semis basée sur l'âge de la culture\u00a0: {{seed_date}}",
     "PLANTING_DATE_LABEL": "Date de plantation",
@@ -1201,7 +1202,8 @@
     },
     "ROWS": "Lignes",
     "SEED_DATE": "Quelle est votre date de semis\u00a0?",
-    "SEED_OR_SEEDLING": "Quel est votre point de départ pour cette culture\u00a0?", "REPHRASING":"Bertrand",
+    "SEED_OR_SEEDLING": "Quel est votre point de départ pour cette culture\u00a0?",
+    "REPHRASING": "Bertrand",
     "SEEDING_DATE": "Date de semis",
     "SEEDLING": "Plant ou matériel de plantation",
     "SEEDLING_AGE": "Quel âge a le plant ou le matériel de plantation\u00a0?",
@@ -1224,7 +1226,8 @@
     "TOTAL_PLANTS": "# de plantes",
     "TRANSPLANT": "Repiquage",
     "TRANSPLANT_DATE": "Quelle est la date de repiquage\u00a0?",
-    "TRANSPLANT_LOCATION": "Où sera placée la culture après repiquage\u00a0?", "REPHRASING":"Bertrand",
+    "TRANSPLANT_LOCATION": "Où sera placée la culture après repiquage\u00a0?",
+    "REPHRASING": "Bertrand",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "repiquée",
@@ -1481,27 +1484,27 @@
   },
   "REVENUE": {
     "ADD_REVENUE": {
-      "ADD_CUSTOM_REVENUE" : "Ajouter un revenu personnalisé",
-      "ASSOCIATED_WITH_AGRICULTURE" : "Ce revenu est-il associé à des activités agricoles ?",
-      "CANNOT_BE_CHANGED" : "Ceci ne peut pas être modifié",
-      "CANNOT_BE_CHANGED_LATER" : "Ceci ne peut être modifié ultérieurement",
-      "CROP_GENERATED" : "Ce revenu est-il généré par des cultures ?",
-      "CUSTOM_REVENUE_NAME" : "Nom du revenu personnalisé",
-      "CUSTOM_REVENUE_TYPE" : "Type de revenu personnalisé",
-      "DUPLICATE_NAME" : "Un type de revenu portant ce nom existe déjà.  Veuillez en choisir un autre."
+      "ADD_CUSTOM_REVENUE": "Ajouter un revenu personnalisé",
+      "ASSOCIATED_WITH_AGRICULTURE": "Ce revenu est-il associé à des activités agricoles ?",
+      "CANNOT_BE_CHANGED": "Ceci ne peut pas être modifié",
+      "CANNOT_BE_CHANGED_LATER": "Ceci ne peut être modifié ultérieurement",
+      "CROP_GENERATED": "Ce revenu est-il généré par des cultures ?",
+      "CUSTOM_REVENUE_NAME": "Nom du revenu personnalisé",
+      "CUSTOM_REVENUE_TYPE": "Type de revenu personnalisé",
+      "DUPLICATE_NAME": "Un type de revenu portant ce nom existe déjà.  Veuillez en choisir un autre."
     },
     "CUSTOM_REVENUE_DESCRIPTION": "MISSING",
     "DELETE": {
-      "CONFIRM" : "Confirmer la suppression",
-      "HEADER" : "Supprimer le revenu ?",
-      "LINK" : "Supprimer le revenu",
-      "MESSAGE" : "Cette opération supprimera le revenu des registres de votre exploitation. Il ne sera plus pris en compte dans les résumés financiers."
+      "CONFIRM": "Confirmer la suppression",
+      "HEADER": "Supprimer le revenu ?",
+      "LINK": "Supprimer le revenu",
+      "MESSAGE": "Cette opération supprimera le revenu des registres de votre exploitation. Il ne sera plus pris en compte dans les résumés financiers."
     },
     "EDIT_REVENUE": {
-     "RETIRE_REVENUE_MESSAGE" : "Le retrait de ce type de revenu le supprimera des choix possible pour les recettes futures. Vous pourrez toujours rechercher et filtrer l'historiques des recettes de ce type dans l'onglet Finances.",
-     "RETIRE_REVENUE_TYPE" : "Retirer le type de revenu",
-     "RETIRED" : "(Retiré)",
-     "REVENUE_TYPE" : "Type de revenu"
+      "RETIRE_REVENUE_MESSAGE": "Le retrait de ce type de revenu le supprimera des choix possible pour les recettes futures. Vous pourrez toujours rechercher et filtrer l'historiques des recettes de ce type dans l'onglet Finances.",
+      "RETIRE_REVENUE_TYPE": "Retirer le type de revenu",
+      "RETIRED": "(Retiré)",
+      "REVENUE_TYPE": "Type de revenu"
     }
   },
   "ROLE_SELECTION": {
@@ -1572,6 +1575,7 @@
       },
       "ESTIMATED_HARVEST_REVENUE": "MISSING",
       "EXPENSES": "Dépenses",
+      "EXPORT_REPORT": "MISSING",
       "FINANCE_HELP": "Aide Financière",
       "LABOUR_LABEL": "Coûts de main-d'œuvre",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
@@ -1584,6 +1588,8 @@
       },
       "OTHER_EXPENSES_LABEL": "Autres dépenses",
       "PROFIT_LOSS": "MISSING",
+      "REPORT": "MISSING",
+      "REPORT_HELP_TEXT": "MISSING",
       "REVENUE": "Revenu",
       "TITLE": "MISSING",
       "TOTAL_EXPENSES": "MISSING",

@@ -1569,6 +1569,7 @@
       },
       "ESTIMATED_HARVEST_REVENUE": "Estimated harvest revenue",
       "EXPENSES": "Expenses",
+      "EXPORT_REPORT": "Export report",
       "FINANCE_HELP": "Finance Help",
       "LABOUR_LABEL": "Labour",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
@@ -1582,6 +1583,8 @@
       "OTHER_EXPENSES": "Other expenses",
       "OTHER_EXPENSES_LABEL": "Other Expenses",
       "PROFIT_LOSS": "Profit / Loss",
+      "REPORT": "Report",
+      "REPORT_HELP_TEXT": "These filters mirror what you see on the Finances overview. You can modify what is exported below.",
       "REVENUE": "Revenue",
       "TITLE": "Finances overview",
       "TOTAL_EXPENSES": "Total expenses",

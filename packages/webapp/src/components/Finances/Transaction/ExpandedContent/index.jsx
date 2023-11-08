@@ -15,19 +15,19 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsChevronRight } from 'react-icons/bs';
-import TextButton from '../../../Form/Button/TextButton';
-import history from '../../../../history';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
-import GeneralTransactionTable from './GeneralTransactionTable';
+import history from '../../../../history';
+import TextButton from '../../../Form/Button/TextButton';
 import CropSaleTable from './CropSaleTable';
-import styles from './styles.module.scss';
+import GeneralTransactionTable from './GeneralTransactionTable';
 import LabourTable from './LabourTable';
+import styles from './styles.module.scss';
 
 const components = {
   EXPENSE: (props) => <GeneralTransactionTable {...props} />,
   REVENUE: (props) => <GeneralTransactionTable {...props} />,
   LABOUR_EXPENSE: (props) => <LabourTable {...props} />,
-  CROP_SALE: (props) => <CropSaleTable {...props} />,
+  CROP_REVENUE: (props) => <CropSaleTable {...props} />,
 };
 
 const getDetailPageLink = ({ transactionType, relatedId }) => {
@@ -35,11 +35,12 @@ const getDetailPageLink = ({ transactionType, relatedId }) => {
     LABOUR_EXPENSE: '/labour',
     EXPENSE: `/expense/${relatedId}`,
     REVENUE: `/revenue/${relatedId}`,
+    CROP_REVENUE: `/revenue/${relatedId}`,
   }[transactionType];
 };
 
 export default function ExpandedContent({ data, currencySymbol, mobileView }) {
-  const { transactionType, cropGenerated } = data;
+  const { transactionType } = data;
 
   const { t } = useTranslation();
 
@@ -48,8 +49,7 @@ export default function ExpandedContent({ data, currencySymbol, mobileView }) {
       ? t('FINANCES.TRANSACTION.VIEW_LABOUR')
       : t('FINANCES.TRANSACTION.VIEW_AND_EDIT');
 
-  const componentKey = cropGenerated ? 'CROP_SALE' : transactionType;
-  const Component = components[componentKey];
+  const Component = components[transactionType];
 
   return (
     <div className={styles.expandedContent}>

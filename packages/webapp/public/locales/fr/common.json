@@ -32,7 +32,7 @@
   "LOADING": "Chargement en cours...",
   "MARK_ABANDON": "Marquer Abandonné",
   "MARK_COMPLETE": "Marquer Complet",
-  "MARK_COMPLETED": "Marquer Terminé",,
+  "MARK_COMPLETED": "Marquer Terminé",
   "MAX_CHARS": "Maximum {{value}} caractères",
   "MAX_ERROR": "Veuillez saisir une valeur inférieure à {{value}}",
   "MIN_ERROR": "Veuillez saisir une valeur supérieure à {{value}}",

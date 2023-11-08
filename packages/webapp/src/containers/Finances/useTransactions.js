@@ -33,6 +33,7 @@ export const transactionTypeEnum = {
   expense: 'EXPENSE',
   labourExpense: 'LABOUR_EXPENSE',
   revenue: 'REVENUE',
+  cropRevenue: 'CROP_REVENUE',
 };
 
 // Polyfill for tests and older browsers
@@ -131,7 +132,9 @@ const buildRevenueTransactions = ({
     return {
       icon: revenueType?.farm_id ? 'CUSTOM' : revenueType?.revenue_translation_key,
       date: item.sale.sale_date,
-      transactionType: transactionTypeEnum.revenue,
+      transactionType: revenueType.crop_generated
+        ? transactionTypeEnum.cropRevenue
+        : transactionTypeEnum.revenue,
       typeLabel: revenueType?.farm_id
         ? revenueType?.revenue_name
         : i18n.t(`revenue:${revenueType?.revenue_translation_key}.REVENUE_NAME`),
@@ -139,7 +142,6 @@ const buildRevenueTransactions = ({
       note: item.sale.customer_name,
       items: item.financeItemsProps,
       relatedId: item.sale.sale_id,
-      cropGenerated: item.cropGenerated || false,
     };
   });
 };

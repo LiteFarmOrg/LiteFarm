@@ -29,6 +29,14 @@ import { downloadFinanceReport } from '../saga';
 import { dateRangeDataSelector } from '../selectors';
 import useTransactions from '../useTransactions';
 import styles from './styles.module.scss';
+import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
+import {
+  generateConfigSheetHeaders,
+  generateReportHeaders,
+  generateWorksheetTitles,
+  formatTransactions,
+} from './reportFormattingUtils';
 
 const Report = () => {
   const { t } = useTranslation();
@@ -40,6 +48,8 @@ const Report = () => {
   const [dateFilter, setDateFilter] = useState(dashboardDateFilter);
   const [typesFilter, setTypesFilter] = useState(dashboardTypesFilter);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const currencySymbol = useCurrencySymbol();
 
   const dispatch = useDispatch();
   const filterRef = useRef({});
@@ -127,13 +137,20 @@ const Report = () => {
   }, [transactions]); */
 
   const handleExport = () => {
+    const language = getLanguageFromLocalStorage();
+
     dispatch(
       downloadFinanceReport({
-        transactions,
+        transactions: formatTransactions(transactions, t),
         config: {
           dateFilter,
           typesFilter,
         },
+        reportHeaders: generateReportHeaders(t),
+        configSheetHeaders: generateConfigSheetHeaders(t),
+        currencySymbol,
+        language,
+        worksheetTitles: generateWorksheetTitles(t),
       }),
     );
     dismissModal();

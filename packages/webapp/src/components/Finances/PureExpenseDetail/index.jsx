@@ -27,7 +27,7 @@ import { ReactComponent as TrashIcon } from '../../../assets/images/document/tra
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 import ReactSelect from '../../Form/ReactSelect';
-import { getDateFromDateTimeString } from '../../../util/moment';
+import moment from 'moment';
 import { NOTE, VALUE, DATE, TYPE } from '../AddExpense/constants';
 
 const PureExpenseDetail = ({
@@ -52,7 +52,7 @@ const PureExpenseDetail = ({
     mode: 'onChange',
     defaultValues: {
       [NOTE]: expense.note,
-      [DATE]: getDateFromDateTimeString(expense.expense_date),
+      [DATE]: moment(expense.expense_date).format('YYYY-MM-DD'),
       [TYPE]: expenseTypeReactSelectOptions.find(
         (option) => option.value === expense.expense_type_id,
       ),

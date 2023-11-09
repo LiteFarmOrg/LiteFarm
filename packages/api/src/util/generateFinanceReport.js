@@ -69,20 +69,19 @@ export const addConfigurationWorksheet = ({
 }) => {
   const worksheet = workbook.addWorksheet(title);
 
-  addHeadersToWorksheet(worksheet, configSheetHeaders);
-  setWorksheetColumnWidths(worksheet, [24, 24, 18, 18]);
-
   const expenseTypes = config.typesFilter.EXPENSE_TYPE
     ? Object.values(config.typesFilter.EXPENSE_TYPE)
         .filter(({ active }) => active)
         .map(({ label }) => label)
-    : [];
+        .join(', ')
+    : '';
 
   const revenueTypes = config.typesFilter.REVENUE_TYPE
     ? Object.values(config.typesFilter.REVENUE_TYPE)
         .filter(({ active }) => active)
         .map(({ label }) => label)
-    : [];
+        .join(', ')
+    : '';
 
   const dateRange = `${formatDate(config.dateFilter.startDate, language)} - ${formatDate(
     config.dateFilter.endDate,
@@ -91,18 +90,19 @@ export const addConfigurationWorksheet = ({
 
   addConfigDataRows({
     worksheet,
+    configSheetHeaders,
     farm_name,
     dateRange,
     expenseTypes,
     revenueTypes,
   });
 
-  // Wrap just the farm name field
-  const farmColumn = worksheet.getColumn(1);
-  farmColumn.eachCell((cell) => {
-    cell.alignment = { wrapText: true };
+  setWorksheetColumnWidths(worksheet, [18, 56]);
+  worksheet.columns.forEach((column) => {
+    column.eachCell((cell) => {
+      cell.alignment = { wrapText: true, vertical: 'top' };
+    });
   });
-
   return workbook;
 };
 
@@ -188,20 +188,25 @@ function formatCurrencyColumn(worksheet, currencySymbol) {
  * Adds configuration data rows to the worksheet.
  *
  * @param {ExcelJS.Worksheet} worksheet - The configuration worksheet.
+ * @param {Object} configSheetHeaders - Object containing the translated headers
  * @param {string} farm_name - The farm name.
  * @param {string} dateRange - The formatted date range.
  * @param {string[]} expenseTypes - Array of expense type labels.
  * @param {string[]} revenueTypes - Array of revenue type labels.
  */
-function addConfigDataRows({ worksheet, farm_name, dateRange, expenseTypes, revenueTypes }) {
-  // First row of data
-  worksheet.addRow([farm_name, dateRange, expenseTypes.shift(), revenueTypes.shift()]);
-
-  // Add remaining expense + revenue types in a column
-  const maxRows = Math.max(expenseTypes.length, revenueTypes.length);
-  for (let i = 0; i < maxRows; i++) {
-    worksheet.addRow(['', '', expenseTypes[i] || '', revenueTypes[i] || '']);
-  }
+function addConfigDataRows({
+  worksheet,
+  configSheetHeaders,
+  farm_name,
+  dateRange,
+  expenseTypes,
+  revenueTypes,
+}) {
+  worksheet.addRow([configSheetHeaders.farm, farm_name]);
+  worksheet.addRow([configSheetHeaders.dates, dateRange]);
+  worksheet.addRow(['', '']); // Empty row for spacing
+  worksheet.addRow([configSheetHeaders.expenseTypes, expenseTypes]);
+  worksheet.addRow([configSheetHeaders.revenueTypes, revenueTypes]);
 }
 
 /**

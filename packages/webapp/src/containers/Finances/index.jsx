@@ -28,11 +28,11 @@ import PureCollapsibleSearch from '../../components/PopupFilter/PureCollapsibleS
 import { Title } from '../../components/Typography';
 import { SUNDAY } from '../../util/dateRange';
 import { isTaskType } from '../Task/useIsTaskType';
-import { transactionsFilterSelector } from '../filterSlice';
+import { resetTransactionsFilter, transactionsFilterSelector } from '../filterSlice';
 import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
 import useSearchFilter from '../hooks/useSearchFilter';
 import { managementPlansSelector } from '../managementPlanSlice';
-import { getManagementPlansAndTasks } from '../saga';
+import { getCropVarieties, getManagementPlansAndTasks } from '../saga';
 import { taskEntitiesByManagementPlanIdSelector } from '../taskSlice';
 import Report from './Report';
 import TransactionFilter from './TransactionFilter';
@@ -65,7 +65,9 @@ const Finances = ({ history }) => {
     dispatch(getFarmExpenseType());
     dispatch(getRevenueTypes());
     dispatch(getManagementPlansAndTasks());
+    dispatch(getCropVarieties());
     dispatch(setSelectedExpenseTypes([]));
+    dispatch(resetTransactionsFilter());
   }, []);
 
   const getEstimatedRevenue = (managementPlans) => {

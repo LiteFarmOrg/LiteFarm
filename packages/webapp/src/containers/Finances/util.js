@@ -164,15 +164,14 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
         totalAmount: cropVarietySale.reduce((total, sale) => total + sale.sale_value, 0),
         financeItemsProps: cropVarietySale.map((cvs) => {
           const convertedQuantity = roundToTwoDecimal(getMass(cvs.quantity).toString());
-          const {
-            crop_variety_name: cropVarietyName,
-            crop: { crop_translation_key },
-          } = cropVarieties.find(
+          const cropVariety = cropVarieties.find(
             (cropVariety) => cropVariety.crop_variety_id === cvs.crop_variety_id,
           );
+          const cropVarietyName = cropVariety?.crop_variety_name;
+          const cropTranslationKey = cropVariety?.crop.crop_translation_key;
           const title = cropVarietyName
-            ? `${cropVarietyName}, ${i18n.t(`crop:${crop_translation_key}`)}`
-            : i18n.t(`crop:${crop_translation_key}`);
+            ? `${cropVarietyName}, ${i18n.t(`crop:${cropTranslationKey}`)}`
+            : i18n.t(`crop:${cropTranslationKey}`);
           return {
             key: cvs.crop_variety_id,
             title,
@@ -190,7 +189,7 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
         financeItemsProps: [
           {
             key: sale.sale_id,
-            title: revenueType.revenue_name,
+            title: revenueType?.revenue_name,
             amount: sale.value || 0,
           },
         ],
@@ -227,7 +226,7 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
   const revenueType = revenueTypes.find(
     (type) => type.revenue_type_id === data[REVENUE_TYPE_OPTION].value,
   );
-  if (revenueType.crop_generated) {
+  if (revenueType?.crop_generated) {
     sale.value = undefined;
     sale.crop_variety_sale = Object.values(data[CROP_VARIETY_SALE]).map((c) => {
       return {

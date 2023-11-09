@@ -147,14 +147,14 @@ const buildRevenueTransactions = ({
 };
 
 export const buildTransactions = ({
-  sales,
-  tasks,
-  expenses,
-  expenseTypes,
-  revenueTypes,
-  taskTypes,
-  cropVarieties,
-  users,
+  sales = [],
+  tasks = [],
+  expenses = [],
+  expenseTypes = [],
+  revenueTypes = [],
+  taskTypes = [],
+  cropVarieties = [],
+  users = [],
   dateFilter,
   expenseTypeFilter,
   revenueTypeFilter,

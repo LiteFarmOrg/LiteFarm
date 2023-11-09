@@ -67,7 +67,6 @@ const Finances = ({ history }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('use effect');
     dispatch(getSales());
     dispatch(getExpense());
     dispatch(getFarmExpenseType());

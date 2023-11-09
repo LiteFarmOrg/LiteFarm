@@ -577,7 +577,6 @@ export function* checkAppVersionSaga() {
 }
 
 export function* fetchAllSaga() {
-  console.log('fetch all saga');
   const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
   if (!has_consent) return history.push('/consent');
 

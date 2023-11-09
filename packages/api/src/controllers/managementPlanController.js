@@ -896,14 +896,12 @@ export const getTransplantTasksByManagementPlanId = async (managementPlanId, trx
 };
 
 export const getCompletedOrAbandonedTasks = async (taskIds, trx = null) => {
-  if (!taskIds.length) {
-    return [];
-  }
-
   return TaskModel.query(trx)
     .select('*')
     .whereIn('task_id', taskIds)
-    .whereNotNull('abandon_date')
-    .orWhereNotNull('complete_date');
+    .andWhere((queryBuilder) => {
+      queryBuilder.whereNotNull('abandon_date').orWhereNotNull('complete_date');
+    });
 };
+
 export default managementPlanController;

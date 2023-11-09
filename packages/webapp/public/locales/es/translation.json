@@ -1128,6 +1128,7 @@
     "DELETE": {
       "CANT_DELETE_ABANDON": "Abandonar",
       "CANT_DELETE_ABANDON_INSTEAD": "¿Desea abandonar en lugar de eliminar?",
+      "CANT_DELETE_CONCURRENT_USER": "MISSING",
       "CANT_DELETE_MODIFIED_PLAN": "No se puede eliminar el plan de cultivo",
       "CONFIRM_DELETION": "Confirmar eliminación",
       "DELETE_PLAN": "Eliminar plan de cultivo",

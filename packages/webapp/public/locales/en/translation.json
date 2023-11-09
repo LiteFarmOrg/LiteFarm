@@ -1127,6 +1127,7 @@
     "DELETE": {
       "CANT_DELETE_ABANDON": "Abandon",
       "CANT_DELETE_ABANDON_INSTEAD": "Do you want to abandon this crop plan instead?",
+      "CANT_DELETE_CONCURRENT_USER": "Another farmer has completed or abandoned a task on this plan. Please refresh the page to get the most recent status.",
       "CANT_DELETE_MODIFIED_PLAN": "Can't delete crop plan",
       "CONFIRM_DELETION": "Confirm deletion",
       "DELETE_PLAN": "Delete crop plan",

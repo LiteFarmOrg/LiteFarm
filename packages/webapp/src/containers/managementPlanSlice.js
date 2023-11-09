@@ -25,6 +25,7 @@ export const getManagementPlan = (obj) => {
       'repetition_number',
       'management_plan_group',
       'harvested_to_date',
+      'deleted',
     ],
   );
 };
@@ -61,6 +62,22 @@ const addManyManagementPlan = (state, { payload: managementPlans }) => {
   );
 };
 
+const deleteOneManagementPlan = (state, { payload: managementPlanId }) => {
+  const managementPlan = state.entities[managementPlanId];
+  if (managementPlan) {
+    managementPlan.deleted = true;
+  }
+};
+
+const deleteManyManagementPlans = (state, { payload: managementPlanIds }) => {
+  managementPlanIds.forEach((id) => {
+    const managementPlan = state.entities[id];
+    if (managementPlan) {
+      managementPlan.deleted = true;
+    }
+  });
+};
+
 const managementPlanAdapter = createEntityAdapter({
   selectId: (managementPlan) => managementPlan.management_plan_id,
 });
@@ -77,8 +94,8 @@ const managementPlanSlice = createSlice({
     onLoadingManagementPlanFail: onLoadingFail,
     getAllManagementPlansSuccess: addAllManagementPlan,
     getManagementPlansSuccess: addManyManagementPlan,
-    deleteManagementPlanSuccess: managementPlanAdapter.removeOne,
-    deleteManagementPlansSuccess: managementPlanAdapter.removeMany,
+    deleteManagementPlanSuccess: deleteOneManagementPlan, // soft delete
+    deleteManagementPlansSuccess: deleteManyManagementPlans, // soft delete
     updateManagementPlanSuccess: updateOneManagementPlan,
   },
 });
@@ -154,7 +171,8 @@ export const managementPlansSelector = createSelector(
   [managementPlanEntitiesSelector, loginSelector],
   (managementPlanEntities, { farm_id }) =>
     Object.values(managementPlanEntities).filter(
-      (managementPlan) => managementPlan.crop_variety.farm_id === farm_id,
+      (managementPlan) =>
+        managementPlan.crop_variety.farm_id === farm_id && !managementPlan.deleted,
     ),
 );
 

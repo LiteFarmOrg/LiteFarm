@@ -19,6 +19,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import NoSearchResults from '../../components/Card/NoSearchResults';
+import { dateRangeOptions } from '../../components/DateRangeSelector/constants';
 import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';
 import AddTransactionButton from '../../components/Finances/AddTransactionButton';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
@@ -36,7 +37,13 @@ import { getCropVarieties, getManagementPlansAndTasks } from '../saga';
 import { taskEntitiesByManagementPlanIdSelector } from '../taskSlice';
 import Report from './Report';
 import TransactionFilter from './TransactionFilter';
-import { getExpense, getFarmExpenseType, getSales, setSelectedExpenseTypes } from './actions';
+import {
+  getExpense,
+  getFarmExpenseType,
+  getSales,
+  setDateRange,
+  setSelectedExpenseTypes,
+} from './actions';
 import { getRevenueTypes } from './saga';
 import styles from './styles.module.scss';
 import useTransactions from './useTransactions';
@@ -60,6 +67,7 @@ const Finances = ({ history }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('use effect');
     dispatch(getSales());
     dispatch(getExpense());
     dispatch(getFarmExpenseType());
@@ -68,6 +76,7 @@ const Finances = ({ history }) => {
     dispatch(getCropVarieties());
     dispatch(setSelectedExpenseTypes([]));
     dispatch(resetTransactionsFilter());
+    dispatch(setDateRange({ option: dateRangeOptions.YEAR_TO_DATE }));
   }, []);
 
   const getEstimatedRevenue = (managementPlans) => {

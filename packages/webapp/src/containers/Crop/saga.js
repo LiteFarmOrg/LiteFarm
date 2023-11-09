@@ -190,7 +190,7 @@ export function* deleteManagementPlanSaga({ payload }) {
 export const checkManagementPlanDependencies = createAction(`checkManagementPlanDependenciesSaga`);
 
 export function* checkManagementPlanDependenciesSaga({ payload: data }) {
-  const { management_plan_id, setShowConfirmDeleteModal, setShowCannotDeleteModal } = data;
+  const { management_plan_id, setShowCannotDeleteModal } = data;
   const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -201,9 +201,10 @@ export function* checkManagementPlanDependenciesSaga({ payload: data }) {
       `${managementPlanURL}/check_delete/${management_plan_id}`,
       header,
     );
-    setShowConfirmDeleteModal(true);
   } catch (e) {
-    setShowCannotDeleteModal(true);
+    if (e.response.data === 'Cannot delete management plan with completed or abandonded tasks') {
+      setShowCannotDeleteModal(true);
+    }
   }
 }
 

@@ -897,6 +897,10 @@ export const getTransplantTasksByManagementPlanId = async (managementPlanId, trx
 };
 
 export const getCompletedOrAbandonedTasks = async (taskIds, trx = null) => {
+  if (!taskIds.length) {
+    return [];
+  }
+
   return TaskModel.query(trx)
     .select('*')
     .whereIn('task_id', taskIds)

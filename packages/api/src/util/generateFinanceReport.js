@@ -224,27 +224,3 @@ function addConfigDataRows({
 const formatDate = (date, language = 'en') => {
   return new Date(date).toLocaleDateString(language);
 };
-
-/**
- * Converts each filter type object into an array of type ids to store less data in the database
- *
- * @param {Object} filters - The filters config object
- * @returns {Object} Object where each filter type contains an array of active type ids
- *
- */
-export const formatTypeFilters = (filterConfig) => {
-  const formattedFilters = {};
-
-  for (const [filterType, filterList] of Object.entries(filterConfig)) {
-    if (!filterList) {
-      continue; // Skip if filterList is undefined
-    }
-    const activeFilterIds = Object.entries(filterList)
-      .map(([id, filter]) => (filter.active ? id : null))
-      .filter(Boolean);
-
-    formattedFilters[filterType] = activeFilterIds;
-  }
-
-  return formattedFilters;
-};

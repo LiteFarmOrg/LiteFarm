@@ -21,7 +21,6 @@ import FinanceReportModel from '../models/financeReportModel.js';
 import {
   generateTransactionsList,
   addConfigurationWorksheet,
-  formatTypeFilters,
 } from '../util/generateFinanceReport.js';
 
 const exportController = {
@@ -93,8 +92,7 @@ const exportController = {
             farm_id,
             file_type: 'xlsx',
             filter_config: {
-              dateFilter: config.dateFilter,
-              typesFilter: formatTypeFilters(config.typesFilter),
+              config,
             },
           })
           .context({ user_id: req.auth.user_id });

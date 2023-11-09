@@ -858,7 +858,8 @@
     "REPORT": {
       "DATES": "MISSING",
       "SETTINGS": "MISSING",
-      "TRANSACTION": "MISSING"
+      "TRANSACTION": "MISSING",
+      "TRANSACTIONS": "MISSING"
     },
     "REVENUE": "Ingresos",
     "SEARCH": {

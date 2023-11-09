@@ -30,7 +30,7 @@ export const generateConfigSheetHeaders = (t) => ({
 });
 
 export const generateWorksheetTitles = (t) => ({
-  TRANSACTIONS: t('FINANCES.REPORT.TRANSACTION'),
+  TRANSACTIONS: t('FINANCES.REPORT.TRANSACTIONS'),
   EXPORT_SETTINGS: t('FINANCES.REPORT.SETTINGS'),
 });
 

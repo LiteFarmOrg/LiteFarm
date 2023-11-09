@@ -859,7 +859,8 @@
     "REPORT": {
       "DATES": "Dates",
       "SETTINGS": "Export Settings",
-      "TRANSACTION": "Transaction"
+      "TRANSACTION": "Transaction",
+      "TRANSACTIONS": "Transactions"
     },
     "REVENUE": "Revenue",
     "SEARCH": {

@@ -901,7 +901,6 @@ export const getCompletedOrAbandonedTasks = async (taskIds, trx = null) => {
     .select('*')
     .whereIn('task_id', taskIds)
     .whereNotNull('abandon_date')
-    .whereNotNull('complete_date');
+    .orWhereNotNull('complete_date');
 };
-
 export default managementPlanController;

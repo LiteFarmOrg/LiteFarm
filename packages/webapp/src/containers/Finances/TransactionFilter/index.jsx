@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FilterButton from '../../../components/Filter/FilterButton';
 import Button from '../../../components/Form/Button';
 import ModalComponent from '../../../components/Modals/ModalComponent/v2';
+import { Semibold } from '../../../components/Typography';
 import TransactionFilterContent from '../../Filter/Transactions';
 import {
   isFilterCurrentlyActiveSelector,
@@ -58,11 +59,14 @@ const TransactionFilter = () => {
             </Button>
           }
         >
-          <TransactionFilterContent
-            transactionsFilter={transactionsFilter}
-            filterRef={filterRef}
-            onChange={() => !isDirty && setIsDirty(true)}
-          />
+          <div className={styles.filterContents}>
+            <Semibold className={styles.helpText}>{t('FINANCES.FILTER.HELP_TEXT')}</Semibold>
+            <TransactionFilterContent
+              transactionsFilter={transactionsFilter}
+              filterRef={filterRef}
+              onChange={() => !isDirty && setIsDirty(true)}
+            />
+          </div>
         </ModalComponent>
       )}
     </>

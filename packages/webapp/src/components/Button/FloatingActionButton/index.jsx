@@ -12,19 +12,26 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { forwardRef } from 'react';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import { Fab } from '@mui/material';
+import styles from './styles.module.scss';
 
-.title {
-  color: #000;
-}
+const FloatingActionButton = forwardRef(({ type, className, ...props }, ref) => {
+  return (
+    <Fab
+      color="yellow300"
+      className={clsx(styles.floatingActionButton, styles[type])}
+      ref={ref}
+      {...props}
+    />
+  );
+});
 
-.helpText {
-  margin-bottom: 36px;
-}
+FloatingActionButton.displayName = 'FloatingActionButton';
+FloatingActionButton.propTypes = {
+  type: PropTypes.oneOf(['add']),
+};
 
-.filterContents {
-  overflow-y: auto;
-  // Removes parent's padding and adds internal padding so that the scroll bar shows on the side of the modal
-  margin: 0 -24px;
-  padding: 24px;
-}
-
+export default FloatingActionButton;

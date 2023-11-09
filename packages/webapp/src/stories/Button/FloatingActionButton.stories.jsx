@@ -12,19 +12,17 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import FloatingActionButton from '../../components/Button/FloatingActionButton';
+import { componentDecorators } from '../Pages/config/Decorators';
 
-.title {
-  color: #000;
-}
+export default {
+  title: 'Components/Button/FloatingActionButton',
+  component: FloatingActionButton,
+  decorators: componentDecorators,
+};
 
-.helpText {
-  margin-bottom: 36px;
-}
+export const Primary = {};
 
-.filterContents {
-  overflow-y: auto;
-  // Removes parent's padding and adds internal padding so that the scroll bar shows on the side of the modal
-  margin: 0 -24px;
-  padding: 24px;
-}
-
+export const Add = {
+  args: { type: 'add' },
+};

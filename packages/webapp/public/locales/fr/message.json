@@ -155,7 +155,7 @@
       "ADD": "Type de revenus ajouté",
       "DELETE": "Type de revenus supprimé",
       "UPDATE": "Type de revenus mis à jour"
-   }
+    }
   },
   "SALE": {
     "ERROR": {

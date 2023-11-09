@@ -24,7 +24,7 @@ export default function ManagementTasks({ history, match, location }) {
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
 
   useEffect(() => {
-    if (plan === undefined) {
+    if (!plan || plan.deleted) {
       history.replace('/unknown_record');
     }
   }, [plan, history]);

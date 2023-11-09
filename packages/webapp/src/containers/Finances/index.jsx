@@ -13,35 +13,34 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styles from './styles.module.scss';
-import { getFarmExpenseType, getExpense, getSales, setSelectedExpenseTypes } from './actions';
-import { calcOtherExpense, calcTotalLabour, calcActualRevenue } from './util';
 import Moment from 'moment';
-import DateRangeSelector from '../../components/Finances/DateRangeSelector';
 import { extendMoment } from 'moment-range';
-import { managementPlansSelector } from '../managementPlanSlice';
-import { getManagementPlansAndTasks } from '../saga';
-import { getRevenueTypes } from './saga';
-import Button from '../../components/Form/Button';
-import { Semibold, Title } from '../../components/Typography';
-import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
-import { taskEntitiesByManagementPlanIdSelector } from '../taskSlice';
-import { isTaskType } from '../Task/useIsTaskType';
-import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { downloadFinanceReport } from './saga';
-import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
+import { useDispatch, useSelector } from 'react-redux';
+import NoSearchResults from '../../components/Card/NoSearchResults';
 import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';
-import { SUNDAY } from '../../util/dateRange';
-import TransactionFilter from './TransactionFilter';
-import { transactionsFilterSelector } from '../filterSlice';
-import useTransactions from './useTransactions';
+import AddTransactionButton from '../../components/Finances/AddTransactionButton';
+import DateRangeSelector from '../../components/Finances/DateRangeSelector';
+import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
 import PureTransactionList from '../../components/Finances/Transaction/Mobile/List';
 import PureCollapsibleSearch from '../../components/PopupFilter/PureCollapsibleSearch';
+import { Title } from '../../components/Typography';
+import { SUNDAY } from '../../util/dateRange';
+import { isTaskType } from '../Task/useIsTaskType';
+import { transactionsFilterSelector } from '../filterSlice';
+import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
 import useSearchFilter from '../hooks/useSearchFilter';
-import NoSearchResults from '../../components/Card/NoSearchResults';
+import { managementPlansSelector } from '../managementPlanSlice';
+import { getManagementPlansAndTasks } from '../saga';
+import { taskEntitiesByManagementPlanIdSelector } from '../taskSlice';
+import Report from './Report';
+import TransactionFilter from './TransactionFilter';
+import { getExpense, getFarmExpenseType, getSales, setSelectedExpenseTypes } from './actions';
+import { getRevenueTypes } from './saga';
+import styles from './styles.module.scss';
+import useTransactions from './useTransactions';
+import { calcActualRevenue, calcOtherExpense, calcTotalLabour } from './util';
 
 const moment = extendMoment(Moment);
 
@@ -117,46 +116,10 @@ const Finances = ({ history }) => {
 
   return (
     <div className={styles.financesContainer}>
-      <Title style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.TITLE')}</Title>
-      <Semibold style={{ marginBottom: '8px' }}>{t('SALE.FINANCES.ACTION')}</Semibold>
-      <div className={styles.buttonContainer}>
-        <Button
-          style={{ height: '48px' }}
-          onClick={() => {
-            dispatch(setPersistedPaths(['/expense_categories', '/add_expense']));
-            history.push('/expense_categories');
-          }}
-          color="success"
-        >
-          {t('SALE.FINANCES.ADD_NEW_EXPENSE')}
-        </Button>
-        <Button
-          style={{ height: '48px' }}
-          onClick={() => {
-            dispatch(setPersistedPaths(['/revenue_types', '/add_sale']));
-            history.push('/revenue_types');
-          }}
-          color="success"
-        >
-          {t('SALE.FINANCES.ADD_NEW_SALE')}
-        </Button>
+      <div className={styles.titleContainer}>
+        <Title>{t('SALE.FINANCES.TITLE')}</Title>
+        <Report />
       </div>
-      <Button
-        style={{ height: '48px', marginInline: '4px' }}
-        onClick={() => {
-          dispatch(
-            downloadFinanceReport({
-              revenue: totalRevenue,
-              expenses: totalExpense,
-              balance: (parseFloat(totalRevenue) - parseFloat(totalExpense)).toFixed(2),
-            }),
-          );
-        }}
-        color="success"
-      >
-        Download Report
-      </Button>
-      <hr />
       <div className={styles.filterBar} ref={overlayRef}>
         <DateRangeSelector className={styles.dateRangeSelector} />
         <div className={styles.filterBarButtons}>
@@ -179,6 +142,7 @@ const Finances = ({ history }) => {
           currencySymbol={currencySymbol}
           history={history}
         />
+        <AddTransactionButton />
       </div>
       {hasSearchResults ? (
         <PureTransactionList data={filteredTransactions} mobileView={true} />

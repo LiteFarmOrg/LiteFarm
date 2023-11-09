@@ -12,19 +12,21 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import FloatingMenu from '../../../components/Menu/FloatingButtonMenu/FloatingMenu';
+import { componentDecorators } from '../../Pages/config/Decorators';
 
-.title {
-  color: #000;
-}
+export default {
+  title: 'Components/Menu/FloatingMenu',
+  component: FloatingMenu,
+  decorators: componentDecorators,
+};
 
-.helpText {
-  margin-bottom: 36px;
-}
-
-.filterContents {
-  overflow-y: auto;
-  // Removes parent's padding and adds internal padding so that the scroll bar shows on the side of the modal
-  margin: 0 -24px;
-  padding: 24px;
-}
-
+export const AddTransaction = {
+  args: {
+    options: [
+      { label: '+ Add Revenue', onClick: () => console.log('Add Revenue') },
+      { label: '+ Add Expense', onClick: () => console.log('Add Expense') },
+    ],
+    style: { width: '163px' },
+  },
+};

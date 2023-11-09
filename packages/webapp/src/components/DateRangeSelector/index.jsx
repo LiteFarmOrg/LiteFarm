@@ -12,15 +12,15 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import clsx from 'clsx';
 import { ClickAwayListener } from '@mui/material';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as Calendar } from '../../assets/images/dateInput/calendar.svg';
-import CustomDateRangeSelector from './CustomDateRangeSelector';
-import ReactSelect from '../Form/ReactSelect';
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
+import ReactSelect from '../Form/ReactSelect';
+import CustomDateRangeSelector from './CustomDateRangeSelector';
 import { dateRangeOptions as rangeOptions } from './constants';
 import styles from './styles.module.scss';
 
@@ -30,8 +30,10 @@ export default function DateRangeSelector({
   onChangeDateRangeOption,
   placeholder,
   changeDateMethod,
+  onValidityChange,
 }) {
   const [isCustomDatePickerOpen, setIsCustomDatePickerOpen] = useState(false);
+  const [isCustomOptionSelected, setIsCustomOptionSelected] = useState(false);
 
   const { t } = useTranslation();
   const selectRef = useRef(null);
@@ -41,7 +43,7 @@ export default function DateRangeSelector({
 
   const isValidRange = customFromDate <= customToDate;
   const areValidDates = customFromDate?.isValid() && customToDate?.isValid();
-  const isValid = !!(areValidDates && isValidRange);
+  const isValid = !isCustomOptionSelected || !!(areValidDates && isValidRange);
 
   const options = [
     { value: rangeOptions.YEAR_TO_DATE, label: t('DATE_RANGE_SELECTOR.YEAR_TO_DATE') },
@@ -54,6 +56,10 @@ export default function DateRangeSelector({
     { value: rangeOptions.LAST_MONTH, label: t('DATE_RANGE_SELECTOR.LAST_MONTH') },
     { value: rangeOptions.CUSTOM, label: t('DATE_RANGE_SELECTOR.CUSTOM_RANGE') },
   ];
+
+  useEffect(() => {
+    onValidityChange?.(isValid);
+  }, [isValid, onValidityChange]);
 
   useEffect(() => {
     if (!isValid & !isCustomDatePickerOpen) {
@@ -132,7 +138,11 @@ export default function DateRangeSelector({
           onChange={(e) => {
             if (e?.value === rangeOptions.CUSTOM) {
               setIsCustomDatePickerOpen(true);
+              setIsCustomOptionSelected(true);
+            } else {
+              setIsCustomOptionSelected(false);
             }
+            clearCustomDateRange();
             onChangeDateRangeOption && e?.value && onChangeDateRangeOption(e.value);
           }}
           formatOptionLabel={formatOptionLabel}
@@ -170,4 +180,5 @@ DateRangeSelector.propTypes = {
   placeholder: PropTypes.string,
   changeDateMethod: PropTypes.func,
   onChangeDateRangeOption: PropTypes.func,
+  onValidityChange: PropTypes.func,
 };

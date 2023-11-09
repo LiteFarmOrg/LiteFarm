@@ -117,7 +117,8 @@ export function* patchVarietalSaga({ payload: { variety_id, crop_id, data } }) {
       header,
     );
     yield put(putCropVarietySuccess({ crop_variety_id: variety_id, ...data }));
-    history.push(`/crop/${variety_id}/detail`);
+    history.back();
+    history.replace(`/crop/${variety_id}/detail`);
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.UPDATE')));
   } catch (e) {
     if (

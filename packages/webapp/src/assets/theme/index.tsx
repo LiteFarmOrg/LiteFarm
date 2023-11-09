@@ -1,11 +1,19 @@
 import { createTheme, StyledEngineProvider } from '@mui/material';
-import { adaptV4Theme, ThemeProvider, Theme } from '@mui/material/styles';
+import { ThemeProvider, Theme } from '@mui/material/styles';
 import '@mui/styles';
 import React, { FC, ReactNode } from 'react';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
+}
+declare module '@mui/material/styles' {
+  interface Palette {
+    yellow300: Palette['primary'];
+  }
+  interface PaletteOptions {
+    yellow300?: PaletteOptions['primary'];
+  }
 }
 
 export const colors = {
@@ -45,59 +53,65 @@ export const colors = {
   brown900: '#7E4C0E',
 };
 
-const theme = createTheme(
-  adaptV4Theme({
-    palette: {
-      primary: {
-        contrastText: colors.grey900,
-        main: colors.teal700,
-      },
-      secondary: {
-        contrastText: colors.grey900,
-        main: '#fff',
-      },
-      success: {
-        contrastText: colors.grey900,
-        main: colors.brightGreen700,
-      },
-      info: {
-        contrastText: colors.grey900,
-        main: colors.blue700,
-      },
-      warning: {
-        contrastText: colors.grey900,
-        main: colors.orange700,
-      },
-      error: {
-        contrastText: colors.grey900,
-        main: colors.red700,
-      },
-      background: {
-        default: '#fff',
-        paper: '#fff',
-      },
-      text: {
-        primary: colors.grey900,
-        disabled: colors.grey600,
-      },
-      action: {
-        hover: colors.green100,
-        hoverOpacity: 0.5,
-        active: colors.green100,
-        selected: colors.green100,
-        focus: colors.green100,
-      },
+const theme = createTheme({
+  palette: {
+    primary: {
+      contrastText: colors.grey900,
+      main: colors.teal700,
     },
-    typography: {
-      fontFamily: '"Open Sans"," SansSerif", serif',
+    secondary: {
+      contrastText: colors.grey900,
+      main: '#fff',
     },
-    props: {
-      MuiButtonBase: {
+    success: {
+      contrastText: colors.grey900,
+      main: colors.brightGreen700,
+    },
+    info: {
+      contrastText: colors.grey900,
+      main: colors.blue700,
+    },
+    warning: {
+      contrastText: colors.grey900,
+      main: colors.orange700,
+    },
+    error: {
+      contrastText: colors.grey900,
+      main: colors.red700,
+    },
+    background: {
+      default: '#fff',
+      paper: '#fff',
+    },
+    text: {
+      primary: colors.grey900,
+      disabled: colors.grey600,
+    },
+    action: {
+      hover: colors.green100,
+      hoverOpacity: 0.5,
+      active: colors.green100,
+      selected: colors.green100,
+      focus: colors.green100,
+    },
+    yellow300: {
+      main: colors.yellow300,
+      light: colors.yellow300,
+      dark: colors.yellow300,
+      contrastText: colors.yellow300,
+    },
+  },
+  typography: {
+    fontFamily: '"Open Sans"," SansSerif", serif',
+  },
+  components: {
+    MuiButtonBase: {
+      defaultProps: {
         disableRipple: true,
       },
     },
-    overrides: {
-      MuiCssBaseline: {
+    MuiCssBaseline: {
+      styleOverrides: {
         html: {
           height: '100%',
         },
@@ -114,11 +128,11 @@ const theme = createTheme(
         },
       },
     },
-  }),
-);
+  },
+});
 
 export default theme;
-const defaultTheme = createTheme(adaptV4Theme({}));
+const defaultTheme = createTheme({});
 export const DefaultThemeProvider: FC<{ children: ReactNode }> = ({ children }) => (
   <StyledEngineProvider injectFirst>
     <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>

@@ -33,25 +33,19 @@ function EditCropVarietyForm({ history, match }) {
     dispatch(patchVarietal({ variety_id, crop_id: cropVariety.crop_id, data: varietyData }));
   };
 
-  // TODO - Add persisted path (LF-1430)
-  const persistedPath = [];
-
   return (
-    <HookFormPersistProvider>
-      <PureEditCropVariety
-        onSubmit={onSubmit}
-        onError={onError}
-        isSeekingCert={interested}
-        imageUploader={
-          <ImagePickerWrapper>
-            <AddLink>{t('CROP.ADD_IMAGE')}</AddLink>
-          </ImagePickerWrapper>
-        }
-        handleGoBack={() => history.back()}
-        cropVariety={cropVariety}
-        persistedPath={persistedPath}
-      />
-    </HookFormPersistProvider>
+    <PureEditCropVariety
+      onSubmit={onSubmit}
+      onError={onError}
+      isSeekingCert={interested}
+      imageUploader={
+        <ImagePickerWrapper>
+          <AddLink>{t('CROP.ADD_IMAGE')}</AddLink>
+        </ImagePickerWrapper>
+      }
+      handleGoBack={() => history.back()}
+      cropVariety={cropVariety}
+    />
   );
 }
 

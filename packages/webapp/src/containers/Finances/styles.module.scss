@@ -22,31 +22,26 @@
   flex-direction: column;
 }
 
-.topContainer {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.buttonContainer {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  button {
-    width: 90%;
-    margin: 0.25em;
-  }
-}
-
 .carrouselContainer {
   background-color: var(--grey200);
   padding: 8px 16px;
   margin: 0 -16px 0 -16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   @media only screen and (min-width: 1024px) {
     margin: 0;
+  }
+}
+
+.titleContainer {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  @media only screen and (max-width: 768px) {
+    justify-content: space-between;
   }
 }
 

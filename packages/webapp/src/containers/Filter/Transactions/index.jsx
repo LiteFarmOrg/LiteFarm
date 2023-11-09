@@ -17,14 +17,17 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import FilterGroup from '../../../components/Filter/FilterGroup';
-import { Semibold } from '../../../components/Typography';
 import { allExpenseTypeSelector } from '../../Finances/selectors';
 import { transactionTypeEnum } from '../../Finances/useTransactions';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../constants';
-import styles from './styles.module.scss';
 
-const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) => {
+const TransactionFilterContent = ({
+  transactionsFilter,
+  filterRef,
+  filterContainerClassName,
+  onChange,
+}) => {
   const { t } = useTranslation(['translation', 'filter']);
   const expenseTypes = useSelector(allExpenseTypeSelector);
   const revenueTypes = useSelector(allRevenueTypesSelector);
@@ -66,15 +69,13 @@ const TransactionFilterContent = ({ transactionsFilter, filterRef, onChange }) =
   ];
 
   return (
-    <div className={styles.filterContents}>
-      <Semibold className={styles.helpText}>{t('FINANCES.FILTER.HELP_TEXT')}</Semibold>
-      <FilterGroup
-        filters={filters}
-        filterRef={filterRef}
-        onChange={onChange}
-        showIndividualFilterControls
-      />
-    </div>
+    <FilterGroup
+      filters={filters}
+      filterRef={filterRef}
+      filterContainerClassName={filterContainerClassName}
+      onChange={onChange}
+      showIndividualFilterControls
+    />
   );
 };
 
@@ -83,6 +84,7 @@ const filterShape = { active: PropTypes.bool, label: PropTypes.string };
 TransactionFilterContent.propTypes = {
   transactionsFilter: PropTypes.objectOf(PropTypes.shape(filterShape)).isRequired,
   filterRef: PropTypes.shape({ current: PropTypes.shape(filterShape) }).isRequired,
+  filterContainerClassName: PropTypes.string,
   onChange: PropTypes.func,
 };
 

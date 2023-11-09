@@ -15,26 +15,13 @@
 
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
 import { BsX } from 'react-icons/bs';
+import useIsAboveBreakpoint from '../../hooks/useIsAboveBreakpoint';
 import ModalComponent from '../Modals/ModalComponent/v2';
 import styles from './style.module.scss';
 
 const Drawer = ({ title, isOpen, onClose, children, buttonGroup, className }) => {
-  const [isAboveBreakPoint, setIsAboveBreakPoint] = useState(null);
-
-  useEffect(() => {
-    const mqString = `(min-width: 768px)`;
-    const media = matchMedia(mqString);
-
-    setIsAboveBreakPoint(media.matches);
-
-    media.addEventListener('change', (e) => setIsAboveBreakPoint(e.matches));
-
-    return () => {
-      media.removeEventListener('change', setIsAboveBreakPoint);
-    };
-  }, []);
+  const isAboveBreakPoint = useIsAboveBreakpoint(`(min-width: 768px)`);
 
   return isAboveBreakPoint ? (
     isOpen && (

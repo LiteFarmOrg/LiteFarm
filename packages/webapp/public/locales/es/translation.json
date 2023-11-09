@@ -855,6 +855,11 @@
       "TITLE": "Filtrar transacciones"
     },
     "MANAGE_CUSTOM_TYPE": "Administrar tipos personalizados",
+    "REPORT": {
+      "DATES": "MISSING",
+      "SETTINGS": "MISSING",
+      "TRANSACTION": "MISSING"
+    },
     "REVENUE": "Ingresos",
     "SEARCH": {
       "EXPENSE_TYPES": "MISSING",

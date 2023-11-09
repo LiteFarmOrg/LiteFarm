@@ -855,6 +855,11 @@
       "TITLE": "MISSING"
     },
     "MANAGE_CUSTOM_TYPE": "MISSING",
+    "REPORT": {
+      "DATES": "MISSING",
+      "SETTINGS": "MISSING",
+      "TRANSACTION": "MISSING"
+    },
     "REVENUE": "Receita",
     "SEARCH": {
       "EXPENSE_TYPES": "MISSING",

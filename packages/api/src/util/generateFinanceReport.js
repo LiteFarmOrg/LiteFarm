@@ -69,19 +69,8 @@ export const addConfigurationWorksheet = ({
 }) => {
   const worksheet = workbook.addWorksheet(title);
 
-  const expenseTypes = config.typesFilter.EXPENSE_TYPE
-    ? Object.values(config.typesFilter.EXPENSE_TYPE)
-        .filter(({ active }) => active)
-        .map(({ label }) => label)
-        .join(', ')
-    : '';
-
-  const revenueTypes = config.typesFilter.REVENUE_TYPE
-    ? Object.values(config.typesFilter.REVENUE_TYPE)
-        .filter(({ active }) => active)
-        .map(({ label }) => label)
-        .join(', ')
-    : '';
+  const expenseTypes = generateTypeCountAndList(config.typesFilter.EXPENSE_TYPE);
+  const revenueTypes = generateTypeCountAndList(config.typesFilter.REVENUE_TYPE);
 
   const dateRange = `${formatDate(config.dateFilter.startDate, language)} - ${formatDate(
     config.dateFilter.endDate,
@@ -182,6 +171,22 @@ function formatCurrencyColumn(worksheet, currencySymbol) {
       }
     }
   });
+}
+
+/**
+ * Formats the active count and lists the active type labels from a given filter configuration
+ *
+ * @param {Object} typeList - The object of filter configurations for a specific type (e.g. the configurations under EXPENSE_TYPE or REVENUE_TYPE). Each key (type ID) in this object corresponds to an object with 'active' and 'label' attributes
+ * @returns {string} A formatted string showing the active count over total count, followed by a comma-separated list of the active type labels
+ * */
+function generateTypeCountAndList(typeList) {
+  if (!typeList) return '';
+
+  const allTypes = Object.values(typeList);
+  const activeTypes = allTypes.filter(({ active }) => active);
+  return (
+    `(${activeTypes.length}/${allTypes.length}) ` + activeTypes.map(({ label }) => label).join(', ')
+  );
 }
 
 /**

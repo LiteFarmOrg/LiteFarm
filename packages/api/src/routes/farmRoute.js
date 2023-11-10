@@ -22,6 +22,8 @@ import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import checkScope from '../middleware/acl/checkScope.js';
 import checkSchedulerJwt from '../middleware/acl/checkSchedulerJwt.js';
 import hasTimeNotificationsAccess from '../middleware/acl/hasTimeNotificationsAccess.js';
+import multerDiskUpload from '../util/fileUpload.js';
+import { parseMultipartJson, handleImageOperations } from '../middleware/farm.js';
 
 router.get('/:farm_id', authFarmId, farmController.getFarmByID());
 
@@ -49,11 +51,14 @@ router.patch(
   farmController.patchOwnerOperated(),
 );
 
-/*To change farm name or units*/
+/*To change farm name, image, or units*/
 router.put(
   '/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['edit:farms']),
+  multerDiskUpload,
+  parseMultipartJson,
+  handleImageOperations,
   farmController.updateFarm(),
 );
 

@@ -57,6 +57,7 @@ const CardsCarrousel = ({ cards }) => {
             </div>
           ) : (
             <div
+              key={card.id}
               className={clsx([styles.card, styles.inactiveCard])}
               style={{
                 marginTop: index * 8,
@@ -66,7 +67,6 @@ const CardsCarrousel = ({ cards }) => {
               }}
             >
               <TextButton
-                key={card.id}
                 aria-label={card.label}
                 onClick={() => onCardClick(card)}
                 className={styles.inactiveCardButton}

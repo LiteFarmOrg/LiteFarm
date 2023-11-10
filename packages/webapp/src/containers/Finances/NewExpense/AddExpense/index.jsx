@@ -73,7 +73,7 @@ class AddExpense extends Component {
     if (
       !missingText &&
       formattedData.length &&
-      formattedData.filter((expense) => expense.value <= 0 || isNaN(expense.value)).length === 0
+      formattedData.filter((expense) => expense.value < 0 || isNaN(expense.value)).length === 0
     ) {
       this.props.dispatch(addExpenses(formattedData));
       history.push('/finances');

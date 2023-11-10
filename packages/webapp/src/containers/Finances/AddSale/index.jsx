@@ -37,10 +37,9 @@ function AddSale() {
   const revenueType = useSelector(revenueTypeByIdSelector(revenue_type_id));
   const revenueTypes = useSortedRevenueTypes();
   const revenueTypeReactSelectOptions = mapRevenueTypesToReactSelectOptions(revenueTypes);
-  const { revenue_name, revenue_translation_key, farm_id } = revenueType;
-  const translatedRevenueName = farm_id
-    ? revenue_name
-    : t(`revenue:${revenue_translation_key}.REVENUE_NAME`);
+  const translatedRevenueName = revenueType?.farm_id
+    ? revenueType?.revenue_name
+    : t(`revenue:${revenueType?.translation_key}.REVENUE_NAME`);
 
   const onSubmit = (data) => {
     const newSale = mapRevenueFormDataToApiCallFormat(data, revenueTypes, null, farm.farm_id);

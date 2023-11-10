@@ -60,6 +60,8 @@
   "THATS_FINE": "C'est bien",
   "TODAY": "MISSING",
   "UPDATE": "Mettre à Jour",
+  "UPLOAD": "Télécharger",
+  "UPLOADING": "Téléchargement...",
   "WORD_LIMIT_ERROR": "Limité à {{value}} mots",
   "YEAR": "Année",
   "YES": "Oui",

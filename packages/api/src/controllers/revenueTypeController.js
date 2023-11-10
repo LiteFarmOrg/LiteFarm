@@ -34,23 +34,10 @@ const revenueTypeController = {
           farm_id,
         });
 
-        // if record exists in db
         if (record) {
-          // if not deleted, means it is a active revenue type
-          // throw conflict error
-          if (record.deleted === false) {
-            await trx.rollback();
-            return res.status(409).send();
-          } else {
-            // if its deleted, them make it active
-            record.deleted = false;
-            record.custom_description = data.custom_description;
-            await baseController.put(RevenueTypeModel, record.revenue_type_id, record, req, {
-              trx,
-            });
-            await trx.commit();
-            res.status(200).send(record);
-          }
+          // if record exists throw conflict error
+          await trx.rollback();
+          return res.status(409).send();
         } else {
           const result = await baseController.postWithResponse(
             RevenueTypeModel,

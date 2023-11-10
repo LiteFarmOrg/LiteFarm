@@ -419,17 +419,17 @@
     "TO_MUST_BE_AFTER_FROM": "A data 'Até' deve ser depois da data 'De'"
   },
   "DATE_RANGE_SELECTOR": {
-    "BACK": "MISSING",
-    "CLEAR_DATES": "MISSING",
-    "CUSTOM_RANGE": "MISSING",
-    "LAST_FOURTEEN_DAYS": "MISSING",
-    "LAST_MONTH": "MISSING",
-    "LAST_SEVEN_DAYS": "MISSING",
-    "LAST_THIRTY_DAYS": "MISSING",
-    "LAST_WEEK": "MISSING",
-    "THIS_MONTH": "MISSING",
-    "THIS_WEEK": "MISSING",
-    "YEAR_TO_DATE": "MISSING"
+    "BACK": "Voltar",
+    "CLEAR_DATES": "Limpar datas",
+    "CUSTOM_RANGE": "Escolha um intervalo personalizado",
+    "LAST_FOURTEEN_DAYS": "Últimos 14 dias",
+    "LAST_MONTH": "Último mês",
+    "LAST_SEVEN_DAYS": "Últimos 7 dias",
+    "LAST_THIRTY_DAYS": "Últimos 30 dias",
+    "LAST_WEEK": "Última semana",
+    "THIS_MONTH": "Este mês",
+    "THIS_WEEK": "Esta semana",
+    "YEAR_TO_DATE": "Até a data atual do ano."
   },
   "DAYS_OF_WEEK_SELECT": {
     "FRIDAY": "S",
@@ -505,45 +505,45 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "ADD_CUSTOM_EXPENSE": "MISSING",
-      "ADD_CUSTOM_EXPENSE_TYPE": "MISSING",
-      "CUSTOM_EXPENSE_NAME": "MISSING",
-      "CUSTOM_EXPENSE_TYPE": "MISSING",
-      "DUPLICATE_NAME": "MISSING",
+      "ADD_CUSTOM_EXPENSE": "Adicionar despesa personalizada",
+      "ADD_CUSTOM_EXPENSE_TYPE": "Adicionar tipo de despesa personalizado",
+      "CUSTOM_EXPENSE_NAME": "Nome de despesa personalizado",
+      "CUSTOM_EXPENSE_TYPE": "Tipo de despesa personalizado",
+      "DUPLICATE_NAME": "Já existe um tipo de despesa com este nome. Por favor, escolha outro.",
       "DUPLICATE_NAME_RETIRED": "MISSING",
-      "FLOW": "MISSING",
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
-      "NEW_EXPENSE_ITEM": "MISSING",
-      "TITLE": "MISSING",
-      "WHICH_TYPES_TO_RECORD": "MISSING"
+      "FLOW": "Criação de despesa",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "Gerenciar tipos de despesa personalizada",
+      "NEW_EXPENSE_ITEM": "Novo item de despesa",
+      "TITLE": "Adicionar despesa",
+      "WHICH_TYPES_TO_RECORD": "Escolha seus tipos de despesa abaixo:"
     },
-    "CUSTOM_EXPENSE_DESCRIPTION": "MISSING",
+    "CUSTOM_EXPENSE_DESCRIPTION": "Descrição de despesa personalizada",
     "DELETE": {
-      "CONFIRM": "MISSING",
-      "HEADER": "MISSING",
-      "LINK": "MISSING",
-      "MESSAGE": "MISSING"
+      "CONFIRM": "Confirmar exclusão",
+      "HEADER": "Excluir despesa?",
+      "LINK": "Excluir despesa",
+      "MESSAGE": "Isso removerá a despesa dos registros da sua fazenda. Não será mais refletido em nenhum resumo financeiro."
     },
     "DETAILED_HISTORY": "História Detalhada",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Escolha uma data",
       "DESELECTING_CATEGORY": "Desmarcar uma categoria removerá as despesas existentes nesta categoria deste registro de despesas.",
       "REMOVE_ALL": "Você removeu todas as despesas, clique em Salvar para enviar.",
-      "RETIRE_EXPENSE_MESSAGE": "MISSING",
-      "RETIRE_EXPENSE_TYPE": "MISSING",
-      "RETIRED": "MISSING",
-      "TITLE": "MISSING",
+      "RETIRE_EXPENSE_MESSAGE": "Encerrar este tipo de despesa o removerá como uma opção possível para despesas futuras. Ainda é possível buscar esse tipo de despesa no histórico na guia Finanças.",
+      "RETIRE_EXPENSE_TYPE": "Encerrar tipo de despesa",
+      "RETIRED": "(encerrada)",
+      "TITLE": "Editar despesa",
       "TITLE_1": "Editar Despesa (1 de 2)",
       "TITLE_2": "Editar Despesa (2 de 2)"
     },
     "ITEM": "Item",
-    "ITEM_NAME": "MISSING",
+    "ITEM_NAME": "Nome do item",
     "NAME": "Nome",
     "NO_EXPENSE": "Nenhuma despesa encontrada",
     "NO_EXPENSE_YEAR": "Você não tem despesas registradas para este ano",
     "OTHER_EXPENSES_TITLE": "Outras despesas",
     "SUMMARY": "Resumo",
-    "TYPE": "MISSING",
+    "TYPE": "Tipo",
     "VALUE": "Valor"
   },
   "EXPIRED_TOKEN": {
@@ -819,25 +819,25 @@
     "TITLE": "Tamanho de arquivo muito grande"
   },
   "FILTER": {
-    "CLEAR_ALL": "MISSING",
+    "CLEAR_ALL": "Limpar tudo",
     "CLEAR_ALL_FILTERS": "Remover todos os filtros",
-    "SELECT_ALL": "MISSING"
+    "SELECT_ALL": "Selecionar tudo"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
       "ADD_REVENUE": "Adicionar Receita",
       "TITLE": "Receita atual"
     },
-    "ADD_EXPENSE": "MISSING",
-    "ADD_REVENUE": "MISSING",
-    "ADD_TRANSACTION": "MISSING",
+    "ADD_EXPENSE": "+ Adicionar despesa",
+    "ADD_REVENUE": "+ Adicionar receita",
+    "ADD_TRANSACTION": "+ Adicionar transação",
     "CANT_FIND": {
-      "INFO_EXPENSE": "MISSING",
-      "INFO_REVENUE": "MISSING",
-      "MAIN": "MISSING",
-      "MANAGE_EXPENSE": "MISSING",
-      "MANAGE_REVENUE": "MISSING",
-      "MISC_EXPENSE": "MISSING"
+      "INFO_EXPENSE": "Você também pode criar seus próprios tipos de despesas personalizados!",
+      "INFO_REVENUE": "Você também pode criar seus próprios tipos de receita personalizados!",
+      "MAIN": "Não consegue encontrar uma categoria adequada?",
+      "MANAGE_EXPENSE": "Gerenciar suas despesas personalizadas",
+      "MANAGE_REVENUE": "Gerenciar suas receitas personalizadas",
+      "MISC_EXPENSE": "Ou <1>crie uma <1>despesa diversa</1></1>"
     },
     "COST": "Custo",
     "DATE": "Data",
@@ -850,23 +850,23 @@
     },
     "EXPENSES": "Despesas",
     "FILTER": {
-      "EXPENSE_TYPE": "MISSING",
-      "HELP_TEXT": "MISSING",
-      "REVENUE_TYPE": "MISSING",
-      "TITLE": "MISSING"
+      "EXPENSE_TYPE": "Tipos de despesas",
+      "HELP_TEXT": "Sinta-se à vontade para usar os filtros abaixo para ajustar sua lista de transações e fazê-la funcionar do jeito que você deseja!",
+      "REVENUE_TYPE": "Tipos de receita",
+      "TITLE": "Filtrar transações"
     },
-    "MANAGE_CUSTOM_TYPE": "MISSING",
+    "MANAGE_CUSTOM_TYPE": "Gerenciar tipo personalizado",
     "REVENUE": "Receita",
     "SEARCH": {
-      "EXPENSE_TYPES": "MISSING",
-      "REVENUE_TYPES": "MISSING"
+      "EXPENSE_TYPES": "Procurar tipo de despesa",
+      "REVENUE_TYPES": "Procurar tipo de receita"
     },
     "TRANSACTION": {
-      "CROPS": "MISSING",
-      "DAILY_TOTAL": "MISSING",
-      "LABOUR_EXPENSE": "MISSING",
-      "VIEW_AND_EDIT": "MISSING",
-      "VIEW_LABOUR": "MISSING"
+      "CROPS": "Cultivos",
+      "DAILY_TOTAL": "Total diário",
+      "LABOUR_EXPENSE": "Despesas com mão de obra",
+      "VIEW_AND_EDIT": "Visualizar & editar",
+      "VIEW_LABOUR": "Visuzaliar despesas com mão de obra"
     },
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
     "WHOLE_FARM_REVENUE": "Receita de toda a propriedade"
@@ -898,7 +898,7 @@
   "INSIGHTS": {
     "BIODIVERSITY": {
       "AMPHIBIANS": "Anfíbios",
-      "API_OFFSET_LIMIT_ERROR_MESSAGE": "MISSING",
+      "API_OFFSET_LIMIT_ERROR_MESSAGE": "Há muitas observações de biodiversidade dentro dos limites da sua fazenda para serem relatadas com precisão. Reduza o tamanho dos limites da sua fazenda e tente novamente.",
       "BIRDS": "Aves",
       "CROP_VARIETIES": "Variedades de cultivos",
       "ERROR_TITLE": "Tinha um problema",
@@ -1484,28 +1484,28 @@
   },
   "REVENUE": {
     "ADD_REVENUE": {
-      "ADD_CUSTOM_REVENUE": "MISSING",
-      "ASSOCIATED_WITH_AGRICULTURE": "MISSING",
-      "CANNOT_BE_CHANGED": "MISSING",
-      "CANNOT_BE_CHANGED_LATER": "MISSING",
-      "CROP_GENERATED": "MISSING",
-      "CUSTOM_REVENUE_NAME": "MISSING",
-      "CUSTOM_REVENUE_TYPE": "MISSING",
-      "DUPLICATE_NAME": "MISSING",
+      "ADD_CUSTOM_REVENUE": "Adicionar receita personalizada",
+      "ASSOCIATED_WITH_AGRICULTURE": "A receita é associada às atividades agrícolas?",
+      "CANNOT_BE_CHANGED": "Isso não pode ser alterado",
+      "CANNOT_BE_CHANGED_LATER": "Isso não pode ser alterado mais tarde",
+      "CROP_GENERATED": "Esta receita foi gerada a partir dos cultivos?",
+      "CUSTOM_REVENUE_NAME": "Nome de receita personalizado",
+      "CUSTOM_REVENUE_TYPE": "Tipo de receita personalizado",
+      "DUPLICATE_NAME": "Já existe um tipo de receita com este nome. Por favor escolha outro.",
       "DUPLICATE_NAME_RETIRED": "MISSING"
     },
-    "CUSTOM_REVENUE_DESCRIPTION": "MISSING",
+    "CUSTOM_REVENUE_DESCRIPTION": "Descrição de receita personalizada",
     "DELETE": {
-      "CONFIRM": "MISSING",
-      "HEADER": "MISSING",
-      "LINK": "MISSING",
-      "MESSAGE": "MISSING"
+      "CONFIRM": "Confirmar exclusão",
+      "HEADER": "Excluir exclusão?",
+      "LINK": "Excluir receita",
+      "MESSAGE": "Isto removerá a receita dos registros da sua fazenda. Não será mais refletida em nenhum resumo financeiro."
     },
     "EDIT_REVENUE": {
-      "RETIRE_REVENUE_MESSAGE": "MISSING",
-      "RETIRE_REVENUE_TYPE": "MISSING",
-      "RETIRED": "MISSING",
-      "REVENUE_TYPE": "MISSING"
+      "RETIRE_REVENUE_MESSAGE": "A retirada deste tipo de receita irá removê-lo como uma escolha possível para rendimentos futuros. Você ainda pode pesquisar e filtrar rendimentos anteriores deste tipo na aba Finanças.",
+      "RETIRE_REVENUE_TYPE": "Encerrar tipo de receita",
+      "RETIRED": "(encerrado)",
+      "REVENUE_TYPE": "Tipo de receita"
     }
   },
   "ROLE_SELECTION": {
@@ -1517,36 +1517,36 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "ADD_CUSTOM_REVENUE_TYPE": "MISSING",
-      "ADD_REVENUE": "MISSING",
+      "ADD_CUSTOM_REVENUE_TYPE": "Adicionar tipo de receita personalizado",
+      "ADD_REVENUE": "Adicionar receita",
       "CROP_PLACEHOLDER": "Selecione o cultivo",
       "CROP_REQUIRED": "O cultivo é necessário",
       "CROP_VARIETY": "Variedade de cultivo",
       "CUSTOMER_NAME": "Nome do Cliente",
       "CUSTOMER_NAME_REQUIRED": "Nome do Cliente é necessário",
       "DATE": "Data",
-      "FLOW": "MISSING",
-      "MANAGE_CUSTOM_REVENUE_TYPE": "MISSING",
+      "FLOW": "Criação de receita",
+      "MANAGE_CUSTOM_REVENUE_TYPE": "Gerenciar tipos de receita personalizados",
       "SALE_VALUE_ERROR": "O valor da venda deve ser um número acima de 0 e abaixo de 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Variedades de cultivo",
         "TOTAL": "Total"
       },
       "TITLE": "Adicionar nova venda",
-      "WHICH_TYPE_TO_RECORD": "MISSING"
+      "WHICH_TYPE_TO_RECORD": "Escolha seu tipo de receita abaixo:"
     },
     "DETAIL": {
       "ACTION": "Ação",
       "CROP": "Cultivo",
       "CUSTOMER_NAME": "Nome do Cliente",
       "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir esta venda?",
-      "TITLE": "MISSING",
+      "TITLE": "Detalhes da receita",
       "VALUE": "Valor"
     },
     "EDIT_SALE": {
       "DATE": "Data",
       "DELETE_CONFIRMATION": "Tem certeza que deseja excluir esta venda?",
-      "TITLE": "MISSING"
+      "TITLE": "Editar receita"
     },
     "ESTIMATED_REVENUE": {
       "CALCULATION": "Cálculo",
@@ -1568,32 +1568,32 @@
       "BALANCE_EXPLANATION": "Calculamos o balanço financeiro (\"custo de produção\") em tempo real para cada safra em sua fazenda a partir de uma equação simples de despesas menos receita. As despesas de cada safra são calculadas em duas partes: uma parte corresponde às despesas com mão de obra calculadas a partir das horas registradas para atividades da fazenda, a outra parte é das demais despesas registradas para toda a fazenda. Onde as despesas são registradas para toda a fazenda, nós as dividimos igualmente entre os cultivos existentes. Não alocado significa que um turno de trabalho foi registrado em um campo onde ainda não havia nenhum cultivo. O custo com mão de obra deste turno será atribuído a uma safra na medida em que cultivos forem adicionados ao campo onde o trabalho foi realizado, considerando a janela de tempo do relatório financeiro.",
       "BALANCE_FOR_FARM": "Saldo (Fazenda Inteira)",
       "CARROUSEL_TEXT": {
-        "ESTIMATED_REVENUE": "MISSING",
-        "GENERIC": "MISSING"
+        "ESTIMATED_REVENUE": "Este número (estático) reflete a estimativa futura da sua colheita.",
+        "GENERIC": "*Esses números são baseados na sua seleção de data/filtro"
       },
-      "ESTIMATED_HARVEST_REVENUE": "MISSING",
+      "ESTIMATED_HARVEST_REVENUE": "Receita estimada da colheita",
       "EXPENSES": "Despesas",
-      "EXPORT_REPORT": "MISSING",
+      "EXPORT_REPORT": "Exportar relatório",
       "FINANCE_HELP": "Ajuda Financeira",
       "LABOUR_LABEL": "Trabalho",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
-        "BODY": "MISSING",
-        "TITLE": "MISSING"
+        "BODY": "Aqui você pode adicionar, modificar ou retirar tipos de despesas personalizados para sua fazenda/sítio.",
+        "TITLE": "Gerencie tipos de despesas personalizados"
       },
       "MANAGE_CUSTOM_REVENUE_TYPES_SPOTLIGHT": {
-        "BODY": "MISSING",
-        "TITLE": "MISSING"
+        "BODY": "Aqui você pode adicionar, modificar ou retirar tipos de receita personalizados para sua fazenda.",
+        "TITLE": "Gerenciar tipos de receita personalizados"
       },
       "OTHER_EXPENSES_LABEL": "Outras despesas",
-      "PROFIT_LOSS": "MISSING",
-      "REPORT": "MISSING",
-      "REPORT_HELP_TEXT": "MISSING",
+      "PROFIT_LOSS": "Lucro / Prejuízo",
+      "REPORT": "Relatório",
+      "REPORT_HELP_TEXT": "Esses filtros refletem o que você vê na visão geral de Finanças. Você pode modificar o que é exportado abaixo.",
       "REVENUE": "Receita",
-      "TITLE": "MISSING",
-      "TOTAL_EXPENSES": "MISSING",
-      "TOTAL_LABOUR": "MISSING",
-      "TOTAL_OTHER": "MISSING",
-      "TOTAL_REVENUE": "MISSING",
+      "TITLE": "Visão geral das finanças",
+      "TOTAL_EXPENSES": "Despesas totais",
+      "TOTAL_LABOUR": "Mão de obra total",
+      "TOTAL_OTHER": "Total de outros",
+      "TOTAL_REVENUE": "Receita total",
       "UNALLOCATED_CROP": "Não atribuído",
       "UNALLOCATED_TIP": "O que não está atribuído?"
     },
@@ -1603,7 +1603,7 @@
       "EMPLOYEES": "Funcionários",
       "TABLE": {
         "CROP": "Cultivo",
-        "DAILY_TOTAL": "MISSING",
+        "DAILY_TOTAL": "Total diário",
         "DATE": "Data",
         "EMPLOYEE": "Trabalhador(a)",
         "EST_REVENUE": "Receita estimada",
@@ -1628,10 +1628,10 @@
     }
   },
   "SEARCH": {
-    "CLEAR_TERMS": "MISSING",
-    "CLEAR_TERMS_AND_FILTERS": "MISSING",
-    "NO_RESULTS_FOR": "MISSING",
-    "ZERO": "MISSING"
+    "CLEAR_TERMS": "Por que não tentar uma busca diferente para descobrir novas possibilidades?",
+    "CLEAR_TERMS_AND_FILTERS": "Por que não explorar termos diferentes ou simplesmente limpar os filtros para descobrir novas possibilidades?",
+    "NO_RESULTS_FOR": "Desculpe, não encontramos nenhum resultado para seu termo de pesquisa <1>'{{searchTerm}}'</1>",
+    "ZERO": "0 resultados"
   },
   "SENSOR": {
     "BRAND": "Marca",
@@ -1769,11 +1769,11 @@
     "TITLE": "Mudar de sítio/fazenda"
   },
   "TABLE": {
-    "LOAD_MORE": "MISSING",
+    "LOAD_MORE": "+ Carregar more",
     "LOADING_TEXT": "carregando...",
     "NEXT_TEXT": "Próxima",
     "NO_DATA_TEXT": "Nenhum usuário encontrado",
-    "NUMBER_MORE": "MISSING",
+    "NUMBER_MORE": "+ {{number}} mais",
     "OF_TEXT": "de",
     "PAGE_TEXT": "Página",
     "PREVIOUS_TEXT": "Anterior",

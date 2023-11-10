@@ -776,7 +776,6 @@ const managementPlanController = {
     };
   },
 
-  // TODO: to deprecate
   checkDeleteManagementPlan() {
     return async (req, res, next) => {
       return res.sendStatus(200);

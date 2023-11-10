@@ -34,9 +34,9 @@
   },
   "EXPENSE": {
     "ERROR": {
-      "ADD": "Falha de adicionar novas despesas",
-      "DELETE": "Falha de excluir despesas",
-      "UPDATE": "Falha de atualizar despesas!"
+      "ADD": "Falha ao adicionar novas despesas",
+      "DELETE": "Falha ao excluir despesas",
+      "UPDATE": "Falha ao atualizar despesas!"
     },
     "SUCCESS": {
       "ADD": "Novas despesas adicionadas com sucesso!",
@@ -46,14 +46,14 @@
   },
   "EXPENSE_TYPE": {
     "ERROR": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Falha ao criar despesa personalizada",
+      "DELETE": "Falha ao excluir despesa personalizada",
+      "UPDATE": "Falha ao atualizar despesa personalizada"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Despesa personalizada criada com sucesso",
+      "DELETE": "Despesa personalizada excluída com sucesso",
+      "UPDATE": "Despesa personalizada atualizada com sucesso"
     }
   },
   "FARM": {
@@ -135,14 +135,14 @@
   },
   "REVENUE_TYPE": {
     "ERROR": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Falha ao adicionar tipo de receita",
+      "DELETE": "Falha ao encerrar tipo de receita",
+      "UPDATE": "Falha ao atualizar tipo de receita"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Tipo de receita adicionado com sucesso",
+      "DELETE": "Tipo de receita encerrada com sucesso",
+      "UPDATE": "Tipo de receita atualizada com sucesso"
     }
   },
   "SALE": {

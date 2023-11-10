@@ -1,54 +1,54 @@
 {
   "EQUIPMENT": {
     "EXPENSE_NAME": "Equipamento",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "CUSTOM_DESCRIPTION": "Despesas relacionadas a ferramentas simples, suprimentos e peças para operar sua fazenda."
   },
   "SOIL_AMENDMENT": {
     "EXPENSE_NAME": "Adubação e Correção do Solo",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "CUSTOM_DESCRIPTION": "Despesas relacionadas com aditivos como fertilizantes que melhoram os atributos do seu solo."
   },
   "MACHINERY": {
     "EXPENSE_NAME": "Maquinário",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "CUSTOM_DESCRIPTION": "Despesas relacionadas à compra, locação, aluguel e manutenção de máquinas."
   },
   "PEST_CONTROL": {
-    "EXPENSE_NAME": "MISSING",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "EXPENSE_NAME": "Controle de pragas",
+    "CUSTOM_DESCRIPTION": "Despesas relacionadas à compra de ingredientes, produtos e dispositivos utilizados no manejo de espécies indesejadas."
   },
   "FUEL": {
     "EXPENSE_NAME": "Combustível",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "CUSTOM_DESCRIPTION": "Despesas relacionadas ao abastecimento de infraestrutura, veículos, máquinas e equipamentos."
   },
   "LAND": {
     "EXPENSE_NAME": "Terra",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "CUSTOM_DESCRIPTION": "Despesas relacionadas à compra, financiamento, arrendamento, aluguel, acesso, impostos e outras taxas de propriedade ou uso do terreno."
   },
   "SEEDS_AND_PLANTS": {
-    "EXPENSE_NAME": "MISSING",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "EXPENSE_NAME": "Sementes e Plantas",
+    "CUSTOM_DESCRIPTION": "Compras de sementes e mudas utilizadas no plantio e transplante"
   },
   "MISCELLANEOUS": {
-    "EXPENSE_NAME": "MISSING",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "EXPENSE_NAME": "Diversos",
+    "CUSTOM_DESCRIPTION": "Todo o resto. Considere criar um tipo de despesa personalizado se você tiver despesas adicionais como essa no futuro."
   },
   "UTILITIES": {
-    "EXPENSE_NAME": "MISSING",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "EXPENSE_NAME": "Contas",
+    "CUSTOM_DESCRIPTION": "Despesas recorrentes relacionadas com eletricidade, gás, água (incluindo irrigação), coleta de lixo e outros serviços periódicos."
   },
   "LABOUR": {
-    "EXPENSE_NAME": "MISSING",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "EXPENSE_NAME": "Trabalho contratado",
+    "CUSTOM_DESCRIPTION": "Despesas relativas a pessoas contratadas."
   },
   "INFRASTRUCTURE": {
-    "EXPENSE_NAME": "MISSING",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "EXPENSE_NAME": "Infraestrutura",
+    "CUSTOM_DESCRIPTION": "Despesas relacionadas com a construção ou melhoria de estruturas na fazenda/sítio."
   },
   "TRANSPORTATION": {
-    "EXPENSE_NAME": "MISSING",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "EXPENSE_NAME": "Transporte",
+    "CUSTOM_DESCRIPTION": "Despesas relacionadas ao transporte de insumos, produtos e pessoas."
   },
   "SERVICES": {
-    "EXPENSE_NAME": "MISSING",
-    "CUSTOM_DESCRIPTION": "MISSING"
+    "EXPENSE_NAME": "Serviços",
+    "CUSTOM_DESCRIPTION": "Despesas relacionadas com outros serviços como licenciamento, certificação, suporte técnico, testes, comercialização, entre outros."
   }
 }

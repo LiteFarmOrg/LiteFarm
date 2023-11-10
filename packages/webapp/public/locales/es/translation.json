@@ -827,9 +827,9 @@
       "ADD_REVENUE": "Agregar ingresos",
       "TITLE": "Ingresos reales"
     },
-    "ADD_EXPENSE": "Agregar gasto",
-    "ADD_REVENUE": "Agregar ingreso",
-    "ADD_TRANSACTION": "Agregar transacción",
+    "ADD_EXPENSE": "+ Agregar gasto",
+    "ADD_REVENUE": "+ Agregar ingreso",
+    "ADD_TRANSACTION": "+ Agregar transacción",
     "CANT_FIND": {
       "INFO_EXPENSE": "¡También puede crear tus propios tipos de gasto personalizados!",
       "INFO_REVENUE": "¡También puede crear tus propios tipos de ingreso personalizados!",

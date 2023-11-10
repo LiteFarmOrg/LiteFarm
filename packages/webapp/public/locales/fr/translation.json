@@ -1374,6 +1374,8 @@
   "REVENUE": {
     "ADD_REVENUE": {
       "ADD_CUSTOM_REVENUE": "Ajouter un revenu personnalisé",
+      "CANNOT_BE_CHANGED": "Ceci ne peut pas être modifié",
+      "CANNOT_BE_CHANGED_LATER": "Ceci ne peut être modifié ultérieurement",
       "CROP_GENERATED": "Ce revenu est-il généré par des cultures ?",
       "CUSTOM_REVENUE_NAME": "Nom du revenu personnalisé",
       "CUSTOM_REVENUE_TYPE": "Type de revenu personnalisé",

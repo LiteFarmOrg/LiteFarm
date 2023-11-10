@@ -1373,6 +1373,8 @@
   "REVENUE": {
     "ADD_REVENUE": {
       "ADD_CUSTOM_REVENUE": "Add custom revenue",
+      "CANNOT_BE_CHANGED": "This cannot be changed",
+      "CANNOT_BE_CHANGED_LATER": "This cannot be changed later",
       "CROP_GENERATED": "Is this revenue generated from crops?",
       "CUSTOM_REVENUE_NAME": "Custom revenue name",
       "CUSTOM_REVENUE_TYPE": "Custom revenue type",

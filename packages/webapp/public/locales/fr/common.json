@@ -62,7 +62,7 @@
   "SUBMIT": "Soumettre",
   "SUBMITTING": "Soumission en cours...",
   "THATS_FINE": "C'est bien",
-  "TODAY": "MISSING",
+  "TODAY": "Aujourd'hui",
   "TYPE": "Type",
   "UPDATE": "Mettre à Jour",
   "UPLOAD": "Télécharger",
@@ -70,5 +70,5 @@
   "WORD_LIMIT_ERROR": "Limité à {{value}} mots",
   "YEAR": "Année",
   "YES": "Oui",
-  "YESTERDAY": "MISSING"
+  "YESTERDAY": "Hier"
 }

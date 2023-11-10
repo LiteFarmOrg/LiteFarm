@@ -28,6 +28,11 @@ class ManagementPlan extends baseModel {
     return 'management_plan_id';
   }
 
+  // Overriding the baseModel hidden to return the 'deleted' field
+  static get hidden() {
+    return ['created_at', 'created_by_user_id', 'updated_by_user_id', 'updated_at'];
+  }
+
   getDate(seed_date, duration) {
     if (duration !== null && duration !== undefined && seed_date) {
       return moment(seed_date).add(duration, 'days').utc().format('YYYY-MM-DD');

@@ -37,7 +37,7 @@ const TransactionFilterContent = ({
       subject: t('FINANCES.FILTER.EXPENSE_TYPE'),
       filterKey: EXPENSE_TYPE,
       options: [
-        ...expenseTypes.map((type) => ({
+        ...(expenseTypes || []).map((type) => ({
           value: type.expense_type_id,
           // This sets the initial state of the filter pill
           default: transactionsFilter[EXPENSE_TYPE]?.[type.expense_type_id]?.active ?? true,
@@ -57,7 +57,7 @@ const TransactionFilterContent = ({
     {
       subject: t('FINANCES.FILTER.REVENUE_TYPE'),
       filterKey: REVENUE_TYPE,
-      options: revenueTypes.map((type) => ({
+      options: (revenueTypes || []).map((type) => ({
         value: type.revenue_type_id,
         // This sets the initial state of the filter pill
         default: transactionsFilter[REVENUE_TYPE]?.[type.revenue_type_id]?.active ?? true,

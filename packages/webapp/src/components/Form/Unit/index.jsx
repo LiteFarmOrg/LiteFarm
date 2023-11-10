@@ -173,6 +173,7 @@ const Unit = ({
                 isSearchable={false}
                 options={options}
                 isDisabled={isSelectDisabled}
+                menuPortalTarget={document.body}
               />
             )}
           />

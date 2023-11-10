@@ -6,28 +6,18 @@ import PageTitle from '../../PageTitle/v2';
 import Input, { getInputErrors } from '../../Form/Input';
 import Button from '../../Form/Button';
 
-const PureAddCustomTask = ({
-  handleGoBack,
-  history,
-  useHookFormPersist,
-
-  persistedFormData,
-  onSave,
-}) => {
+const PureAddCustomTask = ({ handleGoBack, useHookFormPersist, onSave }) => {
   const { t } = useTranslation();
 
   const {
     handleSubmit,
-    getValues,
-    watch,
-    control,
     setValue,
     register,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
   });
-
+  useHookFormPersist();
   const CUSTOM_TASK_TYPE = 'task_name';
 
   return (

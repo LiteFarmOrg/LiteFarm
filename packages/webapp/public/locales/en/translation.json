@@ -46,7 +46,15 @@
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",
       "TYPE": {
-        "OTHER": "Other"
+        "COVERING_SOIL": "Covering soil",
+        "FENCING": "Fencing",
+        "OTHER": "Other",
+        "PREPARING_BEDS_OR_ROWS": "Preparing beds or rows",
+        "PRUNING": "Pruning",
+        "SHADE_CLOTH": "Shade cloth",
+        "TERMINATION": "Termination",
+        "TILLAGE": "Tillage",
+        "WEEDING": "Weeding"
       },
       "TYPE_OF_FIELD_WORK": "Type of field work"
     },
@@ -530,6 +538,11 @@
       "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "click here to download the template",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "No sensors found, please check your upload and try again.",
       "INVALID_FILE_TYPE": "Upload file must be a csv,",
+      "SENSOR_CLAIM_ERROR": {
+        "ALREADY_OCCUPIED": "Sensor \"{{ sensorId }}\" already registered to another organization, please contact Ensemble support at support@esci.io to troubleshoot.",
+        "DOES_NOT_EXIST": "Sensor \"{{ sensorId }}\" does not exist in the Ensemble database. Please ensure that you have spelled the External_ID properly for this entry, and that the sensor is an Ensemble sensor.",
+        "INTERNAL_ERROR": "Sensor \"{{ sensorId }}\" failed to upload successfully, please reach out to LiteFarm support at support@litefarm.org to troubleshoot."
+      },
       "SENSOR_FIELDS": {
         "BRAND": "Brand",
         "DEPTH": "Depth_cm",
@@ -547,10 +560,17 @@
       "UPLOAD_LINK_MESSAGE": "Download this template",
       "UPLOAD_PLACEHOLDER": "Upload CSV file",
       "VALIDATION": {
+        "EXTERNAL_ID": "Invalid external id, must be between 1 and 40 characters.",
         "FILE_ROW_LIMIT_EXCEEDED": "File row limit exceeded. The max number of sensors that can be uploaded from a file is 100.",
+        "MISSING_COLUMNS": "Columns are required/missing.",
+        "SENSOR_BRAND": "Invalid brand name, must be between 1 and 100 characters.",
+        "SENSOR_DEPTH": "Invalid depth value, must be between 0 and 1000.",
+        "SENSOR_HARDWARE_VERSION": "Invalid hardware version name, must be between 1 and 100 characters.",
         "SENSOR_LATITUDE": "Invalid latitude value, must be between -85 and 85. and fewer than 10 decimals.",
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
-        "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters."
+        "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",
+        "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
+        "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: soil_water_content, soil_water_potential, temperature."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -571,32 +591,54 @@
       "EMAILING": "Emailing",
       "TITLE": "Export your farm map"
     },
+    "FARM_SITE_BOUNDARY": {
+      "EDIT_TITLE": "Edit farm site boundary",
+      "NAME": "Farm site boundary name",
+      "TITLE": "Add farm site boundary"
+    },
     "FENCE": {
+      "EDIT_TITLE": "Edit fence",
       "LENGTH": "Total length",
-      "PRESSURE_TREATED": "Is this fence pressure treated?"
+      "NAME": "Fence name",
+      "PRESSURE_TREATED": "Is this fence pressure treated?",
+      "TITLE": "Add fence"
     },
     "FIELD": {
       "DATE": "Eligible transition date",
+      "EDIT_TITLE": "Edit field",
       "FIELD_TYPE": "What type of field is this?",
+      "NAME": "Field name",
       "NON_ORGANIC": "Non-organic",
       "ORGANIC": "Organic",
+      "TITLE": "Add field",
       "TRANSITIONING": "Transitioning"
     },
     "GARDEN": {
       "DATE": "Eligible transition date",
+      "EDIT_TITLE": "Edit garden",
       "GARDEN_TYPE": "What type of garden is this?",
+      "NAME": "Garden name",
       "NON_ORGANIC": "Non-organic",
       "ORGANIC": "Organic",
+      "TITLE": "Add garden",
       "TRANSITIONING": "Transitioning"
+    },
+    "GATE": {
+      "EDIT_TITLE": "Edit gate",
+      "NAME": "Gate name",
+      "TITLE": "Add gate"
     },
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Is there CO₂ enrichment?",
       "DATE": "Eligible transition date",
+      "EDIT_TITLE": "Edit greenhouse",
       "GREENHOUSE_HEATED": "Is the greenhouse heated?",
       "GREENHOUSE_TYPE": "What type of greenhouse is this?",
+      "NAME": "Greenhouse name",
       "NON_ORGANIC": "Non-organic",
       "ORGANIC": "Organic",
       "SUPPLEMENTAL_LIGHTING": "Is there supplemental lighting?",
+      "TITLE": "Add greenhouse",
       "TRANSITIONING": "Transitioning"
     },
     "LINE_DETAILS": {
@@ -633,7 +675,17 @@
       "WATERCOURSE": "Watercourse",
       "WV": "Water valve"
     },
+    "NATURAL_AREA": {
+      "EDIT_TITLE": "Edit natural area",
+      "NAME": "Natural area name",
+      "TITLE": "Add natural area"
+    },
     "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
+    "RESIDENCE": {
+      "EDIT_TITLE": "Edit residence",
+      "NAME": "Residence name",
+      "TITLE": "Add residence"
+    },
     "SPOTLIGHT": {
       "ADD": "Add locations to your map",
       "ADD_TITLE": "Add to your map",
@@ -644,7 +696,10 @@
       "HERE_YOU_CAN": "Here you can:"
     },
     "SURFACE_WATER": {
-      "IRRIGATION": "Is this area used for irrigation?"
+      "EDIT_TITLE": "Edit surface water",
+      "IRRIGATION": "Is this area used for irrigation?",
+      "NAME": "Surface water name",
+      "TITLE": "Add surface water"
     },
     "TAB": {
       "CROPS": "Crops",
@@ -682,17 +737,23 @@
       "TITLE": "Unable to retire"
     },
     "WATER_VALVE": {
+      "EDIT_TITLE": "Edit water valve",
       "GROUNDWATER": "Groundwater",
       "MAX_FLOW_RATE": "Maximum flow rate",
       "MUNICIPAL_WATER": "Municipal water",
+      "NAME": "Water valve name",
       "RAIN_WATER": "Rain water",
       "SURFACE_WATER": "Surface water",
+      "TITLE": "Add water valve",
       "WATER_VALVE_TYPE": "What is the source?"
     },
     "WATERCOURSE": {
       "BUFFER": "Riparian buffer",
+      "EDIT_TITLE": "Edit watercourse",
       "IRRIGATION": "Is this area used for irrigation?",
       "LENGTH": "Total length",
+      "NAME": "Watercourse name",
+      "TITLE": "Add watercourse",
       "WIDTH": "Watercourse width"
     }
   },
@@ -1060,6 +1121,12 @@
     "SELECTED_STARTING_LOCATION": "Always select this as the starting location for crops that will be transplanted",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
+    "STATUS": {
+      "ABANDONED": "Abandoned",
+      "ACTIVE": "Active",
+      "COMPLETED": "Completed",
+      "PLANNED": "Planned"
+    },
     "SUPPLIER": "Supplier",
     "TERMINATION": "Termination",
     "TERMINATION_DATE": "When will you terminate this crop?",
@@ -1113,9 +1180,46 @@
     }
   },
   "NOTIFICATION": {
+    "DAILY_TASKS_DUE_TODAY": {
+      "BODY": "You have tasks due today.",
+      "TITLE": "Tasks due today"
+    },
     "NONE_TO_DISPLAY": "There are no notifications to display.",
+    "NOTIFICATION_TEASER": "Coming Soon!",
     "PAGE_TITLE": "Notifications",
+    "SENSOR_BULK_UPLOAD_FAIL": {
+      "BODY": "Your sensor upload has some errors. Click “Take me there” to view the details.",
+      "TITLE": "Sensor upload errors"
+    },
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
+      "BODY": "Your sensor upload has completed successfully.",
+      "TITLE": "Sensor upload completed"
+    },
     "TAKE_ME_THERE": "Take me there",
+    "TASK_ABANDONED": {
+      "BODY": "A {{taskType}} task assigned to you has been abandoned by {{abandoner}}.",
+      "TITLE": "Task abandoned"
+    },
+    "TASK_ASSIGNED": {
+      "BODY": "A {{taskType}} task has been assigned to you by {{assigner}}.",
+      "TITLE": "Assigned task"
+    },
+    "TASK_COMPLETED_BY_OTHER_USER": {
+      "BODY": "A {{taskType}} task assigned to you has been marked completed by {{assigner}}.",
+      "TITLE": "Task completed"
+    },
+    "TASK_DELETED": {
+      "BODY": "A {{taskType}} task assigned to you has been deleted by {{abandoner}}.",
+      "TITLE": "Task deleted"
+    },
+    "TASK_REASSIGNED": {
+      "BODY": "A {{taskType}} task previously assigned to you has been assigned to someone else by {{assigner}}.",
+      "TITLE": "Task re-assigned"
+    },
+    "TASK_UNASSIGNED": {
+      "BODY": "{{editor}} has marked a {{taskType}} task as unassigned.",
+      "TITLE": "Task unassigned"
+    },
     "TIMELINE": {
       "HEADING": "Notification timeline",
       "MORE_RECENT_NOTIFICATION": "There are more recent notifications about this {{entityType}}.",
@@ -1408,6 +1512,9 @@
     "NO_DATA": "(no data)",
     "NO_DATA_FOUND": "No sensor readings found",
     "READING": {
+      "SOIL_WATER_CONTENT": "Soil water content",
+      "SOIL_WATER_POTENTIAL": "Soil water potential",
+      "TEMPERATURE": "Temperature",
       "TYPES": "Reading types",
       "UNKNOWN": "Unknown"
     },
@@ -1434,8 +1541,22 @@
       "CONTENT": "Individual sensors can be shown or hidden by clicking their labels here.",
       "TITLE": "Series can be hidden"
     },
+    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
+      "TITLE": "Soil water content",
+      "Y_AXIS_LABEL": "in {{units}}"
+    },
+    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
+      "KPA": "kilopascals (kPa)",
+      "PSI": "pounds per square inch (psi)",
+      "TITLE": "Soil water potential",
+      "Y_AXIS_LABEL": "in {{units}}"
+    },
     "TEMPERATURE_READINGS_OF_SENSOR": {
-      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for"
+      "AMBIENT_TEMPERATURE_FOR": "Ambient temperature for",
+      "C": "Celsius (°C)",
+      "F": "Fahrenheit (°F)",
+      "TITLE": "Soil temperature",
+      "Y_AXIS_LABEL": "in {{units}}"
     },
     "VALIDATION": {
       "READING_TYPES": "Sensor reading types are required"
@@ -1450,11 +1571,14 @@
     "CHANGES": "Read about the changes",
     "EMAIL_INVALID": "Email is invalid",
     "ENTER_EMAIL": "Enter your email address",
+    "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",
     "EXPIRED_INVITATION_LINK_ERROR": "Invalid or expired invitation",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
+    "INVITED_ERROR": "A farm invitation has been emailed to you, please check your inbox and spam folder.",
     "LITEFARM_UPDATED": "LiteFarm v3.4 is now available!",
     "PASSWORD_ERROR": "Password incorrect",
     "SIGN_IN": "Sign In",
+    "SSO_ERROR": "Please login by clicking the Google button above",
     "USED_INVITATION_LINK_ERROR": "This invitation has already been used, please log in to access this farm",
     "WELCOME_BACK": "Welcome back",
     "WRONG_BROWSER": "LiteFarm is not optimized for this browser.",
@@ -1595,6 +1719,13 @@
     "SELECT_DATE": "Select the task date",
     "SELECT_TASK_LOCATIONS": "Select the task location(s)",
     "SELECT_WILD_CROP": "This task targets a wild crop",
+    "STATUS": {
+      "ABANDONED": "Abandoned",
+      "COMPLETED": "Completed",
+      "FOR_REVIEW": "For Review",
+      "LATE": "Late",
+      "PLANNED": "Planned"
+    },
     "TASK": "task",
     "TASKS_COUNT_one": "{{count}} task",
     "TASKS_COUNT_other": "{{count}} tasks",

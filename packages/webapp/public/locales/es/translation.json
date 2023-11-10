@@ -46,7 +46,15 @@
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Describe el tipo de trabajo de campo",
       "TYPE": {
-        "OTHER": "Otro"
+        "COVERING_SOIL": "Cubriendo el suelo",
+        "FENCING": "Cercar",
+        "OTHER": "Otro",
+        "PREPARING_BEDS_OR_ROWS": "Preparando camas o hilera",
+        "PRUNING": "Podar",
+        "SHADE_CLOTH": "Media sombra",
+        "TERMINATION": "Terminar",
+        "TILLAGE": "Labrar",
+        "WEEDING": "Desyerbar"
       },
       "TYPE_OF_FIELD_WORK": "Tipo de trabajo de campo"
     },
@@ -529,6 +537,11 @@
       "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "Haga clic aquí para descargar la plantilla",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "No se han encontrado sensores, compruebe su carga e inténtelo de nuevo.",
       "INVALID_FILE_TYPE": "El archivo de carga debe ser un csv,",
+      "SENSOR_CLAIM_ERROR": {
+        "ALREADY_OCCUPIED": "Sensor \"{{ sensorId }}\" ya registrado en otra organización, póngase en contacto con el soporte de Ensemble en support@esci.io para solucionar problemas.",
+        "DOES_NOT_EXIST": "Sensor  \"{{ sensorId }}\" no existe en la base de datos de Ensemble. Asegúrese de haber escrito correctamente el External_ID para esta entrada y de que el sensor es un sensor Ensemble.",
+        "INTERNAL_ERROR": "Sensor \"{{ sensorId }}\" falló al cargar correctamente, por favor contacte al soporte de LiteFarm en support@litefarm.org para solucionar problemas."
+      },
       "SENSOR_FIELDS": {
         "BRAND": "Marca",
         "DEPTH": "Profundidad_cm",
@@ -546,10 +559,17 @@
       "UPLOAD_LINK_MESSAGE": "Descargar plantilla",
       "UPLOAD_PLACEHOLDER": "Subir archivo CSV",
       "VALIDATION": {
+        "EXTERNAL_ID": "Identificación externa no válida, debe tener entre 1 y 20 caracteres.",
         "FILE_ROW_LIMIT_EXCEEDED": "Límite de fila de archivos superado. El número máximo de sensores que se pueden cargar desde un archivo es 100.",
+        "MISSING_COLUMNS": "Se requieren/faltan columnas.",
+        "SENSOR_BRAND": "Nombre de marca no válido, debe tener entre 1 y 100 caracteres.",
+        "SENSOR_DEPTH": "Valor de profundidad no válido, debe estar entre 0 y 1000.",
+        "SENSOR_HARDWARE_VERSION": "Nombre de versión de hardware no válido, debe tener entre 1 y 100 caracteres.",
         "SENSOR_LATITUDE": "Valor de latitud no válido, debe estar entre -85 y 85. y menos de 10 decimales.",
         "SENSOR_LONGITUDE": "Valor de longitud no válido, debe estar entre -180 y 180. y menos de 10 decimales.",
-        "SENSOR_NAME": "Nombre del sensor no válido, debe estar entre 1 y 100 caracteres."
+        "SENSOR_MODEL": "Nombre de modelo no válido, debe tener entre 1 y 100 caracteres.",
+        "SENSOR_NAME": "Nombre del sensor no válido, debe estar entre 1 y 100 caracteres.",
+        "SENSOR_READING_TYPES": "Tipo de lectura no válido detectado: {{ reading_types }} los valores válidos incluyen: contenido_de_agua_en_el_suelo, potencial_hídrico_del_suelo, temperatura."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -570,32 +590,54 @@
       "EMAILING": "Enviando",
       "TITLE": "Exporta su mapa"
     },
+    "FARM_SITE_BOUNDARY": {
+      "EDIT_TITLE": "Editar limites de la granja",
+      "NAME": "Nombre de limites de la granja",
+      "TITLE": "Agregar Limites de la granja"
+    },
     "FENCE": {
+      "EDIT_TITLE": "Editar cerco",
       "LENGTH": "Longitud del cerco",
-      "PRESSURE_TREATED": "Esto cerco es tratado a presión?"
+      "NAME": "Nombre de cercado",
+      "PRESSURE_TREATED": "Esto cerco es tratado a presión?",
+      "TITLE": "Agregar Cerco"
     },
     "FIELD": {
       "DATE": "Fecha de transición",
+      "EDIT_TITLE": "Editar campo",
       "FIELD_TYPE": "Que tipo de campo es?",
+      "NAME": "Nombre de campo",
       "NON_ORGANIC": "No orgánico",
       "ORGANIC": "Orgánico",
+      "TITLE": "Agregar campo",
       "TRANSITIONING": "En transición"
     },
     "GARDEN": {
       "DATE": "Fecha de transición",
+      "EDIT_TITLE": "Editar huerto",
       "GARDEN_TYPE": "Tipo de huerto",
+      "NAME": "Nombre de huerto",
       "NON_ORGANIC": "No orgánico",
       "ORGANIC": "Orgánico",
+      "TITLE": "Agregar huerto",
       "TRANSITIONING": "En transición"
+    },
+    "GATE": {
+      "EDIT_TITLE": "Editar puerta",
+      "NAME": "Nombre de puerta",
+      "TITLE": "Agregar puerta"
     },
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Hay enriquecimiento de CO₂?",
       "DATE": "Fecha de transicion",
+      "EDIT_TITLE": "Editar invernadero",
       "GREENHOUSE_HEATED": "Esta el invernadero calentado?",
       "GREENHOUSE_TYPE": "Que tipo de invernadero es?",
+      "NAME": "Nombre de invernadero",
       "NON_ORGANIC": "No orgánico",
       "ORGANIC": "Orgánico",
       "SUPPLEMENTAL_LIGHTING": "Tiene luz suplementaria?",
+      "TITLE": "Agregar invernadero",
       "TRANSITIONING": "En transicion"
     },
     "LINE_DETAILS": {
@@ -632,7 +674,17 @@
       "WATERCOURSE": "Arroyo",
       "WV": "Valvula de agua"
     },
+    "NATURAL_AREA": {
+      "EDIT_TITLE": "Editar área natural",
+      "NAME": "Nombre de área natural",
+      "TITLE": "Agregar área natural"
+    },
     "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
+    "RESIDENCE": {
+      "EDIT_TITLE": "Editar residencia",
+      "NAME": "Nombre de residencia",
+      "TITLE": "Agregar residencia"
+    },
     "SPOTLIGHT": {
       "ADD": "Añadir ubicaciones a su mapa",
       "ADD_TITLE": "Añadir a su mapa",
@@ -643,7 +695,10 @@
       "HERE_YOU_CAN": "Aqui puede: "
     },
     "SURFACE_WATER": {
-      "IRRIGATION": "Es esta área usada para riego?"
+      "EDIT_TITLE": "Editar agua de superficie",
+      "IRRIGATION": "Es esta área usada para riego?",
+      "NAME": "Nombre de agua de superficie",
+      "TITLE": "Agregar agua de superficie"
     },
     "TAB": {
       "CROPS": "Cultivos",
@@ -681,17 +736,23 @@
       "TITLE": "No se pudo retirar"
     },
     "WATER_VALVE": {
+      "EDIT_TITLE": "Editar valvula de agua",
       "GROUNDWATER": "Agua de pozo",
       "MAX_FLOW_RATE": "Flujo maximo",
       "MUNICIPAL_WATER": "Agua municipal",
+      "NAME": "Nombre de valvula de agua",
       "RAIN_WATER": "Agua de lluvia",
       "SURFACE_WATER": "Agua de superficie",
+      "TITLE": "Agregar valvula de agua",
       "WATER_VALVE_TYPE": "Cual es la fuente?"
     },
     "WATERCOURSE": {
       "BUFFER": "Zona de proteccion",
+      "EDIT_TITLE": "Editar arroyo",
       "IRRIGATION": "Es usado para riego?",
       "LENGTH": "Longitud total",
+      "NAME": "Nombre de arroyo",
+      "TITLE": "Agregar arroyo",
       "WIDTH": "Ancho de arroyo"
     }
   },
@@ -1061,6 +1122,12 @@
     "SELECTED_STARTING_LOCATION": "Seleccione siempre esta como la ubicación de inicio para los cultivos que se trasplantarán",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui une puede:",
     "STARTED": "Empecemos",
+    "STATUS": {
+      "ABANDONED": "Abandonado",
+      "ACTIVE": "Activo",
+      "COMPLETED": "Terminado",
+      "PLANNED": "Planificado"
+    },
     "SUPPLIER": "Proveedor",
     "TERMINATION": "Terminar",
     "TERMINATION_DATE": "¿Cuándo terminará este cultivo?",
@@ -1114,9 +1181,45 @@
     }
   },
   "NOTIFICATION": {
+    "DAILY_TASKS_DUE_TODAY": {
+      "BODY": "Tienes tareas para hoy.",
+      "TITLE": "Tareas para hoy"
+    },
     "NONE_TO_DISPLAY": "No hay notificaciones para mostrar.",
     "PAGE_TITLE": "Notificaciones",
+    "SENSOR_BULK_UPLOAD_FAIL": {
+      "BODY": "La carga del tuvo errores. Haga clic en “Llevame allí” para ver los detalles.",
+      "TITLE": "Errores al cargar sensores"
+    },
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
+      "BODY": "La carga del sensor se ha completado con éxito",
+      "TITLE": "Carga del sensor completada"
+    },
     "TAKE_ME_THERE": "Llévame allí",
+    "TASK_ABANDONED": {
+      "BODY": "Una {{taskType}} tarea que se te asignó ha sido abandonada por {{abandoner}}.",
+      "TITLE": "Tarea abandonada"
+    },
+    "TASK_ASSIGNED": {
+      "BODY": "Una tarea {{taskType}} fue asignado para ti por {{assigner}}.",
+      "TITLE": "Tarea asignada"
+    },
+    "TASK_COMPLETED_BY_OTHER_USER": {
+      "BODY": "Una tarea de {{taskType}} que se le asignó ha sido marcada como completada por {{assigner}}.",
+      "TITLE": "Tarea completada"
+    },
+    "TASK_DELETED": {
+      "BODY": "Una tarea de {{taskType}} que se te asignó ha sido eliminada por {{abandoner}}.",
+      "TITLE": "Tarea eliminada"
+    },
+    "TASK_REASSIGNED": {
+      "BODY": "Una {{taskType}} tarea que te asignó previamente ha sido asignada a otra persona por {{assigner}}.",
+      "TITLE": "Tarea reasignada"
+    },
+    "TASK_UNASSIGNED": {
+      "BODY": "{{editor}} ha marcado {{taskType}} tarea como no asignada.",
+      "TITLE": "Tarea sin asignar"
+    },
     "TIMELINE": {
       "HEADING": "Cronología de notificaciones",
       "MORE_RECENT_NOTIFICATION": "Hay notificaciones más recientes sobre este/a {{entityType}}.",
@@ -1409,6 +1512,9 @@
     "NO_DATA": "(sin datos)",
     "NO_DATA_FOUND": "No se encontraron lecturas del sensor",
     "READING": {
+      "SOIL_WATER_CONTENT": "Contenido hídrico del suelo",
+      "SOIL_WATER_POTENTIAL": "Potencial hídrico del suelo",
+      "TEMPERATURE": "Temperatura",
       "TYPES": "Tipos de lectura",
       "UNKNOWN": "Desconocido"
     },
@@ -1435,8 +1541,22 @@
       "CONTENT": "Los sensores individuales se pueden mostrar u ocultar haciendo clic en sus etiquetas aquí.",
       "TITLE": "La serie puede estar oculta"
     },
+    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
+      "TITLE": "Contenido de agua en el suelo",
+      "Y_AXIS_LABEL": "en {{units}}"
+    },
+    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
+      "KPA": "kilopascales (kPa)",
+      "PSI": "libras por pulgada cuadrada (psi)",
+      "TITLE": "Potencial hídrico del suelo",
+      "Y_AXIS_LABEL": "en {{units}}"
+    },
     "TEMPERATURE_READINGS_OF_SENSOR": {
-      "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para"
+      "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para",
+      "C": "Celsius (°C)",
+      "F": "Fahrenheit (°F)",
+      "TITLE": "Temperatura del suelo",
+      "Y_AXIS_LABEL": "en {{units}}"
     },
     "VALIDATION": {
       "READING_TYPES": "Tipos de lecturas"
@@ -1451,11 +1571,14 @@
     "CHANGES": "Leer sobre los cambios",
     "EMAIL_INVALID": "Correo invalido",
     "ENTER_EMAIL": "Ingresar Correo",
+    "EXPIRED_ERROR": "Hemos actualizado nuestra infraestructura y deberá restablecer su contraseña. Revise su bandeja de entrada para continuar.",
     "EXPIRED_INVITATION_LINK_ERROR": "La invitación no está válida o caducada",
     "GOOGLE_BUTTON": "Continúe con Google",
+    "INVITED_ERROR": "Se te ha enviado una invitación a una granja, por favor, revisa tu bandeja de entrada y carpeta de spam",
     "LITEFARM_UPDATED": "LiteFarm v3.4 ya está disponible!",
     "PASSWORD_ERROR": "Contraseña incorrecta",
     "SIGN_IN": "Iniciar sesión",
+    "SSO_ERROR": "Por favor inicie sesión haciendo clic el boton Google de arriba",
     "USED_INVITATION_LINK_ERROR": "Esta invitación ya se ha utilizado, inicie sesión para acceder a esta granja",
     "WELCOME_BACK": "Bienvenido",
     "WRONG_BROWSER": "LiteFarm no es optimizada por este navegador.",
@@ -1596,6 +1719,13 @@
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la(s) ubicación(es) de la tarea",
     "SELECT_WILD_CROP": "Esta tarea se dirige a un cultivo silvestre",
+    "STATUS": {
+      "ABANDONED": "Abandonada",
+      "COMPLETED": "Completada",
+      "FOR_REVIEW": "Para la revisión",
+      "LATE": "Tarde",
+      "PLANNED": "Planificada"
+    },
     "TASK": "tarea",
     "TASKS_COUNT_one": "{{count}} tarea",
     "TASKS_COUNT_many": "{{count}} tareas",

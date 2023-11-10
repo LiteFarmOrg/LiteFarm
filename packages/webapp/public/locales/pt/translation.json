@@ -46,7 +46,15 @@
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Descreva o tipo de trabalho de campo",
       "TYPE": {
-        "OTHER": "Outro"
+        "COVERING_SOIL": "Cobertura de solo",
+        "FENCING": "Barreira",
+        "OTHER": "Outro",
+        "PREPARING_BEDS_OR_ROWS": "Preparação dos canteiros",
+        "PRUNING": "Poda",
+        "SHADE_CLOTH": "Sombreamento",
+        "TERMINATION": "Conclusão",
+        "TILLAGE": "Preparo do solo/cultivo",
+        "WEEDING": "Capina"
       },
       "TYPE_OF_FIELD_WORK": "Tipo de trabalho de campo"
     },
@@ -529,6 +537,11 @@
       "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "Clique aqui para baixar o modelo",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "Nenhum sensor encontrado, verifique o carregamento e tente novamente.",
       "INVALID_FILE_TYPE": "O arquivo deve ser no formato csv,",
+      "SENSOR_CLAIM_ERROR": {
+        "ALREADY_OCCUPIED": "Sensor \"{{ sensorId }}\" já registrado em outra organização, entre em contato com o suporte do Ensemble em support@esci.io para solucionar problemas.",
+        "DOES_NOT_EXIST": "Pt - Sensor \"{{ sensorId }}\" não existe no banco de dados Ensemble. Verifique se você digitou o External_ID corretamente para esta entrada e se o sensor é um sensor Ensemble.",
+        "INTERNAL_ERROR": "Sensor \"{{ sensorId }}\" falhou ao carregar com sucesso, entre em contato com o suporte da LiteFarm em support@litefarm.org para solucionar problemas."
+      },
       "SENSOR_FIELDS": {
         "BRAND": "Marca",
         "DEPTH": "Profundidade_cm",
@@ -546,10 +559,17 @@
       "UPLOAD_LINK_MESSAGE": "Baixar este modelo",
       "UPLOAD_PLACEHOLDER": "Carregar arquivo CSV",
       "VALIDATION": {
+        "EXTERNAL_ID": "ID externo inválido, deve ter entre 1 e 20 caracteres.",
         "FILE_ROW_LIMIT_EXCEEDED": "Limite de linha de arquivo excedido. O número máximo de sensores que podem ser carregados de um arquivo é 100.",
+        "MISSING_COLUMNS": "Colunas são necessárias/ausentes.",
+        "SENSOR_BRAND": "Nome de marca inválido, deve ter entre 1 e 100 caracteres.",
+        "SENSOR_DEPTH": "Valor de profundidade inválido, deve estar entre 0 e 1000.",
+        "SENSOR_HARDWARE_VERSION": "Nome de versão de hardware inválido, deve ter entre 1 e 100 caracteres.",
         "SENSOR_LATITUDE": "Valor de latitude inválido, deve estar entre -85 e 85 e menos de 10 casas decimais.",
         "SENSOR_LONGITUDE": " Valor de longitude inválido, deve estar entre -180 e 180. e menos de 10 casas decimais.",
-        "SENSOR_NAME": "Nome do sensor inválido, deve ter entre 1 e 100 caracteres."
+        "SENSOR_MODEL": "Nome de modelo inválido, deve ter entre 1 e 100 caracteres.",
+        "SENSOR_NAME": "Nome do sensor inválido, deve ter entre 1 e 100 caracteres.",
+        "SENSOR_READING_TYPES": "Tipo de leitura inválido detectado: {{ reading_types }}. Valores válidos incluem: teor_de_água_no_solo, potencial_de_água_do_solo, temperatura."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -570,32 +590,54 @@
       "EMAILING": "Enviando...",
       "TITLE": "Exporte o mapa do seu sítio/fazenda"
     },
+    "FARM_SITE_BOUNDARY": {
+      "EDIT_TITLE": "Editar limites do sítio/fazenda",
+      "NAME": "Nome de limites do sítio/fazenda",
+      "TITLE": "Adicionar limites do sítio/fazenda"
+    },
     "FENCE": {
+      "EDIT_TITLE": "Editar cerca",
       "LENGTH": "Comprimento total",
-      "PRESSURE_TREATED": "Esta cerca é feita com madeira tratada à pressão?"
+      "NAME": "Nome da cerca",
+      "PRESSURE_TREATED": "Esta cerca é feita com madeira tratada à pressão?",
+      "TITLE": "Adicionar cerca"
     },
     "FIELD": {
       "DATE": "Data provável de transição",
+      "EDIT_TITLE": "Editar campo/parcela",
       "FIELD_TYPE": "Qual tipo de campo é este?",
+      "NAME": "Nome campo/parcela",
       "NON_ORGANIC": "Não orgânico",
       "ORGANIC": "Orgânico",
+      "TITLE": "Adicionar campo/parcela",
       "TRANSITIONING": "Em transição"
     },
     "GARDEN": {
       "DATE": "Data provável de transição",
+      "EDIT_TITLE": "Editar horta",
       "GARDEN_TYPE": "Qual tipo de horta é esta?",
+      "NAME": "Nome da horta",
       "NON_ORGANIC": "Não orgânico",
       "ORGANIC": "Orgânico",
+      "TITLE": "Adicionar horta",
       "TRANSITIONING": "Em transição"
+    },
+    "GATE": {
+      "EDIT_TITLE": "Editar portão",
+      "NAME": "Nome do portão",
+      "TITLE": "Adicionar portão"
     },
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Há enriquecimento de CO2?",
       "DATE": "Data provável de transição",
+      "EDIT_TITLE": "Editar estufa",
       "GREENHOUSE_HEATED": "A estufa é aquecida?",
       "GREENHOUSE_TYPE": "Qual tipo de estufa é esta?",
+      "NAME": "Nome da estufa",
       "NON_ORGANIC": "Não orgânico",
       "ORGANIC": "Orgânico",
       "SUPPLEMENTAL_LIGHTING": "Há luz suplementar?",
+      "TITLE": "Adicionar estufa",
       "TRANSITIONING": "Em transição"
     },
     "LINE_DETAILS": {
@@ -632,7 +674,17 @@
       "WATERCOURSE": "Curso d'água",
       "WV": "Ponto de bombeamento"
     },
+    "NATURAL_AREA": {
+      "EDIT_TITLE": "Editar área natural",
+      "NAME": "Nome da área natural",
+      "TITLE": "Adicionar área natural"
+    },
     "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
+    "RESIDENCE": {
+      "EDIT_TITLE": "Editar residência",
+      "NAME": "Nome da residência",
+      "TITLE": "Adicionar residência"
+    },
     "SPOTLIGHT": {
       "ADD": "Adicionar locais ao seu mapa",
       "ADD_TITLE": "Adicionar  ao seu mapa",
@@ -643,7 +695,10 @@
       "HERE_YOU_CAN": "Aqui você pode:"
     },
     "SURFACE_WATER": {
-      "IRRIGATION": "Esta área é usada para irrigação?"
+      "EDIT_TITLE": "Editar água superficial",
+      "IRRIGATION": "Esta área é usada para irrigação?",
+      "NAME": "Nome da água superficial",
+      "TITLE": "Adicionar água superficial"
     },
     "TAB": {
       "CROPS": "Cultivo",
@@ -681,17 +736,23 @@
       "TITLE": "Não é possível retirar"
     },
     "WATER_VALVE": {
+      "EDIT_TITLE": "Editar ponto de bombeamento",
       "GROUNDWATER": "Água subterrânea",
       "MAX_FLOW_RATE": "Taxa máxima de fluxo",
       "MUNICIPAL_WATER": "Água municipal",
+      "NAME": "Nome do ponto de bombeamento",
       "RAIN_WATER": "Água de chuva",
       "SURFACE_WATER": "Água superficial",
+      "TITLE": "Adicionar ponto de bombeamento",
       "WATER_VALVE_TYPE": "Qual é a fonte?"
     },
     "WATERCOURSE": {
       "BUFFER": "Mata ciliar",
+      "EDIT_TITLE": "Editar curso d'água",
       "IRRIGATION": "Esta área é usada para irrigação?",
       "LENGTH": "Comprimento total",
+      "NAME": "Nome do curso d'água",
+      "TITLE": "Adicionar curso d'água",
       "WIDTH": "Largura do curso d'água"
     }
   },
@@ -1062,6 +1123,12 @@
     "SELECTED_STARTING_LOCATION": "Sempre selecione este como o local de início para os cultivos que serão transplantados ",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
     "STARTED": "Vamos começar",
+    "STATUS": {
+      "ABANDONED": "Abandonado",
+      "ACTIVE": "Ativo",
+      "COMPLETED": "Completo",
+      "PLANNED": "Planejado"
+    },
     "SUPPLIER": "Fornecedor",
     "TERMINATION": "Terminação",
     "TERMINATION_DATE": "Quando você encerrará esta colheita?",
@@ -1115,9 +1182,45 @@
     }
   },
   "NOTIFICATION": {
+    "DAILY_TASKS_DUE_TODAY": {
+      "BODY": "Você tem tarefas para vencer hoje.",
+      "TITLE": "Tarefas para hoje"
+    },
     "NONE_TO_DISPLAY": "Não há notificações para exibir.",
     "PAGE_TITLE": "Notificações",
+    "SENSOR_BULK_UPLOAD_FAIL": {
+      "BODY": "O carregamento do seu sensor apresenta alguns erros. Clique em “Leve-me até lá” para ver os detalhes",
+      "TITLE": "Erros de carregamento do sensor"
+    },
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
+      "BODY": "O carregamento do seu sensor foi concluído com sucesso",
+      "TITLE": "Carregamento do sensor concluído"
+    },
     "TAKE_ME_THERE": "Me leve lá",
+    "TASK_ABANDONED": {
+      "BODY": "Uma tarefa {{taskType}} atribuída a você foi abandonada por {{abandoner}}.",
+      "TITLE": "Tarefa abandonada"
+    },
+    "TASK_ASSIGNED": {
+      "BODY": "A tarefa {{taskType}} atribuída a você por {{assigner}}.",
+      "TITLE": "Tarefa atribuída"
+    },
+    "TASK_COMPLETED_BY_OTHER_USER": {
+      "BODY": "Uma tarefa {{taskType}} atribuída a você foi marcada como concluída por {{assigner}}.",
+      "TITLE": "Tarefa completa"
+    },
+    "TASK_DELETED": {
+      "BODY": "Uma tarefa de {{taskType}} atribuída a você foi excluída por {{abandoner}}.",
+      "TITLE": "Tarefa excluída"
+    },
+    "TASK_REASSIGNED": {
+      "BODY": "Uma tarefa {{taskType}} atribuída anteriormente a você foi atribuída a outra pessoa por {{assigner}}.",
+      "TITLE": "Tarefa reatribuída"
+    },
+    "TASK_UNASSIGNED": {
+      "BODY": "{{editor}} marcou uma tarefa {{taskType}} como não atribuída.",
+      "TITLE": "Tarefa não atribuída"
+    },
     "TIMELINE": {
       "HEADING": "Cronograma de notificação",
       "MORE_RECENT_NOTIFICATION": "Existem notificações mais recentes sobre este/a {{entityType}}.",
@@ -1410,6 +1513,9 @@
     "NO_DATA": "(sem dados)",
     "NO_DATA_FOUND": "Nenhuma leitura do sensor encontrada",
     "READING": {
+      "SOIL_WATER_CONTENT": "Teor de água no solo",
+      "SOIL_WATER_POTENTIAL": "Potencial de água no solo",
+      "TEMPERATURE": "Temperatura",
       "TYPES": "Tipos de leitura",
       "UNKNOWN": "Desconhecido"
     },
@@ -1436,8 +1542,22 @@
       "CONTENT": "Sensores individuais podem ser exibidos ou ocultados clicando em seus rótulos aqui.",
       "TITLE": "As séries podem ser ocultadas"
     },
+    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
+      "TITLE": "Teor de água no solo",
+      "Y_AXIS_LABEL": "em {{units}}"
+    },
+    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
+      "KPA": "quilopascals (kPa)",
+      "PSI": "libras por polegada quadrada (psi)",
+      "TITLE": "Potencial de água do solo",
+      "Y_AXIS_LABEL": "em {{units}}"
+    },
     "TEMPERATURE_READINGS_OF_SENSOR": {
-      "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para"
+      "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para",
+      "C": "Celsius (°C)",
+      "F": "Fahrenheit (°F)",
+      "TITLE": "Temperatura do solo",
+      "Y_AXIS_LABEL": "em {{units}}"
     },
     "VALIDATION": {
       "READING_TYPES": "Os tipos de leitura do sensor são obrigatórios"
@@ -1452,11 +1572,14 @@
     "CHANGES": "Leia sobre as mudanças",
     "EMAIL_INVALID": "Email é inválido",
     "ENTER_EMAIL": "Digite seu endereço de email",
+    "EXPIRED_ERROR": "NÃO EXISTE",
     "EXPIRED_INVITATION_LINK_ERROR": "Convite expirado ou inválido",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
+    "INVITED_ERROR": "Um convite de fazenda foi enviado para você, por favor verifique sua caixa de entrada e pasta de spam.",
     "LITEFARM_UPDATED": "LiteFarm v3.4 já está disponível!",
     "PASSWORD_ERROR": "Senha incorreta",
     "SIGN_IN": "Conecte-se",
+    "SSO_ERROR": "Faça login clicando no botão do Google acima",
     "USED_INVITATION_LINK_ERROR": "Este convite já foi utilizado, por favor, faça o login para acessar essa fazenda",
     "WELCOME_BACK": "Bem-vindo de volta",
     "WRONG_BROWSER": "LiteFarm não é otimizado para este navegador.",
@@ -1597,6 +1720,13 @@
     "SELECT_DATE": "Selecionar a data da tarefa",
     "SELECT_TASK_LOCATIONS": "Selecionar o(s) local(is) da tarefa",
     "SELECT_WILD_CROP": "Esta tarefa é para um cultivo silvestre",
+    "STATUS": {
+      "ABANDONED": "Abandonada",
+      "COMPLETED": "Completa",
+      "FOR_REVIEW": "Em revisão",
+      "LATE": "Atrasada",
+      "PLANNED": "Planejada"
+    },
     "TASK": "tarefa",
     "TASKS_COUNT_one": "{{count}} tarefa",
     "TASKS_COUNT_many": "{{count}} tarefas",

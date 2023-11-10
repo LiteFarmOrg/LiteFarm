@@ -46,7 +46,15 @@
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Décrivez le type de travail de terrain",
       "TYPE": {
-        "OTHER": "Autre"
+        "COVERING_SOIL": "Terre de couverture",
+        "FENCING": "Pose de clôture",
+        "OTHER": "Autre",
+        "PREPARING_BEDS_OR_ROWS": "Preparation des plates-bandes ou rangées",
+        "PRUNING": "Émondage",
+        "SHADE_CLOTH": "Toile à ombrer",
+        "TERMINATION": "Finitions",
+        "TILLAGE": "Labourage",
+        "WEEDING": "Désherbage"
       },
       "TYPE_OF_FIELD_WORK": "Type de travail de terrain"
     },
@@ -530,6 +538,11 @@
       "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "Cliquez ici pour télécharger le modèle",
       "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "Aucun capteur trouvé, veuillez vérifier votre téléversement et essayer à nouveau.",
       "INVALID_FILE_TYPE": "Le fichier téléversé doit être un fichier csv",
+      "SENSOR_CLAIM_ERROR": {
+        "ALREADY_OCCUPIED": "Le capteur \"{{ sensorId }}\" est déjà enregistré chez une autre organisation. Veuillez contacter le support d'Ensemble à support@esci.io pour résoudre ce problème.",
+        "DOES_NOT_EXIST": "Le capteur \"{{ sensorId }}\" n'existe pas dans la base de données d'Ensemble. Veuillez vous assurer que vous avez bien orthographié l'ID externe pour cette entrée, et que le capteur est un capteur d'Ensemble.",
+        "INTERNAL_ERROR": "Le téléchargement du capteur \"{{ sensorId }}\" a échoué, veuillez communiquer avec le support de LiteFarm à support@litefarm.org pour résoudre."
+      },
       "SENSOR_FIELDS": {
         "BRAND": "Marque",
         "DEPTH": "Profondeur_cm",
@@ -547,10 +560,17 @@
       "UPLOAD_LINK_MESSAGE": "Télécharger ce modèle",
       "UPLOAD_PLACEHOLDER": "Téléverser le fichier CSV",
       "VALIDATION": {
+        "EXTERNAL_ID": "ID externe non valide, il doit être compris entre 1 et 20 caractères.",
         "FILE_ROW_LIMIT_EXCEEDED": "Limite de lignes du fichier dépassée. Le nombre maximum de capteurs téléchargeable dans un fichier est de 100.",
+        "MISSING_COLUMNS": "Les colonnes sont requises ou manquantes",
+        "SENSOR_BRAND": "Nom de marque non valide, il doit être compris entre 1 et 100 caractères.",
+        "SENSOR_DEPTH": "Valeur de profondeur non valide, elle doit être comprise entre 0 et 1000.",
+        "SENSOR_HARDWARE_VERSION": "Version matérielle non valide, elle doit être comprise entre 1 et 100 caractères.",
         "SENSOR_LATITUDE": "La valeur de latitude n'est pas valide, elle doit être comprise entre -85 et 85 et avec moins de 10 décimales.",
         "SENSOR_LONGITUDE": "La valeur de longitude n'est pas valide, elle doit être comprise entre -180 et 180 et avec moins de 10 décimales.",
-        "SENSOR_NAME": "Nom de capteur non valide, if doit être compris entre 1 et 100 caractères."
+        "SENSOR_MODEL": "Nom de modèle non valide, il doit être compris entre 1 et 100 caractères.",
+        "SENSOR_NAME": "Nom de capteur non valide, if doit être compris entre 1 et 100 caractères.",
+        "SENSOR_READING_TYPES": "Type de données relevées non valide détecté\u00a0: {{ reading_types }}. Les valeurs valides sont\u00a0: teneur_en_eau_du_sol, potentiel_hydrique_du_sol, température."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -571,32 +591,54 @@
       "EMAILING": "Envoi en cours",
       "TITLE": "Exportez la carte de votre ferme"
     },
+    "FARM_SITE_BOUNDARY": {
+      "EDIT_TITLE": "Modifier les limites du site de la ferme",
+      "NAME": "Nom de la limite du site de la ferme",
+      "TITLE": "Ajouter une limite de site de ferme"
+    },
     "FENCE": {
+      "EDIT_TITLE": "Modifier la clôture",
       "LENGTH": "Longueur totale",
-      "PRESSURE_TREATED": "Cette clôture est-elle traitée sous pression\u00a0?"
+      "NAME": "Nom de la clôture",
+      "PRESSURE_TREATED": "Cette clôture est-elle traitée sous pression\u00a0?",
+      "TITLE": "Ajouter une clôture"
     },
     "FIELD": {
       "DATE": "Fin de période de transition",
+      "EDIT_TITLE": "Modifier le champ",
       "FIELD_TYPE": "De quel type de champ s'agit-il\u00a0?",
+      "NAME": "Nom du champ",
       "NON_ORGANIC": "Non-bio",
       "ORGANIC": "Biologique",
+      "TITLE": "Ajouter un champ",
       "TRANSITIONING": "Transition"
     },
     "GARDEN": {
       "DATE": "Fin de période de transition",
+      "EDIT_TITLE": "Modifier le jardin",
       "GARDEN_TYPE": "Quel type de jardin est-ce\u00a0?",
+      "NAME": "Nom du jardin",
       "NON_ORGANIC": "Non-bio",
       "ORGANIC": "Biologique",
+      "TITLE": "Ajouter un jardin",
       "TRANSITIONING": "Transition"
+    },
+    "GATE": {
+      "EDIT_TITLE": "Modifier le portail",
+      "NAME": "Nom du portail",
+      "TITLE": "Ajouter un portail"
     },
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Y a-t-il un enrichissement en CO₂\u00a0?",
       "DATE": "Fin de période de transition",
+      "EDIT_TITLE": "Modifier la serre",
       "GREENHOUSE_HEATED": "La serre est-elle chauffée\u00a0?",
       "GREENHOUSE_TYPE": "De quel type de serre s'agit-il\u00a0?",
+      "NAME": "Nom de la serre",
       "NON_ORGANIC": "Non-bio",
       "ORGANIC": "Biologique",
       "SUPPLEMENTAL_LIGHTING": "Y a-t-il un éclairage supplémentaire\u00a0?",
+      "TITLE": "Ajouter une serre",
       "TRANSITIONING": "Transition"
     },
     "LINE_DETAILS": {
@@ -633,7 +675,17 @@
       "WATERCOURSE": "Flux d'eau",
       "WV": "Vanne à eau"
     },
+    "NATURAL_AREA": {
+      "EDIT_TITLE": "Modifier l'espace naturel",
+      "NAME": "Nom de l'espace naturel",
+      "TITLE": "Ajouter un espace naturel"
+    },
     "NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
+    "RESIDENCE": {
+      "EDIT_TITLE": "Modifier la résidence",
+      "NAME": "Nom de la résidence",
+      "TITLE": "Ajouter résidence"
+    },
     "SPOTLIGHT": {
       "ADD": "Ajouter des emplacements à votre carte",
       "ADD_TITLE": "Ajouter à votre carte",
@@ -644,7 +696,10 @@
       "HERE_YOU_CAN": "Ici, vous pouvez\u00a0:"
     },
     "SURFACE_WATER": {
-      "IRRIGATION": "Cette zone est-elle utilisée pour l'irrigation\u00a0?"
+      "EDIT_TITLE": "Modifier l'eau de surface",
+      "IRRIGATION": "Cette zone est-elle utilisée pour l'irrigation\u00a0?",
+      "NAME": "Nom de l'eau de surface",
+      "TITLE": "Ajouter l'eau de surface"
     },
     "TAB": {
       "CROPS": "Cultures",
@@ -682,17 +737,23 @@
       "TITLE": "Incapable à retirer"
     },
     "WATER_VALVE": {
+      "EDIT_TITLE": "Modifier la vanne",
       "GROUNDWATER": "Eaux souterraines",
       "MAX_FLOW_RATE": "Flux maximum",
       "MUNICIPAL_WATER": "Eau municipale",
+      "NAME": "Nom de la vanne",
       "RAIN_WATER": "Eau de pluie",
       "SURFACE_WATER": "Eau de surface",
+      "TITLE": "Ajouter une vanne",
       "WATER_VALVE_TYPE": "Quelle est la source de l'eau\u00a0?"
     },
     "WATERCOURSE": {
       "BUFFER": "Tampon rivarain",
+      "EDIT_TITLE": "Modifier le cours d'eau",
       "IRRIGATION": "Cette zone est-elle utilisée pour l'irrigation\u00a0?",
       "LENGTH": "Longueur totale",
+      "NAME": "Nom du cours d'eau",
+      "TITLE": "Ajouter un cours d'eau",
       "WIDTH": "Largeur du cours d'eau"
     }
   },
@@ -1061,6 +1122,12 @@
     "SELECT_CURRENT_LOCATION": "Sélectionnez l'emplacement actuel de la culture",
     "SELECTED_STARTING_LOCATION": "Sélectionnez toujours ceci comme emplacement de départ pour les cultures qui seront transplantées",
     "SPOTLIGHT_HERE_YOU_CAN": "Ici, vous pouvez\u00a0:",
+    "STATUS": {
+      "ABANDONED": "Abandonné",
+      "ACTIVE": "Actif",
+      "COMPLETED": "Terminé",
+      "PLANNED": "Planifié"
+    },
     "STARTED": "Commencé",
     "SUPPLIER": "Fournisseur",
     "TERMINATION": "clôture",
@@ -1115,9 +1182,45 @@
     }
   },
   "NOTIFICATION": {
+    "DAILY_TASKS_DUE_TODAY": {
+      "BODY": "Vous avez des tâches à accomplir aujourd'hui.",
+      "TITLE": "Tâches à accomplir aujourd'hui"
+    },
     "NONE_TO_DISPLAY": "Il n'y a aucune notification à afficher.",
     "PAGE_TITLE": "Notifications",
+    "SENSOR_BULK_UPLOAD_FAIL": {
+      "BODY": "Quelques erreurs sont survenues pendant votre téléchargement de capteur. Cliquez sur “Allons-y” pour voir les détails.",
+      "TITLE": "Erreurs de téléchargement du capteur"
+    },
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
+      "BODY": "Le chargement de votre capteur a été terminé avec succès",
+      "TITLE": "Chargement du capteur terminé"
+    },
     "TAKE_ME_THERE": "Allons-y\u00a0!",
+    "TASK_ABANDONED": {
+      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été abandonnée par {{abandoner}}.",
+      "TITLE": "Tâche abandonnée"
+    },
+    "TASK_ASSIGNED": {
+      "BODY": "Une tâche de {{taskType}} vous a été assignée par {{assigner}}.",
+      "TITLE": "Tâche assignée"
+    },
+    "TASK_COMPLETED_BY_OTHER_USER": {
+      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été marquée comme accomplie par {{assigner}}.",
+      "TITLE": "Tâche accomplie"
+    },
+    "TASK_DELETED": {
+      "BODY": "La {{taskType}} tâche qu'on vous a envoyée a été annulée par {{abandoner}}.",
+      "TITLE": "Tâche annulée"
+    },
+    "TASK_REASSIGNED": {
+      "BODY": "Une tâche de {{taskType}} qui vous était assignée a été attribuée à quelqu'un d'autre par {{assigner}}.",
+      "TITLE": "Tâche réattribuée"
+    },
+    "TASK_UNASSIGNED": {
+      "BODY": "{{editor}} a marqué une tâche de {{taskType}} comme non attribuée.",
+      "TITLE": "Tâche non attribuée"
+    },
     "TIMELINE": {
       "HEADING": "Chronologie de la notification",
       "MORE_RECENT_NOTIFICATION": "Il y a des notifications plus récentes au sujet de cette {{entityType}}.",
@@ -1410,6 +1513,9 @@
     "NO_DATA": "(aucune donnée)",
     "NO_DATA_FOUND": "Aucun donnée de capteurs trouvé.",
     "READING": {
+      "SOIL_WATER_CONTENT": "Teneur en eau du sol",
+      "SOIL_WATER_POTENTIAL": "Potentiel hydrique du sol",
+      "TEMPERATURE": "Température",
       "TYPES": "Type de données relevées par les capteurs",
       "UNKNOWN": "Inconnue"
     },
@@ -1436,8 +1542,22 @@
       "CONTENT": "Les capteurs individuels peuvent être affichés ou masqués en cliquant sur leurs étiquettes ici.",
       "TITLE": "Les séries peuvent être masquées"
     },
+    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
+      "TITLE": "Teneur en eau du sol",
+      "Y_AXIS_LABEL": "en {{units}}"
+    },
+    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
+      "KPA": "kilopascals (kPa)",
+      "PSI": "livres par pouce carré (psi)",
+      "TITLE": "Potentiel hydrique du sol",
+      "Y_AXIS_LABEL": "en {{units}}"
+    },
     "TEMPERATURE_READINGS_OF_SENSOR": {
-      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour"
+      "AMBIENT_TEMPERATURE_FOR": "Température ambiante pour",
+      "C": "Celsius (°C)",
+      "F": "Fahrenheit (°F)",
+      "TITLE": "Température du sol",
+      "Y_AXIS_LABEL": "en {{units}}"
     },
     "VALIDATION": {
       "READING_TYPES": "Les types de données relevées par les capteurs sont requis"
@@ -1452,11 +1572,14 @@
     "CHANGES": "En savoir plus sur les changements",
     "EMAIL_INVALID": "Courriel non-valide",
     "ENTER_EMAIL": "Entrez votre Courriel",
+    "EXPIRED_ERROR": "Nous avons mis à jour notre infrastructure et vous devriez réinitialiser votre mot de passe. Vérifiez votre boîte de courriels pour continuer.",
     "EXPIRED_INVITATION_LINK_ERROR": "Invitation invalide ou expirée",
     "GOOGLE_BUTTON": "CONTINUER AVEC GOOGLE",
+    "INVITED_ERROR": "L'invitation à la ferme vous a été envoyée par e-mail, veuillez vérifier votre boîte de réception et votre dossier spam.",
     "LITEFARM_UPDATED": "LiteFarm v3.4 est maintenant disponible\u00a0!",
     "PASSWORD_ERROR": "Mot de passe incorrect",
     "SIGN_IN": "Se Connecter",
+    "SSO_ERROR": "Veuillez connecter par cliquer le bouton Google au-dessus",
     "USED_INVITATION_LINK_ERROR": "Cette invitation a déjà été utilisée, veuillez vous connecter pour accéder à cette ferme",
     "WELCOME_BACK": "Content de vous revoir\u00a0!",
     "WRONG_BROWSER": "LiteFarm n'est pas optimisé pour ce navigateur de Web.",
@@ -1597,6 +1720,13 @@
     "SELECT_DATE": "Sélectionnez la date de la tâche",
     "SELECT_TASK_LOCATIONS": "Sélectionnez le(s) emplacement(s) de la tâche",
     "SELECT_WILD_CROP": "Cette tâche cible une culture sauvage",
+    "STATUS": {
+      "ABANDONED": "Abandonnée",
+      "COMPLETED": "Terminée",
+      "FOR_REVIEW": "Pour évaluer",
+      "LATE": "En retard",
+      "PLANNED": "Planifiée"
+    },
     "TASK": "tâche",
     "TASKS_COUNT_one": "{{count}} tâche",
     "TASKS_COUNT_many": "{{count}} tâches",

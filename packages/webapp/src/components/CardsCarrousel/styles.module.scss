@@ -43,7 +43,11 @@
   flex-grow: 1;
   z-index: 999;
   animation: card-swapping 300ms ease-out;
-  min-width: 294px;
+  width: 256px;
+
+  @media only screen and (min-width: 414px) {
+    width: 296px;
+  }
 
   @media only screen and (min-width: 768px) {
     min-width: 310px;

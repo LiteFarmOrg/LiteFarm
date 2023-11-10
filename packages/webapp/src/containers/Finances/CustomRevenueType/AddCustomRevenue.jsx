@@ -16,16 +16,16 @@ import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCustomRevenueType } from '../saga';
-import { revenueTypesSelector } from '../../revenueTypeSlice';
+import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME } from './constants';
-import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
+import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import CustomRevenueRadios from './CustomRevenueRadios';
 
 function AddCustomRevenue({ history }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const revenueTypes = useSelector(revenueTypesSelector);
+  const revenueTypes = useSelector(allRevenueTypesSelector);
 
   const handleGoBack = () => {
     history.back();
@@ -46,11 +46,13 @@ function AddCustomRevenue({ history }) {
         inputLabel={t('REVENUE.ADD_REVENUE.CUSTOM_REVENUE_NAME')}
         descriptionLabel={t('REVENUE.CUSTOM_REVENUE_DESCRIPTION')}
         nameFieldRegisterName={CUSTOM_REVENUE_NAME}
-        validateInput={hookFormUniquePropertyValidation(
-          revenueTypes,
-          'revenue_name',
-          t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
-        )}
+        validateInput={hookFormUniquePropertyWithStatusValidation({
+          objArr: revenueTypes,
+          property: 'revenue_name',
+          status: 'deleted',
+          messageTrue: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME_RETIRED'),
+          messageFalse: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
+        })}
         customFormFields={({ control, watch }) => (
           <CustomRevenueRadios control={control} watch={watch} view="add" />
         )}

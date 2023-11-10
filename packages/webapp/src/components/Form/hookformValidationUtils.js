@@ -54,3 +54,36 @@ export const hookFormUniquePropertyValidation = (objArr, property, message) => {
     return true;
   };
 };
+
+/**
+ * Validates if a value is unique within an array of objects based on a specified property.
+ * Returns different messages depending on the bolean status of a specified property in the found object.
+ *
+ * @param {Array<Object>} objArr - The array of objects to search for duplicates in.
+ * @param {string} property - The property within each object to check for uniqueness.
+ * @param {string} [status='deleted'] - The status property to check in the object. Defaults to 'deleted'.
+ * @param {string} messageTrue - The error message to return if the status property is true.
+ * @param {string} messageFalse - The error message to return if the status property is false or the object is not found.
+ * @returns {(value: any) => string|boolean} A validation function that takes a value to validate and returns
+ * either an error message or `true` if the value is unique
+ */
+export const hookFormUniquePropertyWithStatusValidation = ({
+  objArr,
+  property,
+  status = 'deleted',
+  messageTrue,
+  messageFalse,
+}) => {
+  return (value) => {
+    const foundItem = objArr.find((item) => item[property] === value);
+
+    if (foundItem) {
+      if (foundItem[status]) {
+        return messageTrue;
+      }
+      return messageFalse;
+    }
+
+    return true;
+  };
+};

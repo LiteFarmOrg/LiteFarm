@@ -1496,8 +1496,7 @@
       "CUSTOM_REVENUE_TYPE": "Type de revenu personnalisé",
       "DUPLICATE_NAME": "Un type de revenu portant ce nom existe déjà.  Veuillez en choisir un autre."
     },
-    "CUSTOM_REVENUE_DESCRIPTION": "Description Personnalisée des Revenus
-    ",
+    "CUSTOM_REVENUE_DESCRIPTION": "Description Personnalisée des Revenus",
     "DELETE": {
       "CONFIRM": "Confirmer la suppression",
       "HEADER": "Supprimer le revenu ?",

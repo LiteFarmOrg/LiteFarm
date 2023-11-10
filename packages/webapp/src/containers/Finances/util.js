@@ -82,7 +82,11 @@ export function filterSalesByDateRange(sales, startDate, endDate) {
 
 export function calcActualRevenue(transactions) {
   return transactions
-    .filter((transaction) => transaction.transactionType === transactionTypeEnum.revenue)
+    .filter(
+      ({ transactionType }) =>
+        transactionType === transactionTypeEnum.revenue ||
+        transactionType === transactionTypeEnum.cropRevenue,
+    )
     .reduce((sum, curTransaction) => sum + curTransaction.amount, 0);
 }
 

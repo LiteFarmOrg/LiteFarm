@@ -475,39 +475,39 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "ADD_CUSTOM_EXPENSE": "MISSING",
-      "ADD_CUSTOM_EXPENSE_TYPE": "MISSING",
-      "CUSTOM_EXPENSE_NAME": "MISSING",
-      "CUSTOM_EXPENSE_TYPE": "MISSING",
-      "DUPLICATE_NAME": "MISSING",
+      "ADD_CUSTOM_EXPENSE": "Ajouter des dépense personnalisée",
+      "ADD_CUSTOM_EXPENSE_TYPE": "Ajouter un type de dépense personnalisée",
+      "CUSTOM_EXPENSE_NAME": "Nom de la dépense personnalisée",
+      "CUSTOM_EXPENSE_TYPE": "Type de dépense personnalisée",
+      "DUPLICATE_NAME": "Un type de dépense portant ce nom existe déjà. Veuillez en choisir un autre",
       "FLOW": "Création d'une dépense",
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
-      "NEW_EXPENSE_ITEM": "MISSING",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "Gérer le type de dépense personnalisée",
+      "NEW_EXPENSE_ITEM": "Nouvelle dépense",
       "TITLE": "Ajouter une dépense",
-      "WHICH_TYPES_TO_RECORD": "MISSING"
+      "WHICH_TYPES_TO_RECORD": "Choisissez vos types de dépenses ci-dessous:"
     },
-    "CUSTOM_EXPENSE_DESCRIPTION": "MISSING",
+    "CUSTOM_EXPENSE_DESCRIPTION": "Description de dépense personnalisée",
     "DELETE": {
-      "CONFIRM": "MISSING",
-      "HEADER": "MISSING",
-      "LINK": "MISSING",
-      "MESSAGE": "MISSING"
+      "CONFIRM": "Confirmer",
+      "HEADER": "En-tête",
+      "LINK": "Lien",
+      "MESSAGE": "Cela supprimera la dépense des registres de votre ferme. Elle ne sera plus reflétée dans aucun résumé financier"
     },
     "DETAILED_HISTORY": "Historique détaillé",
     "EDIT_EXPENSE": {
-      "RETIRE_EXPENSE_MESSAGE": "MISSING",
-      "RETIRE_EXPENSE_TYPE": "MISSING",
-      "RETIRED": "MISSING",
-      "TITLE": "MISSING",
-      "TITLE_1": "Modifier les dépenses (1 sur 2)",
+      "RETIRE_EXPENSE_MESSAGE": "Message de désactivation de dépense",
+      "RETIRE_EXPENSE_TYPE": "Desactiver ce type de dépense",
+      "RETIRED": "(Desactivée)",
+      "TITLE": "Modifier la dépense",
+      "TITLE_1": "Modifier la dépense (1 sur 2)",
       "TITLE_2": "Modifier la dépense (2 sur 2)"
     },
-    "ITEM_NAME": "MISSING",
+    "ITEM_NAME": "Nom de la dépense",
     "NO_EXPENSE": "Aucune dépense trouvée",
     "NO_EXPENSE_YEAR": "Vous n'avez enregistré aucune dépense pour cette année",
     "OTHER_EXPENSES_TITLE": "Autres dépenses",
     "SUMMARY": "Résumé",
-    "TYPE": "MISSING",
+    "TYPE": "Type",
     "VALUE": "Valeur"
   },
   "EXPIRED_TOKEN": {
@@ -777,16 +777,16 @@
       "ADD_REVENUE": "Ajouter des revenus",
       "TITLE": "Chiffre d'affaires réel"
     },
-    "ADD_EXPENSE": "MISSING",
-    "ADD_REVENUE": "MISSING",
-    "ADD_TRANSACTION": "MISSING",
+    "ADD_EXPENSE": "+ Ajouter une dépense",
+    "ADD_REVENUE": "+ Ajouter un revenu",
+    "ADD_TRANSACTION": "+ Ajouter une transaction",
     "CANT_FIND": {
-      "INFO_EXPENSE": "MISSING",
-      "INFO_REVENUE": "MISSING",
-      "MAIN": "MISSING",
-      "MANAGE_EXPENSE": "MISSING",
-      "MANAGE_REVENUE": "MISSING",
-      "MISC_EXPENSE": "MISSING"
+      "INFO_EXPENSE": "Vous pouvez également créer vos propres types de dépenses personnalisés !",
+      "INFO_REVENUE": "Vous pouvez également créer vos propres types de revenus personnalisés !",
+      "MAIN": "Vous ne trouvez pas une catégorie appropriée?",
+      "MANAGE_EXPENSE": "Gérer dépense personnalisée",
+      "MANAGE_REVENUE": "Gérer revenu personnalisé",
+      "MISC_EXPENSE": "Ou <1>créer une dépense <1>diverse</1></1>"
     },
     "COST": "Coût",
     "DATE": "Date",
@@ -799,22 +799,22 @@
     },
     "EXPENSES": "Dépenses",
     "FILTER": {
-      "EXPENSE_TYPE": "MISSING",
-      "HELP_TEXT": "MISSING",
-      "REVENUE_TYPE": "MISSING",
-      "TITLE": "MISSING"
+      "EXPENSE_TYPE": "Type de dépense",
+      "HELP_TEXT": "N'hésitez pas à utiliser les filtres ci-dessous pour affiner votre liste de transactions et la faire fonctionner exactement comme vous le souhaitez!",
+      "REVENUE_TYPE": "Types de revenu",
+      "TITLE": "Filtrer les transactions"
     },
     "REVENUE": "Revenu",
     "SEARCH": {
-      "EXPENSE_TYPES": "MISSING",
-      "REVENUE_TYPES": "MISSING"
+      "EXPENSE_TYPES": "Rechercher un type de dépense",
+      "REVENUE_TYPES": "Rechercher un type de revenu"
     },
     "TRANSACTION": {
-      "CROPS": "MISSING",
-      "DAILY_TOTAL": "MISSING",
-      "LABOUR_EXPENSE": "MISSING",
-      "VIEW_AND_EDIT": "MISSING",
-      "VIEW_LABOUR": "MISSING"
+      "CROPS": "Cultures",
+      "DAILY_TOTAL": "Total quotidien",
+      "LABOUR_EXPENSE": "Dépense de main-d'œuvre",
+      "VIEW_AND_EDIT": "Voir & éditer",
+      "VIEW_LABOUR": "Voir les dépenses de main d'œuvre"
     },
     "VIEW_WITHIN_DATE_RANGE": "Voir les revenus dans cette plage de dates",
     "WHOLE_FARM_REVENUE": "Revenu total de la ferme"
@@ -846,7 +846,7 @@
   "INSIGHTS": {
     "BIODIVERSITY": {
       "AMPHIBIANS": "Amphibiens",
-      "API_OFFSET_LIMIT_ERROR_MESSAGE": "MISSING",
+      "API_OFFSET_LIMIT_ERROR_MESSAGE": "Il y a trop d'observations de biodiversité à l'intérieur des limites de votre ferme pour rapporter de manière précise, veuillez réduire la taille de la limite de votre ferme et réessayer",
       "BIRDS": "Oiseaux",
       "CROP_VARIETIES": "Variété de la culture",
       "ERROR_TITLE": "Il y a eu un problème.",
@@ -1416,11 +1416,11 @@
     },
     "DETAIL": {
       "CUSTOMER_NAME": "Nom de Client",
-      "TITLE": "MISSING",
+      "TITLE": "Detail de revenu",
       "VALUE": "Valeur"
     },
     "EDIT_SALE": {
-      "TITLE": "MISSING"
+      "TITLE": "Modifier Revenu"
     },
     "EXPENSE_DETAIL": {
       "TITLE": "Détail de la dépense"

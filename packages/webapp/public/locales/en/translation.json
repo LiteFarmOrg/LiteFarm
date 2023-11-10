@@ -511,6 +511,7 @@
       "CUSTOM_EXPENSE_NAME": "Custom expense name",
       "CUSTOM_EXPENSE_TYPE": "Custom expense type",
       "DUPLICATE_NAME": "An expense type with this name already exists. Please choose another.",
+      "DUPLICATE_NAME_RETIRED": "A retired expense type with this name already exists. Please choose another.",
       "FLOW": "expense creation",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Manage custom expense types",
       "NEW_EXPENSE_ITEM": "New expense item",
@@ -1488,7 +1489,8 @@
       "CROP_GENERATED": "Is this revenue generated from crops?",
       "CUSTOM_REVENUE_NAME": "Custom revenue name",
       "CUSTOM_REVENUE_TYPE": "Custom revenue type",
-      "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another."
+      "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another.",
+      "DUPLICATE_NAME_RETIRED": "A retired revenue type with this name already exists.  Please choose another."
     },
     "CUSTOM_REVENUE_DESCRIPTION": "Custom revenue description",
     "DELETE": {

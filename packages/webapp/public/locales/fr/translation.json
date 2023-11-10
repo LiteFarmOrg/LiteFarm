@@ -1381,7 +1381,7 @@
       "CUSTOM_REVENUE_TYPE": "Type de revenu personnalisé",
       "DUPLICATE_NAME": "Un type de revenu portant ce nom existe déjà.  Veuillez en choisir un autre."
     },
-    "CUSTOM_REVENUE_DESCRIPTION": "MISSING",
+    "CUSTOM_REVENUE_DESCRIPTION": "Description Personnalisée des Revenus",
     "DELETE": {
       "CONFIRM": "Confirmer la suppression",
       "HEADER": "Supprimer le revenu ?",
@@ -1404,17 +1404,17 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "ADD_CUSTOM_REVENUE_TYPE": "MISSING",
-      "ADD_REVENUE": "MISSING",
+      "ADD_CUSTOM_REVENUE_TYPE": "Ajouter un type de revenu personnalisé",
+      "ADD_REVENUE": "Ajouter des revenus",
       "CROP_REQUIRED": "Réponse requise",
       "CROP_VARIETY": "Variété de la culture",
-      "FLOW": "MISSING",
-      "MANAGE_CUSTOM_REVENUE_TYPE": "MISSING",
+      "FLOW": "Création de revenus",
+      "MANAGE_CUSTOM_REVENUE_TYPE": "Gérer les types de revenus personnalisés",
       "SALE_VALUE_ERROR": "La valeur de vente doit être un nombre positif moins que 999,999,999",
       "TABLE_HEADERS": {
         "TOTAL": "Total"
       },
-      "WHICH_TYPE_TO_RECORD": "MISSING"
+      "WHICH_TYPE_TO_RECORD": "Choisissez votre type de revenu ci-dessous :"
     },
     "DETAIL": {
       "CUSTOMER_NAME": "Nom de Client",
@@ -1429,35 +1429,35 @@
     },
     "FINANCES": {
       "CARROUSEL_TEXT": {
-        "ESTIMATED_REVENUE": "MISSING",
-        "GENERIC": "MISSING"
+        "ESTIMATED_REVENUE": "Ce nombre (static) reflète votre récolte future estimée",
+        "GENERIC": "*Ces chiffres sont basés sur votre sélection de date / filtre"
       },
-      "ESTIMATED_HARVEST_REVENUE": "MISSING",
+      "ESTIMATED_HARVEST_REVENUE": "Revenu estimé de la récolte",
       "EXPENSES": "Dépenses",
-      "EXPORT_REPORT": "MISSING",
+      "EXPORT_REPORT": "Exporter le rapport",
       "LABOUR_LABEL": "Coûts de main-d'œuvre",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
-        "BODY": "MISSING",
-        "TITLE": "MISSING"
+        "BODY": "Ici, vous pouvez ajouter, modifier ou retirer des types de dépenses personnalisées pour votre ferme.",
+        "TITLE": "Gérer les types de dépense personnalisées"
       },
       "MANAGE_CUSTOM_REVENUE_TYPES_SPOTLIGHT": {
-        "BODY": "MISSING",
-        "TITLE": "MISSING"
+        "BODY": "Ici, vous pouvez ajouter, modifier ou retirer des types de revenus personnalisés pour votre ferme",
+        "TITLE": "Gérer les types de revenus personnalisés"
       },
-      "PROFIT_LOSS": "MISSING",
-      "REPORT": "MISSING",
-      "REPORT_HELP_TEXT": "MISSING",
-      "TITLE": "MISSING",
-      "TOTAL_EXPENSES": "MISSING",
-      "TOTAL_LABOUR": "MISSING",
-      "TOTAL_OTHER": "MISSING",
-      "TOTAL_REVENUE": "MISSING"
+      "PROFIT_LOSS": "Profit / Perte",
+      "REPORT": "rapport",
+      "REPORT_HELP_TEXT": "Ces filtres reflètent ce que vous voyez dans l'aperçu des Finances. Vous pouvez modifier ce qui est exporté ci-dessous.",
+      "TITLE": "Aperçu des finances",
+      "TOTAL_EXPENSES": "Dépenses totales",
+      "TOTAL_LABOUR": "Main d'œuvre totale",
+      "TOTAL_OTHER": "Autres totaux",
+      "TOTAL_REVENUE": "Revenus totaux"
     },
     "LABOUR": {
       "BY": "Par",
       "EMPLOYEES": "Employés",
       "TABLE": {
-        "DAILY_TOTAL": "MISSING",
+        "DAILY_TOTAL": "Total quotidien",
         "DATE": "Date",
         "EMPLOYEE": "Employé",
         "LABOUR_COST": "Coût de travail",

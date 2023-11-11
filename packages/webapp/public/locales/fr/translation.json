@@ -302,7 +302,7 @@
     "ANNUAL_OR_PERENNIAL": "La culture est-elle annuelle ou vivace\u00a0?",
     "CULTIVAR_PLACEHOLDER": "P. ex. Rouge Délicieuse",
     "CULTIVAR_SUBTEXT": "En savoir plus sur les cultivars",
-    "DUPLICATE_VARIETY": "Une variété de cette culture qui porte le même nom existe déjà à votre exploitation",
+    "DUPLICATE_VARIETY": "Une variété de culture porte déjà ce nom dans votre exploitation",
     "EDIT_CROP": "Modifier la culture",
     "EDIT_MODAL": {
       "BODY": "La modification de cette culture ne modifiera aucun plan de culture existant. Seuls les plans de culture créés après vos modifications seront impactés. Procéder à la modification\u00a0?",

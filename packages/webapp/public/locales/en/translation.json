@@ -1230,6 +1230,10 @@
       "HEADING": "Notification timeline",
       "MORE_RECENT_NOTIFICATION": "There are more recent notifications about this {{entityType}}.",
       "VIEW_NOW": "View now"
+    },
+    "WEEKLY_UNASSIGNED_TASKS": {
+      "BODY": "You have unassigned tasks due this week.",
+      "TITLE": "Unassigned tasks"
     }
   },
   "OUTRO": {

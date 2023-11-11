@@ -1232,6 +1232,10 @@
       "HEADING": "Chronologie de la notification",
       "MORE_RECENT_NOTIFICATION": "Il y a des notifications plus récentes au sujet de cette {{entityType}}.",
       "VIEW_NOW": "Afficher"
+    },
+    "WEEKLY_UNASSIGNED_TASKS": {
+      "BODY": "Vous avez des tâches non attribuées à accomplir cette semaine.",
+      "TITLE": "Tâches non attribuées"
     }
   },
   "OUTRO": {

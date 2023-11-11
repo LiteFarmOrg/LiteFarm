@@ -1231,6 +1231,10 @@
       "HEADING": "Cronología de notificaciones",
       "MORE_RECENT_NOTIFICATION": "Hay notificaciones más recientes sobre este/a {{entityType}}.",
       "VIEW_NOW": "Ver ahora"
+    },
+    "WEEKLY_UNASSIGNED_TASKS": {
+      "BODY": "Tiene tareas sin asignar que vencen esta semana.",
+      "TITLE": "Tareas sin responables"
     }
   },
   "OUTRO": {

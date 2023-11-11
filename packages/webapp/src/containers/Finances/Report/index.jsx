@@ -26,8 +26,8 @@ import TransactionFilterContent from '../../Filter/Transactions';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../../Filter/constants';
 import { transactionsFilterSelector } from '../../filterSlice';
 import { downloadFinanceReport } from '../saga';
-import { allExpenseTypeSelector, dateRangeDataSelector } from '../selectors';
-import { allRevenueTypesSelector } from '../../revenueTypeSlice';
+import { allExpenseTypeSelector, dateRangeDataSelector, sortExpenseTypes } from '../selectors';
+import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 import useTransactions from '../useTransactions';
 import styles from './styles.module.scss';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
@@ -45,8 +45,8 @@ const Report = () => {
 
   const dashboardDateFilter = useSelector(dateRangeDataSelector);
   const dashboardTypesFilter = useSelector(transactionsFilterSelector);
-  const expenseTypes = useSelector(allExpenseTypeSelector);
-  const revenueTypes = useSelector(allRevenueTypesSelector);
+  const expenseTypes = sortExpenseTypes(useSelector(allExpenseTypeSelector));
+  const revenueTypes = useSortedRevenueTypes({ selectorType: 'all' });
 
   const [isExportReportOpen, setIsExportReportOpen] = useState(false);
   const [dateFilter, setDateFilter] = useState(dashboardDateFilter);

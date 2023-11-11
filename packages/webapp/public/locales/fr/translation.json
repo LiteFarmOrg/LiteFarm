@@ -431,7 +431,7 @@
     "LAST_WEEK": "Dernière semaine",
     "THIS_MONTH": "Ce mois",
     "THIS_WEEK": "Cette semaine",
-    "YEAR_TO_DATE": "1 annnée"
+    "YEAR_TO_DATE": "1 année"
   },
   "DAYS_OF_WEEK_SELECT": {
     "FRIDAY": "V",
@@ -833,7 +833,7 @@
     "ADD_REVENUE": "+ Ajouter un revenu",
     "ADD_TRANSACTION": "+ Ajouter une transaction",
     "CANT_FIND": {
-      "INFO_EXPENSE": "Vous pouvez également créer vos propres types de dépenses personnalisés !",
+      "INFO_EXPENSE": "Vous pouvez également créer vos propres types de dépenses personnalisées !",
       "INFO_REVENUE": "Vous pouvez également créer vos propres types de revenus personnalisés !",
       "MAIN": "Vous ne trouvez pas une catégorie appropriée?",
       "MANAGE_EXPENSE": "Gérer dépense personnalisée",
@@ -1579,11 +1579,11 @@
       "FINANCE_HELP": "Aide Financière",
       "LABOUR_LABEL": "Coûts de main-d'œuvre",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
-        "BODY": "Ici, vous pouvez ajouter, modifier ou retirer des types de dépenses personnalisées pour votre exploitation.",
-        "TITLE": "Gérer les types de dépense personnalisées"
+        "BODY": "Ici, vous pouvez ajouter, modifier ou supprimer des types de dépenses personnalisées pour votre exploitation.",
+        "TITLE": "Gérer les types de dépenses personnalisées"
       },
       "MANAGE_CUSTOM_REVENUE_TYPES_SPOTLIGHT": {
-        "BODY": "Ici, vous pouvez ajouter, modifier ou retirer des types de revenus personnalisés pour votre exploitation",
+        "BODY": "Ici, vous pouvez ajouter, modifier ou supprimer des types de revenus personnalisés pour votre exploitation",
         "TITLE": "Gérer les types de revenus personnalisés"
       },
       "OTHER_EXPENSES_LABEL": "Autres dépenses",
@@ -1631,7 +1631,7 @@
   },
   "SEARCH": {
     "CLEAR_TERMS": "Pourquoi ne pas essayer d'autres termes pour découvrir d'autres possibilités ?",
-    "CLEAR_TERMS_AND_FILTERS": "Pourquoi ne pas supprimer ces filtres et introduire d'autres termes ?",
+    "CLEAR_TERMS_AND_FILTERS": "Pourquoi ne pas supprimer des filtres ou chercher d'autres termes ?",
     "NO_RESULTS_FOR": "Aucun résultat pour <1>'{{searchTerm}}'",
     "ZERO": "Aucun résultat"
   },

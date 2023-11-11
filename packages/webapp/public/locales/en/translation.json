@@ -1192,7 +1192,6 @@
       "TITLE": "Tasks due today"
     },
     "NONE_TO_DISPLAY": "There are no notifications to display.",
-    "NOTIFICATION_TEASER": "Coming Soon!",
     "PAGE_TITLE": "Notifications",
     "SENSOR_BULK_UPLOAD_FAIL": {
       "BODY": "Your sensor upload has some errors. Click “Take me there” to view the details.",

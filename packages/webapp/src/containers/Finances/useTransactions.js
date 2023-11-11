@@ -93,7 +93,7 @@ const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseT
     )
     .map((expense) => {
       const expenseType = expenseTypes.find(
-        (expenseType) => expenseType.expense_type_id === expense.expense_type_id,
+        (expenseType) => expenseType?.expense_type_id === expense.expense_type_id,
       );
       return {
         icon: expenseType?.farm_id ? 'CUSTOM' : expenseType?.expense_translation_key,
@@ -127,12 +127,12 @@ const buildRevenueTransactions = ({
 
   return revenueItems.map((item) => {
     const revenueType = revenueTypes.find(
-      (revenueType) => revenueType.revenue_type_id == item.sale.revenue_type_id,
+      (revenueType) => revenueType?.revenue_type_id == item.sale.revenue_type_id,
     );
     return {
       icon: revenueType?.farm_id ? 'CUSTOM' : revenueType?.revenue_translation_key,
       date: item.sale.sale_date,
-      transactionType: revenueType.crop_generated
+      transactionType: revenueType?.crop_generated
         ? transactionTypeEnum.cropRevenue
         : transactionTypeEnum.revenue,
       typeLabel: revenueType?.farm_id
@@ -147,14 +147,14 @@ const buildRevenueTransactions = ({
 };
 
 export const buildTransactions = ({
-  sales,
-  tasks,
-  expenses,
-  expenseTypes,
-  revenueTypes,
-  taskTypes,
-  cropVarieties,
-  users,
+  sales = [],
+  tasks = [],
+  expenses = [],
+  expenseTypes = [],
+  revenueTypes = [],
+  taskTypes = [],
+  cropVarieties = [],
+  users = [],
   dateFilter,
   expenseTypeFilter,
   revenueTypeFilter,

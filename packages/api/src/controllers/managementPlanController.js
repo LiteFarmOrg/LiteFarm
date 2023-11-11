@@ -741,7 +741,6 @@ const managementPlanController = {
       try {
         const farm_id = req.params.farm_id;
         const managementPlans = await ManagementPlanModel.query()
-          .whereNotDeleted()
           .withGraphJoined(planGraphFetchedQueryString, graphJoinedOptions)
           .where('crop_variety.farm_id', farm_id);
         const harvestedPlans = await getHarvestedToDate(

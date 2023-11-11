@@ -13,14 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { forwardRef, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import history from '../../../history';
-import DropdownButton from '../../Form/DropDownButton';
-import FloatingMenu from '../../Menu/FloatingButtonMenu/FloatingMenu';
-import FloatingButtonMenu from '../../Menu/FloatingButtonMenu';
+import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
+import history from '../../../history';
+import useIsAboveBreakpoint from '../../../hooks/useIsAboveBreakpoint';
+import DropdownButton from '../../Form/DropDownButton';
+import FloatingButtonMenu from '../../Menu/FloatingButtonMenu';
+import FloatingMenu from '../../Menu/FloatingButtonMenu/FloatingMenu';
 import styles from './styles.module.scss';
 
 const Menu = forwardRef((props, ref) => {
@@ -52,23 +53,8 @@ const Menu = forwardRef((props, ref) => {
 Menu.displayName = 'Menu';
 
 export default function AddTransactionButton() {
-  // this will get a boolean value later, but initialize with null so that
-  // a wrong button will not be shown initially
-  const [isAboveBreakPoint, setIsAboveBreakPoint] = useState(null);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    const mqString = `(min-width: 768px)`;
-    const media = matchMedia(mqString);
-
-    setIsAboveBreakPoint(media.matches);
-
-    media.addEventListener('change', (e) => setIsAboveBreakPoint(e.matches));
-
-    return () => {
-      media.removeEventListener('change', setIsAboveBreakPoint);
-    };
-  }, []);
+  const isAboveBreakPoint = useIsAboveBreakpoint(`(min-width: 768px)`);
 
   return (
     <>

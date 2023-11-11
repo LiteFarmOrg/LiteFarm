@@ -26,7 +26,8 @@ import TransactionFilterContent from '../../Filter/Transactions';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../../Filter/constants';
 import { transactionsFilterSelector } from '../../filterSlice';
 import { downloadFinanceReport } from '../saga';
-import { dateRangeDataSelector } from '../selectors';
+import { allExpenseTypeSelector, dateRangeDataSelector } from '../selectors';
+import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import useTransactions from '../useTransactions';
 import styles from './styles.module.scss';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
@@ -36,6 +37,7 @@ import {
   generateReportHeaders,
   generateWorksheetTitles,
   formatTransactions,
+  createDefaultTypeFilter,
 } from './reportFormattingUtils';
 
 const Report = () => {
@@ -43,6 +45,8 @@ const Report = () => {
 
   const dashboardDateFilter = useSelector(dateRangeDataSelector);
   const dashboardTypesFilter = useSelector(transactionsFilterSelector);
+  const expenseTypes = useSelector(allExpenseTypeSelector);
+  const revenueTypes = useSelector(allRevenueTypesSelector);
 
   const [isExportReportOpen, setIsExportReportOpen] = useState(false);
   const [dateFilter, setDateFilter] = useState(dashboardDateFilter);
@@ -144,7 +148,22 @@ const Report = () => {
         transactions: formatTransactions(transactions, t),
         config: {
           dateFilter,
-          typesFilter,
+          typesFilter: {
+            EXPENSE_TYPE:
+              typesFilter.EXPENSE_TYPE ??
+              createDefaultTypeFilter({
+                types: expenseTypes,
+                translate: t,
+                typeCategory: 'expense',
+              }),
+            REVENUE_TYPE:
+              typesFilter.REVENUE_TYPE ??
+              createDefaultTypeFilter({
+                types: revenueTypes,
+                translate: t,
+                typeCategory: 'revenue',
+              }),
+          },
         },
         reportHeaders: generateReportHeaders(t),
         configSheetHeaders: generateConfigSheetHeaders(t),

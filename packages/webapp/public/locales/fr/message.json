@@ -147,14 +147,14 @@
   },
   "REVENUE_TYPE": {
     "ERROR": {
-      "ADD": "Impossible d'ajouter le type de revenus",
-      "DELETE": "Impossible de supprimer le type de revenus",
-      "UPDATE": "Impossible de mettre à jour le type de revenus"
+      "ADD": "Impossible d'ajouter le type de recettes",
+      "DELETE": "Impossible de supprimer le type de recettes",
+      "UPDATE": "Impossible de mettre à jour le type de recettes"
     },
     "SUCCESS": {
-      "ADD": "Type de revenus ajouté",
-      "DELETE": "Type de revenus supprimé",
-      "UPDATE": "Type de revenus mis à jour"
+      "ADD": "Type de recettes ajouté",
+      "DELETE": "Type de recettes supprimé",
+      "UPDATE": "Type de recettes mis à jour"
     }
   },
   "SALE": {

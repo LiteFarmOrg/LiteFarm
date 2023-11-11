@@ -182,16 +182,16 @@
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
       "ADD": "Ajouter",
-      "CHANGE_CERTIFICATION_PREFERENCE": "modifier vos préférences de certification",
+      "CHANGE_CERTIFICATION_PREFERENCE": "modifiez vos préférences de certification",
       "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "Modifier vos préférences de certification",
       "NO_CERTIFICATIONS": "Vous ne poursuivez actuellement aucune certification.",
       "NO_LONGER_WORKING": "Vous n'essayez plus d'obtenir cette certification, ou ne travaillez plus avec cette organization\u00a0? Pas de problème\u00a0!",
       "SUPPORTED_CERTIFICATION_ONE": "Vous êtes en train d'obtenir votre certification",
       "SUPPORTED_CERTIFICATION_TWO": "de\u00a0:",
-      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "LiteFarm ne génère actuellement pas de documents pour ce certificateur. Cependant, nous pouvons exporter des formulaires génériques utiles pour la plupart des certificateurs. Vous pouvez sélectionner Exporter pour créer ces formulaires ou",
-      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "tour voir s'il y a de nouveaux certificateurs disponibles dans votre région.",
-      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "Vous avez demandé",
-      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "Certification de",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "LiteFarm ne génère actuellement pas de documents pour ce certificateur. Cependant, nous pouvons exporter des formulaires génériques utiles pour la plupart des certificateurs. Sélectionnez 'Exporter' pour créer ces formulaires ou",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "pour voir s'il y a de nouveaux certificateurs disponibles dans votre région.",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "Vous avez demandé la certification",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "auprès de",
       "UPDATE_SUCCESS": "Préférences de certification enregistrées"
     },
     "CERTIFICATION_SELECTION": {
@@ -232,14 +232,14 @@
     }
   },
   "CERTIFICATIONS": {
-    "COULD_NOT_CONTACT_CERTIFIER": "Il semblerait que LiteFarm n'exporte pas actuellement au format de votre certificateur. Vous pouvez toujours exporter vos documents mais votre certificateur peut avoir besoin d'informations supplémentaires. Nous vous les enverrons à\u00a0:",
+    "COULD_NOT_CONTACT_CERTIFIER": "LiteFarm ne travaille pas spécifiquement avec votre certificateur, il aura peut-être besoin d'informations complémentaires. Vos documents spécifiques seront envoyés à\u00a0:",
     "EMAIL": "Courriel",
     "EMAIL_ERROR": "Courriel valide requis",
     "EXPORT": "Exporter",
     "EXPORT_DOCS": "Exporter les documents de certification",
     "EXPORT_DOWNLOADING_MESSAGE": "Téléchargement de vos documents de certification biologique ...",
     "EXPORT_FILE_TITLE": "Certification biologique",
-    "FILES_ARE_READY": "Vos fichiers de certification sont maintenant prêts à être exportés. Nous vous les enverrons à\u00a0:",
+    "FILES_ARE_READY": "Vos fichiers de certification sont maintenant prêts à être exportés. Nous les enverrons à\u00a0:",
     "FLOW_TITLE": "export des documents de certification",
     "GOOD_NEWS": "Bonne nouvelle\u00a0!",
     "HAVE_ALL_INFO": "Il semblerait que LiteFarm dispose de toutes les informations dont nous avons besoin pour traiter vos documents de certification. Nous vous les enverrons à\u00a0:",
@@ -414,10 +414,10 @@
     "TITLE": "Filtrer le rapport par date"
   },
   "DATE_RANGE_PICKER": {
-    "FROM": "De",
+    "FROM": "Du",
     "REVENUE_HELP_BODY": "Seuls les plans pour lesquels une tâche est prévue ou terminée dans la plage de dates indiquée s'afficheront.",
     "REVENUE_HELP_TITLE": "Aide sur la plage de dates",
-    "TO": "À",
+    "TO": "Au",
     "TO_MUST_BE_AFTER_FROM": "La date 'De' doit précéder la date 'À'"
   },
   "DATE_RANGE_SELECTOR": {
@@ -937,10 +937,10 @@
       "NEARBY_FARMS_other": "Le prix moyen du réseau est basé sur les prix de {{count}} autres exploitations dans votre région",
       "NEARBY_FARMS_plural": "Le prix moyen du réseau est basé sur les prix de {{count}} autres exploitations dans votre région",
       "NETWORK_PRICE": "Prix moyen du réseau",
-      "NO_ADDRESS": "Vous n'avez actuellement pas d'adresse à LiteFarm. Veuillez la mettre à jour dans votre profil pour obtenir des informations sur les prix à proximité\u00a0!",
+      "NO_ADDRESS": "Vous n'avez pas précisé d'adresse. Veuillez l'ajouter à votre profil pour obtenir des informations sur les prix à proximité\u00a0!",
       "OWN_PRICE": "Votre propre prix",
       "PERCENT_OF_MARKET": "{{percentage}} % du marché",
-      "SALES_FROM_DISTANCE_AWAY": "Ventes sur un partir d'un rayon de {{distance}} {{unit}}",
+      "SALES_FROM_DISTANCE_AWAY": "Ventes dans un rayon de {{distance}} {{unit}}",
       "TITLE": "Prix",
       "Y_TITLE": "Prix ({{currency}}/{{mass}})"
     },
@@ -1029,7 +1029,7 @@
     "CROP": "Crop",
     "DELETE_CONFIRMATION": "Voulez-vous vraiment supprimer ce journal\u00a0?",
     "EDIT_A_LOG": "Modifier un journal",
-    "FROM": "De",
+    "FROM": "Du",
     "LOCATION": "Emplacement",
     "LOCATIONS": "Emplacements",
     "NOTES": "Notes",
@@ -1038,7 +1038,7 @@
     "SELECT_LOCATION": "Sélectionner l'emplacement",
     "SELECT_LOCATIONS": "Sélectionner les emplacements",
     "SELECT_TYPE": "Sélectionner Type",
-    "TO": "À",
+    "TO": "Au",
     "TYPE": "Type",
     "WARNING": "Pour utiliser ce type de journal, veuillez ajouter des cultures aux champs. Vous pouvez le faire en naviguant vers Champs -> Votre champ -> Nouvelle culture de champ"
   },
@@ -1193,7 +1193,7 @@
     "RATE_THIS_MANAGEMENT_PLAN": "Notation du plan",
     "REMOVE_PIN": "Supprimer l'épingle",
     "REPEATED_MP_SPOTLIGHT": {
-      "BODY": "Vous pouvez cliquer ici pour voir tous les plans de culture de ce groupe. Modifier un plan de culture individuel ne changera rien aux autres du groupe.",
+      "BODY": "Cliquez ici pour voir tous les plans de culture de ce groupe. Modifier un plan de culture individuel ne changera rien aux autres du groupe.",
       "TITLE": "Bravo\u00a0! Vous avez créé votre premier plan de culture répété\u00a0!"
     },
     "ROW_METHOD": {
@@ -1367,7 +1367,7 @@
     "WORD_LIMIT": "Seulement {{limit}} caractères peuvent être montrés."
   },
   "PREPARING_EXPORT": {
-    "MESSAGE": "LiteFarm rassemble vos documents de certification en arrière-plan et vous recevrez un courriel lorsque nous aurons terminé - cela peut prendre quelques minutes... Vous pouvez cliquer en dehors de cette case pour continuer à utiliser LiteFarm sans interrompre le processus.",
+    "MESSAGE": "LiteFarm rassemble vos documents de certification en arrière-plan. Vous recevrez un courriel lorsque nous aurons terminé - cela peut prendre quelques minutes... Cliquez en dehors de cette case pour continuer à utiliser LiteFarm sans interrompre le processus.",
     "TITLE": "Votre export est en préparation"
   },
   "PROFILE": {

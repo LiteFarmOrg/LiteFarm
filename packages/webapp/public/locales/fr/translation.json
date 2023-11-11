@@ -481,7 +481,7 @@
       "INVOICES": "Factures",
       "OTHER": "Autre",
       "PEST_CONTROL_PRODUCT": "Produit antiparasitaire",
-      "RECEIPTS": "Recettes",
+      "RECEIPTS": "Reçus",
       "SOIL_AMENDMENT": "Amendement du sol",
       "SOIL_SAMPLE_RESULTS": "Résultats des échantillons de sol",
       "WATER_SAMPLE_RESULTS": "Résultats des échantillons d'eau"
@@ -826,26 +826,26 @@
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
-      "ADD_REVENUE": "Ajouter des revenus",
+      "ADD_REVENUE": "Ajouter des recettes",
       "TITLE": "Chiffre d'affaires réel"
     },
     "ADD_EXPENSE": "+ Ajouter une dépense",
-    "ADD_REVENUE": "+ Ajouter un revenu",
+    "ADD_REVENUE": "+ Ajouter une recette",
     "ADD_TRANSACTION": "+ Ajouter une transaction",
     "CANT_FIND": {
       "INFO_EXPENSE": "Vous pouvez également créer vos propres types de dépenses personnalisées !",
-      "INFO_REVENUE": "Vous pouvez également créer vos propres types de revenus personnalisés !",
+      "INFO_REVENUE": "Vous pouvez également créer vos propres types de recettes personnalisées !",
       "MAIN": "Vous ne trouvez pas une catégorie appropriée?",
       "MANAGE_EXPENSE": "Gérer dépense personnalisée",
-      "MANAGE_REVENUE": "Gérer revenu personnalisé",
+      "MANAGE_REVENUE": "Gérer recette personnalisé",
       "MISC_EXPENSE": "Ou <1>créer une dépense <1>diverse</1></1>"
     },
     "COST": "Coût",
     "DATE": "Date",
     "ESTIMATED_REVENUE": {
-      "ESTIMATED_ANNUAL_REVENUE": "Revenu annuel estimé",
+      "ESTIMATED_ANNUAL_REVENUE": "Recette annuelle estimé",
       "ESTIMATED_ANNUAL_YIELD": "Récolte annuelle estimée",
-      "ESTIMATED_CROP_REVENUE": "Estimation des revenus tirés des cultures",
+      "ESTIMATED_CROP_REVENUE": "Estimation des recettes tirées des cultures",
       "ESTIMATED_PRICE_PER_UNIT": "Estimation du prix unitaire",
       "TITLE": "Chiffre d'affaires estimé"
     },
@@ -853,14 +853,14 @@
     "FILTER": {
       "EXPENSE_TYPE": "Type de dépense",
       "HELP_TEXT": "N'hésitez pas à utiliser les filtres ci-dessous pour affiner votre liste de transactions et la faire fonctionner exactement comme vous le souhaitez!",
-      "REVENUE_TYPE": "Types de revenu",
+      "REVENUE_TYPE": "Types de recettes",
       "TITLE": "Filtrer les transactions"
     },
     "MANAGE_CUSTOM_TYPE": "Gérer le type personnalisé",
-    "REVENUE": "Revenu",
+    "REVENUE": "Recette",
     "SEARCH": {
       "EXPENSE_TYPES": "Rechercher un type de dépense",
-      "REVENUE_TYPES": "Rechercher un type de revenu"
+      "REVENUE_TYPES": "Rechercher un type de recette"
     },
     "TRANSACTION": {
       "CROPS": "Cultures",
@@ -869,8 +869,8 @@
       "VIEW_AND_EDIT": "Voir & éditer",
       "VIEW_LABOUR": "Voir les dépenses de main d'œuvre"
     },
-    "VIEW_WITHIN_DATE_RANGE": "Voir les revenus dans cette plage de dates",
-    "WHOLE_FARM_REVENUE": "Revenu total de l'exploitation"
+    "VIEW_WITHIN_DATE_RANGE": "Voir les recettes dans cette plage de dates",
+    "WHOLE_FARM_REVENUE": "Recette total de l'exploitation"
   },
   "FORM_VALIDATION": {
     "OVER_255_CHARS": "Le texte ne peut pas dépasser 255 caractères"
@@ -1487,27 +1487,27 @@
   },
   "REVENUE": {
     "ADD_REVENUE": {
-      "ADD_CUSTOM_REVENUE": "Ajouter un revenu personnalisé",
-      "ASSOCIATED_WITH_AGRICULTURE": "Ce revenu est-il associé à des activités agricoles ?",
+      "ADD_CUSTOM_REVENUE": "Ajouter une recette personnalisée",
+      "ASSOCIATED_WITH_AGRICULTURE": "Cette recette est-elle associée à des activités agricoles ?",
       "CANNOT_BE_CHANGED": "Ceci ne peut pas être modifié",
       "CANNOT_BE_CHANGED_LATER": "Ceci ne peut être modifié ultérieurement",
-      "CROP_GENERATED": "Ce revenu est-il généré par des cultures ?",
-      "CUSTOM_REVENUE_NAME": "Nom du revenu personnalisé",
-      "CUSTOM_REVENUE_TYPE": "Type de revenu personnalisé",
-      "DUPLICATE_NAME": "Un type de revenu portant ce nom existe déjà.  Veuillez en choisir un autre."
+      "CROP_GENERATED": "Cette recette est-elle générée par des cultures ?",
+      "CUSTOM_REVENUE_NAME": "Nom de la recette personnalisée",
+      "CUSTOM_REVENUE_TYPE": "Type de recette personnalisée",
+      "DUPLICATE_NAME": "Un type de recette portant ce nom existe déjà.  Veuillez en choisir un autre."
     },
-    "CUSTOM_REVENUE_DESCRIPTION": "Description Personnalisée des Revenus",
+    "CUSTOM_REVENUE_DESCRIPTION": "Description du type de recettes",
     "DELETE": {
       "CONFIRM": "Confirmer la suppression",
-      "HEADER": "Supprimer le revenu ?",
-      "LINK": "Supprimer le revenu",
-      "MESSAGE": "Cette opération supprimera le revenu des registres de votre exploitation. Il ne sera plus pris en compte dans les résumés financiers."
+      "HEADER": "Supprimer la recette ?",
+      "LINK": "Supprimer la recette",
+      "MESSAGE": "Cette opération supprimera la recette des registres de votre exploitation. Elle ne sera plus prise en compte dans les résumés financiers."
     },
     "EDIT_REVENUE": {
-      "RETIRE_REVENUE_MESSAGE": "Le retrait de ce type de revenu le supprimera des choix possible pour les recettes futures. Vous pourrez toujours rechercher et filtrer l'historiques des recettes de ce type dans l'onglet Finances.",
-      "RETIRE_REVENUE_TYPE": "Retirer le type de revenu",
+      "RETIRE_REVENUE_MESSAGE": "Le retrait de ce type de recette le supprimera des possiblités pour les recettes futures. Vous pourrez toujours rechercher et filtrer les précédentes recettes de ce type dans l'onglet Finances.",
+      "RETIRE_REVENUE_TYPE": "Retirer le type de recette",
       "RETIRED": "(Retiré)",
-      "REVENUE_TYPE": "Type de revenu"
+      "REVENUE_TYPE": "Type de recette"
     }
   },
   "ROLE_SELECTION": {
@@ -1519,40 +1519,40 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "ADD_CUSTOM_REVENUE_TYPE": "Ajouter un type de revenu personnalisé",
-      "ADD_REVENUE": "Ajouter des revenus",
+      "ADD_CUSTOM_REVENUE_TYPE": "Ajouter un type de recette personnalisé",
+      "ADD_REVENUE": "Ajouter une recette",
       "CROP_PLACEHOLDER": "Selectionner une culture",
       "CROP_REQUIRED": "Réponse requise",
       "CROP_VARIETY": "Variété de la culture",
       "CUSTOMER_NAME": "Nom du Client",
       "CUSTOMER_NAME_REQUIRED": "Réponse requise",
       "DATE": "Date",
-      "FLOW": "Création de revenus",
-      "MANAGE_CUSTOM_REVENUE_TYPE": "Gérer les types de revenus personnalisés",
-      "SALE_VALUE_ERROR": "La valeur de vente doit être un nombre positif moins que 999,999,999",
+      "FLOW": "Création de recettes",
+      "MANAGE_CUSTOM_REVENUE_TYPE": "Gérer les types de recettes personnalisées",
+      "SALE_VALUE_ERROR": "La valeur de vente doit être un nombre positif inférieur à 999,999,999",
       "TABLE_HEADERS": {
         "CROP_VARIETIES": "Variété de la culture",
         "TOTAL": "Total"
       },
       "TITLE": "Ajouter nouvelle vente",
-      "WHICH_TYPE_TO_RECORD": "Choisissez votre type de revenu ci-dessous :"
+      "WHICH_TYPE_TO_RECORD": "Choisissez votre type de recette ci-dessous :"
     },
     "DETAIL": {
       "ACTION": "Action",
       "CROP": "Culture",
       "CUSTOMER_NAME": "Nom de Client",
-      "DELETE_CONFIRMATION": "Êtes-vous sûr que vous voulez supprimer cette vente\u00a0?",
-      "TITLE": "Detail de revenu",
+      "DELETE_CONFIRMATION": "Êtes-vous sûr de vouloir supprimer cette vente\u00a0?",
+      "TITLE": "Detail de Vente",
       "VALUE": "Valeur"
     },
     "EDIT_SALE": {
       "DATE": "Date",
-      "DELETE_CONFIRMATION": "Êtes-vous sûr que vous voulez supprimer cette vente\u00a0?",
-      "TITLE": "Modifier Revenu"
+      "DELETE_CONFIRMATION": "Êtes-vous sûr de vouloir supprimer cette vente\u00a0?",
+      "TITLE": "Modifier Vente"
     },
     "ESTIMATED_REVENUE": {
       "CALCULATION": "Calcul",
-      "CALCULATION_DESCRIPTION": "Nous calculons les revenus estimés à l'aide de la date de fin des cultures estimée dans le module Champs. Pour inclure une culture dans le calcul de vos revenus estimés, assurez-vous de saisir sa date de fin dans la date de fin de votre rapport financier.",
+      "CALCULATION_DESCRIPTION": "Nous calculons les recettes estimées selon la date de fin des cultures estimée. Pour inclure une culture dans le calcul de vos recettes estimés, assurez-vous de saisir sa date de fin dans l'intervalle de votre rapport financier.",
       "TITLE": "Chiffre d'affaires estimé"
     },
     "EXPENSE_DETAIL": {
@@ -1567,13 +1567,13 @@
       "ACTUAL_REVENUE_ESTIMATED": "Estimé",
       "ACTUAL_REVENUE_LABEL": "Réel",
       "BALANCE": "Solde",
-      "BALANCE_EXPLANATION": "Nous calculons un solde en temps réel («\u00a0coût de production\u00a0») pour chaque culture de votre exploitation. Il s'agit d'une simple équation des dépenses moins les revenus. Les dépenses pour chaque culture sont calculées à partir de deux parties, une partie est le les dépenses de main-d'œuvre provenant des heures enregistrées pour les activités agricoles, l'autre partie provient des autres dépenses enregistrées pour l'ensemble de l'exploitation. Lorsque les dépenses sont enregistrées pour l'ensemble de l'exploitation, nous les répartissons également entre les cultures de l'exploitation. Non alloué signifie qu'un ou plusieurs quarts de travail a été soumis pour un champ alors qu'il n'y a pas encore de culture sur ce champ. Ce ou ces quarts de travail seront attribués aux cultures au fur et à mesure qu'elles sont ajoutées à ce champ dans la fenêtre de temps de rapport financier. ",
+      "BALANCE_EXPLANATION": "Nous calculons un solde en temps réel («\u00a0coût de production\u00a0») pour chaque culture de votre exploitation. Il s'agit d'une simple équation des dépenses moins les recettes. Les dépenses pour chaque culture sont calculées à partir de deux parties, une partie est le les dépenses de main-d'œuvre provenant des heures enregistrées pour les activités agricoles, l'autre partie provient des autres dépenses enregistrées pour l'ensemble de l'exploitation. Lorsque les dépenses sont enregistrées pour l'ensemble de l'exploitation, nous les répartissons également entre les cultures de l'exploitation. Non alloué signifie qu'un ou plusieurs quarts de travail a été soumis pour un champ alors qu'il n'y a pas encore de culture sur ce champ. Ce ou ces quarts de travail seront attribués aux cultures au fur et à mesure qu'elles sont ajoutées à ce champ dans la fenêtre de temps de rapport financier. ",
       "BALANCE_FOR_FARM": "Solde (Toute l'exploitation)",
       "CARROUSEL_TEXT": {
         "ESTIMATED_REVENUE": "Ce nombre (static) reflète votre récolte future estimée",
         "GENERIC": "*Ces chiffres sont basés sur votre sélection de date / filtre"
       },
-      "ESTIMATED_HARVEST_REVENUE": "Revenu estimé de la récolte",
+      "ESTIMATED_HARVEST_REVENUE": "Recette estimé de la récolte",
       "EXPENSES": "Dépenses",
       "EXPORT_REPORT": "Exporter le rapport",
       "FINANCE_HELP": "Aide Financière",
@@ -1583,19 +1583,19 @@
         "TITLE": "Gérer les types de dépenses personnalisées"
       },
       "MANAGE_CUSTOM_REVENUE_TYPES_SPOTLIGHT": {
-        "BODY": "Ici, vous pouvez ajouter, modifier ou supprimer des types de revenus personnalisés pour votre exploitation",
-        "TITLE": "Gérer les types de revenus personnalisés"
+        "BODY": "Ici, vous pouvez ajouter, modifier ou supprimer des types de recettes personnalisées pour votre exploitation",
+        "TITLE": "Gérer les types de recettes personnalisées"
       },
       "OTHER_EXPENSES_LABEL": "Autres dépenses",
       "PROFIT_LOSS": "Profit / Perte",
       "REPORT": "rapport",
       "REPORT_HELP_TEXT": "Ces filtres reflètent ce que vous voyez dans l'aperçu des Finances. Vous pouvez modifier ce qui est exporté ci-dessous.",
-      "REVENUE": "Revenu",
+      "REVENUE": "Recette",
       "TITLE": "Aperçu des finances",
       "TOTAL_EXPENSES": "Dépenses totales",
       "TOTAL_LABOUR": "Main d'œuvre totale",
       "TOTAL_OTHER": "Autres totaux",
-      "TOTAL_REVENUE": "Revenus totaux",
+      "TOTAL_REVENUE": "Total des recettes",
       "UNALLOCATED_CROP": "Non-Alloué",
       "UNALLOCATED_TIP": "Non-Alloué ça veut dire quoi\u00a0?"
     },
@@ -1608,7 +1608,7 @@
         "DAILY_TOTAL": "Total quotidien",
         "DATE": "Date",
         "EMPLOYEE": "Employé",
-        "EST_REVENUE": "Revenu estimé",
+        "EST_REVENUE": "Recette estimé",
         "LABOUR_COST": "Coût de travail",
         "TASK": "Tâche",
         "TIME": "Temps",

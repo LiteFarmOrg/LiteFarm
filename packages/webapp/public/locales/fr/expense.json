@@ -1,7 +1,7 @@
 {
   "EQUIPMENT": {
     "EXPENSE_NAME": "Équipment",
-    "CUSTOM_DESCRIPTION": "Dépenses liées aux outils simples, aux fournitures et aux pièces détachées nécessaires à l'exploitation de votre ferme."
+    "CUSTOM_DESCRIPTION": "Dépenses liées aux outils simples, aux fournitures et aux pièces détachées nécessaires à l'exploitation de votre exploitation."
   },
   "SOIL_AMENDMENT": {
     "EXPENSE_NAME": "Amendements",

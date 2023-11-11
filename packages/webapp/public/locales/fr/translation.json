@@ -1565,9 +1565,9 @@
     "FINANCES": {
       "ACTUAL": "Actual",
       "ACTUAL_REVENUE_ESTIMATED": "Estimé",
-      "ACTUAL_REVENUE_LABEL": "Réel",
-      "BALANCE": "Solde",
-      "BALANCE_EXPLANATION": "Nous calculons un solde en temps réel («\u00a0coût de production\u00a0») pour chaque culture de votre exploitation. Il s'agit d'une simple équation des dépenses moins les recettes. Les dépenses pour chaque culture sont calculées à partir de deux parties, une partie est le les dépenses de main-d'œuvre provenant des heures enregistrées pour les activités agricoles, l'autre partie provient des autres dépenses enregistrées pour l'ensemble de l'exploitation. Lorsque les dépenses sont enregistrées pour l'ensemble de l'exploitation, nous les répartissons également entre les cultures de l'exploitation. Non alloué signifie qu'un ou plusieurs quarts de travail a été soumis pour un champ alors qu'il n'y a pas encore de culture sur ce champ. Ce ou ces quarts de travail seront attribués aux cultures au fur et à mesure qu'elles sont ajoutées à ce champ dans la fenêtre de temps de rapport financier. ",
+      "ACTUAL_REVENUE_LABEL": "Réalisé",
+      "BALANCE": "produit brut",
+      "BALANCE_EXPLANATION": "Nous calculons un produit brut pour chaque culture de votre exploitation. Il s'agit d'une simple différence entre les recettes (ventes) et dépenses : la main-d'œuvre (selon les heures réalisées) et une portion de toutes les autres dépenses enregistrées pour l'exploitation. Les charges de main d'oeuvre liées à des parcelles non productives. Ces charges seront attribuées aux cultures sur ces parcelles au fur et à mesure de leur affectation.",
       "BALANCE_FOR_FARM": "Solde (Toute l'exploitation)",
       "CARROUSEL_TEXT": {
         "ESTIMATED_REVENUE": "Ce nombre (static) reflète votre récolte future estimée",
@@ -1589,15 +1589,15 @@
       "OTHER_EXPENSES_LABEL": "Autres dépenses",
       "PROFIT_LOSS": "Profit / Perte",
       "REPORT": "rapport",
-      "REPORT_HELP_TEXT": "Ces filtres reflètent ce que vous voyez dans l'aperçu des Finances. Vous pouvez modifier ce qui est exporté ci-dessous.",
+      "REPORT_HELP_TEXT": "Filtrez ci-dessous le contenu de votre rapport financier.",
       "REVENUE": "Recette",
-      "TITLE": "Aperçu des finances",
-      "TOTAL_EXPENSES": "Dépenses totales",
-      "TOTAL_LABOUR": "Main d'œuvre totale",
-      "TOTAL_OTHER": "Autres totaux",
-      "TOTAL_REVENUE": "Total des recettes",
+      "TITLE": "Aperçu financier",
+      "TOTAL_EXPENSES": "Dépenses",
+      "TOTAL_LABOUR": "Main d'œuvre",
+      "TOTAL_OTHER": "Autres dépenses",
+      "TOTAL_REVENUE": "Recettes",
       "UNALLOCATED_CROP": "Non-Alloué",
-      "UNALLOCATED_TIP": "Non-Alloué ça veut dire quoi\u00a0?"
+      "UNALLOCATED_TIP": "Non alloué signifie qu'une charge de travail a été associée à un champ alors qu'il n'y a pas encore de culture sur ce champ. Ces charges seront attribuées aux cultures au fur et à mesure qu'elles sont ajoutées à ce champ dans la fenêtre de temps de rapport financier."
     },
     "LABOUR": {
       "BY": "Par",

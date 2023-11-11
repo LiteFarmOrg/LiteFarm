@@ -17,14 +17,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { getRevenueTypes } from '../../saga';
-import { revenueTypesSelector } from '../../../revenueTypeSlice';
+import { revenueTypesSelector, allRevenueTypesSelector } from '../../../revenueTypeSlice';
 
-export default function useSortedRevenueTypes() {
+export default function useSortedRevenueTypes({ selectorType = 'default' } = {}) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const [sortedtypes, setSortedTypes] = useState([]);
-  const revenueTypes = useSelector(revenueTypesSelector);
+
+  const selector = selectorType === 'all' ? allRevenueTypesSelector : revenueTypesSelector;
+  const revenueTypes = useSelector(selector);
 
   useEffect(() => {
     dispatch(getRevenueTypes());
@@ -56,6 +58,9 @@ export default function useSortedRevenueTypes() {
 }
 
 useSortedRevenueTypes.propTypes = {
+  props: PropTypes.shape({
+    selectorType: PropTypes.string,
+  }),
   useHookFormPersist: PropTypes.func,
   history: PropTypes.object,
 };

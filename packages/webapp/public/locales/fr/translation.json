@@ -1381,10 +1381,10 @@
       "LANGUAGE": "Langue",
       "LAST_NAME": "Nom de famille",
       "PERSONAL_INFORMATION": "Mes informations",
-      "PHONE_NUMBER": "Numéro de téléphone",
+      "PHONE_NUMBER": "Téléphone",
       "PORTUGUESE": "portugais",
       "SPANISH": "espagnol",
-      "USER_ADDRESS": "Adresse de l'utilisateur"
+      "USER_ADDRESS": "Adresse"
     },
     "ACCOUNT_TAB": "Compte",
     "ERROR": {

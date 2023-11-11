@@ -472,6 +472,10 @@
     "ONE_UPPER_CASE": "Al menos una letra mayuscula",
     "TOO_SHORT": "Al menos 8 caracteres"
   },
+  "ENTITY_TYPES": {
+    "LOCATION": "ubicación",
+    "TASK": "tarea"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "Agregar gasto personalizado",
@@ -510,6 +514,7 @@
     "VALUE": "Valor"
   },
   "EXPIRED_TOKEN": {
+    "RESET_PASSWORD": "Este enlace ha caducado.",
     "RESET_PASSWORD_LINK": "Envíar enlace para nueva contraseña."
   },
   "FARM_MAP": {
@@ -581,7 +586,9 @@
       "TITLE": "Retirar ubicación?"
     },
     "DRAWING_MANAGER": {
-      "REDRAW": "Rehacer"
+      "REDRAW": "Rehacer",
+      "ZERO_AREA_DETECTED": "Campo sin area detectado. Por favor, agrega mas puntos o comienza de nuevo.",
+      "ZERO_LENGTH_DETECTED": "Línea sin longitud detectada. Por favor dibuja de nuevo."
     },
     "EXPORT_MODAL": {
       "BODY": "Como quieres exportar el mapa?",

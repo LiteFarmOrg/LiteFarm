@@ -36,7 +36,11 @@ export default function Home({ history }) {
   }, []);
 
   return (
-    <PureHome greeting={t('HOME.GREETING')} first_name={userFarm?.first_name} imgUrl={imgUrl}>
+    <PureHome
+      greeting={t('HOME.GREETING')}
+      first_name={userFarm?.first_name}
+      imgUrl={userFarm.farm_image_url || imgUrl}
+    >
       {userFarm ? <WeatherBoard /> : null}
       {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 

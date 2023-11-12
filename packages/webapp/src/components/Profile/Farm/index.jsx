@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import ProfileLayout from '../ProfileLayout';
-import FarmImagePicker from './FarmImageUploader';
+import FarmImagePicker from './FarmImagePicker';
 import { Label } from '../../Typography';
 
 export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {

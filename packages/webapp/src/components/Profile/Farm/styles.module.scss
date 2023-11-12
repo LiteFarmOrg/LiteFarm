@@ -1,0 +1,34 @@
+.imageContainer {
+  display: flex;
+  align-items: start;
+
+  img {
+    max-width: 175px;
+    height: auto;
+  }
+}
+
+.imageActions {
+  margin-left: 8px;
+  gap: 4px;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: var(--teal700);
+    font-weight: 400;
+  }
+}
+
+.filePicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #634d00;
+  border: 1px solid var(--grey600);
+  border-radius: 4px;
+  padding: 12px 24px;
+}

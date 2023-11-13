@@ -48,7 +48,7 @@ function AddCustomExpense({ history }) {
         validateInput={hookFormUniquePropertyWithStatusValidation({
           objArr: expenseTypes,
           property: 'expense_name',
-          status: 'deleted',
+          status: 'retired',
           messageTrue: t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME_RETIRED'),
           messageFalse: t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
         })}

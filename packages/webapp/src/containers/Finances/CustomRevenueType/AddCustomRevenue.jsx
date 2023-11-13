@@ -49,7 +49,7 @@ function AddCustomRevenue({ history }) {
         validateInput={hookFormUniquePropertyWithStatusValidation({
           objArr: revenueTypes,
           property: 'revenue_name',
-          status: 'deleted',
+          status: 'retired',
           messageTrue: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME_RETIRED'),
           messageFalse: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
         })}

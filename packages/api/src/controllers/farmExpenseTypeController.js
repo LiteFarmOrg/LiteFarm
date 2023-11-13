@@ -16,6 +16,7 @@
 import baseController from '../controllers/baseController.js';
 
 import ExpenseTypeModel from '../models/expenseTypeModel.js';
+import FarmExpenseModel from '../models/farmExpenseModel.js';
 import { transaction, Model } from 'objection';
 
 const farmExpenseTypeController = {
@@ -31,8 +32,8 @@ const farmExpenseTypeController = {
 
         const record = await this.existsInFarm(trx, farm_id, data.expense_name);
 
-        if (record) {
-          // if record exists throw conflict error
+        if (record && !record.deleted) {
+          // if active record exists throw conflict error
           await trx.rollback();
           return res.status(409).send();
         } else {
@@ -91,26 +92,33 @@ const farmExpenseTypeController = {
         await trx.rollback();
         res.sendStatus(403);
       }
+
+      const { expense_type_id } = req.params;
       try {
         // do not allow operations to deleted records
-        if (await this.isDeleted(req.params.expense_type_id, trx)) {
+        if (await this.isDeleted(expense_type_id, trx)) {
           await trx.rollback();
           return res.status(404).send();
         }
 
-        // soft delete the record
-        const isDeleted = await baseController.delete(
-          ExpenseTypeModel,
-          req.params.expense_type_id,
-          req,
-          { trx },
-        );
-        await trx.commit();
-        if (isDeleted) {
-          res.sendStatus(200);
-        } else {
-          res.sendStatus(404);
+        // Default to deletion
+        let updatedStatus = { retired: false, deleted: true };
+
+        const associatedRecords = await FarmExpenseModel.query(trx)
+          .where({ expense_type_id, deleted: false })
+          .first();
+
+        if (associatedRecords) {
+          // Retire instead of delete
+          updatedStatus = { retired: true, deleted: false };
         }
+
+        await baseController.patch(ExpenseTypeModel, expense_type_id, updatedStatus, req, {
+          trx,
+        });
+
+        await trx.commit();
+        return res.status(200).json(updatedStatus);
       } catch (error) {
         await trx.rollback();
         res.status(400).json({
@@ -134,8 +142,11 @@ const farmExpenseTypeController = {
           return res.status(400).send();
         }
 
-        // do not allow update to deleted records
-        if (await this.isDeleted(expense_type_id, trx)) {
+        // do not allow updates to deleted or retired records
+        const isRecordDeleted = await this.isDeleted(expense_type_id, trx);
+        const isRecordRetired = await this.isRetired(expense_type_id, trx);
+
+        if (isRecordDeleted || isRecordRetired) {
           await trx.rollback();
           return res.status(404).send();
         }
@@ -201,6 +212,25 @@ const farmExpenseTypeController = {
       .first();
 
     return expense.deleted;
+  },
+
+  /**
+   * To check if record is retired or not
+   * @param {number} expense_type_id - Expense type id
+   * @param {Object} trx - transaction object
+   * @async
+   * @returns {Boolean} - true or false
+   */
+  async isRetired(expense_type_id, trx) {
+    const expense = await ExpenseTypeModel.query(trx)
+      .context({ showHidden: true })
+      .where({
+        expense_type_id,
+      })
+      .select('retired')
+      .first();
+
+    return expense.retired;
   },
 };
 

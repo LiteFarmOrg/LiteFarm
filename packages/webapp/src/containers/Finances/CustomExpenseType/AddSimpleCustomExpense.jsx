@@ -17,14 +17,14 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCustomExpenseType } from '../saga';
-import { expenseTypeSelector } from '../selectors';
+import { allExpenseTypeSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
-import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
+import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
 
 function AddCustomExpense({ history }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const expenseTypes = useSelector(expenseTypeSelector);
+  const expenseTypes = useSelector(allExpenseTypeSelector);
 
   const handleGoBack = () => {
     history.back();
@@ -45,11 +45,13 @@ function AddCustomExpense({ history }) {
         inputLabel={t('EXPENSE.ADD_EXPENSE.CUSTOM_EXPENSE_NAME')}
         descriptionLabel={t('EXPENSE.CUSTOM_EXPENSE_DESCRIPTION')}
         nameFieldRegisterName={CUSTOM_EXPENSE_NAME}
-        validateInput={hookFormUniquePropertyValidation(
-          expenseTypes,
-          'expense_name',
-          t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
-        )}
+        validateInput={hookFormUniquePropertyWithStatusValidation({
+          objArr: expenseTypes,
+          property: 'expense_name',
+          status: 'deleted',
+          messageTrue: t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME_RETIRED'),
+          messageFalse: t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
+        })}
       />
     </HookFormPersistProvider>
   );

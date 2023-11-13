@@ -52,7 +52,7 @@ const expenseTypeByIdSelector = (expense_type_id) => {
   });
 };
 
-const sortExpenseTypes = (expenseTypes) => {
+export const sortExpenseTypes = (expenseTypes) => {
   const defaultTypes = [];
   const customTypes = [];
 

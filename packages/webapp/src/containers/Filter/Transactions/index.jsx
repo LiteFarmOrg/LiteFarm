@@ -17,9 +17,9 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import FilterGroup from '../../../components/Filter/FilterGroup';
-import { allExpenseTypeSelector } from '../../Finances/selectors';
+import { allExpenseTypeSelector, sortExpenseTypes } from '../../Finances/selectors';
 import { transactionTypeEnum } from '../../Finances/useTransactions';
-import { allRevenueTypesSelector } from '../../revenueTypeSlice';
+import useSortedRevenueTypes from '../../Finances/AddSale/RevenueTypes/useSortedRevenueTypes';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../constants';
 
 const TransactionFilterContent = ({
@@ -29,8 +29,8 @@ const TransactionFilterContent = ({
   onChange,
 }) => {
   const { t } = useTranslation(['translation', 'filter']);
-  const expenseTypes = useSelector(allExpenseTypeSelector);
-  const revenueTypes = useSelector(allRevenueTypesSelector);
+  const expenseTypes = sortExpenseTypes(useSelector(allExpenseTypeSelector));
+  const revenueTypes = useSortedRevenueTypes({ selectorType: 'all' });
 
   const filters = [
     {

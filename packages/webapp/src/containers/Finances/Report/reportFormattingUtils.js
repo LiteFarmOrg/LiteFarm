@@ -41,3 +41,37 @@ export const formatTransactions = (transactions, t) =>
     date: new Date(item.date),
     amount: item.amount,
   }));
+
+/**
+ * Constructs a filter object for given types (either expense or revenue).
+ *
+ * @param {Array} types - Array of type objects
+ * @param {Function} translate - Translation function from i18next-react
+ * @param {string} typeCategory - The category of the type ('expense' or 'revenue')
+ * @returns {Object} Filter object with type ids as keys and {active, label} as values.
+ */
+export const createDefaultTypeFilter = ({ types, translate, typeCategory }) => {
+  const typeIdKey = `${typeCategory}_type_id`;
+  const nameKey = `${typeCategory}_name`;
+  const translationKey = `${typeCategory}_translation_key`;
+
+  const filterObject = types.reduce(
+    (filterObject, type) => ({
+      ...filterObject,
+      [type[typeIdKey]]: {
+        active: true,
+        label: type.farm_id
+          ? type[nameKey]
+          : translate(`${typeCategory}:${type[translationKey]}.${typeCategory.toUpperCase()}_NAME`),
+      },
+    }),
+    {},
+  );
+
+  // Add LABOUR at the end if typeCategory is 'expense'
+  if (typeCategory === 'expense') {
+    filterObject['LABOUR'] = { active: true, label: translate('SALE.FINANCES.LABOUR_LABEL') };
+  }
+
+  return filterObject;
+};

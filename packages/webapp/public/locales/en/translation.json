@@ -472,6 +472,9 @@
       "SOIL_SAMPLE_RESULTS": "Soil sample results",
       "WATER_SAMPLE_RESULTS": "Water sample results"
     },
+    "UNARCHIVE": "Unarchive",
+    "UNARCHIVE_DOCUMENT": "Unarchive document?",
+    "UNARCHIVE_DOCUMENT_TEXT": "Unarchiving this document will return it to your list of currently valid documents. Valid documents will be exported for your certifications. Do you want to proceed?",
     "VALID": "Valid"
   },
   "ENTER_PASSWORD": {

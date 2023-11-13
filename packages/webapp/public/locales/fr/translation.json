@@ -472,6 +472,9 @@
       "SOIL_SAMPLE_RESULTS": "Résultats des échantillons de sol",
       "WATER_SAMPLE_RESULTS": "Résultats des échantillons d'eau"
     },
+    "UNARCHIVE": "Désarchiver",
+    "UNARCHIVE_DOCUMENT": "Désarchiver le document\u00a0?",
+    "UNARCHIVE_DOCUMENT_TEXT": "L'annulation de l'archivage de ce document remettra celui-ci dans votre liste de documents valides. Les documents valides seront exportés pour vos certifications. Voulez-vous continuer\u00a0?",
     "VALID": "Valide"
   },
   "ENTER_PASSWORD": {

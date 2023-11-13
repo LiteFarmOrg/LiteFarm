@@ -52,7 +52,7 @@
     },
     "SUCCESS": {
       "ADD": "Successfully created custom expense",
-      "DELETE": "Successfully deleted custom expense",
+      "DELETE": "Successfully retired custom expense",
       "UPDATE": "Successfully updated custom expense"
     }
   },

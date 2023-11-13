@@ -90,7 +90,14 @@
       "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "Set as default type for this location",
       "TOTAL_WATER_USAGE": "Total Water Usage",
       "TYPE": {
-        "OTHER": "Other"
+        "CHANNEL": "Channel",
+        "DRIP": "Drip",
+        "FLOOD": "Flood",
+        "HAND_WATERING": "Hand Watering",
+        "OTHER": "Other",
+        "PIVOT": "Pivot",
+        "SPRINKLER": "Sprinkler",
+        "SUB_SURFACE": "Subsurface"
       },
       "TYPE_OF_IRRIGATION": "Type of Irrigation",
       "VOLUME": "Volume",

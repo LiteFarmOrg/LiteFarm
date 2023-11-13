@@ -90,7 +90,14 @@
       "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "Definir como padrão para esta área",
       "TOTAL_WATER_USAGE": "Uso de água total",
       "TYPE": {
-        "OTHER": "Outro"
+        "CHANNEL": "Canal",
+        "DRIP": "Gotejamento",
+        "FLOOD": "Inundação",
+        "HAND_WATERING": "Rega manual",
+        "OTHER": "Outro",
+        "PIVOT": "Pivô",
+        "SPRINKLER": "Aspersor",
+        "SUB_SURFACE": "Subsuperficial"
       },
       "TYPE_OF_IRRIGATION": "Tipo de Irrigação",
       "VOLUME": "Volume",

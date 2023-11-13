@@ -90,7 +90,14 @@
       "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "Sélectionner ce type par défaut pour cet emplacement",
       "TOTAL_WATER_USAGE": "Utilisation totale de l’eau",
       "TYPE": {
-        "OTHER": "Autre type d'irrigation"
+        "CHANNEL": "Irrigation des canaux",
+        "DRIP": "Irrigation goutte à goutte",
+        "FLOOD": "Irrigation par inondation",
+        "HAND_WATERING": "Arrosage manuel",
+        "OTHER": "Autre type d'irrigation",
+        "PIVOT": "Irrigation par pivot",
+        "SPRINKLER": "Irrigation par aspersion",
+        "SUB_SURFACE": "Irrigation souterraine"
       },
       "TYPE_OF_IRRIGATION": "Type d'arrosage",
       "VOLUME": "Volume",

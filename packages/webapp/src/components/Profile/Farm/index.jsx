@@ -116,7 +116,7 @@ export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
 
       <div>
         <input type="checkbox" style={{ display: 'none' }} {...register(IS_IMAGE_REMOVED)} />
-        <Label>Farm Image</Label>
+        <Label>{t('PROFILE.FARM.FARM_IMAGE')}</Label>
         <FarmImagePicker
           onSelectImage={handleSelectImage}
           onRemoveImage={handleRemoveImage}

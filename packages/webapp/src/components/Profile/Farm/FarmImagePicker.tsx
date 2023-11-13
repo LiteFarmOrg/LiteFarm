@@ -22,6 +22,7 @@ import { ReactComponent as CameraIcon } from '../../../assets/images/farm-profil
 import { ReactComponent as TrashIcon } from '../../../assets/images/farm-profile/trash.svg';
 import { ReactComponent as EditIcon } from '../../../assets/images/farm-profile/edit.svg';
 import { AddLink } from '../../Typography';
+import { useTranslation } from 'react-i18next';
 
 type FarmImagePickerProps = {
   onSelectImage: (file: File) => void;
@@ -38,6 +39,7 @@ export default function FarmImagePicker({
 }: FarmImagePickerProps) {
   const [previewUrl, setPreviewUrl] = useState('');
   const dropContainerRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   const isImagePickerShown = isImageRemoved || (!previewUrl && !thumbnailUrl);
 
@@ -82,7 +84,7 @@ export default function FarmImagePicker({
         onChange={handleFileInputChange}
       >
         <span className={styles.filePickerBtn}>
-          <CameraIcon /> Upload Image
+          <CameraIcon /> {t('PROFILE.FARM.UPLOAD_IMAGE')}
         </span>
       </PureFilePickerWrapper>
       <div
@@ -96,9 +98,9 @@ export default function FarmImagePicker({
         <CameraIcon className={styles.cameraIcon} />
         <div className={styles.flexWrapper}>
           <PureFilePickerWrapper accept="image/*" onChange={handleFileInputChange}>
-            <AddLink> Click to upload</AddLink>
+            <AddLink> {t('PROFILE.FARM.CLICK_TO_UPLOAD')}</AddLink>
           </PureFilePickerWrapper>
-          <span> or drag and drop</span>
+          <span> {t('PROFILE.FARM.DRAG_DROP')}</span>
         </div>
       </div>
     </>
@@ -113,12 +115,12 @@ export default function FarmImagePicker({
         <PureFilePickerWrapper onChange={handleFileInputChange} accept="image/*">
           <TextButton type="button">
             <EditIcon />
-            Change Image
+            {t('PROFILE.FARM.CHANGE_IMAGE')}
           </TextButton>
         </PureFilePickerWrapper>
         <TextButton type="button" onClick={removeImage}>
           <TrashIcon />
-          Remove Image
+          {t('PROFILE.FARM.REMOVE_IMAGE')}
         </TextButton>
       </div>
     </div>

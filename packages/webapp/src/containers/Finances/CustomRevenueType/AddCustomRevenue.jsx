@@ -50,8 +50,8 @@ function AddCustomRevenue({ history }) {
           objArr: revenueTypes,
           property: 'revenue_name',
           status: 'retired',
-          messageTrue: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME_RETIRED'),
-          messageFalse: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
+          messageStatusTrue: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME_RETIRED'),
+          messageStatusFalse: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
         })}
         customFormFields={({ control, watch }) => (
           <CustomRevenueRadios control={control} watch={watch} view="add" />

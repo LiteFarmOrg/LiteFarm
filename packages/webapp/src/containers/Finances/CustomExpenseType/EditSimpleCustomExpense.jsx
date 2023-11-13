@@ -63,8 +63,8 @@ function EditCustomExpense({ history, match }) {
           objArr: expenseTypesWithoutSelectedType,
           property: 'expense_name',
           status: 'retired',
-          messageTrue: t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME_RETIRED'),
-          messageFalse: t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
+          messageStatusTrue: t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME_RETIRED'),
+          messageStatusFalse: t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
         })}
       />
     </HookFormPersistProvider>

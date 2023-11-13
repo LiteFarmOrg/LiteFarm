@@ -437,6 +437,9 @@
       "VALID_UNTIL": "Válido hasta"
     },
     "ADD_DOCUMENT": "Agregar un nuevo documento",
+    "ARCHIVE": "Archivar",
+    "ARCHIVE_DOCUMENT": "Archivar documento",
+    "ARCHIVE_DOCUMENT_TEXT": "Archivar este documento lo moverá a la sección de archivado de sus documentos, pero no lo eliminará. Los documentos archivados no se exportarán para sus certificaciones. Quiere proceder?",
     "ARCHIVED": "Archivado",
     "CANCEL": "Cancelar",
     "CANCEL_MODAL": "creación de documentos",

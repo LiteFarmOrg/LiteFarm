@@ -6,29 +6,17 @@
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "Falha ao criar documento",
-      "FAILED_ARCHIVE": "Falha ao arquivar o documento",
-      "FAILED_UNARCHIVE": "Falha ao desarquivar documento",
       "FAILED_UPLOAD": "Anexos não carregados",
       "UPDATE": "Falha ao atualizar o documento"
     },
     "SUCCESS": {
-      "ARCHIVE": "Documento arquivado com sucesso",
       "CREATE": "Documento criado com sucesso",
-      "UNARCHIVE": "Documento desarquivado com sucesso",
       "UPDATE": "Documento atualizado com sucesso"
     }
   },
   "BULK_UPLOAD": {
     "ERROR": {
       "UPLOAD": "Falha ao carregar o arquivo CSV"
-    }
-  },
-  "CROP": {
-    "ERROR": {
-      "DELETE": "Falha na exclusão do cultivo de campo"
-    },
-    "SUCCESS": {
-      "DELETE": "Cultivo excluído com sucesso"
     }
   },
   "CROP_VARIETY": {
@@ -187,8 +175,7 @@
       "SUCCESS": "Tarefa concluída com sucesso"
     },
     "UPDATE": {
-      "FAILED": "Falha ao atualizar a tarefa",
-      "SUCCESS": "Tarefa atualizada com sucesso"
+      "FAILED": "Falha ao atualizar a tarefa"
     }
   },
   "TASK_TYPE": {
@@ -208,7 +195,6 @@
       "EXISTS": "O usuário já existe na rede de LiteFarm",
       "INVITE": "Erro ao criar conta de usuário, entre em contato com LiteFarm para assistência.",
       "MAX_RESET_EMAILS": "Um link de redefinição de senha foi enviado para você, por favor verifique sua caixa de entrada e pasta de spam.",
-      "NOTHING_CHANGED": "Nada mudou",
       "RESET_PASSWORD": "Erro ao enviar e-mail de redefinição de senha, favor entrar em contato com a LiteFarm para obter assistência.",
       "RESTORE": "Ocorreu um erro, o acesso não foi restaurado",
       "REVOKE": "Ocorreu um erro, o acesso não foi revogado",

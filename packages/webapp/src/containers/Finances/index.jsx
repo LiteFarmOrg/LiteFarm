@@ -108,7 +108,10 @@ const Finances = ({ history }) => {
   };
 
   const makeTransactionsSearchableString = (transaction) =>
-    [transaction.note, transaction.typeLabel || t('SALE.FINANCES.LABOUR_EXPENSE')]
+    [
+      transaction.note || t('FINANCES.TRANSACTION.LABOUR_EXPENSE'),
+      transaction.typeLabel || t('SALE.FINANCES.LABOUR_LABEL'),
+    ]
       .filter(Boolean)
       .join(' ');
 

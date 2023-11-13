@@ -22,7 +22,6 @@ import useIsAboveBreakpoint from '../../../hooks/useIsAboveBreakpoint';
 import DropdownButton from '../../Form/DropDownButton';
 import FloatingButtonMenu from '../../Menu/FloatingButtonMenu';
 import FloatingMenu from '../../Menu/FloatingButtonMenu/FloatingMenu';
-import styles from './styles.module.scss';
 
 const Menu = forwardRef((props, ref) => {
   const { t } = useTranslation();
@@ -41,7 +40,6 @@ const Menu = forwardRef((props, ref) => {
   return (
     <FloatingMenu
       ref={ref}
-      classes={{ menuList: styles.menuList }}
       options={[
         { label: t('FINANCES.ADD_REVENUE'), onClick: handleAddRevenueClick },
         { label: t('FINANCES.ADD_EXPENSE'), onClick: handleAddExpenseClick },
@@ -59,7 +57,7 @@ export default function AddTransactionButton() {
   return (
     <>
       {isAboveBreakPoint === true ? (
-        <DropdownButton type={'v2'} noIcon={true} Menu={Menu} classes={{ button: styles.button }}>
+        <DropdownButton type={'v2'} noIcon={true} Menu={Menu}>
           {t('FINANCES.ADD_TRANSACTION')}
         </DropdownButton>
       ) : (

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
 import PureFilePickerWrapper from '../../Form/FilePickerWrapper';
 import TextButton from '../../Form/Button/TextButton';
@@ -21,6 +21,7 @@ import styles from './styles.module.scss';
 import { ReactComponent as CameraIcon } from '../../../assets/images/farm-profile/camera.svg';
 import { ReactComponent as TrashIcon } from '../../../assets/images/farm-profile/trash.svg';
 import { ReactComponent as EditIcon } from '../../../assets/images/farm-profile/edit.svg';
+import { AddLink } from '../../Typography';
 
 type FarmImagePickerProps = {
   onSelectImage: (file: File) => void;
@@ -36,32 +37,71 @@ export default function FarmImagePicker({
   thumbnailUrl,
 }: FarmImagePickerProps) {
   const [previewUrl, setPreviewUrl] = useState('');
+  const dropContainerRef = useRef<HTMLDivElement>(null);
 
   const isImagePickerShown = isImageRemoved || (!previewUrl && !thumbnailUrl);
 
-  const handleRemoveImage = () => {
+  const removeImage = () => {
     onRemoveImage();
     setPreviewUrl('');
   };
 
-  const handleSelectImage = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      setPreviewUrl(reader.result as string);
-      onSelectImage(file);
-    };
-    reader.readAsDataURL(file);
+  const showImage = (file: File) => {
+    const url = URL.createObjectURL(file);
+    setPreviewUrl(url);
+    onSelectImage(file);
   };
 
+  const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const file = e.target.files[0];
+    showImage(file);
+  };
+
+  const handleDragEvent = (e: React.DragEvent) => {
+    e.preventDefault();
+    if (e.type === 'dragover') return;
+
+    if (e.type === 'dragenter' || e.type === 'dragleave') {
+      dropContainerRef.current?.classList.toggle(styles.dropContainerActive);
+    } else if (e.type === 'drop') {
+      const file = e.dataTransfer?.files[0];
+      if (file) showImage(file);
+    }
+  };
+
+  useEffect(() => {
+    return () => URL.revokeObjectURL(previewUrl);
+  }, [previewUrl]);
+
   return isImagePickerShown ? (
-    <PureFilePickerWrapper accept="image/*" onChange={handleSelectImage}>
-      <span className={styles.filePicker}>
-        <CameraIcon /> Upload Image
-      </span>
-    </PureFilePickerWrapper>
+    <>
+      <PureFilePickerWrapper
+        accept="image/*"
+        className={styles.filePickerWrapper}
+        onChange={handleFileInputChange}
+      >
+        <span className={styles.filePickerBtn}>
+          <CameraIcon /> Upload Image
+        </span>
+      </PureFilePickerWrapper>
+      <div
+        ref={dropContainerRef}
+        className={styles.dropContainer}
+        onDrop={handleDragEvent}
+        onDragEnter={handleDragEvent}
+        onDragLeave={handleDragEvent}
+        onDragOver={handleDragEvent}
+      >
+        <CameraIcon className={styles.cameraIcon} />
+        <div className={styles.flexWrapper}>
+          <PureFilePickerWrapper accept="image/*" onChange={handleFileInputChange}>
+            <AddLink> Click to upload</AddLink>
+          </PureFilePickerWrapper>
+          <span> or drag and drop</span>
+        </div>
+      </div>
+    </>
   ) : (
     <div className={styles.imageContainer}>
       {previewUrl ? (
@@ -70,13 +110,13 @@ export default function FarmImagePicker({
         <MediaWithAuthentication fileUrls={[thumbnailUrl]} alt="image thumbnail" />
       )}
       <div className={styles.imageActions}>
-        <PureFilePickerWrapper onChange={handleSelectImage} accept="image/*">
+        <PureFilePickerWrapper onChange={handleFileInputChange} accept="image/*">
           <TextButton type="button">
             <EditIcon />
             Change Image
           </TextButton>
         </PureFilePickerWrapper>
-        <TextButton type="button" onClick={handleRemoveImage}>
+        <TextButton type="button" onClick={removeImage}>
           <TrashIcon />
           Remove Image
         </TextButton>

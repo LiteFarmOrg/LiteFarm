@@ -1,6 +1,5 @@
 {
   "ABANDON": "Abandonar",
-  "ABANDONED": "Abandonado",
   "ACTIVE": "Ativo",
   "ADD": "Adicionar",
   "ADD_ANOTHER_ITEM": "Adicionar outro item",
@@ -27,8 +26,6 @@
   "GO_BACK": "Voltar",
   "GOT_IT": "Feito!",
   "HERE": "aqui",
-  "HIDE": "Ocultar",
-  "HOURS": "Horas",
   "LOADING": "Carregando...",
   "MARK_ABANDON": "Abandonar",
   "MARK_COMPLETE": "Marcar completo",
@@ -49,7 +46,6 @@
   "PLANNED": "Planejado",
   "PROCEED": "Continuar",
   "QUANTITY": "Quantidade",
-  "REMOVE": "Remover",
   "REMOVE_ITEM": "Remover item",
   "REQUIRED": "Obrigatório",
   "RETIRE": "Remover",

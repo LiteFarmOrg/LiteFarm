@@ -811,6 +811,13 @@
       "REVENUE_TYPE": "Revenue types",
       "TITLE": "Filter transactions"
     },
+    "MANAGE_CUSTOM_TYPE": "Manage custom type",
+    "REPORT": {
+      "DATES": "Dates",
+      "SETTINGS": "Export Settings",
+      "TRANSACTION": "Transaction",
+      "TRANSACTIONS": "Transactions"
+    },
     "REVENUE": "Revenue",
     "SEARCH": {
       "EXPENSE_TYPES": "Search expense type",

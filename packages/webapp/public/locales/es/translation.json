@@ -810,6 +810,13 @@
       "REVENUE_TYPE": "Tipos de ingresos",
       "TITLE": "Filtrar transacciones"
     },
+    "MANAGE_CUSTOM_TYPE": "Administrar tipos personalizados",
+    "REPORT": {
+      "DATES": "MISSING",
+      "SETTINGS": "MISSING",
+      "TRANSACTION": "MISSING",
+      "TRANSACTIONS": "MISSING"
+    },
     "REVENUE": "Ingresos",
     "SEARCH": {
       "EXPENSE_TYPES": "Buscar tipo de gasto",

@@ -483,6 +483,7 @@
       "CUSTOM_EXPENSE_NAME": "Nome de despesa personalizado",
       "CUSTOM_EXPENSE_TYPE": "Tipo de despesa personalizado",
       "DUPLICATE_NAME": "Já existe um tipo de despesa com este nome. Por favor, escolha outro.",
+      "DUPLICATE_NAME_RETIRED": "MISSING",
       "FLOW": "Criação de despesa",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Gerenciar tipos de despesa personalizada",
       "NEW_EXPENSE_ITEM": "Novo item de despesa",
@@ -1390,7 +1391,8 @@
       "CROP_GENERATED": "Esta receita foi gerada a partir dos cultivos?",
       "CUSTOM_REVENUE_NAME": "Nome de receita personalizado",
       "CUSTOM_REVENUE_TYPE": "Tipo de receita personalizado",
-      "DUPLICATE_NAME": "Já existe um tipo de receita com este nome. Por favor escolha outro."
+      "DUPLICATE_NAME": "Já existe um tipo de receita com este nome. Por favor escolha outro.",
+      "DUPLICATE_NAME_RETIRED": "MISSING"
     },
     "CUSTOM_REVENUE_DESCRIPTION": "Descrição de receita personalizada",
     "DELETE": {

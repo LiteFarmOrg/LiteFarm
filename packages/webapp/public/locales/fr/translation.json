@@ -484,6 +484,7 @@
       "CUSTOM_EXPENSE_NAME": "Nom de la dépense personnalisée",
       "CUSTOM_EXPENSE_TYPE": "Type de dépense personnalisée",
       "DUPLICATE_NAME": "Un type de dépense portant ce nom existe déjà. Veuillez en choisir un autre",
+      "DUPLICATE_NAME_RETIRED": "MISSING",
       "FLOW": "Création d'une dépense",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Gérer le type de dépense personnalisée",
       "NEW_EXPENSE_ITEM": "Nouvelle dépense",
@@ -1390,7 +1391,8 @@
       "CROP_GENERATED": "Ce revenu est-il généré par des cultures ?",
       "CUSTOM_REVENUE_NAME": "Nom du revenu personnalisé",
       "CUSTOM_REVENUE_TYPE": "Type de revenu personnalisé",
-      "DUPLICATE_NAME": "Un type de revenu portant ce nom existe déjà.  Veuillez en choisir un autre."
+      "DUPLICATE_NAME": "Un type de revenu portant ce nom existe déjà.  Veuillez en choisir un autre.",
+      "DUPLICATE_NAME_RETIRED": "MISSING"
     },
     "CUSTOM_REVENUE_DESCRIPTION": "Description Personnalisée des Revenus",
     "DELETE": {

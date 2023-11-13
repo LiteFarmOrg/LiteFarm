@@ -483,6 +483,7 @@
       "CUSTOM_EXPENSE_NAME": "Nombre del gasto personalizado",
       "CUSTOM_EXPENSE_TYPE": "Tipo de gasto personalizado",
       "DUPLICATE_NAME": "Ya existe un tipo de gasto con este nombre. Por favor, elija uno diferente.",
+      "DUPLICATE_NAME_RETIRED": "MISSING",
       "FLOW": "creación de gasto",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Administrar tipos de gasto personalizados",
       "NEW_EXPENSE_ITEM": "Nuevo gasto",
@@ -1396,7 +1397,8 @@
       "CROP_GENERATED": "¿Este ingreso se ha generado a partir de cultivos?",
       "CUSTOM_REVENUE_NAME": "Nombre de ingreso personalizado",
       "CUSTOM_REVENUE_TYPE": "Tipo de ingreso personalizado",
-      "DUPLICATE_NAME": "Ya existe un tipo de ingreso con este nombre. Por favor, elija uno diferente."
+      "DUPLICATE_NAME": "Ya existe un tipo de ingreso con este nombre. Por favor, elija uno diferente.",
+      "DUPLICATE_NAME_RETIRED": "MISSING"
     },
     "CUSTOM_REVENUE_DESCRIPTION": "Descripción de tipo de ingreso personalizado",
     "DELETE": {

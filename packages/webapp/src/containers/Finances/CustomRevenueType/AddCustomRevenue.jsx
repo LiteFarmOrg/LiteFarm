@@ -49,9 +49,9 @@ function AddCustomRevenue({ history }) {
         validateInput={hookFormUniquePropertyWithStatusValidation({
           objArr: revenueTypes,
           property: 'revenue_name',
-          status: 'deleted',
-          messageTrue: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME_RETIRED'),
-          messageFalse: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
+          status: 'retired',
+          messageStatusTrue: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME_RETIRED'),
+          messageStatusFalse: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
         })}
         customFormFields={({ control, watch }) => (
           <CustomRevenueRadios control={control} watch={watch} view="add" />

@@ -64,8 +64,8 @@ function EditCustomRevenue({ history, match }) {
           objArr: revenueTypesWithoutSelectedType,
           property: 'revenue_name',
           status: 'deleted',
-          messageTrue: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME_RETIRED'),
-          messageFalse: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
+          messageStatusTrue: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME_RETIRED'),
+          messageStatusFalse: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
         })}
         customFormFields={({ control, watch }) => (
           <CustomRevenueRadios control={control} watch={watch} view="edit" />

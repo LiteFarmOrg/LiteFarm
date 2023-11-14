@@ -207,7 +207,7 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
 export function mapRevenueTypesToReactSelectOptions(revenueTypes) {
   const { t } = useTranslation();
   return revenueTypes?.map((type) => {
-    const retireSuffix = type.deleted ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : '';
+    const retireSuffix = type.retired ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : '';
 
     return {
       value: type.revenue_type_id,

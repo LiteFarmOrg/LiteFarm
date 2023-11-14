@@ -370,6 +370,72 @@ describe('Revenue Type Tests', () => {
     });
   });
 
+  // Note: Permissions are unchanged between retire and delete
+  describe('Retire revenue type tests', () => {
+    test('Type with associated sale should be retired, not deleted', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const { revenue_type } = await returnRevenueType(mainFarm);
+
+      const associatedSale = mocks.fakeSale({
+        revenue_type_id: revenue_type.revenue_type_id,
+      });
+
+      await mocks.saleFactory(
+        {
+          promisedUserFarm: Promise.resolve([user, mainFarm]),
+        },
+        associatedSale,
+      );
+
+      const res = await deleteRequestAsPromise(revenue_type, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(200);
+      expect(res.body.deleted).toBe(false);
+      expect(res.body.retired).toBe(true);
+
+      const retiredRevenueType = await revenueTypeModel
+        .query()
+        .findById(revenue_type.revenue_type_id);
+      expect(retiredRevenueType.deleted).toBe(false);
+      expect(retiredRevenueType.retired).toBe(true);
+    });
+
+    test('Type with a deleted associated sale should be deleted', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const { revenue_type } = await returnRevenueType(mainFarm);
+
+      const associatedDeletedSale = mocks.fakeSale({
+        revenue_type_id: revenue_type.revenue_type_id,
+        deleted: true,
+      });
+
+      await mocks.saleFactory(
+        {
+          promisedUserFarm: Promise.resolve([user, mainFarm]),
+        },
+        associatedDeletedSale,
+      );
+
+      const res = await deleteRequestAsPromise(revenue_type, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(200);
+      expect(res.body.deleted).toBe(true);
+      expect(res.body.retired).toBe(false);
+
+      const deletedRevenueType = await revenueTypeModel
+        .query()
+        .findById(revenue_type.revenue_type_id);
+      expect(deletedRevenueType.deleted).toBe(true);
+      expect(deletedRevenueType.retired).toBe(false);
+    });
+  });
+
   // Update revenue type
   describe('Update revenue type tests', () => {
     test('Owner should update revenue type', async () => {

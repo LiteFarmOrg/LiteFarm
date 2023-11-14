@@ -211,6 +211,25 @@ export default {
   },
 
   /**
+   * To check if record is retired or not
+   * @param {Object} trx - Transaction object
+   * @param {Object} model - Database model instance
+   * @param {object} where - 'Where' condition to fetch record
+   * @async
+   * @returns {Boolean} - true or false
+   */
+  async isRetired(trx, model, where) {
+    const record = await model
+      .query(trx)
+      .context({ showHidden: true })
+      .where(where)
+      .select('retired')
+      .first();
+
+    return record.retired;
+  },
+
+  /**
    * Check if records exists in table
    * @param {object} trx - Transaction object
    * @param {object} model - Database model instance

@@ -6,11 +6,15 @@
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "Falha ao criar documento",
+      "FAILED_ARCHIVE": "Falha ao arquivar o documento",
+      "FAILED_UNARCHIVE": "Falha ao desarquivar documento",
       "FAILED_UPLOAD": "Anexos não carregados",
       "UPDATE": "Falha ao atualizar o documento"
     },
     "SUCCESS": {
+      "ARCHIVE": "Documento arquivado com sucesso",
       "CREATE": "Documento criado com sucesso",
+      "UNARCHIVE": "Documento desarquivado com sucesso",
       "UPDATE": "Documento atualizado com sucesso"
     }
   },

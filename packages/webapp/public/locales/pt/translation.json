@@ -90,7 +90,14 @@
       "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "Definir como padrão para esta área",
       "TOTAL_WATER_USAGE": "Uso de água total",
       "TYPE": {
-        "OTHER": "Outro"
+        "CHANNEL": "Canal",
+        "DRIP": "Gotejamento",
+        "FLOOD": "Inundação",
+        "HAND_WATERING": "Rega manual",
+        "OTHER": "Outro",
+        "PIVOT": "Pivô",
+        "SPRINKLER": "Aspersor",
+        "SUB_SURFACE": "Subsuperficial"
       },
       "TYPE_OF_IRRIGATION": "Tipo de Irrigação",
       "VOLUME": "Volume",
@@ -430,6 +437,9 @@
       "VALID_UNTIL": "Válido até"
     },
     "ADD_DOCUMENT": "Adicionar um novo documento",
+    "ARCHIVE": "Arquivar",
+    "ARCHIVE_DOCUMENT": "Arquivar documento?",
+    "ARCHIVE_DOCUMENT_TEXT": "Arquivar este documento o moverá para a seção arquivada de seus documentos, mas não o excluirá. Os documentos arquivados não serão exportados para suas certificações. Você quer prosseguir?",
     "ARCHIVED": "Arquivado",
     "CANCEL": "Cancelar",
     "CANCEL_MODAL": "criação de documento",
@@ -461,6 +471,9 @@
       "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
       "WATER_SAMPLE_RESULTS": "Resultados da amostra de água"
     },
+    "UNARCHIVE": "Desarquivar",
+    "UNARCHIVE_DOCUMENT": "Documento desarquivado?",
+    "UNARCHIVE_DOCUMENT_TEXT": "Desarquivar este documento irá devolvê-lo à sua lista de documentos atualmente válidos. Os documentos válidos serão exportados para suas certificações. Você quer prosseguir?",
     "VALID": "Válido"
   },
   "ENTER_PASSWORD": {

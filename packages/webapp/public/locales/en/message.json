@@ -6,11 +6,15 @@
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "Failed to create document",
+      "FAILED_ARCHIVE": "Failed to archive document",
+      "FAILED_UNARCHIVE": "Failed to unarchive document",
       "FAILED_UPLOAD": "Failed to upload attachments",
       "UPDATE": "Failed to update document"
     },
     "SUCCESS": {
+      "ARCHIVE": "Successfully archived document",
       "CREATE": "Successfully created document",
+      "UNARCHIVE": "Successfully unarchived document",
       "UPDATE": "Successfully updated document"
     }
   },

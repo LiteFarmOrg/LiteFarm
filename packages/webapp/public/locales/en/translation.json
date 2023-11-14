@@ -90,7 +90,14 @@
       "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "Set as default type for this location",
       "TOTAL_WATER_USAGE": "Total Water Usage",
       "TYPE": {
-        "OTHER": "Other"
+        "CHANNEL": "Channel",
+        "DRIP": "Drip",
+        "FLOOD": "Flood",
+        "HAND_WATERING": "Hand Watering",
+        "OTHER": "Other",
+        "PIVOT": "Pivot",
+        "SPRINKLER": "Sprinkler",
+        "SUB_SURFACE": "Subsurface"
       },
       "TYPE_OF_IRRIGATION": "Type of Irrigation",
       "VOLUME": "Volume",
@@ -431,6 +438,9 @@
       "VALID_UNTIL": "Valid until"
     },
     "ADD_DOCUMENT": "Add a new document",
+    "ARCHIVE": "Archive",
+    "ARCHIVE_DOCUMENT": "Archive document?",
+    "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
     "ARCHIVED": "Archived",
     "CANCEL": "Cancel",
     "CANCEL_MODAL": "document creation",
@@ -462,6 +472,9 @@
       "SOIL_SAMPLE_RESULTS": "Soil sample results",
       "WATER_SAMPLE_RESULTS": "Water sample results"
     },
+    "UNARCHIVE": "Unarchive",
+    "UNARCHIVE_DOCUMENT": "Unarchive document?",
+    "UNARCHIVE_DOCUMENT_TEXT": "Unarchiving this document will return it to your list of currently valid documents. Valid documents will be exported for your certifications. Do you want to proceed?",
     "VALID": "Valid"
   },
   "ENTER_PASSWORD": {

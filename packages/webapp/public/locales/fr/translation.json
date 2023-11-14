@@ -90,7 +90,14 @@
       "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "Sélectionner ce type par défaut pour cet emplacement",
       "TOTAL_WATER_USAGE": "Utilisation totale de l’eau",
       "TYPE": {
-        "OTHER": "Autre type d'irrigation"
+        "CHANNEL": "Irrigation des canaux",
+        "DRIP": "Irrigation goutte à goutte",
+        "FLOOD": "Irrigation par inondation",
+        "HAND_WATERING": "Arrosage manuel",
+        "OTHER": "Autre type d'irrigation",
+        "PIVOT": "Irrigation par pivot",
+        "SPRINKLER": "Irrigation par aspersion",
+        "SUB_SURFACE": "Irrigation souterraine"
       },
       "TYPE_OF_IRRIGATION": "Type d'arrosage",
       "VOLUME": "Volume",
@@ -431,6 +438,9 @@
       "VALID_UNTIL": "Valable jusqu'au"
     },
     "ADD_DOCUMENT": "Ajouter un nouveau document",
+    "ARCHIVE": "Archiver",
+    "ARCHIVE_DOCUMENT": "Archiver document\u00a0?",
+    "ARCHIVE_DOCUMENT_TEXT": "L'archivage de ce document le déplacera vers la section archivée de vos documents, mais ne le supprimera pas. Les documents archivés ne seront pas exportés pour vos certifications. Voulez-vous continuer\u00a0?",
     "ARCHIVED": "Archivé",
     "CANCEL": "Annuler",
     "CANCEL_MODAL": "création de document",
@@ -462,6 +472,9 @@
       "SOIL_SAMPLE_RESULTS": "Résultats des échantillons de sol",
       "WATER_SAMPLE_RESULTS": "Résultats des échantillons d'eau"
     },
+    "UNARCHIVE": "Désarchiver",
+    "UNARCHIVE_DOCUMENT": "Désarchiver le document\u00a0?",
+    "UNARCHIVE_DOCUMENT_TEXT": "L'annulation de l'archivage de ce document remettra celui-ci dans votre liste de documents valides. Les documents valides seront exportés pour vos certifications. Voulez-vous continuer\u00a0?",
     "VALID": "Valide"
   },
   "ENTER_PASSWORD": {

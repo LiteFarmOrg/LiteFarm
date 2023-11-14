@@ -24,6 +24,7 @@ import checkSchedulerJwt from '../middleware/acl/checkSchedulerJwt.js';
 import hasTimeNotificationsAccess from '../middleware/acl/hasTimeNotificationsAccess.js';
 import multerDiskUpload from '../util/fileUpload.js';
 import { parseMultipartJson, handleImageOperations } from '../middleware/farm.js';
+import validateFileExtension from '../middleware/validation/uploadImage.js';
 
 router.get('/:farm_id', authFarmId, farmController.getFarmByID());
 
@@ -57,6 +58,7 @@ router.put(
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['edit:farms']),
   multerDiskUpload,
+  validateFileExtension,
   parseMultipartJson,
   handleImageOperations,
   farmController.updateFarm(),

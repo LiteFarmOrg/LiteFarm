@@ -540,9 +540,15 @@
     "BARN": {
       "ANIMALS": "Esta área é usada para abrigar animais?",
       "COLD_STORAGE": "Este celeiro tem câmara fria?",
+      "EDIT_TITLE": "Editar celeiro",
+      "NAME": "Nome do celeiro",
+      "TITLE": "Adicionar celeiro",
       "WASH_PACK": "Este celeiro tem uma estação de lavação e embalagem?"
     },
     "BUFFER_ZONE": {
+      "EDIT_TITLE": "Editar zona de amortecimento/proteção",
+      "NAME": "Zona de amortecimento/proteção",
+      "TITLE": "Adicionar zona de amortecimento/proteção",
       "WIDTH": "Largura da zona de amortecimento/proteção"
     },
     "BULK_UPLOAD_SENSORS": {
@@ -594,6 +600,11 @@
     "BULK_UPLOAD_TRANSITION": {
       "BODY": "Notificaremos você assim que o upload for concluído e os sensores forem criados. Sinta-se à vontade para sair desta janela",
       "TITLE": "Isso está demorando mais do que o esperado."
+    },
+    "CEREMONIAL_AREA": {
+      "EDIT_TITLE": "Editar área cerimonial",
+      "NAME": "Nome da área cerimonial",
+      "TITLE": "Adicionar área cerimonial"
     },
     "CONFIRM_RETIRE": {
       "BODY": "Remover esta área fará com que ela seja retirada do mapa do sítio/fazenda.",

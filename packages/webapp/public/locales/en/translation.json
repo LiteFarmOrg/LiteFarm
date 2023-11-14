@@ -541,9 +541,15 @@
     "BARN": {
       "ANIMALS": "Is this area used for housing animals?",
       "COLD_STORAGE": "Does this barn have cold storage?",
+      "EDIT_TITLE": "Edit barn",
+      "NAME": "Barn name",
+      "TITLE": "Add barn",
       "WASH_PACK": "Does this barn have a wash and pack station?"
     },
     "BUFFER_ZONE": {
+      "EDIT_TITLE": "Edit buffer zone",
+      "NAME": "Buffer zone name",
+      "TITLE": "Add buffer zone",
       "WIDTH": "Buffer zone width"
     },
     "BULK_UPLOAD_SENSORS": {
@@ -595,6 +601,11 @@
     "BULK_UPLOAD_TRANSITION": {
       "BODY": "We’ll notify you once your upload is complete and your sensors have been created. Feel free to navigate away from this window.",
       "TITLE": "This is taking longer than expected..."
+    },
+    "CEREMONIAL_AREA": {
+      "EDIT_TITLE": "Edit ceremonial area",
+      "NAME": "Ceremonial area name",
+      "TITLE": "Add ceremonial area"
     },
     "CONFIRM_RETIRE": {
       "BODY": "Retiring this location will remove it from the farm map.",

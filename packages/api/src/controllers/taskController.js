@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { transaction, Model } from 'objection';
 import TaskModel from '../models/taskModel.js';
 
 import UserFarmModel from '../models/userFarmModel.js';
@@ -28,7 +29,9 @@ import { typesOfTask } from './../middleware/validation/task.js';
 import IrrigationTypesModel from '../models/irrigationTypesModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import locationDefaultsModel from '../models/locationDefaultsModel.js';
+import Location from '../models/locationModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
+import baseController from './baseController.js';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -270,6 +273,20 @@ const taskController = {
     const nonModifiable = getNonModifiable(typeOfTask);
     return async (req, res, next) => {
       try {
+        // Only to satisfy "isDeleted" function requirement
+        const trx = await transaction.start(Model.knex());
+
+        // Do not allow to create a task if location is deleted
+        if (
+          await baseController.isDeleted(trx, Location, {
+            [Location.idColumn]: req.body.locations[0]?.location_id,
+          })
+        ) {
+          await trx.rollback();
+          return res.status(409).send('location deleted');
+        }
+        await trx.rollback();
+
         // OC: the "noInsert" rule will not fail if a relationship is present in the graph.
         // it will just ignore the insert on it. This is just a 2nd layer of protection
         // after the validation middleware.

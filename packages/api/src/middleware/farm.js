@@ -37,39 +37,45 @@ export function parseMultipartJson(req, res, next) {
   next();
 }
 
-// handles uploading new image, replacing or deleting existing image
+// handles uploading, deleting, and replacing farm image
 export async function handleImageOperations(req, res, next) {
   if (!req.file && !req.body.shouldRemoveImage) return next();
 
   const farmId = req.params.farm_id;
-  const existingImageKeys = await getExistingImageKeys(farmId);
-  const privateS3Url = getPrivateS3Url();
 
-  const setFarmImageUrls = (keys) => {
-    req.body.farm_image_url = keys ? `${privateS3Url}/${keys.imageKey}` : null;
-    req.body.farm_image_thumbnail_url = keys ? `${privateS3Url}/${keys.thumbnailKey}` : null;
-  };
+  try {
+    const existingImageKeys = await getExistingImageKeys(farmId);
+    const privateS3Url = getPrivateS3Url();
 
-  if (req.file) {
-    const newImageKeys = {
-      imageKey: `${farmId}/farm_image/${getRandomFileName(req.file)}`,
-      thumbnailKey: `${farmId}/farm_image_thumbnail/${uuidv4()}.webp`,
+    const setFarmImageUrls = (keys) => {
+      req.body.farm_image_url = keys ? `${privateS3Url}/${keys.imageKey}` : null;
+      req.body.farm_image_thumbnail_url = keys ? `${privateS3Url}/${keys.thumbnailKey}` : null;
     };
 
-    if (existingImageKeys) {
-      await deleteFarmImage(existingImageKeys);
-      await uploadFarmImage(req.file, newImageKeys);
-    } else {
-      await uploadFarmImage(req.file, newImageKeys);
+    if (req.file) {
+      const newImageKeys = {
+        imageKey: `${farmId}/farm_image/${getRandomFileName(req.file)}`,
+        thumbnailKey: `${farmId}/farm_image_thumbnail/${uuidv4()}.webp`,
+      };
+
+      if (existingImageKeys) {
+        await deleteFarmImage(existingImageKeys);
+        await uploadFarmImage(req.file, newImageKeys);
+      } else {
+        await uploadFarmImage(req.file, newImageKeys);
+      }
+
+      setFarmImageUrls(newImageKeys);
+      return next();
     }
 
-    setFarmImageUrls(newImageKeys);
-    return next();
-  }
-
-  if (req.body.shouldRemoveImage && existingImageKeys) {
-    await deleteFarmImage(existingImageKeys);
-    setFarmImageUrls();
+    if (req.body.shouldRemoveImage && existingImageKeys) {
+      await deleteFarmImage(existingImageKeys);
+      setFarmImageUrls();
+    }
+  } catch (error) {
+    console.error(error);
+    return res.sendStatus(500);
   }
 
   next();

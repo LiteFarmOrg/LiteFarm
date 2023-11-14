@@ -541,9 +541,15 @@
     "BARN": {
       "ANIMALS": "Cette zone est-elle utilisée pour loger des animaux\u00a0?",
       "COLD_STORAGE": "Cette grange a-t-elle une chambre froide\u00a0?",
+      "EDIT_TITLE": "Modifier la grange",
+      "NAME": "Nom de la grange",
+      "TITLE": "Ajouter une grange",
       "WASH_PACK": "Cette grange a-t-elle une station de lavage et d'emballage\u00a0?"
     },
     "BUFFER_ZONE": {
+      "EDIT_TITLE": "Modifier la zone tampon",
+      "NAME": "Nom de la zone tampon",
+      "TITLE": "Ajouter une zone tampon",
       "WIDTH": "Largeur de la zone tampon"
     },
     "BULK_UPLOAD_SENSORS": {
@@ -595,6 +601,11 @@
     "BULK_UPLOAD_TRANSITION": {
       "BODY": "Nous vous informerons quand votre téléchargement est terminé et vos capteurs ont été créés. Vous pouvez quitter cette fenêtre.",
       "TITLE": "Cela prend plus de temps que prévu..."
+    },
+    "CEREMONIAL_AREA": {
+      "EDIT_TITLE": "Modifier la zone de cérémonie",
+      "NAME": "Nom de la zone de cérémonie",
+      "TITLE": "Ajouter une zone de cérémonie"
     },
     "CONFIRM_RETIRE": {
       "BODY": "Retirer cet emplacement le supprimera de la carte de la ferme.",

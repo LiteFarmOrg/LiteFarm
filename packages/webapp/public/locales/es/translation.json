@@ -540,9 +540,15 @@
     "BARN": {
       "ANIMALS": "Se usa este granero para abrigar animales?",
       "COLD_STORAGE": "Tiene este granero almacenamiento en frio?",
+      "EDIT_TITLE": "Editar granero",
+      "NAME": "Nombre de granero",
+      "TITLE": "Agregar Granero",
       "WASH_PACK": "Tiene este granero una estacion de lavado y empacado?"
     },
     "BUFFER_ZONE": {
+      "EDIT_TITLE": "Editar delimitante",
+      "NAME": "Nombre de zona delimitante",
+      "TITLE": "Agregar zona delimitante",
       "WIDTH": "Ancho de la zona delimitante"
     },
     "BULK_UPLOAD_SENSORS": {
@@ -594,6 +600,11 @@
     "BULK_UPLOAD_TRANSITION": {
       "BODY": "Le notificaremos una vez que su carga se haya completado y sus sensores se han creado. Puede salir de esta ventana.",
       "TITLE": "Esto está tardando más de lo esperado..."
+    },
+    "CEREMONIAL_AREA": {
+      "EDIT_TITLE": "Editar area ceremonial",
+      "NAME": "Nombre de area ceremonial",
+      "TITLE": "Agregar area ceremonial"
     },
     "CONFIRM_RETIRE": {
       "BODY": "Retirar esta ubicación la eliminará del mapa de la granja.",

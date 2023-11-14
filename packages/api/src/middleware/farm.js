@@ -84,7 +84,7 @@ export async function handleImageOperations(req, res, next) {
 async function uploadFarmImage(imageFile, keys) {
   const bucketName = getPrivateS3BucketName();
   const thumbnail = await imaginaryPost(imageFile, {
-    width: 175,
+    width: 150,
     type: 'webp',
   });
 

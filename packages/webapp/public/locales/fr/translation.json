@@ -836,6 +836,12 @@
       "REVENUE_TYPE": "Types de revenu",
       "TITLE": "Filtrer les transactions"
     },
+    "REPORT": {
+      "DATES": "MISSING",
+      "SETTINGS": "MISSING",
+      "TRANSACTION": "MISSING",
+      "TRANSACTIONS": "MISSING"
+    },
     "REVENUE": "Revenu",
     "SEARCH": {
       "EXPENSE_TYPES": "Rechercher un type de dépense",
@@ -1029,6 +1035,10 @@
     "TASKS": "Tâches"
   },
   "MANAGEMENT_PLAN": {
+    "ABANDON": {
+      "CANT_ABANDON_COMPLETED": "MISSING",
+      "CANT_ABANDON_CONCURRENT_USER": "MISSING"
+    },
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonner ce plan de culture abandonnera toutes les tâches incomplètes qui lui sont associées et le supprimera de votre carte de ferme.",
     "ABANDON_MANAGEMENT_PLAN_TITLE": "Abandonner le plan de culture\u00a0?",
     "ADD_MANAGEMENT_PLAN": "Ajouter un plan de culture",
@@ -1041,6 +1051,8 @@
       "ABANDON_NOTES": "Notes d'abandon",
       "ABANDON_PLAN": "Abandonner le plan",
       "ABANDON_REASON": "Raison de l'abandon",
+      "CANT_COMPLETE_ABANDONED": "MISSING",
+      "CANT_COMPLETE_CONCURRENT_USER": "MISSING",
       "COMPLETE_PLAN": "Plan terminé",
       "DATE_OF_CHANGE": "Date de changement de statut",
       "FUTURE_DATE_INVALID": "Doit être révolue",
@@ -1155,13 +1167,13 @@
     "SELECT_CURRENT_LOCATION": "Sélectionnez l'emplacement actuel de la culture",
     "SELECTED_STARTING_LOCATION": "Sélectionnez toujours ceci comme emplacement de départ pour les cultures qui seront transplantées",
     "SPOTLIGHT_HERE_YOU_CAN": "Ici, vous pouvez\u00a0:",
+    "STARTED": "Commencé",
     "STATUS": {
       "ABANDONED": "Abandonné",
       "ACTIVE": "Actif",
       "COMPLETED": "Terminé",
       "PLANNED": "Planifié"
     },
-    "STARTED": "Commencé",
     "SUPPLIER": "Fournisseur",
     "TERMINATION": "clôture",
     "TERMINATION_DATE": "Quand voulez vous clôturer cette culture\u00a0?",

@@ -496,7 +496,7 @@
       "CUSTOM_EXPENSE_NAME": "Nombre del gasto personalizado",
       "CUSTOM_EXPENSE_TYPE": "Tipo de gasto personalizado",
       "DUPLICATE_NAME": "Ya existe un tipo de gasto con este nombre. Por favor, elija uno diferente.",
-      "DUPLICATE_NAME_RETIRED": "MISSING",
+      "DUPLICATE_NAME_RETIRED": "Ya existe un tipo de gasto retirado con este nombre. Por favor, elija uno diferente.",
       "FLOW": "creación de gasto",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Administrar tipos de gasto personalizados",
       "NEW_EXPENSE_ITEM": "Nuevo gasto",
@@ -837,10 +837,10 @@
     },
     "MANAGE_CUSTOM_TYPE": "Administrar tipos personalizados",
     "REPORT": {
-      "DATES": "MISSING",
-      "SETTINGS": "MISSING",
-      "TRANSACTION": "MISSING",
-      "TRANSACTIONS": "MISSING"
+      "DATES": "Fechas",
+      "SETTINGS": "Configuración del reporte",
+      "TRANSACTION": "Transacción",
+      "TRANSACTIONS": "Transacciones"
     },
     "REVENUE": "Ingresos",
     "SEARCH": {
@@ -1035,6 +1035,10 @@
     "TASKS": "Tareas"
   },
   "MANAGEMENT_PLAN": {
+    "ABANDON": {
+      "CANT_ABANDON_COMPLETED": "No se puede abandonar el plan de cultivo",
+      "CANT_ABANDON_CONCURRENT_USER": "Otro usuario ha completado este plan. Por favor, refresque la página para obtener su estado más reciente."
+    },
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonar este plan de cultivo abandonará todas las tareas incompletas asociadas con él y lo eliminará del mapa de su granja.",
     "ABANDON_MANAGEMENT_PLAN_TITLE": "Quiere abandonar el plan de cultivo?",
     "ADD_MANAGEMENT_PLAN": "Agregar un plan de cultivo",
@@ -1047,6 +1051,8 @@
       "ABANDON_NOTES": "Notas de abandono",
       "ABANDON_PLAN": "Abandonar plan",
       "ABANDON_REASON": "Razón para abandonar",
+      "CANT_COMPLETE_ABANDONED": "No se puede completar el plan de cultivo",
+      "CANT_COMPLETE_CONCURRENT_USER": "Otro usuario ha abandonado este plan. Por favor, refresque la página para obtener su estado más reciente.",
       "COMPLETE_PLAN": "Completar plan",
       "DATE_OF_CHANGE": "Fecha de cambio de estado",
       "FUTURE_DATE_INVALID": "No puede ser en el futuro",
@@ -1078,7 +1084,7 @@
     "DELETE": {
       "CANT_DELETE_ABANDON": "Abandonar",
       "CANT_DELETE_ABANDON_INSTEAD": "¿Desea abandonar en lugar de eliminar?",
-      "CANT_DELETE_CONCURRENT_USER": "MISSING",
+      "CANT_DELETE_CONCURRENT_USER": "Otro usuario ha abandonado o completado una tarea en este plan. Por favor, refresque la página para obtener su estado más reciente.",
       "CANT_DELETE_MODIFIED_PLAN": "No se puede eliminar el plan de cultivo",
       "CONFIRM_DELETION": "Confirmar eliminación",
       "DELETE_PLAN": "Eliminar plan de cultivo",
@@ -1423,7 +1429,7 @@
       "CUSTOM_REVENUE_NAME": "Nombre de ingreso personalizado",
       "CUSTOM_REVENUE_TYPE": "Tipo de ingreso personalizado",
       "DUPLICATE_NAME": "Ya existe un tipo de ingreso con este nombre. Por favor, elija uno diferente.",
-      "DUPLICATE_NAME_RETIRED": "MISSING"
+      "DUPLICATE_NAME_RETIRED": "Ya existe un tipo de ingreso retirado con este nombre. Por favor, elija uno diferente."
     },
     "CUSTOM_REVENUE_DESCRIPTION": "Descripción de tipo de ingreso personalizado",
     "DELETE": {

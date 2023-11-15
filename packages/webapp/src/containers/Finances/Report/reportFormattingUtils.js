@@ -43,7 +43,7 @@ export const formatTransactions = (transactions, t) =>
   }));
 
 /**
- * Constructs a filter object for given types (either expense or revenue).
+ * Constructs a sorted filter object for given types (either expense or revenue).
  *
  * @param {Array} types - Array of type objects
  * @param {Function} translate - Translation function from i18next-react
@@ -54,15 +54,19 @@ export const createDefaultTypeFilter = ({ types, translate, typeCategory }) => {
   const typeIdKey = `${typeCategory}_type_id`;
   const nameKey = `${typeCategory}_name`;
   const translationKey = `${typeCategory}_translation_key`;
+  const retiredKey = `${typeCategory}_RETIRED`;
+  const TYPE_CATEGORY = typeCategory.toUpperCase();
 
-  const filterObject = types.reduce(
+  let filterObject = types.reduce(
     (filterObject, type) => ({
       ...filterObject,
       [type[typeIdKey]]: {
         active: true,
-        label: type.farm_id
-          ? type[nameKey]
-          : translate(`${typeCategory}:${type[translationKey]}.${typeCategory.toUpperCase()}_NAME`),
+        label:
+          (type.farm_id
+            ? type[nameKey]
+            : translate(`${typeCategory}:${type[translationKey]}.${TYPE_CATEGORY}_NAME`)) +
+          (type.retired ? ` ${translate(`${TYPE_CATEGORY}.EDIT_${TYPE_CATEGORY}.RETIRED`)}` : ''),
       },
     }),
     {},
@@ -72,6 +76,11 @@ export const createDefaultTypeFilter = ({ types, translate, typeCategory }) => {
   if (typeCategory === 'expense') {
     filterObject['LABOUR'] = { active: true, label: translate('SALE.FINANCES.LABOUR_LABEL') };
   }
+
+  // Sort the config object by label
+  filterObject = Object.fromEntries(
+    Object.entries(filterObject).sort((a, b) => a[1].label.localeCompare(b[1].label)),
+  );
 
   return filterObject;
 };

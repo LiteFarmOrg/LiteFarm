@@ -420,9 +420,7 @@ const getPostHarvestTaskBody = (data, endpoint, managementPlanWithCurrentLocatio
       },
       ...pick(
         data,
-        Object.keys(data).filter(
-          (key) => ![...taskTypeEndpoint, 'override_hourly_wage'].includes(key),
-        ),
+        Object.keys(data).filter((key) => !taskTypeEndpoint.includes(key)),
       ),
       wage_at_moment: data.override_hourly_wage ? data.wage_at_moment : undefined,
       locations: location_id === 'PIN_LOCATION' ? undefined : [{ location_id }],

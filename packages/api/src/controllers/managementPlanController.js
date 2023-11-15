@@ -472,7 +472,7 @@ const managementPlanController = {
         }
 
         if (managementPlan.abandon_date) {
-          return res.status(400).send(CANNOT_COMPLETE_ABANDONED_PLAN);
+          return res.status(409).send(CANNOT_COMPLETE_ABANDONED_PLAN);
         }
 
         const result = await ManagementPlanModel.query()
@@ -512,7 +512,7 @@ const managementPlanController = {
         }
 
         if (managementPlan.complete_date) {
-          return res.status(400).send(CANNOT_ABANDON_COMPLETED_PLAN);
+          return res.status(409).send(CANNOT_ABANDON_COMPLETED_PLAN);
         }
 
         const result = await ManagementPlanModel.transaction(async (trx) => {

@@ -74,7 +74,7 @@ const TransactionFilterContent = ({
 
   return (
     <FilterGroup
-      filters={[sortFilterOptions(filters[0]), sortFilterOptions(filters[1])]}
+      filters={filters.map(filter => sortFilterOptions(filter))}
       filterRef={filterRef}
       filterContainerClassName={filterContainerClassName}
       onChange={onChange}

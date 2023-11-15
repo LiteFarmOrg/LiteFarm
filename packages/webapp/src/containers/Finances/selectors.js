@@ -53,24 +53,21 @@ const expenseTypeByIdSelector = (expense_type_id) => {
 };
 
 export const sortExpenseTypes = (expenseTypes) => {
-  const defaultTypes = [];
-  const customTypes = [];
+  const allTypes = expenseTypes ?? [];
 
-  expenseTypes?.forEach((type) => {
-    const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
-    arrayToUpdate.push(type);
+  return [...allTypes].sort((typeA, typeB) => {
+    const compareKeyA =
+      typeA.farm_id === null
+        ? i18n.t(`expense:${typeA.expense_translation_key}.EXPENSE_NAME`)
+        : typeA.expense_translation_key;
+
+    const compareKeyB =
+      typeB.farm_id === null
+        ? i18n.t(`expense:${typeB.expense_translation_key}.EXPENSE_NAME`)
+        : typeB.expense_translation_key;
+
+    return compareKeyA.localeCompare(compareKeyB);
   });
-
-  return [
-    ...defaultTypes.sort((typeA, typeB) =>
-      i18n
-        .t(`expense:${typeA.expense_translation_key}.EXPENSE_NAME`)
-        .localeCompare(i18n.t(`expense:${typeB.expense_translation_key}.EXPENSE_NAME`)),
-    ),
-    ...customTypes.sort((typeA, typeB) =>
-      typeA.expense_translation_key.localeCompare(typeB.expense_translation_key),
-    ),
-  ];
 };
 
 const allExpenseTypeTileContentsSelector = createSelector(financeSelector, (state) => {

@@ -13,37 +13,39 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import styles, { defaultColour } from './styles.module.scss';
-import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { mapFilterSettingSelector } from './mapFilterSettingSlice';
-import { areaSelector, lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
+import { areaSelector, lineSelector, pointSelector } from '../locationSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
 import {
+  DEFAULT_MAX_ZOOM,
   getAreaLocationTypes,
   isArea,
   isAreaLine,
   isLine,
   isNoFillArea,
   locationEnum,
-  polygonPath,
   longPress,
-  DEFAULT_MAX_ZOOM,
+  polygonPath,
 } from './constants';
-import useSelectionHandler from './useSelectionHandler';
+import { mapFilterSettingSelector } from './mapFilterSettingSlice';
+import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
+import styles, { defaultColour } from './styles.module.scss';
 import { useMaxZoom } from './useMaxZoom';
+import useSelectionHandler from './useSelectionHandler';
 
 import MapPin from '../../assets/images/map/map_pin.svg';
-import { userFarmSelector } from '../userFarmSlice';
-import CreateMarkerCluster from '../../components/Map/MarkerCluster';
 import { usePropRef } from '../../components/LocationPicker/SingleLocationPicker/usePropRef';
+import CreateMarkerCluster from '../../components/Map/MarkerCluster';
+import { fieldEnum } from '../constants';
+import { upsertFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { userFarmSelector } from '../userFarmSlice';
 
 /**
  *
  * Do not modify, copy or reuse
  */
-const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState }) => {
+const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState, history }) => {
   const { handleSelection, dismissSelectionModal } = useSelectionHandler();
   const locationsRef = usePropRef([]);
   const dispatch = useDispatch();
@@ -274,6 +276,27 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     return mapBounds;
   };
 
+  const getVertices = (vertex) => ({
+    lat: vertex.lat(),
+    lng: vertex.lng(),
+  });
+
+  const editPolygon = (maps, path, area) => {
+    const pathArr = path.getArray();
+    const { computeArea, computeLength, computeDistanceBetween } = maps.geometry.spherical;
+    const perimeter = Math.round(
+      computeLength(pathArr) + computeDistanceBetween(pathArr[0], pathArr[pathArr.length - 1]),
+    );
+    const totalArea = Math.round(computeArea(pathArr));
+    const grid_points = pathArr.map(getVertices);
+    const result = { type: area.type, grid_points };
+    result[fieldEnum.total_area] = totalArea;
+    result[fieldEnum.perimeter] = perimeter;
+    console.log(area, result);
+    dispatch(upsertFormData(result));
+    history.push(`/${area.type}/${area.location_id}/edit`);
+  };
+
   // Draw an area
   const drawArea = (map, maps, mapBounds, area, isVisible) => {
     const { grid_points: points, name, type } = area;
@@ -283,6 +306,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     });
 
     const polygon = new maps.Polygon({
+      editable: true,
       paths: points,
       strokeColor: defaultColour,
       strokeWeight: 2,
@@ -296,6 +320,13 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
     });
     maps.event.addListener(polygon, 'mouseout', function () {
       this.setOptions({ fillOpacity: 0.5 });
+    });
+    const path = polygon.getPath();
+    maps.event.addListener(path, 'set_at', function () {
+      editPolygon(maps, path, area);
+    });
+    maps.event.addListener(path, 'insert_at', function () {
+      editPolygon(maps, path, area);
     });
 
     // draw dotted outline
@@ -351,7 +382,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       dispatch(setPosition(latlng));
       dispatch(setZoomLevel(map.getZoom()));
 
-      handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
+      // handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
     marker.setOptions({ visible: filterSettings?.label && isVisible });

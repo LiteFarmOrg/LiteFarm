@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import PureField from '../../../../components/LocationDetailLayout/AreaDetails/Field';
-import { deleteFieldLocation, editFieldLocation } from './saga';
-import { checkLocationDependencies } from '../../saga';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
-import { fieldSelector } from '../../../fieldSlice';
-import { useLocationPageType } from '../../utils';
-import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
+import PureField from '../../../../components/LocationDetailLayout/AreaDetails/Field';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
+import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import {
   currentManagementPlansByLocationIdSelector,
   plannedManagementPlansByLocationIdSelector,
 } from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
+import { fieldSelector } from '../../../fieldSlice';
+import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
+import { checkLocationDependencies } from '../../saga';
+import { useLocationPageType } from '../../utils';
+import { deleteFieldLocation, editFieldLocation } from './saga';
 
 function EditFieldDetailForm({ history, match }) {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ function EditFieldDetailForm({ history, match }) {
       dispatch(editFieldLocation({ ...data, ...match.params, figure_id: field.figure_id }));
   };
   const field = useSelector(fieldSelector(match.params.location_id));
+  const persistedFormData = useSelector(hookFormPersistSelector);
 
   useEffect(() => {
     if (history?.location?.state?.error) {
@@ -29,9 +31,8 @@ function EditFieldDetailForm({ history, match }) {
     }
   }, [history?.location?.state?.error]);
 
-  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
-    match,
-  );
+  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } =
+    useLocationPageType(match);
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
   const { location_id } = match.params;
@@ -67,7 +68,7 @@ function EditFieldDetailForm({ history, match }) {
         match={match}
         submitForm={submitForm}
         system={system}
-        persistedFormData={field}
+        persistedFormData={{ ...field, ...persistedFormData }}
         isEditLocationPage={isEditLocationPage}
         isViewLocationPage={isViewLocationPage}
         handleRetire={handleRetire}

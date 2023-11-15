@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import Input from '../../Form/Input';
-import PureWarningBox from '../../WarningBox';
-import { Label } from '../../Typography';
-import Unit from '../../Form/Unit';
+import { useTranslation } from 'react-i18next';
 import { fieldEnum as areaEnum } from '../../../containers/constants';
 import { area_perimeter, area_total_area } from '../../../util/convert-units/unit';
+import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
+import Unit from '../../Form/Unit';
+import { Label } from '../../Typography';
+import PureWarningBox from '../../WarningBox';
 
 export default function AreaDetails({
   name,
@@ -89,7 +89,7 @@ export default function AreaDetails({
           control={control}
           required
           defaultValue={total_area}
-          disabled={isViewLocationPage}
+          disabled
         />
         {showPerimeter && (
           <Unit
@@ -107,7 +107,7 @@ export default function AreaDetails({
             control={control}
             required
             defaultValue={perimeter}
-            disabled={isViewLocationPage}
+            disabled
           />
         )}
       </div>

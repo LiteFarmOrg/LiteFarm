@@ -1,82 +1,82 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { saveAs } from 'file-saver';
+import GoogleMap from 'google-map-react';
+import html2canvas from 'html2canvas';
+import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
-import styles from './styles.module.scss';
-import GoogleMap from 'google-map-react';
-import { saveAs } from 'file-saver';
-import {
-  DEFAULT_ZOOM,
-  GMAPS_API_KEY,
-  isArea,
-  isLine,
-  locationEnum,
-  SENSOR_BULK_UPLOAD_SUCCESS,
-} from './constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { measurementSelector, userFarmSelector } from '../userFarmSlice';
-import html2canvas from 'html2canvas';
-import {
-  sendMapToEmail,
-  setSpotlightToShown,
-  bulkUploadSensorsInfoFile,
-  getSensorReadings,
-  getAllSensorReadingTypes,
-  resetBulkUploadSensorsInfoFile,
-  resetShowTransitionModalState,
-} from './saga';
 import {
   canShowSuccessHeader,
   setShowSuccessHeaderSelector,
   setSuccessMessageSelector,
 } from '../mapSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
+import { measurementSelector, userFarmSelector } from '../userFarmSlice';
+import {
+  DEFAULT_ZOOM,
+  GMAPS_API_KEY,
+  SENSOR_BULK_UPLOAD_SUCCESS,
+  isArea,
+  isLine,
+  locationEnum,
+} from './constants';
+import {
+  bulkUploadSensorsInfoFile,
+  getAllSensorReadingTypes,
+  getSensorReadings,
+  resetBulkUploadSensorsInfoFile,
+  resetShowTransitionModalState,
+  sendMapToEmail,
+  setSpotlightToShown,
+} from './saga';
+import styles from './styles.module.scss';
 
-import PureMapHeader from '../../components/Map/Header';
-import { PureSnackbarWithoutBorder } from '../../components/PureSnackbar';
+import CustomCompass from '../../components/Map/CustomCompass';
+import CustomZoom from '../../components/Map/CustomZoom';
+import DrawingManager from '../../components/Map/DrawingManager';
 import PureMapFooter from '../../components/Map/Footer';
-import ExportMapModal from '../../components/Modals/ExportMapModal';
-import DrawAreaModal from '../../components/Map/Modals/DrawArea';
-import DrawLineModal from '../../components/Map/Modals/DrawLine';
+import PureMapHeader from '../../components/Map/Header';
 import AdjustAreaModal from '../../components/Map/Modals/AdjustArea';
 import AdjustLineModal from '../../components/Map/Modals/AdjustLine';
 import BulkSensorUploadModal from '../../components/Map/Modals/BulkSensorUploadModal';
+import DrawAreaModal from '../../components/Map/Modals/DrawArea';
+import DrawLineModal from '../../components/Map/Modals/DrawLine';
 import BulkUploadTransitionModal from '../../components/Modals/BulkUploadTransitionModal';
-import CustomZoom from '../../components/Map/CustomZoom';
-import CustomCompass from '../../components/Map/CustomCompass';
-import DrawingManager from '../../components/Map/DrawingManager';
+import ExportMapModal from '../../components/Modals/ExportMapModal';
+import { PureSnackbarWithoutBorder } from '../../components/PureSnackbar';
 import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 import useDrawingManager from './useDrawingManager';
 
-import useMapAssetRenderer from './useMapAssetRenderer';
-import { getLocations } from '../saga';
 import {
-  availableFilterSettingsSelector,
-  mapFilterSettingSelector,
-  setMapFilterHideAll,
-  setMapFilterSetting,
-  setMapFilterShowAll,
-  isMapFilterSettingActiveSelector,
-} from './mapFilterSettingSlice';
+  bulkSensorsUploadReInit,
+  bulkSensorsUploadSliceSelector,
+} from '../../containers/bulkSensorUploadSlice';
 import {
-  hookFormPersistedPathsSetSelector,
+  hookFormPersistIsRedrawingSelector,
   hookFormPersistSelector,
+  hookFormPersistedPathsSetSelector,
   resetAndUnLockFormData,
+  setIsRedrawing,
   setPersistedPaths,
   upsertFormData,
-  setIsRedrawing,
-  hookFormPersistIsRedrawingSelector,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import {
-  bulkSensorsUploadSliceSelector,
-  bulkSensorsUploadReInit,
-} from '../../containers/bulkSensorUploadSlice';
+import { getLocations } from '../saga';
 import LocationSelectionModal from './LocationSelectionModal';
-import { useMaxZoom } from './useMaxZoom';
 import {
   mapAddDrawerSelector,
   setMapAddDrawerHide,
   setMapAddDrawerShow,
 } from './mapAddDrawerSlice';
+import {
+  availableFilterSettingsSelector,
+  isMapFilterSettingActiveSelector,
+  mapFilterSettingSelector,
+  setMapFilterHideAll,
+  setMapFilterSetting,
+  setMapFilterShowAll,
+} from './mapFilterSettingSlice';
+import useMapAssetRenderer from './useMapAssetRenderer';
+import { useMaxZoom } from './useMaxZoom';
 
 export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
@@ -223,6 +223,7 @@ export default function Map({ history }) {
     isClickable: !drawingState.type,
     drawingState: drawingState,
     showingConfirmButtons: showingConfirmButtons,
+    history,
   });
   const { getMaxZoom, maxZoom } = useMaxZoom();
   const handleGoogleMapApi = (map, maps) => {

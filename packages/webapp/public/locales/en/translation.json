@@ -1897,7 +1897,7 @@
     "UNASSIGNED": "Unassigned",
     "CREATE": {
       "FAILED": "Can't create the task",
-      "LOCATION_DELETED": "It seems you are trying to create a task on a deleted location. Please try again afresh!"
+      "LOCATION_DELETED": "Another farmer has retired your selected location. Please refresh the page to get the most recent status."
     }
   },
   "UNIT": {

@@ -62,12 +62,12 @@
   },
   "FARM": {
     "ERROR": {
-      "ADD": "Impossible d'ajouter une ferme. Veuillez contacter LiteFarm pour obtenir de l'aide",
-      "FETCH": "Impossible de récupérer la ferme à partir de la base de données",
-      "UPDATE": "Impossible de mettre à jour les informations de la ferme"
+      "ADD": "Impossible d'ajouter une exploitation. Veuillez contacter LiteFarm pour obtenir de l'aide",
+      "FETCH": "Impossible de récupérer l'exploitation à partir de la base de données",
+      "UPDATE": "Impossible de mettre à jour les informations de l'exploitation"
     },
     "SUCCESS": {
-      "UPDATE": "Informations sur la ferme mises à jour !"
+      "UPDATE": "Informations sur l'exploitation mises à jour !"
     }
   },
   "LOG_HARVEST": {
@@ -139,14 +139,14 @@
   },
   "REVENUE_TYPE": {
     "ERROR": {
-      "ADD": "Impossible d'ajouter le type de revenus",
-      "DELETE": "Impossible de supprimer le type de revenus",
-      "UPDATE": "Impossible de mettre à jour le type de revenus"
+      "ADD": "Impossible d'ajouter le type de recettes",
+      "DELETE": "Impossible de supprimer le type de recettes",
+      "UPDATE": "Impossible de mettre à jour le type de recettes"
     },
     "SUCCESS": {
-      "ADD": "Type de revenus ajouté",
-      "DELETE": "Type de revenus supprimé",
-      "UPDATE": "Type de revenus mis à jour"
+      "ADD": "Type de recettes ajouté",
+      "DELETE": "Type de recettes supprimé",
+      "UPDATE": "Type de recettes mis à jour"
     }
   },
   "SALE": {
@@ -206,7 +206,7 @@
       "UPDATE": "Impossible de mettre à jour les informations utilisateur"
     },
     "SUCCESS": {
-      "ADD": "L'utilisateur a bien été ajouté à la ferme",
+      "ADD": "L'utilisateur a bien été ajouté à l'exploitation",
       "RESTORE": "Accès utilisateur restauré",
       "REVOKE": "Accès utilisateur révoqué",
       "UPDATE": "Informations de l'utilisateur mises à jour"

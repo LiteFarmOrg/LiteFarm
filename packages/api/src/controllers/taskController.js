@@ -619,16 +619,30 @@ const taskController = {
       const { user_id } = req.auth;
       const { farm_id } = req.headers;
       const task_id = parseInt(req.params.task_id);
-      const { assignee_user_id, assignee_role_id } = await TaskModel.getTaskAssignee(task_id);
+      const {
+        assignee_user_id,
+        assignee_role_id,
+        wage_at_moment,
+        override_hourly_wage,
+      } = await TaskModel.getTaskAssignee(task_id);
       const { role_id } = await UserFarmModel.getUserRoleId(user_id);
       if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
         return res.status(403).send("Not authorized to complete other people's task");
       }
+
+      const wagePatchData = { wage_at_moment: override_hourly_wage ? wage_at_moment : null };
+      if (!override_hourly_wage) {
+        const { wage } = await UserFarmModel.query()
+          .where({ user_id: assignee_user_id, farm_id })
+          .first();
+        wagePatchData.wage_at_moment = wage.amount;
+      }
+
       const result = await TaskModel.transaction(async (trx) => {
         const updated_task = await TaskModel.query(trx)
           .context({ user_id })
           .upsertGraph(
-            { task_id, ...req.body.task },
+            { task_id, ...req.body.task, ...wagePatchData },
             {
               noUpdate: nonModifiable,
               noDelete: true,

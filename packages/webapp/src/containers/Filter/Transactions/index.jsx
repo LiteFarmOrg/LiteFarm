@@ -41,9 +41,11 @@ const TransactionFilterContent = ({
           value: type.expense_type_id,
           // This sets the initial state of the filter pill
           default: transactionsFilter[EXPENSE_TYPE]?.[type.expense_type_id]?.active ?? true,
-          label: type.farm_id
-            ? type.expense_name
-            : t(`expense:${type.expense_translation_key}.EXPENSE_NAME`),
+          label:
+            (type.farm_id
+              ? type.expense_name
+              : t(`expense:${type.expense_translation_key}.EXPENSE_NAME`)) +
+            (type.retired ? ` ${t('EXPENSE.EDIT_EXPENSE.RETIRED')}` : ''),
         })),
         {
           value: transactionTypeEnum.labourExpense,
@@ -61,9 +63,11 @@ const TransactionFilterContent = ({
         value: type.revenue_type_id,
         // This sets the initial state of the filter pill
         default: transactionsFilter[REVENUE_TYPE]?.[type.revenue_type_id]?.active ?? true,
-        label: type.farm_id
-          ? type.revenue_name
-          : t(`revenue:${type.revenue_translation_key}.REVENUE_NAME`),
+        label:
+          (type.farm_id
+            ? type.revenue_name
+            : t(`revenue:${type.revenue_translation_key}.REVENUE_NAME`)) +
+          (type.retired ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : ''),
       })),
     },
   ];

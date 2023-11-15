@@ -23,14 +23,6 @@
       "UPLOAD": "Failed to upload the CSV file"
     }
   },
-  "CROP": {
-    "ERROR": {
-      "DELETE": "Failed To Delete Field Crop"
-    },
-    "SUCCESS": {
-      "DELETE": "Successfully Deleted Crop"
-    }
-  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Error: failed to add varietal to database",
@@ -64,7 +56,7 @@
     },
     "SUCCESS": {
       "ADD": "Successfully created custom expense",
-      "DELETE": "Successfully deleted custom expense",
+      "DELETE": "Successfully retired custom expense",
       "UPDATE": "Successfully updated custom expense"
     }
   },
@@ -187,8 +179,7 @@
       "SUCCESS": "Successfully created task"
     },
     "UPDATE": {
-      "FAILED": "Failed to update task",
-      "SUCCESS": "Successfully updated task"
+      "FAILED": "Failed to update task"
     }
   },
   "TASK_TYPE": {
@@ -208,7 +199,6 @@
       "EXISTS": "User already exists in LiteFarm Network",
       "INVITE": "Error creating user account, please contact LiteFarm for assistance.",
       "MAX_RESET_EMAILS": "A password reset link has been emailed to you, please check your inbox and spam folder.",
-      "NOTHING_CHANGED": "No data has changed",
       "RESET_PASSWORD": "Error with sending password reset email, please contact LiteFarm for assistance.",
       "RESTORE": "There was an error restoring access",
       "REVOKE": "There was an error revoking access",

@@ -341,9 +341,12 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    yield call(axios.delete, `${revenueTypeUrl}/${id}`, header);
+    const result = yield call(axios.delete, `${revenueTypeUrl}/${id}`, header);
 
-    yield put(deleteRevenueTypeSuccess(id));
+    const { deleted, retired } = result.data;
+
+    yield put(deleteRevenueTypeSuccess({ revenue_type_id: id, deleted, retired }));
+
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.DELETE')));
     history.push('/manage_custom_revenues');
   } catch (e) {

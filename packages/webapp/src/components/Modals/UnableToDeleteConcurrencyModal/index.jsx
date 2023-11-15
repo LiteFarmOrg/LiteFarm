@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright (c) 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,7 +12,17 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import ModalComponent from '../ModalComponent/v2';
+import { useTranslation } from 'react-i18next';
 
-.button, .menuList {
-  width: 176px;
+export default function UnableToDeleteConcurrencyModal({ dismissModal }) {
+  const { t } = useTranslation();
+  return (
+    <ModalComponent
+      title={t('MANAGEMENT_PLAN.DELETE.CANT_DELETE_MODIFIED_PLAN')}
+      contents={[t('MANAGEMENT_PLAN.DELETE.CANT_DELETE_CONCURRENT_USER')]}
+      dismissModal={dismissModal}
+      error
+    />
+  );
 }

@@ -23,14 +23,6 @@
       "UPLOAD": "No se pudo subir el archivo CSV"
     }
   },
-  "CROP": {
-    "ERROR": {
-      "DELETE": "No se pudo eliminar campo de cultivo"
-    },
-    "SUCCESS": {
-      "DELETE": "Cultivo eliminado exitosamente"
-    }
-  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Error: No se pudo agregar variedad a la base de datos",
@@ -187,8 +179,7 @@
       "SUCCESS": "Tarea creada con éxito"
     },
     "UPDATE": {
-      "FAILED": "No se pudo completar la tarea",
-      "SUCCESS": "Tarea creada con éxito"
+      "FAILED": "No se pudo completar la tarea"
     }
   },
   "TASK_TYPE": {
@@ -208,7 +199,6 @@
       "EXISTS": "Usuario ya existe en la red de trabajo de LiteFarm",
       "INVITE": "Error al crear cuenta de usuario. Por favor contacte LiteFarm por asistencia.",
       "MAX_RESET_EMAILS": "Se le ha enviado un enlace de restablecimiento de contraseña, por favor verifique su bandeja de entrada y su carpeta de correo no deseado.",
-      "NOTHING_CHANGED": "Nada ha cambiado",
       "RESET_PASSWORD": "Error al enviar email para cambiar contraseña. Por favor contacte LiteFarm por asistencia.",
       "RESTORE": "Hubo un error al restaurar acceso",
       "REVOKE": "Hubo un error al revocar acceso",

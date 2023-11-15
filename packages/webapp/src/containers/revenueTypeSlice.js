@@ -28,6 +28,7 @@ export const getRevenueType = (obj) => {
     'agriculture_associated',
     'crop_generated',
     'custom_description',
+    'retired',
   ]);
 };
 
@@ -41,11 +42,11 @@ const addManyRevenueTypes = (state, { payload: revenueTypes }) => {
   );
 };
 
-const softDeleteRevenueType = (state, { payload: revenue_type_id }) => {
+const softDeleteRevenueType = (state, { payload: { revenue_type_id, deleted, retired } }) => {
   state.loading = false;
   state.error = null;
   state.loaded = true;
-  revenueTypeAdapter.updateOne(state, { id: revenue_type_id, changes: { deleted: true } });
+  revenueTypeAdapter.updateOne(state, { id: revenue_type_id, changes: { deleted, retired } });
 };
 
 const addOneRevenueType = (state, { payload }) => {
@@ -105,19 +106,24 @@ const revenueTypeSelectors = revenueTypeAdapter.getSelectors(
 
 export const revenueTypeEntitiesSelector = revenueTypeSelectors.selectEntities;
 
+// Active types
 export const revenueTypesSelector = createSelector(
+  [revenueTypeSelectors.selectAll, loginSelector],
+  (revenueTypes, { farm_id }) => {
+    return revenueTypes.filter(
+      (revenue) =>
+        (revenue.farm_id === farm_id || !revenue.farm_id) && !revenue.deleted && !revenue.retired,
+    );
+  },
+);
+
+// Retired but not deleted types
+export const allRevenueTypesSelector = createSelector(
   [revenueTypeSelectors.selectAll, loginSelector],
   (revenueTypes, { farm_id }) => {
     return revenueTypes.filter(
       (revenue) => (revenue.farm_id === farm_id || !revenue.farm_id) && !revenue.deleted,
     );
-  },
-);
-
-export const allRevenueTypesSelector = createSelector(
-  [revenueTypeSelectors.selectAll, loginSelector],
-  (revenueTypes, { farm_id }) => {
-    return revenueTypes.filter((revenue) => revenue.farm_id === farm_id || !revenue.farm_id);
   },
 );
 

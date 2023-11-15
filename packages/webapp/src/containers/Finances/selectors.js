@@ -24,10 +24,14 @@ const selectedSaleSelector = createSelector(financeSelector, (state) => state.se
 
 const expenseSelector = createSelector(financeSelector, (state) => state.expenses);
 
-const allExpenseTypeSelector = createSelector(financeSelector, (state) => state.expense_types);
-
-const expenseTypeSelector = createSelector(financeSelector, (state) => {
+// Include retired (but not deleted) types
+const allExpenseTypeSelector = createSelector(financeSelector, (state) => {
   return state.expense_types?.filter((type) => !type.deleted);
+});
+
+// Active types
+const expenseTypeSelector = createSelector(financeSelector, (state) => {
+  return state.expense_types?.filter((type) => !type.deleted && !type.retired);
 });
 
 const revenueByIdSelector = (sale_id) => {
@@ -48,7 +52,7 @@ const expenseTypeByIdSelector = (expense_type_id) => {
   });
 };
 
-const sortExpenseTypes = (expenseTypes) => {
+export const sortExpenseTypes = (expenseTypes) => {
   const defaultTypes = [];
   const customTypes = [];
 
@@ -74,7 +78,7 @@ const allExpenseTypeTileContentsSelector = createSelector(financeSelector, (stat
 });
 
 const expenseTypeTileContentsSelector = createSelector(financeSelector, (state) => {
-  return sortExpenseTypes(state.expense_types).filter((type) => !type.deleted);
+  return sortExpenseTypes(state.expense_types).filter((type) => !type.deleted && !type.retired);
 });
 
 const expenseDetailDateSelector = createSelector(

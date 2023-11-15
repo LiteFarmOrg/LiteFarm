@@ -1895,7 +1895,11 @@
     "TODO": "Para hacer",
     "TRANSPLANT": "Trasplantar",
     "TRANSPLANT_LOCATIONS": "Seleccione una ubicación para el trasplante",
-    "UNASSIGNED": "Sin asignar"
+    "UNASSIGNED": "Sin asignar",
+    "CREATE": {
+      "FAILED": "MISSING",
+      "LOCATION_DELETED": "MISSING"
+    }
   },
   "UNIT": {
     "TIME": {

@@ -1894,7 +1894,11 @@
     "TODO": "To do",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "CREATE": {
+      "FAILED": "Can't create the task",
+      "LOCATION_DELETED": "It seems you are trying to create a task on a deleted location. Please try again afresh!"
+    }
   },
   "UNIT": {
     "TIME": {

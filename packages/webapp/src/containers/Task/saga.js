@@ -530,7 +530,7 @@ const getPostTaskReqBody = (
 export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload }) {
-  let { returnPath, ...data } = payload;
+  let { returnPath, setShowCannotCreateModal, ...data } = payload;
 
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -572,7 +572,11 @@ export function* createTaskSaga({ payload }) {
     }
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
+    if (e.response.data === 'location deleted') {
+      setShowCannotCreateModal(true);
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
+    }
   }
 }
 

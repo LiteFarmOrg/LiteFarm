@@ -1072,6 +1072,7 @@
     "DELETE": {
       "CANT_DELETE_ABANDON": "Abandonner",
       "CANT_DELETE_ABANDON_INSTEAD": "Voulez-vous plutôt abandonner le plan de culture?",
+      "CANT_DELETE_CONCURRENT_USER": "MISSING",
       "CANT_DELETE_MODIFIED_PLAN": "Impossible de supprimer le plan de culture",
       "CONFIRM_DELETION": "Confirmer la suppression",
       "DELETE_PLAN": "Supprimer le plan de culture",

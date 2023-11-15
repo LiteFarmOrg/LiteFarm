@@ -1071,6 +1071,7 @@
     "DELETE": {
       "CANT_DELETE_ABANDON": "Abandonar",
       "CANT_DELETE_ABANDON_INSTEAD": "Você deseja abandonar este plano de cultivo?",
+      "CANT_DELETE_CONCURRENT_USER": "MISSING",
       "CANT_DELETE_MODIFIED_PLAN": "Não é possível remover o plano de manejo",
       "CONFIRM_DELETION": "Confirmar remoção",
       "DELETE_PLAN": "Remover plano de cultivo",

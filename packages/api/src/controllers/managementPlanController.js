@@ -340,54 +340,29 @@ const managementPlanController = {
         }
 
         const result = await ManagementPlanModel.transaction(async (trx) => {
-          const tasksWithManagementPlanCount = await ManagementTasksModel.query(trx)
-            .select('*')
-            .join(
-              'planting_management_plan',
-              'planting_management_plan.planting_management_plan_id',
-              'management_tasks.planting_management_plan_id',
-            )
-            .where('planting_management_plan.management_plan_id', management_plan_id)
-            .distinct('task_id')
-            .then((tasks) =>
-              ManagementTasksModel.query(trx)
-                .join(
-                  'planting_management_plan',
-                  'planting_management_plan.planting_management_plan_id',
-                  'management_tasks.planting_management_plan_id',
-                )
-                .join('task', 'task.task_id', 'management_tasks.task_id')
-                .whereNull('task.complete_date')
-                .whereIn(
-                  'management_tasks.task_id',
-                  tasks.map(({ task_id }) => task_id),
-                )
-                .groupBy('management_tasks.task_id')
-                .count('planting_management_plan.management_plan_id')
-                .select('management_tasks.task_id'),
-            );
+          const tasksWithManagementPlanCount = await getManagementTasksWithCountByManagementPlanId(
+            management_plan_id,
+            trx,
+          );
+          const transplantTasks = await getTransplantTasksByManagementPlanId(
+            management_plan_id,
+            trx,
+          );
+          const plantTasks = await getPlantTasksByManagementPlanId(management_plan_id, trx);
 
-          const transplantTasks = await TransplantTaskModel.query(trx)
-            .select('*')
-            .join(
-              'planting_management_plan',
-              'planting_management_plan.planting_management_plan_id',
-              'transplant_task.planting_management_plan_id',
-            )
-            .join('task', 'task.task_id', 'transplant_task.task_id')
-            .whereNull('task.complete_date')
-            .where('planting_management_plan.management_plan_id', management_plan_id);
-
-          const plantTasks = await PlantTaskModel.query(trx)
-            .select('*')
-            .join(
-              'planting_management_plan',
-              'planting_management_plan.planting_management_plan_id',
-              'plant_task.planting_management_plan_id',
-            )
-            .join('task', 'task.task_id', 'plant_task.task_id')
-            .whereNull('task.complete_date')
-            .where('planting_management_plan.management_plan_id', management_plan_id);
+          // Reject deletion if any of the tasks are completed or abandoned
+          const allTaskIds = [
+            ...tasksWithManagementPlanCount,
+            ...transplantTasks,
+            ...plantTasks,
+          ].map(({ task_id }) => task_id);
+          const completedOrAbandonedTasksByIds = await getCompletedOrAbandonedTasks(
+            allTaskIds,
+            trx,
+          );
+          if (completedOrAbandonedTasksByIds.length) {
+            throw 'Cannot delete management plan with completed or abandonded tasks';
+          }
 
           const taskIdsRelatedToOneManagementPlan = [
             ...tasksWithManagementPlanCount.filter(({ count }) => count === '1'),
@@ -800,6 +775,12 @@ const managementPlanController = {
       }
     };
   },
+
+  checkDeleteManagementPlan() {
+    return async (req, res, next) => {
+      return res.sendStatus(200);
+    };
+  },
 };
 
 const planGraphFetchedQueryString =
@@ -856,6 +837,70 @@ const getHarvestedToDate = async (managementPlanIds) => {
     .whereIn('mp.management_plan_id', managementPlanIds)
     .andWhere('t.complete_date', 'IS NOT', null)
     .groupBy('mp.management_plan_id');
+};
+
+export const getPlantTasksByManagementPlanId = async (managementPlanId, trx = null) => {
+  return PlantTaskModel.query(trx)
+    .select('*')
+    .join(
+      'planting_management_plan',
+      'planting_management_plan.planting_management_plan_id',
+      'plant_task.planting_management_plan_id',
+    )
+    .join('task', 'task.task_id', 'plant_task.task_id')
+    .where('planting_management_plan.management_plan_id', managementPlanId);
+};
+
+export const getManagementTasksWithCountByManagementPlanId = async (
+  managementPlanId,
+  trx = null,
+) => {
+  return ManagementTasksModel.query(trx)
+    .select('*')
+    .join(
+      'planting_management_plan',
+      'planting_management_plan.planting_management_plan_id',
+      'management_tasks.planting_management_plan_id',
+    )
+    .where('planting_management_plan.management_plan_id', managementPlanId)
+    .distinct('task_id')
+    .then((tasks) =>
+      ManagementTasksModel.query(trx)
+        .join(
+          'planting_management_plan',
+          'planting_management_plan.planting_management_plan_id',
+          'management_tasks.planting_management_plan_id',
+        )
+        .join('task', 'task.task_id', 'management_tasks.task_id')
+        .whereIn(
+          'management_tasks.task_id',
+          tasks.map(({ task_id }) => task_id),
+        )
+        .groupBy('management_tasks.task_id')
+        .count('planting_management_plan.management_plan_id')
+        .select('management_tasks.task_id'),
+    );
+};
+
+export const getTransplantTasksByManagementPlanId = async (managementPlanId, trx = null) => {
+  return TransplantTaskModel.query(trx)
+    .select('*')
+    .join(
+      'planting_management_plan',
+      'planting_management_plan.planting_management_plan_id',
+      'transplant_task.planting_management_plan_id',
+    )
+    .join('task', 'task.task_id', 'transplant_task.task_id')
+    .where('planting_management_plan.management_plan_id', managementPlanId);
+};
+
+export const getCompletedOrAbandonedTasks = async (taskIds, trx = null) => {
+  return TaskModel.query(trx)
+    .select('*')
+    .whereIn('task_id', taskIds)
+    .andWhere((queryBuilder) => {
+      queryBuilder.whereNotNull('abandon_date').orWhereNotNull('complete_date');
+    });
 };
 
 export default managementPlanController;

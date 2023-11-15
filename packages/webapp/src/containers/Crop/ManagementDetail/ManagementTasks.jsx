@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
 import TaskCard from '../../Task/TaskCard';
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 import { onAddTask } from '../../Task/onAddTask';
 import { getManagementPlansAndTasks } from '../../saga';
 import { deleteManagementPlan } from '../saga';
+import { checkManagementPlanDependencies } from '../saga';
+import UnableToDeleteConcurrencyModal from '../../../components/Modals/UnableToDeleteConcurrencyModal';
 
 export default function ManagementTasks({ history, match, location }) {
   const dispatch = useDispatch();
@@ -19,6 +21,8 @@ export default function ManagementTasks({ history, match, location }) {
 
   const management_plan_id = match.params.management_plan_id;
   const plan = useSelector(managementPlanSelector(management_plan_id));
+
+  const [showCannotDeleteModal, setShowCannotDeleteModal] = useState(false);
 
   useEffect(() => {
     if (!plan || plan.deleted) {
@@ -54,6 +58,13 @@ export default function ManagementTasks({ history, match, location }) {
   const taskCardContents = useSelector(taskCardContentByManagementPlanSelector(management_plan_id));
 
   const onDelete = () => {
+    dispatch(
+      checkManagementPlanDependencies({
+        management_plan_id,
+        setShowCannotDeleteModal,
+      }),
+    );
+
     dispatch(deleteManagementPlan({ variety_id, management_plan_id }));
   };
 
@@ -92,6 +103,9 @@ export default function ManagementTasks({ history, match, location }) {
           />
         ))}
       </PureManagementTasks>
+      {showCannotDeleteModal && (
+        <UnableToDeleteConcurrencyModal dismissModal={() => setShowCannotDeleteModal(false)} />
+      )}
       {showSpotlight && <FirstManagementPlanSpotlight />}
     </>
   );

@@ -13,26 +13,30 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import ManagementPlanModel from '../models/managementPlanModel.js';
-import ManagementPlanGroup from '../models/managementPlanGroupModel.js';
+import _pick from 'lodash/pick.js';
+import objection, { raw } from 'objection';
+import {
+  CANNOT_ABANDON_COMPLETED_PLAN,
+  CANNOT_COMPLETE_ABANDONED_PLAN,
+} from '../../../shared/constants/error.js';
 import CropManagementPlanModel from '../models/cropManagementPlanModel.js';
+import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
+import ManagementPlanGroup from '../models/managementPlanGroupModel.js';
+import ManagementPlanModel from '../models/managementPlanModel.js';
 import ManagementTasksModel from '../models/managementTasksModel.js';
+import PlantTaskModel from '../models/plantTaskModel.js';
 import TaskModel from '../models/taskModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
-import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import TransplantTaskModel from '../models/transplantTaskModel.js';
-import PlantTaskModel from '../models/plantTaskModel.js';
 import UserFarmModel from '../models/userFarmModel.js';
-import objection, { raw } from 'objection';
-import _pick from 'lodash/pick.js';
-import knex from '../util/knex.js';
-import { sendTaskNotification, TaskNotificationTypes } from './taskController.js';
 import {
   getDatesFromManagementPlanGraph,
-  getManagementPlanGroupTemplateGraph,
   getFormattedManagementPlanData,
+  getManagementPlanGroupTemplateGraph,
 } from '../util/copyCropPlan.js';
+import knex from '../util/knex.js';
 import { getSortedDates } from '../util/util.js';
+import { TaskNotificationTypes, sendTaskNotification } from './taskController.js';
 const { transaction, Model } = objection;
 
 const managementPlanController = {
@@ -458,10 +462,24 @@ const managementPlanController = {
   completeManagementPlan() {
     return async (req, res) => {
       try {
+        const managementPlan = await ManagementPlanModel.query()
+          .context(req.auth)
+          .where({ management_plan_id: req.params.management_plan_id, deleted: false })
+          .first();
+
+        if (!managementPlan) {
+          return res.status(404).send('Management plan not found');
+        }
+
+        if (managementPlan.abandon_date) {
+          return res.status(400).send(CANNOT_COMPLETE_ABANDONED_PLAN);
+        }
+
         const result = await ManagementPlanModel.query()
           .context(req.auth)
           .where({ management_plan_id: req.params.management_plan_id })
           .patch(_pick(req.body, ['complete_date', 'complete_notes', 'rating']));
+
         if (result) {
           return res.sendStatus(200);
         } else {
@@ -491,6 +509,10 @@ const managementPlanController = {
 
         if (!managementPlan) {
           return res.status(404).send('Management plan not found');
+        }
+
+        if (managementPlan.complete_date) {
+          return res.status(400).send(CANNOT_ABANDON_COMPLETED_PLAN);
         }
 
         const result = await ManagementPlanModel.transaction(async (trx) => {

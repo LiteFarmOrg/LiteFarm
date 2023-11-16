@@ -264,7 +264,6 @@ const allResults = [
     date: '2023-10-20T00:00:00.000',
     transactionType: 'LABOUR_EXPENSE',
     typeLabel: 'SALE.FINANCES.LABOUR_LABEL',
-
     amount: -19.9,
     items: {
       EMPLOYEE: [
@@ -322,13 +321,16 @@ const allResults = [
     relatedId: 18,
   },
   {
+    icon: 'LABOUR',
     date: '2023-10-14T00:00:00.000',
     transactionType: 'LABOUR_EXPENSE',
+    typeLabel: 'SALE.FINANCES.LABOUR_LABEL',
     amount: -80,
     items: {
       EMPLOYEE: [{ time: 4, labourCost: 80, employee: 'Jack S.' }],
       TASK_TYPE: [{ time: 4, labourCost: 80, taskType: 'TRANSPLANT_TASK' }],
     },
+    note: 'FINANCES.TRANSACTION.LABOUR_EXPENSE',
   },
   {
     icon: 'EQUIPMENT',

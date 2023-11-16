@@ -67,10 +67,10 @@ const Finances = ({ history }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSales());
-    dispatch(getExpense());
     dispatch(getFarmExpenseType());
     dispatch(getRevenueTypes());
+    dispatch(getSales());
+    dispatch(getExpense());
     dispatch(getManagementPlansAndTasks());
     dispatch(getCropVarieties());
     dispatch(setSelectedExpenseTypes([]));

@@ -17,10 +17,10 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import FilterGroup from '../../../components/Filter/FilterGroup';
-import { allExpenseTypeSelector, sortExpenseTypes } from '../../Finances/selectors';
+import { allExpenseTypeSelector } from '../../Finances/selectors';
 import { transactionTypeEnum } from '../../Finances/useTransactions';
-import useSortedRevenueTypes from '../../Finances/AddSale/RevenueTypes/useSortedRevenueTypes';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../constants';
+import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 
 const TransactionFilterContent = ({
   transactionsFilter,
@@ -29,8 +29,8 @@ const TransactionFilterContent = ({
   onChange,
 }) => {
   const { t } = useTranslation(['translation', 'filter']);
-  const expenseTypes = sortExpenseTypes(useSelector(allExpenseTypeSelector));
-  const revenueTypes = useSortedRevenueTypes({ selectorType: 'all' });
+  const expenseTypes = useSelector(allExpenseTypeSelector);
+  const revenueTypes = useSelector(allRevenueTypesSelector);
 
   const filters = [
     {
@@ -41,9 +41,11 @@ const TransactionFilterContent = ({
           value: type.expense_type_id,
           // This sets the initial state of the filter pill
           default: transactionsFilter[EXPENSE_TYPE]?.[type.expense_type_id]?.active ?? true,
-          label: type.farm_id
-            ? type.expense_name
-            : t(`expense:${type.expense_translation_key}.EXPENSE_NAME`),
+          label:
+            (type.farm_id
+              ? type.expense_name
+              : t(`expense:${type.expense_translation_key}.EXPENSE_NAME`)) +
+            (type.retired ? ` ${t('EXPENSE.EDIT_EXPENSE.RETIRED')}` : ''),
         })),
         {
           value: transactionTypeEnum.labourExpense,
@@ -61,16 +63,18 @@ const TransactionFilterContent = ({
         value: type.revenue_type_id,
         // This sets the initial state of the filter pill
         default: transactionsFilter[REVENUE_TYPE]?.[type.revenue_type_id]?.active ?? true,
-        label: type.farm_id
-          ? type.revenue_name
-          : t(`revenue:${type.revenue_translation_key}.REVENUE_NAME`),
+        label:
+          (type.farm_id
+            ? type.revenue_name
+            : t(`revenue:${type.revenue_translation_key}.REVENUE_NAME`)) +
+          (type.retired ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : ''),
       })),
     },
   ];
 
   return (
     <FilterGroup
-      filters={filters}
+      filters={filters.map(filter => sortFilterOptions(filter))}
       filterRef={filterRef}
       filterContainerClassName={filterContainerClassName}
       onChange={onChange}
@@ -89,3 +93,10 @@ TransactionFilterContent.propTypes = {
 };
 
 export default TransactionFilterContent;
+
+const sortFilterOptions = (filters) => {
+  return {
+    ...filters,
+    options: [...filters.options.sort((typeA, typeB) => typeA.label.localeCompare(typeB.label))],
+  };
+};

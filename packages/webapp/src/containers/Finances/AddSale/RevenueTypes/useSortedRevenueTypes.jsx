@@ -33,25 +33,25 @@ export default function useSortedRevenueTypes({ selectorType = 'default' } = {})
   }, []);
 
   useEffect(() => {
-    const defaultTypes = [];
-    const customTypes = [];
-    revenueTypes?.forEach((type) => {
-      const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
-      arrayToUpdate.push(type);
-    });
+    const allTypes = revenueTypes ?? [];
 
-    const allTypes = [
-      ...defaultTypes.sort((typeA, typeB) =>
-        t(`revenue:${typeA.revenue_translation_key}.REVENUE_NAME`).localeCompare(
-          t(`revenue:${typeB.revenue_translation_key}.REVENUE_NAME`),
-        ),
-      ),
-      ...customTypes.sort((typeA, typeB) =>
-        typeA.revenue_translation_key.localeCompare(typeB.revenue_translation_key),
-      ),
+    const sortedTypes = [
+      ...allTypes.sort((typeA, typeB) => {
+        const compareKeyA =
+          typeA.farm_id === null
+            ? t(`revenue:${typeA.revenue_translation_key}.REVENUE_NAME`)
+            : typeA.revenue_translation_key;
+
+        const compareKeyB =
+          typeB.farm_id === null
+            ? t(`revenue:${typeB.revenue_translation_key}.REVENUE_NAME`)
+            : typeB.revenue_translation_key;
+
+        return compareKeyA.localeCompare(compareKeyB);
+      }),
     ];
 
-    setSortedTypes(allTypes);
+    setSortedTypes(sortedTypes);
   }, [revenueTypes]);
 
   return sortedtypes;

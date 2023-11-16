@@ -67,10 +67,10 @@ const Finances = ({ history }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSales());
-    dispatch(getExpense());
     dispatch(getFarmExpenseType());
     dispatch(getRevenueTypes());
+    dispatch(getSales());
+    dispatch(getExpense());
     dispatch(getManagementPlansAndTasks());
     dispatch(getCropVarieties());
     dispatch(setSelectedExpenseTypes([]));
@@ -108,12 +108,7 @@ const Finances = ({ history }) => {
   };
 
   const makeTransactionsSearchableString = (transaction) =>
-    [
-      transaction.note || t('FINANCES.TRANSACTION.LABOUR_EXPENSE'),
-      transaction.typeLabel || t('SALE.FINANCES.LABOUR_LABEL'),
-    ]
-      .filter(Boolean)
-      .join(' ');
+    [transaction.note, transaction.typeLabel].filter(Boolean).join(' ');
 
   const [filteredTransactions, searchString, setSearchString] = useSearchFilter(
     transactions,

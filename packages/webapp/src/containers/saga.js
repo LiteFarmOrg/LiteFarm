@@ -595,10 +595,10 @@ export function* fetchAllSaga() {
     put(getCertificationSurveys()),
     put(getAllSupportedCertifications()),
     put(getAllSupportedCertifiers()),
-    put(getSales()),
-    put(getExpense()),
     put(getRevenueTypes()),
     put(getFarmExpenseType()),
+    put(getSales()),
+    put(getExpense()),
     put(getCropVarieties()),
   ];
   const tasks = [

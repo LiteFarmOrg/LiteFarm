@@ -36,8 +36,8 @@ export const generateWorksheetTitles = (t) => ({
 
 export const formatTransactions = (transactions, t) =>
   transactions.map((item) => ({
-    note: item.note || t('FINANCES.TRANSACTION.LABOUR_EXPENSE'),
-    typeLabel: item.typeLabel || t('SALE.FINANCES.LABOUR_LABEL'),
+    note: item.note,
+    typeLabel: item.typeLabel,
     date: new Date(item.date),
     amount: item.amount,
   }));

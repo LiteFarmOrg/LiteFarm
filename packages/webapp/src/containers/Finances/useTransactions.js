@@ -70,15 +70,36 @@ const buildLabourTransactionsFromTasks = ({
     );
     if (amount > 0) {
       groupedTransactions.push({
+        icon: 'LABOUR',
         date,
         transactionType: transactionTypeEnum.labourExpense,
+        typeLabel: i18n.t('SALE.FINANCES.LABOUR_LABEL'),
         amount: -amount,
+        note: i18n.t('FINANCES.TRANSACTION.LABOUR_EXPENSE'),
         items: labourItems,
       });
     }
   });
 
   return groupedTransactions;
+};
+
+const getExpenseTypeLabel = (expenseType) => {
+  if (!expenseType) {
+    return '';
+  }
+  return expenseType?.farm_id
+    ? expenseType?.expense_name
+    : i18n.t(`expense:${expenseType?.expense_translation_key}.EXPENSE_NAME`);
+};
+
+const getRevenueTypeLabel = (revenueType) => {
+  if (!revenueType) {
+    return '';
+  }
+  return revenueType?.farm_id
+    ? revenueType?.expense_name
+    : i18n.t(`revenue:${revenueType?.revenue_translation_key}.REVENUE_NAME`);
 };
 
 const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseTypeFilter }) => {
@@ -99,9 +120,7 @@ const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseT
         icon: expenseType?.farm_id ? 'CUSTOM' : expenseType?.expense_translation_key,
         date: expense.expense_date,
         transactionType: transactionTypeEnum.expense,
-        typeLabel: expenseType?.farm_id
-          ? expenseType?.expense_name
-          : i18n.t(`expense:${expenseType?.expense_translation_key}.EXPENSE_NAME`),
+        typeLabel: getExpenseTypeLabel(expenseType),
         amount: -roundToTwoDecimal(expense.value),
         note: expense.note,
         relatedId: expense.farm_expense_id,
@@ -135,9 +154,7 @@ const buildRevenueTransactions = ({
       transactionType: revenueType?.crop_generated
         ? transactionTypeEnum.cropRevenue
         : transactionTypeEnum.revenue,
-      typeLabel: revenueType?.farm_id
-        ? revenueType?.revenue_name
-        : i18n.t(`revenue:${revenueType?.revenue_translation_key}.REVENUE_NAME`),
+      typeLabel: getRevenueTypeLabel(revenueType),
       amount: item.totalAmount,
       note: item.sale.customer_name,
       items: item.financeItemsProps,

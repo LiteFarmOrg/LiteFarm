@@ -98,7 +98,7 @@ const getRevenueTypeLabel = (revenueType) => {
     return '';
   }
   return revenueType?.farm_id
-    ? revenueType?.expense_name
+    ? revenueType?.revenue_name
     : i18n.t(`revenue:${revenueType?.revenue_translation_key}.REVENUE_NAME`);
 };
 

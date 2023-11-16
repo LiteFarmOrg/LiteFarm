@@ -1036,7 +1036,7 @@
   "MANAGEMENT_PLAN": {
     "ABANDON": {
       "CANT_ABANDON_COMPLETED": "Can't abandon crop plan",
-      "CANT_ABANDON_CONCURRENT_USER": "Another farmer has completed this plan. Please refresh the page to get the most recent status."
+      "CANT_ABANDON_CONCURRENT_USER": "Another farmer has completed this plan. Please navigate back to get the most recent status for plans."
     },
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandoning this crop plan will abandon all the incomplete tasks associated with it and remove it from your farm map.",
     "ABANDON_MANAGEMENT_PLAN_TITLE": "Abandon crop plan?",
@@ -1051,7 +1051,7 @@
       "ABANDON_PLAN": "Abandon plan",
       "ABANDON_REASON": "Reason for abandoning",
       "CANT_COMPLETE_ABANDONED": "Can't complete crop plan",
-      "CANT_COMPLETE_CONCURRENT_USER": "Another farmer has abandoned this plan. Please refresh the page to get the most recent status.",
+      "CANT_COMPLETE_CONCURRENT_USER": "Another farmer has abandoned this plan. Please navigate back to get the most recent status for plans.",
       "COMPLETE_PLAN": "Complete plan",
       "DATE_OF_CHANGE": "Date of status change",
       "FUTURE_DATE_INVALID": "May not be in the future",

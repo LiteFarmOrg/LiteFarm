@@ -1037,7 +1037,7 @@
   "MANAGEMENT_PLAN": {
     "ABANDON": {
       "CANT_ABANDON_COMPLETED": "No se puede abandonar el plan de cultivo",
-      "CANT_ABANDON_CONCURRENT_USER": "Otro usuario ha completado este plan. Por favor, refresque la página para obtener su estado más reciente."
+      "CANT_ABANDON_CONCURRENT_USER": "Otro usuario ha completado este plan. Por favor, navegue hacia atrás para obtener el estado más reciente de sus planes."
     },
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonar este plan de cultivo abandonará todas las tareas incompletas asociadas con él y lo eliminará del mapa de su granja.",
     "ABANDON_MANAGEMENT_PLAN_TITLE": "Quiere abandonar el plan de cultivo?",
@@ -1052,7 +1052,7 @@
       "ABANDON_PLAN": "Abandonar plan",
       "ABANDON_REASON": "Razón para abandonar",
       "CANT_COMPLETE_ABANDONED": "No se puede completar el plan de cultivo",
-      "CANT_COMPLETE_CONCURRENT_USER": "Otro usuario ha abandonado este plan. Por favor, refresque la página para obtener su estado más reciente.",
+      "CANT_COMPLETE_CONCURRENT_USER": "Otro usuario ha abandonado este plan. Por favor, navegue hacia atrás para obtener su estado más reciente de sus planes.",
       "COMPLETE_PLAN": "Completar plan",
       "DATE_OF_CHANGE": "Fecha de cambio de estado",
       "FUTURE_DATE_INVALID": "No puede ser en el futuro",

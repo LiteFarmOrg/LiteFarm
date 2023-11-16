@@ -39,7 +39,6 @@ class Farm extends baseModel {
     return {
       type: 'object',
       required: ['farm_name'],
-
       properties: {
         farm_id: { type: 'string' },
         farm_name: { type: 'string', minLength: 1, maxLength: 255 },
@@ -244,6 +243,8 @@ class Farm extends baseModel {
         },
         default_initial_location_id: { type: ['string', 'null'] },
         utc_offset: { type: 'integer' },
+        farm_image_url: { type: ['string', 'null'] },
+        farm_image_thumbnail_url: { type: ['string', 'null'] },
         ...this.baseProperties,
         // sandbox_bool: { type: 'boolean' },
       },

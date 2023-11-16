@@ -1338,7 +1338,13 @@
       "IMPERIAL": "Imperial",
       "METRIC": "Metric",
       "PHONE_NUMBER": "Phone Number",
-      "UNITS": "Units"
+      "UNITS": "Units",
+      "FARM_IMAGE": "Farm Image",
+      "REMOVE_IMAGE": "Remove Image",
+      "CHANGE_IMAGE": "Change Image",
+      "UPLOAD_IMAGE": "Upload Image",
+      "CLICK_TO_UPLOAD": "Click to upload",
+      "DRAG_DROP": "or drag and drop"
     },
     "FARM_TAB": "Farm",
     "PEOPLE": {

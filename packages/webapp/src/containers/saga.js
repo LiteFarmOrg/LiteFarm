@@ -289,17 +289,27 @@ export const putFarm = createAction(`putFarmSaga`);
 export function* putFarmSaga({ payload: farm }) {
   const { farmUrl } = apiConfig;
   let { user_id, farm_id, units } = yield select(userFarmSelector);
-  const header = getHeader(user_id, farm_id);
+  const { headers } = getHeader(user_id, farm_id);
 
   // OC: We should never update address information of a farm.
-  let { address, grid_points, ...data } = farm;
+  let { address, grid_points, isImageRemoved, imageFile, ...data } = farm;
   if (data.farm_phone_number === null) {
     delete data.farm_phone_number;
   }
+
   data.units = { measurement: data.units.measurement, currency: units.currency };
+  data.shouldRemoveImage = isImageRemoved;
+
+  const formData = new FormData();
+  formData.append('_file_', imageFile);
+  formData.append('data', JSON.stringify(data));
+
   try {
-    const result = yield call(axios.put, farmUrl + '/' + farm_id, data, header);
-    yield put(patchFarmSuccess({ ...data, farm_id, user_id }));
+    const result = yield call(axios.put, farmUrl + '/' + farm_id, formData, {
+      headers: { ...headers, 'Content-Type': 'multipart/form-data' },
+    });
+
+    yield put(patchFarmSuccess({ ...result.data[0], farm_id, user_id }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:FARM.SUCCESS.UPDATE')));
   } catch (e) {
     console.log(e);

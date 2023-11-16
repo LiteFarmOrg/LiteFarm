@@ -1339,7 +1339,13 @@
       "IMPERIAL": "Britanico",
       "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de teléfono",
-      "UNITS": "Unidades"
+      "UNITS": "Unidades",
+      "FARM_IMAGE": "MISSING",
+      "REMOVE_IMAGE": "MISSING",
+      "CHANGE_IMAGE": "MISSING",
+      "UPLOAD_IMAGE": "MISSING",
+      "CLICK_TO_UPLOAD": "MISSING",
+      "DRAG_DROP": "MISSING"
     },
     "FARM_TAB": "Finca",
     "PEOPLE": {

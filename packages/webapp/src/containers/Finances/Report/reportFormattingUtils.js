@@ -57,7 +57,7 @@ export const createDefaultTypeFilter = ({ types, translate, typeCategory }) => {
   const retiredKey = `${typeCategory}_RETIRED`;
   const TYPE_CATEGORY = typeCategory.toUpperCase();
 
-  let filterObject = types.reduce(
+  const filterObject = types.reduce(
     (filterObject, type) => ({
       ...filterObject,
       [type[typeIdKey]]: {
@@ -78,9 +78,9 @@ export const createDefaultTypeFilter = ({ types, translate, typeCategory }) => {
   }
 
   // Sort the config object by label
-  filterObject = Object.fromEntries(
+  const sortedFilterObject = Object.fromEntries(
     Object.entries(filterObject).sort((a, b) => a[1].label.localeCompare(b[1].label)),
   );
 
-  return filterObject;
+  return sortedFilterObject;
 };

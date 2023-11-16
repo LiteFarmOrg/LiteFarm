@@ -39,7 +39,7 @@ function AddSale() {
   const revenueTypeReactSelectOptions = mapRevenueTypesToReactSelectOptions(revenueTypes);
   const translatedRevenueName = revenueType?.farm_id
     ? revenueType?.revenue_name
-    : t(`revenue:${revenueType?.translation_key}.REVENUE_NAME`);
+    : t(`revenue:${revenueType?.revenue_translation_key}.REVENUE_NAME`);
 
   const onSubmit = (data) => {
     const newSale = mapRevenueFormDataToApiCallFormat(data, revenueTypes, null, farm.farm_id);

@@ -1345,9 +1345,9 @@
     "FARM_TAB": "Exploitation",
     "PEOPLE": {
       "DO_YOU_WANT_TO_REMOVE": "Voulez-vous enlever cet utilisateur de votre exploitation\u00a0?",
-      "INVALID_REVOKE_ACCESS": "Impossible de révoquer l'accès",
+      "INVALID_REVOKE_ACCESS": "Impossible de révoquer l’accès",
       "INVITE_USER": "Inviter un utilisateur",
-      "LAST_ADMIN_ERROR": "Nous ne pouvons pas révoquer laccès à cet utilisateur parce qu’il est le dernier gestionnaire de cette exploitation. Si vous souhaitez supprimer votre exploitation, créez un billet en cliquant <1>ici</1>.",
+      "LAST_ADMIN_ERROR": "Nous ne pouvons pas révoquer l’accès à cet utilisateur parce qu’il est le dernier gestionnaire de cette exploitation. Si vous souhaitez supprimer votre exploitation, créez un billet en cliquant <1>ici</1>.",
       "RESTORE_ACCESS": "Restaurer l'accès utilisateur",
       "REVOKE_ACCESS": "Révoquer l'accès utilisateur",
       "SEARCH": "Chercher",

@@ -127,7 +127,7 @@ export async function getExistingImageKeys(farmId) {
     farm_image_thumbnail_url: thumbnailUrl,
   } = await FarmModel.query().findById(farmId);
 
-  if (!imageUrl && !thumbnailUrl) return;
+  if (!imageUrl || !thumbnailUrl) return;
 
   // key is in the image url starting with farmId
   const getKeyFromUrl = (urlString) => {

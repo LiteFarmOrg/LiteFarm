@@ -1,7 +1,7 @@
 {
   "EQUIPMENT": {
     "EXPENSE_NAME": "Équipment",
-    "CUSTOM_DESCRIPTION": "Dépenses liées aux outils simples, aux fournitures et aux pièces détachées nécessaires à l'exploitation de votre ferme."
+    "CUSTOM_DESCRIPTION": "Dépenses liées aux outils simples, aux fournitures et aux pièces détachées nécessaires à l'exploitation de votre exploitation."
   },
   "SOIL_AMENDMENT": {
     "EXPENSE_NAME": "Amendements",
@@ -29,7 +29,7 @@
   },
   "MISCELLANEOUS": {
     "EXPENSE_NAME": "Divers",
-    "CUSTOM_DESCRIPTION": "Tout le reste. Envisagez de créer un type de dépense personnalisé si vous avez d'autres dépenses de ce type à l'avenir."
+    "CUSTOM_DESCRIPTION": "Tout le reste. Envisagez de créer un type de dépenses personnalisées si vous avez d'autres dépenses de ce type à l'avenir."
   },
   "UTILITIES": {
     "EXPENSE_NAME": "Réseaux",

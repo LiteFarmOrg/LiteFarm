@@ -397,7 +397,7 @@
     "SUPPLIER": "Fournisseur"
   },
   "DATE_RANGE": {
-    "INVALID_RANGE_MESSAGE": "La date 'De' doit précéder la date 'À' que des résultats soient retournés",
+    "INVALID_RANGE_MESSAGE": "La date 'De' doit précéder la date 'À' que des résultats soient retournés"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "Du",
@@ -1006,7 +1006,7 @@
     "NOTES": "Notes",
     "QUANTITY": "Quantité",
     "SELECT_LOCATION": "Sélectionner l'emplacement",
-    "TO": "Au",
+    "TO": "Au"
   },
   "LOG_DETAIL": {
     "NO": "Non",
@@ -1078,7 +1078,7 @@
       "CONFIRM_DELETION": "Confirmer la suppression",
       "DELETE_PLAN": "Supprimer le plan de culture",
       "DELETE_PLAN_MESSAGE": "Ce plan de culture et toutes ses tâches seront supprimés de votre exploitation. Si vous voulez conserver une trace de ce plan de culture, cliquez plutôt sur \"Abandonner\"",
-      "DELETE_PLAN_QUESTION": "Supprimer le plan de culture?",
+      "DELETE_PLAN_QUESTION": "Supprimer le plan de culture?"
     },
     "DETAIL_SPOTLIGHT_CONTENTS": "Ici, vous pouvez modifier les détails de votre culture.",
     "DETAIL_SPOTLIGHT_TITLE": "Détails",
@@ -1345,13 +1345,13 @@
     "FARM_TAB": "Exploitation",
     "PEOPLE": {
       "DO_YOU_WANT_TO_REMOVE": "Voulez-vous enlever cet utilisateur de votre exploitation\u00a0?",
-      "INVALID_REVOKE_ACCESS": "Impossible de révoquer l’accès",
+      "INVALID_REVOKE_ACCESS": "Impossible de révoquer l'accès",
       "INVITE_USER": "Inviter un utilisateur",
-      "LAST_ADMIN_ERROR": "Nous ne pouvons pas révoquer l’accès à cet utilisateur parce qu’il est le dernier gestionnaire de cette exploitation. Si vous souhaitez supprimer votre exploitation, créez un billet en cliquant <1>ici</1>.",
+      "LAST_ADMIN_ERROR": "Nous ne pouvons pas révoquer laccès à cet utilisateur parce qu’il est le dernier gestionnaire de cette exploitation. Si vous souhaitez supprimer votre exploitation, créez un billet en cliquant <1>ici</1>.",
       "RESTORE_ACCESS": "Restaurer l'accès utilisateur",
       "REVOKE_ACCESS": "Révoquer l'accès utilisateur",
       "SEARCH": "Chercher",
-      "THIS_WILL_REMOVE": "Cette action enlèvera l'utilisateur de votre exploitation.",
+      "THIS_WILL_REMOVE": "Cette action enlèvera l'utilisateur de votre exploitation."
     },
     "PEOPLE_TAB": "Personnes",
     "TABLE": {
@@ -1496,7 +1496,7 @@
       "TOTAL_EXPENSES": "Dépenses",
       "TOTAL_LABOUR": "Main d'œuvre",
       "TOTAL_OTHER": "Autres dépenses",
-      "TOTAL_REVENUE": "Recettes",
+      "TOTAL_REVENUE": "Recettes"
     },
     "LABOUR": {
       "BY": "Par",

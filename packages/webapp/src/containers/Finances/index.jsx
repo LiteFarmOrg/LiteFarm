@@ -72,7 +72,6 @@ const Finances = ({ history }) => {
     dispatch(getSales());
     dispatch(getExpense());
     dispatch(getManagementPlansAndTasks());
-    dispatch(getCropVarieties());
     dispatch(setSelectedExpenseTypes([]));
     dispatch(resetTransactionsFilter());
     dispatch(setDateRange({ option: dateRangeOptions.YEAR_TO_DATE }));

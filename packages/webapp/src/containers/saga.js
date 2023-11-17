@@ -599,7 +599,6 @@ export function* fetchAllSaga() {
     put(getFarmExpenseType()),
     put(getSales()),
     put(getExpense()),
-    put(getCropVarieties()),
   ];
   const tasks = [
     put(getRoles()),

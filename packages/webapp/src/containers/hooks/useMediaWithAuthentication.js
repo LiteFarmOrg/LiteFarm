@@ -25,6 +25,7 @@ export default function useMediaWithAuthentication({
 }) {
   const [mediaUrl, setMediaUrl] = useState();
   const [zipContent, setZipContent] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const config = {
@@ -73,6 +74,8 @@ export default function useMediaWithAuthentication({
         }
       } catch (e) {
         console.log(e);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchMediaUrls();
@@ -82,5 +85,6 @@ export default function useMediaWithAuthentication({
   return {
     mediaUrl,
     zipContent,
+    isLoading,
   };
 }

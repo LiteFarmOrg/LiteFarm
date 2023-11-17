@@ -30,10 +30,11 @@ import { combineReducers } from 'redux';
 import { dateRangeOptions } from '../../components/DateRangeSelector/constants';
 
 const initialState = {
-  sales: null,
-  cropSales: null,
+  sales: [],
+  cropSales: [],
+  expenses: [],
   date_range: { option: dateRangeOptions.YEAR_TO_DATE },
-  isFetchingData: true,
+  isFetchingData: false,
 };
 
 function financeReducer(state = initialState, action) {

@@ -109,8 +109,7 @@ const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseT
         (!dateFilter ||
           (moment(expense.expense_date).isSameOrAfter(dateFilter.startDate, 'day') &&
             moment(expense.expense_date).isSameOrBefore(dateFilter.endDate, 'day'))) &&
-        (!expenseTypeFilter || expenseTypeFilter[expense.expense_type_id]?.active) &&
-        expense.value > 0,
+        (!expenseTypeFilter || expenseTypeFilter[expense.expense_type_id]?.active),
     )
     .map((expense) => {
       const expenseType = expenseTypes.find(

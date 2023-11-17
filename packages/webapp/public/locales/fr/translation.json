@@ -1049,11 +1049,13 @@
     "BEDS": "Planches",
     "BROADCAST": "semis homogène ou en poquets",
     "COMPLETE_PLAN": {
+      "ABANDON_DATE": "Date d'abandon",
       "ABANDON_NOTES": "Notes d'abandon",
       "ABANDON_PLAN": "Abandonner le plan",
       "ABANDON_REASON": "Raison de l'abandon",
       "CANT_COMPLETE_ABANDONED": "MISSING",
       "CANT_COMPLETE_CONCURRENT_USER": "MISSING",
+      "COMPLETE_DATE": "Date de fin",
       "COMPLETE_PLAN": "Plan terminé",
       "DATE_OF_CHANGE": "Date de changement de statut",
       "FUTURE_DATE_INVALID": "Doit être révolue",

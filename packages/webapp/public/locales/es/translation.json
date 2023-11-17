@@ -1048,11 +1048,13 @@
     "BEDS": "Camas",
     "BROADCAST": "Siembra a voleo o sembradora mecánica",
     "COMPLETE_PLAN": {
+      "ABANDON_DATE": "Fecha de abandono",
       "ABANDON_NOTES": "Notas de abandono",
       "ABANDON_PLAN": "Abandonar plan",
       "ABANDON_REASON": "Razón para abandonar",
       "CANT_COMPLETE_ABANDONED": "No se puede completar el plan de cultivo",
       "CANT_COMPLETE_CONCURRENT_USER": "Otro usuario ha abandonado este plan. Por favor, navegue hacia atrás para obtener su estado más reciente de sus planes.",
+      "COMPLETE_DATE": "Fecha completada",
       "COMPLETE_PLAN": "Completar plan",
       "DATE_OF_CHANGE": "Fecha de cambio de estado",
       "FUTURE_DATE_INVALID": "No puede ser en el futuro",

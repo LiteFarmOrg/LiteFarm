@@ -1047,11 +1047,13 @@
     "BEDS": "Canteiros",
     "BROADCAST": "Semeadura a lanço ou com máquina semeadora",
     "COMPLETE_PLAN": {
+      "ABANDON_DATE": "Data de abandono",
       "ABANDON_NOTES": "Notas de abandono",
       "ABANDON_PLAN": "Abandonar plano",
       "ABANDON_REASON": "Razão do abandono",
       "CANT_COMPLETE_ABANDONED": "MISSING",
       "CANT_COMPLETE_CONCURRENT_USER": "MISSING",
+      "COMPLETE_DATE": "Fecha completada",
       "COMPLETE_PLAN": "Completar plano",
       "DATE_OF_CHANGE": "Data de alteração da situação",
       "FUTURE_DATE_INVALID": "Pode não ser no futuro",

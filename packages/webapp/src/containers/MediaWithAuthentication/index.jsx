@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
 import { mediaEnum } from './constants';
 import { ReactComponent as Download } from '../../assets/images/farmMapFilter/Download.svg';
-import JSZip from 'jszip';
+import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
 
 export function MediaWithAuthentication({
   fileUrls = [],
@@ -10,60 +9,12 @@ export function MediaWithAuthentication({
   mediaType = mediaEnum.IMAGE,
   ...props
 }) {
-  const [mediaUrl, setMediaUrl] = useState();
-  const [zipContent, setZipContent] = useState();
-  useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('farm_token'),
-      },
-      responseType: 'arraybuffer',
-      method: 'GET',
-    };
-    let subscribed;
-
-    const fetchMediaUrls = async () => {
-      try {
-        subscribed = true;
-        if (mediaType === mediaEnum.ZIP) {
-          const zip = new JSZip();
-          const folder = zip.folder(title);
-
-          await Promise.all(
-            fileUrls.map(async (fileUrl) => {
-              const url = new URL(fileUrl);
-              if (import.meta.env.VITE_ENV !== 'development') {
-                url.hostname = 'images.litefarm.workers.dev';
-              }
-              return fetch(url.toString(), config).then((response) => {
-                const blobFilePromise = response.blob();
-                folder.file(url.href.substring(url.href.lastIndexOf('/')), blobFilePromise);
-              });
-            }),
-          );
-          const content = await zip.generateAsync({ type: 'base64' });
-          subscribed && setZipContent(content);
-        } else {
-          const fileUrl = fileUrls[0];
-          if (fileUrl) {
-            if (import.meta.env.VITE_ENV === 'development') {
-              subscribed && setMediaUrl(fileUrl);
-            } else {
-              const url = new URL(fileUrl);
-              url.hostname = 'images.litefarm.workers.dev';
-              const response = await fetch(url.toString(), config);
-              const blobFile = await response.blob();
-              subscribed && setMediaUrl(URL.createObjectURL(blobFile));
-            }
-          }
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchMediaUrls();
-    return () => (subscribed = false);
-  }, []);
+  const { mediaUrl, zipContent } = useMediaWithAuthentication({
+    fileUrls,
+    title,
+    extensionName,
+    mediaType,
+  });
 
   const handleClick = () => {
     const element = document.createElement('a');

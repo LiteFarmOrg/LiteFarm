@@ -90,6 +90,7 @@ import {
 import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
 import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
 import { resetTasksFilter } from './filterSlice';
+import { setIsFetchingData } from './Finances/actions.js';
 import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
 import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
 import {
@@ -617,6 +618,9 @@ export function* fetchAllSaga() {
 
 export function* clearOldFarmStateSaga() {
   yield put(resetTasks());
+
+  // Reset finance loading state
+  yield put(setIsFetchingData(true));
 }
 
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');

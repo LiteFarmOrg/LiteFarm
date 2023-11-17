@@ -72,13 +72,6 @@ const Finances = ({ history }) => {
     }
   }, [isFetchingData]);
 
-  useEffect(() => {
-    return () => {
-      setIsLoading(true);
-      dispatch(setIsFetchingData(true));
-    };
-  }, []);
-
   const getEstimatedRevenue = (managementPlans) => {
     let totalRevenue = 0;
     if (managementPlans) {

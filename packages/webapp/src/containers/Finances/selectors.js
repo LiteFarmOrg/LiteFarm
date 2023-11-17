@@ -90,18 +90,21 @@ const selectedExpenseSelector = createSelector(
 
 const dateRangeDataSelector = createSelector(financeSelector, (state) => state.date_range);
 
+const isFetchingDataSelector = createSelector(financeSelector, (state) => state.isFetchingData);
+
 export {
-  salesSelector,
-  selectedSaleSelector,
-  expenseSelector,
-  expenseTypeSelector,
   allExpenseTypeSelector,
-  expenseTypeByIdSelector,
-  revenueByIdSelector,
-  expenseByIdSelector,
   allExpenseTypeTileContentsSelector,
-  expenseTypeTileContentsSelector,
-  expenseDetailDateSelector,
-  selectedExpenseSelector,
   dateRangeDataSelector,
+  expenseByIdSelector,
+  expenseDetailDateSelector,
+  expenseSelector,
+  expenseTypeByIdSelector,
+  expenseTypeSelector,
+  expenseTypeTileContentsSelector,
+  isFetchingDataSelector,
+  revenueByIdSelector,
+  salesSelector,
+  selectedExpenseSelector,
+  selectedSaleSelector,
 };

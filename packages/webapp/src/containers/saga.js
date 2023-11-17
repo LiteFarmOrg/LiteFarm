@@ -24,8 +24,6 @@ import { store } from '../store/store.js';
 import { APP_VERSION } from '../util/constants';
 import { logout } from '../util/jwt';
 import { handle403 } from './ErrorHandler/saga.js';
-import { getExpense, getFarmExpenseType, getSales } from './Finances/actions';
-import { getRevenueTypes } from './Finances/saga';
 import { getRoles } from './InviteUser/saga';
 import notificationSaga, { getNotification } from './Notification/saga';
 import {
@@ -596,10 +594,6 @@ export function* fetchAllSaga() {
     put(getCertificationSurveys()),
     put(getAllSupportedCertifications()),
     put(getAllSupportedCertifiers()),
-    put(getRevenueTypes()),
-    put(getFarmExpenseType()),
-    put(getSales()),
-    put(getExpense()),
   ];
   const tasks = [
     put(getRoles()),

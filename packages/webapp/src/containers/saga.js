@@ -131,6 +131,7 @@ import {
   onLoadingSurfaceWaterFail,
   onLoadingSurfaceWaterStart,
 } from './surfaceWaterSlice';
+import { resetTasks } from './taskSlice';
 import {
   isAdminSelector,
   loginSelector,
@@ -620,6 +621,10 @@ export function* fetchAllSaga() {
   yield put(resetTasksFilter({ user_id, userFarms }));
 }
 
+export function* clearOldFarmStateSaga() {
+  yield put(resetTasks());
+}
+
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
 
 export function* selectFarmAndFetchAllSaga({ payload: farm }) {
@@ -628,6 +633,7 @@ export function* selectFarmAndFetchAllSaga({ payload: farm }) {
     const userFarm = yield select(userFarmSelector);
     if (!userFarm.has_consent) return history.push('/consent');
     history.push({ pathname: '/' });
+    yield call(clearOldFarmStateSaga);
     yield call(fetchAllSaga);
   } catch (e) {
     console.error('failed to fetch farm info', e);

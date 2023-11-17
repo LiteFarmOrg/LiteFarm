@@ -1047,11 +1047,13 @@
     "BEDS": "Beds",
     "BROADCAST": "Broadcast or drill",
     "COMPLETE_PLAN": {
+      "ABANDON_DATE": "Abandonment date",
       "ABANDON_NOTES": "Abandonment notes",
       "ABANDON_PLAN": "Abandon plan",
       "ABANDON_REASON": "Reason for abandoning",
       "CANT_COMPLETE_ABANDONED": "Can't complete crop plan",
       "CANT_COMPLETE_CONCURRENT_USER": "Another farmer has abandoned this plan. Please navigate back to get the most recent status for plans.",
+      "COMPLETE_DATE": "Completed date",
       "COMPLETE_PLAN": "Complete plan",
       "DATE_OF_CHANGE": "Date of status change",
       "FUTURE_DATE_INVALID": "May not be in the future",

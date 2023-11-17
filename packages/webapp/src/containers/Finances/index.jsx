@@ -17,7 +17,6 @@ import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import 'react-loading-skeleton/dist/skeleton.css';
 import { useDispatch, useSelector } from 'react-redux';
 import NoSearchResults from '../../components/Card/NoSearchResults';
 import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';

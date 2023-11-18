@@ -37,6 +37,7 @@ import {
 import knex from '../util/knex.js';
 import { getSortedDates } from '../util/util.js';
 import { TaskNotificationTypes, sendTaskNotification } from './taskController.js';
+import baseController from './baseController.js';
 const { transaction, Model } = objection;
 
 const managementPlanController = {
@@ -378,6 +379,9 @@ const managementPlanController = {
 
           await Promise.all(
             taskIdsRelatedToOneManagementPlan.map(async (task_id) => {
+              if (await baseController.isDeleted(trx, TaskModel, { task_id })) {
+                return;
+              }
               const { task_translation_key } = await TaskModel.getTaskType(task_id);
               const { assignee_user_id } = await TaskModel.query(trx)
                 .select('assignee_user_id')
@@ -579,6 +583,9 @@ const managementPlanController = {
 
           await Promise.all(
             taskIdsRelatedToOneManagementPlan.map(async (task_id) => {
+              if (await baseController.isDeleted(trx, TaskModel, { task_id })) {
+                return;
+              }
               const { task_translation_key } = await TaskModel.getTaskType(task_id);
               const { assignee_user_id } = await TaskModel.query(trx)
                 .select('assignee_user_id')

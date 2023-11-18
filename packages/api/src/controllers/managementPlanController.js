@@ -379,6 +379,7 @@ const managementPlanController = {
 
           await Promise.all(
             taskIdsRelatedToOneManagementPlan.map(async (task_id) => {
+              // Don't send notifications for previously deleted tasks
               if (await baseController.isDeleted(trx, TaskModel, { task_id })) {
                 return;
               }
@@ -583,6 +584,7 @@ const managementPlanController = {
 
           await Promise.all(
             taskIdsRelatedToOneManagementPlan.map(async (task_id) => {
+              // Don't send notifications for previously deleted tasks
               if (await baseController.isDeleted(trx, TaskModel, { task_id })) {
                 return;
               }

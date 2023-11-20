@@ -1,18 +1,18 @@
-import React, { useMemo } from 'react';
-import Form from '../../Form';
-import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import { useTranslation } from 'react-i18next';
-import { Main } from '../../Typography';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import Button from '../../Form/Button';
-import PureCleaningTask from '../CleaningTask';
-import PureSoilAmendmentTask from '../SoilAmendmentTask';
-import PureFieldWorkTask from '../FieldWorkTask';
-import PurePestControlTask from '../PestControlTask';
-import PureHarvestingTask from '../HarvestingTask';
-import InputAutoSize from '../../Form/InputAutoSize';
+import { useTranslation } from 'react-i18next';
 import { isTaskType } from '../../../containers/Task/useIsTaskType';
+import Form from '../../Form';
+import Button from '../../Form/Button';
+import InputAutoSize from '../../Form/InputAutoSize';
+import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
+import { Main } from '../../Typography';
+import PureCleaningTask from '../CleaningTask';
+import PureFieldWorkTask from '../FieldWorkTask';
+import PureHarvestingTask from '../HarvestingTask';
+import PurePestControlTask from '../PestControlTask';
 import PureIrrigationTask from '../PureIrrigationTask';
+import PureSoilAmendmentTask from '../SoilAmendmentTask';
 
 export default function PureTaskDetails({
   handleGoBack,
@@ -138,11 +138,9 @@ export default function PureTaskDetails({
         >
           {isHarvest
             ? t('ADD_TASK.HOW_MUCH_IS_HARVESTED')
-            : t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') +
-              ' ' +
-              (isCustomType ? taskName.toLowerCase() : t(`task:${taskType}_LOWER`)) +
-              ' ' +
-              t('ADD_TASK.TASK')}
+            : t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE', {
+                task: isCustomType ? taskName.toLowerCase() : t(`task:${taskType}_LOWER`),
+              })}
         </Main>
         {!isCustomType &&
           taskComponents[taskType]({

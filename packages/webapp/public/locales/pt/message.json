@@ -145,8 +145,8 @@
     },
     "SUCCESS": {
       "ADD": "Tipo de receita adicionado com sucesso",
-      "DELETE": "Tipo de receita encerrada com sucesso",
-      "UPDATE": "Tipo de receita atualizada com sucesso"
+      "DELETE": "Tipo de receita encerrado com sucesso",
+      "UPDATE": "Tipo de receita atualizado com sucesso"
     }
   },
   "SALE": {

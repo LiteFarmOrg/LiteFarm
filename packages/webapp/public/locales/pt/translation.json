@@ -71,7 +71,7 @@
     "HOW_MUCH_IS_HARVESTED": "Quanto está sendo colhido?",
     "HR": "/hr",
     "IRRIGATION_VIEW": {
-      "BRAND_TOOLTIP": "Esta tarefa é para regar a sua localização. Se você deseja instalar a irrigação, crie uma tarefa de trabalho de campo.",
+      "BRAND_TOOLTIP": "Esta tarefa é para regar seu cultivo. Se você deseja instalar a irrigação, crie uma tarefa de trabalho de campo.",
       "CALCULATE_WATER_USAGE": "Calcular uso de água",
       "DEFAULT_APPLICATION_DEPTH": "Definir como profundidade de aplicação padrão para esta área",
       "DEFAULT_LOCATION_FLOW_RATE": "Definir como vazão padrão para esta área",
@@ -149,7 +149,7 @@
     },
     "TASK": "tarefa",
     "TASK_NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
-    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Conte-nos sobre o/a",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Conte-nos sobre a tarefa de {{task}}",
     "TRANSPLANT_METHOD": "Método de transplante",
     "WAGE_OVERRIDE": "Substituição de salário",
     "WHAT_PLANTING_METHOD": "Qual é o método de transplante?",
@@ -165,8 +165,8 @@
   "BROADCAST_PLAN": {
     "AREA_USED": "Área usada",
     "HISTORICAL_PERCENTAGE_LOCATION": "Qual percentual da área foi plantado?",
-    "LOCATION_SIZE": "Tamanho da localização",
-    "PERCENTAGE_LABEL": "% da localização",
+    "LOCATION_SIZE": "Tamanho do local",
+    "PERCENTAGE_LABEL": "% do local",
     "PERCENTAGE_LOCATION": "Que porcentagem do local você está plantando?",
     "PLANTING_NOTES": "Observações do plantio",
     "SEEDING_RATE": "Taxa de semeadura"
@@ -184,7 +184,7 @@
       "NO_LONGER_WORKING": "Não está mais buscando esta certificação ou trabalhando com esta certificadora? Sem problema!",
       "SUPPORTED_CERTIFICATION_ONE": "Você está buscando",
       "SUPPORTED_CERTIFICATION_TWO": " certificação de:",
-      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "No momento, Litefarm não gera documentos para esta certificadora. Entretanto, podemos exportar formulários genéricos que podem servir para a maioria das certificadores. Você pode selecionar Exportar para criar esses formulários ou",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "No momento, Litefarm não gera documentos para esta certificadora. Entretanto, podemos exportar formulários genéricos que podem servir para a maioria das certificadoras. Você pode selecionar Exportar para criar esses formulários ou",
       "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "para ver se existem novas certificadoras disponíveis na sua região",
       "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "Você solicitou",
       "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "certificação de",
@@ -198,7 +198,7 @@
       "TOOLTIP": "Não vê a sua certificação? O LiteFarm é dedicado a apoiar a agricultura sustentável e certificações são uma grande parte disso. Solicite outro tipo de certificação aqui e faremos nosso melhor para incorporá-la ao aplicativo."
     },
     "CERTIFIER_SELECTION": {
-      "INFO": "Isso provavelmente significa que o LiteFarm atualmente não trabalha com o sua certificadora. O LiteFarm, porém, produz formulários genéricos que são úteis na maioria dos casos.",
+      "INFO": "Isso provavelmente significa que o LiteFarm atualmente não trabalha com a sua certificadora. O LiteFarm, porém, produz formulários genéricos que são úteis na maioria dos casos.",
       "NOT_FOUND": "Não vê o sua certificadora?",
       "REQUEST_CERTIFIER": "Solicite uma certificadora",
       "TITLE": "Quem é sua certificadora?"
@@ -207,10 +207,10 @@
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Você planeja aplicar para uma ou renovar uma certificação nesta temporada?",
       "TITLE": "Interessado(a) em certificações?",
-      "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica e/o agroecológica. Algumas informações serão obrigatórias."
+      "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica. Algumas informações serão obrigatórias."
     },
     "REQUEST_CERTIFIER": {
-      "LABEL": "Certificadora solicitado",
+      "LABEL": "Certificadora solicitada",
       "REQUEST": "Qual certificadora gostaria de solicitar?",
       "SORRY_ONE": "Desculpe - atualmente não trabalhamos com nenhuma certificadora",
       "SORRY_THREE": "em seu país. Gostaria de solicitar um?",
@@ -279,7 +279,7 @@
     "CREATE_BUTTON": "Criar Conta",
     "DEFAULT_LANGUAGE": "Português",
     "DEFAULT_LANGUAGE_VALUE": "pt",
-    "EMAIL": "Email",
+    "EMAIL": "E-mail",
     "FULL_NAME": "Nome completo",
     "GENDER": "Gênero",
     "GENDER_TOOLTIP": "Informação sobre gênero é coletada para propósitos de pesquisa acadêmica e apenas será compartilhada sem outras informações pessoais",
@@ -348,7 +348,7 @@
     "NEW_CROP_NAME": "Nome do cultivo",
     "NO_RESULTS_FOUND": "Nenhum resultado encontrado. Por favor, mude seus filtros.",
     "NOMINATE_CROP": "Indique este cultivo para inclusão no catálogo de cultivos do LiteFarm",
-    "NOMINATE_CROP_TOOLTIP": "Nomear este cultivo para inclusão no catálogo do LiteFarm concede à equipe LiteFarm permissão para compartilhar informações sobre este cultivo com um especialista em sua região. Os cultivos aprovadas farão parte do catálogo mostrado a todos os usuários.",
+    "NOMINATE_CROP_TOOLTIP": "Nomear este cultivo para inclusão no catálogo do LiteFarm concede à equipe LiteFarm permissão para compartilhar informações sobre este cultivo com um especialista em sua região. Os cultivos aprovados farão parte do catálogo mostrado a todos os usuários.",
     "ON_YOUR_FARM": "Em sua fazenda",
     "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar os cultivos mais rapidamente.",
     "SPECIES": "Espécie"
@@ -501,14 +501,14 @@
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Gerenciar tipos de despesa personalizada",
       "NEW_EXPENSE_ITEM": "Novo item de despesa",
       "TITLE": "Adicionar despesa",
-      "WHICH_TYPES_TO_RECORD": "Escolha seus tipos de despesa abaixo:"
+      "WHICH_TYPES_TO_RECORD": "Escolha o(s) tipo(s) de despesa:"
     },
     "CUSTOM_EXPENSE_DESCRIPTION": "Descrição de despesa personalizada",
     "DELETE": {
       "CONFIRM": "Confirmar exclusão",
       "HEADER": "Excluir despesa?",
       "LINK": "Excluir despesa",
-      "MESSAGE": "Isso removerá a despesa dos registros da sua fazenda. Não será mais refletido em nenhum resumo financeiro."
+      "MESSAGE": "Isso removerá a despesa dos registros da sua fazenda. Não será mais mostrada em nenhum resumo financeiro."
     },
     "DETAILED_HISTORY": "História Detalhada",
     "EDIT_EXPENSE": {
@@ -543,7 +543,7 @@
       "EDIT_TITLE": "Editar celeiro",
       "NAME": "Nome do celeiro",
       "TITLE": "Adicionar celeiro",
-      "WASH_PACK": "Este celeiro tem uma estação de lavação e embalagem?"
+      "WASH_PACK": "Este celeiro tem uma estação de lavagem e embalagem?"
     },
     "BUFFER_ZONE": {
       "EDIT_TITLE": "Editar zona de amortecimento/proteção",
@@ -618,7 +618,7 @@
     "EXPORT_MODAL": {
       "BODY": "Como você quer exportar o seu mapa?",
       "DOWNLOAD": "Download",
-      "EMAIL_TO_ME": "Enviar email para mim",
+      "EMAIL_TO_ME": "Enviar e-mail para mim",
       "EMAILING": "Enviando...",
       "TITLE": "Exporte o mapa do seu sítio/fazenda"
     },
@@ -704,7 +704,7 @@
       "SURFACE_WATER": "Água superficial",
       "TITLE": "Filtre o seu mapa",
       "WATERCOURSE": "Curso d'água",
-      "WV": "Ponto de bombeamento"
+      "WV": "Ponto de captação de água"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editar área natural",
@@ -755,7 +755,7 @@
         "TITLE": "Desenhe uma área"
       },
       "LINE": {
-        "STEP_FOUR": "(Para alguns tipos de linha) adicione uma largura",
+        "STEP_FOUR": "Para alguns tipos de linha, adicione uma largura",
         "STEP_ONE": "Clique em qualquer lugar para começar a desenhar",
         "STEP_THREE": "Opcionalmente, ajuste sua linha",
         "STEP_TWO": "Duplo-clique para finalizar sua linha",
@@ -768,14 +768,14 @@
       "TITLE": "Não é possível retirar"
     },
     "WATER_VALVE": {
-      "EDIT_TITLE": "Editar ponto de bombeamento",
+      "EDIT_TITLE": "Editar ponto de captação de água",
       "GROUNDWATER": "Água subterrânea",
       "MAX_FLOW_RATE": "Taxa máxima de fluxo",
       "MUNICIPAL_WATER": "Água municipal",
-      "NAME": "Nome do ponto de bombeamento",
+      "NAME": "Nome do ponto de captação de água",
       "RAIN_WATER": "Água de chuva",
       "SURFACE_WATER": "Água superficial",
-      "TITLE": "Adicionar ponto de bombeamento",
+      "TITLE": "Adicionar ponto de captação de água",
       "WATER_VALVE_TYPE": "Qual é a fonte?"
     },
     "WATERCOURSE": {
@@ -861,7 +861,7 @@
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",
-    "EMAIL": "Email",
+    "EMAIL": "E-mail",
     "MESSAGE_LABEL": "Mensagem",
     "OPTIONS": {
       "OTHER": "Outro",
@@ -942,7 +942,7 @@
     "BIRTH_YEAR_TOOLTIP": "As informações de idade são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
     "CREATE_ACCOUNT": "Crie sua conta",
     "CREATE_NEW_ACCOUNT": "Criar nova conta",
-    "EMAIL": "Email",
+    "EMAIL": "E-mail",
     "FULL_NAME": "Nome completo",
     "GENDER": "Gênero",
     "GENDER_TOOLTIP": "As informações de gênero são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
@@ -965,12 +965,12 @@
     "CHOOSE_ROLE": "Escolha sua função",
     "DEFAULT_LANGUAGE": "Português",
     "DEFAULT_LANGUAGE_VALUE": "pt",
-    "EMAIL": "Email",
+    "EMAIL": "E-mail",
     "EMAIL_INFO": "Usuários sem um e-mail não conseguirão entrar no aplicativo",
     "FULL_NAME": "Nome completo",
     "GENDER": "Gênero",
     "GENDER_TOOLTIP": "As informações de gênero são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
-    "INVALID_EMAIL_ERROR": "Por favor insira um email válido",
+    "INVALID_EMAIL_ERROR": "Por favor, insira um e-mail válido",
     "INVITE": "Convidar",
     "LANGUAGE_OF_INVITE": "Idioma do convite",
     "PHONE": "Número de telefone",
@@ -1089,7 +1089,7 @@
       "CANT_DELETE_MODIFIED_PLAN": "Não é possível remover o plano de manejo",
       "CONFIRM_DELETION": "Confirmar remoção",
       "DELETE_PLAN": "Remover plano de cultivo",
-      "DELETE_PLAN_MESSAGE": "Este plano de cultivo e todas as suas tarefas serão removidos de sua fazenda. Se desejar manter um registro deste plano de cultivo, clique em \"Abandon\".",
+      "DELETE_PLAN_MESSAGE": "Este plano de cultivo e todas as suas tarefas serão removidos de sua fazenda. Se desejar manter um registro deste plano de cultivo, clique em \"Abandonar\".",
       "DELETE_PLAN_QUESTION": "Remover plano de cultivo?"
     },
     "DETAIL_SPOTLIGHT_CONTENTS": "Aqui você pode editar os detalhes do seu cultivo.",
@@ -1109,8 +1109,8 @@
     "GERMINATION": "Germinação",
     "HARVEST": "Colheita",
     "HARVEST_DATE": "Quando será a próxima colheita?",
-    "HARVEST_TO_DATE": "A colheita até o momento é calculada com base nas tarefas de colheita concluídas neste plano de cultivo",
-    "HARVEST_TO_DATE_INFO": "Foi plantado em um vaso ou no solo?",
+    "HARVEST_TO_DATE": "Colheita até o momento",
+    "HARVEST_TO_DATE_INFO": "A colheita até o momento é calculada com base nas tarefas de colheita concluídas neste plano de cultivo",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "Foi plantado em um recipiente ou no solo?",
     "IN_GROUND": "No solo",
     "INCOMPLETE_TASK_CONTENT": "Este plano têm tarefas que ainda não foram completadas. Você precisará marcar as tarefas como concluídas, a fim de concluir este plano de cultivo. ",
@@ -1126,7 +1126,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NEXT_HARVEST": "Quando será a próxima colheita?",
     "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
-    "NUMBER_OF_CONTAINER": "Nº dos recipientes",
+    "NUMBER_OF_CONTAINER": "Nº des recipientes",
     "PENDING_TASK": "Tarefas pendentes",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_AND_ID_plural": "",
@@ -1147,7 +1147,7 @@
     "RATE_THIS_MANAGEMENT_PLAN": "Avalie este plano de cultivo",
     "REMOVE_PIN": "Remover alfinete",
     "REPEATED_MP_SPOTLIGHT": {
-      "BODY": "você pode clicar aqui para ver todos os planos de cultivo neste grupo. A modificação de um plano de cultivo individual não mudará nada sobre os outros no grupo.",
+      "BODY": "Você pode clicar aqui para ver todos os planos de cultivo neste grupo. A modificação de um plano de cultivo individual não mudará nada sobre os outros no grupo.",
       "TITLE": "Parabéns! Você criou seu primeiro plano de cultivo repetido!"
     },
     "ROW_METHOD": {
@@ -1285,9 +1285,9 @@
   "PASSWORD_RESET": {
     "BUTTON": "Reenviar link",
     "BUTTON_SENDING": "Enviando...",
-    "DESCRIPTION_BOTTOM": "Por favor verifique seu e-mail.",
+    "DESCRIPTION_BOTTOM": "Por favor, verifique seu e-mail.",
     "DESCRIPTION_TOP": "Um link foi enviado.",
-    "LABEL_EMAIL": "Email",
+    "LABEL_EMAIL": "E-mail",
     "LABEL_NEW_PASSWORD": "Nova Senha",
     "NEW_ACCOUNT_BUTTON": "Atualizar",
     "NEW_ACCOUNT_TITLE": "Defina sua nova senha",
@@ -1321,7 +1321,7 @@
     "ACCOUNT": {
       "CONVERT_TO_HAVE_ACCOUNT": "Converter este trabalhador para usuário com conta",
       "EDIT_USER": "Editar usuário",
-      "EMAIL": "Email",
+      "EMAIL": "E-mail",
       "ENGLISH": "Inglês",
       "FIRST_NAME": "Primeiro nome",
       "FRENCH": "Francês",
@@ -1345,7 +1345,7 @@
       "CURRENCY": "Moeda",
       "FARM_NAME": "Nome do sítio/fazenda",
       "IMPERIAL": "Imperial",
-      "METRIC": "Metrico",
+      "METRIC": "Métrico",
       "PHONE_NUMBER": "Número de telefone",
       "UNITS": "Unidades",
       "FARM_IMAGE": "MISSING",
@@ -1442,9 +1442,9 @@
     "CUSTOM_REVENUE_DESCRIPTION": "Descrição de receita personalizada",
     "DELETE": {
       "CONFIRM": "Confirmar exclusão",
-      "HEADER": "Excluir exclusão?",
+      "HEADER": "Excluir receita?",
       "LINK": "Excluir receita",
-      "MESSAGE": "Isto removerá a receita dos registros da sua fazenda. Não será mais refletida em nenhum resumo financeiro."
+      "MESSAGE": "Isto removerá a receita dos registros da sua fazenda. Não será mais mostrada em nenhum resumo financeiro."
     },
     "EDIT_REVENUE": {
       "RETIRE_REVENUE_MESSAGE": "A retirada deste tipo de receita irá removê-lo como uma escolha possível para rendimentos futuros. Você ainda pode pesquisar e filtrar rendimentos anteriores deste tipo na aba Finanças.",
@@ -1630,7 +1630,7 @@
   "SIGNUP": {
     "CHANGES": "Leia sobre as mudanças",
     "EMAIL_INVALID": "Email é inválido",
-    "ENTER_EMAIL": "Digite seu endereço de email",
+    "ENTER_EMAIL": "Digite seu endereço de e-mail",
     "EXPIRED_ERROR": "NÃO EXISTE",
     "EXPIRED_INVITATION_LINK_ERROR": "Convite expirado ou inválido",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
@@ -1738,7 +1738,7 @@
       "CANT_DELETE_PLANTING_TASK": "Não é possível deletar tarefas de plantio",
       "CONFIRM_DELETION": "Confirmar exclusão",
       "DELETE_TASK": "Remover tarefa",
-      "DELETE_TASK_MESSAGE": "Esta tarefa será removida de sua fazenda. Se deseja manter um registro dessa tarefa, clique em \"Abandon\". ",
+      "DELETE_TASK_MESSAGE": "Esta tarefa será removida de sua fazenda. Se deseja manter um registro dessa tarefa, clique em \"Abandonar\". ",
       "DELETE_TASK_QUESTION": "Remover tarefa?",
       "FAILED": "Falha ao remover tarefa",
       "SUCCESS": "Tarefa removida com sucesso"

@@ -34,7 +34,7 @@ export const generateTransactionsList = ({
   title,
 }) => {
   const workbook = new ExcelJS.Workbook();
-  const worksheet = workbook.addWorksheet(title);
+  const worksheet = workbook.addWorksheet(getFallbackTitle(title, 'Transactions'));
 
   addHeadersToWorksheet(worksheet, reportHeaders);
   setWorksheetColumnWidths(worksheet, [36, 18, 12, 14]);
@@ -67,7 +67,7 @@ export const addConfigurationWorksheet = ({
   language,
   title,
 }) => {
-  const worksheet = workbook.addWorksheet(title);
+  const worksheet = workbook.addWorksheet(getFallbackTitle(title, 'Export Settings'));
 
   const expenseTypes = generateTypeCountAndList(config.typesFilter.EXPENSE_TYPE);
   const revenueTypes = generateTypeCountAndList(config.typesFilter.REVENUE_TYPE);
@@ -223,4 +223,15 @@ function addConfigDataRows({
  */
 const formatDate = (date, language = 'en') => {
   return new Date(date).toLocaleDateString(language);
+};
+
+/**
+ * Returns the translated worksheet title, or English fallback if necessary
+ *
+ * @param {string} title - The translated title string to check.
+ * @param {string} defaultTitle - The default title to use if the original is missing or marked as 'MISSING'.
+ * @returns {string} - The original title or the default title if the original is missing or 'MISSING'.
+ */
+const getFallbackTitle = (title, defaultTitle) => {
+  return !title || title === 'MISSING' ? defaultTitle : title;
 };

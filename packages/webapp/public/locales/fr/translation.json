@@ -507,23 +507,6 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "ADD_CUSTOM_EXPENSE": "Ajouter des dépense personnalisée",
-      "ADD_CUSTOM_EXPENSE_TYPE": "Ajouter un type de dépense personnalisée",
-      "CUSTOM_EXPENSE_NAME": "Nom de la dépense personnalisée",
-      "CUSTOM_EXPENSE_TYPE": "Type de dépense personnalisée",
-      "DUPLICATE_NAME": "Un type de dépense portant ce nom existe déjà. Veuillez en choisir un autre",
-      "FLOW": "Création d'une dépense",
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "Gérer le type de dépense personnalisée",
-      "NEW_EXPENSE_ITEM": "Nouvelle dépense",
-      "TITLE": "Ajouter une dépense",
-      "WHICH_TYPES_TO_RECORD": "Choisissez vos types de dépenses ci-dessous:"
-    },
-    "CUSTOM_EXPENSE_DESCRIPTION": "Description de dépense personnalisée",
-    "DELETE": {
-      "CONFIRM": "Confirmer",
-      "HEADER": "En-tête",
-      "LINK": "Lien",
-      "MESSAGE": "Cela supprimera la dépense des registres de votre ferme. Elle ne sera plus reflétée dans aucun résumé financier"
       "ADD_CUSTOM_EXPENSE": "Ajouter une dépense personnalisée",
       "ADD_CUSTOM_EXPENSE_TYPE": "Ajouter un type dépense personnalisée",
       "CUSTOM_EXPENSE_NAME": "Nom de la dépense personnalisée",

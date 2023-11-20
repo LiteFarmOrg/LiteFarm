@@ -149,7 +149,7 @@
     },
     "TASK": "tarea",
     "TASK_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
-    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Cuéntanos sobre la",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Cuéntenos sobre esta tarea",
     "TRANSPLANT_METHOD": "Método de trasplantar",
     "WAGE_OVERRIDE": "Alterar el salario",
     "WHAT_PLANTING_METHOD": "¿Cuál es el método de trasplante?",
@@ -1090,7 +1090,7 @@
       "CANT_DELETE_MODIFIED_PLAN": "No se puede eliminar el plan de cultivo",
       "CONFIRM_DELETION": "Confirmar eliminación",
       "DELETE_PLAN": "Eliminar plan de cultivo",
-      "DELETE_PLAN_MESSAGE": "Éste plan de cultivo y todas las tareas asociadas serán eliminadas de su finca. Si desea mantener un registro, haga clic en \"Abandonar\"",
+      "DELETE_PLAN_MESSAGE": "Este plan de cultivo y todas las tareas asociadas serán eliminadas de su finca. Si desea mantener un registro, haga clic en \"Abandonar\"",
       "DELETE_PLAN_QUESTION": "¿Desea eliminar el plan de cultivo?"
     },
     "DETAIL_SPOTLIGHT_CONTENTS": "Aquí puede editar los detalles de su cultivo.",
@@ -1348,12 +1348,12 @@
       "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de teléfono",
       "UNITS": "Unidades",
-      "FARM_IMAGE": "MISSING",
-      "REMOVE_IMAGE": "MISSING",
-      "CHANGE_IMAGE": "MISSING",
-      "UPLOAD_IMAGE": "MISSING",
-      "CLICK_TO_UPLOAD": "MISSING",
-      "DRAG_DROP": "MISSING"
+      "FARM_IMAGE": "Imagen de la finca",
+      "REMOVE_IMAGE": "Eliminar imagen",
+      "CHANGE_IMAGE": "Cambiar imagen",
+      "UPLOAD_IMAGE": "Subir imagen",
+      "CLICK_TO_UPLOAD": "Clickee para subir",
+      "DRAG_DROP": "o arrastre y suelte"
     },
     "FARM_TAB": "Finca",
     "PEOPLE": {
@@ -1794,8 +1794,8 @@
     "TRANSPLANT_LOCATIONS": "Seleccione una ubicación para el trasplante",
     "UNASSIGNED": "Sin asignar",
     "CREATE": {
-      "FAILED": "MISSING",
-      "LOCATION_DELETED": "MISSING"
+      "FAILED": "No se puede crear la tarea",
+      "LOCATION_DELETED": "Otro usuario ha retirado la ubicación seleccionada. Por favor, refresque la página para obtener el estado más reciente."
     }
   },
   "UNIT": {

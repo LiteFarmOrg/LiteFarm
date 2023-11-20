@@ -149,7 +149,7 @@
     },
     "TASK": "tâche",
     "TASK_NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
-    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Parlez-nous de la tâche de {{task}}",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Décrivez cette tache",
     "TRANSPLANT_METHOD": "Méthode de repiquage",
     "WAGE_OVERRIDE": "Dérogation de salaire",
     "WHAT_PLANTING_METHOD": "Quelle est la méthode de repiquage\u00a0?",

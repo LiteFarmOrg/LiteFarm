@@ -138,9 +138,7 @@ export default function PureTaskDetails({
         >
           {isHarvest
             ? t('ADD_TASK.HOW_MUCH_IS_HARVESTED')
-            : t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE', {
-                task: isCustomType ? taskName.toLowerCase() : t(`task:${taskType}_LOWER`),
-              })}
+            : t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE')}
         </Main>
         {!isCustomType &&
           taskComponents[taskType]({

@@ -149,7 +149,7 @@
     },
     "TASK": "tarefa",
     "TASK_NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
-    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Conte-nos sobre a tarefa de {{task}}",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Conte-nos sobre esta tarefa",
     "TRANSPLANT_METHOD": "Método de transplante",
     "WAGE_OVERRIDE": "Substituição de salário",
     "WHAT_PLANTING_METHOD": "Qual é o método de transplante?",

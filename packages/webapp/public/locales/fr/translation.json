@@ -524,13 +524,30 @@
       "HEADER": "En-tête",
       "LINK": "Lien",
       "MESSAGE": "Cela supprimera la dépense des registres de votre ferme. Elle ne sera plus reflétée dans aucun résumé financier"
+      "ADD_CUSTOM_EXPENSE": "Ajouter une dépense personnalisée",
+      "ADD_CUSTOM_EXPENSE_TYPE": "Ajouter un type dépense personnalisée",
+      "CUSTOM_EXPENSE_NAME": "Nom de la dépense personnalisée",
+      "CUSTOM_EXPENSE_TYPE": "Type de dépense personnalisée",
+      "DUPLICATE_NAME": "Un type de dépense portant ce nom existe déjà. Veuillez en choisir un autre.",
+      "FLOW": "Création d'une dépense",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "Gérer les types de dépenses personnalisés",
+      "NEW_EXPENSE_ITEM": "Nouvel article de dépense",
+      "TITLE": "Ajouter une dépense",
+      "WHICH_TYPES_TO_RECORD": "Choisissez vos types de dépenses ci-dessous:"
+    },
+    "CUSTOM_EXPENSE_DESCRIPTION": "Description de la dépense personnalisée",
+    "DELETE": {
+      "CONFIRM": "Confirmer la suppression",
+      "HEADER": "Supprimer la dépense?",
+      "LINK": "Supprimer la dépense",
+      "MESSAGE": "Cela supprimera la dépense des registres de votre ferme. Elle ne sera plus reflétée dans aucun résumé financier."
     },
     "DETAILED_HISTORY": "Historique détaillé",
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Choisissez une date",
       "DESELECTING_CATEGORY": "La désélection d'une catégorie supprimera les dépenses existantes dans cette catégorie pour ce journal des dépenses.",
       "REMOVE_ALL": "Vous avez supprimé toutes les dépenses, cliquez sur Enregistrer pour valider.",
-      "RETIRE_EXPENSE_MESSAGE": "Message de désactivation de dépense",
+      "RETIRE_EXPENSE_MESSAGE": "La mise à la retraite de ce type de dépense l'éliminera en tant que choix possible pour les dépenses futures. Vous pouvez toujours rechercher et filtrer les instances historiques de ce type de dépense dans l'onglet Finances.",
       "RETIRE_EXPENSE_TYPE": "Desactiver ce type de dépense",
       "RETIRED": "(Desactivée)",
       "TITLE": "Modifier la dépense",
@@ -833,8 +850,8 @@
     "ADD_REVENUE": "+ Ajouter un revenu",
     "ADD_TRANSACTION": "+ Ajouter une transaction",
     "CANT_FIND": {
-      "INFO_EXPENSE": "Vous pouvez également créer vos propres types de dépenses personnalisés !",
-      "INFO_REVENUE": "Vous pouvez également créer vos propres types de revenus personnalisés !",
+      "INFO_EXPENSE": "Vous pouvez également créer vos propres types de dépenses personnalisés!",
+      "INFO_REVENUE": "Vous pouvez également créer vos propres types de revenus personnalisés!",
       "MAIN": "Vous ne trouvez pas une catégorie appropriée?",
       "MANAGE_EXPENSE": "Gérer dépense personnalisée",
       "MANAGE_REVENUE": "Gérer revenu personnalisé",
@@ -1496,7 +1513,7 @@
       "CUSTOM_REVENUE_TYPE": "Type de revenu personnalisé",
       "DUPLICATE_NAME": "Un type de revenu portant ce nom existe déjà.  Veuillez en choisir un autre."
     },
-    "CUSTOM_REVENUE_DESCRIPTION": "Description Personnalisée des Revenus",
+    "CUSTOM_REVENUE_DESCRIPTION": "Description du revenu personnalisé",
     "DELETE": {
       "CONFIRM": "Confirmer la suppression",
       "HEADER": "Supprimer le revenu ?",
@@ -1520,7 +1537,7 @@
   "SALE": {
     "ADD_SALE": {
       "ADD_CUSTOM_REVENUE_TYPE": "Ajouter un type de revenu personnalisé",
-      "ADD_REVENUE": "Ajouter des revenus",
+      "ADD_REVENUE": "Ajouter un revenu",
       "CROP_PLACEHOLDER": "Selectionner une culture",
       "CROP_REQUIRED": "Réponse requise",
       "CROP_VARIETY": "Variété de la culture",
@@ -1535,20 +1552,20 @@
         "TOTAL": "Total"
       },
       "TITLE": "Ajouter nouvelle vente",
-      "WHICH_TYPE_TO_RECORD": "Choisissez votre type de revenu ci-dessous :"
+      "WHICH_TYPE_TO_RECORD": "Sélectionnez votre type de revenu ci-dessous :"
     },
     "DETAIL": {
       "ACTION": "Action",
       "CROP": "Culture",
       "CUSTOMER_NAME": "Nom de Client",
       "DELETE_CONFIRMATION": "Êtes-vous sûr que vous voulez supprimer cette vente\u00a0?",
-      "TITLE": "Detail de revenu",
+      "TITLE": "Détails du revenu",
       "VALUE": "Valeur"
     },
     "EDIT_SALE": {
       "DATE": "Date",
       "DELETE_CONFIRMATION": "Êtes-vous sûr que vous voulez supprimer cette vente\u00a0?",
-      "TITLE": "Modifier Revenu"
+      "TITLE": "Modifier le revenu"
     },
     "ESTIMATED_REVENUE": {
       "CALCULATION": "Calcul",

@@ -292,13 +292,13 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState,
     const result = { type: area.type, grid_points };
     result[fieldEnum.total_area] = totalArea;
     result[fieldEnum.perimeter] = perimeter;
-    console.log(area, result);
     dispatch(upsertFormData(result));
     history.push(`/${area.type}/${area.location_id}/edit`);
   };
 
   // Draw an area
   const drawArea = (map, maps, mapBounds, area, isVisible) => {
+    let isDragging = false;
     const { grid_points: points, name, type } = area;
     const { colour, dashScale, dashLength } = areaStyles[type];
     points.forEach((point) => {
@@ -306,6 +306,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState,
     });
 
     const polygon = new maps.Polygon({
+      draggable: true,
       editable: true,
       paths: points,
       strokeColor: defaultColour,
@@ -322,11 +323,22 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState,
       this.setOptions({ fillOpacity: 0.5 });
     });
     const path = polygon.getPath();
-    maps.event.addListener(path, 'set_at', function () {
+    maps.event.addListener(polygon, 'dragstart', function () {
+      isDragging = true;
+    });
+    maps.event.addListener(polygon, 'dragend', function () {
+      isDragging = false;
       editPolygon(maps, path, area);
     });
+    maps.event.addListener(path, 'set_at', function () {
+      if (!isDragging) {
+        editPolygon(maps, path, area);
+      }
+    });
     maps.event.addListener(path, 'insert_at', function () {
-      editPolygon(maps, path, area);
+      if (!isDragging) {
+        editPolygon(maps, path, area);
+      }
     });
 
     // draw dotted outline

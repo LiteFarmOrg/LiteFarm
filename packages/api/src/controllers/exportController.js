@@ -18,7 +18,10 @@ import UserModel from '../models/userModel.js';
 import { emails, sendEmail } from '../templates/sendEmailTemplate.js';
 import FarmModel from '../models/farmModel.js';
 import FinanceReportModel from '../models/financeReportModel.js';
-import { generateFinanceReport } from '../util/generateFinanceReport.js';
+import {
+  generateTransactionsList,
+  addConfigurationWorksheet,
+} from '../util/generateFinanceReport.js';
 
 const exportController = {
   sendMapToEmail() {
@@ -50,17 +53,47 @@ const exportController = {
   createFinanceReport() {
     return async (req, res) => {
       try {
-        const data = req.body;
+        const {
+          farm_id,
+          config,
+          transactions,
+          reportHeaders,
+          configSheetHeaders,
+          currencySymbol,
+          language,
+          worksheetTitles,
+        } = req.body;
 
-        // Generate xlsx
-        const workbook = generateFinanceReport(data);
+        // Create xlsx file with transactions sheet
+        let workbook = generateTransactionsList({
+          transactions,
+          reportHeaders,
+          currencySymbol,
+          language,
+          title: worksheetTitles.TRANSACTIONS,
+        });
+
+        // Add export configuration worksheet
+        const { farm_name } = await FarmModel.query().findById(farm_id);
+        workbook = addConfigurationWorksheet({
+          workbook,
+          configSheetHeaders,
+          config,
+          farm_name,
+          language,
+          title: worksheetTitles.EXPORT_SETTINGS,
+        });
+
         const buffer = await workbook.xlsx.writeBuffer();
 
         // If successful, create a record in the finance_report table
         await FinanceReportModel.query()
           .insert({
-            farm_id: data.farm_id,
+            farm_id,
             file_type: 'xlsx',
+            filter_config: {
+              config,
+            },
           })
           .context({ user_id: req.auth.user_id });
 

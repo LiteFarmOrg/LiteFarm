@@ -17,45 +17,50 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { getRevenueTypes } from '../../saga';
-import { revenueTypesSelector } from '../../../revenueTypeSlice';
+import { revenueTypesSelector, allRevenueTypesSelector } from '../../../revenueTypeSlice';
 
-export default function useSortedRevenueTypes() {
+export default function useSortedRevenueTypes({ selectorType = 'default' } = {}) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const [sortedtypes, setSortedTypes] = useState([]);
-  const revenueTypes = useSelector(revenueTypesSelector);
+
+  const selector = selectorType === 'all' ? allRevenueTypesSelector : revenueTypesSelector;
+  const revenueTypes = useSelector(selector);
 
   useEffect(() => {
     dispatch(getRevenueTypes());
   }, []);
 
   useEffect(() => {
-    const defaultTypes = [];
-    const customTypes = [];
-    revenueTypes?.forEach((type) => {
-      const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
-      arrayToUpdate.push(type);
-    });
+    const allTypes = revenueTypes ?? [];
 
-    const allTypes = [
-      ...defaultTypes.sort((typeA, typeB) =>
-        t(`revenue:${typeA.revenue_translation_key}.REVENUE_NAME`).localeCompare(
-          t(`revenue:${typeB.revenue_translation_key}.REVENUE_NAME`),
-        ),
-      ),
-      ...customTypes.sort((typeA, typeB) =>
-        typeA.revenue_translation_key.localeCompare(typeB.revenue_translation_key),
-      ),
+    const sortedTypes = [
+      ...allTypes.sort((typeA, typeB) => {
+        const compareKeyA =
+          typeA.farm_id === null
+            ? t(`revenue:${typeA.revenue_translation_key}.REVENUE_NAME`)
+            : typeA.revenue_translation_key;
+
+        const compareKeyB =
+          typeB.farm_id === null
+            ? t(`revenue:${typeB.revenue_translation_key}.REVENUE_NAME`)
+            : typeB.revenue_translation_key;
+
+        return compareKeyA.localeCompare(compareKeyB);
+      }),
     ];
 
-    setSortedTypes(allTypes);
+    setSortedTypes(sortedTypes);
   }, [revenueTypes]);
 
   return sortedtypes;
 }
 
 useSortedRevenueTypes.propTypes = {
+  props: PropTypes.shape({
+    selectorType: PropTypes.string,
+  }),
   useHookFormPersist: PropTypes.func,
   history: PropTypes.object,
 };

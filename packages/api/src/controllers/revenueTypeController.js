@@ -16,6 +16,7 @@
 import baseController from './baseController.js';
 
 import RevenueTypeModel from '../models/revenueTypeModel.js';
+import SaleModel from '../models/saleModel.js';
 import { transaction, Model } from 'objection';
 
 const revenueTypeController = {
@@ -32,25 +33,13 @@ const revenueTypeController = {
         const record = await baseController.existsInTable(trx, RevenueTypeModel, {
           revenue_name: data.revenue_name,
           farm_id,
+          deleted: false,
         });
 
-        // if record exists in db
         if (record) {
-          // if not deleted, means it is a active revenue type
-          // throw conflict error
-          if (record.deleted === false) {
-            await trx.rollback();
-            return res.status(409).send();
-          } else {
-            // if its deleted, them make it active
-            record.deleted = false;
-            record.custom_description = data.custom_description;
-            await baseController.put(RevenueTypeModel, record.revenue_type_id, record, req, {
-              trx,
-            });
-            await trx.commit();
-            res.status(200).send(record);
-          }
+          // if active record exists throw conflict error
+          await trx.rollback();
+          return res.status(409).send();
         } else {
           const result = await baseController.postWithResponse(
             RevenueTypeModel,
@@ -113,31 +102,36 @@ const revenueTypeController = {
   delType() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
+      const { revenue_type_id } = req.params;
       try {
         // do not allow operations to deleted records
         if (
           await baseController.isDeleted(trx, RevenueTypeModel, {
-            revenue_type_id: req.params.revenue_type_id,
+            revenue_type_id,
           })
         ) {
           await trx.rollback();
           return res.status(404).send();
         }
 
-        const isDeleted = await baseController.delete(
-          RevenueTypeModel,
-          req.params.revenue_type_id,
-          req,
-          {
-            trx,
-          },
-        );
-        await trx.commit();
-        if (isDeleted) {
-          return res.sendStatus(200);
-        } else {
-          return res.sendStatus(404);
+        // Default to deletion
+        let updatedStatus = { retired: false, deleted: true };
+
+        const associatedRecords = await SaleModel.query(trx)
+          .where({ revenue_type_id, deleted: false })
+          .first();
+
+        if (associatedRecords) {
+          // Retire instead of delete
+          updatedStatus = { retired: true, deleted: false };
         }
+
+        await baseController.patch(RevenueTypeModel, revenue_type_id, updatedStatus, req, {
+          trx,
+        });
+
+        await trx.commit();
+        return res.status(200).json(updatedStatus);
       } catch (error) {
         await trx.rollback();
         return res.status(400).json({
@@ -157,8 +151,15 @@ const revenueTypeController = {
       };
 
       try {
-        // do not allow update to deleted records
-        if (await baseController.isDeleted(trx, RevenueTypeModel, { revenue_type_id })) {
+        // do not allow updates to deleted or retired records
+        const isRecordDeleted = await baseController.isDeleted(trx, RevenueTypeModel, {
+          revenue_type_id,
+        });
+        const isRecordRetired = await baseController.isRetired(trx, RevenueTypeModel, {
+          revenue_type_id,
+        });
+
+        if (isRecordDeleted || isRecordRetired) {
           await trx.rollback();
           return res.status(404).send();
         }

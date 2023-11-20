@@ -31,6 +31,7 @@ export const ADD_REMOVE_EXPENSE = 'ADD_REMOVE_EXPENSE';
 export const SET_DATE_RANGE = 'SET_DATE_RANGE';
 export const UPDATE_SALE = 'UPDATE_SALE';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const SET_IS_FETCHING_DATA = 'SET_IS_FETCHING_DATA';
 
 export const REVENUE_FORM_TYPES = {
   CROP_SALE: 'crop_sale',

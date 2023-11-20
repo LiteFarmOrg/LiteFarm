@@ -15,7 +15,7 @@
 
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import NoSearchResults from '../../components/Card/NoSearchResults';
@@ -25,6 +25,7 @@ import DateRangeSelector from '../../components/Finances/DateRangeSelector';
 import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
 import PureTransactionList from '../../components/Finances/Transaction/Mobile/List';
 import PureCollapsibleSearch from '../../components/PopupFilter/PureCollapsibleSearch';
+import Spinner from '../../components/Spinner';
 import { Title } from '../../components/Typography';
 import { SUNDAY } from '../../util/dateRange';
 import { isTaskType } from '../Task/useIsTaskType';
@@ -32,12 +33,12 @@ import { transactionsFilterSelector } from '../filterSlice';
 import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
 import useSearchFilter from '../hooks/useSearchFilter';
 import { managementPlansSelector } from '../managementPlanSlice';
-import { getManagementPlansAndTasks } from '../saga';
 import { taskEntitiesByManagementPlanIdSelector } from '../taskSlice';
 import Report from './Report';
 import TransactionFilter from './TransactionFilter';
-import { getExpense, getFarmExpenseType, getSales, setSelectedExpenseTypes } from './actions';
-import { getRevenueTypes } from './saga';
+import { setIsFetchingData } from './actions';
+import { fetchAllData } from './saga';
+import { isFetchingDataSelector } from './selectors';
 import styles from './styles.module.scss';
 import useTransactions from './useTransactions';
 import { calcActualRevenue, calcOtherExpense, calcTotalLabour } from './util';
@@ -56,17 +57,20 @@ const Finances = ({ history }) => {
   const transactions = useTransactions({ dateFilter, expenseTypeFilter, revenueTypeFilter });
   const currencySymbol = useCurrencySymbol();
   const overlayRef = useRef(null);
+  const isFetchingData = useSelector(isFetchingDataSelector);
+  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSales());
-    dispatch(getExpense());
-    dispatch(getFarmExpenseType());
-    dispatch(getRevenueTypes());
-    dispatch(getManagementPlansAndTasks());
-    dispatch(setSelectedExpenseTypes([]));
-  }, []);
+    dispatch(fetchAllData());
+  }, [fetchAllData]);
+
+  useEffect(() => {
+    if (!isFetchingData) {
+      setIsLoading(false);
+    }
+  }, [isFetchingData]);
 
   const getEstimatedRevenue = (managementPlans) => {
     let totalRevenue = 0;
@@ -98,9 +102,7 @@ const Finances = ({ history }) => {
   };
 
   const makeTransactionsSearchableString = (transaction) =>
-    [transaction.note, transaction.typeLabel || t('SALE.FINANCES.LABOUR_EXPENSE')]
-      .filter(Boolean)
-      .join(' ');
+    [transaction.note, transaction.typeLabel].filter(Boolean).join(' ');
 
   const [filteredTransactions, searchString, setSearchString] = useSearchFilter(
     transactions,
@@ -114,7 +116,9 @@ const Finances = ({ history }) => {
   const otherExpense = calcOtherExpense(filteredTransactions).toFixed(0);
   const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(0);
 
-  return (
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <div className={styles.financesContainer}>
       <div className={styles.titleContainer}>
         <Title>{t('SALE.FINANCES.TITLE')}</Title>

@@ -34,7 +34,7 @@
     "SUBJECT": "Solicitação de redefinição de senha"
   },
   "PASSWORD_RESET_CONFIRMATION": {
-    "UPDATED": "Nós atualizamos sua senha de acesso ao LiteFarm. Clique abaixo para acessar a sua conta.",
+    "UPDATED": "Nós atualizamos sua senha de acesso ao LiteFarm. Clique \"Entrar\" abaixo para acessar a sua conta.",
     "SUBJECT": "Sua senha para LiteFarm foi alterada"
   },
   "RESTORE_ACCESS": {

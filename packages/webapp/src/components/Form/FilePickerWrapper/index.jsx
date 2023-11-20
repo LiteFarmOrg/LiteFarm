@@ -1,11 +1,10 @@
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
-import { ComponentPropsWithoutRef } from 'react';
 
 const useStyles = makeStyles({
   inputContainer: {
     position: 'relative',
-    display: 'inline-block',
+    display: 'inline',
     cursor: 'pointer',
   },
   input: {
@@ -28,7 +27,7 @@ export default function PureFilePickerWrapper({
   disabled,
   onChange,
   ...props
-}: ComponentPropsWithoutRef<'input'>) {
+}) {
   const classes = useStyles();
 
   return (

@@ -23,10 +23,18 @@
       "UPLOAD": "No se pudo subir el archivo CSV"
     }
   },
+  "CROP": {
+    "ERROR": {
+      "DELETE": "No se pudo borrar campo de cultivo"
+    },
+    "SUCCESS": {
+      "DELETE": "Cultivo borrado exitosamente"
+    }
+  },
   "CROP_VARIETY": {
     "ERROR": {
-      "ADD": "Error: No se pudo agregar variedad a la base de datos",
-      "ADD_ALREADY_EXISTS": "Error: Esta variedad ya existe",
+      "ADD": "Error: no se pudo agregar variedad a la base de datos",
+      "ADD_ALREADY_EXISTS": "Error: existe variedad",
       "DELETE": "No se pudo eliminar la variedad de cultivo",
       "UPDATE": "No se pudo actualizar la variedad de cultivo"
     },
@@ -43,21 +51,21 @@
       "UPDATE": "No se pudo actualizar gastos!"
     },
     "SUCCESS": {
-      "ADD": "¡Nuevos gastos agregados exitosamente!",
-      "DELETE": "¡Gastos eliminados exitosamente!",
-      "UPDATE": "¡Gastos actualizados exitosamente!"
+      "ADD": "Nuevos gastos agregados exitosamente!",
+      "DELETE": "Nuevos gastos borrados exitosamente!",
+      "UPDATE": "Gastos actualizados exitosamente!!"
     }
   },
   "EXPENSE_TYPE": {
     "ERROR": {
-      "ADD": "No se pudo crear el tipo de gasto personalizado",
-      "DELETE": "No se pudo eliminar el tipo de gasto personalizado",
-      "UPDATE": "No se pudo actualizar el tipo de gasto personalizado"
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
-      "ADD": "Tipo de gasto personalizado creado exitosamente",
-      "DELETE": "Tipo de gasto personalizado eliminado exitosamente",
-      "UPDATE": "Tipo de gasto personalizado actualizado exitosamente"
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "FARM": {
@@ -139,14 +147,14 @@
   },
   "REVENUE_TYPE": {
     "ERROR": {
-      "ADD": "No se pudo crear el tipo de ingreso personalizado",
-      "DELETE": "No se pudo eliminar el tipo de ingreso personalizado",
-      "UPDATE": "No se pudo actualizar el tipo de ingreso personalizado"
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
-      "ADD": "Tipo de ingreso personalizado creado exitosamente",
-      "DELETE": "Tipo de ingreso personalizado eliminado exitosamente",
-      "UPDATE": "Tipo de ingreso personalizado actualizado exitosamente"
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "SALE": {
@@ -179,7 +187,8 @@
       "SUCCESS": "Tarea creada con éxito"
     },
     "UPDATE": {
-      "FAILED": "No se pudo completar la tarea"
+      "FAILED": "No se pudo completar la tarea",
+      "SUCCESS": "Tarea creada con éxito"
     }
   },
   "TASK_TYPE": {
@@ -199,6 +208,7 @@
       "EXISTS": "Usuario ya existe en la red de trabajo de LiteFarm",
       "INVITE": "Error al crear cuenta de usuario. Por favor contacte LiteFarm por asistencia.",
       "MAX_RESET_EMAILS": "Se le ha enviado un enlace de restablecimiento de contraseña, por favor verifique su bandeja de entrada y su carpeta de correo no deseado.",
+      "NOTHING_CHANGED": "Nada ha cambiado",
       "RESET_PASSWORD": "Error al enviar email para cambiar contraseña. Por favor contacte LiteFarm por asistencia.",
       "RESTORE": "Hubo un error al restaurar acceso",
       "REVOKE": "Hubo un error al revocar acceso",

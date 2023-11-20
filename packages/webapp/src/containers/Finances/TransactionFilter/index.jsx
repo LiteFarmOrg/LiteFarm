@@ -16,9 +16,9 @@
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import Drawer from '../../../components/Drawer';
 import FilterButton from '../../../components/Filter/FilterButton';
 import Button from '../../../components/Form/Button';
+import ModalComponent from '../../../components/Modals/ModalComponent/v2';
 import { Semibold } from '../../../components/Typography';
 import TransactionFilterContent from '../../Filter/Transactions';
 import {
@@ -45,28 +45,31 @@ const TransactionFilter = () => {
   const filterRef = useRef({});
 
   return (
-    <div>
+    <>
       <FilterButton onClick={() => setIsFilterOpen(true)} isFilterActive={isFilterActive} />
-      <Drawer
-        isOpen={isFilterOpen}
-        title={t('FINANCES.FILTER.TITLE')}
-        onClose={() => setIsFilterOpen(false)}
-        buttonGroup={
-          <Button fullLength onClick={handleApply} color={'primary'} disabled={!isDirty}>
-            {t('common:APPLY')}
-          </Button>
-        }
-      >
-        <>
-          <Semibold className={styles.helpText}>{t('FINANCES.FILTER.HELP_TEXT')}</Semibold>
-          <TransactionFilterContent
-            transactionsFilter={transactionsFilter}
-            filterRef={filterRef}
-            onChange={() => !isDirty && setIsDirty(true)}
-          />
-        </>
-      </Drawer>
-    </div>
+      {/* TODO LF-3751 show contents on drawer instead of modal component for mobile view */}
+      {isFilterOpen && (
+        <ModalComponent
+          title={t('FINANCES.FILTER.TITLE')}
+          titleClassName={styles.title}
+          dismissModal={() => setIsFilterOpen(false)}
+          buttonGroup={
+            <Button fullLength onClick={handleApply} color={'primary'} disabled={!isDirty}>
+              {t('common:APPLY')}
+            </Button>
+          }
+        >
+          <div className={styles.filterContents}>
+            <Semibold className={styles.helpText}>{t('FINANCES.FILTER.HELP_TEXT')}</Semibold>
+            <TransactionFilterContent
+              transactionsFilter={transactionsFilter}
+              filterRef={filterRef}
+              onChange={() => !isDirty && setIsDirty(true)}
+            />
+          </div>
+        </ModalComponent>
+      )}
+    </>
   );
 };
 

@@ -15,22 +15,21 @@
 
 import {
   ADD_EXPENSES,
-  ADD_REMOVE_EXPENSE,
   ADD_SALE,
-  DELETE_EXPENSE,
+  ADD_REMOVE_EXPENSE,
   DELETE_EXPENSES,
   DELETE_SALE,
-  GET_EXPENSE,
   GET_FARM_EXPENSE_TYPE,
+  GET_EXPENSE,
   GET_SALES,
   SET_DATE_RANGE,
+  SET_EXPENSE_TYPE,
   SET_EXPENSE,
   SET_EXPENSE_DETAIL_DATE,
-  SET_EXPENSE_TYPE,
-  SET_IS_FETCHING_DATA,
   SET_SALES_IN_STATE,
   SET_SELECTED_EXPENSE_TYPE,
   SET_SELECTED_SALE,
+  DELETE_EXPENSE,
   UPDATE_SALE,
 } from './constants';
 
@@ -148,12 +147,5 @@ export const setDateRange = (rangeObj) => {
   return {
     type: SET_DATE_RANGE,
     rangeObj,
-  };
-};
-
-export const setIsFetchingData = (isFetching) => {
-  return {
-    type: SET_IS_FETCHING_DATA,
-    isFetching,
   };
 };

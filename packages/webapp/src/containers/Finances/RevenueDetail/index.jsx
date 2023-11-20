@@ -47,7 +47,7 @@ function RevenueDetail({ history, match }) {
   }, [sale, history]);
 
   // Dropdown should include the current revenue's type even if it has been retired
-  const revenueTypesArray = revenueTypes?.concat(revenueType?.retired ? revenueType : []);
+  const revenueTypesArray = revenueTypes?.concat(revenueType?.deleted ? revenueType : []);
   const revenueTypeReactSelectOptions = mapRevenueTypesToReactSelectOptions(revenueTypesArray);
 
   const onSubmit = (data) => {

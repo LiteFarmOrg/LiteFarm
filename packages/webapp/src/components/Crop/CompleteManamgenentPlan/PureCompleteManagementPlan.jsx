@@ -1,22 +1,20 @@
-import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import i18n from '../../../locales/i18n';
-import { getDateInputFormat } from '../../../util/moment';
-import { managementPlanStatusTranslateKey } from '../../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
-import { StatusLabel } from '../../CardWithStatus/StatusLabel';
 import Form from '../../Form';
-import Button from '../../Form/Button';
-import Input, { getInputErrors } from '../../Form/Input';
-import { isNotInFuture } from '../../Form/Input/utils';
-import InputAutoSize from '../../Form/InputAutoSize';
-import ReactSelect from '../../Form/ReactSelect';
-import AbandonManagementPlanModal from '../../Modals/AbandonManagementPlanModal';
-import UnableToAbandonPlanModal from '../../Modals/UnableToAbandonPlanModal';
-import UnableToCompletePlanModal from '../../Modals/UnableToCompletePlanModal';
-import Rating from '../../Rating';
-import { Title } from '../../Typography';
 import CropHeader from '../CropHeader';
+import React, { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import Button from '../../Form/Button';
+import { useTranslation } from 'react-i18next';
+import { Title } from '../../Typography';
+import ReactSelect from '../../Form/ReactSelect';
+import Rating from '../../Rating';
+import InputAutoSize from '../../Form/InputAutoSize';
+import Input, { getInputErrors } from '../../Form/Input';
+import { StatusLabel } from '../../CardWithStatus/StatusLabel';
+import { managementPlanStatusTranslateKey } from '../../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
+import { getDateInputFormat } from '../../../util/moment';
+import AbandonManagementPlanModal from '../../Modals/AbandonManagementPlanModal';
+import i18n from '../../../locales/i18n';
+import { isNotInFuture } from '../../Form/Input/utils';
 
 export const SOMETHING_ELSE = 'Something Else';
 export const defaultAbandonManagementPlanReasonOptions = [
@@ -66,20 +64,11 @@ export function PureCompleteManagementPlan({
   const CREATED_ABANDON_REASON = 'created_abandon_reason';
 
   const [showAbandonModal, setShowAbandonModal] = useState(false);
-  const [showCannotCompleteModal, setShowCannotCompleteModal] = useState(false);
-  const [showCannotAbandonModal, setShowCannotAbandonModal] = useState(false);
 
   const completed = status === 'completed';
   const abandoned = status === 'abandoned';
 
   const disabled = !isValid;
-
-  const displayCannotAbandonModal = () => {
-    setShowAbandonModal(false);
-    setShowCannotAbandonModal(true);
-  };
-
-  const displayCannotCompleteModal = () => setShowCannotCompleteModal(true);
 
   return (
     <Form
@@ -90,11 +79,7 @@ export function PureCompleteManagementPlan({
           </Button>
         )
       }
-      onSubmit={handleSubmit(
-        isAbandonPage
-          ? () => setShowAbandonModal(true)
-          : (data) => onSubmit(data, displayCannotCompleteModal),
-      )}
+      onSubmit={handleSubmit(isAbandonPage ? () => setShowAbandonModal(true) : onSubmit)}
     >
       <CropHeader variety={crop_variety} onBackClick={onGoBack} />
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -191,14 +176,8 @@ export function PureCompleteManagementPlan({
       {showAbandonModal && isAbandonPage && (
         <AbandonManagementPlanModal
           dismissModal={() => setShowAbandonModal(false)}
-          onAbandon={() => onSubmit(getValues(), displayCannotAbandonModal)}
+          onAbandon={() => onSubmit(getValues())}
         />
-      )}
-      {showCannotAbandonModal && (
-        <UnableToAbandonPlanModal dismissModal={() => setShowCannotAbandonModal(false)} />
-      )}
-      {showCannotCompleteModal && (
-        <UnableToCompletePlanModal dismissModal={() => setShowCannotCompleteModal(false)} />
       )}
     </Form>
   );

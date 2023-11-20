@@ -215,9 +215,7 @@ const PureTaskCrops = ({
   const disabled = isRequired && !selectedManagementPlanIds?.length;
 
   useEffect(() => {
-    if (defaultManagementPlanId && managementPlanIds.includes(+defaultManagementPlanId)) {
-      setSelectedManagementPlanIds([parseInt(defaultManagementPlanId)]);
-    }
+    defaultManagementPlanId && setSelectedManagementPlanIds([parseInt(defaultManagementPlanId)]);
   }, []);
 
   return (

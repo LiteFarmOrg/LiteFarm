@@ -12,28 +12,27 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useMemo } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import { getDateWithDayOfWeek } from '../../util/date';
-import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { useTranslation, Trans } from 'react-i18next';
+import { Info, Main } from '../Typography';
 import Form from '../Form';
 import Button from '../Form/Button';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
-import { Info, Main } from '../Typography';
+import { getTextAndOccurrences, RRULEDAYS } from './utils';
+import { getDateWithDayOfWeek } from '../../util/date';
 import {
-  AFTER_OCCURRENCES,
   CROP_PLAN_NAME,
-  DAYS_OF_WEEK,
-  FINISH,
-  FINISH_ON_DATE,
-  MONTH_REPEAT_ON,
   PLAN_START_DATE,
   REPEAT_FREQUENCY,
   REPEAT_INTERVAL,
+  DAYS_OF_WEEK,
+  MONTH_REPEAT_ON,
+  FINISH,
+  AFTER_OCCURRENCES,
+  FINISH_ON_DATE,
 } from './constants';
 import styles from './styles.module.scss';
-import { RRULEDAYS, getTextAndOccurrences } from './utils';
 
 function PureRepeatCropPlanConfirmation({
   useHookFormPersist,
@@ -45,7 +44,6 @@ function PureRepeatCropPlanConfirmation({
 }) {
   const { t } = useTranslation();
   const { historyCancel } = useHookFormPersist();
-  const language_preference = getLanguageFromLocalStorage();
 
   const {
     planName,
@@ -97,7 +95,7 @@ function PureRepeatCropPlanConfirmation({
 
     return {
       planName,
-      beginning: getDateWithDayOfWeek(planStartDate, language_preference),
+      beginning: getDateWithDayOfWeek(planStartDate),
       finishingText,
       numberOfPlans,
       numberOfTasks,

@@ -12,26 +12,26 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import clsx from 'clsx';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { formatTransactionDate } from '../../../../containers/Finances/util';
+import clsx from 'clsx';
+import ExpandableItem from '../../../Expandable/ExpandableItem';
+import ExpandedContent from '../ExpandedContent';
+import Button from '../../../Form/Button';
+import TransactionItem from './Item';
+import useExpandable from '../../../Expandable/useExpandableItem';
 import { useCurrencySymbol } from '../../../../containers/hooks/useCurrencySymbol';
 import { isSameDay } from '../../../../util/date';
-import ExpandableItem from '../../../Expandable/ExpandableItem';
-import useExpandable from '../../../Expandable/useExpandableItem';
-import Button from '../../../Form/Button';
-import ExpandedContent from '../ExpandedContent';
-import TransactionItem from './Item';
+import { formatTransactionDate } from '../../../../containers/Finances/util';
 import styles from './styles.module.scss';
 
 export const MainContent = ({ t, note, typeLabel, amount, icon, currencySymbol }) => {
   return (
     <TransactionItem
-      transaction={note}
-      type={typeLabel}
+      transaction={note || t('FINANCES.TRANSACTION.LABOUR_EXPENSE')}
+      type={typeLabel || t('SALE.FINANCES.LABOUR_LABEL')}
       amount={amount}
-      iconKey={icon}
+      iconKey={icon || 'LABOUR'}
       currencySymbol={currencySymbol}
     />
   );

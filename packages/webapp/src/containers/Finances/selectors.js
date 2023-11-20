@@ -24,14 +24,10 @@ const selectedSaleSelector = createSelector(financeSelector, (state) => state.se
 
 const expenseSelector = createSelector(financeSelector, (state) => state.expenses);
 
-// Include retired (but not deleted) types
-const allExpenseTypeSelector = createSelector(financeSelector, (state) => {
-  return state.expense_types?.filter((type) => !type.deleted);
-});
+const allExpenseTypeSelector = createSelector(financeSelector, (state) => state.expense_types);
 
-// Active types
 const expenseTypeSelector = createSelector(financeSelector, (state) => {
-  return state.expense_types?.filter((type) => !type.deleted && !type.retired);
+  return state.expense_types?.filter((type) => !type.deleted);
 });
 
 const revenueByIdSelector = (sale_id) => {
@@ -52,22 +48,25 @@ const expenseTypeByIdSelector = (expense_type_id) => {
   });
 };
 
-export const sortExpenseTypes = (expenseTypes) => {
-  const allTypes = expenseTypes ?? [];
+const sortExpenseTypes = (expenseTypes) => {
+  const defaultTypes = [];
+  const customTypes = [];
 
-  return [...allTypes].sort((typeA, typeB) => {
-    const compareKeyA =
-      typeA.farm_id === null
-        ? i18n.t(`expense:${typeA.expense_translation_key}.EXPENSE_NAME`)
-        : typeA.expense_translation_key;
-
-    const compareKeyB =
-      typeB.farm_id === null
-        ? i18n.t(`expense:${typeB.expense_translation_key}.EXPENSE_NAME`)
-        : typeB.expense_translation_key;
-
-    return compareKeyA.localeCompare(compareKeyB);
+  expenseTypes?.forEach((type) => {
+    const arrayToUpdate = type.farm_id ? customTypes : defaultTypes;
+    arrayToUpdate.push(type);
   });
+
+  return [
+    ...defaultTypes.sort((typeA, typeB) =>
+      i18n
+        .t(`expense:${typeA.expense_translation_key}.EXPENSE_NAME`)
+        .localeCompare(i18n.t(`expense:${typeB.expense_translation_key}.EXPENSE_NAME`)),
+    ),
+    ...customTypes.sort((typeA, typeB) =>
+      typeA.expense_translation_key.localeCompare(typeB.expense_translation_key),
+    ),
+  ];
 };
 
 const allExpenseTypeTileContentsSelector = createSelector(financeSelector, (state) => {
@@ -75,7 +74,7 @@ const allExpenseTypeTileContentsSelector = createSelector(financeSelector, (stat
 });
 
 const expenseTypeTileContentsSelector = createSelector(financeSelector, (state) => {
-  return sortExpenseTypes(state.expense_types).filter((type) => !type.deleted && !type.retired);
+  return sortExpenseTypes(state.expense_types).filter((type) => !type.deleted);
 });
 
 const expenseDetailDateSelector = createSelector(
@@ -90,21 +89,18 @@ const selectedExpenseSelector = createSelector(
 
 const dateRangeDataSelector = createSelector(financeSelector, (state) => state.date_range);
 
-const isFetchingDataSelector = createSelector(financeSelector, (state) => state.isFetchingData);
-
 export {
-  allExpenseTypeSelector,
-  allExpenseTypeTileContentsSelector,
-  dateRangeDataSelector,
-  expenseByIdSelector,
-  expenseDetailDateSelector,
-  expenseSelector,
-  expenseTypeByIdSelector,
-  expenseTypeSelector,
-  expenseTypeTileContentsSelector,
-  isFetchingDataSelector,
-  revenueByIdSelector,
   salesSelector,
-  selectedExpenseSelector,
   selectedSaleSelector,
+  expenseSelector,
+  expenseTypeSelector,
+  allExpenseTypeSelector,
+  expenseTypeByIdSelector,
+  revenueByIdSelector,
+  expenseByIdSelector,
+  allExpenseTypeTileContentsSelector,
+  expenseTypeTileContentsSelector,
+  expenseDetailDateSelector,
+  selectedExpenseSelector,
+  dateRangeDataSelector,
 };

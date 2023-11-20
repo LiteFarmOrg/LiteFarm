@@ -321,7 +321,6 @@ const userController = {
           'user_id',
           'gender',
           'birth_year',
-          'language_preference',
         );
 
       if (!data) {

@@ -70,36 +70,15 @@ const buildLabourTransactionsFromTasks = ({
     );
     if (amount > 0) {
       groupedTransactions.push({
-        icon: 'LABOUR',
         date,
         transactionType: transactionTypeEnum.labourExpense,
-        typeLabel: i18n.t('SALE.FINANCES.LABOUR_LABEL'),
         amount: -amount,
-        note: i18n.t('FINANCES.TRANSACTION.LABOUR_EXPENSE'),
         items: labourItems,
       });
     }
   });
 
   return groupedTransactions;
-};
-
-const getExpenseTypeLabel = (expenseType) => {
-  if (!expenseType) {
-    return '';
-  }
-  return expenseType?.farm_id
-    ? expenseType?.expense_name
-    : i18n.t(`expense:${expenseType?.expense_translation_key}.EXPENSE_NAME`);
-};
-
-const getRevenueTypeLabel = (revenueType) => {
-  if (!revenueType) {
-    return '';
-  }
-  return revenueType?.farm_id
-    ? revenueType?.revenue_name
-    : i18n.t(`revenue:${revenueType?.revenue_translation_key}.REVENUE_NAME`);
 };
 
 const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseTypeFilter }) => {
@@ -109,17 +88,20 @@ const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseT
         (!dateFilter ||
           (moment(expense.expense_date).isSameOrAfter(dateFilter.startDate, 'day') &&
             moment(expense.expense_date).isSameOrBefore(dateFilter.endDate, 'day'))) &&
-        (!expenseTypeFilter || expenseTypeFilter[expense.expense_type_id]?.active),
+        (!expenseTypeFilter || expenseTypeFilter[expense.expense_type_id]?.active) &&
+        expense.value > 0,
     )
     .map((expense) => {
       const expenseType = expenseTypes.find(
-        (expenseType) => expenseType?.expense_type_id === expense.expense_type_id,
+        (expenseType) => expenseType.expense_type_id === expense.expense_type_id,
       );
       return {
         icon: expenseType?.farm_id ? 'CUSTOM' : expenseType?.expense_translation_key,
         date: expense.expense_date,
         transactionType: transactionTypeEnum.expense,
-        typeLabel: getExpenseTypeLabel(expenseType),
+        typeLabel: expenseType?.farm_id
+          ? expenseType?.expense_name
+          : i18n.t(`expense:${expenseType?.expense_translation_key}.EXPENSE_NAME`),
         amount: -roundToTwoDecimal(expense.value),
         note: expense.note,
         relatedId: expense.farm_expense_id,
@@ -145,15 +127,17 @@ const buildRevenueTransactions = ({
 
   return revenueItems.map((item) => {
     const revenueType = revenueTypes.find(
-      (revenueType) => revenueType?.revenue_type_id == item.sale.revenue_type_id,
+      (revenueType) => revenueType.revenue_type_id == item.sale.revenue_type_id,
     );
     return {
       icon: revenueType?.farm_id ? 'CUSTOM' : revenueType?.revenue_translation_key,
       date: item.sale.sale_date,
-      transactionType: revenueType?.crop_generated
+      transactionType: revenueType.crop_generated
         ? transactionTypeEnum.cropRevenue
         : transactionTypeEnum.revenue,
-      typeLabel: getRevenueTypeLabel(revenueType),
+      typeLabel: revenueType?.farm_id
+        ? revenueType?.revenue_name
+        : i18n.t(`revenue:${revenueType?.revenue_translation_key}.REVENUE_NAME`),
       amount: item.totalAmount,
       note: item.sale.customer_name,
       items: item.financeItemsProps,
@@ -163,14 +147,14 @@ const buildRevenueTransactions = ({
 };
 
 export const buildTransactions = ({
-  sales = [],
-  tasks = [],
-  expenses = [],
-  expenseTypes = [],
-  revenueTypes = [],
-  taskTypes = [],
-  cropVarieties = [],
-  users = [],
+  sales,
+  tasks,
+  expenses,
+  expenseTypes,
+  revenueTypes,
+  taskTypes,
+  cropVarieties,
+  users,
   dateFilter,
   expenseTypeFilter,
   revenueTypeFilter,

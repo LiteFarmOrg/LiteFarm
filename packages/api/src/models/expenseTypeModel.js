@@ -42,22 +42,9 @@ class ExpenseType extends baseModel {
         farm_id: { type: 'string' },
         expense_translation_key: { type: 'string' },
         custom_description: { type: ['string', 'null'], minLength: 1, maxLength: 125 },
-        retired: { type: 'boolean' },
         ...this.baseProperties,
       },
       additionalProperties: false,
-      // Enforce that types cannot be both retired and deleted at the same time
-      if: {
-        properties: {
-          retired: { const: true },
-        },
-        required: ['retired'],
-      },
-      then: {
-        properties: {
-          deleted: { const: false },
-        },
-      },
     };
   }
 }

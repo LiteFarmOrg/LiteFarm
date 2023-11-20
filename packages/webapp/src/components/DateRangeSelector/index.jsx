@@ -15,7 +15,7 @@
 import { ClickAwayListener } from '@mui/material';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as Calendar } from '../../assets/images/dateInput/calendar.svg';
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
@@ -66,13 +66,6 @@ export default function DateRangeSelector({
       setSelectedDateRangeOption(options[0]);
     }
   }, [isValid, isCustomDatePickerOpen]);
-
-  useEffect(() => {
-    setSelectedDateRangeOption(
-      defaultDateRangeOptionValue &&
-        options.find(({ value }) => value === defaultDateRangeOptionValue),
-    );
-  }, [defaultDateRangeOptionValue]);
 
   const formatOptionLabel = (data, formatOptionLabelMeta) => {
     if (formatOptionLabelMeta.context === 'menu') {

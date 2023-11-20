@@ -37,11 +37,11 @@ const ExpenseDetail = ({ history, match }) => {
 
   // Dropdown should include the current expense's type even if it has been retired
   const expenseTypeArray = sortedExpenseTypes.concat(
-    currentExpenseType.retired ? currentExpenseType : [],
+    currentExpenseType.deleted ? currentExpenseType : [],
   );
 
   const expenseTypeReactSelectOptions = expenseTypeArray.map((type) => {
-    const retireSuffix = type.retired ? ` ${t('EXPENSE.EDIT_EXPENSE.RETIRED')}` : '';
+    const retireSuffix = type.deleted ? ` ${t('EXPENSE.EDIT_EXPENSE.RETIRED')}` : '';
 
     return {
       value: type.expense_type_id,

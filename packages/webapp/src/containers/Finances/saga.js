@@ -13,51 +13,36 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { createAction } from '@reduxjs/toolkit';
-import { saveAs } from 'file-saver';
-import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
-import { dateRangeOptions } from '../../components/DateRangeSelector/constants';
-import history from '../../history';
-import i18n from '../../locales/i18n';
-import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
-import { resetTransactionsFilter } from '../filterSlice';
 import {
-  deleteRevenueTypeSuccess,
+  ADD_EXPENSES,
+  ADD_SALE,
+  ADD_REMOVE_EXPENSE,
+  DELETE_EXPENSES,
+  DELETE_SALE,
+  GET_FARM_EXPENSE_TYPE,
+  GET_EXPENSE,
+  GET_SALES,
+  DELETE_EXPENSE,
+  UPDATE_SALE,
+} from './constants';
+import { setExpenseType, setExpense, setSalesInState } from './actions';
+import { call, put, select, takeLatest, takeLeading, race, take } from 'redux-saga/effects';
+import apiConfig from './../../apiConfig';
+import { loginSelector } from '../userFarmSlice';
+import { axios, getHeader, getManagementPlanAndPlantingMethodSuccessSaga } from '../saga';
+import i18n from '../../locales/i18n';
+import history from '../../history';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
+import { createAction } from '@reduxjs/toolkit';
+import {
   getRevenueTypesSuccess,
+  deleteRevenueTypeSuccess,
   postRevenueTypeSuccess,
   putRevenueTypeSuccess,
 } from '../revenueTypeSlice';
-import {
-  axios,
-  getHeader,
-  getManagementPlanAndPlantingMethodSuccessSaga,
-  getManagementPlansAndTasksSaga,
-} from '../saga';
-import { loginSelector } from '../userFarmSlice';
-import apiConfig from './../../apiConfig';
-import {
-  getSales,
-  setDateRange,
-  setExpense,
-  setExpenseType,
-  setIsFetchingData,
-  setSalesInState,
-  setSelectedExpenseTypes,
-} from './actions';
-import {
-  ADD_EXPENSES,
-  ADD_REMOVE_EXPENSE,
-  ADD_SALE,
-  DELETE_EXPENSE,
-  DELETE_EXPENSES,
-  DELETE_SALE,
-  GET_EXPENSE,
-  GET_FARM_EXPENSE_TYPE,
-  GET_SALES,
-  UPDATE_SALE,
-} from './constants';
+import { saveAs } from 'file-saver';
 
-export function* getSalesSaga() {
+export function* getSales() {
   const { salesURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -81,7 +66,7 @@ export function* addSale(action) {
   try {
     const result = yield call(axios.post, salesURL, action.sale, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.ADD')));
-    yield call(getSalesSaga);
+    yield call(getSales);
     history.push('/finances');
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.ADD')));
@@ -98,9 +83,9 @@ export function* updateSaleSaga(action) {
   delete sale.sale_id;
 
   try {
-    yield call(axios.patch, `${salesURL}/${sale_id}`, sale, header);
+    const result = yield call(axios.patch, `${salesURL}/${sale_id}`, sale, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.UPDATE')));
-    yield call(getSalesSaga);
+    yield call(getSales);
     history.push('/finances');
   } catch (e) {
     console.log(`failed to update sale`);
@@ -115,9 +100,9 @@ export function* deleteSale(action) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    yield call(axios.delete, salesURL + '/' + sale_id, header);
+    const result = yield call(axios.delete, salesURL + '/' + sale_id, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.DELETE')));
-    yield call(getSalesSaga);
+    yield call(getSales);
     history.push('/finances');
   } catch (e) {
     console.log(`failed to delete sale`);
@@ -356,12 +341,9 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    const result = yield call(axios.delete, `${revenueTypeUrl}/${id}`, header);
+    yield call(axios.delete, `${revenueTypeUrl}/${id}`, header);
 
-    const { deleted, retired } = result.data;
-
-    yield put(deleteRevenueTypeSuccess({ revenue_type_id: id, deleted, retired }));
-
+    yield put(deleteRevenueTypeSuccess(id));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.DELETE')));
     history.push('/manage_custom_revenues');
   } catch (e) {
@@ -469,23 +451,6 @@ export function* downloadFinanceReportSaga({ payload: data }) {
   }
 }
 
-export const fetchAllData = createAction('fetchAllData');
-
-export function* fetchAllDataSaga() {
-  yield put(setIsFetchingData(true));
-  yield all([
-    call(getFarmExpenseTypeSaga),
-    call(getRevenueTypesSaga),
-    call(getSalesSaga),
-    call(getExpenseSaga),
-    call(getManagementPlansAndTasksSaga),
-  ]);
-  yield put(setSelectedExpenseTypes([]));
-  yield put(resetTransactionsFilter());
-  yield put(setDateRange({ option: dateRangeOptions.YEAR_TO_DATE }));
-  yield put(setIsFetchingData(false));
-}
-
 export default function* financeSaga() {
   yield takeLatest(GET_SALES, getSales);
   yield takeLeading(ADD_SALE, addSale);
@@ -507,5 +472,4 @@ export default function* financeSaga() {
   yield takeLeading(updateExpense.type, editExpenseSaga);
   yield takeLeading(patchEstimatedCropRevenue.type, patchEstimatedCropRevenueSaga);
   yield takeLeading(downloadFinanceReport.type, downloadFinanceReportSaga);
-  yield takeLatest(fetchAllData.type, fetchAllDataSaga);
 }

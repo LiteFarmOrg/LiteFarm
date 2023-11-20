@@ -140,7 +140,6 @@ const taskSlice = createSlice({
     putTasksSuccess: updateManyTasks,
     createTaskSuccess: taskAdapter.addOne,
     deleteTaskSuccess: removeOne,
-    resetTasks: taskAdapter.removeAll,
   },
 });
 export const {
@@ -152,7 +151,6 @@ export const {
   putTasksSuccess,
   createTaskSuccess,
   deleteTaskSuccess,
-  resetTasks,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 

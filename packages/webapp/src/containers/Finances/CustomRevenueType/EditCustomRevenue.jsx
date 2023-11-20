@@ -16,9 +16,9 @@ import PureSimpleCustomType from '../../../components/Forms/SimpleCustomType';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCustomRevenueType } from '../saga';
-import { revenueTypeByIdSelector, allRevenueTypesSelector } from '../../revenueTypeSlice';
+import { revenueTypeByIdSelector, revenueTypesSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME, CROP_GENERATED } from './constants';
-import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
+import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import CustomRevenueRadios from './CustomRevenueRadios';
 
@@ -27,7 +27,7 @@ function EditCustomRevenue({ history, match }) {
   const { t } = useTranslation(['translation', 'revenue', 'common']);
   const dispatch = useDispatch();
   const selectedCustomRevenueType = useSelector(revenueTypeByIdSelector(Number(revenue_type_id)));
-  const revenueTypes = useSelector(allRevenueTypesSelector);
+  const revenueTypes = useSelector(revenueTypesSelector);
   const { revenue_name, crop_generated, custom_description, farm_id, revenue_translation_key } =
     selectedCustomRevenueType;
   const translatedCustomDescription = farm_id
@@ -60,13 +60,11 @@ function EditCustomRevenue({ history, match }) {
         descriptionLabel={t('REVENUE.CUSTOM_REVENUE_DESCRIPTION')}
         nameFieldRegisterName={CUSTOM_REVENUE_NAME}
         typeDetails={{ name: translatedRevenueName, description: translatedCustomDescription }}
-        validateInput={hookFormUniquePropertyWithStatusValidation({
-          objArr: revenueTypesWithoutSelectedType,
-          property: 'revenue_name',
-          status: 'deleted',
-          messageStatusTrue: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME_RETIRED'),
-          messageStatusFalse: t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
-        })}
+        validateInput={hookFormUniquePropertyValidation(
+          revenueTypesWithoutSelectedType,
+          'revenue_name',
+          t('REVENUE.ADD_REVENUE.DUPLICATE_NAME'),
+        )}
         customFormFields={({ control, watch }) => (
           <CustomRevenueRadios control={control} watch={watch} view="edit" />
         )}

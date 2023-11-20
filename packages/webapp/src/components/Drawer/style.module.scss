@@ -40,6 +40,7 @@
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   padding: 16px;
+  max-width: 600px;
   margin: auto;
   z-index: 1110;
   &.openD {
@@ -56,20 +57,11 @@
 .title {
   font-size: 16px;
   font-weight: 600;
-  color: #000;
 }
 
-.drawerContent {
+.content{
   max-height: 60vh;
   overflow-y: auto;
-  margin: 0 -16px;
-  padding: 16px;
-}
-
-.modalContent {
-  overflow-y: auto;
-  margin: 0 -24px;
-  padding: 0 24px;
 }
 
 .close {

@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import ModalComponent from '../../../components/Modals/ModalComponent/v2';
-
 import PureTaskAssignment from '../../../components/Task/PureTaskAssignment';
 import { loginSelector, userFarmEntitiesSelector, userFarmSelector } from '../../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,8 +27,6 @@ export default function TaskManagement({ history, match, location }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const [isFarmWorker] = useState(userFarm.role_id === 3);
   const worker = users[userFarm.user_id];
-
-  const [showCannotCreateModal, setShowCannotCreateModal] = useState(false);
 
   const defaultAssignee = useMemo(() => {
     let { assignee } = persistedFormData;
@@ -105,7 +101,7 @@ export default function TaskManagement({ history, match, location }) {
         delete postData[key];
       }
     });
-    dispatch(createTask({ ...postData, setShowCannotCreateModal }));
+    dispatch(createTask(postData));
 
     // for user who does not have a wage set, take the hourly wage action
     if (showHourlyWageInputs) {
@@ -128,31 +124,17 @@ export default function TaskManagement({ history, match, location }) {
     console.log('onError called');
   };
 
-  const dismissModal = () => {
-    setShowCannotCreateModal(false);
-    history.push('/tasks');
-  };
   return (
-    <>
-      <HookFormPersistProvider>
-        <PureTaskAssignment
-          onSubmit={onSubmit}
-          handleGoBack={handleGoBack}
-          onError={onError}
-          isFarmWorker={isFarmWorker}
-          currencySymbol={currencySymbol}
-          override={override}
-          {...taskAssignForm}
-        />
-      </HookFormPersistProvider>
-      {showCannotCreateModal && (
-        <ModalComponent
-          title={t('TASK.CREATE.FAILED')}
-          contents={[t('TASK.CREATE.LOCATION_DELETED')]}
-          dismissModal={dismissModal}
-          error
-        />
-      )}
-    </>
+    <HookFormPersistProvider>
+      <PureTaskAssignment
+        onSubmit={onSubmit}
+        handleGoBack={handleGoBack}
+        onError={onError}
+        isFarmWorker={isFarmWorker}
+        currencySymbol={currencySymbol}
+        override={override}
+        {...taskAssignForm}
+      />
+    </HookFormPersistProvider>
   );
 }

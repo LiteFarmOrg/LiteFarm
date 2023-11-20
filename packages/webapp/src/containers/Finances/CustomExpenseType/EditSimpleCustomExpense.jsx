@@ -17,9 +17,9 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCustomExpenseType } from '../saga';
-import { expenseTypeByIdSelector, allExpenseTypeSelector } from '../selectors';
+import { expenseTypeByIdSelector, expenseTypeSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
-import { hookFormUniquePropertyWithStatusValidation } from '../../../components/Form/hookformValidationUtils';
+import { hookFormUniquePropertyValidation } from '../../../components/Form/hookformValidationUtils';
 
 function EditCustomExpense({ history, match }) {
   const expense_type_id = match.params.expense_type_id;
@@ -34,7 +34,7 @@ function EditCustomExpense({ history, match }) {
   const translatedExpenseName = farm_id
     ? expense_name
     : t(`expense:${expense_translation_key}.EXPENSE_NAME`);
-  const expenseTypes = useSelector(allExpenseTypeSelector);
+  const expenseTypes = useSelector(expenseTypeSelector);
   const expenseTypesWithoutSelectedType = expenseTypes.filter((type) => {
     return expense_type_id != type.expense_type_id;
   });
@@ -59,13 +59,11 @@ function EditCustomExpense({ history, match }) {
         descriptionLabel={t('EXPENSE.CUSTOM_EXPENSE_DESCRIPTION')}
         nameFieldRegisterName={CUSTOM_EXPENSE_NAME}
         typeDetails={{ name: translatedExpenseName, description: translatedCustomDescription }}
-        validateInput={hookFormUniquePropertyWithStatusValidation({
-          objArr: expenseTypesWithoutSelectedType,
-          property: 'expense_name',
-          status: 'retired',
-          messageStatusTrue: t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME_RETIRED'),
-          messageStatusFalse: t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
-        })}
+        validateInput={hookFormUniquePropertyValidation(
+          expenseTypesWithoutSelectedType,
+          'expense_name',
+          t('EXPENSE.ADD_EXPENSE.DUPLICATE_NAME'),
+        )}
       />
     </HookFormPersistProvider>
   );

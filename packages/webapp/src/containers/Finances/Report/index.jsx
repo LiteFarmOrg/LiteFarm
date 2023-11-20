@@ -17,43 +17,29 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as ReportIcon } from '../../../assets/images/finance/Report-icn.svg';
-import Drawer from '../../../components/Drawer';
 import FinanceDateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import Button from '../../../components/Form/Button';
 import TextButton from '../../../components/Form/Button/TextButton';
+import ModalComponent from '../../../components/Modals/ModalComponent/v2';
 import { Semibold, Text } from '../../../components/Typography';
 import TransactionFilterContent from '../../Filter/Transactions';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../../Filter/constants';
 import { transactionsFilterSelector } from '../../filterSlice';
 import { downloadFinanceReport } from '../saga';
-import { allExpenseTypeSelector, dateRangeDataSelector } from '../selectors';
+import { dateRangeDataSelector } from '../selectors';
 import useTransactions from '../useTransactions';
 import styles from './styles.module.scss';
-import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
-import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
-import {
-  generateConfigSheetHeaders,
-  generateReportHeaders,
-  generateWorksheetTitles,
-  formatTransactions,
-  createDefaultTypeFilter,
-} from './reportFormattingUtils';
-import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 
 const Report = () => {
   const { t } = useTranslation();
 
   const dashboardDateFilter = useSelector(dateRangeDataSelector);
   const dashboardTypesFilter = useSelector(transactionsFilterSelector);
-  const expenseTypes = useSelector(allExpenseTypeSelector);
-  const revenueTypes = useSelector(allRevenueTypesSelector);
 
   const [isExportReportOpen, setIsExportReportOpen] = useState(false);
   const [dateFilter, setDateFilter] = useState(dashboardDateFilter);
   const [typesFilter, setTypesFilter] = useState(dashboardTypesFilter);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
-  const currencySymbol = useCurrencySymbol();
 
   const dispatch = useDispatch();
   const filterRef = useRef({});
@@ -76,7 +62,7 @@ const Report = () => {
     setIsButtonDisabled(!isValid);
   };
 
-  const closeExportReport = () => {
+  const dismissModal = () => {
     setIsExportReportOpen(false);
     setDateFilter(dashboardDateFilter);
     setTypesFilter(dashboardTypesFilter);
@@ -141,79 +127,59 @@ const Report = () => {
   }, [transactions]); */
 
   const handleExport = () => {
-    const language = getLanguageFromLocalStorage();
-
     dispatch(
       downloadFinanceReport({
-        transactions: formatTransactions(transactions, t),
+        transactions,
         config: {
           dateFilter,
-          typesFilter: {
-            EXPENSE_TYPE:
-              typesFilter.EXPENSE_TYPE ??
-              createDefaultTypeFilter({
-                types: expenseTypes,
-                translate: t,
-                typeCategory: 'expense',
-              }),
-            REVENUE_TYPE:
-              typesFilter.REVENUE_TYPE ??
-              createDefaultTypeFilter({
-                types: revenueTypes,
-                translate: t,
-                typeCategory: 'revenue',
-              }),
-          },
+          typesFilter,
         },
-        reportHeaders: generateReportHeaders(t),
-        configSheetHeaders: generateConfigSheetHeaders(t),
-        currencySymbol,
-        language,
-        worksheetTitles: generateWorksheetTitles(t),
       }),
     );
-    closeExportReport();
+    dismissModal();
   };
 
   return (
-    <div>
+    <>
       <TextButton onClick={() => setIsExportReportOpen(true)} className={styles.reportButton}>
         <ReportIcon />
         {t('SALE.FINANCES.REPORT')}
       </TextButton>
-      <Drawer
-        isOpen={isExportReportOpen}
-        title={t('SALE.FINANCES.EXPORT_REPORT')}
-        onClose={closeExportReport}
-        buttonGroup={
-          <Button fullLength onClick={handleExport} color={'primary'} disabled={isButtonDisabled}>
-            {t('common:EXPORT')}
-          </Button>
-        }
-      >
-        <>
-          <Semibold className={styles.helpText}>{t('SALE.FINANCES.REPORT_HELP_TEXT')}</Semibold>
-          <div className={styles.dateFilterContainer}>
-            <Text>Date</Text>
-            <FinanceDateRangeSelector
-              value={dateFilter}
-              onChange={(dateRange) => {
-                setDateFilter({ ...dateFilter, ...dateRange });
-              }}
-              onValidityChange={onValidityChange}
+      {isExportReportOpen && (
+        <ModalComponent
+          title={t('SALE.FINANCES.EXPORT_REPORT')}
+          titleClassName={styles.title}
+          dismissModal={dismissModal}
+          buttonGroup={
+            <Button fullLength onClick={handleExport} color={'primary'} disabled={isButtonDisabled}>
+              {t('common:EXPORT')}
+            </Button>
+          }
+        >
+          <div className={styles.exportContents}>
+            <Semibold className={styles.helpText}>{t('SALE.FINANCES.REPORT_HELP_TEXT')}</Semibold>
+            <div className={styles.dateFilterContainer}>
+              <Text>Date</Text>
+              <FinanceDateRangeSelector
+                value={dateFilter}
+                onChange={(dateRange) => {
+                  setDateFilter({ ...dateFilter, ...dateRange });
+                }}
+                onValidityChange={onValidityChange}
+              />
+            </div>
+            <TransactionFilterContent
+              transactionsFilter={dashboardTypesFilter}
+              filterRef={filterRef}
+              filterContainerClassName={styles.filterContainer}
+              onChange={(filterKey, filterState) =>
+                setTypesFilter({ ...typesFilter, [filterKey]: filterState })
+              }
             />
           </div>
-          <TransactionFilterContent
-            transactionsFilter={dashboardTypesFilter}
-            filterRef={filterRef}
-            filterContainerClassName={styles.filterContainer}
-            onChange={(filterKey, filterState) =>
-              setTypesFilter({ ...typesFilter, [filterKey]: filterState })
-            }
-          />
-        </>
-      </Drawer>
-    </div>
+        </ModalComponent>
+      )}
+    </>
   );
 };
 

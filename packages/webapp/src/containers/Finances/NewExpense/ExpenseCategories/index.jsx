@@ -24,7 +24,6 @@ import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanc
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import labelIconStyles from '../../../../components/Tile/styles.module.scss';
 import { listItemTypes } from '../../../../components/List/constants';
-import { getFinanceTypeSearchableStringFunc } from '../../util';
 
 export const icons = {
   EQUIPMENT: <EquipIcon />,
@@ -55,6 +54,7 @@ class ExpenseCategories extends Component {
 
     this.addRemoveType = this.addRemoveType.bind(this);
     this.nextPage = this.nextPage.bind(this);
+    this.getSearchableString = this.getSearchableString.bind(this);
   }
 
   nextPage(event) {
@@ -75,6 +75,15 @@ class ExpenseCategories extends Component {
       selectedTypes,
     });
   }
+
+  getSearchableString = (type) => {
+    const description =
+      type.farm_id === null
+        ? this.props.t(`expense:${type.expense_translation_key}.CUSTOM_DESCRIPTION`)
+        : type.custom_description;
+
+    return [type.expense_name, description].filter(Boolean).join(' ');
+  };
 
   render() {
     const { expenseTypes } = this.props;
@@ -135,7 +144,7 @@ class ExpenseCategories extends Component {
             addRemove: () => this.addRemoveType(miscellaneous_type_id),
             selected: this.state.selectedTypes.includes(miscellaneous_type_id),
           }}
-          getSearchableString={getFinanceTypeSearchableStringFunc('expense')}
+          getSearchableString={this.getSearchableString}
           searchPlaceholderText={this.props.t('FINANCES.SEARCH.EXPENSE_TYPES')}
         />
       </HookFormPersistProvider>

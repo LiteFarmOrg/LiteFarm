@@ -17,33 +17,26 @@ import {
 
 import PreparingExportModal from '../../components/Modals/PreparingExportModal';
 import { getAlert } from '../Navigation/Alert/saga.js';
-import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
 
 export default function Home({ history }) {
   const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
-  const defaultImageUrl = getSeason(userFarm?.grid_points?.lat);
+  const imgUrl = getSeason(userFarm?.grid_points?.lat);
   const { showSpotLight, showExportModal } = useSelector(chooseFarmFlowSelector);
   const dispatch = useDispatch();
   const showSwitchFarmModal = useSelector(switchFarmSelector);
   const dismissPopup = () => dispatch(endSwitchFarmModal(userFarm.farm_id));
   const dismissExportModal = () => dispatch(endExportModal(userFarm.farm_id));
+
   const showHelpRequestModal = useSelector(showHelpRequestModalSelector);
   const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
-  const { mediaUrl: authenticatedImageUrl, isLoading } = useMediaWithAuthentication({
-    fileUrls: [userFarm.farm_image_url],
-  });
 
   useEffect(() => {
     dispatch(getAlert());
   }, []);
 
   return (
-    <PureHome
-      greeting={t('HOME.GREETING')}
-      first_name={userFarm?.first_name}
-      imgUrl={authenticatedImageUrl || (isLoading ? '' : defaultImageUrl)}
-    >
+    <PureHome greeting={t('HOME.GREETING')} first_name={userFarm?.first_name} imgUrl={imgUrl}>
       {userFarm ? <WeatherBoard /> : null}
       {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 

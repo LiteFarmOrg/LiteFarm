@@ -1,15 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux';
 import {
   PureCompleteManagementPlan,
   SOMETHING_ELSE,
 } from '../../../components/Crop/CompleteManamgenentPlan/PureCompleteManagementPlan';
+import { useDispatch, useSelector } from 'react-redux';
 import { cropVarietySelector } from '../../cropVarietySlice';
-import {
-  managementPlanByManagementPlanIDSelector,
-  managementPlanSelector,
-} from '../../managementPlanSlice';
 import { abandonManagementPlan } from './saga';
 import { useAbandonReasonOptions } from './useAbandonReasonOptions';
+import {
+  managementPlanSelector,
+  managementPlanByManagementPlanIDSelector,
+} from '../../managementPlanSlice';
 
 export default function AbandonManagementPlan({ match, history, location }) {
   const management_plan_id = match.params.management_plan_id;
@@ -31,7 +31,7 @@ export default function AbandonManagementPlan({ match, history, location }) {
   const onGoBack = () => {
     history.push(`/crop/${crop_variety_id}/management`, location?.state);
   };
-  const onSubmit = (data, displayCannotAbandonModal) => {
+  const onSubmit = (data) => {
     const reqBody = {
       crop_variety_id,
       management_plan_id,
@@ -43,7 +43,7 @@ export default function AbandonManagementPlan({ match, history, location }) {
           : data.abandon_reason.value,
     };
 
-    dispatch(abandonManagementPlan({ displayCannotAbandonModal, ...reqBody }));
+    dispatch(abandonManagementPlan(reqBody));
   };
   return (
     <PureCompleteManagementPlan

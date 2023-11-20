@@ -187,27 +187,6 @@ export function* deleteManagementPlanSaga({ payload }) {
   }
 }
 
-export const checkManagementPlanDependencies = createAction(`checkManagementPlanDependenciesSaga`);
-
-export function* checkManagementPlanDependenciesSaga({ payload: data }) {
-  const { management_plan_id, setShowCannotDeleteModal } = data;
-  const { managementPlanURL } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  try {
-    const result = yield call(
-      axios.get,
-      `${managementPlanURL}/check_delete/${management_plan_id}`,
-      header,
-    );
-  } catch (e) {
-    if (e.response.data === 'Cannot delete management plan with completed or abandonded tasks') {
-      setShowCannotDeleteModal(true);
-    }
-  }
-}
-
 const formatDate = (currDate) => {
   const d = currDate;
   let year = d.getFullYear(),
@@ -227,5 +206,4 @@ export default function* managementPlanSaga() {
   yield takeLatest(getExpiredManagementPlans.type, getExpiredManagementPlansSaga);
   yield takeLeading(deleteManagementPlan.type, deleteManagementPlanSaga);
   yield takeLeading(patchManagementPlan.type, patchManagementPlanSaga);
-  yield takeLatest(checkManagementPlanDependencies.type, checkManagementPlanDependenciesSaga);
 }

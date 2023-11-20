@@ -30,7 +30,7 @@ export default function useCustomExpenseTypeTileContents() {
     }
 
     const contents = expenseTypes
-      .filter((type) => !type.retired && type.farm_id)
+      .filter((type) => !type.deleted && type.farm_id)
       .sort((typeA, typeB) =>
         typeA.expense_translation_key.localeCompare(typeB.expense_translation_key),
       );

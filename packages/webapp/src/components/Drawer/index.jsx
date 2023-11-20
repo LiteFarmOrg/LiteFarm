@@ -13,30 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import clsx from 'clsx';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { BsX } from 'react-icons/bs';
-import useIsAboveBreakpoint from '../../hooks/useIsAboveBreakpoint';
-import ModalComponent from '../Modals/ModalComponent/v2';
 import styles from './style.module.scss';
+import clsx from 'clsx';
+import { BsX } from 'react-icons/bs';
 
-const Drawer = ({ title, isOpen, onClose, children, buttonGroup, className }) => {
-  const isAboveBreakPoint = useIsAboveBreakpoint(`(min-width: 768px)`);
-
-  return isAboveBreakPoint ? (
-    isOpen && (
-      <ModalComponent
-        className={className}
-        title={title}
-        titleClassName={styles.title}
-        dismissModal={onClose}
-        buttonGroup={buttonGroup}
-      >
-        <div className={styles.modalContent}>{children}</div>
-      </ModalComponent>
-    )
-  ) : (
-    <div className={className}>
+const Drawer = ({ title, isOpen, onClose, children }) => {
+  return (
+    <div>
       <div
         className={clsx(styles.drawerBackdrop, isOpen ? styles.openC : '')}
         onClick={onClose}
@@ -48,9 +33,7 @@ const Drawer = ({ title, isOpen, onClose, children, buttonGroup, className }) =>
             <BsX />
           </div>
         </div>
-        <div className={styles.drawerContent}>
-          {children} {buttonGroup}
-        </div>
+        <div className={styles.content}>{children}</div>
       </div>
     </div>
   );
@@ -61,8 +44,6 @@ Drawer.prototype = {
   isOpen: PropTypes.func,
   onClose: PropTypes.func,
   children: PropTypes.node,
-  className: PropTypes.string,
-  buttonGroup: PropTypes.node,
 };
 
 export default Drawer;

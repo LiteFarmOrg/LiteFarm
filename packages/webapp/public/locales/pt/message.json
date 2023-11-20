@@ -23,6 +23,14 @@
       "UPLOAD": "Falha ao carregar o arquivo CSV"
     }
   },
+  "CROP": {
+    "ERROR": {
+      "DELETE": "Falha na exclusão do cultivo de campo"
+    },
+    "SUCCESS": {
+      "DELETE": "Cultivo excluído com sucesso"
+    }
+  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Erro: falha ao adicionar variedade ao banco de dados",
@@ -38,9 +46,9 @@
   },
   "EXPENSE": {
     "ERROR": {
-      "ADD": "Falha ao adicionar novas despesas",
-      "DELETE": "Falha ao excluir despesas",
-      "UPDATE": "Falha ao atualizar despesas!"
+      "ADD": "Falha de adicionar novas despesas",
+      "DELETE": "Falha de excluir despesas",
+      "UPDATE": "Falha de atualizar despesas!"
     },
     "SUCCESS": {
       "ADD": "Novas despesas adicionadas com sucesso!",
@@ -50,14 +58,14 @@
   },
   "EXPENSE_TYPE": {
     "ERROR": {
-      "ADD": "Falha ao criar despesa personalizada",
-      "DELETE": "Falha ao excluir despesa personalizada",
-      "UPDATE": "Falha ao atualizar despesa personalizada"
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
-      "ADD": "Despesa personalizada criada com sucesso",
-      "DELETE": "Despesa personalizada excluída com sucesso",
-      "UPDATE": "Despesa personalizada atualizada com sucesso"
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "FARM": {
@@ -139,14 +147,14 @@
   },
   "REVENUE_TYPE": {
     "ERROR": {
-      "ADD": "Falha ao adicionar tipo de receita",
-      "DELETE": "Falha ao encerrar tipo de receita",
-      "UPDATE": "Falha ao atualizar tipo de receita"
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
-      "ADD": "Tipo de receita adicionado com sucesso",
-      "DELETE": "Tipo de receita encerrado com sucesso",
-      "UPDATE": "Tipo de receita atualizado com sucesso"
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "SALE": {
@@ -179,7 +187,8 @@
       "SUCCESS": "Tarefa concluída com sucesso"
     },
     "UPDATE": {
-      "FAILED": "Falha ao atualizar a tarefa"
+      "FAILED": "Falha ao atualizar a tarefa",
+      "SUCCESS": "Tarefa atualizada com sucesso"
     }
   },
   "TASK_TYPE": {
@@ -199,6 +208,7 @@
       "EXISTS": "O usuário já existe na rede de LiteFarm",
       "INVITE": "Erro ao criar conta de usuário, entre em contato com LiteFarm para assistência.",
       "MAX_RESET_EMAILS": "Um link de redefinição de senha foi enviado para você, por favor verifique sua caixa de entrada e pasta de spam.",
+      "NOTHING_CHANGED": "Nada mudou",
       "RESET_PASSWORD": "Erro ao enviar e-mail de redefinição de senha, favor entrar em contato com a LiteFarm para obter assistência.",
       "RESTORE": "Ocorreu um erro, o acesso não foi restaurado",
       "REVOKE": "Ocorreu um erro, o acesso não foi revogado",

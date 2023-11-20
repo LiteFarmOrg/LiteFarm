@@ -1967,6 +1967,68 @@ describe('Task tests', () => {
       );
     });
 
+    test('wage_at_moment should be updated when completing a harvest task', async (done) => {
+      const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
+      const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      const WAGE_AT_MOMENT = 50;
+
+      const fakeTask = mocks.fakeTask({
+        task_type_id,
+        owner_user_id: user_id,
+        assignee_user_id: user_id,
+        override_hourly_wage: true,
+        wage_at_moment: WAGE_AT_MOMENT,
+      });
+      const [{ task_id }] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }], promisedTaskType: [{ task_type_id }] },
+        fakeTask,
+      );
+      await mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      });
+      await mocks.harvest_taskFactory({ promisedTask: [{ task_id }] });
+      const harvest_uses = [];
+      const promisedHarvestUseTypes = await Promise.all(
+        [...Array(3)].map(async () =>
+          mocks.harvest_use_typeFactory({
+            promisedFarm: [{ farm_id }],
+          }),
+        ),
+      );
+      const harvest_types = promisedHarvestUseTypes.reduce(
+        (a, b) => a.concat({ harvest_use_type_id: b[0].harvest_use_type_id }),
+        [],
+      );
+
+      let actual_quantity = 0;
+      harvest_types.forEach(({ harvest_use_type_id }) => {
+        const harvest_use = mocks.fakeHarvestUse({
+          task_id,
+          harvest_use_type_id,
+        });
+        harvest_uses.push(harvest_use);
+        actual_quantity += harvest_use.quantity;
+      });
+      completeTaskRequest(
+        { user_id, farm_id },
+        {
+          task: { ...fakeCompletionData, harvest_task: { task_id, actual_quantity } },
+          harvest_uses,
+        },
+        task_id,
+        'harvest_task',
+        async (err, res) => {
+          expect(res.status).toBe(200);
+          const completed_task = await knex('task').where({ task_id }).first();
+          expect(completed_task.wage_at_moment).toBe(WAGE_AT_MOMENT);
+          done();
+        },
+      );
+    });
+
     //TODO: complete plant task test
     xtest('should be able to complete a plant task', async (done) => {
       const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };

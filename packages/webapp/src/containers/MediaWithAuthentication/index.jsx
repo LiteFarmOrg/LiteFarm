@@ -1,6 +1,6 @@
-import { mediaEnum } from './constants';
 import { ReactComponent as Download } from '../../assets/images/farmMapFilter/Download.svg';
 import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
+import { mediaEnum } from './constants';
 
 export function MediaWithAuthentication({
   fileUrls = [],
@@ -19,7 +19,7 @@ export function MediaWithAuthentication({
   const handleClick = () => {
     const element = document.createElement('a');
     element.href = mediaUrl;
-    element.download = `${title}.${extensionName}`;
+    element.download = title;
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -28,7 +28,7 @@ export function MediaWithAuthentication({
   const handleZipDownload = () => {
     const element = document.createElement('a');
     element.href = `data:application/zip;base64,${zipContent}`;
-    element.download = `${title}.zip`;
+    element.download = title;
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);

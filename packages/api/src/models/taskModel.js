@@ -293,7 +293,6 @@ class TaskModel extends BaseModel {
   static async getTaskType(taskId) {
     return await TaskModel.query()
       .join('task_type', 'task.task_type_id', 'task_type.task_type_id')
-      .whereNotDeleted()
       .select('task_type.*')
       .where('task.task_id', taskId)
       .first();

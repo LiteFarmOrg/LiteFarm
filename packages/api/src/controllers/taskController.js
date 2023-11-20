@@ -29,6 +29,7 @@ import IrrigationTypesModel from '../models/irrigationTypesModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import locationDefaultsModel from '../models/locationDefaultsModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
+import baseController from './baseController.js';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -594,6 +595,11 @@ const taskController = {
         const { farm_id } = req.headers;
         const { user_id } = req.auth;
         const task_id = parseInt(req.params.task_id);
+
+        if (await baseController.isDeleted(null, TaskModel, { task_id })) {
+          return res.status(400).send('Task has been deleted');
+        }
+
         const { assignee_user_id, finalWage } = await getTaskAssigneeAndFinalWage(
           farm_id,
           user_id,
@@ -654,12 +660,16 @@ const taskController = {
       const { user_id } = req.auth;
       const { farm_id } = req.headers;
       const task_id = parseInt(req.params.task_id);
+
+      if (await baseController.isDeleted(null, TaskModel, { task_id })) {
+        return res.status(400).send('Harvest task has been deleted');
+      }
+
       const { assignee_user_id, finalWage } = await getTaskAssigneeAndFinalWage(
         farm_id,
         user_id,
         task_id,
       );
-
       const result = await TaskModel.transaction(async (trx) => {
         const updated_task = await updateTaskWithCompletedData(
           trx,

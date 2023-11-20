@@ -149,6 +149,7 @@ function CustomSignUp() {
             forgotPassword={forgotPassword}
             isChrome={isChrome()}
             isVisible={showPureEnterPasswordPage}
+            key={showPureEnterPasswordPage} // unmount the component when visibility is changed
           />
           {showResetModal && <ResetPassword email={email} dismissModal={dismissModal} />}
         </Hidden>

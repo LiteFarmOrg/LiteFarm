@@ -835,6 +835,12 @@
       "REVENUE_TYPE": "Tipos de receita",
       "TITLE": "Filtrar transações"
     },
+    "REPORT": {
+      "DATES": "MISSING",
+      "SETTINGS": "MISSING",
+      "TRANSACTION": "MISSING",
+      "TRANSACTIONS": "MISSING"
+    },
     "REVENUE": "Receita",
     "SEARCH": {
       "EXPENSE_TYPES": "Procurar tipo de despesa",
@@ -1028,6 +1034,10 @@
     "TASKS": "Tarefas"
   },
   "MANAGEMENT_PLAN": {
+    "ABANDON": {
+      "CANT_ABANDON_COMPLETED": "MISSING",
+      "CANT_ABANDON_CONCURRENT_USER": "MISSING"
+    },
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonar este plano de cultivo ira abandonar todas as tarefas incompletas associadas a ele e removê-lo do mapa de sua propriedade",
     "ABANDON_MANAGEMENT_PLAN_TITLE": "Abandonar plano de cultivo?",
     "ADD_MANAGEMENT_PLAN": "Adicionar um plano de cultivo",
@@ -1037,9 +1047,13 @@
     "BEDS": "Canteiros",
     "BROADCAST": "Semeadura a lanço ou com máquina semeadora",
     "COMPLETE_PLAN": {
+      "ABANDON_DATE": "Data de abandono",
       "ABANDON_NOTES": "Notas de abandono",
       "ABANDON_PLAN": "Abandonar plano",
       "ABANDON_REASON": "Razão do abandono",
+      "CANT_COMPLETE_ABANDONED": "MISSING",
+      "CANT_COMPLETE_CONCURRENT_USER": "MISSING",
+      "COMPLETE_DATE": "Fecha completada",
       "COMPLETE_PLAN": "Completar plano",
       "DATE_OF_CHANGE": "Data de alteração da situação",
       "FUTURE_DATE_INVALID": "Pode não ser no futuro",
@@ -1333,7 +1347,13 @@
       "IMPERIAL": "Imperial",
       "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de telefone",
-      "UNITS": "Unidades"
+      "UNITS": "Unidades",
+      "FARM_IMAGE": "MISSING",
+      "REMOVE_IMAGE": "MISSING",
+      "CHANGE_IMAGE": "MISSING",
+      "UPLOAD_IMAGE": "MISSING",
+      "CLICK_TO_UPLOAD": "MISSING",
+      "DRAG_DROP": "MISSING"
     },
     "FARM_TAB": "Sítio/Fazenda",
     "PEOPLE": {

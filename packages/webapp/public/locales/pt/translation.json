@@ -1792,7 +1792,11 @@
     "TASKS_COUNT_other": "{{count}} tarefas",
     "TRANSPLANT": "Transplantar",
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
-    "UNASSIGNED": "Não atribuída"
+    "UNASSIGNED": "Não atribuída",
+    "CREATE": {
+      "FAILED": "MISSING",
+      "LOCATION_DELETED": "MISSING"
+    }
   },
   "UNIT": {
     "TIME": {

@@ -1793,7 +1793,11 @@
     "TASKS_COUNT_other": "{{count}} tâches",
     "TRANSPLANT": "Repiquage",
     "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de repiquage",
-    "UNASSIGNED": "Non attribué"
+    "UNASSIGNED": "Non attribué",
+    "CREATE": {
+      "FAILED": "MISSING",
+      "LOCATION_DELETED": "MISSING"
+    }
   },
   "UNIT": {
     "TIME": {

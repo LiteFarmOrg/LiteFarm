@@ -1790,7 +1790,11 @@
     "TASKS_COUNT_other": "{{count}} tasks",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "CREATE": {
+      "FAILED": "Can't create the task",
+      "LOCATION_DELETED": "Another farmer has retired your selected location. Please refresh the page to get the most recent status."
+    }
   },
   "UNIT": {
     "TIME": {

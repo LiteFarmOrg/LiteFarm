@@ -77,12 +77,15 @@ class ExpenseCategories extends Component {
   }
 
   getSearchableString = (type) => {
+    const expenseName =
+      type.farm_id === null
+        ? this.props.t(`expense:${type.expense_translation_key}.EXPENSE_NAME`)
+        : type.expense_name;
     const description =
       type.farm_id === null
         ? this.props.t(`expense:${type.expense_translation_key}.CUSTOM_DESCRIPTION`)
         : type.custom_description;
-
-    return [type.expense_name, description].filter(Boolean).join(' ');
+    return [expenseName, description].filter(Boolean).join(' ');
   };
 
   render() {

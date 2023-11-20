@@ -267,3 +267,23 @@ export const formatTransactionDate = (date, language = getLanguageFromLocalStora
   }
   return new Intl.DateTimeFormat(language, { dateStyle: 'long' }).format(dateObj);
 };
+
+/**
+ * Returns a function that constructs a searchable string of an expense type or a revenue type.
+ *
+ * @param {string} typeCategory - The category of the type ('expense' or 'revenue')
+ * @returns {function} getSearchableString function that takes a type and returns a searchable string.
+ */
+export const getFinanceTypeSearchableStringFunc = (typeCategory) => (type) => {
+  const nameKey = `${typeCategory}_name`;
+  const translationKey = `${typeCategory}_translation_key`;
+  const TYPE_CATEGORY = typeCategory.toUpperCase();
+
+  const typeName = type.farm_id
+    ? type[nameKey]
+    : i18n.t(`${typeCategory}:${type[translationKey]}.${TYPE_CATEGORY}_NAME`);
+  const description = type.farm_id
+    ? type.custom_description
+    : i18n.t(`${typeCategory}:${type[translationKey]}.CUSTOM_DESCRIPTION`);
+  return [typeName, description].filter(Boolean).join(' ');
+};

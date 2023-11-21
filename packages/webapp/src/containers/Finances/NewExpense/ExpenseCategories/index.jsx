@@ -1,62 +1,64 @@
 import React, { Component } from 'react';
-import PageTitle from '../../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../../styles.module.scss';
-import styles from './styles.module.scss';
-import { expenseTypeSelector } from '../../selectors';
-import EquipImg from '../../../../assets/images/log/equipment.svg';
-import SoilAmendmentImg from '../../../../assets/images/log/fertilizing.svg';
-import PestImg from '../../../../assets/images/log/bug.svg';
-import FuelImg from '../../../../assets/images/log/fuel.svg';
-import MachineImg from '../../../../assets/images/log/machinery.svg';
-import SeedImg from '../../../../assets/images/log/seeding.svg';
-import OtherImg from '../../../../assets/images/log/other.svg';
-import LandImg from '../../../../assets/images/log/land.svg';
+import { expenseTypeTileContentsSelector, selectedExpenseSelector } from '../../selectors';
+import { ReactComponent as EquipIcon } from '../../../../assets/images/finance/Equipment-icn.svg';
+import { ReactComponent as SoilAmendmentIcon } from '../../../../assets/images/finance/Soil-amendment-icn.svg';
+import { ReactComponent as PestIcon } from '../../../../assets/images/finance/Pest-icn.svg';
+import { ReactComponent as FuelIcon } from '../../../../assets/images/finance/Fuel-icn.svg';
+import { ReactComponent as MachineIcon } from '../../../../assets/images/finance/Machinery-icn.svg';
+import { ReactComponent as SeedIcon } from '../../../../assets/images/finance/Seeds-icn.svg';
+import { ReactComponent as OtherIcon } from '../../../../assets/images/finance/Custom-expense.svg';
+import { ReactComponent as LandIcon } from '../../../../assets/images/finance/Land-icn.svg';
+import { ReactComponent as MiscellaneousIcon } from '../../../../assets/images/finance/Miscellaneous-icn.svg';
+import { ReactComponent as UtilitiesIcon } from '../../../../assets/images/finance/Utilities-icn.svg';
+import { ReactComponent as LabourIcon } from '../../../../assets/images/finance/Labour-icn.svg';
+import { ReactComponent as InfrastructureIcon } from '../../../../assets/images/finance/Infrastructure-icn.svg';
+import { ReactComponent as TransportationIcon } from '../../../../assets/images/finance/Transportation-icn.svg';
+import { ReactComponent as ServicesIcon } from '../../../../assets/images/finance/Services-icn.svg';
 import { setSelectedExpenseTypes } from '../../actions';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
-import { Grid } from '@mui/material';
 import PropTypes from 'prop-types';
+import ManageCustomExpenseTypesSpotlight from '../ManageCustomExpenseTypesSpotlight';
+import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
+import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
+import labelIconStyles from '../../../../components/Tile/styles.module.scss';
+import { listItemTypes } from '../../../../components/List/constants';
+import { getFinanceTypeSearchableStringFunc } from '../../util';
 
-const iconMap = {
-  EQUIPMENT: EquipImg,
-  SOIL_AMENDMENT: SoilAmendmentImg,
-  PESTICIDE: PestImg,
-  FUEL: FuelImg,
-  MACHINERY: MachineImg,
-  SEEDS: SeedImg,
-  OTHER: OtherImg,
-  LAND: LandImg,
+export const icons = {
+  EQUIPMENT: <EquipIcon />,
+  SOIL_AMENDMENT: <SoilAmendmentIcon />,
+  PEST_CONTROL: <PestIcon />,
+  FUEL: <FuelIcon />,
+  MACHINERY: <MachineIcon />,
+  SEEDS_AND_PLANTS: <SeedIcon />,
+  OTHER: <OtherIcon />,
+  LAND: <LandIcon />,
+  MISCELLANEOUS: <MiscellaneousIcon />,
+  UTILITIES: <UtilitiesIcon />,
+  LABOUR: <LabourIcon />,
+  INFRASTRUCTURE: <InfrastructureIcon />,
+  TRANSPORTATION: <TransportationIcon />,
+  SERVICES: <ServicesIcon />,
 };
 
 class ExpenseCategories extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedStyle: {
-        width: '80px',
-        height: '80px',
-        borderRadius: '50px',
-        background: '#00756A',
-        margin: '0 auto',
-        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.08)',
-      },
-      unSelectedStyle: {
-        width: '80px',
-        height: '80px',
-        borderRadius: '50px',
-        margin: '0 auto',
-        background: '#82CF9C',
-        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.08)',
-      },
-      selectedTypes: [],
+      // filter out previously selected and retired types
+      selectedTypes: this.props.selectedExpense.filter((typeId) => {
+        return this.props.expenseTypes.some(({ expense_type_id }) => expense_type_id === typeId);
+      }),
     };
 
     this.addRemoveType = this.addRemoveType.bind(this);
     this.nextPage = this.nextPage.bind(this);
   }
 
-  nextPage() {
+  nextPage(event) {
+    event.preventDefault();
     this.props.dispatch(setSelectedExpenseTypes(this.state.selectedTypes));
     history.push('/add_expense');
   }
@@ -76,70 +78,67 @@ class ExpenseCategories extends Component {
 
   render() {
     const { expenseTypes } = this.props;
-    const { selectedStyle, unSelectedStyle, selectedTypes } = this.state;
+
+    const miscellaneous_type_id = expenseTypes.find(
+      (expenseType) => expenseType.expense_translation_key == 'MISCELLANEOUS',
+    ).expense_type_id;
+
+    // Do not display miscellaneous as a visible tile
+    const filteredExpenseTypes = expenseTypes.filter(
+      (expenseType) => expenseType.expense_type_id !== miscellaneous_type_id,
+    );
+
     return (
-      <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl="/Finances" title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE_1')} />
-        <Grid
-          container
-          spacing={3}
-          style={{
-            marginLeft: 0,
-            marginRight: 0,
-            marginTop: '24px',
-            width: '100%',
+      <HookFormPersistProvider>
+        <PureFinanceTypeSelection
+          title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE')}
+          leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
+          cancelTitle={this.props.t('EXPENSE.ADD_EXPENSE.FLOW')}
+          types={filteredExpenseTypes}
+          onContinue={this.nextPage}
+          onGoBack={this.props.history.back}
+          progressValue={33}
+          onGoToManageCustomType={() => history.push('/manage_custom_expenses')}
+          isTypeSelected={!!this.state.selectedTypes.length}
+          formatListItemData={(data) => {
+            const {
+              farm_id,
+              expense_translation_key,
+              expense_type_id,
+              expense_name,
+              custom_description,
+            } = data;
+
+            return {
+              key: expense_type_id,
+              icon: icons[farm_id ? 'OTHER' : expense_translation_key],
+              label: farm_id
+                ? expense_name
+                : this.props.t(`expense:${expense_translation_key}.EXPENSE_NAME`),
+              onClick: () => this.addRemoveType(expense_type_id),
+              selected: this.state.selectedTypes.includes(expense_type_id),
+              className: labelIconStyles.boldLabelIcon,
+              description: farm_id
+                ? custom_description
+                : this.props.t(`expense:${expense_translation_key}.CUSTOM_DESCRIPTION`),
+            };
           }}
-        >
-          {expenseTypes
-            ?.sort((firstExpenseType, secondExpenseType) => {
-              if (firstExpenseType.expense_translation_key === 'OTHER') return 1;
-              if (secondExpenseType.expense_translation_key === 'OTHER') return -1;
-              return this.props
-                .t(`expense:${firstExpenseType.expense_translation_key}`)
-                .localeCompare(
-                  this.props.t(`expense:${secondExpenseType.expense_translation_key}`),
-                );
-            })
-            .map((type) => {
-              return (
-                <Grid
-                  item
-                  xs={4}
-                  md={3}
-                  lg={2}
-                  key={type.expense_type_id}
-                  style={{ marginBottom: '12px' }}
-                >
-                  <div>
-                    <div
-                      style={
-                        selectedTypes.includes(type.expense_type_id)
-                          ? selectedStyle
-                          : unSelectedStyle
-                      }
-                      onClick={() => this.addRemoveType(type.expense_type_id)}
-                      className={styles.greenCircle}
-                    >
-                      <img
-                        src={iconMap[type.expense_translation_key]}
-                        alt=""
-                        className={styles.circleImg}
-                      />
-                    </div>
-                    <div className={styles.typeName}>
-                      {this.props.t(`expense:${type.expense_translation_key}`)}
-                    </div>
-                  </div>
-                </Grid>
-              );
-            })}
-        </Grid>
-        <div className={styles.bottomContainer}>
-          <button className="btn btn-primary" onClick={() => this.nextPage()}>
-            {this.props.t('common:NEXT')}
-          </button>
-        </div>
-      </div>
+          listItemType={listItemTypes.ICON_DESCRIPTION_CHECKBOX}
+          useHookFormPersist={this.props.useHookFormPersist}
+          iconLinkId={'manageCustomExpenseType'}
+          Wrapper={ManageCustomExpenseTypesSpotlight}
+          customTypeMessages={{
+            info: this.props.t('FINANCES.CANT_FIND.INFO_EXPENSE'),
+            manage: this.props.t('FINANCES.CANT_FIND.MANAGE_EXPENSE'),
+          }}
+          miscellaneousConfig={{
+            addRemove: () => this.addRemoveType(miscellaneous_type_id),
+            selected: this.state.selectedTypes.includes(miscellaneous_type_id),
+          }}
+          getSearchableString={getFinanceTypeSearchableStringFunc('expense')}
+          searchPlaceholderText={this.props.t('FINANCES.SEARCH.EXPENSE_TYPES')}
+        />
+      </HookFormPersistProvider>
     );
   }
 }
@@ -150,7 +149,8 @@ ExpenseCategories.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    expenseTypes: expenseTypeSelector(state),
+    expenseTypes: expenseTypeTileContentsSelector(state),
+    selectedExpense: selectedExpenseSelector(state),
   };
 };
 

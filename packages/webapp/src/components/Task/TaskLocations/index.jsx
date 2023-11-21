@@ -72,7 +72,8 @@ export default function PureTaskLocations({
   };
 
   useEffect(() => {
-    defaultLocation &&
+    !selectedLocations?.length &&
+      defaultLocation &&
       locations.some((location) => location.location_id === defaultLocation.location_id) &&
       onSelectLocation(defaultLocation.location_id);
   }, [defaultLocation]);

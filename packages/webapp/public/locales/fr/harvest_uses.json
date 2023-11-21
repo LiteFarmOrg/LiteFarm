@@ -1,12 +1,12 @@
 {
-  "SALES": "Ventes",
+  "SALES": "Vente",
   "SELF-CONSUMPTION": "Autoconsommation",
   "ANIMAL_FEED": "Alimentation Animale",
-  "COMPOST": "Composte",
+  "COMPOST": "Compostage",
   "GIFT": "Cadeau",
-  "EXCHANGE": "Échanger",
-  "SAVED_FOR_SEED": "Concervée pour les sémences",
-  "NOT_SURE": "Pas certain",
-  "DONATION": "Cotisation",
+  "EXCHANGE": "Échange",
+  "SAVED_FOR_SEED": "Reproduction de semences",
+  "NOT_SURE": "Incertain",
+  "DONATION": "Don",
   "OTHER": "Autre"
 }

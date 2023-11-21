@@ -16,12 +16,13 @@
 import baseController from '../controllers/baseController.js';
 
 import SaleModel from '../models/saleModel.js';
+import RevenueTypeModel from '../models/revenueTypeModel.js';
 import CropVarietySaleModel from '../models/cropVarietySaleModel.js';
 import { transaction, Model } from 'objection';
 
 const SaleController = {
   // this messed the update up as field Crop id is the same and it will change for all sales with the same field crop id!
-  addOrUpdateSale() {
+  addSale() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -44,43 +45,78 @@ const SaleController = {
   patchSales() {
     return async (req, res) => {
       const { sale_id } = req.params;
-      const { customer_name, sale_date } = req.body;
-      const saleData = {};
-      if (customer_name) {
-        saleData.customer_name = customer_name;
-      }
-      if (sale_date) {
-        saleData.sale_date = sale_date;
-      }
+      const {
+        customer_name,
+        sale_date,
+        value,
+        note,
+        revenue_type_id,
+        crop_variety_sale,
+      } = req.body;
+      const saleData = {
+        customer_name,
+        sale_date,
+        note,
+        revenue_type_id,
+      };
 
       const trx = await transaction.start(Model.knex());
       try {
-        const saleResult = await SaleModel.query(trx)
+        const oldSale = await SaleModel.query(trx).findById(sale_id);
+        const oldRevenueType = await RevenueTypeModel.query(trx).findById(oldSale.revenue_type_id);
+        const newRevenueType = revenue_type_id
+          ? await RevenueTypeModel.query(trx).findById(revenue_type_id)
+          : oldRevenueType;
+        const isCropSale = Boolean(newRevenueType.crop_generated);
+        const wasCropSale = Boolean(oldRevenueType.crop_generated);
+
+        if (isCropSale && value) {
+          await trx.rollback();
+          return res.status(400).send('cannot add value to crop sale');
+        }
+        if (!isCropSale && crop_variety_sale) {
+          await trx.rollback();
+          return res
+            .status(400)
+            .send('must be crop generated revenue type to add crop variety sale');
+        }
+        if (isCropSale && crop_variety_sale && !crop_variety_sale.length) {
+          await trx.rollback();
+          return res.status(400).send('crop sales cannot be empty');
+        }
+
+        // Value lives on the Sale model, crop sales are handled differently
+        if (!isCropSale) {
+          saleData.value = value;
+        }
+
+        const newSale = await SaleModel.query(trx)
           .context(req.auth)
           .where('sale_id', sale_id)
           .patch(saleData)
           .returning('*');
-        if (!saleResult) {
+        if (!newSale) {
           await trx.rollback();
           return res.status(400).send('failed to patch data');
         }
 
-        const deletedExistingCropVarietySale = await CropVarietySaleModel.query(trx)
-          .where('sale_id', sale_id)
-          .delete();
-        if (!deletedExistingCropVarietySale) {
-          await trx.rollback();
-          return res.status(400).send('failed to delete existing crop variety sales');
+        // Hard delete previous crop variety sales
+        if ((wasCropSale && isCropSale && crop_variety_sale) || (wasCropSale && !isCropSale)) {
+          const deletedExistingCropVarietySales = await CropVarietySaleModel.query(trx)
+            .where('sale_id', sale_id)
+            .delete();
+          if (!deletedExistingCropVarietySales) {
+            await trx.rollback();
+            return res.status(400).send('failed to delete existing crop variety sales');
+          }
         }
 
-        const { crop_variety_sale } = req.body;
-        if (!crop_variety_sale.length) {
-          await trx.rollback();
-          return res.status(400).send('should not patch sale with no crop variety sales');
-        }
-        for (const cvs of crop_variety_sale) {
-          cvs.sale_id = parseInt(sale_id);
-          await CropVarietySaleModel.query(trx).context(req.auth).insert(cvs);
+        // Add back updated crop variety sales
+        if (isCropSale && crop_variety_sale) {
+          for (const cvs of crop_variety_sale) {
+            cvs.sale_id = parseInt(sale_id);
+            await CropVarietySaleModel.query(trx).context(req.auth).insert(cvs);
+          }
         }
 
         await trx.commit();

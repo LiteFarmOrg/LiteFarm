@@ -95,6 +95,7 @@ module.exports = {
       database: process.env.TEST_DATABASE,
       user: process.env.TEST_DATABASE_USER,
       password: process.env.TEST_DATABASE_PASSWORD,
+      port: process.env.TEST_DATABASE_PORT || 5432,
     },
     pool: { min: 0, max: 100 },
     migrations: {

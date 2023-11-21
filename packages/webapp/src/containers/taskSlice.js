@@ -140,6 +140,7 @@ const taskSlice = createSlice({
     putTasksSuccess: updateManyTasks,
     createTaskSuccess: taskAdapter.addOne,
     deleteTaskSuccess: removeOne,
+    resetTasks: taskAdapter.removeAll,
   },
 });
 export const {
@@ -151,6 +152,7 @@ export const {
   putTasksSuccess,
   createTaskSuccess,
   deleteTaskSuccess,
+  resetTasks,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 
@@ -214,9 +216,6 @@ export const taskEntitiesSelector = createSelector(
       const management_plan_id =
         plantingManagementPlanEntities[planting_management_plan_id]?.management_plan_id;
       return produce(managementPlanEntities[management_plan_id], (managementPlan) => {
-        if (!managementPlan) {
-          return {};
-        }
         managementPlan.planting_management_plan =
           plantingManagementPlanEntities[planting_management_plan_id];
         prev_planting_management_plan &&
@@ -256,6 +255,9 @@ export const tasksSelector = createSelector(
   [taskEntitiesSelector, loginSelector],
   (taskEntities, { farm_id }) => {
     return Object.values(taskEntities).filter(({ locations, managementPlans, taskType }) => {
+      if (managementPlans.length && managementPlans.every(({ deleted }) => deleted)) {
+        return false;
+      }
       for (const location of locations) {
         if (location.farm_id === farm_id) {
           return true;

@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import Button from '../../../Form/Button';
 import React from 'react';
-import { Title } from '../../../Typography';
+import { Error, Title } from '../../../Typography';
 import PropTypes from 'prop-types';
 
 export default function ModalComponent({
@@ -12,6 +12,7 @@ export default function ModalComponent({
   descriptions,
   buttonLabel,
   buttonColor,
+  error,
 }) {
   const buttonStyles = {
     letterSpacing: '0.4005px',
@@ -26,7 +27,9 @@ export default function ModalComponent({
         {title}
       </Title>
       {descriptions.map((description) => (
-        <Title style={{ marginBottom: 0, textAlign: 'center' }}>{description}</Title>
+        <Title key={description} style={{ marginBottom: 0, textAlign: 'center' }}>
+          {description}
+        </Title>
       ))}
       <Button
         fullLength
@@ -37,6 +40,7 @@ export default function ModalComponent({
       >
         {buttonLabel}
       </Button>
+      {error && <Error className={styles.error}>{error}</Error>}
     </div>
   );
 }

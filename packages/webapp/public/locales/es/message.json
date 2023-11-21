@@ -23,18 +23,10 @@
       "UPLOAD": "No se pudo subir el archivo CSV"
     }
   },
-  "CROP": {
-    "ERROR": {
-      "DELETE": "No se pudo borrar campo de cultivo"
-    },
-    "SUCCESS": {
-      "DELETE": "Cultivo borrado exitosamente"
-    }
-  },
   "CROP_VARIETY": {
     "ERROR": {
-      "ADD": "Error: no se pudo agregar variedad a la base de datos",
-      "ADD_ALREADY_EXISTS": "Error: existe variedad",
+      "ADD": "Error: No se pudo agregar variedad a la base de datos",
+      "ADD_ALREADY_EXISTS": "Error: Esta variedad ya existe",
       "DELETE": "No se pudo eliminar la variedad de cultivo",
       "UPDATE": "No se pudo actualizar la variedad de cultivo"
     },
@@ -51,9 +43,21 @@
       "UPDATE": "No se pudo actualizar gastos!"
     },
     "SUCCESS": {
-      "ADD": "Nuevos gastos agregados exitosamente!",
-      "DELETE": "Nuevos gastos borrados exitosamente!",
-      "UPDATE": "Gastos actualizados exitosamente!!"
+      "ADD": "¡Nuevos gastos agregados exitosamente!",
+      "DELETE": "¡Gastos eliminados exitosamente!",
+      "UPDATE": "¡Gastos actualizados exitosamente!"
+    }
+  },
+  "EXPENSE_TYPE": {
+    "ERROR": {
+      "ADD": "No se pudo crear el tipo de gasto personalizado",
+      "DELETE": "No se pudo eliminar el tipo de gasto personalizado",
+      "UPDATE": "No se pudo actualizar el tipo de gasto personalizado"
+    },
+    "SUCCESS": {
+      "ADD": "Tipo de gasto personalizado creado exitosamente",
+      "DELETE": "Tipo de gasto personalizado eliminado exitosamente",
+      "UPDATE": "Tipo de gasto personalizado actualizado exitosamente"
     }
   },
   "FARM": {
@@ -85,22 +89,14 @@
     "ERROR": {
       "ABANDON": "¡No se pudo abandonar el plan de cultivo!",
       "COMPLETE": "¡No se pudo completar el plan de cultivo!",
-      "POST": "¡No se pudo agregar plan de cultivo!",
-      "DELETE": "¡No se pudo elimiar el plan de cultivo!"
+      "DELETE": "¡No se pudo elimiar el plan de cultivo!",
+      "POST": "¡No se pudo agregar plan de cultivo!"
     },
     "SUCCESS": {
       "ABANDON": "¡Plan de gestión abandonado con éxito!",
       "COMPLETE": "¡Plan de gestión completado con éxito!",
-      "POST": "¡Plan de cultivo agregado exitosamente!",
-      "DELETE": "¡Plan de cultivo eliminado exitosamente!"
-    }
-  },
-  "REPEAT_PLAN": {
-    "ERROR": {
-      "POST": "Fallo al repetir {{planName}}"
-    },
-    "SUCCESS": {
-      "POST": "{{planName}} se ha repetido con éxito"
+      "DELETE": "¡Plan de cultivo eliminado exitosamente!",
+      "POST": "¡Plan de cultivo agregado exitosamente!"
     }
   },
   "MAP": {
@@ -125,12 +121,32 @@
       "EDIT": "Plan de cultivo actualizado con éxito"
     }
   },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": "Fallo al repetir {{planName}}"
+    },
+    "SUCCESS": {
+      "POST": "{{planName}} se ha repetido con éxito"
+    }
+  },
   "REVENUE": {
     "ERROR": {
       "EDIT": "No se pudieron actualizar los ingresos"
     },
     "SUCCESS": {
       "EDIT": "Ingresos actualizados correctamente"
+    }
+  },
+  "REVENUE_TYPE": {
+    "ERROR": {
+      "ADD": "No se pudo crear el tipo de ingreso personalizado",
+      "DELETE": "No se pudo eliminar el tipo de ingreso personalizado",
+      "UPDATE": "No se pudo actualizar el tipo de ingreso personalizado"
+    },
+    "SUCCESS": {
+      "ADD": "Tipo de ingreso personalizado creado exitosamente",
+      "DELETE": "Tipo de ingreso personalizado eliminado exitosamente",
+      "UPDATE": "Tipo de ingreso personalizado actualizado exitosamente"
     }
   },
   "SALE": {
@@ -144,6 +160,10 @@
       "DELETE": "Venta borrada exitosamente",
       "UPDATE": "Venta actualizada exitosamente"
     }
+  },
+  "SENSOR": {
+    "ERROR_UPDATE": "No se pudo actualizar el sensor",
+    "SUCCESSFUL_UPDATE": "Sensor actualizado con éxito"
   },
   "TASK": {
     "ABANDON": {
@@ -159,8 +179,7 @@
       "SUCCESS": "Tarea creada con éxito"
     },
     "UPDATE": {
-      "FAILED": "No se pudo completar la tarea",
-      "SUCCESS": "Tarea creada con éxito"
+      "FAILED": "No se pudo completar la tarea"
     }
   },
   "TASK_TYPE": {
@@ -179,7 +198,6 @@
       "AGREEMENT": "No se pudo actualizar el acuerdo del(a) usuario",
       "EXISTS": "Usuario ya existe en la red de trabajo de LiteFarm",
       "INVITE": "Error al crear cuenta de usuario. Por favor contacte LiteFarm por asistencia.",
-      "NOTHING_CHANGED": "Nada ha cambiado",
       "MAX_RESET_EMAILS": "Se le ha enviado un enlace de restablecimiento de contraseña, por favor verifique su bandeja de entrada y su carpeta de correo no deseado.",
       "RESET_PASSWORD": "Error al enviar email para cambiar contraseña. Por favor contacte LiteFarm por asistencia.",
       "RESTORE": "Hubo un error al restaurar acceso",
@@ -193,9 +211,5 @@
       "REVOKE": "Acceso de usuario(a) revocado!",
       "UPDATE": "Información del(a) usuario(a) actualizada exitosamente!"
     }
-  },
-  "SENSOR": {
-    "SUCCESSFUL_UPDATE": "Sensor actualizado con éxito",
-    "ERROR_UPDATE": "No se pudo actualizar el sensor"
   }
 }

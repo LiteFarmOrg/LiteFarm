@@ -1,42 +1,20 @@
-import { useEffect, useState } from 'react';
-import { mediaEnum } from './constants';
 import { ReactComponent as Download } from '../../assets/images/farmMapFilter/Download.svg';
+import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
+import { mediaEnum } from './constants';
 
 export function MediaWithAuthentication({
-  fileUrl = '',
+  fileUrls = [],
   title = '',
+  extensionName = '',
   mediaType = mediaEnum.IMAGE,
   ...props
 }) {
-  const [mediaUrl, setMediaUrl] = useState();
-  useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('farm_token'),
-      },
-      responseType: 'arraybuffer',
-      method: 'GET',
-    };
-    let subscribed;
-    const fetchMediaUrl = async () => {
-      try {
-        subscribed = true;
-        if (import.meta.env.VITE_ENV === 'development') {
-          subscribed && setMediaUrl(fileUrl);
-        } else {
-          const url = new URL(fileUrl);
-          url.hostname = 'images.litefarm.workers.dev';
-          const response = await fetch(url.toString(), config);
-          const blobFile = await response.blob();
-          subscribed && setMediaUrl(URL.createObjectURL(blobFile));
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchMediaUrl();
-    return () => (subscribed = false);
-  }, []);
+  const { mediaUrl, zipContent } = useMediaWithAuthentication({
+    fileUrls,
+    title,
+    extensionName,
+    mediaType,
+  });
 
   const handleClick = () => {
     const element = document.createElement('a');
@@ -44,6 +22,16 @@ export function MediaWithAuthentication({
     element.download = title;
     document.body.appendChild(element);
     element.click();
+    document.body.removeChild(element);
+  };
+
+  const handleZipDownload = () => {
+    const element = document.createElement('a');
+    element.href = `data:application/zip;base64,${zipContent}`;
+    element.download = title;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
   };
 
   const renderMediaComponent = () => {
@@ -51,6 +39,8 @@ export function MediaWithAuthentication({
       case mediaEnum.DOCUMENT: {
         return <Download onClick={handleClick} {...props} />;
       }
+      case mediaEnum.ZIP:
+        return <Download onClick={handleZipDownload} {...props} />;
       case mediaEnum.IMAGE:
       default: {
         return <img loading="lazy" src={mediaUrl} {...props} />;

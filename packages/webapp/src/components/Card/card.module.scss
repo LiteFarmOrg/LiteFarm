@@ -97,3 +97,37 @@
 .notificationRead {
   background-color:  var(--grey200);
 }
+
+// SummaryCard
+.summaryCard {
+  padding: 20px;
+  background: var(--white, #fff);
+}
+
+p.summaryInfo {
+  margin-top: 0;
+  background-color: var(--white, #fff);
+  font-size: 11px;
+}
+
+p.lgSummaryLabel {
+  font-size: 16px;
+}
+
+h4.lgSummaryData {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+.negative {
+  h4, p {
+    color: var(--red700);
+  }
+}
+
+.positive {
+  h4, p {
+    color: var(--green800);
+  }
+}

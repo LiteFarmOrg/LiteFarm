@@ -13,26 +13,31 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import ManagementPlanModel from '../models/managementPlanModel.js';
-import ManagementPlanGroup from '../models/managementPlanGroupModel.js';
+import _pick from 'lodash/pick.js';
+import objection, { raw } from 'objection';
+import {
+  CANNOT_ABANDON_COMPLETED_PLAN,
+  CANNOT_COMPLETE_ABANDONED_PLAN,
+} from '../../../shared/constants/error.js';
 import CropManagementPlanModel from '../models/cropManagementPlanModel.js';
+import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
+import ManagementPlanGroup from '../models/managementPlanGroupModel.js';
+import ManagementPlanModel from '../models/managementPlanModel.js';
 import ManagementTasksModel from '../models/managementTasksModel.js';
+import PlantTaskModel from '../models/plantTaskModel.js';
 import TaskModel from '../models/taskModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
-import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import TransplantTaskModel from '../models/transplantTaskModel.js';
-import PlantTaskModel from '../models/plantTaskModel.js';
 import UserFarmModel from '../models/userFarmModel.js';
-import objection, { raw } from 'objection';
-import _pick from 'lodash/pick.js';
-import knex from '../util/knex.js';
-import { sendTaskNotification, TaskNotificationTypes } from './taskController.js';
 import {
   getDatesFromManagementPlanGraph,
-  getManagementPlanGroupTemplateGraph,
   getFormattedManagementPlanData,
+  getManagementPlanGroupTemplateGraph,
 } from '../util/copyCropPlan.js';
+import knex from '../util/knex.js';
 import { getSortedDates } from '../util/util.js';
+import { TaskNotificationTypes, sendTaskNotification } from './taskController.js';
+import baseController from './baseController.js';
 const { transaction, Model } = objection;
 
 const managementPlanController = {
@@ -326,6 +331,8 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const { management_plan_id } = req.params;
+        const { user_id } = req.auth;
+        const { farm_id } = req.headers;
 
         const managementPlan = await ManagementPlanModel.query()
           .context(req.auth)
@@ -338,54 +345,29 @@ const managementPlanController = {
         }
 
         const result = await ManagementPlanModel.transaction(async (trx) => {
-          const tasksWithManagementPlanCount = await ManagementTasksModel.query(trx)
-            .select('*')
-            .join(
-              'planting_management_plan',
-              'planting_management_plan.planting_management_plan_id',
-              'management_tasks.planting_management_plan_id',
-            )
-            .where('planting_management_plan.management_plan_id', management_plan_id)
-            .distinct('task_id')
-            .then((tasks) =>
-              ManagementTasksModel.query(trx)
-                .join(
-                  'planting_management_plan',
-                  'planting_management_plan.planting_management_plan_id',
-                  'management_tasks.planting_management_plan_id',
-                )
-                .join('task', 'task.task_id', 'management_tasks.task_id')
-                .whereNull('task.complete_date')
-                .whereIn(
-                  'management_tasks.task_id',
-                  tasks.map(({ task_id }) => task_id),
-                )
-                .groupBy('management_tasks.task_id')
-                .count('planting_management_plan.management_plan_id')
-                .select('management_tasks.task_id'),
-            );
+          const tasksWithManagementPlanCount = await getManagementTasksWithCountByManagementPlanId(
+            management_plan_id,
+            trx,
+          );
+          const transplantTasks = await getTransplantTasksByManagementPlanId(
+            management_plan_id,
+            trx,
+          );
+          const plantTasks = await getPlantTasksByManagementPlanId(management_plan_id, trx);
 
-          const transplantTasks = await TransplantTaskModel.query(trx)
-            .select('*')
-            .join(
-              'planting_management_plan',
-              'planting_management_plan.planting_management_plan_id',
-              'transplant_task.planting_management_plan_id',
-            )
-            .join('task', 'task.task_id', 'transplant_task.task_id')
-            .whereNull('task.complete_date')
-            .where('planting_management_plan.management_plan_id', management_plan_id);
-
-          const plantTasks = await PlantTaskModel.query(trx)
-            .select('*')
-            .join(
-              'planting_management_plan',
-              'planting_management_plan.planting_management_plan_id',
-              'plant_task.planting_management_plan_id',
-            )
-            .join('task', 'task.task_id', 'plant_task.task_id')
-            .whereNull('task.complete_date')
-            .where('planting_management_plan.management_plan_id', management_plan_id);
+          // Reject deletion if any of the tasks are completed or abandoned
+          const allTaskIds = [
+            ...tasksWithManagementPlanCount,
+            ...transplantTasks,
+            ...plantTasks,
+          ].map(({ task_id }) => task_id);
+          const completedOrAbandonedTasksByIds = await getCompletedOrAbandonedTasks(
+            allTaskIds,
+            trx,
+          );
+          if (completedOrAbandonedTasksByIds.length) {
+            throw 'Cannot delete management plan with completed or abandonded tasks';
+          }
 
           const taskIdsRelatedToOneManagementPlan = [
             ...tasksWithManagementPlanCount.filter(({ count }) => count === '1'),
@@ -393,10 +375,40 @@ const managementPlanController = {
             ...plantTasks,
           ].map(({ task_id }) => task_id);
 
+          const deletedTasks = [];
+
+          await Promise.all(
+            taskIdsRelatedToOneManagementPlan.map(async (task_id) => {
+              // Don't send notifications for previously deleted tasks
+              if (await baseController.isDeleted(trx, TaskModel, { task_id })) {
+                return;
+              }
+              const { task_translation_key } = await TaskModel.getTaskType(task_id);
+              const { assignee_user_id } = await TaskModel.query(trx)
+                .select('assignee_user_id')
+                .where({ task_id })
+                .first();
+
+              if (!assignee_user_id) {
+                return;
+              }
+
+              deletedTasks.push({
+                assignee_user_id: [assignee_user_id],
+                user_id,
+                task_id,
+                type: TaskNotificationTypes.TASK_DELETED,
+                task_translation_key,
+                farm_id,
+              });
+            }),
+          );
+
           await TaskModel.query(trx)
             .context(req.auth)
             .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
             .delete();
+
           const taskIdsRelatedToManyManagementPlans = tasksWithManagementPlanCount
             .filter(({ count }) => Number(count) > 1)
             .map(({ task_id }) => task_id);
@@ -409,13 +421,36 @@ const managementPlanController = {
               [management_plan_id, taskIdsRelatedToManyManagementPlans],
             ));
 
-          return await ManagementPlanModel.query(trx)
+          const delPlan = await ManagementPlanModel.query(trx)
             .context(req.auth)
             .where({ management_plan_id })
             .delete();
+
+          if (delPlan) {
+            return deletedTasks;
+          } else {
+            return delPlan;
+          }
         });
 
         if (result) {
+          Promise.all(
+            result.map(async (task) => {
+              await sendTaskNotification(
+                task.assignee_user_id,
+                task.user_id,
+                task.task_id,
+                task.type,
+                task.task_translation_key,
+                task.farm_id,
+              );
+            }),
+          ).catch((error) => {
+            console.log(
+              'Error while sending notifications about deleted tasks for a deleted management plan: ',
+              error,
+            );
+          });
           return res.sendStatus(200);
         } else {
           return res.sendStatus(404);
@@ -432,10 +467,24 @@ const managementPlanController = {
   completeManagementPlan() {
     return async (req, res) => {
       try {
+        const managementPlan = await ManagementPlanModel.query()
+          .context(req.auth)
+          .where({ management_plan_id: req.params.management_plan_id, deleted: false })
+          .first();
+
+        if (!managementPlan) {
+          return res.status(404).send('Management plan not found');
+        }
+
+        if (managementPlan.abandon_date) {
+          return res.status(409).send(CANNOT_COMPLETE_ABANDONED_PLAN);
+        }
+
         const result = await ManagementPlanModel.query()
           .context(req.auth)
           .where({ management_plan_id: req.params.management_plan_id })
           .patch(_pick(req.body, ['complete_date', 'complete_notes', 'rating']));
+
         if (result) {
           return res.sendStatus(200);
         } else {
@@ -454,6 +503,8 @@ const managementPlanController = {
     return async (req, res) => {
       try {
         const { management_plan_id } = req.params;
+        const { user_id } = req.auth;
+        const { farm_id } = req.headers;
 
         const managementPlan = await ManagementPlanModel.query()
           .context(req.auth)
@@ -463,6 +514,10 @@ const managementPlanController = {
 
         if (!managementPlan) {
           return res.status(404).send('Management plan not found');
+        }
+
+        if (managementPlan.complete_date) {
+          return res.status(409).send(CANNOT_ABANDON_COMPLETED_PLAN);
         }
 
         const result = await ManagementPlanModel.transaction(async (trx) => {
@@ -524,6 +579,36 @@ const managementPlanController = {
             ...transplantTasks,
             ...plantTasks,
           ].map(({ task_id }) => task_id);
+
+          const abandonedTasks = [];
+
+          await Promise.all(
+            taskIdsRelatedToOneManagementPlan.map(async (task_id) => {
+              // Don't send notifications for previously deleted tasks
+              if (await baseController.isDeleted(trx, TaskModel, { task_id })) {
+                return;
+              }
+              const { task_translation_key } = await TaskModel.getTaskType(task_id);
+              const { assignee_user_id } = await TaskModel.query(trx)
+                .select('assignee_user_id')
+                .where({ task_id })
+                .first();
+
+              if (!assignee_user_id) {
+                return;
+              }
+
+              abandonedTasks.push({
+                assignee_user_id: [assignee_user_id],
+                user_id,
+                task_id,
+                type: TaskNotificationTypes.TASK_ABANDONED,
+                task_translation_key,
+                farm_id,
+              });
+            }),
+          );
+
           await TaskModel.query(trx)
             .context(req.auth)
             .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
@@ -541,13 +626,31 @@ const managementPlanController = {
               'delete from "management_tasks" using "planting_management_plan" where "planting_management_plan"."planting_management_plan_id" = "management_tasks"."planting_management_plan_id" and "planting_management_plan"."management_plan_id" = ? and "management_tasks"."task_id" = ANY(?)',
               [management_plan_id, taskIdsRelatedToManyManagementPlans],
             ));
-          return await ManagementPlanModel.query()
+          const abandonedPlan = await ManagementPlanModel.query(trx)
             .context(req.auth)
             .where({ management_plan_id })
             .patch(_pick(req.body, ['abandon_date', 'complete_notes', 'rating', 'abandon_reason']));
-        });
 
+          return abandonedPlan ? abandonedTasks : abandonedPlan;
+        });
         if (result) {
+          Promise.all(
+            result.map(async (task) => {
+              await sendTaskNotification(
+                task.assignee_user_id,
+                task.user_id,
+                task.task_id,
+                task.type,
+                task.task_translation_key,
+                task.farm_id,
+              );
+            }),
+          ).catch((error) => {
+            console.log(
+              'Error while sending notifications about abandoned tasks for a abandoned management plan: ',
+              error,
+            );
+          });
           return res.sendStatus(200);
         } else {
           return res.sendStatus(404);
@@ -644,7 +747,6 @@ const managementPlanController = {
       try {
         const farm_id = req.params.farm_id;
         const managementPlans = await ManagementPlanModel.query()
-          .whereNotDeleted()
           .withGraphJoined(planGraphFetchedQueryString, graphJoinedOptions)
           .where('crop_variety.farm_id', farm_id);
         const harvestedPlans = await getHarvestedToDate(
@@ -704,6 +806,12 @@ const managementPlanController = {
       }
     };
   },
+
+  checkDeleteManagementPlan() {
+    return async (req, res, next) => {
+      return res.sendStatus(200);
+    };
+  },
 };
 
 const planGraphFetchedQueryString =
@@ -760,6 +868,70 @@ const getHarvestedToDate = async (managementPlanIds) => {
     .whereIn('mp.management_plan_id', managementPlanIds)
     .andWhere('t.complete_date', 'IS NOT', null)
     .groupBy('mp.management_plan_id');
+};
+
+export const getPlantTasksByManagementPlanId = async (managementPlanId, trx = null) => {
+  return PlantTaskModel.query(trx)
+    .select('*')
+    .join(
+      'planting_management_plan',
+      'planting_management_plan.planting_management_plan_id',
+      'plant_task.planting_management_plan_id',
+    )
+    .join('task', 'task.task_id', 'plant_task.task_id')
+    .where('planting_management_plan.management_plan_id', managementPlanId);
+};
+
+export const getManagementTasksWithCountByManagementPlanId = async (
+  managementPlanId,
+  trx = null,
+) => {
+  return ManagementTasksModel.query(trx)
+    .select('*')
+    .join(
+      'planting_management_plan',
+      'planting_management_plan.planting_management_plan_id',
+      'management_tasks.planting_management_plan_id',
+    )
+    .where('planting_management_plan.management_plan_id', managementPlanId)
+    .distinct('task_id')
+    .then((tasks) =>
+      ManagementTasksModel.query(trx)
+        .join(
+          'planting_management_plan',
+          'planting_management_plan.planting_management_plan_id',
+          'management_tasks.planting_management_plan_id',
+        )
+        .join('task', 'task.task_id', 'management_tasks.task_id')
+        .whereIn(
+          'management_tasks.task_id',
+          tasks.map(({ task_id }) => task_id),
+        )
+        .groupBy('management_tasks.task_id')
+        .count('planting_management_plan.management_plan_id')
+        .select('management_tasks.task_id'),
+    );
+};
+
+export const getTransplantTasksByManagementPlanId = async (managementPlanId, trx = null) => {
+  return TransplantTaskModel.query(trx)
+    .select('*')
+    .join(
+      'planting_management_plan',
+      'planting_management_plan.planting_management_plan_id',
+      'transplant_task.planting_management_plan_id',
+    )
+    .join('task', 'task.task_id', 'transplant_task.task_id')
+    .where('planting_management_plan.management_plan_id', managementPlanId);
+};
+
+export const getCompletedOrAbandonedTasks = async (taskIds, trx = null) => {
+  return TaskModel.query(trx)
+    .select('*')
+    .whereIn('task_id', taskIds)
+    .andWhere((queryBuilder) => {
+      queryBuilder.whereNotNull('abandon_date').orWhereNotNull('complete_date');
+    });
 };
 
 export default managementPlanController;

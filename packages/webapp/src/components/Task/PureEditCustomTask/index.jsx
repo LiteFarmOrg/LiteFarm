@@ -10,7 +10,6 @@ import Input from '../../Form/Input';
 const PureEditCustomTask = ({ handleGoBack, handleEdit, handleRetire, selectedType }) => {
   const { t } = useTranslation();
   const {
-    handleSubmit,
     register,
     formState: { errors, isValid },
   } = useForm({

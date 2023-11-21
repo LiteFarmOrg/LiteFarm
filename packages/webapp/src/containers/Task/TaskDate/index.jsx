@@ -51,21 +51,13 @@ function TaskDate({ history, match, location }) {
         },
       );
       if (transplantTask) {
-        console.log('transplantTask');
         location.state.location = transplantTask.locations[0];
-        console.log(location.state);
       } else if (plantingTask) {
-        console.log('plantingTask');
         location.state.location = plantingTask.locations[0];
-        console.log(location.state);
       } else if (mostRecentlyCompleted) {
-        console.log('mostRecentlyCompleted');
         location.state.location = mostRecentlyCompleted.locations[0];
-        console.log(location.state);
       } else if (nextUpcoming) {
-        console.log('nextUpcoming');
         location.state.location = nextUpcoming.locations[0];
-        console.log(location.state);
       }
     }
 

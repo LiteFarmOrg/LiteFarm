@@ -2112,6 +2112,50 @@ function fakeNotification(defaultData = {}) {
   };
 }
 
+async function populateDefaultRevenueTypes() {
+  const types = [
+    {
+      revenue_name: 'Crop Sale',
+      revenue_translation_key: 'CROP_SALE',
+      agriculture_associated: null,
+      crop_generated: true,
+    },
+  ];
+  for (const type of types) {
+    const [revenueTypeInDb] = await knex('revenue_type').where({
+      revenue_name: type.revenue_name,
+    });
+    if (!revenueTypeInDb) {
+      const base = baseProperties(1);
+      return knex('revenue_type')
+        .insert({ ...type, ...base })
+        .returning('*');
+    }
+  }
+}
+
+function fakeRevenueType(defaultData = {}) {
+  const name = faker.lorem.word();
+  return {
+    revenue_name: name,
+    revenue_translation_key: name,
+    ...defaultData,
+  };
+}
+
+async function revenue_typeFactory(
+  { promisedFarm = farmFactory(), properties = {} } = {},
+  revenueType = fakeRevenueType(properties),
+) {
+  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const base = baseProperties(user_id);
+  return knex('revenue_type')
+    .insert({ farm_id, ...revenueType, ...base })
+    .returning('*');
+}
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -2237,5 +2281,8 @@ export default {
   fakeOrganicHistory,
   organic_historyFactory,
   notification_userFactory,
+  populateDefaultRevenueTypes,
+  revenue_typeFactory,
+  fakeRevenueType,
   baseProperties,
 };

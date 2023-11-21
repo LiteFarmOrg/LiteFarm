@@ -13,24 +13,29 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { createAction } from '@reduxjs/toolkit';
+import {
+  CANNOT_ABANDON_COMPLETED_PLAN,
+  CANNOT_COMPLETE_ABANDONED_PLAN,
+} from '@shared/constants/error';
 import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { managementPlanURL } from '../../../apiConfig';
-import { loginSelector } from '../../userFarmSlice';
-import { axios, getHeader } from '../../saga';
-import { createAction } from '@reduxjs/toolkit';
-import { updateManagementPlanSuccess } from '../../managementPlanSlice';
-import i18n from '../../../locales/i18n';
 import history from '../../../history';
+import i18n from '../../../locales/i18n';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { getTasks } from '../../Task/saga';
+import { updateManagementPlanSuccess } from '../../managementPlanSlice';
+import { axios, getHeader } from '../../saga';
+import { loginSelector } from '../../userFarmSlice';
 
 export const completeManagementPlan = createAction(`completeManagementPlanSaga`);
 
-export function* completeManagementPlanSaga({ payload: managementPlan }) {
+export function* completeManagementPlanSaga({ payload }) {
+  const { displayCannotCompleteModal, ...managementPlan } = payload;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    const result = yield call(
+    yield call(
       axios.patch,
       `${managementPlanURL}/${managementPlan.management_plan_id}/complete`,
       managementPlan,
@@ -40,17 +45,22 @@ export function* completeManagementPlanSaga({ payload: managementPlan }) {
     history.push(`/crop/${managementPlan.crop_variety_id}/management`);
     yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.COMPLETE')));
   } catch (e) {
-    yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.COMPLETE')));
+    if (e.response.data === CANNOT_COMPLETE_ABANDONED_PLAN) {
+      displayCannotCompleteModal();
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.COMPLETE')));
+    }
   }
 }
 
 export const abandonManagementPlan = createAction(`abandonManagementPlanSaga`);
 
-export function* abandonManagementPlanSaga({ payload: managementPlan }) {
+export function* abandonManagementPlanSaga({ payload }) {
+  const { displayCannotAbandonModal, ...managementPlan } = payload;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    const result = yield call(
+    yield call(
       axios.patch,
       `${managementPlanURL}/${managementPlan.management_plan_id}/abandon`,
       managementPlan,
@@ -61,7 +71,11 @@ export function* abandonManagementPlanSaga({ payload: managementPlan }) {
     yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.ABANDON')));
     yield put(getTasks());
   } catch (e) {
-    yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.ABANDON')));
+    if (e.response.data === CANNOT_ABANDON_COMPLETED_PLAN) {
+      displayCannotAbandonModal();
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.ABANDON')));
+    }
   }
 }
 

@@ -13,6 +13,7 @@ function DateContainer({
   classes = {},
   defaultDate,
   label,
+  ...props
 }) {
   const onChange = (e) => {
     onDateChange(moment(e.target.value));
@@ -38,7 +39,7 @@ function DateContainer({
       )}
       <Input
         label={label}
-        value={defaultDate ? defaultDate : date.format('YYYY-MM-DD')}
+        value={defaultDate ? defaultDate : date?.format('YYYY-MM-DD') || ''}
         type={'date'}
         onChange={onChange}
         style={{ flexGrow: 1 }}
@@ -46,6 +47,7 @@ function DateContainer({
           container: { flexGrow: 1, minWidth: '150px' },
           input: { minWidth: '150px', backgroundColor: 'transparent', flexGrow: 1, width: '100%' },
         }}
+        {...props}
       />
     </div>
   );
@@ -53,7 +55,14 @@ function DateContainer({
 
 export default DateContainer;
 
-export function FromToDateContainer({ onStartDateChange, onEndDateChange, startDate, endDate }) {
+export function FromToDateContainer({
+  onStartDateChange,
+  onEndDateChange,
+  startDate,
+  endDate,
+  fromProps = {},
+  toProps = {},
+}) {
   const { t } = useTranslation();
   return (
     <div className={styles.fromToContainer}>
@@ -62,12 +71,14 @@ export function FromToDateContainer({ onStartDateChange, onEndDateChange, startD
         custom={true}
         date={startDate}
         onDateChange={onStartDateChange}
+        {...fromProps}
       />
       <DateContainer
         label={t('LOG_COMMON.TO')}
         custom={true}
         date={endDate}
         onDateChange={onEndDateChange}
+        {...toProps}
       />
     </div>
   );

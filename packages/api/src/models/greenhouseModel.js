@@ -17,6 +17,21 @@ import Model from './baseFormatModel.js';
 import organicHistoryModel from './organicHistoryModel.js';
 
 class Greenhouse extends Model {
+  // Code from gardenModel.js and fieldModel.js
+  // Converts datetimes to date strings by stripping the time component
+  $parseJson(json, opt) {
+    json = super.$parseJson(json, opt);
+    const pgDateTypeFields = ['transition_date'];
+    if (Object.keys(json).some((e) => pgDateTypeFields.includes(e))) {
+      Object.keys(json).forEach((key) => {
+        if (pgDateTypeFields.includes(key) && json[key]) {
+          json[key] = json[key].split('T')[0];
+        }
+      });
+    }
+    return json;
+  }
+
   static get tableName() {
     return 'greenhouse';
   }

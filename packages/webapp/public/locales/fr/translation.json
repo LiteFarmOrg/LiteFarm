@@ -492,28 +492,28 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "ADD_CUSTOM_EXPENSE": "Ajouter des dépense personnalisée",
-      "ADD_CUSTOM_EXPENSE_TYPE": "Ajouter un type de dépense personnalisée",
+      "ADD_CUSTOM_EXPENSE": "Ajouter une dépense personnalisée",
+      "ADD_CUSTOM_EXPENSE_TYPE": "Ajouter un type dépense personnalisée",
       "CUSTOM_EXPENSE_NAME": "Nom de la dépense personnalisée",
       "CUSTOM_EXPENSE_TYPE": "Type de dépense personnalisée",
-      "DUPLICATE_NAME": "Un type de dépense portant ce nom existe déjà. Veuillez en choisir un autre",
-      "DUPLICATE_NAME_RETIRED": "MISSING",
+      "DUPLICATE_NAME": "Un type de dépense portant ce nom existe déjà. Veuillez en choisir un autre.",
+      "DUPLICATE_NAME_RETIRED": "Un type de dépense desactivée portant ce nom existe déjà. Veuillez en choisir un autre.",
       "FLOW": "Création d'une dépense",
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "Gérer le type de dépense personnalisée",
-      "NEW_EXPENSE_ITEM": "Nouvelle dépense",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "Gérer les types de dépenses personnalisées",
+      "NEW_EXPENSE_ITEM": "Nouvel article de dépense",
       "TITLE": "Ajouter une dépense",
       "WHICH_TYPES_TO_RECORD": "Choisissez vos types de dépenses ci-dessous:"
     },
-    "CUSTOM_EXPENSE_DESCRIPTION": "Description de dépense personnalisée",
+    "CUSTOM_EXPENSE_DESCRIPTION": "Description de la dépense personnalisée",
     "DELETE": {
-      "CONFIRM": "Confirmer",
-      "HEADER": "En-tête",
-      "LINK": "Lien",
-      "MESSAGE": "Cela supprimera la dépense des registres de votre exploitation. Elle ne sera plus reflétée dans aucun résumé financier"
+      "CONFIRM": "Confirmer la suppression",
+      "HEADER": "Supprimer la dépense?",
+      "LINK": "Supprimer la dépense",
+      "MESSAGE": "Cela supprimera la dépense des registres de votre ferme. Elle ne sera plus reflétée dans aucun résumé financier."
     },
     "DETAILED_HISTORY": "Historique détaillé",
     "EDIT_EXPENSE": {
-      "RETIRE_EXPENSE_MESSAGE": "Message de désactivation de dépense",
+      "RETIRE_EXPENSE_MESSAGE": "La mise à la retraite de ce type de dépense l'éliminera en tant que choix possible pour les dépenses futures. Vous pouvez toujours rechercher et filtrer les instances historiques de ce type de dépense dans l'onglet Finances.",
       "RETIRE_EXPENSE_TYPE": "Desactiver ce type de dépense",
       "RETIRED": "(Desactivée)",
       "TITLE": "Modifier la dépense",
@@ -813,8 +813,8 @@
     "ADD_REVENUE": "+ Ajouter une recette",
     "ADD_TRANSACTION": "+ Ajouter une transaction",
     "CANT_FIND": {
-      "INFO_EXPENSE": "Vous pouvez également créer vos propres types de dépenses personnalisées !",
-      "INFO_REVENUE": "Vous pouvez également créer vos propres types de recettes personnalisées !",
+      "INFO_EXPENSE": "Vous pouvez également créer vos propres types de dépenses personnalisés!",
+      "INFO_REVENUE": "Vous pouvez également créer vos propres types de revenus personnalisés!",
       "MAIN": "Vous ne trouvez pas une catégorie appropriée?",
       "MANAGE_EXPENSE": "Gérer dépense personnalisée",
       "MANAGE_REVENUE": "Gérer recette personnalisé",
@@ -837,10 +837,10 @@
       "TITLE": "Filtrer les transactions"
     },
     "REPORT": {
-      "DATES": "MISSING",
-      "SETTINGS": "MISSING",
-      "TRANSACTION": "MISSING",
-      "TRANSACTIONS": "MISSING"
+      "DATES": "Dates",
+      "SETTINGS": "Exporter les paramètres",
+      "TRANSACTION": "Transaction",
+      "TRANSACTIONS": "Transactions"
     },
     "REVENUE": "Recette",
     "SEARCH": {
@@ -1037,8 +1037,8 @@
   },
   "MANAGEMENT_PLAN": {
     "ABANDON": {
-      "CANT_ABANDON_COMPLETED": "MISSING",
-      "CANT_ABANDON_CONCURRENT_USER": "MISSING"
+      "CANT_ABANDON_COMPLETED": "Ce plan de culture ne peut être abandonné",
+      "CANT_ABANDON_CONCURRENT_USER": "Un autre utilisateur a terminé ce plan. Veuillez revenir en arrière pour obtenir le statut le plus récent."
     },
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonner ce plan de culture abandonnera toutes les tâches incomplètes qui lui sont associées et le supprimera de votre carte de l'exploitation.",
     "ABANDON_MANAGEMENT_PLAN_TITLE": "Abandonner le plan de culture\u00a0?",
@@ -1053,8 +1053,8 @@
       "ABANDON_NOTES": "Notes d'abandon",
       "ABANDON_PLAN": "Abandonner le plan",
       "ABANDON_REASON": "Raison de l'abandon",
-      "CANT_COMPLETE_ABANDONED": "MISSING",
-      "CANT_COMPLETE_CONCURRENT_USER": "MISSING",
+      "CANT_COMPLETE_ABANDONED": "Ce plan de culture ne peut être terminé",
+      "CANT_COMPLETE_CONCURRENT_USER": "Un autre utilisateur a abandonné ce plan. Veuillez revenir en arrière pour obtenir le statut le plus récent.",
       "COMPLETE_DATE": "Date de fin",
       "COMPLETE_PLAN": "Plan terminé",
       "DATE_OF_CHANGE": "Date de changement de statut",
@@ -1087,7 +1087,7 @@
     "DELETE": {
       "CANT_DELETE_ABANDON": "Abandonner",
       "CANT_DELETE_ABANDON_INSTEAD": "Voulez-vous plutôt abandonner le plan de culture?",
-      "CANT_DELETE_CONCURRENT_USER": "MISSING",
+      "CANT_DELETE_CONCURRENT_USER": "Un autre utilisateur a terminé ou abandonné une tâche dans ce plan. Veuillez actualiser la page pour obtenir le statut le plus récent.",
       "CANT_DELETE_MODIFIED_PLAN": "Impossible de supprimer le plan de culture",
       "CONFIRM_DELETION": "Confirmer la suppression",
       "DELETE_PLAN": "Supprimer le plan de culture",
@@ -1349,12 +1349,12 @@
       "METRIC": "Métriques",
       "PHONE_NUMBER": "Numéro de téléphone",
       "UNITS": "Unités",
-      "FARM_IMAGE": "MISSING",
-      "REMOVE_IMAGE": "MISSING",
-      "CHANGE_IMAGE": "MISSING",
-      "UPLOAD_IMAGE": "MISSING",
-      "CLICK_TO_UPLOAD": "MISSING",
-      "DRAG_DROP": "MISSING"
+      "FARM_IMAGE": "Image de la ferme",
+      "REMOVE_IMAGE": "Supprimer image",
+      "CHANGE_IMAGE": "Changer image",
+      "UPLOAD_IMAGE": "Ajouter une image",
+      "CLICK_TO_UPLOAD": "Cliquer pour télécharger",
+      "DRAG_DROP": "ou glisser déposer"
     },
     "FARM_TAB": "Exploitation",
     "PEOPLE": {
@@ -1438,9 +1438,9 @@
       "CUSTOM_REVENUE_NAME": "Nom de la recette personnalisée",
       "CUSTOM_REVENUE_TYPE": "Type de recette personnalisée",
       "DUPLICATE_NAME": "Un type de recette portant ce nom existe déjà.  Veuillez en choisir un autre.",
-      "DUPLICATE_NAME_RETIRED": "MISSING"
+      "DUPLICATE_NAME_RETIRED": "Un type de recette desactivée portant ce nom existe déjà.  Veuillez en choisir un autre."
     },
-    "CUSTOM_REVENUE_DESCRIPTION": "Description du type de recettes",
+    "CUSTOM_REVENUE_DESCRIPTION": "Description du revenu personnalisé",
     "DELETE": {
       "CONFIRM": "Confirmer la suppression",
       "HEADER": "Supprimer la recette ?",
@@ -1473,15 +1473,15 @@
       "TABLE_HEADERS": {
         "TOTAL": "Total"
       },
-      "WHICH_TYPE_TO_RECORD": "Choisissez votre type de recette ci-dessous :"
+      "WHICH_TYPE_TO_RECORD": "Sélectionnez votre type de recette ci-dessous :"
     },
     "DETAIL": {
       "CUSTOMER_NAME": "Nom de Client",
-      "TITLE": "Detail de Vente",
+      "TITLE": "Détails de vente",
       "VALUE": "Valeur"
     },
     "EDIT_SALE": {
-      "TITLE": "Modifier Vente"
+      "TITLE": "Modifier vente"
     },
     "EXPENSE_DETAIL": {
       "TITLE": "Détail de la dépense"
@@ -1795,8 +1795,8 @@
     "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de repiquage",
     "UNASSIGNED": "Non attribué",
     "CREATE": {
-      "FAILED": "MISSING",
-      "LOCATION_DELETED": "MISSING"
+      "FAILED": "Cette tâche ne peut être crée",
+      "LOCATION_DELETED": "Un autre utilisateur a désactivé cette emplacement. Veuillez actualiser la page pour obtenir le statut le plus récent."
     }
   },
   "UNIT": {

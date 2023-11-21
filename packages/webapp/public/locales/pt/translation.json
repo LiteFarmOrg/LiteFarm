@@ -496,7 +496,7 @@
       "CUSTOM_EXPENSE_NAME": "Nome de despesa personalizado",
       "CUSTOM_EXPENSE_TYPE": "Tipo de despesa personalizado",
       "DUPLICATE_NAME": "Já existe um tipo de despesa com este nome. Por favor, escolha outro.",
-      "DUPLICATE_NAME_RETIRED": "MISSING",
+      "DUPLICATE_NAME_RETIRED": "Já existe um tipo de despesa encerrada com este nome. Por favor, escolha outro.",
       "FLOW": "Criação de despesa",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Gerenciar tipos de despesa personalizada",
       "NEW_EXPENSE_ITEM": "Novo item de despesa",
@@ -836,10 +836,10 @@
       "TITLE": "Filtrar transações"
     },
     "REPORT": {
-      "DATES": "MISSING",
-      "SETTINGS": "MISSING",
-      "TRANSACTION": "MISSING",
-      "TRANSACTIONS": "MISSING"
+      "DATES": "Datas",
+      "SETTINGS": "Configurações de exportação",
+      "TRANSACTION": "Transação",
+      "TRANSACTIONS": "Transações"
     },
     "REVENUE": "Receita",
     "SEARCH": {
@@ -1035,8 +1035,8 @@
   },
   "MANAGEMENT_PLAN": {
     "ABANDON": {
-      "CANT_ABANDON_COMPLETED": "MISSING",
-      "CANT_ABANDON_CONCURRENT_USER": "MISSING"
+      "CANT_ABANDON_COMPLETED": "Não é possível abandonar o plano de cultivo.",
+      "CANT_ABANDON_CONCURRENT_USER": "Outro agricultor concluiu este plano. Por favor, volte para obter o status mais recente dos planos."
     },
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonar este plano de cultivo ira abandonar todas as tarefas incompletas associadas a ele e removê-lo do mapa de sua propriedade",
     "ABANDON_MANAGEMENT_PLAN_TITLE": "Abandonar plano de cultivo?",
@@ -1051,8 +1051,8 @@
       "ABANDON_NOTES": "Notas de abandono",
       "ABANDON_PLAN": "Abandonar plano",
       "ABANDON_REASON": "Razão do abandono",
-      "CANT_COMPLETE_ABANDONED": "MISSING",
-      "CANT_COMPLETE_CONCURRENT_USER": "MISSING",
+      "CANT_COMPLETE_ABANDONED": "Não é possível concluir o plano de cultivo",
+      "CANT_COMPLETE_CONCURRENT_USER": "Outro agricultor abandonou este plano. Por favor, volte para obter o status mais recente dos planos.",
       "COMPLETE_DATE": "Fecha completada",
       "COMPLETE_PLAN": "Completar plano",
       "DATE_OF_CHANGE": "Data de alteração da situação",
@@ -1085,7 +1085,7 @@
     "DELETE": {
       "CANT_DELETE_ABANDON": "Abandonar",
       "CANT_DELETE_ABANDON_INSTEAD": "Você deseja abandonar este plano de cultivo?",
-      "CANT_DELETE_CONCURRENT_USER": "MISSING",
+      "CANT_DELETE_CONCURRENT_USER": "Outro agricultor concluiu ou abandonou uma tarefa neste plano. Por favor, atualize a página para obter o status mais recente.",
       "CANT_DELETE_MODIFIED_PLAN": "Não é possível remover o plano de manejo",
       "CONFIRM_DELETION": "Confirmar remoção",
       "DELETE_PLAN": "Remover plano de cultivo",
@@ -1348,12 +1348,12 @@
       "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de telefone",
       "UNITS": "Unidades",
-      "FARM_IMAGE": "MISSING",
-      "REMOVE_IMAGE": "MISSING",
-      "CHANGE_IMAGE": "MISSING",
-      "UPLOAD_IMAGE": "MISSING",
-      "CLICK_TO_UPLOAD": "MISSING",
-      "DRAG_DROP": "MISSING"
+      "FARM_IMAGE": "Imagem da fazenda/sitio",
+      "REMOVE_IMAGE": "Remover imagem",
+      "CHANGE_IMAGE": "Alterar imagem",
+      "UPLOAD_IMAGE": "Enviar imagem",
+      "CLICK_TO_UPLOAD": "Clique para enviar",
+      "DRAG_DROP": "ou arraste e solte"
     },
     "FARM_TAB": "Sítio/Fazenda",
     "PEOPLE": {
@@ -1437,7 +1437,7 @@
       "CUSTOM_REVENUE_NAME": "Nome de receita personalizado",
       "CUSTOM_REVENUE_TYPE": "Tipo de receita personalizado",
       "DUPLICATE_NAME": "Já existe um tipo de receita com este nome. Por favor escolha outro.",
-      "DUPLICATE_NAME_RETIRED": "MISSING"
+      "DUPLICATE_NAME_RETIRED": "Já existe um tipo de receita inativo com este nome. Por favor, escolha outro."
     },
     "CUSTOM_REVENUE_DESCRIPTION": "Descrição de receita personalizada",
     "DELETE": {
@@ -1794,8 +1794,8 @@
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
     "UNASSIGNED": "Não atribuída",
     "CREATE": {
-      "FAILED": "MISSING",
-      "LOCATION_DELETED": "MISSING"
+      "FAILED": "Não é possível criar a tarefa",
+      "LOCATION_DELETED": "Outro agricultor encerrou a localização selecionada. Por favor, atualize a página para obter o status mais recente."
     }
   },
   "UNIT": {

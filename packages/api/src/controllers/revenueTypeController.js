@@ -164,7 +164,7 @@ const revenueTypeController = {
           return res.status(404).send();
         }
 
-        // if record exists then throw Conflict error
+        // if non-deleted record exists then throw Conflict error
         if (
           await baseController.existsInTable(
             trx,
@@ -172,6 +172,7 @@ const revenueTypeController = {
             {
               revenue_name: data.revenue_name,
               farm_id,
+              deleted: false,
             },
             { revenue_type_id },
           )

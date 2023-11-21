@@ -11,7 +11,6 @@
     "FARM_NAME_ERROR": "Límite de caracteres del nombre de la granja excedido",
     "INVALID_FARM_LOCATION": "Ningún país para esta ubicación",
     "LOCATING": "Localizando...",
-    "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
   "ADD_PRODUCT": {
@@ -45,7 +44,6 @@
     "DO_YOU_WANT_TO_ASSIGN": "¿Quiere asignar la tarea ahora?",
     "EDIT_CUSTOM_TASK": "Editar la tarea personalizada",
     "FIELD_WORK_VIEW": {
-      "FIELD_WORK_TASK": "Tarea de trabajo de campo",
       "OTHER_TYPE_OF_FIELD_WORK": "Describe el tipo de trabajo de campo",
       "TYPE": {
         "COVERING_SOIL": "Cubriendo el suelo",
@@ -90,7 +88,6 @@
       "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "% del lugar que se va a regar.",
       "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "Establecer este tipo de riego como predeterminado",
       "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "Establecer como tipo predeterminado para esta ubicación",
-      "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "Cuentanos sobre tu tarea de riego",
       "TOTAL_WATER_USAGE": "Uso de agua total",
       "TYPE": {
         "CHANNEL": "Canal",
@@ -152,7 +149,7 @@
     },
     "TASK": "tarea",
     "TASK_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
-    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Cuéntanos sobre la",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Cuéntenos sobre esta tarea",
     "TRANSPLANT_METHOD": "Método de trasplantar",
     "WAGE_OVERRIDE": "Alterar el salario",
     "WHAT_PLANTING_METHOD": "¿Cuál es el método de trasplante?",
@@ -232,8 +229,6 @@
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "Parece que LiteFarm no exporta actualmente en el formato de su certificador. Aún puede exportar sus documentos, pero su certificador puede requerir información adicional. Se los enviaremos a:",
-    "EMAIL": "Correo electrónico",
-    "EMAIL_ERROR": "Se requiere un correo válido",
     "EXPORT": "Exportar",
     "EXPORT_DOCS": "Exportar documentos de certificación",
     "EXPORT_DOWNLOADING_MESSAGE": "Descargando sus archivos de certificación orgánica...",
@@ -247,7 +242,6 @@
     "ORGANIC_CERTIFICATION_FROM": "Certificación orgánica de",
     "SELECT_REPORTING_PERIOD": "Seleccione su período de informe",
     "UH_OH": "¡Oh, no!",
-    "WHERE_TO_SEND_DOCS": "¿Dónde quiere que se envíen sus documentos?",
     "WOULD_LIKE_ANSWERS": "Su certificador desea que responda algunas preguntas adicionales antes de que podamos exportar sus documentos."
   },
   "CERTIFICATIONS_MODAL": {
@@ -294,7 +288,6 @@
     "TITLE": "Crear nueva cuenta de usuario"
   },
   "CROP": {
-    "ADD_COMPLIANCE_FILE": "Enlace a un archivo de cumplimiento",
     "ADD_CROP": "Agregar un cultivo",
     "ADD_IMAGE": "Agregar imagen personalizada",
     "ANNUAL": "Anual",
@@ -320,7 +313,6 @@
       "DELETED_PLANS": "No se muestran planes de cultivo eliminados de esta repetición"
     },
     "TREATED": "¿Se han tratado las semillas de este cultivo?",
-    "UPLOAD_LATER": "También puede cargar archivos en otro momento.",
     "VARIETAL_IMAGE": "Personalizar imagen para varietal o cultivar",
     "VARIETAL_IMAGE_INFO": "Si desea que este varietal o cultivar tenga una imagen diferente del recorte predeterminado, puede personalizar la imagen aquí.",
     "VARIETAL_PLACEHOLDER": "Ex. Cabernet sauvignon",
@@ -341,7 +333,6 @@
     "CROP_CATALOGUE": "Catálogo de cultivos",
     "CROP_GROUP": "Grupo de cultivo",
     "CROP_GROUP_TOOL_TIP": "La selección de un grupo de cultivos permite que LiteFarm rellene previamente mucha información sobre este cultivo, como la temporada de crecimiento, los valores nutricionales y el rendimiento estimado. No se preocupe, puede cambiar estos valores a continuación una vez que haya seleccionado un grupo de cultivos.",
-    "CROP_STATUS": "Estatus del cultivo activo",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Documentar la información necesaria para la producción orgánica",
     "DUPLICATE_CROP": "Ya existe un cultivo con el mismo nombre, género y especie en tu finca",
     "FILTER": {
@@ -396,7 +387,6 @@
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Agregar una nueva variedad",
     "CROP_VARIETIES": "variedad",
-    "NEEDS_PLAN": "Necesita un plan",
     "RETIRE": {
       "CONFIRMATION": "Retirar este cultivo lo eliminará y todos sus planes de cultivo de su catálogo de cultivos. Quiere proceder?",
       "RETIRE_CROP_TITLE": "Retirar este cultivo?",
@@ -406,10 +396,7 @@
     "SUPPLIER": "Proveedor/a"
   },
   "DATE_RANGE": {
-    "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para su granja en ese rango.",
-    "HELP_TITLE": "Ayuda con el rango de fechas",
-    "INVALID_RANGE_MESSAGE": "La fecha de finalización debe ser posterior a la fecha de inicio para obtener resultados",
-    "TITLE": "Filtrar reporte por fecha"
+    "INVALID_RANGE_MESSAGE": "La fecha de finalización debe ser posterior a la fecha de inicio para obtener resultados"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "Desde",
@@ -419,17 +406,17 @@
     "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'"
   },
   "DATE_RANGE_SELECTOR": {
-    "BACK": "MISSING",
-    "CLEAR_DATES": "MISSING",
-    "CUSTOM_RANGE": "MISSING",
-    "LAST_FOURTEEN_DAYS": "MISSING",
-    "LAST_MONTH": "MISSING",
-    "LAST_SEVEN_DAYS": "MISSING",
-    "LAST_THIRTY_DAYS": "MISSING",
-    "LAST_WEEK": "MISSING",
-    "THIS_MONTH": "MISSING",
-    "THIS_WEEK": "MISSING",
-    "YEAR_TO_DATE": "MISSING"
+    "BACK": "atrás",
+    "CLEAR_DATES": "Limpiar fechas",
+    "CUSTOM_RANGE": "Elegir un rango personalizado",
+    "LAST_FOURTEEN_DAYS": "Últimos 14 días",
+    "LAST_MONTH": "Último mes",
+    "LAST_SEVEN_DAYS": "Últimos 7 días",
+    "LAST_THIRTY_DAYS": "Últimos 30 días",
+    "LAST_WEEK": "Última semana",
+    "THIS_MONTH": "Este mes",
+    "THIS_WEEK": "Esta semana",
+    "YEAR_TO_DATE": "Este año"
   },
   "DAYS_OF_WEEK_SELECT": {
     "FRIDAY": "V",
@@ -487,7 +474,6 @@
     "UNARCHIVE": "Desarchivar",
     "UNARCHIVE_DOCUMENT": "¿Desarchivar documento?",
     "UNARCHIVE_DOCUMENT_TEXT": "Desarchivar este documento lo devolverá a su lista de documentos actualmente válidos. Los documentos válidos se exportarán para sus certificaciones. Quiere proceder?",
-    "UNARCHIVED": "Desarchivado",
     "VALID": "Válido"
   },
   "ENTER_PASSWORD": {
@@ -505,44 +491,40 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "ADD_CUSTOM_EXPENSE": "MISSING",
-      "ADD_CUSTOM_EXPENSE_TYPE": "MISSING",
-      "CUSTOM_EXPENSE_NAME": "MISSING",
-      "CUSTOM_EXPENSE_TYPE": "MISSING",
-      "DUPLICATE_NAME": "MISSING",
-      "FLOW": "MISSING",
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "MISSING",
-      "NEW_EXPENSE_ITEM": "MISSING",
-      "TITLE": "MISSING",
-      "WHICH_TYPES_TO_RECORD": "MISSING"
+      "ADD_CUSTOM_EXPENSE": "Agregar gasto personalizado",
+      "ADD_CUSTOM_EXPENSE_TYPE": "Agregar tipo de gasto personalizado",
+      "CUSTOM_EXPENSE_NAME": "Nombre del gasto personalizado",
+      "CUSTOM_EXPENSE_TYPE": "Tipo de gasto personalizado",
+      "DUPLICATE_NAME": "Ya existe un tipo de gasto con este nombre. Por favor, elija uno diferente.",
+      "DUPLICATE_NAME_RETIRED": "Ya existe un tipo de gasto retirado con este nombre. Por favor, elija uno diferente.",
+      "FLOW": "creación de gasto",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "Administrar tipos de gasto personalizados",
+      "NEW_EXPENSE_ITEM": "Nuevo gasto",
+      "TITLE": "Crear gasto",
+      "WHICH_TYPES_TO_RECORD": "Elija sus tipos de gasto aquí abajo:"
     },
-    "CUSTOM_EXPENSE_DESCRIPTION": "MISSING",
+    "CUSTOM_EXPENSE_DESCRIPTION": "Descripción del gasto personalizado",
     "DELETE": {
-      "CONFIRM": "MISSING",
-      "HEADER": "MISSING",
-      "LINK": "MISSING",
-      "MESSAGE": "MISSING"
+      "CONFIRM": "Confirmar eliminación",
+      "HEADER": "¿Eliminar gasto?",
+      "LINK": "Eliminar gasto",
+      "MESSAGE": "Esto eliminará el gasto de los registros de su granja. Ya no se verá reflejado en ningún resumen de finanzas."
     },
     "DETAILED_HISTORY": "Historia detallada",
     "EDIT_EXPENSE": {
-      "DATE_PLACEHOLDER": "Elige una fecha",
-      "DESELECTING_CATEGORY": "Anular la selección de una categoría eliminará los gastos existentes bajo dicha categoría para este registro de gastos.",
-      "REMOVE_ALL": "Ud. eliminó todos los gastos, haga clic en Guardar y así actualizar el cambio.",
-      "RETIRE_EXPENSE_MESSAGE": "MISSING",
-      "RETIRE_EXPENSE_TYPE": "MISSING",
-      "RETIRED": "MISSING",
-      "TITLE": "MISSING",
+      "RETIRE_EXPENSE_MESSAGE": "Retirar este tipo de gasto lo eliminará como opción para futuros gastos. Aún podrá filtrar y buscar gastos históricos de este tipo en la sección de Finanzas.",
+      "RETIRE_EXPENSE_TYPE": "Retirar tipo de gasto",
+      "RETIRED": "(retirado)",
+      "TITLE": "Editar gasto",
       "TITLE_1": "Editar gastos (1 de 2)",
       "TITLE_2": "Editar gastos (2 de 2)"
     },
-    "ITEM": "Unidad",
-    "ITEM_NAME": "MISSING",
-    "NAME": "Nombre",
+    "ITEM_NAME": "Nombre del gasto",
     "NO_EXPENSE": "Sin gasto",
     "NO_EXPENSE_YEAR": "Ud. no tiene gasto registrado para este año",
     "OTHER_EXPENSES_TITLE": "Otros gastos",
     "SUMMARY": "Resumen",
-    "TYPE": "MISSING",
+    "TYPE": "Tipo",
     "VALUE": "Valor"
   },
   "EXPIRED_TOKEN": {
@@ -638,7 +620,6 @@
       "DOWNLOAD": "Descargar",
       "EMAIL_TO_ME": "Enviar a mi correo",
       "EMAILING": "Enviando",
-      "LOADING": "Cargando...",
       "TITLE": "Exporta su mapa"
     },
     "FARM_SITE_BOUNDARY": {
@@ -818,25 +799,25 @@
     "TITLE": "Tamaño de archivo demasiado grande"
   },
   "FILTER": {
-    "CLEAR_ALL": "MISSING",
+    "CLEAR_ALL": "Borrar todos",
     "CLEAR_ALL_FILTERS": "Borrar todos los filtros",
-    "SELECT_ALL": "MISSING"
+    "SELECT_ALL": "Seleccionar todos"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
       "ADD_REVENUE": "Agregar ingresos",
       "TITLE": "Ingresos reales"
     },
-    "ADD_EXPENSE": "MISSING",
-    "ADD_REVENUE": "MISSING",
-    "ADD_TRANSACTION": "MISSING",
+    "ADD_EXPENSE": "+ Agregar gasto",
+    "ADD_REVENUE": "+ Agregar ingreso",
+    "ADD_TRANSACTION": "+ Agregar transacción",
     "CANT_FIND": {
-      "INFO_EXPENSE": "MISSING",
-      "INFO_REVENUE": "MISSING",
-      "MAIN": "MISSING",
-      "MANAGE_EXPENSE": "MISSING",
-      "MANAGE_REVENUE": "MISSING",
-      "MISC_EXPENSE": "MISSING"
+      "INFO_EXPENSE": "¡También puede crear tus propios tipos de gasto personalizados!",
+      "INFO_REVENUE": "¡También puede crear tus propios tipos de ingreso personalizados!",
+      "MAIN": "¿No encuentra la categoría adecuada?",
+      "MANAGE_EXPENSE": "Administrar sus gastos personalizados",
+      "MANAGE_REVENUE": "Administrar sus ingresos personalizados",
+      "MISC_EXPENSE": "O <1>cree un gasto <1>Misceláneo</1></1>"
     },
     "COST": "Costo",
     "DATE": "Fecha",
@@ -855,17 +836,23 @@
       "TITLE": "Filtrar transacciones"
     },
     "MANAGE_CUSTOM_TYPE": "Administrar tipos personalizados",
+    "REPORT": {
+      "DATES": "Fechas",
+      "SETTINGS": "Configuración del reporte",
+      "TRANSACTION": "Transacción",
+      "TRANSACTIONS": "Transacciones"
+    },
     "REVENUE": "Ingresos",
     "SEARCH": {
-      "EXPENSE_TYPES": "MISSING",
-      "REVENUE_TYPES": "MISSING"
+      "EXPENSE_TYPES": "Buscar tipo de gasto",
+      "REVENUE_TYPES": "Buscar tipo de ingreso"
     },
     "TRANSACTION": {
-      "CROPS": "MISSING",
-      "DAILY_TOTAL": "MISSING",
-      "LABOUR_EXPENSE": "MISSING",
-      "VIEW_AND_EDIT": "MISSING",
-      "VIEW_LABOUR": "MISSING"
+      "CROPS": "Cultivos",
+      "DAILY_TOTAL": "TOTAL DIARIO",
+      "LABOUR_EXPENSE": "Gasto de trabajo",
+      "VIEW_AND_EDIT": "Ver & editar",
+      "VIEW_LABOUR": "Ver gastos de trabajo"
     },
     "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas",
     "WHOLE_FARM_REVENUE": "Ingresos de toda la granja"
@@ -907,16 +894,13 @@
       "INSECTS": "Insectos",
       "LOADING": {
         "BODY": "Estamos generando los últimos reportes sobre biodiversidad de su granja. Esto puede tardar hasta 60 segundos.",
-        "PREVIEW": "Cargando...",
         "TITLE": "Generando los reportes más recientes sobre biodiversidad..."
       },
       "MAMMALS": "Mamíferos",
       "PLANTS": "Plantas",
-      "SPECIES_COUNT": "{{count}} especies",
       "SPECIES_COUNT_one": "{{count}} especies",
       "SPECIES_COUNT_many": "{{count}} especies",
       "SPECIES_COUNT_other": "{{count}} especies",
-      "SPECIES_COUNT_plural": "{{count}} especies",
       "TITLE": "Biodiversidad"
     },
     "CLICK_TO_CALCULATE": "Haga clic para calcular",
@@ -929,11 +913,9 @@
     },
     "PRICES": {
       "INFO": "Le mostramos la trayectoria de sus precios de venta en comparacion a los precios de venta de los mismos bienes cerca de su granja. Esta información es recolectada a través de la red de LiteFarm.",
-      "NEARBY_FARMS": "El precio del mercado se basa en {{count}} granjas en su área local",
       "NEARBY_FARMS_one": "El precio del mercado se basa en {{count}} granja en su área local",
       "NEARBY_FARMS_many": "El precio del mercado se basa en {{count}} granjas en su área local",
       "NEARBY_FARMS_other": "El precio del mercado se basa en {{count}} granjas en su área local",
-      "NEARBY_FARMS_plural": "Buscando data de ventas de {{count}} granjas",
       "NETWORK_PRICE": "Precio de red",
       "NO_ADDRESS": "Actualmente no tienes una direccion en Litefarm. Por favor actualizala en su Perfil para obtener data de ventas cercanas.",
       "OWN_PRICE": "Su precio",
@@ -1022,59 +1004,29 @@
   },
   "LOG_COMMON": {
     "ADD_A_LOG": "Agregar registro",
-    "ALL_CROPS": "Todos los cultivos",
-    "ALL_LOCATIONS": "Todas las ubicaciones ",
-    "CROP": "Cultivo",
     "DELETE_CONFIRMATION": "Está seguro(a) que quiere borrar este registro?",
     "EDIT_A_LOG": "Editar registro",
     "FROM": "Desde",
     "LOCATION": "Ubicacion",
-    "LOCATIONS": "Ubicaciones",
     "NOTES": "Notas",
     "QUANTITY": "Cantidad",
-    "SELECT_CROP": "Seleccionar cultivo",
     "SELECT_LOCATION": "Seleccionar ubicacion",
-    "SELECT_LOCATIONS": "Selecionar ubicaciones",
-    "SELECT_TYPE": "Seleccionar Tipo",
-    "TO": "Hasta",
-    "TYPE": "Tipo",
-    "WARNING": "Para usar este tipo de registro por favor agrega cultivos a sus campos. Puedes hacerlo navegando a Campos -> Su campo -> Nuevo cultivo"
+    "TO": "Hasta"
   },
   "LOG_DETAIL": {
     "NO": "No",
     "YES": "Sí"
-  },
-  "LOG_FIELD_WORK": {
-    "DISCING": "Rastra doble o de discos",
-    "MULCH_TILL": "Labranza con cobertura",
-    "PLOW": "Arar",
-    "RIDGE_TILL": "Labranza de cresta",
-    "RIPPING": "Rastra pesada",
-    "ZONE_TILL": "Labranza por zona"
   },
   "LOG_HARVEST": {
     "ADD_CUSTOM_HARVEST_USE": "Agregar uso de cosecha personalizado",
     "CROP": "Cultivo",
     "CROP_PLACEHOLDER": "Selecciona cultivo",
     "CUSTOM_HARVEST_USE": "Uso personalizado",
-    "DISEASE": "Enfermedad",
-    "HARVEST": "Cosecha",
     "HARVEST_ALLOCATION_SUBTITLE": "Aproximadamente cuanto de la cosecha se utilizará para cada propósito?",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Cantidad para asignar",
-    "HARVEST_QUANTITY": "Cantidad de cosecha",
-    "HARVEST_USE": "Uso de la cosecha",
     "HARVEST_USE_TYPE_SUBTITLE": "Cómo será usada la cosecha?",
-    "OTHER": "Otro",
-    "PEST": "Peste",
     "QUANTITY_ERROR": "La cantidad no debe de tener mas de 2 decimales",
-    "TITLE": "Registro de cosecha",
-    "WEED": "Melaza"
-  },
-  "LOG_IRRIGATION": {
-    "DRIP": "Goteo",
-    "FLOOD": "Inundacion",
-    "SPRINKLER": "Aspersor",
-    "SUBSURFACE": "Subsuperficie"
+    "TITLE": "Registro de cosecha"
   },
   "MANAGEMENT_DETAIL": {
     "ABANDON_PLAN": "Abandonar",
@@ -1083,6 +1035,10 @@
     "TASKS": "Tareas"
   },
   "MANAGEMENT_PLAN": {
+    "ABANDON": {
+      "CANT_ABANDON_COMPLETED": "No se puede abandonar el plan de cultivo",
+      "CANT_ABANDON_CONCURRENT_USER": "Otro usuario ha completado este plan. Por favor, navegue hacia atrás para obtener el estado más reciente de sus planes."
+    },
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonar este plan de cultivo abandonará todas las tareas incompletas asociadas con él y lo eliminará del mapa de su granja.",
     "ABANDON_MANAGEMENT_PLAN_TITLE": "Quiere abandonar el plan de cultivo?",
     "ADD_MANAGEMENT_PLAN": "Agregar un plan de cultivo",
@@ -1096,6 +1052,8 @@
       "ABANDON_NOTES": "Notas de abandono",
       "ABANDON_PLAN": "Abandonar plan",
       "ABANDON_REASON": "Razón para abandonar",
+      "CANT_COMPLETE_ABANDONED": "No se puede completar el plan de cultivo",
+      "CANT_COMPLETE_CONCURRENT_USER": "Otro usuario ha abandonado este plan. Por favor, navegue hacia atrás para obtener su estado más reciente de sus planes.",
       "COMPLETE_DATE": "Fecha completada",
       "COMPLETE_PLAN": "Completar plan",
       "DATE_OF_CHANGE": "Fecha de cambio de estado",
@@ -1128,13 +1086,12 @@
     "DELETE": {
       "CANT_DELETE_ABANDON": "Abandonar",
       "CANT_DELETE_ABANDON_INSTEAD": "¿Desea abandonar en lugar de eliminar?",
+      "CANT_DELETE_CONCURRENT_USER": "Otro usuario ha abandonado o completado una tarea en este plan. Por favor, refresque la página para obtener su estado más reciente.",
       "CANT_DELETE_MODIFIED_PLAN": "No se puede eliminar el plan de cultivo",
       "CONFIRM_DELETION": "Confirmar eliminación",
       "DELETE_PLAN": "Eliminar plan de cultivo",
-      "DELETE_PLAN_MESSAGE": "Éste plan de cultivo y todas las tareas asociadas serán eliminadas de su finca. Si desea mantener un registro, haga clic en \"Abandonar\"",
-      "DELETE_PLAN_QUESTION": "¿Desea eliminar el plan de cultivo?",
-      "FAILED": "No se ha eliminado el plan de cultivo",
-      "SUCCESS": "Se ha eliminado el plan de cultivo"
+      "DELETE_PLAN_MESSAGE": "Este plan de cultivo y todas las tareas asociadas serán eliminadas de su finca. Si desea mantener un registro, haga clic en \"Abandonar\"",
+      "DELETE_PLAN_QUESTION": "¿Desea eliminar el plan de cultivo?"
     },
     "DETAIL_SPOTLIGHT_CONTENTS": "Aquí puede editar los detalles de su cultivo.",
     "DETAIL_SPOTLIGHT_TITLE": "Detalles",
@@ -1238,7 +1195,6 @@
         "TEXT": "{{fill}} ubicacion"
       }
     },
-    "VARIETY": "Variedad",
     "WHAT_IS_AGE": "¿Cuál es la edad aproximada del cultivo?",
     "WHAT_WAS_PLANTING_METHOD": "¿Cuál fue el método de plantación?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Seleccionar el método de siembra correcto ayudará a LiteFarm a estimar con mayor precisión la cantidad de semilla necesaria, el rendimiento y otros conocimientos útiles.",
@@ -1256,16 +1212,13 @@
     "SPOTLIGHT": {
       "COORDINATE_ACTIVITIES": "Coordinar actividades de la finca",
       "EDIT_FARM_SETTING": "Editar las características de su finca",
-      "FARM": "Aquí puede:, • Editar las características de su finca, • Recorre el mapa su finca, • Manejar sus trabajadores",
       "FARM_TITLE": "Este es el perfil de su finca",
       "INFO": "Su información",
       "LOG_OUT": "El botón para cerrar la sesión",
       "MANAGE_EMPLOYEE": "Manejar sus trabajadores",
       "MANAGE_TASK": "Manejar sus tareas",
       "MAP_FARM": "Mapear su granja",
-      "NOTIFICATION": "Aqui puede:, • Manejar sus tareas, • Mira qué más está pasando, • Coordinar actividades de la finca",
       "NOTIFICATION_TITLE": "Este es su centro de notificaciones",
-      "PROFILE": "Aquí encontrará:, • Su informacion, • Datos útiles, • El botón para cerrar la sesión",
       "PROFILE_TITLE": "Este es su perfil",
       "SEE_TASK": "Mira qué más está pasando",
       "SEE_UPDATES": "Ver actualizaciones importantes",
@@ -1281,7 +1234,6 @@
       "TITLE": "Tareas para hoy"
     },
     "NONE_TO_DISPLAY": "No hay notificaciones para mostrar.",
-    "NOTIFICATION_TEASER": "Proximamente!",
     "PAGE_TITLE": "Notificaciones",
     "SENSOR_BULK_UPLOAD_FAIL": {
       "BODY": "La carga del tuvo errores. Haga clic en “Llevame allí” para ver los detalles.",
@@ -1375,7 +1327,6 @@
       "FRENCH": "Francés",
       "LANGUAGE": "Idioma",
       "LAST_NAME": "Apellido",
-      "PERSONAL_INFORMATION": "Mi información",
       "PHONE_NUMBER": "Número de teléfono",
       "PORTUGUESE": "Portugués",
       "SPANISH": "Español",
@@ -1396,27 +1347,24 @@
       "IMPERIAL": "Britanico",
       "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de teléfono",
-      "UNITS": "Unidades"
+      "UNITS": "Unidades",
+      "FARM_IMAGE": "Imagen de la finca",
+      "REMOVE_IMAGE": "Eliminar imagen",
+      "CHANGE_IMAGE": "Cambiar imagen",
+      "UPLOAD_IMAGE": "Subir imagen",
+      "CLICK_TO_UPLOAD": "Clickee para subir",
+      "DRAG_DROP": "o arrastre y suelte"
     },
     "FARM_TAB": "Finca",
     "PEOPLE": {
       "DO_YOU_WANT_TO_REMOVE": "¿Quiere eliminar a este usuario/a de su granja?",
-      "EO": "Oficial de extensión",
-      "FARM_MANAGER": "Jefe o gerente de la finca",
-      "FARM_OWNER": "Dueño(a) de la finca",
-      "FARM_WORKER": "Trabajador(a) de la finca",
-      "HOURLY": "Por hora",
       "INVALID_REVOKE_ACCESS": "No se puede revocar el acceso",
       "INVITE_USER": "Invitar usuario",
       "LAST_ADMIN_ERROR": "No podemos revocar el acceso a este usuario porque es el último administrador de esta granja. Si desea eliminar su granja, cree un ticket haciendo clic en <1>here</1>.",
-      "PAY": "Pago",
       "RESTORE_ACCESS": "Restaurar acceso de usuario",
       "REVOKE_ACCESS": "Revocar acceso de usuario",
-      "ROLE": "Rol",
-      "ROLE_CHANGE_ALERT": "Cambio de rol se reflejará completamente en la siguiente sesión. Trabajadores no pueden configurarse como Administradores.",
       "SEARCH": "Buscar",
-      "THIS_WILL_REMOVE": "Esta acción eliminará al usuario/a de su granja.",
-      "USERS_FOUND": "Usuarios encontrados"
+      "THIS_WILL_REMOVE": "Esta acción eliminará al usuario/a de su granja."
     },
     "PEOPLE_TAB": "Personas",
     "TABLE": {
@@ -1482,27 +1430,27 @@
   },
   "REVENUE": {
     "ADD_REVENUE": {
-      "ADD_CUSTOM_REVENUE": "MISSING",
-      "ASSOCIATED_WITH_AGRICULTURE": "MISSING",
-      "CANNOT_BE_CHANGED": "MISSING",
-      "CANNOT_BE_CHANGED_LATER": "MISSING",
-      "CROP_GENERATED": "MISSING",
-      "CUSTOM_REVENUE_NAME": "MISSING",
-      "CUSTOM_REVENUE_TYPE": "MISSING",
-      "DUPLICATE_NAME": "MISSING"
+      "ADD_CUSTOM_REVENUE": "Agregar ingreso personalizado",
+      "CANNOT_BE_CHANGED": "Esto no puede ser cambiado",
+      "CANNOT_BE_CHANGED_LATER": "Esto no podrá ser cambiado más tarde",
+      "CROP_GENERATED": "¿Este ingreso se ha generado a partir de cultivos?",
+      "CUSTOM_REVENUE_NAME": "Nombre de ingreso personalizado",
+      "CUSTOM_REVENUE_TYPE": "Tipo de ingreso personalizado",
+      "DUPLICATE_NAME": "Ya existe un tipo de ingreso con este nombre. Por favor, elija uno diferente.",
+      "DUPLICATE_NAME_RETIRED": "Ya existe un tipo de ingreso retirado con este nombre. Por favor, elija uno diferente."
     },
-    "CUSTOM_REVENUE_DESCRIPTION": "MISSING",
+    "CUSTOM_REVENUE_DESCRIPTION": "Descripción de tipo de ingreso personalizado",
     "DELETE": {
-      "CONFIRM": "MISSING",
-      "HEADER": "MISSING",
-      "LINK": "MISSING",
-      "MESSAGE": "MISSING"
+      "CONFIRM": "Confirmar eliminación",
+      "HEADER": "¿Eliminar ingreso?",
+      "LINK": "Eliminar ingreso",
+      "MESSAGE": "Esto eliminará el ingreso de los registros de su granja. Ya no se verá reflejado en ningún resumen de finanzas."
     },
     "EDIT_REVENUE": {
-      "RETIRE_REVENUE_MESSAGE": "MISSING",
-      "RETIRE_REVENUE_TYPE": "MISSING",
-      "RETIRED": "MISSING",
-      "REVENUE_TYPE": "MISSING"
+      "RETIRE_REVENUE_MESSAGE": "Retirar este tipo de ingreso lo eliminará como opción para futuros ingresos. Aún podrá filtrar y buscar ingresos históricos de este tipo en la sección de Finanzas.",
+      "RETIRE_REVENUE_TYPE": "Retirar tipo de ingreso",
+      "RETIRED": "(retirado)",
+      "REVENUE_TYPE": "Tipo de ingreso"
     }
   },
   "ROLE_SELECTION": {
@@ -1514,64 +1462,37 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "ADD_CUSTOM_REVENUE_TYPE": "MISSING",
-      "ADD_REVENUE": "MISSING",
-      "CROP_PLACEHOLDER": "Seleccionar cultivo",
+      "ADD_CUSTOM_REVENUE_TYPE": "Agregar tipo de ingreso personalizado",
+      "ADD_REVENUE": "Agregar ingreso",
       "CROP_REQUIRED": "Cultivo es obligatorio",
       "CROP_VARIETY": "Variedad de cultivo",
-      "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
-      "CUSTOMER_NAME_REQUIRED": "Nombre del(a) cliente(a) es obligatoria",
-      "DATE": "Fecha",
-      "FLOW": "MISSING",
-      "MANAGE_CUSTOM_REVENUE_TYPE": "MISSING",
+      "FLOW": "creación de ingreso",
+      "MANAGE_CUSTOM_REVENUE_TYPE": "Administrar tipos de ingreso personalizados",
       "SALE_VALUE_ERROR": "El valor de venta debe ser un número positivo menor a 999,999,999",
       "TABLE_HEADERS": {
-        "CROP_VARIETIES": "Variedad de cultivo",
         "TOTAL": "Total"
       },
-      "TITLE": "Agregue nueva venta",
-      "WHICH_TYPE_TO_RECORD": "MISSING"
+      "WHICH_TYPE_TO_RECORD": "Elija su tipo de ingreso aquí abajo:"
     },
     "DETAIL": {
-      "ACTION": "Accion",
-      "CROP": "Cultivo",
       "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
-      "DELETE_CONFIRMATION": "Está seguro que quiere borrar esta venta?",
-      "TITLE": "MISSING",
+      "TITLE": "Detalle del ingreso",
       "VALUE": "Valor"
     },
     "EDIT_SALE": {
-      "DATE": "Fecha",
-      "DELETE_CONFIRMATION": "Está seguro que quiere borrar esta venta?",
-      "TITLE": "MISSING"
-    },
-    "ESTIMATED_REVENUE": {
-      "CALCULATION": "Cálculo",
-      "CALCULATION_DESCRIPTION": "Calculamos los ingresos estimados utilizando la fecha de término de los cultivos estimada en el módulo de campos. Para incluir un cultivo en su cálculo de ingresos estimados, asegúrese de ingresar la fecha de finalización dentro de la fecha de finalización de su informe financiero.",
-      "TITLE": "Ingreso Estimado"
+      "TITLE": "Editar venta"
     },
     "EXPENSE_DETAIL": {
-      "ACTION": "Acción",
-      "COST": "Costo",
-      "DESCRIPTION": "Descripción del gasto",
-      "TEMP_DELETE_CONFIRMATION": "Está seguro de que desea eliminar todos los gastos de esta página?",
       "TITLE": "Detalles del gasto"
     },
     "FINANCES": {
-      "ACTUAL": "Actual",
-      "ACTUAL_REVENUE_ESTIMATED": "Estimado",
-      "ACTUAL_REVENUE_LABEL": "Actual",
-      "BALANCE": "Balance",
-      "BALANCE_EXPLANATION": "Calculamos un saldo en tiempo real (\"costo de producción\") para cada cultivo en su granja. Esta es una ecuación simple de gastos menos ingresos. Los gastos de cada cultivo se calculan a partir de dos partes, una parte son los gastos de mano de obra de las horas registradas para las actividades agrícolas, la otra parte son los otros gastos registrados para toda la finca. Cuando se registran los gastos de toda la finca, los dividimos equitativamente entre los cultivos de la finca. 'Sin asignar' significa que se ha enviado un turno para un campo cuando todavía no hay un cultivo en ese campo. Este (los) turno (s) se asignarán a los cultivos a medida que se agreguen a ese campo dentro de la ventana de tiempo del informe financiero.",
-      "BALANCE_FOR_FARM": "Balance (Finca completa)",
       "CARROUSEL_TEXT": {
         "ESTIMATED_REVENUE": "Esta cifra (estática) refleja una estimación de su futura cosecha",
         "GENERIC": "*Estas cifras se basan en su selección de fecha y filtros"
       },
       "ESTIMATED_HARVEST_REVENUE": "Ingresos de cosecha estimados",
       "EXPENSES": "Gastos",
-      "EXPORT_REPORT": "MISSING",
-      "FINANCE_HELP": "Ayuda financiera",
+      "EXPORT_REPORT": "Exportar reporte",
       "LABOUR_LABEL": "Trabajo",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
         "BODY": "Aquí puede agregar, modificar o eliminar tipos de gasto personalizados para su granja.",
@@ -1581,29 +1502,22 @@
         "BODY": "Aquí puede agregar, modificar o eliminar tipos de ingreso personalizados para su granja.",
         "TITLE": "Administrar tipos de ingreso personalizados"
       },
-      "OTHER_EXPENSES_LABEL": "Otros gastos",
       "PROFIT_LOSS": "Ganancia / Pérdida",
-      "REPORT": "MISSING",
-      "REPORT_HELP_TEXT": "MISSING",
-      "REVENUE": "Ingresos",
+      "REPORT": "Reporte",
+      "REPORT_HELP_TEXT": "Estos filtros imitan lo que ve en el Resumen de finanzas. Puede modificar lo que será exportado aquí abajo.",
       "TITLE": "Resumen de finanzas",
       "TOTAL_EXPENSES": "Gastos totales",
-      "TOTAL_LABOUR": "Total empleo",
+      "TOTAL_LABOUR": "Total trabajo",
       "TOTAL_OTHER": "Total otros",
-      "TOTAL_REVENUE": "Ingresos totales",
-      "UNALLOCATED_CROP": "No asignada",
-      "UNALLOCATED_TIP": "Que es no asignada?"
+      "TOTAL_REVENUE": "Ingresos totales"
     },
     "LABOUR": {
       "BY": "Por",
-      "CROPS": "Cultivos",
       "EMPLOYEES": "Empleados",
       "TABLE": {
-        "CROP": "Cultivo",
-        "DAILY_TOTAL": "MISSING",
+        "DAILY_TOTAL": "Total diario",
         "DATE": "Fecha",
         "EMPLOYEE": "Empleado",
-        "EST_REVENUE": "Ingreso estimado",
         "LABOUR_COST": "Costo de trabajo",
         "TASK": "Tarea",
         "TIME": "Tiempo",
@@ -1613,22 +1527,16 @@
       "TITLE": "Trabajo"
     },
     "SUMMARY": {
-      "CROP": "Cultivo",
-      "DATE": "Fecha",
-      "DETAILED_HISTORY": "Historia detallada",
       "SUBTOTAL": "Subtotal",
-      "SUMMARY": "Resumen",
-      "TITLE": "Ventas",
       "TOTAL": "Total",
-      "TYPE": "Tipo",
-      "VALUE": "Valor"
+      "TYPE": "Tipo"
     }
   },
   "SEARCH": {
-    "CLEAR_TERMS": "MISSING",
-    "CLEAR_TERMS_AND_FILTERS": "MISSING",
-    "NO_RESULTS_FOR": "MISSING",
-    "ZERO": "MISSING"
+    "CLEAR_TERMS": "¿Por qué no probar una búsqueda diferente para descubrir nuevas posibilidades?",
+    "CLEAR_TERMS_AND_FILTERS": "¿Por qué no explorar diferentes términos de búsqueda o simplemente limpiar los filtros para descubrir nuevas posibilidades?",
+    "NO_RESULTS_FOR": "Disculpe, no hemos podido encontrar resultados para su búsqueda <1>'{{searchTerm}}'</1>",
+    "ZERO": "0 resultados"
   },
   "SENSOR": {
     "BRAND": "Marca",
@@ -1642,17 +1550,13 @@
       "EDIT": "Editar",
       "EXTERNAL_ID_TOOLTIP": "Esta identificación se utiliza para identificar de forma única este sensor en otros sistemas integrados y no se puede cambiar. Si ya no se usa, retire este sensor y agregar uno nuevo.",
       "EXTERNAL_IDENTIFIER": "Identificador externo      ",
-      "HARDWARE_VERSION": "Versión de hardware",
       "LATITUDE": "Latitud",
       "LONGITUDE": "Longitud",
       "MODEL": "Modelo",
       "NAME": "Nombre del sensor",
-      "PART_NUMBER": "Número de pieza",
-      "READING_TYPES": "Tipos de lectura",
       "RETIRE": "Retirar"
     },
     "EXTERNAL_IDENTIFIER": "Identificador externo",
-    "HARDWARE_VERSION": "Versión de hardware",
     "HOURS_AGO": "hace {{time}} hora(s)",
     "LAST_UPDATED": "Última actualización {{latestReadingUpdate}}",
     "LATITUDE": "Latitud",
@@ -1667,7 +1571,6 @@
     "MONTHS_AGO": "hace {{time}} mes(es)",
     "NO_DATA": "(sin datos)",
     "NO_DATA_FOUND": "No se encontraron lecturas del sensor",
-    "PART_NUMBER": "Número de parte",
     "READING": {
       "SOIL_WATER_CONTENT": "Contenido hídrico del suelo",
       "SOIL_WATER_POTENTIAL": "Potencial hídrico del suelo",
@@ -1766,13 +1669,13 @@
     "TITLE": "Cambiando de finca"
   },
   "TABLE": {
-    "LOAD_MORE": "MISSING",
+    "LOAD_MORE": "+ Cargar más",
     "LOADING_TEXT": "Cargando...",
     "NEXT_TEXT": "Siguiente",
     "NO_DATA_TEXT": "No se encontro información",
-    "NUMBER_MORE": "MISSING",
+    "NUMBER_MORE": "+ {{number}} más",
     "OF_TEXT": "De",
-    "PAGE_TEXT": "Pagina",
+    "PAGE_TEXT": "Página",
     "PREVIOUS_TEXT": "Previa",
     "ROWS_TEXT": "filas"
   },
@@ -1810,7 +1713,6 @@
     "ADD_HARVEST_USE": "Agregar otro uso de la cosecha",
     "ADD_TASK": "Crear una tarea",
     "ADD_TASK_FLOW": "creación de tareas",
-    "ALL": "Todas",
     "AMOUNT_TO_ALLOCATE": "Cantidad a asignar",
     "CARD": {
       "MULTIPLE_CROPS": "Múltiples cultivos",
@@ -1852,13 +1754,11 @@
       "CROP": "Cultivo",
       "DATE_RANGE": "Filtrar por rango de fechas",
       "DESCENDING": "Las más nuevas primero",
-      "FROM": "Desde",
       "LOCATION": "Ubicación",
       "MY_TASK": "Mis tareas",
       "SORT_BY": "Ordenar por",
       "STATUS": "Estatus",
       "TITLE": "Filtro de tareas",
-      "TO": "Hasta",
       "TYPE": "Tipo",
       "UNASSIGNED": "Sin asignar",
       "VIEW": "Vista"
@@ -1887,15 +1787,16 @@
       "PLANNED": "Planificada"
     },
     "TASK": "tarea",
-    "TASKS_COUNT": "{{count}} tarea",
     "TASKS_COUNT_one": "{{count}} tarea",
     "TASKS_COUNT_many": "{{count}} tareas",
     "TASKS_COUNT_other": "{{count}} tareas",
-    "TASKS_COUNT_plural": "{{count}} tareas",
-    "TODO": "Para hacer",
     "TRANSPLANT": "Trasplantar",
     "TRANSPLANT_LOCATIONS": "Seleccione una ubicación para el trasplante",
-    "UNASSIGNED": "Sin asignar"
+    "UNASSIGNED": "Sin asignar",
+    "CREATE": {
+      "FAILED": "No se puede crear la tarea",
+      "LOCATION_DELETED": "Otro usuario ha retirado la ubicación seleccionada. Por favor, refresque la página para obtener el estado más reciente."
+    }
   },
   "UNIT": {
     "TIME": {

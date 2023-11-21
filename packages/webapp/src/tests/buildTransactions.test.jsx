@@ -248,17 +248,22 @@ const allResults = [
     relatedId: 'c239a46a-69e6-11ee-8e6f-0242ac180006',
   },
   {
+    icon: 'LABOUR',
     date: '2023-10-24T00:00:00.000',
     transactionType: 'LABOUR_EXPENSE',
+    typeLabel: 'SALE.FINANCES.LABOUR_LABEL',
     amount: -60,
     items: {
       EMPLOYEE: [{ time: 2, labourCost: 60, employee: 'Will T.' }],
       TASK_TYPE: [{ time: 2, labourCost: 60, taskType: 'TRANSPLANT_TASK' }],
     },
+    note: 'FINANCES.TRANSACTION.LABOUR_EXPENSE',
   },
   {
+    icon: 'LABOUR',
     date: '2023-10-20T00:00:00.000',
     transactionType: 'LABOUR_EXPENSE',
+    typeLabel: 'SALE.FINANCES.LABOUR_LABEL',
     amount: -19.9,
     items: {
       EMPLOYEE: [
@@ -267,6 +272,7 @@ const allResults = [
       ],
       TASK_TYPE: [{ time: 0.83, labourCost: 19.9, taskType: 'CLEANING_TASK' }],
     },
+    note: 'FINANCES.TRANSACTION.LABOUR_EXPENSE',
   },
   {
     icon: 'INFRASTRUCTURE',
@@ -315,13 +321,16 @@ const allResults = [
     relatedId: 18,
   },
   {
+    icon: 'LABOUR',
     date: '2023-10-14T00:00:00.000',
     transactionType: 'LABOUR_EXPENSE',
+    typeLabel: 'SALE.FINANCES.LABOUR_LABEL',
     amount: -80,
     items: {
       EMPLOYEE: [{ time: 4, labourCost: 80, employee: 'Jack S.' }],
       TASK_TYPE: [{ time: 4, labourCost: 80, taskType: 'TRANSPLANT_TASK' }],
     },
+    note: 'FINANCES.TRANSACTION.LABOUR_EXPENSE',
   },
   {
     icon: 'EQUIPMENT',

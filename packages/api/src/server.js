@@ -198,6 +198,7 @@ app.set('json replacer', (key, value) => {
     'transition_date',
     'transplant_date',
     'valid_until',
+    'sale_date',
   ];
 
   if (value && pgDateTypeFields.includes(key)) {

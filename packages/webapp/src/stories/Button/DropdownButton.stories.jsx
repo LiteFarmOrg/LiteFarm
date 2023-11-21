@@ -2,7 +2,6 @@ import { forwardRef } from 'react';
 import DropdownButton from '../../components/Form/DropDownButton';
 import FloatingMenu from '../../components/Menu/FloatingButtonMenu/FloatingMenu';
 import { componentDecorators } from '../Pages/config/Decorators';
-import customizedMenuStyle from '../../components/Finances/AddTransactionButton/styles.module.scss';
 
 export default {
   title: 'Components/DropdownButton',
@@ -28,7 +27,6 @@ export const WithoutArrowIcon = {
 
 const Menu = forwardRef((props, ref) => (
   <FloatingMenu
-    classes={{ menuList: customizedMenuStyle.menuList }}
     options={[
       { label: '+ Add revenue', onClick: () => console.log('Add revenue') },
       { label: '+ Add expense', onClick: () => console.log('Add Eepense') },
@@ -43,7 +41,6 @@ export const WithCustomizedMenu = {
     children: '+ Add transaction',
     type: 'v2',
     noIcon: true,
-    classes: { button: customizedMenuStyle.button },
     Menu,
   },
 };

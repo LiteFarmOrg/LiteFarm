@@ -24,6 +24,7 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import ManageCustomRevenueTypesSpotlight from '../ManageCustomRevenueTypeSpotlight';
 import useSortedRevenueTypes from './useSortedRevenueTypes';
+import { getFinanceTypeSearchableStringFunc } from '../../util';
 
 export const icons = {
   CROP_SALE: <CropSaleIcon />,
@@ -34,15 +35,6 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
   const { t } = useTranslation(['translation', 'revenue']);
   const revenueTypes = useSortedRevenueTypes();
   const persistedFormData = useSelector(hookFormPersistSelector);
-
-  const getSearchableString = (type) => {
-    const description =
-      type.farm_id === null
-        ? t(`revenue:${type.revenue_translation_key}.CUSTOM_DESCRIPTION`)
-        : type.custom_description;
-
-    return [type.revenue_name, description].filter(Boolean).join(' ');
-  };
 
   const getOnTileClickFunc = (setValue) => {
     return (typeId) => {
@@ -92,7 +84,7 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
           info: t('FINANCES.CANT_FIND.INFO_REVENUE'),
           manage: t('FINANCES.CANT_FIND.MANAGE_REVENUE'),
         }}
-        getSearchableString={getSearchableString}
+        getSearchableString={getFinanceTypeSearchableStringFunc('revenue')}
         searchPlaceholderText={t('FINANCES.SEARCH.REVENUE_TYPES')}
         iconLinkId={'manageCustomRevenueType'}
         Wrapper={ManageCustomRevenueTypesSpotlight}

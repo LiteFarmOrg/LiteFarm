@@ -414,6 +414,72 @@ describe('Expense Type Tests', () => {
     });
   });
 
+  // Note: Permissions are unchanged between retire and delete
+  describe('Retire expense type tests', () => {
+    test('Type with associated expense should be retired, not deleted', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const { expense_type } = await returnExpenseType(mainFarm);
+
+      const associatedExpense = mocks.fakeExpense({
+        expense_type_id: expense_type.expense_type_id,
+      });
+
+      await mocks.farmExpenseFactory(
+        {
+          promisedUserFarm: Promise.resolve([user, mainFarm]),
+        },
+        associatedExpense,
+      );
+
+      const res = await deleteRequestAsPromise(expense_type, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(200);
+      expect(res.body.deleted).toBe(false);
+      expect(res.body.retired).toBe(true);
+
+      const retiredExpenseType = await farmExpenseTypeModel
+        .query()
+        .findById(expense_type.expense_type_id);
+      expect(retiredExpenseType.deleted).toBe(false);
+      expect(retiredExpenseType.retired).toBe(true);
+    });
+
+    test('Type with a deleted associated expense should be deleted', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const { expense_type } = await returnExpenseType(mainFarm);
+
+      const associatedDeletedExpense = mocks.fakeExpense({
+        expense_type_id: expense_type.expense_type_id,
+        deleted: true,
+      });
+
+      await mocks.farmExpenseFactory(
+        {
+          promisedUserFarm: Promise.resolve([user, mainFarm]),
+        },
+        associatedDeletedExpense,
+      );
+
+      const res = await deleteRequestAsPromise(expense_type, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(200);
+      expect(res.body.deleted).toBe(true);
+      expect(res.body.retired).toBe(false);
+
+      const deletedExpenseType = await farmExpenseTypeModel
+        .query()
+        .findById(expense_type.expense_type_id);
+      expect(deletedExpenseType.deleted).toBe(true);
+      expect(deletedExpenseType.retired).toBe(false);
+    });
+  });
+
   // Update expense type
   describe('Update expense type tests', () => {
     test('Owner should update expense type', async () => {

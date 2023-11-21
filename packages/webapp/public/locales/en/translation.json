@@ -11,7 +11,6 @@
     "FARM_NAME_ERROR": "Farm name character limit exceeded",
     "INVALID_FARM_LOCATION": "No country for this location",
     "LOCATING": "Locating...",
-    "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "ADD_PRODUCT": {
@@ -45,7 +44,6 @@
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
     "EDIT_CUSTOM_TASK": "Edit custom task",
     "FIELD_WORK_VIEW": {
-      "FIELD_WORK_TASK": "field work task",
       "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",
       "TYPE": {
         "COVERING_SOIL": "Covering soil",
@@ -90,7 +88,6 @@
       "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "% of location to be irrigated",
       "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "Set as default measurement for this irrigation type",
       "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "Set as default type for this location",
-      "TELL_US_ABOUT_YOUR_IRRIGATION_TASK": "Tell us about your Irrigation Task",
       "TOTAL_WATER_USAGE": "Total Water Usage",
       "TYPE": {
         "CHANNEL": "Channel",
@@ -152,7 +149,7 @@
     },
     "TASK": "task",
     "TASK_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
-    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about the",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about this task",
     "TRANSPLANT_METHOD": "Transplant method",
     "WAGE_OVERRIDE": "Wage override",
     "WHAT_PLANTING_METHOD": "What is the transplanting method?",
@@ -232,8 +229,6 @@
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
-    "EMAIL": "Email",
-    "EMAIL_ERROR": "Valid email required",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
     "EXPORT_DOWNLOADING_MESSAGE": "Downloading your organic certification files ...",
@@ -247,7 +242,6 @@
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "UH_OH": "Uh oh!",
-    "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?",
     "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents."
   },
   "CERTIFICATIONS_MODAL": {
@@ -294,7 +288,6 @@
     "TITLE": "Create new user account"
   },
   "CROP": {
-    "ADD_COMPLIANCE_FILE": "Link to a compliance file",
     "ADD_CROP": "Add a crop",
     "ADD_IMAGE": "Add Custom Image",
     "ANNUAL": "Annual",
@@ -320,7 +313,6 @@
       "DELETED_PLANS": "Deleted crop plans that were part of this repetition won’t be shown."
     },
     "TREATED": "Have the seeds for this crop been treated?",
-    "UPLOAD_LATER": "You can upload files at a later time as well",
     "VARIETAL_IMAGE": "Customize image for varietal or cultivar",
     "VARIETAL_IMAGE_INFO": "If you would like this varietal or cultivar to have a different image from the default crop, you can customize the image here.",
     "VARIETAL_PLACEHOLDER": "Ex. Cabernet sauvignon",
@@ -341,7 +333,6 @@
     "CROP_CATALOGUE": "Crop catalogue",
     "CROP_GROUP": "Crop group",
     "CROP_GROUP_TOOL_TIP": "Selecting a crop group allows LiteFarm to pre-populate a lot of information about this crop such as growing season, nutritional values, and estimated annual yield. Don't worry, you can change these values below once you've selected a crop group.",
-    "CROP_STATUS": "Crop status on:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
     "DUPLICATE_CROP": "A crop with the same name, genus, and species already exists on your farm",
     "FILTER": {
@@ -397,7 +388,6 @@
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Add a new variety",
     "CROP_VARIETIES": "variety",
-    "NEEDS_PLAN": "Needs Plan",
     "RETIRE": {
       "CONFIRMATION": "Retiring this crop will remove it and all its crop plans from your crop catalogue. Do you want to proceed?",
       "RETIRE_CROP_TITLE": "Retire crop?",
@@ -407,10 +397,7 @@
     "SUPPLIER": "Supplier"
   },
   "DATE_RANGE": {
-    "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
-    "HELP_TITLE": "Date Range Help",
-    "INVALID_RANGE_MESSAGE": "End date must be after start date to return results",
-    "TITLE": "Filter Report by Date"
+    "INVALID_RANGE_MESSAGE": "End date must be after start date to return results"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "From",
@@ -488,7 +475,6 @@
     "UNARCHIVE": "Unarchive",
     "UNARCHIVE_DOCUMENT": "Unarchive document?",
     "UNARCHIVE_DOCUMENT_TEXT": "Unarchiving this document will return it to your list of currently valid documents. Valid documents will be exported for your certifications. Do you want to proceed?",
-    "UNARCHIVED": "Unarchived",
     "VALID": "Valid"
   },
   "ENTER_PASSWORD": {
@@ -511,6 +497,7 @@
       "CUSTOM_EXPENSE_NAME": "Custom expense name",
       "CUSTOM_EXPENSE_TYPE": "Custom expense type",
       "DUPLICATE_NAME": "An expense type with this name already exists. Please choose another.",
+      "DUPLICATE_NAME_RETIRED": "A retired expense type with this name already exists. Please choose another.",
       "FLOW": "expense creation",
       "MANAGE_CUSTOM_EXPENSE_TYPE": "Manage custom expense types",
       "NEW_EXPENSE_ITEM": "New expense item",
@@ -526,9 +513,6 @@
     },
     "DETAILED_HISTORY": "Detailed History",
     "EDIT_EXPENSE": {
-      "DATE_PLACEHOLDER": "Choose a Date",
-      "DESELECTING_CATEGORY": "Deselecting a category will remove existing expenses under this category for this expenses log.",
-      "REMOVE_ALL": "You removed all expenses, click Save to submit.",
       "RETIRE_EXPENSE_MESSAGE": "Retiring this expense type will remove it as a possible choice for future expenses. You can still search and filter for historical instances of this expense type on the Finances tab.",
       "RETIRE_EXPENSE_TYPE": "Retire expense type",
       "RETIRED": "(retired)",
@@ -536,9 +520,7 @@
       "TITLE_1": "Edit Expense(1 of 2)",
       "TITLE_2": "Edit Expense (2 of 2)"
     },
-    "ITEM": "Item",
     "ITEM_NAME": "Item Name",
-    "NAME": "Name",
     "NO_EXPENSE": "No expense found",
     "NO_EXPENSE_YEAR": "You have no expense recorded for this year",
     "OTHER_EXPENSES_TITLE": "Other Expenses",
@@ -639,7 +621,6 @@
       "DOWNLOAD": "Download",
       "EMAIL_TO_ME": "Email to me",
       "EMAILING": "Emailing",
-      "LOADING": "Loading...",
       "TITLE": "Export your farm map"
     },
     "FARM_SITE_BOUNDARY": {
@@ -856,6 +837,12 @@
       "TITLE": "Filter transactions"
     },
     "MANAGE_CUSTOM_TYPE": "Manage custom type",
+    "REPORT": {
+      "DATES": "Dates",
+      "SETTINGS": "Export Settings",
+      "TRANSACTION": "Transaction",
+      "TRANSACTIONS": "Transactions"
+    },
     "REVENUE": "Revenue",
     "SEARCH": {
       "EXPENSE_TYPES": "Search expense type",
@@ -908,15 +895,12 @@
       "INSECTS": "Insects",
       "LOADING": {
         "BODY": "We're generating the latest biodiversity insights for your farm. This can take up to 60 seconds.",
-        "PREVIEW": "Loading...",
         "TITLE": "Generating the latest biodiversity insights..."
       },
       "MAMMALS": "Mammals",
       "PLANTS": "Plants",
-      "SPECIES_COUNT": "{{count}} species",
       "SPECIES_COUNT_one": "{{count}} species",
       "SPECIES_COUNT_other": "{{count}} species",
-      "SPECIES_COUNT_plural": "{{count}} species",
       "TITLE": "Biodiversity"
     },
     "CLICK_TO_CALCULATE": "Click to calculate",
@@ -929,10 +913,8 @@
     },
     "PRICES": {
       "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
-      "NEARBY_FARMS": "Network price is based on {{count}} farms in your local area",
       "NEARBY_FARMS_one": "Network price is based on {{count}} farm in your local area",
       "NEARBY_FARMS_other": "Network price is based on {{count}} farms in your local area",
-      "NEARBY_FARMS_plural": "Network price is based on {{count}} farms in your local area",
       "NETWORK_PRICE": "Network Price",
       "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!",
       "OWN_PRICE": "Own Price",
@@ -1021,59 +1003,29 @@
   },
   "LOG_COMMON": {
     "ADD_A_LOG": "Add a log",
-    "ALL_CROPS": "All crops",
-    "ALL_LOCATIONS": "All locations",
-    "CROP": "Crop",
     "DELETE_CONFIRMATION": "Are you sure you want to delete this log?",
     "EDIT_A_LOG": "Edit a log",
     "FROM": "From",
     "LOCATION": "Location",
-    "LOCATIONS": "Locations",
     "NOTES": "Notes",
     "QUANTITY": "Quantity",
-    "SELECT_CROP": "Select crop",
     "SELECT_LOCATION": "Select location",
-    "SELECT_LOCATIONS": "Select locations",
-    "SELECT_TYPE": "Select Type",
-    "TO": "To",
-    "TYPE": "Type",
-    "WARNING": "To use this type of log please add crops to fields. You can do this by navigating to Fields -> Your field -> New Field Crop"
+    "TO": "To"
   },
   "LOG_DETAIL": {
     "NO": "No",
     "YES": "Yes"
-  },
-  "LOG_FIELD_WORK": {
-    "DISCING": "Discing",
-    "MULCH_TILL": "Mulch Till",
-    "PLOW": "plow",
-    "RIDGE_TILL": "Ridge Till",
-    "RIPPING": "Ripping",
-    "ZONE_TILL": "Zone Till"
   },
   "LOG_HARVEST": {
     "ADD_CUSTOM_HARVEST_USE": "Add custom harvest use",
     "CROP": "Crop",
     "CROP_PLACEHOLDER": "Select a crop",
     "CUSTOM_HARVEST_USE": "Custom harvest uses",
-    "DISEASE": "Disease",
-    "HARVEST": "Harvest",
     "HARVEST_ALLOCATION_SUBTITLE": "About how much of the harvest will be used for each purpose?",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Amount to allocate",
-    "HARVEST_QUANTITY": "Harvest Quantity",
-    "HARVEST_USE": "Harvest Use",
     "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",
-    "OTHER": "Other",
-    "PEST": "Pest",
     "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
-    "TITLE": "Harvest Log",
-    "WEED": "Weed"
-  },
-  "LOG_IRRIGATION": {
-    "DRIP": "Drip",
-    "FLOOD": "Flood",
-    "SPRINKLER": "Sprinkler",
-    "SUBSURFACE": "Subsurface"
+    "TITLE": "Harvest Log"
   },
   "MANAGEMENT_DETAIL": {
     "ABANDON_PLAN": "Abandon",
@@ -1082,6 +1034,10 @@
     "TASKS": "Tasks"
   },
   "MANAGEMENT_PLAN": {
+    "ABANDON": {
+      "CANT_ABANDON_COMPLETED": "Can't abandon crop plan",
+      "CANT_ABANDON_CONCURRENT_USER": "Another farmer has completed this plan. Please navigate back to get the most recent status for plans."
+    },
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandoning this crop plan will abandon all the incomplete tasks associated with it and remove it from your farm map.",
     "ABANDON_MANAGEMENT_PLAN_TITLE": "Abandon crop plan?",
     "ADD_MANAGEMENT_PLAN": "Add a crop plan",
@@ -1095,6 +1051,8 @@
       "ABANDON_NOTES": "Abandonment notes",
       "ABANDON_PLAN": "Abandon plan",
       "ABANDON_REASON": "Reason for abandoning",
+      "CANT_COMPLETE_ABANDONED": "Can't complete crop plan",
+      "CANT_COMPLETE_CONCURRENT_USER": "Another farmer has abandoned this plan. Please navigate back to get the most recent status for plans.",
       "COMPLETE_DATE": "Completed date",
       "COMPLETE_PLAN": "Complete plan",
       "DATE_OF_CHANGE": "Date of status change",
@@ -1127,13 +1085,12 @@
     "DELETE": {
       "CANT_DELETE_ABANDON": "Abandon",
       "CANT_DELETE_ABANDON_INSTEAD": "Do you want to abandon this crop plan instead?",
+      "CANT_DELETE_CONCURRENT_USER": "Another farmer has completed or abandoned a task on this plan. Please refresh the page to get the most recent status.",
       "CANT_DELETE_MODIFIED_PLAN": "Can't delete crop plan",
       "CONFIRM_DELETION": "Confirm deletion",
       "DELETE_PLAN": "Delete crop plan",
       "DELETE_PLAN_MESSAGE": "This crop plan and all its tasks will be removed from your farm. If you would like to keep a record of this crop plan, click \"Abandon\" instead.",
-      "DELETE_PLAN_QUESTION": "Delete crop plan?",
-      "FAILED": "Failed to delete crop plan",
-      "SUCCESS": "Crop plan successfully deleted"
+      "DELETE_PLAN_QUESTION": "Delete crop plan?"
     },
     "DETAIL_SPOTLIGHT_CONTENTS": "Here you can edit your crop details.",
     "DETAIL_SPOTLIGHT_TITLE": "Details",
@@ -1237,7 +1194,6 @@
         "TEXT": "{{fill}} location"
       }
     },
-    "VARIETY": "Variety",
     "WHAT_IS_AGE": "What is the approximate age of the crop?",
     "WHAT_WAS_PLANTING_METHOD": "What was the planting method?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
@@ -1255,16 +1211,13 @@
     "SPOTLIGHT": {
       "COORDINATE_ACTIVITIES": "Coordinate farm activities",
       "EDIT_FARM_SETTING": "Edit your farm settings",
-      "FARM": "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees",
       "FARM_TITLE": "This is your farm profile",
       "INFO": "Your info",
       "LOG_OUT": "The log out button",
       "MANAGE_EMPLOYEE": "Manage your employees",
       "MANAGE_TASK": "Manage your tasks",
       "MAP_FARM": "Map your farm",
-      "NOTIFICATION": "Here you can:, • See important updates, • Manage your tasks, • Coordinate farm activities",
       "NOTIFICATION_TITLE": "This is your notification centre",
-      "PROFILE": "Here you will find:, • Your info, • Helpful tips, • The log out button",
       "PROFILE_TITLE": "This is your profile",
       "SEE_TASK": "See what else is going on",
       "SEE_UPDATES": "See important updates",
@@ -1280,7 +1233,6 @@
       "TITLE": "Tasks due today"
     },
     "NONE_TO_DISPLAY": "There are no notifications to display.",
-    "NOTIFICATION_TEASER": "Coming Soon!",
     "PAGE_TITLE": "Notifications",
     "SENSOR_BULK_UPLOAD_FAIL": {
       "BODY": "Your sensor upload has some errors. Click “Take me there” to view the details.",
@@ -1374,7 +1326,6 @@
       "FRENCH": "French",
       "LANGUAGE": "Language",
       "LAST_NAME": "Last Name",
-      "PERSONAL_INFORMATION": "My Info",
       "PHONE_NUMBER": "Phone Number",
       "PORTUGUESE": "Portuguese",
       "SPANISH": "Spanish",
@@ -1395,27 +1346,24 @@
       "IMPERIAL": "Imperial",
       "METRIC": "Metric",
       "PHONE_NUMBER": "Phone Number",
-      "UNITS": "Units"
+      "UNITS": "Units",
+      "FARM_IMAGE": "Farm Image",
+      "REMOVE_IMAGE": "Remove Image",
+      "CHANGE_IMAGE": "Change Image",
+      "UPLOAD_IMAGE": "Upload Image",
+      "CLICK_TO_UPLOAD": "Click to upload",
+      "DRAG_DROP": "or drag and drop"
     },
     "FARM_TAB": "Farm",
     "PEOPLE": {
       "DO_YOU_WANT_TO_REMOVE": "Do you want to remove this user from your farm?",
-      "EO": "Extension Officer",
-      "FARM_MANAGER": "Farm Manager",
-      "FARM_OWNER": "Farm Owner",
-      "FARM_WORKER": "Farm Worker",
-      "HOURLY": "hourly",
       "INVALID_REVOKE_ACCESS": "Cannot revoke access",
       "INVITE_USER": "Invite User",
       "LAST_ADMIN_ERROR": "We’re unable to revoke access to this user because they are the last manager at this farm. If you would like to delete your farm, create a ticket by clicking <1>here</1> instead.",
-      "PAY": "Pay",
       "RESTORE_ACCESS": "Restore User Access",
       "REVOKE_ACCESS": "Revoke User Access",
-      "ROLE": "Role",
-      "ROLE_CHANGE_ALERT": "Role change will take full effect upon next login. Workers cannot set themselves to Admins.",
       "SEARCH": "Search",
-      "THIS_WILL_REMOVE": "This action will remove the user from your farm.",
-      "USERS_FOUND": "Users found"
+      "THIS_WILL_REMOVE": "This action will remove the user from your farm."
     },
     "PEOPLE_TAB": "People",
     "TABLE": {
@@ -1482,13 +1430,13 @@
   "REVENUE": {
     "ADD_REVENUE": {
       "ADD_CUSTOM_REVENUE": "Add custom revenue",
-      "ASSOCIATED_WITH_AGRICULTURE": "Is the revenue associated with agricultural activities?",
       "CANNOT_BE_CHANGED": "This cannot be changed",
       "CANNOT_BE_CHANGED_LATER": "This cannot be changed later",
       "CROP_GENERATED": "Is this revenue generated from crops?",
       "CUSTOM_REVENUE_NAME": "Custom revenue name",
       "CUSTOM_REVENUE_TYPE": "Custom revenue type",
-      "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another."
+      "DUPLICATE_NAME": "A revenue type with this name already exists.  Please choose another.",
+      "DUPLICATE_NAME_RETIRED": "A retired revenue type with this name already exists.  Please choose another."
     },
     "CUSTOM_REVENUE_DESCRIPTION": "Custom revenue description",
     "DELETE": {
@@ -1498,7 +1446,7 @@
       "MESSAGE": "This will remove the revenue from your farm's records. It will no longer be reflected in any financial summaries."
     },
     "EDIT_REVENUE": {
-      "RETIRE_REVENUE_MESSAGE": "Retiring this revenue type will remove it as a possible choice for future incomes. You can still search and filter for previous incomes this type on the Finances tab.",
+      "RETIRE_REVENUE_MESSAGE": "Retiring this revenue type will remove it as a possible choice for future incomes. You can still search and filter for previous incomes of this revenue type on the Finances tab.",
       "RETIRE_REVENUE_TYPE": "Retire revenue type",
       "RETIRED": "(retired)",
       "REVENUE_TYPE": "Revenue type"
@@ -1515,54 +1463,28 @@
     "ADD_SALE": {
       "ADD_CUSTOM_REVENUE_TYPE": "Add custom revenue type",
       "ADD_REVENUE": "Add revenue",
-      "CROP_PLACEHOLDER": "Select crop",
       "CROP_REQUIRED": "Required",
       "CROP_VARIETY": "Crop variety",
-      "CUSTOMER_NAME": "Customer name",
-      "CUSTOMER_NAME_REQUIRED": "Required",
-      "DATE": "Date",
       "FLOW": "revenue creation",
       "MANAGE_CUSTOM_REVENUE_TYPE": "Manage custom revenue types",
       "SALE_VALUE_ERROR": "Sale value must be a positive number less than 999,999,999",
       "TABLE_HEADERS": {
-        "CROP_VARIETIES": "Crop variety",
         "TOTAL": "Total"
       },
-      "TITLE": "Add new sale",
       "WHICH_TYPE_TO_RECORD": "Pick your revenue type below:"
     },
     "DETAIL": {
-      "ACTION": "Action",
-      "CROP": "Crop",
       "CUSTOMER_NAME": "Customer Name",
-      "DELETE_CONFIRMATION": "Are you sure you want to delete this sale?",
       "TITLE": "Revenue Detail",
       "VALUE": "Value"
     },
     "EDIT_SALE": {
-      "DATE": "Date",
-      "DELETE_CONFIRMATION": "Are you sure you want to delete this sale?",
       "TITLE": "Edit Revenue"
     },
-    "ESTIMATED_REVENUE": {
-      "CALCULATION": "Calculation",
-      "CALCULATION_DESCRIPTION": "We calculate estimated revenue using the end date of crops estimated in the fields module. To include a crop in your estimated revenue calculation make sure you capture its end date within your financial report end date.",
-      "TITLE": "Estimated Revenue"
-    },
     "EXPENSE_DETAIL": {
-      "ACTION": "Action",
-      "COST": "Cost",
-      "DESCRIPTION": "Expense Description",
-      "TEMP_DELETE_CONFIRMATION": "Are you sure you want to delete this expenses?",
       "TITLE": "Expense Detail"
     },
     "FINANCES": {
-      "ACTUAL": "Actual",
-      "ACTUAL_REVENUE_ESTIMATED": "Estimated",
-      "ACTUAL_REVENUE_LABEL": "Actual",
-      "BALANCE": "Balance",
-      "BALANCE_EXPLANATION": "We compute a real-time balance (‘cost of production’) for each crop on your farm. This is a simple equation of expenses minus revenue.  Expenses for each crop are calculated from two parts, one part is the labour expenses from hours logged for farm activities, the other part is from the other expenses logged for the whole farm. Where expenses are logged for the whole farm we equally divide them amongst the crops on the farm. Unallocated means that a shift(s) has been submitted for a field when there is not a crop yet on that field. This shift(s) will be assigned to crops as they are added to that field within the financial reporting time window.",
-      "BALANCE_FOR_FARM": "Balance (Whole Farm)",
       "CARROUSEL_TEXT": {
         "ESTIMATED_REVENUE": "This number (static) reflects your future estimated harvest",
         "GENERIC": "*These numbers are based on your date / filter selection"
@@ -1570,7 +1492,6 @@
       "ESTIMATED_HARVEST_REVENUE": "Estimated harvest revenue",
       "EXPENSES": "Expenses",
       "EXPORT_REPORT": "Export report",
-      "FINANCE_HELP": "Finance Help",
       "LABOUR_LABEL": "Labour",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
         "BODY": "Here you can add, modify, or retire expense types personalized to your farm.",
@@ -1580,30 +1501,22 @@
         "BODY": "Here you can add, modify, or retire revenue types personalized to your farm.",
         "TITLE": "Manage custom revenue types"
       },
-      "OTHER_EXPENSES": "Other expenses",
-      "OTHER_EXPENSES_LABEL": "Other Expenses",
       "PROFIT_LOSS": "Profit / Loss",
       "REPORT": "Report",
       "REPORT_HELP_TEXT": "These filters mirror what you see on the Finances overview. You can modify what is exported below.",
-      "REVENUE": "Revenue",
       "TITLE": "Finances overview",
       "TOTAL_EXPENSES": "Total expenses",
       "TOTAL_LABOUR": "Total labour",
       "TOTAL_OTHER": "Total other",
-      "TOTAL_REVENUE": "Total revenue",
-      "UNALLOCATED_CROP": "Unallocated",
-      "UNALLOCATED_TIP": "What is unallocated?"
+      "TOTAL_REVENUE": "Total revenue"
     },
     "LABOUR": {
       "BY": "By",
-      "CROPS": "Crops",
       "EMPLOYEES": "Employees",
       "TABLE": {
-        "CROP": "Crop",
         "DAILY_TOTAL": "Daily total",
         "DATE": "Date",
         "EMPLOYEE": "Employee",
-        "EST_REVENUE": "Estimated Revenue",
         "LABOUR_COST": "Labour Cost",
         "TASK": "Task",
         "TIME": "Time",
@@ -1613,15 +1526,9 @@
       "TITLE": "Labour"
     },
     "SUMMARY": {
-      "CROP": "Crop",
-      "DATE": "Date",
-      "DETAILED_HISTORY": "Detailed History",
       "SUBTOTAL": "Subtotal",
-      "SUMMARY": "Summary",
-      "TITLE": "Sales",
       "TOTAL": "Total",
-      "TYPE": "Type",
-      "VALUE": "Value"
+      "TYPE": "Type"
     }
   },
   "SEARCH": {
@@ -1642,17 +1549,13 @@
       "EDIT": "Edit",
       "EXTERNAL_ID_TOOLTIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
       "EXTERNAL_IDENTIFIER": "External Identifier",
-      "HARDWARE_VERSION": "Hardware Version",
       "LATITUDE": "Latitude",
       "LONGITUDE": "Longitude",
       "MODEL": "Model",
       "NAME": "Sensor Name",
-      "PART_NUMBER": "Part Number",
-      "READING_TYPES": "Reading types",
       "RETIRE": "Retire"
     },
     "EXTERNAL_IDENTIFIER": "External identifier",
-    "HARDWARE_VERSION": "Hardware version",
     "HOURS_AGO": "{{time}} hour(s) ago",
     "LAST_UPDATED": "Last updated {{latestReadingUpdate}}",
     "LATITUDE": "Latitude",
@@ -1667,7 +1570,6 @@
     "MONTHS_AGO": "{{time}} month(s) ago",
     "NO_DATA": "(no data)",
     "NO_DATA_FOUND": "No sensor readings found",
-    "PART_NUMBER": "Part Number",
     "READING": {
       "SOIL_WATER_CONTENT": "Soil water content",
       "SOIL_WATER_POTENTIAL": "Soil water potential",
@@ -1810,7 +1712,6 @@
     "ADD_HARVEST_USE": "Add another harvest use",
     "ADD_TASK": "Create a task",
     "ADD_TASK_FLOW": "task creation",
-    "ALL": "All",
     "AMOUNT_TO_ALLOCATE": "Amount to allocate",
     "CARD": {
       "MULTIPLE_CROPS": "Multiple crops",
@@ -1852,13 +1753,11 @@
       "CROP": "Crop",
       "DATE_RANGE": "Filter by date range",
       "DESCENDING": "newest first",
-      "FROM": "From",
       "LOCATION": "Location",
       "MY_TASK": "My tasks",
       "SORT_BY": "Sort by",
       "STATUS": "Status",
       "TITLE": "Task Filter",
-      "TO": "To",
       "TYPE": "Type",
       "UNASSIGNED": "Unassigned",
       "VIEW": "View"
@@ -1887,14 +1786,15 @@
       "PLANNED": "Planned"
     },
     "TASK": "task",
-    "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_one": "{{count}} task",
     "TASKS_COUNT_other": "{{count}} tasks",
-    "TASKS_COUNT_plural": "{{count}} tasks",
-    "TODO": "To do",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "CREATE": {
+      "FAILED": "Can't create the task",
+      "LOCATION_DELETED": "Another farmer has retired your selected location. Please refresh the page to get the most recent status."
+    }
   },
   "UNIT": {
     "TIME": {

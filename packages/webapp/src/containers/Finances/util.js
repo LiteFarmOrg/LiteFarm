@@ -82,7 +82,11 @@ export function filterSalesByDateRange(sales, startDate, endDate) {
 
 export function calcActualRevenue(transactions) {
   return transactions
-    .filter((transaction) => transaction.transactionType === transactionTypeEnum.revenue)
+    .filter(
+      ({ transactionType }) =>
+        transactionType === transactionTypeEnum.revenue ||
+        transactionType === transactionTypeEnum.cropRevenue,
+    )
     .reduce((sum, curTransaction) => sum + curTransaction.amount, 0);
 }
 
@@ -164,15 +168,14 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
         totalAmount: cropVarietySale.reduce((total, sale) => total + sale.sale_value, 0),
         financeItemsProps: cropVarietySale.map((cvs) => {
           const convertedQuantity = roundToTwoDecimal(getMass(cvs.quantity).toString());
-          const {
-            crop_variety_name: cropVarietyName,
-            crop: { crop_translation_key },
-          } = cropVarieties.find(
+          const cropVariety = cropVarieties.find(
             (cropVariety) => cropVariety.crop_variety_id === cvs.crop_variety_id,
           );
+          const cropVarietyName = cropVariety?.crop_variety_name;
+          const cropTranslationKey = cropVariety?.crop.crop_translation_key;
           const title = cropVarietyName
-            ? `${cropVarietyName}, ${i18n.t(`crop:${crop_translation_key}`)}`
-            : i18n.t(`crop:${crop_translation_key}`);
+            ? `${cropVarietyName}, ${i18n.t(`crop:${cropTranslationKey}`)}`
+            : i18n.t(`crop:${cropTranslationKey}`);
           return {
             key: cvs.crop_variety_id,
             title,
@@ -190,7 +193,7 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
         financeItemsProps: [
           {
             key: sale.sale_id,
-            title: revenueType.revenue_name,
+            title: revenueType?.revenue_name,
             amount: sale.value || 0,
           },
         ],
@@ -204,7 +207,7 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
 export function mapRevenueTypesToReactSelectOptions(revenueTypes) {
   const { t } = useTranslation();
   return revenueTypes?.map((type) => {
-    const retireSuffix = type.deleted ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : '';
+    const retireSuffix = type.retired ? ` ${t('REVENUE.EDIT_REVENUE.RETIRED')}` : '';
 
     return {
       value: type.revenue_type_id,
@@ -227,7 +230,7 @@ export function mapRevenueFormDataToApiCallFormat(data, revenueTypes, sale_id, f
   const revenueType = revenueTypes.find(
     (type) => type.revenue_type_id === data[REVENUE_TYPE_OPTION].value,
   );
-  if (revenueType.crop_generated) {
+  if (revenueType?.crop_generated) {
     sale.value = undefined;
     sale.crop_variety_sale = Object.values(data[CROP_VARIETY_SALE]).map((c) => {
       return {
@@ -263,4 +266,24 @@ export const formatTransactionDate = (date, language = getLanguageFromLocalStora
     return i18n.t('common:YESTERDAY');
   }
   return new Intl.DateTimeFormat(language, { dateStyle: 'long' }).format(dateObj);
+};
+
+/**
+ * Returns a function that constructs a searchable string of an expense type or a revenue type.
+ *
+ * @param {string} typeCategory - The category of the type ('expense' or 'revenue')
+ * @returns {function} getSearchableString function that takes a type and returns a searchable string.
+ */
+export const getFinanceTypeSearchableStringFunc = (typeCategory) => (type) => {
+  const nameKey = `${typeCategory}_name`;
+  const translationKey = `${typeCategory}_translation_key`;
+  const TYPE_CATEGORY = typeCategory.toUpperCase();
+
+  const typeName = type.farm_id
+    ? type[nameKey]
+    : i18n.t(`${typeCategory}:${type[translationKey]}.${TYPE_CATEGORY}_NAME`);
+  const description = type.farm_id
+    ? type.custom_description
+    : i18n.t(`${typeCategory}:${type[translationKey]}.CUSTOM_DESCRIPTION`);
+  return [typeName, description].filter(Boolean).join(' ');
 };

@@ -420,9 +420,7 @@ const getPostHarvestTaskBody = (data, endpoint, managementPlanWithCurrentLocatio
       },
       ...pick(
         data,
-        Object.keys(data).filter(
-          (key) => ![...taskTypeEndpoint, 'override_hourly_wage'].includes(key),
-        ),
+        Object.keys(data).filter((key) => !taskTypeEndpoint.includes(key)),
       ),
       wage_at_moment: data.override_hourly_wage ? data.wage_at_moment : undefined,
       locations: location_id === 'PIN_LOCATION' ? undefined : [{ location_id }],
@@ -530,7 +528,7 @@ const getPostTaskReqBody = (
 export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload }) {
-  let { returnPath, ...data } = payload;
+  let { returnPath, setShowCannotCreateModal, ...data } = payload;
 
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -572,7 +570,11 @@ export function* createTaskSaga({ payload }) {
     }
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
+    if (e.response.data === 'location deleted') {
+      setShowCannotCreateModal(true);
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
+    }
   }
 }
 

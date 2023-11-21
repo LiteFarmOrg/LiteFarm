@@ -25,6 +25,7 @@ i18n
     backend: {
       queryStringParams: { v: APP_VERSION },
     },
+    ns: ['crop', 'expense', 'task'],
   });
 
 export default i18n;

@@ -2,6 +2,8 @@ import path from 'path';
 
 async function validateFileExtension(req, res, next) {
   const { file } = req;
+  if (!file) return next();
+
   if (isImage(file)) {
     return next();
   }

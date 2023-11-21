@@ -499,7 +499,7 @@
       "DUPLICATE_NAME": "Un type de dépense portant ce nom existe déjà. Veuillez en choisir un autre.",
       "DUPLICATE_NAME_RETIRED": "MISSING",
       "FLOW": "Création d'une dépense",
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "Gérer les types de dépenses personnalisés",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "Gérer les types de dépenses personnalisées",
       "NEW_EXPENSE_ITEM": "Nouvel article de dépense",
       "TITLE": "Ajouter une dépense",
       "WHICH_TYPES_TO_RECORD": "Choisissez vos types de dépenses ci-dessous:"
@@ -1463,8 +1463,8 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "ADD_CUSTOM_REVENUE_TYPE": "Ajouter un type de revenu personnalisé",
-      "ADD_REVENUE": "Ajouter un revenu",
+      "ADD_CUSTOM_REVENUE_TYPE": "Ajouter un type de recette personnalisé",
+      "ADD_REVENUE": "Ajouter une recette",
       "CROP_REQUIRED": "Réponse requise",
       "CROP_VARIETY": "Variété de la culture",
       "FLOW": "Création de recettes",
@@ -1473,15 +1473,15 @@
       "TABLE_HEADERS": {
         "TOTAL": "Total"
       },
-      "WHICH_TYPE_TO_RECORD": "Sélectionnez votre type de revenu ci-dessous :"
+      "WHICH_TYPE_TO_RECORD": "Sélectionnez votre type de recette ci-dessous :"
     },
     "DETAIL": {
       "CUSTOMER_NAME": "Nom de Client",
-      "TITLE": "Détails du revenu",
+      "TITLE": "Détails de vente",
       "VALUE": "Valeur"
     },
     "EDIT_SALE": {
-      "TITLE": "Modifier le revenu"
+      "TITLE": "Modifier vente"
     },
     "EXPENSE_DETAIL": {
       "TITLE": "Détail de la dépense"

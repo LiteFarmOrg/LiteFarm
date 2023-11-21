@@ -210,7 +210,7 @@ export default function useCropSaleInputs(
   revenueTypes,
   selectedTypeOption,
 ) {
-  const { register, watch } = reactHookFormFunctions;
+  const { register, unregister, watch, getValues, setValue } = reactHookFormFunctions;
   const { t } = useTranslation();
 
   const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
@@ -221,12 +221,16 @@ export default function useCropSaleInputs(
 
   const isCropSale = selectedRevenueType?.crop_generated;
 
-  //TODO: handle register/unregister of crop_variety sale
-  isCropSale
-    ? register(CROP_VARIETY_SALE, {
-        required: isCropSale ? true : false,
-      })
-    : null;
+  // Re-register to update 'required'
+  useEffect(() => {
+    // Maintain the value between registrations
+    const currentValue = getValues(CROP_VARIETY_SALE);
+
+    unregister(CROP_VARIETY_SALE);
+    register(CROP_VARIETY_SALE, { required: isCropSale });
+
+    setValue(CROP_VARIETY_SALE, currentValue);
+  }, [isCropSale]);
 
   const chosenVarieties = watch(CROP_VARIETY_SALE);
 

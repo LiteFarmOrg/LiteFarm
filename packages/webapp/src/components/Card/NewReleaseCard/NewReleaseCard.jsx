@@ -27,7 +27,7 @@ export function NewReleaseCard({ style }) {
         <Text style={{ margin: 0, lineHeight: '18px' }}>
           {t('SIGNUP.CHANGES')}{' '}
           <a
-            href={'https://www.litefarm.org/post/power-to-the-plans-and-people'}
+            href={'https://www.litefarm.org/post/an-investment-in-finances'}
             target="_blank"
             rel="noreferrer"
             className={styles.underlined}

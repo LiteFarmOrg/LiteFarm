@@ -151,8 +151,19 @@ const farmExpenseTypeController = {
           return res.status(404).send();
         }
 
-        // if record exists then throw Conflict error
-        if (await this.existsInFarm(trx, farm_id, data.expense_name, expense_type_id)) {
+        // if non-deleted record exists then throw Conflict error
+        if (
+          await baseController.existsInTable(
+            trx,
+            ExpenseTypeModel,
+            {
+              expense_name: data.expense_name,
+              farm_id,
+              deleted: false,
+            },
+            { expense_type_id },
+          )
+        ) {
           await trx.rollback();
           return res.status(409).send();
         }

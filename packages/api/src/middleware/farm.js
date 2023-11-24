@@ -22,7 +22,7 @@ import {
 } from '../util/digitalOceanSpaces.js';
 import { v4 as uuidv4 } from 'uuid';
 import FarmModel from '../models/farmModel.js';
-import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+import { DeleteObjectsCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 
 export function parseMultipartJson(req, res, next) {
   const contentType = req.get('Content-Type');
@@ -112,20 +112,22 @@ async function uploadFarmImage(imageFile, keys) {
 async function deleteFarmImage({ thumbnailKey, imageKey }) {
   const bucketName = getPrivateS3BucketName();
 
-  await Promise.all([
-    s3.send(
-      new DeleteObjectCommand({
-        Bucket: bucketName,
-        Key: imageKey,
-      }),
-    ),
-    s3.send(
-      new DeleteObjectCommand({
-        Bucket: bucketName,
-        Key: thumbnailKey,
-      }),
-    ),
-  ]);
+  const deleteCommand = new DeleteObjectsCommand({
+    Bucket: bucketName,
+    Delete: {
+      Objects: [
+        {
+          Key: thumbnailKey,
+        },
+        {
+          Key: imageKey,
+        },
+      ],
+    },
+  });
+
+  const response = await s3.send(deleteCommand);
+  if (response.Errors?.length) throw new Error('Unable to delete image');
 }
 
 async function getExistingImageKeys(farmId) {

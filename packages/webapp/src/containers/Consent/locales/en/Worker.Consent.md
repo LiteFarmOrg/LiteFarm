@@ -86,7 +86,7 @@ Our application is hosted on Digital Ocean to quickly and reliably serve our web
 
 **How do we protect your data?**
 
-We follow industry best practices to secure user data, and we have built and continue to maintain the LiteFarm application in line with Open Web Application Security Project’s Annotated Application Security Verification Standard Level 2. Access to the LiteFarm database is limited to members of the LiteFarm team who have undergone ethics training (Tri-Council Policy Statement: Ethical Conduct for Research Involving Humans, TCPS2), and have signed confidentiality agreements. However, we cannot guarantee that data transmitted over the internet will always be secure. As a result, though we strive to protect your personal information, we cannot ensure the security of any information you transmit while using LiteFarm.
+We follow industry best practices to secure user data, and we have built and continue to maintain the LiteFarm application in line with Open Web Application Security Project’s Annotated Application Security Verification Standard Level 2. Access to the LiteFarm database is limited to members of the LiteFarm team who have undergone ethics training (Tri-Council Policy Statement: Ethical Conduct for Research Involving Humans, TCPS2), and have signed confidentiality agreements. However, we cannot guarantee that data transmitted over the internet will always be secure. As a result, though we strive to protect your personal information, we cannot ensure the security of any information you transmit while using LiteFarm.   
 
 **What other potential risks are involved with using LiteFarm?**
 

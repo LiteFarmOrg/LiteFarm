@@ -168,7 +168,7 @@
   "TASK": {
     "ABANDON": {
       "FAILED": "Erro ao completar tarefa",
-      "SUCCESS": "Tarefa concluída com sucesso"
+      "SUCCESS": "Tarefa abandonada com sucesso"
     },
     "COMPLETE": {
       "FAILED": "Erro ao completar tarefa",
@@ -176,7 +176,7 @@
     },
     "CREATE": {
       "FAILED": "Erro ao completar tarefa",
-      "SUCCESS": "Tarefa concluída com sucesso"
+      "SUCCESS": "Tarefa criada com sucesso"
     },
     "UPDATE": {
       "FAILED": "Falha ao atualizar a tarefa"

@@ -32,7 +32,7 @@
     "CUSTOM_DESCRIPTION": "Todo o resto. Considere criar um tipo de despesa personalizado se você tiver despesas adicionais como essa no futuro."
   },
   "UTILITIES": {
-    "EXPENSE_NAME": "Contas",
+    "EXPENSE_NAME": "Serviços básicos",
     "CUSTOM_DESCRIPTION": "Despesas recorrentes relacionadas com eletricidade, gás, água (incluindo irrigação), coleta de lixo e outros serviços periódicos."
   },
   "LABOUR": {
@@ -48,7 +48,7 @@
     "CUSTOM_DESCRIPTION": "Despesas relacionadas ao transporte de insumos, produtos e pessoas."
   },
   "SERVICES": {
-    "EXPENSE_NAME": "Serviços",
+    "EXPENSE_NAME": "Serviços especializados",
     "CUSTOM_DESCRIPTION": "Despesas relacionadas com outros serviços como licenciamento, certificação, suporte técnico, testes, comercialização, entre outros."
   }
 }

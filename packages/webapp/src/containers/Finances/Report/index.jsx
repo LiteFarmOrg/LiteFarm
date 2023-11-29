@@ -194,7 +194,7 @@ const Report = () => {
         <>
           <Semibold className={styles.helpText}>{t('SALE.FINANCES.REPORT_HELP_TEXT')}</Semibold>
           <div className={styles.dateFilterContainer}>
-            <Text>Date</Text>
+            <Text>{t('common:DATE')}</Text>
             <FinanceDateRangeSelector
               value={dateFilter}
               onChange={(dateRange) => {

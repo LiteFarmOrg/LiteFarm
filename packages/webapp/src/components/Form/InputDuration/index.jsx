@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-import { addDaysToDate, getDateInputFormat } from '../../../util/moment';
-import { getLocalizedDateString } from '../../RepeatCropPlan/utils';
+import { addDaysToDate, getDateInputFormat, getLocalizedDateString } from '../../../util/moment';
 import { Semibold } from '../../Typography';
 import Input, { integerOnKeyDown } from '../Input';
 import styles from './styles.module.scss';

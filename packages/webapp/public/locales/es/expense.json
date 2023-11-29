@@ -32,7 +32,7 @@
     "CUSTOM_DESCRIPTION": "Todo lo demás. Considere crear un tipo de gasto personalizado si tendrá gastos similares a este en el futuro."
   },
   "UTILITIES": {
-    "EXPENSE_NAME": "Utilidades",
+    "EXPENSE_NAME": "Servicios básicos",
     "CUSTOM_DESCRIPTION": "Gastos recurrentes relacionados a electricidad, gas, agua (incluyendo irrigación), recolección de residuos, y otros servicios periódicos."
   },
   "LABOUR": {
@@ -48,7 +48,7 @@
     "CUSTOM_DESCRIPTION": "Gastos relacionados a mover ingresos, egresos y personas."
   },
   "SERVICES": {
-    "EXPENSE_NAME": "Servicios",
+    "EXPENSE_NAME": "Servicios especializados",
     "CUSTOM_DESCRIPTION": "Gastos relacionados a otros servicios, como licenciamiento, certificación, soporte agronómico, testeo, marketing y otros."
   }
 }

@@ -15,9 +15,9 @@
 
 import baseController from './baseController.js';
 
+import { Model, transaction } from 'objection';
 import RevenueTypeModel from '../models/revenueTypeModel.js';
 import SaleModel from '../models/saleModel.js';
-import { transaction, Model } from 'objection';
 
 const revenueTypeController = {
   addType() {
@@ -64,7 +64,10 @@ const revenueTypeController = {
     return async (req, res) => {
       try {
         const farm_id = req.headers.farm_id;
-        const rows = await RevenueTypeModel.query().where('farm_id', null).orWhere({ farm_id });
+        const rows = await RevenueTypeModel.query()
+          .whereNotDeleted()
+          .where('farm_id', null)
+          .orWhere({ farm_id });
         if (!rows.length) {
           return res.sendStatus(404);
         } else {

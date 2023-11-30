@@ -1,50 +1,46 @@
-import React, { Component } from 'react';
-import connect from 'react-redux/es/connect/connect';
-import { expenseTypeSelector, selectedExpenseSelector } from '../../selectors';
-import history from '../../../../history';
-import { addExpenses } from '../../actions';
-import { userFarmSelector } from '../../../userFarmSlice';
-import { withTranslation } from 'react-i18next';
-import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import PureAddExpense from '../../../../components/Finances/AddExpense';
+import { useGetNonRetiredExpenseTypesQuery } from '../../../../hooks/api/expenseTypesQueries';
+import { useAddExpensesMutation } from '../../../../store/api/apiSlice';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
+import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { userFarmSelector } from '../../../userFarmSlice';
+import { setSelectedExpenseTypes } from '../../actions';
+import { selectedExpenseSelector } from '../../selectors';
 
-class AddExpense extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expenseNames: {},
-    };
-    this.getTypeName = this.getTypeName.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+const AddExpense = ({ history }) => {
+  const [expenseNames, setExpenseNames] = useState({});
+  const farm = useSelector(userFarmSelector);
+  const selectedExpense = useSelector(selectedExpenseSelector);
+  const { data: expenseTypes } = useGetNonRetiredExpenseTypesQuery();
+  const { t } = useTranslation();
+  const [addExpenses] = useAddExpensesMutation();
+  const dispatch = useDispatch();
 
-  componentDidMount() {
-    const { selectedExpense } = this.props;
-    const expenseNames = {};
+  useEffect(() => {
+    const newExpenseNames = {};
     for (let s of selectedExpense) {
-      expenseNames[s] = this.getTypeName(s);
+      newExpenseNames[s] = getTypeName(s);
     }
-    this.setState({ expenseNames });
-  }
+    setExpenseNames(newExpenseNames);
+  }, [selectedExpense]);
 
-  getTypeName(id) {
-    const { expenseTypes } = this.props;
-
+  const getTypeName = (id) => {
     for (let { expense_type_id, expense_translation_key, farm_id, expense_name } of expenseTypes) {
       if (expense_type_id === id) {
-        return farm_id
-          ? expense_name
-          : this.props.t(`expense:${expense_translation_key}.EXPENSE_NAME`);
+        return farm_id ? expense_name : t(`expense:${expense_translation_key}.EXPENSE_NAME`);
       }
     }
     return 'NAME NOT FOUND';
-  }
+  };
 
-  handleSubmit(formData) {
+  const handleSubmit = async (formData) => {
     const { expenseDetail } = formData;
     let formattedData = [];
     let expenseTypeIds = Object.keys(expenseDetail);
-    let farm_id = this.props.farm.farm_id;
+    let farm_id = farm.farm_id;
 
     let missingText = false;
     for (let expenseTypeId of expenseTypeIds) {
@@ -75,37 +71,30 @@ class AddExpense extends Component {
       formattedData.length &&
       formattedData.filter((expense) => expense.value < 0 || isNaN(expense.value)).length === 0
     ) {
-      this.props.dispatch(addExpenses(formattedData));
-      history.push('/finances');
+      try {
+        await addExpenses({
+          farmId: farm.farm_id,
+          expenses: formattedData,
+        }).unwrap();
+        dispatch(enqueueSuccessSnackbar(t('message:EXPENSE.SUCCESS.ADD')));
+        dispatch(setSelectedExpenseTypes([]));
+        history.push('/finances');
+      } catch (e) {
+        console.log(e);
+        dispatch(enqueueErrorSnackbar(t('message:EXPENSE.ERROR.ADD')));
+      }
     }
-  }
-
-  render() {
-    const { expenseNames } = this.state;
-    return (
-      <HookFormPersistProvider>
-        <PureAddExpense
-          types={Object.keys(expenseNames).map((id) => ({ name: expenseNames[id], id }))}
-          onGoBack={history.back}
-          onSubmit={this.handleSubmit}
-        />
-      </HookFormPersistProvider>
-    );
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    expenseTypes: expenseTypeSelector(state),
-    selectedExpense: selectedExpenseSelector(state),
-    farm: userFarmSelector(state),
   };
+
+  return (
+    <HookFormPersistProvider>
+      <PureAddExpense
+        types={Object.keys(expenseNames).map((id) => ({ name: expenseNames[id], id }))}
+        onGoBack={history.back}
+        onSubmit={handleSubmit}
+      />
+    </HookFormPersistProvider>
+  );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(AddExpense));
+export default AddExpense;

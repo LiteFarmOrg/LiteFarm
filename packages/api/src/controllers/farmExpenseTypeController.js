@@ -15,9 +15,9 @@
 
 import baseController from '../controllers/baseController.js';
 
+import { Model, transaction } from 'objection';
 import ExpenseTypeModel from '../models/expenseTypeModel.js';
 import FarmExpenseModel from '../models/farmExpenseModel.js';
-import { transaction, Model } from 'objection';
 
 const farmExpenseTypeController = {
   addFarmExpenseType() {
@@ -58,6 +58,7 @@ const farmExpenseTypeController = {
       try {
         const farm_id = req.params.farm_id;
         const result = await ExpenseTypeModel.query()
+          .whereNotDeleted()
           .where('farm_id', null)
           .orWhere('farm_id', farm_id);
         res.status(200).send(result);

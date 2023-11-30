@@ -15,10 +15,10 @@
 
 import baseController from '../controllers/baseController.js';
 
-import SaleModel from '../models/saleModel.js';
-import RevenueTypeModel from '../models/revenueTypeModel.js';
+import { Model, transaction } from 'objection';
 import CropVarietySaleModel from '../models/cropVarietySaleModel.js';
-import { transaction, Model } from 'objection';
+import RevenueTypeModel from '../models/revenueTypeModel.js';
+import SaleModel from '../models/saleModel.js';
 
 const SaleController = {
   // this messed the update up as field Crop id is the same and it will change for all sales with the same field crop id!

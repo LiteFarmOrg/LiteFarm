@@ -15,12 +15,11 @@
 
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import FilterGroup from '../../../components/Filter/FilterGroup';
-import { allExpenseTypeSelector } from '../../Finances/selectors';
+import { useGetNonRetiredExpenseTypesQuery } from '../../../hooks/api/expenseTypesQueries';
+import { useGetNonRetiredRevenueTypesQuery } from '../../../hooks/api/revenueTypesQueries';
 import { transactionTypeEnum } from '../../Finances/useTransactions';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../constants';
-import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 
 const TransactionFilterContent = ({
   transactionsFilter,
@@ -29,8 +28,8 @@ const TransactionFilterContent = ({
   onChange,
 }) => {
   const { t } = useTranslation(['translation', 'filter']);
-  const expenseTypes = useSelector(allExpenseTypeSelector);
-  const revenueTypes = useSelector(allRevenueTypesSelector);
+  const { data: expenseTypes } = useGetNonRetiredExpenseTypesQuery();
+  const { data: revenueTypes } = useGetNonRetiredRevenueTypesQuery();
 
   const filters = [
     {

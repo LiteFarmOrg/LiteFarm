@@ -15,35 +15,20 @@
 
 import { createAction } from '@reduxjs/toolkit';
 import { saveAs } from 'file-saver';
-import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
-import { dateRangeOptions } from '../../components/DateRangeSelector/constants';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import history from '../../history';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
-import { resetTransactionsFilter } from '../filterSlice';
 import {
   deleteRevenueTypeSuccess,
   getRevenueTypesSuccess,
   postRevenueTypeSuccess,
   putRevenueTypeSuccess,
 } from '../revenueTypeSlice';
-import {
-  axios,
-  getHeader,
-  getManagementPlanAndPlantingMethodSuccessSaga,
-  getManagementPlansAndTasksSaga,
-} from '../saga';
+import { axios, getHeader, getManagementPlanAndPlantingMethodSuccessSaga } from '../saga';
 import { loginSelector } from '../userFarmSlice';
 import apiConfig from './../../apiConfig';
-import {
-  getSales,
-  setDateRange,
-  setExpense,
-  setExpenseType,
-  setIsFetchingData,
-  setSalesInState,
-  setSelectedExpenseTypes,
-} from './actions';
+import { getSales, setExpense, setExpenseType, setSalesInState } from './actions';
 import {
   ADD_EXPENSES,
   ADD_REMOVE_EXPENSE,
@@ -469,23 +454,6 @@ export function* downloadFinanceReportSaga({ payload: data }) {
   }
 }
 
-export const fetchAllData = createAction('fetchAllData');
-
-export function* fetchAllDataSaga() {
-  yield put(setIsFetchingData(true));
-  yield all([
-    call(getFarmExpenseTypeSaga),
-    call(getRevenueTypesSaga),
-    call(getSalesSaga),
-    call(getExpenseSaga),
-    call(getManagementPlansAndTasksSaga),
-  ]);
-  yield put(setSelectedExpenseTypes([]));
-  yield put(resetTransactionsFilter());
-  yield put(setDateRange({ option: dateRangeOptions.YEAR_TO_DATE }));
-  yield put(setIsFetchingData(false));
-}
-
 export default function* financeSaga() {
   yield takeLatest(GET_SALES, getSales);
   yield takeLeading(ADD_SALE, addSale);
@@ -507,5 +475,4 @@ export default function* financeSaga() {
   yield takeLeading(updateExpense.type, editExpenseSaga);
   yield takeLeading(patchEstimatedCropRevenue.type, patchEstimatedCropRevenueSaga);
   yield takeLeading(downloadFinanceReport.type, downloadFinanceReportSaga);
-  yield takeLatest(fetchAllData.type, fetchAllDataSaga);
 }

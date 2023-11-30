@@ -14,13 +14,13 @@
  */
 
 import express from 'express';
-
-const router = express.Router();
 import farmExpenseController from '../controllers/farmExpenseController.js';
 import checkScope from '../middleware/acl/checkScope.js';
-import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import conditionallyApplyMiddleware from '../middleware/acl/conditionally.apply.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import isCreator from '../middleware/acl/isCreator.js';
+
+const router = express.Router();
 
 router.get(
   '/farm/:farm_id',
@@ -31,7 +31,7 @@ router.get(
 
 router.post(
   '/farm/:farm_id',
-  hasFarmAccess({ body: 'farm_id' }),
+  hasFarmAccess({ params: 'farm_id' }),
   checkScope(['add:expenses']),
   farmExpenseController.addFarmExpense(),
 );

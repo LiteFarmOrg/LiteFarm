@@ -12,30 +12,26 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getRevenueTypes } from '../../saga';
-import { revenueTypesSelector, allRevenueTypesSelector } from '../../../revenueTypeSlice';
+import { useSelector } from 'react-redux';
+import { useGetNonRetiredRevenueTypesQuery } from '../../../../hooks/api/revenueTypesQueries';
+import { useGetRevenueTypesQuery } from '../../../../store/api/apiSlice';
+import { loginSelector } from '../../../userFarmSlice';
 
 export default function useSortedRevenueTypes({ selectorType = 'default' } = {}) {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const [sortedtypes, setSortedTypes] = useState([]);
+  const { farm_id } = useSelector(loginSelector);
+  const { data: nonRetiredRevenueTypes } = useGetNonRetiredRevenueTypesQuery();
+  const { data: allRevenueTypes } = useGetRevenueTypesQuery(farm_id);
+  const revenueTypes = selectorType === 'all' ? allRevenueTypes : nonRetiredRevenueTypes;
 
-  const selector = selectorType === 'all' ? allRevenueTypesSelector : revenueTypesSelector;
-  const revenueTypes = useSelector(selector);
-
-  useEffect(() => {
-    dispatch(getRevenueTypes());
-  }, []);
-
-  useEffect(() => {
+  const sortedTypes = useMemo(() => {
     const allTypes = revenueTypes ?? [];
 
-    const sortedTypes = [
+    return [
       ...allTypes.sort((typeA, typeB) => {
         const compareKeyA =
           typeA.farm_id === null
@@ -50,11 +46,9 @@ export default function useSortedRevenueTypes({ selectorType = 'default' } = {})
         return compareKeyA.localeCompare(compareKeyB);
       }),
     ];
-
-    setSortedTypes(sortedTypes);
   }, [revenueTypes]);
 
-  return sortedtypes;
+  return sortedTypes;
 }
 
 useSortedRevenueTypes.propTypes = {

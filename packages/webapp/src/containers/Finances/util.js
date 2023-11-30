@@ -155,7 +155,7 @@ export const mapTasksToLabourItems = (tasks, taskTypes, users) => {
   return labourItemGroups;
 };
 
-export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
+export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties, crops) => {
   const revenueItems = sales.map((sale) => {
     const revenueType = revenueTypes.find(
       (revenueType) => revenueType.revenue_type_id === sale.revenue_type_id,
@@ -171,8 +171,9 @@ export const mapSalesToRevenueItems = (sales, revenueTypes, cropVarieties) => {
           const cropVariety = cropVarieties.find(
             (cropVariety) => cropVariety.crop_variety_id === cvs.crop_variety_id,
           );
+          const crop = crops.find((crop) => crop.crop_id === cropVariety?.crop_id);
           const cropVarietyName = cropVariety?.crop_variety_name;
-          const cropTranslationKey = cropVariety?.crop.crop_translation_key;
+          const cropTranslationKey = crop?.crop_translation_key;
           const title = cropVarietyName
             ? `${cropVarietyName}, ${i18n.t(`crop:${cropTranslationKey}`)}`
             : i18n.t(`crop:${cropTranslationKey}`);

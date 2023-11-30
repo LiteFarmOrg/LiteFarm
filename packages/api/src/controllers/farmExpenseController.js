@@ -15,8 +15,8 @@
 
 import baseController from '../controllers/baseController.js';
 
+import { Model, transaction } from 'objection';
 import FarmExpenseModel from '../models/farmExpenseModel.js';
-import { transaction, Model } from 'objection';
 
 const farmExpenseController = {
   addFarmExpense() {
@@ -33,7 +33,7 @@ const farmExpenseController = {
           resultArray.push(result);
         }
         await trx.commit();
-        res.sendStatus(201);
+        res.status(201).send({ expenses: resultArray });
       } catch (error) {
         //handle more exceptions
         await trx.rollback();

@@ -35,6 +35,7 @@ const initialState = {
   expenses: [],
   date_range: { option: dateRangeOptions.YEAR_TO_DATE },
   isFetchingData: false,
+  selected_expense_types: [],
 };
 
 function financeReducer(state = initialState, action) {

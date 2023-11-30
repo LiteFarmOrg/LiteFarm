@@ -13,37 +13,48 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
-import useCropSaleInputs from '../useCropSaleInputs';
-import { addSale } from '../actions';
-import { userFarmSelector } from '../../userFarmSlice';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import GeneralRevenue from '../../../components/Forms/GeneralRevenue';
+import { useAddSaleMutation, useGetRevenueTypesQuery } from '../../../store/api/apiSlice';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
-import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
-import { mapRevenueTypesToReactSelectOptions, mapRevenueFormDataToApiCallFormat } from '../util';
+import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { userFarmSelector } from '../../userFarmSlice';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
+import useCropSaleInputs from '../useCropSaleInputs';
+import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions } from '../util';
 
-function AddSale() {
+function AddSale({ history }) {
   const { t } = useTranslation(['translation', 'revenue', 'common']);
   const dispatch = useDispatch();
 
   const farm = useSelector(userFarmSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const { revenue_type_id } = persistedFormData || {};
-  const revenueType = useSelector(revenueTypeByIdSelector(revenue_type_id));
+  const { revenueType } = useGetRevenueTypesQuery(farm.farm_id, {
+    selectFromResult: ({ data }) => ({
+      revenueType: data?.find((type) => type.revenue_type_id === revenue_type_id),
+    }),
+  });
   const revenueTypes = useSortedRevenueTypes();
   const revenueTypeReactSelectOptions = mapRevenueTypesToReactSelectOptions(revenueTypes);
   const translatedRevenueName = revenueType?.farm_id
     ? revenueType?.revenue_name
     : t(`revenue:${revenueType?.revenue_translation_key}.REVENUE_NAME`);
+  const [addSale] = useAddSaleMutation();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const newSale = mapRevenueFormDataToApiCallFormat(data, revenueTypes, null, farm.farm_id);
-    dispatch(addSale(newSale));
+    try {
+      await addSale(newSale).unwrap();
+      dispatch(enqueueSuccessSnackbar(t('message:SALE.SUCCESS.ADD')));
+      history.push('/finances');
+    } catch (e) {
+      console.log(e);
+      dispatch(enqueueErrorSnackbar(t('message:SALE.ERROR.ADD')));
+    }
   };
 
   const handleGoBack = () => {

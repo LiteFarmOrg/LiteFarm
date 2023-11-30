@@ -1,9 +1,10 @@
-import { persistReducer, persistStore } from 'redux-persist';
 import { configureStore } from '@reduxjs/toolkit';
-import { sagaMiddleware } from './sagaMiddleware';
-import rootReducer from './reducer';
+import { persistReducer, persistStore } from 'redux-persist';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
+import { api } from './api/apiSlice';
+import rootReducer from './reducer';
+import { sagaMiddleware } from './sagaMiddleware';
 
 const persistConfig = {
   key: 'root',
@@ -11,7 +12,6 @@ const persistConfig = {
   stateReconciler: autoMergeLevel2,
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-const middlewares = [sagaMiddleware];
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) => [
@@ -19,8 +19,9 @@ export const store = configureStore({
       thunk: true,
       immutableCheck: false,
       serializableCheck: false,
-    }),
-    ...middlewares,
+    })
+      .concat(api.middleware)
+      .concat(sagaMiddleware),
   ],
   devTools: import.meta.env.VITE_ENV !== 'production',
 });

@@ -15,10 +15,11 @@
 
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import NoSearchResults from '../../components/Card/NoSearchResults';
+import { dateRangeOptions } from '../../components/DateRangeSelector/constants';
 import useDateRangeSelector from '../../components/DateRangeSelector/useDateRangeSelector';
 import AddTransactionButton from '../../components/Finances/AddTransactionButton';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
@@ -27,18 +28,17 @@ import PureTransactionList from '../../components/Finances/Transaction/Mobile/Li
 import PureCollapsibleSearch from '../../components/PopupFilter/PureCollapsibleSearch';
 import Spinner from '../../components/Spinner';
 import { Title } from '../../components/Typography';
+import { useGetManagementPlansQuery } from '../../store/api/apiSlice';
 import { SUNDAY } from '../../util/dateRange';
 import { isTaskType } from '../Task/useIsTaskType';
-import { transactionsFilterSelector } from '../filterSlice';
+import { resetTransactionsFilter, transactionsFilterSelector } from '../filterSlice';
 import { useCurrencySymbol } from '../hooks/useCurrencySymbol';
 import useSearchFilter from '../hooks/useSearchFilter';
-import { managementPlansSelector } from '../managementPlanSlice';
 import { taskEntitiesByManagementPlanIdSelector } from '../taskSlice';
+import { loginSelector } from '../userFarmSlice';
 import Report from './Report';
 import TransactionFilter from './TransactionFilter';
-import { setIsFetchingData } from './actions';
-import { fetchAllData } from './saga';
-import { isFetchingDataSelector } from './selectors';
+import { setDateRange, setSelectedExpenseTypes } from './actions';
 import styles from './styles.module.scss';
 import useTransactions from './useTransactions';
 import { calcActualRevenue, calcOtherExpense, calcTotalLabour } from './util';
@@ -47,30 +47,29 @@ const moment = extendMoment(Moment);
 
 const Finances = ({ history }) => {
   const { t } = useTranslation();
-  const managementPlans = useSelector(managementPlansSelector);
   const { EXPENSE_TYPE: expenseTypeFilter, REVENUE_TYPE: revenueTypeFilter } = useSelector(
     transactionsFilterSelector,
   );
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
   const { startDate, endDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
   const dateFilter = { startDate, endDate };
-  const transactions = useTransactions({ dateFilter, expenseTypeFilter, revenueTypeFilter });
+  const { transactions, isLoading: isLoadingTransactions } = useTransactions({
+    dateFilter,
+    expenseTypeFilter,
+    revenueTypeFilter,
+  });
   const currencySymbol = useCurrencySymbol();
   const overlayRef = useRef(null);
-  const isFetchingData = useSelector(isFetchingDataSelector);
-  const [isLoading, setIsLoading] = useState(true);
+  const { farm_id } = useSelector(loginSelector);
+  const { data: managementPlans } = useGetManagementPlansQuery(farm_id);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchAllData());
-  }, [fetchAllData]);
-
-  useEffect(() => {
-    if (!isFetchingData) {
-      setIsLoading(false);
-    }
-  }, [isFetchingData]);
+    dispatch(resetTransactionsFilter());
+    dispatch(setDateRange({ option: dateRangeOptions.YEAR_TO_DATE }));
+    dispatch(setSelectedExpenseTypes([]));
+  }, []);
 
   const getEstimatedRevenue = (managementPlans) => {
     let totalRevenue = 0;
@@ -116,7 +115,7 @@ const Finances = ({ history }) => {
   const otherExpense = calcOtherExpense(filteredTransactions).toFixed(0);
   const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(0);
 
-  return isLoading ? (
+  return isLoadingTransactions ? (
     <Spinner />
   ) : (
     <div className={styles.financesContainer}>

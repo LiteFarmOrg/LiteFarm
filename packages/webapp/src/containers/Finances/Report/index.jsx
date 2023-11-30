@@ -22,31 +22,33 @@ import FinanceDateRangeSelector from '../../../components/Finances/DateRangeSele
 import Button from '../../../components/Form/Button';
 import TextButton from '../../../components/Form/Button/TextButton';
 import { Semibold, Text } from '../../../components/Typography';
+import { useGetExpenseTypesQuery, useGetRevenueTypesQuery } from '../../../store/api/apiSlice';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import TransactionFilterContent from '../../Filter/Transactions';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../../Filter/constants';
 import { transactionsFilterSelector } from '../../filterSlice';
-import { downloadFinanceReport } from '../saga';
-import { allExpenseTypeSelector, dateRangeDataSelector } from '../selectors';
-import useTransactions from '../useTransactions';
-import styles from './styles.module.scss';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
-import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
+import { loginSelector } from '../../userFarmSlice';
+import { downloadFinanceReport } from '../saga';
+import { dateRangeDataSelector } from '../selectors';
+import useTransactions from '../useTransactions';
 import {
+  createDefaultTypeFilter,
+  formatTransactions,
   generateConfigSheetHeaders,
   generateReportHeaders,
   generateWorksheetTitles,
-  formatTransactions,
-  createDefaultTypeFilter,
 } from './reportFormattingUtils';
-import { allRevenueTypesSelector } from '../../revenueTypeSlice';
+import styles from './styles.module.scss';
 
 const Report = () => {
   const { t } = useTranslation();
 
   const dashboardDateFilter = useSelector(dateRangeDataSelector);
   const dashboardTypesFilter = useSelector(transactionsFilterSelector);
-  const expenseTypes = useSelector(allExpenseTypeSelector);
-  const revenueTypes = useSelector(allRevenueTypesSelector);
+  const { farm_id } = useSelector(loginSelector);
+  const expenseTypes = useGetExpenseTypesQuery(farm_id);
+  const revenueTypes = useGetRevenueTypesQuery(farm_id);
 
   const [isExportReportOpen, setIsExportReportOpen] = useState(false);
   const [dateFilter, setDateFilter] = useState(dashboardDateFilter);

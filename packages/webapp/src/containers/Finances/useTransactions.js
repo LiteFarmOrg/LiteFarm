@@ -17,16 +17,22 @@ import { groupBy as lodashGroupBy } from 'lodash-es';
 import moment from 'moment';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { useGetNonRetiredExpenseTypesQuery } from '../../hooks/api/expenseTypesQueries';
+import { useGetNonRetiredRevenueTypesQuery } from '../../hooks/api/revenueTypesQueries';
+import useQueries from '../../hooks/api/useQueries';
 import i18n from '../../locales/i18n';
+import {
+  useGetCropVarietiesQuery,
+  useGetCropsQuery,
+  useGetExpensesQuery,
+  useGetSalesQuery,
+  useGetTaskTypesQuery,
+  useGetTasksQuery,
+} from '../../store/api/apiSlice';
 import { roundToTwoDecimal } from '../../util';
 import { getComparator } from '../../util/sort';
-import { cropVarietiesSelector } from '../cropVarietySlice';
-import { allRevenueTypesSelector } from '../revenueTypeSlice';
-import { tasksSelector } from '../taskSlice';
-import { taskTypesSelector } from '../taskTypeSlice';
-import { userFarmsByFarmSelector } from '../userFarmSlice';
+import { loginSelector, userFarmsByFarmSelector } from '../userFarmSlice';
 import { LABOUR_ITEMS_GROUPING_OPTIONS } from './constants';
-import { allExpenseTypeSelector, expenseSelector, salesSelector } from './selectors';
 import { mapSalesToRevenueItems, mapTasksToLabourItems } from './util';
 
 export const transactionTypeEnum = {
@@ -131,6 +137,7 @@ const buildRevenueTransactions = ({
   sales,
   revenueTypes,
   cropVarieties,
+  crops,
   dateFilter,
   revenueTypeFilter,
 }) => {
@@ -141,7 +148,7 @@ const buildRevenueTransactions = ({
           moment(sale.sale_date).isSameOrBefore(dateFilter.endDate, 'day'))) &&
       (!revenueTypeFilter || revenueTypeFilter[sale.revenue_type_id]?.active),
   );
-  const revenueItems = mapSalesToRevenueItems(filteredSales, revenueTypes, cropVarieties);
+  const revenueItems = mapSalesToRevenueItems(filteredSales, revenueTypes, cropVarieties, crops);
 
   return revenueItems.map((item) => {
     const revenueType = revenueTypes.find(
@@ -170,6 +177,7 @@ export const buildTransactions = ({
   revenueTypes = [],
   taskTypes = [],
   cropVarieties = [],
+  crops = [],
   users = [],
   dateFilter,
   expenseTypeFilter,
@@ -188,6 +196,7 @@ export const buildTransactions = ({
       sales,
       revenueTypes,
       cropVarieties,
+      crops,
       dateFilter,
       revenueTypeFilter,
     }),
@@ -199,14 +208,25 @@ export const buildTransactions = ({
 };
 
 const useTransactions = ({ dateFilter, expenseTypeFilter, revenueTypeFilter }) => {
-  const sales = useSelector(salesSelector);
-  const tasks = useSelector(tasksSelector);
-  const expenses = useSelector(expenseSelector);
-  const expenseTypes = useSelector(allExpenseTypeSelector);
-  const revenueTypes = useSelector(allRevenueTypesSelector);
-  const taskTypes = useSelector(taskTypesSelector);
-  const cropVarieties = useSelector(cropVarietiesSelector);
+  const { farm_id } = useSelector(loginSelector);
   const users = useSelector(userFarmsByFarmSelector);
+
+  const queries = useMemo(
+    () => [
+      { hook: useGetSalesQuery, label: 'sales', params: farm_id },
+      { hook: useGetExpensesQuery, label: 'expenses', params: farm_id },
+      { hook: useGetNonRetiredExpenseTypesQuery, label: 'expenseTypes', params: farm_id },
+      { hook: useGetNonRetiredRevenueTypesQuery, label: 'revenueTypes', params: farm_id },
+      { hook: useGetTasksQuery, label: 'tasks', params: farm_id },
+      { hook: useGetTaskTypesQuery, label: 'taskTypes', params: farm_id },
+      { hook: useGetCropVarietiesQuery, label: 'cropVarieties', params: farm_id },
+      { hook: useGetCropsQuery, label: 'crops', params: farm_id },
+    ],
+    [],
+  );
+
+  const { data, isLoading } = useQueries(queries);
+  const { expenseTypes, revenueTypes } = data;
 
   const transactions = useMemo(() => {
     if (!expenseTypes?.length || !revenueTypes?.length) {
@@ -214,34 +234,15 @@ const useTransactions = ({ dateFilter, expenseTypeFilter, revenueTypeFilter }) =
     }
 
     return buildTransactions({
-      sales,
-      tasks,
-      expenses,
-      expenseTypes,
-      revenueTypes,
-      taskTypes,
-      cropVarieties,
+      ...data,
       users,
       dateFilter,
       expenseTypeFilter,
       revenueTypeFilter,
     });
-  }, [
-    sales,
-    tasks,
-    expenses,
-    expenseTypes,
-    revenueTypes,
-    taskTypes,
-    cropVarieties,
-    users,
-    buildTransactions,
-    dateFilter,
-    expenseTypeFilter,
-    revenueTypeFilter,
-  ]);
+  }, [data, users, buildTransactions, dateFilter, expenseTypeFilter, revenueTypeFilter]);
 
-  return transactions;
+  return { transactions, isLoading };
 };
 
 export default useTransactions;

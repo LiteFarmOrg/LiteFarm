@@ -13,80 +13,81 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { combineReducers } from 'redux';
-import baseReducer from '../containers/reducer';
 import { combineForms } from 'react-redux-form';
+import { combineReducers } from 'redux';
 import { PURGE } from 'redux-persist';
-import insightReducer from '../containers/Insights/reducer';
-import financeReducer from '../containers/Finances/reducer';
-import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
-import userFarmReducer from '../containers/userFarmSlice';
-import rolesReducer from '../containers/Profile/People/slice';
-import userLogReducer from '../containers/userLogSlice';
-import weatherReducer from '../containers/WeatherBoard/weatherSlice';
-import alertReducer from '../containers/Navigation/Alert/alertSlice';
-import notificationReducer from '../containers/notificationSlice';
 import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice';
+import financeReducer from '../containers/Finances/reducer';
+import insightReducer from '../containers/Insights/reducer';
+import alertReducer from '../containers/Navigation/Alert/alertSlice';
+import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
+import rolesReducer from '../containers/Profile/People/slice';
+import weatherReducer from '../containers/WeatherBoard/weatherSlice';
+import notificationReducer from '../containers/notificationSlice';
+import baseReducer from '../containers/reducer';
+import userFarmReducer from '../containers/userFarmSlice';
+import userLogReducer from '../containers/userLogSlice';
 
 import barnReducer from '../containers/barnSlice';
+import bufferZoneReducer from '../containers/bufferZoneSlice';
 import ceremonialReducer from '../containers/ceremonialSlice';
 import farmSiteBoundaryReducer from '../containers/farmSiteBoundarySlice';
+import fenceReducer from '../containers/fenceSlice';
 import fieldReducer from '../containers/fieldSlice';
 import gardenReducer from '../containers/gardenSlice';
+import gateReducer from '../containers/gateSlice';
 import greenhouseReducer from '../containers/greenhouseSlice';
-import surfaceWaterReducer from '../containers/surfaceWaterSlice';
 import naturalAreaReducer from '../containers/naturalAreaSlice';
 import residenceReducer from '../containers/residenceSlice';
-import bufferZoneReducer from '../containers/bufferZoneSlice';
-import watercourseReducer from '../containers/watercourseSlice';
-import fenceReducer from '../containers/fenceSlice';
-import gateReducer from '../containers/gateSlice';
-import waterValveReducer from '../containers/waterValveSlice';
 import sensorReducer from '../containers/sensorSlice';
+import surfaceWaterReducer from '../containers/surfaceWaterSlice';
+import waterValveReducer from '../containers/waterValveSlice';
+import watercourseReducer from '../containers/watercourseSlice';
 
-import cropReducer from '../containers/cropSlice';
-import cropVarietyReducer from '../containers/cropVarietySlice';
-import taskReducer from '../containers/taskSlice';
-import cleaningTaskReducer from '../containers/slice/taskSlice/cleaningTaskSlice';
-import fieldWorkTaskReducer from '../containers/slice/taskSlice/fieldWorkTaskSlice';
-import harvestTaskReducer from '../containers/slice/taskSlice/harvestTaskSlice';
-import pestControlTaskReducer from '../containers/slice/taskSlice/pestControlTaskSlice';
-import soilAmendmentTaskReducer from '../containers/slice/taskSlice/soilAmendmentTaskSlice';
-import plantTaskReducer from '../containers/slice/taskSlice/plantTaskSlice';
-import transplantTaskReducer from '../containers/slice/taskSlice/transplantTaskSlice';
-import harvestUseTypeReducer from '../containers/harvestUseTypeSlice';
-import taskTypeReducer from '../containers/taskTypeSlice';
-import productReducer from '../containers/productSlice';
 import homeReducer from '../containers/Home/homeSlice';
-import mapLocationReducer from '../containers/mapSlice';
-import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import mapAddDrawerReducer from '../containers/Map/mapAddDrawerSlice';
 import mapCacheReducer from '../containers/Map/mapCacheSlice';
+import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import mapSensorReducer from '../containers/Map/mapSensorSlice';
-import sensorReadingTypesReducer from '../containers/sensorReadingTypesSlice';
-import showedSpotlightReducer from '../containers/showedSpotlightSlice';
-import bulkSensorsUploadReducer from '../containers/bulkSensorUploadSlice';
-import bulkSensorsReadingsReducer from '../containers/bulkSensorReadingsSlice';
-import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
-import offlineDetectorReducer from '../containers/hooks/useOfflineDetector/offlineDetectorSlice';
-import filterReducer from '../containers/filterSlice';
-import managementPlanReducer from '../containers/managementPlanSlice';
-import cropManagementPlanReducer from '../containers/cropManagementPlanSlice';
-import plantingManagementPlanReducer from '../containers/plantingManagementPlanSlice';
-import containerMethodReducer from '../containers/containerMethodSlice';
-import bedMethodReducer from '../containers/bedMethodSlice';
-import rowMethodReducer from '../containers/rowMethodSlice';
-import broadcastMethodReducer from '../containers/broadcastMethodSlice';
-import documentReducer from '../containers/documentSlice';
 import certificationReducer from '../containers/OrganicCertifierSurvey/certificationSlice';
 import certifierReducer from '../containers/OrganicCertifierSurvey/certifierSlice';
 import snackbarReducer from '../containers/Snackbar/snackbarSlice';
 import appSettingReducer from '../containers/appSettingSlice';
+import bedMethodReducer from '../containers/bedMethodSlice';
+import broadcastMethodReducer from '../containers/broadcastMethodSlice';
+import bulkSensorsReadingsReducer from '../containers/bulkSensorReadingsSlice';
+import bulkSensorsUploadReducer from '../containers/bulkSensorUploadSlice';
+import containerMethodReducer from '../containers/containerMethodSlice';
+import cropManagementPlanReducer from '../containers/cropManagementPlanSlice';
+import cropReducer from '../containers/cropSlice';
+import cropVarietyReducer from '../containers/cropVarietySlice';
 import customSignUpReducer from '../containers/customSignUpSlice';
+import documentReducer from '../containers/documentSlice';
 import fieldWorkReducer from '../containers/fieldWorkSlice';
-import irrigationTaskReducer from '../containers/slice/taskSlice/irrigationTaskSlice';
+import filterReducer from '../containers/filterSlice';
+import harvestUseTypeReducer from '../containers/harvestUseTypeSlice';
+import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
+import offlineDetectorReducer from '../containers/hooks/useOfflineDetector/offlineDetectorSlice';
 import irrigationTaskTypesReducer from '../containers/irrigationTaskTypesSlice';
+import managementPlanReducer from '../containers/managementPlanSlice';
+import mapLocationReducer from '../containers/mapSlice';
+import plantingManagementPlanReducer from '../containers/plantingManagementPlanSlice';
+import productReducer from '../containers/productSlice';
 import revenueTypeReducer from '../containers/revenueTypeSlice';
+import rowMethodReducer from '../containers/rowMethodSlice';
+import sensorReadingTypesReducer from '../containers/sensorReadingTypesSlice';
+import showedSpotlightReducer from '../containers/showedSpotlightSlice';
+import cleaningTaskReducer from '../containers/slice/taskSlice/cleaningTaskSlice';
+import fieldWorkTaskReducer from '../containers/slice/taskSlice/fieldWorkTaskSlice';
+import harvestTaskReducer from '../containers/slice/taskSlice/harvestTaskSlice';
+import irrigationTaskReducer from '../containers/slice/taskSlice/irrigationTaskSlice';
+import pestControlTaskReducer from '../containers/slice/taskSlice/pestControlTaskSlice';
+import plantTaskReducer from '../containers/slice/taskSlice/plantTaskSlice';
+import soilAmendmentTaskReducer from '../containers/slice/taskSlice/soilAmendmentTaskSlice';
+import transplantTaskReducer from '../containers/slice/taskSlice/transplantTaskSlice';
+import taskReducer from '../containers/taskSlice';
+import taskTypeReducer from '../containers/taskTypeSlice';
+import { api } from './api/apiSlice';
 
 import { ActionTypes } from './actionTypes';
 // all the initial state for the forms
@@ -238,6 +239,7 @@ const tempStateReducer = combineReducers({
 
 // combine all reducers here and pass it to application
 const appReducer = combineReducers({
+  [api.reducerPath]: api.reducer,
   profileForms: combineForms(
     {
       addInfo: addUserInfo,

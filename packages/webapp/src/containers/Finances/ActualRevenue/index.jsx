@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
@@ -9,6 +9,7 @@ import Layout from '../../../components/Layout';
 import PageTitle from '../../../components/PageTitle/v2';
 import { AddLink, Semibold } from '../../../components/Typography';
 import { SUNDAY } from '../../../util/dateRange';
+import { cropSelector } from '../../cropSlice';
 import { cropVarietiesSelector } from '../../cropVarietySlice';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
@@ -33,6 +34,7 @@ export default function ActualRevenue({ history, match }) {
   const sales = useSelector(salesSelector);
   const allRevenueTypes = useSelector(allRevenueTypesSelector);
   const cropVarieties = useSelector(cropVarietiesSelector);
+  const crops = useSelector(cropSelector);
   const { startDate: fromDate, endDate: toDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
 
   const filteredSales = useMemo(
@@ -40,7 +42,7 @@ export default function ActualRevenue({ history, match }) {
     [sales, fromDate, toDate],
   );
   const revenueItems = useMemo(
-    () => mapSalesToRevenueItems(filteredSales, allRevenueTypes, cropVarieties),
+    () => mapSalesToRevenueItems(filteredSales, allRevenueTypes, cropVarieties, crops),
     [filteredSales, allRevenueTypes, cropVarieties],
   );
   const revenueForWholeFarm = useMemo(

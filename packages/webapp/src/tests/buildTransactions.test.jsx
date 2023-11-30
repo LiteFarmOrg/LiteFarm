@@ -193,18 +193,12 @@ const testData = {
       crop_id: 168,
       farm_id: '58079f32-6222-11ee-be35-0242ac180006',
       crop_variety_name: 'Abiu',
-      crop: {
-        crop_translation_key: 'ABIU',
-      },
     },
     {
       crop_variety_id: 'e19e81de-6e16-11ee-8cc5-0242ac180005',
       crop_id: 31,
       farm_id: '58079f32-6222-11ee-be35-0242ac180006',
       crop_variety_name: 'Abricot',
-      crop: {
-        crop_translation_key: 'ABRICOT',
-      },
     },
   ],
   users: [
@@ -219,6 +213,16 @@ const testData = {
       first_name: 'Will',
       last_name: 'Turner',
       farm_id: '58079f32-6222-11ee-be35-0242ac180006',
+    },
+  ],
+  crops: [
+    {
+      crop_id: 168,
+      crop_translation_key: 'ABIU',
+    },
+    {
+      crop_id: 31,
+      crop_translation_key: 'ABRICOT',
     },
   ],
 };

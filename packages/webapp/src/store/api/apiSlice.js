@@ -40,7 +40,17 @@ export const api = createApi({
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: ['Sale', 'Expense'],
+  tagTypes: [
+    'Sale',
+    'Expense',
+    'ExpenseType',
+    'RevenueType',
+    'Task',
+    'TaskType',
+    'CropVariety',
+    'Crop',
+    'ManagementPlan',
+  ],
   endpoints: (build) => ({
     getSales: build.query({
       query: (farmId) => `${salesURL}/${farmId}`,
@@ -52,24 +62,31 @@ export const api = createApi({
     }),
     getExpenseTypes: build.query({
       query: (farmId) => `${expenseTypeUrl}/farm/${farmId}`,
+      providesTags: ['ExpenseType'],
     }),
     getRevenueTypes: build.query({
       query: (farmId) => `${revenueTypeUrl}/farm/${farmId}`,
+      providesTags: ['RevenueType'],
     }),
     getTasks: build.query({
       query: (farmId) => `${taskUrl}/${farmId}`,
+      providesTags: ['Task'],
     }),
     getTaskTypes: build.query({
       query: (farmId) => `${taskTypeUrl}/farm/${farmId}`,
+      providesTags: ['TaskType'],
     }),
     getCropVarieties: build.query({
       query: (farmId) => `${cropVarietyURL}/farm/${farmId}`,
+      providesTags: ['CropVariety'],
     }),
     getCrops: build.query({
       query: (farmId) => `${cropURL}/farm/${farmId}?fetch_all=false`,
+      providesTags: ['Crop'],
     }),
     getManagementPlans: build.query({
       query: (farmId) => `${managementPlanURL}/farm/${farmId}`,
+      providesTags: ['ManagementPlan'],
     }),
     addSale: build.mutation({
       query: (sale) => ({ url: salesURL, method: 'POST', body: sale }),

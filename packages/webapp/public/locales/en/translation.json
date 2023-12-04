@@ -10,7 +10,7 @@
     "FARM_NAME": "Farm name",
     "FARM_NAME_ERROR": "Farm name character limit exceeded",
     "INVALID_FARM_LOCATION": "No country for this location",
-    "LOCATING": "Locating...",
+    "LOCATING": "Locating...",,
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "ADD_PRODUCT": {

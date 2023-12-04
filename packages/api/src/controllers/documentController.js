@@ -71,6 +71,7 @@ const documentController = {
           .patch({ archived: req.body.archived });
         return result ? res.sendStatus(200) : res.status(404).send('Document not found');
       } catch (error) {
+        console.error(error);
         return res.status(400).json({ error });
       }
     };

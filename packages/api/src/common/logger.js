@@ -1,9 +1,19 @@
-import winston from 'winston';
+import winston, { format } from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
+
+const { errors, json, combine } = format;
+
+// Add the error message as an enumerable property to return with res.json({ error })
+const enumerateErrorMessage = format((info) => {
+  if (info instanceof Error) {
+    info.error = { message: info.message };
+  }
+  return info;
+});
 
 const logger = winston.createLogger({
   level: 'info',
-  format: winston.format.json(),
+  format: combine(enumerateErrorMessage(), json()),
   defaultMeta: { service: 'user-service' },
   transports: [
     //
@@ -23,7 +33,7 @@ const logger = winston.createLogger({
 if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new winston.transports.Console({
-      format: winston.format.simple(),
+      format: combine(errors(), json()),
     }),
   );
 }

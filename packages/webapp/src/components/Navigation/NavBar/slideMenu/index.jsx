@@ -1,51 +1,27 @@
-import React from 'react';
 import { ReactComponent as Logo } from '../../../../assets/images/navbar/nav-logo.svg';
 import { ReactComponent as VectorUp } from '../../../../assets/images/navbar/vector-up.svg';
 import { ReactComponent as VectorDown } from '../../../../assets/images/navbar/vector-down.svg';
 import { useTranslation } from 'react-i18next';
-import { makeStyles } from '@mui/styles';
 import { List, ListItem, ListItemText } from '@mui/material';
 import { isAdminSelector } from '../../../../containers/userFarmSlice';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    width: '204px',
-  },
-  logo: {
-    margin: '16px 0 32px 24px',
-    cursor: 'pointer',
-  },
-  listItem: {
-    paddingLeft: theme.spacing(3),
-  },
-  ListItemText: {
-    fontSize: '16px',
-  },
-  subListItem: {
-    paddingLeft: theme.spacing(7),
-  },
-  subListItemText: {
-    fontSize: '14px',
-  },
-}));
+import styles from './styles.module.scss';
 
 function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinances }) {
   const { t } = useTranslation();
-  const classes = useStyles();
   const handleClick = (link) => {
     history.push(link);
     closeDrawer();
   };
   const isAdmin = useSelector(isAdminSelector);
   return (
-    <div role="presentation" className={classes.container}>
+    <div role="presentation" className={styles.container}>
       <List>
-        <Logo onClick={() => handleClick('/')} alt={'logo'} className={classes.logo} />
-        <ListItem className={classes.listItem} button onClick={toggleManage}>
+        <Logo onClick={() => handleClick('/')} alt={'logo'} className={styles.logo} />
+        <ListItem className={styles.listItem} button onClick={toggleManage}>
           <ListItemText
-            classes={{ primary: classes.ListItemText }}
+            classes={{ primary: styles.ListItemText }}
             primary={t('SLIDE_MENU.MANAGE')}
           />
           {manageOpen ? <VectorUp /> : <VectorDown />}
@@ -53,31 +29,31 @@ function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinance
         {manageOpen && (
           <>
             <ListItem
-              className={classes.subListItem}
+              className={styles.subListItem}
               button
               onClick={() => {
                 handleClick('/crop_catalogue');
               }}
             >
               <ListItemText
-                classes={{ primary: classes.subListItemText }}
+                classes={{ primary: styles.subListItemText }}
                 primary={t('SLIDE_MENU.CROPS')}
               />
             </ListItem>
-            <ListItem className={classes.subListItem} button onClick={() => handleClick('/tasks')}>
+            <ListItem className={styles.subListItem} button onClick={() => handleClick('/tasks')}>
               <ListItemText
-                classes={{ primary: classes.subListItemText }}
+                classes={{ primary: styles.subListItemText }}
                 primary={t('SLIDE_MENU.TASKS')}
               />
             </ListItem>
             {isAdmin && (
               <ListItem
-                className={classes.subListItem}
+                className={styles.subListItem}
                 button
                 onClick={() => handleClick('/documents')}
               >
                 <ListItemText
-                  classes={{ primary: classes.subListItemText }}
+                  classes={{ primary: styles.subListItemText }}
                   primary={t('SLIDE_MENU.DOCUMENTS')}
                 />
               </ListItem>
@@ -85,17 +61,17 @@ function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinance
           </>
         )}
         {showFinances && (
-          <ListItem className={classes.listItem} button onClick={() => handleClick('/Finances')}>
+          <ListItem className={styles.listItem} button onClick={() => handleClick('/Finances')}>
             <ListItemText
-              classes={{ primary: classes.ListItemText }}
+              classes={{ primary: styles.ListItemText }}
               primary={t('SLIDE_MENU.FINANCES')}
             />
           </ListItem>
         )}
 
-        <ListItem className={classes.listItem} button onClick={() => handleClick('/Insights')}>
+        <ListItem className={styles.listItem} button onClick={() => handleClick('/Insights')}>
           <ListItemText
-            classes={{ primary: classes.ListItemText }}
+            classes={{ primary: styles.ListItemText }}
             primary={t('SLIDE_MENU.INSIGHTS')}
           />
         </ListItem>

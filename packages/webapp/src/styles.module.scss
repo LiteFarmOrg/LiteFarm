@@ -21,6 +21,13 @@
   flex-grow: 1;
   min-height: 100vh;
   min-height: -webkit-fill-available;
+
+  @media only screen and (min-width: 415px) {
+    display: grid;
+    grid-template-columns: 204px;
+    grid-template-rows: var(--global-navbar-height);
+    align-items: flex-start;
+  }
 }
 
 .app {
@@ -29,9 +36,23 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+
+  @media only screen and (min-width: 415px) {
+    display: grid;
+    grid-row: 2 / 3;
+    overflow-y: auto;
+  }
 }
 
 .root {
   width: calc(100vw - 48px);
   max-width: 976px;
+}
+
+.mainMenu {
+  display: none;
+
+  @media only screen and (min-width: 415px) {
+    display: block;
+  }
 }

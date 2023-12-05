@@ -21,6 +21,10 @@
   &:hover {
     background-color: transparent;
   }
+
+  @media only screen and (min-width: 415px) {
+    display: none;
+  }
 }
 
 .icons {

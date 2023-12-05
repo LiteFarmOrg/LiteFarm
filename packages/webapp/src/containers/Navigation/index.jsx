@@ -42,7 +42,6 @@ const NavBar = (props) => {
         resetSpotlight={resetSpotlight}
         showSwitchFarm={numberOfUserFarm > 1}
         history={history}
-        showFinances={isAdmin}
       />
     </Suspense>
   ) : (

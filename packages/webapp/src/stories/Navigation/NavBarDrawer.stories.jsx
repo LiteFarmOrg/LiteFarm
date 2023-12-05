@@ -1,7 +1,7 @@
 import React from 'react';
 import { PureProfileFloaterComponent } from '../../components/Navigation/Floater/ProfileFloater';
 import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
-import SlideMenu from '../../components/Navigation/NavBar/slideMenu';
+import MainMenu from '../../components/Navigation/NavBar/MainMenu';
 
 export default {
   title: 'Components/Navbar/Drawer',
@@ -9,14 +9,14 @@ export default {
   component: PureProfileFloaterComponent,
 };
 
-export const WithManageMenuOpenAndFinance = ((args) => <SlideMenu {...args} />).bind({});
-WithManageMenuOpenAndFinance.args = {
+export const WithFinance = ((args) => <MainMenu {...args} />).bind({});
+WithFinance.args = {
   manageOpen: true,
-  showFinances: true,
+  isAdmin: true,
 };
 
-export const WithoutManageMenuOpenOrFinance = ((args) => <SlideMenu {...args} />).bind({});
-WithoutManageMenuOpenOrFinance.args = {
+export const WithoutFinance = ((args) => <MainMenu {...args} />).bind({});
+WithoutFinance.args = {
   manageOpen: false,
-  showFinances: false,
+  isAdmin: false,
 };

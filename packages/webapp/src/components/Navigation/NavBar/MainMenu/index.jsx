@@ -1,22 +1,27 @@
+import { useState } from 'react';
+import clsx from 'clsx';
 import { ReactComponent as Logo } from '../../../../assets/images/navbar/nav-logo.svg';
 import { ReactComponent as VectorUp } from '../../../../assets/images/navbar/vector-up.svg';
 import { ReactComponent as VectorDown } from '../../../../assets/images/navbar/vector-down.svg';
 import { useTranslation } from 'react-i18next';
 import { List, ListItem, ListItemText } from '@mui/material';
-import { isAdminSelector } from '../../../../containers/userFarmSlice';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 
-function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinances }) {
+function PureMainMenu({ history, closeDrawer, isAdmin, classes = {} }) {
+  const [manageOpen, setManageOpen] = useState(true);
+  const toggleManage = () => {
+    setManageOpen(!manageOpen);
+  };
+
   const { t } = useTranslation();
   const handleClick = (link) => {
     history.push(link);
-    closeDrawer();
+    closeDrawer?.();
   };
-  const isAdmin = useSelector(isAdminSelector);
+
   return (
-    <div role="presentation" className={styles.container}>
+    <div role="presentation" className={clsx(styles.container, classes.container)}>
       <List>
         <Logo onClick={() => handleClick('/')} alt={'logo'} className={styles.logo} />
         <ListItem className={styles.listItem} button onClick={toggleManage}>
@@ -60,7 +65,7 @@ function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinance
             )}
           </>
         )}
-        {showFinances && (
+        {isAdmin && (
           <ListItem className={styles.listItem} button onClick={() => handleClick('/Finances')}>
             <ListItemText
               classes={{ primary: styles.ListItemText }}
@@ -80,13 +85,10 @@ function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinance
   );
 }
 
-export default SlideMenu;
+export default PureMainMenu;
 
-SlideMenu.prototype = {
+PureMainMenu.propTypes = {
   history: PropTypes.object,
-  manageOpen: PropTypes.bool,
   closeDrawer: PropTypes.func,
-  toggleManage: PropTypes.func,
-  setDefaultDateRange: PropTypes.func,
-  showFinances: PropTypes.bool,
+  isAdmin: PropTypes.bool,
 };

@@ -21,7 +21,7 @@ import IconButton from '@mui/material/IconButton';
 import { BiMenu } from 'react-icons/bi';
 import { colors } from '../../../assets/theme';
 import { ClickAwayListener, SwipeableDrawer } from '@mui/material';
-import SlideMenu from './slideMenu';
+import MainMenu from '../../../containers/Navigation/MainMenu';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
@@ -97,7 +97,6 @@ export default function PureNavBar({
   showNotification,
   resetSpotlight,
   history,
-  showFinances,
   defaultOpenFloater,
 }) {
   const classes = useStyles();
@@ -123,10 +122,6 @@ export default function PureNavBar({
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const closeDrawer = () => setIsDrawerOpen(false);
   const burgerMenuOnClick = () => setIsDrawerOpen((prev) => !prev);
-  const [manageOpen, setManageOpen] = useState(true);
-  const toggleManage = () => {
-    setManageOpen(!manageOpen);
-  };
   const selectedLanguage = getLanguageFromLocalStorage();
 
   //Floater
@@ -250,14 +245,7 @@ export default function PureNavBar({
           onClose={() => setIsDrawerOpen(false)}
           onOpen={() => setIsDrawerOpen(true)}
         >
-          <SlideMenu
-            history={history}
-            manageOpen={manageOpen}
-            closeDrawer={closeDrawer}
-            toggleManage={toggleManage}
-            setIsDrawerOpen={setIsDrawerOpen}
-            showFinances={showFinances}
-          />
+          <MainMenu history={history} closeDrawer={closeDrawer} />
         </SwipeableDrawer>
         <Logo history={history} />
         {showNotification ? (
@@ -360,7 +348,5 @@ PureNavBar.propTypes = {
   showSpotLight: PropTypes.bool,
   resetSpotlight: PropTypes.func,
   history: PropTypes.object,
-  setDefaultDateRange: PropTypes.func,
-  showFinances: PropTypes.bool,
   defaultOpenFloater: PropTypes.oneOf(['farm', 'notification', 'profile']),
 };

@@ -53,8 +53,10 @@ services:
       - redis-data:/data
     ports:
       - 6380:6379
+    profiles:
+      - export
 
-  export_server:
+  export:
     image: litefarm/node-awscli:0.0.2
     restart: unless-stopped
     volumes:
@@ -79,6 +81,8 @@ services:
       - 9229:9229 # for debugging
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    profiles:
+      - export
 
   imaginary:
     image: h2non/imaginary:1.2.4

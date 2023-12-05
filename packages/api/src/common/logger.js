@@ -52,7 +52,7 @@ class SentryTransport extends Transport {
 
 // Report Errors to Sentry
 if (process.env.NODE_ENV !== 'development') {
-  logger.add(new SentryTransport({ level: 'error' }));
+  logger.add(new SentryTransport());
 }
 
 console.log = (...args) => logger.info.call(logger, ...args);

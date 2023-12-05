@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { Suspense } from 'react';
 import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.jsx';
@@ -20,12 +21,16 @@ import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
+import SlideMenu from './containers/Navigation/SlideMenu';
 import styles from './styles.module.scss';
 
 function App() {
   return (
     <>
       <div className={clsx(styles.container)}>
+        <Suspense fallback={null}>
+          <SlideMenu history={history} classes={{ container: styles.slideMenu }} />
+        </Suspense>
         <NavBar history={history} />
         <div className={styles.app}>
           <OfflineDetector />

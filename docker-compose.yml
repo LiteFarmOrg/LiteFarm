@@ -38,8 +38,12 @@ services:
     entrypoint: >
       /bin/sh -c "
       /usr/bin/mc alias set myminio http://minio:9000 myminioadmin myminioadmin;
-      /usr/bin/mc mb myminio/minio-dev;
-      /usr/bin/mc anonymous set public myminio/minio-dev;"
+      if ! /usr/bin/mc ls myminio/minio-dev 2>/dev/null; then
+        /usr/bin/mc mb myminio/minio-dev;
+        /usr/bin/mc anonymous set public myminio/minio-dev;
+      else
+        echo 'Successfully confirmed the 'minio-dev' bucket is in place';
+      fi"
 
   redis:
     image: redis:7.0-alpine

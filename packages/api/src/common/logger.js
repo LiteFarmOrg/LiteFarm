@@ -1,5 +1,7 @@
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
+import Transport from 'winston-transport';
+import * as Sentry from '@sentry/node';
 
 const logger = winston.createLogger({
   level: 'info',
@@ -26,6 +28,31 @@ if (process.env.NODE_ENV !== 'production') {
       format: winston.format.simple(),
     }),
   );
+}
+
+// Create custom transport for Sentry reporting
+class SentryTransport extends Transport {
+  constructor(opts) {
+    super(opts);
+  }
+
+  log(info, callback) {
+    setImmediate(() => {
+      this.emit('logged', info);
+    });
+
+    // Only report if a true Error object
+    if (info instanceof Error) {
+      Sentry.captureException(info);
+    }
+
+    callback();
+  }
+}
+
+// Report Errors to Sentry
+if (process.env.NODE_ENV !== 'development') {
+  logger.add(new SentryTransport());
 }
 
 console.log = (...args) => logger.info.call(logger, ...args);

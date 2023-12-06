@@ -24,7 +24,7 @@
 
   @media only screen and (min-width: 415px) {
     display: grid;
-    grid-template-columns: 204px;
+    grid-template-columns: var(--global-side-menu-width);
     grid-template-rows: var(--global-navbar-height);
     align-items: flex-start;
   }
@@ -38,9 +38,8 @@
   flex-direction: column;
 
   @media only screen and (min-width: 415px) {
-    display: grid;
     grid-row: 2 / 3;
-    overflow-y: auto;
+    align-self: stretch;
   }
 }
 

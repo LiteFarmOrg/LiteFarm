@@ -1,10 +1,10 @@
 .pageWrapper {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: calc(100% - var(--global-side-menu-width));
   align-items: stretch;
   position: absolute;
-  left: 0;
+  right: 0;
   top: 0;
   overflow: hidden;
 }
@@ -14,8 +14,8 @@
   z-index: 1;
   background: white;
   position: absolute;
-  left: 0;
-  width: 100%;
+  right: 0;
+  width: calc(100% - var(--global-side-menu-width));
 }
 
 .mapContainer {

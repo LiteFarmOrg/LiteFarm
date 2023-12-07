@@ -17,10 +17,12 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import PureSlideMenu from '../../components/Navigation/NavBar/slideMenu';
 import { isAdminSelector } from '../userFarmSlice';
+import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 
 function SlideMenu(props) {
+  const isFarmSelected = useIsFarmSelected();
   const isAdmin = useSelector(isAdminSelector);
-  return <PureSlideMenu isAdmin={isAdmin} {...props} />;
+  return isFarmSelected && <PureSlideMenu isAdmin={isAdmin} {...props} />;
 }
 
 export default SlideMenu;

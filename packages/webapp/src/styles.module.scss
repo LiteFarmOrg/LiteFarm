@@ -15,18 +15,11 @@
 
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100vw;
   flex-grow: 1;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
 
-  @media only screen and (min-width: 415px) {
-    display: grid;
-    grid-template-columns: var(--global-side-menu-width);
-    grid-template-rows: var(--global-navbar-height);
-    align-items: flex-start;
+  @media only screen and (max-width: 414px) {
+    justify-content: center;
   }
 }
 
@@ -36,11 +29,6 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-
-  @media only screen and (min-width: 415px) {
-    grid-row: 2 / 3;
-    align-self: stretch;
-  }
 }
 
 .root {
@@ -49,9 +37,21 @@
 }
 
 .mainMenu {
-  display: none;
+  width: var(--global-side-menu-width);
+  height: 100vh;
+  position: sticky;
+  top: 0;
 
-  @media only screen and (min-width: 415px) {
-    display: block;
+  @media only screen and (max-width: 414px) {
+    display: none;
   }
+}
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
 }

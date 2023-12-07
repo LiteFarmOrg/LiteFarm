@@ -11,7 +11,7 @@
     "FARM_NAME_ERROR": "Farm name character limit exceeded",
     "INVALID_FARM_LOCATION": "No country for this location",
     "LOCATING": "Locating...",,
-    "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
+    "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm",
   },
   "ADD_PRODUCT": {
     "PRESS_ENTER": "Type and press enter to add...",

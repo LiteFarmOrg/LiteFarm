@@ -17,10 +17,12 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import PureMainMenu from '../../components/Navigation/NavBar/MainMenu';
 import { isAdminSelector } from '../userFarmSlice';
+import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 
 function MainMenu(props) {
+  const isFarmSelected = useIsFarmSelected();
   const isAdmin = useSelector(isAdminSelector);
-  return <PureMainMenu isAdmin={isAdmin} {...props} />;
+  return isFarmSelected && <PureMainMenu isAdmin={isAdmin} {...props} />;
 }
 
 export default MainMenu;

@@ -20,7 +20,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import { BiMenu } from 'react-icons/bi';
 import { ClickAwayListener, SwipeableDrawer } from '@mui/material';
-import MainMenu from '../../../containers/Navigation/MainMenu';
+import SlideMenu from '../../../containers/Navigation/SlideMenu';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
@@ -183,7 +183,7 @@ export default function PureNavBar({
           onClose={() => setIsDrawerOpen(false)}
           onOpen={() => setIsDrawerOpen(true)}
         >
-          <MainMenu history={history} closeDrawer={closeDrawer} />
+          <SlideMenu history={history} closeDrawer={closeDrawer} />
         </SwipeableDrawer>
         <Logo history={history} />
         {showNotification ? (

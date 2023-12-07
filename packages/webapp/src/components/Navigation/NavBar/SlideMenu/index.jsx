@@ -8,7 +8,7 @@ import { List, ListItem, ListItemText } from '@mui/material';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 
-function PureMainMenu({ history, closeDrawer, isAdmin, classes = {} }) {
+function PureSlideMenu({ history, closeDrawer, isAdmin, classes = {} }) {
   const [manageOpen, setManageOpen] = useState(true);
   const toggleManage = () => {
     setManageOpen(!manageOpen);
@@ -85,9 +85,9 @@ function PureMainMenu({ history, closeDrawer, isAdmin, classes = {} }) {
   );
 }
 
-export default PureMainMenu;
+export default PureSlideMenu;
 
-PureMainMenu.propTypes = {
+PureSlideMenu.propTypes = {
   history: PropTypes.object,
   closeDrawer: PropTypes.func,
   isAdmin: PropTypes.bool,

@@ -54,4 +54,8 @@
   flex-grow: 1;
   min-height: 100vh;
   min-height: -webkit-fill-available;
+
+  @media only screen and (max-width: 414px) {
+    width: 100%;
+  }
 }

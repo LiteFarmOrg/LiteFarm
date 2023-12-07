@@ -39,7 +39,7 @@ function getImaginaryUrl(
   return reqUrl.toString();
 }
 
-const DO_ENDPOINT = 'nyc3.digitaloceanspaces.com';
+const DO_ENDPOINT = 'https://nyc3.digitaloceanspaces.com';
 const MINIO_ENDPOINT = process.env.MINIO_ENDPOINT;
 
 const s3 = new S3Client({

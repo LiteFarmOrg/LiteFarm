@@ -26,29 +26,27 @@ import styles from './styles.module.scss';
 
 function App() {
   return (
-    <>
-      <div className={clsx(styles.container)}>
-        <Suspense fallback={null}>
-          <SlideMenu history={history} classes={{ container: styles.slideMenu }} />
-        </Suspense>
-        <div className={styles.mainColumn}>
-          <NavBar history={history} />
-          <div className={styles.app}>
-            <OfflineDetector />
-            <SnackbarProvider
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-              }}
-              classes={{ root: styles.root, containerRoot: styles.root }}
-              content={(key, message) => <NotistackSnackbar id={key} message={message} />}
-            >
-              <Routes />
-            </SnackbarProvider>
-          </div>
+    <div className={clsx(styles.container)}>
+      <Suspense fallback={null}>
+        <SlideMenu history={history} classes={{ container: styles.slideMenu }} />
+      </Suspense>
+      <div className={clsx(styles.mainColumn)}>
+        <NavBar history={history} />
+        <div className={styles.app}>
+          <OfflineDetector />
+          <SnackbarProvider
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            classes={{ root: styles.root, containerRoot: styles.root }}
+            content={(key, message) => <NotistackSnackbar id={key} message={message} />}
+          >
+            <Routes />
+          </SnackbarProvider>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

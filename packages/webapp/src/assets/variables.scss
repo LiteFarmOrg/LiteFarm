@@ -2,15 +2,14 @@
     // GLOBAL CSS VARIABLES
     --global-navbar-height: 64px;
     --global-map-header-height: 48px;
-    --global-side-menu-width: 204px; // TODO: LF-3911 update to 176px
+    --global-side-menu-width: 204px; // LF-3911 TODO: update to 176px
 }
 
-//TODO: LF-3912 uncomment
-// @media only screen and (max-width: 1024px) {
-//     :root {
-//         --global-side-menu-width: 80px;
-//     }
-// }
+@media only screen and (max-width: 1024px) {
+    :root {
+        --global-side-menu-width: 80px;
+    }
+}
 
 @media only screen and (max-width: 414px) {
     :root {

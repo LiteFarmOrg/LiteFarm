@@ -41,6 +41,7 @@
   height: 100vh;
   position: sticky;
   top: 0;
+  overflow: hidden;
 
   @media only screen and (max-width: 414px) {
     display: none;
@@ -54,8 +55,5 @@
   flex-grow: 1;
   min-height: 100vh;
   min-height: -webkit-fill-available;
-
-  @media only screen and (max-width: 414px) {
-    width: 100%;
-  }
+  width: calc(100vw - var(--global-side-menu-width));
 }

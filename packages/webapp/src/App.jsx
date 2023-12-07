@@ -31,19 +31,21 @@ function App() {
         <Suspense fallback={null}>
           <SlideMenu history={history} classes={{ container: styles.slideMenu }} />
         </Suspense>
-        <NavBar history={history} />
-        <div className={styles.app}>
-          <OfflineDetector />
-          <SnackbarProvider
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
-            }}
-            classes={{ root: styles.root, containerRoot: styles.root }}
-            content={(key, message) => <NotistackSnackbar id={key} message={message} />}
-          >
-            <Routes />
-          </SnackbarProvider>
+        <div className={styles.mainColumn}>
+          <NavBar history={history} />
+          <div className={styles.app}>
+            <OfflineDetector />
+            <SnackbarProvider
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              classes={{ root: styles.root, containerRoot: styles.root }}
+              content={(key, message) => <NotistackSnackbar id={key} message={message} />}
+            >
+              <Routes />
+            </SnackbarProvider>
+          </div>
         </div>
       </div>
     </>

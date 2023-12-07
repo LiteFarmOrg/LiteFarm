@@ -21,7 +21,7 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = {} }) {
   };
 
   return (
-    <div role="presentation" className={clsx(styles.container, classes.container)}>
+    <div role="presentation" className={clsx(classes.container)}>
       <List>
         <Logo onClick={() => handleClick('/')} alt={'logo'} className={styles.logo} />
         <ListItem className={styles.listItem} button onClick={toggleManage}>

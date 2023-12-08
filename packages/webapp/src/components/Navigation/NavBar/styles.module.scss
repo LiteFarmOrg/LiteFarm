@@ -1,0 +1,85 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful;
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.menuButton {
+  position: absolute;
+  padding: 0;
+  left: 24px;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  @media only screen and (min-width: 415px) {
+    display: none;
+  }
+}
+
+.icons {
+  display: flex;
+  position: absolute;
+  right: 8px;
+}
+
+.appBar {
+  background: none;
+  box-shadow: none;
+  height: var(--global-navbar-height);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: flex-start;
+  flex-grow: 1;
+  align-items: center;
+
+  @media only screen and (min-width: 900px) {
+    justify-content: center;
+  }
+}
+
+.notificationButton {
+  transform: translateY(1px);
+}
+
+.iconButton {
+  margin: 8px;
+  padding: 0;
+}
+
+.burgerMenu {
+  font-size: 32px;
+  color: var(--teal700);
+
+  @media only screen and (min-width: 900px) {
+    font-size: 40px;
+  }
+}
+
+.green {
+  color: var(--teal700);
+}
+
+.p {
+  margin-bottom: 12px;
+}
+
+.black {
+  color: var(--grey900);
+}
+
+.drawerRoot {
+  z-index: 1302 !important;
+}

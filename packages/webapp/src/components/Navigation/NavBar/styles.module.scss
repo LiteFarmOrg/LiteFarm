@@ -34,8 +34,8 @@
 }
 
 .appBar {
-  background: none;
-  box-shadow: none;
+  background-color: var(--navigationBackground);
+  box-shadow: 0px 2px 0px 0px #0000000D;
   height: var(--global-navbar-height);
 }
 

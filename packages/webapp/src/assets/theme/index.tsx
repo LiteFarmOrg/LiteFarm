@@ -80,8 +80,8 @@ const theme = createTheme({
       main: colors.red700,
     },
     background: {
-      default: '#fff',
-      paper: '#fff',
+      default: '#FAFCFB',
+      paper: '#FAFCFB',
     },
     text: {
       primary: colors.grey900,
@@ -117,7 +117,7 @@ const theme = createTheme({
         },
         body: {
           height: '100%',
-          backgroundColor: '#fff',
+          backgroundColor: '#FAFCFB',
           overflowX: 'hidden',
           fontSize: '0.875rem',
         },

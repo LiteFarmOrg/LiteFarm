@@ -16,7 +16,7 @@
 
 .navBar {
   top: 0;
-  background: white;
+  @include gradient();
   width: 100%;
   max-width: 1024px;
   height: 76px;

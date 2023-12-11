@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     right: '8px',
   },
   appBar: {
-    background: 'none',
+    background: 'white',
     boxShadow: 'none',
     height: 'var(--global-navbar-height)',
     [theme.breakpoints.up('md')]: {

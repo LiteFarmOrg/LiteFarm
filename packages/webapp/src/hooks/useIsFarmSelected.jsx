@@ -20,20 +20,15 @@ import { userFarmSelector } from '../containers/userFarmSlice';
 import { isAuthenticated } from '../util/jwt';
 
 const useIsFarmSelected = () => {
-  const farm = useSelector(userFarmSelector);
+  const userFarm = useSelector(userFarmSelector);
+  const { has_consent, step_five } = userFarm || {};
   const farmState = useSelector(chooseFarmFlowSelector);
   const { isInvitationFlow } = farmState;
   const isUserAuthenticated = isAuthenticated();
 
   const isFarmSelected = useMemo(() => {
-    return (
-      isUserAuthenticated &&
-      farm &&
-      farm.has_consent &&
-      farm.step_five === true &&
-      !isInvitationFlow
-    );
-  }, [isUserAuthenticated, farm.has_consent, farm.step_five, isInvitationFlow]);
+    return isUserAuthenticated && has_consent && step_five === true && !isInvitationFlow;
+  }, [isUserAuthenticated, has_consent, step_five, isInvitationFlow]);
 
   return isFarmSelected;
 };

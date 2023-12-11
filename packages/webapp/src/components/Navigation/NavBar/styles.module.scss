@@ -50,6 +50,10 @@
   }
 }
 
+.centerContent {
+  justify-content: center;
+}
+
 .notificationButton {
   transform: translateY(1px);
 }
@@ -82,4 +86,16 @@
 
 .drawerRoot {
   z-index: 1302 !important;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.roomForHamburger {
+  margin-left: 36px;
+}
+
+.displayNone {
+  display: none;
 }

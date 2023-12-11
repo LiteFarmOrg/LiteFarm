@@ -13,21 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import styles from './styles.module.scss';
-import MiddleLogo from '../../../assets/images/middle_logo.svg';
+import { Suspense } from 'react';
+import PureNavBar from '../NavBar';
 
-export default function NoFarmNavBar({ history }) {
+export default function NoFarmNavBar({ history, hidden }) {
   return (
-    <nav className={styles.navBar}>
-      <div className={styles.itemContainer}>
-        <img
-          src={MiddleLogo}
-          alt="Logo"
-          className={styles.middleLogo}
-          onClick={() => history.push('/')}
-        />
-      </div>
-    </nav>
+    <Suspense fallback={null}>
+      <PureNavBar history={history} justLogo hidden={hidden} />
+    </Suspense>
   );
 }

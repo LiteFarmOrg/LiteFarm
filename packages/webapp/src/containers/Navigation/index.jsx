@@ -13,15 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
-
 import PureNavBar from '../../components/Navigation/NavBar';
 import { userFarmLengthSelector } from '../userFarmSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
+import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 
 const NavBar = (props) => {
   const { history, dispatch, numberOfUserFarm, showedSpotlight } = props;
@@ -30,6 +30,15 @@ const NavBar = (props) => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
   const isFarmSelected = useIsFarmSelected();
+  const [isCustomSignupPage, setIsCustomSignupPage] = useState(
+    history.location?.state?.component === CUSTOM_SIGN_UP,
+  );
+  useEffect(() => {
+    let unlisten = history.listen(({ location }) => {
+      setIsCustomSignupPage(location?.state?.component === CUSTOM_SIGN_UP);
+    });
+    return () => unlisten();
+  }, [history]);
 
   return isFarmSelected ? (
     <Suspense fallback={<NoFarmNavBar />}>
@@ -42,7 +51,7 @@ const NavBar = (props) => {
       />
     </Suspense>
   ) : (
-    <NoFarmNavBar history={history} />
+    <NoFarmNavBar history={history} hidden={isCustomSignupPage} />
   );
 };
 

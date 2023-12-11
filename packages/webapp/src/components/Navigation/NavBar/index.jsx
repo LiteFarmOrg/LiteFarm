@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTheme } from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import PureProfileFloater from '../Floater/ProfileFloater';
@@ -30,6 +30,7 @@ import {
   NavBarNotificationSpotlightProvider,
 } from './NavbarSpotlightProvider';
 import Alert from '../../../containers/Navigation/Alert';
+import clsx from 'clsx';
 import styles from './styles.module.scss';
 
 export default function PureNavBar({
@@ -38,6 +39,8 @@ export default function PureNavBar({
   resetSpotlight,
   history,
   defaultOpenFloater,
+  justLogo = false,
+  hidden = false,
 }) {
   const { t } = useTranslation([
     'translation',
@@ -163,108 +166,114 @@ export default function PureNavBar({
     }
   };
 
+  const content = (
+    <>
+      <IconButton
+        data-cy="navbar-hamburger"
+        edge="start"
+        className={styles.menuButton}
+        color="inherit"
+        aria-label="open drawer"
+        onClick={burgerMenuOnClick}
+        size="large"
+      >
+        <BiMenu className={styles.burgerMenu} />
+      </IconButton>
+      <SwipeableDrawer
+        anchor={'left'}
+        open={isDrawerOpen}
+        classes={{ root: styles.drawerRoot }}
+        onClose={() => setIsDrawerOpen(false)}
+        onOpen={() => setIsDrawerOpen(true)}
+      >
+        <SlideMenu history={history} closeDrawer={closeDrawer} />
+      </SwipeableDrawer>
+      <Logo history={history} />
+      {showNotification ? (
+        <NavBarNotificationSpotlightProvider open={showNotification} onFinish={resetSpotlight} />
+      ) : (
+        <NavbarSpotlightProvider open={showSpotLight} onFinish={resetSpotlight} />
+      )}
+      <ClickAwayListener onClickAway={onClickAway}>
+        <div className={styles.icons}>
+          <IconButton
+            data-cy="home-notificationButton"
+            aria-label="notification icon"
+            color="inherit"
+            id="zerothStepNavBar"
+            onClick={notificationIconClick}
+            className={styles.iconButton}
+            classes={{ root: styles.notificationButton }}
+            size="large"
+          >
+            <NotificationIcon />
+            <Alert />
+          </IconButton>
+
+          <PureMyFarmFloater
+            openProfile={isFarmFloaterOpen}
+            farmInfoClick={farmInfoClick}
+            farmMapClick={farmMapClick}
+            peopleClick={peopleClick}
+            certificationClick={certificationClick}
+          >
+            <IconButton
+              data-cy="home-farmButton"
+              aria-label="farm-icon"
+              color="inherit"
+              id="firstStepNavBar"
+              className={styles.iconButton}
+              onClick={farmButtonOnClick}
+              size="large"
+            >
+              {getLanguageFarmIcon(selectedLanguage)}
+            </IconButton>
+          </PureMyFarmFloater>
+
+          <IconButton
+            data-cy="home-taskButton"
+            aria-label="notification icon"
+            color="inherit"
+            id="secondStepNavBar"
+            onClick={taskIconClick}
+            className={styles.iconButton}
+            classes={{ root: styles.notificationButton }}
+            size="large"
+          >
+            <TaskIcon />
+          </IconButton>
+
+          <PureProfileFloater
+            openProfile={isProfileFloaterOpen}
+            helpClick={helpClick}
+            tutorialsClick={openTutorialsClick}
+            myInfoClick={myInfoClick}
+            logOutClick={logOutClick}
+            switchFarmClick={switchFarmClick}
+          >
+            <IconButton
+              data-cy="home-profileButton"
+              edge="end"
+              aria-label="profile icon"
+              color="inherit"
+              onClick={profileButtonOnClick}
+              id="thirdStepNavBar"
+              className={styles.iconButton}
+              classes={{ root: styles.profileButton }}
+              size="large"
+            >
+              <ProfilePicture />
+            </IconButton>
+          </PureProfileFloater>
+        </div>
+      </ClickAwayListener>
+    </>
+  );
+
   return (
-    <AppBar position="sticky" className={styles.appBar}>
-      <Toolbar className={styles.toolbar}>
-        <IconButton
-          data-cy="navbar-hamburger"
-          edge="start"
-          className={styles.menuButton}
-          color="inherit"
-          aria-label="open drawer"
-          onClick={burgerMenuOnClick}
-          size="large"
-        >
-          <BiMenu className={styles.burgerMenu} />
-        </IconButton>
-        <SwipeableDrawer
-          anchor={'left'}
-          open={isDrawerOpen}
-          classes={{ root: styles.drawerRoot }}
-          onClose={() => setIsDrawerOpen(false)}
-          onOpen={() => setIsDrawerOpen(true)}
-        >
-          <SlideMenu history={history} closeDrawer={closeDrawer} />
-        </SwipeableDrawer>
-        <Logo history={history} />
-        {showNotification ? (
-          <NavBarNotificationSpotlightProvider open={showNotification} onFinish={resetSpotlight} />
-        ) : (
-          <NavbarSpotlightProvider open={showSpotLight} onFinish={resetSpotlight} />
-        )}
-        <ClickAwayListener onClickAway={onClickAway}>
-          <div className={styles.icons}>
-            <IconButton
-              data-cy="home-notificationButton"
-              aria-label="notification icon"
-              color="inherit"
-              id="zerothStepNavBar"
-              onClick={notificationIconClick}
-              className={styles.iconButton}
-              classes={{ root: styles.notificationButton }}
-              size="large"
-            >
-              <NotificationIcon />
-              <Alert />
-            </IconButton>
-
-            <PureMyFarmFloater
-              openProfile={isFarmFloaterOpen}
-              farmInfoClick={farmInfoClick}
-              farmMapClick={farmMapClick}
-              peopleClick={peopleClick}
-              certificationClick={certificationClick}
-            >
-              <IconButton
-                data-cy="home-farmButton"
-                aria-label="farm-icon"
-                color="inherit"
-                id="firstStepNavBar"
-                className={styles.iconButton}
-                onClick={farmButtonOnClick}
-                size="large"
-              >
-                {getLanguageFarmIcon(selectedLanguage)}
-              </IconButton>
-            </PureMyFarmFloater>
-
-            <IconButton
-              data-cy="home-taskButton"
-              aria-label="notification icon"
-              color="inherit"
-              id="secondStepNavBar"
-              onClick={taskIconClick}
-              className={styles.iconButton}
-              classes={{ root: styles.notificationButton }}
-              size="large"
-            >
-              <TaskIcon />
-            </IconButton>
-
-            <PureProfileFloater
-              openProfile={isProfileFloaterOpen}
-              helpClick={helpClick}
-              tutorialsClick={openTutorialsClick}
-              myInfoClick={myInfoClick}
-              logOutClick={logOutClick}
-              switchFarmClick={switchFarmClick}
-            >
-              <IconButton
-                data-cy="home-profileButton"
-                edge="end"
-                aria-label="profile icon"
-                color="inherit"
-                onClick={profileButtonOnClick}
-                id="thirdStepNavBar"
-                className={styles.iconButton}
-                classes={{ root: styles.profileButton }}
-                size="large"
-              >
-                <ProfilePicture />
-              </IconButton>
-            </PureProfileFloater>
-          </div>
-        </ClickAwayListener>
+    <AppBar position="sticky" className={clsx(styles.appBar, hidden && styles.displayNone)}>
+      <Toolbar className={clsx(styles.toolbar, justLogo && styles.centerContent)}>
+        {justLogo ? <Logo history={history} /> : content}
       </Toolbar>
     </AppBar>
   );
@@ -272,11 +281,11 @@ export default function PureNavBar({
 
 const Logo = ({ history }) => {
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up('md'));
+  const isTouchDisplay = !useMediaQuery(theme.breakpoints.up('md'));
   return (
     <img
-      src={matches ? SmallLogo : SmallerLogo}
-      style={{ marginLeft: matches ? 0 : '36px', cursor: 'pointer' }}
+      src={isTouchDisplay ? SmallLogo : SmallerLogo}
+      className={clsx(styles.logo, isTouchDisplay && styles.roomForHamburger)}
       alt="Logo"
       onClick={() => history.push('/')}
     />

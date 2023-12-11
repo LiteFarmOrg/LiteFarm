@@ -43,7 +43,7 @@ const DO_ENDPOINT = 'nyc3.digitaloceanspaces.com';
 const MINIO_ENDPOINT = process.env.MINIO_ENDPOINT;
 
 const s3 = new S3Client({
-  endpoint: process.env.NODE_ENV === 'development' ? MINIO_ENDPOINT : DO_ENDPOINT,
+  endpoint: process.env.NODE_ENV === 'development' ? MINIO_ENDPOINT : `https://${DO_ENDPOINT}`,
   region: 'us-east-1',
   credentials: {
     accessKeyId: process.env.DO_SPACES_ACCESS_KEY_ID,

@@ -802,6 +802,7 @@ const managementPlanController = {
           ? res.status(200).send(removeCropVarietyFromManagementPlans(managementPlans))
           : res.status(404).send('Field crop not found');
       } catch (error) {
+        console.error(error);
         res.status(400).json({ error });
       }
     };

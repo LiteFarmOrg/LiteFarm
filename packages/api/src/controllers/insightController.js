@@ -159,6 +159,7 @@ const insightController = {
           res.status(200).send({});
         }
       } catch (error) {
+        console.error(error);
         res.status(400).json({ error });
       }
     };

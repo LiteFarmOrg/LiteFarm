@@ -22,6 +22,7 @@ export default {
         const result = await OrganicHistoryModel.query().context(req.auth).insert(req.body);
         return res.status(201).send(result);
       } catch (error) {
+        console.error(error);
         return res.status(400).json({ error });
       }
     };
@@ -36,6 +37,7 @@ export default {
         ? res.status(200).send(result)
         : res.status(404).send('Organic history not found');
     } catch (error) {
+      console.error(error);
       return res.status(400).json({ error });
     }
   },

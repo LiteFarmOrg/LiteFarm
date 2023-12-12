@@ -185,6 +185,7 @@ const taskController = {
       }
       return res.status(404).send('Tasks not found');
     } catch (error) {
+      console.error(error);
       return res.status(400).json({ error });
     }
   },
@@ -813,6 +814,7 @@ const taskController = {
 
       return res.status(200).send(result);
     } catch (error) {
+      console.error(error);
       return res.status(400).json({ error });
     }
   },

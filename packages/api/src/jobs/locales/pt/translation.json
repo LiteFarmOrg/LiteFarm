@@ -48,9 +48,9 @@
         "A": "Pesquisa de disponibilidade comercial",
         "B": "Documentação que comprove que as sementes não são organismos geneticamente modificados (OGMs)",
         "C": "Documentação que confirme que qualquer tratamento, como inoculantes ou revestimentos de sementes, esteja na lista de substâncias permitidas",
-        "PART_1": "Quando for utilizada",
-        "PART_2": "semente/muda não orgânica",
-        "PART_3": "a seguinte documentação deve estar disponível na inspeção"
+        "PART_1": “Quando for utilizada”,
+        "PART_2": "semente/muda não orgânica",,
+        "PART_3": "a seguinte documentação deve estar disponível na inspeção"  ,
       }
     },
     "REPORTING_PERIOD": "Período de Registro",

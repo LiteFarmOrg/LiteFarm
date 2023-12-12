@@ -10,7 +10,7 @@
     "FARM_NAME": "Nome do sítio/fazenda",
     "FARM_NAME_ERROR": "Limite de caracteres do nome do farm excedido",
     "INVALID_FARM_LOCATION": "Nenhum país para esta localização",
-    "LOCATING": "Localizando...",
+    "LOCATING": "Localizando...",,
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
   "ADD_PRODUCT": {

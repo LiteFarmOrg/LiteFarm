@@ -3,16 +3,9 @@ import { useTheme } from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import PureProfileFloater from '../Floater/ProfileFloater';
 import { ReactComponent as NotificationIcon } from '../../../assets/images/notif.svg';
-import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
-import { ReactComponent as MyFarmIconSpan } from '../../../assets/images/my-farm-es.svg';
-import { ReactComponent as MyFarmIconPort } from '../../../assets/images/my-farm-pt.svg';
-import { ReactComponent as MyFarmIconFren } from '../../../assets/images/my-farm-fr.svg';
-import { ReactComponent as TaskIcon } from '../../../assets/images/task_icon.svg';
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
-import PureMyFarmFloater from '../Floater/MyFarmFloater';
 import { logout } from '../../../util/jwt';
-import { useTranslation } from 'react-i18next';
 import SmallerLogo from '../../../assets/images/smaller_logo.svg';
 import SmallLogo from '../../../assets/images/small_logo.svg';
 import AppBar from '@mui/material/AppBar';
@@ -23,7 +16,6 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import SlideMenu from '../../../containers/Navigation/SlideMenu';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import {
   NavbarSpotlightProvider,
@@ -42,24 +34,6 @@ export default function PureNavBar({
   justLogo = false,
   hidden = false,
 }) {
-  const { t } = useTranslation([
-    'translation',
-    'crop',
-    'common',
-    'disease',
-    'task',
-    'expense',
-    'fertilizer',
-    'message',
-    'gender',
-    'role',
-    'crop_nutrients',
-    'harvest_uses',
-    'soil',
-    'certifications',
-    'crop_group',
-  ]);
-  const dispatch = useDispatch();
   //Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const closeDrawer = () => setIsDrawerOpen(false);
@@ -68,14 +42,12 @@ export default function PureNavBar({
 
   //Floater
   const [openFloater, setOpenFloater] = useState(defaultOpenFloater);
-  const [FARM, NOTIFICATION, PROFILE] = ['farm', 'notification', 'profile'];
-  const isFarmFloaterOpen = openFloater === FARM;
+  const [NOTIFICATION, PROFILE] = ['notification', 'profile'];
   const isNotificationFloaterOpen = openFloater === NOTIFICATION;
   const isProfileFloaterOpen = openFloater === PROFILE;
   const closeFloater = () => {
     setOpenFloater(null);
   };
-  const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
   const notificationIconClick = () => {
     closeFloater();
     const url = '/notifications';
@@ -86,51 +58,18 @@ export default function PureNavBar({
       history.push(url);
     }
   };
-  const taskIconClick = () => {
-    closeFloater();
-    history.push('/tasks');
-  };
   const profileButtonOnClick = () => setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
   const onClickAway = () => {
     setOpenFloater(null);
   };
 
-  const farmInfoClick = () => {
-    history.push({
-      pathname: '/farm',
-    });
-    closeFloater();
-  };
-  const farmMapClick = () => {
-    history.push('/map');
-    closeFloater();
-  };
-  const peopleClick = () => {
-    history.push({
-      pathname: '/people',
-    });
-    closeFloater();
-  };
-  const certificationClick = () => {
-    history.push('/certification');
-    closeFloater();
-  };
-
   //PureProfileFloater
-  const helpClick = () => {
-    history.push('/help');
-    closeFloater();
-  };
-  const switchFarmClick = () => {
-    history.push('/farm_selection');
+  const handleClick = (link) => {
+    history.push(link);
     closeFloater();
   };
   const logOutClick = () => {
     logout();
-    closeFloater();
-  };
-  const myInfoClick = () => {
-    history.push('/profile');
     closeFloater();
   };
   const openTutorialsClick = () => {
@@ -151,19 +90,6 @@ export default function PureNavBar({
   // Pure Notification Floater
   const notificationTeaserClick = () => {
     closeFloater();
-  };
-
-  const getLanguageFarmIcon = (language) => {
-    switch (language) {
-      case 'pt':
-        return <MyFarmIconPort />;
-      case 'es':
-        return <MyFarmIconSpan />;
-      case 'fr':
-        return <MyFarmIconFren />;
-      default:
-        return <MyFarmIcon />;
-    }
   };
 
   const content = (
@@ -209,47 +135,13 @@ export default function PureNavBar({
             <NotificationIcon />
             <Alert />
           </IconButton>
-
-          <PureMyFarmFloater
-            openProfile={isFarmFloaterOpen}
-            farmInfoClick={farmInfoClick}
-            farmMapClick={farmMapClick}
-            peopleClick={peopleClick}
-            certificationClick={certificationClick}
-          >
-            <IconButton
-              data-cy="home-farmButton"
-              aria-label="farm-icon"
-              color="inherit"
-              id="firstStepNavBar"
-              className={styles.iconButton}
-              onClick={farmButtonOnClick}
-              size="large"
-            >
-              {getLanguageFarmIcon(selectedLanguage)}
-            </IconButton>
-          </PureMyFarmFloater>
-
-          <IconButton
-            data-cy="home-taskButton"
-            aria-label="notification icon"
-            color="inherit"
-            id="secondStepNavBar"
-            onClick={taskIconClick}
-            className={styles.iconButton}
-            classes={{ root: styles.notificationButton }}
-            size="large"
-          >
-            <TaskIcon />
-          </IconButton>
-
           <PureProfileFloater
             openProfile={isProfileFloaterOpen}
-            helpClick={helpClick}
+            helpClick={() => handleClick('/help')}
             tutorialsClick={openTutorialsClick}
-            myInfoClick={myInfoClick}
+            myInfoClick={() => handleClick('/profile')}
             logOutClick={logOutClick}
-            switchFarmClick={switchFarmClick}
+            switchFarmClick={() => handleClick('/farm_selection')}
           >
             <IconButton
               data-cy="home-profileButton"
@@ -296,5 +188,5 @@ PureNavBar.propTypes = {
   showSpotLight: PropTypes.bool,
   resetSpotlight: PropTypes.func,
   history: PropTypes.object,
-  defaultOpenFloater: PropTypes.oneOf(['farm', 'notification', 'profile']),
+  defaultOpenFloater: PropTypes.oneOf(['notification', 'profile']),
 };

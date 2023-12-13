@@ -22,6 +22,7 @@ import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
+import useHistoryLocation from '../hooks/useHistoryLocation';
 
 const NavBar = (props) => {
   const { history, dispatch, numberOfUserFarm, showedSpotlight } = props;
@@ -30,15 +31,8 @@ const NavBar = (props) => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
   const isFarmSelected = useIsFarmSelected();
-  const [isCustomSignupPage, setIsCustomSignupPage] = useState(
-    history.location?.state?.component === CUSTOM_SIGN_UP,
-  );
-  useEffect(() => {
-    let unlisten = history.listen(({ location }) => {
-      setIsCustomSignupPage(location?.state?.component === CUSTOM_SIGN_UP);
-    });
-    return () => unlisten();
-  }, [history]);
+  const historyLocation = useHistoryLocation(history);
+  const isCustomSignupPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
 
   return isFarmSelected ? (
     <Suspense fallback={<NoFarmNavBar />}>

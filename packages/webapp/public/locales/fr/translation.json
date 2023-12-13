@@ -1343,18 +1343,18 @@
     },
     "FARM": {
       "ADDRESS": "Adresse",
+      "CHANGE_IMAGE": "Changer image",
+      "CLICK_TO_UPLOAD": "Cliquer pour télécharger",
       "CURRENCY": "Devise",
+      "DRAG_DROP": "ou glisser déposer",
+      "FARM_IMAGE": "Image de la ferme",
       "FARM_NAME": "Nom de l'exploitation",
       "IMPERIAL": "Impériales",
       "METRIC": "Métriques",
       "PHONE_NUMBER": "Numéro de téléphone",
-      "UNITS": "Unités",
-      "FARM_IMAGE": "Image de la ferme",
       "REMOVE_IMAGE": "Supprimer image",
-      "CHANGE_IMAGE": "Changer image",
-      "UPLOAD_IMAGE": "Ajouter une image",
-      "CLICK_TO_UPLOAD": "Cliquer pour télécharger",
-      "DRAG_DROP": "ou glisser déposer"
+      "UNITS": "Unités",
+      "UPLOAD_IMAGE": "Ajouter une image"
     },
     "FARM_TAB": "Exploitation",
     "PEOPLE": {
@@ -1731,6 +1731,10 @@
     "COMPLETION_DETAILS": "Détails de la tâche",
     "COMPLETION_NOTES": "Notes sur la tâche",
     "COMPLETION_NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
+    "CREATE": {
+      "FAILED": "Cette tâche ne peut être crée",
+      "LOCATION_DELETED": "Un autre utilisateur a désactivé cette emplacement. Veuillez actualiser la page pour obtenir le statut le plus récent."
+    },
     "CREATE_CUSTOM_HARVEST_USE": "Créer une utilisation de récolte personnalisée",
     "CURRENT": "Courant",
     "DELETE": {
@@ -1793,11 +1797,7 @@
     "TASKS_COUNT_other": "{{count}} tâches",
     "TRANSPLANT": "Repiquage",
     "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de repiquage",
-    "UNASSIGNED": "Non attribué",
-    "CREATE": {
-      "FAILED": "Cette tâche ne peut être crée",
-      "LOCATION_DELETED": "Un autre utilisateur a désactivé cette emplacement. Veuillez actualiser la page pour obtenir le statut le plus récent."
-    }
+    "UNASSIGNED": "Non attribué"
   },
   "UNIT": {
     "TIME": {

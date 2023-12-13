@@ -6,8 +6,7 @@ import { ReactComponent as NotificationIcon } from '../../../assets/images/notif
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
 import { logout } from '../../../util/jwt';
-import SmallerLogo from '../../../assets/images/smaller_logo.svg';
-import SmallLogo from '../../../assets/images/small_logo.svg';
+import { ReactComponent as Logo } from '../../../assets/images/navbar/nav-logo.svg';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -24,6 +23,7 @@ import {
 import Alert from '../../../containers/Navigation/Alert';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
+import NavBarBreadcrumbs from '../NavBarBreadcrumbs';
 
 export default function PureNavBar({
   showSpotLight,
@@ -33,6 +33,7 @@ export default function PureNavBar({
   defaultOpenFloater,
   justLogo = false,
   hidden = false,
+  breadcrumbs = [],
 }) {
   //Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -92,6 +93,9 @@ export default function PureNavBar({
     closeFloater();
   };
 
+  const theme = useTheme();
+  const isMobile = !useMediaQuery(theme.breakpoints.up('sm'));
+
   const content = (
     <>
       <IconButton
@@ -114,7 +118,11 @@ export default function PureNavBar({
       >
         <SlideMenu history={history} closeDrawer={closeDrawer} />
       </SwipeableDrawer>
-      <Logo history={history} />
+      {isMobile ? (
+        <Logo className={clsx(styles.logo)} alt="Logo" onClick={() => history.push('/')} />
+      ) : (
+        <NavBarBreadcrumbs breadcrumbs={breadcrumbs} />
+      )}
       {showNotification ? (
         <NavBarNotificationSpotlightProvider open={showNotification} onFinish={resetSpotlight} />
       ) : (
@@ -164,29 +172,19 @@ export default function PureNavBar({
 
   return (
     <AppBar position="sticky" className={clsx(styles.appBar, hidden && styles.displayNone)}>
-      <Toolbar className={clsx(styles.toolbar, justLogo && styles.centerContent)}>
+      <Toolbar className={clsx(styles.toolbar, (justLogo || isMobile) && styles.centerContent)}>
         {justLogo ? <Logo history={history} /> : content}
       </Toolbar>
     </AppBar>
   );
 }
 
-const Logo = ({ history }) => {
-  const theme = useTheme();
-  const isTouchDisplay = !useMediaQuery(theme.breakpoints.up('md'));
-  return (
-    <img
-      src={isTouchDisplay ? SmallLogo : SmallerLogo}
-      className={clsx(styles.logo, isTouchDisplay && styles.roomForHamburger)}
-      alt="Logo"
-      onClick={() => history.push('/')}
-    />
-  );
-};
-
 PureNavBar.propTypes = {
   showSpotLight: PropTypes.bool,
   resetSpotlight: PropTypes.func,
   history: PropTypes.object,
   defaultOpenFloater: PropTypes.oneOf(['notification', 'profile']),
+  justLogo: PropTypes.bool,
+  hidden: PropTypes.bool,
+  breadcrumbs: PropTypes.array,
 };

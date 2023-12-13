@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import clsx from 'clsx';
-import { ReactComponent as Logo } from '../../../../assets/images/navbar/nav-logo.svg';
+import { ReactComponent as Logo } from '../../../../assets/images/middle_logo.svg';
 import { ReactComponent as VectorUp } from '../../../../assets/images/navbar/vector-up.svg';
 import { ReactComponent as VectorDown } from '../../../../assets/images/navbar/vector-down.svg';
 import { ReactComponent as FarmMapIcon } from '../../../../assets/images/farm-profile/farm-map.svg';

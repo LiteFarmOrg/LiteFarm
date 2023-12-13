@@ -44,10 +44,6 @@
   justify-content: flex-start;
   flex-grow: 1;
   align-items: center;
-
-  @media only screen and (min-width: 900px) {
-    justify-content: center;
-  }
 }
 
 .centerContent {
@@ -90,10 +86,7 @@
 
 .logo {
   cursor: pointer;
-}
-
-.roomForHamburger {
-  margin-left: 36px;
+  margin-left: var(--global-sidebar-width);
 }
 
 .displayNone {

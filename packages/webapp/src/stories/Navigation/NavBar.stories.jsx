@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import history from './../../history';
 import NavBar from '../../components/Navigation/NavBar';
-import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
 
 const store = {
   getState: () => {
@@ -27,7 +26,14 @@ export default {
   component: NavBar,
 };
 
-export const SignupNavbar = (() => <NoFarmNavBar />).bind({});
+export const SignupNavbar = ((args) => <NavBar {...args} justLogo />).bind({});
+SignupNavbar.args = {
+  history: {
+    push: () => {},
+    location: { pathname: '/home' },
+    replace: () => {},
+  },
+};
 
 const Template = (args) => <NavBar {...args} />;
 

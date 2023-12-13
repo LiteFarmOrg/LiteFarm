@@ -13,13 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Suspense } from 'react';
 import PureNavBar from '../NavBar';
 
 export default function NoFarmNavBar({ history, hidden }) {
-  return (
-    <Suspense fallback={null}>
-      <PureNavBar history={history} justLogo hidden={hidden} />
-    </Suspense>
-  );
+  return <PureNavBar history={history} justLogo hidden={hidden} />;
 }

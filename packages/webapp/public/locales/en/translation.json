@@ -880,7 +880,8 @@
     "WHATSAPP_NUMBER_LABEL": "Whatsapp number"
   },
   "HOME": {
-    "GREETING": "Good day, "
+    "GREETING": "Good day, ",
+    "HOME_BREADCRUMB": "Home"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {

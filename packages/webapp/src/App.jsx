@@ -31,7 +31,9 @@ function App() {
         <SlideMenu history={history} classes={{ container: styles.slideMenu }} />
       </Suspense>
       <div className={clsx(styles.mainColumn)}>
-        <NavBar history={history} />
+        <Suspense fallback={null}>
+          <NavBar history={history} />
+        </Suspense>
         <div className={styles.app}>
           <OfflineDetector />
           <SnackbarProvider

@@ -879,7 +879,8 @@
     "WHATSAPP_NUMBER_LABEL": "Numéro Whatsapp"
   },
   "HOME": {
-    "GREETING": "Bonjour, "
+    "GREETING": "Bonjour, ",
+    "HOME_BREADCRUMB": "MISSING"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {

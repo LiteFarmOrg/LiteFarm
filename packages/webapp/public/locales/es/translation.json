@@ -1202,6 +1202,22 @@
     "WHERE_TRANSPLANT_LOCATION": "¿A dónde va a trasplantar?",
     "WILD_CROP": "¿Estás cosechando un cultivo silvestre?"
   },
+  "MENU": {
+    "ACTUAL_REVENUES": "MISSING",
+    "CERTIFICATIONS": "Certificaciones",
+    "CROPS": "Cultivos",
+    "DOCUMENTS": "Documentos",
+    "ESTIMATED_REVENUES": "MISSING",
+    "FARM_SETTINGS": "MISSING",
+    "FINANCES": "Finanzas",
+    "INSIGHTS": "Reportes",
+    "LABOUR_EXPENSES": "MISSING",
+    "MAP": "MISSING",
+    "OTHER_EXPENSES": "MISSING",
+    "PEOPLE": "Personas",
+    "TASKS": "Tareas",
+    "TRANSACTION_LIST": "MISSING"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certificaciones",
     "FARM_INFO": "Información de la finca",

@@ -1201,6 +1201,22 @@
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WILD_CROP": "Are you harvesting a wild crop?"
   },
+  "MENU": {
+    "ACTUAL_REVENUES": "Actual revenues",
+    "CERTIFICATIONS": "Certifications",
+    "CROPS": "Crops",
+    "DOCUMENTS": "Documents",
+    "ESTIMATED_REVENUES": "Estimated revenues",
+    "FARM_SETTINGS": "Farm settings",
+    "FINANCES": "Finances",
+    "INSIGHTS": "Insights",
+    "LABOUR_EXPENSES": "Labour expenses",
+    "MAP": "Map",
+    "OTHER_EXPENSES": "Other expenses",
+    "PEOPLE": "People",
+    "TASKS": "Tasks",
+    "TRANSACTION_LIST": "Transaction list"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
     "FARM_INFO": "Farm info",

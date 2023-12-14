@@ -1203,6 +1203,22 @@
     "WHERE_TRANSPLANT_LOCATION": "Où allez-vous transplanter\u00a0?",
     "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?"
   },
+  "MENU": {
+    "ACTUAL_REVENUES": "MISSING",
+    "CERTIFICATIONS": "Certifications",
+    "CROPS": "Cultures",
+    "DOCUMENTS": "Documents",
+    "ESTIMATED_REVENUES": "MISSING",
+    "FARM_SETTINGS": "MISSING",
+    "FINANCES": "Finances",
+    "INSIGHTS": "Mesures additionnelles",
+    "LABOUR_EXPENSES": "MISSING",
+    "MAP": "MISSING",
+    "OTHER_EXPENSES": "MISSING",
+    "PEOPLE": "Personnes",
+    "TASKS": "Tâches",
+    "TRANSACTION_LIST": "MISSING"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
     "FARM_INFO": "Informations sur l'exploitation",

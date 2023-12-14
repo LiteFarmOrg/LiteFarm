@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useTheme } from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import PureProfileFloater from '../Floater/ProfileFloater';
@@ -14,7 +15,7 @@ import { BiMenu } from 'react-icons/bi';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import SlideMenu from '../../../containers/Navigation/SlideMenu';
-import PropTypes from 'prop-types';
+import NavBarBreadcrumbs from '../NavBarBreadcrumbs';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import {
   NavbarSpotlightProvider,
@@ -23,7 +24,6 @@ import {
 import Alert from '../../../containers/Navigation/Alert';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
-import NavBarBreadcrumbs from '../NavBarBreadcrumbs';
 
 export default function PureNavBar({
   showSpotLight,

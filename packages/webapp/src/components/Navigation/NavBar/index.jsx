@@ -44,9 +44,6 @@ export default function PureNavBar({
   const closeFloater = () => {
     setOpenFloater(null);
   };
-  const profileButtonOnClick = () => {
-    setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
-  };
   const notificationIconClick = () => {
     closeFloater();
     const url = '/notifications';
@@ -57,7 +54,7 @@ export default function PureNavBar({
       history.push(url);
     }
   };
-  // const profileButtonOnClick = () => setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
+  const profileButtonOnClick = () => setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
   const onClickAway = () => {
     setOpenFloater(null);
   };
@@ -155,5 +152,4 @@ PureNavBar.propTypes = {
   defaultOpenFloater: PropTypes.oneOf(['notification', 'profile']),
   justLogo: PropTypes.bool,
   hidden: PropTypes.bool,
-  breadcrumbs: PropTypes.array,
 };

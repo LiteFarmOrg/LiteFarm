@@ -32,4 +32,7 @@ export default SlideMenu;
 SlideMenu.propTypes = {
   history: PropTypes.object,
   closeDrawer: PropTypes.func,
+  classes: PropTypes.shape({
+    container: PropTypes.string,
+  }),
 };

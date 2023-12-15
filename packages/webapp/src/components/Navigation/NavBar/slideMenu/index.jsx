@@ -179,4 +179,7 @@ PureSlideMenu.propTypes = {
   history: PropTypes.object,
   closeDrawer: PropTypes.func,
   isAdmin: PropTypes.bool,
+  classes: PropTypes.shape({
+    container: PropTypes.string,
+  }),
 };

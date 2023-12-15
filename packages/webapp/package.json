@@ -121,7 +121,8 @@
     "vite-plugin-istanbul": "^4.0.0",
     "vite-plugin-pwa": "^0.14.3",
     "vite-plugin-svgr": "^2.4.0",
-    "vitest": "^0.34.5"
+    "vitest": "^0.34.5",
+    "workbox-window": "^7.0.0"
   },
   "pnpm": {
     "overrides": {

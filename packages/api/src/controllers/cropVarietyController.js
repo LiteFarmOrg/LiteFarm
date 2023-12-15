@@ -20,6 +20,7 @@ const cropVarietyController = {
         const result = await CropVarietyModel.query().whereNotDeleted().where({ farm_id });
         return res.status(200).send(result);
       } catch (error) {
+        console.error(error);
         return res.status(400).json({ error });
       }
     };
@@ -33,6 +34,7 @@ const cropVarietyController = {
           ? res.status(200).send(result)
           : res.status(404).send('Crop variety not found');
       } catch (error) {
+        console.error(error);
         return res.status(400).json({ error });
       }
     };

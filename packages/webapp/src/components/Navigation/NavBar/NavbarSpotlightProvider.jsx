@@ -19,7 +19,7 @@ export function NavbarSpotlightProvider({ children, open, onFinish }) {
           popoverStyles: { width: '240px' },
         },
         {
-          selector: '#secondStepNavBar',
+          selector: '#profile-navigation-button',
           title: t('NAVIGATION.SPOTLIGHT.PROFILE_TITLE'),
           contents: [t('NAVIGATION.SPOTLIGHT.YOU_WILL_FIND')],
           list: [

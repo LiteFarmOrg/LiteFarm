@@ -15,7 +15,7 @@
 
 import { useSelector, useDispatch } from 'react-redux';
 import PureNavBar from '../../components/Navigation/NavBar';
-import { userFarmSelector, userFarmLengthSelector } from '../userFarmSlice';
+import { userFarmLengthSelector } from '../userFarmSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
@@ -29,20 +29,12 @@ const NavBar = ({ history }) => {
   const numberOfUserFarm = useSelector(userFarmLengthSelector);
   const { navigation, notification } = useSelector(showedSpotlightSelector);
 
-  const { farm_name } = useSelector(userFarmSelector);
   const resetSpotlight = () => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
   const isFarmSelected = useIsFarmSelected();
   const historyLocation = useHistoryLocation(history);
   const isCustomSignupPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
-  // Will use historyLocation in future PR
-  const breadcrumbs = [
-    { link: '/farm_selection', label: farm_name, section: 'FarmSelection' },
-    { link: '/', label: t('HOME.HOME_BREADCRUMB'), section: 'Home' },
-    { link: '/farm_selection', label: farm_name, section: 'FarmSelection' },
-    { link: '/', label: t('HOME.HOME_BREADCRUMB'), section: 'Home' },
-  ];
 
   return isFarmSelected ? (
     <PureNavBar
@@ -51,7 +43,6 @@ const NavBar = ({ history }) => {
       resetSpotlight={resetSpotlight}
       showSwitchFarm={numberOfUserFarm > 1}
       history={history}
-      breadcrumbs={breadcrumbs}
     />
   ) : (
     <PureNavBar history={history} justLogo hidden={isCustomSignupPage} />

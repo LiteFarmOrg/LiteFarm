@@ -1,21 +1,17 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import PureProfileFloater from '../Floater/ProfileFloater';
 import { ReactComponent as NotificationIcon } from '../../../assets/images/notif.svg';
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
-import { logout } from '../../../util/jwt';
-import { ReactComponent as Logo } from '../../../assets/images/navbar/nav-logo.svg';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
+import { ReactComponent as IconLogo } from '../../../assets/images/navbar/nav-logo.svg';
+import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
+import ProfileMenu from '../Menus/ProfileMenu';
+import { AppBar, Toolbar, IconButton } from '@mui/material';
 import { BiMenu } from 'react-icons/bi';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import SlideMenu from '../../../containers/Navigation/SlideMenu';
-import NavBarBreadcrumbs from '../NavBarBreadcrumbs';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import {
   NavbarSpotlightProvider,
@@ -33,7 +29,6 @@ export default function PureNavBar({
   defaultOpenFloater,
   justLogo = false,
   hidden = false,
-  breadcrumbs = [],
 }) {
   //Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -49,6 +44,9 @@ export default function PureNavBar({
   const closeFloater = () => {
     setOpenFloater(null);
   };
+  const profileButtonOnClick = () => {
+    setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
+  };
   const notificationIconClick = () => {
     closeFloater();
     const url = '/notifications';
@@ -59,44 +57,17 @@ export default function PureNavBar({
       history.push(url);
     }
   };
-  const profileButtonOnClick = () => setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
+  // const profileButtonOnClick = () => setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
   const onClickAway = () => {
     setOpenFloater(null);
-  };
-
-  //PureProfileFloater
-  const handleClick = (link) => {
-    history.push(link);
-    closeFloater();
-  };
-  const logOutClick = () => {
-    logout();
-    closeFloater();
-  };
-  const openTutorialsClick = () => {
-    const playlistIDs = {
-      es: 'PLDRpVZ4VsXJhghxfEQuApFQTeCWUbGBN9',
-      pt: 'PLDRpVZ4VsXJg0ke20m47MmJq6uAJAlAGF',
-      en: 'PLDRpVZ4VsXJgVGrmmXJooNqceXvre8IDY',
-    };
-
-    const playList = playlistIDs[selectedLanguage] || playlistIDs['en'];
-    const url = 'https://www.youtube.com/playlist?list=' + playList;
-
-    const win = window.open(url, '_blank');
-    win.focus();
-    closeFloater();
-  };
-
-  // Pure Notification Floater
-  const notificationTeaserClick = () => {
-    closeFloater();
   };
 
   const theme = useTheme();
   const isMobile = !useMediaQuery(theme.breakpoints.up('sm'));
 
-  const content = (
+  const profileIconRef = useRef(null);
+
+  const showMainNavigation = (
     <>
       <IconButton
         data-cy="navbar-hamburger"
@@ -118,62 +89,60 @@ export default function PureNavBar({
       >
         <SlideMenu history={history} closeDrawer={closeDrawer} />
       </SwipeableDrawer>
-      {isMobile ? (
-        <Logo className={clsx(styles.logo)} alt="Logo" onClick={() => history.push('/')} />
-      ) : (
-        <NavBarBreadcrumbs breadcrumbs={breadcrumbs} />
+      {isMobile && (
+        <IconLogo className={clsx(styles.logo)} alt="Logo" onClick={() => history.push('/')} />
       )}
       {showNotification ? (
         <NavBarNotificationSpotlightProvider open={showNotification} onFinish={resetSpotlight} />
       ) : (
         <NavbarSpotlightProvider open={showSpotLight} onFinish={resetSpotlight} />
       )}
-      <ClickAwayListener onClickAway={onClickAway}>
-        <div className={styles.icons}>
-          <IconButton
-            data-cy="home-notificationButton"
-            aria-label="notification icon"
-            color="inherit"
-            id="zerothStepNavBar"
-            onClick={notificationIconClick}
-            className={styles.iconButton}
-            classes={{ root: styles.notificationButton }}
-            size="large"
-          >
-            <NotificationIcon />
-            <Alert />
-          </IconButton>
-          <PureProfileFloater
-            openProfile={isProfileFloaterOpen}
-            helpClick={() => handleClick('/help')}
-            tutorialsClick={openTutorialsClick}
-            myInfoClick={() => handleClick('/profile')}
-            logOutClick={logOutClick}
-            switchFarmClick={() => handleClick('/farm_selection')}
-          >
-            <IconButton
-              data-cy="home-profileButton"
-              edge="end"
-              aria-label="profile icon"
-              color="inherit"
-              onClick={profileButtonOnClick}
-              id="secondStepNavBar"
-              className={styles.iconButton}
-              classes={{ root: styles.profileButton }}
-              size="large"
-            >
-              <ProfilePicture />
-            </IconButton>
-          </PureProfileFloater>
-        </div>
-      </ClickAwayListener>
+      <div className={styles.icons}>
+        <IconButton
+          data-cy="home-notificationButton"
+          aria-label="notification icon"
+          color="inherit"
+          id="zerothStepNavBar"
+          onClick={notificationIconClick}
+          className={styles.iconButton}
+          classes={{ root: styles.notificationButton }}
+          size="large"
+        >
+          <NotificationIcon />
+          <Alert />
+        </IconButton>
+        <IconButton
+          data-cy="home-profileButton"
+          edge="end"
+          aria-label="profile icon"
+          color="inherit"
+          onClick={profileButtonOnClick}
+          id="profile-navigation-button"
+          className={styles.iconButton}
+          classes={{ root: styles.profileButton }}
+          size="large"
+          aria-controls={isProfileFloaterOpen ? 'profile-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={isProfileFloaterOpen ? 'true' : undefined}
+          ref={profileIconRef}
+        >
+          <ProfilePicture />
+        </IconButton>
+        <ProfileMenu
+          history={history}
+          open={isProfileFloaterOpen}
+          onClose={closeFloater}
+          target={profileIconRef}
+          closeFloater={closeFloater}
+        />
+      </div>
     </>
   );
 
   return (
     <AppBar position="sticky" className={clsx(styles.appBar, hidden && styles.displayNone)}>
       <Toolbar className={clsx(styles.toolbar, (justLogo || isMobile) && styles.centerContent)}>
-        {justLogo ? <Logo history={history} /> : content}
+        {justLogo ? <Logo history={history} /> : showMainNavigation}
       </Toolbar>
     </AppBar>
   );

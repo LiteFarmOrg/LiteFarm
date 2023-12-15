@@ -291,7 +291,8 @@ Use cases in which we currently utilize docker at LiteFarm include:
 
 These commands can be run from the root of the repo.
 
-- `docker compose up` to run the main development services, OR
+- `docker compose up` to start the main development services
+- `docker compose up export` to start the process that handles certification document export
 - `docker compose up [service names]` to run one or more particular services
 - `docker compose down` to stop and remove all containers defined in `docker-compose.yml`
 - `docker compose down --volumes` to stop and remove all containers and volumes defined in `docker-compose.yml`

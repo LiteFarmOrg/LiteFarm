@@ -13,66 +13,40 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import { Suspense } from 'react';
 import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.jsx';
-import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100vw',
-    flexGrow: 1,
-  },
-  defaultHeight: {
-    minHeight: '100vh',
-  },
-  webkitHeight: {
-    minHeight: '-webkit-fill-available',
-  },
-  root: {
-    width: 'calc(100vw - 48px)',
-    maxWidth: '976px',
-  },
-}));
+import SlideMenu from './containers/Navigation/SlideMenu';
+import styles from './styles.module.scss';
 
 function App() {
-  const classes = useStyles();
   return (
-    <>
-      <div className={clsx(classes.container, classes.defaultHeight, classes.webkitHeight)}>
+    <div className={clsx(styles.container)}>
+      <Suspense fallback={null}>
+        <SlideMenu history={history} classes={{ container: styles.slideMenu }} />
+      </Suspense>
+      <div className={clsx(styles.mainColumn)}>
         <NavBar history={history} />
-        <div
-          className="app"
-          style={{
-            width: '100%',
-            maxWidth: '1024px',
-            flex: '1',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
+        <div className={styles.app}>
           <OfflineDetector />
           <SnackbarProvider
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'center',
             }}
-            classes={{ root: classes.root, containerRoot: classes.root }}
+            classes={{ root: styles.root, containerRoot: styles.root }}
             content={(key, message) => <NotistackSnackbar id={key} message={message} />}
           >
             <Routes />
           </SnackbarProvider>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

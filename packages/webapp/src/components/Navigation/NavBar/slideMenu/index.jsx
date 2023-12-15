@@ -75,7 +75,6 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = {} }) {
               className={styles.subListItem}
               button
               onClick={() => handleClick('/tasks')}
-              id="secondStepNavBar"
               data-cy="home-taskButton"
             >
               <ListItemText
@@ -116,7 +115,6 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = {} }) {
           className={styles.listItem}
           button
           onClick={toggleMyFarm}
-          id="firstStepNavBar"
           data-cy="home-farmButton"
         >
           {getLanguageFarmIcon(selectedLanguage)}

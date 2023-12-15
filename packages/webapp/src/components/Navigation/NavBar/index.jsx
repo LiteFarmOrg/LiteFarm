@@ -157,7 +157,7 @@ export default function PureNavBar({
               aria-label="profile icon"
               color="inherit"
               onClick={profileButtonOnClick}
-              id="thirdStepNavBar"
+              id="secondStepNavBar"
               className={styles.iconButton}
               classes={{ root: styles.profileButton }}
               size="large"

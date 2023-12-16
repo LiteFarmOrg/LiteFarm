@@ -81,7 +81,7 @@ const theme = createTheme({
     },
     background: {
       default: '#FAFCFB',
-      paper: '#FAFCFB',
+      paper: '#FFF',
     },
     text: {
       primary: colors.grey900,

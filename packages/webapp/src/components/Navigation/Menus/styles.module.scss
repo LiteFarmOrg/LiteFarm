@@ -2,17 +2,43 @@
 .menuRoot {
   top: 8px;
 }
+
 .menuList {
   padding: 0px;
+  width: 176px;
   border-radius: var(--Spaces-1x, 4px) 0px var(--Spaces-1x, 4px) var(--Spaces-1x, 4px);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
+
+.drawerMenuPaper {
+  border-radius: var(--Spaces-4x, 16px) var(--Spaces-4x, 16px) 0px 0px ;
+  box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.10);
+}
+
+.drawerMenuList {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.drawerListSubheader {
+  background-color: var(--mainBackground);
+  text-align: right;
+}
+
+.drawerCloseX {
+  width: 24px;
+  height: 24px;
+  padding: 6px;
+}
+
 .menuItemRoot {
-  width: 176px;
+  width: 100%;
   padding: 16px 22px 16px 14px;
   gap: 8px;
   border-top: 1px solid #E9EBF8;
+  align-items: center;
 }
+
 .itemTextRoot {
   color: var(--teal700);
   font-family: Proxima Nova;

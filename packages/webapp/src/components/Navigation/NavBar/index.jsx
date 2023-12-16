@@ -30,11 +30,15 @@ export default function PureNavBar({
   justLogo = false,
   hidden = false,
 }) {
-  //Drawer
+  //Side Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const closeDrawer = () => setIsDrawerOpen(false);
-  const burgerMenuOnClick = () => setIsDrawerOpen((prev) => !prev);
   const selectedLanguage = getLanguageFromLocalStorage();
+
+  //Bottom Drawer
+  const [isBottomDrawerOpen, setIsBottomDrawerOpen] = useState(false);
+  const closeBottomDrawer = () => setIsBottomDrawerOpen(false);
+  const burgerMenuOnClick = () => setIsBottomDrawerOpen((prev) => !prev);
 
   //Floater
   const [openFloater, setOpenFloater] = useState(defaultOpenFloater);
@@ -54,7 +58,10 @@ export default function PureNavBar({
       history.push(url);
     }
   };
-  const profileButtonOnClick = () => setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
+  const profileButtonOnClick = () => {
+    isMobile && burgerMenuOnClick();
+    setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
+  };
   const onClickAway = () => {
     setOpenFloater(null);
   };
@@ -64,7 +71,7 @@ export default function PureNavBar({
 
   const profileIconRef = useRef(null);
 
-  const showMainNavigation = (
+  const mobileOnlyContent = (
     <>
       <IconButton
         data-cy="navbar-hamburger"
@@ -77,6 +84,12 @@ export default function PureNavBar({
       >
         <BiMenu className={styles.burgerMenu} />
       </IconButton>
+      <IconLogo className={clsx(styles.logo)} alt="Logo" onClick={() => history.push('/')} />
+    </>
+  );
+
+  const showMainNavigation = (
+    <>
       <SwipeableDrawer
         anchor={'left'}
         open={isDrawerOpen}
@@ -86,9 +99,7 @@ export default function PureNavBar({
       >
         <SlideMenu history={history} closeDrawer={closeDrawer} />
       </SwipeableDrawer>
-      {isMobile && (
-        <IconLogo className={clsx(styles.logo)} alt="Logo" onClick={() => history.push('/')} />
-      )}
+      {isMobile && mobileOnlyContent}
       {showNotification ? (
         <NavBarNotificationSpotlightProvider open={showNotification} onFinish={resetSpotlight} />
       ) : (
@@ -131,6 +142,9 @@ export default function PureNavBar({
           onClose={closeFloater}
           target={profileIconRef}
           closeFloater={closeFloater}
+          isMobile={isMobile}
+          isBottomDrawerOpen={isBottomDrawerOpen}
+          setIsBottomDrawerOpen={setIsBottomDrawerOpen}
         />
       </div>
     </>

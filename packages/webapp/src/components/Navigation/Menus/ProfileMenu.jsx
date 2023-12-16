@@ -6,17 +6,41 @@ import { ReactComponent as HelpIcon } from '../../../assets/images/navbar/help.s
 import { ReactComponent as VideoIcon } from '../../../assets/images/navbar/play-square.svg';
 import { ReactComponent as SwitchFarmIcon } from '../../../assets/images/navbar/switch-farm.svg';
 import { ReactComponent as LaunchIcon } from '../../../assets/images/icon_launch.svg';
-import { Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
+import { ReactComponent as CloseX } from '../../../assets/images/close-x.svg';
+import {
+  Menu,
+  MenuList,
+  MenuItem,
+  SwipeableDrawer,
+  ListSubheader,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+  IconButton,
+} from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
-const ProfileMenu = ({ history, open, onClose, target, closeFloater }) => {
+const ProfileMenu = ({
+  history,
+  open,
+  onClose,
+  target,
+  closeFloater,
+  isMobile,
+  isBottomDrawerOpen,
+  setIsBottomDrawerOpen,
+}) => {
   const { t } = useTranslation(['translation']);
   const selectedLanguage = getLanguageFromLocalStorage();
 
+  const closeMenu = () => {
+    isMobile ? setIsBottomDrawerOpen(false) : closeFloater();
+  };
+
   const logOutClick = () => {
     logout();
-    closeFloater();
+    closeMenu();
   };
 
   const openTutorialsClick = () => {
@@ -31,12 +55,12 @@ const ProfileMenu = ({ history, open, onClose, target, closeFloater }) => {
 
     const win = window.open(url, '_blank');
     win.focus();
-    closeFloater();
+    closeMenu();
   };
 
   const handleClick = (link) => {
+    closeMenu();
     history.push(link);
-    closeFloater();
   };
   const options = [
     {
@@ -85,7 +109,8 @@ const ProfileMenu = ({ history, open, onClose, target, closeFloater }) => {
       </MenuItem>
     );
   });
-  return (
+
+  const plainMenu = (
     <Menu
       id="profile-menu"
       anchorEl={target.current}
@@ -98,6 +123,39 @@ const ProfileMenu = ({ history, open, onClose, target, closeFloater }) => {
     >
       {menuItems}
     </Menu>
+  );
+
+  const drawerMenu = (
+    <MenuList
+      id="profile-menu"
+      open={open}
+      onClose={onClose}
+      MenuListProps={{
+        'aria-labelledby': 'profile-navigation-button',
+      }}
+      disablePadding
+      classes={{ list: styles.drawerMenuList, paper: styles.drawerMenuPaper }}
+      alignItems="flex-end"
+    >
+      <ListSubheader classes={{ root: styles.drawerListSubheader }}>
+        <CloseX onClick={() => setIsBottomDrawerOpen(false)} />
+      </ListSubheader>
+      {menuItems}
+    </MenuList>
+  );
+
+  return isMobile ? (
+    <SwipeableDrawer
+      anchor={'bottom'}
+      open={isBottomDrawerOpen}
+      onClose={() => setIsBottomDrawerOpen(false)}
+      onOpen={() => setIsBottomDrawerOpen(true)}
+      classes={{ paper: styles.drawerMenuPaper }}
+    >
+      {drawerMenu}
+    </SwipeableDrawer>
+  ) : (
+    plainMenu
   );
 };
 export default ProfileMenu;

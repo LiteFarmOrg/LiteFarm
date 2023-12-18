@@ -15,8 +15,6 @@ import {
   ListSubheader,
   ListItemIcon,
   ListItemText,
-  Tooltip,
-  IconButton,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';

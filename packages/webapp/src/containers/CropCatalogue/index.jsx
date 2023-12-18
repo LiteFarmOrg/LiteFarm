@@ -40,8 +40,16 @@ export default function CropCatalogue({ history }) {
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
-  const { active, abandoned, planned, completed, noPlans, sum, cropCatalogue, filteredCropsWithoutManagementPlan } =
-    useCropCatalogue(filterString);
+  const {
+    active,
+    abandoned,
+    planned,
+    completed,
+    noPlans,
+    sum,
+    cropCatalogue,
+    filteredCropsWithoutManagementPlan,
+  } = useCropCatalogue(filterString);
   const crops = useStringFilteredCrops(
     useSortByCropTranslation(useSelector(cropsSelector)),
     filterString,
@@ -82,7 +90,7 @@ export default function CropCatalogue({ history }) {
   };
   const resetFilter = () => dispatch(resetCropCatalogueFilter());
   return (
-    <Layout classes={{ container: { backgroundColor: 'white' } }}>
+    <Layout>
       <PageTitle title={t('CROP_CATALOGUE.CROP_CATALOGUE')} style={{ paddingBottom: '20px' }} />
       <div style={{ position: 'relative' }}>
         <PureSearchbarAndFilter

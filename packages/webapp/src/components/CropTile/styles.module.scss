@@ -25,7 +25,7 @@
   border: 1px solid var(--teal600);
 
   .info {
-    background-color: white;
+    background-color: var(--bgInputListTile);
 
     .infoMain {
       color: var(--teal700);
@@ -44,7 +44,6 @@
 }
 
 .img {
-  // background-color: orange;
   height: 72px;
   border-radius: 4px 4px 0 0;
   object-fit: cover;

@@ -20,8 +20,10 @@ jobs:
           version: 6.26.1
 
       - name: Install pnpm dependencies
-        run: pnpm install
+        run: |
+          sudo apt-get install -y imagemagick xvfb
+          pnpm install
 
       - name: Run storybook tests
         working-directory: packages/webapp
-        run: cat allowed-storybook-tests.txt | xargs -I {} pnpm test-storybook:ci {} --maxWorkers=1
+        run: xvfb-run -a cat allowed-storybook-tests.txt | xargs -I {} pnpm test-storybook:ci {} --maxWorkers=1

@@ -13,23 +13,73 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.logo {
-  margin: 16px 0 32px 24px;
-  cursor: pointer;
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid #D1E9D9;
+  padding: 0;
+}
+
+.list {
+  padding: 0;
 }
 
 .listItem {
-  padding-left: 24px;
+  padding: 16px;
+  padding-right: 32px;
+  border-top: 1px solid #E9EBF8;
+  display: flex;
+  justify-content: center;
+
+  &:hover {
+    background-color: var(--primaryTeal50);
+  }
 }
 
-.ListItemText {
-  font-size: 16px;
+.activeListItem {
+  background-color: #A2D2CD;
 }
 
-.subListItem {
-  padding-left: 56px;
+.listItemText {
+  margin: 0;
+  color: var(--primaryTeal700);
+  font-weight: 500;
 }
 
-.subListItemText {
-  font-size: 14px;
+.icon {
+  min-width: 0px;
+  margin-right: 8px;
+}
+
+.expandIcon {
+  path {
+    fill: var(--primaryTeal700);
+  }
+}
+
+.subItemText {
+  color: var(--primaryTeal700);
+
+  span {
+    font-weight: 600;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .container {
+    background-color: var(--primaryTeal700);
+  }
+
+  .icon {
+    path {
+      stroke: var(--primaryTeal50);
+    }
+  }
+
+  .cropsIcon {
+    path {
+      fill: var(--primaryTeal50);
+    }
+  }
 }

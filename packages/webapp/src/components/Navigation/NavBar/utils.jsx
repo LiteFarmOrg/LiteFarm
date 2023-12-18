@@ -23,12 +23,17 @@ import { ReactComponent as DocumentsIcon } from '../../../assets/images/nav/docu
 import { ReactComponent as FarmSettingsIcon } from '../../../assets/images/nav/farmSettings.svg';
 import { ReactComponent as PeopleIcon } from '../../../assets/images/nav/people.svg';
 import { ReactComponent as CertificationsIcon } from '../../../assets/images/nav/certifications.svg';
+import styles from './styles.module.scss';
 
 export const getMenuList = (isAdmin) => {
   const list = [
     { label: i18n.t('MENU.MAP'), icon: <MapIcon />, path: '/map' },
     { label: i18n.t('MENU.TASKS'), icon: <TasksIcon />, path: '/tasks' },
-    { label: i18n.t('MENU.CROPS'), icon: <CropsIcon />, path: '/crop_catalogue' },
+    {
+      label: i18n.t('MENU.CROPS'),
+      icon: <CropsIcon className={styles.cropsIcon} />,
+      path: '/crop_catalogue',
+    },
     { label: i18n.t('MENU.INSIGHTS'), icon: <InsightsIcon />, path: '/Insights' },
   ];
 
@@ -36,12 +41,13 @@ export const getMenuList = (isAdmin) => {
     list.splice(3, 0, {
       label: i18n.t('MENU.FINANCES'),
       icon: <FinancesIcon />,
+      path: '/finances',
       subMenu: [
-        { label: i18n.t('MENU.TRANSACTION_LIST'), path: '/Finances' },
-        { label: i18n.t('MENU.OTHER_EXPENSES'), path: '/other_expense' },
-        { label: i18n.t('MENU.LABOUR_EXPENSES'), path: '/labour' },
+        { label: i18n.t('MENU.TRANSACTION_LIST'), path: '/finances/transactions' },
+        { label: i18n.t('MENU.OTHER_EXPENSES'), path: '/finances/other_expense' },
+        { label: i18n.t('MENU.LABOUR_EXPENSES'), path: '/finances/labour' },
         { label: i18n.t('MENU.ACTUAL_REVENUES'), path: '/finances/actual_revenue' },
-        { label: i18n.t('MENU.ESTIMATED_REVENUES'), path: '/estimated_revenue' },
+        { label: i18n.t('MENU.ESTIMATED_REVENUES'), path: '/finances/estimated_revenue' },
       ],
     });
     list.push({ label: i18n.t('MENU.DOCUMENTS'), icon: <DocumentsIcon />, path: '/documents' });

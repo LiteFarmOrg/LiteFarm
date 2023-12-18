@@ -316,6 +316,114 @@ const UnknownRecord = React.lazy(() =>
   import('./containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
+const FinancesRoutes = () => (
+  <Switch>
+    <Route path="/finances/transactions" exact component={Finances} />
+    <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
+    <Route
+      path="/finances/estimated_revenue/plan/:management_plan_id"
+      exact
+      component={UpdateEstimatedCropRevenue}
+    />
+    <Route path="/finances/revenue_types" exact component={RevenueTypes} />
+    <Route path="/finances/add_sale" exact component={AddSale} />
+    <Route path="/finances/manage_custom_revenues" exact component={ManageRevenueTypes} />
+    <Route path="/finances/revenue/:sale_id/" exact component={RevenueDetail} />
+    <Route path="/finances/revenue/:sale_id/edit" exact component={RevenueDetail} />
+    <Route path="/finances/estimated_revenue" exact component={EstimatedRevenue} />
+    <Route path="/finances/labour" exact component={Labour} />
+    <Route path="/finances/other_expense" exact component={OtherExpense} />
+    <Route path="/finances/expense/:expense_id/" exact component={ExpenseDetail} />
+    <Route path="/finances/expense/:expense_id/edit" exact component={ExpenseDetail} />
+    <Route path="/finances/expense_categories" exact component={ExpenseCategories} />
+    <Route path="/finances/add_expense" exact component={AddExpense} />
+    <Route path="/finances/manage_custom_expenses" exact component={ManageExpenseTypes} />
+    <Route path="/finances/add_custom_expense" exact component={AddCustomExpense} />
+    <Route
+      path="/finances/readonly_custom_expense/:expense_type_id"
+      exact
+      component={ReadOnlyCustomExpense}
+    />
+    <Route
+      path="/finances/edit_custom_expense/:expense_type_id"
+      exact
+      component={EditCustomExpense}
+    />
+    <Route path="/finances/add_custom_revenue" exact component={AddCustomRevenue} />
+    <Route
+      path="/finances/readonly_custom_revenue/:revenue_type_id"
+      exact
+      component={ReadOnlyCustomRevenue}
+    />
+    <Route
+      path="/finances/edit_custom_revenue/:revenue_type_id"
+      exact
+      component={EditCustomRevenue}
+    />
+    {/* Redirect old routes to nested finances routes for backwards compatibility */}
+    <Route path="/finances" exact>
+      <Redirect to="/finances/transactions" />
+    </Route>
+    <Route path="/revenue_types" exact>
+      <Redirect to="/finances/revenue_types" />
+    </Route>
+    <Route path="/add_sale" exact>
+      <Redirect to="/finances/add_sale" />
+    </Route>
+    <Route path="/manage_custom_revenues" exact>
+      <Redirect to="/finances/manage_custom_revenues" />
+    </Route>
+    <Route path="/revenue/:sale_id" exact>
+      <Redirect to="/finances/revenue/:sale_id" />
+    </Route>
+    <Route path="/revenue/:sale_id/edit" exact>
+      <Redirect to="/finances/revenue/:sale_id/edit" />
+    </Route>
+    <Route path="/estimated_revenue" exact>
+      <Redirect to="/finances/estimated_revenue" />
+    </Route>
+    <Route path="/labour" exact>
+      <Redirect to="/finances/labour" />
+    </Route>
+    <Route path="/other_expense" exact>
+      <Redirect to="/finances/other_expense" />
+    </Route>
+    <Route path="/expense/:expense_id" exact>
+      <Redirect to="/finances/expense/:expense_id" />
+    </Route>
+    <Route path="/expense/:expense_id/edit" exact>
+      <Redirect to="/finances/expense/:expense_id/edit" />
+    </Route>
+    <Route path="/expense_categories" exact>
+      <Redirect to="/finances/expense_categories" />
+    </Route>
+    <Route path="/add_expense" exact>
+      <Redirect to="/finances/add_expense" />
+    </Route>
+    <Route path="/manage_custom_expenses" exact>
+      <Redirect to="/finances/manage_custom_expenses" />
+    </Route>
+    <Route path="/add_custom_expense" exact>
+      <Redirect to="/finances/add_custom_expense" />
+    </Route>
+    <Route path="/readonly_custom_expense/:expense_type_id" exact>
+      <Redirect to="/finances/readonly_custom_expense/:expense_type_id" />
+    </Route>
+    <Route path="/edit_custom_expense/:expense_type_id" exact>
+      <Redirect to="/finances/edit_custom_expense/:expense_type_id" />
+    </Route>
+    <Route path="/add_custom_revenue" exact>
+      <Redirect to="/finances/add_custom_revenue" />
+    </Route>
+    <Route path="/readonly_custom_revenue/:revenue_type_id" exact>
+      <Redirect to="/finances/readonly_custom_revenue/:revenue_type_id" />
+    </Route>
+    <Route path="/edit_custom_revenue/:revenue_type_id" exact>
+      <Redirect to="/finances/edit_custom_revenue/:revenue_type_id" />
+    </Route>
+  </Switch>
+);
+
 const Routes = () => {
   useScrollToTop();
   useReduxSnackbar();
@@ -582,54 +690,12 @@ const Routes = () => {
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
             <Route path="/sensor/:location_id" component={SensorDetails} />
             <Route path="/sensor/:location_id/edit" exact component={EditSensor} />
-            <Route path="/finances" exact component={Finances} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/soilom" exact component={SoilOM} />
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
             <Route path="/insights/prices" exact component={Prices} />
             <Route path="/help" exact component={HelpRequest} />
-            <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
-            <Route
-              path="/finances/estimated_revenue/plan/:management_plan_id"
-              exact
-              component={UpdateEstimatedCropRevenue}
-            />
-            <Route path="/revenue_types" exact component={RevenueTypes} />
-            <Route path="/add_sale" exact component={AddSale} />
-            <Route path="/manage_custom_revenues" exact component={ManageRevenueTypes} />
-            <Route path="/revenue/:sale_id/" exact component={RevenueDetail} />
-            <Route path="/revenue/:sale_id/edit" exact component={RevenueDetail} />
-            <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
-            <Route path="/labour" exact component={Labour} />
-            <Route path="/other_expense" exact component={OtherExpense} />
-            <Route path="/expense/:expense_id/" exact component={ExpenseDetail} />
-            <Route path="/expense/:expense_id/edit" exact component={ExpenseDetail} />
-            <Route path="/expense_categories" exact component={ExpenseCategories} />
-            <Route path="/add_expense" exact component={AddExpense} />
-            <Route path="/manage_custom_expenses" exact component={ManageExpenseTypes} />
-            <Route path="/add_custom_expense" exact component={AddCustomExpense} />
-            <Route
-              path="/readonly_custom_expense/:expense_type_id"
-              exact
-              component={ReadOnlyCustomExpense}
-            />
-            <Route
-              path="/edit_custom_expense/:expense_type_id"
-              exact
-              component={EditCustomExpense}
-            />
-            <Route path="/add_custom_revenue" exact component={AddCustomRevenue} />
-            <Route
-              path="/readonly_custom_revenue/:revenue_type_id"
-              exact
-              component={ReadOnlyCustomRevenue}
-            />
-            <Route
-              path="/edit_custom_revenue/:revenue_type_id"
-              exact
-              component={EditCustomRevenue}
-            />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
@@ -684,6 +750,7 @@ const Routes = () => {
               exact
               component={NotificationReadOnly}
             />
+            <FinancesRoutes />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
               to={'/'}
@@ -892,49 +959,6 @@ const Routes = () => {
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
             <Route path="/sensor/:location_id" component={SensorDetails} />
-
-            <Route path="/finances" exact component={Finances} />
-            <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
-            <Route
-              path="/finances/estimated_revenue/plan/:management_plan_id"
-              exact
-              component={UpdateEstimatedCropRevenue}
-            />
-            <Route path="/revenue_types" exact component={RevenueTypes} />
-            <Route path="/add_sale" exact component={AddSale} />
-            <Route path="/manage_custom_revenues" exact component={ManageRevenueTypes} />
-            <Route path="/revenue/:sale_id/" exact component={RevenueDetail} />
-            <Route path="/revenue/:sale_id/edit" exact component={RevenueDetail} />
-            <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
-            <Route path="/labour" exact component={Labour} />
-            <Route path="/other_expense" exact component={OtherExpense} />
-            <Route path="/expense/:expense_id/" exact component={ExpenseDetail} />
-            <Route path="/expense/:expense_id/edit" exact component={ExpenseDetail} />
-            <Route path="/expense_categories" exact component={ExpenseCategories} />
-            <Route path="/add_expense" exact component={AddExpense} />
-            <Route path="/manage_custom_expenses" exact component={ManageExpenseTypes} />
-            <Route path="/add_custom_expense" exact component={AddCustomExpense} />
-            <Route
-              path="/readonly_custom_expense/:expense_type_id"
-              exact
-              component={ReadOnlyCustomExpense}
-            />
-            <Route
-              path="/edit_custom_expense/:expense_type_id"
-              exact
-              component={EditCustomExpense}
-            />
-            <Route path="/add_custom_revenue" exact component={AddCustomRevenue} />
-            <Route
-              path="/readonly_custom_revenue/:revenue_type_id"
-              exact
-              component={ReadOnlyCustomRevenue}
-            />
-            <Route
-              path="/edit_custom_revenue/:revenue_type_id"
-              exact
-              component={EditCustomRevenue}
-            />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
             <Route
@@ -1011,6 +1035,7 @@ const Routes = () => {
               exact
               component={NotificationReadOnly}
             />
+            <FinancesRoutes />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>

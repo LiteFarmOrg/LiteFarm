@@ -1,85 +1,92 @@
-import { useState } from 'react';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import clsx from 'clsx';
-import { ReactComponent as Logo } from '../../../../assets/images/navbar/nav-logo.svg';
-import { ReactComponent as VectorUp } from '../../../../assets/images/navbar/vector-up.svg';
-import { ReactComponent as VectorDown } from '../../../../assets/images/navbar/vector-down.svg';
-import { useTranslation } from 'react-i18next';
-import { List, ListItem, ListItemText } from '@mui/material';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { matchPath } from 'react-router-dom';
+
+import { ReactComponent as Logo } from '../../../../assets/images/middle_logo.svg';
+import useExpandable from '../../../Expandable/useExpandableItem';
+import { getAdministratorActionsList, getMenuList } from '../utils';
 import styles from './styles.module.scss';
 
-function PureSlideMenu({ history, closeDrawer, isAdmin, classes = {} }) {
-  const [manageOpen, setManageOpen] = useState(true);
-  const toggleManage = () => {
-    setManageOpen(!manageOpen);
-  };
+const MenuItem = ({ history, key, onClick, path, children }) => (
+  <ListItemButton
+    key={key}
+    onClick={onClick ?? (() => history.push(path))}
+    className={clsx(
+      styles.listItem,
+      matchPath(history.location.pathname, path) && styles.activeListItem,
+    )}
+  >
+    {children}
+  </ListItemButton>
+);
 
-  const { t } = useTranslation();
+function PureSlideMenu({ history, closeDrawer, isAdmin, classes = {} }) {
+  const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
+
   const handleClick = (link) => {
     history.push(link);
     closeDrawer?.();
   };
 
   return (
-    <div role="presentation" className={classes.container}>
-      <List>
-        <Logo onClick={() => handleClick('/')} alt={'logo'} className={styles.logo} />
-        <ListItem className={styles.listItem} button onClick={toggleManage}>
-          <ListItemText
-            classes={{ primary: styles.ListItemText }}
-            primary={t('SLIDE_MENU.MANAGE')}
-          />
-          {manageOpen ? <VectorUp /> : <VectorDown />}
-        </ListItem>
-        {manageOpen && (
-          <>
-            <ListItem
-              className={styles.subListItem}
-              button
-              onClick={() => {
-                handleClick('/crop_catalogue');
-              }}
-            >
-              <ListItemText
-                classes={{ primary: styles.subListItemText }}
-                primary={t('SLIDE_MENU.CROPS')}
-              />
-            </ListItem>
-            <ListItem className={styles.subListItem} button onClick={() => handleClick('/tasks')}>
-              <ListItemText
-                classes={{ primary: styles.subListItemText }}
-                primary={t('SLIDE_MENU.TASKS')}
-              />
-            </ListItem>
-            {isAdmin && (
-              <ListItem
-                className={styles.subListItem}
-                button
-                onClick={() => handleClick('/documents')}
-              >
-                <ListItemText
-                  classes={{ primary: styles.subListItemText }}
-                  primary={t('SLIDE_MENU.DOCUMENTS')}
-                />
-              </ListItem>
-            )}
-          </>
-        )}
-        {isAdmin && (
-          <ListItem className={styles.listItem} button onClick={() => handleClick('/Finances')}>
-            <ListItemText
-              classes={{ primary: styles.ListItemText }}
-              primary={t('SLIDE_MENU.FINANCES')}
-            />
-          </ListItem>
-        )}
+    <div role="presentation" className={clsx(classes.container, styles.container)}>
+      <List className={styles.list}>
+        <ListItemButton onClick={() => handleClick('/')} className={styles.listItem}>
+          <Logo alt={'logo'} className={styles.logo} />
+        </ListItemButton>
+        {getMenuList(isAdmin, history).map(({ icon, label, path, subMenu }) => {
+          if (!subMenu) {
+            return (
+              <MenuItem history={history} key={label} path={path}>
+                <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
+                <ListItemText primary={label} className={styles.listItemText} />
+              </MenuItem>
+            );
+          }
 
-        <ListItem className={styles.listItem} button onClick={() => handleClick('/Insights')}>
-          <ListItemText
-            classes={{ primary: styles.ListItemText }}
-            primary={t('SLIDE_MENU.INSIGHTS')}
-          />
-        </ListItem>
+          return (
+            <React.Fragment key={label}>
+              <MenuItem
+                history={history}
+                key={label}
+                onClick={() => toggleExpanded(label)}
+                path={path}
+              >
+                <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
+                <ListItemText primary={label} className={styles.listItemText} />
+                {expandedIds.includes(label) ? (
+                  <ExpandLess className={styles.expandIcon} />
+                ) : (
+                  <ExpandMore className={styles.expandIcon} />
+                )}
+              </MenuItem>
+              <Collapse in={expandedIds.includes(label)} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {subMenu.map(({ label: subMenuLabel, path: subMenuPath }) => {
+                    return (
+                      <MenuItem history={history} key={subMenuLabel} path={subMenuPath}>
+                        <ListItemText primary={subMenuLabel} className={styles.subItemText} />
+                      </MenuItem>
+                    );
+                  })}
+                </List>
+              </Collapse>
+            </React.Fragment>
+          );
+        })}
+      </List>
+      <List className={styles.list}>
+        {getAdministratorActionsList().map(({ icon, label, path }) => {
+          return (
+            <MenuItem history={history} key={label} path={path}>
+              <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
+              <ListItemText primary={label} className={styles.listItemText} />
+            </MenuItem>
+          );
+        })}
       </List>
     </div>
   );

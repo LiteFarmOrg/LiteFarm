@@ -1,9 +1,21 @@
-import winston from 'winston';
+import winston, { format } from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
+import Transport from 'winston-transport';
+import * as Sentry from '@sentry/node';
+
+const { errors, json, combine } = format;
+
+// Add the error message as an enumerable property to return with res.json({ error })
+const enumerateErrorMessage = format((info) => {
+  if (info instanceof Error) {
+    info.error = { message: info.message };
+  }
+  return info;
+});
 
 const logger = winston.createLogger({
   level: 'info',
-  format: winston.format.json(),
+  format: combine(enumerateErrorMessage(), json()),
   defaultMeta: { service: 'user-service' },
   transports: [
     //
@@ -23,9 +35,34 @@ const logger = winston.createLogger({
 if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new winston.transports.Console({
-      format: winston.format.simple(),
+      format: combine(errors(), json()),
     }),
   );
+}
+
+// Create custom transport for Sentry reporting
+class SentryTransport extends Transport {
+  constructor(opts) {
+    super(opts);
+  }
+
+  log(info, callback) {
+    setImmediate(() => {
+      this.emit('logged', info);
+    });
+
+    // Only report if a true Error object
+    if (info instanceof Error) {
+      Sentry.captureException(info);
+    }
+
+    callback();
+  }
+}
+
+// Report Errors to Sentry
+if (process.env.NODE_ENV !== 'development') {
+  logger.add(new SentryTransport());
 }
 
 console.log = (...args) => logger.info.call(logger, ...args);

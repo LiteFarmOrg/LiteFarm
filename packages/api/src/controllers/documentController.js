@@ -24,6 +24,7 @@ import {
   getRandomFileName,
   getPrivateS3Url,
 } from '../util/digitalOceanSpaces.js';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 
 const documentController = {
   getDocumentsByFarmId() {
@@ -104,23 +105,24 @@ const documentController = {
 
         const fileName = `${farm_id}/document/${getRandomFileName(req.file)}`;
 
-        const uploadOriginalDocumentPromise = s3
-          .putObject({
-            Body: req.file.buffer,
-            Bucket: s3BucketName,
-            Key: fileName,
-            ACL: 'private',
-          })
-          .promise();
+        const uploadOriginalDocument = () =>
+          s3.send(
+            new PutObjectCommand({
+              Body: req.file.buffer,
+              Bucket: s3BucketName,
+              Key: fileName,
+              ACL: 'private',
+            }),
+          );
 
         if (req.isMinimized) {
-          await uploadOriginalDocumentPromise;
+          await uploadOriginalDocument();
           return res.status(201).json({
             url: `${getPrivateS3Url()}/${fileName}`,
             thumbnail_url: `${getPrivateS3Url()}/${fileName}`,
           });
         } else if (req.isTextDocument) {
-          await uploadOriginalDocumentPromise;
+          await uploadOriginalDocument();
           return res.status(201).json({
             url: `${getPrivateS3Url()}/${fileName}`,
           });
@@ -128,26 +130,24 @@ const documentController = {
           const THUMBNAIL_FORMAT = 'webp';
           const THUMBNAIL_WIDTH = '300';
 
-          const imaginaryThumbnailPromise = imaginaryPost(req.file, {
-            width: THUMBNAIL_WIDTH,
-            type: THUMBNAIL_FORMAT,
-          });
-
           const [thumbnail] = await Promise.all([
-            imaginaryThumbnailPromise,
-            uploadOriginalDocumentPromise,
+            imaginaryPost(req.file, {
+              width: THUMBNAIL_WIDTH,
+              type: THUMBNAIL_FORMAT,
+            }),
+            uploadOriginalDocument(),
           ]);
 
           const thumbnailName = `${farm_id}/thumbnail/${uuidv4()}.${THUMBNAIL_FORMAT}`;
 
-          await s3
-            .putObject({
+          await s3.send(
+            new PutObjectCommand({
               Body: thumbnail.data,
               Bucket: getPrivateS3BucketName(),
               Key: thumbnailName,
               ACL: 'private',
-            })
-            .promise();
+            }),
+          );
 
           return res.status(201).json({
             url: `${getPrivateS3Url()}/${fileName}`,

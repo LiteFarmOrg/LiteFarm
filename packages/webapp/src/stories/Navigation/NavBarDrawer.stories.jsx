@@ -9,14 +9,14 @@ export default {
   component: PureProfileFloaterComponent,
 };
 
-export const WithManageMenuOpenAndFinance = ((args) => <SlideMenu {...args} />).bind({});
-WithManageMenuOpenAndFinance.args = {
+export const WithFinance = ((args) => <SlideMenu {...args} />).bind({});
+WithFinance.args = {
   manageOpen: true,
-  showFinances: true,
+  isAdmin: true,
 };
 
-export const WithoutManageMenuOpenOrFinance = ((args) => <SlideMenu {...args} />).bind({});
-WithoutManageMenuOpenOrFinance.args = {
+export const WithoutFinance = ((args) => <SlideMenu {...args} />).bind({});
+WithoutFinance.args = {
   manageOpen: false,
-  showFinances: false,
+  isAdmin: false,
 };

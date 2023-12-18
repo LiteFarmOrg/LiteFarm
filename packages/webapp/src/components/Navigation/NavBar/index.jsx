@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles, useTheme } from '@mui/styles';
+import { useTheme } from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import PureProfileFloater from '../Floater/ProfileFloater';
 import { ReactComponent as NotificationIcon } from '../../../assets/images/notif.svg';
@@ -19,9 +19,8 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import { BiMenu } from 'react-icons/bi';
-import { colors } from '../../../assets/theme';
 import { ClickAwayListener, SwipeableDrawer } from '@mui/material';
-import SlideMenu from './slideMenu';
+import SlideMenu from '../../../containers/Navigation/SlideMenu';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
@@ -30,77 +29,15 @@ import {
   NavBarNotificationSpotlightProvider,
 } from './NavbarSpotlightProvider';
 import Alert from '../../../containers/Navigation/Alert';
-
-const useStyles = makeStyles((theme) => ({
-  menuButton: {
-    position: 'absolute',
-    padding: 0,
-    left: '24px',
-    '&:hover': {
-      backgroundColor: 'transparent',
-    },
-  },
-  icons: {
-    display: 'flex',
-    position: 'absolute',
-    right: '8px',
-  },
-  appBar: {
-    background:
-      'linear-gradient(96.68deg,#78c99e -4.29%,#c7efd3 24.32%,#e3f8ec 35.52%,#e3f8ec 64.28%,#c7efd3 80.81%,#78c99e 125.09%)',
-    boxShadow: 'none',
-    height: 'var(--global-navbar-height)',
-    [theme.breakpoints.up('md')]: {
-      '--global-navbar-height': '72px',
-    },
-  },
-  toolbar: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    flexGrow: 1,
-    alignItems: 'center',
-    [theme.breakpoints.up('md')]: {
-      justifyContent: 'center',
-    },
-  },
-  notificationButton: {
-    transform: 'translateY(1px)',
-  },
-  profileButton: {},
-  iconButton: {
-    margin: theme.spacing(1),
-    padding: 0,
-  },
-  burgerMenu: {
-    fontSize: '32px',
-    color: colors.teal700,
-    [theme.breakpoints.up('md')]: {
-      fontSize: '40px',
-    },
-  },
-  green: {
-    color: colors.teal700,
-  },
-  p: {
-    marginBottom: '12px',
-  },
-  black: {
-    color: colors.grey900,
-  },
-  drawerRoot: {
-    zIndex: '1302 !important',
-  },
-}));
+import styles from './styles.module.scss';
 
 export default function PureNavBar({
   showSpotLight,
   showNotification,
   resetSpotlight,
   history,
-  showFinances,
   defaultOpenFloater,
 }) {
-  const classes = useStyles();
   const { t } = useTranslation([
     'translation',
     'crop',
@@ -123,10 +60,6 @@ export default function PureNavBar({
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const closeDrawer = () => setIsDrawerOpen(false);
   const burgerMenuOnClick = () => setIsDrawerOpen((prev) => !prev);
-  const [manageOpen, setManageOpen] = useState(true);
-  const toggleManage = () => {
-    setManageOpen(!manageOpen);
-  };
   const selectedLanguage = getLanguageFromLocalStorage();
 
   //Floater
@@ -230,34 +163,27 @@ export default function PureNavBar({
   };
 
   return (
-    <AppBar position="sticky" className={classes.appBar}>
-      <Toolbar className={classes.toolbar}>
+    <AppBar position="sticky" className={styles.appBar}>
+      <Toolbar className={styles.toolbar}>
         <IconButton
           data-cy="navbar-hamburger"
           edge="start"
-          className={classes.menuButton}
+          className={styles.menuButton}
           color="inherit"
           aria-label="open drawer"
           onClick={burgerMenuOnClick}
           size="large"
         >
-          <BiMenu className={classes.burgerMenu} />
+          <BiMenu className={styles.burgerMenu} />
         </IconButton>
         <SwipeableDrawer
           anchor={'left'}
           open={isDrawerOpen}
-          classes={{ root: classes.drawerRoot }}
+          classes={{ root: styles.drawerRoot }}
           onClose={() => setIsDrawerOpen(false)}
           onOpen={() => setIsDrawerOpen(true)}
         >
-          <SlideMenu
-            history={history}
-            manageOpen={manageOpen}
-            closeDrawer={closeDrawer}
-            toggleManage={toggleManage}
-            setIsDrawerOpen={setIsDrawerOpen}
-            showFinances={showFinances}
-          />
+          <SlideMenu history={history} closeDrawer={closeDrawer} />
         </SwipeableDrawer>
         <Logo history={history} />
         {showNotification ? (
@@ -266,15 +192,15 @@ export default function PureNavBar({
           <NavbarSpotlightProvider open={showSpotLight} onFinish={resetSpotlight} />
         )}
         <ClickAwayListener onClickAway={onClickAway}>
-          <div className={classes.icons}>
+          <div className={styles.icons}>
             <IconButton
               data-cy="home-notificationButton"
               aria-label="notification icon"
               color="inherit"
               id="zerothStepNavBar"
               onClick={notificationIconClick}
-              className={classes.iconButton}
-              classes={{ root: classes.notificationButton }}
+              className={styles.iconButton}
+              classes={{ root: styles.notificationButton }}
               size="large"
             >
               <NotificationIcon />
@@ -293,7 +219,7 @@ export default function PureNavBar({
                 aria-label="farm-icon"
                 color="inherit"
                 id="firstStepNavBar"
-                className={classes.iconButton}
+                className={styles.iconButton}
                 onClick={farmButtonOnClick}
                 size="large"
               >
@@ -307,8 +233,8 @@ export default function PureNavBar({
               color="inherit"
               id="secondStepNavBar"
               onClick={taskIconClick}
-              className={classes.iconButton}
-              classes={{ root: classes.notificationButton }}
+              className={styles.iconButton}
+              classes={{ root: styles.notificationButton }}
               size="large"
             >
               <TaskIcon />
@@ -329,8 +255,8 @@ export default function PureNavBar({
                 color="inherit"
                 onClick={profileButtonOnClick}
                 id="thirdStepNavBar"
-                className={classes.iconButton}
-                classes={{ root: classes.profileButton }}
+                className={styles.iconButton}
+                classes={{ root: styles.profileButton }}
                 size="large"
               >
                 <ProfilePicture />
@@ -360,7 +286,5 @@ PureNavBar.propTypes = {
   showSpotLight: PropTypes.bool,
   resetSpotlight: PropTypes.func,
   history: PropTypes.object,
-  setDefaultDateRange: PropTypes.func,
-  showFinances: PropTypes.bool,
   defaultOpenFloater: PropTypes.oneOf(['farm', 'notification', 'profile']),
 };

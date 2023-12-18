@@ -22,6 +22,7 @@ import {
 } from '../util/digitalOceanSpaces.js';
 import { v4 as uuidv4 } from 'uuid';
 import FarmModel from '../models/farmModel.js';
+import { DeleteObjectsCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 
 export function parseMultipartJson(req, res, next) {
   const contentType = req.get('Content-Type');
@@ -74,7 +75,7 @@ export async function handleImageOperations(req, res, next) {
       setFarmImageUrls();
     }
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     return res.sendStatus(500);
   }
 
@@ -88,40 +89,48 @@ async function uploadFarmImage(imageFile, keys) {
     type: 'webp',
   });
 
-  const thumbnailUploadPromise = s3
-    .putObject({
-      Body: thumbnail.data,
-      Bucket: bucketName,
-      Key: keys.thumbnailKey,
-      ACL: 'private',
-    })
-    .promise();
-
-  const imageUploadPromise = s3
-    .putObject({
-      Body: imageFile.buffer,
-      Bucket: bucketName,
-      Key: keys.imageKey,
-      ACL: 'private',
-    })
-    .promise();
-
-  await Promise.all([thumbnailUploadPromise, imageUploadPromise]);
+  await Promise.all([
+    s3.send(
+      new PutObjectCommand({
+        Key: keys.thumbnailKey,
+        Bucket: bucketName,
+        Body: thumbnail.data,
+        ACL: 'private',
+      }),
+    ),
+    s3.send(
+      new PutObjectCommand({
+        Key: keys.imageKey,
+        Bucket: bucketName,
+        Body: imageFile.buffer,
+        ACL: 'private',
+      }),
+    ),
+  ]);
 }
 
 async function deleteFarmImage({ thumbnailKey, imageKey }) {
   const bucketName = getPrivateS3BucketName();
 
-  const deleteImagePromsie = s3.deleteObject({ Bucket: bucketName, Key: imageKey }).promise();
+  const deleteCommand = new DeleteObjectsCommand({
+    Bucket: bucketName,
+    Delete: {
+      Objects: [
+        {
+          Key: thumbnailKey,
+        },
+        {
+          Key: imageKey,
+        },
+      ],
+    },
+  });
 
-  const deleteThumbnailPromise = s3
-    .deleteObject({ Bucket: bucketName, Key: thumbnailKey })
-    .promise();
-
-  await Promise.all([deleteImagePromsie, deleteThumbnailPromise]);
+  const response = await s3.send(deleteCommand);
+  if (response.Errors?.length) throw new Error('Unable to delete image');
 }
 
-export async function getExistingImageKeys(farmId) {
+async function getExistingImageKeys(farmId) {
   const {
     farm_image_url: imageUrl,
     farm_image_thumbnail_url: thumbnailUrl,

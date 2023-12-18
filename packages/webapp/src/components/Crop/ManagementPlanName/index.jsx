@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors } from '../../Form/Input';
 import Form from '../../Form';
-import { useForm } from 'react-hook-form';
+import Checkbox from '../../Form/Checkbox';
 import { useSelector } from 'react-redux';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../../containers/userFarmSlice';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -27,9 +27,12 @@ export default function PureManagementPlanName({
 
   const NAME = 'name';
   const NOTES = 'notes';
+  const REPEAT_CROP_PLAN = 'repeat_crop_plan';
 
   const users = useSelector(userFarmsByFarmSelector).filter((user) => user.status !== 'Inactive');
   const user = useSelector(userFarmSelector);
+
+  const unassigned = { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false };
 
   const {
     register,
@@ -45,8 +48,10 @@ export default function PureManagementPlanName({
     shouldUnregister: false,
     user: user,
     users: users,
-    defaultAssignee: { label: t('TASK.UNASSIGNED'), value: null, isDisabled: false },
-    disableUnAssignedOption: false,
+    defaultAssignee:
+      users.length === 1
+        ? { label: `${user.first_name} ${user.last_name}`, value: user.user_id, isDisabled: false }
+        : unassigned,
     additionalFields: {
       [NAME]: t('MANAGEMENT_PLAN.PLAN_AND_ID', { id: managementPlanCount }),
       ...cloneObject(persistedFormData),
@@ -57,6 +62,8 @@ export default function PureManagementPlanName({
   const onGoBack = () => history.back();
 
   const disabled = !isValid;
+
+  const [showRepeatPlanSubText, setShowRepeatPlanSubText] = React.useState(false);
 
   return (
     <Form
@@ -102,6 +109,13 @@ export default function PureManagementPlanName({
         optional
         errors={errors[NOTES]?.message}
       />
+
+      <Checkbox
+        label={t('MANAGEMENT_PLAN.CROP_PLAN_REPEAT')}
+        hookFormRegister={register(REPEAT_CROP_PLAN)}
+        onChange={() => setShowRepeatPlanSubText(!showRepeatPlanSubText)}
+      />
+      {showRepeatPlanSubText && <span>{t('MANAGEMENT_PLAN.CROP_PLAN_REPEAT_SUBTEXT')}</span>}
     </Form>
   );
 }

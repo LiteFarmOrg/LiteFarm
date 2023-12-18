@@ -10,13 +10,6 @@ export const getDateInputFormat = (date) => moment(date).format('YYYY-MM-DD');
 
 /**
  *
- * @param date{string}
- * @return {string}
- */
-export const getDateFromDateTimeString = (date) => date.split('T')[0];
-
-/**
- *
  *
  * @param date
  * @return {Moment}

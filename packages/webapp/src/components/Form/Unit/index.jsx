@@ -118,7 +118,7 @@ const Unit = ({
             {hasLeaf && <Leaf className={styles.leaf} />}
           </Label>
           {toolTipContent && (
-            <div className={styles.tooltipIconContainer}>
+            <div>
               <Infoi content={toolTipContent} />
             </div>
           )}
@@ -173,6 +173,7 @@ const Unit = ({
                 isSearchable={false}
                 options={options}
                 isDisabled={isSelectDisabled}
+                menuPortalTarget={document.body}
               />
             )}
           />

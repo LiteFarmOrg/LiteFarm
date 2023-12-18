@@ -13,140 +13,144 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { createAction } from '@reduxjs/toolkit';
+import axiosWithoutInterceptors from 'axios';
+import produce from 'immer';
 import { all, call, delay, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { url } from '../apiConfig';
 import history from '../history';
-import {
-  isAdminSelector,
-  loginSelector,
-  patchFarmSuccess,
-  putUserSuccess,
-  selectFarmSuccess,
-  userFarmsByFarmSelector,
-  userFarmSelector,
-} from './userFarmSlice';
-import { createAction } from '@reduxjs/toolkit';
-import { logUserInfoSuccess, userLogReducerSelector } from './userLogSlice';
-import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
-import { getBarnsSuccess, onLoadingBarnFail, onLoadingBarnStart } from './barnSlice';
-import {
-  getNaturalAreasSuccess,
-  onLoadingNaturalAreaFail,
-  onLoadingNaturalAreaStart,
-} from './naturalAreaSlice';
-import {
-  getCeremonialsSuccess,
-  onLoadingCeremonialFail,
-  onLoadingCeremonialStart,
-} from './ceremonialSlice';
-import {
-  getFarmSiteBoundarysSuccess,
-  onLoadingFarmSiteBoundaryFail,
-  onLoadingFarmSiteBoundaryStart,
-} from './farmSiteBoundarySlice';
-import {
-  getResidencesSuccess,
-  onLoadingResidenceFail,
-  onLoadingResidenceStart,
-} from './residenceSlice';
-import {
-  getGreenhousesSuccess,
-  onLoadingGreenhouseFail,
-  onLoadingGreenhouseStart,
-} from './greenhouseSlice';
-import {
-  getSurfaceWatersSuccess,
-  onLoadingSurfaceWaterFail,
-  onLoadingSurfaceWaterStart,
-} from './surfaceWaterSlice';
-import {
-  getBufferZonesSuccess,
-  onLoadingBufferZoneFail,
-  onLoadingBufferZoneStart,
-} from './bufferZoneSlice';
-import {
-  getWatercoursesSuccess,
-  onLoadingWatercourseFail,
-  onLoadingWatercourseStart,
-} from './watercourseSlice';
-import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
-import {
-  getWaterValvesSuccess,
-  onLoadingWaterValveFail,
-  onLoadingWaterValveStart,
-} from './waterValveSlice';
-import { getSensorSuccess, onLoadingSensorFail, onLoadingSensorStart } from './sensorSlice';
-import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
-import { getAllCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
-import {
-  getManagementPlansSuccess,
-  onLoadingManagementPlanFail,
-  onLoadingManagementPlanStart,
-} from './managementPlanSlice';
 import i18n from '../locales/i18n';
-import { getExpense, getSales } from './Finances/actions';
+import { store } from '../store/store.js';
+import { APP_VERSION } from '../util/constants';
 import { logout } from '../util/jwt';
-import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
+import { handle403 } from './ErrorHandler/saga.js';
 import { getRoles } from './InviteUser/saga';
-import { getAllUserFarmsByFarmIDSaga } from './Profile/People/saga';
+import notificationSaga, { getNotification } from './Notification/saga';
 import {
   getAllSupportedCertifications,
   getAllSupportedCertifiers,
   getCertificationSurveys,
 } from './OrganicCertifierSurvey/saga';
+import { getAllUserFarmsByFarmIDSaga } from './Profile/People/saga';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from './Snackbar/snackbarSlice';
 import {
-  getAllCropVarietiesSuccess,
-  onLoadingCropVarietyFail,
-  onLoadingCropVarietyStart,
-} from './cropVarietySlice';
-import {
-  getBroadcastMethodsSuccess,
-  onLoadingBroadcastMethodFail,
-  onLoadingBroadcastMethodStart,
-} from './broadcastMethodSlice';
-import {
-  getContainerMethodsSuccess,
-  onLoadingContainerMethodFail,
-  onLoadingContainerMethodStart,
-} from './containerMethodSlice';
+  getHarvestUseTypesSaga,
+  getProductsSaga,
+  getTaskTypesSaga,
+  getTasksSaga,
+} from './Task/saga';
+import { appVersionSelector, setAppVersion } from './appSettingSlice';
+import { getBarnsSuccess, onLoadingBarnFail, onLoadingBarnStart } from './barnSlice';
 import {
   getBedMethodsSuccess,
   onLoadingBedMethodFail,
   onLoadingBedMethodStart,
 } from './bedMethodSlice';
 import {
-  getRowMethodsSuccess,
-  onLoadingRowMethodFail,
-  onLoadingRowMethodStart,
-} from './rowMethodSlice';
+  getBroadcastMethodsSuccess,
+  onLoadingBroadcastMethodFail,
+  onLoadingBroadcastMethodStart,
+} from './broadcastMethodSlice';
 import {
-  getAllDocumentsSuccess,
-  onLoadingDocumentFail,
-  onLoadingDocumentStart,
-} from './documentSlice';
-import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from './Snackbar/snackbarSlice';
+  getBufferZonesSuccess,
+  onLoadingBufferZoneFail,
+  onLoadingBufferZoneStart,
+} from './bufferZoneSlice';
+import {
+  getCeremonialsSuccess,
+  onLoadingCeremonialFail,
+  onLoadingCeremonialStart,
+} from './ceremonialSlice';
+import {
+  getContainerMethodsSuccess,
+  onLoadingContainerMethodFail,
+  onLoadingContainerMethodStart,
+} from './containerMethodSlice';
 import {
   getCropManagementPlansSuccess,
   onLoadingCropManagementPlanFail,
   onLoadingCropManagementPlanStart,
 } from './cropManagementPlanSlice';
+import { getAllCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
+import {
+  getAllCropVarietiesSuccess,
+  onLoadingCropVarietyFail,
+  onLoadingCropVarietyStart,
+} from './cropVarietySlice';
+import {
+  getAllDocumentsSuccess,
+  onLoadingDocumentFail,
+  onLoadingDocumentStart,
+} from './documentSlice';
+import {
+  getFarmSiteBoundarysSuccess,
+  onLoadingFarmSiteBoundaryFail,
+  onLoadingFarmSiteBoundaryStart,
+} from './farmSiteBoundarySlice';
+import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
+import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
+import { resetTasksFilter } from './filterSlice';
+import { setIsFetchingData } from './Finances/actions.js';
+import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
+import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
+import {
+  getGreenhousesSuccess,
+  onLoadingGreenhouseFail,
+  onLoadingGreenhouseStart,
+} from './greenhouseSlice';
+import {
+  getAllManagementPlansSuccess,
+  getManagementPlansSuccess,
+  onLoadingManagementPlanFail,
+  onLoadingManagementPlanStart,
+} from './managementPlanSlice';
+import {
+  getNaturalAreasSuccess,
+  onLoadingNaturalAreaFail,
+  onLoadingNaturalAreaStart,
+} from './naturalAreaSlice';
 import {
   getPlantingManagementPlansSuccess,
   onLoadingPlantingManagementPlanFail,
   onLoadingPlantingManagementPlanStart,
 } from './plantingManagementPlanSlice';
 import {
-  getHarvestUseTypesSaga,
-  getProductsSaga,
-  getTasksSaga,
-  getTaskTypesSaga,
-} from './Task/saga';
-import notificationSaga, { getNotification } from './Notification/saga';
-import { appVersionSelector, setAppVersion } from './appSettingSlice';
-import { APP_VERSION } from '../util/constants';
-import axiosWithoutInterceptors from 'axios';
-import produce from 'immer';
-import { resetTasksFilter } from './filterSlice';
+  getResidencesSuccess,
+  onLoadingResidenceFail,
+  onLoadingResidenceStart,
+} from './residenceSlice';
+import {
+  getRowMethodsSuccess,
+  onLoadingRowMethodFail,
+  onLoadingRowMethodStart,
+} from './rowMethodSlice';
+import { getSensorSuccess, onLoadingSensorFail, onLoadingSensorStart } from './sensorSlice';
+import {
+  getSurfaceWatersSuccess,
+  onLoadingSurfaceWaterFail,
+  onLoadingSurfaceWaterStart,
+} from './surfaceWaterSlice';
+import { resetTasks } from './taskSlice';
+import {
+  isAdminSelector,
+  loginSelector,
+  patchFarmSuccess,
+  putUserSuccess,
+  selectFarmSuccess,
+  userFarmSelector,
+  userFarmsByFarmSelector,
+} from './userFarmSlice';
+import { logUserInfoSuccess, userLogReducerSelector } from './userLogSlice';
+import {
+  getWaterValvesSuccess,
+  onLoadingWaterValveFail,
+  onLoadingWaterValveStart,
+} from './waterValveSlice';
+import {
+  getWatercoursesSuccess,
+  onLoadingWatercourseFail,
+  onLoadingWatercourseStart,
+} from './watercourseSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -161,8 +165,8 @@ axiosWithoutInterceptors.interceptors.response.use(
       if (localStorage.getItem('id_token')) {
         logout();
       }
-    } else if (error?.response?.status === 403 && history.location.pathname !== '/403') {
-      history.push('/403', { error });
+    } else if (error?.response?.status === 403) {
+      store?.dispatch(handle403());
     }
     return Promise.reject(error);
   },
@@ -285,17 +289,27 @@ export const putFarm = createAction(`putFarmSaga`);
 export function* putFarmSaga({ payload: farm }) {
   const { farmUrl } = apiConfig;
   let { user_id, farm_id, units } = yield select(userFarmSelector);
-  const header = getHeader(user_id, farm_id);
+  const { headers } = getHeader(user_id, farm_id);
 
   // OC: We should never update address information of a farm.
-  let { address, grid_points, ...data } = farm;
+  let { address, grid_points, isImageRemoved, imageFile, ...data } = farm;
   if (data.farm_phone_number === null) {
     delete data.farm_phone_number;
   }
+
   data.units = { measurement: data.units.measurement, currency: units.currency };
+  data.shouldRemoveImage = isImageRemoved;
+
+  const formData = new FormData();
+  formData.append('_file_', imageFile);
+  formData.append('data', JSON.stringify(data));
+
   try {
-    const result = yield call(axios.put, farmUrl + '/' + farm_id, data, header);
-    yield put(patchFarmSuccess({ ...data, farm_id, user_id }));
+    const result = yield call(axios.put, farmUrl + '/' + farm_id, formData, {
+      headers: { ...headers, 'Content-Type': 'multipart/form-data' },
+    });
+
+    yield put(patchFarmSuccess({ ...result.data[0], farm_id, user_id }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:FARM.SUCCESS.UPDATE')));
   } catch (e) {
     console.log(e);
@@ -416,6 +430,30 @@ export function* getManagementPlanAndPlantingMethodSuccessSaga({ payload: manage
   yield call(getPlantingManagementPlansSuccessSaga, { payload: plantingManagementPlans });
 }
 
+export const getAllManagementPlanAndPlantingMethodSuccess = createAction(
+  'getManagementPlanAndPlantingMethodSuccessSaga',
+);
+
+export function* getAllManagementPlanAndPlantingMethodSuccessSaga({ payload: managementPlans }) {
+  yield put(getAllManagementPlansSuccess(managementPlans));
+  yield put(
+    getCropManagementPlansSuccess(
+      managementPlans.map((managementPlan) => managementPlan.crop_management_plan),
+    ),
+  );
+  const plantingManagementPlans = managementPlans.reduce(
+    (plantingManagementPlans, managementPlan) => {
+      for (const planting_management_plan of managementPlan?.crop_management_plan
+        ?.planting_management_plans || []) {
+        plantingManagementPlans.push(planting_management_plan);
+      }
+      return plantingManagementPlans;
+    },
+    [],
+  );
+  yield call(getPlantingManagementPlansSuccessSaga, { payload: plantingManagementPlans });
+}
+
 export function* getPlantingManagementPlansSuccessSaga({ payload: plantingManagementPlans }) {
   const plantingMethods = plantingManagementPlans.reduce(
     (plantingMethods, planting_management_plan) => {
@@ -457,7 +495,7 @@ export function* getManagementPlansSaga() {
   try {
     yield call(onLoadingManagementPlanAndPlantingMethodStartSaga);
     const result = yield call(axios.get, managementPlanURL + '/farm/' + farm_id, header);
-    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: result.data });
+    yield call(getAllManagementPlanAndPlantingMethodSuccessSaga, { payload: result.data });
   } catch (e) {
     console.log(e);
     yield put(onLoadingManagementPlanFail(e));
@@ -557,8 +595,6 @@ export function* fetchAllSaga() {
     put(getCertificationSurveys()),
     put(getAllSupportedCertifications()),
     put(getAllSupportedCertifiers()),
-    put(getSales()),
-    put(getExpense()),
   ];
   const tasks = [
     put(getRoles()),
@@ -580,6 +616,13 @@ export function* fetchAllSaga() {
   yield put(resetTasksFilter({ user_id, userFarms }));
 }
 
+export function* clearOldFarmStateSaga() {
+  yield put(resetTasks());
+
+  // Reset finance loading state
+  yield put(setIsFetchingData(true));
+}
+
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
 
 export function* selectFarmAndFetchAllSaga({ payload: farm }) {
@@ -588,6 +631,7 @@ export function* selectFarmAndFetchAllSaga({ payload: farm }) {
     const userFarm = yield select(userFarmSelector);
     if (!userFarm.has_consent) return history.push('/consent');
     history.push({ pathname: '/' });
+    yield call(clearOldFarmStateSaga);
     yield call(fetchAllSaga);
   } catch (e) {
     console.error('failed to fetch farm info', e);

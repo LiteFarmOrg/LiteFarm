@@ -15,26 +15,22 @@
 
 import {
   ADD_EXPENSES,
-  ADD_OR_UPDATE_SALE,
   ADD_REMOVE_EXPENSE,
+  ADD_SALE,
+  DELETE_EXPENSE,
   DELETE_EXPENSES,
   DELETE_SALE,
-  GET_DEFAULT_EXPENSE_TYPE,
   GET_EXPENSE,
+  GET_FARM_EXPENSE_TYPE,
   GET_SALES,
   SET_DATE_RANGE,
-  SET_DEFAULT_EXPENSE_TYPE,
   SET_EXPENSE,
   SET_EXPENSE_DETAIL_DATE,
-  SET_EXPENSE_DETAIL_ITEM,
-  SET_EXPENSES_TO_EDIT,
+  SET_EXPENSE_TYPE,
+  SET_IS_FETCHING_DATA,
   SET_SALES_IN_STATE,
-  SET_SELECTED_EDIT_EXPENSE,
   SET_SELECTED_EXPENSE_TYPE,
   SET_SELECTED_SALE,
-  TEMP_DELETE_EXPENSE,
-  TEMP_EDIT_EXPENSE,
-  TEMP_SET_EXPENSE_TO_EDIT,
   UPDATE_SALE,
 } from './constants';
 
@@ -51,9 +47,9 @@ export const setSalesInState = (sales) => {
   };
 };
 
-export const addOrUpdateSale = (sale) => {
+export const addSale = (sale) => {
   return {
-    type: ADD_OR_UPDATE_SALE,
+    type: ADD_SALE,
     sale,
   };
 };
@@ -65,10 +61,10 @@ export const updateSale = (sale) => {
   };
 };
 
-export const deleteSale = (sale) => {
+export const deleteSale = (sale_id) => {
   return {
     type: DELETE_SALE,
-    sale,
+    sale_id,
   };
 };
 
@@ -92,16 +88,16 @@ export const setExpense = (expenses) => {
   };
 };
 
-export const getDefaultExpenseType = () => {
+export const setExpenseType = (expense_types) => {
   return {
-    type: GET_DEFAULT_EXPENSE_TYPE,
+    type: SET_EXPENSE_TYPE,
+    expense_types,
   };
 };
 
-export const setDefaultExpenseType = (expense_types) => {
+export const getFarmExpenseType = () => {
   return {
-    type: SET_DEFAULT_EXPENSE_TYPE,
-    expense_types,
+    type: GET_FARM_EXPENSE_TYPE,
   };
 };
 
@@ -119,13 +115,6 @@ export const setExpenseDetailDate = (expense_detail_date) => {
   };
 };
 
-export const setExpenseDetailItem = (expense) => {
-  return {
-    type: SET_EXPENSE_DETAIL_ITEM,
-    expense,
-  };
-};
-
 export const setSelectedExpenseTypes = (expense_types) => {
   return {
     type: SET_SELECTED_EXPENSE_TYPE,
@@ -140,39 +129,10 @@ export const deleteExpenses = (ids) => {
   };
 };
 
-export const tempDeleteExpense = (expense_id) => {
+export const deleteExpense = (expense_id) => {
   return {
-    type: TEMP_DELETE_EXPENSE,
+    type: DELETE_EXPENSE,
     expense_id,
-  };
-};
-
-export const setEditExpenses = (expenses) => {
-  return {
-    type: SET_EXPENSES_TO_EDIT,
-    expenses,
-  };
-};
-
-export const tempSetEditExpense = (expense) => {
-  return {
-    type: TEMP_SET_EXPENSE_TO_EDIT,
-    expense,
-  };
-};
-
-export const tempEditExpense = (expense_id, data) => {
-  return {
-    type: TEMP_EDIT_EXPENSE,
-    expense_id,
-    data,
-  };
-};
-
-export const setSelectedEditExpense = (expense_types) => {
-  return {
-    type: SET_SELECTED_EDIT_EXPENSE,
-    expense_types,
   };
 };
 
@@ -183,10 +143,17 @@ export const addRemoveExpense = (addRemoveObj) => {
   };
 };
 
-//range obj = {startDate: ..., endDate...}
+//range obj = {startDate: ..., endDate..., option: ..., customRange: {startDate: ..., endDate: ...}}
 export const setDateRange = (rangeObj) => {
   return {
     type: SET_DATE_RANGE,
     rangeObj,
+  };
+};
+
+export const setIsFetchingData = (isFetching) => {
+  return {
+    type: SET_IS_FETCHING_DATA,
+    isFetching,
   };
 };

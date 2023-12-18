@@ -159,6 +159,7 @@ const insightController = {
           res.status(200).send({});
         }
       } catch (error) {
+        console.error(error);
         res.status(400).json({ error });
       }
     };
@@ -197,7 +198,7 @@ const insightController = {
         }
       } catch (error) {
         console.log(error);
-        res.status(400).json({ error });
+        res.status(400).json({ error: error.message ? error.message : error });
       }
     };
   },

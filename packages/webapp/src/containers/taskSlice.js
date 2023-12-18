@@ -62,6 +62,16 @@ const upsertManyTasks = (state, { payload: tasks }) => {
   );
 };
 
+const setAllTasks = (state, { payload: tasks }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  taskAdapter.setAll(
+    state,
+    tasks.map((task) => getTask(task)),
+  );
+};
+
 const upsertOneTask = (state, { payload: task }) => {
   state.loading = false;
   state.error = null;
@@ -112,20 +122,37 @@ const taskSlice = createSlice({
             })) || [],
         })),
       }),
+    addAllTasksFromGetReq: (state, { payload: tasks }) =>
+      setAllTasks(state, {
+        payload: tasks.map((task) => ({
+          ...task,
+          locations: task.locations?.map(({ location_id }) => location_id) || [],
+          location_defaults:
+            task.locations?.map(({ location_defaults }) => location_defaults) || [],
+          managementPlans:
+            task.managementPlans?.map(({ management_plan_id, planting_management_plan_id }) => ({
+              management_plan_id,
+              planting_management_plan_id,
+            })) || [],
+        })),
+      }),
     putTaskSuccess: upsertOneTask,
     putTasksSuccess: updateManyTasks,
     createTaskSuccess: taskAdapter.addOne,
     deleteTaskSuccess: removeOne,
+    resetTasks: taskAdapter.removeAll,
   },
 });
 export const {
   onLoadingTasksFail,
   onLoadingTasksStart,
   addManyTasksFromGetReq,
+  addAllTasksFromGetReq,
   putTaskSuccess,
   putTasksSuccess,
   createTaskSuccess,
   deleteTaskSuccess,
+  resetTasks,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 
@@ -228,6 +255,9 @@ export const tasksSelector = createSelector(
   [taskEntitiesSelector, loginSelector],
   (taskEntities, { farm_id }) => {
     return Object.values(taskEntities).filter(({ locations, managementPlans, taskType }) => {
+      if (managementPlans.length && managementPlans.every(({ deleted }) => deleted)) {
+        return false;
+      }
       for (const location of locations) {
         if (location.farm_id === farm_id) {
           return true;

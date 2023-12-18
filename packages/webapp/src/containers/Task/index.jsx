@@ -48,7 +48,6 @@ import { IS_ASCENDING } from '../Filter/constants';
 import { WEEKLY_UNASSIGNED_TASKS, DAILY_TASKS_DUE_TODAY } from '../Notification/constants';
 import { filteredTaskCardContentSelector } from './taskCardContentSelector';
 import TaskCount from '../../components/Task/TaskCount';
-import { getTaskTypes } from './saga';
 import { getAllUserFarmsByFarmId } from '../Profile/People/saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../taskTypeSlice';
 import { getSupportedTaskTypesSet } from '../../components/Task/getSupportedTaskTypesSet';
@@ -99,7 +98,6 @@ export default function TaskPage({ history }) {
   }, [activeUsers.length, taskTypes.length]);
 
   useEffect(() => {
-    dispatch(getTaskTypes());
     dispatch(getAllUserFarmsByFarmId());
     dispatch(getManagementPlansAndTasks());
     dispatch(resetAndUnLockFormData());

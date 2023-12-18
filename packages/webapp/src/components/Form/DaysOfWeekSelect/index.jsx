@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -43,6 +43,11 @@ const DaysOfWeekSelect = ({
 
   const [selected, setSelected] = useState(defaultValue ? defaultValue : []);
 
+  // To allow control via setValue from parent React Hook Form, while still allowing component to maintain internal state
+  useEffect(() => {
+    setSelected(defaultValue ? defaultValue : []);
+  }, [defaultValue]);
+
   const handleChange = (e, day) => {
     let updated;
 
@@ -51,7 +56,7 @@ const DaysOfWeekSelect = ({
       updated = [day];
 
       // If maxSelect > 1, allow selecting more up to the maxSelect
-    } else if (maxSelect > 1 && e.target.checked && updated.length < maxSelect) {
+    } else if (maxSelect > 1 && e.target.checked && selected.length < maxSelect) {
       updated = [...selected, day];
 
       // Handle uncheck

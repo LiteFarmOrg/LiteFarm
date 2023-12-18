@@ -39,7 +39,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-
+    release: '3.5.2',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -132,6 +132,7 @@ import taskTypeRoutes from './routes/taskTypeRoute.js';
 import userRoutes from './routes/userRoute.js';
 import farmExpenseRoute from './routes/farmExpenseRoute.js';
 import farmExpenseTypeRoute from './routes/farmExpenseTypeRoute.js';
+import revenueTypeRoute from './routes/revenueTypeRoute.js';
 import farmRoutes from './routes/farmRoute.js';
 import logRoutes from './routes/logRoute.js';
 import managementPlanRoute from './routes/managementPlanRoute.js';
@@ -197,6 +198,7 @@ app.set('json replacer', (key, value) => {
     'transition_date',
     'transplant_date',
     'valid_until',
+    'sale_date',
   ];
 
   if (value && pgDateTypeFields.includes(key)) {
@@ -267,6 +269,7 @@ app
   .use('/crop_variety', cropVarietyRoutes)
   .use('/field', fieldRoutes)
   .use('/sale', saleRoutes)
+  .use('/revenue_type', revenueTypeRoute)
   .use('/task_type', taskTypeRoutes)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)

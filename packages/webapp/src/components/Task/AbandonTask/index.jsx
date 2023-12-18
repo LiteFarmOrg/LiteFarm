@@ -8,7 +8,7 @@ import Button from '../../Form/Button';
 import ReactSelect from '../../Form/ReactSelect';
 import { Controller, useForm } from 'react-hook-form';
 import InputAutoSize from '../../Form/InputAutoSize';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import { isNotInFuture } from '../../Form/Input/utils';
 import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
@@ -156,7 +156,7 @@ const PureAbandonTask = ({
           required
           autoFocus
           openCalendar
-          errors={errors[ABANDON_DATE] ? isNotInFuture() : null}
+          errors={getInputErrors(errors, ABANDON_DATE)}
           max={today}
         />
       )}

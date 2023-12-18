@@ -20,6 +20,7 @@ import managementPlanController from '../controllers/managementPlanController.js
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import validateManagementPlanTasks from '../middleware/validation/completeManagementPlanTaskCheck.js';
+import validateManagementPlanDependency from '../middleware/validation/deleteManagementPlan.js';
 import { processManagementPlanReq } from '../middleware/validation/managementPlan.js';
 
 router.get(
@@ -59,6 +60,13 @@ router.post(
   managementPlanController.addManagementPlan(),
 );
 
+router.post(
+  '/repeat_plan',
+  hasFarmAccess({ body: 'management_plan_id' }),
+  checkScope(['add:management_plan']),
+  managementPlanController.repeatManagementPlan(),
+);
+
 router.patch(
   '/:management_plan_id',
   hasFarmAccess({ params: 'management_plan_id' }),
@@ -84,6 +92,14 @@ router.patch(
   hasFarmAccess({ params: 'management_plan_id' }),
   checkScope(['delete:management_plan']),
   managementPlanController.abandonManagementPlan(),
+);
+
+router.get(
+  '/check_delete/:management_plan_id',
+  hasFarmAccess({ params: 'management_plan_id' }),
+  checkScope(['delete:management_plan']),
+  validateManagementPlanDependency,
+  managementPlanController.checkDeleteManagementPlan(),
 );
 
 export default router;

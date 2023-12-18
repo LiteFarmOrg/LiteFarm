@@ -30,7 +30,7 @@ export const PureHarvestingTaskReadOnly = ({
             <Unit
               register={register}
               style={{ marginBottom: '40px' }}
-              label={t('ADD_TASK.QUANTITY')}
+              label={t('common:QUANTITY')}
               name={HARVEST_QUANTITY}
               displayUnitName={HARVEST_QUANTITY_UNIT}
               unitType={harvestAmounts}
@@ -97,7 +97,7 @@ export const PureHavestTaskCompleted = ({
           <Unit
             register={register}
             style={{ marginBottom: '40px' }}
-            label={t('ADD_TASK.QUANTITY')}
+            label={t('common:QUANTITY')}
             name={`harvest_uses.${index}.quantity`}
             displayUnitName={`harvest_uses.${index}.quantity_unit`}
             unitType={harvestAmounts}

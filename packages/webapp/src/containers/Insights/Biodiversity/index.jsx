@@ -77,11 +77,7 @@ const Biodiversity = () => {
       </div>
       <hr className={insightStyles.defaultLine} />
       {biodiversityLoading || biodiversityError ? (
-        <BiodiversityLoadingModal
-          dismissModal={dismissModal}
-          loadingError={biodiversityError}
-          minutes={30 - getMinutesSinceTime(biodiversityData.timeFetched)}
-        />
+        <BiodiversityLoadingModal dismissModal={dismissModal} loadingError={biodiversityError} />
       ) : (
         biodiversityInfoItems
       )}

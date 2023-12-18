@@ -21,6 +21,11 @@ export const getManagementPlan = (obj) => {
       'rating',
       'complete_notes',
       'abandon_reason',
+      'management_plan_group_id',
+      'repetition_number',
+      'management_plan_group',
+      'harvested_to_date',
+      'deleted',
     ],
   );
 };
@@ -37,6 +42,16 @@ const updateOneManagementPlan = (state, { payload }) => {
   managementPlanAdapter.upsertOne(state, getManagementPlan(payload));
 };
 
+const addAllManagementPlan = (state, { payload: managementPlans }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  managementPlanAdapter.setAll(
+    state,
+    managementPlans.map((managementPlan) => getManagementPlan(managementPlan)),
+  );
+};
+
 const addManyManagementPlan = (state, { payload: managementPlans }) => {
   state.loading = false;
   state.error = null;
@@ -45,6 +60,22 @@ const addManyManagementPlan = (state, { payload: managementPlans }) => {
     state,
     managementPlans.map((managementPlan) => getManagementPlan(managementPlan)),
   );
+};
+
+const deleteOneManagementPlan = (state, { payload: managementPlanId }) => {
+  const managementPlan = state.entities[managementPlanId];
+  if (managementPlan) {
+    managementPlan.deleted = true;
+  }
+};
+
+const deleteManyManagementPlans = (state, { payload: managementPlanIds }) => {
+  managementPlanIds.forEach((id) => {
+    const managementPlan = state.entities[id];
+    if (managementPlan) {
+      managementPlan.deleted = true;
+    }
+  });
 };
 
 const managementPlanAdapter = createEntityAdapter({
@@ -61,14 +92,16 @@ const managementPlanSlice = createSlice({
   reducers: {
     onLoadingManagementPlanStart: onLoadingStart,
     onLoadingManagementPlanFail: onLoadingFail,
+    getAllManagementPlansSuccess: addAllManagementPlan,
     getManagementPlansSuccess: addManyManagementPlan,
-    deleteManagementPlanSuccess: managementPlanAdapter.removeOne,
-    deleteManagementPlansSuccess: managementPlanAdapter.removeMany,
+    deleteManagementPlanSuccess: deleteOneManagementPlan, // soft delete
+    deleteManagementPlansSuccess: deleteManyManagementPlans, // soft delete
     updateManagementPlanSuccess: updateOneManagementPlan,
   },
 });
 export const {
   getManagementPlansSuccess,
+  getAllManagementPlansSuccess,
   onLoadingManagementPlanStart,
   onLoadingManagementPlanFail,
   deleteManagementPlanSuccess,
@@ -138,7 +171,8 @@ export const managementPlansSelector = createSelector(
   [managementPlanEntitiesSelector, loginSelector],
   (managementPlanEntities, { farm_id }) =>
     Object.values(managementPlanEntities).filter(
-      (managementPlan) => managementPlan.crop_variety.farm_id === farm_id,
+      (managementPlan) =>
+        managementPlan.crop_variety.farm_id === farm_id && !managementPlan.deleted,
     ),
 );
 
@@ -199,7 +233,6 @@ export const isCompletedManagementPlan = (managementPlan) => {
 
 export const getCompletedManagementPlans = (managementPlans) =>
   managementPlans.filter((managementPlan) => isCompletedManagementPlan(managementPlan));
-
 
 export const currentManagementPlansSelector = createSelector(
   [managementPlansSelector, lastActiveDatetimeSelector],
@@ -298,15 +331,13 @@ export const currentManagementPlanByCropIdSelector = (crop_id) =>
 export const abandonedManagementPlanByCropIdSelector = (crop_id) =>
   createSelector(
     [managementPlanByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
-    (managementPlans) =>
-      getAbandonedManagementPlans(managementPlans),
+    (managementPlans) => getAbandonedManagementPlans(managementPlans),
   );
 
 export const completedManagementPlanByCropIdSelector = (crop_id) =>
   createSelector(
     [managementPlanByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
-    (managementPlans) =>
-      getCompletedManagementPlans(managementPlans),
+    (managementPlans) => getCompletedManagementPlans(managementPlans),
   );
 
 export const plannedManagementPlanByCropIdSelector = (crop_id) =>
@@ -399,3 +430,10 @@ export const expiredManagementPlanByCropVarietyIdSelector = (crop_variety_id) =>
     (managementPlans, lastActiveDate) =>
       getExpiredManagementPlans(managementPlans, new Date(lastActiveDate).getTime()),
   );
+
+export const managementPlanByManagementPlanIDSelector = (management_plan_id) =>
+  createSelector([managementPlansSelector], (managementPlans) => {
+    return managementPlans.filter(
+      (managementPlan) => managementPlan.management_plan_id === parseInt(management_plan_id),
+    );
+  });

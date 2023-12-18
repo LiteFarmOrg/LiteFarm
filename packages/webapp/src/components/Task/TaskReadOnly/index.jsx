@@ -137,6 +137,7 @@ export default function PureTaskReadOnly({
     assigneeName = isInactiveAssignee ? `${fullName} (${t('STATUS.INACTIVE')})` : fullName;
   }
 
+  const isAssignee = user.user_id === assignee?.user_id;
   const assignedToPseudoUser = assignee && assignee.role_id === 4;
 
   const isCompleted = !!task.complete_date;
@@ -210,7 +211,7 @@ export default function PureTaskReadOnly({
           disabled={true}
           value={assigneeName ? assigneeName : t('TASK.UNASSIGNED')}
         />
-        {isCurrent && (
+        {isCurrent && (!assignee || isAdmin || isAssignee) && (
           <BiPencil
             data-cy="taskReadOnly-pencil"
             className={styles.pencil}

@@ -1,4 +1,5 @@
 import knex from '../../util/knex.js';
+
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,
@@ -11,6 +12,7 @@ const entitiesGetters = {
   price_id: fromPrice,
   farm_expense_id: fromFarmExpense,
   expense_type_id: fromFarmExpenseType,
+  revenue_type_id: fromRevenueType,
   farm_id: (farm_id) => ({ farm_id }),
   locationIds: fromLocationIds,
   locations: fromLocations,
@@ -52,8 +54,13 @@ export default ({ params = null, body = null, mixed = null }) => async (req, res
     return next();
   }
 
-  const { farm_id } = req.headers;
   try {
+    const { farm_id } = req.headers;
+
+    if (farm_id === undefined) {
+      return noFarmIdErrorResponse(res);
+    }
+
     const farmIdObjectFromEntity = await entitiesGetters[id_name](id, next);
     // Is getting a seeded table and accessing community data. Go through.
     if (
@@ -239,6 +246,10 @@ function fromFarmExpenseType(expense_type_id) {
   return knex('farmExpenseType').where({ expense_type_id }).first();
 }
 
+function fromRevenueType(revenue_type_id) {
+  return knex('revenue_type').where({ revenue_type_id }).first();
+}
+
 function fromSale(sale_id) {
   return knex('sale').where({ sale_id }).first();
 }
@@ -255,43 +266,50 @@ function notAuthorizedResponse(res) {
   res.status(403).send('user not authorized to access farm');
 }
 
+function noFarmIdErrorResponse(res) {
+  res.status(400).json({ error: 'no farm_id given' });
+}
+
 async function fromTaskManagementPlanAndLocation(req) {
   const farm_id = req.headers.farm_id;
   // harvest_tasks POST request body is an array
   const tasks = req.body.length ? req.body : [req.body];
-  const locationIds = new Set();
-  for (const { managementPlans, locations } of tasks) {
-    locations.forEach(({ location_id }) => locationIds.add(location_id));
-
-    for (const { planting_management_plan_id } of managementPlans || []) {
-      const managementPlan = await knex('management_plan')
-        .join(
-          'planting_management_plan',
-          'planting_management_plan.management_plan_id',
-          'management_plan.management_plan_id',
-        )
-        .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
-        .where('planting_management_plan.planting_management_plan_id', planting_management_plan_id)
-        .first();
-      if (managementPlan.farm_id !== farm_id) return {};
-
-      if (managementPlan.location_id) {
-        locationIds.add(managementPlan.location_id);
-      }
+  const { locationIds, plantingManagementPlanIds } = tasks.reduce(
+    ({ locationIds, plantingManagementPlanIds }, { locations, managementPlans }) => {
+      return {
+        locationIds: [...locationIds, ...(locations || []).map(({ location_id }) => location_id)],
+        plantingManagementPlanIds: [
+          ...plantingManagementPlanIds,
+          ...(managementPlans || []).map(
+            ({ planting_management_plan_id }) => planting_management_plan_id,
+          ),
+        ],
+      };
+    },
+    { locationIds: [], plantingManagementPlanIds: [] },
+  );
+  if (locationIds.length) {
+    const farmIds = await knex('location')
+      .whereIn('location_id', [...locationIds])
+      .pluck('farm_id');
+    if (farmIds.some((locationFarmId) => locationFarmId !== farm_id)) {
+      return {};
     }
   }
-  const farmIds = await knex('location')
-    .whereIn('location_id', [...locationIds])
-    .pluck('farm_id');
-
-  if (
-    farmIds.length !== locationIds.size || // check if all locationIds exist in the DB
-    new Set(farmIds).size !== 1 ||
-    farmIds[0] !== farm_id
-  ) {
-    return {};
+  if (plantingManagementPlanIds.length) {
+    const farmIds = await knex('planting_management_plan')
+      .join(
+        'management_plan',
+        'planting_management_plan.management_plan_id',
+        'management_plan.management_plan_id',
+      )
+      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .whereIn('planting_management_plan.planting_management_plan_id', plantingManagementPlanIds)
+      .pluck('farm_id');
+    if (farmIds.some((cropVarietyFarmId) => cropVarietyFarmId !== farm_id)) {
+      return {};
+    }
   }
-
   return { farm_id };
 }
 

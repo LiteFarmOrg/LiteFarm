@@ -31,6 +31,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 import mocks from './mock.factories.js';
 import saleModel from '../src/models/saleModel.js';
 import cropVarietySaleModel from '../src/models/cropVarietySaleModel.js';
+import revenueTypeModel from '../src/models/revenueTypeModel.js';
 
 describe('Sale Tests', () => {
   let token;
@@ -42,6 +43,10 @@ describe('Sale Tests', () => {
 
   beforeAll(() => {
     token = global.token;
+  });
+
+  beforeAll(async () => {
+    await mocks.populateDefaultRevenueTypes();
   });
 
   function postSaleRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
@@ -370,11 +375,18 @@ describe('Sale Tests', () => {
     let cropVariety2;
     let someoneElsecrop;
     let someoneElseVariety;
+    let cropSaleRevenueType;
     beforeEach(async () => {
       [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
       [cropVariety2] = await mocks.crop_varietyFactory({ promisedCrop: [crop2] });
       [someoneElsecrop] = await mocks.cropFactory();
       [someoneElseVariety] = await mocks.crop_varietyFactory({ promisedCrop: [someoneElsecrop] });
+
+      cropSaleRevenueType = await revenueTypeModel
+        .query()
+        .where('revenue_name', 'Crop Sale')
+        .first();
+
       sampleReqBody = {
         ...mocks.fakeSale(),
         farm_id: farm.farm_id,
@@ -388,6 +400,7 @@ describe('Sale Tests', () => {
             crop_variety_id: cropVariety2.crop_variety_id,
           },
         ],
+        revenue_type_id: cropSaleRevenueType.revenue_type_id,
       };
     });
 
@@ -486,6 +499,7 @@ describe('Sale Tests', () => {
           const sales = await saleModel.query().where('farm_id', farm.farm_id);
           expect(sales.length).toBe(1);
           expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
+          expect(sales[0].revenue_type_id).toBe(sampleReqBody.revenue_type_id);
           const cropVarietySales = await cropVarietySaleModel
             .query()
             .where('sale_id', sales[0].sale_id);
@@ -503,6 +517,7 @@ describe('Sale Tests', () => {
           const sales = await saleModel.query().where('farm_id', farm.farm_id);
           expect(sales.length).toBe(1);
           expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
+          expect(sales[0].revenue_type_id).toBe(sampleReqBody.revenue_type_id);
           const cropVarietySales = await cropVarietySaleModel
             .query()
             .where('sale_id', sales[0].sale_id);
@@ -520,6 +535,7 @@ describe('Sale Tests', () => {
           const sales = await saleModel.query().where('farm_id', farm.farm_id);
           expect(sales.length).toBe(1);
           expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
+          expect(sales[0].revenue_type_id).toBe(sampleReqBody.revenue_type_id);
           const cropVarietySales = await cropVarietySaleModel
             .query()
             .where('sale_id', sales[0].sale_id);
@@ -529,6 +545,40 @@ describe('Sale Tests', () => {
           );
           done();
         });
+      });
+
+      const testGeneralSale = async (done, userId) => {
+        const [{ revenue_type_id }] = await mocks.revenue_typeFactory({
+          promisedFarm: [{ farm_id: farm.farm_id }],
+          properties: { agriculture_associated: null, crop_generated: false },
+        });
+        delete sampleReqBody.crop_variety_sale;
+        sampleReqBody.value = 50.5;
+        sampleReqBody.note = 'notes';
+        sampleReqBody.revenue_type_id = revenue_type_id;
+
+        postSaleRequest(sampleReqBody, { user_id: userId }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const sales = await saleModel.query().where('farm_id', farm.farm_id);
+          expect(sales.length).toBe(1);
+          expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
+          expect(sales[0].value).toBe(sampleReqBody.value);
+          expect(sales[0].note).toBe(sampleReqBody.note);
+          expect(sales[0].revenue_type_id).toBe(sampleReqBody.revenue_type_id);
+          done();
+        });
+      };
+
+      test(`Owner should post and get a general sale`, async (done) => {
+        testGeneralSale(done, owner.userId);
+      });
+
+      test(`Manager should post and get a general sale`, async (done) => {
+        testGeneralSale(done, manager.userId);
+      });
+
+      test(`Worker should post and get a general sale`, async (done) => {
+        testGeneralSale(done, worker.userId);
       });
 
       test('should return 403 status if sale is posted by unauthorized user', async (done) => {
@@ -563,9 +613,17 @@ describe('Sale Tests', () => {
     let cropVarietySale2;
     let newCrop;
     let newCropVariety;
+    let cropSaleRevenueType;
 
     beforeEach(async () => {
-      [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
+      cropSaleRevenueType = await revenueTypeModel
+        .query()
+        .where('revenue_name', 'Crop Sale')
+        .first();
+      [sale] = await mocks.saleFactory(
+        { promisedUserFarm: [ownerFarm] },
+        mocks.fakeSale({ revenue_type_id: cropSaleRevenueType.revenue_type_id }),
+      );
       [cropVariety2] = await mocks.crop_varietyFactory({ promisedCrop: [crop] });
       [cropVarietySale1] = await mocks.crop_variety_saleFactory({
         promisedCropVariety: [cropVariety],
@@ -601,6 +659,7 @@ describe('Sale Tests', () => {
             sale_value: 7777,
           },
         ],
+        revenue_type_id: cropSaleRevenueType.revenue_type_id,
       };
     });
 
@@ -712,7 +771,10 @@ describe('Sale Tests', () => {
       });
 
       test('Worker should patch a sale that they created', async (done) => {
-        let [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
+        let [workersSale] = await mocks.saleFactory(
+          { promisedUserFarm: [workerFarm] },
+          mocks.fakeSale({ revenue_type_id: cropSaleRevenueType.revenue_type_id }),
+        );
         let [workersCropVarietySale] = await mocks.crop_variety_saleFactory({
           promisedCropVariety: [cropVariety],
           promisedSale: [workersSale],

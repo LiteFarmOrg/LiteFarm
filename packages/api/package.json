@@ -1,17 +1,17 @@
 {
   "name": "litefarm-api",
-  "version": "3.3.2",
+  "version": "3.5.1",
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "type": "module",
   "scripts": {
-    "test": "jest --runInBand",
+    "test": "node --inspect ./node_modules/.bin/jest --runInBand",
     "test-ci": "NODE_ENV=pipeline jest --runInBand --forceExit",
     "test-end2end": "jest endToEnd",
     "jest-w": "jest --watch",
     "start": "set NODE_ENV=development&& node src/server.js",
     "start:prod": "node src/server.js",
-    "nodemon": "set NODE_ENV=development && nodemon --inspect=0.0.0.0:9230 src/server.js",
+    "nodemon": "set NODE_ENV=development&& nodemon --inspect=0.0.0.0:9230 src/server.js",
     "debug-email-template": "set NODE_ENV=development&& DEBUG=email-templates nodemon src/server.js",
     "debug-i18n": "set NODE_ENV=development&& DEBUG=i18n:* nodemon src/server.js",
     "production": "NODE_ENV=production node src/server.js",
@@ -48,12 +48,12 @@
     ]
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.456.0",
     "@googlemaps/google-maps-services-js": "^3.3.14",
     "@sentry/node": "^7.56.0",
     "adm-zip": "^0.4.16",
     "ajv-formats": "^2.1.1",
     "async-file": "^2.0.2",
-    "aws-sdk": "^2.931.0",
     "axios": "^0.21.4",
     "bcryptjs": "^2.4.3",
     "bull": "^3.22.9",
@@ -64,6 +64,7 @@
     "csvtojson": "^2.0.10",
     "dotenv": "^8.2.0",
     "email-templates": "^8.0.4",
+    "exceljs": "4.3.0",
     "express": "^4.17.1",
     "express-jwt": "^8.4.1",
     "express-jwt-authz": "^2.4.1",
@@ -96,6 +97,7 @@
     "uuid": "^8.3.0",
     "winston": "^3.8.2",
     "winston-daily-rotate-file": "^4.7.1",
+    "winston-transport": "4.6.0",
     "xlsx-populate": "^1.21.0"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 {
   "EXTENSION_OFFICER": "Agent de Vulgarisation",
-  "MANAGER": "Gérant de Ferme",
-  "OWNER": "Propriétaire de Ferme",
-  "WORKER": "Travailleur Agricole",
+  "MANAGER": "Gérant",
+  "OWNER": "Propriétaire",
+  "WORKER": "Ouvrier Agricole",
   "WORKER_WITHOUT_ACCOUNT": "Travailleur Sans Compte"
 }

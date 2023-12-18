@@ -99,17 +99,25 @@ function MainDocumentView({
               {fileDownloadComponent({
                 className: styles.downloadContainer,
                 title: `${document.name}.${url.split('.').at(-1)}`,
-                fileUrl: url,
+                fileUrls: [url],
                 mediaType: mediaEnum.DOCUMENT,
               })}
               {imageComponent({
                 style: { width: '100%', maxWidth: '312px', position: 'relative', zIndex: 0 },
-                fileUrl: thumbnail_url,
+                fileUrls: [thumbnail_url],
                 mediaType: mediaEnum.IMAGE,
               })}
             </div>
           ) : (
-            <CertifierSelectionMenuItem key={index} certifierName={file_name} />
+            <div className={styles.fileItemWrapper} key={index}>
+              {fileDownloadComponent({
+                className: styles.downloadContainer,
+                title: `${document.name}.${url.split('.').at(-1)}`,
+                fileUrls: [url],
+                mediaType: mediaEnum.DOCUMENT,
+              })}
+              <CertifierSelectionMenuItem certifierName={file_name} />
+            </div>
           ),
         )}
       </div>

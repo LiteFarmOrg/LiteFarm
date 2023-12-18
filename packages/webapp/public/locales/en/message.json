@@ -23,14 +23,6 @@
       "UPLOAD": "Failed to upload the CSV file"
     }
   },
-  "CROP": {
-    "ERROR": {
-      "DELETE": "Failed To Delete Field Crop"
-    },
-    "SUCCESS": {
-      "DELETE": "Successfully Deleted Crop"
-    }
-  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Error: failed to add varietal to database",
@@ -54,6 +46,18 @@
       "ADD": "Successfully added new expenses!",
       "DELETE": "Successfully deleted expenses!",
       "UPDATE": "Successfully updated expenses!"
+    }
+  },
+  "EXPENSE_TYPE": {
+    "ERROR": {
+      "ADD": "Failed to create custom expense",
+      "DELETE": "Failed to delete custom expense",
+      "UPDATE": "Failed to update custom expense"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully created custom expense",
+      "DELETE": "Successfully retired custom expense",
+      "UPDATE": "Successfully updated custom expense"
     }
   },
   "FARM": {
@@ -85,11 +89,13 @@
     "ERROR": {
       "ABANDON": "Failed to abandon crop plan!",
       "COMPLETE": "Failed to complete crop plan!",
+      "DELETE": "Failed to delete crop plan!",
       "POST": "Failed to add crop plan!"
     },
     "SUCCESS": {
       "ABANDON": "Successfully abandoned crop plan!",
       "COMPLETE": "Successfully completed crop plan!",
+      "DELETE": "Successfully deleted crop plan!",
       "POST": "Successfully added crop plan!"
     }
   },
@@ -115,12 +121,32 @@
       "EDIT": "crop plan successfully updated"
     }
   },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": "Failed to repeat {{planName}}"
+    },
+    "SUCCESS": {
+      "POST": "{{planName}} repeated successfully"
+    }
+  },
   "REVENUE": {
     "ERROR": {
       "EDIT": "Failed to update revenue"
     },
     "SUCCESS": {
       "EDIT": "Revenue successfully updated"
+    }
+  },
+  "REVENUE_TYPE": {
+    "ERROR": {
+      "ADD": "Failed to add revenue type",
+      "DELETE": "Failed to retire revenue type",
+      "UPDATE": "Failed to update revenue type"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully added revenue type",
+      "DELETE": "Successfully retired revenue type",
+      "UPDATE": "Successfully updated revenue type"
     }
   },
   "SALE": {
@@ -134,6 +160,10 @@
       "DELETE": "Successfully deleted sale",
       "UPDATE": "Successfully updated sale"
     }
+  },
+  "SENSOR": {
+    "ERROR_UPDATE": "Error updating sensor",
+    "SUCCESSFUL_UPDATE": "Sensor successfully updated"
   },
   "TASK": {
     "ABANDON": {
@@ -149,8 +179,7 @@
       "SUCCESS": "Successfully created task"
     },
     "UPDATE": {
-      "FAILED": "Failed to update task",
-      "SUCCESS": "Successfully updated task"
+      "FAILED": "Failed to update task"
     }
   },
   "TASK_TYPE": {
@@ -169,7 +198,6 @@
       "AGREEMENT": "Failed to update user agreement",
       "EXISTS": "User already exists in LiteFarm Network",
       "INVITE": "Error creating user account, please contact LiteFarm for assistance.",
-      "NOTHING_CHANGED": "No data has changed",
       "MAX_RESET_EMAILS": "A password reset link has been emailed to you, please check your inbox and spam folder.",
       "RESET_PASSWORD": "Error with sending password reset email, please contact LiteFarm for assistance.",
       "RESTORE": "There was an error restoring access",
@@ -183,9 +211,5 @@
       "REVOKE": "User access revoked!",
       "UPDATE": "Successfully updated user info!"
     }
-  },
-  "SENSOR": {
-    "SUCCESSFUL_UPDATE": "Sensor successfully updated",
-    "ERROR_UPDATE": "Error updating sensor"
   }
 }

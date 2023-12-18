@@ -31,10 +31,16 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 );
 import mocks from './mock.factories.js';
 import { faker } from '@faker-js/faker';
-import lodash from 'lodash';
+import _pick from 'lodash/pick';
+import _isEqual from 'lodash/isEqual';
 import managementPlanModel from '../src/models/managementPlanModel.js';
 import locationModel from '../src/models/locationModel.js';
 import cropManagementPlanModel from '../src/models/cropManagementPlanModel.js';
+import { getDatesFromManagementPlanGraph } from '../src/util/copyCropPlan.js';
+import { getBareBonesManagementPlan } from './utils/managementPlanTestUtils.js';
+import { getSortedDates } from '../src/util/util.js';
+
+const ONE_WEEK_IN_MILLISECONDS = 604800000;
 
 describe('ManagementPlan Tests', () => {
   let token;
@@ -65,6 +71,21 @@ describe('ManagementPlan Tests', () => {
       .set('farm_id', farm_id)
       .send(data)
       .end(callback);
+  }
+
+  async function postRepeatManagementPlanRequest(
+    data,
+    { user_id = owner.user_id, farm_id = farm.farm_id },
+    callback,
+  ) {
+    chai
+      .request(server)
+      .post(`/management_plan/repeat_plan`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(await callback);
   }
 
   function getRequest(url, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
@@ -356,6 +377,85 @@ describe('ManagementPlan Tests', () => {
             },
             (err, res) => {
               expect(res.status).toBe(403);
+              done();
+            },
+          );
+        });
+      });
+
+      describe('Get harvested to date', () => {
+        test('should get all the harvested quantities that come from completed harvest_tasks in the management_plan', async (done) => {
+          const [harvestedCrop] = await mocks.cropFactory(
+            { promisedFarm: [farm] },
+            {
+              ...mocks.fakeCrop(),
+              crop_common_name: 'crop',
+              user_added: true,
+            },
+          );
+          const [harvestedCropVariety] = await mocks.crop_varietyFactory({
+            promisedFarm: [farm],
+            promisedCrop: [harvestedCrop],
+          });
+          const [harvestedManagementPlan] = await mocks.management_planFactory({
+            promisedFarm: [farm],
+            promisedCrop: [harvestedCrop],
+            promisedCropVariety: [harvestedCropVariety],
+          });
+
+          const [harvestedPlantingManagementPlan] = await mocks.planting_management_planFactory({
+            promisedManagementPlan: [harvestedManagementPlan],
+          });
+          const [baseTask] = await mocks.taskFactory(
+            {
+              promisedUser: [owner],
+            },
+            { ...mocks.fakeTask(), complete_date: new Date() },
+          );
+          const [harvestTask] = await mocks.harvest_taskFactory(
+            {
+              promisedTask: [baseTask],
+            },
+            {
+              ...mocks.fakeHarvestTask(),
+              actual_quantity: 1011,
+            },
+          );
+          // check that not completed tasks are not taken into account by the query
+          const [harvestTask2] = await mocks.harvest_taskFactory(
+            {
+              promisedTask: mocks.taskFactory(
+                {
+                  promisedUser: [owner],
+                },
+                { ...mocks.fakeTask(), complete_date: null },
+              ),
+            },
+            {
+              ...mocks.fakeHarvestTask(),
+              actual_quantity: 122,
+            },
+          );
+          const union = await mocks.management_tasksFactory({
+            promisedTask: [baseTask],
+            promisedPlantingManagementPlan: [harvestedPlantingManagementPlan],
+          });
+
+          const union2 = await mocks.management_tasksFactory({
+            promisedTask: [harvestTask2],
+            promisedPlantingManagementPlan: [harvestedPlantingManagementPlan],
+          });
+
+          getRequest(
+            `/management_plan/farm/${farm.farm_id}`,
+            { user_id: owner.user_id },
+            (err, res) => {
+              expect(res.status).toBe(200);
+              const mp = res.body.find(
+                (mp) => mp.management_plan_id === harvestedManagementPlan.management_plan_id,
+              );
+              expect(mp).toBeDefined();
+              expect(mp.harvested_to_date).toBe(1011);
               done();
             },
           );
@@ -750,17 +850,15 @@ describe('ManagementPlan Tests', () => {
             .first();
           expect(newManagementPlan.complete_notes).toBe(reqBody.complete_notes);
           const deletedManagementPlan = await knex('management_tasks')
-            .where(
-              lodash.pick(managementTaskToBeDeleted, ['planting_management_plan_id', 'task_id']),
-            )
+            .where(_pick(managementTaskToBeDeleted, ['planting_management_plan_id', 'task_id']))
             .first();
           expect(deletedManagementPlan).toBeUndefined();
           const keptManagementTask0 = await knex('management_tasks')
-            .where(lodash.pick(managementTaskToKeep, ['planting_management_plan_id', 'task_id']))
+            .where(_pick(managementTaskToKeep, ['planting_management_plan_id', 'task_id']))
             .first();
           expect(keptManagementTask0).toBeDefined();
           const keptManagementTask1 = await knex('management_tasks')
-            .where(lodash.pick(anotherManagementTask, ['planting_management_plan_id', 'task_id']))
+            .where(_pick(anotherManagementTask, ['planting_management_plan_id', 'task_id']))
             .first();
           expect(keptManagementTask1).toBeDefined();
           done();
@@ -800,25 +898,23 @@ describe('ManagementPlan Tests', () => {
             .first();
           expect(newManagementPlan.complete_notes).toBe(reqBody.complete_notes);
           const deletedManagementPlan = await knex('management_tasks')
-            .where(
-              lodash.pick(managementTaskToBeDeleted, ['planting_management_plan_id', 'task_id']),
-            )
+            .where(_pick(managementTaskToBeDeleted, ['planting_management_plan_id', 'task_id']))
             .first();
           expect(deletedManagementPlan).toBeUndefined();
           const keptManagementTask0 = await knex('management_tasks')
-            .where(lodash.pick(managementTaskToKeep, ['planting_management_plan_id', 'task_id']))
+            .where(_pick(managementTaskToKeep, ['planting_management_plan_id', 'task_id']))
             .first();
           expect(keptManagementTask0).toBeDefined();
           const keptManagementTask1 = await knex('management_tasks')
-            .where(lodash.pick(anotherManagementTask, ['planting_management_plan_id', 'task_id']))
+            .where(_pick(anotherManagementTask, ['planting_management_plan_id', 'task_id']))
             .first();
           expect(keptManagementTask1).toBeDefined();
           const keptManagementTask2 = await knex('management_tasks')
-            .where(lodash.pick(taskToAbandon, ['planting_management_plan_id', 'task_id']))
+            .where(_pick(taskToAbandon, ['planting_management_plan_id', 'task_id']))
             .first();
           expect(keptManagementTask2).toBeDefined();
           const abandonedTask = await knex('task')
-            .where(lodash.pick(taskToAbandon, ['task_id']))
+            .where(_pick(taskToAbandon, ['task_id']))
             .first();
           expect(getDateInputFormat(abandonedTask.abandon_date)).toBe(reqBody.abandon_date);
           done();
@@ -925,11 +1021,22 @@ describe('ManagementPlan Tests', () => {
       };
     }
 
+    function getRepeatBody(management_plan_id, start_dates, repeat_details) {
+      return {
+        management_plan_id,
+        start_dates,
+        repeat_details,
+      };
+    }
+
     async function expectPlantingMethodPosted(res, final_planting_method, initial_planting_method) {
       expect(res.status).toBe(201);
       const { management_plan_id } = res.body.management_plan;
-      const { already_in_ground, for_cover, needs_transplant } =
-        res.body.management_plan.crop_management_plan;
+      const {
+        already_in_ground,
+        for_cover,
+        needs_transplant,
+      } = res.body.management_plan.crop_management_plan;
       if (!already_in_ground) {
         const { planting_management_plan_id } = await knex('planting_management_plan')
           .where({
@@ -984,6 +1091,70 @@ describe('ManagementPlan Tests', () => {
       }
     }
 
+    async function getManagementPlanGraph(managementPlanId) {
+      return await managementPlanModel
+        .query()
+        .withGraphFetched(
+          'crop_management_plan.[planting_management_plans.[managementTasks.[task.[pest_control_task, irrigation_task, scouting_task, soil_task, soil_amendment_task, field_work_task, harvest_task, cleaning_task, locationTasks]], plant_task.[task.[locationTasks]], transplant_task.[task.[locationTasks]], bed_method, container_method, broadcast_method, row_method]]',
+        )
+        .where('management_plan_id', managementPlanId)
+        .first();
+    }
+
+    async function expectManagementGroupPosted(res, repeatBody) {
+      const { management_plan_id, start_dates } = repeatBody;
+      expect(res.status).toBe(201);
+      //Check repetition count set in getRepeatBody()
+      expect(res.body.length).toBe(start_dates.length);
+
+      //Get graphs
+      const templateManagementPlan = await getManagementPlanGraph(management_plan_id);
+      const firstNewPlan = await getManagementPlanGraph(
+        res.body[0].management_plan.management_plan_id,
+      );
+      const secondNewPlan = await getManagementPlanGraph(
+        res.body[1].management_plan.management_plan_id,
+      );
+
+      // Remove variable properties from graphs
+      const bareBonesTemplateManagementPlan = getBareBonesManagementPlan(templateManagementPlan);
+      const bareBonesFirstNewPlan = getBareBonesManagementPlan(firstNewPlan);
+      const bareBonesSecondNewPlan = getBareBonesManagementPlan(secondNewPlan);
+
+      //Compare shape of each repetition
+      expect(_isEqual(bareBonesTemplateManagementPlan, bareBonesFirstNewPlan));
+      expect(_isEqual(bareBonesTemplateManagementPlan, bareBonesSecondNewPlan));
+
+      //Array of dates for each plan
+      const sortedTemplateDates = getSortedDates(
+        getDatesFromManagementPlanGraph(templateManagementPlan),
+      );
+      const sortedFirstNewPlanDates = getSortedDates(getDatesFromManagementPlanGraph(firstNewPlan));
+      const sortedSecondNewPlanDates = getSortedDates(
+        getDatesFromManagementPlanGraph(secondNewPlan),
+      );
+
+      const firstFirstDate = new Date(sortedFirstNewPlanDates[0]);
+      const secondFirstDate = new Date(sortedSecondNewPlanDates[0]);
+
+      //Check for one week difference between repetitions set in getRepeatBody()
+      expect(secondFirstDate - firstFirstDate).toBe(ONE_WEEK_IN_MILLISECONDS);
+      const dateGroups = [sortedFirstNewPlanDates, sortedSecondNewPlanDates];
+
+      //Check the difference between dates is the same
+      dateGroups.forEach((dateGroup) => {
+        dateGroup.forEach((date, index) => {
+          const nextNewDate = dateGroup[index + 1] ? new Date(dateGroup[index + 1]) : null;
+          if (!nextNewDate) {
+            return;
+          }
+          const templateDate = new Date(sortedTemplateDates[index]);
+          const nextTemplateDate = new Date(sortedTemplateDates[index + 1]);
+          expect(nextTemplateDate - templateDate).toBe(nextNewDate - date);
+        });
+      });
+    }
+
     test('should create a broadcast management plan with required data', async (done) => {
       postManagementPlanRequest(getBody('broadcast_method'), userFarm, async (err, res) => {
         await expectPlantingMethodPosted(res, 'broadcast_method');
@@ -1017,8 +1188,7 @@ describe('ManagementPlan Tests', () => {
         .where('location.location_id', field.location_id)
         .first();
       broadcastData.crop_management_plan.planting_management_plans[0].broadcast_method.percentage_planted = 100;
-      broadcastData.crop_management_plan.planting_management_plans[0].broadcast_method.area_used =
-        total_area;
+      broadcastData.crop_management_plan.planting_management_plans[0].broadcast_method.area_used = total_area;
       postManagementPlanRequest(broadcastData, userFarm, async (err, res) => {
         await expectPlantingMethodPosted(res, 'broadcast_method');
         done();
@@ -1079,6 +1249,37 @@ describe('ManagementPlan Tests', () => {
         async (err, res) => {
           expect(res.status).toBe(400);
           done();
+        },
+      );
+    });
+
+    test('should copy an existing management plan with transplant', async (done) => {
+      const oneWeekLater = new Date();
+      const twoWeeksLater = new Date();
+      oneWeekLater.setDate(oneWeekLater.getDate() + 7);
+      twoWeeksLater.setDate(twoWeeksLater.getDate() + 14);
+      const start_dates = [oneWeekLater, twoWeeksLater];
+      const repeat_details = {
+        crop_plan_name: 'Copied Plan',
+      };
+      //create management plan then repeat that plan
+      postManagementPlanRequest(
+        getBody('container_method', 'container_method'),
+        userFarm,
+        async (err, res) => {
+          if (err) {
+            throw err;
+          }
+          expect(res.status).toBe(201);
+          const { management_plan_id } = res.body.management_plan;
+          const repeatBody = getRepeatBody(management_plan_id, start_dates, repeat_details);
+          await postRepeatManagementPlanRequest(repeatBody, userFarm, async (err, res) => {
+            if (err) {
+              throw err;
+            }
+            await expectManagementGroupPosted(res, repeatBody);
+            done();
+          });
         },
       );
     });

@@ -48,6 +48,26 @@ class ContainerMethodModel extends Model {
   static get relationMappings() {
     return {};
   }
+
+  // Custom function used in copy crop plan
+  // Should contain all jsonSchema() and relationMappings() keys
+  static get templateMappingSchema() {
+    return {
+      // jsonSchema()
+      planting_management_plan_id: 'edit',
+      in_ground: 'keep',
+      plant_spacing: 'keep',
+      plant_spacing_unit: 'keep',
+      total_plants: 'keep',
+      number_of_containers: 'keep',
+      plants_per_container: 'keep',
+      planting_depth: 'keep',
+      planting_depth_unit: 'keep',
+      planting_soil: 'keep',
+      container_type: 'keep',
+      // relationMappings
+    };
+  }
 }
 
 export default ContainerMethodModel;

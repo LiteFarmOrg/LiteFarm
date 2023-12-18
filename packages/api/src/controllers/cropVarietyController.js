@@ -9,6 +9,7 @@ import {
 } from '../util/digitalOceanSpaces.js';
 import { v4 as uuidv4 } from 'uuid';
 import baseController from './baseController.js';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 const { post } = baseController;
 
 const cropVarietyController = {
@@ -19,6 +20,7 @@ const cropVarietyController = {
         const result = await CropVarietyModel.query().whereNotDeleted().where({ farm_id });
         return res.status(200).send(result);
       } catch (error) {
+        console.error(error);
         return res.status(400).json({ error });
       }
     };
@@ -32,6 +34,7 @@ const cropVarietyController = {
           ? res.status(200).send(result)
           : res.status(404).send('Crop variety not found');
       } catch (error) {
+        console.error(error);
         return res.status(400).json({ error });
       }
     };
@@ -146,14 +149,14 @@ const cropVarietyController = {
           { endpoint: 'smartcrop' },
         );
 
-        await s3
-          .putObject({
+        await s3.send(
+          new PutObjectCommand({
             Body: compressedImage.data,
             Bucket: getPublicS3BucketName(),
             Key: fileName,
             ACL: 'public-read',
-          })
-          .promise();
+          }),
+        );
 
         return res.status(201).json({
           url: `${getPublicS3Url()}/${fileName}`,

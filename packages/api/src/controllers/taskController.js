@@ -17,6 +17,7 @@ import TaskModel from '../models/taskModel.js';
 
 import UserFarmModel from '../models/userFarmModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
+import PlantingManagementPlanModel from '../models/plantingManagementPlanModel.js';
 import ManagementTasksModel from '../models/managementTasksModel.js';
 import TransplantTaskModel from '../models/transplantTaskModel.js';
 import PlantTaskModel from '../models/plantTaskModel.js';
@@ -27,6 +28,9 @@ import { typesOfTask } from './../middleware/validation/task.js';
 import IrrigationTypesModel from '../models/irrigationTypesModel.js';
 import FieldWorkTypeModel from '../models/fieldWorkTypeModel.js';
 import locationDefaultsModel from '../models/locationDefaultsModel.js';
+import Location from '../models/locationModel.js';
+import TaskTypeModel from '../models/taskTypeModel.js';
+import baseController from './baseController.js';
 const adminRoles = [1, 2, 5];
 // const isDateInPast = (date) => {
 //   const today = new Date();
@@ -36,6 +40,51 @@ const adminRoles = [1, 2, 5];
 //   }
 //   return false;
 // };
+
+async function getTaskAssigneeAndFinalWage(farm_id, user_id, task_id) {
+  const {
+    assignee_user_id,
+    assignee_role_id,
+    wage_at_moment,
+    override_hourly_wage,
+  } = await TaskModel.getTaskAssignee(task_id);
+  const { role_id } = await UserFarmModel.getUserRoleId(user_id);
+  if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
+    throw new Error("Not authorized to complete other people's task");
+  }
+
+  const finalWage = { wage_at_moment: override_hourly_wage ? wage_at_moment : null };
+
+  if (!override_hourly_wage) {
+    const { wage } = await UserFarmModel.query()
+      .where({ user_id: assignee_user_id, farm_id })
+      .first();
+    finalWage.wage_at_moment = wage.amount;
+  }
+
+  return { assignee_user_id, finalWage };
+}
+
+async function updateTaskWithCompletedData(
+  trx,
+  user_id,
+  task_id,
+  data,
+  wagePatchData,
+  nonModifiable,
+) {
+  const task = await TaskModel.query(trx)
+    .context({ user_id })
+    .upsertGraph(
+      { task_id, ...data, ...wagePatchData },
+      {
+        noUpdate: nonModifiable,
+        noDelete: true,
+        noInsert: true,
+      },
+    );
+  return task;
+}
 
 const taskController = {
   async assignTask(req, res) {
@@ -136,6 +185,7 @@ const taskController = {
       }
       return res.status(404).send('Tasks not found');
     } catch (error) {
+      console.error(error);
       return res.status(400).json({ error });
     }
   },
@@ -268,12 +318,59 @@ const taskController = {
     const nonModifiable = getNonModifiable(typeOfTask);
     return async (req, res, next) => {
       try {
+        // Do not allow to create a task if location is deleted
+        if (
+          await baseController.isDeleted(null, Location, {
+            [Location.idColumn]: req.body.locations[0]?.location_id,
+          })
+        ) {
+          return res.status(409).send('location deleted');
+        }
+
         // OC: the "noInsert" rule will not fail if a relationship is present in the graph.
         // it will just ignore the insert on it. This is just a 2nd layer of protection
         // after the validation middleware.
         let data = req.body;
         const { user_id } = req.auth;
         data.owner_user_id = user_id;
+
+        // Filter out deleted management plans from task
+        if (data.managementPlans && data.managementPlans.length > 0) {
+          const plantingManagementPlanIds = data.managementPlans.map(
+            ({ planting_management_plan_id }) => planting_management_plan_id,
+          );
+
+          const plantingManagementPlans = await PlantingManagementPlanModel.query()
+            .context(req.auth)
+            .whereIn('planting_management_plan_id', plantingManagementPlanIds);
+
+          const managementPlanIds = plantingManagementPlans.map(
+            ({ management_plan_id }) => management_plan_id,
+          );
+
+          const validManagementPlans = await ManagementPlanModel.query()
+            .context(req.auth)
+            .whereIn('management_plan_id', managementPlanIds)
+            .where('deleted', false);
+
+          const validManagementPlanIds = validManagementPlans.map(
+            ({ management_plan_id }) => management_plan_id,
+          );
+
+          // Return error if task is associated with only a deleted plan
+          if (validManagementPlanIds.length === 0) {
+            return res.status(404).send('Management plan not found');
+          }
+
+          const validPlantingMangementPlans = plantingManagementPlans
+            .filter(({ management_plan_id }) => validManagementPlanIds.includes(management_plan_id))
+            .map(({ planting_management_plan_id }) => planting_management_plan_id);
+
+          data.managementPlans = data.managementPlans.filter(({ planting_management_plan_id }) =>
+            validPlantingMangementPlans.includes(planting_management_plan_id),
+          );
+        }
+
         data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
@@ -364,7 +461,10 @@ const taskController = {
         row = {
           farm_id,
           field_work_name: field_work_task_type,
-          field_work_type_translation_key: field_work_task_type.toUpperCase().trim(),
+          field_work_type_translation_key: field_work_task_type
+            .toUpperCase()
+            .trim()
+            .replaceAll(' ', '_'),
           created_by_user_id: data.owner_user_id,
           updated_by_user_id: data.owner_user_id,
         };
@@ -374,7 +474,8 @@ const taskController = {
           field_work_name: field_work_task_type.field_work_name,
           field_work_type_translation_key: field_work_task_type.field_work_name
             .toUpperCase()
-            .trim(),
+            .trim()
+            .replaceAll(' ', '_'),
           created_by_user_id: data.owner_user_id,
           updated_by_user_id: data.owner_user_id,
         };
@@ -398,6 +499,7 @@ const taskController = {
 
       const result = await TaskModel.transaction(async (trx) => {
         const result = [];
+        let taskTypeTranslation = '';
         for (const harvest_task of harvest_tasks) {
           harvest_task.owner_user_id = user_id;
           if (harvest_task.assignee_user_id && !harvest_task.wage_at_moment) {
@@ -418,7 +520,26 @@ const taskController = {
               noInsert: nonModifiable,
               relate: ['locations', 'managementPlans'],
             });
-          // N.B. Notification not needed; these tasks are never assigned at creation.
+
+          if (task.assignee_user_id) {
+            const {
+              assignee_user_id,
+              harvest_task: { task_id },
+              task_type_id,
+            } = task;
+            if (!taskTypeTranslation) {
+              taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
+            }
+            await sendTaskNotification(
+              [assignee_user_id],
+              user_id,
+              task_id,
+              TaskNotificationTypes.TASK_ASSIGNED,
+              taskTypeTranslation.task_translation_key,
+              req.headers.farm_id,
+            );
+          }
+
           result.push(removeNullTypes(task));
         }
         return result;
@@ -457,7 +578,20 @@ const taskController = {
             noInsert: nonModifiable,
           });
       });
-      // N.B. Notification not needed; these tasks are never assigned at creation.
+
+      if (result.assignee_user_id) {
+        const { assignee_user_id, task_id, task_type_id } = result;
+        const taskTypeTranslation = await TaskTypeModel.getTaskTranslationKeyById(task_type_id);
+        await sendTaskNotification(
+          [assignee_user_id],
+          user_id,
+          task_id,
+          TaskNotificationTypes.TASK_ASSIGNED,
+          taskTypeTranslation.task_translation_key,
+          req.headers.farm_id,
+        );
+      }
+
       return res.status(201).send(result);
     } catch (error) {
       console.log(error);
@@ -469,42 +603,34 @@ const taskController = {
     const nonModifiable = getNonModifiable(typeOfTask);
     return async (req, res, next) => {
       try {
-        let data = req.body;
         const { farm_id } = req.headers;
         const { user_id } = req.auth;
-        const { task_id } = req.params;
-        const {
-          assignee_user_id,
-          assignee_role_id,
-          wage_at_moment,
-          override_hourly_wage,
-        } = await TaskModel.getTaskAssignee(task_id);
-        const { role_id } = await UserFarmModel.getUserRoleId(user_id);
-        if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
-          return res.status(403).send("Not authorized to complete other people's task");
+        const task_id = parseInt(req.params.task_id);
+
+        if (await baseController.isDeleted(null, TaskModel, { task_id })) {
+          return res.status(400).send('Task has been deleted');
         }
-        const { wage } = await UserFarmModel.query()
-          .where({ user_id: assignee_user_id, farm_id })
-          .first();
-        const wagePatchData = override_hourly_wage
-          ? { wage_at_moment }
-          : { wage_at_moment: wage.amount };
-        data = await this.checkCustomDependencies(
+
+        const { assignee_user_id, finalWage } = await getTaskAssigneeAndFinalWage(
+          farm_id,
+          user_id,
+          task_id,
+        );
+
+        const data = await this.checkCustomDependencies(
           typeOfTask,
-          { ...data, owner_user_id: user_id },
+          { ...req.body, owner_user_id: user_id },
           req.headers.farm_id,
         );
         const result = await TaskModel.transaction(async (trx) => {
-          const task = await TaskModel.query(trx)
-            .context({ user_id: req.auth.user_id })
-            .upsertGraph(
-              { task_id: parseInt(task_id), ...data, ...wagePatchData },
-              {
-                noUpdate: nonModifiable,
-                noDelete: true,
-                noInsert: true,
-              },
-            );
+          const task = await updateTaskWithCompletedData(
+            trx,
+            user_id,
+            task_id,
+            data,
+            finalWage,
+            nonModifiable,
+          );
 
           await patchManagementPlanStartDate(trx, req, typeOfTask);
 
@@ -525,6 +651,9 @@ const taskController = {
           return res.status(404).send('Task not found');
         }
       } catch (error) {
+        if (error.message === "Not authorized to complete other people's task") {
+          return res.status(403).send(error.message);
+        }
         console.log(error);
         return res.status(400).send({ error });
       }
@@ -542,22 +671,25 @@ const taskController = {
       const { user_id } = req.auth;
       const { farm_id } = req.headers;
       const task_id = parseInt(req.params.task_id);
-      const { assignee_user_id, assignee_role_id } = await TaskModel.getTaskAssignee(task_id);
-      const { role_id } = await UserFarmModel.getUserRoleId(user_id);
-      if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
-        return res.status(403).send("Not authorized to complete other people's task");
+
+      if (await baseController.isDeleted(null, TaskModel, { task_id })) {
+        return res.status(400).send('Harvest task has been deleted');
       }
+
+      const { assignee_user_id, finalWage } = await getTaskAssigneeAndFinalWage(
+        farm_id,
+        user_id,
+        task_id,
+      );
       const result = await TaskModel.transaction(async (trx) => {
-        const updated_task = await TaskModel.query(trx)
-          .context({ user_id })
-          .upsertGraph(
-            { task_id, ...req.body.task },
-            {
-              noUpdate: nonModifiable,
-              noDelete: true,
-              noInsert: true,
-            },
-          );
+        const updated_task = await updateTaskWithCompletedData(
+          trx,
+          user_id,
+          task_id,
+          req.body.task,
+          finalWage,
+          nonModifiable,
+        );
         const result = removeNullTypes(updated_task);
         delete result.harvest_task; // Not needed by front end.
 
@@ -588,6 +720,9 @@ const taskController = {
         return res.status(404).send('Task not found');
       }
     } catch (error) {
+      if (error.message === "Not authorized to complete other people's task") {
+        return res.status(403).send(error.message);
+      }
       console.log(error);
       return res.status(400).send({ error });
     }
@@ -679,6 +814,7 @@ const taskController = {
 
       return res.status(200).send(result);
     } catch (error) {
+      console.error(error);
       return res.status(400).json({ error });
     }
   },
@@ -806,7 +942,7 @@ async function patchManagementPlanStartDate(trx, req, typeOfTask, task = req.bod
   }
 }
 
-const TaskNotificationTypes = {
+export const TaskNotificationTypes = {
   TASK_ASSIGNED: 'TASK_ASSIGNED',
   TASK_ABANDONED: 'TASK_ABANDONED',
   TASK_REASSIGNED: 'TASK_REASSIGNED',
@@ -834,7 +970,7 @@ const TaskNotificationUserTypes = {
  * @param {String} farmId
  * @return {Promise<void>}
  */
-async function sendTaskNotification(
+export async function sendTaskNotification(
   receiverIds,
   usernameVariableId,
   taskId,

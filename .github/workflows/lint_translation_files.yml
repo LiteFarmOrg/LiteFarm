@@ -1,0 +1,31 @@
+name: "Lint Translation Files"
+
+on:
+  # Trigger the workflow on pull request,
+  # but only for the integration branch
+  pull_request:
+    branches:
+      - integration
+
+jobs:
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/webapp/
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.26.1
+
+      - name: Install pnpm dependencies
+        run: pnpm install
+
+      - name: Run linters
+        run: npx eslint './public/locales/**/*.json'

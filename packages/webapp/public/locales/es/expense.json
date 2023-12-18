@@ -1,11 +1,54 @@
 {
-  "EQUIPMENT": "Equipo",
-  "FERTILIZER": "Fertilizante",
-  "SOIL_AMENDMENT": "Aditivo de suelo",
-  "MACHINERY": "Maquinaria",
-  "PESTICIDE": "Pesticida",
-  "FUEL": "Combustible",
-  "LAND": "Tierra o terreno",
-  "SEEDS": "Semillas",
-  "OTHER": "Otro"
+  "EQUIPMENT": {
+    "EXPENSE_NAME": "Equipamiento",
+    "CUSTOM_DESCRIPTION": "Gastos relacionados a herramientas simples, insumos y partes para operar su granja."
+  },
+  "SOIL_AMENDMENT": {
+    "EXPENSE_NAME": "Aditivo de suelo",
+    "CUSTOM_DESCRIPTION": "Gastos relacionados a aditivos como fertilizantes que mejoran los atributos de su suelo."
+  },
+  "MACHINERY": {
+    "EXPENSE_NAME": "Maquinaria",
+    "CUSTOM_DESCRIPTION": "Gastos relacionados a la compra, alquiler y mantenimiento de maquinaria."
+  },
+  "PEST_CONTROL": {
+    "EXPENSE_NAME": "Control de plagas",
+    "CUSTOM_DESCRIPTION": "Gastos relacionados a la compra de ingredientes, productos y dispositivos utilizados para administrar especies indeseadas."
+  },
+  "FUEL": {
+    "EXPENSE_NAME": "Combustible",
+    "CUSTOM_DESCRIPTION": "Gastos relacionados al combustible utilizado para infraestructura, vehículos, maquinaria y equipamiento."
+  },
+  "LAND": {
+    "EXPENSE_NAME": "Tierra o terreno",
+    "CUSTOM_DESCRIPTION": "Gastos relacionados a la compra, financiamiento, alquiler, accesso, impuestos y otras tasas para la posesión o uso de la tierra."
+  },
+  "SEEDS_AND_PLANTS": {
+    "EXPENSE_NAME": "Semillas y plantas",
+    "CUSTOM_DESCRIPTION": "Compras de semillas y plántulas usadas para plantar y trasplantar."
+  },
+  "MISCELLANEOUS": {
+    "EXPENSE_NAME": "Misceláneo",
+    "CUSTOM_DESCRIPTION": "Todo lo demás. Considere crear un tipo de gasto personalizado si tendrá gastos similares a este en el futuro."
+  },
+  "UTILITIES": {
+    "EXPENSE_NAME": "Servicios básicos",
+    "CUSTOM_DESCRIPTION": "Gastos recurrentes relacionados a electricidad, gas, agua (incluyendo irrigación), recolección de residuos, y otros servicios periódicos."
+  },
+  "LABOUR": {
+    "EXPENSE_NAME": "Trabajo eventual",
+    "CUSTOM_DESCRIPTION": "Gastos relacionados a individuos contratados eventualmente."
+  },
+  "INFRASTRUCTURE": {
+    "EXPENSE_NAME": "Infraestructura",
+    "CUSTOM_DESCRIPTION": "Gastos relacionados a construir o mejoras estructuras en la granja."
+  },
+  "TRANSPORTATION": {
+    "EXPENSE_NAME": "Transporte",
+    "CUSTOM_DESCRIPTION": "Gastos relacionados a mover ingresos, egresos y personas."
+  },
+  "SERVICES": {
+    "EXPENSE_NAME": "Servicios especializados",
+    "CUSTOM_DESCRIPTION": "Gastos relacionados a otros servicios, como licenciamiento, certificación, soporte agronómico, testeo, marketing y otros."
+  }
 }

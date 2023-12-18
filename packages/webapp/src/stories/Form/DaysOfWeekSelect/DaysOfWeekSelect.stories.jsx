@@ -38,7 +38,7 @@ Default.play = async ({ canvasElement }) => {
 
   await userEvent.click(Monday);
 
-  expect(Monday.checked).toBe(true);
+  await expect(Monday.checked).toBe(true);
 };
 
 export const Disabled = Template.bind({});
@@ -54,7 +54,7 @@ Disabled.play = async ({ canvasElement }) => {
 
   await userEvent.click(Monday);
 
-  expect(Monday.checked).toBe(false);
+  await expect(Monday.checked).toBe(false);
 };
 
 export const MaxTwo = Template.bind({});
@@ -70,7 +70,7 @@ MaxTwo.play = async ({ canvasElement }) => {
 
   await userEvent.click(Friday);
 
-  expect(Friday.checked).toBe(false);
+  await expect(Friday.checked).toBe(false);
 
   const Thursday = canvas.getAllByLabelText('T')[1];
 
@@ -78,7 +78,7 @@ MaxTwo.play = async ({ canvasElement }) => {
 
   await userEvent.click(Friday);
 
-  expect(Friday.checked).toBe(true);
+  await expect(Friday.checked).toBe(true);
 };
 
 export const WithError = Template.bind({});

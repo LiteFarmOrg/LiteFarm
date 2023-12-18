@@ -33,6 +33,10 @@ export function ManagementPlanCard({
   classes = { card: {} },
   onClick,
   score,
+  repetition_count,
+  repetition_number,
+  repeatPlanInfoOnClick,
+  repeatingPlan,
 }) {
   const { t } = useTranslation();
 
@@ -47,7 +51,19 @@ export function ManagementPlanCard({
       score={score}
     >
       <div className={styles.info}>
-        <div className={styles.mainTypographySansColor}>{managementPlanName}</div>
+        <div className={clsx(styles.mainTypographySansColor, styles.planName)}>
+          {managementPlanName}
+
+          {repetition_count && repetition_number && (
+            <span
+              id={repeatingPlan ? 'repeatingPlan' : ''}
+              className={clsx(styles.repeatPlan, { [styles.underline]: repeatPlanInfoOnClick })}
+              onClick={repeatPlanInfoOnClick}
+            >
+              ({repetition_number}/{repetition_count})
+            </span>
+          )}
+        </div>
         <div className={styles.subMain}>
           {locationName} {notes ? ` | ${notes}` : ''}
         </div>
@@ -91,4 +107,8 @@ ManagementPlanCard.propTypes = {
   endDate: PropTypes.any,
   numberOfPendingTask: PropTypes.number,
   management_plan_id: PropTypes.number,
+  management_plan_group_id: PropTypes.string,
+  repetition_count: PropTypes.number,
+  repetition_number: PropTypes.number,
+  repeatPlanInfoOnClick: PropTypes.func,
 };

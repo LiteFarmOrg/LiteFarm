@@ -24,6 +24,7 @@ import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLoc
 export function useValidateBulkSensorData(onUpload, t) {
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
   const [disabled, setDisabled] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState('');
   const [sheetErrors, setSheetErrors] = useState([]);
   const [errorCount, setErrorCount] = useState(0);
@@ -105,9 +106,8 @@ export function useValidateBulkSensorData(onUpload, t) {
 
   const onUploadClicked = async (e) => {
     e.preventDefault();
-    const file = fileInputRef.current.files[0];
-    if (!file) return;
-    onUpload(file);
+    if (!selectedFile) return;
+    onUpload(selectedFile);
   };
 
   const getFileExtension = (fileName) => fileName.split('.').pop();
@@ -118,6 +118,7 @@ export function useValidateBulkSensorData(onUpload, t) {
     try {
       const fileExtension = getFileExtension(file?.name);
       setSelectedFileName(file?.name);
+      setSelectedFile(file);
 
       const fileString = await readFile(file);
 

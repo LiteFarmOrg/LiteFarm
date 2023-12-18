@@ -1,13 +1,24 @@
-import { PureCompleteManagementPlan } from '../../../components/Crop/CompleteManamgenentPlan/PureCompleteManagementPlan';
 import { useDispatch, useSelector } from 'react-redux';
+import { PureCompleteManagementPlan } from '../../../components/Crop/CompleteManamgenentPlan/PureCompleteManagementPlan';
 import { cropVarietySelector } from '../../cropVarietySlice';
+import {
+  managementPlanByManagementPlanIDSelector,
+  managementPlanSelector,
+} from '../../managementPlanSlice';
 import { completeManagementPlan } from './saga';
-import { managementPlanSelector } from '../../managementPlanSlice';
 
 export default function CompleteManagementPlan({ match, history, location }) {
   const management_plan_id = match.params.management_plan_id;
   const crop_variety_id = match.params.variety_id;
   const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
+  const [management_plan] = useSelector(
+    managementPlanByManagementPlanIDSelector(management_plan_id),
+  );
+  const status = management_plan?.complete_date
+    ? 'completed'
+    : management_plan?.abandon_date
+    ? 'abandoned'
+    : '';
   const { start_date } = useSelector(managementPlanSelector(management_plan_id));
   const dispatch = useDispatch();
 
@@ -17,8 +28,15 @@ export default function CompleteManagementPlan({ match, history, location }) {
       location?.state,
     );
   };
-  const onSubmit = (data) => {
-    dispatch(completeManagementPlan({ crop_variety_id, management_plan_id, ...data }));
+  const onSubmit = (data, displayCannotCompleteModal) => {
+    dispatch(
+      completeManagementPlan({
+        displayCannotCompleteModal,
+        crop_variety_id,
+        management_plan_id,
+        ...data,
+      }),
+    );
   };
   return (
     <PureCompleteManagementPlan
@@ -27,6 +45,7 @@ export default function CompleteManagementPlan({ match, history, location }) {
       onGoBack={onGoBack}
       onSubmit={onSubmit}
       start_date={start_date}
+      status={status}
     />
   );
 }

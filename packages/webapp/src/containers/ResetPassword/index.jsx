@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import ResetPasswordModal from '../../components/Modals/ResetPassword';
 import { sendResetPasswordEmail } from '../CustomSignUp/saga';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { passwordResetErrorSelector } from '../customSignUpSlice';
 
 export default function ResetPassword({ email, dismissModal }) {
   const [changeText, setChangeText] = useState(false);
-
+  const passwordResetError = useSelector(passwordResetErrorSelector);
   const dispatch = useDispatch();
 
   const resendLink = () => {
@@ -17,6 +18,11 @@ export default function ResetPassword({ email, dismissModal }) {
   };
 
   return (
-    <ResetPasswordModal onClick={resendLink} changeText={changeText} dismissModal={dismissModal} />
+    <ResetPasswordModal
+      onClick={resendLink}
+      changeText={changeText}
+      dismissModal={dismissModal}
+      passwordResetError={passwordResetError}
+    />
   );
 }

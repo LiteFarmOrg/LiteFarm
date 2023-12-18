@@ -23,14 +23,6 @@
       "UPLOAD": "Falha ao carregar o arquivo CSV"
     }
   },
-  "CROP": {
-    "ERROR": {
-      "DELETE": "Falha na exclusão do cultivo de campo"
-    },
-    "SUCCESS": {
-      "DELETE": "Cultivo excluído com sucesso"
-    }
-  },
   "CROP_VARIETY": {
     "ERROR": {
       "ADD": "Erro: falha ao adicionar variedade ao banco de dados",
@@ -46,14 +38,26 @@
   },
   "EXPENSE": {
     "ERROR": {
-      "ADD": "Falha de adicionar novas despesas",
-      "DELETE": "Falha de excluir despesas",
-      "UPDATE": "Falha de atualizar despesas!"
+      "ADD": "Falha ao adicionar novas despesas",
+      "DELETE": "Falha ao excluir despesas",
+      "UPDATE": "Falha ao atualizar despesas!"
     },
     "SUCCESS": {
       "ADD": "Novas despesas adicionadas com sucesso!",
       "DELETE": "Despesas excluídas com sucesso!",
       "UPDATE": "Despesas atualizadas com sucesso!"
+    }
+  },
+  "EXPENSE_TYPE": {
+    "ERROR": {
+      "ADD": "Falha ao criar despesa personalizada",
+      "DELETE": "Falha ao excluir despesa personalizada",
+      "UPDATE": "Falha ao atualizar despesa personalizada"
+    },
+    "SUCCESS": {
+      "ADD": "Despesa personalizada criada com sucesso",
+      "DELETE": "Despesa personalizada excluída com sucesso",
+      "UPDATE": "Despesa personalizada atualizada com sucesso"
     }
   },
   "FARM": {
@@ -85,11 +89,13 @@
     "ERROR": {
       "ABANDON": "Erro em abandonar o plano de cultivo!",
       "COMPLETE": "Erro ao completar o plano de cultivo!",
+      "DELETE": "Falha ao remover o plano de cultivo!",
       "POST": "Erro ao adicionar plano de cultivo!"
     },
     "SUCCESS": {
       "ABANDON": "Plano de cultivo abandonado com sucesso!",
       "COMPLETE": "Plano de cultivo concluído com sucesso! ",
+      "DELETE": "Plano de cultivo removido com sucesso!",
       "POST": "Plano de cultivo adicionado com sucesso!"
     }
   },
@@ -115,12 +121,32 @@
       "EDIT": "Plano de cultivo atualizado com sucesso"
     }
   },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": "Falha ao repetir {{planName}}"
+    },
+    "SUCCESS": {
+      "POST": "{{planName}} repetido com sucesso"
+    }
+  },
   "REVENUE": {
     "ERROR": {
       "EDIT": "Falha ao atualizar a receita"
     },
     "SUCCESS": {
       "EDIT": "Receita atualizada com sucesso"
+    }
+  },
+  "REVENUE_TYPE": {
+    "ERROR": {
+      "ADD": "Falha ao adicionar tipo de receita",
+      "DELETE": "Falha ao encerrar tipo de receita",
+      "UPDATE": "Falha ao atualizar tipo de receita"
+    },
+    "SUCCESS": {
+      "ADD": "Tipo de receita adicionado com sucesso",
+      "DELETE": "Tipo de receita encerrado com sucesso",
+      "UPDATE": "Tipo de receita atualizado com sucesso"
     }
   },
   "SALE": {
@@ -135,10 +161,14 @@
       "UPDATE": "Venda atualizada com sucesso"
     }
   },
+  "SENSOR": {
+    "ERROR_UPDATE": "Erro ao atualizar sensor",
+    "SUCCESSFUL_UPDATE": "Sensor atualizado com sucesso"
+  },
   "TASK": {
     "ABANDON": {
       "FAILED": "Erro ao completar tarefa",
-      "SUCCESS": "Tarefa concluída com sucesso"
+      "SUCCESS": "Tarefa abandonada com sucesso"
     },
     "COMPLETE": {
       "FAILED": "Erro ao completar tarefa",
@@ -146,11 +176,10 @@
     },
     "CREATE": {
       "FAILED": "Erro ao completar tarefa",
-      "SUCCESS": "Tarefa concluída com sucesso"
+      "SUCCESS": "Tarefa criada com sucesso"
     },
     "UPDATE": {
-      "FAILED": "Falha ao atualizar a tarefa",
-      "SUCCESS": "Tarefa atualizada com sucesso"
+      "FAILED": "Falha ao atualizar a tarefa"
     }
   },
   "TASK_TYPE": {
@@ -169,7 +198,6 @@
       "AGREEMENT": "Falha de atualizar o contrato do usuário",
       "EXISTS": "O usuário já existe na rede de LiteFarm",
       "INVITE": "Erro ao criar conta de usuário, entre em contato com LiteFarm para assistência.",
-      "NOTHING_CHANGED": "Nada mudou",
       "MAX_RESET_EMAILS": "Um link de redefinição de senha foi enviado para você, por favor verifique sua caixa de entrada e pasta de spam.",
       "RESET_PASSWORD": "Erro ao enviar e-mail de redefinição de senha, favor entrar em contato com a LiteFarm para obter assistência.",
       "RESTORE": "Ocorreu um erro, o acesso não foi restaurado",
@@ -183,9 +211,5 @@
       "REVOKE": "Acesso do usuário revogado!",
       "UPDATE": "Informações do usuário atualizadas com sucesso!"
     }
-  },
-  "SENSOR": {
-    "SUCCESSFUL_UPDATE": "Sensor atualizado com sucesso",
-    "ERROR_UPDATE": "Erro ao atualizar sensor"
   }
 }

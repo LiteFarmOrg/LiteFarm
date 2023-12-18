@@ -76,6 +76,7 @@ async function tableCleanup(knex) {
     DELETE FROM "price";
     DELETE FROM "crop_variety_sale";
     DELETE FROM "sale";
+    DELETE FROM "revenue_type";
     DELETE FROM "broadcast_method";
     DELETE FROM "container_method";
     DELETE FROM "row_method";
@@ -83,6 +84,7 @@ async function tableCleanup(knex) {
     DELETE FROM "planting_management_plan";
     DELETE FROM "crop_management_plan";
     DELETE FROM "management_plan";
+    DELETE FROM "management_plan_group";
     DELETE FROM "crop_variety";
     DELETE FROM "crop";
     DELETE FROM "field";
@@ -108,6 +110,7 @@ async function tableCleanup(knex) {
     DELETE FROM "fertilizer";
     DELETE FROM "farmExpense";
     DELETE FROM "farmExpenseType";
+    DELETE FROM "revenue_type";
     DELETE FROM "disease";
     DELETE FROM "pesticide";
     DELETE FROM "task_type";

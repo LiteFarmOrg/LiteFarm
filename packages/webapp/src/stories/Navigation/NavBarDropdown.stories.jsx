@@ -1,12 +1,12 @@
 import React from 'react';
-import { PureProfileFloaterComponent } from '../../components/Navigation/Floater/ProfileFloater';
+import ProfileMenu from '../../components/Navigation/Menus/ProfileMenu';
 import { componentDecoratorsGreyBackground } from '../Pages/config/Decorators';
 
 export default {
-  title: 'Components/Navbar/FloaterComponent',
+  title: 'Components/Navbar/ProfileMenu',
   decorators: componentDecoratorsGreyBackground,
-  component: PureProfileFloaterComponent,
+  component: ProfileMenu,
 };
 
-export const ProfileFloater = ((args) => <PureProfileFloaterComponent {...args} />).bind({});
-ProfileFloater.args = {};
+export const NavbarProfileMenu = ((args) => <ProfileMenu {...args} />).bind({});
+ProfileMenu.args = {};

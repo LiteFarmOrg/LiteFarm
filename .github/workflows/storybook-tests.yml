@@ -1,22 +1,25 @@
 name: "Storybook Tests"
-on: push
+on:
+  pull_request:
+    branches:
+      - integration
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/webapp/
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "18.16.1"
+      - name: Check out Git repository
+        uses: actions/checkout@v3
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2.0.1
         with:
-          version: latest
+          version: 6.26.1
 
-      - name: Install dependencies
-        working-directory: packages/webapp
+      - name: Install pnpm dependencies
         run: pnpm install
 
       - name: Run storybook tests

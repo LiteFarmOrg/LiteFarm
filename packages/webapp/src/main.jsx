@@ -18,7 +18,6 @@ import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
 import { Router } from 'react-router-dom';
-import { registerSW } from 'virtual:pwa-register';
 import history from './history';
 import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
@@ -144,8 +143,6 @@ sagaMiddleware.run(exportSaga);
 sagaMiddleware.run(errorHandlerSaga);
 sagaMiddleware.run(fieldWorkTaskSaga);
 sagaMiddleware.run(irrigationTaskTypesSaga);
-
-registerSW({ immediate: true });
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>

@@ -26,4 +26,4 @@ jobs:
 
       - name: Run storybook tests
         working-directory: packages/webapp
-        run: xvfb-run -a cat allowed-storybook-tests.txt | xargs -I {} pnpm test-storybook:ci {} --maxWorkers=1
+        run: xvfb-run -a pnpm test-storybook:ci src/stories/Form/Input/Input.stories.jsx

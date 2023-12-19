@@ -26,13 +26,8 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run storybook
-        id: storybook
         working-directory: packages/webapp
-        run: |
-          pnpm run storybook
-          sleep 5 # Add a short delay to ensure that the background process has time to complete
-        outputs:
-          time: ${{ steps.wait-for-storybook.outputs.time }}
+        run: pnpm run storybook &
 
       - name: Wait for Storybook to start
         run: |

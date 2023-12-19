@@ -38,6 +38,7 @@ jobs:
       - name: Run storybook tests
         working-directory: packages/webapp
         run: |
-          cat allowed-storybook-tests.txt | xargs -I {} bash -c 'pnpm test-storybook "$@" --maxWorkers=1' _ {}
-          echo "Background processes IDs: $(jobs -p)"
+          while read -r test; do
+            pnpm test-storybook "$test" --maxWorkers=1 &
+          done < allowed-storybook-tests.txt
           wait

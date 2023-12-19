@@ -28,6 +28,16 @@ jobs:
       - name: Build Storybook
         run: yarn build-storybook --quiet
 
+      - name: Check Port Availability
+        run: |
+          PORT=6006
+          if sudo lsof -t -i :$PORT; then
+            echo "Port $PORT is in use."
+            exit 1
+          else
+            echo "Port $PORT is available."
+          fi
+
       - name: Serve Storybook and run tests
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \

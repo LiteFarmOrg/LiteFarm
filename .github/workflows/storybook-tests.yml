@@ -39,4 +39,4 @@ jobs:
         working-directory: packages/webapp
         run: |
           cat allowed-storybook-tests.txt | xargs -I {} bash -c 'pnpm test-storybook "$@" --maxWorkers=1' _ {}
-          wait $! || true # Ensure the background process completes (suppress errors if already terminated)
+          wait $(jobs -p)

@@ -41,7 +41,7 @@
   justify-content: center;
 
   &:hover {
-    background-color: var(--primaryTeal50);
+    background-color: var(--teal50);
   }
 
   @include mobile-breakpoint {
@@ -72,18 +72,18 @@
   @include mobile-breakpoint {
     &:not(:hover) {
       .listItemText {
-        color: var(--primaryTeal50);
+        color: var(--teal50);
       }
   
       .icon {
         path {
-          stroke: var(--primaryTeal50);
+          stroke: var(--teal50);
         }
       }
     }
   
     &.subItem {
-      background-color: var(--primaryTeal50);
+      background-color: var(--teal50);
     }
   }
 }

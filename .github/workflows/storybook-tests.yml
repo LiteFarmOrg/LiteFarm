@@ -22,21 +22,15 @@ jobs:
       - name: Install pnpm dependencies
         run: pnpm install
 
-      - name: Install Playwright
-        run: npx playwright install --with-deps
+      - name: Run storybook
+        working-directory: packages/webapp
+        run: pnpm run storybook &
 
-      - name: Build Storybook
-        run: pnpm build-storybook --quiet
-
-      - name: Serve Storybook
+      - name: Wait for Storybook to start
         run: |
-          echo 'Starting http-server...'
-          npx http-server storybook-static --port 6006 --silent
-        background: true
-
-      - name: Wait for Port 6006
-        run: npx wait-on tcp:6006 --timeout 60000
-
-      - name: Run Storybook Tests
-        run: pnpm test-storybook
-        if: success()
+          until nc -z 127.0.0.1 6006; do sleep 1; done
+          echo "Storybook is now running on port 6006."
+          sleep 15 # Add a short delay (adjust as needed) to ensure Storybook is fully ready
+      - name: Run storybook tests
+        working-directory: packages/webapp
+        run: cat allowed-storybook-tests.txt | xargs -I {} bash -c 'pnpm test-storybook "$@" --maxWorkers=1' _ {}

@@ -5,3 +5,4 @@ AddIrrigationTask
 CleaningTaskReadOnly
 HarvestingTaskReadOnly
 IrrigationTaskReadOnly
+PlantingTaskReadOnly

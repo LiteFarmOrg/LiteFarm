@@ -38,9 +38,11 @@ jobs:
       - name: Run storybook tests
         working-directory: packages/webapp
         run: |
+          # Run tests in the background and capture their PIDs
           while read -r test; do
-            pnpm test-storybook "$test" --maxWorkers=1 &
+            pnpm test-storybook "$test" --maxWorkers=1 & echo $! >> test_pids.txt
           done < allowed-storybook-tests.txt
 
           # Wait for all background processes to finish
-          wait $(jobs -p) || true
+          wait $(cat test_pids.txt) || true
+          cat test_pids.txt

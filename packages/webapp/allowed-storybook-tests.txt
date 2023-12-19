@@ -6,3 +6,4 @@ CleaningTaskReadOnly
 HarvestingTaskReadOnly
 IrrigationTaskReadOnly
 PlantingTaskReadOnly
+SoilAmendmentReadOnly

@@ -9,3 +9,4 @@ PlantingTaskReadOnly
 SoilAmendmentReadOnly
 Expandable
 Components/Filters/FilterGroup
+CardsCarrousel

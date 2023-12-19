@@ -115,6 +115,7 @@
     "lint-staged": "^12.5.0",
     "mailparser": "^3.5.0",
     "nodemailer": "^6.8.0",
+    "playwright": "^1.40.1",
     "react-select-event": "^5.5.1",
     "sass": "^1.56.1",
     "storybook": "7.0.27",

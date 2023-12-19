@@ -28,18 +28,15 @@ jobs:
       - name: Build Storybook
         run: yarn build-storybook --quiet
 
-      - name: Check Port Availability
+      - name: Serve Storybook
         run: |
-          PORT=6006
-          if sudo lsof -t -i :$PORT; then
-            echo "Port $PORT is in use."
-            exit 1
-          else
-            echo "Port $PORT is available."
-          fi
+          echo 'Starting http-server...'
+          npx http-server storybook-static --port 6006 --silent
+        background: true
 
-      - name: Serve Storybook and run tests
-        run: |
-          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-          "echo 'Starting http-server...' && npx http-server storybook-static --port 6006 --silent" \
-          "echo 'Waiting for port 6006...' && npx wait-on tcp:6006 --timeout 60000 && pnpm test-storybook"
+      - name: Wait for Port 6006
+        run: npx wait-on tcp:6006 --timeout 60000
+
+      - name: Run Storybook Tests
+        run: pnpm test-storybook
+        if: success()

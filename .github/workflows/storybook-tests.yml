@@ -27,6 +27,7 @@ jobs:
 
       - name: Run storybook
         id: storybook
+        working-directory: packages/webapp
         run: |
           pnpm run storybook
           sleep 5 # Add a short delay to ensure that the background process has time to complete

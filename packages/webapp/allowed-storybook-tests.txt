@@ -3,3 +3,4 @@ SystemUnmatch
 PlanGuidance
 AddIrrigationTask
 CleaningTaskReadOnly
+HarvestingTaskReadOnly

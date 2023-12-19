@@ -22,6 +22,9 @@ jobs:
       - name: Install pnpm dependencies
         run: pnpm install
 
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
       - name: Run storybook
         working-directory: packages/webapp
         run: pnpm run storybook &

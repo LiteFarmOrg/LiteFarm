@@ -1,13 +1,1 @@
 src/stories/Form/Input/Input.stories.jsx
-SystemUnmatch
-Form/Unit/Unit
-WaterUsageCalculatorModal
-PlanGuidance
-AddIrrigationTask
-Pages/Task/TaskDetail/TaskDetail
-CleaningTaskReadOnly
-HarvestingTaskReadOnly
-HarvestUses
-IrrigationTaskReadOnly
-PlantingTaskReadOnly
-SoilAmendmentReadOnly

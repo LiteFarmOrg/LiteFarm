@@ -30,6 +30,7 @@ import {
 } from './NavbarSpotlightProvider';
 import Alert from '../../../containers/Navigation/Alert';
 import styles from './styles.module.scss';
+import Drawer from '../../Drawer';
 
 export default function PureNavBar({
   showSpotLight,
@@ -38,36 +39,19 @@ export default function PureNavBar({
   history,
   defaultOpenFloater,
 }) {
-  const { t } = useTranslation([
-    'translation',
-    'crop',
-    'common',
-    'disease',
-    'task',
-    'expense',
-    'fertilizer',
-    'message',
-    'gender',
-    'role',
-    'crop_nutrients',
-    'harvest_uses',
-    'soil',
-    'certifications',
-    'crop_group',
-  ]);
-  const dispatch = useDispatch();
-  //Drawer
+  const selectedLanguage = getLanguageFromLocalStorage();
+
+  // Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const closeDrawer = () => setIsDrawerOpen(false);
   const burgerMenuOnClick = () => setIsDrawerOpen((prev) => !prev);
-  const selectedLanguage = getLanguageFromLocalStorage();
 
-  //Floater
+  // Floater
   const [openFloater, setOpenFloater] = useState(defaultOpenFloater);
-  const [FARM, NOTIFICATION, PROFILE] = ['farm', 'notification', 'profile'];
+  const [FARM, PROFILE] = ['farm', 'notification', 'profile'];
   const isFarmFloaterOpen = openFloater === FARM;
-  const isNotificationFloaterOpen = openFloater === NOTIFICATION;
   const isProfileFloaterOpen = openFloater === PROFILE;
+
   const closeFloater = () => {
     setOpenFloater(null);
   };
@@ -144,11 +128,6 @@ export default function PureNavBar({
     closeFloater();
   };
 
-  // Pure Notification Floater
-  const notificationTeaserClick = () => {
-    closeFloater();
-  };
-
   const getLanguageFarmIcon = (language) => {
     switch (language) {
       case 'pt':
@@ -176,15 +155,20 @@ export default function PureNavBar({
         >
           <BiMenu className={styles.burgerMenu} />
         </IconButton>
-        <SwipeableDrawer
-          anchor={'left'}
-          open={isDrawerOpen}
-          classes={{ root: styles.drawerRoot }}
-          onClose={() => setIsDrawerOpen(false)}
-          onOpen={() => setIsDrawerOpen(true)}
+        <Drawer
+          isOpen={isDrawerOpen}
+          onClose={closeDrawer}
+          fullHeight
+          responsiveModal={false}
+          classes={{
+            drawer: styles.drawer,
+            backdrop: styles.drawerBackdrop,
+            header: styles.drawerHeader,
+            content: styles.drawerContent,
+          }}
         >
           <SlideMenu history={history} closeDrawer={closeDrawer} />
-        </SwipeableDrawer>
+        </Drawer>
         <Logo history={history} />
         {showNotification ? (
           <NavBarNotificationSpotlightProvider open={showNotification} onFinish={resetSpotlight} />

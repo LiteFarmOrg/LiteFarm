@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../../assets/mixin.scss';
+
 .menuButton {
   position: absolute;
   padding: 0;
@@ -37,6 +39,29 @@
   background: white;
   box-shadow: none;
   height: var(--global-navbar-height);
+
+  .drawer {
+    background-color: var(--teal700);
+  }
+
+  .drawerHeader {
+    svg {
+      path {
+        color: var(--primaryTeal50);
+      }
+    }
+  }
+
+  .drawerContent {
+    padding: 0;
+    margin-bottom: -16px;
+  }
+
+  @include desktop-breakpoint {
+    .drawer, .drawerBackdrop {
+      display: none;
+    }
+  }
 }
 
 .toolbar {
@@ -78,8 +103,4 @@
 
 .black {
   color: var(--grey900);
-}
-
-.drawerRoot {
-  z-index: 1302 !important;
 }

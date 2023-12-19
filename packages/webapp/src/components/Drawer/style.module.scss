@@ -31,6 +31,8 @@
 }
 
 .drawer {
+  display: flex;
+  flex-direction: column;
   position: fixed;
   bottom: -100%;
   left: 0;
@@ -44,6 +46,15 @@
   z-index: 1110;
   &.openD {
     bottom: 0;
+  }
+
+  &.fullHeight {
+    height: 100%;
+
+    .drawerContent {
+      max-height: 100%;
+      flex-grow: 1;
+    }
   }
 }
 

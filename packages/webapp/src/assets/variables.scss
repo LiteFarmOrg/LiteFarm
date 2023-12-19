@@ -1,3 +1,5 @@
+@import './mixin.scss';
+
 :root {
     // GLOBAL CSS VARIABLES
     --global-navbar-height: 64px;
@@ -5,13 +7,7 @@
     --global-side-menu-width: 204px; // LF-3911 TODO: update to 176px
 }
 
-@media only screen and (max-width: 1024px) {
-    :root {
-        --global-side-menu-width: 80px;
-    }
-}
-
-@media only screen and (max-width: 414px) {
+@include mobile-breakpoint {
     :root {
         --global-navbar-height: 55px;
         --global-side-menu-width: 0px;

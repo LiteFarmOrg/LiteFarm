@@ -14,7 +14,7 @@
  */
 
 import { Suspense } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
 
 import PureNavBar from '../../components/Navigation/NavBar';
@@ -23,13 +23,16 @@ import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 
-const NavBar = (props) => {
-  const { history, dispatch, numberOfUserFarm, showedSpotlight } = props;
+const NavBar = ({ history }) => {
+  const dispatch = useDispatch();
+  const numberOfUserFarm = useSelector(userFarmLengthSelector);
+  const showedSpotlight = useSelector(showedSpotlightSelector);
   const { navigation, notification } = showedSpotlight;
+  const isFarmSelected = useIsFarmSelected();
+
   const resetSpotlight = () => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
-  const isFarmSelected = useIsFarmSelected();
 
   return isFarmSelected ? (
     <Suspense fallback={<NoFarmNavBar />}>
@@ -46,17 +49,4 @@ const NavBar = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    numberOfUserFarm: userFarmLengthSelector(state),
-    showedSpotlight: showedSpotlightSelector(state),
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default NavBar;

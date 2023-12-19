@@ -13,12 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../../../assets/mixin.scss';
+
 .container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border-right: 1px solid #D1E9D9;
   padding: 0;
+  height: 100%;
+
+  @include mobile-breakpoint {
+    border: none;
+    background-color: var(--teal700);
+  }
 }
 
 .list {
@@ -35,15 +43,54 @@
   &:hover {
     background-color: var(--primaryTeal50);
   }
+
+  @include mobile-breakpoint {
+    border: none;
+
+    &.logoListItem {
+      display: none;
+    }
+
+    &.adminActionListItem {
+      background-color: var(--teal600);
+      border-top: 1px solid var(--teal700);
+    }
+  }
 }
 
 .activeListItem {
   background-color: #A2D2CD;
+
+  @include mobile-breakpoint {
+    &.subItem {
+      background-color: #A2D2CD;
+    }
+  }
+}
+
+.inactiveListItem {
+  @include mobile-breakpoint {
+    &:not(:hover) {
+      .listItemText {
+        color: var(--primaryTeal50);
+      }
+  
+      .icon {
+        path {
+          stroke: var(--primaryTeal50);
+        }
+      }
+    }
+  
+    &.subItem {
+      background-color: var(--primaryTeal50);
+    }
+  }
 }
 
 .listItemText {
   margin: 0;
-  color: var(--primaryTeal700);
+  color: var(--teal700);
   font-weight: 500;
 }
 
@@ -54,32 +101,23 @@
 
 .expandIcon {
   path {
-    fill: var(--primaryTeal700);
+    fill: var(--teal700);
   }
+}
+
+.subList {
+  padding: 8px 0;
+}
+
+.subItem {
+  border: none;
+  padding: 8px 16px;
 }
 
 .subItemText {
-  color: var(--primaryTeal700);
+  color: var(--teal700);
 
   span {
     font-weight: 600;
-  }
-}
-
-@media only screen and (max-width: 414px) {
-  .container {
-    background-color: var(--primaryTeal700);
-  }
-
-  .icon {
-    path {
-      stroke: var(--primaryTeal50);
-    }
-  }
-
-  .cropsIcon {
-    path {
-      fill: var(--primaryTeal50);
-    }
   }
 }

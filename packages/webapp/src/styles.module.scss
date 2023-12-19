@@ -13,12 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import './assets/mixin.scss';
+
 .container {
   display: flex;
   width: 100vw;
   flex-grow: 1;
 
-  @media only screen and (max-width: 414px) {
+  @include desktop-breakpoint {
     justify-content: center;
   }
 }
@@ -43,7 +45,7 @@
   top: 0;
   overflow: hidden;
 
-  @media only screen and (max-width: 414px) {
+  @include mobile-breakpoint {
     display: none;
   }
 }

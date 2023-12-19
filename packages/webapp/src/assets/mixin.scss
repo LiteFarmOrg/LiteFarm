@@ -21,3 +21,15 @@
 @mixin smallShadow2() {
   box-shadow: 0px 2px 4px rgba(102, 115, 138, 0.3);
 }
+
+@mixin mobile-breakpoint {
+  @media only screen and (max-width: 414px) {
+    @content;
+  }
+}
+
+@mixin desktop-breakpoint {
+  @media only screen and (min-width: 414px) {
+    @content;
+  }
+}

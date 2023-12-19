@@ -10,37 +10,56 @@ import useExpandable from '../../../Expandable/useExpandableItem';
 import { getAdministratorActionsList, getMenuList } from '../utils';
 import styles from './styles.module.scss';
 
-const MenuItem = ({ history, key, onClick, path, children }) => (
-  <ListItemButton
-    key={key}
-    onClick={onClick ?? (() => history.push(path))}
-    className={clsx(
-      styles.listItem,
-      matchPath(history.location.pathname, path) && styles.activeListItem,
-    )}
-  >
-    {children}
-  </ListItemButton>
-);
+const MenuItem = ({ history, onClick, path, children, className }) => {
+  return (
+    <ListItemButton
+      onClick={onClick ?? (() => history.push(path))}
+      className={clsx(
+        styles.listItem,
+        matchPath(history.location.pathname, path)
+          ? styles.activeListItem
+          : styles.inactiveListItem,
+        className,
+      )}
+    >
+      {children}
+    </ListItemButton>
+  );
+};
 
-function PureSlideMenu({ history, closeDrawer, isAdmin, classes = {} }) {
-  const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
+function PureSlideMenu({ history, closeDrawer, isAdmin }) {
+  const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
+    isSingleExpandable: true,
+  });
 
   const handleClick = (link) => {
     history.push(link);
     closeDrawer?.();
   };
 
+  const onMenuItemClick = (link) => {
+    handleClick(link);
+    resetExpanded();
+  };
+
   return (
-    <div role="presentation" className={clsx(classes.container, styles.container)}>
+    <div role="presentation" className={styles.container}>
       <List className={styles.list}>
-        <ListItemButton onClick={() => handleClick('/')} className={styles.listItem}>
+        <ListItemButton
+          onClick={() => handleClick('/')}
+          className={clsx(styles.listItem, styles.logoListItem)}
+        >
           <Logo alt={'logo'} className={styles.logo} />
         </ListItemButton>
         {getMenuList(isAdmin, history).map(({ icon, label, path, subMenu }) => {
           if (!subMenu) {
             return (
-              <MenuItem history={history} key={label} path={path}>
+              <MenuItem
+                history={history}
+                key={label}
+                path={path}
+                onClick={() => onMenuItemClick(path)}
+              >
                 <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
                 <ListItemText primary={label} className={styles.listItemText} />
               </MenuItem>
@@ -64,10 +83,16 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = {} }) {
                 )}
               </MenuItem>
               <Collapse in={expandedIds.includes(label)} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
+                <List component="div" disablePadding className={styles.subList}>
                   {subMenu.map(({ label: subMenuLabel, path: subMenuPath }) => {
                     return (
-                      <MenuItem history={history} key={subMenuLabel} path={subMenuPath}>
+                      <MenuItem
+                        history={history}
+                        key={subMenuLabel}
+                        path={subMenuPath}
+                        className={styles.subItem}
+                        onClick={() => handleClick(subMenuPath)}
+                      >
                         <ListItemText primary={subMenuLabel} className={styles.subItemText} />
                       </MenuItem>
                     );
@@ -81,7 +106,13 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = {} }) {
       <List className={styles.list}>
         {getAdministratorActionsList().map(({ icon, label, path }) => {
           return (
-            <MenuItem history={history} key={label} path={path}>
+            <MenuItem
+              history={history}
+              key={label}
+              path={path}
+              className={styles.adminActionListItem}
+              onClick={() => onMenuItemClick(path)}
+            >
               <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
               <ListItemText primary={label} className={styles.listItemText} />
             </MenuItem>

@@ -27,7 +27,11 @@ jobs:
 
       - name: Run storybook
         working-directory: packages/webapp
-        run: pnpm run storybook &
+        run: |
+          pnpm run storybook
+          wait $!
+        outputs:
+          time: ${{ steps.wait-for-storybook.outputs.time }}
 
       - name: Wait for Storybook to start
         run: |

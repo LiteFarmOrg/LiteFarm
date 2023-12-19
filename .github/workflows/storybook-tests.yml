@@ -41,4 +41,6 @@ jobs:
           while read -r test; do
             pnpm test-storybook "$test" --maxWorkers=1 &
           done < allowed-storybook-tests.txt
-          wait
+
+          # Wait for all background processes to finish
+          wait $(jobs -p) || true

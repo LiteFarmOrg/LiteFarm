@@ -32,6 +32,7 @@ jobs:
         run: |
           echo 'Starting http-server...'
           npx http-server storybook-static --port 6006 --silent
+        background: true
 
       - name: Wait for Port 6006
         run: npx wait-on tcp:6006 --timeout 60000

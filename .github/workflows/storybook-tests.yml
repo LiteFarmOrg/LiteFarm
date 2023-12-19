@@ -42,4 +42,4 @@ jobs:
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
           "echo 'Starting http-server...' && npx http-server storybook-static --port 6006 --silent" \
-          "echo 'Waiting for port 6006...' && npx wait-on tcp:6006 --timeout 30000 && pnpm test-storybook"
+          "echo 'Waiting for port 6006...' && npx wait-on tcp:6006 --timeout 60000 && pnpm test-storybook"

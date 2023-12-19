@@ -4,3 +4,4 @@ PlanGuidance
 AddIrrigationTask
 CleaningTaskReadOnly
 HarvestingTaskReadOnly
+IrrigationTaskReadOnly

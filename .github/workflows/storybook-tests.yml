@@ -26,4 +26,4 @@ jobs:
 
       - name: Run storybook tests
         working-directory: packages/webapp
-        run: xvfb-run -a cat allowed-storybook-tests.txt | xargs -I {} bash -c 'pnpm test-storybook:ci "$@"'
+        run: pnpm test-storybook:ci

@@ -109,6 +109,7 @@
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-storybook": "^0.6.10",
     "happy-dom": "^12.9.1",
+    "http-server": "14.1.1",
     "i18next-parser": "^5.4.0",
     "imap-simple": "^5.1.0",
     "lint-staged": "^12.5.0",

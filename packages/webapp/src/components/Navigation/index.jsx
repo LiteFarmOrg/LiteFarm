@@ -18,8 +18,8 @@ export default function PureNavigation({
   hidden,
 }) {
   //Side Drawer
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const closeDrawer = () => setIsDrawerOpen(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const closeDrawer = () => setIsSidebarOpen(false);
 
   const theme = useTheme();
   const isMobile = !useMediaQuery(theme.breakpoints.up('sm'));
@@ -32,14 +32,16 @@ export default function PureNavigation({
           isMobile={isMobile}
           defaultOpenMenu={defaultOpenMenu}
           showNavigation={isFarmSelected}
+          onClickBurger={setIsSidebarOpen}
         />
         {isFarmSelected && (
           <>
+            {/* Sidebar Menu */}
             <SwipeableDrawer
               anchor={'left'}
-              open={isDrawerOpen}
-              onClose={() => setIsDrawerOpen(false)}
-              onOpen={() => setIsDrawerOpen(true)}
+              open={isSidebarOpen}
+              onClose={() => setIsSidebarOpen(false)}
+              onOpen={() => setIsSidebarOpen(true)}
             >
               <SlideMenu history={history} closeDrawer={closeDrawer} />
             </SwipeableDrawer>

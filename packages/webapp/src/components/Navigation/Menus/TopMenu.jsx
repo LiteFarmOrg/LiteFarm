@@ -32,7 +32,7 @@ import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
-const TopMenu = ({ history, isMobile, defaultOpenMenu = false, openSideBar, showNavigation }) => {
+const TopMenu = ({ history, isMobile, defaultOpenMenu = false, showNavigation, onClickBurger }) => {
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const selectedLanguage = getLanguageFromLocalStorage();
@@ -174,7 +174,7 @@ const TopMenu = ({ history, isMobile, defaultOpenMenu = false, openSideBar, show
       edge="start"
       color="inherit"
       aria-label="open drawer"
-      onClick={openSideBar}
+      onClick={() => onClickBurger((prev) => !prev)}
       size="large"
     >
       <BiMenu className={styles.burgerMenu} />

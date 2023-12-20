@@ -1,16 +1,17 @@
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { ChevronRight, ExpandLess, ExpandMore } from '@mui/icons-material';
+import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, Menu } from '@mui/material';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { matchPath } from 'react-router-dom';
 
-import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
 import useExpandable from '../../Expandable/useExpandableItem';
+import { ReactComponent as FullVersionLogo } from '../../../assets/images/middle_logo.svg';
+import { ReactComponent as CompactVersionLogo } from '../../../assets/images/nav-logo.svg';
 import { getAdministratorActionsList, getMenuList } from '../utils';
 import styles from './styles.module.scss';
 
-const MenuItem = ({ history, onClick, path, children, className }) => {
+const MenuItem = forwardRef(({ history, onClick, path, children, className }, ref) => {
   return (
     <ListItemButton
       onClick={onClick ?? (() => history.push(path))}
@@ -21,16 +22,39 @@ const MenuItem = ({ history, onClick, path, children, className }) => {
           : styles.inactiveListItem,
         className,
       )}
+      ref={ref}
     >
       {children}
     </ListItemButton>
   );
+});
+
+MenuItem.displayName = 'MenuItem';
+
+const SubMenu = ({ compact, children, isExpanded, ...props }) => {
+  if (compact) {
+    return (
+      <Menu open={isExpanded} {...props}>
+        {children}
+      </Menu>
+    );
+  }
+
+  return (
+    <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+      <List component="div" disablePadding className={styles.subList}>
+        {children}
+      </List>
+    </Collapse>
+  );
 };
 
 function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '' } }) {
+  const compact = true;
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
+  const expandableItemsRef = useRef({});
 
   const handleClick = (link) => {
     history.push(link);
@@ -42,8 +66,13 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
     resetExpanded();
   };
 
+  const Logo = compact ? CompactVersionLogo : FullVersionLogo;
+
   return (
-    <div role="presentation" className={clsx(styles.container, classes.container)}>
+    <div
+      role="presentation"
+      className={clsx(styles.container, compact && styles.compact, classes.container)}
+    >
       <List className={styles.list}>
         <ListItemButton
           onClick={() => handleClick('/')}
@@ -51,17 +80,17 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
         >
           <Logo alt={'logo'} className={styles.logo} />
         </ListItemButton>
-        {getMenuList(isAdmin, history).map(({ icon, label, path, subMenu }) => {
+        {getMenuList(isAdmin, history).map(({ icon, label, path, subMenu, key }) => {
           if (!subMenu) {
             return (
               <MenuItem
                 history={history}
-                key={label}
+                key={key}
                 path={path}
                 onClick={() => onMenuItemClick(path)}
               >
                 <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
-                <ListItemText primary={label} className={styles.listItemText} />
+                {!compact && <ListItemText primary={label} className={styles.listItemText} />}
               </MenuItem>
             );
           }
@@ -70,51 +99,66 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
             <React.Fragment key={label}>
               <MenuItem
                 history={history}
-                key={label}
                 onClick={() => toggleExpanded(label)}
                 path={path}
+                ref={(el) => (expandableItemsRef.current[key] = el)}
               >
                 <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
-                <ListItemText primary={label} className={styles.listItemText} />
-                {expandedIds.includes(label) ? (
-                  <ExpandLess className={styles.expandIcon} />
+                {!compact ? (
+                  <>
+                    <ListItemText primary={label} className={styles.listItemText} />
+                    {expandedIds.includes(label) ? (
+                      <ExpandLess className={styles.expandIcon} />
+                    ) : (
+                      <ExpandMore className={styles.expandIcon} />
+                    )}
+                  </>
                 ) : (
-                  <ExpandMore className={styles.expandIcon} />
+                  <ChevronRight className={styles.expandIcon} />
                 )}
               </MenuItem>
-              <Collapse in={expandedIds.includes(label)} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding className={styles.subList}>
-                  {subMenu.map(({ label: subMenuLabel, path: subMenuPath }) => {
-                    return (
-                      <MenuItem
-                        history={history}
-                        key={subMenuLabel}
-                        path={subMenuPath}
-                        className={styles.subItem}
-                        onClick={() => handleClick(subMenuPath)}
-                      >
-                        <ListItemText primary={subMenuLabel} className={styles.subItemText} />
-                      </MenuItem>
-                    );
-                  })}
-                </List>
-              </Collapse>
+              <SubMenu
+                compact={compact}
+                isExpanded={expandedIds.includes(label)}
+                onClose={resetExpanded}
+                anchorEl={expandableItemsRef.current[key]}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+              >
+                {subMenu.map(({ label: subMenuLabel, path: subMenuPath, key: subMenuKey }) => {
+                  return (
+                    <MenuItem
+                      history={history}
+                      key={subMenuKey}
+                      path={subMenuPath}
+                      className={styles.subItem}
+                      onClick={() =>
+                        compact ? onMenuItemClick(subMenuPath) : handleClick(subMenuPath)
+                      }
+                    >
+                      <ListItemText primary={subMenuLabel} className={styles.subItemText} />
+                    </MenuItem>
+                  );
+                })}
+              </SubMenu>
             </React.Fragment>
           );
         })}
       </List>
       <List className={styles.list}>
-        {getAdministratorActionsList().map(({ icon, label, path }) => {
+        {getAdministratorActionsList().map(({ icon, label, path, key }) => {
           return (
             <MenuItem
               history={history}
-              key={label}
+              key={key}
               path={path}
               className={styles.adminActionListItem}
               onClick={() => onMenuItemClick(path)}
             >
               <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
-              <ListItemText primary={label} className={styles.listItemText} />
+              {!compact && <ListItemText primary={label} className={styles.listItemText} />}
             </MenuItem>
           );
         })}

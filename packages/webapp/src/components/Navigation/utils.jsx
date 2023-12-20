@@ -26,14 +26,15 @@ import { ReactComponent as CertificationsIcon } from '../../assets/images/nav/ce
 
 export const getMenuList = (isAdmin) => {
   const list = [
-    { label: i18n.t('MENU.MAP'), icon: <MapIcon />, path: '/map' },
-    { label: i18n.t('MENU.TASKS'), icon: <TasksIcon />, path: '/tasks' },
+    { label: i18n.t('MENU.MAP'), icon: <MapIcon />, path: '/map', key: 'map' },
+    { label: i18n.t('MENU.TASKS'), icon: <TasksIcon />, path: '/tasks', key: 'tasks' },
     {
       label: i18n.t('MENU.CROPS'),
       icon: <CropsIcon />,
       path: '/crop_catalogue',
+      key: 'crops',
     },
-    { label: i18n.t('MENU.INSIGHTS'), icon: <InsightsIcon />, path: '/Insights' },
+    { label: i18n.t('MENU.INSIGHTS'), icon: <InsightsIcon />, path: '/Insights', key: 'insights' },
   ];
 
   if (isAdmin) {
@@ -48,8 +49,14 @@ export const getMenuList = (isAdmin) => {
         { label: i18n.t('MENU.ACTUAL_REVENUES'), path: '/finances/actual_revenue' },
         { label: i18n.t('MENU.ESTIMATED_REVENUES'), path: '/finances/estimated_revenue' },
       ],
+      key: 'finances',
     });
-    list.push({ label: i18n.t('MENU.DOCUMENTS'), icon: <DocumentsIcon />, path: '/documents' });
+    list.push({
+      label: i18n.t('MENU.DOCUMENTS'),
+      icon: <DocumentsIcon />,
+      path: '/documents',
+      key: 'documents',
+    });
   }
   return list;
 };

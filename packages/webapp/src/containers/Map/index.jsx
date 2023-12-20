@@ -44,7 +44,6 @@ import BulkUploadTransitionModal from '../../components/Modals/BulkUploadTransit
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
-import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 import useDrawingManager from './useDrawingManager';
 
 import useMapAssetRenderer from './useMapAssetRenderer';
@@ -79,7 +78,6 @@ import {
 } from './mapAddDrawerSlice';
 
 export default function Map({ history }) {
-  const windowInnerHeight = useWindowInnerHeight();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const filterSettings = useSelector(mapFilterSettingSelector);
   const mapAddDrawer = useSelector(mapAddDrawerSelector);
@@ -492,11 +490,7 @@ export default function Map({ history }) {
           title={successMessage}
         />
       )}
-      <div
-        data-cy="map-selection"
-        className={styles.pageWrapper}
-        style={{ height: windowInnerHeight }}
-      >
+      <div data-cy="map-selection" className={styles.pageWrapper}>
         <div className={styles.mapContainer}>
           <div data-cy="map-mapContainer" ref={mapWrapperRef} className={styles.mapContainer}>
             <GoogleMap

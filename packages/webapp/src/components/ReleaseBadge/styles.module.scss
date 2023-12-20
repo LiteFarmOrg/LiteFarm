@@ -1,0 +1,103 @@
+.card {
+  width: 400px;
+  height: fit-content;
+
+  border-radius: 8px;
+  background: #ffdad9;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  position: fixed;
+  bottom: 32px;
+  z-index: 1400; // highest existing z-index is 1302
+}
+
+.cardContent {
+  position: relative;
+  padding-inline: 8px;
+  padding-block: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.bubble {
+  width: 124px;
+  height: 100px;
+  flex-shrink: 0;
+}
+
+.text {
+  display: flex;
+  height: 100%;
+  flex-flow: column nowrap;
+  justify-content: center;
+  gap: 2px;
+
+  font-family: Open Sans;
+  line-height: 24px;
+  font-style: normal;
+}
+
+.closeButton {
+  align-self: flex-start;
+  margin-left: auto;
+}
+
+.better {
+  color: #426f57;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.linkSection {
+  display: flex;
+  align-items: center;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.releaseNotes {
+  color: #520f0d;
+  font-size: 19px;
+  font-weight: 700;
+
+  :visited {
+    color: #520f0d;
+  }
+}
+
+// Mobile version breakpoint taken from menu PR
+@media (max-width: 599px) {
+  .card {
+    right: 0px;
+    bottom: 0px;
+    width: 100vw;
+  }
+
+  .cardContent {
+    padding: 16px;
+    gap: 8px;
+  }
+
+  .bubble {
+    width: 40%;
+    max-width: 100px;
+    height: 80px;
+  }
+
+  .text {
+    gap: 0px;
+  }
+
+  .better {
+    font-size: 16px;
+    margin-bottom: -2px;
+  }
+
+  .releaseNotes {
+    font-size: 14px;
+  }
+}

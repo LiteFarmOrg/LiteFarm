@@ -157,7 +157,7 @@ const Unit = ({
             />
           )}
         </div>
-        <div data-testid={`${testId}-select`}>
+        <div data-testid={`${testId}-select`} className={styles.unitContainer}>
           <Controller
             control={control}
             name={displayUnitName}

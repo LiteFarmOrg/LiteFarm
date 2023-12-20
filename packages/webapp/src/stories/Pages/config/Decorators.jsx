@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
 import history from '../../../history';
-import NavBar from '../../../containers/Navigation';
+import Navigation from '../../../containers/Navigation';
 
 const setIdToken = () => {
   if (!localStorage.getItem('id_token')) {
@@ -21,7 +21,7 @@ export default [
           minHeight: '100vh',
         }}
       >
-        <NavBar history={history} />
+        <Navigation history={history} />
         <div
           className="app"
           style={{
@@ -51,7 +51,7 @@ export const authenticatedDecorators = [
           minHeight: '100vh',
         }}
       >
-        <NavBar history={history} />
+        <Navigation history={history} />
         <div
           className="app"
           style={{

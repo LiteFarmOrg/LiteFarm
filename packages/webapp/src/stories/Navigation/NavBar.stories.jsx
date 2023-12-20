@@ -3,8 +3,7 @@ import { action } from '@storybook/addon-actions';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import history from './../../history';
-import NavBar from '../../components/Navigation/NavBar';
-import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
+import PureNavigation from '../../components/Navigation';
 
 const store = {
   getState: () => {
@@ -23,13 +22,20 @@ const store = {
 };
 
 export default {
-  title: 'Components/Navbar',
-  component: NavBar,
+  title: 'Components/PureNavigation',
+  component: PureNavigation,
 };
 
-export const SignupNavbar = (() => <NoFarmNavBar />).bind({});
+export const SignupNavbar = ((args) => <PureNavigation {...args} justLogo />).bind({});
+SignupNavbar.args = {
+  history: {
+    push: () => {},
+    location: { pathname: '/home' },
+    replace: () => {},
+  },
+};
 
-const Template = (args) => <NavBar {...args} />;
+const Template = (args) => <PureNavigation {...args} />;
 
 export const HomeNavbar = Template.bind({});
 
@@ -44,17 +50,13 @@ HomeNavbar.args = {
     location: { pathname: '/home' },
     replace: () => {},
   },
+  isFarmSelected: true,
 };
 
 export const HomeNavbarWithSpotlight = Template.bind({});
 
 HomeNavbarWithSpotlight.args = {
-  showSpotLight: true,
+  showNavigationSpotlight: true,
   resetSpotlight: () => {},
-};
-
-export const HomeNavbarWithProfileFloater = Template.bind({});
-HomeNavbarWithProfileFloater.args = {
-  resetSpotlight: () => {},
-  defaultOpenFloater: 'profile',
+  isFarmSelected: true,
 };

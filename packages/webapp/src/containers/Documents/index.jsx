@@ -82,7 +82,7 @@ export default function Documents({ history }) {
   };
   const resetFilter = () => dispatch(resetDocumentsFilter());
   return (
-    <Layout classes={{ container: { backgroundColor: 'white' } }}>
+    <Layout>
       <PageTitle title={t('DOCUMENTS.DOCUMENTS')} style={{ paddingBottom: '20px' }} />
       <PureSearchbarAndFilter
         onFilterOpen={onFilterOpen}

@@ -23,13 +23,15 @@
 }
 
 .carrouselContainer {
-  background-color: var(--grey200);
+  background-color: var(--bgInputListTile);
   padding: 8px 16px;
   margin: 0 -16px 0 -16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   overflow: auto;
+  border: solid 1px transparent;
+  border-bottom: solid 1px var(--grey200);
 
   @media only screen and (min-width: 1024px) {
     margin: 0;

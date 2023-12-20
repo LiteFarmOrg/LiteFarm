@@ -198,7 +198,7 @@ const ReactSelect = React.forwardRef(function ReactSelect(
             }),
             container: (provided, state) => ({
               ...provided,
-              backgroundColor: isDisabled ? 'var(--inputDisabled)' : null,
+              backgroundColor: isDisabled ? 'var(--inputDisabled)' : 'var(--bgInputListTile)',
             }),
           }}
           placeholder={placeholder}
@@ -240,7 +240,7 @@ const ReactSelect = React.forwardRef(function ReactSelect(
             }),
             container: (provided, state) => ({
               ...provided,
-              backgroundColor: isDisabled ? 'var(--inputDisabled)' : null,
+              backgroundColor: isDisabled ? 'var(--inputDisabled)' : 'var(--bgInputListTile)',
             }),
           }}
           placeholder={placeholder}

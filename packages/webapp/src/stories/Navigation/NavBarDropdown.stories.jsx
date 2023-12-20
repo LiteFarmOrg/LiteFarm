@@ -1,16 +1,12 @@
 import React from 'react';
-import { PureMyFarmFloaterComponent } from '../../components/Navigation/Floater/MyFarmFloater';
-import { PureProfileFloaterComponent } from '../../components/Navigation/Floater/ProfileFloater';
+import TopMenu from '../../components/Navigation/Menus/TopMenu';
 import { componentDecoratorsGreyBackground } from '../Pages/config/Decorators';
 
 export default {
-  title: 'Components/Navbar/FloaterComponent',
+  title: 'Components/Navbar/TopMenu',
   decorators: componentDecoratorsGreyBackground,
-  component: PureProfileFloaterComponent,
+  component: TopMenu,
 };
 
-
-export const MyFarmFloater = (() => <PureMyFarmFloaterComponent />).bind({});
-
-export const ProfileFloater = ((args) => <PureProfileFloaterComponent {...args} />).bind({});
-ProfileFloater.args = {};
+export const NavbarTopMenu = ((args) => <TopMenu {...args} />).bind({});
+TopMenu.args = {};

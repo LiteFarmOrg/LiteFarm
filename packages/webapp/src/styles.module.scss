@@ -42,6 +42,7 @@
   position: sticky;
   top: 0;
   overflow: hidden;
+  background-color: var(--bgInputListTile);
 
   @media only screen and (max-width: 414px) {
     display: none;

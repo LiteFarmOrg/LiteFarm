@@ -22,6 +22,7 @@ import { userFarmLengthSelector } from '../userFarmSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
+import ReleaseHandler from '../ReleaseHandler';
 
 const NavBar = (props) => {
   const { history, dispatch, numberOfUserFarm, showedSpotlight } = props;
@@ -40,6 +41,7 @@ const NavBar = (props) => {
         showSwitchFarm={numberOfUserFarm > 1}
         history={history}
       />
+      <ReleaseHandler />
     </Suspense>
   ) : (
     <NoFarmNavBar history={history} />

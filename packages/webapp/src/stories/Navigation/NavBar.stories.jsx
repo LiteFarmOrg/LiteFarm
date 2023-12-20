@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import history from './../../history';
-import NavBar from '../../components/Navigation/NavBar';
+import PureNavigation from '../../components/Navigation/NavBar';
 
 const store = {
   getState: () => {
@@ -22,11 +22,11 @@ const store = {
 };
 
 export default {
-  title: 'Components/Navbar',
-  component: NavBar,
+  title: 'Components/PureNavigation',
+  component: PureNavigation,
 };
 
-export const SignupNavbar = ((args) => <NavBar {...args} justLogo />).bind({});
+export const SignupNavbar = ((args) => <PureNavigation {...args} justLogo />).bind({});
 SignupNavbar.args = {
   history: {
     push: () => {},
@@ -35,7 +35,7 @@ SignupNavbar.args = {
   },
 };
 
-const Template = (args) => <NavBar {...args} />;
+const Template = (args) => <PureNavigation {...args} />;
 
 export const HomeNavbar = Template.bind({});
 
@@ -59,8 +59,8 @@ HomeNavbarWithSpotlight.args = {
   resetSpotlight: () => {},
 };
 
-export const HomeNavbarWithProfileFloater = Template.bind({});
-HomeNavbarWithProfileFloater.args = {
+export const HomeNavbarWithProfileMenu = Template.bind({});
+HomeNavbarWithProfileMenu.args = {
   resetSpotlight: () => {},
-  defaultOpenFloater: 'profile',
+  defaultOpenMenu: true,
 };

@@ -1,13 +1,51 @@
 
-.menuRoot {
-  top: 8px;
+.appBar {
+  background-color: var(--bgInputListTile);
+  box-shadow: 0px 2px 0px 0px #0000000D;
+  height: var(--global-navbar-height);
+}
+
+.centerContent {
+  justify-content: center;
+}
+
+.logo {
+  position: absolute;
+  cursor: pointer;
+  margin-left: var(--global-sidebar-width);
+}
+
+.paddingTopBottom {
+  padding: 8px 0px;
+}
+
+.burgerMenu {
+  font-size: 32px;
+  color: var(--teal700);
+
+  @media only screen and (min-width: 900px) {
+    font-size: 40px;
+  }
+}
+
+.iconButton {
+  margin: 8px;
+  padding: 0;
+}
+
+.notificationButton {
+  transform: translateY(1px);
 }
 
 .menuList {
   padding: 0px;
-  width: 176px;
+  min-width: 176px;
   border-radius: var(--Spaces-1x, 4px) 0px var(--Spaces-1x, 4px) var(--Spaces-1x, 4px);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.menuRoot {
+  top: 8px;
 }
 
 .drawerMenuPaper {
@@ -29,16 +67,9 @@
   vertical-align: middle;
 }
 
-.drawerCloseX {
-  width: 24px;
-  height: 24px;
-  padding: 6px;
-}
-
 .menuItemRoot {
   width: 100%;
   padding: 16px 22px 16px 14px;
-  gap: 8px;
   border-top: 1px solid #E9EBF8;
   align-items: center;
 }
@@ -50,4 +81,12 @@
   font-style: normal;
   font-weight: 500;
   line-height: 24px; /* 150% */
+}
+
+.listItemIconRoot {
+  padding-right: 8px;
+}
+
+.flexGrow {
+  flex-grow: 1;
 }

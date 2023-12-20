@@ -14,39 +14,33 @@
  */
 
 import { useSelector, useDispatch } from 'react-redux';
-import PureNavBar from '../../components/Navigation/NavBar';
-import { userFarmLengthSelector } from '../userFarmSlice';
+import PureNavigation from '../../components/Navigation/NavBar';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 import useHistoryLocation from '../hooks/useHistoryLocation';
-import { useTranslation } from 'react-i18next';
 
-const NavBar = ({ history }) => {
-  const { t } = useTranslation(['translation']);
+const Navigation = ({ history }) => {
   const dispatch = useDispatch();
-  const numberOfUserFarm = useSelector(userFarmLengthSelector);
+  const historyLocation = useHistoryLocation(history);
+  const isCustomSignupPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
+  const isFarmSelected = useIsFarmSelected();
   const { navigation, notification } = useSelector(showedSpotlightSelector);
-
   const resetSpotlight = () => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
-  const isFarmSelected = useIsFarmSelected();
-  const historyLocation = useHistoryLocation(history);
-  const isCustomSignupPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
 
-  return isFarmSelected ? (
-    <PureNavBar
-      showSpotLight={!navigation}
-      showNotification={navigation && !notification}
+  return (
+    <PureNavigation
+      showNavigationSpotLight={!navigation}
+      showNotificationSpotlight={navigation && !notification}
       resetSpotlight={resetSpotlight}
-      showSwitchFarm={numberOfUserFarm > 1}
       history={history}
+      isFarmSelected={isFarmSelected}
+      hidden={isCustomSignupPage}
     />
-  ) : (
-    <PureNavBar history={history} justLogo hidden={isCustomSignupPage} />
   );
 };
 
-export default NavBar;
+export default Navigation;

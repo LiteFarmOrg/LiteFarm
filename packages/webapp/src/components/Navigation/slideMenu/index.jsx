@@ -1,174 +1,123 @@
-import { useState } from 'react';
-import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
-import { ReactComponent as IconLogo } from '../../../assets/images/navbar/nav-logo.svg';
-import { ReactComponent as VectorUp } from '../../../assets/images/navbar/vector-up.svg';
-import { ReactComponent as VectorDown } from '../../../assets/images/navbar/vector-down.svg';
-import { ReactComponent as FarmMapIcon } from '../../../assets/images/farm-profile/farm-map.svg';
-import { ReactComponent as FarmInfoIcon } from '../../../assets/images/farm-profile/farm-info.svg';
-import { ReactComponent as PeopleIcon } from '../../../assets/images/farm-profile/people.svg';
-import { ReactComponent as CertificationsIcon } from '../../../assets/images/farm-profile/certificate.svg';
-import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
-import { ReactComponent as MyFarmIconSpan } from '../../../assets/images/my-farm-es.svg';
-import { ReactComponent as MyFarmIconPort } from '../../../assets/images/my-farm-pt.svg';
-import { ReactComponent as MyFarmIconFren } from '../../../assets/images/my-farm-fr.svg';
-import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
-import { useTranslation } from 'react-i18next';
-import { List, ListItem, ListItemText } from '@mui/material';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { matchPath } from 'react-router-dom';
+
+import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
+import useExpandable from '../../Expandable/useExpandableItem';
+import { getAdministratorActionsList, getMenuList } from '../utils';
 import styles from './styles.module.scss';
 
-function PureSlideMenu({ history, closeDrawer, isAdmin, classes = {} }) {
-  const [manageOpen, setManageOpen] = useState(true);
-  const toggleManage = () => {
-    setManageOpen(!manageOpen);
-  };
-  const [myFarmOpen, setMyFarmOpen] = useState(true);
-  const toggleMyFarm = () => {
-    setMyFarmOpen(!myFarmOpen);
-  };
+const MenuItem = ({ history, onClick, path, children, className }) => {
+  return (
+    <ListItemButton
+      onClick={onClick ?? (() => history.push(path))}
+      className={clsx(
+        styles.listItem,
+        matchPath(history.location.pathname, path)
+          ? styles.activeListItem
+          : styles.inactiveListItem,
+        className,
+      )}
+    >
+      {children}
+    </ListItemButton>
+  );
+};
 
-  const { t } = useTranslation();
+function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '' } }) {
+  const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
+    isSingleExpandable: true,
+  });
+
   const handleClick = (link) => {
     history.push(link);
     closeDrawer?.();
   };
 
-  const selectedLanguage = getLanguageFromLocalStorage();
-  const getLanguageFarmIcon = (language) => {
-    switch (language) {
-      case 'pt':
-        return <MyFarmIconPort />;
-      case 'es':
-        return <MyFarmIconSpan />;
-      case 'fr':
-        return <MyFarmIconFren />;
-      default:
-        return <MyFarmIcon />;
-    }
+  const onMenuItemClick = (link) => {
+    handleClick(link);
+    resetExpanded();
   };
 
   return (
-    <div role="presentation" className={classes.container}>
-      <List>
-        <Logo onClick={() => handleClick('/')} alt={'logo'} className={styles.logo} />
-        <ListItem className={styles.listItem} button onClick={toggleManage}>
-          <ListItemText
-            classes={{ primary: styles.ListItemText }}
-            primary={t('SLIDE_MENU.MANAGE')}
-          />
-          {manageOpen ? <VectorUp /> : <VectorDown />}
-        </ListItem>
-        {manageOpen && (
-          <>
-            <ListItem
-              className={styles.subListItem}
-              button
-              onClick={() => {
-                handleClick('/crop_catalogue');
-              }}
-            >
-              <ListItemText
-                classes={{ primary: styles.subListItemText }}
-                primary={t('SLIDE_MENU.CROPS')}
-              />
-            </ListItem>
-            <ListItem
-              className={styles.subListItem}
-              button
-              onClick={() => handleClick('/tasks')}
-              data-cy="home-taskButton"
-            >
-              <ListItemText
-                classes={{ primary: styles.subListItemText }}
-                primary={t('SLIDE_MENU.TASKS')}
-              />
-            </ListItem>
-            {isAdmin && (
-              <ListItem
-                className={styles.subListItem}
-                button
-                onClick={() => handleClick('/documents')}
-              >
-                <ListItemText
-                  classes={{ primary: styles.subListItemText }}
-                  primary={t('SLIDE_MENU.DOCUMENTS')}
-                />
-              </ListItem>
-            )}
-          </>
-        )}
-        {isAdmin && (
-          <ListItem className={styles.listItem} button onClick={() => handleClick('/Finances')}>
-            <ListItemText
-              classes={{ primary: styles.ListItemText }}
-              primary={t('SLIDE_MENU.FINANCES')}
-            />
-          </ListItem>
-        )}
-
-        <ListItem className={styles.listItem} button onClick={() => handleClick('/Insights')}>
-          <ListItemText
-            classes={{ primary: styles.ListItemText }}
-            primary={t('SLIDE_MENU.INSIGHTS')}
-          />
-        </ListItem>
-        <ListItem
-          className={styles.listItem}
-          button
-          onClick={toggleMyFarm}
-          data-cy="home-farmButton"
+    <div role="presentation" className={clsx(styles.container, classes.container)}>
+      <List className={styles.list}>
+        <ListItemButton
+          onClick={() => handleClick('/')}
+          className={clsx(styles.listItem, styles.logoListItem)}
         >
-          {getLanguageFarmIcon(selectedLanguage)}
-          <ListItemText
-            classes={{ primary: styles.ListItemText }}
-            primary={t('SLIDE_MENU.MY_FARM')}
-          />
-          {myFarmOpen ? <VectorUp /> : <VectorDown />}
-        </ListItem>
-        {myFarmOpen && (
-          <>
-            <ListItem
-              className={styles.subListItem}
-              button
-              onClick={() => {
-                handleClick('/farm');
-              }}
-            >
-              <FarmInfoIcon />
-              <ListItemText
-                classes={{ primary: styles.subListItemText }}
-                primary={t('MY_FARM.FARM_INFO')}
-              />
-            </ListItem>
-            <ListItem className={styles.subListItem} button onClick={() => handleClick('/map')}>
-              <FarmMapIcon />
-              <ListItemText
-                classes={{ primary: styles.subListItemText }}
-                primary={t('MY_FARM.FARM_MAP')}
-              />
-            </ListItem>
-            <ListItem className={styles.subListItem} button onClick={() => handleClick('/people')}>
-              <PeopleIcon />
-              <ListItemText
-                classes={{ primary: styles.subListItemText }}
-                primary={t('MY_FARM.PEOPLE')}
-              />
-            </ListItem>
-            {isAdmin && (
-              <ListItem
-                className={styles.subListItem}
-                button
-                onClick={() => handleClick('/certification')}
+          <Logo alt={'logo'} className={styles.logo} />
+        </ListItemButton>
+        {getMenuList(isAdmin, history).map(({ icon, label, path, subMenu }) => {
+          if (!subMenu) {
+            return (
+              <MenuItem
+                history={history}
+                key={label}
+                path={path}
+                onClick={() => onMenuItemClick(path)}
               >
-                <CertificationsIcon />
-                <ListItemText
-                  classes={{ primary: styles.subListItemText }}
-                  primary={t('MY_FARM.CERTIFICATIONS')}
-                />
-              </ListItem>
-            )}
-          </>
-        )}
+                <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
+                <ListItemText primary={label} className={styles.listItemText} />
+              </MenuItem>
+            );
+          }
+
+          return (
+            <React.Fragment key={label}>
+              <MenuItem
+                history={history}
+                key={label}
+                onClick={() => toggleExpanded(label)}
+                path={path}
+              >
+                <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
+                <ListItemText primary={label} className={styles.listItemText} />
+                {expandedIds.includes(label) ? (
+                  <ExpandLess className={styles.expandIcon} />
+                ) : (
+                  <ExpandMore className={styles.expandIcon} />
+                )}
+              </MenuItem>
+              <Collapse in={expandedIds.includes(label)} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding className={styles.subList}>
+                  {subMenu.map(({ label: subMenuLabel, path: subMenuPath }) => {
+                    return (
+                      <MenuItem
+                        history={history}
+                        key={subMenuLabel}
+                        path={subMenuPath}
+                        className={styles.subItem}
+                        onClick={() => handleClick(subMenuPath)}
+                      >
+                        <ListItemText primary={subMenuLabel} className={styles.subItemText} />
+                      </MenuItem>
+                    );
+                  })}
+                </List>
+              </Collapse>
+            </React.Fragment>
+          );
+        })}
+      </List>
+      <List className={styles.list}>
+        {getAdministratorActionsList().map(({ icon, label, path }) => {
+          return (
+            <MenuItem
+              history={history}
+              key={label}
+              path={path}
+              className={styles.adminActionListItem}
+              onClick={() => onMenuItemClick(path)}
+            >
+              <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
+              <ListItemText primary={label} className={styles.listItemText} />
+            </MenuItem>
+          );
+        })}
       </List>
     </div>
   );

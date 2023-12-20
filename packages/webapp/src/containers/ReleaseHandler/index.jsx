@@ -17,7 +17,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import ReleaseBadge from '../../components/ReleaseBadge';
 import { checkReleaseBadgeVersion } from './saga';
-import { APP_VERSION } from '../../util/constants';
+import { APP_VERSION, VERSION_RELEASE_NOTES_LINK } from '../../util/constants';
 
 const ReleaseHandler = () => {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const ReleaseHandler = () => {
     dispatch(checkReleaseBadgeVersion({ currentVersion: APP_VERSION, setShouldShowBadge }));
   }, []);
 
-  return shouldShowBadge && <ReleaseBadge APP_VERSION={APP_VERSION} />;
+  return shouldShowBadge && <ReleaseBadge releaseNotesLink={VERSION_RELEASE_NOTES_LINK} />;
 };
 
 export default ReleaseHandler;

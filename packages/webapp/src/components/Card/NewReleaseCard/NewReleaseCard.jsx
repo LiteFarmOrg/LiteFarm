@@ -4,6 +4,7 @@ import { Semibold, Text } from '../../Typography';
 import styles from '../../Typography/typography.module.scss';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../../assets/theme';
+import { VERSION_RELEASE_NOTES_LINK } from '../../../util/constants';
 
 export function NewReleaseCard({ style }) {
   const { t } = useTranslation();
@@ -27,7 +28,7 @@ export function NewReleaseCard({ style }) {
         <Text style={{ margin: 0, lineHeight: '18px' }}>
           {t('SIGNUP.CHANGES')}{' '}
           <a
-            href={'https://www.litefarm.org/post/an-investment-in-finances'}
+            href={VERSION_RELEASE_NOTES_LINK}
             target="_blank"
             rel="noreferrer"
             className={styles.underlined}

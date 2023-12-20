@@ -23,7 +23,7 @@
   padding: 0;
   height: 100%;
 
-  @include mobile-breakpoint {
+  @include xs-breakpoint {
     border: none;
     background-color: var(--teal700);
   }
@@ -44,7 +44,7 @@
     background-color: var(--teal50);
   }
 
-  @include mobile-breakpoint {
+  @include xs-breakpoint {
     border: none;
 
     &.logoListItem {
@@ -55,13 +55,21 @@
       background-color: var(--teal600);
       border-top: 1px solid var(--teal700);
     }
+
+    &:hover {
+      .expandIcon {
+        path {
+          fill: var(--teal700);
+        }
+      }
+    }
   }
 }
 
 .activeListItem {
   background-color: #A2D2CD;
 
-  @include mobile-breakpoint {
+  @include xs-breakpoint {
     &.subItem {
       background-color: #A2D2CD;
     }
@@ -69,12 +77,12 @@
 }
 
 .inactiveListItem {
-  @include mobile-breakpoint {
+  @include xs-breakpoint {
     &:not(:hover) {
       .listItemText {
         color: var(--teal50);
       }
-  
+
       .icon {
         path {
           stroke: var(--teal50);
@@ -83,7 +91,11 @@
     }
   
     &.subItem {
-      background-color: var(--teal50);
+      background-color: white;
+
+      &:hover {
+        background-color: var(--teal50);
+      }
     }
   }
 }
@@ -102,6 +114,10 @@
 .expandIcon {
   path {
     fill: var(--teal700);
+
+    @include xs-breakpoint {
+      fill: var(--teal50);
+    }
   }
 }
 

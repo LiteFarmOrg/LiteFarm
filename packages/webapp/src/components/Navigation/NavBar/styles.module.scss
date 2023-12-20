@@ -23,10 +23,6 @@
   &:hover {
     background-color: transparent;
   }
-
-  @include desktop-breakpoint {
-    display: none;
-  }
 }
 
 .icons {
@@ -55,12 +51,6 @@
   .drawerContent {
     padding: 0;
     margin-bottom: -16px;
-  }
-
-  @include desktop-breakpoint {
-    .drawer, .drawerBackdrop {
-      display: none;
-    }
   }
 }
 

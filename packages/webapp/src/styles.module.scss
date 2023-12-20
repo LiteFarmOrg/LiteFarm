@@ -20,7 +20,7 @@
   width: 100vw;
   flex-grow: 1;
 
-  @include desktop-breakpoint {
+  @include sm-breakpoint {
     justify-content: center;
   }
 }
@@ -44,10 +44,6 @@
   position: sticky;
   top: 0;
   overflow: hidden;
-
-  @include mobile-breakpoint {
-    display: none;
-  }
 }
 
 .mainColumn {

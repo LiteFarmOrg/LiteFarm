@@ -326,7 +326,7 @@ const FinancesRoutes = () => (
       component={UpdateEstimatedCropRevenue}
     />
     <Route path="/finances/revenue_types" exact component={RevenueTypes} />
-    <Route path="/finances/add_sale" exact component={AddSale} />
+    <Route path="/finances/add_revenue" exact component={AddSale} />
     <Route path="/finances/manage_custom_revenues" exact component={ManageRevenueTypes} />
     <Route path="/finances/revenue/:sale_id/" exact component={RevenueDetail} />
     <Route path="/finances/revenue/:sale_id/edit" exact component={RevenueDetail} />

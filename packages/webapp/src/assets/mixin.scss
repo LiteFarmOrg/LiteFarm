@@ -22,14 +22,14 @@
   box-shadow: 0px 2px 4px rgba(102, 115, 138, 0.3);
 }
 
-@mixin mobile-breakpoint {
-  @media only screen and (max-width: 619px) {
+@mixin xs-breakpoint {
+  @media only screen and (max-width: 599px) {
     @content;
   }
 }
 
-@mixin desktop-breakpoint {
-  @media only screen and (min-width: 620px) {
+@mixin sm-breakpoint {
+  @media only screen and (min-width: 600px) {
     @content;
   }
 }

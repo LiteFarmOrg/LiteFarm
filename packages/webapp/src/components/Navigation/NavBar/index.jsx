@@ -12,17 +12,15 @@ import { ReactComponent as TaskIcon } from '../../../assets/images/task_icon.svg
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
 import PureMyFarmFloater from '../Floater/MyFarmFloater';
 import { logout } from '../../../util/jwt';
-import { useTranslation } from 'react-i18next';
 import SmallerLogo from '../../../assets/images/smaller_logo.svg';
 import SmallLogo from '../../../assets/images/small_logo.svg';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import { BiMenu } from 'react-icons/bi';
-import { ClickAwayListener, SwipeableDrawer } from '@mui/material';
+import { ClickAwayListener } from '@mui/material';
 import SlideMenu from '../../../containers/Navigation/SlideMenu';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import {
   NavbarSpotlightProvider,
@@ -40,6 +38,8 @@ export default function PureNavBar({
   defaultOpenFloater,
 }) {
   const selectedLanguage = getLanguageFromLocalStorage();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -144,31 +144,35 @@ export default function PureNavBar({
   return (
     <AppBar position="sticky" className={styles.appBar}>
       <Toolbar className={styles.toolbar}>
-        <IconButton
-          data-cy="navbar-hamburger"
-          edge="start"
-          className={styles.menuButton}
-          color="inherit"
-          aria-label="open drawer"
-          onClick={burgerMenuOnClick}
-          size="large"
-        >
-          <BiMenu className={styles.burgerMenu} />
-        </IconButton>
-        <Drawer
-          isOpen={isDrawerOpen}
-          onClose={closeDrawer}
-          fullHeight
-          responsiveModal={false}
-          classes={{
-            drawer: styles.drawer,
-            backdrop: styles.drawerBackdrop,
-            header: styles.drawerHeader,
-            content: styles.drawerContent,
-          }}
-        >
-          <SlideMenu history={history} closeDrawer={closeDrawer} />
-        </Drawer>
+        {isMobile && (
+          <IconButton
+            data-cy="navbar-hamburger"
+            edge="start"
+            className={styles.menuButton}
+            color="inherit"
+            aria-label="open drawer"
+            onClick={burgerMenuOnClick}
+            size="large"
+          >
+            <BiMenu className={styles.burgerMenu} />
+          </IconButton>
+        )}
+        {isMobile && (
+          <Drawer
+            isOpen={isDrawerOpen}
+            onClose={closeDrawer}
+            fullHeight
+            responsiveModal={false}
+            classes={{
+              drawer: styles.drawer,
+              backdrop: styles.drawerBackdrop,
+              header: styles.drawerHeader,
+              content: styles.drawerContent,
+            }}
+          >
+            <SlideMenu history={history} closeDrawer={closeDrawer} />
+          </Drawer>
+        )}
         <Logo history={history} />
         {showNotification ? (
           <NavBarNotificationSpotlightProvider open={showNotification} onFinish={resetSpotlight} />

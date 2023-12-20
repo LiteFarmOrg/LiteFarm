@@ -23,13 +23,20 @@ import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
 import SlideMenu from './containers/Navigation/SlideMenu';
 import styles from './styles.module.scss';
+import { useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/styles';
 
 function App() {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+
   return (
     <div className={clsx(styles.container)}>
-      <Suspense fallback={null}>
-        <SlideMenu history={history} classes={{ container: styles.slideMenu }} />
-      </Suspense>
+      {isDesktop && (
+        <Suspense fallback={null}>
+          <SlideMenu history={history} classes={{ container: styles.slideMenu }} />
+        </Suspense>
+      )}
       <div className={clsx(styles.mainColumn)}>
         <NavBar history={history} />
         <div className={styles.app}>

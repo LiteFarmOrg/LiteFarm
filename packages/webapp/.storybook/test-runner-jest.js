@@ -10,4 +10,5 @@ export default {
    * @see https://jestjs.io/docs/configuration
    */
   testTimeout: 100000,
+  maxConcurrency: 4, // set the maximum number of parallel test workers
 };

@@ -1384,6 +1384,11 @@
     "CLEAR": "Clear",
     "CLEAR_ALL": "Clear all"
   },
+  "RELEASE": {
+    "BETTER": "LiteFarm just got better!",
+    "LITEFARM_VERSION": "LiteFarm v{{version}}",
+    "NOTES": "Release notes"
+  },
   "REPEAT_PLAN": {
     "AFTER": "After",
     "COMPLETION": "completion",

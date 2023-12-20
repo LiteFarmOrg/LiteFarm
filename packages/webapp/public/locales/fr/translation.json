@@ -1386,6 +1386,11 @@
     "CLEAR": "Supprimer",
     "CLEAR_ALL": "Supprimer tout"
   },
+  "RELEASE": {
+    "BETTER": "MISSING",
+    "LITEFARM_VERSION": "MISSING",
+    "NOTES": "MISSING"
+  },
   "REPEAT_PLAN": {
     "AFTER": "Après",
     "COMPLETION": "finalisation",

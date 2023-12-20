@@ -11,4 +11,3 @@ Expandable
 FilterGroup
 CardsCarrousel
 Tile/Tiles
-DaysOfWeekSelect

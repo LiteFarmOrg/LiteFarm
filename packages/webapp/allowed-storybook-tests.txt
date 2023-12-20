@@ -9,4 +9,6 @@ PlantingTaskReadOnly
 SoilAmendmentReadOnly
 Expandable
 FilterGroup
-CardsCarrousel
+Tiles
+DaysOfWeekSelect
+HarvestTaskQuantity

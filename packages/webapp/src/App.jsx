@@ -16,7 +16,6 @@
 import { Suspense } from 'react';
 import Navigation from './containers/Navigation';
 import history from './history';
-import Routes from './Routes.jsx';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
@@ -25,6 +24,7 @@ import SlideMenu from './containers/Navigation/SlideMenu';
 import styles from './styles.module.scss';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
+import Routes from './routes';
 
 function App() {
   const theme = useTheme();

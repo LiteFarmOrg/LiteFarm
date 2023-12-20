@@ -1,9 +1,3 @@
-AddIrrigationTask
-CleaningTaskReadOnly
-HarvestingTaskReadOnly
-IrrigationTaskReadOnly
-PlantingTaskReadOnly
-SoilAmendmentReadOnly
 Components/Filters/FilterGroup
 Components/Tile/Tiles
 HarvestTaskQuantity

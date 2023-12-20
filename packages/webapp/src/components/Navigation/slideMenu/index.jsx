@@ -7,6 +7,8 @@ import {
   ListItemIcon,
   ListItemText,
   Menu,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -60,6 +62,8 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
 };
 
 function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '' } }) {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
   const [isCompact, setIsCompact] = useState(false);
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
@@ -91,13 +95,15 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
         >
           <Logo alt={'logo'} className={styles.logo} />
         </ListItemButton>
-        <IconButton
-          size="large"
-          className={styles.toggleMenuButton}
-          onClick={() => setIsCompact(!isCompact)}
-        >
-          <ToggleMenuIcon />
-        </IconButton>
+        {isDesktop && (
+          <IconButton
+            size="large"
+            className={styles.toggleMenuButton}
+            onClick={() => setIsCompact(!isCompact)}
+          >
+            <ToggleMenuIcon />
+          </IconButton>
+        )}
         {getMenuList(isAdmin, history).map(({ icon, label, path, subMenu, key }) => {
           if (!subMenu) {
             return (

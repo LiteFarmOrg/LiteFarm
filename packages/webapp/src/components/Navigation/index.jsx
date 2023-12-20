@@ -9,11 +9,10 @@ import {
 } from './NavbarSpotlightProvider';
 import PropTypes from 'prop-types';
 export default function PureNavigation({
-  showNavigationSpotLight,
+  showNavigationSpotlight,
   showNotificationSpotlight,
   resetSpotlight,
   history,
-  defaultOpenMenu,
   isFarmSelected,
   hidden,
 }) {
@@ -30,7 +29,6 @@ export default function PureNavigation({
         <TopMenu
           history={history}
           isMobile={isMobile}
-          defaultOpenMenu={defaultOpenMenu}
           showNavigation={isFarmSelected}
           onClickBurger={setIsSidebarOpen}
         />
@@ -46,7 +44,7 @@ export default function PureNavigation({
               <SlideMenu history={history} closeDrawer={closeDrawer} />
             </SwipeableDrawer>
             <NavbarSpotlightProvider
-              open={!showNotificationSpotlight && showNavigationSpotLight}
+              open={!showNotificationSpotlight && showNavigationSpotlight}
               onFinish={resetSpotlight}
             />
             <NavBarNotificationSpotlightProvider
@@ -64,7 +62,6 @@ PureNavigation.propTypes = {
   showSpotLight: PropTypes.bool,
   resetSpotlight: PropTypes.func,
   history: PropTypes.object,
-  defaultOpenMenu: PropTypes.bool,
   isFarmSelected: PropTypes.bool,
   hidden: PropTypes.bool,
 };

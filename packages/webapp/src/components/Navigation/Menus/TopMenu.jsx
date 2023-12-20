@@ -32,12 +32,12 @@ import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
-const TopMenu = ({ history, isMobile, defaultOpenMenu = false, showNavigation, onClickBurger }) => {
+const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const selectedLanguage = getLanguageFromLocalStorage();
 
-  const [openMenu, setOpenMenu] = useState(defaultOpenMenu);
+  const [openMenu, setOpenMenu] = useState(null);
   const toggleMenu = () => {
     setOpenMenu((prev) => !prev);
   };

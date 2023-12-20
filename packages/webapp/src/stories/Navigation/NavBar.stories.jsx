@@ -50,17 +50,13 @@ HomeNavbar.args = {
     location: { pathname: '/home' },
     replace: () => {},
   },
+  isFarmSelected: true,
 };
 
 export const HomeNavbarWithSpotlight = Template.bind({});
 
 HomeNavbarWithSpotlight.args = {
-  showSpotLight: true,
+  showNavigationSpotlight: true,
   resetSpotlight: () => {},
-};
-
-export const HomeNavbarWithTopMenu = Template.bind({});
-HomeNavbarWithTopMenu.args = {
-  resetSpotlight: () => {},
-  defaultOpenMenu: true,
+  isFarmSelected: true,
 };

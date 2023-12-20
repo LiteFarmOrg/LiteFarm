@@ -33,7 +33,7 @@ const Navigation = ({ history }) => {
 
   return (
     <PureNavigation
-      showNavigationSpotLight={!navigation}
+      showNavigationSpotlight={!navigation}
       showNotificationSpotlight={navigation && !notification}
       resetSpotlight={resetSpotlight}
       history={history}

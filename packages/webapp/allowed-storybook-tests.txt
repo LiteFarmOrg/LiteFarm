@@ -1,12 +1,3 @@
-Form/Input/Input
-SystemUnmatch
-PlanGuidance
-AddIrrigationTask
-CleaningTaskReadOnly
-HarvestingTaskReadOnly
-IrrigationTaskReadOnly
-PlantingTaskReadOnly
-SoilAmendmentReadOnly
-Expandable
-DaysOfWeekSelect
-HarvestTaskQuantity
+FilterGroup
+CardsCarrousel
+Tiles

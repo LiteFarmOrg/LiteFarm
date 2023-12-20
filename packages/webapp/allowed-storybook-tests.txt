@@ -1,3 +1,2 @@
-Tile/Tiles
 DaysOfWeekSelect
 HarvestTaskQuantity

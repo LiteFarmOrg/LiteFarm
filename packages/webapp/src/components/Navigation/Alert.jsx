@@ -1,7 +1,7 @@
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { ReactComponent as AlertIcon } from '../../../assets/images/alert.svg';
+import { ReactComponent as AlertIcon } from '../../assets/images/alert.svg';
 
 export default function PureAlert({ alertCount }) {
   const useStyles = makeStyles({

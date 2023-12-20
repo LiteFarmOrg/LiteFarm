@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import history from './../../history';
-import PureNavigation from '../../components/Navigation/NavBar';
+import PureNavigation from '../../components/Navigation';
 
 const store = {
   getState: () => {
@@ -59,8 +59,8 @@ HomeNavbarWithSpotlight.args = {
   resetSpotlight: () => {},
 };
 
-export const HomeNavbarWithProfileMenu = Template.bind({});
-HomeNavbarWithProfileMenu.args = {
+export const HomeNavbarWithTopMenu = Template.bind({});
+HomeNavbarWithTopMenu.args = {
   resetSpotlight: () => {},
   defaultOpenMenu: true,
 };

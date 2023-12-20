@@ -1,12 +1,12 @@
 import React from 'react';
-import ProfileMenu from '../../components/Navigation/Menus/ProfileMenu';
+import TopMenu from '../../components/Navigation/Menus/TopMenu';
 import { componentDecoratorsGreyBackground } from '../Pages/config/Decorators';
 
 export default {
-  title: 'Components/Navbar/ProfileMenu',
+  title: 'Components/Navbar/TopMenu',
   decorators: componentDecoratorsGreyBackground,
-  component: ProfileMenu,
+  component: TopMenu,
 };
 
-export const NavbarProfileMenu = ((args) => <ProfileMenu {...args} />).bind({});
-ProfileMenu.args = {};
+export const NavbarTopMenu = ((args) => <TopMenu {...args} />).bind({});
+TopMenu.args = {};

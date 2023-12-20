@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/styles';
 import { SwipeableDrawer, useMediaQuery } from '@mui/material';
-import TopMenu from '../Menus/ProfileMenu';
-import SlideMenu from '../../../containers/Navigation/SlideMenu';
+import TopMenu from './Menus/TopMenu';
+import SlideMenu from '../../containers/Navigation/SlideMenu';
 import {
   NavbarSpotlightProvider,
   NavBarNotificationSpotlightProvider,

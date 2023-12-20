@@ -1,4 +1,4 @@
-import { TourProviderWrapper } from '../../TourProviderWrapper/TourProviderWrapper';
+import { TourProviderWrapper } from '../TourProviderWrapper/TourProviderWrapper';
 import { useTranslation } from 'react-i18next';
 
 export function NavbarSpotlightProvider({ children, open, onFinish }) {

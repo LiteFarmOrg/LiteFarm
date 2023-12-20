@@ -14,7 +14,7 @@
  */
 
 import { useSelector, useDispatch } from 'react-redux';
-import PureNavigation from '../../components/Navigation/NavBar';
+import PureNavigation from '../../components/Navigation';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';

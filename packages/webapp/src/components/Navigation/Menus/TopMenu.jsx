@@ -32,13 +32,7 @@ import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
-const ProfileMenu = ({
-  history,
-  isMobile,
-  defaultOpenMenu = false,
-  openSideBar,
-  showNavigation,
-}) => {
+const TopMenu = ({ history, isMobile, defaultOpenMenu = false, openSideBar, showNavigation }) => {
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const selectedLanguage = getLanguageFromLocalStorage();
@@ -156,7 +150,6 @@ const ProfileMenu = ({
       anchor={'bottom'}
       open={openMenu}
       onClose={() => setOpenMenu(false)}
-      onOpen={() => setOpenMenu(true)}
       classes={{ paper: styles.drawerMenuPaper }}
     >
       <MenuList
@@ -246,4 +239,4 @@ const ProfileMenu = ({
     </AppBar>
   );
 };
-export default ProfileMenu;
+export default TopMenu;

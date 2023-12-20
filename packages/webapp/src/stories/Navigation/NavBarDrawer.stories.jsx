@@ -1,12 +1,12 @@
 import React from 'react';
-import ProfileMenu from '../../components/Navigation/Menus/ProfileMenu';
+import TopMenu from '../../components/Navigation/Menus/TopMenu';
 import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
-import SlideMenu from '../../components/Navigation/NavBar/slideMenu';
+import SlideMenu from '../../components/Navigation/SlideMenu.jsx';
 
 export default {
   title: 'Components/Navbar/Drawer',
   decorators: componentDecoratorsWithoutPadding,
-  component: ProfileMenu,
+  component: TopMenu,
 };
 
 export const WithFinance = ((args) => <SlideMenu {...args} />).bind({});

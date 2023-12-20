@@ -142,7 +142,6 @@ const Input = ({
           }}
         />
       )}
-      {isSearchBar && <SearchIcon className={styles.searchIcon} />}
       {isPassword &&
         !showError &&
         (showPassword ? (
@@ -229,6 +228,7 @@ const Input = ({
           </TextButton>
         )}
       </div>
+      {isSearchBar && <SearchIcon className={styles.searchIcon} />}
       {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError ? (
         <Error data-cy="error" style={classes.errors}>

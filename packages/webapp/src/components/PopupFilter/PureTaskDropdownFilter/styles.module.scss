@@ -36,6 +36,7 @@
   display: flex;
   position: relative;
   z-index: 1;
+  background-color: var(--bgInputListTile);
 }
 .dropdown{
   z-index: 2;

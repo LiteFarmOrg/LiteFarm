@@ -14,7 +14,7 @@
  */
 
 import { Suspense } from 'react';
-import NavBar from './containers/Navigation';
+import Navigation from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.jsx';
 import clsx from 'clsx';
@@ -38,7 +38,9 @@ function App() {
         </Suspense>
       )}
       <div className={clsx(styles.mainColumn)}>
-        <NavBar history={history} />
+        <Suspense fallback={null}>
+          <Navigation history={history} />
+        </Suspense>
         <div className={styles.app}>
           <OfflineDetector />
           <SnackbarProvider

@@ -11,7 +11,7 @@ import { ReactComponent as CalendarDown } from '../../../assets/images/taskFilte
 import { ReactComponent as CalendarUp } from '../../../assets/images/taskFilter/CalendarUp.svg';
 import clsx from 'clsx';
 import PageBreak from '../../PageBreak';
-import { ClickAwayListener } from '@mui/material';
+import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 
 export default function PureTaskDropdownFilter({
   isDropDownOpen,

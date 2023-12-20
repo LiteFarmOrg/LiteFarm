@@ -13,40 +13,34 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Suspense } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
-
-import PureNavBar from '../../components/Navigation/NavBar';
-import { userFarmLengthSelector } from '../userFarmSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import PureNavigation from '../../components/Navigation';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
+import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
+import useHistoryLocation from '../hooks/useHistoryLocation';
 
-const NavBar = ({ history }) => {
+const Navigation = ({ history }) => {
   const dispatch = useDispatch();
-  const numberOfUserFarm = useSelector(userFarmLengthSelector);
-  const showedSpotlight = useSelector(showedSpotlightSelector);
-  const { navigation, notification } = showedSpotlight;
+  const historyLocation = useHistoryLocation(history);
+  const isCustomSignupPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
   const isFarmSelected = useIsFarmSelected();
-
+  const { navigation, notification } = useSelector(showedSpotlightSelector);
   const resetSpotlight = () => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
 
-  return isFarmSelected ? (
-    <Suspense fallback={<NoFarmNavBar />}>
-      <PureNavBar
-        showSpotLight={!navigation}
-        showNotification={navigation && !notification}
-        resetSpotlight={resetSpotlight}
-        showSwitchFarm={numberOfUserFarm > 1}
-        history={history}
-      />
-    </Suspense>
-  ) : (
-    <NoFarmNavBar history={history} />
+  return (
+    <PureNavigation
+      showNavigationSpotlight={!navigation}
+      showNotificationSpotlight={navigation && !notification}
+      resetSpotlight={resetSpotlight}
+      history={history}
+      isFarmSelected={isFarmSelected}
+      hidden={isCustomSignupPage}
+    />
   );
 };
 
-export default NavBar;
+export default Navigation;

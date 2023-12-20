@@ -44,5 +44,8 @@ jobs:
           done < allowed-storybook-tests.txt
 
           # Wait for all background processes to finish
-          wait $(cat test_pids.txt) || true
-          cat test_pids.txt
+          for pid in $(cat test_pids.txt); do
+            wait $pid
+            exit_code=$?
+            echo "Process $pid exited with code $exit_code"
+          done

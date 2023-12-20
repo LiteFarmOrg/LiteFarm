@@ -9,5 +9,4 @@ PlantingTaskReadOnly
 SoilAmendmentReadOnly
 Expandable
 FilterGroup
-DaysOfWeekSelect
 HarvestTaskQuantity

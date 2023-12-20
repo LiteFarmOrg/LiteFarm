@@ -8,5 +8,4 @@ IrrigationTaskReadOnly
 PlantingTaskReadOnly
 SoilAmendmentReadOnly
 Expandable
-FilterGroup
 HarvestTaskQuantity

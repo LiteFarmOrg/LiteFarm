@@ -47,7 +47,7 @@ import financeSaga from './containers/Finances/saga';
 import varietalSaga from './containers/AddCropVariety/saga';
 import insightSaga from './containers/Insights/saga';
 import chooseFarmSaga from './containers/ChooseFarm/saga';
-import releaseBadgeSaga from './containers/ReleaseHandler/saga';
+import releaseBadgeSaga from './containers/ReleaseBadgeHandler/saga';
 import supportSaga from './containers/Help/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import consentSaga from './containers/Consent/saga';

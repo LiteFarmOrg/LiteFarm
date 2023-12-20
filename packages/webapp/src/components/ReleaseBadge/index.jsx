@@ -14,21 +14,23 @@
  */
 
 import { useState } from 'react';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import styles from './styles.module.scss';
+import { Semibold, Text } from '../Typography';
+import TextButton from '../Form/Button/TextButton';
 import { ReactComponent as Close } from '../../assets/images/release/x-circle.svg';
 import { ReactComponent as NewBubble } from '../../assets/images/release/new-bubble.svg';
 import { ReactComponent as ChevronRight } from '../../assets/images/release/chevron-right-dk-red.svg';
-import { IconLink, Semibold, Text } from '../Typography';
-import styles from './styles.module.scss';
-import { useTranslation } from 'react-i18next';
-import TextButton from '../Form/Button/TextButton';
 
-const ReleaseBadge = ({ releaseNotesLink }) => {
+const ReleaseBadge = ({ releaseNotesLink, className }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(true);
 
   return (
     open && (
-      <div className={styles.card}>
+      <div className={clsx(styles.card, className)}>
         <div className={styles.cardContent}>
           <NewBubble className={styles.bubble} />
           <div className={styles.text}>
@@ -49,6 +51,15 @@ const ReleaseBadge = ({ releaseNotesLink }) => {
       </div>
     )
   );
+};
+
+ReleaseBadge.propTypes = {
+  releaseNotesLink: PropTypes.string.isRequired,
+  className: PropTypes.string,
+};
+
+ReleaseBadge.defaultProps = {
+  className: '',
 };
 
 export default ReleaseBadge;

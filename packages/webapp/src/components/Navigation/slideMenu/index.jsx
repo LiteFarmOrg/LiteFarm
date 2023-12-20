@@ -1,13 +1,23 @@
 import { ChevronRight, ExpandLess, ExpandMore } from '@mui/icons-material';
-import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, Menu } from '@mui/material';
+import {
+  Collapse,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+} from '@mui/material';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { forwardRef, useRef } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import { matchPath } from 'react-router-dom';
 
 import useExpandable from '../../Expandable/useExpandableItem';
 import { ReactComponent as FullVersionLogo } from '../../../assets/images/middle_logo.svg';
 import { ReactComponent as CompactVersionLogo } from '../../../assets/images/nav-logo.svg';
+import { ReactComponent as ExpandMenuIcon } from '../../../assets/images/nav/expand-menu.svg';
+import { ReactComponent as CollapseMenuIcon } from '../../../assets/images/nav/collapse-menu.svg';
 import { getAdministratorActionsList, getMenuList } from '../utils';
 import styles from './styles.module.scss';
 
@@ -50,7 +60,7 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
 };
 
 function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '' } }) {
-  const compact = true;
+  const [isCompact, setIsCompact] = useState(false);
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
@@ -66,12 +76,13 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
     resetExpanded();
   };
 
-  const Logo = compact ? CompactVersionLogo : FullVersionLogo;
+  const Logo = isCompact ? CompactVersionLogo : FullVersionLogo;
+  const ToggleMenuIcon = isCompact ? ExpandMenuIcon : CollapseMenuIcon;
 
   return (
     <div
       role="presentation"
-      className={clsx(styles.container, compact && styles.compact, classes.container)}
+      className={clsx(styles.container, isCompact && styles.compact, classes.container)}
     >
       <List className={styles.list}>
         <ListItemButton
@@ -80,6 +91,13 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
         >
           <Logo alt={'logo'} className={styles.logo} />
         </ListItemButton>
+        <IconButton
+          size="large"
+          className={styles.toggleMenuButton}
+          onClick={() => setIsCompact(!isCompact)}
+        >
+          <ToggleMenuIcon />
+        </IconButton>
         {getMenuList(isAdmin, history).map(({ icon, label, path, subMenu, key }) => {
           if (!subMenu) {
             return (
@@ -90,7 +108,7 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
                 onClick={() => onMenuItemClick(path)}
               >
                 <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
-                {!compact && <ListItemText primary={label} className={styles.listItemText} />}
+                {!isCompact && <ListItemText primary={label} className={styles.listItemText} />}
               </MenuItem>
             );
           }
@@ -104,7 +122,7 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
                 ref={(el) => (expandableItemsRef.current[key] = el)}
               >
                 <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
-                {!compact ? (
+                {!isCompact ? (
                   <>
                     <ListItemText primary={label} className={styles.listItemText} />
                     {expandedIds.includes(label) ? (
@@ -118,7 +136,7 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
                 )}
               </MenuItem>
               <SubMenu
-                compact={compact}
+                compact={isCompact}
                 isExpanded={expandedIds.includes(label)}
                 onClose={resetExpanded}
                 anchorEl={expandableItemsRef.current[key]}
@@ -135,7 +153,7 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
                       path={subMenuPath}
                       className={styles.subItem}
                       onClick={() =>
-                        compact ? onMenuItemClick(subMenuPath) : handleClick(subMenuPath)
+                        isCompact ? onMenuItemClick(subMenuPath) : handleClick(subMenuPath)
                       }
                     >
                       <ListItemText primary={subMenuLabel} className={styles.subItemText} />
@@ -158,7 +176,7 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
               onClick={() => onMenuItemClick(path)}
             >
               <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
-              {!compact && <ListItemText primary={label} className={styles.listItemText} />}
+              {!isCompact && <ListItemText primary={label} className={styles.listItemText} />}
             </MenuItem>
           );
         })}

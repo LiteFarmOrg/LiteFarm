@@ -27,7 +27,7 @@ const MenuItem = ({ history, onClick, path, children, className }) => {
   );
 };
 
-function PureSlideMenu({ history, closeDrawer, isAdmin }) {
+function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '' } }) {
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
@@ -43,7 +43,7 @@ function PureSlideMenu({ history, closeDrawer, isAdmin }) {
   };
 
   return (
-    <div role="presentation" className={styles.container}>
+    <div role="presentation" className={clsx(styles.container, classes.container)}>
       <List className={styles.list}>
         <ListItemButton
           onClick={() => handleClick('/')}

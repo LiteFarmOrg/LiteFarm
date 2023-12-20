@@ -1385,6 +1385,9 @@
     "CLEAR": "Limpar",
     "CLEAR_ALL": "Limpar tudo"
   },
+  "RELEASE": {
+    "LITEFARM_UPDATED": "LiteFarm v{{version}} já está disponível!"
+  },
   "REPEAT_PLAN": {
     "AFTER": "Após",
     "COMPLETION": "conclusão",

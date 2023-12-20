@@ -8,4 +8,5 @@ IrrigationTaskReadOnly
 PlantingTaskReadOnly
 SoilAmendmentReadOnly
 Expandable
+DaysOfWeekSelect
 HarvestTaskQuantity

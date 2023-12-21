@@ -3,7 +3,7 @@ import { useTheme } from '@mui/styles';
 import { IconButton, useMediaQuery } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 import TopMenu from './Menus/TopMenu';
-import SlideMenu from '../../containers/Navigation/SideMenu';
+import SideMenu from '../../containers/Navigation/SideMenu';
 import {
   NavbarSpotlightProvider,
   NavBarNotificationSpotlightProvider,
@@ -51,7 +51,7 @@ export default function PureNavigation({
                   content: styles.drawerContent,
                 }}
               >
-                <SlideMenu history={history} closeDrawer={closeSidebar} />
+                <SideMenu history={history} closeDrawer={closeSidebar} />
               </Drawer>
             )}
             <NavbarSpotlightProvider

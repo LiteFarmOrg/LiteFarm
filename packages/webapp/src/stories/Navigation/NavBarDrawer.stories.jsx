@@ -1,7 +1,7 @@
 import React from 'react';
 import TopMenu from '../../components/Navigation/Menus/TopMenu';
 import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
-import SlideMenu from '../../components/Navigation/SideMenu';
+import SideMenu from '../../components/Navigation/SideMenu';
 
 export default {
   title: 'Components/Navbar/Drawer',
@@ -9,13 +9,13 @@ export default {
   component: TopMenu,
 };
 
-export const WithFinance = ((args) => <SlideMenu {...args} />).bind({});
+export const WithFinance = ((args) => <SideMenu {...args} />).bind({});
 WithFinance.args = {
   manageOpen: true,
   isAdmin: true,
 };
 
-export const WithoutFinance = ((args) => <SlideMenu {...args} />).bind({});
+export const WithoutFinance = ((args) => <SideMenu {...args} />).bind({});
 WithoutFinance.args = {
   manageOpen: false,
   isAdmin: false,

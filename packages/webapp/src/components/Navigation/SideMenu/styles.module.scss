@@ -240,6 +240,12 @@
       }
     }
 
+    .expandCollapseIcon {
+      path {
+        fill: var(--teal50);
+      }
+    }
+
     &.subItem {
       background-color: white;
     }

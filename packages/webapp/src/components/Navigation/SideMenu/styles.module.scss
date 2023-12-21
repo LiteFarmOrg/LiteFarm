@@ -15,7 +15,7 @@
 
 @import '../../../assets/mixin.scss';
 
-@keyframes collapse-menu {
+@keyframes menu-collapse {
   0% {
     flex: 0 0 var(--global-side-menu-width);
   }
@@ -24,7 +24,7 @@
     flex: 0 0 var(--global-compact-side-menu-width);
   }
 
-  85% {
+  90% {
     flex: 0 0 calc(var(--global-compact-side-menu-width) + 2px);
   }
 
@@ -33,7 +33,7 @@
   }
 }
 
-@keyframes expand-menu {
+@keyframes menu-expand {
   0% {
     flex: 0 0 var(--global-compact-side-menu-width);
   }
@@ -42,8 +42,38 @@
     flex: 0 0 var(--global-side-menu-width);
   }
 
-  85% {
+  90% {
     flex: 0 0 calc(var(--global-side-menu-width) + 2px);
+  }
+
+  100% {
+    flex: 0 0 var(--global-side-menu-width);
+  }
+}
+
+@keyframes menu-initial {
+  0% {
+    flex: 0 0 var(--global-compact-side-menu-width);
+  }
+
+  20% {
+    flex: 0 0 var(--global-side-menu-width);
+  }
+
+  40% {
+    flex: 0 0 calc(var(--global-side-menu-width) + 16px);
+  }
+
+  60% {
+    flex: 0 0 calc(var(--global-side-menu-width) - 8px);
+  }
+
+  80% {
+    flex: 0 0 calc(var(--global-side-menu-width) + 4px);
+  }
+
+  90% {
+    flex: 0 0 calc(var(--global-side-menu-width) - 2px);
   }
 
   100% {
@@ -58,6 +88,9 @@
   border-right: 1px solid #D1E9D9;
   padding: 0;
   height: 100%;
+  animation-name: menu-initial;
+  animation-duration: 0.9s;
+  animation-fill-mode: forwards;
 
   @include xs-breakpoint {
     border: none;
@@ -65,7 +98,7 @@
   }
 
   &.compactContainer {
-    animation-name: collapse-menu;
+    animation-name: menu-collapse;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
 
@@ -79,7 +112,7 @@
   }
 
   &.expandedContainer {
-    animation-name: expand-menu;
+    animation-name: menu-expand;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
   }

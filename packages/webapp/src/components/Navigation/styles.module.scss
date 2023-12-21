@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@keyframes reposition-and-rotate-toggle-on-collapse {
+@keyframes toggle-collapse {
   0% {
     left: calc(var(--global-side-menu-width) - 14px);
     transform: rotate(0);
@@ -24,7 +24,7 @@
     transform: rotate(-180deg);
   }
 
-  85% {
+  90% {
     left: calc(var(--global-compact-side-menu-width) - 11px);
     transform: rotate(-185deg);
   }
@@ -35,7 +35,7 @@
   }
 }
 
-@keyframes reposition-and-rotate-toggle-on-expand {
+@keyframes toggle-expand {
   0% {
     left: calc(var(--global-compact-side-menu-width) - 13px);
     transform: rotate(-180deg);
@@ -46,7 +46,7 @@
     transform: rotate(0);
   }
 
-  85% {
+  90% {
     left: calc(var(--global-side-menu-width) - 12px);
     transform: rotate(5deg);
   }
@@ -56,7 +56,59 @@
     transform: rotate(0);
   }
 }
- 
+
+@keyframes toggle-initial {
+  0% {
+    left: calc(var(--global-compact-side-menu-width) - 13px);
+    transform: rotate(-180deg);
+  }
+
+  20% {
+    left: calc(var(--global-side-menu-width) - 14px);
+    transform: rotate(-180deg);
+  }
+
+  40% {
+    left: calc(var(--global-side-menu-width) + 2px);
+    transform: rotate(-180deg);
+  }
+
+  60% {
+    left: calc(var(--global-side-menu-width) - 24px);
+    transform: rotate(-180deg);
+  }
+
+  80% {
+    left: calc(var(--global-side-menu-width) - 10px);
+    transform: rotate(-180deg);
+  }
+
+  90% {
+    left: calc(var(--global-side-menu-width) - 16px);
+    transform: rotate(-180deg);
+  }
+
+  100% {
+    left: calc(var(--global-side-menu-width) - 14px);
+    transform: rotate(-180deg);
+  }
+}
+
+@keyframes toggle-color-initial {
+  0% {
+    background-color: white;
+  }
+
+  50% {
+    background-color: var(--green700);
+  }
+
+  100% {
+    background-color: white;
+  }
+}
+
+
 .drawer {
   background-color: var(--teal700);
   // Higher than the current highest z-index in the app
@@ -103,6 +155,7 @@
   background-color: white;
   z-index: 1303;
   transition: transform 0.5s;
+  animation: toggle-initial 0.9s forwards, toggle-color-initial 2s;
 
   svg {
     height: 16px;
@@ -120,13 +173,13 @@
   }
 
   &.compactMenuToggle {
-    animation-name: reposition-and-rotate-toggle-on-collapse;
+    animation-name: toggle-collapse;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
   }
 
   &.expandedMenuToggle {
-    animation-name: reposition-and-rotate-toggle-on-expand;
+    animation-name: toggle-expand;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
   }

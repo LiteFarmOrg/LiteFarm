@@ -20,41 +20,32 @@ import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
-import SlideMenu from './containers/Navigation/SlideMenu';
+import SideMenu from './containers/Navigation/SideMenu';
 import styles from './styles.module.scss';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import Routes from './routes';
 
 function App() {
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
-
   return (
     <div className={clsx(styles.container)}>
-      {isDesktop && (
-        <Suspense fallback={null}>
-          <SlideMenu history={history} classes={{ container: styles.slideMenu }} />
-        </Suspense>
-      )}
-      <div className={clsx(styles.mainColumn)}>
-        <Suspense fallback={null}>
-          <Navigation history={history} />
-        </Suspense>
-        <div className={styles.app}>
-          <OfflineDetector />
-          <SnackbarProvider
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
-            }}
-            classes={{ root: styles.root, containerRoot: styles.root }}
-            content={(key, message) => <NotistackSnackbar id={key} message={message} />}
-          >
-            <Routes />
-          </SnackbarProvider>
-        </div>
-      </div>
+      <Suspense fallback={null}>
+        <Navigation history={history}>
+          <div className={styles.app}>
+            <OfflineDetector />
+            <SnackbarProvider
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              classes={{ root: styles.root, containerRoot: styles.root }}
+              content={(key, message) => <NotistackSnackbar id={key} message={message} />}
+            >
+              <Routes />
+            </SnackbarProvider>
+          </div>
+        </Navigation>
+      </Suspense>
     </div>
   );
 }

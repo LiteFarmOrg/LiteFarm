@@ -3,7 +3,7 @@ import { useTheme } from '@mui/styles';
 import { IconButton, useMediaQuery } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 import TopMenu from './Menus/TopMenu';
-import SlideMenu from '../../containers/Navigation/SideMenu';
+import SideMenu from '../../containers/Navigation/SideMenu';
 import {
   NavbarSpotlightProvider,
   NavBarNotificationSpotlightProvider,
@@ -19,6 +19,7 @@ export default function PureNavigation({
   history,
   isFarmSelected,
   hidden,
+  children,
 }) {
   // Side Drawer
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -30,16 +31,10 @@ export default function PureNavigation({
   return (
     !hidden && (
       <>
-        <TopMenu
-          history={history}
-          isMobile={isMobile}
-          showNavigation={isFarmSelected}
-          onClickBurger={setIsSidebarOpen}
-        />
         {isFarmSelected && (
           <>
             {/* Sidebar Menu */}
-            {isMobile && (
+            {isMobile ? (
               <Drawer
                 isOpen={isSidebarOpen}
                 onClose={closeSidebar}
@@ -51,8 +46,10 @@ export default function PureNavigation({
                   content: styles.drawerContent,
                 }}
               >
-                <SlideMenu history={history} closeDrawer={closeSidebar} />
+                <SideMenu history={history} closeDrawer={closeSidebar} />
               </Drawer>
+            ) : (
+              <SideMenu history={history} classes={{ container: styles.sideMenu }} />
             )}
             <NavbarSpotlightProvider
               open={!showNotificationSpotlight && showNavigationSpotlight}
@@ -64,6 +61,15 @@ export default function PureNavigation({
             />
           </>
         )}
+        <div className={styles.mainColumn}>
+          <TopMenu
+            history={history}
+            isMobile={isMobile}
+            showNavigation={isFarmSelected}
+            onClickBurger={openSidebar}
+          />
+          {children}
+        </div>
       </>
     )
   );

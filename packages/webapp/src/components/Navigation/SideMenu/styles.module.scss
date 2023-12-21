@@ -13,130 +13,168 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '../../../assets/mixin.scss';
+ @import '../../../assets/mixin.scss';
 
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-right: 1px solid #D1E9D9;
-  padding: 0;
-  height: 100%;
-
-  @include xs-breakpoint {
-    border: none;
-    background-color: var(--teal700);
-  }
-}
-
-.list {
-  padding: 0;
-}
-
-.listItem {
-  padding: 16px;
-  padding-right: 32px;
-  border-top: 1px solid #E9EBF8;
-  display: flex;
-  justify-content: center;
-
-  &:hover {
-    background-color: var(--teal50);
-  }
-
-  @include xs-breakpoint {
-    border: none;
-
-    &.logoListItem {
-      display: none;
-    }
-
-    &.adminActionListItem {
-      background-color: var(--teal600);
-      border-top: 1px solid var(--teal700);
-    }
-
-    &:hover {
-      .expandIcon {
-        path {
-          fill: var(--teal700);
-        }
-      }
-    }
-  }
-}
-
-.activeListItem {
-  background-color: #A2D2CD;
-
-  @include xs-breakpoint {
-    &.subItem {
-      background-color: #A2D2CD;
-    }
-  }
-}
-
-.inactiveListItem {
-  @include xs-breakpoint {
-    &:not(:hover) {
-      .listItemText {
-        color: var(--teal50);
-      }
-
-      .icon {
-        path {
-          stroke: var(--teal50);
-        }
-      }
-    }
-  
-    &.subItem {
-      background-color: white;
-
-      &:hover {
-        background-color: var(--teal50);
-      }
-    }
-  }
-}
-
-.listItemText {
-  margin: 0;
-  color: var(--teal700);
-
+ .container {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   border-right: 1px solid #D1E9D9;
+   padding: 0;
+   height: 100%;
+   flex: 0 0 var(--global-side-menu-width);
+ 
+   @include xs-breakpoint {
+     border: none;
+     background-color: var(--teal700);
+   }
+ 
+   &.compact {
+     flex: 0 0 var(--global-compact-side-menu-width);
+ 
+     .listItem {
+       padding-right: 16px;
+     }
+ 
+     .toggleMenuButton {
+       left: calc(var(--global-compact-side-menu-width) - 12px);
+     }
+   }
+ }
+ 
+ .list {
+   padding: 0;
+ }
+ 
+ .listItem {
+   padding: 16px;
+   padding-right: 32px;
+   border-top: 1px solid #E9EBF8;
+   display: flex;
+   justify-content: center;
+ 
+   &:hover {
+     background-color: var(--teal50);
+   }
+ 
+   @include xs-breakpoint {
+     border: none;
+ 
+     &.logoListItem {
+       display: none;
+     }
+ 
+     &.adminActionListItem {
+       background-color: var(--teal600);
+       border-top: 1px solid var(--teal700);
+     }
+ 
+     &:hover {
+       .expandIcon {
+         path {
+           fill: var(--teal700);
+         }
+       }
+     }
+   }
+ }
+ 
+ .activeListItem {
+   background-color: #A2D2CD;
+ 
+   @include xs-breakpoint {
+     &.subItem {
+       background-color: #A2D2CD;
+     }
+   }
+ }
+ 
+ .inactiveListItem {
+   @include xs-breakpoint {
+     &:not(:hover) {
+       .listItemText {
+         color: var(--teal50);
+       }
+ 
+       .icon {
+         path {
+           stroke: var(--teal50);
+         }
+       }
+     }
+   
+     &.subItem {
+       background-color: white;
+ 
+       &:hover {
+         background-color: var(--teal50);
+       }
+     }
+   }
+ }
+ 
+ .listItemText {
+   margin: 0;
+   color: var(--teal700);
   span {
     font-weight: 600;
   }
-}
+ }
+ 
+ .icon {
+   min-width: 0px;
+   margin-right: 8px;
 
-.icon {
-  min-width: 0px;
-  margin-right: 8px;
-}
-
-.expandIcon {
-  path {
-    fill: var(--teal700);
-
-    @include xs-breakpoint {
-      fill: var(--teal50);
-    }
-  }
-}
-
-.subList {
-  padding: 8px 0;
-}
-
-.subItem {
-  border: none;
-  padding: 8px 16px;
-}
-
-.subItemText {
-  color: var(--teal700);
-
-  span {
-    font-weight: 600;
-  }
-}
+ }
+ 
+ .expandIcon { 
+   path {
+     fill: var(--teal700);
+ 
+     @include xs-breakpoint {
+       fill: var(--teal50);
+     }
+   }
+ }
+ 
+ .subList {
+   padding: 8px 0;
+ }
+ 
+ .subItem {
+   border: none;
+   padding: 8px 16px;
+ }
+ 
+ .subItemText {
+   color: var(--teal700);
+ 
+   span {
+     font-weight: 600;
+   }
+ }
+ 
+ .toggleMenuButton {
+   border: 1px solid #D1E9D9;
+   padding: 4px;
+   position: absolute;
+   top: calc(var(--global-navbar-height) / 2 - 12px);
+   left: calc(var(--global-side-menu-width) - 10px);
+   background-color: white;
+ 
+   svg {
+     height: 16px;
+     width: 16px;
+   }
+ 
+   &:hover {
+     background-color: var(--green500);
+     
+     svg {
+       path {
+         stroke: var(--green800);
+       }
+     }
+   }
+ }
+ 

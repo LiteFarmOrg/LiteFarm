@@ -33,14 +33,15 @@ export const useGetMenuItems = () => {
 
   const mainActions = useMemo(() => {
     const list = [
-      { label: t('MENU.MAP'), icon: <MapIcon />, path: '/map' },
-      { label: t('MENU.TASKS'), icon: <TasksIcon />, path: '/tasks' },
+      { label: t('MENU.MAP'), icon: <MapIcon />, path: '/map', key: 'map' },
+      { label: t('MENU.TASKS'), icon: <TasksIcon />, path: '/tasks', key: 'tasks' },
       {
         label: t('MENU.CROPS'),
         icon: <CropsIcon />,
         path: '/crop_catalogue',
+        key: 'crops',
       },
-      { label: t('MENU.INSIGHTS'), icon: <InsightsIcon />, path: '/Insights' },
+      { label: t('MENU.INSIGHTS'), icon: <InsightsIcon />, path: '/Insights', key: 'insights' },
     ];
 
     if (isAdmin) {
@@ -49,23 +50,49 @@ export const useGetMenuItems = () => {
         icon: <FinancesIcon />,
         path: '/finances',
         subMenu: [
-          { label: t('MENU.TRANSACTION_LIST'), path: '/finances/transactions' },
-          { label: t('MENU.OTHER_EXPENSES'), path: '/finances/other_expense' },
-          { label: t('MENU.LABOUR_EXPENSES'), path: '/finances/labour' },
-          { label: t('MENU.ACTUAL_REVENUES'), path: '/finances/actual_revenue' },
-          { label: t('MENU.ESTIMATED_REVENUES'), path: '/finances/estimated_revenue' },
+          {
+            label: t('MENU.TRANSACTION_LIST'),
+            path: '/finances/transactions',
+            key: 'transactions',
+          },
+          {
+            label: t('MENU.OTHER_EXPENSES'),
+            path: '/finances/other_expense',
+            key: 'other_expense',
+          },
+          { label: t('MENU.LABOUR_EXPENSES'), path: '/finances/labour', key: 'labour' },
+          {
+            label: t('MENU.ACTUAL_REVENUES'),
+            path: '/finances/actual_revenue',
+            key: 'actual_revenue',
+          },
+          {
+            label: t('MENU.ESTIMATED_REVENUES'),
+            path: '/finances/estimated_revenue',
+            key: 'estimated_revenue',
+          },
         ],
       });
-      list.push({ label: t('MENU.DOCUMENTS'), icon: <DocumentsIcon />, path: '/documents' });
+      list.push({
+        label: t('MENU.DOCUMENTS'),
+        icon: <DocumentsIcon />,
+        path: '/documents',
+        key: 'documents',
+      });
     }
     return list;
   }, [isAdmin, t]);
 
   const adminActions = useMemo(
     () => [
-      { label: t('MENU.FARM_SETTINGS'), icon: <FarmSettingsIcon />, path: '/farm' },
-      { label: t('MENU.PEOPLE'), icon: <PeopleIcon />, path: '/people' },
-      { label: t('MENU.CERTIFICATIONS'), icon: <CertificationsIcon />, path: '/certification' },
+      { label: t('MENU.FARM_SETTINGS'), icon: <FarmSettingsIcon />, path: '/farm', key: 'farm' },
+      { label: t('MENU.PEOPLE'), icon: <PeopleIcon />, path: '/people', key: 'people' },
+      {
+        label: t('MENU.CERTIFICATIONS'),
+        icon: <CertificationsIcon />,
+        path: '/certification',
+        key: 'certification',
+      },
     ],
     [t],
   );

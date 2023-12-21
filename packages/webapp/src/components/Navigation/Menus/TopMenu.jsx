@@ -175,6 +175,7 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
       color="inherit"
       aria-label="open drawer"
       onClick={() => onClickBurger((prev) => !prev)}
+      className={styles.iconButton}
       size="large"
     >
       <BiMenu className={styles.burgerMenu} />

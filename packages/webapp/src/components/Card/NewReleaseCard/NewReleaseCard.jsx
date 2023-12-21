@@ -2,7 +2,7 @@ import Card from '../index';
 import { ReactComponent as Star } from '../../../assets/images/signUp/new_feature.svg';
 import { Semibold, Text } from '../../Typography';
 import typography from '../../Typography/typography.module.scss';
-import styles from './styles.module.css';
+import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { APP_VERSION } from '../../../util/constants';
 

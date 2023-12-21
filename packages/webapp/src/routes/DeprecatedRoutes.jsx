@@ -26,7 +26,7 @@ export const DeprecatedRoutes = () => (
       <Redirect to="/finances/revenue_types" />
     </Route>
     <Route path="/add_sale" exact>
-      <Redirect to="/finances/add_sale" />
+      <Redirect to="/finances/add_revenue" />
     </Route>
     <Route path="/manage_custom_revenues" exact>
       <Redirect to="/finances/manage_custom_revenues" />

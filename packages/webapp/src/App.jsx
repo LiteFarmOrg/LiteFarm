@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import Navigation from './containers/Navigation';
 import history from './history';
 import clsx from 'clsx';
@@ -24,10 +24,16 @@ import styles from './styles.module.scss';
 import Routes from './routes';
 
 function App() {
+  const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
+
   return (
     <div className={clsx(styles.container)}>
       <Suspense fallback={null}>
-        <Navigation history={history}>
+        <Navigation
+          history={history}
+          isCompactSideMenu={isCompactSideMenu}
+          setIsCompactSideMenu={setIsCompactSideMenu}
+        >
           <div className={styles.app}>
             <OfflineDetector />
             <SnackbarProvider
@@ -35,7 +41,10 @@ function App() {
                 vertical: 'bottom',
                 horizontal: 'center',
               }}
-              classes={{ root: styles.root, containerRoot: styles.root }}
+              classes={{
+                root: clsx(styles.root, isCompactSideMenu ? styles.isCompact : styles.isExpanded),
+                containerRoot: styles[`containerRoot${isCompactSideMenu ? 'WithCompactMenu' : ''}`],
+              }}
               content={(key, message) => <NotistackSnackbar id={key} message={message} />}
             >
               <Routes />

@@ -111,8 +111,7 @@
 
 .drawer {
   background-color: var(--teal700);
-  // Higher than the current highest z-index in the app
-  z-index: 1302;
+  z-index: 1299;
 }
 
 .drawerHeader {
@@ -134,7 +133,7 @@
   top: 0;
   overflow: auto;
   background-color: var(--bgInputListTile);
-  z-index: 1302;
+  z-index: 1299;
 }
 
 .mainColumn {
@@ -149,11 +148,11 @@
 .menuToggle {
   border: 1px solid #D1E9D9;
   padding: 4px;
-  position: absolute;
+  position: fixed;
   top: calc(var(--global-navbar-height) / 2 - 12px);
   left: calc(var(--global-side-menu-width) - 14px);
   background-color: white;
-  z-index: 1303;
+  z-index: 1300;
   transition: transform 0.5s;
   animation: toggle-initial 0.9s forwards, toggle-color-initial 2s;
 

@@ -1387,6 +1387,7 @@
   },
   "RELEASE": {
     "BETTER": "MISSING",
+    "LITEFARM_UPDATED": "LiteFarm v{{version}} ya está disponible!",
     "NOTES": "MISSING"
   },
   "REPEAT_PLAN": {

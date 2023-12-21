@@ -1386,6 +1386,7 @@
   },
   "RELEASE": {
     "BETTER": "LiteFarm just got better!",
+    "LITEFARM_UPDATED": "LiteFarm v{{version}} is now available!",
     "NOTES": "Release notes"
   },
   "REPEAT_PLAN": {

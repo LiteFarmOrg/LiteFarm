@@ -15,7 +15,11 @@ export default function MapDrawerMenuItem({
 }) {
   return (
     <DefaultThemeProvider>
-      <ListItem style={{ backgroundColor: isFiltered ? '#F3F6FB' : 'white' }} onClick={onClick}>
+      <ListItem
+        button
+        style={{ backgroundColor: isFiltered ? '#F3F6FB' : 'white' }}
+        onClick={onClick}
+      >
         <ListItemIcon>{children}</ListItemIcon>
 
         <ListItemText>

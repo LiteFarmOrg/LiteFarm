@@ -31,66 +31,66 @@ export default function PureNavigation({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  return (
-    !hidden && (
-      <>
-        {isFarmSelected && (
-          <>
-            {/* Sidebar Menu */}
-            {isMobile ? (
-              <Drawer
-                isOpen={isSideMenuOpen}
-                onClose={closeSideMenu}
-                fullHeight
-                responsiveModal={false}
-                classes={{
-                  drawer: styles.drawer,
-                  header: styles.drawerHeader,
-                  content: styles.drawerContent,
-                }}
+  return hidden ? (
+    children
+  ) : (
+    <>
+      {isFarmSelected && (
+        <>
+          {/* Sidebar Menu */}
+          {isMobile ? (
+            <Drawer
+              isOpen={isSideMenuOpen}
+              onClose={closeSideMenu}
+              fullHeight
+              responsiveModal={false}
+              classes={{
+                drawer: styles.drawer,
+                header: styles.drawerHeader,
+                content: styles.drawerContent,
+              }}
+            >
+              <SideMenu history={history} closeDrawer={closeSideMenu} />
+            </Drawer>
+          ) : (
+            <>
+              <IconButton
+                size="large"
+                className={clsx(
+                  styles.toggleMenuButton,
+                  isCompactSideMenu && styles.expandMenuButton,
+                )}
+                onClick={() => setIsCompactSideMenu(!isCompactSideMenu)}
               >
-                <SideMenu history={history} closeDrawer={closeSideMenu} />
-              </Drawer>
-            ) : (
-              <>
-                <IconButton
-                  size="large"
-                  className={clsx(
-                    styles.toggleMenuButton,
-                    isCompactSideMenu && styles.expandMenuButton,
-                  )}
-                  onClick={() => setIsCompactSideMenu(!isCompactSideMenu)}
-                >
-                  <CollapseMenuIcon />
-                </IconButton>
-                <SideMenu
-                  history={history}
-                  classes={{ container: styles.sideMenu }}
-                  isCompact={isCompactSideMenu}
-                />
-              </>
-            )}
-            <NavbarSpotlightProvider
-              open={!showNotificationSpotlight && showNavigationSpotlight}
-              onFinish={resetSpotlight}
-            />
-            <NavBarNotificationSpotlightProvider
-              open={showNotificationSpotlight}
-              onFinish={resetSpotlight}
-            />
-          </>
-        )}
-        <div className={styles.mainColumn}>
-          <TopMenu
-            history={history}
-            isMobile={isMobile}
-            showNavigation={isFarmSelected}
-            onClickBurger={openSideMenu}
+                <CollapseMenuIcon />
+              </IconButton>
+              <SideMenu
+                history={history}
+                classes={{ container: styles.sideMenu }}
+                isCompact={isCompactSideMenu}
+              />
+            </>
+          )}
+          <NavbarSpotlightProvider
+            open={!showNotificationSpotlight && showNavigationSpotlight}
+            onFinish={resetSpotlight}
           />
-          {children}
-        </div>
-      </>
-    )
+          <NavBarNotificationSpotlightProvider
+            open={showNotificationSpotlight}
+            onFinish={resetSpotlight}
+          />
+        </>
+      )}
+      <div className={styles.mainColumn}>
+        <TopMenu
+          history={history}
+          isMobile={isMobile}
+          showNavigation={isFarmSelected}
+          onClickBurger={openSideMenu}
+        />
+        {children}
+      </div>
+    </>
   );
 }
 

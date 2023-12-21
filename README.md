@@ -142,6 +142,8 @@ Make sure that your `.env` variables are configured as outlined in the `.env.def
 
 Also see the section below [on using Docker](#docker).
 
+Note: the export server is not usually needed, and so is not started with the other development dependencies. To start it, make sure the the webapp and API are already running, and use the command `docker compose up export`.
+
 <details>
   <summary>Instructions for running image, document, and certification services natively</summary>
 
@@ -212,13 +214,15 @@ If you are unable to use Docker, please contact a core team member to get instru
 
 To run [ESLint](https://eslint.org/) checks execute `npm run lint`
 
-The [chai.js](https://www.chaijs.com/) and [jest](https://jestjs.io/) libraries automate tests that run real database operations using [JWT](https://jwt.io/introduction). The tests use a dedicated database named `test_farm`, distinct from the `pg-litefarm` database that the app normally uses .
+The [chai.js](https://www.chaijs.com/) and [jest](https://jestjs.io/) libraries automate tests that run real database operations using a dedicated database named `test_farm`, distinct from the `pg-litefarm` database that the app normally uses.
+
+You'll want to confirm that you have an empty `test_farm` database (otherwise use your preferred database client to create one) before continuing with the following:
 
 1. In a terminal, navigate to the `packages/api` folder.
 2. Execute `npm run migrate:testing:db` to set up the test database.
 3. Execute `npm test` to launch the tests. Or, to generate test coverage information, run `npm test -- --coverage .` and then see the `coverage/index.html` file.
 
-While the tests do attempt to clean up after themselves, it's a good idea to periodically use `psql` to `DROP` and `CREATE` the `test_farm` database, followed by the migrations from step 2 above.
+While the tests do attempt to clean up after themselves, it's a good idea to periodically use `psql` or your database client to `DROP` and `CREATE` the `test_farm` database, followed by the migrations from step 2 above.
 
 ## webapp
 
@@ -278,33 +282,27 @@ Use cases in which we currently utilize docker at LiteFarm include:
 ## Set up
 
 - Go to https://docs.docker.com/get-docker/ and install docker in your local system.
-- After installation, the docker CLI will be available where you can run the docker commands.
-- create a `.env` file at the root directory of the project i.e. LiteFarm
-- Add key-value pairs in the `.env` by referring to the `docker-compose.[ENV].yml` that contains the docker env keys.
-
-## Troubleshooting
-
-1. On Windows: During `npm run nodemon` of `/packages/api` there is an error - possibly with the client variable of knex.
-
-   The NODE_ENV variable is not being set properly you will need to adjust the nodemon script in `/packages/api/package.json`.
-
-   We hope to improve our `package.json` scripts in the near future.
+- After installation, you can run Docker commands using the Docker CLI.
+- To build the beta/prod Docker containers (generally used when troubleshooting the build process), you will also need to:
+  - create a `.env` file at the root directory of the project i.e. LiteFarm
+  - add key-value pairs in the `.env` by referring to the `docker-compose.[ENV].yml` that contains the docker env keys
 
 ## Commands
 
 These commands can be run from the root of the repo.
 
-- `docker compose up` to run all the local development services, OR
+- `docker compose up` to start the main development services
+- `docker compose up export` to start the process that handles certification document export
 - `docker compose up [service names]` to run one or more particular services
 - `docker compose down` to stop and remove all containers defined in `docker-compose.yml`
 - `docker compose down --volumes` to stop and remove all containers and volumes defined in `docker-compose.yml`
-- `docker-compose -f docker-compose.[ENV].yml up --build -d` to build the docker containers in the detach mode.
+- `docker-compose -f docker-compose.[ENV].yml up --build` to build the beta/prod docker containers
 - `docker ps` to see the list of docker containers in the running state.
 - `docker logs --details [containers name]` to view the logs inside the container.
 
 Notes:
 
-- [service names] are db, minio, redis, export_server, and imaginary
+- [service names] are db, minio, redis, export, and imaginary
 - [container_name] are litefarm-db, litefarm-api and litefarm-web.
 - [ENV] are beta and prod
 

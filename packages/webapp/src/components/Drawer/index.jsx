@@ -15,10 +15,11 @@
 
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { BsX } from 'react-icons/bs';
 import useIsAboveBreakpoint from '../../hooks/useIsAboveBreakpoint';
 import ModalComponent from '../Modals/ModalComponent/v2';
 import styles from './style.module.scss';
+import { IconButton, useMediaQuery, useTheme } from '@mui/material';
+import { Close } from '@mui/icons-material';
 
 const Drawer = ({
   title,
@@ -36,9 +37,10 @@ const Drawer = ({
   fullHeight,
   responsiveModal = true,
 }) => {
-  const isAboveBreakPoint = useIsAboveBreakpoint(`(min-width: 768px)`);
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
-  return isAboveBreakPoint && responsiveModal ? (
+  return isDesktop && responsiveModal ? (
     isOpen && (
       <ModalComponent
         className={classes.modal}
@@ -66,9 +68,9 @@ const Drawer = ({
       >
         <div className={clsx(styles.header, classes.header)}>
           <div className={styles.title}>{title}</div>
-          <div className={styles.close} onClick={onClose}>
-            <BsX />
-          </div>
+          <IconButton className={styles.close} onClick={onClose}>
+            <Close />
+          </IconButton>
         </div>
         <div className={clsx(styles.drawerContent, classes.content)}>
           {children} {buttonGroup}

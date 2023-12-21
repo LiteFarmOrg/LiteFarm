@@ -103,7 +103,10 @@
 .listItemText {
   margin: 0;
   color: var(--teal700);
-  font-weight: 500;
+
+  span {
+    font-weight: 600;
+  }
 }
 
 .icon {

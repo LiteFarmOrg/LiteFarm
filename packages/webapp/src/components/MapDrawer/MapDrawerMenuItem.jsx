@@ -14,10 +14,6 @@ const useStyles = makeStyles({
     fontSize: '42px',
     lineHeight: '16px',
   },
-  menuItem: {
-    paddingLeft: '40px',
-    paddingRight: '40px',
-  },
 });
 export default function MapDrawerMenuItem({
   onClick,

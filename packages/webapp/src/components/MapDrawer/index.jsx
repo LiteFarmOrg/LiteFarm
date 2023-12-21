@@ -21,22 +21,18 @@ import { ReactComponent as Fence } from '../../assets/images/farmMapFilter/Fence
 import { ReactComponent as Gate } from '../../assets/images/farmMapFilter/Gate.svg';
 import { ReactComponent as WaterValve } from '../../assets/images/farmMapFilter/WaterValve.svg';
 import { ReactComponent as Sensor } from '../../assets/images/farmMapFilter/Sensor.svg';
-import { Drawer } from '@mui/material';
 import { colors } from '../../assets/theme';
 import { useTranslation } from 'react-i18next';
 import { motion, useAnimation } from 'framer-motion';
 import PropTypes from 'prop-types';
 import { locationEnum } from '../../containers/Map/constants';
 import MapDrawerMenuItem from './MapDrawerMenuItem';
+import Drawer from '../Drawer';
 
 const useStyles = makeStyles({
   fullList: {
     width: 'auto',
-    marginBottom: '60px',
-    elevation: 0,
     backgroundColor: 'white',
-    borderRadius: '16px 16px 0px 0px',
-    boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.25)',
   },
   greenbar: {
     height: '4px',
@@ -63,11 +59,8 @@ const useStyles = makeStyles({
     'user-select': 'none',
     'touch-action': 'none',
   },
-  headerTitle: {
-    marginBottom: '16px',
-  },
   headerContentContainer: {
-    padding: '0 24px 8px 24px',
+    paddingBottom: '8px',
   },
   headerTextContainer: {
     textDecoration: 'underline',
@@ -84,7 +77,6 @@ const useStyles = makeStyles({
     color: colors.grey400,
   },
   label: {
-    marginLeft: '24px',
     height: '24px',
   },
   labelDivider: {
@@ -247,86 +239,61 @@ export default function MapDrawer({
 
   const list = () => (
     <div className={clsx(classes.fullList)} role="presentation">
-      <motion.div className={classes.header} onPan={onPan} onPanEnd={onPanEnd}>
-        <HandleBar classes={classes} />
-
-        <div className={classes.headerContentContainer}>
-          <Semibold className={classes.headerTitle}>{headerTitle}</Semibold>
-          {!!filterSettings && (
-            <div className={classes.headerTextContainer}>
-              <Underlined
-                onClick={() => {
-                  onMenuItemClick('show_all');
-                }}
-                className={classes.underlined}
-              >
-                {t('FARM_MAP.MAP_FILTER.SHOW_ALL')}
-              </Underlined>
-              <span className={classes.verticalDivider} />
-              <Underlined
-                onClick={() => {
-                  onMenuItemClick('hide_all');
-                }}
-                className={classes.underlined}
-              >
-                {t('FARM_MAP.MAP_FILTER.HIDE_ALL')}
-              </Underlined>
-            </div>
-          )}
-        </div>
-      </motion.div>
-
-      <motion.div style={{ overflowY: 'scroll', height: initHeight }} animate={controls}>
-        <List>
-          {!!filterSettings && (
-            <MapDrawerMenuItem
-              isFilterMenuItem={!!filterSettings}
-              name={t('FARM_MAP.MAP_FILTER.SATELLITE')}
-              onClick={() => onMenuItemClick('map_background')}
-              isFiltered={!filterSettings['map_background']}
+      <div className={classes.headerContentContainer}>
+        {!!filterSettings && (
+          <div className={classes.headerTextContainer}>
+            <Underlined
+              onClick={() => {
+                onMenuItemClick('show_all');
+              }}
+              className={classes.underlined}
             >
-              <MapBackground className={classes.icon} />
-            </MapDrawerMenuItem>
-          )}
-
-          {!!filterSettings && !!areaImgDict.length && (
-            <MapDrawerMenuItem
-              isFilterMenuItem={!!filterSettings}
-              name={t('FARM_MAP.MAP_FILTER.LABEL')}
-              onClick={() => onMenuItemClick('label')}
-              isFiltered={!filterSettings['label']}
+              {t('FARM_MAP.MAP_FILTER.SHOW_ALL')}
+            </Underlined>
+            <span className={classes.verticalDivider} />
+            <Underlined
+              onClick={() => {
+                onMenuItemClick('hide_all');
+              }}
+              className={classes.underlined}
             >
-              <LabelIcon className={classes.icon} />
-            </MapDrawerMenuItem>
-          )}
+              {t('FARM_MAP.MAP_FILTER.HIDE_ALL')}
+            </Underlined>
+          </div>
+        )}
+      </div>
 
-          {!!areaImgDict.length && (
-            <Label className={classes.label}>
-              {t('FARM_MAP.MAP_FILTER.AREAS')}
-              <span className={classes.labelDivider} />
-            </Label>
-          )}
-          {areaImgDict.map(({ key, name, icon }) => {
-            return (
-              <MapDrawerMenuItem
-                key={key}
-                name={name}
-                isFilterMenuItem={!!filterSettings}
-                onClick={() => onMenuItemClick(key)}
-                isFiltered={filterSettings && !filterSettings?.[key]}
-              >
-                {icon()}
-              </MapDrawerMenuItem>
-            );
-          })}
+      <List>
+        {!!filterSettings && (
+          <MapDrawerMenuItem
+            isFilterMenuItem={!!filterSettings}
+            name={t('FARM_MAP.MAP_FILTER.SATELLITE')}
+            onClick={() => onMenuItemClick('map_background')}
+            isFiltered={!filterSettings['map_background']}
+          >
+            <MapBackground className={classes.icon} />
+          </MapDrawerMenuItem>
+        )}
 
-          {!!lineImgDict.length && (
-            <Label className={classes.label}>
-              {t('FARM_MAP.MAP_FILTER.LINES')}
-              <span className={classes.labelDivider} />
-            </Label>
-          )}
-          {lineImgDict.map(({ key, name, icon }) => (
+        {!!filterSettings && !!areaImgDict.length && (
+          <MapDrawerMenuItem
+            isFilterMenuItem={!!filterSettings}
+            name={t('FARM_MAP.MAP_FILTER.LABEL')}
+            onClick={() => onMenuItemClick('label')}
+            isFiltered={!filterSettings['label']}
+          >
+            <LabelIcon className={classes.icon} />
+          </MapDrawerMenuItem>
+        )}
+
+        {!!areaImgDict.length && (
+          <Label className={classes.label}>
+            {t('FARM_MAP.MAP_FILTER.AREAS')}
+            <span className={classes.labelDivider} />
+          </Label>
+        )}
+        {areaImgDict.map(({ key, name, icon }) => {
+          return (
             <MapDrawerMenuItem
               key={key}
               name={name}
@@ -336,28 +303,45 @@ export default function MapDrawer({
             >
               {icon()}
             </MapDrawerMenuItem>
-          ))}
+          );
+        })}
 
-          {!!pointImgDict.length && (
-            <Label className={classes.label}>
-              {t('FARM_MAP.MAP_FILTER.POINTS')}
-              <span className={classes.labelDivider} />
-            </Label>
-          )}
-          {pointImgDict.map(({ key, name, icon }) => (
-            <MapDrawerMenuItem
-              key={key}
-              name={name}
-              isFilterMenuItem={!!filterSettings}
-              onClick={() => onMenuItemClick(key)}
-              isFiltered={filterSettings && !filterSettings?.[key]}
-            >
-              {icon()}
-            </MapDrawerMenuItem>
-          ))}
-        </List>
-      </motion.div>
-      <Divider />
+        {!!lineImgDict.length && (
+          <Label className={classes.label}>
+            {t('FARM_MAP.MAP_FILTER.LINES')}
+            <span className={classes.labelDivider} />
+          </Label>
+        )}
+        {lineImgDict.map(({ key, name, icon }) => (
+          <MapDrawerMenuItem
+            key={key}
+            name={name}
+            isFilterMenuItem={!!filterSettings}
+            onClick={() => onMenuItemClick(key)}
+            isFiltered={filterSettings && !filterSettings?.[key]}
+          >
+            {icon()}
+          </MapDrawerMenuItem>
+        ))}
+
+        {!!pointImgDict.length && (
+          <Label className={classes.label}>
+            {t('FARM_MAP.MAP_FILTER.POINTS')}
+            <span className={classes.labelDivider} />
+          </Label>
+        )}
+        {pointImgDict.map(({ key, name, icon }) => (
+          <MapDrawerMenuItem
+            key={key}
+            name={name}
+            isFilterMenuItem={!!filterSettings}
+            onClick={() => onMenuItemClick(key)}
+            isFiltered={filterSettings && !filterSettings?.[key]}
+          >
+            {icon()}
+          </MapDrawerMenuItem>
+        ))}
+      </List>
     </div>
   );
 
@@ -365,32 +349,12 @@ export default function MapDrawer({
     <div>
       <Drawer
         data-cy="map-drawer"
-        anchor={'bottom'}
-        open={showMapDrawer}
+        title={headerTitle}
+        isOpen={showMapDrawer}
         onClose={() => setShowMapDrawer(false)}
-        PaperProps={{
-          style: { backgroundColor: 'transparent' },
-          square: false,
-        }}
-        ModalProps={{
-          classes: { paddingBottom: '20px' },
-          BackdropProps: {
-            classes: {
-              root: classes.BackdropProps,
-            },
-          },
-        }}
       >
         {list()}
       </Drawer>
-    </div>
-  );
-}
-
-function HandleBar({ classes }) {
-  return (
-    <div className={classes.handleBarContainer}>
-      <div className={classes.greenbar} />
     </div>
   );
 }

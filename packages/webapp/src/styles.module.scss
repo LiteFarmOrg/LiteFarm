@@ -13,12 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import './assets/mixin.scss';
+
 .container {
   display: flex;
   width: 100vw;
   flex-grow: 1;
 
-  @media only screen and (max-width: 414px) {
+  @include sm-breakpoint {
     justify-content: center;
   }
 }
@@ -36,17 +38,13 @@
   max-width: 976px;
 }
 
-.slideMenu {
+.sideMenu {
   width: var(--global-side-menu-width);
   height: 100vh;
   position: sticky;
   top: 0;
-  overflow: hidden;
+  overflow: auto;
   background-color: var(--bgInputListTile);
-
-  @media only screen and (max-width: 414px) {
-    display: none;
-  }
 }
 
 .mainColumn {

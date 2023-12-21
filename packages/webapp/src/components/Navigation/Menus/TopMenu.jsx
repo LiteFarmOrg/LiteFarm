@@ -37,7 +37,7 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
   const profileIconRef = useRef(null);
   const selectedLanguage = getLanguageFromLocalStorage();
 
-  const [openMenu, setOpenMenu] = useState(null);
+  const [openMenu, setOpenMenu] = useState(false);
   const toggleMenu = () => {
     setOpenMenu((prev) => !prev);
   };

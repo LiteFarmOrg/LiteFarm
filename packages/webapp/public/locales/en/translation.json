@@ -1201,6 +1201,22 @@
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WILD_CROP": "Are you harvesting a wild crop?"
   },
+  "MENU": {
+    "ACTUAL_REVENUES": "Actual revenues",
+    "CERTIFICATIONS": "Certifications",
+    "CROPS": "Crops",
+    "DOCUMENTS": "Documents",
+    "ESTIMATED_REVENUES": "Estimated revenues",
+    "FARM_SETTINGS": "Farm settings",
+    "FINANCES": "Finances",
+    "INSIGHTS": "Insights",
+    "LABOUR_EXPENSES": "Labour expenses",
+    "MAP": "Map",
+    "OTHER_EXPENSES": "Other expenses",
+    "PEOPLE": "People",
+    "TASKS": "Tasks",
+    "TRANSACTION_LIST": "Transaction list"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
     "FARM_INFO": "Farm info",
@@ -1341,18 +1357,18 @@
     },
     "FARM": {
       "ADDRESS": "Address",
+      "CHANGE_IMAGE": "Change Image",
+      "CLICK_TO_UPLOAD": "Click to upload",
       "CURRENCY": "Currency",
+      "DRAG_DROP": "or drag and drop",
+      "FARM_IMAGE": "Farm Image",
       "FARM_NAME": "Farm Name",
       "IMPERIAL": "Imperial",
       "METRIC": "Metric",
       "PHONE_NUMBER": "Phone Number",
-      "UNITS": "Units",
-      "FARM_IMAGE": "Farm Image",
       "REMOVE_IMAGE": "Remove Image",
-      "CHANGE_IMAGE": "Change Image",
-      "UPLOAD_IMAGE": "Upload Image",
-      "CLICK_TO_UPLOAD": "Click to upload",
-      "DRAG_DROP": "or drag and drop"
+      "UNITS": "Units",
+      "UPLOAD_IMAGE": "Upload Image"
     },
     "FARM_TAB": "Farm",
     "PEOPLE": {
@@ -1735,6 +1751,10 @@
     "COMPLETION_DETAILS": "Task completion details",
     "COMPLETION_NOTES": "Task completion notes",
     "COMPLETION_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
+    "CREATE": {
+      "FAILED": "Can't create the task",
+      "LOCATION_DELETED": "Another user has retired your selected location. Please refresh the page to get the most recent status."
+    },
     "CREATE_CUSTOM_HARVEST_USE": "Create a custom harvest use",
     "CURRENT": "Current",
     "DELETE": {
@@ -1796,11 +1816,7 @@
     "TASKS_COUNT_other": "{{count}} tasks",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned",
-    "CREATE": {
-      "FAILED": "Can't create the task",
-      "LOCATION_DELETED": "Another user has retired your selected location. Please refresh the page to get the most recent status."
-    }
+    "UNASSIGNED": "Unassigned"
   },
   "UNIT": {
     "TIME": {

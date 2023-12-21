@@ -1,0 +1,204 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../assets/mixin.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid #D1E9D9;
+  padding: 0;
+  height: 100%;
+
+  @include xs-breakpoint {
+    border: none;
+    background-color: var(--teal700);
+  }
+}
+
+.list {
+  padding: 0;
+}
+
+.listItem {
+  padding: 16px;
+  padding-right: 32px;
+  border-top: 1px solid #E9EBF8;
+  display: flex;
+  justify-content: center;
+
+  @include sm-breakpoint {
+    &:hover {
+      background-color: var(--teal50);
+    }
+  }
+
+  @include xs-breakpoint {
+    border: none;
+
+    &.logoListItem {
+      display: none;
+    }
+
+    &.adminActionListItem {
+      background-color: var(--teal600);
+      border-top: 1px solid var(--teal700);
+    }
+  }
+}
+
+.activeListItem {
+  background-color: #A2D2CD;
+
+  @include xs-breakpoint {
+    &.subItem {
+      background-color: #A2D2CD;
+    }
+
+    &:hover {
+      background-color: #A2D2CD;
+
+      .listItemText {
+        color: var(--teal700);
+      }
+
+      .icon {
+        &:not(.cropsIcon) {
+          path {
+            stroke: var(--teal700);
+          }
+        }
+
+        .cropsIcon {
+          path {
+            fill: var(--teal700);
+          }
+        }
+      }
+
+      .expandIcon {
+        path {
+          fill: var(--teal700);
+        }
+      }
+    }
+  }
+}
+
+.inactiveListItem {
+  @include xs-breakpoint {
+    .listItemText {
+      color: var(--teal50);
+    }
+
+    .icon {
+      &:not(.cropsIcon) {
+        path {
+          stroke: var(--teal50);
+        }
+      }
+
+      .cropsIcon {
+        path {
+          fill: var(--teal50);
+        }
+      }
+    }
+
+    &.subItem {
+      background-color: white;
+    }
+
+
+    &:hover:not(.subItem) {
+      background-color: var(--teal700);
+
+      .listItemText {
+        color: var(--teal50);
+      }
+
+      .icon {
+        &:not(.cropsIcon) {
+          path {
+            stroke: var(--teal50);
+          }
+        }
+
+        .cropsIcon {
+          path {
+            fill: var(--teal50);
+          }
+        }
+      }
+
+      .expandIcon {
+        path {
+          fill: var(--teal50);
+        }
+      }
+    }
+  }
+}
+
+.listItemText {
+  margin: 0;
+  color: var(--teal700);
+
+  span {
+    font-weight: 600;
+  }
+}
+
+.icon {
+  min-width: 0px;
+  margin-right: 8px;
+
+  &:not(.cropsIcon) {
+    path {
+      stroke: var(--teal700);
+    }
+  }
+
+  .cropsIcon {
+    path {
+      fill: var(--teal700);
+    }
+  }
+}
+
+.expandIcon {
+  path {
+    fill: var(--teal700);
+  }
+}
+
+.subList {
+  padding: 8px 0;
+  background-color: var(--bgInputListTile);
+}
+
+.subItem {
+  border: none;
+  padding: 8px 16px;
+}
+
+.subItemText {
+  color: var(--teal700);
+
+  span {
+    font-weight: 600;
+  }
+}

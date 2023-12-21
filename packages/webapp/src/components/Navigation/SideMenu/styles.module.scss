@@ -25,7 +25,7 @@
   }
 
   85% {
-    flex: 0 0 calc(var(--global-compact-side-menu-width) - 2px);
+    flex: 0 0 calc(var(--global-compact-side-menu-width) + 2px);
   }
 
   100% {
@@ -43,7 +43,7 @@
   }
 
   85% {
-    flex: 0 0 calc(var(--global-side-menu-width) - 2px);
+    flex: 0 0 calc(var(--global-side-menu-width) + 2px);
   }
 
   100% {
@@ -59,14 +59,14 @@
   padding: 0;
   height: 100%;
 
-@include xs-breakpoint {
-  border: none;
-  background-color: var(--teal700);
-}
+  @include xs-breakpoint {
+    border: none;
+    background-color: var(--teal700);
+  }
 
-  &.compact {
+  &.compactContainer {
     animation-name: collapse-menu;
-    animation-duration: 0.9s;
+    animation-duration: 0.5s;
     animation-fill-mode: forwards;
 
     .listItem {
@@ -78,10 +78,38 @@
     }
   }
 
-  &:not(.compact) {
+  &.expandedContainer {
     animation-name: expand-menu;
-    animation-duration: 0.9s;
+    animation-duration: 0.5s;
     animation-fill-mode: forwards;
+  }
+
+  &.compactContainer, &.expandedContainer {
+    .animatedContent {
+      transition: opacity 0.5s;
+    
+      &.hiddenContent {
+        opacity: 0;
+        flex: 0;
+        width: 0;
+        height: 0;
+        margin: 0;
+      }
+    }
+    
+    .animatedLogo {
+      overflow: hidden;
+      height: 64px;
+      transition: height 0.5s;
+    
+      &.compactLogo {
+        height: 36px;
+    
+        svg {
+          transform: translateX(-24px);
+        }
+      }
+    }
   }
 }
 
@@ -232,7 +260,7 @@
 .expandCollapseIcon {
   width: 24px;
   height: 24px;
-  transition: transform 0.2s;
+  transition: transform 0.5s;
 
   path {
     fill: var(--teal700);
@@ -262,36 +290,5 @@
 
   span {
     font-weight: 600;
-  }
-}
-
-.flexContainer {
-  display: flex;
-  flex-grow: 1;
-}
-
-.animatedContent {
-  transition: opacity 0.2s;
-
-  &.hiddenContent {
-    opacity: 0;
-    flex: 0;
-    width: 0;
-    height: 0;
-    margin: 0;
-  }
-}
-
-.animatedLogo {
-  overflow: hidden;
-  height: 64px;
-  transition: height 0.2s;
-
-  &.compactLogo {
-    height: 36px;
-
-    svg {
-      transform: translateX(-24px);
-    }
   }
 }

@@ -2,7 +2,7 @@ import { ExpandMore } from '@mui/icons-material';
 import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, Menu } from '@mui/material';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { forwardRef, useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { matchPath } from 'react-router-dom';
 
 import useExpandable from '../../Expandable/useExpandableItem';
@@ -48,7 +48,13 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
   );
 };
 
-function PureSideMenu({ history, closeDrawer, isCompact, classes = { container: '' } }) {
+function PureSideMenu({
+  history,
+  closeDrawer,
+  isCompact,
+  hasBeenExpanded,
+  classes = { container: '' },
+}) {
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
@@ -65,12 +71,15 @@ function PureSideMenu({ history, closeDrawer, isCompact, classes = { container: 
     resetExpanded();
   };
 
-  console.log(expandedIds);
-
   return (
     <div
       role="presentation"
-      className={clsx(styles.container, isCompact && styles.compact, classes.container)}
+      className={clsx(
+        styles.container,
+        isCompact && styles.compactContainer,
+        !isCompact && hasBeenExpanded && styles.expandedContainer,
+        classes.container,
+      )}
     >
       <List className={styles.list}>
         <ListItemButton
@@ -191,6 +200,7 @@ PureSideMenu.propTypes = {
   history: PropTypes.object.isRequired,
   closeDrawer: PropTypes.func,
   isCompact: PropTypes.bool,
+  hasBeenExpanded: PropTypes.bool,
   classes: PropTypes.shape({
     container: PropTypes.string,
   }),

@@ -25,7 +25,7 @@
   }
 
   85% {
-    left: calc(var(--global-compact-side-menu-width) - 15px);
+    left: calc(var(--global-compact-side-menu-width) - 11px);
     transform: rotate(-185deg);
   }
 
@@ -47,7 +47,7 @@
   }
 
   85% {
-    left: calc(var(--global-side-menu-width) - 16px);
+    left: calc(var(--global-side-menu-width) - 12px);
     transform: rotate(5deg);
   }
 
@@ -94,14 +94,15 @@
   min-height: -webkit-fill-available;
 }
 
-.toggleMenuButton {
+.menuToggle {
   border: 1px solid #D1E9D9;
   padding: 4px;
   position: absolute;
   top: calc(var(--global-navbar-height) / 2 - 12px);
+  left: calc(var(--global-side-menu-width) - 14px);
   background-color: white;
   z-index: 1303;
-  transition: transform 0.9s;
+  transition: transform 0.5s;
 
   svg {
     height: 16px;
@@ -118,15 +119,15 @@
     }
   }
 
-  &.expandMenuButton {
+  &.compactMenuToggle {
     animation-name: reposition-and-rotate-toggle-on-collapse;
-    animation-duration: 0.9s;
+    animation-duration: 0.5s;
     animation-fill-mode: forwards;
   }
 
-  &:not(.expandMenuButton) {
+  &.expandedMenuToggle {
     animation-name: reposition-and-rotate-toggle-on-expand;
-    animation-duration: 0.9s;
+    animation-duration: 0.5s;
     animation-fill-mode: forwards;
   }
 }

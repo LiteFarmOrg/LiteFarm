@@ -26,6 +26,13 @@ export default function PureNavigation({
   // Side Drawer
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
+  const [hasSideMenuBeenExpanded, setHasSideMenuBeenExpanded] = useState(false);
+
+  const toggleSideMenu = () => {
+    setHasSideMenuBeenExpanded(isCompactSideMenu);
+    setIsCompactSideMenu(!isCompactSideMenu);
+  };
+
   const openSideMenu = () => setIsSideMenuOpen(true);
   const closeSideMenu = () => setIsSideMenuOpen(false);
   const theme = useTheme();
@@ -57,10 +64,11 @@ export default function PureNavigation({
               <IconButton
                 size="large"
                 className={clsx(
-                  styles.toggleMenuButton,
-                  isCompactSideMenu && styles.expandMenuButton,
+                  styles.menuToggle,
+                  isCompactSideMenu && styles.compactMenuToggle,
+                  hasSideMenuBeenExpanded && styles.expandedMenuToggle,
                 )}
-                onClick={() => setIsCompactSideMenu(!isCompactSideMenu)}
+                onClick={toggleSideMenu}
               >
                 <CollapseMenuIcon />
               </IconButton>
@@ -68,6 +76,7 @@ export default function PureNavigation({
                 history={history}
                 classes={{ container: styles.sideMenu }}
                 isCompact={isCompactSideMenu}
+                hasBeenExpanded={hasSideMenuBeenExpanded}
               />
             </>
           )}

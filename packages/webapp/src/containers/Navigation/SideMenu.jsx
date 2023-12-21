@@ -13,23 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.logo {
-  margin: 16px 0 32px 24px;
-  cursor: pointer;
+import PropTypes from 'prop-types';
+import useIsFarmSelected from '../../hooks/useIsFarmSelected';
+import PureSideMenu from '../../components/Navigation/SideMenu';
+
+function SideMenu(props) {
+  const isFarmSelected = useIsFarmSelected();
+
+  // should not be displayed during the login flow
+  return isFarmSelected && <PureSideMenu {...props} />;
 }
 
-.listItem {
-  padding-left: 24px;
-}
+export default SideMenu;
 
-.ListItemText {
-  font-size: 16px;
-}
-
-.subListItem {
-  padding-left: 56px;
-}
-
-.subListItemText {
-  font-size: 14px;
-}
+SideMenu.propTypes = {
+  history: PropTypes.object,
+  closeDrawer: PropTypes.func,
+  classes: PropTypes.shape({
+    container: PropTypes.string,
+  }),
+};

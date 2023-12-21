@@ -1202,6 +1202,22 @@
     "WHERE_TRANSPLANT_LOCATION": "Onde você fará o transplante?",
     "WILD_CROP": "Você está colhendo uma planta silvestre?"
   },
+  "MENU": {
+    "ACTUAL_REVENUES": "MISSING",
+    "CERTIFICATIONS": "Certificações",
+    "CROPS": "Cultivos",
+    "DOCUMENTS": "Documentos",
+    "ESTIMATED_REVENUES": "MISSING",
+    "FARM_SETTINGS": "MISSING",
+    "FINANCES": "Finanças",
+    "INSIGHTS": "Relatórios",
+    "LABOUR_EXPENSES": "MISSING",
+    "MAP": "MISSING",
+    "OTHER_EXPENSES": "MISSING",
+    "PEOPLE": "Pessoas",
+    "TASKS": "Tarefas",
+    "TRANSACTION_LIST": "MISSING"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certificações",
     "FARM_INFO": "Informação da fazenda",
@@ -1342,18 +1358,18 @@
     },
     "FARM": {
       "ADDRESS": "Endereço",
+      "CHANGE_IMAGE": "Alterar imagem",
+      "CLICK_TO_UPLOAD": "Clique para enviar",
       "CURRENCY": "Moeda",
+      "DRAG_DROP": "ou arraste e solte",
+      "FARM_IMAGE": "Imagem da fazenda/sitio",
       "FARM_NAME": "Nome do sítio/fazenda",
       "IMPERIAL": "Imperial",
       "METRIC": "Métrico",
       "PHONE_NUMBER": "Número de telefone",
-      "UNITS": "Unidades",
-      "FARM_IMAGE": "Imagem da fazenda/sitio",
       "REMOVE_IMAGE": "Remover imagem",
-      "CHANGE_IMAGE": "Alterar imagem",
-      "UPLOAD_IMAGE": "Enviar imagem",
-      "CLICK_TO_UPLOAD": "Clique para enviar",
-      "DRAG_DROP": "ou arraste e solte"
+      "UNITS": "Unidades",
+      "UPLOAD_IMAGE": "Enviar imagem"
     },
     "FARM_TAB": "Sítio/Fazenda",
     "PEOPLE": {
@@ -1734,6 +1750,10 @@
     "COMPLETION_DETAILS": "Detalhes de conclusão da tarefa",
     "COMPLETION_NOTES": "Observações de conclusão de tarefa",
     "COMPLETION_NOTES_CHAR_LIMIT": "Observações não devem exceder 10.000 caractéres",
+    "CREATE": {
+      "FAILED": "Não é possível criar a tarefa",
+      "LOCATION_DELETED": "Outro agricultor encerrou a localização selecionada. Por favor, atualize a página para obter o status mais recente."
+    },
     "CREATE_CUSTOM_HARVEST_USE": "Criar um uso personalizado da colheita",
     "CURRENT": "Atual",
     "DELETE": {
@@ -1796,11 +1816,7 @@
     "TASKS_COUNT_other": "{{count}} tarefas",
     "TRANSPLANT": "Transplantar",
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
-    "UNASSIGNED": "Não atribuída",
-    "CREATE": {
-      "FAILED": "Não é possível criar a tarefa",
-      "LOCATION_DELETED": "Outro agricultor encerrou a localização selecionada. Por favor, atualize a página para obter o status mais recente."
-    }
+    "UNASSIGNED": "Não atribuída"
   },
   "UNIT": {
     "TIME": {

@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/styles';
-import { SwipeableDrawer, useMediaQuery } from '@mui/material';
+import { IconButton, useMediaQuery } from '@mui/material';
+import { Menu } from '@mui/icons-material';
 import TopMenu from './Menus/TopMenu';
-import SlideMenu from '../../containers/Navigation/SlideMenu';
+import SideMenu from '../../containers/Navigation/SideMenu';
 import {
   NavbarSpotlightProvider,
   NavBarNotificationSpotlightProvider,
 } from './NavbarSpotlightProvider';
 import PropTypes from 'prop-types';
+import Drawer from '../Drawer';
+import styles from './styles.module.scss';
+
 export default function PureNavigation({
   showNavigationSpotlight,
   showNotificationSpotlight,
@@ -16,12 +20,12 @@ export default function PureNavigation({
   isFarmSelected,
   hidden,
 }) {
-  //Side Drawer
+  // Side Drawer
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const closeDrawer = () => setIsSidebarOpen(false);
-
+  const openSidebar = () => setIsSidebarOpen(true);
+  const closeSidebar = () => setIsSidebarOpen(false);
   const theme = useTheme();
-  const isMobile = !useMediaQuery(theme.breakpoints.up('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     !hidden && (
@@ -35,14 +39,21 @@ export default function PureNavigation({
         {isFarmSelected && (
           <>
             {/* Sidebar Menu */}
-            <SwipeableDrawer
-              anchor={'left'}
-              open={isSidebarOpen}
-              onClose={() => setIsSidebarOpen(false)}
-              onOpen={() => setIsSidebarOpen(true)}
-            >
-              <SlideMenu history={history} closeDrawer={closeDrawer} />
-            </SwipeableDrawer>
+            {isMobile && (
+              <Drawer
+                isOpen={isSidebarOpen}
+                onClose={closeSidebar}
+                fullHeight
+                responsiveModal={false}
+                classes={{
+                  drawer: styles.drawer,
+                  header: styles.drawerHeader,
+                  content: styles.drawerContent,
+                }}
+              >
+                <SideMenu history={history} closeDrawer={closeSidebar} />
+              </Drawer>
+            )}
             <NavbarSpotlightProvider
               open={!showNotificationSpotlight && showNavigationSpotlight}
               onFinish={resetSpotlight}

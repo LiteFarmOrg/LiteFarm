@@ -23,8 +23,15 @@
   }
 }
 
-.title {
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 16px;
+}
+
+.title {
   display: inline-flex;
   gap: 8px;
   color: var(--teal700);
@@ -35,5 +42,16 @@
 
   &.warning {
     color: var(--brown700);
+  }
+}
+
+.dismissButton {
+  width: 36px;
+  height: 36px;
+
+  svg {
+    width: 28px;
+    height: 28px;
+    color: var(--grey600);
   }
 }

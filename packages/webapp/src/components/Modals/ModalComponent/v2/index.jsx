@@ -8,6 +8,9 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { FiSlash } from 'react-icons/fi';
 import Infoi from '../../../Tooltip/Infoi';
+import { IconButton } from '@mui/material';
+import { BsX } from 'react-icons/bs';
+import { Close } from '@mui/icons-material';
 
 export default function ModalComponent({
   title,
@@ -34,23 +37,28 @@ export default function ModalComponent({
   return (
     <Modal dismissModal={dismissModal}>
       <div className={styles.container}>
-        {!!title && (
-          <Semibold className={clsx([styles.title, titleColorClass, titleClassName])}>
-            {warning && <VscWarning style={{ marginTop: '1px' }} />}
-            {error && <FiSlash style={{ marginTop: '1px' }} />}
-            {icon && icon}
-            {title}
-            {tooltipContent && (
-              <>
-                {' '}
-                <Infoi
-                  style={{ fontSize: '18px', transform: 'translateY(3px)' }}
-                  content={tooltipContent}
-                />
-              </>
-            )}
-          </Semibold>
-        )}
+        <div className={styles.header}>
+          {!!title && (
+            <Semibold className={clsx([styles.title, titleColorClass, titleClassName])}>
+              {warning && <VscWarning style={{ marginTop: '1px' }} />}
+              {error && <FiSlash style={{ marginTop: '1px' }} />}
+              {icon && icon}
+              {title}
+              {tooltipContent && (
+                <>
+                  {' '}
+                  <Infoi
+                    style={{ fontSize: '18px', transform: 'translateY(3px)' }}
+                    content={tooltipContent}
+                  />
+                </>
+              )}
+            </Semibold>
+          )}
+          <IconButton onClick={dismissModal} className={styles.dismissButton}>
+            <Close />
+          </IconButton>
+        </div>
         {contents?.map((line, index) => (
           <Info key={index}>{line}</Info>
         ))}

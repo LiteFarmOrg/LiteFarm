@@ -173,6 +173,8 @@
   }
 
   &.compactMenuToggle {
+    transform: rotate(-180deg);
+    left: calc(var(--global-compact-side-menu-width) - 13px);
     animation-name: toggle-collapse;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;

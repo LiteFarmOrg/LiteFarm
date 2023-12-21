@@ -14,22 +14,21 @@
  */
 
 .card {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    align-items: center;
-    padding-block: 16px;
-    padding-inline: 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  padding-block: 16px;
+  padding-inline: 8px;
 }
 
 .updated {
-    color: var(--teal700);
-    margin-bottom: 12px;
-    line-height: 20px;
+  color: var(--teal700);
+  margin-bottom: 12px;
+  line-height: 20px;
 }
 
 .changes {
-    margin: 0;
-    line-height: 18px;
+  margin: 0;
+  line-height: 18px;
 }
-

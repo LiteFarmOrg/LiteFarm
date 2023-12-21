@@ -20,10 +20,7 @@ import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
-import SideMenu from './containers/Navigation/SideMenu';
 import styles from './styles.module.scss';
-import { useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/styles';
 import Routes from './routes';
 
 function App() {

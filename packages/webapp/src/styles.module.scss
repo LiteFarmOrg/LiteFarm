@@ -39,3 +39,21 @@
   max-width: 976px;
 }
 
+.sideMenu {
+  width: var(--global-side-menu-width);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow: auto;
+  background-color: var(--bgInputListTile);
+}
+
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  width: calc(100vw - var(--global-side-menu-width));
+}

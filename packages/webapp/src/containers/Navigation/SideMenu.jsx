@@ -13,23 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import PureSlideMenu from '../../components/Navigation/SlideMenu';
-import { isAdminSelector } from '../userFarmSlice';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
+import PureSideMenu from '../../components/Navigation/SideMenu';
 
-function SlideMenu(props) {
+function SideMenu(props) {
   const isFarmSelected = useIsFarmSelected();
-  const isAdmin = useSelector(isAdminSelector);
 
   // should not be displayed during the login flow
-  return isFarmSelected && <PureSlideMenu isAdmin={isAdmin} {...props} />;
+  return isFarmSelected && <PureSideMenu {...props} />;
 }
 
-export default SlideMenu;
+export default SideMenu;
 
-SlideMenu.propTypes = {
+SideMenu.propTypes = {
   history: PropTypes.object,
   closeDrawer: PropTypes.func,
   classes: PropTypes.shape({

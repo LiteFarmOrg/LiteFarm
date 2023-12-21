@@ -475,7 +475,7 @@ export default function Map({ history }) {
 
   return (
     <>
-      {!showMapFilter && !showAddDrawer && !drawingState.type && !showSuccessHeader && (
+      {!drawingState.type && !showSuccessHeader && (
         <PureMapHeader
           className={styles.mapHeader}
           farmName={farm_name}
@@ -558,7 +558,7 @@ export default function Map({ history }) {
             setShowMapFilter={setShowMapFilter}
             showMapFilter={showMapFilter}
             setShowAddDrawer={(showAddDrawer) => {
-              dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
+              dispatch(showAddDrawer ? setMapAddDrawerShow(farm_id) : setMapAddDrawerHide(farm_id));
             }}
             showAddDrawer={showAddDrawer}
             handleClickFilter={handleClickFilter}

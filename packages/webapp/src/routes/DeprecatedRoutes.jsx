@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 // Redirects from previous routes
@@ -11,7 +26,7 @@ export const DeprecatedRoutes = () => (
       <Redirect to="/finances/revenue_types" />
     </Route>
     <Route path="/add_sale" exact>
-      <Redirect to="/finances/add_sale" />
+      <Redirect to="/finances/add_revenue" />
     </Route>
     <Route path="/manage_custom_revenues" exact>
       <Redirect to="/finances/manage_custom_revenues" />

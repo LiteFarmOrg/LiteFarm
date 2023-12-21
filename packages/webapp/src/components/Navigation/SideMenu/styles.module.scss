@@ -22,23 +22,10 @@
   border-right: 1px solid #D1E9D9;
   padding: 0;
   height: 100%;
-  flex: 0 0 var(--global-side-menu-width);
 
   @include xs-breakpoint {
     border: none;
     background-color: var(--teal700);
-  }
-
-  &.compact {
-    flex: 0 0 var(--global-compact-side-menu-width);
-
-    .listItem {
-      padding-right: 16px;
-    }
-
-    .toggleMenuButton {
-      left: calc(var(--global-compact-side-menu-width) - 12px);
-    }
   }
 }
 
@@ -116,17 +103,18 @@
 .listItemText {
   margin: 0;
   color: var(--teal700);
-  font-weight: 500;
-  margin-left: 8px;
+
+  span {
+    font-weight: 600;
+  }
 }
 
 .icon {
   min-width: 0px;
+  margin-right: 8px;
 }
 
 .expandIcon {
-  margin-left: 2px;
-
   path {
     fill: var(--teal700);
 
@@ -150,29 +138,5 @@
 
   span {
     font-weight: 600;
-  }
-}
-
-.toggleMenuButton {
-  border: 1px solid #D1E9D9;
-  padding: 4px;
-  position: absolute;
-  top: calc(var(--global-navbar-height) / 2 - 12px);
-  left: calc(var(--global-side-menu-width) - 10px);
-  background-color: white;
-
-  svg {
-    height: 16px;
-    width: 16px;
-  }
-
-  &:hover {
-    background-color: var(--green500);
-    
-    svg {
-      path {
-        stroke: var(--green800);
-      }
-    }
   }
 }

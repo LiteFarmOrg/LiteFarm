@@ -44,6 +44,8 @@
   padding: 16px;
   margin: auto;
   z-index: 1110;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
+
   &.openD {
     bottom: 0;
   }
@@ -84,15 +86,12 @@
 }
 
 .close {
-  cursor: pointer;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 36px;
+  height: 36px;
 
-  > svg {
-    font-size: 35px;
+  svg {
+    width: 28px;
+    height: 28px;
     color: var(--grey600);
   }
 }

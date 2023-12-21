@@ -26,6 +26,7 @@ import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
+import styles from '../components/Navigation/SideMenu/styles.module.scss';
 
 export const useGetMenuItems = () => {
   const { t } = useTranslation();
@@ -37,7 +38,7 @@ export const useGetMenuItems = () => {
       { label: t('MENU.TASKS'), icon: <TasksIcon />, path: '/tasks' },
       {
         label: t('MENU.CROPS'),
-        icon: <CropsIcon />,
+        icon: <CropsIcon className={styles.cropsIcon} />,
         path: '/crop_catalogue',
       },
       { label: t('MENU.INSIGHTS'), icon: <InsightsIcon />, path: '/Insights' },

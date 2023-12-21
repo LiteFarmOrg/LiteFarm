@@ -76,8 +76,16 @@
       }
 
       .icon {
-        path {
-          stroke: var(--teal700);
+        &:not(.cropsIcon) {
+          path {
+            stroke: var(--teal700);
+          }
+        }
+
+        .cropsIcon {
+          path {
+            fill: var(--teal700);
+          }
         }
       }
 
@@ -97,8 +105,16 @@
     }
 
     .icon {
-      path {
-        stroke: var(--teal50);
+      &:not(.cropsIcon) {
+        path {
+          stroke: var(--teal50);
+        }
+      }
+
+      .cropsIcon {
+        path {
+          fill: var(--teal50);
+        }
       }
     }
 
@@ -114,9 +130,17 @@
         color: var(--teal50);
       }
 
-      icon {
-        path {
-          stroke: var(--teal50);
+      .icon {
+        &:not(.cropsIcon) {
+          path {
+            stroke: var(--teal50);
+          }
+        }
+
+        .cropsIcon {
+          path {
+            fill: var(--teal50);
+          }
         }
       }
 
@@ -141,6 +165,18 @@
 .icon {
   min-width: 0px;
   margin-right: 8px;
+
+  &:not(.cropsIcon) {
+    path {
+      stroke: var(--teal700);
+    }
+  }
+
+  .cropsIcon {
+    path {
+      fill: var(--teal700);
+    }
+  }
 }
 
 .expandIcon {

@@ -7,7 +7,7 @@ import { matchPath } from 'react-router-dom';
 
 import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
 import useExpandable from '../../Expandable/useExpandableItem';
-import { getAdministratorActionsList, getMenuList } from '../utils';
+import { useGetMenuItems } from '../../../hooks/useGetMenuItems';
 import styles from './styles.module.scss';
 
 const MenuItem = ({ history, onClick, path, children, className }) => {
@@ -31,6 +31,7 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
+  const { mainActions, adminActions } = useGetMenuItems();
 
   const handleClick = (link) => {
     history.push(link);
@@ -51,7 +52,7 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
         >
           <Logo alt={'logo'} className={styles.logo} />
         </ListItemButton>
-        {getMenuList(isAdmin, history).map(({ icon, label, path, subMenu }) => {
+        {mainActions.map(({ icon, label, path, subMenu }) => {
           if (!subMenu) {
             return (
               <MenuItem
@@ -104,7 +105,7 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
         })}
       </List>
       <List className={styles.list}>
-        {getAdministratorActionsList().map(({ icon, label, path }) => {
+        {adminActions.map(({ icon, label, path }) => {
           return (
             <MenuItem
               history={history}

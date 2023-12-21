@@ -21,10 +21,9 @@ import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 
 function SlideMenu(props) {
   const isFarmSelected = useIsFarmSelected();
-  const isAdmin = useSelector(isAdminSelector);
 
   // should not be displayed during the login flow
-  return isFarmSelected && <PureSlideMenu isAdmin={isAdmin} {...props} />;
+  return isFarmSelected && <PureSlideMenu {...props} />;
 }
 
 export default SlideMenu;

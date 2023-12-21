@@ -1,22 +1,12 @@
-import { ChevronRight, ExpandLess, ExpandMore } from '@mui/icons-material';
-import {
-  Collapse,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { ExpandMore } from '@mui/icons-material';
+import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, Menu } from '@mui/material';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { forwardRef, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { matchPath } from 'react-router-dom';
 
 import useExpandable from '../../Expandable/useExpandableItem';
-import { ReactComponent as FullVersionLogo } from '../../../assets/images/middle_logo.svg';
-import { ReactComponent as CompactVersionLogo } from '../../../assets/images/nav-logo.svg';
+import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
 import styles from './styles.module.scss';
 import { useGetMenuItems } from '../../../hooks/useGetMenuItems';
 
@@ -75,7 +65,7 @@ function PureSideMenu({ history, closeDrawer, isCompact, classes = { container: 
     resetExpanded();
   };
 
-  const Logo = isCompact ? CompactVersionLogo : FullVersionLogo;
+  console.log(expandedIds);
 
   return (
     <div
@@ -87,7 +77,9 @@ function PureSideMenu({ history, closeDrawer, isCompact, classes = { container: 
           onClick={() => handleClick('/')}
           className={clsx(styles.listItem, styles.logoListItem)}
         >
-          <Logo alt={'logo'} className={styles.logo} />
+          <div className={clsx(styles.animatedLogo, isCompact && styles.compactLogo)}>
+            <Logo alt={'logo'} />
+          </div>
         </ListItemButton>
         {mainActions.map(({ icon, label, path, subMenu, key }) => {
           if (!subMenu) {
@@ -99,36 +91,46 @@ function PureSideMenu({ history, closeDrawer, isCompact, classes = { container: 
                 onClick={() => onMenuItemClick(path)}
               >
                 <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
-                {!isCompact && <ListItemText primary={label} className={styles.listItemText} />}
+                <ListItemText
+                  primary={label}
+                  className={clsx(
+                    styles.listItemText,
+                    styles.animatedContent,
+                    isCompact && styles.hiddenContent,
+                  )}
+                />
               </MenuItem>
             );
           }
 
           return (
-            <React.Fragment key={label}>
+            <React.Fragment key={key}>
               <MenuItem
                 history={history}
-                onClick={() => toggleExpanded(label)}
+                onClick={() => toggleExpanded(key)}
                 path={path}
                 ref={(el) => (expandableItemsRef.current[key] = el)}
               >
                 <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
-                {!isCompact ? (
-                  <>
-                    <ListItemText primary={label} className={styles.listItemText} />
-                    {expandedIds.includes(label) ? (
-                      <ExpandLess className={styles.expandIcon} />
-                    ) : (
-                      <ExpandMore className={styles.expandIcon} />
-                    )}
-                  </>
-                ) : (
-                  <ChevronRight className={styles.expandIcon} />
-                )}
+                <ListItemText
+                  primary={label}
+                  className={clsx(
+                    styles.listItemText,
+                    styles.animatedContent,
+                    isCompact && styles.hiddenContent,
+                  )}
+                />
+                <ExpandMore
+                  className={clsx(
+                    styles.expandCollapseIcon,
+                    expandedIds.includes(key) && styles.collapseIcon,
+                    isCompact && styles.compactExpandIcon,
+                  )}
+                />
               </MenuItem>
               <SubMenu
                 compact={isCompact}
-                isExpanded={expandedIds.includes(label)}
+                isExpanded={expandedIds.includes(key)}
                 onClose={resetExpanded}
                 anchorEl={expandableItemsRef.current[key]}
                 anchorOrigin={{
@@ -167,7 +169,14 @@ function PureSideMenu({ history, closeDrawer, isCompact, classes = { container: 
               onClick={() => onMenuItemClick(path)}
             >
               <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
-              {!isCompact && <ListItemText primary={label} className={styles.listItemText} />}
+              <ListItemText
+                primary={label}
+                className={clsx(
+                  styles.listItemText,
+                  styles.animatedContent,
+                  isCompact && styles.hiddenContent,
+                )}
+              />
             </MenuItem>
           );
         })}

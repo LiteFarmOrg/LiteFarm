@@ -10,7 +10,6 @@ import {
   NavBarNotificationSpotlightProvider,
 } from './NavbarSpotlightProvider';
 import Drawer from '../Drawer';
-import { ReactComponent as ExpandMenuIcon } from '../../assets/images/nav/expand-menu.svg';
 import { ReactComponent as CollapseMenuIcon } from '../../assets/images/nav/collapse-menu.svg';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
@@ -31,8 +30,6 @@ export default function PureNavigation({
   const closeSideMenu = () => setIsSideMenuOpen(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const ToggleMenuIcon = isCompactSideMenu ? ExpandMenuIcon : CollapseMenuIcon;
 
   return (
     !hidden && (
@@ -64,7 +61,7 @@ export default function PureNavigation({
                   )}
                   onClick={() => setIsCompactSideMenu(!isCompactSideMenu)}
                 >
-                  <ToggleMenuIcon />
+                  <CollapseMenuIcon />
                 </IconButton>
                 <SideMenu
                   history={history}

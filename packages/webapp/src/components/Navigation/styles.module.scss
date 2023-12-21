@@ -12,6 +12,50 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+
+@keyframes reposition-and-rotate-toggle-on-collapse {
+  0% {
+    left: calc(var(--global-side-menu-width) - 14px);
+    transform: rotate(0);
+  }
+
+  80% {
+    left: calc(var(--global-compact-side-menu-width) - 13px);
+    transform: rotate(-180deg);
+  }
+
+  85% {
+    left: calc(var(--global-compact-side-menu-width) - 15px);
+    transform: rotate(-185deg);
+  }
+
+  100% {
+    left: calc(var(--global-compact-side-menu-width) - 13px);
+    transform: rotate(-180deg);
+  }
+}
+
+@keyframes reposition-and-rotate-toggle-on-expand {
+  0% {
+    left: calc(var(--global-compact-side-menu-width) - 13px);
+    transform: rotate(-180deg);
+  }
+
+  80% {
+    left: calc(var(--global-side-menu-width) - 14px);
+    transform: rotate(0);
+  }
+
+  85% {
+    left: calc(var(--global-side-menu-width) - 16px);
+    transform: rotate(5deg);
+  }
+
+  100% {
+    left: calc(var(--global-side-menu-width) - 14px);
+    transform: rotate(0);
+  }
+}
  
 .drawer {
   background-color: var(--teal700);
@@ -55,9 +99,9 @@
   padding: 4px;
   position: absolute;
   top: calc(var(--global-navbar-height) / 2 - 12px);
-  left: calc(var(--global-side-menu-width) - 14px);
   background-color: white;
   z-index: 1303;
+  transition: transform 0.9s;
 
   svg {
     height: 16px;
@@ -75,6 +119,14 @@
   }
 
   &.expandMenuButton {
-    left: calc(var(--global-compact-side-menu-width) - 13px);
+    animation-name: reposition-and-rotate-toggle-on-collapse;
+    animation-duration: 0.9s;
+    animation-fill-mode: forwards;
+  }
+
+  &:not(.expandMenuButton) {
+    animation-name: reposition-and-rotate-toggle-on-expand;
+    animation-duration: 0.9s;
+    animation-fill-mode: forwards;
   }
 }

@@ -1,7 +1,6 @@
 import { ChevronRight, ExpandLess, ExpandMore } from '@mui/icons-material';
 import {
   Collapse,
-  IconButton,
   List,
   ListItemButton,
   ListItemIcon,
@@ -12,14 +11,12 @@ import {
 } from '@mui/material';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { forwardRef, useRef, useState } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { matchPath } from 'react-router-dom';
 
 import useExpandable from '../../Expandable/useExpandableItem';
 import { ReactComponent as FullVersionLogo } from '../../../assets/images/middle_logo.svg';
 import { ReactComponent as CompactVersionLogo } from '../../../assets/images/nav-logo.svg';
-import { ReactComponent as ExpandMenuIcon } from '../../../assets/images/nav/expand-menu.svg';
-import { ReactComponent as CollapseMenuIcon } from '../../../assets/images/nav/collapse-menu.svg';
 import styles from './styles.module.scss';
 import { useGetMenuItems } from '../../../hooks/useGetMenuItems';
 
@@ -61,10 +58,7 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
   );
 };
 
-function PureSideMenu({ history, closeDrawer, classes = { container: '' } }) {
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
-  const [isCompact, setIsCompact] = useState(false);
+function PureSideMenu({ history, closeDrawer, isCompact, classes = { container: '' } }) {
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
@@ -82,7 +76,6 @@ function PureSideMenu({ history, closeDrawer, classes = { container: '' } }) {
   };
 
   const Logo = isCompact ? CompactVersionLogo : FullVersionLogo;
-  const ToggleMenuIcon = isCompact ? ExpandMenuIcon : CollapseMenuIcon;
 
   return (
     <div
@@ -96,15 +89,6 @@ function PureSideMenu({ history, closeDrawer, classes = { container: '' } }) {
         >
           <Logo alt={'logo'} className={styles.logo} />
         </ListItemButton>
-        {isDesktop && (
-          <IconButton
-            size="large"
-            className={styles.toggleMenuButton}
-            onClick={() => setIsCompact(!isCompact)}
-          >
-            <ToggleMenuIcon />
-          </IconButton>
-        )}
         {mainActions.map(({ icon, label, path, subMenu, key }) => {
           if (!subMenu) {
             return (
@@ -195,9 +179,9 @@ function PureSideMenu({ history, closeDrawer, classes = { container: '' } }) {
 export default PureSideMenu;
 
 PureSideMenu.propTypes = {
-  history: PropTypes.object,
+  history: PropTypes.object.isRequired,
   closeDrawer: PropTypes.func,
-  isAdmin: PropTypes.bool,
+  isCompact: PropTypes.bool,
   classes: PropTypes.shape({
     container: PropTypes.string,
   }),

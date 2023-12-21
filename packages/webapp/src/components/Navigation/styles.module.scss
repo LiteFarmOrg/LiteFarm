@@ -49,3 +49,32 @@
   min-height: 100vh;
   min-height: -webkit-fill-available;
 }
+
+.toggleMenuButton {
+  border: 1px solid #D1E9D9;
+  padding: 4px;
+  position: absolute;
+  top: calc(var(--global-navbar-height) / 2 - 12px);
+  left: calc(var(--global-side-menu-width) - 14px);
+  background-color: white;
+  z-index: 1303;
+
+  svg {
+    height: 16px;
+    width: 16px;
+  }
+
+  &:hover {
+    background-color: var(--green500);
+    
+    svg {
+      path {
+        stroke: var(--green800);
+      }
+    }
+  }
+
+  &.expandMenuButton {
+    left: calc(var(--global-compact-side-menu-width) - 13px);
+  }
+}

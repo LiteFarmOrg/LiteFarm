@@ -1,7 +1,7 @@
 import React from 'react';
 import TopMenu from '../../components/Navigation/Menus/TopMenu';
 import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
-import SlideMenu from '../../components/Navigation/SlideMenu';
+import SlideMenu from '../../components/Navigation/SideMenu';
 
 export default {
   title: 'Components/Navbar/Drawer',

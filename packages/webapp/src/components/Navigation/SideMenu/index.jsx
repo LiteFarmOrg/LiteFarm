@@ -27,7 +27,7 @@ const MenuItem = ({ history, onClick, path, children, className }) => {
   );
 };
 
-function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '' } }) {
+function PureSideMenu({ history, closeDrawer, isAdmin, classes = { container: '' } }) {
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
@@ -124,9 +124,9 @@ function PureSlideMenu({ history, closeDrawer, isAdmin, classes = { container: '
   );
 }
 
-export default PureSlideMenu;
+export default PureSideMenu;
 
-PureSlideMenu.propTypes = {
+PureSideMenu.propTypes = {
   history: PropTypes.object,
   closeDrawer: PropTypes.func,
   isAdmin: PropTypes.bool,

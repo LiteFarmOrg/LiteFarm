@@ -1,12 +1,12 @@
 import React from 'react';
-import { PureProfileFloaterComponent } from '../../components/Navigation/Floater/ProfileFloater';
+import TopMenu from '../../components/Navigation/Menus/TopMenu';
 import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
-import SlideMenu from '../../components/Navigation/NavBar/slideMenu';
+import SlideMenu from '../../components/Navigation/slideMenu';
 
 export default {
   title: 'Components/Navbar/Drawer',
   decorators: componentDecoratorsWithoutPadding,
-  component: PureProfileFloaterComponent,
+  component: TopMenu,
 };
 
 export const WithFinance = ((args) => <SlideMenu {...args} />).bind({});

@@ -26,15 +26,6 @@ const ResetPassword = React.lazy(() => import('../ResetPassword'));
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
 const PureCreateUserAccount = React.lazy(() => import('../../components/CreateUserAccount'));
 
-const navbarCoverStyle = {
-  backgroundColor: 'white',
-  zIndex: 1,
-  transform: 'translateY(-76px)',
-  height: '76px',
-  position: 'fixed',
-  width: '100%',
-};
-
 const PureCustomSignUpStyle = {
   form: {
     zIndex: 2,
@@ -103,6 +94,17 @@ function CustomSignUp() {
     });
   }, [customSignUpErrorKey, errors]);
 
+  useEffect(() => {
+    if (!componentToShow) {
+      history.replace(
+        {
+          pathname: '/',
+        },
+        { user: { email }, component: CUSTOM_SIGN_UP },
+      );
+    }
+  }, [componentToShow, email]);
+
   const onSubmit = (data) => {
     const { email } = data;
     setSubmittedEmail(email);
@@ -162,7 +164,6 @@ function CustomSignUp() {
         </Hidden>
       </Suspense>
       <Hidden isVisible={showPureCustomSignUp}>
-        <div style={navbarCoverStyle} />
         <PureCustomSignUp
           classes={PureCustomSignUpStyle}
           onSubmit={handleSubmit(onSubmit)}

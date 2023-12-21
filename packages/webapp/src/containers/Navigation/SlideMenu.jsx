@@ -15,7 +15,7 @@
 
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import PureSlideMenu from '../../components/Navigation/NavBar/slideMenu';
+import PureSlideMenu from '../../components/Navigation/slideMenu';
 import { isAdminSelector } from '../userFarmSlice';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 

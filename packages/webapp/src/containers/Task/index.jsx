@@ -175,7 +175,7 @@ export default function TaskPage({ history }) {
   };
   const resetFilter = () => dispatch(clearTasksFilter());
   return (
-    <Layout classes={{ container: { backgroundColor: 'white' } }}>
+    <Layout>
       <PageTitle title={t('TASK.PAGE_TITLE')} style={{ paddingBottom: '20px' }} />
       <PureTaskDropdownFilter
         onDateOrderChange={onDateOrderChange}

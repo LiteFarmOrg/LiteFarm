@@ -35,6 +35,7 @@
 .expandableItemWrapper {
   border: solid 1px transparent;
   border-bottom: solid 1px var(--grey200);
+  background-color: var(--bgInputListTile);
 
   &.expanded {
     background-color: #F6FBFA;

@@ -41,7 +41,7 @@
 .checkmark svg circle:first-child {
   stroke: var(--grey600);
   stroke-width: 2;
-  fill: white;
+  fill: var(--bgInputListTile);
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */

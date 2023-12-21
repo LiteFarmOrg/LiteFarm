@@ -13,52 +13,34 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Suspense } from 'react';
-import { connect } from 'react-redux';
-import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
-
-import PureNavBar from '../../components/Navigation/NavBar';
-import { userFarmLengthSelector } from '../userFarmSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import PureNavigation from '../../components/Navigation';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
-import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
+import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
+import useHistoryLocation from '../hooks/useHistoryLocation';
 
-const NavBar = (props) => {
-  const { history, dispatch, numberOfUserFarm, showedSpotlight } = props;
-  const { navigation, notification } = showedSpotlight;
+const Navigation = ({ history }) => {
+  const dispatch = useDispatch();
+  const historyLocation = useHistoryLocation(history);
+  const isCustomSignupPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
+  const isFarmSelected = useIsFarmSelected();
+  const { navigation, notification } = useSelector(showedSpotlightSelector);
   const resetSpotlight = () => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
-  const isFarmSelected = useIsFarmSelected();
 
-  return isFarmSelected ? (
-    <Suspense fallback={<NoFarmNavBar />}>
-      <PureNavBar
-        showSpotLight={!navigation}
-        showNotification={navigation && !notification}
-        resetSpotlight={resetSpotlight}
-        showSwitchFarm={numberOfUserFarm > 1}
-        history={history}
-      />
-      <ReleaseBadgeHandler />
-    </Suspense>
-  ) : (
-    <NoFarmNavBar history={history} />
+  return (
+    <PureNavigation
+      showNavigationSpotlight={!navigation}
+      showNotificationSpotlight={navigation && !notification}
+      resetSpotlight={resetSpotlight}
+      history={history}
+      isFarmSelected={isFarmSelected}
+      hidden={isCustomSignupPage}
+    />
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    numberOfUserFarm: userFarmLengthSelector(state),
-    showedSpotlight: showedSpotlightSelector(state),
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default Navigation;

@@ -19,7 +19,7 @@ import ReleaseBadge from '../../components/ReleaseBadge';
 import { checkReleaseBadgeVersion } from './saga';
 import { APP_VERSION, VERSION_RELEASE_NOTES_LINK } from '../../util/constants';
 
-const ReleaseHandler = () => {
+const ReleaseBadgeHandler = () => {
   const dispatch = useDispatch();
 
   const [shouldShowBadge, setShouldShowBadge] = useState(false);
@@ -31,4 +31,4 @@ const ReleaseHandler = () => {
   return shouldShowBadge && <ReleaseBadge releaseNotesLink={VERSION_RELEASE_NOTES_LINK} />;
 };
 
-export default ReleaseHandler;
+export default ReleaseBadgeHandler;

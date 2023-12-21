@@ -8,8 +8,8 @@ on:
       - integration
 
 jobs:
-  run-linters:
-    name: Run linters
+  run-linters-in-webapp:
+    name: Run linters in webapp
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -29,3 +29,25 @@ jobs:
 
       - name: Run linters
         run: npx eslint './public/locales/**/*.json'
+
+  run-linters-in-api:
+    name: Run linters in api
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: packages/api/
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies for Node.js server
+        run: npm install
+
+      - name: Run linters
+        run: npx eslint './src/jobs/locales/**/*.json' './src/templates/locales/**/*.json'

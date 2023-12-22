@@ -39,15 +39,6 @@
   max-width: 976px;
 }
 
-.sideMenu {
-  width: var(--global-side-menu-width);
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  overflow: auto;
-  background-color: var(--bgInputListTile);
-}
-
 .mainColumn {
   display: flex;
   flex-direction: column;

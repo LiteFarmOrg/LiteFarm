@@ -194,15 +194,6 @@
   margin-bottom: -16px;
 }
 
-.sideMenu {
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  overflow: auto;
-  background-color: var(--bgInputListTile);
-  z-index: 1299;
-}
-
 .container {
   display: flex;
   flex-direction: column;
@@ -214,6 +205,13 @@
   animation-name: menu-initial;
   animation-duration: 0.9s;
   animation-fill-mode: forwards;
+  width: var(--global-side-menu-width);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow: auto;
+  background-color: var(--bgInputListTile);
+  z-index: 1299;
 
   @include xs-breakpoint {
     border: none;

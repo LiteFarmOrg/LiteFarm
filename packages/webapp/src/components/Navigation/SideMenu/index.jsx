@@ -60,13 +60,7 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
   );
 };
 
-const SideMenuContent = ({
-  history,
-  closeDrawer,
-  isCompact,
-  hasBeenExpanded,
-  classes = { container: '' },
-}) => {
+const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) => {
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
@@ -94,7 +88,6 @@ const SideMenuContent = ({
         styles.container,
         isCompact && styles.compactContainer,
         !isCompact && hasBeenExpanded && styles.expandedContainer,
-        classes.container,
       )}
     >
       <List className={styles.list}>

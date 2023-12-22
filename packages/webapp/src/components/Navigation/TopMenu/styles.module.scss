@@ -15,8 +15,11 @@
 
 .logo {
   position: absolute;
-  cursor: pointer;
   margin-left: var(--global-sidebar-width);
+
+  &.withLink {
+    cursor: pointer;
+  }
 }
 
 .paddingTopBottom {

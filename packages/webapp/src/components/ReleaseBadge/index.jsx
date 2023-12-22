@@ -24,13 +24,13 @@ import { ReactComponent as Close } from '../../assets/images/release/x-circle.sv
 import { ReactComponent as NewBubble } from '../../assets/images/release/new-bubble.svg';
 import { ReactComponent as ChevronRight } from '../../assets/images/release/chevron-right-dk-red.svg';
 
-const ReleaseBadge = ({ releaseNotesLink, className }) => {
+const ReleaseBadge = ({ releaseNotesLink, className, isCompactSideMenu }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(true);
 
   return (
     open && (
-      <div className={clsx(styles.card, className)}>
+      <div className={clsx(styles.card, className, isCompactSideMenu && styles.compactMenu)}>
         <div className={styles.cardContent}>
           <NewBubble className={styles.bubble} />
           <div className={styles.text}>

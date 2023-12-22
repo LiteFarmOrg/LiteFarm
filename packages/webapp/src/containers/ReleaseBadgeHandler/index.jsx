@@ -19,7 +19,7 @@ import ReleaseBadge from '../../components/ReleaseBadge';
 import { checkReleaseBadgeVersion } from './saga';
 import { APP_VERSION, VERSION_RELEASE_NOTES_LINK } from '../../util/constants';
 
-const ReleaseBadgeHandler = () => {
+const ReleaseBadgeHandler = ({ isCompactSideMenu }) => {
   const dispatch = useDispatch();
 
   const [shouldShowBadge, setShouldShowBadge] = useState(false);
@@ -28,7 +28,14 @@ const ReleaseBadgeHandler = () => {
     dispatch(checkReleaseBadgeVersion({ currentVersion: APP_VERSION, setShouldShowBadge }));
   }, []);
 
-  return shouldShowBadge && <ReleaseBadge releaseNotesLink={VERSION_RELEASE_NOTES_LINK} />;
+  return (
+    shouldShowBadge && (
+      <ReleaseBadge
+        isCompactSideMenu={isCompactSideMenu}
+        releaseNotesLink={VERSION_RELEASE_NOTES_LINK}
+      />
+    )
+  );
 };
 
 export default ReleaseBadgeHandler;

@@ -26,6 +26,12 @@
   position: fixed;
   bottom: 32px;
   z-index: 1400; // highest existing z-index is 1302
+
+  left: calc(50% - 200px + var(--global-side-menu-width) / 2);
+}
+
+.compactMenu {
+  left: calc(50% - 200px + var(--global-compact-side-menu-width) / 2);
 }
 
 .cardContent {
@@ -88,6 +94,7 @@
 
 @include xs-breakpoint {
   .card {
+    left: 0px;
     right: 0px;
     bottom: 0px;
     width: 100vw;

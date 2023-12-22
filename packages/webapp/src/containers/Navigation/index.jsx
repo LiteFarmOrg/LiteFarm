@@ -45,7 +45,7 @@ const Navigation = ({ history, children, ...props }) => {
       >
         {children}
       </PureNavigation>
-      {isFarmSelected && <ReleaseBadgeHandler />}
+      {isFarmSelected && <ReleaseBadgeHandler {...props} />}
     </>
   );
 };

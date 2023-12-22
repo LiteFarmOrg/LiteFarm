@@ -17,9 +17,10 @@ import express from 'express';
 
 const router = express.Router();
 import releaseBadgeController from '../controllers/releaseBadgeController.js';
+import isSelf from '../middleware/acl/isSelf.js';
 
-router.get('/', releaseBadgeController.getReleaseBadgeVersion());
+router.get('/', isSelf, releaseBadgeController.getReleaseBadgeVersion());
 
-router.patch('/', releaseBadgeController.updateReleaseBadgeVersion());
+router.patch('/', isSelf, releaseBadgeController.updateReleaseBadgeVersion());
 
 export default router;

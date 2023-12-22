@@ -19,6 +19,8 @@ export default function PureNavigation({
   isFarmSelected,
   hidden,
   children,
+  isCompactSideMenu,
+  setIsCompactSideMenu,
 }) {
   // Side Drawer
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
@@ -39,6 +41,8 @@ export default function PureNavigation({
             isMobile={isMobile}
             isDrawerOpen={isSideMenuOpen}
             onDrawerClose={closeSideMenu}
+            isCompact={isCompactSideMenu}
+            setIsCompactSideMenu={setIsCompactSideMenu}
           />
           <NavbarSpotlightProvider
             open={!showNotificationSpotlight && showNavigationSpotlight}
@@ -69,4 +73,6 @@ PureNavigation.propTypes = {
   history: PropTypes.object,
   isFarmSelected: PropTypes.bool,
   hidden: PropTypes.bool,
+  isCompactSideMenu: PropTypes.bool,
+  setIsCompactSideMenu: PropTypes.func,
 };

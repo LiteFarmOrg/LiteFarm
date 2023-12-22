@@ -21,7 +21,7 @@ import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 import useHistoryLocation from '../hooks/useHistoryLocation';
 
-const Navigation = ({ history, children }) => {
+const Navigation = ({ history, children, ...props }) => {
   const dispatch = useDispatch();
   const historyLocation = useHistoryLocation(history);
   const isCustomSignupPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
@@ -39,6 +39,7 @@ const Navigation = ({ history, children }) => {
       history={history}
       isFarmSelected={isFarmSelected}
       hidden={isCustomSignupPage}
+      {...props}
     >
       {children}
     </PureNavigation>

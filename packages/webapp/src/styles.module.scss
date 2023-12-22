@@ -32,9 +32,24 @@
   display: flex;
   flex-direction: column;
   position: relative;
-}
 
-.root {
-  width: calc(100vw - 48px);
-  max-width: 976px;
+  @include sm-breakpoint {
+    .containerRoot {
+      left: calc((100vw - var(--global-side-menu-width)) / 2 + var(--global-side-menu-width));
+    }
+    .containerRootWithCompactMenu {
+      left: calc((100vw - var(--global-compact-side-menu-width)) / 2 + var(--global-compact-side-menu-width));
+    }
+  }
+
+  .root {
+    max-width: calc(1024px - 48px);
+
+    &.isCompact {
+      width: calc((100vw - var(--global-compact-side-menu-width)) - 48px);
+    }
+    &.isExpanded {
+      width: calc((100vw - var(--global-side-menu-width)) - 48px);
+    }
+  }
 }

@@ -1,6 +1,6 @@
+import { useTheme } from '@mui/material';
 import Layout from '../Layout';
 import Button from '../Form/Button';
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Title, Underlined } from '../Typography';
 import ChooseFarmMenuItem from './ChooseFarmMenu/ChooseFarmMenuItem';
@@ -20,11 +20,18 @@ export default function PureChooseFarmScreen({
   title = 'Choose your farm',
 }) {
   const { t } = useTranslation(['translation', 'common']);
+  const theme = useTheme();
 
   return (
     <Layout
-      hasWhiteBackground
-      classes={{ footer: { position: 'fixed', maxWidth: '1024px' } }}
+      classes={{
+        footer: {
+          position: 'sticky',
+          backgroundColor: theme.palette.background.default,
+          paddingTop: '24px',
+        },
+        container: { paddingBottom: '104px' },
+      }}
       buttonGroup={
         <>
           {!isOnBoarding && (

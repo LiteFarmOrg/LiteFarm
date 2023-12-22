@@ -62,7 +62,13 @@
   padding-top: 16px;
 }
 
-@media only screen and (min-width: 960px) {
+@include sm-breakpoint {
+  .container {
+    font-size: 2.8vw;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
   .container {
     transform: translateY(calc((100vh - 399px) * 0.65 - 110px));
     margin: 0 auto 0 auto;

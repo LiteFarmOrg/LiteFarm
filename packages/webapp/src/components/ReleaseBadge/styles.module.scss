@@ -69,8 +69,8 @@
   }
 }
 
-// Mobile version breakpoint taken from menu PR
-@media (max-width: 599px) {
+// Max tablet breakpoint
+@media (max-width: 1024px) {
   .card {
     right: 0px;
     bottom: 0px;

@@ -8,7 +8,6 @@ import {
   NavbarSpotlightProvider,
   NavBarNotificationSpotlightProvider,
 } from './NavbarSpotlightProvider';
-import ReleaseBadgeHandler from '../../containers/ReleaseBadgeHandler';
 import PropTypes from 'prop-types';
 import Drawer from '../Drawer';
 import styles from './styles.module.scss';
@@ -63,7 +62,6 @@ export default function PureNavigation({
               open={showNotificationSpotlight}
               onFinish={resetSpotlight}
             />
-            <ReleaseBadgeHandler />
           </>
         )}
       </>

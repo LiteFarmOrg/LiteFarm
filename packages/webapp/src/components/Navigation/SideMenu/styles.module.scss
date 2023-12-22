@@ -176,20 +176,13 @@
   }
 }
 
-.sideMenu {
-  width: var(--global-side-menu-width);
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  overflow: auto;
-  background-color: var(--bgInputListTile);
-  z-index: 1299;
 
-  .drawer {
+.sideMenu {
+  .drawerContainer {
     background-color: var(--teal700);
     z-index: 1299;
   }
-  
+
   .drawerHeader {
     svg {
       path {
@@ -197,7 +190,7 @@
       }
     }
   }
-  
+
   .drawerContent {
     padding: 0;
     margin-bottom: -16px;
@@ -219,6 +212,16 @@
   @include xs-breakpoint {
     border: none;
     background-color: var(--teal700);
+  }
+
+  @include sm-breakpoint {
+    width: var(--global-side-menu-width);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow: auto;
+    background-color: var(--bgInputListTile);
+    z-index: 1299;
   }
 
   &.compactContainer {
@@ -381,6 +384,10 @@
 
     &:hover:not(.subItem) {
       background-color: var(--teal700);
+
+      &.adminActionListItem {
+        background-color: var(--teal600);
+      }
 
       .listItemText {
         color: var(--teal50);

@@ -15,10 +15,10 @@ import { matchPath } from 'react-router-dom';
 
 import useExpandable from '../../Expandable/useExpandableItem';
 import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
-import styles from './styles.module.scss';
 import { useGetMenuItems } from '../../../hooks/useGetMenuItems';
 import Drawer from '../../Drawer';
 import { ReactComponent as CollapseMenuIcon } from '../../../assets/images/nav/collapse-menu.svg';
+import styles from './styles.module.scss';
 
 const MenuItem = forwardRef(({ history, onClick, path, children, className }, ref) => {
   return (
@@ -201,7 +201,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
   );
 };
 
-const PureSideMenu = ({ history, isMobile, isOpen, onClose }) => {
+const PureSideMenu = ({ history, isMobile, isDrawerOpen, onDrawerClose }) => {
   const [isCompact, setIsCompactSideMenu] = useState(false);
   const [hasBeenExpanded, setHasBeenExpanded] = useState(false);
 
@@ -213,17 +213,17 @@ const PureSideMenu = ({ history, isMobile, isOpen, onClose }) => {
   return isMobile ? (
     <div className={styles.sideMenu}>
       <Drawer
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={isDrawerOpen}
+        onClose={onDrawerClose}
         fullHeight
         responsiveModal={false}
         classes={{
-          drawer: styles.drawer,
+          container: styles.drawerContainer,
           header: styles.drawerHeader,
           content: styles.drawerContent,
         }}
       >
-        <SideMenuContent history={history} closeDrawer={onClose} />
+        <SideMenuContent history={history} closeDrawer={onDrawerClose} />
       </Drawer>
     </div>
   ) : (
@@ -246,12 +246,9 @@ const PureSideMenu = ({ history, isMobile, isOpen, onClose }) => {
 
 PureSideMenu.propTypes = {
   history: PropTypes.object.isRequired,
-  closeDrawer: PropTypes.func,
-  isCompact: PropTypes.bool,
-  hasBeenExpanded: PropTypes.bool,
-  classes: PropTypes.shape({
-    container: PropTypes.string,
-  }),
+  isMobile: PropTypes.bool.isRequired,
+  isDrawerOpen: PropTypes.bool,
+  onDrawerClose: PropTypes.func,
 };
 
 export default PureSideMenu;

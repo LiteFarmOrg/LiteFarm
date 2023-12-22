@@ -37,8 +37,8 @@ export default function PureNavigation({
           <SideMenu
             history={history}
             isMobile={isMobile}
-            isOpen={isSideMenuOpen}
-            onClose={closeSideMenu}
+            isDrawerOpen={isSideMenuOpen}
+            onDrawerClose={closeSideMenu}
           />
           <NavbarSpotlightProvider
             open={!showNotificationSpotlight && showNavigationSpotlight}

@@ -62,7 +62,7 @@ const Drawer = ({
           styles.drawer,
           fullHeight && styles.fullHeight,
           isOpen ? styles.openD : '',
-          classes.drawer,
+          classes.container,
         )}
       >
         <div className={clsx(styles.header, classes.header)}>

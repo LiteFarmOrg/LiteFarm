@@ -7,7 +7,7 @@ import Table from '../../Table';
 import ProfileLayout from '../ProfileLayout';
 
 export default function PurePeople({ users, history, isAdmin }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'role']);
   const [searchString, setSearchString] = useState('');
   const onChange = (e) => {
     setSearchString(e.target.value);

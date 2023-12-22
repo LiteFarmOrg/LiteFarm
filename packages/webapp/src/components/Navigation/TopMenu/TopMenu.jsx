@@ -30,6 +30,7 @@ import {
 import Alert from '../../../containers/Navigation/Alert';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import TextButton from '../../Form/Button/TextButton';
 import styles from './styles.module.scss';
 
 const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
@@ -221,19 +222,15 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
     </>
   );
 
-  const Logo = ({ withoutWords, withLink, ...props }) => {
-    return withoutWords ? (
-      <IconLogo
-        alt="LiteFarm Logo"
-        className={clsx(styles.logo, withLink && styles.withLink)}
-        {...props}
-      />
-    ) : (
-      <WordsLogo
-        alt="LiteFarm Logo"
-        className={clsx(styles.logo, withLink && styles.withLink, styles.paddingTopBottom)}
-        {...props}
-      />
+  const Logo = ({ withoutWords, onClick }) => {
+    if (!withoutWords) {
+      return <WordsLogo alt="LiteFarm Logo" className={styles.paddingTopBottom} />;
+    }
+
+    return (
+      <TextButton onClick={onClick} className={styles.logo}>
+        <IconLogo alt="LiteFarm Logo" />
+      </TextButton>
     );
   };
 
@@ -243,9 +240,7 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
         className={clsx(styles.toolbar, (!showNavigation || isMobile) && styles.centerContent)}
       >
         {!showNavigation ? <Logo /> : showMainNavigation}
-        {showNavigation && isMobile && (
-          <Logo withoutWords withLink onClick={() => history.push('/')} />
-        )}
+        {showNavigation && isMobile && <Logo withoutWords onClick={() => history.push('/')} />}
       </Toolbar>
     </AppBar>
   );

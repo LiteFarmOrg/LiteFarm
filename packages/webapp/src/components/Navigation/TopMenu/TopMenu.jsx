@@ -20,7 +20,11 @@ import {
   Menu,
   MenuList,
   MenuItem,
+  Popper,
+  Grow,
+  Paper,
   Drawer,
+  ClickAwayListener,
   ListSubheader,
   ListItemIcon,
   ListItemText,
@@ -131,18 +135,39 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
   });
 
   const floaterMenu = (
-    <Menu
-      id="profile-menu"
-      anchorEl={profileIconRef.current}
+    <Popper
       open={openMenu}
-      onClose={closeMenu}
-      MenuListProps={{
-        'aria-labelledby': 'profile-navigation-button',
+      anchorEl={profileIconRef.current}
+      role={undefined}
+      placement="bottom-start"
+      transition
+      disablePortal
+      sx={{
+        top: '8px !important',
       }}
-      classes={{ list: styles.menuList, root: styles.menuRoot }}
     >
-      {menuItems}
-    </Menu>
+      {({ TransitionProps, placement }) => (
+        <Grow
+          {...TransitionProps}
+          style={{
+            transformOrigin: placement === 'bottom-start' ? 'left top' : 'left bottom',
+          }}
+        >
+          <Paper>
+            <ClickAwayListener onClickAway={closeMenu}>
+              <MenuList
+                id="profile-menu"
+                open={openMenu}
+                aria-labelledby="profile-navigation-button"
+                classes={{ list: styles.menuList, root: styles.menuRoot }}
+              >
+                {menuItems}
+              </MenuList>
+            </ClickAwayListener>
+          </Paper>
+        </Grow>
+      )}
+    </Popper>
   );
 
   const drawerMenu = (

@@ -5,6 +5,10 @@
   height: var(--global-navbar-height);
 }
 
+.toolbar {
+  padding: 8px;
+}
+
 .centerContent {
   justify-content: center;
 }
@@ -22,10 +26,6 @@
 .burgerMenu {
   font-size: 32px;
   color: var(--teal700);
-
-  @media only screen and (min-width: 900px) {
-    font-size: 40px;
-  }
 }
 
 .iconButton {

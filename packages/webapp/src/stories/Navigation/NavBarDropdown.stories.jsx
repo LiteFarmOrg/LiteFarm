@@ -1,5 +1,5 @@
 import React from 'react';
-import TopMenu from '../../components/Navigation/Menus/TopMenu';
+import TopMenu from '../../components/Navigation/TopMenu/TopMenu';
 import { componentDecoratorsGreyBackground } from '../Pages/config/Decorators';
 
 export default {

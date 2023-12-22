@@ -26,7 +26,7 @@ const expenseSelector = createSelector(financeSelector, (state) => state.expense
 
 // Include retired (but not deleted) types
 const allExpenseTypeSelector = createSelector(financeSelector, (state) => {
-  return state.expense_types?.filter((type) => !type.deleted);
+  return state.expense_types?.filter((type) => !type.deleted) ?? [];
 });
 
 // Active types

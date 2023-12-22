@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/styles';
-import { IconButton, useMediaQuery } from '@mui/material';
-import { Menu } from '@mui/icons-material';
-import TopMenu from './Menus/TopMenu';
+import { useMediaQuery } from '@mui/material';
+import PropTypes from 'prop-types';
+
+import TopMenu from './TopMenu/TopMenu';
 import SideMenu from '../../containers/Navigation/SideMenu';
 import {
   NavbarSpotlightProvider,
   NavBarNotificationSpotlightProvider,
 } from './NavbarSpotlightProvider';
-import PropTypes from 'prop-types';
-import Drawer from '../Drawer';
 import styles from './styles.module.scss';
 
 export default function PureNavigation({
@@ -19,53 +18,48 @@ export default function PureNavigation({
   history,
   isFarmSelected,
   hidden,
+  children,
 }) {
   // Side Drawer
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const openSidebar = () => setIsSidebarOpen(true);
-  const closeSidebar = () => setIsSidebarOpen(false);
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+
+  const openSideMenu = () => setIsSideMenuOpen(true);
+  const closeSideMenu = () => setIsSideMenuOpen(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  return (
-    !hidden && (
-      <>
+  return hidden ? (
+    children
+  ) : (
+    <>
+      {isFarmSelected && (
+        <>
+          <SideMenu
+            history={history}
+            isMobile={isMobile}
+            isDrawerOpen={isSideMenuOpen}
+            onDrawerClose={closeSideMenu}
+          />
+          <NavbarSpotlightProvider
+            open={!showNotificationSpotlight && showNavigationSpotlight}
+            onFinish={resetSpotlight}
+          />
+          <NavBarNotificationSpotlightProvider
+            open={showNotificationSpotlight}
+            onFinish={resetSpotlight}
+          />
+        </>
+      )}
+      <div className={styles.mainColumn}>
         <TopMenu
           history={history}
           isMobile={isMobile}
           showNavigation={isFarmSelected}
-          onClickBurger={setIsSidebarOpen}
+          onClickBurger={openSideMenu}
         />
-        {isFarmSelected && (
-          <>
-            {/* Sidebar Menu */}
-            {isMobile && (
-              <Drawer
-                isOpen={isSidebarOpen}
-                onClose={closeSidebar}
-                fullHeight
-                responsiveModal={false}
-                classes={{
-                  drawer: styles.drawer,
-                  header: styles.drawerHeader,
-                  content: styles.drawerContent,
-                }}
-              >
-                <SideMenu history={history} closeDrawer={closeSidebar} />
-              </Drawer>
-            )}
-            <NavbarSpotlightProvider
-              open={!showNotificationSpotlight && showNavigationSpotlight}
-              onFinish={resetSpotlight}
-            />
-            <NavBarNotificationSpotlightProvider
-              open={showNotificationSpotlight}
-              onFinish={resetSpotlight}
-            />
-          </>
-        )}
-      </>
-    )
+        {children}
+      </div>
+    </>
   );
 }
 

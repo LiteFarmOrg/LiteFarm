@@ -67,7 +67,6 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
 
   return (
     <PureFilterPage
-      title={t('CROP_CATALOGUE.FILTER.TITLE')}
       filters={filters}
       onApply={handleApply}
       filterRef={filterRef}

@@ -12,7 +12,6 @@ import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import React, { useEffect, useState } from 'react';
 import { getCropsAndManagementPlans } from '../saga';
-import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import {
   cropCatalogueFilterDateSelector,
@@ -32,6 +31,7 @@ import {
 import CatalogSpotlight from './CatalogSpotlight';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import { useStartAddCropVarietyFlow } from '../CropVarieties/useStartAddCropVarietyFlow';
+import Drawer from '../../components/Drawer';
 
 export default function CropCatalogue({ history }) {
   const { t } = useTranslation();
@@ -101,10 +101,13 @@ export default function CropCatalogue({ history }) {
         />
         <CatalogSpotlight />
       </div>
-
-      <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
+      <Drawer
+        title={t('CROP_CATALOGUE.FILTER.TITLE')}
+        isOpen={isFilterOpen}
+        onClose={onFilterClose}
+      >
         <CropCatalogueFilterPage onGoBack={onFilterClose} />
-      </MuiFullPagePopup>
+      </Drawer>
 
       {isFilterCurrentlyActive && (
         <div style={{ marginBottom: '32px' }}>

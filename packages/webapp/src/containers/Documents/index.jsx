@@ -22,6 +22,7 @@ import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStor
 import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { Underlined } from '../../components/Typography';
 import { resetDocumentsFilter } from '../filterSlice';
+import Drawer from '../../components/Drawer';
 
 export default function Documents({ history }) {
   const { t } = useTranslation();
@@ -92,9 +93,9 @@ export default function Documents({ history }) {
       />
       <DocumentsSpotlight />
 
-      <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
+      <Drawer title={t('DOCUMENTS.FILTER.TITLE')} isOpen={isFilterOpen} onClose={onFilterClose}>
         <DocumentsFilterPage onGoBack={onFilterClose} />
-      </MuiFullPagePopup>
+      </Drawer>
 
       {isFilterCurrentlyActive && (
         <div style={{ marginBottom: '32px' }}>

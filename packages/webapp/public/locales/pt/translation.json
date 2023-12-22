@@ -1203,20 +1203,20 @@
     "WILD_CROP": "Você está colhendo uma planta silvestre?"
   },
   "MENU": {
-    "ACTUAL_REVENUES": "MISSING",
+    "ACTUAL_REVENUES": "Receitas atuais",
     "CERTIFICATIONS": "Certificações",
     "CROPS": "Cultivos",
     "DOCUMENTS": "Documentos",
-    "ESTIMATED_REVENUES": "MISSING",
-    "FARM_SETTINGS": "MISSING",
+    "ESTIMATED_REVENUES": "Receitas estimadas",
+    "FARM_SETTINGS": "Configurações",
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",
-    "LABOUR_EXPENSES": "MISSING",
-    "MAP": "MISSING",
-    "OTHER_EXPENSES": "MISSING",
+    "LABOUR_EXPENSES": "Despesas com mão de obra",
+    "MAP": "Mapa",
+    "OTHER_EXPENSES": "Outras despesas",
     "PEOPLE": "Pessoas",
     "TASKS": "Tarefas",
-    "TRANSACTION_LIST": "MISSING"
+    "TRANSACTION_LIST": "Lista de transações"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certificações",
@@ -1669,8 +1669,7 @@
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",
     "MANAGE": "Administrar",
-    "TASKS": "Tarefas",
-    "MY_FARM": "MISSING"
+    "TASKS": "Tarefas"
   },
   "STATUS": {
     "ACTIVE": "Ativo",

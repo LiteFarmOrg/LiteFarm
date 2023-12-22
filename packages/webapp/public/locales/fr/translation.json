@@ -1204,20 +1204,20 @@
     "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?"
   },
   "MENU": {
-    "ACTUAL_REVENUES": "MISSING",
+    "ACTUAL_REVENUES": "Chiffres d'affaires réels",
     "CERTIFICATIONS": "Certifications",
     "CROPS": "Cultures",
     "DOCUMENTS": "Documents",
-    "ESTIMATED_REVENUES": "MISSING",
-    "FARM_SETTINGS": "MISSING",
+    "ESTIMATED_REVENUES": "Recettes estimées",
+    "FARM_SETTINGS": "Configuration",
     "FINANCES": "Finances",
-    "INSIGHTS": "Mesures additionnelles",
-    "LABOUR_EXPENSES": "MISSING",
-    "MAP": "MISSING",
-    "OTHER_EXPENSES": "MISSING",
+    "INSIGHTS": "Infos clés",
+    "LABOUR_EXPENSES": "Dépenses de main-d'œuvre",
+    "MAP": "Carte",
+    "OTHER_EXPENSES": "Autres dépenses",
     "PEOPLE": "Personnes",
     "TASKS": "Tâches",
-    "TRANSACTION_LIST": "MISSING"
+    "TRANSACTION_LIST": "Liste des transactions"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
@@ -1510,7 +1510,7 @@
         "ESTIMATED_REVENUE": "Ce nombre (static) reflète votre récolte future estimée",
         "GENERIC": "*Ces chiffres sont basés sur votre sélection de date / filtre"
       },
-      "ESTIMATED_HARVEST_REVENUE": "Recette estimé de la récolte",
+      "ESTIMATED_HARVEST_REVENUE": "Recette estimée de la récolte",
       "EXPENSES": "Dépenses",
       "EXPORT_REPORT": "Exporter le rapport",
       "LABOUR_LABEL": "Coûts de main-d'œuvre",
@@ -1670,8 +1670,7 @@
     "FINANCES": "Finances",
     "INSIGHTS": "Mesures additionnelles",
     "MANAGE": "Gestion",
-    "TASKS": "Tâches",
-    "MY_FARM": "MISSING"
+    "TASKS": "Tâches"
   },
   "STATUS": {
     "ACTIVE": "Actif",

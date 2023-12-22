@@ -1,5 +1,5 @@
 import React from 'react';
-import TopMenu from '../../components/Navigation/Menus/TopMenu';
+import TopMenu from '../../components/Navigation/TopMenu/TopMenu';
 import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
 import SideMenu from '../../components/Navigation/SideMenu';
 

@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../assets/mixin';
+
 .wrapper {
   position: relative;
   transform: translateZ(0); // Create context for position: fixed
@@ -29,7 +31,7 @@
     color: #426f57;
   }
 
-  @media (max-width: 1024px) {
+  @include xs-breakpoint {
     left: 0px;
     max-width: 100%;
   }

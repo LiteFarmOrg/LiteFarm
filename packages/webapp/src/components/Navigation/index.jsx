@@ -1,18 +1,15 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/styles';
-import { IconButton, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import TopMenu from './Menus/TopMenu';
+import TopMenu from './TopMenu/TopMenu';
 import SideMenu from '../../containers/Navigation/SideMenu';
 import {
   NavbarSpotlightProvider,
   NavBarNotificationSpotlightProvider,
 } from './NavbarSpotlightProvider';
-import Drawer from '../Drawer';
-import { ReactComponent as CollapseMenuIcon } from '../../assets/images/nav/collapse-menu.svg';
 import styles from './styles.module.scss';
-import clsx from 'clsx';
 
 export default function PureNavigation({
   showNavigationSpotlight,
@@ -25,13 +22,6 @@ export default function PureNavigation({
 }) {
   // Side Drawer
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
-  const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
-  const [hasSideMenuBeenExpanded, setHasSideMenuBeenExpanded] = useState(false);
-
-  const toggleSideMenu = () => {
-    setHasSideMenuBeenExpanded(isCompactSideMenu);
-    setIsCompactSideMenu(!isCompactSideMenu);
-  };
 
   const openSideMenu = () => setIsSideMenuOpen(true);
   const closeSideMenu = () => setIsSideMenuOpen(false);
@@ -44,42 +34,12 @@ export default function PureNavigation({
     <>
       {isFarmSelected && (
         <>
-          {/* Sidebar Menu */}
-          {isMobile ? (
-            <Drawer
-              isOpen={isSideMenuOpen}
-              onClose={closeSideMenu}
-              fullHeight
-              responsiveModal={false}
-              classes={{
-                drawer: styles.drawer,
-                header: styles.drawerHeader,
-                content: styles.drawerContent,
-              }}
-            >
-              <SideMenu history={history} closeDrawer={closeSideMenu} />
-            </Drawer>
-          ) : (
-            <>
-              <IconButton
-                size="large"
-                className={clsx(
-                  styles.menuToggle,
-                  isCompactSideMenu && styles.compactMenuToggle,
-                  hasSideMenuBeenExpanded && styles.expandedMenuToggle,
-                )}
-                onClick={toggleSideMenu}
-              >
-                <CollapseMenuIcon />
-              </IconButton>
-              <SideMenu
-                history={history}
-                classes={{ container: styles.sideMenu }}
-                isCompact={isCompactSideMenu}
-                hasBeenExpanded={hasSideMenuBeenExpanded}
-              />
-            </>
-          )}
+          <SideMenu
+            history={history}
+            isMobile={isMobile}
+            isOpen={isSideMenuOpen}
+            onClose={closeSideMenu}
+          />
           <NavbarSpotlightProvider
             open={!showNotificationSpotlight && showNavigationSpotlight}
             onFinish={resetSpotlight}

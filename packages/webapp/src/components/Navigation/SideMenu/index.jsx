@@ -1,5 +1,15 @@
 import { ExpandMore } from '@mui/icons-material';
-import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, Menu } from '@mui/material';
+import {
+  Collapse,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
@@ -9,6 +19,8 @@ import useExpandable from '../../Expandable/useExpandableItem';
 import { ReactComponent as Logo } from '../../../assets/images/middle_logo.svg';
 import styles from './styles.module.scss';
 import { useGetMenuItems } from '../../../hooks/useGetMenuItems';
+import Drawer from '../../Drawer';
+import { ReactComponent as CollapseMenuIcon } from '../../../assets/images/nav/collapse-menu.svg';
 
 const MenuItem = forwardRef(({ history, onClick, path, children, className }, ref) => {
   return (
@@ -48,13 +60,13 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
   );
 };
 
-function PureSideMenu({
+const SideMenuContent = ({
   history,
   closeDrawer,
   isCompact,
   hasBeenExpanded,
   classes = { container: '' },
-}) {
+}) => {
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
@@ -196,9 +208,53 @@ function PureSideMenu({
       </List>
     </div>
   );
-}
+};
 
-export default PureSideMenu;
+const PureSideMenu = ({ history, isMobile, isOpen, onClose }) => {
+  const [isCompact, setIsCompactSideMenu] = useState(false);
+  const [hasBeenExpanded, setHasBeenExpanded] = useState(false);
+
+  const toggleSideMenu = () => {
+    setHasBeenExpanded(isCompact);
+    setIsCompactSideMenu(!isCompact);
+  };
+
+  return isMobile ? (
+    <Drawer
+      isOpen={isOpen}
+      onClose={onClose}
+      fullHeight
+      responsiveModal={false}
+      classes={{
+        drawer: styles.drawer,
+        header: styles.drawerHeader,
+        content: styles.drawerContent,
+      }}
+    >
+      <SideMenuContent history={history} closeDrawer={onClose} />
+    </Drawer>
+  ) : (
+    <>
+      <IconButton
+        size="large"
+        className={clsx(
+          styles.menuToggle,
+          isCompact && styles.compactMenuToggle,
+          hasBeenExpanded && styles.expandedMenuToggle,
+        )}
+        onClick={toggleSideMenu}
+      >
+        <CollapseMenuIcon />
+      </IconButton>
+      <SideMenuContent
+        history={history}
+        classes={{ container: styles.sideMenu }}
+        isCompact={isCompact}
+        hasBeenExpanded={hasBeenExpanded}
+      />
+    </>
+  );
+};
 
 PureSideMenu.propTypes = {
   history: PropTypes.object.isRequired,
@@ -209,3 +265,5 @@ PureSideMenu.propTypes = {
     container: PropTypes.string,
   }),
 };
+
+export default PureSideMenu;

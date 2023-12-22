@@ -20,6 +20,8 @@ import {
   filterSalesByDateRange,
   mapSalesToRevenueItems,
 } from '../util';
+import { getSales } from '../actions';
+import { getCropVarieties } from '../../saga';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -49,9 +51,9 @@ export default function ActualRevenue({ history, match }) {
   );
 
   useEffect(() => {
-    if (!allRevenueTypes?.length) {
-      dispatch(getRevenueTypes());
-    }
+    dispatch(getRevenueTypes());
+    dispatch(getSales());
+    dispatch(getCropVarieties());
   }, []);
 
   return (

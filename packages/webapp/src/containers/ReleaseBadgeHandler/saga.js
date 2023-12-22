@@ -34,7 +34,7 @@ export function* checkReleaseBadgeVersionSaga({ payload }) {
 
     const { app_version } = result.data;
 
-    if (app_version < currentVersion) {
+    if (isVersionLessThan(app_version, currentVersion)) {
       yield put(setReleaseBadgeVersion(currentVersion));
 
       // Don't show badge on first visit
@@ -67,3 +67,17 @@ export default function* releaseBadgeSaga() {
   yield takeLatest(checkReleaseBadgeVersion.type, checkReleaseBadgeVersionSaga);
   yield takeLatest(setReleaseBadgeVersion.type, setReleaseBadgeVersionSaga);
 }
+
+/**
+ * Compares two semantic version strings to determine if the first is less than the second.
+ * Semantic versioning should be maintained for this to continue to function
+ * See: https://stackoverflow.com/a/65687141
+ *
+ * @param {string|null} a - The first version string to compare (can be null)
+ * @param {string} b - The second version string to compare.
+ * @returns {boolean} - Returns `true` if the first version string is less than the second; otherwise, returns `false`.
+ */
+
+const isVersionLessThan = (a, b) => {
+  return (a ?? '0.0.0').localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }) === -1;
+};

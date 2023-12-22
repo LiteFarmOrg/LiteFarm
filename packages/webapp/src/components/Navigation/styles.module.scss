@@ -65,32 +65,32 @@
 
   20% {
     left: calc(var(--global-side-menu-width) - 14px);
-    transform: rotate(-180deg);
+    transform: rotate(0deg);
   }
 
   40% {
     left: calc(var(--global-side-menu-width) + 2px);
-    transform: rotate(-180deg);
+    transform: rotate(20deg);
   }
 
   60% {
     left: calc(var(--global-side-menu-width) - 24px);
-    transform: rotate(-180deg);
+    transform: rotate(-10deg);
   }
 
   80% {
     left: calc(var(--global-side-menu-width) - 10px);
-    transform: rotate(-180deg);
+    transform: rotate(5deg);
   }
 
   90% {
     left: calc(var(--global-side-menu-width) - 16px);
-    transform: rotate(-180deg);
+    transform: rotate(-2.5deg);
   }
 
   100% {
     left: calc(var(--global-side-menu-width) - 14px);
-    transform: rotate(-180deg);
+    transform: rotate(0deg);
   }
 }
 

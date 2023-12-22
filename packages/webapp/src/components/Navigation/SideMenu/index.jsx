@@ -71,6 +71,10 @@ function PureSideMenu({
     resetExpanded();
   };
 
+  useEffect(() => {
+    resetExpanded();
+  }, [isCompact]);
+
   return (
     <div
       role="presentation"

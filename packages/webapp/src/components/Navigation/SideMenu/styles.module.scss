@@ -176,22 +176,32 @@
   }
 }
 
-.drawer {
-  background-color: var(--teal700);
+.sideMenu {
+  width: var(--global-side-menu-width);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow: auto;
+  background-color: var(--bgInputListTile);
   z-index: 1299;
-}
 
-.drawerHeader {
-  svg {
-    path {
-      color: var(--teal50);
+  .drawer {
+    background-color: var(--teal700);
+    z-index: 1299;
+  }
+  
+  .drawerHeader {
+    svg {
+      path {
+        color: var(--teal50);
+      }
     }
   }
-}
-
-.drawerContent {
-  padding: 0;
-  margin-bottom: -16px;
+  
+  .drawerContent {
+    padding: 0;
+    margin-bottom: -16px;
+  }
 }
 
 .container {
@@ -205,13 +215,6 @@
   animation-name: menu-initial;
   animation-duration: 0.9s;
   animation-fill-mode: forwards;
-  width: var(--global-side-menu-width);
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  overflow: auto;
-  background-color: var(--bgInputListTile);
-  z-index: 1299;
 
   @include xs-breakpoint {
     border: none;
@@ -310,6 +313,11 @@
     &.subItem {
       background-color: #A2D2CD;
     }
+
+    &.adminActionListItem {
+      background-color: #A2D2CD;
+    }
+
     &:hover {
       background-color: #A2D2CD;
 

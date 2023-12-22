@@ -6,8 +6,11 @@
 }
 
 .toolbar {
-  justify-content: center;
   padding: 8px;
+}
+
+.centerContent {
+  justify-content: center;
 }
 
 .logo {
@@ -23,10 +26,6 @@
 .burgerMenu {
   font-size: 32px;
   color: var(--teal700);
-
-  @media only screen and (min-width: 900px) {
-    font-size: 40px;
-  }
 }
 
 .iconButton {

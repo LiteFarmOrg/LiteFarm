@@ -38,13 +38,3 @@
   width: calc(100vw - 48px);
   max-width: 976px;
 }
-
-.mainColumn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-grow: 1;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  width: calc(100vw - var(--global-side-menu-width));
-}

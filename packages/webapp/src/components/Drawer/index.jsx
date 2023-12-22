@@ -15,7 +15,6 @@
 
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import useIsAboveBreakpoint from '../../hooks/useIsAboveBreakpoint';
 import ModalComponent from '../Modals/ModalComponent/v2';
 import styles from './style.module.scss';
 import { IconButton, useMediaQuery, useTheme } from '@mui/material';

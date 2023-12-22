@@ -7,8 +7,6 @@ import {
   ListItemIcon,
   ListItemText,
   Menu,
-  useMediaQuery,
-  useTheme,
 } from '@mui/material';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -213,19 +211,21 @@ const PureSideMenu = ({ history, isMobile, isOpen, onClose }) => {
   };
 
   return isMobile ? (
-    <Drawer
-      isOpen={isOpen}
-      onClose={onClose}
-      fullHeight
-      responsiveModal={false}
-      classes={{
-        drawer: styles.drawer,
-        header: styles.drawerHeader,
-        content: styles.drawerContent,
-      }}
-    >
-      <SideMenuContent history={history} closeDrawer={onClose} />
-    </Drawer>
+    <div className={styles.sideMenu}>
+      <Drawer
+        isOpen={isOpen}
+        onClose={onClose}
+        fullHeight
+        responsiveModal={false}
+        classes={{
+          drawer: styles.drawer,
+          header: styles.drawerHeader,
+          content: styles.drawerContent,
+        }}
+      >
+        <SideMenuContent history={history} closeDrawer={onClose} />
+      </Drawer>
+    </div>
   ) : (
     <>
       <IconButton
@@ -239,12 +239,7 @@ const PureSideMenu = ({ history, isMobile, isOpen, onClose }) => {
       >
         <CollapseMenuIcon />
       </IconButton>
-      <SideMenuContent
-        history={history}
-        classes={{ container: styles.sideMenu }}
-        isCompact={isCompact}
-        hasBeenExpanded={hasBeenExpanded}
-      />
+      <SideMenuContent history={history} isCompact={isCompact} hasBeenExpanded={hasBeenExpanded} />
     </>
   );
 };

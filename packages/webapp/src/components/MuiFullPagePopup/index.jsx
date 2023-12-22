@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100%',
   },
   root: {
-    zIndex: '1000 !important',
+    zIndex: '1301',
   },
 }));
 

@@ -25,7 +25,24 @@ i18n
     backend: {
       queryStringParams: { v: APP_VERSION },
     },
-    ns: ['crop', 'expense', 'task'],
+    ns: [
+      'certifications',
+      'common',
+      'crop_group',
+      'crop_nutrients',
+      'crop',
+      'disease',
+      'expense',
+      'fertilizer',
+      'filter',
+      'gender',
+      'harvest_uses',
+      'message',
+      'revenue',
+      'role',
+      'soil',
+      'task',
+    ],
   });
 
 export default i18n;

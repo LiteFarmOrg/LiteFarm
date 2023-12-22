@@ -221,11 +221,19 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
     </>
   );
 
-  const Logo = ({ withoutWords }) => {
+  const Logo = ({ withoutWords, withLink, ...props }) => {
     return withoutWords ? (
-      <IconLogo alt="LiteFarm Logo" className={styles.logo} />
+      <IconLogo
+        alt="LiteFarm Logo"
+        className={clsx(styles.logo, withLink && styles.withLink)}
+        {...props}
+      />
     ) : (
-      <WordsLogo alt="LiteFarm Logo" className={clsx(styles.logo, styles.paddingTopBottom)} />
+      <WordsLogo
+        alt="LiteFarm Logo"
+        className={clsx(styles.logo, withLink && styles.withLink, styles.paddingTopBottom)}
+        {...props}
+      />
     );
   };
 
@@ -235,7 +243,9 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
         className={clsx(styles.toolbar, (!showNavigation || isMobile) && styles.centerContent)}
       >
         {!showNavigation ? <Logo /> : showMainNavigation}
-        {showNavigation && isMobile && <Logo withoutWords />}
+        {showNavigation && isMobile && (
+          <Logo withoutWords withLink onClick={() => history.push('/')} />
+        )}
       </Toolbar>
     </AppBar>
   );

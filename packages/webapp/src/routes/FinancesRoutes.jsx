@@ -14,8 +14,7 @@
  */
 
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import { DeprecatedRoutes } from './DeprecatedRoutes';
+import { Route, Switch, Redirect } from 'react-router-dom';
 const Finances = React.lazy(() => import('../containers/Finances'));
 const ActualRevenue = React.lazy(() => import('../containers/Finances/ActualRevenue'));
 const UpdateEstimatedCropRevenue = React.lazy(() =>
@@ -57,7 +56,7 @@ const EditCustomRevenue = React.lazy(() =>
   import('../containers/Finances/CustomRevenueType/EditCustomRevenue'),
 );
 
-export const FinancesRoutes = () => (
+const FinancesRoutes = () => (
   <Switch>
     <Route path="/finances/transactions" exact component={Finances} />
     <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
@@ -101,7 +100,8 @@ export const FinancesRoutes = () => (
       exact
       component={EditCustomRevenue}
     />
-    {/* Redirect old routes to nested finances routes for backwards compatibility */}
-    <DeprecatedRoutes />
+    <Redirect to={'/'} />
   </Switch>
 );
+
+export default FinancesRoutes;

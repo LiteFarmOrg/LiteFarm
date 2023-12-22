@@ -67,7 +67,6 @@ const DocumentsFilterPage = ({ onGoBack }) => {
 
   return (
     <PureFilterPage
-      title={t('DOCUMENTS.FILTER.TITLE')}
       filters={filters}
       onApply={handleApply}
       filterRef={filterRef}

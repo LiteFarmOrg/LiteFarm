@@ -22,7 +22,7 @@ import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 import useHistoryLocation from '../hooks/useHistoryLocation';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
 
-const Navigation = ({ history }) => {
+const Navigation = ({ history, children }) => {
   const dispatch = useDispatch();
   const historyLocation = useHistoryLocation(history);
   const isCustomSignupPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
@@ -41,7 +41,9 @@ const Navigation = ({ history }) => {
         history={history}
         isFarmSelected={isFarmSelected}
         hidden={isCustomSignupPage}
-      />
+      >
+        {children}
+      </PureNavigation>
       {isFarmSelected && <ReleaseBadgeHandler />}
     </>
   );

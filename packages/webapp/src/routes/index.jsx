@@ -28,9 +28,9 @@ import { userFarmSelector } from '../containers/userFarmSlice';
 import { chooseFarmFlowSelector } from '../containers/ChooseFarm/chooseFarmFlowSlice';
 import useScrollToTop from '../containers/hooks/useScrollToTop';
 import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
-import { FinancesRoutes } from './FinancesRoutes';
 
 //dynamic imports
+const DeprecatedRoutes = React.lazy(() => import('./DeprecatedRoutes'));
 const Home = React.lazy(() => import('../containers/Home'));
 const HelpRequest = React.lazy(() => import('../containers/Help'));
 const Account = React.lazy(() => import('../containers/Profile/Account'));
@@ -38,7 +38,7 @@ const Farm = React.lazy(() => import('../containers/Profile/Farm/Farm'));
 const People = React.lazy(() => import('../containers/Profile/People/People'));
 const EditUser = React.lazy(() => import('../containers/Profile/EditUser'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
-const Finances = React.lazy(() => import('../containers/Finances'));
+const Finances = React.lazy(() => import('./FinancesRoutes'));
 const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
 const PasswordResetAccount = React.lazy(() => import('../containers/PasswordResetAccount'));
 const InviteSignUp = React.lazy(() => import('../containers/InviteSignUp'));
@@ -605,8 +605,9 @@ const Routes = () => {
               exact
               component={NotificationReadOnly}
             />
-            <FinancesRoutes />
+            <Route path="/finances/*" exact component={Finances} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
+            <Route path="/" component={DeprecatedRoutes} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -890,8 +891,9 @@ const Routes = () => {
               exact
               component={NotificationReadOnly}
             />
-            <FinancesRoutes />
+            <Route path="/finances" component={Finances} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
+            <Route path="/" component={DeprecatedRoutes} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

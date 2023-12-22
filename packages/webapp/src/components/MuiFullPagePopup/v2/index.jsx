@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   root: {
-    zIndex: '1000 !important',
+    zIndex: '1301',
   },
   container: {
     maxWidth: '1024px',

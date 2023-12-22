@@ -12,22 +12,12 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
- 
-.drawer {
-  background-color: var(--teal700);
-  // Higher than the current highest z-index in the app
-  z-index: 1302;
-}
 
-.drawerHeader {
-  svg {
-    path {
-      color: var(--teal50);
-    }
-  }
-}
-
-.drawerContent {
-  padding: 0;
-  margin-bottom: -16px;
+.mainColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
 }

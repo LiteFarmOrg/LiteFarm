@@ -1,34 +1,21 @@
 .pageWrapper {
   display: flex;
   flex-direction: column;
-  width: calc(100% - var(--global-side-menu-width));
+  width: 100%;
   align-items: stretch;
-  position: absolute;
-  right: 0;
-  top: 0;
-  overflow: hidden;
+  height: 100%;
 }
 
 .mapHeader {
-  order: 1;
-  z-index: 1;
   background: white;
-  position: absolute;
-  right: 0;
-  width: calc(100% - var(--global-side-menu-width));
+  width: 100%;
 }
 
 .mapContainer {
   position: relative;
   min-height: 152px;
-  order: 2;
   flex-grow: 1;
   display: flex;
-  // TODO: this is a workaround for keeping all locations in view (ST-297)
-  // remove this when we have a better solution
-  // that is dependent to navbar height (viewport)
-  padding-top: calc(var(--global-navbar-height) + var(--global-map-header-height));
-  // z-index: -1;
 }
 
 .selectionModal {

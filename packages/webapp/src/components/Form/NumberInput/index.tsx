@@ -2,8 +2,8 @@ import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type NumberInputProps = {
-  value: string | number;
-  onChange: (value?: number) => void;
+  value: string;
+  onChange: (value: string) => void;
 };
 
 export default function NumberInput({ value, onChange }: NumberInputProps) {
@@ -11,33 +11,35 @@ export default function NumberInput({ value, onChange }: NumberInputProps) {
     i18n: { language },
   } = useTranslation();
 
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
 
-  const decimalSeperators = (() => {
-    const decimal = (1.1).toLocaleString(language)[1];
-    return decimal === '.' ? '.' : `${decimal}.`;
-  })();
+  const decimalSeperator = (1.1).toLocaleString(language)[1];
+  const isDecimalPeriod = decimalSeperator === '.';
+  const inputAsNumberString = isDecimalPeriod ? input : input.replace(decimalSeperator, '.');
 
-  const getInputAsNumber = (input: string) =>
-    parseFloat(decimalSeperators.length > 1 ? input.replace(decimalSeperators[0], '.') : input);
+  // sync parent value with local state
+  if (value !== inputAsNumberString) setInput(value);
+
+  const inputAsNumber = Number(inputAsNumberString);
 
   const getDisplayValue = () => {
-    const valueAsNumber = parseFloat(value as string);
-    if (isNaN(valueAsNumber)) return '';
-    if (isFocused) {
-      return getInputAsNumber(input) === valueAsNumber ? input : value;
-    }
-    return valueAsNumber.toLocaleString(language);
+    if (isNaN(inputAsNumber) || inputAsNumber === 0) return '';
+    if (isFocused) return input;
+    return inputAsNumber.toLocaleString(language);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.validity.patternMismatch) return;
+    const { value } = e.target;
 
-    setInput(e.target.value);
-    onChange?.(getInputAsNumber(e.target.value) || undefined);
+    setInput(value);
+    onChange?.(isDecimalPeriod ? value : value.replace(decimalSeperator, '.') || '');
   };
-  const pattern = isFocused ? `[0-9]*[${decimalSeperators}]?[0-9]*` : undefined;
+
+  const pattern = isFocused
+    ? `[0-9]*[${isDecimalPeriod ? '.' : `${decimalSeperator}.`}]?[0-9]*`
+    : undefined;
 
   return (
     <input

@@ -15,18 +15,34 @@
 
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { BsX } from 'react-icons/bs';
-import useIsAboveBreakpoint from '../../hooks/useIsAboveBreakpoint';
 import ModalComponent from '../Modals/ModalComponent/v2';
 import styles from './style.module.scss';
+import { IconButton, useMediaQuery, useTheme } from '@mui/material';
+import { Close } from '@mui/icons-material';
 
-const Drawer = ({ title, isOpen, onClose, children, buttonGroup, className }) => {
-  const isAboveBreakPoint = useIsAboveBreakpoint(`(min-width: 768px)`);
+const Drawer = ({
+  title,
+  isOpen,
+  onClose,
+  children,
+  buttonGroup,
+  classes = {
+    modal: '',
+    drawer: '',
+    backdrop: '',
+    header: '',
+    content: '',
+  },
+  fullHeight,
+  responsiveModal = true,
+}) => {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
-  return isAboveBreakPoint ? (
+  return isDesktop && responsiveModal ? (
     isOpen && (
       <ModalComponent
-        className={className}
+        className={classes.modal}
         title={title}
         titleClassName={styles.title}
         dismissModal={onClose}
@@ -36,23 +52,30 @@ const Drawer = ({ title, isOpen, onClose, children, buttonGroup, className }) =>
       </ModalComponent>
     )
   ) : (
-    <div className={className}>
+    <>
       <div
-        className={clsx(styles.drawerBackdrop, isOpen ? styles.openC : '')}
+        className={clsx(styles.backdrop, isOpen ? styles.openC : '', classes.drawerBackdrop)}
         onClick={onClose}
       ></div>
-      <div className={clsx(styles.drawer, isOpen ? styles.openD : '')}>
-        <div className={styles.header}>
+      <div
+        className={clsx(
+          styles.drawer,
+          fullHeight && styles.fullHeight,
+          isOpen ? styles.openD : '',
+          classes.container,
+        )}
+      >
+        <div className={clsx(styles.header, classes.header)}>
           <div className={styles.title}>{title}</div>
-          <div className={styles.close} onClick={onClose}>
-            <BsX />
-          </div>
+          <IconButton className={styles.close} onClick={onClose}>
+            <Close />
+          </IconButton>
         </div>
-        <div className={styles.drawerContent}>
+        <div className={clsx(styles.drawerContent, classes.content)}>
           {children} {buttonGroup}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

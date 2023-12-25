@@ -48,6 +48,7 @@ function Table({
       className={className}
       columns={columns}
       data={data}
+      style={{ backgroundColor: 'var(--bgInputListTile)' }}
       showPagination={showPagination && data?.length > defaultPageSize}
       pageSizeOptions={pageSizeOptions}
       defaultPageSize={pageSize}

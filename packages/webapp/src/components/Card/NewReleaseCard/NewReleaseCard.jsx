@@ -1,36 +1,27 @@
 import Card from '../index';
 import { ReactComponent as Star } from '../../../assets/images/signUp/new_feature.svg';
 import { Semibold, Text } from '../../Typography';
-import styles from '../../Typography/typography.module.scss';
+import typography from '../../Typography/typography.module.scss';
+import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import { colors } from '../../../assets/theme';
+import { APP_VERSION } from '../../../util/constants';
 
 export function NewReleaseCard({ style }) {
   const { t } = useTranslation();
   return (
-    <Card
-      color={'info'}
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        gap: '16px',
-        alignItems: 'center',
-        padding: '16px',
-        ...style,
-      }}
-    >
+    <Card color={'info'} style={{ ...style }} className={styles.card}>
       <Star />
       <div>
-        <Semibold style={{ color: colors.teal700, marginBottom: '12px', lineHeight: '20px' }}>
-          {t('SIGNUP.LITEFARM_UPDATED')}
+        <Semibold className={styles.updated}>
+          {t('RELEASE.LITEFARM_UPDATED', { version: APP_VERSION })}
         </Semibold>
-        <Text style={{ margin: 0, lineHeight: '18px' }}>
+        <Text className={styles.changes}>
           {t('SIGNUP.CHANGES')}{' '}
           <a
             href={'https://www.litefarm.org/post/an-investment-in-finances'}
             target="_blank"
             rel="noreferrer"
-            className={styles.underlined}
+            className={typography.underlined}
           >
             {t('common:HERE')}
           </a>

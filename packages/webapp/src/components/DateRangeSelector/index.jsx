@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { ClickAwayListener } from '@mui/material';
+import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';

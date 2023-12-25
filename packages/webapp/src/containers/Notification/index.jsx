@@ -75,7 +75,7 @@ export default function NotificationPage() {
   }, [notifications.length]);
 
   return (
-    <Layout classes={{ container: { backgroundColor: 'white', width: '100%', padding: '0px' } }}>
+    <Layout classes={{ container: { width: '100%', padding: '0px' } }}>
       <PageTitle
         title={t('NOTIFICATION.PAGE_TITLE')}
         style={{ paddingBottom: '20px', marginLeft: '24px', marginTop: '24px' }}

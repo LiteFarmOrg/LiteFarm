@@ -10,7 +10,7 @@ export default function ImageModal({ src, alt, dismissModal, ...props }) {
         onClick={dismissModal}
         style={{
           position: 'fixed',
-          zIndex: 1300,
+          zIndex: 1299,
           left: 0,
           right: 0,
           top: 0,

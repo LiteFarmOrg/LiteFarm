@@ -11,7 +11,6 @@ import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import { useEffect, useState } from 'react';
 import { getCropVarieties } from '../saga';
-import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import {
   cropCatalogueFilterDateSelector,
   cropVarietyFilterSelector,
@@ -25,6 +24,7 @@ import ActiveFilterBox from '../../components/ActiveFilterBox';
 import { useStartAddCropVarietyFlow } from './useStartAddCropVarietyFlow';
 import useCropVarietyCatalogue from './useCropVarietyCatalogue';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
+import Drawer from '../../components/Drawer';
 
 export default function CropVarieties({ history, match, location }) {
   const { t } = useTranslation();
@@ -100,9 +100,13 @@ export default function CropVarieties({ history, match, location }) {
         onChange={filterStringOnChange}
         isFilterActive={isFilterCurrentlyActive}
       />
-      <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
+      <Drawer
+        title={t('CROP_CATALOGUE.FILTER.TITLE')}
+        isOpen={isFilterOpen}
+        onClose={onFilterClose}
+      >
         <CropVarietyFilterPage cropId={crop_id} onGoBack={onFilterClose} />
-      </MuiFullPagePopup>
+      </Drawer>
 
       {isFilterCurrentlyActive && (
         <ActiveFilterBox
@@ -115,7 +119,7 @@ export default function CropVarieties({ history, match, location }) {
       {/* <CropStatusInfoBox style={{ marginBottom: '16px' }} date={date} setDate={setDate} /> */}
 
       <div ref={containerRef}>
-        {!!(sum + filteredCropsWithoutManagementPlan.length) ? (
+        {sum + filteredCropsWithoutManagementPlan.length ? (
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox

@@ -61,6 +61,7 @@ export function PureNotificationCard({
         borderColor: '#D4DAE3',
         boxShadow: '0 0 0',
         cursor: 'pointer',
+        backgroundColor: 'var(--bgInputListTile)',
       }}
       classes={{
         card: {

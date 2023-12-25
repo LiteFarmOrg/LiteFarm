@@ -13,57 +13,37 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Suspense } from 'react';
-import { connect } from 'react-redux';
-import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
-
-import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
-import PureNavBar from '../../components/Navigation/NavBar';
-import { isAdminSelector, userFarmLengthSelector, userFarmSelector } from '../userFarmSlice';
-import { isAuthenticated } from '../../util/jwt';
+import { useSelector, useDispatch } from 'react-redux';
+import PureNavigation from '../../components/Navigation';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
+import useIsFarmSelected from '../../hooks/useIsFarmSelected';
+import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
+import useHistoryLocation from '../hooks/useHistoryLocation';
 
-const NavBar = (props) => {
-  const { history, farm, farmState, dispatch, numberOfUserFarm, isAdmin, showedSpotlight } = props;
-  const { isInvitationFlow } = farmState;
-  const { navigation, notification } = showedSpotlight;
-  const isFarmSelected =
-    isAuthenticated() && farm && farm.has_consent && farm?.step_five === true && !isInvitationFlow;
+const Navigation = ({ history, children, ...props }) => {
+  const dispatch = useDispatch();
+  const historyLocation = useHistoryLocation(history);
+  const isCustomSignupPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
+  const isFarmSelected = useIsFarmSelected();
+  const { navigation, notification } = useSelector(showedSpotlightSelector);
   const resetSpotlight = () => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
 
-  return isFarmSelected ? (
-    <Suspense fallback={<NoFarmNavBar />}>
-      <PureNavBar
-        showSpotLight={!navigation}
-        showNotification={navigation && !notification}
-        resetSpotlight={resetSpotlight}
-        showSwitchFarm={numberOfUserFarm > 1}
-        history={history}
-        showFinances={isAdmin}
-      />
-    </Suspense>
-  ) : (
-    <NoFarmNavBar history={history} />
+  return (
+    <PureNavigation
+      showNavigationSpotlight={!navigation}
+      showNotificationSpotlight={navigation && !notification}
+      resetSpotlight={resetSpotlight}
+      history={history}
+      isFarmSelected={isFarmSelected}
+      hidden={isCustomSignupPage}
+      {...props}
+    >
+      {children}
+    </PureNavigation>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    farm: userFarmSelector(state),
-    farmState: chooseFarmFlowSelector(state),
-    numberOfUserFarm: userFarmLengthSelector(state),
-    isAdmin: isAdminSelector(state),
-    showedSpotlight: showedSpotlightSelector(state),
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default Navigation;

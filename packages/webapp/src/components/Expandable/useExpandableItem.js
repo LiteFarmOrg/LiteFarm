@@ -38,7 +38,11 @@ export default function useExpandable({ defaultExpandedIds = [], isSingleExpanda
     expandedIds.includes(id) ? unExpand(id) : expand(id);
   };
 
-  return { expandedIds, expand, unExpand, toggleExpanded };
+  const resetExpanded = () => {
+    setExpandedIds(defaultExpandedIds);
+  };
+
+  return { expandedIds, expand, unExpand, toggleExpanded, resetExpanded };
 }
 
 useExpandable.propTypes = {

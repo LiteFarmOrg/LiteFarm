@@ -1,11 +1,13 @@
 :root {
   --teal900: #085d50;
-  --teal700: #028577;
+  --teal700: #266f68;
   --teal600: #3ea992;
   --teal500: #89d1c7;
   --teal100: #f1fbf9;
+  --teal50: #EBF5F4;
   --green800: #048211;
-  --green700: #78c99e;
+  --green500: #78C99E;
+  --green700: #558F70;
   --green400: #a8e6bd;
   --green200: #c7efd3;
   --green100: #e3f8ec;
@@ -58,4 +60,6 @@
   --checkbox: var(--teal700);
   --tooltipFont: var(--grey1);
   --modalPrimary:  white;
+  --bgInputListTile: white;
+  --mainBackground: #FAFCFB;
 }

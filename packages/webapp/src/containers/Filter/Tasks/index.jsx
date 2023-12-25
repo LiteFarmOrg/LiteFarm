@@ -173,7 +173,6 @@ const TasksFilterPage = ({ onGoBack }) => {
 
   return (
     <PureFilterPage
-      title={t('TASK.FILTER.TITLE')}
       filters={filters}
       onApply={handleApply}
       filterRef={filterRef}

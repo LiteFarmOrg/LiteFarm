@@ -5,4 +5,6 @@ export const DO_ORIGIN_URL = `https://${
 export const DO_CDN_URL = `https://${
   import.meta.env.VITE_DO_BUCKET_NAME
 }.nyc3.cdn.digitaloceanspaces.com`;
-export const APP_VERSION = '3.5.1';
+
+// Changing this forces logout and updates the new release card
+export const APP_VERSION = '3.5.2.1';

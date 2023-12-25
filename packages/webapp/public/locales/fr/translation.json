@@ -1203,6 +1203,22 @@
     "WHERE_TRANSPLANT_LOCATION": "Où allez-vous transplanter\u00a0?",
     "WILD_CROP": "Récoltez-vous une culture sauvage\u00a0?"
   },
+  "MENU": {
+    "ACTUAL_REVENUES": "Chiffres d'affaires réels",
+    "CERTIFICATIONS": "Certifications",
+    "CROPS": "Cultures",
+    "DOCUMENTS": "Documents",
+    "ESTIMATED_REVENUES": "Recettes estimées",
+    "FARM_SETTINGS": "Configuration",
+    "FINANCES": "Finances",
+    "INSIGHTS": "Infos clés",
+    "LABOUR_EXPENSES": "Dépenses de main-d'œuvre",
+    "MAP": "Carte",
+    "OTHER_EXPENSES": "Autres dépenses",
+    "PEOPLE": "Personnes",
+    "TASKS": "Tâches",
+    "TRANSACTION_LIST": "Liste des transactions"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
     "FARM_INFO": "Informations sur l'exploitation",
@@ -1343,18 +1359,18 @@
     },
     "FARM": {
       "ADDRESS": "Adresse",
+      "CHANGE_IMAGE": "Changer image",
+      "CLICK_TO_UPLOAD": "Cliquer pour télécharger",
       "CURRENCY": "Devise",
+      "DRAG_DROP": "ou glisser déposer",
+      "FARM_IMAGE": "Image de la ferme",
       "FARM_NAME": "Nom de l'exploitation",
       "IMPERIAL": "Impériales",
       "METRIC": "Métriques",
       "PHONE_NUMBER": "Numéro de téléphone",
-      "UNITS": "Unités",
-      "FARM_IMAGE": "Image de la ferme",
       "REMOVE_IMAGE": "Supprimer image",
-      "CHANGE_IMAGE": "Changer image",
-      "UPLOAD_IMAGE": "Ajouter une image",
-      "CLICK_TO_UPLOAD": "Cliquer pour télécharger",
-      "DRAG_DROP": "ou glisser déposer"
+      "UNITS": "Unités",
+      "UPLOAD_IMAGE": "Ajouter une image"
     },
     "FARM_TAB": "Exploitation",
     "PEOPLE": {
@@ -1385,6 +1401,9 @@
   "REACT_SELECT": {
     "CLEAR": "Supprimer",
     "CLEAR_ALL": "Supprimer tout"
+  },
+  "RELEASE": {
+    "LITEFARM_UPDATED": "LiteFarm v{{version}} est maintenant disponible\u00a0!"
   },
   "REPEAT_PLAN": {
     "AFTER": "Après",
@@ -1491,7 +1510,7 @@
         "ESTIMATED_REVENUE": "Ce nombre (static) reflète votre récolte future estimée",
         "GENERIC": "*Ces chiffres sont basés sur votre sélection de date / filtre"
       },
-      "ESTIMATED_HARVEST_REVENUE": "Recette estimé de la récolte",
+      "ESTIMATED_HARVEST_REVENUE": "Recette estimée de la récolte",
       "EXPENSES": "Dépenses",
       "EXPORT_REPORT": "Exporter le rapport",
       "LABOUR_LABEL": "Coûts de main-d'œuvre",
@@ -1731,6 +1750,10 @@
     "COMPLETION_DETAILS": "Détails de la tâche",
     "COMPLETION_NOTES": "Notes sur la tâche",
     "COMPLETION_NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
+    "CREATE": {
+      "FAILED": "Cette tâche ne peut être crée",
+      "LOCATION_DELETED": "Un autre utilisateur a désactivé cette emplacement. Veuillez actualiser la page pour obtenir le statut le plus récent."
+    },
     "CREATE_CUSTOM_HARVEST_USE": "Créer une utilisation de récolte personnalisée",
     "CURRENT": "Courant",
     "DELETE": {
@@ -1793,11 +1816,7 @@
     "TASKS_COUNT_other": "{{count}} tâches",
     "TRANSPLANT": "Repiquage",
     "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de repiquage",
-    "UNASSIGNED": "Non attribué",
-    "CREATE": {
-      "FAILED": "Cette tâche ne peut être crée",
-      "LOCATION_DELETED": "Un autre utilisateur a désactivé cette emplacement. Veuillez actualiser la page pour obtenir le statut le plus récent."
-    }
+    "UNASSIGNED": "Non attribué"
   },
   "UNIT": {
     "TIME": {

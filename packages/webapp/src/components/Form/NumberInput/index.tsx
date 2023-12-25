@@ -1,12 +1,14 @@
 import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import InputField from '../InputField.tsx';
+import type { CommonInputFieldProps } from '../InputField.tsx';
 
-type NumberInputProps = {
+export type NumberInputProps = {
   value: string;
   onChange: (value: string) => void;
-};
+} & CommonInputFieldProps;
 
-export default function NumberInput({ value, onChange }: NumberInputProps) {
+export default function NumberInput({ value, onChange, ...commonProps }: NumberInputProps) {
   const {
     i18n: { language },
   } = useTranslation();
@@ -42,13 +44,14 @@ export default function NumberInput({ value, onChange }: NumberInputProps) {
     : undefined;
 
   return (
-    <input
+    <InputField
       pattern={pattern}
       inputMode="numeric"
       value={getDisplayValue()}
       onBlur={() => setIsFocused(false)}
       onFocus={() => setIsFocused(true)}
       onChange={handleChange}
+      {...commonProps}
     />
   );
 }

@@ -1,57 +1,59 @@
 import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import InputField from '../InputField.tsx';
-import type { CommonInputFieldProps } from '../InputField.tsx';
+import InputField, { type CommonInputFieldProps } from '../InputField';
 
 export type NumberInputProps = {
-  value: string;
-  onChange: (value: string) => void;
+  value: number | string;
+  onChange: (value: number | '') => void;
 } & CommonInputFieldProps;
 
-export default function NumberInput({ value, onChange, ...commonProps }: NumberInputProps) {
+export default function NumberInput({ value = '', onChange, ...props }: NumberInputProps) {
   const {
     i18n: { language },
   } = useTranslation();
-
-  const [input, setInput] = useState(value);
+  const [inputValue, setInputValue] = useState(value.toString());
   const [isFocused, setIsFocused] = useState(false);
 
   const decimalSeperator = (1.1).toLocaleString(language)[1];
-  const isDecimalPeriod = decimalSeperator === '.';
-  const inputAsNumberString = isDecimalPeriod ? input : input.replace(decimalSeperator, '.');
 
-  // sync parent value with local state
-  if (value !== inputAsNumberString) setInput(value);
+  const valueAsNumber = Number(value);
+  const inputValueAsNumber = Number(
+    decimalSeperator === '.' ? inputValue : inputValue.replace(decimalSeperator, '.'),
+  );
 
-  const inputAsNumber = Number(inputAsNumberString);
+  // sync input value with value prop
+  if (valueAsNumber !== inputValueAsNumber) setInputValue(value.toString());
 
   const getDisplayValue = () => {
-    if (isNaN(inputAsNumber) || inputAsNumber === 0) return '';
-    if (isFocused) return input;
-    return inputAsNumber.toLocaleString(language);
+    if (inputValue === '' || isNaN(inputValueAsNumber)) return '';
+    if (isFocused) return inputValue;
+    return inputValueAsNumber.toLocaleString(language);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.validity.patternMismatch) return;
     const { value } = e.target;
-
-    setInput(value);
-    onChange?.(isDecimalPeriod ? value : value.replace(decimalSeperator, '.') || '');
+    setInputValue(value);
+    onChange?.(
+      parseFloat(decimalSeperator === '.' ? value : value.replace(decimalSeperator, '.')) || '',
+    );
   };
 
   const pattern = isFocused
-    ? `[0-9]*[${isDecimalPeriod ? '.' : `${decimalSeperator}.`}]?[0-9]*`
+    ? `[0-9]*[${decimalSeperator === '.' ? '.' : `${decimalSeperator}.`}]?[0-9]*`
     : undefined;
 
   return (
-    <InputField
-      pattern={pattern}
-      inputMode="numeric"
-      value={getDisplayValue()}
-      onBlur={() => setIsFocused(false)}
-      onFocus={() => setIsFocused(true)}
-      onChange={handleChange}
-      {...commonProps}
-    />
+    <>
+      <InputField
+        inputMode="numeric"
+        pattern={pattern}
+        value={getDisplayValue()}
+        onChange={handleChange}
+        onBlur={() => setIsFocused(false)}
+        onFocus={() => setIsFocused(true)}
+        {...props}
+      />
+    </>
   );
 }

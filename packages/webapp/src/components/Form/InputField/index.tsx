@@ -1,10 +1,10 @@
 import { Error, Info, Label, TextWithExternalLink } from '../../Typography';
-import styles from '../Input/input.module.scss';
+import styles from './inputField.module.scss';
 import clsx from 'clsx';
 import Infoi from '../../Tooltip/Infoi';
 import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import { useTranslation } from 'react-i18next';
-import { ComponentPropsWithoutRef } from 'react';
+import { ComponentPropsWithoutRef, ReactNode } from 'react';
 
 export type CommonInputFieldProps = {
   label?: string;
@@ -16,6 +16,7 @@ export type CommonInputFieldProps = {
   info?: string;
   textWithExternalLink?: string;
   link?: string;
+  icon?: ReactNode;
   classes?: {
     input: React.CSSProperties;
     label: React.CSSProperties;
@@ -37,6 +38,7 @@ export default function InputField({
   info,
   textWithExternalLink,
   link,
+  icon,
   classes,
   ...inputProps
 }: InputFieldProps) {
@@ -59,7 +61,7 @@ export default function InputField({
               <Infoi content={toolTipContent} />
             </div>
           )}
-          {/* {icon && <span className={styles.icon}>{icon}</span>} */}
+          {icon && <span className={styles.icon}>{icon}</span>}
         </div>
       )}
       <input

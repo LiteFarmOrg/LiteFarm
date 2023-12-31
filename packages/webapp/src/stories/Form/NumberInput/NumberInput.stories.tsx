@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Controller, useForm } from 'react-hook-form';
 import NumberInput, { type NumberInputProps } from '../../../components/Form/NumberInput';
+import { componentDecorators } from '../../Pages/config/Decorators';
 
-const NumberInputWithHookForm = (props: Omit<NumberInputProps, 'value' | 'onChange'>) => {
-  const { control } = useForm({ defaultValues: { test: '' } });
-
+const NumberInputWithRHF = (props: Omit<NumberInputProps, 'value' | 'onChange'>) => {
+  const { control } = useForm();
   return (
     <Controller
       name="test"
@@ -18,11 +18,13 @@ const NumberInputWithHookForm = (props: Omit<NumberInputProps, 'value' | 'onChan
 
 const meta = {
   title: 'Components/NumberInput',
-  component: NumberInputWithHookForm,
-} satisfies Meta<typeof NumberInputWithHookForm>;
+  component: NumberInputWithRHF,
+  decorators: componentDecorators,
+} satisfies Meta<typeof NumberInputWithRHF>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default = {} satisfies Story;
+export const Default: Story = {};
+export const WithoutGrouping: Story = { args: { useGrouping: false } };

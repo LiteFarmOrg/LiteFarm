@@ -5,9 +5,15 @@ import InputField, { type CommonInputFieldProps } from '../InputField';
 export type NumberInputProps = {
   value: number | string;
   onChange: (value: number | '') => void;
+  useGrouping?: boolean;
 } & CommonInputFieldProps;
 
-export default function NumberInput({ value = '', onChange, ...props }: NumberInputProps) {
+export default function NumberInput({
+  value = '',
+  onChange,
+  useGrouping = true,
+  ...props
+}: NumberInputProps) {
   const {
     i18n: { language },
   } = useTranslation();
@@ -27,7 +33,7 @@ export default function NumberInput({ value = '', onChange, ...props }: NumberIn
   const getDisplayValue = () => {
     if (inputValue === '' || isNaN(inputValueAsNumber)) return '';
     if (isFocused) return inputValue;
-    return inputValueAsNumber.toLocaleString(language);
+    return inputValueAsNumber.toLocaleString(language, { useGrouping });
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

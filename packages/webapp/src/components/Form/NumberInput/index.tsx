@@ -1,15 +1,15 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputField, { type CommonInputFieldProps } from '../InputField';
 
 export type NumberInputProps = {
-  value: number | string;
-  onChange: (value: number | '') => void;
+  value?: number | string;
+  onChange?: (value: number | '') => void;
   useGrouping?: boolean;
 } & CommonInputFieldProps;
 
 export default function NumberInput({
-  value = '',
+  value,
   onChange,
   useGrouping = true,
   ...props
@@ -17,18 +17,14 @@ export default function NumberInput({
   const {
     i18n: { language },
   } = useTranslation();
-  const [inputValue, setInputValue] = useState(value.toString());
+  const [inputValue, setInputValue] = useState(value?.toString() || '');
   const [isFocused, setIsFocused] = useState(false);
+  const initialValueRef = useRef(value);
 
   const decimalSeperator = (1.1).toLocaleString(language)[1];
-
-  const valueAsNumber = Number(value);
   const inputValueAsNumber = Number(
     decimalSeperator === '.' ? inputValue : inputValue.replace(decimalSeperator, '.'),
   );
-
-  // sync input value with value prop
-  if (valueAsNumber !== inputValueAsNumber) setInputValue(value.toString());
 
   const getDisplayValue = () => {
     if (inputValue === '' || isNaN(inputValueAsNumber)) return '';
@@ -48,6 +44,13 @@ export default function NumberInput({
   const pattern = isFocused
     ? `[0-9]*[${decimalSeperator === '.' ? '.' : `${decimalSeperator}.`}]?[0-9]*`
     : undefined;
+
+  // resets input value if value prop changes to initial value
+  // layout effect prevents flickering
+  useLayoutEffect(() => {
+    if (value === initialValueRef.current && inputValue != value)
+      setInputValue(value?.toString() || '');
+  }, [value]);
 
   return (
     <>

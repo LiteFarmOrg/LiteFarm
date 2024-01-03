@@ -19,67 +19,43 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 const DeprecatedRoutes = () => (
   <Switch>
     {/* Redirect old routes to nested finances routes for backwards compatibility */}
-    <Route path="/finances" exact>
-      <Redirect to="/finances/transactions" />
-    </Route>
-    <Route path="/revenue_types" exact>
-      <Redirect to="/finances/revenue_types" />
-    </Route>
-    <Route path="/add_sale" exact>
-      <Redirect to="/finances/add_revenue" />
-    </Route>
-    <Route path="/manage_custom_revenues" exact>
-      <Redirect to="/finances/manage_custom_revenues" />
-    </Route>
-    <Route path="/revenue/:sale_id" exact>
-      <Redirect to="/finances/revenue/:sale_id" />
-    </Route>
-    <Route path="/revenue/:sale_id/edit" exact>
-      <Redirect to="/finances/revenue/:sale_id/edit" />
-    </Route>
-    <Route path="/estimated_revenue" exact>
-      <Redirect to="/finances/estimated_revenue" />
-    </Route>
-    <Route path="/labour" exact>
-      <Redirect to="/finances/labour" />
-    </Route>
-    <Route path="/other_expense" exact>
-      <Redirect to="/finances/other_expense" />
-    </Route>
-    <Route path="/expense/:expense_id" exact>
-      <Redirect to="/finances/expense/:expense_id" />
-    </Route>
-    <Route path="/expense/:expense_id/edit" exact>
-      <Redirect to="/finances/expense/:expense_id/edit" />
-    </Route>
-    <Route path="/expense_categories" exact>
-      <Redirect to="/finances/expense_categories" />
-    </Route>
-    <Route path="/add_expense" exact>
-      <Redirect to="/finances/add_expense" />
-    </Route>
-    <Route path="/manage_custom_expenses" exact>
-      <Redirect to="/finances/manage_custom_expenses" />
-    </Route>
-    <Route path="/add_custom_expense" exact>
-      <Redirect to="/finances/add_custom_expense" />
-    </Route>
-    <Route path="/readonly_custom_expense/:expense_type_id" exact>
-      <Redirect to="/finances/readonly_custom_expense/:expense_type_id" />
-    </Route>
-    <Route path="/edit_custom_expense/:expense_type_id" exact>
-      <Redirect to="/finances/edit_custom_expense/:expense_type_id" />
-    </Route>
-    <Route path="/add_custom_revenue" exact>
-      <Redirect to="/finances/add_custom_revenue" />
-    </Route>
-    <Route path="/readonly_custom_revenue/:revenue_type_id" exact>
-      <Redirect to="/finances/readonly_custom_revenue/:revenue_type_id" />
-    </Route>
-    <Route path="/edit_custom_revenue/:revenue_type_id" exact>
-      <Redirect to="/finances/edit_custom_revenue/:revenue_type_id" />
-    </Route>
-    <Redirect to={'/'} />
+    <Redirect exact from="/finances" to="/finances/transactions" />
+    <Redirect exact from="/revenue_types" to="/finances/revenue_types" />
+    <Redirect exact from="/add_sale" to="/finances/add_revenue" />
+    <Redirect exact from="/manage_custom_revenues" to="/finances/manage_custom_revenues" />
+    <Redirect exact from="/revenue/:sale_id" to="/finances/revenue/:sale_id" />
+    <Redirect exact from="/revenue/:sale_id/edit" to="/finances/revenue/:sale_id/edit" />
+    <Redirect exact from="/estimated_revenue" to="/finances/estimated_revenue" />
+    <Redirect exact from="/labour" to="/finances/labour" />
+    <Redirect exact from="/other_expense" to="/finances/other_expense" />
+    <Redirect exact from="/expense/:expense_id" to="/finances/expense/:expense_id" />
+    <Redirect exact from="/expense/:expense_id/edit" to="/finances/expense/:expense_id/edit" />
+    <Redirect exact from="/expense_categories" to="/finances/expense_categories" />
+    <Redirect exact from="/add_expense" to="/finances/add_expense" />
+    <Redirect exact from="/manage_custom_expenses" to="/finances/manage_custom_expenses" />
+    <Redirect exact from="/add_custom_expense" to="/finances/add_custom_expense" />
+    <Redirect
+      exact
+      from="/readonly_custom_expense/:expense_type_id"
+      to="/finances/readonly_custom_expense/:expense_type_id"
+    />
+    <Redirect
+      exact
+      from="/edit_custom_expense/:expense_type_id"
+      to="/finances/edit_custom_expense/:expense_type_id"
+    />
+    <Redirect exact from="/add_custom_revenue" to="/finances/add_custom_revenue" />
+    <Redirect
+      exact
+      from="/readonly_custom_revenue/:revenue_type_id"
+      to="/finances/readonly_custom_revenue/:revenue_type_id"
+    />
+    <Redirect
+      exact
+      from="/edit_custom_revenue/:revenue_type_id"
+      to="/finances/edit_custom_revenue/:revenue_type_id"
+    />
+    <Redirect exact to={'/'} />
   </Switch>
 );
 

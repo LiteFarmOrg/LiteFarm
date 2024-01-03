@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const GET_SALES = 'GET_SALES';
 export const ADD_SALE = 'ADD_SALE';
 export const SET_SALES_IN_STATE = 'SET_SALES_IN_STATE';
 export const SET_CROP_SALES_IN_STATE = 'SET_CROP_SALES_IN_STATE';

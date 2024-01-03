@@ -18,6 +18,7 @@ import { tasksSelector } from '../../taskSlice';
 import { setDateRange } from '../actions';
 import { dateRangeOptions } from '../../../components/DateRangeSelector/constants';
 import DateRange, { SUNDAY } from '../../../util/dateRange';
+import { getManagementPlansAndTasks } from '../../saga';
 
 class Labour extends Component {
   constructor(props) {
@@ -53,6 +54,7 @@ class Labour extends Component {
     if (!this.props.dateRange.startDate || !this.props.dateRange.endDate) {
       this.props.dispatch(setDateRange(this.getDates()));
     }
+    this.props.dispatch(getManagementPlansAndTasks());
   }
 
   componentDidUpdate(prevProps) {

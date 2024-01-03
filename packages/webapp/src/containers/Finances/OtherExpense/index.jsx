@@ -20,7 +20,7 @@ import defaultStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
 import { expenseSelector, allExpenseTypeSelector } from '../selectors';
 import Table from '../../../components/Table';
-import { getExpense } from '../actions';
+import { getExpense, getFarmExpenseType } from '../actions';
 import history from '../../../history';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { BsCaretRight } from 'react-icons/bs';
@@ -42,6 +42,7 @@ const OtherExpense = () => {
 
   useEffect(() => {
     dispatch(getExpense());
+    dispatch(getFarmExpenseType());
   }, []);
 
   useEffect(() => {

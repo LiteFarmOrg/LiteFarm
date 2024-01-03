@@ -13,13 +13,14 @@ import { cropVarietiesSelector } from '../../cropVarietySlice';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import ActualRevenueItem from '../ActualRevenueItem';
-import { getRevenueTypes } from '../saga';
+import { getRevenueTypes, getSales } from '../saga';
 import { salesSelector } from '../selectors';
 import {
   calcActualRevenueFromRevenueItems,
   filterSalesByDateRange,
   mapSalesToRevenueItems,
 } from '../util';
+import { getCropVarieties } from '../../saga';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -49,9 +50,9 @@ export default function ActualRevenue({ history, match }) {
   );
 
   useEffect(() => {
-    if (!allRevenueTypes?.length) {
-      dispatch(getRevenueTypes());
-    }
+    dispatch(getSales());
+    dispatch(getRevenueTypes());
+    dispatch(getCropVarieties());
   }, []);
 
   return (

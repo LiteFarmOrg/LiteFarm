@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Layout from '../../../components/Layout';
 import PageTitle from '../../../components/PageTitle/v2';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
@@ -14,6 +14,7 @@ import { isTaskType } from '../../Task/useIsTaskType';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../../util/dateRange';
+import { getManagementPlans, getManagementPlansAndTasks } from '../../saga';
 
 export default function EstimatedRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -21,6 +22,12 @@ export default function EstimatedRevenue({ history, match }) {
   const managementPlans = useSelector(managementPlansSelector);
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
   const { startDate: fromDate, endDate: toDate } = useDateRangeSelector({ weekStartDate: SUNDAY });
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getManagementPlansAndTasks());
+  }, []);
 
   const estimatedRevenueItems = useMemo(() => {
     return managementPlans

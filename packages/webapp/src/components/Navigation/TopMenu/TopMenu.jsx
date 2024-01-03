@@ -142,18 +142,15 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
       placement="bottom-start"
       transition
       disablePortal
-      sx={{
-        top: '8px !important',
-      }}
     >
       {({ TransitionProps, placement }) => (
         <Grow
           {...TransitionProps}
           style={{
-            transformOrigin: placement === 'bottom-start' ? 'left top' : 'left bottom',
+            transformOrigin: 'right top',
           }}
         >
-          <Paper>
+          <Paper classes={{ root: styles.floaterMenuPosition }}>
             <ClickAwayListener onClickAway={closeMenu}>
               <MenuList
                 id="profile-menu"

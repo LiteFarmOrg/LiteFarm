@@ -10,6 +10,7 @@ import {
   NavBarNotificationSpotlightProvider,
 } from './NavbarSpotlightProvider';
 import styles from './styles.module.scss';
+import { useTranslation } from 'react-i18next';
 
 export default function PureNavigation({
   showNavigationSpotlight,
@@ -22,6 +23,26 @@ export default function PureNavigation({
   isCompactSideMenu,
   setIsCompactSideMenu,
 }) {
+  // This namespacing is needed for translations to work throughout the app
+  const { t } = useTranslation([
+    'translation',
+    'crop',
+    'common',
+    'disease',
+    'task',
+    'expense',
+    'revenue',
+    'fertilizer',
+    'message',
+    'gender',
+    'role',
+    'crop_nutrients',
+    'harvest_uses',
+    'soil',
+    'certifications',
+    'crop_group',
+  ]);
+
   // Side Drawer
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
 

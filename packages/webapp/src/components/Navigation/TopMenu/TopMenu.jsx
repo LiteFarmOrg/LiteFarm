@@ -30,7 +30,6 @@ import {
 import Alert from '../../../containers/Navigation/Alert';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import TextButton from '../../Form/Button/TextButton';
 import styles from './styles.module.scss';
 
 const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
@@ -225,9 +224,9 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
   const Logo = ({ withoutWords, onClick }) => {
     if (withoutWords) {
       return (
-        <TextButton onClick={onClick} className={styles.logo}>
+        <IconButton onClick={onClick} className={styles.logo}>
           <IconLogo alt="LiteFarm Logo" />
-        </TextButton>
+        </IconButton>
       );
     }
 

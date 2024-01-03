@@ -223,15 +223,15 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
   );
 
   const Logo = ({ withoutWords, onClick }) => {
-    if (!withoutWords) {
-      return <WordsLogo alt="LiteFarm Logo" className={styles.paddingTopBottom} />;
+    if (withoutWords) {
+      return (
+        <TextButton onClick={onClick} className={styles.logo}>
+          <IconLogo alt="LiteFarm Logo" />
+        </TextButton>
+      );
     }
 
-    return (
-      <TextButton onClick={onClick} className={styles.logo}>
-        <IconLogo alt="LiteFarm Logo" />
-      </TextButton>
-    );
+    return <WordsLogo alt="LiteFarm Logo" className={styles.paddingTopBottom} />;
   };
 
   return (

@@ -149,6 +149,7 @@ import rolesRoutes from './routes/rolesRoute.js';
 import organicCertifierSurveyRoutes from './routes/organicCertifierSurveyRoute.js';
 import passwordResetRoutes from './routes/passwordResetRoute.js';
 import showedSpotlightRoutes from './routes/showedSpotlightRoute.js';
+import releaseBadgeRoutes from './routes/releaseBadgeRoute.js';
 import nominationRoutes from './routes/nominationRoute.js';
 import userLogRoute from './routes/userLogRoute.js';
 
@@ -290,6 +291,7 @@ app
   .use('/support_ticket', supportTicketRoute)
   .use('/export', exportRoute)
   .use('/showed_spotlight', showedSpotlightRoutes)
+  .use('/release_badge', releaseBadgeRoutes)
   .use('/farm_token', farmTokenRoute)
   .use('/document', documentRoute)
   .use('/task', taskRoute)

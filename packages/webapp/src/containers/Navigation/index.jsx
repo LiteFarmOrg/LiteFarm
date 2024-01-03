@@ -20,6 +20,7 @@ import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 import useHistoryLocation from '../hooks/useHistoryLocation';
+import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
 
 const Navigation = ({ history, children, ...props }) => {
   const dispatch = useDispatch();
@@ -32,17 +33,20 @@ const Navigation = ({ history, children, ...props }) => {
   };
 
   return (
-    <PureNavigation
-      showNavigationSpotlight={!navigation}
-      showNotificationSpotlight={navigation && !notification}
-      resetSpotlight={resetSpotlight}
-      history={history}
-      isFarmSelected={isFarmSelected}
-      hidden={isCustomSignupPage}
-      {...props}
-    >
-      {children}
-    </PureNavigation>
+    <>
+      <PureNavigation
+        showNavigationSpotlight={!navigation}
+        showNotificationSpotlight={navigation && !notification}
+        resetSpotlight={resetSpotlight}
+        history={history}
+        isFarmSelected={isFarmSelected}
+        hidden={isCustomSignupPage}
+        {...props}
+      >
+        {children}
+      </PureNavigation>
+      {isFarmSelected && <ReleaseBadgeHandler {...props} />}
+    </>
   );
 };
 

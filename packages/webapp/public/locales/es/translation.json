@@ -1402,7 +1402,9 @@
     "CLEAR_ALL": "Borrar todo"
   },
   "RELEASE": {
-    "LITEFARM_UPDATED": "LiteFarm v{{version}} ya está disponible!"
+    "BETTER": "MISSING",
+    "LITEFARM_UPDATED": "LiteFarm v{{version}} ya está disponible!",
+    "NOTES": "MISSING"
   },
   "REPEAT_PLAN": {
     "AFTER": "Después",

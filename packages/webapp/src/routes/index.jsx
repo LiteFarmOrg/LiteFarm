@@ -512,9 +512,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/map"
               exact
-              component={(history) => (
-                <Map isCompactSideMenu={isCompactSideMenu} history={history} />
-              )}
+              component={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -789,9 +787,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/map"
               exact
-              component={(history) => (
-                <Map isCompactSideMenu={isCompactSideMenu} history={history} />
-              )}
+              component={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -937,9 +933,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/map"
               exact
-              component={(history) => (
-                <Map isCompactSideMenu={isCompactSideMenu} history={history} />
-              )}
+              component={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
             <Route path="/barn/:location_id" component={BarnDetails} />

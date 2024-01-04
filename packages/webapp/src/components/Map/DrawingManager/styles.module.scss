@@ -1,8 +1,9 @@
 .container {
-  padding: 24px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
 }
 
 .backButton {
@@ -27,7 +28,7 @@
 
 .drawingButton {
   display: inline;
-  margin: 0 6px 12px 6px;
+  margin: 0 6px 0 6px;
   min-width: 96px;
   pointer-events: auto;
 }

@@ -1,5 +1,3 @@
-import React from 'react';
-import { makeStyles } from '@mui/styles';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -7,18 +5,7 @@ import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { colors, DefaultThemeProvider } from '../../assets/theme';
 import PropTypes from 'prop-types';
 import { Main } from '../Typography';
-
-const useStyles = makeStyles({
-  plusIcon: {
-    color: colors.teal700,
-    fontSize: '42px',
-    lineHeight: '16px',
-  },
-  menuItem: {
-    paddingLeft: '40px',
-    paddingRight: '40px',
-  },
-});
+import styles from './styles.module.scss';
 export default function MapDrawerMenuItem({
   onClick,
   isFilterMenuItem,
@@ -26,13 +13,11 @@ export default function MapDrawerMenuItem({
   children,
   name,
 }) {
-  const classes = useStyles();
   return (
     <DefaultThemeProvider>
       <ListItem
-        style={{ backgroundColor: isFiltered ? '#F3F6FB' : 'white' }}
         button
-        className={classes.menuItem}
+        style={{ backgroundColor: isFiltered ? '#F3F6FB' : 'white' }}
         onClick={onClick}
       >
         <ListItemIcon>{children}</ListItemIcon>
@@ -44,7 +29,7 @@ export default function MapDrawerMenuItem({
         {isFilterMenuItem ? (
           <EyeToggleIcon isFiltered={isFiltered} />
         ) : (
-          <span className={classes.plusIcon}>+</span>
+          <span className={styles.plusIcon}>+</span>
         )}
       </ListItem>
     </DefaultThemeProvider>

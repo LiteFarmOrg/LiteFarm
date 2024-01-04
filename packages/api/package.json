@@ -1,6 +1,6 @@
 {
   "name": "litefarm-api",
-  "version": "3.5.1",
+  "version": "3.6.0",
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "type": "module",
@@ -48,12 +48,12 @@
     ]
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.456.0",
     "@googlemaps/google-maps-services-js": "^3.3.14",
     "@sentry/node": "^7.56.0",
     "adm-zip": "^0.4.16",
     "ajv-formats": "^2.1.1",
     "async-file": "^2.0.2",
-    "aws-sdk": "^2.931.0",
     "axios": "^0.21.4",
     "bcryptjs": "^2.4.3",
     "bull": "^3.22.9",
@@ -112,6 +112,7 @@
     "babel-plugin-transform-import-meta": "^2.2.0",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-json": "^3.1.0",
     "i18next-parser": "^5.3.0",
     "jest": "^26.4.2",
     "lint-staged": "^10.5.3",

@@ -12,7 +12,7 @@ import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { ClickAwayListener } from '@mui/material';
+import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 
 export default function PureManagementTasks({
   onCompleted,

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import PureAlert from '../../../components/Navigation/NavBar/Alert';
+import PureAlert from '../../../components/Navigation/Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { alertSelector } from './alertSlice';
 import { getAlert } from './saga';

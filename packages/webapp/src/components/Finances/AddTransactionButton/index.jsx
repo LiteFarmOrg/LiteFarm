@@ -52,7 +52,7 @@ Menu.displayName = 'Menu';
 
 export default function AddTransactionButton() {
   const { t } = useTranslation();
-  const isAboveBreakPoint = useIsAboveBreakpoint(`(min-width: 768px)`);
+  const isAboveBreakPoint = useIsAboveBreakpoint(`(min-width: 856px)`);
 
   return (
     <>

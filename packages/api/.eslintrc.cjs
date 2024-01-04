@@ -1,5 +1,5 @@
-module.exports =  {
-  extends: ['eslint:recommended', 'prettier'],
+module.exports = {
+  extends: ['eslint:recommended', 'prettier', 'plugin:json/recommended'],
   env: {
     es6: true,
     node: true,
@@ -8,10 +8,8 @@ module.exports =  {
   parserOptions: {
     ecmaVersion: 2019,
     babelOptions: {
-      plugins: [
-        '@babel/plugin-syntax-import-assertions'
-      ]
-    }
+      plugins: ['@babel/plugin-syntax-import-assertions'],
+    },
   },
   parser: '@babel/eslint-parser',
   rules: {

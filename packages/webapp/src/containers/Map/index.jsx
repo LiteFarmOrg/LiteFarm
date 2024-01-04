@@ -44,7 +44,6 @@ import BulkUploadTransitionModal from '../../components/Modals/BulkUploadTransit
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
-import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 import useDrawingManager from './useDrawingManager';
 
 import useMapAssetRenderer from './useMapAssetRenderer';
@@ -77,9 +76,9 @@ import {
   setMapAddDrawerHide,
   setMapAddDrawerShow,
 } from './mapAddDrawerSlice';
+import clsx from 'clsx';
 
-export default function Map({ history }) {
-  const windowInnerHeight = useWindowInnerHeight();
+export default function Map({ history, isCompactSideMenu }) {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const filterSettings = useSelector(mapFilterSettingSelector);
   const mapAddDrawer = useSelector(mapAddDrawerSelector);
@@ -477,7 +476,7 @@ export default function Map({ history }) {
 
   return (
     <>
-      {!showMapFilter && !showAddDrawer && !drawingState.type && !showSuccessHeader && (
+      {!drawingState.type && !showSuccessHeader && (
         <PureMapHeader
           className={styles.mapHeader}
           farmName={farm_name}
@@ -492,11 +491,7 @@ export default function Map({ history }) {
           title={successMessage}
         />
       )}
-      <div
-        data-cy="map-selection"
-        className={styles.pageWrapper}
-        style={{ height: windowInnerHeight }}
-      >
+      <div data-cy="map-selection" className={styles.pageWrapper}>
         <div className={styles.mapContainer}>
           <div data-cy="map-mapContainer" ref={mapWrapperRef} className={styles.mapContainer}>
             <GoogleMap
@@ -515,7 +510,12 @@ export default function Map({ history }) {
             />
           </div>
           {drawingState.type && (
-            <div className={styles.drawingBar}>
+            <div
+              className={clsx(
+                styles.drawingBar,
+                isCompactSideMenu && styles.drawingBarWithCompactMenu,
+              )}
+            >
               <DrawingManager
                 drawingType={drawingState.type}
                 isDrawing={drawingState.isActive}
@@ -564,7 +564,7 @@ export default function Map({ history }) {
             setShowMapFilter={setShowMapFilter}
             showMapFilter={showMapFilter}
             setShowAddDrawer={(showAddDrawer) => {
-              dispatch(showAddDrawer ? setMapAddDrawerHide(farm_id) : setMapAddDrawerShow(farm_id));
+              dispatch(showAddDrawer ? setMapAddDrawerShow(farm_id) : setMapAddDrawerHide(farm_id));
             }}
             showAddDrawer={showAddDrawer}
             handleClickFilter={handleClickFilter}

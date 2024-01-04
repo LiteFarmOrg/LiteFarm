@@ -67,6 +67,7 @@ export const rolesUrl = URI + '/roles';
 export const loginUrl = `${URI}/login`;
 export const resetPasswordUrl = `${URI}/password_reset`;
 export const spotlightUrl = `${URI}/showed_spotlight`;
+export const releaseBadgeUrl = `${URI}/release_badge`;
 export const taskUrl = `${URI}/task`;
 export const productsUrl = `${URI}/product`;
 export const alertsUrl = `${URI}/notification_user/subscribe`;
@@ -110,6 +111,7 @@ export default {
   loginUrl,
   resetPasswordUrl,
   spotlightUrl,
+  releaseBadgeUrl,
   taskUrl,
   productsUrl,
   alertsUrl,

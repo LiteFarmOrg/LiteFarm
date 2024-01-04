@@ -13,66 +13,50 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import NavBar from './containers/Navigation';
-import history from './history';
-import Routes from './Routes.jsx';
-import { makeStyles } from '@mui/styles';
+import { Suspense, useState } from 'react';
+import { matchPath } from 'react-router-dom';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
+
+import Navigation from './containers/Navigation';
+import history from './history';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100vw',
-    flexGrow: 1,
-  },
-  defaultHeight: {
-    minHeight: '100vh',
-  },
-  webkitHeight: {
-    minHeight: '-webkit-fill-available',
-  },
-  root: {
-    width: 'calc(100vw - 48px)',
-    maxWidth: '976px',
-  },
-}));
+import styles from './styles.module.scss';
+import Routes from './routes';
 
 function App() {
-  const classes = useStyles();
+  const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
+  const FULL_WIDTH_ROUTES = ['/map'];
+  const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(history.location.pathname, path));
+
   return (
-    <>
-      <div className={clsx(classes.container, classes.defaultHeight, classes.webkitHeight)}>
-        <NavBar history={history} />
-        <div
-          className="app"
-          style={{
-            width: '100%',
-            maxWidth: '1024px',
-            flex: '1',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
+    <div className={clsx(styles.container)}>
+      <Suspense fallback={null}>
+        <Navigation
+          history={history}
+          isCompactSideMenu={isCompactSideMenu}
+          setIsCompactSideMenu={setIsCompactSideMenu}
         >
-          <OfflineDetector />
-          <SnackbarProvider
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
-            }}
-            classes={{ root: classes.root, containerRoot: classes.root }}
-            content={(key, message) => <NotistackSnackbar id={key} message={message} />}
-          >
-            <Routes />
-          </SnackbarProvider>
-        </div>
-      </div>
-    </>
+          <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
+            <OfflineDetector />
+            <SnackbarProvider
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              classes={{
+                root: clsx(styles.root, isCompactSideMenu ? styles.isCompact : styles.isExpanded),
+                containerRoot: styles[`containerRoot${isCompactSideMenu ? 'WithCompactMenu' : ''}`],
+              }}
+              content={(key, message) => <NotistackSnackbar id={key} message={message} />}
+            >
+              <Routes isCompactSideMenu={isCompactSideMenu} />
+            </SnackbarProvider>
+          </div>
+        </Navigation>
+      </Suspense>
+    </div>
   );
 }
 

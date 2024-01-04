@@ -36,7 +36,6 @@ import {
 import { loginSelector } from '../userFarmSlice';
 import apiConfig from './../../apiConfig';
 import {
-  getSales,
   setDateRange,
   setExpense,
   setExpenseType,
@@ -53,9 +52,10 @@ import {
   DELETE_SALE,
   GET_EXPENSE,
   GET_FARM_EXPENSE_TYPE,
-  GET_SALES,
   UPDATE_SALE,
 } from './constants';
+
+export const getSales = createAction('getSales');
 
 export function* getSalesSaga() {
   const { salesURL } = apiConfig;
@@ -487,7 +487,7 @@ export function* fetchAllDataSaga() {
 }
 
 export default function* financeSaga() {
-  yield takeLatest(GET_SALES, getSales);
+  yield takeLatest(getSales.type, getSalesSaga);
   yield takeLeading(ADD_SALE, addSale);
   yield takeLatest(GET_EXPENSE, getExpenseSaga);
   yield takeLatest(GET_FARM_EXPENSE_TYPE, getFarmExpenseTypeSaga);

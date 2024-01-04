@@ -20,17 +20,11 @@ import { Semibold, Underlined } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import {
-  isAdminSelector,
-  userFarmEntitiesSelector,
-  userFarmsByFarmSelector,
-  userFarmSelector,
-} from '../userFarmSlice';
+import { isAdminSelector, userFarmsByFarmSelector, userFarmSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getManagementPlansAndTasks } from '../saga';
 import TaskCard from './TaskCard';
 import { onAddTask } from './onAddTask';
-import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import TasksFilterPage from '../Filter/Tasks';
 import {
   isFilterCurrentlyActiveSelector,
@@ -52,6 +46,7 @@ import { getAllUserFarmsByFarmId } from '../Profile/People/saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../taskTypeSlice';
 import { getSupportedTaskTypesSet } from '../../components/Task/getSupportedTaskTypesSet';
 import { locationsSelector } from '../locationSlice';
+import Drawer from '../../components/Drawer';
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
@@ -175,7 +170,7 @@ export default function TaskPage({ history }) {
   };
   const resetFilter = () => dispatch(clearTasksFilter());
   return (
-    <Layout classes={{ container: { backgroundColor: 'white' } }}>
+    <Layout>
       <PageTitle title={t('TASK.PAGE_TITLE')} style={{ paddingBottom: '20px' }} />
       <PureTaskDropdownFilter
         onDateOrderChange={onDateOrderChange}
@@ -190,10 +185,9 @@ export default function TaskPage({ history }) {
         handleAddTask={onAddTask(dispatch, history, {})}
         isAdmin={isAdmin}
       />
-
-      <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
+      <Drawer title={t('TASK.FILTER.TITLE')} isOpen={isFilterOpen} onClose={onFilterClose}>
         <TasksFilterPage onGoBack={onFilterClose} />
-      </MuiFullPagePopup>
+      </Drawer>
       {isFilterCurrentlyActive && (
         <div style={{ marginBottom: '32px' }}>
           <ActiveFilterBox pageFilter={tasksFilter} pageFilterKey={'tasks'} />

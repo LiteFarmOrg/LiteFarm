@@ -76,8 +76,9 @@ import {
   setMapAddDrawerHide,
   setMapAddDrawerShow,
 } from './mapAddDrawerSlice';
+import clsx from 'clsx';
 
-export default function Map({ history }) {
+export default function Map({ history, isCompactSideMenu }) {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const filterSettings = useSelector(mapFilterSettingSelector);
   const mapAddDrawer = useSelector(mapAddDrawerSelector);
@@ -509,7 +510,12 @@ export default function Map({ history }) {
             />
           </div>
           {drawingState.type && (
-            <div className={styles.drawingBar}>
+            <div
+              className={clsx(
+                styles.drawingBar,
+                isCompactSideMenu && styles.drawingBarWithCompactMenu,
+              )}
+            >
               <DrawingManager
                 drawingType={drawingState.type}
                 isDrawing={drawingState.isActive}

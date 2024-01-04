@@ -312,9 +312,20 @@
 .activeListItem {
   background-color: #A2D2CD;
 
+  &.subItem:not(:hover) {
+    background-color: var(--secondaryGreen50);
+
+    .subItemText {
+      span {
+        text-shadow: var(--secondaryGreen200) 0px 1px;
+        color: var(--secondaryGreen800);
+      }
+    }
+  }
+
   @include xs-breakpoint {
     &.subItem {
-      background-color: #A2D2CD;
+      background-color: var(--secondaryGreen50);
     }
 
     &.adminActionListItem {

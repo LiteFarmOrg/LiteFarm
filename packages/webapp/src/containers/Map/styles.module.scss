@@ -61,22 +61,16 @@
 }
 
 .drawingBar {
-  width: 100%;
+  width: calc(100vw - var(--global-side-menu-width));
   position: fixed;
   top: 72px;
   align-self: center;
   z-index: 10;
   pointer-events: none;
-}
 
-@media (max-width: 960px) {
-  .drawingBar {
-    top: 56px;
+  &.drawingBarWithCompactMenu {
+    width: calc(100vw - var(--global-compact-side-menu-width));
   }
-}
-
-.mapContainer {
-  width: 100%;
 }
 
 .clusterIcon {

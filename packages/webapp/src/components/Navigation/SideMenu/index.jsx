@@ -207,13 +207,13 @@ const PureSideMenu = ({
   isDrawerOpen,
   onDrawerClose,
   isCompact,
-  setIsCompactSideMenu,
+  setIsCompact,
 }) => {
   const [hasBeenExpanded, setHasBeenExpanded] = useState(false);
 
   const toggleSideMenu = () => {
     setHasBeenExpanded(isCompact);
-    setIsCompactSideMenu(!isCompact);
+    setIsCompact(!isCompact);
   };
 
   return isMobile ? (
@@ -256,7 +256,7 @@ PureSideMenu.propTypes = {
   isDrawerOpen: PropTypes.bool,
   onDrawerClose: PropTypes.func,
   isCompact: PropTypes.bool,
-  setIsCompactSideMenu: PropTypes.func,
+  setIsCompact: PropTypes.func,
 };
 
 export default PureSideMenu;

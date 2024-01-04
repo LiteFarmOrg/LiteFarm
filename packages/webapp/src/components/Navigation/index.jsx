@@ -63,7 +63,7 @@ export default function PureNavigation({
             isDrawerOpen={isSideMenuOpen}
             onDrawerClose={closeSideMenu}
             isCompact={isCompactSideMenu}
-            setIsCompactSideMenu={setIsCompactSideMenu}
+            setIsCompact={setIsCompactSideMenu}
           />
           <NavbarSpotlightProvider
             open={!showNotificationSpotlight && showNavigationSpotlight}

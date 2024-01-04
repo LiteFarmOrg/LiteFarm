@@ -86,17 +86,25 @@ export const useGetMenuItems = () => {
   }, [isAdmin, t]);
 
   const adminActions = useMemo(
-    () => [
-      { label: t('MENU.FARM_SETTINGS'), icon: <FarmSettingsIcon />, path: '/farm', key: 'farm' },
-      { label: t('MENU.PEOPLE'), icon: <PeopleIcon />, path: '/people', key: 'people' },
-      {
-        label: t('MENU.CERTIFICATIONS'),
-        icon: <CertificationsIcon />,
-        path: '/certification',
-        key: 'certification',
-      },
-    ],
-    [t],
+    () =>
+      isAdmin
+        ? [
+            {
+              label: t('MENU.FARM_SETTINGS'),
+              icon: <FarmSettingsIcon />,
+              path: '/farm',
+              key: 'farm',
+            },
+            { label: t('MENU.PEOPLE'), icon: <PeopleIcon />, path: '/people', key: 'people' },
+            {
+              label: t('MENU.CERTIFICATIONS'),
+              icon: <CertificationsIcon />,
+              path: '/certification',
+              key: 'certification',
+            },
+          ]
+        : [],
+    [isAdmin, t],
   );
 
   return { mainActions, adminActions };

@@ -279,7 +279,7 @@ const UnknownRecord = React.lazy(() =>
   import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
-const Routes = () => {
+const Routes = ({ isCompactSideMenu }) => {
   useScrollToTop();
   useReduxSnackbar();
   const userFarm = useSelector(
@@ -509,7 +509,13 @@ const Routes = () => {
             />
             <Route path="/tasks/:task_id/harvest_uses" exact component={HarvestUses} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
-            <Route path="/map" exact component={Map} />
+            <Route
+              path="/map"
+              exact
+              component={(history) => (
+                <Map isCompactSideMenu={isCompactSideMenu} history={history} />
+              )}
+            />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
               path="/create_location/farm_site_boundary"
@@ -780,7 +786,13 @@ const Routes = () => {
             <Route path="/documents/add_document" exact component={AddDocument} />
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
-            <Route path="/map" exact component={Map} />
+            <Route
+              path="/map"
+              exact
+              component={(history) => (
+                <Map isCompactSideMenu={isCompactSideMenu} history={history} />
+              )}
+            />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
               path="/create_location/farm_site_boundary"
@@ -922,7 +934,13 @@ const Routes = () => {
               exact
               component={ManagementDetails}
             />
-            <Route path="/map" exact component={Map} />
+            <Route
+              path="/map"
+              exact
+              component={(history) => (
+                <Map isCompactSideMenu={isCompactSideMenu} history={history} />
+              )}
+            />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
             <Route path="/barn/:location_id" component={BarnDetails} />
             <Route path="/natural_area/:location_id" component={NaturalAreaDetails} />

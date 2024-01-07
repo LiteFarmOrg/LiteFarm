@@ -13,4 +13,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const ThousandsGrouping: Story = { args: { useGrouping: false } };
+export const WithoutGrouping: Story = { args: { useGrouping: false } };
+export const WithoutDecimal: Story = { args: { allowDecimal: false } };

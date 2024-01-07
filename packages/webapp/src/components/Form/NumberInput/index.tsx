@@ -6,12 +6,14 @@ export type NumberInputProps = {
   value?: number | string;
   onChange?: (value: number | '') => void;
   useGrouping?: boolean;
+  allowDecimal?: boolean;
 } & CommonInputFieldProps;
 
 export default function NumberInput({
   value,
   onChange,
   useGrouping = true,
+  allowDecimal = true,
   ...props
 }: NumberInputProps) {
   const {
@@ -41,9 +43,12 @@ export default function NumberInput({
     );
   };
 
-  const pattern = isFocused
-    ? `[0-9]*[${decimalSeperator === '.' ? '.' : `${decimalSeperator}.`}]?[0-9]*`
-    : undefined;
+  const getPattern = () => {
+    if (!isFocused) return;
+    if (!allowDecimal) return '[0-9]+';
+    const decimalSeparatorRegex = `[${decimalSeperator === '.' ? '.' : `${decimalSeperator}.`}]`;
+    return `[0-9]*${decimalSeparatorRegex}?[0-9]*`;
+  };
 
   // resets input value if value prop changes to initial value
   // layout effect prevents flickering
@@ -56,7 +61,7 @@ export default function NumberInput({
     <>
       <InputField
         inputMode="numeric"
-        pattern={pattern}
+        pattern={getPattern()}
         value={getDisplayValue()}
         onChange={handleChange}
         onBlur={() => setIsFocused(false)}

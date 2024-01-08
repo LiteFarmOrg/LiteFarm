@@ -7,6 +7,7 @@ export type NumberInputProps = {
   onChange?: (value: number | '') => void;
   useGrouping?: boolean;
   allowDecimal?: boolean;
+  locale?: string;
 } & CommonInputFieldProps;
 
 export default function NumberInput({
@@ -22,16 +23,16 @@ export default function NumberInput({
   const [inputValue, setInputValue] = useState(value?.toString() || '');
   const [isFocused, setIsFocused] = useState(false);
   const initialValueRef = useRef(value);
-
-  const decimalSeperator = (1.1).toLocaleString(language)[1];
+  const locale = props.locale || language;
+  const decimalSeparator = getDecimalSeparator(locale);
   const inputValueAsNumber = Number(
-    decimalSeperator === '.' ? inputValue : inputValue.replace(decimalSeperator, '.'),
+    decimalSeparator === '.' ? inputValue : inputValue.replace(decimalSeparator, '.'),
   );
 
   const getDisplayValue = () => {
     if (inputValue === '' || isNaN(inputValueAsNumber)) return '';
     if (isFocused) return inputValue;
-    return inputValueAsNumber.toLocaleString(language, { useGrouping });
+    return toLocalizedNumber(inputValueAsNumber, locale, { useGrouping });
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,14 +40,14 @@ export default function NumberInput({
     const { value } = e.target;
     setInputValue(value);
     onChange?.(
-      parseFloat(decimalSeperator === '.' ? value : value.replace(decimalSeperator, '.')) || '',
+      parseFloat(decimalSeparator === '.' ? value : value.replace(decimalSeparator, '.')) || '',
     );
   };
 
   const getPattern = () => {
     if (!isFocused) return;
     if (!allowDecimal) return '[0-9]+';
-    const decimalSeparatorRegex = `[${decimalSeperator === '.' ? '.' : `${decimalSeperator}.`}]`;
+    const decimalSeparatorRegex = `[${decimalSeparator === '.' ? '.' : `${decimalSeparator}.`}]`;
     return `[0-9]*${decimalSeparatorRegex}?[0-9]*`;
   };
 
@@ -70,4 +71,22 @@ export default function NumberInput({
       />
     </>
   );
+}
+
+function toLocalizedNumber(
+  number: number,
+  locale: Intl.LocalesArgument,
+  options?: Intl.NumberFormatOptions,
+) {
+  try {
+    return number.toLocaleString(locale, options);
+  } catch (error) {
+    console.error(`Invalid locale ${locale}`);
+    // defaults to browsers locale
+    return number.toLocaleString(undefined, options);
+  }
+}
+
+function getDecimalSeparator(locale: string) {
+  return toLocalizedNumber(1.1, locale)[1];
 }

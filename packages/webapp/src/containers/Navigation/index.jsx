@@ -18,19 +18,23 @@ import PureNavigation from '../../components/Navigation';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import useIsFarmSelected from '../../hooks/useIsFarmSelected';
-import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
-import useHistoryLocation from '../hooks/useHistoryLocation';
+import {
+  CREATE_USER_ACCOUNT,
+  CUSTOM_SIGN_UP,
+  ENTER_PASSWORD_PAGE,
+} from '../CustomSignUp/constants';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
 
 const Navigation = ({ history, children, ...props }) => {
   const dispatch = useDispatch();
-  const historyLocation = useHistoryLocation(history);
-  const isCustomSignupPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
   const isFarmSelected = useIsFarmSelected();
   const { navigation, notification } = useSelector(showedSpotlightSelector);
   const resetSpotlight = () => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
+  const hideNavBar = [CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT].includes(
+    history.location?.state?.component,
+  );
 
   return (
     <>
@@ -40,7 +44,7 @@ const Navigation = ({ history, children, ...props }) => {
         resetSpotlight={resetSpotlight}
         history={history}
         isFarmSelected={isFarmSelected}
-        hidden={isCustomSignupPage}
+        hidden={hideNavBar}
         {...props}
       >
         {children}

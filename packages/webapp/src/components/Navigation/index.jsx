@@ -18,6 +18,7 @@ export default function PureNavigation({
   resetSpotlight,
   history,
   isFarmSelected,
+  isAcceptingInvite,
   hidden,
   children,
   isCompactSideMenu,
@@ -50,10 +51,11 @@ export default function PureNavigation({
   const closeSideMenu = () => setIsSideMenuOpen(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const showNavigation = isFarmSelected && !isAcceptingInvite;
 
   return (
     <>
-      {isFarmSelected && !hidden && (
+      {showNavigation && !hidden && (
         <>
           <SideMenu
             history={history}
@@ -77,7 +79,7 @@ export default function PureNavigation({
         <TopMenu
           history={history}
           isMobile={isMobile}
-          showNavigation={isFarmSelected}
+          showNavigation={showNavigation}
           onClickBurger={openSideMenu}
           hidden={hidden}
         />
@@ -92,6 +94,7 @@ PureNavigation.propTypes = {
   resetSpotlight: PropTypes.func,
   history: PropTypes.object,
   isFarmSelected: PropTypes.bool,
+  isAcceptingInvite: PropTypes.bool,
   hidden: PropTypes.bool,
   isCompactSideMenu: PropTypes.bool,
   setIsCompactSideMenu: PropTypes.func,

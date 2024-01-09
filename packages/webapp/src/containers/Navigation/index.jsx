@@ -21,12 +21,16 @@ import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 import useHistoryLocation from '../hooks/useHistoryLocation';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
+import { matchPath } from 'react-router-dom';
 
 const Navigation = ({ history, children, ...props }) => {
   const dispatch = useDispatch();
   const historyLocation = useHistoryLocation(history);
   const isCustomSignupPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
   const isFarmSelected = useIsFarmSelected();
+  const isAcceptingInvite = ['/accept_invitation/sign_up'].some((path) =>
+    matchPath(history.location.pathname, path),
+  );
   const { navigation, notification } = useSelector(showedSpotlightSelector);
   const resetSpotlight = () => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
@@ -40,6 +44,7 @@ const Navigation = ({ history, children, ...props }) => {
         resetSpotlight={resetSpotlight}
         history={history}
         isFarmSelected={isFarmSelected}
+        isAcceptingInvite={isAcceptingInvite}
         hidden={isCustomSignupPage}
         {...props}
       >

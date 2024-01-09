@@ -24,6 +24,7 @@ import {
   ENTER_PASSWORD_PAGE,
 } from '../CustomSignUp/constants';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
+import { matchPath } from 'react-router-dom';
 
 const Navigation = ({ history, children, ...props }) => {
   const dispatch = useDispatch();
@@ -32,9 +33,10 @@ const Navigation = ({ history, children, ...props }) => {
   const resetSpotlight = () => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
   };
-  const hideNavBar = [CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT].includes(
-    history.location?.state?.component,
-  );
+  const hideNavBar =
+    [CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT].includes(
+      history.location?.state?.component,
+    ) || ['/accept_invitation/sign_up'].some((path) => matchPath(history.location.pathname, path));
 
   return (
     <>

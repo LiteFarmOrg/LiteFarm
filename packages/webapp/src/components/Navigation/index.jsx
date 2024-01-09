@@ -51,11 +51,9 @@ export default function PureNavigation({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  return hidden ? (
-    children
-  ) : (
+  return (
     <>
-      {isFarmSelected && (
+      {isFarmSelected && !hidden && (
         <>
           <SideMenu
             history={history}
@@ -81,6 +79,7 @@ export default function PureNavigation({
           isMobile={isMobile}
           showNavigation={isFarmSelected}
           onClickBurger={openSideMenu}
+          hidden={hidden}
         />
         {children}
       </div>

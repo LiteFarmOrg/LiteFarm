@@ -28,7 +28,8 @@ const Navigation = ({ history, children, ...props }) => {
   const historyLocation = useHistoryLocation(history);
   const isCustomSignupPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
   const isFarmSelected = useIsFarmSelected();
-  const isAcceptingInvite = ['/accept_invitation/sign_up'].some((path) =>
+  const ACCEPTING_INVITE_URLS = ['/accept_invitation/sign_up', '/accept_invitation/create_account'];
+  const isAcceptingInvite = ACCEPTING_INVITE_URLS.some((path) =>
     matchPath(history.location.pathname, path),
   );
   const { navigation, notification } = useSelector(showedSpotlightSelector);

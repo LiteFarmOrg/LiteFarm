@@ -4,11 +4,11 @@ import { componentDecorators } from '../../Pages/config/Decorators';
 import { userEvent, within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
-const meta = {
+const meta: Meta<typeof NumberInput> = {
   title: 'Components/NumberInput',
   component: NumberInput,
   decorators: componentDecorators,
-} satisfies Meta<typeof NumberInput>;
+};
 
 export default meta;
 
@@ -100,11 +100,6 @@ function test(
     //blur
     await userEvent.tab();
     expect(input).toHaveValue(expectValueOnBlur);
-
-    // delete backwards
-    // userEvent.click(input);
-    // userEvent.keyboard('{Backspace}');
-    // expect(input).toHaveValue(value.slice(0, -1));
 
     await userEvent.clear(input);
   };

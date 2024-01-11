@@ -19,6 +19,6 @@ const router = express.Router();
 import AnimalTypeController from '../controllers/animalTypeController.js';
 import checkScope from '../middleware/acl/checkScope.js';
 
-router.get('/', checkScope(['get:animal_types']), AnimalTypeController.getFarmAnimalType());
+router.get('/', checkScope(['get:animal_types']), AnimalTypeController.getFarmAnimalTypes());
 
 export default router;

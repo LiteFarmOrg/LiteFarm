@@ -16,7 +16,7 @@
 import AnimalTypeModel from '../models/animalTypeModel.js';
 
 const animalTypeController = {
-  getFarmAnimalType() {
+  getFarmAnimalTypes() {
     return async (req, res) => {
       try {
         const { farm_id } = req.headers;

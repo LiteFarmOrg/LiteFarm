@@ -90,7 +90,7 @@ describe('Animal Type Tests', () => {
   });
 
   // GET TESTS
-  describe('Get animal type tests', () => {
+  describe('GET animal type tests', () => {
     test('All users should get animal type by farm id (or null)', async () => {
       const roles = [1, 2, 3, 5];
 

@@ -8,6 +8,7 @@ export type NumberInputProps = {
   useGrouping?: boolean;
   allowDecimal?: boolean;
   locale?: string;
+  roundToDecimalPlaces?: number;
 } & CommonInputFieldProps;
 
 export default function NumberInput({
@@ -15,6 +16,7 @@ export default function NumberInput({
   onChange,
   useGrouping = true,
   allowDecimal = true,
+  roundToDecimalPlaces,
   ...props
 }: NumberInputProps) {
   const {
@@ -55,6 +57,7 @@ export default function NumberInput({
     setInputValue({
       valueString: toLocalizedNumString(valueAsNumber, locale, {
         useGrouping,
+        maximumFractionDigits: roundToDecimalPlaces ?? 20,
       }),
       valueAsNumber,
     });

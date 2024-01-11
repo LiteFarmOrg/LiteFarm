@@ -109,6 +109,20 @@ export const WithoutDecimal: Story = {
   },
 };
 
+export const Round: Story = {
+  args: { roundToDecimalPlaces: 2 },
+  play: async ({ step }) => {
+    await step(
+      'Enter number with more than 2 decimal places',
+      test('8.5751', {
+        expectValue: '8.5751',
+        expectValueOnBlur: '8.58',
+        expectValueOnReFocus: '8.58',
+      }),
+    );
+  },
+};
+
 function test(
   value: string,
   {

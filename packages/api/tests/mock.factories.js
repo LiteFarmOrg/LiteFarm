@@ -2181,6 +2181,28 @@ async function default_animal_typeFactory() {
   return knex('default_animal_type').insert({ type_key: faker.lorem.word() }).returning('*');
 }
 
+function fakeAnimalBreed(defaultData = {}) {
+  const name = faker.lorem.word();
+  return {
+    type_id: 1,
+    breed: name,
+    ...defaultData,
+  };
+}
+
+async function animal_breedFactory(
+  { promisedFarm = farmFactory(), properties = {} } = {},
+  animalBreed = fakeAnimalBreed(properties),
+) {
+  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const base = baseProperties(user_id);
+  return knex('animal_breed')
+    .insert({ farm_id, ...animalBreed, ...base })
+    .returning('*');
+}
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -2312,5 +2334,7 @@ export default {
   custom_animal_typeFactory,
   fakeCustomAnimalType,
   default_animal_typeFactory,
+  animal_breedFactory,
+  fakeAnimalBreed,
   baseProperties,
 };

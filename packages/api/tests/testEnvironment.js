@@ -115,6 +115,7 @@ async function tableCleanup(knex) {
     DELETE FROM "pesticide";
     DELETE FROM "task_type";
     DELETE FROM "farmDataSchedule";
+    DELETE FROM "animal_type";
     DELETE FROM "userFarm";
     DELETE FROM "farm";
     DELETE FROM "users" WHERE user_id <> '1';

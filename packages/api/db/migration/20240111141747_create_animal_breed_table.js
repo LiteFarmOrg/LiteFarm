@@ -23,8 +23,8 @@ export const up = async function (knex) {
     table.boolean('deleted').notNullable().defaultTo(false);
     table.string('created_by_user_id').references('user_id').inTable('users');
     table.string('updated_by_user_id').references('user_id').inTable('users');
-    table.dateTime('created_at').notNullable().defaultTo(knex.fn.now());
-    table.dateTime('updated_at').notNullable().defaultTo(knex.fn.now());
+    table.dateTime('created_at').notNullable();
+    table.dateTime('updated_at').notNullable();
     table.check('?? is not null or ?? is not null', ['breed', 'breed_key']);
   });
 

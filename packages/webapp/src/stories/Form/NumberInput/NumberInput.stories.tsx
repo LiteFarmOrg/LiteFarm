@@ -18,26 +18,31 @@ export const Default: Story = {
   play: async ({ step }) => {
     await step(
       'Enter invalid characters',
-      test('aD@j)+-ec&', { expectValue: '', expectValueOnBlur: '' }),
+      test('aD@j)+-ec&', { expectValue: '', expectValueOnBlur: '', expectValueOnReFocus: '' }),
     );
     await step(
       'Enter invalid and valid characters',
       test('1a4D@^,8).+-ec3.&4', {
         expectValue: '148.34',
         expectValueOnBlur: '148.34',
+        expectValueOnReFocus: '148.34',
       }),
     );
     await step(
       'Enter negative number',
-      test('-22', { expectValue: '22', expectValueOnBlur: '22' }),
+      test('-22', { expectValue: '22', expectValueOnBlur: '22', expectValueOnReFocus: '22' }),
     );
     await step(
       'Enter number above 1000',
-      test('29487.44', { expectValue: '29487.44', expectValueOnBlur: '29,487.44' }),
+      test('29487.44', {
+        expectValue: '29487.44',
+        expectValueOnBlur: '29,487.44',
+        expectValueOnReFocus: '29487.44',
+      }),
     );
     await step(
       'Enter number with leading zeroes',
-      test('00078', { expectValue: '00078', expectValueOnBlur: '78' }),
+      test('00078', { expectValue: '00078', expectValueOnBlur: '78', expectValueOnReFocus: '78' }),
     );
   },
 };
@@ -49,14 +54,22 @@ export const WithLocale: Story = {
     // should be able to enter numbers in specified locale
     await step(
       'Enter number with locale decimal separator',
-      test('7498,431', { expectValue: '7498,431', expectValueOnBlur: '7.498,431' }),
+      test('7498,431', {
+        expectValue: '7498,431',
+        expectValueOnBlur: '7.498,431',
+        expectValueOnReFocus: '7498,431',
+      }),
     );
 
     // should be able to enter english numbers
     // should format to localized number on blur
     await step(
       'Enter number with decimal period',
-      test('7498.431', { expectValue: '7498.431', expectValueOnBlur: '7.498,431' }),
+      test('7498.431', {
+        expectValue: '7498.431',
+        expectValueOnBlur: '7.498,431',
+        expectValueOnReFocus: '7498,431',
+      }),
     );
   },
 };
@@ -67,11 +80,19 @@ export const WithoutGrouping: Story = {
     //should not insert thousands separator
     await step(
       'Enter whole number above 1000',
-      test('122492', { expectValue: '122492', expectValueOnBlur: '122492' }),
+      test('122492', {
+        expectValue: '122492',
+        expectValueOnBlur: '122492',
+        expectValueOnReFocus: '122492',
+      }),
     );
     await step(
       'Enter decimal number above 1000',
-      test('7642.1', { expectValue: '7642.1', expectValueOnBlur: '7642.1' }),
+      test('7642.1', {
+        expectValue: '7642.1',
+        expectValueOnBlur: '7642.1',
+        expectValueOnReFocus: '7642.1',
+      }),
     );
   },
 };
@@ -80,26 +101,35 @@ export const WithoutDecimal: Story = {
   play: async ({ step }) => {
     await step(
       'Enter number with decimal',
-      test('9.1', { expectValue: '91', expectValueOnBlur: '91' }),
+      test('9.1', { expectValue: '91', expectValueOnBlur: '91', expectValueOnReFocus: '91' }),
     );
   },
 };
 
 function test(
   value: string,
-  { expectValue, expectValueOnBlur }: { expectValue: string; expectValueOnBlur: string },
+  {
+    expectValue,
+    expectValueOnBlur,
+    expectValueOnReFocus,
+  }: { expectValue: string; expectValueOnBlur: string; expectValueOnReFocus: string },
 ): NonNullable<Story['play']> {
-  return async ({ canvasElement }) => {
+  return async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const input = canvas.getByRole('textbox');
 
     // enter value
+    await userEvent.click(input);
     await userEvent.type(input, value);
     expect(input).toHaveValue(expectValue);
 
     //blur
     await userEvent.tab();
     expect(input).toHaveValue(expectValueOnBlur);
+
+    //reFocus
+    await userEvent.click(input);
+    expect(input).toHaveValue(expectValueOnReFocus);
 
     await userEvent.clear(input);
   };

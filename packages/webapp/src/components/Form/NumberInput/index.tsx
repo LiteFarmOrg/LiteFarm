@@ -26,7 +26,7 @@ export default function NumberInput({
   );
   const [isFocused, setIsFocused] = useState(false);
   const initialValueRef = useRef(propValue);
-  const decimalSeparator = getDecimalSeparator(locale);
+  const { decimalSeparator, thousandsSeparator } = getSeparators(locale);
 
   /*
   - resets state if value prop changes to initial value
@@ -53,7 +53,9 @@ export default function NumberInput({
   const handleBlur = () => {
     setIsFocused(false);
     setInputValue({
-      valueString: toLocalizedNumString(valueAsNumber, locale, { useGrouping }),
+      valueString: toLocalizedNumString(valueAsNumber, locale, {
+        useGrouping,
+      }),
       valueAsNumber,
     });
   };
@@ -61,7 +63,10 @@ export default function NumberInput({
   const handleFocus = () => {
     setIsFocused(true);
     setInputValue({
-      valueString: toLocalizedNumString(valueAsNumber, locale, { useGrouping: false }),
+      valueString:
+        useGrouping && valueAsNumber >= 1000
+          ? valueString.replaceAll(thousandsSeparator, '')
+          : valueString,
       valueAsNumber,
     });
   };
@@ -101,8 +106,23 @@ function toLocalizedNumString(
   }
 }
 
-function getDecimalSeparator(locale: string) {
-  return toLocalizedNumString(1.1, locale)[1];
+function getSeparators(locale: string) {
+  let decimalSeparator = '';
+  let thousandsSeparator = '';
+  const parts = new Intl.NumberFormat(locale).formatToParts(11000.2);
+
+  for (let { type, value } of parts) {
+    if (type === 'decimal') {
+      decimalSeparator = value;
+    } else if (type === 'group') {
+      thousandsSeparator = value;
+    }
+  }
+
+  return {
+    decimalSeparator,
+    thousandsSeparator,
+  };
 }
 
 function initializeInputValue(initialValue: NumberInputProps['value'] = '', locale: string) {

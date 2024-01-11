@@ -32,14 +32,17 @@ export const Default: Story = {
       'Enter negative number',
       test('-22', { expectValue: '22', expectValueOnBlur: '22', expectValueOnReFocus: '22' }),
     );
+
+    // test handling of multiple thousands seperators
     await step(
-      'Enter number above 1000',
-      test('29487.44', {
-        expectValue: '29487.44',
-        expectValueOnBlur: '29,487.44',
-        expectValueOnReFocus: '29487.44',
+      'Enter number above 1,000,000',
+      test('1556398', {
+        expectValue: '1556398',
+        expectValueOnBlur: '1,556,398',
+        expectValueOnReFocus: '1556398',
       }),
     );
+
     await step(
       'Enter number with leading zeroes',
       test('00078', { expectValue: '00078', expectValueOnBlur: '78', expectValueOnReFocus: '78' }),

@@ -32,7 +32,7 @@ export const up = async function (knex) {
   const defaultBreedKeys = [
     {
       typeId: 1,
-      breedKeys: ['ANGUS', 'HEREFORD', 'CAROLAIS'],
+      breedKeys: ['ANGUS', 'HEREFORD', 'CHAROLAIS'],
     },
     {
       typeId: 2,

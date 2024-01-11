@@ -125,6 +125,7 @@ import logger from './common/logger.js';
 import loginRoutes from './routes/loginRoute.js';
 
 import animalTypeRoute from './routes/animalTypeRoute.js';
+import animalBreedRoute from './routes/animalBreedRoute.js';
 import cropRoutes from './routes/cropRoute.js';
 import cropVarietyRoutes from './routes/cropVarietyRoute.js';
 import fieldRoutes from './routes/fieldRoute.js';
@@ -266,6 +267,7 @@ app
 
   // routes
   .use('/animal_type', animalTypeRoute)
+  .use('/animal_breed', animalBreedRoute)
   .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
   .use('/crop', cropRoutes)

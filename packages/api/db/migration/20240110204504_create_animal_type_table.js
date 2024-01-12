@@ -17,14 +17,14 @@ export const up = async function (knex) {
   await knex.schema.createTable('animal_type', (table) => {
     table.increments('id').primary();
     table.uuid('farm_id').references('farm_id').inTable('farm').defaultTo(null);
-    table.string('type').defaultTo(null);
-    table.string('type_key').defaultTo(null);
+    table.string('custom_type_name').defaultTo(null);
+    table.string('default_type_key').defaultTo(null);
     table.boolean('deleted').notNullable().defaultTo(false);
     table.string('created_by_user_id').references('user_id').inTable('users');
     table.string('updated_by_user_id').references('user_id').inTable('users');
     table.dateTime('created_at').defaultTo(new Date('2000/1/1').toISOString()).notNullable();
     table.dateTime('updated_at').defaultTo(new Date('2000/1/1').toISOString()).notNullable();
-    table.check('?? is not null or ?? is not null', ['type', 'type_key']);
+    table.check('?? is not null or ?? is not null', ['custom_type_name', 'default_type_key']);
   });
 
   // Add initial default types
@@ -33,8 +33,8 @@ export const up = async function (knex) {
   for (const typeKey of defaultTypeKeys) {
     await knex('animal_type').insert({
       farm_id: null,
-      type: null, // only provide for user-created types (i.e. without translation keys)
-      type_key: typeKey,
+      custom_type_name: null, // only provide for user-created types (i.e. without translation keys)
+      default_type_key: typeKey,
       deleted: false,
       created_by_user_id: '1',
       updated_by_user_id: '1',

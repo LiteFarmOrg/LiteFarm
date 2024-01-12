@@ -2159,7 +2159,7 @@ async function revenue_typeFactory(
 function fakeAnimalType(defaultData = {}) {
   const name = faker.lorem.word();
   return {
-    type: name,
+    custom_type_name: name,
     ...defaultData,
   };
 }

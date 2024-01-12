@@ -43,10 +43,10 @@ const animalTypeController = {
       const trx = await transaction.start(Model.knex());
       try {
         const { farm_id } = req.headers;
-        const { type } = req.body;
+        const { custom_type_name } = req.body;
 
         const record = await baseController.existsInTable(trx, AnimalTypeModel, {
-          type,
+          custom_type_name,
           farm_id,
           deleted: false,
         });
@@ -57,7 +57,7 @@ const animalTypeController = {
         } else {
           const result = await baseController.postWithResponse(
             AnimalTypeModel,
-            { type, farm_id },
+            { custom_type_name, farm_id },
             req,
             {
               trx,

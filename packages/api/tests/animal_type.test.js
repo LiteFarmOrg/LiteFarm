@@ -151,7 +151,7 @@ describe('Animal Type Tests', () => {
           status: 201,
           body: {
             farm_id: mainFarm.farm_id,
-            type: animal_type.type,
+            custom_type_name: animal_type.custom_type_name,
           },
         });
 
@@ -160,13 +160,13 @@ describe('Animal Type Tests', () => {
           .query()
           .context({ showHidden: true })
           .where('farm_id', mainFarm.farm_id)
-          .andWhere('type', animal_type.type);
+          .andWhere('custom_type_name', animal_type.custom_type_name);
 
         expect(animal_types).toHaveLength(1);
       }
     });
 
-    test('Worker should not be able to post new animal type', async () => {
+    test('Worker should not be able to post new animal custom_type_name', async () => {
       const { mainFarm, user } = await returnUserFarms(3);
 
       const animal_type = mocks.fakeAnimalType();
@@ -185,7 +185,7 @@ describe('Animal Type Tests', () => {
         .query()
         .context({ showHidden: true })
         .where('farm_id', mainFarm.farm_id)
-        .andWhere('type', animal_type.type);
+        .andWhere('custom_type_name', animal_type.custom_type_name);
 
       // Check database
       expect(animal_types).toHaveLength(0);
@@ -214,7 +214,7 @@ describe('Animal Type Tests', () => {
         .query()
         .context({ showHidden: true })
         .where('farm_id', mainFarm.farm_id)
-        .andWhere('type', animal_type.type);
+        .andWhere('custom_type_name', animal_type.custom_type_name);
 
       expect(animal_types).toHaveLength(1);
     });
@@ -233,7 +233,7 @@ describe('Animal Type Tests', () => {
         .query()
         .context({ user_id: user.user_id, showHidden: true })
         .where('farm_id', mainFarm.farm_id)
-        .andWhere('type', animal_type.type)
+        .andWhere('custom_type_name', animal_type.custom_type_name)
         .delete();
 
       const res = await postRequestAsPromise(animal_type, {
@@ -246,7 +246,7 @@ describe('Animal Type Tests', () => {
         status: 201,
         body: {
           farm_id: mainFarm.farm_id,
-          type: animal_type.type,
+          custom_type_name: animal_type.custom_type_name,
         },
       });
 
@@ -255,7 +255,7 @@ describe('Animal Type Tests', () => {
         .query()
         .context({ showHidden: true })
         .where('farm_id', mainFarm.farm_id)
-        .andWhere('type', animal_type.type);
+        .andWhere('custom_type_name', animal_type.custom_type_name);
 
       expect(animal_types).toHaveLength(2);
     });

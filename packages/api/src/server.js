@@ -124,6 +124,8 @@ import logger from './common/logger.js';
 // import routes
 import loginRoutes from './routes/loginRoute.js';
 
+import defaultAnimalTypeRoute from './routes/defaultAnimalTypeRoute.js';
+import customAnimalTypeRoute from './routes/customAnimalTypeRoute.js';
 import cropRoutes from './routes/cropRoute.js';
 import cropVarietyRoutes from './routes/cropVarietyRoute.js';
 import fieldRoutes from './routes/fieldRoute.js';
@@ -264,6 +266,8 @@ app
   .use(checkJwt)
 
   // routes
+  .use('/default_animal_types', defaultAnimalTypeRoute)
+  .use('/custom_animal_types', customAnimalTypeRoute)
   .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
   .use('/crop', cropRoutes)

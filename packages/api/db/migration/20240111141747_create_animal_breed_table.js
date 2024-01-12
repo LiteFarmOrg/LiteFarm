@@ -23,8 +23,8 @@ export const up = async function (knex) {
     table.boolean('deleted').notNullable().defaultTo(false);
     table.string('created_by_user_id').references('user_id').inTable('users');
     table.string('updated_by_user_id').references('user_id').inTable('users');
-    table.dateTime('created_at').notNullable();
-    table.dateTime('updated_at').notNullable();
+    table.dateTime('created_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
+    table.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
     table.check('?? is not null or ?? is not null', ['breed', 'breed_key']);
   });
 
@@ -62,8 +62,6 @@ export const up = async function (knex) {
         deleted: false,
         created_by_user_id: '1',
         updated_by_user_id: '1',
-        created_at: new Date('2000/1/1').toISOString(),
-        updated_at: new Date('2000/1/1').toISOString(),
       }),
     );
   }

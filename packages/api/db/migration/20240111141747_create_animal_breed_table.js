@@ -18,14 +18,28 @@ export const up = async function (knex) {
     table.increments('id').primary();
     table.uuid('farm_id').references('farm_id').inTable('farm').defaultTo(null);
     table.integer('type_id').references('id').inTable('animal_type').notNullable();
-    table.string('breed').defaultTo(null);
-    table.string('breed_key').defaultTo(null);
+    table.string('custom_breed_name').defaultTo(null);
+    table.string('default_breed_key').defaultTo(null);
     table.boolean('deleted').notNullable().defaultTo(false);
     table.string('created_by_user_id').references('user_id').inTable('users');
     table.string('updated_by_user_id').references('user_id').inTable('users');
     table.dateTime('created_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
     table.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
-    table.check('?? is not null or ?? is not null', ['breed', 'breed_key']);
+    table.check(
+      '?? is not null or ?? is not null',
+      ['default_breed_key', 'custom_breed_name'],
+      'key_name_check',
+    );
+    table.check(
+      '?? is null or ?? is not null',
+      ['farm_id', 'custom_breed_name'],
+      'custom_breed_check',
+    );
+    table.check(
+      '?? is not null or ?? is not null',
+      ['farm_id', 'default_breed_key'],
+      'default_breed_check',
+    );
   });
 
   // Add initial default breeds
@@ -57,8 +71,8 @@ export const up = async function (knex) {
       rows.push({
         farm_id: null,
         type_id: typeId,
-        breed: null, // only provide for user-created types (i.e. without translation keys)
-        breed_key: breedKey,
+        custom_breed_name: null, // only provide for user-created types (i.e. without translation keys)
+        default_breed_key: breedKey,
         deleted: false,
         created_by_user_id: '1',
         updated_by_user_id: '1',

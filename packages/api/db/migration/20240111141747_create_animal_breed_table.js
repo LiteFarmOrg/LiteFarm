@@ -31,26 +31,28 @@ export const up = async function (knex) {
   // Add initial default breeds
   const defaultBreedKeys = [
     {
-      typeId: 1,
+      typeKey: 'CATTLE',
       breedKeys: ['ANGUS', 'HEREFORD', 'CHAROLAIS'],
     },
     {
-      typeId: 2,
+      typeKey: 'PIGS',
       breedKeys: ['YORKSHIRE_LARGE_WHITE', 'LANDRACE', 'DUROC'],
     },
     {
-      typeId: 3,
+      typeKey: 'CHICKEN_BROILERS',
       breedKeys: ['CORNISH_CROSS', 'ROSS_308', 'COBB_500'],
     },
     {
-      typeId: 4,
+      typeKey: 'CHICKEN_LAYERS',
       breedKeys: ['LEGHORN', 'RHODE_ISLAND_RED', 'PLYMOUTH_ROCK'],
     },
   ];
 
   const rows = [];
 
-  defaultBreedKeys.forEach(({ typeId, breedKeys }) =>
+  for await (const entry of defaultBreedKeys) {
+    const { typeKey, breedKeys } = entry;
+    const { id: typeId } = await knex('animal_type').where('type_key', typeKey).first();
     breedKeys.forEach((breedKey) =>
       rows.push({
         farm_id: null,
@@ -63,8 +65,8 @@ export const up = async function (knex) {
         created_at: new Date('2000/1/1').toISOString(),
         updated_at: new Date('2000/1/1').toISOString(),
       }),
-    ),
-  );
+    );
+  }
 
   await knex('animal_breed').insert(rows);
 

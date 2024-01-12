@@ -21,4 +21,6 @@ import checkScope from '../middleware/acl/checkScope.js';
 
 router.get('/', checkScope(['get:animal_types']), AnimalTypeController.getFarmAnimalTypes());
 
+router.post('/', checkScope(['add:animal_types']), AnimalTypeController.addFarmAnimalType());
+
 export default router;

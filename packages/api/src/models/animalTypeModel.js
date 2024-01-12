@@ -30,13 +30,13 @@ class AnimalType extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['farm_id', 'type'],
+      required: ['farm_id', 'custom_type_name'],
 
       properties: {
         id: { type: 'integer' },
         farm_id: { type: 'string' },
-        type: { type: 'string' },
-        // type_key will not be provided for user-generated types and should default to null
+        custom_type_name: { type: 'string' },
+        // default_type_key will not be provided for user-generated types and should default to null
         ...this.baseProperties,
       },
       additionalProperties: false,

@@ -29,17 +29,34 @@ class AnimalBreed extends baseModel {
   // is created it is checked against this schema. http://json-schema.org/.
   static get jsonSchema() {
     return {
-      type: 'object',
-      required: ['farm_id', 'type_id', 'breed'],
-
-      properties: {
-        id: { type: 'integer' },
-        farm_id: { type: 'string' },
-        type_id: { type: 'integer' },
-        custom_breed_name: { type: 'string' },
-        ...this.baseProperties,
-      },
-      additionalProperties: false,
+      oneOf: [
+        {
+          type: 'object',
+          required: ['farm_id', 'type_id', 'custom_breed_name'],
+          properties: {
+            id: { type: 'integer' },
+            type_id: { type: 'integer' },
+            farm_id: { type: 'string' },
+            default_breed_key: { type: 'null' },
+            custom_breed_name: { type: 'string' },
+            ...this.baseProperties,
+          },
+          additionalProperties: false,
+        },
+        {
+          type: 'object',
+          required: ['type_id', 'default_breed_key'],
+          properties: {
+            id: { type: 'integer' },
+            type_id: { type: 'integer' },
+            farm_id: { type: 'null' },
+            default_breed_key: { type: 'string' },
+            custom_breed_name: { type: 'null' },
+            ...this.baseProperties,
+          },
+          additionalProperties: false,
+        },
+      ],
     };
   }
 }

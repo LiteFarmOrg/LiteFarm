@@ -37,7 +37,7 @@ class AnimalBreed extends baseModel {
         farm_id: { type: 'string' },
         type_id: { type: 'integer' },
         breed: { type: 'string' },
-        // breed_key will not be provided for user-generated types and should default to null
+        breed_key: null,
         ...this.baseProperties,
       },
       additionalProperties: false,

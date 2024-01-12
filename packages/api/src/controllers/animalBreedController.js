@@ -24,7 +24,11 @@ const animalBreedController = {
         const rows = await AnimalBreedModel.query()
           .where('farm_id', null)
           .orWhere({ farm_id })
-          .where({ type_id });
+          .modify((queryBuilder) => {
+            if (type_id) {
+              queryBuilder.where('type_id', type_id);
+            }
+          });
         if (!rows.length) {
           return res.sendStatus(404);
         } else {

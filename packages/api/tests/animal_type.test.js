@@ -23,6 +23,8 @@ import server from './../src/server.js';
 import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 
+import animalTypeModel from '../src/models/animalTypeModel.js';
+
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, res, next) => {
@@ -52,6 +54,18 @@ describe('Animal Type Tests', () => {
   }
 
   const getRequestAsPromise = util.promisify(getRequest);
+
+  function postRequest(data, { user_id, farm_id }, callback) {
+    chai
+      .request(server)
+      .post(`/animal_type`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+  const postRequestAsPromise = util.promisify(postRequest);
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
@@ -122,6 +136,135 @@ describe('Animal Type Tests', () => {
       expect(res.error.text).toBe(
         'User does not have the following permission(s): get:animal_types',
       );
+    });
+  });
+
+  // POST tests
+  describe('POST animal type tests', () => {
+    test('Admin users should be able to post new animal type', async () => {
+      const adminRoles = [1, 2, 5];
+
+      for (const role of adminRoles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+
+        const animal_type = mocks.fakeAnimalType();
+        const res = await postRequestAsPromise(animal_type, {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        });
+
+        // Check response
+        expect(res).toMatchObject({
+          status: 201,
+          body: {
+            farm_id: mainFarm.farm_id,
+            type: animal_type.type,
+          },
+        });
+
+        // Check database
+        const animal_types = await animalTypeModel
+          .query()
+          .context({ showHidden: true })
+          .where('farm_id', mainFarm.farm_id)
+          .andWhere('type', animal_type.type);
+
+        expect(animal_types).toHaveLength(1);
+      }
+    });
+
+    test('Worker should not be able to post new animal type', async () => {
+      const { mainFarm, user } = await returnUserFarms(3);
+
+      const animal_type = mocks.fakeAnimalType();
+      const res = await postRequestAsPromise(animal_type, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      // Check response
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe(
+        'User does not have the following permission(s): add:animal_types',
+      );
+
+      const animal_types = await animalTypeModel
+        .query()
+        .context({ showHidden: true })
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('type', animal_type.type);
+
+      // Check database
+      expect(animal_types).toHaveLength(0);
+    });
+
+    test('Creating the same type as an existing type on farm should return a conflict error', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const animal_type = mocks.fakeAnimalType();
+
+      await postRequestAsPromise(animal_type, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      const res = await postRequestAsPromise(animal_type, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      // Check response
+      expect(res.status).toBe(409);
+
+      // Check database (no second record created)
+      const animal_types = await animalTypeModel
+        .query()
+        .context({ showHidden: true })
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('type', animal_type.type);
+
+      expect(animal_types).toHaveLength(1);
+    });
+
+    test('Creating the same type a deleted type should be allowed', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const animal_type = mocks.fakeAnimalType();
+
+      await postRequestAsPromise(animal_type, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      await animalTypeModel
+        .query()
+        .context({ user_id: user.user_id, showHidden: true })
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('type', animal_type.type)
+        .delete();
+
+      const res = await postRequestAsPromise(animal_type, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      // Check response
+      expect(res).toMatchObject({
+        status: 201,
+        body: {
+          farm_id: mainFarm.farm_id,
+          type: animal_type.type,
+        },
+      });
+
+      // Check database
+      const animal_types = await animalTypeModel
+        .query()
+        .context({ showHidden: true })
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('type', animal_type.type);
+
+      expect(animal_types).toHaveLength(2);
     });
   });
 });

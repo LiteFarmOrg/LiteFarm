@@ -37,14 +37,18 @@ import mocks from './mock.factories.js';
 
 describe('Animal Type Tests', () => {
   let token;
-  let farm;
-  let newOwner;
 
   beforeAll(() => {
     token = global.token;
   });
 
-  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
+  afterAll(async (done) => {
+    await tableCleanup(knex);
+    await knex.destroy();
+    done();
+  });
+
+  function getRequest({ user_id, farm_id }, callback) {
     chai
       .request(server)
       .get('/animal_type')
@@ -91,17 +95,6 @@ describe('Animal Type Tests', () => {
     });
     return animal_type;
   }
-
-  beforeEach(async () => {
-    [farm] = await mocks.farmFactory();
-    [newOwner] = await mocks.usersFactory();
-  });
-
-  afterAll(async (done) => {
-    await tableCleanup(knex);
-    await knex.destroy();
-    done();
-  });
 
   // GET TESTS
   describe('GET animal type tests', () => {
@@ -226,7 +219,7 @@ describe('Animal Type Tests', () => {
       expect(animal_types).toHaveLength(1);
     });
 
-    test('Creating the same type a deleted type should be allowed', async () => {
+    test('Creating the same type as a deleted type should be allowed', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
 
       const animal_type = mocks.fakeAnimalType();

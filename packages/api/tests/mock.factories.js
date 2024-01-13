@@ -2177,6 +2177,10 @@ async function custom_animal_typeFactory(
     .returning('*');
 }
 
+async function default_animal_typeFactory() {
+  return knex('default_animal_type').insert({ type_key: faker.lorem.word() }).returning('*');
+}
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -2307,5 +2311,6 @@ export default {
   fakeRevenueType,
   custom_animal_typeFactory,
   fakeCustomAnimalType,
+  default_animal_typeFactory,
   baseProperties,
 };

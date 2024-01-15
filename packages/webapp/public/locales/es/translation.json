@@ -840,7 +840,8 @@
       "DATES": "Fechas",
       "SETTINGS": "Configuración del reporte",
       "TRANSACTION": "Transacción",
-      "TRANSACTIONS": "Transacciones"
+      "TRANSACTIONS": "Transacciones",
+      "FILE_TITLE": "MISSING"
     },
     "REVENUE": "Ingresos",
     "SEARCH": {

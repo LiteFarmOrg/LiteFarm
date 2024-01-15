@@ -19,7 +19,7 @@ import util from 'util';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
-import server from './../src/server.js';
+import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 
@@ -33,23 +33,23 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 );
 import mocks from './mock.factories.js';
 
-describe('Animal Breed Tests', () => {
-  let token;
+describe('Custom Animal Breed Tests', () => {
   let farm;
   let newOwner;
   let defaultTypeId;
 
   beforeAll(async () => {
-    token = global.token;
-    const promisedDefaultType = mocks.populateDefaultAnimalType();
-    const [defaultBreed] = await mocks.populateDefaultAnimalBreed(promisedDefaultType);
-    defaultTypeId = defaultBreed.type_id;
+    const [defaultAnimalType] = await mocks.default_animal_typeFactory();
+    defaultTypeId = defaultAnimalType.id;
   });
 
-  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id, type_id }, callback) {
+  function getRequest(
+    { user_id = newOwner.user_id, farm_id = farm.farm_id, query_params_string },
+    callback,
+  ) {
     chai
       .request(server)
-      .get(`/animal_breed${type_id ? `?type_id=${type_id}` : ''}`)
+      .get(`/custom_animal_breeds?${query_params_string}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .end(callback);
@@ -75,14 +75,10 @@ describe('Animal Breed Tests', () => {
     return { mainFarm, user };
   }
 
-  async function makeUserCreatedAnimalBreed(mainFarm, typeId) {
-    const [animal_breed] = await mocks.animal_breedFactory({
+  async function makeCustomAnimalBreed(mainFarm, properties) {
+    const [animal_breed] = await mocks.custom_animal_breedFactory({
       promisedFarm: [mainFarm],
-      properties: typeId
-        ? {
-            type_id: typeId,
-          }
-        : {},
+      properties,
     });
     return animal_breed;
   }
@@ -92,62 +88,91 @@ describe('Animal Breed Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterEach(async (done) => {
     await tableCleanup(knex);
+    done();
+  });
+
+  afterAll(async (done) => {
     await knex.destroy();
     done();
   });
 
   // GET TESTS
-  describe('Get animal breed tests', () => {
-    test('All users should get animal breed by farm id (or null) for a specific type', async () => {
+  describe('Get custom animal breed tests', () => {
+    test('All users should get custom animal breeds for a default type', async () => {
       const roles = [1, 2, 3, 5];
 
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
-        // Create two breeds, one with the default type and one with a new one
-        await makeUserCreatedAnimalBreed(mainFarm, defaultTypeId);
-        await makeUserCreatedAnimalBreed(mainFarm);
+        // Create two breeds, one with the default type and one with a custom one
+        const firstBreed = await makeCustomAnimalBreed(mainFarm, {
+          default_type_id: defaultTypeId,
+        });
+        await makeCustomAnimalBreed(mainFarm);
 
         const res = await getRequestAsPromise({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
-          type_id: defaultTypeId,
+          query_params_string: `default_type_id=${defaultTypeId}`,
         });
 
         expect(res.status).toBe(200);
-        // Should return default breed and first animal breed created
-        expect(res.body.length).toBe(2);
-        res.body.forEach((breed) => {
-          expect([mainFarm.farm_id, null]).toContain(breed.farm_id);
-          expect([defaultTypeId, breed.type_id]).toContain(breed.type_id);
-        });
+        // Should return breed with default type only
+        expect(res.body.length).toBe(1);
+        expect(res.body[0].farm_id).toBe(mainFarm.farm_id);
+        expect(res.body[0]).toMatchObject(firstBreed);
       }
     });
 
-    test('All users should get animal breed by farm id (or null) for all types', async () => {
+    test('All users should get custom animal breeds for a custom type', async () => {
+      const roles = [1, 2, 3, 5];
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+        // Create two breeds, one with the default type and one with a custom one
+        const firstBreed = await makeCustomAnimalBreed(mainFarm, {
+          default_type_id: defaultTypeId,
+        });
+        const secondBreed = await makeCustomAnimalBreed(mainFarm);
+
+        const res = await getRequestAsPromise({
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+          query_params_string: `custom_type_id=${secondBreed.custom_type_id}`,
+        });
+
+        expect(res.status).toBe(200);
+        // Should return breed with default type only
+        expect(res.body.length).toBe(1);
+        expect(res.body[0].farm_id).toBe(mainFarm.farm_id);
+        expect(res.body[0]).toMatchObject(secondBreed);
+      }
+    });
+
+    test('All users should get custom animal breeds for all types', async () => {
       const roles = [1, 2, 3, 5];
 
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
         // Create two breeds with different types
-        await makeUserCreatedAnimalBreed(mainFarm);
-        await makeUserCreatedAnimalBreed(mainFarm);
+        await makeCustomAnimalBreed(mainFarm);
+        await makeCustomAnimalBreed(mainFarm);
 
         const res = await getRequestAsPromise({ user_id: user.user_id, farm_id: mainFarm.farm_id });
 
         expect(res.status).toBe(200);
-        // Should return default breeds and both animal breeds created
-        expect(res.body.length).toBe(3);
+        // Should return both breeds
+        expect(res.body.length).toBe(2);
         res.body.forEach((breed) => {
-          expect([mainFarm.farm_id, null]).toContain(breed.farm_id);
+          expect(breed.farm_id).toBe(mainFarm.farm_id);
         });
       }
     });
 
-    test('Unauthorized user should get 403 if they try to get animal breed by farm id (or null)', async () => {
+    test('Unauthorized user should get 403 if they try to get custom animal breeds', async () => {
       const { mainFarm } = await returnUserFarms(1);
-      await makeUserCreatedAnimalBreed(mainFarm);
+      await makeCustomAnimalBreed(mainFarm);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
       const res = await getRequestAsPromise({

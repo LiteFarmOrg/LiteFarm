@@ -13,27 +13,45 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import AnimalBreedModel from '../models/animalBreedModel.js';
+import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
+import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 
 const animalBreedController = {
-  getFarmAnimalBreeds() {
+  getDefaultAnimalBreeds() {
+    return async (req, res) => {
+      try {
+        const { default_type_id } = req.query;
+        const rows = await DefaultAnimalBreedModel.query().modify((queryBuilder) => {
+          if (default_type_id) {
+            queryBuilder.where('default_type_id', default_type_id);
+          }
+        });
+        console.log(req);
+        return res.status(200).send(rows);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+          error,
+        });
+      }
+    };
+  },
+
+  getCustomAnimalBreeds() {
     return async (req, res) => {
       try {
         const { farm_id } = req.headers;
-        const { type_id } = req.query;
-        const rows = await AnimalBreedModel.query()
-          .where('farm_id', null)
-          .orWhere({ farm_id })
+        const { default_type_id, custom_type_id } = req.query;
+        const rows = await CustomAnimalBreedModel.query()
+          .where({ farm_id })
           .modify((queryBuilder) => {
-            if (type_id) {
-              queryBuilder.where('type_id', type_id);
+            if (default_type_id) {
+              queryBuilder.where('default_type_id', default_type_id);
+            } else if (custom_type_id) {
+              queryBuilder.where('custom_type_id', custom_type_id);
             }
           });
-        if (!rows.length) {
-          return res.sendStatus(404);
-        } else {
-          return res.status(200).send(rows);
-        }
+        return res.status(200).send(rows);
       } catch (error) {
         console.error(error);
         return res.status(500).json({

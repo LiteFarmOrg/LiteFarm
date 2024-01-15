@@ -15,9 +15,9 @@
 
 import baseModel from './baseModel.js';
 
-class AnimalBreed extends baseModel {
+class DefaultAnimalBreed extends baseModel {
   static get tableName() {
-    return 'animal_breed';
+    return 'default_animal_breed';
   }
 
   static get idColumn() {
@@ -29,36 +29,16 @@ class AnimalBreed extends baseModel {
   // is created it is checked against this schema. http://json-schema.org/.
   static get jsonSchema() {
     return {
-      oneOf: [
-        {
-          type: 'object',
-          required: ['farm_id', 'type_id', 'custom_breed_name'],
-          properties: {
-            id: { type: 'integer' },
-            type_id: { type: 'integer' },
-            farm_id: { type: 'string' },
-            default_breed_key: { type: 'null' },
-            custom_breed_name: { type: 'string' },
-            ...this.baseProperties,
-          },
-          additionalProperties: false,
-        },
-        {
-          type: 'object',
-          required: ['type_id', 'default_breed_key'],
-          properties: {
-            id: { type: 'integer' },
-            type_id: { type: 'integer' },
-            farm_id: { type: 'null' },
-            default_breed_key: { type: 'string' },
-            custom_breed_name: { type: 'null' },
-            ...this.baseProperties,
-          },
-          additionalProperties: false,
-        },
-      ],
+      type: 'object',
+      required: ['default_type_id', 'key'],
+      properties: {
+        id: { type: 'integer' },
+        default_type_id: { type: 'integer' },
+        key: { type: 'string' },
+      },
+      additionalProperties: false,
     };
   }
 }
 
-export default AnimalBreed;
+export default DefaultAnimalBreed;

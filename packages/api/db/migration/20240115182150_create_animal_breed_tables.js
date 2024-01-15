@@ -14,12 +14,18 @@
  */
 
 export const up = async function (knex) {
-  await knex.schema.createTable('animal_breed', (table) => {
+  await knex.schema.createTable('default_animal_breed', (table) => {
     table.increments('id').primary();
-    table.uuid('farm_id').references('farm_id').inTable('farm').defaultTo(null);
-    table.integer('type_id').references('id').inTable('animal_type').notNullable();
-    table.string('custom_breed_name').defaultTo(null);
-    table.string('default_breed_key').defaultTo(null);
+    table.integer('default_type_id').notNullable().references('id').inTable('default_animal_type');
+    table.string('key').notNullable();
+  });
+
+  await knex.schema.createTable('custom_animal_breed', (table) => {
+    table.increments('id').primary();
+    table.uuid('farm_id').notNullable().references('farm_id').inTable('farm');
+    table.integer('default_type_id').references('id').inTable('default_animal_type');
+    table.integer('custom_type_id').references('id').inTable('custom_animal_type');
+    table.string('breed').notNullable();
     table.boolean('deleted').notNullable().defaultTo(false);
     table.string('created_by_user_id').references('user_id').inTable('users');
     table.string('updated_by_user_id').references('user_id').inTable('users');
@@ -27,18 +33,8 @@ export const up = async function (knex) {
     table.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
     table.check(
       '?? is not null or ?? is not null',
-      ['default_breed_key', 'custom_breed_name'],
-      'key_name_check',
-    );
-    table.check(
-      '?? is null or ?? is not null',
-      ['farm_id', 'custom_breed_name'],
-      'custom_breed_check',
-    );
-    table.check(
-      '?? is not null or ?? is not null',
-      ['farm_id', 'default_breed_key'],
-      'default_breed_check',
+      ['default_type_id', 'custom_type_id'],
+      'type_id_check',
     );
   });
 
@@ -66,21 +62,16 @@ export const up = async function (knex) {
 
   for await (const entry of defaultBreedKeys) {
     const { typeKey, breedKeys } = entry;
-    const { id: typeId } = await knex('animal_type').where('type_key', typeKey).first();
+    const { id: typeId } = await knex('default_animal_type').where('type_key', typeKey).first();
     breedKeys.forEach((breedKey) =>
       rows.push({
-        farm_id: null,
-        type_id: typeId,
-        custom_breed_name: null, // only provide for user-created types (i.e. without translation keys)
-        default_breed_key: breedKey,
-        deleted: false,
-        created_by_user_id: '1',
-        updated_by_user_id: '1',
+        default_type_id: typeId,
+        key: breedKey,
       }),
     );
   }
 
-  await knex('animal_breed').insert(rows);
+  await knex('default_animal_breed').insert(rows);
 
   // Add  permissions
   await knex('permissions').insert([
@@ -113,5 +104,6 @@ export const down = async function (knex) {
   await knex('rolePermissions').whereIn('permission_id', permissions).del();
   await knex('permissions').whereIn('permission_id', permissions).del();
 
-  await knex.schema.dropTable('animal_breed');
+  await knex.schema.dropTable('default_animal_breed');
+  await knex.schema.dropTable('custom_animal_breed');
 };

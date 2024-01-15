@@ -2181,7 +2181,7 @@ async function default_animal_typeFactory() {
   return knex('default_animal_type').insert({ type_key: faker.lorem.word() }).returning('*');
 }
 
-function fakeAnimalBreed(defaultData = {}) {
+function fakeCustomAnimalBreed(defaultData = {}) {
   const name = faker.lorem.word();
   return {
     breed: name,
@@ -2189,9 +2189,13 @@ function fakeAnimalBreed(defaultData = {}) {
   };
 }
 
-async function animal_breedFactory(
-  { promisedFarm = farmFactory(), promisedAnimalType = animal_typeFactory(), properties = {} } = {},
-  animalBreed = fakeAnimalBreed(properties),
+async function custom_animal_breedFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedAnimalType = custom_animal_typeFactory(),
+    properties = {},
+  } = {},
+  animalBreed = fakeCustomAnimalBreed(properties),
 ) {
   const [farm, user, animalType] = await Promise.all([
     promisedFarm,
@@ -2200,29 +2204,17 @@ async function animal_breedFactory(
   ]);
   const [{ farm_id }] = farm;
   const [{ user_id }] = user;
-  const [{ id: type_id }] = animalType;
+  const [{ id: custom_type_id }] = animalType;
   const base = baseProperties(user_id);
-  return knex('animal_breed')
-    .insert({ farm_id, type_id, ...animalBreed, ...base })
+  return knex('custom_animal_breed')
+    .insert({ farm_id, custom_type_id, ...animalBreed, ...base })
     .returning('*');
 }
 
-async function populateDefaultAnimalType() {
-  const base = baseProperties(1);
-  return knex('animal_type')
-    .insert({ type_key: faker.lorem.word(), ...base })
-    .onConflict('id')
-    .ignore()
-    .returning('*');
-}
-
-async function populateDefaultAnimalBreed(promisedDefaultAnimalType = populateDefaultAnimalType()) {
-  const base = baseProperties(1);
-  const [defaultAnimalType] = await promisedDefaultAnimalType;
-  return knex('animal_breed')
-    .insert({ type_id: defaultAnimalType.id, breed_key: faker.lorem.word(), ...base })
-    .onConflict('id')
-    .ignore()
+async function default_animal_breedFactory(promisedAnimalType = default_animal_typeFactory()) {
+  const [animalType] = await promisedAnimalType;
+  return knex('default_animal_breed')
+    .insert({ default_type_id: animalType.id, key: faker.lorem.word() })
     .returning('*');
 }
 
@@ -2357,9 +2349,8 @@ export default {
   custom_animal_typeFactory,
   fakeCustomAnimalType,
   default_animal_typeFactory,
-  animal_breedFactory,
-  fakeAnimalBreed,
-  populateDefaultAnimalType,
-  populateDefaultAnimalBreed,
+  custom_animal_breedFactory,
+  fakeCustomAnimalBreed,
+  default_animal_breedFactory,
   baseProperties,
 };

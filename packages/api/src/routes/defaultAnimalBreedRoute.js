@@ -16,8 +16,8 @@
 import express from 'express';
 
 const router = express.Router();
-import AnimalBreedController from '../controllers/animalBreedController.js';
+import DefaultAnimalBreedController from '../controllers/defaultAnimalBreedController.js';
 
-router.get('/', AnimalBreedController.getDefaultAnimalBreeds());
+router.get('/', DefaultAnimalBreedController.getDefaultAnimalBreeds());
 
 export default router;

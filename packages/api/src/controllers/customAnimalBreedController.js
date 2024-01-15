@@ -13,30 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 
-const animalBreedController = {
-  getDefaultAnimalBreeds() {
-    return async (req, res) => {
-      try {
-        const { default_type_id } = req.query;
-        const rows = await DefaultAnimalBreedModel.query().modify((queryBuilder) => {
-          if (default_type_id) {
-            queryBuilder.where('default_type_id', default_type_id);
-          }
-        });
-        console.log(req);
-        return res.status(200).send(rows);
-      } catch (error) {
-        console.error(error);
-        return res.status(500).json({
-          error,
-        });
-      }
-    };
-  },
-
+const customAnimalBreedController = {
   getCustomAnimalBreeds() {
     return async (req, res) => {
       try {
@@ -62,4 +41,4 @@ const animalBreedController = {
   },
 };
 
-export default animalBreedController;
+export default customAnimalBreedController;

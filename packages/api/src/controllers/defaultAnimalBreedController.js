@@ -13,19 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import AnimalTypeModel from '../models/animalTypeModel.js';
+import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 
-const animalTypeController = {
-  getFarmAnimalType() {
+const defaultAnimalBreedController = {
+  getDefaultAnimalBreeds() {
     return async (req, res) => {
       try {
-        const { farm_id } = req.headers;
-        const rows = await AnimalTypeModel.query().where('farm_id', null).orWhere({ farm_id });
-        if (!rows.length) {
-          return res.sendStatus(404);
-        } else {
-          return res.status(200).send(rows);
-        }
+        const { default_type_id } = req.query;
+        const rows = await DefaultAnimalBreedModel.query().modify((queryBuilder) => {
+          if (default_type_id) {
+            queryBuilder.where('default_type_id', default_type_id);
+          }
+        });
+        return res.status(200).send(rows);
       } catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -36,4 +36,4 @@ const animalTypeController = {
   },
 };
 
-export default animalTypeController;
+export default defaultAnimalBreedController;

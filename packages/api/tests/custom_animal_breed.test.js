@@ -88,12 +88,8 @@ describe('Custom Animal Breed Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterEach(async (done) => {
-    await tableCleanup(knex);
-    done();
-  });
-
   afterAll(async (done) => {
+    await tableCleanup(knex);
     await knex.destroy();
     done();
   });
@@ -121,7 +117,7 @@ describe('Custom Animal Breed Tests', () => {
         // Should return breed with default type only
         expect(res.body.length).toBe(1);
         expect(res.body[0].farm_id).toBe(mainFarm.farm_id);
-        expect(res.body[0]).toMatchObject(firstBreed);
+        expect(firstBreed).toMatchObject(res.body[0]);
       }
     });
 
@@ -131,7 +127,7 @@ describe('Custom Animal Breed Tests', () => {
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
         // Create two breeds, one with the default type and one with a custom one
-        const firstBreed = await makeCustomAnimalBreed(mainFarm, {
+        await makeCustomAnimalBreed(mainFarm, {
           default_type_id: defaultTypeId,
         });
         const secondBreed = await makeCustomAnimalBreed(mainFarm);
@@ -146,7 +142,7 @@ describe('Custom Animal Breed Tests', () => {
         // Should return breed with default type only
         expect(res.body.length).toBe(1);
         expect(res.body[0].farm_id).toBe(mainFarm.farm_id);
-        expect(res.body[0]).toMatchObject(secondBreed);
+        expect(secondBreed).toMatchObject(res.body[0]);
       }
     });
 

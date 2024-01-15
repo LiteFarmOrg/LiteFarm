@@ -2178,7 +2178,7 @@ async function custom_animal_typeFactory(
 }
 
 async function default_animal_typeFactory() {
-  return knex('default_animal_type').insert({ type_key: faker.lorem.word() }).returning('*');
+  return knex('default_animal_type').insert({ key: faker.lorem.word() }).returning('*');
 }
 
 export default {

@@ -17,7 +17,7 @@ export default function PureNavigation({
   showNotificationSpotlight,
   resetSpotlight,
   history,
-  hideNavBar,
+  showNav,
   showNavActions,
   children,
   isCompactSideMenu,
@@ -53,7 +53,7 @@ export default function PureNavigation({
 
   return (
     <>
-      {showNavActions && !hideNavBar && (
+      {showNavActions && showNav && (
         <>
           <SideMenu
             history={history}
@@ -79,7 +79,7 @@ export default function PureNavigation({
           isMobile={isMobile}
           showNavActions={showNavActions}
           onClickBurger={openSideMenu}
-          hideNavBar={hideNavBar}
+          showNav={showNav}
         />
         {children}
       </div>
@@ -91,7 +91,7 @@ PureNavigation.propTypes = {
   showSpotLight: PropTypes.bool,
   resetSpotlight: PropTypes.func,
   history: PropTypes.object,
-  hideNavBar: PropTypes.bool,
+  showNav: PropTypes.bool,
   showNavActions: PropTypes.bool,
   isCompactSideMenu: PropTypes.bool,
   setIsCompactSideMenu: PropTypes.func,

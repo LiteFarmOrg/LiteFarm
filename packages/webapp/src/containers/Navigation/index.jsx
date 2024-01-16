@@ -31,8 +31,9 @@ const Navigation = ({ history, children, ...props }) => {
   const isAcceptingInvite = ACCEPTING_INVITE_URLS.some((path) =>
     matchPath(history.location.pathname, path),
   );
+  const isLoginPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
   // Hides the top navigation bar with logo on the login component
-  const hideNavBar = historyLocation.state?.component === CUSTOM_SIGN_UP;
+  const showNav = !isLoginPage;
   // Shows the navigation links when farm is selected and not accepting an farm invitation
   const showNavActions = isFarmSelected && !isAcceptingInvite;
   const { navigation, notification } = useSelector(showedSpotlightSelector);
@@ -48,7 +49,7 @@ const Navigation = ({ history, children, ...props }) => {
         resetSpotlight={resetSpotlight}
         history={history}
         showNavActions={showNavActions}
-        hideNavBar={hideNavBar}
+        showNav={showNav}
         {...props}
       >
         {children}

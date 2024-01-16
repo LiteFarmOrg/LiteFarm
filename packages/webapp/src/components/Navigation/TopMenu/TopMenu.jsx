@@ -36,7 +36,7 @@ import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
-const TopMenu = ({ history, isMobile, showNavigation, onClickBurger, hidden }) => {
+const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, hideNavBar }) => {
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const selectedLanguage = getLanguageFromLocalStorage();
@@ -256,13 +256,13 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger, hidden }) =
   };
 
   return (
-    !hidden && (
+    !hideNavBar && (
       <AppBar position="sticky" className={styles.appBar}>
         <Toolbar
-          className={clsx(styles.toolbar, (!showNavigation || isMobile) && styles.centerContent)}
+          className={clsx(styles.toolbar, (!showNavActions || isMobile) && styles.centerContent)}
         >
-          {!showNavigation ? <Logo /> : showMainNavigation}
-          {showNavigation && isMobile && <Logo withoutWords onClick={() => history.push('/')} />}
+          {!showNavActions ? <Logo /> : showMainNavigation}
+          {showNavActions && isMobile && <Logo withoutWords onClick={() => history.push('/')} />}
         </Toolbar>
       </AppBar>
     )

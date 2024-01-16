@@ -2156,6 +2156,31 @@ async function revenue_typeFactory(
     .returning('*');
 }
 
+function fakeCustomAnimalType(defaultData = {}) {
+  const name = faker.lorem.word();
+  return {
+    type: name,
+    ...defaultData,
+  };
+}
+
+async function custom_animal_typeFactory(
+  { promisedFarm = farmFactory(), properties = {} } = {},
+  animalType = fakeCustomAnimalType(properties),
+) {
+  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const base = baseProperties(user_id);
+  return knex('custom_animal_type')
+    .insert({ farm_id, ...animalType, ...base })
+    .returning('*');
+}
+
+async function default_animal_typeFactory() {
+  return knex('default_animal_type').insert({ key: faker.lorem.word() }).returning('*');
+}
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -2284,5 +2309,8 @@ export default {
   populateDefaultRevenueTypes,
   revenue_typeFactory,
   fakeRevenueType,
+  custom_animal_typeFactory,
+  fakeCustomAnimalType,
+  default_animal_typeFactory,
   baseProperties,
 };

@@ -25,6 +25,7 @@ import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookF
 import ManageCustomRevenueTypesSpotlight from '../ManageCustomRevenueTypeSpotlight';
 import useSortedRevenueTypes from './useSortedRevenueTypes';
 import { getFinanceTypeSearchableStringFunc } from '../../util';
+import { AddRevenueURL } from '../../../../util/siteMapConstants';
 
 export const icons = {
   CROP_SALE: <CropSaleIcon />,
@@ -39,7 +40,7 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
   const getOnTileClickFunc = (setValue) => {
     return (typeId) => {
       setValue('revenue_type_id', typeId);
-      history.push('/add_sale');
+      history.push(AddRevenueURL);
     };
   };
 

@@ -20,7 +20,7 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import useSortedCustomRevenueTypes from '../useSortedCustomRevenueTypes';
 import { icons } from '../AddSale/RevenueTypes';
 import labelIconStyles from '../../../components/Tile/styles.module.scss';
-import { FinancesHomeURL, RevenueTypesURL } from '../../../util/siteMapConstants';
+import { AddRevenueURL, FinancesHomeURL, RevenueTypesURL } from '../../../util/siteMapConstants';
 
 const addCustomTypePath = '/add_custom_revenue';
 
@@ -47,7 +47,7 @@ export default function ManageRevenueTypes({ history }) {
     // navigate the user to RevenueTypesURL not FinancesHomeURL.
     const unlisten = history.listen(() => {
       if (history.action === 'POP' && history.location.pathname === FinancesHomeURL) {
-        dispatch(setPersistedPaths([RevenueTypesURL, '/add_sale']));
+        dispatch(setPersistedPaths([RevenueTypesURL, AddRevenueURL]));
         unlisten();
         history.push(RevenueTypesURL);
       } else if (

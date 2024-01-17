@@ -22,14 +22,14 @@ import useIsAboveBreakpoint from '../../../hooks/useIsAboveBreakpoint';
 import DropdownButton from '../../Form/DropDownButton';
 import FloatingButtonMenu from '../../Menu/FloatingButtonMenu';
 import FloatingMenu from '../../Menu/FloatingButtonMenu/FloatingMenu';
-import { RevenueTypesURL } from '../../../util/siteMapConstants';
+import { AddRevenueURL, RevenueTypesURL } from '../../../util/siteMapConstants';
 
 const Menu = forwardRef((props, ref) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const handleAddRevenueClick = () => {
-    dispatch(setPersistedPaths([RevenueTypesURL, '/add_sale']));
+    dispatch(setPersistedPaths([RevenueTypesURL, AddRevenueURL]));
     history.push(RevenueTypesURL);
   };
 

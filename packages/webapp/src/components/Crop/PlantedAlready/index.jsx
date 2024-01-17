@@ -56,6 +56,11 @@ export default function PurePlantedAlready({
   const MAX_SEEDLING_AGE = 999;
 
   useEffect(() => {
+    const persistedFormDataIsEmpty = Object.keys(persistedFormData).length === 0;
+    if (persistedFormDataIsEmpty) {
+      history.back();
+    }
+
     if (persistedFormData.crop_management_plan?.seed_date) {
       const currentDate = getDateInputFormat(new Date());
       const newAge = getDateDifference(

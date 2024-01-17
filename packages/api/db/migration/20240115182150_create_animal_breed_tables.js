@@ -62,7 +62,7 @@ export const up = async function (knex) {
 
   for (const entry of defaultBreedKeys) {
     const { typeKey, breedKeys } = entry;
-    const { id: typeId } = await knex('default_animal_type').where('type_key', typeKey).first();
+    const { id: typeId } = await knex('default_animal_type').where('key', typeKey).first();
     breedKeys.forEach((breedKey) =>
       rows.push({
         default_type_id: typeId,

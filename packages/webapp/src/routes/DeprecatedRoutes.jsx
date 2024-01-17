@@ -22,7 +22,7 @@ const DeprecatedRoutes = () => (
     {/* <Redirect exact from="/finances" to="/finances/transactions" /> */}
     {/* <Redirect exact from="/revenue_types" to="/finances/revenue_types" /> */}
     {/* <Redirect exact from="/add_sale" to="/finances/add_revenue" /> */}
-    <Redirect exact from="/manage_custom_revenues" to="/finances/manage_custom_revenues" />
+    {/* <Redirect exact from="/manage_custom_revenues" to="/finances/manage_custom_revenues" /> */}
     <Redirect exact from="/revenue/:sale_id" to="/finances/revenue/:sale_id" />
     <Redirect exact from="/revenue/:sale_id/edit" to="/finances/revenue/:sale_id/edit" />
     <Redirect exact from="/estimated_revenue" to="/finances/estimated_revenue" />

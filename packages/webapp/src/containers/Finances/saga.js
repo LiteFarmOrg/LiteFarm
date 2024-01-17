@@ -54,7 +54,7 @@ import {
   GET_FARM_EXPENSE_TYPE,
   UPDATE_SALE,
 } from './constants';
-import { FinancesHomeURL } from '../../util/siteMapConstants';
+import { FinancesHomeURL, ManageCustomRevenuesURL } from '../../util/siteMapConstants';
 
 export const getSales = createAction('getSales');
 
@@ -364,7 +364,7 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
     yield put(deleteRevenueTypeSuccess({ revenue_type_id: id, deleted, retired }));
 
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.DELETE')));
-    history.push('/manage_custom_revenues');
+    history.push(ManageCustomRevenuesURL);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.DELETE')));
   }
@@ -392,7 +392,7 @@ export function* addRevenueTypeSaga({
 
     yield put(postRevenueTypeSuccess(result.data));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.ADD')));
-    history.push('/manage_custom_revenues');
+    history.push(ManageCustomRevenuesURL);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.ADD')));
   }
@@ -417,7 +417,7 @@ export function* updateRevenueTypeSaga({
 
     yield put(putRevenueTypeSuccess({ revenue_type_id, revenue_name, custom_description }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.UPDATE')));
-    history.push('/manage_custom_revenues');
+    history.push(ManageCustomRevenuesURL);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.UPDATE')));
   }

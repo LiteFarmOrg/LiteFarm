@@ -5,7 +5,7 @@ export const ADD_REVENUE_URL = '/finances/add_revenue';
 export const MANAGE_CUSTOM_REVENUES_URL = '/finances/manage_custom_revenues';
 export const ESTIMATED_REVENUE_URL = '/finances/estimated_revenue';
 export const LABOUR_URL = '/finances/labour';
-
+export const OTHER_EXPENSE_URL = '/finances/other_expense';
 export const createRevenueDetailsUrl = (id: string | number): string => {
   return `/finances/revenue/${id}`;
 };

@@ -59,6 +59,7 @@ import {
   FINANCES_HOME_URL,
   MANAGE_CUSTOM_EXPENSES_URL,
   MANAGE_CUSTOM_REVENUES_URL,
+  OTHER_EXPENSE_URL,
 } from '../../util/siteMapConstants';
 
 export const getSales = createAction('getSales');
@@ -265,7 +266,7 @@ export function* deleteExpenseSaga(action) {
     const result = yield call(axios.delete, `${expenseUrl}/${expense_id}`, header);
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE.SUCCESS.DELETE')));
-      history.push('/other_expense');
+      history.push(OTHER_EXPENSE_URL);
     }
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.DELETE')));
@@ -332,7 +333,7 @@ export function* editExpenseSaga(action) {
         yield put(setExpense(result.data));
       }
     }
-    history.push('/other_expense');
+    history.push(OTHER_EXPENSE_URL);
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.UPDATE')));

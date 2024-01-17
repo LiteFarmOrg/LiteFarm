@@ -27,7 +27,12 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
 import styles from '../components/Navigation/SideMenu/styles.module.scss';
-import { ESTIMATED_REVENUE_URL, FINANCES_HOME_URL, LABOUR_URL } from '../util/siteMapConstants';
+import {
+  ESTIMATED_REVENUE_URL,
+  FINANCES_HOME_URL,
+  LABOUR_URL,
+  OTHER_EXPENSE_URL,
+} from '../util/siteMapConstants';
 
 export const useGetMenuItems = () => {
   const { t } = useTranslation();
@@ -60,7 +65,7 @@ export const useGetMenuItems = () => {
           },
           {
             label: t('MENU.OTHER_EXPENSES'),
-            path: '/finances/other_expense',
+            path: OTHER_EXPENSE_URL,
             key: 'other_expense',
           },
           { label: t('MENU.LABOUR_EXPENSES'), path: LABOUR_URL, key: 'labour' },

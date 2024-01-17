@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { retireCustomExpenseType } from '../saga';
 import { expenseTypeByIdSelector } from '../selectors';
 import { CUSTOM_EXPENSE_NAME } from './constants';
+import { createEditCustomExpenseURL } from '../../../util/siteMapConstants';
 
 function ReadOnlyCustomExpense({ history, match }) {
   const expense_type_id = match.params.expense_type_id;
@@ -40,7 +41,7 @@ function ReadOnlyCustomExpense({ history, match }) {
   };
 
   const handleEdit = () => {
-    history.push(`/edit_custom_expense/${expense_type_id}`);
+    history.push(createEditCustomExpenseURL(expense_type_id));
   };
 
   const onRetire = () => {

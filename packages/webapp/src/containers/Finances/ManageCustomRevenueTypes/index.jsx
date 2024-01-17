@@ -20,12 +20,21 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import useSortedCustomRevenueTypes from '../useSortedCustomRevenueTypes';
 import { icons } from '../AddSale/RevenueTypes';
 import labelIconStyles from '../../../components/Tile/styles.module.scss';
+import {
+  ADD_REVENUE_URL,
+  FINANCES_HOME_URL,
+  MANAGE_CUSTOM_REVENUES_URL,
+  REVENUE_TYPES_URL,
+  ADD_CUSTOM_REVENUE_URL,
+  createReadonlyCustomRevenueUrl,
+  createEditCustomRevenueUrl,
+} from '../../../util/siteMapConstants';
 
-const addCustomTypePath = '/add_custom_revenue';
+const addCustomTypePath = ADD_CUSTOM_REVENUE_URL;
 
 const getPaths = (typeId) => ({
-  readOnly: `/readonly_custom_revenue/${typeId}`,
-  edit: `/edit_custom_revenue/${typeId}`,
+  readOnly: createReadonlyCustomRevenueUrl(typeId),
+  edit: createEditCustomRevenueUrl(typeId),
 });
 
 export default function ManageRevenueTypes({ history }) {
@@ -41,20 +50,20 @@ export default function ManageRevenueTypes({ history }) {
   };
 
   useEffect(() => {
-    // Manipulate page navigation by pushing "/revenue_types" on top of "/Finances".
+    // Manipulate page navigation by pushing REVENUE_TYPES_URL on top of FINANCES_HOME_URL.
     // When browser's back button or form's back button is clicked, we want to
-    // navigate the user to "/revenue_types" not "/Finances".
+    // navigate the user to REVENUE_TYPES_URL not FINANCES_HOME_URL.
     const unlisten = history.listen(() => {
-      if (history.action === 'POP' && history.location.pathname === '/Finances') {
-        dispatch(setPersistedPaths(['/revenue_types', '/add_sale']));
+      if (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL) {
+        dispatch(setPersistedPaths([REVENUE_TYPES_URL, ADD_REVENUE_URL]));
         unlisten();
-        history.push('/revenue_types');
+        history.push(REVENUE_TYPES_URL);
       } else if (
-        // unlisten when the user gets out of the page without going back to '/Finances'.
+        // unlisten when the user gets out of the page without going back to FINANCES_HOME_URL.
         // pathname: "/manage_custom_revenue" happens when the user lands on this page.
         !(
-          history.location.pathname === `/manage_custom_revenues` ||
-          (history.action === 'POP' && history.location.pathname === '/Finances')
+          history.location.pathname === MANAGE_CUSTOM_REVENUES_URL ||
+          (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL)
         )
       ) {
         unlisten();

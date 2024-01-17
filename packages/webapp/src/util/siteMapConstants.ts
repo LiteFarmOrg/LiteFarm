@@ -6,12 +6,11 @@ export const MANAGE_CUSTOM_REVENUES_URL = '/finances/manage_custom_revenues';
 export const ESTIMATED_REVENUE_URL = '/finances/estimated_revenue';
 
 export const createRevenueDetailsUrl = (id: string | number): string => {
-  return `/revenue/${id}`;
+  return `/finances/revenue/${id}`;
 };
 export const createEditRevenueDetailsUrl = (id: string | number): string => {
   return `${createRevenueDetailsUrl(id)}/edit`;
 };
-
 export const createEditCustomRevenueUrl = (id: string | number): string => {
   return `finances/edit_custom_revenue/${id}`;
 };

@@ -20,7 +20,7 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import useSortedCustomRevenueTypes from '../useSortedCustomRevenueTypes';
 import { icons } from '../AddSale/RevenueTypes';
 import labelIconStyles from '../../../components/Tile/styles.module.scss';
-import { financesHome } from '../../../util/siteMapConstants';
+import { FinancesHomeURL } from '../../../util/siteMapConstants';
 
 const addCustomTypePath = '/add_custom_revenue';
 
@@ -42,20 +42,20 @@ export default function ManageRevenueTypes({ history }) {
   };
 
   useEffect(() => {
-    // Manipulate page navigation by pushing "/revenue_types" on top of financesHome.
+    // Manipulate page navigation by pushing "/revenue_types" on top of FinancesHomeURL.
     // When browser's back button or form's back button is clicked, we want to
-    // navigate the user to "/revenue_types" not financesHome.
+    // navigate the user to "/revenue_types" not FinancesHomeURL.
     const unlisten = history.listen(() => {
-      if (history.action === 'POP' && history.location.pathname === financesHome) {
+      if (history.action === 'POP' && history.location.pathname === FinancesHomeURL) {
         dispatch(setPersistedPaths(['/revenue_types', '/add_sale']));
         unlisten();
         history.push('/revenue_types');
       } else if (
-        // unlisten when the user gets out of the page without going back to financesHome.
+        // unlisten when the user gets out of the page without going back to FinancesHomeURL.
         // pathname: "/manage_custom_revenue" happens when the user lands on this page.
         !(
           history.location.pathname === `/manage_custom_revenues` ||
-          (history.action === 'POP' && history.location.pathname === financesHome)
+          (history.action === 'POP' && history.location.pathname === FinancesHomeURL)
         )
       ) {
         unlisten();

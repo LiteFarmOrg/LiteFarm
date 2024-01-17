@@ -1,2 +1,2 @@
 // Finances
-export const financesHome = '/finances/transactions';
+export const FinancesHomeURL = '/finances/transactions';

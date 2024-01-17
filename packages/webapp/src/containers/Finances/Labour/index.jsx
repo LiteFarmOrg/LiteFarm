@@ -19,7 +19,7 @@ import { setDateRange } from '../actions';
 import { dateRangeOptions } from '../../../components/DateRangeSelector/constants';
 import DateRange, { SUNDAY } from '../../../util/dateRange';
 import { getManagementPlansAndTasks } from '../../saga';
-import { financesHome } from '../../../util/siteMapConstants';
+import { FinancesHomeURL } from '../../../util/siteMapConstants';
 
 class Labour extends Component {
   constructor(props) {
@@ -89,7 +89,7 @@ class Labour extends Component {
 
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl={financesHome} title={this.props.t('SALE.LABOUR.TITLE')} />
+        <PageTitle backUrl={FinancesHomeURL} title={this.props.t('SALE.LABOUR.TITLE')} />
         <DateRangeSelector />
         <div className={styles.topButtonContainer}>
           <Main>{this.props.t('SALE.LABOUR.BY')}</Main>

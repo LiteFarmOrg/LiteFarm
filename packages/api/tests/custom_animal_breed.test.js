@@ -104,6 +104,7 @@ describe('Custom Animal Breed Tests', () => {
         // Create two breeds, one with the default type and one with a custom one
         const firstBreed = await makeCustomAnimalBreed(mainFarm, {
           default_type_id: defaultTypeId,
+          custom_type_id: null,
         });
         await makeCustomAnimalBreed(mainFarm);
 
@@ -129,6 +130,7 @@ describe('Custom Animal Breed Tests', () => {
         // Create two breeds, one with the default type and one with a custom one
         await makeCustomAnimalBreed(mainFarm, {
           default_type_id: defaultTypeId,
+          custom_type_id: null,
         });
         const secondBreed = await makeCustomAnimalBreed(mainFarm);
 

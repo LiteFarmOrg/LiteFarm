@@ -10,3 +10,7 @@ export const createRevenueDetailsUrl = (id: string | number): string => {
 export const createEditRevenueDetailsUrl = (id: string | number): string => {
   return `${createRevenueDetailsUrl(id)}/edit`;
 };
+
+export const createEditCustomRevenueUrl = (id: string | number): string => {
+  return `finances/edit_custom_revenue/${id}`;
+};

@@ -50,11 +50,11 @@ const DeprecatedRoutes = () => (
       from="/readonly_custom_revenue/:revenue_type_id"
       to="/finances/readonly_custom_revenue/:revenue_type_id"
     />
-    <Redirect
+    {/* <Redirect
       exact
       from="/edit_custom_revenue/:revenue_type_id"
       to="/finances/edit_custom_revenue/:revenue_type_id"
-    />
+    /> */}
     <Redirect exact to={'/'} />
   </Switch>
 );

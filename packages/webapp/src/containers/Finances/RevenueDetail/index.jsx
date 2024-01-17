@@ -27,10 +27,7 @@ import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions } from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/constants';
-import {
-  EditcreateRevenueDetailsUrl,
-  createEditRevenueDetailsUrl,
-} from '../../../util/siteMapConstants';
+import { createEditRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
 function RevenueDetail({ history, match }) {
   const isEditing = match.path.endsWith('/edit');

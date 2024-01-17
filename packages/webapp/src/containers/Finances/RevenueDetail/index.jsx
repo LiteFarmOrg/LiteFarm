@@ -27,6 +27,7 @@ import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions } from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/constants';
+import { EditRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
 function RevenueDetail({ history, match }) {
   const isEditing = match.path.endsWith('/edit');
@@ -56,8 +57,8 @@ function RevenueDetail({ history, match }) {
   };
 
   const handleEdit = () => {
-    dispatch(setPersistedPaths([`/revenue/${sale_id}/edit`]));
-    history.push(`/revenue/${sale_id}/edit`);
+    dispatch(setPersistedPaths([EditRevenueDetailsUrl(sale_id)]));
+    history.push(EditRevenueDetailsUrl(sale_id));
   };
 
   const onRetire = () => {

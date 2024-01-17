@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { BsChevronRight } from 'react-icons/bs';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
 import history from '../../../../history';
+import { RevenueDetailsUrl } from '../../../../util/siteMapConstants';
 import TextButton from '../../../Form/Button/TextButton';
 import CropSaleTable from './CropSaleTable';
 import GeneralTransactionTable from './GeneralTransactionTable';
@@ -34,8 +35,8 @@ const getDetailPageLink = ({ transactionType, relatedId }) => {
   return {
     LABOUR_EXPENSE: '/labour',
     EXPENSE: `/expense/${relatedId}`,
-    REVENUE: `/revenue/${relatedId}`,
-    CROP_REVENUE: `/revenue/${relatedId}`,
+    REVENUE: RevenueDetailsUrl(relatedId),
+    CROP_REVENUE: RevenueDetailsUrl(relatedId),
   }[transactionType];
 };
 

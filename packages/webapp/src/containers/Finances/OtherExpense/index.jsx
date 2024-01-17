@@ -30,7 +30,7 @@ import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { useSelector, useDispatch } from 'react-redux';
 import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../../util/dateRange';
-import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
+import { createExpenseDetailsUrl, FINANCES_HOME_URL } from '../../../util/siteMapConstants';
 
 const OtherExpense = () => {
   const { t } = useTranslation();
@@ -221,7 +221,7 @@ const OtherExpense = () => {
                   onClick: (e, handleOriginal) => {
                     if (rowInfo && rowInfo.original) {
                       const expense_id = rowInfo.original.expense_item_id;
-                      history.push(`/expense/${expense_id}`);
+                      history.push(createExpenseDetailsUrl(expense_id));
                     }
                     if (handleOriginal) {
                       handleOriginal();

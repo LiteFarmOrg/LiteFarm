@@ -21,12 +21,14 @@ import { icons } from '../NewExpense/ExpenseCategories';
 import labelIconStyles from '../../../components/Tile/styles.module.scss';
 import useCustomExpenseTypeTileContents from '../useCustomExpenseTypeTileContents';
 import {
+  ADD_CUSTOM_EXPENSE_URL,
   FINANCES_HOME_URL,
+  MANAGE_CUSTOM_EXPENSES_URL,
   createEditCustomExpenseURL,
   createReadonlyCustomExpenseURL,
 } from '../../../util/siteMapConstants';
 
-const addCustomTypePath = '/add_custom_expense';
+const addCustomTypePath = ADD_CUSTOM_EXPENSE_URL;
 
 const getPaths = (typeId) => ({
   readOnly: createReadonlyCustomExpenseURL(typeId),
@@ -58,7 +60,7 @@ export default function ManageExpenseTypes({ history }) {
         // unlisten when the user gets out of the page without going back to FINANCES_HOME_URL.
         // pathname: "/manage_custom_expenses" happens when the user lands on this page.
         !(
-          history.location.pathname === `/manage_custom_expenses` ||
+          history.location.pathname === MANAGE_CUSTOM_EXPENSES_URL ||
           (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL)
         )
       ) {

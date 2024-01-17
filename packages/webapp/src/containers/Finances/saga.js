@@ -57,6 +57,7 @@ import {
 import {
   ESTIMATED_REVENUE_URL,
   FINANCES_HOME_URL,
+  MANAGE_CUSTOM_EXPENSES_URL,
   MANAGE_CUSTOM_REVENUES_URL,
 } from '../../util/siteMapConstants';
 
@@ -180,7 +181,7 @@ export function* addCustomExpenseTypeSaga({ payload: { expense_name, custom_desc
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.ADD')));
       yield call(getFarmExpenseTypeSaga);
-      history.push('/manage_custom_expenses');
+      history.push(MANAGE_CUSTOM_EXPENSES_URL);
     }
   } catch (e) {
     console.log('failed to add new expense type to the database');
@@ -207,7 +208,7 @@ export function* updateCustomExpenseTypeSaga({
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.UPDATE')));
       yield call(getFarmExpenseTypeSaga);
-      history.push('/manage_custom_expenses');
+      history.push(MANAGE_CUSTOM_EXPENSES_URL);
     }
   } catch (e) {
     console.log('failed to update expense type in the database');
@@ -227,7 +228,7 @@ export function* retireCustomExpenseTypeSaga({ payload: { expense_type_id } }) {
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.DELETE')));
       yield call(getFarmExpenseTypeSaga);
-      history.push('/manage_custom_expenses');
+      history.push(MANAGE_CUSTOM_EXPENSES_URL);
     }
   } catch (e) {
     console.log('failed to delete new expense type in the database');

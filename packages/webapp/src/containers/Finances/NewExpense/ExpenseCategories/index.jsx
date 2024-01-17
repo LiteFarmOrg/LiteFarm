@@ -25,6 +25,7 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import labelIconStyles from '../../../../components/Tile/styles.module.scss';
 import { listItemTypes } from '../../../../components/List/constants';
 import { getFinanceTypeSearchableStringFunc } from '../../util';
+import { MANAGE_CUSTOM_EXPENSES_URL } from '../../../../util/siteMapConstants';
 
 export const icons = {
   EQUIPMENT: <EquipIcon />,
@@ -98,7 +99,7 @@ class ExpenseCategories extends Component {
           onContinue={this.nextPage}
           onGoBack={this.props.history.back}
           progressValue={33}
-          onGoToManageCustomType={() => history.push('/manage_custom_expenses')}
+          onGoToManageCustomType={() => history.push(MANAGE_CUSTOM_EXPENSES_URL)}
           isTypeSelected={!!this.state.selectedTypes.length}
           formatListItemData={(data) => {
             const {

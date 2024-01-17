@@ -44,12 +44,12 @@ const DeprecatedRoutes = () => (
       from="/edit_custom_expense/:expense_type_id"
       to="/finances/edit_custom_expense/:expense_type_id"
     />
-    <Redirect exact from="/add_custom_revenue" to="/finances/add_custom_revenue" />
-    <Redirect
+    {/* <Redirect exact from="/add_custom_revenue" to="/finances/add_custom_revenue" /> */}
+    {/* <Redirect
       exact
       from="/readonly_custom_revenue/:revenue_type_id"
       to="/finances/readonly_custom_revenue/:revenue_type_id"
-    />
+    /> */}
     {/* <Redirect
       exact
       from="/edit_custom_revenue/:revenue_type_id"

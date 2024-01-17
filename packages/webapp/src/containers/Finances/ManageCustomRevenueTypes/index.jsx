@@ -25,13 +25,15 @@ import {
   FINANCES_HOME_URL,
   MANAGE_CUSTOM_REVENUES_URL,
   REVENUE_TYPES_URL,
+  ADD_CUSTOM_REVENUE_URL,
+  createReadonlyCustomRevenueUrl,
   createEditCustomRevenueUrl,
 } from '../../../util/siteMapConstants';
 
-const addCustomTypePath = '/add_custom_revenue';
+const addCustomTypePath = ADD_CUSTOM_REVENUE_URL;
 
 const getPaths = (typeId) => ({
-  readOnly: `/readonly_custom_revenue/${typeId}`,
+  readOnly: createReadonlyCustomRevenueUrl(typeId),
   edit: createEditCustomRevenueUrl(typeId),
 });
 

@@ -21,6 +21,7 @@ import { revenueTypeByIdSelector } from '../../revenueTypeSlice';
 import { CUSTOM_REVENUE_NAME, CROP_GENERATED } from './constants';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import CustomRevenueRadios from './CustomRevenueRadios';
+import { createEditCustomRevenueUrl } from '../../../util/siteMapConstants';
 
 function ReadOnlyCustomRevenue({ history, match }) {
   const { revenue_type_id } = match.params;
@@ -41,7 +42,7 @@ function ReadOnlyCustomRevenue({ history, match }) {
   };
 
   const handleEdit = () => {
-    history.push(`/edit_custom_revenue/${revenue_type_id}`);
+    history.push(createEditCustomRevenueUrl(revenue_type_id));
   };
 
   const onRetire = () => {

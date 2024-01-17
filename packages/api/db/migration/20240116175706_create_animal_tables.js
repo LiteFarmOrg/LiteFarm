@@ -67,8 +67,18 @@ export const up = async function (knex) {
     table.date('weaning_date');
     table.text('notes');
     table.boolean('deleted').notNullable().defaultTo(false);
-    table.string('created_by_user_id').references('user_id').inTable('users');
-    table.string('updated_by_user_id').references('user_id').inTable('users');
+    table
+      .string('created_by_user_id')
+      .notNullable()
+      .references('user_id')
+      .inTable('users')
+      .defaultTo(1);
+    table
+      .string('updated_by_user_id')
+      .notNullable()
+      .references('user_id')
+      .inTable('users')
+      .defaultTo(1);
     table.dateTime('created_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
     table.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
     table.check(

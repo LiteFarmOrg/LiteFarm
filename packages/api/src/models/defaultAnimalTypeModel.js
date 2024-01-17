@@ -30,11 +30,11 @@ class DefaultAnimalTypeModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['type_key'],
+      required: ['key'],
 
       properties: {
         id: { type: 'integer' },
-        type_key: { type: 'string' },
+        key: { type: 'string' },
       },
       additionalProperties: false,
     };

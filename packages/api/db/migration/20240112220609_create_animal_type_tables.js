@@ -16,7 +16,7 @@
 export const up = async function (knex) {
   await knex.schema.createTable('default_animal_type', (table) => {
     table.increments('id').primary();
-    table.string('type_key').defaultTo(null);
+    table.string('key').notNullable();
   });
 
   await knex.schema.createTable('custom_animal_type', (table) => {
@@ -35,7 +35,7 @@ export const up = async function (knex) {
 
   for (const typeKey of defaultTypeKeys) {
     await knex('default_animal_type').insert({
-      type_key: typeKey,
+      key: typeKey,
     });
   }
 

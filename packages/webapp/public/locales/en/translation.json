@@ -841,7 +841,8 @@
       "DATES": "Dates",
       "SETTINGS": "Export Settings",
       "TRANSACTION": "Transaction",
-      "TRANSACTIONS": "Transactions"
+      "TRANSACTIONS": "Transactions",
+      "FILE_TITLE": "Financial Report"
     },
     "REVENUE": "Revenue",
     "SEARCH": {

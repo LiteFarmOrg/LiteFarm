@@ -840,7 +840,8 @@
       "DATES": "Dates",
       "SETTINGS": "Exporter les paramètres",
       "TRANSACTION": "Transaction",
-      "TRANSACTIONS": "Transactions"
+      "TRANSACTIONS": "Transactions",
+      "FILE_TITLE": "MISSING"
     },
     "REVENUE": "Recette",
     "SEARCH": {

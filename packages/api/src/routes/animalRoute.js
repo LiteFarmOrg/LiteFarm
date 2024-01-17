@@ -19,7 +19,7 @@ const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
 import AnimalController from '../controllers/animalController.js';
 
-router.get('/animals', checkScope(['get:animals']), AnimalController.getFarmAnimals());
-router.post('/animals', checkScope(['add:animals']), AnimalController.addAnimal());
+router.get('/', checkScope(['get:animals']), AnimalController.getFarmAnimals());
+router.post('/', checkScope(['add:animals']), AnimalController.addAnimal());
 
 export default router;

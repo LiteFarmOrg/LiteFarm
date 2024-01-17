@@ -115,6 +115,11 @@ async function tableCleanup(knex) {
     DELETE FROM "pesticide";
     DELETE FROM "task_type";
     DELETE FROM "farmDataSchedule";
+    DELETE FROM "animal";
+    DELETE FROM "animal_sex";
+    DELETE FROM "animal_identifier_color";
+    DELETE FROM "animal_identifier_placement";
+    DELETE FROM "animal_origin";
     DELETE FROM "default_animal_breed";
     DELETE FROM "custom_animal_breed";
     DELETE FROM "default_animal_type";

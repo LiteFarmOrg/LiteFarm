@@ -32,7 +32,12 @@ export const up = async function (knex) {
     table.check(
       '?? is not null or ?? is not null',
       ['default_type_id', 'custom_type_id'],
-      'type_id_check',
+      'not_null_type_id_check',
+    );
+    table.check(
+      '?? is null or ?? is null',
+      ['default_type_id', 'custom_type_id'],
+      'null_type_id_check',
     );
   });
 
@@ -69,7 +74,17 @@ export const up = async function (knex) {
     table.check(
       '?? is not null or ?? is not null',
       ['default_breed_id', 'custom_breed_id'],
-      'breed_id_check',
+      'not_null_breed_id_check',
+    );
+    table.check(
+      '?? is null or ?? is null',
+      ['default_breed_id', 'custom_breed_id'],
+      'null_breed_id_check',
+    );
+    table.check(
+      '?? is not null or ?? is not null',
+      ['name', 'identifier'],
+      'name_identifier_check',
     );
   });
 

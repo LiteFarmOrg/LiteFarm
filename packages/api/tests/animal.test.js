@@ -54,6 +54,18 @@ describe('Animal Tests', () => {
 
   const getRequestAsPromise = util.promisify(getRequest);
 
+  function postRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data, callback) {
+    chai
+      .request(server)
+      .post('/animals')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+
+  const postRequestAsPromise = util.promisify(postRequest);
+
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
@@ -136,6 +148,90 @@ describe('Animal Tests', () => {
 
       expect(res.status).toBe(403);
       expect(res.error.text).toBe('User does not have the following permission(s): get:animals');
+    });
+  });
+
+  describe('Add animal tests', () => {
+    test('Admin users should be able to create an animal', async () => {
+      const roles = [1, 2, 5];
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+        const animal = mocks.fakeAnimal({
+          default_breed_id: defaultBreedId,
+        });
+
+        const res = await postRequestAsPromise(
+          {
+            user_id: user.user_id,
+            farm_id: mainFarm.farm_id,
+          },
+          animal,
+        );
+
+        expect(res.status).toBe(201);
+        expect(res.body).toMatchObject(animal);
+        expect(res.body.farm_id).toBe(mainFarm.farm_id);
+      }
+    });
+
+    test('Non-admin users should not be able to create an animal', async () => {
+      const roles = [3];
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+        const animal = mocks.fakeAnimal({
+          default_breed_id: defaultBreedId,
+        });
+
+        const res = await postRequestAsPromise(
+          {
+            user_id: user.user_id,
+            farm_id: mainFarm.farm_id,
+          },
+          animal,
+        );
+
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe('User does not have the following permission(s): add:animals');
+      }
+    });
+
+    test('Should not be able to create an animal without name or identifier', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const animal = mocks.fakeAnimal({
+        default_breed_id: defaultBreedId,
+        name: null,
+        identifier: null,
+      });
+
+      const res = await postRequestAsPromise(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        animal,
+      );
+
+      expect(res.status).toBe(400);
+    });
+
+    test('Should not be able to create an animal without a breed', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const animal = mocks.fakeAnimal({
+        default_breed_id: null,
+        custom_breed_id: null,
+      });
+
+      const res = await postRequestAsPromise(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        animal,
+      );
+
+      expect(res.status).toBe(400);
     });
   });
 });

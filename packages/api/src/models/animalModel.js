@@ -30,12 +30,19 @@ class Animal extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
+      required: ['farm_id'],
       oneOf: [
         {
-          required: ['farm_id', 'default_breed_id'],
+          required: ['default_breed_id', 'name'],
         },
         {
-          required: ['farm_id', 'custom_breed_id'],
+          required: ['custom_breed_id', 'name'],
+        },
+        {
+          required: ['default_breed_id', 'identifier'],
+        },
+        {
+          required: ['custom_breed_id', 'identifier'],
         },
       ],
       properties: {
@@ -43,18 +50,18 @@ class Animal extends baseModel {
         farm_id: { type: 'string' },
         default_breed_id: { type: ['integer', 'null'] },
         custom_breed_id: { type: ['integer', 'null'] },
-        sex_id: { type: 'integer' },
-        name: { type: 'string' },
-        birth_date: { type: 'string', format: 'date' },
-        identifier: { type: 'string ' },
-        identifier_color_id: { type: 'integer' },
-        identifier_placement_id: { type: 'integer' },
-        origin_id: { type: 'integer' },
-        dam: { type: 'string' },
-        sire: { type: 'string' },
-        brought_in_date: { type: 'string', format: 'date' },
-        weaning_date: { type: 'string', format: 'date' },
-        notes: { type: 'string' },
+        sex_id: { type: ['integer', 'null'] },
+        name: { type: ['string', 'null'] },
+        birth_date: { type: ['string', 'null'], format: 'date' },
+        identifier: { type: ['string', 'null'] },
+        identifier_color_id: { type: ['integer', 'null'] },
+        identifier_placement_id: { type: ['integer', 'null'] },
+        origin_id: { type: ['integer', 'null'] },
+        dam: { type: ['string', 'null'] },
+        sire: { type: ['string', 'null'] },
+        brought_in_date: { type: ['string', 'null'], format: 'date' },
+        weaning_date: { type: ['string', 'null'], format: 'date' },
+        notes: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,

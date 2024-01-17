@@ -152,12 +152,15 @@ describe('Animal Tests', () => {
   });
 
   describe('Add animal tests', () => {
-    test('Admin users should be able to create an animal', async () => {
+    test('Admin users should be able to create animals', async () => {
       const roles = [1, 2, 5];
 
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
-        const animal = mocks.fakeAnimal({
+        const firstAnimal = mocks.fakeAnimal({
+          default_breed_id: defaultBreedId,
+        });
+        const secondAnimal = mocks.fakeAnimal({
           default_breed_id: defaultBreedId,
         });
 
@@ -166,16 +169,18 @@ describe('Animal Tests', () => {
             user_id: user.user_id,
             farm_id: mainFarm.farm_id,
           },
-          animal,
+          [firstAnimal, secondAnimal],
         );
 
         expect(res.status).toBe(201);
-        expect(res.body).toMatchObject(animal);
-        expect(res.body.farm_id).toBe(mainFarm.farm_id);
+        expect(res.body[0]).toMatchObject(firstAnimal);
+        expect(res.body[1]).toMatchObject(secondAnimal);
+        expect(res.body[0].farm_id).toBe(mainFarm.farm_id);
+        expect(res.body[1].farm_id).toBe(mainFarm.farm_id);
       }
     });
 
-    test('Non-admin users should not be able to create an animal', async () => {
+    test('Non-admin users should not be able to create animals', async () => {
       const roles = [3];
 
       for (const role of roles) {
@@ -189,12 +194,29 @@ describe('Animal Tests', () => {
             user_id: user.user_id,
             farm_id: mainFarm.farm_id,
           },
-          animal,
+          [animal],
         );
 
         expect(res.status).toBe(403);
         expect(res.error.text).toBe('User does not have the following permission(s): add:animals');
       }
+    });
+
+    test('Should not be able to send out an individual animal instead of an array', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const animal = mocks.fakeAnimal({
+        default_breed_id: defaultBreedId,
+      });
+
+      const res = await postRequestAsPromise(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        animal,
+      );
+
+      expect(res.status).toBe(400);
     });
 
     test('Should not be able to create an animal without name or identifier', async () => {
@@ -210,7 +232,7 @@ describe('Animal Tests', () => {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
         },
-        animal,
+        [animal],
       );
 
       expect(res.status).toBe(400);
@@ -228,7 +250,7 @@ describe('Animal Tests', () => {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
         },
-        animal,
+        [animal],
       );
 
       expect(res.status).toBe(400);

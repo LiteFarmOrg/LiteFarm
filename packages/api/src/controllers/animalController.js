@@ -38,21 +38,31 @@ const animalController = {
       try {
         const trx = await transaction.start(Model.knex());
         const { farm_id } = req.headers;
+        const result = [];
 
-        if (!req.body.identifier && !req.body.name) {
-          return res.status(400).send('Should send either animal name or identifier');
+        if (!Array.isArray(req.body)) {
+          return res.status(400).send('Request body should be an array');
         }
 
-        if (!req.body.default_breed_id && !req.body.custom_breed_id) {
-          return res.status(400).send('Should send either default_breed_id or custom_breed_id');
+        for (const animal of req.body) {
+          if (!animal.identifier && !animal.name) {
+            return res.status(400).send('Should send either animal name or identifier');
+          }
+
+          if (!animal.default_breed_id && !animal.custom_breed_id) {
+            return res.status(400).send('Should send either default_breed_id or custom_breed_id');
+          }
+
+          const individualAnimalResult = await baseController.postWithResponse(
+            AnimalModel,
+            { ...animal, farm_id },
+            req,
+            { trx },
+          );
+
+          result.push(individualAnimalResult);
         }
 
-        const result = await baseController.upsertGraph(
-          AnimalModel,
-          { ...req.body, farm_id },
-          req,
-          { trx },
-        );
         await trx.commit();
         return res.status(201).send(result);
       } catch (error) {

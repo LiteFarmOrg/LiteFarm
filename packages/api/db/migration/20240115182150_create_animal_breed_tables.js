@@ -34,7 +34,12 @@ export const up = async function (knex) {
     table.check(
       '?? is not null or ?? is not null',
       ['default_type_id', 'custom_type_id'],
-      'type_id_check',
+      'not_null_type_id_check',
+    );
+    table.check(
+      '?? is null or ?? is null',
+      ['default_type_id', 'custom_type_id'],
+      'null_type_id_check',
     );
   });
 

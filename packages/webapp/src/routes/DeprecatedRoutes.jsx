@@ -33,17 +33,17 @@ const DeprecatedRoutes = () => (
     <Redirect exact from="/expense_categories" to="/finances/expense_categories" />
     <Redirect exact from="/add_expense" to="/finances/add_expense" />
     <Redirect exact from="/manage_custom_expenses" to="/finances/manage_custom_expenses" />
-    <Redirect exact from="/add_custom_expense" to="/finances/add_custom_expense" />
-    <Redirect
+    {/* <Redirect exact from="/add_custom_expense" to="/finances/add_custom_expense" /> */}
+    {/* <Redirect
       exact
       from="/readonly_custom_expense/:expense_type_id"
       to="/finances/readonly_custom_expense/:expense_type_id"
-    />
-    <Redirect
+    /> */}
+    {/* <Redirect
       exact
       from="/edit_custom_expense/:expense_type_id"
       to="/finances/edit_custom_expense/:expense_type_id"
-    />
+    /> */}
     {/* <Redirect exact from="/add_custom_revenue" to="/finances/add_custom_revenue" /> */}
     {/* <Redirect
       exact

@@ -20,13 +20,17 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import { icons } from '../NewExpense/ExpenseCategories';
 import labelIconStyles from '../../../components/Tile/styles.module.scss';
 import useCustomExpenseTypeTileContents from '../useCustomExpenseTypeTileContents';
-import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
+import {
+  FINANCES_HOME_URL,
+  createEditCustomExpenseURL,
+  createReadonlyCustomExpenseURL,
+} from '../../../util/siteMapConstants';
 
 const addCustomTypePath = '/add_custom_expense';
 
 const getPaths = (typeId) => ({
-  readOnly: `/readonly_custom_expense/${typeId}`,
-  edit: `/edit_custom_expense/${typeId}`,
+  readOnly: createReadonlyCustomExpenseURL(typeId),
+  edit: createEditCustomExpenseURL(typeId),
 });
 
 export default function ManageExpenseTypes({ history }) {

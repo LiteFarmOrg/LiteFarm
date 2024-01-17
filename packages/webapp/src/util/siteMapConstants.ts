@@ -17,10 +17,18 @@ export const createManagementPlanEstimatedRevenueURL = (id: string | number): st
 
 /* Temporary new section to prevent merge conflicts */
 // Temporarily bottom of constant list
+export const ADD_CUSTOM_EXPENSE_URL = '/finances/add_custom_expense';
 export const ADD_CUSTOM_REVENUE_URL = '/finances/add_custom_revenue';
 //
 
 // Temporarily bottom of function list
+export const createReadonlyCustomExpenseURL = (id: string | number): string => {
+  return `/finances/readonly_custom_expense/${id}`;
+};
+export const createEditCustomExpenseURL = (id: string | number): string => {
+  return `/finances/edit_custom_expense/${id}`;
+};
+
 export const createEditCustomRevenueUrl = (id: string | number): string => {
   return `/finances/edit_custom_revenue/${id}`;
 };

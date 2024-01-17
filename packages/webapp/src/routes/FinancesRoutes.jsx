@@ -15,6 +15,29 @@
 
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import {
+  ADD_CUSTOM_EXPENSE_URL,
+  ADD_CUSTOM_REVENUE_URL,
+  ADD_EXPENSE_URL,
+  ADD_REVENUE_URL,
+  createEditCustomExpenseURL,
+  createEditCustomRevenueUrl,
+  createEditExpenseDetailsUrl,
+  createEditRevenueDetailsUrl,
+  createExpenseDetailsUrl,
+  createManagementPlanEstimatedRevenueURL,
+  createReadonlyCustomExpenseURL,
+  createReadonlyCustomRevenueUrl,
+  createRevenueDetailsUrl,
+  ESTIMATED_REVENUE_URL,
+  EXPENSE_CATEGORIES_URL,
+  FINANCES_HOME_URL,
+  LABOUR_URL,
+  MANAGE_CUSTOM_EXPENSES_URL,
+  MANAGE_CUSTOM_REVENUES_URL,
+  OTHER_EXPENSE_URL,
+  REVENUE_TYPES_URL,
+} from '../util/siteMapConstants';
 const Finances = React.lazy(() => import('../containers/Finances'));
 const ActualRevenue = React.lazy(() => import('../containers/Finances/ActualRevenue'));
 const UpdateEstimatedCropRevenue = React.lazy(() =>
@@ -58,45 +81,45 @@ const EditCustomRevenue = React.lazy(() =>
 
 const FinancesRoutes = () => (
   <Switch>
-    <Route path="/finances/transactions" exact component={Finances} />
+    <Route path={FINANCES_HOME_URL} exact component={Finances} />
     <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
     <Route
-      path="/finances/estimated_revenue/plan/:management_plan_id"
+      path={createManagementPlanEstimatedRevenueURL(':management_plan_id')}
       exact
       component={UpdateEstimatedCropRevenue}
     />
-    <Route path="/finances/revenue_types" exact component={RevenueTypes} />
-    <Route path="/finances/add_revenue" exact component={AddSale} />
-    <Route path="/finances/manage_custom_revenues" exact component={ManageRevenueTypes} />
-    <Route path="/finances/revenue/:sale_id/" exact component={RevenueDetail} />
-    <Route path="/finances/revenue/:sale_id/edit" exact component={RevenueDetail} />
-    <Route path="/finances/estimated_revenue" exact component={EstimatedRevenue} />
-    <Route path="/finances/labour" exact component={Labour} />
-    <Route path="/finances/other_expense" exact component={OtherExpense} />
-    <Route path="/finances/expense/:expense_id/" exact component={ExpenseDetail} />
-    <Route path="/finances/expense/:expense_id/edit" exact component={ExpenseDetail} />
-    <Route path="/finances/expense_categories" exact component={ExpenseCategories} />
-    <Route path="/finances/add_expense" exact component={AddExpense} />
-    <Route path="/finances/manage_custom_expenses" exact component={ManageExpenseTypes} />
-    <Route path="/finances/add_custom_expense" exact component={AddCustomExpense} />
+    <Route path={REVENUE_TYPES_URL} exact component={RevenueTypes} />
+    <Route path={ADD_REVENUE_URL} exact component={AddSale} />
+    <Route path={MANAGE_CUSTOM_REVENUES_URL} exact component={ManageRevenueTypes} />
+    <Route path={createRevenueDetailsUrl(':sale_id')} exact component={RevenueDetail} />
+    <Route path={createEditRevenueDetailsUrl(':sale_id')} exact component={RevenueDetail} />
+    <Route path={ESTIMATED_REVENUE_URL} exact component={EstimatedRevenue} />
+    <Route path={LABOUR_URL} exact component={Labour} />
+    <Route path={OTHER_EXPENSE_URL} exact component={OtherExpense} />
+    <Route path={createExpenseDetailsUrl(':expense_id')} exact component={ExpenseDetail} />
+    <Route path={createEditExpenseDetailsUrl(':expense_id')} exact component={ExpenseDetail} />
+    <Route path={EXPENSE_CATEGORIES_URL} exact component={ExpenseCategories} />
+    <Route path={ADD_EXPENSE_URL} exact component={AddExpense} />
+    <Route path={MANAGE_CUSTOM_EXPENSES_URL} exact component={ManageExpenseTypes} />
+    <Route path={ADD_CUSTOM_EXPENSE_URL} exact component={AddCustomExpense} />
     <Route
-      path="/finances/readonly_custom_expense/:expense_type_id"
+      path={createReadonlyCustomExpenseURL(':expense_type_id')}
       exact
       component={ReadOnlyCustomExpense}
     />
     <Route
-      path="/finances/edit_custom_expense/:expense_type_id"
+      path={createEditCustomExpenseURL(':expense_type_id')}
       exact
       component={EditCustomExpense}
     />
-    <Route path="/finances/add_custom_revenue" exact component={AddCustomRevenue} />
+    <Route path={ADD_CUSTOM_REVENUE_URL} exact component={AddCustomRevenue} />
     <Route
-      path="/finances/readonly_custom_revenue/:revenue_type_id"
+      path={createReadonlyCustomRevenueUrl(':revenue_type_id')}
       exact
       component={ReadOnlyCustomRevenue}
     />
     <Route
-      path="/finances/edit_custom_revenue/:revenue_type_id"
+      path={createEditCustomRevenueUrl(':revenue_type_id')}
       exact
       component={EditCustomRevenue}
     />

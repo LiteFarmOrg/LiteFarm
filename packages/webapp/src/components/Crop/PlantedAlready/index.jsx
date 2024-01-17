@@ -56,7 +56,7 @@ export default function PurePlantedAlready({
   const MAX_SEEDLING_AGE = 999;
 
   useEffect(() => {
-    if (persistedFormData.crop_management_plan.seed_date) {
+    if (persistedFormData.crop_management_plan?.seed_date) {
       const currentDate = getDateInputFormat(new Date());
       const newAge = getDateDifference(
         persistedFormData.crop_management_plan.seed_date,
@@ -99,6 +99,7 @@ export default function PurePlantedAlready({
     } else if (!cropVariety.can_be_cover_crop) {
       setValue(FOR_COVER, false);
     }
+
     history.push(submitPath, location?.state);
   };
   const onGoBack = () => history.back();

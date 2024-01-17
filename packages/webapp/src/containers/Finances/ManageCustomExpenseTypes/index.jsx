@@ -20,7 +20,7 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import { icons } from '../NewExpense/ExpenseCategories';
 import labelIconStyles from '../../../components/Tile/styles.module.scss';
 import useCustomExpenseTypeTileContents from '../useCustomExpenseTypeTileContents';
-import { FinancesHomeURL } from '../../../util/siteMapConstants';
+import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
 
 const addCustomTypePath = '/add_custom_expense';
 
@@ -42,20 +42,20 @@ export default function ManageExpenseTypes({ history }) {
   };
 
   useEffect(() => {
-    // Manipulate page navigation by pushing "/expense_categories" on top of FinancesHomeURL.
+    // Manipulate page navigation by pushing "/expense_categories" on top of FINANCES_HOME_URL.
     // When browser's back button or form's back button is clicked, we want to
-    // navigate the user to "/expense_categories" not FinancesHomeURL.
+    // navigate the user to "/expense_categories" not FINANCES_HOME_URL.
     const unlisten = history.listen(() => {
-      if (history.action === 'POP' && history.location.pathname === FinancesHomeURL) {
+      if (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL) {
         dispatch(setPersistedPaths(['/expense_categories', '/add_expense']));
         unlisten();
         history.push('/expense_categories');
       } else if (
-        // unlisten when the user gets out of the page without going back to FinancesHomeURL.
+        // unlisten when the user gets out of the page without going back to FINANCES_HOME_URL.
         // pathname: "/manage_custom_expenses" happens when the user lands on this page.
         !(
           history.location.pathname === `/manage_custom_expenses` ||
-          (history.action === 'POP' && history.location.pathname === FinancesHomeURL)
+          (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL)
         )
       ) {
         unlisten();

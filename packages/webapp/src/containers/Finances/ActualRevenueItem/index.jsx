@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import FinanceGroup from '../../../components/Finances/FinanceGroup';
 import { getManagementPlanCardDate } from '../../../util/moment';
 import { setSelectedSale } from '../actions';
-import { RevenueDetailsUrl } from '../../../util/siteMapConstants';
+import { createRevenueDetailsUrl } from '../../../util/siteMapConstants';
 
 const ActualRevenueItem = ({ revenueItem, history, ...props }) => {
   const { sale_id, sale_date, customer_name } = revenueItem.sale;
@@ -13,7 +13,7 @@ const ActualRevenueItem = ({ revenueItem, history, ...props }) => {
 
   const onClickForward = () => {
     dispatch(setSelectedSale(revenueItem.sale));
-    history.push(RevenueDetailsUrl(sale_id));
+    history.push(createRevenueDetailsUrl(sale_id));
   };
 
   return (

@@ -27,7 +27,10 @@ import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { mapRevenueFormDataToApiCallFormat, mapRevenueTypesToReactSelectOptions } from '../util';
 import useSortedRevenueTypes from '../AddSale/RevenueTypes/useSortedRevenueTypes';
 import { REVENUE_TYPE_OPTION } from '../../../components/Forms/GeneralRevenue/constants';
-import { EditRevenueDetailsUrl } from '../../../util/siteMapConstants';
+import {
+  EditcreateRevenueDetailsUrl,
+  createEditRevenueDetailsUrl,
+} from '../../../util/siteMapConstants';
 
 function RevenueDetail({ history, match }) {
   const isEditing = match.path.endsWith('/edit');
@@ -57,8 +60,8 @@ function RevenueDetail({ history, match }) {
   };
 
   const handleEdit = () => {
-    dispatch(setPersistedPaths([EditRevenueDetailsUrl(sale_id)]));
-    history.push(EditRevenueDetailsUrl(sale_id));
+    dispatch(setPersistedPaths([createEditRevenueDetailsUrl(sale_id)]));
+    history.push(createEditRevenueDetailsUrl(sale_id));
   };
 
   const onRetire = () => {

@@ -21,10 +21,10 @@ import useSortedCustomRevenueTypes from '../useSortedCustomRevenueTypes';
 import { icons } from '../AddSale/RevenueTypes';
 import labelIconStyles from '../../../components/Tile/styles.module.scss';
 import {
-  AddRevenueURL,
-  FinancesHomeURL,
-  ManageCustomRevenuesURL,
-  RevenueTypesURL,
+  ADD_REVENUE_URL,
+  FINANCES_HOME_URL,
+  MANAGE_CUSTOM_REVENUES_URL,
+  REVENUE_TYPES_URL,
 } from '../../../util/siteMapConstants';
 
 const addCustomTypePath = '/add_custom_revenue';
@@ -47,20 +47,20 @@ export default function ManageRevenueTypes({ history }) {
   };
 
   useEffect(() => {
-    // Manipulate page navigation by pushing RevenueTypesURL on top of FinancesHomeURL.
+    // Manipulate page navigation by pushing REVENUE_TYPES_URL on top of FINANCES_HOME_URL.
     // When browser's back button or form's back button is clicked, we want to
-    // navigate the user to RevenueTypesURL not FinancesHomeURL.
+    // navigate the user to REVENUE_TYPES_URL not FINANCES_HOME_URL.
     const unlisten = history.listen(() => {
-      if (history.action === 'POP' && history.location.pathname === FinancesHomeURL) {
-        dispatch(setPersistedPaths([RevenueTypesURL, AddRevenueURL]));
+      if (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL) {
+        dispatch(setPersistedPaths([REVENUE_TYPES_URL, ADD_REVENUE_URL]));
         unlisten();
-        history.push(RevenueTypesURL);
+        history.push(REVENUE_TYPES_URL);
       } else if (
-        // unlisten when the user gets out of the page without going back to FinancesHomeURL.
+        // unlisten when the user gets out of the page without going back to FINANCES_HOME_URL.
         // pathname: "/manage_custom_revenue" happens when the user lands on this page.
         !(
-          history.location.pathname === ManageCustomRevenuesURL ||
-          (history.action === 'POP' && history.location.pathname === FinancesHomeURL)
+          history.location.pathname === MANAGE_CUSTOM_REVENUES_URL ||
+          (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL)
         )
       ) {
         unlisten();

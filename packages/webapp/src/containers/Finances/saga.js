@@ -54,7 +54,7 @@ import {
   GET_FARM_EXPENSE_TYPE,
   UPDATE_SALE,
 } from './constants';
-import { FinancesHomeURL, ManageCustomRevenuesURL } from '../../util/siteMapConstants';
+import { FINANCES_HOME_URL, MANAGE_CUSTOM_REVENUES_URL } from '../../util/siteMapConstants';
 
 export const getSales = createAction('getSales');
 
@@ -83,7 +83,7 @@ export function* addSale(action) {
     const result = yield call(axios.post, salesURL, action.sale, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.ADD')));
     yield call(getSalesSaga);
-    history.push(FinancesHomeURL);
+    history.push(FINANCES_HOME_URL);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.ADD')));
   }
@@ -102,7 +102,7 @@ export function* updateSaleSaga(action) {
     yield call(axios.patch, `${salesURL}/${sale_id}`, sale, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.UPDATE')));
     yield call(getSalesSaga);
-    history.push(FinancesHomeURL);
+    history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(`failed to update sale`);
     yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.UPDATE')));
@@ -119,7 +119,7 @@ export function* deleteSale(action) {
     yield call(axios.delete, salesURL + '/' + sale_id, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.DELETE')));
     yield call(getSalesSaga);
-    history.push(FinancesHomeURL);
+    history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(`failed to delete sale`);
     yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.DELETE')));
@@ -364,7 +364,7 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
     yield put(deleteRevenueTypeSuccess({ revenue_type_id: id, deleted, retired }));
 
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.DELETE')));
-    history.push(ManageCustomRevenuesURL);
+    history.push(MANAGE_CUSTOM_REVENUES_URL);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.DELETE')));
   }
@@ -392,7 +392,7 @@ export function* addRevenueTypeSaga({
 
     yield put(postRevenueTypeSuccess(result.data));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.ADD')));
-    history.push(ManageCustomRevenuesURL);
+    history.push(MANAGE_CUSTOM_REVENUES_URL);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.ADD')));
   }
@@ -417,7 +417,7 @@ export function* updateRevenueTypeSaga({
 
     yield put(putRevenueTypeSuccess({ revenue_type_id, revenue_name, custom_description }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.UPDATE')));
-    history.push(ManageCustomRevenuesURL);
+    history.push(MANAGE_CUSTOM_REVENUES_URL);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.UPDATE')));
   }

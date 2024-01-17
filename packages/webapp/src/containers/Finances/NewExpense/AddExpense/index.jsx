@@ -7,7 +7,7 @@ import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import PureAddExpense from '../../../../components/Finances/AddExpense';
-import { FinancesHomeURL } from '../../../../util/siteMapConstants';
+import { FINANCES_HOME_URL } from '../../../../util/siteMapConstants';
 
 class AddExpense extends Component {
   constructor(props) {
@@ -77,7 +77,7 @@ class AddExpense extends Component {
       formattedData.filter((expense) => expense.value < 0 || isNaN(expense.value)).length === 0
     ) {
       this.props.dispatch(addExpenses(formattedData));
-      history.push(FinancesHomeURL);
+      history.push(FINANCES_HOME_URL);
     }
   }
 

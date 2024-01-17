@@ -21,15 +21,15 @@ import {
   mapSalesToRevenueItems,
 } from '../util';
 import { getCropVarieties } from '../../saga';
-import { AddRevenueURL, RevenueTypesURL } from '../../../util/siteMapConstants';
+import { ADD_REVENUE_URL, REVENUE_TYPES_URL } from '../../../util/siteMapConstants';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const onGoBack = () => history.back();
   const onAddRevenue = () => {
-    dispatch(setPersistedPaths([RevenueTypesURL, AddRevenueURL]));
-    history.push(RevenueTypesURL);
+    dispatch(setPersistedPaths([REVENUE_TYPES_URL, ADD_REVENUE_URL]));
+    history.push(REVENUE_TYPES_URL);
   };
   // TODO: refactor sale data after finance reducer is remade
   const sales = useSelector(salesSelector);

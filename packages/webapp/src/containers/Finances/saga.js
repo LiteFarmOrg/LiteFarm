@@ -266,7 +266,7 @@ export function* deleteExpenseSaga(action) {
     const result = yield call(axios.delete, `${expenseUrl}/${expense_id}`, header);
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE.SUCCESS.DELETE')));
-      history.push(OTHER_EXPENSE_URL);
+      history.push(FINANCES_HOME_URL);
     }
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.DELETE')));
@@ -333,7 +333,7 @@ export function* editExpenseSaga(action) {
         yield put(setExpense(result.data));
       }
     }
-    history.push(OTHER_EXPENSE_URL);
+    history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.UPDATE')));

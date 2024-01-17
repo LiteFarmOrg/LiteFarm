@@ -54,7 +54,11 @@ import {
   GET_FARM_EXPENSE_TYPE,
   UPDATE_SALE,
 } from './constants';
-import { FINANCES_HOME_URL, MANAGE_CUSTOM_REVENUES_URL } from '../../util/siteMapConstants';
+import {
+  ESTIMATED_REVENUE_URL,
+  FINANCES_HOME_URL,
+  MANAGE_CUSTOM_REVENUES_URL,
+} from '../../util/siteMapConstants';
 
 export const getSales = createAction('getSales');
 
@@ -438,7 +442,7 @@ export function* patchEstimatedCropRevenueSaga({ payload: managementPlan }) {
     );
     yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [managementPlan] });
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE.SUCCESS.EDIT')));
-    history.push(`/estimated_revenue`);
+    history.push(ESTIMATED_REVENUE_URL);
   } catch (e) {
     console.log('Failed to update managementPlan to database');
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE.ERROR.EDIT')));

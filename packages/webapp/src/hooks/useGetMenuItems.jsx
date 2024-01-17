@@ -27,7 +27,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
 import styles from '../components/Navigation/SideMenu/styles.module.scss';
-import { FINANCES_HOME_URL } from '../util/siteMapConstants';
+import { ESTIMATED_REVENUE_URL, FINANCES_HOME_URL } from '../util/siteMapConstants';
 
 export const useGetMenuItems = () => {
   const { t } = useTranslation();
@@ -71,7 +71,7 @@ export const useGetMenuItems = () => {
           },
           {
             label: t('MENU.ESTIMATED_REVENUES'),
-            path: '/finances/estimated_revenue',
+            path: ESTIMATED_REVENUE_URL,
             key: 'estimated_revenue',
           },
         ],

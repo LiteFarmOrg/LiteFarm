@@ -21,6 +21,11 @@ const customAnimalBreedController = {
       try {
         const { farm_id } = req.headers;
         const { default_type_id, custom_type_id } = req.query;
+
+        if (default_type_id && custom_type_id) {
+          return res.status(400).send('Only default_type_id or custom_type_id should be specified');
+        }
+
         const rows = await CustomAnimalBreedModel.query()
           .where({ farm_id })
           .modify((queryBuilder) => {

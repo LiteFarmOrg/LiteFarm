@@ -139,7 +139,7 @@ describe('Custom Animal Breed Tests', () => {
         });
 
         expect(res.status).toBe(200);
-        // Should return breed with default type only
+        // Should return breed with custom type only
         expect(res.body.length).toBe(1);
         expect(res.body[0].farm_id).toBe(mainFarm.farm_id);
         expect(secondBreed).toMatchObject(res.body[0]);
@@ -175,10 +175,23 @@ describe('Custom Animal Breed Tests', () => {
         user_id: unAuthorizedUser.user_id,
         farm_id: mainFarm.farm_id,
       });
+
       expect(res.status).toBe(403);
       expect(res.error.text).toBe(
         'User does not have the following permission(s): get:animal_breeds',
       );
+    });
+
+    test('Returns 400 if both default and custom type ID are specified', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const res = await getRequestAsPromise({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+        query_params_string: 'default_type_id=1&custom_type_id=1',
+      });
+
+      expect(res.status).toBe(400);
     });
   });
 });

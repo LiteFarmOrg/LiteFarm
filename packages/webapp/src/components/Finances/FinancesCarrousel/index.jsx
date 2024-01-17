@@ -29,7 +29,7 @@ import styles from './styles.module.scss';
 import { Semibold, Text } from '../../Typography';
 import clsx from 'clsx';
 import TextButton from '../../Form/Button/TextButton';
-import { ESTIMATED_REVENUE_URL } from '../../../util/siteMapConstants';
+import { ESTIMATED_REVENUE_URL, LABOUR_URL } from '../../../util/siteMapConstants';
 
 ChartJS.register(ArcElement, Tooltip);
 
@@ -144,7 +144,7 @@ const FinancesCarrousel = ({
           <div className={styles.expensesStatsContainer}>
             <TextButton
               className={clsx([styles.labourExpensesContainer, styles.clickableContainer])}
-              onClick={() => history.push('/labour')}
+              onClick={() => history.push(LABOUR_URL)}
             >
               <span>
                 <span className={styles.labourExpensesTitle}>

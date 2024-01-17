@@ -26,7 +26,7 @@ const DeprecatedRoutes = () => (
     {/* <Redirect exact from="/revenue/:sale_id" to="/finances/revenue/:sale_id" />
     <Redirect exact from="/revenue/:sale_id/edit" to="/finances/revenue/:sale_id/edit" /> */}
     {/* <Redirect exact from="/estimated_revenue" to="/finances/estimated_revenue" /> */}
-    <Redirect exact from="/labour" to="/finances/labour" />
+    {/* <Redirect exact from="/labour" to="/finances/labour" /> */}
     <Redirect exact from="/other_expense" to="/finances/other_expense" />
     <Redirect exact from="/expense/:expense_id" to="/finances/expense/:expense_id" />
     <Redirect exact from="/expense/:expense_id/edit" to="/finances/expense/:expense_id/edit" />

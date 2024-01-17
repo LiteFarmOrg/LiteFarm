@@ -25,7 +25,7 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import labelIconStyles from '../../../../components/Tile/styles.module.scss';
 import { listItemTypes } from '../../../../components/List/constants';
 import { getFinanceTypeSearchableStringFunc } from '../../util';
-import { MANAGE_CUSTOM_EXPENSES_URL } from '../../../../util/siteMapConstants';
+import { ADD_EXPENSE_URL, MANAGE_CUSTOM_EXPENSES_URL } from '../../../../util/siteMapConstants';
 
 export const icons = {
   EQUIPMENT: <EquipIcon />,
@@ -61,7 +61,7 @@ class ExpenseCategories extends Component {
   nextPage(event) {
     event.preventDefault();
     this.props.dispatch(setSelectedExpenseTypes(this.state.selectedTypes));
-    history.push('/add_expense');
+    history.push(ADD_EXPENSE_URL);
   }
 
   addRemoveType(id) {

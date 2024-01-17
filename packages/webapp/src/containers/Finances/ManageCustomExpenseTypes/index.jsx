@@ -22,6 +22,7 @@ import labelIconStyles from '../../../components/Tile/styles.module.scss';
 import useCustomExpenseTypeTileContents from '../useCustomExpenseTypeTileContents';
 import {
   ADD_CUSTOM_EXPENSE_URL,
+  ADD_EXPENSE_URL,
   FINANCES_HOME_URL,
   MANAGE_CUSTOM_EXPENSES_URL,
   createEditCustomExpenseURL,
@@ -53,7 +54,7 @@ export default function ManageExpenseTypes({ history }) {
     // navigate the user to "/expense_categories" not FINANCES_HOME_URL.
     const unlisten = history.listen(() => {
       if (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL) {
-        dispatch(setPersistedPaths(['/expense_categories', '/add_expense']));
+        dispatch(setPersistedPaths(['/expense_categories', ADD_EXPENSE_URL]));
         unlisten();
         history.push('/expense_categories');
       } else if (

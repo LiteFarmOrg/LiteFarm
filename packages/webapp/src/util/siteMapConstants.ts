@@ -18,6 +18,7 @@ export const createManagementPlanEstimatedRevenueURL = (id: string | number): st
 
 /* Temporary new section to prevent merge conflicts */
 // Temporarily bottom of constant list
+export const EXPENSE_CATEGORIES_URL = '/finances/expense_categories';
 export const ADD_EXPENSE_URL = '/finances/add_expense';
 export const MANAGE_CUSTOM_EXPENSES_URL = '/finances/manage_custom_expenses';
 export const ADD_CUSTOM_EXPENSE_URL = '/finances/add_custom_expense';

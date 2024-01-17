@@ -25,6 +25,7 @@ import FloatingMenu from '../../Menu/FloatingButtonMenu/FloatingMenu';
 import {
   ADD_EXPENSE_URL,
   ADD_REVENUE_URL,
+  EXPENSE_CATEGORIES_URL,
   REVENUE_TYPES_URL,
 } from '../../../util/siteMapConstants';
 
@@ -38,8 +39,8 @@ const Menu = forwardRef((props, ref) => {
   };
 
   const handleAddExpenseClick = () => {
-    dispatch(setPersistedPaths(['/expense_categories', ADD_EXPENSE_URL]));
-    history.push('/expense_categories');
+    dispatch(setPersistedPaths([EXPENSE_CATEGORIES_URL, ADD_EXPENSE_URL]));
+    history.push(EXPENSE_CATEGORIES_URL);
   };
 
   return (

@@ -30,6 +30,7 @@ import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { useSelector, useDispatch } from 'react-redux';
 import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../../util/dateRange';
+import { createExpenseDetailsUrl, FINANCES_HOME_URL } from '../../../util/siteMapConstants';
 
 const OtherExpense = () => {
   const { t } = useTranslation();
@@ -185,7 +186,7 @@ const OtherExpense = () => {
 
   return (
     <div className={defaultStyles.financesContainer}>
-      <PageTitle backUrl="/Finances" title={t('EXPENSE.OTHER_EXPENSES_TITLE')} />
+      <PageTitle backUrl={FINANCES_HOME_URL} title={t('EXPENSE.OTHER_EXPENSES_TITLE')} />
       <DateRangeSelector />
 
       <Semibold style={{ marginBottom: '16px' }}>{t('EXPENSE.SUMMARY')}</Semibold>
@@ -220,7 +221,7 @@ const OtherExpense = () => {
                   onClick: (e, handleOriginal) => {
                     if (rowInfo && rowInfo.original) {
                       const expense_id = rowInfo.original.expense_item_id;
-                      history.push(`/expense/${expense_id}`);
+                      history.push(createExpenseDetailsUrl(expense_id));
                     }
                     if (handleOriginal) {
                       handleOriginal();

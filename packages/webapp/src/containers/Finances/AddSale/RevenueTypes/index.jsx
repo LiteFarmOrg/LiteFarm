@@ -25,6 +25,7 @@ import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookF
 import ManageCustomRevenueTypesSpotlight from '../ManageCustomRevenueTypeSpotlight';
 import useSortedRevenueTypes from './useSortedRevenueTypes';
 import { getFinanceTypeSearchableStringFunc } from '../../util';
+import { ADD_REVENUE_URL, MANAGE_CUSTOM_REVENUES_URL } from '../../../../util/siteMapConstants';
 
 export const icons = {
   CROP_SALE: <CropSaleIcon />,
@@ -39,7 +40,7 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
   const getOnTileClickFunc = (setValue) => {
     return (typeId) => {
       setValue('revenue_type_id', typeId);
-      history.push('/add_sale');
+      history.push(ADD_REVENUE_URL);
     };
   };
 
@@ -76,7 +77,7 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
         types={revenueTypes}
         onGoBack={history.back}
         progressValue={33}
-        onGoToManageCustomType={() => history.push('/manage_custom_revenues')}
+        onGoToManageCustomType={() => history.push(MANAGE_CUSTOM_REVENUES_URL)}
         getFormatListItemDataFunc={getFormatListItemDataFunc}
         listItemType={listItemTypes.ICON_DESCRIPTION}
         useHookFormPersist={useHookFormPersist}

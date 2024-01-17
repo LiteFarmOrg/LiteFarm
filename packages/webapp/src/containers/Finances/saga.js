@@ -54,6 +54,13 @@ import {
   GET_FARM_EXPENSE_TYPE,
   UPDATE_SALE,
 } from './constants';
+import {
+  ESTIMATED_REVENUE_URL,
+  FINANCES_HOME_URL,
+  MANAGE_CUSTOM_EXPENSES_URL,
+  MANAGE_CUSTOM_REVENUES_URL,
+  OTHER_EXPENSE_URL,
+} from '../../util/siteMapConstants';
 
 export const getSales = createAction('getSales');
 
@@ -82,7 +89,7 @@ export function* addSale(action) {
     const result = yield call(axios.post, salesURL, action.sale, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.ADD')));
     yield call(getSalesSaga);
-    history.push('/finances');
+    history.push(FINANCES_HOME_URL);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.ADD')));
   }
@@ -101,7 +108,7 @@ export function* updateSaleSaga(action) {
     yield call(axios.patch, `${salesURL}/${sale_id}`, sale, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.UPDATE')));
     yield call(getSalesSaga);
-    history.push('/finances');
+    history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(`failed to update sale`);
     yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.UPDATE')));
@@ -118,7 +125,7 @@ export function* deleteSale(action) {
     yield call(axios.delete, salesURL + '/' + sale_id, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.DELETE')));
     yield call(getSalesSaga);
-    history.push('/finances');
+    history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(`failed to delete sale`);
     yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.DELETE')));
@@ -175,7 +182,7 @@ export function* addCustomExpenseTypeSaga({ payload: { expense_name, custom_desc
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.ADD')));
       yield call(getFarmExpenseTypeSaga);
-      history.push('/manage_custom_expenses');
+      history.push(MANAGE_CUSTOM_EXPENSES_URL);
     }
   } catch (e) {
     console.log('failed to add new expense type to the database');
@@ -202,7 +209,7 @@ export function* updateCustomExpenseTypeSaga({
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.UPDATE')));
       yield call(getFarmExpenseTypeSaga);
-      history.push('/manage_custom_expenses');
+      history.push(MANAGE_CUSTOM_EXPENSES_URL);
     }
   } catch (e) {
     console.log('failed to update expense type in the database');
@@ -222,7 +229,7 @@ export function* retireCustomExpenseTypeSaga({ payload: { expense_type_id } }) {
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE_TYPE.SUCCESS.DELETE')));
       yield call(getFarmExpenseTypeSaga);
-      history.push('/manage_custom_expenses');
+      history.push(MANAGE_CUSTOM_EXPENSES_URL);
     }
   } catch (e) {
     console.log('failed to delete new expense type in the database');
@@ -259,7 +266,7 @@ export function* deleteExpenseSaga(action) {
     const result = yield call(axios.delete, `${expenseUrl}/${expense_id}`, header);
     if (result) {
       yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE.SUCCESS.DELETE')));
-      history.push('/other_expense');
+      history.push(OTHER_EXPENSE_URL);
     }
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.DELETE')));
@@ -326,7 +333,7 @@ export function* editExpenseSaga(action) {
         yield put(setExpense(result.data));
       }
     }
-    history.push('/other_expense');
+    history.push(OTHER_EXPENSE_URL);
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.UPDATE')));
@@ -363,7 +370,7 @@ export function* deleteRevenueTypeSaga({ payload: id }) {
     yield put(deleteRevenueTypeSuccess({ revenue_type_id: id, deleted, retired }));
 
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.DELETE')));
-    history.push('/manage_custom_revenues');
+    history.push(MANAGE_CUSTOM_REVENUES_URL);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.DELETE')));
   }
@@ -391,7 +398,7 @@ export function* addRevenueTypeSaga({
 
     yield put(postRevenueTypeSuccess(result.data));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.ADD')));
-    history.push('/manage_custom_revenues');
+    history.push(MANAGE_CUSTOM_REVENUES_URL);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.ADD')));
   }
@@ -416,7 +423,7 @@ export function* updateRevenueTypeSaga({
 
     yield put(putRevenueTypeSuccess({ revenue_type_id, revenue_name, custom_description }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE_TYPE.SUCCESS.UPDATE')));
-    history.push('/manage_custom_revenues');
+    history.push(MANAGE_CUSTOM_REVENUES_URL);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE_TYPE.ERROR.UPDATE')));
   }
@@ -437,7 +444,7 @@ export function* patchEstimatedCropRevenueSaga({ payload: managementPlan }) {
     );
     yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [managementPlan] });
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE.SUCCESS.EDIT')));
-    history.push(`/estimated_revenue`);
+    history.push(ESTIMATED_REVENUE_URL);
   } catch (e) {
     console.log('Failed to update managementPlan to database');
     yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE.ERROR.EDIT')));

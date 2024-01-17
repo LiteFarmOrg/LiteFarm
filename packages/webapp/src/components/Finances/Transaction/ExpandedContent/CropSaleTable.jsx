@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import Table from '../../../Table/v2';
 import history from '../../../../history';
 import styles from './styles.module.scss';
+import { createRevenueDetailsUrl } from '../../../../util/siteMapConstants';
 
 const getColumns = (t, mobileView, totalAmount, quantityTotal, currencySymbol) => [
   {
@@ -91,7 +92,7 @@ export default function CropSaleTable({ data, currencySymbol, mobileView }) {
           ? () => <FooterCell t={t} totalAmount={totalAmount} quantityTotal={quantityWithUnit} />
           : null
       }
-      onClickMore={() => history.push(`/revenue/${relatedId}`)}
+      onClickMore={() => history.push(createRevenueDetailsUrl(relatedId))}
     />
   );
 }

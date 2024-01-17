@@ -30,6 +30,7 @@ import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { useSelector, useDispatch } from 'react-redux';
 import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../../util/dateRange';
+import { financesHome } from '../../../util/siteMapConstants';
 
 const OtherExpense = () => {
   const { t } = useTranslation();
@@ -185,7 +186,7 @@ const OtherExpense = () => {
 
   return (
     <div className={defaultStyles.financesContainer}>
-      <PageTitle backUrl="/Finances" title={t('EXPENSE.OTHER_EXPENSES_TITLE')} />
+      <PageTitle backUrl={financesHome} title={t('EXPENSE.OTHER_EXPENSES_TITLE')} />
       <DateRangeSelector />
 
       <Semibold style={{ marginBottom: '16px' }}>{t('EXPENSE.SUMMARY')}</Semibold>

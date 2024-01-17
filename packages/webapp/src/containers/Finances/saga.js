@@ -54,6 +54,7 @@ import {
   GET_FARM_EXPENSE_TYPE,
   UPDATE_SALE,
 } from './constants';
+import { financesHome } from '../../util/siteMapConstants';
 
 export const getSales = createAction('getSales');
 
@@ -82,7 +83,7 @@ export function* addSale(action) {
     const result = yield call(axios.post, salesURL, action.sale, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.ADD')));
     yield call(getSalesSaga);
-    history.push('/finances');
+    history.push(financesHome);
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.ADD')));
   }
@@ -101,7 +102,7 @@ export function* updateSaleSaga(action) {
     yield call(axios.patch, `${salesURL}/${sale_id}`, sale, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.UPDATE')));
     yield call(getSalesSaga);
-    history.push('/finances');
+    history.push(financesHome);
   } catch (e) {
     console.log(`failed to update sale`);
     yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.UPDATE')));
@@ -118,7 +119,7 @@ export function* deleteSale(action) {
     yield call(axios.delete, salesURL + '/' + sale_id, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.DELETE')));
     yield call(getSalesSaga);
-    history.push('/finances');
+    history.push(financesHome);
   } catch (e) {
     console.log(`failed to delete sale`);
     yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.DELETE')));

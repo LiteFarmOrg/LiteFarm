@@ -19,7 +19,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 const DeprecatedRoutes = () => (
   <Switch>
     {/* Redirect old routes to nested finances routes for backwards compatibility */}
-    <Redirect exact from="/finances" to="/finances/transactions" />
+    {/* <Redirect exact from="/finances" to="/finances/transactions" /> */}
     <Redirect exact from="/revenue_types" to="/finances/revenue_types" />
     <Redirect exact from="/add_sale" to="/finances/add_revenue" />
     <Redirect exact from="/manage_custom_revenues" to="/finances/manage_custom_revenues" />

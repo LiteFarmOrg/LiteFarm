@@ -30,7 +30,7 @@ import useScrollToTop from '../containers/hooks/useScrollToTop';
 import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 
 //dynamic imports
-const DeprecatedRoutes = React.lazy(() => import('./DeprecatedRoutes'));
+//const DeprecatedRoutes = React.lazy(() => import('./DeprecatedRoutes'));
 const Home = React.lazy(() => import('../containers/Home'));
 const HelpRequest = React.lazy(() => import('../containers/Help'));
 const Account = React.lazy(() => import('../containers/Profile/Account'));
@@ -611,7 +611,7 @@ const Routes = ({ isCompactSideMenu }) => {
             />
             <Route path="/finances/*" exact component={Finances} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
-            <Route path="/" component={DeprecatedRoutes} />
+            {/* <Route path="/" component={DeprecatedRoutes} /> */}
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -901,7 +901,7 @@ const Routes = ({ isCompactSideMenu }) => {
             />
             <Route path="/finances" component={Finances} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
-            <Route path="/" component={DeprecatedRoutes} />
+            {/* <Route path="/" component={DeprecatedRoutes} /> */}
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

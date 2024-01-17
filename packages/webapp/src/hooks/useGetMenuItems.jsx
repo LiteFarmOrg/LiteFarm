@@ -27,6 +27,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
 import styles from '../components/Navigation/SideMenu/styles.module.scss';
+import { financesHome } from '../util/siteMapConstants';
 
 export const useGetMenuItems = () => {
   const { t } = useTranslation();
@@ -49,12 +50,12 @@ export const useGetMenuItems = () => {
       list.splice(3, 0, {
         label: t('MENU.FINANCES'),
         icon: <FinancesIcon />,
-        path: '/finances',
+        path: financesHome,
         key: 'finances',
         subMenu: [
           {
             label: t('MENU.TRANSACTION_LIST'),
-            path: '/finances/transactions',
+            path: financesHome,
             key: 'transactions',
           },
           {

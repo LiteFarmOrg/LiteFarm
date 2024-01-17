@@ -43,7 +43,7 @@ class CustomAnimalBreed extends baseModel {
         farm_id: { type: 'string' },
         default_type_id: { type: ['integer', 'null'] },
         custom_type_id: { type: ['integer', 'null'] },
-        custom_breed_name: { type: 'string' },
+        breed: { type: 'string' },
         ...this.baseProperties,
       },
       additionalProperties: false,

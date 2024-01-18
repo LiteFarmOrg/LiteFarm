@@ -28,8 +28,10 @@ import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
 import styles from '../components/Navigation/SideMenu/styles.module.scss';
 import {
+  ACTUAL_REVENUE_URL,
   ESTIMATED_REVENUE_URL,
   FINANCES_HOME_URL,
+  FINANCES_URL,
   LABOUR_URL,
   OTHER_EXPENSE_URL,
 } from '../util/siteMapConstants';
@@ -55,7 +57,7 @@ export const useGetMenuItems = () => {
       list.splice(3, 0, {
         label: t('MENU.FINANCES'),
         icon: <FinancesIcon />,
-        path: FINANCES_HOME_URL,
+        path: FINANCES_URL,
         key: 'finances',
         subMenu: [
           {
@@ -71,7 +73,7 @@ export const useGetMenuItems = () => {
           { label: t('MENU.LABOUR_EXPENSES'), path: LABOUR_URL, key: 'labour' },
           {
             label: t('MENU.ACTUAL_REVENUES'),
-            path: '/finances/actual_revenue',
+            path: ACTUAL_REVENUE_URL,
             key: 'actual_revenue',
           },
           {

@@ -17,10 +17,13 @@
 //   as well as accomodating UUID types.
 
 // Finances
+
+export const FINANCES_URL = '/finances';
 export const FINANCES_HOME_URL = '/finances/transactions';
 export const REVENUE_TYPES_URL = '/finances/revenue_types';
 export const ADD_REVENUE_URL = '/finances/add_revenue';
 export const MANAGE_CUSTOM_REVENUES_URL = '/finances/manage_custom_revenues';
+export const ACTUAL_REVENUE_URL = '/finances/actual_revenue';
 export const ESTIMATED_REVENUE_URL = '/finances/estimated_revenue';
 export const LABOUR_URL = '/finances/labour';
 export const OTHER_EXPENSE_URL = '/finances/other_expense';

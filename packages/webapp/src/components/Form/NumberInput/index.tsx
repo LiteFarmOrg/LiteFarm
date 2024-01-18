@@ -1,19 +1,32 @@
-import { ChangeEvent, useLayoutEffect, useRef, useState } from 'react';
+import { ChangeEvent, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputField, { type CommonInputFieldProps } from '../InputField';
 
 export type NumberInputProps = {
   value?: number | string;
-  onChange?: (propValue: number | '') => void;
+  onChange?: (valueAsNumber: number) => void;
+  onBlur?: () => void;
   useGrouping?: boolean;
   allowDecimal?: boolean;
   locale?: string;
   roundToDecimalPlaces?: number;
 } & CommonInputFieldProps;
 
+const initializeInputValue =
+  (initialValue: NumberInputProps['value'] = '', formatter: Intl.NumberFormat) =>
+  () => {
+    const valueAsNumber = parseFloat(initialValue.toString());
+    const valueString = !Number.isFinite(valueAsNumber) ? '' : formatter.format(valueAsNumber);
+    return {
+      valueString,
+      valueAsNumber,
+    };
+  };
+
 export default function NumberInput({
   value: propValue = '',
   onChange,
+  onBlur,
   useGrouping = true,
   allowDecimal = true,
   roundToDecimalPlaces,
@@ -22,13 +35,41 @@ export default function NumberInput({
   const {
     i18n: { language },
   } = useTranslation();
+
   const locale = props.locale || language;
+
+  const formatter = useMemo(() => {
+    const options = {
+      useGrouping,
+      maximumFractionDigits: roundToDecimalPlaces ?? 20,
+    };
+    try {
+      return new Intl.NumberFormat(locale, options);
+    } catch (error) {
+      return new Intl.NumberFormat(undefined, options);
+    }
+  }, [locale, useGrouping, roundToDecimalPlaces]);
+
+  const { decimalSeparator, thousandsSeparator } = useMemo(() => {
+    let separators = {
+      decimalSeparator: '.',
+      thousandsSeparator: ',',
+    };
+    for (let { type, value } of formatter.formatToParts(11000.2)) {
+      if (type === 'decimal') {
+        separators.decimalSeparator = value;
+      } else if (type === 'group') {
+        separators.thousandsSeparator = value;
+      }
+    }
+    return separators;
+  }, [locale]);
+
   const [{ valueString, valueAsNumber }, setInputValue] = useState(
-    initializeInputValue(propValue, locale),
+    initializeInputValue(propValue, formatter),
   );
   const [isFocused, setIsFocused] = useState(false);
   const initialValueRef = useRef(propValue);
-  const { decimalSeparator, thousandsSeparator } = getSeparators(locale);
 
   /*
   - resets state if value prop changes to initial value
@@ -36,31 +77,29 @@ export default function NumberInput({
   */
   useLayoutEffect(() => {
     if (propValue === initialValueRef.current && valueString != propValue)
-      setInputValue(initializeInputValue(propValue, locale));
+      setInputValue(initializeInputValue(propValue, formatter));
   }, [propValue]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, validity } = e.target;
     if (validity.patternMismatch) return;
-    const asNumber = parseFloat(
+    const number = parseFloat(
       decimalSeparator === '.' ? value : value.replace(decimalSeparator, '.'),
     );
     setInputValue({
       valueString: value,
-      valueAsNumber: asNumber,
+      valueAsNumber: number,
     });
-    onChange?.(asNumber);
+    onChange?.(number);
   };
 
   const handleBlur = () => {
     setIsFocused(false);
     setInputValue({
-      valueString: toLocalizedNumString(valueAsNumber, locale, {
-        useGrouping,
-        maximumFractionDigits: roundToDecimalPlaces ?? 20,
-      }),
+      valueString: !isNaN(valueAsNumber) ? formatter.format(valueAsNumber) : '',
       valueAsNumber,
     });
+    onBlur?.();
   };
 
   const handleFocus = () => {
@@ -92,49 +131,4 @@ export default function NumberInput({
       {...props}
     />
   );
-}
-
-function toLocalizedNumString(
-  number: number,
-  locale: Intl.LocalesArgument,
-  options?: Intl.NumberFormatOptions,
-) {
-  if (!Number.isFinite(number)) return '';
-  try {
-    return number.toLocaleString(locale, options);
-  } catch (error) {
-    console.error(`Invalid locale ${locale}`);
-    // defaults to browsers locale
-    return number.toLocaleString(undefined, options);
-  }
-}
-
-function getSeparators(locale: string) {
-  let decimalSeparator = '';
-  let thousandsSeparator = '';
-  const parts = new Intl.NumberFormat(locale).formatToParts(11000.2);
-
-  for (let { type, value } of parts) {
-    if (type === 'decimal') {
-      decimalSeparator = value;
-    } else if (type === 'group') {
-      thousandsSeparator = value;
-    }
-  }
-
-  return {
-    decimalSeparator,
-    thousandsSeparator,
-  };
-}
-
-function initializeInputValue(initialValue: NumberInputProps['value'] = '', locale: string) {
-  return () => {
-    const valueAsNumber = parseFloat(initialValue.toString());
-    const valueString = isNaN(valueAsNumber) ? '' : toLocalizedNumString(valueAsNumber, locale);
-    return {
-      valueString,
-      valueAsNumber,
-    };
-  };
 }

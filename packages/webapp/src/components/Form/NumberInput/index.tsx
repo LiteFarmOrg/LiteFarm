@@ -69,6 +69,7 @@ export default function NumberInput({
     initializeInputValue(propValue, formatter),
   );
   const [isFocused, setIsFocused] = useState(false);
+  const [isEditedAfterFocus, setIsEditedAfterFocus] = useState(false);
   const initialValueRef = useRef(propValue);
 
   /*
@@ -90,27 +91,17 @@ export default function NumberInput({
       valueString: value,
       valueAsNumber: number,
     });
+    setIsEditedAfterFocus(true);
     onChange?.(number);
   };
-
   const handleBlur = () => {
     setIsFocused(false);
-    setInputValue({
-      valueString: !isNaN(valueAsNumber) ? formatter.format(valueAsNumber) : '',
-      valueAsNumber,
-    });
     onBlur?.();
   };
 
   const handleFocus = () => {
     setIsFocused(true);
-    setInputValue({
-      valueString:
-        useGrouping && valueAsNumber >= 1000
-          ? valueString.replaceAll(thousandsSeparator, '')
-          : valueString,
-      valueAsNumber,
-    });
+    setIsEditedAfterFocus(false);
   };
 
   const getPattern = () => {
@@ -120,11 +111,22 @@ export default function NumberInput({
     return `[0-9]*${decimalSeparatorRegex}?[0-9]*`;
   };
 
+  const getDisplayValue = () => {
+    if (isNaN(valueAsNumber)) return '';
+    if (isFocused) {
+      if (isEditedAfterFocus) return valueString;
+      return useGrouping && valueAsNumber >= 1000
+        ? formatter.format(valueAsNumber).replaceAll(thousandsSeparator, '')
+        : formatter.format(valueAsNumber);
+    }
+    return formatter.format(valueAsNumber);
+  };
+
   return (
     <InputField
       inputMode="numeric"
       pattern={getPattern()}
-      value={valueString}
+      value={getDisplayValue()}
       onChange={handleChange}
       onBlur={handleBlur}
       onFocus={handleFocus}

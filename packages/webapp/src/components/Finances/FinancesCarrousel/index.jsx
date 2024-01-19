@@ -30,6 +30,7 @@ import { Semibold, Text } from '../../Typography';
 import clsx from 'clsx';
 import TextButton from '../../Form/Button/TextButton';
 import {
+  ACTUAL_REVENUE_URL,
   ESTIMATED_REVENUE_URL,
   LABOUR_URL,
   OTHER_EXPENSE_URL,
@@ -84,7 +85,7 @@ const FinancesCarrousel = ({
           <div className={styles.revenueExpensesContainer}>
             <TextButton
               className={clsx([styles.revenueContainer, styles.clickableContainer])}
-              onClick={() => history.push('/finances/actual_revenue')}
+              onClick={() => history.push(ACTUAL_REVENUE_URL)}
             >
               <span>
                 <span className={styles.revenueTitle}>{t('SALE.FINANCES.TOTAL_REVENUE')}</span>

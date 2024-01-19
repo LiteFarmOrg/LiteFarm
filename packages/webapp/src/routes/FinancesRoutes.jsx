@@ -16,6 +16,7 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import {
+  ACTUAL_REVENUE_URL,
   ADD_CUSTOM_EXPENSE_URL,
   ADD_CUSTOM_REVENUE_URL,
   ADD_EXPENSE_URL,
@@ -82,7 +83,7 @@ const EditCustomRevenue = React.lazy(() =>
 const FinancesRoutes = () => (
   <Switch>
     <Route path={FINANCES_HOME_URL} exact component={Finances} />
-    <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
+    <Route path={ACTUAL_REVENUE_URL} exact component={ActualRevenue} />
     <Route
       path={createManagementPlanEstimatedRevenueURL(':management_plan_id')}
       exact

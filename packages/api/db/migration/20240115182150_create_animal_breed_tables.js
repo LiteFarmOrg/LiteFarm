@@ -53,6 +53,12 @@ export const up = async function (knex) {
     );
   });
 
+  // Update animal types table created_by_user_id and updated_by_user_id to match defaults used here
+  await knex.schema.alterTable('custom_animal_type', (table) => {
+    table.string('created_by_user_id').notNullable().defaultTo('1').alter();
+    table.string('updated_by_user_id').notNullable().defaultTo('1').alter();
+  });
+
   // Add initial default breeds
   const defaultBreedKeys = [
     {

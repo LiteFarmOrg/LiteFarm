@@ -21,12 +21,21 @@ import useIsFarmSelected from '../../hooks/useIsFarmSelected';
 import { CUSTOM_SIGN_UP } from '../CustomSignUp/constants';
 import useHistoryLocation from '../hooks/useHistoryLocation';
 import ReleaseBadgeHandler from '../ReleaseBadgeHandler';
+import { matchPath } from 'react-router-dom';
 
 const Navigation = ({ history, children, ...props }) => {
   const dispatch = useDispatch();
   const historyLocation = useHistoryLocation(history);
-  const isCustomSignupPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
   const isFarmSelected = useIsFarmSelected();
+  const ACCEPTING_INVITE_URLS = ['/accept_invitation/sign_up', '/accept_invitation/create_account'];
+  const isAcceptingInvite = ACCEPTING_INVITE_URLS.some((path) =>
+    matchPath(history.location.pathname, path),
+  );
+  const isLoginPage = historyLocation.state?.component === CUSTOM_SIGN_UP;
+  // Hides the top navigation bar with logo on the login component
+  const showNav = !isLoginPage;
+  // Shows the navigation links when farm is selected and not accepting an farm invitation
+  const showNavActions = isFarmSelected && !isAcceptingInvite;
   const { navigation, notification } = useSelector(showedSpotlightSelector);
   const resetSpotlight = () => {
     dispatch(setSpotlightToShown(['notification', 'navigation']));
@@ -39,8 +48,8 @@ const Navigation = ({ history, children, ...props }) => {
         showNotificationSpotlight={navigation && !notification}
         resetSpotlight={resetSpotlight}
         history={history}
-        isFarmSelected={isFarmSelected}
-        hidden={isCustomSignupPage}
+        showNavActions={showNavActions}
+        showNav={showNav}
         {...props}
       >
         {children}

@@ -1,13 +1,27 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import NumberInput from '../../../components/Form/NumberInput';
+import NumberInputRHF from '../../../components/Form/NumberInput';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import { userEvent, within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
+import { FormProvider, useForm } from 'react-hook-form';
 
-const meta: Meta<typeof NumberInput> = {
+const meta: Meta<typeof NumberInputRHF> = {
   title: 'Components/NumberInput',
-  component: NumberInput,
-  decorators: componentDecorators,
+  component: NumberInputRHF,
+  args: {
+    name: 'test',
+  },
+  decorators: [
+    ...componentDecorators,
+    (Story) => {
+      const methods = useForm({ mode: 'onChange' });
+      return (
+        <FormProvider {...methods}>
+          <Story />
+        </FormProvider>
+      );
+    },
+  ],
 };
 
 export default meta;

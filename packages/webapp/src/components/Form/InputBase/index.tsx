@@ -53,7 +53,7 @@ export default function InputBase({
           leftSection={leftSection}
           rightSection={rightSection}
           inputProps={inputProps}
-          crossIcon={!!error ? <Cross onClick={onCrossClick} /> : undefined}
+          crossIcon={!!error ? <Cross isClickable onClick={onCrossClick} /> : undefined}
         />
       </label>
       {info && !error && <Info style={classes?.info}>{info}</Info>}

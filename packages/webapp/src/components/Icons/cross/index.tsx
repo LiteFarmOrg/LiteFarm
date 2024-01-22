@@ -3,9 +3,19 @@ import styles from './cross.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-const Cross = ({ className, onClick, ...props }: { className?: string; onClick?: () => void }) => {
+type CrossProps = {
+  className?: string;
+  isClickable?: boolean;
+  onClick?: () => void;
+};
+
+const Cross = ({ className, onClick, isClickable, ...props }: CrossProps) => {
   return (
-    <i className={clsx(styles.cross, className)} onClick={onClick} {...props}>
+    <i
+      className={clsx(styles.cross, isClickable && styles.clickable, className)}
+      onClick={onClick}
+      {...props}
+    >
       &#215;
     </i>
   );

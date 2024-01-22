@@ -63,19 +63,19 @@ export const up = async function (knex) {
   const defaultBreedKeys = [
     {
       typeKey: 'CATTLE',
-      breedKeys: ['ANGUS', 'HEREFORD', 'CHAROLAIS'],
+      breedKeys: ['ANGUS', 'HEREFORD', 'CHAROLAIS', 'UNKNOWN'],
     },
     {
       typeKey: 'PIGS',
-      breedKeys: ['YORKSHIRE_LARGE_WHITE', 'LANDRACE', 'DUROC'],
+      breedKeys: ['YORKSHIRE_LARGE_WHITE', 'LANDRACE', 'DUROC', 'UNKNOWN'],
     },
     {
       typeKey: 'CHICKEN_BROILERS',
-      breedKeys: ['CORNISH_CROSS', 'ROSS_308', 'COBB_500'],
+      breedKeys: ['CORNISH_CROSS', 'ROSS_308', 'COBB_500', 'UNKNOWN'],
     },
     {
       typeKey: 'CHICKEN_LAYERS',
-      breedKeys: ['LEGHORN', 'RHODE_ISLAND_RED', 'PLYMOUTH_ROCK'],
+      breedKeys: ['LEGHORN', 'RHODE_ISLAND_RED', 'PLYMOUTH_ROCK', 'UNKNOWN'],
     },
   ];
 

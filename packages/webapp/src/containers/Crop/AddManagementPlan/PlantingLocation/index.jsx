@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import PurePlantingLocation from '../../../../components/Crop/PlantingLocation';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -23,7 +23,7 @@ export default function PlantingLocation({ history, match }) {
   const { interested } = useSelector(certifierSurveySelector);
 
   return (
-    <>
+    <Fragment key={`${variety_id}-${isFinalLocationPage}`}>
       <HookFormPersistProvider>
         <PurePlantingLocation
           isFinalLocationPage={isFinalLocationPage}
@@ -37,6 +37,6 @@ export default function PlantingLocation({ history, match }) {
         />
       </HookFormPersistProvider>
       {needs_transplant && !already_in_ground && <TransplantSpotlight is_seed={is_seed} />}
-    </>
+    </Fragment>
   );
 }

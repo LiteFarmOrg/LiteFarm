@@ -75,7 +75,7 @@ export default function PureManagementTasks({
         )
       }
     >
-      <CropHeader onBackClick={onBack} variety={variety} />
+      <CropHeader onBackClick={() => history.go(-1)} variety={variety} />
 
       <div className={styles.titlewrapper}>
         <Label className={styles.title} style={{ marginTop: '24px' }}>

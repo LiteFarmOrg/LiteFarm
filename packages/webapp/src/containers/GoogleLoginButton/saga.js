@@ -17,7 +17,6 @@ export const loginWithGoogle = createAction(`loginWithGoogleSaga`);
 
 export function* loginWithGoogleSaga({ payload: google_id_token }) {
   try {
-    yield put(onLoadingUserFarmsStart());
     const header = {
       headers: {
         'Content-Type': 'application/json',
@@ -36,6 +35,7 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
     if (isInvited) {
       yield put(setCustomSignUpErrorKey({ key: inlineErrors.invited }));
     } else if (id_token === '') {
+      // The user has an account with a password
       history.push(
         {
           pathname: '/',
@@ -45,12 +45,7 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
     } else {
       yield put(loginSuccess(user));
       if (isSignUp) {
-        history.push(
-          {
-            pathname: '/sso_signup_information',
-          },
-          { user },
-        );
+        history.push('/welcome');
       } else {
         history.push('/farm_selection');
       }

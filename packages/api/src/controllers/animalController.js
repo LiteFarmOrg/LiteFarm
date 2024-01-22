@@ -16,6 +16,8 @@
 import { Model, transaction } from 'objection';
 import AnimalModel from '../models/animalModel.js';
 import baseController from './baseController.js';
+import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
+import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 
 const animalController = {
   getFarmAnimals() {
@@ -33,7 +35,7 @@ const animalController = {
     };
   },
 
-  addAnimal() {
+  addAnimals() {
     return async (req, res) => {
       try {
         const trx = await transaction.start(Model.knex());
@@ -41,16 +43,41 @@ const animalController = {
         const result = [];
 
         if (!Array.isArray(req.body)) {
+          trx.rollback();
           return res.status(400).send('Request body should be an array');
         }
 
         for (const animal of req.body) {
           if (!animal.identifier && !animal.name) {
+            trx.rollback();
             return res.status(400).send('Should send either animal name or identifier');
           }
 
           if (!animal.default_breed_id && !animal.custom_breed_id) {
+            trx.rollback();
             return res.status(400).send('Should send either default_breed_id or custom_breed_id');
+          }
+
+          if (animal.default_breed_id) {
+            const defaultBreed = await DefaultAnimalBreedModel.query()
+              .whereNotDeleted()
+              .findById(animal.default_breed_id);
+
+            if (!defaultBreed) {
+              trx.rollback();
+              return res.status(400).send('default_breed_id has invalid value');
+            }
+          }
+
+          if (animal.custom_breed_id) {
+            const customBreed = await CustomAnimalBreedModel.query()
+              .whereNotDeleted()
+              .findById(animal.custom_breed_id);
+
+            if (!customBreed || customBreed.farm_id !== farm_id) {
+              trx.rollback();
+              return res.status(400).send('custom_breed_id has invalid value');
+            }
           }
 
           const individualAnimalResult = await baseController.postWithResponse(

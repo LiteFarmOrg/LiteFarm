@@ -13,13 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import express from 'express';
+import AnimalIdentifierColor from '../models/animalIdentifierColorModel.js';
 
-const router = express.Router();
-import checkScope from '../middleware/acl/checkScope.js';
-import AnimalController from '../controllers/animalController.js';
+const animalIdentifierColorController = {
+  getAnimalIdentifierColors() {
+    return async (_req, res) => {
+      try {
+        const rows = await AnimalIdentifierColor.query();
+        return res.status(200).send(rows);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+          error,
+        });
+      }
+    };
+  },
+};
 
-router.get('/', checkScope(['get:animals']), AnimalController.getFarmAnimals());
-router.post('/', checkScope(['add:animals']), AnimalController.addAnimals());
-
-export default router;
+export default animalIdentifierColorController;

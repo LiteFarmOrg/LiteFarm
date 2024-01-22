@@ -26,19 +26,8 @@ export const up = async function (knex) {
 
   await knex.schema.createTable('animal_identifier_placement', (table) => {
     table.increments('id').primary();
-    table.integer('default_type_id').references('id').inTable('default_animal_type');
-    table.integer('custom_type_id').references('id').inTable('custom_animal_type');
+    table.integer('default_type_id').references('id').inTable('default_animal_type').notNullable();
     table.string('key').notNullable();
-    table.check(
-      '?? is not null or ?? is not null',
-      ['default_type_id', 'custom_type_id'],
-      'not_null_type_id_check',
-    );
-    table.check(
-      '?? is null or ?? is null',
-      ['default_type_id', 'custom_type_id'],
-      'null_type_id_check',
-    );
   });
 
   await knex.schema.createTable('animal_origin', (table) => {
@@ -53,7 +42,7 @@ export const up = async function (knex) {
     table.integer('custom_breed_id').references('id').inTable('custom_animal_breed');
     table.integer('sex_id').references('id').inTable('animal_sex');
     table.string('name');
-    table.date('birth_date');
+    table.dateTime('birth_date');
     table.string('identifier');
     table.integer('identifier_color_id').references('id').inTable('animal_identifier_color');
     table
@@ -63,8 +52,8 @@ export const up = async function (knex) {
     table.integer('origin_id').references('id').inTable('animal_origin');
     table.string('dam');
     table.string('sire');
-    table.date('brought_in_date');
-    table.date('weaning_date');
+    table.dateTime('brought_in_date');
+    table.dateTime('weaning_date');
     table.text('notes');
     table.boolean('deleted').notNullable().defaultTo(false);
     table
@@ -156,6 +145,18 @@ export const up = async function (knex) {
     { permission_id: 152, name: 'delete:animals', description: 'delete animal breeds' },
     { permission_id: 153, name: 'edit:animals', description: 'edit animal breeds' },
     { permission_id: 154, name: 'get:animals', description: 'get animal breeds' },
+    {
+      permission_id: 155,
+      name: 'get:animal_identifier_colors',
+      description: 'get animal identifier colors',
+    },
+    {
+      permission_id: 156,
+      name: 'get:animal_identifier_placements',
+      description: 'get animal identifier placements',
+    },
+    { permission_id: 157, name: 'get:animal_sexes', description: 'get animal sexes' },
+    { permission_id: 158, name: 'get:animal_origins', description: 'get animal origins' },
   ]);
 
   await knex('rolePermissions').insert([
@@ -172,11 +173,27 @@ export const up = async function (knex) {
     { role_id: 2, permission_id: 154 },
     { role_id: 3, permission_id: 154 },
     { role_id: 5, permission_id: 154 },
+    { role_id: 1, permission_id: 155 },
+    { role_id: 2, permission_id: 155 },
+    { role_id: 3, permission_id: 155 },
+    { role_id: 5, permission_id: 155 },
+    { role_id: 1, permission_id: 156 },
+    { role_id: 2, permission_id: 156 },
+    { role_id: 3, permission_id: 156 },
+    { role_id: 5, permission_id: 156 },
+    { role_id: 1, permission_id: 157 },
+    { role_id: 2, permission_id: 157 },
+    { role_id: 3, permission_id: 157 },
+    { role_id: 5, permission_id: 157 },
+    { role_id: 1, permission_id: 158 },
+    { role_id: 2, permission_id: 158 },
+    { role_id: 3, permission_id: 158 },
+    { role_id: 5, permission_id: 158 },
   ]);
 };
 
 export const down = async function (knex) {
-  const permissions = [151, 152, 153, 154];
+  const permissions = [151, 152, 153, 154, 155, 156, 157, 158];
 
   await knex('rolePermissions').whereIn('permission_id', permissions).del();
   await knex('permissions').whereIn('permission_id', permissions).del();

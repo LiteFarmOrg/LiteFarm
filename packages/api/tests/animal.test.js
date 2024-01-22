@@ -255,5 +255,27 @@ describe('Animal Tests', () => {
 
       expect(res.status).toBe(400);
     });
+
+    test('Should not be able to create an animal with a breed belonging to a different farm', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+      const [animalBreed] = await mocks.custom_animal_breedFactory({
+        promisedFarm: [secondFarm],
+      });
+
+      const animal = mocks.fakeAnimal({
+        default_breed_id: animalBreed.id,
+      });
+
+      const res = await postRequestAsPromise(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [animal],
+      );
+
+      expect(res.status).toBe(400);
+    });
   });
 });

@@ -59,9 +59,9 @@ const animalController = {
           }
 
           if (animal.default_breed_id) {
-            const defaultBreed = await DefaultAnimalBreedModel.query()
-              .whereNotDeleted()
-              .findById(animal.default_breed_id);
+            const defaultBreed = await DefaultAnimalBreedModel.query().findById(
+              animal.default_breed_id,
+            );
 
             if (!defaultBreed) {
               trx.rollback();
@@ -79,6 +79,9 @@ const animalController = {
               return res.status(400).send('custom_breed_id has invalid value');
             }
           }
+
+          // Remove farm_id if it happens to be set in animal object since it should be obtained from header
+          delete animal.farm_id;
 
           const individualAnimalResult = await baseController.postWithResponse(
             AnimalModel,

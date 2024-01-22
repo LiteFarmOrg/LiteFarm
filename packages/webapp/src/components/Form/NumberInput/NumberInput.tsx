@@ -1,6 +1,6 @@
 import { ChangeEvent, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import InputField, { type CommonInputFieldProps } from '../InputField';
+import InputBase, { type InputBaseProps } from '../InputBase';
 
 export type NumberInputProps = {
   value?: number | string;
@@ -10,7 +10,7 @@ export type NumberInputProps = {
   allowDecimal?: boolean;
   locale?: string;
   roundToDecimalPlaces?: number;
-} & CommonInputFieldProps;
+} & InputBaseProps;
 
 const initializeInputValue =
   (initialValue: NumberInputProps['value'] = '', formatter: Intl.NumberFormat) =>
@@ -123,7 +123,7 @@ export default function NumberInput({
   };
 
   return (
-    <InputField
+    <InputBase
       inputMode="numeric"
       pattern={getPattern()}
       value={getDisplayValue()}

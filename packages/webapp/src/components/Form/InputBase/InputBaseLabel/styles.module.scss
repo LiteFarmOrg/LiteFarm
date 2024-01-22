@@ -1,0 +1,32 @@
+.labelContainer {
+  display: flex;
+  justify-content: space-between;
+  min-height: 20px;
+  position: relative;
+}
+
+.sm {
+  margin-left: 8px;
+}
+
+.leaf {
+  transform: translate(4px, 3px);
+  margin-left: 4px;
+}
+
+.tooltipIconContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.icon {
+  position: absolute;
+  right: 0;
+  top: -8px;
+  color: var(--iconDefault);
+}
+
+.icon > * {
+  cursor: pointer;
+}

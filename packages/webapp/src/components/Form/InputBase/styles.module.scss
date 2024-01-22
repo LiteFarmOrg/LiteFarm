@@ -1,0 +1,8 @@
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.inputWrapper input:disabled + .stepper .stepperIcons {
+  pointer-events: none;
+}

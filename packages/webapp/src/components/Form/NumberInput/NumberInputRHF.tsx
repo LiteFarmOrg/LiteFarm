@@ -28,7 +28,7 @@ export default function NumberInputRHF({
         field.onBlur();
         onBlur?.();
       }}
-      errors={fieldState.error?.message}
+      error={fieldState.error?.message}
     />
   );
 }

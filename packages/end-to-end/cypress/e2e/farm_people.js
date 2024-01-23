@@ -41,13 +41,7 @@ describe('Farm People', () => {
     const uniqueSeed = Date.now().toString();
     const uniqueId = Cypress._.uniqueId(uniqueSeed);
 
-    cy.get('[data-cy=home-farmButton]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.get('[data-cy=navbar-option]')
-      .eq(2)
-      .contains(translation['MY_FARM']['PEOPLE'])
+    cy.contains(translation['MENU']['PEOPLE'])
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
@@ -68,13 +62,7 @@ describe('Farm People', () => {
   });
 
   it('InviteInvalidEmail', () => {
-    cy.get('[data-cy=home-farmButton]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.get('[data-cy=navbar-option]')
-      .eq(2)
-      .contains(translation['MY_FARM']['PEOPLE'])
+    cy.contains(translation['MENU']['PEOPLE'])
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
@@ -95,13 +83,7 @@ describe('Farm People', () => {
     const uniqueSeed = Date.now().toString();
     const uniqueId = Cypress._.uniqueId(uniqueSeed);
 
-    cy.get('[data-cy=home-farmButton]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.get('[data-cy=navbar-option]')
-      .eq(2)
-      .contains(translation['MY_FARM']['PEOPLE'])
+    cy.contains(translation['MENU']['PEOPLE'])
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });

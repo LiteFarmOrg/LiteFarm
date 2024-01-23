@@ -14,6 +14,8 @@
  */
 
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
+import { transaction, Model } from 'objection';
+import baseController from './baseController.js';
 
 const customAnimalBreedController = {
   getCustomAnimalBreeds() {
@@ -41,6 +43,64 @@ const customAnimalBreedController = {
         return res.status(500).json({
           error,
         });
+      }
+    };
+  },
+
+  addCustomAnimalBreed() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const { farm_id } = req.headers;
+        let { breed } = req.body;
+        const { default_type_id, custom_type_id } = req.body;
+        breed = breed.trim();
+
+        if (!breed) {
+          return res.status(400).send('Breed should be specified');
+        }
+        if (default_type_id && custom_type_id) {
+          return res.status(400).send('Only default_type_id or custom_type_id should be specified');
+        }
+        if (!default_type_id && !custom_type_id) {
+          return res
+            .status(400)
+            .send('One of default_type_id or custom_type_id should be specified');
+        }
+
+        const record = await baseController.existsInTable(trx, CustomAnimalBreedModel, {
+          default_type_id,
+          custom_type_id,
+          breed,
+          farm_id,
+          deleted: false,
+        });
+
+        if (record) {
+          await trx.rollback();
+          return res.status(409).send();
+        } else {
+          const result = await baseController.postWithResponse(
+            CustomAnimalBreedModel,
+            {
+              default_type_id,
+              custom_type_id,
+              breed,
+              farm_id,
+            },
+            req,
+            {
+              trx,
+            },
+          );
+
+          await trx.commit();
+          return res.status(201).send(result);
+        }
+      } catch (error) {
+        await trx.rollback();
+        console.error(error);
+        return res.status(500).json({ error });
       }
     };
   },

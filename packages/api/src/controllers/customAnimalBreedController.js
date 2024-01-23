@@ -54,10 +54,10 @@ const customAnimalBreedController = {
         const { farm_id } = req.headers;
         let { breed } = req.body;
         const { default_type_id, custom_type_id } = req.body;
-        breed = breed.trim();
+        breed = baseController.checkAndTrimString(breed);
 
         if (!breed) {
-          return res.status(400).send('Breed should be specified');
+          return res.status(400).send('Animal breed must be provided');
         }
         if (default_type_id && custom_type_id) {
           return res.status(400).send('Only default_type_id or custom_type_id should be specified');
@@ -68,10 +68,15 @@ const customAnimalBreedController = {
             .send('One of default_type_id or custom_type_id should be specified');
         }
 
+        let breedDetails;
+        if (custom_type_id) {
+          breedDetails = { custom_type_id, breed };
+        } else {
+          breedDetails = { default_type_id, breed };
+        }
+
         const record = await baseController.existsInTable(trx, CustomAnimalBreedModel, {
-          default_type_id,
-          //custom_type_id,
-          breed,
+          ...breedDetails,
           farm_id,
           deleted: false,
         });
@@ -83,9 +88,7 @@ const customAnimalBreedController = {
           const result = await baseController.postWithResponse(
             CustomAnimalBreedModel,
             {
-              default_type_id,
-              custom_type_id,
-              breed,
+              ...breedDetails,
               farm_id,
             },
             req,

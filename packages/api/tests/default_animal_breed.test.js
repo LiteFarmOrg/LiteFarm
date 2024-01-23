@@ -33,6 +33,8 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 );
 import mocks from './mock.factories.js';
 
+import customAnimalBreedModel from '../src/models/customAnimalBreedModel.js';
+
 describe('Default Animal Breed Tests', () => {
   let farm;
   let newOwner;
@@ -50,6 +52,19 @@ describe('Default Animal Breed Tests', () => {
   }
 
   const getRequestAsPromise = util.promisify(getRequest);
+
+  function postRequest(data, { user_id, farm_id }, callback) {
+    chai
+      .request(server)
+      .post(`/custom_animal_breeds`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+
+  const postRequestAsPromise = util.promisify(postRequest);
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
@@ -72,6 +87,11 @@ describe('Default Animal Breed Tests', () => {
   async function makeDefaultAnimalBreed() {
     const [animal_breed] = await mocks.default_animal_breedFactory();
     return animal_breed;
+  }
+
+  async function makeDefaultAnimalType() {
+    const [animal_type] = await mocks.default_animal_typeFactory();
+    return animal_type;
   }
 
   beforeEach(async () => {
@@ -133,6 +153,145 @@ describe('Default Animal Breed Tests', () => {
         // Should return both breeds
         expect(res.body.length).toBe(2);
       }
+    });
+  });
+
+  // POST tests
+  describe('POST custom animal breed tests', () => {
+    test('Admin users should be able to post new custom animal breed', async () => {
+      const adminRoles = [1, 2, 5];
+
+      for (const role of adminRoles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+        const animal_type = await makeDefaultAnimalType();
+        const animal_breed = mocks.fakeCustomAnimalBreed({ default_type_id: animal_type.id });
+        const res = await postRequestAsPromise(animal_breed, {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        });
+
+        // Check response
+        expect(res).toMatchObject({
+          status: 201,
+          body: {
+            farm_id: mainFarm.farm_id,
+            default_type_id: animal_breed.default_type_id,
+            breed: animal_breed.breed,
+          },
+        });
+
+        // Check database
+        const animal_breeds = await customAnimalBreedModel
+          .query()
+          .context({ showHidden: true })
+          .where('farm_id', mainFarm.farm_id)
+          .andWhere('default_type_id', animal_breed.default_type_id)
+          .andWhere('breed', animal_breed.breed);
+
+        expect(animal_breeds).toHaveLength(1);
+      }
+    });
+
+    test('Worker should not be able to post new animal custom animal breed', async () => {
+      const { mainFarm, user } = await returnUserFarms(3);
+
+      const animal_type = await makeDefaultAnimalType();
+      const animal_breed = mocks.fakeCustomAnimalBreed({ default_type_id: animal_type.id });
+      const res = await postRequestAsPromise(animal_breed, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      // Check response
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe(
+        'User does not have the following permission(s): add:animal_breeds',
+      );
+
+      const animal_breeds = await customAnimalBreedModel
+        .query()
+        .context({ showHidden: true })
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('default_type_id', animal_breed.default_type_id)
+        .andWhere('breed', animal_breed.breed);
+
+      // Check database
+      expect(animal_breeds).toHaveLength(0);
+    });
+
+    test('Creating the same breed as an existing breed on farm should return a conflict error', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const animal_type = await makeDefaultAnimalType();
+      const animal_breed = mocks.fakeCustomAnimalBreed({ default_type_id: animal_type.id });
+
+      await postRequestAsPromise(animal_breed, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      const res = await postRequestAsPromise(animal_breed, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      // Check response
+      expect(res.status).toBe(409);
+
+      // Check database (no second record created)
+      const animal_breeds = await customAnimalBreedModel
+        .query()
+        .context({ showHidden: true })
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('default_type_id', animal_breed.default_type_id)
+        .andWhere('breed', animal_breed.breed);
+
+      expect(animal_breeds).toHaveLength(1);
+    });
+
+    test('Creating the same breed as a deleted type should be allowed', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const animal_type = await makeDefaultAnimalType();
+      const animal_breed = mocks.fakeCustomAnimalBreed({ default_type_id: animal_type.id });
+
+      await postRequestAsPromise(animal_breed, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      await customAnimalBreedModel
+        .query()
+        .context({ user_id: user.user_id, showHidden: true })
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('default_type_id', animal_breed.default_type_id)
+        .andWhere('breed', animal_breed.breed)
+        .delete();
+
+      const res = await postRequestAsPromise(animal_breed, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      // Check response
+      expect(res).toMatchObject({
+        status: 201,
+        body: {
+          farm_id: mainFarm.farm_id,
+          default_type_id: animal_breed.default_type_id,
+          breed: animal_breed.breed,
+        },
+      });
+
+      // Check database
+      const animal_breeds = await customAnimalBreedModel
+        .query()
+        .context({ showHidden: true })
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('default_type_id', animal_breed.default_type_id)
+        .andWhere('breed', animal_breed.breed);
+
+      expect(animal_breeds).toHaveLength(2);
     });
   });
 });

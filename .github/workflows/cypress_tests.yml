@@ -2,42 +2,49 @@ name: Run cypress happy path test
 
 on:
   workflow_dispatch:
-  # pull_request:
-  #   branches:
-  #     - integration
+  pull_request:
+    branches:
+      - e2e_test_mika
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_DB: "pg-litefarm"
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "postgres"
+          # POSTGRES_HOST: localhost
+          # POSTGRES_HOST: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+        volumes:
+          - ./initdb.d:/docker-entrypoint-initdb.d
+          - postgres-data:/var/lib/postgresql/data
+    strategy:
+      matrix:
+        node-version: [16.15.0]
     env:
-      JWT_INVITE_SECRET: ${{secrets.JWT_INVITE_SECRET}}
-      JWT_RESET_SECRET: ${{secrets.JWT_RESET_SECRET}}
-      JWT_SCHEDULER_SECRET: ${{secrets.JWT_SCHEDULER_SECRET}}
-      JWT_SECRET: ${{secrets.JWT_SECRET}}
-      TEST_USER: ${{secrets.TEST_USER}}
-      TEST_USER_ID: ${{secrets.TEST_USER_ID}}
-      DEV_DATABASE_HOST: localhost
-      DEV_DATABASE: pg-litefarm
-      DEV_DATABASE_USER: postgres
-      DEV_DATABASE_PASSWORD: postgres
+      JWT_SECRET: This_will_(really)_work
+      JWT_INVITE_SECRET: Any_arbitrary_string_will_do
+      JWT_RESET_SECRET: Production_is_secured_with_a_long_random_string
+      JWT_FARM_SECRET: Here_we_can_use_friendly_explanations
+      JWT_SCHEDULER_SECRET: Another_token_was_needed_for_the_scheduler
       GOOGLE_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
       VITE_GOOGLE_MAPS_API_KEY: ${{secrets.VITE_GOOGLE_MAPS_API_KEY}}
       VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
       NODE_ENV: development
 
-    strategy:
-      matrix:
-        node-version: [16.15.0]
-
     steps:
-      - uses: ikalnytskyi/action-setup-postgres@v3
-        with:
-          username: ${{env.DEV_DATABASE_USER}}
-          password: ${{env.DEV_DATABASE_PASSWORD}}
-          database: ${{env.DEV_DATABASE}}
-          port: 5432
-
       - uses: actions/checkout@v2
 
       - name: Use Node.js ${{ matrix.node-version }}
@@ -53,53 +60,43 @@ jobs:
           npm run start &
         env:
           PORT: 5000
+          DEV_DATABASE_HOST: localhost
+          DEV_DATABASE: pg-litefarm
+          DEV_DATABASE_USER: postgres
+          DEV_DATABASE_PASSWORD: postgres
+          NODE_ENV: development
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v2
         with:
           version: latest
-
-      - name: Run and test app
+      - name: Run Webapp
+        working-directory: packages/webapp
+        run: |
+          pnpm install --config.auto-install-peers=true --no-frozen-lockfile --force
+          pnpm dev &
         env:
-          VITE_WEATHER_API_KEY: ${{secrets.VITE_WEATHER_API_KEY}}
           VITE_ENV: development
           VITE_GOOGLE_OAUTH_CLIENT_ID: ${{secrets.VITE_GOOGLE_OAUTH_CLIENT_ID}}
           VITE_DO_BUCKET_NAME: litefarm
           NODE_ENV: development
           VITE_API_URL: http://localhost:5000
-          CYPRESS_RECORD_KEY: "2630f414-4914-48b0-907d-aa3a9cc6a30b"
-        uses: cypress-io/github-action@v4.2.0
+          CYPRESS_COVERAGE: true
+      - name: Run E2E test (English)
+        env:
+          CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
+          CYPRESS_USER: 0
+        uses: cypress-io/github-action@v6
         with:
-          working-directory: packages/webapp
-          install-command: pnpm install --config.auto-install-peers=true --no-frozen-lockfile --force
-          install: true
-          start: pnpm dev
-          wait-on: "http://localhost:3000"
-          wait-on-timeout: 120
+          working-directory: packages/end-to-end
           headed: true
           browser: chrome
           record: true
-          parallel: true
+          parallel: false
           group: "UI - Chrome"
-          spec: cypress/e2e/happyPath.spec.js
+          ci-build-id: ${{ github.run_id }}
 
-      - name: set code coverage badge
-        run: npx -p check-code-coverage update-badge --from '${GITHUB_WORKSPACE}/packages/webapp/coverage/coverage-summary.json'
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
-      - name: Archive code coverage results
+      - name: Archive backend logs
         uses: actions/upload-artifact@v3
-        continue-on-error: true
         with:
-          name: code-coverage-report
-          working-directory: packages/webapp
-          path: coverage/coverage-summary.json
-
-      - name: Set code coverage commit status
-        continue-on-error: true
-        working-directory: packages/webapp
-        run: npx set-gh-status
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          GH_SHA: ${{ github.event.after }}
+          name: logs
+          path: packages/api/logs

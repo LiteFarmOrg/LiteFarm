@@ -13,21 +13,22 @@ export default function NumberInputRHF({
   onBlur,
   ...props
 }: NumberInputRHFProps) {
-  const { control } = useFormContext();
-  const { field, fieldState } = useController({ name, control, rules });
+  const { control, resetField } = useFormContext();
+  const { field, fieldState } = useController({ name, control, rules, defaultValue: props.value });
 
   return (
     <NumberInput
       {...props}
       value={field.value}
       onChange={(value) => {
-        field.onChange(value);
+        field.onChange(isNaN(value) ? null : value);
         onChange?.(value);
       }}
       onBlur={() => {
         field.onBlur();
         onBlur?.();
       }}
+      onCrossClick={() => resetField(name)}
       error={fieldState.error?.message}
     />
   );

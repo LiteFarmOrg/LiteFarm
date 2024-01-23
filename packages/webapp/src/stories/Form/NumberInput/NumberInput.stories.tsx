@@ -137,6 +137,15 @@ export const Round: Story = {
   },
 };
 
+export const WithError: Story = {
+  args: {
+    rules: {
+      max: { value: 10, message: 'Error - number should be below 10.' },
+    },
+    info: 'Enter number above 10 to trigger error',
+  },
+};
+
 function test(
   value: string,
   {

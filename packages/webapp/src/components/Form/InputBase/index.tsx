@@ -11,8 +11,8 @@ export type InputBaseProps = {
   hasLeaf?: boolean;
   toolTipContent?: string;
   icon?: ReactNode;
-  leftSection?: ReactElement;
-  rightSection?: ReactElement;
+  leftSection?: ReactNode;
+  rightSection?: ReactNode;
   onCrossClick?: () => void;
   info?: string;
   error?: string;

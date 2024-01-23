@@ -150,6 +150,12 @@ export const WithInitialValue: Story = {
   args: { value: 33 },
 };
 
+export const Unit: Story = {
+  args: {
+    unit: 'kg',
+  },
+};
+
 function test(
   value: string,
   {

@@ -1,4 +1,4 @@
-import { ChangeEvent, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputBase, { type InputBaseProps } from '../InputBase';
 
@@ -10,6 +10,7 @@ export type NumberInputProps = {
   allowDecimal?: boolean;
   locale?: string;
   roundToDecimalPlaces?: number;
+  unit?: ReactNode;
 } & InputBaseProps;
 
 const initializeInputValue =
@@ -30,6 +31,7 @@ export default function NumberInput({
   useGrouping = true,
   allowDecimal = true,
   roundToDecimalPlaces,
+  unit,
   ...props
 }: NumberInputProps) {
   const {
@@ -130,6 +132,7 @@ export default function NumberInput({
       onChange={handleChange}
       onBlur={handleBlur}
       onFocus={handleFocus}
+      rightSection={unit}
       {...props}
     />
   );

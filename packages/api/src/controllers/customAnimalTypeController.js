@@ -40,6 +40,11 @@ const customAnimalTypeController = {
       try {
         const { farm_id } = req.headers;
         let { type } = req.body;
+
+        if (!type || !type.trim()) {
+          return res.status(400).send('Animal type must be provided');
+        }
+
         type = type.trim();
 
         const record = await baseController.existsInTable(trx, CustomAnimalTypeModel, {

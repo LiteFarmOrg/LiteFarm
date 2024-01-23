@@ -146,6 +146,10 @@ export const WithError: Story = {
   },
 };
 
+export const WithInitialValue: Story = {
+  args: { value: 33 },
+};
+
 function test(
   value: string,
   {

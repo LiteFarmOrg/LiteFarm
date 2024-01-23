@@ -54,14 +54,12 @@ Cypress.Commands.add(
         cy.onboardCompleteQuestions('Manager');
         cy.acceptSlideMenuSpotlights(crop_menu_name);
         cy.createFirstLocation(fieldString);
-        cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled');
         cy.visit('/');
       } else {
         cy.get('[data-cy=enterPassword-password]').type(password);
         cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
 
-        cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
-        cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled');
+        cy.get('[data-cy=chooseFarm-proceed]').should('be.visible').and('be.enabled').click();
         cy.visit('/');
       }
     });
@@ -140,8 +138,6 @@ Cypress.Commands.add('onboardCompleteQuestions', (role) => {
 });
 
 Cypress.Commands.add('createFirstLocation', (fieldString) => {
-  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });
-
   cy.intercept('GET', '**/maps.googleapis.com/maps/api/**').as('googleMapsApiCall');
   cy.intercept('GET', 'https://maps.googleapis.com/maps-api-v3/api/js/54/11/marker.js').as(
     'markerJsRequest',
@@ -202,7 +198,6 @@ Cypress.Commands.add('createFirstLocation', (fieldString) => {
 
   // Confirm that location exists
   cy.visit('/');
-  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });
   cy.get('[data-cy=navbar-option]')
     .eq(1)
     .should('exist')

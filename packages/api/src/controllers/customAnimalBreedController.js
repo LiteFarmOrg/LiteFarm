@@ -70,7 +70,7 @@ const customAnimalBreedController = {
 
         const record = await baseController.existsInTable(trx, CustomAnimalBreedModel, {
           default_type_id,
-          custom_type_id,
+          //custom_type_id,
           breed,
           farm_id,
           deleted: false,

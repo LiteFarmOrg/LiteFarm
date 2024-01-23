@@ -57,10 +57,10 @@ describe('Farm People', () => {
 
     cy.get('[data-cy=invite-fullName]').click();
     cy.get('[data-cy=invite-fullName]').should('exist').type('Awesome Farm Manager');
-    cy.contains(translation['INVITE_USER']['CHOOSE_ROLE'])
-      .parent()
-      .find('input')
-      .type(roles['MANAGER'] + '{enter}');
+
+    cy.contains(translation['INVITE_USER']['CHOOSE_ROLE']).click({ force: true });
+    cy.contains(roles['MANAGER']).click({ force: true });
+
     cy.get('[data-cy=invite-email]')
       .should('exist')
       .type('farm_manager' + uniqueId + '@litefarm.com');
@@ -111,10 +111,10 @@ describe('Farm People', () => {
 
     cy.get('[data-cy=invite-fullName]').click();
     cy.get('[data-cy=invite-fullName]').should('exist').type('Awesome Farm Manager');
-    cy.contains(translation['INVITE_USER']['CHOOSE_ROLE'])
-      .parent()
-      .find('input')
-      .type(roles['MANAGER'] + '{enter}');
+
+    cy.contains(translation['INVITE_USER']['CHOOSE_ROLE']).click({ force: true });
+    cy.contains(roles['MANAGER']).click({ force: true });
+
     cy.get('[data-cy=invite-email]')
       .should('exist')
       .type('farm_manager' + uniqueId + '@litefarm.com');
@@ -125,10 +125,10 @@ describe('Farm People', () => {
 
     cy.get('[data-cy=invite-fullName]').click();
     cy.get('[data-cy=invite-fullName]').should('exist').type('Awesome Farm Manager');
-    cy.contains(translation['INVITE_USER']['CHOOSE_ROLE'])
-      .parent()
-      .find('input')
-      .type(roles['MANAGER'] + '{enter}');
+
+    cy.contains(translation['INVITE_USER']['CHOOSE_ROLE']).click({ force: true });
+    cy.contains(roles['MANAGER']).click({ force: true });
+
     cy.get('[data-cy=invite-email]')
       .should('exist')
       .type('farm_manager' + uniqueId + '@litefarm.com');

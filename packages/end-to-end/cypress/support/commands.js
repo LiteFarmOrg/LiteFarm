@@ -42,11 +42,8 @@ Cypress.Commands.add(
       if ($element.is(':visible')) {
         cy.get('[data-cy=createUser-fullName]').type(fullName);
 
-        // cy.get('[id$=react-select-3-input]').type(language+'{enter}');
-        cy.contains('English')
-          .parent()
-          .find('input')
-          .type(language + '{enter}');
+        cy.contains('English').click({ force: true });
+        cy.contains(language).click({ force: true });
 
         cy.get('[data-cy=createUser-password]').type(password);
         cy.get('[data-cy=createUser-create]').should('exist').and('be.enabled').click();
@@ -94,7 +91,7 @@ Cypress.Commands.add('onboardCompleteQuestions', (role) => {
   //   clock.restore();
   // });
 
-  // Give Concent
+  // Give consent
   cy.url().should('include', '/consent');
   cy.get('[data-cy=consentPage-content]', { timeout: 180 * 1000 }).should('exist');
   cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');

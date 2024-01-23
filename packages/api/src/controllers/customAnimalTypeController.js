@@ -39,7 +39,8 @@ const customAnimalTypeController = {
       const trx = await transaction.start(Model.knex());
       try {
         const { farm_id } = req.headers;
-        const { type } = req.body;
+        let { type } = req.body;
+        type = type.trim();
 
         const record = await baseController.existsInTable(trx, CustomAnimalTypeModel, {
           type,

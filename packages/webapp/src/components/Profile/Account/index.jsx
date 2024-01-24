@@ -97,6 +97,32 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
         errors={errors[userFarmEnum.phone_number] && errors[userFarmEnum.phone_number].message}
         optional
       />
+      <Input
+        label={t('PROFILE.ACCOUNT.USER_ADDRESS')}
+        hookFormRegister={register(userFarmEnum.user_address, {
+          required: false,
+          maxLength: { value: 255, message: t('PROFILE.ERROR.USER_ADDRESS_LENGTH') },
+        })}
+        errors={errors[userFarmEnum.user_address] && errors[userFarmEnum.user_address].message}
+        optional
+      />
+      <Input
+        label={t('CREATE_USER.BIRTH_YEAR')}
+        type="number"
+        onKeyPress={integerOnKeyDown}
+        hookFormRegister={register(userFarmEnum.birth_year, {
+          min: 1900,
+          max: new Date().getFullYear(),
+          valueAsNumber: true,
+        })}
+        toolTipContent={t('CREATE_USER.BIRTH_YEAR_TOOLTIP')}
+        errors={
+          errors[userFarmEnum.birth_year] &&
+          (errors[userFarmEnum.birth_year].message ||
+            `${t('CREATE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
+        }
+        optional
+      />
       <Controller
         control={control}
         name={userFarmEnum.gender}
@@ -116,32 +142,6 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
         render={({ field }) => (
           <ReactSelect label={t('PROFILE.ACCOUNT.LANGUAGE')} options={languageOptions} {...field} />
         )}
-      />
-      <Input
-        label={t('CREATE_USER.BIRTH_YEAR')}
-        type="number"
-        onKeyPress={integerOnKeyDown}
-        hookFormRegister={register(userFarmEnum.birth_year, {
-          min: 1900,
-          max: new Date().getFullYear(),
-          valueAsNumber: true,
-        })}
-        toolTipContent={t('CREATE_USER.BIRTH_YEAR_TOOLTIP')}
-        errors={
-          errors[userFarmEnum.birth_year] &&
-          (errors[userFarmEnum.birth_year].message ||
-            `${t('CREATE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
-        }
-        optional
-      />
-      <Input
-        label={t('PROFILE.ACCOUNT.USER_ADDRESS')}
-        hookFormRegister={register(userFarmEnum.user_address, {
-          required: false,
-          maxLength: { value: 255, message: t('PROFILE.ERROR.USER_ADDRESS_LENGTH') },
-        })}
-        errors={errors[userFarmEnum.user_address] && errors[userFarmEnum.user_address].message}
-        optional
       />
     </ProfileLayout>
   );

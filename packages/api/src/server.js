@@ -126,6 +126,8 @@ import loginRoutes from './routes/loginRoute.js';
 
 import defaultAnimalTypeRoute from './routes/defaultAnimalTypeRoute.js';
 import customAnimalTypeRoute from './routes/customAnimalTypeRoute.js';
+import defaultAnimalBreedRoute from './routes/defaultAnimalBreedRoute.js';
+import customAnimalBreedRoute from './routes/customAnimalBreedRoute.js';
 import cropRoutes from './routes/cropRoute.js';
 import cropVarietyRoutes from './routes/cropVarietyRoute.js';
 import fieldRoutes from './routes/fieldRoute.js';
@@ -268,6 +270,8 @@ app
   // routes
   .use('/default_animal_types', defaultAnimalTypeRoute)
   .use('/custom_animal_types', customAnimalTypeRoute)
+  .use('/default_animal_breeds', defaultAnimalBreedRoute)
+  .use('/custom_animal_breeds', customAnimalBreedRoute)
   .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
   .use('/crop', cropRoutes)

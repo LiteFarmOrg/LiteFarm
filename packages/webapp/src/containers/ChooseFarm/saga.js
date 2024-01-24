@@ -46,7 +46,7 @@ export function* getUserFarmsSaga() {
     yield put(getUserFarmsSuccess(result.data));
   } catch (error) {
     yield put(onLoadingUserFarmsFail(error));
-    console.log('failed to fetch task types from database');
+    console.log('failed to fetch user farms from database');
   }
 }
 export const patchUserFarmStatusWithIDToken = createAction('patchUserFarmStatusWithIDTokenSaga');
@@ -76,7 +76,7 @@ export function* getSpotlightFlagsSaga() {
     yield put(getSpotlightFlagsSuccess(result.data));
   } catch (error) {
     yield put(getSpotlightFlagsFailure());
-    console.log('failed to fetch task types from database');
+    console.log('failed to fetch spotlight flags from database');
   }
 }
 

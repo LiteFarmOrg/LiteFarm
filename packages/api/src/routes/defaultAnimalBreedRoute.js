@@ -16,19 +16,8 @@
 import express from 'express';
 
 const router = express.Router();
-import CustomAnimalTypeController from '../controllers/customAnimalTypeController.js';
-import checkScope from '../middleware/acl/checkScope.js';
+import DefaultAnimalBreedController from '../controllers/defaultAnimalBreedController.js';
 
-router.get(
-  '/',
-  checkScope(['get:animal_types']),
-  CustomAnimalTypeController.getCustomAnimalTypes(),
-);
-
-router.post(
-  '/',
-  checkScope(['add:animal_types']),
-  CustomAnimalTypeController.addCustomAnimalType(),
-);
+router.get('/', DefaultAnimalBreedController.getDefaultAnimalBreeds());
 
 export default router;

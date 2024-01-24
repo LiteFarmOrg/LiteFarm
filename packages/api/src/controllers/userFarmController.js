@@ -45,11 +45,7 @@ const userFarmController = {
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
         // TODO find better solution to get owner names
         const userFarmsWithOwnerField = await appendOwners(rows);
-        if (!userFarmsWithOwnerField.length) {
-          res.sendStatus(404);
-        } else {
-          res.status(200).send(userFarmsWithOwnerField);
-        }
+        res.status(200).send(userFarmsWithOwnerField);
       } catch (error) {
         //handle more exceptions
         res.status(400).send(error);

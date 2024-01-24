@@ -58,6 +58,13 @@ const animalController = {
             return res.status(400).send('Should send either default_breed_id or custom_breed_id');
           }
 
+          if (animal.default_breed_id && animal.custom_breed_id) {
+            trx.rollback();
+            return res
+              .status(400)
+              .send('Should only send either default_breed_id or custom_breed_id');
+          }
+
           if (animal.default_breed_id) {
             const defaultBreed = await DefaultAnimalBreedModel.query().findById(
               animal.default_breed_id,

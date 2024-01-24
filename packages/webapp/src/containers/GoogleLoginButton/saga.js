@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, takeLeading } from 'redux-saga/effects';
 import { loginUrl as url } from '../../apiConfig';
-import { loginSuccess, onLoadingUserFarmsFail, onLoadingUserFarmsStart } from '../userFarmSlice';
+import { loginSuccess } from '../userFarmSlice';
 import history from '../../history';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
@@ -51,7 +51,6 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       }
     }
   } catch (e) {
-    yield put(onLoadingUserFarmsFail(e));
     yield put(enqueueErrorSnackbar(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL')));
   }
 }

@@ -12,6 +12,7 @@ import InvalidRevokeUserAccessModal from '../../Modals/InvalidRevokeUserAccessMo
 import Checkbox from '../../Form/Checkbox';
 import { useSelector } from 'react-redux';
 import { userFarmsByFarmSelector } from '../../../containers/userFarmSlice';
+import useGenderOptions from '../../../hooks/useGenderOptions';
 
 export default function PureEditUser({
   userFarm,
@@ -41,12 +42,7 @@ export default function PureEditUser({
   const userFarms = useSelector(userFarmsByFarmSelector);
   const adminRoles = [1, 2, 5];
 
-  const genderOptions = [
-    { value: 'MALE', label: t('gender:MALE') },
-    { value: 'FEMALE', label: t('gender:FEMALE') },
-    { value: 'OTHER', label: t('gender:OTHER') },
-    { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
-  ];
+  const genderOptions = useGenderOptions();
   const languageOptions = [
     { value: 'en', label: t('PROFILE.ACCOUNT.ENGLISH') },
     { value: 'es', label: t('PROFILE.ACCOUNT.SPANISH') },

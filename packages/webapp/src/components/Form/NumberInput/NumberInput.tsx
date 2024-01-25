@@ -1,6 +1,19 @@
-import { ChangeEvent, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  ReactNode,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import InputBase, { type InputBaseProps } from '../InputBase';
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+import styles from './styles.module.scss';
+import { countDecimalPlaces } from './utils';
+import { IconButton } from '@mui/material';
+import { c } from 'vitest/dist/reporters-5f784f42';
 
 export type NumberInputProps = {
   value?: number | string;
@@ -11,6 +24,7 @@ export type NumberInputProps = {
   locale?: string;
   roundToDecimalPlaces?: number;
   unit?: ReactNode;
+  step?: number;
 } & InputBaseProps;
 
 const initializeInputValue =
@@ -32,6 +46,7 @@ export default function NumberInput({
   allowDecimal = true,
   roundToDecimalPlaces,
   unit,
+  step,
   ...props
 }: NumberInputProps) {
   const {
@@ -41,16 +56,23 @@ export default function NumberInput({
   const locale = props.locale || language;
 
   const formatter = useMemo(() => {
-    const options = {
+    const options: Intl.NumberFormatOptions = {
       useGrouping,
       maximumFractionDigits: roundToDecimalPlaces ?? 20,
     };
+
+    if (step) {
+      const decimalPlaces = countDecimalPlaces(step);
+      options.minimumFractionDigits = decimalPlaces;
+      options.maximumFractionDigits = decimalPlaces;
+    }
+
     try {
       return new Intl.NumberFormat(locale, options);
     } catch (error) {
       return new Intl.NumberFormat(undefined, options);
     }
-  }, [locale, useGrouping, roundToDecimalPlaces]);
+  }, [locale, useGrouping, roundToDecimalPlaces, step]);
 
   const { decimalSeparator, thousandsSeparator } = useMemo(() => {
     let separators = {
@@ -83,19 +105,43 @@ export default function NumberInput({
       setInputValue(initializeInputValue(propValue, formatter));
   }, [propValue]);
 
+  const update = (nextNumberValue: number, nextValueString?: string) => {
+    setInputValue({
+      valueAsNumber: nextNumberValue,
+      valueString: nextValueString ?? formatter.format(nextNumberValue),
+    });
+    onChange?.(valueAsNumber);
+  };
+
+  const renderStepper = () => {
+    if (!step) return null;
+
+    const handleStep = (nextValue: number) => {
+      // ensure value doesn't become negative
+      if (nextValue < 0) {
+        if (valueAsNumber === 0) return;
+        return update(0);
+      }
+      update(nextValue);
+    };
+    return (
+      <Stepper
+        increment={() => handleStep((valueAsNumber || 0) + step)}
+        decrement={() => handleStep((valueAsNumber || 0) - step)}
+      />
+    );
+  };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, validity } = e.target;
     if (validity.patternMismatch) return;
     const number = parseFloat(
       decimalSeparator === '.' ? value : value.replace(decimalSeparator, '.'),
     );
-    setInputValue({
-      valueString: value,
-      valueAsNumber: number,
-    });
+    update(number, value);
     setIsEditedAfterFocus(true);
-    onChange?.(number);
   };
+
   const handleBlur = () => {
     setIsFocused(false);
     onBlur?.();
@@ -132,8 +178,26 @@ export default function NumberInput({
       onChange={handleChange}
       onBlur={handleBlur}
       onFocus={handleFocus}
-      rightSection={unit}
+      rightSection={
+        <>
+          {unit}
+          {renderStepper()}
+        </>
+      }
       {...props}
     />
+  );
+}
+
+function Stepper(props: { increment: () => void; decrement: () => void }) {
+  return (
+    <div className={styles.stepper}>
+      <button aria-label="increase" onClick={props.increment}>
+        <MdKeyboardArrowUp className={styles.stepperIcons} />
+      </button>
+      <button aria-label="decrease" onClick={props.decrement}>
+        <MdKeyboardArrowDown className={styles.stepperIcons} />
+      </button>
+    </div>
   );
 }

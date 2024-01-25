@@ -156,6 +156,28 @@ export const Unit: Story = {
   },
 };
 
+export const Stepper: Story = {
+  args: {
+    step: 0.1,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+    const incrementButton = canvas.getByRole('button', { name: 'increase' });
+    const decrementButton = canvas.getByRole('button', { name: 'decrease' });
+
+    expect(input).toHaveValue('');
+    await userEvent.click(incrementButton);
+    expect(input).toHaveValue('0.1');
+    await userEvent.click(decrementButton);
+    expect(input).toHaveValue('0.0');
+
+    // should not go below 0
+    await userEvent.click(decrementButton);
+    expect(input).toHaveValue('0.0');
+  },
+};
+
 function test(
   value: string,
   {

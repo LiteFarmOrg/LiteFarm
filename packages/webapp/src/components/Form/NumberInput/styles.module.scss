@@ -1,0 +1,30 @@
+.stepper {
+  display: flex;
+  flex-flow: column nowrap;
+
+  :nth-child(1) {
+    margin-bottom: -4px;
+  }
+
+  :nth-child(2) {
+    margin-top: -4px;
+  }
+
+  button {
+    all: unset;
+  }
+}
+
+.stepper .stepperIcons {
+  font-size: 24px;
+  width: 32px;
+  border-radius: 4px;
+  transition: color 150ms;
+  color: var(--iconDefault);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--grey200);
+    color: var(--grey600);
+  }
+}

@@ -67,12 +67,16 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add('addFarm', (farmName, location) => {
+  cy.intercept('GET', '**/maps.googleapis.com/maps/api/js/GeocodeService.*').as(
+    'googleMapGeocodeCall',
+  );
   cy.url().should('include', '/add_farm');
 
   cy.waitForReact();
   cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
   cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
   cy.get('[data-cy=addFarm-location]').should('exist').type(location);
+  cy.wait('@googleMapGeocodeCall');
   cy.waitForReact();
   cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
 });

@@ -21,6 +21,17 @@ input {
   font-family: 'Open Sans', 'SansSerif', serif;
 }
 
+.inputDisabled {
+  background-color: var(--inputDisabled) !important;
+  color: var(--grey600);
+  border-color: var(--inputDefault);
+  cursor: not-allowed;
+
+  > * {
+    pointer-events: none;
+  }
+}
+
 .input:focus-within {
   border-color: var(--inputActive);
 }
@@ -31,12 +42,6 @@ input {
 
 input:focus::placeholder {
   color: transparent;
-}
-
-.input:disabled {
-  background-color: var(--inputDisabled) !important;
-  color: var(--grey600);
-  border-color: var(--inputDefault);
 }
 
 .inputError {

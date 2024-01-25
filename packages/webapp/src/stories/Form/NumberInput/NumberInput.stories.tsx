@@ -178,6 +178,13 @@ export const Stepper: Story = {
   },
 };
 
+export const StepperDisabled: Story = {
+  args: {
+    step: 0.1,
+    disabled: true,
+  },
+};
+
 function test(
   value: string,
   {

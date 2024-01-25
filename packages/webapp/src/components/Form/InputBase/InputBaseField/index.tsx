@@ -14,7 +14,11 @@ function InputBaseField(
   return (
     <div
       onMouseDown={(e) => document.activeElement === inputRef.current && e.preventDefault()}
-      className={clsx(styles.input, showCross && styles.inputError)}
+      className={clsx(
+        styles.input,
+        showCross && styles.inputError,
+        props.inputProps.disabled && styles.inputDisabled,
+      )}
     >
       {props.leftSection && (
         <div className={styles.inputSection} data-section="left">

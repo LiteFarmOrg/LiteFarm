@@ -1,19 +1,9 @@
-import {
-  ChangeEvent,
-  ReactNode,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { ChangeEvent, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputBase, { type InputBaseProps } from '../InputBase';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import styles from './styles.module.scss';
 import { countDecimalPlaces } from './utils';
-import { IconButton } from '@mui/material';
-import { c } from 'vitest/dist/reporters-5f784f42';
 
 export type NumberInputProps = {
   value?: number | string;
@@ -25,6 +15,7 @@ export type NumberInputProps = {
   roundToDecimalPlaces?: number;
   unit?: ReactNode;
   step?: number;
+  disabled?: boolean;
 } & InputBaseProps;
 
 const initializeInputValue =
@@ -47,6 +38,7 @@ export default function NumberInput({
   roundToDecimalPlaces,
   unit,
   step,
+  disabled,
   ...props
 }: NumberInputProps) {
   const {
@@ -184,6 +176,7 @@ export default function NumberInput({
           {renderStepper()}
         </>
       }
+      disabled={disabled}
       {...props}
     />
   );

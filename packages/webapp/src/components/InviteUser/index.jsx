@@ -9,6 +9,7 @@ import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import { getFirstNameLastName } from '../../util';
+import useGenderOptions from '../../hooks/useGenderOptions';
 
 export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, roleOptions = [] }) {
   const {
@@ -40,12 +41,7 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
   }, [selectedRoleId]);
   const { t } = useTranslation(['translation', 'common', 'gender']);
   const title = t('INVITE_USER.TITLE');
-  const genderOptions = [
-    { value: 'MALE', label: t('gender:MALE') },
-    { value: 'FEMALE', label: t('gender:FEMALE') },
-    { value: 'OTHER', label: t('gender:OTHER') },
-    { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
-  ];
+  const genderOptions = useGenderOptions();
   const languageOptions = [
     { value: 'en', label: t('PROFILE.ACCOUNT.ENGLISH') },
     { value: 'es', label: t('PROFILE.ACCOUNT.SPANISH') },

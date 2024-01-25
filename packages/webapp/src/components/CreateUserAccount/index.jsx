@@ -10,6 +10,7 @@ import { PasswordError } from '../Form/Errors';
 import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../locales/i18n';
+import useGenderOptions from '../../hooks/useGenderOptions';
 
 export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNotSSO }) {
   const {
@@ -39,12 +40,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
     isTooShort,
   } = validatePasswordWithErrors(password);
 
-  const genderOptions = [
-    { value: 'MALE', label: t('gender:MALE') },
-    { value: 'FEMALE', label: t('gender:FEMALE') },
-    { value: 'OTHER', label: t('gender:OTHER') },
-    { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
-  ];
+  const genderOptions = useGenderOptions();
 
   const languageOptions = [
     { value: 'en', label: t('PROFILE.ACCOUNT.ENGLISH') },

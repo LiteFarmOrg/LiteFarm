@@ -33,7 +33,7 @@ class AnimalOrigin extends baseModel {
       required: ['key'],
       properties: {
         id: { type: 'integer' },
-        key: { type: 'string ' },
+        key: { type: 'string' },
       },
       additionalProperties: false,
     };

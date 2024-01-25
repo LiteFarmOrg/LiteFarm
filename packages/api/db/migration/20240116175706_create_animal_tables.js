@@ -71,11 +71,6 @@ export const up = async function (knex) {
     table.dateTime('created_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
     table.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
     table.check(
-      '?? is not null or ?? is not null',
-      ['default_breed_id', 'custom_breed_id'],
-      'not_null_breed_id_check',
-    );
-    table.check(
       '?? is null or ?? is null',
       ['default_breed_id', 'custom_breed_id'],
       'null_breed_id_check',

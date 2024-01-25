@@ -158,6 +158,7 @@ const loginController = {
           isInvited: user?.status_id === 2,
         });
       } catch (err) {
+        console.log(err);
         return res.status(400).json({
           err,
         });

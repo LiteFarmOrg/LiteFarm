@@ -136,7 +136,7 @@ describe('Animal Tests', () => {
       }
     });
 
-    test('Unauthorized user should get 403 if they try to get custom animal breeds', async () => {
+    test('Unauthorized user should get 403 if they try to get animals', async () => {
       const { mainFarm } = await returnUserFarms(1);
       await makeAnimal(mainFarm);
       const [unAuthorizedUser] = await mocks.usersFactory();
@@ -264,7 +264,8 @@ describe('Animal Tests', () => {
       });
 
       const animal = mocks.fakeAnimal({
-        default_breed_id: animalBreed.id,
+        default_breed_id: null,
+        custom_breed_id: animalBreed.id,
       });
 
       const res = await postRequestAsPromise(

@@ -8,6 +8,7 @@ module.exports = defineConfig({
     'cypress-react-selector': {
       root: '#root',
     },
+    USER: 0, // for local use; in CI the CYPRESS_USER variable defined in the GitHub workflow will override this, see docs.cypress.io/guides/guides/environment-variables#Option-3-CYPRESS_
   },
   e2e: {
     baseUrl: 'http://localhost:3000',

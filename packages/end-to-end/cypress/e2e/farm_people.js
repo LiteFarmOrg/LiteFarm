@@ -21,7 +21,8 @@ describe('Farm People', () => {
             user.password,
             user.name,
             user.language,
-            translation['SLIDE_MENU']['CROPS'],
+            translation['MENU']['CROPS'],
+            translation['MENU']['MAP'],
             translation['FARM_MAP']['MAP_FILTER']['GARDEN'],
           );
         },

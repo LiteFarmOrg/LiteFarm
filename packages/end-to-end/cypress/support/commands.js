@@ -27,7 +27,7 @@ Cypress.Commands.add('waitUntilAnyVisible', (selector1, selector2, timeout = 100
 
 Cypress.Commands.add(
   'loginOrCreateAccount',
-  (email, password, fullName, language, crop_menu_name, fieldString) => {
+  (email, password, fullName, language, crop_menu_name, map_menu_name, fieldString) => {
     //Login page
     cy.get('[data-cy=email]').type(email);
     cy.intercept('GET', '**/login/user/' + email, (req) => {
@@ -53,7 +53,7 @@ Cypress.Commands.add(
         cy.addFarm('UBC FARM', '49.250833, -123.2410777');
         cy.onboardCompleteQuestions('Manager');
         cy.acceptSlideMenuSpotlights(crop_menu_name);
-        cy.createFirstLocation(fieldString);
+        cy.createFirstLocation(map_menu_name, fieldString);
         cy.visit('/');
       } else {
         cy.get('[data-cy=enterPassword-password]').type(password);
@@ -141,17 +141,13 @@ Cypress.Commands.add('onboardCompleteQuestions', (role) => {
   cy.get('[data-cy=outro-finish]').should('exist').and('not.be.disabled').click();
 });
 
-Cypress.Commands.add('createFirstLocation', (fieldString) => {
+Cypress.Commands.add('createFirstLocation', (map_menu_name, fieldString) => {
   cy.intercept('GET', '**/maps.googleapis.com/maps/api/**').as('googleMapsApiCall');
   cy.intercept('GET', 'https://maps.googleapis.com/maps-api-v3/api/js/54/11/marker.js').as(
     'markerJsRequest',
   );
 
-  cy.get('[data-cy=navbar-option]')
-    .eq(1)
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
+  cy.contains(map_menu_name).should('exist').click();
 
   //arrive at farm map page and draw a field
   cy.url().should('include', '/map');
@@ -202,11 +198,7 @@ Cypress.Commands.add('createFirstLocation', (fieldString) => {
 
   // Confirm that location exists
   cy.visit('/');
-  cy.get('[data-cy=navbar-option]')
-    .eq(1)
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
+  cy.contains(map_menu_name).should('exist').click();
   cy.contains('First Field').should('be.visible');
 
   // Check that it is in Redux
@@ -227,7 +219,6 @@ Cypress.Commands.add('acceptSlideMenuSpotlights', (crop_menu_name) => {
   cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
 
   // Mark spotlights in crops
-  cy.get('[data-cy=navbar-hamburger]').should('exist').click();
   cy.contains(crop_menu_name).should('exist').click();
   cy.url().should('include', '/crop_catalogue');
 

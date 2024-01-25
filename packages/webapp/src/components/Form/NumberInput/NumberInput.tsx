@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import InputBase, { type InputBaseProps } from '../InputBase';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import styles from './styles.module.scss';
-import { countDecimalPlaces } from './utils';
+import { clamp, countDecimalPlaces } from './utils';
 
 export type NumberInputProps = {
   value?: number | string;
@@ -15,6 +15,8 @@ export type NumberInputProps = {
   roundToDecimalPlaces?: number;
   unit?: ReactNode;
   step?: number;
+  max?: number;
+  min?: number;
   disabled?: boolean;
 } & InputBaseProps;
 
@@ -38,6 +40,8 @@ export default function NumberInput({
   roundToDecimalPlaces,
   unit,
   step,
+  max = Infinity,
+  min = 0,
   disabled,
   ...props
 }: NumberInputProps) {
@@ -107,19 +111,17 @@ export default function NumberInput({
 
   const renderStepper = () => {
     if (!step) return null;
+    // ensure value doesn't become negative
+    const nonNegativeMin = Math.max(min, 0);
+    const incrementedValue = (valueAsNumber || 0) + step;
+    const decrementedValue = (valueAsNumber || 0) - step;
 
-    const handleStep = (nextValue: number) => {
-      // ensure value doesn't become negative
-      if (nextValue < 0) {
-        if (valueAsNumber === 0) return;
-        return update(0);
-      }
-      update(nextValue);
-    };
     return (
       <Stepper
-        increment={() => handleStep((valueAsNumber || 0) + step)}
-        decrement={() => handleStep((valueAsNumber || 0) - step)}
+        increment={() => update(clamp(incrementedValue, nonNegativeMin, max))}
+        decrement={() => update(clamp(decrementedValue, nonNegativeMin, max))}
+        incrementDisabled={valueAsNumber === max}
+        decrementDisabled={valueAsNumber === nonNegativeMin}
       />
     );
   };
@@ -135,6 +137,9 @@ export default function NumberInput({
   };
 
   const handleBlur = () => {
+    if (step && (valueAsNumber < min || valueAsNumber > max)) {
+      update(clamp(valueAsNumber, min, max));
+    }
     setIsFocused(false);
     onBlur?.();
   };
@@ -182,13 +187,18 @@ export default function NumberInput({
   );
 }
 
-function Stepper(props: { increment: () => void; decrement: () => void }) {
+function Stepper(props: {
+  increment: () => void;
+  decrement: () => void;
+  incrementDisabled: boolean;
+  decrementDisabled: boolean;
+}) {
   return (
     <div className={styles.stepper}>
-      <button aria-label="increase" onClick={props.increment}>
+      <button aria-label="increase" onClick={props.increment} disabled={props.incrementDisabled}>
         <MdKeyboardArrowUp className={styles.stepperIcons} />
       </button>
-      <button aria-label="decrease" onClick={props.decrement}>
+      <button aria-label="decrease" onClick={props.decrement} disabled={props.decrementDisabled}>
         <MdKeyboardArrowDown className={styles.stepperIcons} />
       </button>
     </div>

@@ -8,3 +8,9 @@ export function countDecimalPlaces(number: number) {
   }
   return decimalPlaces;
 }
+
+export function clamp(value: number, min: number, max: number) {
+  if (max < min) console.warn('clamp: max cannot be less than min');
+
+  return Math.min(Math.max(value, min), max);
+}

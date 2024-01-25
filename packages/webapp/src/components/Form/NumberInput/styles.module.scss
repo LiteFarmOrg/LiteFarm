@@ -12,6 +12,13 @@
 
   button {
     all: unset;
+    &:disabled > .stepperIcons {
+      cursor: not-allowed;
+      &:hover {
+        background-color: transparent;
+        color: var(--iconDefault);
+      }
+    }
   }
 }
 

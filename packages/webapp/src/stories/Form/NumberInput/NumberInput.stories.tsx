@@ -184,6 +184,13 @@ export const StepperDisabled: Story = {
     disabled: true,
   },
 };
+export const StepperWithMinMax: Story = {
+  args: {
+    step: 1,
+    min: 7,
+    max: 14,
+  },
+};
 
 function test(
   value: string,

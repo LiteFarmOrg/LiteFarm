@@ -9,6 +9,7 @@ import ReactSelect from '../Form/ReactSelect';
 import Input, { getInputErrors, integerOnKeyDown } from '../Form/Input';
 import { PasswordError } from '../Form/Errors';
 import { validatePasswordWithErrors } from '../Signup/utils';
+import useGenderOptions from '../../hooks/useGenderOptions';
 
 export default function PureInvitedUserCreateAccountPage({
   onSubmit,
@@ -44,12 +45,7 @@ export default function PureInvitedUserCreateAccountPage({
   });
 
   const { t } = useTranslation(['translation', 'gender']);
-  const genderOptions = [
-    { value: 'MALE', label: t('gender:MALE') },
-    { value: 'FEMALE', label: t('gender:FEMALE') },
-    { value: 'OTHER', label: t('gender:OTHER') },
-    { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
-  ];
+  const genderOptions = useGenderOptions();
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 
   const onError = (error) => {

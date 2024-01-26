@@ -59,8 +59,13 @@ Cypress.Commands.add(
         cy.get('[data-cy=enterPassword-password]').type(password);
         cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
 
-        cy.get('[data-cy=chooseFarm-proceed]').should('be.visible').and('be.enabled').click();
-        cy.visit('/');
+        // Flaky in this sense: www.cypress.io/blog/2019/01/22/when-can-the-test-click
+        // May require hard-coded wait if this is insufficient
+        cy.waitForReact();
+        cy.get('[data-cy=chooseFarm-proceed]')
+          .should('be.visible')
+          .and('be.enabled')
+          .click({ force: true });
       }
     });
   },
@@ -143,9 +148,6 @@ Cypress.Commands.add('onboardCompleteQuestions', (role) => {
 
 Cypress.Commands.add('createFirstLocation', (map_menu_name, fieldString) => {
   cy.intercept('GET', '**/maps.googleapis.com/maps/api/**').as('googleMapsApiCall');
-  cy.intercept('GET', 'https://maps.googleapis.com/maps-api-v3/api/js/54/11/marker.js').as(
-    'markerJsRequest',
-  );
 
   cy.contains(map_menu_name).should('exist').click();
 
@@ -161,7 +163,6 @@ Cypress.Commands.add('createFirstLocation', (map_menu_name, fieldString) => {
   cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
 
   cy.wait('@googleMapsApiCall');
-  cy.wait('@markerJsRequest');
   cy.waitForReact();
 
   // Select "Field"
@@ -192,7 +193,6 @@ Cypress.Commands.add('createFirstLocation', (map_menu_name, fieldString) => {
   cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
 
   cy.get('[data-cy=snackBar').should('exist').and('be.visible');
-  cy.get('div[data-cy="snackBar"]').find('[class*="button"]:first').click();
 
   cy.waitForReact();
 
@@ -213,8 +213,6 @@ Cypress.Commands.add('createFirstLocation', (map_menu_name, fieldString) => {
 
 Cypress.Commands.add('acceptSlideMenuSpotlights', (crop_menu_name) => {
   // Check the spotlights
-  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
-  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
   cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
   cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
 

@@ -91,6 +91,7 @@ export default function NumberInput({
   const [isFocused, setIsFocused] = useState(false);
   const [isEditedAfterFocus, setIsEditedAfterFocus] = useState(false);
   const initialValueRef = useRef(propValue);
+  const showStepper = typeof step === 'number' && step > 0;
 
   /*
   - resets state if value prop changes to initial value
@@ -106,24 +107,7 @@ export default function NumberInput({
       valueAsNumber: nextNumberValue,
       valueString: nextValueString ?? formatter.format(nextNumberValue),
     });
-    onChange?.(valueAsNumber);
-  };
-
-  const renderStepper = () => {
-    if (!step) return null;
-    // ensure value doesn't become negative
-    const nonNegativeMin = Math.max(min, 0);
-    const incrementedValue = (valueAsNumber || 0) + step;
-    const decrementedValue = (valueAsNumber || 0) - step;
-
-    return (
-      <Stepper
-        increment={() => update(clamp(incrementedValue, nonNegativeMin, max))}
-        decrement={() => update(clamp(decrementedValue, nonNegativeMin, max))}
-        incrementDisabled={valueAsNumber === max}
-        decrementDisabled={valueAsNumber === nonNegativeMin}
-      />
-    );
+    onChange?.(nextNumberValue);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -137,7 +121,7 @@ export default function NumberInput({
   };
 
   const handleBlur = () => {
-    if (step && (valueAsNumber < min || valueAsNumber > max)) {
+    if (showStepper && (valueAsNumber < min || valueAsNumber > max)) {
       update(clamp(valueAsNumber, min, max));
     }
     setIsFocused(false);
@@ -178,7 +162,20 @@ export default function NumberInput({
       rightSection={
         <>
           {unit}
-          {renderStepper()}
+          {showStepper &&
+            (() => {
+              // ensure value doesn't become negative
+              const nonNegativeMin = Math.max(min, 0);
+              let value = valueAsNumber || 0;
+              return (
+                <Stepper
+                  increment={() => update(clamp(value + step, nonNegativeMin, max))}
+                  decrement={() => update(clamp(value - step, nonNegativeMin, max))}
+                  incrementDisabled={valueAsNumber === max}
+                  decrementDisabled={valueAsNumber === nonNegativeMin}
+                />
+              );
+            })()}
         </>
       }
       disabled={disabled}

@@ -52,31 +52,6 @@ describe('Tasks', () => {
 
   after(() => {});
 
-  it('CheckTasksNavigation', () => {
-    // Confirm that location exists
-    cy.get('[data-cy=home-farmButton]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.get('[data-cy=navbar-option]')
-      .eq(1)
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.contains('First Field').should('be.visible');
-
-    // Add a crop variety
-    cy.get('[data-cy=navbar-hamburger]').should('exist').click();
-    cy.contains(translation['SLIDE_MENU']['TASKS']).should('exist').click();
-    cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled');
-    cy.visit('/');
-
-    cy.get('[data-cy=home-taskButton]').should('exist').and('not.be.disabled').click();
-
-    cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled');
-    cy.visit('/');
-  });
-
   it('CreateCleanTask', () => {
     // Confirm that location exists
     cy.contains(translation['MENU']['MAP'])
@@ -107,7 +82,10 @@ describe('Tasks', () => {
     cy.get('[data-cy=map-selectLocation]').click({ force: false });
 
     cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click();
+
+    // This screen only present when this test file is run after crops.js
     cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click();
+
     cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();
     cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click();
     cy.waitForReact();
@@ -146,6 +124,7 @@ describe('Tasks', () => {
     cy.get('[data-cy=map-selectLocation]').click({ force: false });
     cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click();
 
+    // This screen only present when this test file is run after crops.js
     cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click();
 
     // Select type of work

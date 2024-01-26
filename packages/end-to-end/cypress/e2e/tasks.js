@@ -1,4 +1,20 @@
 import moment from 'moment';
+import {
+  ADD_TASK_ASSIGNMENT_SAVE,
+  ADD_TASK_CONTINUE,
+  ADD_TASK_CROPS_CONTINUE,
+  ADD_TASK_DETAILS_CONTINUE,
+  ADD_TASK_LOCATION_CONTINUE,
+  ADD_TASK_TASK_DATE,
+  BEFORE_COMPLETE_SUBMIT,
+  HARVEST_COMPLETE_RATING,
+  HARVEST_COMPLETE_SAVE,
+  MAP_SELECT_LOCATION,
+  REACT_SELECT,
+  TASK_CARD,
+  TASK_READ_ONLY_COMPLETE,
+  TASK_SELECTION,
+} from '../support/selectorConstants';
 
 // Utility function to check Redux state with a retry mechanism
 const checkReduxState = (endTime) => {
@@ -65,38 +81,38 @@ describe('Tasks', () => {
 
     cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();
     cy.waitForReact();
-    cy.get('[data-cy=task-selection]').contains(tasks['CLEANING_TASK']).should('exist').click();
+    cy.get(TASK_SELECTION).contains(tasks['CLEANING_TASK']).should('exist').click();
 
     //Create an unassigned cleaning task due tomorrow
     const date = new Date();
     date.setDate(date.getDate() + 1);
     const getDateInputFormat = (date) => moment(date).format('YYYY-MM-DD');
     const dueDate = getDateInputFormat(date);
-    cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
+    cy.get(ADD_TASK_TASK_DATE).should('exist').type(dueDate);
 
-    cy.get('[data-cy=addTask-continue]').should('exist').and('not.be.disabled').click();
+    cy.get(ADD_TASK_CONTINUE).should('exist').and('not.be.disabled').click();
 
     cy.contains('First Field').should('be.visible');
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(500, { log: false });
-    cy.get('[data-cy=map-selectLocation]').click({ force: false });
+    cy.get(MAP_SELECT_LOCATION).click({ force: false });
 
-    cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click();
+    cy.get(ADD_TASK_LOCATION_CONTINUE).should('exist').and('not.be.disabled').click();
 
     // This screen only present when this test file is run after crops.js
-    cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click();
+    cy.get(ADD_TASK_CROPS_CONTINUE).should('exist').and('not.be.disabled').click();
 
-    cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();
-    cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click();
+    cy.get(ADD_TASK_DETAILS_CONTINUE).should('exist').and('not.be.disabled').click();
+    cy.get(ADD_TASK_ASSIGNMENT_SAVE).should('exist').and('not.be.disabled').click();
     cy.waitForReact();
 
     // Open the card and mark as complete
-    cy.get('[data-cy=taskCard]').first().click();
-    cy.get('[data-cy=taskReadOnly-complete]').scrollIntoView();
-    cy.get('[data-cy=taskReadOnly-complete]').click();
-    cy.get('[data-cy=beforeComplete-submit]').click();
-    cy.get('[data-cy=harvestComplete-rating]').check({ force: true });
-    cy.get('[data-cy=harvestComplete-save]').click();
+    cy.get(TASK_CARD).first().click();
+    cy.get(TASK_READ_ONLY_COMPLETE).scrollIntoView();
+    cy.get(TASK_READ_ONLY_COMPLETE).click();
+    cy.get(BEFORE_COMPLETE_SUBMIT).click();
+    cy.get(HARVEST_COMPLETE_RATING).check({ force: true });
+    cy.get(HARVEST_COMPLETE_SAVE).click();
   });
 
   it('CreateFieldWorkTask', () => {
@@ -104,7 +120,7 @@ describe('Tasks', () => {
     cy.waitForReact();
     cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();
     cy.waitForReact();
-    cy.get('[data-cy=task-selection]')
+    cy.get(TASK_SELECTION)
       .contains(tasks['FIELD_WORK_TASK'])
       .should('exist')
       .and('not.be.disabled')
@@ -115,34 +131,34 @@ describe('Tasks', () => {
     date.setDate(date.getDate() + 1);
     const getDateInputFormat = (date) => moment(date).format('YYYY-MM-DD');
     const dueDate = getDateInputFormat(date);
-    cy.get('[data-cy=addTask-taskDate]').should('exist').type(dueDate);
-    cy.get('[data-cy=addTask-continue]').should('exist').and('not.be.disabled').click();
+    cy.get(ADD_TASK_TASK_DATE).should('exist').type(dueDate);
+    cy.get(ADD_TASK_CONTINUE).should('exist').and('not.be.disabled').click();
 
     cy.contains('First Field').should('be.visible');
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(500, { log: false });
-    cy.get('[data-cy=map-selectLocation]').click({ force: false });
-    cy.get('[data-cy=addTask-locationContinue]').should('exist').and('not.be.disabled').click();
+    cy.get(MAP_SELECT_LOCATION).click({ force: false });
+    cy.get(ADD_TASK_LOCATION_CONTINUE).should('exist').and('not.be.disabled').click();
 
     // This screen only present when this test file is run after crops.js
-    cy.get('[data-cy=addTask-cropsContinue]').should('exist').and('not.be.disabled').click();
+    cy.get(ADD_TASK_CROPS_CONTINUE).should('exist').and('not.be.disabled').click();
 
     // Select type of work
-    cy.get('[data-cy="react-select').find('input').click();
+    cy.get(REACT_SELECT).find('input').click({ force: true });
     cy.contains(translation['ADD_TASK']['FIELD_WORK_VIEW']['TYPE']['PRUNING']).click({
       force: true,
     });
 
-    cy.get('[data-cy=addTask-detailsContinue]').should('exist').and('not.be.disabled').click();
-    cy.get('[data-cy=addTask-assignmentSave]').should('exist').and('not.be.disabled').click();
+    cy.get(ADD_TASK_DETAILS_CONTINUE).should('exist').and('not.be.disabled').click();
+    cy.get(ADD_TASK_ASSIGNMENT_SAVE).should('exist').and('not.be.disabled').click();
     cy.waitForReact();
 
     // Open the card and mark as complete
-    cy.get('[data-cy=taskCard]').first().click();
-    cy.get('[data-cy=taskReadOnly-complete]').scrollIntoView();
-    cy.get('[data-cy=taskReadOnly-complete]').click();
-    cy.get('[data-cy=beforeComplete-submit]').click();
-    cy.get('[data-cy=harvestComplete-rating]').check({ force: true });
-    cy.get('[data-cy=harvestComplete-save]').click();
+    cy.get(TASK_CARD).first().click();
+    cy.get(TASK_READ_ONLY_COMPLETE).scrollIntoView();
+    cy.get(TASK_READ_ONLY_COMPLETE).click();
+    cy.get(BEFORE_COMPLETE_SUBMIT).click();
+    cy.get(HARVEST_COMPLETE_RATING).check({ force: true });
+    cy.get(HARVEST_COMPLETE_SAVE).click();
   });
 });

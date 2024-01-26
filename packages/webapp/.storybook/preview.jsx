@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import state from './state';
 import { action } from '@storybook/addon-actions';
 import theme from '../src/assets/theme';
@@ -6,7 +6,6 @@ import { CssBaseline, ThemeProvider, StyledEngineProvider } from '@mui/material'
 import { Provider } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { GlobalScss } from '../src/components/GlobalScss';
-import i18n from '../src/locales/i18n';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -26,9 +25,8 @@ const store = {
   subscribe: () => 0,
   dispatch: action('dispatch'),
 };
-
 export const decorators = [
-  (Story, context) => {
+  (Story) => {
     const { t, ready } = useTranslation(
       [
         'certifications',
@@ -50,13 +48,6 @@ export const decorators = [
       ],
       { useSuspense: false },
     );
-
-    const { locale } = context.globals;
-
-    useEffect(() => {
-      i18n.changeLanguage(locale);
-    }, [locale]);
-
     return (
       <Provider store={store}>
         <StyledEngineProvider injectFirst>
@@ -70,15 +61,3 @@ export const decorators = [
     );
   },
 ];
-
-export const globalTypes = {
-  locale: {
-    description: 'Change locale globally',
-    defaultValue: 'en',
-    toolbar: {
-      icon: 'globe',
-      dynamicTitle: true,
-      items: ['en', 'pt', 'fr', 'es'],
-    },
-  },
-};

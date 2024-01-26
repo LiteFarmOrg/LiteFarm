@@ -22,7 +22,8 @@ describe('Crops', () => {
             user.password,
             user.name,
             user.language,
-            translation['SLIDE_MENU']['CROPS'],
+            translation['MENU']['CROPS'],
+            translation['MENU']['MAP'],
             translation['FARM_MAP']['MAP_FILTER']['GARDEN'],
           );
         },
@@ -45,8 +46,7 @@ describe('Crops', () => {
     const uniqueId = Cypress._.uniqueId(uniqueSeed);
 
     // Add a crop variety
-    cy.get('[data-cy=navbar-hamburger]').should('exist').click();
-    cy.contains(translation['SLIDE_MENU']['CROPS']).should('exist').click();
+    cy.contains(translation['MENU']['CROPS']).should('exist').click();
     cy.url().should('include', '/crop_catalogue');
 
     cy.get('[data-cy=crop-addLink]').should('exist').and('not.be.disabled').click();

@@ -32,7 +32,8 @@ describe('Tasks', () => {
             user.password,
             user.name,
             user.language,
-            translation['SLIDE_MENU']['CROPS'],
+            translation['MENU']['CROPS'],
+            translation['MENU']['MAP'],
             translation['FARM_MAP']['MAP_FILTER']['GARDEN'],
           );
 
@@ -78,19 +79,13 @@ describe('Tasks', () => {
 
   it('CreateCleanTask', () => {
     // Confirm that location exists
-    cy.get('[data-cy=home-farmButton]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.get('[data-cy=navbar-option]')
-      .eq(1)
+    cy.contains(translation['MENU']['MAP'])
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
     cy.contains('First Field').should('be.visible');
 
-    cy.get('[data-cy=navbar-hamburger]').should('exist').click();
-    cy.contains(translation['SLIDE_MENU']['TASKS']).should('exist').click();
+    cy.contains(translation['MENU']['TASKS']).should('exist').click();
     cy.waitForReact();
 
     cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();
@@ -127,8 +122,7 @@ describe('Tasks', () => {
   });
 
   it('CreateFieldWorkTask', () => {
-    cy.get('[data-cy=navbar-hamburger]').should('exist').click();
-    cy.contains(translation['SLIDE_MENU']['TASKS']).should('exist').click();
+    cy.contains(translation['MENU']['TASKS']).should('exist').click();
     cy.waitForReact();
     cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();
     cy.waitForReact();

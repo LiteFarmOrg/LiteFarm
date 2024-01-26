@@ -171,10 +171,8 @@ export const Stepper: Story = {
     expect(input).toHaveValue('0.1');
     await userEvent.click(decrementButton);
     expect(input).toHaveValue('0.0');
-
-    // should not go below 0
-    await userEvent.click(decrementButton);
-    expect(input).toHaveValue('0.0');
+    expect(decrementButton).toBeDisabled();
+    userEvent.clear(input);
   },
 };
 
@@ -189,6 +187,49 @@ export const StepperWithMinMax: Story = {
     step: 1,
     min: 7,
     max: 14,
+  },
+  play: async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox');
+    const incrementButton = canvas.getByRole('button', { name: 'increase' });
+    const decrementButton = canvas.getByRole('button', { name: 'decrease' });
+
+    expect(input).toHaveValue('');
+
+    // should clamp to min when clicking stepper and current value is below min
+    await userEvent.click(incrementButton);
+    expect(input).toHaveValue('7');
+    expect(decrementButton).toBeDisabled();
+
+    // increment to max
+    let value = 7;
+    while (value !== args.max) {
+      await userEvent.click(incrementButton);
+      expect(input).toHaveValue((value + args.step!).toString());
+      value++;
+    }
+    expect(incrementButton).toBeDisabled();
+    userEvent.clear(input);
+
+    // should clamp to max when entering value above max
+    await step(
+      'Enter value above max',
+      test('2566', {
+        expectValue: '2566',
+        expectValueOnBlur: '14',
+        expectValueOnReFocus: '14',
+      }),
+    );
+
+    // should clamp to min when entering value above max
+    await step(
+      'Enter value below min',
+      test('2', {
+        expectValue: '2',
+        expectValueOnBlur: '7',
+        expectValueOnReFocus: '7',
+      }),
+    );
   },
 };
 

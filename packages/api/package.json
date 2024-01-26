@@ -36,6 +36,9 @@
     "transform": {
       "^.+\\.js$": "babel-jest"
     },
+    "moduleNameMapper": {
+      "^axios$": "axios/dist/node/axios.cjs"
+    },
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,mjs}"
     ],
@@ -49,7 +52,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.456.0",
-    "@googlemaps/google-maps-services-js": "^3.3.14",
+    "@googlemaps/google-maps-services-js": "^3.3.42",
     "@sentry/node": "^7.56.0",
     "adm-zip": "^0.4.16",
     "ajv-formats": "^2.1.1",

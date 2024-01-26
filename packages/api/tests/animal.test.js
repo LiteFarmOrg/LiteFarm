@@ -36,11 +36,11 @@ import mocks from './mock.factories.js';
 describe('Animal Tests', () => {
   let farm;
   let newOwner;
-  let defaultBreedId;
+  let defaultTypeId;
 
   beforeAll(async () => {
-    const [defaultAnimalBreed] = await mocks.default_animal_breedFactory();
-    defaultBreedId = defaultAnimalBreed.id;
+    const [defaultAnimalType] = await mocks.default_animal_typeFactory();
+    defaultTypeId = defaultAnimalType.id;
   });
 
   function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
@@ -111,12 +111,16 @@ describe('Animal Tests', () => {
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
         const [secondFarm] = await mocks.farmFactory();
-        // Create two animals, one with a default breed and one with a custom breed
+        const [customAnimalType] = await mocks.custom_animal_typeFactory();
+
+        // Create two animals, one with a default type and one with a custom type
         const firstAnimal = await makeAnimal(mainFarm, {
-          default_breed_id: defaultBreedId,
-          custom_breed_id: null,
+          default_type_id: defaultTypeId,
         });
-        const secondAnimal = await makeAnimal(mainFarm);
+        const secondAnimal = await makeAnimal(mainFarm, {
+          default_type_id: null,
+          custom_type_id: customAnimalType.id,
+        });
         // Create a third animal belonging to a different farm
         await makeAnimal(secondFarm);
 
@@ -157,12 +161,8 @@ describe('Animal Tests', () => {
 
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
-        const firstAnimal = mocks.fakeAnimal({
-          default_breed_id: defaultBreedId,
-        });
-        const secondAnimal = mocks.fakeAnimal({
-          default_breed_id: defaultBreedId,
-        });
+        const firstAnimal = mocks.fakeAnimal({ default_type_id: defaultTypeId });
+        const secondAnimal = mocks.fakeAnimal({ default_type_id: defaultTypeId });
 
         const res = await postRequestAsPromise(
           {
@@ -185,9 +185,7 @@ describe('Animal Tests', () => {
 
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
-        const animal = mocks.fakeAnimal({
-          default_breed_id: defaultBreedId,
-        });
+        const animal = mocks.fakeAnimal();
 
         const res = await postRequestAsPromise(
           {
@@ -204,9 +202,7 @@ describe('Animal Tests', () => {
 
     test('Should not be able to send out an individual animal instead of an array', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
-      const animal = mocks.fakeAnimal({
-        default_breed_id: defaultBreedId,
-      });
+      const animal = mocks.fakeAnimal();
 
       const res = await postRequestAsPromise(
         {
@@ -222,7 +218,6 @@ describe('Animal Tests', () => {
     test('Should not be able to create an animal without name or identifier', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const animal = mocks.fakeAnimal({
-        default_breed_id: defaultBreedId,
         name: null,
         identifier: null,
       });
@@ -238,11 +233,34 @@ describe('Animal Tests', () => {
       expect(res.status).toBe(400);
     });
 
-    test('Should not be able to create an animal without a breed', async () => {
+    test('Should not be able to create an animal without a type', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const animal = mocks.fakeAnimal({
-        default_breed_id: null,
-        custom_breed_id: null,
+        default_type_id: null,
+        custom_type_id: null,
+      });
+
+      const res = await postRequestAsPromise(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [animal],
+      );
+
+      expect(res.status).toBe(400);
+    });
+
+    test('Should not be able to create an animal with a type belonging to a different farm', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+      const [animalType] = await mocks.custom_animal_typeFactory({
+        promisedFarm: [secondFarm],
+      });
+
+      const animal = mocks.fakeAnimal({
+        default_type_id: null,
+        custom_type_id: animalType.id,
       });
 
       const res = await postRequestAsPromise(
@@ -264,8 +282,29 @@ describe('Animal Tests', () => {
       });
 
       const animal = mocks.fakeAnimal({
+        default_type_id: null,
+        custom_type_id: animalBreed.custom_type_id,
         default_breed_id: null,
         custom_breed_id: animalBreed.id,
+      });
+
+      const res = await postRequestAsPromise(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [animal],
+      );
+
+      expect(res.status).toBe(400);
+    });
+
+    test('Should not be able to create an animal where type and breed do not match', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [animalBreed] = await mocks.default_animal_breedFactory();
+
+      const animal = mocks.fakeAnimal({
+        default_breed_id: animalBreed.id,
       });
 
       const res = await postRequestAsPromise(

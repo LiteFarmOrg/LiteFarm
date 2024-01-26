@@ -2226,27 +2226,26 @@ function fakeAnimal(defaultData = {}) {
   };
 }
 
-// Associates default breed, pass default_animal_breed = null and custom_animal_breed with value set if custom breed is needed
 async function animalFactory(
   {
     promisedFarm = farmFactory(),
-    promisedDefaultAnimalBreed = default_animal_breedFactory(),
+    promisedDefaultAnimalType = default_animal_typeFactory(),
     properties = {},
   } = {},
   animal = fakeAnimal(properties),
 ) {
-  const [farm, user, defaultAnimalBreed] = await Promise.all([
+  const [farm, user, defaultAnimalType] = await Promise.all([
     promisedFarm,
     usersFactory(),
-    promisedDefaultAnimalBreed,
+    promisedDefaultAnimalType,
   ]);
   const [{ farm_id }] = farm;
   const [{ user_id }] = user;
-  const [{ id: default_breed_id }] = defaultAnimalBreed;
+  const [{ id: default_type_id }] = defaultAnimalType;
 
   const base = baseProperties(user_id);
   return knex('animal')
-    .insert({ farm_id, default_breed_id, ...animal, ...base })
+    .insert({ farm_id, default_type_id, ...animal, ...base })
     .returning('*');
 }
 

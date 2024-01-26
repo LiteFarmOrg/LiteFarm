@@ -18,6 +18,8 @@ import AnimalModel from '../models/animalModel.js';
 import baseController from './baseController.js';
 import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
+import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
+import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 
 const animalController = {
   getFarmAnimals() {
@@ -53,9 +55,16 @@ const animalController = {
             return res.status(400).send('Should send either animal name or identifier');
           }
 
-          if (!animal.default_breed_id && !animal.custom_breed_id) {
+          if (!animal.default_type_id && !animal.custom_type_id) {
             trx.rollback();
-            return res.status(400).send('Should send either default_breed_id or custom_breed_id');
+            return res.status(400).send('Should send either default_type_id or custom_type_id');
+          }
+
+          if (animal.default_type_id && animal.custom_type_id) {
+            trx.rollback();
+            return res
+              .status(400)
+              .send('Should only send either default_type_id or custom_type_id');
           }
 
           if (animal.default_breed_id && animal.custom_breed_id) {
@@ -65,12 +74,32 @@ const animalController = {
               .send('Should only send either default_breed_id or custom_breed_id');
           }
 
+          if (animal.default_type_id) {
+            const defaultType = await DefaultAnimalTypeModel.query().findById(
+              animal.default_type_id,
+            );
+
+            if (!defaultType) {
+              trx.rollback();
+              return res.status(400).send('default_type_id has invalid value');
+            }
+          }
+
+          if (animal.custom_type_id) {
+            const customType = await CustomAnimalTypeModel.query().findById(animal.default_type_id);
+
+            if (!customType || customType.farm_id !== farm_id) {
+              trx.rollback();
+              return res.status(400).send('custom_type_id has invalid value');
+            }
+          }
+
           if (animal.default_breed_id) {
             const defaultBreed = await DefaultAnimalBreedModel.query().findById(
               animal.default_breed_id,
             );
 
-            if (!defaultBreed) {
+            if (!defaultBreed || defaultBreed.default_type_id !== animal.default_type_id) {
               trx.rollback();
               return res.status(400).send('default_breed_id has invalid value');
             }
@@ -81,7 +110,12 @@ const animalController = {
               .whereNotDeleted()
               .findById(animal.custom_breed_id);
 
-            if (!customBreed || customBreed.farm_id !== farm_id) {
+            if (
+              !customBreed ||
+              customBreed.farm_id !== farm_id ||
+              customBreed.default_type_id !== animal.default_type_id ||
+              customBreed.custom_type_id !== animal.custom_type_id
+            ) {
               trx.rollback();
               return res.status(400).send('custom_breed_id has invalid value');
             }

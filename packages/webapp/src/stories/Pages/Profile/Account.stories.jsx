@@ -20,6 +20,9 @@ Primary.args = {
     email: 'example@litefarm.org',
     phone_number: '123456789',
     user_address: 'litefarm',
+    language_preference: 'fr',
+    gender: 'MALE',
+    birth_year: 2000,
   },
 };
 Primary.parameters = {

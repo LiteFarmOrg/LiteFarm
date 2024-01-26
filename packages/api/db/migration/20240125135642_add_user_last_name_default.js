@@ -1,5 +1,5 @@
 /*
- *  Copyright 2024 LiteFarm.org
+ *  Copyright (c) 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,22 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import express from 'express';
+export const up = async function (knex) {
+  await knex.schema.alterTable('users', (table) => {
+    table.string('last_name').notNullable().defaultTo('').alter();
+  });
+};
 
-const router = express.Router();
-import CustomAnimalTypeController from '../controllers/customAnimalTypeController.js';
-import checkScope from '../middleware/acl/checkScope.js';
-
-router.get(
-  '/',
-  checkScope(['get:animal_types']),
-  CustomAnimalTypeController.getCustomAnimalTypes(),
-);
-
-router.post(
-  '/',
-  checkScope(['add:animal_types']),
-  CustomAnimalTypeController.addCustomAnimalType(),
-);
-
-export default router;
+export const down = async function (knex) {
+  await knex.schema.alterTable('users', (table) => {
+    table.string('last_name').notNullable().defaultTo(null).alter();
+  });
+};

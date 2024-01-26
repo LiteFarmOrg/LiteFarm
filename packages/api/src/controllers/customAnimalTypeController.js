@@ -13,6 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { transaction, Model } from 'objection';
+import baseController from './baseController.js';
+
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 
 const customAnimalTypeController = {
@@ -27,6 +30,48 @@ const customAnimalTypeController = {
         return res.status(500).json({
           error,
         });
+      }
+    };
+  },
+
+  addCustomAnimalType() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const { farm_id } = req.headers;
+        let { type } = req.body;
+        type = baseController.checkAndTrimString(type);
+
+        if (!type) {
+          return res.status(400).send('Animal type must be provided');
+        }
+
+        const record = await baseController.existsInTable(trx, CustomAnimalTypeModel, {
+          type,
+          farm_id,
+          deleted: false,
+        });
+
+        if (record) {
+          await trx.rollback();
+          return res.status(409).send();
+        } else {
+          const result = await baseController.postWithResponse(
+            CustomAnimalTypeModel,
+            { type, farm_id },
+            req,
+            {
+              trx,
+            },
+          );
+
+          await trx.commit();
+          return res.status(201).send(result);
+        }
+      } catch (error) {
+        await trx.rollback();
+        console.error(error);
+        return res.status(500).json({ error });
       }
     };
   },

@@ -7,6 +7,7 @@ import { cropVarietySelector } from '../../cropVarietySlice';
 import { useTranslation } from 'react-i18next';
 import { getTasksMinMaxDate } from '../../Task/getTasksMinMaxDate';
 import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
+import { createManagementPlanEstimatedRevenueURL } from '../../../util/siteMapConstants';
 
 const EstimatedCropRevenue = ({ cropVarietyId, managementPlans, history, ...props }) => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const EstimatedCropRevenue = ({ cropVarietyId, managementPlans, history, ...prop
           amount: plan.estimated_revenue || 0,
           isPlan: true,
           onClickForward: () =>
-            history.push(`/finances/estimated_revenue/plan/${plan.management_plan_id}`),
+            history.push(createManagementPlanEstimatedRevenueURL(plan.management_plan_id)),
         };
       })}
       isDropDown

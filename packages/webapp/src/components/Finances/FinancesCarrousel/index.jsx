@@ -29,6 +29,12 @@ import styles from './styles.module.scss';
 import { Semibold, Text } from '../../Typography';
 import clsx from 'clsx';
 import TextButton from '../../Form/Button/TextButton';
+import {
+  ACTUAL_REVENUE_URL,
+  ESTIMATED_REVENUE_URL,
+  LABOUR_URL,
+  OTHER_EXPENSE_URL,
+} from '../../../util/siteMapConstants';
 
 ChartJS.register(ArcElement, Tooltip);
 
@@ -79,7 +85,7 @@ const FinancesCarrousel = ({
           <div className={styles.revenueExpensesContainer}>
             <TextButton
               className={clsx([styles.revenueContainer, styles.clickableContainer])}
-              onClick={() => history.push('/finances/actual_revenue')}
+              onClick={() => history.push(ACTUAL_REVENUE_URL)}
             >
               <span>
                 <span className={styles.revenueTitle}>{t('SALE.FINANCES.TOTAL_REVENUE')}</span>
@@ -143,7 +149,7 @@ const FinancesCarrousel = ({
           <div className={styles.expensesStatsContainer}>
             <TextButton
               className={clsx([styles.labourExpensesContainer, styles.clickableContainer])}
-              onClick={() => history.push('/labour')}
+              onClick={() => history.push(LABOUR_URL)}
             >
               <span>
                 <span className={styles.labourExpensesTitle}>
@@ -159,7 +165,7 @@ const FinancesCarrousel = ({
             </TextButton>
             <TextButton
               className={clsx([styles.otherExpensesContainer, styles.clickableContainer])}
-              onClick={() => history.push('/other_expense')}
+              onClick={() => history.push(OTHER_EXPENSE_URL)}
             >
               <span>
                 <span className={styles.otherExpensesTitle}>{t('SALE.FINANCES.TOTAL_OTHER')}</span>
@@ -194,7 +200,7 @@ const FinancesCarrousel = ({
           />
           <TextButton
             className={clsx([styles.estimatedRevenueContainer, styles.clickableContainer])}
-            onClick={() => history.push('/estimated_revenue')}
+            onClick={() => history.push(ESTIMATED_REVENUE_URL)}
           >
             <span>
               <span className={styles.estimatedRevenueTitle}>

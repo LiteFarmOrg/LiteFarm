@@ -20,12 +20,21 @@ import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersis
 import { icons } from '../NewExpense/ExpenseCategories';
 import labelIconStyles from '../../../components/Tile/styles.module.scss';
 import useCustomExpenseTypeTileContents from '../useCustomExpenseTypeTileContents';
+import {
+  ADD_CUSTOM_EXPENSE_URL,
+  ADD_EXPENSE_URL,
+  EXPENSE_CATEGORIES_URL,
+  FINANCES_HOME_URL,
+  MANAGE_CUSTOM_EXPENSES_URL,
+  createEditCustomExpenseURL,
+  createReadonlyCustomExpenseURL,
+} from '../../../util/siteMapConstants';
 
-const addCustomTypePath = '/add_custom_expense';
+const addCustomTypePath = ADD_CUSTOM_EXPENSE_URL;
 
 const getPaths = (typeId) => ({
-  readOnly: `/readonly_custom_expense/${typeId}`,
-  edit: `/edit_custom_expense/${typeId}`,
+  readOnly: createReadonlyCustomExpenseURL(typeId),
+  edit: createEditCustomExpenseURL(typeId),
 });
 
 export default function ManageExpenseTypes({ history }) {
@@ -41,20 +50,20 @@ export default function ManageExpenseTypes({ history }) {
   };
 
   useEffect(() => {
-    // Manipulate page navigation by pushing "/expense_categories" on top of "/Finances".
+    // Manipulate page navigation by pushing EXPENSE_CATEGORIES_URL on top of FINANCES_HOME_URL.
     // When browser's back button or form's back button is clicked, we want to
-    // navigate the user to "/expense_categories" not "/Finances".
+    // navigate the user to EXPENSE_CATEGORIES_URL not FINANCES_HOME_URL.
     const unlisten = history.listen(() => {
-      if (history.action === 'POP' && history.location.pathname === '/Finances') {
-        dispatch(setPersistedPaths(['/expense_categories', '/add_expense']));
+      if (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL) {
+        dispatch(setPersistedPaths([EXPENSE_CATEGORIES_URL, ADD_EXPENSE_URL]));
         unlisten();
-        history.push('/expense_categories');
+        history.push(EXPENSE_CATEGORIES_URL);
       } else if (
-        // unlisten when the user gets out of the page without going back to '/Finances'.
+        // unlisten when the user gets out of the page without going back to FINANCES_HOME_URL.
         // pathname: "/manage_custom_expenses" happens when the user lands on this page.
         !(
-          history.location.pathname === `/manage_custom_expenses` ||
-          (history.action === 'POP' && history.location.pathname === '/Finances')
+          history.location.pathname === MANAGE_CUSTOM_EXPENSES_URL ||
+          (history.action === 'POP' && history.location.pathname === FINANCES_HOME_URL)
         )
       ) {
         unlisten();

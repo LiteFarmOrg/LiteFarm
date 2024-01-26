@@ -12,23 +12,17 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useTranslation } from 'react-i18next';
 
-import express from 'express';
+const useGenderOptions = () => {
+  const { t } = useTranslation();
 
-const router = express.Router();
-import CustomAnimalTypeController from '../controllers/customAnimalTypeController.js';
-import checkScope from '../middleware/acl/checkScope.js';
+  return [
+    { value: 'MALE', label: t('gender:MALE') },
+    { value: 'FEMALE', label: t('gender:FEMALE') },
+    { value: 'OTHER', label: t('gender:OTHER') },
+    { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
+  ];
+};
 
-router.get(
-  '/',
-  checkScope(['get:animal_types']),
-  CustomAnimalTypeController.getCustomAnimalTypes(),
-);
-
-router.post(
-  '/',
-  checkScope(['add:animal_types']),
-  CustomAnimalTypeController.addCustomAnimalType(),
-);
-
-export default router;
+export default useGenderOptions;

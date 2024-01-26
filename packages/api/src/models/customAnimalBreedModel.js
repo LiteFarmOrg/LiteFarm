@@ -32,10 +32,10 @@ class CustomAnimalBreed extends baseModel {
       type: 'object',
       oneOf: [
         {
-          required: ['farm_id', 'default_type_id', 'key'],
+          required: ['farm_id', 'default_type_id', 'breed'],
         },
         {
-          required: ['farm_id', 'custom_type_id', 'key'],
+          required: ['farm_id', 'custom_type_id', 'breed'],
         },
       ],
       properties: {

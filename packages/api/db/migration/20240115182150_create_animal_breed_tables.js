@@ -27,8 +27,18 @@ export const up = async function (knex) {
     table.integer('custom_type_id').references('id').inTable('custom_animal_type');
     table.string('breed').notNullable();
     table.boolean('deleted').notNullable().defaultTo(false);
-    table.string('created_by_user_id').references('user_id').inTable('users');
-    table.string('updated_by_user_id').references('user_id').inTable('users');
+    table
+      .string('created_by_user_id')
+      .notNullable()
+      .references('user_id')
+      .inTable('users')
+      .defaultTo('1');
+    table
+      .string('updated_by_user_id')
+      .notNullable()
+      .references('user_id')
+      .inTable('users')
+      .defaultTo('1');
     table.dateTime('created_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
     table.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
     table.check(
@@ -41,6 +51,12 @@ export const up = async function (knex) {
       ['default_type_id', 'custom_type_id'],
       'null_type_id_check',
     );
+  });
+
+  // Update animal types table created_by_user_id and updated_by_user_id to match defaults used here
+  await knex.schema.alterTable('custom_animal_type', (table) => {
+    table.string('created_by_user_id').notNullable().defaultTo('1').alter();
+    table.string('updated_by_user_id').notNullable().defaultTo('1').alter();
   });
 
   // Add initial default breeds

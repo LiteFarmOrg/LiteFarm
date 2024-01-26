@@ -128,6 +128,11 @@ import defaultAnimalTypeRoute from './routes/defaultAnimalTypeRoute.js';
 import customAnimalTypeRoute from './routes/customAnimalTypeRoute.js';
 import defaultAnimalBreedRoute from './routes/defaultAnimalBreedRoute.js';
 import customAnimalBreedRoute from './routes/customAnimalBreedRoute.js';
+import animalRoute from './routes/animalRoute.js';
+import animalIdentifierColorRoute from './routes/animalIdentifierColorRoute.js';
+import animalIdentifierPlacementRoute from './routes/animalIdentifierPlacementRoute.js';
+import animalSexRoute from './routes/animalSexRoute.js';
+import animalOriginRoute from './routes/animalOriginRoute.js';
 import cropRoutes from './routes/cropRoute.js';
 import cropVarietyRoutes from './routes/cropVarietyRoute.js';
 import fieldRoutes from './routes/fieldRoute.js';
@@ -272,6 +277,11 @@ app
   .use('/custom_animal_types', customAnimalTypeRoute)
   .use('/default_animal_breeds', defaultAnimalBreedRoute)
   .use('/custom_animal_breeds', customAnimalBreedRoute)
+  .use('/animals', animalRoute)
+  .use('/animal_identifier_colors', animalIdentifierColorRoute)
+  .use('/animal_identifier_placements', animalIdentifierPlacementRoute)
+  .use('/animal_sexes', animalSexRoute)
+  .use('/animal_origins', animalOriginRoute)
   .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
   .use('/crop', cropRoutes)

@@ -23,6 +23,7 @@ export default function PlantingLocation({ history, match }) {
   const { interested } = useSelector(certifierSurveySelector);
 
   return (
+    // TODO: remove key property after multi step form/navigation logic refactor
     <Fragment key={`${variety_id}-${isFinalLocationPage}`}>
       <HookFormPersistProvider>
         <PurePlantingLocation

@@ -82,6 +82,7 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
           maxLength: { value: 255, message: t('PROFILE.ERROR.LAST_NAME_LENGTH') },
         })}
         errors={errors[userFarmEnum.last_name] && errors[userFarmEnum.last_name].message}
+        optional
       />
       <Input
         label={t('PROFILE.ACCOUNT.EMAIL')}

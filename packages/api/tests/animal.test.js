@@ -161,8 +161,12 @@ describe('Animal Tests', () => {
 
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
+        const [animalType] = await mocks.custom_animal_typeFactory({
+          promisedFarm: [mainFarm],
+        });
+
         const firstAnimal = mocks.fakeAnimal({ default_type_id: defaultTypeId });
-        const secondAnimal = mocks.fakeAnimal({ default_type_id: defaultTypeId });
+        const secondAnimal = mocks.fakeAnimal({ custom_type_id: animalType.id });
 
         const res = await postRequestAsPromise(
           {

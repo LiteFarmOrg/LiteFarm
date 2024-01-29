@@ -21,16 +21,50 @@ import styles from './styles.module.scss';
 import { clamp, countDecimalPlaces } from './utils';
 
 export type NumberInputProps = {
+  /**
+   * The initial value of the input
+   */
   value?: number | string;
+  /**
+   * function called on change with value represented as a number as the paramter.
+   */
   onChange?: (valueAsNumber: number) => void;
+  /**
+   * function called when input is blurred
+   */
   onBlur?: () => void;
+  /**
+   * Controls grouping of numbers over 1000 with the thousands separator.
+   */
   useGrouping?: boolean;
+  /**
+   * Controls whether or not a decimal is allowed as input. If set to false, users can only enter whole numbers.
+   */
   allowDecimal?: boolean;
+  /**
+   * The locale to use for number formatting.
+   */
   locale?: string;
+  /**
+   * Number of decimal places to round on blur. Ignored if used with a step value
+   */
   roundToDecimalPlaces?: number;
+  /**
+   * The unit to display on right side of input
+   */
   unit?: ReactNode;
+  /**
+   * Amount to step up or down. Renders a stepper on right side with up and down buttons when step is greater than 0.
+   * If allowDecimal is false, then step is rounded down to the nearest whole number.
+   */
   step?: number;
+  /**
+   * Max value of input. Only applicable if used with step
+   */
   max?: number;
+  /**
+   * Min value of input. Only applicable if used with step
+   */
   min?: number;
   disabled?: boolean;
 } & InputBaseProps;
@@ -73,7 +107,7 @@ export default function NumberInput({
     };
 
     if (step) {
-      const decimalPlaces = countDecimalPlaces(step);
+      const decimalPlaces = allowDecimal ? countDecimalPlaces(step) : 0;
       options.minimumFractionDigits = decimalPlaces;
       options.maximumFractionDigits = decimalPlaces;
     }
@@ -83,7 +117,7 @@ export default function NumberInput({
     } catch (error) {
       return new Intl.NumberFormat(undefined, options);
     }
-  }, [locale, useGrouping, roundToDecimalPlaces, step]);
+  }, [locale, useGrouping, roundToDecimalPlaces, step, allowDecimal]);
 
   const { decimalSeparator, thousandsSeparator } = useMemo(() => {
     let separators = {
@@ -181,11 +215,12 @@ export default function NumberInput({
             (() => {
               // ensure value doesn't become negative
               const nonNegativeMin = Math.max(min, 0);
+              const stepValue = allowDecimal ? step : Math.floor(step);
               let value = valueAsNumber || 0;
               return (
                 <Stepper
-                  increment={() => update(clamp(value + step, nonNegativeMin, max))}
-                  decrement={() => update(clamp(value - step, nonNegativeMin, max))}
+                  increment={() => update(clamp(value + stepValue, nonNegativeMin, max))}
+                  decrement={() => update(clamp(value - stepValue, nonNegativeMin, max))}
                   incrementDisabled={valueAsNumber === max}
                   decrementDisabled={valueAsNumber === nonNegativeMin}
                 />

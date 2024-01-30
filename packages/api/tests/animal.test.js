@@ -164,23 +164,32 @@ describe('Animal Tests', () => {
         const [animalType] = await mocks.custom_animal_typeFactory({
           promisedFarm: [mainFarm],
         });
+        const [animalBreed] = await mocks.custom_animal_breedFactory({
+          promisedFarm: [mainFarm],
+        });
 
         const firstAnimal = mocks.fakeAnimal({ default_type_id: defaultTypeId });
         const secondAnimal = mocks.fakeAnimal({ custom_type_id: animalType.id });
+        const thirdAnimal = mocks.fakeAnimal({
+          custom_type_id: animalBreed.custom_type_id,
+          custom_breed_id: animalBreed.id,
+        });
 
         const res = await postRequestAsPromise(
           {
             user_id: user.user_id,
             farm_id: mainFarm.farm_id,
           },
-          [firstAnimal, secondAnimal],
+          [firstAnimal, secondAnimal, thirdAnimal],
         );
 
+        console.log(res.error);
         expect(res.status).toBe(201);
         expect(res.body[0]).toMatchObject(firstAnimal);
         expect(res.body[1]).toMatchObject(secondAnimal);
-        expect(res.body[0].farm_id).toBe(mainFarm.farm_id);
-        expect(res.body[1].farm_id).toBe(mainFarm.farm_id);
+        expect(res.body[2]).toMatchObject(thirdAnimal);
+
+        res.body.forEach((animal) => expect(animal.farm_id).toBe(mainFarm.farm_id));
       }
     });
 

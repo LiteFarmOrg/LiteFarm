@@ -88,6 +88,9 @@ const animalController = {
 
           if (animal.custom_type_id) {
             const customType = await CustomAnimalTypeModel.query().findById(animal.custom_type_id);
+            console.log(farm_id);
+            console.log(customType.farm_id);
+            console.log(customType.farm_id !== farm_id);
 
             if (!customType || customType.farm_id !== farm_id) {
               await trx.rollback();
@@ -111,10 +114,21 @@ const animalController = {
               .whereNotDeleted()
               .findById(animal.custom_breed_id);
 
+            if (!customBreed || customBreed.farm_id !== farm_id) {
+              await trx.rollback();
+              return res.status(400).send('custom_breed_id has invalid value');
+            }
+
             if (
-              !customBreed ||
-              customBreed.farm_id !== farm_id ||
-              customBreed.default_type_id !== animal.default_type_id ||
+              customBreed.default_type_id &&
+              customBreed.default_type_id !== animal.default_type_id
+            ) {
+              await trx.rollback();
+              return res.status(400).send('custom_breed_id has invalid value');
+            }
+
+            if (
+              customBreed.custom_type_id &&
               customBreed.custom_type_id !== animal.custom_type_id
             ) {
               await trx.rollback();

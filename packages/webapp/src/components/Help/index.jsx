@@ -1,6 +1,6 @@
 import Form from '../Form';
 import Button from '../Form/Button';
-import { ReactComponent as AddFile } from './../../assets/images/help/AddFile.svg';
+import AddFile from './../../assets/images/help/AddFile.svg';
 import React, { useEffect, useState } from 'react';
 import { Error, Title } from '../Typography';
 import PropTypes from 'prop-types';
@@ -17,7 +17,7 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const { register, handleSubmit, watch, control, setValue, formState } = useForm({
     mode: 'onTouched',
-    defaultValues: { 'contact_method': 'email' }
+    defaultValues: { contact_method: 'email' },
   });
 
   const { errors } = formState;

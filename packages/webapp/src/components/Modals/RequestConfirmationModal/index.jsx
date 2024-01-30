@@ -1,4 +1,4 @@
-import { ReactComponent as Success } from '../../../assets/images/requestConfirmation/success.svg';
+import Success from '../../../assets/images/requestConfirmation/success.svg';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal, ModalComponent } from '../';

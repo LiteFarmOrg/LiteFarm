@@ -10,11 +10,7 @@ function TitleLayout({ buttonGroup, title, onGoBack = null, children, onCancel }
     <Layout buttonGroup={buttonGroup} classes={{ footer: { position: 'relative' } }}>
       <Title style={{ marginTop: '12px', position: 'relative' }}>
         {onGoBack && (
-          <img
-            src={BackArrow}
-            style={{ marginBottom: '-5px', cursor: 'pointer' }}
-            onClick={onGoBack}
-          />
+          <BackArrow style={{ marginBottom: '-5px', cursor: 'pointer' }} onClick={onGoBack} />
         )}{' '}
         {title}
         {onCancel && (

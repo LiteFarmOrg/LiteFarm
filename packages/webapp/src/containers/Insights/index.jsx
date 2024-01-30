@@ -19,10 +19,10 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import history from '../../history';
 // images
-import soil_om from '../../assets/images/insights/soil_om.svg';
-import labour_happiness from '../../assets/images/insights/labour_happiness.svg';
-import biodiversity from '../../assets/images/insights/biodiversity.svg';
-import prices from '../../assets/images/insights/prices.svg';
+import SoilOm from '../../assets/images/insights/soil_om.svg';
+import LabourHappiness from '../../assets/images/insights/labour_happiness.svg';
+import Biodiversity from '../../assets/images/insights/biodiversity.svg';
+import Prices from '../../assets/images/insights/prices.svg';
 
 // actions
 import { getLabourHappinessData, getPricesWithDistanceData, getSoilOMData } from './actions';
@@ -53,25 +53,25 @@ const Insights = () => {
   const items = [
     {
       label: t('INSIGHTS.SOIL_OM.TITLE'),
-      image: soil_om,
+      image: (props) => <SoilOm {...props} />,
       route: 'SoilOM',
       data_point: 'SoilOM',
     },
     {
       label: t('INSIGHTS.LABOUR_HAPPINESS.TITLE'),
-      image: labour_happiness,
+      image: (props) => <LabourHappiness {...props} />,
       route: 'LabourHappiness',
       data_point: 'LabourHappiness',
     },
     {
       label: t('INSIGHTS.BIODIVERSITY.TITLE'),
-      image: biodiversity,
+      image: (props) => <Biodiversity {...props} />,
       route: 'Biodiversity',
       data_point: 'Biodiversity',
     },
     {
       label: t('INSIGHTS.PRICES.TITLE'),
-      image: prices,
+      image: (props) => <Prices {...props} />,
       route: 'Prices',
       data_point: 'Prices',
     },
@@ -93,11 +93,7 @@ const Insights = () => {
         className={`itemButton item-${index} ${styles.itemButton}`}
         onClick={() => handleClick(item.route)}
       >
-        <img
-          className={`itemIcon item-${index} ${styles.itemIcon}`}
-          src={item.image}
-          alt={item.label}
-        />
+        <item.image className={`itemIcon item-${index} ${styles.itemIcon}`} alt={item.label} />
         <div className={`itemText item-${index} ${styles.itemText}`}>
           <Semibold>{item.label}</Semibold>
           {item.label === t('INSIGHTS.BIODIVERSITY.TITLE') ? (

@@ -12,9 +12,9 @@ import {
 
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
-import { ReactComponent as MapPin } from '../../assets/images/signUp/map_pin.svg';
-import { ReactComponent as MapErrorPin } from '../../assets/images/signUp/map_error_pin.svg';
-import { ReactComponent as LoadingAnimation } from '../../assets/images/signUp/animated_loading_farm.svg';
+import MapPin from '../../assets/images/signUp/map_pin.svg';
+import MapErrorPin from '../../assets/images/signUp/map_error_pin.svg';
+import LoadingAnimation from '../../assets/images/signUp/animated_loading_farm.svg';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import history from '../../history';

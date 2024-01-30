@@ -1,6 +1,6 @@
 import ReactSelect from '../../Form/ReactSelect';
 import React, { useEffect, useMemo, useState } from 'react';
-import { ReactComponent as Leaf } from '../../../assets/images/farmMapFilter/Leaf.svg';
+import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';

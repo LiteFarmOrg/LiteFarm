@@ -1,8 +1,7 @@
 import React from 'react';
 import Layout from '../../../components/Layout';
 import Button from '../../../components/Form/Button';
-import Svg from '../../../components/Svg';
-import signup2 from '../../../assets/images/signUp/signUp2.svg';
+import Signup2 from '../../../assets/images/signUp/signUp2.svg';
 import decorators from '../config/Decorators';
 
 export default {
@@ -21,7 +20,7 @@ Primary.args = {
 export const SVG = Template.bind({});
 SVG.args = {
   buttonGroup: <Button fullLength />,
-  children: <Svg svg={signup2} alt={'Welcome to LiteFarm'} />,
+  children: <Signup2 alt={'Welcome to LiteFarm'} />,
   isSVG: true,
 };
 

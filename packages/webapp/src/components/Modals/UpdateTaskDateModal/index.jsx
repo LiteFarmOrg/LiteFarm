@@ -4,7 +4,7 @@ import ModalComponent from '../ModalComponent/v2';
 import styles from './styles.module.scss';
 import Button from '../../Form/Button';
 import Input from '../../Form/Input';
-import { ReactComponent as CalendarIcon } from '../../../assets/images/task/CalendarIcon.svg';
+import CalendarIcon from '../../../assets/images/task/CalendarIcon.svg';
 import { getDateInputFormat } from '../../../util/moment';
 import PropTypes from 'prop-types';
 

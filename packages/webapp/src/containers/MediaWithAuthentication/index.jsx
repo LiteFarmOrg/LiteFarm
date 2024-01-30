@@ -1,4 +1,4 @@
-import { ReactComponent as Download } from '../../assets/images/farmMapFilter/Download.svg';
+import Download from '../../assets/images/farmMapFilter/Download.svg';
 import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
 import { mediaEnum } from './constants';
 

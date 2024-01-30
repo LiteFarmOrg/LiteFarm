@@ -5,15 +5,15 @@ import Button from '../../Form/Button';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 
-import { ReactComponent as Sales } from '../../../assets/images/log/v2/Sales.svg';
-import { ReactComponent as SelfConsumption } from '../../../assets/images/log/v2/SelfConsumption.svg';
-import { ReactComponent as AnimalFeed } from '../../../assets/images/log/v2/AnimalFeed.svg';
-import { ReactComponent as Compost } from '../../../assets/images/log/v2/Compost.svg';
-import { ReactComponent as NotSure } from '../../../assets/images/log/v2/NotSure.svg';
-import { ReactComponent as Gift } from '../../../assets/images/log/v2/Gift.svg';
-import { ReactComponent as Exchange } from '../../../assets/images/log/v2/Exchange.svg';
-import { ReactComponent as Seed } from '../../../assets/images/log/v2/Seed.svg';
-import { ReactComponent as Custom } from '../../../assets/images/log/v2/Custom.svg';
+import Sales from '../../../assets/images/log/v2/Sales.svg';
+import SelfConsumption from '../../../assets/images/log/v2/SelfConsumption.svg';
+import AnimalFeed from '../../../assets/images/log/v2/AnimalFeed.svg';
+import Compost from '../../../assets/images/log/v2/Compost.svg';
+import NotSure from '../../../assets/images/log/v2/NotSure.svg';
+import Gift from '../../../assets/images/log/v2/Gift.svg';
+import Exchange from '../../../assets/images/log/v2/Exchange.svg';
+import Seed from '../../../assets/images/log/v2/Seed.svg';
+import Custom from '../../../assets/images/log/v2/Custom.svg';
 import clsx from 'clsx';
 
 export default function PureHarvestUseType({
@@ -125,6 +125,7 @@ function UseTypeMatrix({ useTypes, onClick, selectedUseTypes }) {
               selectedUseTypes.includes(type.harvest_use_type_id) && styles.selectedMatrixItem,
             )}
             onClick={() => onClick(type.harvest_use_type_id)}
+            key={i}
           >
             {buttonImg}
             <div className={styles.buttonName}>{useTypeName}</div>

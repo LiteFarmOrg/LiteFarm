@@ -1,6 +1,6 @@
 import React from 'react';
 import { Label, Text, Title } from '../Typography';
-import { ReactComponent as Back } from '../../assets/images/managementPlans/back.svg';
+import Back from '../../assets/images/managementPlans/back.svg';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import clsx from 'clsx';

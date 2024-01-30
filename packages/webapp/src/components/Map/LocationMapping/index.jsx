@@ -1,19 +1,19 @@
 import { locationEnum } from '../../../containers/Map/constants';
-import { ReactComponent as Gate } from '../../../assets/images/farmMapFilter/Gate.svg';
-import { ReactComponent as WaterValve } from '../../../assets/images/farmMapFilter/WaterValve.svg';
-import { ReactComponent as Sensor } from '../../../assets/images/farmMapFilter/Sensor.svg';
-import { ReactComponent as BufferZone } from '../../../assets/images/farmMapFilter/BufferZone.svg';
-import { ReactComponent as Watercourse } from '../../../assets/images/farmMapFilter/Creek.svg';
-import { ReactComponent as Fence } from '../../../assets/images/farmMapFilter/Fence.svg';
-import { ReactComponent as Barn } from '../../../assets/images/farmMapFilter/Barn.svg';
-import { ReactComponent as CeremonialArea } from '../../../assets/images/farmMapFilter/CA.svg';
-import { ReactComponent as FarmSiteBoundary } from '../../../assets/images/farmMapFilter/FSB.svg';
-import { ReactComponent as Field } from '../../../assets/images/farmMapFilter/Field.svg';
-import { ReactComponent as Garden } from '../../../assets/images/farmMapFilter/Garden.svg';
-import { ReactComponent as Greenhouse } from '../../../assets/images/farmMapFilter/Greenhouse.svg';
-import { ReactComponent as SurfaceWater } from '../../../assets/images/farmMapFilter/SurfaceWater.svg';
-import { ReactComponent as NaturalArea } from '../../../assets/images/farmMapFilter/NA.svg';
-import { ReactComponent as Residence } from '../../../assets/images/farmMapFilter/Residence.svg';
+import Gate from '../../../assets/images/farmMapFilter/Gate.svg';
+import WaterValve from '../../../assets/images/farmMapFilter/WaterValve.svg';
+import Sensor from '../../../assets/images/farmMapFilter/Sensor.svg';
+import BufferZone from '../../../assets/images/farmMapFilter/BufferZone.svg';
+import Watercourse from '../../../assets/images/farmMapFilter/Creek.svg';
+import Fence from '../../../assets/images/farmMapFilter/Fence.svg';
+import Barn from '../../../assets/images/farmMapFilter/Barn.svg';
+import CeremonialArea from '../../../assets/images/farmMapFilter/CA.svg';
+import FarmSiteBoundary from '../../../assets/images/farmMapFilter/FSB.svg';
+import Field from '../../../assets/images/farmMapFilter/Field.svg';
+import Garden from '../../../assets/images/farmMapFilter/Garden.svg';
+import Greenhouse from '../../../assets/images/farmMapFilter/Greenhouse.svg';
+import SurfaceWater from '../../../assets/images/farmMapFilter/SurfaceWater.svg';
+import NaturalArea from '../../../assets/images/farmMapFilter/NA.svg';
+import Residence from '../../../assets/images/farmMapFilter/Residence.svg';
 
 export const pointImgDict = [
   {

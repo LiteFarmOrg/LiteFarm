@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import RadioGroup from '../../Form/RadioGroup';
 import styles from './styles.module.scss';
-import { ReactComponent as Individual } from '../../../assets/images/plantingMethod/Individual.svg';
-import { ReactComponent as Rows } from '../../../assets/images/plantingMethod/Rows.svg';
+import Individual from '../../../assets/images/plantingMethod/Individual.svg';
+import Rows from '../../../assets/images/plantingMethod/Rows.svg';
 
-import { ReactComponent as Beds } from '../../../assets/images/plantingMethod/Beds.svg';
-import { ReactComponent as Monocrop } from '../../../assets/images/plantingMethod/Monocrop.svg';
+import Beds from '../../../assets/images/plantingMethod/Beds.svg';
+import Monocrop from '../../../assets/images/plantingMethod/Monocrop.svg';
 import { DO_CDN_URL } from '../../../util/constants';
 import ImageModal from '../../Modals/ImageModal';
 

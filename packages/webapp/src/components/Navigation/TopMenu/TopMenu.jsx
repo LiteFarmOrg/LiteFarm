@@ -1,18 +1,18 @@
 import { useRef, useState } from 'react';
 import { logout } from '../../../util/jwt';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
-import { ReactComponent as LogoutIcon } from '../../../assets/images/navbar/logout.svg';
-import { ReactComponent as MyInfoIcon } from '../../../assets/images/navbar/my-info.svg';
-import { ReactComponent as HelpIcon } from '../../../assets/images/navbar/help.svg';
-import { ReactComponent as VideoIcon } from '../../../assets/images/navbar/play-square.svg';
-import { ReactComponent as SwitchFarmIcon } from '../../../assets/images/navbar/switch-farm.svg';
-import { ReactComponent as LaunchIcon } from '../../../assets/images/icon_launch.svg';
-import { ReactComponent as CloseX } from '../../../assets/images/close-x.svg';
-import { ReactComponent as NotificationIcon } from '../../../assets/images/notif.svg';
+import LogoutIcon from '../../../assets/images/navbar/logout.svg';
+import MyInfoIcon from '../../../assets/images/navbar/my-info.svg';
+import HelpIcon from '../../../assets/images/navbar/help.svg';
+import VideoIcon from '../../../assets/images/navbar/play-square.svg';
+import SwitchFarmIcon from '../../../assets/images/navbar/switch-farm.svg';
+import LaunchIcon from '../../../assets/images/icon_launch.svg';
+import CloseX from '../../../assets/images/close-x.svg';
+import NotificationIcon from '../../../assets/images/notif.svg';
 // TODO: use profile picture stored in db
-import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
-import { ReactComponent as IconLogo } from '../../../assets/images/navbar/nav-logo.svg';
-import { ReactComponent as WordsLogo } from '../../../assets/images/middle_logo.svg';
+import ProfilePicture from '../../../assets/images/navbar/defaultpfp.svg';
+import IconLogo from '../../../assets/images/navbar/nav-logo.svg';
+import WordsLogo from '../../../assets/images/middle_logo.svg';
 import { BiMenu } from 'react-icons/bi';
 import {
   AppBar,

@@ -1,5 +1,5 @@
 import Layout from '../Layout';
-import { ReactComponent } from '../../assets/images/expiredToken/expiredToken.svg';
+import ReactComponent from '../../assets/images/expiredToken/expiredToken.svg';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Error, Main, Semibold, Title } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import Card from '../Card';
-import { ReactComponent as GoogleLogo } from '../../assets/images/inviteSignUp/google-logo.svg';
+import GoogleLogo from '../../assets/images/inviteSignUp/google-logo.svg';
 import styles from './styles.module.scss';
 
 const cardStyle = {

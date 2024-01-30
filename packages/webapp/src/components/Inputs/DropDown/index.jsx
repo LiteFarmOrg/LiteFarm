@@ -1,6 +1,6 @@
 import { components } from 'react-select';
 import React from 'react';
-import vector from '../../../assets/images/vector-down.svg';
+import Vector from '../../../assets/images/vector-down.svg';
 import ReactSelect from '../../Form/ReactSelect';
 
 class DropDown extends React.Component {
@@ -21,7 +21,7 @@ class DropDown extends React.Component {
     const DropdownIndicator = (props) => {
       return (
         <components.DropdownIndicator {...props}>
-          <img src={vector} alt="" />
+          <Vector alt="" />
         </components.DropdownIndicator>
       );
     };

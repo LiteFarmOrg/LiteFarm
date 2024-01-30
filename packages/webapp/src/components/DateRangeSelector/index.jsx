@@ -17,7 +17,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as Calendar } from '../../assets/images/dateInput/calendar.svg';
+import Calendar from '../../assets/images/dateInput/calendar.svg';
 import { FROM_DATE, TO_DATE } from '../Form/DateRangePicker';
 import ReactSelect from '../Form/ReactSelect';
 import CustomDateRangeSelector from './CustomDateRangeSelector';

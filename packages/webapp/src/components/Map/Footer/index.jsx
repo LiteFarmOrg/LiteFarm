@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
-import { ReactComponent as AddLogo } from '../../../assets/images/map/add.svg';
-import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter.svg';
-import { ReactComponent as ExportLogo } from '../../../assets/images/map/export.svg';
+import AddLogo from '../../../assets/images/map/add.svg';
+import FilterLogo from '../../../assets/images/map/filter.svg';
+import ExportLogo from '../../../assets/images/map/export.svg';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import MapDrawer from '../../MapDrawer';

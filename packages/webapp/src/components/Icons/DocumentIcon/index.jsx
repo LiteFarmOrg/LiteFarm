@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
-import { ReactComponent as DocumentFrame } from '../../../assets/images/document/document.svg';
+import DocumentFrame from '../../../assets/images/document/document.svg';
 
 export const DocumentIcon = ({ extensionName, ...props }) => {
   return (

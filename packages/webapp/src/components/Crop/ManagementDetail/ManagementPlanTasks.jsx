@@ -10,7 +10,7 @@ import IncompleteTaskModal from '../../Modals/IncompleteTaskModal';
 import RouterTab from '../../RouterTab';
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { FiAlertTriangle } from 'react-icons/fi';
-import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
+import TrashIcon from '../../../assets/images/document/trash.svg';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 

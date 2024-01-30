@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
-import { ReactComponent as Logo } from '../../assets/images/signUp/logo.svg';
-import { ReactComponent as LineBreak } from '../../assets/images/signUp/lineBreak.svg';
+import Logo from '../../assets/images/signUp/logo.svg';
+import LineBreak from '../../assets/images/signUp/lineBreak.svg';
 import Button from '../Form/Button';
 import Input from '../Form/Input';
 import React from 'react';
@@ -36,7 +36,7 @@ export default function PureCustomSignUp({
           <NewReleaseCard style={{ marginTop: '32px', maxWidth: '312px' }} />
           {(!isChrome || !!errorMessage) && (
             <div className={styles.otherBrowserMessageTop}>
-              {!!errorMessage ? (
+              {errorMessage ? (
                 <Error style={{ maxWidth: '300px' }}>{errorMessage}</Error>
               ) : (
                 <>

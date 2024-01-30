@@ -15,7 +15,7 @@
 import React from 'react';
 import IconLabelTile from '../../components/Tile/IconLabelTile';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
+import SoilAmendment from '../../assets/images/task/SoilAmendment.svg';
 
 export default {
   title: 'Components/Tile/IconLabelTile',

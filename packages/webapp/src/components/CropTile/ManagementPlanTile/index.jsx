@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../styles.module.scss';
 import clsx from 'clsx';
-import { ReactComponent as CalendarIcon } from '../../../assets/images/managementPlans/calendar.svg';
+import CalendarIcon from '../../../assets/images/managementPlans/calendar.svg';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import PureCropTile from '../index';
@@ -15,7 +15,7 @@ const cropStatus = {
 };
 
 const isActive = (status) => status === cropStatus.active;
-const isPast = (status) => (status === cropStatus.completed) || (status === cropStatus.abandoned);
+const isPast = (status) => status === cropStatus.completed || status === cropStatus.abandoned;
 const isPlanned = (status) => status === cropStatus.planned;
 
 export default function PureManagementPlanTile({
@@ -28,12 +28,8 @@ export default function PureManagementPlanTile({
   date,
 }) {
   const { t } = useTranslation();
-  const {
-    crop_variety_name,
-    crop_translation_key,
-    crop_variety_photo_url,
-    start_date,
-  } = managementPlan;
+  const { crop_variety_name, crop_translation_key, crop_variety_photo_url, start_date } =
+    managementPlan;
   const displayDate = date || start_date;
 
   const notes =

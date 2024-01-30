@@ -1,6 +1,6 @@
 import { colors } from '../../../../assets/theme';
 import styles from './styles.module.scss';
-import { ReactComponent as MapPin } from '../../../../assets/images/map/map_pin.svg';
+import MapPin from '../../../../assets/images/map/map_pin.svg';
 import { Label } from '../../../Typography';
 import { useTranslation } from 'react-i18next';
 

@@ -16,7 +16,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { ReactComponent as ReportIcon } from '../../../assets/images/finance/Report-icn.svg';
+import ReportIcon from '../../../assets/images/finance/Report-icn.svg';
 import Drawer from '../../../components/Drawer';
 import FinanceDateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import Button from '../../../components/Form/Button';

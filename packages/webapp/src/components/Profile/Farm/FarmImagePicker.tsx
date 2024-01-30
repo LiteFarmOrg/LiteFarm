@@ -12,15 +12,14 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
 import PureFilePickerWrapper from '../../Form/FilePickerWrapper';
 import TextButton from '../../Form/Button/TextButton';
 import styles from './styles.module.scss';
-import { ReactComponent as CameraIcon } from '../../../assets/images/farm-profile/camera.svg';
-import { ReactComponent as TrashIcon } from '../../../assets/images/farm-profile/trash.svg';
-import { ReactComponent as EditIcon } from '../../../assets/images/farm-profile/edit.svg';
+import CameraIcon from '../../../assets/images/farm-profile/camera.svg';
+import TrashIcon from '../../../assets/images/farm-profile/trash.svg';
+import EditIcon from '../../../assets/images/farm-profile/edit.svg';
 import { AddLink } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 

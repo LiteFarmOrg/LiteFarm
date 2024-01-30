@@ -112,7 +112,7 @@ export function FenceDetailsChildren({ system, isViewLocationPage }) {
           <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
             {t('FARM_MAP.FENCE.PRESSURE_TREATED')}
           </Label>
-          <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
+          <Leaf style={{ display: 'inline-block', paddingRight: '10px' }} />
           <Label style={{ display: 'inline-block' }} sm>
             {t('common:OPTIONAL')}
           </Label>

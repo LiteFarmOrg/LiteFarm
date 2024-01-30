@@ -1,8 +1,8 @@
 import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
-import { ReactComponent as Cross } from '../../assets/images/map/cross.svg';
-import { ReactComponent as Checkmark } from '../../assets/images/map/checkmark.svg';
+import Cross from '../../assets/images/map/cross.svg';
+import Checkmark from '../../assets/images/map/checkmark.svg';
 import clsx from 'clsx';
 import ProgressBar from '../Map/ProgressBar';
 import { VscWarning } from 'react-icons/vsc';
@@ -38,13 +38,16 @@ export function PureSnackbarWithoutBorder({ className, onDismiss, title, type })
   );
 }
 
-export const PureSnackbar = forwardRef(({ message, type, onDismiss }, ref) => (
+export const PureSnackbar = forwardRef(function forwardSnackbarRef(
+  { message, type, onDismiss },
+  ref,
+) {
   <div className={clsx(styles.container, styles[type])} ref={ref}>
     <PureSnackbarWithoutBorder title={message} onDismiss={onDismiss} type={type} />
-  </div>
-));
+  </div>;
+});
 
-PureSnackbarWithoutBorder.prototype = {
+PureSnackbarWithoutBorder.propTypes = {
   className: PropTypes.string,
   title: PropTypes.string,
   farmName: PropTypes.string,
@@ -52,7 +55,7 @@ PureSnackbarWithoutBorder.prototype = {
   type: PropTypes.oneOf(['success', 'error']),
 };
 
-PureSnackbar.prototype = {
+PureSnackbar.propTypes = {
   type: PropTypes.oneOf(['success', 'error']),
   message: PropTypes.string,
   onDismiss: PropTypes.func,

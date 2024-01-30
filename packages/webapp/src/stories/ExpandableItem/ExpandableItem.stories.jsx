@@ -20,7 +20,7 @@ import Expandable from '../../components/Expandable/ExpandableItem';
 import useExpandable from '../../components/Expandable/useExpandableItem';
 import TransactionItem from '../../components/Finances/Transaction/Mobile/Item';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
+import SoilAmendment from '../../assets/images/task/SoilAmendment.svg';
 import styles from '../../components/Finances/Transaction/Mobile/styles.module.scss';
 
 export default {

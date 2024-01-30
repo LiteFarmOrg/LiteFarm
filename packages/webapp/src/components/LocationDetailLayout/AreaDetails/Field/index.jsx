@@ -97,7 +97,7 @@ export function FieldDetailsChildren({ isViewLocationPage }) {
         <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px' }}>
           {t('FARM_MAP.FIELD.FIELD_TYPE')}
         </Label>
-        <img src={Leaf} style={{ display: 'inline-block' }} />
+        <Leaf style={{ display: 'inline-block' }} />
       </div>
 
       <RadioGroup

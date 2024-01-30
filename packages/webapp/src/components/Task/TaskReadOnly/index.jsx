@@ -46,7 +46,7 @@ import { isTaskType } from '../../../containers/Task/useIsTaskType';
 import ReactSelect from '../../Form/ReactSelect';
 import { BiPencil } from 'react-icons/bi';
 import { FiAlertTriangle } from 'react-icons/fi';
-import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
+import TrashIcon from '../../../assets/images/document/trash.svg';
 import TaskQuickAssignModal from '../../Modals/QuickAssignModal';
 import { getDateInputFormat } from '../../../util/moment';
 import UpdateTaskDateModal from '../../Modals/UpdateTaskDateModal';

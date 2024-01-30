@@ -13,15 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactComponent as MapIcon } from '../assets/images/nav/map.svg';
-import { ReactComponent as TasksIcon } from '../assets/images/nav/tasks.svg';
-import { ReactComponent as CropsIcon } from '../assets/images/nav/crops.svg';
-import { ReactComponent as FinancesIcon } from '../assets/images/nav/finances.svg';
-import { ReactComponent as InsightsIcon } from '../assets/images/nav/insights.svg';
-import { ReactComponent as DocumentsIcon } from '../assets/images/nav/documents.svg';
-import { ReactComponent as FarmSettingsIcon } from '../assets/images/nav/farmSettings.svg';
-import { ReactComponent as PeopleIcon } from '../assets/images/nav/people.svg';
-import { ReactComponent as CertificationsIcon } from '../assets/images/nav/certifications.svg';
+import MapIcon from '../assets/images/nav/map.svg';
+import TasksIcon from '../assets/images/nav/tasks.svg';
+import CropsIcon from '../assets/images/nav/crops.svg';
+import FinancesIcon from '../assets/images/nav/finances.svg';
+import InsightsIcon from '../assets/images/nav/insights.svg';
+import DocumentsIcon from '../assets/images/nav/documents.svg';
+import FarmSettingsIcon from '../assets/images/nav/farmSettings.svg';
+import PeopleIcon from '../assets/images/nav/people.svg';
+import CertificationsIcon from '../assets/images/nav/certifications.svg';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';

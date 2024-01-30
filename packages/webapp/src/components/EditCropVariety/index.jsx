@@ -181,7 +181,7 @@ export default function PureEditCropVariety({
         <>
           <div style={{ marginBottom: '16px' }}>
             <Label className={styles.label}>{t('CROP.IS_ORGANIC')}</Label>
-            <img src={Leaf} alt={'organic-leaf'} style={{ display: 'inline-block' }} />
+            <Leaf alt={'organic-leaf'} style={{ display: 'inline-block' }} />
           </div>
           <RadioGroup
             style={{ marginBottom: '16px' }}
@@ -195,8 +195,7 @@ export default function PureEditCropVariety({
                 <Label className={styles.label}>
                   {t('CROP.PERFORM_SEARCH')}
                   {
-                    <img
-                      src={Leaf}
+                    <Leaf
                       alt={'organic-leaf'}
                       style={{ marginLeft: '10px', display: 'inline-block' }}
                     />
@@ -217,7 +216,7 @@ export default function PureEditCropVariety({
               />
               <div style={{ marginBottom: '16px' }}>
                 <Label className={styles.label}>{t('CROP.IS_GENETICALLY_ENGINEERED')}</Label>
-                <img src={Leaf} alt={'organic-leaf'} style={{ display: 'inline-block' }} />
+                <Leaf alt={'organic-leaf'} style={{ display: 'inline-block' }} />
                 <Infoi
                   style={{ marginLeft: '8px' }}
                   content={t('CROP.NEED_DOCUMENT_GENETICALLY_ENGINEERED')}
@@ -232,7 +231,7 @@ export default function PureEditCropVariety({
 
               <div style={{ marginBottom: '16px' }}>
                 <Label className={styles.label}>{t('CROP.TREATED')}</Label>
-                <img src={Leaf} alt={'organic-leaf'} style={{ display: 'inline-block' }} />
+                <Leaf alt={'organic-leaf'} style={{ display: 'inline-block' }} />
                 <Infoi style={{ marginLeft: '8px' }} content={t('CROP.NEED_DOCUMENT_TREATED')} />
               </div>
 
@@ -244,7 +243,7 @@ export default function PureEditCropVariety({
               <div>
                 <div style={{ marginBottom: '16px' }}>
                   <Label className={styles.label}>{t('CROP.TREATED')}</Label>
-                  <img src={Leaf} alt={'organic-leaf'} style={{ display: 'inline-block' }} />
+                  <Leaf alt={'organic-leaf'} style={{ display: 'inline-block' }} />
                   <Infoi style={{ marginLeft: '8px' }} content={t('CROP.NEED_DOCUMENT_TREATED')} />
                 </div>
               </div>

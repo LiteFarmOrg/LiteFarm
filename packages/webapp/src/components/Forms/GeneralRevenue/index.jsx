@@ -22,7 +22,7 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import PageTitle from '../../PageTitle/v2';
 import ReactSelect from '../../Form/ReactSelect';
 import { IconLink } from '../../Typography';
-import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
+import TrashIcon from '../../../assets/images/document/trash.svg';
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';

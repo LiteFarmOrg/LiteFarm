@@ -13,22 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import clsx from 'clsx';
-import { ReactComponent as CropSaleIcon } from '../../../../assets/images/finance/transaction/Crop-sale-icn.svg';
-import { ReactComponent as CustomTypeIcon } from '../../../../assets/images/finance/transaction/Custom-revenue.svg';
-import { ReactComponent as EquipIcon } from '../../../../assets/images/finance/transaction/Equipment-icn.svg';
-import { ReactComponent as SoilAmendmentIcon } from '../../../../assets/images/finance/transaction/Soil-amendment-icn.svg';
-import { ReactComponent as PestIcon } from '../../../../assets/images/finance/transaction/Pest-icn.svg';
-import { ReactComponent as FuelIcon } from '../../../../assets/images/finance/transaction/Fuel-icn.svg';
-import { ReactComponent as MachineIcon } from '../../../../assets/images/finance/transaction/Machinery-icn.svg';
-import { ReactComponent as SeedIcon } from '../../../../assets/images/finance/transaction/Seeds-icn.svg';
-import { ReactComponent as OtherIcon } from '../../../../assets/images/finance/transaction/Custom-expense.svg';
-import { ReactComponent as LandIcon } from '../../../../assets/images/finance/transaction/Land-icn.svg';
-import { ReactComponent as MiscellaneousIcon } from '../../../../assets/images/finance/transaction/Miscellaneous-icn.svg';
-import { ReactComponent as UtilitiesIcon } from '../../../../assets/images/finance/transaction/Utilities-icn.svg';
-import { ReactComponent as LabourIcon } from '../../../../assets/images/finance/transaction/Labour-icn.svg';
-import { ReactComponent as InfrastructureIcon } from '../../../../assets/images/finance/transaction/Infrastructure-icn.svg';
-import { ReactComponent as TransportationIcon } from '../../../../assets/images/finance/transaction/Transportation-icn.svg';
-import { ReactComponent as ServicesIcon } from '../../../../assets/images/finance/transaction/Services-icn.svg';
+import CropSaleIcon from '../../../../assets/images/finance/transaction/Crop-sale-icn.svg';
+import CustomTypeIcon from '../../../../assets/images/finance/transaction/Custom-revenue.svg';
+import EquipIcon from '../../../../assets/images/finance/transaction/Equipment-icn.svg';
+import SoilAmendmentIcon from '../../../../assets/images/finance/transaction/Soil-amendment-icn.svg';
+import PestIcon from '../../../../assets/images/finance/transaction/Pest-icn.svg';
+import FuelIcon from '../../../../assets/images/finance/transaction/Fuel-icn.svg';
+import MachineIcon from '../../../../assets/images/finance/transaction/Machinery-icn.svg';
+import SeedIcon from '../../../../assets/images/finance/transaction/Seeds-icn.svg';
+import OtherIcon from '../../../../assets/images/finance/transaction/Custom-expense.svg';
+import LandIcon from '../../../../assets/images/finance/transaction/Land-icn.svg';
+import MiscellaneousIcon from '../../../../assets/images/finance/transaction/Miscellaneous-icn.svg';
+import UtilitiesIcon from '../../../../assets/images/finance/transaction/Utilities-icn.svg';
+import LabourIcon from '../../../../assets/images/finance/transaction/Labour-icn.svg';
+import InfrastructureIcon from '../../../../assets/images/finance/transaction/Infrastructure-icn.svg';
+import TransportationIcon from '../../../../assets/images/finance/transaction/Transportation-icn.svg';
+import ServicesIcon from '../../../../assets/images/finance/transaction/Services-icn.svg';
 import { formatAmount } from '../../../../containers/Finances/util';
 import commonStyles from '../styles.module.scss';
 import styles from './styles.module.scss';

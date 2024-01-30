@@ -99,7 +99,7 @@ export function GardenDetailsChildren({ isViewLocationPage }) {
         >
           {t('FARM_MAP.GARDEN.GARDEN_TYPE')}
         </Label>
-        <img src={Leaf} style={{ display: 'inline-block' }} />
+        <Leaf style={{ display: 'inline-block' }} />
       </div>
       <RadioGroup
         required={true}

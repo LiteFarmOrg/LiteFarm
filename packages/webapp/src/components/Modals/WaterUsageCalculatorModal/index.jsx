@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
-import { ReactComponent as Calculator } from '../../../assets/images/task/Calculator.svg';
+import Calculator from '../../../assets/images/task/Calculator.svg';
 import styles from '../QuickAssignModal/styles.module.scss';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';

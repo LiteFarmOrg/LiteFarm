@@ -17,9 +17,7 @@ export default function PureMapHeader({ className, style, farmName, showVideo, i
         {' | '}
         <span className={styles.farmMap}>{t('FARM_MAP.TITLE')}</span>
       </div>
-      {isAdmin && (
-        <input type="image" src={VideoLogo} className={styles.button} onClick={showVideo} />
-      )}
+      {isAdmin && <VideoLogo className={styles.button} onClick={showVideo} />}
     </div>
   );
 }

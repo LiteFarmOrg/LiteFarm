@@ -1,4 +1,4 @@
-import { ReactComponent as LoadingAnimation } from '../../assets/images/signUp/animated_loading_farm.svg';
+import LoadingAnimation from '../../assets/images/signUp/animated_loading_farm.svg';
 import React from 'react';
 import { colors } from '../../assets/theme';
 

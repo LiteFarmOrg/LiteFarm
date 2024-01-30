@@ -75,7 +75,7 @@ export default function ComplianceInfo({
       <div>
         <div style={{ marginBottom: '16px' }}>
           <Label style={labelStyle}>{t('CROP.IS_ORGANIC')}</Label>
-          <img src={Leaf} style={{ display: 'inline-block' }} />
+          <Leaf style={{ display: 'inline-block' }} />
         </div>
       </div>
       <RadioGroup
@@ -92,7 +92,7 @@ export default function ComplianceInfo({
               <div style={{ marginBottom: '16px' }}>
                 <Label style={labelStyle}>
                   {t('CROP.PERFORM_SEARCH')}
-                  {<img src={Leaf} style={{ marginLeft: '10px', display: 'inline-block' }} />}
+                  {<Leaf style={{ marginLeft: '10px', display: 'inline-block' }} />}
                   {
                     <Infoi
                       style={{ marginLeft: '8px' }}
@@ -112,7 +112,7 @@ export default function ComplianceInfo({
             <div>
               <div style={{ marginBottom: '16px' }}>
                 <Label style={labelStyle}>{t('CROP.IS_GENETICALLY_ENGINEERED')}</Label>
-                <img src={Leaf} style={{ display: 'inline-block' }} />
+                <Leaf style={{ display: 'inline-block' }} />
                 <Infoi
                   style={{ marginLeft: '8px' }}
                   content={t('CROP.NEED_DOCUMENT_GENETICALLY_ENGINEERED')}
@@ -130,7 +130,7 @@ export default function ComplianceInfo({
             <div>
               <div style={{ marginBottom: '16px' }}>
                 <Label style={labelStyle}>{t('CROP.TREATED')}</Label>
-                <img src={Leaf} style={{ display: 'inline-block' }} />
+                <Leaf style={{ display: 'inline-block' }} />
                 <Infoi style={{ marginLeft: '8px' }} content={t('CROP.NEED_DOCUMENT_TREATED')} />
               </div>
             </div>
@@ -151,7 +151,7 @@ export default function ComplianceInfo({
             <div>
               <div style={{ marginBottom: '16px' }}>
                 <Label style={labelStyle}>{t('CROP.TREATED')}</Label>
-                <img src={Leaf} style={{ display: 'inline-block' }} />
+                <Leaf style={{ display: 'inline-block' }} />
                 <Infoi style={{ marginLeft: '8px' }} content={t('CROP.NEED_DOCUMENT_TREATED')} />
               </div>
             </div>

@@ -4,7 +4,7 @@ import ModalComponent from '../ModalComponent/v2';
 import styles from './styles.module.scss';
 import Button from '../../Form/Button';
 import Checkbox from '../../Form/Checkbox';
-import { ReactComponent as Person } from '../../../assets/images/task/Person.svg';
+import Person from '../../../assets/images/task/Person.svg';
 import { tasksSelector } from '../../../containers/taskSlice';
 import { useSelector } from 'react-redux';
 import AssignTask from '../../Task/AssignTask';

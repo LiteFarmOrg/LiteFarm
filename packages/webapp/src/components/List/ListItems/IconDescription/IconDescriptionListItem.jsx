@@ -16,8 +16,8 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
-import { ReactComponent as UncheckedEnabled } from '../../../../assets/images/unchecked-enabled.svg';
-import { ReactComponent as CheckedEnabled } from '../../../../assets/images/checked-enabled.svg';
+import UncheckedEnabled from '../../../../assets/images/unchecked-enabled.svg';
+import CheckedEnabled from '../../../../assets/images/checked-enabled.svg';
 import { BsChevronRight } from 'react-icons/bs';
 
 export default function IconDescriptionListItem({

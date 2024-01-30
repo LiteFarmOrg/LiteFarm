@@ -20,7 +20,12 @@ export function PureSetCertificationSummary({
       onSubmit={onSubmit}
       buttonGroup={
         <>
-          <Button data-cy='certificationSummary-continue' type={'submit'} fullLength onClick={onSubmit}>
+          <Button
+            data-cy="certificationSummary-continue"
+            type={'submit'}
+            fullLength
+            onClick={onSubmit}
+          >
             {t('common:CONTINUE')}
           </Button>
         </>
@@ -39,7 +44,7 @@ export function PureSetCertificationSummary({
         )} ${certifierName} `}
       </Semibold>
       <div style={{ paddingTop: '20px' }}>
-        <img src={Farmland} style={{ width: '100%', transform: 'translateY(-12px)' }} />
+        <Farmland style={{ width: '100%', transform: 'translateY(-12px)' }} />
       </div>
 
       <Main style={{ padding: '20px 0' }}>

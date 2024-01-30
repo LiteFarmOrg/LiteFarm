@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Info, Main, Semibold } from '../../Typography';
 import { colors } from '../../../assets/theme';
-import { ReactComponent as PostSurveySplash } from '../../../assets/images/certification/CompleteSurveySplash.svg';
+import PostSurveySplash from '../../../assets/images/certification/CompleteSurveySplash.svg';
 
 const RegisteredCertifierQuestionsSurvey = ({
   certiferAcronym,

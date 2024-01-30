@@ -78,9 +78,8 @@ export default function PureLineBox({
     <div className={clsx(styles.box)} {...props}>
       <div style={{ flexOrder: 1 }}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <img
+          <BackArrow
             onClick={onClickBack}
-            src={BackArrow}
             style={{ cursor: 'pointer', flexOrder: 1, paddingBottom: '24px' }}
           />
           <div style={{ flexOrder: 2, flexGrow: '5', paddingBottom: '24px' }}>

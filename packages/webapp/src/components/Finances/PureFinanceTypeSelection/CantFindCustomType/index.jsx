@@ -19,9 +19,9 @@ import { useTranslation, Trans } from 'react-i18next';
 import styles from './styles.module.scss';
 import { IconLink, Semibold, Text } from '../../../Typography';
 import TextButton from '../../../Form/Button/TextButton';
-import { ReactComponent as Edit } from '../../../../assets/images/edit.svg';
-import { ReactComponent as UncheckedEnabled } from '../../../../assets/images/unchecked-enabled.svg';
-import { ReactComponent as CheckedEnabled } from '../../../../assets/images/checked-enabled.svg';
+import Edit from '../../../../assets/images/edit.svg';
+import UncheckedEnabled from '../../../../assets/images/unchecked-enabled.svg';
+import CheckedEnabled from '../../../../assets/images/checked-enabled.svg';
 
 export const CantFindCustomType = ({
   customTypeMessages,

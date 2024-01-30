@@ -18,7 +18,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import clsx from 'clsx';
-import { ReactComponent as ChevronDown } from '../../../assets/images/chevron-down.svg';
+import ChevronDown from '../../../assets/images/chevron-down.svg';
 import styles from './styles.module.scss';
 
 export default function EnhancedTableHead({ columns, order, orderBy, onRequestSort, dense }) {

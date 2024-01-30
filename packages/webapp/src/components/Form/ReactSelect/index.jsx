@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { colors } from '../../../assets/theme';
 import Infoi from '../../Tooltip/Infoi';
 import { BsX } from 'react-icons/bs';
-import { ReactComponent as Leaf } from '../../../assets/images/farmMapFilter/Leaf.svg';
+import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import scss from './reactSelect.module.scss';
 
 export const styles = {

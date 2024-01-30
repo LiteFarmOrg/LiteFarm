@@ -4,7 +4,7 @@ import styles from '../styles.module.scss';
 import clsx from 'clsx';
 import { BsChevronRight } from 'react-icons/bs';
 import { Text } from '../../../Typography';
-import { ReactComponent as CalendarIcon } from '../../../../assets/images/managementPlans/calendar.svg';
+import CalendarIcon from '../../../../assets/images/managementPlans/calendar.svg';
 import grabCurrencySymbol from '../../../../util/grabCurrencySymbol';
 
 const FinanceItem = ({ title, subtitle, amount, isPlan, onClickForward }) => {

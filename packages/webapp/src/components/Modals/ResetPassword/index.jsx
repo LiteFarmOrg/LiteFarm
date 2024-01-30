@@ -1,4 +1,4 @@
-import { ReactComponent as MailIconImg } from '../../../assets/images/resetPassword/mail-icon.svg';
+import MailIconImg from '../../../assets/images/resetPassword/mail-icon.svg';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal, ModalComponent } from '../';

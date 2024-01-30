@@ -1,7 +1,7 @@
 import React from 'react';
 import { ContainerWithIcon } from '../../components/ContainerWithIcon/ContainerWithIcon';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ReactComponent as TrashIcon } from '../../assets/images/document/trash.svg';
+import TrashIcon from '../../assets/images/document/trash.svg';
 
 export default {
   title: 'Components/ContainerWithIcon',

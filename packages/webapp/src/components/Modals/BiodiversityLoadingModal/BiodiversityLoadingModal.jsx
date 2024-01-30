@@ -18,7 +18,7 @@ import ModalComponent from '../ModalComponent/v2';
 import Button from '../../Form/Button';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as HazardIcon } from '../../../assets/images/warning.svg';
+import HazardIcon from '../../../assets/images/warning.svg';
 
 const BiodiversityLoadingModal = ({ dismissModal, loadingError }) => {
   const { t } = useTranslation();

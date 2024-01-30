@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styles from './styles.module.scss';
-import loadingBar from '../../../assets/images/insights/loading_dot.svg';
+import LoadingBar from '../../../assets/images/insights/loading_dot.svg';
 import { LinearProgress } from '@mui/material';
 import { Info } from '../../Typography';
 
@@ -35,7 +35,7 @@ class SoilOMInfo extends Component {
         <div>
           <div style={{ float: 'left' }}>0 %</div>
           <div style={{ float: 'right' }}>10 %</div>
-          <img style={loadingButtonStyle} src={loadingBar} alt="not found" />
+          <LoadingBar style={loadingButtonStyle} alt="not found" />
           <div style={{ display: 'inline-flex', gap: '8px' }}>
             <div style={{ flexGrow: 1 }}>
               <LinearProgress value={percentage} variant="determinate" />

@@ -99,7 +99,7 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
         <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px' }}>
           {t('FARM_MAP.GREENHOUSE.GREENHOUSE_TYPE')}
         </Label>
-        <img src={Leaf} style={{ display: 'inline-block' }} />
+        <Leaf style={{ display: 'inline-block' }} />
       </div>
       <RadioGroup
         required={true}
@@ -142,7 +142,7 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
               <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
                 {t('FARM_MAP.GREENHOUSE.SUPPLEMENTAL_LIGHTING')}
               </Label>
-              <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
+              <Leaf style={{ display: 'inline-block', paddingRight: '10px' }} />
               <Label style={{ display: 'inline-block' }} sm>
                 {t('common:OPTIONAL')}
               </Label>
@@ -159,7 +159,7 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
               <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
                 {t('FARM_MAP.GREENHOUSE.CO2_ENRICHMENT')}
               </Label>
-              <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
+              <Leaf style={{ display: 'inline-block', paddingRight: '10px' }} />
               <Label style={{ display: 'inline-block' }} sm>
                 {t('common:OPTIONAL')}
               </Label>
@@ -176,7 +176,7 @@ export function GreenhouseDetailsChildren({ isViewLocationPage }) {
               <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
                 {t('FARM_MAP.GREENHOUSE.GREENHOUSE_HEATED')}
               </Label>
-              <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
+              <Leaf style={{ display: 'inline-block', paddingRight: '10px' }} />
               <Label style={{ display: 'inline-block' }} sm>
                 {t('common:OPTIONAL')}
               </Label>

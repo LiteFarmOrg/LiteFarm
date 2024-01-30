@@ -33,21 +33,23 @@ class Animal extends baseModel {
       required: ['farm_id'],
       oneOf: [
         {
-          required: ['default_breed_id', 'name'],
+          required: ['default_type_id', 'name'],
         },
         {
-          required: ['custom_breed_id', 'name'],
+          required: ['custom_type_id', 'name'],
         },
         {
-          required: ['default_breed_id', 'identifier'],
+          required: ['default_type_id', 'identifier'],
         },
         {
-          required: ['custom_breed_id', 'identifier'],
+          required: ['custom_type_id', 'identifier'],
         },
       ],
       properties: {
         id: { type: 'integer' },
         farm_id: { type: 'string' },
+        default_type_id: { type: ['integer', 'null'] },
+        custom_type_id: { type: ['integer', 'null'] },
         default_breed_id: { type: ['integer', 'null'] },
         custom_breed_id: { type: ['integer', 'null'] },
         sex_id: { type: ['integer', 'null'] },

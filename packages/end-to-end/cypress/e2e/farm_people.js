@@ -1,10 +1,4 @@
-import {
-  INVITE_USER_NAME,
-  INVITE_USER_EMAIL,
-  INVITE_USER_SUBMIT,
-  INVITE_USER,
-  INPUT_ERROR,
-} from '../support/selectorConstants.ts';
+import * as Selectors from '../support/selectorConstants.ts';
 
 describe('Farm People', () => {
   let users;
@@ -56,18 +50,18 @@ describe('Farm People', () => {
       .click({ force: true });
     cy.url().should('include', '/people');
 
-    cy.get(INVITE_USER).should('exist').and('not.be.disabled').click();
+    cy.get(Selectors.INVITE_USER).should('exist').and('not.be.disabled').click();
 
-    cy.get(INVITE_USER_NAME).click();
-    cy.get(INVITE_USER_NAME).should('exist').type('Awesome Farm Manager');
+    cy.get(Selectors.INVITE_USER_NAME).click();
+    cy.get(Selectors.INVITE_USER_NAME).should('exist').type('Awesome Farm Manager');
 
     cy.contains(translation['INVITE_USER']['CHOOSE_ROLE']).click({ force: true });
     cy.contains(roles['MANAGER']).click({ force: true });
 
-    cy.get(INVITE_USER_EMAIL)
+    cy.get(Selectors.INVITE_USER_EMAIL)
       .should('exist')
       .type('farm_manager' + uniqueId + '@litefarm.com');
-    cy.get(INVITE_USER_SUBMIT).should('exist').and('not.be.disabled').click();
+    cy.get(Selectors.INVITE_USER_SUBMIT).should('exist').and('not.be.disabled').click();
   });
 
   it('InviteInvalidEmail', () => {
@@ -77,13 +71,13 @@ describe('Farm People', () => {
       .click({ force: true });
     cy.url().should('include', '/people');
 
-    cy.get(INVITE_USER).should('exist').and('not.be.disabled').click();
+    cy.get(Selectors.INVITE_USER).should('exist').and('not.be.disabled').click();
 
-    cy.get(INVITE_USER_NAME).click();
-    cy.get(INVITE_USER_NAME).should('exist').type('Invalid Farm Manager');
-    cy.get(INVITE_USER_EMAIL).should('exist').type('Invalid email');
-    cy.get(INVITE_USER_NAME).click();
-    cy.get('[data-cy=error]')
+    cy.get(Selectors.INVITE_USER_NAME).click();
+    cy.get(Selectors.INVITE_USER_NAME).should('exist').type('Invalid Farm Manager');
+    cy.get(Selectors.INVITE_USER_EMAIL).should('exist').type('Invalid email');
+    cy.get(Selectors.INVITE_USER_NAME).click();
+    cy.get(Selectors.INPUT_ERROR)
       .contains(translation['INVITE_USER']['INVALID_EMAIL_ERROR'])
       .should('exist');
   });
@@ -98,34 +92,34 @@ describe('Farm People', () => {
       .click({ force: true });
     cy.url().should('include', '/people');
 
-    cy.get(INVITE_USER).should('exist').and('not.be.disabled').click();
+    cy.get(Selectors.INVITE_USER).should('exist').and('not.be.disabled').click();
 
-    cy.get(INVITE_USER_NAME).click();
-    cy.get(INVITE_USER_NAME).should('exist').type('Awesome Farm Manager');
+    cy.get(Selectors.INVITE_USER_NAME).click();
+    cy.get(Selectors.INVITE_USER_NAME).should('exist').type('Awesome Farm Manager');
 
     cy.contains(translation['INVITE_USER']['CHOOSE_ROLE']).click({ force: true });
     cy.contains(roles['MANAGER']).click({ force: true });
 
-    cy.get(INVITE_USER_EMAIL)
+    cy.get(Selectors.INVITE_USER_EMAIL)
       .should('exist')
       .type('farm_manager' + uniqueId + '@litefarm.com');
-    cy.get(INVITE_USER_SUBMIT).should('exist').and('not.be.disabled').click();
+    cy.get(Selectors.INVITE_USER_SUBMIT).should('exist').and('not.be.disabled').click();
 
     // Invite the same user again
-    cy.get(INVITE_USER).should('exist').and('not.be.disabled').click();
+    cy.get(Selectors.INVITE_USER).should('exist').and('not.be.disabled').click();
 
-    cy.get(INVITE_USER_NAME).click();
-    cy.get(INVITE_USER_NAME).should('exist').type('Awesome Farm Manager');
+    cy.get(Selectors.INVITE_USER_NAME).click();
+    cy.get(Selectors.INVITE_USER_NAME).should('exist').type('Awesome Farm Manager');
 
     cy.contains(translation['INVITE_USER']['CHOOSE_ROLE']).click({ force: true });
     cy.contains(roles['MANAGER']).click({ force: true });
 
-    cy.get(INVITE_USER_EMAIL)
+    cy.get(Selectors.INVITE_USER_EMAIL)
       .should('exist')
       .type('farm_manager' + uniqueId + '@litefarm.com');
 
-    cy.get(INVITE_USER_NAME).click();
-    cy.get(INPUT_ERROR)
+    cy.get(Selectors.INVITE_USER_NAME).click();
+    cy.get(Selectors.INPUT_ERROR)
       .contains(translation['INVITE_USER']['ALREADY_EXISTING_EMAIL_ERROR'])
       .should('exist');
   });

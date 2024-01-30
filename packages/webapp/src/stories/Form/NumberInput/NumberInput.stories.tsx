@@ -171,15 +171,6 @@ export const Round: Story = {
   },
 };
 
-export const WithError: Story = {
-  args: {
-    rules: {
-      max: { value: 10, message: 'Error - number should be below 10.' },
-    },
-    info: 'Enter number above 10 to trigger error',
-  },
-};
-
 export const WithInitialValue: Story = {
   args: { value: 33 },
 };
@@ -258,6 +249,26 @@ export const StepperWithMinMax: Story = {
         expectValueOnReFocus: '7',
       }),
     );
+  },
+};
+
+export const WithError: Story = {
+  args: {
+    rules: {
+      max: { value: 10, message: 'Error - number should be below 10.' },
+    },
+    info: 'Enter number above 10 to trigger error',
+  },
+};
+
+export const ErrorWithUnitAndStepper: Story = {
+  args: {
+    unit: 'kg',
+    step: 3,
+    rules: {
+      max: { value: 10, message: 'Error - number should be below 10.' },
+    },
+    info: 'Enter number above 10 to trigger error',
   },
 };
 

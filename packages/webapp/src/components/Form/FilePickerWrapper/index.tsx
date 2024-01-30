@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
-import { ComponentPropsWithoutRef } from 'react';
+import React, { ComponentPropsWithoutRef } from 'react';
 
 const useStyles = makeStyles({
   inputContainer: {
@@ -53,5 +53,5 @@ PureFilePickerWrapper.propTypes = {
   style: PropTypes.object,
   onChange: PropTypes.func,
   children: PropTypes.node,
-  className: PropTypes.object,
+  className: PropTypes.string,
 };

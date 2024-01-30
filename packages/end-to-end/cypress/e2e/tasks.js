@@ -15,6 +15,7 @@
 
 import moment from 'moment';
 import * as Selectors from '../support/selectorConstants.ts';
+import { loadTranslationsAndConfigureUserFarm } from '../support/utilities.js';
 
 // Utility function to check Redux state with a retry mechanism
 const checkReduxState = (endTime) => {
@@ -26,47 +27,20 @@ const checkReduxState = (endTime) => {
 };
 
 describe('Tasks', () => {
-  let users;
   let translation;
   let tasks;
 
   beforeEach(() => {
-    // Load the users fixture before the tests
-    cy.fixture('e2e-test-users.json').then((loadedUsers) => {
-      users = loadedUsers;
-      const user = users[Cypress.env('USER')];
+    loadTranslationsAndConfigureUserFarm({ additionalTranslation: 'task' }).then(
+      ([baseTranslation, additionalTranslation]) => {
+        translation = baseTranslation;
+        tasks = additionalTranslation;
 
-      // Load the locale fixture by reusing translations file
-      cy.fixture('../../../webapp/public/locales/' + user.locale + '/translation.json').then(
-        (data) => {
-          // Use the loaded data
-          translation = data;
-
-          cy.visit('/');
-          cy.loginOrCreateAccount(
-            user.email,
-            user.password,
-            user.name,
-            user.language,
-            translation['MENU']['CROPS'],
-            translation['MENU']['MAP'],
-            translation['FARM_MAP']['MAP_FILTER']['GARDEN'],
-          );
-
-          const endTime = new Date().getTime() + 15000; // Set the end time to 15 seconds from now
-          checkReduxState(endTime);
-        },
-      );
-
-      // Load the locale fixture by reusing translations file
-      cy.fixture('../../../webapp/public/locales/' + user.locale + '/task.json').then((data) => {
-        // Use the loaded data
-        tasks = data;
-      });
-    });
+        const endTime = new Date().getTime() + 15000; // Set the end time to 15 seconds from now
+        checkReduxState(endTime);
+      },
+    );
   });
-
-  after(() => {});
 
   it('it should successfully create a cleaning task', () => {
     // Confirm that location exists

@@ -15,48 +15,20 @@
 
 import moment from 'moment';
 import * as Selectors from '../support/selectorConstants.ts';
+import { loadTranslationsAndConfigureUserFarm } from '../support/utilities.js';
 
 describe('Crops', () => {
-  let users;
   let translation;
   let crops;
 
   beforeEach(() => {
-    // Load the users fixture before the tests
-    cy.fixture('e2e-test-users.json').then((loadedUsers) => {
-      users = loadedUsers;
-      const user = users[Cypress.env('USER')];
-
-      // Load the locale fixture by reusing translations file
-      cy.fixture('../../../webapp/public/locales/' + user.locale + '/translation.json').then(
-        (data) => {
-          // Use the loaded data
-          translation = data;
-
-          cy.visit('/');
-          cy.loginOrCreateAccount(
-            user.email,
-            user.password,
-            user.name,
-            user.language,
-            translation['MENU']['CROPS'],
-            translation['MENU']['MAP'],
-            translation['FARM_MAP']['MAP_FILTER']['GARDEN'],
-          );
-        },
-      );
-
-      // Load the locale fixture by reusing translations file
-      cy.fixture('../../../webapp/public/locales/' + user.locale + '/crop_group.json').then(
-        (data) => {
-          // Use the loaded data
-          crops = data;
-        },
-      );
-    });
+    loadTranslationsAndConfigureUserFarm({ additionalTranslation: 'crop_group' }).then(
+      ([baseTranslation, additionalTranslation]) => {
+        translation = baseTranslation;
+        crops = additionalTranslation;
+      },
+    );
   });
-
-  after(() => {});
 
   it('should successfully add a crop variety and crop plan', () => {
     cy.intercept('GET', '**/maps.googleapis.com/maps/api/**').as('googleMapsApiCall');

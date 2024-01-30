@@ -1,0 +1,16 @@
+[
+  {
+    "name": "English User",
+    "email": "test_user_english@cypress.io",
+    "password": "Test123445566!",
+    "language": "English",
+    "locale": "en"
+  },
+  {
+    "name": "Spanish User",
+    "email": "test_user_spanish@cypress.io",
+    "password": "Test123445566!",
+    "language": "Spanish",
+    "locale": "es"
+  }
+]

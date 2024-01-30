@@ -33,7 +33,7 @@ import {
   getManagementPlanAndPlantingMethodSuccessSaga,
   getManagementPlansAndTasksSaga,
 } from '../saga';
-import { loginSelector } from '../userFarmSlice';
+import { loginSelector, userFarmSelector } from '../userFarmSlice';
 import apiConfig from './../../apiConfig';
 import {
   setDateRange,
@@ -457,6 +457,7 @@ export function* downloadFinanceReportSaga({ payload: data }) {
   const { financeReportUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
+  const { farm_name } = yield select(userFarmSelector);
   try {
     const result = yield call(
       axios.post,
@@ -470,7 +471,13 @@ export function* downloadFinanceReportSaga({ payload: data }) {
     const blob = new Blob([result.data], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });
-    saveAs(blob, `finance-report.xlsx`);
+
+    const fileName = farm_name
+      ? `${farm_name} ${i18n.t('FINANCES.REPORT.FILE_TITLE')} ${
+          data.config.dateFilter.startDate
+        } - ${data.config.dateFilter.endDate}.xlsx`
+      : `finance-report.xlsx`;
+    saveAs(blob, fileName);
   } catch (e) {
     console.log(e);
   }

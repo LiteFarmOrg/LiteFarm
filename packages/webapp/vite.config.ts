@@ -20,7 +20,7 @@ export default defineConfig({
       svgrOptions: {
         icon: false,
       },
-      include: '**/*.svg',
+      include: '**/*.svg?react',
     }),
     istanbul({
       include: 'src/*',

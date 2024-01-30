@@ -17,6 +17,8 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
     "@googlemaps/markerclusterer": "^2.0.14",
     "@mui/base": "5.0.0-beta.26",
     "@mui/icons-material": "^5.11.16",
@@ -32,7 +34,7 @@
     "clsx": "^1.2.1",
     "compressorjs": "^1.1.1",
     "convert-units": "^3.0.0-beta.5",
-    "d3": "^7.6.1",
+    "d3": "^7.8.5",
     "file-saver": "^2.0.5",
     "framer-motion": "^6.5.1",
     "google-map-react": "^2.2.0",
@@ -74,8 +76,6 @@
   "devDependencies": {
     "@babel/core": "^7.23.9",
     "@emotion/babel-plugin": "^11.11.0",
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
     "@mdx-js/react": "^3.0.0",
     "@mdx-js/rollup": "^3.0.0",
     "@storybook/addon-a11y": "^7.6.10",

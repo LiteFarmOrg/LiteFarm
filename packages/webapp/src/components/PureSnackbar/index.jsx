@@ -38,14 +38,12 @@ export function PureSnackbarWithoutBorder({ className, onDismiss, title, type })
   );
 }
 
-export const PureSnackbar = forwardRef(function forwardSnackbarRef(
-  { message, type, onDismiss },
-  ref,
-) {
+export const PureSnackbar = forwardRef(({ message, type, onDismiss }, ref) => (
   <div className={clsx(styles.container, styles[type])} ref={ref}>
     <PureSnackbarWithoutBorder title={message} onDismiss={onDismiss} type={type} />
-  </div>;
-});
+  </div>
+));
+PureSnackbar.displayName = 'PureSnackbar';
 
 PureSnackbarWithoutBorder.propTypes = {
   className: PropTypes.string,

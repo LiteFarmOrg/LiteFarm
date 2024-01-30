@@ -52,8 +52,6 @@ const RequestCertifier = React.lazy(() =>
   import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
 );
 
-const SSOUserCreateAccountInfo = React.lazy(() => import('../containers/SSOUserCreateAccountInfo'));
-
 function OnboardingFlow({
   step_one,
   step_two,
@@ -72,7 +70,6 @@ function OnboardingFlow({
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
-        <Route path="/sso_signup_information" component={SSOUserCreateAccountInfo} />
         <Route path="/farm_selection" exact component={() => <ChooseFarm />} />
         <Route path="/welcome" exact component={WelcomeScreen} />
         <Route path="/add_farm" exact component={AddFarm} />

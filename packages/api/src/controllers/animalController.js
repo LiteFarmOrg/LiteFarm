@@ -88,9 +88,6 @@ const animalController = {
 
           if (animal.custom_type_id) {
             const customType = await CustomAnimalTypeModel.query().findById(animal.custom_type_id);
-            console.log(farm_id);
-            console.log(customType.farm_id);
-            console.log(customType.farm_id !== farm_id);
 
             if (!customType || customType.farm_id !== farm_id) {
               await trx.rollback();

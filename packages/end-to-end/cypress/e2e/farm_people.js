@@ -55,7 +55,7 @@ describe('Farm People', () => {
 
   after(() => {});
 
-  it('InviteUserManager', () => {
+  it('should invite a manager user', () => {
     const uniqueSeed = Date.now().toString();
     const uniqueId = Cypress._.uniqueId(uniqueSeed);
 
@@ -79,7 +79,7 @@ describe('Farm People', () => {
     cy.get(Selectors.INVITE_USER_SUBMIT).should('exist').and('not.be.disabled').click();
   });
 
-  it('InviteInvalidEmail', () => {
+  it('it should fail to invite an invalid email address', () => {
     cy.contains(translation['MENU']['PEOPLE'])
       .should('exist')
       .and('not.be.disabled')
@@ -97,7 +97,7 @@ describe('Farm People', () => {
       .should('exist');
   });
 
-  it('Duplicate email', () => {
+  it('it should fail to invite a duplicate email address', () => {
     const uniqueSeed = Date.now().toString();
     const uniqueId = Cypress._.uniqueId(uniqueSeed);
 

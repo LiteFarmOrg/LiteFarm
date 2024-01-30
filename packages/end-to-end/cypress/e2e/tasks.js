@@ -68,7 +68,7 @@ describe('Tasks', () => {
 
   after(() => {});
 
-  it('CreateCleanTask', () => {
+  it('it should successfully create a cleaning task', () => {
     // Confirm that location exists
     cy.contains(translation['MENU']['MAP'])
       .should('exist')
@@ -115,7 +115,7 @@ describe('Tasks', () => {
     cy.get(Selectors.HARVEST_COMPLETE_SAVE).click();
   });
 
-  it('CreateFieldWorkTask', () => {
+  it('it should successfully create a field work task', () => {
     cy.contains(translation['MENU']['TASKS']).should('exist').click();
     cy.waitForReact();
     cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();

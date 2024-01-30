@@ -91,8 +91,6 @@
     "@storybook/react-vite": "^7.6.10",
     "@storybook/test-runner": "^0.16.0",
     "@storybook/testing-library": "^0.2.2",
-    "@svgr/plugin-jsx": "^8.1.0",
-    "@svgr/plugin-svgo": "^8.1.0",
     "@types/d3": "^7.4.3",
     "@types/prop-types": "^15.7.11",
     "@types/react": "^18.2.48",

@@ -66,9 +66,13 @@ Cypress.Commands.add(
 
         cy.intercept('POST', '**/user').as('createUser');
         cy.get(Selectors.WELCOME_GET_STARTED).should('exist').and('not.be.disabled').click();
-        cy.addFarm('UBC FARM', '49.250833, -123.2410777');
-        cy.onboardCompleteQuestions('Manager');
-        cy.acceptSlideMenuSpotlights(crop_menu_name);
+
+        addFarm('UBC FARM', '49.250833, -123.2410777');
+
+        onboardCompleteQuestions('Manager');
+
+        acceptSlideMenuSpotlights(crop_menu_name);
+
         cy.createFirstLocation(map_menu_name, fieldString);
         cy.visit('/');
       } else {
@@ -87,7 +91,7 @@ Cypress.Commands.add(
   },
 );
 
-Cypress.Commands.add('addFarm', (farmName, location) => {
+const addFarm = (farmName, location) => {
   cy.intercept('GET', '**/maps.googleapis.com/maps/api/js/GeocodeService.*').as(
     'googleMapGeocodeCall',
   );
@@ -100,9 +104,9 @@ Cypress.Commands.add('addFarm', (farmName, location) => {
   cy.wait('@googleMapGeocodeCall');
   cy.waitForReact();
   cy.get(Selectors.ADD_FARM_CONTINUE).should('not.be.disabled').click();
-});
+};
 
-Cypress.Commands.add('onboardCompleteQuestions', (role) => {
+const onboardCompleteQuestions = (role) => {
   // cy.clock();
   cy.url().should('include', '/role_selection');
   // cy.tick();
@@ -160,7 +164,7 @@ Cypress.Commands.add('onboardCompleteQuestions', (role) => {
   // Outro
   cy.url().should('include', '/outro');
   cy.get(Selectors.OUTRO_FINISH).should('exist').and('not.be.disabled').click();
-});
+};
 
 Cypress.Commands.add('createFirstLocation', (map_menu_name, fieldString) => {
   cy.intercept('GET', '**/maps.googleapis.com/maps/api/**').as('googleMapsApiCall');
@@ -227,7 +231,7 @@ Cypress.Commands.add('createFirstLocation', (map_menu_name, fieldString) => {
     .should('not.be.empty');
 });
 
-Cypress.Commands.add('acceptSlideMenuSpotlights', (crop_menu_name) => {
+const acceptSlideMenuSpotlights = (crop_menu_name) => {
   // Check the spotlights
   cy.get(Selectors.SPOTLIGHT_NEXT).should('exist').and('not.be.disabled').click();
   cy.get(Selectors.SPOTLIGHT_NEXT).should('exist').and('not.be.disabled').click();
@@ -244,4 +248,4 @@ Cypress.Commands.add('acceptSlideMenuSpotlights', (crop_menu_name) => {
     .should('exist')
     .and('not.be.disabled')
     .click();
-});
+};

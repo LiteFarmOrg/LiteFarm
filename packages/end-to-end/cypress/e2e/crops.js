@@ -31,8 +31,6 @@ describe('Crops', () => {
   });
 
   it('should successfully add a crop variety and crop plan', () => {
-    cy.intercept('GET', '**/maps.googleapis.com/maps/api/**').as('googleMapsApiCall');
-
     const uniqueSeed = Date.now().toString();
     const uniqueId = Cypress._.uniqueId(uniqueSeed);
 
@@ -98,8 +96,8 @@ describe('Crops', () => {
 
     // Select field
     cy.contains('First Field').should('be.visible');
-    cy.wait('@googleMapsApiCall');
-    cy.waitForReact();
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(500, { log: false });
     cy.get(Selectors.MAP_SELECT_LOCATION).click({ force: false });
     cy.get(Selectors.CROP_PLAN_LOCATION_SUBMIT).should('exist').and('not.be.disabled').click();
 

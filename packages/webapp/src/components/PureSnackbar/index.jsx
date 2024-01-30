@@ -1,8 +1,8 @@
 import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
-import Cross from '../../assets/images/map/cross.svg';
-import Checkmark from '../../assets/images/map/checkmark.svg';
+import Cross from '../../assets/images/map/cross.svg?react';
+import Checkmark from '../../assets/images/map/checkmark.svg?react';
 import clsx from 'clsx';
 import ProgressBar from '../Map/ProgressBar';
 import { VscWarning } from 'react-icons/vsc';

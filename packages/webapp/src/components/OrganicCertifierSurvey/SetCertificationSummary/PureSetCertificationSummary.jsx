@@ -3,7 +3,7 @@ import React from 'react';
 import { Main, Semibold, Text } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../Layout';
-import Farmland from '../../../assets/images/certification/Farmland.svg';
+import Farmland from '../../../assets/images/certification/Farmland.svg?react';
 import { colors } from '../../../assets/theme';
 import PageTitle from '../../PageTitle/v2';
 

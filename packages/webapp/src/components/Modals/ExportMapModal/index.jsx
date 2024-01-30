@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal } from '../';
-import DownloadIcon from '../../../assets/images/map/download.svg';
+import DownloadIcon from '../../../assets/images/map/download.svg?react';
 import { AiOutlineMail } from 'react-icons/ai';
 import styles from './styles.module.scss';
 import { Main, Title } from '../../Typography';

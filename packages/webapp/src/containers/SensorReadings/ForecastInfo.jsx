@@ -16,7 +16,7 @@ import { React } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';
-import Themometer from '../../assets/images/map/themometer.svg';
+import Themometer from '../../assets/images/map/themometer.svg?react';
 
 const ForecastInfo = ({ data }) => {
   const { latestTemperatureReadings, stationName, unit } = data;

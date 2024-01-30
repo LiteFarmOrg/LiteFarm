@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label } from '../../Typography';
 import Form from '../../Form';
-import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
+import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg?react';
 import RadioGroup from '../../Form/RadioGroup';
 import Infoi from '../../Tooltip/Infoi';
 import { useForm } from 'react-hook-form';

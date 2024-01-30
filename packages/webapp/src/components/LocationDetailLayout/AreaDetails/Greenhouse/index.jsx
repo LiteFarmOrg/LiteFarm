@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetails from '../AreaDetails';
 import { useForm, useFormContext } from 'react-hook-form';
-import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
+import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg?react';
 import Input from '../../../Form/Input';
 import { greenhouseEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';

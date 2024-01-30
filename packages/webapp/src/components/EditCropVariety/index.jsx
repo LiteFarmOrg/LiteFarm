@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import PageTitle from '../PageTitle/v2';
 import RadioGroup from '../Form/RadioGroup';
 import Infoi from '../Tooltip/Infoi';
-import Leaf from '../../assets/images/farmMapFilter/Leaf.svg';
+import Leaf from '../../assets/images/farmMapFilter/Leaf.svg?react';
 import Spinner from '../Spinner';
 
 export default function PureEditCropVariety({

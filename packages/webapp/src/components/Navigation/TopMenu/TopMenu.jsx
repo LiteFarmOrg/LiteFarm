@@ -1,18 +1,18 @@
 import { useRef, useState } from 'react';
 import { logout } from '../../../util/jwt';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
-import LogoutIcon from '../../../assets/images/navbar/logout.svg';
-import MyInfoIcon from '../../../assets/images/navbar/my-info.svg';
-import HelpIcon from '../../../assets/images/navbar/help.svg';
-import VideoIcon from '../../../assets/images/navbar/play-square.svg';
-import SwitchFarmIcon from '../../../assets/images/navbar/switch-farm.svg';
-import LaunchIcon from '../../../assets/images/icon_launch.svg';
-import CloseX from '../../../assets/images/close-x.svg';
-import NotificationIcon from '../../../assets/images/notif.svg';
+import LogoutIcon from '../../../assets/images/navbar/logout.svg?react';
+import MyInfoIcon from '../../../assets/images/navbar/my-info.svg?react';
+import HelpIcon from '../../../assets/images/navbar/help.svg?react';
+import VideoIcon from '../../../assets/images/navbar/play-square.svg?react';
+import SwitchFarmIcon from '../../../assets/images/navbar/switch-farm.svg?react';
+import LaunchIcon from '../../../assets/images/icon_launch.svg?react';
+import CloseX from '../../../assets/images/close-x.svg?react';
+import NotificationIcon from '../../../assets/images/notif.svg?react';
 // TODO: use profile picture stored in db
-import ProfilePicture from '../../../assets/images/navbar/defaultpfp.svg';
-import IconLogo from '../../../assets/images/navbar/nav-logo.svg';
-import WordsLogo from '../../../assets/images/middle_logo.svg';
+import ProfilePicture from '../../../assets/images/navbar/defaultpfp.svg?react';
+import IconLogo from '../../../assets/images/navbar/nav-logo.svg?react';
+import WordsLogo from '../../../assets/images/middle_logo.svg?react';
 import { BiMenu } from 'react-icons/bi';
 import {
   AppBar,

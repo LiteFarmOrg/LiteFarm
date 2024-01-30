@@ -1,3 +1,3 @@
-/// <reference types="./vite-env-override.d.ts" />
 /// <reference types="vite-plugin-svgr/client" />
+/// <reference types="vitest/globals" />
 /// <reference types="vite/client" />

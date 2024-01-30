@@ -17,7 +17,7 @@ import { useState, useRef, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
-import SearchIcon from '../../../assets/images/search.svg';
+import SearchIcon from '../../../assets/images/search.svg?react';
 import Input from '../../Form/Input';
 import TextButton from '../../Form/Button/TextButton';
 import { Modal } from '../../Modals';

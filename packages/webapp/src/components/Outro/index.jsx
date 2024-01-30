@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../Typography';
-import ReactComponent from '../../assets/images/outro/outro.svg';
+import ReactComponent from '../../assets/images/outro/outro.svg?react';
 import PageTitle from '../PageTitle/v2';
 
 export default function PureOutroSplash({ onContinue, onGoBack, toShowSpotlight }) {

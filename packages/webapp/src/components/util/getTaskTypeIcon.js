@@ -1,18 +1,18 @@
-import CustomIcon from '../../assets/images/task/Custom.svg';
-import RecordSoilSample from '../../assets/images/task/RecordSoilSample.svg';
-import Sales from '../../assets/images/task/Sales.svg';
-import Scout from '../../assets/images/task/Scout.svg';
-import WashAndPack from '../../assets/images/task/WashAndPack.svg';
-import Transplant from '../../assets/images/task/Transplant.svg';
-import Harvest from '../../assets/images/task/Harvest.svg';
-import PestControl from '../../assets/images/task/PestControl.svg';
-import Irrigate from '../../assets/images/task/Irrigate.svg';
-import Transport from '../../assets/images/task/Transport.svg';
-import FieldWork from '../../assets/images/task/FieldWork.svg';
-import Plant from '../../assets/images/task/Plant.svg';
-import SocialEvent from '../../assets/images/task/SocialEvent.svg';
-import Clean from '../../assets/images/task/Clean.svg';
-import SoilAmendment from '../../assets/images/task/SoilAmendment.svg';
+import CustomIcon from '../../assets/images/task/Custom.svg?react';
+import RecordSoilSample from '../../assets/images/task/RecordSoilSample.svg?react';
+import Sales from '../../assets/images/task/Sales.svg?react';
+import Scout from '../../assets/images/task/Scout.svg?react';
+import WashAndPack from '../../assets/images/task/WashAndPack.svg?react';
+import Transplant from '../../assets/images/task/Transplant.svg?react';
+import Harvest from '../../assets/images/task/Harvest.svg?react';
+import PestControl from '../../assets/images/task/PestControl.svg?react';
+import Irrigate from '../../assets/images/task/Irrigate.svg?react';
+import Transport from '../../assets/images/task/Transport.svg?react';
+import FieldWork from '../../assets/images/task/FieldWork.svg?react';
+import Plant from '../../assets/images/task/Plant.svg?react';
+import SocialEvent from '../../assets/images/task/SocialEvent.svg?react';
+import Clean from '../../assets/images/task/Clean.svg?react';
+import SoilAmendment from '../../assets/images/task/SoilAmendment.svg?react';
 
 /**
  * Provides the appropriate icon for a specified task type.

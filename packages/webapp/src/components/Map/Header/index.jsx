@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import VideoLogo from '../../../assets/images/map/video.svg';
+import VideoLogo from '../../../assets/images/map/video.svg?react';
 import clsx from 'clsx';
 
 export default function PureMapHeader({ className, style, farmName, showVideo, isAdmin }) {

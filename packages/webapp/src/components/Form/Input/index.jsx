@@ -10,12 +10,12 @@ import {
   MdKeyboardArrowUp,
   MdKeyboardArrowDown,
 } from 'react-icons/md';
-import SearchIcon from '../../../assets/images/search.svg';
-import SearchClearIcon from '../../../assets/images/search-close.svg';
+import SearchIcon from '../../../assets/images/search.svg?react';
+import SearchClearIcon from '../../../assets/images/search-close.svg?react';
 import TextButton from '../Button/TextButton';
 import { mergeRefs } from '../utils';
 import { useTranslation } from 'react-i18next';
-import Leaf from '../../../assets/images/signUp/leaf.svg';
+import Leaf from '../../../assets/images/signUp/leaf.svg?react';
 import Infoi from '../../Tooltip/Infoi';
 import { get } from 'react-hook-form';
 import i18n from '../../../locales/i18n';

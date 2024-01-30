@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
-import ZoomInLogo from '../../../assets/images/map/zoomIn.svg';
-import ZoomOutLogo from '../../../assets/images/map/zoomOut.svg';
+import ZoomInLogo from '../../../assets/images/map/zoomIn.svg?react';
+import ZoomOutLogo from '../../../assets/images/map/zoomOut.svg?react';
 
 export default function CustomZoom({ className, style, onClickZoomIn, onClickZoomOut }) {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './listOption.module.scss';
-import LaunchIcon from '../../../../assets/images/icon_launch.svg';
+import LaunchIcon from '../../../../assets/images/icon_launch.svg?react';
 
 export default function ListOption({
   iconText,

@@ -1,19 +1,19 @@
 import { locationEnum } from '../../../containers/Map/constants';
-import Gate from '../../../assets/images/farmMapFilter/Gate.svg';
-import WaterValve from '../../../assets/images/farmMapFilter/WaterValve.svg';
-import Sensor from '../../../assets/images/farmMapFilter/Sensor.svg';
-import BufferZone from '../../../assets/images/farmMapFilter/BufferZone.svg';
-import Watercourse from '../../../assets/images/farmMapFilter/Creek.svg';
-import Fence from '../../../assets/images/farmMapFilter/Fence.svg';
-import Barn from '../../../assets/images/farmMapFilter/Barn.svg';
-import CeremonialArea from '../../../assets/images/farmMapFilter/CA.svg';
-import FarmSiteBoundary from '../../../assets/images/farmMapFilter/FSB.svg';
-import Field from '../../../assets/images/farmMapFilter/Field.svg';
-import Garden from '../../../assets/images/farmMapFilter/Garden.svg';
-import Greenhouse from '../../../assets/images/farmMapFilter/Greenhouse.svg';
-import SurfaceWater from '../../../assets/images/farmMapFilter/SurfaceWater.svg';
-import NaturalArea from '../../../assets/images/farmMapFilter/NA.svg';
-import Residence from '../../../assets/images/farmMapFilter/Residence.svg';
+import Gate from '../../../assets/images/farmMapFilter/Gate.svg?react';
+import WaterValve from '../../../assets/images/farmMapFilter/WaterValve.svg?react';
+import Sensor from '../../../assets/images/farmMapFilter/Sensor.svg?react';
+import BufferZone from '../../../assets/images/farmMapFilter/BufferZone.svg?react';
+import Watercourse from '../../../assets/images/farmMapFilter/Creek.svg?react';
+import Fence from '../../../assets/images/farmMapFilter/Fence.svg?react';
+import Barn from '../../../assets/images/farmMapFilter/Barn.svg?react';
+import CeremonialArea from '../../../assets/images/farmMapFilter/CA.svg?react';
+import FarmSiteBoundary from '../../../assets/images/farmMapFilter/FSB.svg?react';
+import Field from '../../../assets/images/farmMapFilter/Field.svg?react';
+import Garden from '../../../assets/images/farmMapFilter/Garden.svg?react';
+import Greenhouse from '../../../assets/images/farmMapFilter/Greenhouse.svg?react';
+import SurfaceWater from '../../../assets/images/farmMapFilter/SurfaceWater.svg?react';
+import NaturalArea from '../../../assets/images/farmMapFilter/NA.svg?react';
+import Residence from '../../../assets/images/farmMapFilter/Residence.svg?react';
 
 export const pointImgDict = [
   {

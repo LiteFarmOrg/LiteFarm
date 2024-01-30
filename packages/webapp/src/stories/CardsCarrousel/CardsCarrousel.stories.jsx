@@ -17,9 +17,9 @@ import { expect } from '@storybook/jest';
 import { within, userEvent, waitForElementToBeRemoved } from '@storybook/testing-library';
 import CardsCarrousel from '../../components/CardsCarrousel';
 import { componentDecorators } from '../Pages/config/Decorators';
-import LabourIcon from '../../assets/images/finance/Labour-icn.svg';
-import SeedsIcon from '../../assets/images/finance/Seeds-icn.svg';
-import UtilitesIcon from '../../assets/images/finance/Utilities-icn.svg';
+import LabourIcon from '../../assets/images/finance/Labour-icn.svg?react';
+import SeedsIcon from '../../assets/images/finance/Seeds-icn.svg?react';
+import UtilitesIcon from '../../assets/images/finance/Utilities-icn.svg?react';
 
 export default {
   title: 'Components/CardsCarrousel',

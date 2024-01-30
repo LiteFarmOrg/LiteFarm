@@ -16,7 +16,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { IconLink } from '../../Typography';
-import TrashIcon from '../../../assets/images/document/trash.svg';
+import TrashIcon from '../../../assets/images/document/trash.svg?react';
 import Input from '../../Form/Input';
 import { DATE, NOTE, VALUE } from './constants';
 import styles from './styles.module.scss';

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import SensorIcon from '../../assets/images/farmMapFilter/Sensor.svg';
+import SensorIcon from '../../assets/images/farmMapFilter/Sensor.svg?react';
 
 /**
  * Provides the appropriate icon for a specified notification type.

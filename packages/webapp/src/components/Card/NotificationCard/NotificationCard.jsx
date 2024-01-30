@@ -4,7 +4,7 @@ import styles from '../card.module.scss';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { colors } from '../../../assets/theme';
-import AlertIcon from '../../../assets/images/alert.svg';
+import AlertIcon from '../../../assets/images/alert.svg?react';
 import getTaskTypeIcon from '../../util/getTaskTypeIcon';
 import getNotificationTypeIcon from '../../util/getNotificationTypeIcon';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';

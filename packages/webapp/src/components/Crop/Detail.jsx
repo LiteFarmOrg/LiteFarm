@@ -3,7 +3,7 @@ import RouterTab from '../RouterTab';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
-import Leaf from '../../assets/images/signUp/leaf.svg';
+import Leaf from '../../assets/images/signUp/leaf.svg?react';
 import { Main, Title } from '../Typography';
 import { useForm } from 'react-hook-form';
 import RadioGroup from '../Form/RadioGroup';

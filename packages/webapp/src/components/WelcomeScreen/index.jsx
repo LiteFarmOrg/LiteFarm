@@ -1,9 +1,9 @@
 import Layout from '../Layout';
 import Button from '../Form/Button';
-import SignupEnglish from '../../assets/images/signUp/signup_english.svg';
-import SignupSpanish from '../../assets/images/signUp/signup_spanish.svg';
-import SignupPortuguese from '../../assets/images/signUp/signup_portuguese.svg';
-import SignupFrench from '../../assets/images/signUp/signup_french.svg';
+import SignupEnglish from '../../assets/images/signUp/signup_english.svg?react';
+import SignupSpanish from '../../assets/images/signUp/signup_spanish.svg?react';
+import SignupPortuguese from '../../assets/images/signUp/signup_portuguese.svg?react';
+import SignupFrench from '../../assets/images/signUp/signup_french.svg?react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';

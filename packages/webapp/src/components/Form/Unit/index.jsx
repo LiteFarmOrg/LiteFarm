@@ -25,7 +25,7 @@ import Select from 'react-select';
 import { area_total_area } from '../../../util/convert-units/unit';
 import Infoi from '../../Tooltip/Infoi';
 import { Controller } from 'react-hook-form';
-import Leaf from '../../../assets/images/signUp/leaf.svg';
+import Leaf from '../../../assets/images/signUp/leaf.svg?react';
 import useUnit from './useUnit';
 import useReactSelectStyles from './useReactSelectStyles';
 import useElementWidth from '../../hooks/useElementWidth';

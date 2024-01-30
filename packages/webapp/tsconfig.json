@@ -16,7 +16,12 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["@emotion/react/types/css-prop"],
+    "types": [
+      "vite/client",
+      "vitest/globals",
+      "vite-plugin-svgr/client",
+      "@emotion/react/types/css-prop",
+    ],
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }],

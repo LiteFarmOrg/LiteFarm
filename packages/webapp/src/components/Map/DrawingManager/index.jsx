@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import BackIcon from '../../../assets/images/map/back.svg';
+import BackIcon from '../../../assets/images/map/back.svg?react';
 import clsx from 'clsx';
 import PureWarningBox from '../../WarningBox';
 import Button from '../../Form/Button';

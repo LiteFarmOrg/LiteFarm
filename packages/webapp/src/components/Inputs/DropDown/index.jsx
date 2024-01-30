@@ -1,6 +1,6 @@
 import { components } from 'react-select';
 import React from 'react';
-import Vector from '../../../assets/images/vector-down.svg';
+import Vector from '../../../assets/images/vector-down.svg?react';
 import ReactSelect from '../../Form/ReactSelect';
 
 class DropDown extends React.Component {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
-import UploadIcon from '../../../assets/images/map/upload.svg';
+import UploadIcon from '../../../assets/images/map/upload.svg?react';
 import { Label, Underlined } from '../../Typography';
 import clsx from 'clsx';
 

@@ -19,7 +19,7 @@ import { componentDecorators } from '../Pages/config/Decorators';
 import Tiles from '../../components/Tile/Tiles';
 import IconLabelTile from '../../components/Tile/IconLabelTile';
 import { tileTypes } from '../../components/Tile/constants';
-import SoilAmendment from '../../assets/images/task/SoilAmendment.svg';
+import SoilAmendment from '../../assets/images/task/SoilAmendment.svg?react';
 
 export default {
   title: 'Components/Tile/Tiles',

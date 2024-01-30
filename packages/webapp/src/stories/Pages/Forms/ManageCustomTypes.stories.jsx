@@ -15,7 +15,7 @@
 import decorators from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 import ManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
-import OtherIcon from '../../../assets/images/finance/Custom-expense.svg';
+import OtherIcon from '../../../assets/images/finance/Custom-expense.svg?react';
 
 export default {
   title: 'Form/ManageCustomTypes',

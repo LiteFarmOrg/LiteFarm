@@ -17,9 +17,9 @@ import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentica
 import PureFilePickerWrapper from '../../Form/FilePickerWrapper';
 import TextButton from '../../Form/Button/TextButton';
 import styles from './styles.module.scss';
-import CameraIcon from '../../../assets/images/farm-profile/camera.svg';
-import TrashIcon from '../../../assets/images/farm-profile/trash.svg';
-import EditIcon from '../../../assets/images/farm-profile/edit.svg';
+import CameraIcon from '../../../assets/images/farm-profile/camera.svg?react';
+import TrashIcon from '../../../assets/images/farm-profile/trash.svg?react';
+import EditIcon from '../../../assets/images/farm-profile/edit.svg?react';
 import { AddLink } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 

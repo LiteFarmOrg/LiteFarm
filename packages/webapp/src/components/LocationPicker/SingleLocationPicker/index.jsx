@@ -10,7 +10,7 @@ import {
   isPoint,
   DEFAULT_MAX_ZOOM,
 } from '../../../containers/Map/constants';
-import MapPin from '../../../assets/images/map/map_pin.svg';
+import MapPin from '../../../assets/images/map/map_pin.svg?react';
 import {
   createMarkerClusters,
   DEFAULT_POLYGON_OPACITY,

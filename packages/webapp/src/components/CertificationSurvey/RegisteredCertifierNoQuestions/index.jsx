@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Main, Semibold } from '../../Typography';
 import { colors } from '../../../assets/theme';
-import PostSurveySplash from '../../../assets/images/certification/CompleteSurveySplash.svg';
+import PostSurveySplash from '../../../assets/images/certification/CompleteSurveySplash.svg?react';
 
 const RegisteredCertifierNoQuestionsSurvey = ({ email }) => {
   const { t } = useTranslation();

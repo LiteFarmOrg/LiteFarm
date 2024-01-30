@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
-import CalendarIcon from '../../../assets/images/managementPlans/calendar.svg';
+import CalendarIcon from '../../../assets/images/managementPlans/calendar.svg?react';
 import PropTypes from 'prop-types';
 import { MediaWithAuthentication } from '../../../containers/MediaWithAuthentication';
 import { mediaEnum } from '../../../containers/MediaWithAuthentication/constants';

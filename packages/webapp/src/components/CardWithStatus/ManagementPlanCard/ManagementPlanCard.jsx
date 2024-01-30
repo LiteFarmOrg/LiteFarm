@@ -1,6 +1,6 @@
 import { CardWithStatus } from '../index';
 import styles from './styles.module.scss';
-import CalendarIcon from '../../../assets/images/task/Calendar.svg';
+import CalendarIcon from '../../../assets/images/task/Calendar.svg?react';
 import clsx from 'clsx';
 import React from 'react';
 import { getManagementPlanCardDate } from '../../../util/moment';

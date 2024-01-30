@@ -5,7 +5,7 @@ import { Label } from '../../components/Typography';
 import Button from '../../components/Form/Button';
 import { chromaticSmallScreen } from '../Pages/config/chromatic';
 import styles from '../../components/Modals/CancelFlowModal/styles.module.scss';
-import Email from '../../assets/images/export/email/Email.svg';
+import Email from '../../assets/images/export/email/Email.svg?react';
 
 export default {
   title: 'Components/Modals/ModalComponentV2',

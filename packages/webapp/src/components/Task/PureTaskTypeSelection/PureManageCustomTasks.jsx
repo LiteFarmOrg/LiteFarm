@@ -6,7 +6,7 @@ import PageTitle from '../../PageTitle/v2';
 import { AddLink } from '../../Typography';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
-import CustomTask from '../../../assets/images/task/Custom.svg';
+import CustomTask from '../../../assets/images/task/Custom.svg?react';
 
 export const PureManageCustomTasks = ({
   handleGoBack,

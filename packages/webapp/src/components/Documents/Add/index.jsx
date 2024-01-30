@@ -8,7 +8,7 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import Button from '../../Form/Button';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
-import TrashIcon from '../../../assets/images/document/trash.svg';
+import TrashIcon from '../../../assets/images/document/trash.svg?react';
 import { Controller, useForm } from 'react-hook-form';
 import CertifierSelectionMenuItem from '../../OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
 import { Loading } from '../../Loading/Loading';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
-import RatingStar from '../../assets/images/rating/Star.svg';
+import RatingStar from '../../assets/images/rating/Star.svg?react';
 import { Label } from '../Typography';
 import { useTranslation } from 'react-i18next';
 

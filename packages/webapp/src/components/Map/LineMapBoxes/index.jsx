@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { locationEnum } from '../../../containers/Map/constants';
 import { useForm } from 'react-hook-form';
 import { Main } from '../../Typography';
-import BackArrow from '../../../assets/images/miscs/arrow.svg';
+import BackArrow from '../../../assets/images/miscs/arrow.svg?react';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import { watercourseEnum } from '../../../containers/constants';

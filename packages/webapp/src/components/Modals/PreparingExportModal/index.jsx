@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
 import styles from './styles.module.scss';
-import Email from '../../../assets/images/export/email/Email.svg';
+import Email from '../../../assets/images/export/email/Email.svg?react';
 
 export default function PreparingExportModal({ dismissModal }) {
   const { t } = useTranslation();

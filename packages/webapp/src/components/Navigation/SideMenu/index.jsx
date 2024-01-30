@@ -14,10 +14,10 @@ import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { matchPath } from 'react-router-dom';
 
 import useExpandable from '../../Expandable/useExpandableItem';
-import Logo from '../../../assets/images/middle_logo.svg';
+import Logo from '../../../assets/images/middle_logo.svg?react';
 import { useGetMenuItems } from '../../../hooks/useGetMenuItems';
 import Drawer from '../../Drawer';
-import CollapseMenuIcon from '../../../assets/images/nav/collapse-menu.svg';
+import CollapseMenuIcon from '../../../assets/images/nav/collapse-menu.svg?react';
 import styles from './styles.module.scss';
 
 const MenuItem = forwardRef(({ history, onClick, path, children, className }, ref) => {

@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main, Title } from '../Typography';
-import ReactComponent from '../../assets/images/outro/outro.svg';
+import ReactComponent from '../../assets/images/outro/outro.svg?react';
 
 export default function PureJoinFarmSuccessScreen({ onClick, farm_name, showSpotLight }) {
   const { t } = useTranslation(['translation', 'common']);

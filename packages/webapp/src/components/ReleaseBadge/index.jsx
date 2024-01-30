@@ -20,9 +20,9 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import { Semibold, Text } from '../Typography';
 import TextButton from '../Form/Button/TextButton';
-import Close from '../../assets/images/release/x-circle.svg';
-import NewBubble from '../../assets/images/release/new-bubble.svg';
-import ChevronRight from '../../assets/images/release/chevron-right-dk-red.svg';
+import Close from '../../assets/images/release/x-circle.svg?react';
+import NewBubble from '../../assets/images/release/new-bubble.svg?react';
+import ChevronRight from '../../assets/images/release/chevron-right-dk-red.svg?react';
 
 const ReleaseBadge = ({ releaseNotesLink, className, isCompactSideMenu }) => {
   const { t } = useTranslation();

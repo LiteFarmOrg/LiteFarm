@@ -1,4 +1,4 @@
-import NewFeatureIcon from '../../../assets/images/home/new-feature.svg';
+import NewFeatureIcon from '../../../assets/images/home/new-feature.svg?react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';

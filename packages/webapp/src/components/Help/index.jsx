@@ -1,6 +1,6 @@
 import Form from '../Form';
 import Button from '../Form/Button';
-import AddFile from './../../assets/images/help/AddFile.svg';
+import AddFile from './../../assets/images/help/AddFile.svg?react';
 import React, { useEffect, useState } from 'react';
 import { Error, Title } from '../Typography';
 import PropTypes from 'prop-types';

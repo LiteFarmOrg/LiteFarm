@@ -3,10 +3,10 @@ import styles from './typography.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Infoi from '../Tooltip/Infoi';
-import Leaf from '../../assets/images/farmMapFilter/Leaf.svg';
-import Pencil from '../../assets/images/managementPlans/pencil.svg';
+import Leaf from '../../assets/images/farmMapFilter/Leaf.svg?react';
+import Pencil from '../../assets/images/managementPlans/pencil.svg?react';
 import { useTranslation } from 'react-i18next';
-import ExternalLinkIcon from '../../assets/images/icon_external_link.svg';
+import ExternalLinkIcon from '../../assets/images/icon_external_link.svg?react';
 
 type TypographyProps = {
   style?: object;

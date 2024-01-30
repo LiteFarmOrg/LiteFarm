@@ -17,10 +17,10 @@ import { useTranslation } from 'react-i18next';
 import Layout from '../../../components/Layout';
 import Button from '../../../components/Form/Button';
 import PageTitle from '../../../components/PageTitle/v2';
-import DoesNotExistSplash from '../../../assets/images/does-not-exist.svg';
+import DoesNotExistSplash from '../../../assets/images/does-not-exist.svg?react';
 import { Title } from '../../../components/Typography';
 import { makeStyles } from '@mui/styles';
-import Sunglasses from '../../../assets/images/miscs/smiling-face-with-sunglasses-emoji.svg';
+import Sunglasses from '../../../assets/images/miscs/smiling-face-with-sunglasses-emoji.svg?react';
 
 const useStyles = makeStyles((theme) => ({
   line: {

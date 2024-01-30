@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showedSpotlightSelector } from '../../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../../Map/saga';
 import React from 'react';
-import PlantIcon from '../../../../assets/images/managementPlans/plant.svg';
+import PlantIcon from '../../../../assets/images/managementPlans/plant.svg?react';
 import { TourProviderWrapper } from '../../../../components/TourProviderWrapper/TourProviderWrapper';
 
 export default function TransplantSpotlight({ is_seed }) {

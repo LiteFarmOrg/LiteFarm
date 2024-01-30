@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import MapTutorialModal from '../../../Modals/MapTutorialModal';
 import PropTypes from 'prop-types';
-// import AdjustAreaImg from '../../../../assets/images/map/adjustArea.svg';
+// import AdjustAreaImg from '../../../../assets/images/map/adjustArea.svg?react';
 import gif from '../../../../assets/images/map/adjustArea.gif';
 import styles from './styles.module.scss';
 

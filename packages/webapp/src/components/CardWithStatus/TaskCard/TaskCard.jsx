@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CalendarIcon from '../../../assets/images/task/Calendar.svg';
-import UnassignedIcon from '../../../assets/images/task/Unassigned.svg';
+import CalendarIcon from '../../../assets/images/task/Calendar.svg?react';
+import UnassignedIcon from '../../../assets/images/task/Unassigned.svg?react';
 import styles from './styles.module.scss';
 
 import getTaskTypeIcon from '../../util/getTaskTypeIcon';

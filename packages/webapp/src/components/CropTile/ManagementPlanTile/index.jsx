@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../styles.module.scss';
 import clsx from 'clsx';
-import CalendarIcon from '../../../assets/images/managementPlans/calendar.svg';
+import CalendarIcon from '../../../assets/images/managementPlans/calendar.svg?react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import PureCropTile from '../index';

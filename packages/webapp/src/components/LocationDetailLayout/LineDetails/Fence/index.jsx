@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import LineDetails from '../LineDetails';
 import { useForm, useFormContext } from 'react-hook-form';
-import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
+import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg?react';
 import { bufferZoneEnum, fenceEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
 import { line_length } from '../../../../util/convert-units/unit';

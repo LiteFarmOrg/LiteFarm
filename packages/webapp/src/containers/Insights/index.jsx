@@ -19,10 +19,10 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import history from '../../history';
 // images
-import SoilOm from '../../assets/images/insights/soil_om.svg';
-import LabourHappiness from '../../assets/images/insights/labour_happiness.svg';
-import Biodiversity from '../../assets/images/insights/biodiversity.svg';
-import Prices from '../../assets/images/insights/prices.svg';
+import SoilOm from '../../assets/images/insights/soil_om.svg?react';
+import LabourHappiness from '../../assets/images/insights/labour_happiness.svg?react';
+import Biodiversity from '../../assets/images/insights/biodiversity.svg?react';
+import Prices from '../../assets/images/insights/prices.svg?react';
 
 // actions
 import { getLabourHappinessData, getPricesWithDistanceData, getSoilOMData } from './actions';

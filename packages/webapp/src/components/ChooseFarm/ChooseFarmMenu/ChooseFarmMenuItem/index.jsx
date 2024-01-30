@@ -3,7 +3,7 @@ import styles from './chooseFarmMenuItem.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Card from '../../../Card';
-import EmailIcon from '../../../../assets/images/chooseFarm/emailIcon.svg';
+import EmailIcon from '../../../../assets/images/chooseFarm/emailIcon.svg?react';
 
 const ChooseFarmMenuItem = ({
   color = 'secondary',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { componentDecoratorsGreyBackground } from '../../config/Decorators';
 import MapDrawerMenuItem from '../../../../components/MapDrawer/MapDrawerMenuItem';
-import MapBackground from '../../../../assets/images/farmMapFilter/MapBackground.svg';
+import MapBackground from '../../../../assets/images/farmMapFilter/MapBackground.svg?react';
 
 export default {
   title: 'Components/Map/MapDrawerMenuItem',

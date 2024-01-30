@@ -1,4 +1,4 @@
-import Download from '../../assets/images/farmMapFilter/Download.svg';
+import Download from '../../assets/images/farmMapFilter/Download.svg?react';
 import useMediaWithAuthentication from '../hooks/useMediaWithAuthentication';
 import { mediaEnum } from './constants';
 

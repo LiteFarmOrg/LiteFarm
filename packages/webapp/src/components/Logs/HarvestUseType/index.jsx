@@ -5,15 +5,15 @@ import Button from '../../Form/Button';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 
-import Sales from '../../../assets/images/log/v2/Sales.svg';
-import SelfConsumption from '../../../assets/images/log/v2/SelfConsumption.svg';
-import AnimalFeed from '../../../assets/images/log/v2/AnimalFeed.svg';
-import Compost from '../../../assets/images/log/v2/Compost.svg';
-import NotSure from '../../../assets/images/log/v2/NotSure.svg';
-import Gift from '../../../assets/images/log/v2/Gift.svg';
-import Exchange from '../../../assets/images/log/v2/Exchange.svg';
-import Seed from '../../../assets/images/log/v2/Seed.svg';
-import Custom from '../../../assets/images/log/v2/Custom.svg';
+import Sales from '../../../assets/images/log/v2/Sales.svg?react';
+import SelfConsumption from '../../../assets/images/log/v2/SelfConsumption.svg?react';
+import AnimalFeed from '../../../assets/images/log/v2/AnimalFeed.svg?react';
+import Compost from '../../../assets/images/log/v2/Compost.svg?react';
+import NotSure from '../../../assets/images/log/v2/NotSure.svg?react';
+import Gift from '../../../assets/images/log/v2/Gift.svg?react';
+import Exchange from '../../../assets/images/log/v2/Exchange.svg?react';
+import Seed from '../../../assets/images/log/v2/Seed.svg?react';
+import Custom from '../../../assets/images/log/v2/Custom.svg?react';
 import clsx from 'clsx';
 
 export default function PureHarvestUseType({

@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import OutroImg from '../../assets/images/farm-switch-outro/outro.svg';
+import OutroImg from '../../assets/images/farm-switch-outro/outro.svg?react';
 import Button from '../Form/Button';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

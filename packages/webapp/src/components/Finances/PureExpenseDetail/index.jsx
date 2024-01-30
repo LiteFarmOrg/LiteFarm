@@ -23,7 +23,7 @@ import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import { IconLink } from '../../Typography';
 import DeleteBox from '../../Task/TaskReadOnly/DeleteBox';
-import TrashIcon from '../../../assets/images/document/trash.svg';
+import TrashIcon from '../../../assets/images/document/trash.svg?react';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 import ReactSelect from '../../Form/ReactSelect';

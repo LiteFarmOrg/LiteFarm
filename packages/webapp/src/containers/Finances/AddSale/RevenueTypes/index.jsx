@@ -15,8 +15,8 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import CropSaleIcon from '../../../../assets/images/finance/Crop-sale-icn.svg';
-import CustomTypeIcon from '../../../../assets/images/finance/Custom-revenue.svg';
+import CropSaleIcon from '../../../../assets/images/finance/Crop-sale-icn.svg?react';
+import CustomTypeIcon from '../../../../assets/images/finance/Custom-revenue.svg?react';
 import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
 import { listItemTypes } from '../../../../components/List/constants';
 import labelIconStyles from '../../../../components/Tile/styles.module.scss';

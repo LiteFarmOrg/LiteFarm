@@ -2,9 +2,9 @@ name: Run cypress happy path test
 
 on:
   workflow_dispatch:
-  pull_request:
+  merge_group:
     branches:
-      - e2e_test_mika
+      - integration
 
 jobs:
   build:

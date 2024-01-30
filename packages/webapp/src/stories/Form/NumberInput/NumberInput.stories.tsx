@@ -111,7 +111,7 @@ export const WithLocale: Story = {
 
 export const WithoutGrouping: Story = {
   args: { useGrouping: false },
-  play: async ({ step }) => {
+  play: async ({ step, canvasElement }) => {
     //should not insert thousands separator
     await step(
       'Enter whole number above 1000',
@@ -131,13 +131,29 @@ export const WithoutGrouping: Story = {
     );
   },
 };
+
 export const WithoutDecimal: Story = {
   args: { allowDecimal: false },
-  play: async ({ step }) => {
+  play: async ({ step, canvasElement }) => {
     await step(
       'Enter number with decimal',
       test('9.1', { expectValue: '91', expectValueOnBlur: '91', expectValueOnReFocus: '91' }),
     );
+  },
+};
+export const WithoutDecimalAndWithFractionalStep: Story = {
+  args: { allowDecimal: false, step: 1.7 },
+  play: async ({ canvasElement }) => {
+    const input = getInput(canvasElement);
+    const { incrementButton, decrementButton } = getStepperButtons(canvasElement);
+
+    // should round step value down to nearest whole number
+    await userEvent.click(incrementButton);
+    expect(input).toHaveValue('1');
+    await userEvent.click(decrementButton);
+    expect(input).toHaveValue('0');
+    expect(decrementButton).toBeDisabled();
+    userEvent.clear(input);
   },
 };
 
@@ -179,12 +195,9 @@ export const Stepper: Story = {
     step: 0.1,
   },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const input = canvas.getByRole('textbox');
-    const incrementButton = canvas.getByRole('button', { name: 'increase' });
-    const decrementButton = canvas.getByRole('button', { name: 'decrease' });
+    const input = getInput(canvasElement);
+    const { incrementButton, decrementButton } = getStepperButtons(canvasElement);
 
-    expect(input).toHaveValue('');
     await userEvent.click(incrementButton);
     expect(input).toHaveValue('0.1');
     await userEvent.click(decrementButton);
@@ -207,13 +220,10 @@ export const StepperWithMinMax: Story = {
     max: 14,
   },
   play: async ({ canvasElement, args, step }) => {
-    const canvas = within(canvasElement);
-    const input = canvas.getByRole('textbox');
-    const incrementButton = canvas.getByRole('button', { name: 'increase' });
-    const decrementButton = canvas.getByRole('button', { name: 'decrease' });
+    const input = getInput(canvasElement);
+    const { incrementButton, decrementButton } = getStepperButtons(canvasElement);
 
     expect(input).toHaveValue('');
-
     // should clamp to min when clicking stepper and current value is below min
     await userEvent.click(incrementButton);
     expect(input).toHaveValue('7');
@@ -259,9 +269,8 @@ function test(
     expectValueOnReFocus,
   }: { expectValue: string; expectValueOnBlur: string; expectValueOnReFocus: string },
 ): NonNullable<Story['play']> {
-  return async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    const input = canvas.getByRole('textbox');
+  return async ({ canvasElement }) => {
+    const input = getInput(canvasElement);
 
     // enter value
     await userEvent.click(input);
@@ -277,5 +286,20 @@ function test(
     expect(input).toHaveValue(expectValueOnReFocus);
 
     await userEvent.clear(input);
+  };
+}
+
+function getInput(canvasElement: HTMLElement) {
+  return within(canvasElement).getByRole('textbox');
+}
+
+function getStepperButtons(canvasElement: HTMLElement) {
+  const canvas = within(canvasElement);
+  const incrementButton = canvas.getByRole('button', { name: 'increase' });
+  const decrementButton = canvas.getByRole('button', { name: 'decrease' });
+
+  return {
+    incrementButton,
+    decrementButton,
   };
 }

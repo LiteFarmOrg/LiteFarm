@@ -19,6 +19,21 @@ export const up = async function (knex) {
     table.string('farm_id').notNullable();
     table.string('name').notNullable();
     table.string('notes');
+    table.boolean('deleted').notNullable().defaultTo(false);
+    table
+      .string('created_by_user_id')
+      .notNullable()
+      .references('user_id')
+      .inTable('users')
+      .defaultTo(1);
+    table
+      .string('updated_by_user_id')
+      .notNullable()
+      .references('user_id')
+      .inTable('users')
+      .defaultTo(1);
+    table.dateTime('created_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
+    table.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
   });
 
   await knex.schema.createTable('animal_group_relationship', (table) => {

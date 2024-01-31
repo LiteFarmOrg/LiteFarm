@@ -86,17 +86,17 @@ const animalGroupController = {
           }
         }
 
+        // TODO: similar ownership of batches needs to be done once a Model exists, and returned in the same error response
+
         if (invalidAnimalIds.length) {
           await trx.rollback();
           return res.status(400).json({
-            error: 'Invalid animal ids',
+            error: 'Invalid ids',
             invalidIds: invalidAnimalIds,
             message:
-              'Some animal IDs provided do not exist or are not associated with the given farm.',
+              'Some animal IDs or animal batch IDs do not exist or are not associated with the given farm.',
           });
         }
-
-        // TODO: similar ownership of batches needs to be done once a Model exists
 
         const record = await baseController.existsInTable(trx, AnimalGroupModel, {
           name,

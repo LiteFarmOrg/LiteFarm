@@ -2305,8 +2305,10 @@ async function animal_batchFactory(
 
 function fakeAnimalGroup(defaultData = {}) {
   const name = faker.lorem.word();
+  const notes = faker.lorem.word();
   return {
     name,
+    notes,
     ...defaultData,
   };
 }
@@ -2503,6 +2505,7 @@ export default {
   default_animal_breedFactory,
   fakeAnimal,
   animalFactory,
+  animal_batchFactory,
   animal_identifier_colorFactory,
   animal_identifier_placementFactory,
   animal_sexFactory,

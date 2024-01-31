@@ -32,6 +32,9 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
   }),
 );
 import mocks from './mock.factories.js';
+import animalGroupModel from '../src/models/animalGroupModel.js';
+import animalGroupRelationshipModel from '../src/models/animalGroupRelationshipModel.js';
+import animalBatchGroupRelationshipModel from '../src/models/animalBatchGroupRelationshipModel.js';
 
 describe('Animal Group Tests', () => {
   let farm;
@@ -47,6 +50,19 @@ describe('Animal Group Tests', () => {
   }
 
   const getRequestAsPromise = util.promisify(getRequest);
+
+  function postRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
+    chai
+      .request(server)
+      .post('/animal_groups')
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+
+  const postRequestAsPromise = util.promisify(postRequest);
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
@@ -72,6 +88,22 @@ describe('Animal Group Tests', () => {
       properties,
     });
     return animalGroup;
+  }
+
+  async function makeAnimal(mainFarm, properties) {
+    const [animal] = await mocks.animalFactory({
+      promisedFarm: [mainFarm],
+      properties,
+    });
+    return animal;
+  }
+
+  async function makeAnimalBatch(mainFarm, properties) {
+    const [animalBatch] = await mocks.animal_batchFactory({
+      promisedFarm: [mainFarm],
+      properties,
+    });
+    return animalBatch;
   }
 
   beforeEach(async () => {
@@ -130,6 +162,220 @@ describe('Animal Group Tests', () => {
       expect(res.error.text).toBe(
         'User does not have the following permission(s): get:animal_groups',
       );
+    });
+  });
+
+  // POST TESTS
+  describe('POST animal groups tests', () => {
+    test('Admin users should create animal groups for their farm', async () => {
+      const adminRoles = [1, 2, 5];
+
+      for (const role of adminRoles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+
+        const firstAnimal = await makeAnimal(mainFarm);
+        const secondAnimal = await makeAnimal(mainFarm);
+
+        const firstAnimalBatch = await makeAnimalBatch(mainFarm);
+        const secondAnimalBatch = await makeAnimalBatch(mainFarm);
+
+        const animalGroup = mocks.fakeAnimalGroup();
+
+        const related_animal_ids = [firstAnimal.id, secondAnimal.id];
+        const related_batch_ids = [firstAnimalBatch.id, secondAnimalBatch.id];
+
+        const res = await postRequestAsPromise(
+          {
+            ...animalGroup,
+            related_animal_ids,
+            related_batch_ids,
+          },
+          {
+            user_id: user.user_id,
+            farm_id: mainFarm.farm_id,
+          },
+        );
+
+        // Check response
+        expect(res).toMatchObject({
+          status: 201,
+          body: {
+            farm_id: mainFarm.farm_id,
+            created_by_user_id: user.user_id,
+            name: animalGroup.name,
+            notes: animalGroup.notes,
+          },
+        });
+
+        const { id } = res.body;
+
+        // Check join tables
+        const animal_group_relationship = await animalGroupRelationshipModel
+          .query()
+          .where({ animal_group_id: id });
+
+        expect(animal_group_relationship).toHaveLength(related_animal_ids.length);
+        animal_group_relationship.forEach((record) => {
+          expect(related_animal_ids).toContain(record.animal_id);
+        });
+
+        const animal_batch_group_relationship = await animalBatchGroupRelationshipModel
+          .query()
+          .where({ animal_group_id: id });
+
+        expect(animal_batch_group_relationship).toHaveLength(related_batch_ids.length);
+        animal_batch_group_relationship.forEach((record) => {
+          expect(related_batch_ids).toContain(record.animal_batch_id);
+        });
+      }
+    });
+
+    test('Workers should not be able to create animal groups', async () => {
+      const { mainFarm, user } = await returnUserFarms(3);
+
+      const firstAnimal = await makeAnimal(mainFarm);
+      const secondAnimal = await makeAnimal(mainFarm);
+
+      const firstAnimalBatch = await makeAnimalBatch(mainFarm);
+      const secondAnimalBatch = await makeAnimalBatch(mainFarm);
+
+      const animalGroup = mocks.fakeAnimalGroup();
+
+      const res = await postRequestAsPromise(
+        {
+          ...animalGroup,
+          related_animal_ids: [firstAnimal.id, secondAnimal.id],
+          related_batch_ids: [firstAnimalBatch.id, secondAnimalBatch.id],
+        },
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+      );
+
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe(
+        'User does not have the following permission(s): add:animal_groups',
+      );
+    });
+
+    test('Should be possible to create empty groups', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const animalGroup = mocks.fakeAnimalGroup();
+
+      const res = await postRequestAsPromise(
+        {
+          ...animalGroup,
+          related_animal_ids: [],
+          related_batch_ids: [],
+        },
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+      );
+
+      // Check response
+      expect(res).toMatchObject({
+        status: 201,
+        body: {
+          farm_id: mainFarm.farm_id,
+          created_by_user_id: user.user_id,
+          name: animalGroup.name,
+          notes: animalGroup.notes,
+        },
+      });
+
+      const { id } = res.body;
+
+      // Check join tables
+      const animal_group_relationship = await animalGroupRelationshipModel
+        .query()
+        .where({ animal_group_id: id });
+
+      expect(animal_group_relationship).toHaveLength(0);
+
+      const animal_batch_group_relationship = await animalBatchGroupRelationshipModel
+        .query()
+        .where({ animal_group_id: id });
+
+      expect(animal_batch_group_relationship).toHaveLength(0);
+    });
+
+    test('Should not be possible to create groups with the same name as existing animal groups', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const animalGroup = mocks.fakeAnimalGroup();
+
+      await postRequestAsPromise(
+        {
+          ...animalGroup,
+          related_animal_ids: [],
+          related_batch_ids: [],
+        },
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+      );
+
+      const res = await postRequestAsPromise(
+        {
+          ...animalGroup,
+          related_animal_ids: [],
+          related_batch_ids: [],
+        },
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+      );
+
+      // Check response
+      expect(res.status).toBe(409);
+    });
+
+    test('Should not be possible to created animal groups with animals from other farms', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+
+      const firstAnimal = await makeAnimal(mainFarm);
+      const secondAnimal = await makeAnimal(secondFarm);
+
+      const related_animal_ids = [firstAnimal.id, secondAnimal.id];
+      const related_batch_ids = [];
+
+      const animalGroup = mocks.fakeAnimalGroup();
+
+      const res = await postRequestAsPromise(
+        {
+          ...animalGroup,
+          related_animal_ids,
+          related_batch_ids,
+        },
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+      );
+
+      // Check response
+      expect(res).toMatchObject({
+        status: 400,
+        body: {
+          error: 'Invalid ids',
+          invalidIds: [secondAnimal.id],
+        },
+      });
+
+      // Check that nothing has been added to join table
+      const animal_group_relationship = await animalGroupRelationshipModel
+        .query()
+        .where({ animal_id: firstAnimal.id })
+        .orWhere({ animal_id: secondAnimal.id });
+
+      expect(animal_group_relationship).toHaveLength(0);
     });
   });
 });

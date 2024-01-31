@@ -1,140 +1,114 @@
+/*
+ *  Copyright 2023, 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+import * as Selectors from '../support/selectorConstants.ts';
+import { loadTranslationsAndConfigureUserFarm } from '../support/utilities.js';
+
 describe('Farm People', () => {
-  let users;
   let translation;
   let roles;
 
   beforeEach(() => {
-    // Load the users fixture before the tests
-    cy.fixture('e2e-test-users.json').then((loadedUsers) => {
-      users = loadedUsers;
-      const user = users[Cypress.env('USER')];
-
-      // Load the locale fixture by reusing translations file
-      cy.fixture('../../../webapp/public/locales/' + user.locale + '/translation.json').then(
-        (data) => {
-          // Use the loaded data
-          translation = data;
-
-          cy.visit('/');
-          cy.loginOrCreateAccount(
-            user.email,
-            user.password,
-            user.name,
-            user.language,
-            translation['SLIDE_MENU']['CROPS'],
-            translation['FARM_MAP']['MAP_FILTER']['GARDEN'],
-          );
-        },
-      );
-
-      // Load the locale fixture by reusing translations file
-      cy.fixture('../../../webapp/public/locales/' + user.locale + '/role.json').then((data) => {
-        // Use the loaded data
-        roles = data;
-      });
-    });
+    loadTranslationsAndConfigureUserFarm({ additionalTranslation: 'role' }).then(
+      ([baseTranslation, additionalTranslation]) => {
+        translation = baseTranslation;
+        roles = additionalTranslation;
+      },
+    );
   });
 
-  after(() => {});
-
-  it('InviteUserManager', () => {
+  it('should invite a manager user', () => {
     const uniqueSeed = Date.now().toString();
     const uniqueId = Cypress._.uniqueId(uniqueSeed);
 
-    cy.get('[data-cy=home-farmButton]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.get('[data-cy=navbar-option]')
-      .eq(2)
-      .contains(translation['MY_FARM']['PEOPLE'])
+    cy.contains(translation['MENU']['PEOPLE'])
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
     cy.url().should('include', '/people');
 
-    cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+    cy.get(Selectors.INVITE_USER).should('exist').and('not.be.disabled').click();
 
-    cy.get('[data-cy=invite-fullName]').click();
-    cy.get('[data-cy=invite-fullName]').should('exist').type('Awesome Farm Manager');
-    cy.contains(translation['INVITE_USER']['CHOOSE_ROLE'])
-      .parent()
-      .find('input')
-      .type(roles['MANAGER'] + '{enter}');
-    cy.get('[data-cy=invite-email]')
+    cy.get(Selectors.INVITE_USER_NAME).click();
+    cy.get(Selectors.INVITE_USER_NAME).should('exist').type('Awesome Farm Manager');
+
+    cy.contains(translation['INVITE_USER']['CHOOSE_ROLE']).click({ force: true });
+    cy.contains(roles['MANAGER']).click({ force: true });
+
+    cy.get(Selectors.INVITE_USER_EMAIL)
       .should('exist')
       .type('farm_manager' + uniqueId + '@litefarm.com');
-    cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
+    cy.get(Selectors.INVITE_USER_SUBMIT).should('exist').and('not.be.disabled').click();
   });
 
-  it('InviteInvalidEmail', () => {
-    cy.get('[data-cy=home-farmButton]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.get('[data-cy=navbar-option]')
-      .eq(2)
-      .contains(translation['MY_FARM']['PEOPLE'])
+  it('it should fail to invite an invalid email address', () => {
+    cy.contains(translation['MENU']['PEOPLE'])
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
     cy.url().should('include', '/people');
 
-    cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+    cy.get(Selectors.INVITE_USER).should('exist').and('not.be.disabled').click();
 
-    cy.get('[data-cy=invite-fullName]').click();
-    cy.get('[data-cy=invite-fullName]').should('exist').type('Invalid Farm Manager');
-    cy.get('[data-cy=invite-email]').should('exist').type('Invalid email');
-    cy.get('[data-cy=invite-fullName]').click();
-    cy.get('[data-cy=error]')
+    cy.get(Selectors.INVITE_USER_NAME).click();
+    cy.get(Selectors.INVITE_USER_NAME).should('exist').type('Invalid Farm Manager');
+    cy.get(Selectors.INVITE_USER_EMAIL).should('exist').type('Invalid email');
+    cy.get(Selectors.INVITE_USER_NAME).click();
+    cy.get(Selectors.INPUT_ERROR)
       .contains(translation['INVITE_USER']['INVALID_EMAIL_ERROR'])
       .should('exist');
   });
 
-  it('Duplicate email', () => {
+  it('it should fail to invite a duplicate email address', () => {
     const uniqueSeed = Date.now().toString();
     const uniqueId = Cypress._.uniqueId(uniqueSeed);
 
-    cy.get('[data-cy=home-farmButton]')
-      .should('exist')
-      .and('not.be.disabled')
-      .click({ force: true });
-    cy.get('[data-cy=navbar-option]')
-      .eq(2)
-      .contains(translation['MY_FARM']['PEOPLE'])
+    cy.contains(translation['MENU']['PEOPLE'])
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
     cy.url().should('include', '/people');
 
-    cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+    cy.get(Selectors.INVITE_USER).should('exist').and('not.be.disabled').click();
 
-    cy.get('[data-cy=invite-fullName]').click();
-    cy.get('[data-cy=invite-fullName]').should('exist').type('Awesome Farm Manager');
-    cy.contains(translation['INVITE_USER']['CHOOSE_ROLE'])
-      .parent()
-      .find('input')
-      .type(roles['MANAGER'] + '{enter}');
-    cy.get('[data-cy=invite-email]')
+    cy.get(Selectors.INVITE_USER_NAME).click();
+    cy.get(Selectors.INVITE_USER_NAME).should('exist').type('Awesome Farm Manager');
+
+    cy.contains(translation['INVITE_USER']['CHOOSE_ROLE']).click({ force: true });
+    cy.contains(roles['MANAGER']).click({ force: true });
+
+    cy.get(Selectors.INVITE_USER_EMAIL)
       .should('exist')
       .type('farm_manager' + uniqueId + '@litefarm.com');
-    cy.get('[data-cy=invite-submit]').should('exist').and('not.be.disabled').click();
+    cy.get(Selectors.INVITE_USER_SUBMIT).should('exist').and('not.be.disabled').click();
 
     // Invite the same user again
-    cy.get('[data-cy=people-inviteUser]').should('exist').and('not.be.disabled').click();
+    cy.get(Selectors.INVITE_USER).should('exist').and('not.be.disabled').click();
 
-    cy.get('[data-cy=invite-fullName]').click();
-    cy.get('[data-cy=invite-fullName]').should('exist').type('Awesome Farm Manager');
-    cy.contains(translation['INVITE_USER']['CHOOSE_ROLE'])
-      .parent()
-      .find('input')
-      .type(roles['MANAGER'] + '{enter}');
-    cy.get('[data-cy=invite-email]')
+    cy.get(Selectors.INVITE_USER_NAME).click();
+    cy.get(Selectors.INVITE_USER_NAME).should('exist').type('Awesome Farm Manager');
+
+    cy.contains(translation['INVITE_USER']['CHOOSE_ROLE']).click({ force: true });
+    cy.contains(roles['MANAGER']).click({ force: true });
+
+    cy.get(Selectors.INVITE_USER_EMAIL)
       .should('exist')
       .type('farm_manager' + uniqueId + '@litefarm.com');
 
-    cy.get('[data-cy=invite-fullName]').click();
-    cy.get('[data-cy=error]')
+    cy.get(Selectors.INVITE_USER_NAME).click();
+    cy.get(Selectors.INPUT_ERROR)
       .contains(translation['INVITE_USER']['ALREADY_EXISTING_EMAIL_ERROR'])
       .should('exist');
   });

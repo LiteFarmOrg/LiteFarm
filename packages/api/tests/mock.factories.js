@@ -2270,6 +2270,103 @@ async function animal_originFactory() {
   return knex('animal_origin').insert({ key: faker.lorem.word() }).returning('*');
 }
 
+function fakeAnimalBatch(defaultData = {}) {
+  const name = faker.lorem.word();
+  const count = faker.datatype.number();
+  return {
+    name,
+    count,
+    ...defaultData,
+  };
+}
+
+async function animal_batchFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedDefaultAnimalType = default_animal_typeFactory(),
+    properties = {},
+  } = {},
+  animalBatch = fakeAnimalBatch(properties),
+) {
+  const [farm, user, defaultAnimalType] = await Promise.all([
+    promisedFarm,
+    usersFactory(),
+    promisedDefaultAnimalType,
+  ]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const [{ id: default_type_id }] = defaultAnimalType;
+
+  const base = baseProperties(user_id);
+  return knex('animal_batch')
+    .insert({ farm_id, default_type_id, ...animalBatch, ...base })
+    .returning('*');
+}
+
+function fakeAnimalGroup(defaultData = {}) {
+  const name = faker.lorem.word();
+  return {
+    name,
+    ...defaultData,
+  };
+}
+
+async function animal_groupFactory(
+  { promisedFarm = farmFactory(), properties = {} } = {},
+  animalGroup = fakeAnimalGroup(properties),
+) {
+  const [farm, user, firstAnimal, secondAnimal, firstBatch, secondBatch] = await Promise.all([
+    promisedFarm,
+    usersFactory(),
+    animalFactory(),
+    animalFactory(),
+    animal_batchFactory(),
+    animal_batchFactory(),
+  ]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const [{ id: firstAnimalId }] = firstAnimal;
+  const [{ id: secondAnimalId }] = secondAnimal;
+  const [{ id: firstBatchId }] = firstBatch;
+  const [{ id: secondBatchId }] = secondBatch;
+
+  const base = baseProperties(user_id);
+  const [group] = await knex('animal_group')
+    .insert({
+      farm_id,
+      ...animalGroup,
+      ...base,
+    })
+    .returning('*');
+  await knex('animal_group_relationship').insert([
+    {
+      animal_group_id: group.id,
+      animal_id: firstAnimalId,
+    },
+    {
+      animal_group_id: group.id,
+      animal_id: secondAnimalId,
+    },
+  ]);
+  await knex('animal_batch_group_relationship').insert([
+    {
+      animal_group_id: group.id,
+      animal_batch_id: firstBatchId,
+    },
+    {
+      animal_group_id: group.id,
+      animal_batch_id: secondBatchId,
+    },
+  ]);
+  return [
+    {
+      ...group,
+      related_animal_ids: [firstAnimalId, secondAnimalId],
+      related_batch_ids: [firstBatchId, secondBatchId],
+    },
+  ];
+}
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -2410,5 +2507,7 @@ export default {
   animal_identifier_placementFactory,
   animal_sexFactory,
   animal_originFactory,
+  fakeAnimalGroup,
+  animal_groupFactory,
   baseProperties,
 };

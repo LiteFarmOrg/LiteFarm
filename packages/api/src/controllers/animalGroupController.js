@@ -59,8 +59,9 @@ const animalGroupController = {
       try {
         const { farm_id } = req.headers;
         const { related_animal_ids, related_batch_ids } = req.body;
-        let { name } = req.body;
+        let { name, notes } = req.body;
         name = baseController.checkAndTrimString(name);
+        notes = baseController.checkAndTrimString(notes);
 
         if (!name) {
           await trx.rollback();
@@ -70,11 +71,6 @@ const animalGroupController = {
         if (!Array.isArray(related_animal_ids) || !Array.isArray(related_batch_ids)) {
           await trx.rollback();
           return res.status(400).send('Animal ids and batch ids must be arrays');
-        }
-
-        if (!related_animal_ids.length && !related_batch_ids.length) {
-          await trx.rollback();
-          return res.status(400).send('Either animal ids or batch ids are required');
         }
 
         // Check ownership of animals
@@ -96,6 +92,7 @@ const animalGroupController = {
         const record = await baseController.existsInTable(trx, AnimalGroupModel, {
           name,
           farm_id,
+          deleted: false,
         });
 
         if (record) {
@@ -105,7 +102,7 @@ const animalGroupController = {
         } else {
           const result = await baseController.postWithResponse(
             AnimalGroupModel,
-            { name, farm_id },
+            { name, notes, farm_id },
             req,
             {
               trx,

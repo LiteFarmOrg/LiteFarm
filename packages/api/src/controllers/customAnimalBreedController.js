@@ -73,16 +73,14 @@ const customAnimalBreedController = {
         }
 
         let breedDetails;
+
         if (custom_type_id) {
           const customType = await CustomAnimalTypeModel.query().findById(custom_type_id);
-          if (customType?.farm_id === farm_id) {
-            breedDetails = { custom_type_id, breed };
-          } else {
+          if (!customType || customType.farm_id !== farm_id) {
             await trx.rollback();
-            return res
-              .status(403)
-              .send('User does not have permission to access to requested resource');
+            return res.status(400).send('custom_type_id has invalid value');
           }
+          breedDetails = { custom_type_id, breed };
         } else {
           breedDetails = { default_type_id, breed };
         }

@@ -396,7 +396,7 @@ describe('Custom Animal Breed Tests', () => {
         farm_id: mainFarm.farm_id,
       });
 
-      expect(res.status).toBe(403);
+      expect(res.status).toBe(400);
     });
   });
 });

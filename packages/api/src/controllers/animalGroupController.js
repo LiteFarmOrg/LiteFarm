@@ -74,20 +74,29 @@ const animalGroupController = {
         }
 
         // Check ownership of animals
+        const invalidAnimalIds = [];
         for (const animalId of related_animal_ids) {
           const animal = await AnimalModel.query(trx)
             .findById(animalId)
             .where({ farm_id })
             .whereNotDeleted();
 
-          // QUESTION: do we prefer the whole transaction to fail and an error response if any of the animals in the provided array are invalid (as written here)? Or should they be skipped and the others still inserted?
           if (!animal) {
-            await trx.rollback();
-            return res.status(400).send(`Invalid animal id: ${animalId}`);
+            invalidAnimalIds.push(animalId);
           }
         }
 
-        // TODO: ownership of batches needs to be checked once a Model exists
+        if (invalidAnimalIds.length) {
+          await trx.rollback();
+          return res.status(400).json({
+            error: 'Invalid animal ids',
+            invalidIds: invalidAnimalIds,
+            message:
+              'Some animal IDs provided do not exist or are not associated with the given farm.',
+          });
+        }
+
+        // TODO: similar ownership of batches needs to be done once a Model exists
 
         const record = await baseController.existsInTable(trx, AnimalGroupModel, {
           name,

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import baseModel from './baseModel';
+import baseModel from './baseModel.js';
 
 class AnimalGroup extends baseModel {
   static get tableName() {

@@ -14,6 +14,7 @@
  */
 
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
+import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { transaction, Model } from 'objection';
 import baseController from './baseController.js';
 
@@ -73,7 +74,15 @@ const customAnimalBreedController = {
 
         let breedDetails;
         if (custom_type_id) {
-          breedDetails = { custom_type_id, breed };
+          const customType = await CustomAnimalTypeModel.query().findById(custom_type_id);
+          if (customType?.farm_id === farm_id) {
+            breedDetails = { custom_type_id, breed };
+          } else {
+            await trx.rollback();
+            return res
+              .status(403)
+              .send('User does not have permission to access to requested resource');
+          }
         } else {
           breedDetails = { default_type_id, breed };
         }

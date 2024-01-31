@@ -40,11 +40,6 @@ const animalGroupController = {
           return res.status(400).send('Animal ids and batch ids must be arrays');
         }
 
-        if (!related_animal_ids.length && !related_batch_ids.length) {
-          await trx.rollback();
-          return res.status(400).send('Either animal ids or batch ids are required');
-        }
-
         // Check ownership of animals
         for (const animalId of related_animal_ids) {
           const animal = await AnimalModel.query(trx)

@@ -2,12 +2,14 @@ name: Run cypress happy path test
 
 on:
   workflow_dispatch:
-  merge_group:
+  pull_request:
     branches:
       - integration
+  merge_group:
 
 jobs:
   build:
+    if: github.event_name != 'pull_request' || github.event.action == 'enqueued'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     services:

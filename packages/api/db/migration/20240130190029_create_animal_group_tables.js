@@ -79,7 +79,7 @@ export const down = async function (knex) {
   await knex('rolePermissions').whereIn('permission_id', permissions).del();
   await knex('permissions').whereIn('permission_id', permissions).del();
 
-  await knex.schema.dropTable('animal_group');
   await knex.schema.dropTable('animal_group_relationship');
   await knex.schema.dropTable('animal_batch_group_relationship');
+  await knex.schema.dropTable('animal_group');
 };

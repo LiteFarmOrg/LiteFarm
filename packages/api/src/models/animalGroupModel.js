@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import Model from './baseFormatModel.js';
+import baseModel from './baseModel';
 
-class AnimalGroup extends Model {
+class AnimalGroup extends baseModel {
   static get tableName() {
     return 'animal_group';
   }
@@ -36,6 +36,7 @@ class AnimalGroup extends Model {
         farm_id: { type: 'string' },
         name: { type: 'string' },
         notes: { type: ['string', 'null'] },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };

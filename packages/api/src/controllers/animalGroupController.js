@@ -21,6 +21,38 @@ import AnimalBatchGroupRelationshipModel from '../models/animalBatchGroupRelatio
 import AnimalModel from '../models/animalModel.js';
 
 const animalGroupController = {
+  getFarmAnimalGroups() {
+    return async (req, res) => {
+      try {
+        const { farm_id } = req.headers;
+        const groups = await AnimalGroupModel.query().where({ farm_id }).whereNotDeleted();
+        const groupsWithRelatedIds = await Promise.all(
+          groups.map(async (group) => {
+            const animalRelationships = await AnimalGroupRelationshipModel.query().where({
+              animal_group_id: group.id,
+            });
+            const batchRelationships = await AnimalBatchGroupRelationshipModel.query().where({
+              animal_group_id: group.id,
+            });
+            return {
+              ...group,
+              related_animal_ids: animalRelationships.map((relationship) => relationship.animal_id),
+              related_batch_ids: batchRelationships.map(
+                (relationship) => relationship.animal_batch_id,
+              ),
+            };
+          }),
+        );
+        return res.status(200).json(groupsWithRelatedIds);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+          error,
+        });
+      }
+    };
+  },
+
   addAnimalGroup() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());

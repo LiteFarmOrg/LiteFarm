@@ -22,7 +22,7 @@ const defaultAnimalBreedController = {
         const { default_type_id } = req.query;
         const rows = await DefaultAnimalBreedModel.query().modify((queryBuilder) => {
           if (default_type_id) {
-            queryBuilder.where('default_type_id', default_type_id);
+            queryBuilder.where('default_type_id', default_type_id).orWhere('default_type_id', null);
           }
         });
         return res.status(200).send(rows);

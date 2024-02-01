@@ -30,7 +30,7 @@ class DefaultAnimalBreed extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['default_type_id', 'key'],
+      required: ['key'],
       properties: {
         id: { type: 'integer' },
         default_type_id: { type: 'integer' },

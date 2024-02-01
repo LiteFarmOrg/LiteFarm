@@ -69,8 +69,8 @@ describe('Default Animal Breed Tests', () => {
     return { mainFarm, user };
   }
 
-  async function makeDefaultAnimalBreed() {
-    const [animal_breed] = await mocks.default_animal_breedFactory();
+  async function makeDefaultAnimalBreed(properties) {
+    const [animal_breed] = await mocks.default_animal_breedFactory({ properties });
     return animal_breed;
   }
 
@@ -97,6 +97,8 @@ describe('Default Animal Breed Tests', () => {
       // Create two default breeds with two different default types
       const firstBreed = await makeDefaultAnimalBreed();
       await makeDefaultAnimalBreed();
+      // Create default breed with no associated type (should be returned for all types)
+      const secondBreed = await makeDefaultAnimalBreed({ default_type_id: null });
 
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
@@ -108,9 +110,10 @@ describe('Default Animal Breed Tests', () => {
         });
 
         expect(res.status).toBe(200);
-        // Should return first breed only
-        expect(res.body.length).toBe(1);
+        // Should return breed that matches type and breed with no type
+        expect(res.body.length).toBe(2);
         expect(res.body[0]).toMatchObject(firstBreed);
+        expect(res.body[1]).toMatchObject(secondBreed);
       }
     });
 

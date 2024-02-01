@@ -2211,10 +2211,13 @@ async function custom_animal_breedFactory(
     .returning('*');
 }
 
-async function default_animal_breedFactory(promisedAnimalType = default_animal_typeFactory()) {
+async function default_animal_breedFactory({
+  promisedAnimalType = default_animal_typeFactory(),
+  properties = {},
+} = {}) {
   const [animalType] = await promisedAnimalType;
   return knex('default_animal_breed')
-    .insert({ default_type_id: animalType.id, key: faker.lorem.word() })
+    .insert({ default_type_id: animalType.id, key: faker.lorem.word(), ...properties })
     .returning('*');
 }
 
@@ -2229,23 +2232,23 @@ function fakeAnimal(defaultData = {}) {
 async function animalFactory(
   {
     promisedFarm = farmFactory(),
-    promisedDefaultAnimalType = default_animal_typeFactory(),
+    promisedDefaultAnimalBreed = default_animal_breedFactory(),
     properties = {},
   } = {},
   animal = fakeAnimal(properties),
 ) {
-  const [farm, user, defaultAnimalType] = await Promise.all([
+  const [farm, user, defaultAnimalBreed] = await Promise.all([
     promisedFarm,
     usersFactory(),
-    promisedDefaultAnimalType,
+    promisedDefaultAnimalBreed,
   ]);
   const [{ farm_id }] = farm;
   const [{ user_id }] = user;
-  const [{ id: default_type_id }] = defaultAnimalType;
+  const [{ id: default_breed_id, default_type_id }] = defaultAnimalBreed;
 
   const base = baseProperties(user_id);
   return knex('animal')
-    .insert({ farm_id, default_type_id, ...animal, ...base })
+    .insert({ farm_id, default_type_id, default_breed_id, ...animal, ...base })
     .returning('*');
 }
 

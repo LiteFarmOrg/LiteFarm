@@ -106,38 +106,37 @@ const animalGroupController = {
 
         if (record) {
           await trx.rollback();
-
           return res.status(409).send(); // Enforcing uniqueness on group name
-        } else {
-          const result = await baseController.postWithResponse(
-            AnimalGroupModel,
-            { name, notes, farm_id },
-            req,
-            {
-              trx,
-            },
-          );
-
-          const groupId = result.id;
-
-          // Insert into join tables
-          for (const animalId of related_animal_ids) {
-            await AnimalGroupRelationshipModel.query(trx).insert({
-              animal_id: animalId,
-              animal_group_id: groupId,
-            });
-          }
-
-          for (const batchId of related_batch_ids) {
-            await AnimalBatchGroupRelationshipModel.query(trx).insert({
-              animal_batch_id: batchId,
-              animal_group_id: groupId,
-            });
-          }
-
-          await trx.commit();
-          return res.status(201).send(result);
         }
+
+        const result = await baseController.postWithResponse(
+          AnimalGroupModel,
+          { name, notes, farm_id },
+          req,
+          {
+            trx,
+          },
+        );
+
+        const groupId = result.id;
+
+        // Insert into join tables
+        for (const animalId of related_animal_ids) {
+          await AnimalGroupRelationshipModel.query(trx).insert({
+            animal_id: animalId,
+            animal_group_id: groupId,
+          });
+        }
+
+        for (const batchId of related_batch_ids) {
+          await AnimalBatchGroupRelationshipModel.query(trx).insert({
+            animal_batch_id: batchId,
+            animal_group_id: groupId,
+          });
+        }
+
+        await trx.commit();
+        return res.status(201).send(result);
       } catch (error) {
         await trx.rollback();
         console.error(error);

@@ -56,19 +56,19 @@ const customAnimalTypeController = {
         if (record) {
           await trx.rollback();
           return res.status(409).send();
-        } else {
-          const result = await baseController.postWithResponse(
-            CustomAnimalTypeModel,
-            { type, farm_id },
-            req,
-            {
-              trx,
-            },
-          );
-
-          await trx.commit();
-          return res.status(201).send(result);
         }
+
+        const result = await baseController.postWithResponse(
+          CustomAnimalTypeModel,
+          { type, farm_id },
+          req,
+          {
+            trx,
+          },
+        );
+
+        await trx.commit();
+        return res.status(201).send(result);
       } catch (error) {
         await trx.rollback();
         console.error(error);

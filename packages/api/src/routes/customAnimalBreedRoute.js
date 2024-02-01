@@ -25,4 +25,10 @@ router.get(
   CustomAnimalBreedController.getCustomAnimalBreeds(),
 );
 
+router.post(
+  '/',
+  checkScope(['add:animal_breeds']),
+  CustomAnimalBreedController.addCustomAnimalBreed(),
+);
+
 export default router;

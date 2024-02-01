@@ -32,6 +32,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
   }),
 );
 import mocks from './mock.factories.js';
+import customAnimalBreedModel from '../src/models/customAnimalBreedModel.js';
 
 describe('Custom Animal Breed Tests', () => {
   let farm;
@@ -57,6 +58,19 @@ describe('Custom Animal Breed Tests', () => {
 
   const getRequestAsPromise = util.promisify(getRequest);
 
+  function postRequest(data, { user_id, farm_id }, callback) {
+    chai
+      .request(server)
+      .post(`/custom_animal_breeds`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+
+  const postRequestAsPromise = util.promisify(postRequest);
+
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
@@ -81,6 +95,18 @@ describe('Custom Animal Breed Tests', () => {
       properties,
     });
     return animal_breed;
+  }
+
+  async function makeDefaultAnimalType() {
+    const [animal_type] = await mocks.default_animal_typeFactory();
+    return animal_type;
+  }
+
+  async function makeUserCreatedAnimalType(mainFarm) {
+    const [custom_animal_type] = await mocks.custom_animal_typeFactory({
+      promisedFarm: [mainFarm],
+    });
+    return custom_animal_type;
   }
 
   beforeEach(async () => {
@@ -191,6 +217,183 @@ describe('Custom Animal Breed Tests', () => {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
         query_params_string: 'default_type_id=1&custom_type_id=1',
+      });
+
+      expect(res.status).toBe(400);
+    });
+  });
+
+  // POST tests
+  describe('POST custom animal breed tests', () => {
+    test('Admin users should be able to post new custom animal breed', async () => {
+      const adminRoles = [1, 2, 5];
+
+      for (const role of adminRoles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+        const animal_type = await makeDefaultAnimalType();
+        const animal_breed = mocks.fakeCustomAnimalBreed({ default_type_id: animal_type.id });
+        const res = await postRequestAsPromise(animal_breed, {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        });
+
+        // Check response
+        expect(res).toMatchObject({
+          status: 201,
+          body: {
+            farm_id: mainFarm.farm_id,
+            default_type_id: animal_breed.default_type_id,
+            breed: animal_breed.breed,
+          },
+        });
+
+        // Check database
+        const animal_breeds = await customAnimalBreedModel
+          .query()
+          .where('farm_id', mainFarm.farm_id)
+          .andWhere('default_type_id', animal_breed.default_type_id)
+          .andWhere('breed', animal_breed.breed);
+
+        expect(animal_breeds).toHaveLength(1);
+      }
+    });
+
+    test('Worker should not be able to post new custom animal breed', async () => {
+      const { mainFarm, user } = await returnUserFarms(3);
+
+      const animal_type = await makeDefaultAnimalType();
+      const animal_breed = mocks.fakeCustomAnimalBreed({ default_type_id: animal_type.id });
+      const res = await postRequestAsPromise(animal_breed, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      // Check response
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe(
+        'User does not have the following permission(s): add:animal_breeds',
+      );
+
+      const animal_breeds = await customAnimalBreedModel
+        .query()
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('default_type_id', animal_breed.default_type_id)
+        .andWhere('breed', animal_breed.breed);
+
+      // Check database
+      expect(animal_breeds).toHaveLength(0);
+    });
+
+    test('Creating the same breed as an existing breed on farm should return a conflict error', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const animal_type = await makeDefaultAnimalType();
+      const animal_breed = mocks.fakeCustomAnimalBreed({ default_type_id: animal_type.id });
+
+      await postRequestAsPromise(animal_breed, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      const res = await postRequestAsPromise(animal_breed, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      // Check response
+      expect(res.status).toBe(409);
+
+      // Check database (no second record created)
+      const animal_breeds = await customAnimalBreedModel
+        .query()
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('default_type_id', animal_breed.default_type_id)
+        .andWhere('breed', animal_breed.breed);
+
+      expect(animal_breeds).toHaveLength(1);
+    });
+
+    test('Creating the same breed as a deleted breed should be allowed', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const animal_type = await makeDefaultAnimalType();
+      const animal_breed = mocks.fakeCustomAnimalBreed({ default_type_id: animal_type.id });
+
+      await postRequestAsPromise(animal_breed, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      await customAnimalBreedModel
+        .query()
+        .context({ user_id: user.user_id })
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('default_type_id', animal_breed.default_type_id)
+        .andWhere('breed', animal_breed.breed)
+        .delete();
+
+      const res = await postRequestAsPromise(animal_breed, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      // Check response
+      expect(res).toMatchObject({
+        status: 201,
+        body: {
+          farm_id: mainFarm.farm_id,
+          default_type_id: animal_breed.default_type_id,
+          breed: animal_breed.breed,
+        },
+      });
+
+      // Check database
+      const animal_breeds = await customAnimalBreedModel
+        .query()
+        .where('farm_id', mainFarm.farm_id)
+        .andWhere('default_type_id', animal_breed.default_type_id)
+        .andWhere('breed', animal_breed.breed);
+
+      expect(animal_breeds).toHaveLength(2);
+    });
+
+    test('Creating a custom breed using a custom type should be allowed', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      // Make a custom type
+      const animal_type = await makeUserCreatedAnimalType(mainFarm);
+      const animal_breed = mocks.fakeCustomAnimalBreed({ custom_type_id: animal_type.id });
+
+      // Try to make a custom breed in using custom type
+      const res = await postRequestAsPromise(animal_breed, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res).toMatchObject({
+        status: 201,
+        body: {
+          farm_id: mainFarm.farm_id,
+          custom_type_id: animal_breed.custom_type_id,
+          breed: animal_breed.breed,
+        },
+      });
+    });
+
+    test('Creating a custom breed using another farms custom type should be forbidden', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const { mainFarm: secondFarm, user: secondUser } = await returnUserFarms(1);
+
+      // Make a custom type on Farm 2
+      const second_farm_animal_type = await makeUserCreatedAnimalType(secondFarm);
+      const animal_breed = mocks.fakeCustomAnimalBreed({
+        custom_type_id: second_farm_animal_type.id,
+      });
+
+      // Try to make a custom breed in Farm 1 using Farm 2's custom type
+      const res = await postRequestAsPromise(animal_breed, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
       });
 
       expect(res.status).toBe(400);

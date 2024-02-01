@@ -183,7 +183,6 @@ describe('Animal Tests', () => {
           [firstAnimal, secondAnimal, thirdAnimal],
         );
 
-        console.log(res.error);
         expect(res.status).toBe(201);
         expect(res.body[0]).toMatchObject(firstAnimal);
         expect(res.body[1]).toMatchObject(secondAnimal);

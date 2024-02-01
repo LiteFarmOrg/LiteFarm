@@ -2192,7 +2192,7 @@ function fakeCustomAnimalBreed(defaultData = {}) {
 async function custom_animal_breedFactory(
   {
     promisedFarm = farmFactory(),
-    promisedAnimalType = custom_animal_typeFactory(),
+    promisedAnimalType = custom_animal_typeFactory({ promisedFarm }),
     properties = {},
   } = {},
   animalBreed = fakeCustomAnimalBreed(properties),
@@ -2216,6 +2216,58 @@ async function default_animal_breedFactory(promisedAnimalType = default_animal_t
   return knex('default_animal_breed')
     .insert({ default_type_id: animalType.id, key: faker.lorem.word() })
     .returning('*');
+}
+
+function fakeAnimal(defaultData = {}) {
+  const name = faker.lorem.word();
+  return {
+    name,
+    ...defaultData,
+  };
+}
+
+async function animalFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedDefaultAnimalType = default_animal_typeFactory(),
+    properties = {},
+  } = {},
+  animal = fakeAnimal(properties),
+) {
+  const [farm, user, defaultAnimalType] = await Promise.all([
+    promisedFarm,
+    usersFactory(),
+    promisedDefaultAnimalType,
+  ]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const [{ id: default_type_id }] = defaultAnimalType;
+
+  const base = baseProperties(user_id);
+  return knex('animal')
+    .insert({ farm_id, default_type_id, ...animal, ...base })
+    .returning('*');
+}
+
+async function animal_identifier_colorFactory() {
+  return knex('animal_identifier_color').insert({ key: faker.lorem.word() }).returning('*');
+}
+
+async function animal_identifier_placementFactory(
+  promisedAnimalType = default_animal_typeFactory(),
+) {
+  const [animalType] = await promisedAnimalType;
+  return knex('animal_identifier_placement')
+    .insert({ default_type_id: animalType.id, key: faker.lorem.word() })
+    .returning('*');
+}
+
+async function animal_sexFactory() {
+  return knex('animal_sex').insert({ key: faker.lorem.word() }).returning('*');
+}
+
+async function animal_originFactory() {
+  return knex('animal_origin').insert({ key: faker.lorem.word() }).returning('*');
 }
 
 export default {
@@ -2352,5 +2404,11 @@ export default {
   custom_animal_breedFactory,
   fakeCustomAnimalBreed,
   default_animal_breedFactory,
+  fakeAnimal,
+  animalFactory,
+  animal_identifier_colorFactory,
+  animal_identifier_placementFactory,
+  animal_sexFactory,
+  animal_originFactory,
   baseProperties,
 };

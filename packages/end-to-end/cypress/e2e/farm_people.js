@@ -37,7 +37,7 @@ describe('Farm People', () => {
       .should('exist')
       .and('not.be.disabled')
       .click({ force: true });
-    cy.url().should('include', '/people');
+    cy.url().should('include', '/people1');
 
     cy.get(Selectors.INVITE_USER).should('exist').and('not.be.disabled').click();
 

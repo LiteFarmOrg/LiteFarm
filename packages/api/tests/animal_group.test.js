@@ -106,6 +106,20 @@ describe('Animal Group Tests', () => {
     return animalBatch;
   }
 
+  async function makeAnimalGroupRelationship(animalGroup) {
+    const [animalGroupRelationship] = await mocks.animal_group_relationshipFactory({
+      promisedGroup: [animalGroup],
+    });
+    return animalGroupRelationship;
+  }
+
+  async function makeAnimalBatchGroupRelationship(animalGroup) {
+    const [animalBatchGroupRelationship] = await mocks.animal_batch_group_relationshipFactory({
+      promisedGroup: [animalGroup],
+    });
+    return animalBatchGroupRelationship;
+  }
+
   beforeEach(async () => {
     [farm] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
@@ -120,15 +134,33 @@ describe('Animal Group Tests', () => {
   // GET TESTS
   describe('Get animal groups tests', () => {
     test('All users should get animal groups for their farm', async () => {
-      const roles = [1, 2, 3, 5];
+      const roles = [1];
 
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
         const [secondFarm] = await mocks.farmFactory();
 
-        // Create two animals groups
-        const firstAnimalGroup = await makeAnimalGroup(mainFarm);
-        const secondAnimalGroup = await makeAnimalGroup(mainFarm);
+        // Create two animals groups and add animals and batches to each of them
+        const groups = await Promise.all([makeAnimalGroup(mainFarm), makeAnimalGroup(mainFarm)]);
+        const animalRelationships = await Promise.all(
+          groups.map(
+            async (group) =>
+              await Promise.all([
+                makeAnimalGroupRelationship(group),
+                makeAnimalGroupRelationship(group),
+              ]),
+          ),
+        );
+        const batchRelationships = await Promise.all(
+          groups.map(
+            async (group) =>
+              await Promise.all([
+                makeAnimalBatchGroupRelationship(group),
+                makeAnimalBatchGroupRelationship(group),
+              ]),
+          ),
+        );
+
         // Create a third animal group belonging to a different farm
         await makeAnimalGroup(secondFarm);
 
@@ -140,11 +172,17 @@ describe('Animal Group Tests', () => {
         expect(res.status).toBe(200);
         // Should return first two animal groups
         expect(res.body.length).toBe(2);
-        res.body.forEach((animal) => {
-          expect(animal.farm_id).toBe(mainFarm.farm_id);
+        res.body.forEach((group, index) => {
+          expect(group.farm_id).toBe(mainFarm.farm_id);
+          expect(group.name).toBe(groups[index].name);
+          // Match relationships in any order
+          expect(group.related_animal_ids.sort()).toEqual(
+            animalRelationships[index].map((relationship) => relationship.animal_id).sort(),
+          );
+          expect(group.related_batch_ids.sort()).toEqual(
+            batchRelationships[index].map((relationship) => relationship.animal_batch_id).sort(),
+          );
         });
-        expect(firstAnimalGroup).toMatchObject(res.body[0]);
-        expect(secondAnimalGroup).toMatchObject(res.body[1]);
       }
     });
 

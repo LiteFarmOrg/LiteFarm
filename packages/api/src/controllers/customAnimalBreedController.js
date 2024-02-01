@@ -15,6 +15,7 @@
 
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
+import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
 import { transaction, Model } from 'objection';
 import baseController from './baseController.js';
 
@@ -82,6 +83,11 @@ const customAnimalBreedController = {
           }
           breedDetails = { custom_type_id, breed };
         } else {
+          const defaultType = await DefaultAnimalTypeModel.query().findById(default_type_id);
+          if (!defaultType) {
+            await trx.rollback();
+            return res.status(400).send('default_type_id has invalid value');
+          }
           breedDetails = { default_type_id, breed };
         }
 

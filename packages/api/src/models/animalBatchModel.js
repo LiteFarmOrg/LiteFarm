@@ -15,7 +15,7 @@
 
 import Model from './baseFormatModel.js';
 import baseModel from './baseModel.js';
-import AnimalBatchSexDetailModel from 'animalBatchSexDetailModel.js';
+import AnimalBatchSexDetailModel from './animalBatchSexDetailModel.js';
 
 class AnimalBatchModel extends baseModel {
   static get tableName() {

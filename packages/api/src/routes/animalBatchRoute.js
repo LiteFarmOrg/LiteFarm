@@ -17,8 +17,8 @@ import express from 'express';
 
 const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
-import AnimalBatchController from '../controllers/animalController.js';
+import AnimalBatchController from '../controllers/animalBatchController.js';
 
-router.get('/', checkScope(['get:animal_batch']), AnimalBatchController.getFarmAnimals());
+router.get('/', checkScope(['get:animal_batch']), AnimalBatchController.getFarmAnimalBatches());
 
 export default router;

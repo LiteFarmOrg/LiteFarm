@@ -15,7 +15,7 @@
 
 import baseModel from './baseModel.js';
 
-class AnimalBatchSexDetail extends baseModel {
+class AnimalBatchSexDetailModel extends baseModel {
   static get tableName() {
     return 'animal_batch_sex_detail';
   }
@@ -43,4 +43,4 @@ class AnimalBatchSexDetail extends baseModel {
   }
 }
 
-export default AnimalBatchSexDetail;
+export default AnimalBatchSexDetailModel;

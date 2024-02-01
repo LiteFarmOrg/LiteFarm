@@ -60,7 +60,7 @@ class AnimalBatchModel extends baseModel {
   static get relationMappings() {
     return {
       // Animal batch can have many sex details
-      sexDetails: {
+      animal_batch_sex_detail: {
         relation: Model.HasManyRelation,
         modelClass: AnimalBatchSexDetailModel,
         join: {

@@ -20,5 +20,6 @@ import checkScope from '../middleware/acl/checkScope.js';
 import AnimalBatchController from '../controllers/animalBatchController.js';
 
 router.get('/', checkScope(['get:animal_batch']), AnimalBatchController.getFarmAnimalBatches());
+router.post('/', checkScope(['add:animal_batch']), AnimalBatchController.addAnimalBatches());
 
 export default router;

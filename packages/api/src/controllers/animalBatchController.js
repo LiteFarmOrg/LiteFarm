@@ -18,9 +18,9 @@ import AnimalBatchModel from '../models/animalBatchModel.js';
 import baseController from './baseController.js';
 import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
-import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { arrayIsUnique } from '../util/util.js';
+import { handleObjectionError } from '../util/errorCodes.js';
 
 const animalBatchController = {
   getFarmAnimalBatches() {
@@ -55,60 +55,24 @@ const animalBatchController = {
         }
 
         for (const animalBatch of req.body) {
-          if (!animalBatch.name) {
-            await trx.rollback();
-            return res.status(400).send('Should send animal batch name');
-          }
-
-          if (!animalBatch.default_type_id && !animalBatch.custom_type_id) {
-            await trx.rollback();
-            return res.status(400).send('Should send either default_type_id or custom_type_id');
-          }
-
-          if (animalBatch.default_type_id && animalBatch.custom_type_id) {
-            await trx.rollback();
-            return res
-              .status(400)
-              .send('Should only send either default_type_id or custom_type_id');
-          }
-
-          if (animalBatch.default_breed_id && animalBatch.custom_breed_id) {
-            await trx.rollback();
-            return res
-              .status(400)
-              .send('Should only send either default_breed_id or custom_breed_id');
-          }
-
-          if (animalBatch.default_type_id) {
-            const defaultType = await DefaultAnimalTypeModel.query().findById(
-              animalBatch.default_type_id,
-            );
-
-            if (!defaultType) {
-              await trx.rollback();
-              return res.status(400).send('default_type_id has invalid value');
-            }
-          }
-
           if (animalBatch.custom_type_id) {
             const customType = await CustomAnimalTypeModel.query().findById(
               animalBatch.custom_type_id,
             );
-
-            if (!customType || customType.farm_id !== farm_id) {
+            if (customType && customType.farm_id !== farm_id) {
               await trx.rollback();
-              return res.status(400).send('custom_type_id has invalid value');
+              return res.status(403).send('Forbidden custom type does not belong to this farm');
             }
           }
 
-          if (animalBatch.default_breed_id) {
+          if (animalBatch.default_breed_id && animalBatch.default_type_id) {
             const defaultBreed = await DefaultAnimalBreedModel.query().findById(
               animalBatch.default_breed_id,
             );
 
-            if (!defaultBreed || defaultBreed.default_type_id !== animalBatch.default_type_id) {
+            if (defaultBreed && defaultBreed.default_type_id !== animalBatch.default_type_id) {
               await trx.rollback();
-              return res.status(400).send('default_breed_id has invalid value');
+              return res.status(400).send('Breed does not match type');
             }
           }
 
@@ -117,9 +81,9 @@ const animalBatchController = {
               .whereNotDeleted()
               .findById(animalBatch.custom_breed_id);
 
-            if (!customBreed || customBreed.farm_id !== farm_id) {
+            if (customBreed && customBreed.farm_id !== farm_id) {
               await trx.rollback();
-              return res.status(400).send('custom_breed_id has invalid value');
+              return res.status(400).send('Forbidden custom breed does not belong to this farm');
             }
 
             if (
@@ -127,7 +91,7 @@ const animalBatchController = {
               customBreed.default_type_id !== animalBatch.default_type_id
             ) {
               await trx.rollback();
-              return res.status(400).send('custom_breed_id has invalid value');
+              return res.status(400).send('Breed does not match type');
             }
 
             if (
@@ -135,7 +99,7 @@ const animalBatchController = {
               customBreed.custom_type_id !== animalBatch.custom_type_id
             ) {
               await trx.rollback();
-              return res.status(400).send('custom_breed_id has invalid value');
+              return res.status(400).send('Breed does not match type');
             }
           }
 
@@ -177,11 +141,7 @@ const animalBatchController = {
         await trx.commit();
         return res.status(201).send(result);
       } catch (error) {
-        console.error(error);
-        await trx.rollback();
-        return res.status(500).json({
-          error,
-        });
+        handleObjectionError(error, res, trx);
       }
     };
   },

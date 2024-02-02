@@ -141,7 +141,7 @@ const animalBatchController = {
         await trx.commit();
         return res.status(201).send(result);
       } catch (error) {
-        handleObjectionError(error, res, trx);
+        await handleObjectionError(error, res, trx);
       }
     };
   },

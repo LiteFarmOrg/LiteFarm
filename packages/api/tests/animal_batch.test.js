@@ -87,7 +87,7 @@ describe('Animal Batch Tests', () => {
   }
 
   async function makeAnimalBatch(mainFarm, properties) {
-    const [animalBatch] = await mocks.animalBatchFactory({
+    const [animalBatch] = await mocks.animal_batchFactory({
       promisedFarm: [mainFarm],
       properties,
     });

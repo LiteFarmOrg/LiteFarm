@@ -14,6 +14,10 @@
  */
 
 export const up = async function (knex) {
+  await knex.schema.alterTable('animal_batch_sex_detail', (t) => {
+    t.renameColumn('batch_id', 'animal_batch_id');
+  });
+
   await knex('permissions')
     .where({ permission_id: 159 })
     .update({ name: 'add:animal_batches', description: 'add animal_batches' });
@@ -29,6 +33,10 @@ export const up = async function (knex) {
 };
 
 export const down = async function (knex) {
+  await knex.schema.alterTable('animal_batch_sex_detail', (t) => {
+    t.renameColumn('animal_batch_id', 'batch_id');
+  });
+
   await knex('permissions')
     .where({ permission_id: 159 })
     .update({ name: 'add:animal_batch', description: 'add animal_batch' });

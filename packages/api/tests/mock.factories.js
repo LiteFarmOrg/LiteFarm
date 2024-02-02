@@ -2261,7 +2261,7 @@ function fakeAnimalBatch(defaultData = {}) {
   };
 }
 
-async function animalBatchFactory(
+async function animal_batchFactory(
   {
     promisedFarm = farmFactory(),
     promisedDefaultAnimalType = default_animal_typeFactory(),
@@ -2295,7 +2295,7 @@ async function animalBatchFactory(
       let details = [];
       for (const sexDetail of animal_batch_sex_detail) {
         const detail = await trx
-          .insert({ ...sexDetail, batch_id: batch[0].id })
+          .insert({ ...sexDetail, animal_batch_id: batch[0].id })
           .into('animal_batch_sex_detail')
           .returning('*');
         details.push(detail[0]);
@@ -2466,7 +2466,7 @@ export default {
   fakeAnimal,
   fakeAnimalBatch,
   animalFactory,
-  animalBatchFactory,
+  animal_batchFactory,
   animal_identifier_colorFactory,
   animal_identifier_placementFactory,
   animal_sexFactory,

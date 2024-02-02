@@ -30,9 +30,9 @@ class AnimalBatchSexDetailModel extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['batch_id', 'count', 'sex_id'],
+      required: ['animal_batch_id', 'count', 'sex_id'],
       properties: {
-        batch_id: { type: 'integer' },
+        animal_batch_id: { type: 'integer' },
         count: { type: 'integer' },
         id: { type: 'integer' },
         sex_id: { type: 'integer' },

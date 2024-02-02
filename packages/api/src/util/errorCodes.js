@@ -13,8 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+// See https://github.com/Vincit/objection.js/issues/2023#issuecomment-806059039
+import objection from 'objection';
+
 /**
  * Handles objection.js errors and sends appropriate responses based on the error type.
+ * Augmented from: https://vincit.github.io/objection.js/recipes/error-handling.html#examples
  *
  * @param {Error} err - The objection.js error object.
  * @param {import('express').Response} res - The Express response object.
@@ -25,34 +29,128 @@
  * try {
  *   // Some objection.js operation that may throw an error
  * } catch (error) {
- *   await handleObjectionError(error, res, trx);
+ *   await handleObjectionError(error, res);
  * }
  */
-
 export async function handleObjectionError(err, res, trx) {
-  switch (err.name) {
-    case 'ValidationError': {
-      await trx.rollback();
-      const errorString = Object.keys(err.data).reduce((acc, cv, ci) => {
-        const comma = Object.keys(err.data).length - 1 == ci ? '' : ', ';
-        return acc.concat(`${cv} ${err.data[cv][0].message}${comma}`);
-      }, '');
-      return res.status(err.statusCode).send(`Validation error: ${errorString}`);
+  if (err instanceof objection.ValidationError) {
+    switch (err.type) {
+      case 'ModelValidation':
+        await trx.rollback();
+        res.status(400).send({
+          message: err.message,
+          type: err.type,
+          data: err.data,
+        });
+        break;
+      case 'RelationExpression':
+        await trx.rollback();
+        res.status(400).send({
+          message: err.message,
+          type: 'RelationExpression',
+          data: {},
+        });
+        break;
+      case 'UnallowedRelation':
+        await trx.rollback();
+        res.status(400).send({
+          message: err.message,
+          type: err.type,
+          data: {},
+        });
+        break;
+      case 'InvalidGraph':
+        await trx.rollback();
+        res.status(400).send({
+          message: err.message,
+          type: err.type,
+          data: {},
+        });
+        break;
+      default:
+        await trx.rollback();
+        res.status(400).send({
+          message: err.message,
+          type: 'UnknownValidationError',
+          data: {},
+        });
+        break;
     }
-    case 'CheckViolationError': {
-      await trx.rollback();
-      return res.status(400).send(`Constraint check error: ${err.constraint}`);
-    }
-    case 'ForeignKeyViolationError': {
-      await trx.rollback();
-      return res.status(400).send(`Foreign key violation: ${err.nativeError.detail}`);
-    }
-    default: {
-      console.error(err);
-      await trx.rollback();
-      return res.status(500).json({
-        err,
-      });
-    }
+  } else if (err instanceof objection.NotFoundError) {
+    await trx.rollback();
+    res.status(404).send({
+      message: err.message,
+      type: 'NotFound',
+      data: {},
+    });
+  } else if (err instanceof objection.UniqueViolationError) {
+    await trx.rollback();
+    res.status(409).send({
+      message: err.message,
+      type: 'UniqueViolation',
+      data: {
+        columns: err.columns,
+        table: err.table,
+        constraint: err.constraint,
+      },
+    });
+  } else if (err instanceof objection.NotNullViolationError) {
+    await trx.rollback();
+    res.status(400).send({
+      message: err.message,
+      type: 'NotNullViolation',
+      data: {
+        column: err.column,
+        table: err.table,
+      },
+    });
+  } else if (err instanceof objection.ForeignKeyViolationError) {
+    await trx.rollback();
+    res.status(409).send({
+      message: err.message,
+      type: 'ForeignKeyViolation',
+      data: {
+        table: err.table,
+        constraint: err.constraint,
+      },
+    });
+  } else if (err instanceof objection.CheckViolationError) {
+    await trx.rollback();
+    res.status(400).send({
+      message: err.message,
+      type: 'CheckViolation',
+      data: {
+        table: err.table,
+        constraint: err.constraint,
+      },
+    });
+  } else if (err instanceof objection.ConstraintViolationError) {
+    await trx.rollback();
+    res.status(400).send({
+      message: err.message,
+      type: 'ConstraintViolation',
+      data: {},
+    });
+  } else if (err instanceof objection.DataError) {
+    await trx.rollback();
+    res.status(400).send({
+      message: err.message,
+      type: 'InvalidData',
+      data: {},
+    });
+  } else if (err instanceof objection.DBError) {
+    await trx.rollback();
+    res.status(500).send({
+      message: err.message,
+      type: 'UnknownDatabaseError',
+      data: {},
+    });
+  } else {
+    await trx.rollback();
+    res.status(500).send({
+      message: err.message,
+      type: 'UnknownError',
+      data: {},
+    });
   }
 }

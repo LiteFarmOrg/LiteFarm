@@ -65,7 +65,7 @@ class AnimalBatchModel extends baseModel {
         modelClass: AnimalBatchSexDetailModel,
         join: {
           from: 'animal_batch.id',
-          to: 'animal_batch_sex_detail.batch_id',
+          to: 'animal_batch_sex_detail.animal_batch_id',
         },
       },
     };

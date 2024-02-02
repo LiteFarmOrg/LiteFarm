@@ -27,10 +27,10 @@ export default function InputBaseLabel(
 
   return (
     <div className={styles.labelContainer}>
-      <Label style={{ position: 'absolute', bottom: 0 }}>
+      <Label>
         {props.label}
         {props.optional && (
-          <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
+          <Label sm className={styles.sm}>
             {t('common:OPTIONAL')}
           </Label>
         )}

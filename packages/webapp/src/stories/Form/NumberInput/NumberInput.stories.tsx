@@ -272,6 +272,13 @@ export const ErrorWithUnitAndStepper: Story = {
   },
 };
 
+export const WithOptionalLabel: Story = {
+  args: {
+    label: 'A label',
+    optional: true,
+  },
+};
+
 function test(
   value: string,
   {

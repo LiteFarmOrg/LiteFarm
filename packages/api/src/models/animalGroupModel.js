@@ -13,7 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { Model } from 'objection';
+import AnimalGroupRelationshipModel from './animalGroupRelationshipModel.js';
 import baseModel from './baseModel.js';
+import AnimalBatchGroupRelationshipModel from './animalBatchGroupRelationshipModel.js';
 
 class AnimalGroup extends baseModel {
   static get tableName() {
@@ -39,6 +42,29 @@ class AnimalGroup extends baseModel {
         ...this.baseProperties,
       },
       additionalProperties: false,
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      animal_relationships: {
+        modelClass: AnimalGroupRelationshipModel,
+        relation: Model.HasManyRelation,
+        join: {
+          from: 'animal_group.id',
+          to: 'animal_group_relationship.animal_group_id',
+        },
+        filter: (query) => query.select('animal_id'),
+      },
+      batch_relationships: {
+        modelClass: AnimalBatchGroupRelationshipModel,
+        relation: Model.HasManyRelation,
+        join: {
+          from: 'animal_group.id',
+          to: 'animal_batch_group_relationship.animal_group_id',
+        },
+        filter: (query) => query.select('animal_batch_id'),
+      },
     };
   }
 }

@@ -279,7 +279,7 @@ app
   .use('/default_animal_breeds', defaultAnimalBreedRoute)
   .use('/custom_animal_breeds', customAnimalBreedRoute)
   .use('/animals', animalRoute)
-  .use('/animal_batch', animalBatchRoute)
+  .use('/animal_batches', animalBatchRoute)
   .use('/animal_identifier_colors', animalIdentifierColorRoute)
   .use('/animal_identifier_placements', animalIdentifierPlacementRoute)
   .use('/animal_sexes', animalSexRoute)

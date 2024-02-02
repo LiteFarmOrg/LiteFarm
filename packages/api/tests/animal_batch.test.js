@@ -48,7 +48,7 @@ describe('Animal Batch Tests', () => {
   function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
     chai
       .request(server)
-      .get('/animal_batch')
+      .get('/animal_batches')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .end(callback);
@@ -59,7 +59,7 @@ describe('Animal Batch Tests', () => {
   function postRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data, callback) {
     chai
       .request(server)
-      .post('/animal_batch')
+      .post('/animal_batches')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
@@ -178,7 +178,7 @@ describe('Animal Batch Tests', () => {
       });
       expect(res.status).toBe(403);
       expect(res.error.text).toBe(
-        'User does not have the following permission(s): get:animal_batch',
+        'User does not have the following permission(s): get:animal_batches',
       );
     });
   });
@@ -258,7 +258,7 @@ describe('Animal Batch Tests', () => {
 
         expect(res.status).toBe(403);
         expect(res.error.text).toBe(
-          'User does not have the following permission(s): add:animal_batch',
+          'User does not have the following permission(s): add:animal_batches',
         );
       }
     });

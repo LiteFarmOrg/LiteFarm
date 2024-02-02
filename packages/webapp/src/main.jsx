@@ -17,6 +17,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Router } from 'react-router-dom';
 import history from './history';
 import homeSaga from './containers/saga';
@@ -73,6 +74,7 @@ import abandonAndCompleteManagementPlanSaga from './containers/Crop/CompleteMana
 import notificationSaga from './containers/Notification/saga';
 import errorHandlerSaga from './containers/ErrorHandler/saga';
 import App from './App';
+import ReactErrorFallback from './containers/ErrorHandler/ReactErrorFallback/';
 import { sagaMiddleware } from './store/sagaMiddleware';
 import { persistor, store } from './store/store';
 import { GlobalScss } from './components/GlobalScss';
@@ -144,6 +146,15 @@ sagaMiddleware.run(errorHandlerSaga);
 sagaMiddleware.run(fieldWorkTaskSaga);
 sagaMiddleware.run(irrigationTaskTypesSaga);
 
+// Method #1 - Allows us to include the component stack in the Sentry error
+// Three errors got logged with one event, though...
+const logError = (error /*: Error */, info /*: { componentStack: string } */) => {
+  Sentry.withScope((scope) => {
+    scope.setExtras(info);
+    Sentry.captureException(error);
+  });
+};
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
@@ -153,11 +164,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <GlobalScss />
             <CssBaseline />
             <GoogleOAuthProvider clientId={clientId}>
-              <Router history={history}>
-                <>
-                  <App />
-                </>
-              </Router>
+              {/* <ErrorBoundary FallbackComponent={ReactErrorFallback} onError={logError}> */}
+              <ErrorBoundary FallbackComponent={ReactErrorFallback}>
+                <Router history={history}>
+                  <>
+                    <App />
+                  </>
+                </Router>
+              </ErrorBoundary>
             </GoogleOAuthProvider>
           </>
         </ThemeProvider>

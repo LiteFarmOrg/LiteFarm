@@ -83,7 +83,7 @@ const animalBatchController = {
 
             if (customBreed && customBreed.farm_id !== farm_id) {
               await trx.rollback();
-              return res.status(400).send('Forbidden custom breed does not belong to this farm');
+              return res.status(403).send('Forbidden custom breed does not belong to this farm');
             }
 
             if (
@@ -108,7 +108,7 @@ const animalBatchController = {
             return res.status(400).send('Batch count must be greater than 1');
           }
 
-          if (animalBatch.animal_batch_sex_detail) {
+          if (animalBatch.animal_batch_sex_detail?.length) {
             let sexCount = 0;
             const sexIds = [];
             animalBatch.animal_batch_sex_detail.forEach((sexDetail) => {

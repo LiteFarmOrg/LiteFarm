@@ -1,0 +1,148 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../assets/mixin';
+
+.container {
+  min-height: 100vh;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.background {
+  position: fixed;
+  background-color: var(--mainBackground, #fafcfb);
+  top: 56px;
+  z-index: -1;
+
+  @include xs-breakpoint {
+    top: 0px;
+    width: 100vw;
+    padding-block: 48px;
+  }
+}
+
+.logo {
+  height: 100px;
+  width: auto;
+  margin-block: 48px;
+  margin-left: 10%;
+  align-self: flex-start;
+
+  @include xs-breakpoint {
+    height: 56px;
+    margin: 32px;
+  }
+}
+
+.textContainer {
+  width: 90%;
+  max-width: 648px;
+  background-color: var(--mainBackground, #fafcfb);
+  padding: 32px;
+
+  p {
+    font-family: 'Open Sans';
+    line-height: normal;
+    font-style: normal;
+    font-size: 18px;
+    color: var(--grey900, #282b36);
+    letter-spacing: -0.396px;
+  }
+
+  @include xs-breakpoint {
+    width: 100%;
+    padding-bottom: 56px;
+
+    p {
+      font-size: 14px;
+      letter-spacing: -0.308px;
+    }
+  }
+}
+
+.title {
+  color: #16423d; /* Figma's teal 900 on this page is not is not the app's teal 900 -- this should be checked */
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 48px;
+  letter-spacing: -0.616px;
+
+  @include xs-breakpoint {
+    text-align: start;
+    font-size: 20px;
+    line-height: 32px;
+    letter-spacing: -0.44px;
+  }
+}
+
+.subtitle,
+.supportText {
+  font-weight: 600;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-block: 32px;
+}
+
+.iconLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  font-size: 18px;
+  font-weight: 700;
+  color: #16423d; /* As above; teal 900 is not same as app version */
+
+  @include xs-breakpoint {
+    font-size: 16px;
+  }
+}
+
+.icon {
+  flex: none;
+  height: 32px;
+  width: 32px;
+
+  @include xs-breakpoint {
+    height: 24px;
+  }
+}
+
+.or {
+  font-weight: 600;
+}
+
+.email {
+  color: #633700; // new
+  font-weight: 700;
+}
+
+.farmerDesktop {
+  height: 415px;
+}
+
+.farmerMobile {
+  height: 304px;
+  align-self: end;
+  transform: translateY(-56px);
+}

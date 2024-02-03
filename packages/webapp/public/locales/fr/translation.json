@@ -490,6 +490,13 @@
     "LOCATION": "emplacement",
     "TASK": "tâche"
   },
+  "ERROR_FALLBACK": {
+    "CONTACT": "MISSING",
+    "MAIN": "MISSING",
+    "RELOAD": "MISSING",
+    "SUBTITLE": "MISSING",
+    "TITLE": "MISSING"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "Ajouter une dépense personnalisée",
@@ -838,10 +845,10 @@
     },
     "REPORT": {
       "DATES": "Dates",
+      "FILE_TITLE": "MISSING",
       "SETTINGS": "Exporter les paramètres",
       "TRANSACTION": "Transaction",
-      "TRANSACTIONS": "Transactions",
-      "FILE_TITLE": "MISSING"
+      "TRANSACTIONS": "Transactions"
     },
     "REVENUE": "Recette",
     "SEARCH": {

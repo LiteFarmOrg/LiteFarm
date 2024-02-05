@@ -2270,6 +2270,97 @@ async function animal_originFactory() {
   return knex('animal_origin').insert({ key: faker.lorem.word() }).returning('*');
 }
 
+function fakeAnimalBatch(defaultData = {}) {
+  const name = faker.lorem.word();
+  const count = faker.datatype.number();
+  return {
+    name,
+    count,
+    ...defaultData,
+  };
+}
+
+async function animal_batchFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedDefaultAnimalType = default_animal_typeFactory(),
+    properties = {},
+  } = {},
+  animalBatch = fakeAnimalBatch(properties),
+) {
+  const [farm, user, defaultAnimalType] = await Promise.all([
+    promisedFarm,
+    usersFactory(),
+    promisedDefaultAnimalType,
+  ]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const [{ id: default_type_id }] = defaultAnimalType;
+
+  const base = baseProperties(user_id);
+  return knex('animal_batch')
+    .insert({ farm_id, default_type_id, ...animalBatch, ...base })
+    .returning('*');
+}
+
+function fakeAnimalGroup(defaultData = {}) {
+  const name = faker.lorem.word();
+  const notes = faker.lorem.word();
+  return {
+    name,
+    notes,
+    ...defaultData,
+  };
+}
+
+async function animal_groupFactory(
+  { promisedFarm = farmFactory(), properties = {} } = {},
+  animalGroup = fakeAnimalGroup(properties),
+) {
+  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+
+  const base = baseProperties(user_id);
+  return knex('animal_group')
+    .insert({
+      farm_id,
+      ...animalGroup,
+      ...base,
+    })
+    .returning('*');
+}
+
+async function animal_group_relationshipFactory({
+  promisedAnimal = animalFactory(),
+  promisedGroup = animal_groupFactory(),
+} = {}) {
+  const [animal, group] = await Promise.all([promisedAnimal, promisedGroup]);
+  const [{ id: groupId }] = group;
+  const [{ id: animalId }] = animal;
+  return knex('animal_group_relationship')
+    .insert({
+      animal_group_id: groupId,
+      animal_id: animalId,
+    })
+    .returning('*');
+}
+
+async function animal_batch_group_relationshipFactory({
+  promisedBatch = animal_batchFactory(),
+  promisedGroup = animal_groupFactory(),
+} = {}) {
+  const [batch, group] = await Promise.all([promisedBatch, promisedGroup]);
+  const [{ id: groupId }] = group;
+  const [{ id: batchId }] = batch;
+  return knex('animal_batch_group_relationship')
+    .insert({
+      animal_group_id: groupId,
+      animal_batch_id: batchId,
+    })
+    .returning('*');
+}
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -2406,9 +2497,14 @@ export default {
   default_animal_breedFactory,
   fakeAnimal,
   animalFactory,
+  animal_batchFactory,
   animal_identifier_colorFactory,
   animal_identifier_placementFactory,
   animal_sexFactory,
   animal_originFactory,
+  fakeAnimalGroup,
+  animal_groupFactory,
+  animal_group_relationshipFactory,
+  animal_batch_group_relationshipFactory,
   baseProperties,
 };

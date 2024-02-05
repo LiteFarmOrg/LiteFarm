@@ -23,7 +23,7 @@ const customAnimalTypeController = {
     return async (req, res) => {
       try {
         const { farm_id } = req.headers;
-        const rows = await CustomAnimalTypeModel.query().where({ farm_id });
+        const rows = await CustomAnimalTypeModel.query().where({ farm_id }).whereNotDeleted();
         return res.status(200).send(rows);
       } catch (error) {
         console.error(error);
@@ -43,6 +43,7 @@ const customAnimalTypeController = {
         type = baseController.checkAndTrimString(type);
 
         if (!type) {
+          await trx.rollback();
           return res.status(400).send('Animal type must be provided');
         }
 
@@ -55,19 +56,19 @@ const customAnimalTypeController = {
         if (record) {
           await trx.rollback();
           return res.status(409).send();
-        } else {
-          const result = await baseController.postWithResponse(
-            CustomAnimalTypeModel,
-            { type, farm_id },
-            req,
-            {
-              trx,
-            },
-          );
-
-          await trx.commit();
-          return res.status(201).send(result);
         }
+
+        const result = await baseController.postWithResponse(
+          CustomAnimalTypeModel,
+          { type, farm_id },
+          req,
+          {
+            trx,
+          },
+        );
+
+        await trx.commit();
+        return res.status(201).send(result);
       } catch (error) {
         await trx.rollback();
         console.error(error);

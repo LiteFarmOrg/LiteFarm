@@ -146,15 +146,6 @@ sagaMiddleware.run(errorHandlerSaga);
 sagaMiddleware.run(fieldWorkTaskSaga);
 sagaMiddleware.run(irrigationTaskTypesSaga);
 
-// Method #1 - Allows us to include the component stack in the Sentry error
-// Three errors got logged with one event, though...
-const logError = (error /*: Error */, info /*: { componentStack: string } */) => {
-  Sentry.withScope((scope) => {
-    scope.setExtras(info);
-    Sentry.captureException(error);
-  });
-};
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
@@ -164,7 +155,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <GlobalScss />
             <CssBaseline />
             <GoogleOAuthProvider clientId={clientId}>
-              {/* <ErrorBoundary FallbackComponent={ReactErrorFallback} onError={logError}> */}
               <ErrorBoundary FallbackComponent={ReactErrorFallback}>
                 <Router history={history}>
                   <>

@@ -403,7 +403,8 @@ describe('Animal Group Tests', () => {
         status: 400,
         body: {
           error: 'Invalid ids',
-          invalidIds: [secondAnimal.id],
+          invalidAnimalIds: [secondAnimal.id],
+          invalidBatchIds: [],
         },
       });
 
@@ -414,6 +415,49 @@ describe('Animal Group Tests', () => {
         .orWhere({ animal_id: secondAnimal.id });
 
       expect(animal_group_relationship).toHaveLength(0);
+    });
+
+    test('Should not be possible to created animal groups with batches from other farms', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+
+      const firstBatch = await makeAnimalBatch(mainFarm);
+      const secondBatch = await makeAnimalBatch(secondFarm);
+
+      const related_animal_ids = [];
+      const related_batch_ids = [firstBatch.id, secondBatch.id];
+
+      const animalGroup = mocks.fakeAnimalGroup();
+
+      const res = await postRequestAsPromise(
+        {
+          ...animalGroup,
+          related_animal_ids,
+          related_batch_ids,
+        },
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+      );
+
+      // Check response
+      expect(res).toMatchObject({
+        status: 400,
+        body: {
+          error: 'Invalid ids',
+          invalidAnimalIds: [],
+          invalidBatchIds: [secondBatch.id],
+        },
+      });
+
+      // Check that nothing has been added to join table
+      const animal_batch_group_relationship = await animalBatchGroupRelationshipModel
+        .query()
+        .where({ animal_batch_id: firstBatch.id })
+        .orWhere({ animal_batch_id: secondBatch.id });
+
+      expect(animal_batch_group_relationship).toHaveLength(0);
     });
   });
 });

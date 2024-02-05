@@ -19,6 +19,7 @@ import AnimalGroupModel from '../models/animalGroupModel.js';
 import AnimalGroupRelationshipModel from '../models/animalGroupRelationshipModel.js';
 import AnimalBatchGroupRelationshipModel from '../models/animalBatchGroupRelationshipModel.js';
 import AnimalModel from '../models/animalModel.js';
+import AnimalBatchModel from '../models/animalBatchModel.js';
 
 const animalGroupController = {
   getFarmAnimalGroups() {
@@ -78,13 +79,25 @@ const animalGroupController = {
           }
         }
 
-        // TODO: similar ownership of batches needs to be done once a Model exists, and returned in the same error response
+        // Check ownership of batches
+        const invalidBatchIds = [];
+        for (const batchId of related_batch_ids) {
+          const animalBatch = await AnimalBatchModel.query(trx)
+            .findById(batchId)
+            .where({ farm_id })
+            .whereNotDeleted();
 
-        if (invalidAnimalIds.length) {
+          if (!animalBatch) {
+            invalidBatchIds.push(batchId);
+          }
+        }
+
+        if (invalidAnimalIds.length || invalidBatchIds.length) {
           await trx.rollback();
           return res.status(400).json({
             error: 'Invalid ids',
-            invalidIds: invalidAnimalIds,
+            invalidAnimalIds,
+            invalidBatchIds,
             message:
               'Some animal IDs or animal batch IDs do not exist or are not associated with the given farm.',
           });

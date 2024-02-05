@@ -30,7 +30,7 @@ const animalBatchController = {
         const rows = await AnimalBatchModel.query()
           .where({ farm_id })
           .whereNotDeleted()
-          .withGraphFetched('animal_batch_sex_detail');
+          .withGraphFetched('sex_detail');
         return res.status(200).send(rows);
       } catch (error) {
         console.error(error);
@@ -108,12 +108,12 @@ const animalBatchController = {
             return res.status(400).send('Batch count must be greater than 1');
           }
 
-          if (animalBatch.animal_batch_sex_detail?.length) {
+          if (animalBatch.sex_detail?.length) {
             let sexCount = 0;
             const sexIds = [];
-            animalBatch.animal_batch_sex_detail.forEach((sexDetail) => {
-              sexCount += sexDetail.count;
-              sexIds.push(sexDetail.sex_id);
+            animalBatch.sex_detail.forEach((detail) => {
+              sexCount += detail.count;
+              sexIds.push(detail.sex_id);
             });
             if (sexCount != animalBatch.count) {
               await trx.rollback();

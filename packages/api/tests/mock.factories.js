@@ -2256,7 +2256,7 @@ function fakeAnimalBatch(defaultData = {}) {
   return {
     name,
     count,
-    animal_batch_sex_detail: [],
+    sex_detail: [],
     ...defaultData,
   };
 }
@@ -2284,8 +2284,8 @@ async function animal_batchFactory(
   const base = baseProperties(user_id);
   return knex
     .transaction(async (trx) => {
-      const animal_batch_sex_detail = animalBatch.animal_batch_sex_detail;
-      delete animalBatch.animal_batch_sex_detail;
+      const sex_detail = animalBatch.sex_detail;
+      delete animalBatch.sex_detail;
 
       const batch = await trx
         .insert({ farm_id, default_type_id, default_breed_id, ...animalBatch, ...base })
@@ -2293,14 +2293,14 @@ async function animal_batchFactory(
         .returning('*');
 
       let details = [];
-      for (const sexDetail of animal_batch_sex_detail) {
-        const detail = await trx
-          .insert({ ...sexDetail, animal_batch_id: batch[0].id })
+      for (const detail of sex_detail) {
+        const res = await trx
+          .insert({ ...detail, animal_batch_id: batch[0].id })
           .into('animal_batch_sex_detail')
           .returning('*');
-        details.push(detail[0]);
+        details.push(res[0]);
       }
-      batch[0].animal_batch_sex_detail = details;
+      batch[0].sex_detail = details;
       return batch;
     })
     .catch((err) => {

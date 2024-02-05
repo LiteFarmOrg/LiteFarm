@@ -126,7 +126,7 @@ describe('Animal Batch Tests', () => {
           default_breed_id: defaultBreedId,
           default_type_id: defaultTypeId,
           count: 6,
-          animal_batch_sex_detail: [
+          sex_detail: [
             {
               sex_id: animalSex1.id,
               count: 2,
@@ -210,7 +210,7 @@ describe('Animal Batch Tests', () => {
           custom_type_id: animalBreed.custom_type_id,
           custom_breed_id: animalBreed.id,
           count: 6,
-          animal_batch_sex_detail: [
+          sex_detail: [
             {
               sex_id: animalSex1.id,
               count: 2,
@@ -416,7 +416,7 @@ describe('Animal Batch Tests', () => {
         default_breed_id: defaultBreedId,
         default_type_id: defaultTypeId,
         count: 6,
-        animal_batch_sex_detail: [
+        sex_detail: [
           {
             sex_id: animalSex1.id,
             count: 2,

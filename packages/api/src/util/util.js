@@ -40,21 +40,3 @@ export const getSortedDates = (dates) => {
   const jsDates = dates.map((date) => new Date(date));
   return jsDates.sort((date1, date2) => date1 - date2);
 };
-
-/**
- * Checks if all elements in the array are unique.
- *
- * @param {Array} arr - The input array to be checked for uniqueness.
- * @returns {boolean} Returns true if all elements in the array are unique, false otherwise.
- *
- * @example
- * const result = checkIfArrayIsUnique([1, 2, 3, 4]);
- * console.log(result); // Output: true
- *
- * @example
- * const result = checkIfArrayIsUnique([1, 2, 3, 1]);
- * console.log(result); // Output: false
- */
-export function arrayIsUnique(arr) {
-  return arr.length === new Set(arr).size;
-}

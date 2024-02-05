@@ -19,7 +19,6 @@ import baseController from './baseController.js';
 import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
-import { arrayIsUnique } from '../util/util.js';
 import { handleObjectionError } from '../util/errorCodes.js';
 
 const animalBatchController = {
@@ -110,16 +109,16 @@ const animalBatchController = {
 
           if (animalBatch.sex_detail?.length) {
             let sexCount = 0;
-            const sexIds = [];
+            const sexIdSet = new Set();
             animalBatch.sex_detail.forEach((detail) => {
               sexCount += detail.count;
-              sexIds.push(detail.sex_id);
+              sexIdSet.add(detail.sex_id);
             });
             if (sexCount != animalBatch.count) {
               await trx.rollback();
               return res.status(400).send('Batch count does not match sex detail count');
             }
-            if (!arrayIsUnique(sexIds)) {
+            if (animalBatch.sex_detail.length != sexIdSet.size) {
               await trx.rollback();
               return res.status(400).send('Duplicate sex ids in detail');
             }

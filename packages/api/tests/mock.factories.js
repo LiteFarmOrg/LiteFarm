@@ -2329,39 +2329,6 @@ async function animal_originFactory() {
   return knex('animal_origin').insert({ key: faker.lorem.word() }).returning('*');
 }
 
-function fakeAnimalBatch(defaultData = {}) {
-  const name = faker.lorem.word();
-  const count = faker.datatype.number();
-  return {
-    name,
-    count,
-    ...defaultData,
-  };
-}
-
-async function animal_batchFactory(
-  {
-    promisedFarm = farmFactory(),
-    promisedDefaultAnimalType = default_animal_typeFactory(),
-    properties = {},
-  } = {},
-  animalBatch = fakeAnimalBatch(properties),
-) {
-  const [farm, user, defaultAnimalType] = await Promise.all([
-    promisedFarm,
-    usersFactory(),
-    promisedDefaultAnimalType,
-  ]);
-  const [{ farm_id }] = farm;
-  const [{ user_id }] = user;
-  const [{ id: default_type_id }] = defaultAnimalType;
-
-  const base = baseProperties(user_id);
-  return knex('animal_batch')
-    .insert({ farm_id, default_type_id, ...animalBatch, ...base })
-    .returning('*');
-}
-
 function fakeAnimalGroup(defaultData = {}) {
   const name = faker.lorem.word();
   const notes = faker.lorem.word();

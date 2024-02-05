@@ -134,7 +134,7 @@ describe('Animal Group Tests', () => {
   // GET TESTS
   describe('Get animal groups tests', () => {
     test('All users should get animal groups for their farm', async () => {
-      const roles = [1, 2, 5];
+      const roles = [1, 2, 3, 5];
 
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);

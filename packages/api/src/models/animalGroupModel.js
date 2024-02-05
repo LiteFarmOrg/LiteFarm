@@ -54,7 +54,7 @@ class AnimalGroup extends baseModel {
           from: 'animal_group.id',
           to: 'animal_group_relationship.animal_group_id',
         },
-        filter: (query) => query.select('animal_id'),
+        modify: (query) => query.select('animal_id'),
       },
       batch_relationships: {
         modelClass: AnimalBatchGroupRelationshipModel,
@@ -63,7 +63,7 @@ class AnimalGroup extends baseModel {
           from: 'animal_group.id',
           to: 'animal_batch_group_relationship.animal_group_id',
         },
-        filter: (query) => query.select('animal_batch_id'),
+        modify: (query) => query.select('animal_batch_id'),
       },
     };
   }

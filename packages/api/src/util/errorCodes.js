@@ -29,7 +29,7 @@ import objection from 'objection';
  * try {
  *   // Some objection.js operation that may throw an error
  * } catch (error) {
- *   await handleObjectionError(error, res);
+ *   await handleObjectionError(error, res, trx);
  * }
  */
 export async function handleObjectionError(err, res, trx) {

@@ -68,7 +68,7 @@ export const PureReactErrorFallback = ({
             i18nKey="ERROR_FALLBACK.CONTACT"
             values={{ supportEmail: SUPPORT_EMAIL }}
             components={{
-              1: <span className={styles.email} />,
+              1: <a href={`mailto:${SUPPORT_EMAIL}`} className={styles.email} />,
             }}
           />
         </Main>

@@ -142,7 +142,7 @@ describe('Animal Batch Tests', () => {
           default_type_id: defaultTypeId,
         });
 
-        // Create a third animal belonging to a different farm
+        // Create a third animal batch belonging to a different farm
         await makeAnimalBatch(secondFarm, {
           default_breed_id: defaultBreedId,
           default_type_id: defaultTypeId,
@@ -154,7 +154,7 @@ describe('Animal Batch Tests', () => {
         });
 
         expect(res.status).toBe(200);
-        // Should return first two animals
+        // Should return first two animal batches
         expect(res.body.length).toBe(2);
         res.body.forEach((animalBatch) => {
           expect(animalBatch.farm_id).toBe(mainFarm.farm_id);

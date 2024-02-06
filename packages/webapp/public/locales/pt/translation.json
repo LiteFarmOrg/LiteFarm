@@ -978,7 +978,7 @@
     "PHONE_ERROR": "Por favor entre um número de telefone válido",
     "ROLE": "Função",
     "TITLE": "Convide um usuário",
-    "WAGE": "Salário/vencimento por hora trabalhada",
+    "WAGE": "Salário por hora",
     "WAGE_ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
     "WAGE_RANGE_ERROR": "O salário deve ser um número positivo menor que 999.999.999"
   },

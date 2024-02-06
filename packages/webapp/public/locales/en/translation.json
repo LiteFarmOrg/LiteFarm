@@ -883,6 +883,10 @@
   "HOME": {
     "GREETING": "Good day, "
   },
+  "HOVERPILL": {
+    "PLUS_OTHERS_COUNT_one": "+ {{count}} other",
+    "PLUS_OTHERS_COUNT_other": "+ {{count}} others"
+  },
   "INSIGHTS": {
     "BIODIVERSITY": {
       "AMPHIBIANS": "Amphibians",

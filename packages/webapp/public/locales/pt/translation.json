@@ -881,6 +881,10 @@
   "HOME": {
     "GREETING": "Bom dia, "
   },
+  "HOVERPILL": {
+    "PLUS_OTHERS_COUNT_one": "MISSING",
+    "PLUS_OTHERS_COUNT_other": "MISSING"
+  },
   "INSIGHTS": {
     "BIODIVERSITY": {
       "AMPHIBIANS": "Anfíbios",

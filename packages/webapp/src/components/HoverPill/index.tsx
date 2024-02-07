@@ -14,30 +14,51 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { Tooltip } from '@mui/material';
 import styles from './styles.module.scss';
 import { Semibold, Main } from '../Typography';
 
-interface HoverPillProps {
+export interface HoverPillProps {
   items: string[];
 }
 
 export const HoverPill = ({ items }: HoverPillProps) => {
   const { t } = useTranslation();
 
+  const hoverContent = (
+    <>
+      {items.map((item, index) => (
+        <Main key={index} className={styles.detailText}>
+          {item}
+        </Main>
+      ))}
+    </>
+  );
+
   return (
-    <div className={styles.container}>
+    <Tooltip
+      title={hoverContent}
+      placement="bottom-end"
+      classes={{
+        tooltip: styles.hoverDetails,
+      }}
+      // https://mui.com/material-ui/react-tooltip/#distance-from-anchor
+      PopperProps={{
+        modifiers: [
+          {
+            name: 'offset',
+            options: {
+              offset: [0, -8],
+            },
+          },
+        ],
+      }}
+    >
       <div className={styles.pill}>
         <Semibold className={styles.pillText}>
           {t('HOVERPILL.PLUS_OTHERS_COUNT', { count: items.length })}
         </Semibold>
       </div>
-      <div className={styles.hoverDetails}>
-        {items.map((item, index) => (
-          <Main key={index} className={styles.detailText}>
-            {item}
-          </Main>
-        ))}
-      </div>
-    </div>
+    </Tooltip>
   );
 };

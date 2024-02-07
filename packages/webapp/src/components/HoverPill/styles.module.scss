@@ -13,31 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.container {
-  position: relative;
-  display: inline-flex;
-  justify-content: flex-end;
-
-  .hoverDetails {
-    display: none;
-  }
-}
-
-.container:hover {
-  .hoverDetails {
-    display: inline-flex;
-  }
-
-  .pill {
-    background: var(--blue700, #0669e1);
-    box-shadow: 0px 1px 0px 0px #032d61; // new colour
-  }
-
-  .pillText {
-    color: var(--blue200, #e9f3ff);
-  }
-}
-
 .pillText,
 .detailText {
   font-family: 'Open Sans';
@@ -64,8 +39,18 @@
   color: #032d61; // new colour
 }
 
+.pill:hover {
+  background: var(--blue700, #0669e1);
+  box-shadow: 0px 1px 0px 0px #032d61; // new colour
+
+  .pillText {
+    color: var(--blue200, #e9f3ff);
+  }
+}
+
 .hoverDetails {
   padding: 8px 16px;
+  display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
@@ -75,12 +60,8 @@
   border-radius: 8px;
   background: var(--white, #fff);
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
-
-  position: absolute;
-  top: calc(100% + 4px);
-  z-index: 1; // should appear above table content
 }
 
-.detailItem {
+.detailText {
   color: #000;
 }

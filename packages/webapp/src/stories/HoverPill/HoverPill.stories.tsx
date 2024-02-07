@@ -43,6 +43,9 @@ const meta: Meta<HoverPillStoryProps> = {
     ),
     ...componentDecoratorsFullHeight,
   ],
+
+  // To reduce the height of the docs page canvas when using 100vh decorator
+  // See https://github.com/storybookjs/storybook/issues/13765
   parameters: {
     docs: {
       story: {

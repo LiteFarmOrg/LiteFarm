@@ -33,17 +33,17 @@
 
   border-radius: 48px;
   background: var(--blue200, #e9f3ff);
-  box-shadow: 0px 1px 0px 0px rgba(3, 45, 97, 0.1); // new colour #032d61
+  box-shadow: 0px 1px 0px 0px rgba(3, 45, 97, 0.1); // rgba of --Colors-Accent---singles-Blue-dark
 }
 
 .pillText {
   font-weight: 700;
-  color: #032d61; // new colour
+  color: var(--Colors-Accent---singles-Blue-dark, #032d61);
 }
 
 .pill:hover {
   background: var(--blue700, #0669e1);
-  box-shadow: 0px 1px 0px 0px #032d61; // new colour
+  box-shadow: 0px 1px 0px 0px var(--Colors-Accent---singles-Blue-dark, #032d61);
 
   .pillText {
     color: var(--blue200, #e9f3ff);

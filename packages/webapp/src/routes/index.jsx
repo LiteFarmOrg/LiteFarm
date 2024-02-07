@@ -38,6 +38,7 @@ const People = React.lazy(() => import('../containers/Profile/People/People'));
 const EditUser = React.lazy(() => import('../containers/Profile/EditUser'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
 const Finances = React.lazy(() => import('./FinancesRoutes'));
+const Animals = React.lazy(() => import('./AnimalsRoutes'));
 const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
 const PasswordResetAccount = React.lazy(() => import('../containers/PasswordResetAccount'));
 const InviteSignUp = React.lazy(() => import('../containers/InviteSignUp'));
@@ -609,6 +610,7 @@ const Routes = ({ isCompactSideMenu }) => {
               component={NotificationReadOnly}
             />
             <Route path="/finances/*" exact component={Finances} />
+            <Route path="/animals/*" exact component={Animals} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
               to={'/'}
@@ -898,6 +900,7 @@ const Routes = ({ isCompactSideMenu }) => {
               component={NotificationReadOnly}
             />
             <Route path="/finances" component={Finances} />
+            <Route path="/animals/*" exact component={Animals} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>
@@ -996,6 +999,7 @@ const Routes = ({ isCompactSideMenu }) => {
               exact
               component={NotificationReadOnly}
             />
+            <Route path="/animals/*" exact component={Animals} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>

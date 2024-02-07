@@ -16,9 +16,10 @@
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { useTheme } from '@mui/styles';
+import { useMediaQuery } from '@mui/material';
 import { setPersistedPaths } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import history from '../../../history';
-import useIsAboveBreakpoint from '../../../hooks/useIsAboveBreakpoint';
 import DropdownButton from '../../Form/DropDownButton';
 import FloatingButtonMenu from '../../Menu/FloatingButtonMenu';
 import FloatingMenu from '../../Menu/FloatingButtonMenu/FloatingMenu';
@@ -58,7 +59,8 @@ Menu.displayName = 'Menu';
 
 export default function AddTransactionButton() {
   const { t } = useTranslation();
-  const isAboveBreakPoint = useIsAboveBreakpoint(`(min-width: 856px)`);
+  const theme = useTheme();
+  const isAboveBreakPoint = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
     <>

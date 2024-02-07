@@ -18,8 +18,8 @@
 
 // Animals
 
+export const ANIMALS_URL = '/animals';
 export const ANIMALS_HOME_URL = '/animals/inventory';
-export const ANIMALS_INVENTORY_URL = '/animals/inventory';
 export const ANIMALS_LOCATION_URL = '/animals/location';
 export const ANIMALS_GROUPS_URL = '/animals/groups';
 

@@ -32,8 +32,8 @@ import {
   ACTUAL_REVENUE_URL,
   ANIMALS_GROUPS_URL,
   ANIMALS_HOME_URL,
-  ANIMALS_INVENTORY_URL,
   ANIMALS_LOCATION_URL,
+  ANIMALS_URL,
   ESTIMATED_REVENUE_URL,
   FINANCES_HOME_URL,
   FINANCES_URL,
@@ -58,12 +58,12 @@ export const useGetMenuItems = () => {
       {
         label: t('MENU.ANIMALS'),
         icon: <AnimalsIcon />,
-        path: ANIMALS_HOME_URL,
+        path: ANIMALS_URL,
         key: 'animals',
         subMenu: [
           {
             label: t('MENU.ANIMALS_INVENTORY'),
-            path: ANIMALS_INVENTORY_URL,
+            path: ANIMALS_HOME_URL,
             key: 'animals_inventory',
           },
           {

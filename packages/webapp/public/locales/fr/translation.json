@@ -883,8 +883,8 @@
     "GREETING": "Bonjour, "
   },
   "HOVERPILL": {
-    "PLUS_OTHERS_COUNT_one": "MISSING",
-    "PLUS_OTHERS_COUNT_other": "MISSING"
+    "PLUS_OTHERS_COUNT_one": "autre",
+    "PLUS_OTHERS_COUNT_other": "autres"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {

@@ -979,7 +979,7 @@
     "PHONE_ERROR": "Por favor ingrese un número de teléfono válido",
     "ROLE": "Rol",
     "TITLE": "Invitar a un usuario",
-    "WAGE": "Salario",
+    "WAGE": "Salario por hora",
     "WAGE_ERROR": "Salario debe ser válido, no números decimales negativos",
     "WAGE_RANGE_ERROR": "El salario debe ser un número positivo inferior a 999,999,999"
   },

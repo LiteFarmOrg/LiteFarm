@@ -980,7 +980,7 @@
     "PHONE_ERROR": "Veuillez entrer un numéro de téléphone valide",
     "ROLE": "Rôle",
     "TITLE": "Inviter un utilisateur",
-    "WAGE": "Salaire",
+    "WAGE": "Salaire horaire",
     "WAGE_ERROR": "Le salaire doit être un nombre décimal valide et non négatif",
     "WAGE_RANGE_ERROR": "Le salaire doit être un nombre positif inférieur à 999\u00a0999\u00a0999"
   },

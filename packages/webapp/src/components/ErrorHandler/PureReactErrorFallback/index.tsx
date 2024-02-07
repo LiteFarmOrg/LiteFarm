@@ -14,10 +14,11 @@
  */
 
 import { useTranslation, Trans } from 'react-i18next';
+import { useTheme } from '@mui/styles';
+import { useMediaQuery } from '@mui/material';
 import styles from './styles.module.scss';
 import { Title, Main } from '../../Typography';
 import TextButton from '../../Form/Button/TextButton';
-import useIsAboveBreakpoint from '../../../hooks/useIsAboveBreakpoint';
 import { ReactComponent as Background } from '../../../assets/images/errorFallback/background.svg';
 import { ReactComponent as MobileBackground } from '../../../assets/images/errorFallback/background_mobile.svg';
 import { ReactComponent as FarmerDesktop } from '../../../assets/images/errorFallback/farmer_desktop.svg';
@@ -38,7 +39,8 @@ export const PureReactErrorFallback = ({
 }: PureReactErrorFallbackProps) => {
   const { t } = useTranslation();
 
-  const isDesktop = useIsAboveBreakpoint('(min-width: 600px)');
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
     <div className={styles.container}>

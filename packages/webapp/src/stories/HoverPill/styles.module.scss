@@ -15,12 +15,33 @@
 
 .wrapper {
   position: relative;
-  height: 300px;
+  height: 100%;
   width: 100%;
-  padding-left: 150px;
-  padding-top: 100px;
+  display: flex;
+  padding: 24px;
+}
 
-  .note {
-    padding-top: 32px;
-  }
+.center {
+  align-items: center;
+  justify-content: center;
+}
+
+.top-left {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.top-right {
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.bottom-left {
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.bottom-right {
+  align-items: flex-end;
+  justify-content: flex-end;
 }

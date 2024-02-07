@@ -15,37 +15,52 @@
 
 import { ReactNode } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import { componentDecorators } from '../Pages/config/Decorators';
-import { HoverPill } from '../../components/HoverPill';
-import { Main } from '../../components/Typography';
+import clsx from 'clsx';
+import { componentDecoratorsFullHeight } from '../Pages/config/Decorators';
+import { HoverPill, HoverPillProps } from '../../components/HoverPill';
 import styles from './styles.module.scss';
 
+type HoverPillStoryProps = HoverPillProps & {
+  position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center';
+};
+
 // https://storybook.js.org/docs/writing-stories/typescript
-const meta: Meta<typeof HoverPill> = {
+const meta: Meta<HoverPillStoryProps> = {
   title: 'Components/HoverPill',
   component: HoverPill,
+  argTypes: {
+    position: {
+      control: 'select',
+      options: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'center'],
+      description: 'Position of the hover pill within the Storybook frame',
+    },
+  },
   decorators: [
-    (Story) => (
-      <Wrapper>
+    (Story, context) => (
+      <Wrapper position={context.args.position}>
         <Story />
       </Wrapper>
     ),
-    ...componentDecorators,
+    ...componentDecoratorsFullHeight,
   ],
+  parameters: {
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: 300,
+      },
+    },
+  },
 };
 export default meta;
 
 interface WrapperProps {
   children: ReactNode;
+  position?: string;
 }
 
-const Wrapper = ({ children }: WrapperProps) => {
-  return (
-    <div className={styles.wrapper}>
-      {children}
-      <Main className={styles.note}>Underlying content</Main>
-    </div>
-  );
+const Wrapper = ({ children, position = 'center' }: WrapperProps) => {
+  return <div className={clsx(styles.wrapper, styles[position])}>{children}</div>;
 };
 
 type Story = StoryObj<typeof HoverPill>;

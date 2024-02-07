@@ -839,10 +839,10 @@
     "MANAGE_CUSTOM_TYPE": "Manage custom type",
     "REPORT": {
       "DATES": "Dates",
+      "FILE_TITLE": "Financial Report",
       "SETTINGS": "Export Settings",
       "TRANSACTION": "Transaction",
-      "TRANSACTIONS": "Transactions",
-      "FILE_TITLE": "Financial Report"
+      "TRANSACTIONS": "Transactions"
     },
     "REVENUE": "Revenue",
     "SEARCH": {
@@ -1204,6 +1204,10 @@
   },
   "MENU": {
     "ACTUAL_REVENUES": "Actual revenues",
+    "ANIMALS": "Animals",
+    "ANIMALS_GROUPS": "Groups",
+    "ANIMALS_INVENTORY": "Inventory",
+    "ANIMALS_LOCATION": "Locations",
     "CERTIFICATIONS": "Certifications",
     "CROPS": "Crops",
     "DOCUMENTS": "Documents",

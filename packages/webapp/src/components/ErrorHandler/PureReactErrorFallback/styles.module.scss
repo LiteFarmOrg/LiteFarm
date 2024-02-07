@@ -77,7 +77,7 @@
 }
 
 .title {
-  color: #16423d; /* Figma's teal 900 on this page is not is not the app's teal 900 -- this should be checked */
+  color: var(--Colors-Primary-Primary-teal-900, #16423d);
   text-align: center;
   font-size: 28px;
   font-weight: 600;
@@ -111,7 +111,7 @@
 
   font-size: 18px;
   font-weight: 700;
-  color: #16423d; /* As above; teal 900 is not same as app version */
+  color: var(--Colors-Primary-Primary-teal-900, #16423d);
 
   @include xs-breakpoint {
     font-size: 16px;
@@ -133,7 +133,7 @@
 }
 
 .email {
-  color: #633700; // new
+  color: var(--Colors-Accent---singles-Brown-dark, #633700);
   font-weight: 700;
   text-decoration: none;
 }

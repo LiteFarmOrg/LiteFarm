@@ -2244,9 +2244,68 @@ async function animalFactory(
   const [{ id: default_type_id }] = defaultAnimalType;
 
   const base = baseProperties(user_id);
+
   return knex('animal')
     .insert({ farm_id, default_type_id, ...animal, ...base })
     .returning('*');
+}
+
+function fakeAnimalBatch(defaultData = {}) {
+  const name = faker.lorem.word();
+  const count = faker.datatype.number({ min: 2 });
+  return {
+    name,
+    count,
+    sex_detail: [],
+    ...defaultData,
+  };
+}
+
+async function animal_batchFactory(
+  {
+    promisedFarm = farmFactory(),
+    promisedDefaultAnimalType = default_animal_typeFactory(),
+    promisedDefaultAnimalBreed = default_animal_breedFactory(),
+    properties = {},
+  } = {},
+  animalBatch = fakeAnimalBatch(properties),
+) {
+  const [farm, user, defaultAnimalType, defaultAnimalBreed] = await Promise.all([
+    promisedFarm,
+    usersFactory(),
+    promisedDefaultAnimalType,
+    promisedDefaultAnimalBreed,
+  ]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const [{ id: default_type_id }] = defaultAnimalType;
+  const [{ id: default_breed_id }] = defaultAnimalBreed;
+
+  const base = baseProperties(user_id);
+  return knex
+    .transaction(async (trx) => {
+      const sex_detail = animalBatch.sex_detail;
+      delete animalBatch.sex_detail;
+
+      const batch = await trx
+        .insert({ farm_id, default_type_id, default_breed_id, ...animalBatch, ...base })
+        .into('animal_batch')
+        .returning('*');
+
+      let details = [];
+      for (const detail of sex_detail) {
+        const res = await trx
+          .insert({ ...detail, animal_batch_id: batch[0].id })
+          .into('animal_batch_sex_detail')
+          .returning('*');
+        details.push(res[0]);
+      }
+      batch[0].sex_detail = details;
+      return batch;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 }
 
 async function animal_identifier_colorFactory() {
@@ -2268,39 +2327,6 @@ async function animal_sexFactory() {
 
 async function animal_originFactory() {
   return knex('animal_origin').insert({ key: faker.lorem.word() }).returning('*');
-}
-
-function fakeAnimalBatch(defaultData = {}) {
-  const name = faker.lorem.word();
-  const count = faker.datatype.number();
-  return {
-    name,
-    count,
-    ...defaultData,
-  };
-}
-
-async function animal_batchFactory(
-  {
-    promisedFarm = farmFactory(),
-    promisedDefaultAnimalType = default_animal_typeFactory(),
-    properties = {},
-  } = {},
-  animalBatch = fakeAnimalBatch(properties),
-) {
-  const [farm, user, defaultAnimalType] = await Promise.all([
-    promisedFarm,
-    usersFactory(),
-    promisedDefaultAnimalType,
-  ]);
-  const [{ farm_id }] = farm;
-  const [{ user_id }] = user;
-  const [{ id: default_type_id }] = defaultAnimalType;
-
-  const base = baseProperties(user_id);
-  return knex('animal_batch')
-    .insert({ farm_id, default_type_id, ...animalBatch, ...base })
-    .returning('*');
 }
 
 function fakeAnimalGroup(defaultData = {}) {
@@ -2496,6 +2522,7 @@ export default {
   fakeCustomAnimalBreed,
   default_animal_breedFactory,
   fakeAnimal,
+  fakeAnimalBatch,
   animalFactory,
   animal_batchFactory,
   animal_identifier_colorFactory,

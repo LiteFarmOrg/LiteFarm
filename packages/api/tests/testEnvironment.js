@@ -119,6 +119,7 @@ async function tableCleanup(knex) {
     DELETE FROM "animal_batch_group_relationship";
     DELETE FROM "animal_group";
     DELETE FROM "animal";
+    DELETE FROM "animal_batch_sex_detail";
     DELETE FROM "animal_batch";
     DELETE FROM "animal_sex";
     DELETE FROM "animal_identifier_color";

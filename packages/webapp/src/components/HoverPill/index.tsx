@@ -35,6 +35,18 @@ export const HoverPill = ({ items }: HoverPillProps) => {
     </>
   );
 
+  // https://mui.com/material-ui/react-tooltip/#distance-from-anchor
+  const PopperProps = {
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, -8],
+        },
+      },
+    ],
+  };
+
   return (
     <Tooltip
       title={hoverContent}
@@ -42,17 +54,9 @@ export const HoverPill = ({ items }: HoverPillProps) => {
       classes={{
         tooltip: styles.hoverDetails,
       }}
-      // https://mui.com/material-ui/react-tooltip/#distance-from-anchor
-      PopperProps={{
-        modifiers: [
-          {
-            name: 'offset',
-            options: {
-              offset: [0, -8],
-            },
-          },
-        ],
-      }}
+      PopperProps={PopperProps}
+      enterTouchDelay={0}
+      leaveTouchDelay={900000}
     >
       <div className={styles.pill}>
         <Semibold className={styles.pillText}>

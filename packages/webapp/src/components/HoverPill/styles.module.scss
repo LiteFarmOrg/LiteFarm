@@ -15,6 +15,7 @@
 
 .pillText,
 .detailText {
+  user-select: none;
   font-family: 'Open Sans';
   font-size: 14px;
   line-height: normal;
@@ -23,6 +24,7 @@
 
 .pill {
   cursor: default;
+  user-select: none;
   display: inline-flex;
   padding: 2px 8px;
   justify-content: center;

@@ -1212,6 +1212,10 @@
   },
   "MENU": {
     "ACTUAL_REVENUES": "Ingresos reales",
+    "ANIMALS": "MISSING",
+    "ANIMALS_GROUPS": "MISSING",
+    "ANIMALS_INVENTORY": "MISSING",
+    "ANIMALS_LOCATION": "MISSING",
     "CERTIFICATIONS": "Certificaciones",
     "CROPS": "Cultivos",
     "DOCUMENTS": "Documentos",

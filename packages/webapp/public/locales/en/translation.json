@@ -1211,6 +1211,10 @@
   },
   "MENU": {
     "ACTUAL_REVENUES": "Actual revenues",
+    "ANIMALS": "Animals",
+    "ANIMALS_GROUPS": "Groups",
+    "ANIMALS_INVENTORY": "Inventory",
+    "ANIMALS_LOCATION": "Locations",
     "CERTIFICATIONS": "Certifications",
     "CROPS": "Crops",
     "DOCUMENTS": "Documents",

@@ -838,7 +838,7 @@
     },
     "REPORT": {
       "DATES": "Dates",
-      "FILE_TITLE": "MISSING",
+      "FILE_TITLE": "Rapport financier",
       "SETTINGS": "Exporter les paramètres",
       "TRANSACTION": "Transaction",
       "TRANSACTIONS": "Transactions"
@@ -1206,10 +1206,10 @@
   },
   "MENU": {
     "ACTUAL_REVENUES": "Chiffres d'affaires réels",
-    "ANIMALS": "MISSING",
-    "ANIMALS_GROUPS": "MISSING",
-    "ANIMALS_INVENTORY": "MISSING",
-    "ANIMALS_LOCATION": "MISSING",
+    "ANIMALS": "Animaux",
+    "ANIMALS_GROUPS": "Groupes",
+    "ANIMALS_INVENTORY": "Inventaire",
+    "ANIMALS_LOCATION": "Emplacements",
     "CERTIFICATIONS": "Certifications",
     "CROPS": "Cultures",
     "DOCUMENTS": "Documents",

@@ -16,6 +16,7 @@
 import { ReactComponent as MapIcon } from '../assets/images/nav/map.svg';
 import { ReactComponent as TasksIcon } from '../assets/images/nav/tasks.svg';
 import { ReactComponent as CropsIcon } from '../assets/images/nav/crops.svg';
+import { ReactComponent as AnimalsIcon } from '../assets/images/nav/animals.svg';
 import { ReactComponent as FinancesIcon } from '../assets/images/nav/finances.svg';
 import { ReactComponent as InsightsIcon } from '../assets/images/nav/insights.svg';
 import { ReactComponent as DocumentsIcon } from '../assets/images/nav/documents.svg';
@@ -29,6 +30,10 @@ import { isAdminSelector } from '../containers/userFarmSlice';
 import styles from '../components/Navigation/SideMenu/styles.module.scss';
 import {
   ACTUAL_REVENUE_URL,
+  ANIMALS_GROUPS_URL,
+  ANIMALS_INVENTORY_URL,
+  ANIMALS_LOCATION_URL,
+  ANIMALS_URL,
   ESTIMATED_REVENUE_URL,
   FINANCES_HOME_URL,
   FINANCES_URL,
@@ -49,6 +54,29 @@ export const useGetMenuItems = () => {
         icon: <CropsIcon className={styles.cropsIcon} />,
         path: '/crop_catalogue',
         key: 'crops',
+      },
+      {
+        label: t('MENU.ANIMALS'),
+        icon: <AnimalsIcon />,
+        path: ANIMALS_URL,
+        key: 'animals',
+        subMenu: [
+          {
+            label: t('MENU.ANIMALS_INVENTORY'),
+            path: ANIMALS_INVENTORY_URL,
+            key: 'animals_inventory',
+          },
+          {
+            label: t('MENU.ANIMALS_LOCATION'),
+            path: ANIMALS_LOCATION_URL,
+            key: 'animals_location',
+          },
+          {
+            label: t('MENU.ANIMALS_GROUPS'),
+            path: ANIMALS_GROUPS_URL,
+            key: 'animals_groups',
+          },
+        ],
       },
       { label: t('MENU.INSIGHTS'), icon: <InsightsIcon />, path: '/Insights', key: 'insights' },
     ];

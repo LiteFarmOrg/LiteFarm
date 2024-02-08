@@ -31,7 +31,7 @@ import styles from '../components/Navigation/SideMenu/styles.module.scss';
 import {
   ACTUAL_REVENUE_URL,
   ANIMALS_GROUPS_URL,
-  ANIMALS_HOME_URL,
+  ANIMALS_INVENTORY_URL,
   ANIMALS_LOCATION_URL,
   ANIMALS_URL,
   ESTIMATED_REVENUE_URL,
@@ -63,7 +63,7 @@ export const useGetMenuItems = () => {
         subMenu: [
           {
             label: t('MENU.ANIMALS_INVENTORY'),
-            path: ANIMALS_HOME_URL,
+            path: ANIMALS_INVENTORY_URL,
             key: 'animals_inventory',
           },
           {

@@ -16,7 +16,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import {
-  ANIMALS_HOME_URL,
+  ANIMALS_INVENTORY_URL,
   ANIMALS_LOCATION_URL,
   ANIMALS_GROUPS_URL,
 } from '../util/siteMapConstants';
@@ -26,7 +26,7 @@ const Groups = React.lazy(() => import('../containers/Animals/Groups'));
 
 const AnimalsRoutes = () => (
   <Switch>
-    <Route path={ANIMALS_HOME_URL} exact component={Inventory} />
+    <Route path={ANIMALS_INVENTORY_URL} exact component={Inventory} />
     <Route path={ANIMALS_LOCATION_URL} exact component={Location} />
     <Route path={ANIMALS_GROUPS_URL} exact component={Groups} />
   </Switch>

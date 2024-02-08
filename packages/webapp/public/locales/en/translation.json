@@ -490,6 +490,13 @@
     "LOCATION": "Location",
     "TASK": "Task"
   },
+  "ERROR_FALLBACK": {
+    "CONTACT": "Still stuck in the mud? No worries, we're here to pull you out: <1>{{supportEmail}}</1>",
+    "MAIN": "Sometimes LiteFarm gets lost and just needs a bit of help. One of these usually resolves the problem:",
+    "RELOAD": "Reload the page",
+    "SUBTITLE": "Don't worry, it's not you, it's us.",
+    "TITLE": "Oops! Seems like this page has wandered off!"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "Add custom expense",

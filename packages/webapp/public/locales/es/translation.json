@@ -489,6 +489,13 @@
     "LOCATION": "ubicación",
     "TASK": "tarea"
   },
+  "ERROR_FALLBACK": {
+    "CONTACT": "MISSING",
+    "MAIN": "MISSING",
+    "RELOAD": "MISSING",
+    "SUBTITLE": "MISSING",
+    "TITLE": "MISSING"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "Agregar gasto personalizado",

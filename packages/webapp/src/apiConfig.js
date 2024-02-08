@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2022 LiteFarm.org
+ *  Copyright 2019-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -74,6 +74,7 @@ export const alertsUrl = `${URI}/notification_user/subscribe`;
 export const notificationsUrl = `${URI}/notification_user`;
 export const clearAlertsUrl = `${URI}/notification_user/clear_alerts`;
 export const sensorUrl = `${URI}/sensor`;
+export const animalsUrl = `${URI}/animals`;
 export const url = URI;
 
 export default {

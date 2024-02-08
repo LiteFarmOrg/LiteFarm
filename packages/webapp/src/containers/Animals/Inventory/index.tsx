@@ -13,8 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import Layout from '../../../components/Layout';
+import { Title } from '../../../components/Typography';
+import { useGetAnimalsQuery } from '../../../store/api/apiSlice';
+
 function AnimalInventory() {
-  return null;
+  const { data: animals } = useGetAnimalsQuery();
+
+  return (
+    <Layout>
+      <Title>Animals</Title>
+      {animals &&
+        animals.map((animal, index) => <pre key={index}>{JSON.stringify(animal, null, 2)}</pre>)}
+    </Layout>
+  );
 }
 
 export default AnimalInventory;

@@ -490,6 +490,13 @@
     "LOCATION": "emplacement",
     "TASK": "tâche"
   },
+  "ERROR_FALLBACK": {
+    "CONTACT": "Toujours embourbé ? Pas de souci, nous sommes là pour vous sortir de là:",
+    "MAIN": "Parfois, LiteFarm se perd et a juste besoin d'un peu d'aide. L'une de ces solutions résout généralement le problème:",
+    "RELOAD": "Rechargez la page",
+    "SUBTITLE": "Ne vous inquiétez pas, ce n'est pas de votre faute, c'est la nôtre.",
+    "TITLE": "Oups ! On dirait que cette page s'est égarée!"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "Ajouter une dépense personnalisée",
@@ -838,10 +845,10 @@
     },
     "REPORT": {
       "DATES": "Dates",
+      "FILE_TITLE": "MISSING",
       "SETTINGS": "Exporter les paramètres",
       "TRANSACTION": "Transaction",
-      "TRANSACTIONS": "Transactions",
-      "FILE_TITLE": "MISSING"
+      "TRANSACTIONS": "Transactions"
     },
     "REVENUE": "Recette",
     "SEARCH": {
@@ -984,7 +991,7 @@
     "PHONE_ERROR": "Veuillez entrer un numéro de téléphone valide",
     "ROLE": "Rôle",
     "TITLE": "Inviter un utilisateur",
-    "WAGE": "Salaire",
+    "WAGE": "Salaire horaire",
     "WAGE_ERROR": "Le salaire doit être un nombre décimal valide et non négatif",
     "WAGE_RANGE_ERROR": "Le salaire doit être un nombre positif inférieur à 999\u00a0999\u00a0999"
   },
@@ -1408,9 +1415,9 @@
     "CLEAR_ALL": "Supprimer tout"
   },
   "RELEASE": {
-    "BETTER": "MISSING",
+    "BETTER": "LiteFarm vient de s'améliorer!",
     "LITEFARM_UPDATED": "LiteFarm v{{version}} est maintenant disponible\u00a0!",
-    "NOTES": "MISSING"
+    "NOTES": "Notes de version"
   },
   "REPEAT_PLAN": {
     "AFTER": "Après",

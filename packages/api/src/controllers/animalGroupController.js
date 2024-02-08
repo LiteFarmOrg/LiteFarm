@@ -19,6 +19,7 @@ import AnimalGroupModel from '../models/animalGroupModel.js';
 import AnimalGroupRelationshipModel from '../models/animalGroupRelationshipModel.js';
 import AnimalBatchGroupRelationshipModel from '../models/animalBatchGroupRelationshipModel.js';
 import AnimalModel from '../models/animalModel.js';
+import AnimalBatchModel from '../models/animalBatchModel.js';
 
 const animalGroupController = {
   getFarmAnimalGroups() {
@@ -65,9 +66,12 @@ const animalGroupController = {
           return res.status(400).send('Animal ids and batch ids must be arrays');
         }
 
+        const relatedAnimalIdSet = new Set(related_animal_ids);
+        const relatedBatchIdSet = new Set(related_batch_ids);
+
         // Check ownership of animals
         const invalidAnimalIds = [];
-        for (const animalId of related_animal_ids) {
+        for (const animalId of relatedAnimalIdSet) {
           const animal = await AnimalModel.query(trx)
             .findById(animalId)
             .where({ farm_id })
@@ -78,13 +82,25 @@ const animalGroupController = {
           }
         }
 
-        // TODO: similar ownership of batches needs to be done once a Model exists, and returned in the same error response
+        // Check ownership of batches
+        const invalidBatchIds = [];
+        for (const batchId of relatedBatchIdSet) {
+          const animalBatch = await AnimalBatchModel.query(trx)
+            .findById(batchId)
+            .where({ farm_id })
+            .whereNotDeleted();
 
-        if (invalidAnimalIds.length) {
+          if (!animalBatch) {
+            invalidBatchIds.push(batchId);
+          }
+        }
+
+        if (invalidAnimalIds.length || invalidBatchIds.length) {
           await trx.rollback();
           return res.status(400).json({
             error: 'Invalid ids',
-            invalidIds: invalidAnimalIds,
+            invalidAnimalIds,
+            invalidBatchIds,
             message:
               'Some animal IDs or animal batch IDs do not exist or are not associated with the given farm.',
           });
@@ -113,14 +129,14 @@ const animalGroupController = {
         const groupId = result.id;
 
         // Insert into join tables
-        for (const animalId of related_animal_ids) {
+        for (const animalId of relatedAnimalIdSet) {
           await AnimalGroupRelationshipModel.query(trx).insert({
             animal_id: animalId,
             animal_group_id: groupId,
           });
         }
 
-        for (const batchId of related_batch_ids) {
+        for (const batchId of relatedBatchIdSet) {
           await AnimalBatchGroupRelationshipModel.query(trx).insert({
             animal_batch_id: batchId,
             animal_group_id: groupId,

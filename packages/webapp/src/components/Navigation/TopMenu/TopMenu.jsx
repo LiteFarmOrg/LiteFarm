@@ -33,6 +33,7 @@ import {
 } from '@mui/material';
 import Alert from '../../../containers/Navigation/Alert';
 import { useTranslation } from 'react-i18next';
+import { useSectionHeader } from '../useSectionHeaders';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
@@ -40,6 +41,7 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const selectedLanguage = getLanguageFromLocalStorage();
+  const sectionHeader = useSectionHeader(history.location.pathname);
 
   const [openMenu, setOpenMenu] = useState(false);
   const toggleMenu = () => {
@@ -208,7 +210,9 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
   const showMainNavigation = (
     <>
       {isMobile && burgerMenuIcon}
-      <Typography sx={{ flexGrow: 1 }} />
+      <Typography sx={{ flexGrow: 1 }} className={styles.sectionHeader}>
+        {!isMobile && sectionHeader}
+      </Typography>
       <IconButton
         data-cy="home-notificationButton"
         edge="end"

@@ -490,6 +490,13 @@
     "LOCATION": "emplacement",
     "TASK": "tâche"
   },
+  "ERROR_FALLBACK": {
+    "CONTACT": "Toujours embourbé ? Pas de souci, nous sommes là pour vous sortir de là:",
+    "MAIN": "Parfois, LiteFarm se perd et a juste besoin d'un peu d'aide. L'une de ces solutions résout généralement le problème:",
+    "RELOAD": "Rechargez la page",
+    "SUBTITLE": "Ne vous inquiétez pas, ce n'est pas de votre faute, c'est la nôtre.",
+    "TITLE": "Oups ! On dirait que cette page s'est égarée!"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "Ajouter une dépense personnalisée",
@@ -1408,9 +1415,9 @@
     "CLEAR_ALL": "Supprimer tout"
   },
   "RELEASE": {
-    "BETTER": "MISSING",
+    "BETTER": "LiteFarm vient de s'améliorer!",
     "LITEFARM_UPDATED": "LiteFarm v{{version}} est maintenant disponible\u00a0!",
-    "NOTES": "MISSING"
+    "NOTES": "Notes de version"
   },
   "REPEAT_PLAN": {
     "AFTER": "Après",

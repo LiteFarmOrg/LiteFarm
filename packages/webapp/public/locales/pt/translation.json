@@ -489,6 +489,13 @@
     "LOCATION": "localização",
     "TASK": "tarefa"
   },
+  "ERROR_FALLBACK": {
+    "CONTACT": "MISSING",
+    "MAIN": "MISSING",
+    "RELOAD": "MISSING",
+    "SUBTITLE": "MISSING",
+    "TITLE": "MISSING"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "Adicionar despesa personalizada",
@@ -837,6 +844,7 @@
     },
     "REPORT": {
       "DATES": "Datas",
+      "FILE_TITLE": "MISSING",
       "SETTINGS": "Configurações de exportação",
       "TRANSACTION": "Transação",
       "TRANSACTIONS": "Transações"

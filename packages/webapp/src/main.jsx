@@ -17,6 +17,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Router } from 'react-router-dom';
 import history from './history';
 import homeSaga from './containers/saga';
@@ -73,6 +74,7 @@ import abandonAndCompleteManagementPlanSaga from './containers/Crop/CompleteMana
 import notificationSaga from './containers/Notification/saga';
 import errorHandlerSaga from './containers/ErrorHandler/saga';
 import App from './App';
+import ReactErrorFallback from './containers/ErrorHandler/ReactErrorFallback/';
 import { sagaMiddleware } from './store/sagaMiddleware';
 import { persistor, store } from './store/store';
 import { GlobalScss } from './components/GlobalScss';
@@ -153,11 +155,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <GlobalScss />
             <CssBaseline />
             <GoogleOAuthProvider clientId={clientId}>
-              <Router history={history}>
-                <>
-                  <App />
-                </>
-              </Router>
+              <ErrorBoundary FallbackComponent={ReactErrorFallback}>
+                <Router history={history}>
+                  <>
+                    <App />
+                  </>
+                </Router>
+              </ErrorBoundary>
             </GoogleOAuthProvider>
           </>
         </ThemeProvider>

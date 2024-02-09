@@ -28,8 +28,12 @@ import { STATUS } from '../../components/Forms/GeneralRevenue/constants';
 import { useTranslation } from 'react-i18next';
 import styles from '../../components/Forms/GeneralRevenue/styles.module.scss';
 import { useSelector } from 'react-redux';
-import { currentAndPlannedManagementPlansSelector } from '../managementPlanSlice';
 import { measurementSelector } from '../userFarmSlice';
+import {
+  allManagementPlansSelector,
+  currentAndPlannedManagementPlansSelector,
+} from '../managementPlanSlice';
+import { createSelector } from 'reselect';
 
 /**
  * Reformat the sale data for ease of use with react-hook-forms.
@@ -202,6 +206,22 @@ export const getCustomFormChildrenDefaultValues = (sale) => {
  * @param {Object} selectedTypeOption - The react select filter option that is currently selected.
  * @returns {JSX.Element|null} JSX elements for crop sale inputs and filter selection, or null if not a crop sale form.
  */
+
+const selectManagementPlans = createSelector(
+  [
+    allManagementPlansSelector,
+    currentAndPlannedManagementPlansSelector,
+    (_, cropVarietySale = []) => cropVarietySale,
+  ],
+  (allManagementPlans, currentAndPlannedManagementPlans, cropVarietySale) => {
+    const cropVarietyIds = new Set([
+      ...cropVarietySale.map((sale) => sale.crop_variety_id),
+      ...currentAndPlannedManagementPlans.map((mp) => mp.crop_variety_id),
+    ]);
+    return allManagementPlans.filter((mp) => cropVarietyIds.has(mp.crop_variety_id));
+  },
+);
+
 export default function useCropSaleInputs(
   reactHookFormFunctions,
   sale,
@@ -212,8 +232,9 @@ export default function useCropSaleInputs(
 ) {
   const { register, unregister, watch, getValues, setValue } = reactHookFormFunctions;
   const { t } = useTranslation();
-
-  const managementPlans = useSelector(currentAndPlannedManagementPlansSelector) || [];
+  const managementPlans = useSelector((state) =>
+    selectManagementPlans(state, sale?.crop_variety_sale),
+  );
   const system = useSelector(measurementSelector);
   const selectedRevenueType = revenueTypes?.find(
     (t) => t.revenue_type_id === selectedTypeOption?.value,

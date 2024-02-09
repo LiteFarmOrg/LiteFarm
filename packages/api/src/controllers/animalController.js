@@ -51,11 +51,6 @@ const animalController = {
         }
 
         for (const animal of req.body) {
-          if (!animal.identifier && !animal.name) {
-            await trx.rollback();
-            return res.status(400).send('Should send either animal name or identifier');
-          }
-
           if (!animal.default_type_id && !animal.custom_type_id) {
             await trx.rollback();
             return res.status(400).send('Should send either default_type_id or custom_type_id');

@@ -32,7 +32,7 @@ class AnimalBatchModel extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['farm_id', 'name', 'count'],
+      required: ['farm_id', 'count'],
       oneOf: [
         {
           required: ['default_type_id'],
@@ -49,7 +49,7 @@ class AnimalBatchModel extends baseModel {
         default_type_id: { type: ['integer', 'null'] },
         farm_id: { type: 'string' },
         id: { type: 'integer' },
-        name: { type: 'string' },
+        name: { type: ['string', 'null'] },
         notes: { type: ['string', 'null'] },
         ...this.baseProperties,
       },

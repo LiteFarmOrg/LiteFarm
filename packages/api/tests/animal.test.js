@@ -227,11 +227,12 @@ describe('Animal Tests', () => {
       expect(res.status).toBe(400);
     });
 
-    test('Should not be able to create an animal without name or identifier', async () => {
+    test('Should be able to create an animal without name and identifier', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const animal = mocks.fakeAnimal({
         name: null,
         identifier: null,
+        default_type_id: defaultTypeId,
       });
 
       const res = await postRequestAsPromise(
@@ -242,7 +243,7 @@ describe('Animal Tests', () => {
         [animal],
       );
 
-      expect(res.status).toBe(400);
+      expect(res.status).toBe(201);
     });
 
     test('Should not be able to create an animal without a type', async () => {

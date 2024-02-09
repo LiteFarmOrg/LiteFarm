@@ -281,7 +281,7 @@ describe('Animal Batch Tests', () => {
       expect(res.status).toBe(400);
     });
 
-    test('Should not be able to create an animal batch without a name', async () => {
+    test('Should be able to create an animal batch without a name', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const animalBatch = mocks.fakeAnimalBatch({
         name: null,
@@ -297,7 +297,7 @@ describe('Animal Batch Tests', () => {
         [animalBatch],
       );
 
-      expect(res.status).toBe(400);
+      expect(res.status).toBe(201);
     });
 
     test('Should not be able to create an animal batch without a type', async () => {

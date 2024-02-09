@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023-2024 LiteFarm.org
+ *  Copyright 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -33,7 +33,10 @@ export const api = createApi({
     responseHandler: 'content-type',
   }),
   tagTypes: [],
-  endpoints: (build) => ({}),
+  endpoints: (build) => ({
+    // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
+    // <ResultType, QueryArg>
+  }),
 });
 
 export const {} = api;

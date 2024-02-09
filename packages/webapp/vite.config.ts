@@ -43,4 +43,7 @@ export default defineConfig({
       '@shared': path.resolve(__dirname, '../shared'),
     },
   },
+  optimizeDeps: {
+    include: ['@mui/material/Tooltip'],
+  },
 });

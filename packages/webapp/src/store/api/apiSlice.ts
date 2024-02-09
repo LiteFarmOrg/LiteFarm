@@ -15,8 +15,8 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
-import { animalsUrl, url } from '../../apiConfig';
-import type { Animal } from './types';
+import { animalsUrl, animalBatchesUrl, animalGroupsUrl, url } from '../../apiConfig';
+import type { Animal, AnimalBatch, AnimalGroup } from './types';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -33,13 +33,21 @@ export const api = createApi({
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: ['Animals'],
+  tagTypes: ['Animals', 'AnimalBatches', 'AnimalGroups'],
   endpoints: (build) => ({
     getAnimals: build.query<Animal[], void>({
       query: () => `${animalsUrl}`,
       providesTags: ['Animals'],
     }),
+    getAnimalBatches: build.query<AnimalBatch[], void>({
+      query: () => `${animalBatchesUrl}`,
+      providesTags: ['AnimalBatches'],
+    }),
+    getAnimalGroups: build.query<AnimalGroup[], void>({
+      query: () => `${animalGroupsUrl}`,
+      providesTags: ['AnimalGroups'],
+    }),
   }),
 });
 
-export const { useGetAnimalsQuery } = api;
+export const { useGetAnimalsQuery, useGetAnimalBatchesQuery, useGetAnimalGroupsQuery } = api;

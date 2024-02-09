@@ -13,18 +13,39 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useDispatch } from 'react-redux';
+import {
+  useGetAnimalsQuery,
+  useGetAnimalBatchesQuery,
+  useGetAnimalGroupsQuery,
+  api,
+} from '../../../store/api/apiSlice';
 import Layout from '../../../components/Layout';
 import { Title } from '../../../components/Typography';
-import { useGetAnimalsQuery } from '../../../store/api/apiSlice';
 
 function AnimalInventory() {
+  const dispatch = useDispatch();
+
+  // For demonstration only! (remove to observe caching); force refresh via:
+  dispatch(api.util.invalidateTags(['Animals', 'AnimalBatches', 'AnimalGroups']));
+
   const { data: animals } = useGetAnimalsQuery();
+  const { data: animalBatches } = useGetAnimalBatchesQuery();
+  const { data: animalGroups } = useGetAnimalGroupsQuery();
 
   return (
     <Layout>
       <Title>Animals</Title>
       {animals &&
         animals.map((animal, index) => <pre key={index}>{JSON.stringify(animal, null, 2)}</pre>)}
+      <Title>Animal Batches</Title>
+      {animalBatches &&
+        animalBatches.map((batch, index) => (
+          <pre key={index}>{JSON.stringify(batch, null, 2)}</pre>
+        ))}
+      <Title>Animal Groups</Title>
+      {animalGroups &&
+        animalGroups.map((group, index) => <pre key={index}>{JSON.stringify(group, null, 2)}</pre>)}
     </Layout>
   );
 }

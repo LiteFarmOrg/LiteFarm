@@ -36,3 +36,25 @@ export interface Animal {
   sire: string | null;
   weaning_date: string | null;
 }
+
+export interface AnimalBatch {
+  id: number;
+  farm_id: string;
+  default_type_id: number | null;
+  custom_type_id: number | null;
+  default_breed_id: number | null;
+  custom_breed_id: number | null;
+  name: string;
+  notes: string | null;
+  count: number;
+  sex_detail: { sex_id: number; count: number }[];
+}
+
+export interface AnimalGroup {
+  id: number;
+  farm_id: string;
+  name: string;
+  notes: string | null;
+  related_animal_ids: number[];
+  related_batch_ids: number[];
+}

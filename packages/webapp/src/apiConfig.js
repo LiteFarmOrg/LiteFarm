@@ -75,6 +75,8 @@ export const notificationsUrl = `${URI}/notification_user`;
 export const clearAlertsUrl = `${URI}/notification_user/clear_alerts`;
 export const sensorUrl = `${URI}/sensor`;
 export const animalsUrl = `${URI}/animals`;
+export const animalBatchesUrl = `${URI}/animal_batches`;
+export const animalGroupsUrl = `${URI}/animal_groups`;
 export const url = URI;
 
 export default {
@@ -118,5 +120,8 @@ export default {
   alertsUrl,
   notificationsUrl,
   sensorUrl,
+  animalsUrl,
+  animalBatchesUrl,
+  animalGroupsUrl,
   url,
 };

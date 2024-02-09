@@ -155,6 +155,13 @@
     "WHAT_PLANTING_METHOD": "What is the transplanting method?",
     "WILD_CROP": "Wild crops"
   },
+  "ANIMAL": {
+    "ANIMAL_BREED": "BREED",
+    "ANIMAL_GROUPS": "GROUP",
+    "ANIMAL_IDENTIFICATION": "ANIMAL IDENTIFICATION",
+    "ANIMAL_LOCATIONS": "LOCATION",
+    "ANIMAL_TYPE": "TYPE"
+  },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
     "NUMBER_0F_BEDS": "# of beds",

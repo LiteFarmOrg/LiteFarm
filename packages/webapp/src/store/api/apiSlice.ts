@@ -35,6 +35,8 @@ export const api = createApi({
   }),
   tagTypes: ['Animals', 'AnimalBatches', 'AnimalGroups'],
   endpoints: (build) => ({
+    // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
+    // <ResultType, QueryArg>
     getAnimals: build.query<Animal[], void>({
       query: () => `${animalsUrl}`,
       providesTags: ['Animals'],

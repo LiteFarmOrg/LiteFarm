@@ -1572,6 +1572,11 @@
     "NO_RESULTS_FOR": "Aucun résultat pour <1>'{{searchTerm}}'",
     "ZERO": "Aucun résultat"
   },
+  "SECTION_HEADER": {
+    "ANIMALS_GROUPS": "MISSING",
+    "ANIMALS_INVENTORY": "MISSING",
+    "ANIMALS_LOCATION": "MISSING"
+  },
   "SENSOR": {
     "BRAND": "Marque",
     "BRAND_HELPTEXT": "Les marques avec lesquelles LiteFarm peut s’intégrer sont indiquées ci-dessous. Si vous ne souhaitez plus utiliser cette marque de capteur, essayez de retirer ce capteur.",

@@ -1570,6 +1570,11 @@
     "NO_RESULTS_FOR": "Sorry, we couldn't find any results for your search term <1>'{{searchTerm}}'</1>",
     "ZERO": "0 results"
   },
+  "SECTION_HEADER": {
+    "ANIMALS_GROUPS": "Animal groups",
+    "ANIMALS_INVENTORY": "Animal inventory",
+    "ANIMALS_LOCATION": "Animal locations"
+  },
   "SENSOR": {
     "BRAND": "Brand",
     "BRAND_HELPTEXT": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",

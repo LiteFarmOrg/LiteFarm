@@ -1,0 +1,89 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.summaryTiles {
+  color: var(--Colors-Secondary-Secondary-green-200, #c1e6d2);
+  font-family: 'Open Sans';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 4px;
+
+  // outline: 1px solid sandybrown;
+  align-self: stretch;
+}
+
+.totalCount,
+.typeCount {
+  height: 100%;
+  display: flex;
+  width: 56px;
+  padding: 8px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: -2px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+
+  border-radius: 10px 4px 4px 10px;
+  background: #0d2926; // not a named colour in Figma
+  box-shadow: 0px 1px 0px 0px var(--Colors-Secondary-Secondary-green-900, #325442);
+
+  .countText {
+    color: var(--Colors-Secondary-Secondary-green-200, #c1e6d2);
+    font-family: 'Open Sans';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+}
+
+.countLabel {
+  color: var(--Colors-Secondary-Secondary-green-200, #c1e6d2);
+  font-family: 'Open Sans';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.totalCount:hover,
+.typeCount:hover {
+  background: var(--Colors-Neutral-Neutral-900, #2b303a);
+  box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
+
+  .countText {
+    color: var(--Btn-primary-pristine, #ffcf54);
+    font-family: 'Open Sans';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+}
+
+.totalCount {
+  border-radius: 10px 4px 4px 10px;
+}
+
+.typeCount {
+  border-radius: 4px;
+}

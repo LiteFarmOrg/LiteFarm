@@ -23,6 +23,8 @@ import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 
+import { makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
+
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, _res, next) => {
@@ -134,6 +136,7 @@ describe('Animal Tests', () => {
         expect(res.body.length).toBe(2);
         res.body.forEach((animal) => {
           expect(animal.farm_id).toBe(mainFarm.farm_id);
+          expect(animal.internal_identifier).toBeGreaterThan(0);
         });
         expect(firstAnimal).toMatchObject(res.body[0]);
         expect(secondAnimal).toMatchObject(res.body[1]);
@@ -246,6 +249,26 @@ describe('Animal Tests', () => {
       expect(res.status).toBe(201);
     });
 
+    test('Unique internal_identifier should be added within the same farm_id between animals and animalBatches', async () => {
+      const [user] = await mocks.usersFactory();
+      const { existingAnimalsAndBatchesCountsPerFarm } = await makeFarmsWithAnimalsAndBatches(user);
+
+      for (const existingAnimalsAndBatches of existingAnimalsAndBatchesCountsPerFarm) {
+        const { farm, animalCount, batchCount } = existingAnimalsAndBatches;
+
+        // creat an animal for the farm
+        const animal = mocks.fakeAnimal({
+          farm_id: farm.farm_id,
+          default_type_id: defaultTypeId,
+        });
+        const res = await postRequestAsPromise({ user_id: user.user_id, farm_id: farm.farm_id }, [
+          animal,
+        ]);
+
+        expect(res.body[0].internal_identifier).toBe(animalCount + batchCount + 1);
+      }
+    });
+
     test('Should not be able to create an animal without a type', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const animal = mocks.fakeAnimal({
@@ -329,6 +352,36 @@ describe('Animal Tests', () => {
       );
 
       expect(res.status).toBe(400);
+    });
+  });
+
+  describe('Animal model tests', () => {
+    test('Unique internal_identifier should be added within the same farm_id between animal and animal_batch tables', async () => {
+      const [firstFarm] = await mocks.farmFactory();
+      const [secondFarm] = await mocks.farmFactory();
+      const [thirdFarm] = await mocks.farmFactory();
+
+      const testCases = [
+        { farm: firstFarm, isAnimal: true, expectedInternalIdentifier: 1 },
+        { farm: firstFarm, isAnimal: false, expectedInternalIdentifier: 2 },
+        { farm: secondFarm, isAnimal: true, expectedInternalIdentifier: 1 },
+        { farm: thirdFarm, isAnimal: false, expectedInternalIdentifier: 1 },
+        { farm: secondFarm, isAnimal: true, expectedInternalIdentifier: 2 },
+        { farm: firstFarm, isAnimal: false, expectedInternalIdentifier: 3 },
+        { farm: secondFarm, isAnimal: true, expectedInternalIdentifier: 3 },
+        { farm: firstFarm, isAnimal: false, expectedInternalIdentifier: 4 },
+      ];
+
+      for (const { farm, isAnimal, expectedInternalIdentifier } of testCases) {
+        let data = {};
+
+        if (isAnimal) {
+          data = await makeAnimal(farm);
+        } else {
+          [data] = await mocks.animal_batchFactory({ promisedFarm: [farm] });
+        }
+        expect(data.internal_identifier).toBe(expectedInternalIdentifier);
+      }
     });
   });
 });

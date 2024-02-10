@@ -195,7 +195,8 @@ export default {
     return await model
       .query(trx)
       .context({ user_id: req?.auth?.user_id, ...context })
-      .insertGraph(removeAdditionalPropertiesWithRelations(model, data));
+      .insertGraph(removeAdditionalPropertiesWithRelations(model, data))
+      .returning('*');
   },
 
   // fetch an object and all of its related objects

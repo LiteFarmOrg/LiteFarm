@@ -40,3 +40,11 @@ export const makeFarmsWithAnimalsAndBatches = async (user) => {
 
   return { existingAnimalsAndBatchesCountsPerFarm };
 };
+
+export const makeAnimalOrBatchForFarm = async ({ isAnimal, farm }) => {
+  const [data] = isAnimal
+    ? await mocks.animalFactory({ promisedFarm: [farm] })
+    : await mocks.animal_batchFactory({ promisedFarm: [farm] });
+
+  return data;
+};

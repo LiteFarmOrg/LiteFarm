@@ -23,7 +23,7 @@ import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 
-import { makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
+import { makeAnimalOrBatchForFarm, makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
 
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
@@ -373,13 +373,7 @@ describe('Animal Tests', () => {
       ];
 
       for (const { farm, isAnimal, expectedInternalIdentifier } of testCases) {
-        let data = {};
-
-        if (isAnimal) {
-          data = await makeAnimal(farm);
-        } else {
-          [data] = await mocks.animal_batchFactory({ promisedFarm: [farm] });
-        }
+        const data = await makeAnimalOrBatchForFarm({ farm, isAnimal });
         expect(data.internal_identifier).toBe(expectedInternalIdentifier);
       }
     });

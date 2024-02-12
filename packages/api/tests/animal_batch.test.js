@@ -33,7 +33,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 );
 import mocks from './mock.factories.js';
 
-import { makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
+import { makeAnimalOrBatchForFarm, makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
 
 describe('Animal Batch Tests', () => {
   let farm;
@@ -481,14 +481,7 @@ describe('Animal Batch Tests', () => {
       ];
 
       for (const { farm, isAnimal, expectedInternalIdentifier } of testCases) {
-        let data = {};
-
-        if (isAnimal) {
-          [data] = await mocks.animalFactory({ promisedFarm: [farm] });
-        } else {
-          data = await makeAnimalBatch(farm);
-        }
-
+        const data = await makeAnimalOrBatchForFarm({ farm, isAnimal });
         expect(data.internal_identifier).toBe(expectedInternalIdentifier);
       }
     });

@@ -31,18 +31,12 @@ class Animal extends baseModel {
     return {
       type: 'object',
       required: ['farm_id'],
-      anyOf: [
+      oneOf: [
         {
-          required: ['default_type_id', 'name'],
+          required: ['default_type_id'],
         },
         {
-          required: ['custom_type_id', 'name'],
-        },
-        {
-          required: ['default_type_id', 'identifier'],
-        },
-        {
-          required: ['custom_type_id', 'identifier'],
+          required: ['custom_type_id'],
         },
       ],
       properties: {

@@ -32,7 +32,6 @@ export const up = async function (knex) {
   };
 
   try {
-    // alter animal table
     await knex.schema.alterTable('animal', (table) => {
       table.integer('internal_identifier');
       table.string('photo_url');
@@ -42,7 +41,6 @@ export const up = async function (knex) {
       table.unique(['farm_id', 'internal_identifier']);
     });
 
-    // alter animal_batch table
     await knex.schema.alterTable('animal_batch', (table) => {
       table.integer('internal_identifier');
       table.string('photo_url');
@@ -64,15 +62,15 @@ export const up = async function (knex) {
         }
       });
 
-      // make internal_identifier not nullable
+      // make internal_identifier column not nullable
       await knex.schema.alterTable(tableName, async (table) => {
         table.integer('internal_identifier').notNullable().alter();
       });
     }
 
-    // Create function to attach internal_identifier to a record (NEW) to be inserted
+    // Create function to assign internal_identifier to a record (NEW) to be inserted
     await knex.raw(`
-      CREATE FUNCTION increment_internal_identifier_and_insert()
+      CREATE FUNCTION assign_internal_identifier_trigger()
       RETURNS TRIGGER AS $$
       DECLARE
         max_internal_identifier INTEGER;
@@ -98,7 +96,7 @@ export const up = async function (knex) {
       CREATE TRIGGER increment_internal_identifier_trigger_animal
       BEFORE INSERT ON animal
       FOR EACH ROW
-      EXECUTE FUNCTION increment_internal_identifier_and_insert();
+      EXECUTE FUNCTION assign_internal_identifier_trigger();
     `);
 
     // Create trigger for animal_batch table
@@ -106,7 +104,7 @@ export const up = async function (knex) {
       CREATE TRIGGER increment_internal_identifier_trigger_animal_batch
       BEFORE INSERT ON animal_batch
       FOR EACH ROW
-      EXECUTE FUNCTION increment_internal_identifier_and_insert();
+      EXECUTE FUNCTION assign_internal_identifier_trigger();
     `);
   } catch (error) {
     console.error('Error in migration up:', error);
@@ -148,6 +146,6 @@ export const down = async (knex) => {
   `);
 
   await knex.raw(`
-    DROP FUNCTION IF EXISTS increment_internal_identifier_and_insert;
+    DROP FUNCTION IF EXISTS assign_internal_identifier_trigger;
   `);
 };

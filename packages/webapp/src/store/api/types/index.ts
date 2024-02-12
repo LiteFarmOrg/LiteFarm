@@ -29,9 +29,11 @@ export interface Animal {
   identifier: string | null;
   identifier_color_id: number | null;
   identifier_placement_id: number | null;
+  internal_identifier: number;
   name: string | null;
   notes: string | null;
   origin_id: number;
+  photo_url: string | null;
   sex_id: number;
   sire: string | null;
   weaning_date: string | null;

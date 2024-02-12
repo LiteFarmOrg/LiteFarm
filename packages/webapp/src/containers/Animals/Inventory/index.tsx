@@ -13,22 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useDispatch } from 'react-redux';
 import {
   useGetAnimalsQuery,
   useGetAnimalBatchesQuery,
   useGetAnimalGroupsQuery,
-  api,
 } from '../../../store/api/apiSlice';
 import Layout from '../../../components/Layout';
 import { Title } from '../../../components/Typography';
 
 function AnimalInventory() {
-  const dispatch = useDispatch();
-
-  // For demonstration only! (remove to observe caching); force refresh via:
-  dispatch(api.util.invalidateTags(['Animals', 'AnimalBatches', 'AnimalGroups']));
-
   const { data: animals } = useGetAnimalsQuery();
   const { data: animalBatches } = useGetAnimalBatchesQuery();
   const { data: animalGroups } = useGetAnimalGroupsQuery();

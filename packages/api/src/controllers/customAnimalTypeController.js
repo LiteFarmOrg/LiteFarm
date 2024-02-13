@@ -17,7 +17,7 @@ import { transaction, Model } from 'objection';
 import baseController from './baseController.js';
 
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
-import { getAnimalTypeCountMap } from '../util/animal.js';
+import { getAnimalTypeIdCountMap } from '../util/animal.js';
 
 const customAnimalTypeController = {
   getCustomAnimalTypes() {
@@ -28,11 +28,11 @@ const customAnimalTypeController = {
 
         if (rows.length && req.query.count === 'true') {
           const { farm_id } = req.headers;
-          const map = await getAnimalTypeCountMap(farm_id, 'custom_type_id');
+          const typeCountMap = await getAnimalTypeIdCountMap(farm_id, 'custom_type_id');
 
-          rows.map((row) => {
-            row.count = map[row.id] || 0;
-            return row;
+          rows.map((animalType) => {
+            animalType.count = typeCountMap[animalType.id] || 0;
+            return animalType;
           });
         }
 

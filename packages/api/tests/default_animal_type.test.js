@@ -81,7 +81,7 @@ describe('Default Animal Type Tests', () => {
   }
 
   // GET TESTS
-  describe.only('GET animal type tests', () => {
+  describe('GET animal type tests', () => {
     test('All farm users should get default animal types', async () => {
       const roles = [1, 2, 3, 5];
 

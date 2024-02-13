@@ -18,34 +18,39 @@ import AnimalBatchModel from '../models/animalBatchModel.js';
 
 /**
  * Update the map with type counts.
- * @param {Object} map - The map object with typeId as keys.
- * @param {Array<Object>} typeCountObjects - Array of objects containing type counts.
+ * @param {Object} typeIdCountMap - The map object with typeId as keys.
+ * @param {Array<Object>} typeIdCountObjects - Array of objects containing type ids and counts.
  * @param {string} typeIdColumnName - The name of the type id column - 'default_type_id' or 'custom_type_id'.
  * @returns {Promise<Object>} The updated map with type counts.
  * @example
  * // Example usage:
- * const map = { '1': 2 };
- * const typeCountObjects = [
+ * const typeIdCountMap = { '1': 2 };
+ * const typeIdCountObjects = [
  *   { default_type_id: 1, count: 5 },
  *   { default_type_id: 2, count: 3 },
  *   { default_type_id: 1, count: 2 }
  * ];
  * const typeIdColumnName = 'default_type_id';
- * const updatedMap = await updateMapWithTypeCounts(map, typeCountObjects, typeIdColumnName);
+ * const updatedMap = await updateMapWithTypeCounts(map, typeIdCountObjects, typeIdColumnName);
  * console.log(updatedMap);
  *
  * // Example output:
  * // { '1': 9, '2': 3 }
  */
-export const updateMapWithTypeCounts = async (map, typeCountObjects, typeIdColumnName) => {
-  typeCountObjects.forEach((item) => {
-    if (!map[item[typeIdColumnName]]) {
-      map[item[typeIdColumnName]] = 0;
+export const updateMapWithTypeCounts = async (
+  typeIdCountMap,
+  typeIdCountObjects,
+  typeIdColumnName,
+) => {
+  typeIdCountObjects.forEach((typeIdCountObj) => {
+    const typeId = typeIdCountObj[typeIdColumnName];
+    if (!typeIdCountMap[typeId]) {
+      typeIdCountMap[typeId] = 0;
     }
-    map[item[typeIdColumnName]] += +item.count;
+    typeIdCountMap[typeId] += +typeIdCountObj.count;
   });
 
-  return map;
+  return typeIdCountMap;
 };
 
 /**
@@ -54,7 +59,7 @@ export const updateMapWithTypeCounts = async (map, typeCountObjects, typeIdColum
  * @param {string} typeIdColumnName - The name of the type id column - 'default_type_id' or 'custom_type_id'.
  * @returns {Promise<Object>} A map with type ids as keys and their corresponding counts.
  */
-export const getAnimalTypeCountMap = async (farmId, typeIdColumnName) => {
+export const getAnimalTypeIdCountMap = async (farmId, typeIdColumnName) => {
   const animals = await AnimalModel.query()
     .select(typeIdColumnName)
     .count()

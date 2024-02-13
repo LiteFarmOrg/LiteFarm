@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
+import { ReactNode, useState, useRef, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
@@ -24,13 +24,7 @@ import { SummaryTiles } from './SummaryTiles';
 import { KPITile } from './KPITile';
 import { ReactComponent as ChevronDown } from '../../assets/images/animals/chevron-down.svg';
 import TextButton from '../Form/Button/TextButton';
-
-// Source: https://github.com/que-etc/resize-observer-polyfill
-interface ResizeObserver {
-  observe(target: Element): void;
-  unobserve(target: Element): void;
-  disconnect(): void;
-}
+import { useDynamicTileVisibility } from './useDynamicTileVisibility';
 
 export interface KPI {
   label: string;
@@ -50,79 +44,24 @@ export const PureKPIDashboard = ({
   dashboardTitle,
   categoryLabel,
 }: PureKPIDashboardProps) => {
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
-
   const totalCount = KPIs.reduce((sum, element) => sum + element.count, 0);
   const categoryCount = KPIs.length;
 
-  const [KPIBreakpoint, setKPIBreakpoint] = useState(0);
-  const visibleKPIs = KPIs.slice(0, KPIs.length - KPIBreakpoint);
-  const hiddenKPIs = KPIs.slice(KPIs.length - KPIBreakpoint);
   const containerRef = useRef<HTMLDivElement>(null);
+  const threshold = useDynamicTileVisibility({
+    containerRef,
+    gap: 4,
+    moreButtonWidth: 90,
+    minWidthDesktop: 600, // from inspection
+    totalTiles: KPIs.length,
+    rowsPerView: {
+      desktop: 1,
+      mobile: 2,
+    },
+  });
 
-  let tileWidths: number[] = [];
-  const GAP = 4; // flex-gap
-
-  useLayoutEffect(() => {
-    let resizeObserver: ResizeObserver;
-
-    const getDimensions = (container: HTMLElement) => {
-      if (container) {
-        const containerRect = container.getBoundingClientRect();
-
-        // One row on desktop; two on mobile
-        const isSingleRow = containerRect.width > 600;
-        console.log({ isSingleRow });
-
-        const tiles = Array.from(container.children);
-        let totalWidth = 0;
-        let willFit = 0;
-
-        if (!tileWidths.length) {
-          tileWidths = Array.from(tiles).map((tile, index) => {
-            const tileRect = tile.getBoundingClientRect();
-
-            return tileRect.width + (index > 0 ? GAP : 0);
-          });
-        }
-
-        const rowMultiplier = isSingleRow ? 1 : 2;
-
-        tileWidths.forEach((width) => {
-          if (totalWidth > containerRect.width * rowMultiplier) {
-            return;
-          } else {
-            totalWidth += width;
-            willFit++;
-          }
-        });
-
-        let breakpoint = KPIs.length - willFit + rowMultiplier;
-
-        setKPIBreakpoint(breakpoint === 1 ? 2 : breakpoint);
-      }
-    };
-
-    if (containerRef.current) {
-      resizeObserver = new ResizeObserver(() => {
-        getDimensions(containerRef.current!);
-      });
-
-      resizeObserver.observe(containerRef.current);
-    }
-
-    return () => {
-      if (resizeObserver) {
-        resizeObserver.disconnect();
-      }
-    };
-  }, []);
-
-  useLayoutEffect(() => {
-    // Reset when the flex behaviour changes
-    setKPIBreakpoint(0);
-  }, [isDesktop]);
+  const visibleKPIs = KPIs.slice(0, KPIs.length - threshold);
+  const hiddenKPIs = KPIs.slice(KPIs.length - threshold);
 
   return (
     <>

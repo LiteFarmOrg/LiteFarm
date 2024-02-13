@@ -70,9 +70,9 @@
   min-width: 78px;
   flex: 1 0 auto;
 
-  // @include sm-breakpoint {
-  // flex: 0 0 auto;
-  // }
+  @include lg-breakpoint {
+    flex: 0 0 auto;
+  }
 }
 
 .gridItem.fixed {
@@ -84,7 +84,6 @@
 }
 
 // More component
-
 .moreContainer {
   position: relative;
 }
@@ -112,10 +111,6 @@
   position: absolute;
   top: 48px;
   right: 0;
-  // display: flex;
-  // flex-flow: column wrap;
-  // align-items: center;
-  // justify-content: stretch;
 
   display: grid;
   grid-template-columns: repeat(2, max-content);

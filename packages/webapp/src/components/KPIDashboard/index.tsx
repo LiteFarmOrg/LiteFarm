@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useState, useEffect, useLayoutEffect, useCallback } from 'react';
+import { ReactNode, useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
@@ -24,11 +24,13 @@ import { SummaryTiles } from './SummaryTiles';
 import { KPITile } from './KPITile';
 import { ReactComponent as ChevronDown } from '../../assets/images/animals/chevron-down.svg';
 import TextButton from '../Form/Button/TextButton';
-import {
-  useComponentHeight,
-  useComponentWidth,
-} from '../../containers/hooks/useComponentWidthHeight';
-import Button from '../Form/Button';
+
+// Source: https://github.com/que-etc/resize-observer-polyfill
+interface ResizeObserver {
+  observe(target: Element): void;
+  unobserve(target: Element): void;
+  disconnect(): void;
+}
 
 export interface KPI {
   label: string;
@@ -48,10 +50,8 @@ export const PureKPIDashboard = ({
   dashboardTitle,
   categoryLabel,
 }: PureKPIDashboardProps) => {
-  const { t } = useTranslation();
-
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   const totalCount = KPIs.reduce((sum, element) => sum + element.count, 0);
   const categoryCount = KPIs.length;
@@ -59,60 +59,88 @@ export const PureKPIDashboard = ({
   const [KPIBreakpoint, setKPIBreakpoint] = useState(0);
   const visibleKPIs = KPIs.slice(0, KPIs.length - KPIBreakpoint);
   const hiddenKPIs = KPIs.slice(KPIs.length - KPIBreakpoint);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const { ref, height } = useComponentHeight() as unknown as {
-    ref: React.RefObject<HTMLDivElement>;
-    height: number;
-  }; // ugh. Fix the hook instead
-  const { ref: widthRef, width } = useComponentWidth() as unknown as {
-    ref: React.RefObject<HTMLDivElement>;
-    width: number;
-  };
-  console.log({ height, width, isDesktop });
+  let tileWidths: number[] = [];
+  const GAP = 4; // flex-gap
 
   useLayoutEffect(() => {
-    setKPIBreakpoint(isDesktop ? 0 : KPIs.length);
-  }, [isDesktop]);
+    let resizeObserver: ResizeObserver;
 
-  const adjustKPIBreakpoint = useCallback(() => {
-    const IDEAL_HEIGHT = isDesktop ? 71 : 100; // 1 row : 2 rows
-    console.log({ IDEAL_HEIGHT });
-    if (height && height > IDEAL_HEIGHT && KPIBreakpoint < KPIs.length) {
-      console.log('incrementing breakpoint');
-      setKPIBreakpoint((prevBreakpoint) => prevBreakpoint + 1);
-    } else if (height && height < IDEAL_HEIGHT && KPIBreakpoint > 0) {
-      console.log('decrementing breakpoint');
-      setKPIBreakpoint((prevBreakpoint) => prevBreakpoint - 1);
+    const getDimensions = (container: HTMLElement) => {
+      if (container) {
+        const containerRect = container.getBoundingClientRect();
+
+        // One row on desktop; two on mobile
+        const isSingleRow = containerRect.width > 600;
+        console.log({ isSingleRow });
+
+        const tiles = Array.from(container.children);
+        let totalWidth = 0;
+        let willFit = 0;
+
+        if (!tileWidths.length) {
+          tileWidths = Array.from(tiles).map((tile, index) => {
+            const tileRect = tile.getBoundingClientRect();
+
+            return tileRect.width + (index > 0 ? GAP : 0);
+          });
+        }
+
+        const rowMultiplier = isSingleRow ? 1 : 2;
+
+        tileWidths.forEach((width) => {
+          if (totalWidth > containerRect.width * rowMultiplier) {
+            return;
+          } else {
+            totalWidth += width;
+            willFit++;
+          }
+        });
+
+        let breakpoint = KPIs.length - willFit + rowMultiplier;
+
+        setKPIBreakpoint(breakpoint === 1 ? 2 : breakpoint);
+      }
+    };
+
+    if (containerRef.current) {
+      resizeObserver = new ResizeObserver(() => {
+        getDimensions(containerRef.current!);
+      });
+
+      resizeObserver.observe(containerRef.current);
     }
-  }, [isDesktop, height, width]);
 
-  useLayoutEffect(() => {
-    adjustKPIBreakpoint();
-  }, [height, width]);
-
-  useEffect(() => {
-    setTimeout(adjustKPIBreakpoint, 100);
+    return () => {
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+    };
   }, []);
 
-  console.log({ KPIBreakpoint });
+  useLayoutEffect(() => {
+    // Reset when the flex behaviour changes
+    setKPIBreakpoint(0);
+  }, [isDesktop]);
 
   return (
     <>
-      <div className={styles.container} ref={widthRef}>
+      <div className={styles.container}>
         <Title className={styles.title}>{dashboardTitle}</Title>
-        <div className={styles.mainContent} ref={ref}>
+        <div className={styles.mainContent}>
           <SummaryTiles
             totalCount={totalCount}
             categoryCount={categoryCount}
             categoryLabel={categoryLabel}
           />
-          <div className={styles.gridContainer}>
+          <div className={styles.gridContainer} ref={containerRef}>
             {visibleKPIs.map((item, index) => (
               <div key={index} className={clsx(styles.gridItem)}>
                 <KPITile key={index} {...item} />
               </div>
             ))}
-            {hiddenKPIs.length ? <MoreComponent moreKPIs={hiddenKPIs} width={width} /> : <></>}
+            {hiddenKPIs.length ? <MoreComponent moreKPIs={hiddenKPIs} /> : <></>}
           </div>
         </div>
       </div>
@@ -122,18 +150,15 @@ export const PureKPIDashboard = ({
 
 interface MoreComponentProps {
   moreKPIs: KPI[];
-  width: number;
 }
 
-const MoreComponent = ({ moreKPIs, width }: MoreComponentProps) => {
+const MoreComponent = ({ moreKPIs }: MoreComponentProps) => {
   const { t } = useTranslation();
 
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div
-      className={clsx(styles.moreContainer, styles.gridItem, width && width > 900 && styles.fixed)}
-    >
+    <div className={clsx(styles.moreContainer, styles.gridItem)}>
       <TextButton className={clsx(styles.moreButton)} onClick={() => setIsOpen((prev) => !prev)}>
         <span>{t('TABLE.NUMBER_MORE', { number: moreKPIs.length })} </span>
         <ChevronDown />

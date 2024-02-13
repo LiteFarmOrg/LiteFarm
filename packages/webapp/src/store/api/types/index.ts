@@ -42,11 +42,13 @@ export interface Animal {
 export interface AnimalBatch {
   id: number;
   farm_id: string;
+  internal_identifier: number;
   default_type_id: number | null;
   custom_type_id: number | null;
   default_breed_id: number | null;
   custom_breed_id: number | null;
-  name: string;
+  photo_url: string | null;
+  name: string | null;
   notes: string | null;
   count: number;
   sex_detail: { sex_id: number; count: number }[];

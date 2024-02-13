@@ -41,10 +41,17 @@ export const makeFarmsWithAnimalsAndBatches = async (user) => {
   return { existingAnimalsAndBatchesCountsPerFarm };
 };
 
-export const makeAnimalOrBatchForFarm = async ({ isAnimal, farm }) => {
-  const [data] = isAnimal
-    ? await mocks.animalFactory({ promisedFarm: [farm] })
-    : await mocks.animal_batchFactory({ promisedFarm: [farm] });
+/**
+ * Returns animal or animal batch depending on the given kind.
+ * @param {string} kind 'animal' or 'batch'
+ * @param {object} farm
+ * @return {object} animal or batch
+ */
+export const makeAnimalOrBatchForFarm = async ({ kind, farm }) => {
+  const [data] =
+    kind === 'animal'
+      ? await mocks.animalFactory({ promisedFarm: [farm] })
+      : await mocks.animal_batchFactory({ promisedFarm: [farm] });
 
   return data;
 };

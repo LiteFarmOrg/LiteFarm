@@ -362,18 +362,18 @@ describe('Animal Tests', () => {
       const [thirdFarm] = await mocks.farmFactory();
 
       const testCases = [
-        { farm: firstFarm, isAnimal: true, expectedInternalIdentifier: 1 },
-        { farm: firstFarm, isAnimal: false, expectedInternalIdentifier: 2 },
-        { farm: secondFarm, isAnimal: true, expectedInternalIdentifier: 1 },
-        { farm: thirdFarm, isAnimal: false, expectedInternalIdentifier: 1 },
-        { farm: secondFarm, isAnimal: true, expectedInternalIdentifier: 2 },
-        { farm: firstFarm, isAnimal: false, expectedInternalIdentifier: 3 },
-        { farm: secondFarm, isAnimal: true, expectedInternalIdentifier: 3 },
-        { farm: firstFarm, isAnimal: false, expectedInternalIdentifier: 4 },
+        { farm: firstFarm, kind: 'animal', expectedInternalIdentifier: 1 },
+        { farm: firstFarm, kind: 'batch', expectedInternalIdentifier: 2 },
+        { farm: secondFarm, kind: 'animal', expectedInternalIdentifier: 1 },
+        { farm: thirdFarm, kind: 'batch', expectedInternalIdentifier: 1 },
+        { farm: secondFarm, kind: 'animal', expectedInternalIdentifier: 2 },
+        { farm: firstFarm, kind: 'batch', expectedInternalIdentifier: 3 },
+        { farm: secondFarm, kind: 'animal', expectedInternalIdentifier: 3 },
+        { farm: firstFarm, kind: 'batch', expectedInternalIdentifier: 4 },
       ];
 
-      for (const { farm, isAnimal, expectedInternalIdentifier } of testCases) {
-        const data = await makeAnimalOrBatchForFarm({ farm, isAnimal });
+      for (const { farm, kind, expectedInternalIdentifier } of testCases) {
+        const data = await makeAnimalOrBatchForFarm({ farm, kind });
         expect(data.internal_identifier).toBe(expectedInternalIdentifier);
       }
     });

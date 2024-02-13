@@ -40,23 +40,23 @@ export interface Animal {
 }
 
 export interface AnimalBatch {
-  id: number;
-  farm_id: string;
-  internal_identifier: number;
-  default_type_id: number | null;
+  count: number;
+  custom_breed_id: number | null;
   custom_type_id: number | null;
   default_breed_id: number | null;
-  custom_breed_id: number | null;
-  photo_url: string | null;
+  default_type_id: number | null;
+  farm_id: string;
+  id: number;
+  internal_identifier: number;
   name: string | null;
   notes: string | null;
-  count: number;
+  photo_url: string | null;
   sex_detail: { sex_id: number; count: number }[];
 }
 
 export interface AnimalGroup {
-  id: number;
   farm_id: string;
+  id: number;
   name: string;
   notes: string | null;
   related_animal_ids: number[];

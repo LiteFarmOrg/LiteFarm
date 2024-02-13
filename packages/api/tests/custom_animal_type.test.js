@@ -48,16 +48,13 @@ describe('Custom Animal Type Tests', () => {
     done();
   });
 
-  function getRequest({ user_id, farm_id }, callback) {
-    chai
+  async function getRequest({ user_id, farm_id }, query = '') {
+    return await chai
       .request(server)
-      .get('/custom_animal_types')
+      .get(`/custom_animal_types${query}`)
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
-
-  const getRequestAsPromise = util.promisify(getRequest);
 
   function postRequest(data, { user_id, farm_id }, callback) {
     chai
@@ -106,7 +103,7 @@ describe('Custom Animal Type Tests', () => {
         const { mainFarm, user } = await returnUserFarms(role);
         const custom_animal_type = await makeUserCreatedAnimalType(mainFarm);
 
-        const res = await getRequestAsPromise({ user_id: user.user_id, farm_id: mainFarm.farm_id });
+        const res = await getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id });
 
         expect(res.status).toBe(200);
         res.body.forEach((type) => {
@@ -120,7 +117,7 @@ describe('Custom Animal Type Tests', () => {
       await makeUserCreatedAnimalType(mainFarm);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
-      const res = await getRequestAsPromise({
+      const res = await getRequest({
         user_id: unAuthorizedUser.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -128,6 +125,60 @@ describe('Custom Animal Type Tests', () => {
       expect(res.error.text).toBe(
         'User does not have the following permission(s): get:animal_types',
       );
+    });
+
+    test('Should get counts with count=true query', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      // typeId will be added later
+      const animalBatchTypeCounts = [
+        { animalCount: 0, batchCounts: [] },
+        { animalCount: 1, batchCounts: [] },
+        { animalCount: 0, batchCounts: [2, 40] },
+        { animalCount: 11, batchCounts: [20, 40, 60, 80, 100] },
+      ];
+
+      // make animals and batches
+      for (const animalBatchTypeCount of animalBatchTypeCounts) {
+        const { animalCount, batchCounts } = animalBatchTypeCount;
+        const type = await makeUserCreatedAnimalType(mainFarm);
+
+        // add type to animalBatchTypeCounts for validation later
+        animalBatchTypeCount.typeId = type.id;
+
+        for (let i = 0; i < animalCount; i++) {
+          await mocks.animalFactory({
+            promisedFarm: [mainFarm],
+            promisedDefaultAnimalType: [() => ({})],
+            properties: { custom_type_id: type.id },
+          });
+        }
+        for (const batchCount of batchCounts) {
+          await mocks.animal_batchFactory({
+            promisedFarm: [mainFarm],
+            promisedDefaultAnimalType: [() => ({})],
+            promisedDefaultAnimalBreed: [() => ({})],
+            properties: { custom_type_id: type.id, count: batchCount },
+          });
+        }
+      }
+
+      const res = await getRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        '?count=true',
+      );
+
+      res.body.forEach(({ id, count }) => {
+        const expectedCountsData = animalBatchTypeCounts.find(({ typeId }) => id === typeId);
+        const expectedCount =
+          expectedCountsData.animalCount +
+          expectedCountsData.batchCounts.reduce((acc, currentValue) => acc + currentValue, 0);
+
+        expect(count).toBe(expectedCount);
+      });
     });
   });
 

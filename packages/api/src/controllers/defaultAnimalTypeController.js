@@ -14,6 +14,7 @@
  */
 
 import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
+import { getAnimalTypeCountMap } from '../util/animal.js';
 
 const defaultAnimalTypeController = {
   getDefaultAnimalTypes() {
@@ -22,9 +23,18 @@ const defaultAnimalTypeController = {
         const rows = await DefaultAnimalTypeModel.query();
         if (!rows.length) {
           return res.sendStatus(404);
-        } else {
-          return res.status(200).send(rows);
         }
+
+        if (req.query.count === 'true') {
+          const { farm_id } = req.headers;
+          const map = await getAnimalTypeCountMap(farm_id, 'default_type_id');
+
+          rows.map((row) => {
+            row.count = map[row.id] || 0;
+            return row;
+          });
+        }
+        return res.status(200).send(rows);
       } catch (error) {
         console.error(error);
         return res.status(500).json({

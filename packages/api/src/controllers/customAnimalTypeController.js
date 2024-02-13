@@ -17,6 +17,7 @@ import { transaction, Model } from 'objection';
 import baseController from './baseController.js';
 
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
+import { getAnimalTypeCountMap } from '../util/animal.js';
 
 const customAnimalTypeController = {
   getCustomAnimalTypes() {
@@ -24,6 +25,17 @@ const customAnimalTypeController = {
       try {
         const { farm_id } = req.headers;
         const rows = await CustomAnimalTypeModel.query().where({ farm_id }).whereNotDeleted();
+
+        if (rows.length && req.query.count === 'true') {
+          const { farm_id } = req.headers;
+          const map = await getAnimalTypeCountMap(farm_id, 'custom_type_id');
+
+          rows.map((row) => {
+            row.count = map[row.id] || 0;
+            return row;
+          });
+        }
+
         return res.status(200).send(rows);
       } catch (error) {
         console.error(error);

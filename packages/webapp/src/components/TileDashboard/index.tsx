@@ -16,6 +16,7 @@
 import { ReactNode, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import { ClickAwayListener } from '@mui/material';
 import styles from './styles.module.scss';
 import { Title } from '../Typography';
 import { SummaryTiles } from './SummaryTiles';
@@ -90,14 +91,16 @@ const MoreComponent = ({ moreIconTiles }: MoreComponentProps) => {
         <span>{t('TABLE.NUMBER_MORE', { number: moreIconTiles.length })} </span>
         <ChevronDown />
       </TextButton>
-      {isOpen && ( // TODO: add click away
-        <div className={styles.moreContent}>
-          {moreIconTiles.map((item, index) => (
-            <div key={index} className={clsx(styles.contentItem)}>
-              <DashboardTile key={index} {...item} />
-            </div>
-          ))}
-        </div>
+      {isOpen && (
+        <ClickAwayListener onClickAway={() => setIsOpen(false)}>
+          <div className={styles.moreContent}>
+            {moreIconTiles.map((item, index) => (
+              <div key={index} className={clsx(styles.contentItem)}>
+                <DashboardTile key={index} {...item} />
+              </div>
+            ))}
+          </div>
+        </ClickAwayListener>
       )}
     </div>
   );

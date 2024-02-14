@@ -24,7 +24,7 @@ import { ReactComponent as ChevronDown } from '../../assets/images/animals/chevr
 import TextButton from '../Form/Button/TextButton';
 import { useDynamicTileVisibility } from './useDynamicTileVisibility';
 
-export interface IconTile {
+export interface IconCountTile {
   label: string;
   count: number;
   icon: ReactNode;
@@ -32,35 +32,24 @@ export interface IconTile {
 }
 
 interface PureTileDashboardProps {
-  IconTiles: IconTile[];
+  countTiles: IconCountTile[];
   dashboardTitle: string;
   categoryLabel: string;
 }
 
 export const PureTileDashboard = ({
-  IconTiles,
+  countTiles,
   dashboardTitle,
   categoryLabel,
 }: PureTileDashboardProps) => {
-  const totalCount = IconTiles.reduce((sum, element) => sum + element.count, 0);
-  const categoryCount = IconTiles.length;
+  const totalCount = countTiles.reduce((sum, element) => sum + element.count, 0);
+  const categoryCount = countTiles.length;
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const threshold = useDynamicTileVisibility({
+  const { visibleIconTiles, hiddenIconTiles } = useDynamicTileVisibility({
     containerRef,
-    gap: 4,
-    tileWidth: 90,
-    moreButtonWidth: 90,
-    minWidthDesktop: 600, // from inspection
-    totalTiles: IconTiles.length,
-    rowsPerView: {
-      desktop: 1,
-      mobile: 2,
-    },
+    countTiles,
   });
-
-  const visibleIconTiles = IconTiles.slice(0, IconTiles.length - threshold);
-  const hiddenIconTiles = IconTiles.slice(IconTiles.length - threshold);
 
   return (
     <>
@@ -87,7 +76,7 @@ export const PureTileDashboard = ({
 };
 
 interface MoreComponentProps {
-  moreIconTiles: IconTile[];
+  moreIconTiles: IconCountTile[];
 }
 
 const MoreComponent = ({ moreIconTiles }: MoreComponentProps) => {

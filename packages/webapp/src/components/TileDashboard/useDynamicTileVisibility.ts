@@ -14,6 +14,7 @@
  */
 
 import { useState, useLayoutEffect, RefObject } from 'react';
+import type { IconCountTile } from './index';
 
 // Source: https://github.com/que-etc/resize-observer-polyfill
 interface ResizeObserver {
@@ -24,12 +25,12 @@ interface ResizeObserver {
 
 interface useDynamicTileVisibilityParams {
   containerRef: RefObject<HTMLElement>;
-  gap: number;
-  tileWidth: number;
-  moreButtonWidth: number;
-  minWidthDesktop: number;
-  totalTiles: number;
-  rowsPerView: {
+  countTiles: IconCountTile[];
+  gap?: number;
+  tileWidth?: number;
+  moreButtonWidth?: number;
+  minWidthDesktop?: number;
+  rowsPerView?: {
     desktop: number;
     mobile: number;
   };
@@ -37,14 +38,17 @@ interface useDynamicTileVisibilityParams {
 
 export const useDynamicTileVisibility = ({
   containerRef,
-  gap,
-  tileWidth,
-  moreButtonWidth,
-  minWidthDesktop,
-  totalTiles,
-  rowsPerView,
+  countTiles,
+  gap = 4,
+  tileWidth = 90,
+  moreButtonWidth = 90,
+  minWidthDesktop = 600,
+  rowsPerView = { desktop: 1, mobile: 2 },
 }: useDynamicTileVisibilityParams) => {
-  const [hiddenThreshold, setHiddenThreshold] = useState(0);
+  const [visibleIconTiles, setVisibleIconTiles] = useState<IconCountTile[]>([]);
+  const [hiddenIconTiles, setHiddenIconTiles] = useState<IconCountTile[]>([]);
+
+  const totalTiles = countTiles.length;
 
   useLayoutEffect(() => {
     let resizeObserver: ResizeObserver;
@@ -63,7 +67,8 @@ export const useDynamicTileVisibility = ({
         let tilesToHide = totalTiles - totalFittableTiles;
         if (tilesToHide < 0) tilesToHide = 0;
 
-        setHiddenThreshold(tilesToHide);
+        setVisibleIconTiles(countTiles.slice(0, countTiles.length - tilesToHide));
+        setHiddenIconTiles(countTiles.slice(countTiles.length - tilesToHide));
       }
     };
 
@@ -82,5 +87,5 @@ export const useDynamicTileVisibility = ({
     };
   }, []);
 
-  return hiddenThreshold;
+  return { visibleIconTiles, hiddenIconTiles };
 };

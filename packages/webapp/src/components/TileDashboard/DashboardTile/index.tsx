@@ -16,9 +16,9 @@
 import styles from './styles.module.scss';
 import { Main } from '../../Typography';
 import TextButton from '../../Form/Button/TextButton';
-import type { IconTile } from '../index';
+import type { IconCountTile } from '../index';
 
-export const DashboardTile = ({ icon, label, count, onClick }: IconTile) => (
+export const DashboardTile = ({ icon, label, count, onClick }: IconCountTile) => (
   <TextButton className={styles.tile} onClick={onClick}>
     <div className={styles.icon}>{icon}</div>
     <div className={styles.tileText}>

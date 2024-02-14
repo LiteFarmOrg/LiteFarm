@@ -148,7 +148,7 @@ const sortedTiles = mockTiles.sort((a, b) => a.label.localeCompare(b.label));
 
 export const Default: Story = {
   args: {
-    IconTiles: sortedTiles.slice(0, 5),
+    countTiles: sortedTiles.slice(0, 5),
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -156,7 +156,7 @@ export const Default: Story = {
 
 export const TwoTypes: Story = {
   args: {
-    IconTiles: sortedTiles.slice(0, 2),
+    countTiles: sortedTiles.slice(0, 2),
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -164,7 +164,7 @@ export const TwoTypes: Story = {
 
 export const SeveralTypes: Story = {
   args: {
-    IconTiles: sortedTiles.slice(0, 5),
+    countTiles: sortedTiles.slice(0, 5),
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -172,7 +172,7 @@ export const SeveralTypes: Story = {
 
 export const ManyTypes: Story = {
   args: {
-    IconTiles: sortedTiles,
+    countTiles: sortedTiles,
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },

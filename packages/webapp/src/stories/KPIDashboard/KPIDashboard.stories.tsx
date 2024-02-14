@@ -126,9 +126,11 @@ const mockKPIs = [
   },
 ];
 
+const sortedKPIs = mockKPIs.sort((a, b) => a.label.localeCompare(b.label));
+
 export const Default: Story = {
   args: {
-    KPIs: mockKPIs.slice(0, 5),
+    KPIs: sortedKPIs.slice(0, 5),
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -136,7 +138,7 @@ export const Default: Story = {
 
 export const TwoTypes: Story = {
   args: {
-    KPIs: mockKPIs.slice(0, 2),
+    KPIs: sortedKPIs.slice(0, 2),
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -144,7 +146,7 @@ export const TwoTypes: Story = {
 
 export const SeveralTypes: Story = {
   args: {
-    KPIs: mockKPIs.slice(0, 5),
+    KPIs: sortedKPIs.slice(0, 5),
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -152,7 +154,7 @@ export const SeveralTypes: Story = {
 
 export const ManyTypes: Story = {
   args: {
-    KPIs: mockKPIs,
+    KPIs: sortedKPIs,
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },

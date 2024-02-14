@@ -19,7 +19,7 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { Title } from '../Typography';
 import { SummaryTiles } from './SummaryTiles';
-import { KPITile } from './KPITile';
+import { DashboardTile } from './DashboardTile';
 import { ReactComponent as ChevronDown } from '../../assets/images/animals/chevron-down.svg';
 import TextButton from '../Form/Button/TextButton';
 import { useDynamicTileVisibility } from './useDynamicTileVisibility';
@@ -45,8 +45,6 @@ export const PureKPIDashboard = ({
   const totalCount = KPIs.reduce((sum, element) => sum + element.count, 0);
   const categoryCount = KPIs.length;
 
-  const sortedKPIs = KPIs.sort((a, b) => a.label.localeCompare(b.label));
-
   const containerRef = useRef<HTMLDivElement>(null);
   const threshold = useDynamicTileVisibility({
     containerRef,
@@ -61,8 +59,8 @@ export const PureKPIDashboard = ({
     },
   });
 
-  const visibleKPIs = sortedKPIs.slice(0, KPIs.length - threshold);
-  const hiddenKPIs = sortedKPIs.slice(KPIs.length - threshold);
+  const visibleKPIs = KPIs.slice(0, KPIs.length - threshold);
+  const hiddenKPIs = KPIs.slice(KPIs.length - threshold);
 
   return (
     <>
@@ -77,7 +75,7 @@ export const PureKPIDashboard = ({
           <div className={styles.gridContainer} ref={containerRef}>
             {visibleKPIs.map((item, index) => (
               <div key={index} className={clsx(styles.gridItem)}>
-                <KPITile key={index} {...item} />
+                <DashboardTile key={index} {...item} />
               </div>
             ))}
             {hiddenKPIs.length ? <MoreComponent moreKPIs={hiddenKPIs} /> : <></>}
@@ -107,7 +105,7 @@ const MoreComponent = ({ moreKPIs }: MoreComponentProps) => {
         <div className={styles.moreContent}>
           {moreKPIs.map((item, index) => (
             <div key={index} className={clsx(styles.contentItem)}>
-              <KPITile key={index} {...item} />
+              <DashboardTile key={index} {...item} />
             </div>
           ))}
         </div>

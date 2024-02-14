@@ -25,6 +25,7 @@ interface ResizeObserver {
 interface useDynamicTileVisibilityParams {
   containerRef: RefObject<HTMLElement>;
   gap: number;
+  tileWidth: number;
   moreButtonWidth: number;
   minWidthDesktop: number;
   totalTiles: number;
@@ -37,6 +38,7 @@ interface useDynamicTileVisibilityParams {
 export const useDynamicTileVisibility = ({
   containerRef,
   gap,
+  tileWidth,
   moreButtonWidth,
   minWidthDesktop,
   totalTiles,
@@ -46,56 +48,22 @@ export const useDynamicTileVisibility = ({
 
   useLayoutEffect(() => {
     let resizeObserver: ResizeObserver;
-    let tileWidths: number[] = [];
 
     const updateLayout = (container: HTMLElement) => {
       if (container) {
-        const containerRect = container.getBoundingClientRect();
-
-        let totalWidth = 0;
-        let willFit = 0;
-        let spaceRemaining = 0;
-
-        let isDesktopView = containerRect.width > minWidthDesktop;
-
-        if (isDesktopView) {
-          setHiddenThreshold(0);
-        }
-
-        const tiles = Array.from(container.children);
-
-        if (!tileWidths.length) {
-          tileWidths = Array.from(tiles).map((tile, index) => {
-            const tileRect = tile.getBoundingClientRect();
-
-            return tileRect.width + (index > 0 ? gap : 0);
-          });
-        }
+        const containerWidth = container.getBoundingClientRect().width;
+        let isDesktopView = containerWidth > minWidthDesktop;
 
         const rowMultiplier = isDesktopView ? rowsPerView.desktop : rowsPerView.mobile;
 
-        tileWidths.forEach((width) => {
-          if (totalWidth + width > containerRect.width * rowMultiplier) {
-            spaceRemaining = containerRect.width * rowMultiplier - totalWidth;
-            return;
-          } else {
-            totalWidth += width;
-            willFit++;
-          }
-        });
+        const availableWidth = containerWidth - moreButtonWidth;
+        const tilesPerRow = Math.floor(availableWidth / (tileWidth + gap));
+        const totalFittableTiles = tilesPerRow * rowMultiplier;
 
-        let breakpoint = totalTiles - willFit;
+        let tilesToHide = totalTiles - totalFittableTiles;
+        if (tilesToHide < 0) tilesToHide = 0;
 
-        // Make sure the + More button fits
-        if (spaceRemaining < moreButtonWidth && breakpoint) {
-          breakpoint++;
-        }
-
-        // At shorter views the button is inexplicably used when it is not needed, but if the next item is longer than button width, this will create a line break
-        // Unfortunately it seems to depend on the length of the tile text...
-        // setHiddenThreshold(breakpoint === 1 ? 0 : breakpoint);
-
-        setHiddenThreshold(breakpoint);
+        setHiddenThreshold(tilesToHide);
       }
     };
 

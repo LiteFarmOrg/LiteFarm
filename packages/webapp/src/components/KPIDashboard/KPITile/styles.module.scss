@@ -18,13 +18,13 @@
 .tile {
   display: flex;
   height: 40px;
-  min-width: max-content;
+  min-width: 90px;
   width: 100%;
   padding: 0px 8px;
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
-  gap: 8px;
+  gap: 4px;
 
   border-radius: 4px;
   background: #2d5550;
@@ -47,7 +47,10 @@
   line-height: normal;
   letter-spacing: -0.264px;
 
-  white-space: nowrap; /* Keeps the text on a single line */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: calc(90px - 36px);
 }
 .tileCountLabel {
   color: var(--Colors-Accent-Accent-yellow-400, #ffc633);

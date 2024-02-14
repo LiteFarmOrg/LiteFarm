@@ -51,6 +51,7 @@ export const PureKPIDashboard = ({
   const threshold = useDynamicTileVisibility({
     containerRef,
     gap: 4,
+    tileWidth: 90,
     moreButtonWidth: 90,
     minWidthDesktop: 600, // from inspection
     totalTiles: KPIs.length,

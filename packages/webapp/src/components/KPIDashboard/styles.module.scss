@@ -66,9 +66,10 @@
 }
 
 .gridItem {
-  width: max-content;
-  min-width: 78px;
+  width: 90px;
   flex: 1 0 auto;
+
+  overflow-x: hidden;
 
   @include lg-breakpoint {
     flex: 0 0 auto;
@@ -86,6 +87,7 @@
 // More component
 .moreContainer {
   position: relative;
+  overflow-x: visible;
 }
 
 .moreButton {

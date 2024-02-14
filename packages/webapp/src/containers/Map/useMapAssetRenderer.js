@@ -372,7 +372,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
 
   // Draw a line
   const drawLine = (map, maps, mapBounds, line, isVisible) => {
-    const { line_points: points, type, width, location_id } = line;
+    const { line_points: points, type, width } = line;
     let linePolygon;
     const realWidth =
       type === locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width);
@@ -441,7 +441,7 @@ const useMapAssetRenderer = ({ isClickable, showingConfirmButtons, drawingState 
       const latlng = map.getCenter().toJSON();
       dispatch(setPosition(latlng));
       dispatch(setZoomLevel(map.getZoom()));
-      history.push(`/${type}/${location_id}/details`);
+      handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
     let asset;

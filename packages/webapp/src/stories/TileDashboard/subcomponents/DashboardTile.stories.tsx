@@ -17,6 +17,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import { DashboardTile } from '../../../components/TileDashboard/DashboardTile';
 import { ReactComponent as CattleIcon } from '../../../assets/images/animals/cattle-icon-btn-list.svg';
+import { ReactComponent as RabbitIcon } from '../../../assets/images/animals/rabbit-icon-btn-list.svg';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof DashboardTile> = {
@@ -40,7 +41,7 @@ export const Default: Story = {
 export const LongType: Story = {
   args: {
     label: 'Tasmanian Devil',
-    icon: <CattleIcon />,
+    icon: <RabbitIcon />,
     count: 20,
     onClick: () => console.log('Tasmanian Devil has been clicked!'),
   },

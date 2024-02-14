@@ -15,11 +15,17 @@
 
 import { ReactNode } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
-import { componentDecorators } from '../Pages/config/Decorators';
-import { PureTileDashboard } from '../../components/TileDashboard';
-import { Main } from '../../components/Typography';
 import styles from './styles.module.scss';
+import { Main } from '../../components/Typography';
+import { PureTileDashboard } from '../../components/TileDashboard';
+import { componentDecorators } from '../Pages/config/Decorators';
+import { ReactComponent as AlpacaIcon } from '../../assets/images/animals/alpaca-icon-btn-list.svg';
 import { ReactComponent as CattleIcon } from '../../assets/images/animals/cattle-icon-btn-list.svg';
+import { ReactComponent as ChickenIcon } from '../../assets/images/animals/chicken-icon-btn-list.svg';
+import { ReactComponent as GoatIcon } from '../../assets/images/animals/goat-icon-btn-list.svg';
+import { ReactComponent as PigIcon } from '../../assets/images/animals/pig-icon-btn-list.svg';
+import { ReactComponent as RabbitIcon } from '../../assets/images/animals/rabbit-icon-btn-list.svg';
+import { ReactComponent as SheepIcon } from '../../assets/images/animals/sheep-icon-btn-list.svg';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof PureTileDashboard> = {
@@ -54,25 +60,25 @@ type Story = StoryObj<typeof PureTileDashboard>;
 const mockTiles = [
   {
     label: 'Goat',
-    icon: <CattleIcon />,
+    icon: <GoatIcon />,
     count: 6,
     onClick: () => console.log('Goat has been clicked!'),
   },
   {
     label: 'Chicken',
-    icon: <CattleIcon />,
+    icon: <ChickenIcon />,
     count: 40,
     onClick: () => console.log('Chicken has been clicked!'),
   },
   {
     label: 'Pig',
-    icon: <CattleIcon />,
+    icon: <PigIcon />,
     count: 20,
     onClick: () => console.log('Pig has been clicked!'),
   },
   {
     label: 'Cockatoo',
-    icon: <CattleIcon />,
+    icon: <ChickenIcon />,
     count: 2,
     onClick: () => console.log('Cockatoo has been clicked!'),
   },
@@ -89,26 +95,26 @@ const mockTiles = [
     onClick: () => console.log('Dog has been clicked!'),
   },
   {
-    label: 'Gerbil',
-    icon: <CattleIcon />,
-    count: 4,
-    onClick: () => console.log('Gerbil has been clicked!'),
+    label: 'Rabbit',
+    icon: <RabbitIcon />,
+    count: 24,
+    onClick: () => console.log('Rabbit has been clicked!'),
   },
   {
     label: 'Hamster',
-    icon: <CattleIcon />,
+    icon: <RabbitIcon />,
     count: 1,
     onClick: () => console.log('Hamster has been clicked!'),
   },
   {
     label: 'Guinea Pig',
-    icon: <CattleIcon />,
+    icon: <RabbitIcon />,
     count: 20,
     onClick: () => console.log('Guinea pig has been clicked!'),
   },
   {
     label: 'Draft Horse',
-    icon: <CattleIcon />,
+    icon: <SheepIcon />,
     count: 1,
     onClick: () => console.log('Draft Horse has been clicked!'),
   },
@@ -123,6 +129,18 @@ const mockTiles = [
     icon: <CattleIcon />,
     count: 3,
     onClick: () => console.log('Tasmanian Devil has been clicked!'),
+  },
+  {
+    label: 'Alpaca',
+    icon: <AlpacaIcon />,
+    count: 3,
+    onClick: () => console.log('Alpaca has been clicked!'),
+  },
+  {
+    label: 'Sheep',
+    icon: <SheepIcon />,
+    count: 3,
+    onClick: () => console.log('Sheep has been clicked!'),
   },
 ];
 

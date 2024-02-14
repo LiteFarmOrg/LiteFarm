@@ -86,7 +86,16 @@ export const useDynamicTileVisibility = ({
 
         let breakpoint = totalTiles - willFit;
 
-        setHiddenThreshold(breakpoint === 1 ? 0 : breakpoint);
+        // Make sure the + More button fits
+        if (spaceRemaining < moreButtonWidth && breakpoint) {
+          breakpoint++;
+        }
+
+        // At shorter views the button is inexplicably used when it is not needed, but if the next item is longer than button width, this will create a line break
+        // Unfortunately it seems to depend on the length of the tile text...
+        // setHiddenThreshold(breakpoint === 1 ? 0 : breakpoint);
+
+        setHiddenThreshold(breakpoint);
       }
     };
 

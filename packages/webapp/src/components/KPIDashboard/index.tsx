@@ -13,10 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useState, useRef, useLayoutEffect } from 'react';
+import { ReactNode, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '@mui/styles';
-import { useMediaQuery } from '@mui/material';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { Title } from '../Typography';
@@ -47,6 +45,8 @@ export const PureKPIDashboard = ({
   const totalCount = KPIs.reduce((sum, element) => sum + element.count, 0);
   const categoryCount = KPIs.length;
 
+  const sortedKPIs = KPIs.sort((a, b) => a.label.localeCompare(b.label));
+
   const containerRef = useRef<HTMLDivElement>(null);
   const threshold = useDynamicTileVisibility({
     containerRef,
@@ -60,8 +60,8 @@ export const PureKPIDashboard = ({
     },
   });
 
-  const visibleKPIs = KPIs.slice(0, KPIs.length - threshold);
-  const hiddenKPIs = KPIs.slice(KPIs.length - threshold);
+  const visibleKPIs = sortedKPIs.slice(0, KPIs.length - threshold);
+  const hiddenKPIs = sortedKPIs.slice(KPIs.length - threshold);
 
   return (
     <>

@@ -43,7 +43,7 @@ interface ResizeWrapperProps {
 const ResizeWrapper = ({ children }: ResizeWrapperProps) => {
   return (
     <div className={styles.wrapper}>
-      <Main className={styles.note}>Resize window to see mobile / desktop view</Main>
+      <Main className={styles.note}>Resize window and reload to see mobile / desktop view</Main>
       {children}
     </div>
   );
@@ -59,12 +59,6 @@ const mockKPIs = [
     onClick: () => console.log('Goat has been clicked!'),
   },
   {
-    label: 'Barn Cat',
-    icon: <CattleIcon />,
-    count: 2,
-    onClick: () => console.log('Cat has been clicked!'),
-  },
-  {
     label: 'Chicken',
     icon: <CattleIcon />,
     count: 40,
@@ -77,14 +71,86 @@ const mockKPIs = [
     onClick: () => console.log('Pig has been clicked!'),
   },
   {
+    label: 'Cockatoo',
+    icon: <CattleIcon />,
+    count: 2,
+    onClick: () => console.log('Cockatoo has been clicked!'),
+  },
+  {
+    label: 'Cow',
+    icon: <CattleIcon />,
+    count: 20,
+    onClick: () => console.log('Cow has been clicked!'),
+  },
+  {
+    label: 'Dog',
+    icon: <CattleIcon />,
+    count: 3,
+    onClick: () => console.log('Dog has been clicked!'),
+  },
+  {
+    label: 'Gerbil',
+    icon: <CattleIcon />,
+    count: 4,
+    onClick: () => console.log('Gerbil has been clicked!'),
+  },
+  {
+    label: 'Hamster',
+    icon: <CattleIcon />,
+    count: 1,
+    onClick: () => console.log('Hamster has been clicked!'),
+  },
+  {
     label: 'Guinea Pig',
     icon: <CattleIcon />,
     count: 20,
     onClick: () => console.log('Guinea pig has been clicked!'),
   },
+  {
+    label: 'Draft Horse',
+    icon: <CattleIcon />,
+    count: 1,
+    onClick: () => console.log('Draft Horse has been clicked!'),
+  },
+  {
+    label: 'Barn Cat',
+    icon: <CattleIcon />,
+    count: 3,
+    onClick: () => console.log('Cat has been clicked!'),
+  },
+  {
+    label: 'Tasmanian Devil',
+    icon: <CattleIcon />,
+    count: 3,
+    onClick: () => console.log('Tasmanian Devil has been clicked!'),
+  },
 ];
 
 export const Default: Story = {
+  args: {
+    KPIs: mockKPIs.slice(0, 5),
+    dashboardTitle: 'Animal inventory',
+    categoryLabel: 'Types',
+  },
+};
+
+export const TwoTypes: Story = {
+  args: {
+    KPIs: mockKPIs.slice(0, 2),
+    dashboardTitle: 'Animal inventory',
+    categoryLabel: 'Types',
+  },
+};
+
+export const SeveralTypes: Story = {
+  args: {
+    KPIs: mockKPIs.slice(0, 5),
+    dashboardTitle: 'Animal inventory',
+    categoryLabel: 'Types',
+  },
+};
+
+export const ManyTypes: Story = {
   args: {
     KPIs: mockKPIs,
     dashboardTitle: 'Animal inventory',

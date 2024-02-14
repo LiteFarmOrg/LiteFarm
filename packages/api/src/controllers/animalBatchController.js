@@ -127,7 +127,7 @@ const animalBatchController = {
           // Remove farm_id if it happens to be set in animal object since it should be obtained from header
           delete animalBatch.farm_id;
 
-          const individualAnimalBatchResult = await baseController.insertGraph(
+          const individualAnimalBatchResult = await baseController.insertGraphWithResponse(
             AnimalBatchModel,
             { ...animalBatch, farm_id },
             req,

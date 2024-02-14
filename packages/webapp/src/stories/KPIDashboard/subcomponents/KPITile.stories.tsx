@@ -36,3 +36,12 @@ export const Default: Story = {
     onClick: () => console.log('Cattle has been clicked!'),
   },
 };
+
+export const LongType: Story = {
+  args: {
+    label: 'Tasmanian Devil',
+    icon: <CattleIcon />,
+    count: 20,
+    onClick: () => console.log('Tasmanian Devil has been clicked!'),
+  },
+};

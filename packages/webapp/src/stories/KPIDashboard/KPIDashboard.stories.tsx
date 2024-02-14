@@ -43,7 +43,7 @@ interface ResizeWrapperProps {
 const ResizeWrapper = ({ children }: ResizeWrapperProps) => {
   return (
     <div className={styles.wrapper}>
-      <Main className={styles.note}>Resize window and reload to see mobile / desktop view</Main>
+      <Main className={styles.note}>Resize window to see mobile / desktop view</Main>
       {children}
     </div>
   );

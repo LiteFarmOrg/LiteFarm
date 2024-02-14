@@ -16,15 +16,15 @@
 import { ReactNode } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { PureKPIDashboard } from '../../components/KPIDashboard';
+import { PureTileDashboard } from '../../components/TileDashboard';
 import { Main } from '../../components/Typography';
 import styles from './styles.module.scss';
 import { ReactComponent as CattleIcon } from '../../assets/images/animals/cattle-icon-btn-list.svg';
 
 // https://storybook.js.org/docs/writing-stories/typescript
-const meta: Meta<typeof PureKPIDashboard> = {
-  title: 'Components/PureKPIDashboard',
-  component: PureKPIDashboard,
+const meta: Meta<typeof PureTileDashboard> = {
+  title: 'Components/PureTileDashboard',
+  component: PureTileDashboard,
   decorators: [
     (Story) => (
       <ResizeWrapper>
@@ -49,9 +49,9 @@ const ResizeWrapper = ({ children }: ResizeWrapperProps) => {
   );
 };
 
-type Story = StoryObj<typeof PureKPIDashboard>;
+type Story = StoryObj<typeof PureTileDashboard>;
 
-const mockKPIs = [
+const mockTiles = [
   {
     label: 'Goat',
     icon: <CattleIcon />,
@@ -126,11 +126,11 @@ const mockKPIs = [
   },
 ];
 
-const sortedKPIs = mockKPIs.sort((a, b) => a.label.localeCompare(b.label));
+const sortedTiles = mockTiles.sort((a, b) => a.label.localeCompare(b.label));
 
 export const Default: Story = {
   args: {
-    KPIs: sortedKPIs.slice(0, 5),
+    IconTiles: sortedTiles.slice(0, 5),
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -138,7 +138,7 @@ export const Default: Story = {
 
 export const TwoTypes: Story = {
   args: {
-    KPIs: sortedKPIs.slice(0, 2),
+    IconTiles: sortedTiles.slice(0, 2),
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -146,7 +146,7 @@ export const TwoTypes: Story = {
 
 export const SeveralTypes: Story = {
   args: {
-    KPIs: sortedKPIs.slice(0, 5),
+    IconTiles: sortedTiles.slice(0, 5),
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -154,7 +154,7 @@ export const SeveralTypes: Story = {
 
 export const ManyTypes: Story = {
   args: {
-    KPIs: sortedKPIs,
+    IconTiles: sortedTiles,
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },

@@ -24,26 +24,26 @@ import { ReactComponent as ChevronDown } from '../../assets/images/animals/chevr
 import TextButton from '../Form/Button/TextButton';
 import { useDynamicTileVisibility } from './useDynamicTileVisibility';
 
-export interface KPI {
+export interface IconTile {
   label: string;
   count: number;
   icon: ReactNode;
   onClick: () => void;
 }
 
-interface PureKPIDashboardProps {
-  KPIs: KPI[];
+interface PureTileDashboardProps {
+  IconTiles: IconTile[];
   dashboardTitle: string;
   categoryLabel: string;
 }
 
-export const PureKPIDashboard = ({
-  KPIs,
+export const PureTileDashboard = ({
+  IconTiles,
   dashboardTitle,
   categoryLabel,
-}: PureKPIDashboardProps) => {
-  const totalCount = KPIs.reduce((sum, element) => sum + element.count, 0);
-  const categoryCount = KPIs.length;
+}: PureTileDashboardProps) => {
+  const totalCount = IconTiles.reduce((sum, element) => sum + element.count, 0);
+  const categoryCount = IconTiles.length;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const threshold = useDynamicTileVisibility({
@@ -52,15 +52,15 @@ export const PureKPIDashboard = ({
     tileWidth: 90,
     moreButtonWidth: 90,
     minWidthDesktop: 600, // from inspection
-    totalTiles: KPIs.length,
+    totalTiles: IconTiles.length,
     rowsPerView: {
       desktop: 1,
       mobile: 2,
     },
   });
 
-  const visibleKPIs = KPIs.slice(0, KPIs.length - threshold);
-  const hiddenKPIs = KPIs.slice(KPIs.length - threshold);
+  const visibleIconTiles = IconTiles.slice(0, IconTiles.length - threshold);
+  const hiddenIconTiles = IconTiles.slice(IconTiles.length - threshold);
 
   return (
     <>
@@ -73,12 +73,12 @@ export const PureKPIDashboard = ({
             categoryLabel={categoryLabel}
           />
           <div className={styles.gridContainer} ref={containerRef}>
-            {visibleKPIs.map((item, index) => (
+            {visibleIconTiles.map((item, index) => (
               <div key={index} className={clsx(styles.gridItem)}>
                 <DashboardTile key={index} {...item} />
               </div>
             ))}
-            {hiddenKPIs.length ? <MoreComponent moreKPIs={hiddenKPIs} /> : <></>}
+            {hiddenIconTiles.length ? <MoreComponent moreIconTiles={hiddenIconTiles} /> : <></>}
           </div>
         </div>
       </div>
@@ -87,10 +87,10 @@ export const PureKPIDashboard = ({
 };
 
 interface MoreComponentProps {
-  moreKPIs: KPI[];
+  moreIconTiles: IconTile[];
 }
 
-const MoreComponent = ({ moreKPIs }: MoreComponentProps) => {
+const MoreComponent = ({ moreIconTiles }: MoreComponentProps) => {
   const { t } = useTranslation();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -98,12 +98,12 @@ const MoreComponent = ({ moreKPIs }: MoreComponentProps) => {
   return (
     <div className={clsx(styles.moreContainer, styles.gridItem)}>
       <TextButton className={clsx(styles.moreButton)} onClick={() => setIsOpen((prev) => !prev)}>
-        <span>{t('TABLE.NUMBER_MORE', { number: moreKPIs.length })} </span>
+        <span>{t('TABLE.NUMBER_MORE', { number: moreIconTiles.length })} </span>
         <ChevronDown />
       </TextButton>
       {isOpen && ( // TODO: add click away
         <div className={styles.moreContent}>
-          {moreKPIs.map((item, index) => (
+          {moreIconTiles.map((item, index) => (
             <div key={index} className={clsx(styles.contentItem)}>
               <DashboardTile key={index} {...item} />
             </div>

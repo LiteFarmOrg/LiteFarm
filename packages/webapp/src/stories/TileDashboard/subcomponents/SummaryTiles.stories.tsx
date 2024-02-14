@@ -15,33 +15,22 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
-import { KPITile } from '../../../components/KPIDashboard/KPITile';
-import { ReactComponent as CattleIcon } from '../../../assets/images/animals/cattle-icon-btn-list.svg';
+import { SummaryTiles } from '../../../components/TileDashboard/SummaryTiles';
 
 // https://storybook.js.org/docs/writing-stories/typescript
-const meta: Meta<typeof KPITile> = {
-  title: 'Components/PureKPIDashboard/KPITile',
-  component: KPITile,
+const meta: Meta<typeof SummaryTiles> = {
+  title: 'Components/PureTileDashboard/SummaryTiles',
+  component: SummaryTiles,
   decorators: componentDecorators,
 };
 export default meta;
 
-type Story = StoryObj<typeof KPITile>;
+type Story = StoryObj<typeof SummaryTiles>;
 
 export const Default: Story = {
   args: {
-    label: 'Cattle',
-    icon: <CattleIcon />,
-    count: 20,
-    onClick: () => console.log('Cattle has been clicked!'),
-  },
-};
-
-export const LongType: Story = {
-  args: {
-    label: 'Tasmanian Devil',
-    icon: <CattleIcon />,
-    count: 20,
-    onClick: () => console.log('Tasmanian Devil has been clicked!'),
+    totalCount: 100,
+    categoryCount: 4,
+    categoryLabel: 'Types',
   },
 };

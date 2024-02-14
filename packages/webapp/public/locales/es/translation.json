@@ -889,6 +889,10 @@
   "HOME": {
     "GREETING": "Buen dia,"
   },
+  "HOVERPILL": {
+    "PLUS_OTHERS_COUNT_one": "MISSING",
+    "PLUS_OTHERS_COUNT_other": "MISSING"
+  },
   "INSIGHTS": {
     "BIODIVERSITY": {
       "AMPHIBIANS": "Anfibio",
@@ -1570,6 +1574,11 @@
     "CLEAR_TERMS_AND_FILTERS": "¿Por qué no explorar diferentes términos de búsqueda o simplemente limpiar los filtros para descubrir nuevas posibilidades?",
     "NO_RESULTS_FOR": "Disculpe, no hemos podido encontrar resultados para su búsqueda <1>'{{searchTerm}}'</1>",
     "ZERO": "0 resultados"
+  },
+  "SECTION_HEADER": {
+    "ANIMALS_GROUPS": "MISSING",
+    "ANIMALS_INVENTORY": "MISSING",
+    "ANIMALS_LOCATION": "MISSING"
   },
   "SENSOR": {
     "BRAND": "Marca",

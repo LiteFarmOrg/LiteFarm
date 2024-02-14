@@ -21,7 +21,6 @@ import AnimalBatchModel from '../models/animalBatchModel.js';
  * @param {Object} typeIdCountMap - The map object with typeId as keys.
  * @param {Array<Object>} typeIdCountObjects - Array of objects containing type ids and counts.
  * @param {string} typeIdColumnName - The name of the type id column - 'default_type_id' or 'custom_type_id'.
- * @returns {Promise<Object>} The updated map with type counts.
  * @example
  * // Example usage:
  * const typeIdCountMap = { '1': 2 };
@@ -31,8 +30,8 @@ import AnimalBatchModel from '../models/animalBatchModel.js';
  *   { default_type_id: 1, count: 2 }
  * ];
  * const typeIdColumnName = 'default_type_id';
- * const updatedMap = await updateMapWithTypeCounts(map, typeIdCountObjects, typeIdColumnName);
- * console.log(updatedMap);
+ * await updateMapWithTypeCounts(map, typeIdCountObjects, typeIdColumnName);
+ * console.log(typeIdCountMap);
  *
  * // Example output:
  * // { '1': 9, '2': 3 }
@@ -49,8 +48,6 @@ export const updateMapWithTypeCounts = async (
     }
     typeIdCountMap[typeId] += +typeIdCountObj.count;
   });
-
-  return typeIdCountMap;
 };
 
 /**

@@ -20,7 +20,7 @@ import { all, call, delay, put, select, takeLatest, takeLeading } from 'redux-sa
 import apiConfig, { url } from '../apiConfig';
 import history from '../history';
 import i18n from '../locales/i18n';
-import { store } from '../store/store.js';
+import { store } from '../store/store.ts';
 import { APP_VERSION } from '../util/constants';
 import { logout } from '../util/jwt';
 import { handle403 } from './ErrorHandler/saga.js';

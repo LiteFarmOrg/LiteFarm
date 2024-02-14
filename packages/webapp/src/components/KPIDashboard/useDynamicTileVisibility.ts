@@ -86,11 +86,7 @@ export const useDynamicTileVisibility = ({
 
         let breakpoint = totalTiles - willFit;
 
-        if (spaceRemaining < moreButtonWidth) {
-          breakpoint += rowMultiplier;
-        }
-
-        setHiddenThreshold(breakpoint);
+        setHiddenThreshold(breakpoint === 1 ? 0 : breakpoint);
       }
     };
 

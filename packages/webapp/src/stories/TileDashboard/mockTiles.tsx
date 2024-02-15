@@ -1,16 +1,21 @@
-import { ReactComponent as AlpacaIcon } from '../../assets/images/animals/alpaca-icon-btn-list.svg';
-import { ReactComponent as CattleIcon } from '../../assets/images/animals/cattle-icon-btn-list.svg';
-import { ReactComponent as ChickenIcon } from '../../assets/images/animals/chicken-icon-btn-list.svg';
-import { ReactComponent as GoatIcon } from '../../assets/images/animals/goat-icon-btn-list.svg';
-import { ReactComponent as PigIcon } from '../../assets/images/animals/pig-icon-btn-list.svg';
-import { ReactComponent as RabbitIcon } from '../../assets/images/animals/rabbit-icon-btn-list.svg';
-import { ReactComponent as SheepIcon } from '../../assets/images/animals/sheep-icon-btn-list.svg';
+import { ReactComponent as AlpacaIcon } from '../../assets/images/animals/alpaca-icon.svg';
+import { ReactComponent as CattleIcon } from '../../assets/images/animals/cattle-icon.svg';
+import { ReactComponent as ChickenIcon } from '../../assets/images/animals/chicken-icon.svg';
+import { ReactComponent as GoatIcon } from '../../assets/images/animals/goat-icon.svg';
+import { ReactComponent as PigIcon } from '../../assets/images/animals/pig-icon.svg';
+import { ReactComponent as RabbitIcon } from '../../assets/images/animals/rabbit-icon.svg';
+import { ReactComponent as SheepIcon } from '../../assets/images/animals/sheep-icon.svg';
 
 export const mockTiles = [
   {
     label: 'Goat',
     icon: <GoatIcon />,
     count: 6,
+  },
+  {
+    label: 'Cow',
+    icon: <CattleIcon />,
+    count: 20,
   },
   {
     label: 'Chicken',
@@ -26,11 +31,6 @@ export const mockTiles = [
     label: 'Cockatoo',
     icon: <ChickenIcon />,
     count: 2,
-  },
-  {
-    label: 'Cow',
-    icon: <CattleIcon />,
-    count: 20,
   },
   {
     label: 'Dog',

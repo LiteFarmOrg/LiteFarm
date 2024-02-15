@@ -15,7 +15,8 @@
 
 @import '../../../assets/mixin';
 
-.tile {
+.tile.tile {
+  // increase CSS specificity beyond textButton class
   height: 40px;
   width: 100%;
   min-width: 90px;
@@ -29,7 +30,7 @@
   padding: 0px 8px;
 
   border-radius: 4px;
-  background: var(--Colors-Accent---singles-Icon-action, #2d5550);
+  background-color: var(--Colors-Accent---singles-Icon-action, #2d5550);
   box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.25);
 }
 
@@ -68,23 +69,17 @@
   height: 24px;
   flex-shrink: 0;
 
-  // For reference; defined in SVG itself
-  // .icon rect {
-  //   fill: var(--white, #fff);
-  //   fill-opacity: 0.2;
-  // }
+  path {
+    fill: var(--Colors-Accent-Accent-yellow-50, #fff8e6);
+  }
 }
 
 .tile:hover {
-  background: var(--Colors-Secondary-Secondary-green-700, #558f70);
+  background-color: var(--Colors-Secondary-Secondary-green-700, #558f70);
 
   .tileLabel,
   .tileCountLabel {
     color: var(--Colors-Accent-Accent-yellow-50, #fff8e6);
-  }
-  .icon rect {
-    fill: var(--Colors-Secondary-Secondary-green-800, #426f57);
-    fill-opacity: 1;
   }
 
   .icon path {
@@ -93,19 +88,14 @@
 }
 
 .tile.selected {
-  background: var(--Btn-primary-pristine, #ffcf54);
+  background-color: var(--Btn-primary-pristine, #ffcf54);
 
   .tileLabel,
   .tileCountLabel {
     color: var(--Colors-Secondary-Secondary-green-800, #426f57);
   }
 
-  .icon rect {
-    fill: var(--Colors-Secondary-Secondary-green-900, #325442);
-    fill-opacity: 1;
-  }
-
   .icon path {
-    fill: var(--Btn-primary-pristine, #ffcf54);
+    fill: var(--Colors-Secondary-Secondary-green-900, #325442);
   }
 }

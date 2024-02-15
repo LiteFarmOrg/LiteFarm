@@ -90,7 +90,8 @@
   overflow-x: visible;
 }
 
-.moreButton {
+.moreButton.moreButton {
+  // increase CSS specificity beyond textButton class
   display: flex;
   width: 100%;
   height: 40px;
@@ -136,8 +137,17 @@
   max-width: 90px;
 }
 
-.moreButton.selected,
 .moreButton.open {
+  background: var(--Btn-primary-hover, #e8a700);
+
+  color: var(--Colors-Accent---singles-Green-dark, #0c3611);
+
+  svg path {
+    stroke: var(--Colors-Accent---singles-Green-dark, #426f57);
+  }
+}
+
+.moreButton.selected {
   background: var(--Btn-primary-pristine, #ffcf54);
   color: var(--Colors-Secondary-Secondary-green-800, #426f57);
 

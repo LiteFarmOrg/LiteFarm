@@ -13,27 +13,43 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import knex from '../util/knex.js';
 import { transaction, Model } from 'objection';
 import baseController from './baseController.js';
 
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
-import { getAnimalTypeIdCountMap } from '../util/animal.js';
 
 const customAnimalTypeController = {
   getCustomAnimalTypes() {
     return async (req, res) => {
       try {
         const { farm_id } = req.headers;
-        const rows = await CustomAnimalTypeModel.query().where({ farm_id }).whereNotDeleted();
+        let rows = [];
 
-        if (rows.length && req.query.count === 'true') {
+        if (req.query.count === 'true') {
           const { farm_id } = req.headers;
-          const typeCountMap = await getAnimalTypeIdCountMap(farm_id, 'custom_type_id');
-
-          rows.map((animalType) => {
-            animalType.count = typeCountMap[animalType.id] || 0;
-            return animalType;
-          });
+          const data = await knex.raw(
+            `SELECT
+              cat.*,
+              COALESCE(SUM(abu.count), 0) AS count
+            FROM
+              custom_animal_type AS cat
+            LEFT JOIN (
+              SELECT custom_type_id, COUNT(*) AS count
+              FROM animal WHERE farm_id = ? AND deleted is FALSE
+              GROUP BY custom_type_id
+              UNION ALL
+              SELECT custom_type_id, SUM(count) AS count
+              FROM animal_batch WHERE farm_id = ? AND deleted is FALSE
+              GROUP BY custom_type_id
+            ) AS abu ON cat.id = abu.custom_type_id
+            WHERE farm_id = ? AND deleted is FALSE
+            GROUP BY cat.id;`,
+            [farm_id, farm_id, farm_id],
+          );
+          rows = data.rows;
+        } else {
+          rows = await CustomAnimalTypeModel.query().where({ farm_id }).whereNotDeleted();
         }
 
         return res.status(200).send(rows);

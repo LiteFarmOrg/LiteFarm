@@ -13,27 +13,46 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import knex from '../util/knex.js';
 import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
-import { getAnimalTypeIdCountMap } from '../util/animal.js';
 
 const defaultAnimalTypeController = {
   getDefaultAnimalTypes() {
     return async (req, res) => {
       try {
-        const rows = await DefaultAnimalTypeModel.query();
+        let rows = [];
+
+        if (req.query.count === 'true') {
+          const { farm_id } = req.headers;
+          const data = await knex.raw(
+            `SELECT
+              dat.*,
+              COALESCE(SUM(abu.count), 0) AS count
+            FROM
+              default_animal_type AS dat
+            LEFT JOIN (
+              SELECT default_type_id, COUNT(*) AS count
+              FROM animal
+              WHERE farm_id = ? AND deleted is FALSE
+              GROUP BY default_type_id
+              UNION ALL
+              SELECT default_type_id, SUM(count) AS count
+              FROM animal_batch
+              WHERE farm_id = ? AND deleted is FALSE
+              GROUP BY default_type_id
+            ) AS abu ON dat.id = abu.default_type_id
+            GROUP BY dat.id;`,
+            [farm_id, farm_id],
+          );
+          rows = data.rows;
+        } else {
+          rows = await DefaultAnimalTypeModel.query();
+        }
+
         if (!rows.length) {
           return res.sendStatus(404);
         }
 
-        if (req.query.count === 'true') {
-          const { farm_id } = req.headers;
-          const typeCountMap = await getAnimalTypeIdCountMap(farm_id, 'default_type_id');
-
-          rows.map((animalType) => {
-            animalType.count = typeCountMap[animalType.id] || 0;
-            return animalType;
-          });
-        }
         return res.status(200).send(rows);
       } catch (error) {
         console.error(error);

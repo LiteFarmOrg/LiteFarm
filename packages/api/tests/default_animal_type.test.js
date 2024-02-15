@@ -165,5 +165,67 @@ describe('Default Animal Type Tests', () => {
         expect(count).toBe(expectedCount);
       });
     });
+
+    test(`Other farms' animals and batches should not be counted`, async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+      const type = await makeDefaultAnimalType();
+
+      // make an animal and a batch(50) for each farm
+      for (let i = 0; i < 2; i++) {
+        await mocks.animalFactory({
+          promisedFarm: [i % 2 === 0 ? mainFarm : secondFarm],
+          promisedDefaultAnimalType: [type],
+        });
+
+        await mocks.animal_batchFactory({
+          promisedFarm: [i % 2 === 0 ? mainFarm : secondFarm],
+          promisedDefaultAnimalType: [type],
+          promisedDefaultAnimalBreed: [() => ({})],
+          properties: { count: 50 },
+        });
+      }
+
+      const res = await getRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        '?count=true',
+      );
+
+      expect(res.body[0].count).toBe(51);
+    });
+
+    test('Deleted animals or batches should not be counted', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const type = await makeDefaultAnimalType(mainFarm);
+
+      // make active animal, active batch(50), deleted animal and deleted batch(50)
+      for (let i = 0; i < 2; i++) {
+        await mocks.animalFactory({
+          promisedFarm: [mainFarm],
+          promisedDefaultAnimalType: [type],
+          properties: { deleted: i % 2 === 0 },
+        });
+
+        await mocks.animal_batchFactory({
+          promisedFarm: [mainFarm],
+          promisedDefaultAnimalType: [type],
+          promisedDefaultAnimalBreed: [() => ({})],
+          properties: { count: 50, deleted: i % 2 === 0 },
+        });
+      }
+
+      const res = await getRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        '?count=true',
+      );
+
+      expect(res.body[0].count).toBe(51);
+    });
   });
 });

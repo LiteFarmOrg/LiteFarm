@@ -87,9 +87,10 @@ describe('Custom Animal Type Tests', () => {
     return { mainFarm, user };
   }
 
-  async function makeUserCreatedAnimalType(mainFarm) {
+  async function makeUserCreatedAnimalType(mainFarm, properties = {}) {
     const [custom_animal_type] = await mocks.custom_animal_typeFactory({
       promisedFarm: [mainFarm],
+      properties,
     });
     return custom_animal_type;
   }
@@ -125,6 +126,54 @@ describe('Custom Animal Type Tests', () => {
       expect(res.error.text).toBe(
         'User does not have the following permission(s): get:animal_types',
       );
+    });
+
+    test(`Should not get other farms' types`, async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+
+      // make types for the farm and another farm
+      await makeUserCreatedAnimalType(mainFarm);
+      await makeUserCreatedAnimalType(secondFarm);
+
+      const resWithoutCount = await getRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      const resWithCount = await getRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        '?count=true',
+      );
+
+      expect(resWithoutCount.body.length).toBe(1);
+      expect(resWithCount.body.length).toBe(1);
+    });
+
+    test('Should not get deleted types', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      // make an active type and a deleted type
+      await makeUserCreatedAnimalType(mainFarm);
+      await makeUserCreatedAnimalType(mainFarm, { deleted: true });
+
+      const resWithoutCount = await getRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      const resWithCount = await getRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        '?count=true',
+      );
+
+      expect(resWithoutCount.body.length).toBe(1);
+      expect(resWithCount.body.length).toBe(1);
     });
 
     test('Should get counts with count=true query', async () => {
@@ -179,6 +228,37 @@ describe('Custom Animal Type Tests', () => {
 
         expect(count).toBe(expectedCount);
       });
+    });
+
+    test('Deleted animals or batches should not be counted', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const type = await makeUserCreatedAnimalType(mainFarm);
+
+      // make active animal, active batch(50), deleted animal and deleted batch(50)
+      for (let i = 0; i < 2; i++) {
+        await mocks.animalFactory({
+          promisedFarm: [mainFarm],
+          promisedDefaultAnimalType: [() => ({})],
+          properties: { custom_type_id: type.id, deleted: i % 2 === 0 },
+        });
+
+        await mocks.animal_batchFactory({
+          promisedFarm: [mainFarm],
+          promisedDefaultAnimalType: [() => ({})],
+          promisedDefaultAnimalBreed: [() => ({})],
+          properties: { custom_type_id: type.id, count: 50, deleted: i % 2 === 0 },
+        });
+      }
+
+      const res = await getRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        '?count=true',
+      );
+
+      expect(res.body[0].count).toBe(51);
     });
   });
 

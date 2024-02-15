@@ -13,16 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useState, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { ReactNode, useRef } from 'react';
 import clsx from 'clsx';
-import { ClickAwayListener } from '@mui/material';
 import styles from './styles.module.scss';
 import { Title } from '../Typography';
 import { SummaryTiles } from './SummaryTiles';
 import { DashboardTile } from './DashboardTile';
-import { ReactComponent as ChevronDown } from '../../assets/images/animals/chevron-down.svg';
-import TextButton from '../Form/Button/TextButton';
+import { MoreComponent } from './MoreComponent';
 import { useDynamicTileVisibility } from './useDynamicTileVisibility';
 
 export type FilterId = string | number;
@@ -82,6 +79,7 @@ export const PureTileDashboard = ({
               <MoreComponent
                 moreIconTiles={hiddenIconTiles}
                 selectedFilterIds={selectedFilterIds}
+                className={styles.gridItem}
               />
             ) : (
               <></>
@@ -90,50 +88,5 @@ export const PureTileDashboard = ({
         </div>
       </div>
     </>
-  );
-};
-
-interface MoreComponentProps {
-  moreIconTiles: IconCountTile[];
-  selectedFilterIds?: FilterId[];
-}
-
-const MoreComponent = ({ moreIconTiles, selectedFilterIds }: MoreComponentProps) => {
-  const { t } = useTranslation();
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  // Selected state for the more button
-  const atLeastOneSelected = moreIconTiles.some((tile) => selectedFilterIds?.includes(tile.id));
-
-  return (
-    <div className={clsx(styles.moreContainer, styles.gridItem)}>
-      <TextButton
-        className={clsx(
-          styles.moreButton,
-          atLeastOneSelected && styles.selected,
-          isOpen && styles.open,
-        )}
-        onClick={() => setIsOpen((prev) => !prev)}
-      >
-        <span>{t('TABLE.NUMBER_MORE', { number: moreIconTiles.length })} </span>
-        <ChevronDown />
-      </TextButton>
-      {isOpen && (
-        <ClickAwayListener onClickAway={() => setIsOpen(false)}>
-          <div className={styles.moreContent}>
-            {moreIconTiles.map((item, index) => (
-              <div key={index} className={clsx(styles.contentItem)}>
-                <DashboardTile
-                  key={index}
-                  {...item}
-                  isSelected={selectedFilterIds?.includes(item.id)}
-                />
-              </div>
-            ))}
-          </div>
-        </ClickAwayListener>
-      )}
-    </div>
   );
 };

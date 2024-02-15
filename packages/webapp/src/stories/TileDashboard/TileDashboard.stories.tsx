@@ -13,11 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode } from 'react';
+import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import styles from './styles.module.scss';
 import { Main } from '../../components/Typography';
-import { PureTileDashboard } from '../../components/TileDashboard';
+import {
+  PureTileDashboard,
+  PureTileDashboardProps,
+  IconCountTile,
+} from '../../components/TileDashboard';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { ReactComponent as AlpacaIcon } from '../../assets/images/animals/alpaca-icon-btn-list.svg';
 import { ReactComponent as CattleIcon } from '../../assets/images/animals/cattle-icon-btn-list.svg';
@@ -32,25 +36,48 @@ const meta: Meta<typeof PureTileDashboard> = {
   title: 'Components/PureTileDashboard',
   component: PureTileDashboard,
   decorators: [
-    (Story) => (
-      <ResizeWrapper>
+    (Story, context) => (
+      <DashboardContainer {...context.args}>
         <Story />
-      </ResizeWrapper>
+      </DashboardContainer>
     ),
     ...componentDecorators,
   ],
 };
 export default meta;
 
-interface ResizeWrapperProps {
-  children: ReactNode;
-}
+const DashboardContainer = ({
+  countTiles,
+  dashboardTitle,
+  categoryLabel,
+}: PureTileDashboardProps) => {
+  const [selectedFilterIds, setSelectedFilterIds] = useState<string[]>([]);
 
-const ResizeWrapper = ({ children }: ResizeWrapperProps) => {
+  const handleTileSelection = (id: string) => {
+    setSelectedFilterIds((prev: string[]) => {
+      const isSelected = prev.includes(id);
+      return isSelected ? prev.filter((item) => item !== id) : [...prev, id];
+    });
+  };
+
+  // Pass to component in alphabetical order
+  const sortedTiles = countTiles.sort((a, b) => a.label.localeCompare(b.label));
+
+  // Add state handling to each tile's onClick
+  const enrichedTiles: IconCountTile[] = sortedTiles.map((tile) => ({
+    ...tile,
+    onClick: () => handleTileSelection(tile.label),
+  }));
+
   return (
     <div className={styles.wrapper}>
       <Main className={styles.note}>Resize window to see mobile / desktop view</Main>
-      {children}
+      <PureTileDashboard
+        countTiles={enrichedTiles}
+        dashboardTitle={dashboardTitle}
+        categoryLabel={categoryLabel}
+        selectedFilterIds={selectedFilterIds}
+      />
     </div>
   );
 };
@@ -62,93 +89,77 @@ const mockTiles = [
     label: 'Goat',
     icon: <GoatIcon />,
     count: 6,
-    onClick: () => console.log('Goat has been clicked!'),
   },
   {
     label: 'Chicken',
     icon: <ChickenIcon />,
     count: 40,
-    onClick: () => console.log('Chicken has been clicked!'),
   },
   {
     label: 'Pig',
     icon: <PigIcon />,
     count: 20,
-    onClick: () => console.log('Pig has been clicked!'),
   },
   {
     label: 'Cockatoo',
     icon: <ChickenIcon />,
     count: 2,
-    onClick: () => console.log('Cockatoo has been clicked!'),
   },
   {
     label: 'Cow',
     icon: <CattleIcon />,
     count: 20,
-    onClick: () => console.log('Cow has been clicked!'),
   },
   {
     label: 'Dog',
     icon: <CattleIcon />,
     count: 3,
-    onClick: () => console.log('Dog has been clicked!'),
   },
   {
     label: 'Rabbit',
     icon: <RabbitIcon />,
     count: 24,
-    onClick: () => console.log('Rabbit has been clicked!'),
   },
   {
     label: 'Hamster',
     icon: <RabbitIcon />,
     count: 1,
-    onClick: () => console.log('Hamster has been clicked!'),
   },
   {
     label: 'Guinea Pig',
     icon: <RabbitIcon />,
     count: 20,
-    onClick: () => console.log('Guinea pig has been clicked!'),
   },
   {
     label: 'Draft Horse',
     icon: <SheepIcon />,
     count: 1,
-    onClick: () => console.log('Draft Horse has been clicked!'),
   },
   {
     label: 'Barn Cat',
     icon: <CattleIcon />,
     count: 3,
-    onClick: () => console.log('Cat has been clicked!'),
   },
   {
     label: 'Tasmanian Devil',
     icon: <CattleIcon />,
     count: 3,
-    onClick: () => console.log('Tasmanian Devil has been clicked!'),
   },
   {
     label: 'Alpaca',
     icon: <AlpacaIcon />,
     count: 3,
-    onClick: () => console.log('Alpaca has been clicked!'),
   },
   {
     label: 'Sheep',
     icon: <SheepIcon />,
     count: 3,
-    onClick: () => console.log('Sheep has been clicked!'),
   },
 ];
 
-const sortedTiles = mockTiles.sort((a, b) => a.label.localeCompare(b.label));
-
 export const Default: Story = {
   args: {
-    countTiles: sortedTiles.slice(0, 5),
+    countTiles: mockTiles.slice(0, 5),
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -156,7 +167,7 @@ export const Default: Story = {
 
 export const TwoTypes: Story = {
   args: {
-    countTiles: sortedTiles.slice(0, 2),
+    countTiles: mockTiles.slice(0, 2),
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -164,7 +175,7 @@ export const TwoTypes: Story = {
 
 export const SeveralTypes: Story = {
   args: {
-    countTiles: sortedTiles.slice(0, 5),
+    countTiles: mockTiles.slice(0, 5),
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -172,7 +183,7 @@ export const SeveralTypes: Story = {
 
 export const ManyTypes: Story = {
   args: {
-    countTiles: sortedTiles,
+    countTiles: mockTiles,
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },

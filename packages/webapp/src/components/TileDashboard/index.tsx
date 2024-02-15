@@ -29,11 +29,11 @@ export interface IconCountTile {
   label: string;
   count: number;
   icon: ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
   isSelected?: boolean;
 }
 
-interface PureTileDashboardProps {
+export interface PureTileDashboardProps {
   countTiles: IconCountTile[];
   dashboardTitle: string;
   categoryLabel: string;

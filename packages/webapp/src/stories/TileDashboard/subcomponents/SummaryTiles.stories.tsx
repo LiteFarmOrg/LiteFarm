@@ -19,7 +19,7 @@ import { SummaryTiles } from '../../../components/TileDashboard/SummaryTiles';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof SummaryTiles> = {
-  title: 'Components/PureTileDashboard/SummaryTiles',
+  title: 'Components/TileDashboard/SummaryTiles',
   component: SummaryTiles,
   decorators: componentDecorators,
 };

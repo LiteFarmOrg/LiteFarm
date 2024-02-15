@@ -21,7 +21,7 @@ import { ReactComponent as RabbitIcon } from '../../../assets/images/animals/rab
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof DashboardTile> = {
-  title: 'Components/PureTileDashboard/DashboardTile',
+  title: 'Components/TileDashboard/DashboardTile',
   component: DashboardTile,
   decorators: componentDecorators,
 };

@@ -21,19 +21,14 @@ import {
   PureTileDashboard,
   PureTileDashboardProps,
   IconCountTile,
+  FilterId,
 } from '../../components/TileDashboard';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ReactComponent as AlpacaIcon } from '../../assets/images/animals/alpaca-icon-btn-list.svg';
-import { ReactComponent as CattleIcon } from '../../assets/images/animals/cattle-icon-btn-list.svg';
-import { ReactComponent as ChickenIcon } from '../../assets/images/animals/chicken-icon-btn-list.svg';
-import { ReactComponent as GoatIcon } from '../../assets/images/animals/goat-icon-btn-list.svg';
-import { ReactComponent as PigIcon } from '../../assets/images/animals/pig-icon-btn-list.svg';
-import { ReactComponent as RabbitIcon } from '../../assets/images/animals/rabbit-icon-btn-list.svg';
-import { ReactComponent as SheepIcon } from '../../assets/images/animals/sheep-icon-btn-list.svg';
+import { mockTiles } from './mockTiles';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof PureTileDashboard> = {
-  title: 'Components/PureTileDashboard',
+  title: 'Components/TileDashboard',
   component: PureTileDashboard,
   decorators: [
     (Story, context) => (
@@ -51,10 +46,10 @@ const DashboardContainer = ({
   dashboardTitle,
   categoryLabel,
 }: PureTileDashboardProps) => {
-  const [selectedFilterIds, setSelectedFilterIds] = useState<string[]>([]);
+  const [selectedFilterIds, setSelectedFilterIds] = useState<FilterId[]>([]);
 
-  const handleTileSelection = (id: string) => {
-    setSelectedFilterIds((prev: string[]) => {
+  const handleTileSelection = (id: FilterId) => {
+    setSelectedFilterIds((prev) => {
       const isSelected = prev.includes(id);
       return isSelected ? prev.filter((item) => item !== id) : [...prev, id];
     });
@@ -64,9 +59,10 @@ const DashboardContainer = ({
   const sortedTiles = countTiles.sort((a, b) => a.label.localeCompare(b.label));
 
   // Add state handling to each tile's onClick
-  const enrichedTiles: IconCountTile[] = sortedTiles.map((tile) => ({
+  const enrichedTiles: IconCountTile[] = sortedTiles.map((tile, index) => ({
     ...tile,
-    onClick: () => handleTileSelection(tile.label),
+    id: index, // <-- or, if preferred, label
+    onClick: () => handleTileSelection(index), // or label
   }));
 
   return (
@@ -84,82 +80,9 @@ const DashboardContainer = ({
 
 type Story = StoryObj<typeof PureTileDashboard>;
 
-const mockTiles = [
-  {
-    label: 'Goat',
-    icon: <GoatIcon />,
-    count: 6,
-  },
-  {
-    label: 'Chicken',
-    icon: <ChickenIcon />,
-    count: 40,
-  },
-  {
-    label: 'Pig',
-    icon: <PigIcon />,
-    count: 20,
-  },
-  {
-    label: 'Cockatoo',
-    icon: <ChickenIcon />,
-    count: 2,
-  },
-  {
-    label: 'Cow',
-    icon: <CattleIcon />,
-    count: 20,
-  },
-  {
-    label: 'Dog',
-    icon: <CattleIcon />,
-    count: 3,
-  },
-  {
-    label: 'Rabbit',
-    icon: <RabbitIcon />,
-    count: 24,
-  },
-  {
-    label: 'Hamster',
-    icon: <RabbitIcon />,
-    count: 1,
-  },
-  {
-    label: 'Guinea Pig',
-    icon: <RabbitIcon />,
-    count: 20,
-  },
-  {
-    label: 'Draft Horse',
-    icon: <SheepIcon />,
-    count: 1,
-  },
-  {
-    label: 'Barn Cat',
-    icon: <CattleIcon />,
-    count: 3,
-  },
-  {
-    label: 'Tasmanian Devil',
-    icon: <CattleIcon />,
-    count: 3,
-  },
-  {
-    label: 'Alpaca',
-    icon: <AlpacaIcon />,
-    count: 3,
-  },
-  {
-    label: 'Sheep',
-    icon: <SheepIcon />,
-    count: 3,
-  },
-];
-
 export const Default: Story = {
   args: {
-    countTiles: mockTiles.slice(0, 5),
+    countTiles: mockTiles.slice(0, 5) as IconCountTile[],
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -167,15 +90,7 @@ export const Default: Story = {
 
 export const TwoTypes: Story = {
   args: {
-    countTiles: mockTiles.slice(0, 2),
-    dashboardTitle: 'Animal inventory',
-    categoryLabel: 'Types',
-  },
-};
-
-export const SeveralTypes: Story = {
-  args: {
-    countTiles: mockTiles.slice(0, 5),
+    countTiles: mockTiles.slice(0, 2) as IconCountTile[],
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -183,7 +98,7 @@ export const SeveralTypes: Story = {
 
 export const ManyTypes: Story = {
   args: {
-    countTiles: mockTiles,
+    countTiles: mockTiles as IconCountTile[],
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },

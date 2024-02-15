@@ -25,10 +25,13 @@ import { ReactComponent as ChevronDown } from '../../assets/images/animals/chevr
 import TextButton from '../Form/Button/TextButton';
 import { useDynamicTileVisibility } from './useDynamicTileVisibility';
 
+export type FilterId = string | number;
+
 export interface IconCountTile {
   label: string;
   count: number;
   icon: ReactNode;
+  id: FilterId;
   onClick?: () => void;
   isSelected?: boolean;
 }
@@ -37,7 +40,7 @@ export interface PureTileDashboardProps {
   countTiles: IconCountTile[];
   dashboardTitle: string;
   categoryLabel: string;
-  selectedFilterIds?: string[];
+  selectedFilterIds?: FilterId[];
 }
 
 export const PureTileDashboard = ({
@@ -71,7 +74,7 @@ export const PureTileDashboard = ({
                 <DashboardTile
                   key={index}
                   {...item}
-                  isSelected={selectedFilterIds?.includes(item.label)}
+                  isSelected={selectedFilterIds?.includes(item.id)}
                 />
               </div>
             ))}
@@ -92,7 +95,7 @@ export const PureTileDashboard = ({
 
 interface MoreComponentProps {
   moreIconTiles: IconCountTile[];
-  selectedFilterIds?: string[];
+  selectedFilterIds?: FilterId[];
 }
 
 const MoreComponent = ({ moreIconTiles, selectedFilterIds }: MoreComponentProps) => {
@@ -101,7 +104,7 @@ const MoreComponent = ({ moreIconTiles, selectedFilterIds }: MoreComponentProps)
   const [isOpen, setIsOpen] = useState(false);
 
   // Selected state for the more button
-  const atLeastOneSelected = moreIconTiles.some((tile) => selectedFilterIds?.includes(tile.label));
+  const atLeastOneSelected = moreIconTiles.some((tile) => selectedFilterIds?.includes(tile.id));
 
   return (
     <div className={clsx(styles.moreContainer, styles.gridItem)}>
@@ -124,7 +127,7 @@ const MoreComponent = ({ moreIconTiles, selectedFilterIds }: MoreComponentProps)
                 <DashboardTile
                   key={index}
                   {...item}
-                  isSelected={selectedFilterIds?.includes(item.label)}
+                  isSelected={selectedFilterIds?.includes(item.id)}
                 />
               </div>
             ))}

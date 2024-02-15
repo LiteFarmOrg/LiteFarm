@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import { MoreComponent } from '../../../components/TileDashboard/MoreComponent';
@@ -38,15 +37,15 @@ export default meta;
 
 type Story = StoryObj<typeof MoreComponent>;
 
+export const Default: Story = {
+  args: {
+    moreIconTiles: mockTiles.slice(0, 4).map((tile, index) => ({ ...tile, id: index })),
+  },
+};
+
 export const Selected: Story = {
   args: {
     moreIconTiles: mockTiles.slice(0, 4).map((tile, index) => ({ ...tile, id: index })),
     selectedFilterIds: [0, 3],
-  },
-};
-
-export const Unselected: Story = {
-  args: {
-    moreIconTiles: mockTiles.slice(0, 4).map((tile, index) => ({ ...tile, id: index })),
   },
 };

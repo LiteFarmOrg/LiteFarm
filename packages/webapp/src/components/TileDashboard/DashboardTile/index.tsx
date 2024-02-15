@@ -17,9 +17,9 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { Main } from '../../Typography';
 import TextButton from '../../Form/Button/TextButton';
-import type { IconCountTile } from '../index';
+import type { TypeCountTile } from '../index';
 
-export const DashboardTile = ({ icon, label, count, onClick, isSelected }: IconCountTile) => (
+export const DashboardTile = ({ icon, label, count, onClick, isSelected }: TypeCountTile) => (
   <TextButton className={clsx(styles.tile, isSelected && styles.selected)} onClick={onClick}>
     <div className={styles.icon}>{icon}</div>
     <div className={styles.tileText}>

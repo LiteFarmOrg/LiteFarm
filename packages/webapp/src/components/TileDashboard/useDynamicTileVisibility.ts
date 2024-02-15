@@ -14,7 +14,7 @@
  */
 
 import { useState, useLayoutEffect, RefObject } from 'react';
-import type { IconCountTile } from './index';
+import type { TypeCountTile } from './index';
 
 // Source: https://github.com/que-etc/resize-observer-polyfill
 interface ResizeObserver {
@@ -25,7 +25,7 @@ interface ResizeObserver {
 
 interface useDynamicTileVisibilityParams {
   containerRef: RefObject<HTMLElement>;
-  countTiles: IconCountTile[];
+  typeCountTiles: TypeCountTile[];
   gap?: number;
   tileWidth?: number;
   moreButtonWidth?: number;
@@ -38,38 +38,36 @@ interface useDynamicTileVisibilityParams {
 
 export const useDynamicTileVisibility = ({
   containerRef,
-  countTiles,
+  typeCountTiles,
   gap = 4,
   tileWidth = 90,
   moreButtonWidth = 90,
   minWidthDesktop = 600,
   rowsPerView = { desktop: 1, mobile: 2 },
 }: useDynamicTileVisibilityParams) => {
-  const [visibleIconTiles, setVisibleIconTiles] = useState<IconCountTile[]>([]);
-  const [hiddenIconTiles, setHiddenIconTiles] = useState<IconCountTile[]>([]);
+  const [visibleIconTiles, setVisibleIconTiles] = useState<TypeCountTile[]>([]);
+  const [hiddenIconTiles, setHiddenIconTiles] = useState<TypeCountTile[]>([]);
 
-  const totalTiles = countTiles.length;
+  const totalTiles = typeCountTiles.length;
 
   useLayoutEffect(() => {
     let resizeObserver: ResizeObserver;
 
     const updateLayout = (container: HTMLElement) => {
-      if (container) {
-        const containerWidth = container.getBoundingClientRect().width;
-        let isDesktopView = containerWidth > minWidthDesktop;
+      const containerWidth = container.getBoundingClientRect().width;
+      let isDesktopView = containerWidth > minWidthDesktop;
 
-        const rowMultiplier = isDesktopView ? rowsPerView.desktop : rowsPerView.mobile;
+      const rowMultiplier = isDesktopView ? rowsPerView.desktop : rowsPerView.mobile;
 
-        const availableWidth = containerWidth - moreButtonWidth;
-        const tilesPerRow = Math.floor(availableWidth / (tileWidth + gap));
-        const totalFittableTiles = tilesPerRow * rowMultiplier;
+      const availableWidth = containerWidth - moreButtonWidth;
+      const tilesPerRow = Math.floor(availableWidth / (tileWidth + gap));
+      const totalFittableTiles = tilesPerRow * rowMultiplier;
 
-        let tilesToHide = totalTiles - totalFittableTiles;
-        if (tilesToHide < 0) tilesToHide = 0;
+      let tilesToHide = totalTiles - totalFittableTiles;
+      if (tilesToHide < 0) tilesToHide = 0;
 
-        setVisibleIconTiles(countTiles.slice(0, countTiles.length - tilesToHide));
-        setHiddenIconTiles(countTiles.slice(countTiles.length - tilesToHide));
-      }
+      setVisibleIconTiles(typeCountTiles.slice(0, typeCountTiles.length - tilesToHide));
+      setHiddenIconTiles(typeCountTiles.slice(typeCountTiles.length - tilesToHide));
     };
 
     if (containerRef.current) {

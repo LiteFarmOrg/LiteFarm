@@ -6,10 +6,10 @@ import styles from './styles.module.scss';
 import { DashboardTile } from '../DashboardTile';
 import { ReactComponent as ChevronDown } from '../../../assets/images/animals/chevron-down.svg';
 import TextButton from '../../Form/Button/TextButton';
-import { IconCountTile, FilterId } from '..';
+import { TypeCountTile, FilterId } from '..';
 
 interface MoreComponentProps {
-  moreIconTiles: IconCountTile[];
+  moreIconTiles: TypeCountTile[];
   selectedFilterIds?: FilterId[];
   className?: string;
 }
@@ -24,7 +24,7 @@ export const MoreComponent = ({
   const [isOpen, setIsOpen] = useState(false);
 
   // Selected state for the more button
-  const atLeastOneSelected = moreIconTiles.some((tile) => selectedFilterIds?.includes(tile.id));
+  const atLeastOneSelected = moreIconTiles.some((item) => selectedFilterIds?.includes(item.id));
 
   return (
     <div className={clsx(styles.moreContainer, className)}>

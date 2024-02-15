@@ -24,7 +24,7 @@ import { useDynamicTileVisibility } from './useDynamicTileVisibility';
 
 export type FilterId = string | number;
 
-export interface IconCountTile {
+export interface TypeCountTile {
   label: string;
   count: number;
   icon: ReactNode;
@@ -34,59 +34,57 @@ export interface IconCountTile {
 }
 
 export interface PureTileDashboardProps {
-  countTiles: IconCountTile[];
+  typeCountTiles: TypeCountTile[];
   dashboardTitle: string;
   categoryLabel: string;
   selectedFilterIds?: FilterId[];
 }
 
 export const PureTileDashboard = ({
-  countTiles,
+  typeCountTiles,
   dashboardTitle,
   categoryLabel,
   selectedFilterIds,
 }: PureTileDashboardProps) => {
-  const totalCount = countTiles.reduce((sum, element) => sum + element.count, 0);
-  const categoryCount = countTiles.length;
+  const totalCount = typeCountTiles.reduce((sum, element) => sum + element.count, 0);
+  const categoryCount = typeCountTiles.length;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { visibleIconTiles, hiddenIconTiles } = useDynamicTileVisibility({
     containerRef,
-    countTiles,
+    typeCountTiles,
   });
 
   return (
-    <>
-      <div className={styles.container}>
-        <Title className={styles.title}>{dashboardTitle}</Title>
-        <div className={styles.mainContent}>
-          <SummaryTiles
-            totalCount={totalCount}
-            categoryCount={categoryCount}
-            categoryLabel={categoryLabel}
-          />
-          <div className={styles.gridContainer} ref={containerRef}>
-            {visibleIconTiles.map((item, index) => (
-              <div key={index} className={clsx(styles.gridItem)}>
-                <DashboardTile
-                  key={index}
-                  {...item}
-                  isSelected={selectedFilterIds?.includes(item.id)}
-                />
-              </div>
-            ))}
-            {hiddenIconTiles.length ? (
-              <MoreComponent
-                moreIconTiles={hiddenIconTiles}
-                selectedFilterIds={selectedFilterIds}
-                className={styles.gridItem}
+    <div className={styles.container}>
+      <Title className={styles.title}>{dashboardTitle}</Title>
+      <div className={styles.mainContent}>
+        <SummaryTiles
+          totalCount={totalCount}
+          categoryCount={categoryCount}
+          categoryLabel={categoryLabel}
+        />
+        <div className={styles.flexContainer} ref={containerRef}>
+          {visibleIconTiles.map((item, index) => (
+            <div key={index} className={clsx(styles.flexItem)}>
+              <DashboardTile
+                key={index}
+                {...item}
+                isSelected={selectedFilterIds?.includes(item.id)}
               />
-            ) : (
-              <></>
-            )}
-          </div>
+            </div>
+          ))}
+          {hiddenIconTiles.length ? (
+            <MoreComponent
+              moreIconTiles={hiddenIconTiles}
+              selectedFilterIds={selectedFilterIds}
+              className={styles.flexItem}
+            />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 };

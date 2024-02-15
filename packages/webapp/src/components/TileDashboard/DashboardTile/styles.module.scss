@@ -22,7 +22,6 @@
   min-width: 90px;
 
   display: flex;
-
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
@@ -46,15 +45,15 @@
 
 .tileLabel {
   width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
   color: var(--Colors-Accent-Accent-yellow-50, #fff8e6);
   font-size: 12px;
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.264px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .tileCountLabel {
   color: var(--Colors-Accent-Accent-yellow-400, #ffc633);
@@ -68,6 +67,8 @@
   width: 24px;
   height: 24px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
 
   path {
     fill: var(--Colors-Accent-Accent-yellow-50, #fff8e6);
@@ -81,7 +82,6 @@
   .tileCountLabel {
     color: var(--Colors-Accent-Accent-yellow-50, #fff8e6);
   }
-
   .icon path {
     fill: var(--Colors-Accent-Accent-yellow-50, #fff8e6);
   }
@@ -94,7 +94,6 @@
   .tileCountLabel {
     color: var(--Colors-Secondary-Secondary-green-800, #426f57);
   }
-
   .icon path {
     fill: var(--Colors-Secondary-Secondary-green-900, #325442);
   }

@@ -67,9 +67,7 @@
 
 .moreButton:hover {
   background: var(--Colors-Secondary-Secondary-green-700, #558f70);
-
   color: var(--Colors-Accent-Accent-yellow-50, #fff8e6);
-
   svg path {
     stroke: var(--Colors-Accent-Accent-yellow-50, #fff8e6);
   }
@@ -77,9 +75,7 @@
 
 .moreButton.open {
   background: var(--Btn-primary-hover, #e8a700);
-
   color: var(--Colors-Accent---singles-Green-dark, #0c3611);
-
   svg path {
     stroke: var(--Colors-Accent---singles-Green-dark, #426f57);
   }
@@ -88,12 +84,12 @@
 .moreButton.selected {
   background: var(--Btn-primary-pristine, #ffcf54);
   color: var(--Colors-Secondary-Secondary-green-800, #426f57);
-
   svg path {
     stroke: var(--Colors-Secondary-Secondary-green-800, #426f57);
   }
 }
 
+// Active indicator dot
 .moreButton.selected:after {
   content: '';
   width: 8px;

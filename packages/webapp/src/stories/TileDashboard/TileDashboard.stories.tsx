@@ -20,7 +20,7 @@ import { Main } from '../../components/Typography';
 import {
   PureTileDashboard,
   PureTileDashboardProps,
-  IconCountTile,
+  TypeCountTile,
   FilterId,
 } from '../../components/TileDashboard';
 import { componentDecorators } from '../Pages/config/Decorators';
@@ -42,7 +42,7 @@ const meta: Meta<typeof PureTileDashboard> = {
 export default meta;
 
 const DashboardContainer = ({
-  countTiles,
+  typeCountTiles,
   dashboardTitle,
   categoryLabel,
 }: PureTileDashboardProps) => {
@@ -56,10 +56,10 @@ const DashboardContainer = ({
   };
 
   // Pass to component in alphabetical order
-  const sortedTiles = countTiles.sort((a, b) => a.label.localeCompare(b.label));
+  const sortedTiles = typeCountTiles.sort((a, b) => a.label.localeCompare(b.label));
 
   // Add state handling to each tile's onClick
-  const enrichedTiles: IconCountTile[] = sortedTiles.map((tile, index) => ({
+  const enrichedTiles: TypeCountTile[] = sortedTiles.map((tile, index) => ({
     ...tile,
     id: index, // <-- or, if preferred, label
     onClick: () => handleTileSelection(index), // or label
@@ -69,7 +69,7 @@ const DashboardContainer = ({
     <div className={styles.wrapper}>
       <Main className={styles.note}>Resize window to see mobile / desktop view</Main>
       <PureTileDashboard
-        countTiles={enrichedTiles}
+        typeCountTiles={enrichedTiles}
         dashboardTitle={dashboardTitle}
         categoryLabel={categoryLabel}
         selectedFilterIds={selectedFilterIds}
@@ -82,7 +82,15 @@ type Story = StoryObj<typeof PureTileDashboard>;
 
 export const Default: Story = {
   args: {
-    countTiles: mockTiles.slice(0, 5) as IconCountTile[],
+    typeCountTiles: mockTiles.slice(0, 5) as TypeCountTile[],
+    dashboardTitle: 'Animal inventory',
+    categoryLabel: 'Types',
+  },
+};
+
+export const OneType: Story = {
+  args: {
+    typeCountTiles: [mockTiles[0]] as TypeCountTile[],
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -90,7 +98,7 @@ export const Default: Story = {
 
 export const TwoTypes: Story = {
   args: {
-    countTiles: mockTiles.slice(0, 2) as IconCountTile[],
+    typeCountTiles: mockTiles.slice(0, 2) as TypeCountTile[],
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },
@@ -98,7 +106,7 @@ export const TwoTypes: Story = {
 
 export const ManyTypes: Story = {
   args: {
-    countTiles: mockTiles as IconCountTile[],
+    typeCountTiles: mockTiles as TypeCountTile[],
     dashboardTitle: 'Animal inventory',
     categoryLabel: 'Types',
   },

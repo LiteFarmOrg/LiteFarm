@@ -14,19 +14,25 @@
  */
 
 .summaryTiles {
-  color: var(--Colors-Secondary-Secondary-green-200, #c1e6d2);
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 4px;
+  align-self: stretch;
+
+  user-select: none;
   font-family: 'Open Sans';
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+}
 
-  display: inline-flex;
-  align-items: flex-start;
-  gap: 4px;
+.totalCount {
+  border-radius: 10px 4px 4px 10px;
+}
 
-  user-select: none;
-  align-self: stretch;
+.typeCount {
+  border-radius: 4px;
 }
 
 .totalCount,
@@ -42,7 +48,6 @@
   flex-shrink: 0;
   text-transform: uppercase;
 
-  border-radius: 10px 4px 4px 10px;
   background: #0d2926; // not a named colour in Figma
   box-shadow: 0px 1px 0px 0px var(--Colors-Secondary-Secondary-green-900, #325442);
 
@@ -72,18 +77,5 @@
 
   .countText {
     color: var(--Btn-primary-pristine, #ffcf54);
-    font-family: 'Open Sans';
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
   }
-}
-
-.totalCount {
-  border-radius: 10px 4px 4px 10px;
-}
-
-.typeCount {
-  border-radius: 4px;
 }

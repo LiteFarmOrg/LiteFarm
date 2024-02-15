@@ -135,3 +135,25 @@
   min-width: 78px;
   max-width: 90px;
 }
+
+.moreButton.selected,
+.moreButton.open {
+  background: var(--Btn-primary-pristine, #ffcf54);
+  color: var(--Colors-Secondary-Secondary-green-800, #426f57);
+
+  svg path {
+    stroke: var(--Colors-Secondary-Secondary-green-800, #426f57);
+  }
+}
+
+.moreButton.selected:after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--Colors-Secondary-Secondary-green-900, #325442);
+
+  position: absolute;
+  top: 4px;
+  left: 4px;
+}

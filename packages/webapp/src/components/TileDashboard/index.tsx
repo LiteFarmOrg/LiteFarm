@@ -30,18 +30,21 @@ export interface IconCountTile {
   count: number;
   icon: ReactNode;
   onClick: () => void;
+  isSelected?: boolean;
 }
 
 interface PureTileDashboardProps {
   countTiles: IconCountTile[];
   dashboardTitle: string;
   categoryLabel: string;
+  selectedFilterIds?: string[];
 }
 
 export const PureTileDashboard = ({
   countTiles,
   dashboardTitle,
   categoryLabel,
+  selectedFilterIds,
 }: PureTileDashboardProps) => {
   const totalCount = countTiles.reduce((sum, element) => sum + element.count, 0);
   const categoryCount = countTiles.length;
@@ -65,10 +68,21 @@ export const PureTileDashboard = ({
           <div className={styles.gridContainer} ref={containerRef}>
             {visibleIconTiles.map((item, index) => (
               <div key={index} className={clsx(styles.gridItem)}>
-                <DashboardTile key={index} {...item} />
+                <DashboardTile
+                  key={index}
+                  {...item}
+                  isSelected={selectedFilterIds?.includes(item.label)}
+                />
               </div>
             ))}
-            {hiddenIconTiles.length ? <MoreComponent moreIconTiles={hiddenIconTiles} /> : <></>}
+            {hiddenIconTiles.length ? (
+              <MoreComponent
+                moreIconTiles={hiddenIconTiles}
+                selectedFilterIds={selectedFilterIds}
+              />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>
@@ -78,16 +92,27 @@ export const PureTileDashboard = ({
 
 interface MoreComponentProps {
   moreIconTiles: IconCountTile[];
+  selectedFilterIds?: string[];
 }
 
-const MoreComponent = ({ moreIconTiles }: MoreComponentProps) => {
+const MoreComponent = ({ moreIconTiles, selectedFilterIds }: MoreComponentProps) => {
   const { t } = useTranslation();
 
   const [isOpen, setIsOpen] = useState(false);
 
+  // Selected state for the more button
+  const atLeastOneSelected = moreIconTiles.some((tile) => selectedFilterIds?.includes(tile.label));
+
   return (
     <div className={clsx(styles.moreContainer, styles.gridItem)}>
-      <TextButton className={clsx(styles.moreButton)} onClick={() => setIsOpen((prev) => !prev)}>
+      <TextButton
+        className={clsx(
+          styles.moreButton,
+          atLeastOneSelected && styles.selected,
+          isOpen && styles.open,
+        )}
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
         <span>{t('TABLE.NUMBER_MORE', { number: moreIconTiles.length })} </span>
         <ChevronDown />
       </TextButton>
@@ -96,7 +121,11 @@ const MoreComponent = ({ moreIconTiles }: MoreComponentProps) => {
           <div className={styles.moreContent}>
             {moreIconTiles.map((item, index) => (
               <div key={index} className={clsx(styles.contentItem)}>
-                <DashboardTile key={index} {...item} />
+                <DashboardTile
+                  key={index}
+                  {...item}
+                  isSelected={selectedFilterIds?.includes(item.label)}
+                />
               </div>
             ))}
           </div>

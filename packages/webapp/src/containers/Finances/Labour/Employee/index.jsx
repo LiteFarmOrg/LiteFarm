@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from '../../../../components/Table';
+import Table from '../../../../components/Table/Table';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { userFarmsByFarmSelector } from '../../../userFarmSlice';
@@ -54,6 +54,7 @@ const Employee = ({ currencySymbol, tasks, startDate, endDate }) => {
 
   return (
     <Table
+      kind="v1"
       columns={columns}
       data={data}
       showPagination={true}

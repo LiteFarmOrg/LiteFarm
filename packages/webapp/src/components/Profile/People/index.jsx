@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
-import Table from '../../Table';
+import Table from '../../Table/Table';
 import ProfileLayout from '../ProfileLayout';
 
 export default function PurePeople({ users, history, isAdmin }) {
@@ -122,6 +122,7 @@ export default function PurePeople({ users, history, isAdmin }) {
         placeholder={t('PROFILE.PEOPLE.SEARCH')}
       />
       <Table
+        kind="v1"
         data-cy="people-table"
         columns={summaryColumns}
         data={getFilteredUsers()}

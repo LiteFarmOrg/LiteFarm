@@ -14,7 +14,7 @@
  */
 import React from 'react';
 import { v2TableDecorator } from '../Pages/config/Decorators';
-import Table from '../../components/Table/v2';
+import Table from '../../components/Table/Table';
 
 export default {
   title: 'Components/Tables/V2',
@@ -111,6 +111,7 @@ const FooterCell = () => (
 
 export const CropSalesMobileView = {
   args: {
+    kind: 'enhanced',
     columns: getCropSalesColumns(),
     data: getCropSalesData(10),
     minRows: 10,
@@ -121,6 +122,7 @@ export const CropSalesMobileView = {
 
 export const CropSalesDesktopView = {
   args: {
+    kind: 'enhanced',
     columns: getCropSalesColumns(false),
     data: getCropSalesData(10),
     minRows: 10,
@@ -171,6 +173,7 @@ const getEmployeesLabourData = (length) => {
 
 export const EmployeesLabour = {
   args: {
+    kind: 'enhanced',
     columns: getEmployeesLabourColumns(),
     data: getEmployeesLabourData(10),
     minRows: 10,
@@ -233,6 +236,7 @@ const getTasksLabourData = (length) => {
 
 export const TasksLabour = {
   args: {
+    kind: 'enhanced',
     columns: getTasksLabourColumns(),
     data: getTasksLabourData(10),
     minRows: 5,
@@ -242,6 +246,7 @@ export const TasksLabour = {
 
 export const TasksLabourWithPagination = {
   args: {
+    kind: 'enhanced',
     columns: getTasksLabourColumns(),
     data: getTasksLabourData(10),
     minRows: 5,

@@ -14,7 +14,7 @@
  */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Table from '../../../Table/v2';
+import Table from '../../../Table/Table';
 import { transactionTypeEnum } from '../../../../containers/Finances/useTransactions';
 
 const formatData = (t, data) => {
@@ -64,6 +64,7 @@ export default function GeneralTransactionTable({ data, currencySymbol, mobileVi
 
   return (
     <Table
+      kind="v2"
       columns={getColumns(mobileView, currencySymbol, titleLabel, amountLabel)}
       data={tableData}
       shouldFixTableLayout={true}

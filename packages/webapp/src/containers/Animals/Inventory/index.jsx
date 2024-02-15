@@ -14,7 +14,7 @@
  */
 
 import React from 'react';
-import Table from '../../../components/Table/v2';
+import Table from '../../../components/Table/Table';
 import Layout from '../../../components/Layout';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
@@ -577,7 +577,7 @@ function AnimalInventory() {
 
   return (
     <Layout>
-      <Table columns={getColumns()} data={tableData} shouldFixTableLayout={true} />
+      <Table kind="v2" columns={getColumns()} data={tableData} shouldFixTableLayout={true} />
     </Layout>
   );
 }

@@ -28,8 +28,8 @@ const animalController = {
       try {
         const { farm_id } = req.headers;
         const rows = await AnimalModel.query()
-          .select('animal.*', 'animal_catalogue.internal_identifier')
-          .joinRelated('animal_catalogue')
+          .select('animal.*', 'animal_union_batch.internal_identifier')
+          .joinRelated('animal_union_batch')
           .where({ 'animal.farm_id': farm_id })
           .whereNotDeleted();
         return res.status(200).send(rows);

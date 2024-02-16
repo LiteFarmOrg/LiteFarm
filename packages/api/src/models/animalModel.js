@@ -15,7 +15,7 @@
 
 import Model from './baseFormatModel.js';
 import baseModel from './baseModel.js';
-import AnimalCatalogueModel from './animalCatalogueModel.js';
+import animalUnionBatchModel from './animalUnionBatchModel.js';
 
 class Animal extends baseModel {
   static get tableName() {
@@ -69,14 +69,14 @@ class Animal extends baseModel {
 
   static get relationMappings() {
     return {
-      animal_catalogue: {
+      animal_union_batch: {
         relation: Model.BelongsToOneRelation,
-        modelClass: AnimalCatalogueModel,
+        modelClass: animalUnionBatchModel,
         join: {
           from: 'animal.id',
-          to: 'animal_catalogue.id',
+          to: 'animal_union_batch.id',
         },
-        filter: (query) => query.where('animal_catalogue.batch', false),
+        filter: (query) => query.where('animal_union_batch.batch', false),
       },
     };
   }

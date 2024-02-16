@@ -28,9 +28,9 @@ const animalBatchController = {
       try {
         const { farm_id } = req.headers;
         const rows = await AnimalBatchModel.query()
-          .select('animal_batch.*', 'animal_catalogue.internal_identifier')
+          .select('animal_batch.*', 'animal_union_batch.internal_identifier')
           .where({ 'animal_batch.farm_id': farm_id })
-          .joinRelated('animal_catalogue')
+          .joinRelated('animal_union_batch')
           .withGraphFetched('sex_detail')
           .whereNotDeleted();
         return res.status(200).send(rows);

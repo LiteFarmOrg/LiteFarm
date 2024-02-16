@@ -15,10 +15,10 @@
 
 import Model from './baseFormatModel.js';
 
-class AnimalCatalogue extends Model {
+class animalUnionBatch extends Model {
   static get tableName() {
-    return 'animal_catalogue';
+    return 'animal_union_batch';
   }
 }
 
-export default AnimalCatalogue;
+export default animalUnionBatch;

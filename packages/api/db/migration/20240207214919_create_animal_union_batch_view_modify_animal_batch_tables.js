@@ -31,7 +31,7 @@ export const up = async function (knex) {
 
     // Create function to assign internal_identifier to a record (NEW) to be inserted
     await knex.raw(`
-      CREATE VIEW animal_catalogue AS
+      CREATE VIEW animal_union_batch AS
       SELECT
         *,
         ROW_NUMBER() OVER (PARTITION BY farm_id ORDER BY created_at)::INTEGER AS internal_identifier
@@ -86,7 +86,7 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = async (knex) => {
-  await knex.schema.dropViewIfExists('animal_catalogue');
+  await knex.schema.dropView('animal_union_batch');
 
   await knex.schema.alterTable('animal', (table) => {
     table.dropColumn('photo_url');

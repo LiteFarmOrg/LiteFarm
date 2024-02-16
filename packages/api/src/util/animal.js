@@ -23,7 +23,7 @@ import knex from './knex.js';
  * @returns {Promise<Array<Object>>} - A promise that resolves to an array of records with assigned internal identifiers.
  */
 export const assignInternalIdentifier = async (records, kind, recordIds) => {
-  const internalIdentifiers = await knex('animal_catalogue')
+  const internalIdentifiers = await knex('animal_union_batch')
     .pluck('internal_identifier')
     .whereIn('id', recordIds)
     .andWhere({ batch: kind === 'batch' });

@@ -249,6 +249,32 @@ describe('Animal Tests', () => {
       }
     });
 
+    test('All new animals should be returned with a correct internal_identifier', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      // add animals to the DB
+      const animalCountInDB = 3;
+      for (let i = 0; i < animalCountInDB; i++) {
+        await makeAnimal(mainFarm);
+      }
+
+      const animals = [];
+      for (let i = 0; i < 5; i++) {
+        animals.push(
+          mocks.fakeAnimal({ farm_id: mainFarm.farm_id, default_type_id: defaultTypeId }),
+        );
+      }
+      const res = await postRequestAsPromise(
+        { user_id: user.user_id, farm_id: mainFarm.farm_id },
+        animals,
+      );
+
+      const nextInternalIdentifier = animalCountInDB + 1;
+      res.body.forEach(({ internal_identifier }, index) => {
+        expect(internal_identifier).toBe(nextInternalIdentifier + index);
+      });
+    });
+
     test('Should not be able to create an animal without a type', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const animal = mocks.fakeAnimal({

@@ -304,6 +304,36 @@ describe('Animal Batch Tests', () => {
       }
     });
 
+    test('All new batches should be returned with a correct internal_identifier', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      // add animal batches to the DB
+      const batchesCountInDB = 2;
+      for (let i = 0; i < batchesCountInDB; i++) {
+        await makeAnimalBatch(mainFarm);
+      }
+
+      const batches = [];
+      for (let i = 0; i < 6; i++) {
+        batches.push(
+          mocks.fakeAnimalBatch({
+            farm_id: mainFarm.farm_id,
+            default_type_id: defaultTypeId,
+            count: 5,
+          }),
+        );
+      }
+      const res = await postRequestAsPromise(
+        { user_id: user.user_id, farm_id: mainFarm.farm_id },
+        batches,
+      );
+
+      const nextInternalIdentifier = batchesCountInDB + 1;
+      res.body.forEach(({ internal_identifier }, index) => {
+        expect(internal_identifier).toBe(nextInternalIdentifier + index);
+      });
+    });
+
     test('Should not be able to create an animal batch without a type', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const animalBatch = mocks.fakeAnimalBatch({

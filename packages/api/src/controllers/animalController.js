@@ -20,7 +20,7 @@ import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
-import { assignInternalIdentifier } from '../util/animal.js';
+import { assignInternalIdentifiers } from '../util/animal.js';
 
 const animalController = {
   getFarmAnimals() {
@@ -150,7 +150,11 @@ const animalController = {
 
         await trx.commit();
 
-        const resultWithInternalIdentifiers = await assignInternalIdentifier(result, 'animal', ids);
+        const resultWithInternalIdentifiers = await assignInternalIdentifiers(
+          result,
+          'animal',
+          ids,
+        );
         return res.status(201).send(resultWithInternalIdentifiers);
       } catch (error) {
         console.error(error);

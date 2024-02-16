@@ -20,7 +20,7 @@ import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { handleObjectionError } from '../util/errorCodes.js';
-import { assignInternalIdentifier } from '../util/animal.js';
+import { assignInternalIdentifiers } from '../util/animal.js';
 
 const animalBatchController = {
   getFarmAnimalBatches() {
@@ -144,7 +144,7 @@ const animalBatchController = {
 
         await trx.commit();
 
-        const resultWithInternalIdentifiers = await assignInternalIdentifier(result, 'batch', ids);
+        const resultWithInternalIdentifiers = await assignInternalIdentifiers(result, 'batch', ids);
         return res.status(201).send(resultWithInternalIdentifiers);
       } catch (error) {
         await handleObjectionError(error, res, trx);

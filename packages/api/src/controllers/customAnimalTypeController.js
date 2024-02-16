@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import knex from '../util/knex.js';
 import { transaction, Model } from 'objection';
 import baseController from './baseController.js';
 
@@ -24,33 +23,10 @@ const customAnimalTypeController = {
     return async (req, res) => {
       try {
         const { farm_id } = req.headers;
-        let rows = [];
-
-        if (req.query.count === 'true') {
-          const { farm_id } = req.headers;
-          const data = await knex.raw(
-            `SELECT
-              cat.*,
-              COALESCE(SUM(abu.count), 0) AS count
-            FROM
-              custom_animal_type AS cat
-            LEFT JOIN (
-              SELECT custom_type_id, COUNT(*) AS count
-              FROM animal WHERE farm_id = ? AND deleted is FALSE
-              GROUP BY custom_type_id
-              UNION ALL
-              SELECT custom_type_id, SUM(count) AS count
-              FROM animal_batch WHERE farm_id = ? AND deleted is FALSE
-              GROUP BY custom_type_id
-            ) AS abu ON cat.id = abu.custom_type_id
-            WHERE farm_id = ? AND deleted is FALSE
-            GROUP BY cat.id;`,
-            [farm_id, farm_id, farm_id],
-          );
-          rows = data.rows;
-        } else {
-          rows = await CustomAnimalTypeModel.query().where({ farm_id }).whereNotDeleted();
-        }
+        const rows =
+          req.query.count === 'true'
+            ? await CustomAnimalTypeModel.getCustomAnimalTypesWithCountsByFarmId(farm_id)
+            : await CustomAnimalTypeModel.query().where({ farm_id }).whereNotDeleted();
 
         return res.status(200).send(rows);
       } catch (error) {

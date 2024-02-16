@@ -13,41 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import knex from '../util/knex.js';
 import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
 
 const defaultAnimalTypeController = {
   getDefaultAnimalTypes() {
     return async (req, res) => {
       try {
-        let rows = [];
-
-        if (req.query.count === 'true') {
-          const { farm_id } = req.headers;
-          const data = await knex.raw(
-            `SELECT
-              dat.*,
-              COALESCE(SUM(abu.count), 0) AS count
-            FROM
-              default_animal_type AS dat
-            LEFT JOIN (
-              SELECT default_type_id, COUNT(*) AS count
-              FROM animal
-              WHERE farm_id = ? AND deleted is FALSE
-              GROUP BY default_type_id
-              UNION ALL
-              SELECT default_type_id, SUM(count) AS count
-              FROM animal_batch
-              WHERE farm_id = ? AND deleted is FALSE
-              GROUP BY default_type_id
-            ) AS abu ON dat.id = abu.default_type_id
-            GROUP BY dat.id;`,
-            [farm_id, farm_id],
-          );
-          rows = data.rows;
-        } else {
-          rows = await DefaultAnimalTypeModel.query();
-        }
+        const { farm_id } = req.headers;
+        const rows =
+          req.query.count === 'true'
+            ? await DefaultAnimalTypeModel.getDefaultAnimalTypesWithCountsByFarmId(farm_id)
+            : await DefaultAnimalTypeModel.query();
 
         if (!rows.length) {
           return res.sendStatus(404);

@@ -236,6 +236,9 @@ describe('Animal Batch Tests', () => {
         expect(res.body[0]).toMatchObject(firstAnimalBatch);
         expect(res.body[1]).toMatchObject(secondAnimalBatch);
         expect(res.body[2]).toMatchObject(thirdAnimalBatch);
+        expect(res.body[0].internal_identifier).toBe(1);
+        expect(res.body[1].internal_identifier).toBe(2);
+        expect(res.body[2].internal_identifier).toBe(3);
 
         res.body.forEach((animalBatch) => expect(animalBatch.farm_id).toBe(mainFarm.farm_id));
       }

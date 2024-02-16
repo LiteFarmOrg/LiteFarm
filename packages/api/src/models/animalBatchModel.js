@@ -51,9 +51,20 @@ class AnimalBatchModel extends baseModel {
         id: { type: 'integer' },
         name: { type: 'string' },
         notes: { type: ['string', 'null'] },
+        removed: { type: 'boolean' },
+        animal_removal_reason_id: { type: ['integer', 'null'] },
+        removal_explanation: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,
+      if: {
+        properties: {
+          removed: { const: true },
+        },
+      },
+      then: {
+        required: ['animal_removal_reason_id'],
+      },
     };
   }
 

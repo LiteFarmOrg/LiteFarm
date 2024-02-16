@@ -64,9 +64,20 @@ class Animal extends baseModel {
         brought_in_date: { type: ['string', 'null'], format: 'date' },
         weaning_date: { type: ['string', 'null'], format: 'date' },
         notes: { type: ['string', 'null'] },
+        removed: { type: 'boolean' },
+        animal_removal_reason_id: { type: ['integer', 'null'] },
+        removal_explanation: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,
+      if: {
+        properties: {
+          removed: { const: true },
+        },
+      },
+      then: {
+        required: ['animal_removal_reason_id'],
+      },
     };
   }
 }

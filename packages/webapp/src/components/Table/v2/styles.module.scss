@@ -25,6 +25,12 @@
   }
 }
 
+.itemRow {
+  &:nth-of-type(odd) {
+    background-color: var(--tableAlternateRowBackground);
+  }
+}
+
 .tableHead, .tableCell, .tableCell div, .headerLabel {
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -48,9 +54,9 @@
   height: 56px;
   border-bottom: solid 1px var(--grey200);
 
-  &:not(.tableHead) {
-    background-color: var(--white, #fff);
-  }
+  // &:not(.tableHead) {
+  //   background-color: var(--white, #fff);
+  // }
   &.tableHead {
     border-bottom: none;
   }

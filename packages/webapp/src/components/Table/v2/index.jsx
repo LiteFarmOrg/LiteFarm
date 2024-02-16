@@ -158,7 +158,7 @@ export default function EnhancedTable(props) {
                 <TableRow
                   key={index}
                   onClick={(event) => handleRowClick(event, row)}
-                  className={clsx(styles.tableRow, onRowClick && styles.clickable)}
+                  className={clsx(styles.tableRow, styles.itemRow, onRowClick && styles.clickable)}
                 >
                   {columns.map(({ id, format, align, columnProps }) => {
                     if (!id) {
@@ -261,6 +261,7 @@ EnhancedTable.propTypes = {
   shouldFixTableLayout: PropTypes.bool,
   defaultOrderBy: PropTypes.string,
 };
+
 EnhancedTable.defaultProps = {
   minRows: 10,
   pageSizeOptions: [5, 10, 20, 50],

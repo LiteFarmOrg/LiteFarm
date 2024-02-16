@@ -576,8 +576,19 @@ function AnimalInventory() {
   const tableData = [...animals, ...animal_batches];
 
   return (
-    <Layout>
-      <Table kind="v2" columns={getColumns()} data={tableData} shouldFixTableLayout={true} />
+    <Layout
+      classes={{
+        container: { backgroundColor: theme.palette.background.paper },
+      }}
+      hasWhiteBackground
+    >
+      <Table
+        kind="v2"
+        columns={getColumns()}
+        data={tableData}
+        shouldFixTableLayout={true}
+        minRows={tableData.length}
+      />
     </Layout>
   );
 }

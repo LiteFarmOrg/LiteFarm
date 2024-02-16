@@ -48,9 +48,30 @@ export const up = async function (knex) {
       );
     });
   }
+
+  // Permissions for enum table
+  await knex('permissions').insert([
+    {
+      permission_id: 167,
+      name: 'get:animal_removal_reasons',
+      description: 'get animal removal reasons',
+    },
+  ]);
+
+  await knex('rolePermissions').insert([
+    { role_id: 1, permission_id: 167 },
+    { role_id: 2, permission_id: 167 },
+    { role_id: 3, permission_id: 167 },
+    { role_id: 5, permission_id: 167 },
+  ]);
 };
 
 export const down = async function (knex) {
+  const permissions = [167];
+
+  await knex('rolePermissions').whereIn('permission_id', permissions).del();
+  await knex('permissions').whereIn('permission_id', permissions).del();
+
   for (const tableName of ['animal', 'animal_batch']) {
     await knex.schema.alterTable(tableName, (table) => {
       table.dropColumn('removal_explanation');

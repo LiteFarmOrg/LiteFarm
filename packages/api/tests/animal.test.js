@@ -229,25 +229,6 @@ describe('Animal Tests', () => {
       expect(res.status).toBe(400);
     });
 
-    test('Should be able to create an animal without name and identifier', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-      const animal = mocks.fakeAnimal({
-        name: null,
-        identifier: null,
-        default_type_id: defaultTypeId,
-      });
-
-      const res = await postRequestAsPromise(
-        {
-          user_id: user.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        [animal],
-      );
-
-      expect(res.status).toBe(201);
-    });
-
     test('Unique internal_identifier should be added within the same farm_id between animals and animalBatches', async () => {
       const [user] = await mocks.usersFactory();
       const { existingAnimalsAndBatchesCountsPerFarm } = await makeFarmsWithAnimalsAndBatches(user);

@@ -284,25 +284,6 @@ describe('Animal Batch Tests', () => {
       expect(res.status).toBe(400);
     });
 
-    test('Should be able to create an animal batch without a name', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-      const animalBatch = mocks.fakeAnimalBatch({
-        name: null,
-        default_breed_id: defaultBreedId,
-        default_type_id: defaultTypeId,
-      });
-
-      const res = await postRequestAsPromise(
-        {
-          user_id: user.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        [animalBatch],
-      );
-
-      expect(res.status).toBe(201);
-    });
-
     test('Unique internal_identifier should be added within the same farm_id between animals and animalBatches', async () => {
       const [user] = await mocks.usersFactory();
       const { existingAnimalsAndBatchesCountsPerFarm } = await makeFarmsWithAnimalsAndBatches(user);

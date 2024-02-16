@@ -49,7 +49,6 @@ const animalController = {
       try {
         const { farm_id } = req.headers;
         const result = [];
-        const ids = [];
 
         if (!Array.isArray(req.body)) {
           await trx.rollback();
@@ -145,17 +144,12 @@ const animalController = {
           );
 
           result.push(individualAnimalResult);
-          ids.push(individualAnimalResult.id);
         }
 
         await trx.commit();
 
-        const resultWithInternalIdentifiers = await assignInternalIdentifiers(
-          result,
-          'animal',
-          ids,
-        );
-        return res.status(201).send(resultWithInternalIdentifiers);
+        await assignInternalIdentifiers(result, 'animal');
+        return res.status(201).send(result);
       } catch (error) {
         console.error(error);
         await trx.rollback();

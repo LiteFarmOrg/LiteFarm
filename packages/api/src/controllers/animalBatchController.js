@@ -50,7 +50,6 @@ const animalBatchController = {
       try {
         const { farm_id } = req.headers;
         const result = [];
-        const ids = [];
 
         if (!Array.isArray(req.body)) {
           await trx.rollback();
@@ -139,13 +138,12 @@ const animalBatchController = {
           );
 
           result.push(individualAnimalBatchResult);
-          ids.push(individualAnimalBatchResult.id);
         }
 
         await trx.commit();
 
-        const resultWithInternalIdentifiers = await assignInternalIdentifiers(result, 'batch', ids);
-        return res.status(201).send(resultWithInternalIdentifiers);
+        await assignInternalIdentifiers(result, 'batch');
+        return res.status(201).send(result);
       } catch (error) {
         await handleObjectionError(error, res, trx);
       }

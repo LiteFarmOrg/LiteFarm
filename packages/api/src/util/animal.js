@@ -17,21 +17,18 @@ import knex from './knex.js';
 
 /**
  * Assigns internal identifiers to records based on the provided record IDs and kind.
- * @param {Array<Object>} records - The array of records to which internal identifiers will be assigned.
+ * @param {Array<Object>} records - The array of records to which internal identifiers will be assigned. Each record is expected to contain an 'id' property.
  * @param {string} kind - The kind of records being processed ('batch' or other).
- * @param {Array<number>} recordIds - The array of record IDs to use for retrieving internal identifiers.
- * @returns {Promise<Array<Object>>} - A promise that resolves to an array of records with assigned internal identifiers.
  */
-export const assignInternalIdentifiers = async (records, kind, recordIds) => {
-  const internalIdentifiers = await knex('animal_union_batch')
-    .pluck('internal_identifier')
-    .whereIn('id', recordIds)
-    .andWhere({ batch: kind === 'batch' });
+export const assignInternalIdentifiers = async (records, kind) => {
+  await Promise.all(
+    records.map(async (record) => {
+      const [internalIdentifier] = await knex('animal_union_batch')
+        .pluck('internal_identifier')
+        .where('id', record.id)
+        .andWhere({ batch: kind === 'batch' });
 
-  const newRecords = [];
-  records.forEach((record, index) => {
-    newRecords.push({ ...record, internal_identifier: internalIdentifiers[index] });
-  });
-
-  return newRecords;
+      record.internal_identifier = internalIdentifier;
+    }),
+  );
 };

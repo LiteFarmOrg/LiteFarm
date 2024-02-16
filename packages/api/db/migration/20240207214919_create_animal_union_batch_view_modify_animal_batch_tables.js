@@ -90,14 +90,9 @@ export const down = async (knex) => {
 
   await knex.schema.alterTable('animal', (table) => {
     table.dropColumn('photo_url');
+    // ?? does not work in alterTable
+    table.check('name IS NOT NULL OR identifier IS NOT NULL', [], 'name_identifier_check');
   });
-
-  // table.check does not work in alterTable
-  await knex.schema.raw(`
-    ALTER TABLE animal
-    ADD CONSTRAINT name_identifier_check
-    CHECK (name IS NOT NULL OR identifier IS NOT NULL);
-  `);
 
   await knex.schema.alterTable('animal_batch', (table) => {
     table.dropColumn('photo_url');

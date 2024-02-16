@@ -136,10 +136,9 @@ describe('Animal Tests', () => {
         expect(res.body.length).toBe(2);
         res.body.forEach((animal) => {
           expect(animal.farm_id).toBe(mainFarm.farm_id);
-          expect(animal.internal_identifier).toBeGreaterThan(0);
         });
-        expect(firstAnimal).toMatchObject(res.body[0]);
-        expect(secondAnimal).toMatchObject(res.body[1]);
+        expect({ ...firstAnimal, internal_identifier: 1 }).toMatchObject(res.body[0]);
+        expect({ ...secondAnimal, internal_identifier: 2 }).toMatchObject(res.body[1]);
       }
     });
 
@@ -187,9 +186,9 @@ describe('Animal Tests', () => {
         );
 
         expect(res.status).toBe(201);
-        expect(res.body[0]).toMatchObject(firstAnimal);
-        expect(res.body[1]).toMatchObject(secondAnimal);
-        expect(res.body[2]).toMatchObject(thirdAnimal);
+        expect(res.body[0]).toMatchObject({ ...firstAnimal, internal_identifier: 1 });
+        expect(res.body[1]).toMatchObject({ ...secondAnimal, internal_identifier: 2 });
+        expect(res.body[2]).toMatchObject({ ...thirdAnimal, internal_identifier: 3 });
 
         res.body.forEach((animal) => expect(animal.farm_id).toBe(mainFarm.farm_id));
       }
@@ -352,30 +351,6 @@ describe('Animal Tests', () => {
       );
 
       expect(res.status).toBe(400);
-    });
-  });
-
-  describe('Animal model tests', () => {
-    test('Unique internal_identifier should be added within the same farm_id between animal and animal_batch tables', async () => {
-      const [firstFarm] = await mocks.farmFactory();
-      const [secondFarm] = await mocks.farmFactory();
-      const [thirdFarm] = await mocks.farmFactory();
-
-      const testCases = [
-        { farm: firstFarm, kind: 'animal', expectedInternalIdentifier: 1 },
-        { farm: firstFarm, kind: 'batch', expectedInternalIdentifier: 2 },
-        { farm: secondFarm, kind: 'animal', expectedInternalIdentifier: 1 },
-        { farm: thirdFarm, kind: 'batch', expectedInternalIdentifier: 1 },
-        { farm: secondFarm, kind: 'animal', expectedInternalIdentifier: 2 },
-        { farm: firstFarm, kind: 'batch', expectedInternalIdentifier: 3 },
-        { farm: secondFarm, kind: 'animal', expectedInternalIdentifier: 3 },
-        { farm: firstFarm, kind: 'batch', expectedInternalIdentifier: 4 },
-      ];
-
-      for (const { farm, kind, expectedInternalIdentifier } of testCases) {
-        const data = await makeAnimalOrBatchForFarm({ farm, kind });
-        expect(data.internal_identifier).toBe(expectedInternalIdentifier);
-      }
     });
   });
 });

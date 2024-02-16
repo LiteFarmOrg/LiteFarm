@@ -16,6 +16,7 @@
 import Model from './baseFormatModel.js';
 import baseModel from './baseModel.js';
 import AnimalBatchSexDetailModel from './animalBatchSexDetailModel.js';
+import AnimalCatalogueModel from './animalCatalogueModel.js';
 
 class AnimalBatchModel extends baseModel {
   static get tableName() {
@@ -51,7 +52,6 @@ class AnimalBatchModel extends baseModel {
         id: { type: 'integer' },
         name: { type: ['string', 'null'] },
         notes: { type: ['string', 'null'] },
-        internal_identifier: { type: 'integer' },
         photo_url: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
@@ -69,6 +69,15 @@ class AnimalBatchModel extends baseModel {
           from: 'animal_batch.id',
           to: 'animal_batch_sex_detail.animal_batch_id',
         },
+      },
+      animal_catalogue: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: AnimalCatalogueModel,
+        join: {
+          from: 'animal_batch.id',
+          to: 'animal_catalogue.id',
+        },
+        filter: (query) => query.where('animal_catalogue.batch', true),
       },
     };
   }

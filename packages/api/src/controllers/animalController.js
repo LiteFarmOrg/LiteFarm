@@ -20,13 +20,18 @@ import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
+import { assignInternalIdentifier } from '../util/animal.js';
 
 const animalController = {
   getFarmAnimals() {
     return async (req, res) => {
       try {
         const { farm_id } = req.headers;
-        const rows = await AnimalModel.query().where({ farm_id }).whereNotDeleted();
+        const rows = await AnimalModel.query()
+          .select('animal.*', 'animal_catalogue.internal_identifier')
+          .joinRelated('animal_catalogue')
+          .where({ 'animal.farm_id': farm_id })
+          .whereNotDeleted();
         return res.status(200).send(rows);
       } catch (error) {
         console.error(error);
@@ -44,6 +49,7 @@ const animalController = {
       try {
         const { farm_id } = req.headers;
         const result = [];
+        const ids = [];
 
         if (!Array.isArray(req.body)) {
           await trx.rollback();
@@ -139,10 +145,13 @@ const animalController = {
           );
 
           result.push(individualAnimalResult);
+          ids.push(individualAnimalResult.id);
         }
 
         await trx.commit();
-        return res.status(201).send(result);
+
+        const resultWithInternalIdentifiers = await assignInternalIdentifier(result, 'animal', ids);
+        return res.status(201).send(resultWithInternalIdentifiers);
       } catch (error) {
         console.error(error);
         await trx.rollback();

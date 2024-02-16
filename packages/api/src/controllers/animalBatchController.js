@@ -20,6 +20,7 @@ import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { handleObjectionError } from '../util/errorCodes.js';
+import { assignInternalIdentifier } from '../util/animal.js';
 
 const animalBatchController = {
   getFarmAnimalBatches() {
@@ -27,9 +28,11 @@ const animalBatchController = {
       try {
         const { farm_id } = req.headers;
         const rows = await AnimalBatchModel.query()
-          .where({ farm_id })
-          .whereNotDeleted()
-          .withGraphFetched('sex_detail');
+          .select('animal_batch.*', 'animal_catalogue.internal_identifier')
+          .where({ 'animal_batch.farm_id': farm_id })
+          .joinRelated('animal_catalogue')
+          .withGraphFetched('sex_detail')
+          .whereNotDeleted();
         return res.status(200).send(rows);
       } catch (error) {
         console.error(error);
@@ -47,6 +50,7 @@ const animalBatchController = {
       try {
         const { farm_id } = req.headers;
         const result = [];
+        const ids = [];
 
         if (!Array.isArray(req.body)) {
           await trx.rollback();
@@ -135,10 +139,13 @@ const animalBatchController = {
           );
 
           result.push(individualAnimalBatchResult);
+          ids.push(individualAnimalBatchResult.id);
         }
 
         await trx.commit();
-        return res.status(201).send(result);
+
+        const resultWithInternalIdentifiers = await assignInternalIdentifier(result, 'batch', ids);
+        return res.status(201).send(resultWithInternalIdentifiers);
       } catch (error) {
         await handleObjectionError(error, res, trx);
       }

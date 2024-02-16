@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import Model from './baseFormatModel.js';
 import baseModel from './baseModel.js';
+import AnimalCatalogueModel from './animalCatalogueModel.js';
 
 class Animal extends baseModel {
   static get tableName() {
@@ -58,11 +60,24 @@ class Animal extends baseModel {
         brought_in_date: { type: ['string', 'null'], format: 'date' },
         weaning_date: { type: ['string', 'null'], format: 'date' },
         notes: { type: ['string', 'null'] },
-        internal_identifier: { type: 'integer' },
         photo_url: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      animal_catalogue: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: AnimalCatalogueModel,
+        join: {
+          from: 'animal.id',
+          to: 'animal_catalogue.id',
+        },
+        filter: (query) => query.where('animal_catalogue.batch', false),
+      },
     };
   }
 }

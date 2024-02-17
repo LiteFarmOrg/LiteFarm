@@ -562,6 +562,7 @@ function AnimalInventory() {
       columnProps: {
         style: { padding: `0 ${isMobile ? 8 : 12}px` },
       },
+      disabled: true,
     },
     {
       id: 'Locations',
@@ -570,6 +571,7 @@ function AnimalInventory() {
       columnProps: {
         style: { padding: `0 ${isMobile ? 8 : 12}px` },
       },
+      align: 'right',
     },
   ];
 

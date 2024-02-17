@@ -14,8 +14,18 @@
  */
 
 .table {
+  padding: 0.5px;
   &.fixed {
     table-layout: fixed;
+  }
+}
+
+.headerRow {
+  border-top: 1px solid var(--Colors-Neutral-Neutral-50);
+  border-bottom: 1px solid var(--Colors-Neutral-Neutral-50);
+  margin-bottom: 16px;
+  &.clickable {
+    cursor: pointer;
   }
 }
 
@@ -26,6 +36,7 @@
 }
 
 .itemRow {
+  margin: 0 16px 0 16px;
   &:nth-of-type(odd) {
     background-color: var(--tableAlternateRowBackground);
   }
@@ -39,14 +50,15 @@
 
 .tableHead {
   font-weight: 700;
-
   > span {
-    width: 100%;
+    max-width: 100%;
   }
 }
 
 .headerLabel {
-  max-width: calc(100% - 17px); // 17px = svg's width
+  &.active{
+    color: var(--Colors-Secondary-Secondary-green-700);
+  }
 }
 
 .tableCell {
@@ -114,4 +126,38 @@
   > div > div svg:nth-child(3)  {
     color: var(--grey600);
   }
+}
+
+.sortLabelActive {
+  background-color: var(--tableSortPill);
+  border-radius: 24px;
+}
+
+.alignRightPadding {
+  padding: 4px 8px 4px 4px;
+}
+
+.alignLeftPadding {
+  padding: 4px 4px 4px 8px;
+}
+
+.iconColor:hover {
+  rect:nth-of-type(1) {
+    fill: var(--Colors-Secondary-Secondary-green-600);
+  }
+  rect:nth-of-type(2) {
+    stroke: var(--Colors-Secondary-Secondary-green-400);
+  }
+  path {
+    stroke: white
+  }
+}
+
+// Spacing between Header and Body
+// https://stackoverflow.com/questions/9258754/spacing-between-thead-and-tbody
+.tableBody::before {
+    content: "-";
+    display: block;
+    line-height: 16px;
+    color: transparent;
 }

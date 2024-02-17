@@ -152,7 +152,7 @@ export default function EnhancedTable(props) {
             onRequestSort={handleRequestSort}
             dense={dense}
           />
-          <TableBody>
+          <TableBody className={styles.tableBody}>
             {visibleRows.map((row, index) => {
               return (
                 <TableRow

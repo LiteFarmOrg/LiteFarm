@@ -55,7 +55,7 @@ const getColumns = (t, mobileView, totalAmount, quantityTotal, currencySymbol) =
     align: 'right',
     format: (d) => `${currencySymbol}${Math.abs(d.amount).toFixed(2)}`,
     columnProps: {
-      style: { width: '100px', paddingRight: `${mobileView ? 9 : 75}px` },
+      style: { width: '150px', paddingRight: `${mobileView ? 9 : 75}px` },
     },
     Footer: mobileView ? null : <div className={styles.bold}>{totalAmount}</div>,
   },

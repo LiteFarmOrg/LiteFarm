@@ -19,6 +19,8 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import clsx from 'clsx';
 import { ReactComponent as ChevronDown } from '../../../assets/images/chevron-down.svg';
+import { ReactComponent as UnfoldCircle } from '../../../assets/images/unfold-circle.svg';
+import { ReactComponent as ArrowDownCircle } from '../../../assets/images/arrow-down-circle.svg';
 import styles from './styles.module.scss';
 
 export default function EnhancedTableHead({ columns, order, orderBy, onRequestSort, dense }) {
@@ -27,27 +29,36 @@ export default function EnhancedTableHead({ columns, order, orderBy, onRequestSo
   };
 
   return (
-    <TableHead>
-      <TableRow className={styles.tableRow}>
-        {columns.map(({ id, align, columnProps, label }) => {
+    <TableHead className={styles.headerRow}>
+      <TableRow>
+        {columns.map(({ id, align, columnProps, label, disabled = false }) => {
           if (!id) {
             return null;
           }
+          const active = Boolean(orderBy === id);
           return (
             <TableCell
               key={id}
               align={align || 'left'}
-              sortDirection={orderBy === id ? order : false}
+              sortDirection={active ? order : false}
               className={clsx(styles.tableCell, styles.tableHead, dense && styles.dense)}
               {...columnProps}
             >
               <TableSortLabel
-                active={orderBy === id}
-                direction={orderBy === id ? order : 'asc'}
-                onClick={createSortHandler(id)}
-                IconComponent={ChevronDown}
+                active={active}
+                direction={active ? order : 'asc'}
+                onClick={disabled ? null : createSortHandler(id)}
+                IconComponent={active ? ArrowDownCircle : UnfoldCircle}
+                disabled={disabled}
+                classes={{
+                  active: clsx(
+                    styles.sortLabelActive,
+                    align === 'right' ? styles.alignRightPadding : styles.alignLeftPadding,
+                  ),
+                  icon: styles.iconColor,
+                }}
               >
-                <span className={styles.headerLabel}>{label}</span>
+                <span className={clsx(styles.headerLabel, active && styles.active)}>{label}</span>
               </TableSortLabel>
             </TableCell>
           );

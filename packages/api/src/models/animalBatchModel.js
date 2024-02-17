@@ -61,6 +61,7 @@ class AnimalBatchModel extends baseModel {
         properties: {
           removed: { const: true },
         },
+        required: ['removed'],
       },
       then: {
         required: ['animal_removal_reason_id'],

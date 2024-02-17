@@ -2387,6 +2387,10 @@ async function animal_batch_group_relationshipFactory({
     .returning('*');
 }
 
+async function animal_removal_reasonFactory() {
+  return knex('animal_removal_reason').insert({ key: faker.lorem.word() }).returning('*');
+}
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -2533,5 +2537,6 @@ export default {
   animal_groupFactory,
   animal_group_relationshipFactory,
   animal_batch_group_relationshipFactory,
+  animal_removal_reasonFactory,
   baseProperties,
 };

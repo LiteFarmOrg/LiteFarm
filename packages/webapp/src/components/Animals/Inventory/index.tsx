@@ -36,7 +36,7 @@ const PureAnimalInventory = ({
       hasWhiteBackground
     >
       <Table
-        kind="v2"
+        kind={TableType.V2}
         alternatingRowColor={true}
         columns={getColumns()}
         data={tableData}

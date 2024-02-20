@@ -91,6 +91,7 @@ export default function EnhancedTable(props) {
     dense,
     shouldFixTableLayout,
     defaultOrderBy,
+    alternatingRowColor,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -158,7 +159,12 @@ export default function EnhancedTable(props) {
                 <TableRow
                   key={index}
                   onClick={(event) => handleRowClick(event, row)}
-                  className={clsx(styles.tableRow, styles.itemRow, onRowClick && styles.clickable)}
+                  className={clsx(
+                    styles.tableRow,
+                    styles.itemRow,
+                    onRowClick && styles.clickable,
+                    alternatingRowColor && styles.alternatingRowColor,
+                  )}
                 >
                   {columns.map(({ id, format, align, columnProps }) => {
                     if (!id) {
@@ -260,6 +266,7 @@ EnhancedTable.propTypes = {
   /** should be true when setting column width */
   shouldFixTableLayout: PropTypes.bool,
   defaultOrderBy: PropTypes.string,
+  alternatingRowColor: PropTypes.bool,
 };
 
 EnhancedTable.defaultProps = {
@@ -269,4 +276,5 @@ EnhancedTable.defaultProps = {
   dense: true,
   shouldFixTableLayout: false,
   defaultOrderBy: '',
+  alternatingRowColor: false,
 };

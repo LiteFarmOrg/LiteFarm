@@ -586,6 +586,7 @@ function AnimalInventory() {
     >
       <Table
         kind="v2"
+        alternatingRowColor={true}
         columns={getColumns()}
         data={tableData}
         shouldFixTableLayout={true}

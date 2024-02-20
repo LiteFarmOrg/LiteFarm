@@ -24,9 +24,8 @@ const tableComponents: KindComponentKVP = {
 };
 
 /**
- * A component that places tiles so that the empty space is evenly distributed for any window sizes.
- * Either "children" or "tileType" and "tileData" props are required.
- * See packages/webapp/src/stories/Tile/Tiles.stories.jsx for examples.
+ * A component that selects between available Table styles.
+ * See packages/webapp/src/stories/Table/Table.stories.jsx for examples.
  */
 export default function Table({ kind, ...props }: { kind: TableType; props: any }) {
   const table = tableComponents[kind](props);

@@ -31,7 +31,7 @@ export const up = async function (knex) {
 
     // Create function to assign internal_identifier to a record (NEW) to be inserted
     await knex.raw(`
-      CREATE VIEW animal_union_batch AS
+      CREATE VIEW animal_union_batch_internal_identifier AS
       SELECT
         *,
         ROW_NUMBER() OVER (PARTITION BY farm_id ORDER BY created_at)::INTEGER AS internal_identifier
@@ -39,16 +39,7 @@ export const up = async function (knex) {
         SELECT
           id,
           farm_id,
-          default_type_id,
-          custom_type_id,
-          default_breed_id,
-          custom_breed_id,
-          name,
-          identifier,
-          (SELECT array_agg(animal_group_id) FROM animal_group_relationship WHERE animal_id = a.id) AS related_group_ids,
-          1 AS count,
           FALSE AS batch,
-          deleted,
           created_at
         FROM
           animal a
@@ -58,20 +49,11 @@ export const up = async function (knex) {
         SELECT
           id,
           farm_id,
-          default_type_id,
-          custom_type_id,
-          default_breed_id,
-          custom_breed_id,
-          name,
-          NULL AS identifier,
-          (SELECT array_agg(animal_group_id) FROM animal_batch_group_relationship WHERE animal_batch_id = ab.id) AS related_group_ids,
-          count,
           TRUE AS batch,
-          deleted,
           created_at
         FROM
           animal_batch ab
-      ) animal_union_batch
+      ) animal_union_batch_internal_identifier
       ORDER BY
         created_at;
     `);
@@ -86,7 +68,7 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = async (knex) => {
-  await knex.schema.dropView('animal_union_batch');
+  await knex.schema.dropView('animal_union_batch_internal_identifier');
 
   await knex.schema.alterTable('animal', (table) => {
     table.dropColumn('photo_url');

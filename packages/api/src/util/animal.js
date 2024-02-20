@@ -23,7 +23,7 @@ import knex from './knex.js';
 export const assignInternalIdentifiers = async (records, kind) => {
   await Promise.all(
     records.map(async (record) => {
-      const [internalIdentifier] = await knex('animal_union_batch')
+      const [internalIdentifier] = await knex('animal_union_batch_internal_identifier')
         .pluck('internal_identifier')
         .where('id', record.id)
         .andWhere({ batch: kind === 'batch' });

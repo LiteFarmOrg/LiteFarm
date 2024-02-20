@@ -27,8 +27,7 @@ interface useDynamicTileVisibilityParams {
   containerRef: RefObject<HTMLElement>;
   typeCountTiles: TypeCountTile[];
   gap?: number;
-  tileWidth?: number;
-  moreButtonWidth?: number;
+  tileWidth?: number; // & more Button width
   minWidthDesktop?: number;
   rowsPerView?: {
     desktop: number;
@@ -40,31 +39,32 @@ export const useDynamicTileVisibility = ({
   containerRef,
   typeCountTiles,
   gap = 4,
-  tileWidth = 90,
-  moreButtonWidth = 90,
+  tileWidth = 90, // & more Button width
   minWidthDesktop = 600,
   rowsPerView = { desktop: 1, mobile: 2 },
 }: useDynamicTileVisibilityParams) => {
   const [visibleIconTiles, setVisibleIconTiles] = useState<TypeCountTile[]>([]);
   const [hiddenIconTiles, setHiddenIconTiles] = useState<TypeCountTile[]>([]);
 
-  const totalTiles = typeCountTiles.length;
-
   useLayoutEffect(() => {
     let resizeObserver: ResizeObserver;
+    const totalTiles = typeCountTiles.length;
 
     const updateLayout = (container: HTMLElement) => {
       const containerWidth = container.getBoundingClientRect().width;
-      let isDesktopView = containerWidth > minWidthDesktop;
+      const isDesktopView = containerWidth >= minWidthDesktop;
 
       const rowMultiplier = isDesktopView ? rowsPerView.desktop : rowsPerView.mobile;
 
-      const availableWidth = containerWidth - moreButtonWidth;
-      const tilesPerRow = Math.floor(availableWidth / (tileWidth + gap));
+      const tilesPerRow = Math.floor(containerWidth / (tileWidth + gap));
       const totalFittableTiles = tilesPerRow * rowMultiplier;
 
-      let tilesToHide = totalTiles - totalFittableTiles;
-      if (tilesToHide < 0) tilesToHide = 0;
+      let tilesToHide = Math.max(totalTiles - totalFittableTiles, 0);
+
+      // Reserve space for the more button
+      if (tilesToHide > 0) {
+        tilesToHide++;
+      }
 
       setVisibleIconTiles(typeCountTiles.slice(0, typeCountTiles.length - tilesToHide));
       setHiddenIconTiles(typeCountTiles.slice(typeCountTiles.length - tilesToHide));

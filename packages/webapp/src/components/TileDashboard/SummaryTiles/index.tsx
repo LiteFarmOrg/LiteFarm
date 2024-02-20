@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import { Main } from '../../Typography';
 
@@ -22,15 +23,19 @@ interface SummaryTilesProps {
   categoryLabel: string;
 }
 
-export const SummaryTiles = ({ totalCount, categoryCount, categoryLabel }: SummaryTilesProps) => (
-  <div className={styles.summaryTiles}>
-    <div className={styles.totalCount}>
-      <Main className={styles.countLabel}>total</Main>
-      <Main className={styles.countText}>{totalCount}</Main>
+export const SummaryTiles = ({ totalCount, categoryCount, categoryLabel }: SummaryTilesProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className={styles.summaryTiles}>
+      <div className={styles.totalCount}>
+        <Main className={styles.countLabel}>{t('common:TOTAL')}</Main>
+        <Main className={styles.countText}>{totalCount}</Main>
+      </div>
+      <div className={styles.typeCount}>
+        <Main className={styles.countLabel}>{categoryLabel}</Main>
+        <Main className={styles.countText}>{categoryCount}</Main>
+      </div>
     </div>
-    <div className={styles.typeCount}>
-      <Main className={styles.countLabel}>{categoryLabel}</Main>
-      <Main className={styles.countText}>{categoryCount}</Main>
-    </div>
-  </div>
-);
+  );
+};

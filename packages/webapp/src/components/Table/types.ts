@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import type { ReactNode } from 'react';
+import type { ReactElement } from 'react';
 import type { ColumnInstance } from 'react-table';
 import { ReactComponentLike } from 'prop-types';
 
@@ -46,12 +46,13 @@ type MuiTableColumn = {
   id: string;
   format: CallbackFn;
   align: Alignment;
-  Footer: ReactNode;
+  Footer: ReactElement;
   columnProps: Object;
   label: string;
 };
 
 export type MuiTableProps = {
+  alternatingRowColor: boolean;
   columns: Required<MuiTableColumn[]>;
   data: Object[];
   showPagination: boolean;
@@ -67,5 +68,5 @@ export type MuiTableProps = {
 };
 
 export type KindComponentKVP = {
-  [kind in TableType]: (props: any) => ReactNode;
+  [kind: string]: (props: any) => ReactElement;
 };

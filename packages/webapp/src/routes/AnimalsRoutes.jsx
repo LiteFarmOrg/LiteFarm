@@ -20,7 +20,7 @@ import {
   ANIMALS_LOCATION_URL,
   ANIMALS_GROUPS_URL,
 } from '../util/siteMapConstants';
-const Inventory = React.lazy(() => import('../containers/Animals/Inventory'));
+const Inventory = React.lazy(() => import('../containers/Animals/Inventory/index.tsx'));
 const Location = React.lazy(() => import('../containers/Animals/Location'));
 const Groups = React.lazy(() => import('../containers/Animals/Groups'));
 

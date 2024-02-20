@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import Table from '../../../Table/Table';
+import { TableType } from '../../../Table/types';
 import StateTab from '../../../RouterTab/StateTab';
 
 const tabsEnum = {
@@ -152,7 +153,7 @@ export default function LabourTable({ data: transaction, currencySymbol }) {
       />
       {activeTab === tabsEnum.EMPLOYEE && (
         <Table
-          kind="v2"
+          kind={TableType.V2}
           columns={employeeColumns}
           data={transaction.items.EMPLOYEE}
           minRow={10}
@@ -161,7 +162,7 @@ export default function LabourTable({ data: transaction, currencySymbol }) {
       )}
       {activeTab === tabsEnum.TASKS && (
         <Table
-          kind="v2"
+          kind={TableType.V2}
           columns={tasksColumns}
           data={transaction.items.TASK_TYPE}
           minRow={10}

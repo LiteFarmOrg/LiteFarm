@@ -27,7 +27,8 @@ const tableComponents: KindComponentKVP = {
  * A component that selects between available Table styles.
  * See packages/webapp/src/stories/Table/Table.stories.jsx for examples.
  */
-export default function Table({ kind, ...props }: { kind: TableType; props: any }) {
+// TODO: export default function Table({ kind, ...props } : {kind:TableType, props: any | ReacttableProps | MuiTableProps}) {
+export default function Table({ kind, ...props }: any) {
   const table = tableComponents[kind](props);
   return table;
 }

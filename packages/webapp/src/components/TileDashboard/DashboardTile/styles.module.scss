@@ -34,7 +34,7 @@
 }
 
 .tileText {
-  width: calc(100% - 24px); // whole width minus icon
+  width: calc(100% - 32px); // whole width minus icon + gap
   display: inline-flex;
   flex-direction: column;
   align-items: center;

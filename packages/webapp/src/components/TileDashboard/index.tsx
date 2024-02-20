@@ -80,9 +80,7 @@ export const PureTileDashboard = ({
               selectedFilterIds={selectedFilterIds}
               className={styles.flexItem}
             />
-          ) : (
-            <></>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

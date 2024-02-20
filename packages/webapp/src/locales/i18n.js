@@ -18,7 +18,7 @@ i18n
       order: ['localStorage', 'navigator', 'querystring'],
       lookupLocalStorage: 'litefarm_lang',
     },
-
+    supportedLngs: ['en', 'pt', 'es', 'fr'],
     react: {
       useSuspense: true,
     },

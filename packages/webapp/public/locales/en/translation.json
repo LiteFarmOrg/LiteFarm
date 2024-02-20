@@ -897,6 +897,10 @@
   "HOME": {
     "GREETING": "Good day, "
   },
+  "HOVERPILL": {
+    "PLUS_OTHERS_COUNT_one": "+ {{count}} other",
+    "PLUS_OTHERS_COUNT_other": "+ {{count}} others"
+  },
   "INSIGHTS": {
     "BIODIVERSITY": {
       "AMPHIBIANS": "Amphibians",
@@ -1576,6 +1580,11 @@
     "CLEAR_TERMS_AND_FILTERS": "Why not explore different terms or simply clear the filters to discover new possibilities?",
     "NO_RESULTS_FOR": "Sorry, we couldn't find any results for your search term <1>'{{searchTerm}}'</1>",
     "ZERO": "0 results"
+  },
+  "SECTION_HEADER": {
+    "ANIMALS_GROUPS": "Animal groups",
+    "ANIMALS_INVENTORY": "Animal inventory",
+    "ANIMALS_LOCATION": "Animal locations"
   },
   "SENSOR": {
     "BRAND": "Brand",

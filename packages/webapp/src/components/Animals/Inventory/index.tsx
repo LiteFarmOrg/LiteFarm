@@ -17,7 +17,7 @@ import React from 'react';
 import Table from '../../../components/Table/Table';
 import Layout from '../../../components/Layout';
 import { TableType } from '../../Table/types';
-import type { Theme } from '@mui/material';
+import type { DefaultTheme } from '@mui/styles';
 
 const PureAnimalInventory = ({
   tableData,
@@ -26,7 +26,7 @@ const PureAnimalInventory = ({
 }: {
   tableData: object[];
   getColumns: Function;
-  theme: Theme;
+  theme: DefaultTheme;
 }) => {
   return (
     <Layout

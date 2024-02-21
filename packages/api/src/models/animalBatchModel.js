@@ -16,6 +16,7 @@
 import Model from './baseFormatModel.js';
 import baseModel from './baseModel.js';
 import AnimalBatchSexDetailModel from './animalBatchSexDetailModel.js';
+import { checkAndTrimString } from '../util/util.js';
 
 class AnimalBatchModel extends baseModel {
   static get tableName() {
@@ -24,6 +25,28 @@ class AnimalBatchModel extends baseModel {
 
   static get idColumn() {
     return 'id';
+  }
+
+  async $beforeInsert(queryContext) {
+    await super.$beforeInsert(queryContext);
+    this.trimStringProperties();
+  }
+
+  async $beforeUpdate(queryContext) {
+    await super.$beforeUpdate(queryContext);
+    this.trimStringProperties();
+  }
+
+  trimStringProperties() {
+    const stringProperties = Object.entries(this.constructor.jsonSchema.properties)
+      .filter(([, value]) => value.type.includes('string'))
+      .map(([key]) => key);
+
+    for (const key of stringProperties) {
+      if (key in this) {
+        this[key] = checkAndTrimString(this[key]);
+      }
+    }
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated

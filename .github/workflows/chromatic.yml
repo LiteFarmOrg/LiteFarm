@@ -5,6 +5,11 @@ on: push
 jobs:
   chromatic:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: packages/component-library
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,4 +28,3 @@ jobs:
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          workingDir: packages/component-library

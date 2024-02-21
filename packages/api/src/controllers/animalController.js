@@ -1,18 +1,3 @@
-/*
- *  Copyright 2024 LiteFarm.org
- *  This file is part of LiteFarm.
- *
- *  LiteFarm is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  LiteFarm is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
- */
-
 import { Model, transaction } from 'objection';
 import AnimalModel from '../models/animalModel.js';
 import baseController from './baseController.js';
@@ -164,17 +149,17 @@ const animalController = {
 
       try {
         const { farm_id } = req.headers;
-        const result = [];
 
         if (!Array.isArray(req.body)) {
           await trx.rollback();
           return res.status(400).send('Request body should be an array');
         }
 
-        const sentAnimalIds = req.body.map(({ id }) => id);
-
         // Check that all animals exist and belong to the farm
+        // Done in its own loop to provide a list of all invalid ids
+        const sentAnimalIds = req.body.map(({ id }) => id);
         const invalidAnimalIds = [];
+
         for (const id of sentAnimalIds) {
           if (!id) {
             await trx.rollback();
@@ -200,8 +185,9 @@ const animalController = {
           });
         }
 
+        // Update animals
         for (const animal of req.body) {
-          const individualAnimalResult = await baseController.updateIndividualById(
+          await baseController.patch(
             AnimalModel,
             animal.id,
             {
@@ -210,12 +196,9 @@ const animalController = {
             req,
             { trx },
           );
-
-          result.push(individualAnimalResult);
         }
-
         await trx.commit();
-        return res.status(200).send(result);
+        return res.status(204);
       } catch (error) {
         console.error(error);
         await trx.rollback();

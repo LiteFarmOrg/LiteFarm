@@ -1,0 +1,35 @@
+{
+  "name": "component-library",
+  "version": "1.0.0",
+  "description": "LiteFarm Component Library",
+  "type": "module",
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_e45e23506c4b547"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^7.6.13",
+    "@storybook/addon-essentials": "^7.6.13",
+    "@storybook/addon-interactions": "^7.6.13",
+    "@storybook/addon-links": "^7.6.13",
+    "@storybook/addon-onboarding": "^1.0.11",
+    "@storybook/blocks": "^7.6.13",
+    "@storybook/react": "^7.6.13",
+    "@storybook/react-vite": "^7.6.13",
+    "@storybook/test": "^7.6.13",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.70.0",
+    "storybook": "^7.6.13",
+    "storybook-css-modules": "^1.0.8"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.9",
+    "@mui/styles": "^5.13.2",
+    "chromatic": "^10.9.6"
+  }
+}

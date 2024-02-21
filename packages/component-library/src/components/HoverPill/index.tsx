@@ -13,39 +13,36 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useTranslation } from 'react-i18next';
-import { Tooltip } from '@mui/material';
-import styles from './styles.module.scss';
-import { Semibold, Main } from '../Typography';
+import { Tooltip } from "@mui/material"
+import styles from "./styles.module.scss"
 
 export interface HoverPillProps {
-  items: string[];
+  othersLabel: string
+  items: string[]
 }
 
-export const HoverPill = ({ items }: HoverPillProps) => {
-  const { t } = useTranslation();
-
+export const HoverPill = ({ othersLabel, items }: HoverPillProps) => {
   const hoverContent = (
     <>
       {items.map((item, index) => (
-        <Main key={index} className={styles.detailText}>
+        <p key={index} className={styles.detailText}>
           {item}
-        </Main>
+        </p>
       ))}
     </>
-  );
+  )
 
   // https://mui.com/material-ui/react-tooltip/#distance-from-anchor
   const PopperProps = {
     modifiers: [
       {
-        name: 'offset',
+        name: "offset",
         options: {
           offset: [0, 4],
         },
       },
     ],
-  };
+  }
 
   return (
     <Tooltip
@@ -59,10 +56,8 @@ export const HoverPill = ({ items }: HoverPillProps) => {
       leaveTouchDelay={900000}
     >
       <div className={styles.pill}>
-        <Semibold className={styles.pillText}>
-          {t('HOVERPILL.PLUS_OTHERS_COUNT', { count: items.length })}
-        </Semibold>
+        <p className={styles.pillText}>{othersLabel}</p>
       </div>
     </Tooltip>
-  );
-};
+  )
+}

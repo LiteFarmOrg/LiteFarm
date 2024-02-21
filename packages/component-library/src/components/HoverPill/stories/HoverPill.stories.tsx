@@ -13,26 +13,26 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode } from 'react';
-import { Meta, StoryObj } from '@storybook/react';
-import clsx from 'clsx';
-import { componentDecoratorsFullHeight } from '../Pages/config/Decorators';
-import { HoverPill, HoverPillProps } from '../../components/HoverPill';
-import styles from './styles.module.scss';
+import { ReactNode } from "react"
+import { Meta, StoryObj } from "@storybook/react"
+import clsx from "clsx"
+import { componentDecoratorsFullHeight } from "../../../../.storybook/Decorators"
+import { HoverPill, HoverPillProps } from ".."
+import styles from "./styles.module.scss"
 
 type HoverPillStoryProps = HoverPillProps & {
-  position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center';
-};
+  position: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "center"
+}
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<HoverPillStoryProps> = {
-  title: 'Components/HoverPill',
+  title: "Components/HoverPill",
   component: HoverPill,
   argTypes: {
     position: {
-      control: 'select',
-      options: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'center'],
-      description: 'Position of the hover pill within the Storybook frame',
+      control: "select",
+      options: ["top-left", "top-right", "bottom-left", "bottom-right", "center"],
+      description: "Position of the hover pill within the Storybook frame",
     },
   },
   decorators: [
@@ -54,28 +54,30 @@ const meta: Meta<HoverPillStoryProps> = {
       },
     },
   },
-};
-export default meta;
+}
+export default meta
 
 interface WrapperProps {
-  children: ReactNode;
-  position?: string;
+  children: ReactNode
+  position?: string
 }
 
-const Wrapper = ({ children, position = 'center' }: WrapperProps) => {
-  return <div className={clsx(styles.wrapper, styles[position])}>{children}</div>;
-};
+const Wrapper = ({ children, position = "center" }: WrapperProps) => {
+  return <div className={clsx(styles.wrapper, styles[position])}>{children}</div>
+}
 
-type Story = StoryObj<typeof HoverPill>;
+type Story = StoryObj<typeof HoverPill>
 
 export const Plural: Story = {
   args: {
-    items: ['Heifers', 'Foot Rot treatment', 'Feeding change'],
+    items: ["Heifers", "Foot Rot treatment", "Feeding change"],
+    othersLabel: "+3 others",
   },
-};
+}
 
 export const Singular: Story = {
   args: {
-    items: ['Feeding change'],
+    items: ["Feeding change"],
+    othersLabel: "+1 other",
   },
-};
+}

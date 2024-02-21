@@ -1,28 +1,21 @@
 name: "Chromatic"
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - integration
+
+on: push
 
 jobs:
-  chromatic-deployment:
+  chromatic:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: packages/webapp
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: latest
+
       - name: Install dependencies
         run: pnpm install
+
       - name: Publish to Chromatic
-        env:
-          NODE_OPTIONS: "--max-old-space-size=8192"
-        run: ./node_modules/.bin/chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: packages/component-library

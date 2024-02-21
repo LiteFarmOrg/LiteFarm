@@ -56,7 +56,7 @@ export const useDynamicTileVisibility = ({
 
       const rowMultiplier = isDesktopView ? rowsPerView.desktop : rowsPerView.mobile;
 
-      const tilesPerRow = Math.floor(containerWidth / (tileWidth + gap));
+      const tilesPerRow = Math.floor((containerWidth + gap) / (tileWidth + gap));
       const totalFittableTiles = tilesPerRow * rowMultiplier;
 
       let tilesToHide = Math.max(totalTiles - totalFittableTiles, 0);

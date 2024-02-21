@@ -32,8 +32,8 @@ class AnimalBatchModel extends baseModel {
     this.trimStringProperties();
   }
 
-  async $beforeUpdate(queryContext) {
-    await super.$beforeUpdate(queryContext);
+  async $beforeUpdate(opt, queryContext) {
+    await super.$beforeUpdate(opt, queryContext);
     this.trimStringProperties();
   }
 

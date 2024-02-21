@@ -18,8 +18,25 @@ import express from 'express';
 const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
 import AnimalController from '../controllers/animalController.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+
+// Just a demonstration! Not recommended
+// Also only applicable when sending one animal per request (not an array)
+export const animalHasRecordAccess = () => {
+  return async function (req, res, next) {
+    const animal = req.body;
+    req.body = { ...req.body, animal_id: animal.id }; // something like
+    await hasFarmAccess({ body: 'animal_id' })(req, res, next);
+  };
+};
 
 router.get('/', checkScope(['get:animals']), AnimalController.getFarmAnimals());
 router.post('/', checkScope(['add:animals']), AnimalController.addAnimals());
+router.patch(
+  '/',
+  checkScope(['edit:animals']),
+  // can't use hasFarmAccess; body is an array, and 'id' property is also problematic as we would have needed to map it one-to-one to a getter
+  AnimalController.editAnimals(),
+);
 
 export default router;

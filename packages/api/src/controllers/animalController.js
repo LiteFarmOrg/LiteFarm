@@ -157,6 +157,74 @@ const animalController = {
       }
     };
   },
+
+  editAnimals() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+
+      try {
+        const { farm_id } = req.headers;
+        const result = [];
+
+        if (!Array.isArray(req.body)) {
+          await trx.rollback();
+          return res.status(400).send('Request body should be an array');
+        }
+
+        const sentAnimalIds = req.body.map(({ id }) => id);
+
+        // Check that all animals exist and belong to the farm
+        const invalidAnimalIds = [];
+        for (const id of sentAnimalIds) {
+          if (!id) {
+            await trx.rollback();
+            return res.status(400).send('Must send animal id');
+          }
+
+          const animal = await AnimalModel.query(trx)
+            .findById(id)
+            .where({ farm_id })
+            .whereNotDeleted();
+
+          if (!animal) {
+            invalidAnimalIds.push(id);
+          }
+        }
+
+        if (invalidAnimalIds.length) {
+          await trx.rollback();
+          return res.status(400).json({
+            error: 'Invalid ids',
+            invalidAnimalIds,
+            message: 'Some animals do not exist or are not associated with the given farm.',
+          });
+        }
+
+        for (const animal of req.body) {
+          const individualAnimalResult = await baseController.updateIndividualById(
+            AnimalModel,
+            animal.id,
+            {
+              ...animal,
+            },
+            req,
+            { trx },
+          );
+
+          result.push(individualAnimalResult);
+        }
+
+        await trx.commit();
+        return res.status(200).send(result);
+      } catch (error) {
+        console.error(error);
+        await trx.rollback();
+        return res.status(500).json({
+          error,
+        });
+      }
+    };
+  },
 };
 
 export default animalController;

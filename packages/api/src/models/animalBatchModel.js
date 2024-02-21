@@ -80,15 +80,6 @@ class AnimalBatchModel extends baseModel {
         ...this.baseProperties,
       },
       additionalProperties: false,
-      if: {
-        properties: {
-          removed: { const: true },
-        },
-        required: ['removed'],
-      },
-      then: {
-        required: ['animal_removal_reason_id'],
-      },
     };
   }
 

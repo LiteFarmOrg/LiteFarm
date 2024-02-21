@@ -45,7 +45,11 @@
   }
 }
 
-.tableHead, .tableCell, .tableCell div, .headerLabel {
+.plainRowColor {
+  background-color: var(--white, #fff);
+}
+
+.tableHead, .headerLabel {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;

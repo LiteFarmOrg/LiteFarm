@@ -1,0 +1,46 @@
+.overflowWrap {
+  overflow: auto;
+}
+
+.plainText, .plainText div {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.rightChevronLink {
+  height: 16px;
+  width: 16px;
+  padding: 0;
+
+  // Remove mui hover style
+  &:hover {
+    background-color: transparent;
+  }
+  svg {
+    stroke: var(--Colors-Neutral-Neutral-400);
+    stroke-width: 1px;
+  }
+}
+
+.iconText {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  svg {
+    stroke: var(--Colors-Neutral-Neutral-400);
+    stroke-width: 1px;
+  }
+}
+
+.squareIcon {
+  height: 32px;
+  width: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--Colors-Primary-Primary-teal-100, #C0E1DD);
+  background: #FFF;
+  box-shadow: 0px 1px 0px 0px var(--Colors-Neutral-Neutral-50, #F0F1F3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

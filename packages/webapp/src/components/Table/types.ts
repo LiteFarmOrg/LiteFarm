@@ -13,13 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import type { ReactElement } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import type { ColumnInstance } from 'react-table';
 import { ReactComponentLike } from 'prop-types';
 
 export enum TableType {
   V1 = 'v1',
   V2 = 'v2',
+}
+
+export enum CellType {
+  HOVER_PILL_OVERFLOW = 'hoverPillOverflow',
+  ICON_TEXT = 'iconText',
+  PLAIN = 'plain',
+  RIGHT_CHEVRON_LINK = 'rightChevronLink',
 }
 
 enum Alignment {
@@ -67,6 +74,22 @@ export type MuiTableProps = {
   defaultOrderBy: string;
 };
 
+export type PlainCellProps = {
+  text: string | null;
+};
+
+export type RightChevronLinkProps = {
+  path: string;
+};
+
+export type IconTextProps = {
+  text: string | null | undefined;
+  icon: FunctionReturnsComponent;
+};
+
+// TODO: figure out how to return ReactNode/ Elemnet / Whatever - consider updating typescript
+export type FunctionReturnsComponent = (props: any) => any;
+
 export type KindComponentKVP = {
-  [kind: string]: (props: any) => ReactElement;
+  [kind: string]: FunctionReturnsComponent;
 };

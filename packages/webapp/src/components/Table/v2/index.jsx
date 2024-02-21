@@ -163,7 +163,7 @@ export default function EnhancedTable(props) {
                     styles.tableRow,
                     styles.itemRow,
                     onRowClick && styles.clickable,
-                    alternatingRowColor && styles.alternatingRowColor,
+                    alternatingRowColor ? styles.alternatingRowColor : styles.plainRowColor,
                   )}
                 >
                   {columns.map(({ id, format, align, columnProps }) => {

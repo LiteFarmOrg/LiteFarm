@@ -12,14 +12,12 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import React from 'react';
+import type { PlainCellProps } from '../../types';
+import styles from '../styles.module.scss';
 
-import { Animal, AnimalBatch, AnimalGroup } from '../../store/api/types';
+const Plain = ({ text }: PlainCellProps) => {
+  return <div className={styles.plainText}>{text}</div>;
+};
 
-export interface AnimalData extends Animal {
-  groups: AnimalGroup[];
-}
-export interface AnimalBatchData extends AnimalBatch {
-  groups: AnimalGroup[];
-}
-
-export interface AnimalOrBatchData extends AnimalData, AnimalBatchData {}
+export default Plain;

@@ -12,14 +12,20 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import React from 'react';
+import TextButton from '../../../Form/Button/TextButton';
+import { IconButton } from '@mui/material';
+import { BsChevronRight } from 'react-icons/bs';
+import type { RightChevronLinkProps } from '../../types';
+import history from '../../../../history';
+import styles from '../styles.module.scss';
 
-import { Animal, AnimalBatch, AnimalGroup } from '../../store/api/types';
+const RightChevronLink = ({ path }: RightChevronLinkProps) => {
+  return (
+    <IconButton color="info" className={styles.rightChevronLink} onClick={() => history.push(path)}>
+      <BsChevronRight />
+    </IconButton>
+  );
+};
 
-export interface AnimalData extends Animal {
-  groups: AnimalGroup[];
-}
-export interface AnimalBatchData extends AnimalBatch {
-  groups: AnimalGroup[];
-}
-
-export interface AnimalOrBatchData extends AnimalData, AnimalBatchData {}
+export default RightChevronLink;

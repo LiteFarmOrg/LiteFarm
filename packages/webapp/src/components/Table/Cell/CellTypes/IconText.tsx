@@ -12,14 +12,20 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import React from 'react';
+import TextButton from '../../../Form/Button/TextButton';
+import type { IconTextProps } from '../../types';
+import styles from '../styles.module.scss';
 
-import { Animal, AnimalBatch, AnimalGroup } from '../../store/api/types';
+const IconText = ({ text, icon: Icon }: IconTextProps) => {
+  return (
+    <div className={styles.iconText}>
+      <div className={styles.squareIcon}>
+        <Icon />
+      </div>
+      {text}
+    </div>
+  );
+};
 
-export interface AnimalData extends Animal {
-  groups: AnimalGroup[];
-}
-export interface AnimalBatchData extends AnimalBatch {
-  groups: AnimalGroup[];
-}
-
-export interface AnimalOrBatchData extends AnimalData, AnimalBatchData {}
+export default IconText;

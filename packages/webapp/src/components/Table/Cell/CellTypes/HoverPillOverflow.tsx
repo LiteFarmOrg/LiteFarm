@@ -12,14 +12,23 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import React from 'react';
+import { HoverPill, HoverPillProps } from '../../../HoverPill';
+import styles from '../styles.module.scss';
 
-import { Animal, AnimalBatch, AnimalGroup } from '../../store/api/types';
+const HoverPillOverFlow = ({ items }: HoverPillProps) => {
+  if (items.length === 0) {
+    return null;
+  }
+  if (items.length === 1) {
+    return <>{items[0]}</>;
+  }
+  return (
+    <div className={styles.overflowWrap}>
+      {`${items[0]}  `}
+      <HoverPill items={items.slice(1)} />
+    </div>
+  );
+};
 
-export interface AnimalData extends Animal {
-  groups: AnimalGroup[];
-}
-export interface AnimalBatchData extends AnimalBatch {
-  groups: AnimalGroup[];
-}
-
-export interface AnimalOrBatchData extends AnimalData, AnimalBatchData {}
+export default HoverPillOverFlow;

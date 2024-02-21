@@ -20,6 +20,7 @@ import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
+import { handleObjectionError } from '../util/errorCodes.js';
 
 const animalController = {
   getFarmAnimals() {
@@ -219,11 +220,7 @@ const animalController = {
         await trx.commit();
         return res.status(204).send();
       } catch (error) {
-        console.error(error);
-        await trx.rollback();
-        return res.status(500).json({
-          error,
-        });
+        handleObjectionError(error, res, trx);
       }
     };
   },

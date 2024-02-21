@@ -13,6 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { fileURLToPath } from 'url';
+import path, { dirname } from 'path';
+import fs from 'fs';
+
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
@@ -29,34 +33,15 @@ export const up = async function (knex) {
       table.string('name').nullable().alter();
     });
 
-    // Create function to assign internal_identifier to a record (NEW) to be inserted
-    await knex.raw(`
-      CREATE VIEW animal_union_batch_internal_identifier AS
-      SELECT
-        *,
-        ROW_NUMBER() OVER (PARTITION BY farm_id ORDER BY created_at)::INTEGER AS internal_identifier
-      FROM (
-        SELECT
-          id,
-          farm_id,
-          FALSE AS batch,
-          created_at
-        FROM
-          animal a
-
-        UNION ALL
-
-        SELECT
-          id,
-          farm_id,
-          TRUE AS batch,
-          created_at
-        FROM
-          animal_batch ab
-      ) animal_union_batch_internal_identifier
-      ORDER BY
-        created_at;
-    `);
+    // Create animal_union_batch_internal_identifier VIEW
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+    const sqlFilePath = path.join(
+      __dirname,
+      '../sql/20240207214919_animal_union_batch_id_view.sql',
+    );
+    const sqlQuery = fs.readFileSync(sqlFilePath).toString();
+    await knex.raw(sqlQuery);
   } catch (error) {
     console.error('Error in migration up:', error);
     throw error; // Rethrow the error to ensure the migration fails

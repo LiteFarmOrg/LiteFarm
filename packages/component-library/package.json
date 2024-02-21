@@ -30,6 +30,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.15.9",
     "@mui/styles": "^5.13.2",
+    "@vitejs/plugin-react": "^4.2.1",
     "chromatic": "^10.9.6"
   }
 }

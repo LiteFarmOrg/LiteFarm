@@ -17,7 +17,7 @@ import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 import mocks from './mock.factories.js';
-import animalUnionBatchInternalIdentifierModel from '../src/models/animalUnionBatchInternalIdentifierModel.js';
+import animalUnionBatchIdViewModel from '../src/models/animalUnionBatchIdViewModel.js';
 import { makeAnimalOrBatchForFarm } from './utils/animalUtils.js';
 
 describe('Animal Union Batch Tests', () => {
@@ -56,7 +56,7 @@ describe('Animal Union Batch Tests', () => {
         animalsAndBatches[index].animalBatchId = data.id;
 
         // check all internal_identifiers in VIEW every time a row is inserted to animal or batch table
-        const animalsAndBatchesInVIEW = await animalUnionBatchInternalIdentifierModel
+        const animalsAndBatchesInVIEW = await animalUnionBatchIdViewModel
           .query()
           .select('id', 'batch', 'internal_identifier');
 

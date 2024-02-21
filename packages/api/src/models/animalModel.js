@@ -15,7 +15,7 @@
 
 import Model from './baseFormatModel.js';
 import baseModel from './baseModel.js';
-import animalUnionBatchInternalIdentifierModel from './animalUnionBatchInternalIdentifierModel.js';
+import animalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
 
 class Animal extends baseModel {
   static get tableName() {
@@ -69,14 +69,14 @@ class Animal extends baseModel {
 
   static get relationMappings() {
     return {
-      animal_union_batch_internal_identifier: {
+      animal_union_batch_id_view: {
         relation: Model.BelongsToOneRelation,
-        modelClass: animalUnionBatchInternalIdentifierModel,
+        modelClass: animalUnionBatchIdViewModel,
         join: {
           from: 'animal.id',
-          to: 'animal_union_batch_internal_identifier.id',
+          to: 'animal_union_batch_id_view.id',
         },
-        filter: (query) => query.where('animal_union_batch_internal_identifier.batch', false),
+        filter: (query) => query.where('animal_union_batch_id_view.batch', false),
       },
     };
   }

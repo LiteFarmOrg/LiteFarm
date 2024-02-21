@@ -16,14 +16,15 @@
 import knex from './knex.js';
 
 /**
- * Assigns internal identifiers to records based on the provided record IDs and kind.
- * @param {Array<Object>} records - The array of records to which internal identifiers will be assigned. Each record is expected to contain an 'id' property.
- * @param {string} kind - The kind of records being processed ('batch' or other).
+ * Assigns internal identifiers to records.
+ * @param {Array<Object>} records - The array of animals or animal batches to which internal identifiers will be assigned.
+ *                                  Each record is expected to contain an 'id' property.
+ * @param {string} kind - The kind of records being processed ('animal' or 'batch').
  */
 export const assignInternalIdentifiers = async (records, kind) => {
   await Promise.all(
     records.map(async (record) => {
-      const [internalIdentifier] = await knex('animal_union_batch_internal_identifier')
+      const [internalIdentifier] = await knex('animal_union_batch_id_view')
         .pluck('internal_identifier')
         .where('id', record.id)
         .andWhere({ batch: kind === 'batch' });

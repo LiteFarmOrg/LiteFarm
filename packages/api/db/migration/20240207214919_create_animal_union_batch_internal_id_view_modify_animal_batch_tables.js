@@ -33,7 +33,7 @@ export const up = async function (knex) {
       table.string('name').nullable().alter();
     });
 
-    // Create animal_union_batch_internal_identifier VIEW
+    // Create animal_union_batch_id_view VIEW
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
     const sqlFilePath = path.join(
@@ -53,7 +53,7 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = async (knex) => {
-  await knex.schema.dropView('animal_union_batch_internal_identifier');
+  await knex.schema.dropView('animal_union_batch_id_view');
 
   await knex.schema.alterTable('animal', (table) => {
     table.dropColumn('photo_url');

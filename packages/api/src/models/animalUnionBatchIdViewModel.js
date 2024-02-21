@@ -15,10 +15,10 @@
 
 import Model from './baseFormatModel.js';
 
-class animalUnionBatchInternalIdentifier extends Model {
+class animalUnionBatchIdViewModel extends Model {
   static get tableName() {
-    return 'animal_union_batch_internal_identifier';
+    return 'animal_union_batch_id_view';
   }
 }
 
-export default animalUnionBatchInternalIdentifier;
+export default animalUnionBatchIdViewModel;

@@ -25,6 +25,12 @@ class Animal extends baseModel {
     return 'id';
   }
 
+  static get stringProperties() {
+    return Object.entries(this.jsonSchema.properties)
+      .filter(([, value]) => value.type.includes('string'))
+      .map(([key]) => key);
+  }
+
   async $beforeInsert(queryContext) {
     await super.$beforeInsert(queryContext);
     this.trimStringProperties();
@@ -36,11 +42,7 @@ class Animal extends baseModel {
   }
 
   trimStringProperties() {
-    const stringProperties = Object.entries(this.constructor.jsonSchema.properties)
-      .filter(([, value]) => value.type.includes('string'))
-      .map(([key]) => key);
-
-    for (const key of stringProperties) {
+    for (const key of this.constructor.stringProperties) {
       if (key in this) {
         this[key] = checkAndTrimString(this[key]);
       }

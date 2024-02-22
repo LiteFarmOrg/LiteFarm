@@ -20,13 +20,18 @@ import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
+import { assignInternalIdentifiers } from '../util/animal.js';
 
 const animalController = {
   getFarmAnimals() {
     return async (req, res) => {
       try {
         const { farm_id } = req.headers;
-        const rows = await AnimalModel.query().where({ farm_id }).whereNotDeleted();
+        const rows = await AnimalModel.query()
+          .select('animal.*', 'animal_union_batch_id_view.internal_identifier')
+          .joinRelated('animal_union_batch_id_view')
+          .where({ 'animal.farm_id': farm_id })
+          .whereNotDeleted();
         return res.status(200).send(rows);
       } catch (error) {
         console.error(error);
@@ -51,11 +56,6 @@ const animalController = {
         }
 
         for (const animal of req.body) {
-          if (!animal.identifier && !animal.name) {
-            await trx.rollback();
-            return res.status(400).send('Should send either animal name or identifier');
-          }
-
           if (!animal.default_type_id && !animal.custom_type_id) {
             await trx.rollback();
             return res.status(400).send('Should send either default_type_id or custom_type_id');
@@ -147,6 +147,8 @@ const animalController = {
         }
 
         await trx.commit();
+
+        await assignInternalIdentifiers(result, 'animal');
         return res.status(201).send(result);
       } catch (error) {
         console.error(error);

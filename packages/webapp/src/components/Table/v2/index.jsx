@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -98,6 +98,10 @@ export default function EnhancedTable(props) {
   const [orderBy, setOrderBy] = useState(defaultOrderBy);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(minRows);
+
+  useEffect(() => {
+    setRowsPerPage(minRows);
+  }, [minRows]);
 
   const fullColSpan = columns.reduce((total, column) => total + (column.id ? 1 : 0), 0);
 

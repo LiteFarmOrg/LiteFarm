@@ -13,21 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import React from 'react';
+import clsx from 'clsx';
 import { HoverPill, HoverPillProps } from '../../../HoverPill';
 import styles from '../styles.module.scss';
 
 const HoverPillOverFlow = ({ items }: HoverPillProps) => {
-  if (items.length === 0) {
-    return null;
-  }
-  if (items.length === 1) {
-    return <>{items[0]}</>;
-  }
   return (
-    <>
-      {`${items[0]}  `}
-      <HoverPill items={items.slice(1)} />
-    </>
+    <div className={clsx(styles.text)}>
+      {items.length === 0 ? null : `${items[0]}`}
+      {items.length > 1 && `  `}
+      {items.length > 1 && <HoverPill items={items.slice(1)} />}
+    </div>
   );
 };
 

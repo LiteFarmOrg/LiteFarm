@@ -87,7 +87,7 @@ function AnimalInventory() {
       label: '',
       format: (d: AnimalOrBatchData) => <Cell kind={CellType.RIGHT_CHEVRON_LINK} path="/" />,
       columnProps: {
-        style: { width: '32px', padding: `0 ${isMobile ? 8 : 12}px` },
+        style: { width: '40px', padding: `0 ${isMobile ? 8 : 12}px` },
       },
       sortable: false,
     },

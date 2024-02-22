@@ -57,6 +57,13 @@ export default function EnhancedTableHead({ columns, order, orderBy, onRequestSo
                   ),
                   icon: styles.iconColor,
                 }}
+                sx={[
+                  sortable && {
+                    '.MuiTableSortLabel-icon': {
+                      opacity: 'inherit !important',
+                    },
+                  },
+                ]}
               >
                 <span className={clsx(styles.headerLabel, active && styles.active)}>{label}</span>
               </TableSortLabel>

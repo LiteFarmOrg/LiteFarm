@@ -13,11 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import React from 'react';
+import clsx from 'clsx';
 import type { PlainCellProps } from '../../types';
 import styles from '../styles.module.scss';
 
 const Plain = ({ text }: PlainCellProps) => {
-  return <div className={styles.plainText}>{text}</div>;
+  return <div className={clsx(styles.text, styles.overflowText)}>{text}</div>;
 };
 
 export default Plain;

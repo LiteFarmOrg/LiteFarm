@@ -1,14 +1,19 @@
-.plainText, .plainText div {
+.text {
+  color: var(--Colors-Neutral-Neutral-700);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.overflowText, .overflowText div {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
 .rightChevronLink {
-  height: 16px;
-  width: 16px;
-  padding: 0;
-
+  height: 24px;
+  width: 24px;
+  padding: 4px;
   // Remove mui hover style
   &:hover {
     background-color: transparent;

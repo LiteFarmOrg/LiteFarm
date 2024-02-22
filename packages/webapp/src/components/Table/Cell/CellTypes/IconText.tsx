@@ -23,7 +23,7 @@ const IconText = ({ text, icon: Icon, subtext }: IconTextProps) => {
       <div className={styles.squareIcon}>
         <Icon />
       </div>
-      <div className={clsx(styles.plainText, subtext && styles.withSubtextText)}>
+      <div className={clsx(styles.text, styles.overflowText, subtext && styles.withSubtextText)}>
         <div className={clsx(subtext && styles.withSubtextMainText)}>{text}</div>
         <div className={clsx(subtext && styles.withSubtextSubext)}>{subtext}</div>
       </div>

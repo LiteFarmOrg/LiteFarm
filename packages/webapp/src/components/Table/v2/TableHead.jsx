@@ -31,7 +31,7 @@ export default function EnhancedTableHead({ columns, order, orderBy, onRequestSo
   return (
     <TableHead className={styles.headerRow}>
       <TableRow>
-        {columns.map(({ id, align, columnProps, label, disabled = false }) => {
+        {columns.map(({ id, align, columnProps, label, sortable = true }) => {
           if (!id) {
             return null;
           }
@@ -47,9 +47,9 @@ export default function EnhancedTableHead({ columns, order, orderBy, onRequestSo
               <TableSortLabel
                 active={active}
                 direction={active ? order : 'asc'}
-                onClick={disabled ? null : createSortHandler(id)}
+                onClick={sortable ? createSortHandler(id) : null}
                 IconComponent={active ? ArrowDownCircle : UnfoldCircle}
-                disabled={disabled}
+                disabled={!sortable}
                 classes={{
                   active: clsx(
                     styles.sortLabelActive,

@@ -75,7 +75,7 @@ function AnimalInventory() {
           items={d.groups && d.groups.map((group) => group.name)}
         />
       ),
-      disabled: true,
+      sortable: false,
     },
     {
       id: 'farm_id',
@@ -89,7 +89,7 @@ function AnimalInventory() {
       columnProps: {
         style: { width: '32px', padding: `0 ${isMobile ? 8 : 12}px` },
       },
-      disabled: true,
+      sortable: false,
     },
   ];
 

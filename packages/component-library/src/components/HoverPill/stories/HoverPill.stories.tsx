@@ -18,7 +18,7 @@ import { Meta, StoryObj } from "@storybook/react"
 import clsx from "clsx"
 import { componentDecoratorsFullHeight } from "../../../../.storybook/Decorators"
 import { HoverPill, HoverPillProps } from ".."
-import styles from "./styles.module.scss"
+import styles from "./styles.stories.module.scss"
 
 type HoverPillStoryProps = HoverPillProps & {
   position: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "center"

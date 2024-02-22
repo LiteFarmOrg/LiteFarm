@@ -85,6 +85,7 @@ export type RightChevronLinkProps = {
 export type IconTextProps = {
   text: string | null | undefined;
   icon: FunctionReturnsComponent;
+  subtext: string | null | undefined;
 };
 
 // TODO: figure out how to return ReactNode/ Elemnet / Whatever - consider updating typescript

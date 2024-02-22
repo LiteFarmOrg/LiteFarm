@@ -1,7 +1,3 @@
-.overflowWrap {
-  overflow: auto;
-}
-
 .plainText, .plainText div {
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -24,7 +20,7 @@
 }
 
 .iconText {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
   svg {
@@ -36,6 +32,7 @@
 .squareIcon {
   height: 32px;
   width: 32px;
+  padding: 4px;
   border-radius: 8px;
   border: 1px solid var(--Colors-Primary-Primary-teal-100, #C0E1DD);
   background: #FFF;
@@ -43,4 +40,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.withSubtextText {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.withSubtextMainText {
+  font-weight: 600;
+}
+
+.withSubtextSubtext {
+  color: var(--grey500);
+  font-size: 12px;
 }

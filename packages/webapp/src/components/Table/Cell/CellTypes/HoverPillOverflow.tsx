@@ -24,10 +24,10 @@ const HoverPillOverFlow = ({ items }: HoverPillProps) => {
     return <>{items[0]}</>;
   }
   return (
-    <div className={styles.overflowWrap}>
+    <>
       {`${items[0]}  `}
       <HoverPill items={items.slice(1)} />
-    </div>
+    </>
   );
 };
 

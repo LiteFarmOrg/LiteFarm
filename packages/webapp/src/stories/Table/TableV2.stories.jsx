@@ -15,6 +15,7 @@
 import React from 'react';
 import { v2TableDecorator } from '../Pages/config/Decorators';
 import Table from '../../components/Table/Table';
+import { TableType } from '../../components/Table/types';
 
 export default {
   title: 'Components/Tables/V2',
@@ -111,7 +112,7 @@ const FooterCell = () => (
 
 export const CropSalesMobileView = {
   args: {
-    kind: 'enhanced',
+    kind: TableType.V2,
     columns: getCropSalesColumns(),
     data: getCropSalesData(10),
     minRows: 10,
@@ -122,11 +123,22 @@ export const CropSalesMobileView = {
 
 export const CropSalesDesktopView = {
   args: {
-    kind: 'enhanced',
+    kind: TableType.V2,
     columns: getCropSalesColumns(false),
     data: getCropSalesData(10),
     minRows: 10,
     shouldFixTableLayout: true,
+  },
+};
+
+export const AlternatingRowColor = {
+  args: {
+    kind: TableType.V2,
+    columns: getCropSalesColumns(false),
+    data: getCropSalesData(10),
+    minRows: 10,
+    shouldFixTableLayout: true,
+    alternatingRowColor: true,
   },
 };
 
@@ -173,7 +185,7 @@ const getEmployeesLabourData = (length) => {
 
 export const EmployeesLabour = {
   args: {
-    kind: 'enhanced',
+    kind: TableType.V2,
     columns: getEmployeesLabourColumns(),
     data: getEmployeesLabourData(10),
     minRows: 10,
@@ -236,7 +248,7 @@ const getTasksLabourData = (length) => {
 
 export const TasksLabour = {
   args: {
-    kind: 'enhanced',
+    kind: TableType.V2,
     columns: getTasksLabourColumns(),
     data: getTasksLabourData(10),
     minRows: 5,
@@ -246,7 +258,7 @@ export const TasksLabour = {
 
 export const TasksLabourWithPagination = {
   args: {
-    kind: 'enhanced',
+    kind: TableType.V2,
     columns: getTasksLabourColumns(),
     data: getTasksLabourData(10),
     minRows: 5,

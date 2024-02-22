@@ -43,6 +43,9 @@
   &:nth-of-type(odd) {
     background-color: var(--tableAlternateRowBackground);
   }
+  &:nth-of-type(even) {
+    background-color: var(--white, #fff);
+  }
 }
 
 .plainRowColor {

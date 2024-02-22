@@ -36,7 +36,7 @@ const CellComponents: KindComponentKVP = {
 
 /**
  * A component that selects between available Cell styles.
- * See packages/webapp/src/stories/Table/Table.stories.jsx for examples.
+ * See packages/webapp/src/stories/Table/Cell.stories.jsx for examples.
  */
 // TODO: export default function Cell({ kind, ...props } : {kind:CellType, props: any | HoverPillProps | OtherProps}) {
 export default function Cell({ kind, ...props }: any) {

@@ -12,18 +12,21 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import clsx from 'clsx';
 import React from 'react';
-import TextButton from '../../../Form/Button/TextButton';
 import type { IconTextProps } from '../../types';
 import styles from '../styles.module.scss';
 
-const IconText = ({ text, icon: Icon }: IconTextProps) => {
+const IconText = ({ text, icon: Icon, subtext }: IconTextProps) => {
   return (
     <div className={styles.iconText}>
       <div className={styles.squareIcon}>
         <Icon />
       </div>
-      {text}
+      <div className={clsx(styles.plainText, subtext && styles.withSubtextText)}>
+        <div className={clsx(subtext && styles.withSubtextMainText)}>{text}</div>
+        <div className={clsx(subtext && styles.withSubtextSubext)}>{subtext}</div>
+      </div>
     </div>
   );
 };

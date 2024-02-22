@@ -39,33 +39,35 @@ function AnimalInventory() {
 
   const getColumns = () => [
     {
-      id: 'Animal Identification',
+      id: 'name',
       label: t('ANIMAL.ANIMAL_IDENTIFICATION'),
       format: (d: AnimalOrBatchData) => (
-        <Cell kind={CellType.ICON_TEXT} text={d.name || d.identifier || null} icon={AnimalIcon} />
+        <Cell
+          kind={CellType.ICON_TEXT}
+          text={d.name || d.identifier || null}
+          icon={AnimalIcon}
+          subtext={
+            isMobile
+              ? `${d.default_type_id || d.custom_type_id} / ${
+                  d.default_breed_id || d.custom_breed_id
+                }`
+              : null
+          }
+        />
       ),
-      columnProps: {
-        style: { padding: `0 ${isMobile ? 8 : 12}px` },
-      },
     },
     {
-      id: 'Type',
+      id: isMobile ? null : 'default_type_id',
       label: t('ANIMAL.ANIMAL_TYPE'),
       format: (d: AnimalOrBatchData) => <Cell text={d.default_type_id || d.custom_type_id} />,
-      columnProps: {
-        style: { padding: `0 ${isMobile ? 8 : 12}px` },
-      },
     },
     {
-      id: 'Breed',
+      id: isMobile ? null : 'default_breed_id',
       label: t('ANIMAL.ANIMAL_BREED'),
       format: (d: AnimalOrBatchData) => <Cell text={d.default_breed_id || d.custom_breed_id} />,
-      columnProps: {
-        style: { padding: `0 ${isMobile ? 8 : 12}px` },
-      },
     },
     {
-      id: 'Groups',
+      id: isMobile ? null : 'groups',
       label: t('ANIMAL.ANIMAL_GROUPS'),
       format: (d: AnimalOrBatchData) => (
         <Cell
@@ -73,25 +75,19 @@ function AnimalInventory() {
           items={d.groups && d.groups.map((group) => group.name)}
         />
       ),
-      columnProps: {
-        style: { padding: `0 ${isMobile ? 8 : 12}px` },
-      },
       disabled: true,
     },
     {
-      id: 'Locations',
+      id: 'farm_id',
       label: t('ANIMAL.ANIMAL_LOCATIONS'),
       format: (d: AnimalOrBatchData) => <Cell text={d.farm_id} />,
-      columnProps: {
-        style: { padding: `0 ${isMobile ? 8 : 12}px` },
-      },
     },
     {
       id: 'Visit Record',
       label: '',
-      format: (d: AnimalOrBatchData) => <Cell kind={CellType.RIGHT_CHEVRON_LINK} path="" />,
+      format: (d: AnimalOrBatchData) => <Cell kind={CellType.RIGHT_CHEVRON_LINK} path="/" />,
       columnProps: {
-        style: { padding: `0 ${isMobile ? 8 : 12}px` },
+        style: { width: '32px', padding: `0 ${isMobile ? 8 : 12}px` },
       },
       disabled: true,
     },

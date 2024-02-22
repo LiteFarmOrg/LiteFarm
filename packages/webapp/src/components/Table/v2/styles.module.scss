@@ -76,9 +76,6 @@
   height: 56px;
   border-bottom: solid 1px var(--grey200);
 
-  // &:not(.tableHead) {
-  //   background-color: var(--white, #fff);
-  // }
   &.tableHead {
     border-bottom: none;
   }

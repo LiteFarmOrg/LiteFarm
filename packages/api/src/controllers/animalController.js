@@ -205,6 +205,12 @@ const animalController = {
         // NOTE: this is only scoped for removal right now. To make this a general update controller would require reinstating all of the checks on breed, type, etc. in addAnimals() above. We would probably want to take a different approach to that such as a extracting the validation to somewhere common to both controllers.
         for (const animal of req.body) {
           const { id, removed, animal_removal_reason_id, removal_explanation } = animal;
+
+          if (removed && !animal_removal_reason_id) {
+            await trx.rollback();
+            return res.status(400).send('Must send animal_removal_reason_id');
+          }
+
           await baseController.patch(
             AnimalModel,
             id,

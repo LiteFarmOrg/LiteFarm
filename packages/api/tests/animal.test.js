@@ -503,8 +503,8 @@ describe('Animal Tests', () => {
 
       expect(res).toMatchObject({
         status: 400,
-        body: {
-          data: { constraint: 'removal_reason_provided_check', table: 'animal' },
+        error: {
+          text: 'Must send animal_removal_reason_id',
         },
       });
     });

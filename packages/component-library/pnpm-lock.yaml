@@ -23,6 +23,9 @@ dependencies:
   chromatic:
     specifier: ^10.9.6
     version: 10.9.6
+  clsx:
+    specifier: ^1.2.1
+    version: 1.2.1
   vite:
     specifier: ^4.5.2
     version: 4.5.2(sass@1.70.0)

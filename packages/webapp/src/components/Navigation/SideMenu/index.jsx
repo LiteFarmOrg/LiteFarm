@@ -58,7 +58,7 @@ const SubMenu = ({ compact, children, isExpanded, ...props }) => {
   );
 };
 
-export const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) => {
+const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) => {
   const { expandedIds, toggleExpanded, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });

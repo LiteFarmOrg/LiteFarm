@@ -19,8 +19,6 @@ import { ReactComponent as AddAnimalIcon } from '../../assets/images/animals/add
 import { ReactComponent as TaskCreationIcon } from '../../assets/images/create-task.svg';
 import { ReactComponent as CloneIcon } from '../../assets/images/clone.svg';
 import { ReactComponent as RemoveAnimalIcon } from '../../assets/images/animals/remove-animal.svg';
-import { SideMenuContent } from '../../components/Navigation/SideMenu';
-import styles from './styles.module.scss';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<ActionMenuProps> = {

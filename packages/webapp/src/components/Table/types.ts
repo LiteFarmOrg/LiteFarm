@@ -51,11 +51,12 @@ export type ReactTableProps = {
 
 type MuiTableColumn = {
   id: string;
-  format: CallbackFn;
+  format: FunctionReturnsComponent;
   align: Alignment;
   Footer: ReactElement;
   columnProps: Object;
   label: string;
+  sortable: boolean;
 };
 
 export type MuiTableProps = {

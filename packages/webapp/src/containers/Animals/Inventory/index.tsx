@@ -20,8 +20,22 @@ import {
 } from '../../../store/api/apiSlice';
 import Layout from '../../../components/Layout';
 import { Title } from '../../../components/Typography';
+import ActionMenu from '../../../components/ActionMenu';
+import styles from './styles.module.scss';
 
-function AnimalInventory() {
+// TODO: LF-4087
+const iconActions = [
+  { label: 'a', icon: null, onClick: () => ({}) },
+  { label: 'b', icon: null, onClick: () => ({}) },
+  { label: 'c', icon: null, onClick: () => ({}) },
+  { label: 'd', icon: null, onClick: () => ({}) },
+];
+
+interface AnimalInventoryProps {
+  isCompactSideMenu: boolean;
+}
+
+function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const { data: animals } = useGetAnimalsQuery();
   const { data: animalBatches } = useGetAnimalBatchesQuery();
   const { data: animalGroups } = useGetAnimalGroupsQuery();
@@ -39,6 +53,14 @@ function AnimalInventory() {
       <Title>Animal Groups</Title>
       {animalGroups &&
         animalGroups.map((group, index) => <pre key={index}>{JSON.stringify(group, null, 2)}</pre>)}
+      <ActionMenu
+        headerLeftText={''}
+        textActions={[]}
+        iconActions={iconActions}
+        classes={{
+          wrapper: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
+        }}
+      />
     </Layout>
   );
 }

@@ -18,32 +18,34 @@ import clsx from 'clsx';
 import TextButton from '../Form/Button/TextButton';
 import styles from './styles.module.scss';
 
-type action = {
+interface action {
   label: string;
   onClick: () => void;
-};
-
-type iconAction = action & {
-  icon: ReactNode;
-};
-
-export interface ActionMenuProps {
-  textActions?: action[];
-  iconActions: iconAction[];
-  headerLeftText?: string;
 }
 
-/**
- * Floating action menu.
- * To center the component within its parent element, rather than centering it relative to the browser window,
- * apply "position: relative" to the parent element.
- */
-const ActionMenu = ({ textActions = [], iconActions, headerLeftText }: ActionMenuProps) => {
-  // SCSS file should be checked if the className is supported
-  const widthClassName = styles[`iconCount_${iconActions.length}`];
+interface iconAction extends action {
+  icon: ReactNode;
+}
+
+export interface ActionMenuProps {
+  headerLeftText?: string;
+  textActions?: action[];
+  iconActions: iconAction[];
+  classes?: { wrapper?: string };
+}
+
+const ActionMenu = ({
+  headerLeftText,
+  textActions = [],
+  iconActions,
+  classes = {},
+}: ActionMenuProps) => {
+  // If the className is not yet supported, ensure to add corresponding styles for the widths
+  // of the component and each iconGroup to the SCSS file.
+  const iconCountClassName = styles[`iconCount_${iconActions.length}`];
 
   return (
-    <div className={clsx(styles.actionMenu, widthClassName)}>
+    <div className={clsx(styles.actionMenu, iconCountClassName, classes.wrapper)}>
       <div className={styles.header}>
         <div className={styles.headerLeftText}>{headerLeftText}</div>
         <div className={styles.textButtons}>
@@ -59,7 +61,7 @@ const ActionMenu = ({ textActions = [], iconActions, headerLeftText }: ActionMen
       <div className={styles.iconButtons}>
         {iconActions.map(({ icon, label, onClick }) => {
           return (
-            <div key={label} className={clsx(styles.iconGroup, widthClassName)}>
+            <div key={label} className={clsx(styles.iconGroup, iconCountClassName)}>
               <TextButton onClick={onClick}>{icon}</TextButton>
               <div className={styles.iconLabel}>{label}</div>
             </div>

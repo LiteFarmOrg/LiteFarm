@@ -21,9 +21,9 @@
 
 .actionMenu {
   font-family: 'Open Sans';
+  position: fixed;
 
   @include sm-breakpoint {
-    position: absolute;
     border-radius: 0 0 8px 8px;
     overflow: hidden;
     box-shadow: 0px 4px 4px 0px #00000040;
@@ -32,12 +32,11 @@
 
     &.iconCount_4 {
       width: 408px;
-      margin-left: -204px;
+      transform: translateX(-204px);
     }
   }
 
   @include xs-breakpoint {
-    position: fixed;
     width: 100%;
     left: 0;
     bottom: 0;

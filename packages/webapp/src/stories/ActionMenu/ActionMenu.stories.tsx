@@ -88,22 +88,3 @@ export const WithLongIconLabels: Story = {
     ],
   },
 };
-
-export const CenteringWithinParent: Story = (args: ActionMenuProps) => {
-  return (
-    <div className={styles.wrapper}>
-      <SideMenuContent
-        history={{ location: { pathname: 'testing' } }}
-        isCompact={false}
-        closeDrawer={() => ({})}
-        hasBeenExpanded={false}
-      />
-      <div className={styles.mainColumn}>{<ActionMenu {...args} />}</div>
-    </div>
-  );
-};
-CenteringWithinParent.args = {
-  textActions: [createLabelAndOnClick('Select all 152'), createLabelAndOnClick('Clear Selection')],
-  iconActions,
-  headerLeftText: '2 Selected',
-};

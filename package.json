@@ -23,8 +23,5 @@
     "verbose": true,
     "testURL": "http://localhost/",
     "testEnvironment": "node"
-  },
-  "dependencies": {
-    "@vitejs/plugin-react": "^4.2.1"
   }
 }

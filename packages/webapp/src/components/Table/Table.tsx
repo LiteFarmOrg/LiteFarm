@@ -12,23 +12,28 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
-import React from 'react';
 import ReactTable from './index';
 import MuiTable from './v2';
-import { TableType, KindComponentKVP, ReactTableProps, MuiTableProps } from './types';
+import { TableType, ReactTableProps, MuiTableProps, StrategyProps } from './types';
 
-const tableComponents: KindComponentKVP = {
-  [TableType.V1]: (props: ReactTableProps) => <ReactTable {...props} />,
-  [TableType.V2]: (props: MuiTableProps) => <MuiTable {...props} />,
-};
+type ReactTablePropsStrategy = ReactTableProps & StrategyProps;
+type MuiTablePropsStrategy = MuiTableProps & StrategyProps;
+
+type TableStrategyProps = ReactTablePropsStrategy | MuiTablePropsStrategy;
 
 /**
  * A component that selects between available Table styles.
  * See packages/webapp/src/stories/Table/Table.stories.jsx for examples.
  */
-// TODO: export default function Table({ kind, ...props } : {kind:TableType, props: any | ReacttableProps | MuiTableProps}) {
-export default function Table({ kind, ...props }: any) {
-  const table = tableComponents[kind](props);
-  return table;
-}
+const Table = ({ kind, ...props }: TableStrategyProps) => {
+  switch (kind) {
+    case TableType.V1:
+      return <ReactTable {...(props as ReactTablePropsStrategy)} />;
+    case TableType.V2:
+      return <MuiTable {...(props as MuiTablePropsStrategy)} />;
+    default:
+      return <MuiTable {...(props as MuiTablePropsStrategy)} />;
+  }
+};
+
+export default Table;

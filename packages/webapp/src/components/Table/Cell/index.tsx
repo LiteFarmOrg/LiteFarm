@@ -12,33 +12,44 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
-import React from 'react';
 import Plain from './CellTypes/Plain';
 import HoverPillOverflow from './CellTypes/HoverPillOverflow';
 import RightChevronLink from './CellTypes/RightChevronLink';
 import IconText from './CellTypes/IconText';
-import {
-  CellType,
-  KindComponentKVP,
-  PlainCellProps,
-  RightChevronLinkProps,
-  IconTextProps,
-} from '../types';
-import { HoverPillProps } from '../../HoverPill';
+import { CellType, StrategyProps } from '../types';
+import type { HoverPillOverflowProps } from './CellTypes/HoverPillOverflow';
+import type { IconTextProps } from './CellTypes/IconText';
+import type { PlainCellProps } from './CellTypes/Plain';
+import type { RightChevronLinkProps } from './CellTypes/RightChevronLink';
 
-const CellComponents: KindComponentKVP = {
-  [CellType.PLAIN]: (props: PlainCellProps) => <Plain {...props} />,
-  [CellType.HOVER_PILL_OVERFLOW]: (props: HoverPillProps) => <HoverPillOverflow {...props} />,
-  [CellType.RIGHT_CHEVRON_LINK]: (props: RightChevronLinkProps) => <RightChevronLink {...props} />,
-  [CellType.ICON_TEXT]: (props: IconTextProps) => <IconText {...props} />,
-};
+type HoverPillPropsStrategy = HoverPillOverflowProps & StrategyProps;
+type IconTextPropsStrategy = IconTextProps & StrategyProps;
+type PlainCellPropsStrategy = PlainCellProps & StrategyProps;
+type RightChevronLinkPropsStrategy = RightChevronLinkProps & StrategyProps;
+
+type CellStrategyProps =
+  | HoverPillPropsStrategy
+  | IconTextPropsStrategy
+  | PlainCellPropsStrategy
+  | RightChevronLinkPropsStrategy;
 
 /**
  * A component that selects between available Cell styles.
  * See packages/webapp/src/stories/Table/Cell.stories.jsx for examples.
  */
-// TODO: export default function Cell({ kind, ...props } : {kind:CellType, props: any | HoverPillProps | OtherProps}) {
-export default function Cell({ kind, ...props }: any) {
-  return kind ? CellComponents[kind](props) : CellComponents[CellType.PLAIN](props);
-}
+const Cell = ({ kind, ...props }: CellStrategyProps) => {
+  switch (kind) {
+    case CellType.HOVER_PILL_OVERFLOW:
+      return <HoverPillOverflow {...(props as HoverPillPropsStrategy)} />;
+    case CellType.ICON_TEXT:
+      return <IconText {...(props as IconTextPropsStrategy)} />;
+    case CellType.PLAIN:
+      return <Plain {...(props as PlainCellPropsStrategy)} />;
+    case CellType.RIGHT_CHEVRON_LINK:
+      return <RightChevronLink {...(props as RightChevronLinkPropsStrategy)} />;
+    default:
+      return <Plain {...(props as PlainCellPropsStrategy)} />;
+  }
+};
+
+export default Cell;

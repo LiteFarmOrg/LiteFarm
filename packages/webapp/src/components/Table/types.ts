@@ -16,6 +16,10 @@
 import type { ReactElement, ReactNode } from 'react';
 import type { ColumnInstance } from 'react-table';
 import { ReactComponentLike } from 'prop-types';
+import type { HoverPillProps } from '../HoverPill';
+import type { IconTextProps } from './Cell/CellTypes/IconText';
+import type { PlainCellProps } from './Cell/CellTypes/Plain';
+import type { RightChevronLinkProps } from './Cell/CellTypes/RightChevronLink';
 
 export enum TableType {
   V1 = 'v1',
@@ -34,7 +38,7 @@ enum Alignment {
   RIGHT = 'right',
 }
 
-type CallbackFn = (props: any) => any;
+type CallbackFn = () => void;
 
 export type ReactTableProps = {
   columns: ColumnInstance[];
@@ -60,38 +64,24 @@ type MuiTableColumn = {
 };
 
 export type MuiTableProps = {
-  alternatingRowColor: boolean;
+  alternatingRowColor?: boolean;
   columns: Required<MuiTableColumn[]>;
   data: Object[];
-  showPagination: boolean;
-  pageSizeOptions: number[];
-  minRows: number;
-  dense: boolean;
-  FooterCell: ReactComponentLike;
-  onClickMore: CallbackFn;
-  itemsToAddPerLoadMoreClick: number;
-  onRowClick: CallbackFn;
-  shouldFixTableLayout: boolean;
-  defaultOrderBy: string;
-};
-
-export type PlainCellProps = {
-  text: string | null;
-};
-
-export type RightChevronLinkProps = {
-  path: string;
-};
-
-export type IconTextProps = {
-  text: string | null | undefined;
-  icon: FunctionReturnsComponent;
-  subtext: string | null | undefined;
+  showPagination?: boolean;
+  pageSizeOptions?: number[];
+  minRows?: number;
+  dense?: boolean;
+  FooterCell?: ReactComponentLike;
+  onClickMore?: CallbackFn;
+  itemsToAddPerLoadMoreClick?: number;
+  onRowClick?: CallbackFn;
+  shouldFixTableLayout?: boolean;
+  defaultOrderBy?: string;
 };
 
 // TODO: figure out how to return ReactNode/ Elemnet / Whatever - consider updating typescript
-export type FunctionReturnsComponent = (props: any) => any;
+export type FunctionReturnsComponent = (props: any) => ReactNode;
 
-export type KindComponentKVP = {
-  [kind: string]: FunctionReturnsComponent;
+export type StrategyProps = {
+  kind?: string;
 };

@@ -36,7 +36,7 @@ const getFakeColumns = () => {
       id: 'tasks',
       label: 'Tasks (not sortable)',
       format: (d) => <Cell kind={CellType.HOVER_PILL_OVERFLOW} items={d.tasks} />,
-      disabled: true,
+      sortable: false,
     },
     {
       id: 'revenue',
@@ -47,7 +47,7 @@ const getFakeColumns = () => {
       id: 'rightChevronLink',
       label: '',
       format: (d) => <Cell kind={CellType.RIGHT_CHEVRON_LINK} path={'/'} />,
-      disabled: true,
+      sortable: false,
     },
   ];
 };

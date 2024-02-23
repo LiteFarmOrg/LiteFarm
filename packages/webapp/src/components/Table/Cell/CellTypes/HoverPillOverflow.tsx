@@ -12,16 +12,16 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
 import clsx from 'clsx';
 import { HoverPill, HoverPillProps } from '../../../HoverPill';
 import styles from '../styles.module.scss';
 
-const HoverPillOverFlow = ({ items }: HoverPillProps) => {
+export type HoverPillOverflowProps = HoverPillProps;
+
+const HoverPillOverFlow = ({ items }: HoverPillOverflowProps) => {
   return (
     <div className={clsx(styles.text)}>
-      {items.length === 0 ? null : `${items[0]}`}
-      {items.length > 1 && `  `}
+      {items.length === 0 ? null : <span className={styles.marginRight8px}>{items[0]}</span>}
       {items.length > 1 && <HoverPill items={items.slice(1)} />}
     </div>
   );

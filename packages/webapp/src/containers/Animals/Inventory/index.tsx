@@ -12,8 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
-import React from 'react';
 import PureAnimalInventory from '../../../components/Animals/Inventory';
 import {
   useGetAnimalsQuery,

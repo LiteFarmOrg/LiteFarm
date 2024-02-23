@@ -13,9 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import clsx from 'clsx';
-import React from 'react';
-import type { IconTextProps } from '../../types';
+import type { FC } from 'react';
 import styles from '../styles.module.scss';
+
+export type IconTextProps = {
+  text: string | null | undefined;
+  icon: FC;
+  subtext: string | null | undefined;
+};
 
 const IconText = ({ text, icon: Icon, subtext }: IconTextProps) => {
   return (

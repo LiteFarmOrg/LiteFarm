@@ -12,13 +12,14 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
-import TextButton from '../../../Form/Button/TextButton';
 import { IconButton } from '@mui/material';
 import { BsChevronRight } from 'react-icons/bs';
-import type { RightChevronLinkProps } from '../../types';
 import history from '../../../../history';
 import styles from '../styles.module.scss';
+
+export type RightChevronLinkProps = {
+  path: string;
+};
 
 const RightChevronLink = ({ path }: RightChevronLinkProps) => {
   return (

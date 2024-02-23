@@ -12,10 +12,12 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
 import clsx from 'clsx';
-import type { PlainCellProps } from '../../types';
 import styles from '../styles.module.scss';
+
+export type PlainCellProps = {
+  text: string | number | null;
+};
 
 const Plain = ({ text }: PlainCellProps) => {
   return <div className={clsx(styles.text, styles.overflowText)}>{text}</div>;

@@ -19,12 +19,17 @@ const defaultAnimalTypeController = {
   getDefaultAnimalTypes() {
     return async (req, res) => {
       try {
-        const rows = await DefaultAnimalTypeModel.query();
+        const { farm_id } = req.headers;
+        const rows =
+          req.query.count === 'true'
+            ? await DefaultAnimalTypeModel.getDefaultAnimalTypesWithCountsByFarmId(farm_id)
+            : await DefaultAnimalTypeModel.query();
+
         if (!rows.length) {
           return res.sendStatus(404);
-        } else {
-          return res.status(200).send(rows);
         }
+
+        return res.status(200).send(rows);
       } catch (error) {
         console.error(error);
         return res.status(500).json({

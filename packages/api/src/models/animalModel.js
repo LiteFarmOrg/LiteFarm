@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import Model from './baseFormatModel.js';
 import baseModel from './baseModel.js';
+import animalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
 
 class Animal extends baseModel {
   static get tableName() {
@@ -31,18 +33,12 @@ class Animal extends baseModel {
     return {
       type: 'object',
       required: ['farm_id'],
-      anyOf: [
+      oneOf: [
         {
-          required: ['default_type_id', 'name'],
+          required: ['default_type_id'],
         },
         {
-          required: ['custom_type_id', 'name'],
-        },
-        {
-          required: ['default_type_id', 'identifier'],
-        },
-        {
-          required: ['custom_type_id', 'identifier'],
+          required: ['custom_type_id'],
         },
       ],
       properties: {
@@ -64,6 +60,7 @@ class Animal extends baseModel {
         brought_in_date: { type: ['string', 'null'], format: 'date' },
         weaning_date: { type: ['string', 'null'], format: 'date' },
         notes: { type: ['string', 'null'] },
+        photo_url: { type: ['string', 'null'] },
         removed: { type: 'boolean' },
         animal_removal_reason_id: { type: ['integer', 'null'] },
         removal_explanation: { type: ['string', 'null'] },
@@ -78,6 +75,20 @@ class Animal extends baseModel {
       },
       then: {
         required: ['animal_removal_reason_id'],
+      },
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      animal_union_batch_id_view: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: animalUnionBatchIdViewModel,
+        join: {
+          from: 'animal.id',
+          to: 'animal_union_batch_id_view.id',
+        },
+        filter: (query) => query.where('animal_union_batch_id_view.batch', false),
       },
     };
   }

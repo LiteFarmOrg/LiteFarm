@@ -8,7 +8,8 @@ export default function CancelFlowModal({ dismissModal, handleCancel, flow }) {
   const { t } = useTranslation();
   return (
     <ModalComponent
-      title={t(`CANCEL_FLOW_MODAL.TITLE`, { flow })}
+      // https://www.i18next.com/translation-function/interpolation#unescape
+      title={t(`CANCEL_FLOW_MODAL.TITLE`, { flow, interpolation: { escapeValue: false } })}
       contents={[t('CANCEL_FLOW_MODAL.BODY')]}
       dismissModal={dismissModal}
       buttonGroup={

@@ -172,7 +172,7 @@
     "SEEDING_RATE": "Taux de semis"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "Toutes les informations que vous avez saisies seront supprimées. Voulez-vous continuer\u00a0?",
+    "BODY": "Toutes les informations que vous avez saisies seront supprimées. Etes vous sure de vouloir continuer\u00a0?",
     "TITLE": "Annuler votre {{flow}}\u00a0?"
   },
   "CERTIFICATION": {
@@ -687,7 +687,7 @@
       "WATERCOURSE": "Flux d'eau",
       "WATERCOURSE_TITLE": "Quelles sont les largeurs suivantes\u00a0?"
     },
-    "LOCATION_CREATION_FLOW": "création d'emplacement",
+    "LOCATION_CREATION_FLOW": "création de votre emplacement",
     "MAP_FILTER": {
       "ADD_TITLE": "Ajouter à votre carte",
       "AREAS": "Zones",
@@ -891,6 +891,7 @@
   },
   "HOVERPILL": {
     "PLUS_OTHERS_COUNT_one": "+ {{count}} autre",
+    "PLUS_OTHERS_COUNT_many": "+ {{count}} autres",
     "PLUS_OTHERS_COUNT_other": "+ {{count}} autres"
   },
   "INSIGHTS": {

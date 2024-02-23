@@ -24,9 +24,9 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { BsThreeDots } from 'react-icons/bs';
 import clsx from 'clsx';
-import EnhancedTableHead from './TableHead';
-import Button from '../../Form/Button';
-import { getComparator } from '../../../util/sort';
+import EnhancedTableHead from './Header/TableHead';
+import Button from '../Form/Button';
+import { getComparator } from '../../util/sort';
 import styles from './styles.module.scss';
 
 const More = ({ onClickLoadMore, onClickMore, invisibleRowCount, dense, colSpan }) => {
@@ -98,10 +98,6 @@ export default function EnhancedTable(props) {
   const [orderBy, setOrderBy] = useState(defaultOrderBy);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(minRows);
-
-  useEffect(() => {
-    setRowsPerPage(minRows);
-  }, [minRows]);
 
   const fullColSpan = columns.reduce((total, column) => total + (column.id ? 1 : 0), 0);
 

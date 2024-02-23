@@ -21,12 +21,12 @@ import type { IconTextProps } from './Cell/CellTypes/IconText';
 import type { PlainCellProps } from './Cell/CellTypes/Plain';
 import type { RightChevronLinkProps } from './Cell/CellTypes/RightChevronLink';
 
-export enum TableType {
+export enum TableKind {
   V1 = 'v1',
   V2 = 'v2',
 }
 
-export enum CellType {
+export enum CellKind {
   HOVER_PILL_OVERFLOW = 'hoverPillOverflow',
   ICON_TEXT = 'iconText',
   PLAIN = 'plain',
@@ -53,14 +53,14 @@ export type ReactTableProps = {
   orderDesc: boolean;
 };
 
-type MuiTableColumn = {
-  id: string;
+export type MuiTableColumn = {
+  id?: string | null;
   format: FunctionReturnsComponent;
-  align: Alignment;
-  Footer: ReactElement;
-  columnProps: Object;
-  label: string;
-  sortable: boolean;
+  align?: Alignment;
+  Footer?: ReactElement;
+  columnProps?: Object;
+  label?: string;
+  sortable?: boolean;
 };
 
 export type MuiTableProps = {
@@ -79,7 +79,6 @@ export type MuiTableProps = {
   defaultOrderBy?: string;
 };
 
-// TODO: figure out how to return ReactNode/ Elemnet / Whatever - consider updating typescript
 export type FunctionReturnsComponent = (props: any) => ReactNode;
 
 export type StrategyProps = {

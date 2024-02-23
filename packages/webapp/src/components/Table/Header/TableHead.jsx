@@ -18,10 +18,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import clsx from 'clsx';
-import { ReactComponent as ChevronDown } from '../../../assets/images/chevron-down.svg';
 import { ReactComponent as UnfoldCircle } from '../../../assets/images/unfold-circle.svg';
 import { ReactComponent as ArrowDownCircle } from '../../../assets/images/arrow-down-circle.svg';
-import styles from './styles.module.scss';
+import styles from '../styles.module.scss';
 
 export default function EnhancedTableHead({ columns, order, orderBy, onRequestSort, dense }) {
   const createSortHandler = (property) => (event) => {

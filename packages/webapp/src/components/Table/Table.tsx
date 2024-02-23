@@ -12,9 +12,9 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import ReactTable from './index';
-import MuiTable from './v2';
-import { TableType, ReactTableProps, MuiTableProps, StrategyProps } from './types';
+import ReactTable from './TableV1';
+import MuiTable from './TableV2';
+import { TableKind, ReactTableProps, MuiTableProps, StrategyProps } from './types';
 
 type ReactTablePropsStrategy = ReactTableProps & StrategyProps;
 type MuiTablePropsStrategy = MuiTableProps & StrategyProps;
@@ -27,9 +27,9 @@ type TableStrategyProps = ReactTablePropsStrategy | MuiTablePropsStrategy;
  */
 const Table = ({ kind, ...props }: TableStrategyProps) => {
   switch (kind) {
-    case TableType.V1:
+    case TableKind.V1:
       return <ReactTable {...(props as ReactTablePropsStrategy)} />;
-    case TableType.V2:
+    case TableKind.V2:
       return <MuiTable {...(props as MuiTablePropsStrategy)} />;
     default:
       return <MuiTable {...(props as MuiTablePropsStrategy)} />;

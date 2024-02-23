@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  Copyright (C) 2007-2024 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -14,7 +14,6 @@
  */
 
 import ReactTable from 'react-table';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // refer to Log/index.js for example on how to format columns and data props, or read react-table documentation

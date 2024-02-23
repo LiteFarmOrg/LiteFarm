@@ -16,7 +16,7 @@ import Plain from './CellTypes/Plain';
 import HoverPillOverflow from './CellTypes/HoverPillOverflow';
 import RightChevronLink from './CellTypes/RightChevronLink';
 import IconText from './CellTypes/IconText';
-import { CellType, StrategyProps } from '../types';
+import { CellKind, StrategyProps } from '../types';
 import type { HoverPillOverflowProps } from './CellTypes/HoverPillOverflow';
 import type { IconTextProps } from './CellTypes/IconText';
 import type { PlainCellProps } from './CellTypes/Plain';
@@ -39,13 +39,13 @@ type CellStrategyProps =
  */
 const Cell = ({ kind, ...props }: CellStrategyProps) => {
   switch (kind) {
-    case CellType.HOVER_PILL_OVERFLOW:
+    case CellKind.HOVER_PILL_OVERFLOW:
       return <HoverPillOverflow {...(props as HoverPillPropsStrategy)} />;
-    case CellType.ICON_TEXT:
+    case CellKind.ICON_TEXT:
       return <IconText {...(props as IconTextPropsStrategy)} />;
-    case CellType.PLAIN:
+    case CellKind.PLAIN:
       return <Plain {...(props as PlainCellPropsStrategy)} />;
-    case CellType.RIGHT_CHEVRON_LINK:
+    case CellKind.RIGHT_CHEVRON_LINK:
       return <RightChevronLink {...(props as RightChevronLinkPropsStrategy)} />;
     default:
       return <Plain {...(props as PlainCellPropsStrategy)} />;

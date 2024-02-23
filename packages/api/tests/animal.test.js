@@ -376,13 +376,11 @@ describe('Animal Tests', () => {
           [
             {
               id: firstAnimal.id,
-              removed: true,
               animal_removal_reason_id: animalRemovalReasonId,
               explanation: 'Gifted to neighbor',
             },
             {
               id: secondAnimal.id,
-              removed: true,
               animal_removal_reason_id: animalRemovalReasonId,
               explanation: 'Gifted to neighbor',
             },
@@ -411,7 +409,6 @@ describe('Animal Tests', () => {
           [
             {
               id: animal.id,
-              removed: true,
               animal_removal_reason_id: animalRemovalReasonId,
               explanation: 'Gifted to neighbor',
             },
@@ -438,7 +435,6 @@ describe('Animal Tests', () => {
 
         {
           id: animal.id,
-          removed: true,
           animal_removal_reason_id: animalRemovalReasonId,
           explanation: 'Gifted to neighbor',
         },
@@ -468,7 +464,6 @@ describe('Animal Tests', () => {
         [
           {
             id: animal.id,
-            removed: true,
             animal_removal_reason_id: animalRemovalReasonId,
             explanation: 'Gifted to neighbor',
           },
@@ -480,35 +475,6 @@ describe('Animal Tests', () => {
         body: {
           error: 'Invalid ids',
           invalidAnimalIds: [animal.id],
-        },
-      });
-    });
-
-    test('Should not be able to remove an animal without providing a reason enum key', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-
-      const animal = await makeAnimal(mainFarm, {
-        default_type_id: defaultTypeId,
-      });
-
-      const res = await patchRequest(
-        {
-          user_id: user.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        [
-          {
-            id: animal.id,
-            removed: true,
-            explanation: 'Gifted to neighbor',
-          },
-        ],
-      );
-
-      expect(res).toMatchObject({
-        status: 400,
-        error: {
-          text: 'Must send animal_removal_reason_id',
         },
       });
     });

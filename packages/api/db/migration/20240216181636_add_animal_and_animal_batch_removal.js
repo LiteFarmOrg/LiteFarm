@@ -36,16 +36,8 @@ export const up = async function (knex) {
 
   for (const tableName of ['animal', 'animal_batch']) {
     await knex.schema.alterTable(tableName, (table) => {
-      table.boolean('removed').notNullable().defaultTo(false);
       table.integer('animal_removal_reason_id').references('id').inTable('animal_removal_reason');
       table.string('removal_explanation');
-
-      // Within knex.alterTable(), table.check() only works with an empty binding array (see https://github.com/knex/documentation/issues/492), despite the knex docs https://knexjs.org/guide/schema-builder.html#check
-      table.check(
-        'removed = false OR (removed = true AND animal_removal_reason_id is not null)',
-        [],
-        'removal_reason_provided_check',
-      );
     });
   }
 
@@ -76,8 +68,6 @@ export const down = async function (knex) {
     await knex.schema.alterTable(tableName, (table) => {
       table.dropColumn('removal_explanation');
       table.dropColumn('animal_removal_reason_id');
-      table.dropColumn('removed');
-      table.dropChecks['removal_reason_provided_check'];
     });
   }
 

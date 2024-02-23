@@ -58,7 +58,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         textActions={[]}
         iconActions={iconActions}
         classes={{
-          wrapper: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
+          root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
         }}
       />
     </Layout>

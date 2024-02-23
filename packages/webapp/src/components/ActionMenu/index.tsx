@@ -31,7 +31,7 @@ export interface ActionMenuProps {
   headerLeftText?: string;
   textActions?: action[];
   iconActions: iconAction[];
-  classes?: { wrapper?: string };
+  classes?: { root?: string };
 }
 
 const ActionMenu = ({
@@ -45,7 +45,7 @@ const ActionMenu = ({
   const iconCountClassName = styles[`iconCount_${iconActions.length}`];
 
   return (
-    <div className={clsx(styles.actionMenu, iconCountClassName, classes.wrapper)}>
+    <div className={clsx(styles.actionMenu, iconCountClassName, classes.root)}>
       <div className={styles.header}>
         <div className={styles.headerLeftText}>{headerLeftText}</div>
         <div className={styles.textButtons}>

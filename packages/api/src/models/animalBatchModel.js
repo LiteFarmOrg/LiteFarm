@@ -16,6 +16,7 @@
 import Model from './baseFormatModel.js';
 import baseModel from './baseModel.js';
 import AnimalBatchSexDetailModel from './animalBatchSexDetailModel.js';
+import animalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
 import { checkAndTrimString } from '../util/util.js';
 
 class AnimalBatchModel extends baseModel {
@@ -61,7 +62,7 @@ class AnimalBatchModel extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['farm_id', 'name', 'count'],
+      required: ['farm_id', 'count'],
       oneOf: [
         {
           required: ['default_type_id'],
@@ -78,9 +79,9 @@ class AnimalBatchModel extends baseModel {
         default_type_id: { type: ['integer', 'null'] },
         farm_id: { type: 'string' },
         id: { type: 'integer' },
-        name: { type: 'string' },
+        name: { type: ['string', 'null'] },
         notes: { type: ['string', 'null'] },
-        removed: { type: 'boolean' },
+        photo_url: { type: ['string', 'null'] },
         animal_removal_reason_id: { type: ['integer', 'null'] },
         removal_explanation: { type: ['string', 'null'] },
         ...this.baseProperties,
@@ -99,6 +100,15 @@ class AnimalBatchModel extends baseModel {
           from: 'animal_batch.id',
           to: 'animal_batch_sex_detail.animal_batch_id',
         },
+      },
+      animal_union_batch_id_view: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: animalUnionBatchIdViewModel,
+        join: {
+          from: 'animal_batch.id',
+          to: 'animal_union_batch_id_view.id',
+        },
+        filter: (query) => query.where('animal_union_batch_id_view.batch', true),
       },
     };
   }

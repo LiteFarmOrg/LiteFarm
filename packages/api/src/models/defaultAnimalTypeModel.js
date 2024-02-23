@@ -14,6 +14,7 @@
  */
 
 import Model from './baseFormatModel.js';
+import knex from '../util/knex.js';
 
 class DefaultAnimalTypeModel extends Model {
   static get tableName() {
@@ -38,6 +39,30 @@ class DefaultAnimalTypeModel extends Model {
       },
       additionalProperties: false,
     };
+  }
+
+  static async getDefaultAnimalTypesWithCountsByFarmId(farm_id) {
+    const data = await knex.raw(
+      `SELECT
+        dat.*,
+        COALESCE(SUM(abu.count), 0) AS count
+      FROM
+        default_animal_type AS dat
+      LEFT JOIN (
+        SELECT default_type_id, COUNT(*) AS count
+        FROM animal
+        WHERE farm_id = ? AND deleted is FALSE
+        GROUP BY default_type_id
+        UNION ALL
+        SELECT default_type_id, SUM(count) AS count
+        FROM animal_batch
+        WHERE farm_id = ? AND deleted is FALSE
+        GROUP BY default_type_id
+      ) AS abu ON dat.id = abu.default_type_id
+      GROUP BY dat.id;`,
+      [farm_id, farm_id],
+    );
+    return data.rows;
   }
 }
 

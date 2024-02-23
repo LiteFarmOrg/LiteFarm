@@ -33,3 +33,15 @@
     @content;
   }
 }
+
+@mixin lg-breakpoint {
+  @media only screen and (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin xlg-breakpoint {
+  @media only screen and (min-width: 1536px) {
+    @content;
+  }
+}

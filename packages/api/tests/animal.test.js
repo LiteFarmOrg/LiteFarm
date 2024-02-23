@@ -23,6 +23,8 @@ import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 
+import { makeAnimalOrBatchForFarm, makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
+
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
   jest.fn((req, _res, next) => {
@@ -150,8 +152,8 @@ describe('Animal Tests', () => {
         res.body.forEach((animal) => {
           expect(animal.farm_id).toBe(mainFarm.farm_id);
         });
-        expect(firstAnimal).toMatchObject(res.body[0]);
-        expect(secondAnimal).toMatchObject(res.body[1]);
+        expect({ ...firstAnimal, internal_identifier: 1 }).toMatchObject(res.body[0]);
+        expect({ ...secondAnimal, internal_identifier: 2 }).toMatchObject(res.body[1]);
       }
     });
 
@@ -199,9 +201,9 @@ describe('Animal Tests', () => {
         );
 
         expect(res.status).toBe(201);
-        expect(res.body[0]).toMatchObject(firstAnimal);
-        expect(res.body[1]).toMatchObject(secondAnimal);
-        expect(res.body[2]).toMatchObject(thirdAnimal);
+        expect(res.body[0]).toMatchObject({ ...firstAnimal, internal_identifier: 1 });
+        expect(res.body[1]).toMatchObject({ ...secondAnimal, internal_identifier: 2 });
+        expect(res.body[2]).toMatchObject({ ...thirdAnimal, internal_identifier: 3 });
 
         res.body.forEach((animal) => expect(animal.farm_id).toBe(mainFarm.farm_id));
       }
@@ -242,22 +244,24 @@ describe('Animal Tests', () => {
       expect(res.status).toBe(400);
     });
 
-    test('Should not be able to create an animal without name or identifier', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-      const animal = mocks.fakeAnimal({
-        name: null,
-        identifier: null,
-      });
+    test('Unique internal_identifier should be added within the same farm_id between animals and animalBatches', async () => {
+      const [user] = await mocks.usersFactory();
+      const { existingAnimalsAndBatchesCountsPerFarm } = await makeFarmsWithAnimalsAndBatches(user);
 
-      const res = await postRequestAsPromise(
-        {
-          user_id: user.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        [animal],
-      );
+      for (const existingAnimalsAndBatches of existingAnimalsAndBatchesCountsPerFarm) {
+        const { farm, animalCount, batchCount } = existingAnimalsAndBatches;
 
-      expect(res.status).toBe(400);
+        // creat an animal for the farm
+        const animal = mocks.fakeAnimal({
+          farm_id: farm.farm_id,
+          default_type_id: defaultTypeId,
+        });
+        const res = await postRequestAsPromise({ user_id: user.user_id, farm_id: farm.farm_id }, [
+          animal,
+        ]);
+
+        expect(res.body[0].internal_identifier).toBe(animalCount + batchCount + 1);
+      }
     });
 
     test('Should not be able to create an animal without a type', async () => {

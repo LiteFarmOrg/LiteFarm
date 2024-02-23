@@ -19,8 +19,8 @@ import PageTitle from '../../../components/PageTitle';
 import defaultStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
 import { expenseSelector, allExpenseTypeSelector } from '../selectors';
-import Table from '../../../components/Table/Table';
-import { TableType } from '../../../components/Table/types';
+import Table from '../../../components/Table';
+import { TableKind } from '../../../components/Table/types';
 import { getExpense, getFarmExpenseType } from '../actions';
 import history from '../../../history';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
@@ -194,7 +194,7 @@ const OtherExpense = () => {
       <div className={styles.tableContainer} style={{ marginBottom: '16px' }}>
         {data.length > 0 && (
           <Table
-            kind={TableType.V1}
+            kind={TableKind.V1}
             columns={columns}
             data={data}
             showPagination={true}
@@ -211,7 +211,7 @@ const OtherExpense = () => {
         {detailedHistory.length > 0 && (
           <div>
             <Table
-              kind={TableType.V1}
+              kind={TableKind.V1}
               columns={detailedColumns}
               data={detailedHistory}
               showPagination={true}

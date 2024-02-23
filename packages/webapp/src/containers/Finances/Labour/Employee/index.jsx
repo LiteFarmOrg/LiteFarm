@@ -1,6 +1,6 @@
 import React from 'react';
-import Table from '../../../../components/Table/Table';
-import { TableType } from '../../../../components/Table/types';
+import Table from '../../../../components/Table';
+import { TableKind } from '../../../../components/Table/types';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { userFarmsByFarmSelector } from '../../../userFarmSlice';
@@ -55,7 +55,7 @@ const Employee = ({ currencySymbol, tasks, startDate, endDate }) => {
 
   return (
     <Table
-      kind={TableType.V1}
+      kind={TableKind.V1}
       columns={columns}
       data={data}
       showPagination={true}

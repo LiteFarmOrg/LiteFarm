@@ -12,20 +12,18 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
-import React from 'react';
-import Table from '../../../components/Table/Table';
+import Table from '../../../components/Table';
 import Layout from '../../../components/Layout';
-import { TableType } from '../../Table/types';
+import { MuiTableColumn, TableKind } from '../../Table/types';
 import type { DefaultTheme } from '@mui/styles';
 
 const PureAnimalInventory = ({
   tableData,
-  getColumns,
+  animalsColumns,
   theme,
 }: {
   tableData: object[];
-  getColumns: Function;
+  animalsColumns: MuiTableColumn[];
   theme: DefaultTheme;
 }) => {
   return (
@@ -36,12 +34,13 @@ const PureAnimalInventory = ({
       hasWhiteBackground
     >
       <Table
-        kind={TableType.V2}
+        kind={TableKind.V2}
         alternatingRowColor={true}
-        columns={getColumns()}
+        columns={animalsColumns}
         data={tableData}
         shouldFixTableLayout={true}
         minRows={tableData.length}
+        dense={false}
       />
     </Layout>
   );

@@ -14,10 +14,10 @@
  */
 import React from 'react';
 import { v2TableDecorator } from '../Pages/config/Decorators';
-import Table from '../../components/Table/Table';
+import Table from '../../components/Table';
 import Cell from '../../components/Table/Cell';
 import { ReactComponent as CropIcon } from '../../assets/images/nav/crops.svg';
-import { TableType, CellType } from '../../components/Table/types';
+import { TableKind, CellKind } from '../../components/Table/types';
 
 export default {
   title: 'Components/Tables/Cells',
@@ -30,12 +30,12 @@ const getFakeColumns = () => {
     {
       id: 'crop',
       label: 'Crops',
-      format: (d) => <Cell kind={CellType.ICON_TEXT} icon={d.icon} text={d.crop} />,
+      format: (d) => <Cell kind={CellKind.ICON_TEXT} icon={d.icon} text={d.crop} />,
     },
     {
       id: 'tasks',
       label: 'Tasks (not sortable)',
-      format: (d) => <Cell kind={CellType.HOVER_PILL_OVERFLOW} items={d.tasks} />,
+      format: (d) => <Cell kind={CellKind.HOVER_PILL_OVERFLOW} items={d.tasks} />,
       sortable: false,
     },
     {
@@ -46,7 +46,7 @@ const getFakeColumns = () => {
     {
       id: 'rightChevronLink',
       label: '',
-      format: (d) => <Cell kind={CellType.RIGHT_CHEVRON_LINK} path={'/'} />,
+      format: (d) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={'/'} />,
       sortable: false,
     },
   ];
@@ -84,7 +84,7 @@ const getFakeData = (length) => {
 
 export const FakeTableWithCells = {
   args: {
-    kind: TableType.V2,
+    kind: TableKind.V2,
     columns: getFakeColumns(),
     data: getFakeData(10),
     minRows: 10,

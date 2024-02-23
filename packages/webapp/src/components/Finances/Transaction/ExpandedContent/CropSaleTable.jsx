@@ -14,8 +14,8 @@
  */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Table from '../../../Table/Table';
-import { TableType } from '../../../Table/types';
+import Table from '../../../Table';
+import { TableKind } from '../../../Table/types';
 import history from '../../../../history';
 import styles from './styles.module.scss';
 import { createRevenueDetailsUrl } from '../../../../util/siteMapConstants';
@@ -84,7 +84,7 @@ export default function CropSaleTable({ data, currencySymbol, mobileView }) {
 
   return (
     <Table
-      kind={TableType.V2}
+      kind={TableKind.V2}
       columns={getColumns(t, mobileView, totalAmount, quantityWithUnit, currencySymbol)}
       data={items}
       minRows={10}

@@ -17,8 +17,8 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import Table from '../../../Table/Table';
-import { TableType } from '../../../Table/types';
+import Table from '../../../Table';
+import { TableKind } from '../../../Table/types';
 import StateTab from '../../../RouterTab/StateTab';
 
 const tabsEnum = {
@@ -153,7 +153,7 @@ export default function LabourTable({ data: transaction, currencySymbol }) {
       />
       {activeTab === tabsEnum.EMPLOYEE && (
         <Table
-          kind={TableType.V2}
+          kind={TableKind.V2}
           columns={employeeColumns}
           data={transaction.items.EMPLOYEE}
           minRow={10}
@@ -162,7 +162,7 @@ export default function LabourTable({ data: transaction, currencySymbol }) {
       )}
       {activeTab === tabsEnum.TASKS && (
         <Table
-          kind={TableType.V2}
+          kind={TableKind.V2}
           columns={tasksColumns}
           data={transaction.items.TASK_TYPE}
           minRow={10}

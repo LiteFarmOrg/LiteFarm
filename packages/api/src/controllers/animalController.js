@@ -203,7 +203,7 @@ const animalController = {
         }
 
         // Update animals
-        // NOTE: this is only scoped for removal right now. To make this a general update controller would require reinstating all of the checks on breed, type, etc. in addAnimals() above. We would probably want to take a different approach to that such as a extracting the validation to somewhere common to both controllers.
+        // NOTE: this is only scoped for removal. To make this a general update controller would require restating all of the checks on breed, type, etc. in addAnimals() above.
         for (const animal of req.body) {
           const { id, animal_removal_reason_id, removal_explanation } = animal;
 

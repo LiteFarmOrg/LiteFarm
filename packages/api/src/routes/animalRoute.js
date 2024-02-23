@@ -24,8 +24,7 @@ router.post('/', checkScope(['add:animals']), AnimalController.addAnimals());
 router.patch(
   '/',
   checkScope(['edit:animals']),
-  // Can't use hasFarmAccess because body is an array
-  // Also 'id' as the id field is currently problematic (middleware would need revising) as we map this one-to-one to a getter
+  // Can't use hasFarmAccess because body is an array & because of non-unique id field
   AnimalController.editAnimals(),
 );
 

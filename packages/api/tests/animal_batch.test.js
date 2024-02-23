@@ -40,11 +40,15 @@ describe('Animal Batch Tests', () => {
   let newOwner;
   let defaultBreedId;
   let defaultTypeId;
+  let animalRemovalReasonId;
 
   beforeAll(async () => {
     const [defaultAnimalBreed] = await mocks.default_animal_breedFactory();
     defaultBreedId = defaultAnimalBreed.id;
     defaultTypeId = defaultAnimalBreed.default_type_id;
+
+    const [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
+    animalRemovalReasonId = animalRemovalReason.id;
   });
 
   function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
@@ -69,6 +73,16 @@ describe('Animal Batch Tests', () => {
   }
 
   const postRequestAsPromise = util.promisify(postRequest);
+
+  async function patchRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
+    return await chai
+      .request(server)
+      .patch('/animal_batches')
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data);
+  }
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
@@ -444,6 +458,154 @@ describe('Animal Batch Tests', () => {
       );
 
       expect(res.status).toBe(400);
+    });
+  });
+
+  describe('Remove animal batch tests', () => {
+    test('Admin users should be able to remove animal batches', async () => {
+      const roles = [1, 2, 5];
+      const animalSex1 = await makeAnimalSex();
+      const animalSex2 = await makeAnimalSex();
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+
+        const firstAnimalBatch = await makeAnimalBatch(mainFarm, {
+          default_breed_id: defaultBreedId,
+          default_type_id: defaultTypeId,
+          count: 6,
+          sex_detail: [
+            {
+              sex_id: animalSex1.id,
+              count: 2,
+            },
+            {
+              sex_id: animalSex2.id,
+              count: 4,
+            },
+          ],
+        });
+
+        const secondAnimalBatch = await makeAnimalBatch(mainFarm, {
+          default_breed_id: defaultBreedId,
+          default_type_id: defaultTypeId,
+        });
+
+        const res = await patchRequest(
+          {
+            user_id: user.user_id,
+            farm_id: mainFarm.farm_id,
+          },
+
+          [
+            {
+              id: firstAnimalBatch.id,
+              animal_removal_reason_id: animalRemovalReasonId,
+              explanation: 'Gifted to neighbor',
+            },
+            {
+              id: secondAnimalBatch.id,
+              animal_removal_reason_id: animalRemovalReasonId,
+              explanation: 'Gifted to neighbor',
+            },
+          ],
+        );
+
+        expect(res.status).toBe(204);
+      }
+    });
+
+    test('Non-admin users should not be able to remove animal batches', async () => {
+      const roles = [3];
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+
+        const animalBatch = await makeAnimalBatch(mainFarm, {
+          default_breed_id: defaultBreedId,
+          default_type_id: defaultTypeId,
+        });
+
+        const res = await patchRequest(
+          {
+            user_id: user.user_id,
+            farm_id: mainFarm.farm_id,
+          },
+          [
+            {
+              id: animalBatch.id,
+              animal_removal_reason_id: animalRemovalReasonId,
+              explanation: 'Gifted to neighbor',
+            },
+          ],
+        );
+
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe(
+          'User does not have the following permission(s): edit:animal_batches',
+        );
+      }
+    });
+
+    test('Should not be able to send out an individual animal batch instead of an array', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const animalBatch = await makeAnimalBatch(mainFarm, {
+        default_breed_id: defaultBreedId,
+        default_type_id: defaultTypeId,
+      });
+
+      const res = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+
+        {
+          id: animalBatch.id,
+          animal_removal_reason_id: animalRemovalReasonId,
+          explanation: 'Gifted to neighbor',
+        },
+      );
+
+      expect(res).toMatchObject({
+        status: 400,
+        error: {
+          text: 'Request body should be an array',
+        },
+      });
+    });
+
+    test('Should not be able to remove an animal batch belonging to a different farm', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+
+      const animalBatch = await makeAnimalBatch(secondFarm, {
+        default_breed_id: defaultBreedId,
+        default_type_id: defaultTypeId,
+      });
+
+      const res = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [
+          {
+            id: animalBatch.id,
+            animal_removal_reason_id: animalRemovalReasonId,
+            explanation: 'Gifted to neighbor',
+          },
+        ],
+      );
+
+      expect(res).toMatchObject({
+        status: 400,
+        body: {
+          error: 'Invalid ids',
+          invalidAnimalBatchIds: [animalBatch.id],
+        },
+      });
     });
   });
 });

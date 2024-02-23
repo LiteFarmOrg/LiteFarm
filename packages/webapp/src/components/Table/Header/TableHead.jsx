@@ -49,11 +49,11 @@ export default function EnhancedTableHead({ columns, order, orderBy, onRequestSo
                 onClick={sortable ? createSortHandler(id) : null}
                 IconComponent={active ? ArrowDownCircle : UnfoldCircle}
                 disabled={!sortable}
+                className={clsx(
+                  align === 'right' ? styles.alignRightPadding : styles.alignLeftPadding,
+                )}
                 classes={{
-                  active: clsx(
-                    styles.sortLabelActive,
-                    align === 'right' ? styles.alignRightPadding : styles.alignLeftPadding,
-                  ),
+                  active: styles.sortLabelActive,
                   icon: styles.iconColor,
                 }}
                 sx={[

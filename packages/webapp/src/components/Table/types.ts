@@ -16,10 +16,6 @@
 import type { ReactElement, ReactNode } from 'react';
 import type { ColumnInstance } from 'react-table';
 import { ReactComponentLike } from 'prop-types';
-import type { HoverPillProps } from '../HoverPill';
-import type { IconTextProps } from './Cell/CellTypes/IconText';
-import type { PlainCellProps } from './Cell/CellTypes/Plain';
-import type { RightChevronLinkProps } from './Cell/CellTypes/RightChevronLink';
 
 export enum TableKind {
   V1 = 'v1',

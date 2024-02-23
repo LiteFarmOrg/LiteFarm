@@ -26,9 +26,13 @@ class Animal extends baseModel {
   }
 
   static get stringProperties() {
-    return Object.entries(this.jsonSchema.properties)
-      .filter(([, value]) => value.type.includes('string'))
-      .map(([key]) => key);
+    const stringProperties = [];
+    for (const [key, value] of Object.entries(this.jsonSchema.properties)) {
+      if (value.type.includes('string')) {
+        stringProperties.push(key);
+      }
+    }
+    return stringProperties;
   }
 
   async $beforeInsert(queryContext) {

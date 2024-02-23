@@ -173,22 +173,21 @@ const animalController = {
 
         // Check that all animals exist and belong to the farm
         // Done in its own loop to provide a list of all invalid ids
-        const sentAnimalIds = req.body.map(({ id }) => id);
         const invalidAnimalIds = [];
 
-        for (const id of sentAnimalIds) {
-          if (!id) {
+        for (const animal of req.body) {
+          if (!animal.id) {
             await trx.rollback();
             return res.status(400).send('Must send animal id');
           }
 
-          const animal = await AnimalModel.query(trx)
-            .findById(id)
+          const farmAnimalRecord = await AnimalModel.query(trx)
+            .findById(animal.id)
             .where({ farm_id })
             .whereNotDeleted();
 
-          if (!animal) {
-            invalidAnimalIds.push(id);
+          if (!farmAnimalRecord) {
+            invalidAnimalIds.push(animal.id);
           }
         }
 

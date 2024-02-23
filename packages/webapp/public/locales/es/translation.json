@@ -898,6 +898,7 @@
   },
   "HOVERPILL": {
     "PLUS_OTHERS_COUNT_one": "MISSING",
+    "PLUS_OTHERS_COUNT_many": "MISSING",
     "PLUS_OTHERS_COUNT_other": "MISSING"
   },
   "INSIGHTS": {

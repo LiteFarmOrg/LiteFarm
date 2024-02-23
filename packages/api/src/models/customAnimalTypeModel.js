@@ -14,6 +14,7 @@
  */
 
 import baseModel from './baseModel.js';
+import knex from '../util/knex.js';
 
 class CustomAnimalType extends baseModel {
   static get tableName() {
@@ -40,6 +41,29 @@ class CustomAnimalType extends baseModel {
       },
       additionalProperties: false,
     };
+  }
+
+  static async getCustomAnimalTypesWithCountsByFarmId(farm_id) {
+    const data = await knex.raw(
+      `SELECT
+        cat.*,
+        COALESCE(SUM(abu.count), 0) AS count
+      FROM
+        custom_animal_type AS cat
+      LEFT JOIN (
+        SELECT custom_type_id, COUNT(*) AS count
+        FROM animal WHERE farm_id = ? AND deleted is FALSE
+        GROUP BY custom_type_id
+        UNION ALL
+        SELECT custom_type_id, SUM(count) AS count
+        FROM animal_batch WHERE farm_id = ? AND deleted is FALSE
+        GROUP BY custom_type_id
+      ) AS abu ON cat.id = abu.custom_type_id
+      WHERE farm_id = ? AND deleted is FALSE
+      GROUP BY cat.id;`,
+      [farm_id, farm_id, farm_id],
+    );
+    return data.rows;
   }
 }
 

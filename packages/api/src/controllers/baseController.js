@@ -191,11 +191,13 @@ export default {
       .upsertGraph(data, { insertMissing: true });
   },
 
-  async insertGraph(model, data, req, { trx, context = {} } = {}) {
+  // send back the resource that was just created
+  async insertGraphWithResponse(model, data, req, { trx, context = {} } = {}) {
     return await model
       .query(trx)
       .context({ user_id: req?.auth?.user_id, ...context })
-      .insertGraph(removeAdditionalPropertiesWithRelations(model, data));
+      .insertGraph(removeAdditionalPropertiesWithRelations(model, data))
+      .returning('*');
   },
 
   // fetch an object and all of its related objects

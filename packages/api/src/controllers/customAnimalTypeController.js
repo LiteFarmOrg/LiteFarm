@@ -23,7 +23,11 @@ const customAnimalTypeController = {
     return async (req, res) => {
       try {
         const { farm_id } = req.headers;
-        const rows = await CustomAnimalTypeModel.query().where({ farm_id }).whereNotDeleted();
+        const rows =
+          req.query.count === 'true'
+            ? await CustomAnimalTypeModel.getCustomAnimalTypesWithCountsByFarmId(farm_id)
+            : await CustomAnimalTypeModel.query().where({ farm_id }).whereNotDeleted();
+
         return res.status(200).send(rows);
       } catch (error) {
         console.error(error);

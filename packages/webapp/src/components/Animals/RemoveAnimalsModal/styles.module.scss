@@ -1,0 +1,70 @@
+form > * {
+  margin-top: 24px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+fieldset {
+  all: unset;
+  width: 100%;
+}
+
+.mobileOption {
+  display: flex;
+  cursor: pointer;
+  margin-top: 4px;
+  height: 40px;
+
+  input {
+    appearance: none;
+  }
+
+  &Label {
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    padding: 8px 16px;
+  }
+
+  &LabelGreen {
+    border: 1px solid var(--teal600);
+    color: var(--teal600);
+  }
+
+  &LabelRed {
+    border: 1px solid #ffa9a6;
+    color: var(--red700);
+  }
+}
+
+input:checked {
+  + .mobileOptionLabelGreen {
+    font-weight: 700;
+    background-color: var(--green100);
+  }
+  + .mobileOptionLabelRed {
+    border-color: var(--red700);
+    background-color: var(--red200);
+    color: #520f0d;
+    font-weight: 700;
+  }
+}
+
+.dropDownOptionGreen {
+  color: var(--teal600);
+}
+
+.dropDownOptionRed {
+  color: red;
+}
+
+.buttonWrapper {
+  display: flex;
+  gap: 1rem;
+
+  button {
+    flex: 1;
+  }
+}

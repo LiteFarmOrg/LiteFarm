@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 import { Controller, useForm } from 'react-hook-form';
 import { useTheme, useMediaQuery } from '@mui/material';
 import clsx from 'clsx';
+import Input from '../../Form/Input';
 
 type RemoveAnimalsModalProps = {
   isOpen: boolean;
@@ -12,7 +13,7 @@ type RemoveAnimalsModalProps = {
 };
 
 export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
-  const { register, handleSubmit, control } = useForm();
+  const { register, handleSubmit, control, watch } = useForm();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -47,6 +48,9 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
     },
   ];
 
+  const selectedOption = watch('reason');
+  const isCreatedInErrorSelected = selectedOption === options[options.length - 1].value;
+
   // For styling dropdown options
   const getReactSelectClassNames = (value: string) => {
     if (!value) return '';
@@ -62,7 +66,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
     <>
       {/* @ts-ignore */}
       <Drawer title="Remove Animals" isOpen={props.isOpen} onClose={props.onClose}>
-        <form onSubmit={handleSubmit(() => {})}>
+        <form onSubmit={handleSubmit((d) => console.log(d))}>
           {isMobile ? (
             <fieldset>
               <legend>Tell us why you are removing these animals</legend>
@@ -104,6 +108,11 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
                 />
               )}
             />
+          )}
+
+          {!!selectedOption && !isCreatedInErrorSelected && (
+            // @ts-ignore
+            <Input hookFormRegister={register('explanation')} label="Explanation" optional />
           )}
 
           <div className={styles.buttonWrapper}>

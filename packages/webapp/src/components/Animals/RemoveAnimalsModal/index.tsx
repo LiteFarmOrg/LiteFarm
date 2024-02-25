@@ -6,6 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTheme, useMediaQuery } from '@mui/material';
 import clsx from 'clsx';
 import Input from '../../Form/Input';
+import { ReactComponent as WarningIcon } from '../../../assets/images/warning.svg';
 
 type RemoveAnimalsModalProps = {
   isOpen: boolean;
@@ -114,6 +115,18 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
             // @ts-ignore
             <Input hookFormRegister={register('explanation')} label="Explanation" optional />
           )}
+
+          {!!selectedOption &&
+            (isCreatedInErrorSelected ? (
+              <div className={clsx(styles.removalMessage, styles.textCenter)}>
+                <WarningIcon />
+                <p>These animals will be permanently removed from your farm</p>
+              </div>
+            ) : (
+              <p className={styles.textCenter}>
+                These animals will be archived and accessible for future reference
+              </p>
+            ))}
 
           <div className={styles.buttonWrapper}>
             <Button color="secondary" type="button" onClick={props.onClose}>

@@ -60,6 +60,30 @@ input:checked {
   color: red;
 }
 
+.textCenter {
+  text-align: center;
+}
+
+.removalMessage {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--grey100);
+  padding: 8px 16px;
+  border: 1px solid var(--brown700);
+  border-radius: 4px;
+
+  svg {
+    color: var(--brown700);
+  }
+
+  p {
+    width: 264px;
+  }
+}
+
 .buttonWrapper {
   display: flex;
   gap: 1rem;

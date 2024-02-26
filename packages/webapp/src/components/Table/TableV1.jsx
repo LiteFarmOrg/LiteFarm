@@ -17,7 +17,7 @@ import ReactTable from 'react-table';
 import { useTranslation } from 'react-i18next';
 
 // refer to Log/index.js for example on how to format columns and data props, or read react-table documentation
-function Table({
+function TableV1({
   columns,
   data,
   showPagination,
@@ -65,4 +65,4 @@ function Table({
   );
 }
 
-export default Table;
+export default TableV1;

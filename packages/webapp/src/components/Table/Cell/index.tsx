@@ -16,19 +16,21 @@ import Plain from './CellTypes/Plain';
 import HoverPillOverflow from './CellTypes/HoverPillOverflow';
 import RightChevronLink from './CellTypes/RightChevronLink';
 import IconText from './CellTypes/IconText';
-import { CellKind, StrategyProps } from '../types';
+import { CellKind } from '../types';
 import type { HoverPillOverflowProps } from './CellTypes/HoverPillOverflow';
 import type { IconTextProps } from './CellTypes/IconText';
 import type { PlainCellProps } from './CellTypes/Plain';
 import type { RightChevronLinkProps } from './CellTypes/RightChevronLink';
 
-type HoverPillPropsStrategy = HoverPillOverflowProps & StrategyProps;
-type IconTextPropsStrategy = IconTextProps & StrategyProps;
-type PlainCellPropsStrategy = PlainCellProps & StrategyProps;
-type RightChevronLinkPropsStrategy = RightChevronLinkProps & StrategyProps;
+type HoverPillOverflowPropsStrategy = HoverPillOverflowProps & {
+  kind: CellKind.HOVER_PILL_OVERFLOW;
+};
+type IconTextPropsStrategy = IconTextProps & { kind: CellKind.ICON_TEXT };
+type PlainCellPropsStrategy = PlainCellProps & { kind?: CellKind.PLAIN };
+type RightChevronLinkPropsStrategy = RightChevronLinkProps & { kind: CellKind.RIGHT_CHEVRON_LINK };
 
 type CellStrategyProps =
-  | HoverPillPropsStrategy
+  | HoverPillOverflowPropsStrategy
   | IconTextPropsStrategy
   | PlainCellPropsStrategy
   | RightChevronLinkPropsStrategy;
@@ -40,15 +42,15 @@ type CellStrategyProps =
 const Cell = ({ kind, ...props }: CellStrategyProps) => {
   switch (kind) {
     case CellKind.HOVER_PILL_OVERFLOW:
-      return <HoverPillOverflow {...(props as HoverPillPropsStrategy)} />;
+      return <HoverPillOverflow {...(props as HoverPillOverflowProps)} />;
     case CellKind.ICON_TEXT:
-      return <IconText {...(props as IconTextPropsStrategy)} />;
+      return <IconText {...(props as IconTextProps)} />;
     case CellKind.PLAIN:
-      return <Plain {...(props as PlainCellPropsStrategy)} />;
+      return <Plain {...(props as PlainCellProps)} />;
     case CellKind.RIGHT_CHEVRON_LINK:
-      return <RightChevronLink {...(props as RightChevronLinkPropsStrategy)} />;
+      return <RightChevronLink {...(props as RightChevronLinkProps)} />;
     default:
-      return <Plain {...(props as PlainCellPropsStrategy)} />;
+      return <Plain {...(props as PlainCellProps)} />;
   }
 };
 

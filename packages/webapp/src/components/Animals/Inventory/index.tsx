@@ -14,7 +14,7 @@
  */
 import Table from '../../../components/Table';
 import Layout from '../../../components/Layout';
-import { MuiTableColumn, TableKind } from '../../Table/types';
+import { TableV2Column, TableKind } from '../../Table/types';
 import type { DefaultTheme } from '@mui/styles';
 
 const PureAnimalInventory = ({
@@ -23,7 +23,7 @@ const PureAnimalInventory = ({
   theme,
 }: {
   tableData: object[];
-  animalsColumns: MuiTableColumn[];
+  animalsColumns: TableV2Column[];
   theme: DefaultTheme;
 }) => {
   return (

@@ -12,14 +12,14 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import ReactTable from './TableV1';
-import MuiTable from './TableV2';
-import { TableKind, ReactTableProps, MuiTableProps, StrategyProps } from './types';
+import TableV1 from './TableV1';
+import TableV2 from './TableV2';
+import { TableKind, TableV1Props, TableV2Props } from './types';
 
-type ReactTablePropsStrategy = ReactTableProps & StrategyProps;
-type MuiTablePropsStrategy = MuiTableProps & StrategyProps;
+type TableV1PropsStrategy = TableV1Props & { kind: TableKind.V1 };
+type TableV2PropsStrategy = TableV2Props & { kind: TableKind.V2 };
 
-type TableStrategyProps = ReactTablePropsStrategy | MuiTablePropsStrategy;
+type TableStrategyProps = TableV1PropsStrategy | TableV2PropsStrategy;
 
 /**
  * A component that selects between available Table styles.
@@ -28,11 +28,11 @@ type TableStrategyProps = ReactTablePropsStrategy | MuiTablePropsStrategy;
 const Table = ({ kind, ...props }: TableStrategyProps) => {
   switch (kind) {
     case TableKind.V1:
-      return <ReactTable {...(props as ReactTablePropsStrategy)} />;
+      return <TableV1 {...(props as TableV1Props)} />;
     case TableKind.V2:
-      return <MuiTable {...(props as MuiTablePropsStrategy)} />;
+      return <TableV2 {...(props as TableV2Props)} />;
     default:
-      return <MuiTable {...(props as MuiTablePropsStrategy)} />;
+      return <TableV2 {...(props as TableV2Props)} />;
   }
 };
 

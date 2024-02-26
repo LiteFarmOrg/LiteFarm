@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -77,7 +77,7 @@ More.propTypes = {
  * A table component built utilizing the Material Ui Table.
  * https://mui.com/material-ui/react-table/
  */
-export default function EnhancedTable(props) {
+export default function TableV2(props) {
   const {
     columns,
     data,
@@ -244,7 +244,7 @@ export default function EnhancedTable(props) {
   );
 }
 
-EnhancedTable.propTypes = {
+TableV2.propTypes = {
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -269,7 +269,7 @@ EnhancedTable.propTypes = {
   alternatingRowColor: PropTypes.bool,
 };
 
-EnhancedTable.defaultProps = {
+TableV2.defaultProps = {
   minRows: 10,
   pageSizeOptions: [5, 10, 20, 50],
   itemsToAddPerLoadMoreClick: 5,

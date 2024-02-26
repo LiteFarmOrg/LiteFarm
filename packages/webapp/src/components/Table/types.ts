@@ -34,9 +34,12 @@ enum Alignment {
   RIGHT = 'right',
 }
 
+// Belongs in generic types file (if they should exist at all)
 type CallbackFn = () => void;
+type FunctionReturnsComponent = (props: any) => ReactNode;
 
-export type ReactTableProps = {
+// Belongs in TableV1.jsx once converted to .ts
+export type TableV1Props = {
   columns: ColumnInstance[];
   data: Object[];
   showPagination: boolean;
@@ -49,7 +52,8 @@ export type ReactTableProps = {
   orderDesc: boolean;
 };
 
-export type MuiTableColumn = {
+// Belongs in TableV2.jsx once converted to .ts
+export type TableV2Column = {
   id?: string | null;
   format: FunctionReturnsComponent;
   align?: Alignment;
@@ -59,9 +63,10 @@ export type MuiTableColumn = {
   sortable?: boolean;
 };
 
-export type MuiTableProps = {
+// Belongs in TableV2.jsx once converted to .ts
+export type TableV2Props = {
   alternatingRowColor?: boolean;
-  columns: Required<MuiTableColumn[]>;
+  columns: Required<TableV2Column[]>;
   data: Object[];
   showPagination?: boolean;
   pageSizeOptions?: number[];
@@ -73,10 +78,4 @@ export type MuiTableProps = {
   onRowClick?: CallbackFn;
   shouldFixTableLayout?: boolean;
   defaultOrderBy?: string;
-};
-
-export type FunctionReturnsComponent = (props: any) => ReactNode;
-
-export type StrategyProps = {
-  kind?: string;
 };

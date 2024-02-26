@@ -41,7 +41,7 @@ const getFakeColumns = () => {
     {
       id: 'revenue',
       label: 'Revenue',
-      format: (d) => <Cell text={d.revenue} />,
+      format: (d) => <Cell kind={CellKind.PLAIN} text={d.revenue} />,
     },
     {
       id: 'rightChevronLink',

@@ -59,12 +59,16 @@ function AnimalInventory() {
       {
         id: isMobile ? null : 'default_type_id',
         label: t('ANIMAL.ANIMAL_TYPE').toLocaleUpperCase(),
-        format: (d: AnimalOrBatchData) => <Cell text={d.default_type_id || d.custom_type_id} />,
+        format: (d: AnimalOrBatchData) => (
+          <Cell kind={CellKind.PLAIN} text={d.default_type_id || d.custom_type_id} />
+        ),
       },
       {
         id: isMobile ? null : 'default_breed_id',
         label: t('ANIMAL.ANIMAL_BREED').toLocaleUpperCase(),
-        format: (d: AnimalOrBatchData) => <Cell text={d.default_breed_id || d.custom_breed_id} />,
+        format: (d: AnimalOrBatchData) => (
+          <Cell kind={CellKind.PLAIN} text={d.default_breed_id || d.custom_breed_id} />
+        ),
       },
       {
         id: isMobile ? null : 'groups',
@@ -80,7 +84,7 @@ function AnimalInventory() {
       {
         id: 'farm_id',
         label: t('ANIMAL.ANIMAL_LOCATIONS').toLocaleUpperCase(),
-        format: (d: AnimalOrBatchData) => <Cell text={d.farm_id} />,
+        format: (d: AnimalOrBatchData) => <Cell kind={CellKind.PLAIN} text={d.farm_id} />,
       },
       {
         id: 'Visit Record',

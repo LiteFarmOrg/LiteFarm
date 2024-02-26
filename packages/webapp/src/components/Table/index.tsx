@@ -32,7 +32,8 @@ const Table = ({ kind, ...props }: TableStrategyProps) => {
     case TableKind.V2:
       return <TableV2 {...(props as TableV2Props)} />;
     default:
-      return <TableV2 {...(props as TableV2Props)} />;
+      const _exhaustiveCheck: never = kind;
+      return null;
   }
 };
 

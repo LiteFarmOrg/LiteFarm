@@ -26,7 +26,7 @@ type HoverPillOverflowPropsStrategy = HoverPillOverflowProps & {
   kind: CellKind.HOVER_PILL_OVERFLOW;
 };
 type IconTextPropsStrategy = IconTextProps & { kind: CellKind.ICON_TEXT };
-type PlainCellPropsStrategy = PlainCellProps & { kind?: CellKind.PLAIN };
+type PlainCellPropsStrategy = PlainCellProps & { kind: CellKind.PLAIN };
 type RightChevronLinkPropsStrategy = RightChevronLinkProps & { kind: CellKind.RIGHT_CHEVRON_LINK };
 
 type CellStrategyProps =
@@ -50,7 +50,8 @@ const Cell = ({ kind, ...props }: CellStrategyProps) => {
     case CellKind.RIGHT_CHEVRON_LINK:
       return <RightChevronLink {...(props as RightChevronLinkProps)} />;
     default:
-      return <Plain {...(props as PlainCellProps)} />;
+      const _exhaustiveCheck: never = kind;
+      return null;
   }
 };
 

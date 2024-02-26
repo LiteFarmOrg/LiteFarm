@@ -34,10 +34,6 @@ enum Alignment {
   RIGHT = 'right',
 }
 
-// Belongs in generic types file (if they should exist at all)
-type CallbackFn = () => void;
-type FunctionReturnsComponent = (props: any) => ReactNode;
-
 // Belongs in TableV1.jsx once converted to .ts
 export type TableV1Props = {
   columns: ColumnInstance[];
@@ -55,7 +51,7 @@ export type TableV1Props = {
 // Belongs in TableV2.jsx once converted to .ts
 export type TableV2Column = {
   id?: string | null;
-  format: FunctionReturnsComponent;
+  format: (props: any) => ReactNode;
   align?: Alignment;
   Footer?: ReactElement;
   columnProps?: Object;
@@ -73,9 +69,9 @@ export type TableV2Props = {
   minRows?: number;
   dense?: boolean;
   FooterCell?: ReactComponentLike;
-  onClickMore?: CallbackFn;
+  onClickMore?: () => void;
   itemsToAddPerLoadMoreClick?: number;
-  onRowClick?: CallbackFn;
+  onRowClick?: () => void;
   shouldFixTableLayout?: boolean;
   defaultOrderBy?: string;
 };

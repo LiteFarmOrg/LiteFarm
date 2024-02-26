@@ -84,6 +84,20 @@ input:checked {
   }
 }
 
+.successMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  svg {
+    color: var(--grey600);
+  }
+  p {
+    font-weight: 600;
+  }
+}
+
 .buttonWrapper {
   display: flex;
   gap: 1rem;

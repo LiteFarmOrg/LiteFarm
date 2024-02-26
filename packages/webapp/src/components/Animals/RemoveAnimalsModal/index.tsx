@@ -7,10 +7,12 @@ import { useTheme, useMediaQuery } from '@mui/material';
 import clsx from 'clsx';
 import Input from '../../Form/Input';
 import { ReactComponent as WarningIcon } from '../../../assets/images/warning.svg';
+import { ReactComponent as CheckIcon } from '../../../assets/images/check-circle.svg';
 
 type RemoveAnimalsModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  showSuccessMessage: boolean;
 };
 
 export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
@@ -67,74 +69,87 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
     <>
       {/* @ts-ignore */}
       <Drawer title="Remove Animals" isOpen={props.isOpen} onClose={props.onClose}>
-        <form onSubmit={handleSubmit((d) => console.log(d))}>
-          {isMobile ? (
-            <fieldset>
-              <legend>Tell us why you are removing these animals</legend>
-              {options.map(({ label, value }) => (
-                <label key={value} className={styles.mobileOption}>
-                  <input {...register('reason')} value={value} type="radio" />
-                  <div
-                    className={clsx(
-                      styles.mobileOptionLabel,
-                      value === options[options.length - 1].value
-                        ? styles.mobileOptionLabelRed
-                        : styles.mobileOptionLabelGreen,
-                    )}
-                  >
-                    {label}
-                  </div>
-                </label>
-              ))}
-            </fieldset>
-          ) : (
-            <Controller
-              name="reason"
-              control={control}
-              render={({ field }) => (
-                <ReactSelect
-                  {...field}
-                  // @ts-ignore
-                  label="Tell us why you are removing these animals"
-                  classNames={{
-                    // @ts-ignore
-                    option: ({ value }) => getReactSelectClassNames(value),
-                    // @ts-ignore
-                    valueContainer: (state) => getReactSelectClassNames(state.getValue()[0]?.value),
-                  }}
-                  // @ts-ignore
-                  value={options.find(({ value }) => value === field.value)}
-                  options={options}
-                  onChange={(option: (typeof options)[0]) => field.onChange(option.value)}
-                />
-              )}
-            />
-          )}
-
-          {!!selectedOption && !isCreatedInErrorSelected && (
-            // @ts-ignore
-            <Input hookFormRegister={register('explanation')} label="Explanation" optional />
-          )}
-
-          {!!selectedOption &&
-            (isCreatedInErrorSelected ? (
-              <div className={clsx(styles.removalMessage, styles.textCenter)}>
-                <WarningIcon />
-                <p>These animals will be permanently removed from your farm</p>
-              </div>
-            ) : (
-              <p className={styles.textCenter}>
-                These animals will be archived and accessible for future reference
-              </p>
-            ))}
-
-          <div className={styles.buttonWrapper}>
-            <Button color="secondary" type="button" onClick={props.onClose}>
-              Cancel
-            </Button>
-            <Button>Confirm</Button>
+        {props.showSuccessMessage ? (
+          <div className={styles.successMessage}>
+            <div>
+              <CheckIcon />
+            </div>
+            <p>
+              These animals have been successfully removed from your farm and will be available in
+              your historical inventory.
+            </p>
           </div>
-        </form>
+        ) : (
+          <form onSubmit={handleSubmit((d) => console.log(d))}>
+            {isMobile ? (
+              <fieldset>
+                <legend>Tell us why you are removing these animals</legend>
+                {options.map(({ label, value }) => (
+                  <label key={value} className={styles.mobileOption}>
+                    <input {...register('reason')} value={value} type="radio" />
+                    <div
+                      className={clsx(
+                        styles.mobileOptionLabel,
+                        value === options[options.length - 1].value
+                          ? styles.mobileOptionLabelRed
+                          : styles.mobileOptionLabelGreen,
+                      )}
+                    >
+                      {label}
+                    </div>
+                  </label>
+                ))}
+              </fieldset>
+            ) : (
+              <Controller
+                name="reason"
+                control={control}
+                render={({ field }) => (
+                  <ReactSelect
+                    {...field}
+                    // @ts-ignore
+                    label="Tell us why you are removing these animals"
+                    classNames={{
+                      // @ts-ignore
+                      option: ({ value }) => getReactSelectClassNames(value),
+                      // @ts-ignore
+                      valueContainer: (state) =>
+                        getReactSelectClassNames(state.getValue()[0]?.value),
+                    }}
+                    // @ts-ignore
+                    value={options.find(({ value }) => value === field.value)}
+                    options={options}
+                    onChange={(option: (typeof options)[0]) => field.onChange(option.value)}
+                  />
+                )}
+              />
+            )}
+
+            {!!selectedOption && !isCreatedInErrorSelected && (
+              // @ts-ignore
+              <Input hookFormRegister={register('explanation')} label="Explanation" optional />
+            )}
+
+            {!!selectedOption &&
+              (isCreatedInErrorSelected ? (
+                <div className={clsx(styles.removalMessage, styles.textCenter)}>
+                  <WarningIcon />
+                  <p>These animals will be permanently removed from your farm</p>
+                </div>
+              ) : (
+                <p className={styles.textCenter}>
+                  These animals will be archived and accessible for future reference
+                </p>
+              ))}
+
+            <div className={styles.buttonWrapper}>
+              <Button color="secondary" type="button" onClick={props.onClose}>
+                Cancel
+              </Button>
+              <Button>Confirm</Button>
+            </div>
+          </form>
+        )}
       </Drawer>
     </>
   );

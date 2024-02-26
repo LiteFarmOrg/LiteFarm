@@ -53,6 +53,8 @@ class AnimalBatchModel extends baseModel {
         name: { type: ['string', 'null'] },
         notes: { type: ['string', 'null'] },
         photo_url: { type: ['string', 'null'] },
+        animal_removal_reason_id: { type: ['integer', 'null'] },
+        removal_explanation: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,

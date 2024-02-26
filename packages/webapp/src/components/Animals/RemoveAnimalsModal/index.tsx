@@ -2,21 +2,30 @@ import Drawer from '../../Drawer';
 import Button from '../../Form/Button';
 import ReactSelect from '../../Form/ReactSelect';
 import styles from './styles.module.scss';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useTheme, useMediaQuery } from '@mui/material';
 import clsx from 'clsx';
 import Input from '../../Form/Input';
 import { ReactComponent as WarningIcon } from '../../../assets/images/warning.svg';
 import { ReactComponent as CheckIcon } from '../../../assets/images/check-circle.svg';
 
+const REASON = 'reason';
+const EXPLANATION = 'explanation';
+
+type FormFields = {
+  [REASON]: string;
+  [EXPLANATION]: string;
+};
+
 type RemoveAnimalsModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  onConfirm: SubmitHandler<FormFields>;
   showSuccessMessage: boolean;
 };
 
 export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
-  const { register, handleSubmit, control, watch } = useForm();
+  const { register, handleSubmit, control, watch } = useForm<FormFields>();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -51,7 +60,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
     },
   ];
 
-  const selectedOption = watch('reason');
+  const selectedOption = watch(REASON);
   const isCreatedInErrorSelected = selectedOption === options[options.length - 1].value;
 
   // For styling dropdown options
@@ -80,13 +89,13 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit((d) => console.log(d))}>
+          <form onSubmit={handleSubmit(props.onConfirm)}>
             {isMobile ? (
               <fieldset>
                 <legend>Tell us why you are removing these animals</legend>
                 {options.map(({ label, value }) => (
                   <label key={value} className={styles.mobileOption}>
-                    <input {...register('reason')} value={value} type="radio" />
+                    <input {...register(REASON)} value={value} type="radio" />
                     <div
                       className={clsx(
                         styles.mobileOptionLabel,
@@ -127,7 +136,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
 
             {!!selectedOption && !isCreatedInErrorSelected && (
               // @ts-ignore
-              <Input hookFormRegister={register('explanation')} label="Explanation" optional />
+              <Input hookFormRegister={register(EXPLANATION)} label="Explanation" optional />
             )}
 
             {!!selectedOption &&

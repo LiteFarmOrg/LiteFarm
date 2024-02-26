@@ -21,5 +21,11 @@ import AnimalController from '../controllers/animalController.js';
 
 router.get('/', checkScope(['get:animals']), AnimalController.getFarmAnimals());
 router.post('/', checkScope(['add:animals']), AnimalController.addAnimals());
+router.delete(
+  '/',
+  checkScope(['delete:animals']),
+  // Can't use hasFarmAccess
+  AnimalController.deleteAnimals(),
+);
 
 export default router;

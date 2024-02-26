@@ -32,6 +32,7 @@ export interface ActionMenuProps {
   textActions?: action[];
   iconActions: iconAction[];
   classes?: { root?: string };
+  isCompactSideMenu: boolean;
 }
 
 const ActionMenu = ({
@@ -39,34 +40,38 @@ const ActionMenu = ({
   textActions = [],
   iconActions,
   classes = {},
+  isCompactSideMenu,
 }: ActionMenuProps) => {
-  // If the className is not yet supported, ensure to add corresponding styles for the widths
-  // of the component and each iconGroup to the SCSS file.
-  const iconCountClassName = styles[`iconCount_${iconActions.length}`];
-
   return (
-    <div className={clsx(styles.actionMenu, iconCountClassName, classes.root)}>
-      <div className={styles.header}>
-        <div className={styles.headerLeftText}>{headerLeftText}</div>
-        <div className={styles.textButtons}>
-          {textActions.map(({ label, onClick }) => {
+    <div
+      className={clsx(
+        styles.container,
+        isCompactSideMenu ? styles.containerWithCompactMenu : styles.containerWithExpandedMenu,
+      )}
+    >
+      <div className={clsx(styles.actionMenu, classes.root)}>
+        <div className={styles.header}>
+          <div className={styles.headerLeftText}>{headerLeftText}</div>
+          <div className={styles.textButtons}>
+            {textActions.map(({ label, onClick }) => {
+              return (
+                <TextButton key={label} onClick={onClick}>
+                  {label}
+                </TextButton>
+              );
+            })}
+          </div>
+        </div>
+        <div className={styles.iconButtons}>
+          {iconActions.map(({ icon, label, onClick }) => {
             return (
-              <TextButton key={label} onClick={onClick}>
-                {label}
-              </TextButton>
+              <div key={label} className={clsx(styles.iconGroup)}>
+                <TextButton onClick={onClick}>{icon}</TextButton>
+                <div className={styles.iconLabel}>{label}</div>
+              </div>
             );
           })}
         </div>
-      </div>
-      <div className={styles.iconButtons}>
-        {iconActions.map(({ icon, label, onClick }) => {
-          return (
-            <div key={label} className={clsx(styles.iconGroup, iconCountClassName)}>
-              <TextButton onClick={onClick}>{icon}</TextButton>
-              <div className={styles.iconLabel}>{label}</div>
-            </div>
-          );
-        })}
       </div>
     </div>
   );

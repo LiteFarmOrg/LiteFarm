@@ -17,7 +17,6 @@
 
 .container {
   display: flex;
-  width: 100vw;
   flex-grow: 1;
 
   @include sm-breakpoint {

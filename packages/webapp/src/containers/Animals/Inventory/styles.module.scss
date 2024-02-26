@@ -51,13 +51,13 @@
     }
   }
   .withCompactSideMenu {
-    animation-name: slide-to-left;
+  //  animation-name: slide-to-left;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
   }
 
   .withExpandedSideMenu {
-    animation-name: slide-to-right;
+  //  animation-name: slide-to-right;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
   }

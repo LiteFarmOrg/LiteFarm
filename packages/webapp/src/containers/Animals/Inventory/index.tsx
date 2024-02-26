@@ -60,6 +60,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         classes={{
           root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
         }}
+        isCompactSideMenu={isCompactSideMenu}
       />
     </Layout>
   );

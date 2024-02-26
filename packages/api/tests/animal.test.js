@@ -68,6 +68,15 @@ describe('Animal Tests', () => {
 
   const postRequestAsPromise = util.promisify(postRequest);
 
+  async function deleteRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id, query = '' }) {
+    return await chai
+      .request(server)
+      .delete(`/animals?${query}`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id);
+  }
+
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
@@ -332,6 +341,160 @@ describe('Animal Tests', () => {
       );
 
       expect(res.status).toBe(400);
+    });
+  });
+
+  // DELETE tests
+  describe('Delete animal tests', () => {
+    test('Admin users should be able to delete animals', async () => {
+      const roles = [1, 2, 5];
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+        const [customAnimalType] = await mocks.custom_animal_typeFactory();
+
+        // Create two animals, one with a default type and one with a custom type
+        const firstAnimal = await makeAnimal(mainFarm, {
+          default_type_id: defaultTypeId,
+        });
+        const secondAnimal = await makeAnimal(mainFarm, {
+          default_type_id: null,
+          custom_type_id: customAnimalType.id,
+        });
+
+        const res = await deleteRequest({
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+          query: `ids=${firstAnimal.id},${secondAnimal.id}`,
+        });
+
+        expect(res.status).toBe(204);
+      }
+    });
+
+    test('Non-admin users should not be able to delete animals', async () => {
+      const roles = [3];
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+
+        const animal = await makeAnimal(mainFarm, {
+          default_type_id: defaultTypeId,
+        });
+
+        const res = await deleteRequest({
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+          query: `ids=${animal.ids}`,
+        });
+
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe(
+          'User does not have the following permission(s): delete:animals',
+        );
+      }
+    });
+
+    test('Must send animal ids', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const animal = await makeAnimal(mainFarm, {
+        default_type_id: defaultTypeId,
+      });
+
+      const res = await deleteRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+        query: ``,
+      });
+
+      expect(res).toMatchObject({
+        status: 400,
+        error: {
+          text: 'Must send animal ids',
+        },
+      });
+    });
+
+    test('Must send valid queries', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const animal = await makeAnimal(mainFarm, {
+        default_type_id: defaultTypeId,
+      });
+
+      // Two query params that are not valid animal ids
+      const res1 = await deleteRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+        query: `ids=${animal.id},,`,
+      });
+
+      expect(res1).toMatchObject({
+        status: 400,
+        error: {
+          text: 'Must send valid animal ids',
+        },
+      });
+
+      // Three query params that are not valid animal ids
+      const res2 = await deleteRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+        query: `ids=},a,`,
+      });
+
+      expect(res2).toMatchObject({
+        status: 400,
+        error: {
+          text: 'Must send valid animal ids',
+        },
+      });
+    });
+
+    test('Should not be able to delete an animal belonging to a different farm', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+
+      const animal = await makeAnimal(secondFarm, {
+        default_type_id: defaultTypeId,
+      });
+
+      const res = await deleteRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+        query: `ids=${animal.id}`,
+      });
+
+      expect(res).toMatchObject({
+        status: 400,
+        body: {
+          error: 'Invalid ids',
+          invalidAnimalIds: [`${animal.id}`],
+        },
+      });
+    });
+
+    test('Should not be able to delete an already-deleted animal', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+
+      const animal = await makeAnimal(secondFarm, {
+        default_type_id: defaultTypeId,
+        deleted: true,
+      });
+
+      const res = await deleteRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+        query: `ids=${animal.id}`,
+      });
+
+      expect(res).toMatchObject({
+        status: 400,
+        body: {
+          error: 'Invalid ids',
+          invalidAnimalIds: [`${animal.id}`],
+        },
+      });
     });
   });
 });

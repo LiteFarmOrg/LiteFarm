@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '../../../assets/mixins';
+@import '@component-library/src/assets/mixins.scss';
 
 .container {
   min-height: 100vh;

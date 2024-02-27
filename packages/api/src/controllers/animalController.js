@@ -28,11 +28,16 @@ const animalController = {
       try {
         const { farm_id } = req.headers;
         const rows = await AnimalModel.query()
-          .select('animal.*', 'animal_union_batch_id_view.internal_identifier')
-          .joinRelated('animal_union_batch_id_view')
-          .where({ 'animal.farm_id': farm_id })
-          .whereNotDeleted();
-        return res.status(200).send(rows);
+          .where({ farm_id })
+          .whereNotDeleted()
+          .withGraphFetched({ internal_identifier: true, group_ids: true });
+        return res.status(200).send(
+          rows.map(({ internal_identifier, group_ids, ...rest }) => ({
+            ...rest,
+            internal_identifier: internal_identifier.internal_identifier,
+            group_ids: group_ids.map(({ animal_group_id }) => animal_group_id),
+          })),
+        );
       } catch (error) {
         console.error(error);
         return res.status(500).json({

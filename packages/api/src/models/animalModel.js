@@ -15,7 +15,8 @@
 
 import Model from './baseFormatModel.js';
 import baseModel from './baseModel.js';
-import animalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
+import AnimalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
+import AnimalGroupRelationshipModel from './animalGroupRelationshipModel.js';
 
 class Animal extends baseModel {
   static get tableName() {
@@ -69,14 +70,26 @@ class Animal extends baseModel {
 
   static get relationMappings() {
     return {
-      animal_union_batch_id_view: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: animalUnionBatchIdViewModel,
+      internal_identifier: {
+        relation: Model.HasOneRelation,
+        modelClass: AnimalUnionBatchIdViewModel,
         join: {
           from: 'animal.id',
           to: 'animal_union_batch_id_view.id',
         },
-        filter: (query) => query.where('animal_union_batch_id_view.batch', false),
+        modify: (query) => query.select('internal_identifier').where('batch', false),
+      },
+      group_ids: {
+        relation: Model.HasManyRelation,
+        modelClass: AnimalGroupRelationshipModel,
+        join: {
+          from: 'animal.id',
+          to: 'animal_group_relationship.animal_id',
+        },
+        modify: (query) =>
+          query.select('animal_group_id').whereIn('animal_group_id', function () {
+            this.select('id').from('animal_group').where('deleted', false);
+          }),
       },
     };
   }

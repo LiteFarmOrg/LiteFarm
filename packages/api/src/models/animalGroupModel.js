@@ -54,7 +54,10 @@ class AnimalGroup extends baseModel {
           from: 'animal_group.id',
           to: 'animal_group_relationship.animal_group_id',
         },
-        modify: (query) => query.select('animal_id'),
+        modify: (query) =>
+          query.select('animal_id').whereIn('animal_id', function () {
+            this.select('id').from('animal').where('deleted', false);
+          }),
       },
       batch_relationships: {
         modelClass: AnimalBatchGroupRelationshipModel,
@@ -63,7 +66,10 @@ class AnimalGroup extends baseModel {
           from: 'animal_group.id',
           to: 'animal_batch_group_relationship.animal_group_id',
         },
-        modify: (query) => query.select('animal_batch_id'),
+        modify: (query) =>
+          query.select('animal_batch_id').whereIn('animal_batch_id', function () {
+            this.select('id').from('animal_batch').where('deleted', false);
+          }),
       },
     };
   }

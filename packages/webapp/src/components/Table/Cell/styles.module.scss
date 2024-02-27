@@ -1,0 +1,68 @@
+.text {
+  color: var(--Colors-Neutral-Neutral-700);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.overflowText, .overflowText div {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.rightChevronLink {
+  height: 24px;
+  width: 24px;
+  padding: 4px;
+  // Remove mui hover style
+  &:hover {
+    background-color: transparent;
+  }
+  svg {
+    stroke: var(--Colors-Neutral-Neutral-400);
+    stroke-width: 1px;
+  }
+}
+
+.iconText {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  svg {
+    stroke: var(--Colors-Neutral-Neutral-400);
+    stroke-width: 1px;
+  }
+}
+
+.squareIcon {
+  height: 32px;
+  width: 32px;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--Colors-Primary-Primary-teal-100, #C0E1DD);
+  background: #FFF;
+  box-shadow: 0px 1px 0px 0px var(--Colors-Neutral-Neutral-50, #F0F1F3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.withSubtextText {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.withSubtextMainText {
+  font-weight: 600;
+}
+
+.withSubtextSubtext {
+  color: var(--grey500);
+  font-size: 12px;
+}
+
+.marginRight8px {
+  margin-right: 8px;
+}

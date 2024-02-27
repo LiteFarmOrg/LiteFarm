@@ -129,6 +129,7 @@ async function tableCleanup(knex) {
     DELETE FROM "custom_animal_breed";
     DELETE FROM "default_animal_type";
     DELETE FROM "custom_animal_type";
+    DELETE FROM "animal_removal_reason";
     DELETE FROM "userFarm";
     DELETE FROM "farm";
     DELETE FROM "users" WHERE user_id <> '1';

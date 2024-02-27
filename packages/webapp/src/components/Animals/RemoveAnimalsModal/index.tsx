@@ -8,6 +8,7 @@ import clsx from 'clsx';
 import Input from '../../Form/Input';
 import { ReactComponent as WarningIcon } from '../../../assets/images/warning.svg';
 import { ReactComponent as CheckIcon } from '../../../assets/images/check-circle.svg';
+import { useTranslation } from 'react-i18next';
 
 const REASON = 'reason';
 const EXPLANATION = 'explanation';
@@ -26,36 +27,37 @@ type RemoveAnimalsModalProps = {
 
 export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
   const { register, handleSubmit, control, watch } = useForm<FormFields>();
+  const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const options = [
     {
-      label: 'Sold',
+      label: t('REMOVE_ANIMALS.SOLD'),
       value: 'SOLD',
     },
     {
-      label: 'Slaughtered for sale',
+      label: t('REMOVE_ANIMALS.SLAUGHTERED_FOR_SALE'),
       value: 'SLAUGHTERED_FOR_SALE',
     },
     {
-      label: 'Slaughtered for consumption',
+      label: t('REMOVE_ANIMALS.SLAUGHTERED_FOR_CONSUMPTION'),
       value: 'SLAUGHTERED_FOR_CONSUMPTION',
     },
     {
-      label: 'Natural Death',
+      label: t('REMOVE_ANIMALS.NATURAL_DEATH'),
       value: 'NATURAL_DEATH',
     },
     {
-      label: 'Culled',
+      label: t('REMOVE_ANIMALS.CULLED'),
       value: 'CULLED',
     },
     {
-      label: 'Other',
+      label: t('common:OTHER'),
       value: 'OTHER',
     },
     {
-      label: 'Created in Error',
+      label: t('REMOVE_ANIMALS.CREATED_IN_ERROR'),
       value: 'CREATED_IN_ERROR',
     },
   ];
@@ -77,22 +79,23 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
   return (
     <>
       {/* @ts-ignore */}
-      <Drawer title="Remove Animals" isOpen={props.isOpen} onClose={props.onClose}>
+      <Drawer
+        title={t('REMOVE_ANIMALS.REMOVE_ANIMALS')}
+        isOpen={props.isOpen}
+        onClose={props.onClose}
+      >
         {props.showSuccessMessage ? (
           <div className={styles.successMessage}>
             <div>
               <CheckIcon />
             </div>
-            <p>
-              These animals have been successfully removed from your farm and will be available in
-              your historical inventory.
-            </p>
+            <p>{t('REMOVE_ANIMALS.REMOVED_AND_ARCHIVED')}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit(props.onConfirm)}>
             {isMobile ? (
               <fieldset>
-                <legend>Tell us why you are removing these animals</legend>
+                <legend>{t('REMOVE_ANIMALS.WHY')}</legend>
                 {options.map(({ label, value }) => (
                   <label key={value} className={styles.mobileOption}>
                     <input {...register(REASON)} value={value} type="radio" />
@@ -111,13 +114,13 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
               </fieldset>
             ) : (
               <Controller
-                name="reason"
+                name={REASON}
                 control={control}
                 render={({ field }) => (
                   <ReactSelect
                     {...field}
                     // @ts-ignore
-                    label="Tell us why you are removing these animals"
+                    label={t('REMOVE_ANIMALS.WHY')}
                     classNames={{
                       // @ts-ignore
                       option: ({ value }) => getReactSelectClassNames(value),
@@ -136,26 +139,28 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
 
             {!!selectedOption && !isCreatedInErrorSelected && (
               // @ts-ignore
-              <Input hookFormRegister={register(EXPLANATION)} label="Explanation" optional />
+              <Input
+                hookFormRegister={register(EXPLANATION)}
+                label={t('REMOVE_ANIMALS.EXPLANATION')}
+                optional
+              />
             )}
 
             {!!selectedOption &&
               (isCreatedInErrorSelected ? (
                 <div className={clsx(styles.removalMessage, styles.textCenter)}>
                   <WarningIcon />
-                  <p>These animals will be permanently removed from your farm</p>
+                  <p>{t('REMOVE_ANIMALS.WILL_BE_PERMANENTLY_REMOVED')}</p>
                 </div>
               ) : (
-                <p className={styles.textCenter}>
-                  These animals will be archived and accessible for future reference
-                </p>
+                <p className={styles.textCenter}>{t('REMOVE_ANIMALS.WILL_BE_ARCHIVED')}</p>
               ))}
 
             <div className={styles.buttonWrapper}>
               <Button color="secondary" type="button" onClick={props.onClose}>
-                Cancel
+                {t('common:CANCEL')}
               </Button>
-              <Button>Confirm</Button>
+              <Button>{t('common:CONFIRM')}</Button>
             </div>
           </form>
         )}

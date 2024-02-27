@@ -149,6 +149,63 @@ const animalBatchController = {
       }
     };
   },
+
+  deleteAnimalBatches() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+
+      try {
+        const { farm_id } = req.headers;
+        const { ids } = req.query;
+
+        if (!ids || !ids.length) {
+          await trx.rollback();
+          return res.status(400).send('Must send animal batch ids');
+        }
+
+        const idsSet = new Set(ids.split(','));
+
+        // Check that all batches exist and belong to the farm
+        const invalidAnimalBatchIds = [];
+
+        for (const batchId of idsSet) {
+          // For query syntax like ids=,,, which will pass the above check
+          if (!batchId || isNaN(Number(batchId))) {
+            await trx.rollback();
+            return res.status(400).send('Must send valid animal batch ids');
+          }
+
+          const farmAnimalBatchRecord = await AnimalBatchModel.query(trx)
+            .findById(batchId)
+            .where({ farm_id })
+            .whereNotDeleted(); // prohibiting re-delete
+
+          if (!farmAnimalBatchRecord) {
+            invalidAnimalBatchIds.push(batchId);
+          }
+        }
+
+        if (invalidAnimalBatchIds.length) {
+          await trx.rollback();
+          return res.status(400).json({
+            error: 'Invalid ids',
+            invalidAnimalBatchIds,
+            message:
+              'Some animal batches do not exist, are already deleted, or are not associated with the given farm.',
+          });
+        }
+
+        // Delete animal batches
+        for (const batchId of idsSet) {
+          await baseController.delete(AnimalBatchModel, batchId, req, { trx });
+        }
+        await trx.commit();
+        return res.status(204).send();
+      } catch (error) {
+        handleObjectionError(error, res, trx);
+      }
+    };
+  },
 };
 
 export default animalBatchController;

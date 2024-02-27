@@ -201,7 +201,8 @@ const animalController = {
           return res.status(400).json({
             error: 'Invalid ids',
             invalidAnimalIds,
-            message: 'Some animals are already deleted or are not associated with the given farm.',
+            message:
+              'Some animals do not exist, are already deleted, or are not associated with the given farm.',
           });
         }
 

@@ -21,5 +21,11 @@ import AnimalBatchController from '../controllers/animalBatchController.js';
 
 router.get('/', checkScope(['get:animal_batches']), AnimalBatchController.getFarmAnimalBatches());
 router.post('/', checkScope(['add:animal_batches']), AnimalBatchController.addAnimalBatches());
+router.delete(
+  '/',
+  checkScope(['delete:animal_batches']),
+  // Can't use hasFarmAccess as written
+  AnimalBatchController.deleteAnimalBatches(),
+);
 
 export default router;

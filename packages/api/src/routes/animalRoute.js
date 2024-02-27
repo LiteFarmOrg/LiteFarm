@@ -24,7 +24,7 @@ router.post('/', checkScope(['add:animals']), AnimalController.addAnimals());
 router.delete(
   '/',
   checkScope(['delete:animals']),
-  // Can't use hasFarmAccess
+  // Can't use hasFarmAccess as written
   AnimalController.deleteAnimals(),
 );
 

@@ -1,0 +1,22 @@
+{
+  "BREED": {
+    "ANGUS": "Angus",
+    "HEREFORD": "Hereford",
+    "CHAROLAIS": "Charolais",
+    "YORKSHIRE_LARGE_WHITE": "Yorkshire Large White",
+    "LANDRACE": "Landrace",
+    "DUROC": "Duroc",
+    "CORNISH_CROSS": "Cornish Cross",
+    "ROSS_308": "Ross 308",
+    "COBB_500": "Cobb 500",
+    "LEGHORN": "Leghorn",
+    "RHODE_ISLAND_RED": "Rhode Island Red",
+    "PLYMOUTH_ROCK": "Plymouth Rock"
+  },
+  "TYPE": {
+    "CATTLE": "Cattle",
+    "PIGS": "Pigs",
+    "CHICKEN_BROILERS": "Chicken (broilers)",
+    "CHICKEN_LAYERS": "Chicken (layers)"
+  }
+}

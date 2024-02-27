@@ -17,7 +17,7 @@ import type { FC } from 'react';
 import styles from '../styles.module.scss';
 
 export type IconTextProps = {
-  text: string | null | undefined;
+  text: string | number | null | undefined;
   icon: FC;
   subtext: string | null | undefined;
 };

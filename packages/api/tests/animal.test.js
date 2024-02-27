@@ -397,9 +397,6 @@ describe('Animal Tests', () => {
 
     test('Must send animal ids', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
-      const animal = await makeAnimal(mainFarm, {
-        default_type_id: defaultTypeId,
-      });
 
       const res = await deleteRequest({
         user_id: user.user_id,

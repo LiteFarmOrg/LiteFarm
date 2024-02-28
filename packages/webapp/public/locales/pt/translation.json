@@ -155,7 +155,13 @@
     "WHAT_PLANTING_METHOD": "Qual é o método de transplante?",
     "WILD_CROP": "Cultivos silvestres"
   },
-
+  "ANIMAL": {
+    "ANIMAL_BREED": "MISSING",
+    "ANIMAL_GROUPS": "MISSING",
+    "ANIMAL_IDENTIFICATION": "MISSING",
+    "ANIMAL_LOCATIONS": "MISSING",
+    "ANIMAL_TYPE": "MISSING"
+  },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Comprimento dos canteiros ",
     "NUMBER_0F_BEDS": "Nº de canteiros",

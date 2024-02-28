@@ -61,6 +61,8 @@ class Animal extends baseModel {
         weaning_date: { type: ['string', 'null'], format: 'date' },
         notes: { type: ['string', 'null'] },
         photo_url: { type: ['string', 'null'] },
+        animal_removal_reason_id: { type: ['integer', 'null'] },
+        removal_explanation: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,

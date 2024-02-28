@@ -160,7 +160,6 @@ export const buildInventory = ({
       defaultAnimalTypes,
     ),
   ];
-  console.log(transactions);
 
   const sortedTransactions = transactions.sort(getComparator(orderEnum.ASC, 'identification'));
 

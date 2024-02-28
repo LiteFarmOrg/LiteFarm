@@ -46,7 +46,7 @@ class CustomAnimalType extends baseModel {
   static async getCustomAnimalTypesWithCountsByFarmId(farm_id) {
     const data = await knex.raw(
       `SELECT
-        cat.*,
+        cat.id, cat.farm_id, cat.type,
         COALESCE(SUM(abu.count), 0) AS count
       FROM
         custom_animal_type AS cat

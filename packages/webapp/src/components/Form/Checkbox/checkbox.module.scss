@@ -1,4 +1,5 @@
-@import '../../../assets/mixins.scss';
+@import '@component-library/src/assets/mixins.scss';
+
 .container {
   display: flex;
   gap: 7px;

@@ -13,16 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import clsx from 'clsx';
-import { HoverPill, HoverPillProps } from '../../../HoverPill';
+import { HoverPill, HoverPillProps } from '@component-library/src/components';
 import styles from '../styles.module.scss';
+import { useTranslation } from 'react-i18next';
 
 export type HoverPillOverflowProps = HoverPillProps;
 
 const HoverPillOverFlow = ({ items }: HoverPillOverflowProps) => {
+  const { t } = useTranslation();
   return (
     <div className={clsx(styles.text)}>
       {items.length === 0 ? null : <span className={styles.marginRight8px}>{items[0]}</span>}
-      {items.length > 1 && <HoverPill items={items.slice(1)} />}
+      {items.length > 1 && (
+        <HoverPill
+          items={items.slice(1)}
+          othersLabel={t('HOVERPILL.PLUS_OTHERS_COUNT', { count: items.length })}
+        />
+      )}
     </div>
   );
 };

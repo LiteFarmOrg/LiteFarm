@@ -18,8 +18,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import clsx from 'clsx';
-import ChevronDown from '../../../assets/images/chevron-down.svg?react';
-import styles from './styles.module.scss';
+import { ReactComponent as UnfoldCircle } from '../../../assets/images/unfold-circle.svg';
+import { ReactComponent as ArrowDownCircle } from '../../../assets/images/arrow-down-circle.svg';
+import styles from '../styles.module.scss';
 
 export default function EnhancedTableHead({ columns, order, orderBy, onRequestSort, dense }) {
   const createSortHandler = (property) => (event) => {
@@ -27,27 +28,43 @@ export default function EnhancedTableHead({ columns, order, orderBy, onRequestSo
   };
 
   return (
-    <TableHead>
-      <TableRow className={styles.tableRow}>
-        {columns.map(({ id, align, columnProps, label }) => {
+    <TableHead className={styles.headerRow}>
+      <TableRow>
+        {columns.map(({ id, align, columnProps, label, sortable = true }) => {
           if (!id) {
             return null;
           }
+          const active = Boolean(orderBy === id);
           return (
             <TableCell
               key={id}
               align={align || 'left'}
-              sortDirection={orderBy === id ? order : false}
+              sortDirection={active ? order : false}
               className={clsx(styles.tableCell, styles.tableHead, dense && styles.dense)}
               {...columnProps}
             >
               <TableSortLabel
-                active={orderBy === id}
-                direction={orderBy === id ? order : 'asc'}
-                onClick={createSortHandler(id)}
-                IconComponent={ChevronDown}
+                active={active}
+                direction={active ? order : 'asc'}
+                onClick={sortable ? createSortHandler(id) : null}
+                IconComponent={active ? ArrowDownCircle : UnfoldCircle}
+                disabled={!sortable}
+                className={clsx(
+                  align === 'right' ? styles.alignRightPadding : styles.alignLeftPadding,
+                )}
+                classes={{
+                  active: styles.sortLabelActive,
+                  icon: styles.iconColor,
+                }}
+                sx={[
+                  sortable && {
+                    '.MuiTableSortLabel-icon': {
+                      opacity: 'inherit !important',
+                    },
+                  },
+                ]}
               >
-                <span className={styles.headerLabel}>{label}</span>
+                <span className={clsx(styles.headerLabel, active && styles.active)}>{label}</span>
               </TableSortLabel>
             </TableCell>
           );

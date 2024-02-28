@@ -46,7 +46,7 @@ export function ManagementPlanCard({
       style={style}
       status={status}
       label={t(`MANAGEMENT_PLAN.STATUS.${managementPlanStatusTranslateKey[status]}`)}
-      classes={{ ...classes, card: { padding: '12px', ...classes.card } }}
+      classes={{ ...classes, card: { padding: '12px', minHeight: '150px', ...classes.card } }}
       onClick={onClick}
       score={score}
     >

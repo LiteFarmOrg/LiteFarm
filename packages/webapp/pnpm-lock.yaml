@@ -249,6 +249,9 @@ devDependencies:
   '@types/react-router-dom':
     specifier: 4.3.1
     version: 4.3.1
+  '@types/react-table':
+    specifier: ^7.7.19
+    version: 7.7.19
   '@typescript-eslint/parser':
     specifier: ^6.20.0
     version: 6.20.0(eslint@8.56.0)(typescript@5.3.3)
@@ -5825,6 +5828,12 @@ packages:
     dependencies:
       '@types/react': 18.2.48
     dev: false
+
+  /@types/react-table@7.7.19:
+    resolution: {integrity: sha512-47jMa1Pai7ily6BXJCW33IL5ghqmCWs2VM9s+h1D4mCaK5P4uNkZOW3RMMg8MCXBvAJ0v9+sPqKjhid0PaJPQA==}
+    dependencies:
+      '@types/react': 18.2.48
+    dev: true
 
   /@types/react-transition-group@4.4.10:
     resolution: {integrity: sha512-hT/+s0VQs2ojCX823m60m5f0sL5idt9SO6Tj6Dg+rdphGPIeJbJ6CxvBYkgkGKrYeDjvIpKTR38UzmtHJOGW3Q==}

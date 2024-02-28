@@ -1,6 +1,7 @@
 {
   "name": "litefarm-webapp",
   "version": "3.6.3",
+  "version": "3.6.3",
   "description": "LiteFarm Web application",
   "type": "module",
   "scripts": {
@@ -54,6 +55,7 @@
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
+    "react-error-boundary": "^4.0.12",
     "react-error-boundary": "^4.0.12",
     "react-google-login": "^5.2.2",
     "react-hook-form": "^7.40.0",

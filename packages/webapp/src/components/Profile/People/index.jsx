@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import Table from '../../Table';
+import { TableKind } from '../../Table/types';
 import ProfileLayout from '../ProfileLayout';
 
 export default function PurePeople({ users, history, isAdmin }) {
@@ -122,6 +123,7 @@ export default function PurePeople({ users, history, isAdmin }) {
         placeholder={t('PROFILE.PEOPLE.SEARCH')}
       />
       <Table
+        kind={TableKind.V1}
         data-cy="people-table"
         columns={summaryColumns}
         data={getFilteredUsers()}

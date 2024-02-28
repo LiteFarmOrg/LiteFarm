@@ -12,14 +12,20 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
+import { useMemo } from 'react';
+import PureAnimalInventory from '../../../components/Animals/Inventory';
 import {
   useGetAnimalsQuery,
   useGetAnimalBatchesQuery,
   useGetAnimalGroupsQuery,
 } from '../../../store/api/apiSlice';
-import Layout from '../../../components/Layout';
-import { Title } from '../../../components/Typography';
+import { useTranslation } from 'react-i18next';
+import { useTheme } from '@mui/styles';
+import { useMediaQuery } from '@mui/material';
+import { AnimalData, AnimalBatchData, AnimalOrBatchData } from '../types';
+import Cell from '../../../components/Table/Cell';
+import { CellKind } from '../../../components/Table/types';
+import { ReactComponent as AnimalIcon } from '../../../assets/images/nav/animals.svg';
 import ActionMenu from '../../../components/ActionMenu';
 import styles from './styles.module.scss';
 
@@ -36,23 +42,109 @@ interface AnimalInventoryProps {
 }
 
 function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
-  const { data: animals } = useGetAnimalsQuery();
-  const { data: animalBatches } = useGetAnimalBatchesQuery();
+  const { data: animals = [] } = useGetAnimalsQuery();
+  const { data: animalBatches = [] } = useGetAnimalBatchesQuery();
   const { data: animalGroups } = useGetAnimalGroupsQuery();
 
+  const { t } = useTranslation(['translation']);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const animalsColumns = useMemo(
+    () => [
+      {
+        id: 'name',
+        label: t('ANIMAL.ANIMAL_IDENTIFICATION').toLocaleUpperCase(),
+        format: (d: AnimalOrBatchData) => (
+          <Cell
+            kind={CellKind.ICON_TEXT}
+            text={d.name || d.identifier || null}
+            icon={AnimalIcon}
+            subtext={
+              isMobile
+                ? `${d.default_type_id || d.custom_type_id} / ${
+                    d.default_breed_id || d.custom_breed_id
+                  }`
+                : null
+            }
+          />
+        ),
+      },
+      {
+        id: isMobile ? null : 'default_type_id',
+        label: t('ANIMAL.ANIMAL_TYPE').toLocaleUpperCase(),
+        format: (d: AnimalOrBatchData) => (
+          <Cell kind={CellKind.PLAIN} text={d.default_type_id || d.custom_type_id} />
+        ),
+      },
+      {
+        id: isMobile ? null : 'default_breed_id',
+        label: t('ANIMAL.ANIMAL_BREED').toLocaleUpperCase(),
+        format: (d: AnimalOrBatchData) => (
+          <Cell kind={CellKind.PLAIN} text={d.default_breed_id || d.custom_breed_id} />
+        ),
+      },
+      {
+        id: isMobile ? null : 'groups',
+        label: t('ANIMAL.ANIMAL_GROUPS').toLocaleUpperCase(),
+        format: (d: AnimalOrBatchData) => (
+          <Cell
+            kind={CellKind.HOVER_PILL_OVERFLOW}
+            items={d.groups && d.groups.map((group) => group.name)}
+          />
+        ),
+        sortable: false,
+      },
+      {
+        id: 'farm_id',
+        label: t('ANIMAL.ANIMAL_LOCATIONS').toLocaleUpperCase(),
+        format: (d: AnimalOrBatchData) => <Cell kind={CellKind.PLAIN} text={d.farm_id} />,
+      },
+      {
+        id: 'Visit Record',
+        label: '',
+        format: (d: AnimalOrBatchData) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path="/" />,
+        columnProps: {
+          style: { width: '40px', padding: `0 ${isMobile ? 8 : 12}px` },
+        },
+        sortable: false,
+      },
+    ],
+    [t, isMobile],
+  );
+
+  let animalData: AnimalData[] = animals.map((animal) => {
+    return { ...animal, groups: [] };
+  });
+  let batchData: AnimalBatchData[] = animalBatches.map((batch) => {
+    return { ...batch, groups: [] };
+  });
+
+  // TODO: Load Group Relationship Data instead of this combined group data
+  animalData.forEach((animal) => {
+    //animal.groups = [];
+    animalGroups?.forEach((group) => {
+      const inGroup = group.related_animal_ids.includes(animal.id);
+      if (inGroup) {
+        animal.groups.push(group);
+      }
+    });
+  });
+  batchData.forEach((batch) => {
+    batch.groups = [];
+    animalGroups?.forEach((group) => {
+      const inGroup = group.related_batch_ids.includes(batch.id);
+      if (inGroup) {
+        batch.groups?.push(group);
+      }
+    });
+  });
+
+  const tableData = [...animalData, ...batchData];
+
   return (
-    <Layout>
-      <Title>Animals</Title>
-      {animals &&
-        animals.map((animal, index) => <pre key={index}>{JSON.stringify(animal, null, 2)}</pre>)}
-      <Title>Animal Batches</Title>
-      {animalBatches &&
-        animalBatches.map((batch, index) => (
-          <pre key={index}>{JSON.stringify(batch, null, 2)}</pre>
-        ))}
-      <Title>Animal Groups</Title>
-      {animalGroups &&
-        animalGroups.map((group, index) => <pre key={index}>{JSON.stringify(group, null, 2)}</pre>)}
+    <>
+      <PureAnimalInventory tableData={tableData} animalsColumns={animalsColumns} theme={theme} />
       <ActionMenu
         headerLeftText={''}
         textActions={[]}
@@ -61,7 +153,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
           root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
         }}
       />
-    </Layout>
+    </>
   );
 }
 

@@ -16,7 +16,7 @@ import React from 'react';
 import { v2TableDecorator } from '../Pages/config/Decorators';
 import Table from '../../components/Table';
 import Cell from '../../components/Table/Cell';
-import { ReactComponent as CropIcon } from '../../assets/images/nav/crops.svg';
+import CropIcon from '../../assets/images/nav/crops.svg?react';
 import { TableKind, CellKind } from '../../components/Table/types';
 
 export default {

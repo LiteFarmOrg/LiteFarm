@@ -18,8 +18,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import clsx from 'clsx';
-import { ReactComponent as UnfoldCircle } from '../../../assets/images/unfold-circle.svg';
-import { ReactComponent as ArrowDownCircle } from '../../../assets/images/arrow-down-circle.svg';
+import UnfoldCircle from '../../../assets/images/unfold-circle.svg?react';
+import ArrowDownCircle from '../../../assets/images/arrow-down-circle.svg?react';
 import styles from '../styles.module.scss';
 
 export default function EnhancedTableHead({ columns, order, orderBy, onRequestSort, dense }) {

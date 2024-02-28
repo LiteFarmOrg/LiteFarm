@@ -67,13 +67,7 @@ const getDefaultExpenseDetail = (types, persistedExpenseDetailData) => {
   }, {});
 };
 
-export default function PureAddExpense({
-  types,
-  onGoBack,
-  onSubmit,
-  useHookFormPersist,
-  persistedFormData,
-}) {
+export default function PureAddExpense({ types, onSubmit, persistedFormData }) {
   const { t } = useTranslation();
 
   const {
@@ -89,8 +83,6 @@ export default function PureAddExpense({
       [EXPENSE_DETAIL]: getDefaultExpenseDetail(types, persistedFormData?.[EXPENSE_DETAIL]),
     },
   });
-
-  const { historyCancel } = useHookFormPersist(getValues);
 
   const expenseDetail = watch(EXPENSE_DETAIL);
 
@@ -109,14 +101,6 @@ export default function PureAddExpense({
         </Button>
       }
     >
-      <MultiStepPageTitle
-        onGoBack={onGoBack}
-        onCancel={historyCancel}
-        cancelModalTitle={t('EXPENSE.ADD_EXPENSE.FLOW')}
-        title={t('EXPENSE.ADD_EXPENSE.NEW_EXPENSE_ITEM')}
-        value={66}
-        style={{ marginBottom: '24px' }}
-      />
       {types.map((type) => {
         return (
           <ExpenseItemsForType
@@ -140,7 +124,5 @@ PureAddExpense.propTypes = {
       name: PropTypes.string,
     }),
   ),
-  onGoBack: PropTypes.func,
   onSubmit: PropTypes.func,
-  useHookFormPersist: PropTypes.func,
 };

@@ -25,7 +25,7 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import labelIconStyles from '../../../../components/Tile/styles.module.scss';
 import { listItemTypes } from '../../../../components/List/constants';
 import { getFinanceTypeSearchableStringFunc } from '../../util';
-import { ADD_EXPENSE_URL, MANAGE_CUSTOM_EXPENSES_URL } from '../../../../util/siteMapConstants';
+import { MANAGE_CUSTOM_EXPENSES_URL } from '../../../../util/siteMapConstants';
 
 export const icons = {
   EQUIPMENT: <EquipIcon />,
@@ -55,13 +55,6 @@ class ExpenseCategories extends Component {
     };
 
     this.addRemoveType = this.addRemoveType.bind(this);
-    this.nextPage = this.nextPage.bind(this);
-  }
-
-  nextPage(event) {
-    event.preventDefault();
-    this.props.dispatch(setSelectedExpenseTypes(this.state.selectedTypes));
-    history.push(ADD_EXPENSE_URL);
   }
 
   addRemoveType(id) {
@@ -92,13 +85,12 @@ class ExpenseCategories extends Component {
     return (
       <HookFormPersistProvider>
         <PureFinanceTypeSelection
-          title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE')}
           leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
-          cancelTitle={this.props.t('EXPENSE.ADD_EXPENSE.FLOW')}
           types={filteredExpenseTypes}
-          onContinue={this.nextPage}
-          onGoBack={this.props.history.back}
-          progressValue={33}
+          onContinue={() => {
+            this.props.dispatch(setSelectedExpenseTypes(this.state.selectedTypes));
+            this.props.onGoForward();
+          }}
           onGoToManageCustomType={() => history.push(MANAGE_CUSTOM_EXPENSES_URL)}
           isTypeSelected={!!this.state.selectedTypes.length}
           formatListItemData={(data) => {
@@ -125,7 +117,6 @@ class ExpenseCategories extends Component {
             };
           }}
           listItemType={listItemTypes.ICON_DESCRIPTION_CHECKBOX}
-          useHookFormPersist={this.props.useHookFormPersist}
           iconLinkId={'manageCustomExpenseType'}
           Wrapper={ManageCustomExpenseTypesSpotlight}
           customTypeMessages={{

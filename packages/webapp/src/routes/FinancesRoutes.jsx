@@ -39,6 +39,7 @@ import {
   OTHER_EXPENSE_URL,
   REVENUE_TYPES_URL,
 } from '../util/siteMapConstants';
+import { AddExpenseForm } from '../components/AddExpenseForm';
 const Finances = React.lazy(() => import('../containers/Finances'));
 const ActualRevenue = React.lazy(() => import('../containers/Finances/ActualRevenue'));
 const UpdateEstimatedCropRevenue = React.lazy(() =>
@@ -99,8 +100,8 @@ const FinancesRoutes = () => (
     <Route path={OTHER_EXPENSE_URL} exact component={OtherExpense} />
     <Route path={createExpenseDetailsUrl(':expense_id')} exact component={ExpenseDetail} />
     <Route path={createEditExpenseDetailsUrl(':expense_id')} exact component={ExpenseDetail} />
-    <Route path={EXPENSE_CATEGORIES_URL} exact component={ExpenseCategories} />
-    <Route path={ADD_EXPENSE_URL} exact component={AddExpense} />
+    <Route path={EXPENSE_CATEGORIES_URL} exact component={AddExpenseForm} />
+    <Route path={ADD_EXPENSE_URL} exact component={AddExpenseForm} />
     <Route path={MANAGE_CUSTOM_EXPENSES_URL} exact component={ManageExpenseTypes} />
     <Route path={ADD_CUSTOM_EXPENSE_URL} exact component={AddCustomExpense} />
     <Route

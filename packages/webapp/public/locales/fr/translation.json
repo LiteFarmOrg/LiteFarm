@@ -156,6 +156,7 @@
     "WILD_CROP": "Cultures sauvages"
   },
   "ANIMAL": {
+    "ANIMAL": "MISSING",
     "ANIMAL_BREED": "MISSING",
     "ANIMAL_GROUPS": "MISSING",
     "ANIMAL_IDENTIFICATION": "MISSING",

@@ -156,9 +156,10 @@
     "WILD_CROP": "Wild crops"
   },
   "ANIMAL": {
+    "ANIMAL": "Animal",
     "ANIMAL_BREED": "Breed",
     "ANIMAL_GROUPS": "Group",
-    "ANIMAL_IDENTIFICATION": "Animal Identification",
+    "ANIMAL_IDENTIFICATION": "Identification",
     "ANIMAL_LOCATIONS": "Location",
     "ANIMAL_TYPE": "Type"
   },

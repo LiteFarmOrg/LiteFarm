@@ -14,6 +14,7 @@
  */
 import Table from '../../../components/Table';
 import Layout from '../../../components/Layout';
+import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import { TableV2Column, TableKind } from '../../Table/types';
 import type { DefaultTheme } from '@mui/styles';
 
@@ -22,7 +23,7 @@ const PureAnimalInventory = ({
   animalsColumns,
   theme,
 }: {
-  tableData: object[];
+  tableData: AnimalInventory[];
   animalsColumns: TableV2Column[];
   theme: DefaultTheme;
 }) => {

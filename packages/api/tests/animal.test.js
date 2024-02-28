@@ -24,6 +24,7 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 
 import { makeAnimalOrBatchForFarm, makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
+import AnimalModel from '../src/models/animalModel.js';
 
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
@@ -388,6 +389,16 @@ describe('Animal Tests', () => {
         );
 
         expect(res.status).toBe(204);
+
+        // Check database to make sure property has been updated
+        const animalRecords = await AnimalModel.query().whereIn('id', [
+          firstAnimal.id,
+          secondAnimal.id,
+        ]);
+
+        animalRecords.forEach((record) => {
+          expect(record.animal_removal_reason_id).toBe(animalRemovalReasonId);
+        });
       }
     });
 
@@ -417,6 +428,10 @@ describe('Animal Tests', () => {
 
         expect(res.status).toBe(403);
         expect(res.error.text).toBe('User does not have the following permission(s): edit:animals');
+
+        // Check database
+        const animalRecord = await AnimalModel.query().findById(animal.id);
+        expect(animalRecord.animal_removal_reason_id).toBeNull();
       }
     });
 
@@ -446,6 +461,10 @@ describe('Animal Tests', () => {
           text: 'Request body should be an array',
         },
       });
+
+      // Check database
+      const animalRecord = await AnimalModel.query().findById(animal.id);
+      expect(animalRecord.animal_removal_reason_id).toBeNull();
     });
 
     test('Should not be able to remove an animal belonging to a different farm', async () => {
@@ -477,6 +496,10 @@ describe('Animal Tests', () => {
           invalidAnimalIds: [animal.id],
         },
       });
+
+      // Check database
+      const animalRecord = await AnimalModel.query().findById(animal.id);
+      expect(animalRecord.animal_removal_reason_id).toBeNull();
     });
   });
 });

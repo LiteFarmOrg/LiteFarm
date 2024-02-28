@@ -34,6 +34,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 import mocks from './mock.factories.js';
 
 import { makeAnimalOrBatchForFarm, makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
+import AnimalBatchModel from '../src/models/animalBatchModel.js';
 
 describe('Animal Batch Tests', () => {
   let farm;
@@ -512,6 +513,16 @@ describe('Animal Batch Tests', () => {
         );
 
         expect(res.status).toBe(204);
+
+        // Check database to make sure property has been updated
+        const batchRecords = await AnimalBatchModel.query().whereIn('id', [
+          firstAnimalBatch.id,
+          secondAnimalBatch.id,
+        ]);
+
+        batchRecords.forEach((record) => {
+          expect(record.animal_removal_reason_id).toBe(animalRemovalReasonId);
+        });
       }
     });
 
@@ -544,6 +555,10 @@ describe('Animal Batch Tests', () => {
         expect(res.error.text).toBe(
           'User does not have the following permission(s): edit:animal_batches',
         );
+
+        // Check database
+        const batchRecord = await AnimalBatchModel.query().findById(animalBatch.id);
+        expect(batchRecord.animal_removal_reason_id).toBeNull();
       }
     });
 
@@ -574,6 +589,10 @@ describe('Animal Batch Tests', () => {
           text: 'Request body should be an array',
         },
       });
+
+      // Check database
+      const batchRecord = await AnimalBatchModel.query().findById(animalBatch.id);
+      expect(batchRecord.animal_removal_reason_id).toBeNull();
     });
 
     test('Should not be able to remove an animal batch belonging to a different farm', async () => {
@@ -606,6 +625,10 @@ describe('Animal Batch Tests', () => {
           invalidAnimalBatchIds: [animalBatch.id],
         },
       });
+
+      // Check database
+      const batchRecord = await AnimalBatchModel.query().findById(animalBatch.id);
+      expect(batchRecord.animal_removal_reason_id).toBeNull();
     });
   });
 });

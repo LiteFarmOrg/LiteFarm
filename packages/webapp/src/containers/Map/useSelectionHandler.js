@@ -124,7 +124,7 @@ const useSelectionHandler = () => {
           locationAssets[locationType].forEach((line) => {
             if (
               line.polyline.visible &&
-              maps.geometry.poly.isLocationOnEdge(latLng, line.polyline, 10e-7)
+              maps.geometry.poly.isLocationOnEdge(latLng, line.polyline, 10e-4)
             ) {
               overlappedLocationsCopy.line.push({
                 id: line.location_id,

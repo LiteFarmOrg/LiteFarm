@@ -176,6 +176,14 @@ export const managementPlansSelector = createSelector(
     ),
 );
 
+export const allManagementPlansSelector = createSelector(
+  [managementPlanEntitiesSelector, loginSelector],
+  (managementPlanEntities, { farm_id }) =>
+    Object.values(managementPlanEntities).filter(
+      (managementPlan) => managementPlan.crop_variety.farm_id === farm_id,
+    ),
+);
+
 export const expiredManagementPlansSelector = createSelector(
   [managementPlansSelector, lastActiveDatetimeSelector],
   (managementPlans, lastActiveDatetime) => {

@@ -19,7 +19,8 @@ const useLanguageOptions = (language_preference) => {
   };
   const languageOptions = Object.values(languageOptionMap);
   const languagePreferenceOptionRef = useRef();
-  languagePreferenceOptionRef.current = languageOptionMap[language_preference];
+  languagePreferenceOptionRef.current =
+    languageOptionMap[language_preference] || language_preference;
   return { languageOptionMap, languageOptions, languagePreferenceOptionRef };
 };
 
@@ -46,6 +47,7 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
     shouldUnregister: true,
   });
   useEffect(() => {
+    // get proper translations for the selected options right after language preference is updated
     setValue(userFarmEnum.language_preference, null, { shouldValidate: false, shouldDirty: false });
     setTimeout(() => {
       setValue(userFarmEnum.language_preference, languagePreferenceOptionRef.current, {
@@ -80,6 +82,7 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
           maxLength: { value: 255, message: t('PROFILE.ERROR.LAST_NAME_LENGTH') },
         })}
         errors={errors[userFarmEnum.last_name] && errors[userFarmEnum.last_name].message}
+        optional
       />
       <Input
         label={t('PROFILE.ACCOUNT.EMAIL')}

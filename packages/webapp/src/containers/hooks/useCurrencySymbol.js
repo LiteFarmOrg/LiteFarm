@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { currencySelector } from '../userFarmSlice.js';
+import { currencySelector } from '../userFarmSlice.ts';
 import commonCurrency from '../AddFarm/currency/commonCurrency.json';
 
 // TODO: Should not import entire commonCurrency to find one symbol

@@ -115,7 +115,7 @@ const PureExpenseDetail = ({
         type={'number'}
         hookFormRegister={register(VALUE, {
           required: true,
-          valueAsNumber: true,
+          setValueAs: (v) => (v === '' ? null : +v),
           min: { value: 0 },
         })}
         currency={useCurrencySymbol()}

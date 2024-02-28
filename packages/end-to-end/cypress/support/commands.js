@@ -1,4 +1,20 @@
+/*
+ *  Copyright 2023, 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import 'cypress-react-selector';
+import * as Selectors from './selectorConstants.ts';
 
 Cypress.Commands.add('waitUntilAnyVisible', (selector1, selector2, timeout = 10000) => {
   const startTime = new Date().getTime();
@@ -27,190 +43,182 @@ Cypress.Commands.add('waitUntilAnyVisible', (selector1, selector2, timeout = 100
 
 Cypress.Commands.add(
   'loginOrCreateAccount',
-  (email, password, fullName, language, crop_menu_name, fieldString) => {
+  (email, password, fullName, language, crop_menu_name, map_menu_name, fieldString) => {
     //Login page
-    cy.get('[data-cy=email]').type(email);
+    cy.get(Selectors.SIGNUP_EMAIL).type(email);
     cy.intercept('GET', '**/login/user/' + email, (req) => {
       delete req.headers['if-none-match'];
     }).as('emailLogin');
-    cy.get('[data-cy=continue]').should('exist').and('be.enabled').click();
+    cy.get(Selectors.SIGNUP_CONTINUE).should('exist').and('be.enabled').click();
 
-    cy.waitUntilAnyVisible('[data-cy=createUser-email]', '[data-cy=enterPassword-password]');
+    cy.waitUntilAnyVisible(Selectors.CREATE_USER_EMAIL, Selectors.ENTER_PASSWORD_PASSWORD);
 
     // Check if we are on pasword page or create account and act accordingly
-    cy.get('[data-cy=createUser-email]', { timeout: 0 }).then(($element) => {
+    cy.get(Selectors.CREATE_USER_EMAIL, { timeout: 0 }).then(($element) => {
       if ($element.is(':visible')) {
-        cy.get('[data-cy=createUser-fullName]').type(fullName);
+        cy.get(Selectors.CREATE_USER_NAME).type(fullName);
 
-        // cy.get('[id$=react-select-3-input]').type(language+'{enter}');
-        cy.contains('English')
-          .parent()
-          .find('input')
-          .type(language + '{enter}');
+        cy.contains('English').click({ force: true });
+        cy.contains(language).click({ force: true });
 
-        cy.get('[data-cy=createUser-password]').type(password);
-        cy.get('[data-cy=createUser-create]').should('exist').and('be.enabled').click();
+        cy.get(Selectors.CREATE_USER_PASSWORD).type(password);
+        cy.get(Selectors.CREATE_USER_SUBMIT).should('exist').and('be.enabled').click();
 
         cy.intercept('POST', '**/user').as('createUser');
-        cy.get('[data-cy=getStarted]').should('exist').and('not.be.disabled').click();
-        cy.addFarm('UBC FARM', '49.250833, -123.2410777');
-        cy.onboardCompleteQuestions('Manager');
-        cy.acceptSlideMenuSpotlights(crop_menu_name);
-        cy.createFirstLocation(fieldString);
-        cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled');
+        cy.get(Selectors.WELCOME_GET_STARTED).should('exist').and('not.be.disabled').click();
+
+        addFarm('UBC FARM', '49.250833, -123.2410777');
+
+        onboardCompleteQuestions('Manager');
+
+        acceptSlideMenuSpotlights(crop_menu_name);
+
+        cy.createFirstLocation(map_menu_name, fieldString);
         cy.visit('/');
       } else {
-        cy.get('[data-cy=enterPassword-password]').type(password);
-        cy.get('[data-cy=enterPassword-submit]').should('exist').and('be.enabled').click();
+        cy.get(Selectors.ENTER_PASSWORD_PASSWORD).type(password);
+        cy.get(Selectors.ENTER_PASSWORD_SUBMIT).should('exist').and('be.enabled').click();
 
-        cy.get('[data-cy=chooseFarm-proceed]').should('exist').and('be.enabled').click();
-        cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled');
-        cy.visit('/');
+        // Flaky in this sense: www.cypress.io/blog/2019/01/22/when-can-the-test-click
+        // May require hard-coded wait if this is insufficient
+        cy.waitForReact();
+        cy.get(Selectors.CHOOSE_FARM_PROCEED)
+          .should('be.visible')
+          .and('be.enabled')
+          .click({ force: true });
       }
     });
   },
 );
 
-Cypress.Commands.add('addFarm', (farmName, location) => {
+const addFarm = (farmName, location) => {
+  cy.intercept('GET', '**/maps.googleapis.com/maps/api/js/GeocodeService.*').as(
+    'googleMapGeocodeCall',
+  );
   cy.url().should('include', '/add_farm');
 
   cy.waitForReact();
-  cy.get('[data-cy=addFarm-continue]').should('exist').should('be.disabled');
-  cy.get('[data-cy=addFarm-farmName]').should('exist').type(farmName);
-  cy.get('[data-cy=addFarm-location]').should('exist').type(location);
+  cy.get(Selectors.ADD_FARM_CONTINUE).should('exist').should('be.disabled');
+  cy.get(Selectors.ADD_FARM_NAME).should('exist').type(farmName);
+  cy.get(Selectors.ADD_FARM_LOCATION).should('exist').type(location);
+  cy.wait('@googleMapGeocodeCall');
   cy.waitForReact();
-  cy.get('[data-cy=addFarm-continue]').should('not.be.disabled').click();
-});
+  cy.get(Selectors.ADD_FARM_CONTINUE).should('not.be.disabled').click();
+};
 
-Cypress.Commands.add('onboardCompleteQuestions', (role) => {
+const onboardCompleteQuestions = (role) => {
   // cy.clock();
   cy.url().should('include', '/role_selection');
   // cy.tick();
-  cy.get('[data-cy=roleSelection-continue]').should('exist').and('be.disabled');
+  cy.get(Selectors.ROLE_SELECTION_CONTINUE).should('exist').and('be.disabled');
   cy.waitForReact();
-  cy.get('[data-cy=roleSelection-role]').should('exist').check(role, { force: true });
-  cy.get('[data-cy=roleSelection-continue]').should('not.be.disabled').click();
+  cy.get(Selectors.ROLE_SELECTION_ROLE).should('exist').check(role, { force: true });
+  cy.get(Selectors.ROLE_SELECTION_CONTINUE).should('not.be.disabled').click();
   // cy.clock().then((clock) => {
   //   clock.restore();
   // });
 
-  // Give Concent
+  // Give consent
   cy.url().should('include', '/consent');
-  cy.get('[data-cy=consentPage-content]', { timeout: 180 * 1000 }).should('exist');
-  cy.get('[data-cy=consent-continue]').should('exist').and('be.disabled');
-  cy.get('[data-cy=checkbox-component]').should('exist').click();
-  cy.get('[data-cy=consent-continue]').should('not.be.disabled').click();
+  cy.get(Selectors.CONSENT_CONTENT, { timeout: 180 * 1000 }).should('exist');
+  cy.get(Selectors.CONSENT_CONTINUE).should('exist').and('be.disabled');
+  cy.get(Selectors.CHECKBOX).should('exist').click();
+  cy.get(Selectors.CONSENT_CONTINUE).should('not.be.disabled').click();
 
   // Interested in Organic
   cy.log('Interested in Organic');
 
   cy.url().should('include', '/certification/interested_in_organic');
-  cy.get('[data-cy=interestedInOrganic-continue]', { timeout: 180 * 1000 })
+  cy.get(Selectors.INTERESTED_IN_ORGANIC_CONTINUE, { timeout: 180 * 1000 })
     .should('exist')
     .and('be.disabled');
-  cy.get('[data-cy=interestedInOrganic-select]').should('exist');
-  cy.get('[type="radio"]').first().check();
-  cy.get('[data-cy=interestedInOrganic-continue]').should('not.be.disabled').click();
+  cy.get(Selectors.INTERESTED_IN_ORGANIC_SELECT).should('exist');
+  cy.get(Selectors.RADIO).first().check();
+  cy.get(Selectors.INTERESTED_IN_ORGANIC_CONTINUE).should('not.be.disabled').click();
 
   cy.url().should('include', '/certification/selection');
-  cy.get('[data-cy=certificationSelection-continue]').should('exist').and('be.disabled');
-  cy.get('[data-cy=certificationSelection-type]').should('exist');
-  cy.get('[type="radio"]').first().check();
-  cy.get('[data-cy=certificationSelection-continue]').should('not.be.disabled').click();
+  cy.get(Selectors.CERTIFICATION_SELECTION_CONTINUE).should('exist').and('be.disabled');
+  cy.get(Selectors.CERTIFICATION_SELECTION_TYPE).should('exist');
+  cy.get(Selectors.RADIO).first().check();
+  cy.get(Selectors.CERTIFICATION_SELECTION_CONTINUE).should('not.be.disabled').click();
 
   // Select certifier
-  cy.get('[data-cy=certifierSelection-proceed]').should('exist').and('be.disabled');
-  cy.get('[data-cy=certifierSelection-item]').should('exist').eq(1).click();
+  cy.get(Selectors.CERTIFIER_SELECTION_PROCEED).should('exist').and('be.disabled');
+  cy.get(Selectors.CERTIFICATION_SELECTION_ITEM).should('exist').eq(1).click();
   let certifier;
-  cy.get('[data-cy=certifierSelection-item]')
+  cy.get(Selectors.CERTIFICATION_SELECTION_ITEM)
     .eq(1)
     .then(function ($elem) {
       certifier = $elem.text();
       let end = certifier.indexOf('(');
       let result = certifier.substring(1, end);
       //click the proceed button and ensure test is on the certification summary view and the certification selected is displayed
-      cy.get('[data-cy=certifierSelection-proceed]').should('not.be.disabled').click();
+      cy.get(Selectors.CERTIFIER_SELECTION_PROCEED).should('not.be.disabled').click();
       cy.url().should('include', '/certification/summary');
       cy.contains(result).should('exist');
     });
 
   //certification summary
-  cy.get('[data-cy=certificationSummary-continue]').should('exist').and('not.be.disabled').click();
+  cy.get(Selectors.CERTIFICATION_SUMMARY_CONTINUE).should('exist').and('not.be.disabled').click();
 
   // Outro
   cy.url().should('include', '/outro');
-  cy.get('[data-cy=outro-finish]').should('exist').and('not.be.disabled').click();
-});
+  cy.get(Selectors.OUTRO_FINISH).should('exist').and('not.be.disabled').click();
+};
 
-Cypress.Commands.add('createFirstLocation', (fieldString) => {
-  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });
-
+Cypress.Commands.add('createFirstLocation', (map_menu_name, fieldString) => {
   cy.intercept('GET', '**/maps.googleapis.com/maps/api/**').as('googleMapsApiCall');
-  cy.intercept('GET', 'https://maps.googleapis.com/maps-api-v3/api/js/54/11/marker.js').as(
-    'markerJsRequest',
-  );
 
-  cy.get('[data-cy=navbar-option]')
-    .eq(1)
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
+  cy.contains(map_menu_name).should('exist').click();
 
   //arrive at farm map page and draw a field
   cy.url().should('include', '/map');
 
-  cy.get('[data-cy=spotlight-next]', { timeout: 60 * 1000 })
+  cy.get(Selectors.SPOTLIGHT_NEXT, { timeout: 60 * 1000 })
     .should('exist')
     .and('not.be.disabled')
     .click();
-  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
-  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
-  cy.get('[data-cy=map-addFeature]').should('exist').and('not.be.disabled').click();
+  cy.get(Selectors.SPOTLIGHT_NEXT).should('exist').and('not.be.disabled').click();
+  cy.get(Selectors.SPOTLIGHT_NEXT).should('exist').and('not.be.disabled').click();
+  cy.get(Selectors.MAP_ADD_FEATURE).should('exist').and('not.be.disabled').click();
 
   cy.wait('@googleMapsApiCall');
-  cy.wait('@markerJsRequest');
   cy.waitForReact();
 
   // Select "Field"
   cy.contains(fieldString).click();
 
-  cy.get('[data-cy="map-selection"]').should('be.visible');
-  cy.get('[data-cy=mapTutorial-continue]').should('exist').and('not.be.disabled').click();
+  cy.get(Selectors.MAP_SELECTION).should('be.visible');
+  cy.get(Selectors.MAP_TUTORIAL_CONTINUE).should('exist').and('not.be.disabled').click();
 
-  cy.get('[data-cy=map-mapContainer]').click(500, 300);
+  cy.get(Selectors.MAP_CONTAINER).click(500, 300);
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(400, { log: false });
-  cy.get('[data-cy=map-mapContainer]').click(700, 300);
+  cy.get(Selectors.MAP_CONTAINER).click(700, 300);
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(400, { log: false });
-  cy.get('[data-cy=map-mapContainer]').click(700, 400);
+  cy.get(Selectors.MAP_CONTAINER).click(700, 400);
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(400, { log: false });
-  cy.get('[data-cy=map-mapContainer]').click(500, 400);
+  cy.get(Selectors.MAP_CONTAINER).click(500, 400);
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(400, { log: false });
-  cy.get('[data-cy=map-mapContainer]').click(500, 300);
+  cy.get(Selectors.MAP_CONTAINER).click(500, 300);
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(400, { log: false });
-  cy.get('[data-cy=mapTutorial-continue]').should('exist').and('not.be.disabled').click();
-  cy.get('[data-cy=map-drawCompleteContinue]').should('exist').and('not.be.disabled').click();
+  cy.get(Selectors.MAP_TUTORIAL_CONTINUE).should('exist').and('not.be.disabled').click();
+  cy.get(Selectors.MAP_DRAW_COMPLETE_CONTINUE).should('exist').and('not.be.disabled').click();
 
-  cy.get('[data-cy=areaDetails-name]').should('exist').type('First Field');
-  cy.get('[data-cy=createField-save]').should('exist').and('not.be.disabled').click();
+  cy.get(Selectors.AREA_DETAILS_NAME).should('exist').type('First Field');
+  cy.get(Selectors.CREATE_FIELD_SAVE).should('exist').and('not.be.disabled').click();
 
-  cy.get('[data-cy=snackBar').should('exist').and('be.visible');
-  cy.get('div[data-cy="snackBar"]').find('[class*="button"]:first').click();
+  cy.get(Selectors.SNACKBAR).should('exist').and('be.visible');
 
   cy.waitForReact();
 
   // Confirm that location exists
   cy.visit('/');
-  cy.get('[data-cy=home-farmButton]').should('exist').and('not.be.disabled').click({ force: true });
-  cy.get('[data-cy=navbar-option]')
-    .eq(1)
-    .should('exist')
-    .and('not.be.disabled')
-    .click({ force: true });
+  cy.contains(map_menu_name).should('exist').click();
   cy.contains('First Field').should('be.visible');
 
   // Check that it is in Redux
@@ -223,24 +231,21 @@ Cypress.Commands.add('createFirstLocation', (fieldString) => {
     .should('not.be.empty');
 });
 
-Cypress.Commands.add('acceptSlideMenuSpotlights', (crop_menu_name) => {
+const acceptSlideMenuSpotlights = (crop_menu_name) => {
   // Check the spotlights
-  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
-  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
-  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
-  cy.get('[data-cy=spotlight-next]').should('exist').and('not.be.disabled').click();
+  cy.get(Selectors.SPOTLIGHT_NEXT).should('exist').and('not.be.disabled').click();
+  cy.get(Selectors.SPOTLIGHT_NEXT).should('exist').and('not.be.disabled').click();
 
   // Mark spotlights in crops
-  cy.get('[data-cy=navbar-hamburger]').should('exist').click();
   cy.contains(crop_menu_name).should('exist').click();
   cy.url().should('include', '/crop_catalogue');
 
-  cy.get('[data-cy=spotlight-next]', { timeout: 120 * 1000 })
+  cy.get(Selectors.SPOTLIGHT_NEXT, { timeout: 120 * 1000 })
     .should('exist')
     .and('not.be.disabled')
     .click();
-  cy.get('[data-cy=spotlight-next]', { timeout: 120 * 1000 })
+  cy.get(Selectors.SPOTLIGHT_NEXT, { timeout: 120 * 1000 })
     .should('exist')
     .and('not.be.disabled')
     .click();
-});
+};

@@ -146,6 +146,7 @@ FilterPillSelect.propTypes = {
   shouldReset: PropTypes.number,
   showIndividualControls: PropTypes.bool,
   className: string,
+  style: PropTypes.object,
 };
 
 FilterPillSelect.defaultProps = {

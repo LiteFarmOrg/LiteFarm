@@ -28,7 +28,7 @@ import type {
 } from '../../../containers/Filter/types';
 import type { ComponentFilter } from '../types';
 
-// (filterState) => onChange(filter.filterKey, filterState)
+// i.e (filterState) => ContainerOnChangeCallback(filter.filterKey, filterState)
 export type ComponentOnChangeCallback = (filterState: FilterState) => void;
 
 interface FilterItemProps {
@@ -42,7 +42,6 @@ interface FilterItemProps {
 const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterItemProps) => {
   if ((filter.type ?? PILL_SELECT) === PILL_SELECT && filter.options.length > 0) {
     return (
-      // @ts-ignore
       <FilterPillSelect
         subject={filter.subject}
         options={filter.options}

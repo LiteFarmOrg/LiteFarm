@@ -46,7 +46,7 @@ export const api = createApi({
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: ['Animals', 'AnimalBatches', 'AnimalGroups', 'CustomAnimalTypes'],
+  tagTypes: ['Animals', 'AnimalBatches', 'AnimalGroups', 'DefaultAnimalTypes', 'CustomAnimalTypes'],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>
@@ -64,6 +64,7 @@ export const api = createApi({
     }),
     getDefaultAnimalTypes: build.query<DefaultAnimalType[], string>({
       query: (param = '') => `${defaultAnimalTypesUrl}${param}`,
+      providesTags: ['DefaultAnimalTypes'],
     }),
     getCustomAnimalTypes: build.query<CustomAnimalType[], string>({
       query: (param = '') => `${customAnimalTypesUrl}${param}`,

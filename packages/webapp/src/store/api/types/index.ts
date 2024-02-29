@@ -66,10 +66,12 @@ export interface AnimalGroup {
 export interface DefaultAnimalType {
   id: number;
   key: string;
+  count?: number;
 }
 
 export interface CustomAnimalType {
   id: number;
   farm_id: string;
   type: string;
+  count?: number;
 }

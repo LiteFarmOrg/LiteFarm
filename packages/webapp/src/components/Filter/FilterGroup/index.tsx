@@ -21,10 +21,30 @@ import { FilterMultiSelect } from '../FilterMultiSelect';
 import FilterPillSelect from '../FilterPillSelect';
 import { DATE, DATE_RANGE, PILL_SELECT, SEARCHABLE_MULTI_SELECT } from '../filterTypes';
 import styles from './styles.module.scss';
+import type { FilterOnChangeCallback, ReduxFilterEntity } from '../../../containers/Filter/types';
+import type { ComponentFilter } from '../types';
 
-const FilterItem = ({ filter, showIndividualFilterControls, ...props }) => {
-  if ((filter.type === PILL_SELECT || !filter.type) && filter.options.length > 0) {
+interface FilterControlProps {
+  filterRef: React.RefObject<ReduxFilterEntity>;
+  showIndividualFilterControls: boolean;
+  onChange: FilterOnChangeCallback;
+  shouldReset?: number; // not passed from transactions
+}
+
+interface FilterGroupProps extends FilterControlProps {
+  filters: ComponentFilter[];
+  filterContainerClassName?: string;
+}
+
+interface FilterItemProps extends FilterControlProps {
+  onChange: (filterState: any) => void;
+  filter: ComponentFilter;
+}
+
+const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterItemProps) => {
+  if ((filter.type ?? PILL_SELECT) === PILL_SELECT && filter.options.length > 0) {
     return (
+      // @ts-ignore
       <FilterPillSelect
         subject={filter.subject}
         options={filter.options}
@@ -35,6 +55,7 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }) => {
       />
     );
   } else if (filter.type === DATE_RANGE) {
+    // @ts-ignore
     return <FilterDateRange key={filter.subject} {...filter} {...props} />;
   } else if (filter.type === SEARCHABLE_MULTI_SELECT) {
     return (
@@ -47,7 +68,10 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }) => {
       />
     );
   } else if (filter.type === DATE) {
+    // @ts-ignore
     return <FilterDate {...filter} key={filter.subject} {...props} />;
+  } else {
+    return null;
   }
 };
 
@@ -58,23 +82,27 @@ const FilterGroup = ({
   onChange,
   shouldReset,
   showIndividualFilterControls = false,
-}) => {
-  return filters.map((filter) => {
-    return (
-      <div
-        key={filter.filterKey ?? filter.subject}
-        className={clsx(styles.filterContainer, filterContainerClassName)}
-      >
-        <FilterItem
-          filter={filter}
-          filterRef={filterRef}
-          onChange={(filterState) => onChange(filter.filterKey, filterState)}
-          shouldReset={shouldReset}
-          showIndividualFilterControls={showIndividualFilterControls}
-        />
-      </div>
-    );
-  });
+}: FilterGroupProps) => {
+  return (
+    <>
+      {filters.map((filter) => {
+        return (
+          <div
+            key={filter.filterKey ?? filter.subject}
+            className={clsx(styles.filterContainer, filterContainerClassName)}
+          >
+            <FilterItem
+              filter={filter}
+              filterRef={filterRef}
+              onChange={(filterState) => onChange(filter.filterKey, filterState)}
+              shouldReset={shouldReset}
+              showIndividualFilterControls={showIndividualFilterControls}
+            />
+          </div>
+        );
+      })}
+    </>
+  );
 };
 
 FilterGroup.propTypes = {

@@ -2,11 +2,10 @@ import { Model, transaction } from 'objection';
 import { handleObjectionError } from '../util/errorCodes';
 
 /**
- * Middleware function to check if the provided animal entities exist and belong to the farm.
- * The IDs must be passed as a comma-separated request query string.
+ * Middleware function to check if the provided animal entities exist and belong to the farm. The IDs must be passed as a comma-separated query string.
  *
- * @param {Object} model - The database model for the correct animal.
- * @returns {Function} - Express middleware function.
+ * @param {Object} model - The database model for the correct animal entity
+ * @returns {Function} - Express middleware function
  *
  * @example
  * router.delete(

@@ -70,7 +70,7 @@ export const PureTileDashboard = ({
               <DashboardTile
                 key={index}
                 {...item}
-                isSelected={selectedFilterIds?.includes(item.id)}
+                isSelected={item.isSelected ?? selectedFilterIds?.includes(item.id)}
               />
             </div>
           ))}

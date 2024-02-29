@@ -39,7 +39,9 @@ export const MoreComponent = ({
   const [isOpen, setIsOpen] = useState(false);
 
   // Selected state for the more button
-  const atLeastOneSelected = moreIconTiles.some((item) => selectedFilterIds?.includes(item.id));
+  const atLeastOneSelected = moreIconTiles.some(
+    (item) => selectedFilterIds?.includes(item.id) || !!item.isSelected,
+  );
 
   return (
     <div className={clsx(styles.moreContainer, className)}>
@@ -62,7 +64,7 @@ export const MoreComponent = ({
                 <DashboardTile
                   key={index}
                   {...item}
-                  isSelected={selectedFilterIds?.includes(item.id)}
+                  isSelected={item.isSelected ?? selectedFilterIds?.includes(item.id)}
                 />
               </div>
             ))}

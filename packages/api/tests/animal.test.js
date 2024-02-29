@@ -407,7 +407,7 @@ describe('Animal Tests', () => {
       expect(res).toMatchObject({
         status: 400,
         error: {
-          text: 'Must send animal ids',
+          text: 'Must send ids',
         },
       });
     });
@@ -428,7 +428,7 @@ describe('Animal Tests', () => {
       expect(res1).toMatchObject({
         status: 400,
         error: {
-          text: 'Must send valid animal ids',
+          text: 'Must send valid ids',
         },
       });
 
@@ -442,7 +442,7 @@ describe('Animal Tests', () => {
       expect(res2).toMatchObject({
         status: 400,
         error: {
-          text: 'Must send valid animal ids',
+          text: 'Must send valid ids',
         },
       });
     });
@@ -465,7 +465,7 @@ describe('Animal Tests', () => {
         status: 400,
         body: {
           error: 'Invalid ids',
-          invalidAnimalIds: [`${animal.id}`],
+          invalidIds: [`${animal.id}`],
         },
       });
     });
@@ -489,7 +489,7 @@ describe('Animal Tests', () => {
         status: 400,
         body: {
           error: 'Invalid ids',
-          invalidAnimalIds: [`${animal.id}`],
+          invalidIds: [`${animal.id}`],
         },
       });
     });

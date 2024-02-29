@@ -180,7 +180,7 @@
 .sideMenu {
   .drawerContainer {
     background-color: var(--teal700);
-    z-index: 1299;
+    z-index: 1503; //should be greater than animals KPI and top menu
   }
 
   .drawerHeader {

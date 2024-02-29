@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2022-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -139,7 +139,7 @@ const FilterPillSelect = ({
   );
 };
 
-FilterPillSelect.prototype = {
+FilterPillSelect.propTypes = {
   subject: PropTypes.string,
   options: PropTypes.array,
   filterKey: PropTypes.string,

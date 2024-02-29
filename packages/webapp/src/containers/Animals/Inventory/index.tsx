@@ -40,7 +40,7 @@ function AnimalInventory() {
             text={d.identification}
             icon={d.icon}
             subtext={isMobile ? `${d.type} / ${d.breed}` : null}
-            count={d.count}
+            highlightedText={d.count > 1 ? d.count : null}
           />
         ),
       },

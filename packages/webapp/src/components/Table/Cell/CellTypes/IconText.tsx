@@ -19,22 +19,30 @@ import styles from '../styles.module.scss';
 export type IconTextProps = {
   text: string | number | null | undefined;
   icon: FC;
-  subtext: string | null | undefined;
-  count: number;
+  subtext: string | number | null | undefined;
+  highlightedText: string | number | null | undefined;
 };
 
-const IconText = ({ text, icon: Icon, subtext, count }: IconTextProps) => {
+const IconText = ({ text, icon: Icon, subtext, highlightedText }: IconTextProps) => {
   return (
-    <div className={styles.iconText}>
-      <div className={styles.squareIcon}>
+    <div className={styles.iconTextContainer}>
+      <div className={styles.iconTextIcon}>
         <Icon />
       </div>
       <div className={clsx(styles.text, styles.overflowText, subtext && styles.withSubtextText)}>
-        <div className={clsx(styles.identifier, subtext && styles.withSubtextMainText)}>
-          {text}
-          {count > 1 && <div className={styles.count}>{count}</div>}
+        <div className={clsx(styles.mainText)}>
+          <div className={clsx(styles.overflowText, subtext && styles.withSubtextMainText)}>
+            {text}
+          </div>
+          {highlightedText && (
+            <div className={clsx(styles.highlightedText, styles.overflowHidden)}>
+              {highlightedText}
+            </div>
+          )}
         </div>
-        <div className={clsx(subtext && styles.withSubtextSubext)}>{subtext}</div>
+        <div className={clsx(styles.overflowText, subtext && styles.withSubtextSubtext)}>
+          {subtext}
+        </div>
       </div>
     </div>
   );

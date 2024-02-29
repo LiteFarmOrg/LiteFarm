@@ -10,6 +10,11 @@
   overflow: hidden;
 }
 
+.overflowVisible, .overflowVisible div {
+  overflow: visible !important;
+}
+
+
 .rightChevronLink {
   height: 24px;
   width: 24px;
@@ -24,13 +29,13 @@
   }
 }
 
-.iconText {
+.iconTextContainer {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.squareIcon {
+.iconTextIcon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,7 +65,7 @@
   margin-right: 8px;
 }
 
-.count {
+.highlightedText {
   display: flex;
   padding: 4px;
   border-radius: 2px;
@@ -71,7 +76,7 @@
   font-weight: 700;
 }
 
-.identifier {
+.mainText {
   display: flex;
   align-items: center;
   gap: 8px;

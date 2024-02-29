@@ -18,14 +18,17 @@ import express from 'express';
 const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
 import AnimalController from '../controllers/animalController.js';
+import AnimalModel from '../models/animalModel.js';
+import { deleteAnimalEntity } from '../middleware/deleteAnimalEntity.js';
 
+console.log(deleteAnimalEntity(AnimalModel));
 router.get('/', checkScope(['get:animals']), AnimalController.getFarmAnimals());
 router.post('/', checkScope(['add:animals']), AnimalController.addAnimals());
 router.delete(
   '/',
   checkScope(['delete:animals']),
   // Can't use hasFarmAccess as written
-  AnimalController.deleteAnimals(),
+  deleteAnimalEntity(AnimalModel),
 );
 
 export default router;

@@ -21,7 +21,6 @@ import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { assignInternalIdentifiers } from '../util/animal.js';
-import { handleObjectionError } from '../util/errorCodes.js';
 
 const animalController = {
   getFarmAnimals() {
@@ -157,63 +156,6 @@ const animalController = {
         return res.status(500).json({
           error,
         });
-      }
-    };
-  },
-
-  deleteAnimals() {
-    return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
-
-      try {
-        const { farm_id } = req.headers;
-        const { ids } = req.query;
-
-        if (!ids || !ids.length) {
-          await trx.rollback();
-          return res.status(400).send('Must send animal ids');
-        }
-
-        const idsSet = new Set(ids.split(','));
-
-        // Check that all animals exist and belong to the farm
-        const invalidAnimalIds = [];
-
-        for (const animalId of idsSet) {
-          // For query syntax like ids=,,, which will pass the above check
-          if (!animalId || isNaN(Number(animalId))) {
-            await trx.rollback();
-            return res.status(400).send('Must send valid animal ids');
-          }
-
-          const farmAnimalRecord = await AnimalModel.query(trx)
-            .findById(animalId)
-            .where({ farm_id })
-            .whereNotDeleted(); // prohibiting re-delete
-
-          if (!farmAnimalRecord) {
-            invalidAnimalIds.push(animalId);
-          }
-        }
-
-        if (invalidAnimalIds.length) {
-          await trx.rollback();
-          return res.status(400).json({
-            error: 'Invalid ids',
-            invalidAnimalIds,
-            message:
-              'Some animals do not exist, are already deleted, or are not associated with the given farm.',
-          });
-        }
-
-        // Delete animals
-        for (const animalId of idsSet) {
-          await baseController.delete(AnimalModel, animalId, req, { trx });
-        }
-        await trx.commit();
-        return res.status(204).send();
-      } catch (error) {
-        handleObjectionError(error, res, trx);
       }
     };
   },

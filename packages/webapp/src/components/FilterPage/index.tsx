@@ -6,6 +6,24 @@ import { Underlined } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import FilterGroup from '../Filter/FilterGroup';
+import type { ComponentFilter } from '../Filter/types';
+import type { ReduxFilterEntity } from '../../containers/Filter/types';
+
+// TODO: type the resetters
+interface Resetter {
+  setFunc: (val: any) => void;
+  defaultVal: any;
+}
+
+interface PureFilterPageProps {
+  filters: ComponentFilter[];
+  filterRef: React.RefObject<ReduxFilterEntity>;
+  title?: string;
+  onApply: () => void;
+  onGoBack?: () => void;
+  children?: React.ReactNode;
+  resetters?: Resetter[];
+}
 
 const PureFilterPage = ({
   title,
@@ -15,7 +33,7 @@ const PureFilterPage = ({
   onGoBack,
   children,
   resetters = [],
-}) => {
+}: PureFilterPageProps) => {
   const { t } = useTranslation();
 
   const [shouldReset, setShouldReset] = useState(0);
@@ -42,13 +60,11 @@ const PureFilterPage = ({
       }
     >
       {title && <PageTitle title={title} onGoBack={onGoBack} />}
-
       <div style={{ margin: '24px 0' }}>
         <Underlined style={{ color: '#AA5F04' }} onClick={() => resetFilter()}>
           {t('FILTER.CLEAR_ALL_FILTERS')}
         </Underlined>
       </div>
-
       <FilterGroup
         filters={filters}
         filterRef={filterRef}
@@ -60,11 +76,18 @@ const PureFilterPage = ({
   );
 };
 
-PureFilterPage.prototype = {
-  subject: PropTypes.string,
-  items: PropTypes.array,
+PureFilterPage.propTypes = {
+  title: PropTypes.string,
+  filters: PropTypes.array.isRequired,
+  onApply: PropTypes.func.isRequired,
+  filterRef: PropTypes.object.isRequired,
   onGoBack: PropTypes.func,
-  hasDateRangeFilter: PropTypes.bool,
+  children: PropTypes.node,
+  resetters: PropTypes.arrayOf(
+    PropTypes.shape({
+      setFunc: PropTypes.func.isRequired,
+      defaultVal: PropTypes.any,
+    }),
+  ),
 };
-
 export default PureFilterPage;

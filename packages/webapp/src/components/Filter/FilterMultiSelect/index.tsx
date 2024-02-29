@@ -75,7 +75,7 @@ export const FilterMultiSelect = ({
     <ReactSelect
       //@ts-ignore
       style={style} // I suspect the forwardRef is at fault for the type error?
-      placeholder={`${t('common:SELECT')}...`}
+      placeholder={`${t('common:SHOWING_ALL')}...`}
       options={options}
       label={subject}
       value={value}

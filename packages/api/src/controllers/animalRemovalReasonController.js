@@ -13,28 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-CREATE VIEW animal_union_batch_id_view AS
-SELECT
-  *,
-  ROW_NUMBER() OVER (PARTITION BY farm_id ORDER BY created_at)::INTEGER AS internal_identifier
-FROM (
-  SELECT
-    id,
-    farm_id,
-    FALSE AS batch,
-    created_at
-  FROM
-    animal a
+import AnimalRemovalReason from '../models/animalRemovalReasonModel.js';
 
-  UNION ALL
+const animalRemovalReasonController = {
+  getAnimalRemovalReasons() {
+    return async (_req, res) => {
+      try {
+        const rows = await AnimalRemovalReason.query();
+        return res.status(200).send(rows);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+          error,
+        });
+      }
+    };
+  },
+};
 
-  SELECT
-    id,
-    farm_id,
-    TRUE AS batch,
-    created_at
-  FROM
-    animal_batch ab
-) animal_union_batch_id_view
-ORDER BY
-  created_at;
+export default animalRemovalReasonController;

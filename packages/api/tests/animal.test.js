@@ -24,6 +24,7 @@ import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 
 import { makeAnimalOrBatchForFarm, makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
+import AnimalModel from '../src/models/animalModel.js';
 
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
@@ -39,10 +40,15 @@ describe('Animal Tests', () => {
   let farm;
   let newOwner;
   let defaultTypeId;
+  let animalRemovalReasonId;
 
   beforeAll(async () => {
     const [defaultAnimalType] = await mocks.default_animal_typeFactory();
     defaultTypeId = defaultAnimalType.id;
+
+    // Alternatively the enum table could be kept (not cleaned up)
+    const [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
+    animalRemovalReasonId = animalRemovalReason.id;
   });
 
   function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
@@ -67,6 +73,16 @@ describe('Animal Tests', () => {
   }
 
   const postRequestAsPromise = util.promisify(postRequest);
+
+  async function patchRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
+    return await chai
+      .request(server)
+      .patch('/animals')
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data);
+  }
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
@@ -332,6 +348,158 @@ describe('Animal Tests', () => {
       );
 
       expect(res.status).toBe(400);
+    });
+  });
+
+  describe('Remove animal tests', () => {
+    test('Admin users should be able to remove animals', async () => {
+      const roles = [1, 2, 5];
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+        const [customAnimalType] = await mocks.custom_animal_typeFactory();
+
+        // Create two animals, one with a default type and one with a custom type
+        const firstAnimal = await makeAnimal(mainFarm, {
+          default_type_id: defaultTypeId,
+        });
+        const secondAnimal = await makeAnimal(mainFarm, {
+          default_type_id: null,
+          custom_type_id: customAnimalType.id,
+        });
+
+        const res = await patchRequest(
+          {
+            user_id: user.user_id,
+            farm_id: mainFarm.farm_id,
+          },
+
+          [
+            {
+              id: firstAnimal.id,
+              animal_removal_reason_id: animalRemovalReasonId,
+              explanation: 'Gifted to neighbor',
+            },
+            {
+              id: secondAnimal.id,
+              animal_removal_reason_id: animalRemovalReasonId,
+              explanation: 'Gifted to neighbor',
+            },
+          ],
+        );
+
+        expect(res.status).toBe(204);
+
+        // Check database to make sure property has been updated
+        const animalRecords = await AnimalModel.query().whereIn('id', [
+          firstAnimal.id,
+          secondAnimal.id,
+        ]);
+
+        animalRecords.forEach((record) => {
+          expect(record.animal_removal_reason_id).toBe(animalRemovalReasonId);
+        });
+      }
+    });
+
+    test('Non-admin users should not be able to remove animals', async () => {
+      const roles = [3];
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+
+        const animal = await makeAnimal(mainFarm, {
+          default_type_id: defaultTypeId,
+        });
+
+        const res = await patchRequest(
+          {
+            user_id: user.user_id,
+            farm_id: mainFarm.farm_id,
+          },
+          [
+            {
+              id: animal.id,
+              animal_removal_reason_id: animalRemovalReasonId,
+              explanation: 'Gifted to neighbor',
+            },
+          ],
+        );
+
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe('User does not have the following permission(s): edit:animals');
+
+        // Check database
+        const animalRecord = await AnimalModel.query().findById(animal.id);
+        expect(animalRecord.animal_removal_reason_id).toBeNull();
+      }
+    });
+
+    test('Should not be able to send out an individual animal instead of an array', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const animal = await makeAnimal(mainFarm, {
+        default_type_id: defaultTypeId,
+      });
+
+      const res = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+
+        {
+          id: animal.id,
+          animal_removal_reason_id: animalRemovalReasonId,
+          explanation: 'Gifted to neighbor',
+        },
+      );
+
+      expect(res).toMatchObject({
+        status: 400,
+        error: {
+          text: 'Request body should be an array',
+        },
+      });
+
+      // Check database
+      const animalRecord = await AnimalModel.query().findById(animal.id);
+      expect(animalRecord.animal_removal_reason_id).toBeNull();
+    });
+
+    test('Should not be able to remove an animal belonging to a different farm', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+
+      const animal = await makeAnimal(secondFarm, {
+        default_type_id: defaultTypeId,
+      });
+
+      const res = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [
+          {
+            id: animal.id,
+            animal_removal_reason_id: animalRemovalReasonId,
+            explanation: 'Gifted to neighbor',
+          },
+        ],
+      );
+
+      expect(res).toMatchObject({
+        status: 400,
+        body: {
+          error: 'Invalid ids',
+          invalidAnimalIds: [animal.id],
+        },
+      });
+
+      // Check database
+      const animalRecord = await AnimalModel.query().findById(animal.id);
+      expect(animalRecord.animal_removal_reason_id).toBeNull();
     });
   });
 });

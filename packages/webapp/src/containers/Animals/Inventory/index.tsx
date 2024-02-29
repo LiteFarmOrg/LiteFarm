@@ -21,8 +21,22 @@ import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventory } from './useAnimalInventory';
+import ActionMenu from '../../../components/ActionMenu';
+import styles from './styles.module.scss';
 
-function AnimalInventory() {
+// TODO: LF-4087
+const iconActions = [
+  { label: 'a', icon: null, onClick: () => ({}) },
+  { label: 'b', icon: null, onClick: () => ({}) },
+  { label: 'c', icon: null, onClick: () => ({}) },
+  { label: 'd', icon: null, onClick: () => ({}) },
+];
+
+interface AnimalInventoryProps {
+  isCompactSideMenu: boolean;
+}
+
+function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const { t } = useTranslation(['translation', 'animal']);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -77,12 +91,22 @@ function AnimalInventory() {
 
   return (
     !isLoading && (
-      <PureAnimalInventory
-        tableData={inventory}
-        animalsColumns={animalsColumns}
-        theme={theme}
-        isMobile={isMobile}
-      />
+      <>
+        <PureAnimalInventory
+          tableData={inventory}
+          animalsColumns={animalsColumns}
+          theme={theme}
+          isMobile={isMobile}
+        />
+        <ActionMenu
+          headerLeftText={''}
+          textActions={[]}
+          iconActions={iconActions}
+          classes={{
+            root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
+          }}
+        />
+      </>
     )
   );
 }

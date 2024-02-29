@@ -18,6 +18,7 @@ import baseModel from './baseModel.js';
 import AnimalBatchSexDetailModel from './animalBatchSexDetailModel.js';
 import AnimalBatchGroupRelationshipModel from './animalBatchGroupRelationshipModel.js';
 import AnimalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
+import { checkAndTrimString } from '../util/util.js';
 
 class AnimalBatchModel extends baseModel {
   static get tableName() {
@@ -26,6 +27,34 @@ class AnimalBatchModel extends baseModel {
 
   static get idColumn() {
     return 'id';
+  }
+
+  static get stringProperties() {
+    const stringProperties = [];
+    for (const [key, value] of Object.entries(this.jsonSchema.properties)) {
+      if (value.type.includes('string')) {
+        stringProperties.push(key);
+      }
+    }
+    return stringProperties;
+  }
+
+  async $beforeInsert(queryContext) {
+    await super.$beforeInsert(queryContext);
+    this.trimStringProperties();
+  }
+
+  async $beforeUpdate(opt, queryContext) {
+    await super.$beforeUpdate(opt, queryContext);
+    this.trimStringProperties();
+  }
+
+  trimStringProperties() {
+    for (const key of this.constructor.stringProperties) {
+      if (key in this) {
+        this[key] = checkAndTrimString(this[key]);
+      }
+    }
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -54,6 +83,8 @@ class AnimalBatchModel extends baseModel {
         name: { type: ['string', 'null'] },
         notes: { type: ['string', 'null'] },
         photo_url: { type: ['string', 'null'] },
+        animal_removal_reason_id: { type: ['integer', 'null'] },
+        removal_explanation: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,

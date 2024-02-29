@@ -610,7 +610,11 @@ const Routes = ({ isCompactSideMenu }) => {
               component={NotificationReadOnly}
             />
             <Route path="/finances/*" exact component={Finances} />
-            <Route path="/animals/*" exact component={Animals} />
+            <Route
+              path="/animals/*"
+              exact
+              component={() => <Animals isCompactSideMenu={isCompactSideMenu} />}
+            />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
               to={'/'}

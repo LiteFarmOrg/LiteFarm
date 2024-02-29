@@ -30,9 +30,15 @@ const PureAnimalInventory = ({
   return (
     <Layout
       classes={{
-        container: { backgroundColor: theme.palette.background.paper },
+        container: {
+          backgroundColor: theme.palette.background.paper,
+          borderRadius: '8px',
+          border: '1px solid var(--Colors-Primary-Primary-teal-50)',
+          marginTop: '16px',
+        },
       }}
       hasWhiteBackground
+      footer={false}
     >
       <Table
         kind={TableKind.V2}

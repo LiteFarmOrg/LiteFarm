@@ -28,7 +28,6 @@ import type {
 } from '../../../containers/Filter/types';
 import type { ComponentFilter } from '../types';
 
-/* Calls the container's onChange supplying the filter key for the particular filter. Depending on the callback passed, the filterState argument is either irrelevant or used -- only in finance report -- to set the component filter state sent to the API */
 // (filterState) => onChange(filter.filterKey, filterState)
 export type ComponentOnChangeCallback = (filterState: FilterState) => void;
 

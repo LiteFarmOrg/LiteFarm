@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://wwwl.gnu.org/licenses/>.
  */
 
-enum FilterType {
+export enum FilterType {
   FILTER_PILL = 'FILTER_PILL',
   SEARCHABLE_MULTI_SELECT = 'SEARCHABLE_MULTI_SELECT',
   DATE = 'DATE',

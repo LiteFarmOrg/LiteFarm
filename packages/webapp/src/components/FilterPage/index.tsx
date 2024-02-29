@@ -9,20 +9,14 @@ import FilterGroup from '../Filter/FilterGroup';
 import type { ComponentFilter } from '../Filter/types';
 import type { ReduxFilterEntity } from '../../containers/Filter/types';
 
-// TODO: type the resetters
-interface Resetter {
-  setFunc: (val: any) => void;
-  defaultVal: any;
-}
-
 interface PureFilterPageProps {
   filters: ComponentFilter[];
   filterRef: React.RefObject<ReduxFilterEntity>;
   title?: string;
-  onApply: () => void;
+  onApply: () => void /* The handler for Redux state update in this flow, e.g.
+    () => dispatch(setCropCatalogueFilter(filterRef.current)) */;
   onGoBack?: () => void;
   children?: React.ReactNode;
-  resetters?: Resetter[];
 }
 
 const PureFilterPage = ({
@@ -32,7 +26,6 @@ const PureFilterPage = ({
   filterRef,
   onGoBack,
   children,
-  resetters = [],
 }: PureFilterPageProps) => {
   const { t } = useTranslation();
 
@@ -41,10 +34,6 @@ const PureFilterPage = ({
 
   const resetFilter = () => {
     triggerReset();
-    for (const resetter of resetters) {
-      const { setFunc, defaultVal } = resetter;
-      setFunc(defaultVal);
-    }
     setIsDirty(true);
   };
 
@@ -83,11 +72,5 @@ PureFilterPage.propTypes = {
   filterRef: PropTypes.object.isRequired,
   onGoBack: PropTypes.func,
   children: PropTypes.node,
-  resetters: PropTypes.arrayOf(
-    PropTypes.shape({
-      setFunc: PropTypes.func.isRequired,
-      defaultVal: PropTypes.any,
-    }),
-  ),
 };
 export default PureFilterPage;

@@ -33,6 +33,7 @@ import objection from 'objection';
  * }
  */
 export async function handleObjectionError(err, res, trx) {
+  console.error(err); // also reports to Sentry
   if (err instanceof objection.ValidationError) {
     switch (err.type) {
       case 'ModelValidation':

@@ -13,9 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import Model from './baseFormatModel.js';
 import baseModel from './baseModel.js';
 import animalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
+import Model from './baseFormatModel.js';
+import { checkAndTrimString } from '../util/util.js';
 
 class Animal extends baseModel {
   static get tableName() {
@@ -24,6 +25,34 @@ class Animal extends baseModel {
 
   static get idColumn() {
     return 'id';
+  }
+
+  static get stringProperties() {
+    const stringProperties = [];
+    for (const [key, value] of Object.entries(this.jsonSchema.properties)) {
+      if (value.type.includes('string')) {
+        stringProperties.push(key);
+      }
+    }
+    return stringProperties;
+  }
+
+  async $beforeInsert(queryContext) {
+    await super.$beforeInsert(queryContext);
+    this.trimStringProperties();
+  }
+
+  async $beforeUpdate(opt, queryContext) {
+    await super.$beforeUpdate(opt, queryContext);
+    this.trimStringProperties();
+  }
+
+  trimStringProperties() {
+    for (const key of this.constructor.stringProperties) {
+      if (key in this) {
+        this[key] = checkAndTrimString(this[key]);
+      }
+    }
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated

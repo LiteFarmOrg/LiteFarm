@@ -21,6 +21,7 @@ import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { assignInternalIdentifiers } from '../util/animal.js';
+import { handleObjectionError } from '../util/errorCodes.js';
 
 const animalController = {
   getFarmAnimals() {
@@ -156,6 +157,71 @@ const animalController = {
         return res.status(500).json({
           error,
         });
+      }
+    };
+  },
+
+  editAnimals() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+
+      try {
+        const { farm_id } = req.headers;
+
+        if (!Array.isArray(req.body)) {
+          await trx.rollback();
+          return res.status(400).send('Request body should be an array');
+        }
+
+        // Check that all animals exist and belong to the farm
+        // Done in its own loop to provide a list of all invalid ids
+        const invalidAnimalIds = [];
+
+        for (const animal of req.body) {
+          if (!animal.id) {
+            await trx.rollback();
+            return res.status(400).send('Must send animal id');
+          }
+
+          const farmAnimalRecord = await AnimalModel.query(trx)
+            .findById(animal.id)
+            .where({ farm_id })
+            .whereNotDeleted();
+
+          if (!farmAnimalRecord) {
+            invalidAnimalIds.push(animal.id);
+          }
+        }
+
+        if (invalidAnimalIds.length) {
+          await trx.rollback();
+          return res.status(400).json({
+            error: 'Invalid ids',
+            invalidAnimalIds,
+            message: 'Some animals do not exist or are not associated with the given farm.',
+          });
+        }
+
+        // Update animals
+        // NOTE: this is only scoped for removal. To make this a general update controller would require restating all of the checks on breed, type, etc. in addAnimals() above.
+        for (const animal of req.body) {
+          const { id, animal_removal_reason_id, removal_explanation } = animal;
+
+          await baseController.patch(
+            AnimalModel,
+            id,
+            {
+              animal_removal_reason_id,
+              removal_explanation,
+            },
+            req,
+            { trx },
+          );
+        }
+        await trx.commit();
+        return res.status(204).send();
+      } catch (error) {
+        handleObjectionError(error, res, trx);
       }
     };
   },

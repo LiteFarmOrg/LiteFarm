@@ -18,6 +18,7 @@ import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
 import { transaction, Model } from 'objection';
 import baseController from './baseController.js';
+import { checkAndTrimString } from '../util/util.js';
 
 const customAnimalBreedController = {
   getCustomAnimalBreeds() {
@@ -56,7 +57,7 @@ const customAnimalBreedController = {
         const { farm_id } = req.headers;
         let { breed } = req.body;
         const { default_type_id, custom_type_id } = req.body;
-        breed = baseController.checkAndTrimString(breed);
+        breed = checkAndTrimString(breed);
 
         if (!breed) {
           await trx.rollback();

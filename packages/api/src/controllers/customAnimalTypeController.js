@@ -17,6 +17,7 @@ import { transaction, Model } from 'objection';
 import baseController from './baseController.js';
 
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
+import { checkAndTrimString } from '../util/util.js';
 
 const customAnimalTypeController = {
   getCustomAnimalTypes() {
@@ -44,7 +45,7 @@ const customAnimalTypeController = {
       try {
         const { farm_id } = req.headers;
         let { type } = req.body;
-        type = baseController.checkAndTrimString(type);
+        type = checkAndTrimString(type);
 
         if (!type) {
           await trx.rollback();

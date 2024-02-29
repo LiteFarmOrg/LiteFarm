@@ -270,19 +270,4 @@ export default {
 
     return query.first();
   },
-
-  /**
-   * Checks if the input is a string and not just white space.
-   * Returns a trimmed version of the input if it's a valid string, or null
-   *
-   * @param {string} input - The input string to validate and trim.
-   * @return {string | null} - The trimmed string if valid, otherwise null.
-   */
-  checkAndTrimString(input) {
-    if (typeof input !== 'string' || !input.trim()) {
-      return null;
-    }
-    return input.trim();
-  },
 };
-//export trx;

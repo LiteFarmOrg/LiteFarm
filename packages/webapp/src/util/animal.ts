@@ -13,18 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Animal, AnimalBatch, AnimalGroup } from '../../store/api/types';
+import { CustomAnimalType, DefaultAnimalType } from '../store/api/types';
+import { ANIMAL_TYPE_ID_PREFIX } from '../containers/Animals/types';
 
-export interface AnimalData extends Animal {
-  groups: AnimalGroup[];
-}
-export interface AnimalBatchData extends AnimalBatch {
-  groups: AnimalGroup[];
-}
-
-export interface AnimalOrBatchData extends AnimalData, AnimalBatchData {}
-
-export enum ANIMAL_TYPE_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
-}
+export const generateUniqueAnimalTypeId = (type: DefaultAnimalType | CustomAnimalType): string => {
+  return `${ANIMAL_TYPE_ID_PREFIX['key' in type ? 'DEFAULT' : 'CUSTOM']}_${type.id}`;
+};

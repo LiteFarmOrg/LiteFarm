@@ -24,9 +24,13 @@ const Inventory = React.lazy(() => import('../containers/Animals/Inventory'));
 const Location = React.lazy(() => import('../containers/Animals/Location'));
 const Groups = React.lazy(() => import('../containers/Animals/Groups'));
 
-const AnimalsRoutes = () => (
+const AnimalsRoutes = ({ isCompactSideMenu }) => (
   <Switch>
-    <Route path={ANIMALS_INVENTORY_URL} exact component={Inventory} />
+    <Route
+      path={ANIMALS_INVENTORY_URL}
+      exact
+      component={(props) => <Inventory isCompactSideMenu={isCompactSideMenu} {...props} />}
+    />
     <Route path={ANIMALS_LOCATION_URL} exact component={Location} />
     <Route path={ANIMALS_GROUPS_URL} exact component={Groups} />
   </Switch>

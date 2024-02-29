@@ -149,6 +149,71 @@ const animalBatchController = {
       }
     };
   },
+
+  editAnimalBatches() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+
+      try {
+        const { farm_id } = req.headers;
+
+        if (!Array.isArray(req.body)) {
+          await trx.rollback();
+          return res.status(400).send('Request body should be an array');
+        }
+
+        // Check that all animal batches exist and belong to the farm
+        // Done in its own loop to provide a list of all invalid ids
+        const invalidAnimalBatchIds = [];
+
+        for (const animalBatch of req.body) {
+          if (!animalBatch.id) {
+            await trx.rollback();
+            return res.status(400).send('Must send animal batch id');
+          }
+
+          const farmBatchRecord = await AnimalBatchModel.query(trx)
+            .findById(animalBatch.id)
+            .where({ farm_id })
+            .whereNotDeleted();
+
+          if (!farmBatchRecord) {
+            invalidAnimalBatchIds.push(animalBatch.id);
+          }
+        }
+
+        if (invalidAnimalBatchIds.length) {
+          await trx.rollback();
+          return res.status(400).json({
+            error: 'Invalid ids',
+            invalidAnimalBatchIds,
+            message: 'Some animal batches do not exist or are not associated with the given farm.',
+          });
+        }
+
+        // Update animal batches
+        // NOTE: this is only scoped for removal. To make this a general update controller would require restating all of the checks on breed, type, etc. in addAnimalBatches() above.
+        for (const animalBatch of req.body) {
+          const { id, animal_removal_reason_id, removal_explanation } = animalBatch;
+
+          await baseController.patch(
+            AnimalBatchModel,
+            id,
+            {
+              animal_removal_reason_id,
+              removal_explanation,
+            },
+            req,
+            { trx },
+          );
+        }
+        await trx.commit();
+        return res.status(204).send();
+      } catch (error) {
+        handleObjectionError(error, res, trx);
+      }
+    };
+  },
 };
 
 export default animalBatchController;

@@ -24,6 +24,12 @@ import { deleteAnimalEntity } from '../middleware/deleteAnimalEntity.js';
 console.log(deleteAnimalEntity(AnimalModel));
 router.get('/', checkScope(['get:animals']), AnimalController.getFarmAnimals());
 router.post('/', checkScope(['add:animals']), AnimalController.addAnimals());
+router.patch(
+  '/',
+  checkScope(['edit:animals']),
+  // Can't use hasFarmAccess because body is an array & because of non-unique id field
+  AnimalController.editAnimals(),
+);
 router.delete(
   '/',
   checkScope(['delete:animals']),

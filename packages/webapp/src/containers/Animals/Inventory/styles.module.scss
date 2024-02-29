@@ -1,0 +1,64 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+@import '../../../assets/mixin.scss';
+
+@include sm-breakpoint {
+  @keyframes slide-to-left {
+    0% {
+      margin-left: calc(var(--global-side-menu-width) / 2);
+    }
+
+    80% {
+      margin-left: calc(var(--global-compact-side-menu-width) / 2);
+    }
+
+    90% {
+      margin-left: calc(var(--global-compact-side-menu-width) / 2 - 2px);
+    }
+
+    100% {
+      margin-left: calc(var(--global-compact-side-menu-width) / 2);
+    }
+  }
+
+  @keyframes slide-to-right {
+    0% {
+      margin-left: calc(var(--global-compact-side-menu-width) / 2);
+    }
+
+    80% {
+      margin-left: calc(var(--global-side-menu-width) / 2);
+    }
+
+    90% {
+      margin-left: calc(var(--global-side-menu-width) / 2 + 2px);
+    }
+
+    100% {
+      margin-left: calc(var(--global-side-menu-width) / 2);
+    }
+  }
+  .withCompactSideMenu {
+    animation-name: slide-to-left;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+  }
+
+  .withExpandedSideMenu {
+    animation-name: slide-to-right;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+  }
+}

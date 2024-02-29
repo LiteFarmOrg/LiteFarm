@@ -20,6 +20,7 @@ import AnimalGroupRelationshipModel from '../models/animalGroupRelationshipModel
 import AnimalBatchGroupRelationshipModel from '../models/animalBatchGroupRelationshipModel.js';
 import AnimalModel from '../models/animalModel.js';
 import AnimalBatchModel from '../models/animalBatchModel.js';
+import { checkAndTrimString } from '../util/util.js';
 
 const animalGroupController = {
   getFarmAnimalGroups() {
@@ -53,8 +54,8 @@ const animalGroupController = {
         const { farm_id } = req.headers;
         const { related_animal_ids, related_batch_ids } = req.body;
         let { name, notes } = req.body;
-        name = baseController.checkAndTrimString(name);
-        notes = baseController.checkAndTrimString(notes);
+        name = checkAndTrimString(name);
+        notes = checkAndTrimString(notes);
 
         if (!name) {
           await trx.rollback();

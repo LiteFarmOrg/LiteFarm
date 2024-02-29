@@ -40,3 +40,17 @@ export const getSortedDates = (dates) => {
   const jsDates = dates.map((date) => new Date(date));
   return jsDates.sort((date1, date2) => date1 - date2);
 };
+
+/**
+ * Checks if the input is a string and not just white space.
+ * Returns a trimmed version of the input if it's a valid string, or null
+ *
+ * @param {string} input - The input string to validate and trim.
+ * @return {string | null} - The trimmed string if valid, otherwise null.
+ */
+export const checkAndTrimString = (input) => {
+  if (typeof input !== 'string' || !input.trim()) {
+    return null;
+  }
+  return input.trim();
+};

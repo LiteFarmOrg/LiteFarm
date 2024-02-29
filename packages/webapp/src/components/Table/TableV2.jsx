@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -24,9 +24,9 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { BsThreeDots } from 'react-icons/bs';
 import clsx from 'clsx';
-import EnhancedTableHead from './TableHead';
-import Button from '../../Form/Button';
-import { getComparator } from '../../../util/sort';
+import EnhancedTableHead from './Header/TableHead';
+import Button from '../Form/Button';
+import { getComparator } from '../../util/sort';
 import styles from './styles.module.scss';
 
 const More = ({ onClickLoadMore, onClickMore, invisibleRowCount, dense, colSpan }) => {
@@ -77,7 +77,7 @@ More.propTypes = {
  * A table component built utilizing the Material Ui Table.
  * https://mui.com/material-ui/react-table/
  */
-export default function EnhancedTable(props) {
+export default function TableV2(props) {
   const {
     columns,
     data,
@@ -91,6 +91,7 @@ export default function EnhancedTable(props) {
     dense,
     shouldFixTableLayout,
     defaultOrderBy,
+    alternatingRowColor,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -152,13 +153,18 @@ export default function EnhancedTable(props) {
             onRequestSort={handleRequestSort}
             dense={dense}
           />
-          <TableBody>
+          <TableBody className={styles.tableBody}>
             {visibleRows.map((row, index) => {
               return (
                 <TableRow
                   key={index}
                   onClick={(event) => handleRowClick(event, row)}
-                  className={clsx(styles.tableRow, onRowClick && styles.clickable)}
+                  className={clsx(
+                    styles.tableRow,
+                    styles.itemRow,
+                    onRowClick && styles.clickable,
+                    alternatingRowColor ? styles.alternatingRowColor : styles.plainRowColor,
+                  )}
                 >
                   {columns.map(({ id, format, align, columnProps }) => {
                     if (!id) {
@@ -238,7 +244,7 @@ export default function EnhancedTable(props) {
   );
 }
 
-EnhancedTable.propTypes = {
+TableV2.propTypes = {
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -260,12 +266,15 @@ EnhancedTable.propTypes = {
   /** should be true when setting column width */
   shouldFixTableLayout: PropTypes.bool,
   defaultOrderBy: PropTypes.string,
+  alternatingRowColor: PropTypes.bool,
 };
-EnhancedTable.defaultProps = {
+
+TableV2.defaultProps = {
   minRows: 10,
   pageSizeOptions: [5, 10, 20, 50],
   itemsToAddPerLoadMoreClick: 5,
   dense: true,
   shouldFixTableLayout: false,
   defaultOrderBy: '',
+  alternatingRowColor: false,
 };

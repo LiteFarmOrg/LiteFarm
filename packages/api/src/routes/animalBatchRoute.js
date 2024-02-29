@@ -23,6 +23,12 @@ import AnimalBatchModel from '../models/animalBatchModel.js';
 
 router.get('/', checkScope(['get:animal_batches']), AnimalBatchController.getFarmAnimalBatches());
 router.post('/', checkScope(['add:animal_batches']), AnimalBatchController.addAnimalBatches());
+router.patch(
+  '/',
+  checkScope(['edit:animal_batches']),
+  // Can't use hasFarmAccess because body is an array & because of non-unique id field
+  AnimalBatchController.editAnimalBatches(),
+);
 router.delete(
   '/',
   checkScope(['delete:animal_batches']),

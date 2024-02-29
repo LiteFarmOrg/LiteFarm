@@ -20,16 +20,20 @@ export type IconTextProps = {
   text: string | number | null | undefined;
   icon: FC;
   subtext: string | null | undefined;
+  count: number;
 };
 
-const IconText = ({ text, icon: Icon, subtext }: IconTextProps) => {
+const IconText = ({ text, icon: Icon, subtext, count }: IconTextProps) => {
   return (
     <div className={styles.iconText}>
       <div className={styles.squareIcon}>
         <Icon />
       </div>
       <div className={clsx(styles.text, styles.overflowText, subtext && styles.withSubtextText)}>
-        <div className={clsx(subtext && styles.withSubtextMainText)}>{text}</div>
+        <div className={clsx(styles.identifier, subtext && styles.withSubtextMainText)}>
+          {text}
+          {count > 1 && <div className={styles.count}>{count}</div>}
+        </div>
         <div className={clsx(subtext && styles.withSubtextSubext)}>{subtext}</div>
       </div>
     </div>

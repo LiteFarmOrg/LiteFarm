@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import i18n from '../../../locales/i18n';
 import {
   useGetAnimalsQuery,
@@ -33,13 +33,20 @@ import {
   DefaultAnimalType,
 } from '../../../store/api/types';
 import { getComparator, orderEnum } from '../../../util/sort';
+import { ReactComponent as CattleIcon } from '../../../assets/images/animals/table/cattle.svg';
+import { ReactComponent as ChickenIcon } from '../../../assets/images/animals/table/chicken.svg';
+import { ReactComponent as PigIcon } from '../../../assets/images/animals/table/pig.svg';
+import { ReactComponent as BatchIcon } from '../../../assets/images/animals/table/batch.svg';
+import { AnimalTranslationKey } from '../types';
 
 export type AnimalInventory = {
+  icon: FC;
   identification: string;
   type: string;
   breed: string;
   groups: string[];
   path: string;
+  count: number;
 };
 
 type hasId = {
@@ -48,6 +55,23 @@ type hasId = {
 };
 
 const { t } = i18n;
+
+const getDefaultAnimalIcon = (defaultAnimalTypes: DefaultAnimalType[], defaultTypeId: number) => {
+  const key = defaultAnimalTypes[defaultTypeId].key;
+  console.log(key);
+  switch (key) {
+    case AnimalTranslationKey.CATTLE:
+      return CattleIcon;
+    case AnimalTranslationKey.CHICKEN_BROILERS:
+      return ChickenIcon;
+    case AnimalTranslationKey.CHICKEN_LAYERS:
+      return ChickenIcon;
+    case AnimalTranslationKey.PIGS:
+      return PigIcon;
+    default:
+      return CattleIcon;
+  }
+};
 
 const getProperty = (arr: hasId[] | undefined, id: number | null, key: string) => {
   return arr?.find((el) => el.id === id)?.[key] || null;
@@ -71,6 +95,9 @@ const sortAnimalsData = (
 ) => {
   return animals.map((animal: Animal) => {
     return {
+      icon: animal.default_type_id
+        ? getDefaultAnimalIcon(defaultAnimalTypes, animal.default_type_id)
+        : CattleIcon,
       identification: animal.name
         ? animal.identifier
           ? `${animal.name} | ` + (animal.identifier || null)
@@ -90,6 +117,7 @@ const sortAnimalsData = (
         ? animal.group_ids.map((id: number) => getProperty(animalGroups, id, 'name'))
         : ['none'],
       path: `/animal/${animal.internal_identifier}`,
+      count: 1,
     };
   });
 };
@@ -104,6 +132,7 @@ const sortAnimalBatchesData = (
 ) => {
   return animalBatches.map((batch: AnimalBatch) => {
     return {
+      icon: BatchIcon,
       identification: batch.name
         ? batch.name
         : `${t('ANIMAL.ANIMAL')}#${batch.internal_identifier}`,
@@ -121,6 +150,7 @@ const sortAnimalBatchesData = (
         ? batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name'))
         : ['none'],
       path: `/batch/${batch.internal_identifier}`,
+      count: batch.count,
     };
   });
 };

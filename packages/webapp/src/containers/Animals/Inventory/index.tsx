@@ -19,7 +19,6 @@ import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
-import { ReactComponent as AnimalIcon } from '../../../assets/images/nav/animals.svg';
 import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventory } from './useAnimalInventory';
 
@@ -39,8 +38,9 @@ function AnimalInventory() {
           <Cell
             kind={CellKind.ICON_TEXT}
             text={d.identification}
-            icon={AnimalIcon}
+            icon={d.icon}
             subtext={isMobile ? `${d.type} / ${d.breed}` : null}
+            count={d.count}
           />
         ),
       },

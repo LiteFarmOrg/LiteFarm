@@ -1,9 +1,24 @@
 import { Model, transaction } from 'objection';
-import baseController from '../controllers/baseController';
 import { handleObjectionError } from '../util/errorCodes';
 
-export function deleteAnimalEntity(model) {
-  return async (req, res) => {
+/**
+ * Middleware function to check if the provided animal entities exist and belong to the farm.
+ * The IDs must be passed as a comma-separated request query string.
+ *
+ * @param {Object} model - The database model for the correct animal.
+ * @returns {Function} - Express middleware function.
+ *
+ * @example
+ * router.delete(
+ *   '/',
+ *   checkScope(['delete:animals']),
+ *   checkAnimalEntities(AnimalModel),
+ *   AnimalController.deleteAnimals(),
+ * );
+ *
+ */
+export function checkAnimalEntities(model) {
+  return async (req, res, next) => {
     const trx = await transaction.start(Model.knex());
 
     try {
@@ -17,7 +32,7 @@ export function deleteAnimalEntity(model) {
 
       const idsSet = new Set(ids.split(','));
 
-      // Check that all batches exist and belong to the farm
+      // Check that all animals/batches exist and belong to the farm
       const invalidIds = [];
 
       for (const id of idsSet) {
@@ -48,12 +63,7 @@ export function deleteAnimalEntity(model) {
         });
       }
 
-      // Delete animal batches
-      for (const id of idsSet) {
-        await baseController.delete(model, id, req, { trx });
-      }
-      await trx.commit();
-      return res.status(204).send();
+      next();
     } catch (error) {
       handleObjectionError(error, res, trx);
     }

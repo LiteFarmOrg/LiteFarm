@@ -225,6 +225,25 @@ const animalController = {
       }
     };
   },
+
+  deleteAnimals() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+
+      try {
+        const { ids } = req.query;
+        const idsSet = new Set(ids.split(','));
+
+        for (const animalId of idsSet) {
+          await baseController.delete(AnimalModel, animalId, req, { trx });
+        }
+        await trx.commit();
+        return res.status(204).send();
+      } catch (error) {
+        handleObjectionError(error, res, trx);
+      }
+    };
+  },
 };
 
 export default animalController;

@@ -33,7 +33,7 @@ function AnimalInventory() {
   const animalsColumns = useMemo(
     () => [
       {
-        id: 'name',
+        id: 'identification',
         label: t('ANIMAL.ANIMAL_IDENTIFICATION').toLocaleUpperCase(),
         format: (d: AnimalInventory) => (
           <Cell
@@ -45,12 +45,12 @@ function AnimalInventory() {
         ),
       },
       {
-        id: isMobile ? null : 'default_type_id',
+        id: isMobile ? null : 'type',
         label: t('ANIMAL.ANIMAL_TYPE').toLocaleUpperCase(),
         format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.type} />,
       },
       {
-        id: isMobile ? null : 'default_breed_id',
+        id: isMobile ? null : 'breed',
         label: t('ANIMAL.ANIMAL_BREED').toLocaleUpperCase(),
         format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
       },
@@ -63,7 +63,7 @@ function AnimalInventory() {
         sortable: false,
       },
       {
-        id: 'Record Link',
+        id: 'path',
         label: '',
         format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
         columnProps: {

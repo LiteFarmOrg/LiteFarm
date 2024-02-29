@@ -5,7 +5,14 @@ import { BsChevronLeft } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import { CancelButton } from '../CancelButton';
 
-function PageTitle({ title, onGoBack, onCancel, style, cancelModalTitle, label }) {
+function PageTitle({
+  title,
+  onGoBack,
+  onCancel = () => {},
+  style,
+  cancelModalTitle = '',
+  label = '',
+}) {
   return (
     <div className={styles.container} style={style}>
       <div className={styles.leftContainer} style={{ overflow: 'hidden', wordBreak: 'break-word' }}>
@@ -25,7 +32,8 @@ function PageTitle({ title, onGoBack, onCancel, style, cancelModalTitle, label }
 }
 
 export default PageTitle;
-PageTitle.prototype = {
+
+PageTitle.propTypes = {
   title: PropTypes.string,
   onGoBack: PropTypes.func,
   onCancel: PropTypes.func,

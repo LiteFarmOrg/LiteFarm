@@ -77,7 +77,12 @@ function AnimalInventory() {
 
   return (
     !isLoading && (
-      <PureAnimalInventory tableData={inventory} animalsColumns={animalsColumns} theme={theme} />
+      <PureAnimalInventory
+        tableData={inventory}
+        animalsColumns={animalsColumns}
+        theme={theme}
+        isMobile={isMobile}
+      />
     )
   );
 }

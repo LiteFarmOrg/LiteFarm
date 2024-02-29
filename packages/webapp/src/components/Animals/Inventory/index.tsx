@@ -22,10 +22,12 @@ const PureAnimalInventory = ({
   tableData,
   animalsColumns,
   theme,
+  isMobile,
 }: {
   tableData: AnimalInventory[];
   animalsColumns: TableV2Column[];
   theme: DefaultTheme;
+  isMobile: boolean;
 }) => {
   return (
     <Layout
@@ -48,6 +50,7 @@ const PureAnimalInventory = ({
         shouldFixTableLayout={true}
         minRows={tableData.length}
         dense={false}
+        showHeader={!isMobile}
       />
     </Layout>
   );

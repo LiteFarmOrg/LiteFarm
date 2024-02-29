@@ -92,6 +92,7 @@ export default function TableV2(props) {
     shouldFixTableLayout,
     defaultOrderBy,
     alternatingRowColor,
+    showHeader,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -146,13 +147,15 @@ export default function TableV2(props) {
           aria-labelledby="tableTitle"
           className={clsx(styles.table, shouldFixTableLayout && styles.fixed)}
         >
-          <EnhancedTableHead
-            columns={columns}
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            dense={dense}
-          />
+          {showHeader && (
+            <EnhancedTableHead
+              columns={columns}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+              dense={dense}
+            />
+          )}
           <TableBody className={styles.tableBody}>
             {visibleRows.map((row, index) => {
               return (
@@ -267,6 +270,7 @@ TableV2.propTypes = {
   shouldFixTableLayout: PropTypes.bool,
   defaultOrderBy: PropTypes.string,
   alternatingRowColor: PropTypes.bool,
+  showHeader: PropTypes.bool,
 };
 
 TableV2.defaultProps = {
@@ -277,4 +281,5 @@ TableV2.defaultProps = {
   shouldFixTableLayout: false,
   defaultOrderBy: '',
   alternatingRowColor: false,
+  showHeader: true,
 };

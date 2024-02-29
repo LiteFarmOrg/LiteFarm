@@ -49,16 +49,10 @@ export type AnimalInventory = {
   count: number;
 };
 
-type hasId = {
-  id: number;
-  [key: string]: any;
-};
-
 const { t } = i18n;
 
 const getDefaultAnimalIcon = (defaultAnimalTypes: DefaultAnimalType[], defaultTypeId: number) => {
   const key = defaultAnimalTypes[defaultTypeId].key;
-  console.log(key);
   switch (key) {
     case AnimalTranslationKey.CATTLE:
       return CattleIcon;
@@ -73,6 +67,11 @@ const getDefaultAnimalIcon = (defaultAnimalTypes: DefaultAnimalType[], defaultTy
   }
 };
 
+type hasId = {
+  id: number;
+  [key: string]: any;
+};
+
 const getProperty = (arr: hasId[] | undefined, id: number | null, key: string) => {
   return arr?.find((el) => el.id === id)?.[key] || null;
 };
@@ -83,6 +82,50 @@ const getAnimalTypeLabel = (key: string) => {
 
 const getAnimalBreedLabel = (key: string) => {
   return t(`BREED.${key}`, { ns: 'animal' });
+};
+
+const chooseAnimalIdentifier = (animal: Animal) => {
+  if (animal.name && animal.identifier) {
+    return `${animal.name} | ${animal.identifier}`;
+  } else if (animal.name && !animal.identifier) {
+    return animal.name;
+  } else if (!animal.name && animal.identifier) {
+    return animal.identifier;
+  } else {
+    return `${t('ANIMAL.ANIMAL')}#${animal.internal_identifier}`;
+  }
+};
+
+const chooseAnimalTypeLabel = (
+  animalOrBatch: Animal | AnimalBatch,
+  defaultAnimalTypes: DefaultAnimalType[],
+  customAnimalTypes: CustomAnimalType[],
+) => {
+  if (animalOrBatch.default_type_id) {
+    return getAnimalTypeLabel(
+      getProperty(defaultAnimalTypes, animalOrBatch.default_type_id, 'key'),
+    );
+  } else if (animalOrBatch.custom_type_id) {
+    return getProperty(customAnimalTypes, animalOrBatch.custom_type_id, 'type');
+  } else {
+    return null;
+  }
+};
+
+const chooseAnimalBreedLabel = (
+  animalOrBatch: Animal | AnimalBatch,
+  defaultAnimalBreeds: DefaultAnimalBreed[],
+  customAnimalBreeds: CustomAnimalBreed[],
+) => {
+  if (animalOrBatch.default_breed_id) {
+    return getAnimalBreedLabel(
+      getProperty(defaultAnimalBreeds, animalOrBatch.default_breed_id, 'key'),
+    );
+  } else if (animalOrBatch.custom_breed_id) {
+    return getProperty(customAnimalBreeds, animalOrBatch.custom_breed_id, 'type');
+  } else {
+    return null;
+  }
 };
 
 const sortAnimalsData = (
@@ -98,21 +141,9 @@ const sortAnimalsData = (
       icon: animal.default_type_id
         ? getDefaultAnimalIcon(defaultAnimalTypes, animal.default_type_id)
         : CattleIcon,
-      identification: animal.name
-        ? animal.identifier
-          ? `${animal.name} | ` + (animal.identifier || null)
-          : animal.name
-        : animal.identifier || `${t('ANIMAL.ANIMAL')}#${animal.internal_identifier}`,
-      type: animal.default_type_id
-        ? getAnimalTypeLabel(getProperty(defaultAnimalTypes, animal.default_type_id, 'key'))
-        : animal.custom_type_id
-        ? getProperty(customAnimalTypes, animal.custom_type_id, 'type')
-        : null,
-      breed: animal.default_breed_id
-        ? getAnimalBreedLabel(getProperty(defaultAnimalBreeds, animal.default_breed_id, 'key'))
-        : animal.custom_breed_id
-        ? getProperty(customAnimalBreeds, animal.custom_breed_id, 'breed')
-        : null,
+      identification: chooseAnimalIdentifier(animal),
+      type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
+      breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
       groups: animal.group_ids
         ? animal.group_ids.map((id: number) => getProperty(animalGroups, id, 'name'))
         : ['none'],
@@ -136,16 +167,8 @@ const sortAnimalBatchesData = (
       identification: batch.name
         ? batch.name
         : `${t('ANIMAL.ANIMAL')}#${batch.internal_identifier}`,
-      type: batch.default_type_id
-        ? getAnimalTypeLabel(getProperty(defaultAnimalTypes, batch.default_type_id, 'key'))
-        : batch.custom_type_id
-        ? getProperty(customAnimalTypes, batch.custom_type_id, 'type')
-        : null,
-      breed: batch.default_breed_id
-        ? getAnimalBreedLabel(getProperty(defaultAnimalBreeds, batch.default_breed_id, 'key'))
-        : batch.custom_breed_id
-        ? getProperty(customAnimalBreeds, batch.custom_breed_id, 'breed')
-        : null,
+      type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
+      breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),
       groups: batch.group_ids
         ? batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name'))
         : ['none'],

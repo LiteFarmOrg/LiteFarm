@@ -74,4 +74,5 @@ export type TableV2Props = {
   onRowClick?: () => void;
   shouldFixTableLayout?: boolean;
   defaultOrderBy?: string;
+  showHeader?: boolean;
 };

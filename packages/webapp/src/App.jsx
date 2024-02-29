@@ -27,7 +27,7 @@ import Routes from './routes';
 
 function App() {
   const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
-  const FULL_WIDTH_ROUTES = ['/map'];
+  const FULL_WIDTH_ROUTES = ['/map', '/animals/inventory'];
   const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(history.location.pathname, path));
 
   return (

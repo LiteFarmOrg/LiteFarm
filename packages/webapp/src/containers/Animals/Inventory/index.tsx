@@ -26,22 +26,8 @@ import { AnimalData, AnimalBatchData, AnimalOrBatchData } from '../types';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
 import { ReactComponent as AnimalIcon } from '../../../assets/images/nav/animals.svg';
-import ActionMenu from '../../../components/ActionMenu';
-import styles from './styles.module.scss';
 
-// TODO: LF-4087
-const iconActions = [
-  { label: 'a', icon: null, onClick: () => ({}) },
-  { label: 'b', icon: null, onClick: () => ({}) },
-  { label: 'c', icon: null, onClick: () => ({}) },
-  { label: 'd', icon: null, onClick: () => ({}) },
-];
-
-interface AnimalInventoryProps {
-  isCompactSideMenu: boolean;
-}
-
-function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
+function AnimalInventory() {
   const { data: animals = [] } = useGetAnimalsQuery();
   const { data: animalBatches = [] } = useGetAnimalBatchesQuery();
   const { data: animalGroups } = useGetAnimalGroupsQuery();
@@ -143,17 +129,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const tableData = [...animalData, ...batchData];
 
   return (
-    <>
-      <PureAnimalInventory tableData={tableData} animalsColumns={animalsColumns} theme={theme} />
-      <ActionMenu
-        headerLeftText={''}
-        textActions={[]}
-        iconActions={iconActions}
-        classes={{
-          root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
-        }}
-      />
-    </>
+    <PureAnimalInventory tableData={tableData} animalsColumns={animalsColumns} theme={theme} />
   );
 }
 

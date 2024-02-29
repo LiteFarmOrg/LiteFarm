@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -21,18 +21,45 @@ import { allExpenseTypeSelector } from '../../Finances/selectors';
 import { transactionTypeEnum } from '../../Finances/useTransactions';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../constants';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
+import type { RevenueType, ExpenseType } from '../../Finances/types';
+import type { ReduxFilterEntity, ContainerOnChangeCallback } from '../types';
+import type { ComponentFilter } from '../../../components/Filter/types';
+
+/*
+TransactionFilterContent
+
+This component receives the Redux state filters from the container (which also holds the filterRef and dirty/reset states) and transforms them into the correct shape for the FilterGroup component. The transactions filter uses a different a different approach where the outermost container holds the dirty state (where previously the inner component did) and filter transformation lives in a different component than the filter Redux state. This is also the only flow where the Redux state is not in the Containers/Filter container.
+
+I'm not sure about the Redux state, but removing the dirty and reset controls from the inner component allows situating these filters into two modals with different dirty/reset/submit actions, and also seems more correct. I'm still a little surprised that the filterRef + Redux interaction is defined in two components.
+
+Data flow for transactions filter is
+
+1. Finances/Report -AND- Finances/TransactionFilter
+2. <This component> TransactionsFilterContent
+3. FilterGroup + subfilters
+
+The container defines the filterRef and the relationship with the Redux store. The PureFilterPage component is a layout component that holds the title, the button group, and the reset button. FilterGroup displays the correct filter types, which each handle their own filter state.
+
+*/
+
+interface TransactionFilterContentProps {
+  transactionsFilter: ReduxFilterEntity;
+  filterRef: React.RefObject<ReduxFilterEntity>;
+  filterContainerClassName?: string;
+  onChange: ContainerOnChangeCallback;
+}
 
 const TransactionFilterContent = ({
   transactionsFilter,
   filterRef,
   filterContainerClassName,
   onChange,
-}) => {
+}: TransactionFilterContentProps) => {
   const { t } = useTranslation(['translation', 'filter']);
-  const expenseTypes = useSelector(allExpenseTypeSelector);
-  const revenueTypes = useSelector(allRevenueTypesSelector);
+  const expenseTypes: ExpenseType[] = useSelector(allExpenseTypeSelector);
+  const revenueTypes: RevenueType[] = useSelector(allRevenueTypesSelector);
 
-  const filters = [
+  const filters: ComponentFilter[] = [
     {
       subject: t('FINANCES.FILTER.EXPENSE_TYPE'),
       filterKey: EXPENSE_TYPE,
@@ -94,7 +121,7 @@ TransactionFilterContent.propTypes = {
 
 export default TransactionFilterContent;
 
-const sortFilterOptions = (filters) => {
+const sortFilterOptions = (filters: ComponentFilter): ComponentFilter => {
   return {
     ...filters,
     options: [...filters.options.sort((typeA, typeB) => typeA.label.localeCompare(typeB.label))],

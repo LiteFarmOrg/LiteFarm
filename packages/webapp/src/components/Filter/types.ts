@@ -14,7 +14,7 @@
  */
 
 enum FilterType {
-  FILTER_PILL = 'FILTER_PILL', // default or not provided is FILTER_PILL
+  FILTER_PILL = 'FILTER_PILL',
   SEARCHABLE_MULTI_SELECT = 'SEARCHABLE_MULTI_SELECT',
   DATE = 'DATE',
   DATE_RANGE = 'DATE_RANGE',
@@ -29,7 +29,7 @@ export interface ComponentFilter {
 }
 
 export interface ComponentFilterOption {
-  value: string | number; // unique identifier
+  value: string | number; // unique identifier; top-level keys of FilterState
   label: string;
-  default: boolean;
+  default: boolean; // taken from active state of FilterState
 }

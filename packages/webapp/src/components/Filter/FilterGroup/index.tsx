@@ -21,24 +21,23 @@ import { FilterMultiSelect } from '../FilterMultiSelect';
 import FilterPillSelect from '../FilterPillSelect';
 import { DATE, DATE_RANGE, PILL_SELECT, SEARCHABLE_MULTI_SELECT } from '../filterTypes';
 import styles from './styles.module.scss';
-import type { FilterOnChangeCallback, ReduxFilterEntity } from '../../../containers/Filter/types';
+import type {
+  ContainerOnChangeCallback,
+  ReduxFilterEntity,
+  FilterState,
+} from '../../../containers/Filter/types';
 import type { ComponentFilter } from '../types';
 
-interface FilterControlProps {
-  filterRef: React.RefObject<ReduxFilterEntity>;
-  showIndividualFilterControls: boolean;
-  onChange: FilterOnChangeCallback;
-  shouldReset?: number; // not passed from transactions
-}
+/* Calls the container's onChange supplying the filter key for the particular filter. Depending on the callback passed, the filterState argument is either irrelevant or used -- only in finance report -- to set the component filter state sent to the API */
+// (filterState) => onChange(filter.filterKey, filterState)
+export type ComponentOnChangeCallback = (filterState: FilterState) => void;
 
-interface FilterGroupProps extends FilterControlProps {
-  filters: ComponentFilter[];
-  filterContainerClassName?: string;
-}
-
-interface FilterItemProps extends FilterControlProps {
-  onChange: (filterState: any) => void;
+interface FilterItemProps {
   filter: ComponentFilter;
+  filterRef: React.RefObject<ReduxFilterEntity>;
+  onChange: ComponentOnChangeCallback;
+  shouldReset?: number;
+  showIndividualFilterControls?: boolean;
 }
 
 const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterItemProps) => {
@@ -55,7 +54,6 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterIt
       />
     );
   } else if (filter.type === DATE_RANGE) {
-    // @ts-ignore
     return <FilterDateRange key={filter.subject} {...filter} {...props} />;
   } else if (filter.type === SEARCHABLE_MULTI_SELECT) {
     return (
@@ -68,12 +66,20 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterIt
       />
     );
   } else if (filter.type === DATE) {
-    // @ts-ignore
     return <FilterDate {...filter} key={filter.subject} {...props} />;
   } else {
     return null;
   }
 };
+
+interface FilterGroupProps {
+  filters: ComponentFilter[];
+  filterRef: React.RefObject<ReduxFilterEntity>;
+  onChange: ContainerOnChangeCallback;
+  filterContainerClassName?: string;
+  shouldReset?: number;
+  showIndividualFilterControls?: boolean;
+}
 
 const FilterGroup = ({
   filters,

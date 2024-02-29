@@ -13,21 +13,20 @@
  *  GNU General Public License for more details, see <https://wwwl.gnu.org/licenses/>.
  */
 
+import produce from 'immer';
 import PropTypes from 'prop-types';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactSelect from '../../Form/ReactSelect';
-import { ComponentFilterOption } from '../types';
+import { ComponentFilter, ComponentFilterOption } from '../types';
 import { ReduxFilterEntity, FilterState } from '../../../containers/Filter/types';
+import { ComponentOnChangeCallback } from '../FilterGroup';
 
-interface FilterMultiSelectProps {
-  subject: string;
-  filterKey: string;
+interface FilterMultiSelectProps extends ComponentFilter {
   filterRef: React.RefObject<ReduxFilterEntity>;
   style?: React.CSSProperties;
-  options?: ComponentFilterOption[];
   shouldReset?: number;
-  onChange?: (value: any) => void; // just sets parent container to dirty
+  onChange?: ComponentOnChangeCallback;
   className?: string;
 }
 
@@ -65,18 +64,11 @@ export const FilterMultiSelect = ({
   }, [shouldReset]);
 
   useEffect(() => {
-    if (filterRef.current) {
-      filterRef.current[filterKey] = {
-        ...defaultFilterState,
-        ...value.reduce((updatedFilterState: FilterState, option) => {
-          updatedFilterState[option.value] = {
-            ...defaultFilterState[option.value],
-            active: true,
-          };
-          return updatedFilterState;
-        }, {}),
-      };
-    }
+    filterRef.current![filterKey] = produce(defaultFilterState, (defaultFilterState) => {
+      for (const option of value) {
+        defaultFilterState[option.value].active = true;
+      }
+    });
   }, [value]);
 
   return (
@@ -89,7 +81,8 @@ export const FilterMultiSelect = ({
       value={value}
       onChange={(value: ComponentFilterOption[]): void => {
         setValue(value);
-        onChange?.(value);
+        onChange?.(value as unknown as FilterState);
+        /* NOTE: What is being passed here is in ComponentFilterOption format, and would not work if the state-setting onChange had been passed. However, the finance report filters -- the only container using a state-setting onChange -- don't use multi-select filters. */
       }}
       isMulti
       isSearchable

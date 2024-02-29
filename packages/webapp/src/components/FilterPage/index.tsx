@@ -21,13 +21,13 @@ import { Underlined } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import FilterGroup from '../Filter/FilterGroup';
-import { ComponentFilter } from '../Filter/types';
-import { ReduxFilterEntity } from '../../containers/Filter/types';
+import type { ComponentFilter } from '../Filter/types';
+import type { ReduxFilterEntity } from '../../containers/Filter/types';
 
 /*
 PureFilterPage
 
-This component receives the filters from the containers (other than transaction) and passes them to the FilterGroup component. The transactions filter uses a different a different approach where the outermost container holds the dirty state (as here the inner component does) and the inner container does the filter array transform (here done by the outer component!)
+This component receives the filters from the containers (other than transaction) and passes them to the FilterGroup component. The transactions filter uses a different approach where the outermost container holds the dirty state (as here the inner component does) and the inner container does the filter array transform (here done by the outer component!)
 
 Data flow for all non-transaction filters is:
 
@@ -37,7 +37,7 @@ Data flow for all non-transaction filters is:
 
 The container defines the filterRef and the relationship with the Redux store. The PureFilterPage component is a layout component that holds the title, the button group, and the reset button. FilterGroup displays the correct filters which each handle their own update of the Redux filter state via the filterRef.
 
-In this flow the containers permutes Redux state into a ComponentFilter[] and pass that to this component
+In this flow, the containers have already permuted the Redux state shape into a ComponentFilter[] and passed that to this component
 
 */
 

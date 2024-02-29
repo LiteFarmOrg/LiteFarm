@@ -19,12 +19,19 @@ export interface ReduxFilterEntity {
 }
 
 export interface FilterState {
-  [optionValue: string]: /* e.g. ABANDONED, COMPLETED */ {
+  [filterOptionId: string]: /* e.g. ABANDONED, COMPLETED */ {
     active: boolean;
     label: string /* e.g. 'Abandoned', 'Completed */;
   };
 }
 
-export type FilterOnChangeCallback =
+// (filterKey, filterState) => setTypesFilter({ ...typesFilter, [filterKey]: filterState })
+export type FinanceReportOnChangeCallback = (filterKey: string, filterState: FilterState) => void;
+
+// setDirty: () => !isDirty && setIsDirty(true)
+export type FilterPageOnChangeCallback = () => void;
+
+// type ContainerOnChangeCallback = FinanceReportOnChangeCallback | FilterPageOnChangeCallback;
+export type ContainerOnChangeCallback =
   | ((filterKey: string, filterState: FilterState) => void) // Finance Report
-  | (() => void); // !isDirty && setIsDirty(true) from FilterPage and TransactionFilter
+  | (() => void); // PureFilterPage and TransactionFilter

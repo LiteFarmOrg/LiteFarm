@@ -21,9 +21,9 @@ import { allExpenseTypeSelector } from '../../Finances/selectors';
 import { transactionTypeEnum } from '../../Finances/useTransactions';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../constants';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
-import type { ReduxFilterEntity, FilterOnChangeCallback } from '../types';
-import type { ComponentFilter } from '../../../components/Filter/types';
 import type { RevenueType, ExpenseType } from '../../Finances/types';
+import type { ReduxFilterEntity, ContainerOnChangeCallback } from '../types';
+import type { ComponentFilter } from '../../../components/Filter/types';
 
 /*
 TransactionFilterContent
@@ -46,7 +46,7 @@ interface TransactionFilterContentProps {
   transactionsFilter: ReduxFilterEntity;
   filterRef: React.RefObject<ReduxFilterEntity>;
   filterContainerClassName?: string;
-  onChange: FilterOnChangeCallback;
+  onChange: ContainerOnChangeCallback;
 }
 
 const TransactionFilterContent = ({

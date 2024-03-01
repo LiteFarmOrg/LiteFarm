@@ -111,7 +111,7 @@ const FooterCell = () => (
   </div>
 );
 
-export const CropSalesMobileView = {
+export const WithCustomFooterCell = {
   args: {
     kind: TableKind.V2,
     columns: getCropSalesColumns(),
@@ -122,7 +122,7 @@ export const CropSalesMobileView = {
   },
 };
 
-export const CropSalesDesktopView = {
+export const WithNormalFooter = {
   args: {
     kind: TableKind.V2,
     columns: getCropSalesColumns(false),
@@ -140,57 +140,6 @@ export const AlternatingRowColor = {
     minRows: 10,
     shouldFixTableLayout: true,
     alternatingRowColor: true,
-  },
-};
-
-const getEmployeesLabourColumns = () => {
-  return [
-    {
-      id: 'employee',
-      label: 'Employee',
-      Footer: 'DAILY TOTAL',
-    },
-    {
-      id: 'time',
-      label: 'Time',
-      format: (d) => `${d.time} h`,
-      align: 'right',
-      Footer: <b>89 h</b>,
-    },
-    {
-      id: 'labourCost',
-      label: 'Labour cost',
-      format: (d) => {
-        const sign = '$';
-        return (
-          <span>
-            {sign}
-            {Math.abs(d.labourCost).toFixed(2)}
-          </span>
-        );
-      },
-      align: 'right',
-      Footer: <b>$3732.50</b>,
-    },
-  ];
-};
-
-const getEmployeesLabourData = (length) => {
-  return [
-    { employee: 'Sue D.', time: 1.25, labourCost: 0.0 },
-    { employee: 'L.F. C.', time: 77.5, labourCost: 3692.5 },
-    { employee: 'Joey.', time: 2.75, labourCost: 0.0 },
-    { employee: 'Farmie.', time: 7.5, labourCost: 40.0 },
-  ].slice(0, length);
-};
-
-export const EmployeesLabour = {
-  args: {
-    kind: TableKind.V2,
-    columns: getEmployeesLabourColumns(),
-    data: getEmployeesLabourData(10),
-    minRows: 10,
-    onClickMore: () => console.log('Go to labour page'),
   },
 };
 
@@ -247,7 +196,7 @@ const getTasksLabourData = (length) => {
   ].slice(0, length);
 };
 
-export const TasksLabour = {
+export const WithOnClickMore = {
   args: {
     kind: TableKind.V2,
     columns: getTasksLabourColumns(),
@@ -257,7 +206,7 @@ export const TasksLabour = {
   },
 };
 
-export const TasksLabourWithPagination = {
+export const WithPagination = {
   args: {
     kind: TableKind.V2,
     columns: getTasksLabourColumns(),

@@ -12,7 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
 import Drawer from '../../Drawer';
 import Button from '../../Form/Button';
 import ReactSelect from '../../Form/ReactSelect';
@@ -24,6 +23,7 @@ import Input from '../../Form/Input';
 import { ReactComponent as WarningIcon } from '../../../assets/images/warning.svg';
 import { ReactComponent as CheckIcon } from '../../../assets/images/check-circle.svg';
 import { useTranslation } from 'react-i18next';
+import { ClassNamesConfig } from 'react-select';
 
 const REASON = 'reason';
 const EXPLANATION = 'explanation';
@@ -146,17 +146,19 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
                     {...field}
                     // @ts-ignore
                     label={t('REMOVE_ANIMALS.WHY')}
-                    classNames={{
-                      // @ts-ignore
-                      option: ({ value }) => getReactSelectClassNames(value),
-                      // @ts-ignore
-                      valueContainer: (state) =>
-                        getReactSelectClassNames(state.getValue()[0]?.value),
-                    }}
-                    // @ts-ignore
+                    placeholder={t('REMOVE_ANIMALS.REMOVAL_REASONS')}
                     value={options.find(({ value }) => value === field.value)}
                     options={options}
                     onChange={(option: (typeof options)[0]) => field.onChange(option.value)}
+                    classNames={
+                      {
+                        // @ts-ignore
+                        option: (state) => getReactSelectClassNames(state.value),
+                        placeholder: ({ isFocused }) => (isFocused ? styles.placeholderHidden : ''),
+                        valueContainer: (state) =>
+                          getReactSelectClassNames(state.getValue()[0]?.value),
+                      } satisfies ClassNamesConfig<RemovalOption>
+                    }
                   />
                 )}
               />
@@ -174,6 +176,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
                   <Input
                     hookFormRegister={register(EXPLANATION)}
                     label={t('REMOVE_ANIMALS.EXPLANATION')}
+                    placeholder={t('REMOVE_ANIMALS.MORE_DETAILS')}
                     optional
                   />
                   <p className={styles.archivedMessage}>{t('REMOVE_ANIMALS.WILL_BE_ARCHIVED')}</p>

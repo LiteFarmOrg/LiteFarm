@@ -15,10 +15,10 @@
 
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
-import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
 import { transaction, Model } from 'objection';
 import baseController from './baseController.js';
 import { checkAndTrimString } from '../util/util.js';
+import { handleObjectionError } from '../util/errorCodes.js';
 
 const customAnimalBreedController = {
   getCustomAnimalBreeds() {
@@ -59,37 +59,30 @@ const customAnimalBreedController = {
         const { default_type_id, custom_type_id } = req.body;
         breed = checkAndTrimString(breed);
 
-        if (!breed) {
-          await trx.rollback();
-          return res.status(400).send('Animal breed must be provided');
-        }
-        if (default_type_id && custom_type_id) {
-          await trx.rollback();
-          return res.status(400).send('Only default_type_id or custom_type_id should be specified');
-        }
-        if (!default_type_id && !custom_type_id) {
-          await trx.rollback();
-          return res
-            .status(400)
-            .send('One of default_type_id or custom_type_id should be specified');
-        }
+        // if (default_type_id && custom_type_id) {
+        //   await trx.rollback();
+        //   return res.status(400).send('Only default_type_id or custom_type_id should be specified');
+        // }
 
-        let breedDetails;
+        // if (!default_type_id && !custom_type_id) {
+        //   await trx.rollback();
+        //   return res
+        //     .status(400)
+        //     .send('One of default_type_id or custom_type_id should be specified');
+        // }
+
+        const breedDetails = { breed };
 
         if (custom_type_id) {
           const customType = await CustomAnimalTypeModel.query().findById(custom_type_id);
-          if (!customType || customType.farm_id !== farm_id) {
+          if (customType && customType.farm_id !== farm_id) {
             await trx.rollback();
             return res.status(400).send('custom_type_id has invalid value');
           }
-          breedDetails = { custom_type_id, breed };
-        } else {
-          const defaultType = await DefaultAnimalTypeModel.query().findById(default_type_id);
-          if (!defaultType) {
-            await trx.rollback();
-            return res.status(400).send('default_type_id has invalid value');
-          }
-          breedDetails = { default_type_id, breed };
+          breedDetails.custom_type_id = custom_type_id;
+        }
+        if (default_type_id) {
+          breedDetails.default_type_id = default_type_id;
         }
 
         const record = await baseController.existsInTable(trx, CustomAnimalBreedModel, {
@@ -118,9 +111,7 @@ const customAnimalBreedController = {
           return res.status(201).send(result);
         }
       } catch (error) {
-        await trx.rollback();
-        console.error(error);
-        return res.status(500).json({ error });
+        await handleObjectionError(error, res, trx);
       }
     };
   },

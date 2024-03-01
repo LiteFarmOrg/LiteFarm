@@ -1,5 +1,5 @@
 import { Model, transaction } from 'objection';
-import { handleObjectionError } from '../util/errorCodes';
+import { handleObjectionError } from '../util/errorCodes.js';
 
 /**
  * Middleware function to check if the provided animal entities exist and belong to the farm. The IDs must be passed as a comma-separated query string.
@@ -62,6 +62,7 @@ export function checkAnimalEntities(model) {
         });
       }
 
+      await trx.commit();
       next();
     } catch (error) {
       handleObjectionError(error, res, trx);

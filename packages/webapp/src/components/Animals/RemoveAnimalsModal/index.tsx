@@ -92,15 +92,6 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
   const selectedOption = watch(REASON);
   const isCreatedInError = (value: string) => value === RemovalOptionValue.CREATED_IN_ERROR;
 
-  // For styling dropdown options
-  const getReactSelectClassNames = (value: string) => {
-    if (!value) return '';
-    return clsx(
-      styles.dropDownOption,
-      isCreatedInError(value) ? styles.dropDownOptionRed : styles.dropDownOptionGreen,
-    );
-  };
-
   return (
     <>
       {/* @ts-ignore */}
@@ -150,13 +141,21 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
                     value={options.find(({ value }) => value === field.value)}
                     options={options}
                     onChange={(option: (typeof options)[0]) => field.onChange(option.value)}
+                    className={styles.reactSelect}
                     classNames={
                       {
                         // @ts-ignore
-                        option: (state) => getReactSelectClassNames(state.value),
+                        option: ({ value }) =>
+                          clsx(
+                            styles.dropDownOption,
+                            isCreatedInError(value)
+                              ? styles.dropDownOptionRed
+                              : styles.dropDownOptionGreen,
+                          ),
                         placeholder: ({ isFocused }) => (isFocused ? styles.placeholderHidden : ''),
+                        menuList: () => styles.dropDownList,
                         valueContainer: (state) =>
-                          getReactSelectClassNames(state.getValue()[0]?.value),
+                          isCreatedInError(state.getValue()[0]?.value) ? styles.textRed : '',
                       } satisfies ClassNamesConfig<RemovalOption>
                     }
                   />

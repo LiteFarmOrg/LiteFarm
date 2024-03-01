@@ -49,8 +49,8 @@ fieldset {
   }
 
   &LabelRed {
+    @extend .textRed;
     border: 1px solid var(--Colors-Accent---singles-Red-light);
-    color: var(--Colors-Accent---singles-Red-full);
   }
 }
 
@@ -60,11 +60,19 @@ input:checked {
     background-color: var(--Colors-Secondary-Secondary-green-100);
   }
   + .mobileOptionLabelRed {
+    @extend .textRed;
     border-color: var(--Colors-Accent---singles-Red-full);
     background-color: var(--Colors-Accent---singles-Red-light);
-    color: var(--Colors-Accent---singles-Red-full);
     font-weight: 700;
   }
+}
+
+.dropDownList {
+  padding: 16px;
+}
+
+.dropDownOption {
+  padding: 8px 16px;
 }
 
 .dropDownOptionGreen {
@@ -72,6 +80,19 @@ input:checked {
 }
 
 .dropDownOptionRed {
+  @extend .textRed;
+
+  &:hover {
+    background-color: var(--Colors-Accent---singles-Red-light);
+  }
+}
+
+.reactSelect:focus-within {
+  border-radius: 4px;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.textRed {
   color: var(--Colors-Accent---singles-Red-full);
 }
 

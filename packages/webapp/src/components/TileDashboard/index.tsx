@@ -30,7 +30,6 @@ export interface TypeCountTile {
   icon: ReactNode;
   id: FilterId;
   onClick?: () => void;
-  isSelected?: boolean;
 }
 
 export interface PureTileDashboardProps {
@@ -70,7 +69,7 @@ export const PureTileDashboard = ({
               <DashboardTile
                 key={index}
                 {...item}
-                isSelected={item.isSelected ?? selectedFilterIds?.includes(item.id)}
+                isSelected={selectedFilterIds?.includes(item.id)}
               />
             </div>
           ))}

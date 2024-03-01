@@ -140,7 +140,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
                     placeholder={t('REMOVE_ANIMALS.REMOVAL_REASONS')}
                     value={options.find(({ value }) => value === field.value)}
                     options={options}
-                    onChange={(option: (typeof options)[0]) => field.onChange(option.value)}
+                    onChange={(option: RemovalOption) => field.onChange(option.value)}
                     className={styles.reactSelect}
                     classNames={
                       {

@@ -28,10 +28,9 @@ import type {
 } from '../../../containers/Filter/types';
 import type { ComponentFilter } from '../types';
 
-// i.e (filterState) => ContainerOnChangeCallback(filter.filterKey, filterState)
-export type ComponentOnChangeCallback = (filterState: FilterState) => void;
+type ComponentOnChangeCallback = (filterState?: FilterState) => void;
 
-interface FilterItemProps {
+export interface FilterItemProps {
   filter: ComponentFilter;
   filterRef: React.RefObject<ReduxFilterEntity>;
   onChange: ComponentOnChangeCallback;

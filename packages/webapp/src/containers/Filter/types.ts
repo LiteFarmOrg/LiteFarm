@@ -14,9 +14,7 @@
  */
 
 // In tempStateReducer > filterReducer
-export interface ReduxFilterEntity {
-  [filterKey: /* e.g. STATUS, LOCATION */ string]: FilterState;
-}
+export type ReduxFilterEntity<FilterKey extends string = string> = Record<FilterKey, FilterState>;
 
 export interface FilterState {
   [filterOptionId: string]: /* e.g. ABANDONED, COMPLETED */ {
@@ -25,13 +23,4 @@ export interface FilterState {
   };
 }
 
-// (filterKey, filterState) => setTypesFilter({ ...typesFilter, [filterKey]: filterState })
-export type FinanceReportOnChangeCallback = (filterKey: string, filterState: FilterState) => void;
-
-// setDirty: () => !isDirty && setIsDirty(true)
-export type FilterPageOnChangeCallback = () => void;
-
-// type ContainerOnChangeCallback = FinanceReportOnChangeCallback | FilterPageOnChangeCallback;
-export type ContainerOnChangeCallback =
-  | ((filterKey: string, filterState: FilterState) => void) // Finance Report
-  | (() => void); // PureFilterPage and TransactionFilter
+export type ContainerOnChangeCallback = (filterKey?: string, filterState?: FilterState) => void;

@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next';
 import ReactSelect from '../../Form/ReactSelect';
 import { ComponentFilter, ComponentFilterOption } from '../types';
 import { ReduxFilterEntity, FilterState } from '../../../containers/Filter/types';
-import { ComponentOnChangeCallback } from '../FilterGroup';
+import type { FilterItemProps } from '../FilterGroup';
 
 interface FilterMultiSelectProps extends ComponentFilter {
   filterRef: React.RefObject<ReduxFilterEntity>;
   style?: React.CSSProperties;
   shouldReset?: number;
-  onChange?: ComponentOnChangeCallback;
+  onChange?: FilterItemProps['onChange'];
   className?: string;
 }
 

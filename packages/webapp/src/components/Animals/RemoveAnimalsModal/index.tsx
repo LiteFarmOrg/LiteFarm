@@ -152,15 +152,6 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
               />
             )}
 
-            {!!selectedOption && !isCreatedInErrorSelected && (
-              // @ts-ignore
-              <Input
-                hookFormRegister={register(EXPLANATION)}
-                label={t('REMOVE_ANIMALS.EXPLANATION')}
-                optional
-              />
-            )}
-
             {!!selectedOption &&
               (isCreatedInErrorSelected ? (
                 <div className={clsx(styles.removalMessage)}>
@@ -168,7 +159,15 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
                   <p>{t('REMOVE_ANIMALS.WILL_BE_PERMANENTLY_REMOVED')}</p>
                 </div>
               ) : (
-                <p className={styles.archivedMessage}>{t('REMOVE_ANIMALS.WILL_BE_ARCHIVED')}</p>
+                <>
+                  {/*@ts-ignore*/}
+                  <Input
+                    hookFormRegister={register(EXPLANATION)}
+                    label={t('REMOVE_ANIMALS.EXPLANATION')}
+                    optional
+                  />
+                  <p className={styles.archivedMessage}>{t('REMOVE_ANIMALS.WILL_BE_ARCHIVED')}</p>
+                </>
               ))}
 
             <div className={styles.buttonWrapper}>

@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import PropTypes from 'prop-types';
+import { Checkbox } from '@mui/material';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -22,7 +23,17 @@ import { ReactComponent as UnfoldCircle } from '../../../assets/images/unfold-ci
 import { ReactComponent as ArrowDownCircle } from '../../../assets/images/arrow-down-circle.svg';
 import styles from '../styles.module.scss';
 
-export default function EnhancedTableHead({ columns, order, orderBy, onRequestSort, dense }) {
+export default function EnhancedTableHead({
+  columns,
+  order,
+  orderBy,
+  onRequestSort,
+  dense,
+  shouldShowCheckbox,
+  onSelectAllClick,
+  numSelected,
+  rowCount,
+}) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -30,6 +41,16 @@ export default function EnhancedTableHead({ columns, order, orderBy, onRequestSo
   return (
     <TableHead className={styles.headerRow}>
       <TableRow>
+        {shouldShowCheckbox && (
+          <TableCell padding="checkbox">
+            <Checkbox
+              color="primary"
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={rowCount > 0 && numSelected === rowCount}
+              onChange={onSelectAllClick}
+            />
+          </TableCell>
+        )}
         {columns.map(({ id, align, columnProps, label, sortable = true }) => {
           if (!id) {
             return null;

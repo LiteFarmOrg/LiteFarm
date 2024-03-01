@@ -47,7 +47,7 @@ const formatAnimalTypes = (
   const formattedTypes: TypeCountTile[] = [];
   types.forEach((type) => {
     if (type.count) {
-      const label = 'type' in type ? type.type : t(`animalTypes:${type.key}`);
+      const label = 'type' in type ? type.type : t(`animal:TYPE.${type.key}`);
       const iconKey = ('key' in type ? type.key : '') as keyof typeof icons;
       const id = generateUniqueAnimalTypeId(type);
 
@@ -72,7 +72,7 @@ interface KPIProps {
 function KPI({ isCompactSideMenu, selectedTypeIds, onTypeClick }: KPIProps) {
   const [kpiHeight, setKpiHeight] = useState<number | null>(null);
 
-  const { t } = useTranslation(['translation', 'common', 'animalTypes']);
+  const { t } = useTranslation(['translation', 'common', 'animal']);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const { data, isLoading } = useQueries([
     { label: 'defaultAnimalTypes', hook: useGetDefaultAnimalTypesQuery, params: '?count=true' },

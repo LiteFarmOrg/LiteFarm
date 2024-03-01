@@ -27,7 +27,6 @@ import { ReactComponent as CattleIcon } from '../../../../assets/images/animals/
 import { ReactComponent as ChickenIcon } from '../../../../assets/images/animals/chicken-icon.svg';
 import { ReactComponent as PigIcon } from '../../../../assets/images/animals/pig-icon.svg';
 import { ReactComponent as CustomIcon } from '../../../../assets/images/nav/animals.svg';
-import { uppercaseTheFirstLetter } from '../../../../util';
 import { getComparator } from '../../../../util/sort';
 import { generateUniqueAnimalTypeId } from '../../../../util/animal';
 import styles from './styles.module.scss';
@@ -53,7 +52,7 @@ const formatAnimalTypes = (
       const id = generateUniqueAnimalTypeId(type);
 
       formattedTypes.push({
-        label: uppercaseTheFirstLetter(label),
+        label: label.toLowerCase(),
         count: type.count,
         icon: icons[iconKey],
         id,
@@ -116,7 +115,7 @@ function KPI({ isCompactSideMenu, selectedTypeIds, onTypeClick }: KPIProps) {
         <PureTileDashboard
           typeCountTiles={types}
           dashboardTitle={t('SECTION_HEADER.ANIMALS_INVENTORY')}
-          categoryLabel={t('TYPES').toUpperCase()}
+          categoryLabel={t('TYPES')}
           selectedFilterIds={selectedTypeIds}
         />
       </div>

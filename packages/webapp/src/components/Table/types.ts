@@ -74,4 +74,9 @@ export type TableV2Props = {
   onRowClick?: () => void;
   shouldFixTableLayout?: boolean;
   defaultOrderBy?: string;
+  onCheck?: (id: string | number) => void;
+  handleSelectAllClick?: () => void;
+  selectedIds?: (string | number)[];
+  stickyHeader?: boolean;
+  maxHeight?: number;
 };

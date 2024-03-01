@@ -1,17 +1,17 @@
 /*
- *  Copyright 2024 LiteFarm.org
- *  This file is part of LiteFarm.
- *
- *  LiteFarm is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  LiteFarm is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
- */
+*  Copyright 2024 LiteFarm.org
+*  This file is part of LiteFarm.
+*
+*  LiteFarm is free software: you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  (at your option) any later version.
+*
+*  LiteFarm is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+*  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+*/
 
 form > * {
   margin-top: 24px;
@@ -44,39 +44,40 @@ fieldset {
   }
 
   &LabelGreen {
-    border: 1px solid var(--teal600);
-    color: var(--teal600);
+    border: 1px solid var(--Colors-Primary-Primary-teal-600);
+    color: var(--Colors-Primary-Primary-teal-600);
   }
 
   &LabelRed {
-    border: 1px solid #ffa9a6;
-    color: var(--red700);
+    border: 1px solid var(--Colors-Accent---singles-Red-light);
+    color: var(--Colors-Accent---singles-Red-full);
   }
 }
 
 input:checked {
   + .mobileOptionLabelGreen {
     font-weight: 700;
-    background-color: var(--green100);
+    background-color: var(--Colors-Secondary-Secondary-green-100);
   }
   + .mobileOptionLabelRed {
-    border-color: var(--red700);
-    background-color: var(--red200);
-    color: #520f0d;
+    border-color: var(--Colors-Accent---singles-Red-full);
+    background-color: var(--Colors-Accent---singles-Red-light);
+    color: var(--Colors-Accent---singles-Red-full);
     font-weight: 700;
   }
 }
 
 .dropDownOptionGreen {
-  color: var(--teal600);
+  color: var(--Colors-Primary-Primary-teal-600);
 }
 
 .dropDownOptionRed {
-  color: red;
+  color: var(--Colors-Accent---singles-Red-full);
 }
 
-.textCenter {
+.archivedMessage {
   text-align: center;
+  color: var(--Colors-Neutral-Neutral-600);
 }
 
 .removalMessage {
@@ -96,6 +97,7 @@ input:checked {
 
   p {
     width: 264px;
+    text-align: center;
   }
 }
 
@@ -106,10 +108,11 @@ input:checked {
   gap: 8px;
 
   svg {
-    color: var(--grey600);
+    color: var(--Colors-Neutral-Neutral-600);
   }
   p {
     font-weight: 600;
+    color: var(--Colors-Neutral-Neutral-900);
   }
 }
 

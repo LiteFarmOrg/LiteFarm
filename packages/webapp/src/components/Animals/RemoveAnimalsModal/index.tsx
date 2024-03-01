@@ -163,12 +163,12 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
 
             {!!selectedOption &&
               (isCreatedInErrorSelected ? (
-                <div className={clsx(styles.removalMessage, styles.textCenter)}>
+                <div className={clsx(styles.removalMessage)}>
                   <WarningIcon />
                   <p>{t('REMOVE_ANIMALS.WILL_BE_PERMANENTLY_REMOVED')}</p>
                 </div>
               ) : (
-                <p className={styles.textCenter}>{t('REMOVE_ANIMALS.WILL_BE_ARCHIVED')}</p>
+                <p className={styles.archivedMessage}>{t('REMOVE_ANIMALS.WILL_BE_ARCHIVED')}</p>
               ))}
 
             <div className={styles.buttonWrapper}>

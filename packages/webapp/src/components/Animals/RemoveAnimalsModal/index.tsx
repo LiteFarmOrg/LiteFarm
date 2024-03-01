@@ -33,6 +33,18 @@ type FormFields = {
   [EXPLANATION]: string;
 };
 
+enum RemovalOptionValue {
+  SOLD = 'SOLD',
+  SLAUGHTERED_FOR_SALE = 'SLAUGHTERED_FOR_SALE',
+  SLAUGHTERED_FOR_CONSUMPTION = 'SLAUGHTERED_FOR_CONSUMPTION',
+  NATURAL_DEATH = 'NATURAL_DEATH',
+  CULLED = 'CULLED',
+  OTHER = 'OTHER',
+  CREATED_IN_ERROR = 'CREATED_IN_ERROR',
+}
+
+type RemovalOption = { label: string; value: RemovalOptionValue };
+
 type RemoveAnimalsModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -46,48 +58,46 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const options = [
+  const options: RemovalOption[] = [
     {
       label: t('REMOVE_ANIMALS.SOLD'),
-      value: 'SOLD',
+      value: RemovalOptionValue.SOLD,
     },
     {
       label: t('REMOVE_ANIMALS.SLAUGHTERED_FOR_SALE'),
-      value: 'SLAUGHTERED_FOR_SALE',
+      value: RemovalOptionValue.SLAUGHTERED_FOR_SALE,
     },
     {
       label: t('REMOVE_ANIMALS.SLAUGHTERED_FOR_CONSUMPTION'),
-      value: 'SLAUGHTERED_FOR_CONSUMPTION',
+      value: RemovalOptionValue.SLAUGHTERED_FOR_CONSUMPTION,
     },
     {
       label: t('REMOVE_ANIMALS.NATURAL_DEATH'),
-      value: 'NATURAL_DEATH',
+      value: RemovalOptionValue.NATURAL_DEATH,
     },
     {
       label: t('REMOVE_ANIMALS.CULLED'),
-      value: 'CULLED',
+      value: RemovalOptionValue.CULLED,
     },
     {
       label: t('common:OTHER'),
-      value: 'OTHER',
+      value: RemovalOptionValue.OTHER,
     },
     {
       label: t('REMOVE_ANIMALS.CREATED_IN_ERROR'),
-      value: 'CREATED_IN_ERROR',
+      value: RemovalOptionValue.CREATED_IN_ERROR,
     },
   ];
 
   const selectedOption = watch(REASON);
-  const isCreatedInErrorSelected = selectedOption === options[options.length - 1].value;
+  const isCreatedInError = (value: string) => value === RemovalOptionValue.CREATED_IN_ERROR;
 
   // For styling dropdown options
   const getReactSelectClassNames = (value: string) => {
     if (!value) return '';
     return clsx(
       styles.dropDownOption,
-      value === options[options.length - 1].value
-        ? styles.dropDownOptionRed
-        : styles.dropDownOptionGreen,
+      isCreatedInError(value) ? styles.dropDownOptionRed : styles.dropDownOptionGreen,
     );
   };
 
@@ -117,7 +127,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
                     <div
                       className={clsx(
                         styles.mobileOptionLabel,
-                        value === options[options.length - 1].value
+                        isCreatedInError(value)
                           ? styles.mobileOptionLabelRed
                           : styles.mobileOptionLabelGreen,
                       )}
@@ -153,7 +163,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
             )}
 
             {!!selectedOption &&
-              (isCreatedInErrorSelected ? (
+              (isCreatedInError(selectedOption) ? (
                 <div className={clsx(styles.removalMessage)}>
                   <WarningIcon />
                   <p>{t('REMOVE_ANIMALS.WILL_BE_PERMANENTLY_REMOVED')}</p>

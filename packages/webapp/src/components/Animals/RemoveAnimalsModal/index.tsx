@@ -186,7 +186,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
               <Button color="secondary" type="button" onClick={props.onClose}>
                 {t('common:CANCEL')}
               </Button>
-              <Button>{t('common:CONFIRM')}</Button>
+              <Button disabled={!selectedOption}>{t('common:CONFIRM')}</Button>
             </div>
           </form>
         )}

@@ -96,6 +96,8 @@ export default function TableV2(props) {
     onCheck,
     handleSelectAllClick,
     selectedIds,
+    stickyHeader,
+    maxHeight,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -154,10 +156,11 @@ export default function TableV2(props) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <TableContainer>
+      <TableContainer sx={{ maxHeight }}>
         <Table
           aria-labelledby="tableTitle"
           className={clsx(styles.table, shouldFixTableLayout && styles.fixed)}
+          stickyHeader={stickyHeader && maxHeight ? true : false}
         >
           <EnhancedTableHead
             columns={columns}
@@ -304,6 +307,8 @@ TableV2.propTypes = {
   onCheck: PropTypes.func,
   handleSelectAllClick: PropTypes.func,
   selectedIds: PropTypes.array,
+  stickyHeader: PropTypes.bool,
+  maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 TableV2.defaultProps = {

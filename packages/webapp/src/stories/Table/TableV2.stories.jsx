@@ -305,3 +305,16 @@ export const withCheckboxes = {
     );
   },
 };
+
+export const stickyHeader = {
+  args: {
+    kind: TableKind.V2,
+    columns: getCropSalesColumns(false),
+    data: getCropSalesData(10),
+    minRows: 10,
+    shouldFixTableLayout: true,
+    handleSelectAllClick: () => console.log('all checked!'),
+    stickyHeader: true,
+    maxHeight: 200,
+  },
+};

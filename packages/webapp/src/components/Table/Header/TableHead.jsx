@@ -42,7 +42,7 @@ export default function EnhancedTableHead({
     <TableHead className={styles.headerRow}>
       <TableRow>
         {shouldShowCheckbox && (
-          <TableCell padding="checkbox">
+          <TableCell padding="checkbox" className={styles.checkboxCell}>
             <Checkbox
               color="primary"
               indeterminate={numSelected > 0 && numSelected < rowCount}

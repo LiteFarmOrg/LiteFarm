@@ -101,4 +101,8 @@ EnhancedTableHead.propTypes = {
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
   dense: PropTypes.bool,
+  shouldShowCheckbox: PropTypes.bool,
+  onSelectAllClick: PropTypes.func,
+  numSelected: PropTypes.number,
+  rowCount: PropTypes.number,
 };

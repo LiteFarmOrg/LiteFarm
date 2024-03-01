@@ -30,7 +30,7 @@ export default function EnhancedTableHead({ columns, order, orderBy, onRequestSo
   return (
     <TableHead className={styles.headerRow}>
       <TableRow>
-        {columns.map(({ id, align, columnProps, label, sortable = true }) => {
+        {columns.map(({ id, align, width, columnProps, label, sortable = true }) => {
           if (!id) {
             return null;
           }
@@ -39,6 +39,7 @@ export default function EnhancedTableHead({ columns, order, orderBy, onRequestSo
             <TableCell
               key={id}
               align={align || 'left'}
+              width={width || undefined}
               sortDirection={active ? order : false}
               className={clsx(styles.tableCell, styles.tableHead, dense && styles.dense)}
               {...columnProps}

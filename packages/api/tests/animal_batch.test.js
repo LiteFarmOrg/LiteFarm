@@ -222,7 +222,7 @@ describe('Animal Batch Tests', () => {
         });
         const secondAnimalBatch = mocks.fakeAnimalBatch({
           default_breed_id: defaultBreedId,
-          custom_type_id: animalType.id,
+          default_type_id: defaultTypeId,
         });
         const thirdAnimalBatch = mocks.fakeAnimalBatch({
           custom_type_id: animalBreed.custom_type_id,

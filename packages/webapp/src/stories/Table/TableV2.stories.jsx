@@ -17,6 +17,7 @@ import { v2TableDecorator } from '../Pages/config/Decorators';
 import Table from '../../components/Table';
 import { TableKind } from '../../components/Table/types';
 import { useState } from 'react';
+import TextButton from '../../components/Form/Button/TextButton';
 
 export default {
   title: 'Components/Tables/V2',
@@ -241,16 +242,26 @@ export const withCheckboxes = {
     const handleSelectAllClick = () => setSelectedIds(data.map(({ id }) => id));
 
     return (
-      <Table
-        {...props}
-        data={data}
-        onCheck={onCheck}
-        handleSelectAllClick={handleSelectAllClick}
-        selectedIds={selectedIds}
-        onRowClick={(e, rowData) => {
-          console.log(`Row id ${rowData.id} is clicked!`);
-        }}
-      />
+      <>
+        <TextButton
+          color="secondary"
+          sm
+          disabled={!selectedIds.length}
+          onClick={() => setSelectedIds([])}
+        >
+          Clear All
+        </TextButton>
+        <Table
+          {...props}
+          data={data}
+          onCheck={onCheck}
+          handleSelectAllClick={handleSelectAllClick}
+          selectedIds={selectedIds}
+          onRowClick={(e, rowData) => {
+            console.log(`Row id ${rowData.id} is clicked!`);
+          }}
+        />
+      </>
     );
   },
 };

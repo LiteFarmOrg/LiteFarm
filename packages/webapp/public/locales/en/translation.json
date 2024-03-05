@@ -262,6 +262,22 @@
       "TITLE": "Viewing certifications"
     }
   },
+  "REMOVE_ANIMALS": {
+    "REMOVE_ANIMALS": "Remove animals",
+    "REMOVAL_REASONS": "Removal reasons",
+    "WHY": "Tell us why you are removing these animals",
+    "SOLD": "Sold",
+    "SLAUGHTERED_FOR_SALE": "Slaughtered for sale",
+    "SLAUGHTERED_FOR_CONSUMPTION": "Slaughtered for consumption",
+    "NATURAL_DEATH": "Natural Death",
+    "CULLED": "Culled",
+    "EXPLANATION": "Explanation",
+    "MORE_DETAILS": "Do you want to give more details?",
+    "CREATED_IN_ERROR": "Created in error",
+    "WILL_BE_ARCHIVED": "These animals will be archived and accessible for future reference",
+    "WILL_BE_PERMANENTLY_REMOVED": "These animals will be permanently removed from your farm",
+    "REMOVED_AND_ARCHIVED": "These animals have been successfully removed from your farm and will be available in your historical inventory."
+  },
   "CHOOSE_FARM": {
     "ADD_NEW": "Add new farm",
     "CHOOSE_TITLE": "Choose your farm",

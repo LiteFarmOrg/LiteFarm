@@ -262,6 +262,22 @@
       "TITLE": "Ver certificações"
     }
   },
+  "REMOVE_ANIMALS": {
+    "REMOVE_ANIMALS": "MISSING",
+    "REMOVAL_REASONS": "MISSING",
+    "WHY": "MISSING",
+    "SOLD": "MISSING",
+    "SLAUGHTERED_FOR_SALE": "MISSING",
+    "SLAUGHTERED_FOR_CONSUMPTION": "MISSING",
+    "NATURAL_DEATH": "MISSING",
+    "CULLED": "MISSING",
+    "EXPLANATION": "MISSING",
+    "MORE_DETAILS": "MISSING",
+    "CREATED_IN_ERROR": "MISSING",
+    "WILL_BE_ARCHIVED": "MISSING",
+    "WILL_BE_PERMANENTLY_REMOVED": "MISSING",
+    "REMOVED_AND_ARCHIVED": "MISSING"
+  },
   "CHOOSE_FARM": {
     "ADD_NEW": "Adicionar novo sítio/fazenda",
     "CHOOSE_TITLE": "Escolha seu sítio/fazenda",

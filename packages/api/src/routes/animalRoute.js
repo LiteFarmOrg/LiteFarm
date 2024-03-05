@@ -18,6 +18,8 @@ import express from 'express';
 const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
 import AnimalController from '../controllers/animalController.js';
+import AnimalModel from '../models/animalModel.js';
+import { checkAnimalEntities } from '../middleware/checkAnimalEntities.js';
 
 router.get('/', checkScope(['get:animals']), AnimalController.getFarmAnimals());
 router.post('/', checkScope(['add:animals']), AnimalController.addAnimals());
@@ -26,6 +28,12 @@ router.patch(
   checkScope(['edit:animals']),
   // Can't use hasFarmAccess because body is an array & because of non-unique id field
   AnimalController.editAnimals(),
+);
+router.delete(
+  '/',
+  checkScope(['delete:animals']),
+  checkAnimalEntities(AnimalModel),
+  AnimalController.deleteAnimals(),
 );
 
 export default router;

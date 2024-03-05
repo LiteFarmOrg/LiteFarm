@@ -22,7 +22,7 @@ import type { IconTextProps } from './CellTypes/IconText';
 import type { PlainCellProps } from './CellTypes/Plain';
 import type { RightChevronLinkProps } from './CellTypes/RightChevronLink';
 
-type HoverPillOverflowPropsStrategy = HoverPillOverflowProps & {
+type HoverPillOverflowPropsStrategy = Omit<HoverPillOverflowProps, 'othersLabel'> & {
   kind: CellKind.HOVER_PILL_OVERFLOW;
 };
 type IconTextPropsStrategy = IconTextProps & { kind: CellKind.ICON_TEXT };
@@ -50,7 +50,6 @@ const Cell = ({ kind, ...props }: CellStrategyProps) => {
     case CellKind.RIGHT_CHEVRON_LINK:
       return <RightChevronLink {...(props as RightChevronLinkProps)} />;
     default:
-      const _exhaustiveCheck: never = kind;
       return null;
   }
 };

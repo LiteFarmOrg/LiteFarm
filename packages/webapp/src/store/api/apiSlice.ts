@@ -62,11 +62,11 @@ export const api = createApi({
       query: () => `${animalGroupsUrl}`,
       providesTags: ['AnimalGroups'],
     }),
-    getDefaultAnimalTypes: build.query<DefaultAnimalType[], string>({
+    getDefaultAnimalTypes: build.query<DefaultAnimalType[], string | void>({
       query: (param = '') => `${defaultAnimalTypesUrl}${param}`,
       providesTags: ['DefaultAnimalTypes'],
     }),
-    getCustomAnimalTypes: build.query<CustomAnimalType[], string>({
+    getCustomAnimalTypes: build.query<CustomAnimalType[], string | void>({
       query: (param = '') => `${customAnimalTypesUrl}${param}`,
       providesTags: ['CustomAnimalTypes'],
     }),

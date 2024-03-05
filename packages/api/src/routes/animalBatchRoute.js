@@ -18,6 +18,8 @@ import express from 'express';
 const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
 import AnimalBatchController from '../controllers/animalBatchController.js';
+import AnimalBatchModel from '../models/animalBatchModel.js';
+import { checkAnimalEntities } from '../middleware/checkAnimalEntities.js';
 
 router.get('/', checkScope(['get:animal_batches']), AnimalBatchController.getFarmAnimalBatches());
 router.post('/', checkScope(['add:animal_batches']), AnimalBatchController.addAnimalBatches());
@@ -26,6 +28,12 @@ router.patch(
   checkScope(['edit:animal_batches']),
   // Can't use hasFarmAccess because body is an array & because of non-unique id field
   AnimalBatchController.editAnimalBatches(),
+);
+router.delete(
+  '/',
+  checkScope(['delete:animal_batches']),
+  checkAnimalEntities(AnimalBatchModel),
+  AnimalBatchController.deleteAnimalBatches(),
 );
 
 export default router;

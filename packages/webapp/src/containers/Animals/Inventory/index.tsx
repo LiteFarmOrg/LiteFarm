@@ -36,6 +36,14 @@ import {
   resetAnimalsFilter,
 } from '../../../containers/filterSlice';
 
+const heights = {
+  globalNavbar: 55,
+  filterAndSearch: 56, // TODO: adjust
+  containerMargin: 32,
+  containerPadding: 32,
+  layoutMarginTop: 16,
+};
+
 interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
 }
@@ -208,6 +216,15 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     },
   ];
 
+  const tableMaxHeight = useMemo<string | undefined>(() => {
+    if (!isDesktop) {
+      return undefined;
+    }
+    const usedPx =
+      Object.values(heights).reduce((total, current) => total + current) + (kpiHeight || 0);
+    return `calc(100vh - ${usedPx}px)`;
+  }, [isDesktop, kpiHeight]);
+
   return (
     <>
       <KPI
@@ -233,6 +250,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
             totalInventoryCount={inventory.length}
             isFilterActive={isFilterActive}
             clearFilters={clearFilters}
+            maxHeight={tableMaxHeight}
           />
           {selectedInventoryIds.length ? (
             <ActionMenu

@@ -156,9 +156,9 @@
     "WILD_CROP": "Cultures sauvages"
   },
   "ANIMAL": {
-    "ANIMAL": "MISSING",
     "ANIMAL_BREED": "MISSING",
     "ANIMAL_GROUPS": "MISSING",
+    "ANIMAL_ID": "MISSING",
     "ANIMAL_IDENTIFICATION": "MISSING",
     "ANIMAL_LOCATIONS": "MISSING",
     "ANIMAL_TYPE": "MISSING"
@@ -262,6 +262,22 @@
       "DESCRIPTION": "Pas de problème\u00a0! Vous pouvez ajouter les certifications et les certificateurs plus tard dans la section «\u00a0Mon exploitation\u00a0».",
       "TITLE": "Affichage des certifications"
     }
+  },
+  "REMOVE_ANIMALS": {
+    "REMOVE_ANIMALS": "MISSING",
+    "REMOVAL_REASONS": "MISSING",
+    "WHY": "MISSING",
+    "SOLD": "MISSING",
+    "SLAUGHTERED_FOR_SALE": "MISSING",
+    "SLAUGHTERED_FOR_CONSUMPTION": "MISSING",
+    "NATURAL_DEATH": "MISSING",
+    "CULLED": "MISSING",
+    "EXPLANATION": "MISSING",
+    "MORE_DETAILS": "MISSING",
+    "CREATED_IN_ERROR": "MISSING",
+    "WILL_BE_ARCHIVED": "MISSING",
+    "WILL_BE_PERMANENTLY_REMOVED": "MISSING",
+    "REMOVED_AND_ARCHIVED": "MISSING"
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Ajouter une nouvelle exploitation",

@@ -13,14 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export enum AnimalTranslationKey {
-  CATTLE = 'CATTLE',
-  CHICKEN_BROILERS = 'CHICKEN_BROILERS',
-  CHICKEN_LAYERS = 'CHICKEN_LAYERS',
-  PIGS = 'PIGS',
-}
+const useQueries = (queries) => {
+  const result = queries.map((query) => query.hook(query.params));
 
-export enum ANIMAL_TYPE_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
-}
+  const data = queries.reduce(
+    (dataObj, query, index) => ({
+      ...dataObj,
+      [query.label]: result[index].data,
+    }),
+    {},
+  );
+  const isError = result.some((result) => !!result.error);
+  const isLoading = result.some((result) => result.isLoading) && !isError;
+
+  return {
+    data,
+    isLoading,
+    isError,
+  };
+};
+
+export default useQueries;

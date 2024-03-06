@@ -169,7 +169,7 @@ export default function TableV2(props) {
                     alternatingRowColor ? styles.alternatingRowColor : styles.plainRowColor,
                   )}
                 >
-                  {columns.map(({ id, format, align, width, columnProps }) => {
+                  {columns.map(({ id, format, align, columnProps }) => {
                     if (!id) {
                       return null;
                     }
@@ -179,7 +179,6 @@ export default function TableV2(props) {
                         key={id}
                         className={clsx(styles.tableCell, dense && styles.dense)}
                         align={align || 'left'}
-                        width={width || undefined}
                         {...columnProps}
                       >
                         {format ? format(row) : row[id]}
@@ -205,7 +204,7 @@ export default function TableV2(props) {
             )}
             {columns.some((column) => column.id && column.Footer) && (
               <TableRow className={styles.footer}>
-                {columns.map(({ id, align, width, columnProps, Footer }) => {
+                {columns.map(({ id, align, columnProps, Footer }) => {
                   if (!id) {
                     return null;
                   }
@@ -213,7 +212,6 @@ export default function TableV2(props) {
                     <TableCell
                       key={id}
                       align={align || 'left'}
-                      width={width || undefined}
                       className={clsx(styles.tableCell, dense && styles.dense)}
                       {...columnProps}
                     >
@@ -257,7 +255,6 @@ TableV2.propTypes = {
       align: PropTypes.oneOf(['left', 'right']),
       Footer: PropTypes.node,
       columnProps: PropTypes.object,
-      width: PropTypes.string,
     }),
   ).isRequired,
   data: PropTypes.array.isRequired,

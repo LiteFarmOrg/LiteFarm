@@ -24,10 +24,11 @@ import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
 import styles from './styles.module.scss';
 import Routes from './routes';
+import { ANIMALS_INVENTORY_URL } from './util/siteMapConstants';
 
 function App() {
   const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
-  const FULL_WIDTH_ROUTES = ['/map'];
+  const FULL_WIDTH_ROUTES = ['/map', ANIMALS_INVENTORY_URL];
   const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(history.location.pathname, path));
 
   return (

@@ -10,11 +10,6 @@
   overflow: hidden;
 }
 
-.overflowVisible, .overflowVisible div {
-  overflow: visible !important;
-}
-
-
 .rightChevronLink {
   height: 24px;
   width: 24px;
@@ -39,9 +34,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  svg {
-    height: 32px;
-    width: 32px;
+}
+
+.iconBorder {
+  border-radius: 8px;
+  border: 1px solid var(--Colors-Primary-Primary-teal-100);
+  background: white;
+  box-shadow: 0px 1px 0px 0px var(--Colors-Neutral-Neutral-50);
+  height: 32px;
+  width: 32px;
+  padding: 4px;
+  svg > rect, path{
+    fill: var(--Colors-Primary-Primary-teal-300);
   }
 }
 
@@ -80,4 +84,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.italics {
+  font-style: italic;
 }

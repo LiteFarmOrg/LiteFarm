@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useMemo, useRef } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import PureAnimalInventory from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
@@ -22,6 +22,7 @@ import { Alignment, CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventory } from './useAnimalInventory';
 import ActionMenu from '../../../components/ActionMenu';
+import KPI from './KPI';
 import styles from './styles.module.scss';
 
 // TODO: LF-4087
@@ -37,12 +38,28 @@ interface AnimalInventoryProps {
 }
 
 function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
-  const { t } = useTranslation(['translation', 'animal']);
+  const [selectedTypeIds, setSelectedTypeIds] = useState<string[]>([]);
+
+  const { t } = useTranslation(['translation', 'animal', 'common']);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   const { inventory, isLoading } = useAnimalInventory();
+
+  const onTypeClick = useCallback(
+    (typeId: string) => {
+      setSelectedTypeIds((prevSelectedTypeIds) => {
+        const isSelected = prevSelectedTypeIds.includes(typeId);
+        const newSelectedTypeIds = isSelected
+          ? prevSelectedTypeIds.filter((id) => typeId !== id)
+          : [...prevSelectedTypeIds, typeId];
+
+        return newSelectedTypeIds;
+      });
+    },
+    [setSelectedTypeIds],
+  );
 
   const animalsColumns = useMemo(
     () => [
@@ -54,8 +71,9 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
             kind={CellKind.ICON_TEXT}
             text={d.identification}
             icon={d.icon}
+            iconBorder={!d.batch}
             subtext={isMobile ? `${d.type} / ${d.breed}` : null}
-            highlightedText={d.count > 1 ? d.count : null}
+            highlightedText={d.batch ? d.count : null}
           />
         ),
       },
@@ -73,7 +91,11 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         id: isMobile ? null : 'groups',
         label: t('ANIMAL.ANIMAL_GROUPS').toLocaleUpperCase(),
         format: (d: AnimalInventory) => (
-          <Cell kind={CellKind.HOVER_PILL_OVERFLOW} items={d.groups} />
+          <Cell
+            kind={CellKind.HOVER_PILL_OVERFLOW}
+            items={d.groups}
+            noneText={t('NONE', { ns: 'common' })}
+          />
         ),
         sortable: false,
       },
@@ -82,10 +104,9 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         label: '',
         format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
         columnProps: {
-          style: { padding: `0 ${isMobile ? 8 : 12}px` },
+          style: { width: '40px', padding: `0 ${isMobile ? 8 : 12}px` },
         },
         sortable: false,
-        width: '40px',
       },
     ],
     [t, isMobile],
@@ -94,21 +115,28 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   return (
     !isLoading && (
       <>
-        <PureAnimalInventory
-          tableData={inventory}
-          animalsColumns={animalsColumns}
-          theme={theme}
-          isMobile={isMobile}
-          isDesktop={isDesktop}
+        <KPI
+          isCompactSideMenu={isCompactSideMenu}
+          onTypeClick={onTypeClick}
+          selectedTypeIds={selectedTypeIds}
         />
-        <ActionMenu
-          headerLeftText={''}
-          textActions={[]}
-          iconActions={iconActions}
-          classes={{
-            root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
-          }}
-        />
+        <div className={styles.mainContent}>
+          <PureAnimalInventory
+            tableData={inventory}
+            animalsColumns={animalsColumns}
+            theme={theme}
+            isMobile={isMobile}
+            isDesktop={isDesktop}
+          />
+          <ActionMenu
+            headerLeftText={''}
+            textActions={[]}
+            iconActions={iconActions}
+            classes={{
+              root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
+            }}
+          />
+        </div>
       </>
     )
   );

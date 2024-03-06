@@ -156,9 +156,9 @@
     "WILD_CROP": "Cultivos silvestres"
   },
   "ANIMAL": {
-    "ANIMAL": "MISSING",
     "ANIMAL_BREED": "MISSING",
     "ANIMAL_GROUPS": "MISSING",
+    "ANIMAL_ID": "MISSING",
     "ANIMAL_IDENTIFICATION": "MISSING",
     "ANIMAL_LOCATIONS": "MISSING",
     "ANIMAL_TYPE": "MISSING"
@@ -262,6 +262,22 @@
       "DESCRIPTION": "Tudo bem! Você pode adicionar certificações e certificadoras mais tarde, na opção “minha propriedade”.",
       "TITLE": "Ver certificações"
     }
+  },
+  "REMOVE_ANIMALS": {
+    "REMOVE_ANIMALS": "MISSING",
+    "REMOVAL_REASONS": "MISSING",
+    "WHY": "MISSING",
+    "SOLD": "MISSING",
+    "SLAUGHTERED_FOR_SALE": "MISSING",
+    "SLAUGHTERED_FOR_CONSUMPTION": "MISSING",
+    "NATURAL_DEATH": "MISSING",
+    "CULLED": "MISSING",
+    "EXPLANATION": "MISSING",
+    "MORE_DETAILS": "MISSING",
+    "CREATED_IN_ERROR": "MISSING",
+    "WILL_BE_ARCHIVED": "MISSING",
+    "WILL_BE_PERMANENTLY_REMOVED": "MISSING",
+    "REMOVED_AND_ARCHIVED": "MISSING"
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Adicionar novo sítio/fazenda",

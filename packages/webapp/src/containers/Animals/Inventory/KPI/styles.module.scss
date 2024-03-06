@@ -13,14 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export enum AnimalTranslationKey {
-  CATTLE = 'CATTLE',
-  CHICKEN_BROILERS = 'CHICKEN_BROILERS',
-  CHICKEN_LAYERS = 'CHICKEN_LAYERS',
-  PIGS = 'PIGS',
+@import '../../../../assets/mixin';
+
+.wrapper {
+  z-index: 1501; // should be greater than hoverpill, smaller than top menu
+  position: fixed;
+  width: calc(100vw - var(--global-side-menu-width));
+
+  &.withCompactMenu {
+    width: calc(100vw - var(--global-compact-side-menu-width));
+  }
 }
 
-export enum ANIMAL_TYPE_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
-}

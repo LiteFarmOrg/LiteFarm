@@ -30,7 +30,6 @@ export interface TypeCountTile {
   icon: ReactNode;
   id: FilterId;
   onClick?: () => void;
-  isSelected?: boolean;
 }
 
 export interface PureTileDashboardProps {

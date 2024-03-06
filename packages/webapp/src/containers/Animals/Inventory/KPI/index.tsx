@@ -67,11 +67,17 @@ interface KPIProps {
   isCompactSideMenu: boolean;
   selectedTypeIds: string[];
   onTypeClick: (typeId: string) => void;
+  kpiHeight: number | null;
+  setKpiHeight: (height: number | null) => void;
 }
 
-function KPI({ isCompactSideMenu, selectedTypeIds, onTypeClick }: KPIProps) {
-  const [kpiHeight, setKpiHeight] = useState<number | null>(null);
-
+function KPI({
+  isCompactSideMenu,
+  selectedTypeIds,
+  onTypeClick,
+  kpiHeight,
+  setKpiHeight,
+}: KPIProps) {
   const { t } = useTranslation(['translation', 'common', 'animal']);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const { data, isLoading } = useQueries([

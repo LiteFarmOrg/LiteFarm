@@ -50,6 +50,7 @@ const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: s
 };
 
 function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
+  const [kpiHeight, setKpiHeight] = useState<number | null>(null);
   const [selectedTypeIds, setSelectedTypeIds] = useState<string[]>([]);
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>([]);
 
@@ -213,6 +214,8 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         isCompactSideMenu={isCompactSideMenu}
         onTypeClick={onTypeClick}
         selectedTypeIds={selectedTypeIds}
+        kpiHeight={kpiHeight}
+        setKpiHeight={setKpiHeight}
       />
       {!isLoading && (
         <div className={styles.mainContent}>

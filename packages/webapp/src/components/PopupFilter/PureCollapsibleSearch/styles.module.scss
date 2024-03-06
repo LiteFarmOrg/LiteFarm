@@ -96,24 +96,35 @@
   }
 }
 
-/* Desktop view */
-@media only screen and (min-width: 768px) {
-  .container {
-    .searchBar {
-      display: block;
-      min-width: 240px;
-      flex-grow: 1;
-    }
-  }
-
-  .searchButton,
-  .circleContainer,
-  .circle {
-    display: none;
-  }
-
-  // Only relevant if resizing screen beyond breakpoint with modal open
-  .modalContent {
-    display: none;
+.desktopContainer {
+  .searchBar {
+    display: block;
+    min-width: 240px;
+    flex-grow: 1;
   }
 }
+
+.displayNone {
+  display: none;
+}
+// /* Desktop view */
+// @media only screen and (min-width: 768px) {
+//   .container {
+//     .searchBar {
+//       display: block;
+//       min-width: 240px;
+//       flex-grow: 1;
+//     }
+//   }
+
+//   .searchButton,
+//   .circleContainer,
+//   .circle {
+//     display: none;
+//   }
+
+//   // Only relevant if resizing screen beyond breakpoint with modal open
+//   .modalContent {
+//     display: none;
+//   }
+// }

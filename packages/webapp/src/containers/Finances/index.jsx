@@ -42,11 +42,15 @@ import { isFetchingDataSelector } from './selectors';
 import styles from './styles.module.scss';
 import useTransactions from './useTransactions';
 import { calcActualRevenue, calcOtherExpense, calcTotalLabour } from './util';
+import { useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/styles';
 
 const moment = extendMoment(Moment);
 
 const Finances = ({ history }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const managementPlans = useSelector(managementPlansSelector);
   const { EXPENSE_TYPE: expenseTypeFilter, REVENUE_TYPE: revenueTypeFilter } = useSelector(
     transactionsFilterSelector,
@@ -132,6 +136,7 @@ const Finances = ({ history }) => {
             onChange={(e) => setSearchString(e.target.value)}
             isSearchActive={!!searchString}
             containerRef={overlayRef}
+            isDesktop={isDesktop}
           />
           <TransactionFilter />
         </div>

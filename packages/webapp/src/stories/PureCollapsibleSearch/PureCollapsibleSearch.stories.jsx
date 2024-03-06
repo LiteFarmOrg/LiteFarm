@@ -17,6 +17,8 @@ import { Suspense, useRef } from 'react';
 import PureCollapsibleSearch from '../../components/PopupFilter/PureCollapsibleSearch';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { Main, Info } from '../../components/Typography';
+import { useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/styles';
 
 export default {
   title: 'Components/PureCollapsibleSearch',
@@ -26,6 +28,8 @@ export default {
 
 const CollapsibleSearchContainer = (props) => {
   const containerRef = useRef(null);
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
     <Suspense fallback="loading">
@@ -43,6 +47,7 @@ const CollapsibleSearchContainer = (props) => {
         <Info style={{ padding: '8px' }}>Container</Info>
         <PureCollapsibleSearch
           containerRef={props.useContainerRef ? containerRef : null}
+          isDesktop={isDesktop}
           {...props}
         />
       </div>
@@ -58,6 +63,14 @@ Inactive.args = {};
 export const Active = Template.bind({});
 Active.args = {
   isSearchActive: true,
+};
+
+export const Collapsable = Template.bind({});
+Collapsable.args = {};
+
+export const DoesNotCollapse = Template.bind({});
+DoesNotCollapse.args = {
+  collapse: false,
 };
 
 export const CustomPlaceholder = Template.bind({});

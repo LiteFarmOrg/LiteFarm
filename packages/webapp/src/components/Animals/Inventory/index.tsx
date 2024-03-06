@@ -47,6 +47,7 @@ const PureAnimalInventory = ({
   totalInventoryCount,
   isFilterActive,
   clearFilters,
+  maxHeight,
 }: {
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
@@ -60,6 +61,7 @@ const PureAnimalInventory = ({
   totalInventoryCount: number;
   isFilterActive: boolean;
   clearFilters: () => void;
+  maxHeight?: number | string;
 }) => {
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
@@ -124,6 +126,8 @@ const PureAnimalInventory = ({
           onCheck={onSelectInventory}
           handleSelectAllClick={handleSelectAllClick}
           selectedIds={selectedIds}
+          stickyHeader={isDesktop}
+          maxHeight={maxHeight}
         />
       ) : (
         <NoSearchResults

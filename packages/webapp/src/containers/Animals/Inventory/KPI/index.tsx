@@ -115,7 +115,7 @@ function KPI({ isCompactSideMenu, selectedTypeIds, onTypeClick }: KPIProps) {
         <PureTileDashboard
           typeCountTiles={types}
           dashboardTitle={t('SECTION_HEADER.ANIMALS_INVENTORY')}
-          categoryLabel={t('TYPES')}
+          categoryLabel={t('common:TYPES')}
           selectedFilterIds={selectedTypeIds}
         />
       </div>

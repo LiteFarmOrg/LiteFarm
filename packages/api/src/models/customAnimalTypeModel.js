@@ -46,17 +46,17 @@ class CustomAnimalType extends baseModel {
   static async getCustomAnimalTypesWithCountsByFarmId(farm_id) {
     const data = await knex.raw(
       `SELECT
-        cat.*,
+        cat.id, cat.farm_id, cat.type,
         COALESCE(SUM(abu.count), 0) AS count
       FROM
         custom_animal_type AS cat
       LEFT JOIN (
         SELECT custom_type_id, COUNT(*) AS count
-        FROM animal WHERE farm_id = ? AND deleted is FALSE
+        FROM animal WHERE farm_id = ? AND deleted is FALSE AND animal_removal_reason_id is NULL
         GROUP BY custom_type_id
         UNION ALL
         SELECT custom_type_id, SUM(count) AS count
-        FROM animal_batch WHERE farm_id = ? AND deleted is FALSE
+        FROM animal_batch WHERE farm_id = ? AND deleted is FALSE AND animal_removal_reason_id is NULL
         GROUP BY custom_type_id
       ) AS abu ON cat.id = abu.custom_type_id
       WHERE farm_id = ? AND deleted is FALSE

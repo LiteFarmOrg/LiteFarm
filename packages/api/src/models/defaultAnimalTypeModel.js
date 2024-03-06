@@ -51,12 +51,12 @@ class DefaultAnimalTypeModel extends Model {
       LEFT JOIN (
         SELECT default_type_id, COUNT(*) AS count
         FROM animal
-        WHERE farm_id = ? AND deleted is FALSE
+        WHERE farm_id = ? AND deleted is FALSE AND animal_removal_reason_id is NULL
         GROUP BY default_type_id
         UNION ALL
         SELECT default_type_id, SUM(count) AS count
         FROM animal_batch
-        WHERE farm_id = ? AND deleted is FALSE
+        WHERE farm_id = ? AND deleted is FALSE AND animal_removal_reason_id is NULL
         GROUP BY default_type_id
       ) AS abu ON dat.id = abu.default_type_id
       GROUP BY dat.id;`,

@@ -13,18 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Animal, AnimalBatch, AnimalGroup } from '../../store/api/types';
+@import '../../../../assets/mixin';
 
-export interface AnimalData extends Animal {
-  groups: AnimalGroup[];
-}
-export interface AnimalBatchData extends AnimalBatch {
-  groups: AnimalGroup[];
+.wrapper {
+  z-index: 1501; // should be greater than hoverpill, smaller than top menu
+  position: fixed;
+  width: calc(100vw - var(--global-side-menu-width));
+
+  &.withCompactMenu {
+    width: calc(100vw - var(--global-compact-side-menu-width));
+  }
 }
 
-export interface AnimalOrBatchData extends AnimalData, AnimalBatchData {}
-
-export enum ANIMAL_TYPE_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
-}

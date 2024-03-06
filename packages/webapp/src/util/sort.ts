@@ -13,6 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+type Object<T extends string | number> = {
+  [key in T]: any;
+};
+
 /**
  * Comparator function for descending sorting of an array of objects based on a specific property.
  *
@@ -21,7 +25,11 @@
  * @param {string} orderBy - The property by which to compare the objects.
  * @returns {number} - A negative number if a should come before b, a positive number if b should come before a, or 0 if they are equal.
  */
-function descendingComparator(a, b, orderBy) {
+function descendingComparator<T extends string | number>(
+  a: Object<T>,
+  b: Object<T>,
+  orderBy: T,
+): number {
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -38,8 +46,11 @@ function descendingComparator(a, b, orderBy) {
  * @param {string} orderBy - The property by which to compare the objects.
  * @returns {function} - A comparator function for use with the `Array.prototype.sort()` method.
  */
-export function getComparator(order, orderBy) {
+export function getComparator<T extends string | number>(
+  order: 'asc' | 'desc',
+  orderBy: T,
+): (a: Object<T>, b: Object<T>) => number {
   return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    ? (a: Object<T>, b: Object<T>) => descendingComparator(a, b, orderBy)
+    : (a: Object<T>, b: Object<T>) => -descendingComparator(a, b, orderBy);
 }

@@ -13,18 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Animal, AnimalBatch, AnimalGroup } from '../../store/api/types';
+const useQueries = (queries) => {
+  const result = queries.map((query) => query.hook(query.params));
 
-export interface AnimalData extends Animal {
-  groups: AnimalGroup[];
-}
-export interface AnimalBatchData extends AnimalBatch {
-  groups: AnimalGroup[];
-}
+  const data = queries.reduce(
+    (dataObj, query, index) => ({
+      ...dataObj,
+      [query.label]: result[index].data,
+    }),
+    {},
+  );
+  const isError = result.some((result) => !!result.error);
+  const isLoading = result.some((result) => result.isLoading) && !isError;
 
-export interface AnimalOrBatchData extends AnimalData, AnimalBatchData {}
+  return {
+    data,
+    isLoading,
+    isError,
+  };
+};
 
-export enum ANIMAL_TYPE_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
-}
+export default useQueries;

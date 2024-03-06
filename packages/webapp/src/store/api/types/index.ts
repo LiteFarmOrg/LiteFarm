@@ -62,3 +62,16 @@ export interface AnimalGroup {
   related_animal_ids: number[];
   related_batch_ids: number[];
 }
+
+export interface DefaultAnimalType {
+  id: number;
+  key: string;
+  count?: number;
+}
+
+export interface CustomAnimalType {
+  id: number;
+  farm_id: string;
+  type: string;
+  count?: number;
+}

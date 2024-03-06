@@ -15,8 +15,21 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
-import { animalsUrl, animalBatchesUrl, animalGroupsUrl, url } from '../../apiConfig';
-import type { Animal, AnimalBatch, AnimalGroup } from './types';
+import {
+  animalsUrl,
+  animalBatchesUrl,
+  animalGroupsUrl,
+  url,
+  defaultAnimalTypesUrl,
+  customAnimalTypesUrl,
+} from '../../apiConfig';
+import type {
+  Animal,
+  AnimalBatch,
+  AnimalGroup,
+  CustomAnimalType,
+  DefaultAnimalType,
+} from './types';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -33,7 +46,7 @@ export const api = createApi({
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: ['Animals', 'AnimalBatches', 'AnimalGroups'],
+  tagTypes: ['Animals', 'AnimalBatches', 'AnimalGroups', 'DefaultAnimalTypes', 'CustomAnimalTypes'],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>
@@ -49,7 +62,21 @@ export const api = createApi({
       query: () => `${animalGroupsUrl}`,
       providesTags: ['AnimalGroups'],
     }),
+    getDefaultAnimalTypes: build.query<DefaultAnimalType[], string | void>({
+      query: (param = '') => `${defaultAnimalTypesUrl}${param}`,
+      providesTags: ['DefaultAnimalTypes'],
+    }),
+    getCustomAnimalTypes: build.query<CustomAnimalType[], string | void>({
+      query: (param = '') => `${customAnimalTypesUrl}${param}`,
+      providesTags: ['CustomAnimalTypes'],
+    }),
   }),
 });
 
-export const { useGetAnimalsQuery, useGetAnimalBatchesQuery, useGetAnimalGroupsQuery } = api;
+export const {
+  useGetAnimalsQuery,
+  useGetAnimalBatchesQuery,
+  useGetAnimalGroupsQuery,
+  useGetDefaultAnimalTypesQuery,
+  useGetCustomAnimalTypesQuery,
+} = api;

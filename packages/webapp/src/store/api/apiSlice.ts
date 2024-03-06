@@ -23,6 +23,7 @@ import {
   customAnimalTypesUrl,
   defaultAnimalBreedsUrl,
   defaultAnimalTypesUrl,
+  animalSexesUrl,
   url,
 } from '../../apiConfig';
 import type {
@@ -33,6 +34,7 @@ import type {
   CustomAnimalType,
   DefaultAnimalBreed,
   DefaultAnimalType,
+  AnimalSex,
 } from './types';
 
 export const api = createApi({
@@ -58,6 +60,7 @@ export const api = createApi({
     'CustomAnimalTypes',
     'DefaultAnimalBreeds',
     'DefaultAnimalTypes',
+    'AnimalSexes',
   ],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
@@ -90,6 +93,10 @@ export const api = createApi({
       query: () => `${defaultAnimalBreedsUrl}`,
       providesTags: ['DefaultAnimalBreeds'],
     }),
+    getAnimalSexes: build.query<AnimalSex[], void>({
+      query: () => `${animalSexesUrl}`,
+      providesTags: ['AnimalSexes'],
+    }),
   }),
 });
 
@@ -101,4 +108,5 @@ export const {
   useGetCustomAnimalTypesQuery,
   useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
+  useGetAnimalSexesQuery,
 } = api;

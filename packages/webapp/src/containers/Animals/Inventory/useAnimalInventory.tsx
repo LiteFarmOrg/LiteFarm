@@ -23,6 +23,7 @@ import {
   useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
 } from '../../../store/api/apiSlice';
+import useQueries from '../../../hooks/api/useQueries';
 import {
   Animal,
   AnimalBatch,
@@ -220,88 +221,25 @@ export const buildInventory = ({
 };
 
 const useAnimalInventory = () => {
-  const {
-    data: animals,
-    isLoading: isLoadingAnimals,
-    isFetching: isFetchingAnimals,
-    isSuccess: isSuccessAnimals,
-    isError: isErrorAnimals,
-  } = useGetAnimalsQuery();
-  const {
-    data: animalBatches,
-    isLoading: isLoadingAnimalBatches,
-    isFetching: isFetchingAnimalBatches,
-    isSuccess: isSuccessAnimalBatches,
-    isError: isErrorAnimalBatches,
-  } = useGetAnimalBatchesQuery();
-  const {
-    data: animalGroups,
-    isLoading: isLoadingAnimalGroups,
-    isFetching: isFetchingAnimalGroups,
-    isSuccess: isSuccessAnimalGroups,
-    isError: isErrorAnimalGroups,
-  } = useGetAnimalGroupsQuery();
-  const {
-    data: customAnimalBreeds,
-    isLoading: isLoadingCustomAnimalBreeds,
-    isFetching: isFetchingCustomAnimalBreeds,
-    isSuccess: isSuccessCustomAnimalBreeds,
-    isError: isErrorCustomAnimalBreeds,
-  } = useGetCustomAnimalBreedsQuery();
-  const {
-    data: customAnimalTypes,
-    isLoading: isLoadingCustomAnimalTypes,
-    isFetching: isFetchingCustomAnimalTypes,
-    isSuccess: isSuccessCustomAnimalTypes,
-    isError: isErrorCustomAnimalTypes,
-  } = useGetCustomAnimalTypesQuery();
-  const {
-    data: defaultAnimalBreeds,
-    isLoading: isLoadingDefaultAnimalBreeds,
-    isFetching: isFetchingDefaultAnimalBreeds,
-    isSuccess: isSuccessDefaultAnimalBreeds,
-    isError: isErrorDefaultAnimalBreeds,
-  } = useGetDefaultAnimalBreedsQuery();
-  const {
-    data: defaultAnimalTypes,
-    isLoading: isLoadingDefaultAnimalTypes,
-    isFetching: isFetchingDefaultAnimalTypes,
-    isSuccess: isSuccessDefaultAnimalTypes,
-    isError: isErrorDefaultAnimalTypes,
-  } = useGetDefaultAnimalTypesQuery();
+  const { data, isLoading } = useQueries([
+    { label: 'animals', hook: useGetAnimalsQuery },
+    { label: 'animalBatches', hook: useGetAnimalBatchesQuery },
+    { label: 'animalGroups', hook: useGetAnimalGroupsQuery },
+    { label: 'customAnimalBreeds', hook: useGetCustomAnimalBreedsQuery },
+    { label: 'customAnimalTypes', hook: useGetCustomAnimalTypesQuery },
+    { label: 'defaultAnimalBreeds', hook: useGetDefaultAnimalBreedsQuery },
+    { label: 'defaultAnimalTypes', hook: useGetDefaultAnimalTypesQuery },
+  ]);
 
-  const isLoading =
-    isLoadingAnimals ||
-    isLoadingAnimalBatches ||
-    isLoadingAnimalGroups ||
-    isLoadingCustomAnimalBreeds ||
-    isLoadingCustomAnimalTypes ||
-    isLoadingDefaultAnimalBreeds ||
-    isLoadingDefaultAnimalTypes;
-  const isFetching =
-    isFetchingAnimals ||
-    isFetchingAnimalBatches ||
-    isFetchingAnimalGroups ||
-    isFetchingCustomAnimalBreeds ||
-    isFetchingCustomAnimalTypes ||
-    isFetchingDefaultAnimalBreeds ||
-    isFetchingDefaultAnimalTypes;
-  const isSuccess =
-    isSuccessAnimals &&
-    isSuccessAnimalBatches &&
-    isSuccessAnimalGroups &&
-    isSuccessCustomAnimalBreeds &&
-    isSuccessCustomAnimalTypes &&
-    isSuccessDefaultAnimalBreeds &&
-    isSuccessDefaultAnimalTypes;
-  const isError =
-    isErrorAnimals ||
-    isErrorAnimalBatches ||
-    isErrorAnimalGroups ||
-    isErrorCustomAnimalBreeds ||
-    isErrorCustomAnimalTypes ||
-    isErrorDefaultAnimalBreeds ||
-    isErrorDefaultAnimalTypes;
+  const {
+    animals,
+    animalBatches,
+    animalGroups,
+    customAnimalBreeds,
+    customAnimalTypes,
+    defaultAnimalBreeds,
+    defaultAnimalTypes,
+  } = data;
 
   const inventory = useMemo(() => {
     if (isLoading) {
@@ -328,6 +266,7 @@ const useAnimalInventory = () => {
     }
     return [];
   }, [
+    isLoading,
     animals,
     animalBatches,
     animalGroups,
@@ -337,7 +276,7 @@ const useAnimalInventory = () => {
     defaultAnimalTypes,
   ]);
 
-  return { inventory, isLoading, isFetching, isSuccess, isError };
+  return { inventory, isLoading };
 };
 
 export default useAnimalInventory;

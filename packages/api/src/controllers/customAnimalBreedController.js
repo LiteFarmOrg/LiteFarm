@@ -59,18 +59,6 @@ const customAnimalBreedController = {
         const { default_type_id, custom_type_id } = req.body;
         breed = checkAndTrimString(breed);
 
-        // if (default_type_id && custom_type_id) {
-        //   await trx.rollback();
-        //   return res.status(400).send('Only default_type_id or custom_type_id should be specified');
-        // }
-
-        // if (!default_type_id && !custom_type_id) {
-        //   await trx.rollback();
-        //   return res
-        //     .status(400)
-        //     .send('One of default_type_id or custom_type_id should be specified');
-        // }
-
         const breedDetails = { breed };
 
         if (custom_type_id) {

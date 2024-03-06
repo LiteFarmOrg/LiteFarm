@@ -170,7 +170,8 @@
       "INDIVIDUALS": "MISSING",
       "MALE": "MISSING",
       "TITLE": "MISSING"
-    }
+    },
+    "REMOVE_ANIMAL": "MISSING"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Longueur des plates-bandes",

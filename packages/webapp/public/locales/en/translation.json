@@ -170,7 +170,8 @@
       "INDIVIDUALS": "Individuals",
       "MALE": "Male",
       "TITLE": "Filter animals"
-    }
+    },
+    "REMOVE_ANIMAL": "Remove animal"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",

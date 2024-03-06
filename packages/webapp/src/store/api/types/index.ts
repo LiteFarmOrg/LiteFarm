@@ -77,7 +77,6 @@ export interface CustomAnimalType {
   id: number;
   farm_id: string;
   type: string;
-  //TODO: MERGE conflict
   count?: number;
 }
 
@@ -90,6 +89,5 @@ export interface DefaultAnimalBreed {
 export interface DefaultAnimalType {
   id: number;
   key: string;
-  // TODO MERGE Conflict
   count?: number;
 }

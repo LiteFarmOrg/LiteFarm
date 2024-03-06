@@ -22,7 +22,7 @@ import {
 } from '../../../../store/api/apiSlice';
 import { PureTileDashboard, TypeCountTile } from '../../../../components/TileDashboard';
 import useQueries from '../../../../hooks/api/useQueries';
-import { CustomAnimalType, DefaultAnimalType } from '../../../../store/api/types';
+import type { CustomAnimalType, DefaultAnimalType } from '../../../../store/api/types';
 import { ReactComponent as CattleIcon } from '../../../../assets/images/animals/cattle-icon.svg';
 import { ReactComponent as ChickenIcon } from '../../../../assets/images/animals/chicken-icon.svg';
 import { ReactComponent as PigIcon } from '../../../../assets/images/animals/pig-icon.svg';

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -21,18 +21,28 @@ import { allExpenseTypeSelector } from '../../Finances/selectors';
 import { transactionTypeEnum } from '../../Finances/useTransactions';
 import { EXPENSE_TYPE, REVENUE_TYPE } from '../constants';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
+import type { RevenueType, ExpenseType } from '../../Finances/types';
+import type { ReduxFilterEntity, ContainerOnChangeCallback } from '../types';
+import type { ComponentFilter } from '../../../components/Filter/types';
+
+interface TransactionFilterContentProps {
+  transactionsFilter: ReduxFilterEntity;
+  filterRef: React.RefObject<ReduxFilterEntity>;
+  filterContainerClassName?: string;
+  onChange: ContainerOnChangeCallback;
+}
 
 const TransactionFilterContent = ({
   transactionsFilter,
   filterRef,
   filterContainerClassName,
   onChange,
-}) => {
+}: TransactionFilterContentProps) => {
   const { t } = useTranslation(['translation', 'filter']);
-  const expenseTypes = useSelector(allExpenseTypeSelector);
-  const revenueTypes = useSelector(allRevenueTypesSelector);
+  const expenseTypes: ExpenseType[] = useSelector(allExpenseTypeSelector);
+  const revenueTypes: RevenueType[] = useSelector(allRevenueTypesSelector);
 
-  const filters = [
+  const filters: ComponentFilter[] = [
     {
       subject: t('FINANCES.FILTER.EXPENSE_TYPE'),
       filterKey: EXPENSE_TYPE,
@@ -94,7 +104,7 @@ TransactionFilterContent.propTypes = {
 
 export default TransactionFilterContent;
 
-const sortFilterOptions = (filters) => {
+const sortFilterOptions = (filters: ComponentFilter): ComponentFilter => {
   return {
     ...filters,
     options: [...filters.options.sort((typeA, typeB) => typeA.label.localeCompare(typeB.label))],

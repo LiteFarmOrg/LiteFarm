@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import PureAnimalInventory from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
@@ -40,6 +40,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const { t } = useTranslation(['translation', 'animal']);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   const { inventory, isLoading } = useAnimalInventory();
 
@@ -98,6 +99,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
           animalsColumns={animalsColumns}
           theme={theme}
           isMobile={isMobile}
+          isDesktop={isDesktop}
         />
         <ActionMenu
           headerLeftText={''}

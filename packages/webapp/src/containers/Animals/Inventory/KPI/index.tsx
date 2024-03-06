@@ -28,7 +28,7 @@ import { ReactComponent as ChickenIcon } from '../../../../assets/images/animals
 import { ReactComponent as PigIcon } from '../../../../assets/images/animals/pig-icon.svg';
 import { ReactComponent as CustomIcon } from '../../../../assets/images/nav/animals.svg';
 import { getComparator } from '../../../../util/sort';
-import { generateUniqueAnimalTypeId } from '../../../../util/animal';
+import { generateUniqueAnimalId } from '../../../../util/animal';
 import styles from './styles.module.scss';
 
 const icons = {
@@ -49,7 +49,7 @@ const formatAnimalTypes = (
     if (type.count) {
       const label = 'type' in type ? type.type : t(`animal:TYPE.${type.key}`);
       const iconKey = ('key' in type ? type.key : '') as keyof typeof icons;
-      const id = generateUniqueAnimalTypeId(type);
+      const id = generateUniqueAnimalId(type);
 
       formattedTypes.push({
         label: label.toLowerCase(),

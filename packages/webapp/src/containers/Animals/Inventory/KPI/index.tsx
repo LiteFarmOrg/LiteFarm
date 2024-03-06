@@ -14,7 +14,7 @@
  */
 
 import clsx from 'clsx';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation, TFunction } from 'react-i18next';
 import {
   useGetDefaultAnimalTypesQuery,
@@ -69,6 +69,7 @@ interface KPIProps {
   onTypeClick: (typeId: string) => void;
   kpiHeight: number | null;
   setKpiHeight: (height: number | null) => void;
+  isMobile: boolean;
 }
 
 function KPI({
@@ -77,6 +78,7 @@ function KPI({
   onTypeClick,
   kpiHeight,
   setKpiHeight,
+  isMobile,
 }: KPIProps) {
   const { t } = useTranslation(['translation', 'common', 'animal']);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -116,7 +118,7 @@ function KPI({
     <div style={{ height: kpiHeight || 0 }}>
       <div
         ref={wrapperRef}
-        className={clsx(styles.wrapper, isCompactSideMenu && styles.withCompactMenu)}
+        className={clsx(styles.wrapper, !isMobile && isCompactSideMenu && styles.withCompactMenu)}
       >
         <PureTileDashboard
           typeCountTiles={types}

@@ -216,6 +216,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         selectedTypeIds={selectedTypeIds}
         kpiHeight={kpiHeight}
         setKpiHeight={setKpiHeight}
+        isMobile={!isDesktop}
       />
       {!isLoading && (
         <div className={styles.mainContent}>

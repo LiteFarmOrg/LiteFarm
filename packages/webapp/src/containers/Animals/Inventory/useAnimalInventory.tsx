@@ -52,7 +52,7 @@ export type AnimalInventory = {
 const { t } = i18n;
 
 const getDefaultAnimalIcon = (defaultAnimalTypes: DefaultAnimalType[], defaultTypeId: number) => {
-  const key = defaultAnimalTypes[defaultTypeId].key;
+  const key = defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key;
   switch (key) {
     case AnimalTranslationKey.CATTLE:
       return CattleIcon;
@@ -84,16 +84,18 @@ const getAnimalBreedLabel = (key: string) => {
   return t(`BREED.${key}`, { ns: 'animal' });
 };
 
-const chooseAnimalIdentifier = (animal: Animal) => {
-  if (animal.name && animal.identifier) {
-    return `${animal.name} | ${animal.identifier}`;
-  } else if (animal.name && !animal.identifier) {
-    return animal.name;
-  } else if (!animal.name && animal.identifier) {
-    return animal.identifier;
-  } else {
-    return `${t('ANIMAL.ANIMAL')}#${animal.internal_identifier}`;
+const chooseIdentification = (animalOrBatch: Animal | AnimalBatch) => {
+  if ('identifier' in animalOrBatch && animalOrBatch.identifier) {
+    if (animalOrBatch.name && animalOrBatch.identifier) {
+      return `${animalOrBatch.name} | ${animalOrBatch.identifier}`;
+    } else if (!animalOrBatch.name && animalOrBatch.identifier) {
+      return animalOrBatch.identifier;
+    }
   }
+  if (animalOrBatch.name) {
+    return animalOrBatch.name;
+  }
+  return `${t('ANIMAL.ANIMAL_ID')}${animalOrBatch.internal_identifier}`;
 };
 
 const chooseAnimalTypeLabel = (
@@ -122,13 +124,13 @@ const chooseAnimalBreedLabel = (
       getProperty(defaultAnimalBreeds, animalOrBatch.default_breed_id, 'key'),
     );
   } else if (animalOrBatch.custom_breed_id) {
-    return getProperty(customAnimalBreeds, animalOrBatch.custom_breed_id, 'type');
+    return getProperty(customAnimalBreeds, animalOrBatch.custom_breed_id, 'breed');
   } else {
     return null;
   }
 };
 
-const sortAnimalsData = (
+const formatAnimalsData = (
   animals: Animal[],
   animalGroups: AnimalGroup[],
   customAnimalBreeds: CustomAnimalBreed[],
@@ -141,19 +143,17 @@ const sortAnimalsData = (
       icon: animal.default_type_id
         ? getDefaultAnimalIcon(defaultAnimalTypes, animal.default_type_id)
         : CattleIcon,
-      identification: chooseAnimalIdentifier(animal),
+      identification: chooseIdentification(animal),
       type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
       breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
-      groups: animal.group_ids
-        ? animal.group_ids.map((id: number) => getProperty(animalGroups, id, 'name'))
-        : ['none'],
+      groups: animal.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
       path: `/animal/${animal.internal_identifier}`,
       count: 1,
     };
   });
 };
 
-const sortAnimalBatchesData = (
+const formatAnimalBatchesData = (
   animalBatches: AnimalBatch[],
   animalGroups: AnimalGroup[],
   customAnimalBreeds: CustomAnimalBreed[],
@@ -164,14 +164,10 @@ const sortAnimalBatchesData = (
   return animalBatches.map((batch: AnimalBatch) => {
     return {
       icon: BatchIcon,
-      identification: batch.name
-        ? batch.name
-        : `${t('ANIMAL.ANIMAL')}#${batch.internal_identifier}`,
+      identification: chooseIdentification(batch),
       type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
       breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),
-      groups: batch.group_ids
-        ? batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name'))
-        : ['none'],
+      groups: batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
       path: `/batch/${batch.internal_identifier}`,
       count: batch.count,
     };
@@ -195,8 +191,8 @@ export const buildInventory = ({
   defaultAnimalBreeds: DefaultAnimalBreed[];
   defaultAnimalTypes: DefaultAnimalType[];
 }) => {
-  const transactions = [
-    ...sortAnimalsData(
+  const inventory = [
+    ...formatAnimalsData(
       animals,
       animalGroups,
       customAnimalBreeds,
@@ -204,7 +200,7 @@ export const buildInventory = ({
       defaultAnimalBreeds,
       defaultAnimalTypes,
     ),
-    ...sortAnimalBatchesData(
+    ...formatAnimalBatchesData(
       animalBatches,
       animalGroups,
       customAnimalBreeds,
@@ -214,9 +210,9 @@ export const buildInventory = ({
     ),
   ];
 
-  const sortedTransactions = transactions.sort(getComparator(orderEnum.ASC, 'identification'));
+  const sortedInventory = inventory.sort(getComparator(orderEnum.ASC, 'identification'));
 
-  return sortedTransactions;
+  return sortedInventory;
 };
 
 const useAnimalInventory = () => {

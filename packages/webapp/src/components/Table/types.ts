@@ -57,7 +57,6 @@ export type TableV2Column = {
   columnProps?: Object;
   label?: string;
   sortable?: boolean;
-  width?: string;
 };
 
 // Belongs in TableV2.jsx once converted to .ts

@@ -16,12 +16,16 @@ import clsx from 'clsx';
 import { HoverPill, HoverPillProps } from '../../../HoverPill';
 import styles from '../styles.module.scss';
 
-export type HoverPillOverflowProps = HoverPillProps;
+export type HoverPillOverflowProps = HoverPillProps & { noneText?: string };
 
-const HoverPillOverFlow = ({ items }: HoverPillOverflowProps) => {
+const HoverPillOverFlow = ({ items, noneText = '' }: HoverPillOverflowProps) => {
   return (
     <div className={clsx(styles.text)}>
-      {items.length === 0 ? null : <span className={styles.marginRight8px}>{items[0]}</span>}
+      {items.length === 0 ? (
+        <span className={styles.italics}>{noneText}</span>
+      ) : (
+        <span className={styles.marginRight8px}>{items[0]}</span>
+      )}
       {items.length > 1 && <HoverPill items={items.slice(1)} />}
     </div>
   );

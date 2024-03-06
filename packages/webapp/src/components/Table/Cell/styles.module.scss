@@ -10,11 +10,6 @@
   overflow: hidden;
 }
 
-.overflowVisible, .overflowVisible div {
-  overflow: visible !important;
-}
-
-
 .rightChevronLink {
   height: 24px;
   width: 24px;
@@ -79,4 +74,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.italics {
+  font-style: italic;
 }

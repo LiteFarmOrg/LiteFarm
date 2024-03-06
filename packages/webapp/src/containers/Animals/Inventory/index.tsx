@@ -70,8 +70,9 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
             kind={CellKind.ICON_TEXT}
             text={d.identification}
             icon={d.icon}
+            iconBorder={!d.batch}
             subtext={isMobile ? `${d.type} / ${d.breed}` : null}
-            highlightedText={d.count > 1 ? d.count : null}
+            highlightedText={d.batch ? d.count : null}
           />
         ),
       },

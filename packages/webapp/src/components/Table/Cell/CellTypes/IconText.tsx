@@ -17,16 +17,23 @@ import type { FC } from 'react';
 import styles from '../styles.module.scss';
 
 export type IconTextProps = {
-  text: string | number | null | undefined;
   icon: FC;
+  iconBorder: boolean;
+  text: string | number | null | undefined;
   subtext: string | number | null | undefined;
   highlightedText: string | number | null | undefined;
 };
 
-const IconText = ({ text, icon: Icon, subtext, highlightedText }: IconTextProps) => {
+const IconText = ({
+  icon: Icon,
+  iconBorder = false,
+  text,
+  subtext,
+  highlightedText,
+}: IconTextProps) => {
   return (
     <div className={styles.iconTextContainer}>
-      <div className={styles.iconTextIcon}>
+      <div className={clsx(styles.iconTextIcon, iconBorder && styles.iconBorder)}>
         <Icon />
       </div>
       <div className={clsx(styles.text, styles.overflowText, subtext && styles.withSubtextText)}>

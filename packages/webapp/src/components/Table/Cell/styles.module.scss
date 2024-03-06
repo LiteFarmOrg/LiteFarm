@@ -34,8 +34,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  svg {
-    width: 32px;
+}
+
+.iconBorder {
+  border-radius: 8px;
+  border: 1px solid var(--Colors-Primary-Primary-teal-100);
+  background: white;
+  box-shadow: 0px 1px 0px 0px var(--Colors-Neutral-Neutral-50);
+  height: 32px;
+  width: 32px;
+  padding: 4px;
+  svg > rect, path{
+    fill: var(--Colors-Primary-Primary-teal-300);
   }
 }
 

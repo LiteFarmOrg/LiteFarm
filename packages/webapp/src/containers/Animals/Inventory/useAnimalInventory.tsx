@@ -33,10 +33,10 @@ import {
   DefaultAnimalType,
 } from '../../../store/api/types';
 import { getComparator, orderEnum } from '../../../util/sort';
-import { ReactComponent as CattleIcon } from '../../../assets/images/animals/table/cattle.svg';
-import { ReactComponent as ChickenIcon } from '../../../assets/images/animals/table/chicken.svg';
-import { ReactComponent as PigIcon } from '../../../assets/images/animals/table/pig.svg';
-import { ReactComponent as BatchIcon } from '../../../assets/images/animals/table/batch.svg';
+import { ReactComponent as CattleIcon } from '../../../assets/images/animals/cattle-icon.svg';
+import { ReactComponent as ChickenIcon } from '../../../assets/images/animals/chicken-icon.svg';
+import { ReactComponent as PigIcon } from '../../../assets/images/animals/pig-icon.svg';
+import { ReactComponent as BatchIcon } from '../../../assets/images/animals/batch.svg';
 import { AnimalTranslationKey } from '../types';
 
 export type AnimalInventory = {
@@ -47,11 +47,15 @@ export type AnimalInventory = {
   groups: string[];
   path: string;
   count: number;
+  batch: boolean;
 };
 
 const { t } = i18n;
 
-const getDefaultAnimalIcon = (defaultAnimalTypes: DefaultAnimalType[], defaultTypeId: number) => {
+const getDefaultAnimalIcon = (
+  defaultAnimalTypes: DefaultAnimalType[],
+  defaultTypeId: number | null,
+) => {
   const key = defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key;
   switch (key) {
     case AnimalTranslationKey.CATTLE:
@@ -140,15 +144,14 @@ const formatAnimalsData = (
 ) => {
   return animals.map((animal: Animal) => {
     return {
-      icon: animal.default_type_id
-        ? getDefaultAnimalIcon(defaultAnimalTypes, animal.default_type_id)
-        : CattleIcon,
+      icon: getDefaultAnimalIcon(defaultAnimalTypes, animal.default_type_id),
       identification: chooseIdentification(animal),
       type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
       breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
       groups: animal.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
       path: `/animal/${animal.internal_identifier}`,
       count: 1,
+      batch: false,
     };
   });
 };
@@ -170,6 +173,7 @@ const formatAnimalBatchesData = (
       groups: batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
       path: `/batch/${batch.internal_identifier}`,
       count: batch.count,
+      batch: true,
     };
   });
 };

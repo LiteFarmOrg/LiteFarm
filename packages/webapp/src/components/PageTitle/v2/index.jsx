@@ -25,9 +25,12 @@ function PageTitle({ title, onGoBack, onCancel, style, cancelModalTitle, label }
 }
 
 export default PageTitle;
-PageTitle.prototype = {
+
+PageTitle.propTypes = {
   title: PropTypes.string,
   onGoBack: PropTypes.func,
   onCancel: PropTypes.func,
   style: PropTypes.object,
+  label: PropTypes.node,
+  cancelModalTitle: PropTypes.string,
 };

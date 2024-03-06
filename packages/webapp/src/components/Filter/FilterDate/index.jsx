@@ -34,9 +34,15 @@ export function FilterDate({
   );
 }
 
-FilterDate.prototype = {
+FilterDate.propTypes = {
   label: PropTypes.string,
   selected: PropTypes.bool,
   removable: PropTypes.bool,
   shouldReset: PropTypes.number,
+  filterRef: PropTypes.object,
+  defaultValue: PropTypes.string,
+  filterKey: PropTypes.string,
+  onChange: PropTypes.func,
+  subject: PropTypes.string,
+  props: PropTypes.object,
 };

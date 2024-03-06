@@ -106,16 +106,18 @@ describe('Animal Group Tests', () => {
     return animalBatch;
   }
 
-  async function makeAnimalGroupRelationship(animalGroup) {
+  async function makeAnimalGroupRelationship(animalGroup, animal) {
     const [animalGroupRelationship] = await mocks.animal_group_relationshipFactory({
       promisedGroup: [animalGroup],
+      ...(animal && { promisedAnimal: [animal] }),
     });
     return animalGroupRelationship;
   }
 
-  async function makeAnimalBatchGroupRelationship(animalGroup) {
+  async function makeAnimalBatchGroupRelationship(animalGroup, animalBatch) {
     const [animalBatchGroupRelationship] = await mocks.animal_batch_group_relationshipFactory({
       promisedGroup: [animalGroup],
+      ...(animalBatch && { promisedBatch: [animalBatch] }),
     });
     return animalBatchGroupRelationship;
   }
@@ -200,6 +202,32 @@ describe('Animal Group Tests', () => {
       expect(res.error.text).toBe(
         'User does not have the following permission(s): get:animal_groups',
       );
+    });
+
+    test('Groups should not include deleted animals or batches', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const group = await makeAnimalGroup(mainFarm);
+
+      const animal = await makeAnimal(mainFarm, { deleted: true });
+      const batch = await makeAnimalBatch(mainFarm, { deleted: true });
+
+      await makeAnimalGroupRelationship(group, animal);
+      await makeAnimalBatchGroupRelationship(group, batch);
+
+      const res = await getRequestAsPromise({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      // Should return only one animal group with no related ids
+      expect(res.status).toBe(200);
+      expect(res.body.length).toBe(1);
+
+      const resGroup = res.body[0];
+      expect(resGroup.name).toBe(group.name);
+      expect(resGroup.related_animal_ids).toEqual([]);
+      expect(resGroup.related_batch_ids).toEqual([]);
     });
   });
 

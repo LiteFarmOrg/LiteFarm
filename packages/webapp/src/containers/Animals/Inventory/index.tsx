@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import PureAnimalInventory from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
@@ -22,6 +22,7 @@ import { Alignment, CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventory } from './useAnimalInventory';
 import ActionMenu from '../../../components/ActionMenu';
+import KPI from './KPI';
 import styles from './styles.module.scss';
 
 // TODO: LF-4087
@@ -37,11 +38,27 @@ interface AnimalInventoryProps {
 }
 
 function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
+  const [selectedTypeIds, setSelectedTypeIds] = useState<string[]>([]);
+
   const { t } = useTranslation(['translation', 'animal', 'common']);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const { inventory, isLoading } = useAnimalInventory();
+
+  const onTypeClick = useCallback(
+    (typeId: string) => {
+      setSelectedTypeIds((prevSelectedTypeIds) => {
+        const isSelected = prevSelectedTypeIds.includes(typeId);
+        const newSelectedTypeIds = isSelected
+          ? prevSelectedTypeIds.filter((id) => typeId !== id)
+          : [...prevSelectedTypeIds, typeId];
+
+        return newSelectedTypeIds;
+      });
+    },
+    [setSelectedTypeIds],
+  );
 
   const animalsColumns = useMemo(
     () => [
@@ -96,20 +113,27 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   return (
     !isLoading && (
       <>
-        <PureAnimalInventory
-          tableData={inventory}
-          animalsColumns={animalsColumns}
-          theme={theme}
-          isMobile={isMobile}
+        <KPI
+          isCompactSideMenu={isCompactSideMenu}
+          onTypeClick={onTypeClick}
+          selectedTypeIds={selectedTypeIds}
         />
-        <ActionMenu
-          headerLeftText={''}
-          textActions={[]}
-          iconActions={iconActions}
-          classes={{
-            root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
-          }}
-        />
+        <div className={styles.mainContent}>
+          <PureAnimalInventory
+            tableData={inventory}
+            animalsColumns={animalsColumns}
+            theme={theme}
+            isMobile={isMobile}
+          />
+          <ActionMenu
+            headerLeftText={''}
+            textActions={[]}
+            iconActions={iconActions}
+            classes={{
+              root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
+            }}
+          />
+        </div>
       </>
     )
   );

@@ -13,14 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export enum AnimalTranslationKey {
-  CATTLE = 'CATTLE',
-  CHICKEN_BROILERS = 'CHICKEN_BROILERS',
-  CHICKEN_LAYERS = 'CHICKEN_LAYERS',
-  PIGS = 'PIGS',
-}
+import { CustomAnimalType, DefaultAnimalType } from '../store/api/types';
+import { ANIMAL_TYPE_ID_PREFIX } from '../containers/Animals/types';
 
-export enum ANIMAL_TYPE_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
-}
+export const generateUniqueAnimalTypeId = (type: DefaultAnimalType | CustomAnimalType): string => {
+  return `${ANIMAL_TYPE_ID_PREFIX['key' in type ? 'DEFAULT' : 'CUSTOM']}_${type.id}`;
+};

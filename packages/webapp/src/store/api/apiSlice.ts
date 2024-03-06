@@ -74,21 +74,21 @@ export const api = createApi({
       query: () => `${animalGroupsUrl}`,
       providesTags: ['AnimalGroups'],
     }),
+    getDefaultAnimalTypes: build.query<DefaultAnimalType[], string | void>({
+      query: (param = '') => `${defaultAnimalTypesUrl}${param}`,
+      providesTags: ['DefaultAnimalTypes'],
+    }),
+    getCustomAnimalTypes: build.query<CustomAnimalType[], string | void>({
+      query: (param = '') => `${customAnimalTypesUrl}${param}`,
+      providesTags: ['CustomAnimalTypes'],
+    }),
     getCustomAnimalBreeds: build.query<CustomAnimalBreed[], void>({
       query: () => `${customAnimalBreedsUrl}`,
       providesTags: ['CustomAnimalBreeds'],
     }),
-    getCustomAnimalTypes: build.query<CustomAnimalType[], void>({
-      query: () => `${customAnimalTypesUrl}`,
-      providesTags: ['CustomAnimalTypes'],
-    }),
     getDefaultAnimalBreeds: build.query<DefaultAnimalBreed[], void>({
       query: () => `${defaultAnimalBreedsUrl}`,
       providesTags: ['DefaultAnimalBreeds'],
-    }),
-    getDefaultAnimalTypes: build.query<DefaultAnimalType[], void>({
-      query: () => `${defaultAnimalTypesUrl}`,
-      providesTags: ['DefaultAnimalTypes'],
     }),
   }),
 });

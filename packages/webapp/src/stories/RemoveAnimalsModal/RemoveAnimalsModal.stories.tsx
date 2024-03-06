@@ -13,14 +13,27 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export enum AnimalTranslationKey {
-  CATTLE = 'CATTLE',
-  CHICKEN_BROILERS = 'CHICKEN_BROILERS',
-  CHICKEN_LAYERS = 'CHICKEN_LAYERS',
-  PIGS = 'PIGS',
-}
+import RemoveAnimalsModal from '../../components/Animals/RemoveAnimalsModal';
+import { Meta, StoryObj } from '@storybook/react';
 
-export enum ANIMAL_TYPE_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
-}
+const meta: Meta<typeof RemoveAnimalsModal> = {
+  title: 'Components/RemoveAnimalsModal',
+  component: RemoveAnimalsModal,
+};
+
+export default meta;
+
+type Story = StoryObj<typeof RemoveAnimalsModal>;
+
+export const Primary: Story = {
+  args: {
+    isOpen: true,
+  },
+};
+
+export const WithSuccessMessage: Story = {
+  args: {
+    isOpen: true,
+    showSuccessMessage: true,
+  },
+};

@@ -19,7 +19,11 @@ import { Main } from '../../Typography';
 import TextButton from '../../Form/Button/TextButton';
 import type { TypeCountTile } from '../index';
 
-export const DashboardTile = ({ icon, label, count, onClick, isSelected }: TypeCountTile) => (
+interface DashboardTileProps extends TypeCountTile {
+  isSelected?: boolean;
+}
+
+export const DashboardTile = ({ icon, label, count, onClick, isSelected }: DashboardTileProps) => (
   <TextButton className={clsx(styles.tile, isSelected && styles.selected)} onClick={onClick}>
     <div className={styles.icon}>{icon}</div>
     <div className={styles.tileText}>

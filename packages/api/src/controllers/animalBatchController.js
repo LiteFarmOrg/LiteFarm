@@ -218,6 +218,25 @@ const animalBatchController = {
       }
     };
   },
+
+  deleteAnimalBatches() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+
+      try {
+        const { ids } = req.query;
+        const idsSet = new Set(ids.split(','));
+
+        for (const batchId of idsSet) {
+          await baseController.delete(AnimalBatchModel, batchId, req, { trx });
+        }
+        await trx.commit();
+        return res.status(204).send();
+      } catch (error) {
+        handleObjectionError(error, res, trx);
+      }
+    };
+  },
 };
 
 export default animalBatchController;

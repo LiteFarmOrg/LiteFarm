@@ -85,6 +85,15 @@ describe('Animal Batch Tests', () => {
       .send(data);
   }
 
+  async function deleteRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id, query = '' }) {
+    return await chai
+      .request(server)
+      .delete(`/animal_batches?${query}`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id);
+  }
+
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
@@ -633,6 +642,149 @@ describe('Animal Batch Tests', () => {
       // Check database
       const batchRecord = await AnimalBatchModel.query().findById(animalBatch.id);
       expect(batchRecord.animal_removal_reason_id).toBeNull();
+    });
+  });
+
+  // DELETE tests
+  describe('Delete animal batch tests', () => {
+    test('Admin users should be able to delete animal batches', async () => {
+      const roles = [1, 2, 5];
+      const animalSex1 = await makeAnimalSex();
+      const animalSex2 = await makeAnimalSex();
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+
+        const firstAnimalBatch = await makeAnimalBatch(mainFarm, {
+          default_breed_id: defaultBreedId,
+          default_type_id: defaultTypeId,
+          count: 6,
+          sex_detail: [
+            {
+              sex_id: animalSex1.id,
+              count: 2,
+            },
+            {
+              sex_id: animalSex2.id,
+              count: 4,
+            },
+          ],
+        });
+
+        const secondAnimalBatch = await makeAnimalBatch(mainFarm, {
+          default_breed_id: defaultBreedId,
+          default_type_id: defaultTypeId,
+        });
+
+        const res = await deleteRequest({
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+          query: `ids=${firstAnimalBatch.id},${secondAnimalBatch.id}`,
+        });
+
+        expect(res.status).toBe(204);
+      }
+    });
+
+    test('Non-admin users should not be able to delete animal batches', async () => {
+      const roles = [3];
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+
+        const animalBatch = await makeAnimalBatch(mainFarm, {
+          default_breed_id: defaultBreedId,
+          default_type_id: defaultTypeId,
+        });
+
+        const res = await deleteRequest({
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+          query: `ids=${animalBatch.id}`,
+        });
+
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe(
+          'User does not have the following permission(s): delete:animal_batches',
+        );
+      }
+    });
+
+    test('Must send animal batch ids', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const res = await deleteRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+        query: ``,
+      });
+
+      expect(res).toMatchObject({
+        status: 400,
+        error: {
+          text: 'Must send ids',
+        },
+      });
+    });
+
+    test('Must send valid queries', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const animalBatch = await makeAnimalBatch(mainFarm, {
+        default_breed_id: defaultBreedId,
+        default_type_id: defaultTypeId,
+      });
+
+      // Two query params that are not valid batch ids
+      const res1 = await deleteRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+        query: `ids=${animalBatch.id},,`,
+      });
+
+      expect(res1).toMatchObject({
+        status: 400,
+        error: {
+          text: 'Must send valid ids',
+        },
+      });
+
+      // Three query params that are not valid animal ids
+      const res2 = await deleteRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+        query: `ids=},a,`,
+      });
+
+      expect(res2).toMatchObject({
+        status: 400,
+        error: {
+          text: 'Must send valid ids',
+        },
+      });
+    });
+
+    test('Should not be able to remove an animal batch belonging to a different farm', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+
+      const animalBatch = await makeAnimalBatch(secondFarm, {
+        default_breed_id: defaultBreedId,
+        default_type_id: defaultTypeId,
+      });
+
+      const res = await deleteRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+        query: `ids=${animalBatch.id}`,
+      });
+
+      expect(res).toMatchObject({
+        status: 400,
+        body: {
+          error: 'Invalid ids',
+          invalidIds: [`${animalBatch.id}`],
+        },
+      });
     });
   });
 });

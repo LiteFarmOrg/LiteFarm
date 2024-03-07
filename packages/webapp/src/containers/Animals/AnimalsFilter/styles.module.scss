@@ -1,0 +1,30 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+// Filter buttons + searchbar need their own element eventually
+.filterButton {
+  padding-top: 16px;
+  padding-left: 16px;
+}
+
+.modalContent {
+  z-index: 4001;
+}
+
+// z-index doesn't work as desired; I'll tech daily this one because it's layer mess here :D
+.modalBackdrop {
+  background-color: rgba(43, 48, 58, 0.8);
+  z-index: 4000;
+}

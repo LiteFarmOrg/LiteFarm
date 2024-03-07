@@ -48,6 +48,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const {
+    ANIMAL_OR_BATCH: animalsOrBatchesFilter,
     TYPE: typesFilter,
     BREED: breedsFilter,
     SEX: sexFilter,
@@ -56,6 +57,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   } = useSelector(animalsFilterSelector);
 
   const { inventory, isLoading } = useAnimalInventory({
+    animalsOrBatchesFilter,
     typesFilter,
     breedsFilter,
     sexFilter,

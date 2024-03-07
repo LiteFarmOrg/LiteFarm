@@ -166,6 +166,9 @@
   },
   "ANIMALS": {
     "FILTER": {
+      "BATCHES": "Batches",
+      "BATCHES_OR_INDIVIDUALS": "Batches or Individuals",
+      "INDIVIDUALS": "Individuals",
       "TITLE": "Filter animals"
     }
   },

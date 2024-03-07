@@ -43,6 +43,7 @@ import { AnimalTranslationKey } from '../types';
 import { FilterState } from '../../Filter/types';
 import { isInactive } from '../../Filter/utils';
 import { isInFilter } from '../../Filter/Animals/utils';
+import { AnimalOrBatchKeys } from '../../Filter/Animals';
 
 export type AnimalInventory = {
   icon: FC;
@@ -146,6 +147,7 @@ const formatAnimalsData = (
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
+  animalsOrBatchesFilter: FilterState,
   typesFilter: FilterState,
   breedsFilter: FilterState,
   sexFilter: FilterState,
@@ -154,6 +156,10 @@ const formatAnimalsData = (
 ) => {
   return animals
     .filter((animal: Animal) => {
+      const animalOrBatchMatches =
+        isInactive(animalsOrBatchesFilter) ||
+        animalsOrBatchesFilter[AnimalOrBatchKeys.ANIMAL]?.active;
+
       const typeMatches = isInactive(typesFilter) || isInFilter(animal, typesFilter, 'type');
 
       const breedMatches = isInactive(breedsFilter) || isInFilter(animal, breedsFilter, 'breed');
@@ -169,7 +175,14 @@ const formatAnimalsData = (
       // const locationMatches =
       //   isInactive(locationsFilter) || locationsFilter[animal.location]?.active;
 
-      return typeMatches && breedMatches && sexMatches && groupMatches && locationMatches;
+      return (
+        animalOrBatchMatches &&
+        typeMatches &&
+        breedMatches &&
+        sexMatches &&
+        groupMatches &&
+        locationMatches
+      );
     })
     .map((animal: Animal) => {
       return {
@@ -192,6 +205,7 @@ const formatAnimalBatchesData = (
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
+  animalsOrBatchesFilter: FilterState,
   typesFilter: FilterState,
   breedsFilter: FilterState,
   sexFilter: FilterState,
@@ -200,6 +214,10 @@ const formatAnimalBatchesData = (
 ) => {
   return animalBatches
     .filter((batch: AnimalBatch) => {
+      const animalOrBatchMatches =
+        isInactive(animalsOrBatchesFilter) ||
+        animalsOrBatchesFilter[AnimalOrBatchKeys.BATCH]?.active;
+
       const typeMatches = isInactive(typesFilter) || isInFilter(batch, typesFilter, 'type');
 
       const breedMatches = isInactive(breedsFilter) || isInFilter(batch, breedsFilter, 'breed');
@@ -217,7 +235,14 @@ const formatAnimalBatchesData = (
       // const locationMatches =
       //   isInactive(locationsFilter) || locationsFilter[batch.location]?.active;
 
-      return typeMatches && breedMatches && sexMatches && groupMatches && locationMatches;
+      return (
+        animalOrBatchMatches &&
+        typeMatches &&
+        breedMatches &&
+        sexMatches &&
+        groupMatches &&
+        locationMatches
+      );
     })
     .map((batch: AnimalBatch) => {
       return {
@@ -241,6 +266,7 @@ interface BuildInventoryArgs {
   customAnimalTypes: CustomAnimalType[];
   defaultAnimalBreeds: DefaultAnimalBreed[];
   defaultAnimalTypes: DefaultAnimalType[];
+  animalsOrBatchesFilter: FilterState;
   typesFilter: FilterState;
   breedsFilter: FilterState;
   sexFilter: FilterState;
@@ -256,6 +282,7 @@ export const buildInventory = ({
   customAnimalTypes,
   defaultAnimalBreeds,
   defaultAnimalTypes,
+  animalsOrBatchesFilter,
   typesFilter,
   breedsFilter,
   sexFilter,
@@ -270,6 +297,7 @@ export const buildInventory = ({
       customAnimalTypes,
       defaultAnimalBreeds,
       defaultAnimalTypes,
+      animalsOrBatchesFilter,
       typesFilter,
       breedsFilter,
       sexFilter,
@@ -283,6 +311,7 @@ export const buildInventory = ({
       customAnimalTypes,
       defaultAnimalBreeds,
       defaultAnimalTypes,
+      animalsOrBatchesFilter,
       typesFilter,
       breedsFilter,
       sexFilter,
@@ -297,6 +326,7 @@ export const buildInventory = ({
 };
 
 interface useAnimalInventoryArgs {
+  animalsOrBatchesFilter: FilterState;
   typesFilter: FilterState;
   breedsFilter: FilterState;
   sexFilter: FilterState;
@@ -305,6 +335,7 @@ interface useAnimalInventoryArgs {
 }
 
 const useAnimalInventory = ({
+  animalsOrBatchesFilter,
   typesFilter,
   breedsFilter,
   sexFilter,
@@ -353,6 +384,7 @@ const useAnimalInventory = ({
         customAnimalTypes,
         defaultAnimalBreeds,
         defaultAnimalTypes,
+        animalsOrBatchesFilter,
         typesFilter,
         breedsFilter,
         sexFilter,
@@ -370,6 +402,7 @@ const useAnimalInventory = ({
     customAnimalTypes,
     defaultAnimalBreeds,
     defaultAnimalTypes,
+    animalsOrBatchesFilter,
     typesFilter,
     breedsFilter,
     sexFilter,

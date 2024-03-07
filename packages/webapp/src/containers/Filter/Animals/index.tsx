@@ -40,6 +40,11 @@ export enum AnimalsFilterKeys {
   LOCATION = 'LOCATION',
 }
 
+export enum AnimalOrBatchKeys {
+  ANIMAL = 'ANIMAL',
+  BATCH = 'BATCH',
+}
+
 interface AnimalsFilterContentProps {
   animalsFilter: ReduxFilterEntity<AnimalsFilterKeys>;
   filterRef: React.RefObject<ReduxFilterEntity<AnimalsFilterKeys>>;
@@ -72,6 +77,27 @@ const AnimalsFilterContent = ({
   );
 
   const filters: ComponentFilter[] = [
+    {
+      subject: t('ANIMALS.FILTER.BATCHES_OR_INDIVIDUALS'),
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
+      filterKey: AnimalsFilterKeys.ANIMAL_OR_BATCH,
+      options: [
+        {
+          value: AnimalOrBatchKeys.ANIMAL,
+          default:
+            animalsFilter[AnimalsFilterKeys.ANIMAL_OR_BATCH][AnimalOrBatchKeys.ANIMAL]?.active ??
+            false,
+          label: t('ANIMALS.FILTER.INDIVIDUALS'),
+        },
+        {
+          value: AnimalOrBatchKeys.BATCH,
+          default:
+            animalsFilter[AnimalsFilterKeys.ANIMAL_OR_BATCH][AnimalOrBatchKeys.BATCH]?.active ??
+            false,
+          label: t('ANIMALS.FILTER.BATCHES'),
+        },
+      ],
+    },
     {
       subject: t('ANIMAL.ANIMAL_TYPE'),
       type: FilterType.SEARCHABLE_MULTI_SELECT,

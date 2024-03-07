@@ -242,7 +242,7 @@ describe('Animal Tests', () => {
         animal,
       );
 
-      expect(res.status).toBe(500);
+      expect(res.status).toBe(400);
     });
 
     test('Unique internal_identifier should be added within the same farm_id between animals and animalBatches', async () => {

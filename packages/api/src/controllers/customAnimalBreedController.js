@@ -18,7 +18,7 @@ import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { transaction, Model } from 'objection';
 import baseController from './baseController.js';
 import { checkAndTrimString } from '../util/util.js';
-import { handleObjectionError } from '../util/errorCodes.js';
+import { handleDBError } from '../util/errorCodes.js';
 
 const customAnimalBreedController = {
   getCustomAnimalBreeds() {
@@ -99,7 +99,7 @@ const customAnimalBreedController = {
           return res.status(201).send(result);
         }
       } catch (error) {
-        await handleObjectionError(error, res, trx);
+        await handleDBError(error, res, trx);
       }
     };
   },

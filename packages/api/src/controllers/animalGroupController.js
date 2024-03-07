@@ -21,7 +21,7 @@ import AnimalBatchGroupRelationshipModel from '../models/animalBatchGroupRelatio
 import AnimalModel from '../models/animalModel.js';
 import AnimalBatchModel from '../models/animalBatchModel.js';
 import { checkAndTrimString } from '../util/util.js';
-import { handleObjectionError } from '../util/errorCodes.js';
+import { handleDBError } from '../util/errorCodes.js';
 
 const animalGroupController = {
   getFarmAnimalGroups() {
@@ -138,7 +138,7 @@ const animalGroupController = {
         await trx.commit();
         return res.status(201).send(result);
       } catch (error) {
-        await handleObjectionError(error, res, trx);
+        await handleDBError(error, res, trx);
       }
     };
   },

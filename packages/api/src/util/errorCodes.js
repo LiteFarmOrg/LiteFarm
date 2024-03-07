@@ -16,6 +16,27 @@
 // See https://github.com/Vincit/objection.js/issues/2023#issuecomment-806059039
 import objection from 'objection';
 
+export async function handleDBError(err, res, trx) {
+  console.error(err); // also reports to Sentry
+  try {
+    // Check that response has not been sent
+    if (!res.writableFinished) {
+      await handleObjectionError(err, res, trx);
+    }
+    // Check that response has not been sent
+    if (!res.writableFinished) {
+      await handleCustomError(err, res, trx);
+    }
+  } catch {
+    await trx.rollback();
+    res.status(500).send({
+      message: err.message,
+      type: 'UnknownError',
+      data: {},
+    });
+  }
+}
+
 /**
  * Handles objection.js errors and sends appropriate responses based on the error type.
  * Augmented from: https://vincit.github.io/objection.js/recipes/error-handling.html#examples
@@ -32,8 +53,7 @@ import objection from 'objection';
  *   await handleObjectionError(error, res, trx);
  * }
  */
-export async function handleObjectionError(err, res, trx) {
-  console.error(err); // also reports to Sentry
+async function handleObjectionError(err, res, trx) {
   if (err instanceof objection.ValidationError) {
     switch (err.type) {
       case 'ModelValidation':
@@ -144,6 +164,33 @@ export async function handleObjectionError(err, res, trx) {
     res.status(500).send({
       message: err.message,
       type: 'UnknownDatabaseError',
+      data: {},
+    });
+  }
+}
+
+// Objection response
+const isNotIterable = 'is not iterable';
+// Plain knex response for tests
+const isNotIterableTests =
+  'Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.';
+
+const captureAllBefore = (searchString) => `^.*(?=( ${searchString}))`;
+
+async function handleCustomError(err, res, trx) {
+  if (err.message?.includes(isNotIterable)) {
+    const badData = err.message?.match(captureAllBefore(isNotIterable));
+    await trx.rollback();
+    res.status(400).send({
+      message: 'Data should be formatted in an array',
+      type: 'RequestFormatError',
+      data: badData[0],
+    });
+  } else if (err.message?.includes(isNotIterableTests)) {
+    await trx.rollback();
+    res.status(400).send({
+      message: 'Data should be formatted in an array',
+      type: 'RequestFormatError',
       data: {},
     });
   } else {

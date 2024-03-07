@@ -19,7 +19,7 @@ import baseController from './baseController.js';
 import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
-import { handleObjectionError } from '../util/errorCodes.js';
+import { handleDBError } from '../util/errorCodes.js';
 import { assignInternalIdentifiers } from '../util/animal.js';
 
 const animalBatchController = {
@@ -150,7 +150,7 @@ const animalBatchController = {
         await assignInternalIdentifiers(result, 'batch');
         return res.status(201).send(result);
       } catch (error) {
-        await handleObjectionError(error, res, trx);
+        await handleDBError(error, res, trx);
       }
     };
   },
@@ -215,7 +215,7 @@ const animalBatchController = {
         await trx.commit();
         return res.status(204).send();
       } catch (error) {
-        handleObjectionError(error, res, trx);
+        handleDBError(error, res, trx);
       }
     };
   },

@@ -21,6 +21,7 @@ export const AddExpenseForm = ({ history }) => {
           FormContent: AddExpense,
         },
       ]}
+      cancelModalTitle={t('EXPENSE.ADD_EXPENSE.FLOW')}
     />
   );
 };

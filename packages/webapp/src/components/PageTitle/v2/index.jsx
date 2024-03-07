@@ -1,11 +1,12 @@
 import { Title } from '../../Typography';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './styles.module.scss';
 import { BsChevronLeft } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import { CancelButton } from '../CancelButton';
 
 function PageTitle({ title, onGoBack, onCancel, style, cancelModalTitle, label }) {
+  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   return (
     <div className={styles.container} style={style}>
       <div className={styles.leftContainer} style={{ overflow: 'hidden', wordBreak: 'break-word' }}>
@@ -18,7 +19,14 @@ function PageTitle({ title, onGoBack, onCancel, style, cancelModalTitle, label }
           {title.length > 77 ? `${title.substring(0, 77).trim()}...` : title}
         </Title>
       </div>
-      {!!onCancel && <CancelButton onCancel={onCancel} cancelModalTitle={cancelModalTitle} />}
+      {!!onCancel && (
+        <CancelButton
+          onCancel={onCancel}
+          cancelModalTitle={cancelModalTitle}
+          showConfirmCancelModal={showConfirmCancelModal}
+          setShowConfirmCancelModal={setShowConfirmCancelModal}
+        />
+      )}
       {label}
     </div>
   );

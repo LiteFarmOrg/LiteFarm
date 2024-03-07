@@ -222,9 +222,8 @@ const formatAnimalBatchesData = (
 
       const breedMatches = isInactive(breedsFilter) || isInFilter(batch, breedsFilter, 'breed');
 
-      // TODO: look at sex detail shape
-      // const sexMatches = isInactive(sexFilter) || sexFilter[batch.sex_id]?.active;
-      const sexMatches = true;
+      const sexMatches =
+        isInactive(sexFilter) || batch.sex_detail.some(({ sex_id }) => sexFilter[sex_id]?.active);
 
       const groupMatches =
         isInactive(groupsFilter) ||

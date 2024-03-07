@@ -60,7 +60,7 @@ const PureAnimalInventory = ({
           borderRadius: !isMobile && '8px',
           border: !isMobile && '1px solid var(--Colors-Primary-Primary-teal-50)',
           marginTop: !isMobile && '16px',
-          padding: isMobile && '0px',
+          padding: isMobile ? '0px' : '16px',
         },
       }}
       hasWhiteBackground

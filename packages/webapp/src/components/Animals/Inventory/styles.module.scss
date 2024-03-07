@@ -23,7 +23,6 @@
 
 .searchBarDesktop {
   width: 240px;
-  margin: 10px 10px 10px 0;
 }
 
 .searchBar {
@@ -34,9 +33,12 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  margin-bottom: 16px; 
 }
 
 .searchAndFilterContainer {
+  display: inline-grid;
+  gap: 4px;
   padding: 8px 16px 8px 16px;
   background-color: var(--Colors-Primary-Primary-teal-50);
 }

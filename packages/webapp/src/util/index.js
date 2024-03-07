@@ -145,3 +145,15 @@ export const truncateText = (text, length) => {
   }
   return '';
 };
+
+/**
+ * Capitalizes the first letter of a string.
+ * @param {string} text - The input text.
+ * @returns {string} The input text with the first letter capitalized, or an empty string if the input text is empty.
+ */
+export const uppercaseTheFirstLetter = (text) => {
+  if (!text) {
+    return '';
+  }
+  return text.charAt(0).toUpperCase() + text.slice(1);
+};

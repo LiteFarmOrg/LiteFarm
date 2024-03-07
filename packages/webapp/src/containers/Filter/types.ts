@@ -13,14 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export enum AnimalTranslationKey {
-  CATTLE = 'CATTLE',
-  CHICKEN_BROILERS = 'CHICKEN_BROILERS',
-  CHICKEN_LAYERS = 'CHICKEN_LAYERS',
-  PIGS = 'PIGS',
+// In tempStateReducer > filterReducer
+export type ReduxFilterEntity<FilterKey extends string = string> = Record<FilterKey, FilterState>;
+
+export interface FilterState {
+  [filterOptionId: string]: /* e.g. ABANDONED, COMPLETED */ {
+    active: boolean;
+    label: string /* e.g. 'Abandoned', 'Completed */;
+  };
 }
 
-export enum ANIMAL_TYPE_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
-}
+export type ContainerOnChangeCallback = (filterKey?: string, filterState?: FilterState) => void;

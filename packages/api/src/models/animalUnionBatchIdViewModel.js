@@ -19,6 +19,25 @@ class animalUnionBatchIdViewModel extends Model {
   static get tableName() {
     return 'animal_union_batch_id_view';
   }
+  // Optional JSON schema. This is not the database schema! Nothing is generated
+  // based on this. This is only used for validation. Whenever a model instance
+  // is created it is checked against this schema. http://json-schema.org/.
+  static get jsonSchema() {
+    return {
+      type: 'object',
+      properties: {
+        id: { type: 'integer' },
+        farm_id: { type: 'string' },
+        batch: { type: 'boolean' },
+        created_at: {
+          type: ['string'],
+          format: 'date-time',
+        },
+        internal_identifier: { type: 'integer' },
+      },
+      additionalProperties: false,
+    };
+  }
 }
 
 export default animalUnionBatchIdViewModel;

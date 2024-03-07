@@ -28,12 +28,16 @@ const animalBatchController = {
       try {
         const { farm_id } = req.headers;
         const rows = await AnimalBatchModel.query()
-          .select('animal_batch.*', 'animal_union_batch_id_view.internal_identifier')
-          .where({ 'animal_batch.farm_id': farm_id })
-          .joinRelated('animal_union_batch_id_view')
-          .withGraphFetched('sex_detail')
-          .whereNotDeleted();
-        return res.status(200).send(rows);
+          .where({ farm_id })
+          .whereNotDeleted()
+          .withGraphFetched({ internal_identifier: true, group_ids: true, sex_detail: true });
+        return res.status(200).send(
+          rows.map(({ internal_identifier, group_ids, ...rest }) => ({
+            ...rest,
+            internal_identifier: internal_identifier.internal_identifier,
+            group_ids: group_ids.map(({ animal_group_id }) => animal_group_id),
+          })),
+        );
       } catch (error) {
         console.error(error);
         return res.status(500).json({

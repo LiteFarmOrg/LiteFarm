@@ -13,14 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export enum AnimalTranslationKey {
-  CATTLE = 'CATTLE',
-  CHICKEN_BROILERS = 'CHICKEN_BROILERS',
-  CHICKEN_LAYERS = 'CHICKEN_LAYERS',
-  PIGS = 'PIGS',
+export interface ExpenseType {
+  expense_name: string;
+  farm_id: string | null;
+  expense_type_id: string;
+  deleted: boolean;
+  expense_translation_key: string;
+  custom_description: string | null;
+  retired: boolean;
 }
 
-export enum ANIMAL_TYPE_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
+export interface RevenueType {
+  revenue_type_id: number;
+  revenue_name: string;
+  revenue_translation_key: string;
+  farm_id: string | null;
+  deleted: boolean;
+  agriculture_associated: boolean | null;
+  crop_generated: boolean;
+  custom_description: string | null;
+  retired: boolean;
 }

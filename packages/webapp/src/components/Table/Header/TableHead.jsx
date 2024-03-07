@@ -75,7 +75,7 @@ export default function EnhancedTableHead({
                 )}
                 classes={{
                   active: styles.sortLabelActive,
-                  icon: styles.iconColor,
+                  icon: styles.icon,
                 }}
                 sx={[
                   sortable && {

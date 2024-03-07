@@ -83,7 +83,7 @@ export const useDynamicTileVisibility = ({
         resizeObserver.disconnect();
       }
     };
-  }, []);
+  }, [typeCountTiles]);
 
   return { visibleIconTiles, hiddenIconTiles };
 };

@@ -93,6 +93,7 @@ export default function TableV2(props) {
     shouldFixTableLayout,
     defaultOrderBy,
     alternatingRowColor,
+    showHeader,
     onCheck,
     handleSelectAllClick,
     selectedIds,
@@ -162,17 +163,19 @@ export default function TableV2(props) {
           className={clsx(styles.table, shouldFixTableLayout && styles.fixed)}
           stickyHeader={stickyHeader && maxHeight ? true : false}
         >
-          <EnhancedTableHead
-            columns={columns}
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={handleRequestSort}
-            dense={dense}
-            shouldShowCheckbox={shouldShowCheckbox}
-            onSelectAllClick={handleSelectAllClick}
-            numSelected={selectedIds?.length}
-            rowCount={data.length}
-          />
+          {showHeader && (
+            <EnhancedTableHead
+              columns={columns}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+              dense={dense}
+              shouldShowCheckbox={shouldShowCheckbox}
+              onSelectAllClick={handleSelectAllClick}
+              numSelected={selectedIds?.length}
+              rowCount={data.length}
+            />
+          )}
           <TableBody className={styles.tableBody}>
             {visibleRows.map((row, index) => {
               const isItemSelected = selectedIds?.includes(row.id);
@@ -304,6 +307,7 @@ TableV2.propTypes = {
   shouldFixTableLayout: PropTypes.bool,
   defaultOrderBy: PropTypes.string,
   alternatingRowColor: PropTypes.bool,
+  showHeader: PropTypes.bool,
   onCheck: PropTypes.func,
   handleSelectAllClick: PropTypes.func,
   selectedIds: PropTypes.array,
@@ -319,4 +323,5 @@ TableV2.defaultProps = {
   shouldFixTableLayout: false,
   defaultOrderBy: '',
   alternatingRowColor: false,
+  showHeader: true,
 };

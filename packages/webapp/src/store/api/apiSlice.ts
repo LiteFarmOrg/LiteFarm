@@ -15,8 +15,25 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
-import { animalsUrl, animalBatchesUrl, animalGroupsUrl, url } from '../../apiConfig';
-import type { Animal, AnimalBatch, AnimalGroup } from './types';
+import {
+  animalsUrl,
+  animalBatchesUrl,
+  animalGroupsUrl,
+  customAnimalBreedsUrl,
+  customAnimalTypesUrl,
+  defaultAnimalBreedsUrl,
+  defaultAnimalTypesUrl,
+  url,
+} from '../../apiConfig';
+import type {
+  Animal,
+  AnimalBatch,
+  AnimalGroup,
+  CustomAnimalBreed,
+  CustomAnimalType,
+  DefaultAnimalBreed,
+  DefaultAnimalType,
+} from './types';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -33,7 +50,15 @@ export const api = createApi({
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: ['Animals', 'AnimalBatches', 'AnimalGroups'],
+  tagTypes: [
+    'Animals',
+    'AnimalBatches',
+    'AnimalGroups',
+    'CustomAnimalBreeds',
+    'CustomAnimalTypes',
+    'DefaultAnimalBreeds',
+    'DefaultAnimalTypes',
+  ],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>
@@ -49,7 +74,31 @@ export const api = createApi({
       query: () => `${animalGroupsUrl}`,
       providesTags: ['AnimalGroups'],
     }),
+    getDefaultAnimalTypes: build.query<DefaultAnimalType[], string | void>({
+      query: (param = '') => `${defaultAnimalTypesUrl}${param}`,
+      providesTags: ['DefaultAnimalTypes'],
+    }),
+    getCustomAnimalTypes: build.query<CustomAnimalType[], string | void>({
+      query: (param = '') => `${customAnimalTypesUrl}${param}`,
+      providesTags: ['CustomAnimalTypes'],
+    }),
+    getCustomAnimalBreeds: build.query<CustomAnimalBreed[], void>({
+      query: () => `${customAnimalBreedsUrl}`,
+      providesTags: ['CustomAnimalBreeds'],
+    }),
+    getDefaultAnimalBreeds: build.query<DefaultAnimalBreed[], void>({
+      query: () => `${defaultAnimalBreedsUrl}`,
+      providesTags: ['DefaultAnimalBreeds'],
+    }),
   }),
 });
 
-export const { useGetAnimalsQuery, useGetAnimalBatchesQuery, useGetAnimalGroupsQuery } = api;
+export const {
+  useGetAnimalsQuery,
+  useGetAnimalBatchesQuery,
+  useGetAnimalGroupsQuery,
+  useGetCustomAnimalBreedsQuery,
+  useGetCustomAnimalTypesQuery,
+  useGetDefaultAnimalBreedsQuery,
+  useGetDefaultAnimalTypesQuery,
+} = api;

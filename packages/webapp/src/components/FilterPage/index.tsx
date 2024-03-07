@@ -6,6 +6,18 @@ import { Underlined } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import FilterGroup from '../Filter/FilterGroup';
+import type { ComponentFilter } from '../Filter/types';
+import type { ReduxFilterEntity } from '../../containers/Filter/types';
+
+interface PureFilterPageProps {
+  filters: ComponentFilter[];
+  filterRef: React.RefObject<ReduxFilterEntity>;
+  title?: string;
+  onApply: () => void /* The handler for Redux state update in this flow, e.g.
+    () => dispatch(setCropCatalogueFilter(filterRef.current)) */;
+  onGoBack?: () => void;
+  children?: React.ReactNode;
+}
 
 const PureFilterPage = ({
   title,
@@ -14,8 +26,7 @@ const PureFilterPage = ({
   filterRef,
   onGoBack,
   children,
-  resetters = [],
-}) => {
+}: PureFilterPageProps) => {
   const { t } = useTranslation();
 
   const [shouldReset, setShouldReset] = useState(0);
@@ -23,10 +34,6 @@ const PureFilterPage = ({
 
   const resetFilter = () => {
     triggerReset();
-    for (const resetter of resetters) {
-      const { setFunc, defaultVal } = resetter;
-      setFunc(defaultVal);
-    }
     setIsDirty(true);
   };
 
@@ -42,13 +49,11 @@ const PureFilterPage = ({
       }
     >
       {title && <PageTitle title={title} onGoBack={onGoBack} />}
-
       <div style={{ margin: '24px 0' }}>
         <Underlined style={{ color: '#AA5F04' }} onClick={() => resetFilter()}>
           {t('FILTER.CLEAR_ALL_FILTERS')}
         </Underlined>
       </div>
-
       <FilterGroup
         filters={filters}
         filterRef={filterRef}
@@ -60,11 +65,12 @@ const PureFilterPage = ({
   );
 };
 
-PureFilterPage.prototype = {
-  subject: PropTypes.string,
-  items: PropTypes.array,
+PureFilterPage.propTypes = {
+  title: PropTypes.string,
+  filters: PropTypes.array.isRequired,
+  onApply: PropTypes.func.isRequired,
+  filterRef: PropTypes.object.isRequired,
   onGoBack: PropTypes.func,
-  hasDateRangeFilter: PropTypes.bool,
+  children: PropTypes.node,
 };
-
 export default PureFilterPage;

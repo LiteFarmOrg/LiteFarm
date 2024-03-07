@@ -89,10 +89,17 @@ export function FilterDateRange({
   );
 }
 
-FilterDateRange.prototype = {
+FilterDateRange.propTypes = {
   label: PropTypes.string,
   selected: PropTypes.bool,
   removable: PropTypes.bool,
   shouldReset: PropTypes.number,
   className: PropTypes.string,
+  setDirty: PropTypes.func,
+  defaultFromDate: PropTypes.string,
+  defaultToDate: PropTypes.string,
+  onDirty: PropTypes.func,
+  subject: PropTypes.string,
+  filterRef: PropTypes.object,
+  style: PropTypes.object,
 };

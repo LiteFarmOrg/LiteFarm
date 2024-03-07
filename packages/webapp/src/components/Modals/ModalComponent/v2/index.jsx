@@ -70,7 +70,7 @@ export default function ModalComponent({
   );
 }
 
-ModalComponent.prototype = {
+ModalComponent.propTypes = {
   title: PropTypes.string,
   icon: PropTypes.node,
   contents: PropTypes.arrayOf(PropTypes.string),
@@ -80,4 +80,6 @@ ModalComponent.prototype = {
   warning: PropTypes.bool,
   tooltipContent: PropTypes.string,
   titleClassName: PropTypes.string,
+  className: PropTypes.string,
+  error: PropTypes.bool,
 };

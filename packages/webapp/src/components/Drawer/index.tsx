@@ -20,6 +20,24 @@ import styles from './style.module.scss';
 import { IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Close } from '@mui/icons-material';
 
+interface DrawerProps {
+  title: string;
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  buttonGroup?: React.ReactNode;
+  fullHeight?: boolean;
+  responsiveModal?: boolean;
+  classes?: {
+    modal?: string;
+    drawer?: string;
+    backdrop?: string;
+    header?: string;
+    content?: string;
+    container?: string;
+  };
+}
+
 const Drawer = ({
   title,
   isOpen,
@@ -32,29 +50,32 @@ const Drawer = ({
     backdrop: '',
     header: '',
     content: '',
+    container: '',
   },
   fullHeight,
   responsiveModal = true,
-}) => {
+}: DrawerProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
+  if (!isOpen) {
+    return null;
+  }
+
   return isDesktop && responsiveModal ? (
-    isOpen && (
-      <ModalComponent
-        className={classes.modal}
-        title={title}
-        titleClassName={styles.title}
-        dismissModal={onClose}
-        buttonGroup={buttonGroup}
-      >
-        <div className={styles.modalContent}>{children}</div>
-      </ModalComponent>
-    )
+    <ModalComponent
+      className={classes.modal}
+      title={title}
+      titleClassName={styles.title}
+      dismissModal={onClose}
+      buttonGroup={buttonGroup}
+    >
+      <div className={styles.modalContent}>{children}</div>
+    </ModalComponent>
   ) : (
     <>
       <div
-        className={clsx(styles.backdrop, isOpen ? styles.openC : '', classes.drawerBackdrop)}
+        className={clsx(styles.backdrop, isOpen ? styles.openC : '', classes.backdrop)}
         onClick={onClose}
       ></div>
       <div
@@ -79,13 +100,16 @@ const Drawer = ({
   );
 };
 
-Drawer.prototype = {
+Drawer.propTypes = {
   title: PropTypes.string,
-  isOpen: PropTypes.func,
+  isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   children: PropTypes.node,
   className: PropTypes.string,
   buttonGroup: PropTypes.node,
+  fullHeight: PropTypes.bool,
+  classes: PropTypes.object,
+  responsiveModal: PropTypes.bool,
 };
 
 export default Drawer;

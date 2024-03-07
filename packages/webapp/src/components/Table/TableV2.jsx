@@ -12,9 +12,10 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { Checkbox } from '@mui/material';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -93,6 +94,11 @@ export default function TableV2(props) {
     defaultOrderBy,
     alternatingRowColor,
     showHeader,
+    onCheck,
+    handleSelectAllClick,
+    selectedIds,
+    stickyHeader,
+    maxHeight,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -101,6 +107,7 @@ export default function TableV2(props) {
   const [rowsPerPage, setRowsPerPage] = useState(minRows);
 
   const fullColSpan = columns.reduce((total, column) => total + (column.id ? 1 : 0), 0);
+  const shouldShowCheckbox = onCheck && handleSelectAllClick && selectedIds;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -108,10 +115,18 @@ export default function TableV2(props) {
     setOrderBy(property);
   };
 
-  const handleRowClick = (event, index) => {
+  const handleRowClick = (event, row) => {
     if (onRowClick) {
-      onRowClick(event, index);
+      onRowClick(event, row);
     }
+  };
+
+  const handleCheckboxClick = (event, row) => {
+    if (onCheck) {
+      onCheck(event, row);
+    }
+    // prevent handleRowClick from being called
+    event.stopPropagation();
   };
 
   const handleChangePage = (event, newPage) => {
@@ -142,10 +157,11 @@ export default function TableV2(props) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <TableContainer>
+      <TableContainer sx={{ maxHeight }}>
         <Table
           aria-labelledby="tableTitle"
           className={clsx(styles.table, shouldFixTableLayout && styles.fixed)}
+          stickyHeader={stickyHeader && maxHeight ? true : false}
         >
           {showHeader && (
             <EnhancedTableHead
@@ -154,14 +170,22 @@ export default function TableV2(props) {
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
               dense={dense}
+              shouldShowCheckbox={shouldShowCheckbox}
+              onSelectAllClick={handleSelectAllClick}
+              numSelected={selectedIds?.length}
+              rowCount={data.length}
             />
           )}
           <TableBody className={styles.tableBody}>
             {visibleRows.map((row, index) => {
+              const isItemSelected = selectedIds?.includes(row.id);
+
               return (
                 <TableRow
-                  key={index}
+                  key={row.id || index}
                   onClick={(event) => handleRowClick(event, row)}
+                  isItemSelected={isItemSelected}
+                  aria-checked={isItemSelected}
                   className={clsx(
                     styles.tableRow,
                     styles.itemRow,
@@ -169,6 +193,16 @@ export default function TableV2(props) {
                     alternatingRowColor ? styles.alternatingRowColor : styles.plainRowColor,
                   )}
                 >
+                  {shouldShowCheckbox && (
+                    <TableCell padding="checkbox" className={styles.checkboxCell}>
+                      <Checkbox
+                        color="primary"
+                        onClick={(event) => handleCheckboxClick(event, row)}
+                        checked={isItemSelected}
+                        className={styles.checkbox}
+                      />
+                    </TableCell>
+                  )}
                   {columns.map(({ id, format, align, columnProps }) => {
                     if (!id) {
                       return null;
@@ -204,19 +238,22 @@ export default function TableV2(props) {
             )}
             {columns.some((column) => column.id && column.Footer) && (
               <TableRow className={styles.footer}>
-                {columns.map(({ id, align, columnProps, Footer }) => {
+                {columns.map(({ id, align, columnProps, Footer }, index) => {
                   if (!id) {
                     return null;
                   }
                   return (
-                    <TableCell
-                      key={id}
-                      align={align || 'left'}
-                      className={clsx(styles.tableCell, dense && styles.dense)}
-                      {...columnProps}
-                    >
-                      {Footer}
-                    </TableCell>
+                    <>
+                      {!index && shouldShowCheckbox && <TableCell className={styles.tableCell} />}
+                      <TableCell
+                        key={id}
+                        align={align || 'left'}
+                        className={clsx(styles.tableCell, dense && styles.dense)}
+                        {...columnProps}
+                      >
+                        {Footer}
+                      </TableCell>
+                    </>
                   );
                 })}
               </TableRow>
@@ -271,6 +308,11 @@ TableV2.propTypes = {
   defaultOrderBy: PropTypes.string,
   alternatingRowColor: PropTypes.bool,
   showHeader: PropTypes.bool,
+  onCheck: PropTypes.func,
+  handleSelectAllClick: PropTypes.func,
+  selectedIds: PropTypes.array,
+  stickyHeader: PropTypes.bool,
+  maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 TableV2.defaultProps = {

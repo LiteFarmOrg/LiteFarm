@@ -14,24 +14,56 @@
  */
 
 .table {
-  padding: 0.5px;
+  border-collapse: separate;
+
   &.fixed {
     table-layout: fixed;
   }
 }
 
 .headerRow {
-  border-top: 1px solid var(--Colors-Neutral-Neutral-50);
-  border-bottom: 1px solid var(--Colors-Neutral-Neutral-50);
   margin-bottom: 16px;
+
   &.clickable {
     cursor: pointer;
+  }
+
+  th {
+    border-top: 1px solid var(--Colors-Neutral-Neutral-50);
+    border-bottom: 1px solid var(--Colors-Neutral-Neutral-50);
   }
 }
 
 .tableRow {
   &.clickable {
     cursor: pointer;
+  }
+
+  &[aria-checked="true"] {
+    border: solid 1px var(--Colors-Accent-Accent-yellow-400);
+    background-color: var(--Colors-Accent-Accent-yellow-50);
+
+    & > td {
+      border-top: solid 1px var(--Colors-Accent-Accent-yellow-400);
+      border-bottom: solid 1px var(--Colors-Accent-Accent-yellow-400);
+
+      &:first-child {
+        border-radius: 4px 0 0 4px;
+        border: solid 1px var(--Colors-Accent-Accent-yellow-400);
+        border-right: none;
+      }
+      &:last-child {
+        border-radius: 0 4px 4px 0;
+        border: solid 1px var(--Colors-Accent-Accent-yellow-400);
+        border-left: none;
+      }
+    };
+  }
+
+  // override mui's style
+  td:first-child {
+    border-top: solid 1px transparent;
+    border-bottom: solid 1px var(--grey200);
   }
 }
 
@@ -74,11 +106,8 @@
 .tableCell {
   padding: 0 12px;
   height: 56px;
+  border-top: solid 1px transparent;
   border-bottom: solid 1px var(--grey200);
-
-  &.tableHead {
-    border-bottom: none;
-  }
 
   &.dense {
     padding: 0 12px;
@@ -171,4 +200,18 @@
     display: block;
     line-height: 16px;
     color: transparent;
+}
+
+// checkbox
+.checkboxCell {
+  width: 32px;
+  text-align: center;
+
+  span {
+    padding: 0;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
 }

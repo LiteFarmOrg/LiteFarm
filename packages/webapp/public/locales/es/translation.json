@@ -168,7 +168,9 @@
     "FILTER": {
       "BATCHES": "MISSING",
       "BATCHES_OR_INDIVIDUALS": "MISSING",
+      "FEMALE": "MISSING",
       "INDIVIDUALS": "MISSING",
+      "MALE": "MISSING",
       "TITLE": "Filter animals"
     }
   },

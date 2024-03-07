@@ -134,7 +134,7 @@ const AnimalsFilterContent = ({
       options: sexes.map((sex) => ({
         value: sex.id,
         default: animalsFilter[AnimalsFilterKeys.SEX][sex.id]?.active ?? false,
-        label: sex.key,
+        label: t(`ANIMALS.FILTER.${sex.key}`),
       })),
     },
     {

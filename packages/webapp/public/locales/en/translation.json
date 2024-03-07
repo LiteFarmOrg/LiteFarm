@@ -168,7 +168,9 @@
     "FILTER": {
       "BATCHES": "Batches",
       "BATCHES_OR_INDIVIDUALS": "Batches or Individuals",
+      "FEMALE": "Female",
       "INDIVIDUALS": "Individuals",
+      "MALE": "Male",
       "TITLE": "Filter animals"
     }
   },

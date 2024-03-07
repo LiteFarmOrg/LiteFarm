@@ -148,7 +148,11 @@
   padding: 4px 4px 4px 8px;
 }
 
-.iconColor:hover {
+.icon {
+  min-width: 24px
+}
+
+.icon:hover {
   rect:nth-of-type(1) {
     fill: var(--Colors-Secondary-Secondary-green-600);
   }

@@ -77,8 +77,10 @@ export const sensorUrl = `${URI}/sensor`;
 export const animalsUrl = `${URI}/animals`;
 export const animalBatchesUrl = `${URI}/animal_batches`;
 export const animalGroupsUrl = `${URI}/animal_groups`;
-export const defaultAnimalTypesUrl = `${URI}/default_animal_types`;
+export const customAnimalBreedsUrl = `${URI}/custom_animal_breeds`;
 export const customAnimalTypesUrl = `${URI}/custom_animal_types`;
+export const defaultAnimalBreedsUrl = `${URI}/default_animal_breeds`;
+export const defaultAnimalTypesUrl = `${URI}/default_animal_types`;
 
 export const url = URI;
 
@@ -126,7 +128,9 @@ export default {
   animalsUrl,
   animalBatchesUrl,
   animalGroupsUrl,
-  url,
-  defaultAnimalTypesUrl,
+  customAnimalBreedsUrl,
   customAnimalTypesUrl,
+  defaultAnimalBreedsUrl,
+  defaultAnimalTypesUrl,
+  url,
 };

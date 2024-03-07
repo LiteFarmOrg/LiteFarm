@@ -16,7 +16,8 @@
 import Model from './baseFormatModel.js';
 import baseModel from './baseModel.js';
 import AnimalBatchSexDetailModel from './animalBatchSexDetailModel.js';
-import animalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
+import AnimalBatchGroupRelationshipModel from './animalBatchGroupRelationshipModel.js';
+import AnimalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
 import { checkAndTrimString } from '../util/util.js';
 
 class AnimalBatchModel extends baseModel {
@@ -101,14 +102,26 @@ class AnimalBatchModel extends baseModel {
           to: 'animal_batch_sex_detail.animal_batch_id',
         },
       },
-      animal_union_batch_id_view: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: animalUnionBatchIdViewModel,
+      internal_identifier: {
+        relation: Model.HasOneRelation,
+        modelClass: AnimalUnionBatchIdViewModel,
         join: {
           from: 'animal_batch.id',
           to: 'animal_union_batch_id_view.id',
         },
-        filter: (query) => query.where('animal_union_batch_id_view.batch', true),
+        modify: (query) => query.select('internal_identifier').where('batch', true),
+      },
+      group_ids: {
+        relation: Model.HasManyRelation,
+        modelClass: AnimalBatchGroupRelationshipModel,
+        join: {
+          from: 'animal_batch.id',
+          to: 'animal_batch_group_relationship.animal_batch_id',
+        },
+        modify: (query) =>
+          query.select('animal_group_id').whereIn('animal_group_id', function () {
+            this.select('id').from('animal_group').where('deleted', false);
+          }),
       },
     };
   }

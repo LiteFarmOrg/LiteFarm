@@ -25,6 +25,7 @@ export interface Animal {
   default_breed_id: number | null;
   default_type_id: number | null;
   farm_id: string;
+  group_ids: number[];
   id: number;
   identifier: string | null;
   identifier_color_id: number | null;
@@ -46,6 +47,7 @@ export interface AnimalBatch {
   default_breed_id: number | null;
   default_type_id: number | null;
   farm_id: string;
+  group_ids: number[];
   id: number;
   internal_identifier: number;
   name: string | null;
@@ -63,15 +65,29 @@ export interface AnimalGroup {
   related_batch_ids: number[];
 }
 
-export interface DefaultAnimalType {
+export interface CustomAnimalBreed {
   id: number;
-  key: string;
-  count?: number;
+  farm_id: string;
+  default_type_id?: number;
+  custom_type_id?: number;
+  breed: string;
 }
 
 export interface CustomAnimalType {
   id: number;
   farm_id: string;
   type: string;
+  count?: number;
+}
+
+export interface DefaultAnimalBreed {
+  id: number;
+  default_type_id: number;
+  key: string;
+}
+
+export interface DefaultAnimalType {
+  id: number;
+  key: string;
   count?: number;
 }

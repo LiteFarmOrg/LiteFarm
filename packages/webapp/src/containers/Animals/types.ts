@@ -13,16 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Animal, AnimalBatch, AnimalGroup } from '../../store/api/types';
-
-export interface AnimalData extends Animal {
-  groups: AnimalGroup[];
+export enum AnimalTranslationKey {
+  CATTLE = 'CATTLE',
+  CHICKEN_BROILERS = 'CHICKEN_BROILERS',
+  CHICKEN_LAYERS = 'CHICKEN_LAYERS',
+  PIGS = 'PIGS',
 }
-export interface AnimalBatchData extends AnimalBatch {
-  groups: AnimalGroup[];
-}
-
-export interface AnimalOrBatchData extends AnimalData, AnimalBatchData {}
 
 export enum ANIMAL_TYPE_ID_PREFIX {
   DEFAULT = 'default',

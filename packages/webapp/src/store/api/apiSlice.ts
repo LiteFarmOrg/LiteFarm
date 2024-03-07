@@ -19,15 +19,19 @@ import {
   animalsUrl,
   animalBatchesUrl,
   animalGroupsUrl,
-  url,
-  defaultAnimalTypesUrl,
+  customAnimalBreedsUrl,
   customAnimalTypesUrl,
+  defaultAnimalBreedsUrl,
+  defaultAnimalTypesUrl,
+  url,
 } from '../../apiConfig';
 import type {
   Animal,
   AnimalBatch,
   AnimalGroup,
+  CustomAnimalBreed,
   CustomAnimalType,
+  DefaultAnimalBreed,
   DefaultAnimalType,
 } from './types';
 
@@ -46,7 +50,15 @@ export const api = createApi({
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: ['Animals', 'AnimalBatches', 'AnimalGroups', 'DefaultAnimalTypes', 'CustomAnimalTypes'],
+  tagTypes: [
+    'Animals',
+    'AnimalBatches',
+    'AnimalGroups',
+    'CustomAnimalBreeds',
+    'CustomAnimalTypes',
+    'DefaultAnimalBreeds',
+    'DefaultAnimalTypes',
+  ],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>
@@ -70,6 +82,14 @@ export const api = createApi({
       query: (param = '') => `${customAnimalTypesUrl}${param}`,
       providesTags: ['CustomAnimalTypes'],
     }),
+    getCustomAnimalBreeds: build.query<CustomAnimalBreed[], void>({
+      query: () => `${customAnimalBreedsUrl}`,
+      providesTags: ['CustomAnimalBreeds'],
+    }),
+    getDefaultAnimalBreeds: build.query<DefaultAnimalBreed[], void>({
+      query: () => `${defaultAnimalBreedsUrl}`,
+      providesTags: ['DefaultAnimalBreeds'],
+    }),
   }),
 });
 
@@ -77,6 +97,8 @@ export const {
   useGetAnimalsQuery,
   useGetAnimalBatchesQuery,
   useGetAnimalGroupsQuery,
-  useGetDefaultAnimalTypesQuery,
+  useGetCustomAnimalBreedsQuery,
   useGetCustomAnimalTypesQuery,
+  useGetDefaultAnimalBreedsQuery,
+  useGetDefaultAnimalTypesQuery,
 } = api;

@@ -14,18 +14,13 @@
  */
 import { useCallback, useMemo, useState } from 'react';
 import PureAnimalInventory from '../../../components/Animals/Inventory';
-import {
-  useGetAnimalsQuery,
-  useGetAnimalBatchesQuery,
-  useGetAnimalGroupsQuery,
-} from '../../../store/api/apiSlice';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
-import { AnimalData, AnimalBatchData, AnimalOrBatchData } from '../types';
 import Cell from '../../../components/Table/Cell';
-import { CellKind } from '../../../components/Table/types';
-import { ReactComponent as AnimalIcon } from '../../../assets/images/nav/animals.svg';
+import { Alignment, CellKind } from '../../../components/Table/types';
+import useAnimalInventory from './useAnimalInventory';
+import type { AnimalInventory } from './useAnimalInventory';
 import ActionMenu from '../../../components/ActionMenu';
 import KPI from './KPI';
 import styles from './styles.module.scss';
@@ -45,13 +40,11 @@ interface AnimalInventoryProps {
 function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const [selectedTypeIds, setSelectedTypeIds] = useState<string[]>([]);
 
-  const { data: animals = [] } = useGetAnimalsQuery();
-  const { data: animalBatches = [] } = useGetAnimalBatchesQuery();
-  const { data: animalGroups } = useGetAnimalGroupsQuery();
-
-  const { t } = useTranslation(['translation']);
+  const { t } = useTranslation(['translation', 'animal', 'common']);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const { inventory, isLoading } = useAnimalInventory();
 
   const onTypeClick = useCallback(
     (typeId: string) => {
@@ -70,57 +63,45 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const animalsColumns = useMemo(
     () => [
       {
-        id: 'name',
+        id: 'identification',
         label: t('ANIMAL.ANIMAL_IDENTIFICATION').toLocaleUpperCase(),
-        format: (d: AnimalOrBatchData) => (
+        format: (d: AnimalInventory) => (
           <Cell
             kind={CellKind.ICON_TEXT}
-            text={d.name || d.identifier || null}
-            icon={AnimalIcon}
-            subtext={
-              isMobile
-                ? `${d.default_type_id || d.custom_type_id} / ${
-                    d.default_breed_id || d.custom_breed_id
-                  }`
-                : null
-            }
+            text={d.identification}
+            icon={d.icon}
+            iconBorder={!d.batch}
+            subtext={isMobile ? `${d.type} / ${d.breed}` : null}
+            highlightedText={d.batch ? d.count : null}
           />
         ),
       },
       {
-        id: isMobile ? null : 'default_type_id',
+        id: isMobile ? null : 'type',
         label: t('ANIMAL.ANIMAL_TYPE').toLocaleUpperCase(),
-        format: (d: AnimalOrBatchData) => (
-          <Cell kind={CellKind.PLAIN} text={d.default_type_id || d.custom_type_id} />
-        ),
+        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.type} />,
       },
       {
-        id: isMobile ? null : 'default_breed_id',
+        id: isMobile ? null : 'breed',
         label: t('ANIMAL.ANIMAL_BREED').toLocaleUpperCase(),
-        format: (d: AnimalOrBatchData) => (
-          <Cell kind={CellKind.PLAIN} text={d.default_breed_id || d.custom_breed_id} />
-        ),
+        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
       },
       {
         id: isMobile ? null : 'groups',
         label: t('ANIMAL.ANIMAL_GROUPS').toLocaleUpperCase(),
-        format: (d: AnimalOrBatchData) => (
+        format: (d: AnimalInventory) => (
           <Cell
             kind={CellKind.HOVER_PILL_OVERFLOW}
-            items={d.groups && d.groups.map((group) => group.name)}
+            items={d.groups}
+            noneText={t('NONE', { ns: 'common' })}
           />
         ),
         sortable: false,
       },
       {
-        id: 'farm_id',
-        label: t('ANIMAL.ANIMAL_LOCATIONS').toLocaleUpperCase(),
-        format: (d: AnimalOrBatchData) => <Cell kind={CellKind.PLAIN} text={d.farm_id} />,
-      },
-      {
-        id: 'Visit Record',
+        id: 'path',
         label: '',
-        format: (d: AnimalOrBatchData) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path="/" />,
+        format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
         columnProps: {
           style: { width: '40px', padding: `0 ${isMobile ? 8 : 12}px` },
         },
@@ -130,54 +111,32 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     [t, isMobile],
   );
 
-  let animalData: AnimalData[] = animals.map((animal) => {
-    return { ...animal, groups: [] };
-  });
-  let batchData: AnimalBatchData[] = animalBatches.map((batch) => {
-    return { ...batch, groups: [] };
-  });
-
-  // TODO: Load Group Relationship Data instead of this combined group data
-  animalData.forEach((animal) => {
-    //animal.groups = [];
-    animalGroups?.forEach((group) => {
-      const inGroup = group.related_animal_ids.includes(animal.id);
-      if (inGroup) {
-        animal.groups.push(group);
-      }
-    });
-  });
-  batchData.forEach((batch) => {
-    batch.groups = [];
-    animalGroups?.forEach((group) => {
-      const inGroup = group.related_batch_ids.includes(batch.id);
-      if (inGroup) {
-        batch.groups?.push(group);
-      }
-    });
-  });
-
-  const tableData = [...animalData, ...batchData];
-
   return (
-    <>
-      <KPI
-        isCompactSideMenu={isCompactSideMenu}
-        onTypeClick={onTypeClick}
-        selectedTypeIds={selectedTypeIds}
-      />
-      <div className={styles.mainContent}>
-        <PureAnimalInventory tableData={tableData} animalsColumns={animalsColumns} theme={theme} />
-        <ActionMenu
-          headerLeftText={''}
-          textActions={[]}
-          iconActions={iconActions}
-          classes={{
-            root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
-          }}
+    !isLoading && (
+      <>
+        <KPI
+          isCompactSideMenu={isCompactSideMenu}
+          onTypeClick={onTypeClick}
+          selectedTypeIds={selectedTypeIds}
         />
-      </div>
-    </>
+        <div className={styles.mainContent}>
+          <PureAnimalInventory
+            tableData={inventory}
+            animalsColumns={animalsColumns}
+            theme={theme}
+            isMobile={isMobile}
+          />
+          <ActionMenu
+            headerLeftText={''}
+            textActions={[]}
+            iconActions={iconActions}
+            classes={{
+              root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
+            }}
+          />
+        </div>
+      </>
+    )
   );
 }
 

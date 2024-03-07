@@ -54,7 +54,7 @@ export default function EnhancedTableHead({ columns, order, orderBy, onRequestSo
                 )}
                 classes={{
                   active: styles.sortLabelActive,
-                  icon: styles.iconColor,
+                  icon: styles.icon,
                 }}
                 sx={[
                   sortable && {

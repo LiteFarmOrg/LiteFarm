@@ -12,6 +12,10 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+export enum orderEnum {
+  ASC = 'asc',
+  DESC = 'desc',
+}
 
 type Object<T extends string | number> = {
   [key in T]: any;

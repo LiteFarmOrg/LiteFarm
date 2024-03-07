@@ -17,20 +17,39 @@ import type { FC } from 'react';
 import styles from '../styles.module.scss';
 
 export type IconTextProps = {
-  text: string | null | undefined;
   icon: FC;
-  subtext: string | null | undefined;
+  iconBorder: boolean;
+  text: string | number | null | undefined;
+  subtext: string | number | null | undefined;
+  highlightedText: string | number | null | undefined;
 };
 
-const IconText = ({ text, icon: Icon, subtext }: IconTextProps) => {
+const IconText = ({
+  icon: Icon,
+  iconBorder = false,
+  text,
+  subtext,
+  highlightedText,
+}: IconTextProps) => {
   return (
-    <div className={styles.iconText}>
-      <div className={styles.squareIcon}>
+    <div className={styles.iconTextContainer}>
+      <div className={clsx(styles.iconTextIcon, iconBorder && styles.iconBorder)}>
         <Icon />
       </div>
       <div className={clsx(styles.text, styles.overflowText, subtext && styles.withSubtextText)}>
-        <div className={clsx(subtext && styles.withSubtextMainText)}>{text}</div>
-        <div className={clsx(subtext && styles.withSubtextSubext)}>{subtext}</div>
+        <div className={clsx(styles.mainText)}>
+          <div className={clsx(styles.overflowText, subtext && styles.withSubtextMainText)}>
+            {text}
+          </div>
+          {highlightedText && (
+            <div className={clsx(styles.highlightedText, styles.overflowHidden)}>
+              {highlightedText}
+            </div>
+          )}
+        </div>
+        <div className={clsx(styles.overflowText, subtext && styles.withSubtextSubtext)}>
+          {subtext}
+        </div>
       </div>
     </div>
   );

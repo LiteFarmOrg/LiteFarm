@@ -14,6 +14,7 @@
  */
 import Table from '../../../components/Table';
 import Layout from '../../../components/Layout';
+import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import { TableV2Column, TableKind } from '../../Table/types';
 import type { DefaultTheme } from '@mui/styles';
 
@@ -21,26 +22,35 @@ const PureAnimalInventory = ({
   tableData,
   animalsColumns,
   theme,
+  isMobile,
 }: {
-  tableData: object[];
+  tableData: AnimalInventory[];
   animalsColumns: TableV2Column[];
   theme: DefaultTheme;
+  isMobile: boolean;
 }) => {
   return (
     <Layout
       classes={{
-        container: { backgroundColor: theme.palette.background.paper },
+        container: {
+          backgroundColor: theme.palette.background.paper,
+          borderRadius: '8px',
+          border: '1px solid var(--Colors-Primary-Primary-teal-50)',
+          marginTop: '16px',
+        },
       }}
       hasWhiteBackground
+      footer={false}
     >
       <Table
         kind={TableKind.V2}
         alternatingRowColor={true}
         columns={animalsColumns}
         data={tableData}
-        shouldFixTableLayout={true}
+        shouldFixTableLayout={!isMobile}
         minRows={tableData.length}
         dense={false}
+        showHeader={!isMobile}
       />
     </Layout>
   );

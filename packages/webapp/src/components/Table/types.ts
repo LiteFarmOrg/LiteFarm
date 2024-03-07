@@ -29,7 +29,7 @@ export enum CellKind {
   RIGHT_CHEVRON_LINK = 'rightChevronLink',
 }
 
-enum Alignment {
+export enum Alignment {
   LEFT = 'left',
   RIGHT = 'right',
 }
@@ -74,4 +74,5 @@ export type TableV2Props = {
   onRowClick?: () => void;
   shouldFixTableLayout?: boolean;
   defaultOrderBy?: string;
+  showHeader?: boolean;
 };

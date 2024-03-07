@@ -24,6 +24,9 @@ import type { AnimalInventory } from './useAnimalInventory';
 import ActionMenu from '../../../components/ActionMenu';
 import KPI from './KPI';
 import styles from './styles.module.scss';
+import AnimalsFilter from '../AnimalsFilter';
+import { useSelector } from 'react-redux';
+import { animalsFilterSelector } from '../../filterSlice';
 
 // TODO: LF-4087
 const iconActions = [
@@ -44,7 +47,21 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const { inventory, isLoading } = useAnimalInventory();
+  const {
+    TYPE: typesFilter,
+    BREED: breedsFilter,
+    SEX: sexFilter,
+    GROUPS: groupsFilter,
+    LOCATION: locationsFilter,
+  } = useSelector(animalsFilterSelector);
+
+  const { inventory, isLoading } = useAnimalInventory({
+    typesFilter,
+    breedsFilter,
+    sexFilter,
+    groupsFilter,
+    locationsFilter,
+  });
 
   const onTypeClick = useCallback(
     (typeId: string) => {
@@ -120,6 +137,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
           selectedTypeIds={selectedTypeIds}
         />
         <div className={styles.mainContent}>
+          <AnimalsFilter />
           <PureAnimalInventory
             tableData={inventory}
             animalsColumns={animalsColumns}

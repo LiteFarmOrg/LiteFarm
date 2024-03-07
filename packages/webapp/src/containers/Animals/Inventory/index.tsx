@@ -27,6 +27,7 @@ import styles from './styles.module.scss';
 import AnimalsFilter from '../AnimalsFilter';
 import { useSelector } from 'react-redux';
 import { animalsFilterSelector } from '../../filterSlice';
+import { AnimalsFilterKeys } from '../../Filter/Animals/types';
 
 // TODO: LF-4087
 const iconActions = [
@@ -48,12 +49,12 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const {
-    ANIMAL_OR_BATCH: animalsOrBatchesFilter,
-    TYPE: typesFilter,
-    BREED: breedsFilter,
-    SEX: sexFilter,
-    GROUPS: groupsFilter,
-    LOCATION: locationsFilter,
+    [AnimalsFilterKeys.ANIMAL_OR_BATCH]: animalsOrBatchesFilter,
+    [AnimalsFilterKeys.TYPE]: typesFilter,
+    [AnimalsFilterKeys.BREED]: breedsFilter,
+    [AnimalsFilterKeys.SEX]: sexFilter,
+    [AnimalsFilterKeys.GROUPS]: groupsFilter,
+    [AnimalsFilterKeys.LOCATION]: locationsFilter,
   } = useSelector(animalsFilterSelector);
 
   const { inventory, isLoading } = useAnimalInventory({

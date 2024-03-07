@@ -30,20 +30,7 @@ import {
 import { generateUniqueAnimalId } from '../../../util/animal';
 import { useVisibleBreeds } from './useVisibleBreeds';
 import { locationsSelector } from '../../locationSlice';
-
-export enum AnimalsFilterKeys {
-  ANIMAL_OR_BATCH = 'ANIMAL_OR_BATCH',
-  TYPE = 'TYPE',
-  BREED = 'BREED',
-  SEX = 'SEX',
-  GROUPS = 'GROUPS',
-  LOCATION = 'LOCATION',
-}
-
-export enum AnimalOrBatchKeys {
-  ANIMAL = 'ANIMAL',
-  BATCH = 'BATCH',
-}
+import { AnimalOrBatchKeys, AnimalsFilterKeys } from './types';
 
 interface AnimalsFilterContentProps {
   animalsFilter: ReduxFilterEntity<AnimalsFilterKeys>;

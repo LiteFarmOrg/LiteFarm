@@ -15,7 +15,7 @@
 
 import { useState } from 'react';
 import type { ReduxFilterEntity, FilterState } from '../types';
-import { AnimalsFilterKeys } from './index';
+import { AnimalsFilterKeys } from './types';
 import type { DefaultAnimalBreed, CustomAnimalBreed } from '../../../store/api/types';
 import { getActiveTypeIds } from './utils';
 import { ANIMAL_TYPE_ID_PREFIX } from '../../Animals/types';

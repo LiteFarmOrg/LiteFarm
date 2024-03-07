@@ -43,7 +43,7 @@ import { AnimalTranslationKey } from '../types';
 import { FilterState } from '../../Filter/types';
 import { isInactive } from '../../Filter/utils';
 import { isInFilter } from '../../Filter/Animals/utils';
-import { AnimalOrBatchKeys } from '../../Filter/Animals';
+import { AnimalOrBatchKeys } from '../../Filter/Animals/types';
 
 export type AnimalInventory = {
   icon: FC;

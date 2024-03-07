@@ -15,7 +15,7 @@
 
 import type { Animal, AnimalBatch } from '../../../store/api/types';
 import type { ReduxFilterEntity, FilterState } from '../types';
-import { AnimalsFilterKeys } from '.';
+import { AnimalsFilterKeys } from './types';
 import { ANIMAL_TYPE_ID_PREFIX } from '../../Animals/types';
 
 /**

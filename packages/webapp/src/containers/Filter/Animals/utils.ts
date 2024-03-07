@@ -19,29 +19,26 @@ import { AnimalsFilterKeys } from './types';
 import { ANIMAL_TYPE_ID_PREFIX } from '../../Animals/types';
 
 /**
- * Checks if the given entity matches the passed animal filter state based on the specified attribute.
+ * Checks if the given animal or animal batch matches the passed type or breed filter state.
  *
  * @param entity - The entity to check against the filter (animal or animal batch)
- * @param filter - The filter state object.
- * @param attribute - The attribute being queried ('type' or 'breed').
+ * @param filter - The filter state object. The keys of this object are strings in the format 'custom_<number>' or 'default_<number>' as were created with generateUniqueAnimalId()
+ * @param attribute - The attribute being checked: 'type' or 'breed'
  * @returns A boolean indicating whether the entity matches the filter criteria.
  */
-export const isInFilter = (
+
+export const animalMatchesFilter = (
   entity: Animal | AnimalBatch,
   filter: FilterState,
   attribute: 'type' | 'breed',
 ): boolean => {
-  let entityId;
-  if (entity[`${ANIMAL_TYPE_ID_PREFIX.DEFAULT}_${attribute}_id`]) {
-    entityId = `${ANIMAL_TYPE_ID_PREFIX.DEFAULT}_${
-      entity[`${ANIMAL_TYPE_ID_PREFIX.DEFAULT}_${attribute}_id`]
-    }`;
-  } else if (entity[`${ANIMAL_TYPE_ID_PREFIX.CUSTOM}_${attribute}_id`]) {
-    entityId = `${ANIMAL_TYPE_ID_PREFIX.CUSTOM}_${
-      entity[`${ANIMAL_TYPE_ID_PREFIX.CUSTOM}_${attribute}_id`]
-    }`;
+  let filterKey;
+  if (entity[`default_${attribute}_id`]) {
+    filterKey = `${ANIMAL_TYPE_ID_PREFIX.DEFAULT}_${entity[`default_${attribute}_id`]}`;
+  } else if (entity[`custom_${attribute}_id`]) {
+    filterKey = `${ANIMAL_TYPE_ID_PREFIX.CUSTOM}_${entity[`custom_${attribute}_id`]}`;
   }
-  return entityId ? filter[entityId]?.active : false;
+  return filterKey ? filter[filterKey]?.active : false;
 };
 
 /**

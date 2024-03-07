@@ -42,7 +42,7 @@ import { ReactComponent as BatchIcon } from '../../../assets/images/animals/batc
 import { AnimalTranslationKey } from '../types';
 import { FilterState } from '../../Filter/types';
 import { isInactive } from '../../Filter/utils';
-import { isInFilter } from '../../Filter/Animals/utils';
+import { animalMatchesFilter } from '../../Filter/Animals/utils';
 import { AnimalOrBatchKeys } from '../../Filter/Animals/types';
 
 export type AnimalInventory = {
@@ -160,9 +160,11 @@ const formatAnimalsData = (
         isInactive(animalsOrBatchesFilter) ||
         animalsOrBatchesFilter[AnimalOrBatchKeys.ANIMAL]?.active;
 
-      const typeMatches = isInactive(typesFilter) || isInFilter(animal, typesFilter, 'type');
+      const typeMatches =
+        isInactive(typesFilter) || animalMatchesFilter(animal, typesFilter, 'type');
 
-      const breedMatches = isInactive(breedsFilter) || isInFilter(animal, breedsFilter, 'breed');
+      const breedMatches =
+        isInactive(breedsFilter) || animalMatchesFilter(animal, breedsFilter, 'breed');
 
       const sexMatches = isInactive(sexFilter) || sexFilter[animal.sex_id]?.active;
 
@@ -218,9 +220,11 @@ const formatAnimalBatchesData = (
         isInactive(animalsOrBatchesFilter) ||
         animalsOrBatchesFilter[AnimalOrBatchKeys.BATCH]?.active;
 
-      const typeMatches = isInactive(typesFilter) || isInFilter(batch, typesFilter, 'type');
+      const typeMatches =
+        isInactive(typesFilter) || animalMatchesFilter(batch, typesFilter, 'type');
 
-      const breedMatches = isInactive(breedsFilter) || isInFilter(batch, breedsFilter, 'breed');
+      const breedMatches =
+        isInactive(breedsFilter) || animalMatchesFilter(batch, breedsFilter, 'breed');
 
       const sexMatches =
         isInactive(sexFilter) || batch.sex_detail.some(({ sex_id }) => sexFilter[sex_id]?.active);

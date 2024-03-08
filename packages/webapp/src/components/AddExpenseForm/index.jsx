@@ -1,11 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import AddExpense from '../../containers/Finances/NewExpense/AddExpense';
 import ExpenseCategories from '../../containers/Finances/NewExpense/ExpenseCategories';
-import {
-  ADD_EXPENSE_URL,
-  EXPENSE_CATEGORIES_URL,
-  FINANCES_HOME_URL,
-} from '../../util/siteMapConstants';
+import { ADD_EXPENSE_URL, EXPENSE_CATEGORIES_URL } from '../../util/siteMapConstants';
 import { MultiStepForm } from '../Form/MultiStepForm';
 
 export const AddExpenseForm = ({ history }) => {
@@ -26,7 +22,6 @@ export const AddExpenseForm = ({ history }) => {
         },
       ]}
       cancelModalTitle={t('EXPENSE.ADD_EXPENSE.FLOW')}
-      onCancelRoute={FINANCES_HOME_URL}
     />
   );
 };

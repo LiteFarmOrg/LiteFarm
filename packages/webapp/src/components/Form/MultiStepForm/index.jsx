@@ -5,7 +5,7 @@ import Layout from '../../Layout';
 import { ClickAwayListener } from '@mui/material';
 import { matchPath } from 'react-router-dom';
 
-export const MultiStepForm = ({ history, steps, cancelModalTitle, onCancelRoute }) => {
+export const MultiStepForm = ({ history, steps, cancelModalTitle }) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const progressBarValue = (100 / steps.length) * activeStepIndex;

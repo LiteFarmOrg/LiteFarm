@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../../assets/mixin.scss';
+
 .noSearchResults {
   margin-top: 24px;
 }
@@ -66,4 +68,12 @@
   flex: 1;
   display: flex;
   justify-content: end;
+}
+
+.wrapper {
+  margin-bottom: 80px; // TODO: adjust not to be hidden by action menu
+
+  @include lg-breakpoint {
+    padding: 16px;
+  }
 }

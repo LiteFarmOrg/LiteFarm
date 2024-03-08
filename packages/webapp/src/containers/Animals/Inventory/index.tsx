@@ -23,12 +23,14 @@ import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventory } from './useAnimalInventory';
 import ActionMenu from '../../../components/ActionMenu';
+import FixedHeaderContainer from '../../../components/Animals/FixedHeaderContainer';
 import KPI from './KPI';
 import useSearchFilter from '../../../containers/hooks/useSearchFilter';
 import { ReactComponent as AddAnimalIcon } from '../../../assets/images/animals/add-animal.svg';
 import { ReactComponent as TaskCreationIcon } from '../../../assets/images/create-task.svg';
 import { ReactComponent as CloneIcon } from '../../../assets/images/clone.svg';
 import { ReactComponent as RemoveAnimalIcon } from '../../../assets/images/animals/remove-animal.svg';
+import { sumObjectValues } from '../../../util';
 import styles from './styles.module.scss';
 import { useFilteredInventory } from './useFilteredInventory';
 import {
@@ -37,15 +39,14 @@ import {
 } from '../../../containers/filterSlice';
 
 const heights = {
-  globalNavbar: 55,
-  filterAndSearch: 56, // TODO: adjust
-  containerMargin: 32,
+  filterAndSearch: 56,
   containerPadding: 32,
-  layoutMarginTop: 16,
 };
+const usedHeight = sumObjectValues(heights);
 
 interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
+  containerHeight: number;
 }
 
 const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: string[]) => {
@@ -58,7 +59,6 @@ const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: s
 };
 
 function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
-  const [kpiHeight, setKpiHeight] = useState<number | null>(null);
   const [selectedTypeIds, setSelectedTypeIds] = useState<string[]>([]);
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>([]);
 
@@ -66,7 +66,6 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const zIndexBase = theme.zIndex.drawer;
-  const backgroundColor = theme.palette.background.paper;
 
   const { inventory, isLoading } = useAnimalInventory();
 
@@ -216,55 +215,48 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     },
   ];
 
-  const tableMaxHeight = useMemo<string | undefined>(() => {
-    if (!isDesktop) {
-      return undefined;
-    }
-    const usedPx =
-      Object.values(heights).reduce((total, current) => total + current) + (kpiHeight || 0);
-    return `calc(100vh - ${usedPx}px)`;
-  }, [isDesktop, kpiHeight]);
+  const Body = ({ containerHeight }: { containerHeight?: number }) => {
+    const tableMaxHeight =
+      !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
+
+    return (
+      <>
+        <PureAnimalInventory
+          filteredInventory={searchAndFilteredInventory}
+          animalsColumns={animalsColumns}
+          searchProps={searchProps}
+          zIndexBase={zIndexBase}
+          isDesktop={isDesktop}
+          onSelectInventory={onSelectInventory}
+          handleSelectAllClick={handleSelectAllClick}
+          selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
+          totalInventoryCount={inventory.length}
+          isFilterActive={isFilterActive}
+          clearFilters={clearFilters}
+          maxHeight={tableMaxHeight}
+        />
+        {selectedInventoryIds.length ? (
+          <ActionMenu
+            headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
+            textActions={textActions}
+            iconActions={iconActions}
+            classes={{
+              root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
+            }}
+          />
+        ) : null}
+      </>
+    );
+  };
 
   return (
-    <>
-      <KPI
-        isCompactSideMenu={isCompactSideMenu}
-        onTypeClick={onTypeClick}
-        selectedTypeIds={selectedTypeIds}
-        kpiHeight={kpiHeight}
-        setKpiHeight={setKpiHeight}
-        isMobile={!isDesktop}
-      />
-      {!isLoading && (
-        <div className={styles.mainContent}>
-          <PureAnimalInventory
-            filteredInventory={searchAndFilteredInventory}
-            animalsColumns={animalsColumns}
-            searchProps={searchProps}
-            zIndexBase={zIndexBase}
-            backgroundColor={backgroundColor}
-            isDesktop={isDesktop}
-            onSelectInventory={onSelectInventory}
-            handleSelectAllClick={handleSelectAllClick}
-            selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
-            totalInventoryCount={inventory.length}
-            isFilterActive={isFilterActive}
-            clearFilters={clearFilters}
-            maxHeight={tableMaxHeight}
-          />
-          {selectedInventoryIds.length ? (
-            <ActionMenu
-              headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
-              textActions={textActions}
-              iconActions={iconActions}
-              classes={{
-                root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
-              }}
-            />
-          ) : null}
-        </div>
-      )}
-    </>
+    !isLoading && (
+      <FixedHeaderContainer
+        header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
+      >
+        <Body />
+      </FixedHeaderContainer>
+    )
   );
 }
 

@@ -13,8 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import clsx from 'clsx';
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { useTranslation, TFunction } from 'react-i18next';
 import {
   useGetDefaultAnimalTypesQuery,
@@ -64,43 +63,16 @@ const formatAnimalTypes = (
 };
 
 interface KPIProps {
-  isCompactSideMenu: boolean;
   selectedTypeIds: string[];
   onTypeClick: (typeId: string) => void;
-  kpiHeight: number | null;
-  setKpiHeight: (height: number | null) => void;
-  isMobile: boolean;
 }
 
-function KPI({
-  isCompactSideMenu,
-  selectedTypeIds,
-  onTypeClick,
-  kpiHeight,
-  setKpiHeight,
-  isMobile,
-}: KPIProps) {
+function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
   const { t } = useTranslation(['translation', 'common', 'animal']);
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const { data, isLoading } = useQueries([
     { label: 'defaultAnimalTypes', hook: useGetDefaultAnimalTypesQuery, params: '?count=true' },
     { label: 'customAnimalTypes', hook: useGetCustomAnimalTypesQuery, params: '?count=true' },
   ]);
-
-  useEffect(() => {
-    const setHeight = () => setKpiHeight(wrapperRef.current?.offsetHeight || null);
-
-    setHeight();
-    window.addEventListener('resize', () => {
-      setHeight();
-    });
-
-    return () => {
-      window.removeEventListener('resize', () => {
-        setHeight();
-      });
-    };
-  }, []);
 
   const types = useMemo(() => {
     if (isLoading || !data) {
@@ -115,19 +87,12 @@ function KPI({
   }, [data, isLoading, onTypeClick]);
 
   return (
-    <div style={{ height: kpiHeight || 0 }}>
-      <div
-        ref={wrapperRef}
-        className={clsx(styles.wrapper, !isMobile && isCompactSideMenu && styles.withCompactMenu)}
-      >
-        <PureTileDashboard
-          typeCountTiles={types}
-          dashboardTitle={t('SECTION_HEADER.ANIMALS_INVENTORY')}
-          categoryLabel={t('common:TYPES')}
-          selectedFilterIds={selectedTypeIds}
-        />
-      </div>
-    </div>
+    <PureTileDashboard
+      typeCountTiles={types}
+      dashboardTitle={t('SECTION_HEADER.ANIMALS_INVENTORY')}
+      categoryLabel={t('common:TYPES')}
+      selectedFilterIds={selectedTypeIds}
+    />
   );
 }
 

@@ -14,7 +14,6 @@
  */
 import { ChangeEvent } from 'react';
 import Table from '../../../components/Table';
-import Layout from '../../../components/Layout';
 import PureSearchBarWithBackdrop from '../../PopupFilter/PureSearchWithBackdrop';
 import NoSearchResults from '../../../components/Card/NoSearchResults';
 import ClearFiltersButton, {
@@ -38,7 +37,6 @@ const PureAnimalInventory = ({
   filteredInventory,
   animalsColumns,
   zIndexBase,
-  backgroundColor,
   isDesktop,
   searchProps,
   onSelectInventory,
@@ -52,7 +50,6 @@ const PureAnimalInventory = ({
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
   zIndexBase: number;
-  backgroundColor: string;
   isDesktop: boolean;
   searchProps: SearchProps;
   onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
@@ -67,19 +64,7 @@ const PureAnimalInventory = ({
   const hasSearchResults = filteredInventory.length !== 0;
 
   return (
-    <Layout
-      classes={{
-        container: {
-          backgroundColor: backgroundColor,
-          borderRadius: isDesktop && '8px',
-          border: isDesktop && '1px solid var(--Colors-Primary-Primary-teal-50)',
-          marginTop: isDesktop && '16px',
-          padding: !isDesktop ? '0px' : '16px',
-        },
-      }}
-      hasWhiteBackground
-      footer={false}
-    >
+    <div className={styles.wrapper}>
       <div
         className={clsx(
           isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter,
@@ -136,7 +121,7 @@ const PureAnimalInventory = ({
           includeFiltersInClearSuggestion
         />
       )}
-    </Layout>
+    </div>
   );
 };
 

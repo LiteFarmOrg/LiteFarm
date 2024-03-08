@@ -18,16 +18,14 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import Cell from '../../../components/Table/Cell';
-import { Alignment, CellKind } from '../../../components/Table/types';
+import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventory } from './useAnimalInventory';
 import ActionMenu from '../../../components/ActionMenu';
 import KPI from './KPI';
 import styles from './styles.module.scss';
 import AnimalsFilter from '../AnimalsFilter';
-import { useSelector } from 'react-redux';
-import { animalsFilterSelector } from '../../filterSlice';
-import { AnimalsFilterKeys } from '../../Filter/Animals/types';
+import { useFilteredInventory } from './useFilteredInventory';
 
 // TODO: LF-4087
 const iconActions = [
@@ -48,23 +46,9 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const {
-    [AnimalsFilterKeys.ANIMAL_OR_BATCH]: animalsOrBatchesFilter,
-    [AnimalsFilterKeys.TYPE]: typesFilter,
-    [AnimalsFilterKeys.BREED]: breedsFilter,
-    [AnimalsFilterKeys.SEX]: sexFilter,
-    [AnimalsFilterKeys.GROUPS]: groupsFilter,
-    [AnimalsFilterKeys.LOCATION]: locationsFilter,
-  } = useSelector(animalsFilterSelector);
+  const { inventory, isLoading } = useAnimalInventory();
 
-  const { inventory, isLoading } = useAnimalInventory({
-    animalsOrBatchesFilter,
-    typesFilter,
-    breedsFilter,
-    sexFilter,
-    groupsFilter,
-    locationsFilter,
-  });
+  const filteredInventory = useFilteredInventory(inventory);
 
   const onTypeClick = useCallback(
     (typeId: string) => {
@@ -142,7 +126,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         <div className={styles.mainContent}>
           <AnimalsFilter />
           <PureAnimalInventory
-            tableData={inventory}
+            tableData={filteredInventory}
             animalsColumns={animalsColumns}
             theme={theme}
             isMobile={isMobile}

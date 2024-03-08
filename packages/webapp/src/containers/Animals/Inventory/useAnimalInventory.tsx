@@ -40,10 +40,6 @@ import { ReactComponent as ChickenIcon } from '../../../assets/images/animals/ch
 import { ReactComponent as PigIcon } from '../../../assets/images/animals/pig-icon.svg';
 import { ReactComponent as BatchIcon } from '../../../assets/images/animals/batch.svg';
 import { AnimalTranslationKey } from '../types';
-import { FilterState } from '../../Filter/types';
-import { isInactive } from '../../Filter/utils';
-import { animalMatchesFilter } from '../../Filter/Animals/utils';
-import { AnimalOrBatchKeys } from '../../Filter/Animals/types';
 
 export type AnimalInventory = {
   icon: FC;
@@ -54,6 +50,13 @@ export type AnimalInventory = {
   path: string;
   count: number;
   batch: boolean;
+  group_ids: number[];
+  sex_id?: number;
+  sex_detail?: { sex_id: number; count: number }[];
+  custom_type_id: number | null;
+  default_type_id: number | null;
+  custom_breed_id: number | null;
+  default_breed_id: number | null;
 };
 
 const { t } = i18n;
@@ -147,57 +150,26 @@ const formatAnimalsData = (
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
-  animalsOrBatchesFilter: FilterState,
-  typesFilter: FilterState,
-  breedsFilter: FilterState,
-  sexFilter: FilterState,
-  groupsFilter: FilterState,
-  locationsFilter: FilterState,
 ) => {
-  return animals
-    .filter((animal: Animal) => {
-      const animalOrBatchMatches =
-        isInactive(animalsOrBatchesFilter) ||
-        animalsOrBatchesFilter[AnimalOrBatchKeys.ANIMAL]?.active;
-
-      const typeMatches =
-        isInactive(typesFilter) || animalMatchesFilter(animal, typesFilter, 'type');
-
-      const breedMatches =
-        isInactive(breedsFilter) || animalMatchesFilter(animal, breedsFilter, 'breed');
-
-      const sexMatches = isInactive(sexFilter) || sexFilter[animal.sex_id]?.active;
-
-      const groupMatches =
-        isInactive(groupsFilter) ||
-        animal.group_ids.some((groupId) => groupsFilter[groupId]?.active);
-
-      // *** Location is not yet implemented as a property on animal ***
-      const locationMatches = isInactive(locationsFilter);
-      // const locationMatches =
-      //   isInactive(locationsFilter) || locationsFilter[animal.location]?.active;
-
-      return (
-        animalOrBatchMatches &&
-        typeMatches &&
-        breedMatches &&
-        sexMatches &&
-        groupMatches &&
-        locationMatches
-      );
-    })
-    .map((animal: Animal) => {
-      return {
-        icon: getDefaultAnimalIcon(defaultAnimalTypes, animal.default_type_id),
-        identification: chooseIdentification(animal),
-        type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
-        breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
-        groups: animal.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
-        path: `/animal/${animal.internal_identifier}`,
-        count: 1,
-        batch: false,
-      };
-    });
+  return animals.map((animal: Animal) => {
+    return {
+      icon: getDefaultAnimalIcon(defaultAnimalTypes, animal.default_type_id),
+      identification: chooseIdentification(animal),
+      type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
+      breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
+      groups: animal.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
+      path: `/animal/${animal.internal_identifier}`,
+      count: 1,
+      batch: false,
+      // preserve some untransformed data for filtering
+      group_ids: animal.group_ids,
+      sex_id: animal.sex_id,
+      custom_type_id: animal.custom_type_id,
+      default_type_id: animal.default_type_id,
+      custom_breed_id: animal.custom_breed_id,
+      default_breed_id: animal.default_breed_id,
+    };
+  });
 };
 
 const formatAnimalBatchesData = (
@@ -207,58 +179,26 @@ const formatAnimalBatchesData = (
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
-  animalsOrBatchesFilter: FilterState,
-  typesFilter: FilterState,
-  breedsFilter: FilterState,
-  sexFilter: FilterState,
-  groupsFilter: FilterState,
-  locationsFilter: FilterState,
 ) => {
-  return animalBatches
-    .filter((batch: AnimalBatch) => {
-      const animalOrBatchMatches =
-        isInactive(animalsOrBatchesFilter) ||
-        animalsOrBatchesFilter[AnimalOrBatchKeys.BATCH]?.active;
-
-      const typeMatches =
-        isInactive(typesFilter) || animalMatchesFilter(batch, typesFilter, 'type');
-
-      const breedMatches =
-        isInactive(breedsFilter) || animalMatchesFilter(batch, breedsFilter, 'breed');
-
-      const sexMatches =
-        isInactive(sexFilter) || batch.sex_detail.some(({ sex_id }) => sexFilter[sex_id]?.active);
-
-      const groupMatches =
-        isInactive(groupsFilter) ||
-        batch.group_ids.some((groupId) => groupsFilter[groupId]?.active);
-
-      // *** Location is not yet implemented as a property on animal batch ***
-      const locationMatches = isInactive(locationsFilter);
-      // const locationMatches =
-      //   isInactive(locationsFilter) || locationsFilter[batch.location]?.active;
-
-      return (
-        animalOrBatchMatches &&
-        typeMatches &&
-        breedMatches &&
-        sexMatches &&
-        groupMatches &&
-        locationMatches
-      );
-    })
-    .map((batch: AnimalBatch) => {
-      return {
-        icon: BatchIcon,
-        identification: chooseIdentification(batch),
-        type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
-        breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),
-        groups: batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
-        path: `/batch/${batch.internal_identifier}`,
-        count: batch.count,
-        batch: true,
-      };
-    });
+  return animalBatches.map((batch: AnimalBatch) => {
+    return {
+      icon: BatchIcon,
+      identification: chooseIdentification(batch),
+      type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
+      breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),
+      groups: batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
+      path: `/batch/${batch.internal_identifier}`,
+      count: batch.count,
+      batch: true,
+      // preserve some untransformed data for filtering
+      group_ids: batch.group_ids,
+      sex_detail: batch.sex_detail,
+      custom_type_id: batch.custom_type_id,
+      default_type_id: batch.default_type_id,
+      custom_breed_id: batch.custom_breed_id,
+      default_breed_id: batch.default_breed_id,
+    };
+  });
 };
 
 interface BuildInventoryArgs {
@@ -269,12 +209,6 @@ interface BuildInventoryArgs {
   customAnimalTypes: CustomAnimalType[];
   defaultAnimalBreeds: DefaultAnimalBreed[];
   defaultAnimalTypes: DefaultAnimalType[];
-  animalsOrBatchesFilter: FilterState;
-  typesFilter: FilterState;
-  breedsFilter: FilterState;
-  sexFilter: FilterState;
-  groupsFilter: FilterState;
-  locationsFilter: FilterState;
 }
 
 export const buildInventory = ({
@@ -285,12 +219,6 @@ export const buildInventory = ({
   customAnimalTypes,
   defaultAnimalBreeds,
   defaultAnimalTypes,
-  animalsOrBatchesFilter,
-  typesFilter,
-  breedsFilter,
-  sexFilter,
-  groupsFilter,
-  locationsFilter,
 }: BuildInventoryArgs) => {
   const inventory = [
     ...formatAnimalsData(
@@ -300,12 +228,6 @@ export const buildInventory = ({
       customAnimalTypes,
       defaultAnimalBreeds,
       defaultAnimalTypes,
-      animalsOrBatchesFilter,
-      typesFilter,
-      breedsFilter,
-      sexFilter,
-      groupsFilter,
-      locationsFilter,
     ),
     ...formatAnimalBatchesData(
       animalBatches,
@@ -314,12 +236,6 @@ export const buildInventory = ({
       customAnimalTypes,
       defaultAnimalBreeds,
       defaultAnimalTypes,
-      animalsOrBatchesFilter,
-      typesFilter,
-      breedsFilter,
-      sexFilter,
-      groupsFilter,
-      locationsFilter,
     ),
   ];
 
@@ -328,23 +244,7 @@ export const buildInventory = ({
   return sortedInventory;
 };
 
-interface useAnimalInventoryArgs {
-  animalsOrBatchesFilter: FilterState;
-  typesFilter: FilterState;
-  breedsFilter: FilterState;
-  sexFilter: FilterState;
-  groupsFilter: FilterState;
-  locationsFilter: FilterState;
-}
-
-const useAnimalInventory = ({
-  animalsOrBatchesFilter,
-  typesFilter,
-  breedsFilter,
-  sexFilter,
-  groupsFilter,
-  locationsFilter,
-}: useAnimalInventoryArgs) => {
+const useAnimalInventory = () => {
   const { data, isLoading } = useQueries([
     { label: 'animals', hook: useGetAnimalsQuery },
     { label: 'animalBatches', hook: useGetAnimalBatchesQuery },
@@ -387,12 +287,6 @@ const useAnimalInventory = ({
         customAnimalTypes,
         defaultAnimalBreeds,
         defaultAnimalTypes,
-        animalsOrBatchesFilter,
-        typesFilter,
-        breedsFilter,
-        sexFilter,
-        groupsFilter,
-        locationsFilter,
       });
     }
     return [];
@@ -405,12 +299,6 @@ const useAnimalInventory = ({
     customAnimalTypes,
     defaultAnimalBreeds,
     defaultAnimalTypes,
-    animalsOrBatchesFilter,
-    typesFilter,
-    breedsFilter,
-    sexFilter,
-    groupsFilter,
-    locationsFilter,
   ]);
 
   return { inventory, isLoading };

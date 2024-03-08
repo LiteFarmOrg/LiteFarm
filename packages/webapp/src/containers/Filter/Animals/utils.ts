@@ -13,10 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import type { Animal, AnimalBatch } from '../../../store/api/types';
-import type { ReduxFilterEntity, FilterState } from '../types';
-import { AnimalsFilterKeys } from './types';
 import { ANIMAL_TYPE_ID_PREFIX } from '../../Animals/types';
+import { AnimalsFilterKeys } from './types';
+import type { AnimalInventory } from '../../Animals/Inventory/useAnimalInventory';
+import type { ReduxFilterEntity, FilterState } from '../types';
 
 /**
  * Checks if the given animal or animal batch matches the passed type or breed filter state.
@@ -28,7 +28,7 @@ import { ANIMAL_TYPE_ID_PREFIX } from '../../Animals/types';
  */
 
 export const animalMatchesFilter = (
-  entity: Animal | AnimalBatch,
+  entity: AnimalInventory,
   filter: FilterState,
   attribute: 'type' | 'breed',
 ): boolean => {

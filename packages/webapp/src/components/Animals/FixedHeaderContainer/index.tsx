@@ -13,15 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { ReactElement, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ReactElement, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Paper, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import { sumObjectValues } from '../../../util';
 import styles from './styles.module.scss';
 
 const heights = {
-  mobile: { globalNavbar: 64 },
-  desktop: { globalNavbar: 55, paperMargin: 32 },
+  mobile: { globalNavbar: 56 },
+  desktop: { globalNavbar: 64, paperMargin: 32 },
 };
 
 const FixedHeaderContainer = ({ header, children }: { header: ReactNode; children: ReactNode }) => {
@@ -33,23 +33,24 @@ const FixedHeaderContainer = ({ header, children }: { header: ReactNode; childre
   const headerRef = useRef<HTMLDivElement>(null);
   const paperRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const setNewPaperHeight = () => setHeaderHeight(headerRef.current?.offsetHeight || null);
-    const setPaperHeight = () => setPaperHeightInPx(paperRef.current?.offsetHeight || null);
-
-    setNewPaperHeight();
-    setPaperHeight();
-
-    window.addEventListener('resize', () => {
-      setNewPaperHeight();
-      setPaperHeight();
+  useLayoutEffect(() => {
+    const headerObserver = new ResizeObserver(() => {
+      setHeaderHeight(headerRef.current?.offsetHeight || null);
+    });
+    const paperObserver = new ResizeObserver(() => {
+      setPaperHeightInPx(paperRef.current?.offsetHeight || null);
     });
 
+    if (headerRef.current) {
+      headerObserver.observe(headerRef.current);
+    }
+    if (paperRef.current) {
+      paperObserver.observe(paperRef.current);
+    }
+
     return () => {
-      window.removeEventListener('resize', () => {
-        setNewPaperHeight();
-        setPaperHeight();
-      });
+      headerObserver.disconnect();
+      paperObserver.disconnect();
     };
   }, []);
 

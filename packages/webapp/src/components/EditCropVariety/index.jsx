@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label } from '../Typography';
-import Input, { integerOnKeyDown } from '../Form/Input';
+import Input, { getInputErrors, integerOnKeyDown } from '../Form/Input';
 import styles from './styles.module.scss';
 import Radio from '../Form/Radio';
 import Form from '../Form';
@@ -13,6 +13,20 @@ import RadioGroup from '../Form/RadioGroup';
 import Infoi from '../Tooltip/Infoi';
 import Leaf from '../../assets/images/farmMapFilter/Leaf.svg';
 import Spinner from '../Spinner';
+
+const FIELD_NAMES = {
+  COMMON_NAME: 'crop_variety_name',
+  VARIETAL: 'crop_varietal',
+  CULTIVAR: 'crop_cultivar',
+  SUPPLIER: 'supplier',
+  LIFE_CYCLE: 'lifecycle',
+  CROP_VARIETY_PHOTO_URL: 'crop_variety_photo_url',
+  CERTIFIED_ORGANIC: 'organic',
+  COMMERCIAL_AVAILABILITY: 'searched',
+  GENETICALLY_ENGINEERED: 'genetically_engineered',
+  TREATED: 'treated',
+  HS_CODE_ID: 'hs_code_id',
+};
 
 export default function PureEditCropVariety({
   onSubmit,
@@ -33,54 +47,38 @@ export default function PureEditCropVariety({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      crop_variety_photo_url:
-        cropVariety.crop_variety_photo_url ||
+      ...Object.values(FIELD_NAMES).reduce((values, fieldName) => {
+        values[fieldName] = cropVariety[fieldName];
+        return values;
+      }, {}),
+      [FIELD_NAMES.CROP_VARIETY_PHOTO_URL]:
+        cropVariety[FIELD_NAMES.CROP_VARIETY_PHOTO_URL] ||
         cropVariety.crop_photo_url ||
         `https://${
           import.meta.env.VITE_DO_BUCKET_NAME
         }.nyc3.digitaloceanspaces.com//default_crop/v2/default.webp`,
-      ...(({
-        crop_variety_name,
-        supplier,
-        lifecycle,
-        organic,
-        treated,
-        genetically_engineered,
-        searched,
-        hs_code_id,
-      }) => ({
-        crop_variety_name,
-        supplier,
-        lifecycle,
-        organic,
-        treated,
-        genetically_engineered,
-        searched,
-        hs_code_id,
-      }))(cropVariety),
     },
   });
 
-  const VARIETY = 'crop_variety_name';
-  const SUPPLIER = 'supplier';
-  const LIFE_CYCLE = 'lifecycle';
-  const CROP_VARIETY_PHOTO_URL = 'crop_variety_photo_url';
-
-  const CERTIFIED_ORGANIC = 'organic';
-  const COMMERCIAL_AVAILABILITY = 'searched';
-  const GENETIC_EGINEERED = 'genetically_engineered';
-  const TREATED = 'treated';
-  const HS_CODE_ID = 'hs_code_id';
-
   const disabled = !isValid;
 
-  const varietyRegister = register(VARIETY, { required: true });
-  const supplierRegister = register(SUPPLIER, { required: isSeekingCert ? true : false });
-  const lifeCycleRegister = register(LIFE_CYCLE, { required: true });
-  const imageUrlRegister = register(CROP_VARIETY_PHOTO_URL, { required: true });
+  const commonNameRegister = register(FIELD_NAMES.COMMON_NAME, { required: true });
+  const supplierRegister = register(FIELD_NAMES.SUPPLIER, {
+    required: isSeekingCert ? true : false,
+  });
+  const lifeCycleRegister = register(FIELD_NAMES.LIFE_CYCLE, { required: true });
+  const imageUrlRegister = register(FIELD_NAMES.CROP_VARIETY_PHOTO_URL, { required: true });
+  const varietalRegister = register(FIELD_NAMES.VARIETAL, {
+    maxLength: { value: 255, message: t('FORM_VALIDATION.OVER_255_CHARS') },
+    required: false,
+  });
+  const cultivarRegister = register(FIELD_NAMES.CULTIVAR, {
+    maxLength: { value: 255, message: t('FORM_VALIDATION.OVER_255_CHARS') },
+    required: false,
+  });
 
-  const crop_variety_photo_url = watch(CROP_VARIETY_PHOTO_URL);
-  const organic = watch(CERTIFIED_ORGANIC);
+  const crop_variety_photo_url = watch(FIELD_NAMES.CROP_VARIETY_PHOTO_URL);
+  const organic = watch(FIELD_NAMES.CERTIFIED_ORGANIC);
   const cropTranslationKey = cropVariety.crop_translation_key;
   const cropNameLabel = cropTranslationKey
     ? t(`crop:${cropTranslationKey}`)
@@ -143,12 +141,30 @@ export default function PureEditCropVariety({
 
       <Input
         style={{ marginBottom: '40px' }}
-        label={t('translation:FIELDS.EDIT_FIELD.VARIETY')}
-        type="text"
-        hookFormRegister={varietyRegister}
-        hasLeaf={true}
+        label={t('CROP.VARIETY_COMMON_NAME')}
+        hookFormRegister={commonNameRegister}
+        errors={getInputErrors(errors, FIELD_NAMES.COMMON_NAME)}
       />
-
+      <Input
+        style={{ marginBottom: '40px' }}
+        label={t('CROP.VARIETY_VARIETAL')}
+        hookFormRegister={varietalRegister}
+        errors={getInputErrors(errors, FIELD_NAMES.VARIETAL)}
+        optional
+        textWithExternalLink={t('CROP.VARIETAL_SUBTEXT')}
+        link={'https://www.litefarm.org/post/cultivars-and-varietals'}
+        placeholder={t('CROP.VARIETAL_PLACEHOLDER')}
+      />
+      <Input
+        style={{ marginBottom: '40px' }}
+        label={t('CROP.VARIETY_CULTIVAR')}
+        hookFormRegister={cultivarRegister}
+        errors={getInputErrors(errors, FIELD_NAMES.CULTIVAR)}
+        optional
+        textWithExternalLink={t('CROP.CULTIVAR_SUBTEXT')}
+        link={'https://www.litefarm.org/post/cultivars-and-varietals'}
+        placeholder={t('CROP.CULTIVAR_PLACEHOLDER')}
+      />
       <Input
         style={{ marginBottom: '40px' }}
         label={t('translation:FIELDS.EDIT_FIELD.SUPPLIER')}
@@ -186,7 +202,7 @@ export default function PureEditCropVariety({
           <RadioGroup
             style={{ marginBottom: '16px' }}
             hookFormControl={control}
-            name={CERTIFIED_ORGANIC}
+            name={FIELD_NAMES.CERTIFIED_ORGANIC}
             required
           />
           {organic === false && (
@@ -212,7 +228,7 @@ export default function PureEditCropVariety({
               <RadioGroup
                 style={{ marginBottom: '16px' }}
                 hookFormControl={control}
-                name={COMMERCIAL_AVAILABILITY}
+                name={FIELD_NAMES.COMMERCIAL_AVAILABILITY}
                 required
               />
               <div style={{ marginBottom: '16px' }}>
@@ -226,7 +242,7 @@ export default function PureEditCropVariety({
               <RadioGroup
                 style={{ marginBottom: '16px' }}
                 hookFormControl={control}
-                name={GENETIC_EGINEERED}
+                name={FIELD_NAMES.GENETICALLY_ENGINEERED}
                 required
               />
 
@@ -236,7 +252,12 @@ export default function PureEditCropVariety({
                 <Infoi style={{ marginLeft: '8px' }} content={t('CROP.NEED_DOCUMENT_TREATED')} />
               </div>
 
-              <RadioGroup hookFormControl={control} name={TREATED} required showNotSure />
+              <RadioGroup
+                hookFormControl={control}
+                name={FIELD_NAMES.TREATED}
+                required
+                showNotSure
+              />
             </>
           )}
           {organic === true && (
@@ -248,7 +269,12 @@ export default function PureEditCropVariety({
                   <Infoi style={{ marginLeft: '8px' }} content={t('CROP.NEED_DOCUMENT_TREATED')} />
                 </div>
               </div>
-              <RadioGroup hookFormControl={control} name={TREATED} required showNotSure />
+              <RadioGroup
+                hookFormControl={control}
+                name={FIELD_NAMES.TREATED}
+                required
+                showNotSure
+              />
             </div>
           )}
         </>
@@ -256,7 +282,7 @@ export default function PureEditCropVariety({
       <Input
         label={t('CROP_DETAIL.HS_CODE')}
         style={{ paddingBottom: '16px', paddingTop: '24px' }}
-        hookFormRegister={register(HS_CODE_ID, {
+        hookFormRegister={register(FIELD_NAMES.HS_CODE_ID, {
           valueAsNumber: true,
         })}
         type={'number'}

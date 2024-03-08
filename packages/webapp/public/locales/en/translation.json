@@ -155,6 +155,14 @@
     "WHAT_PLANTING_METHOD": "What is the transplanting method?",
     "WILD_CROP": "Wild crops"
   },
+  "ANIMAL": {
+    "ANIMAL_BREED": "Breed",
+    "ANIMAL_GROUPS": "Group",
+    "ANIMAL_ID": "ID",
+    "ANIMAL_IDENTIFICATION": "Identification",
+    "ANIMAL_LOCATIONS": "Location",
+    "ANIMAL_TYPE": "Type"
+  },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
     "NUMBER_0F_BEDS": "# of beds",
@@ -254,6 +262,22 @@
       "DESCRIPTION": "That’s okay! You can add certifications and certifiers later under “my farm”.",
       "TITLE": "Viewing certifications"
     }
+  },
+  "REMOVE_ANIMALS": {
+    "REMOVE_ANIMALS": "Remove animals",
+    "REMOVAL_REASONS": "Removal reasons",
+    "WHY": "Tell us why you are removing these animals",
+    "SOLD": "Sold",
+    "SLAUGHTERED_FOR_SALE": "Slaughtered for sale",
+    "SLAUGHTERED_FOR_CONSUMPTION": "Slaughtered for consumption",
+    "NATURAL_DEATH": "Natural Death",
+    "CULLED": "Culled",
+    "EXPLANATION": "Explanation",
+    "MORE_DETAILS": "Do you want to give more details?",
+    "CREATED_IN_ERROR": "Created in error",
+    "WILL_BE_ARCHIVED": "These animals will be archived and accessible for future reference",
+    "WILL_BE_PERMANENTLY_REMOVED": "These animals will be permanently removed from your farm",
+    "REMOVED_AND_ARCHIVED": "These animals have been successfully removed from your farm and will be available in your historical inventory."
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Add new farm",
@@ -489,6 +513,13 @@
   "ENTITY_TYPES": {
     "LOCATION": "Location",
     "TASK": "Task"
+  },
+  "ERROR_FALLBACK": {
+    "CONTACT": "Still stuck in the mud? No worries, we're here to pull you out: <1>{{supportEmail}}</1>",
+    "MAIN": "Sometimes LiteFarm gets lost and just needs a bit of help. One of these usually resolves the problem:",
+    "RELOAD": "Reload the page",
+    "SUBTITLE": "Don't worry, it's not you, it's us.",
+    "TITLE": "Oops! Seems like this page has wandered off!"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -839,6 +870,7 @@
     "MANAGE_CUSTOM_TYPE": "Manage custom type",
     "REPORT": {
       "DATES": "Dates",
+      "FILE_TITLE": "Financial Report",
       "SETTINGS": "Export Settings",
       "TRANSACTION": "Transaction",
       "TRANSACTIONS": "Transactions"
@@ -881,6 +913,11 @@
   },
   "HOME": {
     "GREETING": "Good day, "
+  },
+  "HOVERPILL": {
+    "PLUS_OTHERS_COUNT_one": "+ {{count}} other",
+    "PLUS_OTHERS_COUNT_many": "+ {{count}} others",
+    "PLUS_OTHERS_COUNT_other": "+ {{count}} others"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1203,6 +1240,10 @@
   },
   "MENU": {
     "ACTUAL_REVENUES": "Actual revenues",
+    "ANIMALS": "Animals",
+    "ANIMALS_GROUPS": "Groups",
+    "ANIMALS_INVENTORY": "Inventory",
+    "ANIMALS_LOCATION": "Locations",
     "CERTIFICATIONS": "Certifications",
     "CROPS": "Crops",
     "DOCUMENTS": "Documents",
@@ -1345,7 +1386,7 @@
       "PHONE_NUMBER": "Phone Number",
       "PORTUGUESE": "Portuguese",
       "SPANISH": "Spanish",
-      "USER_ADDRESS": "User Address"
+      "USER_ADDRESS": "Address"
     },
     "ACCOUNT_TAB": "Account",
     "ERROR": {
@@ -1401,7 +1442,9 @@
     "CLEAR_ALL": "Clear all"
   },
   "RELEASE": {
-    "LITEFARM_UPDATED": "LiteFarm v{{version}} is now available!"
+    "BETTER": "LiteFarm just got better!",
+    "LITEFARM_UPDATED": "LiteFarm v{{version}} is now available!",
+    "NOTES": "Release notes"
   },
   "REPEAT_PLAN": {
     "AFTER": "After",
@@ -1555,6 +1598,11 @@
     "CLEAR_TERMS_AND_FILTERS": "Why not explore different terms or simply clear the filters to discover new possibilities?",
     "NO_RESULTS_FOR": "Sorry, we couldn't find any results for your search term <1>'{{searchTerm}}'</1>",
     "ZERO": "0 results"
+  },
+  "SECTION_HEADER": {
+    "ANIMALS_GROUPS": "Animal groups",
+    "ANIMALS_INVENTORY": "Animal inventory",
+    "ANIMALS_LOCATION": "Animal locations"
   },
   "SENSOR": {
     "BRAND": "Brand",

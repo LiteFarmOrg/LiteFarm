@@ -33,6 +33,10 @@
   flex-direction: column;
   position: relative;
 
+  &.fullWidthApp {
+    max-width: 100%;
+  }
+
   @include sm-breakpoint {
     .containerRoot {
       left: calc((100vw - var(--global-side-menu-width)) / 2 + var(--global-side-menu-width));

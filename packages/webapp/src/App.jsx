@@ -14,17 +14,22 @@
  */
 
 import { Suspense, useState } from 'react';
-import Navigation from './containers/Navigation';
-import history from './history';
+import { matchPath } from 'react-router-dom';
 import clsx from 'clsx';
 import { SnackbarProvider } from 'notistack';
+
+import Navigation from './containers/Navigation';
+import history from './history';
 import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 import { OfflineDetector } from './containers/hooks/useOfflineDetector/OfflineDetector';
 import styles from './styles.module.scss';
 import Routes from './routes';
+import { ANIMALS_INVENTORY_URL } from './util/siteMapConstants';
 
 function App() {
   const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
+  const FULL_WIDTH_ROUTES = ['/map', ANIMALS_INVENTORY_URL];
+  const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(history.location.pathname, path));
 
   return (
     <div className={clsx(styles.container)}>
@@ -34,7 +39,7 @@ function App() {
           isCompactSideMenu={isCompactSideMenu}
           setIsCompactSideMenu={setIsCompactSideMenu}
         >
-          <div className={styles.app}>
+          <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
             <OfflineDetector />
             <SnackbarProvider
               anchorOrigin={{
@@ -47,7 +52,7 @@ function App() {
               }}
               content={(key, message) => <NotistackSnackbar id={key} message={message} />}
             >
-              <Routes />
+              <Routes isCompactSideMenu={isCompactSideMenu} />
             </SnackbarProvider>
           </div>
         </Navigation>

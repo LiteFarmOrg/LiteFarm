@@ -15,7 +15,7 @@ export const styles = {
     ...provided,
     backgroundColor: 'white',
     '&:hover': {
-      backgroundColor: 'var(--green100)',
+      backgroundColor: 'var(--Colors-Secondary-Secondary-green-100)',
     },
     fontSize: '16px',
     lineHeight: '24px',
@@ -37,7 +37,7 @@ export const styles = {
     fontFamily: '"Open Sans", "SansSerif", serif',
     paddingLeft: '10px',
     '&:hover': {
-      backgroundColor: 'var(--green100)',
+      backgroundColor: 'var(--Colors-Secondary-Secondary-green-100)',
     },
     textTransform: 'capitalize',
     height: '40px',

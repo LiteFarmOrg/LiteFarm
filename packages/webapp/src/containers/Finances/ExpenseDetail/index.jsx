@@ -13,6 +13,7 @@ import PureExpenseDetail from '../../../components/Finances/PureExpenseDetail';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { updateExpense } from '../saga';
+import { createEditExpenseDetailsUrl } from '../../../util/siteMapConstants';
 
 const ExpenseDetail = ({ history, match }) => {
   const { t } = useTranslation();
@@ -63,8 +64,8 @@ const ExpenseDetail = ({ history, match }) => {
   };
 
   const handleEdit = () => {
-    dispatch(setPersistedPaths([`/expense/${expense_id}/edit`]));
-    history.push(`/expense/${expense_id}/edit`);
+    dispatch(setPersistedPaths([createEditExpenseDetailsUrl(expense_id)]));
+    history.push(createEditExpenseDetailsUrl(expense_id));
   };
 
   const onRetire = () => {

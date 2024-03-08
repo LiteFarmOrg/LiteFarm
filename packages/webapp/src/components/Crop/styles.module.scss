@@ -19,7 +19,7 @@
   font-size: 24px;
   line-height: 32px;
   display: inline-block;
-  margin-bottom: 14px;
+  margin-bottom: 0;
   width: min(90%, 700px);
 }
 
@@ -37,12 +37,14 @@
   margin-top: 15px;
   padding-left: 25px;
   width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
 .headerAttributesContainer {
   margin-top: -6px;
   padding-left: 25px;
-  width: min(75vw, 800px);
 }
 
 .attributeText {
@@ -53,9 +55,7 @@
 
 .imgContainer {
   align-self: center;
-  @media only screen and (min-width: 700px) {
-    transform: translateX(25%);
-  }
+  transform: translateX(25%);
 }
 
 .labelToRadioDistance {

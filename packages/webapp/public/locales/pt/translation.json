@@ -155,6 +155,14 @@
     "WHAT_PLANTING_METHOD": "Qual é o método de transplante?",
     "WILD_CROP": "Cultivos silvestres"
   },
+  "ANIMAL": {
+    "ANIMAL_BREED": "MISSING",
+    "ANIMAL_GROUPS": "MISSING",
+    "ANIMAL_ID": "MISSING",
+    "ANIMAL_IDENTIFICATION": "MISSING",
+    "ANIMAL_LOCATIONS": "MISSING",
+    "ANIMAL_TYPE": "MISSING"
+  },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Comprimento dos canteiros ",
     "NUMBER_0F_BEDS": "Nº de canteiros",
@@ -254,6 +262,22 @@
       "DESCRIPTION": "Tudo bem! Você pode adicionar certificações e certificadoras mais tarde, na opção “minha propriedade”.",
       "TITLE": "Ver certificações"
     }
+  },
+  "REMOVE_ANIMALS": {
+    "REMOVE_ANIMALS": "MISSING",
+    "REMOVAL_REASONS": "MISSING",
+    "WHY": "MISSING",
+    "SOLD": "MISSING",
+    "SLAUGHTERED_FOR_SALE": "MISSING",
+    "SLAUGHTERED_FOR_CONSUMPTION": "MISSING",
+    "NATURAL_DEATH": "MISSING",
+    "CULLED": "MISSING",
+    "EXPLANATION": "MISSING",
+    "MORE_DETAILS": "MISSING",
+    "CREATED_IN_ERROR": "MISSING",
+    "WILL_BE_ARCHIVED": "MISSING",
+    "WILL_BE_PERMANENTLY_REMOVED": "MISSING",
+    "REMOVED_AND_ARCHIVED": "MISSING"
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Adicionar novo sítio/fazenda",
@@ -488,6 +512,13 @@
   "ENTITY_TYPES": {
     "LOCATION": "localização",
     "TASK": "tarefa"
+  },
+  "ERROR_FALLBACK": {
+    "CONTACT": "MISSING",
+    "MAIN": "MISSING",
+    "RELOAD": "MISSING",
+    "SUBTITLE": "MISSING",
+    "TITLE": "MISSING"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -837,6 +868,7 @@
     },
     "REPORT": {
       "DATES": "Datas",
+      "FILE_TITLE": "MISSING",
       "SETTINGS": "Configurações de exportação",
       "TRANSACTION": "Transação",
       "TRANSACTIONS": "Transações"
@@ -879,6 +911,11 @@
   },
   "HOME": {
     "GREETING": "Bom dia, "
+  },
+  "HOVERPILL": {
+    "PLUS_OTHERS_COUNT_one": "MISSING",
+    "PLUS_OTHERS_COUNT_many": "MISSING",
+    "PLUS_OTHERS_COUNT_other": "MISSING"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -977,7 +1014,7 @@
     "PHONE_ERROR": "Por favor entre um número de telefone válido",
     "ROLE": "Função",
     "TITLE": "Convide um usuário",
-    "WAGE": "Salário/vencimento por hora trabalhada",
+    "WAGE": "Salário por hora",
     "WAGE_ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
     "WAGE_RANGE_ERROR": "O salário deve ser um número positivo menor que 999.999.999"
   },
@@ -1204,6 +1241,10 @@
   },
   "MENU": {
     "ACTUAL_REVENUES": "Receitas atuais",
+    "ANIMALS": "MISSING",
+    "ANIMALS_GROUPS": "MISSING",
+    "ANIMALS_INVENTORY": "MISSING",
+    "ANIMALS_LOCATION": "MISSING",
     "CERTIFICATIONS": "Certificações",
     "CROPS": "Cultivos",
     "DOCUMENTS": "Documentos",
@@ -1346,7 +1387,7 @@
       "PHONE_NUMBER": "Número de telefone",
       "PORTUGUESE": "Português",
       "SPANISH": "Espanhol",
-      "USER_ADDRESS": "Endereço do usuário"
+      "USER_ADDRESS": "Endereço"
     },
     "ACCOUNT_TAB": "Conta",
     "ERROR": {
@@ -1402,7 +1443,9 @@
     "CLEAR_ALL": "Limpar tudo"
   },
   "RELEASE": {
-    "LITEFARM_UPDATED": "LiteFarm v{{version}} já está disponível!"
+    "BETTER": "MISSING",
+    "LITEFARM_UPDATED": "LiteFarm v{{version}} já está disponível!",
+    "NOTES": "MISSING"
   },
   "REPEAT_PLAN": {
     "AFTER": "Após",
@@ -1556,6 +1599,11 @@
     "CLEAR_TERMS_AND_FILTERS": "Por que não explorar termos diferentes ou simplesmente limpar os filtros para descobrir novas possibilidades?",
     "NO_RESULTS_FOR": "Desculpe, não encontramos nenhum resultado para seu termo de pesquisa <1>'{{searchTerm}}'</1>",
     "ZERO": "0 resultados"
+  },
+  "SECTION_HEADER": {
+    "ANIMALS_GROUPS": "MISSING",
+    "ANIMALS_INVENTORY": "MISSING",
+    "ANIMALS_LOCATION": "MISSING"
   },
   "SENSOR": {
     "BRAND": "Marca",

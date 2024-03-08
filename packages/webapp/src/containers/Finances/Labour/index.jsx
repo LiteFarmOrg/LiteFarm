@@ -18,6 +18,8 @@ import { tasksSelector } from '../../taskSlice';
 import { setDateRange } from '../actions';
 import { dateRangeOptions } from '../../../components/DateRangeSelector/constants';
 import DateRange, { SUNDAY } from '../../../util/dateRange';
+import { getManagementPlansAndTasks } from '../../saga';
+import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
 
 class Labour extends Component {
   constructor(props) {
@@ -53,6 +55,7 @@ class Labour extends Component {
     if (!this.props.dateRange.startDate || !this.props.dateRange.endDate) {
       this.props.dispatch(setDateRange(this.getDates()));
     }
+    this.props.dispatch(getManagementPlansAndTasks());
   }
 
   componentDidUpdate(prevProps) {
@@ -86,7 +89,7 @@ class Labour extends Component {
 
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl="/Finances" title={this.props.t('SALE.LABOUR.TITLE')} />
+        <PageTitle backUrl={FINANCES_HOME_URL} title={this.props.t('SALE.LABOUR.TITLE')} />
         <DateRangeSelector />
         <div className={styles.topButtonContainer}>
           <Main>{this.props.t('SALE.LABOUR.BY')}</Main>

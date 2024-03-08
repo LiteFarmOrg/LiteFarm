@@ -1,0 +1,101 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../assets/mixin';
+
+.tile.tile {
+  // increase CSS specificity beyond textButton class
+  height: 40px;
+  width: 100%;
+  min-width: 90px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+  padding: 0px 8px;
+
+  border-radius: 4px;
+  background-color: var(--Colors-Accent---singles-Icon-action, #2d5550);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.25);
+}
+
+.tileText {
+  width: calc(100% - 32px); // whole width minus icon + gap
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-family: 'Open Sans';
+  font-style: normal;
+}
+
+.tileLabel {
+  width: 100%;
+  color: var(--Colors-Accent-Accent-yellow-50, #fff8e6);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.264px;
+  text-transform: capitalize;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tileCountLabel {
+  color: var(--Colors-Accent-Accent-yellow-400, #ffc633);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.308px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+
+  path {
+    fill: var(--Colors-Accent-Accent-yellow-50, #fff8e6);
+  }
+}
+
+.tile:hover {
+  background-color: var(--Colors-Secondary-Secondary-green-700, #558f70);
+
+  .tileLabel,
+  .tileCountLabel {
+    color: var(--Colors-Accent-Accent-yellow-50, #fff8e6);
+  }
+  .icon path {
+    fill: var(--Colors-Accent-Accent-yellow-50, #fff8e6);
+  }
+}
+
+.tile.selected {
+  background-color: var(--Btn-primary-pristine, #ffcf54);
+
+  .tileLabel,
+  .tileCountLabel {
+    color: var(--Colors-Secondary-Secondary-green-800, #426f57);
+  }
+  .icon path {
+    fill: var(--Colors-Secondary-Secondary-green-900, #325442);
+  }
+}

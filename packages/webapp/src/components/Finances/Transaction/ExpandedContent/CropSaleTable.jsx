@@ -14,9 +14,11 @@
  */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Table from '../../../Table/v2';
+import Table from '../../../Table';
+import { TableKind } from '../../../Table/types';
 import history from '../../../../history';
 import styles from './styles.module.scss';
+import { createRevenueDetailsUrl } from '../../../../util/siteMapConstants';
 
 const getColumns = (t, mobileView, totalAmount, quantityTotal, currencySymbol) => [
   {
@@ -54,7 +56,7 @@ const getColumns = (t, mobileView, totalAmount, quantityTotal, currencySymbol) =
     align: 'right',
     format: (d) => `${currencySymbol}${Math.abs(d.amount).toFixed(2)}`,
     columnProps: {
-      style: { width: '100px', paddingRight: `${mobileView ? 9 : 75}px` },
+      style: { width: '150px', paddingRight: `${mobileView ? 9 : 75}px` },
     },
     Footer: mobileView ? null : <div className={styles.bold}>{totalAmount}</div>,
   },
@@ -82,6 +84,7 @@ export default function CropSaleTable({ data, currencySymbol, mobileView }) {
 
   return (
     <Table
+      kind={TableKind.V2}
       columns={getColumns(t, mobileView, totalAmount, quantityWithUnit, currencySymbol)}
       data={items}
       minRows={10}
@@ -91,7 +94,7 @@ export default function CropSaleTable({ data, currencySymbol, mobileView }) {
           ? () => <FooterCell t={t} totalAmount={totalAmount} quantityTotal={quantityWithUnit} />
           : null
       }
-      onClickMore={() => history.push(`/revenue/${relatedId}`)}
+      onClickMore={() => history.push(createRevenueDetailsUrl(relatedId))}
     />
   );
 }

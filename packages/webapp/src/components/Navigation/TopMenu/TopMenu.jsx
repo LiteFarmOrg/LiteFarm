@@ -20,7 +20,11 @@ import {
   Menu,
   MenuList,
   MenuItem,
+  Popper,
+  Grow,
+  Paper,
   Drawer,
+  ClickAwayListener,
   ListSubheader,
   ListItemIcon,
   ListItemText,
@@ -29,13 +33,15 @@ import {
 } from '@mui/material';
 import Alert from '../../../containers/Navigation/Alert';
 import { useTranslation } from 'react-i18next';
+import { useSectionHeader } from '../useSectionHeaders';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
-const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
+const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) => {
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const selectedLanguage = getLanguageFromLocalStorage();
+  const sectionHeader = useSectionHeader(history.location.pathname);
 
   const [openMenu, setOpenMenu] = useState(false);
   const toggleMenu = () => {
@@ -131,18 +137,36 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
   });
 
   const floaterMenu = (
-    <Menu
-      id="profile-menu"
-      anchorEl={profileIconRef.current}
+    <Popper
       open={openMenu}
-      onClose={closeMenu}
-      MenuListProps={{
-        'aria-labelledby': 'profile-navigation-button',
-      }}
-      classes={{ list: styles.menuList, root: styles.menuRoot }}
+      anchorEl={profileIconRef.current}
+      role={undefined}
+      placement="bottom-start"
+      transition
+      disablePortal
     >
-      {menuItems}
-    </Menu>
+      {({ TransitionProps, placement }) => (
+        <Grow
+          {...TransitionProps}
+          style={{
+            transformOrigin: 'right top',
+          }}
+        >
+          <Paper classes={{ root: styles.floaterMenuPosition }}>
+            <ClickAwayListener onClickAway={closeMenu}>
+              <MenuList
+                id="profile-menu"
+                open={openMenu}
+                aria-labelledby="profile-navigation-button"
+                classes={{ list: styles.menuList, root: styles.menuRoot }}
+              >
+                {menuItems}
+              </MenuList>
+            </ClickAwayListener>
+          </Paper>
+        </Grow>
+      )}
+    </Popper>
   );
 
   const drawerMenu = (
@@ -186,7 +210,9 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
   const showMainNavigation = (
     <>
       {isMobile && burgerMenuIcon}
-      <Typography sx={{ flexGrow: 1 }} />
+      <Typography sx={{ flexGrow: 1 }} className={styles.sectionHeader}>
+        {!isMobile && sectionHeader}
+      </Typography>
       <IconButton
         data-cy="home-notificationButton"
         edge="end"
@@ -221,33 +247,29 @@ const TopMenu = ({ history, isMobile, showNavigation, onClickBurger }) => {
     </>
   );
 
-  const Logo = ({ withoutWords, withLink, ...props }) => {
-    return withoutWords ? (
-      <IconLogo
-        alt="LiteFarm Logo"
-        className={clsx(styles.logo, withLink && styles.withLink)}
-        {...props}
-      />
-    ) : (
-      <WordsLogo
-        alt="LiteFarm Logo"
-        className={clsx(styles.logo, withLink && styles.withLink, styles.paddingTopBottom)}
-        {...props}
-      />
-    );
+  const Logo = ({ withoutWords, onClick }) => {
+    if (withoutWords) {
+      return (
+        <IconButton onClick={onClick} className={styles.logo}>
+          <IconLogo alt="LiteFarm Logo" />
+        </IconButton>
+      );
+    }
+
+    return <WordsLogo alt="LiteFarm Logo" className={styles.paddingTopBottom} />;
   };
 
   return (
-    <AppBar position="sticky" className={styles.appBar}>
-      <Toolbar
-        className={clsx(styles.toolbar, (!showNavigation || isMobile) && styles.centerContent)}
-      >
-        {!showNavigation ? <Logo /> : showMainNavigation}
-        {showNavigation && isMobile && (
-          <Logo withoutWords withLink onClick={() => history.push('/')} />
-        )}
-      </Toolbar>
-    </AppBar>
+    showNav && (
+      <AppBar position="sticky" className={styles.appBar}>
+        <Toolbar
+          className={clsx(styles.toolbar, (!showNavActions || isMobile) && styles.centerContent)}
+        >
+          {!showNavActions ? <Logo /> : showMainNavigation}
+          {showNavActions && isMobile && <Logo withoutWords onClick={() => history.push('/')} />}
+        </Toolbar>
+      </AppBar>
+    )
   );
 };
 export default TopMenu;

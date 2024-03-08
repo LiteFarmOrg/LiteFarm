@@ -17,6 +17,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Router } from 'react-router-dom';
 import history from './history';
 import homeSaga from './containers/saga';
@@ -47,6 +48,7 @@ import financeSaga from './containers/Finances/saga';
 import varietalSaga from './containers/AddCropVariety/saga';
 import insightSaga from './containers/Insights/saga';
 import chooseFarmSaga from './containers/ChooseFarm/saga';
+import releaseBadgeSaga from './containers/ReleaseBadgeHandler/saga';
 import supportSaga from './containers/Help/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import consentSaga from './containers/Consent/saga';
@@ -58,7 +60,6 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import loginSaga from './containers/GoogleLoginButton/saga';
 import inviteSaga from './containers/InvitedUserCreateAccount/saga';
-import SSOInfoSaga from './containers/SSOUserCreateAccountInfo/saga';
 import weatherSaga from './containers/WeatherBoard/saga';
 import alertSaga from './containers/Navigation/Alert/saga';
 import mapSaga from './containers/Map/saga';
@@ -73,6 +74,7 @@ import abandonAndCompleteManagementPlanSaga from './containers/Crop/CompleteMana
 import notificationSaga from './containers/Notification/saga';
 import errorHandlerSaga from './containers/ErrorHandler/saga';
 import App from './App';
+import ReactErrorFallback from './containers/ErrorHandler/ReactErrorFallback/';
 import { sagaMiddleware } from './store/sagaMiddleware';
 import { persistor, store } from './store/store';
 import { GlobalScss } from './components/GlobalScss';
@@ -85,7 +87,7 @@ if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    release: '3.5.2',
+    release: '3.6.3',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -120,13 +122,13 @@ sagaMiddleware.run(financeSaga);
 sagaMiddleware.run(varietalSaga);
 sagaMiddleware.run(insightSaga);
 sagaMiddleware.run(chooseFarmSaga);
+sagaMiddleware.run(releaseBadgeSaga);
 sagaMiddleware.run(certifierSurveySaga);
 sagaMiddleware.run(consentSaga);
 sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(supportSaga);
 sagaMiddleware.run(callbackSaga);
 sagaMiddleware.run(inviteSaga);
-sagaMiddleware.run(SSOInfoSaga);
 sagaMiddleware.run(weatherSaga);
 sagaMiddleware.run(alertSaga);
 sagaMiddleware.run(notificationSaga);
@@ -153,11 +155,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <GlobalScss />
             <CssBaseline />
             <GoogleOAuthProvider clientId={clientId}>
-              <Router history={history}>
-                <>
-                  <App />
-                </>
-              </Router>
+              <ErrorBoundary FallbackComponent={ReactErrorFallback}>
+                <Router history={history}>
+                  <>
+                    <App />
+                  </>
+                </Router>
+              </ErrorBoundary>
             </GoogleOAuthProvider>
           </>
         </ThemeProvider>

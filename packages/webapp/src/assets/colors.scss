@@ -4,13 +4,16 @@
   --teal600: #3ea992;
   --teal500: #89d1c7;
   --teal100: #f1fbf9;
-  --teal50: #EBF5F4;
+  --teal50: #ebf5f4;
   --green800: #048211;
-  --green500: #78C99E;
-  --green700: #558F70;
+  --green500: #78c99e;
+  --green700: #558f70;
   --green400: #a8e6bd;
   --green200: #c7efd3;
   --green100: #e3f8ec;
+  --secondaryGreen800: #495c51;
+  --secondaryGreen200: #c1e6d2;
+  --secondaryGreen50: #f2faf5;
   --yellow700: #ffb800;
   --yellow400: #fed450;
   --yellow300: #fce38d;
@@ -24,12 +27,12 @@
   --overlay: rgba(36, 39, 48, 0.5);
   --red700: #d02620;
   --red400: #f58282;
-  --red200: #FFE8E8;
+  --red200: #ffe8e8;
   --orange700: #ffa73f;
   --orange400: #ffc888;
   --purple700: #8f26f0;
   --purple400: #ffe55b;
-  --brightGreen700: #037A0F;
+  --brightGreen700: #037a0f;
   --brightGreen400: #a6f7ae;
   --cyan700: #03a6ca;
   --cayn400: #4fdbfa;
@@ -37,8 +40,8 @@
   --blue700: #0669e1;
   --grey1: #333333;
   --brown200: #fff6ed;
-  --brown700: #AA5F04;
-  --brown900: #7E4C0E;
+  --brown700: #aa5f04;
+  --brown900: #7e4c0e;
   --info: var(--blue700);
   --success: var(--brightGreen700);
   --warning: var(--orange700);
@@ -59,7 +62,44 @@
   --border: var(--grey200);
   --checkbox: var(--teal700);
   --tooltipFont: var(--grey1);
-  --modalPrimary:  white;
+  --modalPrimary: white;
   --bgInputListTile: white;
-  --mainBackground: #FAFCFB;
+  --mainBackground: #fafcfb;
+  --tableAlternateRowBackground: #f7fbff;
+  --tableSortPill: #f4f5f7;
+
+  // New design system colours
+  --Colors-Primary-Primary-teal-50: #ebf5f4;
+  --Colors-Primary-Primary-teal-100: #c0e1dd;
+  --Colors-Primary-Primary-teal-300: #78bdb6;
+  --Colors-Primary-Primary-teal-600: #308f85;
+  --Colors-Primary-Primary-teal-700: #266f68;
+  --Colors-Primary-Primary-teal-900: #16423d;
+
+  --Colors-Secondary-Secondary-green-100: #d5eee1;
+  --Colors-Secondary-Secondary-green-200: #c1e6d2;
+  --Colors-Secondary-Secondary-green-400: #93d4b1;
+  --Colors-Secondary-Secondary-green-600: #6db790;
+  --Colors-Secondary-Secondary-green-700: #558f70;
+  --Colors-Secondary-Secondary-green-800: #426f57;
+  --Colors-Secondary-Secondary-green-900: #325442;
+
+  --Colors-Neutral-Neutral-50: #f0f1f3;
+  --Colors-Neutral-Neutral-400: #858fa1;
+  --Colors-Neutral-Neutral-600: #5d697e;
+  --Colors-Neutral-Neutral-700: #485262;
+  --Colors-Neutral-Neutral-900: #2b303a;
+
+  --Btn-primary-pristine: #ffcf54;
+  --Btn-primary-hover: #e8a700;
+
+  --Colors-Accent-Accent-yellow-50: #fff8e6;
+  --Colors-Accent-Accent-yellow-400: #ffc633;
+  --Colors-Accent---singles-Red-light: #ffdad9;
+  --Colors-Accent---singles-Red-full: #d02620;
+  --Colors-Accent---singles-Red-dark: #520f0d;
+  --Colors-Accent---singles-Blue-dark: #032d61;
+  --Colors-Accent---singles-Brown-dark: #633700;
+  --Colors-Accent---singles-Purple-full: #8F26F0;
+  --Colors-Accent---singles-Purple-light: #F4E8FF;
 }

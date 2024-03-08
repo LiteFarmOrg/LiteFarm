@@ -180,7 +180,7 @@
 .sideMenu {
   .drawerContainer {
     background-color: var(--teal700);
-    z-index: 1299;
+    z-index: 1503; //should be greater than animals KPI and top menu
   }
 
   .drawerHeader {
@@ -312,9 +312,20 @@
 .activeListItem {
   background-color: #A2D2CD;
 
+  &.subItem:not(:hover) {
+    background-color: var(--secondaryGreen50);
+
+    .subItemText {
+      span {
+        text-shadow: var(--secondaryGreen200) 0px 1px;
+        color: var(--secondaryGreen800);
+      }
+    }
+  }
+
   @include xs-breakpoint {
     &.subItem {
-      background-color: #A2D2CD;
+      background-color: var(--secondaryGreen50);
     }
 
     &.adminActionListItem {
@@ -476,7 +487,7 @@
   top: calc(var(--global-navbar-height) / 2 - 12px);
   left: calc(var(--global-side-menu-width) - 14px);
   background-color: white;
-  z-index: 1300;
+  z-index: 1503; // should be greater than top menu
   transition: transform 0.5s;
   animation: toggle-initial 0.9s forwards, toggle-color-initial 2s;
 

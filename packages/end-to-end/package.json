@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Cypress e2e tests for LiteFarm",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "precommit": "lint-staged",
     "cypress": "cypress open"
@@ -10,10 +11,14 @@
   "author": "",
   "license": "GPL-3.0",
   "devDependencies": {
-    "cypress": "^13.0.0",
+    "@cypress/code-coverage": "^3.12.1",
+    "cypress": "^13.2.0",
+    "cypress-react-selector": "^3.0.0",
+    "cypress-terminal-report": "^5.3.2",
     "eslint": "^8.43.0",
     "eslint-plugin-prettier": "^4.2.1",
     "lint-staged": "^13.2.3",
+    "moment": "^2.29.4",
     "prettier": "^2.8.8"
   },
   "dependencies": {

@@ -20,7 +20,8 @@ import defaultStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
 import { expenseSelector, allExpenseTypeSelector } from '../selectors';
 import Table from '../../../components/Table';
-import { getExpense } from '../actions';
+import { TableKind } from '../../../components/Table/types';
+import { getExpense, getFarmExpenseType } from '../actions';
 import history from '../../../history';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { BsCaretRight } from 'react-icons/bs';
@@ -30,6 +31,7 @@ import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { useSelector, useDispatch } from 'react-redux';
 import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../../util/dateRange';
+import { createExpenseDetailsUrl, FINANCES_HOME_URL } from '../../../util/siteMapConstants';
 
 const OtherExpense = () => {
   const { t } = useTranslation();
@@ -42,6 +44,7 @@ const OtherExpense = () => {
 
   useEffect(() => {
     dispatch(getExpense());
+    dispatch(getFarmExpenseType());
   }, []);
 
   useEffect(() => {
@@ -184,13 +187,14 @@ const OtherExpense = () => {
 
   return (
     <div className={defaultStyles.financesContainer}>
-      <PageTitle backUrl="/Finances" title={t('EXPENSE.OTHER_EXPENSES_TITLE')} />
+      <PageTitle backUrl={FINANCES_HOME_URL} title={t('EXPENSE.OTHER_EXPENSES_TITLE')} />
       <DateRangeSelector />
 
       <Semibold style={{ marginBottom: '16px' }}>{t('EXPENSE.SUMMARY')}</Semibold>
       <div className={styles.tableContainer} style={{ marginBottom: '16px' }}>
         {data.length > 0 && (
           <Table
+            kind={TableKind.V1}
             columns={columns}
             data={data}
             showPagination={true}
@@ -207,6 +211,7 @@ const OtherExpense = () => {
         {detailedHistory.length > 0 && (
           <div>
             <Table
+              kind={TableKind.V1}
               columns={detailedColumns}
               data={detailedHistory}
               showPagination={true}
@@ -219,7 +224,7 @@ const OtherExpense = () => {
                   onClick: (e, handleOriginal) => {
                     if (rowInfo && rowInfo.original) {
                       const expense_id = rowInfo.original.expense_item_id;
-                      history.push(`/expense/${expense_id}`);
+                      history.push(createExpenseDetailsUrl(expense_id));
                     }
                     if (handleOriginal) {
                       handleOriginal();

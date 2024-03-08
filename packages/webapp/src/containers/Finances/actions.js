@@ -22,7 +22,6 @@ import {
   DELETE_SALE,
   GET_EXPENSE,
   GET_FARM_EXPENSE_TYPE,
-  GET_SALES,
   SET_DATE_RANGE,
   SET_EXPENSE,
   SET_EXPENSE_DETAIL_DATE,
@@ -33,12 +32,6 @@ import {
   SET_SELECTED_SALE,
   UPDATE_SALE,
 } from './constants';
-
-export const getSales = () => {
-  return {
-    type: GET_SALES,
-  };
-};
 
 export const setSalesInState = (sales) => {
   return {

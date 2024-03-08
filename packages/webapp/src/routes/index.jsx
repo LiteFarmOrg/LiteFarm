@@ -30,7 +30,6 @@ import useScrollToTop from '../containers/hooks/useScrollToTop';
 import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 
 //dynamic imports
-const DeprecatedRoutes = React.lazy(() => import('./DeprecatedRoutes'));
 const Home = React.lazy(() => import('../containers/Home'));
 const HelpRequest = React.lazy(() => import('../containers/Help'));
 const Account = React.lazy(() => import('../containers/Profile/Account'));
@@ -39,6 +38,7 @@ const People = React.lazy(() => import('../containers/Profile/People/People'));
 const EditUser = React.lazy(() => import('../containers/Profile/EditUser'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
 const Finances = React.lazy(() => import('./FinancesRoutes'));
+const Animals = React.lazy(() => import('./AnimalsRoutes'));
 const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
 const PasswordResetAccount = React.lazy(() => import('../containers/PasswordResetAccount'));
 const InviteSignUp = React.lazy(() => import('../containers/InviteSignUp'));
@@ -279,7 +279,7 @@ const UnknownRecord = React.lazy(() =>
   import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
-const Routes = () => {
+const Routes = ({ isCompactSideMenu }) => {
   useScrollToTop();
   useReduxSnackbar();
   const userFarm = useSelector(
@@ -509,7 +509,11 @@ const Routes = () => {
             />
             <Route path="/tasks/:task_id/harvest_uses" exact component={HarvestUses} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
-            <Route path="/map" exact component={Map} />
+            <Route
+              path="/map"
+              exact
+              component={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
+            />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
               path="/create_location/farm_site_boundary"
@@ -606,8 +610,12 @@ const Routes = () => {
               component={NotificationReadOnly}
             />
             <Route path="/finances/*" exact component={Finances} />
+            <Route
+              path="/animals/*"
+              exact
+              component={() => <Animals isCompactSideMenu={isCompactSideMenu} />}
+            />
             <Route path="/unknown_record" exact component={UnknownRecord} />
-            <Route path="/" component={DeprecatedRoutes} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -780,7 +788,11 @@ const Routes = () => {
             <Route path="/documents/add_document" exact component={AddDocument} />
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
-            <Route path="/map" exact component={Map} />
+            <Route
+              path="/map"
+              exact
+              component={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
+            />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
               path="/create_location/farm_site_boundary"
@@ -892,8 +904,8 @@ const Routes = () => {
               component={NotificationReadOnly}
             />
             <Route path="/finances" component={Finances} />
+            <Route path="/animals/*" exact component={Animals} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
-            <Route path="/" component={DeprecatedRoutes} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -922,7 +934,11 @@ const Routes = () => {
               exact
               component={ManagementDetails}
             />
-            <Route path="/map" exact component={Map} />
+            <Route
+              path="/map"
+              exact
+              component={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
+            />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
             <Route path="/barn/:location_id" component={BarnDetails} />
             <Route path="/natural_area/:location_id" component={NaturalAreaDetails} />
@@ -987,6 +1003,7 @@ const Routes = () => {
               exact
               component={NotificationReadOnly}
             />
+            <Route path="/animals/*" exact component={Animals} />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>

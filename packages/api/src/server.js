@@ -39,7 +39,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.5.2',
+    release: '3.6.3',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -124,6 +124,18 @@ import logger from './common/logger.js';
 // import routes
 import loginRoutes from './routes/loginRoute.js';
 
+import defaultAnimalTypeRoute from './routes/defaultAnimalTypeRoute.js';
+import customAnimalTypeRoute from './routes/customAnimalTypeRoute.js';
+import defaultAnimalBreedRoute from './routes/defaultAnimalBreedRoute.js';
+import customAnimalBreedRoute from './routes/customAnimalBreedRoute.js';
+import animalRoute from './routes/animalRoute.js';
+import animalBatchRoute from './routes/animalBatchRoute.js';
+import animalIdentifierColorRoute from './routes/animalIdentifierColorRoute.js';
+import animalIdentifierPlacementRoute from './routes/animalIdentifierPlacementRoute.js';
+import animalSexRoute from './routes/animalSexRoute.js';
+import animalOriginRoute from './routes/animalOriginRoute.js';
+import animalGroupRoute from './routes/animalGroupRoute.js';
+import animalRemovalReasonRoute from './routes/animalRemovalReasonRoute.js';
 import cropRoutes from './routes/cropRoute.js';
 import cropVarietyRoutes from './routes/cropVarietyRoute.js';
 import fieldRoutes from './routes/fieldRoute.js';
@@ -149,6 +161,7 @@ import rolesRoutes from './routes/rolesRoute.js';
 import organicCertifierSurveyRoutes from './routes/organicCertifierSurveyRoute.js';
 import passwordResetRoutes from './routes/passwordResetRoute.js';
 import showedSpotlightRoutes from './routes/showedSpotlightRoute.js';
+import releaseBadgeRoutes from './routes/releaseBadgeRoute.js';
 import nominationRoutes from './routes/nominationRoute.js';
 import userLogRoute from './routes/userLogRoute.js';
 
@@ -263,6 +276,18 @@ app
   .use(checkJwt)
 
   // routes
+  .use('/default_animal_types', defaultAnimalTypeRoute)
+  .use('/custom_animal_types', customAnimalTypeRoute)
+  .use('/default_animal_breeds', defaultAnimalBreedRoute)
+  .use('/custom_animal_breeds', customAnimalBreedRoute)
+  .use('/animals', animalRoute)
+  .use('/animal_batches', animalBatchRoute)
+  .use('/animal_identifier_colors', animalIdentifierColorRoute)
+  .use('/animal_identifier_placements', animalIdentifierPlacementRoute)
+  .use('/animal_sexes', animalSexRoute)
+  .use('/animal_origins', animalOriginRoute)
+  .use('/animal_groups', animalGroupRoute)
+  .use('/animal_removal_reasons', animalRemovalReasonRoute)
   .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
   .use('/crop', cropRoutes)
@@ -290,6 +315,7 @@ app
   .use('/support_ticket', supportTicketRoute)
   .use('/export', exportRoute)
   .use('/showed_spotlight', showedSpotlightRoutes)
+  .use('/release_badge', releaseBadgeRoutes)
   .use('/farm_token', farmTokenRoute)
   .use('/document', documentRoute)
   .use('/task', taskRoute)

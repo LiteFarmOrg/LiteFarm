@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019-2022 LiteFarm.org
+ *  Copyright 2019-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -67,12 +67,21 @@ export const rolesUrl = URI + '/roles';
 export const loginUrl = `${URI}/login`;
 export const resetPasswordUrl = `${URI}/password_reset`;
 export const spotlightUrl = `${URI}/showed_spotlight`;
+export const releaseBadgeUrl = `${URI}/release_badge`;
 export const taskUrl = `${URI}/task`;
 export const productsUrl = `${URI}/product`;
 export const alertsUrl = `${URI}/notification_user/subscribe`;
 export const notificationsUrl = `${URI}/notification_user`;
 export const clearAlertsUrl = `${URI}/notification_user/clear_alerts`;
 export const sensorUrl = `${URI}/sensor`;
+export const animalsUrl = `${URI}/animals`;
+export const animalBatchesUrl = `${URI}/animal_batches`;
+export const animalGroupsUrl = `${URI}/animal_groups`;
+export const customAnimalBreedsUrl = `${URI}/custom_animal_breeds`;
+export const customAnimalTypesUrl = `${URI}/custom_animal_types`;
+export const defaultAnimalBreedsUrl = `${URI}/default_animal_breeds`;
+export const defaultAnimalTypesUrl = `${URI}/default_animal_types`;
+
 export const url = URI;
 
 export default {
@@ -110,10 +119,18 @@ export default {
   loginUrl,
   resetPasswordUrl,
   spotlightUrl,
+  releaseBadgeUrl,
   taskUrl,
   productsUrl,
   alertsUrl,
   notificationsUrl,
   sensorUrl,
+  animalsUrl,
+  animalBatchesUrl,
+  animalGroupsUrl,
+  customAnimalBreedsUrl,
+  customAnimalTypesUrl,
+  defaultAnimalBreedsUrl,
+  defaultAnimalTypesUrl,
   url,
 };

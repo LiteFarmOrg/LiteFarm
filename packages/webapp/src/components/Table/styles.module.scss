@@ -1,0 +1,217 @@
+/*
+ *  Copyright 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.table {
+  border-collapse: separate;
+
+  &.fixed {
+    table-layout: fixed;
+  }
+}
+
+.headerRow {
+  margin-bottom: 16px;
+
+  &.clickable {
+    cursor: pointer;
+  }
+
+  th {
+    border-top: 1px solid var(--Colors-Neutral-Neutral-50);
+    border-bottom: 1px solid var(--Colors-Neutral-Neutral-50);
+  }
+}
+
+.tableRow {
+  &.clickable {
+    cursor: pointer;
+  }
+
+  &[aria-checked="true"] {
+    border: solid 1px var(--Colors-Accent-Accent-yellow-400);
+    background-color: var(--Colors-Accent-Accent-yellow-50);
+
+    & > td {
+      border-top: solid 1px var(--Colors-Accent-Accent-yellow-400);
+      border-bottom: solid 1px var(--Colors-Accent-Accent-yellow-400);
+
+      &:first-child {
+        border-radius: 4px 0 0 4px;
+        border: solid 1px var(--Colors-Accent-Accent-yellow-400);
+        border-right: none;
+      }
+      &:last-child {
+        border-radius: 0 4px 4px 0;
+        border: solid 1px var(--Colors-Accent-Accent-yellow-400);
+        border-left: none;
+      }
+    };
+  }
+
+  // override mui's style
+  td:first-child {
+    border-top: solid 1px transparent;
+    border-bottom: solid 1px var(--grey200);
+  }
+}
+
+.itemRow {
+  margin: 0 16px 0 16px;
+}
+
+.alternatingRowColor {
+  &:nth-of-type(odd) {
+    background-color: var(--tableAlternateRowBackground);
+  }
+  &:nth-of-type(even) {
+    background-color: var(--white, #fff);
+  }
+}
+
+.plainRowColor {
+  background-color: var(--white, #fff);
+}
+
+.tableHead, .headerLabel {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.tableHead {
+  font-weight: 700;
+  > span {
+    max-width: 100%;
+  }
+}
+
+.headerLabel {
+  &.active{
+    color: var(--Colors-Secondary-Secondary-green-700);
+  }
+}
+
+.tableCell {
+  padding: 0 12px;
+  height: 56px;
+  border-top: solid 1px transparent;
+  border-bottom: solid 1px var(--grey200);
+
+  &.dense {
+    padding: 0 12px;
+    height: 40px;
+  }
+}
+
+.loadMoreCell {
+  text-align: center;
+  border-bottom: none;
+  padding-top: 24px;
+}
+
+.loadMoreButton {
+  display: inline-block;
+  height: 34px;
+  padding: 0 8px;
+  border-radius: 8px;
+}
+
+.moreButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--teal700);
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+  width: 100%;
+  cursor: pointer;
+
+  svg {
+    stroke-width: 1px;
+  }
+}
+
+.footer {
+  .tableCell {
+    background-color: var(--grey200);
+    height: 40px;
+  }
+}
+
+.footerCell {
+  padding: 0;
+  border-bottom: none;
+}
+
+.pagination {
+  > div > div svg:nth-child(3)  {
+    color: var(--grey600);
+  }
+}
+
+.sortLabelActive {
+  background-color: var(--tableSortPill);
+  border-radius: 24px;
+}
+
+.alignRightPadding {
+  padding: 4px 8px 4px 4px;
+}
+
+.alignLeftPadding {
+  padding: 4px 4px 4px 8px;
+}
+
+.icon {
+  min-width: 24px
+}
+
+.icon:hover {
+  rect:nth-of-type(1) {
+    fill: var(--Colors-Secondary-Secondary-green-600);
+  }
+  rect:nth-of-type(2) {
+    stroke: var(--Colors-Secondary-Secondary-green-400);
+  }
+  path {
+    stroke: white;
+  }
+}
+
+// Spacing between Header and Body
+// https://stackoverflow.com/questions/9258754/spacing-between-thead-and-tbody
+.tableBody::before {
+    content: "-";
+    display: block;
+    line-height: 16px;
+    color: transparent;
+}
+
+// checkbox
+.checkboxCell {
+  width: 32px;
+  text-align: center;
+
+  span {
+    padding: 0;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}

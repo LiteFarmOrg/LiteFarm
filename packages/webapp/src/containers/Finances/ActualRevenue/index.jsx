@@ -13,21 +13,23 @@ import { cropVarietiesSelector } from '../../cropVarietySlice';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import ActualRevenueItem from '../ActualRevenueItem';
-import { getRevenueTypes } from '../saga';
+import { getRevenueTypes, getSales } from '../saga';
 import { salesSelector } from '../selectors';
 import {
   calcActualRevenueFromRevenueItems,
   filterSalesByDateRange,
   mapSalesToRevenueItems,
 } from '../util';
+import { getCropVarieties } from '../../saga';
+import { ADD_REVENUE_URL, REVENUE_TYPES_URL } from '../../../util/siteMapConstants';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const onGoBack = () => history.back();
   const onAddRevenue = () => {
-    dispatch(setPersistedPaths(['/revenue_types', '/add_sale']));
-    history.push('/revenue_types');
+    dispatch(setPersistedPaths([REVENUE_TYPES_URL, ADD_REVENUE_URL]));
+    history.push(REVENUE_TYPES_URL);
   };
   // TODO: refactor sale data after finance reducer is remade
   const sales = useSelector(salesSelector);
@@ -49,9 +51,9 @@ export default function ActualRevenue({ history, match }) {
   );
 
   useEffect(() => {
-    if (!allRevenueTypes?.length) {
-      dispatch(getRevenueTypes());
-    }
+    dispatch(getSales());
+    dispatch(getRevenueTypes());
+    dispatch(getCropVarieties());
   }, []);
 
   return (

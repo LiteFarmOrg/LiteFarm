@@ -155,6 +155,14 @@
     "WHAT_PLANTING_METHOD": "Quelle est la méthode de repiquage\u00a0?",
     "WILD_CROP": "Cultures sauvages"
   },
+  "ANIMAL": {
+    "ANIMAL_BREED": "MISSING",
+    "ANIMAL_GROUPS": "MISSING",
+    "ANIMAL_ID": "MISSING",
+    "ANIMAL_IDENTIFICATION": "MISSING",
+    "ANIMAL_LOCATIONS": "MISSING",
+    "ANIMAL_TYPE": "MISSING"
+  },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Longueur des plates-bandes",
     "NUMBER_0F_BEDS": "# de plates-bandes",
@@ -172,7 +180,7 @@
     "SEEDING_RATE": "Taux de semis"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "Toutes les informations que vous avez saisies seront supprimées. Voulez-vous continuer\u00a0?",
+    "BODY": "Toutes les informations que vous avez saisies seront supprimées. Etes vous sure de vouloir continuer\u00a0?",
     "TITLE": "Annuler votre {{flow}}\u00a0?"
   },
   "CERTIFICATION": {
@@ -254,6 +262,22 @@
       "DESCRIPTION": "Pas de problème\u00a0! Vous pouvez ajouter les certifications et les certificateurs plus tard dans la section «\u00a0Mon exploitation\u00a0».",
       "TITLE": "Affichage des certifications"
     }
+  },
+  "REMOVE_ANIMALS": {
+    "REMOVE_ANIMALS": "MISSING",
+    "REMOVAL_REASONS": "MISSING",
+    "WHY": "MISSING",
+    "SOLD": "MISSING",
+    "SLAUGHTERED_FOR_SALE": "MISSING",
+    "SLAUGHTERED_FOR_CONSUMPTION": "MISSING",
+    "NATURAL_DEATH": "MISSING",
+    "CULLED": "MISSING",
+    "EXPLANATION": "MISSING",
+    "MORE_DETAILS": "MISSING",
+    "CREATED_IN_ERROR": "MISSING",
+    "WILL_BE_ARCHIVED": "MISSING",
+    "WILL_BE_PERMANENTLY_REMOVED": "MISSING",
+    "REMOVED_AND_ARCHIVED": "MISSING"
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Ajouter une nouvelle exploitation",
@@ -490,6 +514,13 @@
     "LOCATION": "emplacement",
     "TASK": "tâche"
   },
+  "ERROR_FALLBACK": {
+    "CONTACT": "Toujours embourbé ? Pas de souci, nous sommes là pour vous sortir de là:",
+    "MAIN": "Parfois, LiteFarm se perd et a juste besoin d'un peu d'aide. L'une de ces solutions résout généralement le problème:",
+    "RELOAD": "Rechargez la page",
+    "SUBTITLE": "Ne vous inquiétez pas, ce n'est pas de votre faute, c'est la nôtre.",
+    "TITLE": "Oups ! On dirait que cette page s'est égarée!"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "ADD_CUSTOM_EXPENSE": "Ajouter une dépense personnalisée",
@@ -680,7 +711,7 @@
       "WATERCOURSE": "Flux d'eau",
       "WATERCOURSE_TITLE": "Quelles sont les largeurs suivantes\u00a0?"
     },
-    "LOCATION_CREATION_FLOW": "création d'emplacement",
+    "LOCATION_CREATION_FLOW": "création de votre emplacement",
     "MAP_FILTER": {
       "ADD_TITLE": "Ajouter à votre carte",
       "AREAS": "Zones",
@@ -838,6 +869,7 @@
     },
     "REPORT": {
       "DATES": "Dates",
+      "FILE_TITLE": "Rapport financier",
       "SETTINGS": "Exporter les paramètres",
       "TRANSACTION": "Transaction",
       "TRANSACTIONS": "Transactions"
@@ -880,6 +912,11 @@
   },
   "HOME": {
     "GREETING": "Bonjour, "
+  },
+  "HOVERPILL": {
+    "PLUS_OTHERS_COUNT_one": "+ {{count}} autre",
+    "PLUS_OTHERS_COUNT_many": "+ {{count}} autres",
+    "PLUS_OTHERS_COUNT_other": "+ {{count}} autres"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -979,7 +1016,7 @@
     "PHONE_ERROR": "Veuillez entrer un numéro de téléphone valide",
     "ROLE": "Rôle",
     "TITLE": "Inviter un utilisateur",
-    "WAGE": "Salaire",
+    "WAGE": "Salaire horaire",
     "WAGE_ERROR": "Le salaire doit être un nombre décimal valide et non négatif",
     "WAGE_RANGE_ERROR": "Le salaire doit être un nombre positif inférieur à 999\u00a0999\u00a0999"
   },
@@ -1205,6 +1242,10 @@
   },
   "MENU": {
     "ACTUAL_REVENUES": "Chiffres d'affaires réels",
+    "ANIMALS": "Animaux",
+    "ANIMALS_GROUPS": "Groupes",
+    "ANIMALS_INVENTORY": "Inventaire",
+    "ANIMALS_LOCATION": "Emplacements",
     "CERTIFICATIONS": "Certifications",
     "CROPS": "Cultures",
     "DOCUMENTS": "Documents",
@@ -1403,7 +1444,9 @@
     "CLEAR_ALL": "Supprimer tout"
   },
   "RELEASE": {
-    "LITEFARM_UPDATED": "LiteFarm v{{version}} est maintenant disponible\u00a0!"
+    "BETTER": "LiteFarm vient de s'améliorer!",
+    "LITEFARM_UPDATED": "LiteFarm v{{version}} est maintenant disponible\u00a0!",
+    "NOTES": "Notes de version"
   },
   "REPEAT_PLAN": {
     "AFTER": "Après",
@@ -1557,6 +1600,11 @@
     "CLEAR_TERMS_AND_FILTERS": "Pourquoi ne pas supprimer des filtres ou chercher d'autres termes ?",
     "NO_RESULTS_FOR": "Aucun résultat pour <1>'{{searchTerm}}'",
     "ZERO": "Aucun résultat"
+  },
+  "SECTION_HEADER": {
+    "ANIMALS_GROUPS": "MISSING",
+    "ANIMALS_INVENTORY": "MISSING",
+    "ANIMALS_LOCATION": "MISSING"
   },
   "SENSOR": {
     "BRAND": "Marque",

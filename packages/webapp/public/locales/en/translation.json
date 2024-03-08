@@ -162,9 +162,7 @@
     "ANIMAL_IDENTIFICATION": "Identification",
     "ANIMAL_LOCATIONS": "Location",
     "ANIMAL_SEXES": "Sex",
-    "ANIMAL_TYPE": "Type"
-  },
-  "ANIMALS": {
+    "ANIMAL_TYPE": "Type",
     "FILTER": {
       "BATCHES": "Batches",
       "BATCHES_OR_INDIVIDUALS": "Batches or Individuals",

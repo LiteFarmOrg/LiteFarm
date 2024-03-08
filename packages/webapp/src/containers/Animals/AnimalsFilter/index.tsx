@@ -49,7 +49,7 @@ const AnimalsFilter = () => {
       <FilterButton onClick={() => setIsFilterOpen(true)} isFilterActive={isFilterActive} />
       <Drawer
         isOpen={isFilterOpen}
-        title={t('ANIMALS.FILTER.TITLE')}
+        title={t('ANIMAL.FILTER.TITLE')}
         onClose={() => setIsFilterOpen(false)}
         buttonGroup={
           <Button fullLength onClick={handleApply} color={'primary'} disabled={!isDirty}>

@@ -66,7 +66,7 @@ const AnimalsFilterContent = ({
 
   const filters: ComponentFilter[] = [
     {
-      subject: t('ANIMALS.FILTER.BATCHES_OR_INDIVIDUALS'),
+      subject: t('ANIMAL.FILTER.BATCHES_OR_INDIVIDUALS'),
       type: FilterType.SEARCHABLE_MULTI_SELECT,
       filterKey: AnimalsFilterKeys.ANIMAL_OR_BATCH,
       options: [
@@ -75,14 +75,14 @@ const AnimalsFilterContent = ({
           default:
             animalsFilter[AnimalsFilterKeys.ANIMAL_OR_BATCH][AnimalOrBatchKeys.ANIMAL]?.active ??
             false,
-          label: t('ANIMALS.FILTER.INDIVIDUALS'),
+          label: t('ANIMAL.FILTER.INDIVIDUALS'),
         },
         {
           value: AnimalOrBatchKeys.BATCH,
           default:
             animalsFilter[AnimalsFilterKeys.ANIMAL_OR_BATCH][AnimalOrBatchKeys.BATCH]?.active ??
             false,
-          label: t('ANIMALS.FILTER.BATCHES'),
+          label: t('ANIMAL.FILTER.BATCHES'),
         },
       ],
     },
@@ -135,7 +135,7 @@ const AnimalsFilterContent = ({
       options: sexes.map((sex) => ({
         value: sex.id,
         default: animalsFilter[AnimalsFilterKeys.SEX][sex.id]?.active ?? false,
-        label: t(`ANIMALS.FILTER.${sex.key}`),
+        label: t(`ANIMAL.FILTER.${sex.key}`),
       })),
     },
     {

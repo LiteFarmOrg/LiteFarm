@@ -23,6 +23,7 @@ export default function ModalComponent({
   warning,
   error,
   tooltipContent,
+  className = '',
 }) {
   if (warning && error) {
     console.error('warning and error cannot be true at the same time');
@@ -36,7 +37,7 @@ export default function ModalComponent({
   }
   return (
     <Modal dismissModal={dismissModal}>
-      <div className={styles.container}>
+      <div className={clsx(styles.container, className)}>
         <div className={styles.header}>
           {!!title && (
             <Semibold className={clsx([styles.title, titleColorClass, titleClassName])}>

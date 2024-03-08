@@ -31,10 +31,10 @@ interface DrawerProps {
   classes?: {
     modal?: string;
     drawer?: string;
-    backdrop?: string;
-    header?: string;
-    content?: string;
-    container?: string;
+    drawerBackdrop?: string;
+    drawerHeader?: string;
+    drawerContent?: string;
+    drawerContainer?: string;
   };
 }
 
@@ -47,10 +47,10 @@ const Drawer = ({
   classes = {
     modal: '',
     drawer: '',
-    backdrop: '',
-    header: '',
-    content: '',
-    container: '',
+    drawerBackdrop: '',
+    drawerHeader: '',
+    drawerContent: '',
+    drawerContainer: '',
   },
   fullHeight,
   responsiveModal = true,
@@ -75,7 +75,7 @@ const Drawer = ({
   ) : (
     <>
       <div
-        className={clsx(styles.backdrop, isOpen ? styles.openC : '', classes.backdrop)}
+        className={clsx(styles.drawerBackdrop, isOpen ? styles.openC : '', classes.drawerBackdrop)}
         onClick={onClose}
       ></div>
       <div
@@ -83,16 +83,16 @@ const Drawer = ({
           styles.drawer,
           fullHeight && styles.fullHeight,
           isOpen ? styles.openD : '',
-          classes.container,
+          classes.drawerContainer,
         )}
       >
-        <div className={clsx(styles.header, classes.header)}>
+        <div className={clsx(styles.header, classes.drawerHeader)}>
           <div className={styles.title}>{title}</div>
           <IconButton className={styles.close} onClick={onClose}>
             <Close />
           </IconButton>
         </div>
-        <div className={clsx(styles.drawerContent, classes.content)}>
+        <div className={clsx(styles.drawerContent, classes.drawerContent)}>
           {children} {buttonGroup}
         </div>
       </div>

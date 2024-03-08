@@ -13,18 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-// Filter buttons + searchbar need their own element eventually
+// Placeholder until the layout is completed and filter button can be appropriately placed next to searchbar
 .filterButton {
   padding-top: 16px;
   padding-left: 16px;
 }
 
-.modalContent {
-  z-index: 4001;
-}
-
-// z-index doesn't work as desired; I'll tech daily this one because it's layer mess here :D
-.modalBackdrop {
+.drawerBackdrop {
   background-color: rgba(43, 48, 58, 0.8);
-  z-index: 4000;
 }

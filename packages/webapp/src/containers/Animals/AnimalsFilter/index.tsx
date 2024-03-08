@@ -56,7 +56,9 @@ const AnimalsFilter = () => {
             {t('common:APPLY')}
           </Button>
         }
-        classes={{ backdrop: styles.modalBackdrop, content: styles.modalContent }}
+        classes={{
+          drawerBackdrop: styles.drawerBackdrop,
+        }}
       >
         <AnimalsFilterContent
           animalsFilter={animalsFilter}

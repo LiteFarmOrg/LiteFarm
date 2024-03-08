@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
-import { matchPath } from 'react-router-dom';
 
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import Layout from '../../Layout';
-import { useDispatch } from 'react-redux';
-import { resetAndUnLockFormData } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import { ClickAwayListener } from '@mui/material';
+import { matchPath } from 'react-router-dom';
 
-export const MultiStepForm = ({ history, steps, cancelModalTitle }) => {
-  const dispatch = useDispatch();
+export const MultiStepForm = ({ history, steps, cancelModalTitle, onCancelRoute }) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
-  const [stepNavigationCount, setStepNavigationCount] = useState(1);
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const progressBarValue = (100 / steps.length) * activeStepIndex;
 
-  const onCancel = () => {
-    dispatch(resetAndUnLockFormData());
-    history.go(-stepNavigationCount);
-  };
+  useEffect(() => {
+    const matchingStepIndex = steps.findIndex((step) =>
+      matchPath(step.route, history.location.pathname),
+    );
+    if (typeof matchingStepIndex === 'number') {
+      setActiveStepIndex(matchingStepIndex);
+    }
+  }, [steps, history.location.pathname]);
 
   const onGoBack = () => {
     if (activeStepIndex === 0) {
@@ -25,18 +25,16 @@ export const MultiStepForm = ({ history, steps, cancelModalTitle }) => {
       return;
     }
     setActiveStepIndex(activeStepIndex - 1);
-    setStepNavigationCount((count) => count + 1);
-    history.push(steps[activeStepIndex - 1].route);
+    history.go(-1);
   };
 
   const onGoForward = () => {
-    if (activeStepIndex === steps.length - 1) {
-      setStepNavigationCount(0);
-      return;
-    }
     setActiveStepIndex(activeStepIndex + 1);
-    setStepNavigationCount((count) => count + 1);
     history.push(steps[activeStepIndex + 1].route);
+  };
+
+  const onCancel = () => {
+    history.go(-activeStepIndex - 1);
   };
 
   const onClickAway = () => {

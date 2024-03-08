@@ -44,10 +44,7 @@ export const useVisibleBreeds = (
   const [filteredCustomBreeds, setFilteredCustomBreeds] =
     useState<CustomAnimalBreed[]>(customBreeds);
 
-  const handleChange = (filterKey: string | undefined, filterState: FilterState | undefined) => {
-    if (filterKey === undefined || filterState === undefined) {
-      return;
-    }
+  const handleChange = (filterKey: string | undefined) => {
     onChange();
 
     if (filterKey === AnimalsFilterKeys.TYPE) {

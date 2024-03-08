@@ -1,6 +1,6 @@
 import produce from 'immer';
 import PropTypes from 'prop-types';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactSelect from '../../Form/ReactSelect';
 import { ComponentFilter, ComponentFilterOption } from '../types';
@@ -26,6 +26,8 @@ export const FilterMultiSelect = ({
   className,
 }: FilterMultiSelectProps) => {
   const { t } = useTranslation(['common']);
+
+  const initialRender = useRef(true);
 
   const defaultValue = useMemo(() => {
     return options.filter((option) => option.default);
@@ -55,7 +57,11 @@ export const FilterMultiSelect = ({
       }
     });
 
-    onChange?.(filterRef.current![filterKey]);
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      onChange?.(filterRef.current![filterKey]);
+    }
   }, [value]);
 
   return (

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ANIMAL_TYPE_ID_PREFIX } from '../../Animals/types';
+import { ANIMAL_ID_PREFIX } from '../../Animals/types';
 import { AnimalsFilterKeys } from './types';
 import type { AnimalInventory } from '../../Animals/Inventory/useAnimalInventory';
 import type { ReduxFilterEntity, FilterState } from '../types';
@@ -34,9 +34,9 @@ export const animalMatchesFilter = (
 ): boolean => {
   let filterKey;
   if (entity[`default_${attribute}_id`]) {
-    filterKey = `${ANIMAL_TYPE_ID_PREFIX.DEFAULT}_${entity[`default_${attribute}_id`]}`;
+    filterKey = `${ANIMAL_ID_PREFIX.DEFAULT}_${entity[`default_${attribute}_id`]}`;
   } else if (entity[`custom_${attribute}_id`]) {
-    filterKey = `${ANIMAL_TYPE_ID_PREFIX.CUSTOM}_${entity[`custom_${attribute}_id`]}`;
+    filterKey = `${ANIMAL_ID_PREFIX.CUSTOM}_${entity[`custom_${attribute}_id`]}`;
   }
   return filterKey ? filter[filterKey]?.active : false;
 };

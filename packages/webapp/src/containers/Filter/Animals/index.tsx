@@ -162,7 +162,7 @@ const AnimalsFilterContent = ({
 
   return (
     <FilterGroup
-      filters={filters.map((filter) => sortFilterOptions(filter))}
+      filters={filters.map(sortFilterOptions)}
       filterRef={filterRef}
       filterContainerClassName={filterContainerClassName}
       onChange={handleChange}

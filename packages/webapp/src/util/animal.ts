@@ -19,7 +19,7 @@ import {
   CustomAnimalBreed,
   DefaultAnimalBreed,
 } from '../store/api/types';
-import { ANIMAL_TYPE_ID_PREFIX } from '../containers/Animals/types';
+import { ANIMAL_ID_PREFIX } from '../containers/Animals/types';
 
 /**
  * Generates a unique ID based on the given type or breed entity.
@@ -29,5 +29,5 @@ import { ANIMAL_TYPE_ID_PREFIX } from '../containers/Animals/types';
 export const generateUniqueAnimalId = (
   entity: DefaultAnimalType | CustomAnimalType | DefaultAnimalBreed | CustomAnimalBreed,
 ): string => {
-  return `${ANIMAL_TYPE_ID_PREFIX['key' in entity ? 'DEFAULT' : 'CUSTOM']}_${entity.id}`;
+  return `${ANIMAL_ID_PREFIX['key' in entity ? 'DEFAULT' : 'CUSTOM']}_${entity.id}`;
 };

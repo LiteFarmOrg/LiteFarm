@@ -18,7 +18,7 @@ import type { ReduxFilterEntity, FilterState } from '../types';
 import { AnimalsFilterKeys } from './types';
 import type { DefaultAnimalBreed, CustomAnimalBreed } from '../../../store/api/types';
 import { getActiveTypeIds } from './utils';
-import { ANIMAL_TYPE_ID_PREFIX } from '../../Animals/types';
+import { ANIMAL_ID_PREFIX } from '../../Animals/types';
 
 /**
  * Custom hook to manage visible breeds based on the selected animal types
@@ -62,12 +62,12 @@ export const useVisibleBreeds = (
     }
 
     const updatedDefaultBreeds = defaultBreeds.filter((breed: DefaultAnimalBreed) =>
-      activeTypeValues.includes(`${ANIMAL_TYPE_ID_PREFIX.DEFAULT}_${breed.default_type_id}`),
+      activeTypeValues.includes(`${ANIMAL_ID_PREFIX.DEFAULT}_${breed.default_type_id}`),
     );
     const updatedCustomBreeds = customBreeds.filter(
       (breed: CustomAnimalBreed) =>
-        activeTypeValues.includes(`${ANIMAL_TYPE_ID_PREFIX.DEFAULT}_${breed.default_type_id}`) ||
-        activeTypeValues.includes(`${ANIMAL_TYPE_ID_PREFIX.CUSTOM}_${breed.custom_type_id}`),
+        activeTypeValues.includes(`${ANIMAL_ID_PREFIX.DEFAULT}_${breed.default_type_id}`) ||
+        activeTypeValues.includes(`${ANIMAL_ID_PREFIX.CUSTOM}_${breed.custom_type_id}`),
     );
 
     setFilteredDefaultBreeds(updatedDefaultBreeds);

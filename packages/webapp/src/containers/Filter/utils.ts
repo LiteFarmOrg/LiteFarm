@@ -22,5 +22,5 @@ import type { FilterState } from './types';
  * @returns A boolean indicating whether all the filters are inactive.
  */
 export const isInactive = (filterObject: FilterState): boolean => {
-  return Object.keys(filterObject).every((key) => !filterObject[key]?.active);
+  return Object.keys(filterObject).every((key) => !filterObject[key].active);
 };

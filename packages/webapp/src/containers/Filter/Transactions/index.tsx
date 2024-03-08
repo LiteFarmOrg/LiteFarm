@@ -24,6 +24,7 @@ import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import type { RevenueType, ExpenseType } from '../../Finances/types';
 import type { ReduxFilterEntity, ContainerOnChangeCallback } from '../types';
 import type { ComponentFilter } from '../../../components/Filter/types';
+import { sortFilterOptions } from '../../../components/Filter/utils';
 
 interface TransactionFilterContentProps {
   transactionsFilter: ReduxFilterEntity;
@@ -103,10 +104,3 @@ TransactionFilterContent.propTypes = {
 };
 
 export default TransactionFilterContent;
-
-const sortFilterOptions = (filters: ComponentFilter): ComponentFilter => {
-  return {
-    ...filters,
-    options: [...filters.options.sort((typeA, typeB) => typeA.label.localeCompare(typeB.label))],
-  };
-};

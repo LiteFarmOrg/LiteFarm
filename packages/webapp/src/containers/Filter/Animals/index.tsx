@@ -31,6 +31,7 @@ import { generateUniqueAnimalId } from '../../../util/animal';
 import { useVisibleBreeds } from './useVisibleBreeds';
 import { locationsSelector } from '../../locationSlice';
 import { AnimalOrBatchKeys, AnimalsFilterKeys } from './types';
+import { sortFilterOptions } from '../../../components/Filter/utils';
 
 interface AnimalsFilterContentProps {
   animalsFilter: ReduxFilterEntity<AnimalsFilterKeys>;
@@ -180,10 +181,3 @@ AnimalsFilterContent.propTypes = {
 };
 
 export default AnimalsFilterContent;
-
-const sortFilterOptions = (filters: ComponentFilter): ComponentFilter => {
-  return {
-    ...filters,
-    options: [...filters.options.sort((typeA, typeB) => typeA.label.localeCompare(typeB.label))],
-  };
-};

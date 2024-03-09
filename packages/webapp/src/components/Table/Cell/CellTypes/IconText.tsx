@@ -14,6 +14,7 @@
  */
 import clsx from 'clsx';
 import type { FC } from 'react';
+import { FramedIcon } from '../../../Icons';
 import styles from '../styles.module.scss';
 
 export type IconTextProps = {
@@ -33,9 +34,11 @@ const IconText = ({
 }: IconTextProps) => {
   return (
     <div className={styles.iconTextContainer}>
-      <div className={clsx(styles.iconTextIcon, iconBorder && styles.iconBorder)}>
-        <Icon />
-      </div>
+      <FramedIcon
+        kind="square"
+        icon={Icon}
+        className={clsx(styles.iconTextIcon, iconBorder && styles.iconBorder)}
+      />
       <div className={clsx(styles.text, styles.overflowText, subtext && styles.withSubtextText)}>
         <div className={clsx(styles.mainText)}>
           <div className={clsx(styles.overflowText, subtext && styles.withSubtextMainText)}>

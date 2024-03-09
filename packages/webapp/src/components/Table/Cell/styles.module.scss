@@ -31,9 +31,7 @@
 }
 
 .iconTextIcon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: transparent;
 }
 
 .iconBorder {
@@ -44,8 +42,10 @@
   height: 32px;
   width: 32px;
   padding: 4px;
-  svg > rect, path{
-    fill: var(--Colors-Primary-Primary-teal-300);
+  svg {
+    rect, path {
+      fill: var(--Colors-Primary-Primary-teal-300);
+    }
   }
 }
 

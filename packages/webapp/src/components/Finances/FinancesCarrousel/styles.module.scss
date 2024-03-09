@@ -48,6 +48,12 @@
   text-align: center;
   width: 50%;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+
   @media (min-width: 768px) {
     padding: 24px 16px;
   }
@@ -226,4 +232,89 @@
   background-color: color-mix(in srgb, var(--grey900), transparent 75%);
   color: var(--teal100);
   text-shadow: none;
+}
+
+.profitLossIconRedLight {
+  background: rgba(255, 255, 255, 0.60);
+  width: 48px;
+  height: 48px;
+  svg {
+    width: 33px;
+    height: 32px;
+    path {
+      stroke: #D02620; 
+    }
+   }
+}
+.profitLossIconLight {
+  background: rgba(255, 255, 255, 0.60);
+  width: 48px;
+  height: 48px;
+  svg {
+    width: 33px;
+    height: 32px;
+    path {
+      stroke: #3EA397;  
+    }
+   }
+}
+.profitLossIconRedDark {
+  background: rgba(255, 255, 255, 0.50);
+  width: 36px;
+  height: 36px;
+  svg {
+    width: 24px;
+    height: 21px;
+    path {
+      stroke: #D02620;  
+    }
+  }
+}
+.profitLossIconDark {
+  background: rgba(40, 43, 54, 0.50);
+  width: 36px;
+  height: 36px;
+  svg {
+    width: 24px;
+    height: 21px;
+    path {
+      stroke: #30D9C7; 
+    }
+   }
+}
+.expenseIconDark {
+  background: #CC9191;
+  width: 36px;
+  height: 36px;
+  svg {
+    width: 24px;
+    height: 25px;
+    path {
+      stroke: white; 
+    }
+   }
+}
+.harvestRevenueInactive {
+  background: rgba(255, 255, 255, 0.50);
+  width: 36px;
+  height: 36px;
+  svg {
+    width: 20px;
+    height: 28px;
+    path {
+      stroke: var(--Colors-Primary-Primary-teal-700); 
+    }
+   }
+}
+.harvestRevenueActive {
+  background: rgba(255, 255, 255, 0.50);
+  width: 56px;
+  height: 56px;
+  svg {
+    width: 31px;
+    height: 42px;
+    path {
+      stroke: var(--Colors-Primary-Primary-teal-700); 
+    }
+   }
 }

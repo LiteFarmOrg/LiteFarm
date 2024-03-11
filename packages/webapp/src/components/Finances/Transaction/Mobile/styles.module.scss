@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+ @import '../../../../assets/mixin.scss';
+
 // TransactionList
 .transactionList {
   margin-bottom: 85px;
@@ -28,7 +30,7 @@
 }
 
 .expandableItem {
-  padding: 12px 0;
+  padding: 12px 4px;
   align-items: center;
 }
 
@@ -69,6 +71,7 @@
 
 .mainContentLeft {
   display: flex;
+  align-items: center;
   gap: 4px;
   width: calc(100% - 100px);
 }
@@ -90,4 +93,11 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.expandableItemIcon {
+  background: var(--teal100);
+  width: 32px;
+  height: 32px;
+  @include svgColorFill(#95ADA9);
 }

@@ -50,6 +50,10 @@ export type NumberInputProps = {
    */
   decimalDigits?: number;
   /**
+   * The currency symbol to display on left side of input
+   */
+  currencySymbol: ReactNode;
+  /**
    * The unit to display on right side of input
    */
   unit?: ReactNode;
@@ -88,6 +92,7 @@ export default function NumberInput({
   allowDecimal = true,
   decimalDigits,
   unit,
+  currencySymbol,
   step,
   max = Infinity,
   min = 0,
@@ -205,6 +210,7 @@ export default function NumberInput({
       onChange={handleChange}
       onBlur={handleBlur}
       onFocus={handleFocus}
+      leftSection={currencySymbol}
       rightSection={
         <>
           {unit}

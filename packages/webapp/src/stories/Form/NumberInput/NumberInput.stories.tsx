@@ -190,6 +190,13 @@ export const Unit: Story = {
   },
 };
 
+export const Currency: Story = {
+  args: {
+    currencySymbol: '$',
+    decimalDigits: 2,
+  },
+};
+
 export const Stepper: Story = {
   args: {
     step: 0.1,

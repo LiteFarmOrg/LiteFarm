@@ -14,8 +14,7 @@
  */
 import Table from '../../../components/Table';
 import Layout from '../../../components/Layout';
-import PureCollapsibleSearch from '../../../components/PopupFilter/PureCollapsibleSearch';
-
+import PureSearchBarWithBackdrop from '../../PopupFilter/PureSearchWithBackdrop';
 import NoSearchResults from '../../../components/Card/NoSearchResults';
 import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import { TableV2Column, TableKind } from '../../Table/types';
@@ -36,14 +35,12 @@ const PureAnimalInventory = ({
   filteredInventory,
   animalsColumns,
   theme,
-  isMobile,
   isDesktop,
   searchProps,
 }: {
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
   theme: DefaultTheme;
-  isMobile: boolean;
   isDesktop: boolean;
   searchProps: SearchProps;
 }) => {
@@ -56,10 +53,10 @@ const PureAnimalInventory = ({
       classes={{
         container: {
           backgroundColor: theme.palette.background.paper,
-          borderRadius: !isMobile && '8px',
-          border: !isMobile && '1px solid var(--Colors-Primary-Primary-teal-50)',
-          marginTop: !isMobile && '16px',
-          padding: isMobile ? '0px' : '16px',
+          borderRadius: isDesktop && '8px',
+          border: isDesktop && '1px solid var(--Colors-Primary-Primary-teal-50)',
+          marginTop: isDesktop && '16px',
+          padding: !isDesktop ? '0px' : '16px',
         },
       }}
       hasWhiteBackground
@@ -67,24 +64,23 @@ const PureAnimalInventory = ({
     >
       <div
         className={clsx(
-          isMobile ? styles.searchAndFilterContainer : styles.searchAndFilterContainerDesktop,
+          isDesktop ? styles.searchAndFilterContainerDesktop : styles.searchAndFilterContainer,
         )}
       >
         <div
-          className={clsx(isMobile ? styles.searchBar : styles.searchBarDesktop)}
+          className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
           ref={searchContainerRef}
         >
-          <PureCollapsibleSearch
+          <PureSearchBarWithBackdrop
             value={searchString}
             onChange={(e) => setSearchString(e.target.value)}
             isSearchActive={!!searchString}
-            containerRef={searchContainerRef}
             placeholderText={placeHolderText}
-            collapse={false}
+            theme={theme}
             isDesktop={isDesktop}
           />
         </div>
-        <div className={clsx(isMobile ? styles.resultsCount : styles.resultsCountDesktop)}>
+        <div className={clsx(isDesktop ? styles.resultsCountDesktop : styles.resultsCount)}>
           {searchResultsText}
         </div>
       </div>
@@ -94,10 +90,10 @@ const PureAnimalInventory = ({
           alternatingRowColor={true}
           columns={animalsColumns}
           data={filteredInventory}
-          shouldFixTableLayout={!isMobile}
+          shouldFixTableLayout={isDesktop}
           minRows={filteredInventory.length}
           dense={false}
-          showHeader={!isMobile}
+          showHeader={isDesktop}
         />
       ) : (
         <NoSearchResults

@@ -134,7 +134,6 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     searchResultsText: t('ANIMAL.SEARCH_RESULTS_TEXT', { count: filteredInventory?.length }),
   };
 
-  //`Showing ${filteredInventory.length} results`
   return (
     !isLoading && (
       <>
@@ -149,7 +148,6 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
             animalsColumns={animalsColumns}
             searchProps={searchProps}
             theme={theme}
-            isMobile={isMobile}
             isDesktop={isDesktop}
           />
           <ActionMenu

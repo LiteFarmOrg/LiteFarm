@@ -157,8 +157,8 @@ export const WithoutDecimalAndWithFractionalStep: Story = {
   },
 };
 
-export const Round: Story = {
-  args: { roundToDecimalPlaces: 2 },
+export const WithDecimalDigits: Story = {
+  args: { decimalDigits: 2 },
   play: async ({ step }) => {
     await step(
       'Enter number with more than 2 decimal places',
@@ -166,6 +166,15 @@ export const Round: Story = {
         expectValue: '8.5751',
         expectValueOnBlur: '8.58',
         expectValueOnReFocus: '8.58',
+      }),
+    );
+
+    await step(
+      'Enter number with less than 2 decimal places',
+      test('8', {
+        expectValue: '8',
+        expectValueOnBlur: '8.00',
+        expectValueOnReFocus: '8.00',
       }),
     );
   },

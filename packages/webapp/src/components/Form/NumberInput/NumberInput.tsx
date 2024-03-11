@@ -46,9 +46,9 @@ export type NumberInputProps = {
    */
   locale?: string;
   /**
-   * Number of decimal places to round on blur. Ignored if used with a step value
+   * Number of decimal digits shown after blur.
    */
-  roundToDecimalPlaces?: number;
+  decimalDigits?: number;
   /**
    * The unit to display on right side of input
    */
@@ -86,7 +86,7 @@ export default function NumberInput({
   onBlur,
   useGrouping = true,
   allowDecimal = true,
-  roundToDecimalPlaces,
+  decimalDigits,
   unit,
   step,
   max = Infinity,
@@ -101,23 +101,20 @@ export default function NumberInput({
   const locale = props.locale || language;
 
   const formatter = useMemo(() => {
+    const stepDecimalPlaces = countDecimalPlaces(step || 1);
+
     const options: Intl.NumberFormatOptions = {
       useGrouping,
-      maximumFractionDigits: roundToDecimalPlaces ?? 20,
+      minimumFractionDigits: !allowDecimal ? undefined : decimalDigits ?? stepDecimalPlaces,
+      maximumFractionDigits: !allowDecimal ? 0 : decimalDigits ?? (stepDecimalPlaces || 20),
     };
-
-    if (step) {
-      const decimalPlaces = allowDecimal ? countDecimalPlaces(step) : 0;
-      options.minimumFractionDigits = decimalPlaces;
-      options.maximumFractionDigits = decimalPlaces;
-    }
 
     try {
       return new Intl.NumberFormat(locale, options);
     } catch (error) {
       return new Intl.NumberFormat(undefined, options);
     }
-  }, [locale, useGrouping, roundToDecimalPlaces, step, allowDecimal]);
+  }, [locale, useGrouping, decimalDigits, step, allowDecimal]);
 
   const { decimalSeparator, thousandsSeparator } = useMemo(() => {
     let separators = {

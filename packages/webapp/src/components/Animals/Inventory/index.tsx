@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { ChangeEvent } from 'react';
 import Table from '../../../components/Table';
 import Layout from '../../../components/Layout';
 import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
@@ -23,11 +24,17 @@ const PureAnimalInventory = ({
   animalsColumns,
   theme,
   isMobile,
+  onSelectInventory,
+  handleSelectAllClick,
+  selectedIds,
 }: {
   tableData: AnimalInventory[];
   animalsColumns: TableV2Column[];
   theme: DefaultTheme;
   isMobile: boolean;
+  onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
+  handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
+  selectedIds: string[];
 }) => {
   return (
     <Layout
@@ -51,6 +58,9 @@ const PureAnimalInventory = ({
         minRows={tableData.length}
         dense={false}
         showHeader={!isMobile}
+        onCheck={onSelectInventory}
+        handleSelectAllClick={handleSelectAllClick}
+        selectedIds={selectedIds}
       />
     </Layout>
   );

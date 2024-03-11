@@ -107,7 +107,7 @@ export default function TableV2(props) {
   const [rowsPerPage, setRowsPerPage] = useState(minRows);
 
   const fullColSpan = columns.reduce((total, column) => total + (column.id ? 1 : 0), 0);
-  const shouldShowCheckbox = onCheck && handleSelectAllClick && selectedIds;
+  const shouldShowCheckbox = !!(onCheck && handleSelectAllClick && selectedIds);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -184,7 +184,6 @@ export default function TableV2(props) {
                 <TableRow
                   key={row.id || index}
                   onClick={(event) => handleRowClick(event, row)}
-                  isItemSelected={isItemSelected}
                   aria-checked={isItemSelected}
                   className={clsx(
                     styles.tableRow,

@@ -24,3 +24,8 @@ export enum ANIMAL_ID_PREFIX {
   DEFAULT = 'default',
   CUSTOM = 'custom',
 }
+
+export enum AnimalOrBatchKeys {
+  ANIMAL = 'ANIMAL',
+  BATCH = 'BATCH',
+}

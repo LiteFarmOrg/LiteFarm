@@ -84,13 +84,11 @@ class AddExpense extends Component {
   render() {
     const { expenseNames } = this.state;
     return (
-      <HookFormPersistProvider>
-        <PureAddExpense
-          types={Object.keys(expenseNames).map((id) => ({ name: expenseNames[id], id }))}
-          onGoBack={history.back}
-          onSubmit={this.handleSubmit}
-        />
-      </HookFormPersistProvider>
+      <PureAddExpense
+        types={Object.keys(expenseNames).map((id) => ({ name: expenseNames[id], id }))}
+        onGoBack={history.back}
+        onSubmit={this.handleSubmit}
+      />
     );
   }
 }

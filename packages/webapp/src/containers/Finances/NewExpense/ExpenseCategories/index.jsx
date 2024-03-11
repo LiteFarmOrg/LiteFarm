@@ -83,54 +83,52 @@ class ExpenseCategories extends Component {
     );
 
     return (
-      <HookFormPersistProvider>
-        <PureFinanceTypeSelection
-          leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
-          types={filteredExpenseTypes}
-          onContinue={() => {
-            this.props.dispatch(setSelectedExpenseTypes(this.state.selectedTypes));
-            this.props.onGoForward();
-          }}
-          onGoToManageCustomType={() => history.push(MANAGE_CUSTOM_EXPENSES_URL)}
-          isTypeSelected={!!this.state.selectedTypes.length}
-          formatListItemData={(data) => {
-            const {
-              farm_id,
-              expense_translation_key,
-              expense_type_id,
-              expense_name,
-              custom_description,
-            } = data;
+      <PureFinanceTypeSelection
+        leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
+        types={filteredExpenseTypes}
+        onContinue={() => {
+          this.props.dispatch(setSelectedExpenseTypes(this.state.selectedTypes));
+          this.props.onGoForward();
+        }}
+        onGoToManageCustomType={() => history.push(MANAGE_CUSTOM_EXPENSES_URL)}
+        isTypeSelected={!!this.state.selectedTypes.length}
+        formatListItemData={(data) => {
+          const {
+            farm_id,
+            expense_translation_key,
+            expense_type_id,
+            expense_name,
+            custom_description,
+          } = data;
 
-            return {
-              key: expense_type_id,
-              icon: icons[farm_id ? 'OTHER' : expense_translation_key],
-              label: farm_id
-                ? expense_name
-                : this.props.t(`expense:${expense_translation_key}.EXPENSE_NAME`),
-              onClick: () => this.addRemoveType(expense_type_id),
-              selected: this.state.selectedTypes.includes(expense_type_id),
-              className: labelIconStyles.boldLabelIcon,
-              description: farm_id
-                ? custom_description
-                : this.props.t(`expense:${expense_translation_key}.CUSTOM_DESCRIPTION`),
-            };
-          }}
-          listItemType={listItemTypes.ICON_DESCRIPTION_CHECKBOX}
-          iconLinkId={'manageCustomExpenseType'}
-          Wrapper={ManageCustomExpenseTypesSpotlight}
-          customTypeMessages={{
-            info: this.props.t('FINANCES.CANT_FIND.INFO_EXPENSE'),
-            manage: this.props.t('FINANCES.CANT_FIND.MANAGE_EXPENSE'),
-          }}
-          miscellaneousConfig={{
-            addRemove: () => this.addRemoveType(miscellaneous_type_id),
-            selected: this.state.selectedTypes.includes(miscellaneous_type_id),
-          }}
-          getSearchableString={getFinanceTypeSearchableStringFunc('expense')}
-          searchPlaceholderText={this.props.t('FINANCES.SEARCH.EXPENSE_TYPES')}
-        />
-      </HookFormPersistProvider>
+          return {
+            key: expense_type_id,
+            icon: icons[farm_id ? 'OTHER' : expense_translation_key],
+            label: farm_id
+              ? expense_name
+              : this.props.t(`expense:${expense_translation_key}.EXPENSE_NAME`),
+            onClick: () => this.addRemoveType(expense_type_id),
+            selected: this.state.selectedTypes.includes(expense_type_id),
+            className: labelIconStyles.boldLabelIcon,
+            description: farm_id
+              ? custom_description
+              : this.props.t(`expense:${expense_translation_key}.CUSTOM_DESCRIPTION`),
+          };
+        }}
+        listItemType={listItemTypes.ICON_DESCRIPTION_CHECKBOX}
+        iconLinkId={'manageCustomExpenseType'}
+        Wrapper={ManageCustomExpenseTypesSpotlight}
+        customTypeMessages={{
+          info: this.props.t('FINANCES.CANT_FIND.INFO_EXPENSE'),
+          manage: this.props.t('FINANCES.CANT_FIND.MANAGE_EXPENSE'),
+        }}
+        miscellaneousConfig={{
+          addRemove: () => this.addRemoveType(miscellaneous_type_id),
+          selected: this.state.selectedTypes.includes(miscellaneous_type_id),
+        }}
+        getSearchableString={getFinanceTypeSearchableStringFunc('expense')}
+        searchPlaceholderText={this.props.t('FINANCES.SEARCH.EXPENSE_TYPES')}
+      />
     );
   }
 }

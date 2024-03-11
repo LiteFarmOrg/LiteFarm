@@ -12,16 +12,15 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { PropTypes } from 'prop-types';
 import ExpenseItemsForType from './ExpenseItemsForType';
-import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import Input, { getInputErrors } from '../../Form/Input';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { NOTE, VALUE, DATE, EXPENSE_DETAIL } from './constants';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
+import { useEffect, useMemo } from 'react';
 
 /**
  * Function that generates defaultValues for a type.
@@ -66,8 +65,7 @@ const getDefaultExpenseDetail = (types, persistedExpenseDetailData) => {
     };
   }, {});
 };
-
-export default function PureAddExpense({ types, onSubmit, persistedFormData }) {
+export default function PureAddExpense({ types, onSubmit }) {
   const { t } = useTranslation();
 
   const {
@@ -77,12 +75,22 @@ export default function PureAddExpense({ types, onSubmit, persistedFormData }) {
     getValues,
     formState: { isValid, errors },
     handleSubmit,
+    reset,
   } = useForm({
     mode: 'onBlur',
-    defaultValues: {
-      [EXPENSE_DETAIL]: getDefaultExpenseDetail(types, persistedFormData?.[EXPENSE_DETAIL]),
-    },
+    defaultValues: useMemo(
+      () => ({
+        [EXPENSE_DETAIL]: getDefaultExpenseDetail(types),
+      }),
+      [types],
+    ),
   });
+
+  useEffect(() => {
+    reset({
+      [EXPENSE_DETAIL]: getDefaultExpenseDetail(types),
+    });
+  }, [types]);
 
   const expenseDetail = watch(EXPENSE_DETAIL);
 

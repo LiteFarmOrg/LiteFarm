@@ -12,44 +12,43 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useRef } from 'react';
 import Table from '../../../components/Table';
 import Layout from '../../../components/Layout';
 import PureCollapsibleSearch from '../../../components/PopupFilter/PureCollapsibleSearch';
-import useSearchFilter from '../../../containers/hooks/useSearchFilter';
+
 import NoSearchResults from '../../../components/Card/NoSearchResults';
 import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import { TableV2Column, TableKind } from '../../Table/types';
+import type { Dispatch, SetStateAction, MutableRefObject } from 'react';
 import type { DefaultTheme } from '@mui/styles';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 
+export type SearchProps = {
+  searchString: string | null | undefined;
+  setSearchString: Dispatch<SetStateAction<string[]>>;
+  searchContainerRef: MutableRefObject<null>;
+  placeHolderText: string;
+  searchResultsText: string;
+};
+
 const PureAnimalInventory = ({
-  tableData,
+  filteredInventory,
   animalsColumns,
   theme,
   isMobile,
   isDesktop,
+  searchProps,
 }: {
-  tableData: AnimalInventory[];
+  filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
   theme: DefaultTheme;
   isMobile: boolean;
   isDesktop: boolean;
+  searchProps: SearchProps;
 }) => {
-  const searchContainerRef = useRef(null);
-
-  const makeAnimalsSearchableString = (animal: AnimalInventory) => {
-    return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
-      .filter(Boolean)
-      .join(' ');
-  };
-
-  const [filteredInventory, searchString, setSearchString] = useSearchFilter(
-    tableData,
-    makeAnimalsSearchableString,
-  );
-
+  const { searchString, setSearchString, searchContainerRef, placeHolderText, searchResultsText } =
+    searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
 
   return (
@@ -80,14 +79,14 @@ const PureAnimalInventory = ({
             onChange={(e) => setSearchString(e.target.value)}
             isSearchActive={!!searchString}
             containerRef={searchContainerRef}
-            placeholderText="Search your inventory"
+            placeholderText={placeHolderText}
             collapse={false}
             isDesktop={isDesktop}
           />
         </div>
-        <div
-          className={clsx(isMobile ? styles.resultsCount : styles.resultsCountDesktop)}
-        >{`Showing ${filteredInventory.length} results`}</div>
+        <div className={clsx(isMobile ? styles.resultsCount : styles.resultsCountDesktop)}>
+          {searchResultsText}
+        </div>
       </div>
       {hasSearchResults ? (
         <Table

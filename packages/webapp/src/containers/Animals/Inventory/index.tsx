@@ -12,8 +12,8 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useCallback, useMemo, useState } from 'react';
-import PureAnimalInventory from '../../../components/Animals/Inventory';
+import { useCallback, useMemo, useState, useRef } from 'react';
+import PureAnimalInventory, { SearchProps } from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
@@ -23,6 +23,7 @@ import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventory } from './useAnimalInventory';
 import ActionMenu from '../../../components/ActionMenu';
 import KPI from './KPI';
+import useSearchFilter from '../../../containers/hooks/useSearchFilter';
 import styles from './styles.module.scss';
 
 // TODO: LF-4087
@@ -112,6 +113,28 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     [t, isMobile],
   );
 
+  const searchContainerRef = useRef(null);
+
+  const makeAnimalsSearchableString = (animal: AnimalInventory) => {
+    return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
+      .filter(Boolean)
+      .join(' ');
+  };
+
+  const [filteredInventory, searchString, setSearchString] = useSearchFilter(
+    inventory,
+    makeAnimalsSearchableString,
+  );
+
+  const searchProps: SearchProps = {
+    searchString,
+    setSearchString,
+    searchContainerRef,
+    placeHolderText: t('ANIMAL.SEARCH_INVENTORY_PLACEHOLDER'),
+    searchResultsText: t('ANIMAL.SEARCH_RESULTS_TEXT', { count: filteredInventory?.length }),
+  };
+
+  //`Showing ${filteredInventory.length} results`
   return (
     !isLoading && (
       <>
@@ -122,8 +145,9 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         />
         <div className={styles.mainContent}>
           <PureAnimalInventory
-            tableData={inventory}
+            filteredInventory={filteredInventory}
             animalsColumns={animalsColumns}
+            searchProps={searchProps}
             theme={theme}
             isMobile={isMobile}
             isDesktop={isDesktop}

@@ -1,6 +1,6 @@
 import produce from 'immer';
 import PropTypes from 'prop-types';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactSelect from '../../Form/ReactSelect';
 import { ComponentFilter, ComponentFilterOption } from '../types';
@@ -27,8 +27,6 @@ export const FilterMultiSelect = ({
 }: FilterMultiSelectProps) => {
   const { t } = useTranslation(['common']);
 
-  const initialRender = useRef(true);
-
   const defaultValue = useMemo(() => {
     return options.filter((option) => option.default);
   }, []);
@@ -50,20 +48,6 @@ export const FilterMultiSelect = ({
     }
   }, [shouldReset]);
 
-  useEffect(() => {
-    filterRef.current![filterKey] = produce(defaultFilterState, (defaultFilterState) => {
-      for (const option of value) {
-        defaultFilterState[option.value].active = true;
-      }
-    });
-
-    if (initialRender.current) {
-      initialRender.current = false;
-    } else {
-      onChange?.(filterRef.current![filterKey]);
-    }
-  }, [value]);
-
   return (
     <ReactSelect
       //@ts-ignore
@@ -74,6 +58,14 @@ export const FilterMultiSelect = ({
       value={value}
       onChange={(value: ComponentFilterOption[]): void => {
         setValue(value);
+
+        filterRef.current![filterKey] = produce(defaultFilterState, (defaultFilterState) => {
+          for (const option of value) {
+            defaultFilterState[option.value].active = true;
+          }
+        });
+
+        onChange?.(filterRef.current![filterKey]);
       }}
       isMulti
       isSearchable

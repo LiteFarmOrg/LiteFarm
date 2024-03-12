@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { ReduxFilterEntity, FilterState } from '../types';
 import { AnimalsFilterKeys } from './types';
 import type { DefaultAnimalBreed, CustomAnimalBreed } from '../../../store/api/types';
@@ -51,6 +51,10 @@ export const useVisibleBreeds = (
       updateVisibleBreeds(filterRef.current!);
     }
   };
+
+  useEffect(() => {
+    updateVisibleBreeds(filterRef.current!);
+  }, []);
 
   const updateVisibleBreeds = (currentFilterSelection: ReduxFilterEntity<AnimalsFilterKeys>) => {
     const activeTypeValues = getActiveTypeIds(currentFilterSelection);

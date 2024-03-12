@@ -44,6 +44,8 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const { t } = useTranslation(['translation', 'animal', 'common']);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+  const zIndexBase = theme.zIndex.drawer;
+  const backgroundColor = theme.palette.background.paper;
 
   const { inventory, isLoading } = useAnimalInventory();
 
@@ -149,7 +151,8 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
             filteredInventory={filteredInventory}
             animalsColumns={animalsColumns}
             searchProps={searchProps}
-            theme={theme}
+            zIndexBase={zIndexBase}
+            backgroundColor={backgroundColor}
             isDesktop={isDesktop}
           />
           <ActionMenu

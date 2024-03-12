@@ -26,7 +26,7 @@ export default function PureSearchBarWithBackdrop({
   placeholderText,
   className,
   isDesktop,
-  theme,
+  zIndexBase,
 }) {
   const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
   const onSearchOpen = () => {
@@ -40,7 +40,7 @@ export default function PureSearchBarWithBackdrop({
     <>
       <div
         className={clsx(styles.container, className, isDesktop && styles.desktopContainer)}
-        style={{ zIndex: searchOverlayOpen ? theme.zIndex.drawer + 2 : undefined }}
+        style={{ zIndex: searchOverlayOpen ? zIndexBase + 2 : undefined }}
       >
         <Input
           className={styles.searchBar}
@@ -54,7 +54,7 @@ export default function PureSearchBarWithBackdrop({
       <Backdrop
         open={!isDesktop && searchOverlayOpen}
         onClick={onSearchClose}
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ color: '#fff', zIndex: zIndexBase + 1 }}
       />
     </>
   );
@@ -72,4 +72,6 @@ PureSearchBarWithBackdrop.defaultProps = {
   placeholderText: '',
   isSearchActive: false,
   className: '',
+  isDesktop: false,
+  zIndexBase: 1201,
 };

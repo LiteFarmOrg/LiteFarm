@@ -14,28 +14,26 @@
  */
 
 import { Suspense, useRef } from 'react';
-import PureCollapsibleSearch from '../../components/PopupFilter/PureCollapsibleSearch';
+import PureSearchBarWithBackdrop from '../../components/PopupFilter/PureSearchWithBackdrop';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { Main, Info } from '../../components/Typography';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
 
 export default {
-  title: 'Components/PureCollapsibleSearch',
-  component: PureCollapsibleSearch,
+  title: 'Components/PureSearchBarWithBackdrop',
+  component: PureSearchBarWithBackdrop,
   decorators: componentDecorators,
 };
 
-const CollapsibleSearchContainer = (props) => {
-  const containerRef = useRef(null);
+const SearchContainer = (props) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+  const zIndexBase = theme.zIndex.drawer;
 
   return (
     <Suspense fallback="loading">
-      <Main style={{ paddingBlock: '16px' }}>Adjust window width to collapse/expand</Main>
       <div
-        ref={containerRef}
         style={{
           outline: '1px dashed',
           display: 'flex',
@@ -45,36 +43,18 @@ const CollapsibleSearchContainer = (props) => {
         }}
       >
         <Info style={{ padding: '8px' }}>Container</Info>
-        <PureCollapsibleSearch
-          containerRef={props.useContainerRef ? containerRef : null}
-          isDesktop={isDesktop}
-          {...props}
-        />
+        <PureSearchBarWithBackdrop isDesktop={isDesktop} zIndexBase={zIndexBase} {...props} />
       </div>
     </Suspense>
   );
 };
 
-const Template = (args) => <CollapsibleSearchContainer {...args} />;
+const Template = (args) => <SearchContainer {...args} />;
 
-export const Inactive = Template.bind({});
-Inactive.args = {};
-
-export const Active = Template.bind({});
-Active.args = {
-  isSearchActive: true,
-};
-
-export const Collapsable = Template.bind({});
-Collapsable.args = {};
+export const Plain = Template.bind({});
+Plain.args = {};
 
 export const CustomPlaceholder = Template.bind({});
 CustomPlaceholder.args = {
   placeholderText: 'Search transactions',
-};
-
-/* Width tracks resize of container ref */
-export const OverlayModalOnContainer = Template.bind({});
-OverlayModalOnContainer.args = {
-  useContainerRef: true,
 };

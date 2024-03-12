@@ -34,13 +34,15 @@ export type SearchProps = {
 const PureAnimalInventory = ({
   filteredInventory,
   animalsColumns,
-  theme,
+  zIndexBase,
+  backgroundColor,
   isDesktop,
   searchProps,
 }: {
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
-  theme: DefaultTheme;
+  zIndexBase: number;
+  backgroundColor: string;
   isDesktop: boolean;
   searchProps: SearchProps;
 }) => {
@@ -52,7 +54,7 @@ const PureAnimalInventory = ({
     <Layout
       classes={{
         container: {
-          backgroundColor: theme.palette.background.paper,
+          backgroundColor: backgroundColor,
           borderRadius: isDesktop && '8px',
           border: isDesktop && '1px solid var(--Colors-Primary-Primary-teal-50)',
           marginTop: isDesktop && '16px',
@@ -76,7 +78,7 @@ const PureAnimalInventory = ({
             onChange={(e) => setSearchString(e.target.value)}
             isSearchActive={!!searchString}
             placeholderText={placeHolderText}
-            theme={theme}
+            zIndexBase={zIndexBase}
             isDesktop={isDesktop}
           />
         </div>

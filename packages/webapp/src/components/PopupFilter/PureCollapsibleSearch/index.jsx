@@ -29,7 +29,6 @@ export default function PureCollapsibleSearch({
   placeholderText,
   className,
   containerRef,
-  collapse,
   isDesktop,
 }) {
   const searchRef = useRef(null);
@@ -46,52 +45,46 @@ export default function PureCollapsibleSearch({
 
   // Position modal searchbar
   useLayoutEffect(() => {
-    if (collapse) {
-      let resizeObserver;
+    let resizeObserver;
 
-      const updateModalStyle = (ref) => {
-        if (ref) {
-          const rect = ref.getBoundingClientRect();
+    const updateModalStyle = (ref) => {
+      if (ref) {
+        const rect = ref.getBoundingClientRect();
 
-          setModalStyle({
-            position: 'absolute',
-            top: `${rect.top}px`,
-            /* If a containerRef is not provided, the position of the search button will be used to calculate the placement of the modal, and the width will be 95vw */
-            left: ref === searchRef.current ? undefined : `${rect.left}px`,
-            width: ref === searchRef.current ? '95vw' : `${rect.width}px`,
-            margin: 0,
-            maxWidth: '100vw',
-          });
-        }
-      };
-
-      if (searchOverlayOpen) {
-        updateModalStyle(containerRef?.current || searchRef?.current);
-
-        // If containerRef is provided, observe  it for resize events
-        if (containerRef?.current) {
-          resizeObserver = new ResizeObserver(() => {
-            updateModalStyle(containerRef.current);
-          });
-          resizeObserver.observe(containerRef.current);
-        }
+        setModalStyle({
+          position: 'absolute',
+          top: `${rect.top}px`,
+          /* If a containerRef is not provided, the position of the search button will be used to calculate the placement of the modal, and the width will be 95vw */
+          left: ref === searchRef.current ? undefined : `${rect.left}px`,
+          width: ref === searchRef.current ? '95vw' : `${rect.width}px`,
+          margin: 0,
+          maxWidth: '100vw',
+        });
       }
+    };
 
-      return () => {
-        if (resizeObserver) {
-          resizeObserver.disconnect();
-        }
-      };
+    if (searchOverlayOpen) {
+      updateModalStyle(containerRef?.current || searchRef?.current);
+
+      // If containerRef is provided, observe  it for resize events
+      if (containerRef?.current) {
+        resizeObserver = new ResizeObserver(() => {
+          updateModalStyle(containerRef.current);
+        });
+        resizeObserver.observe(containerRef.current);
+      }
     }
-  }, [searchOverlayOpen, collapse]);
+
+    return () => {
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+    };
+  }, [searchOverlayOpen]);
 
   return (
     <div
-      className={clsx(
-        styles.container,
-        className,
-        (isDesktop || !collapse) && styles.desktopContainer,
-      )}
+      className={clsx(styles.container, className, isDesktop && styles.desktopContainer)}
       ref={searchRef}
     >
       <Input
@@ -102,11 +95,11 @@ export default function PureCollapsibleSearch({
         placeholder={placeholderText}
       />
 
-      {collapse && searchOverlayOpen && (
+      {searchOverlayOpen && (
         <Modal dismissModal={onSearchClose} style={modalStyle}>
           <form // allows closing modal with enter key (= submit)
             onSubmit={handleSubmit}
-            className={clsx(styles.modalContent, (isDesktop || !collapse) && styles.displayNone)}
+            className={clsx(styles.modalContent, isDesktop && styles.displayNone)}
           >
             <Input
               className={styles.modalSearchbar}
@@ -119,24 +112,20 @@ export default function PureCollapsibleSearch({
         </Modal>
       )}
 
-      {collapse && (
-        <TextButton
-          className={clsx(
-            styles.searchButton,
-            collapse && isSearchActive && styles.active,
-            (isDesktop || !collapse) && styles.displayNone,
-          )}
-          onClick={onSearchOpen}
-        >
-          <SearchIcon className={styles.searchIcon} />
-        </TextButton>
-      )}
+      <TextButton
+        className={clsx(
+          styles.searchButton,
+          isSearchActive && styles.active,
+          isDesktop && styles.displayNone,
+        )}
+        onClick={onSearchOpen}
+      >
+        <SearchIcon className={styles.searchIcon} />
+      </TextButton>
 
-      {collapse && isSearchActive && (
-        <div
-          className={clsx(styles.circleContainer, (isDesktop || !collapse) && styles.displayNone)}
-        >
-          <div className={clsx(styles.circle, (isDesktop || !collapse) && styles.displayNone)} />
+      {isSearchActive && (
+        <div className={clsx(styles.circleContainer, isDesktop && styles.displayNone)}>
+          <div className={clsx(styles.circle, isDesktop && styles.displayNone)} />
         </div>
       )}
     </div>
@@ -151,7 +140,6 @@ PureCollapsibleSearch.propTypes = {
   className: PropTypes.string,
   overlayModalOnButton: PropTypes.bool,
   containerRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-  collapse: PropTypes.bool,
   isDesktop: PropTypes.bool,
 };
 
@@ -161,5 +149,4 @@ PureCollapsibleSearch.defaultProps = {
   className: '',
   overlayModalOnButton: true,
   containerRef: null,
-  collapse: true,
 };

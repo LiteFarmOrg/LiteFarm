@@ -93,7 +93,7 @@ export default function NumberInput({
   decimalDigits,
   unit,
   currencySymbol,
-  step,
+  step = 1,
   max = Infinity,
   min = 0,
   disabled,
@@ -142,7 +142,8 @@ export default function NumberInput({
   const [isFocused, setIsFocused] = useState(false);
   const [isEditedAfterFocus, setIsEditedAfterFocus] = useState(false);
   const initialValueRef = useRef(propValue);
-  const showStepper = typeof step === 'number' && step > 0;
+  const inputRef = useRef<HTMLInputElement>(null);
+  const showStepper = step > 0;
 
   /*
   - resets state if value prop changes to initial value
@@ -226,12 +227,18 @@ export default function NumberInput({
                   decrement={() => update(clamp(value - stepValue, nonNegativeMin, max))}
                   incrementDisabled={valueAsNumber === max}
                   decrementDisabled={valueAsNumber === nonNegativeMin}
+                  // prevent focus on button when clicked and shift focus on input
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    if (document.activeElement !== inputRef.current) inputRef.current?.focus();
+                  }}
                 />
               );
             })()}
         </>
       }
       disabled={disabled}
+      ref={inputRef}
       {...props}
     />
   );
@@ -240,15 +247,28 @@ export default function NumberInput({
 function Stepper(props: {
   increment: () => void;
   decrement: () => void;
+  onMouseDown?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   incrementDisabled: boolean;
   decrementDisabled: boolean;
 }) {
   return (
     <div className={styles.stepper}>
-      <button aria-label="increase" onClick={props.increment} disabled={props.incrementDisabled}>
+      <button
+        aria-label="increase"
+        tabIndex={-1}
+        onMouseDown={props.onMouseDown}
+        onClick={props.increment}
+        disabled={props.incrementDisabled}
+      >
         <MdKeyboardArrowUp className={styles.stepperIcons} />
       </button>
-      <button aria-label="decrease" onClick={props.decrement} disabled={props.decrementDisabled}>
+      <button
+        aria-label="decrease"
+        tabIndex={-1}
+        onMouseDown={props.onMouseDown}
+        onClick={props.decrement}
+        disabled={props.decrementDisabled}
+      >
         <MdKeyboardArrowDown className={styles.stepperIcons} />
       </button>
     </div>

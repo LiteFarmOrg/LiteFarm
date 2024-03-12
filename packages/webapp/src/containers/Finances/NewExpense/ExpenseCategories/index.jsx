@@ -15,17 +15,16 @@ import { ReactComponent as LabourIcon } from '../../../../assets/images/finance/
 import { ReactComponent as InfrastructureIcon } from '../../../../assets/images/finance/Infrastructure-icn.svg';
 import { ReactComponent as TransportationIcon } from '../../../../assets/images/finance/Transportation-icn.svg';
 import { ReactComponent as ServicesIcon } from '../../../../assets/images/finance/Services-icn.svg';
-import { setSelectedExpenseTypes } from '../../actions';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ManageCustomExpenseTypesSpotlight from '../ManageCustomExpenseTypesSpotlight';
 import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
-import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import labelIconStyles from '../../../../components/Tile/styles.module.scss';
 import { listItemTypes } from '../../../../components/List/constants';
 import { getFinanceTypeSearchableStringFunc } from '../../util';
 import { MANAGE_CUSTOM_EXPENSES_URL } from '../../../../util/siteMapConstants';
+import { STEPS } from '../../../../components/AddExpenseForm';
 
 export const icons = {
   EQUIPMENT: <EquipIcon />,
@@ -47,9 +46,11 @@ export const icons = {
 class ExpenseCategories extends Component {
   constructor(props) {
     super(props);
+    const { getValues } = this.props.form;
+    const selectedTypes = getValues(STEPS.EXPENSE_TYPES);
     this.state = {
       // filter out previously selected and retired types
-      selectedTypes: this.props.selectedExpense.filter((typeId) => {
+      selectedTypes: selectedTypes.filter((typeId) => {
         return this.props.expenseTypes.some(({ expense_type_id }) => expense_type_id === typeId);
       }),
     };
@@ -72,6 +73,7 @@ class ExpenseCategories extends Component {
 
   render() {
     const { expenseTypes } = this.props;
+    const { setValue } = this.props.form;
 
     const miscellaneous_type_id = expenseTypes.find(
       (expenseType) => expenseType.expense_translation_key == 'MISCELLANEOUS',
@@ -87,7 +89,7 @@ class ExpenseCategories extends Component {
         leadText={this.props.t('EXPENSE.ADD_EXPENSE.WHICH_TYPES_TO_RECORD')}
         types={filteredExpenseTypes}
         onContinue={() => {
-          this.props.dispatch(setSelectedExpenseTypes(this.state.selectedTypes));
+          setValue(STEPS.EXPENSE_TYPES, this.state.selectedTypes);
           this.props.onGoForward();
         }}
         onGoToManageCustomType={() => history.push(MANAGE_CUSTOM_EXPENSES_URL)}
@@ -140,7 +142,6 @@ ExpenseCategories.propTypes = {
 const mapStateToProps = (state) => {
   return {
     expenseTypes: expenseTypeTileContentsSelector(state),
-    selectedExpense: selectedExpenseSelector(state),
   };
 };
 

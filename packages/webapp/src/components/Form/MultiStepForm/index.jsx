@@ -3,21 +3,35 @@ import { useState } from 'react';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import Layout from '../../Layout';
 import { ClickAwayListener } from '@mui/material';
+import { FormProvider, useForm } from 'react-hook-form';
 
-export const MultiStepForm = ({ history, steps, cancelModalTitle }) => {
+export const MultiStepForm = ({ history, steps, cancelModalTitle, defaultFormValues }) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
+  const [formData, setFormData] = useState();
   const progressBarValue = (100 / steps.length) * activeStepIndex;
+
+  const form = useForm({
+    mode: 'onBlur',
+    defaultValues: defaultFormValues,
+  });
+
+  const storeFormData = () => {
+    const values = form.getValues();
+    setFormData({ ...formData, ...values });
+  };
 
   const onGoBack = () => {
     if (activeStepIndex === 0) {
       onCancel();
       return;
     }
+    storeFormData();
     setActiveStepIndex(activeStepIndex - 1);
   };
 
   const onGoForward = () => {
+    storeFormData();
     setActiveStepIndex(activeStepIndex + 1);
   };
 
@@ -44,7 +58,9 @@ export const MultiStepForm = ({ history, steps, cancelModalTitle }) => {
             showConfirmCancelModal={showConfirmCancelModal}
             setShowConfirmCancelModal={setShowConfirmCancelModal}
           />
-          <activeStep.FormContent onGoForward={onGoForward} />
+          <FormProvider {...form}>
+            <activeStep.FormContent onGoForward={onGoForward} form={form} formData={formData} />
+          </FormProvider>
         </Layout>
       </div>
     </ClickAwayListener>

@@ -29,7 +29,7 @@ const AnimalsRoutes = ({ isCompactSideMenu }) => (
     <Route
       path={ANIMALS_INVENTORY_URL}
       exact
-      component={(props) => <Inventory isCompactSideMenu={isCompactSideMenu} {...props} />}
+      render={(props) => <Inventory isCompactSideMenu={isCompactSideMenu} {...props} />}
     />
     <Route path={ANIMALS_LOCATION_URL} exact component={Location} />
     <Route path={ANIMALS_GROUPS_URL} exact component={Groups} />

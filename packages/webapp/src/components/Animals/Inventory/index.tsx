@@ -63,20 +63,23 @@ const PureAnimalInventory = ({
     >
       <div
         className={clsx(
-          isDesktop ? styles.searchAndFilterContainerDesktop : styles.searchAndFilterContainer,
+          isDesktop ? styles.SearchAndFilter_container___desktop : styles.SearchAndFilter_container,
         )}
       >
-        <div className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}>
-          <PureSearchBarWithBackdrop
-            value={searchString}
-            onChange={(e) => setSearchString(e.target.value)}
-            isSearchActive={!!searchString}
-            placeholderText={placeHolderText}
-            zIndexBase={zIndexBase}
-            isDesktop={isDesktop}
-          />
-        </div>
-        <div className={clsx(isDesktop ? styles.resultsCountDesktop : styles.resultsCount)}>
+        <PureSearchBarWithBackdrop
+          value={searchString}
+          onChange={(e: any) => setSearchString(e.target.value)}
+          isSearchActive={!!searchString}
+          placeholderText={placeHolderText}
+          zIndexBase={zIndexBase}
+          isDesktop={isDesktop}
+          className={clsx(isDesktop ? styles.SearchBar___widthFixed : styles.SearchBar___widthFull)}
+        />
+        <div
+          className={clsx(
+            isDesktop ? styles.SearchResults___marginLeft8 : styles.SearchResults___textAlignCenter,
+          )}
+        >
           {searchResultsText}
         </div>
       </div>
@@ -93,7 +96,9 @@ const PureAnimalInventory = ({
         />
       ) : (
         <NoSearchResults
-          className={clsx(styles.noResultsCard, isDesktop && styles.noResultsCardDesktop)}
+          className={clsx(
+            isDesktop ? styles.NoSearchResults___marginTop40 : styles.NoSearchResults__marginTop24,
+          )}
           searchTerm={searchString}
           includeFiltersInClearSuggestion
         />

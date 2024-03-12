@@ -13,15 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.container {
-  position: relative;
+.SearchInput___minWidth200 {
   min-width: 200px;
 }
 
-.desktopContainer {
-  .searchBar {
-    display: block;
-    min-width: 240px;
-    flex-grow: 1;
-  }
+.SearchInput___displayBlock {
+  display: block;
 }

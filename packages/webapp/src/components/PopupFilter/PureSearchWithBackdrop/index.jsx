@@ -20,6 +20,30 @@ import styles from './styles.module.scss';
 import Input from '../../Form/Input';
 import { Backdrop } from '@mui/material';
 
+/**
+ * A search bar component that display backdrop when on medium and small screens for a more immersive search experience.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string | null | undefined} props.value - The current value of the search bar.
+ * @param {Function} props.onChange - The callback function to handle changes in the search bar value.
+ * @param {string} props.placeholderText - The placeholder text to be displayed in the search bar.
+ * @param {string} props.className - Additional CSS classes for styling purposes.
+ * @param {boolean} props.isDesktop - Flag indicating if the component is being used in a desktop environment.
+ * @param {number} props.zIndexBase - The base z-index value for positioning the search bar and backdrop.
+ * @returns {JSX.Element} Returns the PureSearchBarWithBackdrop component.
+ *
+ * @example
+ * // Example usage of PureSearchBarWithBackdrop
+ * <PureSearchBarWithBackdrop
+ *   value={searchValue}
+ *   onChange={handleSearchChange}
+ *   placeholderText="Search..."
+ *   className="custom-search-bar"
+ *   isDesktop={true}
+ *   zIndexBase={theme.zIndex.drawer}
+ * />
+ */
 export default function PureSearchBarWithBackdrop({
   value,
   onChange,
@@ -38,19 +62,19 @@ export default function PureSearchBarWithBackdrop({
 
   return (
     <>
-      <div
-        className={clsx(styles.container, className, isDesktop && styles.desktopContainer)}
+      <Input
+        className={clsx(
+          styles.SearchInput___minWidth200,
+          isDesktop && styles.SearchInput___displayBlock,
+          className,
+        )}
+        isSearchBar
+        value={value}
+        onChange={onChange}
+        placeholder={placeholderText}
+        onFocus={onSearchOpen}
         style={{ zIndex: searchOverlayOpen ? zIndexBase + 2 : undefined }}
-      >
-        <Input
-          className={styles.searchBar}
-          isSearchBar
-          value={value}
-          onChange={onChange}
-          placeholder={placeholderText}
-          onFocus={onSearchOpen}
-        />
-      </div>
+      />
       <Backdrop
         open={!isDesktop && searchOverlayOpen}
         onClick={onSearchClose}

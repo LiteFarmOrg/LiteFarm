@@ -33,16 +33,8 @@ const SearchContainer = (props) => {
 
   return (
     <Suspense fallback="loading">
-      <div
-        style={{
-          outline: '1px dashed',
-          display: 'flex',
-          justifyContent: 'space-between',
-          gap: '20px',
-          padding: '16px',
-        }}
-      >
-        <Info style={{ padding: '8px' }}>Container</Info>
+      <div>
+        <Info style={{ padding: '8px' }}>Touch screens show backdrop. Desktop does not.</Info>
         <PureSearchBarWithBackdrop isDesktop={isDesktop} zIndexBase={zIndexBase} {...props} />
       </div>
     </Suspense>

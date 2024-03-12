@@ -40,7 +40,7 @@ export default function PureSearchBarWithBackdrop({
     <>
       <div
         className={clsx(styles.container, className, isDesktop && styles.desktopContainer)}
-        style={{ zIndex: theme.zIndex.drawer + 2 }}
+        style={{ zIndex: searchOverlayOpen ? theme.zIndex.drawer + 2 : undefined }}
       >
         <Input
           className={styles.searchBar}

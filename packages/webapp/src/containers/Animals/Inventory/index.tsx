@@ -43,7 +43,6 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
 
   const { t } = useTranslation(['translation', 'animal', 'common']);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   const { inventory, isLoading } = useAnimalInventory();
@@ -73,23 +72,23 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
             text={d.identification}
             icon={d.icon}
             iconBorder={!d.batch}
-            subtext={isMobile ? `${d.type} / ${d.breed}` : null}
+            subtext={!isDesktop ? `${d.type} / ${d.breed}` : null}
             highlightedText={d.batch ? d.count : null}
           />
         ),
       },
       {
-        id: isMobile ? null : 'type',
+        id: !isDesktop ? null : 'type',
         label: t('ANIMAL.ANIMAL_TYPE').toLocaleUpperCase(),
         format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.type} />,
       },
       {
-        id: isMobile ? null : 'breed',
+        id: !isDesktop ? null : 'breed',
         label: t('ANIMAL.ANIMAL_BREED').toLocaleUpperCase(),
         format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
       },
       {
-        id: isMobile ? null : 'groups',
+        id: !isDesktop ? null : 'groups',
         label: t('ANIMAL.ANIMAL_GROUPS').toLocaleUpperCase(),
         format: (d: AnimalInventory) => (
           <Cell
@@ -105,12 +104,12 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         label: '',
         format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
         columnProps: {
-          style: { width: '40px', padding: `0 ${isMobile ? 8 : 12}px` },
+          style: { width: '40px', padding: `0 ${!isDesktop ? 8 : 12}px` },
         },
         sortable: false,
       },
     ],
-    [t, isMobile],
+    [t, isDesktop],
   );
 
   const searchContainerRef = useRef(null);

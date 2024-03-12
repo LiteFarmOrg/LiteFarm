@@ -18,7 +18,7 @@ import PureSearchBarWithBackdrop from '../../PopupFilter/PureSearchWithBackdrop'
 import NoSearchResults from '../../../components/Card/NoSearchResults';
 import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import { TableV2Column, TableKind } from '../../Table/types';
-import type { Dispatch, SetStateAction, MutableRefObject } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 

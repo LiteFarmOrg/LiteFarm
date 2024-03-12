@@ -210,7 +210,7 @@ const animalController = {
         // Update animals
         // NOTE: this is only scoped for removal. To make this a general update controller would require restating all of the checks on breed, type, etc. in addAnimals() above.
         for (const animal of req.body) {
-          const { id, animal_removal_reason_id, removal_explanation } = animal;
+          const { id, animal_removal_reason_id, removal_explanation, removal_date } = animal;
 
           await baseController.patch(
             AnimalModel,
@@ -218,6 +218,7 @@ const animalController = {
             {
               animal_removal_reason_id,
               removal_explanation,
+              removal_date,
             },
             req,
             { trx },

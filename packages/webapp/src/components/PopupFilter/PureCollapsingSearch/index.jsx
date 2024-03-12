@@ -22,7 +22,7 @@ import Input from '../../Form/Input';
 import TextButton from '../../Form/Button/TextButton';
 import { Modal } from '../../Modals';
 
-export default function PureCollapsibleSearch({
+export default function PureCollapsingSearch({
   value,
   isSearchActive,
   onChange,
@@ -132,7 +132,7 @@ export default function PureCollapsibleSearch({
   );
 }
 
-PureCollapsibleSearch.propTypes = {
+PureCollapsingSearch.propTypes = {
   value: PropTypes.string,
   isSearchActive: PropTypes.bool,
   onChange: PropTypes.func,
@@ -143,7 +143,7 @@ PureCollapsibleSearch.propTypes = {
   isDesktop: PropTypes.bool,
 };
 
-PureCollapsibleSearch.defaultProps = {
+PureCollapsingSearch.defaultProps = {
   placeholderText: '',
   isSearchActive: false,
   className: '',

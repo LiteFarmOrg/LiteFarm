@@ -24,7 +24,7 @@ import AddTransactionButton from '../../components/Finances/AddTransactionButton
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
 import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
 import PureTransactionList from '../../components/Finances/Transaction/Mobile/List';
-import PureCollapsibleSearch from '../../components/PopupFilter/PureCollapsibleSearch';
+import PureCollapsingSearch from '../../components/PopupFilter/PureCollapsingSearch';
 import Spinner from '../../components/Spinner';
 import { Title } from '../../components/Typography';
 import { SUNDAY } from '../../util/dateRange';
@@ -131,7 +131,7 @@ const Finances = ({ history }) => {
       <div className={styles.filterBar} ref={overlayRef}>
         <DateRangeSelector className={styles.dateRangeSelector} />
         <div className={styles.filterBarButtons}>
-          <PureCollapsibleSearch
+          <PureCollapsingSearch
             value={searchString}
             onChange={(e) => setSearchString(e.target.value)}
             isSearchActive={!!searchString}

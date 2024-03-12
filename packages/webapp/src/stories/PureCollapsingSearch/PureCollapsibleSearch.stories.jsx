@@ -14,19 +14,19 @@
  */
 
 import { Suspense, useRef } from 'react';
-import PureCollapsibleSearch from '../../components/PopupFilter/PureCollapsibleSearch';
+import PureCollapsingSearch from '../../components/PopupFilter/PureCollapsingSearch';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { Main, Info } from '../../components/Typography';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/styles';
 
 export default {
-  title: 'Components/PureCollapsibleSearch',
-  component: PureCollapsibleSearch,
+  title: 'Components/PureCollapsingSearch',
+  component: PureCollapsingSearch,
   decorators: componentDecorators,
 };
 
-const CollapsibleSearchContainer = (props) => {
+const CollapsingSearchContainer = (props) => {
   const containerRef = useRef(null);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
@@ -45,7 +45,7 @@ const CollapsibleSearchContainer = (props) => {
         }}
       >
         <Info style={{ padding: '8px' }}>Container</Info>
-        <PureCollapsibleSearch
+        <PureCollapsingSearch
           containerRef={props.useContainerRef ? containerRef : null}
           isDesktop={isDesktop}
           {...props}
@@ -55,7 +55,7 @@ const CollapsibleSearchContainer = (props) => {
   );
 };
 
-const Template = (args) => <CollapsibleSearchContainer {...args} />;
+const Template = (args) => <CollapsingSearchContainer {...args} />;
 
 export const Inactive = Template.bind({});
 Inactive.args = {};
@@ -65,8 +65,8 @@ Active.args = {
   isSearchActive: true,
 };
 
-export const Collapsable = Template.bind({});
-Collapsable.args = {};
+export const Collapsing = Template.bind({});
+Collapsing.args = {};
 
 export const CustomPlaceholder = Template.bind({});
 CustomPlaceholder.args = {

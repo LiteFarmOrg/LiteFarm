@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+.noResultsCardDesktop {
+  margin-top: 24px;
+}
+
 .noResultsCard {
   margin-top: 40px;
-
-  @media only screen and (min-width: 1024px) {
-    margin-top: 24px;
-  }
 }
 
 .searchBarDesktop {

@@ -114,8 +114,6 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     [t, isDesktop],
   );
 
-  const searchContainerRef = useRef(null);
-
   const makeAnimalsSearchableString = (animal: AnimalInventory) => {
     return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
       .filter(Boolean)
@@ -130,7 +128,6 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const searchProps: SearchProps = {
     searchString,
     setSearchString,
-    searchContainerRef,
     placeHolderText: t('ANIMAL.SEARCH_INVENTORY_PLACEHOLDER'),
     searchResultsText: t(
       filteredInventory?.length == 1 ? 'ANIMAL.SEARCH_RESULT_TEXT' : 'ANIMAL.SEARCH_RESULTS_TEXT',

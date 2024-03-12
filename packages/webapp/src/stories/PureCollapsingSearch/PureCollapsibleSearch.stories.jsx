@@ -65,9 +65,6 @@ Active.args = {
   isSearchActive: true,
 };
 
-export const Collapsing = Template.bind({});
-Collapsing.args = {};
-
 export const CustomPlaceholder = Template.bind({});
 CustomPlaceholder.args = {
   placeholderText: 'Search transactions',

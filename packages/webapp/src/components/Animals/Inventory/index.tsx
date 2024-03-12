@@ -19,14 +19,12 @@ import NoSearchResults from '../../../components/Card/NoSearchResults';
 import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import { TableV2Column, TableKind } from '../../Table/types';
 import type { Dispatch, SetStateAction, MutableRefObject } from 'react';
-import type { DefaultTheme } from '@mui/styles';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 
 export type SearchProps = {
   searchString: string | null | undefined;
   setSearchString: Dispatch<SetStateAction<string[]>>;
-  searchContainerRef: MutableRefObject<null>;
   placeHolderText: string;
   searchResultsText: string;
 };
@@ -46,8 +44,7 @@ const PureAnimalInventory = ({
   isDesktop: boolean;
   searchProps: SearchProps;
 }) => {
-  const { searchString, setSearchString, searchContainerRef, placeHolderText, searchResultsText } =
-    searchProps;
+  const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
 
   return (
@@ -69,10 +66,7 @@ const PureAnimalInventory = ({
           isDesktop ? styles.searchAndFilterContainerDesktop : styles.searchAndFilterContainer,
         )}
       >
-        <div
-          className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
-          ref={searchContainerRef}
-        >
+        <div className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}>
           <PureSearchBarWithBackdrop
             value={searchString}
             onChange={(e) => setSearchString(e.target.value)}
@@ -99,7 +93,7 @@ const PureAnimalInventory = ({
         />
       ) : (
         <NoSearchResults
-          className={styles.noResultsCard}
+          className={clsx(styles.noResultsCard, isDesktop && styles.noResultsCardDesktop)}
           searchTerm={searchString}
           includeFiltersInClearSuggestion
         />

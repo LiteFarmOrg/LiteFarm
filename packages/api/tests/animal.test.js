@@ -42,6 +42,8 @@ describe('Animal Tests', () => {
   let defaultTypeId;
   let animalRemovalReasonId;
 
+  const mockDate = new Date('2024/3/12').toISOString();
+
   beforeAll(async () => {
     const [defaultAnimalType] = await mocks.default_animal_typeFactory();
     defaultTypeId = defaultAnimalType.id;
@@ -392,11 +394,13 @@ describe('Animal Tests', () => {
               id: firstAnimal.id,
               animal_removal_reason_id: animalRemovalReasonId,
               explanation: 'Gifted to neighbor',
+              removal_date: mockDate,
             },
             {
               id: secondAnimal.id,
               animal_removal_reason_id: animalRemovalReasonId,
               explanation: 'Gifted to neighbor',
+              removal_date: mockDate,
             },
           ],
         );
@@ -435,6 +439,7 @@ describe('Animal Tests', () => {
               id: animal.id,
               animal_removal_reason_id: animalRemovalReasonId,
               explanation: 'Gifted to neighbor',
+              removal_date: mockDate,
             },
           ],
         );
@@ -465,6 +470,7 @@ describe('Animal Tests', () => {
           id: animal.id,
           animal_removal_reason_id: animalRemovalReasonId,
           explanation: 'Gifted to neighbor',
+          removal_date: mockDate,
         },
       );
 
@@ -472,6 +478,35 @@ describe('Animal Tests', () => {
         status: 400,
         error: {
           text: 'Request body should be an array',
+        },
+      });
+    });
+
+    test('Should not be able to remove an animal without providng a removal_date', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const animal = await makeAnimal(mainFarm, {
+        default_type_id: defaultTypeId,
+      });
+
+      const res = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [
+          {
+            id: animal.id,
+            animal_removal_reason_id: animalRemovalReasonId,
+            explanation: 'Gifted to neighbor',
+          },
+        ],
+      );
+
+      expect(res).toMatchObject({
+        status: 400,
+        body: {
+          type: 'CheckViolation',
         },
       });
 
@@ -498,6 +533,7 @@ describe('Animal Tests', () => {
             id: animal.id,
             animal_removal_reason_id: animalRemovalReasonId,
             explanation: 'Gifted to neighbor',
+            removal_date: mockDate,
           },
         ],
       );

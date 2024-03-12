@@ -12,13 +12,13 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useCallback, useMemo, useState, useRef } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import PureAnimalInventory, { SearchProps } from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import Cell from '../../../components/Table/Cell';
-import { Alignment, CellKind } from '../../../components/Table/types';
+import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventory } from './useAnimalInventory';
 import ActionMenu from '../../../components/ActionMenu';
@@ -74,23 +74,23 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
             text={d.identification}
             icon={d.icon}
             iconBorder={!d.batch}
-            subtext={!isDesktop ? `${d.type} / ${d.breed}` : null}
+            subtext={isDesktop ? null : `${d.type} / ${d.breed}`}
             highlightedText={d.batch ? d.count : null}
           />
         ),
       },
       {
-        id: !isDesktop ? null : 'type',
+        id: isDesktop ? 'type' : null,
         label: t('ANIMAL.ANIMAL_TYPE').toLocaleUpperCase(),
         format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.type} />,
       },
       {
-        id: !isDesktop ? null : 'breed',
+        id: isDesktop ? 'breed' : null,
         label: t('ANIMAL.ANIMAL_BREED').toLocaleUpperCase(),
         format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
       },
       {
-        id: !isDesktop ? null : 'groups',
+        id: isDesktop ? 'groups' : null,
         label: t('ANIMAL.ANIMAL_GROUPS').toLocaleUpperCase(),
         format: (d: AnimalInventory) => (
           <Cell
@@ -106,7 +106,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         label: '',
         format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
         columnProps: {
-          style: { width: '40px', padding: `0 ${!isDesktop ? 8 : 12}px` },
+          style: { width: '40px', padding: `0 ${isDesktop ? 12 : 8}px` },
         },
         sortable: false,
       },

@@ -163,6 +163,7 @@
     "ANIMAL_LOCATIONS": "Location",
     "ANIMAL_TYPE": "Type",
     "SEARCH_INVENTORY_PLACEHOLDER": "Search your inventory",
+    "SEARCH_RESULT_TEXT": "Showing {{count}} result",
     "SEARCH_RESULTS_TEXT": "Showing {{count}} results"
   },
   "BED_PLAN": {

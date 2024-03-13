@@ -1,36 +1,22 @@
 import Cross from './cross';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
+import iconMap from './icons';
 
 export { Cross };
 
-const IconInCircle = (Icon, className, props) => {
+export { iconMap };
+
+const Icon = ({ iconName, circle = false, className = '', ...rest }) => {
+  const Icon = iconMap[iconName];
+
   return (
-    <div className={styles.block}>
-      <div className={clsx(className, styles.circle)}>
-        <Icon {...props} />
+    <div className={styles.displayBlock}>
+      <div className={clsx(styles.icon, circle && styles.circle, className)}>
+        <Icon {...rest} />
       </div>
     </div>
   );
 };
 
-const IconInSquare = (Icon, className, props) => {
-  return (
-    <div className={styles.block}>
-      <div className={clsx(className, styles.square)}>
-        <Icon {...props} />
-      </div>
-    </div>
-  );
-};
-
-export const FramedIcon = ({ icon, kind, className, ...rest }) => {
-  switch (kind) {
-    case 'circle':
-      return IconInCircle(icon, className, rest);
-    case 'square':
-      return IconInSquare(icon, className, rest);
-    default:
-      return null;
-  }
-};
+export default Icon;

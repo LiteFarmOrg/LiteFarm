@@ -13,83 +13,75 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactComponent as AlpacaIcon } from '../../assets/images/animals/alpaca-icon.svg';
-import { ReactComponent as CattleIcon } from '../../assets/images/animals/cattle-icon.svg';
-import { ReactComponent as ChickenIcon } from '../../assets/images/animals/chicken-icon.svg';
-import { ReactComponent as GoatIcon } from '../../assets/images/animals/goat-icon.svg';
-import { ReactComponent as PigIcon } from '../../assets/images/animals/pig-icon.svg';
-import { ReactComponent as RabbitIcon } from '../../assets/images/animals/rabbit-icon.svg';
-import { ReactComponent as SheepIcon } from '../../assets/images/animals/sheep-icon.svg';
-
 export const mockTiles = [
   {
     label: 'Goat',
-    icon: <GoatIcon />,
+    iconName: 'GOAT',
     count: 6,
   },
   {
     label: 'Cow',
-    icon: <CattleIcon />,
+    iconName: 'CATTLE',
     count: 20,
   },
   {
     label: 'Chicken',
-    icon: <ChickenIcon />,
+    iconName: 'CHICKEN',
     count: 40,
   },
   {
     label: 'Pig',
-    icon: <PigIcon />,
+    iconName: 'PIG',
     count: 20,
   },
   {
     label: 'Cockatoo',
-    icon: <ChickenIcon />,
+    iconName: 'CHICKEN',
     count: 2,
   },
   {
     label: 'Dog',
-    icon: <CattleIcon />,
+    iconName: 'CATTLE',
     count: 3,
   },
   {
     label: 'Rabbit',
-    icon: <RabbitIcon />,
+    iconName: 'RABBIT',
     count: 24,
   },
   {
     label: 'Hamster',
-    icon: <RabbitIcon />,
+    iconName: 'RABBIT',
     count: 1,
   },
   {
     label: 'Guinea Pig',
-    icon: <RabbitIcon />,
+    iconName: 'RABBIT',
     count: 20,
   },
   {
     label: 'Draft Horse',
-    icon: <SheepIcon />,
+    iconName: 'SHEEP',
     count: 1,
   },
   {
     label: 'Barn Cat',
-    icon: <CattleIcon />,
+    iconName: 'CATTLE',
     count: 3,
   },
   {
     label: 'Tasmanian Devil',
-    icon: <CattleIcon />,
+    iconName: 'CATTLE',
     count: 3,
   },
   {
     label: 'Alpaca',
-    icon: <AlpacaIcon />,
+    iconName: 'ALPACA',
     count: 3,
   },
   {
     label: 'Sheep',
-    icon: <SheepIcon />,
+    iconName: 'SHEEP',
     count: 3,
   },
 ];

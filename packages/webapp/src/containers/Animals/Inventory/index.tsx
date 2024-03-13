@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import Cell from '../../../components/Table/Cell';
-import { Alignment, CellKind } from '../../../components/Table/types';
+import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventory } from './useAnimalInventory';
 import ActionMenu from '../../../components/ActionMenu';
@@ -69,7 +69,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
           <Cell
             kind={CellKind.ICON_TEXT}
             text={d.identification}
-            icon={d.icon}
+            iconName={d.iconName}
             iconBorder={!d.batch}
             subtext={isMobile ? `${d.type} / ${d.breed}` : null}
             highlightedText={d.batch ? d.count : null}

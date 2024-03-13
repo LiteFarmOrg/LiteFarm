@@ -34,14 +34,10 @@ import {
   DefaultAnimalType,
 } from '../../../store/api/types';
 import { getComparator, orderEnum } from '../../../util/sort';
-import { ReactComponent as CattleIcon } from '../../../assets/images/animals/cattle-icon.svg';
-import { ReactComponent as ChickenIcon } from '../../../assets/images/animals/chicken-icon.svg';
-import { ReactComponent as PigIcon } from '../../../assets/images/animals/pig-icon.svg';
-import { ReactComponent as BatchIcon } from '../../../assets/images/animals/batch.svg';
 import { AnimalTranslationKey } from '../types';
 
 export type AnimalInventory = {
-  icon: FC;
+  iconName: string;
   identification: string;
   type: string;
   breed: string;
@@ -53,22 +49,22 @@ export type AnimalInventory = {
 
 const { t } = i18n;
 
-const getDefaultAnimalIcon = (
+const getDefaultAnimalIconName = (
   defaultAnimalTypes: DefaultAnimalType[],
   defaultTypeId: number | null,
 ) => {
   const key = defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key;
   switch (key) {
     case AnimalTranslationKey.CATTLE:
-      return CattleIcon;
+      return 'CATTLE';
     case AnimalTranslationKey.CHICKEN_BROILERS:
-      return ChickenIcon;
+      return 'CHICKEN';
     case AnimalTranslationKey.CHICKEN_LAYERS:
-      return ChickenIcon;
+      return 'CHICKEN';
     case AnimalTranslationKey.PIGS:
-      return PigIcon;
+      return 'PIG';
     default:
-      return CattleIcon;
+      return 'CATTLE';
   }
 };
 
@@ -145,7 +141,7 @@ const formatAnimalsData = (
 ) => {
   return animals.map((animal: Animal) => {
     return {
-      icon: getDefaultAnimalIcon(defaultAnimalTypes, animal.default_type_id),
+      iconName: getDefaultAnimalIconName(defaultAnimalTypes, animal.default_type_id),
       identification: chooseIdentification(animal),
       type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
       breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
@@ -167,7 +163,7 @@ const formatAnimalBatchesData = (
 ) => {
   return animalBatches.map((batch: AnimalBatch) => {
     return {
-      icon: BatchIcon,
+      iconName: 'BATCH',
       identification: chooseIdentification(batch),
       type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
       breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),

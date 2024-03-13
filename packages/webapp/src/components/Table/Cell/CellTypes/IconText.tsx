@@ -13,12 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import clsx from 'clsx';
-import type { FC } from 'react';
-import { FramedIcon } from '../../../Icons';
+import Icon from '../../../Icons';
 import styles from '../styles.module.scss';
 
 export type IconTextProps = {
-  icon: FC;
+  iconName: string;
   iconBorder: boolean;
   text: string | number | null | undefined;
   subtext: string | number | null | undefined;
@@ -26,7 +25,7 @@ export type IconTextProps = {
 };
 
 const IconText = ({
-  icon: Icon,
+  iconName,
   iconBorder = false,
   text,
   subtext,
@@ -34,9 +33,8 @@ const IconText = ({
 }: IconTextProps) => {
   return (
     <div className={styles.iconTextContainer}>
-      <FramedIcon
-        kind="square"
-        icon={Icon}
+      <Icon
+        iconName={iconName}
         className={clsx(styles.iconTextIcon, iconBorder && styles.iconBorder)}
       />
       <div className={clsx(styles.text, styles.overflowText, subtext && styles.withSubtextText)}>

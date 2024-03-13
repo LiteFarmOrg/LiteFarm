@@ -15,7 +15,6 @@
 import React from 'react';
 import IconDescriptionListItem from '../../components/List/ListItems/IconDescription/IconDescriptionListItem';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
 
 export default {
   title: 'Components/List/IconDescriptionListItem',
@@ -26,7 +25,7 @@ export default {
 export const Default = {
   args: {
     listItemKey: 'key',
-    icon: <SoilAmendment />,
+    iconName: 'SOIL_AMENDMENT_TASK',
     label: 'Utilities',
     onClick: () => console.log('clicked!'),
     selected: false,
@@ -39,7 +38,7 @@ export const Default = {
 export const SimpleCustomTypeMaxCharText = {
   args: {
     listItemKey: 'key',
-    icon: <SoilAmendment />,
+    iconName: 'SOIL_AMENDMENT_TASK',
     label:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pellentesque metus nec neque sed.',
     onClick: () => console.log('clicked!'),
@@ -51,7 +50,7 @@ export const SimpleCustomTypeMaxCharText = {
 export const NoDescription = {
   args: {
     listItemKey: 'key',
-    icon: <SoilAmendment />,
+    iconName: 'SOIL_AMENDMENT_TASK',
     label: 'Utilites',
     onClick: () => console.log('clicked!'),
   },

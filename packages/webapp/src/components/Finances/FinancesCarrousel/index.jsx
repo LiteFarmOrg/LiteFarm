@@ -19,10 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { BsChevronRight } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import CardsCarrousel from '../../CardsCarrousel';
-import { ReactComponent as ProfitLossIcon } from '../../../assets/images/finance/Profit-loss-icn.svg';
-import { FramedIcon } from '../../Icons';
-import { ReactComponent as ExpenseIcon } from '../../../assets/images/finance/Expense-icn.svg';
-import { ReactComponent as CropIcon } from '../../../assets/images/finance/Crop-icn.svg';
+import Icon from '../../Icons';
 import styles from './styles.module.scss';
 import { Semibold, Text } from '../../Typography';
 import clsx from 'clsx';
@@ -79,9 +76,9 @@ const FinancesCarrousel = ({
       label: t('SALE.FINANCES.PROFIT_LOSS'),
       inactiveBackgroundColor: 'var(--teal700)',
       inactiveIcon: (
-        <FramedIcon
-          kind="circle"
-          icon={ProfitLossIcon}
+        <Icon
+          iconName="PROFIT_LOSS"
+          circle
           role="img"
           aria-label={t('SALE.FINANCES.PROFIT_LOSS')}
           className={ProfitLossDarkStyles}
@@ -113,9 +110,9 @@ const FinancesCarrousel = ({
             </div>
           </div>
           <div className={clsx([styles.profitLossSummaryContainer, profitLoss < 0 && styles.loss])}>
-            <FramedIcon
-              kind="circle"
-              icon={ProfitLossIcon}
+            <Icon
+              circle
+              iconName="PROFIT_LOSS"
               role="img"
               aria-label={t('SALE.FINANCES.PROFIT_LOSS')}
               className={ProfitLossLightStyles}
@@ -139,9 +136,9 @@ const FinancesCarrousel = ({
       label: t('SALE.FINANCES.EXPENSES'),
       inactiveBackgroundColor: '#FFF',
       inactiveIcon: (
-        <FramedIcon
-          kind="circle"
-          icon={ExpenseIcon}
+        <Icon
+          circle
+          iconName="EXPENSE"
           role="img"
           aria-label={t('SALE.FINANCES.EXPENSES')}
           className={styles.expenseIconDark}
@@ -211,9 +208,9 @@ const FinancesCarrousel = ({
       label: t('SALE.FINANCES.ESTIMATED_HARVEST_REVENUE'),
       inactiveBackgroundColor: 'var(--green400)',
       inactiveIcon: (
-        <FramedIcon
-          kind="circle"
-          icon={CropIcon}
+        <Icon
+          circle
+          iconName="CROP"
           role="img"
           aria-label={t('SALE.FINANCES.ESTIMATED_HARVEST_REVENUE')}
           className={styles.harvestRevenueInactive}
@@ -221,19 +218,13 @@ const FinancesCarrousel = ({
       ),
       activeContent: (
         <div className={clsx([styles.cardContent, styles.estimatedRevenueCardContent])}>
-          <FramedIcon
-            kind="circle"
-            icon={CropIcon}
+          <Icon
+            circle
+            iconName="CROP"
             role="img"
             aria-label={t('SALE.FINANCES.ESTIMATED_HARVEST_REVENUE')}
             className={styles.harvestRevenueActive}
           />
-          {/* <CropIcon
-            width={56}
-            height={56}
-            role="img"
-            aria-label={t('SALE.FINANCES.ESTIMATED_HARVEST_REVENUE')}
-          /> */}
           <TextButton
             className={clsx([styles.estimatedRevenueContainer, styles.clickableContainer])}
             onClick={() => history.push(ESTIMATED_REVENUE_URL)}

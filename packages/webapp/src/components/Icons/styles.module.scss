@@ -1,32 +1,19 @@
-.block {
+.displayBlock {
   display: block;
 }
-.circle {
-  // Base style
-  background-color:white; 
-  min-height: 32px;
-  min-width: 32px;
-  padding: 4px;
 
-  //circle
+.circle {
   border-radius:50%;
   -moz-border-radius:50%;
   -webkit-border-radius:50%;
-  
-  // centered
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.square {
+.icon {
   // Base style
   background-color:white; 
   min-height: 32px;
   min-width: 32px;
   padding: 4px;
-
-  // Square
   
   // centered
   display: flex;

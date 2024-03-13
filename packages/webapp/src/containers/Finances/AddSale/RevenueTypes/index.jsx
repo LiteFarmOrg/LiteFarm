@@ -15,8 +15,6 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { ReactComponent as CropSaleIcon } from '../../../../assets/images/finance/Crop-sale-icn.svg';
-import { ReactComponent as CustomTypeIcon } from '../../../../assets/images/finance/Custom-revenue.svg';
 import PureFinanceTypeSelection from '../../../../components/Finances/PureFinanceTypeSelection';
 import { listItemTypes } from '../../../../components/List/constants';
 import labelIconStyles from '../../../../components/Tile/styles.module.scss';
@@ -26,11 +24,6 @@ import ManageCustomRevenueTypesSpotlight from '../ManageCustomRevenueTypeSpotlig
 import useSortedRevenueTypes from './useSortedRevenueTypes';
 import { getFinanceTypeSearchableStringFunc } from '../../util';
 import { ADD_REVENUE_URL, MANAGE_CUSTOM_REVENUES_URL } from '../../../../util/siteMapConstants';
-
-export const icons = {
-  CROP_SALE: <CropSaleIcon />,
-  CUSTOM: <CustomTypeIcon />,
-};
 
 export default function RevenueTypes({ useHookFormPersist, history }) {
   const { t } = useTranslation(['translation', 'revenue']);
@@ -56,7 +49,7 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
 
       return {
         key: revenue_type_id,
-        icon: icons[farm_id ? 'CUSTOM' : revenue_translation_key],
+        iconName: farm_id ? 'CUSTOM' : revenue_translation_key,
         label: farm_id ? revenue_name : t(`revenue:${revenue_translation_key}.REVENUE_NAME`),
         onClick: () => getOnTileClickFunc(setValue)(revenue_type_id),
         className: labelIconStyles.boldLabelIcon,

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@ import { useState, useMemo } from 'react';
  * @param {Array} items - The items to filter.
  * @param {function} getSearchableString - Function that takes in a array item and constructs the string to search on (e.g. concatenates the properties of interest)
  * @param {string} providedFilter - the search string -- provide if the search string state is handled outside the component calling the hook
- * @returns {Object} - An object containing the current filter, a setter for the filter, and the filtered items.
+ * @returns {Array} - An object containing the current filter, a setter for the filter, and the filtered items.
  */
 
 export const useSearchFilter = (

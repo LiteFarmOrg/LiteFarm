@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -22,13 +22,14 @@ import Input from '../../Form/Input';
 import TextButton from '../../Form/Button/TextButton';
 import { Modal } from '../../Modals';
 
-export default function PureCollapsibleSearch({
+export default function PureCollapsingSearch({
   value,
   isSearchActive,
   onChange,
   placeholderText,
   className,
   containerRef,
+  isDesktop,
 }) {
   const searchRef = useRef(null);
   const [modalStyle, setModalStyle] = useState({});
@@ -82,7 +83,10 @@ export default function PureCollapsibleSearch({
   }, [searchOverlayOpen]);
 
   return (
-    <div className={clsx(styles.container, className)} ref={searchRef}>
+    <div
+      className={clsx(styles.container, className, isDesktop && styles.desktopContainer)}
+      ref={searchRef}
+    >
       <Input
         className={styles.searchBar}
         isSearchBar
@@ -95,7 +99,7 @@ export default function PureCollapsibleSearch({
         <Modal dismissModal={onSearchClose} style={modalStyle}>
           <form // allows closing modal with enter key (= submit)
             onSubmit={handleSubmit}
-            className={styles.modalContent}
+            className={clsx(styles.modalContent, isDesktop && styles.displayNone)}
           >
             <Input
               className={styles.modalSearchbar}
@@ -109,22 +113,26 @@ export default function PureCollapsibleSearch({
       )}
 
       <TextButton
-        className={clsx(styles.searchButton, isSearchActive && styles.active)}
+        className={clsx(
+          styles.searchButton,
+          isSearchActive && styles.active,
+          isDesktop && styles.displayNone,
+        )}
         onClick={onSearchOpen}
       >
         <SearchIcon className={styles.searchIcon} />
       </TextButton>
 
       {isSearchActive && (
-        <div className={styles.circleContainer}>
-          <div className={styles.circle} />
+        <div className={clsx(styles.circleContainer, isDesktop && styles.displayNone)}>
+          <div className={clsx(styles.circle, isDesktop && styles.displayNone)} />
         </div>
       )}
     </div>
   );
 }
 
-PureCollapsibleSearch.propTypes = {
+PureCollapsingSearch.propTypes = {
   value: PropTypes.string,
   isSearchActive: PropTypes.bool,
   onChange: PropTypes.func,
@@ -132,9 +140,10 @@ PureCollapsibleSearch.propTypes = {
   className: PropTypes.string,
   overlayModalOnButton: PropTypes.bool,
   containerRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  isDesktop: PropTypes.bool,
 };
 
-PureCollapsibleSearch.defaultProps = {
+PureCollapsingSearch.defaultProps = {
   placeholderText: '',
   isSearchActive: false,
   className: '',

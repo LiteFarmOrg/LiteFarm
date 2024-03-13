@@ -170,7 +170,10 @@
       "INDIVIDUALS": "MISSING",
       "MALE": "MISSING",
       "TITLE": "MISSING"
-    }
+    },
+    "SEARCH_INVENTORY_PLACEHOLDER": "MISSING",
+    "SHOWING_RESULTS_WITH_COUNT_one": "MISSING",
+    "SHOWING_RESULTS_WITH_COUNT_other": "MISSING"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Largo de camas",

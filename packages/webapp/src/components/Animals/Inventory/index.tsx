@@ -14,44 +14,85 @@
  */
 import Table from '../../../components/Table';
 import Layout from '../../../components/Layout';
+import PureSearchBarWithBackdrop from '../../PopupFilter/PureSearchWithBackdrop';
+import NoSearchResults from '../../../components/Card/NoSearchResults';
 import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import { TableV2Column, TableKind } from '../../Table/types';
-import type { DefaultTheme } from '@mui/styles';
+import type { Dispatch, SetStateAction } from 'react';
+import styles from './styles.module.scss';
+import clsx from 'clsx';
+
+export type SearchProps = {
+  searchString: string | null | undefined;
+  setSearchString: Dispatch<SetStateAction<string[]>>;
+  placeHolderText: string;
+  searchResultsText: string;
+};
 
 const PureAnimalInventory = ({
-  tableData,
+  filteredInventory,
   animalsColumns,
-  theme,
-  isMobile,
+  zIndexBase,
+  backgroundColor,
+  isDesktop,
+  searchProps,
 }: {
-  tableData: AnimalInventory[];
+  filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
-  theme: DefaultTheme;
-  isMobile: boolean;
+  zIndexBase: number;
+  backgroundColor: string;
+  isDesktop: boolean;
+  searchProps: SearchProps;
 }) => {
+  const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
+  const hasSearchResults = filteredInventory.length !== 0;
+
   return (
     <Layout
       classes={{
         container: {
-          backgroundColor: theme.palette.background.paper,
-          borderRadius: '8px',
-          border: '1px solid var(--Colors-Primary-Primary-teal-50)',
-          marginTop: '16px',
+          backgroundColor: backgroundColor,
+          borderRadius: isDesktop && '8px',
+          border: isDesktop && '1px solid var(--Colors-Primary-Primary-teal-50)',
+          marginTop: isDesktop && '16px',
+          padding: !isDesktop ? '0px' : '16px',
         },
       }}
       hasWhiteBackground
       footer={false}
     >
-      <Table
-        kind={TableKind.V2}
-        alternatingRowColor={true}
-        columns={animalsColumns}
-        data={tableData}
-        shouldFixTableLayout={!isMobile}
-        minRows={tableData.length}
-        dense={false}
-        showHeader={!isMobile}
-      />
+      <div className={clsx(isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter)}>
+        <PureSearchBarWithBackdrop
+          value={searchString}
+          onChange={(e: any) => setSearchString(e.target.value)}
+          isSearchActive={!!searchString}
+          placeholderText={placeHolderText}
+          zIndexBase={zIndexBase}
+          isDesktop={isDesktop}
+          className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
+        />
+        <div className={clsx(isDesktop ? styles.searchResultsDesktop : styles.searchResults)}>
+          {searchResultsText}
+        </div>
+      </div>
+      {hasSearchResults ? (
+        <Table
+          kind={TableKind.V2}
+          alternatingRowColor={true}
+          columns={animalsColumns}
+          data={filteredInventory}
+          shouldFixTableLayout={isDesktop}
+          minRows={filteredInventory.length}
+          dense={false}
+          showHeader={isDesktop}
+        />
+      ) : (
+        <NoSearchResults
+          className={clsx(isDesktop ? styles.noSearchResultsDesktop : styles.noSearchResults)}
+          searchTerm={searchString}
+          includeFiltersInClearSuggestion
+        />
+      )}
     </Layout>
   );
 };

@@ -36,6 +36,15 @@ interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
 }
 
+const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: string[]) => {
+  if (!visibleRowData.length || !selectedIds.length) {
+    return [];
+  }
+
+  const visibleRowIdsSet = new Set(visibleRowData.map(({ id }) => id));
+  return selectedIds.filter((id) => visibleRowIdsSet.has(id));
+};
+
 function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const [selectedTypeIds, setSelectedTypeIds] = useState<string[]>([]);
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>([]);
@@ -124,7 +133,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const [searchAndFilteredInventory, searchString, setSearchString] = useSearchFilter(
     filteredInventory,
     makeAnimalsSearchableString,
-  );
+  ) as [AnimalInventory[], SearchProps['searchString'], SearchProps['setSearchString']];
 
   const searchProps: SearchProps = {
     searchString,
@@ -147,7 +156,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   };
 
   const selectAllVisibleInventoryItems = () => {
-    const visibleRowsIds = filteredInventory.map(({ id }) => id);
+    const visibleRowsIds = searchAndFilteredInventory.map(({ id }) => id);
     // Previously selected hidden rows + visible rows
     const newIdsSet = new Set([...selectedInventoryIds, ...visibleRowsIds]);
     setSelectedInventoryIds([...newIdsSet]);
@@ -156,7 +165,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const clearAllSelectedVisibleInventoryItems = () => {
     // Remove ids of visible rows from selectedInventoryIds and keep ids of hidden rows
     const selectedIdsSet = new Set(selectedInventoryIds);
-    filteredInventory.forEach(({ id }) => selectedIdsSet.delete(id));
+    searchAndFilteredInventory.forEach(({ id }) => selectedIdsSet.delete(id));
     setSelectedInventoryIds([...selectedIdsSet]);
   };
 
@@ -181,7 +190,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
 
   const textActions = [
     {
-      label: t('common:SELECT_ALL_COUNT', { count: filteredInventory.length }),
+      label: t('common:SELECT_ALL_COUNT', { count: searchAndFilteredInventory.length }),
       onClick: selectAllVisibleInventoryItems,
     },
     {
@@ -209,7 +218,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
             isDesktop={isDesktop}
             onSelectInventory={onSelectInventory}
             handleSelectAllClick={handleSelectAllClick}
-            selectedIds={selectedInventoryIds}
+            selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
           />
           {selectedInventoryIds.length ? (
             <ActionMenu

@@ -111,7 +111,7 @@ export const styles = {
   multiValue: (provided, state) => ({
     ...provided,
     borderRadius: '32px',
-    padding: '0 12px',
+    padding: '0 4px 0 12px',
     border: '1px solid var(--teal700)',
     fontWeight: 600,
     backgroundColor: colors.teal600,

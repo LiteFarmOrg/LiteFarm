@@ -13,14 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export enum AnimalTranslationKey {
-  CATTLE = 'CATTLE',
-  CHICKEN_BROILERS = 'CHICKEN_BROILERS',
-  CHICKEN_LAYERS = 'CHICKEN_LAYERS',
-  PIGS = 'PIGS',
+export enum AnimalsFilterKeys {
+  ANIMAL_OR_BATCH = 'ANIMAL_OR_BATCH',
+  TYPE = 'TYPE',
+  BREED = 'BREED',
+  SEX = 'SEX',
+  GROUPS = 'GROUPS',
+  LOCATION = 'LOCATION',
 }
 
-export enum ANIMAL_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
+export enum AnimalOrBatchKeys {
+  ANIMAL = 'ANIMAL',
+  BATCH = 'BATCH',
 }

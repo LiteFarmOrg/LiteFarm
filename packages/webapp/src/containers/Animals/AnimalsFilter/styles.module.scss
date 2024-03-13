@@ -13,14 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export enum AnimalTranslationKey {
-  CATTLE = 'CATTLE',
-  CHICKEN_BROILERS = 'CHICKEN_BROILERS',
-  CHICKEN_LAYERS = 'CHICKEN_LAYERS',
-  PIGS = 'PIGS',
+// Placeholder until the layout is completed and filter button can be appropriately placed next to searchbar
+.filterButton {
+  padding-top: 16px;
+  padding-left: 16px;
 }
 
-export enum ANIMAL_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
+.drawerBackdrop {
+  background-color: rgba(43, 48, 58, 0.8);
 }

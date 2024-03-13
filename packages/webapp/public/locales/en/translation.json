@@ -161,7 +161,16 @@
     "ANIMAL_ID": "ID",
     "ANIMAL_IDENTIFICATION": "Identification",
     "ANIMAL_LOCATIONS": "Location",
-    "ANIMAL_TYPE": "Type"
+    "ANIMAL_SEXES": "Sex",
+    "ANIMAL_TYPE": "Type",
+    "FILTER": {
+      "BATCHES": "Batches",
+      "BATCHES_OR_INDIVIDUALS": "Batches or Individuals",
+      "FEMALE": "Female",
+      "INDIVIDUALS": "Individuals",
+      "MALE": "Male",
+      "TITLE": "Filter animals"
+    }
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
@@ -262,22 +271,6 @@
       "DESCRIPTION": "That’s okay! You can add certifications and certifiers later under “my farm”.",
       "TITLE": "Viewing certifications"
     }
-  },
-  "REMOVE_ANIMALS": {
-    "REMOVE_ANIMALS": "Remove animals",
-    "REMOVAL_REASONS": "Removal reasons",
-    "WHY": "Tell us why you are removing these animals",
-    "SOLD": "Sold",
-    "SLAUGHTERED_FOR_SALE": "Slaughtered for sale",
-    "SLAUGHTERED_FOR_CONSUMPTION": "Slaughtered for consumption",
-    "NATURAL_DEATH": "Natural Death",
-    "CULLED": "Culled",
-    "EXPLANATION": "Explanation",
-    "MORE_DETAILS": "Do you want to give more details?",
-    "CREATED_IN_ERROR": "Created in error",
-    "WILL_BE_ARCHIVED": "These animals will be archived and accessible for future reference",
-    "WILL_BE_PERMANENTLY_REMOVED": "These animals will be permanently removed from your farm",
-    "REMOVED_AND_ARCHIVED": "These animals have been successfully removed from your farm and will be available in your historical inventory."
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Add new farm",
@@ -1445,6 +1438,22 @@
     "BETTER": "LiteFarm just got better!",
     "LITEFARM_UPDATED": "LiteFarm v{{version}} is now available!",
     "NOTES": "Release notes"
+  },
+  "REMOVE_ANIMALS": {
+    "CREATED_IN_ERROR": "Created in error",
+    "CULLED": "Culled",
+    "EXPLANATION": "Explanation",
+    "MORE_DETAILS": "Do you want to give more details?",
+    "NATURAL_DEATH": "Natural Death",
+    "REMOVAL_REASONS": "Removal reasons",
+    "REMOVE_ANIMALS": "Remove animals",
+    "REMOVED_AND_ARCHIVED": "These animals have been successfully removed from your farm and will be available in your historical inventory.",
+    "SLAUGHTERED_FOR_CONSUMPTION": "Slaughtered for consumption",
+    "SLAUGHTERED_FOR_SALE": "Slaughtered for sale",
+    "SOLD": "Sold",
+    "WHY": "Tell us why you are removing these animals",
+    "WILL_BE_ARCHIVED": "These animals will be archived and accessible for future reference",
+    "WILL_BE_PERMANENTLY_REMOVED": "These animals will be permanently removed from your farm"
   },
   "REPEAT_PLAN": {
     "AFTER": "After",

@@ -10,17 +10,14 @@
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ *  GNU General Public License for more details, see <https://wwwl.gnu.org/licenses/>.
  */
 
-export enum AnimalTranslationKey {
-  CATTLE = 'CATTLE',
-  CHICKEN_BROILERS = 'CHICKEN_BROILERS',
-  CHICKEN_LAYERS = 'CHICKEN_LAYERS',
-  PIGS = 'PIGS',
-}
+import type { ComponentFilter } from './types';
 
-export enum ANIMAL_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
-}
+export const sortFilterOptions = (filters: ComponentFilter): ComponentFilter => {
+  return {
+    ...filters,
+    options: [...filters.options.sort((typeA, typeB) => typeA.label.localeCompare(typeB.label))],
+  };
+};

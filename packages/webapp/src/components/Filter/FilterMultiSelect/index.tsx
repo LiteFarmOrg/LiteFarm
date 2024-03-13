@@ -48,14 +48,6 @@ export const FilterMultiSelect = ({
     }
   }, [shouldReset]);
 
-  useEffect(() => {
-    filterRef.current![filterKey] = produce(defaultFilterState, (defaultFilterState) => {
-      for (const option of value) {
-        defaultFilterState[option.value].active = true;
-      }
-    });
-  }, [value]);
-
   return (
     <ReactSelect
       //@ts-ignore
@@ -66,8 +58,14 @@ export const FilterMultiSelect = ({
       value={value}
       onChange={(value: ComponentFilterOption[]): void => {
         setValue(value);
-        onChange?.(value as unknown as FilterState);
-        /* NOTE: What is being passed here is in ComponentFilterOption format, and would not work if the state-setting onChange had been passed. However, the finance report filters -- the only container using a state-setting onChange -- don't use multi-select filters. */
+
+        filterRef.current![filterKey] = produce(defaultFilterState, (defaultFilterState) => {
+          for (const option of value) {
+            defaultFilterState[option.value].active = true;
+          }
+        });
+
+        onChange?.(filterRef.current![filterKey]);
       }}
       isMulti
       isSearchable

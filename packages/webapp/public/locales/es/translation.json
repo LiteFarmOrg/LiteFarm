@@ -161,7 +161,16 @@
     "ANIMAL_ID": "MISSING",
     "ANIMAL_IDENTIFICATION": "MISSING",
     "ANIMAL_LOCATIONS": "MISSING",
-    "ANIMAL_TYPE": "MISSING"
+    "ANIMAL_SEXES": "MISSING",
+    "ANIMAL_TYPE": "MISSING",
+    "FILTER": {
+      "BATCHES": "MISSING",
+      "BATCHES_OR_INDIVIDUALS": "MISSING",
+      "FEMALE": "MISSING",
+      "INDIVIDUALS": "MISSING",
+      "MALE": "MISSING",
+      "TITLE": "MISSING"
+    }
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Largo de camas",
@@ -262,22 +271,6 @@
       "DESCRIPTION": "¡Esta bien! Puede agregar certificaciones y certificadores más adelante en “mi granja”.",
       "TITLE": "Ver certificaciones"
     }
-  },
-  "REMOVE_ANIMALS": {
-    "REMOVE_ANIMALS": "MISSING",
-    "REMOVAL_REASONS": "MISSING",
-    "WHY": "MISSING",
-    "SOLD": "MISSING",
-    "SLAUGHTERED_FOR_SALE": "MISSING",
-    "SLAUGHTERED_FOR_CONSUMPTION": "MISSING",
-    "NATURAL_DEATH": "MISSING",
-    "CULLED": "MISSING",
-    "EXPLANATION": "MISSING",
-    "MORE_DETAILS": "MISSING",
-    "CREATED_IN_ERROR": "MISSING",
-    "WILL_BE_ARCHIVED": "MISSING",
-    "WILL_BE_PERMANENTLY_REMOVED": "MISSING",
-    "REMOVED_AND_ARCHIVED": "MISSING"
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Agregar otra finca",
@@ -1446,6 +1439,22 @@
     "BETTER": "MISSING",
     "LITEFARM_UPDATED": "LiteFarm v{{version}} ya está disponible!",
     "NOTES": "MISSING"
+  },
+  "REMOVE_ANIMALS": {
+    "CREATED_IN_ERROR": "MISSING",
+    "CULLED": "MISSING",
+    "EXPLANATION": "MISSING",
+    "MORE_DETAILS": "MISSING",
+    "NATURAL_DEATH": "MISSING",
+    "REMOVAL_REASONS": "MISSING",
+    "REMOVE_ANIMALS": "MISSING",
+    "REMOVED_AND_ARCHIVED": "MISSING",
+    "SLAUGHTERED_FOR_CONSUMPTION": "MISSING",
+    "SLAUGHTERED_FOR_SALE": "MISSING",
+    "SOLD": "MISSING",
+    "WHY": "MISSING",
+    "WILL_BE_ARCHIVED": "MISSING",
+    "WILL_BE_PERMANENTLY_REMOVED": "MISSING"
   },
   "REPEAT_PLAN": {
     "AFTER": "Después",

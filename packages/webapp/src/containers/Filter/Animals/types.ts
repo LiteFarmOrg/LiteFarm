@@ -21,8 +21,3 @@ export enum AnimalsFilterKeys {
   GROUPS = 'GROUPS',
   LOCATION = 'LOCATION',
 }
-
-export enum AnimalOrBatchKeys {
-  ANIMAL = 'ANIMAL',
-  BATCH = 'BATCH',
-}

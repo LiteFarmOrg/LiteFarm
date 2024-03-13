@@ -16,7 +16,7 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import type { AnimalInventory } from './useAnimalInventory';
-import { AnimalOrBatchKeys } from '../../Filter/Animals/types';
+import { AnimalOrBatchKeys } from '../types';
 import { AnimalsFilterKeys } from '../../Filter/Animals/types';
 import { animalMatchesFilter } from '../../Filter/Animals/utils';
 import { animalsFilterSelector } from '../../filterSlice';

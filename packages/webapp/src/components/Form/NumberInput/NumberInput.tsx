@@ -27,7 +27,7 @@ export type NumberInputProps = {
   /**
    * function called on change with value represented as a number as the paramter.
    */
-  onChange?: (valueAsNumber: number) => void;
+  onChange?: (value: number) => void;
   /**
    * function called when input is blurred
    */
@@ -72,17 +72,6 @@ export type NumberInputProps = {
   min?: number;
   disabled?: boolean;
 } & InputBaseProps;
-
-const initializeInputValue =
-  (initialValue: NumberInputProps['value'] = '', formatter: Intl.NumberFormat) =>
-  () => {
-    const valueAsNumber = parseFloat(initialValue.toString());
-    const valueString = !Number.isFinite(valueAsNumber) ? '' : formatter.format(valueAsNumber);
-    return {
-      valueString,
-      valueAsNumber,
-    };
-  };
 
 export default function NumberInput({
   value: propValue = '',
@@ -136,11 +125,11 @@ export default function NumberInput({
     return separators;
   }, [locale]);
 
-  const [{ valueString, valueAsNumber }, setInputValue] = useState(
-    initializeInputValue(propValue, formatter),
-  );
+  const [numericValue, setNumericValue] = useState(() => parseFloat(propValue as string));
   const [isFocused, setIsFocused] = useState(false);
-  const [isEditedAfterFocus, setIsEditedAfterFocus] = useState(false);
+
+  // current value in focused input that has been touched
+  const [touchedValue, setTouchedValue] = useState<string | null>(null);
   const initialValueRef = useRef(propValue);
   const inputRef = useRef<HTMLInputElement>(null);
   const stepValue = allowDecimal ? step : Math.round(step);
@@ -151,40 +140,34 @@ export default function NumberInput({
   - layout effect prevents flickering
   */
   useLayoutEffect(() => {
-    if (propValue === initialValueRef.current && valueString != propValue)
-      setInputValue(initializeInputValue(propValue, formatter));
+    const propValueNum = parseFloat(propValue as string);
+    if (propValue === initialValueRef.current && numericValue != propValueNum)
+      setNumericValue(propValueNum);
   }, [propValue]);
 
-  const update = (nextNumberValue: number, nextValueString?: string) => {
-    setInputValue({
-      valueAsNumber: nextNumberValue,
-      valueString: nextValueString ?? formatter.format(nextNumberValue),
-    });
-    onChange?.(nextNumberValue);
+  const update = (next: number) => {
+    setNumericValue(next);
+    onChange?.(next);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, validity } = e.target;
     if (validity.patternMismatch) return;
-    const number = parseFloat(
-      decimalSeparator === '.' ? value : value.replace(decimalSeparator, '.'),
-    );
-    update(number, value);
-    setIsEditedAfterFocus(true);
+
+    setTouchedValue(value);
+    update(parseFloat(decimalSeparator === '.' ? value : value.replace(decimalSeparator, '.')));
   };
 
   const handleBlur = () => {
-    if (showStepper && (valueAsNumber < min || valueAsNumber > max)) {
-      update(clamp(valueAsNumber, min, max));
+    if (showStepper && (numericValue < min || numericValue > max)) {
+      update(clamp(numericValue, min, max));
     }
     setIsFocused(false);
+    setTouchedValue(null);
     onBlur?.();
   };
 
-  const handleFocus = () => {
-    setIsFocused(true);
-    setIsEditedAfterFocus(false);
-  };
+  const handleFocus = () => setIsFocused(true);
 
   const getPattern = () => {
     if (!isFocused) return;
@@ -194,14 +177,10 @@ export default function NumberInput({
   };
 
   const getDisplayValue = () => {
-    if (isNaN(valueAsNumber)) return '';
-    if (isFocused) {
-      if (isEditedAfterFocus) return valueString;
-      return useGrouping && valueAsNumber >= 1000
-        ? formatter.format(valueAsNumber).replaceAll(thousandsSeparator, '')
-        : formatter.format(valueAsNumber);
-    }
-    return formatter.format(valueAsNumber);
+    if (isNaN(numericValue)) return '';
+    if (isFocused)
+      return touchedValue ?? formatter.format(numericValue).replaceAll(thousandsSeparator, '');
+    return formatter.format(numericValue);
   };
 
   return (
@@ -219,13 +198,13 @@ export default function NumberInput({
           {showStepper && (
             <NumberInputStepper
               increment={() =>
-                update(clamp((valueAsNumber || 0) + stepValue, Math.max(min, 0), max))
+                update(clamp((numericValue || 0) + stepValue, Math.max(min, 0), max))
               }
               decrement={() =>
-                update(clamp((valueAsNumber || 0) - stepValue, Math.max(min, 0), max))
+                update(clamp((numericValue || 0) - stepValue, Math.max(min, 0), max))
               }
-              incrementDisabled={valueAsNumber === max}
-              decrementDisabled={valueAsNumber === Math.max(min, 0)}
+              incrementDisabled={numericValue === max}
+              decrementDisabled={numericValue === Math.max(min, 0)}
               onMouseDown={(e) => {
                 // prevent focus on button when clicked and shift focus on input
                 e.preventDefault();

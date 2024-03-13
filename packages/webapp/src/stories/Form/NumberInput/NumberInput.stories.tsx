@@ -147,9 +147,9 @@ export const WithoutDecimalAndWithFractionalStep: Story = {
     const input = getInput(canvasElement);
     const { incrementButton, decrementButton } = getStepperButtons(canvasElement);
 
-    // should round step value down to nearest whole number
+    // should round step value up to nearest whole number
     await userEvent.click(incrementButton);
-    expect(input).toHaveValue('1');
+    expect(input).toHaveValue('2');
     await userEvent.click(decrementButton);
     expect(input).toHaveValue('0');
     expect(decrementButton).toBeDisabled();

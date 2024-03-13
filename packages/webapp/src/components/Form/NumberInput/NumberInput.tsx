@@ -58,8 +58,9 @@ export type NumberInputProps = {
    */
   unit?: ReactNode;
   /**
-   * Amount to step up or down. Renders a stepper on right side with up and down buttons when step is greater than 0.
-   * If allowDecimal is false, then step is rounded down to the nearest whole number.
+   * - Amount to increment or decrement.
+   * - Renders a stepper on right side when step is greater than 0.
+   * - If allowDecimal is false, then step is rounded up to the nearest whole number.
    */
   step?: number;
   /**
@@ -143,7 +144,8 @@ export default function NumberInput({
   const [isEditedAfterFocus, setIsEditedAfterFocus] = useState(false);
   const initialValueRef = useRef(propValue);
   const inputRef = useRef<HTMLInputElement>(null);
-  const showStepper = step > 0;
+  const stepValue = allowDecimal ? step : Math.round(step);
+  const showStepper = stepValue > 0;
 
   /*
   - resets state if value prop changes to initial value
@@ -215,26 +217,23 @@ export default function NumberInput({
       rightSection={
         <>
           {unit}
-          {showStepper &&
-            (() => {
-              // ensure value doesn't become negative
-              const nonNegativeMin = Math.max(min, 0);
-              const stepValue = allowDecimal ? step : Math.floor(step);
-              let value = valueAsNumber || 0;
-              return (
-                <Stepper
-                  increment={() => update(clamp(value + stepValue, nonNegativeMin, max))}
-                  decrement={() => update(clamp(value - stepValue, nonNegativeMin, max))}
-                  incrementDisabled={valueAsNumber === max}
-                  decrementDisabled={valueAsNumber === nonNegativeMin}
-                  // prevent focus on button when clicked and shift focus on input
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    if (document.activeElement !== inputRef.current) inputRef.current?.focus();
-                  }}
-                />
-              );
-            })()}
+          {showStepper && (
+            <Stepper
+              increment={() =>
+                update(clamp((valueAsNumber || 0) + stepValue, Math.max(min, 0), max))
+              }
+              decrement={() =>
+                update(clamp((valueAsNumber || 0) - stepValue, Math.max(min, 0), max))
+              }
+              incrementDisabled={valueAsNumber === max}
+              decrementDisabled={valueAsNumber === Math.max(min, 0)}
+              onMouseDown={(e) => {
+                // prevent focus on button when clicked and shift focus on input
+                e.preventDefault();
+                if (document.activeElement !== inputRef.current) inputRef.current?.focus();
+              }}
+            />
+          )}
         </>
       }
       disabled={disabled}

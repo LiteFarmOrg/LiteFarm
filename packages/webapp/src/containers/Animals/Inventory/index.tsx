@@ -133,7 +133,9 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     searchString,
     setSearchString,
     placeHolderText: t('ANIMAL.SEARCH_INVENTORY_PLACEHOLDER'),
-    searchResultsText: t('ANIMAL.SHOWING_RESULTS_WITH_COUNT', { count: filteredInventory?.length }),
+    searchResultsText: t('ANIMAL.SHOWING_RESULTS_WITH_COUNT', {
+      count: searchAndFilteredInventory?.length,
+    }),
   };
 
   return (

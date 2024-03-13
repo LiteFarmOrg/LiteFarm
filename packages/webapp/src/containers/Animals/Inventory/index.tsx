@@ -219,6 +219,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
             onSelectInventory={onSelectInventory}
             handleSelectAllClick={handleSelectAllClick}
             selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
+            totalInventoryCount={inventory.length}
           />
           {selectedInventoryIds.length ? (
             <ActionMenu

@@ -40,10 +40,10 @@ const PureAnimalInventory = ({
   onSelectInventory,
   handleSelectAllClick,
   selectedIds,
+  totalInventoryCount,
 }: {
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
-
   zIndexBase: number;
   backgroundColor: string;
   isDesktop: boolean;
@@ -51,6 +51,7 @@ const PureAnimalInventory = ({
   onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
   handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
   selectedIds: string[];
+  totalInventoryCount: number;
 }) => {
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
@@ -90,7 +91,7 @@ const PureAnimalInventory = ({
           columns={animalsColumns}
           data={filteredInventory}
           shouldFixTableLayout={isDesktop}
-          minRows={filteredInventory.length}
+          minRows={totalInventoryCount}
           dense={false}
           showHeader={isDesktop}
           onCheck={onSelectInventory}

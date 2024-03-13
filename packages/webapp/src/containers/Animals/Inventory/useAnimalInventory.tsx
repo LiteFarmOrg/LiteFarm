@@ -22,6 +22,7 @@ import {
   useGetCustomAnimalTypesQuery,
   useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
+  useGetAnimalSexesQuery,
 } from '../../../store/api/apiSlice';
 import useQueries from '../../../hooks/api/useQueries';
 import {
@@ -49,6 +50,13 @@ export type AnimalInventory = {
   path: string;
   count: number;
   batch: boolean;
+  group_ids: number[];
+  sex_id?: number;
+  sex_detail?: { sex_id: number; count: number }[];
+  custom_type_id: number | null;
+  default_type_id: number | null;
+  custom_breed_id: number | null;
+  default_breed_id: number | null;
 };
 
 const { t } = i18n;
@@ -153,6 +161,13 @@ const formatAnimalsData = (
       path: `/animal/${animal.internal_identifier}`,
       count: 1,
       batch: false,
+      // preserve some untransformed data for filtering
+      group_ids: animal.group_ids,
+      sex_id: animal.sex_id,
+      custom_type_id: animal.custom_type_id,
+      default_type_id: animal.default_type_id,
+      custom_breed_id: animal.custom_breed_id,
+      default_breed_id: animal.default_breed_id,
     };
   });
 };
@@ -175,9 +190,26 @@ const formatAnimalBatchesData = (
       path: `/batch/${batch.internal_identifier}`,
       count: batch.count,
       batch: true,
+      // preserve some untransformed data for filtering
+      group_ids: batch.group_ids,
+      sex_detail: batch.sex_detail,
+      custom_type_id: batch.custom_type_id,
+      default_type_id: batch.default_type_id,
+      custom_breed_id: batch.custom_breed_id,
+      default_breed_id: batch.default_breed_id,
     };
   });
 };
+
+interface BuildInventoryArgs {
+  animals: Animal[];
+  animalBatches: AnimalBatch[];
+  animalGroups: AnimalGroup[];
+  customAnimalBreeds: CustomAnimalBreed[];
+  customAnimalTypes: CustomAnimalType[];
+  defaultAnimalBreeds: DefaultAnimalBreed[];
+  defaultAnimalTypes: DefaultAnimalType[];
+}
 
 export const buildInventory = ({
   animals,
@@ -187,15 +219,7 @@ export const buildInventory = ({
   customAnimalTypes,
   defaultAnimalBreeds,
   defaultAnimalTypes,
-}: {
-  animals: Animal[];
-  animalBatches: AnimalBatch[];
-  animalGroups: AnimalGroup[];
-  customAnimalBreeds: CustomAnimalBreed[];
-  customAnimalTypes: CustomAnimalType[];
-  defaultAnimalBreeds: DefaultAnimalBreed[];
-  defaultAnimalTypes: DefaultAnimalType[];
-}) => {
+}: BuildInventoryArgs) => {
   const inventory = [
     ...formatAnimalsData(
       animals,
@@ -229,6 +253,7 @@ const useAnimalInventory = () => {
     { label: 'customAnimalTypes', hook: useGetCustomAnimalTypesQuery },
     { label: 'defaultAnimalBreeds', hook: useGetDefaultAnimalBreedsQuery },
     { label: 'defaultAnimalTypes', hook: useGetDefaultAnimalTypesQuery },
+    { label: 'animalSexes', hook: useGetAnimalSexesQuery },
   ]);
 
   const {

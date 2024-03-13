@@ -224,9 +224,9 @@ const PureSideMenu = ({
         fullHeight
         responsiveModal={false}
         classes={{
-          container: styles.drawerContainer,
-          header: styles.drawerHeader,
-          content: styles.drawerContent,
+          drawerContainer: styles.drawerContainer,
+          drawerHeader: styles.drawerHeader,
+          drawerContent: styles.drawerContent,
         }}
       >
         <SideMenuContent history={history} closeDrawer={onDrawerClose} />

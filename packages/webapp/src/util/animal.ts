@@ -13,9 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { CustomAnimalType, DefaultAnimalType } from '../store/api/types';
-import { ANIMAL_TYPE_ID_PREFIX } from '../containers/Animals/types';
+import {
+  CustomAnimalType,
+  DefaultAnimalType,
+  CustomAnimalBreed,
+  DefaultAnimalBreed,
+} from '../store/api/types';
+import { ANIMAL_ID_PREFIX } from '../containers/Animals/types';
 
-export const generateUniqueAnimalTypeId = (type: DefaultAnimalType | CustomAnimalType): string => {
-  return `${ANIMAL_TYPE_ID_PREFIX['key' in type ? 'DEFAULT' : 'CUSTOM']}_${type.id}`;
+/**
+ * Generates a unique ID based on the given type or breed entity.
+ * @param entity - The entity for which to generate the unique ID (type or breed, either custom or default).
+ * @returns The prefixed unique ID.
+ */
+export const generateUniqueAnimalId = (
+  entity: DefaultAnimalType | CustomAnimalType | DefaultAnimalBreed | CustomAnimalBreed,
+): string => {
+  return `${ANIMAL_ID_PREFIX['key' in entity ? 'DEFAULT' : 'CUSTOM']}_${entity.id}`;
 };

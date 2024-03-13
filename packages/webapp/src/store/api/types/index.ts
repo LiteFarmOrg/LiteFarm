@@ -91,3 +91,8 @@ export interface DefaultAnimalType {
   key: string;
   count?: number;
 }
+
+export interface AnimalSex {
+  id: number;
+  key: string;
+}

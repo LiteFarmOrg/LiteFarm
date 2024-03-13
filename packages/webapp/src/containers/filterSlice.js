@@ -43,11 +43,21 @@ const initialTransactionsFilter = {
   REVENUE_TYPE: undefined,
 };
 
+export const initialAnimalsFilter = {
+  ANIMAL_OR_BATCH: {},
+  TYPE: {},
+  BREED: {},
+  SEX: {},
+  GROUPS: {},
+  LOCATION: {},
+};
+
 export const initialState = {
   cropCatalogue: initialCropCatalogueFilter,
   documents: initialDocumentsFilter,
   tasks: initialTasksFilter,
   transactions: initialTransactionsFilter,
+  animals: initialAnimalsFilter,
 };
 
 const filterSliceReducer = createSlice({
@@ -189,6 +199,12 @@ const filterSliceReducer = createSlice({
     setTransactionsFilter: (state, { payload: transactionsFilter }) => {
       Object.assign(state.transactions, transactionsFilter);
     },
+    resetAnimalsFilter: (state) => {
+      state.animals = initialAnimalsFilter;
+    },
+    setAnimalsFilter: (state, { payload: animalsFilter }) => {
+      Object.assign(state.animals, animalsFilter);
+    },
   },
 });
 
@@ -211,6 +227,8 @@ export const {
   updateTasksFilterObjects,
   resetTransactionsFilter,
   setTransactionsFilter,
+  resetAnimalsFilter,
+  setAnimalsFilter,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
 
@@ -239,6 +257,10 @@ export const cropCatalogueFilterDateSelector = createSelector(
 export const transactionsFilterSelector = createSelector(
   [filterReducerSelector],
   (filterReducer) => filterReducer.transactions,
+);
+export const animalsFilterSelector = createSelector(
+  [filterReducerSelector],
+  (filterReducer) => filterReducer.animals,
 );
 
 export const isFilterCurrentlyActiveSelector = (pageFilterKey, defaultAllActive = false) => {

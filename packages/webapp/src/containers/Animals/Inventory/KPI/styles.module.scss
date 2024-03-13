@@ -17,11 +17,9 @@
 
 .wrapper {
   z-index: 1501; // should be greater than hoverpill, smaller than top menu
-  position: fixed;
   width: calc(100vw - var(--global-side-menu-width));
 
   &.withCompactMenu {
     width: calc(100vw - var(--global-compact-side-menu-width));
   }
 }
-

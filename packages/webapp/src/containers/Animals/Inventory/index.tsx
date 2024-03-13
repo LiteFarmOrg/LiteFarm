@@ -25,6 +25,8 @@ import ActionMenu from '../../../components/ActionMenu';
 import KPI from './KPI';
 import useSearchFilter from '../../../containers/hooks/useSearchFilter';
 import styles from './styles.module.scss';
+import AnimalsFilter from '../AnimalsFilter';
+import { useFilteredInventory } from './useFilteredInventory';
 
 // TODO: LF-4087
 const iconActions = [
@@ -48,6 +50,8 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const backgroundColor = theme.palette.background.paper;
 
   const { inventory, isLoading } = useAnimalInventory();
+
+  const filteredInventory = useFilteredInventory(inventory);
 
   const onTypeClick = useCallback(
     (typeId: string) => {
@@ -120,8 +124,8 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
       .join(' ');
   };
 
-  const [filteredInventory, searchString, setSearchString] = useSearchFilter(
-    inventory,
+  const [searchAndFilteredInventory, searchString, setSearchString] = useSearchFilter(
+    filteredInventory,
     makeAnimalsSearchableString,
   );
 
@@ -141,8 +145,9 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
           selectedTypeIds={selectedTypeIds}
         />
         <div className={styles.mainContent}>
+          <AnimalsFilter />
           <PureAnimalInventory
-            filteredInventory={filteredInventory}
+            filteredInventory={searchAndFilteredInventory}
             animalsColumns={animalsColumns}
             searchProps={searchProps}
             zIndexBase={zIndexBase}

@@ -16,9 +16,8 @@
 import { ChangeEvent, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputBase, { type InputBaseProps } from '../InputBase';
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
-import styles from './styles.module.scss';
 import { clamp, countDecimalPlaces } from './utils';
+import NumberInputStepper from './NumberInputStepper';
 
 export type NumberInputProps = {
   /**
@@ -218,7 +217,7 @@ export default function NumberInput({
         <>
           {unit}
           {showStepper && (
-            <Stepper
+            <NumberInputStepper
               increment={() =>
                 update(clamp((valueAsNumber || 0) + stepValue, Math.max(min, 0), max))
               }
@@ -240,36 +239,5 @@ export default function NumberInput({
       ref={inputRef}
       {...props}
     />
-  );
-}
-
-function Stepper(props: {
-  increment: () => void;
-  decrement: () => void;
-  onMouseDown?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  incrementDisabled: boolean;
-  decrementDisabled: boolean;
-}) {
-  return (
-    <div className={styles.stepper}>
-      <button
-        aria-label="increase"
-        tabIndex={-1}
-        onMouseDown={props.onMouseDown}
-        onClick={props.increment}
-        disabled={props.incrementDisabled}
-      >
-        <MdKeyboardArrowUp className={styles.stepperIcons} />
-      </button>
-      <button
-        aria-label="decrease"
-        tabIndex={-1}
-        onMouseDown={props.onMouseDown}
-        onClick={props.decrement}
-        disabled={props.decrementDisabled}
-      >
-        <MdKeyboardArrowDown className={styles.stepperIcons} />
-      </button>
-    </div>
   );
 }

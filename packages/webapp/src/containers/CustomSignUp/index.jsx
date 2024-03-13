@@ -20,7 +20,13 @@ import {
 } from './constants';
 import { isChrome } from '../../util';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import { customSignUpErrorKeySelector, setCustomSignUpErrorKey } from '../customSignUpSlice';
+import {
+  customSignUpComponentSelector,
+  customSignUpErrorKeySelector,
+  customSignUpUserSelector,
+  setCustomSignUpComponent,
+  setCustomSignUpErrorKey,
+} from '../customSignUpSlice';
 
 const ResetPassword = React.lazy(() => import('../ResetPassword'));
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
@@ -43,7 +49,9 @@ function CustomSignUp() {
   } = useForm({
     mode: 'onTouched',
   });
-  const { user, component: componentToShow } = history.location?.state || {};
+  const { user } = useSelector(customSignUpUserSelector);
+  const { component: componentToShow } = useSelector(customSignUpComponentSelector);
+
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i);
   const EMAIL = 'email';
   const emailRegister = register(EMAIL, { pattern: validEmailRegex });
@@ -94,17 +102,6 @@ function CustomSignUp() {
     });
   }, [customSignUpErrorKey, errors]);
 
-  useEffect(() => {
-    if (!componentToShow) {
-      history.replace(
-        {
-          pathname: '/',
-        },
-        { user: { email }, component: CUSTOM_SIGN_UP },
-      );
-    }
-  }, [componentToShow, email]);
-
   const onSubmit = (data) => {
     const { email } = data;
     setSubmittedEmail(email);
@@ -120,23 +117,10 @@ function CustomSignUp() {
   };
 
   const enterPasswordOnGoBack = () => {
-    history.push(
-      {
-        pathname: '/',
-      },
-      { user: { email }, component: CUSTOM_SIGN_UP },
-    );
+    dispatch(setCustomSignUpComponent(CUSTOM_SIGN_UP));
   };
   const createUserAccountOnGoBack = () => {
-    history.push(
-      {
-        pathname: '/',
-      },
-      {
-        component: CUSTOM_SIGN_UP,
-        user: { email },
-      },
-    );
+    dispatch(setCustomSignUpComponent(CUSTOM_SIGN_UP));
   };
 
   const errorMessage = history.location.state?.error;

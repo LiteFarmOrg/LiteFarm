@@ -38,6 +38,9 @@ export interface Animal {
   sex_id: number;
   sire: string | null;
   weaning_date: string | null;
+  animal_removal_reason_id: number | null;
+  removal_explanation: string | null;
+  removal_date: string | null;
 }
 
 export interface AnimalBatch {
@@ -54,6 +57,9 @@ export interface AnimalBatch {
   notes: string | null;
   photo_url: string | null;
   sex_detail: { sex_id: number; count: number }[];
+  animal_removal_reason_id: number | null;
+  removal_explanation: string | null;
+  removal_date: string | null;
 }
 
 export interface AnimalGroup {

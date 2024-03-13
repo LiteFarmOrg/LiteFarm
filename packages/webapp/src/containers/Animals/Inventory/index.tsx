@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useCallback, useMemo, useState, ChangeEvent } from 'react';
-import PureAnimalInventory from '../../../components/Animals/Inventory';
+import PureAnimalInventory, { SearchProps } from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
@@ -23,6 +23,7 @@ import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventory } from './useAnimalInventory';
 import ActionMenu from '../../../components/ActionMenu';
 import KPI from './KPI';
+import useSearchFilter from '../../../containers/hooks/useSearchFilter';
 import { ReactComponent as AddAnimalIcon } from '../../../assets/images/animals/add-animal.svg';
 import { ReactComponent as TaskCreationIcon } from '../../../assets/images/create-task.svg';
 import { ReactComponent as CloneIcon } from '../../../assets/images/clone.svg';
@@ -41,7 +42,9 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
 
   const { t } = useTranslation(['translation', 'animal', 'common']);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+  const zIndexBase = theme.zIndex.drawer;
+  const backgroundColor = theme.palette.background.paper;
 
   const { inventory, isLoading } = useAnimalInventory();
 
@@ -72,23 +75,23 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
             text={d.identification}
             icon={d.icon}
             iconBorder={!d.batch}
-            subtext={isMobile ? `${d.type} / ${d.breed}` : null}
+            subtext={isDesktop ? null : `${d.type} / ${d.breed}`}
             highlightedText={d.batch ? d.count : null}
           />
         ),
       },
       {
-        id: isMobile ? null : 'type',
+        id: isDesktop ? 'type' : null,
         label: t('ANIMAL.ANIMAL_TYPE').toLocaleUpperCase(),
         format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.type} />,
       },
       {
-        id: isMobile ? null : 'breed',
+        id: isDesktop ? 'breed' : null,
         label: t('ANIMAL.ANIMAL_BREED').toLocaleUpperCase(),
         format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
       },
       {
-        id: isMobile ? null : 'groups',
+        id: isDesktop ? 'groups' : null,
         label: t('ANIMAL.ANIMAL_GROUPS').toLocaleUpperCase(),
         format: (d: AnimalInventory) => (
           <Cell
@@ -104,13 +107,33 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         label: '',
         format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
         columnProps: {
-          style: { width: '40px', padding: `0 ${isMobile ? 8 : 12}px` },
+          style: { width: '40px', padding: `0 ${isDesktop ? 12 : 8}px` },
         },
         sortable: false,
       },
     ],
-    [t, isMobile],
+    [t, isDesktop],
   );
+
+  const makeAnimalsSearchableString = (animal: AnimalInventory) => {
+    return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
+      .filter(Boolean)
+      .join(' ');
+  };
+
+  const [searchAndFilteredInventory, searchString, setSearchString] = useSearchFilter(
+    filteredInventory,
+    makeAnimalsSearchableString,
+  );
+
+  const searchProps: SearchProps = {
+    searchString,
+    setSearchString,
+    placeHolderText: t('ANIMAL.SEARCH_INVENTORY_PLACEHOLDER'),
+    searchResultsText: t('ANIMAL.SHOWING_RESULTS_WITH_COUNT', {
+      count: searchAndFilteredInventory?.length,
+    }),
+  };
 
   const onSelectInventory = (e: ChangeEvent<HTMLInputElement>, row: AnimalInventory): void => {
     const selectedInventoryId = row.id;
@@ -178,10 +201,12 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         <div className={styles.mainContent}>
           <AnimalsFilter />
           <PureAnimalInventory
-            tableData={filteredInventory}
+            filteredInventory={searchAndFilteredInventory}
             animalsColumns={animalsColumns}
-            theme={theme}
-            isMobile={isMobile}
+            searchProps={searchProps}
+            zIndexBase={zIndexBase}
+            backgroundColor={backgroundColor}
+            isDesktop={isDesktop}
             onSelectInventory={onSelectInventory}
             handleSelectAllClick={handleSelectAllClick}
             selectedIds={selectedInventoryIds}

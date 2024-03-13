@@ -19,18 +19,21 @@ import styles from './styles.module.scss';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useTheme, useMediaQuery } from '@mui/material';
 import clsx from 'clsx';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import { ReactComponent as WarningIcon } from '../../../assets/images/warning.svg';
 import { ReactComponent as CheckIcon } from '../../../assets/images/check-circle.svg';
 import { useTranslation } from 'react-i18next';
 import { ClassNamesConfig } from 'react-select';
+import { getLocalDateInYYYYDDMM } from '../../../util/date';
 
 const REASON = 'reason';
 const EXPLANATION = 'explanation';
+const DATE = 'date';
 
-type FormFields = {
+export type FormFields = {
   [REASON]: string;
   [EXPLANATION]: string;
+  [DATE]: string;
 };
 
 enum RemovalOptionValue {
@@ -53,7 +56,16 @@ type RemoveAnimalsModalProps = {
 };
 
 export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
-  const { register, handleSubmit, control, watch } = useForm<FormFields>();
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<FormFields>({
+    mode: 'onChange',
+    defaultValues: { [DATE]: getLocalDateInYYYYDDMM() },
+  });
   const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -163,6 +175,19 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
               />
             )}
 
+            {!isCreatedInError(selectedOption) && (
+              /* @ts-ignore */
+              <Input
+                type={'date'}
+                label={t('common:DATE')}
+                hookFormRegister={register(DATE, {
+                  required: true,
+                  shouldUnregister: true,
+                })}
+                errors={getInputErrors(errors, DATE)}
+              />
+            )}
+
             {!!selectedOption &&
               (isCreatedInError(selectedOption) ? (
                 <div className={clsx(styles.removalMessage)}>
@@ -186,7 +211,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
               <Button color="secondary" type="button" onClick={props.onClose}>
                 {t('common:CANCEL')}
               </Button>
-              <Button disabled={!selectedOption}>{t('common:CONFIRM')}</Button>
+              <Button disabled={!selectedOption || !isValid}>{t('common:CONFIRM')}</Button>
             </div>
           </form>
         )}

@@ -43,6 +43,8 @@ describe('Animal Batch Tests', () => {
   let defaultTypeId;
   let animalRemovalReasonId;
 
+  const mockDate = new Date('2024/3/12').toISOString();
+
   beforeAll(async () => {
     const [defaultAnimalBreed] = await mocks.default_animal_breedFactory();
     defaultBreedId = defaultAnimalBreed.id;
@@ -516,11 +518,13 @@ describe('Animal Batch Tests', () => {
               id: firstAnimalBatch.id,
               animal_removal_reason_id: animalRemovalReasonId,
               explanation: 'Gifted to neighbor',
+              removal_date: mockDate,
             },
             {
               id: secondAnimalBatch.id,
               animal_removal_reason_id: animalRemovalReasonId,
               explanation: 'Gifted to neighbor',
+              removal_date: mockDate,
             },
           ],
         );
@@ -560,6 +564,7 @@ describe('Animal Batch Tests', () => {
               id: animalBatch.id,
               animal_removal_reason_id: animalRemovalReasonId,
               explanation: 'Gifted to neighbor',
+              removal_date: mockDate,
             },
           ],
         );
@@ -593,6 +598,7 @@ describe('Animal Batch Tests', () => {
           id: animalBatch.id,
           animal_removal_reason_id: animalRemovalReasonId,
           explanation: 'Gifted to neighbor',
+          removal_date: mockDate,
         },
       );
 
@@ -600,6 +606,40 @@ describe('Animal Batch Tests', () => {
         status: 400,
         error: {
           text: 'Request body should be an array',
+        },
+      });
+
+      // Check database
+      const batchRecord = await AnimalBatchModel.query().findById(animalBatch.id);
+      expect(batchRecord.animal_removal_reason_id).toBeNull();
+    });
+
+    test('Should not be able to remove an animal batch without providing a removal_date', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const animalBatch = await makeAnimalBatch(mainFarm, {
+        default_breed_id: defaultBreedId,
+        default_type_id: defaultTypeId,
+      });
+
+      const res = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [
+          {
+            id: animalBatch.id,
+            animal_removal_reason_id: animalRemovalReasonId,
+            explanation: 'Gifted to neighbor',
+          },
+        ],
+      );
+
+      expect(res).toMatchObject({
+        status: 400,
+        body: {
+          type: 'CheckViolation',
         },
       });
 
@@ -627,6 +667,7 @@ describe('Animal Batch Tests', () => {
             id: animalBatch.id,
             animal_removal_reason_id: animalRemovalReasonId,
             explanation: 'Gifted to neighbor',
+            removal_date: mockDate,
           },
         ],
       );

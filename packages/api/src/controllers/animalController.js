@@ -20,7 +20,7 @@ import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { assignInternalIdentifiers } from '../util/animal.js';
-import { handleDBError } from '../util/errorCodes.js';
+import { handleObjectionError } from '../util/errorCodes.js';
 
 const animalController = {
   getFarmAnimals() {
@@ -121,7 +121,7 @@ const animalController = {
         await assignInternalIdentifiers(result, 'animal');
         return res.status(201).send(result);
       } catch (error) {
-        await handleDBError(error, res, trx);
+        await handleObjectionError(error, res, trx);
       }
     };
   },
@@ -186,7 +186,7 @@ const animalController = {
         await trx.commit();
         return res.status(204).send();
       } catch (error) {
-        handleDBError(error, res, trx);
+        handleObjectionError(error, res, trx);
       }
     };
   },

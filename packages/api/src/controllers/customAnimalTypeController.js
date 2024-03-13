@@ -18,7 +18,7 @@ import baseController from './baseController.js';
 
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { checkAndTrimString } from '../util/util.js';
-import { handleDBError } from '../util/errorCodes.js';
+import { handleObjectionError } from '../util/errorCodes.js';
 
 const customAnimalTypeController = {
   getCustomAnimalTypes() {
@@ -71,7 +71,7 @@ const customAnimalTypeController = {
         await trx.commit();
         return res.status(201).send(result);
       } catch (error) {
-        await handleDBError(error, res, trx);
+        await handleObjectionError(error, res, trx);
       }
     };
   },

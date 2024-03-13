@@ -112,9 +112,6 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     [t, isMobile],
   );
 
-  // TODO: Adjust once LF-4093 & 4094 are merged
-  const filteredInventory = inventory.slice();
-
   const onSelectInventory = (e: ChangeEvent<HTMLInputElement>, row: AnimalInventory): void => {
     const selectedInventoryId = row.id;
     let newIds = selectedInventoryIds.slice();

@@ -63,11 +63,7 @@ export default function PureSearchBarWithBackdrop({
   return (
     <>
       <Input
-        className={clsx(
-          styles.SearchInput___minWidth200,
-          isDesktop && styles.SearchInput___displayBlock,
-          className,
-        )}
+        className={clsx(styles.searchInput, isDesktop && styles.searchInputDesktop, className)}
         isSearchBar
         value={value}
         onChange={onChange}

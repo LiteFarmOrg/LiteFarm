@@ -61,11 +61,7 @@ const PureAnimalInventory = ({
       hasWhiteBackground
       footer={false}
     >
-      <div
-        className={clsx(
-          isDesktop ? styles.SearchAndFilter_container___desktop : styles.SearchAndFilter_container,
-        )}
-      >
+      <div className={clsx(isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter)}>
         <PureSearchBarWithBackdrop
           value={searchString}
           onChange={(e: any) => setSearchString(e.target.value)}
@@ -73,13 +69,9 @@ const PureAnimalInventory = ({
           placeholderText={placeHolderText}
           zIndexBase={zIndexBase}
           isDesktop={isDesktop}
-          className={clsx(isDesktop ? styles.SearchBar___widthFixed : styles.SearchBar___widthFull)}
+          className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
         />
-        <div
-          className={clsx(
-            isDesktop ? styles.SearchResults___marginLeft8 : styles.SearchResults___textAlignCenter,
-          )}
-        >
+        <div className={clsx(isDesktop ? styles.searchResultsDesktop : styles.searchResults)}>
           {searchResultsText}
         </div>
       </div>
@@ -96,9 +88,7 @@ const PureAnimalInventory = ({
         />
       ) : (
         <NoSearchResults
-          className={clsx(
-            isDesktop ? styles.NoSearchResults___marginTop40 : styles.NoSearchResults__marginTop24,
-          )}
+          className={clsx(isDesktop ? styles.noSearchResultsDesktop : styles.noSearchResults)}
           searchTerm={searchString}
           includeFiltersInClearSuggestion
         />

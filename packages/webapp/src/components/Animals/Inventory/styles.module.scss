@@ -13,40 +13,40 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.NoSearchResults___marginTop24 {
+.noSearchResults {
   margin-top: 24px;
 }
 
-.NoSearchResults___marginTop40 {
+.noSearchResultsDesktop {
   margin-top: 40px;
 }
 
-.SearchBar___widthFixed {
+.searchBarDesktop {
   width: 240px;
 }
 
-.SearchBar___widthFull {
+.searchBar {
   width: 100%;
 }
 
-.SearchAndFilter_container___desktop {
+.searchAndFilterDesktop {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 16px; 
 }
 
-.SearchAndFilter_container {
+.searchAndFilter {
   display: inline-grid;
   gap: 4px;
   padding: 8px 16px 8px 16px;
   background-color: var(--Colors-Primary-Primary-teal-50);
 }
 
-.SearchResults___marginLeft8 {
+.searchResultsDesktop {
   margin-left: 8px;
 }
 
-.SearchResults___textAlignCenter {
+.searchResults {
   text-align: center;
 }

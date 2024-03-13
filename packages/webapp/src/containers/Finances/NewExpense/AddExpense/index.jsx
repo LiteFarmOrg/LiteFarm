@@ -7,6 +7,7 @@ import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import PureAddExpense from '../../../../components/Finances/AddExpense';
 import { FINANCES_HOME_URL } from '../../../../util/siteMapConstants';
+import { STEPS } from '../../../../components/AddExpenseForm';
 
 class AddExpense extends Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class AddExpense extends Component {
   }
 
   handleSubmit(formData) {
-    const { expenseDetail } = formData;
+    const expenseDetail = formData[STEPS.EXPENSE_DETAIL];
     let formattedData = [];
     let expenseTypeIds = Object.keys(expenseDetail);
     let farm_id = this.props.farm.farm_id;

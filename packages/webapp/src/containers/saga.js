@@ -151,6 +151,7 @@ import {
   onLoadingWatercourseFail,
   onLoadingWatercourseStart,
 } from './watercourseSlice';
+import { api } from '../store/api/apiSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -618,6 +619,17 @@ export function* fetchAllSaga() {
 
 export function* clearOldFarmStateSaga() {
   yield put(resetTasks());
+
+  yield put(
+    api.util.invalidateTags([
+      'Animals',
+      'AnimalBatches',
+      'AnimalGroups',
+      'CustomAnimalBreeds',
+      'CustomAnimalTypes',
+      'DefaultAnimalTypes', // needs to be cleared for KPI count
+    ]),
+  );
 
   // Reset finance loading state
   yield put(setIsFetchingData(true));

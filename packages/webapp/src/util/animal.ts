@@ -34,7 +34,9 @@ export const generateUniqueAnimalId = (
   return `${ANIMAL_ID_PREFIX['key' in entity ? 'DEFAULT' : 'CUSTOM']}_${entity.id}`;
 };
 
-export const generateInventoryId = (animalOrBatch: Animal | AnimalBatch): string => {
-  const key = 'count' in animalOrBatch ? AnimalOrBatchKeys.BATCH : AnimalOrBatchKeys.ANIMAL;
+export const generateInventoryId = (
+  key: AnimalOrBatchKeys,
+  animalOrBatch: Animal | AnimalBatch,
+): string => {
   return `${key}_${animalOrBatch.id}`;
 };

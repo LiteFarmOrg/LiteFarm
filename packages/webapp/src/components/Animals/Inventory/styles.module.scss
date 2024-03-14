@@ -29,16 +29,17 @@
   flex: 1;
 }
 
-.searchAndFilterDesktop {
+.searchAndFilterCommon {
   display: flex;
-  flex-wrap: wrap;
+}
+
+.searchAndFilterDesktop {
   align-items: center;
   gap: 8px;
   margin-bottom: 16px; 
 }
 
 .searchAndFilter {
-  display: flex;
   flex-wrap: wrap;
   gap: 4px;
   padding: 8px 16px 8px 16px;

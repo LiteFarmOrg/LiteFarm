@@ -78,7 +78,12 @@ const PureAnimalInventory = ({
       hasWhiteBackground
       footer={false}
     >
-      <div className={clsx(isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter)}>
+      <div
+        className={clsx(
+          isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter,
+          styles.searchAndFilterCommon,
+        )}
+      >
         <PureSearchBarWithBackdrop
           value={searchString}
           onChange={(e: any) => setSearchString(e.target.value)}

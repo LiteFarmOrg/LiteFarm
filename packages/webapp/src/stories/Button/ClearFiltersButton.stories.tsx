@@ -33,7 +33,7 @@ type Story = StoryObj<typeof ClearFiltersButton>;
 
 const commonProps = {
   onClick: () => console.log('CLICKED!'),
-  isFiltered: true,
+  isFilterActive: true,
 };
 
 export const IconButton: Story = {

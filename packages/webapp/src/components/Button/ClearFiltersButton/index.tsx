@@ -26,14 +26,14 @@ export enum ClearFiltersButtonType {
 export type ClearFiltersButtonProps = {
   type: ClearFiltersButtonType;
   onClick: () => void;
-  isFiltered: boolean;
+  isFilterActive: boolean;
 };
 
-const ClearFiltersButton = ({ type, onClick, isFiltered }: ClearFiltersButtonProps) => {
+const ClearFiltersButton = ({ type, onClick, isFilterActive }: ClearFiltersButtonProps) => {
   const { t } = useTranslation();
   const isIconType = type === ClearFiltersButtonType.ICON;
 
-  if (!isFiltered) {
+  if (!isFilterActive) {
     return null;
   }
 

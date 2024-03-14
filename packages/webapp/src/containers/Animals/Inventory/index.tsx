@@ -29,7 +29,6 @@ import { ReactComponent as TaskCreationIcon } from '../../../assets/images/creat
 import { ReactComponent as CloneIcon } from '../../../assets/images/clone.svg';
 import { ReactComponent as RemoveAnimalIcon } from '../../../assets/images/animals/remove-animal.svg';
 import styles from './styles.module.scss';
-import AnimalsFilter from '../AnimalsFilter';
 import { useFilteredInventory } from './useFilteredInventory';
 
 interface AnimalInventoryProps {
@@ -208,7 +207,6 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
       />
       {!isLoading && (
         <div className={styles.mainContent}>
-          <AnimalsFilter />
           <PureAnimalInventory
             filteredInventory={searchAndFilteredInventory}
             animalsColumns={animalsColumns}

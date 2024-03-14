@@ -26,18 +26,20 @@
 }
 
 .searchBar {
-  width: 100%;
+  flex: 1;
 }
 
 .searchAndFilterDesktop {
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   margin-bottom: 16px; 
 }
 
 .searchAndFilter {
-  display: inline-grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 4px;
   padding: 8px 16px 8px 16px;
   background-color: var(--Colors-Primary-Primary-teal-50);
@@ -49,4 +51,5 @@
 
 .searchResults {
   text-align: center;
+  flex-basis: 100%;
 }

@@ -18,6 +18,7 @@ import Layout from '../../../components/Layout';
 import PureSearchBarWithBackdrop from '../../PopupFilter/PureSearchWithBackdrop';
 import NoSearchResults from '../../../components/Card/NoSearchResults';
 import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
+import AnimalsFilter from '../../../containers/Animals/AnimalsFilter';
 import { TableV2Column, TableKind } from '../../Table/types';
 import type { Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.scss';
@@ -80,6 +81,7 @@ const PureAnimalInventory = ({
           isDesktop={isDesktop}
           className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
         />
+        <AnimalsFilter />
         <div className={clsx(isDesktop ? styles.searchResultsDesktop : styles.searchResults)}>
           {searchResultsText}
         </div>

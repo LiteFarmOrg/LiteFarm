@@ -89,7 +89,13 @@ const PureAnimalInventory = ({
           className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
         />
         <AnimalsFilter isFilterActive={isFilterActive} />
-        <div className={clsx(isDesktop ? styles.searchResultsDesktop : styles.searchResults)}>
+        <div
+          className={clsx(
+            isDesktop ? styles.searchResultsDesktop : styles.searchResults,
+            styles.searchResultsText,
+            isFilterActive ? styles.filterActive : '',
+          )}
+        >
           {searchResultsText}
         </div>
         <div className={isDesktop ? styles.clearButtonWrapperDesktop : ''}>

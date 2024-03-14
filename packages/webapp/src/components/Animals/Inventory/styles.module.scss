@@ -55,6 +55,12 @@
   order: 4;
 }
 
+.searchResultsText {
+  &.filterActive {
+    color: var(--Colors-Primary-Primary-teal-400);
+  }
+}
+
 .clearButtonWrapperDesktop {
   flex: 1;
   display: flex;

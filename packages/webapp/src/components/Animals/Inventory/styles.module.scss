@@ -52,4 +52,11 @@
 .searchResults {
   text-align: center;
   flex-basis: 100%;
+  order: 4;
+}
+
+.clearButtonWrapperDesktop {
+  flex: 1;
+  display: flex;
+  justify-content: end;
 }

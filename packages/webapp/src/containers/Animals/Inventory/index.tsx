@@ -190,7 +190,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
 
   const textActions = [
     {
-      label: t('common:SELECT_ALL_COUNT', { count: searchAndFilteredInventory.length }),
+      label: t('common:SELECT_ALL'),
       onClick: selectAllVisibleInventoryItems,
     },
     {

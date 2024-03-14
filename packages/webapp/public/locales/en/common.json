@@ -59,7 +59,7 @@
   "SAVE_CHANGES": "Save Changes",
   "SEARCH": "Search",
   "SELECT": "Select",
-  "SELECT_ALL_COUNT": "Select all {{count}}",
+  "SELECT_ALL": "Select all",
   "SELECTED_COUNT": "{{count}} selected",
   "SHOWING_ALL": "Showing all",
   "SKIP": "Skip",

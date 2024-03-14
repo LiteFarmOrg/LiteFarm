@@ -216,6 +216,10 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   ];
 
   const Body = ({ containerHeight }: { containerHeight?: number }) => {
+    if (isLoading) {
+      return null;
+    }
+
     const tableMaxHeight =
       !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
 
@@ -250,13 +254,11 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   };
 
   return (
-    !isLoading && (
-      <FixedHeaderContainer
-        header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
-      >
-        <Body />
-      </FixedHeaderContainer>
-    )
+    <FixedHeaderContainer
+      header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
+    >
+      <Body />
+    </FixedHeaderContainer>
   );
 }
 

@@ -110,7 +110,7 @@ export const api = createApi({
         method: 'PATCH',
         body: patch,
       }),
-      invalidatesTags: ['Animals'],
+      invalidatesTags: ['Animals', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
     removeAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
       query: (patch) => ({
@@ -118,7 +118,7 @@ export const api = createApi({
         method: 'PATCH',
         body: patch,
       }),
-      invalidatesTags: ['AnimalBatches'],
+      invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
   }),
 });

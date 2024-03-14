@@ -14,23 +14,23 @@
  */
 import TableV1 from './TableV1';
 import TableV2 from './TableV2';
-import { TableKind, TableV1Props, TableV2Props } from './types';
+import { TableKind, TableV1Props, TableV2Props, type TableRowData } from './types';
 
 type TableV1PropsStrategy = TableV1Props & { kind: TableKind.V1 };
-type TableV2PropsStrategy = TableV2Props & { kind: TableKind.V2 };
+type TableV2PropsStrategy<T extends TableRowData> = TableV2Props<T> & { kind: TableKind.V2 };
 
-type TableStrategyProps = TableV1PropsStrategy | TableV2PropsStrategy;
+type TableStrategyProps<T extends TableRowData> = TableV1PropsStrategy | TableV2PropsStrategy<T>;
 
 /**
  * A component that selects between available Table styles.
  * See packages/webapp/src/stories/Table/Table.stories.jsx for examples.
  */
-const Table = ({ kind, ...props }: TableStrategyProps) => {
+const Table = <T extends TableRowData>({ kind, ...props }: TableStrategyProps<T>) => {
   switch (kind) {
     case TableKind.V1:
       return <TableV1 {...(props as TableV1Props)} />;
     case TableKind.V2:
-      return <TableV2 {...(props as TableV2Props)} />;
+      return <TableV2 {...(props as TableV2Props<T>)} />;
     default:
       const _exhaustiveCheck: never = kind;
       return null;

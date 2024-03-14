@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactElement, ReactNode, ChangeEvent } from 'react';
 import type { ColumnInstance } from 'react-table';
 import { ReactComponentLike } from 'prop-types';
 
@@ -59,11 +59,13 @@ export type TableV2Column = {
   sortable?: boolean;
 };
 
+export type TableRowData = { id?: string | number };
+
 // Belongs in TableV2.jsx once converted to .ts
-export type TableV2Props = {
+export type TableV2Props<RowData extends TableRowData> = {
   alternatingRowColor?: boolean;
   columns: Required<TableV2Column[]>;
-  data: Object[];
+  data: RowData[];
   showPagination?: boolean;
   pageSizeOptions?: number[];
   minRows?: number;
@@ -71,13 +73,13 @@ export type TableV2Props = {
   FooterCell?: ReactComponentLike;
   onClickMore?: () => void;
   itemsToAddPerLoadMoreClick?: number;
-  onRowClick?: () => void;
+  onRowClick?: (event: ChangeEvent<HTMLElement>, row: RowData) => void;
   shouldFixTableLayout?: boolean;
   defaultOrderBy?: string;
   showHeader?: boolean;
-  onCheck?: (id: string | number) => void;
-  handleSelectAllClick?: () => void;
-  selectedIds?: (string | number)[];
+  onCheck?: (event: ChangeEvent<HTMLInputElement>, row: RowData) => void;
+  handleSelectAllClick?: (event: ChangeEvent<HTMLInputElement>) => void;
+  selectedIds?: RowData['id'][];
   stickyHeader?: boolean;
   maxHeight?: number;
 };

@@ -30,7 +30,8 @@ import {
 import { generateUniqueAnimalId } from '../../../util/animal';
 import { useVisibleBreeds } from './useVisibleBreeds';
 import { locationsSelector } from '../../locationSlice';
-import { AnimalOrBatchKeys, AnimalsFilterKeys } from './types';
+import { AnimalsFilterKeys } from './types';
+import { AnimalOrBatchKeys } from '../../Animals/types';
 import { sortFilterOptions } from '../../../components/Filter/utils';
 
 interface AnimalsFilterContentProps {

@@ -171,6 +171,7 @@
       "MALE": "Male",
       "TITLE": "Filter animals"
     },
+    "REMOVE_ANIMAL": "Remove animal",
     "SEARCH_INVENTORY_PLACEHOLDER": "Search your inventory",
     "SHOWING_RESULTS_WITH_COUNT_one": "Showing {{count}} result",
     "SHOWING_RESULTS_WITH_COUNT_other": "Showing {{count}} results"

@@ -40,8 +40,10 @@ import { ReactComponent as ChickenIcon } from '../../../assets/images/animals/ch
 import { ReactComponent as PigIcon } from '../../../assets/images/animals/pig-icon.svg';
 import { ReactComponent as BatchIcon } from '../../../assets/images/animals/batch.svg';
 import { AnimalTranslationKey } from '../types';
+import { generateInventoryId } from '../../../util/animal';
 
 export type AnimalInventory = {
+  id: string;
   icon: FC;
   identification: string;
   type: string;
@@ -153,6 +155,7 @@ const formatAnimalsData = (
 ) => {
   return animals.map((animal: Animal) => {
     return {
+      id: generateInventoryId(animal),
       icon: getDefaultAnimalIcon(defaultAnimalTypes, animal.default_type_id),
       identification: chooseIdentification(animal),
       type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
@@ -182,6 +185,7 @@ const formatAnimalBatchesData = (
 ) => {
   return animalBatches.map((batch: AnimalBatch) => {
     return {
+      id: generateInventoryId(batch),
       icon: BatchIcon,
       identification: chooseIdentification(batch),
       type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),

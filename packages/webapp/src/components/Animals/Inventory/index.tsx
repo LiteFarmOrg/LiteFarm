@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { ChangeEvent } from 'react';
 import Table from '../../../components/Table';
 import Layout from '../../../components/Layout';
 import PureSearchBarWithBackdrop from '../../PopupFilter/PureSearchWithBackdrop';
@@ -36,6 +37,10 @@ const PureAnimalInventory = ({
   backgroundColor,
   isDesktop,
   searchProps,
+  onSelectInventory,
+  handleSelectAllClick,
+  selectedIds,
+  totalInventoryCount,
 }: {
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
@@ -43,6 +48,10 @@ const PureAnimalInventory = ({
   backgroundColor: string;
   isDesktop: boolean;
   searchProps: SearchProps;
+  onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
+  handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
+  selectedIds: string[];
+  totalInventoryCount: number;
 }) => {
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
@@ -82,9 +91,12 @@ const PureAnimalInventory = ({
           columns={animalsColumns}
           data={filteredInventory}
           shouldFixTableLayout={isDesktop}
-          minRows={filteredInventory.length}
+          minRows={totalInventoryCount}
           dense={false}
           showHeader={isDesktop}
+          onCheck={onSelectInventory}
+          handleSelectAllClick={handleSelectAllClick}
+          selectedIds={selectedIds}
         />
       ) : (
         <NoSearchResults

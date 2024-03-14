@@ -13,13 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import {
+import type {
   CustomAnimalType,
   DefaultAnimalType,
   CustomAnimalBreed,
   DefaultAnimalBreed,
+  Animal,
+  AnimalBatch,
 } from '../store/api/types';
-import { ANIMAL_ID_PREFIX } from '../containers/Animals/types';
+import { ANIMAL_ID_PREFIX, AnimalOrBatchKeys } from '../containers/Animals/types';
 
 /**
  * Generates a unique ID based on the given type or breed entity.
@@ -30,4 +32,9 @@ export const generateUniqueAnimalId = (
   entity: DefaultAnimalType | CustomAnimalType | DefaultAnimalBreed | CustomAnimalBreed,
 ): string => {
   return `${ANIMAL_ID_PREFIX['key' in entity ? 'DEFAULT' : 'CUSTOM']}_${entity.id}`;
+};
+
+export const generateInventoryId = (animalOrBatch: Animal | AnimalBatch): string => {
+  const key = 'count' in animalOrBatch ? AnimalOrBatchKeys.BATCH : AnimalOrBatchKeys.ANIMAL;
+  return `${key}_${animalOrBatch.id}`;
 };

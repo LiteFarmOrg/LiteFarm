@@ -16,7 +16,7 @@
 import { ChangeEvent, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputBase, { type InputBaseProps } from '../InputBase';
-import { clamp, countDecimalPlaces } from './utils';
+import { clamp, countDecimalPlaces, isEqual } from './utils';
 import NumberInputStepper from './NumberInputStepper';
 
 export type NumberInputProps = {
@@ -74,7 +74,7 @@ export type NumberInputProps = {
 } & InputBaseProps;
 
 export default function NumberInput({
-  value: propValue = '',
+  value = '',
   onChange,
   onBlur,
   useGrouping = true,
@@ -95,8 +95,7 @@ export default function NumberInput({
   const locale = props.locale || language;
 
   const formatter = useMemo(() => {
-    const stepDecimalPlaces = countDecimalPlaces(step || 1);
-
+    const stepDecimalPlaces = countDecimalPlaces(step);
     const options: Intl.NumberFormatOptions = {
       useGrouping,
       minimumFractionDigits: !allowDecimal ? undefined : decimalDigits ?? stepDecimalPlaces,
@@ -125,25 +124,22 @@ export default function NumberInput({
     return separators;
   }, [locale]);
 
-  const [numericValue, setNumericValue] = useState(() => parseFloat(propValue as string));
-  const [isFocused, setIsFocused] = useState(false);
+  const propValue = typeof value === 'string' ? parseFloat(value) : value;
+  const [numericValue, setNumericValue] = useState(propValue);
 
-  // current value in focused input that has been touched
+  // keep in sync with parent
+  if (!isEqual(propValue, numericValue)) {
+    setNumericValue(propValue);
+    return null;
+  }
+
+  // current input value that is focused and has been touched
   const [touchedValue, setTouchedValue] = useState<string | null>(null);
-  const initialValueRef = useRef(propValue);
+  const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
   const stepValue = allowDecimal ? step : Math.round(step);
   const showStepper = stepValue > 0;
-
-  /*
-  - resets state if value prop changes to initial value
-  - layout effect prevents flickering
-  */
-  useLayoutEffect(() => {
-    const propValueNum = parseFloat(propValue as string);
-    if (propValue === initialValueRef.current && numericValue != propValueNum)
-      setNumericValue(propValueNum);
-  }, [propValue]);
 
   const update = (next: number) => {
     setNumericValue(next);

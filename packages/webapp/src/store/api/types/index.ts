@@ -102,3 +102,16 @@ export interface AnimalSex {
   id: number;
   key: string;
 }
+
+export type AnimalRemovalReasonKeys =
+  | 'SOLD'
+  | 'SLAUGHTERED_FOR_SALE'
+  | 'SLAUGHTERED_FOR_CONSUMPTION'
+  | 'NATURAL_DEATH'
+  | 'CULLED'
+  | 'OTHER';
+
+export type AnimalRemovalReason = {
+  key: AnimalRemovalReasonKeys;
+  id: number;
+};

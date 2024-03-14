@@ -24,6 +24,7 @@ import {
   defaultAnimalBreedsUrl,
   defaultAnimalTypesUrl,
   animalSexesUrl,
+  animalRemovalReasonsUrl,
   url,
 } from '../../apiConfig';
 import type {
@@ -35,6 +36,7 @@ import type {
   DefaultAnimalBreed,
   DefaultAnimalType,
   AnimalSex,
+  AnimalRemovalReason,
 } from './types';
 
 export const api = createApi({
@@ -61,6 +63,7 @@ export const api = createApi({
     'DefaultAnimalBreeds',
     'DefaultAnimalTypes',
     'AnimalSexes',
+    'AnimalRemovalReasons',
   ],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
@@ -97,6 +100,26 @@ export const api = createApi({
       query: () => `${animalSexesUrl}`,
       providesTags: ['AnimalSexes'],
     }),
+    getAnimalRemovalReasons: build.query<AnimalRemovalReason[], void>({
+      query: () => `${animalRemovalReasonsUrl}`,
+      providesTags: ['AnimalRemovalReasons'],
+    }),
+    removeAnimals: build.mutation<Animal[], Partial<Animal>[]>({
+      query: (patch) => ({
+        url: `${animalsUrl}`,
+        method: 'PATCH',
+        body: patch,
+      }),
+      invalidatesTags: ['Animals'],
+    }),
+    removeAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
+      query: (patch) => ({
+        url: `${animalBatchesUrl}`,
+        method: 'PATCH',
+        body: patch,
+      }),
+      invalidatesTags: ['AnimalBatches'],
+    }),
   }),
 });
 
@@ -109,4 +132,7 @@ export const {
   useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
   useGetAnimalSexesQuery,
+  useGetAnimalRemovalReasonsQuery,
+  useRemoveAnimalsMutation,
+  useRemoveAnimalBatchesMutation,
 } = api;

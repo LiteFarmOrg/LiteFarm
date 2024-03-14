@@ -39,7 +39,7 @@
     cursor: pointer;
   }
 
-  &[aria-checked="true"] {
+  &[aria-checked="true"], &[aria-checked="true"]:hover {
     border: solid 1px var(--Colors-Accent-Accent-yellow-400);
     background-color: var(--Colors-Accent-Accent-yellow-50);
 
@@ -71,7 +71,7 @@
   margin: 0 16px 0 16px;
 }
 
-.alternatingRowColor {
+.alternatingRowColor:not([aria-checked="true"]) {
   &:nth-of-type(odd) {
     background-color: var(--tableAlternateRowBackground);
   }

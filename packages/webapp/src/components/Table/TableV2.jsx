@@ -185,6 +185,7 @@ export default function TableV2(props) {
                   key={row.id || index}
                   onClick={(event) => handleRowClick(event, row)}
                   aria-checked={isItemSelected}
+                  selected={isItemSelected}
                   className={clsx(
                     styles.tableRow,
                     styles.itemRow,

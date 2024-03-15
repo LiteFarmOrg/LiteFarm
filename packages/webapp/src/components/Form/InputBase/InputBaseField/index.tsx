@@ -34,13 +34,13 @@ const InputBaseField = forwardRef<HTMLInputElement, InputBaseFieldProps>((props,
       )}
     >
       {props.leftSection && (
-        <div className={styles.inputSection} data-section="left">
+        <div className={clsx(styles.inputSection, styles.inputSectionLeft)}>
           {props.leftSection}
         </div>
       )}
       <input {...props.inputProps} ref={ref} />
       {(showCross || props.rightSection) && (
-        <div className={styles.inputSection} data-section="right">
+        <div className={clsx(styles.inputSection, styles.inputSectionRight)}>
           {props.rightSection}
           {props.crossIcon}
         </div>

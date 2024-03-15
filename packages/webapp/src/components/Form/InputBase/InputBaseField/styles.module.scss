@@ -68,12 +68,11 @@ input:focus::placeholder {
   justify-content: center;
   align-items: center;
   gap: 8px;
-}
 
-[data-section='left'] {
-  padding-right: 6px;
-}
-
-[data-section='right'] {
-  padding-left: 6px;
+  &Left {
+    padding-right: 6px;
+  }
+  &Right {
+    padding-left: 6px;
+  }
 }

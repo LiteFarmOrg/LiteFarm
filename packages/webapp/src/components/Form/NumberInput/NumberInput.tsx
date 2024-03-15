@@ -196,8 +196,6 @@ export default function NumberInput({
     }
   };
 
-  console.log(numericValue);
-  console.log(touchedValue);
   return (
     <InputBase
       inputMode="numeric"
@@ -220,7 +218,7 @@ export default function NumberInput({
               onMouseDown={(e) => {
                 // prevent focus on button when clicked and shift focus on input
                 e.preventDefault();
-                if (document.activeElement !== inputRef.current) inputRef.current?.focus();
+                if (!isFocused) inputRef.current?.focus();
               }}
             />
           )}

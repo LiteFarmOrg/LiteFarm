@@ -134,7 +134,7 @@ export default function NumberInput({
   }
 
   // current input value that is focused and has been touched
-  const [touchedValue, setTouchedValue] = useState<string | null>(null);
+  const [touchedValue, setTouchedValue] = useState<string>('');
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -149,7 +149,6 @@ export default function NumberInput({
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, validity } = e.target;
     if (validity.patternMismatch) return;
-
     setTouchedValue(value);
     update(parseFloat(decimalSeparator === '.' ? value : value.replace(decimalSeparator, '.')));
   };
@@ -159,7 +158,7 @@ export default function NumberInput({
       update(clamp(numericValue, min, max));
     }
     setIsFocused(false);
-    setTouchedValue(null);
+    setTouchedValue('');
     onBlur?.();
   };
 
@@ -173,12 +172,32 @@ export default function NumberInput({
   };
 
   const getDisplayValue = () => {
-    if (isNaN(numericValue)) return '';
+    if (isNaN(numericValue) || numericValue == null) return '';
     if (isFocused)
-      return touchedValue ?? formatter.format(numericValue).replaceAll(thousandsSeparator, '');
+      return touchedValue || formatter.format(numericValue).replaceAll(thousandsSeparator, '');
     return formatter.format(numericValue);
   };
 
+  const handleStep = (next: number) => {
+    if (touchedValue) setTouchedValue('');
+    update(clamp(next, Math.max(min, 0), max));
+  };
+
+  const increment = () => handleStep((numericValue || 0) + stepValue);
+  const decrement = () => handleStep((numericValue || 0) - stepValue);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowUp') {
+      // prevent cursor from shifting to start of input
+      e.preventDefault();
+      increment();
+    } else if (e.key === 'ArrowDown') {
+      decrement();
+    }
+  };
+
+  console.log(numericValue);
+  console.log(touchedValue);
   return (
     <InputBase
       inputMode="numeric"
@@ -187,18 +206,15 @@ export default function NumberInput({
       onChange={handleChange}
       onBlur={handleBlur}
       onFocus={handleFocus}
+      onKeyDown={handleKeyDown}
       leftSection={currencySymbol}
       rightSection={
         <>
           {unit}
           {showStepper && (
             <NumberInputStepper
-              increment={() =>
-                update(clamp((numericValue || 0) + stepValue, Math.max(min, 0), max))
-              }
-              decrement={() =>
-                update(clamp((numericValue || 0) - stepValue, Math.max(min, 0), max))
-              }
+              increment={increment}
+              decrement={decrement}
               incrementDisabled={numericValue === max}
               decrementDisabled={numericValue === Math.max(min, 0)}
               onMouseDown={(e) => {

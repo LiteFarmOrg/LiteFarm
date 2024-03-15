@@ -210,6 +210,19 @@ export const Stepper: Story = {
     await userEvent.click(decrementButton);
     expect(input).toHaveValue('0.0');
     expect(decrementButton).toBeDisabled();
+
+    await userEvent.keyboard('{ArrowUp}');
+    await userEvent.keyboard('{ArrowUp}');
+    expect(input).toHaveValue('0.2');
+
+    await userEvent.keyboard('{ArrowDown}');
+    expect(input).toHaveValue('0.1');
+    userEvent.clear(input);
+
+    // should work after entering value without blurring
+    userEvent.type(input, '5645');
+    await userEvent.keyboard('{ArrowUp}');
+    expect(input).toHaveValue('5645.1');
     userEvent.clear(input);
   },
 };

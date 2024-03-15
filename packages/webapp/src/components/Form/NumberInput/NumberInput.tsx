@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ChangeEvent, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, ReactNode, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputBase, { type InputBaseProps } from '../InputBase';
 import { clamp, countDecimalPlaces, isEqual } from './utils';
@@ -114,6 +114,8 @@ export default function NumberInput({
       decimalSeparator: '.',
       thousandsSeparator: ',',
     };
+
+    // 11000.2 - random decimal number over 1000 used to extract thousands and decimal separators
     for (let { type, value } of formatter.formatToParts(11000.2)) {
       if (type === 'decimal') {
         separators.decimalSeparator = value;

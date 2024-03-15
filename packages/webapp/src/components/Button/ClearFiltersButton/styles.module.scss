@@ -29,22 +29,11 @@
   border: solid 1px var(--Colors-Accent---singles-Blue-full);
   border-radius: 4px;
   background-color: var(--Colors-Accent---singles-Blue-light);
-  padding: 0 4px;
-
-  .text {
-    line-height: 12px;
-    margin-top: -2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-  }
 
   svg {
-    width: 26px;
-    height: 26px;
-    padding-left: 2px;
-    margin-top: -2px;
+    width: 30px;
+    height: 30px;
+    padding-left: 4px;
 
     path {
       stroke: var(--Colors-Accent---singles-Blue-full);

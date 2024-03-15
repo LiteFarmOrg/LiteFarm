@@ -41,9 +41,9 @@ const ClearFiltersButton = ({ type, onClick, isFilterActive }: ClearFiltersButto
     <TextButton onClick={onClick}>
       <span className={isIconType ? styles.iconButton : styles.textButton}>
         <ClearFilterIcon />
-        <span className={styles.text}>
-          {t(isIconType ? 'common:CLEAR' : 'common:CLEAR_ACTIVE_FILTERS')}
-        </span>
+        {isIconType ? null : (
+          <span className={styles.text}>{t('common:CLEAR_ACTIVE_FILTERS')}</span>
+        )}
       </span>
     </TextButton>
   );

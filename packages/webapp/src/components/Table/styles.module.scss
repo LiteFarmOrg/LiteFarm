@@ -19,6 +19,10 @@
   &.fixed {
     table-layout: fixed;
   }
+
+  &.alternatingRowColorStyle {
+    border-spacing: 0 2px;
+  }
 }
 
 .headerRow {
@@ -74,9 +78,17 @@
 .alternatingRowColor:not([aria-checked="true"]) {
   &:nth-of-type(odd) {
     background-color: var(--tableAlternateRowBackground);
+
+    .tableCell {
+      border-bottom: solid 1px var(--tableAlternateRowBackground);
+    }
   }
   &:nth-of-type(even) {
     background-color: var(--white, #fff);
+
+    .tableCell {
+      border-bottom: solid 1px var(--white, #fff);
+    }
   }
 }
 

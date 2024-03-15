@@ -160,7 +160,11 @@ export default function TableV2(props) {
       <TableContainer sx={{ maxHeight }}>
         <Table
           aria-labelledby="tableTitle"
-          className={clsx(styles.table, shouldFixTableLayout && styles.fixed)}
+          className={clsx(
+            styles.table,
+            shouldFixTableLayout && styles.fixed,
+            alternatingRowColor && styles.alternatingRowColorStyle,
+          )}
           stickyHeader={stickyHeader && maxHeight ? true : false}
         >
           {showHeader && (

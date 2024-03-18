@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useCallback, useMemo, useState, ChangeEvent, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PureAnimalInventory, { SearchProps } from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
@@ -29,12 +30,14 @@ import { ReactComponent as TaskCreationIcon } from '../../../assets/images/creat
 import { ReactComponent as CloneIcon } from '../../../assets/images/clone.svg';
 import { ReactComponent as RemoveAnimalIcon } from '../../../assets/images/animals/remove-animal.svg';
 import styles from './styles.module.scss';
-import AnimalsFilter from '../AnimalsFilter';
 import { useFilteredInventory } from './useFilteredInventory';
 import RemoveAnimalsModal from '../../../components/Animals/RemoveAnimalsModal';
 import useAnimalOrBatchRemoval from './useAnimalOrBatchRemoval';
-import { useDispatch } from 'react-redux';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
+import {
+  isFilterCurrentlyActiveSelector,
+  resetAnimalsFilter,
+} from '../../../containers/filterSlice';
 
 interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
@@ -55,7 +58,6 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
 
   const { t } = useTranslation(['translation', 'animal', 'common', 'message']);
   const theme = useTheme();
-  const dispatch = useDispatch();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const zIndexBase = theme.zIndex.drawer;
   const backgroundColor = theme.palette.background.paper;
@@ -63,6 +65,10 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const { inventory, isLoading } = useAnimalInventory();
 
   const filteredInventory = useFilteredInventory(inventory);
+
+  const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('animals'));
+  const dispatch = useDispatch();
+  const clearFilters = () => dispatch(resetAnimalsFilter());
 
   const onTypeClick = useCallback(
     (typeId: string) => {
@@ -224,7 +230,6 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
       />
       {!isLoading && (
         <div className={styles.mainContent}>
-          <AnimalsFilter />
           <PureAnimalInventory
             filteredInventory={searchAndFilteredInventory}
             animalsColumns={animalsColumns}
@@ -236,6 +241,8 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
             handleSelectAllClick={handleSelectAllClick}
             selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
             totalInventoryCount={inventory.length}
+            isFilterActive={isFilterActive}
+            clearFilters={clearFilters}
           />
           {selectedInventoryIds.length ? (
             <ActionMenu

@@ -21,18 +21,12 @@ import Drawer from '../../../components/Drawer';
 import FilterButton from '../../../components/Filter/FilterButton';
 import Button from '../../../components/Form/Button';
 import AnimalsFilterContent from '../../Filter/Animals/';
-import {
-  isFilterCurrentlyActiveSelector,
-  setAnimalsFilter,
-  animalsFilterSelector,
-  initialAnimalsFilter,
-} from '../../filterSlice';
+import { setAnimalsFilter, animalsFilterSelector, initialAnimalsFilter } from '../../filterSlice';
 
-const AnimalsFilter = () => {
+const AnimalsFilter = ({ isFilterActive }: { isFilterActive: boolean }) => {
   const { t } = useTranslation();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
-  const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('animals'));
 
   const animalsFilter = useSelector(animalsFilterSelector);
   const dispatch = useDispatch();

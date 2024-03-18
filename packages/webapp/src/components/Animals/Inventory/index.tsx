@@ -99,7 +99,7 @@ const PureAnimalInventory = ({
         </div>
       </div>
       <div className={isDesktop ? '' : styles.tableWrapper}>
-        {hasSearchResults ? (
+        {!totalInventoryCount || hasSearchResults ? (
           <Table
             kind={TableKind.V2}
             alternatingRowColor={true}

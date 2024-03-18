@@ -41,7 +41,7 @@ export type FormFields = {
 
 // Does not exist in the backend table
 const CREATED_IN_ERROR = 'CREATED_IN_ERROR';
-const CREATED_IN_ERROR_ID = 100; // arbitrary; use any unused number except 0
+export const CREATED_IN_ERROR_ID = 100; // arbitrary; use any unused number except 0
 
 type RemovalReasonsEnum = {
   [K in AnimalRemovalReasonKeys]: number;

@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useCallback, useMemo, useState, ChangeEvent } from 'react';
+import { useCallback, useMemo, useState, ChangeEvent, useEffect } from 'react';
 import PureAnimalInventory, { SearchProps } from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
@@ -33,6 +33,8 @@ import AnimalsFilter from '../AnimalsFilter';
 import { useFilteredInventory } from './useFilteredInventory';
 import RemoveAnimalsModal from '../../../components/Animals/RemoveAnimalsModal';
 import useAnimalOrBatchRemoval from './useAnimalOrBatchRemoval';
+import { useDispatch } from 'react-redux';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 
 interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
@@ -51,8 +53,9 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const [selectedTypeIds, setSelectedTypeIds] = useState<string[]>([]);
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>([]);
 
-  const { t } = useTranslation(['translation', 'animal', 'common']);
+  const { t } = useTranslation(['translation', 'animal', 'common', 'message']);
   const theme = useTheme();
+  const dispatch = useDispatch();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const zIndexBase = theme.zIndex.drawer;
   const backgroundColor = theme.palette.background.paper;
@@ -75,8 +78,12 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     [setSelectedTypeIds],
   );
 
-  const { handleAnimalOrBatchRemoval, removalModalOpen, setRemovalModalOpen } =
-    useAnimalOrBatchRemoval(selectedInventoryIds, setSelectedInventoryIds);
+  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen } = useAnimalOrBatchRemoval(
+    selectedInventoryIds,
+    setSelectedInventoryIds,
+    dispatch,
+    t,
+  );
 
   const animalsColumns = useMemo(
     () => [
@@ -243,7 +250,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
           <RemoveAnimalsModal
             isOpen={removalModalOpen}
             onClose={() => setRemovalModalOpen(false)}
-            onConfirm={handleAnimalOrBatchRemoval}
+            onConfirm={onConfirmRemoveAnimals}
             showSuccessMessage={false}
           />
         </div>

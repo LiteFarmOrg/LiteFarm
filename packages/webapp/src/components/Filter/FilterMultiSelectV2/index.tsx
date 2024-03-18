@@ -1,11 +1,4 @@
-import React, {
-  ReactElement,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-} from 'react';
+import React, { useLayoutEffect, useMemo, useRef } from 'react';
 import Select, {
   ClearIndicatorProps,
   components,
@@ -96,6 +89,7 @@ export const FilterMultiSelectV2 = ({ options }) => {
   };
 
   useLayoutEffect(() => {
+    hiddenCountRef.current?.remove();
     const pillElements = ref.current?.getElementsByClassName(styles.multiValue);
     if (pillElements) {
       const pillElementsArr = Array.from(pillElements) as HTMLElement[];
@@ -103,14 +97,11 @@ export const FilterMultiSelectV2 = ({ options }) => {
       const hiddenCount = pillElementsArr.filter((el) => el.offsetTop > baseOffset).length;
       const lastVisiblePillIndex = pillElementsArr.length - hiddenCount - 1;
       pillElementsArr.forEach((el, index) => {
-        if (index === lastVisiblePillIndex) {
-          hiddenCountRef.current?.remove();
-          if (hiddenCount > 0) {
-            const newHiddenCountEl = document.createElement('p');
-            newHiddenCountEl.textContent = `+${hiddenCount}`;
-            hiddenCountRef.current = newHiddenCountEl;
-            el.insertAdjacentElement('afterend', newHiddenCountEl);
-          }
+        if (index === lastVisiblePillIndex && hiddenCount > 0) {
+          const newHiddenCountEl = document.createElement('p');
+          newHiddenCountEl.textContent = `+${hiddenCount}`;
+          hiddenCountRef.current = newHiddenCountEl;
+          el.insertAdjacentElement('afterend', newHiddenCountEl);
         }
         if (index > lastVisiblePillIndex) {
           el.classList.add(styles.hiddenPill);
@@ -118,11 +109,6 @@ export const FilterMultiSelectV2 = ({ options }) => {
       });
     }
   });
-
-  const onMenuOpen = () => {
-    hiddenCountRef.current?.remove();
-    setIsMenuOpen(true);
-  };
 
   return (
     <div ref={ref}>
@@ -134,7 +120,7 @@ export const FilterMultiSelectV2 = ({ options }) => {
         closeMenuOnSelect={false}
         onChange={onChange}
         placeholder={t('FILTER.SHOWING_ALL')}
-        onMenuOpen={onMenuOpen}
+        onMenuOpen={() => setIsMenuOpen(true)}
         onMenuClose={() => setIsMenuOpen(false)}
         controlShouldRenderValue={!isMenuOpen}
         isSearchable={isMenuOpen}

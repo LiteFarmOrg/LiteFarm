@@ -83,4 +83,5 @@ export type TableV2Props<RowData extends TableRowData> = {
   stickyHeader?: boolean;
   maxHeight?: number | string;
   emptyRowNum?: number;
+  headerBackgroundColor?: string;
 };

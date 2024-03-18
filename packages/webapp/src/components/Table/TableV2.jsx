@@ -100,6 +100,7 @@ export default function TableV2(props) {
     stickyHeader,
     maxHeight,
     emptyRowNum,
+    headerBackgroundColor,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -177,6 +178,7 @@ export default function TableV2(props) {
               onSelectAllClick={handleSelectAllClick}
               numSelected={selectedIds?.length}
               rowCount={data.length}
+              backgroundColor={headerBackgroundColor}
             />
           )}
           <TableBody className={styles.tableBody}>
@@ -324,6 +326,7 @@ TableV2.propTypes = {
   stickyHeader: PropTypes.bool,
   maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   emptyRowNum: PropTypes.number,
+  headerBackgroundColor: PropTypes.string,
 };
 
 TableV2.defaultProps = {

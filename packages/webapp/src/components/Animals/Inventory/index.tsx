@@ -17,7 +17,11 @@ import Table from '../../../components/Table';
 import Layout from '../../../components/Layout';
 import PureSearchBarWithBackdrop from '../../PopupFilter/PureSearchWithBackdrop';
 import NoSearchResults from '../../../components/Card/NoSearchResults';
+import ClearFiltersButton, {
+  ClearFiltersButtonType,
+} from '../../../components/Button/ClearFiltersButton';
 import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
+import AnimalsFilter from '../../../containers/Animals/AnimalsFilter';
 import { TableV2Column, TableKind } from '../../Table/types';
 import type { Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.scss';
@@ -41,6 +45,8 @@ const PureAnimalInventory = ({
   handleSelectAllClick,
   selectedIds,
   totalInventoryCount,
+  isFilterActive,
+  clearFilters,
 }: {
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
@@ -52,6 +58,8 @@ const PureAnimalInventory = ({
   handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
   selectedIds: string[];
   totalInventoryCount: number;
+  isFilterActive: boolean;
+  clearFilters: () => void;
 }) => {
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
@@ -70,7 +78,12 @@ const PureAnimalInventory = ({
       hasWhiteBackground
       footer={false}
     >
-      <div className={clsx(isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter)}>
+      <div
+        className={clsx(
+          isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter,
+          styles.searchAndFilterCommon,
+        )}
+      >
         <PureSearchBarWithBackdrop
           value={searchString}
           onChange={(e: any) => setSearchString(e.target.value)}
@@ -80,8 +93,22 @@ const PureAnimalInventory = ({
           isDesktop={isDesktop}
           className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
         />
-        <div className={clsx(isDesktop ? styles.searchResultsDesktop : styles.searchResults)}>
+        <AnimalsFilter isFilterActive={isFilterActive} />
+        <div
+          className={clsx(
+            isDesktop ? styles.searchResultsDesktop : styles.searchResults,
+            styles.searchResultsText,
+            isFilterActive ? styles.filterActive : '',
+          )}
+        >
           {searchResultsText}
+        </div>
+        <div className={isDesktop ? styles.clearButtonWrapperDesktop : ''}>
+          <ClearFiltersButton
+            type={isDesktop ? ClearFiltersButtonType.TEXT : ClearFiltersButtonType.ICON}
+            isFilterActive={isFilterActive}
+            onClick={clearFilters}
+          />
         </div>
       </div>
       {hasSearchResults ? (

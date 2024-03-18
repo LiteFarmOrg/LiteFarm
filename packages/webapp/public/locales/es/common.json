@@ -12,6 +12,7 @@
   "CANCEL": "Cancelar",
   "CHANGE": "Cambiar",
   "CHAR_LIMIT_ERROR": "El límite es de {{value}} caracteres.",
+  "CLEAR_ACTIVE_FILTERS": "MISSING",
   "CLEAR_SELECTION": "MISSING",
   "CLONE": "MISSING",
   "CLOSE": "Cerrar",

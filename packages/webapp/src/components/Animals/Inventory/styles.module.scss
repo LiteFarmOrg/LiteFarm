@@ -78,8 +78,6 @@
 }
 
 .wrapper {
-  margin-bottom: 80px; // TODO: adjust not to be hidden by action menu
-
   @include lg-breakpoint {
     padding: 16px;
   }

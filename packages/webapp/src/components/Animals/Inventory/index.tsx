@@ -114,6 +114,7 @@ const PureAnimalInventory = ({
             selectedIds={selectedIds}
             stickyHeader={isDesktop}
             maxHeight={maxHeight}
+            emptyRowNum={2}
           />
         ) : (
           <NoSearchResults

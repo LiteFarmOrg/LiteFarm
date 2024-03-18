@@ -19,17 +19,35 @@ import { useTheme } from '@mui/styles';
 import { sumObjectValues } from '../../../util';
 import styles from './styles.module.scss';
 
-const heights = {
-  mobile: { globalNavbar: 56 },
-  desktop: { globalNavbar: 64, paperMargin: 32 },
+const globalNavbarHeight = {
+  mobile: 56,
+  desktop: 64,
 };
 
-const FixedHeaderContainer = ({ header, children }: { header: ReactNode; children: ReactNode }) => {
+const heights = {
+  mobile: {},
+  desktop: { paperMargin: 32 },
+};
+
+const PAPER_BORDER = 2;
+
+type FixedHeaderContainerProps = {
+  header: ReactNode;
+  children: ReactNode;
+  desktopBreakpoint?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+};
+
+const FixedHeaderContainer = ({
+  header,
+  children,
+  desktopBreakpoint = 'lg',
+}: FixedHeaderContainerProps) => {
   const [headerHeight, setHeaderHeight] = useState<number | null>(null);
   const [paperHeightInPx, setPaperHeightInPx] = useState<number | null>(null);
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobileHeader = useMediaQuery(theme.breakpoints.down('sm'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up(desktopBreakpoint));
   const headerRef = useRef<HTMLDivElement>(null);
   const paperRef = useRef<HTMLDivElement>(null);
 
@@ -55,9 +73,12 @@ const FixedHeaderContainer = ({ header, children }: { header: ReactNode; childre
   }, []);
 
   const paperHeightCSS = useMemo<string | undefined>(() => {
-    const usedPx = sumObjectValues(heights[isMobile ? 'mobile' : 'desktop']) + (headerHeight || 0);
+    const usedPx =
+      globalNavbarHeight[isMobileHeader ? 'mobile' : 'desktop'] +
+      sumObjectValues(heights[isDesktop ? 'desktop' : 'mobile']) +
+      (headerHeight || 0);
     return `calc(100vh - ${usedPx}px)`;
-  }, [isMobile, headerHeight]);
+  }, [isMobileHeader, isDesktop, headerHeight]);
 
   const childrenWithProps = useMemo(() => {
     // Provide the 'containerHeight' prop to children components,
@@ -65,7 +86,7 @@ const FixedHeaderContainer = ({ header, children }: { header: ReactNode; childre
     return React.Children.map(children, (child) => {
       if (React.isValidElement(child)) {
         return React.cloneElement(child as ReactElement<any>, {
-          containerHeight: paperHeightInPx,
+          containerHeight: paperHeightInPx ? paperHeightInPx - PAPER_BORDER : null,
         });
       }
       return child;

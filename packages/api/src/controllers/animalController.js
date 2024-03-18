@@ -18,7 +18,6 @@ import AnimalModel from '../models/animalModel.js';
 import baseController from './baseController.js';
 import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
-import DefaultAnimalTypeModel from '../models/defaultAnimalTypeModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { assignInternalIdentifiers } from '../util/animal.js';
 import { handleObjectionError } from '../util/errorCodes.js';
@@ -56,60 +55,30 @@ const animalController = {
         const { farm_id } = req.headers;
         const result = [];
 
-        if (!Array.isArray(req.body)) {
-          await trx.rollback();
-          return res.status(400).send('Request body should be an array');
-        }
-
         for (const animal of req.body) {
-          if (!animal.default_type_id && !animal.custom_type_id) {
-            await trx.rollback();
-            return res.status(400).send('Should send either default_type_id or custom_type_id');
-          }
-
-          if (animal.default_type_id && animal.custom_type_id) {
-            await trx.rollback();
-            return res
-              .status(400)
-              .send('Should only send either default_type_id or custom_type_id');
-          }
-
-          if (animal.default_breed_id && animal.custom_breed_id) {
-            await trx.rollback();
-            return res
-              .status(400)
-              .send('Should only send either default_breed_id or custom_breed_id');
-          }
-
-          if (animal.default_type_id) {
-            const defaultType = await DefaultAnimalTypeModel.query().findById(
-              animal.default_type_id,
-            );
-
-            if (!defaultType) {
-              await trx.rollback();
-              return res.status(400).send('default_type_id has invalid value');
-            }
-          }
-
           if (animal.custom_type_id) {
             const customType = await CustomAnimalTypeModel.query().findById(animal.custom_type_id);
 
-            if (!customType || customType.farm_id !== farm_id) {
+            if (customType && customType.farm_id !== farm_id) {
               await trx.rollback();
-              return res.status(400).send('custom_type_id has invalid value');
+              return res.status(403).send('Forbidden custom type does not belong to this farm');
             }
           }
 
-          if (animal.default_breed_id) {
+          if (animal.default_breed_id && animal.default_type_id) {
             const defaultBreed = await DefaultAnimalBreedModel.query().findById(
               animal.default_breed_id,
             );
 
-            if (!defaultBreed || defaultBreed.default_type_id !== animal.default_type_id) {
+            if (defaultBreed && defaultBreed.default_type_id !== animal.default_type_id) {
               await trx.rollback();
-              return res.status(400).send('default_breed_id has invalid value');
+              return res.status(400).send('Breed does not match type');
             }
+          }
+
+          if (animal.default_breed_id && animal.custom_type_id) {
+            await trx.rollback();
+            return res.status(400).send('Default breed does not use custom type');
           }
 
           if (animal.custom_breed_id) {
@@ -117,9 +86,9 @@ const animalController = {
               .whereNotDeleted()
               .findById(animal.custom_breed_id);
 
-            if (!customBreed || customBreed.farm_id !== farm_id) {
+            if (customBreed && customBreed.farm_id !== farm_id) {
               await trx.rollback();
-              return res.status(400).send('custom_breed_id has invalid value');
+              return res.status(403).send('Forbidden custom breed does not belong to this farm');
             }
 
             if (
@@ -127,7 +96,7 @@ const animalController = {
               customBreed.default_type_id !== animal.default_type_id
             ) {
               await trx.rollback();
-              return res.status(400).send('custom_breed_id has invalid value');
+              return res.status(400).send('Breed does not match type');
             }
 
             if (
@@ -135,7 +104,7 @@ const animalController = {
               customBreed.custom_type_id !== animal.custom_type_id
             ) {
               await trx.rollback();
-              return res.status(400).send('custom_breed_id has invalid value');
+              return res.status(400).send('Breed does not match type');
             }
           }
 
@@ -157,11 +126,7 @@ const animalController = {
         await assignInternalIdentifiers(result, 'animal');
         return res.status(201).send(result);
       } catch (error) {
-        console.error(error);
-        await trx.rollback();
-        return res.status(500).json({
-          error,
-        });
+        await handleObjectionError(error, res, trx);
       }
     };
   },

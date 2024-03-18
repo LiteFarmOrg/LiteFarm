@@ -99,6 +99,7 @@ export default function TableV2(props) {
     selectedIds,
     stickyHeader,
     maxHeight,
+    emptyRowNum,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -264,6 +265,11 @@ export default function TableV2(props) {
                 </TableCell>
               </TableRow>
             ) : null}
+            {emptyRowNum > 0 && (
+              <TableRow style={{ height: (dense ? 40 : 56) * emptyRowNum }}>
+                <TableCell colSpan={fullColSpan} className={styles.tableCell} />
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
@@ -312,6 +318,7 @@ TableV2.propTypes = {
   selectedIds: PropTypes.array,
   stickyHeader: PropTypes.bool,
   maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  emptyRowNum: PropTypes.number,
 };
 
 TableV2.defaultProps = {

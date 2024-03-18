@@ -82,4 +82,5 @@ export type TableV2Props<RowData extends TableRowData> = {
   selectedIds?: RowData['id'][];
   stickyHeader?: boolean;
   maxHeight?: number | string;
+  emptyRowNum?: number;
 };

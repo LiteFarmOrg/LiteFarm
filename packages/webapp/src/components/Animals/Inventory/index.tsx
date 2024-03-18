@@ -115,6 +115,7 @@ const PureAnimalInventory = ({
             stickyHeader={isDesktop}
             maxHeight={maxHeight}
             emptyRowNum={2}
+            headerBackgroundColor={'#fff'}
           />
         ) : (
           <NoSearchResults

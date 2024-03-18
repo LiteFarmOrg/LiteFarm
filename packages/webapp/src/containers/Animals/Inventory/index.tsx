@@ -39,7 +39,7 @@ import {
 } from '../../../containers/filterSlice';
 
 const heights = {
-  filterAndSearch: 56,
+  filterAndSearch: 64,
   containerPadding: 32,
 };
 const usedHeight = sumObjectValues(heights);

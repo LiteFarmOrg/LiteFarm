@@ -107,8 +107,10 @@ export default function TableV2(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(minRows);
 
-  const fullColSpan = columns.reduce((total, column) => total + (column.id ? 1 : 0), 0);
   const shouldShowCheckbox = !!(onCheck && handleSelectAllClick && selectedIds);
+  const fullColSpan =
+    columns.reduce((total, column) => total + (column.id ? 1 : 0), 0) +
+    (shouldShowCheckbox ? 1 : 0);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -266,7 +268,10 @@ export default function TableV2(props) {
               </TableRow>
             ) : null}
             {emptyRowNum > 0 && (
-              <TableRow style={{ height: (dense ? 40 : 56) * emptyRowNum }}>
+              <TableRow
+                style={{ height: (dense ? 40 : 56) * emptyRowNum }}
+                className={styles.emptyRow}
+              >
                 <TableCell colSpan={fullColSpan} className={styles.tableCell} />
               </TableRow>
             )}

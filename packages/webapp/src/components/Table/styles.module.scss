@@ -84,6 +84,12 @@
   background-color: var(--white, #fff);
 }
 
+.emptyRow {
+  .tableCell {
+    border-bottom: none;
+  }
+}
+
 .tableHead, .headerLabel {
   white-space: nowrap;
   text-overflow: ellipsis;

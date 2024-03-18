@@ -174,15 +174,25 @@ describe('Animal Group Tests', () => {
         expect(res.status).toBe(200);
         // Should return first two animal groups
         expect(res.body.length).toBe(2);
+        // Sometimes response is returned in different order than created
+        // TODO: Find a better solution to this:
+        const orderedMockGroupIds = res.body.map((group) =>
+          groups.findIndex(({ name }) => name === group.name),
+        );
+
         res.body.forEach((group, index) => {
           expect(group.farm_id).toBe(mainFarm.farm_id);
-          expect(group.name).toBe(groups[index].name);
+          expect(group.name).toBe(groups[orderedMockGroupIds[index]].name);
           // Match relationships in any order
           expect(group.related_animal_ids.sort()).toEqual(
-            animalRelationships[index].map((relationship) => relationship.animal_id).sort(),
+            animalRelationships[orderedMockGroupIds[index]]
+              .map((relationship) => relationship.animal_id)
+              .sort(),
           );
           expect(group.related_batch_ids.sort()).toEqual(
-            batchRelationships[index].map((relationship) => relationship.animal_batch_id).sort(),
+            batchRelationships[orderedMockGroupIds[index]]
+              .map((relationship) => relationship.animal_batch_id)
+              .sort(),
           );
         });
       }

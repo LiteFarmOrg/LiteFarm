@@ -19,13 +19,11 @@
   width: 100%;
   max-width: 1024px;
   overflow-y: auto;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 
-  @include xs-breakpoint {
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  @include sm-breakpoint {
+  @include lg-breakpoint {
     margin: 16px auto;
     border-radius: 8px;
     border: 1px solid var(--Colors-Primary-Primary-teal-50);

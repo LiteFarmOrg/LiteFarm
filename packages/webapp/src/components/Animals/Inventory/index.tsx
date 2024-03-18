@@ -98,29 +98,31 @@ const PureAnimalInventory = ({
           />
         </div>
       </div>
-      {hasSearchResults ? (
-        <Table
-          kind={TableKind.V2}
-          alternatingRowColor={true}
-          columns={animalsColumns}
-          data={filteredInventory}
-          shouldFixTableLayout={isDesktop}
-          minRows={totalInventoryCount}
-          dense={false}
-          showHeader={isDesktop}
-          onCheck={onSelectInventory}
-          handleSelectAllClick={handleSelectAllClick}
-          selectedIds={selectedIds}
-          stickyHeader={isDesktop}
-          maxHeight={maxHeight}
-        />
-      ) : (
-        <NoSearchResults
-          className={clsx(isDesktop ? styles.noSearchResultsDesktop : styles.noSearchResults)}
-          searchTerm={searchString}
-          includeFiltersInClearSuggestion
-        />
-      )}
+      <div className={isDesktop ? '' : styles.tableWrapper}>
+        {hasSearchResults ? (
+          <Table
+            kind={TableKind.V2}
+            alternatingRowColor={true}
+            columns={animalsColumns}
+            data={filteredInventory}
+            shouldFixTableLayout={isDesktop}
+            minRows={totalInventoryCount}
+            dense={false}
+            showHeader={isDesktop}
+            onCheck={onSelectInventory}
+            handleSelectAllClick={handleSelectAllClick}
+            selectedIds={selectedIds}
+            stickyHeader={isDesktop}
+            maxHeight={maxHeight}
+          />
+        ) : (
+          <NoSearchResults
+            className={clsx(isDesktop ? styles.noSearchResultsDesktop : styles.noSearchResults)}
+            searchTerm={searchString}
+            includeFiltersInClearSuggestion
+          />
+        )}
+      </div>
     </div>
   );
 };

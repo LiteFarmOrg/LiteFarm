@@ -27,6 +27,7 @@ import type {
   FilterState,
 } from '../../../containers/Filter/types';
 import type { ComponentFilter } from '../types';
+import { FilterMultiSelectV2 } from '../FilterMultiSelectV2';
 
 type ComponentOnChangeCallback = (filterState?: FilterState) => void;
 
@@ -53,15 +54,7 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterIt
   } else if (filter.type === DATE_RANGE) {
     return <FilterDateRange key={filter.subject} {...filter} {...props} />;
   } else if (filter.type === SEARCHABLE_MULTI_SELECT) {
-    return (
-      <FilterMultiSelect
-        subject={filter.subject}
-        options={filter.options}
-        filterKey={filter.filterKey}
-        key={filter.filterKey}
-        {...props}
-      />
-    );
+    return <FilterMultiSelectV2 options={filter.options} />;
   } else if (filter.type === DATE) {
     return <FilterDate {...filter} key={filter.subject} {...props} />;
   } else {

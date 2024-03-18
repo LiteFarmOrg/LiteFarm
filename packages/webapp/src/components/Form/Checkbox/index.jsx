@@ -3,6 +3,8 @@ import styles from './checkbox.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Error, Main } from '../../Typography';
+import { ReactComponent as UncheckedEnabled } from '../../../assets/images/unchecked-enabled.svg';
+import { ReactComponent as CheckedEnabled } from '../../../assets/images/checked-enabled.svg';
 
 const Checkbox = ({
   label = 'label',
@@ -39,7 +41,8 @@ const Checkbox = ({
         {...props}
         disabled={disabled}
       />
-      <span className={clsx(styles.checkmark)} style={classes.checkbox} />
+      <CheckedEnabled className={styles.checked} />
+      <UncheckedEnabled className={styles.unchecked} />
       <Main
         className={clsx(styles.label, sm && styles.smallLabel)}
         style={classes.label}

@@ -68,7 +68,7 @@ export const FilterMultiSelect = ({
         onChange?.(filterRef.current![filterKey]);
       }}
       isMulti
-      isSearchable
+      isSearchable={isFocused}
       className={className}
     />
   );

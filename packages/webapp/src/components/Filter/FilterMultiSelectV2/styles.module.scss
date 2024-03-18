@@ -1,0 +1,103 @@
+@import '../../../assets/mixin.scss';
+
+.pillsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.clearTextButton {
+  @include fontFamily();
+  color: var(--Colors-Accent---singles-Blue-full);
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+.optionButton {
+  text-align: left;
+  width: 100%;
+}
+
+.multiValue {
+  background-color: var(--Colors-Secondary-Secondary-green-200);
+  border-radius: 12px;
+  box-shadow: 1px 1px 0px 0px var(--Colors-Secondary-Secondary-green-400);
+  padding: 2px 8px;
+  margin: 0px 8px 0px 0px;
+}
+
+.multiValueLabel {
+  font-size: 14px;
+  line-height: 24px;
+  padding: 0;
+  color: var(--Colors-Secondary-Secondary-green-900);
+}
+
+.multiValueRemove {
+  border: none;
+  cursor: pointer;
+  padding-right: 0;
+
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+.pillsContainer {
+  display: flex;
+  gap: 8px 0;
+}
+
+.valueContainer {
+  padding: 6px 8px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+.hiddenPillsCount {
+  width: 25%;
+  height: 28px;
+  line-height: 28px;
+  position: absolute;
+}
+
+.hiddenPill {
+  display: none;
+}
+
+.option {
+  margin-bottom: 2px;
+  display: flex;
+  padding: 8px 16px;
+
+  &:hover {
+    background-color: var(--Colors-Secondary-Secondary-green-500);
+  }
+}
+
+.placeholder {
+  font-size: 16px;
+}
+
+.dropdownIndicator {
+  color: var(--Colors-Neutral-Neutral-900);
+}
+
+.control {
+  height: 42px;
+  overflow: hidden;
+}
+
+.focusedControl {
+  height: 40px;
+  overflow: hidden;
+  border-color: var(--teal500);
+
+  &:hover {
+    border-color: var(--teal500);
+  }
+}
+
+.indicatorsContainer {
+  height: 100%;
+}

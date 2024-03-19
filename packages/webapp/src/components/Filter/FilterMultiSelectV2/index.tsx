@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import TextButton from '../../Form/Button/TextButton';
 import styles from './styles.module.scss';
 import Checkbox from '../../Form/Checkbox';
+import produce from 'immer';
 
 interface FilterMultiSelectProps extends ComponentFilter {
   filterRef: React.RefObject<ReduxFilterEntity>;
@@ -69,7 +70,7 @@ const MenuList = (props: MenuListProps) => {
   return <components.MenuList {...props}>{children}</components.MenuList>;
 };
 
-export const FilterMultiSelectV2 = ({ options }) => {
+export const FilterMultiSelectV2 = ({ options, filterRef, filterKey, onChange }) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(() => options.filter((option) => option.default));
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -84,8 +85,25 @@ export const FilterMultiSelectV2 = ({ options }) => {
     return sorted;
   }, [options, value]);
 
-  const onChange = (updatedValue) => {
+  const defaultFilterState = useMemo(() => {
+    return options.reduce((defaultFilterState, option) => {
+      defaultFilterState[option.value] = {
+        active: false,
+        label: option.label,
+      };
+      return defaultFilterState;
+    }, {});
+  }, []);
+
+  const handleChange = (updatedValue) => {
     setValue(updatedValue.sort((a, b) => a.label.localeCompare(b.label)));
+    filterRef.current![filterKey] = produce(defaultFilterState, (defaultFilterState) => {
+      for (const option of updatedValue) {
+        defaultFilterState[option.value].active = true;
+      }
+    });
+
+    onChange?.(filterRef.current![filterKey]);
   };
 
   useLayoutEffect(() => {
@@ -118,7 +136,7 @@ export const FilterMultiSelectV2 = ({ options }) => {
         isMulti
         hideSelectedOptions={false}
         closeMenuOnSelect={false}
-        onChange={onChange}
+        onChange={handleChange}
         placeholder={t('FILTER.SHOWING_ALL')}
         onMenuOpen={() => setIsMenuOpen(true)}
         onMenuClose={() => setIsMenuOpen(false)}

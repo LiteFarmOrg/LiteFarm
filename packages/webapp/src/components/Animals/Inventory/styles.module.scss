@@ -77,8 +77,6 @@
   padding-top: 73px; // search filter height (89px) - space between table header and body (16px)
 }
 
-.wrapper {
-  @include lg-breakpoint {
-    padding: 16px;
-  }
+.wrapperDesktop {
+  padding: 16px;
 }

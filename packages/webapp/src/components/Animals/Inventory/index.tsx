@@ -64,7 +64,7 @@ const PureAnimalInventory = ({
   const hasSearchResults = filteredInventory.length !== 0;
 
   return (
-    <div className={styles.wrapper}>
+    <div className={isDesktop ? styles.wrapperDesktop : ''}>
       <div
         className={clsx(
           isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter,

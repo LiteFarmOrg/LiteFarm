@@ -37,24 +37,12 @@ const useAnimalOrBatchRemoval = (
   const [removeAnimals] = useRemoveAnimalsMutation();
   const [removeBatches] = useRemoveAnimalBatchesMutation();
 
-  const { mutations, isLoading, isError, isSuccess } = useMutations([
+  const { mutations } = useMutations([
     { label: 'deleteAnimals', hook: useDeleteAnimalsMutation },
     { label: 'deleteBatches', hook: useDeleteAnimalBatchesMutation },
   ]);
 
   const [removalModalOpen, setRemovalModalOpen] = useState(false);
-
-  const removeFromSelectedIds = (removeTheseIds: string[]) => {
-    const newArray = selectedInventoryIds;
-    removeTheseIds.forEach((removalId: string): void => {
-      const index = newArray.indexOf(removalId);
-      if (index > -1) {
-        // only splice array when item is found
-        newArray.splice(index, 1); // 2nd parameter means remove one item only
-      }
-    });
-    return newArray;
-  };
 
   const handleAnimalOrBatchRemoval = (formData: FormFields) => {
     const timestampedDate = toLocalISOString(formData.date);
@@ -89,10 +77,10 @@ const useAnimalOrBatchRemoval = (
   };
 
   const handleAnimalOrBatchDeletion = async () => {
-    const animalIds = [];
-    const selectedAnimalIds = [];
-    const animalBatchIds = [];
-    const selectedBatchIds = [];
+    const animalIds: number[] = [];
+    const selectedAnimalIds: string[] = [];
+    const animalBatchIds: number[] = [];
+    const selectedBatchIds: string[] = [];
 
     for (const id of selectedInventoryIds) {
       const { kind, id: entity_id } = parseInventoryId(id);
@@ -108,8 +96,7 @@ const useAnimalOrBatchRemoval = (
     try {
       if (animalIds.length) {
         await mutations['deleteAnimals'].trigger(animalIds).unwrap();
-        const newIdState = removeFromSelectedIds(selectedAnimalIds);
-        setSelectedInventoryIds(newIdState);
+        setSelectedInventoryIds(selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)));
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_ANIMALS', { ns: 'message' })));
       }
     } catch (err) {
@@ -119,8 +106,7 @@ const useAnimalOrBatchRemoval = (
     try {
       if (animalBatchIds.length) {
         await mutations['deleteBatches'].trigger(animalBatchIds).unwrap();
-        const newIdState = removeFromSelectedIds(selectedBatchIds);
-        setSelectedInventoryIds(newIdState);
+        setSelectedInventoryIds(selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)));
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_BATCHES', { ns: 'message' })));
       }
     } catch (err) {

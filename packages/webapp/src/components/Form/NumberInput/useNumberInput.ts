@@ -13,25 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ChangeEvent, ReactNode, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import InputBase, { type InputBaseProps } from '../InputBase';
-import { clamp, countDecimalPlaces, isEqual } from './utils';
-import NumberInputStepper from './NumberInputStepper';
+import { clamp, countDecimalPlaces } from './utils';
+import { ChangeEvent, ComponentPropsWithRef, useMemo, useRef, useState } from 'react';
+import { NumberInputStepperProps } from './NumberInputStepper';
 
-export type NumberInputProps = {
+export type NumberInputOptions = {
   /**
-   * The initial value of the input
+   * Value shown on first render.
    */
-  value?: number | string;
-  /**
-   * function called on change with value represented as a number as the paramter.
-   */
-  onChange?: (value: number) => void;
-  /**
-   * function called when input is blurred
-   */
-  onBlur?: () => void;
+  initialValue?: number | null;
   /**
    * Controls grouping of numbers over 1000 with the thousands separator.
    */
@@ -49,16 +40,7 @@ export type NumberInputProps = {
    */
   decimalDigits?: number;
   /**
-   * The currency symbol to display on left side of input
-   */
-  currencySymbol: ReactNode;
-  /**
-   * The unit to display on right side of input
-   */
-  unit?: ReactNode;
-  /**
    * - Amount to increment or decrement.
-   * - Renders a stepper on right side when step is greater than 0.
    * - If allowDecimal is false, then step is rounded up to the nearest whole number.
    */
   step?: number;
@@ -70,29 +52,34 @@ export type NumberInputProps = {
    * Min value of input. Only applicable if used with step
    */
   min?: number;
-  disabled?: boolean;
-} & InputBaseProps;
+  /**
+   * Function called when number value of input changes.
+   * @param value - Current value represented as number or NaN if input field is empty.
+   */
+  onChange?: (value: number) => void;
+  /**
+   * Function called when input is blurred.
+   */
+  onBlur?: () => void;
+};
 
-export default function NumberInput({
-  value = '',
+export default function useNumberInput({
+  initialValue,
+  locale: customLocale,
+  decimalDigits,
+  allowDecimal,
+  useGrouping,
+  step = 1,
+  min = 0,
+  max = Infinity,
   onChange,
   onBlur,
-  useGrouping = true,
-  allowDecimal = true,
-  decimalDigits,
-  unit,
-  currencySymbol,
-  step = 1,
-  max = Infinity,
-  min = 0,
-  disabled,
-  ...props
-}: NumberInputProps) {
+}: NumberInputOptions) {
   const {
     i18n: { language },
   } = useTranslation();
 
-  const locale = props.locale || language;
+  const locale = customLocale || language;
 
   const formatter = useMemo(() => {
     const stepDecimalPlaces = countDecimalPlaces(step);
@@ -126,14 +113,7 @@ export default function NumberInput({
     return separators;
   }, [locale]);
 
-  const propValue = typeof value === 'string' ? parseFloat(value) : value;
-  const [numericValue, setNumericValue] = useState(propValue);
-
-  // keep in sync with parent
-  if (!isEqual(propValue, numericValue)) {
-    setNumericValue(propValue);
-    return null;
-  }
+  const [numericValue, setNumericValue] = useState<number>(initialValue ?? NaN);
 
   // current input value that is focused and has been touched
   const [touchedValue, setTouchedValue] = useState<string>('');
@@ -174,7 +154,7 @@ export default function NumberInput({
   };
 
   const getDisplayValue = () => {
-    if (isNaN(numericValue) || numericValue == null) return '';
+    if (isNaN(numericValue)) return '';
     if (isFocused)
       return touchedValue || formatter.format(numericValue).replaceAll(thousandsSeparator, '');
     return formatter.format(numericValue);
@@ -198,37 +178,32 @@ export default function NumberInput({
     }
   };
 
-  return (
-    <InputBase
-      inputMode="numeric"
-      pattern={getPattern()}
-      value={getDisplayValue()}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      onFocus={handleFocus}
-      onKeyDown={handleKeyDown}
-      leftSection={currencySymbol}
-      rightSection={
-        <>
-          {unit}
-          {showStepper && (
-            <NumberInputStepper
-              increment={increment}
-              decrement={decrement}
-              incrementDisabled={numericValue === max}
-              decrementDisabled={numericValue === Math.max(min, 0)}
-              onMouseDown={(e) => {
-                // prevent focus on button when clicked and shift focus on input
-                e.preventDefault();
-                if (!isFocused) inputRef.current?.focus();
-              }}
-            />
-          )}
-        </>
-      }
-      disabled={disabled}
-      ref={inputRef}
-      {...props}
-    />
-  );
+  const inputProps: ComponentPropsWithRef<'input'> = {
+    value: getDisplayValue(),
+    pattern: getPattern(),
+    onChange: handleChange,
+    onBlur: handleBlur,
+    onFocus: handleFocus,
+    onKeyDown: handleKeyDown,
+    ref: inputRef,
+  };
+
+  const stepperProps: NumberInputStepperProps = {
+    increment,
+    decrement,
+    incrementDisabled: numericValue === max,
+    decrementDisabled: numericValue === Math.max(min, 0),
+    onMouseDown: (e: React.MouseEvent<HTMLButtonElement>) => {
+      // prevent focus on button when clicked and shift focus on input
+      e.preventDefault();
+      if (!isFocused) inputRef.current?.focus();
+    },
+  };
+
+  return {
+    numericValue,
+    reset: () => update(initialValue ?? NaN),
+    inputProps,
+    stepperProps,
+  };
 }

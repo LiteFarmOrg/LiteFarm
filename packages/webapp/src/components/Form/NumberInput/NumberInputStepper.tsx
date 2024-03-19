@@ -16,13 +16,15 @@
 import styles from './stepper.module.scss';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 
-export default function NumberInputStepper(props: {
+export type NumberInputStepperProps = {
   increment: () => void;
   decrement: () => void;
   onMouseDown?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   incrementDisabled: boolean;
   decrementDisabled: boolean;
-}) {
+};
+
+export default function NumberInputStepper(props: NumberInputStepperProps) {
   return (
     <div className={styles.stepper}>
       <button

@@ -26,6 +26,7 @@ import { CREATED_IN_ERROR_ID, FormFields } from '../../../components/Animals/Rem
 import useMutations from '../../../hooks/api/useMutations';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { TFunction } from 'i18next';
+import { AnimalOrBatchKeys } from '../types';
 
 const useAnimalOrBatchRemoval = (
   selectedInventoryIds: string[],
@@ -63,14 +64,14 @@ const useAnimalOrBatchRemoval = (
 
     for (const id of selectedInventoryIds) {
       const { kind, id: entity_id } = parseInventoryId(id);
-      if (kind === 'ANIMAL') {
+      if (kind === AnimalOrBatchKeys.ANIMAL) {
         animalRemovalArray.push({
           id: entity_id,
           animal_removal_reason_id: Number(formData.reason), // mobile UI uses a native radio input & will always generate a string
           removal_explanation: formData.explanation,
           removal_date: timestampedDate,
         });
-      } else if (kind === 'BATCH') {
+      } else if (kind === AnimalOrBatchKeys.BATCH) {
         animalBatchRemovalArray.push({
           id: entity_id,
           animal_removal_reason_id: Number(formData.reason),

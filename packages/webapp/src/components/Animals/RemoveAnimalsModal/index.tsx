@@ -79,7 +79,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
     }
   }, [props.isOpen]);
 
-  const { data: apiAnimalRemovalReasons = [], isLoading } = useGetAnimalRemovalReasonsQuery();
+  const { data: apiAnimalRemovalReasons = [] } = useGetAnimalRemovalReasonsQuery();
 
   const RemovalReasons = useMemo(() => {
     const ReasonsEnum: { [key: string]: number } = { [CREATED_IN_ERROR]: CREATED_IN_ERROR_ID };
@@ -89,7 +89,7 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
     });
 
     return ReasonsEnum as RemovalReasonsEnum;
-  }, [isLoading, apiAnimalRemovalReasons]);
+  }, [apiAnimalRemovalReasons]);
 
   const options: RemovalOption[] = [
     {

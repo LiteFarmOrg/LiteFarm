@@ -114,7 +114,7 @@ const PureAnimalInventory = ({
             selectedIds={selectedIds}
             stickyHeader={isDesktop}
             maxHeight={maxHeight}
-            emptyRowNum={2}
+            spacerRowHeight={isDesktop ? 96 : 120}
             headerBackgroundColor={'#fff'}
           />
         ) : (

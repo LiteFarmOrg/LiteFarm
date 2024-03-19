@@ -99,7 +99,7 @@ export default function TableV2(props) {
     selectedIds,
     stickyHeader,
     maxHeight,
-    emptyRowNum,
+    spacerRowHeight,
     headerBackgroundColor,
   } = props;
 
@@ -269,11 +269,8 @@ export default function TableV2(props) {
                 </TableCell>
               </TableRow>
             ) : null}
-            {emptyRowNum > 0 && (
-              <TableRow
-                style={{ height: (dense ? 40 : 56) * emptyRowNum }}
-                className={styles.emptyRow}
-              >
+            {spacerRowHeight > 0 && (
+              <TableRow style={{ height: spacerRowHeight }} className={styles.spacerRow}>
                 <TableCell colSpan={fullColSpan} className={styles.tableCell} />
               </TableRow>
             )}
@@ -325,7 +322,8 @@ TableV2.propTypes = {
   selectedIds: PropTypes.array,
   stickyHeader: PropTypes.bool,
   maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  emptyRowNum: PropTypes.number,
+  /** adds an empty row at the end of the table to create spacing */
+  spacerRowHeight: PropTypes.number,
   headerBackgroundColor: PropTypes.string,
 };
 

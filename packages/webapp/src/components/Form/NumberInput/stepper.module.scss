@@ -21,9 +21,16 @@
   width: 24px;
 }
 
-.stepperBtn {
+.stepperBtnUnstyled {
   all: unset;
   cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.stepperBtn {
   background-color: var(--Colors-Neutral-Neutral-50);
   color: var(--Colors-Neutral-Neutral-600);
   flex: 1;
@@ -41,6 +48,5 @@
   &:disabled {
     background-color: #f9fafc;
     color: #dadee5;
-    cursor: not-allowed;
   }
 }

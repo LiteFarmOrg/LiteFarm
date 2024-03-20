@@ -161,6 +161,8 @@ export default function useNumberInput({
   };
 
   const handleStep = (next: number) => {
+    // focus input when clicking on up/down button
+    if (!isFocused) inputRef.current?.focus();
     if (touchedValue) setTouchedValue('');
     update(clamp(next, Math.max(min, 0), max));
   };
@@ -179,6 +181,7 @@ export default function useNumberInput({
   };
 
   const inputProps: ComponentPropsWithRef<'input'> = {
+    inputMode: 'decimal',
     value: getDisplayValue(),
     pattern: getPattern(),
     onChange: handleChange,
@@ -188,22 +191,11 @@ export default function useNumberInput({
     ref: inputRef,
   };
 
-  const stepperProps: NumberInputStepperProps = {
-    increment,
-    decrement,
-    incrementDisabled: numericValue === max,
-    decrementDisabled: numericValue === Math.max(min, 0),
-    onMouseDown: (e: React.MouseEvent<HTMLButtonElement>) => {
-      // prevent focus on button when clicked and shift focus on input
-      e.preventDefault();
-      if (!isFocused) inputRef.current?.focus();
-    },
-  };
-
   return {
     numericValue,
-    reset: () => update(initialValue ?? NaN),
     inputProps,
-    stepperProps,
+    reset: () => update(initialValue ?? NaN),
+    increment,
+    decrement,
   };
 }

@@ -14,14 +14,14 @@
  */
 
 import styles from './stepper.module.scss';
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import { ReactComponent as IncrementIcon } from '../../../assets/images/number-input-increment.svg';
 import { ReactComponent as DecrementIcon } from '../../../assets/images/number-input-decrement.svg';
+import { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
+import clsx from 'clsx';
 
 export type NumberInputStepperProps = {
   increment: () => void;
   decrement: () => void;
-  onMouseDown?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   incrementDisabled: boolean;
   decrementDisabled: boolean;
 };
@@ -29,26 +29,43 @@ export type NumberInputStepperProps = {
 export default function NumberInputStepper(props: NumberInputStepperProps) {
   return (
     <div className={styles.stepper}>
-      <button
-        className={styles.stepperBtn}
+      <NumberInputStepperButton
         aria-label="increase"
-        tabIndex={-1}
-        onMouseDown={props.onMouseDown}
+        className={styles.stepperBtn}
         onClick={props.increment}
         disabled={props.incrementDisabled}
       >
         <IncrementIcon className={styles.stepperIcons} />
-      </button>
-      <button
-        className={styles.stepperBtn}
+      </NumberInputStepperButton>
+
+      <NumberInputStepperButton
         aria-label="decrease"
-        tabIndex={-1}
-        onMouseDown={props.onMouseDown}
+        className={styles.stepperBtn}
         onClick={props.decrement}
         disabled={props.decrementDisabled}
       >
         <DecrementIcon className={styles.stepperIcons} />
-      </button>
+      </NumberInputStepperButton>
     </div>
+  );
+}
+
+export function NumberInputStepperButton(
+  props: PropsWithChildren<ComponentPropsWithoutRef<'button'>>,
+) {
+  return (
+    <button
+      className={clsx(styles.stepperBtnUnstyled, props.className)}
+      aria-label={props['aria-label']}
+      tabIndex={-1}
+      onMouseDown={(e) => {
+        // prevent focus on button when clicked
+        e.preventDefault();
+      }}
+      onClick={props.onClick}
+      disabled={props.disabled}
+    >
+      {props.children}
+    </button>
   );
 }

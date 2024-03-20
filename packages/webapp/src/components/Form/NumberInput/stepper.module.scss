@@ -15,38 +15,32 @@
 
 .stepper {
   display: flex;
-  flex-flow: column nowrap;
-
-  :nth-child(1) {
-    margin-bottom: -4px;
-  }
-
-  :nth-child(2) {
-    margin-top: -4px;
-  }
-
-  button {
-    all: unset;
-    &:disabled > .stepperIcons {
-      cursor: not-allowed;
-      &:hover {
-        background-color: transparent;
-        color: var(--iconDefault);
-      }
-    }
-  }
+  flex-direction: column;
+  gap: 2px;
+  height: 24px;
+  width: 24px;
 }
 
-.stepper .stepperIcons {
-  font-size: 24px;
-  width: 32px;
-  border-radius: 4px;
-  transition: color 150ms;
-  color: var(--iconDefault);
+.stepperBtn {
+  all: unset;
   cursor: pointer;
+  background-color: var(--Colors-Neutral-Neutral-50);
+  color: var(--Colors-Neutral-Neutral-600);
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  &:hover {
-    background-color: var(--grey200);
-    color: var(--grey600);
+  &:first-child {
+    border-top-right-radius: 3px;
+  }
+  &:last-child {
+    border-bottom-right-radius: 3px;
+  }
+
+  &:disabled {
+    background-color: #f9fafc;
+    color: #dadee5;
+    cursor: not-allowed;
   }
 }

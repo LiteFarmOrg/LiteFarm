@@ -15,6 +15,8 @@
 
 import styles from './stepper.module.scss';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+import { ReactComponent as IncrementIcon } from '../../../assets/images/number-input-increment.svg';
+import { ReactComponent as DecrementIcon } from '../../../assets/images/number-input-decrement.svg';
 
 export type NumberInputStepperProps = {
   increment: () => void;
@@ -28,22 +30,24 @@ export default function NumberInputStepper(props: NumberInputStepperProps) {
   return (
     <div className={styles.stepper}>
       <button
+        className={styles.stepperBtn}
         aria-label="increase"
         tabIndex={-1}
         onMouseDown={props.onMouseDown}
         onClick={props.increment}
         disabled={props.incrementDisabled}
       >
-        <MdKeyboardArrowUp className={styles.stepperIcons} />
+        <IncrementIcon className={styles.stepperIcons} />
       </button>
       <button
+        className={styles.stepperBtn}
         aria-label="decrease"
         tabIndex={-1}
         onMouseDown={props.onMouseDown}
         onClick={props.decrement}
         disabled={props.decrementDisabled}
       >
-        <MdKeyboardArrowDown className={styles.stepperIcons} />
+        <DecrementIcon className={styles.stepperIcons} />
       </button>
     </div>
   );

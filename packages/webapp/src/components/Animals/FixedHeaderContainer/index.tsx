@@ -19,12 +19,12 @@ import { useTheme } from '@mui/styles';
 import { sumObjectValues } from '../../../util';
 import styles from './styles.module.scss';
 
-const globalNavbarHeight = {
+const GLOBAL_NAVBAR_HEIGHTS = {
   mobile: 56,
   desktop: 64,
 };
 
-const heights = {
+const HEIGHTS = {
   mobile: {},
   desktop: { paperMargin: 32 },
 };
@@ -74,8 +74,8 @@ const FixedHeaderContainer = ({
 
   const paperHeightCSS = useMemo<string | undefined>(() => {
     const usedPx =
-      globalNavbarHeight[isMobileHeader ? 'mobile' : 'desktop'] +
-      sumObjectValues(heights[isDesktop ? 'desktop' : 'mobile']) +
+      GLOBAL_NAVBAR_HEIGHTS[isMobileHeader ? 'mobile' : 'desktop'] +
+      sumObjectValues(HEIGHTS[isDesktop ? 'desktop' : 'mobile']) +
       (headerHeight || 0);
     return `calc(100vh - ${usedPx}px)`;
   }, [isMobileHeader, isDesktop, headerHeight]);

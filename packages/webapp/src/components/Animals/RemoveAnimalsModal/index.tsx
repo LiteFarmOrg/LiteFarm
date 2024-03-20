@@ -180,7 +180,6 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
                               : styles.dropDownOptionGreen,
                           ),
                         placeholder: ({ isFocused }) => (isFocused ? styles.placeholderHidden : ''),
-                        menuList: () => styles.dropDownList,
                         valueContainer: (state) =>
                           isCreatedInError(state.getValue()[0]?.value) ? styles.textRed : '',
                       } satisfies ClassNamesConfig<RemovalOption>

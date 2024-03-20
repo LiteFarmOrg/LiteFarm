@@ -35,6 +35,7 @@ import {
   isFilterCurrentlyActiveSelector,
   resetAnimalsFilter,
 } from '../../../containers/filterSlice';
+import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 
 interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
@@ -50,8 +51,9 @@ const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: s
 };
 
 function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
-  const [selectedTypeIds, setSelectedTypeIds] = useState<string[]>([]);
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>([]);
+
+  const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
 
   const { t } = useTranslation(['translation', 'animal', 'common']);
   const theme = useTheme();
@@ -69,16 +71,9 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
 
   const onTypeClick = useCallback(
     (typeId: string) => {
-      setSelectedTypeIds((prevSelectedTypeIds) => {
-        const isSelected = prevSelectedTypeIds.includes(typeId);
-        const newSelectedTypeIds = isSelected
-          ? prevSelectedTypeIds.filter((id) => typeId !== id)
-          : [...prevSelectedTypeIds, typeId];
-
-        return newSelectedTypeIds;
-      });
+      updateSelectedTypeIds(typeId);
     },
-    [setSelectedTypeIds],
+    [updateSelectedTypeIds],
   );
 
   const animalsColumns = useMemo(

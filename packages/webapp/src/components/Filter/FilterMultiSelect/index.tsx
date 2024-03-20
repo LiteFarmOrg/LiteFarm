@@ -43,6 +43,14 @@ export const FilterMultiSelect = ({
   }, []);
 
   useEffect(() => {
+    filterRef.current![filterKey] = produce(defaultFilterState, (defaultFilterState) => {
+      for (const option of value) {
+        defaultFilterState[option.value].active = true;
+      }
+    });
+  }, [value]);
+
+  useEffect(() => {
     if (shouldReset) {
       setValue([]);
     }

@@ -34,6 +34,7 @@ const AnimalsFilter = ({ isFilterActive }: { isFilterActive: boolean }) => {
   const handleApply = () => {
     dispatch(setAnimalsFilter(filterRef.current));
     setIsFilterOpen(false);
+    setIsDirty(false);
   };
 
   const filterRef = useRef({ ...initialAnimalsFilter });

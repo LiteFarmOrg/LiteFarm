@@ -40,6 +40,7 @@ const TransactionFilter = () => {
   const handleApply = () => {
     dispatch(setTransactionsFilter(filterRef.current));
     setIsFilterOpen(false);
+    setIsDirty(false);
   };
 
   const filterRef = useRef({});

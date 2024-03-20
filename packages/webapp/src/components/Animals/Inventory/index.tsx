@@ -25,6 +25,13 @@ import { TableV2Column, TableKind } from '../../Table/types';
 import type { Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
+import { sumObjectValues } from '../../../util';
+
+const HEIGHTS = {
+  filterAndSearch: 64,
+  containerPadding: 32,
+};
+const usedHeight = sumObjectValues(HEIGHTS);
 
 export type SearchProps = {
   searchString: string | null | undefined;
@@ -45,7 +52,8 @@ const PureAnimalInventory = ({
   totalInventoryCount,
   isFilterActive,
   clearFilters,
-  maxHeight,
+  isLoading,
+  containerHeight,
 }: {
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
@@ -58,10 +66,17 @@ const PureAnimalInventory = ({
   totalInventoryCount: number;
   isFilterActive: boolean;
   clearFilters: () => void;
-  maxHeight?: number | string;
+  isLoading: boolean;
+  containerHeight?: number;
 }) => {
+  if (isLoading) {
+    return null;
+  }
+
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
+
+  const tableMaxHeight = !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
 
   return (
     <div className={isDesktop ? styles.wrapperDesktop : ''}>
@@ -113,7 +128,7 @@ const PureAnimalInventory = ({
             handleSelectAllClick={handleSelectAllClick}
             selectedIds={selectedIds}
             stickyHeader={isDesktop}
-            maxHeight={maxHeight}
+            maxHeight={tableMaxHeight}
             spacerRowHeight={isDesktop ? 96 : 120}
             headerBackgroundColor={'#fff'}
           />

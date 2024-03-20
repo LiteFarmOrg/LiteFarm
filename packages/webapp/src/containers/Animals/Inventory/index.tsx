@@ -30,19 +30,12 @@ import { ReactComponent as AddAnimalIcon } from '../../../assets/images/animals/
 import { ReactComponent as TaskCreationIcon } from '../../../assets/images/create-task.svg';
 import { ReactComponent as CloneIcon } from '../../../assets/images/clone.svg';
 import { ReactComponent as RemoveAnimalIcon } from '../../../assets/images/animals/remove-animal.svg';
-import { sumObjectValues } from '../../../util';
 import styles from './styles.module.scss';
 import { useFilteredInventory } from './useFilteredInventory';
 import {
   isFilterCurrentlyActiveSelector,
   resetAnimalsFilter,
 } from '../../../containers/filterSlice';
-
-const heights = {
-  filterAndSearch: 64,
-  containerPadding: 32,
-};
-const usedHeight = sumObjectValues(heights);
 
 interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
@@ -215,49 +208,34 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     },
   ];
 
-  const Body = ({ containerHeight }: { containerHeight?: number }) => {
-    if (isLoading) {
-      return null;
-    }
-
-    const tableMaxHeight =
-      !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
-
-    return (
-      <>
-        <PureAnimalInventory
-          filteredInventory={searchAndFilteredInventory}
-          animalsColumns={animalsColumns}
-          searchProps={searchProps}
-          zIndexBase={zIndexBase}
-          isDesktop={isDesktop}
-          onSelectInventory={onSelectInventory}
-          handleSelectAllClick={handleSelectAllClick}
-          selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
-          totalInventoryCount={inventory.length}
-          isFilterActive={isFilterActive}
-          clearFilters={clearFilters}
-          maxHeight={tableMaxHeight}
-        />
-        {selectedInventoryIds.length ? (
-          <ActionMenu
-            headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
-            textActions={textActions}
-            iconActions={iconActions}
-            classes={{
-              root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
-            }}
-          />
-        ) : null}
-      </>
-    );
-  };
-
   return (
     <FixedHeaderContainer
       header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
     >
-      <Body />
+      <PureAnimalInventory
+        filteredInventory={searchAndFilteredInventory}
+        animalsColumns={animalsColumns}
+        searchProps={searchProps}
+        zIndexBase={zIndexBase}
+        isDesktop={isDesktop}
+        onSelectInventory={onSelectInventory}
+        handleSelectAllClick={handleSelectAllClick}
+        selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
+        totalInventoryCount={inventory.length}
+        isFilterActive={isFilterActive}
+        clearFilters={clearFilters}
+        isLoading={isLoading}
+      />
+      {selectedInventoryIds.length ? (
+        <ActionMenu
+          headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
+          textActions={textActions}
+          iconActions={iconActions}
+          classes={{
+            root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
+          }}
+        />
+      ) : null}
     </FixedHeaderContainer>
   );
 }

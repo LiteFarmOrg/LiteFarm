@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo, useRef } from 'react';
+import React, { MouseEvent, useLayoutEffect, useMemo, useRef } from 'react';
 import Select, {
   ClearIndicatorProps,
   components,
@@ -6,7 +6,7 @@ import Select, {
   MultiValueRemoveProps,
   OptionProps,
 } from 'react-select';
-import { ComponentFilter } from '../types';
+import { ComponentFilter, ComponentFilterOption } from '../types';
 import { ReduxFilterEntity } from '../../../containers/Filter/types';
 import { useState } from 'react';
 import { ReactComponent as XCircle } from '../../../assets/images/x-circle.svg';
@@ -15,9 +15,11 @@ import TextButton from '../../Form/Button/TextButton';
 import styles from './styles.module.scss';
 import Checkbox from '../../Form/Checkbox';
 import produce from 'immer';
+import { FilterItemProps } from '../FilterGroup';
 
 interface FilterMultiSelectProps extends ComponentFilter {
   filterRef: React.RefObject<ReduxFilterEntity>;
+  onChange?: FilterItemProps['onChange'];
 }
 
 const MultiValueRemove = (props: MultiValueRemoveProps) => (
@@ -31,7 +33,7 @@ const ClearIndicator = (props: ClearIndicatorProps) => {
   const value = getValue();
   const { t } = useTranslation();
 
-  const onClick = (e) => {
+  const onClick = (e: MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
     clearValue();
@@ -50,7 +52,7 @@ const ClearIndicator = (props: ClearIndicatorProps) => {
 const Option = (props: OptionProps) => {
   const { label, isSelected, selectOption, data } = props;
 
-  const onClick = (e) => {
+  const onClick = (e: MouseEvent) => {
     selectOption(data);
     e.stopPropagation();
     e.preventDefault();
@@ -87,7 +89,12 @@ const MenuList = (props: MenuListProps) => {
   );
 };
 
-export const FilterMultiSelectV2 = ({ options, filterRef, filterKey, onChange }) => {
+export const FilterMultiSelectV2 = ({
+  options,
+  filterRef,
+  filterKey,
+  onChange,
+}: FilterMultiSelectProps) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(() => options.filter((option) => option.default));
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -96,8 +103,8 @@ export const FilterMultiSelectV2 = ({ options, filterRef, filterKey, onChange })
 
   const sortedOptions = useMemo(() => {
     const sorted = [...options].sort((a, b) => {
-      const isSelected = (option) => value.includes(option);
-      return isSelected(b) - isSelected(a) || a.label.localeCompare(b.label);
+      const isSelected = (option: ComponentFilterOption) => value.includes(option);
+      return Number(isSelected(b)) - Number(isSelected(a)) || a.label.localeCompare(b.label);
     });
     return sorted;
   }, [options, value]);

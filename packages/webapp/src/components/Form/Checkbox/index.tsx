@@ -1,11 +1,35 @@
-import React from 'react';
+import React, { PropsWithChildren, ReactChildren, ReactEventHandler } from 'react';
 import styles from './checkbox.module.scss';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import { Error, Main } from '../../Typography';
 import { ReactComponent as PartiallyChecked } from '../../../assets/images/partially-checked.svg';
 import { ReactComponent as UncheckedEnabled } from '../../../assets/images/unchecked-enabled.svg';
 import { ReactComponent as CheckedEnabled } from '../../../assets/images/checked-enabled.svg';
+
+interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  name?: string;
+  label?: string;
+  disabled?: boolean;
+  classes?: {
+    checkbox?: object;
+    label?: object;
+    container?: object;
+    error?: object;
+  };
+  style?: object;
+  hookFormRegister?: {
+    ref: React.RefObject<HTMLInputElement>;
+    name: string;
+    onChange: ReactEventHandler;
+    onBlur: ReactEventHandler;
+  };
+  onChange?: ReactEventHandler;
+  onBlur?: ReactEventHandler;
+  sm?: boolean;
+  partiallyChecked?: boolean;
+  tooltipContent?: string;
+  errors?: string;
+}
 
 const Checkbox = ({
   label = 'label',
@@ -21,7 +45,7 @@ const Checkbox = ({
   tooltipContent = undefined,
   partiallyChecked = false,
   ...props
-}) => {
+}: PropsWithChildren<CheckboxProps>) => {
   const name = hookFormRegister?.name ?? props?.name;
   return (
     <label
@@ -31,7 +55,6 @@ const Checkbox = ({
       <input
         type={'checkbox'}
         ref={hookFormRegister?.ref}
-        name={name}
         onChange={(e) => {
           onChange?.(e);
           hookFormRegister?.onChange(e);
@@ -65,28 +88,6 @@ const Checkbox = ({
       {children}
     </label>
   );
-};
-
-Checkbox.propTypes = {
-  label: PropTypes.string,
-  disabled: PropTypes.bool,
-  classes: PropTypes.exact({
-    checkbox: PropTypes.object,
-    label: PropTypes.object,
-    container: PropTypes.object,
-    error: PropTypes.object,
-  }),
-  hookFormRegister: PropTypes.exact({
-    ref: PropTypes.func,
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
-    name: PropTypes.string,
-  }),
-  onChange: PropTypes.func,
-  onBlur: PropTypes.func,
-  sm: PropTypes.bool,
-  partiallyChecked: PropTypes.bool,
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
 export default Checkbox;

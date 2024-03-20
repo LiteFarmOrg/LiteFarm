@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { ReactNode } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 import clsx from 'clsx';
 import styles from './button.module.scss';
 
@@ -20,7 +20,7 @@ type ButtonProps = {
   children?: ReactNode | string;
   disabled?: boolean;
   className?: string;
-  onClick?(): void;
+  onClick?: MouseEventHandler;
   type?: 'button' | 'submit' | 'reset';
   inputRef?: any;
 };

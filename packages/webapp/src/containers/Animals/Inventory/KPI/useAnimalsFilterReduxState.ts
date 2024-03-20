@@ -14,7 +14,6 @@
  */
 
 import { useDispatch, useSelector } from 'react-redux';
-import produce from 'immer';
 import { AnimalsFilterKeys } from '../../../Filter/Animals/types';
 import { animalsFilterSelector, setAnimalsFilter } from '../../../filterSlice';
 import { getActiveTypeIds } from '../../../Filter/Animals/utils';
@@ -25,24 +24,12 @@ export const useAnimalsFilterReduxState = () => {
 
   const selectedTypeIds = getActiveTypeIds(animalsFilter);
 
-  const updateSelectedTypeIds = (typeIds: string[]) => {
-    let newFilterState = produce(
-      animalsFilter[AnimalsFilterKeys.TYPE],
-      (filterState: { [key: string]: { label?: string; active: boolean } }) => {
-        for (const key in filterState) {
-          filterState[key].active = false;
-        }
-
-        for (const key of typeIds) {
-          if (!filterState[key]) {
-            filterState[key] = { active: true };
-          } else {
-            filterState[key].active = true;
-          }
-        }
-      },
-    );
-
+  const updateSelectedTypeIds = (typeId: string) => {
+    const isSelected = selectedTypeIds.includes(typeId);
+    const newFilterState = {
+      ...animalsFilter[AnimalsFilterKeys.TYPE],
+      [typeId]: { active: !isSelected },
+    };
     dispatch(setAnimalsFilter({ ...animalsFilter, [AnimalsFilterKeys.TYPE]: newFilterState }));
   };
 

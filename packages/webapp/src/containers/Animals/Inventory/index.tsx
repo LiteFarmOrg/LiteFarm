@@ -71,12 +71,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
 
   const onTypeClick = useCallback(
     (typeId: string) => {
-      const isSelected = selectedTypeIds.includes(typeId);
-      const newSelectedTypeIds = isSelected
-        ? selectedTypeIds.filter((id) => typeId !== id)
-        : [...selectedTypeIds, typeId];
-
-      updateSelectedTypeIds(newSelectedTypeIds);
+      updateSelectedTypeIds(typeId);
     },
     [updateSelectedTypeIds],
   );

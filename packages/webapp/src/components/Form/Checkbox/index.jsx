@@ -3,6 +3,7 @@ import styles from './checkbox.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Error, Main } from '../../Typography';
+import { ReactComponent as PartiallyChecked } from '../../../assets/images/partially-checked.svg';
 import { ReactComponent as UncheckedEnabled } from '../../../assets/images/unchecked-enabled.svg';
 import { ReactComponent as CheckedEnabled } from '../../../assets/images/checked-enabled.svg';
 
@@ -18,6 +19,7 @@ const Checkbox = ({
   errors,
   sm,
   tooltipContent = undefined,
+  partiallyChecked = false,
   ...props
 }) => {
   const name = hookFormRegister?.name ?? props?.name;
@@ -41,7 +43,11 @@ const Checkbox = ({
         {...props}
         disabled={disabled}
       />
-      <CheckedEnabled className={styles.checked} />
+      {partiallyChecked ? (
+        <PartiallyChecked className={styles.checked} />
+      ) : (
+        <CheckedEnabled className={styles.checked} />
+      )}
       <UncheckedEnabled className={styles.unchecked} />
       <Main
         className={clsx(styles.label, sm && styles.smallLabel)}
@@ -79,6 +85,7 @@ Checkbox.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   sm: PropTypes.bool,
+  partiallyChecked: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 

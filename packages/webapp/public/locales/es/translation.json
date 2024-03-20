@@ -832,7 +832,8 @@
     "CLEAR_ALL_FILTERS": "Borrar todos los filtros",
     "SELECT_ALL": "Seleccionar todos",
     "SELECTED": "{{count}} seleccionados",
-    "SHOWING_ALL": "Mostrando Todos (Default)"
+    "SHOWING_ALL": "Mostrando todos",
+    "SHOWING_ALL_DEFAULT": "Mostrando Todos (Default)"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {

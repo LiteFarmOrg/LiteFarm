@@ -66,8 +66,25 @@ const Option = (props: OptionProps) => {
 };
 
 const MenuList = (props: MenuListProps) => {
-  const { children } = props;
-  return <components.MenuList {...props}>{children}</components.MenuList>;
+  const { children, getValue, hasValue, options, clearValue } = props;
+  const { t } = useTranslation();
+
+  const partiallyChecked = getValue().length !== options.length;
+
+  return (
+    <components.MenuList {...props}>
+      <div className={styles.option}>
+        <TextButton className={styles.optionButton} onClick={clearValue}>
+          <Checkbox
+            label={t('FILTER.SHOWING_ALL')}
+            checked={hasValue}
+            partiallyChecked={partiallyChecked}
+          />
+        </TextButton>
+      </div>
+      {children}
+    </components.MenuList>
+  );
 };
 
 export const FilterMultiSelectV2 = ({ options, filterRef, filterKey, onChange }) => {
@@ -131,13 +148,14 @@ export const FilterMultiSelectV2 = ({ options, filterRef, filterKey, onChange })
   return (
     <div ref={ref}>
       <Select
+        // menuIsOpen
         options={sortedOptions}
         value={value}
         isMulti
         hideSelectedOptions={false}
         closeMenuOnSelect={false}
         onChange={handleChange}
-        placeholder={t('FILTER.SHOWING_ALL')}
+        placeholder={t('FILTER.SHOWING_ALL_DEFAULT')}
         onMenuOpen={() => setIsMenuOpen(true)}
         onMenuClose={() => setIsMenuOpen(false)}
         controlShouldRenderValue={!isMenuOpen}
@@ -165,6 +183,7 @@ export const FilterMultiSelectV2 = ({ options, filterRef, filterKey, onChange })
           IndicatorSeparator: null,
           ClearIndicator,
           Option,
+          MenuList,
         }}
       />
     </div>

@@ -67,17 +67,11 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
   } = useForm<FormFields>({
     mode: 'onChange',
     defaultValues: { [DATE]: getLocalDateInYYYYDDMM() },
+    shouldUnregister: true,
   });
   const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  // Reset form when a new set of animals/batches is selected
-  useEffect(() => {
-    if (props.isOpen) {
-      reset({ [DATE]: getLocalDateInYYYYDDMM() });
-    }
-  }, [props.isOpen]);
 
   const { data: apiAnimalRemovalReasons = [] } = useGetAnimalRemovalReasonsQuery();
 

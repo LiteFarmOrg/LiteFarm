@@ -21,7 +21,6 @@ import {
   QUANTITY_UNIT,
   SALE_VALUE,
 } from '../../components/Forms/GeneralRevenue/constants';
-import FilterPillSelect from '../../components/Filter/FilterPillSelect';
 import { Error } from '../../components/Typography';
 import CropSaleItem from '../../components/Forms/GeneralRevenue/CropSaleItem';
 import { STATUS } from '../../components/Forms/GeneralRevenue/constants';
@@ -34,6 +33,7 @@ import {
   currentAndPlannedManagementPlansSelector,
 } from '../managementPlanSlice';
 import { createSelector } from 'reselect';
+import { FilterMultiSelect } from '../../components/Filter/FilterMultiSelect';
 
 /**
  * Reformat the sale data for ease of use with react-hook-forms.
@@ -263,9 +263,8 @@ export default function useCropSaleInputs(
 
   const existingSales = reformatSaleData(sale);
 
-  // FilterPillSelect details
+  // FilterMultiSelect details
 
-  const filterRef = useRef({});
   const [isDirty, setIsDirty] = useState(false);
   const [filterState, setFilterState] = useState({});
   const [isFilterValid, setIsFilterValid] = useState(true);
@@ -279,8 +278,8 @@ export default function useCropSaleInputs(
     })),
   };
 
-  const onFilter = () => {
-    setFilterState(filterRef.current);
+  const onFilter = (filterKey, state) => {
+    setFilterState({ ...filterState, [filterKey]: state });
     setIsDirty(!isDirty);
   };
 
@@ -329,12 +328,11 @@ export default function useCropSaleInputs(
 
   return isCropSale ? (
     <>
-      <FilterPillSelect
+      <FilterMultiSelect
         subject={t('SALE.ADD_SALE.CROP_VARIETY')}
         options={filter.options}
         filterKey={filter.filterKey}
         style={{ marginBottom: !isFilterValid ? '0' : '32px' }}
-        filterRef={filterRef}
         key={filter.filterKey}
         onChange={onFilter}
         isDisabled={disabledInput}

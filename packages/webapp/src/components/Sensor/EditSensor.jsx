@@ -24,21 +24,13 @@ import { container_planting_depth } from '../../util/convert-units/unit';
 import Unit from '../Form/Unit';
 import InputAutoSize from '../Form/InputAutoSize';
 import Input, { getInputErrors } from '../Form/Input';
-import FilterPillSelect from '../Filter/FilterPillSelect';
 import Form from '../Form';
 import ReactSelect from '../Form/ReactSelect';
 import UpdateSensorModal from '../Modals/UpdateSensorModal';
 import { Error } from '../Typography';
+import { FilterMultiSelect } from '../Filter/FilterMultiSelect';
 
-export default function UpdateSensor({
-  onBack,
-  disabled,
-  onSubmit,
-  system,
-  filter,
-  filterRef,
-  sensorInfo,
-}) {
+export default function UpdateSensor({ onBack, disabled, onSubmit, system, filter, sensorInfo }) {
   const { t } = useTranslation();
 
   const {
@@ -81,8 +73,8 @@ export default function UpdateSensor({
   const [isFilterValid, setIsFilterValid] = useState(true);
   const [readingTypesChanged, setIsReadingTypesChanged] = useState(false);
 
-  const onChange = () => {
-    setFilterState(filterRef.current);
+  const onChange = (filterKey, state) => {
+    setFilterState({ ...filterState, [filterKey]: state });
     setIsDirty(!isDirty);
   };
 
@@ -175,12 +167,11 @@ export default function UpdateSensor({
             errors={getInputErrors(errors, LONGTITUDE)}
           />
         </div>
-        <FilterPillSelect
+        <FilterMultiSelect
           subject={filter.subject}
           options={filter.options}
           filterKey={filter.filterKey}
           style={{ marginBottom: !isFilterValid ? '0' : '32px' }}
-          filterRef={filterRef}
           key={filter.filterKey}
           // shouldReset={shouldReset}
           onChange={onChange}

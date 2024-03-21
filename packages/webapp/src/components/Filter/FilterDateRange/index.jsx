@@ -12,29 +12,21 @@ export function FilterDateRange({
   defaultToDate,
   onDirty,
   subject,
-  filterRef,
   shouldReset,
   style,
   className,
+  onChange,
 }) {
   const [fromDate, setFromDate] = useState(defaultFromDate ?? '');
   const [toDate, setToDate] = useState(defaultToDate ?? '');
+
   useEffect(() => {
     if (shouldReset) {
       setFromDate('');
       setToDate('');
     }
   }, [shouldReset]);
-  useEffect(() => {
-    if (filterRef?.current) {
-      filterRef.current.FROM_DATE = fromDate || undefined;
-    }
-  }, [fromDate]);
-  useEffect(() => {
-    if (filterRef?.current) {
-      filterRef.current.TO_DATE = toDate || undefined;
-    }
-  }, [toDate]);
+
   const [showDateFilter, setShowDateFilter] = useState(!!(defaultFromDate || defaultToDate));
   const onSwitchClick = () => {
     setDirty?.();
@@ -61,11 +53,13 @@ export function FilterDateRange({
   };
   const handleFromDateChange = (e) => {
     setFromDate(e.target.value);
+    onChange(e.target.value || undefined);
     setDirty?.();
   };
 
   const handleToDateChange = (e) => {
     setToDate(e.target.value);
+    onChange(e.target.value || undefined);
     setDirty?.();
   };
   return (
@@ -100,6 +94,6 @@ FilterDateRange.propTypes = {
   defaultToDate: PropTypes.string,
   onDirty: PropTypes.func,
   subject: PropTypes.string,
-  filterRef: PropTypes.object,
   style: PropTypes.object,
+  onChange: PropTypes.func,
 };

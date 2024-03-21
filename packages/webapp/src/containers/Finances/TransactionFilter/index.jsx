@@ -41,6 +41,7 @@ const TransactionFilter = () => {
   const handleApply = () => {
     dispatch(setTransactionsFilter(tempTransactionsFilter));
     setIsFilterOpen(false);
+    setIsDirty(false);
   };
 
   return (

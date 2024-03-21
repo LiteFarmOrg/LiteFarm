@@ -82,6 +82,7 @@ export const customAnimalTypesUrl = `${URI}/custom_animal_types`;
 export const defaultAnimalBreedsUrl = `${URI}/default_animal_breeds`;
 export const defaultAnimalTypesUrl = `${URI}/default_animal_types`;
 export const animalSexesUrl = `${URI}/animal_sexes`;
+export const animalRemovalReasonsUrl = `${URI}/animal_removal_reasons`;
 
 export const url = URI;
 
@@ -134,5 +135,6 @@ export default {
   defaultAnimalBreedsUrl,
   defaultAnimalTypesUrl,
   animalSexesUrl,
+  animalRemovalReasonsUrl,
   url,
 };

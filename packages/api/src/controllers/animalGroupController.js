@@ -21,6 +21,7 @@ import AnimalBatchGroupRelationshipModel from '../models/animalBatchGroupRelatio
 import AnimalModel from '../models/animalModel.js';
 import AnimalBatchModel from '../models/animalBatchModel.js';
 import { checkAndTrimString } from '../util/util.js';
+import { handleObjectionError } from '../util/errorCodes.js';
 
 const animalGroupController = {
   getFarmAnimalGroups() {
@@ -56,16 +57,6 @@ const animalGroupController = {
         let { name, notes } = req.body;
         name = checkAndTrimString(name);
         notes = checkAndTrimString(notes);
-
-        if (!name) {
-          await trx.rollback();
-          return res.status(400).send('Group name is required');
-        }
-
-        if (!Array.isArray(related_animal_ids) || !Array.isArray(related_batch_ids)) {
-          await trx.rollback();
-          return res.status(400).send('Animal ids and batch ids must be arrays');
-        }
 
         const relatedAnimalIdSet = new Set(related_animal_ids);
         const relatedBatchIdSet = new Set(related_batch_ids);
@@ -147,9 +138,7 @@ const animalGroupController = {
         await trx.commit();
         return res.status(201).send(result);
       } catch (error) {
-        await trx.rollback();
-        console.error(error);
-        return res.status(500).json({ error });
+        await handleObjectionError(error, res, trx);
       }
     };
   },

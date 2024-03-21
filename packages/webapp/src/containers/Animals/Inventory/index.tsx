@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useCallback, useMemo, useState, ChangeEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PureAnimalInventory, { SearchProps } from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
@@ -29,8 +30,14 @@ import { ReactComponent as TaskCreationIcon } from '../../../assets/images/creat
 import { ReactComponent as CloneIcon } from '../../../assets/images/clone.svg';
 import { ReactComponent as RemoveAnimalIcon } from '../../../assets/images/animals/remove-animal.svg';
 import styles from './styles.module.scss';
-import AnimalsFilter from '../AnimalsFilter';
 import { useFilteredInventory } from './useFilteredInventory';
+import RemoveAnimalsModal from '../../../components/Animals/RemoveAnimalsModal';
+import useAnimalOrBatchRemoval from './useAnimalOrBatchRemoval';
+import {
+  isFilterCurrentlyActiveSelector,
+  resetAnimalsFilter,
+} from '../../../containers/filterSlice';
+import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 
 interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
@@ -46,8 +53,9 @@ const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: s
 };
 
 function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
-  const [selectedTypeIds, setSelectedTypeIds] = useState<string[]>([]);
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>([]);
+
+  const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
 
   const { t } = useTranslation(['translation', 'animal', 'common']);
   const theme = useTheme();
@@ -59,19 +67,19 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
 
   const filteredInventory = useFilteredInventory(inventory);
 
+  const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('animals'));
+  const dispatch = useDispatch();
+  const clearFilters = () => dispatch(resetAnimalsFilter());
+
   const onTypeClick = useCallback(
     (typeId: string) => {
-      setSelectedTypeIds((prevSelectedTypeIds) => {
-        const isSelected = prevSelectedTypeIds.includes(typeId);
-        const newSelectedTypeIds = isSelected
-          ? prevSelectedTypeIds.filter((id) => typeId !== id)
-          : [...prevSelectedTypeIds, typeId];
-
-        return newSelectedTypeIds;
-      });
+      updateSelectedTypeIds(typeId);
     },
-    [setSelectedTypeIds],
+    [updateSelectedTypeIds],
   );
+
+  const { handleAnimalOrBatchRemoval, removalModalOpen, setRemovalModalOpen } =
+    useAnimalOrBatchRemoval(selectedInventoryIds, setSelectedInventoryIds);
 
   const animalsColumns = useMemo(
     () => [
@@ -185,12 +193,16 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     { label: t(`common:ADD_TO_GROUP`), icon: <AddAnimalIcon />, onClick: () => ({}) },
     { label: t(`common:CREATE_A_TASK`), icon: <TaskCreationIcon />, onClick: () => ({}) },
     { label: t(`common:CLONE`), icon: <CloneIcon />, onClick: () => ({}) },
-    { label: t(`ANIMAL.REMOVE_ANIMAL`), icon: <RemoveAnimalIcon />, onClick: () => ({}) },
+    {
+      label: t(`ANIMAL.REMOVE_ANIMAL`),
+      icon: <RemoveAnimalIcon />,
+      onClick: () => setRemovalModalOpen(true),
+    },
   ];
 
   const textActions = [
     {
-      label: t('common:SELECT_ALL_COUNT', { count: searchAndFilteredInventory.length }),
+      label: t('common:SELECT_ALL'),
       onClick: selectAllVisibleInventoryItems,
     },
     {
@@ -208,7 +220,6 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
       />
       {!isLoading && (
         <div className={styles.mainContent}>
-          <AnimalsFilter />
           <PureAnimalInventory
             filteredInventory={searchAndFilteredInventory}
             animalsColumns={animalsColumns}
@@ -220,6 +231,8 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
             handleSelectAllClick={handleSelectAllClick}
             selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
             totalInventoryCount={inventory.length}
+            isFilterActive={isFilterActive}
+            clearFilters={clearFilters}
           />
           {selectedInventoryIds.length ? (
             <ActionMenu
@@ -231,6 +244,12 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
               }}
             />
           ) : null}
+          <RemoveAnimalsModal
+            isOpen={removalModalOpen}
+            onClose={() => setRemovalModalOpen(false)}
+            onConfirm={handleAnimalOrBatchRemoval}
+            showSuccessMessage={false}
+          />
         </div>
       )}
     </>

@@ -21,22 +21,16 @@ import Drawer from '../../../components/Drawer';
 import FilterButton from '../../../components/Filter/FilterButton';
 import Button from '../../../components/Form/Button';
 import AnimalsFilterContent from '../../Filter/Animals/';
-import {
-  isFilterCurrentlyActiveSelector,
-  setAnimalsFilter,
-  animalsFilterSelector,
-  initialAnimalsFilter,
-} from '../../filterSlice';
 import { ReduxFilterEntity } from '../../Filter/types';
 import { AnimalsFilterKeys } from '../../Filter/Animals/types';
+import { setAnimalsFilter, animalsFilterSelector, initialAnimalsFilter } from '../../filterSlice';
 
-const AnimalsFilter = () => {
+const AnimalsFilter = ({ isFilterActive }: { isFilterActive: boolean }) => {
   const { t } = useTranslation();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
   const [tempAnimalsFilter, setTempAnimalsFilter] =
     useState<ReduxFilterEntity<AnimalsFilterKeys>>(initialAnimalsFilter);
-  const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('animals'));
 
   const animalsFilter = useSelector(animalsFilterSelector);
   const dispatch = useDispatch();
@@ -44,6 +38,7 @@ const AnimalsFilter = () => {
   const handleApply = () => {
     dispatch(setAnimalsFilter(tempAnimalsFilter));
     setIsFilterOpen(false);
+    setIsDirty(false);
   };
 
   return (

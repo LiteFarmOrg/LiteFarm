@@ -13,57 +13,40 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.noSearchResults {
-  margin-top: 24px;
+.text {
+  font-family: "Open Sans", "SansSerif", sans-serif;
+  font-size: 12px;
+  color: var(--Colors-Accent---singles-Blue-full);
 }
 
-.noSearchResultsDesktop {
-  margin-top: 40px;
-}
-
-.searchBarDesktop {
-  width: 240px;
-}
-
-.searchBar {
-  flex: 1;
-}
-
-.searchAndFilterCommon {
+.iconButton {
+  width: 48px;
+  height: 48px;
   display: flex;
-}
-
-.searchAndFilterDesktop {
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 16px; 
-}
+  border: solid 1px var(--Colors-Accent---singles-Blue-full);
+  border-radius: 4px;
+  background-color: var(--Colors-Accent---singles-Blue-light);
 
-.searchAndFilter {
-  flex-wrap: wrap;
-  gap: 4px;
-  padding: 8px 16px 8px 16px;
-  background-color: var(--Colors-Primary-Primary-teal-50);
-}
+  svg {
+    width: 30px;
+    height: 30px;
+    padding-left: 4px;
 
-.searchResultsDesktop {
-  margin-left: 8px;
-}
+    path {
+      stroke: var(--Colors-Accent---singles-Blue-full);
 
-.searchResults {
-  text-align: center;
-  flex-basis: 100%;
-  order: 4;
-}
-
-.searchResultsText {
-  &.filterActive {
-    color: var(--Colors-Primary-Primary-teal-400);
+      &:nth-child(2) {
+        fill: var(--Colors-Accent---singles-Blue-full);
+      }
+    }
   }
 }
 
-.clearButtonWrapperDesktop {
-  flex: 1;
+.textButton {
   display: flex;
-  justify-content: end;
+  align-items: center;
+  gap: 2px;
 }

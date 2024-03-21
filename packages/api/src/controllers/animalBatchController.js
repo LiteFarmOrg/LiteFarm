@@ -82,6 +82,11 @@ const animalBatchController = {
             }
           }
 
+          if (animalBatch.default_breed_id && animalBatch.custom_type_id) {
+            await trx.rollback();
+            return res.status(400).send('Default breed does not use custom type');
+          }
+
           if (animalBatch.custom_breed_id) {
             const customBreed = await CustomAnimalBreedModel.query()
               .whereNotDeleted()

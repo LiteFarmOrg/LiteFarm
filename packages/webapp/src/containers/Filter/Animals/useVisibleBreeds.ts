@@ -13,12 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { FilterState } from '../types';
 import { AnimalsFilterKeys } from './types';
 import type { DefaultAnimalBreed, CustomAnimalBreed } from '../../../store/api/types';
 import { getActiveTypeIds } from './utils';
 import { ANIMAL_ID_PREFIX } from '../../Animals/types';
+import { useSelector } from 'react-redux';
+import { animalsFilterSelector } from '../../filterSlice';
 
 /**
  * Custom hook to manage visible breeds based on the selected animal types
@@ -40,11 +42,17 @@ export const useVisibleBreeds = (
   const [filteredCustomBreeds, setFilteredCustomBreeds] =
     useState<CustomAnimalBreed[]>(customBreeds);
 
+  const animalsFilter = useSelector(animalsFilterSelector);
+
   const handleBreedsChange = (filterKey: string | undefined, filterState: FilterState) => {
     if (filterKey === AnimalsFilterKeys.TYPE) {
       updateVisibleBreeds(filterState);
     }
   };
+
+  useEffect(() => {
+    updateVisibleBreeds(animalsFilter[AnimalsFilterKeys.TYPE]);
+  }, [animalsFilter]);
 
   const updateVisibleBreeds = (currentTypeFilterSelection: FilterState) => {
     const activeTypeValues = getActiveTypeIds(currentTypeFilterSelection);

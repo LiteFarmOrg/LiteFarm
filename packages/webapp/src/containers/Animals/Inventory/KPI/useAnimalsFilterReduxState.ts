@@ -22,7 +22,7 @@ export const useAnimalsFilterReduxState = () => {
   const dispatch = useDispatch();
   const animalsFilter = useSelector(animalsFilterSelector);
 
-  const selectedTypeIds = getActiveTypeIds(animalsFilter);
+  const selectedTypeIds = getActiveTypeIds(animalsFilter[AnimalsFilterKeys.TYPE]);
 
   const updateSelectedTypeIds = (typeId: string) => {
     const isSelected = selectedTypeIds.includes(typeId);

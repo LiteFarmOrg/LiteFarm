@@ -40,3 +40,8 @@ export const generateInventoryId = (
 ): string => {
   return `${key}_${animalOrBatch.id}`;
 };
+
+export const parseInventoryId = (inventoryId: string): { kind: AnimalOrBatchKeys; id: number } => {
+  const [kind, id] = inventoryId.split('_');
+  return { kind: kind as AnimalOrBatchKeys, id: Number(id) };
+};

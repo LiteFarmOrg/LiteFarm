@@ -31,6 +31,8 @@ import { ReactComponent as CloneIcon } from '../../../assets/images/clone.svg';
 import { ReactComponent as RemoveAnimalIcon } from '../../../assets/images/animals/remove-animal.svg';
 import styles from './styles.module.scss';
 import { useFilteredInventory } from './useFilteredInventory';
+import RemoveAnimalsModal from '../../../components/Animals/RemoveAnimalsModal';
+import useAnimalOrBatchRemoval from './useAnimalOrBatchRemoval';
 import {
   isFilterCurrentlyActiveSelector,
   resetAnimalsFilter,
@@ -75,6 +77,9 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     },
     [updateSelectedTypeIds],
   );
+
+  const { handleAnimalOrBatchRemoval, removalModalOpen, setRemovalModalOpen } =
+    useAnimalOrBatchRemoval(selectedInventoryIds, setSelectedInventoryIds);
 
   const animalsColumns = useMemo(
     () => [
@@ -188,7 +193,11 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     { label: t(`common:ADD_TO_GROUP`), icon: <AddAnimalIcon />, onClick: () => ({}) },
     { label: t(`common:CREATE_A_TASK`), icon: <TaskCreationIcon />, onClick: () => ({}) },
     { label: t(`common:CLONE`), icon: <CloneIcon />, onClick: () => ({}) },
-    { label: t(`ANIMAL.REMOVE_ANIMAL`), icon: <RemoveAnimalIcon />, onClick: () => ({}) },
+    {
+      label: t(`ANIMAL.REMOVE_ANIMAL`),
+      icon: <RemoveAnimalIcon />,
+      onClick: () => setRemovalModalOpen(true),
+    },
   ];
 
   const textActions = [
@@ -235,6 +244,12 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
               }}
             />
           ) : null}
+          <RemoveAnimalsModal
+            isOpen={removalModalOpen}
+            onClose={() => setRemovalModalOpen(false)}
+            onConfirm={handleAnimalOrBatchRemoval}
+            showSuccessMessage={false}
+          />
         </div>
       )}
     </>

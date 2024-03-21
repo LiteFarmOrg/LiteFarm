@@ -14,9 +14,8 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { clamp, countDecimalPlaces } from './utils';
+import { clamp, countDecimalPlaces, createNumberFormatter } from './utils';
 import { ChangeEvent, ComponentPropsWithRef, useMemo, useRef, useState } from 'react';
-import { NumberInputStepperProps } from './NumberInputStepper';
 
 export type NumberInputOptions = {
   /**
@@ -89,11 +88,7 @@ export default function useNumberInput({
       maximumFractionDigits: !allowDecimal ? 0 : decimalDigits ?? (stepDecimalPlaces || 20),
     };
 
-    try {
-      return new Intl.NumberFormat(locale, options);
-    } catch (error) {
-      return new Intl.NumberFormat(undefined, options);
-    }
+    return createNumberFormatter(locale, options);
   }, [locale, useGrouping, decimalDigits, step, allowDecimal]);
 
   const { decimalSeparator, thousandsSeparator } = useMemo(() => {
@@ -103,7 +98,8 @@ export default function useNumberInput({
     };
 
     // 11000.2 - random decimal number over 1000 used to extract thousands and decimal separators
-    for (let { type, value } of formatter.formatToParts(11000.2)) {
+    const numberParts = createNumberFormatter(locale).formatToParts(1000.2);
+    for (let { type, value } of numberParts) {
       if (type === 'decimal') {
         separators.decimalSeparator = value;
       } else if (type === 'group') {
@@ -144,14 +140,12 @@ export default function useNumberInput({
     onBlur?.();
   };
 
-  const handleFocus = () => setIsFocused(true);
-
-  const getPattern = () => {
+  const pattern = useMemo(() => {
     if (!isFocused) return;
     if (!allowDecimal) return '[0-9]+';
     const decimalSeparatorRegex = `[${decimalSeparator === '.' ? '.' : `${decimalSeparator}.`}]`;
     return `[0-9]*${decimalSeparatorRegex}?[0-9]*`;
-  };
+  }, [isFocused, allowDecimal, decimalSeparator]);
 
   const getDisplayValue = () => {
     if (isNaN(numericValue)) return '';
@@ -184,10 +178,10 @@ export default function useNumberInput({
   const inputProps: ComponentPropsWithRef<'input'> = {
     inputMode: 'decimal',
     value: getDisplayValue(),
-    pattern: getPattern(),
+    pattern,
     onChange: handleChange,
     onBlur: handleBlur,
-    onFocus: handleFocus,
+    onFocus: () => setIsFocused(true),
     onKeyDown: handleKeyDown,
     ref: inputRef,
   };

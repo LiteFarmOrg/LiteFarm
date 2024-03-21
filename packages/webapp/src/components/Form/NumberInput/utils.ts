@@ -29,3 +29,12 @@ export function clamp(value: number, min: number, max: number) {
 
   return Math.min(Math.max(value, min), max);
 }
+
+export function createNumberFormatter(locale: string, options?: Intl.NumberFormatOptions) {
+  try {
+    return new Intl.NumberFormat(locale, options);
+  } catch (error) {
+    // undefined will use browsers best matching locale
+    return new Intl.NumberFormat(undefined, options);
+  }
+}

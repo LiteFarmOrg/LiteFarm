@@ -38,7 +38,7 @@ export const animalMatchesFilter = (
   } else if (entity[`custom_${attribute}_id`]) {
     filterKey = `${ANIMAL_ID_PREFIX.CUSTOM}_${entity[`custom_${attribute}_id`]}`;
   }
-  return filterKey ? filter[filterKey]?.active : false;
+  return filterKey && filter[filterKey] ? !!filter[filterKey].active : false;
 };
 
 /**

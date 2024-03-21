@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
@@ -40,12 +40,12 @@ const DocumentsFilterPage = ({ onGoBack }) => {
   const documentsFilter = useSelector(documentsFilterSelector);
   const dispatch = useDispatch();
 
+  const [tempFilter, setTempFilter] = useState({});
+
   const handleApply = () => {
-    dispatch(setDocumentsFilter(filterRef.current));
+    dispatch(setDocumentsFilter(tempFilter));
     onGoBack?.();
   };
-
-  const filterRef = useRef({});
 
   const filters = [
     {
@@ -69,7 +69,8 @@ const DocumentsFilterPage = ({ onGoBack }) => {
     <PureFilterPage
       filters={filters}
       onApply={handleApply}
-      filterRef={filterRef}
+      tempFilter={tempFilter}
+      setTempFilter={setTempFilter}
       onGoBack={onGoBack}
     />
   );

@@ -15,7 +15,7 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import React, { useMemo, useRef, useEffect } from 'react';
+import React, { useMemo, useRef, useEffect, useState } from 'react';
 
 import PureFilterPage from '../../../components/FilterPage';
 import { setTasksFilter, tasksFilterSelector } from '../../filterSlice';
@@ -54,6 +54,8 @@ const TasksFilterPage = ({ onGoBack }) => {
   );
   const defaultTaskTypes = useSelector(defaultTaskTypesSelector);
   const customTaskTypes = useSelector(userCreatedTaskTypesSelector);
+
+  const [tempFilter, setTempFilter] = useState({});
 
   useEffect(() => {
     dispatch(getTaskTypes());
@@ -106,10 +108,8 @@ const TasksFilterPage = ({ onGoBack }) => {
     }, {});
   }, [tasks.length]);
 
-  const filterRef = useRef({});
-
   const handleApply = () => {
-    dispatch(setTasksFilter(filterRef.current));
+    dispatch(setTasksFilter(tempFilter));
     onGoBack?.();
   };
 
@@ -175,8 +175,9 @@ const TasksFilterPage = ({ onGoBack }) => {
     <PureFilterPage
       filters={filters}
       onApply={handleApply}
-      filterRef={filterRef}
       onGoBack={onGoBack}
+      tempFilter={tempFilter}
+      setTempFilter={setTempFilter}
     />
   );
 };

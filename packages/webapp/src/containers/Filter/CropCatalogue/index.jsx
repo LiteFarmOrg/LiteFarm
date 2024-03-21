@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
@@ -27,11 +27,12 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
   const suppliers = useSelector(suppliersSelector);
   const dispatch = useDispatch();
 
+  const [tempFilter, setTempFilter] = useState({});
+
   const handleApply = () => {
-    dispatch(setCropCatalogueFilter(filterRef.current));
+    dispatch(setCropCatalogueFilter(tempFilter));
     onGoBack?.();
   };
-  const filterRef = useRef({});
 
   const filters = [
     {
@@ -69,7 +70,8 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
     <PureFilterPage
       filters={filters}
       onApply={handleApply}
-      filterRef={filterRef}
+      tempFilter={tempFilter}
+      setTempFilter={setTempFilter}
       onGoBack={onGoBack}
     />
   );

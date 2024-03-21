@@ -7,14 +7,19 @@ import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import FilterGroup from '../Filter/FilterGroup';
 import type { ComponentFilter } from '../Filter/types';
-import type { ReduxFilterEntity } from '../../containers/Filter/types';
+import type {
+  ContainerOnChangeCallback,
+  FilterState,
+  ReduxFilterEntity,
+} from '../../containers/Filter/types';
 
 interface PureFilterPageProps {
   filters: ComponentFilter[];
-  filterRef: React.RefObject<ReduxFilterEntity>;
   title?: string;
   onApply: () => void /* The handler for Redux state update in this flow, e.g.
     () => dispatch(setCropCatalogueFilter(filterRef.current)) */;
+  tempFilter: ReduxFilterEntity;
+  setTempFilter: (filter: ReduxFilterEntity) => void;
   onGoBack?: () => void;
   children?: React.ReactNode;
 }
@@ -23,7 +28,8 @@ const PureFilterPage = ({
   title,
   filters,
   onApply,
-  filterRef,
+  tempFilter,
+  setTempFilter,
   onGoBack,
   children,
 }: PureFilterPageProps) => {
@@ -56,8 +62,13 @@ const PureFilterPage = ({
       </div>
       <FilterGroup
         filters={filters}
-        filterRef={filterRef}
-        onChange={setDirty}
+        onChange={(filterKey, filterState) => {
+          setTempFilter({
+            ...tempFilter,
+            [filterKey as string]: filterState as FilterState<string>,
+          });
+          setDirty();
+        }}
         shouldReset={shouldReset}
       />
       {children}
@@ -69,8 +80,9 @@ PureFilterPage.propTypes = {
   title: PropTypes.string,
   filters: PropTypes.array.isRequired,
   onApply: PropTypes.func.isRequired,
-  filterRef: PropTypes.object.isRequired,
   onGoBack: PropTypes.func,
+  tempFilter: PropTypes.object,
+  setTempFilter: PropTypes.func,
   children: PropTypes.node,
 };
 export default PureFilterPage;

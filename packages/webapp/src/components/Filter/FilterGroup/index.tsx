@@ -26,7 +26,7 @@ import type {
   FilterState,
 } from '../../../containers/Filter/types';
 import type { ComponentFilter } from '../types';
-import { FilterMultiSelectV2 } from '../FilterMultiSelectV2';
+import { FilterMultiSelect } from '../FilterMultiSelect';
 import { RefObject } from 'react';
 
 type ComponentOnChangeCallback = (filterState?: FilterState) => void;
@@ -56,7 +56,7 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterIt
     return <FilterDateRange key={filter.subject} {...filter} {...props} />;
   } else if (filter.type === SEARCHABLE_MULTI_SELECT) {
     return (
-      <FilterMultiSelectV2
+      <FilterMultiSelect
         subject={filter.subject}
         options={filter.options}
         filterKey={filter.filterKey}

@@ -65,9 +65,9 @@ const AnimalsFilter = () => {
         <AnimalsFilterContent
           animalsFilter={animalsFilter}
           tempAnimalsFilter={tempAnimalsFilter}
-          onChange={(key, state) => {
+          onChange={(filterKey, filterState) => {
             !isDirty && setIsDirty(true);
-            setTempAnimalsFilter({ ...tempAnimalsFilter, [key as string]: state });
+            setTempAnimalsFilter({ ...tempAnimalsFilter, [filterKey as string]: filterState });
           }}
         />
       </Drawer>

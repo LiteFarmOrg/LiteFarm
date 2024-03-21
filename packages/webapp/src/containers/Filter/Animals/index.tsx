@@ -33,7 +33,6 @@ import { locationsSelector } from '../../locationSlice';
 import { AnimalsFilterKeys } from './types';
 import { AnimalOrBatchKeys } from '../../Animals/types';
 import { sortFilterOptions } from '../../../components/Filter/utils';
-import { RefObject } from 'react';
 
 interface AnimalsFilterContentProps {
   animalsFilter: ReduxFilterEntity<AnimalsFilterKeys>;

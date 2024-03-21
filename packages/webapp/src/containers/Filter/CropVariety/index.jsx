@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
@@ -31,6 +31,8 @@ const CropVarietyFilterPage = ({ cropId, onGoBack }) => {
   const suppliers = useSelector(suppliersByCropIdSelector(cropId));
   const dispatch = useDispatch();
 
+  const [tempFilter, setTempFilter] = useState({});
+
   useEffect(() => {
     if (!cropVarietyFilter) {
       dispatch(setCropVarietyFilterDefault(cropId));
@@ -41,12 +43,11 @@ const CropVarietyFilterPage = ({ cropId, onGoBack }) => {
     dispatch(
       setCropVarietyFilter({
         cropId,
-        cropVarietyFilter: filterRef.current,
+        cropVarietyFilter: tempFilter,
       }),
     );
     onGoBack?.();
   };
-  const filterRef = useRef({});
 
   const filters = [
     {
@@ -84,8 +85,9 @@ const CropVarietyFilterPage = ({ cropId, onGoBack }) => {
     <PureFilterPage
       filters={filters}
       onApply={handleApply}
-      filterRef={filterRef}
       onGoBack={onGoBack}
+      tempFilter={tempFilter}
+      setTempFilter={setTempFilter}
     />
   );
 };

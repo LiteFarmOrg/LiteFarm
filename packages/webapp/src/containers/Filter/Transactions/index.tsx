@@ -25,10 +25,11 @@ import type { RevenueType, ExpenseType } from '../../Finances/types';
 import type { ReduxFilterEntity, ContainerOnChangeCallback } from '../types';
 import type { ComponentFilter } from '../../../components/Filter/types';
 import { sortFilterOptions } from '../../../components/Filter/utils';
+import { RefObject } from 'react';
 
 interface TransactionFilterContentProps {
   transactionsFilter: ReduxFilterEntity;
-  filterRef: React.RefObject<ReduxFilterEntity>;
+  filterRef: RefObject<ReduxFilterEntity>;
   filterContainerClassName?: string;
   onChange: ContainerOnChangeCallback;
 }

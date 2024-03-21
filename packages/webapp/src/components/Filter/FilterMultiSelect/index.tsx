@@ -141,25 +141,47 @@ export const FilterMultiSelect = ({
     );
   };
 
+  // Every time there will be a re-render, do re-calculation to show hidden pills count
   useLayoutEffect(() => {
+    // Remove previous hidden pills count
     hiddenCountRef.current?.remove();
+
+    // Find pill elements and container element
     const pillElements = ref.current?.getElementsByClassName(styles.multiValue);
-    if (pillElements) {
+    const valueContainer = ref.current?.getElementsByClassName(styles.valueContainer)?.[0];
+
+    if (pillElements && valueContainer) {
+      // Add spacing to account for the space the hidden pills count will take once added
+      valueContainer.classList.add(styles.hiddenPillsCountSpacing);
+
       const pillElementsArr = Array.from(pillElements) as HTMLElement[];
+
+      // Un-hide previosuly hidden pills
+      pillElementsArr.forEach((el) => el.classList.remove(styles.hiddenPill));
+
+      // Calculate where the top of the first pill is situated
       const baseOffset = pillElementsArr[0]?.offsetTop;
+      // Calculate how many pills have their top border below that base (how many are in a new line)
       const hiddenCount = pillElementsArr.filter((el) => el.offsetTop > baseOffset).length;
+      // Get last pill in first line
       const lastVisiblePillIndex = pillElementsArr.length - hiddenCount - 1;
+
       pillElementsArr.forEach((el, index) => {
         if (index === lastVisiblePillIndex && hiddenCount > 0) {
+          // Add hidden pills count next to last pill in first line
           const newHiddenCountEl = document.createElement('p');
           newHiddenCountEl.textContent = `+${hiddenCount}`;
           hiddenCountRef.current = newHiddenCountEl;
           el.insertAdjacentElement('afterend', newHiddenCountEl);
         }
         if (index > lastVisiblePillIndex) {
+          // Hide overflowing pills
           el.classList.add(styles.hiddenPill);
         }
       });
+
+      // Remove extra spacing
+      valueContainer.classList.remove(styles.hiddenPillsCountSpacing);
     }
   });
 
@@ -179,6 +201,7 @@ export const FilterMultiSelect = ({
         onMenuClose={() => setIsMenuOpen(false)}
         controlShouldRenderValue={!isMenuOpen}
         isSearchable={isMenuOpen}
+        menuPortalTarget={document.body}
         theme={(theme) => ({
           ...theme,
           colors: {
@@ -188,6 +211,7 @@ export const FilterMultiSelect = ({
           },
         })}
         classNames={{
+          menuPortal: () => styles.menuPortal,
           multiValue: () => styles.multiValue,
           multiValueLabel: () => styles.multiValueLabel,
           multiValueRemove: () => styles.multiValueRemove,
@@ -196,6 +220,7 @@ export const FilterMultiSelect = ({
           dropdownIndicator: () => styles.dropdownIndicator,
           control: (state) => (state.isFocused ? styles.focusedControl : styles.control),
           indicatorsContainer: () => styles.indicatorsContainer,
+          valueContainer: () => styles.valueContainer,
         }}
         components={{
           MultiValueRemove,

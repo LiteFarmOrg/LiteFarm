@@ -1,7 +1,15 @@
 @import '../../../assets/mixin.scss';
 
+.menuPortal {
+  z-index: 1300;
+}
+
 .label {
   margin-bottom: 4px;
+}
+
+.valueContainer {
+  padding: 6px 8px;
 }
 
 .pillsContainer {
@@ -60,6 +68,10 @@
   height: 28px;
   line-height: 28px;
   position: absolute;
+}
+
+.hiddenPillsCountSpacing {
+  margin-right: 40px;
 }
 
 .hiddenPill {

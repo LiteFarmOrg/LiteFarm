@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
@@ -19,7 +19,7 @@ import {
   INVOICES,
 } from '../constants';
 import { documentsFilterSelector, setDocumentsFilter } from '../../filterSlice';
-import { DATE } from '../../../components/Filter/filterTypes';
+import { FilterType } from '../../../components/Filter/types';
 
 const types = [
   CLEANING_PRODUCT,
@@ -51,6 +51,7 @@ const DocumentsFilterPage = ({ onGoBack }) => {
     {
       subject: t('DOCUMENTS.FILTER.TYPE'),
       filterKey: TYPE,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: types.map((type) => ({
         value: type,
         default: documentsFilter[TYPE][type]?.active ?? false,
@@ -60,7 +61,7 @@ const DocumentsFilterPage = ({ onGoBack }) => {
     {
       subject: t('DOCUMENTS.FILTER.VALID_ON'),
       filterKey: 'VALID_ON',
-      type: DATE,
+      type: FilterType.DATE,
       defaultValue: documentsFilter[VALID_ON],
     },
   ];

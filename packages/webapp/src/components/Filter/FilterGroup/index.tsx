@@ -17,15 +17,13 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { FilterDate } from '../FilterDate';
 import { FilterDateRange } from '../FilterDateRange';
-import FilterPillSelect from '../FilterPillSelect';
-import { DATE, DATE_RANGE, PILL_SELECT, SEARCHABLE_MULTI_SELECT } from '../filterTypes';
 import styles from './styles.module.scss';
 import type {
   ContainerOnChangeCallback,
   ReduxFilterEntity,
   FilterState,
 } from '../../../containers/Filter/types';
-import type { ComponentFilter } from '../types';
+import { FilterType, type ComponentFilter } from '../types';
 import { FilterMultiSelect } from '../FilterMultiSelect';
 import { RefObject } from 'react';
 
@@ -40,21 +38,9 @@ export interface FilterItemProps {
 }
 
 const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterItemProps) => {
-  if ((filter.type ?? PILL_SELECT) === PILL_SELECT && filter.options.length > 0) {
-    return (
-      <FilterPillSelect
-        subject={filter.subject}
-        options={filter.options}
-        filterKey={filter.filterKey}
-        key={filter.filterKey}
-        showIndividualControls={showIndividualFilterControls}
-        filterRef={props.filterRef as RefObject<ReduxFilterEntity>}
-        {...props}
-      />
-    );
-  } else if (filter.type === DATE_RANGE) {
+  if (filter.type === FilterType.DATE_RANGE) {
     return <FilterDateRange key={filter.subject} {...filter} {...props} />;
-  } else if (filter.type === SEARCHABLE_MULTI_SELECT) {
+  } else if (filter.type === FilterType.SEARCHABLE_MULTI_SELECT) {
     return (
       <FilterMultiSelect
         subject={filter.subject}
@@ -64,7 +50,7 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterIt
         {...props}
       />
     );
-  } else if (filter.type === DATE) {
+  } else if (filter.type === FilterType.DATE) {
     return <FilterDate {...filter} key={filter.subject} {...props} />;
   } else {
     return null;

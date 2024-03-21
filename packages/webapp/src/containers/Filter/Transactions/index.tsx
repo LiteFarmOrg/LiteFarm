@@ -23,7 +23,7 @@ import { EXPENSE_TYPE, REVENUE_TYPE } from '../constants';
 import { allRevenueTypesSelector } from '../../revenueTypeSlice';
 import type { RevenueType, ExpenseType } from '../../Finances/types';
 import type { ReduxFilterEntity, ContainerOnChangeCallback } from '../types';
-import type { ComponentFilter } from '../../../components/Filter/types';
+import { FilterType, type ComponentFilter } from '../../../components/Filter/types';
 import { sortFilterOptions } from '../../../components/Filter/utils';
 import { RefObject } from 'react';
 
@@ -48,6 +48,7 @@ const TransactionFilterContent = ({
     {
       subject: t('FINANCES.FILTER.EXPENSE_TYPE'),
       filterKey: EXPENSE_TYPE,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: [
         ...(expenseTypes || []).map((type) => ({
           value: type.expense_type_id,
@@ -71,6 +72,7 @@ const TransactionFilterContent = ({
     {
       subject: t('FINANCES.FILTER.REVENUE_TYPE'),
       filterKey: REVENUE_TYPE,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: (revenueTypes || []).map((type) => ({
         value: type.revenue_type_id,
         // This sets the initial state of the filter pill

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
@@ -16,7 +16,7 @@ import {
 } from '../constants';
 import { cropCatalogueFilterSelector, setCropCatalogueFilter } from '../../filterSlice';
 import { suppliersSelector } from '../../cropVarietySlice';
-import { SEARCHABLE_MULTI_SELECT } from '../../../components/Filter/filterTypes';
+import { FilterType } from '../../../components/Filter/types';
 
 const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
 
@@ -38,6 +38,7 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
     {
       subject: t('CROP_CATALOGUE.FILTER.STATUS'),
       filterKey: STATUS,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: statuses.map((status) => ({
         value: status,
         default: cropCatalogueFilter[STATUS][status]?.active ?? false,
@@ -47,7 +48,7 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
     {
       subject: t('CROP_CATALOGUE.FILTER.LOCATION'),
       filterKey: LOCATION,
-      type: SEARCHABLE_MULTI_SELECT,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: cropEnabledLocations.map((location) => ({
         value: location.location_id,
         default: cropCatalogueFilter[LOCATION][location.location_id]?.active ?? false,
@@ -57,7 +58,7 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
     {
       subject: t('CROP_CATALOGUE.FILTER.SUPPLIERS'),
       filterKey: SUPPLIERS,
-      type: SEARCHABLE_MULTI_SELECT,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: suppliers.map((supplier) => ({
         value: supplier,
         default: cropCatalogueFilter[SUPPLIERS][supplier]?.active ?? false,

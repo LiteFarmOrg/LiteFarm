@@ -14,12 +14,15 @@
  */
 
 // In tempStateReducer > filterReducer
-export type ReduxFilterEntity<FilterKey extends string = string> = Record<FilterKey, FilterState>;
+export type ReduxFilterEntity<FilterKey extends string = string> = Record<
+  FilterKey,
+  FilterState<FilterKey>
+>;
 
-export interface FilterState {
+export interface FilterState<FilterKey extends string = string> {
   [filterOptionId: string]: /* e.g. ABANDONED, COMPLETED */ {
-    active: boolean;
-    label: string /* e.g. 'Abandoned', 'Completed */;
+    active?: boolean;
+    label?: string /* e.g. 'Abandoned', 'Completed */;
   };
 }
 

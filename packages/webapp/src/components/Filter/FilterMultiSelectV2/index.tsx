@@ -1,8 +1,9 @@
-import React, { MouseEvent, useLayoutEffect, useMemo, useRef } from 'react';
+import React, { Component, MouseEvent, RefObject, useLayoutEffect, useMemo, useRef } from 'react';
 import Select, {
   ClearIndicatorProps,
   components,
   MenuListProps,
+  MultiValue,
   MultiValueRemoveProps,
   OptionProps,
 } from 'react-select';
@@ -17,8 +18,7 @@ import Checkbox from '../../Form/Checkbox';
 import produce from 'immer';
 import { FilterItemProps } from '../FilterGroup';
 
-interface FilterMultiSelectProps extends ComponentFilter {
-  filterRef: React.RefObject<ReduxFilterEntity>;
+interface FilterMultiSelectV2Props extends ComponentFilter {
   onChange?: FilterItemProps['onChange'];
 }
 
@@ -28,7 +28,7 @@ const MultiValueRemove = (props: MultiValueRemoveProps) => (
   </components.MultiValueRemove>
 );
 
-const ClearIndicator = (props: ClearIndicatorProps) => {
+const ClearIndicator = (props: ClearIndicatorProps<ComponentFilterOption>) => {
   const { getValue, clearValue } = props;
   const value = getValue();
   const { t } = useTranslation();
@@ -49,7 +49,7 @@ const ClearIndicator = (props: ClearIndicatorProps) => {
   );
 };
 
-const Option = (props: OptionProps) => {
+const Option = (props: OptionProps<ComponentFilterOption>) => {
   const { label, isSelected, selectOption, data } = props;
 
   const onClick = (e: MouseEvent) => {
@@ -67,7 +67,7 @@ const Option = (props: OptionProps) => {
   );
 };
 
-const MenuList = (props: MenuListProps) => {
+const MenuList = (props: MenuListProps<ComponentFilterOption>) => {
   const { children, getValue, hasValue, options, clearValue } = props;
   const { t } = useTranslation();
 
@@ -89,12 +89,7 @@ const MenuList = (props: MenuListProps) => {
   );
 };
 
-export const FilterMultiSelectV2 = ({
-  options,
-  filterRef,
-  filterKey,
-  onChange,
-}: FilterMultiSelectProps) => {
+export const FilterMultiSelectV2 = ({ options, onChange }: FilterMultiSelectV2Props) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(() => options.filter((option) => option.default));
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -110,24 +105,27 @@ export const FilterMultiSelectV2 = ({
   }, [options, value]);
 
   const defaultFilterState = useMemo(() => {
-    return options.reduce((defaultFilterState, option) => {
-      defaultFilterState[option.value] = {
-        active: false,
-        label: option.label,
-      };
-      return defaultFilterState;
-    }, {});
+    return options.reduce(
+      (defaultFilterState: Record<string, { active: boolean; label: string }>, option) => {
+        defaultFilterState[option.value] = {
+          active: false,
+          label: option.label,
+        };
+        return defaultFilterState;
+      },
+      {},
+    );
   }, []);
 
-  const handleChange = (updatedValue) => {
-    setValue(updatedValue.sort((a, b) => a.label.localeCompare(b.label)));
-    filterRef.current![filterKey] = produce(defaultFilterState, (defaultFilterState) => {
-      for (const option of updatedValue) {
-        defaultFilterState[option.value].active = true;
-      }
-    });
-
-    onChange?.(filterRef.current![filterKey]);
+  const handleChange = (updatedValue: MultiValue<ComponentFilterOption>) => {
+    setValue([...updatedValue].sort((a, b) => a.label.localeCompare(b.label)));
+    onChange?.(
+      produce(defaultFilterState, (defaultFilterState) => {
+        for (const option of updatedValue) {
+          defaultFilterState[option.value].active = true;
+        }
+      }),
+    );
   };
 
   useLayoutEffect(() => {

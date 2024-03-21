@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState } from 'react';
+import { RefObject, useEffect, useState } from 'react';
 import type { ReduxFilterEntity, FilterState } from '../types';
 import { AnimalsFilterKeys } from './types';
 import type { DefaultAnimalBreed, CustomAnimalBreed } from '../../../store/api/types';
@@ -36,24 +36,21 @@ import { ANIMAL_ID_PREFIX } from '../../Animals/types';
 export const useVisibleBreeds = (
   defaultBreeds: DefaultAnimalBreed[],
   customBreeds: CustomAnimalBreed[],
-  onChange: () => void,
-  filterRef: React.RefObject<ReduxFilterEntity<AnimalsFilterKeys>>,
+  tempFilter: ReduxFilterEntity<AnimalsFilterKeys>,
 ) => {
   const [filteredDefaultBreeds, setFilteredDefaultBreeds] =
     useState<DefaultAnimalBreed[]>(defaultBreeds);
   const [filteredCustomBreeds, setFilteredCustomBreeds] =
     useState<CustomAnimalBreed[]>(customBreeds);
 
-  const handleChange = (filterKey: string | undefined) => {
-    onChange();
-
+  const handleBreedsChange = (filterKey: string | undefined) => {
     if (filterKey === AnimalsFilterKeys.TYPE) {
-      updateVisibleBreeds(filterRef.current!);
+      updateVisibleBreeds(tempFilter);
     }
   };
 
   useEffect(() => {
-    updateVisibleBreeds(filterRef.current!);
+    updateVisibleBreeds(tempFilter);
   }, []);
 
   const updateVisibleBreeds = (currentFilterSelection: ReduxFilterEntity<AnimalsFilterKeys>) => {
@@ -78,5 +75,5 @@ export const useVisibleBreeds = (
     setFilteredCustomBreeds(updatedCustomBreeds);
   };
 
-  return { handleChange, filteredDefaultBreeds, filteredCustomBreeds };
+  return { handleBreedsChange, filteredDefaultBreeds, filteredCustomBreeds };
 };

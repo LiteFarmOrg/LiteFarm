@@ -17,7 +17,6 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { FilterDate } from '../FilterDate';
 import { FilterDateRange } from '../FilterDateRange';
-import { FilterMultiSelect } from '../FilterMultiSelect';
 import FilterPillSelect from '../FilterPillSelect';
 import { DATE, DATE_RANGE, PILL_SELECT, SEARCHABLE_MULTI_SELECT } from '../filterTypes';
 import styles from './styles.module.scss';
@@ -28,12 +27,14 @@ import type {
 } from '../../../containers/Filter/types';
 import type { ComponentFilter } from '../types';
 import { FilterMultiSelectV2 } from '../FilterMultiSelectV2';
+import { RefObject } from 'react';
 
 type ComponentOnChangeCallback = (filterState?: FilterState) => void;
 
 export interface FilterItemProps {
   filter: ComponentFilter;
-  filterRef: React.RefObject<ReduxFilterEntity>;
+  filterRef?: RefObject<ReduxFilterEntity>;
+  tempFilter: ReduxFilterEntity;
   onChange: ComponentOnChangeCallback;
   shouldReset?: number;
   showIndividualFilterControls?: boolean;
@@ -48,6 +49,7 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterIt
         filterKey={filter.filterKey}
         key={filter.filterKey}
         showIndividualControls={showIndividualFilterControls}
+        filterRef={props.filterRef as RefObject<ReduxFilterEntity>}
         {...props}
       />
     );
@@ -56,6 +58,7 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterIt
   } else if (filter.type === SEARCHABLE_MULTI_SELECT) {
     return (
       <FilterMultiSelectV2
+        subject={filter.subject}
         options={filter.options}
         filterKey={filter.filterKey}
         key={filter.filterKey}
@@ -71,7 +74,8 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterIt
 
 interface FilterGroupProps {
   filters: ComponentFilter[];
-  filterRef: React.RefObject<ReduxFilterEntity>;
+  filterRef?: RefObject<ReduxFilterEntity>;
+  tempFilter: ReduxFilterEntity;
   onChange: ContainerOnChangeCallback;
   filterContainerClassName?: string;
   shouldReset?: number;
@@ -81,6 +85,7 @@ interface FilterGroupProps {
 const FilterGroup = ({
   filters,
   filterRef,
+  tempFilter,
   filterContainerClassName,
   onChange,
   shouldReset,
@@ -97,6 +102,7 @@ const FilterGroup = ({
             <FilterItem
               filter={filter}
               filterRef={filterRef}
+              tempFilter={tempFilter}
               onChange={(filterState) => onChange(filter.filterKey, filterState)}
               shouldReset={shouldReset}
               showIndividualFilterControls={showIndividualFilterControls}

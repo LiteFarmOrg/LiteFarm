@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import FilterGroup from '../../../components/Filter/FilterGroup';
-import type { ReduxFilterEntity, ContainerOnChangeCallback, Location } from '../types';
+import type { ReduxFilterEntity, ContainerOnChangeCallback, Location, FilterState } from '../types';
 import { FilterType, type ComponentFilter } from '../../../components/Filter/types';
 import {
   useGetDefaultAnimalTypesQuery,
@@ -33,17 +33,18 @@ import { locationsSelector } from '../../locationSlice';
 import { AnimalsFilterKeys } from './types';
 import { AnimalOrBatchKeys } from '../../Animals/types';
 import { sortFilterOptions } from '../../../components/Filter/utils';
+import { RefObject } from 'react';
 
 interface AnimalsFilterContentProps {
   animalsFilter: ReduxFilterEntity<AnimalsFilterKeys>;
-  filterRef: React.RefObject<ReduxFilterEntity<AnimalsFilterKeys>>;
+  tempAnimalsFilter: ReduxFilterEntity<AnimalsFilterKeys>;
   filterContainerClassName?: string;
   onChange: ContainerOnChangeCallback;
 }
 
 const AnimalsFilterContent = ({
   animalsFilter,
-  filterRef,
+  tempAnimalsFilter,
   filterContainerClassName,
   onChange,
 }: AnimalsFilterContentProps) => {
@@ -58,12 +59,16 @@ const AnimalsFilterContent = ({
   const { data: sexes = [] } = useGetAnimalSexesQuery();
   const { data: groups = [] } = useGetAnimalGroupsQuery();
 
-  const { handleChange, filteredDefaultBreeds, filteredCustomBreeds } = useVisibleBreeds(
+  const { handleBreedsChange, filteredDefaultBreeds, filteredCustomBreeds } = useVisibleBreeds(
     defaultBreeds,
     customBreeds,
-    onChange,
-    filterRef,
+    tempAnimalsFilter,
   );
+
+  const handleChange = (filterKey?: string, filterState?: FilterState) => {
+    onChange?.(filterKey, filterState);
+    handleBreedsChange(filterKey);
+  };
 
   const filters: ComponentFilter[] = [
     {
@@ -164,7 +169,7 @@ const AnimalsFilterContent = ({
   return (
     <FilterGroup
       filters={filters.map(sortFilterOptions)}
-      filterRef={filterRef}
+      tempFilter={tempAnimalsFilter}
       filterContainerClassName={filterContainerClassName}
       onChange={handleChange}
       showIndividualFilterControls
@@ -176,7 +181,6 @@ const filterShape = { active: PropTypes.bool, label: PropTypes.string, default: 
 
 AnimalsFilterContent.propTypes = {
   animalsFilter: PropTypes.objectOf(PropTypes.shape(filterShape)).isRequired,
-  filterRef: PropTypes.shape({ current: PropTypes.shape(filterShape) }).isRequired,
   filterContainerClassName: PropTypes.string,
   onChange: PropTypes.func,
 };

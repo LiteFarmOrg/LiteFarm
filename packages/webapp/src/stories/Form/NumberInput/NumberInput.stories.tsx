@@ -148,9 +148,9 @@ export const WithoutDecimalAndWithFractionalStep: Story = {
     const { incrementButton, decrementButton } = getStepperButtons(canvasElement);
 
     // should round step value up to nearest whole number
-    await userEvent.click(incrementButton);
+    await userEvent.click(incrementButton!);
     expect(input).toHaveValue('2');
-    await userEvent.click(decrementButton);
+    await userEvent.click(decrementButton!);
     expect(input).toHaveValue('0');
     expect(decrementButton).toBeDisabled();
     userEvent.clear(input);
@@ -205,9 +205,9 @@ export const Stepper: Story = {
     const input = getInput(canvasElement);
     const { incrementButton, decrementButton } = getStepperButtons(canvasElement);
 
-    await userEvent.click(incrementButton);
+    await userEvent.click(incrementButton!);
     expect(input).toHaveValue('0.1');
-    await userEvent.click(decrementButton);
+    await userEvent.click(decrementButton!);
     expect(input).toHaveValue('0.0');
     expect(decrementButton).toBeDisabled();
 
@@ -224,6 +224,25 @@ export const Stepper: Story = {
     await userEvent.keyboard('{ArrowUp}');
     expect(input).toHaveValue('5645.1');
     userEvent.clear(input);
+  },
+};
+
+export const WithoutStepper: Story = {
+  args: {
+    step: 0,
+  },
+  play: async ({ canvasElement }) => {
+    const input = getInput(canvasElement);
+    const { incrementButton, decrementButton } = getStepperButtons(canvasElement);
+
+    expect(incrementButton).not.toBeInTheDocument();
+    expect(decrementButton).not.toBeInTheDocument();
+
+    await userEvent.keyboard('{ArrowUp}');
+    expect(input).toHaveValue('');
+
+    await userEvent.keyboard('{ArrowDown}');
+    expect(input).toHaveValue('');
   },
 };
 
@@ -245,14 +264,14 @@ export const StepperWithMinMax: Story = {
 
     expect(input).toHaveValue('');
     // should clamp to min when clicking stepper and current value is below min
-    await userEvent.click(incrementButton);
+    await userEvent.click(incrementButton!);
     expect(input).toHaveValue('7');
     expect(decrementButton).toBeDisabled();
 
     // increment to max
     let value = 7;
     while (value !== args.max) {
-      await userEvent.click(incrementButton);
+      await userEvent.click(incrementButton!);
       expect(input).toHaveValue((value + args.step!).toString());
       value++;
     }
@@ -342,8 +361,8 @@ function getInput(canvasElement: HTMLElement) {
 
 function getStepperButtons(canvasElement: HTMLElement) {
   const canvas = within(canvasElement);
-  const incrementButton = canvas.getByRole('button', { name: 'increase' });
-  const decrementButton = canvas.getByRole('button', { name: 'decrease' });
+  const incrementButton = canvas.queryByRole('button', { name: 'increase' });
+  const decrementButton = canvas.queryByRole('button', { name: 'decrease' });
 
   return {
     incrementButton,

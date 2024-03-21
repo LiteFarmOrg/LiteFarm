@@ -171,6 +171,7 @@ export default function useNumberInput({
   const decrement = () => handleStep((numericValue || 0) - stepValue);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!showStepper) return;
     if (e.key === 'ArrowUp') {
       // prevent cursor from shifting to start of input
       e.preventDefault();
@@ -197,5 +198,6 @@ export default function useNumberInput({
     reset: () => update(initialValue ?? NaN),
     increment,
     decrement,
+    showStepper,
   };
 }

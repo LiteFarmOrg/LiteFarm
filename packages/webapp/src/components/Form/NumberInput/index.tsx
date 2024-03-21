@@ -56,7 +56,7 @@ export default function NumberInput({
   ...props
 }: NumberInputProps & RhfProps) {
   const { field, fieldState } = useController({ name, control, rules, defaultValue: initialValue });
-  const { inputProps, reset, numericValue, increment, decrement } = useNumberInput({
+  const { inputProps, reset, numericValue, increment, decrement, showStepper } = useNumberInput({
     initialValue,
     allowDecimal,
     decimalDigits,
@@ -85,12 +85,14 @@ export default function NumberInput({
       rightSection={
         <>
           {unit}
-          <NumberInputStepper
-            increment={increment}
-            decrement={decrement}
-            incrementDisabled={numericValue === max}
-            decrementDisabled={numericValue === Math.max(min, 0)}
-          />
+          {showStepper && (
+            <NumberInputStepper
+              increment={increment}
+              decrement={decrement}
+              incrementDisabled={numericValue === max}
+              decrementDisabled={numericValue === Math.max(min, 0)}
+            />
+          )}
         </>
       }
     />

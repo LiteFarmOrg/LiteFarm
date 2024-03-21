@@ -126,9 +126,11 @@ const animalBatchController = {
               sexCount += detail.count;
               sexIdSet.add(detail.sex_id);
             });
-            if (sexCount != animalBatch.count) {
+            if (sexCount > animalBatch.count) {
               await trx.rollback();
-              return res.status(400).send('Batch count does not match sex detail count');
+              return res
+                .status(400)
+                .send('Batch count must be greater than or equal to sex detail count');
             }
             if (animalBatch.sex_detail.length != sexIdSet.size) {
               await trx.rollback();

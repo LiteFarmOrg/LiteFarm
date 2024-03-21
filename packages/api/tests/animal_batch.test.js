@@ -445,14 +445,14 @@ describe('Animal Batch Tests', () => {
       expect(res.status).toBe(400);
     });
 
-    test('Should not be able to create an animal batch where count and combined sex detail count do not match', async () => {
+    test('Should not be able to create an animal batch where count is less than combined sex detail count', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const animalSex1 = await makeAnimalSex();
       const animalSex2 = await makeAnimalSex();
       const animalBatch = mocks.fakeAnimalBatch({
         default_breed_id: defaultBreedId,
         default_type_id: defaultTypeId,
-        count: 6,
+        count: 4,
         sex_detail: [
           {
             sex_id: animalSex1.id,

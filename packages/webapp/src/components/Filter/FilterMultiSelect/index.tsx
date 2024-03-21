@@ -1,4 +1,4 @@
-import React, { Component, MouseEvent, RefObject, useLayoutEffect, useMemo, useRef } from 'react';
+import { MouseEvent, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import Select, {
   ClearIndicatorProps,
   components,
@@ -8,7 +8,6 @@ import Select, {
   OptionProps,
 } from 'react-select';
 import { ComponentFilter, ComponentFilterOption } from '../types';
-import { ReduxFilterEntity } from '../../../containers/Filter/types';
 import { useState } from 'react';
 import { ReactComponent as XCircle } from '../../../assets/images/x-circle.svg';
 import { useTranslation } from 'react-i18next';
@@ -17,9 +16,11 @@ import styles from './styles.module.scss';
 import Checkbox from '../../Form/Checkbox';
 import produce from 'immer';
 import { FilterItemProps } from '../FilterGroup';
+import { Label } from '../../Typography';
 
 interface FilterMultiSelectProps extends ComponentFilter {
   onChange?: FilterItemProps['onChange'];
+  isDisabled?: boolean;
 }
 
 const MultiValueRemove = (props: MultiValueRemoveProps) => (
@@ -89,12 +90,24 @@ const MenuList = (props: MenuListProps<ComponentFilterOption>) => {
   );
 };
 
-export const FilterMultiSelect = ({ options, onChange }: FilterMultiSelectProps) => {
+export const FilterMultiSelect = ({
+  subject,
+  options,
+  onChange,
+  isDisabled,
+  shouldReset,
+}: FilterMultiSelectProps) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(() => options.filter((option) => option.default));
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
   const hiddenCountRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (shouldReset) {
+      setValue(options.filter((option) => option.default));
+    }
+  }, [shouldReset]);
 
   const sortedOptions = useMemo(() => {
     const sorted = [...options].sort((a, b) => {
@@ -152,11 +165,12 @@ export const FilterMultiSelect = ({ options, onChange }: FilterMultiSelectProps)
 
   return (
     <div ref={ref}>
+      <Label className={styles.label}>{subject}</Label>
       <Select
-        // menuIsOpen
         options={sortedOptions}
         value={value}
         isMulti
+        isDisabled={isDisabled}
         hideSelectedOptions={false}
         closeMenuOnSelect={false}
         onChange={handleChange}
@@ -182,6 +196,7 @@ export const FilterMultiSelect = ({ options, onChange }: FilterMultiSelectProps)
           dropdownIndicator: () => styles.dropdownIndicator,
           control: (state) => (state.isFocused ? styles.focusedControl : styles.control),
           indicatorsContainer: () => styles.indicatorsContainer,
+          valueContainer: () => styles.valueContainer,
         }}
         components={{
           MultiValueRemove,

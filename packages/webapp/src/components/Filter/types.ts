@@ -25,6 +25,7 @@ export interface ComponentFilter {
   filterKey: string; // identifier e.g. EXPENSE_TYPE
   type?: FilterType;
   options: ComponentFilterOption[];
+  shouldReset?: number;
 }
 
 export interface ComponentFilterOption {

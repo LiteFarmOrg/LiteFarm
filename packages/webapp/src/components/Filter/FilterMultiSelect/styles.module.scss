@@ -1,5 +1,9 @@
 @import '../../../assets/mixin.scss';
 
+.label {
+  margin-bottom: 4px;
+}
+
 .pillsContainer {
   display: flex;
   flex-wrap: wrap;
@@ -22,7 +26,7 @@
   border-radius: 12px;
   box-shadow: 1px 1px 0px 0px var(--Colors-Secondary-Secondary-green-400);
   padding: 2px 8px;
-  margin: 0px 8px 0px 0px;
+  margin: 0px;
 }
 
 .multiValueLabel {
@@ -49,9 +53,7 @@
 
 .valueContainer {
   padding: 6px 8px;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: flex-start;
+  gap: 8px;
 }
 
 .hiddenPillsCount {

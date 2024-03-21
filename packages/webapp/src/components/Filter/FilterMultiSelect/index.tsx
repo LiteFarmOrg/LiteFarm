@@ -196,7 +196,6 @@ export const FilterMultiSelect = ({
           dropdownIndicator: () => styles.dropdownIndicator,
           control: (state) => (state.isFocused ? styles.focusedControl : styles.control),
           indicatorsContainer: () => styles.indicatorsContainer,
-          valueContainer: () => styles.valueContainer,
         }}
         components={{
           MultiValueRemove,

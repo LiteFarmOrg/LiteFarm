@@ -34,7 +34,6 @@ type ComponentOnChangeCallback = (filterState?: FilterState) => void;
 export interface FilterItemProps {
   filter: ComponentFilter;
   filterRef?: RefObject<ReduxFilterEntity>;
-  tempFilter: ReduxFilterEntity;
   onChange: ComponentOnChangeCallback;
   shouldReset?: number;
   showIndividualFilterControls?: boolean;
@@ -75,7 +74,6 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterIt
 interface FilterGroupProps {
   filters: ComponentFilter[];
   filterRef?: RefObject<ReduxFilterEntity>;
-  tempFilter: ReduxFilterEntity;
   onChange: ContainerOnChangeCallback;
   filterContainerClassName?: string;
   shouldReset?: number;
@@ -85,7 +83,6 @@ interface FilterGroupProps {
 const FilterGroup = ({
   filters,
   filterRef,
-  tempFilter,
   filterContainerClassName,
   onChange,
   shouldReset,
@@ -102,7 +99,6 @@ const FilterGroup = ({
             <FilterItem
               filter={filter}
               filterRef={filterRef}
-              tempFilter={tempFilter}
               onChange={(filterState) => onChange(filter.filterKey, filterState)}
               shouldReset={shouldReset}
               showIndividualFilterControls={showIndividualFilterControls}

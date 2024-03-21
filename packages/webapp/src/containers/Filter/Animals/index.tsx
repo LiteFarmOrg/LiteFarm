@@ -169,7 +169,6 @@ const AnimalsFilterContent = ({
   return (
     <FilterGroup
       filters={filters.map(sortFilterOptions)}
-      tempFilter={tempAnimalsFilter}
       filterContainerClassName={filterContainerClassName}
       onChange={handleChange}
       showIndividualFilterControls

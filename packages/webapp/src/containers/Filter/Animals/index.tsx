@@ -36,14 +36,12 @@ import { sortFilterOptions } from '../../../components/Filter/utils';
 
 interface AnimalsFilterContentProps {
   animalsFilter: ReduxFilterEntity<AnimalsFilterKeys>;
-  tempAnimalsFilter: ReduxFilterEntity<AnimalsFilterKeys>;
   filterContainerClassName?: string;
   onChange: ContainerOnChangeCallback;
 }
 
 const AnimalsFilterContent = ({
   animalsFilter,
-  tempAnimalsFilter,
   filterContainerClassName,
   onChange,
 }: AnimalsFilterContentProps) => {

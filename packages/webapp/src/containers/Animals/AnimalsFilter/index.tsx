@@ -64,7 +64,6 @@ const AnimalsFilter = () => {
       >
         <AnimalsFilterContent
           animalsFilter={animalsFilter}
-          tempAnimalsFilter={tempAnimalsFilter}
           onChange={(filterKey, filterState) => {
             !isDirty && setIsDirty(true);
             setTempAnimalsFilter({ ...tempAnimalsFilter, [filterKey as string]: filterState });

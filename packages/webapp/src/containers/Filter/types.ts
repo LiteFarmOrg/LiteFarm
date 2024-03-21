@@ -14,19 +14,16 @@
  */
 
 // In tempStateReducer > filterReducer
-export type ReduxFilterEntity<FilterKey extends string = string> = Record<
-  FilterKey,
-  FilterState<FilterKey>
->;
+export type ReduxFilterEntity<FilterKey extends string = string> = Record<FilterKey, FilterState>;
 
-export interface FilterState<FilterKey extends string = string> {
+export interface FilterState {
   [filterOptionId: string]: /* e.g. ABANDONED, COMPLETED */ {
     active?: boolean;
     label?: string /* e.g. 'Abandoned', 'Completed */;
   };
 }
 
-export type ContainerOnChangeCallback = (filterKey?: string, filterState?: FilterState) => void;
+export type ContainerOnChangeCallback = (filterKey: string, filterState: FilterState) => void;
 
 // Only typing the properties relevant to filtering on location; there are no .ts files yet related to this entity
 export interface Location {

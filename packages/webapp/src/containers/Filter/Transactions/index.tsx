@@ -25,18 +25,15 @@ import type { RevenueType, ExpenseType } from '../../Finances/types';
 import type { ReduxFilterEntity, ContainerOnChangeCallback } from '../types';
 import { FilterType, type ComponentFilter } from '../../../components/Filter/types';
 import { sortFilterOptions } from '../../../components/Filter/utils';
-import { RefObject } from 'react';
 
 interface TransactionFilterContentProps {
   transactionsFilter: ReduxFilterEntity;
-  filterRef: RefObject<ReduxFilterEntity>;
   filterContainerClassName?: string;
   onChange: ContainerOnChangeCallback;
 }
 
 const TransactionFilterContent = ({
   transactionsFilter,
-  filterRef,
   filterContainerClassName,
   onChange,
 }: TransactionFilterContentProps) => {
@@ -89,7 +86,6 @@ const TransactionFilterContent = ({
   return (
     <FilterGroup
       filters={filters.map(sortFilterOptions)}
-      filterRef={filterRef}
       filterContainerClassName={filterContainerClassName}
       onChange={onChange}
       showIndividualFilterControls
@@ -101,7 +97,6 @@ const filterShape = { active: PropTypes.bool, label: PropTypes.string };
 
 TransactionFilterContent.propTypes = {
   transactionsFilter: PropTypes.objectOf(PropTypes.shape(filterShape)).isRequired,
-  filterRef: PropTypes.shape({ current: PropTypes.shape(filterShape) }).isRequired,
   filterContainerClassName: PropTypes.string,
   onChange: PropTypes.func,
 };

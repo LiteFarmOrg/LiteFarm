@@ -16,7 +16,6 @@ import EditSensor from '../../../../components/Sensor/EditSensor';
 import { measurementSelector, userFarmSelector } from '../../../userFarmSlice';
 import { useTranslation } from 'react-i18next';
 import { sensorsSelector } from '../../../sensorSlice';
-import { useRef } from 'react';
 import produce from 'immer';
 import { patchSensor } from './saga';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
@@ -30,7 +29,6 @@ export default function UpdateSensor({ history, match }) {
   const user = useSelector(userFarmSelector);
 
   const { t } = useTranslation();
-  const filterRef = useRef({});
 
   const SOIL_WATER_CONTENT = 'SOIL_WATER_CONTENT';
   const SOIL_WATER_POTENTIAL = 'SOIL_WATER_POTENTIAL';
@@ -94,7 +92,6 @@ export default function UpdateSensor({ history, match }) {
         match={match}
         system={system}
         filter={filter}
-        filterRef={filterRef}
         sensorInfo={sensorInfo}
       />
     </>

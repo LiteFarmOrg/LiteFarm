@@ -18,20 +18,14 @@ import PropTypes from 'prop-types';
 import { FilterDate } from '../FilterDate';
 import { FilterDateRange } from '../FilterDateRange';
 import styles from './styles.module.scss';
-import type {
-  ContainerOnChangeCallback,
-  ReduxFilterEntity,
-  FilterState,
-} from '../../../containers/Filter/types';
+import type { ContainerOnChangeCallback, FilterState } from '../../../containers/Filter/types';
 import { FilterType, type ComponentFilter } from '../types';
 import { FilterMultiSelect } from '../FilterMultiSelect';
-import { RefObject } from 'react';
 
-type ComponentOnChangeCallback = (filterState?: FilterState) => void;
+type ComponentOnChangeCallback = (filterState: FilterState) => void;
 
 export interface FilterItemProps {
   filter: ComponentFilter;
-  filterRef?: RefObject<ReduxFilterEntity>;
   onChange: ComponentOnChangeCallback;
   shouldReset?: number;
   showIndividualFilterControls?: boolean;
@@ -59,7 +53,6 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterIt
 
 interface FilterGroupProps {
   filters: ComponentFilter[];
-  filterRef?: RefObject<ReduxFilterEntity>;
   onChange: ContainerOnChangeCallback;
   filterContainerClassName?: string;
   shouldReset?: number;
@@ -68,7 +61,6 @@ interface FilterGroupProps {
 
 const FilterGroup = ({
   filters,
-  filterRef,
   filterContainerClassName,
   onChange,
   shouldReset,
@@ -84,7 +76,6 @@ const FilterGroup = ({
           >
             <FilterItem
               filter={filter}
-              filterRef={filterRef}
               onChange={(filterState) => onChange(filter.filterKey, filterState)}
               shouldReset={shouldReset}
               showIndividualFilterControls={showIndividualFilterControls}
@@ -110,9 +101,6 @@ FilterGroup.propTypes = {
       ),
     }),
   ).isRequired,
-  filterRef: PropTypes.shape({
-    current: PropTypes.shape({ active: PropTypes.bool, label: PropTypes.string }),
-  }).isRequired,
   filterContainerClassName: PropTypes.string,
   onChange: PropTypes.func,
   shouldReset: PropTypes.number,

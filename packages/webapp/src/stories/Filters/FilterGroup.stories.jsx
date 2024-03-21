@@ -135,7 +135,6 @@ export default {
   decorators: componentDecorators,
   args: {
     filters,
-    filterRef: { current: {} },
     onChange: () => {
       console.log('onChange fired!');
     },

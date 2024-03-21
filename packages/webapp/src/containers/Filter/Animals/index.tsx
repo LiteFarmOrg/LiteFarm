@@ -61,12 +61,11 @@ const AnimalsFilterContent = ({
   const { handleBreedsChange, filteredDefaultBreeds, filteredCustomBreeds } = useVisibleBreeds(
     defaultBreeds,
     customBreeds,
-    tempAnimalsFilter,
   );
 
-  const handleChange = (filterKey?: string, filterState?: FilterState) => {
+  const handleChange = (filterKey: string, filterState: FilterState) => {
     onChange?.(filterKey, filterState);
-    handleBreedsChange(filterKey);
+    handleBreedsChange(filterKey, filterState);
   };
 
   const filters: ComponentFilter[] = [

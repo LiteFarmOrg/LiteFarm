@@ -56,7 +56,6 @@ const Report = () => {
   const currencySymbol = useCurrencySymbol();
 
   const dispatch = useDispatch();
-  const filterRef = useRef({});
   const transactions = useTransactions({
     dateFilter,
     expenseTypeFilter: typesFilter?.[EXPENSE_TYPE],
@@ -205,7 +204,6 @@ const Report = () => {
           </div>
           <TransactionFilterContent
             transactionsFilter={dashboardTypesFilter}
-            filterRef={filterRef}
             filterContainerClassName={styles.filterContainer}
             onChange={(filterKey, filterState) =>
               setTypesFilter({ ...typesFilter, [filterKey]: filterState })

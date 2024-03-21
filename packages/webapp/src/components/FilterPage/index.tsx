@@ -7,17 +7,13 @@ import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import FilterGroup from '../Filter/FilterGroup';
 import type { ComponentFilter } from '../Filter/types';
-import type {
-  ContainerOnChangeCallback,
-  FilterState,
-  ReduxFilterEntity,
-} from '../../containers/Filter/types';
+import type { ReduxFilterEntity } from '../../containers/Filter/types';
 
 interface PureFilterPageProps {
   filters: ComponentFilter[];
   title?: string;
   onApply: () => void /* The handler for Redux state update in this flow, e.g.
-    () => dispatch(setCropCatalogueFilter(filterRef.current)) */;
+    () => dispatch(setCropCatalogueFilter(tempFilter)) */;
   tempFilter: ReduxFilterEntity;
   setTempFilter: (filter: ReduxFilterEntity) => void;
   onGoBack?: () => void;
@@ -65,7 +61,7 @@ const PureFilterPage = ({
         onChange={(filterKey, filterState) => {
           setTempFilter({
             ...tempFilter,
-            [filterKey as string]: filterState as FilterState<string>,
+            [filterKey]: filterState,
           });
           setDirty();
         }}

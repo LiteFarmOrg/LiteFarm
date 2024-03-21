@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { RefObject, useEffect, useState } from 'react';
-import type { ReduxFilterEntity, FilterState } from '../types';
+import { useState } from 'react';
+import type { FilterState } from '../types';
 import { AnimalsFilterKeys } from './types';
 import type { DefaultAnimalBreed, CustomAnimalBreed } from '../../../store/api/types';
 import { getActiveTypeIds } from './utils';
@@ -25,8 +25,6 @@ import { ANIMAL_ID_PREFIX } from '../../Animals/types';
  *
  * @param {DefaultAnimalBreed[]} defaultBreeds - Array of all default animal breeds.
  * @param {CustomAnimalBreed[]} customBreeds - Array of all custom animal breeds.
- * @param {() => void} onChange - Callback function passed by the parent container to be called when the filter component state changes
- * @param {React.RefObject<ReduxFilterEntity<AnimalsFilterKeys>>} filterRef - Ref object of the filter entity.
  *
  * @returns {Object} Object containing the following properties:
  * - handleChange: Enriched function to be called when the filter changes.
@@ -36,25 +34,20 @@ import { ANIMAL_ID_PREFIX } from '../../Animals/types';
 export const useVisibleBreeds = (
   defaultBreeds: DefaultAnimalBreed[],
   customBreeds: CustomAnimalBreed[],
-  tempFilter: ReduxFilterEntity<AnimalsFilterKeys>,
 ) => {
   const [filteredDefaultBreeds, setFilteredDefaultBreeds] =
     useState<DefaultAnimalBreed[]>(defaultBreeds);
   const [filteredCustomBreeds, setFilteredCustomBreeds] =
     useState<CustomAnimalBreed[]>(customBreeds);
 
-  const handleBreedsChange = (filterKey: string | undefined) => {
+  const handleBreedsChange = (filterKey: string | undefined, filterState: FilterState) => {
     if (filterKey === AnimalsFilterKeys.TYPE) {
-      updateVisibleBreeds(tempFilter);
+      updateVisibleBreeds(filterState);
     }
   };
 
-  useEffect(() => {
-    updateVisibleBreeds(tempFilter);
-  }, []);
-
-  const updateVisibleBreeds = (currentFilterSelection: ReduxFilterEntity<AnimalsFilterKeys>) => {
-    const activeTypeValues = getActiveTypeIds(currentFilterSelection);
+  const updateVisibleBreeds = (currentTypeFilterSelection: FilterState) => {
+    const activeTypeValues = getActiveTypeIds(currentTypeFilterSelection);
 
     if (activeTypeValues.length === 0) {
       setFilteredDefaultBreeds(defaultBreeds);

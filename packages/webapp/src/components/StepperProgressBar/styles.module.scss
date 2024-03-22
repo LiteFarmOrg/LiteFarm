@@ -66,20 +66,21 @@
   padding-top: 4px;
 }
 
-.label {
+.label.label {
   font-style: normal;
-  padding-bottom: 2px !important;
-  color: var(--text) !important;
-}
-
-.activeLabel {
   padding-bottom: 2px;
-  font-weight: 700 !important;
-  color: var(--text) !important;
+  color: var(--text);
 }
 
-.mobileLabel {
-  padding-bottom: 0px !important;
+.label .activeLabel {
+  padding-bottom: 2px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.mobileLabel.label,
+.mobileLabel.activeLabel {
+  padding-bottom: 0px;
   font-size: 10px;
   z-index: 1; // render above line
 
@@ -89,6 +90,6 @@
 
   /* label text */
   span span {
-    margin-top: 0px !important;
+    margin-top: 0px;
   }
 }

@@ -594,15 +594,16 @@ export function* createTaskSaga({ payload }) {
         //   `/tasks/${task_id}/before_complete`,
         //   `/tasks/${task_id}/harvest_uses`,
         // ]));
-        if (isCustomTask) {
-          yield put(setFormData({ task_id, taskType }));
-        }
+        // if (isCustomTask) {
+        //   yield put(setFormData({ task_id, taskType }));
+        // }
         yield call(onReqSuccessSaga, {
           message: i18n.t('message:TASK.CREATE.SUCCESS'),
           pathname: getTaskCompletePathname(task_id, task_translation_key),
-          //state: history.location?.state,
-          state: { task_id, taskType },
         });
+        if (isCustomTask) {
+          yield put(setFormData({ task_id, taskType }));
+        }
       } else {
         yield call(onReqSuccessSaga, {
           message: i18n.t('message:TASK.CREATE.SUCCESS'),

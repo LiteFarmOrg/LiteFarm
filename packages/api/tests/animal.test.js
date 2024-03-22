@@ -15,6 +15,7 @@
 
 import chai from 'chai';
 import util from 'util';
+import { faker } from '@faker-js/faker';
 
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
@@ -23,8 +24,10 @@ import server from '../src/server.js';
 import knex from '../src/util/knex.js';
 import { tableCleanup } from './testEnvironment.js';
 
-import { makeAnimalOrBatchForFarm, makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
+import { makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
 import AnimalModel from '../src/models/animalModel.js';
+import AnimalGroupModel from '../src/models/animalGroupModel.js';
+import AnimalGroupRelationshipModel from '../src/models/animalGroupRelationshipModel.js';
 
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
@@ -363,6 +366,98 @@ describe('Animal Tests', () => {
       );
 
       expect(res.status).toBe(400);
+    });
+
+    test('Add animals to groups while adding animals', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      const groupNames = [...Array(3)].map(() => faker.lorem.word());
+      const [existingGroupName, newGroupName1, newGroupName2] = groupNames;
+
+      const [existingGroup] = await mocks.animal_groupFactory({
+        promisedFarm: [mainFarm],
+        properties: { name: existingGroupName },
+      });
+
+      // insert a deleted group
+      await mocks.animal_groupFactory({
+        promisedFarm: [mainFarm],
+        properties: { name: newGroupName1, deleted: true },
+      });
+
+      const animalsGroups = [
+        { group_name: newGroupName1 },
+        { group_name: existingGroupName },
+        { group_name: newGroupName2 },
+        {},
+        { group_name: newGroupName1 },
+        { group_name: newGroupName1 },
+      ];
+
+      const animals = animalsGroups.map(({ group_name }) => {
+        const data = { default_type_id: defaultTypeId };
+        return mocks.fakeAnimal(group_name ? { ...data, group_name } : data);
+      });
+
+      const res = await postRequestAsPromise(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        animals,
+      );
+
+      const expectedGroupNameAnimalIdsMap = {}; // { [newGroupName1]: [<animal_id>, ...], [newGroupName2]: [<animal_id>], ... }
+      animalsGroups.forEach(({ group_name }, index) => {
+        if (group_name) {
+          if (!expectedGroupNameAnimalIdsMap[group_name]) {
+            expectedGroupNameAnimalIdsMap[group_name] = [];
+          }
+          expectedGroupNameAnimalIdsMap[group_name].push(res.body[index].id);
+        }
+      });
+
+      const groupNameIdMap = { [existingGroupName]: existingGroup.id };
+      for (let groupName of [newGroupName1, newGroupName2]) {
+        const [group] = await AnimalGroupModel.query()
+          .where('farm_id', mainFarm.farm_id)
+          .andWhere('name', groupName)
+          .andWhere('deleted', false);
+        groupNameIdMap[groupName] = group.id;
+      }
+
+      // check if animal_group_relationship table has expected data
+      for (let groupName of groupNames) {
+        const foundRelationships = await AnimalGroupRelationshipModel.query().where(
+          'animal_group_id',
+          groupNameIdMap[groupName],
+        );
+        const animalIdsInGroup = foundRelationships.map(({ animal_id }) => animal_id);
+        expect(animalIdsInGroup).toEqual(expectedGroupNameAnimalIdsMap[groupName]);
+      }
+
+      // animalIds of animals that didn't have group_name in request body should not exist in animal_group_relationship  table
+      const animalsWithoutGroups = res.body.filter((animal, index) => {
+        return !animalsGroups[index].group_name;
+      });
+      for (let animal of animalsWithoutGroups) {
+        const foundRelationships = await AnimalGroupRelationshipModel.query().where(
+          'animal_id',
+          animal.id,
+        );
+        expect(foundRelationships.length).toBe(0);
+      }
+
+      // check if each animal has correct group_ids
+      res.body.forEach((animal, index) => {
+        const { group_name } = animalsGroups[index];
+
+        if (group_name) {
+          expect(animal.group_ids).toEqual([groupNameIdMap[group_name]]);
+        } else {
+          expect(animal.group_ids.length).toBe(0);
+        }
+      });
     });
   });
 

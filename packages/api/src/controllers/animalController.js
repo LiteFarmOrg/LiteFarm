@@ -19,8 +19,11 @@ import baseController from './baseController.js';
 import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
+import AnimalGroupModel from '../models/animalGroupModel.js';
+import AnimalGroupRelationshipModel from '../models/animalGroupRelationshipModel.js';
 import { assignInternalIdentifiers } from '../util/animal.js';
 import { handleObjectionError } from '../util/errorCodes.js';
+import { checkAndTrimString } from '../util/util.js';
 
 const animalController = {
   getFarmAnimals() {
@@ -111,6 +114,9 @@ const animalController = {
           // Remove farm_id if it happens to be set in animal object since it should be obtained from header
           delete animal.farm_id;
 
+          const groupName = checkAndTrimString(animal.group_name);
+          delete animal.group_name;
+
           const individualAnimalResult = await baseController.postWithResponse(
             AnimalModel,
             { ...animal, farm_id },
@@ -118,6 +124,33 @@ const animalController = {
             { trx },
           );
 
+          const groupIds = [];
+          if (groupName) {
+            let group = await baseController.existsInTable(trx, AnimalGroupModel, {
+              name: groupName,
+              farm_id,
+              deleted: false,
+            });
+
+            if (!group) {
+              group = await baseController.postWithResponse(
+                AnimalGroupModel,
+                { name: groupName, farm_id },
+                req,
+                { trx },
+              );
+            }
+
+            groupIds.push(group.id);
+
+            // Insert into join tables
+            await AnimalGroupRelationshipModel.query(trx).insert({
+              animal_id: individualAnimalResult.id,
+              animal_group_id: group.id,
+            });
+          }
+
+          individualAnimalResult.group_ids = groupIds;
           result.push(individualAnimalResult);
         }
 

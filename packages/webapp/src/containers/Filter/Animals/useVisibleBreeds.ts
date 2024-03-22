@@ -19,6 +19,8 @@ import { AnimalsFilterKeys } from './types';
 import type { DefaultAnimalBreed, CustomAnimalBreed } from '../../../store/api/types';
 import { getActiveTypeIds } from './utils';
 import { ANIMAL_ID_PREFIX } from '../../Animals/types';
+import { useSelector } from 'react-redux';
+import { animalsFilterSelector } from '../../filterSlice';
 
 /**
  * Custom hook to manage visible breeds based on the selected animal types
@@ -44,6 +46,8 @@ export const useVisibleBreeds = (
   const [filteredCustomBreeds, setFilteredCustomBreeds] =
     useState<CustomAnimalBreed[]>(customBreeds);
 
+  const animalsFilter = useSelector(animalsFilterSelector);
+
   const handleChange = (filterKey: string | undefined) => {
     onChange();
 
@@ -53,7 +57,7 @@ export const useVisibleBreeds = (
   };
 
   useEffect(() => {
-    updateVisibleBreeds(filterRef.current!);
+    updateVisibleBreeds(animalsFilter);
   }, []);
 
   const updateVisibleBreeds = (currentFilterSelection: ReduxFilterEntity<AnimalsFilterKeys>) => {

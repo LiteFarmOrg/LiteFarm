@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useEffect, useMemo } from 'react';
 import Drawer from '../../Drawer';
 import Button from '../../Form/Button';
 import ReactSelect from '../../Form/ReactSelect';
@@ -25,28 +26,28 @@ import { ReactComponent as CheckIcon } from '../../../assets/images/check-circle
 import { useTranslation } from 'react-i18next';
 import { ClassNamesConfig } from 'react-select';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
+import { useGetAnimalRemovalReasonsQuery } from '../../../store/api/apiSlice';
+import type { AnimalRemovalReasonKeys } from '../../../store/api/types';
 
 const REASON = 'reason';
 const EXPLANATION = 'explanation';
 const DATE = 'date';
 
 export type FormFields = {
-  [REASON]: string;
+  [REASON]: number;
   [EXPLANATION]: string;
   [DATE]: string;
 };
 
-enum RemovalOptionValue {
-  SOLD = 'SOLD',
-  SLAUGHTERED_FOR_SALE = 'SLAUGHTERED_FOR_SALE',
-  SLAUGHTERED_FOR_CONSUMPTION = 'SLAUGHTERED_FOR_CONSUMPTION',
-  NATURAL_DEATH = 'NATURAL_DEATH',
-  CULLED = 'CULLED',
-  OTHER = 'OTHER',
-  CREATED_IN_ERROR = 'CREATED_IN_ERROR',
-}
+// Does not exist in the backend table
+const CREATED_IN_ERROR = 'CREATED_IN_ERROR';
+const CREATED_IN_ERROR_ID = 100; // arbitrary; use any unused number except 0
 
-type RemovalOption = { label: string; value: RemovalOptionValue };
+type RemovalReasonsEnum = {
+  [K in AnimalRemovalReasonKeys]: number;
+} & { [CREATED_IN_ERROR]: number };
+
+type RemovalOption = { label: string; value: number };
 
 type RemoveAnimalsModalProps = {
   isOpen: boolean;
@@ -61,48 +62,62 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
     handleSubmit,
     control,
     watch,
+    reset,
     formState: { errors, isValid },
   } = useForm<FormFields>({
     mode: 'onChange',
     defaultValues: { [DATE]: getLocalDateInYYYYDDMM() },
+    shouldUnregister: true,
   });
   const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const { data: apiAnimalRemovalReasons = [] } = useGetAnimalRemovalReasonsQuery();
+
+  const RemovalReasons = useMemo(() => {
+    const ReasonsEnum: { [key: string]: number } = { [CREATED_IN_ERROR]: CREATED_IN_ERROR_ID };
+
+    apiAnimalRemovalReasons.forEach((reason) => {
+      ReasonsEnum[reason.key] = reason.id;
+    });
+
+    return ReasonsEnum as RemovalReasonsEnum;
+  }, [apiAnimalRemovalReasons]);
+
   const options: RemovalOption[] = [
     {
       label: t('REMOVE_ANIMALS.SOLD'),
-      value: RemovalOptionValue.SOLD,
+      value: RemovalReasons.SOLD,
     },
     {
       label: t('REMOVE_ANIMALS.SLAUGHTERED_FOR_SALE'),
-      value: RemovalOptionValue.SLAUGHTERED_FOR_SALE,
+      value: RemovalReasons.SLAUGHTERED_FOR_SALE,
     },
     {
       label: t('REMOVE_ANIMALS.SLAUGHTERED_FOR_CONSUMPTION'),
-      value: RemovalOptionValue.SLAUGHTERED_FOR_CONSUMPTION,
+      value: RemovalReasons.SLAUGHTERED_FOR_CONSUMPTION,
     },
     {
       label: t('REMOVE_ANIMALS.NATURAL_DEATH'),
-      value: RemovalOptionValue.NATURAL_DEATH,
+      value: RemovalReasons.NATURAL_DEATH,
     },
     {
       label: t('REMOVE_ANIMALS.CULLED'),
-      value: RemovalOptionValue.CULLED,
+      value: RemovalReasons.CULLED,
     },
     {
       label: t('common:OTHER'),
-      value: RemovalOptionValue.OTHER,
+      value: RemovalReasons.OTHER,
     },
     {
       label: t('REMOVE_ANIMALS.CREATED_IN_ERROR'),
-      value: RemovalOptionValue.CREATED_IN_ERROR,
+      value: RemovalReasons.CREATED_IN_ERROR,
     },
   ];
 
   const selectedOption = watch(REASON);
-  const isCreatedInError = (value: string) => value === RemovalOptionValue.CREATED_IN_ERROR;
+  const isCreatedInError = (value: number) => value === RemovalReasons.CREATED_IN_ERROR;
 
   return (
     <>
@@ -165,7 +180,6 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
                               : styles.dropDownOptionGreen,
                           ),
                         placeholder: ({ isFocused }) => (isFocused ? styles.placeholderHidden : ''),
-                        menuList: () => styles.dropDownList,
                         valueContainer: (state) =>
                           isCreatedInError(state.getValue()[0]?.value) ? styles.textRed : '',
                       } satisfies ClassNamesConfig<RemovalOption>

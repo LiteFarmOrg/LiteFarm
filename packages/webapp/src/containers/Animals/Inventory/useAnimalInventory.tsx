@@ -39,7 +39,7 @@ import { ReactComponent as CattleIcon } from '../../../assets/images/animals/cat
 import { ReactComponent as ChickenIcon } from '../../../assets/images/animals/chicken-icon.svg';
 import { ReactComponent as PigIcon } from '../../../assets/images/animals/pig-icon.svg';
 import { ReactComponent as BatchIcon } from '../../../assets/images/animals/batch.svg';
-import { AnimalTranslationKey } from '../types';
+import { AnimalOrBatchKeys, AnimalTranslationKey } from '../types';
 import { generateInventoryId } from '../../../util/animal';
 
 export type AnimalInventory = {
@@ -153,26 +153,32 @@ const formatAnimalsData = (
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
 ) => {
-  return animals.map((animal: Animal) => {
-    return {
-      id: generateInventoryId(animal),
-      icon: getDefaultAnimalIcon(defaultAnimalTypes, animal.default_type_id),
-      identification: chooseIdentification(animal),
-      type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
-      breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
-      groups: animal.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
-      path: `/animal/${animal.internal_identifier}`,
-      count: 1,
-      batch: false,
-      // preserve some untransformed data for filtering
-      group_ids: animal.group_ids,
-      sex_id: animal.sex_id,
-      custom_type_id: animal.custom_type_id,
-      default_type_id: animal.default_type_id,
-      custom_breed_id: animal.custom_breed_id,
-      default_breed_id: animal.default_breed_id,
-    };
-  });
+  return animals
+    .filter(
+      (animal: Animal) =>
+        // filter out removed animals
+        !animal.animal_removal_reason_id,
+    )
+    .map((animal: Animal) => {
+      return {
+        id: generateInventoryId(AnimalOrBatchKeys.ANIMAL, animal),
+        icon: getDefaultAnimalIcon(defaultAnimalTypes, animal.default_type_id),
+        identification: chooseIdentification(animal),
+        type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
+        breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
+        groups: animal.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
+        path: `/animal/${animal.internal_identifier}`,
+        count: 1,
+        batch: false,
+        // preserve some untransformed data for filtering
+        group_ids: animal.group_ids,
+        sex_id: animal.sex_id,
+        custom_type_id: animal.custom_type_id,
+        default_type_id: animal.default_type_id,
+        custom_breed_id: animal.custom_breed_id,
+        default_breed_id: animal.default_breed_id,
+      };
+    });
 };
 
 const formatAnimalBatchesData = (
@@ -183,26 +189,32 @@ const formatAnimalBatchesData = (
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
 ) => {
-  return animalBatches.map((batch: AnimalBatch) => {
-    return {
-      id: generateInventoryId(batch),
-      icon: BatchIcon,
-      identification: chooseIdentification(batch),
-      type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
-      breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),
-      groups: batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
-      path: `/batch/${batch.internal_identifier}`,
-      count: batch.count,
-      batch: true,
-      // preserve some untransformed data for filtering
-      group_ids: batch.group_ids,
-      sex_detail: batch.sex_detail,
-      custom_type_id: batch.custom_type_id,
-      default_type_id: batch.default_type_id,
-      custom_breed_id: batch.custom_breed_id,
-      default_breed_id: batch.default_breed_id,
-    };
-  });
+  return animalBatches
+    .filter(
+      (batch: AnimalBatch) =>
+        // filter out removed animals
+        !batch.animal_removal_reason_id,
+    )
+    .map((batch: AnimalBatch) => {
+      return {
+        id: generateInventoryId(AnimalOrBatchKeys.BATCH, batch),
+        icon: BatchIcon,
+        identification: chooseIdentification(batch),
+        type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
+        breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),
+        groups: batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
+        path: `/batch/${batch.internal_identifier}`,
+        count: batch.count,
+        batch: true,
+        // preserve some untransformed data for filtering
+        group_ids: batch.group_ids,
+        sex_detail: batch.sex_detail,
+        custom_type_id: batch.custom_type_id,
+        default_type_id: batch.default_type_id,
+        custom_breed_id: batch.custom_breed_id,
+        default_breed_id: batch.default_breed_id,
+      };
+    });
 };
 
 interface BuildInventoryArgs {

@@ -14,71 +14,38 @@
  */
 
 import React, { ReactElement, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Paper, useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/styles';
-import { sumObjectValues } from '../../../util';
+import clsx from 'clsx';
+import { Paper } from '@mui/material';
 import styles from './styles.module.scss';
-
-const GLOBAL_NAVBAR_HEIGHTS = {
-  mobile: 56,
-  desktop: 64,
-};
-
-const HEIGHTS = {
-  mobile: {},
-  desktop: { paperMargin: 32 },
-};
 
 const PAPER_BORDER = 2;
 
 type FixedHeaderContainerProps = {
   header: ReactNode;
   children: ReactNode;
-  desktopBreakpoint?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  classes?: {
+    paper?: string;
+  };
 };
 
-const FixedHeaderContainer = ({
-  header,
-  children,
-  desktopBreakpoint = 'lg',
-}: FixedHeaderContainerProps) => {
-  const [headerHeight, setHeaderHeight] = useState<number | null>(null);
+const FixedHeaderContainer = ({ header, children, classes = {} }: FixedHeaderContainerProps) => {
   const [paperHeightInPx, setPaperHeightInPx] = useState<number | null>(null);
 
-  const theme = useTheme();
-  const isMobileHeader = useMediaQuery(theme.breakpoints.down('sm'));
-  const isDesktop = useMediaQuery(theme.breakpoints.up(desktopBreakpoint));
-  const headerRef = useRef<HTMLDivElement>(null);
   const paperRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    const headerObserver = new ResizeObserver(() => {
-      setHeaderHeight(headerRef.current?.offsetHeight || null);
-    });
     const paperObserver = new ResizeObserver(() => {
       setPaperHeightInPx(paperRef.current?.offsetHeight || null);
     });
 
-    if (headerRef.current) {
-      headerObserver.observe(headerRef.current);
-    }
     if (paperRef.current) {
       paperObserver.observe(paperRef.current);
     }
 
     return () => {
-      headerObserver.disconnect();
       paperObserver.disconnect();
     };
   }, []);
-
-  const paperHeightCSS = useMemo<string | undefined>(() => {
-    const usedPx =
-      GLOBAL_NAVBAR_HEIGHTS[isMobileHeader ? 'mobile' : 'desktop'] +
-      sumObjectValues(HEIGHTS[isDesktop ? 'desktop' : 'mobile']) +
-      (headerHeight || 0);
-    return `calc(100vh - ${usedPx}px)`;
-  }, [isMobileHeader, isDesktop, headerHeight]);
 
   const childrenWithProps = useMemo(() => {
     // Provide the 'containerHeight' prop to children components,
@@ -94,12 +61,12 @@ const FixedHeaderContainer = ({
   }, [children, paperHeightInPx]);
 
   return (
-    <>
-      <div ref={headerRef}>{header}</div>
-      <Paper ref={paperRef} className={styles.paper} sx={{ height: paperHeightCSS }}>
+    <div className={styles.wrapper}>
+      {header}
+      <Paper ref={paperRef} className={clsx(styles.paper, classes.paper)}>
         {childrenWithProps}
       </Paper>
-    </>
+    </div>
   );
 };
 

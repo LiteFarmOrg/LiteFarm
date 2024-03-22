@@ -215,6 +215,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   return (
     <FixedHeaderContainer
       header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
+      classes={{ paper: styles.paper }}
     >
       <PureAnimalInventory
         filteredInventory={searchAndFilteredInventory}

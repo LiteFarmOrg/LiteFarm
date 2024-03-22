@@ -15,13 +15,20 @@
 
 @import '../../../assets/mixin.scss';
 
+.wrapper {
+  height: calc(100vh - var(--global-navbar-height));
+  display: flex;
+  flex-direction: column;
+}
+
 .paper {
   width: 100%;
   max-width: 1024px;
-  overflow-y: auto;
+  overflow-y: hidden;
   border: none;
   border-radius: 0;
   box-shadow: none;
+  flex: 1;
 
   @include lg-breakpoint {
     margin: 16px auto;

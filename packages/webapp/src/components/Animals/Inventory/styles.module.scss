@@ -46,8 +46,6 @@
   gap: 4px;
   padding: 8px 16px 8px 16px;
   background-color: var(--Colors-Primary-Primary-teal-50);
-  position: absolute;
-  z-index: 1;
   width: 100%;
 }
 
@@ -74,9 +72,9 @@
 }
 
 .tableWrapper {
-  padding-top: 73px; // search filter height (89px) - space between table header and body (16px)
+  overflow-y: scroll;
 }
 
-.wrapperDesktop {
-  padding: 16px;
+.tableWrapperCommon {
+  flex: 1;
 }

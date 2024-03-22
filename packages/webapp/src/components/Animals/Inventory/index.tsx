@@ -79,7 +79,7 @@ const PureAnimalInventory = ({
   const tableMaxHeight = !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
 
   return (
-    <div className={isDesktop ? styles.wrapperDesktop : ''}>
+    <>
       <div
         className={clsx(
           isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter,
@@ -113,7 +113,7 @@ const PureAnimalInventory = ({
           />
         </div>
       </div>
-      <div className={isDesktop ? '' : styles.tableWrapper}>
+      <div className={clsx(isDesktop ? '' : styles.tableWrapper, styles.tableWrapperCommon)}>
         {!totalInventoryCount || hasSearchResults ? (
           <Table
             kind={TableKind.V2}
@@ -140,7 +140,7 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
-    </div>
+    </>
   );
 };
 

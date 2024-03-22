@@ -44,7 +44,7 @@ const StepperProgressBar = ({
       <Stepper
         activeStep={activeStep}
         alternativeLabel={isMobile}
-        connector={<CustomLine />}
+        connector={<CustomLine isMobile={isMobile} />}
         classes={{
           root: styles.root,
           alternativeLabel: styles.mobile,
@@ -71,11 +71,11 @@ const StepperProgressBar = ({
   );
 };
 
-const CustomLine = () => {
+const CustomLine = ({ isMobile }: { isMobile?: boolean }) => {
   return (
     <StepConnector
       classes={{
-        root: styles.connector,
+        root: isMobile ? styles.mobileLine : '',
         line: styles.line,
         active: styles.activeLine,
         completed: styles.completedLine,

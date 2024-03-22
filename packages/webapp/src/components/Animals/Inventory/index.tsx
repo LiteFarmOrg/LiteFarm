@@ -73,6 +73,10 @@ const PureAnimalInventory = ({
           border: isDesktop && '1px solid var(--Colors-Primary-Primary-teal-50)',
           marginTop: isDesktop && '16px',
           padding: !isDesktop ? '0px' : '16px',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          marginBottom: isDesktop ? '16px' : 0,
         },
       }}
       hasWhiteBackground
@@ -112,19 +116,21 @@ const PureAnimalInventory = ({
         </div>
       </div>
       {hasSearchResults ? (
-        <Table
-          kind={TableKind.V2}
-          alternatingRowColor={true}
-          columns={animalsColumns}
-          data={filteredInventory}
-          shouldFixTableLayout={isDesktop}
-          minRows={totalInventoryCount}
-          dense={false}
-          showHeader={isDesktop}
-          onCheck={onSelectInventory}
-          handleSelectAllClick={handleSelectAllClick}
-          selectedIds={selectedIds}
-        />
+        <div className={styles.tableContainer}>
+          <Table
+            kind={TableKind.V2}
+            alternatingRowColor={true}
+            columns={animalsColumns}
+            data={filteredInventory}
+            shouldFixTableLayout={isDesktop}
+            minRows={totalInventoryCount}
+            dense={false}
+            showHeader={isDesktop}
+            onCheck={onSelectInventory}
+            handleSelectAllClick={handleSelectAllClick}
+            selectedIds={selectedIds}
+          />
+        </div>
       ) : (
         <NoSearchResults
           className={clsx(isDesktop ? styles.noSearchResultsDesktop : styles.noSearchResults)}

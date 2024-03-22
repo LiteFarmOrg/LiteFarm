@@ -487,7 +487,7 @@
   top: calc(var(--global-navbar-height) / 2 - 12px);
   left: calc(var(--global-side-menu-width) - 14px);
   background-color: white;
-  z-index: 1503; // should be greater than top menu
+  z-index: 1301; // should be greater than top menu
   transition: transform 0.5s;
   animation: toggle-initial 0.9s forwards, toggle-color-initial 2s;
 

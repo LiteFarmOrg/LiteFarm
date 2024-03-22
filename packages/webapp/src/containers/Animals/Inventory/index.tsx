@@ -212,7 +212,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   ];
 
   return (
-    <>
+    <div className={styles.inventoryContainer}>
       <KPI
         isCompactSideMenu={isCompactSideMenu}
         onTypeClick={onTypeClick}
@@ -252,7 +252,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
           />
         </div>
       )}
-    </>
+    </div>
   );
 }
 

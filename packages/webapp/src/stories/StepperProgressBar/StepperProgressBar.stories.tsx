@@ -56,6 +56,15 @@ export const FourSteps: Story = {
   },
 };
 
+export const FourStepsMobile: Story = {
+  args: {
+    steps: ['Task type', 'Task basics', 'Task details', 'Done'],
+    activeStep: 2,
+    isMobile: true,
+    isDarkMode: true,
+  },
+};
+
 export const Responsive: Story = {
   args: {
     steps: ['Animal basics', 'Animal details', 'Done'],

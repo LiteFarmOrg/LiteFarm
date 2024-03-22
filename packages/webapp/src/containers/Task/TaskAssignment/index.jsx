@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import ModalComponent from '../../../components/Modals/ModalComponent/v2';
-
+import Checkbox from '../../../components/Form/Checkbox';
 import PureTaskAssignment from '../../../components/Task/PureTaskAssignment';
 import { loginSelector, userFarmEntitiesSelector, userFarmSelector } from '../../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -82,8 +82,14 @@ export default function TaskManagement({ history, match, location }) {
   }, [selectedWorker, userFarmWage]);
 
   const onSubmit = (data) => {
-    const { hourly_wage_action, assignee, hourly_wage, override_hourly_wage, wage_at_moment } =
-      data;
+    const {
+      hourly_wage_action,
+      assignee,
+      hourly_wage,
+      override_hourly_wage,
+      wage_at_moment,
+      already_completed,
+    } = data;
     const override =
       (!showHourlyWageInputs && override_hourly_wage) || // user has a wage but wants to override
       (showHourlyWageInputs && hourly_wage_action === hourlyWageActions.FOR_THIS_TASK); // no user wage and set wage for this task
@@ -105,7 +111,9 @@ export default function TaskManagement({ history, match, location }) {
         delete postData[key];
       }
     });
-    dispatch(createTask({ ...postData, setShowCannotCreateModal }));
+    dispatch(
+      createTask({ ...postData, setShowCannotCreateModal, alreadyCompleted: already_completed }),
+    );
 
     // for user who does not have a wage set, take the hourly wage action
     if (showHourlyWageInputs) {
@@ -132,6 +140,16 @@ export default function TaskManagement({ history, match, location }) {
     setShowCannotCreateModal(false);
     history.push('/tasks');
   };
+
+  const taskCompleted = (
+    <Checkbox
+      data-cy="task-alreadyCompleted"
+      label={t('ADD_TASK.THIS_TASK_IS_COMPLETED')}
+      style={{ marginTop: '40px', marginBottom: '16px' }}
+      hookFormRegister={taskAssignForm.register('already_completed')}
+    />
+  );
+
   return (
     <>
       <HookFormPersistProvider>
@@ -143,6 +161,7 @@ export default function TaskManagement({ history, match, location }) {
           currencySymbol={currencySymbol}
           override={override}
           {...taskAssignForm}
+          additionalContent={taskCompleted}
         />
       </HookFormPersistProvider>
       {showCannotCreateModal && (

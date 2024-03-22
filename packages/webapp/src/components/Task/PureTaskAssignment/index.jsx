@@ -6,6 +6,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { Main } from '../../Typography';
 import styles from '../../CertificationReportingPeriod/styles.module.scss';
 import RadioGroup from '../../Form/RadioGroup';
+import Checkbox from '../../Form/Checkbox';
 import Input, { numberOnKeyDown } from '../../Form/Input';
 import AssignTask from '../AssignTask';
 import { WAGE_OVERRIDE, OVERRIDE_HOURLY_WAGE } from '../AssignTask/constants';
@@ -85,6 +86,20 @@ const PureTaskAssignment = ({
     );
   }, [override, control, errors[WAGE_OVERRIDE], wageOverride]);
 
+  const isAlreadyCompleted = watch('already_completed');
+
+  const taskCompleted = (
+    <>
+      <Checkbox
+        data-cy="task-alreadyComplete"
+        label={t('ADD_TASK.THIS_TASK_IS_COMPLETED')}
+        style={{ marginTop: '40px', marginBottom: '16px' }}
+        hookFormRegister={register('already_completed')}
+      />
+      {isAlreadyCompleted && t('ADD_TASK.THIS_TASK_IS_COMPLETED_EXPLANATION')}
+    </>
+  );
+
   return (
     <>
       <Form
@@ -123,6 +138,7 @@ const PureTaskAssignment = ({
           shouldSetWage={shouldSetWage}
           currency={currency}
           contentForWorkerWithWage={contentForWorkerWithWage}
+          additionalContent={taskCompleted}
         />
       </Form>
     </>

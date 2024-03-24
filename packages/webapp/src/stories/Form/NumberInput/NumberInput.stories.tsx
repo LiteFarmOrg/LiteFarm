@@ -134,7 +134,7 @@ export const WithoutGrouping: Story = {
 
 export const WithoutDecimal: Story = {
   args: { allowDecimal: false },
-  play: async ({ step, canvasElement }) => {
+  play: async ({ step }) => {
     await step(
       'Enter number with decimal',
       test('9.1', { expectValue: '91', expectValueOnBlur: '91', expectValueOnReFocus: '91' }),
@@ -145,14 +145,15 @@ export const WithoutDecimalAndWithFractionalStep: Story = {
   args: { allowDecimal: false, step: 1.7 },
   play: async ({ canvasElement }) => {
     const input = getInput(canvasElement);
-    const { incrementButton, decrementButton } = getStepperButtons(canvasElement);
 
+    await userEvent.click(input);
+    await userEvent.keyboard('{ArrowUp}');
     // should round step value up to nearest whole number
-    await userEvent.click(incrementButton!);
     expect(input).toHaveValue('2');
-    await userEvent.click(decrementButton!);
+    await userEvent.keyboard('{ArrowDown}');
     expect(input).toHaveValue('0');
-    expect(decrementButton).toBeDisabled();
+    await userEvent.keyboard('{ArrowDown}');
+    expect(input).toHaveValue('0');
     userEvent.clear(input);
   },
 };
@@ -200,11 +201,14 @@ export const Currency: Story = {
 export const Stepper: Story = {
   args: {
     step: 0.1,
+    showStepper: true,
   },
   play: async ({ canvasElement }) => {
     const input = getInput(canvasElement);
     const { incrementButton, decrementButton } = getStepperButtons(canvasElement);
 
+    await expect(incrementButton).toBeInTheDocument();
+    await expect(decrementButton).toBeInTheDocument();
     await userEvent.click(incrementButton!);
     expect(input).toHaveValue('0.1');
     await userEvent.click(decrementButton!);
@@ -227,27 +231,9 @@ export const Stepper: Story = {
   },
 };
 
-export const WithoutStepper: Story = {
-  args: {
-    step: 0,
-  },
-  play: async ({ canvasElement }) => {
-    const input = getInput(canvasElement);
-    const { incrementButton, decrementButton } = getStepperButtons(canvasElement);
-
-    expect(incrementButton).not.toBeInTheDocument();
-    expect(decrementButton).not.toBeInTheDocument();
-
-    await userEvent.keyboard('{ArrowUp}');
-    expect(input).toHaveValue('');
-
-    await userEvent.keyboard('{ArrowDown}');
-    expect(input).toHaveValue('');
-  },
-};
-
 export const StepperDisabled: Story = {
   args: {
+    showStepper: true,
     step: 0.1,
     disabled: true,
   },
@@ -257,10 +243,13 @@ export const StepperWithMinMax: Story = {
     step: 1,
     min: 7,
     max: 14,
+    showStepper: true,
   },
   play: async ({ canvasElement, args, step }) => {
     const input = getInput(canvasElement);
     const { incrementButton, decrementButton } = getStepperButtons(canvasElement);
+    await expect(incrementButton).toBeInTheDocument();
+    await expect(decrementButton).toBeInTheDocument();
 
     expect(input).toHaveValue('');
     // should clamp to min when clicking stepper and current value is below min
@@ -278,7 +267,7 @@ export const StepperWithMinMax: Story = {
     expect(incrementButton).toBeDisabled();
     userEvent.clear(input);
 
-    // should clamp to max when entering value above max
+    // should clamp to max on blur when entering value above max
     await step(
       'Enter value above max',
       test('2566', {
@@ -288,7 +277,7 @@ export const StepperWithMinMax: Story = {
       }),
     );
 
-    // should clamp to min when entering value above max
+    // should clamp to min on blur when entering value below min
     await step(
       'Enter value below min',
       test('2', {
@@ -311,6 +300,7 @@ export const WithError: Story = {
 
 export const ErrorWithUnitAndStepper: Story = {
   args: {
+    showStepper: true,
     unit: 'kg',
     step: 3,
     rules: {

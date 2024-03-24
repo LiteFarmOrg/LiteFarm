@@ -40,15 +40,19 @@ export type NumberInputOptions = {
   decimalDigits?: number;
   /**
    * - Amount to increment or decrement.
-   * - If allowDecimal is false, then step is rounded up to the nearest whole number.
+   * - If allowDecimal is false, then step is rounded to the nearest whole number.
    */
   step?: number;
   /**
-   * Max value of input. Only applicable if used with step
+   * - Maximum value of input.
+   * - If input value is greater than max then input value is clamped to max on blur.
+   * - If input value equals max then incrementing with stepper and keyboard is disabled.
    */
   max?: number;
   /**
-   * Min value of input. Only applicable if used with step
+   * - Minimum value of input.
+   * - If input value is less than min then input value is clamped to min on blur.
+   * - If input value equals min then decrementing with stepper and keyboard is disabled.
    */
   min?: number;
   /**
@@ -97,8 +101,8 @@ export default function useNumberInput({
       thousandsSeparator: ',',
     };
 
-    // 11000.2 - random decimal number over 1000 used to extract thousands and decimal separators
-    const numberParts = createNumberFormatter(locale).formatToParts(1000.2);
+    // 11000.2 - random decimal number over 1000 used to extract thousands and decimal separator
+    const numberParts = createNumberFormatter(locale).formatToParts(11000.2);
     for (let { type, value } of numberParts) {
       if (type === 'decimal') {
         separators.decimalSeparator = value;
@@ -115,9 +119,7 @@ export default function useNumberInput({
   const [touchedValue, setTouchedValue] = useState<string>('');
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
   const stepValue = allowDecimal ? step : Math.round(step);
-  const showStepper = stepValue > 0;
 
   const update = (next: number) => {
     setNumericValue(next);
@@ -132,7 +134,7 @@ export default function useNumberInput({
   };
 
   const handleBlur = () => {
-    if (showStepper && (numericValue < min || numericValue > max)) {
+    if (numericValue < min || numericValue > max) {
       update(clamp(numericValue, min, max));
     }
     setIsFocused(false);
@@ -165,7 +167,6 @@ export default function useNumberInput({
   const decrement = () => handleStep((numericValue || 0) - stepValue);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!showStepper) return;
     if (e.key === 'ArrowUp') {
       // prevent cursor from shifting to start of input
       e.preventDefault();
@@ -192,6 +193,5 @@ export default function useNumberInput({
     reset: () => update(initialValue ?? NaN),
     increment,
     decrement,
-    showStepper,
   };
 }

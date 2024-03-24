@@ -28,6 +28,10 @@ export type NumberInputProps = NumberInputOptions & {
    * The unit to display on right side of input
    */
   unit?: ReactNode;
+  /**
+   * Controls visibility of stepper.
+   */
+  showStepper?: boolean;
   disabled?: boolean;
 } & Omit<InputBaseProps, 'onCrossClick' | 'leftSection' | 'rightSection'>;
 
@@ -48,6 +52,7 @@ export default function NumberInput({
   step = 1,
   max = Infinity,
   min = 0,
+  showStepper = false,
   name,
   control,
   rules,
@@ -56,7 +61,7 @@ export default function NumberInput({
   ...props
 }: NumberInputProps & RhfProps) {
   const { field, fieldState } = useController({ name, control, rules, defaultValue: initialValue });
-  const { inputProps, reset, numericValue, increment, decrement, showStepper } = useNumberInput({
+  const { inputProps, reset, numericValue, increment, decrement } = useNumberInput({
     initialValue,
     allowDecimal,
     decimalDigits,

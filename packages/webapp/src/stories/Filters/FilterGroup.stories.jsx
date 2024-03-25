@@ -17,11 +17,13 @@ import { componentDecorators } from '../Pages/config/Decorators';
 import FilterGroup from '../../components/Filter/FilterGroup';
 import { userEvent, within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
+import { FilterType } from '../../components/Filter/types';
 
 const filters = [
   {
     subject: 'Status',
     filterKey: 'Status',
+    type: FilterType.SEARCHABLE_MULTI_SELECT,
     options: [
       {
         value: 'active',
@@ -53,6 +55,7 @@ const filters = [
   {
     subject: 'Location',
     filterKey: 'Location',
+    type: FilterType.SEARCHABLE_MULTI_SELECT,
     options: [
       {
         value: 'Buffer Zone 1',
@@ -109,6 +112,7 @@ const filters = [
   {
     subject: 'Suppliers',
     filterKey: 'Suppliers',
+    type: FilterType.SEARCHABLE_MULTI_SELECT,
     options: [
       {
         value: 'Supplier 1',

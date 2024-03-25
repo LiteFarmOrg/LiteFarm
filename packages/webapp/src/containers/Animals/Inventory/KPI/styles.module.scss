@@ -12,19 +12,14 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-@import '../../../assets/mixin.scss';
 
-@include sm-breakpoint {
-  .withCompactSideMenu {
-    margin-left: calc(var(--global-compact-side-menu-width) / 2);
-  }
-  .withExpandedSideMenu {
-    margin-left: calc(var(--global-side-menu-width) / 2);
-  }
-}
+@import '../../../../assets/mixin';
 
-.mainContent {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1024px;
+.wrapper {
+  z-index: 1501; // should be greater than hoverpill, smaller than top menu
+  width: calc(100vw - var(--global-side-menu-width));
+
+  &.withCompactMenu {
+    width: calc(100vw - var(--global-compact-side-menu-width));
+  }
 }

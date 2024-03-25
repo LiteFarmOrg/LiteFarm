@@ -14,6 +14,7 @@
  */
 import { ChangeEvent } from 'react';
 import Table from '../../../components/Table';
+import Layout from '../../../components/Layout';
 import PureSearchBarWithBackdrop from '../../PopupFilter/PureSearchWithBackdrop';
 import NoSearchResults from '../../../components/Card/NoSearchResults';
 import ClearFiltersButton, {
@@ -25,13 +26,6 @@ import { TableV2Column, TableKind } from '../../Table/types';
 import type { Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
-import { sumObjectValues } from '../../../util';
-
-const HEIGHTS = {
-  filterAndSearch: 64,
-  containerPadding: 32,
-};
-const usedHeight = sumObjectValues(HEIGHTS);
 
 export type SearchProps = {
   searchString: string | null | undefined;
@@ -44,6 +38,7 @@ const PureAnimalInventory = ({
   filteredInventory,
   animalsColumns,
   zIndexBase,
+  backgroundColor,
   isDesktop,
   searchProps,
   onSelectInventory,
@@ -52,12 +47,11 @@ const PureAnimalInventory = ({
   totalInventoryCount,
   isFilterActive,
   clearFilters,
-  isLoading,
-  containerHeight,
 }: {
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
   zIndexBase: number;
+  backgroundColor: string;
   isDesktop: boolean;
   searchProps: SearchProps;
   onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
@@ -66,20 +60,24 @@ const PureAnimalInventory = ({
   totalInventoryCount: number;
   isFilterActive: boolean;
   clearFilters: () => void;
-  isLoading: boolean;
-  containerHeight?: number;
 }) => {
-  if (isLoading) {
-    return null;
-  }
-
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
 
-  const tableMaxHeight = !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
-
   return (
-    <>
+    <Layout
+      classes={{
+        container: {
+          backgroundColor: backgroundColor,
+          borderRadius: isDesktop && '8px',
+          border: isDesktop && '1px solid var(--Colors-Primary-Primary-teal-50)',
+          marginTop: isDesktop && '16px',
+          padding: !isDesktop ? '0px' : '16px',
+        },
+      }}
+      hasWhiteBackground
+      footer={false}
+    >
       <div
         className={clsx(
           isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter,
@@ -113,34 +111,28 @@ const PureAnimalInventory = ({
           />
         </div>
       </div>
-      <div className={clsx(isDesktop ? '' : styles.tableWrapper, styles.tableWrapperCommon)}>
-        {!totalInventoryCount || hasSearchResults ? (
-          <Table
-            kind={TableKind.V2}
-            alternatingRowColor={true}
-            columns={animalsColumns}
-            data={filteredInventory}
-            shouldFixTableLayout={isDesktop}
-            minRows={totalInventoryCount}
-            dense={false}
-            showHeader={isDesktop}
-            onCheck={onSelectInventory}
-            handleSelectAllClick={handleSelectAllClick}
-            selectedIds={selectedIds}
-            stickyHeader={isDesktop}
-            maxHeight={tableMaxHeight}
-            spacerRowHeight={isDesktop ? 96 : 120}
-            headerBackgroundColor={'#fff'}
-          />
-        ) : (
-          <NoSearchResults
-            className={clsx(isDesktop ? styles.noSearchResultsDesktop : styles.noSearchResults)}
-            searchTerm={searchString}
-            includeFiltersInClearSuggestion
-          />
-        )}
-      </div>
-    </>
+      {hasSearchResults ? (
+        <Table
+          kind={TableKind.V2}
+          alternatingRowColor={true}
+          columns={animalsColumns}
+          data={filteredInventory}
+          shouldFixTableLayout={isDesktop}
+          minRows={totalInventoryCount}
+          dense={false}
+          showHeader={isDesktop}
+          onCheck={onSelectInventory}
+          handleSelectAllClick={handleSelectAllClick}
+          selectedIds={selectedIds}
+        />
+      ) : (
+        <NoSearchResults
+          className={clsx(isDesktop ? styles.noSearchResultsDesktop : styles.noSearchResults)}
+          searchTerm={searchString}
+          includeFiltersInClearSuggestion
+        />
+      )}
+    </Layout>
   );
 };
 

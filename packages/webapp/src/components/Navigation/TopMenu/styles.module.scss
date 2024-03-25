@@ -3,6 +3,7 @@
   background-color: var(--bgInputListTile);
   box-shadow: 0px 2px 0px 0px #0000000D;
   height: var(--global-navbar-height);
+  z-index: 1502; // should be greater than animals KPI
 }
 
 .toolbar {

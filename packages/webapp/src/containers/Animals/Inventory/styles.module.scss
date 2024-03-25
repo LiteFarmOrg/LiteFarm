@@ -12,16 +12,8 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-@import '../../../assets/mixin.scss';
 
-@include sm-breakpoint {
-  .withCompactSideMenu {
-    margin-left: calc(var(--global-compact-side-menu-width) / 2);
-  }
-  .withExpandedSideMenu {
-    margin-left: calc(var(--global-side-menu-width) / 2);
-  }
-}
+@import '../../../assets/mixin.scss';
 
 .mainContent {
   margin: 0 auto;

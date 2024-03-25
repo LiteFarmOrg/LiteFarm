@@ -33,6 +33,7 @@ export default function EnhancedTableHead({
   onSelectAllClick,
   numSelected,
   rowCount,
+  backgroundColor,
 }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -63,6 +64,7 @@ export default function EnhancedTableHead({
               sortDirection={active ? order : false}
               className={clsx(styles.tableCell, styles.tableHead, dense && styles.dense)}
               {...columnProps}
+              style={{ backgroundColor }}
             >
               <TableSortLabel
                 active={active}
@@ -105,4 +107,6 @@ EnhancedTableHead.propTypes = {
   onSelectAllClick: PropTypes.func,
   numSelected: PropTypes.number,
   rowCount: PropTypes.number,
+  /** Mui adds grey background color to sticky header by default */
+  backgroundColor: PropTypes.string,
 };

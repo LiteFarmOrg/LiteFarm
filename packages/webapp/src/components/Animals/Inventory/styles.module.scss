@@ -44,6 +44,7 @@
   gap: 4px;
   padding: 8px 16px 8px 16px;
   background-color: var(--Colors-Primary-Primary-teal-50);
+  width: 100%;
 }
 
 .searchResultsDesktop {
@@ -66,4 +67,12 @@
   flex: 1;
   display: flex;
   justify-content: end;
+}
+
+.tableWrapper {
+  overflow-y: scroll;
+}
+
+.tableWrapperCommon {
+  flex: 1;
 }

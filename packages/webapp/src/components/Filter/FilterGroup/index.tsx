@@ -20,7 +20,7 @@ import { FilterDateRange } from '../FilterDateRange';
 import styles from './styles.module.scss';
 import type { ContainerOnChangeCallback, FilterState } from '../../../containers/Filter/types';
 import { FilterType, type ComponentFilter } from '../types';
-import { FilterMultiSelect } from '../FilterMultiSelect';
+import { FilterMultiSelectV2 } from '../FilterMultiSelectV2';
 
 type ComponentOnChangeCallback = (filterState: FilterState) => void;
 
@@ -36,7 +36,7 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterIt
     return <FilterDateRange key={filter.subject} {...filter} {...props} />;
   } else if (filter.type === FilterType.SEARCHABLE_MULTI_SELECT) {
     return (
-      <FilterMultiSelect
+      <FilterMultiSelectV2
         subject={filter.subject}
         options={filter.options}
         filterKey={filter.filterKey}

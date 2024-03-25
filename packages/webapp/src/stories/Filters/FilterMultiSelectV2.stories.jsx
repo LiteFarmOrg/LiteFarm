@@ -14,7 +14,7 @@
  */
 
 import { componentDecorators } from '../Pages/config/Decorators';
-import { FilterMultiSelect } from '../../components/Filter/FilterMultiSelect';
+import { FilterMultiSelect } from '../../components/Filter/FilterMultiSelectV2';
 
 const props = {
   subject: 'Status',

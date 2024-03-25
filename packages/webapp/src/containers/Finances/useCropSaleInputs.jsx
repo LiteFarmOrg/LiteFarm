@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023, 2024 LiteFarm.org
+ *  Copyright 2023 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -21,6 +21,7 @@ import {
   QUANTITY_UNIT,
   SALE_VALUE,
 } from '../../components/Forms/GeneralRevenue/constants';
+import FilterPillSelect from '../../components/Filter/FilterPillSelect';
 import { Error } from '../../components/Typography';
 import CropSaleItem from '../../components/Forms/GeneralRevenue/CropSaleItem';
 import { STATUS } from '../../components/Forms/GeneralRevenue/constants';
@@ -33,7 +34,6 @@ import {
   currentAndPlannedManagementPlansSelector,
 } from '../managementPlanSlice';
 import { createSelector } from 'reselect';
-import { FilterMultiSelect } from '../../components/Filter/FilterMultiSelect';
 
 /**
  * Reformat the sale data for ease of use with react-hook-forms.
@@ -263,8 +263,9 @@ export default function useCropSaleInputs(
 
   const existingSales = reformatSaleData(sale);
 
-  // FilterMultiSelect details
+  // FilterPillSelect details
 
+  const filterRef = useRef({});
   const [isDirty, setIsDirty] = useState(false);
   const [filterState, setFilterState] = useState({});
   const [isFilterValid, setIsFilterValid] = useState(true);
@@ -278,8 +279,8 @@ export default function useCropSaleInputs(
     })),
   };
 
-  const onFilter = (filterKey, state) => {
-    setFilterState({ ...filterState, [filterKey]: state });
+  const onFilter = () => {
+    setFilterState(filterRef.current);
     setIsDirty(!isDirty);
   };
 
@@ -328,11 +329,12 @@ export default function useCropSaleInputs(
 
   return isCropSale ? (
     <>
-      <FilterMultiSelect
+      <FilterPillSelect
         subject={t('SALE.ADD_SALE.CROP_VARIETY')}
         options={filter.options}
         filterKey={filter.filterKey}
         style={{ marginBottom: !isFilterValid ? '0' : '32px' }}
+        filterRef={filterRef}
         key={filter.filterKey}
         onChange={onFilter}
         isDisabled={disabledInput}

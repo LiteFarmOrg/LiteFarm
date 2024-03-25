@@ -99,6 +99,8 @@ export default function TableV2(props) {
     selectedIds,
     stickyHeader,
     maxHeight,
+    spacerRowHeight,
+    headerBackgroundColor,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -106,8 +108,10 @@ export default function TableV2(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(minRows);
 
-  const fullColSpan = columns.reduce((total, column) => total + (column.id ? 1 : 0), 0);
   const shouldShowCheckbox = !!(onCheck && handleSelectAllClick && selectedIds);
+  const fullColSpan =
+    columns.reduce((total, column) => total + (column.id ? 1 : 0), 0) +
+    (shouldShowCheckbox ? 1 : 0);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -178,6 +182,7 @@ export default function TableV2(props) {
               onSelectAllClick={handleSelectAllClick}
               numSelected={selectedIds?.length}
               rowCount={data.length}
+              backgroundColor={headerBackgroundColor}
             />
           )}
           <TableBody className={styles.tableBody}>
@@ -269,6 +274,11 @@ export default function TableV2(props) {
                 </TableCell>
               </TableRow>
             ) : null}
+            {spacerRowHeight > 0 && (
+              <TableRow style={{ height: spacerRowHeight }} className={styles.spacerRow}>
+                <TableCell colSpan={fullColSpan} className={styles.tableCell} />
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
@@ -317,6 +327,9 @@ TableV2.propTypes = {
   selectedIds: PropTypes.array,
   stickyHeader: PropTypes.bool,
   maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  /** adds an empty row at the end of the table to create spacing */
+  spacerRowHeight: PropTypes.number,
+  headerBackgroundColor: PropTypes.string,
 };
 
 TableV2.defaultProps = {

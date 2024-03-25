@@ -23,6 +23,7 @@ import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventory } from './useAnimalInventory';
 import ActionMenu from '../../../components/ActionMenu';
+import FixedHeaderContainer from '../../../components/Animals/FixedHeaderContainer';
 import KPI from './KPI';
 import useSearchFilter from '../../../containers/hooks/useSearchFilter';
 import { ReactComponent as AddAnimalIcon } from '../../../assets/images/animals/add-animal.svg';
@@ -41,6 +42,7 @@ import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 
 interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
+  containerHeight: number;
 }
 
 const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: string[]) => {
@@ -61,7 +63,6 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const zIndexBase = theme.zIndex.drawer;
-  const backgroundColor = theme.palette.background.paper;
 
   const { inventory, isLoading } = useAnimalInventory();
 
@@ -212,47 +213,41 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   ];
 
   return (
-    <>
-      <KPI
-        isCompactSideMenu={isCompactSideMenu}
-        onTypeClick={onTypeClick}
-        selectedTypeIds={selectedTypeIds}
+    <FixedHeaderContainer
+      header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
+      classes={{ paper: styles.paper }}
+    >
+      <PureAnimalInventory
+        filteredInventory={searchAndFilteredInventory}
+        animalsColumns={animalsColumns}
+        searchProps={searchProps}
+        zIndexBase={zIndexBase}
+        isDesktop={isDesktop}
+        onSelectInventory={onSelectInventory}
+        handleSelectAllClick={handleSelectAllClick}
+        selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
+        totalInventoryCount={inventory.length}
+        isFilterActive={isFilterActive}
+        clearFilters={clearFilters}
+        isLoading={isLoading}
       />
-      {!isLoading && (
-        <div className={styles.mainContent}>
-          <PureAnimalInventory
-            filteredInventory={searchAndFilteredInventory}
-            animalsColumns={animalsColumns}
-            searchProps={searchProps}
-            zIndexBase={zIndexBase}
-            backgroundColor={backgroundColor}
-            isDesktop={isDesktop}
-            onSelectInventory={onSelectInventory}
-            handleSelectAllClick={handleSelectAllClick}
-            selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
-            totalInventoryCount={inventory.length}
-            isFilterActive={isFilterActive}
-            clearFilters={clearFilters}
-          />
-          {selectedInventoryIds.length ? (
-            <ActionMenu
-              headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
-              textActions={textActions}
-              iconActions={iconActions}
-              classes={{
-                root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
-              }}
-            />
-          ) : null}
-          <RemoveAnimalsModal
-            isOpen={removalModalOpen}
-            onClose={() => setRemovalModalOpen(false)}
-            onConfirm={handleAnimalOrBatchRemoval}
-            showSuccessMessage={false}
-          />
-        </div>
-      )}
-    </>
+      {selectedInventoryIds.length ? (
+        <ActionMenu
+          headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
+          textActions={textActions}
+          iconActions={iconActions}
+          classes={{
+            root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
+          }}
+        />
+      ) : null}
+      <RemoveAnimalsModal
+        isOpen={removalModalOpen}
+        onClose={() => setRemovalModalOpen(false)}
+        onConfirm={handleAnimalOrBatchRemoval}
+        showSuccessMessage={false}
+      />
+    </FixedHeaderContainer>
   );
 }
 

@@ -14,79 +14,76 @@
  */
 
 import styles from './styles.module.scss';
-import { ComponentPropsWithoutRef, ReactNode, forwardRef } from 'react';
+import { ComponentPropsWithoutRef, forwardRef } from 'react';
 import InputBaseLabel from './InputBaseLabel';
 import InputBaseField from './InputBaseField';
 import { Error, Info, TextWithExternalLink } from '../../Typography';
 import { Cross } from '../../Icons';
+import type { InputBaseFieldProps } from './InputBaseField';
+import type { InputBaseLabelProps } from './InputBaseLabel';
 
-export type InputBaseProps = {
-  label?: string;
-  optional?: boolean;
-  hasLeaf?: boolean;
-  toolTipContent?: string;
-  icon?: ReactNode;
-  leftSection?: ReactNode;
-  rightSection?: ReactNode;
+export type HTMLInputProps = ComponentPropsWithoutRef<'input'>;
+// props meant to be shared with other similar input components
+export type InputBaseSharedProps = InputBaseLabelProps & {
   onCrossClick?: () => void;
   info?: string;
   error?: string;
   link?: string;
   textWithExternalLink?: string;
   classes?: Record<'input' | 'label' | 'container' | 'info' | 'errors', React.CSSProperties>;
-};
+} & Pick<HTMLInputProps, 'placeholder' | 'disabled'>;
 
-const InputBase = forwardRef<HTMLInputElement, InputBaseProps & ComponentPropsWithoutRef<'input'>>(
-  (props, ref) => {
-    const {
-      label,
-      optional,
-      hasLeaf,
-      toolTipContent,
-      error,
-      info,
-      textWithExternalLink,
-      link,
-      icon,
-      leftSection,
-      rightSection,
-      onCrossClick,
-      classes,
-      ...inputProps
-    } = props;
+type InputBaseProps = InputBaseSharedProps & InputBaseFieldProps & HTMLInputProps;
 
-    return (
-      <div className={styles.inputWrapper}>
-        <label>
-          {label && (
-            <InputBaseLabel
-              label={label}
-              icon={icon}
-              hasLeaf={hasLeaf}
-              optional={optional}
-              toolTipContent={toolTipContent}
-            />
-          )}
-          <InputBaseField
-            leftSection={leftSection}
-            rightSection={rightSection}
-            inputProps={inputProps}
-            crossIcon={!!error ? <Cross isClickable onClick={onCrossClick} /> : undefined}
-            ref={ref}
+const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
+  const {
+    label,
+    optional,
+    hasLeaf,
+    toolTipContent,
+    error,
+    info,
+    textWithExternalLink,
+    link,
+    icon,
+    leftSection,
+    rightSection,
+    onCrossClick,
+    classes,
+    ...inputProps
+  } = props;
+
+  return (
+    <div className={styles.inputWrapper}>
+      <label>
+        {label && (
+          <InputBaseLabel
+            label={label}
+            icon={icon}
+            hasLeaf={hasLeaf}
+            optional={optional}
+            toolTipContent={toolTipContent}
           />
-        </label>
-        {info && !error && <Info style={classes?.info}>{info}</Info>}
-        {error && (
-          <Error data-cy="error" style={classes?.errors}>
-            {error}
-          </Error>
         )}
-        {textWithExternalLink && link && (
-          <TextWithExternalLink link={link}>{textWithExternalLink}</TextWithExternalLink>
-        )}
-      </div>
-    );
-  },
-);
+        <InputBaseField
+          {...inputProps}
+          leftSection={leftSection}
+          rightSection={rightSection}
+          crossIcon={!!error ? <Cross isClickable onClick={onCrossClick} /> : undefined}
+          ref={ref}
+        />
+      </label>
+      {info && !error && <Info style={classes?.info}>{info}</Info>}
+      {error && (
+        <Error data-cy="error" style={classes?.errors}>
+          {error}
+        </Error>
+      )}
+      {textWithExternalLink && link && (
+        <TextWithExternalLink link={link}>{textWithExternalLink}</TextWithExternalLink>
+      )}
+    </div>
+  );
+});
 
 export default InputBase;

@@ -14,7 +14,7 @@
  */
 
 import { ReactNode } from 'react';
-import InputBase, { type InputBaseProps } from '../InputBase';
+import InputBase, { type InputBaseSharedProps } from '../InputBase';
 import NumberInputStepper from './NumberInputStepper';
 import useNumberInput, { NumberInputOptions } from './useNumberInput';
 import { UseControllerProps, useController } from 'react-hook-form';
@@ -32,8 +32,7 @@ export type NumberInputProps = NumberInputOptions & {
    * Controls visibility of stepper.
    */
   showStepper?: boolean;
-  disabled?: boolean;
-} & Omit<InputBaseProps, 'onCrossClick' | 'leftSection' | 'rightSection'>;
+} & InputBaseSharedProps;
 
 type RhfProps = {
   name: string;

@@ -13,24 +13,26 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ComponentPropsWithoutRef, ReactElement, forwardRef } from 'react';
-import { type InputBaseProps } from '../';
+import { ReactElement, ReactNode, forwardRef } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
+import { HTMLInputProps } from '..';
 
-type InputBaseFieldProps = Pick<InputBaseProps, 'leftSection' | 'rightSection'> & {
+export type InputBaseFieldProps = {
   crossIcon?: ReactElement;
-  inputProps: ComponentPropsWithoutRef<'input'>;
-};
+  leftSection?: ReactNode;
+  rightSection?: ReactNode;
+} & HTMLInputProps;
 
 const InputBaseField = forwardRef<HTMLInputElement, InputBaseFieldProps>((props, ref) => {
-  const showCross = !!props.crossIcon;
+  const { crossIcon, leftSection, rightSection, ...inputProps } = props;
+  const showCross = !!crossIcon;
   return (
     <div
       className={clsx(
         styles.input,
         showCross && styles.inputError,
-        props.inputProps.disabled && styles.inputDisabled,
+        inputProps.disabled && styles.inputDisabled,
       )}
     >
       {props.leftSection && (
@@ -38,7 +40,7 @@ const InputBaseField = forwardRef<HTMLInputElement, InputBaseFieldProps>((props,
           {props.leftSection}
         </div>
       )}
-      <input {...props.inputProps} ref={ref} />
+      <input {...inputProps} ref={ref} />
       {(showCross || props.rightSection) && (
         <div className={clsx(styles.inputSection, styles.inputSectionRight)}>
           {props.rightSection}

@@ -18,11 +18,17 @@ import { ReactComponent as Leaf } from '../../../../assets/images/signUp/leaf.sv
 import { Label } from '../../../Typography';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import { type InputBaseProps } from '../';
+import { ReactNode } from 'react';
 
-export default function InputBaseLabel(
-  props: Pick<InputBaseProps, 'label' | 'icon' | 'optional' | 'toolTipContent' | 'hasLeaf'>,
-) {
+export type InputBaseLabelProps = {
+  label?: string;
+  optional?: boolean;
+  hasLeaf?: boolean;
+  toolTipContent?: string;
+  icon?: ReactNode;
+};
+
+export default function InputBaseLabel(props: InputBaseLabelProps) {
   const { t } = useTranslation();
 
   return (

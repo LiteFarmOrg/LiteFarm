@@ -202,6 +202,7 @@ export const FilterMultiSelect = ({
         controlShouldRenderValue={!isMenuOpen}
         isSearchable={isMenuOpen}
         menuPortalTarget={document.body}
+        menuPlacement="auto"
         theme={(theme) => ({
           ...theme,
           colors: {

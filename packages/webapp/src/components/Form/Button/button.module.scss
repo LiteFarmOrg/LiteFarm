@@ -107,6 +107,10 @@
   color: var(--color);
 }
 
+.btn svg path {
+  stroke: var(--color);
+}
+
 .btn:hover:enabled {
   background: var(--hover-background);
   border: var(--hover-border);
@@ -114,11 +118,19 @@
   color: var(--hover-color);
 }
 
+.btn:hover:enabled svg path {
+  stroke: var(--hover-color);
+}
+
 .btn:active:enabled {
   background: var(--active-background);
   border: var(--active-border);
   box-shadow: none;
   color: var(--active-color);
+}
+
+.btn:active:enabled svg path {
+  stroke: var(--active-color);
 }
 
 .btn:disabled {

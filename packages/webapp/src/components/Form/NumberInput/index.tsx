@@ -84,7 +84,7 @@ export default function NumberInput({
       {...props}
       {...inputProps}
       error={fieldState.error?.message}
-      onCrossClick={reset}
+      onResetIconClick={reset}
       leftSection={currencySymbol}
       rightSection={
         <>

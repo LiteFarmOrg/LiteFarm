@@ -25,7 +25,7 @@ import type { InputBaseLabelProps } from './InputBaseLabel';
 export type HTMLInputProps = ComponentPropsWithoutRef<'input'>;
 // props meant to be shared with other similar input components
 export type InputBaseSharedProps = InputBaseLabelProps & {
-  onCrossClick?: () => void;
+  onResetIconClick?: () => void;
   info?: string;
   error?: string;
   link?: string;
@@ -48,7 +48,7 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
     icon,
     leftSection,
     rightSection,
-    onCrossClick,
+    onResetIconClick,
     classes,
     ...inputProps
   } = props;
@@ -69,7 +69,7 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
           {...inputProps}
           leftSection={leftSection}
           rightSection={rightSection}
-          crossIcon={!!error ? <Cross isClickable onClick={onCrossClick} /> : undefined}
+          resetIcon={!!error ? <Cross isClickable onClick={onResetIconClick} /> : undefined}
           ref={ref}
         />
       </label>

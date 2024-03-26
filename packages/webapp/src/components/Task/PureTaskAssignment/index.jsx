@@ -31,6 +31,7 @@ const PureTaskAssignment = ({
   shouldSetWage,
   handleSubmit,
   getValues,
+  additionalContent,
 }) => {
   const { t } = useTranslation();
   const wageOverride = watch(WAGE_OVERRIDE);
@@ -86,20 +87,6 @@ const PureTaskAssignment = ({
     );
   }, [override, control, errors[WAGE_OVERRIDE], wageOverride]);
 
-  const isAlreadyCompleted = watch('already_completed');
-
-  const taskCompleted = (
-    <>
-      <Checkbox
-        data-cy="task-alreadyComplete"
-        label={t('ADD_TASK.THIS_TASK_IS_COMPLETED')}
-        style={{ marginTop: '40px', marginBottom: '16px' }}
-        hookFormRegister={register('already_completed')}
-      />
-      {isAlreadyCompleted && t('ADD_TASK.THIS_TASK_IS_COMPLETED_EXPLANATION')}
-    </>
-  );
-
   return (
     <>
       <Form
@@ -138,7 +125,7 @@ const PureTaskAssignment = ({
           shouldSetWage={shouldSetWage}
           currency={currency}
           contentForWorkerWithWage={contentForWorkerWithWage}
-          additionalContent={taskCompleted}
+          additionalContent={additionalContent}
         />
       </Form>
     </>

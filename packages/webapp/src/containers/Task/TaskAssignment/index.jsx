@@ -68,6 +68,8 @@ export default function TaskManagement({ history, match, location }) {
     clearErrors,
     currency,
     userFarmWage,
+    register,
+    unregister,
   } = taskAssignForm;
 
   const currencySymbol = grabCurrencySymbol(currency);
@@ -109,6 +111,7 @@ export default function TaskManagement({ history, match, location }) {
     Object.keys(data).forEach((key) => {
       if (assignTaskFields.includes(key)) {
         delete postData[key];
+        delete postData[already_completed];
       }
     });
     dispatch(
@@ -141,13 +144,30 @@ export default function TaskManagement({ history, match, location }) {
     history.push('/tasks');
   };
 
-  const taskCompleted = (
-    <Checkbox
-      data-cy="task-alreadyCompleted"
-      label={t('ADD_TASK.THIS_TASK_IS_COMPLETED')}
-      style={{ marginTop: '40px', marginBottom: '16px' }}
-      hookFormRegister={taskAssignForm.register('already_completed')}
-    />
+  // Only creating user or assigned user can complete task -- see TaskReadOnly
+  const assignee = watch('assignee');
+  const assignedToPseudoUser = assignee.value && users && users[assignee.value].role_id === 4;
+  const canCompleteTask = !!(
+    userFarm.user_id === assignee.value ||
+    (assignedToPseudoUser && userFarm.is_admin)
+  );
+  const isAlreadyCompleted = watch('already_completed');
+
+  // Unregister form value if registered and selected assignee changes.
+  if (!canCompleteTask && isAlreadyCompleted) {
+    unregister('already_completed');
+  }
+
+  const taskCompleted = canCompleteTask && (
+    <>
+      <Checkbox
+        data-cy="task-alreadyComplete"
+        label={t('ADD_TASK.THIS_TASK_IS_COMPLETED')}
+        style={{ marginTop: '40px', marginBottom: '16px' }}
+        hookFormRegister={register('already_completed')}
+      />
+      {isAlreadyCompleted && t('ADD_TASK.THIS_TASK_IS_COMPLETED_EXPLANATION')}
+    </>
   );
 
   return (

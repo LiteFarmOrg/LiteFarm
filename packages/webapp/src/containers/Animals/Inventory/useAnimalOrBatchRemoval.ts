@@ -103,10 +103,10 @@ const useAnimalOrBatchRemoval = (
 
     for (const id of selectedInventoryIds) {
       const { kind, id: entity_id } = parseInventoryId(id);
-      if (kind === 'ANIMAL') {
+      if (kind === AnimalOrBatchKeys.ANIMAL) {
         animalIds.push(entity_id);
         selectedAnimalIds.push(id);
-      } else if (kind === 'BATCH') {
+      } else if (AnimalOrBatchKeys.BATCH) {
         animalBatchIds.push(entity_id);
         selectedBatchIds.push(id);
       }

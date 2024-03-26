@@ -9,6 +9,7 @@ export default {
 };
 
 const Template = (args) => <Button {...args} />;
+
 const TemplateWithText = (args) => (
   <>
     <p>
@@ -19,6 +20,7 @@ const TemplateWithText = (args) => (
     <Button {...args} />
   </>
 );
+
 export const Primary = Template.bind({});
 Primary.args = {
   color: 'primary',
@@ -31,10 +33,16 @@ Secondary.args = {
   children: 'Secondary',
 };
 
-export const Success = Template.bind({});
-Success.args = {
-  color: 'success',
-  children: 'Success',
+export const Secondary2 = Template.bind({});
+Secondary2.args = {
+  color: 'secondary-2',
+  children: 'Secondary-2',
+};
+
+export const SecondaryCTA = Template.bind({});
+SecondaryCTA.args = {
+  color: 'secondary-cta',
+  children: 'Secondary-CTA',
 };
 
 export const Disabled = Template.bind({});
@@ -67,12 +75,13 @@ DisabledSmall.args = {
 };
 
 const style = {
-  background: 'linear-gradient(to right, orange , yellow, green, cyan, blue, violet)',
+  background:
+    'linear-gradient(to right, var(--Colors-Accent---singles-Red-light), var(--Colors-Secondary-Secondary-green-200))',
 };
 
-export const InjectStyle = TemplateWithText.bind({});
-InjectStyle.args = {
-  color: 'primary',
-  label: 'Button',
+export const OverrideStyle = TemplateWithText.bind({});
+OverrideStyle.args = {
+  color: 'none',
+  label: 'Style override',
   style: style,
 };

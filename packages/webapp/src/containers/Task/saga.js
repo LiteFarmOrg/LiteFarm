@@ -588,15 +588,6 @@ export function* createTaskSaga({ payload }) {
         task_translation_key === 'HARVEST_TASK' ? result.data[0] : result.data;
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
       if (alreadyCompleted) {
-        // yield put(setPersistedPaths([
-        //   `/tasks/${task_id}/complete_harvest_quantity`,
-        //   `/tasks/${task_id}/complete`,
-        //   `/tasks/${task_id}/before_complete`,
-        //   `/tasks/${task_id}/harvest_uses`,
-        // ]));
-        // if (isCustomTask) {
-        //   yield put(setFormData({ task_id, taskType }));
-        // }
         yield call(onReqSuccessSaga, {
           message: i18n.t('message:TASK.CREATE.SUCCESS'),
           pathname: getTaskCompletePathname(task_id, task_translation_key),

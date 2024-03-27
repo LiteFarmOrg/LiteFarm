@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../../components/Form/Button';
 import { componentDecorators } from '../Pages/config/Decorators';
+import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
 
 export default {
   title: 'Components/Button',
@@ -72,6 +73,30 @@ DisabledSmall.args = {
   children: 'Disabled',
   disabled: true,
   sm: true,
+};
+
+export const WithIconSmall = Template.bind({});
+WithIconSmall.args = {
+  color: 'primary',
+  sm: true,
+  children: (
+    <>
+      <div>Edit</div>
+      <EditIcon style={{ width: '16px', height: '16px' }} />
+    </>
+  ),
+};
+
+export const WithIconDisabled = Template.bind({});
+WithIconDisabled.args = {
+  color: 'primary',
+  disabled: true,
+  children: (
+    <>
+      <div>Edit</div>
+      <EditIcon style={{ width: '16px', height: '16px' }} />
+    </>
+  ),
 };
 
 const style = {

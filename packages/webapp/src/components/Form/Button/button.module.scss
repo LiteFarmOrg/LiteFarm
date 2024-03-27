@@ -141,6 +141,10 @@
   cursor: default;
 }
 
+.btn:disabled svg path {
+  stroke: var(--Colors-Neutral-Neutral-300);
+}
+
 .btn:focus {
   outline: none;
   border: var(--focus-border);
@@ -155,6 +159,7 @@
   font-size: 14px;
   min-height: 32px;
   padding: 0 16px;
+  gap: 4px;
 }
 
 .textButton {

@@ -72,6 +72,12 @@ import {
   onLoadingHarvestUseTypeStart,
 } from '../harvestUseTypeSlice';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
+import {
+  createBeforeCompleteTaskUrl,
+  createCompleteHarvestQuantityTaskUrl,
+  createCompleteTaskUrl,
+} from '../../util/siteMapConstants';
+import { setPersistedPaths, setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -270,36 +276,44 @@ const taskTypeActionMap = {
   CLEANING_TASK: {
     success: (tasks) => put(getCleaningTasksSuccess(tasks)),
     fail: onLoadingCleaningTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   FIELD_WORK_TASK: {
     success: (tasks) => put(getFieldWorkTasksSuccess(tasks)),
     fail: onLoadingFieldWorkTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   IRRIGATION_TASK: {
     success: (tasks) => put(getIrrigationTasksSuccess(tasks)),
     fail: onLoadingIrrigationTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   PEST_CONTROL_TASK: {
     success: (tasks) => put(getPestControlTasksSuccess(tasks)),
     fail: onLoadingPestControlTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   SOIL_AMENDMENT_TASK: {
     success: (tasks) => put(getSoilAmendmentTasksSuccess(tasks)),
     fail: onLoadingSoilAmendmentTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   HARVEST_TASK: {
     success: (tasks) => put(getHarvestTasksSuccess(tasks)),
     fail: onLoadingHarvestTaskFail,
+    completeUrl: (id) => createCompleteHarvestQuantityTaskUrl(id),
   },
   PLANT_TASK: {
     success: (tasks) =>
       call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
     fail: onLoadingPlantTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
   TRANSPLANT_TASK: {
     success: (tasks) =>
       call(getTransplantTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
     fail: onLoadingTransplantTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
 };
 
@@ -525,11 +539,19 @@ const getPostTaskReqBody = (
   );
 };
 
+const getTaskCompletePathname = (task_id, task_translation_key) => {
+  if (taskTypeActionMap[task_translation_key]) {
+    return taskTypeActionMap[task_translation_key].completeUrl(task_id);
+  } else {
+    // Custom tasks
+    return createCompleteTaskUrl(task_id);
+  }
+};
+
 export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload }) {
-  let { returnPath, setShowCannotCreateModal, ...data } = payload;
-
+  let { alreadyCompleted, returnPath, setShowCannotCreateModal, ...data } = payload;
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, farm_id: task_farm_id } = yield select(
@@ -562,11 +584,23 @@ export function* createTaskSaga({ payload }) {
       header,
     );
     if (result) {
+      const { task_id, taskType } =
+        task_translation_key === 'HARVEST_TASK' ? result.data[0] : result.data;
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
-      yield call(onReqSuccessSaga, {
-        message: i18n.t('message:TASK.CREATE.SUCCESS'),
-        pathname: returnPath ?? '/tasks',
-      });
+      if (alreadyCompleted) {
+        yield call(onReqSuccessSaga, {
+          message: i18n.t('message:TASK.CREATE.SUCCESS'),
+          pathname: getTaskCompletePathname(task_id, task_translation_key),
+        });
+        if (isCustomTask) {
+          yield put(setFormData({ task_id, taskType }));
+        }
+      } else {
+        yield call(onReqSuccessSaga, {
+          message: i18n.t('message:TASK.CREATE.SUCCESS'),
+          pathname: returnPath ?? '/tasks',
+        });
+      }
     }
   } catch (e) {
     console.log(e);

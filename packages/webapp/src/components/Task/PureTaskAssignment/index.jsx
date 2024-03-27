@@ -6,6 +6,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { Main } from '../../Typography';
 import styles from '../../CertificationReportingPeriod/styles.module.scss';
 import RadioGroup from '../../Form/RadioGroup';
+import Checkbox from '../../Form/Checkbox';
 import Input, { numberOnKeyDown } from '../../Form/Input';
 import AssignTask from '../AssignTask';
 import { WAGE_OVERRIDE, OVERRIDE_HOURLY_WAGE } from '../AssignTask/constants';
@@ -30,6 +31,7 @@ const PureTaskAssignment = ({
   shouldSetWage,
   handleSubmit,
   getValues,
+  additionalContent,
 }) => {
   const { t } = useTranslation();
   const wageOverride = watch(WAGE_OVERRIDE);
@@ -123,6 +125,7 @@ const PureTaskAssignment = ({
           shouldSetWage={shouldSetWage}
           currency={currency}
           contentForWorkerWithWage={contentForWorkerWithWage}
+          additionalContent={additionalContent}
         />
       </Form>
     </>

@@ -150,6 +150,8 @@
     "TASK": "task",
     "TASK_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about this task",
+    "THIS_TASK_IS_COMPLETED": "This task has already been completed",
+    "THIS_TASK_IS_COMPLETED_EXPLANATION": "Clicking 'Save' will immediately save this task. You'll then be prompted to complete it.",
     "TRANSPLANT_METHOD": "Transplant method",
     "WAGE_OVERRIDE": "Wage override",
     "WHAT_PLANTING_METHOD": "What is the transplanting method?",

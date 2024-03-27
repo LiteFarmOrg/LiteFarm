@@ -53,6 +53,18 @@ Disabled.args = {
   disabled: true,
 };
 
+export const Warning = Template.bind({});
+Warning.args = {
+  color: 'warning',
+  children: 'Warning',
+};
+
+export const Error = Template.bind({});
+Error.args = {
+  color: 'error',
+  children: 'Error',
+};
+
 export const PrimarySmall = Template.bind({});
 PrimarySmall.args = {
   color: 'primary',
@@ -81,7 +93,7 @@ WithIconSmall.args = {
   sm: true,
   children: (
     <>
-      <div>Edit</div>
+      <span>Edit</span>
       <EditIcon style={{ width: '16px', height: '16px' }} />
     </>
   ),
@@ -93,7 +105,7 @@ WithIconDisabled.args = {
   disabled: true,
   children: (
     <>
-      <div>Edit</div>
+      <span>Edit</span>
       <EditIcon style={{ width: '16px', height: '16px' }} />
     </>
   ),

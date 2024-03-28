@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useCallback, useMemo, useState, ChangeEvent } from 'react';
+import { useCallback, useMemo, useState, ChangeEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureAnimalInventory, { SearchProps } from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
@@ -34,6 +34,7 @@ import styles from './styles.module.scss';
 import { useFilteredInventory } from './useFilteredInventory';
 import RemoveAnimalsModal from '../../../components/Animals/RemoveAnimalsModal';
 import useAnimalOrBatchRemoval from './useAnimalOrBatchRemoval';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import {
   isFilterCurrentlyActiveSelector,
   resetAnimalsFilter,
@@ -59,7 +60,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
 
-  const { t } = useTranslation(['translation', 'animal', 'common']);
+  const { t } = useTranslation(['translation', 'animal', 'common', 'message']);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const zIndexBase = theme.zIndex.drawer;
@@ -79,8 +80,10 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     [updateSelectedTypeIds],
   );
 
-  const { handleAnimalOrBatchRemoval, removalModalOpen, setRemovalModalOpen } =
-    useAnimalOrBatchRemoval(selectedInventoryIds, setSelectedInventoryIds);
+  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen } = useAnimalOrBatchRemoval(
+    selectedInventoryIds,
+    setSelectedInventoryIds,
+  );
 
   const animalsColumns = useMemo(
     () => [
@@ -244,7 +247,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
       <RemoveAnimalsModal
         isOpen={removalModalOpen}
         onClose={() => setRemovalModalOpen(false)}
-        onConfirm={handleAnimalOrBatchRemoval}
+        onConfirm={onConfirmRemoveAnimals}
         showSuccessMessage={false}
       />
     </FixedHeaderContainer>

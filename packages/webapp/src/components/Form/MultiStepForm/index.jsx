@@ -61,7 +61,7 @@ export const MultiStepForm = ({ history, getSteps, cancelModalTitle, defaultForm
             setShowConfirmCancelModal={setShowConfirmCancelModal}
           />
           <FormProvider {...form}>
-            <activeStep.FormContent onGoForward={onGoForward} form={form} formData={formData} />
+            <activeStep.FormContent onGoForward={onGoForward} form={form} />
           </FormProvider>
         </Layout>
       </div>

@@ -38,18 +38,18 @@ export const animalMatchesFilter = (
   } else if (entity[`custom_${attribute}_id`]) {
     filterKey = `${ANIMAL_ID_PREFIX.CUSTOM}_${entity[`custom_${attribute}_id`]}`;
   }
-  return filterKey ? filter[filterKey]?.active : false;
+  return filterKey && filter[filterKey] ? !!filter[filterKey].active : false;
 };
 
 /**
- * Retrieves the active type IDs based on the provided animals filter.
- * @param animalsFilter - The filter object containing the animals filter keys.
+ * Retrieves the active type IDs based on the provided animal types filter.
+ * @param animalTypesFilter - The filter state for animal types.
  * @returns An array of active type IDs.
  */
-export const getActiveTypeIds = (animalsFilter: ReduxFilterEntity<AnimalsFilterKeys>) => {
+export const getActiveTypeIds = (animalTypesFilter: FilterState) => {
   const activeTypeIds: string[] = [];
-  if (animalsFilter && animalsFilter[AnimalsFilterKeys.TYPE]) {
-    for (const [key, value] of Object.entries(animalsFilter[AnimalsFilterKeys.TYPE])) {
+  if (animalTypesFilter) {
+    for (const [key, value] of Object.entries(animalTypesFilter)) {
       if (value.active) {
         activeTypeIds.push(key);
       }

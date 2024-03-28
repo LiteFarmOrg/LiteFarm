@@ -28,12 +28,3 @@
   width: 100%;
   max-width: 1024px;
 }
-
-.paper {
-  display: flex;
-  flex-direction: column;
-
-  @include lg-breakpoint {
-    padding: 16px;
-  }
-}

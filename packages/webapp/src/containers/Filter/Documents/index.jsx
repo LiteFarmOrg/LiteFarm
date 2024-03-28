@@ -1,4 +1,19 @@
-import React, { useRef } from 'react';
+/*
+ *  Copyright (c) 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
@@ -19,7 +34,7 @@ import {
   INVOICES,
 } from '../constants';
 import { documentsFilterSelector, setDocumentsFilter } from '../../filterSlice';
-import { DATE } from '../../../components/Filter/filterTypes';
+import { FilterType } from '../../../components/Filter/types';
 
 const types = [
   CLEANING_PRODUCT,
@@ -40,17 +55,18 @@ const DocumentsFilterPage = ({ onGoBack }) => {
   const documentsFilter = useSelector(documentsFilterSelector);
   const dispatch = useDispatch();
 
+  const [tempFilter, setTempFilter] = useState({});
+
   const handleApply = () => {
-    dispatch(setDocumentsFilter(filterRef.current));
+    dispatch(setDocumentsFilter(tempFilter));
     onGoBack?.();
   };
-
-  const filterRef = useRef({});
 
   const filters = [
     {
       subject: t('DOCUMENTS.FILTER.TYPE'),
       filterKey: TYPE,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: types.map((type) => ({
         value: type,
         default: documentsFilter[TYPE][type]?.active ?? false,
@@ -60,7 +76,7 @@ const DocumentsFilterPage = ({ onGoBack }) => {
     {
       subject: t('DOCUMENTS.FILTER.VALID_ON'),
       filterKey: 'VALID_ON',
-      type: DATE,
+      type: FilterType.DATE,
       defaultValue: documentsFilter[VALID_ON],
     },
   ];
@@ -69,7 +85,8 @@ const DocumentsFilterPage = ({ onGoBack }) => {
     <PureFilterPage
       filters={filters}
       onApply={handleApply}
-      filterRef={filterRef}
+      tempFilter={tempFilter}
+      setTempFilter={setTempFilter}
       onGoBack={onGoBack}
     />
   );

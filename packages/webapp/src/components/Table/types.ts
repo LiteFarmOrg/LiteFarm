@@ -81,7 +81,5 @@ export type TableV2Props<RowData extends TableRowData> = {
   handleSelectAllClick?: (event: ChangeEvent<HTMLInputElement>) => void;
   selectedIds?: RowData['id'][];
   stickyHeader?: boolean;
-  maxHeight?: number | string;
-  spacerRowHeight?: number;
-  headerBackgroundColor?: string;
+  maxHeight?: number;
 };

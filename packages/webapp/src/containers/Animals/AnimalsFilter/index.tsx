@@ -21,23 +21,25 @@ import Drawer from '../../../components/Drawer';
 import FilterButton from '../../../components/Filter/FilterButton';
 import Button from '../../../components/Form/Button';
 import AnimalsFilterContent from '../../Filter/Animals/';
+import { ReduxFilterEntity } from '../../Filter/types';
+import { AnimalsFilterKeys } from '../../Filter/Animals/types';
 import { setAnimalsFilter, animalsFilterSelector, initialAnimalsFilter } from '../../filterSlice';
 
 const AnimalsFilter = ({ isFilterActive }: { isFilterActive: boolean }) => {
   const { t } = useTranslation();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
+  const [tempAnimalsFilter, setTempAnimalsFilter] =
+    useState<ReduxFilterEntity<AnimalsFilterKeys>>(initialAnimalsFilter);
 
   const animalsFilter = useSelector(animalsFilterSelector);
   const dispatch = useDispatch();
 
   const handleApply = () => {
-    dispatch(setAnimalsFilter(filterRef.current));
+    dispatch(setAnimalsFilter(tempAnimalsFilter));
     setIsFilterOpen(false);
     setIsDirty(false);
   };
-
-  const filterRef = useRef({ ...initialAnimalsFilter });
 
   return (
     <div className={styles.filterButton}>
@@ -57,8 +59,10 @@ const AnimalsFilter = ({ isFilterActive }: { isFilterActive: boolean }) => {
       >
         <AnimalsFilterContent
           animalsFilter={animalsFilter}
-          filterRef={filterRef}
-          onChange={() => !isDirty && setIsDirty(true)}
+          onChange={(filterKey, filterState) => {
+            !isDirty && setIsDirty(true);
+            setTempAnimalsFilter({ ...tempAnimalsFilter, [filterKey as string]: filterState });
+          }}
         />
       </Drawer>
     </div>

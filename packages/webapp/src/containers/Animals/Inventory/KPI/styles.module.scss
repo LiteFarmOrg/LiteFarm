@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023, 2024 LiteFarm.org
+ *  Copyright 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -10,11 +10,16 @@
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details, see <https://wwwl.gnu.org/licenses/>.
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.container {
-  display: flex;
-  gap: 24px;
-  flex-direction: column;
+@import '../../../../assets/mixin';
+
+.wrapper {
+  z-index: 1501; // should be greater than hoverpill, smaller than top menu
+  width: calc(100vw - var(--global-side-menu-width));
+
+  &.withCompactMenu {
+    width: calc(100vw - var(--global-compact-side-menu-width));
+  }
 }

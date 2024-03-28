@@ -1,3 +1,18 @@
+/*
+ *  Copyright (c) 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../Layout';
@@ -11,10 +26,11 @@ import type { ReduxFilterEntity } from '../../containers/Filter/types';
 
 interface PureFilterPageProps {
   filters: ComponentFilter[];
-  filterRef: React.RefObject<ReduxFilterEntity>;
   title?: string;
   onApply: () => void /* The handler for Redux state update in this flow, e.g.
-    () => dispatch(setCropCatalogueFilter(filterRef.current)) */;
+    () => dispatch(setCropCatalogueFilter(tempFilter)) */;
+  tempFilter: ReduxFilterEntity;
+  setTempFilter: (filter: ReduxFilterEntity) => void;
   onGoBack?: () => void;
   children?: React.ReactNode;
 }
@@ -23,7 +39,8 @@ const PureFilterPage = ({
   title,
   filters,
   onApply,
-  filterRef,
+  tempFilter,
+  setTempFilter,
   onGoBack,
   children,
 }: PureFilterPageProps) => {
@@ -56,8 +73,13 @@ const PureFilterPage = ({
       </div>
       <FilterGroup
         filters={filters}
-        filterRef={filterRef}
-        onChange={setDirty}
+        onChange={(filterKey, filterState) => {
+          setTempFilter({
+            ...tempFilter,
+            [filterKey]: filterState,
+          });
+          setDirty();
+        }}
         shouldReset={shouldReset}
       />
       {children}
@@ -69,8 +91,9 @@ PureFilterPage.propTypes = {
   title: PropTypes.string,
   filters: PropTypes.array.isRequired,
   onApply: PropTypes.func.isRequired,
-  filterRef: PropTypes.object.isRequired,
   onGoBack: PropTypes.func,
+  tempFilter: PropTypes.object,
+  setTempFilter: PropTypes.func,
   children: PropTypes.node,
 };
 export default PureFilterPage;

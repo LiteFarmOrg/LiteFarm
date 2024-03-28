@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
+import clsx from 'clsx';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation, TFunction } from 'react-i18next';
 import {
   useGetDefaultAnimalTypesQuery,
@@ -21,7 +22,7 @@ import {
 } from '../../../../store/api/apiSlice';
 import { PureTileDashboard, TypeCountTile } from '../../../../components/TileDashboard';
 import useQueries from '../../../../hooks/api/useQueries';
-import type { CustomAnimalType, DefaultAnimalType } from '../../../../store/api/types';
+import { CustomAnimalType, DefaultAnimalType } from '../../../../store/api/types';
 import { ReactComponent as CattleIcon } from '../../../../assets/images/animals/cattle-icon.svg';
 import { ReactComponent as ChickenIcon } from '../../../../assets/images/animals/chicken-icon.svg';
 import { ReactComponent as PigIcon } from '../../../../assets/images/animals/pig-icon.svg';
@@ -63,16 +64,35 @@ const formatAnimalTypes = (
 };
 
 interface KPIProps {
+  isCompactSideMenu: boolean;
   selectedTypeIds: string[];
   onTypeClick: (typeId: string) => void;
 }
 
-function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
+function KPI({ isCompactSideMenu, selectedTypeIds, onTypeClick }: KPIProps) {
+  const [kpiHeight, setKpiHeight] = useState<number | null>(null);
+
   const { t } = useTranslation(['translation', 'common', 'animal']);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const { data, isLoading } = useQueries([
     { label: 'defaultAnimalTypes', hook: useGetDefaultAnimalTypesQuery, params: '?count=true' },
     { label: 'customAnimalTypes', hook: useGetCustomAnimalTypesQuery, params: '?count=true' },
   ]);
+
+  useEffect(() => {
+    const setHeight = () => setKpiHeight(wrapperRef.current?.offsetHeight || null);
+
+    setHeight();
+    window.addEventListener('resize', () => {
+      setHeight();
+    });
+
+    return () => {
+      window.removeEventListener('resize', () => {
+        setHeight();
+      });
+    };
+  }, []);
 
   const types = useMemo(() => {
     if (isLoading || !data) {
@@ -87,12 +107,19 @@ function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
   }, [data, isLoading, onTypeClick]);
 
   return (
-    <PureTileDashboard
-      typeCountTiles={types}
-      dashboardTitle={t('SECTION_HEADER.ANIMALS_INVENTORY')}
-      categoryLabel={t('common:TYPES')}
-      selectedFilterIds={selectedTypeIds}
-    />
+    <div style={{ height: kpiHeight || 0 }}>
+      <div
+        ref={wrapperRef}
+        className={clsx(styles.wrapper, isCompactSideMenu && styles.withCompactMenu)}
+      >
+        <PureTileDashboard
+          typeCountTiles={types}
+          dashboardTitle={t('SECTION_HEADER.ANIMALS_INVENTORY')}
+          categoryLabel={t('common:TYPES')}
+          selectedFilterIds={selectedTypeIds}
+        />
+      </div>
+    </div>
   );
 }
 

@@ -1,4 +1,19 @@
-import React, { useRef } from 'react';
+/*
+ *  Copyright (c) 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
@@ -16,7 +31,7 @@ import {
 } from '../constants';
 import { cropCatalogueFilterSelector, setCropCatalogueFilter } from '../../filterSlice';
 import { suppliersSelector } from '../../cropVarietySlice';
-import { SEARCHABLE_MULTI_SELECT } from '../../../components/Filter/filterTypes';
+import { FilterType } from '../../../components/Filter/types';
 
 const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
 
@@ -27,16 +42,18 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
   const suppliers = useSelector(suppliersSelector);
   const dispatch = useDispatch();
 
+  const [tempFilter, setTempFilter] = useState({});
+
   const handleApply = () => {
-    dispatch(setCropCatalogueFilter(filterRef.current));
+    dispatch(setCropCatalogueFilter(tempFilter));
     onGoBack?.();
   };
-  const filterRef = useRef({});
 
   const filters = [
     {
       subject: t('CROP_CATALOGUE.FILTER.STATUS'),
       filterKey: STATUS,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: statuses.map((status) => ({
         value: status,
         default: cropCatalogueFilter[STATUS][status]?.active ?? false,
@@ -46,7 +63,7 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
     {
       subject: t('CROP_CATALOGUE.FILTER.LOCATION'),
       filterKey: LOCATION,
-      type: SEARCHABLE_MULTI_SELECT,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: cropEnabledLocations.map((location) => ({
         value: location.location_id,
         default: cropCatalogueFilter[LOCATION][location.location_id]?.active ?? false,
@@ -56,7 +73,7 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
     {
       subject: t('CROP_CATALOGUE.FILTER.SUPPLIERS'),
       filterKey: SUPPLIERS,
-      type: SEARCHABLE_MULTI_SELECT,
+      type: FilterType.SEARCHABLE_MULTI_SELECT,
       options: suppliers.map((supplier) => ({
         value: supplier,
         default: cropCatalogueFilter[SUPPLIERS][supplier]?.active ?? false,
@@ -69,7 +86,8 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
     <PureFilterPage
       filters={filters}
       onApply={handleApply}
-      filterRef={filterRef}
+      tempFilter={tempFilter}
+      setTempFilter={setTempFilter}
       onGoBack={onGoBack}
     />
   );

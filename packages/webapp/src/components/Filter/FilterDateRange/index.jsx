@@ -1,3 +1,18 @@
+/*
+ *  Copyright (c) 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
@@ -12,29 +27,21 @@ export function FilterDateRange({
   defaultToDate,
   onDirty,
   subject,
-  filterRef,
   shouldReset,
   style,
   className,
+  onChange,
 }) {
   const [fromDate, setFromDate] = useState(defaultFromDate ?? '');
   const [toDate, setToDate] = useState(defaultToDate ?? '');
+
   useEffect(() => {
     if (shouldReset) {
       setFromDate('');
       setToDate('');
     }
   }, [shouldReset]);
-  useEffect(() => {
-    if (filterRef?.current) {
-      filterRef.current.FROM_DATE = fromDate || undefined;
-    }
-  }, [fromDate]);
-  useEffect(() => {
-    if (filterRef?.current) {
-      filterRef.current.TO_DATE = toDate || undefined;
-    }
-  }, [toDate]);
+
   const [showDateFilter, setShowDateFilter] = useState(!!(defaultFromDate || defaultToDate));
   const onSwitchClick = () => {
     setDirty?.();
@@ -61,11 +68,13 @@ export function FilterDateRange({
   };
   const handleFromDateChange = (e) => {
     setFromDate(e.target.value);
+    onChange(e.target.value || undefined);
     setDirty?.();
   };
 
   const handleToDateChange = (e) => {
     setToDate(e.target.value);
+    onChange(e.target.value || undefined);
     setDirty?.();
   };
   return (
@@ -100,6 +109,6 @@ FilterDateRange.propTypes = {
   defaultToDate: PropTypes.string,
   onDirty: PropTypes.func,
   subject: PropTypes.string,
-  filterRef: PropTypes.object,
   style: PropTypes.object,
+  onChange: PropTypes.func,
 };

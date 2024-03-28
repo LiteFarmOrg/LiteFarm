@@ -32,6 +32,7 @@ import Checkbox from '../../Form/Checkbox';
 import produce from 'immer';
 import { FilterItemProps } from '../FilterGroup';
 import { Label } from '../../Typography';
+import clsx from 'clsx';
 
 interface FilterMultiSelectProps extends ComponentFilter {
   onChange?: FilterItemProps['onChange'];
@@ -56,12 +57,12 @@ const ClearIndicator = (props: ClearIndicatorProps<ComponentFilterOption>) => {
   };
 
   return (
-    <>
+    <components.ClearIndicator {...props}>
       {t('FILTER.SELECTED', { count: value.length })} -
       <TextButton className={styles.clearTextButton} onClick={onClick}>
-        clear
+        {t('FILTER.CLEAR')}
       </TextButton>
-    </>
+    </components.ClearIndicator>
   );
 };
 
@@ -84,21 +85,24 @@ const Option = (props: OptionProps<ComponentFilterOption>) => {
 };
 
 const MenuList = (props: MenuListProps<ComponentFilterOption>) => {
-  const { children, getValue, hasValue, options, clearValue } = props;
+  const { children, getValue, hasValue, options } = props;
   const { t } = useTranslation();
-
-  const partiallyChecked = getValue().length !== options.length;
+  const partiallyChecked = hasValue && getValue().length !== options.length;
 
   return (
     <components.MenuList {...props}>
-      <div className={styles.option}>
-        <TextButton className={styles.optionButton} onClick={clearValue}>
-          <Checkbox
-            label={t('FILTER.SHOWING_ALL')}
-            checked={hasValue}
-            partiallyChecked={partiallyChecked}
-          />
-        </TextButton>
+      <div
+        className={clsx(
+          styles.option,
+          styles.showingAll,
+          (!hasValue || partiallyChecked) && styles.selectedOption,
+        )}
+      >
+        <Checkbox
+          label={t('FILTER.SHOWING_ALL')}
+          checked={!hasValue || partiallyChecked}
+          partiallyChecked={partiallyChecked}
+        />
       </div>
       {children}
     </components.MenuList>
@@ -126,7 +130,8 @@ export const FilterMultiSelectV2 = ({
 
   const sortedOptions = useMemo(() => {
     const sorted = [...options].sort((a, b) => {
-      const isSelected = (option: ComponentFilterOption) => value.includes(option);
+      const isSelected = (option: ComponentFilterOption) =>
+        value.some((item) => item.label === option.label);
       return Number(isSelected(b)) - Number(isSelected(a)) || a.label.localeCompare(b.label);
     });
     return sorted;

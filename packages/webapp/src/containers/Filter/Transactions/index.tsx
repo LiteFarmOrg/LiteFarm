@@ -50,7 +50,7 @@ const TransactionFilterContent = ({
         ...(expenseTypes || []).map((type) => ({
           value: type.expense_type_id,
           // This sets the initial state of the filter pill
-          default: transactionsFilter[EXPENSE_TYPE]?.[type.expense_type_id]?.active ?? true,
+          default: transactionsFilter[EXPENSE_TYPE]?.[type.expense_type_id]?.active ?? false,
           label:
             (type.farm_id
               ? type.expense_name
@@ -61,7 +61,7 @@ const TransactionFilterContent = ({
           value: transactionTypeEnum.labourExpense,
           // This sets the initial state of the filter pill
           default:
-            transactionsFilter[EXPENSE_TYPE]?.[transactionTypeEnum.labourExpense]?.active ?? true,
+            transactionsFilter[EXPENSE_TYPE]?.[transactionTypeEnum.labourExpense]?.active ?? false,
           label: t('SALE.FINANCES.LABOUR_LABEL'),
         },
       ],
@@ -73,7 +73,7 @@ const TransactionFilterContent = ({
       options: (revenueTypes || []).map((type) => ({
         value: type.revenue_type_id,
         // This sets the initial state of the filter pill
-        default: transactionsFilter[REVENUE_TYPE]?.[type.revenue_type_id]?.active ?? true,
+        default: transactionsFilter[REVENUE_TYPE]?.[type.revenue_type_id]?.active ?? false,
         label:
           (type.farm_id
             ? type.revenue_name
@@ -88,7 +88,6 @@ const TransactionFilterContent = ({
       filters={filters.map(sortFilterOptions)}
       filterContainerClassName={filterContainerClassName}
       onChange={onChange}
-      showIndividualFilterControls
     />
   );
 };

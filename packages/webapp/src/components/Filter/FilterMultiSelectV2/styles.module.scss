@@ -39,9 +39,10 @@
   margin-left: 4px;
 }
 
-.optionButton {
+.showingAll {
   text-align: left;
   width: 100%;
+  pointer-events: none;
 }
 
 .multiValue {
@@ -101,6 +102,10 @@
   &:hover {
     background-color: var(--Colors-Secondary-Secondary-green-500);
   }
+}
+
+.selectedOption {
+  background-color: var(--grey200);
 }
 
 .placeholder {

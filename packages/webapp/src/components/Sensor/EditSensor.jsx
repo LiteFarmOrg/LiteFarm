@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022, 2024 LiteFarm.org
+ *  Copyright 2019, 2020, 2021, 2022 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <<https://www.gnu.org/licenses/>.>
  */
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import Layout from '../Layout';
@@ -24,13 +24,21 @@ import { container_planting_depth } from '../../util/convert-units/unit';
 import Unit from '../Form/Unit';
 import InputAutoSize from '../Form/InputAutoSize';
 import Input, { getInputErrors } from '../Form/Input';
+import FilterPillSelect from '../Filter/FilterPillSelect';
 import Form from '../Form';
 import ReactSelect from '../Form/ReactSelect';
 import UpdateSensorModal from '../Modals/UpdateSensorModal';
 import { Error } from '../Typography';
-import { FilterMultiSelect } from '../Filter/FilterMultiSelect';
 
-export default function UpdateSensor({ onBack, disabled, onSubmit, system, filter, sensorInfo }) {
+export default function UpdateSensor({
+  onBack,
+  disabled,
+  onSubmit,
+  system,
+  filter,
+  filterRef,
+  sensorInfo,
+}) {
   const { t } = useTranslation();
 
   const {
@@ -73,8 +81,8 @@ export default function UpdateSensor({ onBack, disabled, onSubmit, system, filte
   const [isFilterValid, setIsFilterValid] = useState(true);
   const [readingTypesChanged, setIsReadingTypesChanged] = useState(false);
 
-  const onChange = (filterKey, state) => {
-    setFilterState({ ...filterState, [filterKey]: state });
+  const onChange = () => {
+    setFilterState(filterRef.current);
     setIsDirty(!isDirty);
   };
 
@@ -167,11 +175,12 @@ export default function UpdateSensor({ onBack, disabled, onSubmit, system, filte
             errors={getInputErrors(errors, LONGTITUDE)}
           />
         </div>
-        <FilterMultiSelect
+        <FilterPillSelect
           subject={filter.subject}
           options={filter.options}
           filterKey={filter.filterKey}
           style={{ marginBottom: !isFilterValid ? '0' : '32px' }}
+          filterRef={filterRef}
           key={filter.filterKey}
           // shouldReset={shouldReset}
           onChange={onChange}

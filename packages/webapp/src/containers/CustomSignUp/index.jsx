@@ -49,7 +49,7 @@ function CustomSignUp() {
   } = useForm({
     mode: 'onTouched',
   });
-  const user = useSelector(customSignUpUserSelector);
+  const { user } = useSelector(customSignUpUserSelector);
   const { component: componentToShow } = useSelector(customSignUpComponentSelector);
 
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i);

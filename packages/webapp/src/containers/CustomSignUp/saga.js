@@ -14,7 +14,7 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
-import { all, call, put, takeLeading } from 'redux-saga/effects';
+import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { CREATE_USER_ACCOUNT, ENTER_PASSWORD_PAGE, inlineErrors } from './constants';
@@ -24,12 +24,7 @@ import { getFirstNameLastName } from '../../util';
 import { axios } from '../saga';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
-import {
-  setCustomSignUpComponent,
-  setCustomSignUpErrorKey,
-  setPasswordResetError,
-  setCustomSignUpUser,
-} from '../customSignUpSlice';
+import { setCustomSignUpErrorKey, setPasswordResetError } from '../customSignUpSlice';
 
 const loginUrl = (email) => `${url}/login/user/${email}`;
 const loginWithPasswordUrl = () => `${url}/login`;
@@ -43,28 +38,32 @@ export function* customSignUpSaga({ payload: { email } }) {
     const result = yield call(axios.get, loginUrl(email));
     if (result.data.exists && !result.data.sso) {
       localStorage.setItem('litefarm_lang', result.data.language);
-      yield put(
-        setCustomSignUpUser({
+      history.push(
+        {
+          pathname: '/',
+        },
+        {
+          component: ENTER_PASSWORD_PAGE,
           user: {
             first_name: result.data.first_name,
             email: result.data.email,
           },
-        }),
+        },
       );
-      yield put(setCustomSignUpComponent({ component: ENTER_PASSWORD_PAGE }));
     } else if (result.data.invited) {
       yield put(setCustomSignUpErrorKey({ key: inlineErrors.invited }));
     } else if (result.data.expired) {
       yield put(setCustomSignUpErrorKey({ key: inlineErrors.expired }));
     } else if (!result.data.exists && !result.data.sso) {
-      yield put(
-        setCustomSignUpUser({
-          user: {
-            email,
-          },
-        }),
+      history.push(
+        {
+          pathname: '/',
+        },
+        {
+          component: CREATE_USER_ACCOUNT,
+          user: { email },
+        },
       );
-      yield put(setCustomSignUpComponent({ component: CREATE_USER_ACCOUNT }));
     } else if (result.data.sso) {
       yield put(setCustomSignUpErrorKey({ key: inlineErrors.sso }));
     }

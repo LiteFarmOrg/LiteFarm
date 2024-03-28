@@ -1,31 +1,19 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
-import { expenseTypeSelector, selectedExpenseSelector } from '../../selectors';
+import { expenseTypeSelector } from '../../selectors';
 import history from '../../../../history';
 import { addExpenses } from '../../actions';
 import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import PureAddExpense from '../../../../components/Finances/AddExpense';
 import { FINANCES_HOME_URL } from '../../../../util/siteMapConstants';
+import { STEPS } from '../../../../components/AddExpenseForm';
 
 class AddExpense extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      expenseNames: {},
-    };
     this.getTypeName = this.getTypeName.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    const { selectedExpense } = this.props;
-    const expenseNames = {};
-    for (let s of selectedExpense) {
-      expenseNames[s] = this.getTypeName(s);
-    }
-    this.setState({ expenseNames });
   }
 
   getTypeName(id) {
@@ -42,7 +30,7 @@ class AddExpense extends Component {
   }
 
   handleSubmit(formData) {
-    const { expenseDetail } = formData;
+    const expenseDetail = formData[STEPS.EXPENSE_DETAIL];
     let formattedData = [];
     let expenseTypeIds = Object.keys(expenseDetail);
     let farm_id = this.props.farm.farm_id;
@@ -82,15 +70,12 @@ class AddExpense extends Component {
   }
 
   render() {
-    const { expenseNames } = this.state;
     return (
-      <HookFormPersistProvider>
-        <PureAddExpense
-          types={Object.keys(expenseNames).map((id) => ({ name: expenseNames[id], id }))}
-          onGoBack={history.back}
-          onSubmit={this.handleSubmit}
-        />
-      </HookFormPersistProvider>
+      <PureAddExpense
+        onGoBack={history.back}
+        onSubmit={this.handleSubmit}
+        getTypeName={this.getTypeName}
+      />
     );
   }
 }
@@ -98,7 +83,6 @@ class AddExpense extends Component {
 const mapStateToProps = (state) => {
   return {
     expenseTypes: expenseTypeSelector(state),
-    selectedExpense: selectedExpenseSelector(state),
     farm: userFarmSelector(state),
   };
 };

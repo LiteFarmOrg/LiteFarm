@@ -175,7 +175,7 @@ export const PureTaskTypeSelection = ({
             })}
         </div>
         {isAdmin && (
-          <Button color={'success'} onClick={onCustomTask}>
+          <Button color={'secondary-2'} onClick={onCustomTask}>
             {t('ADD_TASK.MANAGE_CUSTOM_TASKS')}
           </Button>
         )}

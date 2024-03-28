@@ -140,7 +140,7 @@ export default function PureEditUser({
       buttonGroup={
         <>
           {userFarm.status === 'Inactive' ? (
-            <Button type={'button'} onClick={onActivate} fullLength color={'success'}>
+            <Button type={'button'} onClick={onActivate} fullLength color={'secondary-2'}>
               {t('PROFILE.PEOPLE.RESTORE_ACCESS')}
             </Button>
           ) : (

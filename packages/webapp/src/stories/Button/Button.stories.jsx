@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../../components/Form/Button';
 import { componentDecorators } from '../Pages/config/Decorators';
+import { ReactComponent as EditIcon } from '../../assets/images/edit.svg';
 
 export default {
   title: 'Components/Button',
@@ -9,6 +10,7 @@ export default {
 };
 
 const Template = (args) => <Button {...args} />;
+
 const TemplateWithText = (args) => (
   <>
     <p>
@@ -19,6 +21,7 @@ const TemplateWithText = (args) => (
     <Button {...args} />
   </>
 );
+
 export const Primary = Template.bind({});
 Primary.args = {
   color: 'primary',
@@ -31,10 +34,16 @@ Secondary.args = {
   children: 'Secondary',
 };
 
-export const Success = Template.bind({});
-Success.args = {
-  color: 'success',
-  children: 'Success',
+export const Secondary2 = Template.bind({});
+Secondary2.args = {
+  color: 'secondary-2',
+  children: 'Secondary-2',
+};
+
+export const SecondaryCTA = Template.bind({});
+SecondaryCTA.args = {
+  color: 'secondary-cta',
+  children: 'Secondary-CTA',
 };
 
 export const Disabled = Template.bind({});
@@ -42,6 +51,18 @@ Disabled.args = {
   color: 'primary',
   children: 'Disabled',
   disabled: true,
+};
+
+export const Warning = Template.bind({});
+Warning.args = {
+  color: 'warning',
+  children: 'Warning',
+};
+
+export const Error = Template.bind({});
+Error.args = {
+  color: 'error',
+  children: 'Error',
 };
 
 export const PrimarySmall = Template.bind({});
@@ -66,13 +87,38 @@ DisabledSmall.args = {
   sm: true,
 };
 
-const style = {
-  background: 'linear-gradient(to right, orange , yellow, green, cyan, blue, violet)',
+export const WithIconSmall = Template.bind({});
+WithIconSmall.args = {
+  color: 'primary',
+  sm: true,
+  children: (
+    <>
+      <span>Edit</span>
+      <EditIcon style={{ width: '16px', height: '16px' }} />
+    </>
+  ),
 };
 
-export const InjectStyle = TemplateWithText.bind({});
-InjectStyle.args = {
+export const WithIconDisabled = Template.bind({});
+WithIconDisabled.args = {
   color: 'primary',
-  label: 'Button',
+  disabled: true,
+  children: (
+    <>
+      <span>Edit</span>
+      <EditIcon style={{ width: '16px', height: '16px' }} />
+    </>
+  ),
+};
+
+const style = {
+  background:
+    'linear-gradient(to right, var(--Colors-Accent---singles-Red-light), var(--Colors-Secondary-Secondary-green-200))',
+};
+
+export const OverrideStyle = TemplateWithText.bind({});
+OverrideStyle.args = {
+  color: 'none',
+  label: 'Style override',
   style: style,
 };

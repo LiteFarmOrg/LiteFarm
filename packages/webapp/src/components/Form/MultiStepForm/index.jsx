@@ -1,20 +1,22 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import Layout from '../../Layout';
 import { ClickAwayListener } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
 
-export const MultiStepForm = ({ history, steps, cancelModalTitle, defaultFormValues }) => {
+export const MultiStepForm = ({ history, getSteps, cancelModalTitle, defaultFormValues }) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const [formData, setFormData] = useState();
-  const progressBarValue = (100 / steps.length) * activeStepIndex;
 
   const form = useForm({
     mode: 'onBlur',
     defaultValues: defaultFormValues,
   });
+
+  const steps = useMemo(() => getSteps(formData), [getSteps, formData]);
+  const progressBarValue = useMemo(() => (100 / steps.length) * activeStepIndex, [steps]);
 
   const storeFormData = () => {
     const values = form.getValues();

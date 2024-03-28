@@ -83,8 +83,6 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen } = useAnimalOrBatchRemoval(
     selectedInventoryIds,
     setSelectedInventoryIds,
-    dispatch,
-    t,
   );
 
   const animalsColumns = useMemo(

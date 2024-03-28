@@ -25,15 +25,17 @@ import { parseInventoryId } from '../../../util/animal';
 import { CREATED_IN_ERROR_ID, FormFields } from '../../../components/Animals/RemoveAnimalsModal';
 import useMutations from '../../../hooks/api/useMutations';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
-import { TFunction } from 'i18next';
 import { AnimalOrBatchKeys } from '../types';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const useAnimalOrBatchRemoval = (
   selectedInventoryIds: string[],
   setSelectedInventoryIds: Dispatch<SetStateAction<string[]>>,
-  dispatch: Dispatch<any>,
-  t: TFunction,
 ) => {
+  const dispatch = useDispatch();
+  const { t } = useTranslation(['message']);
+
   const { mutations } = useMutations([
     { label: 'deleteAnimals', hook: useDeleteAnimalsMutation },
     { label: 'deleteBatches', hook: useDeleteAnimalBatchesMutation },
@@ -75,20 +77,26 @@ const useAnimalOrBatchRemoval = (
     try {
       if (animalRemovalArray.length) {
         await mutations['removeAnimals'].trigger(animalRemovalArray).unwrap();
-        setSelectedInventoryIds(selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)));
+        setSelectedInventoryIds((selectedInventoryIds) =>
+          selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)),
+        );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_ANIMALS', { ns: 'message' })));
       }
-    } catch (err) {
+    } catch (e) {
+      console.log(e);
       dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
     }
 
     try {
       if (animalBatchRemovalArray.length) {
         await mutations['removeBatches'].trigger(animalBatchRemovalArray).unwrap();
-        setSelectedInventoryIds(selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)));
+        setSelectedInventoryIds((selectedInventoryIds) =>
+          selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)),
+        );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_BATCHES', { ns: 'message' })));
       }
-    } catch (err) {
+    } catch (e) {
+      console.log(e);
       dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
     }
 
@@ -115,20 +123,26 @@ const useAnimalOrBatchRemoval = (
     try {
       if (animalIds.length) {
         await mutations['deleteAnimals'].trigger(animalIds).unwrap();
-        setSelectedInventoryIds(selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)));
+        setSelectedInventoryIds((selectedInventoryIds) =>
+          selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)),
+        );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_ANIMALS', { ns: 'message' })));
       }
-    } catch (err) {
+    } catch (e) {
+      console.log(e);
       dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
     }
 
     try {
       if (animalBatchIds.length) {
         await mutations['deleteBatches'].trigger(animalBatchIds).unwrap();
-        setSelectedInventoryIds(selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)));
+        setSelectedInventoryIds((selectedInventoryIds) =>
+          selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)),
+        );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_BATCHES', { ns: 'message' })));
       }
-    } catch (err) {
+    } catch (e) {
+      console.log(e);
       dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
     }
 

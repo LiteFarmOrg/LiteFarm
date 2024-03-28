@@ -15,11 +15,6 @@
 
 const useMutations = (namedMutations) => {
   const results = namedMutations.map((mutation) => mutation.hook());
-  const data = results.map((result) => result[1]);
-
-  const isError = data.some((result) => result.isError);
-  const isLoading = data.some((result) => result.isLoading) && !isError;
-  const isSuccess = data.every((result) => result.isSuccess);
 
   const mutations = namedMutations.reduce(
     (dataObj, mutation, index) => ({
@@ -34,9 +29,6 @@ const useMutations = (namedMutations) => {
 
   return {
     mutations,
-    isLoading,
-    isError,
-    isSuccess,
   };
 };
 

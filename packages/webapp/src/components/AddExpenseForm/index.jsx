@@ -13,7 +13,7 @@ export const AddExpenseForm = ({ history }) => {
   return (
     <MultiStepForm
       history={history}
-      steps={[
+      getSteps={() => [
         {
           title: t('EXPENSE.ADD_EXPENSE.TITLE'),
           FormContent: ExpenseCategories,

@@ -38,6 +38,8 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
   }),
 );
 import mocks from './mock.factories.js';
+import CustomAnimalTypeModel from '../src/models/CustomAnimalTypeModel.js';
+import CustomAnimalBreedModel from '../src/models/CustomAnimalBreedModel.js';
 
 describe('Animal Tests', () => {
   let farm;
@@ -366,6 +368,205 @@ describe('Animal Tests', () => {
       );
 
       expect(res.status).toBe(400);
+    });
+
+    describe('Create new types and/or breeds while creating animals', () => {
+      let farm;
+      let owner;
+
+      beforeEach(async () => {
+        const { mainFarm, user } = await returnUserFarms(1);
+        farm = mainFarm;
+        owner = user;
+      });
+
+      const postAnimalsRequest = async (animals) => {
+        const res = await postRequestAsPromise(
+          { user_id: owner.user_id, farm_id: farm.farm_id },
+          animals,
+        );
+        return res;
+      };
+
+      const getCustomAnimalType = async (typeName) => {
+        const createdType = await CustomAnimalTypeModel.query()
+          .where('farm_id', farm.farm_id)
+          .andWhere('type', typeName);
+        return createdType[0];
+      };
+
+      const getCustomAnimalBreed = async (breedName, typeColumn, typeId) => {
+        const createdBreed = await CustomAnimalBreedModel.query()
+          .where('farm_id', farm.farm_id)
+          .andWhere(typeColumn, typeId)
+          .andWhere('breed', breedName);
+        return createdBreed[0];
+      };
+
+      test('Should be able to create an animal with a new type', async () => {
+        const typeName = faker.lorem.word();
+        const animal = mocks.fakeAnimal({ type_name: typeName });
+        const res = await postAnimalsRequest([animal]);
+        const newType = await getCustomAnimalType(typeName);
+        expect(res.status).toBe(201);
+        expect(res.body[0].custom_type_id).toBe(newType.id);
+      });
+
+      test('Should be able to create an animal with type_id and a new breed', async () => {
+        const breedName = faker.lorem.word();
+        let animal = mocks.fakeAnimal({ default_type_id: defaultTypeId, breed_name: breedName });
+        let res = await postAnimalsRequest([animal]);
+        let newBreed = await getCustomAnimalBreed(breedName, 'default_type_id', defaultTypeId);
+        expect(res.status).toBe(201);
+        expect(res.body[0].custom_breed_id).toBe(newBreed.id);
+
+        const [customAnimalType] = await mocks.custom_animal_typeFactory({ promisedFarm: [farm] });
+        animal = mocks.fakeAnimal({
+          custom_type_id: customAnimalType.id,
+          breed_name: breedName,
+        });
+        res = await postAnimalsRequest([animal]);
+        newBreed = await getCustomAnimalBreed(breedName, 'custom_type_id', customAnimalType.id);
+        expect(res.status).toBe(201);
+        expect(res.body[0].custom_breed_id).toBe(newBreed.id);
+      });
+
+      test('Should be able to create an animal with a new type and a new breed', async () => {
+        const typeName = faker.lorem.word();
+        const breedName = faker.lorem.word();
+        const animal = mocks.fakeAnimal({
+          type_name: typeName,
+          breed_name: breedName,
+        });
+        const res = await postAnimalsRequest([animal]);
+        const newType = await getCustomAnimalType(typeName);
+        const newBreed = await getCustomAnimalBreed(breedName, 'custom_type_id', newType.id);
+        expect(res.status).toBe(201);
+        expect(res.body[0].custom_type_id).toBe(newType.id);
+        expect(res.body[0].custom_breed_id).toBe(newBreed.id);
+      });
+
+      test('Should not be able to create an animal when type_id and type_name are passed', async () => {
+        const typeName = faker.lorem.word();
+        let animal = mocks.fakeAnimal({ default_type_id: defaultTypeId, type_name: typeName });
+        let res = await postAnimalsRequest([animal]);
+        expect(res.status).toBe(400);
+
+        const [customAnimalType] = await mocks.custom_animal_typeFactory({ promisedFarm: [farm] });
+        animal = mocks.fakeAnimal({ custom_type_id: customAnimalType.id, type_name: typeName });
+        res = await postAnimalsRequest([animal]);
+        expect(res.status).toBe(400);
+      });
+
+      test('Should not be able to create an animal when breed_id and breed_name are passed', async () => {
+        const breedName = faker.lorem.word();
+        const [animalBreed] = await mocks.default_animal_breedFactory();
+        let animal = mocks.fakeAnimal({
+          default_type_id: defaultTypeId,
+          default_breed_id: animalBreed.id,
+          breed_name: breedName,
+        });
+        let res = await postAnimalsRequest([animal]);
+        expect(res.status).toBe(400);
+
+        const [customAnimalBreed] = await mocks.custom_animal_breedFactory({
+          promisedFarm: [farm],
+        });
+        animal = mocks.fakeAnimal({
+          default_type_id: defaultTypeId,
+          custom_breed_id: customAnimalBreed.id,
+          breed_name: breedName,
+        });
+        res = await postAnimalsRequest([animal]);
+        expect(res.status).toBe(400);
+      });
+
+      test('Should not be able to create an animal with a new type and an existing breed', async () => {
+        const typeName = faker.lorem.word();
+        const [animalBreed] = await mocks.default_animal_breedFactory();
+        let animal = mocks.fakeAnimal({
+          type_name: typeName,
+          default_breed_id: animalBreed.id,
+        });
+        let res = await postAnimalsRequest([animal]);
+        expect(res.status).toBe(400);
+
+        const [customAnimalBreed] = await mocks.custom_animal_breedFactory({
+          promisedFarm: [farm],
+        });
+        animal = mocks.fakeAnimal({
+          type_name: typeName,
+          custom_breed_id: customAnimalBreed.id,
+        });
+        res = await postAnimalsRequest([animal]);
+        expect(res.status).toBe(400);
+      });
+
+      test('Should be able to create animals with a new type', async () => {
+        const typeName = faker.lorem.word();
+        const animals = [...Array(3)].map(() => mocks.fakeAnimal({ type_name: typeName }));
+        const res = await postAnimalsRequest(animals);
+        const newType = await getCustomAnimalType(typeName);
+        expect(res.status).toBe(201);
+        res.body.forEach(({ custom_type_id }) => {
+          expect(custom_type_id).toBe(newType.id);
+        });
+      });
+
+      test('Should be able to create animals with a new type and breed', async () => {
+        const typeName = faker.lorem.word();
+        const breedName = faker.lorem.word();
+        const animals = [...Array(3)].map(() =>
+          mocks.fakeAnimal({ type_name: typeName, breed_name: breedName }),
+        );
+        const res = await postAnimalsRequest(animals);
+        const newType = await getCustomAnimalType(typeName);
+        const newBreed = await getCustomAnimalBreed(breedName, 'custom_type_id', newType.id);
+        expect(res.status).toBe(201);
+        res.body.forEach(({ custom_type_id, custom_breed_id }) => {
+          expect(custom_type_id).toBe(newType.id);
+          expect(custom_breed_id).toBe(newBreed.id);
+        });
+      });
+
+      test('Should be able to create animals with various types and breeds at once', async () => {
+        const [typeName1, typeName2, breedName1, breedName2] = [...Array(4)].map(() =>
+          faker.lorem.word(),
+        );
+        const animal1 = mocks.fakeAnimal({ type_name: typeName1 });
+        const animal2 = mocks.fakeAnimal({ type_name: typeName2 });
+        const animal3 = mocks.fakeAnimal({
+          type_name: typeName1,
+          breed_name: breedName1,
+        });
+        const animal4 = mocks.fakeAnimal({
+          type_name: typeName1,
+          breed_name: breedName2,
+        });
+        const animals = [...Array(3)].map(() =>
+          mocks.fakeAnimal({ default_type_id: defaultTypeId }),
+        );
+        const res = await postAnimalsRequest([animal1, animal2, animal3, animal4, ...animals]);
+        const [newType1, newType2] = await Promise.all(
+          [typeName1, typeName2].map(async (name) => await getCustomAnimalType(name)),
+        );
+        const [newBreed1, newBreed2] = await Promise.all(
+          [breedName1, breedName2].map(
+            async (name) => await getCustomAnimalBreed(name, 'custom_type_id', newType1.id),
+          ),
+        );
+        expect(res.status).toBe(201);
+        expect(res.body.length).toBe(7);
+        expect(res.body[0].custom_type_id).toBe(newType1.id);
+        expect(res.body[1].custom_type_id).toBe(newType2.id);
+        expect(res.body[2].custom_type_id).toBe(newType1.id);
+        expect(res.body[2].custom_breed_id).toBe(newBreed1.id);
+        expect(res.body[3].custom_type_id).toBe(newType1.id);
+        expect(res.body[3].custom_breed_id).toBe(newBreed2.id);
+        [4, 5, 6].forEach((index) => {
+          expect(res.body[index].default_type_id).toBe(defaultTypeId);
+        });
+      });
     });
 
     test('Add animals to groups while adding animals', async () => {

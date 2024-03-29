@@ -14,6 +14,7 @@
  */
 
 import baseModel from './baseModel.js';
+import knex from '../util/knex.js';
 
 class CustomAnimalBreed extends baseModel {
   static get tableName() {
@@ -48,6 +49,20 @@ class CustomAnimalBreed extends baseModel {
       },
       additionalProperties: false,
     };
+  }
+
+  static async getBreedsByFarmAndTypeBreedPairs(farm_id, typeBreeds) {
+    const conditions = typeBreeds.map(([typeColumn, typeId, breed]) => {
+      return knex.raw(`(${typeColumn} = ? AND breed = ?)`, [typeId, breed]);
+    });
+    const data = await knex.raw(
+      `SELECT id
+      FROM
+        custom_animal_breed
+      WHERE farm_id = ? AND deleted is FALSE AND (${conditions.join(' OR ')});`,
+      [farm_id],
+    );
+    return data.rows;
   }
 }
 

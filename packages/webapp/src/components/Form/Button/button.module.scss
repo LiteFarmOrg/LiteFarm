@@ -75,6 +75,38 @@
   --focus-box-shadow: none;
 }
 
+.btn.error {
+  --background: var(--error);
+  --color: var(--White);
+  --box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
+  --border: none;
+
+  /* These states not yet defined for this variant */
+  --hover-background: var(--background);
+  --hover-border: var(--border);
+  --hover-color: var(--color);
+
+  --active-background: var(--background);
+  --active-border: var(--border);
+  --active-color: var(--color);
+}
+
+.btn.warning {
+  --background: var(--brown700);
+  --color: var(--White);
+  --box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
+  --border: none;
+
+  /* These states not yet defined for this variant */
+  --hover-background: var(--background);
+  --hover-border: var(--border);
+  --hover-color: var(--color);
+
+  --active-background: var(--background);
+  --active-border: var(--border);
+  --active-color: var(--color);
+}
+
 .btn {
   border-radius: 8px;
   min-height: 48px;
@@ -143,6 +175,20 @@
 
 .btn:disabled svg path {
   stroke: var(--Colors-Neutral-Neutral-300);
+}
+
+.btn.error {
+  --background: var(--error);
+  --color: white;
+  --box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
+  --border: none;
+}
+
+.btn.warning {
+  --background: var(--brown700);
+  --color: white;
+  --box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
+  --border: none;
 }
 
 .btn:focus {

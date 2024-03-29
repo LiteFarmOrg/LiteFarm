@@ -18,7 +18,7 @@ import styles from './button.module.scss';
 import clsx from 'clsx';
 
 type ButtonProps = {
-  color?: 'primary' | 'secondary' | 'secondary-2' | 'secondary-cta' | 'none';
+  color?: 'primary' | 'secondary' | 'secondary-2' | 'secondary-cta' | 'warning' | 'error' | 'none';
   children?: ReactNode;
   sm?: boolean;
   disabled?: boolean;

@@ -65,6 +65,17 @@ class CustomAnimalType extends baseModel {
     );
     return data.rows;
   }
+
+  static async getTypesByFarmAndTypes(farm_id, types) {
+    const data = await knex.raw(
+      `SELECT id
+      FROM
+        custom_animal_type
+      WHERE farm_id = ? AND deleted is FALSE AND type IN (${types.map(() => '?').join(',')});`,
+      [farm_id, ...types],
+    );
+    return data.rows;
+  }
 }
 
 export default CustomAnimalType;

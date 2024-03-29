@@ -460,10 +460,10 @@ describe('Animal Tests', () => {
 
       test('Should not be able to create an animal when breed_id and breed_name are passed', async () => {
         const breedName = faker.lorem.word();
-        const [animalBreed] = await mocks.default_animal_breedFactory();
+        const [defaultAnimalBreed] = await mocks.default_animal_breedFactory();
         let animal = mocks.fakeAnimal({
-          default_type_id: defaultTypeId,
-          default_breed_id: animalBreed.id,
+          default_type_id: defaultAnimalBreed.default_type_id,
+          default_breed_id: defaultAnimalBreed.id,
           breed_name: breedName,
         });
         let res = await postAnimalsRequest([animal]);
@@ -471,6 +471,7 @@ describe('Animal Tests', () => {
 
         const [customAnimalBreed] = await mocks.custom_animal_breedFactory({
           promisedFarm: [farm],
+          properties: { default_type_id: defaultTypeId, custom_type_id: null },
         });
         animal = mocks.fakeAnimal({
           default_type_id: defaultTypeId,

@@ -15,10 +15,11 @@ import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import useDateRangeSelector from '../../../components/DateRangeSelector/useDateRangeSelector';
 import { SUNDAY } from '../../../util/dateRange';
 import { getManagementPlans, getManagementPlansAndTasks } from '../../saga';
+import { FINANCES_HOME_URL } from '../../../util/siteMapConstants';
 
 export default function EstimatedRevenue({ history, match }) {
   const { t } = useTranslation();
-  const onGoBack = () => history.push(`/finances`);
+  const onGoBack = () => history.push(FINANCES_HOME_URL);
   const managementPlans = useSelector(managementPlansSelector);
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
   const { startDate: fromDate, endDate: toDate } = useDateRangeSelector({ weekStartDate: SUNDAY });

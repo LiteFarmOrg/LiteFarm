@@ -512,7 +512,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/map"
               exact
-              component={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -613,7 +613,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/animals/*"
               exact
-              component={() => <Animals isCompactSideMenu={isCompactSideMenu} />}
+              render={(props) => <Animals isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
@@ -791,7 +791,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/map"
               exact
-              component={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -904,7 +904,11 @@ const Routes = ({ isCompactSideMenu }) => {
               component={NotificationReadOnly}
             />
             <Route path="/finances" component={Finances} />
-            <Route path="/animals/*" exact component={Animals} />
+            <Route
+              path="/animals/*"
+              exact
+              render={(props) => <Animals isCompactSideMenu={isCompactSideMenu} {...props} />}
+            />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>
@@ -937,7 +941,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/map"
               exact
-              component={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => <Map isCompactSideMenu={isCompactSideMenu} {...props} />}
             />
             <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
             <Route path="/barn/:location_id" component={BarnDetails} />
@@ -1003,7 +1007,11 @@ const Routes = ({ isCompactSideMenu }) => {
               exact
               component={NotificationReadOnly}
             />
-            <Route path="/animals/*" exact component={Animals} />
+            <Route
+              path="/animals/*"
+              exact
+              render={(props) => <Animals isCompactSideMenu={isCompactSideMenu} {...props} />}
+            />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
           </Switch>

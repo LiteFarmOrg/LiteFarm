@@ -24,7 +24,7 @@ import AddTransactionButton from '../../components/Finances/AddTransactionButton
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
 import FinancesCarrousel from '../../components/Finances/FinancesCarrousel';
 import PureTransactionList from '../../components/Finances/Transaction/Mobile/List';
-import PureCollapsibleSearch from '../../components/PopupFilter/PureCollapsibleSearch';
+import PureCollapsingSearch from '../../components/PopupFilter/PureCollapsingSearch';
 import Spinner from '../../components/Spinner';
 import { Title } from '../../components/Typography';
 import { SUNDAY } from '../../util/dateRange';
@@ -42,11 +42,15 @@ import { isFetchingDataSelector } from './selectors';
 import styles from './styles.module.scss';
 import useTransactions from './useTransactions';
 import { calcActualRevenue, calcOtherExpense, calcTotalLabour } from './util';
+import { useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/styles';
 
 const moment = extendMoment(Moment);
 
 const Finances = ({ history }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const managementPlans = useSelector(managementPlansSelector);
   const { EXPENSE_TYPE: expenseTypeFilter, REVENUE_TYPE: revenueTypeFilter } = useSelector(
     transactionsFilterSelector,
@@ -127,11 +131,12 @@ const Finances = ({ history }) => {
       <div className={styles.filterBar} ref={overlayRef}>
         <DateRangeSelector className={styles.dateRangeSelector} />
         <div className={styles.filterBarButtons}>
-          <PureCollapsibleSearch
+          <PureCollapsingSearch
             value={searchString}
             onChange={(e) => setSearchString(e.target.value)}
             isSearchActive={!!searchString}
             containerRef={overlayRef}
+            isDesktop={isDesktop}
           />
           <TransactionFilter />
         </div>

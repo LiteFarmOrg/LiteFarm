@@ -18,6 +18,7 @@ import baseController from './baseController.js';
 
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { checkAndTrimString } from '../util/util.js';
+import { handleObjectionError } from '../util/errorCodes.js';
 
 const customAnimalTypeController = {
   getCustomAnimalTypes() {
@@ -47,11 +48,6 @@ const customAnimalTypeController = {
         let { type } = req.body;
         type = checkAndTrimString(type);
 
-        if (!type) {
-          await trx.rollback();
-          return res.status(400).send('Animal type must be provided');
-        }
-
         const record = await baseController.existsInTable(trx, CustomAnimalTypeModel, {
           type,
           farm_id,
@@ -75,9 +71,7 @@ const customAnimalTypeController = {
         await trx.commit();
         return res.status(201).send(result);
       } catch (error) {
-        await trx.rollback();
-        console.error(error);
-        return res.status(500).json({ error });
+        await handleObjectionError(error, res, trx);
       }
     };
   },

@@ -14,11 +14,19 @@
  */
 
 import RemoveAnimalsModal from '../../components/Animals/RemoveAnimalsModal';
+import { Suspense } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof RemoveAnimalsModal> = {
   title: 'Components/RemoveAnimalsModal',
   component: RemoveAnimalsModal,
+  decorators: [
+    (Story) => (
+      <Suspense fallback={'loading'}>
+        <Story />
+      </Suspense>
+    ),
+  ],
 };
 
 export default meta;

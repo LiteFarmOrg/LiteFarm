@@ -24,3 +24,11 @@ export interface FilterState {
 }
 
 export type ContainerOnChangeCallback = (filterKey?: string, filterState?: FilterState) => void;
+
+// Only typing the properties relevant to filtering on location; there are no .ts files yet related to this entity
+export interface Location {
+  name: string;
+  location_id: string;
+
+  [key: string]: any;
+}

@@ -13,15 +13,32 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '../../../../assets/mixin';
+import React from 'react';
+import styles from './cross.module.scss';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
-.wrapper {
-  z-index: 1501; // should be greater than hoverpill, smaller than top menu
-  position: fixed;
-  width: calc(100vw - var(--global-side-menu-width));
+type CrossProps = {
+  className?: string;
+  isClickable?: boolean;
+  onClick?: () => void;
+};
 
-  &.withCompactMenu {
-    width: calc(100vw - var(--global-compact-side-menu-width));
-  }
-}
+const Cross = ({ className, onClick, isClickable, ...props }: CrossProps) => {
+  return (
+    <i
+      className={clsx(styles.cross, isClickable && styles.clickable, className)}
+      onClick={onClick}
+      {...props}
+    >
+      &#215;
+    </i>
+  );
+};
 
+Cross.propTypes = {
+  onClick: PropTypes.func,
+  className: PropTypes.string,
+};
+
+export default Cross;

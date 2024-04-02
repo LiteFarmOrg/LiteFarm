@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -96,24 +96,15 @@
   }
 }
 
-/* Desktop view */
-@media only screen and (min-width: 768px) {
-  .container {
-    .searchBar {
-      display: block;
-      min-width: 240px;
-      flex-grow: 1;
-    }
-  }
-
-  .searchButton,
-  .circleContainer,
-  .circle {
-    display: none;
-  }
-
-  // Only relevant if resizing screen beyond breakpoint with modal open
-  .modalContent {
-    display: none;
+.desktopContainer {
+  .searchBar {
+    display: block;
+    min-width: 240px;
+    flex-grow: 1;
   }
 }
+
+.displayNone {
+  display: none;
+}
+

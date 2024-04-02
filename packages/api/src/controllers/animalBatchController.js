@@ -82,6 +82,11 @@ const animalBatchController = {
             }
           }
 
+          if (animalBatch.default_breed_id && animalBatch.custom_type_id) {
+            await trx.rollback();
+            return res.status(400).send('Default breed does not use custom type');
+          }
+
           if (animalBatch.custom_breed_id) {
             const customBreed = await CustomAnimalBreedModel.query()
               .whereNotDeleted()
@@ -198,7 +203,7 @@ const animalBatchController = {
         // Update animal batches
         // NOTE: this is only scoped for removal. To make this a general update controller would require restating all of the checks on breed, type, etc. in addAnimalBatches() above.
         for (const animalBatch of req.body) {
-          const { id, animal_removal_reason_id, removal_explanation } = animalBatch;
+          const { id, animal_removal_reason_id, removal_explanation, removal_date } = animalBatch;
 
           await baseController.patch(
             AnimalBatchModel,
@@ -206,6 +211,7 @@ const animalBatchController = {
             {
               animal_removal_reason_id,
               removal_explanation,
+              removal_date,
             },
             req,
             { trx },

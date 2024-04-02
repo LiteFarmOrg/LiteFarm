@@ -52,7 +52,7 @@ export const createEditRevenueDetailsUrl = (id: string | number): string => {
   return `${createRevenueDetailsUrl(id)}/edit`;
 };
 export const createManagementPlanEstimatedRevenueURL = (id: string | number): string => {
-  return `${ESTIMATED_REVENUE_URL}/plan/${id}}`;
+  return `${ESTIMATED_REVENUE_URL}/plan/${id}`;
 };
 export const createReadonlyCustomExpenseURL = (id: string | number): string => {
   return `/finances/readonly_custom_expense/${id}`;

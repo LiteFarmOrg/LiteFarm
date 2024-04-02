@@ -20,6 +20,24 @@ import styles from './style.module.scss';
 import { IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Close } from '@mui/icons-material';
 
+interface DrawerProps {
+  title: string;
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  buttonGroup?: React.ReactNode;
+  fullHeight?: boolean;
+  responsiveModal?: boolean;
+  classes?: {
+    modal?: string;
+    drawer?: string;
+    drawerBackdrop?: string;
+    drawerHeader?: string;
+    drawerContent?: string;
+    drawerContainer?: string;
+  };
+}
+
 const Drawer = ({
   title,
   isOpen,
@@ -29,32 +47,35 @@ const Drawer = ({
   classes = {
     modal: '',
     drawer: '',
-    backdrop: '',
-    header: '',
-    content: '',
+    drawerBackdrop: '',
+    drawerHeader: '',
+    drawerContent: '',
+    drawerContainer: '',
   },
   fullHeight,
   responsiveModal = true,
-}) => {
+}: DrawerProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
+  if (!isOpen) {
+    return null;
+  }
+
   return isDesktop && responsiveModal ? (
-    isOpen && (
-      <ModalComponent
-        className={classes.modal}
-        title={title}
-        titleClassName={styles.title}
-        dismissModal={onClose}
-        buttonGroup={buttonGroup}
-      >
-        <div className={styles.modalContent}>{children}</div>
-      </ModalComponent>
-    )
+    <ModalComponent
+      className={classes.modal}
+      title={title}
+      titleClassName={styles.title}
+      dismissModal={onClose}
+      buttonGroup={buttonGroup}
+    >
+      <div className={styles.modalContent}>{children}</div>
+    </ModalComponent>
   ) : (
     <>
       <div
-        className={clsx(styles.backdrop, isOpen ? styles.openC : '', classes.drawerBackdrop)}
+        className={clsx(styles.drawerBackdrop, isOpen ? styles.openC : '', classes.drawerBackdrop)}
         onClick={onClose}
       ></div>
       <div
@@ -62,16 +83,16 @@ const Drawer = ({
           styles.drawer,
           fullHeight && styles.fullHeight,
           isOpen ? styles.openD : '',
-          classes.container,
+          classes.drawerContainer,
         )}
       >
-        <div className={clsx(styles.header, classes.header)}>
+        <div className={clsx(styles.header, classes.drawerHeader)}>
           <div className={styles.title}>{title}</div>
           <IconButton className={styles.close} onClick={onClose}>
             <Close />
           </IconButton>
         </div>
-        <div className={clsx(styles.drawerContent, classes.content)}>
+        <div className={clsx(styles.drawerContent, classes.drawerContent)}>
           {children} {buttonGroup}
         </div>
       </div>
@@ -79,13 +100,16 @@ const Drawer = ({
   );
 };
 
-Drawer.prototype = {
+Drawer.propTypes = {
   title: PropTypes.string,
-  isOpen: PropTypes.func,
+  isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   children: PropTypes.node,
   className: PropTypes.string,
   buttonGroup: PropTypes.node,
+  fullHeight: PropTypes.bool,
+  classes: PropTypes.object,
+  responsiveModal: PropTypes.bool,
 };
 
 export default Drawer;

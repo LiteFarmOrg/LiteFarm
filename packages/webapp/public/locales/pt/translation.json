@@ -161,7 +161,20 @@
     "ANIMAL_ID": "MISSING",
     "ANIMAL_IDENTIFICATION": "MISSING",
     "ANIMAL_LOCATIONS": "MISSING",
-    "ANIMAL_TYPE": "MISSING"
+    "ANIMAL_SEXES": "MISSING",
+    "ANIMAL_TYPE": "MISSING",
+    "FILTER": {
+      "BATCHES": "MISSING",
+      "BATCHES_OR_INDIVIDUALS": "MISSING",
+      "FEMALE": "MISSING",
+      "INDIVIDUALS": "MISSING",
+      "MALE": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "REMOVE_ANIMAL": "MISSING",
+    "SEARCH_INVENTORY_PLACEHOLDER": "MISSING",
+    "SHOWING_RESULTS_WITH_COUNT_one": "MISSING",
+    "SHOWING_RESULTS_WITH_COUNT_other": "MISSING"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Comprimento dos canteiros ",
@@ -262,22 +275,6 @@
       "DESCRIPTION": "Tudo bem! Você pode adicionar certificações e certificadoras mais tarde, na opção “minha propriedade”.",
       "TITLE": "Ver certificações"
     }
-  },
-  "REMOVE_ANIMALS": {
-    "REMOVE_ANIMALS": "MISSING",
-    "REMOVAL_REASONS": "MISSING",
-    "WHY": "MISSING",
-    "SOLD": "MISSING",
-    "SLAUGHTERED_FOR_SALE": "MISSING",
-    "SLAUGHTERED_FOR_CONSUMPTION": "MISSING",
-    "NATURAL_DEATH": "MISSING",
-    "CULLED": "MISSING",
-    "EXPLANATION": "MISSING",
-    "MORE_DETAILS": "MISSING",
-    "CREATED_IN_ERROR": "MISSING",
-    "WILL_BE_ARCHIVED": "MISSING",
-    "WILL_BE_PERMANENTLY_REMOVED": "MISSING",
-    "REMOVED_AND_ARCHIVED": "MISSING"
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Adicionar novo sítio/fazenda",
@@ -1446,6 +1443,22 @@
     "BETTER": "MISSING",
     "LITEFARM_UPDATED": "LiteFarm v{{version}} já está disponível!",
     "NOTES": "MISSING"
+  },
+  "REMOVE_ANIMALS": {
+    "CREATED_IN_ERROR": "MISSING",
+    "CULLED": "MISSING",
+    "EXPLANATION": "MISSING",
+    "MORE_DETAILS": "MISSING",
+    "NATURAL_DEATH": "MISSING",
+    "REMOVAL_REASONS": "MISSING",
+    "REMOVE_ANIMALS": "MISSING",
+    "REMOVED_AND_ARCHIVED": "MISSING",
+    "SLAUGHTERED_FOR_CONSUMPTION": "MISSING",
+    "SLAUGHTERED_FOR_SALE": "MISSING",
+    "SOLD": "MISSING",
+    "WHY": "MISSING",
+    "WILL_BE_ARCHIVED": "MISSING",
+    "WILL_BE_PERMANENTLY_REMOVED": "MISSING"
   },
   "REPEAT_PLAN": {
     "AFTER": "Após",

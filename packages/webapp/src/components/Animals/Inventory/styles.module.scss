@@ -1,0 +1,78 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.noSearchResults {
+  margin-top: 24px;
+}
+
+.noSearchResultsDesktop {
+  margin-top: 40px;
+}
+
+.searchBarDesktop {
+  width: 240px;
+}
+
+.searchBar {
+  flex: 1;
+}
+
+.searchAndFilterCommon {
+  display: flex;
+}
+
+.searchAndFilterDesktop {
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px; 
+}
+
+.searchAndFilter {
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 16px 8px 16px;
+  background-color: var(--Colors-Primary-Primary-teal-50);
+  width: 100%;
+}
+
+.searchResultsDesktop {
+  margin-left: 8px;
+}
+
+.searchResults {
+  text-align: center;
+  flex-basis: 100%;
+  order: 4;
+}
+
+.searchResultsText {
+  &.filterActive {
+    color: var(--Colors-Primary-Primary-teal-400);
+  }
+}
+
+.clearButtonWrapperDesktop {
+  flex: 1;
+  display: flex;
+  justify-content: end;
+}
+
+.tableWrapper {
+  overflow-y: scroll;
+}
+
+.tableWrapperCommon {
+  flex: 1;
+}

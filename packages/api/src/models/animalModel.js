@@ -93,6 +93,7 @@ class Animal extends baseModel {
         photo_url: { type: ['string', 'null'] },
         animal_removal_reason_id: { type: ['integer', 'null'] },
         removal_explanation: { type: ['string', 'null'] },
+        removal_date: { type: ['string', 'null'], format: 'date-time' },
         ...this.baseProperties,
       },
       additionalProperties: false,

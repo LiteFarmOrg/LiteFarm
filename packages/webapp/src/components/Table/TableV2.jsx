@@ -99,6 +99,8 @@ export default function TableV2(props) {
     selectedIds,
     stickyHeader,
     maxHeight,
+    spacerRowHeight,
+    headerBackgroundColor,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -106,8 +108,10 @@ export default function TableV2(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(minRows);
 
-  const fullColSpan = columns.reduce((total, column) => total + (column.id ? 1 : 0), 0);
-  const shouldShowCheckbox = onCheck && handleSelectAllClick && selectedIds;
+  const shouldShowCheckbox = !!(onCheck && handleSelectAllClick && selectedIds);
+  const fullColSpan =
+    columns.reduce((total, column) => total + (column.id ? 1 : 0), 0) +
+    (shouldShowCheckbox ? 1 : 0);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -152,7 +156,7 @@ export default function TableV2(props) {
         .slice()
         .sort(getComparator(order, orderBy))
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage],
+    [order, orderBy, page, rowsPerPage, data],
   );
 
   return (
@@ -160,7 +164,11 @@ export default function TableV2(props) {
       <TableContainer sx={{ maxHeight }}>
         <Table
           aria-labelledby="tableTitle"
-          className={clsx(styles.table, shouldFixTableLayout && styles.fixed)}
+          className={clsx(
+            styles.table,
+            shouldFixTableLayout && styles.fixed,
+            alternatingRowColor && styles.alternatingRowColorStyle,
+          )}
           stickyHeader={stickyHeader && maxHeight ? true : false}
         >
           {showHeader && (
@@ -174,6 +182,7 @@ export default function TableV2(props) {
               onSelectAllClick={handleSelectAllClick}
               numSelected={selectedIds?.length}
               rowCount={data.length}
+              backgroundColor={headerBackgroundColor}
             />
           )}
           <TableBody className={styles.tableBody}>
@@ -184,8 +193,8 @@ export default function TableV2(props) {
                 <TableRow
                   key={row.id || index}
                   onClick={(event) => handleRowClick(event, row)}
-                  isItemSelected={isItemSelected}
                   aria-checked={isItemSelected}
+                  selected={isItemSelected}
                   className={clsx(
                     styles.tableRow,
                     styles.itemRow,
@@ -265,6 +274,11 @@ export default function TableV2(props) {
                 </TableCell>
               </TableRow>
             ) : null}
+            {spacerRowHeight > 0 && (
+              <TableRow style={{ height: spacerRowHeight }} className={styles.spacerRow}>
+                <TableCell colSpan={fullColSpan} className={styles.tableCell} />
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
@@ -313,6 +327,9 @@ TableV2.propTypes = {
   selectedIds: PropTypes.array,
   stickyHeader: PropTypes.bool,
   maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  /** adds an empty row at the end of the table to create spacing */
+  spacerRowHeight: PropTypes.number,
+  headerBackgroundColor: PropTypes.string,
 };
 
 TableV2.defaultProps = {

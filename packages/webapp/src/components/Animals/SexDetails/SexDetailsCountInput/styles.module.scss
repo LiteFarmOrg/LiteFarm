@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.label {
+  width: 72px;
+}
+
+.countInput {
+  text-align: center;
+}
+
+.stepperBtn:disabled {
+  color: var(--Colors-Neutral-Neutral-100);
+}

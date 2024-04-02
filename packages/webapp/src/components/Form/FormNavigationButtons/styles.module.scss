@@ -21,37 +21,37 @@
   align-items: center;
   justify-content: center;
 
-  background: var(--White);
-  padding-inline: 32px;
-  padding-block: 16px;
-
+  padding: 16px 32px;
   border-radius: 16px;
+  background: var(--White);
   box-shadow: 0px 2px 4px 0px rgba(43, 48, 58, 0.1);
 
-  // drawer (mobile)
+  font-size: 12px;
+  font-style: normal;
+  line-height: 20px;
+
+  // desktop (floating)
+  @include sm-breakpoint {
+    width: 280px;
+  }
+
+  // mobile (drawer)
   @include xs-breakpoint {
     border-radius: 0px 0px 16px 16px;
     box-shadow: 0px -2px 4px 0px rgba(102, 115, 138, 0.1);
-
-    .button {
-      min-width: 156px;
-    }
   }
 }
 
 .buttonContainer {
+  width: 100%;
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
-  align-self: stretch;
-
   gap: 16px;
+  padding-block: 4px;
 }
 
 .button {
-  min-width: 100px;
-
   svg {
     width: 16px;
     height: 16px;
@@ -59,27 +59,17 @@
 }
 
 .informationalText {
-  align-self: stretch;
-  color: var(--Colors-Neutral-Neutral-400, #858fa1);
-  text-align: center;
-  font-family: 'Open Sans';
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px; /* 166.667% */
-  padding-top: 4px;
+  color: var(--Colors-Neutral-Neutral-400);
+  margin-bottom: -8px;
 }
 
-.contextualContent,
-.contextualContent * {
-  color: var(--Colors-Accent---singles-Brown-full, #aa5f04);
-  text-align: center;
-  font-family: 'Open Sans';
-  font-size: 12px;
-  font-style: normal;
-  line-height: 20px; /* 166.667% */
+.contextualContent {
+  color: var(--Colors-Accent---singles-Brown-full);
+  margin-top: -8px;
 }
 
+/* This logic requires passing bold text in a <b> tag, which
+is consistent with our previous use of the Trans component. */
 .contextualContent *:not(b) {
   font-weight: 300;
 }

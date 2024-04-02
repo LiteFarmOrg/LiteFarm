@@ -19,9 +19,11 @@
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  --bottom-offset: 16px;
   z-index: 101; // position above FloatingButtonMenu
 
+  --bottom-offset: 16px;
+
+  // desktop
   @include sm-breakpoint {
     &.withCompactSideMenu {
       margin-left: calc(var(--global-compact-side-menu-width) / 2);
@@ -32,6 +34,7 @@
     bottom: var(--bottom-offset);
   }
 
+  // mobile
   @include xs-breakpoint {
     width: 100%;
     bottom: 0;

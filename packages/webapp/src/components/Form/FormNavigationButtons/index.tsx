@@ -43,7 +43,7 @@ const FormNavigationButtons = ({
     <div className={clsx(styles.container)}>
       {contextualContent && <div className={styles.contextualContent}>{contextualContent}</div>}
       <div className={styles.buttonContainer}>
-        <Button color="secondary-cta" onClick={onCancel} className={styles.button} sm>
+        <Button color="secondary-cta" onClick={onCancel} className={styles.button} sm fullLength>
           {t('common:CANCEL')}
         </Button>
         <Button
@@ -52,6 +52,7 @@ const FormNavigationButtons = ({
           onClick={onContinue}
           className={styles.button}
           sm
+          fullLength
         >
           {isFinalStep ? (
             t('common:SAVE')

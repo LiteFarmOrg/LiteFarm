@@ -26,10 +26,6 @@ import ActionMenu from '../../../components/ActionMenu';
 import FixedHeaderContainer from '../../../components/Animals/FixedHeaderContainer';
 import KPI from './KPI';
 import useSearchFilter from '../../../containers/hooks/useSearchFilter';
-import { ReactComponent as AddAnimalIcon } from '../../../assets/images/animals/add-animal.svg';
-import { ReactComponent as TaskCreationIcon } from '../../../assets/images/create-task.svg';
-import { ReactComponent as CloneIcon } from '../../../assets/images/clone.svg';
-import { ReactComponent as RemoveAnimalIcon } from '../../../assets/images/animals/remove-animal.svg';
 import styles from './styles.module.scss';
 import { useFilteredInventory } from './useFilteredInventory';
 import RemoveAnimalsModal from '../../../components/Animals/RemoveAnimalsModal';
@@ -191,12 +187,12 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
   };
 
   const iconActions = [
-    { label: t(`common:ADD_TO_GROUP`), icon: <AddAnimalIcon />, onClick: () => ({}) },
-    { label: t(`common:CREATE_A_TASK`), icon: <TaskCreationIcon />, onClick: () => ({}) },
-    { label: t(`common:CLONE`), icon: <CloneIcon />, onClick: () => ({}) },
+    { label: t(`common:ADD_TO_GROUP`), iconName: 'ADD_ANIMAL', onClick: () => ({}) },
+    { label: t(`common:CREATE_A_TASK`), iconName: 'TASK_CREATION', onClick: () => ({}) },
+    { label: t(`common:CLONE`), iconName: 'CLONE', onClick: () => ({}) },
     {
       label: t(`ANIMAL.REMOVE_ANIMAL`),
-      icon: <RemoveAnimalIcon />,
+      iconName: 'REMOVE_ANIMAL',
       onClick: () => setRemovalModalOpen(true),
     },
   ];

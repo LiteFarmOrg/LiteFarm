@@ -97,20 +97,20 @@
       &:hover {
         background-color: var(--Colors-Secondary-Secondary-green-700);
 
-        svg path {
-          fill: var(--Btn-primary-hover);
-        }
+        @include svgColorFill(var(--Btn-primary-hover))
       }
     }
 
     &:active {
       background-color: var(--Btn-primary-pristine);
 
-      svg path {
-        fill: var(--Colors-Secondary-Secondary-green-900);
-      }
+      @include svgColorFill(var(--Colors-Secondary-Secondary-green-900))
     }
   }
+}
+
+.icon {
+  background: none;
 }
 
 .iconLabel {

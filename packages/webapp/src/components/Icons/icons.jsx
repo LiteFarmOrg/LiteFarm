@@ -34,6 +34,12 @@ import { ReactComponent as GoatIcon } from '../../assets/images/animals/goat-ico
 import { ReactComponent as RabbitIcon } from '../../assets/images/animals/rabbit-icon.svg';
 import { ReactComponent as SheepIcon } from '../../assets/images/animals/sheep-icon.svg';
 
+// Animal Inventory KPI
+import { ReactComponent as AddAnimalIcon } from '../../assets/images/animals/add-animal.svg';
+import { ReactComponent as TaskCreationIcon } from '../../assets/images/create-task.svg';
+import { ReactComponent as CloneIcon } from '../../assets/images/clone.svg';
+import { ReactComponent as RemoveAnimalIcon } from '../../assets/images/animals/remove-animal.svg';
+
 // Tasks
 import { ReactComponent as SoilAmendmentTask } from '../../assets/images/task/SoilAmendment.svg';
 
@@ -70,6 +76,11 @@ const iconMap = {
   GOAT: GoatIcon,
   RABBIT: RabbitIcon,
   SHEEP: SheepIcon,
+  // Animal Inventory KPI
+  ADD_ANIMAL: AddAnimalIcon,
+  TASK_CREATION: TaskCreationIcon,
+  CLONE: CloneIcon,
+  REMOVE_ANIMAL: RemoveAnimalIcon,
   // Tasks
   SOIL_AMENDMENT_TASK: SoilAmendmentTask,
 };

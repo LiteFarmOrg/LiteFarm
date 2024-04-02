@@ -46,6 +46,7 @@
   }
 }
 
+// Custom icons from figma use a variety of strokes and fills
 @mixin svgColorFill($newColor) {
   svg {
     path{

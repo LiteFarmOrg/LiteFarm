@@ -51,6 +51,15 @@ const ResizeWrapper = ({ children }: ResizeWrapperProps) => {
 
 type Story = StoryObj<typeof FormNavigationButtons>;
 
+const onClickHandlers = {
+  onCancel: () => {
+    console.log('cancel has been clicked!');
+  },
+  onContinue: () => {
+    console.log('continue has been clicked!');
+  },
+};
+
 export const Default: Story = {};
 
 export const Disabled: Story = {
@@ -62,6 +71,7 @@ export const Disabled: Story = {
 export const FinalStep: Story = {
   args: {
     isFinalStep: true,
+    ...onClickHandlers,
   },
 };
 
@@ -69,6 +79,7 @@ export const WithInformationalText: Story = {
   args: {
     isFinalStep: true,
     informationalText: 'You can save and fill in details later',
+    ...onClickHandlers,
   },
 };
 
@@ -76,6 +87,7 @@ export const WithContextualText: Story = {
   args: {
     isFinalStep: true,
     contextualContent: 'Adding new health record',
+    ...onClickHandlers,
   },
 };
 
@@ -88,6 +100,7 @@ export const WithContexualElement: Story = {
         Animal selected: <b>1</b> | Batch selected: <b>0</b>
       </span>
     ),
+    ...onClickHandlers,
   },
 };
 
@@ -95,6 +108,7 @@ export const InFloatingContainer: Story = {
   args: {
     isFinalStep: true,
     informationalText: 'You can save and fill in details later',
+    ...onClickHandlers,
   },
   render: (props) => {
     return (

@@ -651,25 +651,25 @@ describe('Animal Batch Tests', () => {
         const [typeName1, typeName2, breedName1, breedName2] = [...Array(4)].map(() =>
           faker.lorem.word(),
         );
-        const animal1 = mocks.fakeAnimalBatch({ type_name: typeName1 });
-        const animal2 = mocks.fakeAnimalBatch({ type_name: typeName2 });
-        const animal3 = mocks.fakeAnimalBatch({
+        const animalBatch1 = mocks.fakeAnimalBatch({ type_name: typeName1 });
+        const animalBatch2 = mocks.fakeAnimalBatch({ type_name: typeName2 });
+        const animalBatch3 = mocks.fakeAnimalBatch({
           type_name: typeName1,
           breed_name: breedName1,
         });
-        const animal4 = mocks.fakeAnimalBatch({
+        const animalBatch4 = mocks.fakeAnimalBatch({
           type_name: typeName1,
           breed_name: breedName2,
         });
-        const animals = [...Array(3)].map(() =>
+        const animalBatches = [...Array(3)].map(() =>
           mocks.fakeAnimalBatch({ default_type_id: defaultTypeId }),
         );
         const res = await postAnimalBatchesRequest([
-          animal1,
-          animal2,
-          animal3,
-          animal4,
-          ...animals,
+          animalBatch1,
+          animalBatch2,
+          animalBatch3,
+          animalBatch4,
+          ...animalBatches,
         ]);
         const [newType1, newType2] = await Promise.all(
           [typeName1, typeName2].map(async (name) => await getCustomAnimalType(name)),

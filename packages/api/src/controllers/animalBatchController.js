@@ -54,13 +54,8 @@ const animalBatchController = {
         const { farm_id } = req.headers;
         const result = [];
 
-        if (!Array.isArray(req.body)) {
-          await trx.rollback();
-          return res.status(400).send('Request body should be an array');
-        }
-
         // avoid attempts to add an already created type or breed to the DB
-        // where multiple animals have the same type_name or breed_name
+        // where multiple batches have the same type_name or breed_name
         const typeIdsMap = {};
         const typeBreedIdsMap = {};
 
@@ -103,6 +98,7 @@ const animalBatchController = {
               typeIdsMap[animalBatch.type_name] = typeId;
             }
             animalBatch.custom_type_id = typeId;
+            delete animalBatch.type_name;
           }
 
           if (animalBatch.breed_name) {
@@ -124,9 +120,8 @@ const animalBatchController = {
               typeBreedIdsMap[typeBreedKey] = breedId;
             }
             animalBatch.custom_breed_id = breedId;
+            delete animalBatch.breed_name;
           }
-          delete animalBatch.type_name;
-          delete animalBatch.breed_name;
 
           // Remove farm_id if it happens to be set in animal object since it should be obtained from header
           delete animalBatch.farm_id;

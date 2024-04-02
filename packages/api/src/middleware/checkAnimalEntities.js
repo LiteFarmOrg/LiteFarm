@@ -100,6 +100,23 @@ export function validateAnimalBatchCreationBody() {
           breed_name,
         } = animalOrBatch;
 
+        if (!hasOneValue([default_type_id, custom_type_id, type_name])) {
+          await trx.rollback();
+          return res
+            .status(400)
+            .send('Exactly one of default_type_id, custom_type_id, or type_name must be sent');
+        }
+
+        if (
+          !hasOneValue([default_breed_id, custom_breed_id, breed_name]) &&
+          !allFalsy([default_breed_id, custom_breed_id, breed_name])
+        ) {
+          await trx.rollback();
+          return res
+            .status(400)
+            .send('Exactly one of default_breed_id, custom_breed_id and breed_name must be sent');
+        }
+
         if (custom_type_id) {
           const customType = await CustomAnimalTypeModel.query().findById(custom_type_id);
 
@@ -149,23 +166,6 @@ export function validateAnimalBatchCreationBody() {
           continue;
         }
 
-        if (!hasOneValue([default_type_id, custom_type_id, type_name])) {
-          await trx.rollback();
-          return res
-            .status(400)
-            .send('Exactly one of default_type_id, custom_type_id, or type_name must be sent');
-        }
-
-        if (
-          !hasOneValue([default_breed_id, custom_breed_id, breed_name]) &&
-          !allFalsy([default_breed_id, custom_breed_id, breed_name])
-        ) {
-          await trx.rollback();
-          return res
-            .status(400)
-            .send('Exactly one of default_breed_id, custom_breed_id and breed_name must be sent');
-        }
-
         if (type_name) {
           if (default_breed_id || custom_breed_id) {
             await trx.rollback();
@@ -177,6 +177,8 @@ export function validateAnimalBatchCreationBody() {
           newTypesSet.add(type_name);
         }
 
+        // newBreedsSet will be used to check if the combination of type + breed exists in DB.
+        // skip the process if the type is new (= type_name is passed)
         if (!type_name && breed_name) {
           let breedDetails = '';
 
@@ -204,14 +206,14 @@ export function validateAnimalBatchCreationBody() {
 
       if (newBreedsSet.size) {
         const typeBreedPairs = [...newBreedsSet].map((breed) => breed.split('/'));
-        const [typeColumn, typeId] = typeBreedPairs;
-        if (typeColumn === 'custom_type_id') {
-          const customType = await CustomAnimalTypeModel.query()
+        for (const [typeColumn, typeId] of typeBreedPairs) {
+          const record = await CustomAnimalBreedModel.query()
             .where('id', typeId)
+            .andWhere(typeColumn, typeId)
             .andWhere('farm_id', farm_id);
-          if (!customType) {
+          if (record.length) {
             await trx.rollback();
-            return res.status(400).send('custom_type_id has invalid value');
+            return res.status(409).send('Animal breed already exists');
           }
         }
 

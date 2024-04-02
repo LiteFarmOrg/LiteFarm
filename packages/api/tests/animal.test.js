@@ -531,9 +531,11 @@ describe('Animal Tests', () => {
       });
 
       test('Should be able to create animals with various types and breeds at once', async () => {
-        const [typeName1, typeName2, breedName1, breedName2] = [...Array(4)].map(() =>
-          faker.lorem.word(),
-        );
+        const [customAnimalType1] = await mocks.custom_animal_typeFactory({ promisedFarm: [farm] });
+        const [customAnimalType2] = await mocks.custom_animal_typeFactory({ promisedFarm: [farm] });
+        const [typeName1, typeName2, breedName1, breedName2, breedName3, breedName4, breedName5] = [
+          ...Array(7),
+        ].map(() => faker.lorem.word());
         const animal1 = mocks.fakeAnimal({ type_name: typeName1 });
         const animal2 = mocks.fakeAnimal({ type_name: typeName2 });
         const animal3 = mocks.fakeAnimal({
@@ -544,10 +546,27 @@ describe('Animal Tests', () => {
           type_name: typeName1,
           breed_name: breedName2,
         });
-        const animals = [...Array(3)].map(() =>
-          mocks.fakeAnimal({ default_type_id: defaultTypeId }),
-        );
-        const res = await postAnimalsRequest([animal1, animal2, animal3, animal4, ...animals]);
+        const animal5 = mocks.fakeAnimal({
+          default_type_id: defaultTypeId,
+          breed_name: breedName3,
+        });
+        const animal6 = mocks.fakeAnimal({
+          custom_type_id: customAnimalType1.id,
+          breed_name: breedName4,
+        });
+        const animal7 = mocks.fakeAnimal({
+          custom_type_id: customAnimalType2.id,
+          breed_name: breedName5,
+        });
+        const res = await postAnimalsRequest([
+          animal1,
+          animal2,
+          animal3,
+          animal4,
+          animal5,
+          animal6,
+          animal7,
+        ]);
         const [newType1, newType2] = await Promise.all(
           [typeName1, typeName2].map(async (name) => await getCustomAnimalType(name)),
         );
@@ -556,6 +575,18 @@ describe('Animal Tests', () => {
             async (name) => await getCustomAnimalBreed(name, 'custom_type_id', newType1.id),
           ),
         );
+        const newBreed3 = await getCustomAnimalBreed(breedName3, 'default_type_id', defaultTypeId);
+        const newBreed4 = await getCustomAnimalBreed(
+          breedName4,
+          'custom_type_id',
+          customAnimalType1.id,
+        );
+        const newBreed5 = await getCustomAnimalBreed(
+          breedName5,
+          'custom_type_id',
+          customAnimalType2.id,
+        );
+
         expect(res.status).toBe(201);
         expect(res.body.length).toBe(7);
         expect(res.body[0].custom_type_id).toBe(newType1.id);
@@ -564,9 +595,12 @@ describe('Animal Tests', () => {
         expect(res.body[2].custom_breed_id).toBe(newBreed1.id);
         expect(res.body[3].custom_type_id).toBe(newType1.id);
         expect(res.body[3].custom_breed_id).toBe(newBreed2.id);
-        [4, 5, 6].forEach((index) => {
-          expect(res.body[index].default_type_id).toBe(defaultTypeId);
-        });
+        expect(res.body[4].default_type_id).toBe(defaultTypeId);
+        expect(res.body[4].custom_breed_id).toBe(newBreed3.id);
+        expect(res.body[5].custom_type_id).toBe(customAnimalType1.id);
+        expect(res.body[5].custom_breed_id).toBe(newBreed4.id);
+        expect(res.body[6].custom_type_id).toBe(customAnimalType2.id);
+        expect(res.body[6].custom_breed_id).toBe(newBreed5.id);
       });
     });
 

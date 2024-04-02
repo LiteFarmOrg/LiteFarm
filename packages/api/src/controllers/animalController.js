@@ -77,6 +77,7 @@ const animalController = {
               typeIdsMap[animal.type_name] = typeId;
             }
             animal.custom_type_id = typeId;
+            delete animal.type_name;
           }
 
           if (animal.breed_name) {
@@ -98,10 +99,8 @@ const animalController = {
               typeBreedIdsMap[typeBreedKey] = breedId;
             }
             animal.custom_breed_id = breedId;
+            delete animal.breed_name;
           }
-
-          delete animal.type_name;
-          delete animal.breed_name;
 
           // Remove farm_id if it happens to be set in animal object since it should be obtained from header
           delete animal.farm_id;

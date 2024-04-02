@@ -36,8 +36,8 @@ import mocks from './mock.factories.js';
 
 import { makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
 import AnimalBatchModel from '../src/models/animalBatchModel.js';
-import CustomAnimalTypeModel from '../src/models/CustomAnimalTypeModel.js';
-import CustomAnimalBreedModel from '../src/models/CustomAnimalBreedModel.js';
+import CustomAnimalTypeModel from '../src/models/customAnimalTypeModel.js';
+import CustomAnimalBreedModel from '../src/models/customAnimalBreedModel.js';
 
 describe('Animal Batch Tests', () => {
   let farm;

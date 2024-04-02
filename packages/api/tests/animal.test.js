@@ -38,8 +38,8 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
   }),
 );
 import mocks from './mock.factories.js';
-import CustomAnimalTypeModel from '../src/models/CustomAnimalTypeModel.js';
-import CustomAnimalBreedModel from '../src/models/CustomAnimalBreedModel.js';
+import CustomAnimalTypeModel from '../src/models/customAnimalTypeModel.js';
+import CustomAnimalBreedModel from '../src/models/customAnimalBreedModel.js';
 
 describe('Animal Tests', () => {
   let farm;

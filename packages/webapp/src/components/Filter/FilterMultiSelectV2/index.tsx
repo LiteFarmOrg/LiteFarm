@@ -88,6 +88,7 @@ const MenuList = (props: MenuListProps<ComponentFilterOption>) => {
   const { children, getValue, hasValue, options } = props;
   const { t } = useTranslation();
   const partiallyChecked = hasValue && getValue().length !== options.length;
+  const allChecked = getValue().length === options.length;
 
   return (
     <components.MenuList {...props}>
@@ -95,12 +96,12 @@ const MenuList = (props: MenuListProps<ComponentFilterOption>) => {
         className={clsx(
           styles.option,
           styles.showingAll,
-          (!hasValue || partiallyChecked) && styles.selectedOption,
+          (!hasValue || partiallyChecked || allChecked) && styles.selectedOption,
         )}
       >
         <Checkbox
           label={t('FILTER.SHOWING_ALL')}
-          checked={!hasValue || partiallyChecked}
+          checked={!hasValue || partiallyChecked || allChecked}
           partiallyChecked={partiallyChecked}
         />
       </div>

@@ -21,12 +21,16 @@ import {
   mapSalesToRevenueItems,
 } from '../util';
 import { getCropVarieties } from '../../saga';
-import { ADD_REVENUE_URL, REVENUE_TYPES_URL } from '../../../util/siteMapConstants';
+import {
+  ADD_REVENUE_URL,
+  FINANCES_HOME_URL,
+  REVENUE_TYPES_URL,
+} from '../../../util/siteMapConstants';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const onGoBack = () => history.back();
+  const onGoBack = () => history.push(FINANCES_HOME_URL);
   const onAddRevenue = () => {
     dispatch(setPersistedPaths([REVENUE_TYPES_URL, ADD_REVENUE_URL]));
     history.push(REVENUE_TYPES_URL);

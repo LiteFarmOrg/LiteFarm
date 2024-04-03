@@ -18,6 +18,7 @@ export const ASSIGNEE = 'assignee';
 export const HOURLY_WAGE = 'hourly_wage';
 export const HOURLY_WAGE_ACTION = 'hourly_wage_action';
 export const ASSIGN_ALL = 'assign_all';
+export const ALREADY_COMPLETED = 'already_completed';
 
 export const hourlyWageActions = {
   SET_HOURLY_WAGE: 'set_hourly_wage',

@@ -59,7 +59,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
 
-  const { t } = useTranslation(['translation', 'animal', 'common']);
+  const { t } = useTranslation(['translation', 'animal', 'common', 'message']);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const zIndexBase = theme.zIndex.drawer;
@@ -79,8 +79,10 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     [updateSelectedTypeIds],
   );
 
-  const { handleAnimalOrBatchRemoval, removalModalOpen, setRemovalModalOpen } =
-    useAnimalOrBatchRemoval(selectedInventoryIds, setSelectedInventoryIds);
+  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen } = useAnimalOrBatchRemoval(
+    selectedInventoryIds,
+    setSelectedInventoryIds,
+  );
 
   const animalsColumns = useMemo(
     () => [
@@ -244,7 +246,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
       <RemoveAnimalsModal
         isOpen={removalModalOpen}
         onClose={() => setRemovalModalOpen(false)}
-        onConfirm={handleAnimalOrBatchRemoval}
+        onConfirm={onConfirmRemoveAnimals}
         showSuccessMessage={false}
       />
     </FixedHeaderContainer>

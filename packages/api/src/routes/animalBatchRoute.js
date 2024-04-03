@@ -28,7 +28,7 @@ router.get('/', checkScope(['get:animal_batches']), AnimalBatchController.getFar
 router.post(
   '/',
   checkScope(['add:animal_batches']),
-  validateAnimalBatchCreationBody(),
+  validateAnimalBatchCreationBody('batch'),
   AnimalBatchController.addAnimalBatches(),
 );
 router.patch(

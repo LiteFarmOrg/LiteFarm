@@ -60,30 +60,6 @@ const animalBatchController = {
         const typeBreedIdsMap = {};
 
         for (const animalBatch of req.body) {
-          if (animalBatch.count < 2) {
-            await trx.rollback();
-            return res.status(400).send('Batch count must be greater than 1');
-          }
-
-          if (animalBatch.sex_detail?.length) {
-            let sexCount = 0;
-            const sexIdSet = new Set();
-            animalBatch.sex_detail.forEach((detail) => {
-              sexCount += detail.count;
-              sexIdSet.add(detail.sex_id);
-            });
-            if (sexCount > animalBatch.count) {
-              await trx.rollback();
-              return res
-                .status(400)
-                .send('Batch count must be greater than or equal to sex detail count');
-            }
-            if (animalBatch.sex_detail.length != sexIdSet.size) {
-              await trx.rollback();
-              return res.status(400).send('Duplicate sex ids in detail');
-            }
-          }
-
           if (animalBatch.type_name) {
             let typeId = typeIdsMap[animalBatch.type_name];
 

@@ -81,7 +81,7 @@ const hasOneValue = (values) => {
 
 const allFalsy = (values) => values.every((value) => !value);
 
-export function validateAnimalBatchCreationBody() {
+export function validateAnimalBatchCreationBody(animalBatchKey) {
   return async (req, res, next) => {
     const trx = await transaction.start(Model.knex());
 
@@ -158,6 +158,34 @@ export function validateAnimalBatchCreationBody() {
           if (customBreed.custom_type_id && customBreed.custom_type_id !== custom_type_id) {
             await trx.rollback();
             return res.status(400).send('Breed does not match type');
+          }
+        }
+
+        if (animalBatchKey === 'batch') {
+          const { count, sex_detail } = animalOrBatch;
+
+          if (count < 2) {
+            await trx.rollback();
+            return res.status(400).send('Batch count must be greater than 1');
+          }
+
+          if (sex_detail?.length) {
+            let sexCount = 0;
+            const sexIdSet = new Set();
+            sex_detail.forEach((detail) => {
+              sexCount += detail.count;
+              sexIdSet.add(detail.sex_id);
+            });
+            if (sexCount > count) {
+              await trx.rollback();
+              return res
+                .status(400)
+                .send('Batch count must be greater than or equal to sex detail count');
+            }
+            if (sex_detail.length != sexIdSet.size) {
+              await trx.rollback();
+              return res.status(400).send('Duplicate sex ids in detail');
+            }
           }
         }
 

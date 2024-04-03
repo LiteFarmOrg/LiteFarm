@@ -32,11 +32,15 @@
   flex-wrap: wrap;
 }
 
+.selectedCountText {
+  color: var(--Colors-Neutral-Neutral-600);
+  margin-right: -4px;
+}
+
 .clearTextButton {
   @include fontFamily();
   color: var(--Colors-Accent---singles-Blue-full);
   font-weight: 700;
-  margin-left: 4px;
 }
 
 .showingAll {

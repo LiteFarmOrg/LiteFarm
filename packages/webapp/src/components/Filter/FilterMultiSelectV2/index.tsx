@@ -46,23 +46,19 @@ const MultiValueRemove = (props: MultiValueRemoveProps) => (
 );
 
 const ClearIndicator = (props: ClearIndicatorProps<ComponentFilterOption>) => {
-  const { getValue, clearValue } = props;
+  const { getValue } = props;
   const value = getValue();
   const { t } = useTranslation();
 
-  const onClick = (e: MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-    clearValue();
-  };
-
   return (
-    <components.ClearIndicator {...props}>
-      {t('FILTER.SELECTED', { count: value.length })} -
-      <TextButton className={styles.clearTextButton} onClick={onClick}>
-        {t('FILTER.CLEAR')}
-      </TextButton>
-    </components.ClearIndicator>
+    <>
+      <span className={styles.selectedCountText}>
+        {t('FILTER.SELECTED', { count: value.length })} -
+      </span>
+      <components.ClearIndicator {...props}>
+        <TextButton className={styles.clearTextButton}>{t('FILTER.CLEAR')}</TextButton>
+      </components.ClearIndicator>
+    </>
   );
 };
 

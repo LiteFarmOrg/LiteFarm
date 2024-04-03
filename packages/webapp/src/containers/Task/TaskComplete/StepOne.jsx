@@ -32,12 +32,7 @@ function TaskCompleteStepOne({ history, match, location }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(
-      setPersistedPaths([
-        `/tasks/${task_id}/complete_harvest_quantity`,
-        `/tasks/${task_id}/complete`,
-        `/tasks/${task_id}/before_complete`,
-        `/tasks/${task_id}/harvest_uses`,
-      ]),
+      setPersistedPaths([`/tasks/${task_id}/complete`, `/tasks/${task_id}/before_complete`]),
     );
   }, []);
 

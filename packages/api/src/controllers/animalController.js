@@ -134,7 +134,7 @@ const animalController = {
 
             groupIds.push(group.id);
 
-            // Insert into join tables
+            // Insert into join table
             await AnimalGroupRelationshipModel.query(trx).insert({
               animal_id: individualAnimalResult.id,
               animal_group_id: group.id,

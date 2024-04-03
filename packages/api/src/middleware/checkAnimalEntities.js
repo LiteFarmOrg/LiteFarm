@@ -180,14 +180,9 @@ export function validateAnimalBatchCreationBody() {
         // newBreedsSet will be used to check if the combination of type + breed exists in DB.
         // skip the process if the type is new (= type_name is passed)
         if (!type_name && breed_name) {
-          let breedDetails = '';
-
-          if (custom_type_id) {
-            breedDetails = `custom_type_id/${custom_type_id}/${breed_name}`;
-          }
-          if (default_type_id) {
-            breedDetails = `default_type_id/${default_type_id}/${breed_name}`;
-          }
+          const breedDetails = custom_type_id
+            ? `custom_type_id/${custom_type_id}/${breed_name}`
+            : `default_type_id/${default_type_id}/${breed_name}`;
 
           newBreedsSet.add(breedDetails);
         }
@@ -206,17 +201,6 @@ export function validateAnimalBatchCreationBody() {
 
       if (newBreedsSet.size) {
         const typeBreedPairs = [...newBreedsSet].map((breed) => breed.split('/'));
-        for (const [typeColumn, typeId] of typeBreedPairs) {
-          const record = await CustomAnimalBreedModel.query()
-            .where('id', typeId)
-            .andWhere(typeColumn, typeId)
-            .andWhere('farm_id', farm_id);
-          if (record.length) {
-            await trx.rollback();
-            return res.status(409).send('Animal breed already exists');
-          }
-        }
-
         const record = await CustomAnimalBreedModel.getBreedsByFarmAndTypeBreedPairs(
           farm_id,
           typeBreedPairs,

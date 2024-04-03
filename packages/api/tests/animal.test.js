@@ -672,7 +672,7 @@ describe('Animal Tests', () => {
         expect(animalIdsInGroup).toEqual(expectedGroupNameAnimalIdsMap[groupName]);
       }
 
-      // animalIds of animals that didn't have group_name in request body should not exist in animal_group_relationship  table
+      // animalIds of animals that didn't have group_name in request body should not exist in animal_group_relationship table
       const animalsWithoutGroups = res.body.filter((animal, index) => {
         return !animalsGroups[index].group_name;
       });

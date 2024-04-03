@@ -45,11 +45,26 @@ export const up = async function (knex) {
 };
 
 export const down = async function (knex) {
+  const breedKey = {
+    CHICKEN_BROILERS: ['CORNISH_CROSS', 'ROSS_308', 'COBB_500'],
+    CHICKEN_LAYERS: ['LEGHORN', 'RHODE_ISLAND_RED', 'PLYMOUTH_ROCK'],
+  };
+
   // Migrated data is not recoverable but schema can be replaced
-  await knex('default_animal_type').where('key', 'CHICKEN').update({ key: 'CHICKEN_BROILERS' });
+  const [keepType] = await knex('default_animal_type')
+    .where('key', 'CHICKEN')
+    .update({ key: 'CHICKEN_BROILERS' })
+    .returning('id');
   const [deletedType] = await knex('default_animal_type')
     .insert({ key: 'CHICKEN_LAYERS' })
     .returning('id');
+
+  await knex('default_animal_breed')
+    .whereIn('key', breedKey.CHICKEN_BROILERS)
+    .update({ default_type_id: keepType.id });
+  await knex('default_animal_breed')
+    .whereIn('key', breedKey.CHICKEN_LAYERS)
+    .update({ default_type_id: deletedType.id });
 
   await knex('animal_identifier_placement').insert({
     default_type_id: deletedType.id,

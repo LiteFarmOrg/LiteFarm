@@ -16,7 +16,10 @@ export const MultiStepForm = ({ history, getSteps, cancelModalTitle, defaultForm
   });
 
   const steps = useMemo(() => getSteps(formData), [getSteps, formData]);
-  const progressBarValue = useMemo(() => (100 / steps.length) * activeStepIndex, [steps]);
+  const progressBarValue = useMemo(
+    () => (100 / (steps.length + 1)) * (activeStepIndex + 1),
+    [steps],
+  );
 
   const storeFormData = () => {
     const values = form.getValues();

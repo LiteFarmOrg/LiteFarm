@@ -25,8 +25,8 @@ export interface FormNavigationButtonsProps {
   isDisabled?: boolean;
   contextualContent?: React.ReactNode | string;
   informationalText?: string;
-  onCancel?: () => void;
-  onContinue?: () => void;
+  onCancel: () => void;
+  onContinue: () => void;
 }
 
 const FormNavigationButtons = ({
@@ -34,8 +34,8 @@ const FormNavigationButtons = ({
   isDisabled = false,
   contextualContent,
   informationalText,
-  onCancel = () => {},
-  onContinue = () => {},
+  onCancel,
+  onContinue,
 }: FormNavigationButtonsProps) => {
   const { t } = useTranslation();
 

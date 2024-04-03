@@ -39,6 +39,7 @@ import {
   resetAnimalsFilter,
 } from '../../../containers/filterSlice';
 import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
+import FloatingContainer from '../../../components/FloatingContainer';
 
 interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
@@ -234,14 +235,13 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         isLoading={isLoading}
       />
       {selectedInventoryIds.length ? (
-        <ActionMenu
-          headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
-          textActions={textActions}
-          iconActions={iconActions}
-          classes={{
-            root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
-          }}
-        />
+        <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
+          <ActionMenu
+            headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
+            textActions={textActions}
+            iconActions={iconActions}
+          />
+        </FloatingContainer>
       ) : null}
       <RemoveAnimalsModal
         isOpen={removalModalOpen}

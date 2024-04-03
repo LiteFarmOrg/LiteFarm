@@ -28,7 +28,7 @@
   --active-background: var(--Colors-Accent-Accent-yellow-500);
   --active-color: var(--Colors-Accent-Accent-yellow-900);
 
-  --focus-border: 2px solid var(--Colors-Accent-Accent-yellow-600);
+  --focus-outline: 2px solid var(--Colors-Accent-Accent-yellow-600);
 }
 
 .btn.secondary {
@@ -42,6 +42,8 @@
 
   --active-border: 1px solid var(--Colors-Neutral-Neutral-900);
   --active-color: var(--Colors-Neutral-Neutral-900);
+
+  --focus-border: 1px solid var(--Colors-Neutral-Neutral-200);
 }
 
 .btn.secondary-2 {
@@ -71,7 +73,7 @@
   --active-background: var(--Colors-Accent-Accent-yellow-700);
   --active-color: var(--Colors-Accent-Accent-yellow-100);
 
-  --focus-border: 2px solid var(--Colors-Accent-Accent-yellow-600);
+  --focus-outline: 2px solid var(--Colors-Accent-Accent-yellow-600);
   --focus-box-shadow: none;
 }
 
@@ -148,6 +150,7 @@
   border: var(--hover-border);
   box-shadow: var(--hover-box-shadow);
   color: var(--hover-color);
+  outline: none;
 }
 
 .btn:hover:enabled svg path {
@@ -192,7 +195,8 @@
 }
 
 .btn:focus {
-  outline: none;
+  outline: var(--focus-outline);
+  outline-offset: -2px;
   border: var(--focus-border);
   box-shadow: var(--focus-box-shadow);
 }

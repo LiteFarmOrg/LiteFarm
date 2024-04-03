@@ -217,9 +217,11 @@ export function validateAnimalBatchCreationBody(animalBatchKey) {
       }
 
       if (newTypesSet.size) {
-        const record = await CustomAnimalTypeModel.getTypesByFarmAndTypes(farm_id, [
-          ...newTypesSet,
-        ]);
+        const record = await CustomAnimalTypeModel.getTypesByFarmAndTypes(
+          farm_id,
+          [...newTypesSet],
+          trx,
+        );
 
         if (record.length) {
           await trx.rollback();
@@ -232,6 +234,7 @@ export function validateAnimalBatchCreationBody(animalBatchKey) {
         const record = await CustomAnimalBreedModel.getBreedsByFarmAndTypeBreedPairs(
           farm_id,
           typeBreedPairs,
+          trx,
         );
 
         if (record.length) {

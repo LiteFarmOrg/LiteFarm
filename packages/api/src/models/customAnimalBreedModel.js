@@ -14,7 +14,6 @@
  */
 
 import baseModel from './baseModel.js';
-import knex from '../util/knex.js';
 
 class CustomAnimalBreed extends baseModel {
   static get tableName() {
@@ -51,11 +50,11 @@ class CustomAnimalBreed extends baseModel {
     };
   }
 
-  static async getBreedsByFarmAndTypeBreedPairs(farm_id, typeBreeds) {
+  static async getBreedsByFarmAndTypeBreedPairs(farm_id, typeBreeds, trx) {
     const conditions = typeBreeds.map(([typeColumn, typeId, breed]) => {
-      return knex.raw(`(${typeColumn} = ? AND breed = ?)`, [typeId, breed]);
+      return trx.raw(`(${typeColumn} = ? AND breed = ?)`, [typeId, breed]);
     });
-    const data = await knex.raw(
+    const data = await trx.raw(
       `SELECT id
       FROM
         custom_animal_breed

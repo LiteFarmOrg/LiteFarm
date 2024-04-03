@@ -66,8 +66,8 @@ class CustomAnimalType extends baseModel {
     return data.rows;
   }
 
-  static async getTypesByFarmAndTypes(farm_id, types) {
-    const data = await knex.raw(
+  static async getTypesByFarmAndTypes(farm_id, types, trx) {
+    const data = await trx.raw(
       `SELECT id
       FROM
         custom_animal_type

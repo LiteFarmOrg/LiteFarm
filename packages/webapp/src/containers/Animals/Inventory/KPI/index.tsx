@@ -32,8 +32,7 @@ import styles from './styles.module.scss';
 
 const icons = {
   CATTLE: <CattleIcon />,
-  CHICKEN_BROILERS: <ChickenIcon />,
-  CHICKEN_LAYERS: <ChickenIcon />,
+  CHICKEN: <ChickenIcon />,
   PIGS: <PigIcon />,
   '': <CustomIcon />,
 };

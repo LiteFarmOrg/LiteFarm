@@ -17,6 +17,8 @@ function MultiStepPageTitle({
   showConfirmCancelModal,
   setShowConfirmCancelModal,
 }) {
+  const [localShowModal, setLocalShowModal] = useState(false); // original form flow
+
   return (
     <div style={style}>
       <div className={styles.titleContainer}>
@@ -32,8 +34,8 @@ function MultiStepPageTitle({
           <CancelButton
             onCancel={onCancel}
             cancelModalTitle={cancelModalTitle}
-            showConfirmCancelModal={showConfirmCancelModal}
-            setShowConfirmCancelModal={setShowConfirmCancelModal}
+            showConfirmCancelModal={showConfirmCancelModal || localShowModal}
+            setShowConfirmCancelModal={setShowConfirmCancelModal || setLocalShowModal}
           />
         )}
       </div>

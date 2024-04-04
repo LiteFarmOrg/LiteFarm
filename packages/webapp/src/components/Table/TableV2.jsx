@@ -330,7 +330,8 @@ TableV2.propTypes = {
   maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /** adds an empty row at the end of the table to create spacing */
   spacerRowHeight: PropTypes.number,
-  headerClass: ClassValue,
+  /** Cheating here  using any since it is not meshing well with ts type */
+  headerClass: PropTypes.any,
 };
 
 TableV2.defaultProps = {

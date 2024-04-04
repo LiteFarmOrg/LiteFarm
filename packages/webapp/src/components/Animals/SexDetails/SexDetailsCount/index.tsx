@@ -52,7 +52,9 @@ export default function SexDetailsCount({
           <Info style={{ marginTop: 0 }}>{maxCount} animals total</Info>
           <Text>{Math.max(unspecified, 0)} unspecified</Text>
         </div>
-        {total > maxCount && <Error>You cannot have more than {maxCount} animals</Error>}
+        {total > maxCount && (
+          <Error style={{ marginTop: 0 }}>You cannot have more than {maxCount} animals</Error>
+        )}
       </div>
     </div>
   );

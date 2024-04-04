@@ -47,6 +47,7 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
     link,
     icon,
     leftSection,
+    mainSection,
     rightSection,
     onResetIconClick,
     classes,
@@ -68,6 +69,7 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
         <InputBaseField
           {...inputProps}
           leftSection={leftSection}
+          mainSection={mainSection}
           rightSection={rightSection}
           resetIcon={!!error ? <Cross isClickable onClick={onResetIconClick} /> : undefined}
           ref={ref}

@@ -21,11 +21,12 @@ import { HTMLInputProps } from '..';
 export type InputBaseFieldProps = {
   resetIcon?: ReactElement;
   leftSection?: ReactNode;
+  mainSection?: ReactNode;
   rightSection?: ReactNode;
 } & HTMLInputProps;
 
 const InputBaseField = forwardRef<HTMLInputElement, InputBaseFieldProps>((props, ref) => {
-  const { resetIcon, leftSection, rightSection, ...inputProps } = props;
+  const { resetIcon, leftSection, mainSection, rightSection, ...inputProps } = props;
   const showResetIcon = !!resetIcon;
   return (
     <div
@@ -35,16 +36,14 @@ const InputBaseField = forwardRef<HTMLInputElement, InputBaseFieldProps>((props,
         inputProps.disabled && styles.inputDisabled,
       )}
     >
-      {props.leftSection && (
-        <div className={clsx(styles.inputSection, styles.inputSectionLeft)}>
-          {props.leftSection}
-        </div>
+      {leftSection && (
+        <div className={clsx(styles.inputSection, styles.inputSectionLeft)}>{leftSection}</div>
       )}
-      <input {...inputProps} ref={ref} />
-      {(showResetIcon || props.rightSection) && (
+      {mainSection || <input {...inputProps} ref={ref} />}
+      {(showResetIcon || rightSection) && (
         <div className={clsx(styles.inputSection, styles.inputSectionRight)}>
-          {props.rightSection}
-          {props.resetIcon}
+          {rightSection}
+          {resetIcon}
         </div>
       )}
     </div>

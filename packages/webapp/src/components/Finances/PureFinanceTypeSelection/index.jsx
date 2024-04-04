@@ -25,10 +25,16 @@ import { CantFindCustomType } from './CantFindCustomType';
 import useSearchFilter from '../../../containers/hooks/useSearchFilter';
 import { NoSearchResults } from '../../Card/NoSearchResults';
 import PureSearchbarAndFilter from '../../PopupFilter/PureSearchbarAndFilter';
+import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle'; // AddRevenue
 
 const FallbackWrapper = ({ children }) => children;
 
 export default function PureFinanceTypeSelection({
+  title, // AddRevenue
+  cancelTitle, // AddRevenue
+  onGoBack, // AddRevenue
+  progressValue, // AddRevenue,
+  useHookFormPersist = () => {}, // AddRevenue
   types,
   leadText,
   onContinue,
@@ -44,9 +50,20 @@ export default function PureFinanceTypeSelection({
   miscellaneousConfig,
   getSearchableString,
   searchPlaceholderText = '',
+  isAddRevenue = false,
 }) {
   const { t } = useTranslation();
-  const { setValue } = useForm({ defaultValues: persistedFormData });
+  const {
+    getValues, // AddRevenue
+    setValue,
+  } = useForm({ defaultValues: persistedFormData });
+
+  // AddRevenue (old form flow)
+  const hookFormPersistResult = useHookFormPersist(getValues);
+  let historyCancel;
+  if (isAddRevenue) {
+    ({ historyCancel } = hookFormPersistResult);
+  }
 
   const [filteredTypes, filter, setFilter] = useSearchFilter(types, getSearchableString);
 
@@ -67,6 +84,16 @@ export default function PureFinanceTypeSelection({
           )
         }
       >
+        {isAddRevenue && (
+          <MultiStepPageTitle
+            onGoBack={onGoBack}
+            onCancel={historyCancel}
+            cancelModalTitle={cancelTitle}
+            title={title}
+            value={progressValue}
+            style={{ marginBottom: '24px' }}
+          />
+        )}
         <PureSearchbarAndFilter
           className={styles.searchBar}
           value={filter}
@@ -124,4 +151,9 @@ PureFinanceTypeSelection.propTypes = {
   /** used for spotlight */
   iconLinkId: PropTypes.string,
   Wrapper: PropTypes.elementType,
+  // AddRevenue props
+  title: PropTypes.string,
+  cancelTitle: PropTypes.string,
+  onGoBack: PropTypes.func,
+  useHookFormPersist: PropTypes.func,
 };

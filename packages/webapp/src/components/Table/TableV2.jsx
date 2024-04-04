@@ -24,7 +24,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { BsThreeDots } from 'react-icons/bs';
-import clsx from 'clsx';
+import clsx, { ClassValue } from 'clsx';
 import EnhancedTableHead from './Header/TableHead';
 import Button from '../Form/Button';
 import { getComparator } from '../../util/sort';
@@ -330,7 +330,7 @@ TableV2.propTypes = {
   maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /** adds an empty row at the end of the table to create spacing */
   spacerRowHeight: PropTypes.number,
-  headerClass: PropTypes.any,
+  headerClass: ClassValue,
 };
 
 TableV2.defaultProps = {

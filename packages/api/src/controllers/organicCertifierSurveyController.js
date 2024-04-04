@@ -166,9 +166,8 @@ const organicCertifierSurveyController = {
 
       // Skip the whole flow in case this Farm is not pursuing any cert.
       if (organicCertifierSurvey === undefined) {
-        // Status code 202 Accepted https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/202
         return res
-          .status(202)
+          .status(400)
           .json({ message: 'You are not currently pursuing any certifications.' });
       }
 

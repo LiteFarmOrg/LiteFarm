@@ -100,7 +100,7 @@ export default function TableV2(props) {
     stickyHeader,
     maxHeight,
     spacerRowHeight,
-    headerBackgroundColor,
+    headerClass,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -182,7 +182,8 @@ export default function TableV2(props) {
               onSelectAllClick={handleSelectAllClick}
               numSelected={selectedIds?.length}
               rowCount={data.length}
-              backgroundColor={headerBackgroundColor}
+              // backgroundColor={headerBackgroundColor}
+              headerClass={headerClass}
             />
           )}
           <TableBody className={styles.tableBody}>
@@ -329,7 +330,7 @@ TableV2.propTypes = {
   maxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /** adds an empty row at the end of the table to create spacing */
   spacerRowHeight: PropTypes.number,
-  headerBackgroundColor: PropTypes.string,
+  headerClass: PropTypes.any,
 };
 
 TableV2.defaultProps = {

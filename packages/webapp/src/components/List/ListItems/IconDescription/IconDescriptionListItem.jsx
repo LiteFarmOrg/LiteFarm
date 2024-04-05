@@ -50,7 +50,6 @@ export default function IconDescriptionListItem({
       className={clsx(className, styles.listItem, selected && styles.listItem__selected)}
       {...props}
     >
-      {/* <div className={styles.icon}>{icon}</div> */}
       <Icon iconName={iconName} className={styles.icon} />
       <div className={clsx(styles.content, !actionIcon && styles.content__marginRight)}>
         <div className={styles.content_label}>{label}</div>

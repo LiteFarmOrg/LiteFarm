@@ -65,9 +65,9 @@ const FinancesCarrousel = ({
   };
 
   const profitLoss = totalRevenue - totalExpense;
-  const ProfitLossLightStyles =
+  const profitLossLightStyles =
     profitLoss < 0 ? styles.profitLossIconRedLight : styles.profitLossIconLight;
-  const ProfitLossDarkStyles =
+  const profitLossDarkStyles =
     profitLoss < 0 ? styles.profitLossIconRedDark : styles.profitLossIconDark;
 
   const cards = [
@@ -81,7 +81,7 @@ const FinancesCarrousel = ({
           circle
           role="img"
           aria-label={t('SALE.FINANCES.PROFIT_LOSS')}
-          className={ProfitLossDarkStyles}
+          className={profitLossDarkStyles}
         />
       ),
       activeContent: (
@@ -115,7 +115,7 @@ const FinancesCarrousel = ({
               iconName="PROFIT_LOSS"
               role="img"
               aria-label={t('SALE.FINANCES.PROFIT_LOSS')}
-              className={ProfitLossLightStyles}
+              className={profitLossLightStyles}
             />
             <div>
               <Text className={styles.profitLossTitle}>{t('SALE.FINANCES.PROFIT_LOSS')}</Text>

@@ -47,7 +47,7 @@ const MOCK_CARDS = [
     id: 'second-card',
     label: 'second-card',
     inactiveBackgroundColor: 'var(--teal700)',
-    inactiveIcon: <Icon iconName="SEEDS" circle aria-label={ICON_LABELS[1]} />,
+    inactiveIcon: <Icon iconName="SEEDS_AND_PLANTS" circle aria-label={ICON_LABELS[1]} />,
     activeContent: <p>{CONTENTS[1]}</p>,
     note: 'Note for second card',
     noteColor: 'var(--teal600)',

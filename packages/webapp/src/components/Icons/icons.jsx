@@ -43,7 +43,7 @@ import { ReactComponent as CattleIcon } from '../../assets/images/animals/cattle
 import { ReactComponent as ChickenIcon } from '../../assets/images/animals/chicken-icon.svg';
 import { ReactComponent as PigIcon } from '../../assets/images/animals/pig-icon.svg';
 import { ReactComponent as BatchIcon } from '../../assets/images/animals/batch.svg';
-import { ReactComponent as CustomAnimalIcon } from '../../assets/images/nav/animals.svg';
+import { ReactComponent as CustomAnimalIcon } from '../../assets/images/animals/custom-animal-icon.svg';
 import { ReactComponent as AlpacaIcon } from '../../assets/images/animals/alpaca-icon.svg';
 import { ReactComponent as GoatIcon } from '../../assets/images/animals/goat-icon.svg';
 import { ReactComponent as RabbitIcon } from '../../assets/images/animals/rabbit-icon.svg';

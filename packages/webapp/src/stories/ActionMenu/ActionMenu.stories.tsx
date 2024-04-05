@@ -15,10 +15,6 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import ActionMenu, { ActionMenuProps } from '../../components/ActionMenu';
-import { ReactComponent as AddAnimalIcon } from '../../assets/images/animals/add-animal.svg';
-import { ReactComponent as TaskCreationIcon } from '../../assets/images/create-task.svg';
-import { ReactComponent as CloneIcon } from '../../assets/images/clone.svg';
-import { ReactComponent as RemoveAnimalIcon } from '../../assets/images/animals/remove-animal.svg';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<ActionMenuProps> = {
@@ -38,16 +34,16 @@ const createLabelAndOnClick = (label: string): { label: string; onClick: () => v
 
 const iconActions = [
   {
-    icon: <AddAnimalIcon />,
+    iconName: 'ADD_ANIMAL',
     ...createLabelAndOnClick('Add to group'),
   },
   {
-    icon: <TaskCreationIcon />,
+    iconName: 'TASK_CREATION',
     ...createLabelAndOnClick('Create a task'),
   },
-  { icon: <CloneIcon />, ...createLabelAndOnClick('Clone') },
+  { iconName: 'CLONE', ...createLabelAndOnClick('Clone') },
   {
-    icon: <RemoveAnimalIcon />,
+    iconName: 'REMOVE_ANIMAL',
     ...createLabelAndOnClick('Remove animal'),
   },
 ];
@@ -71,16 +67,16 @@ export const WithLongIconLabels: Story = {
   args: {
     iconActions: [
       {
-        icon: <AddAnimalIcon />,
+        iconName: 'ADD_ANIMAL',
         ...createLabelAndOnClick('Add animal long label'),
       },
       {
-        icon: <TaskCreationIcon />,
+        iconName: 'TASK_CREATION',
         ...createLabelAndOnClick('Create a task long label'),
       },
-      { icon: <CloneIcon />, ...createLabelAndOnClick('Clone long label') },
+      { iconName: 'CLONE', ...createLabelAndOnClick('Clone long label') },
       {
-        icon: <RemoveAnimalIcon />,
+        iconName: 'REMOVE_ANIMAL',
         ...createLabelAndOnClick('Remove animal long label'),
       },
     ],

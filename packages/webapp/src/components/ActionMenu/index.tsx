@@ -16,6 +16,7 @@
 import { ReactNode } from 'react';
 import clsx from 'clsx';
 import TextButton from '../Form/Button/TextButton';
+import Icon from '../Icons';
 import styles from './styles.module.scss';
 
 interface action {
@@ -24,7 +25,7 @@ interface action {
 }
 
 interface iconAction extends action {
-  icon: ReactNode;
+  iconName: string;
 }
 
 export interface ActionMenuProps {
@@ -53,10 +54,12 @@ const ActionMenu = ({ headerLeftText, textActions = [], iconActions }: ActionMen
         </div>
       </div>
       <div className={styles.iconButtons}>
-        {iconActions.map(({ icon, label, onClick }) => {
+        {iconActions.map(({ iconName, label, onClick }) => {
           return (
             <div key={label} className={clsx(styles.iconGroup, iconCountClassName)}>
-              <TextButton onClick={onClick}>{icon}</TextButton>
+              <TextButton onClick={onClick}>
+                <Icon iconName={iconName} className={styles.icon} />
+              </TextButton>
               <div className={styles.iconLabel}>{label}</div>
             </div>
           );

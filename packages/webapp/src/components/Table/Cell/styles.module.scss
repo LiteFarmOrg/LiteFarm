@@ -1,3 +1,5 @@
+@import '../../../assets/mixin.scss';
+
 .text {
   color: var(--Colors-Neutral-Neutral-700);
   font-size: 16px;
@@ -31,9 +33,7 @@
 }
 
 .iconTextIcon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: transparent;
 }
 
 .iconBorder {
@@ -44,9 +44,8 @@
   height: 32px;
   width: 32px;
   padding: 4px;
-  svg > rect, path{
-    fill: var(--Colors-Primary-Primary-teal-300);
-  }
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-300));
+  
 }
 
 .withSubtextText {

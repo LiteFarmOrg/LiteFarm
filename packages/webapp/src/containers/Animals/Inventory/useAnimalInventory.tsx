@@ -74,7 +74,7 @@ const getDefaultAnimalIconName = (
     case AnimalTranslationKey.PIGS:
       return 'PIG';
     default:
-      return 'CATTLE';
+      return 'CUSTOM_ANIMAL';
   }
 };
 

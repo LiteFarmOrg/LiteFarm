@@ -23,13 +23,13 @@ export { Cross };
 export { iconMap };
 
 const Icon = ({ iconName, circle = false, className = '', ...rest }) => {
-  const Icon = iconMap[iconName];
+  const CustomIcon = iconMap[iconName];
 
   // Wrapper for display block used to prevent overwriting display in className
   return (
     <div className={styles.displayBlock}>
       <div className={clsx(styles.icon, circle && styles.circle, className)}>
-        <Icon {...rest} />
+        <CustomIcon {...rest} />
       </div>
     </div>
   );

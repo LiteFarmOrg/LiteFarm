@@ -182,7 +182,6 @@ export default function TableV2(props) {
               onSelectAllClick={handleSelectAllClick}
               numSelected={selectedIds?.length}
               rowCount={data.length}
-              // backgroundColor={headerBackgroundColor}
               headerClass={headerClass}
             />
           )}

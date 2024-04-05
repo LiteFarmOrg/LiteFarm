@@ -23,17 +23,18 @@ import styles from './styles.module.scss';
 type SexDetailsCountProps = {
   maxCount: number;
   details: Details;
+  total: number;
+  unspecified: number;
   onCountChange: (countId: Details[0]['id'], count: number) => void;
 };
 
 export default function SexDetailsCount({
   details,
   maxCount,
+  total,
+  unspecified,
   onCountChange,
 }: SexDetailsCountProps) {
-  const total = details.reduce((prevCount, { count }) => prevCount + count, 0);
-  const unspecified = maxCount - total;
-
   return (
     <div className={styles.container}>
       <div className={styles.countInputs}>

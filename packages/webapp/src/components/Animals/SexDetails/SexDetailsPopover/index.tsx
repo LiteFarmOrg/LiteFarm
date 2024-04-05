@@ -14,7 +14,6 @@
  */
 
 import { Popover, useMediaQuery, useTheme } from '@mui/material';
-import { useState } from 'react';
 import Drawer from '../../../Drawer';
 import Button from '../../../Form/Button';
 import SexDetailsCount from '../SexDetailsCount';
@@ -27,43 +26,43 @@ export type Details = {
 }[];
 
 type SexDetailsPopoverProps = {
-  maxCount: number;
-  initialDetails: Details;
-  onConfirm: (details: Details) => void;
-  onCancel: () => void;
   anchor: HTMLElement;
+  details: Details;
+  maxCount: number;
+  total: number;
+  unspecified: number;
+  onConfirm: (details: Details) => void;
+  onCountChange: (countId: Details[0]['id'], count: number) => void;
+  onCancel: () => void;
 };
 
 export default function SexDetailsPopover({
-  maxCount,
-  initialDetails,
   anchor,
-  onCancel,
+  details,
+  maxCount,
+  total,
+  unspecified,
   onConfirm,
+  onCountChange,
+  onCancel,
 }: SexDetailsPopoverProps) {
-  const [details, setDetails] = useState(structuredClone(initialDetails) as Details);
-
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleCountChange = (id: Details[0]['id'], count: number) =>
-    setDetails(
-      details.map((detail) => {
-        if (detail.id === id) detail.count = count;
-        return detail;
-      }),
-    );
-
-  const handleConfirm = () => onConfirm(details);
-
   return isMobile ? (
     <Drawer isOpen onClose={onCancel} title="Select sexes">
-      <SexDetailsCount maxCount={maxCount} details={details} onCountChange={handleCountChange} />
+      <SexDetailsCount
+        maxCount={maxCount}
+        total={total}
+        unspecified={unspecified}
+        details={details}
+        onCountChange={onCountChange}
+      />
       <div className={styles.buttonWrapper}>
         <Button type="button" color="secondary-cta" sm onClick={onCancel}>
           Cancel
         </Button>
-        <Button type="button" color="secondary" sm onClick={handleConfirm}>
+        <Button type="button" color="secondary" sm onClick={() => onConfirm(details)}>
           Set
         </Button>
       </div>
@@ -76,9 +75,15 @@ export default function SexDetailsPopover({
         vertical: 'bottom',
         horizontal: 'left',
       }}
-      onClose={handleConfirm}
+      onClose={() => onConfirm(details)}
     >
-      <SexDetailsCount maxCount={maxCount} details={details} onCountChange={handleCountChange} />
+      <SexDetailsCount
+        maxCount={maxCount}
+        total={total}
+        unspecified={unspecified}
+        details={details}
+        onCountChange={onCountChange}
+      />
     </Popover>
   );
 }

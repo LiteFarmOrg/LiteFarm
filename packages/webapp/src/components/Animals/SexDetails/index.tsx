@@ -13,26 +13,57 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import SexDetailsPopover, { Details } from './SexDetailsPopover';
 import InputBase from '../../Form/InputBase';
 import styles from './styles.module.scss';
+import { FieldValues, UseControllerProps, useController } from 'react-hook-form';
 
 type SexDetailsProps = {
-  details: Details;
-  count: number;
+  initialDetails: Details;
+  maxCount: number;
   onConfirm: (d: Details) => void;
   onCancel?: () => void;
 };
 
-export default function SexDetails({ details, count, onConfirm, onCancel }: SexDetailsProps) {
-  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+const initialize = (details: Details) => () => structuredClone(details) as Details;
 
-  return (
-    <>
+export default function SexDetails({
+  maxCount,
+  initialDetails,
+  onCancel,
+  onConfirm,
+}: SexDetailsProps) {
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  const [details, setDetails] = useState(initialize(initialDetails));
+  const total = details.reduce((prevCount, { count }) => prevCount + count, 0);
+  const unspecified = maxCount - total;
+
+  const handleCancel = () => {
+    setAnchor(null);
+    setDetails(initialize(initialDetails));
+    onCancel?.();
+  };
+
+  const handleConfirm = (details: Details) => {
+    setAnchor(null);
+    onConfirm(details);
+  };
+
+  const handleCountChange = (id: Details[0]['id'], count: number) =>
+    setDetails(
+      details.map((detail) => {
+        if (detail.id === id) detail.count = count;
+        return detail;
+      }),
+    );
+
+  const s = useMemo(
+    () => (
       <InputBase
         label="Sex details"
         optional
+        error={total > maxCount ? `You cannot have more than ${maxCount} animals` : undefined}
         mainSection={
           <button onClick={(e) => setAnchor(e.currentTarget)} className={styles.button}>
             {details.map(({ id, label, count }) => (
@@ -44,19 +75,23 @@ export default function SexDetails({ details, count, onConfirm, onCancel }: SexD
           </button>
         }
       />
+    ),
+    [initialDetails],
+  );
+
+  return (
+    <>
+      {s}
       {!!anchor && (
         <SexDetailsPopover
-          maxCount={count}
           anchor={anchor}
-          initialDetails={details}
-          onCancel={() => {
-            setAnchor(null);
-            onCancel?.();
-          }}
-          onConfirm={(details) => {
-            setAnchor(null);
-            onConfirm(details);
-          }}
+          maxCount={maxCount}
+          details={details}
+          total={total}
+          unspecified={unspecified}
+          onCancel={handleCancel}
+          onConfirm={handleConfirm}
+          onCountChange={handleCountChange}
         />
       )}
     </>

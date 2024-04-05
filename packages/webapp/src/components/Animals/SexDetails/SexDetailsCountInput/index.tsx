@@ -36,6 +36,7 @@ export default function SexDetailsCountInput({
   const { increment, decrement, inputProps, numericValue } = useNumberInput({
     initialValue: initialCount,
     max,
+    clampOnBlur: false,
     onChange: onCountChange,
   });
 

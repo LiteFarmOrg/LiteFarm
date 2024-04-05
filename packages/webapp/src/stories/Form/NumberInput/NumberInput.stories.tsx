@@ -317,6 +317,28 @@ export const WithOptionalLabel: Story = {
   },
 };
 
+export const WithoutClampOnBlur: Story = {
+  args: {
+    min: 9,
+    max: 20,
+    clampOnBlur: false,
+  },
+  play: async ({ step }) => {
+    await step(
+      'Enter number below min',
+      test('8', { expectValue: '8', expectValueOnBlur: '8', expectValueOnReFocus: '8' }),
+    );
+    await step(
+      'Enter number above max',
+      test('99', {
+        expectValue: '99',
+        expectValueOnBlur: '99',
+        expectValueOnReFocus: '99',
+      }),
+    );
+  },
+};
+
 function test(
   value: string,
   {

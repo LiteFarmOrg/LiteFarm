@@ -24,7 +24,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { BsThreeDots } from 'react-icons/bs';
-import clsx, { ClassValue } from 'clsx';
+import clsx from 'clsx';
 import EnhancedTableHead from './Header/TableHead';
 import Button from '../Form/Button';
 import { getComparator } from '../../util/sort';

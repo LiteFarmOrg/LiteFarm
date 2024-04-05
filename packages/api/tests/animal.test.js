@@ -531,11 +531,27 @@ describe('Animal Tests', () => {
       });
 
       test('Should be able to create animals with various types and breeds at once', async () => {
-        const [customAnimalType1] = await mocks.custom_animal_typeFactory({ promisedFarm: [farm] });
-        const [customAnimalType2] = await mocks.custom_animal_typeFactory({ promisedFarm: [farm] });
-        const [typeName1, typeName2, breedName1, breedName2, breedName3, breedName4, breedName5] = [
-          ...Array(7),
-        ].map(() => faker.lorem.word());
+        const [
+          customTypeName1,
+          customTypeName2,
+          typeName1,
+          typeName2,
+          breedName1,
+          breedName2,
+          breedName3,
+          breedName4,
+          breedName5,
+        ] = [1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => {
+          return `${faker.lorem.word() + num}`;
+        });
+        const [customAnimalType1] = await mocks.custom_animal_typeFactory({
+          promisedFarm: [farm],
+          properties: { type: customTypeName1 },
+        });
+        const [customAnimalType2] = await mocks.custom_animal_typeFactory({
+          promisedFarm: [farm],
+          properties: { type: customTypeName2 },
+        });
         const animal1 = mocks.fakeAnimal({ type_name: typeName1 });
         const animal2 = mocks.fakeAnimal({ type_name: typeName2 });
         const animal3 = mocks.fakeAnimal({

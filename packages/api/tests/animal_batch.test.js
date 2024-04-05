@@ -648,8 +648,8 @@ describe('Animal Batch Tests', () => {
       });
 
       test('Should be able to create animal batches with various types and breeds at once', async () => {
-        const [typeName1, typeName2, breedName1, breedName2] = [...Array(4)].map(() =>
-          faker.lorem.word(),
+        const [typeName1, typeName2, breedName1, breedName2] = [1, 2, 3, 4].map(
+          (num) => faker.lorem.word() + num,
         );
         const animalBatch1 = mocks.fakeAnimalBatch({ type_name: typeName1 });
         const animalBatch2 = mocks.fakeAnimalBatch({ type_name: typeName2 });

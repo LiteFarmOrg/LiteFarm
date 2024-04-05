@@ -156,6 +156,8 @@
     "WILD_CROP": "Wild crops"
   },
   "ANIMAL": {
+    "ADD_MORE_BODY_TEXT": "Do you own other animal type or a different breed?",
+    "ADD_MORE_BUTTON": "Add more animals",
     "ANIMAL_BREED": "Breed",
     "ANIMAL_GROUPS": "Group",
     "ANIMAL_ID": "ID",

@@ -17,7 +17,6 @@ import { useMemo, useState } from 'react';
 import SexDetailsPopover, { Details } from './SexDetailsPopover';
 import InputBase from '../../Form/InputBase';
 import styles from './styles.module.scss';
-import { FieldValues, UseControllerProps, useController } from 'react-hook-form';
 
 type SexDetailsProps = {
   initialDetails: Details;
@@ -58,7 +57,8 @@ export default function SexDetails({
       }),
     );
 
-  const s = useMemo(
+  // memoizing ensures this readonly input does not update while user is editing the popover
+  const anchorInput = useMemo(
     () => (
       <InputBase
         label="Sex details"
@@ -81,7 +81,7 @@ export default function SexDetails({
 
   return (
     <>
-      {s}
+      {anchorInput}
       {!!anchor && (
         <SexDetailsPopover
           anchor={anchor}

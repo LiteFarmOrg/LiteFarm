@@ -530,6 +530,7 @@ describe('Animal Tests', () => {
         });
       });
 
+      // failing test
       test('Should be able to create animals with various types and breeds at once', async () => {
         const [customAnimalType1] = await mocks.custom_animal_typeFactory({ promisedFarm: [farm] });
         const [customAnimalType2] = await mocks.custom_animal_typeFactory({ promisedFarm: [farm] });

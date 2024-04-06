@@ -76,6 +76,11 @@ export const Default: Story = {
       'Enter number with leading zeroes',
       test('00078', { expectValue: '00078', expectValueOnBlur: '78', expectValueOnReFocus: '78' }),
     );
+
+    await step(
+      'Enter zero value',
+      test('0000', { expectValue: '0000', expectValueOnBlur: '0', expectValueOnReFocus: '' }),
+    );
   },
 };
 

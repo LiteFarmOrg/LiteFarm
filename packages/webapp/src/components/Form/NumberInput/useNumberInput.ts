@@ -157,7 +157,11 @@ export default function useNumberInput({
   const getDisplayValue = () => {
     if (isNaN(numericValue)) return '';
     if (isFocused)
-      return touchedValue || formatter.format(numericValue).replaceAll(thousandsSeparator, '');
+      return (
+        touchedValue ||
+        (numericValue && formatter.format(numericValue).replaceAll(thousandsSeparator, '')) ||
+        ''
+      );
     return formatter.format(numericValue);
   };
 

@@ -64,6 +64,7 @@ export default function SexDetails({
         label="Sex details"
         optional
         error={total > maxCount ? `You cannot have more than ${maxCount} animals` : undefined}
+        showResetIcon={false}
         mainSection={
           <button onClick={(e) => setAnchor(e.currentTarget)} className={styles.button}>
             {details.map(({ id, label, count }) => (

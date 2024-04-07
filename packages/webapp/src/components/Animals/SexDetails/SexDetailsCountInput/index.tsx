@@ -45,6 +45,7 @@ export default function SexDetailsCountInput({
       <div className={styles.label}>{label}</div>
       <InputBase
         className={styles.countInput}
+        showResetIcon={false}
         leftSection={
           <NumberInputStepperButton
             onClick={decrement}

@@ -19,20 +19,21 @@ import clsx from 'clsx';
 import { HTMLInputProps } from '..';
 
 export type InputBaseFieldProps = {
-  resetIcon?: ReactElement;
   leftSection?: ReactNode;
   mainSection?: ReactNode;
   rightSection?: ReactNode;
+  isError?: boolean;
+  resetIcon?: ReactElement;
 } & HTMLInputProps;
 
 const InputBaseField = forwardRef<HTMLInputElement, InputBaseFieldProps>((props, ref) => {
-  const { resetIcon, leftSection, mainSection, rightSection, ...inputProps } = props;
-  const showResetIcon = !!resetIcon;
+  const { isError, resetIcon, leftSection, mainSection, rightSection, ...inputProps } = props;
+
   return (
     <div
       className={clsx(
         styles.input,
-        showResetIcon && styles.inputError,
+        isError && styles.inputError,
         inputProps.disabled && styles.inputDisabled,
       )}
     >
@@ -40,7 +41,7 @@ const InputBaseField = forwardRef<HTMLInputElement, InputBaseFieldProps>((props,
         <div className={clsx(styles.inputSection, styles.inputSectionLeft)}>{leftSection}</div>
       )}
       {mainSection || <input {...inputProps} ref={ref} />}
-      {(showResetIcon || rightSection) && (
+      {(!!resetIcon || rightSection) && (
         <div className={clsx(styles.inputSection, styles.inputSectionRight)}>
           {rightSection}
           {resetIcon}

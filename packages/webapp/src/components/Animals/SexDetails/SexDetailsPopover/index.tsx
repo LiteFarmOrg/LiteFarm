@@ -18,6 +18,7 @@ import Drawer from '../../../Drawer';
 import Button from '../../../Form/Button';
 import SexDetailsCount from '../SexDetailsCount';
 import styles from './styles.module.scss';
+import { useTranslation } from 'react-i18next';
 
 export type Details = {
   id: string | number;
@@ -48,9 +49,10 @@ export default function SexDetailsPopover({
 }: SexDetailsPopoverProps) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const { t } = useTranslation();
 
   return isMobile ? (
-    <Drawer isOpen onClose={onCancel} title="Select sexes">
+    <Drawer isOpen onClose={onCancel} title={t('ADD_ANIMAL.SELECT_SEXES')}>
       <SexDetailsCount
         maxCount={maxCount}
         total={total}
@@ -60,10 +62,10 @@ export default function SexDetailsPopover({
       />
       <div className={styles.buttonWrapper}>
         <Button type="button" color="secondary-cta" sm onClick={onCancel}>
-          Cancel
+          {t('common:CANCEL')}
         </Button>
         <Button type="button" color="secondary" sm onClick={() => onConfirm(details)}>
-          Set
+          {t('common:SET')}
         </Button>
       </div>
     </Drawer>

@@ -1,4 +1,13 @@
 {
+  "ADD_ANIMAL": {
+    "SEX_DETAIL": "MISSING",
+    "SPECIFY_SEX": "MISSING",
+    "SELECT_SEXES": "MISSING",
+    "ANIMALS_TOTAL": "MISSING",
+    "ANIMALS_UNSPECIFIED": "MISSING",
+    "SEX_DETAIL_ERROR": "MISSING",
+    "SEX_DETAIL_ERROR_POPOVER": "MISSING"
+  },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Dirección es obligatoria",
     "DISABLE_GEO_LOCATION": "Los servicios de ubicación deben estar habilitados para encontrar su ubicación actual.",

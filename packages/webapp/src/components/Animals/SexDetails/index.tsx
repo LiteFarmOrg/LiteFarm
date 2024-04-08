@@ -18,6 +18,7 @@ import SexDetailsPopover, { Details } from './SexDetailsPopover';
 import InputBase from '../../Form/InputBase';
 import styles from './styles.module.scss';
 import { ReactComponent as ChevronDown } from '../../../assets/images/chevron-down-2.svg';
+import { useTranslation } from 'react-i18next';
 
 type SexDetailsProps = {
   initialDetails: Details;
@@ -39,6 +40,7 @@ export default function SexDetails({
   const total = details.reduce((prevCount, { count }) => prevCount + count, 0);
   const unspecified = maxCount - total;
   const isPopoverOpen = !!anchor;
+  const { t } = useTranslation();
 
   const handleCancel = () => {
     setAnchor(null);
@@ -63,16 +65,16 @@ export default function SexDetails({
   const anchorInput = useMemo(
     () => (
       <InputBase
-        label="Sex details"
+        label={t('ADD_ANIMAL.SEX_DETAIL')}
         optional
-        error={total > maxCount ? `You cannot have more than ${maxCount} animals` : undefined}
+        error={total > maxCount ? t('ADD_ANIMAL.SEX_DETAIL_ERROR', { count: maxCount }) : undefined}
         showResetIcon={false}
         rightSection={<ChevronDown className={styles.chevronDownIcon} />}
         mainSection={
           <button onClick={(e) => setAnchor(e.currentTarget)} className={styles.button}>
             {!total ? (
               <span className={isPopoverOpen ? styles.placeholderDark : styles.placeholder}>
-                Specify sex
+                {t('ADD_ANIMAL.SPECIFY_SEX')}
               </span>
             ) : (
               details.map(({ id, label, count }) => (

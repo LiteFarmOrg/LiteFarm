@@ -19,6 +19,7 @@ import { Error } from '../../../Typography';
 import { Details } from '../SexDetailsPopover';
 import SexDetailsCountInput from '../SexDetailsCountInput';
 import styles from './styles.module.scss';
+import { useTranslation } from 'react-i18next';
 
 type SexDetailsCountProps = {
   maxCount: number;
@@ -35,6 +36,7 @@ export default function SexDetailsCount({
   unspecified,
   onCountChange,
 }: SexDetailsCountProps) {
+  const { t } = useTranslation();
   return (
     <div className={styles.container}>
       <div className={styles.countInputs}>
@@ -50,11 +52,13 @@ export default function SexDetailsCount({
       </div>
       <div className={styles.helpText}>
         <div className={styles.info}>
-          <Info style={{ marginTop: 0 }}>{maxCount} animals total</Info>
-          <Text>{Math.max(unspecified, 0)} unspecified</Text>
+          <Info style={{ marginTop: 0 }}>{t('ADD_ANIMAL.ANIMALS_TOTAL', { count: maxCount })}</Info>
+          <Text>{t('ADD_ANIMAL.ANIMALS_UNSPECIFIED', { count: Math.max(unspecified, 0) })}</Text>
         </div>
         {total > maxCount && (
-          <Error style={{ marginTop: 0 }}>You cannot have more than {maxCount} animals</Error>
+          <Error style={{ marginTop: 0 }}>
+            {t('ADD_ANIMAL.SEX_DETAIL_ERROR_POPOVER', { count: maxCount })}
+          </Error>
         )}
       </div>
     </div>

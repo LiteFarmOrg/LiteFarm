@@ -146,6 +146,7 @@ export const WithoutDecimal: Story = {
     );
   },
 };
+
 export const WithoutDecimalAndWithFractionalStep: Story = {
   args: { allowDecimal: false, step: 1.7 },
   play: async ({ canvasElement }) => {
@@ -156,9 +157,9 @@ export const WithoutDecimalAndWithFractionalStep: Story = {
     // should round step value up to nearest whole number
     expect(input).toHaveValue('2');
     await userEvent.keyboard('{ArrowDown}');
-    expect(input).toHaveValue('0');
+    expect(input).toHaveValue('');
     await userEvent.keyboard('{ArrowDown}');
-    expect(input).toHaveValue('0');
+    expect(input).toHaveValue('');
     userEvent.clear(input);
   },
 };
@@ -217,7 +218,7 @@ export const Stepper: Story = {
     await userEvent.click(incrementButton!);
     expect(input).toHaveValue('0.1');
     await userEvent.click(decrementButton!);
-    expect(input).toHaveValue('0.0');
+    expect(input).toHaveValue('');
     expect(decrementButton).toBeDisabled();
 
     await userEvent.keyboard('{ArrowUp}');

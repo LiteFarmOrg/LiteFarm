@@ -37,6 +37,7 @@ export default function SexDetails({
   const [details, setDetails] = useState(initialize(initialDetails));
   const total = details.reduce((prevCount, { count }) => prevCount + count, 0);
   const unspecified = maxCount - total;
+  const isPopoverOpen = !!anchor;
 
   const handleCancel = () => {
     setAnchor(null);
@@ -67,23 +68,29 @@ export default function SexDetails({
         showResetIcon={false}
         mainSection={
           <button onClick={(e) => setAnchor(e.currentTarget)} className={styles.button}>
-            {details.map(({ id, label, count }) => (
-              <span key={id}>
-                {label}
-                <span className={styles.count}>{count}</span>
+            {!total ? (
+              <span className={isPopoverOpen ? styles.placeholderDark : styles.placeholder}>
+                Specify sex
               </span>
-            ))}
+            ) : (
+              details.map(({ id, label, count }) => (
+                <span key={id}>
+                  {label}
+                  <span className={styles.count}>{count}</span>
+                </span>
+              ))
+            )}
           </button>
         }
       />
     ),
-    [initialDetails],
+    [isPopoverOpen],
   );
 
   return (
     <>
       {anchorInput}
-      {!!anchor && (
+      {isPopoverOpen && (
         <SexDetailsPopover
           anchor={anchor}
           maxCount={maxCount}

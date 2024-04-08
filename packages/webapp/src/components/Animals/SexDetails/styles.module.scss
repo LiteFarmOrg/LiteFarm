@@ -18,7 +18,7 @@
   all: unset;
   height: 100%;
   width: 100%;
-  cursor: pointer;
+  cursor: default;
 
   & > :last-child .count::after {
     display: none;
@@ -35,4 +35,15 @@
     content: '-';
     margin: 0 8px;
   }
+}
+
+.placeholder {
+  color: var(--Colors-Neutral-Neutral-200);
+  font-weight: 400;
+}
+
+.placeholderDark {
+  color: var(--Colors-Neutral-Neutral-900);
+  font-weight: 600;
+  font-weight: 700;
 }

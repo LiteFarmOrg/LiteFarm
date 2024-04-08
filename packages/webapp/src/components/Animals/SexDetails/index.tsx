@@ -17,6 +17,7 @@ import { useMemo, useState } from 'react';
 import SexDetailsPopover, { Details } from './SexDetailsPopover';
 import InputBase from '../../Form/InputBase';
 import styles from './styles.module.scss';
+import { ReactComponent as ChevronDown } from '../../../assets/images/chevron-down-2.svg';
 
 type SexDetailsProps = {
   initialDetails: Details;
@@ -66,6 +67,7 @@ export default function SexDetails({
         optional
         error={total > maxCount ? `You cannot have more than ${maxCount} animals` : undefined}
         showResetIcon={false}
+        rightSection={<ChevronDown className={styles.chevronDownIcon} />}
         mainSection={
           <button onClick={(e) => setAnchor(e.currentTarget)} className={styles.button}>
             {!total ? (

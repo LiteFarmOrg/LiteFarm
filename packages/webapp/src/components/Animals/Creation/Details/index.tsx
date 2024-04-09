@@ -18,8 +18,10 @@ import clsx from 'clsx';
 import GeneralDetail from './General';
 import UniqueDetail from './Unique';
 import OtherDetail from './Other';
+import Origin from './Origin';
 import ExpandableItem from '../../../Expandable/ExpandableItem';
 import useExpandable from '../../../Expandable/useExpandableItem';
+import { useCurrencySymbol } from '../../../../containers/hooks/useCurrencySymbol';
 import { OrganicStatuses } from '../../../../types';
 import styles from './styles.module.scss';
 
@@ -62,6 +64,8 @@ const AnimalDetails = ({ formProps }: AnimalDetailsProps) => {
   const { t } = useTranslation(['translation', 'common']);
 
   // TODO: move up
+  const currency = useCurrencySymbol();
+
   const organicStatusOptions = [
     {
       label: t('common:NON_ORGANIC'),
@@ -95,6 +99,12 @@ const AnimalDetails = ({ formProps }: AnimalDetailsProps) => {
       title: t('ANIMAL.ADD_ANIMAL.OTHER_DETAIL'),
       Content: OtherDetail,
       sectionProps: { organicStatuses: organicStatusOptions },
+    },
+    {
+      key: sectionKeys.ORIGIN,
+      title: t('ANIMAL.ADD_ANIMAL.ORIGIN'),
+      Content: Origin,
+      sectionProps: { currency },
     },
   ];
 

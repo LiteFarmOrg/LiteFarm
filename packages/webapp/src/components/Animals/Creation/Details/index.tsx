@@ -17,8 +17,10 @@ import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import GeneralDetail from './General';
 import UniqueDetail from './Unique';
+import OtherDetail from './Other';
 import ExpandableItem from '../../../Expandable/ExpandableItem';
 import useExpandable from '../../../Expandable/useExpandableItem';
+import { OrganicStatuses } from '../../../../types';
 import styles from './styles.module.scss';
 
 enum sectionKeys {
@@ -59,6 +61,22 @@ const AnimalDetails = ({ formProps }: AnimalDetailsProps) => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const { t } = useTranslation(['translation', 'common']);
 
+  // TODO: move up
+  const organicStatusOptions = [
+    {
+      label: t('common:NON_ORGANIC'),
+      value: OrganicStatuses.NON_ORGANIC,
+    },
+    {
+      label: t('common:ORGANIC'),
+      value: OrganicStatuses.ORGANIC,
+    },
+    {
+      label: t('common:TRANSITIONING'),
+      value: OrganicStatuses.TRANSITIONAL,
+    },
+  ];
+
   const sections = [
     {
       key: sectionKeys.GENERAL,
@@ -71,6 +89,12 @@ const AnimalDetails = ({ formProps }: AnimalDetailsProps) => {
       title: t('ANIMAL.ADD_ANIMAL.UNIQUE_DETAIL'),
       Content: UniqueDetail,
       sectionProps: {},
+    },
+    {
+      key: sectionKeys.OTHER,
+      title: t('ANIMAL.ADD_ANIMAL.OTHER_DETAIL'),
+      Content: OtherDetail,
+      sectionProps: { organicStatuses: organicStatusOptions },
     },
   ];
 

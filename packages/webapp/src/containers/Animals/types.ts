@@ -28,3 +28,8 @@ export enum AnimalOrBatchKeys {
   ANIMAL = 'ANIMAL',
   BATCH = 'BATCH',
 }
+
+export enum AnimalSexes {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+}

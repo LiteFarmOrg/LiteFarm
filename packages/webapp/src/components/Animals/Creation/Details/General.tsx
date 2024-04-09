@@ -51,7 +51,7 @@ const GeneralDetail = ({ control, watch, types, breeds, sexes, uses }: GeneralDe
   const sex = watch(ADD_ANIMAL.SEX);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.sectionWrapper}>
       <Controller
         control={control}
         name={ADD_ANIMAL.TYPE}

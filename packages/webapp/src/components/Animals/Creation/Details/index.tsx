@@ -16,6 +16,7 @@
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import GeneralDetail from './General';
+import UniqueDetail from './Unique';
 import ExpandableItem from '../../../Expandable/ExpandableItem';
 import useExpandable from '../../../Expandable/useExpandableItem';
 import styles from './styles.module.scss';
@@ -65,10 +66,16 @@ const AnimalDetails = ({ formProps }: AnimalDetailsProps) => {
       Content: GeneralDetail,
       sectionProps: { sexes: sexOptions, uses },
     },
+    {
+      key: sectionKeys.UNIQUE,
+      title: t('ANIMAL.ADD_ANIMAL.UNIQUE_DETAIL'),
+      Content: UniqueDetail,
+      sectionProps: {},
+    },
   ];
 
   return (
-    <div>
+    <div className={styles.detailsWrapper}>
       {sections.map(({ key, title, Content, sectionProps }) => {
         const isExpanded = expandedIds.includes(key);
 

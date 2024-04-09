@@ -183,8 +183,11 @@
   "ANIMAL": {
     "ADD_ANIMAL": {
       "GENERAL_DETAIL": "General detail",
+      "OTHER_DETAIL": "Other details",
       "PLACEHOLDER": {
         "NAME": "Type in a name",
+        "ORGANIC_STATUS": "Organic status",
+        "OTHER_DETAILS": "Other animal details",
         "TAG_COLOUR": "What colour is the tag?",
         "TAG_NUMBER": "Type in the tag number",
         "TAG_PLACEMENT": "Where is the tag located?",
@@ -204,12 +207,16 @@
     "ANIMAL_SEXES": "Sex",
     "ANIMAL_TYPE": "Type",
     "ATTRIBUTE": {
+      "ANIMAL_IMAGE": "Animal image",
       "DATE_OF_BIRTH": "Date of birth",
+      "ORGANIC_STATUS": "Organic status",
+      "OTHER_DETAILS": "Other animal details",
       "TAG_COLOUR": "Tag colour",
       "TAG_NUMBER": "Tag number",
       "TAG_PLACEMENT": "Tag placement",
       "TAG_PLACEMENT_INFO": "MISSING",
-      "TAG_TYPE": "Tag type"
+      "TAG_TYPE": "Tag type",
+      "WEANING_DATE": "Weaning date"
     },
     "BATCH": "Batch",
     "FILTER": {

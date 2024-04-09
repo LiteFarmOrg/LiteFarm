@@ -167,8 +167,11 @@
   "ANIMAL": {
     "ADD_ANIMAL": {
       "GENERAL_DETAIL": "MISSING",
+      "OTHER_DETAIL": "MISSING",
       "PLACEHOLDER": {
         "NAME": "MISSING",
+        "ORGANIC_STATUS": "MISSING",
+        "OTHER_DETAILS": "MISSING",
         "TAG_COLOUR": "MISSING",
         "TAG_NUMBER": "MISSING",
         "TAG_PLACEMENT": "MISSING",
@@ -188,12 +191,16 @@
     "ANIMAL_SEXES": "MISSING",
     "ANIMAL_TYPE": "MISSING",
     "ATTRIBUTE": {
+      "ANIMAL_IMAGE": "MISSING",
       "DATE_OF_BIRTH": "MISSING",
+      "ORGANIC_STATUS": "MISSING",
+      "OTHER_DETAILS": "MISSING",
       "TAG_COLOUR": "MISSING",
       "TAG_NUMBER": "MISSING",
       "TAG_PLACEMENT": "MISSING",
       "TAG_PLACEMENT_INFO": "MISSING",
-      "TAG_TYPE": "MISSING"
+      "TAG_TYPE": "MISSING",
+      "WEANING_DATE": "MISSING"
     },
     "BATCH": "MISSING",
     "FILTER": {

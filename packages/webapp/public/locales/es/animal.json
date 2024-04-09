@@ -13,6 +13,10 @@
     "ROSS_308": "MISSING",
     "YORKSHIRE_LARGE_WHITE": "MISSING"
   },
+  "ORIGIN": {
+    "BORN_AT_FARM": "MISSING",
+    "BROUGHT_IN": "MISSING"
+  },
   "TAG_PLACEMENT": {
     "LEFT_EAR": "MISSING",
     "LEFT_LEG": "MISSING",

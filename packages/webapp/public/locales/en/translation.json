@@ -183,11 +183,16 @@
   "ANIMAL": {
     "ADD_ANIMAL": {
       "GENERAL_DETAIL": "General detail",
+      "ORIGIN": "Origin",
       "OTHER_DETAIL": "Other details",
       "PLACEHOLDER": {
+        "DAM": "Type in a dam",
+        "MERCHANT": "Type in a merchant",
         "NAME": "Type in a name",
         "ORGANIC_STATUS": "Organic status",
         "OTHER_DETAILS": "Other animal details",
+        "PRICE": "How much did it cost?",
+        "SIRE": "Type in a sire",
         "TAG_COLOUR": "What colour is the tag?",
         "TAG_NUMBER": "Type in the tag number",
         "TAG_PLACEMENT": "Where is the tag located?",
@@ -208,9 +213,12 @@
     "ANIMAL_TYPE": "Type",
     "ATTRIBUTE": {
       "ANIMAL_IMAGE": "Animal image",
+      "DAM": "Dam",
       "DATE_OF_BIRTH": "Date of birth",
+      "MERCHANT": "Merchant",
       "ORGANIC_STATUS": "Organic status",
       "OTHER_DETAILS": "Other animal details",
+      "SIRE": "Sire",
       "TAG_COLOUR": "Tag colour",
       "TAG_NUMBER": "Tag number",
       "TAG_PLACEMENT": "Tag placement",

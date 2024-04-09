@@ -187,11 +187,16 @@
   "ANIMAL": {
     "ADD_ANIMAL": {
       "GENERAL_DETAIL": "MISSING",
+      "ORIGIN": "MISSING",
       "OTHER_DETAIL": "MISSING",
       "PLACEHOLDER": {
+        "DAM": "MISSING",
+        "MERCHANT": "MISSING",
         "NAME": "MISSING",
         "ORGANIC_STATUS": "MISSING",
         "OTHER_DETAILS": "MISSING",
+        "PRICE": "MISSING",
+        "SIRE": "MISSING",
         "TAG_COLOUR": "MISSING",
         "TAG_NUMBER": "MISSING",
         "TAG_PLACEMENT": "MISSING",
@@ -212,9 +217,12 @@
     "ANIMAL_TYPE": "MISSING",
     "ATTRIBUTE": {
       "ANIMAL_IMAGE": "MISSING",
+      "DAM": "MISSING",
       "DATE_OF_BIRTH": "MISSING",
+      "MERCHANT": "MISSING",
       "ORGANIC_STATUS": "MISSING",
       "OTHER_DETAILS": "MISSING",
+      "SIRE": "MISSING",
       "TAG_COLOUR": "MISSING",
       "TAG_NUMBER": "MISSING",
       "TAG_PLACEMENT": "MISSING",

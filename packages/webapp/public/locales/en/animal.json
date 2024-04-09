@@ -13,6 +13,10 @@
     "ROSS_308": "Ross 308",
     "YORKSHIRE_LARGE_WHITE": "Yorkshire Large White"
   },
+  "ORIGIN": {
+    "BORN_AT_FARM": "Born at the farm",
+    "BROUGHT_IN": "Brought in"
+  },
   "TAG_PLACEMENT": {
     "LEFT_EAR": "Left ear",
     "LEFT_LEG": "Left leg",

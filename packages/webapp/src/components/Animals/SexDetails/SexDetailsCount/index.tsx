@@ -51,10 +51,12 @@ export default function SexDetailsCount({
         ))}
       </div>
       <div className={styles.helpText}>
-        <div className={styles.info}>
-          <Info style={{ marginTop: 0 }}>{t('ADD_ANIMAL.ANIMALS_TOTAL', { count: maxCount })}</Info>
-          <Text>{t('ADD_ANIMAL.ANIMALS_UNSPECIFIED', { count: Math.max(unspecified, 0) })}</Text>
-        </div>
+        <span className={styles.helpTextUnspecified}>
+          {t('ADD_ANIMAL.ANIMALS_TOTAL', { count: maxCount })}
+        </span>
+        <span className={styles.helpTextTotal}>
+          {t('ADD_ANIMAL.ANIMALS_UNSPECIFIED', { count: Math.max(unspecified, 0) })}
+        </span>
         {total > maxCount && (
           <Error style={{ marginTop: 0 }}>
             {t('ADD_ANIMAL.SEX_DETAIL_ERROR_POPOVER', { count: maxCount })}

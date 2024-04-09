@@ -19,6 +19,7 @@ import InputBase from '../../Form/InputBase';
 import styles from './styles.module.scss';
 import { ReactComponent as ChevronDown } from '../../../assets/images/chevron-down-2.svg';
 import { useTranslation } from 'react-i18next';
+import TextButton from '../../Form/Button/TextButton';
 
 type SexDetailsProps = {
   initialDetails: Details;
@@ -71,7 +72,7 @@ export default function SexDetails({
         showResetIcon={false}
         rightSection={<ChevronDown className={styles.chevronDownIcon} />}
         mainSection={
-          <button onClick={(e) => setAnchor(e.currentTarget)} className={styles.button}>
+          <TextButton onClick={(e) => setAnchor(e.currentTarget)} className={styles.button}>
             {!total ? (
               <span className={isPopoverOpen ? styles.placeholderDark : styles.placeholder}>
                 {t('ADD_ANIMAL.SPECIFY_SEX')}
@@ -84,7 +85,7 @@ export default function SexDetails({
                 </span>
               ))
             )}
-          </button>
+          </TextButton>
         }
       />
     ),

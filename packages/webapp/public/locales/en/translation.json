@@ -183,6 +183,15 @@
   "ANIMAL": {
     "ADD_ANIMAL": {
       "GENERAL_DETAIL": "General detail",
+      "PLACEHOLDER": {
+        "NAME": "Type in a name",
+        "TAG_COLOUR": "What colour is the tag?",
+        "TAG_NUMBER": "Type in the tag number",
+        "TAG_PLACEMENT": "Where is the tag located?",
+        "TAG_PLACEMENT_INFO": "MISSING",
+        "TAG_TYPE": "What is the tag type?"
+      },
+      "UNIQUE_DETAIL": "Unique detail",
       "USED_FOR_REPRODUCTION": "Used for reproduction?"
     },
     "ADD_MORE_BODY_TEXT": "Do you have another animal type or a different breed?",
@@ -194,6 +203,14 @@
     "ANIMAL_LOCATIONS": "Location",
     "ANIMAL_SEXES": "Sex",
     "ANIMAL_TYPE": "Type",
+    "ATTRIBUTE": {
+      "DATE_OF_BIRTH": "Date of birth",
+      "TAG_COLOUR": "Tag colour",
+      "TAG_NUMBER": "Tag number",
+      "TAG_PLACEMENT": "Tag placement",
+      "TAG_PLACEMENT_INFO": "MISSING",
+      "TAG_TYPE": "Tag type"
+    },
     "BATCH": "Batch",
     "FILTER": {
       "BATCHES": "Batches",

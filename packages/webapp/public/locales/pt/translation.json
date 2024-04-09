@@ -187,6 +187,15 @@
   "ANIMAL": {
     "ADD_ANIMAL": {
       "GENERAL_DETAIL": "MISSING",
+      "PLACEHOLDER": {
+        "NAME": "MISSING",
+        "TAG_COLOUR": "MISSING",
+        "TAG_NUMBER": "MISSING",
+        "TAG_PLACEMENT": "MISSING",
+        "TAG_PLACEMENT_INFO": "MISSING",
+        "TAG_TYPE": "MISSING"
+      },
+      "UNIQUE_DETAIL": "MISSING",
       "USED_FOR_REPRODUCTION": "MISSING"
     },
     "ADD_MORE_BODY_TEXT": "MISSING",
@@ -198,6 +207,14 @@
     "ANIMAL_LOCATIONS": "MISSING",
     "ANIMAL_SEXES": "MISSING",
     "ANIMAL_TYPE": "MISSING",
+    "ATTRIBUTE": {
+      "DATE_OF_BIRTH": "MISSING",
+      "TAG_COLOUR": "MISSING",
+      "TAG_NUMBER": "MISSING",
+      "TAG_PLACEMENT": "MISSING",
+      "TAG_PLACEMENT_INFO": "MISSING",
+      "TAG_TYPE": "MISSING"
+    },
     "BATCH": "MISSING",
     "FILTER": {
       "BATCHES": "MISSING",

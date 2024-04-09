@@ -1,17 +1,23 @@
 {
   "BREED": {
     "ANGUS": "Angus",
-    "HEREFORD": "Hereford",
     "CHAROLAIS": "Charolais",
-    "YORKSHIRE_LARGE_WHITE": "Yorkshire Large White",
-    "LANDRACE": "Landrace",
-    "DUROC": "Duroc",
-    "CORNISH_CROSS": "Cornish Cross",
-    "ROSS_308": "Ross 308",
     "COBB_500": "Cobb 500",
+    "CORNISH_CROSS": "Cornish Cross",
+    "DUROC": "Duroc",
+    "HEREFORD": "Hereford",
+    "LANDRACE": "Landrace",
     "LEGHORN": "Leghorn",
+    "PLYMOUTH_ROCK": "Plymouth Rock",
     "RHODE_ISLAND_RED": "Rhode Island Red",
-    "PLYMOUTH_ROCK": "Plymouth Rock"
+    "ROSS_308": "Ross 308",
+    "YORKSHIRE_LARGE_WHITE": "Yorkshire Large White"
+  },
+  "TAG_PLACEMENT": {
+    "LEFT_EAR": "Left ear",
+    "LEFT_LEG": "Left leg",
+    "RIGHT_EAR": "Right ear",
+    "RIGHT_LEG": "Right leg"
   },
   "TYPE": {
     "CATTLE": "Cattle",

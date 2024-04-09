@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import InputBase from '../../../Form/InputBase';
-import { NumberInputStepperButton } from '../../../Form/NumberInput/NumberInputStepper';
-import useNumberInput from '../../../Form/NumberInput/useNumberInput';
+import InputBase from '../../InputBase';
+import { NumberInputStepperButton } from '../../NumberInput/NumberInputStepper';
+import useNumberInput from '../../NumberInput/useNumberInput';
 import styles from './styles.module.scss';
 import { ReactComponent as PlusSquareIcon } from '../../../../assets/images/plus-square.svg';
 import { ReactComponent as MinusSquareIcon } from '../../../../assets/images/minus-square.svg';

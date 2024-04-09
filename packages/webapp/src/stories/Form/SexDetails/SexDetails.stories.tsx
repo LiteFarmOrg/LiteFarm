@@ -13,13 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import SexDetails from '../../components/Animals/SexDetails';
+import SexDetails from '../../../components/Form/SexDetails';
 import { Meta, StoryObj } from '@storybook/react';
-import { componentDecorators } from '../Pages/config/Decorators';
+import { componentDecorators } from '../../Pages/config/Decorators';
 import { Controller, useForm } from 'react-hook-form';
 
 const meta: Meta<typeof SexDetails> = {
-  title: 'Components/SexDetails',
+  title: 'Form/SexDetails',
   component: SexDetails,
   decorators: [...componentDecorators],
   args: {

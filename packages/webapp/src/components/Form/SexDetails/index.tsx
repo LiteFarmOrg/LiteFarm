@@ -15,11 +15,11 @@
 
 import { useMemo, useState } from 'react';
 import SexDetailsPopover, { Details } from './SexDetailsPopover';
-import InputBase from '../../Form/InputBase';
+import InputBase from '../InputBase';
 import styles from './styles.module.scss';
 import { ReactComponent as ChevronDown } from '../../../assets/images/chevron-down-2.svg';
 import { useTranslation } from 'react-i18next';
-import TextButton from '../../Form/Button/TextButton';
+import TextButton from '../Button/TextButton';
 
 type SexDetailsProps = {
   initialDetails: Details;

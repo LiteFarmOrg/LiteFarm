@@ -15,7 +15,7 @@
 
 import { Popover, useMediaQuery, useTheme } from '@mui/material';
 import Drawer from '../../../Drawer';
-import Button from '../../../Form/Button';
+import Button from '../../Button';
 import SexDetailsCount from '../SexDetailsCount';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';

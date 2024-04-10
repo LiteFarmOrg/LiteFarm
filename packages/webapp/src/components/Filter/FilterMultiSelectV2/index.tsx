@@ -206,6 +206,7 @@ export const FilterMultiSelectV2 = ({
         isDisabled={isDisabled}
         hideSelectedOptions={false}
         closeMenuOnSelect={false}
+        blurInputOnSelect={false} // https://github.com/JedWatson/react-select/issues/3893
         onChange={handleChange}
         placeholder={!isMenuOpen && t('FILTER.SHOWING_ALL_DEFAULT')}
         onMenuOpen={() => setIsMenuOpen(true)}

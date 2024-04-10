@@ -1,4 +1,10 @@
 {
+  "ANIMALS": {
+    "FAILED_REMOVE_ANIMALS": "Failed to remove selected animals",
+    "FAILED_REMOVE_BATCHES": "Failed to remove selected batches",
+    "SUCCESS_REMOVE_ANIMALS": "Successfully removed selected animals",
+    "SUCCESS_REMOVE_BATCHES": "Successfully removed selected batches"
+  },
   "ASSIGN_TASK": {
     "ERROR": "Failed to assign tasks",
     "SUCCESS": "Successfully assigned tasks"

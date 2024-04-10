@@ -49,6 +49,20 @@ class CustomAnimalBreed extends baseModel {
       additionalProperties: false,
     };
   }
+
+  static async getBreedsByFarmAndTypeBreedPairs(farm_id, typeBreeds, trx) {
+    const conditions = typeBreeds.map(([typeColumn, typeId, breed]) => {
+      return trx.raw(`(${typeColumn} = ? AND breed = ?)`, [typeId, breed]);
+    });
+    const data = await trx.raw(
+      `SELECT id
+      FROM
+        custom_animal_breed
+      WHERE farm_id = ? AND deleted is FALSE AND (${conditions.join(' OR ')});`,
+      [farm_id],
+    );
+    return data.rows;
+  }
 }
 
 export default CustomAnimalBreed;

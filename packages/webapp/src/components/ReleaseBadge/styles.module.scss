@@ -22,16 +22,6 @@
   border-radius: 8px;
   background: #ffdad9;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
-  position: fixed;
-  bottom: 32px;
-  z-index: 1400; // highest existing z-index is 1302
-
-  left: calc(50% - 200px + var(--global-side-menu-width) / 2);
-}
-
-.compactMenu {
-  left: calc(50% - 200px + var(--global-compact-side-menu-width) / 2);
 }
 
 .cardContent {
@@ -94,10 +84,7 @@
 
 @include xs-breakpoint {
   .card {
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    width: 100vw;
+    width: 100%;
   }
 
   .cardContent {

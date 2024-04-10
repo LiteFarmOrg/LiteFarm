@@ -39,6 +39,7 @@ import {
   resetAnimalsFilter,
 } from '../../../containers/filterSlice';
 import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
+import FloatingContainer from '../../../components/FloatingContainer';
 
 interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
@@ -59,7 +60,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
 
-  const { t } = useTranslation(['translation', 'animal', 'common']);
+  const { t } = useTranslation(['translation', 'animal', 'common', 'message']);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const zIndexBase = theme.zIndex.drawer;
@@ -79,8 +80,10 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     [updateSelectedTypeIds],
   );
 
-  const { handleAnimalOrBatchRemoval, removalModalOpen, setRemovalModalOpen } =
-    useAnimalOrBatchRemoval(selectedInventoryIds, setSelectedInventoryIds);
+  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen } = useAnimalOrBatchRemoval(
+    selectedInventoryIds,
+    setSelectedInventoryIds,
+  );
 
   const animalsColumns = useMemo(
     () => [
@@ -232,19 +235,18 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         isLoading={isLoading}
       />
       {selectedInventoryIds.length ? (
-        <ActionMenu
-          headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
-          textActions={textActions}
-          iconActions={iconActions}
-          classes={{
-            root: isCompactSideMenu ? styles.withCompactSideMenu : styles.withExpandedSideMenu,
-          }}
-        />
+        <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
+          <ActionMenu
+            headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
+            textActions={textActions}
+            iconActions={iconActions}
+          />
+        </FloatingContainer>
       ) : null}
       <RemoveAnimalsModal
         isOpen={removalModalOpen}
         onClose={() => setRemovalModalOpen(false)}
-        onConfirm={handleAnimalOrBatchRemoval}
+        onConfirm={onConfirmRemoveAnimals}
         showSuccessMessage={false}
       />
     </FixedHeaderContainer>

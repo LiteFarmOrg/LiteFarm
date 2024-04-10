@@ -15,9 +15,9 @@
 
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import GeneralDetail from './General';
-import UniqueDetail from './Unique';
-import OtherDetail from './Other';
+import GeneralDetails from './General';
+import UniqueDetails from './Unique';
+import OtherDetails from './Other';
 import Origin from './Origin';
 import ExpandableItem from '../../../Expandable/ExpandableItem';
 import useExpandable from '../../../Expandable/useExpandableItem';
@@ -84,20 +84,20 @@ const AnimalDetails = ({ formProps }: AnimalDetailsProps) => {
   const sections = [
     {
       key: sectionKeys.GENERAL,
-      title: t('ANIMAL.ADD_ANIMAL.GENERAL_DETAIL'),
-      Content: GeneralDetail,
+      title: t('ANIMAL.ADD_ANIMAL.GENERAL_DETAILS'),
+      Content: GeneralDetails,
       sectionProps: { sexes: sexOptions, uses },
     },
     {
       key: sectionKeys.UNIQUE,
-      title: t('ANIMAL.ADD_ANIMAL.UNIQUE_DETAIL'),
-      Content: UniqueDetail,
+      title: t('ANIMAL.ADD_ANIMAL.UNIQUE_DETAILS'),
+      Content: UniqueDetails,
       sectionProps: {},
     },
     {
       key: sectionKeys.OTHER,
-      title: t('ANIMAL.ADD_ANIMAL.OTHER_DETAIL'),
-      Content: OtherDetail,
+      title: t('ANIMAL.ADD_ANIMAL.OTHER_DETAILS'),
+      Content: OtherDetails,
       sectionProps: { organicStatuses: organicStatusOptions },
     },
     {

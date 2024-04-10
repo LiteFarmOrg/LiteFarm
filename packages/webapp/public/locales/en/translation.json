@@ -182,9 +182,9 @@
   },
   "ANIMAL": {
     "ADD_ANIMAL": {
-      "GENERAL_DETAIL": "General detail",
+      "GENERAL_DETAILS": "General details",
       "ORIGIN": "Origin",
-      "OTHER_DETAIL": "Other details",
+      "OTHER_DETAILS": "Other details",
       "PLACEHOLDER": {
         "DAM": "Type in a dam",
         "MERCHANT": "Type in a merchant",
@@ -199,7 +199,7 @@
         "TAG_PLACEMENT_INFO": "MISSING",
         "TAG_TYPE": "What is the tag type?"
       },
-      "UNIQUE_DETAIL": "Unique detail",
+      "UNIQUE_DETAILS": "Unique details",
       "USED_FOR_REPRODUCTION": "Used for reproduction?"
     },
     "ADD_MORE_BODY_TEXT": "Do you have another animal type or a different breed?",

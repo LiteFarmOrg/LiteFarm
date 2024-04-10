@@ -27,7 +27,7 @@ type ReactSelectOption = {
 };
 
 // TODO
-export type UniqueDetailProps = {
+export type UniqueDetailsProps = {
   control: any;
   register: any;
   watch: any;
@@ -47,14 +47,14 @@ export enum ADD_ANIMAL {
   TAG_PLACEMENT_INFO = 'identifier_placement_info',
 }
 
-const UniqueDetail = ({
+const UniqueDetails = ({
   control,
   watch,
   register,
   identifierTypes,
   identifierColors,
   identifierPlacements,
-}: UniqueDetailProps) => {
+}: UniqueDetailsProps) => {
   const { t } = useTranslation(['translation', 'common', 'animal']);
   const animalType = watch('type');
   const tagPlacement = watch(ADD_ANIMAL.TAG_PLACEMENT);
@@ -159,4 +159,4 @@ const UniqueDetail = ({
   );
 };
 
-export default UniqueDetail;
+export default UniqueDetails;

@@ -28,7 +28,7 @@ type ReactSelectOption = {
 };
 
 // TODO
-export type OtherDetailProps = {
+export type OtherDetailsProps = {
   control: any;
   register: any;
   watch: any;
@@ -43,7 +43,7 @@ export enum ADD_ANIMAL {
   ANIMAL_IMAGE = 'photo_url',
 }
 
-const OtherDetail = ({ control, register, organicStatuses }: OtherDetailProps) => {
+const OtherDetails = ({ control, register, organicStatuses }: OtherDetailsProps) => {
   const { t } = useTranslation(['translation', 'common']);
 
   return (
@@ -85,4 +85,4 @@ const OtherDetail = ({ control, register, organicStatuses }: OtherDetailProps) =
   );
 };
 
-export default OtherDetail;
+export default OtherDetails;

@@ -28,7 +28,7 @@ type ReactSelectOption = {
 };
 
 // TODO
-export type GeneralDetailProps = {
+export type GeneralDetailsProps = {
   control: any;
   watch: any;
   types: ReactSelectOption[];
@@ -46,7 +46,7 @@ export enum ADD_ANIMAL {
   USE = 'use',
 }
 
-const GeneralDetail = ({ control, watch, types, breeds, sexes, uses }: GeneralDetailProps) => {
+const GeneralDetails = ({ control, watch, types, breeds, sexes, uses }: GeneralDetailsProps) => {
   const { t } = useTranslation(['translation', 'common']);
   const sex = watch(ADD_ANIMAL.SEX);
 
@@ -114,4 +114,4 @@ const GeneralDetail = ({ control, watch, types, breeds, sexes, uses }: GeneralDe
   );
 };
 
-export default GeneralDetail;
+export default GeneralDetails;

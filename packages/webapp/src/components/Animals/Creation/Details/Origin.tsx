@@ -52,6 +52,7 @@ const Origin = ({ control, watch, register, currency, originOptions }: OriginPro
       <>
         {/* @ts-ignore */}
         <Input
+          key={ADD_ANIMAL.BROUGHT_IN_DATE}
           type="date"
           label={t('common:DATE')}
           hookFormRegister={register(ADD_ANIMAL.BROUGHT_IN_DATE)} // TODO: max length?
@@ -59,6 +60,7 @@ const Origin = ({ control, watch, register, currency, originOptions }: OriginPro
         />
         {/* @ts-ignore */}
         <Input
+          key={ADD_ANIMAL.MERCHANT}
           type="text"
           label={t('ANIMAL.ATTRIBUTE.MERCHANT')}
           hookFormRegister={register(ADD_ANIMAL.MERCHANT)} // TODO: max length?
@@ -67,6 +69,7 @@ const Origin = ({ control, watch, register, currency, originOptions }: OriginPro
         />
         {/* @ts-ignore */}
         <Input
+          key={ADD_ANIMAL.PRICE}
           type="number"
           currency={currency}
           label={t('common:PRICE')}
@@ -79,6 +82,7 @@ const Origin = ({ control, watch, register, currency, originOptions }: OriginPro
       <>
         {/* @ts-ignore */}
         <Input
+          key={ADD_ANIMAL.DAM}
           type="text"
           label={t('ANIMAL.ATTRIBUTE.DAM')}
           hookFormRegister={register(ADD_ANIMAL.DAM)} // TODO: max length?
@@ -87,6 +91,7 @@ const Origin = ({ control, watch, register, currency, originOptions }: OriginPro
         />
         {/* @ts-ignore */}
         <Input
+          key={ADD_ANIMAL.SIRE}
           type="text"
           label={t('ANIMAL.ATTRIBUTE.SIRE')}
           hookFormRegister={register(ADD_ANIMAL.SIRE)} // TODO: max length?

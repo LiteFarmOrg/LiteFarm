@@ -68,13 +68,18 @@
   ~ .checked {
     display: block;
   }
-  
+
   ~ .unchecked {
     display: none;
   }
 
   ~ .label {
     color: var(--Colors-Neutral-Neutral-900);
+  }
+}
+
+.container.shouldBoldSelected input:checked {
+  ~ .label {
     font-weight: 600;
   }
 }
@@ -87,7 +92,8 @@
   }
 
   svg {
-    rect, path {
+    rect,
+    path {
       stroke: var(--Colors-Neutral-Neutral-100);
     }
   }

@@ -74,7 +74,7 @@ const Option = (props: OptionProps<ComponentFilterOption>) => {
   return (
     <components.Option {...props}>
       <TextButton className={styles.optionButton} onClick={onClick}>
-        <Checkbox label={label} checked={isSelected} />
+        <Checkbox label={label} checked={isSelected} shouldBoldSelected={false} />
       </TextButton>
     </components.Option>
   );
@@ -93,6 +93,7 @@ const MenuList = (props: MenuListProps<ComponentFilterOption>) => {
           label={t('FILTER.SHOWING_ALL')}
           checked={!hasValue || partiallyChecked || allChecked}
           partiallyChecked={partiallyChecked}
+          shouldBoldSelected={false}
         />
       </div>
       {children}

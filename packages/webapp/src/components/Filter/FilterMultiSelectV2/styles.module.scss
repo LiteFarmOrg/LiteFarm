@@ -58,7 +58,6 @@
   // override checkbox label styles
   p {
     color: var(--Colors-Neutral-Neutral-200) !important;
-    font-weight: 400 !important;
   }
 }
 
@@ -119,10 +118,6 @@
   &:hover {
     background-color: var(--Colors-Secondary-Secondary-green-500);
   }
-}
-
-.selectedOption {
-  background-color: var(--grey200);
 }
 
 .placeholder {

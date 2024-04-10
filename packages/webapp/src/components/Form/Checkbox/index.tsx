@@ -42,6 +42,7 @@ interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onBlur?: ReactEventHandler;
   sm?: boolean;
   partiallyChecked?: boolean;
+  shouldBoldSelected?: boolean;
   tooltipContent?: string;
   errors?: string;
 }
@@ -59,12 +60,17 @@ const Checkbox = ({
   sm,
   tooltipContent = undefined,
   partiallyChecked = false,
+  shouldBoldSelected = true,
   ...props
 }: PropsWithChildren<CheckboxProps>) => {
   const name = hookFormRegister?.name ?? props?.name;
   return (
     <label
-      className={clsx(styles.container, disabled && styles.disabled)}
+      className={clsx(
+        styles.container,
+        disabled && styles.disabled,
+        shouldBoldSelected && styles.shouldBoldSelected,
+      )}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
       <input

@@ -46,7 +46,20 @@
 .showingAll {
   text-align: left;
   width: 100%;
+  background-color: #fcfffe;
   pointer-events: none;
+
+  // override checkbox styles
+  svg path,
+  svg rect {
+    stroke: #98a1b1 !important;
+  }
+
+  // override checkbox label styles
+  p {
+    color: var(--Colors-Neutral-Neutral-200) !important;
+    font-weight: 400 !important;
+  }
 }
 
 .multiValue {

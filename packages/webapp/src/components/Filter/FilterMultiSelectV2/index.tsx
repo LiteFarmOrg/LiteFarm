@@ -88,13 +88,7 @@ const MenuList = (props: MenuListProps<ComponentFilterOption>) => {
 
   return (
     <components.MenuList {...props}>
-      <div
-        className={clsx(
-          styles.option,
-          styles.showingAll,
-          (!hasValue || partiallyChecked || allChecked) && styles.selectedOption,
-        )}
-      >
+      <div className={clsx(styles.option, styles.showingAll)}>
         <Checkbox
           label={t('FILTER.SHOWING_ALL')}
           checked={!hasValue || partiallyChecked || allChecked}

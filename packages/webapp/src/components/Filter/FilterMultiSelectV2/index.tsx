@@ -207,7 +207,7 @@ export const FilterMultiSelectV2 = ({
         hideSelectedOptions={false}
         closeMenuOnSelect={false}
         onChange={handleChange}
-        placeholder={t('FILTER.SHOWING_ALL_DEFAULT')}
+        placeholder={!isMenuOpen && t('FILTER.SHOWING_ALL_DEFAULT')}
         onMenuOpen={() => setIsMenuOpen(true)}
         onMenuClose={() => setIsMenuOpen(false)}
         controlShouldRenderValue={!isMenuOpen}

@@ -83,6 +83,9 @@ export const defaultAnimalBreedsUrl = `${URI}/default_animal_breeds`;
 export const defaultAnimalTypesUrl = `${URI}/default_animal_types`;
 export const animalSexesUrl = `${URI}/animal_sexes`;
 export const animalRemovalReasonsUrl = `${URI}/animal_removal_reasons`;
+export const animalIdentifierColorsUrl = `${URI}/animal_identifier_colors`;
+export const animalIdentifierPlacementsUrl = `${URI}/animal_identifier_placements`;
+export const animalOriginsUrl = `${URI}/animal_origins`;
 
 export const url = URI;
 
@@ -136,5 +139,8 @@ export default {
   defaultAnimalTypesUrl,
   animalSexesUrl,
   animalRemovalReasonsUrl,
+  animalIdentifierColorsUrl,
+  animalIdentifierPlacementsUrl,
+  animalOriginsUrl,
   url,
 };

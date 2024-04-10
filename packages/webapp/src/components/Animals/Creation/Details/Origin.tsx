@@ -16,9 +16,13 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../../../Form/Input';
-import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
 import RadioGroup from '../../../Form/RadioGroup';
 import styles from './styles.module.scss';
+
+type ReactSelectOption = {
+  label: string;
+  value: string | number;
+};
 
 // TODO
 export type OriginProps = {
@@ -26,6 +30,7 @@ export type OriginProps = {
   register: any;
   watch: any;
   currency: string;
+  originOptions: ReactSelectOption[];
 };
 
 // TODO: move up
@@ -38,19 +43,9 @@ export enum ADD_ANIMAL {
   PRICE = 'price', // TODO
 }
 
-const origins = [
-  { id: 1, key: 'BROUGHT_IN' },
-  { id: 2, key: 'BORN_AT_FARM' },
-];
-
-const Origin = ({ control, watch, register, currency }: OriginProps) => {
+const Origin = ({ control, watch, register, currency, originOptions }: OriginProps) => {
   const { t } = useTranslation(['translation', 'common', 'animal']);
   const originId = watch(ADD_ANIMAL.ORIGIN);
-
-  const originOptions = origins.map(({ id, key }) => ({
-    value: id,
-    label: t(`animal:ORIGIN.${key}`),
-  }));
 
   const fields = useMemo(() => {
     return originId === 1 ? (
@@ -105,7 +100,6 @@ const Origin = ({ control, watch, register, currency }: OriginProps) => {
   return (
     <div className={styles.sectionWrapper}>
       <div>
-        <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
         {/* @ts-ignore */}
         <RadioGroup name={ADD_ANIMAL.ORIGIN} radios={originOptions} hookFormControl={control} row />
       </div>

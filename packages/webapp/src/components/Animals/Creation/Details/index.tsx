@@ -24,6 +24,11 @@ import useExpandable from '../../../Expandable/useExpandableItem';
 import { useCurrencySymbol } from '../../../../containers/hooks/useCurrencySymbol';
 import { OrganicStatuses } from '../../../../types';
 import styles from './styles.module.scss';
+import {
+  useGetAnimalIdentifierColorsQuery,
+  useGetAnimalIdentifierPlacementsQuery,
+  useGetAnimalOriginsQuery,
+} from '../../../../store/api/apiSlice';
 
 enum sectionKeys {
   GENERAL,
@@ -59,12 +64,22 @@ const uses = [
   { label: 'C', value: 'C' },
 ];
 
+const origins = [
+  { id: 1, key: 'BROUGHT_IN' },
+  { id: 2, key: 'BORN_AT_FARM' },
+];
+
 const AnimalDetails = ({ formProps }: AnimalDetailsProps) => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const { t } = useTranslation(['translation', 'common']);
 
   // TODO: move up
   const currency = useCurrencySymbol();
+
+  const originOptions = origins.map(({ id, key }) => ({
+    value: id,
+    label: t(`animal:ORIGIN.${key}`),
+  }));
 
   const organicStatusOptions = [
     {
@@ -104,7 +119,7 @@ const AnimalDetails = ({ formProps }: AnimalDetailsProps) => {
       key: sectionKeys.ORIGIN,
       title: t('ANIMAL.ADD_ANIMAL.ORIGIN'),
       Content: Origin,
-      sectionProps: { currency },
+      sectionProps: { currency, originOptions },
     },
   ];
 

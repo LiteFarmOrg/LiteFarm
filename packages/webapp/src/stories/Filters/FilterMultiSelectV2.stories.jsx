@@ -14,7 +14,7 @@
  */
 
 import { componentDecorators } from '../Pages/config/Decorators';
-import { FilterMultiSelect } from '../../components/Filter/FilterMultiSelectV2';
+import { FilterMultiSelectV2 } from '../../components/Filter/FilterMultiSelectV2';
 
 const props = {
   subject: 'Status',
@@ -53,7 +53,7 @@ const props = {
 
 export default {
   title: 'Components/Filters/FilterMultiSelect',
-  component: FilterMultiSelect,
+  component: FilterMultiSelectV2,
   decorators: componentDecorators,
   args: {
     ...props,

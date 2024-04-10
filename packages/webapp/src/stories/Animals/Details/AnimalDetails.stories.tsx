@@ -20,7 +20,10 @@ import AnimalCreationDetails, {
 } from '../../../components/Animals/Creation/Details';
 import { useForm } from 'react-hook-form';
 import AnimalDetails from '../../../components/Animals/Creation/Details';
-import GeneralDetail from '../../../components/Animals/Creation/Details/General';
+import GeneralDetails from '../../../components/Animals/Creation/Details/General';
+import UniqueDetails from '../../../components/Animals/Creation/Details/Unique';
+import OtherDetails from '../../../components/Animals/Creation/Details/Other';
+import OriginDetails from '../../../components/Animals/Creation/Details/Origin';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<AnimalDetailsProps> = {
@@ -52,7 +55,7 @@ export const General: Story = {
     return (
       <Suspense>
         <div style={{ padding: '16px' }}>
-          <GeneralDetail
+          <GeneralDetails
             watch={watch}
             control={control}
             types={[
@@ -73,6 +76,86 @@ export const General: Story = {
               { label: 'A', value: 'A' },
               { label: 'B', value: 'B' },
               { label: 'C', value: 'C' },
+            ]}
+          />
+        </div>
+      </Suspense>
+    );
+  },
+};
+
+export const Unique: Story = {
+  render: () => {
+    const { watch, control, register } = useForm();
+
+    return (
+      <Suspense>
+        <div style={{ padding: '16px' }}>
+          <UniqueDetails
+            watch={watch}
+            control={control}
+            register={register}
+            identifierTypes={[
+              { value: 1, label: 'Ear tags' },
+              { value: 2, label: 'Leg bands' },
+            ]}
+            identifierColors={[
+              { value: 1, label: 'YELLOW' },
+              { value: 2, label: 'WHITE' },
+              { value: 3, label: 'ORANGE' },
+              { value: 4, label: 'GREEN' },
+              { value: 5, label: 'BLUE' },
+              { value: 6, label: 'RED' },
+            ]}
+            identifierPlacements={[
+              { value: 1, label: 'Brought in' },
+              { value: 2, label: 'Born at the farm' },
+            ]}
+          />
+        </div>
+      </Suspense>
+    );
+  },
+};
+
+export const Other: Story = {
+  render: () => {
+    const { watch, control, register } = useForm();
+
+    return (
+      <Suspense>
+        <div style={{ padding: '16px' }}>
+          <OtherDetails
+            watch={watch}
+            control={control}
+            register={register}
+            organicStatuses={[
+              { value: 'Non-Organic', label: 'Non-Organic' },
+              { value: 'Organic', label: 'Organic' },
+              { value: 'Transitional', label: 'Transitioning' },
+            ]}
+          />
+        </div>
+      </Suspense>
+    );
+  },
+};
+
+export const Origin: Story = {
+  render: () => {
+    const { watch, control, register } = useForm();
+
+    return (
+      <Suspense>
+        <div style={{ padding: '16px' }}>
+          <OriginDetails
+            watch={watch}
+            control={control}
+            register={register}
+            currency={'$'}
+            originOptions={[
+              { value: 1, label: 'Brought in' },
+              { value: 2, label: 'Born at the farm' },
             ]}
           />
         </div>

@@ -14,7 +14,7 @@
  */
 
 import { componentDecorators } from '../Pages/config/Decorators';
-import { FilterMultiSelectV2 } from '../../components/Filter/FilterMultiSelectV2';
+import { FilterMultiSelect } from '../../components/Filter/FilterMultiSelect';
 
 const props = {
   subject: 'Status',
@@ -45,15 +45,18 @@ const props = {
       label: 'Needs plan',
     },
   ],
-  onChange: () => {
-    console.log('onChange fired!');
-  },
   shouldReset: 0,
+  filterRef: {
+    current: {
+      STATUS: {},
+    },
+  },
+  filterKey: 'STATUS',
 };
 
 export default {
-  title: 'Components/Filters/FilterMultiSelectV2',
-  component: FilterMultiSelectV2,
+  title: 'Components/Filters/FilterMultiSelect',
+  component: FilterMultiSelect,
   decorators: componentDecorators,
   args: {
     ...props,

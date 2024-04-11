@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -18,6 +18,7 @@ import { useDispatch } from 'react-redux';
 import ReleaseBadge from '../../components/ReleaseBadge';
 import { checkReleaseBadgeVersion } from './saga';
 import { APP_VERSION, VERSION_RELEASE_NOTES_LINK } from '../../util/constants';
+import FloatingContainer from '../../components/FloatingContainer';
 
 const ReleaseBadgeHandler = ({ isCompactSideMenu }) => {
   const dispatch = useDispatch();
@@ -30,10 +31,9 @@ const ReleaseBadgeHandler = ({ isCompactSideMenu }) => {
 
   return (
     shouldShowBadge && (
-      <ReleaseBadge
-        isCompactSideMenu={isCompactSideMenu}
-        releaseNotesLink={VERSION_RELEASE_NOTES_LINK}
-      />
+      <FloatingContainer isCompactSideMenu={isCompactSideMenu} distanceFromBottom={'32px'}>
+        <ReleaseBadge releaseNotesLink={VERSION_RELEASE_NOTES_LINK} />
+      </FloatingContainer>
     )
   );
 };

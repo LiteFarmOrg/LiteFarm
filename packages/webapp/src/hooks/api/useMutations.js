@@ -12,19 +12,24 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-@import '../../../assets/mixin.scss';
 
-.mainContent {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1024px;
-}
+const useMutations = (namedMutations) => {
+  const results = namedMutations.map((mutation) => mutation.hook());
 
-.paper {
-  display: flex;
-  flex-direction: column;
+  const mutations = namedMutations.reduce(
+    (dataObj, mutation, index) => ({
+      ...dataObj,
+      [mutation.label]: {
+        trigger: results[index][0],
+        lifecycle: results[index][1],
+      },
+    }),
+    {},
+  );
 
-  @include lg-breakpoint {
-    padding: 16px;
-  }
-}
+  return {
+    mutations,
+  };
+};
+
+export default useMutations;

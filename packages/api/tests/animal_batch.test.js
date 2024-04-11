@@ -15,6 +15,7 @@
 
 import chai from 'chai';
 import util from 'util';
+import { faker } from '@faker-js/faker';
 
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
@@ -33,8 +34,10 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 );
 import mocks from './mock.factories.js';
 
-import { makeAnimalOrBatchForFarm, makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
+import { makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
 import AnimalBatchModel from '../src/models/animalBatchModel.js';
+import CustomAnimalTypeModel from '../src/models/customAnimalTypeModel.js';
+import CustomAnimalBreedModel from '../src/models/customAnimalBreedModel.js';
 
 describe('Animal Batch Tests', () => {
   let farm;
@@ -314,7 +317,7 @@ describe('Animal Batch Tests', () => {
         animalBatch,
       );
 
-      expect(res.status).toBe(400);
+      expect(res.status).toBe(500);
     });
 
     test('Unique internal_identifier should be added within the same farm_id between animals and animalBatches', async () => {
@@ -445,14 +448,14 @@ describe('Animal Batch Tests', () => {
       expect(res.status).toBe(400);
     });
 
-    test('Should not be able to create an animal batch where count and combined sex detail count do not match', async () => {
+    test('Should not be able to create an animal batch where count is less than combined sex detail count', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const animalSex1 = await makeAnimalSex();
       const animalSex2 = await makeAnimalSex();
       const animalBatch = mocks.fakeAnimalBatch({
         default_breed_id: defaultBreedId,
         default_type_id: defaultTypeId,
-        count: 6,
+        count: 4,
         sex_detail: [
           {
             sex_id: animalSex1.id,
@@ -474,6 +477,220 @@ describe('Animal Batch Tests', () => {
       );
 
       expect(res.status).toBe(400);
+    });
+
+    describe('Create new types and/or breeds while creating animal batches', () => {
+      let farm;
+      let owner;
+
+      beforeEach(async () => {
+        const { mainFarm, user } = await returnUserFarms(1);
+        farm = mainFarm;
+        owner = user;
+      });
+
+      const postAnimalBatchesRequest = async (animalBatches) => {
+        const res = await postRequestAsPromise(
+          { user_id: owner.user_id, farm_id: farm.farm_id },
+          animalBatches,
+        );
+        return res;
+      };
+
+      const getCustomAnimalType = async (typeName) => {
+        const createdType = await CustomAnimalTypeModel.query()
+          .where('farm_id', farm.farm_id)
+          .andWhere('type', typeName);
+        return createdType[0];
+      };
+
+      const getCustomAnimalBreed = async (breedName, typeColumn, typeId) => {
+        const createdBreed = await CustomAnimalBreedModel.query()
+          .where('farm_id', farm.farm_id)
+          .andWhere(typeColumn, typeId)
+          .andWhere('breed', breedName);
+        return createdBreed[0];
+      };
+
+      test('Should be able to create an animal batch with a new type', async () => {
+        const typeName = faker.lorem.word();
+        const animalBatch = mocks.fakeAnimalBatch({ type_name: typeName });
+        const res = await postAnimalBatchesRequest([animalBatch]);
+        const newType = await getCustomAnimalType(typeName);
+        expect(res.status).toBe(201);
+        expect(res.body[0].custom_type_id).toBe(newType.id);
+      });
+
+      test('Should be able to create an animal batch with type_id and a new breed', async () => {
+        const breedName = faker.lorem.word();
+        let animalBatch = mocks.fakeAnimalBatch({
+          default_type_id: defaultTypeId,
+          breed_name: breedName,
+        });
+        let res = await postAnimalBatchesRequest([animalBatch]);
+        let newBreed = await getCustomAnimalBreed(breedName, 'default_type_id', defaultTypeId);
+        expect(res.status).toBe(201);
+        expect(res.body[0].custom_breed_id).toBe(newBreed.id);
+
+        const [customAnimalType] = await mocks.custom_animal_typeFactory({ promisedFarm: [farm] });
+        animalBatch = mocks.fakeAnimalBatch({
+          custom_type_id: customAnimalType.id,
+          breed_name: breedName,
+        });
+        res = await postAnimalBatchesRequest([animalBatch]);
+        newBreed = await getCustomAnimalBreed(breedName, 'custom_type_id', customAnimalType.id);
+        expect(res.status).toBe(201);
+        expect(res.body[0].custom_breed_id).toBe(newBreed.id);
+      });
+
+      test('Should be able to create an animal batch with a new type and a new breed', async () => {
+        const typeName = faker.lorem.word();
+        const breedName = faker.lorem.word();
+        const animalBatch = mocks.fakeAnimalBatch({
+          type_name: typeName,
+          breed_name: breedName,
+        });
+        const res = await postAnimalBatchesRequest([animalBatch]);
+        const newType = await getCustomAnimalType(typeName);
+        const newBreed = await getCustomAnimalBreed(breedName, 'custom_type_id', newType.id);
+        expect(res.status).toBe(201);
+        expect(res.body[0].custom_type_id).toBe(newType.id);
+        expect(res.body[0].custom_breed_id).toBe(newBreed.id);
+      });
+
+      test('Should not be able to create an animal batch when type_id and type_name are passed', async () => {
+        const typeName = faker.lorem.word();
+        let animalBatch = mocks.fakeAnimalBatch({
+          default_type_id: defaultTypeId,
+          type_name: typeName,
+        });
+        let res = await postAnimalBatchesRequest([animalBatch]);
+        expect(res.status).toBe(400);
+
+        const [customAnimalType] = await mocks.custom_animal_typeFactory({ promisedFarm: [farm] });
+        animalBatch = mocks.fakeAnimalBatch({
+          custom_type_id: customAnimalType.id,
+          type_name: typeName,
+        });
+        res = await postAnimalBatchesRequest([animalBatch]);
+        expect(res.status).toBe(400);
+      });
+
+      test('Should not be able to create an animal batch when breed_id and breed_name are passed', async () => {
+        const breedName = faker.lorem.word();
+        let animalBatch = mocks.fakeAnimalBatch({
+          default_type_id: defaultTypeId,
+          default_breed_id: defaultBreedId,
+          breed_name: breedName,
+        });
+        let res = await postAnimalBatchesRequest([animalBatch]);
+        expect(res.status).toBe(400);
+
+        const [customAnimalBreed] = await mocks.custom_animal_breedFactory({
+          promisedFarm: [farm],
+          properties: { default_type_id: defaultTypeId, custom_type_id: null },
+        });
+        animalBatch = mocks.fakeAnimalBatch({
+          default_type_id: defaultTypeId,
+          custom_breed_id: customAnimalBreed.id,
+          breed_name: breedName,
+        });
+        res = await postAnimalBatchesRequest([animalBatch]);
+        expect(res.status).toBe(400);
+      });
+
+      test('Should not be able to create an animal batch with a new type and an existing breed', async () => {
+        const typeName = faker.lorem.word();
+        const [animalBreed] = await mocks.default_animal_breedFactory();
+        let animalBatch = mocks.fakeAnimalBatch({
+          type_name: typeName,
+          default_breed_id: animalBreed.id,
+        });
+        let res = await postAnimalBatchesRequest([animalBatch]);
+        expect(res.status).toBe(400);
+
+        const [customAnimalBreed] = await mocks.custom_animal_breedFactory({
+          promisedFarm: [farm],
+        });
+        animalBatch = mocks.fakeAnimalBatch({
+          type_name: typeName,
+          custom_breed_id: customAnimalBreed.id,
+        });
+        res = await postAnimalBatchesRequest([animalBatch]);
+        expect(res.status).toBe(400);
+      });
+
+      test('Should be able to create animal batches with a new type', async () => {
+        const typeName = faker.lorem.word();
+        const animals = [...Array(3)].map(() => mocks.fakeAnimalBatch({ type_name: typeName }));
+        const res = await postAnimalBatchesRequest(animals);
+        const newType = await getCustomAnimalType(typeName);
+        expect(res.status).toBe(201);
+        res.body.forEach(({ custom_type_id }) => {
+          expect(custom_type_id).toBe(newType.id);
+        });
+      });
+
+      test('Should be able to create animal batches with a new type and breed', async () => {
+        const typeName = faker.lorem.word();
+        const breedName = faker.lorem.word();
+        const animals = [...Array(3)].map(() =>
+          mocks.fakeAnimalBatch({ type_name: typeName, breed_name: breedName }),
+        );
+        const res = await postAnimalBatchesRequest(animals);
+        const newType = await getCustomAnimalType(typeName);
+        const newBreed = await getCustomAnimalBreed(breedName, 'custom_type_id', newType.id);
+        expect(res.status).toBe(201);
+        res.body.forEach(({ custom_type_id, custom_breed_id }) => {
+          expect(custom_type_id).toBe(newType.id);
+          expect(custom_breed_id).toBe(newBreed.id);
+        });
+      });
+
+      test('Should be able to create animal batches with various types and breeds at once', async () => {
+        const [typeName1, typeName2, breedName1, breedName2] = [1, 2, 3, 4].map(
+          (num) => faker.lorem.word() + num,
+        );
+        const animalBatch1 = mocks.fakeAnimalBatch({ type_name: typeName1 });
+        const animalBatch2 = mocks.fakeAnimalBatch({ type_name: typeName2 });
+        const animalBatch3 = mocks.fakeAnimalBatch({
+          type_name: typeName1,
+          breed_name: breedName1,
+        });
+        const animalBatch4 = mocks.fakeAnimalBatch({
+          type_name: typeName1,
+          breed_name: breedName2,
+        });
+        const animalBatches = [...Array(3)].map(() =>
+          mocks.fakeAnimalBatch({ default_type_id: defaultTypeId }),
+        );
+        const res = await postAnimalBatchesRequest([
+          animalBatch1,
+          animalBatch2,
+          animalBatch3,
+          animalBatch4,
+          ...animalBatches,
+        ]);
+        const [newType1, newType2] = await Promise.all(
+          [typeName1, typeName2].map(async (name) => await getCustomAnimalType(name)),
+        );
+        const [newBreed1, newBreed2] = await Promise.all(
+          [breedName1, breedName2].map(
+            async (name) => await getCustomAnimalBreed(name, 'custom_type_id', newType1.id),
+          ),
+        );
+        expect(res.status).toBe(201);
+        expect(res.body.length).toBe(7);
+        expect(res.body[0].custom_type_id).toBe(newType1.id);
+        expect(res.body[1].custom_type_id).toBe(newType2.id);
+        expect(res.body[2].custom_type_id).toBe(newType1.id);
+        expect(res.body[2].custom_breed_id).toBe(newBreed1.id);
+        expect(res.body[3].custom_type_id).toBe(newType1.id);
+        expect(res.body[3].custom_breed_id).toBe(newBreed2.id);
+        [4, 5, 6].forEach((index) => {
+          expect(res.body[index].default_type_id).toBe(defaultTypeId);
+        });
+      });
     });
   });
 

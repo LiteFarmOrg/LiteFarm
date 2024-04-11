@@ -1,4 +1,10 @@
 {
+  "ANIMALS": {
+    "FAILED_REMOVE_ANIMALS": "MISSING",
+    "FAILED_REMOVE_BATCHES": "MISSING",
+    "SUCCESS_REMOVE_ANIMALS": "MISSING",
+    "SUCCESS_REMOVE_BATCHES": "MISSING"
+  },
   "ASSIGN_TASK": {
     "ERROR": "Erreur à l'attribution des tâches",
     "SUCCESS": "Tâches attribuées"

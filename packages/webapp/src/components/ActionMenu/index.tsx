@@ -32,21 +32,15 @@ export interface ActionMenuProps {
   headerLeftText?: string;
   textActions?: action[];
   iconActions: iconAction[];
-  classes?: { root?: string };
 }
 
-const ActionMenu = ({
-  headerLeftText,
-  textActions = [],
-  iconActions,
-  classes = {},
-}: ActionMenuProps) => {
+const ActionMenu = ({ headerLeftText, textActions = [], iconActions }: ActionMenuProps) => {
   // If the className is not yet supported, ensure to add corresponding styles for the widths
   // of the component and each iconGroup to the SCSS file.
   const iconCountClassName = styles[`iconCount_${iconActions.length}`];
 
   return (
-    <div className={clsx(styles.actionMenu, iconCountClassName, classes.root)}>
+    <div className={clsx(styles.actionMenu, iconCountClassName)}>
       <div className={styles.header}>
         <div className={styles.headerLeftText}>{headerLeftText}</div>
         <div className={styles.textButtons}>

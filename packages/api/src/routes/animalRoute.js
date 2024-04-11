@@ -19,10 +19,18 @@ const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
 import AnimalController from '../controllers/animalController.js';
 import AnimalModel from '../models/animalModel.js';
-import { checkAnimalEntities } from '../middleware/checkAnimalEntities.js';
+import {
+  checkAnimalEntities,
+  validateAnimalBatchCreationBody,
+} from '../middleware/checkAnimalEntities.js';
 
 router.get('/', checkScope(['get:animals']), AnimalController.getFarmAnimals());
-router.post('/', checkScope(['add:animals']), AnimalController.addAnimals());
+router.post(
+  '/',
+  checkScope(['add:animals']),
+  validateAnimalBatchCreationBody(),
+  AnimalController.addAnimals(),
+);
 router.patch(
   '/',
   checkScope(['edit:animals']),

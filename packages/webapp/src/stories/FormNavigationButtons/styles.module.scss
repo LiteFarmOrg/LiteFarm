@@ -12,19 +12,21 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-@import '../../../assets/mixin.scss';
 
-.mainContent {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1024px;
-}
+.wrapper {
+  position: relative;
+  transform: translateZ(0); // Create context for position: fixed
+  outline: 1px solid black;
+  min-width: max-content;
 
-.paper {
-  display: flex;
-  flex-direction: column;
-
-  @include lg-breakpoint {
+  .note {
     padding: 16px;
   }
+}
+
+.floatingWrapper {
+  height: 300px;
+  position: relative;
+  transform: translateZ(0); // Create context for position: fixed
+  min-width: max-content;
 }

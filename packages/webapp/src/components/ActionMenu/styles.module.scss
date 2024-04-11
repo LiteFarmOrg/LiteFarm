@@ -21,25 +21,15 @@
 
 .actionMenu {
   font-family: 'Open Sans';
-  position: fixed;
 
   @include sm-breakpoint {
     border-radius: 0 0 8px 8px;
     overflow: hidden;
     box-shadow: 0px 4px 4px 0px #00000040;
-    bottom: 16px;
-    left: 50%;
 
     &.iconCount_4 {
       width: 424px;
-      transform: translateX(-204px);
     }
-  }
-
-  @include xs-breakpoint {
-    width: 100%;
-    left: 0;
-    bottom: 0;
   }
 }
 

@@ -1,92 +1,215 @@
+/*
+ *  Copyright 2021-2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
 @import '../../../assets/mixin';
-.primary {
-  background-color: var(--btnPrimary);
-  color: var(--fontColor);
-  text-decoration: none;
-  box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
-  border: none;
+
+.btn.primary {
+  --background: var(--Btn-primary-pristine);
+  --border: none;
+  --box-shadow: 0px 1px 2px 0px var(--Colors-Neutral-Neutral-500);
+  --color: var(--Colors-Accent-Accent-yellow-900);
+
+  --hover-background: var(--Btn-primary-hover);
+  --hover-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
+  --hover-color: var(--Colors-Accent-Accent-yellow-50);
+
+  --active-background: var(--Colors-Accent-Accent-yellow-500);
+  --active-color: var(--Colors-Accent-Accent-yellow-900);
+
+  --focus-outline: 2px solid var(--Colors-Accent-Accent-yellow-600);
 }
 
-.secondary {
-  background-color: var(--btnSecondary);
-  color: var(--labels);
-  border-color: var(--iconDefault);
-  border: 1px solid;
-  box-sizing: border-box;
-  text-decoration: none;
+.btn.secondary {
+  --background: var(--White);
+  --border: 1px solid var(--Colors-Neutral-Neutral-200);
+  --color: var(--Colors-Neutral-Neutral-500);
+
+  --hover-border: 1px solid var(--Colors-Neutral-Neutral-500);
+  --hover-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
+  --hover-color: var(--Colors-Neutral-Neutral-500);
+
+  --active-border: 1px solid var(--Colors-Neutral-Neutral-900);
+  --active-color: var(--Colors-Neutral-Neutral-900);
+
+  --focus-border: 1px solid var(--Colors-Neutral-Neutral-200);
 }
 
-.success {
-  background-color: var(--btnSecondary);
-  color: var(--teal700);
-  border-color: var(--teal700);
-  border: 1px solid;
-  box-sizing: border-box;
-  text-decoration: none;
-  box-shadow: 0px 2px 4px rgba(102, 115, 138, 0.3);
+.btn.secondary-2 {
+  --background: var(--White);
+  --border: 1px solid var(--Colors-Primary-Primary-teal-600);
+  --color: var(--Colors-Primary-Primary-teal-600);
+
+  --hover-background: var(--White);
+  --hover-border: 1px solid var(--Colors-Primary-Primary-teal-900);
+  --hover-box-shadow: 0px 1px 2px 0px var(--Colors-Neutral-Neutral-500);
+  --hover-color: var(--Colors-Primary-Primary-teal-900);
+
+  --active-background: var(--Colors-Secondary-Secondary-green-100);
+  --active-border: 1px solid var(--Colors-Primary-Primary-teal-600);
+  --active-color: var(--Colors-Primary-Primary-teal-600);
 }
 
-.error {
-  background-color: var(--error);
-  color: white;
-  text-decoration: none;
-  box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
-  border: none;
+.btn.secondary-cta {
+  --background: none;
+  --border: none;
+  --color: var(--Colors-Accent-Accent-yellow-900);
+
+  --hover-background: var(--Colors-Accent-Accent-yellow-50);
+  --hover-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
+  --hover-color: var(--Colors-Accent-Accent-yellow-700);
+
+  --active-background: var(--Colors-Accent-Accent-yellow-700);
+  --active-color: var(--Colors-Accent-Accent-yellow-100);
+
+  --focus-outline: 2px solid var(--Colors-Accent-Accent-yellow-600);
+  --focus-box-shadow: none;
 }
 
-.warning {
-  background-color: var(--brown700);
-  color: white;
-  text-decoration: none;
-  box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
-  border: none;
+.btn.error {
+  --background: var(--error);
+  --color: var(--White);
+  --box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
+  --border: none;
+
+  /* These states not yet defined for this variant */
+  --hover-background: var(--background);
+  --hover-border: var(--border);
+  --hover-color: var(--color);
+
+  --active-background: var(--background);
+  --active-border: var(--border);
+  --active-color: var(--color);
 }
 
+.btn.warning {
+  --background: var(--brown700);
+  --color: var(--White);
+  --box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
+  --border: none;
+
+  /* These states not yet defined for this variant */
+  --hover-background: var(--background);
+  --hover-border: var(--border);
+  --hover-color: var(--color);
+
+  --active-background: var(--background);
+  --active-border: var(--border);
+  --active-color: var(--color);
+}
 
 .btn {
-  border-radius: 4px;
-  font-weight: 600;
-  size: 16px;
-  line-height: 24px;
+  border-radius: 8px;
   min-height: 48px;
   padding: 0 16px;
+
   font-size: 16px;
-  cursor: pointer;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  gap: 8px;
+
+  cursor: pointer;
+
+  /* Used in all but secondary-cta variant */
+  --focus-box-shadow: 6px -6px 0px 0px var(--Colors-Secondary-Secondary-green-200),
+    -6px 6px 0px 0px var(--Colors-Secondary-Secondary-green-200),
+    -6px -6px 0px 0px var(--Colors-Secondary-Secondary-green-200),
+    6px 6px 0px 0px var(--Colors-Secondary-Secondary-green-200);
+
+  /* Based on variant */
+  background: var(--background);
+  border: var(--border);
+  box-shadow: var(--box-shadow);
+  color: var(--color);
+}
+
+.btn svg path {
+  stroke: var(--color);
+}
+
+.btn:hover:enabled {
+  background: var(--hover-background);
+  border: var(--hover-border);
+  box-shadow: var(--hover-box-shadow);
+  color: var(--hover-color);
+  outline: none;
+}
+
+.btn:hover:enabled svg path {
+  stroke: var(--hover-color);
+}
+
+.btn:active:enabled {
+  background: var(--active-background);
+  border: var(--active-border);
+  box-shadow: none;
+  color: var(--active-color);
+}
+
+.btn:active:enabled svg path {
+  stroke: var(--active-color);
 }
 
 .btn:disabled {
   border: none;
-  color: var(--inputDisabled);
-  background-color: var(--btnDisabled);
+  color: var(--Colors-Neutral-Neutral-300);
+  background: var(--Btn-primary-disabled);
   box-shadow: none;
   cursor: default;
 }
 
-.primary:hover:enabled {
-  background-color: var(--btnHoverPrimary);
-  box-shadow: 0px 4px 12px rgba(102, 115, 138, 0.4);
+.btn:disabled svg path {
+  stroke: var(--Colors-Neutral-Neutral-300);
 }
 
-.secondary:hover:enabled {
-  border-color: var(--labels);
+.btn.error {
+  --background: var(--error);
+  --color: white;
+  --box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
+  --border: none;
+}
+
+.btn.warning {
+  --background: var(--brown700);
+  --color: white;
+  --box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
+  --border: none;
+}
+
+.btn:focus {
+  outline: var(--focus-outline);
+  outline-offset: -2px;
+  border: var(--focus-border);
+  box-shadow: var(--focus-box-shadow);
 }
 
 .fullLength {
   width: 100%;
 }
 
-.btn:focus {
-  outline: none;
-}
-
 .sm {
   font-size: 14px;
   min-height: 32px;
   padding: 0 16px;
+  gap: 4px;
 }
 
 .textButton {

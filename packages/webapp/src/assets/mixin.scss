@@ -45,3 +45,35 @@
     @content;
   }
 }
+
+// Custom icons from figma use a variety of strokes and fills
+@mixin svgColorFill($newColor) {
+  svg {
+    path{
+      &[stroke] {
+        stroke: $newColor;
+      }
+      &[fill] {
+        fill: $newColor;
+      }
+    }
+    rect{
+      &[stroke] {
+        stroke: $newColor;
+      }
+      &[fill] {
+        fill: $newColor;
+      }
+    }
+    circle{
+      &[stroke] {
+        stroke: $newColor;
+      }
+      &[fill] {
+        fill: $newColor;
+      }
+    }
+    
+  }
+   
+}

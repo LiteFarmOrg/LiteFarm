@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023, 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,6 +12,8 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+
+ @import '../../../assets/mixin.scss';
 
 .cardContent {
   display: flex;
@@ -47,6 +49,12 @@
   border-radius: 0 4px 4px 0;
   text-align: center;
   width: 50%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 
   @media (min-width: 768px) {
     padding: 24px 16px;
@@ -226,4 +234,75 @@
   background-color: color-mix(in srgb, var(--grey900), transparent 75%);
   color: var(--teal100);
   text-shadow: none;
+}
+
+.profitLossIconRedLight {
+  background: rgba(255, 255, 255, 0.60);
+  width: 48px;
+  height: 48px;
+  svg {
+    width: 33px;
+    height: 32px;
+  }
+  @include svgColorFill(var(--Colors-Accent---singles-Red-full));
+}
+.profitLossIconLight {
+  background: rgba(255, 255, 255, 0.60);
+  width: 48px;
+  height: 48px;
+  svg {
+    width: 33px;
+    height: 32px;
+  }
+  @include svgColorFill(#3EA397);
+}
+.profitLossIconRedDark {
+  background: rgba(255, 255, 255, 0.50);
+  width: 36px;
+  height: 36px;
+  svg {
+    width: 24px;
+    height: 21px;
+  }
+  @include svgColorFill(var(--Colors-Accent---singles-Red-full));
+}
+.profitLossIconDark {
+  background: rgba(40, 43, 54, 0.50);
+  width: 36px;
+  height: 36px;
+  svg {
+    width: 24px;
+    height: 21px;
+  }
+  @include svgColorFill(#30D9C7);
+}
+.expenseIconDark {
+  background: #CC9191;
+  width: 36px;
+  height: 36px;
+  svg {
+    width: 24px;
+    height: 25px;
+  }
+  @include svgColorFill(white);
+}
+.harvestRevenueInactive {
+  background: rgba(255, 255, 255, 0.50);
+  width: 36px;
+  height: 36px;
+  svg {
+    width: 20px;
+    height: 28px;
+  }
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-700));
+}
+.harvestRevenueActive {
+  background: rgba(255, 255, 255, 0.50);
+  width: 56px;
+  height: 56px;
+  svg {
+    width: 31px;
+    height: 42px;
+  }
+   @include svgColorFill(var(--Colors-Primary-Primary-teal-700));
 }

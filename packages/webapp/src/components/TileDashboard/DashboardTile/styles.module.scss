@@ -67,13 +67,8 @@
 .icon {
   width: 24px;
   height: 24px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-
-  path {
-    fill: var(--Colors-Accent-Accent-yellow-50, #fff8e6);
-  }
+  background: transparent;
+  @include svgColorFill(var(--Colors-Accent-Accent-yellow-50, #fff8e6));
 }
 
 .tile:hover {

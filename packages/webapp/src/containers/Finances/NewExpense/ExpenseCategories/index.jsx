@@ -1,20 +1,6 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { expenseTypeTileContentsSelector, selectedExpenseSelector } from '../../selectors';
-import { ReactComponent as EquipIcon } from '../../../../assets/images/finance/Equipment-icn.svg';
-import { ReactComponent as SoilAmendmentIcon } from '../../../../assets/images/finance/Soil-amendment-icn.svg';
-import { ReactComponent as PestIcon } from '../../../../assets/images/finance/Pest-icn.svg';
-import { ReactComponent as FuelIcon } from '../../../../assets/images/finance/Fuel-icn.svg';
-import { ReactComponent as MachineIcon } from '../../../../assets/images/finance/Machinery-icn.svg';
-import { ReactComponent as SeedIcon } from '../../../../assets/images/finance/Seeds-icn.svg';
-import { ReactComponent as OtherIcon } from '../../../../assets/images/finance/Custom-expense.svg';
-import { ReactComponent as LandIcon } from '../../../../assets/images/finance/Land-icn.svg';
-import { ReactComponent as MiscellaneousIcon } from '../../../../assets/images/finance/Miscellaneous-icn.svg';
-import { ReactComponent as UtilitiesIcon } from '../../../../assets/images/finance/Utilities-icn.svg';
-import { ReactComponent as LabourIcon } from '../../../../assets/images/finance/Labour-icn.svg';
-import { ReactComponent as InfrastructureIcon } from '../../../../assets/images/finance/Infrastructure-icn.svg';
-import { ReactComponent as TransportationIcon } from '../../../../assets/images/finance/Transportation-icn.svg';
-import { ReactComponent as ServicesIcon } from '../../../../assets/images/finance/Services-icn.svg';
 import { setSelectedExpenseTypes } from '../../actions';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
@@ -26,24 +12,6 @@ import labelIconStyles from '../../../../components/Tile/styles.module.scss';
 import { listItemTypes } from '../../../../components/List/constants';
 import { getFinanceTypeSearchableStringFunc } from '../../util';
 import { ADD_EXPENSE_URL, MANAGE_CUSTOM_EXPENSES_URL } from '../../../../util/siteMapConstants';
-
-export const icons = {
-  EQUIPMENT: <EquipIcon />,
-  SOIL_AMENDMENT: <SoilAmendmentIcon />,
-  PEST_CONTROL: <PestIcon />,
-  FUEL: <FuelIcon />,
-  MACHINERY: <MachineIcon />,
-  SEEDS_AND_PLANTS: <SeedIcon />,
-  OTHER: <OtherIcon />,
-  LAND: <LandIcon />,
-  MISCELLANEOUS: <MiscellaneousIcon />,
-  UTILITIES: <UtilitiesIcon />,
-  LABOUR: <LabourIcon />,
-  INFRASTRUCTURE: <InfrastructureIcon />,
-  TRANSPORTATION: <TransportationIcon />,
-  SERVICES: <ServicesIcon />,
-};
-
 class ExpenseCategories extends Component {
   constructor(props) {
     super(props);
@@ -112,7 +80,7 @@ class ExpenseCategories extends Component {
 
             return {
               key: expense_type_id,
-              icon: icons[farm_id ? 'OTHER' : expense_translation_key],
+              iconName: farm_id ? 'OTHER' : expense_translation_key,
               label: farm_id
                 ? expense_name
                 : this.props.t(`expense:${expense_translation_key}.EXPENSE_NAME`),

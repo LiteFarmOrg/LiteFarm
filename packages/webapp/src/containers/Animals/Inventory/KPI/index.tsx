@@ -21,20 +21,16 @@ import {
 } from '../../../../store/api/apiSlice';
 import { PureTileDashboard, TypeCountTile } from '../../../../components/TileDashboard';
 import useQueries from '../../../../hooks/api/useQueries';
-import type { CustomAnimalType, DefaultAnimalType } from '../../../../store/api/types';
-import { ReactComponent as CattleIcon } from '../../../../assets/images/animals/cattle-icon.svg';
-import { ReactComponent as ChickenIcon } from '../../../../assets/images/animals/chicken-icon.svg';
-import { ReactComponent as PigIcon } from '../../../../assets/images/animals/pig-icon.svg';
-import { ReactComponent as CustomIcon } from '../../../../assets/images/nav/animals.svg';
+import { CustomAnimalType, DefaultAnimalType } from '../../../../store/api/types';
 import { getComparator } from '../../../../util/sort';
 import { generateUniqueAnimalId } from '../../../../util/animal';
 import styles from './styles.module.scss';
 
-const icons = {
-  CATTLE: <CattleIcon />,
-  CHICKEN: <ChickenIcon />,
-  PIGS: <PigIcon />,
-  '': <CustomIcon />,
+const iconNames = {
+  CATTLE: 'CATTLE',
+  CHICKEN: 'CHICKEN',
+  PIGS: 'PIG',
+  '': 'CUSTOM_ANIMAL',
 };
 
 const formatAnimalTypes = (
@@ -46,13 +42,13 @@ const formatAnimalTypes = (
   types.forEach((type) => {
     if (type.count) {
       const label = 'type' in type ? type.type : t(`animal:TYPE.${type.key}`);
-      const iconKey = ('key' in type ? type.key : '') as keyof typeof icons;
+      const iconKey = ('key' in type ? type.key : '') as keyof typeof iconNames;
       const id = generateUniqueAnimalId(type);
 
       formattedTypes.push({
         label: label.toLowerCase(),
         count: type.count,
-        icon: icons[iconKey],
+        iconName: iconNames[iconKey],
         id,
         onClick: () => onTypeClick(id),
       });

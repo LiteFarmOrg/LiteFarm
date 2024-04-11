@@ -15,7 +15,6 @@
 import decorators from '../config/Decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 import ManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
-import { ReactComponent as OtherIcon } from '../../../assets/images/finance/Custom-expense.svg';
 
 export default {
   title: 'Form/ManageCustomTypes',
@@ -56,7 +55,7 @@ export const Expense = {
 
       return {
         key: expense_type_id,
-        icon: <OtherIcon />,
+        iconName: 'OTHER',
         label: expense_name,
         description: custom_description,
       };

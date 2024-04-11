@@ -71,14 +71,6 @@ function TaskReadOnly({ history, match, location }) {
   };
 
   const onComplete = () => {
-    dispatch(
-      setPersistedPaths([
-        `/tasks/${task_id}/complete_harvest_quantity`,
-        `/tasks/${task_id}/complete`,
-        `/tasks/${task_id}/before_complete`,
-        `/tasks/${task_id}/harvest_uses`,
-      ]),
-    );
     if (isHarvest) {
       history.push(`/tasks/${task_id}/complete_harvest_quantity`, location?.state);
     } else if (isTaskTypeCustom) {

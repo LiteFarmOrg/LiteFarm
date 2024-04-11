@@ -87,6 +87,7 @@ const useTaskAssignForm = ({
   const {
     control,
     register,
+    unregister,
     watch,
     formState: { isValid, errors },
     handleSubmit,
@@ -164,6 +165,7 @@ const useTaskAssignForm = ({
   return {
     control,
     register,
+    unregister,
     watch,
     errors,
     isValid,

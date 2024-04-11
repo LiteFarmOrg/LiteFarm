@@ -30,6 +30,7 @@ const PureTaskAssignment = ({
   shouldSetWage,
   handleSubmit,
   getValues,
+  additionalContent,
 }) => {
   const { t } = useTranslation();
   const wageOverride = watch(WAGE_OVERRIDE);
@@ -123,6 +124,7 @@ const PureTaskAssignment = ({
           shouldSetWage={shouldSetWage}
           currency={currency}
           contentForWorkerWithWage={contentForWorkerWithWage}
+          additionalContent={additionalContent}
         />
       </Form>
     </>

@@ -16,7 +16,6 @@
   "TYPE": {
     "CATTLE": "MISSING",
     "PIGS": "MISSING",
-    "CHICKEN_BROILERS": "MISSING",
-    "CHICKEN_LAYERS": "MISSING"
+    "CHICKEN": "MISSING"
   }
 }

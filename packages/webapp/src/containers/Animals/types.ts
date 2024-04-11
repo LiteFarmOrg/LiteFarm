@@ -15,8 +15,7 @@
 
 export enum AnimalTranslationKey {
   CATTLE = 'CATTLE',
-  CHICKEN_BROILERS = 'CHICKEN_BROILERS',
-  CHICKEN_LAYERS = 'CHICKEN_LAYERS',
+  CHICKEN = 'CHICKEN',
   PIGS = 'PIGS',
 }
 

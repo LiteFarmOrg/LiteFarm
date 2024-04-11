@@ -16,7 +16,6 @@
   "TYPE": {
     "CATTLE": "Cattle",
     "PIGS": "Pigs",
-    "CHICKEN_BROILERS": "Chicken (broilers)",
-    "CHICKEN_LAYERS": "Chicken (layers)"
+    "CHICKEN": "Chicken"
   }
 }

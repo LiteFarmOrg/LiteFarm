@@ -28,8 +28,7 @@ import styles from './styles.module.scss';
 
 const iconNames = {
   CATTLE: 'CATTLE',
-  CHICKEN_BROILERS: 'CHICKEN',
-  CHICKEN_LAYERS: 'CHICKEN',
+  CHICKEN: 'CHICKEN',
   PIGS: 'PIG',
   '': 'CUSTOM_ANIMAL',
 };

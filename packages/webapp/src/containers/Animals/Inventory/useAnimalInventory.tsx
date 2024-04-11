@@ -67,9 +67,7 @@ const getDefaultAnimalIconName = (
   switch (key) {
     case AnimalTranslationKey.CATTLE:
       return 'CATTLE';
-    case AnimalTranslationKey.CHICKEN_BROILERS:
-      return 'CHICKEN';
-    case AnimalTranslationKey.CHICKEN_LAYERS:
+    case AnimalTranslationKey.CHICKEN:
       return 'CHICKEN';
     case AnimalTranslationKey.PIGS:
       return 'PIG';

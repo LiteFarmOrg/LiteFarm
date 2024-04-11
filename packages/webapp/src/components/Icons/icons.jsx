@@ -19,7 +19,7 @@ import { ReactComponent as CropIcon } from '../../assets/images/finance/Crop-icn
 import { ReactComponent as ProfitLossIcon } from '../../assets/images/finance/Profit-loss-icn.svg';
 
 // Revenue types
-import { ReactComponent as CropSaleIcon } from '../../assets/images/finance/Crop-Sale-icn.svg';
+import { ReactComponent as CropSaleIcon } from '../../assets/images/finance/Crop-sale-icn.svg';
 import { ReactComponent as CustomTypeIcon } from '../../assets/images/finance/Custom-revenue.svg';
 
 // Expense types

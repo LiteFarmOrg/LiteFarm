@@ -830,9 +830,13 @@
     "TITLE": "File size too large"
   },
   "FILTER": {
+    "CLEAR": "clear",
     "CLEAR_ALL": "Clear all",
     "CLEAR_ALL_FILTERS": "Clear all filters",
-    "SELECT_ALL": "Select all"
+    "SELECT_ALL": "Select all",
+    "SELECTED": "{{count}} selected",
+    "SHOWING_ALL": "Showing all",
+    "SHOWING_ALL_DEFAULT": "Showing All (Default)"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {

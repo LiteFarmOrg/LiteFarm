@@ -14,7 +14,6 @@
  */
 
 export enum FilterType {
-  FILTER_PILL = 'FILTER_PILL',
   SEARCHABLE_MULTI_SELECT = 'SEARCHABLE_MULTI_SELECT',
   DATE = 'DATE',
   DATE_RANGE = 'DATE_RANGE',
@@ -26,6 +25,7 @@ export interface ComponentFilter {
   filterKey: string; // identifier e.g. EXPENSE_TYPE
   type?: FilterType;
   options: ComponentFilterOption[];
+  shouldReset?: number;
 }
 
 export interface ComponentFilterOption {

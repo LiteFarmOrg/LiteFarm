@@ -831,9 +831,13 @@
     "TITLE": "Fichier trop volumineux"
   },
   "FILTER": {
+    "CLEAR": "effacer",
     "CLEAR_ALL": "Effacer la sélection",
     "CLEAR_ALL_FILTERS": "Effacer tous les filtres",
-    "SELECT_ALL": "Sélectionner tout"
+    "SELECT_ALL": "Sélectionner tout",
+    "SELECTED": "MISSING",
+    "SHOWING_ALL": "MISSING",
+    "SHOWING_ALL_DEFAULT": "MISSING"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {

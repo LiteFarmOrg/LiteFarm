@@ -830,9 +830,13 @@
     "TITLE": "Tamanho de arquivo muito grande"
   },
   "FILTER": {
+    "CLEAR": "limpar",
     "CLEAR_ALL": "Limpar tudo",
     "CLEAR_ALL_FILTERS": "Remover todos os filtros",
-    "SELECT_ALL": "Selecionar tudo"
+    "SELECT_ALL": "Selecionar tudo",
+    "SELECTED": "MISSING",
+    "SHOWING_ALL": "MISSING",
+    "SHOWING_ALL_DEFAULT": "MISSING"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {

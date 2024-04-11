@@ -1,7 +1,5 @@
-import React from 'react';
-import Select from 'react-select';
+import Select, { SelectInstance, StylesConfig, Props, GroupBase } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import PropTypes from 'prop-types';
 import { Label, Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../../assets/theme';
@@ -9,8 +7,10 @@ import Infoi from '../../Tooltip/Infoi';
 import { BsX } from 'react-icons/bs';
 import { ReactComponent as Leaf } from '../../../assets/images/farmMapFilter/Leaf.svg';
 import scss from './reactSelect.module.scss';
+import type { InputBaseLabelProps } from '../InputBase/InputBaseLabel';
+import React from 'react';
 
-export const styles = {
+export const styles: StylesConfig = {
   option: (provided, state) => ({
     ...provided,
     backgroundColor: 'white',
@@ -138,7 +138,18 @@ export const styles = {
   clearIndicator: () => ({}),
 };
 
-const ReactSelect = React.forwardRef(function ReactSelect(
+type CustomReactSelectProps = {
+  createPromptText?: boolean;
+  creatable?: boolean;
+  style?: React.CSSProperties;
+  autoOpen?: boolean;
+} & InputBaseLabelProps;
+
+function ReactSelect<
+  Option,
+  IsMulti extends boolean = false,
+  Group extends GroupBase<Option> = GroupBase<Option>,
+>(
   {
     label,
     optional,
@@ -156,8 +167,8 @@ const ReactSelect = React.forwardRef(function ReactSelect(
     creatable = false,
     isDisabled = false,
     ...props
-  },
-  ref,
+  }: Props<Option, IsMulti, Group> & CustomReactSelectProps,
+  ref: React.ForwardedRef<SelectInstance<Option, IsMulti, Group>>,
 ) {
   const { t } = useTranslation();
   if (!placeholder) placeholder = t('common:SELECT') + '...';
@@ -186,15 +197,14 @@ const ReactSelect = React.forwardRef(function ReactSelect(
       )}
       {creatable && (
         <CreatableSelect
-          customStyles
           formatCreateLabel={(userInput) => `${createPromptText} "${userInput}"`}
           menuPortalTarget={document.body}
           styles={{
-            ...styles,
+            ...(styles as any),
             menuPortal: (base) => ({ ...base, zIndex: 9999 }),
             singleValue: (provided, state) => ({
               ...provided,
-              color: isDisabled ? 'var(--grey600)' : null,
+              color: isDisabled ? 'var(--grey600)' : undefined,
             }),
             container: (provided, state) => ({
               ...provided,
@@ -229,14 +239,13 @@ const ReactSelect = React.forwardRef(function ReactSelect(
       )}
       {!creatable && (
         <Select
-          customStyles
           menuPortalTarget={document.body}
           styles={{
-            ...styles,
+            ...(styles as any),
             menuPortal: (base) => ({ ...base, zIndex: 9999 }),
             singleValue: (provided, state) => ({
               ...provided,
-              color: isDisabled ? 'var(--grey600)' : null,
+              color: isDisabled ? 'var(--grey600)' : undefined,
             }),
             container: (provided, state) => ({
               ...provided,
@@ -266,7 +275,7 @@ const ReactSelect = React.forwardRef(function ReactSelect(
             ),
             ...components,
           }}
-          isSearchable={isSearchable ?? options?.length > 8}
+          isSearchable={isSearchable ?? (options?.length ?? 0) > 8}
           ref={ref}
           defaultValue={defaultValue}
           isDisabled={isDisabled}
@@ -275,19 +284,14 @@ const ReactSelect = React.forwardRef(function ReactSelect(
       )}
     </div>
   );
-});
+}
 
-ReactSelect.propTypes = {
-  label: PropTypes.string,
-  toolTipContent: PropTypes.string,
-  icon: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-  placeholder: PropTypes.string,
-  autoOpen: PropTypes.bool,
-  style: PropTypes.objectOf(PropTypes.string),
-  /**
-   To use with react-hook-form see page https://react-hook-form.com/api/#Controller and sandbox https://codesandbox.io/s/react-hook-form-controller-079xx?file=/src/index.js:3850-3861
-   */
-  options: PropTypes.arrayOf(PropTypes.shape({ label: PropTypes.string, value: PropTypes.any })),
-  components: PropTypes.object,
-};
-export default ReactSelect;
+export default React.forwardRef(ReactSelect) as <
+  Option = unknown,
+  IsMulti extends boolean = false,
+  Group extends GroupBase<Option> = GroupBase<Option>,
+>(
+  props: Props<Option, IsMulti, Group> &
+    CustomReactSelectProps &
+    React.RefAttributes<SelectInstance<Option, IsMulti, Group>>,
+) => React.ReactElement;

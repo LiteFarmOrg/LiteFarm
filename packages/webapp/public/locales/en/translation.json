@@ -1,12 +1,20 @@
 {
   "ADD_ANIMAL": {
-    "SEX_DETAIL": "Sex detail",
-    "SPECIFY_SEX": "Specify sex",
-    "SELECT_SEXES": "Select sexes",
-    "ANIMALS_TOTAL": "{{count}} animals total",
+    "ANIMALS_TOTAL": "{{count}} animal total",
+    "ANIMALS_TOTAL_one": "{{count}} animal total",
+    "ANIMALS_TOTAL_other": "{{count}} animals total",
     "ANIMALS_UNSPECIFIED": "{{count}} unspecified",
+    "ANIMALS_UNSPECIFIED_one": "{{count}} unspecified",
+    "ANIMALS_UNSPECIFIED_other": "{{count}} unspecified",
+    "SELECT_SEXES": "Select sexes",
+    "SEX_DETAIL": "Sex detail",
     "SEX_DETAIL_ERROR": "Maximum animal count: {{count}}",
-    "SEX_DETAIL_ERROR_POPOVER": "You cannot have more than {{count}} animals"
+    "SEX_DETAIL_ERROR_one": "Maximum animal count: {{count}}",
+    "SEX_DETAIL_ERROR_other": "Maximum animal count: {{count}}",
+    "SEX_DETAIL_ERROR_POPOVER": "You cannot have more than {{count}} animals",
+    "SEX_DETAIL_ERROR_POPOVER_one": "You cannot have more than {{count}} animal",
+    "SEX_DETAIL_ERROR_POPOVER_other": "You cannot have more than {{count}} animals",
+    "SPECIFY_SEX": "Specify sex"
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",

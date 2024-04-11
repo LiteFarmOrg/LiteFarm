@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Drawer from '../../../components/Drawer';
@@ -32,18 +32,17 @@ const TransactionFilter = () => {
   const { t } = useTranslation();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
+  const [tempTransactionsFilter, setTempTransactionsFilter] = useState({});
   const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('transactions', true));
 
   const transactionsFilter = useSelector(transactionsFilterSelector);
   const dispatch = useDispatch();
 
   const handleApply = () => {
-    dispatch(setTransactionsFilter(filterRef.current));
+    dispatch(setTransactionsFilter(tempTransactionsFilter));
     setIsFilterOpen(false);
     setIsDirty(false);
   };
-
-  const filterRef = useRef({});
 
   return (
     <div>
@@ -62,8 +61,10 @@ const TransactionFilter = () => {
           <Semibold className={styles.helpText}>{t('FINANCES.FILTER.HELP_TEXT')}</Semibold>
           <TransactionFilterContent
             transactionsFilter={transactionsFilter}
-            filterRef={filterRef}
-            onChange={() => !isDirty && setIsDirty(true)}
+            onChange={(filterKey, filterState) => {
+              !isDirty && setIsDirty(true);
+              setTempTransactionsFilter({ ...tempTransactionsFilter, [filterKey]: filterState });
+            }}
           />
         </>
       </Drawer>

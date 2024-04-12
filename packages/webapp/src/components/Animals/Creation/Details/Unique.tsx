@@ -17,8 +17,8 @@ import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ReactSelect from '../../../Form/ReactSelect';
+import Input, { getInputErrors } from '../../../Form/Input';
 import styles from './styles.module.scss';
-import Input from '../../../Form/Input';
 
 // TODO
 type ReactSelectOption = {
@@ -31,6 +31,7 @@ export type UniqueDetailsProps = {
   control: any;
   register: any;
   watch: any;
+  errors: any;
   identifierTypes: ReactSelectOption[];
   identifierColors: ReactSelectOption[];
   identifierPlacements: ReactSelectOption[];
@@ -51,6 +52,7 @@ const UniqueDetails = ({
   control,
   watch,
   register,
+  errors,
   identifierTypes,
   identifierColors,
   identifierPlacements,
@@ -79,24 +81,30 @@ const UniqueDetails = ({
       <Input
         type="text"
         label={t('common:NAME')}
-        hookFormRegister={register(ADD_ANIMAL.NAME)} // TODO: max length?
+        hookFormRegister={register(ADD_ANIMAL.NAME, {
+          maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+        })}
         optional
         placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.NAME')}
+        errors={getInputErrors(errors, ADD_ANIMAL.NAME)}
       />
       {/* @ts-ignore */}
       <Input
         type="date"
         label={t('ANIMAL.ATTRIBUTE.DATE_OF_BIRTH')}
-        hookFormRegister={register(ADD_ANIMAL.DATE_OF_BIRTH)} // TODO: max length?
+        hookFormRegister={register(ADD_ANIMAL.DATE_OF_BIRTH)}
         optional
       />
       {/* @ts-ignore */}
       <Input
         type="text"
         label={t('ANIMAL.ATTRIBUTE.TAG_NUMBER')}
-        hookFormRegister={register(ADD_ANIMAL.TAG_NUMBER)} // TODO: max length?
+        hookFormRegister={register(ADD_ANIMAL.TAG_NUMBER, {
+          maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+        })}
         optional
         placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_NUMBER')}
+        errors={getInputErrors(errors, ADD_ANIMAL.TAG_NUMBER)}
       />
       <Controller
         control={control}
@@ -149,9 +157,12 @@ const UniqueDetails = ({
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.TAG_PLACEMENT_INFO')}
-            hookFormRegister={register(ADD_ANIMAL.TAG_PLACEMENT_INFO)} // TODO: max length?
+            hookFormRegister={register(ADD_ANIMAL.TAG_PLACEMENT_INFO, {
+              maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+            })}
             optional
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_PLACEMENT_INFO')}
+            errors={getInputErrors(errors, ADD_ANIMAL.TAG_PLACEMENT_INFO)}
           />
         </>
       )}

@@ -15,7 +15,7 @@
 
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import Input from '../../../Form/Input';
+import Input, { getInputErrors } from '../../../Form/Input';
 import RadioGroup from '../../../Form/RadioGroup';
 import styles from './styles.module.scss';
 
@@ -29,6 +29,7 @@ export type OriginProps = {
   control: any;
   register: any;
   watch: any;
+  errors: any;
   currency: string;
   originOptions: ReactSelectOption[];
 };
@@ -43,7 +44,7 @@ export enum ADD_ANIMAL {
   PRICE = 'price', // TODO
 }
 
-const Origin = ({ control, watch, register, currency, originOptions }: OriginProps) => {
+const Origin = ({ control, watch, register, errors, currency, originOptions }: OriginProps) => {
   const { t } = useTranslation(['translation', 'common', 'animal']);
   const originId = watch(ADD_ANIMAL.ORIGIN);
 
@@ -55,7 +56,7 @@ const Origin = ({ control, watch, register, currency, originOptions }: OriginPro
           key={ADD_ANIMAL.BROUGHT_IN_DATE}
           type="date"
           label={t('common:DATE')}
-          hookFormRegister={register(ADD_ANIMAL.BROUGHT_IN_DATE)} // TODO: max length?
+          hookFormRegister={register(ADD_ANIMAL.BROUGHT_IN_DATE)}
           optional
         />
         {/* @ts-ignore */}
@@ -63,9 +64,12 @@ const Origin = ({ control, watch, register, currency, originOptions }: OriginPro
           key={ADD_ANIMAL.MERCHANT}
           type="text"
           label={t('ANIMAL.ATTRIBUTE.MERCHANT')}
-          hookFormRegister={register(ADD_ANIMAL.MERCHANT)} // TODO: max length?
+          hookFormRegister={register(ADD_ANIMAL.MERCHANT, {
+            maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+          })}
           optional
           placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.MERCHANT')}
+          errors={getInputErrors(errors, ADD_ANIMAL.MERCHANT)}
         />
         {/* @ts-ignore */}
         <Input
@@ -73,9 +77,11 @@ const Origin = ({ control, watch, register, currency, originOptions }: OriginPro
           type="number"
           currency={currency}
           label={t('common:PRICE')}
-          hookFormRegister={register(ADD_ANIMAL.PRICE)} // TODO: max length?
+          hookFormRegister={register(ADD_ANIMAL.PRICE)}
+          max={9999999999}
           optional
           placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.PRICE')}
+          errors={getInputErrors(errors, ADD_ANIMAL.PRICE)}
         />
       </>
     ) : (
@@ -85,22 +91,28 @@ const Origin = ({ control, watch, register, currency, originOptions }: OriginPro
           key={ADD_ANIMAL.DAM}
           type="text"
           label={t('ANIMAL.ATTRIBUTE.DAM')}
-          hookFormRegister={register(ADD_ANIMAL.DAM)} // TODO: max length?
+          hookFormRegister={register(ADD_ANIMAL.DAM, {
+            maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+          })}
           optional
           placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.DAM')}
+          errors={getInputErrors(errors, ADD_ANIMAL.DAM)}
         />
         {/* @ts-ignore */}
         <Input
           key={ADD_ANIMAL.SIRE}
           type="text"
           label={t('ANIMAL.ATTRIBUTE.SIRE')}
-          hookFormRegister={register(ADD_ANIMAL.SIRE)} // TODO: max length?
+          hookFormRegister={register(ADD_ANIMAL.SIRE, {
+            maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+          })}
           optional
           placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.SIRE')}
+          errors={getInputErrors(errors, ADD_ANIMAL.SIRE)}
         />
       </>
     );
-  }, [originId]);
+  }, [originId, Object.entries(errors)]);
 
   return (
     <div className={styles.sectionWrapper}>

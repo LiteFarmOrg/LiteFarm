@@ -16,7 +16,7 @@
 import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import Input from '../../../Form/Input';
+import Input, { getInputErrors } from '../../../Form/Input';
 import RadioGroup from '../../../Form/RadioGroup';
 import ReactSelect from '../../../Form/ReactSelect';
 import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
@@ -34,6 +34,7 @@ export type GeneralDetailsProps = {
   control: any;
   register: any;
   watch: any;
+  errors: any;
   types: ReactSelectOption[];
   breeds: ReactSelectOption[];
   sexes: ReactSelectOption[];
@@ -55,6 +56,7 @@ const GeneralDetails = ({
   control,
   register,
   watch,
+  errors,
   types,
   breeds,
   sexes,
@@ -98,9 +100,12 @@ const GeneralDetails = ({
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.BATCH_NAME')}
-            hookFormRegister={register(ADD_ANIMAL.NAME)} // TODO: max length?
+            hookFormRegister={register(ADD_ANIMAL.NAME, {
+              maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+            })}
             optional
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.BATCH_NAME')}
+            errors={getInputErrors(errors, ADD_ANIMAL.NAME)}
           />
         </>
       )}

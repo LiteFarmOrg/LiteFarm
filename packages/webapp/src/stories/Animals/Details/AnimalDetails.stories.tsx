@@ -52,8 +52,9 @@ export const Default: Story = {
 
 export const General: Story = {
   render: () => {
-    const { watch, control, register } = useForm({
+    const { watch, control, register, formState } = useForm({
       defaultValues: { animalOrBatch: AnimalOrBatchKeys.ANIMAL },
+      mode: 'onBlur',
     });
     const animalOrBatch = watch('animalOrBatch');
 
@@ -75,6 +76,7 @@ export const General: Story = {
             watch={watch}
             register={register}
             control={control}
+            errors={formState.errors}
             types={[
               { value: 1, label: 'Cattle' },
               { value: 2, label: 'Pig' },
@@ -103,7 +105,12 @@ export const General: Story = {
 
 export const Unique: Story = {
   render: () => {
-    const { watch, control, register } = useForm();
+    const {
+      watch,
+      control,
+      register,
+      formState: { errors },
+    } = useForm({ mode: 'onBlur' });
 
     return (
       <Suspense>
@@ -112,6 +119,7 @@ export const Unique: Story = {
             watch={watch}
             control={control}
             register={register}
+            errors={errors}
             identifierTypes={[
               { value: 1, label: 'Ear tags' },
               { value: 2, label: 'Leg bands' },
@@ -137,8 +145,9 @@ export const Unique: Story = {
 
 export const Other: Story = {
   render: () => {
-    const { watch, control, register } = useForm({
+    const { watch, control, register, formState } = useForm({
       defaultValues: { animalOrBatch: AnimalOrBatchKeys.ANIMAL },
+      mode: 'onBlur',
     });
     const animalOrBatch = watch('animalOrBatch');
 
@@ -160,6 +169,7 @@ export const Other: Story = {
             watch={watch}
             control={control}
             register={register}
+            errors={formState.errors}
             organicStatuses={[
               { value: 'Non-Organic', label: 'Non-Organic' },
               { value: 'Organic', label: 'Organic' },
@@ -174,7 +184,12 @@ export const Other: Story = {
 
 export const Origin: Story = {
   render: () => {
-    const { watch, control, register } = useForm();
+    const {
+      watch,
+      control,
+      register,
+      formState: { errors },
+    } = useForm({ mode: 'onBlur' });
 
     return (
       <Suspense>
@@ -183,6 +198,7 @@ export const Origin: Story = {
             watch={watch}
             control={control}
             register={register}
+            errors={errors}
             currency={'$'}
             originOptions={[
               { value: 1, label: 'Brought in' },

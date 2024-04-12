@@ -35,6 +35,8 @@ export type OtherDetailsProps = {
   watch: any;
   organicStatuses: ReactSelectOption[];
   animalOrBatch: AnimalOrBatchKeys;
+  errors: any;
+  // errors?: { [key in ADD_ANIMAL]?: { message: string } };
 };
 
 // TODO: move up
@@ -45,7 +47,13 @@ export enum ADD_ANIMAL {
   ANIMAL_IMAGE = 'photo_url',
 }
 
-const OtherDetails = ({ control, register, organicStatuses, animalOrBatch }: OtherDetailsProps) => {
+const OtherDetails = ({
+  control,
+  register,
+  errors,
+  organicStatuses,
+  animalOrBatch,
+}: OtherDetailsProps) => {
   const { t } = useTranslation(['translation', 'common']);
 
   return (
@@ -79,9 +87,12 @@ const OtherDetails = ({ control, register, organicStatuses, animalOrBatch }: Oth
       {/* @ts-ignore */}
       <InputAutoSize
         label={t(`ANIMAL.ATTRIBUTE.OTHER_DETAILS_${animalOrBatch.toUpperCase()}`)}
-        hookFormRegister={register(ADD_ANIMAL.OTHER_DETAILS)}
+        hookFormRegister={register(ADD_ANIMAL.OTHER_DETAILS, {
+          maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+        })}
         optional
         placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.OTHER_DETAILS')}
+        errors={errors?.[ADD_ANIMAL.OTHER_DETAILS]?.message}
       />
       <div>
         <InputBaseLabel

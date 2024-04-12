@@ -13,27 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode } from 'react';
-import Card from '../../Card';
+import MoreAnimalsCard from '../../components/Animals/AddAnimalsForm/MoreAnimalsCard';
+import { componentDecorators } from '../Pages/config/Decorators';
 import styles from './styles.module.scss';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
 
-type AddAnimalCardProps = {
-  children?: ReactNode;
+export default {
+  title: 'Components/MoreAnimalsCard',
+  component: MoreAnimalsCard,
+  decorators: componentDecorators,
 };
 
-export const AddAnimalsCard = ({ children }: AddAnimalCardProps) => {
-  return (
-    <Card className={clsx(styles.addMoreCard)}>
-      {/*@ts-ignore*/}
-      {children}
-    </Card>
-  );
-};
+const Template = (args) => <MoreAnimalsCard {...args} />;
 
-AddAnimalsCard.propTypes = {
-  children: PropTypes.node,
-};
+export const Main = Template.bind({});
 
-export default AddAnimalsCard;
+Main.args = {
+  className: styles.wrapper,
+  onClick: () => console.log('CLICKED!'),
+};

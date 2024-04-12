@@ -14,11 +14,9 @@
  */
  @import '../../../assets/mixin.scss';
 
-.addMoreCard {
+.card {
   // Layout
   display: flex;
-  width: 400px;
-  min-height: 456px;
   padding: 24px 16px;
   flex-direction: column;
   justify-content: center;
@@ -50,6 +48,6 @@
   text-decoration-color: var(--Colors-Primary-Primary-teal-600);
 }
 
-.buttonIcon, .buttonIcon:hover, .addMoreCard:active .buttonIcon {
+button .buttonIcon {
   background-color: transparent;
 }

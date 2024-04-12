@@ -12,19 +12,11 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+ @import '../../assets/mixin.scss';
 
-import React from 'react';
-import MoreAnimalsCard from '../../components/Animals/AddAnimalsForm/MoreAnimalsCard';
-import { componentDecorators } from '../Pages/config/Decorators';
-
-export default {
-  title: 'Components/MoreAnimalsCard',
-  component: MoreAnimalsCard,
-  decorators: componentDecorators,
-};
-
-const Template = (args) => <MoreAnimalsCard {...args} />;
-
-export const Main = Template.bind({});
-
-Main.args = {};
+.wrapper {
+  @include sm-breakpoint {
+    width: 400px;
+    min-height: 456px;
+  }
+}

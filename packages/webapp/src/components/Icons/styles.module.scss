@@ -39,7 +39,7 @@
 
 .icons {
   @include svgColorFill(var(--Colors-Neutral-Neutral-700));
-  background-color: var(--Colors-Backgrounds-Background-color, #FAFCFB);
+  background-color: var(--Colors-Backgrounds-Background-color);
   min-height: 32px;
   min-width: 32px;
   padding: 16px 24px;
@@ -52,6 +52,4 @@
 
 .pill {
   border-radius: 64px;
-  -moz-border-radius: 64px;
-  -webkit-border-radius: 64px;
 }

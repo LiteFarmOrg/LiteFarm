@@ -63,6 +63,7 @@
   "SELECT_ALL": "Select all",
   "SELECTED_COUNT": "{{count}} selected",
   "SELECTED_COUNT_one": "{{count}} selected",
+  "SELECTED_COUNT_many": "{{count}} selected",
   "SELECTED_COUNT_other": "{{count}} selected",
   "SHOWING_ALL": "Showing all",
   "SKIP": "Skip",

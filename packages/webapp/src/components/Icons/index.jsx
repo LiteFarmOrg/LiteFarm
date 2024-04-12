@@ -47,7 +47,7 @@ export const Icons = ({ iconDetails, pill = false, className = '' }) => {
   // Wrapper for display block used to prevent overwriting display in className
   return (
     <div className={styles.displayBlock}>
-      <div className={clsx(styles.icons, pill && styles.pill, className)}>{...CustomIcons}</div>
+      <div className={clsx(styles.icons, pill && styles.pill, className)}>{CustomIcons}</div>
     </div>
   );
 };

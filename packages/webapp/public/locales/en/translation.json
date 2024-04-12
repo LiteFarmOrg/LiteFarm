@@ -158,6 +158,8 @@
     "WILD_CROP": "Wild crops"
   },
   "ANIMAL": {
+    "ADD_MORE_BODY_TEXT": "Do you have another animal type or a different breed?",
+    "ADD_MORE_BUTTON": "Add more animals",
     "ANIMAL_BREED": "Breed",
     "ANIMAL_GROUPS": "Group",
     "ANIMAL_ID": "ID",
@@ -176,6 +178,7 @@
     "REMOVE_ANIMAL": "Remove animals",
     "SEARCH_INVENTORY_PLACEHOLDER": "Search your inventory",
     "SHOWING_RESULTS_WITH_COUNT_one": "Showing {{count}} result",
+    "SHOWING_RESULTS_WITH_COUNT_many": "Showing {{count}} results",
     "SHOWING_RESULTS_WITH_COUNT_other": "Showing {{count}} results"
   },
   "BED_PLAN": {

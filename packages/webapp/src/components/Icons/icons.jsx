@@ -58,6 +58,10 @@ import { ReactComponent as RemoveAnimalIcon } from '../../assets/images/animals/
 // Tasks
 import { ReactComponent as SoilAmendmentTask } from '../../assets/images/task/SoilAmendment.svg';
 
+// System
+import { ReactComponent as MoreHorizontalIcon } from '../../assets/images/more-horizontal.svg';
+import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
+
 const iconMap = {
   // Finances Carousel
   EXPENSE: ExpenseIcon,
@@ -98,6 +102,9 @@ const iconMap = {
   REMOVE_ANIMAL: RemoveAnimalIcon,
   // Tasks
   SOIL_AMENDMENT_TASK: SoilAmendmentTask,
+  // System
+  MORE_HORIZONTAL: MoreHorizontalIcon,
+  PLUS_CIRCLE: PlusCircleIcon,
 };
 
 export default iconMap;

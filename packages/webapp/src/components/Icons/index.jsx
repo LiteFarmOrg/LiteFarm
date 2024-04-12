@@ -36,3 +36,18 @@ const Icon = ({ iconName, circle = false, className = '', ...rest }) => {
 };
 
 export default Icon;
+
+export const Icons = ({ iconDetails, pill = false, className = '' }) => {
+  const CustomIcons = iconDetails.map((iconDetail, i) => {
+    const { iconName, ...rest } = iconDetail;
+    const CustomIcon = iconMap[iconName];
+    return <CustomIcon key={`${iconName}-${i}`} {...rest} />;
+  });
+
+  // Wrapper for display block used to prevent overwriting display in className
+  return (
+    <div className={styles.displayBlock}>
+      <div className={clsx(styles.icons, pill && styles.pill, className)}>{CustomIcons}</div>
+    </div>
+  );
+};

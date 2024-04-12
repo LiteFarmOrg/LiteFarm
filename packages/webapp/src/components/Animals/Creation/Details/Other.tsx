@@ -19,6 +19,7 @@ import ReactSelect from '../../../Form/ReactSelect';
 import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
 import Input from '../../../Form/Input';
 import InputAutoSize from '../../../Form/InputAutoSize';
+import { AnimalOrBatchKeys } from '../../../../containers/Animals/types';
 import styles from './styles.module.scss';
 
 // TODO
@@ -33,6 +34,7 @@ export type OtherDetailsProps = {
   register: any;
   watch: any;
   organicStatuses: ReactSelectOption[];
+  animalOrBatch: AnimalOrBatchKeys;
 };
 
 // TODO: move up
@@ -43,18 +45,22 @@ export enum ADD_ANIMAL {
   ANIMAL_IMAGE = 'photo_url',
 }
 
-const OtherDetails = ({ control, register, organicStatuses }: OtherDetailsProps) => {
+const OtherDetails = ({ control, register, organicStatuses, animalOrBatch }: OtherDetailsProps) => {
   const { t } = useTranslation(['translation', 'common']);
 
   return (
     <div className={styles.sectionWrapper}>
-      {/* @ts-ignore */}
-      <Input
-        type="date"
-        label={t('ANIMAL.ATTRIBUTE.WEANING_DATE')}
-        hookFormRegister={register(ADD_ANIMAL.WEANING_DATE)}
-        optional
-      />
+      {animalOrBatch === AnimalOrBatchKeys.ANIMAL && (
+        <>
+          {/* @ts-ignore */}
+          <Input
+            type="date"
+            label={t('ANIMAL.ATTRIBUTE.WEANING_DATE')}
+            hookFormRegister={register(ADD_ANIMAL.WEANING_DATE)}
+            optional
+          />
+        </>
+      )}
       <Controller
         control={control}
         name={ADD_ANIMAL.ORGANIC_STATUS}
@@ -72,13 +78,16 @@ const OtherDetails = ({ control, register, organicStatuses }: OtherDetailsProps)
       />
       {/* @ts-ignore */}
       <InputAutoSize
-        label={t('ANIMAL.ATTRIBUTE.OTHER_DETAILS')}
+        label={t(`ANIMAL.ATTRIBUTE.OTHER_DETAILS_${animalOrBatch.toUpperCase()}`)}
         hookFormRegister={register(ADD_ANIMAL.OTHER_DETAILS)}
         optional
         placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.OTHER_DETAILS')}
       />
       <div>
-        <InputBaseLabel optional label={t('ANIMAL.ATTRIBUTE.ANIMAL_IMAGE')} />
+        <InputBaseLabel
+          optional
+          label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}
+        />
         {/* TODO: image picker*/}
       </div>
     </div>

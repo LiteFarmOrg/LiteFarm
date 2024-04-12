@@ -190,6 +190,7 @@
       "ORIGIN": "MISSING",
       "OTHER_DETAILS": "MISSING",
       "PLACEHOLDER": {
+        "BATCH_NAME": "MISSING",
         "DAM": "MISSING",
         "MERCHANT": "MISSING",
         "NAME": "MISSING",
@@ -217,11 +218,14 @@
     "ANIMAL_TYPE": "MISSING",
     "ATTRIBUTE": {
       "ANIMAL_IMAGE": "MISSING",
+      "BATCH_IMAGE": "MISSING",
+      "BATCH_NAME": "MISSING",
       "DAM": "MISSING",
       "DATE_OF_BIRTH": "MISSING",
       "MERCHANT": "MISSING",
       "ORGANIC_STATUS": "MISSING",
-      "OTHER_DETAILS": "MISSING",
+      "OTHER_DETAILS_ANIMAL": "MISSING",
+      "OTHER_DETAILS_BATCH": "MISSING",
       "SIRE": "MISSING",
       "TAG_COLOUR": "MISSING",
       "TAG_NUMBER": "MISSING",

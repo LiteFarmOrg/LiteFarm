@@ -186,6 +186,7 @@
       "ORIGIN": "Origin",
       "OTHER_DETAILS": "Other details",
       "PLACEHOLDER": {
+        "BATCH_NAME": "Type in the batch name",
         "DAM": "Type in a dam",
         "MERCHANT": "Type in a merchant",
         "NAME": "Type in a name",
@@ -213,11 +214,14 @@
     "ANIMAL_TYPE": "Type",
     "ATTRIBUTE": {
       "ANIMAL_IMAGE": "Animal image",
+      "BATCH_IMAGE": "Batch image",
+      "BATCH_NAME": "Batch name",
       "DAM": "Dam",
       "DATE_OF_BIRTH": "Date of birth",
       "MERCHANT": "Merchant",
       "ORGANIC_STATUS": "Organic status",
-      "OTHER_DETAILS": "Other animal details",
+      "OTHER_DETAILS_ANIMAL": "Other animal details",
+      "OTHER_DETAILS_BATCH": "Batch details",
       "SIRE": "Sire",
       "TAG_COLOUR": "Tag colour",
       "TAG_NUMBER": "Tag number",

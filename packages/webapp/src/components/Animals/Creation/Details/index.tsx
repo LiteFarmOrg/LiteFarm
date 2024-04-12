@@ -23,12 +23,13 @@ import ExpandableItem from '../../../Expandable/ExpandableItem';
 import useExpandable from '../../../Expandable/useExpandableItem';
 import { useCurrencySymbol } from '../../../../containers/hooks/useCurrencySymbol';
 import { OrganicStatuses } from '../../../../types';
-import styles from './styles.module.scss';
 import {
   useGetAnimalIdentifierColorsQuery,
   useGetAnimalIdentifierPlacementsQuery,
   useGetAnimalOriginsQuery,
 } from '../../../../store/api/apiSlice';
+import { AnimalOrBatchKeys } from '../../../../containers/Animals/types';
+import styles from './styles.module.scss';
 
 enum sectionKeys {
   GENERAL,
@@ -48,14 +49,14 @@ export type AnimalDetailsProps = {
 //   { id: 2, key: 'FEMALE' },
 // ];
 // const sexOptions = [
-//   ...sexesDB.map(({ id, key }) => ({ label: t(`ANIMAL.FILTER.${key}`), value: id })),
 //   { label: t('common:DO_NOT_KNOW'), value: 'UNDEFINED' },
+//   ...sexesDB.map(({ id, key }) => ({ label: t(`ANIMAL.FILTER.${key}`), value: id })),
 // ];
 
 const sexOptions = [
+  { value: 'undefined', label: `I don't know` },
   { value: 1, label: 'Male' },
   { value: 2, label: 'Female' },
-  { value: 'undefined', label: `I don't know` },
 ];
 
 const uses = [
@@ -101,7 +102,7 @@ const AnimalDetails = ({ formProps }: AnimalDetailsProps) => {
       key: sectionKeys.GENERAL,
       title: t('ANIMAL.ADD_ANIMAL.GENERAL_DETAILS'),
       Content: GeneralDetails,
-      sectionProps: { sexes: sexOptions, uses },
+      sectionProps: { sexes: sexOptions, uses, animalOrBatch: AnimalOrBatchKeys.ANIMAL },
     },
     {
       key: sectionKeys.UNIQUE,
@@ -113,7 +114,10 @@ const AnimalDetails = ({ formProps }: AnimalDetailsProps) => {
       key: sectionKeys.OTHER,
       title: t('ANIMAL.ADD_ANIMAL.OTHER_DETAILS'),
       Content: OtherDetails,
-      sectionProps: { organicStatuses: organicStatusOptions },
+      sectionProps: {
+        organicStatuses: organicStatusOptions,
+        animalOrBatch: AnimalOrBatchKeys.ANIMAL,
+      },
     },
     {
       key: sectionKeys.ORIGIN,

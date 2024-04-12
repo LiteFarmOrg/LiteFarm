@@ -13,12 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import Input from '../../../Form/Input';
 import RadioGroup from '../../../Form/RadioGroup';
 import ReactSelect from '../../../Form/ReactSelect';
 import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
-import { AnimalSexes } from '../../../../containers/Animals/types';
+import { AnimalOrBatchKeys, AnimalSexes } from '../../../../containers/Animals/types';
 import styles from './styles.module.scss';
 
 // TODO
@@ -30,15 +32,18 @@ type ReactSelectOption = {
 // TODO
 export type GeneralDetailsProps = {
   control: any;
+  register: any;
   watch: any;
   types: ReactSelectOption[];
   breeds: ReactSelectOption[];
   sexes: ReactSelectOption[];
   uses: ReactSelectOption[];
+  animalOrBatch: AnimalOrBatchKeys;
 };
 
 // TODO: move up
 export enum ADD_ANIMAL {
+  NAME = 'name',
   TYPE = 'type',
   BREED = 'breed',
   SEX = 'sex',
@@ -46,12 +51,59 @@ export enum ADD_ANIMAL {
   USE = 'use',
 }
 
-const GeneralDetails = ({ control, watch, types, breeds, sexes, uses }: GeneralDetailsProps) => {
+const GeneralDetails = ({
+  control,
+  register,
+  watch,
+  types,
+  breeds,
+  sexes,
+  uses,
+  animalOrBatch,
+}: GeneralDetailsProps) => {
   const { t } = useTranslation(['translation', 'common']);
   const sex = watch(ADD_ANIMAL.SEX);
 
+  const sexInputs = useMemo(() => {
+    if (animalOrBatch === AnimalOrBatchKeys.ANIMAL) {
+      return (
+        <>
+          <div>
+            <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
+            {/* @ts-ignore */}
+            <RadioGroup name={ADD_ANIMAL.SEX} radios={sexes} hookFormControl={control} row />
+          </div>
+          {sex ===
+            sexes.find(({ label }) => {
+              return label.toLowerCase() === AnimalSexes.MALE.toLowerCase();
+            })?.value && (
+            <div>
+              <InputBaseLabel optional label={t('ANIMAL.ADD_ANIMAL.USED_FOR_REPRODUCTION')} />
+              {/* @ts-ignore */}
+              <RadioGroup name={ADD_ANIMAL.USED_FOR_PRODUCTION} hookFormControl={control} row />
+            </div>
+          )}
+        </>
+      );
+    }
+
+    return 'TODO: LF-4159';
+  }, [animalOrBatch, t, sexes, control]);
+
   return (
     <div className={styles.sectionWrapper}>
+      {animalOrBatch === AnimalOrBatchKeys.BATCH && (
+        <>
+          {/* @ts-ignore */}
+          <Input
+            type="text"
+            label={t('ANIMAL.ATTRIBUTE.BATCH_NAME')}
+            hookFormRegister={register(ADD_ANIMAL.NAME)} // TODO: max length?
+            optional
+            placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.BATCH_NAME')}
+          />
+        </>
+      )}
       <Controller
         control={control}
         name={ADD_ANIMAL.TYPE}
@@ -59,7 +111,6 @@ const GeneralDetails = ({ control, watch, types, breeds, sexes, uses }: GeneralD
           <ReactSelect
             // @ts-ignore
             label={t('ANIMAL.ANIMAL_TYPE')}
-            optional
             value={value}
             onChange={onChange}
             options={types}
@@ -80,21 +131,7 @@ const GeneralDetails = ({ control, watch, types, breeds, sexes, uses }: GeneralD
           />
         )}
       />
-      <div>
-        <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
-        {/* @ts-ignore */}
-        <RadioGroup name={ADD_ANIMAL.SEX} radios={sexes} hookFormControl={control} row />
-      </div>
-      {sex ===
-        sexes.find(({ label }) => {
-          return label.toLowerCase() === AnimalSexes.MALE.toLowerCase();
-        })?.value && (
-        <div>
-          <InputBaseLabel optional label={t('ANIMAL.ADD_ANIMAL.USED_FOR_REPRODUCTION')} />
-          {/* @ts-ignore */}
-          <RadioGroup name={ADD_ANIMAL.USED_FOR_PRODUCTION} hookFormControl={control} row />
-        </div>
-      )}
+      {sexInputs}
       <Controller
         control={control}
         name={ADD_ANIMAL.USE}

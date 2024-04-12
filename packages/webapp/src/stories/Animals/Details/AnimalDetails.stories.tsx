@@ -14,16 +14,18 @@
  */
 
 import { Suspense } from 'react';
+import { useForm } from 'react-hook-form';
 import { Meta, StoryObj } from '@storybook/react';
 import AnimalCreationDetails, {
   AnimalDetailsProps,
 } from '../../../components/Animals/Creation/Details';
-import { useForm } from 'react-hook-form';
 import AnimalDetails from '../../../components/Animals/Creation/Details';
 import GeneralDetails from '../../../components/Animals/Creation/Details/General';
 import UniqueDetails from '../../../components/Animals/Creation/Details/Unique';
 import OtherDetails from '../../../components/Animals/Creation/Details/Other';
 import OriginDetails from '../../../components/Animals/Creation/Details/Origin';
+import RadioGroup from '../../../components/Form/RadioGroup';
+import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<AnimalDetailsProps> = {
@@ -50,13 +52,28 @@ export const Default: Story = {
 
 export const General: Story = {
   render: () => {
-    const { watch, control } = useForm();
+    const { watch, control, register } = useForm({
+      defaultValues: { animalOrBatch: AnimalOrBatchKeys.ANIMAL },
+    });
+    const animalOrBatch = watch('animalOrBatch');
 
     return (
       <Suspense>
+        {/* @ts-ignore */}
+        <RadioGroup
+          name="animalOrBatch"
+          row
+          hookFormControl={control}
+          radios={[
+            { value: AnimalOrBatchKeys.ANIMAL, label: 'Animal' },
+            { value: AnimalOrBatchKeys.BATCH, label: 'Batch' },
+          ]}
+        />
         <div style={{ padding: '16px' }}>
           <GeneralDetails
+            animalOrBatch={animalOrBatch}
             watch={watch}
+            register={register}
             control={control}
             types={[
               { value: 1, label: 'Cattle' },
@@ -68,9 +85,9 @@ export const General: Story = {
               { value: 2, label: 'Cobb 5' },
             ]}
             sexes={[
+              { value: 'undefined', label: `I don't know` },
               { value: 1, label: 'Male' },
               { value: 2, label: 'Female' },
-              { value: 'undefined', label: `I don't know` },
             ]}
             uses={[
               { label: 'A', value: 'A' },
@@ -120,12 +137,26 @@ export const Unique: Story = {
 
 export const Other: Story = {
   render: () => {
-    const { watch, control, register } = useForm();
+    const { watch, control, register } = useForm({
+      defaultValues: { animalOrBatch: AnimalOrBatchKeys.ANIMAL },
+    });
+    const animalOrBatch = watch('animalOrBatch');
 
     return (
       <Suspense>
+        {/* @ts-ignore */}
+        <RadioGroup
+          name="animalOrBatch"
+          row
+          hookFormControl={control}
+          radios={[
+            { value: AnimalOrBatchKeys.ANIMAL, label: 'Animal' },
+            { value: AnimalOrBatchKeys.BATCH, label: 'Batch' },
+          ]}
+        />
         <div style={{ padding: '16px' }}>
           <OtherDetails
+            animalOrBatch={animalOrBatch}
             watch={watch}
             control={control}
             register={register}

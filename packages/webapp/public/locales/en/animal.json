@@ -25,7 +25,7 @@
   },
   "TYPE": {
     "CATTLE": "Cattle",
-    "PIGS": "Pigs",
-    "CHICKEN": "Chicken"
+    "CHICKEN": "Chicken",
+    "PIGS": "Pigs"
   }
 }

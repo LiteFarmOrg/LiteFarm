@@ -13,18 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import AddAnimalsCard from './AddAnimalsCard';
+import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import { ClassValue } from 'clsx';
 import Icon, { Icons } from '../../Icons';
 import Button from '../../Form/Button';
 
 type MoreAnimalCardProps = {
-  className: ClassValue;
+  className: string;
+  onClick: () => void;
 };
 
-export const MoreAnimalsCard = ({ className }: MoreAnimalCardProps) => {
+export const MoreAnimalsCard = ({ className, onClick }: MoreAnimalCardProps) => {
   const { t } = useTranslation();
 
   const iconDetails = [
@@ -37,14 +37,14 @@ export const MoreAnimalsCard = ({ className }: MoreAnimalCardProps) => {
   ];
 
   return (
-    <AddAnimalsCard>
+    <div className={clsx(styles.card, className)}>
       <Icons pill iconDetails={iconDetails} className={styles.animalIcons} />
       <p className={styles.addMoreText}>{t('ANIMAL.ADD_MORE_BODY_TEXT')}</p>
-      <Button color="secondary-2" type="button">
+      <Button color="secondary-2" type="button" onClick={onClick}>
         <Icon iconName="PLUS_CIRCLE" className={styles.buttonIcon} />
         {t('ANIMAL.ADD_MORE_BUTTON')}
       </Button>
-    </AddAnimalsCard>
+    </div>
   );
 };
 

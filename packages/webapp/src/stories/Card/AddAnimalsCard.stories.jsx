@@ -13,9 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
 import MoreAnimalsCard from '../../components/Animals/AddAnimalsForm/MoreAnimalsCard';
 import { componentDecorators } from '../Pages/config/Decorators';
+import styles from './styles.module.scss';
 
 export default {
   title: 'Components/MoreAnimalsCard',
@@ -27,4 +27,7 @@ const Template = (args) => <MoreAnimalsCard {...args} />;
 
 export const Main = Template.bind({});
 
-Main.args = {};
+Main.args = {
+  className: styles.wrapper,
+  onClick: () => console.log('CLICKED!'),
+};

@@ -12,28 +12,11 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+ @import '../../assets/mixin.scss';
 
-import { ReactNode } from 'react';
-import Card from '../../Card';
-import styles from './styles.module.scss';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-
-type AddAnimalCardProps = {
-  children?: ReactNode;
-};
-
-export const AddAnimalsCard = ({ children }: AddAnimalCardProps) => {
-  return (
-    <Card className={clsx(styles.addMoreCard)}>
-      {/*@ts-ignore*/}
-      {children}
-    </Card>
-  );
-};
-
-AddAnimalsCard.propTypes = {
-  children: PropTypes.node,
-};
-
-export default AddAnimalsCard;
+.wrapper {
+  @include sm-breakpoint {
+    width: 400px;
+    min-height: 456px;
+  }
+}

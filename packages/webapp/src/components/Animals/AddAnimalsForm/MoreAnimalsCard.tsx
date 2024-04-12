@@ -20,7 +20,7 @@ import Icon, { Icons } from '../../Icons';
 import Button from '../../Form/Button';
 
 type MoreAnimalCardProps = {
-  className: string;
+  className?: string;
   onClick: () => void;
 };
 

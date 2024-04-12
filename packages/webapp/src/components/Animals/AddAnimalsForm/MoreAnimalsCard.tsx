@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 import AddAnimalsCard from './AddAnimalsCard';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import clsx, { ClassValue } from 'clsx';
+import { ClassValue } from 'clsx';
 import Icon, { Icons } from '../../Icons';
 import Button from '../../Form/Button';
 

@@ -41,7 +41,7 @@ export const Icons = ({ iconDetails, pill = false, className = '' }) => {
   const CustomIcons = iconDetails.map((iconDetail, i) => {
     const { iconName, ...rest } = iconDetail;
     const CustomIcon = iconMap[iconName];
-    return <CustomIcon key={`${iconDetail.iconName}-${i}`} {...rest} />;
+    return <CustomIcon key={`${iconName}-${i}`} {...rest} />;
   });
 
   // Wrapper for display block used to prevent overwriting display in className

@@ -13,12 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Controller } from 'react-hook-form';
+import { Controller, useController } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ReactSelect from '../../../Form/ReactSelect';
-import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
 import Input from '../../../Form/Input';
 import InputAutoSize from '../../../Form/InputAutoSize';
+import ImagePicker from '../../../../containers/ImagePicker';
 import { AnimalOrBatchKeys } from '../../../../containers/Animals/types';
 import styles from './styles.module.scss';
 
@@ -33,6 +33,8 @@ export type OtherDetailsProps = {
   control: any;
   register: any;
   watch: any;
+  setValue: any;
+  resetField: any;
   organicStatuses: ReactSelectOption[];
   animalOrBatch: AnimalOrBatchKeys;
   errors: any;
@@ -44,17 +46,28 @@ export enum ADD_ANIMAL {
   WEANING_DATE = 'weaning_date',
   ORGANIC_STATUS = 'organic_status',
   OTHER_DETAILS = 'notes',
-  ANIMAL_IMAGE = 'photo_url',
+  ANIMAL_IMAGE = 'image_file',
 }
 
 const OtherDetails = ({
   control,
   register,
+  resetField,
   errors,
   organicStatuses,
   animalOrBatch,
 }: OtherDetailsProps) => {
   const { t } = useTranslation(['translation', 'common']);
+
+  const { field } = useController({ control, name: ADD_ANIMAL.ANIMAL_IMAGE });
+
+  const handleSelectImage = (imageFile: any) => {
+    field.onChange(imageFile);
+  };
+
+  const handleRemoveImage = () => {
+    resetField(ADD_ANIMAL.ANIMAL_IMAGE);
+  };
 
   return (
     <div className={styles.sectionWrapper}>
@@ -94,13 +107,11 @@ const OtherDetails = ({
         placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.OTHER_DETAILS')}
         errors={errors?.[ADD_ANIMAL.OTHER_DETAILS]?.message}
       />
-      <div>
-        <InputBaseLabel
-          optional
-          label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}
-        />
-        {/* TODO: image picker*/}
-      </div>
+      <ImagePicker
+        label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}
+        onSelectImage={handleSelectImage}
+        onRemoveImage={handleRemoveImage}
+      />
     </div>
   );
 };

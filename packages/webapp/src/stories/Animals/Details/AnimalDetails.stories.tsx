@@ -145,7 +145,7 @@ export const Unique: Story = {
 
 export const Other: Story = {
   render: () => {
-    const { watch, control, register, formState } = useForm({
+    const { watch, control, resetField, register, setValue, formState } = useForm({
       defaultValues: { animalOrBatch: AnimalOrBatchKeys.ANIMAL },
       mode: 'onBlur',
     });
@@ -169,6 +169,8 @@ export const Other: Story = {
             watch={watch}
             control={control}
             register={register}
+            setValue={setValue}
+            resetField={resetField}
             errors={formState.errors}
             organicStatuses={[
               { value: 'Non-Organic', label: 'Non-Organic' },

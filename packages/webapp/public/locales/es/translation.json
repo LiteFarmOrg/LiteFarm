@@ -1761,6 +1761,13 @@
     "MAYBE_LATER": "MISSING",
     "UNKNOWN_RECORD": "MISSING"
   },
+  "UPLOADER": {
+    "CHANGE_IMAGE": "Cambiar imagen",
+    "CLICK_TO_UPLOAD": "Clickee para subir",
+    "DRAG_DROP": "o arrastre y suelte",
+    "REMOVE_IMAGE": "Eliminar imagen",
+    "UPLOAD_IMAGE": "Subir imagen"
+  },
   "WAGE": {
     "ERROR": "MISSING",
     "HOURLY_WAGE": "MISSING",

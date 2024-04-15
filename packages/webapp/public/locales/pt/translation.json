@@ -1971,6 +1971,13 @@
     "MAYBE_LATER": "Talvez apareça mais tarde.",
     "UNKNOWN_RECORD": "Registro desconhecido"
   },
+  "UPLOADER": {
+    "CHANGE_IMAGE": "Alterar imagem",
+    "CLICK_TO_UPLOAD": "Clique para enviar",
+    "DRAG_DROP": "ou arraste e solte",
+    "REMOVE_IMAGE": "Remover imagem",
+    "UPLOAD_IMAGE": "Enviar imagem"
+  },
   "WAGE": {
     "ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
     "HOURLY_WAGE": "Salário por hora",

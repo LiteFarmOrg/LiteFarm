@@ -1972,6 +1972,13 @@
     "MAYBE_LATER": "Espérons le trouver plus tard.",
     "UNKNOWN_RECORD": "Enregistrement inconnu"
   },
+  "UPLOADER": {
+    "CHANGE_IMAGE": "Changer image",
+    "CLICK_TO_UPLOAD": "Cliquer pour télécharger",
+    "DRAG_DROP": "ou glisser déposer",
+    "REMOVE_IMAGE": "Supprimer image",
+    "UPLOAD_IMAGE": "Ajouter une image"
+  },
   "WAGE": {
     "ERROR": "Le salaire doit être un nombre décimal valide et non négatif",
     "HOURLY_WAGE": "Salaire horaire",

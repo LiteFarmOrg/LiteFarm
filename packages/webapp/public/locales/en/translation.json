@@ -1964,6 +1964,13 @@
     "MAYBE_LATER": "Maybe it’ll turnip later.",
     "UNKNOWN_RECORD": "Unknown record"
   },
+  "UPLOADER": {
+    "CHANGE_IMAGE": "Change Image",
+    "CLICK_TO_UPLOAD": "Click to upload",
+    "DRAG_DROP": "or drag and drop",
+    "REMOVE_IMAGE": "Remove Image",
+    "UPLOAD_IMAGE": "Upload Image"
+  },
   "WAGE": {
     "ERROR": "Wage must be a valid, non-negative decimal number",
     "HOURLY_WAGE": "Hourly Wage",

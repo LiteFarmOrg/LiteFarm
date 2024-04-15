@@ -31,6 +31,7 @@
 }
 
 .drawer {
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -73,7 +74,6 @@
 }
 
 .drawerContent {
-  max-height: 60vh;
   overflow-y: auto;
   margin: 0 -16px;
   padding: 16px;

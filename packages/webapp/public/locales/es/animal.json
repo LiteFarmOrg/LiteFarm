@@ -17,6 +17,14 @@
     "BORN_AT_FARM": "MISSING",
     "BROUGHT_IN": "MISSING"
   },
+  "TAG_COLOR": {
+    "BLUE": "MISSING",
+    "GREEN": "MISSING",
+    "ORANGE": "MISSING",
+    "RED": "MISSING",
+    "WHITE": "MISSING",
+    "YELLOW": "MISSING"
+  },
   "TAG_PLACEMENT": {
     "LEFT_EAR": "MISSING",
     "LEFT_LEG": "MISSING",

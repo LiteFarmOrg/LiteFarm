@@ -17,6 +17,14 @@
     "BORN_AT_FARM": "Born at the farm",
     "BROUGHT_IN": "Brought in"
   },
+  "TAG_COLOR": {
+    "BLUE": "Blue",
+    "GREEN": "Green",
+    "ORANGE": "Orange",
+    "RED": "Red",
+    "WHITE": "White",
+    "YELLOW": "Yellow"
+  },
   "TAG_PLACEMENT": {
     "LEFT_EAR": "Left ear",
     "LEFT_LEG": "Left leg",

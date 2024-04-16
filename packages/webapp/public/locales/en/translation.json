@@ -1,4 +1,14 @@
 {
+  "ADD_ANIMALS": {
+    "ADD_MORE_DETAILS": "Add more details to your animals",
+    "ALL_DONE": "All done!",
+    "ANIMAL_SUMMARY_COUNT_one": "{{count}} animal",
+    "ANIMAL_SUMMARY_COUNT_other": "{{count}} animals",
+    "BATCH_SUMMARY_COUNT_one": "{{count}} batch",
+    "BATCH_SUMMARY_COUNT_other": "{{count}} batches",
+    "HERE_IS_SUMMARY": "Here is a summary of your added animals:",
+    "SUMMARY": "You successfully added {{animalCount}} {{and}} {{batchCount}} to your farm."
+  },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",
     "DISABLE_GEO_LOCATION": "Location services must be enabled to find your current location.",
@@ -167,6 +177,7 @@
     "ANIMAL_LOCATIONS": "Location",
     "ANIMAL_SEXES": "Sex",
     "ANIMAL_TYPE": "Type",
+    "BATCH": "Batch",
     "FILTER": {
       "BATCHES": "Batches",
       "BATCHES_OR_INDIVIDUALS": "Batches or Individuals",

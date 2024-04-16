@@ -14,7 +14,7 @@
  */
 
 import { Controller, useController } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'react-i18next';
 import ReactSelect from '../../../Form/ReactSelect';
 import Input from '../../../Form/Input';
 import InputAutoSize from '../../../Form/InputAutoSize';
@@ -30,15 +30,16 @@ type ReactSelectOption = {
 
 // TODO
 export type OtherDetailsProps = {
-  control: any;
-  register: any;
-  watch: any;
-  setValue: any;
-  resetField: any;
+  formMethods: {
+    control: any;
+    register: any;
+    resetField: any;
+    formState: { errors: any };
+    // errors?: { [key in ADD_ANIMAL]?: { message: string } };
+  };
+  t: TFunction;
   organicStatuses: ReactSelectOption[];
   animalOrBatch: AnimalOrBatchKeys;
-  errors: any;
-  // errors?: { [key in ADD_ANIMAL]?: { message: string } };
 };
 
 // TODO: move up
@@ -49,15 +50,13 @@ export enum ADD_ANIMAL {
   ANIMAL_IMAGE = 'image_file',
 }
 
-const OtherDetails = ({
-  control,
-  register,
-  resetField,
-  errors,
-  organicStatuses,
-  animalOrBatch,
-}: OtherDetailsProps) => {
-  const { t } = useTranslation(['translation', 'common']);
+const OtherDetails = ({ t, formMethods, organicStatuses, animalOrBatch }: OtherDetailsProps) => {
+  const {
+    control,
+    resetField,
+    register,
+    formState: { errors },
+  } = formMethods;
 
   const { field } = useController({ control, name: ADD_ANIMAL.ANIMAL_IMAGE });
 

@@ -14,7 +14,7 @@
  */
 
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'react-i18next';
 import Input, { getInputErrors } from '../../../Form/Input';
 import RadioGroup from '../../../Form/RadioGroup';
 import styles from './styles.module.scss';
@@ -26,10 +26,13 @@ type ReactSelectOption = {
 
 // TODO
 export type OriginProps = {
-  control: any;
-  register: any;
-  watch: any;
-  errors: any;
+  formMethods: {
+    control: any;
+    register: any;
+    watch: any;
+    formState: { errors: any };
+  };
+  t: TFunction;
   currency: string;
   originOptions: ReactSelectOption[];
 };
@@ -44,8 +47,13 @@ export enum ADD_ANIMAL {
   PRICE = 'price', // TODO
 }
 
-const Origin = ({ control, watch, register, errors, currency, originOptions }: OriginProps) => {
-  const { t } = useTranslation(['translation', 'common', 'animal']);
+const Origin = ({ t, formMethods, currency, originOptions }: OriginProps) => {
+  const {
+    control,
+    watch,
+    register,
+    formState: { errors },
+  } = formMethods;
   const originId = watch(ADD_ANIMAL.ORIGIN);
 
   const fields = useMemo(() => {

@@ -26,6 +26,52 @@ import OtherDetails from '../../../components/Animals/Creation/Details/Other';
 import OriginDetails from '../../../components/Animals/Creation/Details/Origin';
 import RadioGroup from '../../../components/Form/RadioGroup';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
+import { useTranslation } from 'react-i18next';
+
+const types = [
+  { value: 1, label: 'Cattle' },
+  { value: 2, label: 'Pig' },
+  { value: 3, label: 'Chicken' },
+];
+const breeds = [
+  { value: 1, label: 'Angus' },
+  { value: 2, label: 'Cobb 5' },
+];
+const sexes = [
+  { value: 'undefined', label: `I don't know` },
+  { value: 1, label: 'Male' },
+  { value: 2, label: 'Female' },
+];
+const uses = [
+  { label: 'A', value: 'A' },
+  { label: 'B', value: 'B' },
+  { label: 'C', value: 'C' },
+];
+const identifierTypes = [
+  { value: 1, label: 'Ear tags' },
+  { value: 2, label: 'Leg bands' },
+];
+const identifierColors = [
+  { value: 1, label: 'YELLOW' },
+  { value: 2, label: 'WHITE' },
+  { value: 3, label: 'ORANGE' },
+  { value: 4, label: 'GREEN' },
+  { value: 5, label: 'BLUE' },
+  { value: 6, label: 'RED' },
+];
+const identifierPlacements = [
+  { value: 1, label: 'Brought in' },
+  { value: 2, label: 'Born at the farm' },
+];
+const organicStatuses = [
+  { value: 'Non-Organic', label: 'Non-Organic' },
+  { value: 'Organic', label: 'Organic' },
+  { value: 'Transitional', label: 'Transitioning' },
+];
+const originOptions = [
+  { value: 1, label: 'Brought in' },
+  { value: 2, label: 'Born at the farm' },
+];
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<AnimalDetailsProps> = {
@@ -38,12 +84,32 @@ type Story = StoryObj<typeof AnimalCreationDetails>;
 
 export const Default: Story = {
   render: () => {
-    const rhFormMethods = useForm();
+    const formMethods = useForm();
 
     return (
       <Suspense>
         <div style={{ padding: '16px' }}>
-          <AnimalDetails formProps={rhFormMethods} />
+          <AnimalDetails
+            formMethods={formMethods}
+            generalDetailProps={{
+              types,
+              breeds,
+              sexes,
+              uses,
+            }}
+            uniqueDetailsProps={{
+              identifierTypes,
+              identifierColors,
+              identifierPlacements,
+            }}
+            otherDetailsProps={{
+              organicStatuses,
+            }}
+            originProps={{
+              currency: '$',
+              originOptions,
+            }}
+          />
         </div>
       </Suspense>
     );
@@ -52,11 +118,12 @@ export const Default: Story = {
 
 export const General: Story = {
   render: () => {
-    const { watch, control, register, formState } = useForm({
+    const formMethods = useForm({
       defaultValues: { animalOrBatch: AnimalOrBatchKeys.ANIMAL },
       mode: 'onBlur',
     });
-    const animalOrBatch = watch('animalOrBatch');
+    const { t } = useTranslation();
+    const animalOrBatch = formMethods.watch('animalOrBatch');
 
     return (
       <Suspense>
@@ -64,7 +131,7 @@ export const General: Story = {
         <RadioGroup
           name="animalOrBatch"
           row
-          hookFormControl={control}
+          hookFormControl={formMethods.control}
           radios={[
             { value: AnimalOrBatchKeys.ANIMAL, label: 'Animal' },
             { value: AnimalOrBatchKeys.BATCH, label: 'Batch' },
@@ -72,30 +139,13 @@ export const General: Story = {
         />
         <div style={{ padding: '16px' }}>
           <GeneralDetails
+            t={t}
             animalOrBatch={animalOrBatch}
-            watch={watch}
-            register={register}
-            control={control}
-            errors={formState.errors}
-            types={[
-              { value: 1, label: 'Cattle' },
-              { value: 2, label: 'Pig' },
-              { value: 3, label: 'Chicken' },
-            ]}
-            breeds={[
-              { value: 1, label: 'Angus' },
-              { value: 2, label: 'Cobb 5' },
-            ]}
-            sexes={[
-              { value: 'undefined', label: `I don't know` },
-              { value: 1, label: 'Male' },
-              { value: 2, label: 'Female' },
-            ]}
-            uses={[
-              { label: 'A', value: 'A' },
-              { label: 'B', value: 'B' },
-              { label: 'C', value: 'C' },
-            ]}
+            formMethods={formMethods}
+            types={types}
+            breeds={breeds}
+            sexes={sexes}
+            uses={uses}
           />
         </div>
       </Suspense>
@@ -105,37 +155,18 @@ export const General: Story = {
 
 export const Unique: Story = {
   render: () => {
-    const {
-      watch,
-      control,
-      register,
-      formState: { errors },
-    } = useForm({ mode: 'onBlur' });
+    const formMethods = useForm({ mode: 'onBlur' });
+    const { t } = useTranslation();
 
     return (
       <Suspense>
         <div style={{ padding: '16px' }}>
           <UniqueDetails
-            watch={watch}
-            control={control}
-            register={register}
-            errors={errors}
-            identifierTypes={[
-              { value: 1, label: 'Ear tags' },
-              { value: 2, label: 'Leg bands' },
-            ]}
-            identifierColors={[
-              { value: 1, label: 'YELLOW' },
-              { value: 2, label: 'WHITE' },
-              { value: 3, label: 'ORANGE' },
-              { value: 4, label: 'GREEN' },
-              { value: 5, label: 'BLUE' },
-              { value: 6, label: 'RED' },
-            ]}
-            identifierPlacements={[
-              { value: 1, label: 'Brought in' },
-              { value: 2, label: 'Born at the farm' },
-            ]}
+            t={t}
+            formMethods={formMethods}
+            identifierTypes={identifierTypes}
+            identifierColors={identifierColors}
+            identifierPlacements={identifierPlacements}
           />
         </div>
       </Suspense>
@@ -145,11 +176,12 @@ export const Unique: Story = {
 
 export const Other: Story = {
   render: () => {
-    const { watch, control, resetField, register, setValue, formState } = useForm({
+    const formMethods = useForm({
       defaultValues: { animalOrBatch: AnimalOrBatchKeys.ANIMAL },
       mode: 'onBlur',
     });
-    const animalOrBatch = watch('animalOrBatch');
+    const { t } = useTranslation();
+    const animalOrBatch = formMethods.watch('animalOrBatch');
 
     return (
       <Suspense>
@@ -157,7 +189,7 @@ export const Other: Story = {
         <RadioGroup
           name="animalOrBatch"
           row
-          hookFormControl={control}
+          hookFormControl={formMethods.control}
           radios={[
             { value: AnimalOrBatchKeys.ANIMAL, label: 'Animal' },
             { value: AnimalOrBatchKeys.BATCH, label: 'Batch' },
@@ -165,18 +197,10 @@ export const Other: Story = {
         />
         <div style={{ padding: '16px' }}>
           <OtherDetails
+            t={t}
             animalOrBatch={animalOrBatch}
-            watch={watch}
-            control={control}
-            register={register}
-            setValue={setValue}
-            resetField={resetField}
-            errors={formState.errors}
-            organicStatuses={[
-              { value: 'Non-Organic', label: 'Non-Organic' },
-              { value: 'Organic', label: 'Organic' },
-              { value: 'Transitional', label: 'Transitioning' },
-            ]}
+            formMethods={formMethods}
+            organicStatuses={organicStatuses}
           />
         </div>
       </Suspense>
@@ -186,26 +210,17 @@ export const Other: Story = {
 
 export const Origin: Story = {
   render: () => {
-    const {
-      watch,
-      control,
-      register,
-      formState: { errors },
-    } = useForm({ mode: 'onBlur' });
+    const formMethods = useForm({ mode: 'onBlur' });
+    const { t } = useTranslation();
 
     return (
       <Suspense>
         <div style={{ padding: '16px' }}>
           <OriginDetails
-            watch={watch}
-            control={control}
-            register={register}
-            errors={errors}
+            t={t}
+            formMethods={formMethods}
             currency={'$'}
-            originOptions={[
-              { value: 1, label: 'Brought in' },
-              { value: 2, label: 'Born at the farm' },
-            ]}
+            originOptions={originOptions}
           />
         </div>
       </Suspense>

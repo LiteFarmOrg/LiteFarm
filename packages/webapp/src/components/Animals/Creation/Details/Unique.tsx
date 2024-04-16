@@ -15,7 +15,7 @@
 
 import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'react-i18next';
 import ReactSelect from '../../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../../Form/Input';
 import styles from './styles.module.scss';
@@ -28,10 +28,13 @@ type ReactSelectOption = {
 
 // TODO
 export type UniqueDetailsProps = {
-  control: any;
-  register: any;
-  watch: any;
-  errors: any;
+  formMethods: {
+    control: any;
+    register: any;
+    watch: any;
+    formState: { errors: any };
+  };
+  t: TFunction;
   identifierTypes: ReactSelectOption[];
   identifierColors: ReactSelectOption[];
   identifierPlacements: ReactSelectOption[];
@@ -49,15 +52,19 @@ export enum ADD_ANIMAL {
 }
 
 const UniqueDetails = ({
-  control,
-  watch,
-  register,
-  errors,
+  t,
+  formMethods,
   identifierTypes,
   identifierColors,
   identifierPlacements,
 }: UniqueDetailsProps) => {
-  const { t } = useTranslation(['translation', 'common', 'animal']);
+  const {
+    control,
+    watch,
+    register,
+    formState: { errors },
+  } = formMethods;
+
   const animalType = watch('type');
   const tagPlacement = watch(ADD_ANIMAL.TAG_PLACEMENT);
 

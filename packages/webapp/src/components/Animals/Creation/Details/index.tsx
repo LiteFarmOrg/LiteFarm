@@ -15,19 +15,12 @@
 
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import GeneralDetails from './General';
-import UniqueDetails from './Unique';
-import OtherDetails from './Other';
-import Origin from './Origin';
+import GeneralDetails, { type GeneralDetailsProps } from './General';
+import UniqueDetails, { type UniqueDetailsProps } from './Unique';
+import OtherDetails, { type OtherDetailsProps } from './Other';
+import Origin, { type OriginProps } from './Origin';
 import ExpandableItem from '../../../Expandable/ExpandableItem';
 import useExpandable from '../../../Expandable/useExpandableItem';
-import { useCurrencySymbol } from '../../../../containers/hooks/useCurrencySymbol';
-import { OrganicStatuses } from '../../../../types';
-import {
-  useGetAnimalIdentifierColorsQuery,
-  useGetAnimalIdentifierPlacementsQuery,
-  useGetAnimalOriginsQuery,
-} from '../../../../store/api/apiSlice';
 import { AnimalOrBatchKeys } from '../../../../containers/Animals/types';
 import styles from './styles.module.scss';
 
@@ -40,96 +33,63 @@ enum sectionKeys {
 
 // TODO
 export type AnimalDetailsProps = {
-  formProps: any;
+  formMethods: any;
+  generalDetailProps: Omit<GeneralDetailsProps, 't' | 'formMethods' | 'animalOrBatch'>;
+  uniqueDetailsProps: Omit<UniqueDetailsProps, 't' | 'formMethods'>;
+  otherDetailsProps: Omit<OtherDetailsProps, 't' | 'formMethods' | 'animalOrBatch'>;
+  originProps: Omit<OriginProps, 't' | 'formMethods'>;
 };
 
-// ===== Mock =====
-// const sexesDB = [
-//   { id: 1, key: 'MALE' },
-//   { id: 2, key: 'FEMALE' },
-// ];
-// const sexOptions = [
-//   { label: t('common:DO_NOT_KNOW'), value: 'UNDEFINED' },
-//   ...sexesDB.map(({ id, key }) => ({ label: t(`ANIMAL.FILTER.${key}`), value: id })),
-// ];
-
-const sexOptions = [
-  { value: 'undefined', label: `I don't know` },
-  { value: 1, label: 'Male' },
-  { value: 2, label: 'Female' },
-];
-
-const uses = [
-  { label: 'A', value: 'A' },
-  { label: 'B', value: 'B' },
-  { label: 'C', value: 'C' },
-];
-
-const origins = [
-  { id: 1, key: 'BROUGHT_IN' },
-  { id: 2, key: 'BORN_AT_FARM' },
-];
-
-const AnimalDetails = ({ formProps }: AnimalDetailsProps) => {
+const AnimalDetails = ({
+  formMethods,
+  generalDetailProps,
+  uniqueDetailsProps,
+  otherDetailsProps,
+  originProps,
+}: AnimalDetailsProps) => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
-  const { t } = useTranslation(['translation', 'common']);
-
-  // TODO: move up
-  const currency = useCurrencySymbol();
-
-  const originOptions = origins.map(({ id, key }) => ({
-    value: id,
-    label: t(`animal:ORIGIN.${key}`),
-  }));
-
-  const organicStatusOptions = [
-    {
-      label: t('common:NON_ORGANIC'),
-      value: OrganicStatuses.NON_ORGANIC,
-    },
-    {
-      label: t('common:ORGANIC'),
-      value: OrganicStatuses.ORGANIC,
-    },
-    {
-      label: t('common:TRANSITIONING'),
-      value: OrganicStatuses.TRANSITIONAL,
-    },
-  ];
+  const { t } = useTranslation(['translation', 'common', 'animal']);
 
   const sections = [
     {
       key: sectionKeys.GENERAL,
       title: t('ANIMAL.ADD_ANIMAL.GENERAL_DETAILS'),
-      Content: GeneralDetails,
-      sectionProps: { sexes: sexOptions, uses, animalOrBatch: AnimalOrBatchKeys.ANIMAL },
+      content: (
+        <GeneralDetails
+          {...generalDetailProps}
+          animalOrBatch={AnimalOrBatchKeys.ANIMAL}
+          formMethods={formMethods}
+          t={t}
+        />
+      ),
     },
     {
       key: sectionKeys.UNIQUE,
       title: t('ANIMAL.ADD_ANIMAL.UNIQUE_DETAILS'),
-      Content: UniqueDetails,
-      sectionProps: {},
+      content: <UniqueDetails {...uniqueDetailsProps} formMethods={formMethods} t={t} />,
     },
     {
       key: sectionKeys.OTHER,
       title: t('ANIMAL.ADD_ANIMAL.OTHER_DETAILS'),
-      Content: OtherDetails,
-      sectionProps: {
-        organicStatuses: organicStatusOptions,
-        animalOrBatch: AnimalOrBatchKeys.ANIMAL,
-      },
+      content: (
+        <OtherDetails
+          {...otherDetailsProps}
+          animalOrBatch={AnimalOrBatchKeys.ANIMAL}
+          formMethods={formMethods}
+          t={t}
+        />
+      ),
     },
     {
       key: sectionKeys.ORIGIN,
       title: t('ANIMAL.ADD_ANIMAL.ORIGIN'),
-      Content: Origin,
-      sectionProps: { currency, originOptions },
+      content: <Origin {...originProps} formMethods={formMethods} t={t} />,
     },
   ];
 
   return (
     <div className={styles.detailsWrapper}>
-      {sections.map(({ key, title, Content, sectionProps }) => {
+      {sections.map(({ key, title, content }) => {
         const isExpanded = expandedIds.includes(key);
 
         return (
@@ -139,11 +99,7 @@ const AnimalDetails = ({ formProps }: AnimalDetailsProps) => {
               isExpanded={isExpanded}
               onClick={() => toggleExpanded(key)}
               mainContent={title}
-              expandedContent={
-                <div className={styles.expandedContentWrapper}>
-                  <Content {...formProps} {...sectionProps} />
-                </div>
-              }
+              expandedContent={<div className={styles.expandedContentWrapper}>{content}</div>}
             />
           </div>
         );

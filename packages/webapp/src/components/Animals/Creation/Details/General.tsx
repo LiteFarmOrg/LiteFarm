@@ -15,7 +15,7 @@
 
 import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'react-i18next';
 import Input, { getInputErrors } from '../../../Form/Input';
 import RadioGroup from '../../../Form/RadioGroup';
 import ReactSelect from '../../../Form/ReactSelect';
@@ -31,10 +31,13 @@ type ReactSelectOption = {
 
 // TODO
 export type GeneralDetailsProps = {
-  control: any;
-  register: any;
-  watch: any;
-  errors: any;
+  formMethods: {
+    control: any;
+    register: any;
+    watch: any;
+    formState: { errors: any };
+  };
+  t: TFunction;
   types: ReactSelectOption[];
   breeds: ReactSelectOption[];
   sexes: ReactSelectOption[];
@@ -53,17 +56,21 @@ export enum ADD_ANIMAL {
 }
 
 const GeneralDetails = ({
-  control,
-  register,
-  watch,
-  errors,
+  t,
+  formMethods,
   types,
   breeds,
   sexes,
   uses,
   animalOrBatch,
 }: GeneralDetailsProps) => {
-  const { t } = useTranslation(['translation', 'common']);
+  const {
+    control,
+    watch,
+    register,
+    formState: { errors },
+  } = formMethods;
+
   const sex = watch(ADD_ANIMAL.SEX);
 
   const sexInputs = useMemo(() => {

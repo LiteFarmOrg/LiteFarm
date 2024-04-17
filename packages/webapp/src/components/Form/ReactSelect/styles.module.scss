@@ -1,5 +1,5 @@
 /*
- *  Copyright 2019, 2020, 2021, 2022, 2023 LiteFarm.org
+ *  Copyright 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -23,37 +23,4 @@
   overflow: visible;
   position: relative;
   min-width: 0;
-}
-
-.labelContainer {
-  display: flex;
-  justify-content: space-between;
-  min-height: 20px;
-  position: relative;
-}
-
-.labelText {
-  position: absolute;
-  bottom: 0;
-}
-
-.leaf {
-  transform: translate(4px, 3px);
-  margin-left: 4px;
-}
-
-.tooltipIconContainer {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.icon {
-  position: absolute;
-  right: 0;
-  color: var(--iconDefault);
-}
-
-.icon > * {
-  cursor: pointer;
 }

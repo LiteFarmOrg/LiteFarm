@@ -33,7 +33,7 @@ export const IconSummary = ({
     <div className={styles.summaryCard}>
       <Icon
         iconName={isBatch ? 'BATCH_GREEN' : iconKey}
-        className={isBatch ? styles.batchIcon : styles.animalIcon}
+        className={isBatch ? '' : styles.animalIcon}
       />
       <div>
         <Main className={styles.typeAndBreed}>

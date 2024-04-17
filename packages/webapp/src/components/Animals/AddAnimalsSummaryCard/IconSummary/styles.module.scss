@@ -21,10 +21,6 @@
   box-shadow: 0px 1px 0px 0px var(--Colors-Neutral-Neutral-50);
 }
 
-.batchIcon svg path {
-  fill: var(--Colors-Primary-Primary-teal-300);
-}
-
 .summaryCard {
   display: flex;
   padding: 10px 16px;
@@ -36,40 +32,27 @@
   background: var(--White);
 }
 
-.typeAndBreed {
+.typeAndBreed,
+.detailText {
   color: var(--Colors-Primary-Primary-teal-900);
-  font-family: 'Open Sans';
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
   line-height: normal;
   letter-spacing: -0.352px;
+}
+
+.detailText {
+  font-weight: 700;
 }
 
 .batchDetail {
   display: flex;
   gap: 8px;
-  align-items: center;
   text-transform: uppercase;
 }
 
-.detailText {
-  color: var(--Colors-Primary-Primary-teal-900);
-  font-family: 'Open Sans';
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.352px;
-}
-
 .countBadge {
-  display: flex;
   padding: 4px;
-
   border-radius: 2px;
   background: var(--Colors-Accent---singles-Purple-light);
-  box-shadow: 1px 1px 0px 0px #fff;
 
   .countValue {
     color: var(--Colors-Accent---singles-Purple-full);

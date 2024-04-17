@@ -1,5 +1,5 @@
-import ReactSelect from '../../Form/ReactSelect';
-import React, { useEffect, useMemo, useState } from 'react';
+import { CreatableSelect } from '../../Form/ReactSelect';
+import { useEffect, useMemo, useState } from 'react';
 import { ReactComponent as Leaf } from '../../../assets/images/farmMapFilter/Leaf.svg';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -90,7 +90,7 @@ const AddProduct = ({
 
   return (
     <>
-      <ReactSelect
+      <CreatableSelect
         label={t('ADD_PRODUCT.PRODUCT_LABEL')}
         options={transformProductsToLabel(productsOfType)}
         onChange={(e) => {
@@ -100,7 +100,6 @@ const AddProduct = ({
         placeholder={t('ADD_PRODUCT.PRESS_ENTER')}
         value={productValue}
         style={{ marginBottom: '40px' }}
-        creatable
         hasLeaf={true}
         isDisabled={disabled}
       />

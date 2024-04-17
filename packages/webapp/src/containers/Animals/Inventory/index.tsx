@@ -23,7 +23,9 @@ import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventory } from './useAnimalInventory';
 import ActionMenu from '../../../components/ActionMenu';
-import FixedHeaderContainer from '../../../components/Animals/FixedHeaderContainer';
+import FixedHeaderContainer, {
+  ContainerKind,
+} from '../../../components/Animals/FixedHeaderContainer';
 import KPI from './KPI';
 import useSearchFilter from '../../../containers/hooks/useSearchFilter';
 import styles from './styles.module.scss';
@@ -215,6 +217,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
     <FixedHeaderContainer
       header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
       classes={{ paper: styles.paper }}
+      kind={ContainerKind.PAPER}
     >
       <PureAnimalInventory
         filteredInventory={searchAndFilteredInventory}

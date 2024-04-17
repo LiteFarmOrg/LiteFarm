@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,7 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
 import clsx from 'clsx';
 import { expect } from '@storybook/jest';
 import { within, userEvent, waitForElementToBeRemoved } from '@storybook/testing-library';
@@ -20,7 +19,6 @@ import Expandable from '../../components/Expandable/ExpandableItem';
 import useExpandable from '../../components/Expandable/useExpandableItem';
 import TransactionItem from '../../components/Finances/Transaction/Mobile/Item';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
 import styles from '../../components/Finances/Transaction/Mobile/styles.module.scss';
 
 export default {
@@ -35,21 +33,21 @@ const data = [
     type: 'Crop sales',
     amount: 17551.5,
     expandedContent: 'Expanded content 1',
-    icon: <SoilAmendment />,
+    icon: 'SOIL_AMENDMENT',
   },
   {
     transaction: 'Gas refill',
     type: 'Fuel',
     amount: -873.0,
     expandedContent: 'Expanded content 2',
-    icon: <SoilAmendment />,
+    icon: 'SOIL_AMENDMENT',
   },
   {
     transaction: 'Pesticide and traps',
     type: 'Pest control',
     amount: -873.0,
     expandedContent: 'Expanded content 3',
-    icon: <SoilAmendment />,
+    icon: 'SOIL_AMENDMENT',
   },
 ];
 
@@ -59,7 +57,7 @@ const MainContent = ({ transaction, type, amount, icon }) => {
       transaction={transaction}
       type={type}
       amount={amount}
-      icon={icon}
+      iconKey={icon}
       currencySymbol="€"
     />
   );

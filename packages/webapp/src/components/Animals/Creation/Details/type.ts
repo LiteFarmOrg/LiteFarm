@@ -33,8 +33,9 @@ export enum DetailsFields {
   // UNIQUE
   DATE_OF_BIRTH = 'birth_date',
   TAG_NUMBER = 'identifier',
-  TAG_TYPE = 'identifier_type',
   TAG_COLOR = 'identifier_color_id',
+  TAG_TYPE = 'identifier_type',
+  TAG_TYPE_INFO = 'identifier_type_info',
   TAG_PLACEMENT = 'identifier_placement_id',
   TAG_PLACEMENT_INFO = 'identifier_placement_info',
 
@@ -54,28 +55,29 @@ export enum DetailsFields {
 }
 
 export type FormValues = {
-  [DetailsFields.NAME]: string;
+  [DetailsFields.NAME]?: string;
   [DetailsFields.TYPE]: ReactSelectOption<string>; // TODO: confirm
-  [DetailsFields.BREED]: ReactSelectOption<string>; // TODO: confirm
-  [DetailsFields.SEX]: number;
-  [DetailsFields.USED_FOR_PRODUCTION]: boolean;
-  [DetailsFields.USE]: ReactSelectOption<number | string>[]; // TODO: confirm
-  [DetailsFields.DATE_OF_BIRTH]: string;
-  [DetailsFields.TAG_NUMBER]: string;
-  [DetailsFields.TAG_TYPE]: ReactSelectOption<number>; // TODO: confirm
-  [DetailsFields.TAG_COLOR]: ReactSelectOption<number>; // TODO: confirm
-  [DetailsFields.TAG_PLACEMENT]: ReactSelectOption<number | string>;
-  [DetailsFields.TAG_PLACEMENT_INFO]: string;
-  [DetailsFields.WEANING_DATE]: string;
-  [DetailsFields.ORGANIC_STATUS]: ReactSelectOption<string>;
-  [DetailsFields.OTHER_DETAILS]: string;
-  [DetailsFields.ANIMAL_IMAGE]: any;
-  [DetailsFields.ORIGIN]: number;
-  [DetailsFields.DAM]: string;
-  [DetailsFields.SIRE]: string;
-  [DetailsFields.BROUGHT_IN_DATE]: string;
-  [DetailsFields.MERCHANT]: string;
-  [DetailsFields.PRICE]: number;
+  [DetailsFields.BREED]?: ReactSelectOption<string>; // TODO: confirm
+  [DetailsFields.SEX]?: number;
+  [DetailsFields.USED_FOR_PRODUCTION]?: boolean;
+  [DetailsFields.USE]?: ReactSelectOption<number | string>[]; // TODO: confirm
+  [DetailsFields.DATE_OF_BIRTH]?: string;
+  [DetailsFields.TAG_NUMBER]?: string;
+  [DetailsFields.TAG_COLOR]?: ReactSelectOption<number>; // TODO: confirm
+  [DetailsFields.TAG_TYPE]?: ReactSelectOption<number>; // TODO: confirm
+  [DetailsFields.TAG_TYPE_INFO]?: string;
+  [DetailsFields.TAG_PLACEMENT]?: ReactSelectOption<number | string> | null;
+  [DetailsFields.TAG_PLACEMENT_INFO]?: string;
+  [DetailsFields.WEANING_DATE]?: string;
+  [DetailsFields.ORGANIC_STATUS]?: ReactSelectOption<string>;
+  [DetailsFields.OTHER_DETAILS]?: string;
+  [DetailsFields.ANIMAL_IMAGE]?: any;
+  [DetailsFields.ORIGIN]?: number;
+  [DetailsFields.DAM]?: string;
+  [DetailsFields.SIRE]?: string;
+  [DetailsFields.BROUGHT_IN_DATE]?: string;
+  [DetailsFields.MERCHANT]?: string;
+  [DetailsFields.PRICE]?: number;
 };
 
 export interface FormMethods extends UseFormReturn<FormValues> {}

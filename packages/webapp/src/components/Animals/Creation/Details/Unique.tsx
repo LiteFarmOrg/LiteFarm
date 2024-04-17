@@ -13,11 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import ReactSelect from '../../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../../Form/Input';
-import { DetailsFields, type FormValues, type CommonDetailsProps } from './type';
+import { DetailsFields, type FormValues, type CommonDetailsProps, ReactSelectOption } from './type';
 import styles from './styles.module.scss';
 
 export type UniqueDetailsProps = CommonDetailsProps & {
@@ -37,17 +37,33 @@ const UniqueDetails = ({
     control,
     watch,
     register,
+    setValue,
     formState: { errors },
   } = formMethods;
 
-  const animalType = watch(DetailsFields.TYPE);
+  const tagType = watch(DetailsFields.TAG_TYPE);
   const tagPlacement = watch(DetailsFields.TAG_PLACEMENT);
 
-  const tagPlacementOptions = useMemo(() => {
-    // TODO
-    if (animalType.value === 'defaultType') {
+  const [tagPlacementOptions, setTagPlacementOptions] = useState<
+    (ReactSelectOption<string> | undefined)[]
+  >([]);
+
+  useEffect(() => {
+    let newOptions = [];
+    if (tagType?.value === 1) {
+      newOptions = [
+        { label: t('animal:TAG_PLACEMENT.LEFT_EAR'), value: 'LEFT_EAR' },
+        { label: t('animal:TAG_PLACEMENT.RIGHT_EAR'), value: 'RIGHT_EAR' },
+      ];
+    } else if (tagType?.value === 2) {
+      newOptions = [
+        { label: t('animal:TAG_PLACEMENT.LEFT_LEG'), value: 'LEFT_LEG' },
+        { label: t('animal:TAG_PLACEMENT.RIGHT_LEG'), value: 'RIGHT_LEG' },
+      ];
+    } else if (tagType?.value === 3) {
+      newOptions = [{ label: t('common:OTHER'), value: 'OTHER' }];
     } else {
-      return [
+      newOptions = [
         { label: t('animal:TAG_PLACEMENT.LEFT_EAR'), value: 'LEFT_EAR' },
         { label: t('animal:TAG_PLACEMENT.RIGHT_EAR'), value: 'RIGHT_EAR' },
         { label: t('animal:TAG_PLACEMENT.LEFT_LEG'), value: 'LEFT_LEG' },
@@ -55,7 +71,14 @@ const UniqueDetails = ({
         { label: t('common:OTHER'), value: 'OTHER' },
       ];
     }
-  }, [animalType, tagPlacements]);
+    setTagPlacementOptions(newOptions);
+
+    if (!newOptions.find(({ value }) => value === tagPlacement?.value)) {
+      // resetField or setting undefined does not update the value of ReactSelect
+      // https://github.com/JedWatson/react-select/issues/2846#issuecomment-407637156
+      setValue(DetailsFields.TAG_PLACEMENT, null);
+    }
+  }, [tagType]);
 
   return (
     <div className={styles.sectionWrapper}>
@@ -90,21 +113,6 @@ const UniqueDetails = ({
       />
       <Controller
         control={control}
-        name={DetailsFields.TAG_TYPE}
-        render={({ field: { onChange, value } }) => (
-          <ReactSelect
-            // @ts-ignore
-            label={t('ANIMAL.ATTRIBUTE.TAG_TYPE')}
-            optional
-            value={value}
-            onChange={onChange}
-            options={tagTypes}
-            placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_TYPE')}
-          />
-        )}
-      />
-      <Controller
-        control={control}
         name={DetailsFields.TAG_COLOR}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
@@ -118,6 +126,35 @@ const UniqueDetails = ({
           />
         )}
       />
+      <Controller
+        control={control}
+        name={DetailsFields.TAG_TYPE}
+        render={({ field: { onChange, value } }) => (
+          <ReactSelect
+            // @ts-ignore
+            label={t('ANIMAL.ATTRIBUTE.TAG_TYPE')}
+            optional
+            value={value}
+            onChange={onChange}
+            options={tagTypes}
+            placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_TYPE')}
+          />
+        )}
+      />
+      {tagType?.value === 3 && (
+        <>
+          {/* @ts-ignore */}
+          <Input
+            type="text"
+            hookFormRegister={register(DetailsFields.TAG_TYPE_INFO, {
+              maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+            })}
+            optional
+            placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_TYPE_INFO')}
+            errors={getInputErrors(errors, DetailsFields.TAG_TYPE_INFO)}
+          />
+        </>
+      )}
       <Controller
         control={control}
         name={DetailsFields.TAG_PLACEMENT}

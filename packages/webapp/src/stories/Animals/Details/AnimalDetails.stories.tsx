@@ -30,9 +30,10 @@ import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { FormMethods } from '../../../components/Animals/Creation/Details/type';
 
 const types = [
-  { value: '1', label: 'Cattle' },
-  { value: '2', label: 'Pig' },
-  { value: '3', label: 'Chicken' },
+  { value: 'default_1', label: 'Cattle' },
+  { value: 'default_2', label: 'Pig' },
+  { value: 'default_3', label: 'Chicken' },
+  { value: 'custom_1', label: 'Dog' },
 ];
 const breeds = [
   { value: '1', label: 'Angus' },
@@ -51,6 +52,7 @@ const uses = [
 const tagTypes = [
   { value: 1, label: 'Ear tags' },
   { value: 2, label: 'Leg bands' },
+  { value: 3, label: 'Other' },
 ];
 const tagColors = [
   { value: 1, label: 'YELLOW' },
@@ -61,8 +63,9 @@ const tagColors = [
   { value: 6, label: 'RED' },
 ];
 const tagPlacements = [
-  { value: 1, label: 'Brought in' },
-  { value: 2, label: 'Born at the farm' },
+  { value: 1, label: 'Ear tag' },
+  { value: 2, label: 'Leg band' },
+  { value: 3, label: 'Other' },
 ];
 const organicStatuses = [
   { value: 'Non-Organic', label: 'Non-Organic' },

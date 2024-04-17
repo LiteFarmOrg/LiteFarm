@@ -14,41 +14,18 @@
  */
 
 import { Controller, useController } from 'react-hook-form';
-import { TFunction } from 'react-i18next';
 import ReactSelect from '../../../Form/ReactSelect';
 import Input from '../../../Form/Input';
 import InputAutoSize from '../../../Form/InputAutoSize';
 import ImagePicker from '../../../../containers/ImagePicker';
 import { AnimalOrBatchKeys } from '../../../../containers/Animals/types';
 import styles from './styles.module.scss';
+import { DetailsFields, type FormValues, type CommonDetailsProps } from './type';
 
-// TODO
-type ReactSelectOption = {
-  label: string;
-  value: string | number;
-};
-
-// TODO
-export type OtherDetailsProps = {
-  formMethods: {
-    control: any;
-    register: any;
-    resetField: any;
-    formState: { errors: any };
-    // errors?: { [key in ADD_ANIMAL]?: { message: string } };
-  };
-  t: TFunction;
-  organicStatuses: ReactSelectOption[];
+export type OtherDetailsProps = CommonDetailsProps & {
+  organicStatuses: FormValues[DetailsFields.ORGANIC_STATUS][];
   animalOrBatch: AnimalOrBatchKeys;
 };
-
-// TODO: move up
-export enum ADD_ANIMAL {
-  WEANING_DATE = 'weaning_date',
-  ORGANIC_STATUS = 'organic_status',
-  OTHER_DETAILS = 'notes',
-  ANIMAL_IMAGE = 'image_file',
-}
 
 const OtherDetails = ({ t, formMethods, organicStatuses, animalOrBatch }: OtherDetailsProps) => {
   const {
@@ -58,14 +35,14 @@ const OtherDetails = ({ t, formMethods, organicStatuses, animalOrBatch }: OtherD
     formState: { errors },
   } = formMethods;
 
-  const { field } = useController({ control, name: ADD_ANIMAL.ANIMAL_IMAGE });
+  const { field } = useController({ control, name: DetailsFields.ANIMAL_IMAGE });
 
   const handleSelectImage = (imageFile: any) => {
     field.onChange(imageFile);
   };
 
   const handleRemoveImage = () => {
-    resetField(ADD_ANIMAL.ANIMAL_IMAGE);
+    resetField(DetailsFields.ANIMAL_IMAGE);
   };
 
   return (
@@ -76,14 +53,14 @@ const OtherDetails = ({ t, formMethods, organicStatuses, animalOrBatch }: OtherD
           <Input
             type="date"
             label={t('ANIMAL.ATTRIBUTE.WEANING_DATE')}
-            hookFormRegister={register(ADD_ANIMAL.WEANING_DATE)}
+            hookFormRegister={register(DetailsFields.WEANING_DATE)}
             optional
           />
         </>
       )}
       <Controller
         control={control}
-        name={ADD_ANIMAL.ORGANIC_STATUS}
+        name={DetailsFields.ORGANIC_STATUS}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             // @ts-ignore
@@ -99,12 +76,12 @@ const OtherDetails = ({ t, formMethods, organicStatuses, animalOrBatch }: OtherD
       {/* @ts-ignore */}
       <InputAutoSize
         label={t(`ANIMAL.ATTRIBUTE.OTHER_DETAILS_${animalOrBatch.toUpperCase()}`)}
-        hookFormRegister={register(ADD_ANIMAL.OTHER_DETAILS, {
+        hookFormRegister={register(DetailsFields.OTHER_DETAILS, {
           maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
         })}
         optional
         placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.OTHER_DETAILS')}
-        errors={errors?.[ADD_ANIMAL.OTHER_DETAILS]?.message}
+        errors={errors?.[DetailsFields.OTHER_DETAILS]?.message}
       />
       <ImagePicker
         label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}

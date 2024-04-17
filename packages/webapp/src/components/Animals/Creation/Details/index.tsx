@@ -22,6 +22,7 @@ import Origin, { type OriginProps } from './Origin';
 import ExpandableItem from '../../../Expandable/ExpandableItem';
 import useExpandable from '../../../Expandable/useExpandableItem';
 import { AnimalOrBatchKeys } from '../../../../containers/Animals/types';
+import { type FormMethods } from './type';
 import styles from './styles.module.scss';
 
 enum sectionKeys {
@@ -31,9 +32,8 @@ enum sectionKeys {
   OTHER,
 }
 
-// TODO
 export type AnimalDetailsProps = {
-  formMethods: any;
+  formMethods: FormMethods;
   generalDetailProps: Omit<GeneralDetailsProps, 't' | 'formMethods' | 'animalOrBatch'>;
   uniqueDetailsProps: Omit<UniqueDetailsProps, 't' | 'formMethods'>;
   otherDetailsProps: Omit<OtherDetailsProps, 't' | 'formMethods' | 'animalOrBatch'>;
@@ -49,6 +49,7 @@ const AnimalDetails = ({
 }: AnimalDetailsProps) => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const { t } = useTranslation(['translation', 'common', 'animal']);
+  const commonProps = { t, formMethods };
 
   const sections = [
     {
@@ -56,34 +57,32 @@ const AnimalDetails = ({
       title: t('ANIMAL.ADD_ANIMAL.GENERAL_DETAILS'),
       content: (
         <GeneralDetails
+          {...commonProps}
           {...generalDetailProps}
           animalOrBatch={AnimalOrBatchKeys.ANIMAL}
-          formMethods={formMethods}
-          t={t}
         />
       ),
     },
     {
       key: sectionKeys.UNIQUE,
       title: t('ANIMAL.ADD_ANIMAL.UNIQUE_DETAILS'),
-      content: <UniqueDetails {...uniqueDetailsProps} formMethods={formMethods} t={t} />,
+      content: <UniqueDetails {...commonProps} {...uniqueDetailsProps} />,
     },
     {
       key: sectionKeys.OTHER,
       title: t('ANIMAL.ADD_ANIMAL.OTHER_DETAILS'),
       content: (
         <OtherDetails
+          {...commonProps}
           {...otherDetailsProps}
           animalOrBatch={AnimalOrBatchKeys.ANIMAL}
-          formMethods={formMethods}
-          t={t}
         />
       ),
     },
     {
       key: sectionKeys.ORIGIN,
       title: t('ANIMAL.ADD_ANIMAL.ORIGIN'),
-      content: <Origin {...originProps} formMethods={formMethods} t={t} />,
+      content: <Origin {...commonProps} {...originProps} />,
     },
   ];
 

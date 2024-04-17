@@ -15,48 +15,23 @@
 
 import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
-import { TFunction } from 'react-i18next';
 import ReactSelect from '../../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../../Form/Input';
+import { DetailsFields, type FormValues, type CommonDetailsProps } from './type';
 import styles from './styles.module.scss';
 
-// TODO
-type ReactSelectOption = {
-  label: string;
-  value: string | number;
+export type UniqueDetailsProps = CommonDetailsProps & {
+  tagTypes: FormValues[DetailsFields.TAG_TYPE][];
+  tagColors: FormValues[DetailsFields.TAG_COLOR][];
+  tagPlacements: FormValues[DetailsFields.TAG_PLACEMENT][];
 };
-
-// TODO
-export type UniqueDetailsProps = {
-  formMethods: {
-    control: any;
-    register: any;
-    watch: any;
-    formState: { errors: any };
-  };
-  t: TFunction;
-  identifierTypes: ReactSelectOption[];
-  identifierColors: ReactSelectOption[];
-  identifierPlacements: ReactSelectOption[];
-};
-
-// TODO: move up
-export enum ADD_ANIMAL {
-  NAME = 'name',
-  DATE_OF_BIRTH = 'birth_date',
-  TAG_NUMBER = 'identifier',
-  TAG_TYPE = 'identifier_type', // TODO
-  TAG_COLOR = 'identifier_color_id',
-  TAG_PLACEMENT = 'identifier_placement_id',
-  TAG_PLACEMENT_INFO = 'identifier_placement_info',
-}
 
 const UniqueDetails = ({
   t,
   formMethods,
-  identifierTypes,
-  identifierColors,
-  identifierPlacements,
+  tagTypes,
+  tagColors,
+  tagPlacements,
 }: UniqueDetailsProps) => {
   const {
     control,
@@ -65,12 +40,12 @@ const UniqueDetails = ({
     formState: { errors },
   } = formMethods;
 
-  const animalType = watch('type');
-  const tagPlacement = watch(ADD_ANIMAL.TAG_PLACEMENT);
+  const animalType = watch(DetailsFields.TYPE);
+  const tagPlacement = watch(DetailsFields.TAG_PLACEMENT);
 
-  const tagPlacements = useMemo(() => {
+  const tagPlacementOptions = useMemo(() => {
     // TODO
-    if (animalType === 'defaultType') {
+    if (animalType.value === 'defaultType') {
     } else {
       return [
         { label: t('animal:TAG_PLACEMENT.LEFT_EAR'), value: 'LEFT_EAR' },
@@ -80,7 +55,7 @@ const UniqueDetails = ({
         { label: t('common:OTHER'), value: 'OTHER' },
       ];
     }
-  }, [animalType, identifierPlacements]);
+  }, [animalType, tagPlacements]);
 
   return (
     <div className={styles.sectionWrapper}>
@@ -88,34 +63,34 @@ const UniqueDetails = ({
       <Input
         type="text"
         label={t('common:NAME')}
-        hookFormRegister={register(ADD_ANIMAL.NAME, {
+        hookFormRegister={register(DetailsFields.NAME, {
           maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
         })}
         optional
         placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.NAME')}
-        errors={getInputErrors(errors, ADD_ANIMAL.NAME)}
+        errors={getInputErrors(errors, DetailsFields.NAME)}
       />
       {/* @ts-ignore */}
       <Input
         type="date"
         label={t('ANIMAL.ATTRIBUTE.DATE_OF_BIRTH')}
-        hookFormRegister={register(ADD_ANIMAL.DATE_OF_BIRTH)}
+        hookFormRegister={register(DetailsFields.DATE_OF_BIRTH)}
         optional
       />
       {/* @ts-ignore */}
       <Input
         type="text"
         label={t('ANIMAL.ATTRIBUTE.TAG_NUMBER')}
-        hookFormRegister={register(ADD_ANIMAL.TAG_NUMBER, {
+        hookFormRegister={register(DetailsFields.TAG_NUMBER, {
           maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
         })}
         optional
         placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_NUMBER')}
-        errors={getInputErrors(errors, ADD_ANIMAL.TAG_NUMBER)}
+        errors={getInputErrors(errors, DetailsFields.TAG_NUMBER)}
       />
       <Controller
         control={control}
-        name={ADD_ANIMAL.TAG_TYPE}
+        name={DetailsFields.TAG_TYPE}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             // @ts-ignore
@@ -123,14 +98,14 @@ const UniqueDetails = ({
             optional
             value={value}
             onChange={onChange}
-            options={identifierTypes}
+            options={tagTypes}
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_TYPE')}
           />
         )}
       />
       <Controller
         control={control}
-        name={ADD_ANIMAL.TAG_COLOR}
+        name={DetailsFields.TAG_COLOR}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             // @ts-ignore
@@ -138,14 +113,14 @@ const UniqueDetails = ({
             optional
             value={value}
             onChange={onChange}
-            options={identifierColors}
+            options={tagColors}
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_COLOUR')}
           />
         )}
       />
       <Controller
         control={control}
-        name={ADD_ANIMAL.TAG_PLACEMENT}
+        name={DetailsFields.TAG_PLACEMENT}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             // @ts-ignore
@@ -153,7 +128,7 @@ const UniqueDetails = ({
             optional
             value={value}
             onChange={onChange}
-            options={tagPlacements}
+            options={tagPlacementOptions}
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_PLACEMENT')}
           />
         )}
@@ -164,12 +139,12 @@ const UniqueDetails = ({
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.TAG_PLACEMENT_INFO')}
-            hookFormRegister={register(ADD_ANIMAL.TAG_PLACEMENT_INFO, {
+            hookFormRegister={register(DetailsFields.TAG_PLACEMENT_INFO, {
               maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
             })}
             optional
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_PLACEMENT_INFO')}
-            errors={getInputErrors(errors, ADD_ANIMAL.TAG_PLACEMENT_INFO)}
+            errors={getInputErrors(errors, DetailsFields.TAG_PLACEMENT_INFO)}
           />
         </>
       )}

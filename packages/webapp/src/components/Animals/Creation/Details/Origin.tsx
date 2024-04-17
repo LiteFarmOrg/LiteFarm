@@ -14,38 +14,15 @@
  */
 
 import { useMemo } from 'react';
-import { TFunction } from 'react-i18next';
 import Input, { getInputErrors } from '../../../Form/Input';
 import RadioGroup from '../../../Form/RadioGroup';
+import { DetailsFields, type CommonDetailsProps, type ReactSelectOption } from './type';
 import styles from './styles.module.scss';
 
-type ReactSelectOption = {
-  label: string;
-  value: string | number;
-};
-
-// TODO
-export type OriginProps = {
-  formMethods: {
-    control: any;
-    register: any;
-    watch: any;
-    formState: { errors: any };
-  };
-  t: TFunction;
+export type OriginProps = CommonDetailsProps & {
   currency: string;
-  originOptions: ReactSelectOption[];
+  originOptions: ReactSelectOption<number>[];
 };
-
-// TODO: move up
-export enum ADD_ANIMAL {
-  ORIGIN = 'origin_id',
-  DAM = 'dam',
-  SIRE = 'sire',
-  BROUGHT_IN_DATE = 'brought_in_date',
-  MERCHANT = 'merchant', // TODO
-  PRICE = 'price', // TODO
-}
 
 const Origin = ({ t, formMethods, currency, originOptions }: OriginProps) => {
   const {
@@ -54,69 +31,69 @@ const Origin = ({ t, formMethods, currency, originOptions }: OriginProps) => {
     register,
     formState: { errors },
   } = formMethods;
-  const originId = watch(ADD_ANIMAL.ORIGIN);
+  const originId = watch(DetailsFields.ORIGIN);
 
   const fields = useMemo(() => {
     return originId === 1 ? (
       <>
         {/* @ts-ignore */}
         <Input
-          key={ADD_ANIMAL.BROUGHT_IN_DATE}
+          key={DetailsFields.BROUGHT_IN_DATE}
           type="date"
           label={t('common:DATE')}
-          hookFormRegister={register(ADD_ANIMAL.BROUGHT_IN_DATE)}
+          hookFormRegister={register(DetailsFields.BROUGHT_IN_DATE)}
           optional
         />
         {/* @ts-ignore */}
         <Input
-          key={ADD_ANIMAL.MERCHANT}
+          key={DetailsFields.MERCHANT}
           type="text"
           label={t('ANIMAL.ATTRIBUTE.MERCHANT')}
-          hookFormRegister={register(ADD_ANIMAL.MERCHANT, {
+          hookFormRegister={register(DetailsFields.MERCHANT, {
             maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
           })}
           optional
           placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.MERCHANT')}
-          errors={getInputErrors(errors, ADD_ANIMAL.MERCHANT)}
+          errors={getInputErrors(errors, DetailsFields.MERCHANT)}
         />
         {/* @ts-ignore */}
         <Input
-          key={ADD_ANIMAL.PRICE}
+          key={DetailsFields.PRICE}
           type="number"
           currency={currency}
           label={t('common:PRICE')}
-          hookFormRegister={register(ADD_ANIMAL.PRICE)}
+          hookFormRegister={register(DetailsFields.PRICE)}
           max={9999999999}
           optional
           placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.PRICE')}
-          errors={getInputErrors(errors, ADD_ANIMAL.PRICE)}
+          errors={getInputErrors(errors, DetailsFields.PRICE)}
         />
       </>
     ) : (
       <>
         {/* @ts-ignore */}
         <Input
-          key={ADD_ANIMAL.DAM}
+          key={DetailsFields.DAM}
           type="text"
           label={t('ANIMAL.ATTRIBUTE.DAM')}
-          hookFormRegister={register(ADD_ANIMAL.DAM, {
+          hookFormRegister={register(DetailsFields.DAM, {
             maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
           })}
           optional
           placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.DAM')}
-          errors={getInputErrors(errors, ADD_ANIMAL.DAM)}
+          errors={getInputErrors(errors, DetailsFields.DAM)}
         />
         {/* @ts-ignore */}
         <Input
-          key={ADD_ANIMAL.SIRE}
+          key={DetailsFields.SIRE}
           type="text"
           label={t('ANIMAL.ATTRIBUTE.SIRE')}
-          hookFormRegister={register(ADD_ANIMAL.SIRE, {
+          hookFormRegister={register(DetailsFields.SIRE, {
             maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
           })}
           optional
           placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.SIRE')}
-          errors={getInputErrors(errors, ADD_ANIMAL.SIRE)}
+          errors={getInputErrors(errors, DetailsFields.SIRE)}
         />
       </>
     );
@@ -126,7 +103,12 @@ const Origin = ({ t, formMethods, currency, originOptions }: OriginProps) => {
     <div className={styles.sectionWrapper}>
       <div>
         {/* @ts-ignore */}
-        <RadioGroup name={ADD_ANIMAL.ORIGIN} radios={originOptions} hookFormControl={control} row />
+        <RadioGroup
+          name={DetailsFields.ORIGIN}
+          radios={originOptions}
+          hookFormControl={control}
+          row
+        />
       </div>
       {originId && fields}
     </div>

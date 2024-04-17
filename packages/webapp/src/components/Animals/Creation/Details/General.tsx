@@ -78,7 +78,7 @@ const GeneralDetails = ({
     }
 
     return 'TODO: LF-4159';
-  }, [animalOrBatch, t, sexes, control]);
+  }, [animalOrBatch, t, sex, sexes, control]);
 
   return (
     <div className={styles.sectionWrapper}>

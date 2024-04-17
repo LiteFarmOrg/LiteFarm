@@ -198,7 +198,8 @@
         "TAG_NUMBER": "Type in the tag number",
         "TAG_PLACEMENT": "Where is the tag located?",
         "TAG_PLACEMENT_INFO": "Tell us where the tag is",
-        "TAG_TYPE": "What is the tag type?"
+        "TAG_TYPE": "What is the tag type?",
+        "TAG_TYPE_INFO": "Please describe your tag type"
       },
       "UNIQUE_DETAILS": "Unique details",
       "USED_FOR_REPRODUCTION": "Used for reproduction?"

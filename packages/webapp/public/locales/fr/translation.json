@@ -202,7 +202,8 @@
         "TAG_NUMBER": "MISSING",
         "TAG_PLACEMENT": "MISSING",
         "TAG_PLACEMENT_INFO": "MISSING",
-        "TAG_TYPE": "MISSING"
+        "TAG_TYPE": "MISSING",
+        "TAG_TYPE_INFO": "MISSING"
       },
       "UNIQUE_DETAILS": "MISSING",
       "USED_FOR_REPRODUCTION": "MISSING"

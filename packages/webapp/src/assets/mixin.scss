@@ -34,6 +34,12 @@
   }
 }
 
+@mixin md-breakpoint {
+  @media only screen and (max-width: 900px) {
+    @content;
+  }
+}
+
 @mixin lg-breakpoint {
   @media only screen and (min-width: 1200px) {
     @content;
@@ -49,7 +55,7 @@
 // Custom icons from figma use a variety of strokes and fills
 @mixin svgColorFill($newColor) {
   svg {
-    path{
+    path {
       &[stroke] {
         stroke: $newColor;
       }
@@ -57,7 +63,7 @@
         fill: $newColor;
       }
     }
-    rect{
+    rect {
       &[stroke] {
         stroke: $newColor;
       }
@@ -65,7 +71,7 @@
         fill: $newColor;
       }
     }
-    circle{
+    circle {
       &[stroke] {
         stroke: $newColor;
       }
@@ -73,7 +79,5 @@
         fill: $newColor;
       }
     }
-    
   }
-   
 }

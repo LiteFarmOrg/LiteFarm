@@ -10,7 +10,7 @@ import { ReactComponent as ExternalLinkIcon } from '../../assets/images/icon_ext
 
 type TypographyProps = {
   style?: object;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   children?: ReactNode;
   className?: string;
 };

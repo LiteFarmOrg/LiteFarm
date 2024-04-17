@@ -27,7 +27,7 @@ export default {
   decorators: componentDecorators,
 };
 
-const data = [
+const mockTransactionsData = [
   {
     transaction: 'Summer Harvest',
     type: 'Crop sales',
@@ -51,7 +51,7 @@ const data = [
   },
 ];
 
-const MainContent = ({ transaction, type, amount, icon }) => {
+const TransactionContent = ({ transaction, type, amount, icon }) => {
   return (
     <TransactionItem
       transaction={transaction}
@@ -63,7 +63,13 @@ const MainContent = ({ transaction, type, amount, icon }) => {
   );
 };
 
-const Test = ({ defaultExpandedIds = [], isSingleExpandable, iconClickOnly }) => {
+const Test = ({
+  data = [],
+  mainContent: MainContent,
+  defaultExpandedIds = [],
+  isSingleExpandable,
+  iconClickOnly,
+}) => {
   const { expandedIds, toggleExpanded } = useExpandable({ defaultExpandedIds, isSingleExpandable });
 
   return data.map((values, index) => {
@@ -88,9 +94,17 @@ const Test = ({ defaultExpandedIds = [], isSingleExpandable, iconClickOnly }) =>
 };
 
 export const SingleExpandableItem = {
-  render: () => <Test isSingleExpandable={true} iconClickOnly={false} />,
+  render: () => (
+    <Test
+      data={mockTransactionsData}
+      mainContent={TransactionContent}
+      isSingleExpandable={true}
+      iconClickOnly={false}
+    />
+  ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const data = mockTransactionsData;
 
     const row0 = canvas.getByText(data[0].transaction);
     await userEvent.click(row0);
@@ -121,13 +135,35 @@ export const SingleExpandableItem = {
 };
 
 export const MultipleExpandableItem = {
-  render: () => <Test isSingleExpandable={false} iconClickOnly={false} />,
+  render: () => (
+    <Test
+      data={mockTransactionsData}
+      mainContent={TransactionContent}
+      isSingleExpandable={false}
+      iconClickOnly={false}
+    />
+  ),
 };
 
 export const IconClickOnlyExpandableItem = {
-  render: () => <Test isSingleExpandable={true} iconClickOnly={true} />,
+  render: () => (
+    <Test
+      data={mockTransactionsData}
+      mainContent={TransactionContent}
+      isSingleExpandable={true}
+      iconClickOnly={true}
+    />
+  ),
 };
 
 export const ExpandableItemWithDefaultExpanded = {
-  render: () => <Test defaultExpandedIds={[1]} isSingleExpandable={true} iconClickOnly={false} />,
+  render: () => (
+    <Test
+      data={mockTransactionsData}
+      mainContent={TransactionContent}
+      defaultExpandedIds={[1]}
+      isSingleExpandable={true}
+      iconClickOnly={false}
+    />
+  ),
 };

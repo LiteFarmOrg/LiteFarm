@@ -1,0 +1,117 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../assets/mixin';
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+
+  width: 100%;
+  padding: 32px 16px;
+  overflow: hidden;
+
+  background-color: var(--White);
+
+  @include md-breakpoint {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @include xs-breakpoint {
+    border-bottom: 1px solid var(--Colors-Secondary-Secondary-green-100);
+  }
+}
+
+.infoContainer {
+  padding-inline: 8px;
+  max-width: 342px;
+
+  @include md-breakpoint {
+    order: 2;
+  }
+
+  @include xs-breakpoint {
+    width: 100%;
+    max-width: none;
+    padding-inline: 24px;
+  }
+}
+
+.textContainer {
+  padding-bottom: 50px;
+
+  @include xs-breakpoint {
+    padding-bottom: 0;
+  }
+}
+
+.title {
+  color: var(--Colors-Secondary-Secondary-green-900);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.528px;
+}
+
+.mainText {
+  color: var(--Colors-Secondary-Secondary-green-900);
+  letter-spacing: -0.352px;
+}
+
+.imageContainer {
+  align-self: center;
+  width: 488px;
+  overflow: hidden;
+
+  @include md-breakpoint {
+    order: 1;
+  }
+
+  @include xs-breakpoint {
+    width: 100%;
+  }
+}
+
+.farmer {
+  width: 100%;
+  height: 100%;
+}
+
+.iconSummaryAndButtonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+
+  @include xs-breakpoint {
+    gap: 32px;
+    padding: 16px 24px;
+  }
+}
+
+.iconSummaryContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.button {
+  width: max-content;
+
+  @include xs-breakpoint {
+    align-self: center;
+  }
+}

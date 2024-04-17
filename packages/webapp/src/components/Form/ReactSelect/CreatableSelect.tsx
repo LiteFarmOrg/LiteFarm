@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { ClearIndicator } from './components';
 import scss from './styles.module.scss';
 
-type CreatablerestProps<
+type CreatableSelectProps<
   Option = unknown,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
@@ -38,7 +38,7 @@ type CreateableSelect = <
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
 >(
-  props: CreatablerestProps<Option, IsMulti, Group> &
+  props: CreatableSelectProps<Option, IsMulti, Group> &
     React.RefAttributes<SelectInstance<Option, IsMulti, Group>>,
 ) => React.ReactElement;
 

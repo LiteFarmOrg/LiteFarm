@@ -18,7 +18,6 @@ import { useTranslation } from 'react-i18next';
 import PureManageCustomTypes from '../../../components/Forms/ManageCustomTypes';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useSortedCustomRevenueTypes from '../useSortedCustomRevenueTypes';
-import { icons } from '../AddSale/RevenueTypes';
 import labelIconStyles from '../../../components/Tile/styles.module.scss';
 import {
   ADD_REVENUE_URL,
@@ -88,7 +87,7 @@ export default function ManageRevenueTypes({ history }) {
 
         return {
           key: revenue_type_id,
-          icon: icons['CUSTOM'],
+          iconName: 'CUSTOM',
           label: revenue_name,
           className: labelIconStyles.boldLabelIcon,
           description: custom_description,

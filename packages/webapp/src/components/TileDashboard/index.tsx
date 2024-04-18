@@ -27,7 +27,7 @@ export type FilterId = string | number;
 export interface TypeCountTile {
   label: string;
   count: number;
-  icon: ReactNode;
+  iconName: string;
   id: FilterId;
   onClick?: () => void;
 }

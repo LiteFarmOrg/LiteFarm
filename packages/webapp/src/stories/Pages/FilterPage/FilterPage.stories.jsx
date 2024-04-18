@@ -123,7 +123,6 @@ Primary.args = {
       ],
     },
   ],
-  filterRef: { current: {} },
 };
 
 export const NoSuppliers = Template.bind({});
@@ -208,7 +207,6 @@ NoSuppliers.args = {
       options: [],
     },
   ],
-  filterRef: { current: {} },
 };
 
 export const DocumentsFilter = Template.bind({});
@@ -252,7 +250,6 @@ DocumentsFilter.args = {
       ],
     },
   ],
-  filterRef: { current: {} },
   children: (
     <div>
       <Input label={'Valid until'} type={'date'} />

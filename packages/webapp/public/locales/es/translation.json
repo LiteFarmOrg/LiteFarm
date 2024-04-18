@@ -166,12 +166,16 @@
     "TASK": "tarea",
     "TASK_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Cuéntenos sobre esta tarea",
+    "THIS_TASK_IS_COMPLETED": "MISSING",
+    "THIS_TASK_IS_COMPLETED_EXPLANATION": "MISSING",
     "TRANSPLANT_METHOD": "Método de trasplantar",
     "WAGE_OVERRIDE": "Alterar el salario",
     "WHAT_PLANTING_METHOD": "¿Cuál es el método de trasplante?",
     "WILD_CROP": "Cultivos silvestres"
   },
   "ANIMAL": {
+    "ADD_MORE_BODY_TEXT": "MISSING",
+    "ADD_MORE_BUTTON": "MISSING",
     "ANIMAL_BREED": "MISSING",
     "ANIMAL_GROUPS": "MISSING",
     "ANIMAL_ID": "MISSING",
@@ -844,9 +848,13 @@
     "TITLE": "Tamaño de archivo demasiado grande"
   },
   "FILTER": {
+    "CLEAR": "borrar",
     "CLEAR_ALL": "Borrar todos",
     "CLEAR_ALL_FILTERS": "Borrar todos los filtros",
-    "SELECT_ALL": "Seleccionar todos"
+    "SELECT_ALL": "Seleccionar todos",
+    "SELECTED": "{{count}} seleccionados",
+    "SHOWING_ALL": "Mostrando todos",
+    "SHOWING_ALL_DEFAULT": "Mostrando Todos (Default)"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {

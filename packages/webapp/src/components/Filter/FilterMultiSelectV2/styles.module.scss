@@ -1,0 +1,148 @@
+/*
+ *  Copyright (c) 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../assets/mixin.scss';
+
+.menuPortal {
+  z-index: 1300;
+}
+
+.label {
+  margin-bottom: 4px;
+}
+
+.valueContainer {
+  padding: 6px 8px;
+}
+
+.pillsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.selectedCountText {
+  color: var(--Colors-Neutral-Neutral-600);
+  margin-right: -4px;
+}
+
+.clearTextButton {
+  @include fontFamily();
+  color: var(--Colors-Accent---singles-Blue-full);
+  font-weight: 700;
+}
+
+.showingAll {
+  text-align: left;
+  width: 100%;
+  background-color: #fcfffe;
+  pointer-events: none;
+
+  // override checkbox styles
+  svg path,
+  svg rect {
+    stroke: #98a1b1 !important;
+  }
+
+  // override checkbox label styles
+  p {
+    color: var(--Colors-Neutral-Neutral-200) !important;
+  }
+}
+
+.multiValue {
+  background-color: var(--Colors-Secondary-Secondary-green-200);
+  border-radius: 12px;
+  box-shadow: 1px 1px 0px 0px var(--Colors-Secondary-Secondary-green-400);
+  padding: 2px 8px;
+  margin: 0px;
+
+  &:not(:last-of-type) {
+    margin-right: 8px;
+  }
+}
+
+.multiValueLabel {
+  font-size: 14px;
+  line-height: 24px;
+  padding: 0;
+  color: var(--Colors-Secondary-Secondary-green-900);
+}
+
+.multiValueRemove {
+  border: none;
+  cursor: pointer;
+  padding-right: 0;
+
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+.pillsContainer {
+  display: flex;
+  gap: 8px 0;
+}
+
+.hiddenPillsCount {
+  width: 25%;
+  height: 28px;
+  line-height: 28px;
+  position: absolute;
+}
+
+.hiddenPillsCountSpacing {
+  margin-right: 40px;
+}
+
+.hiddenPill {
+  display: none;
+}
+
+.option {
+  margin-bottom: 2px;
+  display: flex;
+  padding: 8px 16px;
+
+  &:hover {
+    background-color: var(--Colors-Secondary-Secondary-green-500);
+  }
+}
+
+.placeholder {
+  font-size: 16px;
+}
+
+.dropdownIndicator {
+  color: var(--Colors-Neutral-Neutral-900);
+}
+
+.control {
+  height: 42px;
+  overflow: hidden;
+}
+
+.focusedControl {
+  height: 42px;
+  overflow: hidden;
+  border-color: var(--teal500);
+
+  &:hover {
+    border-color: var(--teal500);
+  }
+}
+
+.indicatorsContainer {
+  height: 100%;
+}

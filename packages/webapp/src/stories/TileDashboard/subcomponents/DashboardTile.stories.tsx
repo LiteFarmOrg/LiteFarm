@@ -31,7 +31,7 @@ type Story = StoryObj<typeof DashboardTile>;
 export const Default: Story = {
   args: {
     label: 'Cattle',
-    icon: <CattleIcon />,
+    iconName: 'CATTLE',
     count: 20,
     onClick: () => console.log('Cattle has been clicked!'),
   },

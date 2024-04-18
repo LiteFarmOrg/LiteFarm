@@ -120,6 +120,22 @@ export const api = createApi({
       }),
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
+    deleteAnimals: build.mutation<Animal[], number[]>({
+      query: (del) => ({
+        url: `${animalsUrl}`,
+        method: 'DELETE',
+        params: { ids: del },
+      }),
+      invalidatesTags: ['Animals', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
+    }),
+    deleteAnimalBatches: build.mutation<AnimalBatch[], number[]>({
+      query: (del) => ({
+        url: `${animalBatchesUrl}`,
+        method: 'DELETE',
+        params: { ids: del },
+      }),
+      invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
+    }),
   }),
 });
 
@@ -135,4 +151,6 @@ export const {
   useGetAnimalRemovalReasonsQuery,
   useRemoveAnimalsMutation,
   useRemoveAnimalBatchesMutation,
+  useDeleteAnimalsMutation,
+  useDeleteAnimalBatchesMutation,
 } = api;

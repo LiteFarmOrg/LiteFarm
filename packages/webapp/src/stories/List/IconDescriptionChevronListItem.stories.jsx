@@ -15,7 +15,6 @@
 import React from 'react';
 import IconDescriptionListItem from '../../components/List/ListItems/IconDescription/IconDescriptionListItem';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
 
 export default {
   title: 'Components/List/IconDescriptionChevronListItem',
@@ -27,7 +26,7 @@ export const Default = {
   args: {
     actionIcon: 'chevron',
     listItemKey: 'key',
-    icon: <SoilAmendment />,
+    iconName: 'SOIL_AMENDMENT_TASK',
     label: 'Utilities',
     onClick: () => console.log('clicked!'),
     description:
@@ -40,7 +39,7 @@ export const SimpleCustomTypeMaxCharText = {
   args: {
     actionIcon: 'chevron',
     listItemKey: 'key',
-    icon: <SoilAmendment />,
+    iconName: 'SOIL_AMENDMENT_TASK',
     label:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pellentesque metus nec neque sed.',
     onClick: () => console.log('clicked!'),
@@ -53,7 +52,7 @@ export const NoDescription = {
   args: {
     actionIcon: 'chevron',
     listItemKey: 'key',
-    icon: <SoilAmendment />,
+    iconName: 'SOIL_AMENDMENT_TASK',
     label: 'Utilites',
     onClick: () => console.log('clicked!'),
   },

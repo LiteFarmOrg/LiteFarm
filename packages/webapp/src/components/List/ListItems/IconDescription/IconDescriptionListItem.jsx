@@ -19,11 +19,12 @@ import styles from './styles.module.scss';
 import { ReactComponent as UncheckedEnabled } from '../../../../assets/images/unchecked-enabled.svg';
 import { ReactComponent as CheckedEnabled } from '../../../../assets/images/checked-enabled.svg';
 import { BsChevronRight } from 'react-icons/bs';
+import Icon from '../../../Icons';
 
 export default function IconDescriptionListItem({
   actionIcon,
   listItemKey,
-  icon,
+  iconName,
   label,
   onClick,
   selected,
@@ -49,7 +50,7 @@ export default function IconDescriptionListItem({
       className={clsx(className, styles.listItem, selected && styles.listItem__selected)}
       {...props}
     >
-      <div className={styles.icon}>{icon}</div>
+      <Icon iconName={iconName} className={styles.icon} />
       <div className={clsx(styles.content, !actionIcon && styles.content__marginRight)}>
         <div className={styles.content_label}>{label}</div>
         {description && <div className={styles.content_description}>{description}</div>}

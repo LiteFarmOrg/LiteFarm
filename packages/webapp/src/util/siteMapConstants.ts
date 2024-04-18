@@ -68,3 +68,19 @@ export const createEditCustomRevenueUrl = (id: string | number): string => {
 export const createReadonlyCustomRevenueUrl = (id: string | number): string => {
   return `/finances/readonly_custom_revenue/${id}`;
 };
+
+// Tasks
+// First complete page for cleaning, field work, irrigation, pest, planting, soil amendment, transplant tasks
+export const createBeforeCompleteTaskUrl = (id: string | number): string => {
+  return `/tasks/${id}/before_complete`;
+};
+
+// First complete page harvest tasks
+export const createCompleteHarvestQuantityTaskUrl = (id: string | number): string => {
+  return `/tasks/${id}/complete_harvest_quantity`;
+};
+
+// First complete page for custom tasks
+export const createCompleteTaskUrl = (id: string | number): string => {
+  return `/tasks/${id}/complete`;
+};

@@ -18,12 +18,12 @@ export type ReduxFilterEntity<FilterKey extends string = string> = Record<Filter
 
 export interface FilterState {
   [filterOptionId: string]: /* e.g. ABANDONED, COMPLETED */ {
-    active: boolean;
-    label: string /* e.g. 'Abandoned', 'Completed */;
+    active?: boolean;
+    label?: string /* e.g. 'Abandoned', 'Completed */;
   };
 }
 
-export type ContainerOnChangeCallback = (filterKey?: string, filterState?: FilterState) => void;
+export type ContainerOnChangeCallback = (filterKey: string, filterState: FilterState) => void;
 
 // Only typing the properties relevant to filtering on location; there are no .ts files yet related to this entity
 export interface Location {

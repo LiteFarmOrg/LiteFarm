@@ -16,6 +16,7 @@
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { Main } from '../../Typography';
+import Icon from '../../Icons';
 import TextButton from '../../Form/Button/TextButton';
 import type { TypeCountTile } from '../index';
 
@@ -23,9 +24,15 @@ interface DashboardTileProps extends TypeCountTile {
   isSelected?: boolean;
 }
 
-export const DashboardTile = ({ icon, label, count, onClick, isSelected }: DashboardTileProps) => (
+export const DashboardTile = ({
+  iconName,
+  label,
+  count,
+  onClick,
+  isSelected,
+}: DashboardTileProps) => (
   <TextButton className={clsx(styles.tile, isSelected && styles.selected)} onClick={onClick}>
-    <div className={styles.icon}>{icon}</div>
+    <Icon iconName={iconName} className={styles.icon} />
     <div className={styles.tileText}>
       <Main className={styles.tileLabel}>{label}</Main>
       <Main className={styles.tileCountLabel}>{count}</Main>

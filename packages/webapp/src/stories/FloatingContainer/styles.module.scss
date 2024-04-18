@@ -1,0 +1,40 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../assets/mixin';
+
+.wrapper {
+  position: relative;
+  transform: translateZ(0); // Create context for position: fixed
+  height: 300px;
+  outline: 1px solid black;
+  padding: 24px;
+}
+
+.floatingContent {
+  background-color: var(--Colors-Secondary-Secondary-green-700);
+  color: white;
+  display: grid;
+  place-content: center;
+
+  width: 264px;
+  height: 80px;
+  border-radius: 16px;
+
+  /* If a fixed width is defined on the component, make sure it is removed or set to 100%/100vw on its mobile state. Alternatively define a width only on the desktop state (as done in ActionMenu) */
+  @include xs-breakpoint {
+    width: 100%;
+  }
+}

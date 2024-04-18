@@ -1,0 +1,53 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+ @import '../../../assets/mixin.scss';
+
+.card {
+  // Layout
+  display: flex;
+  padding: 24px 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+
+  // Style
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Primary-Primary-teal-50);
+  background: var(--White);
+}
+
+.animalIcons {
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-600))
+}
+
+.addMoreText {
+  width: 304px;
+  color: var(--Colors-Neutral-Neutral-900);
+  text-align: center;
+  font-family: "Open Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.addMoreButton {
+  text-decoration-color: var(--Colors-Primary-Primary-teal-600);
+}
+
+button .buttonIcon {
+  background-color: transparent;
+}

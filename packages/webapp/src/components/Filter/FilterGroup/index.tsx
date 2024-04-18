@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023, 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -17,44 +17,26 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { FilterDate } from '../FilterDate';
 import { FilterDateRange } from '../FilterDateRange';
-import { FilterMultiSelect } from '../FilterMultiSelect';
-import FilterPillSelect from '../FilterPillSelect';
-import { DATE, DATE_RANGE, PILL_SELECT, SEARCHABLE_MULTI_SELECT } from '../filterTypes';
 import styles from './styles.module.scss';
-import type {
-  ContainerOnChangeCallback,
-  ReduxFilterEntity,
-  FilterState,
-} from '../../../containers/Filter/types';
-import type { ComponentFilter } from '../types';
+import type { ContainerOnChangeCallback, FilterState } from '../../../containers/Filter/types';
+import { FilterType, type ComponentFilter } from '../types';
+import { FilterMultiSelectV2 } from '../FilterMultiSelectV2';
 
-type ComponentOnChangeCallback = (filterState?: FilterState) => void;
+type ComponentOnChangeCallback = (filterState: FilterState) => void;
 
 export interface FilterItemProps {
   filter: ComponentFilter;
-  filterRef: React.RefObject<ReduxFilterEntity>;
   onChange: ComponentOnChangeCallback;
   shouldReset?: number;
   showIndividualFilterControls?: boolean;
 }
 
 const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterItemProps) => {
-  if ((filter.type ?? PILL_SELECT) === PILL_SELECT && filter.options.length > 0) {
-    return (
-      <FilterPillSelect
-        subject={filter.subject}
-        options={filter.options}
-        filterKey={filter.filterKey}
-        key={filter.filterKey}
-        showIndividualControls={showIndividualFilterControls}
-        {...props}
-      />
-    );
-  } else if (filter.type === DATE_RANGE) {
+  if (filter.type === FilterType.DATE_RANGE) {
     return <FilterDateRange key={filter.subject} {...filter} {...props} />;
-  } else if (filter.type === SEARCHABLE_MULTI_SELECT) {
+  } else if (filter.type === FilterType.SEARCHABLE_MULTI_SELECT) {
     return (
-      <FilterMultiSelect
+      <FilterMultiSelectV2
         subject={filter.subject}
         options={filter.options}
         filterKey={filter.filterKey}
@@ -62,7 +44,7 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterIt
         {...props}
       />
     );
-  } else if (filter.type === DATE) {
+  } else if (filter.type === FilterType.DATE) {
     return <FilterDate {...filter} key={filter.subject} {...props} />;
   } else {
     return null;
@@ -71,7 +53,6 @@ const FilterItem = ({ filter, showIndividualFilterControls, ...props }: FilterIt
 
 interface FilterGroupProps {
   filters: ComponentFilter[];
-  filterRef: React.RefObject<ReduxFilterEntity>;
   onChange: ContainerOnChangeCallback;
   filterContainerClassName?: string;
   shouldReset?: number;
@@ -80,7 +61,6 @@ interface FilterGroupProps {
 
 const FilterGroup = ({
   filters,
-  filterRef,
   filterContainerClassName,
   onChange,
   shouldReset,
@@ -96,7 +76,6 @@ const FilterGroup = ({
           >
             <FilterItem
               filter={filter}
-              filterRef={filterRef}
               onChange={(filterState) => onChange(filter.filterKey, filterState)}
               shouldReset={shouldReset}
               showIndividualFilterControls={showIndividualFilterControls}
@@ -122,9 +101,6 @@ FilterGroup.propTypes = {
       ),
     }),
   ).isRequired,
-  filterRef: PropTypes.shape({
-    current: PropTypes.shape({ active: PropTypes.bool, label: PropTypes.string }),
-  }).isRequired,
   filterContainerClassName: PropTypes.string,
   onChange: PropTypes.func,
   shouldReset: PropTypes.number,

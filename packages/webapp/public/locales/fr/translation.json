@@ -171,12 +171,16 @@
     "TASK": "tâche",
     "TASK_NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Décrivez cette tache",
+    "THIS_TASK_IS_COMPLETED": "MISSING",
+    "THIS_TASK_IS_COMPLETED_EXPLANATION": "MISSING",
     "TRANSPLANT_METHOD": "Méthode de repiquage",
     "WAGE_OVERRIDE": "Dérogation de salaire",
     "WHAT_PLANTING_METHOD": "Quelle est la méthode de repiquage\u00a0?",
     "WILD_CROP": "Cultures sauvages"
   },
   "ANIMAL": {
+    "ADD_MORE_BODY_TEXT": "MISSING",
+    "ADD_MORE_BUTTON": "MISSING",
     "ANIMAL_BREED": "MISSING",
     "ANIMAL_GROUPS": "MISSING",
     "ANIMAL_ID": "MISSING",
@@ -850,9 +854,13 @@
     "TITLE": "Fichier trop volumineux"
   },
   "FILTER": {
+    "CLEAR": "effacer",
     "CLEAR_ALL": "Effacer la sélection",
     "CLEAR_ALL_FILTERS": "Effacer tous les filtres",
-    "SELECT_ALL": "Sélectionner tout"
+    "SELECT_ALL": "Sélectionner tout",
+    "SELECTED": "MISSING",
+    "SHOWING_ALL": "MISSING",
+    "SHOWING_ALL_DEFAULT": "MISSING"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {

@@ -14,15 +14,6 @@
  */
 @import '../../../assets/mixin.scss';
 
-@include sm-breakpoint {
-  .withCompactSideMenu {
-    margin-left: calc(var(--global-compact-side-menu-width) / 2);
-  }
-  .withExpandedSideMenu {
-    margin-left: calc(var(--global-side-menu-width) / 2);
-  }
-}
-
 .mainContent {
   margin: 0 auto;
   width: 100%;

@@ -16,6 +16,7 @@
 import { ReactNode } from 'react';
 import clsx from 'clsx';
 import TextButton from '../Form/Button/TextButton';
+import Icon from '../Icons';
 import styles from './styles.module.scss';
 
 interface action {
@@ -24,28 +25,22 @@ interface action {
 }
 
 interface iconAction extends action {
-  icon: ReactNode;
+  iconName: string;
 }
 
 export interface ActionMenuProps {
   headerLeftText?: string;
   textActions?: action[];
   iconActions: iconAction[];
-  classes?: { root?: string };
 }
 
-const ActionMenu = ({
-  headerLeftText,
-  textActions = [],
-  iconActions,
-  classes = {},
-}: ActionMenuProps) => {
+const ActionMenu = ({ headerLeftText, textActions = [], iconActions }: ActionMenuProps) => {
   // If the className is not yet supported, ensure to add corresponding styles for the widths
   // of the component and each iconGroup to the SCSS file.
   const iconCountClassName = styles[`iconCount_${iconActions.length}`];
 
   return (
-    <div className={clsx(styles.actionMenu, iconCountClassName, classes.root)}>
+    <div className={clsx(styles.actionMenu, iconCountClassName)}>
       <div className={styles.header}>
         <div className={styles.headerLeftText}>{headerLeftText}</div>
         <div className={styles.textButtons}>
@@ -59,10 +54,12 @@ const ActionMenu = ({
         </div>
       </div>
       <div className={styles.iconButtons}>
-        {iconActions.map(({ icon, label, onClick }) => {
+        {iconActions.map(({ iconName, label, onClick }) => {
           return (
             <div key={label} className={clsx(styles.iconGroup, iconCountClassName)}>
-              <TextButton onClick={onClick}>{icon}</TextButton>
+              <TextButton onClick={onClick}>
+                <Icon iconName={iconName} className={styles.icon} />
+              </TextButton>
               <div className={styles.iconLabel}>{label}</div>
             </div>
           );

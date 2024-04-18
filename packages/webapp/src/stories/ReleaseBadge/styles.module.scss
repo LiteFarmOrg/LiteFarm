@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,26 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '../../assets/mixin';
-
-.wrapper {
-  position: relative;
-  transform: translateZ(0); // Create context for position: fixed
-  height: 300px;
-  outline: 1px solid black;
-  padding: 24px;
-}
-
-// Fixing issues only seen within Storybook UI
 .badge {
-  left: calc(50% - 200px);
-
+  // Font colour changes inexplicably within Storybook UI only
   p {
     color: #426f57;
-  }
-
-  @include xs-breakpoint {
-    left: 0px;
-    max-width: 100%;
   }
 }

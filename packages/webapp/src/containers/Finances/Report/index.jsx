@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023, 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -56,7 +56,6 @@ const Report = () => {
   const currencySymbol = useCurrencySymbol();
 
   const dispatch = useDispatch();
-  const filterRef = useRef({});
   const transactions = useTransactions({
     dateFilter,
     expenseTypeFilter: typesFilter?.[EXPENSE_TYPE],
@@ -205,7 +204,6 @@ const Report = () => {
           </div>
           <TransactionFilterContent
             transactionsFilter={dashboardTypesFilter}
-            filterRef={filterRef}
             filterContainerClassName={styles.filterContainer}
             onChange={(filterKey, filterState) =>
               setTypesFilter({ ...typesFilter, [filterKey]: filterState })

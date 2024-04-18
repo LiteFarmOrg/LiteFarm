@@ -16,7 +16,6 @@
 import { Model, transaction } from 'objection';
 import AnimalBatchModel from '../models/animalBatchModel.js';
 import baseController from './baseController.js';
-import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { handleObjectionError } from '../util/errorCodes.js';
@@ -55,85 +54,49 @@ const animalBatchController = {
         const { farm_id } = req.headers;
         const result = [];
 
-        if (!Array.isArray(req.body)) {
-          await trx.rollback();
-          return res.status(400).send('Request body should be an array');
-        }
+        // avoid attempts to add an already created type or breed to the DB
+        // where multiple batches have the same type_name or breed_name
+        const typeIdsMap = {};
+        const typeBreedIdsMap = {};
 
         for (const animalBatch of req.body) {
-          if (animalBatch.custom_type_id) {
-            const customType = await CustomAnimalTypeModel.query().findById(
-              animalBatch.custom_type_id,
-            );
-            if (customType && customType.farm_id !== farm_id) {
-              await trx.rollback();
-              return res.status(403).send('Forbidden custom type does not belong to this farm');
+          if (animalBatch.type_name) {
+            let typeId = typeIdsMap[animalBatch.type_name];
+
+            if (!typeId) {
+              const newType = await baseController.postWithResponse(
+                CustomAnimalTypeModel,
+                { type: animalBatch.type_name, farm_id },
+                req,
+                { trx },
+              );
+              typeId = newType.id;
+              typeIdsMap[animalBatch.type_name] = typeId;
             }
+            animalBatch.custom_type_id = typeId;
+            delete animalBatch.type_name;
           }
 
-          if (animalBatch.default_breed_id && animalBatch.default_type_id) {
-            const defaultBreed = await DefaultAnimalBreedModel.query().findById(
-              animalBatch.default_breed_id,
-            );
+          if (animalBatch.breed_name) {
+            const typeColumn = animalBatch.default_type_id ? 'default_type_id' : 'custom_type_id';
+            const typeId = animalBatch.type_name
+              ? typeIdsMap[animalBatch.type_name]
+              : animalBatch.default_type_id || animalBatch.custom_type_id;
+            const typeBreedKey = `${typeColumn}_${typeId}_${animalBatch.breed_name}`;
+            let breedId = typeBreedIdsMap[typeBreedKey];
 
-            if (defaultBreed && defaultBreed.default_type_id !== animalBatch.default_type_id) {
-              await trx.rollback();
-              return res.status(400).send('Breed does not match type');
+            if (!breedId) {
+              const newBreed = await baseController.postWithResponse(
+                CustomAnimalBreedModel,
+                { farm_id, [typeColumn]: typeId, breed: animalBatch.breed_name },
+                req,
+                { trx },
+              );
+              breedId = newBreed.id;
+              typeBreedIdsMap[typeBreedKey] = breedId;
             }
-          }
-
-          if (animalBatch.default_breed_id && animalBatch.custom_type_id) {
-            await trx.rollback();
-            return res.status(400).send('Default breed does not use custom type');
-          }
-
-          if (animalBatch.custom_breed_id) {
-            const customBreed = await CustomAnimalBreedModel.query()
-              .whereNotDeleted()
-              .findById(animalBatch.custom_breed_id);
-
-            if (customBreed && customBreed.farm_id !== farm_id) {
-              await trx.rollback();
-              return res.status(403).send('Forbidden custom breed does not belong to this farm');
-            }
-
-            if (
-              customBreed.default_type_id &&
-              customBreed.default_type_id !== animalBatch.default_type_id
-            ) {
-              await trx.rollback();
-              return res.status(400).send('Breed does not match type');
-            }
-
-            if (
-              customBreed.custom_type_id &&
-              customBreed.custom_type_id !== animalBatch.custom_type_id
-            ) {
-              await trx.rollback();
-              return res.status(400).send('Breed does not match type');
-            }
-          }
-
-          if (animalBatch.count < 2) {
-            await trx.rollback();
-            return res.status(400).send('Batch count must be greater than 1');
-          }
-
-          if (animalBatch.sex_detail?.length) {
-            let sexCount = 0;
-            const sexIdSet = new Set();
-            animalBatch.sex_detail.forEach((detail) => {
-              sexCount += detail.count;
-              sexIdSet.add(detail.sex_id);
-            });
-            if (sexCount != animalBatch.count) {
-              await trx.rollback();
-              return res.status(400).send('Batch count does not match sex detail count');
-            }
-            if (animalBatch.sex_detail.length != sexIdSet.size) {
-              await trx.rollback();
-              return res.status(400).send('Duplicate sex ids in detail');
-            }
+            animalBatch.custom_breed_id = breedId;
+            delete animalBatch.breed_name;
           }
 
           // Remove farm_id if it happens to be set in animal object since it should be obtained from header

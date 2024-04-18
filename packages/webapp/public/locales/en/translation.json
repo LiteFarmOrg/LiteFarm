@@ -167,12 +167,16 @@
     "TASK": "task",
     "TASK_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about this task",
+    "THIS_TASK_IS_COMPLETED": "This task has already been completed",
+    "THIS_TASK_IS_COMPLETED_EXPLANATION": "Clicking 'Save' will immediately save this task. You'll then be prompted to complete it.",
     "TRANSPLANT_METHOD": "Transplant method",
     "WAGE_OVERRIDE": "Wage override",
     "WHAT_PLANTING_METHOD": "What is the transplanting method?",
     "WILD_CROP": "Wild crops"
   },
   "ANIMAL": {
+    "ADD_MORE_BODY_TEXT": "Do you have another animal type or a different breed?",
+    "ADD_MORE_BUTTON": "Add more animals",
     "ANIMAL_BREED": "Breed",
     "ANIMAL_GROUPS": "Group",
     "ANIMAL_ID": "ID",
@@ -191,6 +195,7 @@
     "REMOVE_ANIMAL": "Remove animals",
     "SEARCH_INVENTORY_PLACEHOLDER": "Search your inventory",
     "SHOWING_RESULTS_WITH_COUNT_one": "Showing {{count}} result",
+    "SHOWING_RESULTS_WITH_COUNT_many": "Showing {{count}} results",
     "SHOWING_RESULTS_WITH_COUNT_other": "Showing {{count}} results"
   },
   "BED_PLAN": {
@@ -845,9 +850,13 @@
     "TITLE": "File size too large"
   },
   "FILTER": {
+    "CLEAR": "clear",
     "CLEAR_ALL": "Clear all",
     "CLEAR_ALL_FILTERS": "Clear all filters",
-    "SELECT_ALL": "Select all"
+    "SELECT_ALL": "Select all",
+    "SELECTED": "{{count}} selected",
+    "SHOWING_ALL": "Showing all",
+    "SHOWING_ALL_DEFAULT": "Showing All (Default)"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {

@@ -858,7 +858,9 @@
     "CLEAR_ALL": "Effacer la sélection",
     "CLEAR_ALL_FILTERS": "Effacer tous les filtres",
     "SELECT_ALL": "Sélectionner tout",
-    "SELECTED": "MISSING",
+    "SELECTED_one": "MISSING",
+    "SELECTED_many": "MISSING",
+    "SELECTED_other": "MISSING",
     "SHOWING_ALL": "MISSING",
     "SHOWING_ALL_DEFAULT": "MISSING"
   },

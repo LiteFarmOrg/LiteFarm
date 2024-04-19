@@ -857,7 +857,9 @@
     "CLEAR_ALL": "Borrar todos",
     "CLEAR_ALL_FILTERS": "Borrar todos los filtros",
     "SELECT_ALL": "Seleccionar todos",
-    "SELECTED": "{{count}} seleccionados",
+    "SELECTED_one": "{{count}} seleccionados",
+    "SELECTED_many": "{{count}} seleccionados",
+    "SELECTED_other": "{{count}} seleccionados",
     "SHOWING_ALL": "Mostrando todos",
     "SHOWING_ALL_DEFAULT": "Mostrando Todos (Default)"
   },

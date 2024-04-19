@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactSelect from '../../Form/ReactSelect';
-import { ComponentFilter, ComponentFilterOption } from '../types';
+import { ComponentFilter } from '../types';
 import { ReduxFilterEntity, FilterState } from '../../../containers/Filter/types';
 import type { FilterItemProps } from '../FilterGroup';
 
@@ -58,15 +58,13 @@ export const FilterMultiSelect = ({
 
   return (
     <ReactSelect
-      //@ts-ignore
-      style={style} // I suspect the forwardRef is at fault for the type error?
+      style={style}
       placeholder={`${t('common:SHOWING_ALL')}...`}
       options={options}
       label={subject}
       value={value}
-      onChange={(value: ComponentFilterOption[]): void => {
-        setValue(value);
-
+      onChange={(value): void => {
+        setValue([...value]);
         filterRef.current![filterKey] = produce(defaultFilterState, (defaultFilterState) => {
           for (const option of value) {
             defaultFilterState[option.value].active = true;

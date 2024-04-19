@@ -1,4 +1,17 @@
 {
+  "ADD_ANIMAL": {
+    "ANIMALS_TOTAL_one": "{{count}} animal total",
+    "ANIMALS_TOTAL_other": "{{count}} animals total",
+    "ANIMALS_UNSPECIFIED_one": "{{count}} unspecified",
+    "ANIMALS_UNSPECIFIED_other": "{{count}} unspecified",
+    "SELECT_SEXES": "Select sexes",
+    "SEX_DETAIL": "Sex detail",
+    "SEX_DETAIL_ERROR_one": "Maximum animal count: {{count}}",
+    "SEX_DETAIL_ERROR_other": "Maximum animal count: {{count}}",
+    "SEX_DETAIL_ERROR_POPOVER_one": "You cannot have more than {{count}} animal",
+    "SEX_DETAIL_ERROR_POPOVER_other": "You cannot have more than {{count}} animals",
+    "SPECIFY_SEX": "Specify sex"
+  },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",
     "DISABLE_GEO_LOCATION": "Location services must be enabled to find your current location.",
@@ -837,7 +850,8 @@
     "CLEAR_ALL": "Clear all",
     "CLEAR_ALL_FILTERS": "Clear all filters",
     "SELECT_ALL": "Select all",
-    "SELECTED": "{{count}} selected",
+    "SELECTED_one": "{{count}} selected",
+    "SELECTED_other": "{{count}} selected",
     "SHOWING_ALL": "Showing all",
     "SHOWING_ALL_DEFAULT": "Showing All (Default)"
   },

@@ -1,4 +1,21 @@
 {
+  "ADD_ANIMAL": {
+    "ANIMALS_TOTAL_one": "MISSING",
+    "ANIMALS_TOTAL_many": "MISSING",
+    "ANIMALS_TOTAL_other": "MISSING",
+    "ANIMALS_UNSPECIFIED_one": "MISSING",
+    "ANIMALS_UNSPECIFIED_many": "MISSING",
+    "ANIMALS_UNSPECIFIED_other": "MISSING",
+    "SELECT_SEXES": "MISSING",
+    "SEX_DETAIL": "MISSING",
+    "SEX_DETAIL_ERROR_one": "MISSING",
+    "SEX_DETAIL_ERROR_many": "MISSING",
+    "SEX_DETAIL_ERROR_other": "MISSING",
+    "SEX_DETAIL_ERROR_POPOVER_one": "MISSING",
+    "SEX_DETAIL_ERROR_POPOVER_many": "MISSING",
+    "SEX_DETAIL_ERROR_POPOVER_other": "MISSING",
+    "SPECIFY_SEX": "MISSING"
+  },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Une adresse est requise",
     "DISABLE_GEO_LOCATION": "Les services de localisation doivent être activés pour trouver votre position actuelle",
@@ -837,7 +854,9 @@
     "CLEAR_ALL": "Effacer la sélection",
     "CLEAR_ALL_FILTERS": "Effacer tous les filtres",
     "SELECT_ALL": "Sélectionner tout",
-    "SELECTED": "MISSING",
+    "SELECTED_one": "MISSING",
+    "SELECTED_many": "MISSING",
+    "SELECTED_other": "MISSING",
     "SHOWING_ALL": "MISSING",
     "SHOWING_ALL_DEFAULT": "MISSING"
   },

@@ -161,29 +161,25 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
                 control={control}
                 render={({ field }) => (
                   <ReactSelect
+                    options={options}
                     {...field}
-                    // @ts-ignore
                     label={t('REMOVE_ANIMALS.WHY')}
                     placeholder={t('REMOVE_ANIMALS.REMOVAL_REASONS')}
                     value={options.find(({ value }) => value === field.value)}
-                    options={options}
-                    onChange={(option: RemovalOption) => field.onChange(option.value)}
+                    onChange={(option) => field.onChange(option?.value)}
                     className={styles.reactSelect}
-                    classNames={
-                      {
-                        // @ts-ignore
-                        option: ({ value }) =>
-                          clsx(
-                            styles.dropDownOption,
-                            isCreatedInError(value)
-                              ? styles.dropDownOptionRed
-                              : styles.dropDownOptionGreen,
-                          ),
-                        placeholder: ({ isFocused }) => (isFocused ? styles.placeholderHidden : ''),
-                        valueContainer: (state) =>
-                          isCreatedInError(state.getValue()[0]?.value) ? styles.textRed : '',
-                      } satisfies ClassNamesConfig<RemovalOption>
-                    }
+                    classNames={{
+                      option: ({ data: { value } }) =>
+                        clsx(
+                          styles.dropDownOption,
+                          isCreatedInError(value)
+                            ? styles.dropDownOptionRed
+                            : styles.dropDownOptionGreen,
+                        ),
+                      placeholder: ({ isFocused }) => (isFocused ? styles.placeholderHidden : ''),
+                      valueContainer: (state) =>
+                        isCreatedInError(state.getValue()[0]?.value) ? styles.textRed : '',
+                    }}
                   />
                 )}
               />

@@ -39,6 +39,7 @@ type FixedHeaderContainerProps = {
   children: ReactNode;
   classes?: {
     paper?: string;
+    divWrapper?: string;
   };
 };
 
@@ -52,8 +53,10 @@ const PaperWrapper = ({ children, paperRef, classes = {} }: PaperWrapperProps) =
   </Paper>
 );
 
-const DivWrapper = ({ children }: { children: ReactNode }) => (
-  <div className={clsx(styles.overflowStyle)}>
+type DivWrapperProps = Pick<FixedHeaderContainerProps, 'children' | 'classes'>;
+
+const DivWrapper = ({ children, classes = {} }: DivWrapperProps) => (
+  <div className={clsx(styles.overflowStyle, classes.divWrapper)}>
     <div className={clsx(styles.childrenWrapper)}>{children}</div>
   </div>
 );

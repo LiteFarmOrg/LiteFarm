@@ -23,8 +23,10 @@ import type { InputBaseFieldProps } from './InputBaseField';
 import type { InputBaseLabelProps } from './InputBaseLabel';
 
 export type HTMLInputProps = ComponentPropsWithoutRef<'input'>;
+
 // props meant to be shared with other similar input components
 export type InputBaseSharedProps = InputBaseLabelProps & {
+  showResetIcon?: boolean;
   onResetIconClick?: () => void;
   info?: string;
   error?: string;
@@ -33,7 +35,9 @@ export type InputBaseSharedProps = InputBaseLabelProps & {
   classes?: Record<'input' | 'label' | 'container' | 'info' | 'errors', React.CSSProperties>;
 } & Pick<HTMLInputProps, 'placeholder' | 'disabled'>;
 
-type InputBaseProps = InputBaseSharedProps & InputBaseFieldProps & HTMLInputProps;
+type InputBaseProps = InputBaseSharedProps &
+  Pick<InputBaseFieldProps, 'leftSection' | 'rightSection' | 'mainSection'> &
+  HTMLInputProps;
 
 const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
   const {
@@ -47,7 +51,9 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
     link,
     icon,
     leftSection,
+    mainSection,
     rightSection,
+    showResetIcon = true,
     onResetIconClick,
     classes,
     ...inputProps
@@ -68,8 +74,12 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
         <InputBaseField
           {...inputProps}
           leftSection={leftSection}
+          mainSection={mainSection}
           rightSection={rightSection}
-          resetIcon={!!error ? <Cross isClickable onClick={onResetIconClick} /> : undefined}
+          isError={!!error}
+          resetIcon={
+            !!error && showResetIcon ? <Cross isClickable onClick={onResetIconClick} /> : undefined
+          }
           ref={ref}
         />
       </label>

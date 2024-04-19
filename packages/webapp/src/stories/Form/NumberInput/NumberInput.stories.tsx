@@ -76,6 +76,11 @@ export const Default: Story = {
       'Enter number with leading zeroes',
       test('00078', { expectValue: '00078', expectValueOnBlur: '78', expectValueOnReFocus: '78' }),
     );
+
+    await step(
+      'Enter zero value',
+      test('0000', { expectValue: '0000', expectValueOnBlur: '0', expectValueOnReFocus: '' }),
+    );
   },
 };
 
@@ -141,6 +146,7 @@ export const WithoutDecimal: Story = {
     );
   },
 };
+
 export const WithoutDecimalAndWithFractionalStep: Story = {
   args: { allowDecimal: false, step: 1.7 },
   play: async ({ canvasElement }) => {
@@ -151,9 +157,9 @@ export const WithoutDecimalAndWithFractionalStep: Story = {
     // should round step value up to nearest whole number
     expect(input).toHaveValue('2');
     await userEvent.keyboard('{ArrowDown}');
-    expect(input).toHaveValue('0');
+    expect(input).toHaveValue('');
     await userEvent.keyboard('{ArrowDown}');
-    expect(input).toHaveValue('0');
+    expect(input).toHaveValue('');
     userEvent.clear(input);
   },
 };
@@ -212,7 +218,7 @@ export const Stepper: Story = {
     await userEvent.click(incrementButton!);
     expect(input).toHaveValue('0.1');
     await userEvent.click(decrementButton!);
-    expect(input).toHaveValue('0.0');
+    expect(input).toHaveValue('');
     expect(decrementButton).toBeDisabled();
 
     await userEvent.keyboard('{ArrowUp}');
@@ -314,6 +320,28 @@ export const WithOptionalLabel: Story = {
   args: {
     label: 'A label',
     optional: true,
+  },
+};
+
+export const WithoutClampOnBlur: Story = {
+  args: {
+    min: 9,
+    max: 20,
+    clampOnBlur: false,
+  },
+  play: async ({ step }) => {
+    await step(
+      'Enter number below min',
+      test('8', { expectValue: '8', expectValueOnBlur: '8', expectValueOnReFocus: '8' }),
+    );
+    await step(
+      'Enter number above max',
+      test('99', {
+        expectValue: '99',
+        expectValueOnBlur: '99',
+        expectValueOnReFocus: '99',
+      }),
+    );
   },
 };
 

@@ -857,7 +857,7 @@
     "CLEAR_ALL": "Borrar todos",
     "CLEAR_ALL_FILTERS": "Borrar todos los filtros",
     "SELECT_ALL": "Seleccionar todos",
-    "SELECTED_one": "{{count}} seleccionados",
+    "SELECTED_one": "{{count}} seleccionado",
     "SELECTED_many": "{{count}} seleccionados",
     "SELECTED_other": "{{count}} seleccionados",
     "SHOWING_ALL": "Mostrando todos",

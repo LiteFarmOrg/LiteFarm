@@ -23,7 +23,7 @@ function ClearIndicator<
   Option = unknown,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>,
->({ innerProps }: ClearIndicatorProps<Option, IsMulti, Group>) {
+>({ innerProps, isMulti }: ClearIndicatorProps<Option, IsMulti, Group>) {
   const { t } = useTranslation();
   return (
     <Underlined
@@ -35,7 +35,7 @@ function ClearIndicator<
         color: colors.brown700,
       }}
     >
-      {t('REACT_SELECT.CLEAR_ALL')}
+      {t(`REACT_SELECT.${isMulti ? 'CLEAR_ALL' : 'CLEAR'}`)}
     </Underlined>
   );
 }

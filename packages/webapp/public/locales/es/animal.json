@@ -17,6 +17,10 @@
     "BORN_AT_FARM": "MISSING",
     "BROUGHT_IN": "MISSING"
   },
+  "SEX": {
+    "MALE": "MISSING",
+    "FEMALE": "MISSING"
+  },
   "TAG_COLOR": {
     "BLUE": "MISSING",
     "GREEN": "MISSING",
@@ -30,6 +34,10 @@
     "LEFT_LEG": "MISSING",
     "RIGHT_EAR": "MISSING",
     "RIGHT_LEG": "MISSING"
+  },
+  "TAG_TYPE": {
+    "EAR_TAG": "MISSING",
+    "LEG_BAND": "MISSING"
   },
   "TYPE": {
     "CATTLE": "MISSING",

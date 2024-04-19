@@ -17,6 +17,10 @@
     "BORN_AT_FARM": "Born at the farm",
     "BROUGHT_IN": "Brought in"
   },
+  "SEX": {
+    "MALE": "Male",
+    "FEMALE": "Female"
+  },
   "TAG_COLOR": {
     "BLUE": "Blue",
     "GREEN": "Green",
@@ -30,6 +34,10 @@
     "LEFT_LEG": "Left leg",
     "RIGHT_EAR": "Right ear",
     "RIGHT_LEG": "Right leg"
+  },
+  "TAG_TYPE": {
+    "EAR_TAG": "Ear tag",
+    "LEG_BAND": "Leg band"
   },
   "TYPE": {
     "CATTLE": "Cattle",

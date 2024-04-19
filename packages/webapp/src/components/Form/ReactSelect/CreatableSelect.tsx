@@ -19,7 +19,7 @@ import { GroupBase, SelectInstance } from 'react-select';
 import { styles } from './styles';
 import InputBaseLabel, { InputBaseLabelProps } from '../InputBase/InputBaseLabel';
 import { useTranslation } from 'react-i18next';
-import { ClearIndicator } from './components';
+import { ClearIndicator, MultiValueRemove } from './components';
 import scss from './styles.module.scss';
 
 type CreatableSelectProps<
@@ -78,7 +78,7 @@ const CreatableSelect = React.forwardRef((props, ref) => {
           ...(styles as any),
           ...props.styles,
         }}
-        components={{ ClearIndicator, ...components }}
+        components={{ ClearIndicator, MultiValueRemove, ...components }}
         ref={ref}
         {...restProps}
       />

@@ -17,24 +17,25 @@ import { useMemo } from 'react';
 import Input, { getInputErrors } from '../../../Form/Input';
 import RadioGroup from '../../../Form/RadioGroup';
 import { DetailsFields, type CommonDetailsProps, type ReactSelectOption } from './type';
+import { AnimalOrigins } from '../../../../containers/Animals/types';
 import styles from './styles.module.scss';
 
 export type OriginProps = CommonDetailsProps & {
   currency: string;
   originOptions: ReactSelectOption<number>[];
+  origin?: AnimalOrigins;
 };
 
-const Origin = ({ t, formMethods, currency, originOptions }: OriginProps) => {
+const Origin = ({ t, formMethods, currency, originOptions, origin }: OriginProps) => {
   const {
     control,
     watch,
     register,
     formState: { errors },
   } = formMethods;
-  const originId = watch(DetailsFields.ORIGIN);
 
   const fields = useMemo(() => {
-    return originId === 1 ? (
+    return origin === AnimalOrigins.BROUGHT_IN ? (
       <>
         {/* @ts-ignore */}
         <Input
@@ -97,7 +98,7 @@ const Origin = ({ t, formMethods, currency, originOptions }: OriginProps) => {
         />
       </>
     );
-  }, [originId, Object.entries(errors)]);
+  }, [origin, Object.entries(errors)]);
 
   return (
     <div className={styles.sectionWrapper}>
@@ -110,7 +111,7 @@ const Origin = ({ t, formMethods, currency, originOptions }: OriginProps) => {
           row
         />
       </div>
-      {originId && fields}
+      {origin && fields}
     </div>
   );
 };

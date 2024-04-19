@@ -68,9 +68,9 @@ const tagPlacements = [
   { value: 3, label: 'Other' },
 ];
 const organicStatuses = [
-  { value: 'Non-Organic', label: 'Non-Organic' },
-  { value: 'Organic', label: 'Organic' },
-  { value: 'Transitional', label: 'Transitioning' },
+  { value: 1, label: 'Non-Organic' },
+  { value: 2, label: 'Organic' },
+  { value: 3, label: 'Transitioning' },
 ];
 const originOptions = [
   { value: 1, label: 'Brought in' },

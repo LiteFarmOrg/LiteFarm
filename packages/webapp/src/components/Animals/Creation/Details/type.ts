@@ -69,7 +69,7 @@ export type FormValues = {
   [DetailsFields.TAG_PLACEMENT]?: ReactSelectOption<number | string> | null;
   [DetailsFields.TAG_PLACEMENT_INFO]?: string;
   [DetailsFields.WEANING_DATE]?: string;
-  [DetailsFields.ORGANIC_STATUS]?: ReactSelectOption<string>;
+  [DetailsFields.ORGANIC_STATUS]?: ReactSelectOption<number>;
   [DetailsFields.OTHER_DETAILS]?: string;
   [DetailsFields.ANIMAL_IMAGE]?: any;
   [DetailsFields.ORIGIN]?: number;

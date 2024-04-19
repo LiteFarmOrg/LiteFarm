@@ -33,3 +33,8 @@ export enum AnimalSexes {
   MALE = 'MALE',
   FEMALE = 'FEMALE',
 }
+
+export enum AnimalOrigins {
+  BROUGHT_IN = 'BROUGHT_IN',
+  BORN_AT_FARM = 'BORN_AT_FARM',
+}

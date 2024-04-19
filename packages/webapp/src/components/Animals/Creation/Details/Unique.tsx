@@ -13,17 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import ReactSelect from '../../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../../Form/Input';
-import { DetailsFields, type FormValues, type CommonDetailsProps, ReactSelectOption } from './type';
+import { DetailsFields, type FormValues, type CommonDetailsProps } from './type';
 import styles from './styles.module.scss';
 
 export type UniqueDetailsProps = CommonDetailsProps & {
   tagTypes: FormValues[DetailsFields.TAG_TYPE][];
   tagColors: FormValues[DetailsFields.TAG_COLOR][];
   tagPlacements: FormValues[DetailsFields.TAG_PLACEMENT][];
+  shouldShowTagTypeInput?: boolean;
+  shouldShowTagPlacementInput?: boolean;
 };
 
 const UniqueDetails = ({
@@ -32,53 +33,14 @@ const UniqueDetails = ({
   tagTypes,
   tagColors,
   tagPlacements,
+  shouldShowTagTypeInput,
+  shouldShowTagPlacementInput,
 }: UniqueDetailsProps) => {
   const {
     control,
-    watch,
     register,
-    setValue,
     formState: { errors },
   } = formMethods;
-
-  const tagType = watch(DetailsFields.TAG_TYPE);
-  const tagPlacement = watch(DetailsFields.TAG_PLACEMENT);
-
-  const [tagPlacementOptions, setTagPlacementOptions] = useState<
-    (ReactSelectOption<string> | undefined)[]
-  >([]);
-
-  useEffect(() => {
-    let newOptions = [];
-    if (tagType?.value === 1) {
-      newOptions = [
-        { label: t('animal:TAG_PLACEMENT.LEFT_EAR'), value: 'LEFT_EAR' },
-        { label: t('animal:TAG_PLACEMENT.RIGHT_EAR'), value: 'RIGHT_EAR' },
-      ];
-    } else if (tagType?.value === 2) {
-      newOptions = [
-        { label: t('animal:TAG_PLACEMENT.LEFT_LEG'), value: 'LEFT_LEG' },
-        { label: t('animal:TAG_PLACEMENT.RIGHT_LEG'), value: 'RIGHT_LEG' },
-      ];
-    } else if (tagType?.value === 3) {
-      newOptions = [{ label: t('common:OTHER'), value: 'OTHER' }];
-    } else {
-      newOptions = [
-        { label: t('animal:TAG_PLACEMENT.LEFT_EAR'), value: 'LEFT_EAR' },
-        { label: t('animal:TAG_PLACEMENT.RIGHT_EAR'), value: 'RIGHT_EAR' },
-        { label: t('animal:TAG_PLACEMENT.LEFT_LEG'), value: 'LEFT_LEG' },
-        { label: t('animal:TAG_PLACEMENT.RIGHT_LEG'), value: 'RIGHT_LEG' },
-        { label: t('common:OTHER'), value: 'OTHER' },
-      ];
-    }
-    setTagPlacementOptions(newOptions);
-
-    if (!newOptions.find(({ value }) => value === tagPlacement?.value)) {
-      // resetField or setting undefined does not update the value of ReactSelect
-      // https://github.com/JedWatson/react-select/issues/2846#issuecomment-407637156
-      setValue(DetailsFields.TAG_PLACEMENT, null);
-    }
-  }, [tagType]);
 
   return (
     <div className={styles.sectionWrapper}>
@@ -141,7 +103,7 @@ const UniqueDetails = ({
           />
         )}
       />
-      {tagType?.value === 3 && (
+      {shouldShowTagTypeInput && (
         <>
           {/* @ts-ignore */}
           <Input
@@ -165,12 +127,12 @@ const UniqueDetails = ({
             optional
             value={value}
             onChange={onChange}
-            options={tagPlacementOptions}
+            options={tagPlacements}
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_PLACEMENT')}
           />
         )}
       />
-      {tagPlacement?.value === 'OTHER' && (
+      {shouldShowTagPlacementInput && (
         <>
           {/* @ts-ignore */}
           <Input

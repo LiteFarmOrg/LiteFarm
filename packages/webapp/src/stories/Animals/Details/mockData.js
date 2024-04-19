@@ -1,0 +1,70 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+export const types = [
+  { value: 'default_1', label: 'Cattle' },
+  { value: 'default_2', label: 'Pig' },
+  { value: 'default_3', label: 'Chicken' },
+  { value: 'custom_1', label: 'Dog' },
+];
+
+export const breeds = [
+  { value: '1', label: 'Angus' },
+  { value: '2', label: 'Cobb 5' },
+];
+
+export const sexes = [
+  { value: 'undefined', label: `I don't know` },
+  { value: 1, label: 'Male' },
+  { value: 2, label: 'Female' },
+];
+
+export const uses = [
+  { label: 'A', value: 'A' },
+  { label: 'B', value: 'B' },
+  { label: 'C', value: 'C' },
+];
+
+export const tagTypes = [
+  { value: 1, label: 'Ear tags' },
+  { value: 2, label: 'Leg bands' },
+  { value: 3, label: 'Other' },
+];
+
+export const tagColors = [
+  { value: 1, label: 'YELLOW' },
+  { value: 2, label: 'WHITE' },
+  { value: 3, label: 'ORANGE' },
+  { value: 4, label: 'GREEN' },
+  { value: 5, label: 'BLUE' },
+  { value: 6, label: 'RED' },
+];
+
+export const tagPlacements = [
+  { value: 1, label: 'Ear tag' },
+  { value: 2, label: 'Leg band' },
+  { value: 3, label: 'Other' },
+];
+
+export const organicStatuses = [
+  { value: 1, label: 'Non-Organic' },
+  { value: 2, label: 'Organic' },
+  { value: 3, label: 'Transitioning' },
+];
+
+export const originOptions = [
+  { value: 1, label: 'Brought in' },
+  { value: 2, label: 'Born at the farm' },
+];

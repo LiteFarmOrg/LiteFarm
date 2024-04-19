@@ -19,7 +19,7 @@ import Input, { getInputErrors } from '../../../Form/Input';
 import RadioGroup from '../../../Form/RadioGroup';
 import ReactSelect from '../../../Form/ReactSelect';
 import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
-import { AnimalOrBatchKeys, AnimalSexes } from '../../../../containers/Animals/types';
+import { AnimalOrBatchKeys } from '../../../../containers/Animals/types';
 import {
   DetailsFields,
   type FormValues,
@@ -34,6 +34,7 @@ export type GeneralDetailsProps = CommonDetailsProps & {
   sexes: ReactSelectOption<number | string>[];
   uses: FormValues[DetailsFields.USE];
   animalOrBatch: AnimalOrBatchKeys;
+  isMaleSelected?: boolean;
 };
 
 const GeneralDetails = ({
@@ -44,15 +45,13 @@ const GeneralDetails = ({
   sexes,
   uses,
   animalOrBatch,
+  isMaleSelected,
 }: GeneralDetailsProps) => {
   const {
     control,
-    watch,
     register,
     formState: { errors },
   } = formMethods;
-
-  const sex = watch(DetailsFields.SEX);
 
   const sexInputs = useMemo(() => {
     if (animalOrBatch === AnimalOrBatchKeys.ANIMAL) {
@@ -63,10 +62,7 @@ const GeneralDetails = ({
             {/* @ts-ignore */}
             <RadioGroup name={DetailsFields.SEX} radios={sexes} hookFormControl={control} row />
           </div>
-          {sex ===
-            sexes.find(({ label }) => {
-              return label.toLowerCase() === AnimalSexes.MALE.toLowerCase();
-            })?.value && (
+          {isMaleSelected && (
             <div>
               <InputBaseLabel optional label={t('ANIMAL.ADD_ANIMAL.USED_FOR_REPRODUCTION')} />
               {/* @ts-ignore */}
@@ -78,7 +74,7 @@ const GeneralDetails = ({
     }
 
     return 'TODO: LF-4159';
-  }, [animalOrBatch, t, sex, sexes, control]);
+  }, [animalOrBatch, t, isMaleSelected, sexes, control]);
 
   return (
     <div className={styles.sectionWrapper}>

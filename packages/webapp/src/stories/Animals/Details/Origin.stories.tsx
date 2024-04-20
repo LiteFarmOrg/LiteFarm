@@ -17,14 +17,14 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
-import Origin, { OriginProps } from '../../../components/Animals/Creation/Details/Origin';
+import Origin, { OriginProps } from '../../../components/Animals/AddAnimalsDetails/Origin';
 import { AnimalOrigins } from '../../../containers/Animals/types';
-import { DetailsFields, FormMethods } from '../../../components/Animals/Creation/Details/type';
+import { DetailsFields, FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
 import { originOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<OriginProps> = {
-  title: 'Components/Animals/Creation/Details/Origin',
+  title: 'Components/AddAnimalsDetails/Origin',
   component: Origin,
   decorators: [
     ...componentDecorators,

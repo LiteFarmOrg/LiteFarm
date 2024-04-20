@@ -19,14 +19,14 @@ import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import GeneralDetails, {
   GeneralDetailsProps,
-} from '../../../components/Animals/Creation/Details/General';
+} from '../../../components/Animals/AddAnimalsDetails/General';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
-import { DetailsFields, FormMethods } from '../../../components/Animals/Creation/Details/type';
+import { DetailsFields, FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
 import { typeOptions, breedOptions, sexOptions, useOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<GeneralDetailsProps> = {
-  title: 'Components/Animals/Creation/Details/General',
+  title: 'Components/AddAnimalsDetails/General',
   component: GeneralDetails,
   decorators: [
     ...componentDecorators,

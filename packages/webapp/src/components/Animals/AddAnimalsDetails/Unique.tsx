@@ -14,8 +14,8 @@
  */
 
 import { Controller } from 'react-hook-form';
-import ReactSelect from '../../../Form/ReactSelect';
-import Input, { getInputErrors } from '../../../Form/Input';
+import ReactSelect from '../../Form/ReactSelect';
+import Input, { getInputErrors } from '../../Form/Input';
 import { DetailsFields, type Option, type CommonDetailsProps } from './type';
 import styles from './styles.module.scss';
 

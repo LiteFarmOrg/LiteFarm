@@ -19,13 +19,13 @@ import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import UniqueDetails, {
   UniqueDetailsProps,
-} from '../../../components/Animals/Creation/Details/Unique';
-import { DetailsFields, FormMethods } from '../../../components/Animals/Creation/Details/type';
+} from '../../../components/Animals/AddAnimalsDetails/Unique';
+import { DetailsFields, FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
 import { tagTypeOptions, tagColorOptions, tagPlacementOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<UniqueDetailsProps> = {
-  title: 'Components/Animals/Creation/Details/Unique',
+  title: 'Components/AddAnimalsDetails/Unique',
   component: UniqueDetails,
   decorators: [
     ...componentDecorators,

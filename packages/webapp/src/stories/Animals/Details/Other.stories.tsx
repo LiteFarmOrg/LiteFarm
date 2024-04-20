@@ -17,14 +17,14 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
-import Other, { OtherDetailsProps } from '../../../components/Animals/Creation/Details/Other';
+import Other, { OtherDetailsProps } from '../../../components/Animals/AddAnimalsDetails/Other';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
-import { FormMethods } from '../../../components/Animals/Creation/Details/type';
+import { FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
 import { organicStatusOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<OtherDetailsProps> = {
-  title: 'Components/Animals/Creation/Details/Other',
+  title: 'Components/AddAnimalsDetails/Other',
   component: Other,
   decorators: [
     ...componentDecorators,

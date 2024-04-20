@@ -14,11 +14,11 @@
  */
 
 import { Controller, useController } from 'react-hook-form';
-import ReactSelect from '../../../Form/ReactSelect';
-import Input from '../../../Form/Input';
-import InputAutoSize from '../../../Form/InputAutoSize';
-import ImagePicker from '../../../../containers/ImagePicker';
-import { AnimalOrBatchKeys } from '../../../../containers/Animals/types';
+import ReactSelect from '../../Form/ReactSelect';
+import Input from '../../Form/Input';
+import InputAutoSize from '../../Form/InputAutoSize';
+import ImagePicker from '../../../containers/ImagePicker';
+import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import styles from './styles.module.scss';
 import { DetailsFields, type Option, type CommonDetailsProps } from './type';
 

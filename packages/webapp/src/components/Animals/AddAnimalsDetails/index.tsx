@@ -19,9 +19,9 @@ import GeneralDetails, { type GeneralDetailsProps } from './General';
 import UniqueDetails, { type UniqueDetailsProps } from './Unique';
 import OtherDetails, { type OtherDetailsProps } from './Other';
 import Origin, { type OriginProps } from './Origin';
-import ExpandableItem from '../../../Expandable/ExpandableItem';
-import useExpandable from '../../../Expandable/useExpandableItem';
-import { AnimalOrBatchKeys } from '../../../../containers/Animals/types';
+import ExpandableItem from '../../Expandable/ExpandableItem';
+import useExpandable from '../../Expandable/useExpandableItem';
+import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { type FormMethods } from './type';
 import styles from './styles.module.scss';
 

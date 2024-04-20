@@ -15,11 +15,11 @@
 
 import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
-import Input, { getInputErrors } from '../../../Form/Input';
-import RadioGroup from '../../../Form/RadioGroup';
-import ReactSelect from '../../../Form/ReactSelect';
-import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
-import { AnimalOrBatchKeys } from '../../../../containers/Animals/types';
+import Input, { getInputErrors } from '../../Form/Input';
+import RadioGroup from '../../Form/RadioGroup';
+import ReactSelect from '../../Form/ReactSelect';
+import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
+import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { DetailsFields, type Option, type CommonDetailsProps } from './type';
 import styles from './styles.module.scss';
 

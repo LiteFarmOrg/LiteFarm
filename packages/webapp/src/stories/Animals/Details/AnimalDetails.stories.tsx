@@ -18,9 +18,9 @@ import { useForm } from 'react-hook-form';
 import { Meta, StoryObj } from '@storybook/react';
 import AnimalCreationDetails, {
   AnimalDetailsProps,
-} from '../../../components/Animals/Creation/Details';
-import AnimalDetails from '../../../components/Animals/Creation/Details';
-import { FormMethods } from '../../../components/Animals/Creation/Details/type';
+} from '../../../components/Animals/AddAnimalsDetails';
+import AnimalDetails from '../../../components/Animals/AddAnimalsDetails';
+import { FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
 import {
   typeOptions,
   breedOptions,
@@ -35,7 +35,7 @@ import {
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<AnimalDetailsProps> = {
-  title: 'Components/Animals/Creation/Details',
+  title: 'Components/AddAnimalsDetails',
   component: AnimalDetails,
 };
 export default meta;

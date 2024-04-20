@@ -26,7 +26,7 @@ export const breedOptions = [
 ];
 
 export const sexOptions = [
-  { value: 'undefined', label: `I don't know` },
+  { value: 0, label: `I don't know` },
   { value: 1, label: 'Male' },
   { value: 2, label: 'Female' },
 ];

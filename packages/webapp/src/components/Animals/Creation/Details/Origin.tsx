@@ -16,13 +16,13 @@
 import { useMemo } from 'react';
 import Input, { getInputErrors } from '../../../Form/Input';
 import RadioGroup from '../../../Form/RadioGroup';
-import { DetailsFields, type CommonDetailsProps, type ReactSelectOption } from './type';
+import { DetailsFields, type Option, type CommonDetailsProps } from './type';
 import { AnimalOrigins } from '../../../../containers/Animals/types';
 import styles from './styles.module.scss';
 
 export type OriginProps = CommonDetailsProps & {
   currency: string;
-  originOptions: ReactSelectOption<number>[];
+  originOptions: Option[DetailsFields.ORIGIN][];
   origin?: AnimalOrigins;
 };
 

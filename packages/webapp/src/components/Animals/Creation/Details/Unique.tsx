@@ -16,13 +16,13 @@
 import { Controller } from 'react-hook-form';
 import ReactSelect from '../../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../../Form/Input';
-import { DetailsFields, type FormValues, type CommonDetailsProps } from './type';
+import { DetailsFields, type Option, type CommonDetailsProps } from './type';
 import styles from './styles.module.scss';
 
 export type UniqueDetailsProps = CommonDetailsProps & {
-  tagTypeOptions: FormValues[DetailsFields.TAG_TYPE][];
-  tagColorOptions: FormValues[DetailsFields.TAG_COLOR][];
-  tagPlacementOptions: FormValues[DetailsFields.TAG_PLACEMENT][];
+  tagTypeOptions: Option[DetailsFields.TAG_TYPE][];
+  tagColorOptions: Option[DetailsFields.TAG_COLOR][];
+  tagPlacementOptions: Option[DetailsFields.TAG_PLACEMENT][];
   shouldShowTagTypeInput?: boolean;
   shouldShowTagPlacementInput?: boolean;
 };

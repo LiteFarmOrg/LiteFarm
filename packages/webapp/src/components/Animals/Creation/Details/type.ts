@@ -54,22 +54,34 @@ export enum DetailsFields {
   PRICE = 'price',
 }
 
+export type Option = {
+  [DetailsFields.TYPE]: ReactSelectOption<string>; // TODO: confirm
+  [DetailsFields.BREED]: ReactSelectOption<string>; // TODO: confirm
+  [DetailsFields.USE]: ReactSelectOption<number | string>; // TODO: confirm
+  [DetailsFields.TAG_COLOR]: ReactSelectOption<number>;
+  [DetailsFields.TAG_TYPE]: ReactSelectOption<number>;
+  [DetailsFields.TAG_PLACEMENT]: ReactSelectOption<number>;
+  [DetailsFields.ORGANIC_STATUS]: ReactSelectOption<number>;
+  [DetailsFields.SEX]: ReactSelectOption<number>;
+  [DetailsFields.ORIGIN]: ReactSelectOption<number>;
+};
+
 export type FormValues = {
   [DetailsFields.NAME]?: string;
-  [DetailsFields.TYPE]: ReactSelectOption<string>; // TODO: confirm
-  [DetailsFields.BREED]?: ReactSelectOption<string>; // TODO: confirm
+  [DetailsFields.TYPE]: Option[DetailsFields.TYPE];
+  [DetailsFields.BREED]?: Option[DetailsFields.BREED];
   [DetailsFields.SEX]?: number;
   [DetailsFields.USED_FOR_PRODUCTION]?: boolean;
-  [DetailsFields.USE]?: ReactSelectOption<number | string>[]; // TODO: confirm
+  [DetailsFields.USE]?: Option[DetailsFields.USE][];
   [DetailsFields.DATE_OF_BIRTH]?: string;
   [DetailsFields.TAG_NUMBER]?: string;
-  [DetailsFields.TAG_COLOR]?: ReactSelectOption<number>; // TODO: confirm
-  [DetailsFields.TAG_TYPE]?: ReactSelectOption<number>; // TODO: confirm
+  [DetailsFields.TAG_COLOR]?: Option[DetailsFields.TAG_COLOR];
+  [DetailsFields.TAG_TYPE]?: Option[DetailsFields.TAG_TYPE];
   [DetailsFields.TAG_TYPE_INFO]?: string;
-  [DetailsFields.TAG_PLACEMENT]?: ReactSelectOption<number | string> | null;
+  [DetailsFields.TAG_PLACEMENT]?: Option[DetailsFields.TAG_PLACEMENT] | null;
   [DetailsFields.TAG_PLACEMENT_INFO]?: string;
   [DetailsFields.WEANING_DATE]?: string;
-  [DetailsFields.ORGANIC_STATUS]?: ReactSelectOption<number>;
+  [DetailsFields.ORGANIC_STATUS]?: Option[DetailsFields.TAG_TYPE];
   [DetailsFields.OTHER_DETAILS]?: string;
   [DetailsFields.ANIMAL_IMAGE]?: any;
   [DetailsFields.ORIGIN]?: number;

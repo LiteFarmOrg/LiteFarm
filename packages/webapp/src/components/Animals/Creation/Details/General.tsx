@@ -20,19 +20,14 @@ import RadioGroup from '../../../Form/RadioGroup';
 import ReactSelect from '../../../Form/ReactSelect';
 import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
 import { AnimalOrBatchKeys } from '../../../../containers/Animals/types';
-import {
-  DetailsFields,
-  type FormValues,
-  type ReactSelectOption,
-  type CommonDetailsProps,
-} from './type';
+import { DetailsFields, type Option, type CommonDetailsProps } from './type';
 import styles from './styles.module.scss';
 
 export type GeneralDetailsProps = CommonDetailsProps & {
-  typeOptions: FormValues[DetailsFields.TYPE][];
-  breedOptions: FormValues[DetailsFields.BREED][];
-  sexOptions: ReactSelectOption<number | string>[];
-  useOptions: FormValues[DetailsFields.USE];
+  typeOptions: Option[DetailsFields.TYPE][];
+  breedOptions: Option[DetailsFields.BREED][];
+  sexOptions: Option[DetailsFields.SEX][];
+  useOptions: Option[DetailsFields.USE][];
   animalOrBatch: AnimalOrBatchKeys;
   isMaleSelected?: boolean;
 };

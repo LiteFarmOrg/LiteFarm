@@ -98,7 +98,6 @@ const GeneralDetails = ({
         name={DetailsFields.TYPE}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
-            // @ts-ignore
             label={t('ANIMAL.ANIMAL_TYPE')}
             value={value}
             onChange={onChange}
@@ -111,7 +110,6 @@ const GeneralDetails = ({
         name={DetailsFields.BREED}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
-            // @ts-ignore
             label={t('ANIMAL.ANIMAL_BREED')}
             optional
             value={value}
@@ -126,7 +124,6 @@ const GeneralDetails = ({
         name={DetailsFields.USE}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
-            // @ts-ignore
             label={t('common:USE')}
             optional
             isMulti

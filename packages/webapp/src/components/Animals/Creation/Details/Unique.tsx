@@ -78,7 +78,6 @@ const UniqueDetails = ({
         name={DetailsFields.TAG_COLOR}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
-            // @ts-ignore
             label={t('ANIMAL.ATTRIBUTE.TAG_COLOUR')}
             optional
             value={value}
@@ -93,7 +92,6 @@ const UniqueDetails = ({
         name={DetailsFields.TAG_TYPE}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
-            // @ts-ignore
             label={t('ANIMAL.ATTRIBUTE.TAG_TYPE')}
             optional
             value={value}
@@ -122,7 +120,6 @@ const UniqueDetails = ({
         name={DetailsFields.TAG_PLACEMENT}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
-            // @ts-ignore
             label={t('ANIMAL.ATTRIBUTE.TAG_PLACEMENT')}
             optional
             value={value}

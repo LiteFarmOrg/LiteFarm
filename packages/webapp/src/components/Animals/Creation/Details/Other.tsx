@@ -68,7 +68,6 @@ const OtherDetails = ({
         name={DetailsFields.ORGANIC_STATUS}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
-            // @ts-ignore
             label={t('ANIMAL.ATTRIBUTE.ORGANIC_STATUS')}
             optional
             value={value}

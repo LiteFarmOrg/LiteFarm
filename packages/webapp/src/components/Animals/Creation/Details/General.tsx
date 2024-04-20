@@ -29,10 +29,10 @@ import {
 import styles from './styles.module.scss';
 
 export type GeneralDetailsProps = CommonDetailsProps & {
-  types: FormValues[DetailsFields.TYPE][];
-  breeds: FormValues[DetailsFields.BREED][];
-  sexes: ReactSelectOption<number | string>[];
-  uses: FormValues[DetailsFields.USE];
+  typeOptions: FormValues[DetailsFields.TYPE][];
+  breedOptions: FormValues[DetailsFields.BREED][];
+  sexOptions: ReactSelectOption<number | string>[];
+  useOptions: FormValues[DetailsFields.USE];
   animalOrBatch: AnimalOrBatchKeys;
   isMaleSelected?: boolean;
 };
@@ -40,10 +40,10 @@ export type GeneralDetailsProps = CommonDetailsProps & {
 const GeneralDetails = ({
   t,
   formMethods,
-  types,
-  breeds,
-  sexes,
-  uses,
+  typeOptions,
+  breedOptions,
+  sexOptions,
+  useOptions,
   animalOrBatch,
   isMaleSelected,
 }: GeneralDetailsProps) => {
@@ -60,7 +60,12 @@ const GeneralDetails = ({
           <div>
             <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
             {/* @ts-ignore */}
-            <RadioGroup name={DetailsFields.SEX} radios={sexes} hookFormControl={control} row />
+            <RadioGroup
+              name={DetailsFields.SEX}
+              radios={sexOptions}
+              hookFormControl={control}
+              row
+            />
           </div>
           {isMaleSelected && (
             <div>
@@ -74,7 +79,7 @@ const GeneralDetails = ({
     }
 
     return 'TODO: LF-4159';
-  }, [animalOrBatch, t, isMaleSelected, sexes, control]);
+  }, [animalOrBatch, t, isMaleSelected, sexOptions, control]);
 
   return (
     <div className={styles.sectionWrapper}>
@@ -102,7 +107,7 @@ const GeneralDetails = ({
             label={t('ANIMAL.ANIMAL_TYPE')}
             value={value}
             onChange={onChange}
-            options={types}
+            options={typeOptions}
           />
         )}
       />
@@ -116,7 +121,7 @@ const GeneralDetails = ({
             optional
             value={value}
             onChange={onChange}
-            options={breeds}
+            options={breedOptions}
           />
         )}
       />
@@ -132,7 +137,7 @@ const GeneralDetails = ({
             isMulti
             value={value}
             onChange={onChange}
-            options={uses}
+            options={useOptions}
           />
         )}
       />

@@ -20,7 +20,7 @@ import { componentDecorators } from '../../Pages/config/Decorators';
 import Other, { OtherDetailsProps } from '../../../components/Animals/Creation/Details/Other';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { FormMethods } from '../../../components/Animals/Creation/Details/type';
-import { organicStatuses } from './mockData';
+import { organicStatusOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<OtherDetailsProps> = {
@@ -35,6 +35,8 @@ const meta: Meta<OtherDetailsProps> = {
       return <Story t={t} formMethods={formMethods} />;
     },
   ],
+  // avoid "Maximum update depth exceeded" https://github.com/storybookjs/storybook/issues/12306
+  parameters: { docs: { source: { type: 'code' } } },
 };
 export default meta;
 
@@ -42,7 +44,7 @@ type Story = StoryObj<typeof Other>;
 
 export const Animal: Story = {
   args: {
-    organicStatuses,
+    organicStatusOptions,
     animalOrBatch: AnimalOrBatchKeys.ANIMAL,
   },
   render: (args, context) => <Other {...args} {...context} />,
@@ -50,7 +52,7 @@ export const Animal: Story = {
 
 export const Batch: Story = {
   args: {
-    organicStatuses,
+    organicStatusOptions,
     animalOrBatch: AnimalOrBatchKeys.BATCH,
   },
   render: (args, context) => <Other {...args} {...context} />,

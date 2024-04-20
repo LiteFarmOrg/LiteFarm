@@ -21,7 +21,7 @@ import UniqueDetails, {
   UniqueDetailsProps,
 } from '../../../components/Animals/Creation/Details/Unique';
 import { DetailsFields, FormMethods } from '../../../components/Animals/Creation/Details/type';
-import { tagTypes, tagColors, tagPlacements } from './mockData';
+import { tagTypeOptions, tagColorOptions, tagPlacementOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<UniqueDetailsProps> = {
@@ -55,6 +55,6 @@ export default meta;
 type Story = StoryObj<typeof UniqueDetails>;
 
 export const Unique: Story = {
-  args: { tagTypes, tagColors, tagPlacements },
+  args: { tagTypeOptions, tagColorOptions, tagPlacementOptions },
   render: (args, context) => <UniqueDetails {...args} {...context} />,
 };

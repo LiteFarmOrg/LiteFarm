@@ -29,7 +29,6 @@ export type OriginProps = CommonDetailsProps & {
 const Origin = ({ t, formMethods, currency, originOptions, origin }: OriginProps) => {
   const {
     control,
-    watch,
     register,
     formState: { errors },
   } = formMethods;

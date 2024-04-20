@@ -13,37 +13,37 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const types = [
+export const typeOptions = [
   { value: 'default_1', label: 'Cattle' },
   { value: 'default_2', label: 'Pig' },
   { value: 'default_3', label: 'Chicken' },
   { value: 'custom_1', label: 'Dog' },
 ];
 
-export const breeds = [
+export const breedOptions = [
   { value: '1', label: 'Angus' },
   { value: '2', label: 'Cobb 5' },
 ];
 
-export const sexes = [
+export const sexOptions = [
   { value: 'undefined', label: `I don't know` },
   { value: 1, label: 'Male' },
   { value: 2, label: 'Female' },
 ];
 
-export const uses = [
+export const useOptions = [
   { label: 'A', value: 'A' },
   { label: 'B', value: 'B' },
   { label: 'C', value: 'C' },
 ];
 
-export const tagTypes = [
+export const tagTypeOptions = [
   { value: 1, label: 'Ear tags' },
   { value: 2, label: 'Leg bands' },
   { value: 3, label: 'Other' },
 ];
 
-export const tagColors = [
+export const tagColorOptions = [
   { value: 1, label: 'YELLOW' },
   { value: 2, label: 'WHITE' },
   { value: 3, label: 'ORANGE' },
@@ -52,13 +52,13 @@ export const tagColors = [
   { value: 6, label: 'RED' },
 ];
 
-export const tagPlacements = [
+export const tagPlacementOptions = [
   { value: 1, label: 'Ear tag' },
   { value: 2, label: 'Leg band' },
   { value: 3, label: 'Other' },
 ];
 
-export const organicStatuses = [
+export const organicStatusOptions = [
   { value: 1, label: 'Non-Organic' },
   { value: 2, label: 'Organic' },
   { value: 3, label: 'Transitioning' },

@@ -22,7 +22,7 @@ import GeneralDetails, {
 } from '../../../components/Animals/Creation/Details/General';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { DetailsFields, FormMethods } from '../../../components/Animals/Creation/Details/type';
-import { types, breeds, sexes, uses } from './mockData';
+import { typeOptions, breedOptions, sexOptions, useOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<GeneralDetailsProps> = {
@@ -39,12 +39,14 @@ const meta: Meta<GeneralDetailsProps> = {
       return <Story t={t} formMethods={formMethods} isMaleSelected={isMaleSelected} />;
     },
   ],
+  // avoid "Maximum update depth exceeded" https://github.com/storybookjs/storybook/issues/12306
+  parameters: { docs: { source: { type: 'code' } } },
 };
 export default meta;
 
 type Story = StoryObj<typeof GeneralDetails>;
 
-const commonProps = { types, breeds, sexes, uses };
+const commonProps = { typeOptions, breedOptions, sexOptions, useOptions };
 
 export const Animal: Story = {
   args: {

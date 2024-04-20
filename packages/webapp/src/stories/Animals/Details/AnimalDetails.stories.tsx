@@ -22,14 +22,14 @@ import AnimalCreationDetails, {
 import AnimalDetails from '../../../components/Animals/Creation/Details';
 import { FormMethods } from '../../../components/Animals/Creation/Details/type';
 import {
-  types,
-  breeds,
-  sexes,
-  uses,
-  tagTypes,
-  tagColors,
-  tagPlacements,
-  organicStatuses,
+  typeOptions,
+  breedOptions,
+  sexOptions,
+  useOptions,
+  tagTypeOptions,
+  tagColorOptions,
+  tagPlacementOptions,
+  organicStatusOptions,
   originOptions,
 } from './mockData';
 
@@ -52,18 +52,18 @@ export const Default: Story = {
           <AnimalDetails
             formMethods={formMethods}
             generalDetailProps={{
-              types,
-              breeds,
-              sexes,
-              uses,
+              typeOptions,
+              breedOptions,
+              sexOptions,
+              useOptions,
             }}
             uniqueDetailsProps={{
-              tagTypes,
-              tagColors,
-              tagPlacements,
+              tagTypeOptions,
+              tagColorOptions,
+              tagPlacementOptions,
             }}
             otherDetailsProps={{
-              organicStatuses,
+              organicStatusOptions,
             }}
             originProps={{
               currency: '$',

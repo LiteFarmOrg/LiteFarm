@@ -20,9 +20,9 @@ import { DetailsFields, type FormValues, type CommonDetailsProps } from './type'
 import styles from './styles.module.scss';
 
 export type UniqueDetailsProps = CommonDetailsProps & {
-  tagTypes: FormValues[DetailsFields.TAG_TYPE][];
-  tagColors: FormValues[DetailsFields.TAG_COLOR][];
-  tagPlacements: FormValues[DetailsFields.TAG_PLACEMENT][];
+  tagTypeOptions: FormValues[DetailsFields.TAG_TYPE][];
+  tagColorOptions: FormValues[DetailsFields.TAG_COLOR][];
+  tagPlacementOptions: FormValues[DetailsFields.TAG_PLACEMENT][];
   shouldShowTagTypeInput?: boolean;
   shouldShowTagPlacementInput?: boolean;
 };
@@ -30,9 +30,9 @@ export type UniqueDetailsProps = CommonDetailsProps & {
 const UniqueDetails = ({
   t,
   formMethods,
-  tagTypes,
-  tagColors,
-  tagPlacements,
+  tagTypeOptions,
+  tagColorOptions,
+  tagPlacementOptions,
   shouldShowTagTypeInput,
   shouldShowTagPlacementInput,
 }: UniqueDetailsProps) => {
@@ -83,7 +83,7 @@ const UniqueDetails = ({
             optional
             value={value}
             onChange={onChange}
-            options={tagColors}
+            options={tagColorOptions}
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_COLOUR')}
           />
         )}
@@ -98,7 +98,7 @@ const UniqueDetails = ({
             optional
             value={value}
             onChange={onChange}
-            options={tagTypes}
+            options={tagTypeOptions}
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_TYPE')}
           />
         )}
@@ -127,7 +127,7 @@ const UniqueDetails = ({
             optional
             value={value}
             onChange={onChange}
-            options={tagPlacements}
+            options={tagPlacementOptions}
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_PLACEMENT')}
           />
         )}

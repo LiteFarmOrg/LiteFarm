@@ -23,11 +23,16 @@ import styles from './styles.module.scss';
 import { DetailsFields, type FormValues, type CommonDetailsProps } from './type';
 
 export type OtherDetailsProps = CommonDetailsProps & {
-  organicStatuses: FormValues[DetailsFields.ORGANIC_STATUS][];
+  organicStatusOptions: FormValues[DetailsFields.ORGANIC_STATUS][];
   animalOrBatch: AnimalOrBatchKeys;
 };
 
-const OtherDetails = ({ t, formMethods, organicStatuses, animalOrBatch }: OtherDetailsProps) => {
+const OtherDetails = ({
+  t,
+  formMethods,
+  organicStatusOptions,
+  animalOrBatch,
+}: OtherDetailsProps) => {
   const {
     control,
     resetField,
@@ -68,7 +73,7 @@ const OtherDetails = ({ t, formMethods, organicStatuses, animalOrBatch }: OtherD
             optional
             value={value}
             onChange={onChange}
-            options={organicStatuses}
+            options={organicStatusOptions}
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.ORGANIC_STATUS')}
           />
         )}

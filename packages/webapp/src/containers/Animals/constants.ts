@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -7,18 +7,15 @@
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  LiteFarm is distributed in the hope that it will be useful;
+ *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.mainColumn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-grow: 1;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  overflow: hidden;
-}
+export const iconNames = {
+  CATTLE: 'CATTLE',
+  CHICKEN: 'CHICKEN',
+  PIGS: 'PIG',
+  '': 'CUSTOM_ANIMAL',
+};

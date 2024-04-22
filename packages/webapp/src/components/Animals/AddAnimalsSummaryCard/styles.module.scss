@@ -100,6 +100,7 @@
   @include xs-breakpoint {
     gap: 32px;
     padding: 16px 24px;
+    background-color: var(--mainBackground);
   }
 }
 

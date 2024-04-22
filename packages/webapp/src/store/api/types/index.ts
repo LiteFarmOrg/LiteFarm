@@ -16,11 +16,6 @@
 // If we don't necessarily want to type an endpoint
 export type Result = Array<{ [key: string]: any }>;
 
-export interface EnumTable {
-  id: number;
-  key: string;
-}
-
 export interface Animal {
   birth_date: string | null;
   brought_in_date: string | null;
@@ -103,7 +98,10 @@ export interface DefaultAnimalType {
   count?: number;
 }
 
-export interface AnimalSex extends EnumTable {}
+export interface AnimalSex {
+  id: number;
+  key: string;
+}
 
 export type AnimalRemovalReasonKeys =
   | 'SOLD'
@@ -117,13 +115,3 @@ export type AnimalRemovalReason = {
   key: AnimalRemovalReasonKeys;
   id: number;
 };
-
-export interface AnimalIdentifierColor extends EnumTable {}
-
-export interface AnimalOrigin extends EnumTable {}
-
-export interface AnimalIdentifierPlacement {
-  id: number;
-  default_type_id?: number;
-  key: string;
-}

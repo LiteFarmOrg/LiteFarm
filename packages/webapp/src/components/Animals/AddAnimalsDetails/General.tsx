@@ -132,6 +132,7 @@ const GeneralDetails = ({
             value={value}
             onChange={onChange}
             options={useOptions}
+            style={{ paddingBottom: '12px' }} // accomodate "Clear all" button space
           />
         )}
       />

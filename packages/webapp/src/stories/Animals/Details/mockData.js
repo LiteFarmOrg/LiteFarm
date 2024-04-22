@@ -44,18 +44,20 @@ export const tagTypeOptions = [
 ];
 
 export const tagColorOptions = [
-  { value: 1, label: 'YELLOW' },
-  { value: 2, label: 'WHITE' },
-  { value: 3, label: 'ORANGE' },
-  { value: 4, label: 'GREEN' },
-  { value: 5, label: 'BLUE' },
-  { value: 6, label: 'RED' },
+  { value: 1, label: 'Yellow' },
+  { value: 2, label: 'White' },
+  { value: 3, label: 'Orange' },
+  { value: 4, label: 'Green' },
+  { value: 5, label: 'Blue' },
+  { value: 6, label: 'Red' },
 ];
 
 export const tagPlacementOptions = [
-  { value: 1, label: 'Ear tag' },
-  { value: 2, label: 'Leg band' },
-  { value: 3, label: 'Other' },
+  { value: 1, label: 'Left ear' },
+  { value: 2, label: 'Right ear' },
+  { value: 3, label: 'Left leg' },
+  { value: 4, label: 'Right leg' },
+  { value: 5, label: 'Other' },
 ];
 
 export const organicStatusOptions = [

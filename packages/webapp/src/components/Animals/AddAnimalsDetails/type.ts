@@ -55,9 +55,9 @@ export enum DetailsFields {
 }
 
 export type Option = {
-  [DetailsFields.TYPE]: ReactSelectOption<string>; // TODO: confirm
-  [DetailsFields.BREED]: ReactSelectOption<string>; // TODO: confirm
-  [DetailsFields.USE]: ReactSelectOption<number | string>; // TODO: confirm
+  [DetailsFields.TYPE]: ReactSelectOption<string>; // TODO: LF-4159
+  [DetailsFields.BREED]: ReactSelectOption<string>; // TODO: LF-4159
+  [DetailsFields.USE]: ReactSelectOption<number | string>; // TODO: LF-4159
   [DetailsFields.TAG_COLOR]: ReactSelectOption<number>;
   [DetailsFields.TAG_TYPE]: ReactSelectOption<number>;
   [DetailsFields.TAG_PLACEMENT]: ReactSelectOption<number>;

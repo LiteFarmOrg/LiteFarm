@@ -45,6 +45,7 @@ const GeneralDetails = ({
   const {
     control,
     register,
+    trigger,
     formState: { errors },
   } = formMethods;
 
@@ -87,6 +88,7 @@ const GeneralDetails = ({
             hookFormRegister={register(DetailsFields.NAME, {
               maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
             })}
+            trigger={trigger}
             optional
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.BATCH_NAME')}
             errors={getInputErrors(errors, DetailsFields.NAME)}

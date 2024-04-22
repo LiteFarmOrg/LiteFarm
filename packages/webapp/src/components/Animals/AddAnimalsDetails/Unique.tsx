@@ -39,6 +39,7 @@ const UniqueDetails = ({
   const {
     control,
     register,
+    trigger,
     formState: { errors },
   } = formMethods;
 
@@ -51,6 +52,7 @@ const UniqueDetails = ({
         hookFormRegister={register(DetailsFields.NAME, {
           maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
         })}
+        trigger={trigger}
         optional
         placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.NAME')}
         errors={getInputErrors(errors, DetailsFields.NAME)}
@@ -69,6 +71,7 @@ const UniqueDetails = ({
         hookFormRegister={register(DetailsFields.TAG_NUMBER, {
           maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
         })}
+        trigger={trigger}
         optional
         placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_NUMBER')}
         errors={getInputErrors(errors, DetailsFields.TAG_NUMBER)}
@@ -109,6 +112,7 @@ const UniqueDetails = ({
             hookFormRegister={register(DetailsFields.TAG_TYPE_INFO, {
               maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
             })}
+            trigger={trigger}
             optional
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_TYPE_INFO')}
             errors={getInputErrors(errors, DetailsFields.TAG_TYPE_INFO)}
@@ -138,6 +142,7 @@ const UniqueDetails = ({
             hookFormRegister={register(DetailsFields.TAG_PLACEMENT_INFO, {
               maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
             })}
+            trigger={trigger}
             optional
             placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_PLACEMENT_INFO')}
             errors={getInputErrors(errors, DetailsFields.TAG_PLACEMENT_INFO)}

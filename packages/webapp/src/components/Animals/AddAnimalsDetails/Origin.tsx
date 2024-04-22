@@ -30,6 +30,7 @@ const Origin = ({ t, formMethods, currency, originOptions, origin }: OriginProps
   const {
     control,
     register,
+    trigger,
     formState: { errors },
   } = formMethods;
 
@@ -52,6 +53,7 @@ const Origin = ({ t, formMethods, currency, originOptions, origin }: OriginProps
           hookFormRegister={register(DetailsFields.MERCHANT, {
             maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
           })}
+          trigger={trigger}
           optional
           placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.MERCHANT')}
           errors={getInputErrors(errors, DetailsFields.MERCHANT)}
@@ -79,6 +81,7 @@ const Origin = ({ t, formMethods, currency, originOptions, origin }: OriginProps
           hookFormRegister={register(DetailsFields.DAM, {
             maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
           })}
+          trigger={trigger}
           optional
           placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.DAM')}
           errors={getInputErrors(errors, DetailsFields.DAM)}
@@ -91,6 +94,7 @@ const Origin = ({ t, formMethods, currency, originOptions, origin }: OriginProps
           hookFormRegister={register(DetailsFields.SIRE, {
             maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
           })}
+          trigger={trigger}
           optional
           placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.SIRE')}
           errors={getInputErrors(errors, DetailsFields.SIRE)}

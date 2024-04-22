@@ -1,5 +1,5 @@
 {
-  "ADD_ANIMALS": {
+  "ADD_ANIMAL": {
     "ADD_MORE_DETAILS": "Add more details to your animals",
     "ALL_DONE": "All done!",
     "ANIMAL_SUMMARY_COUNT_one": "{{count}} individual animal",

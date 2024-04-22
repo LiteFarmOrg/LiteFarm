@@ -1,13 +1,15 @@
 {
   "ADD_ANIMAL": {
-    "ADD_MORE_DETAILS": "Add more details to your animals",
-    "ALL_DONE": "All done!",
-    "ANIMAL_SUMMARY_COUNT_one": "{{count}} individual animal",
-    "ANIMAL_SUMMARY_COUNT_other": "{{count}} individual animals",
-    "BATCH_SUMMARY_COUNT_one": "{{count}} batch",
-    "BATCH_SUMMARY_COUNT_other": "{{count}} batches",
-    "HERE_IS_SUMMARY": "Here is a summary of your added animals:",
-    "SUMMARY": "You successfully added {{animalCount}} {{and}} {{batchCount}} to your inventory."
+    "SUMMARY": {
+      "ADD_MORE_DETAILS": "Add more details to your animals",
+      "ALL_DONE": "All done!",
+      "ANIMAL_SUMMARY_COUNT_one": "{{count}} individual animal",
+      "ANIMAL_SUMMARY_COUNT_other": "{{count}} individual animals",
+      "BATCH_SUMMARY_COUNT_one": "{{count}} batch",
+      "BATCH_SUMMARY_COUNT_other": "{{count}} batches",
+      "HERE_IS_SUMMARY": "Here is a summary of your added animals:",
+      "MAIN": "You successfully added {{animalCount}} {{and}} {{batchCount}} to your inventory."
+    }
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",

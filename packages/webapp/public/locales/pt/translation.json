@@ -1,13 +1,15 @@
 {
   "ADD_ANIMAL": {
-    "ADD_MORE_DETAILS": "MISSING",
-    "ALL_DONE": "MISSING",
-    "ANIMAL_SUMMARY_COUNT_one": "MISSING",
-    "ANIMAL_SUMMARY_COUNT_other": "MISSING",
-    "BATCH_SUMMARY_COUNT_one": "MISSING",
-    "BATCH_SUMMARY_COUNT_other": "MISSING",
-    "HERE_IS_SUMMARY": "MISSING",
-    "SUMMARY": "MISSING"
+    "SUMMARY": {
+      "ADD_MORE_DETAILS": "MISSING",
+      "ALL_DONE": "MISSING",
+      "ANIMAL_SUMMARY_COUNT_one": "MISSING",
+      "ANIMAL_SUMMARY_COUNT_other": "MISSING",
+      "BATCH_SUMMARY_COUNT_one": "MISSING",
+      "BATCH_SUMMARY_COUNT_other": "MISSING",
+      "HERE_IS_SUMMARY": "MISSING",
+      "MAIN": "MISSING"
+    }
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "É necessário informar um endereço",

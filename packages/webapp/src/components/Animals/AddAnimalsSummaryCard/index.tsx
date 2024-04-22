@@ -50,19 +50,19 @@ export const AddAnimalsSummaryCard = ({
       <div className={styles.container}>
         <div className={styles.infoContainer}>
           <div className={styles.textContainer}>
-            <Title className={styles.title}>{t('ADD_ANIMAL.ALL_DONE')}</Title>
+            <Title className={styles.title}>{t('ADD_ANIMAL.SUMMARY.ALL_DONE')}</Title>
             <Main className={styles.mainText}>
-              {t('ADD_ANIMAL.SUMMARY', {
+              {t('ADD_ANIMAL.SUMMARY.MAIN', {
                 animalCount: numberOfAnimals
-                  ? t('ADD_ANIMAL.ANIMAL_SUMMARY_COUNT', { count: numberOfAnimals })
+                  ? t('ADD_ANIMAL.SUMMARY.ANIMAL_SUMMARY_COUNT', { count: numberOfAnimals })
                   : '',
                 and: numberOfAnimals && numberOfBatches ? t('common:AND') : '',
                 batchCount: numberOfBatches
-                  ? t('ADD_ANIMAL.BATCH_SUMMARY_COUNT', { count: numberOfBatches })
+                  ? t('ADD_ANIMAL.SUMMARY.BATCH_SUMMARY_COUNT', { count: numberOfBatches })
                   : '',
               })}
             </Main>
-            <Main className={styles.mainText}>{t('ADD_ANIMAL.HERE_IS_SUMMARY')}</Main>
+            <Main className={styles.mainText}>{t('ADD_ANIMAL.SUMMARY.HERE_IS_SUMMARY')}</Main>
           </div>
           {!isMobile && (
             <IconSummaryAndButton
@@ -126,7 +126,7 @@ const IconSummaryAndButton = ({
         ))}
       </div>
       <Button color="secondary-2" sm onClick={onContinue} className={styles.button}>
-        {t('ADD_ANIMAL.ADD_MORE_DETAILS')}
+        {t('ADD_ANIMAL.SUMMARY.ADD_MORE_DETAILS')}
         <ChevronRight />
       </Button>
     </div>

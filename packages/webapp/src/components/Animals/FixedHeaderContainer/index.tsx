@@ -43,7 +43,7 @@ type FixedHeaderContainerProps = {
   };
 };
 
-type PaperWrapperProps = Omit<FixedHeaderContainerProps, 'kind' | 'header'> & {
+type PaperWrapperProps = Pick<FixedHeaderContainerProps, 'children' | 'classes'> & {
   paperRef: RefObject<HTMLDivElement> | null;
 };
 

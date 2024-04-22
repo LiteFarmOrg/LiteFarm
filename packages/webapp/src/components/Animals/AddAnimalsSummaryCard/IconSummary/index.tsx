@@ -31,10 +31,12 @@ export const IconSummary = ({
 }: IconSummaryProps) => {
   return (
     <div className={styles.summaryCard}>
-      <Icon
-        iconName={isBatch ? 'BATCH_GREEN' : iconKey}
-        className={isBatch ? '' : styles.animalIcon}
-      />
+      <div className={styles.iconContainer}>
+        <Icon
+          iconName={isBatch ? 'BATCH_GREEN' : iconKey}
+          className={isBatch ? '' : styles.animalIcon}
+        />
+      </div>
       <div>
         <Main className={styles.typeAndBreed}>
           {type}

@@ -15,6 +15,12 @@
 
 @import '../../../../assets/mixin';
 
+.iconContainer {
+  width: 40px; // width of the larger (batch) icon
+  display: flex;
+  justify-content: center;
+}
+
 .animalIcon {
   @include svgColorFill(var(--Colors-Primary-Primary-teal-300));
   border-radius: 8px;

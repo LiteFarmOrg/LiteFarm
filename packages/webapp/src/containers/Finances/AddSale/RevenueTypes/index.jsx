@@ -82,6 +82,7 @@ export default function RevenueTypes({ useHookFormPersist, history }) {
         searchPlaceholderText={t('FINANCES.SEARCH.REVENUE_TYPES')}
         iconLinkId={'manageCustomRevenueType'}
         Wrapper={ManageCustomRevenueTypesSpotlight}
+        isAddRevenue={true}
       />
     </HookFormPersistProvider>
   );

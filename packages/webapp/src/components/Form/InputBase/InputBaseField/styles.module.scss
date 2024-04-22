@@ -68,6 +68,7 @@ input:focus::placeholder {
   justify-content: center;
   align-items: center;
   gap: 8px;
+  cursor: default;
 
   &Left {
     padding-right: 6px;

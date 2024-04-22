@@ -66,6 +66,7 @@
   "SELECTED_COUNT_one": "{{count}} selected",
   "SELECTED_COUNT_many": "{{count}} selected",
   "SELECTED_COUNT_other": "{{count}} selected",
+  "SET": "Set",
   "SHOWING_ALL": "Showing all",
   "SKIP": "Skip",
   "SORRY": "Sorry",

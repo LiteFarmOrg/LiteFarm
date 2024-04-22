@@ -13,27 +13,65 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { ReactElement, ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  ReactElement,
+  ReactNode,
+  RefObject,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import clsx from 'clsx';
 import { Paper } from '@mui/material';
 import styles from './styles.module.scss';
 
 const PAPER_BORDER = 2;
 
+export enum ContainerKind {
+  OVERFLOW,
+  PAPER,
+}
+
 type FixedHeaderContainerProps = {
+  kind?: ContainerKind;
   header: ReactNode;
   children: ReactNode;
   classes?: {
     paper?: string;
+    divWrapper?: string;
   };
 };
 
-const FixedHeaderContainer = ({ header, children, classes = {} }: FixedHeaderContainerProps) => {
-  const [paperHeightInPx, setPaperHeightInPx] = useState<number | null>(null);
+type WrapperProps = Pick<FixedHeaderContainerProps, 'children' | 'classes'>;
+type PaperWrapperProps = WrapperProps & { paperRef: RefObject<HTMLDivElement> | null };
 
+const PaperWrapper = ({ children, paperRef, classes = {} }: PaperWrapperProps) => (
+  <Paper component="div" ref={paperRef} className={clsx(styles.paper, classes.paper)}>
+    {children}
+  </Paper>
+);
+
+const DivWrapper = ({ children, classes = {} }: WrapperProps) => (
+  <div className={clsx(styles.overflowStyle, classes.divWrapper)}>
+    <div className={clsx(styles.childrenWrapper)}>{children}</div>
+  </div>
+);
+
+const FixedHeaderContainer = ({
+  header,
+  children,
+  classes = {},
+  kind = ContainerKind.OVERFLOW,
+}: FixedHeaderContainerProps) => {
+  const [paperHeightInPx, setPaperHeightInPx] = useState<number | null>(null);
   const paperRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
+    if (kind === ContainerKind.OVERFLOW) {
+      return;
+    }
+
     const paperObserver = new ResizeObserver(() => {
       setPaperHeightInPx(paperRef.current?.offsetHeight || null);
     });
@@ -48,6 +86,10 @@ const FixedHeaderContainer = ({ header, children, classes = {} }: FixedHeaderCon
   }, []);
 
   const childrenWithProps = useMemo(() => {
+    if (kind === ContainerKind.OVERFLOW) {
+      return children;
+    }
+
     // Provide the 'containerHeight' prop to children components,
     // allowing them to adjust their layout based on the height of the container.
     return React.Children.map(children, (child) => {
@@ -60,12 +102,14 @@ const FixedHeaderContainer = ({ header, children, classes = {} }: FixedHeaderCon
     });
   }, [children, paperHeightInPx]);
 
+  const Wrapper = kind === ContainerKind.OVERFLOW ? DivWrapper : PaperWrapper;
+
   return (
     <div className={styles.wrapper}>
       {header}
-      <Paper ref={paperRef} className={clsx(styles.paper, classes.paper)}>
+      <Wrapper paperRef={paperRef} classes={classes}>
         {childrenWithProps}
-      </Paper>
+      </Wrapper>
     </div>
   );
 };

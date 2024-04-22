@@ -17,7 +17,7 @@ export const typeOptions = [
   { value: 'default_1', label: 'Cattle' },
   { value: 'default_2', label: 'Pig' },
   { value: 'default_3', label: 'Chicken' },
-  { value: 'custom_1', label: 'Dog' },
+  { value: 'custom_1', label: 'Sheep' },
 ];
 
 export const breedOptions = [

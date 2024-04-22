@@ -24,14 +24,7 @@ import useQueries from '../../../../hooks/api/useQueries';
 import { CustomAnimalType, DefaultAnimalType } from '../../../../store/api/types';
 import { getComparator } from '../../../../util/sort';
 import { generateUniqueAnimalId } from '../../../../util/animal';
-import styles from './styles.module.scss';
-
-const iconNames = {
-  CATTLE: 'CATTLE',
-  CHICKEN: 'CHICKEN',
-  PIGS: 'PIG',
-  '': 'CUSTOM_ANIMAL',
-};
+import { iconNames } from '../../constants';
 
 const formatAnimalTypes = (
   types: (DefaultAnimalType | CustomAnimalType)[],

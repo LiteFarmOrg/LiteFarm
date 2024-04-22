@@ -35,7 +35,7 @@ jobs:
           - postgres-data:/var/lib/postgresql/data
     strategy:
       matrix:
-        node-version: [16.15.0]
+        node-version: [18.16.1]
     env:
       JWT_SECRET: This_will_(really)_work
       JWT_INVITE_SECRET: Any_arbitrary_string_will_do

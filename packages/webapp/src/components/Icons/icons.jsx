@@ -43,6 +43,7 @@ import { ReactComponent as CattleIcon } from '../../assets/images/animals/cattle
 import { ReactComponent as ChickenIcon } from '../../assets/images/animals/chicken-icon.svg';
 import { ReactComponent as PigIcon } from '../../assets/images/animals/pig-icon.svg';
 import { ReactComponent as BatchIcon } from '../../assets/images/animals/batch.svg';
+import { ReactComponent as BatchIconGreen } from '../../assets/images/animals/batch-green.svg';
 import { ReactComponent as CustomAnimalIcon } from '../../assets/images/animals/custom-animal-icon.svg';
 import { ReactComponent as AlpacaIcon } from '../../assets/images/animals/alpaca-icon.svg';
 import { ReactComponent as GoatIcon } from '../../assets/images/animals/goat-icon.svg';
@@ -90,6 +91,7 @@ const iconMap = {
   CHICKEN: ChickenIcon,
   PIG: PigIcon,
   BATCH: BatchIcon,
+  BATCH_GREEN: BatchIconGreen, // svgColorFill does not work with this icon
   CUSTOM_ANIMAL: CustomAnimalIcon,
   ALPACA: AlpacaIcon,
   GOAT: GoatIcon,

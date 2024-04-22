@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -7,18 +7,28 @@
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  LiteFarm is distributed in the hope that it will be useful;
+ *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.mainColumn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-grow: 1;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  overflow: hidden;
+export interface AnimalSexCountSummary {
+  [key: string]: number | undefined;
+}
+
+export interface AnimalSummary {
+  type: string; // Translated, to display in the card
+  breed?: string;
+  sexDetails: AnimalSexCountSummary;
+  iconKey: string;
+  count?: never;
+}
+
+export interface BatchSummary {
+  type: string;
+  breed?: string;
+  count: number;
+  sexDetails?: never;
+  iconKey?: never;
 }

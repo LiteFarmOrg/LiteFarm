@@ -37,7 +37,10 @@ export const IconSummary = ({
       />
       <div>
         <Main className={styles.typeAndBreed}>
-          {type} {isBatch && breed && '-'} {breed}
+          {type}
+          {breed && (isBatch ? ' - ' : ' ')}
+          {breed}
+          {!isBatch && ':'}
         </Main>
         <div className={styles.details}>
           {isBatch ? <BatchDetails count={count} /> : <AnimalDetails sexDetails={sexDetails} />}

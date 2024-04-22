@@ -43,9 +43,8 @@ type FixedHeaderContainerProps = {
   };
 };
 
-type PaperWrapperProps = Pick<FixedHeaderContainerProps, 'children' | 'classes'> & {
-  paperRef: RefObject<HTMLDivElement> | null;
-};
+type WrapperProps = Pick<FixedHeaderContainerProps, 'children' | 'classes'>;
+type PaperWrapperProps = WrapperProps & { paperRef: RefObject<HTMLDivElement> | null };
 
 const PaperWrapper = ({ children, paperRef, classes = {} }: PaperWrapperProps) => (
   <Paper component="div" ref={paperRef} className={clsx(styles.paper, classes.paper)}>
@@ -53,9 +52,7 @@ const PaperWrapper = ({ children, paperRef, classes = {} }: PaperWrapperProps) =
   </Paper>
 );
 
-type DivWrapperProps = Pick<FixedHeaderContainerProps, 'children' | 'classes'>;
-
-const DivWrapper = ({ children, classes = {} }: DivWrapperProps) => (
+const DivWrapper = ({ children, classes = {} }: WrapperProps) => (
   <div className={clsx(styles.overflowStyle, classes.divWrapper)}>
     <div className={clsx(styles.childrenWrapper)}>{children}</div>
   </div>

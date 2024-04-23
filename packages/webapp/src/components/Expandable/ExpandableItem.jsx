@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ export default function ExpandableItem({
   iconClickOnly = true,
   classes = {},
   itemKey,
+  leftCollapseIcon = false,
 }) {
   const onElementClick = () => {
     if (!iconClickOnly) {
@@ -60,7 +61,13 @@ export default function ExpandableItem({
         aria-controls={id}
         aria-expanded={isExpanded}
       >
-        <div className={clsx(styles.mainContentWrapper, classes.mainContentWrapper)}>
+        <div
+          className={clsx(
+            styles.mainContentWrapper,
+            classes.mainContentWrapper,
+            leftCollapseIcon && styles.leftCollapse,
+          )}
+        >
           {mainContent}
         </div>
         <div

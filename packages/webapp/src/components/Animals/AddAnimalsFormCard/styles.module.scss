@@ -1,0 +1,28 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.removeBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 16px;
+  padding: 2px 9px;
+  border: 1px solid var(--Colors-Primary-Primary-teal-50);
+  background-color: var(--Colors-Primary-Primary-teal-50);
+  color: var(--Colors-Primary-Primary-teal-700);
+  font-weight: 600;
+}
+
+.countAndSexDetailsWrapper {
+  display: flex;
+  align-items: start;
+  gap: 16px;
+}

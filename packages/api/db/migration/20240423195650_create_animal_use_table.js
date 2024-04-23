@@ -1,0 +1,123 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const up = async function (knex) {
+  await knex.schema.createTable('animal_use', (table) => {
+    table.increments('id').primary();
+    table.string('key').notNullable();
+  });
+
+  const uses = [
+    'MILK',
+    'EGGS',
+    'FAT',
+    'MEAT',
+    'ANIMAL_FIBERS_AND_SKINS',
+    'HARNESS_AND_WORK',
+    'BREEDING',
+    'RECREATIONAL_AND_CULTURAL_USE',
+  ];
+
+  const rows = uses.map((use) => ({ key: use }));
+  await knex('animal_use').insert(rows);
+
+  const usesData = await knex('animal_use');
+  const usesKeyIdMap = usesData.reduce((map, row) => {
+    map[row.key] = row.id;
+    return map;
+  }, {});
+
+  await knex.schema.createTable('animal_type_use_relationship', (table) => {
+    table.integer('default_type_id').references('id').inTable('default_animal_type').nullable();
+    table.integer('animal_use_id').references('id').inTable('animal_use').nullable();
+  });
+
+  const typeUsesRelathionships = [
+    [
+      'CATTLE',
+      [
+        'MILK',
+        'MEAT',
+        'FAT',
+        'ANIMAL_FIBERS_AND_SKINS',
+        'BREEDING',
+        'HARNESS_AND_WORK',
+        'RECREATIONAL_AND_CULTURAL_USE',
+      ],
+    ],
+    [
+      'PIGS',
+      [
+        'MEAT',
+        'FAT',
+        'ANIMAL_FIBERS_AND_SKINS',
+        'BREEDING',
+        'RECREATIONAL_AND_CULTURAL_USE',
+        'HARNESS_AND_WORK',
+      ],
+    ],
+    [
+      'CHICKEN',
+      [
+        'MEAT',
+        'EGGS',
+        'FAT',
+        'ANIMAL_FIBERS_AND_SKINS',
+        'BREEDING',
+        'RECREATIONAL_AND_CULTURAL_USE',
+      ],
+    ],
+  ];
+
+  for (const [animalType, useKeys] of typeUsesRelathionships) {
+    const rows = [];
+    const [defaultTypeId] = !animalType
+      ? []
+      : await knex('default_animal_type').where({ key: animalType }).pluck('id');
+
+    for (const use of useKeys) {
+      const animalUseId = usesKeyIdMap[use];
+      rows.push({ default_type_id: defaultTypeId, animal_use_id: animalUseId });
+    }
+
+    await knex('animal_type_use_relationship').insert(rows);
+  }
+
+  await knex('permissions').insert([
+    { permission_id: 168, name: 'get:animal_uses', description: 'get animal uses' },
+  ]);
+  await knex('rolePermissions').insert([
+    { role_id: 1, permission_id: 168 },
+    { role_id: 2, permission_id: 168 },
+    { role_id: 3, permission_id: 168 },
+    { role_id: 5, permission_id: 168 },
+  ]);
+};
+
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export const down = async function (knex) {
+  await knex('rolePermissions').where('permission_id', 168).del();
+  await knex('permissions').where('permission_id', 168).del();
+
+  await knex.schema.dropTable('animal_type_use_relationship');
+  await knex.schema.dropTable('animal_use');
+};

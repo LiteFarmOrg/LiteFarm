@@ -2397,6 +2397,22 @@ async function animal_removal_reasonFactory() {
   return knex('animal_removal_reason').insert({ key: faker.lorem.word() }).returning('*');
 }
 
+async function animal_useFactory() {
+  return knex('animal_use').insert({ key: faker.lorem.word() }).returning('*');
+}
+
+async function animal_type_use_relationshipFactory({
+  promisedDefaultAnimalType = default_animal_typeFactory(),
+  promisedAnimalUse = animal_useFactory(),
+} = {}) {
+  return knex('animal_type_use_relationship')
+    .insert({
+      default_type_id: promisedDefaultAnimalType.id,
+      animal_use_id: promisedAnimalUse.id,
+    })
+    .returning('*');
+}
+
 export default {
   weather_stationFactory,
   fakeStation,
@@ -2544,5 +2560,7 @@ export default {
   animal_group_relationshipFactory,
   animal_batch_group_relationshipFactory,
   animal_removal_reasonFactory,
+  animal_useFactory,
+  animal_type_use_relationshipFactory,
   baseProperties,
 };

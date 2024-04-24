@@ -31,9 +31,11 @@
 }
 
 .animalsExpandableItem {
-  padding: 8px;
   align-items: center;
   background-color: var(--White);
+
+  // Important; sets the positioning for the removal warning (which covers the collapse icon on mobile)
+  position: relative;
 }
 
 .animalsCollapseIcon {

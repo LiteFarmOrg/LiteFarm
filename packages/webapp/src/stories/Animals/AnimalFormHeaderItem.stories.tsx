@@ -21,7 +21,14 @@ import { AnimalFormHeaderItem } from '../../components/Animals/AddAnimalsForm/An
 const meta: Meta<typeof AnimalFormHeaderItem> = {
   title: 'Components/Animals/AnimalFormHeaderItem',
   component: AnimalFormHeaderItem,
-  decorators: componentDecorators,
+  decorators: [
+    (Story) => (
+      <div style={{ position: 'relative' }}>
+        <Story />
+      </div>
+    ),
+    ...componentDecorators,
+  ],
   args: {
     isExpanded: true,
     onRemove: () => console.log('removing'),

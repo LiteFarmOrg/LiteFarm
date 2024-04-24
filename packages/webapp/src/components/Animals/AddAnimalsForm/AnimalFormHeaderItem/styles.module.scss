@@ -66,11 +66,14 @@
   // On desktop the active remove warning extends all the way to right
   grid-column: 3 / -1;
 
-  // On mobile the active remove warning covers the whole container
+  // On mobile the active remove warning covers the whole container AND the collapse icon
   @include xs-breakpoint {
-    grid-column: 1 / -1;
+    position: absolute;
+    top: 8px;
+    left: 0;
   }
 }
+
 /* --------------------------------- */
 
 // Main component styles

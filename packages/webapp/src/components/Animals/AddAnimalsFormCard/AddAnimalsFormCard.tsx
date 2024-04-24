@@ -26,11 +26,13 @@ import { Text } from '../../Typography';
 import TextButton from '../../Form/Button/TextButton';
 import { ReactComponent as XIcon } from '../../../assets/images/x-icon.svg';
 import { type Details as SexDetailsType } from '../../Form/SexDetails/SexDetailsPopover';
-
-type Option = {
-  label: string;
-  value: string | number;
-};
+import {
+  AnimalBreedSelect,
+  AnimalTypeSelect,
+  type AnimalBreedSelectProps,
+  type AnimalTypeSelectProps,
+  type Option,
+} from './AnimalSelect';
 
 type FormFields = {
   type?: Option;
@@ -41,17 +43,15 @@ type FormFields = {
   group?: string;
 };
 
-type AddAnimalsFormCardProps = {
-  typeOptions: Option[];
-  breedOptions: Option[];
-  sexDetailsOptions: SexDetailsType;
-  onTypeChange?: (type: Option) => void;
-  onIndividualProfilesCheck?: (isChecked: boolean) => void;
-  onRemoveButtonClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onSubmit: SubmitHandler<FormFields>;
-  showRemoveButton?: boolean;
-  isActive?: boolean;
-};
+type AddAnimalsFormCardProps = AnimalTypeSelectProps &
+  AnimalBreedSelectProps & {
+    sexDetailsOptions: SexDetailsType;
+    onIndividualProfilesCheck?: (isChecked: boolean) => void;
+    onRemoveButtonClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    onSubmit: SubmitHandler<FormFields>;
+    showRemoveButton?: boolean;
+    isActive?: boolean;
+  };
 
 export default function AddAnimalsFormCard({
   typeOptions,
@@ -70,6 +70,7 @@ export default function AddAnimalsFormCard({
     },
   });
   const watchCount = watch('count') || 0;
+
   return (
     <Card as="form" className={styles.form} isActive={isActive} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.formHeader}>
@@ -81,33 +82,14 @@ export default function AddAnimalsFormCard({
           </TextButton>
         )}
       </div>
-      <Controller
+      <AnimalTypeSelect
         name="type"
         control={control}
-        render={({ field }) => (
-          <CreatableSelect
-            label="Type"
-            options={typeOptions}
-            onChange={(option) => {
-              if (option) {
-                field.onChange(option);
-                onTypeChange?.(option);
-              }
-            }}
-          />
-        )}
+        typeOptions={typeOptions}
+        onTypeChange={onTypeChange}
       />
-      <Controller
-        name="breed"
-        control={control}
-        render={({ field }) => (
-          <CreatableSelect
-            label="Breed"
-            options={breedOptions}
-            onChange={(option) => field.onChange(option)}
-          />
-        )}
-      />
+      <AnimalBreedSelect name="breed" control={control} breedOptions={breedOptions} />
+
       <div className={styles.countAndSexDetailsWrapper}>
         <NumberInput
           name="count"

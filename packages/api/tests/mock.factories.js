@@ -2405,10 +2405,14 @@ async function animal_type_use_relationshipFactory({
   promisedDefaultAnimalType = default_animal_typeFactory(),
   promisedAnimalUse = animal_useFactory(),
 } = {}) {
+  const [defaultAnimalType, animalUse] = await Promise.all([
+    promisedDefaultAnimalType,
+    promisedAnimalUse,
+  ]);
   return knex('animal_type_use_relationship')
     .insert({
-      default_type_id: promisedDefaultAnimalType.id,
-      animal_use_id: promisedAnimalUse.id,
+      default_type_id: defaultAnimalType.id,
+      animal_use_id: animalUse.id,
     })
     .returning('*');
 }

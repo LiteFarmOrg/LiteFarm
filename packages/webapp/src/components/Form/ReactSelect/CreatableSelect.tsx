@@ -16,7 +16,7 @@
 import React from 'react';
 import Select, { CreatableProps } from 'react-select/creatable';
 import { GroupBase, SelectInstance } from 'react-select';
-import { styles } from './styles';
+import { styles as baseStyles } from './styles';
 import InputBaseLabel, { InputBaseLabelProps } from '../InputBase/InputBaseLabel';
 import { useTranslation } from 'react-i18next';
 import { ClearIndicator, MultiValueRemove } from './components';
@@ -50,6 +50,7 @@ const CreatableSelect = React.forwardRef((props, ref) => {
     icon,
     hasLeaf,
     style,
+    styles,
     optional,
     components,
     createPromptText = t('common:CREATE'),
@@ -75,8 +76,8 @@ const CreatableSelect = React.forwardRef((props, ref) => {
         placeholder={placeholder}
         formatCreateLabel={(userInput) => `${createPromptText} "${userInput}"`}
         styles={{
-          ...(styles as any),
-          ...props.styles,
+          ...(baseStyles as any),
+          ...styles,
         }}
         components={{ ClearIndicator, MultiValueRemove, ...components }}
         ref={ref}

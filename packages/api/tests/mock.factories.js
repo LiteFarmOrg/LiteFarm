@@ -2409,10 +2409,13 @@ async function animal_type_use_relationshipFactory({
     promisedDefaultAnimalType,
     promisedAnimalUse,
   ]);
+  const [{ id: defaultTypeId }] = defaultAnimalType;
+  const [{ id: animalUseId }] = animalUse;
+
   return knex('animal_type_use_relationship')
     .insert({
-      default_type_id: defaultAnimalType.id,
-      animal_use_id: animalUse.id,
+      default_type_id: defaultTypeId,
+      animal_use_id: animalUseId,
     })
     .returning('*');
 }

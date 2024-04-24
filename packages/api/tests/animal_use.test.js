@@ -71,8 +71,11 @@ describe('Animal Use Tests', () => {
     return animalUse;
   }
 
-  async function makeAnimalTypeUseRelationship(properties) {
-    const [animalTypeUseRelationship] = await mocks.animal_type_use_relationshipFactory(properties);
+  async function makeAnimalTypeUseRelationship(defaultType, use) {
+    const [animalTypeUseRelationship] = await mocks.animal_type_use_relationshipFactory({
+      promisedDefaultAnimalType: [defaultType],
+      promisedAnimalUse: [use],
+    });
     return animalTypeUseRelationship;
   }
 
@@ -110,10 +113,7 @@ describe('Animal Use Tests', () => {
       for (let { defaultType, uses } of testCase) {
         if (defaultType) {
           for (let use of uses) {
-            await makeAnimalTypeUseRelationship({
-              promisedDefaultAnimalType: defaultType,
-              promisedAnimalUse: use,
-            });
+            await makeAnimalTypeUseRelationship(defaultType, use);
           }
         }
       }

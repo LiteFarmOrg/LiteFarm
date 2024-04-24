@@ -29,9 +29,11 @@ export const up = async function (knex) {
     'FAT',
     'MEAT',
     'ANIMAL_FIBERS_AND_SKINS',
-    'HARNESS_AND_WORK',
+    'LABOUR_AND_DRAFT',
     'BREEDING',
-    'RECREATIONAL_AND_CULTURAL_USE',
+    'RECREATIONAL_OR_CULTURAL_USE',
+    'COMPANIONSHIP',
+    'OTHER',
   ];
 
   const rows = uses.map((use) => ({ key: use }));
@@ -44,8 +46,8 @@ export const up = async function (knex) {
   }, {});
 
   await knex.schema.createTable('animal_type_use_relationship', (table) => {
-    table.integer('default_type_id').references('id').inTable('default_animal_type').nullable();
-    table.integer('animal_use_id').references('id').inTable('animal_use').nullable();
+    table.integer('default_type_id').references('id').inTable('default_animal_type').notNullable();
+    table.integer('animal_use_id').references('id').inTable('animal_use').notNullable();
   });
 
   const typeUsesRelathionships = [
@@ -53,34 +55,40 @@ export const up = async function (knex) {
       'CATTLE',
       [
         'MILK',
-        'MEAT',
         'FAT',
+        'MEAT',
         'ANIMAL_FIBERS_AND_SKINS',
+        'LABOUR_AND_DRAFT',
         'BREEDING',
-        'HARNESS_AND_WORK',
-        'RECREATIONAL_AND_CULTURAL_USE',
+        'RECREATIONAL_OR_CULTURAL_USE',
+        'COMPANIONSHIP',
+        'OTHER',
       ],
     ],
     [
       'PIGS',
       [
-        'MEAT',
         'FAT',
+        'MEAT',
         'ANIMAL_FIBERS_AND_SKINS',
+        'LABOUR_AND_DRAFT',
         'BREEDING',
-        'RECREATIONAL_AND_CULTURAL_USE',
-        'HARNESS_AND_WORK',
+        'RECREATIONAL_OR_CULTURAL_USE',
+        'COMPANIONSHIP',
+        'OTHER',
       ],
     ],
     [
       'CHICKEN',
       [
-        'MEAT',
         'EGGS',
         'FAT',
+        'MEAT',
         'ANIMAL_FIBERS_AND_SKINS',
         'BREEDING',
-        'RECREATIONAL_AND_CULTURAL_USE',
+        'RECREATIONAL_OR_CULTURAL_USE',
+        'COMPANIONSHIP',
+        'OTHER',
       ],
     ],
   ];

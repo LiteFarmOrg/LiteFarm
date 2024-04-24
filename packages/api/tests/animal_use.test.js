@@ -101,13 +101,13 @@ describe('Animal Use Tests', () => {
       const [defaultType1] = await mocks.default_animal_typeFactory();
       const [defaultType2] = await mocks.default_animal_typeFactory();
 
-      const testCases = [
+      const testCase = [
         { defaultType: defaultType1, uses: [use1, use2, use3, use6, use7, use8] },
         { defaultType: defaultType2, uses: [use1, use5, use6, use7, use8] },
         { defaultType: null, uses: [use1, use2, use3, use4, use5, use6, use7, use8] }, // for custom types
       ];
 
-      for (let { defaultType, uses } of testCases) {
+      for (let { defaultType, uses } of testCase) {
         if (defaultType) {
           for (let use of uses) {
             await makeAnimalTypeUseRelationship({
@@ -130,12 +130,12 @@ describe('Animal Use Tests', () => {
         expect(res.body.length).toBe(3);
 
         res.body.forEach(({ default_type_id, uses }) => {
-          const foundCase = testCases.find(({ defaultType }) => {
+          const expectedTypeAndUses = testCase.find(({ defaultType }) => {
             return default_type_id ? defaultType.id == default_type_id : !defaultType;
           });
 
           expect(uses.map(({ id }) => id).sort()).toEqual(
-            foundCase.uses.map(({ id }) => id).sort(),
+            expectedTypeAndUses.uses.map(({ id }) => id).sort(),
           );
         });
       }

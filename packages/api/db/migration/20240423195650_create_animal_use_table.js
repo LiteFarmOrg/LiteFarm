@@ -93,15 +93,13 @@ export const up = async function (knex) {
     ],
   ];
 
-  for (const [animalType, useKeys] of typeUsesRelathionships) {
+  for (const [type, uses] of typeUsesRelathionships) {
     const rows = [];
-    const [defaultTypeId] = !animalType
-      ? []
-      : await knex('default_animal_type').where({ key: animalType }).pluck('id');
+    const [typeId] = await knex('default_animal_type').where({ key: type }).pluck('id');
 
-    for (const use of useKeys) {
-      const animalUseId = usesKeyIdMap[use];
-      rows.push({ default_type_id: defaultTypeId, animal_use_id: animalUseId });
+    for (const use of uses) {
+      const useId = usesKeyIdMap[use];
+      rows.push({ default_type_id: typeId, animal_use_id: useId });
     }
 
     await knex('animal_type_use_relationship').insert(rows);

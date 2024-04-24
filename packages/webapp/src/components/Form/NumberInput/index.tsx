@@ -17,31 +17,26 @@ import { ReactNode } from 'react';
 import InputBase, { type InputBaseSharedProps } from '../InputBase';
 import NumberInputStepper from './NumberInputStepper';
 import useNumberInput, { NumberInputOptions } from './useNumberInput';
-import { UseControllerProps, useController } from 'react-hook-form';
+import { FieldValues, UseControllerProps, useController } from 'react-hook-form';
 
-export type NumberInputProps = NumberInputOptions & {
-  /**
-   * The currency symbol to display on left side of input
-   */
-  currencySymbol?: ReactNode;
-  /**
-   * The unit to display on right side of input
-   */
-  unit?: ReactNode;
-  /**
-   * Controls visibility of stepper.
-   */
-  showStepper?: boolean;
-} & InputBaseSharedProps;
+export type NumberInputProps<T extends FieldValues> = UseControllerProps<T> &
+  InputBaseSharedProps &
+  Omit<NumberInputOptions, 'initialValue'> & {
+    /**
+     * The currency symbol to display on left side of input
+     */
+    currencySymbol?: ReactNode;
+    /**
+     * The unit to display on right side of input
+     */
+    unit?: ReactNode;
+    /**
+     * Controls visibility of stepper.
+     */
+    showStepper?: boolean;
+  };
 
-type RhfProps = {
-  name: string;
-  control: UseControllerProps['control'];
-  rules?: UseControllerProps['rules'];
-};
-
-export default function NumberInput({
-  initialValue,
+export default function NumberInput<T extends FieldValues>({
   locale,
   useGrouping = true,
   allowDecimal = true,
@@ -56,13 +51,14 @@ export default function NumberInput({
   name,
   control,
   rules,
+  defaultValue,
   onChange,
   onBlur,
   ...props
-}: NumberInputProps & RhfProps) {
-  const { field, fieldState } = useController({ name, control, rules, defaultValue: initialValue });
+}: NumberInputProps<T>) {
+  const { field, fieldState } = useController({ name, control, rules, defaultValue });
   const { inputProps, reset, numericValue, increment, decrement } = useNumberInput({
-    initialValue,
+    initialValue: defaultValue,
     allowDecimal,
     decimalDigits,
     locale,

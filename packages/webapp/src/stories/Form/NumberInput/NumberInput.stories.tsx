@@ -188,7 +188,7 @@ export const WithDecimalDigits: Story = {
 };
 
 export const WithInitialValue: Story = {
-  args: { initialValue: 33 },
+  args: { defaultValue: 33 },
 };
 
 export const Unit: Story = {

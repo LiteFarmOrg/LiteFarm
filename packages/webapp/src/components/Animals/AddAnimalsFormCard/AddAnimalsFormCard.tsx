@@ -111,9 +111,8 @@ export default function AddAnimalsFormCard({
       <div className={styles.countAndSexDetailsWrapper}>
         <NumberInput
           name="count"
-          // @ts-ignore
           control={control}
-          initialValue={0}
+          defaultValue={0}
           label="count"
           allowDecimal={false}
           showStepper

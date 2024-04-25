@@ -17,12 +17,18 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import AddAnimalsFormCard from './AddAnimalsFormCard';
 import { componentDecorators } from '../../../stories/Pages/config/Decorators';
+import { Option } from './AnimalSelect';
+
+const mockSelectOptions = (...labels: string[]): Option[] =>
+  labels.map((label, i) => ({ label: label, value: i }));
 
 const meta: Meta<typeof AddAnimalsFormCard> = {
   title: 'Components/AddAnimalsFormCard',
   component: AddAnimalsFormCard,
   decorators: componentDecorators,
   args: {
+    typeOptions: mockSelectOptions('Chicken', 'Cattle', 'Sheep', 'Dog'),
+    breedOptions: mockSelectOptions('Hereform', 'Angus', 'Landrace', 'Leghorn', 'German Shephard'),
     sexDetailsOptions: [{ id: 0, label: 'Male', count: 0 }],
   },
 };

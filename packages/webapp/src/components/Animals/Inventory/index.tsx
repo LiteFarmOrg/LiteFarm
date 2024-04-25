@@ -130,7 +130,7 @@ const PureAnimalInventory = ({
             stickyHeader={isDesktop}
             maxHeight={tableMaxHeight}
             spacerRowHeight={isDesktop ? 96 : 120}
-            headerBackgroundColor={'#fff'}
+            headerClass={styles.headerClass}
           />
         ) : (
           <NoSearchResults

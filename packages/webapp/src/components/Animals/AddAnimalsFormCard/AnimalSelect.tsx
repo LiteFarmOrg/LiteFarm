@@ -15,6 +15,7 @@
 
 import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
 import { CreatableSelect } from '../../Form/ReactSelect';
+import { components, MenuProps } from 'react-select';
 
 export type Option = {
   label: string;
@@ -28,6 +29,7 @@ export type AnimalTypeSelectProps = {
 
 export type AnimalBreedSelectProps = {
   breedOptions: Option[];
+  showNoTypeSelectedMessage: boolean;
 };
 
 export function AnimalTypeSelect<T extends FieldValues>({
@@ -60,6 +62,7 @@ export function AnimalBreedSelect<T extends FieldValues>({
   name,
   control,
   breedOptions,
+  showNoTypeSelectedMessage,
 }: AnimalBreedSelectProps & UseControllerProps<T>) {
   return (
     <Controller
@@ -69,6 +72,26 @@ export function AnimalBreedSelect<T extends FieldValues>({
         <CreatableSelect
           label="Breed"
           options={breedOptions}
+          //@ts-ignore
+          showNoTypeSelectedMessage={showNoTypeSelectedMessage}
+          styles={
+            showNoTypeSelectedMessage
+              ? {
+                  menu: (baseStyles) => ({
+                    ...baseStyles,
+                    boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                    borderRadius: '4px',
+                    padding: '10px',
+                    color: 'var(--Colors-Neutral-Neutral-600)',
+                    fontSize: '16px',
+                    lineHeight: '20px',
+                    fontStyle: 'italic',
+                    fontWeight: 400,
+                  }),
+                }
+              : undefined
+          }
+          components={{ Menu: AnimalBreedMenu }}
           onChange={(option) => {
             if (option) {
               field.onChange(option);
@@ -78,4 +101,11 @@ export function AnimalBreedSelect<T extends FieldValues>({
       )}
     />
   );
+}
+
+function AnimalBreedMenu(props: MenuProps) {
+  //@ts-ignore
+  if (props.selectProps.showNoTypeSelectedMessage)
+    return <components.Menu {...props}>Please select a type first</components.Menu>;
+  return <components.Menu {...props} />;
 }

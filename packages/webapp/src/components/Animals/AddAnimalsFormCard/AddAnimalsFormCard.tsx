@@ -69,7 +69,8 @@ export default function AddAnimalsFormCard({
       sexDetails: sexDetailsOptions,
     },
   });
-  const watchCount = watch('count') || 0;
+  const watchAnimalCount = watch('count') || 0;
+  const watchAnimalType = watch('type');
 
   return (
     <Card as="form" className={styles.form} isActive={isActive} onSubmit={handleSubmit(onSubmit)}>
@@ -88,7 +89,12 @@ export default function AddAnimalsFormCard({
         typeOptions={typeOptions}
         onTypeChange={onTypeChange}
       />
-      <AnimalBreedSelect name="breed" control={control} breedOptions={breedOptions} />
+      <AnimalBreedSelect
+        name="breed"
+        control={control}
+        breedOptions={breedOptions}
+        showNoTypeSelectedMessage={!watchAnimalType}
+      />
 
       <div className={styles.countAndSexDetailsWrapper}>
         <NumberInput
@@ -105,7 +111,7 @@ export default function AddAnimalsFormCard({
           render={({ field }) => (
             <SexDetails
               initialDetails={field.value}
-              maxCount={watchCount}
+              maxCount={watchAnimalCount}
               onConfirm={(details) => field.onChange(details)}
             />
           )}

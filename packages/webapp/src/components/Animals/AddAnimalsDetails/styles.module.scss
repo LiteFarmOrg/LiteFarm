@@ -14,7 +14,7 @@
 */
 
 .section {
-  padding:16px;
+  padding: 16px;
   background: var(--White);
   border-radius: 4px;
   border: 1px solid var(--Colors-Neutral-Neutral-100);
@@ -29,7 +29,8 @@
   margin-top: 16px;
 }
 
-.detailsWrapper, .sectionWrapper {
+.detailsWrapper,
+.sectionWrapper {
   display: flex;
   flex-direction: column;
   gap: 16px

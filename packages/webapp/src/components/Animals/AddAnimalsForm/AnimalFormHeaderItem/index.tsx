@@ -38,16 +38,16 @@ type BaseFormHeader = {
 type AnimalFormHeader = BaseFormHeader & {
   sex: string;
   count?: never;
+  isBatch: false;
 };
 
 type BatchFormHeader = BaseFormHeader & {
   count: number;
   sex?: never;
+  isBatch: true;
 };
 
-type AnimalFormHeaderItemProps =
-  | (AnimalFormHeader & { isBatch: false })
-  | (BatchFormHeader & { isBatch: true });
+type AnimalFormHeaderItemProps = AnimalFormHeader | BatchFormHeader;
 
 export const AnimalFormHeaderItem = ({
   type,

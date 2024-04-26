@@ -1,5 +1,5 @@
 import { Semibold } from '../../Typography';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './styles.module.scss';
 import { BsChevronLeft } from 'react-icons/bs';
 import PropTypes from 'prop-types';
@@ -14,8 +14,11 @@ function MultiStepPageTitle({
   style,
   value,
   cancelModalTitle,
-  showProgressBar,
+  showConfirmCancelModal,
+  setShowConfirmCancelModal,
 }) {
+  const [localShowModal, setLocalShowModal] = useState(false); // original form flow
+
   return (
     <div style={style}>
       <div className={styles.titleContainer}>
@@ -27,7 +30,14 @@ function MultiStepPageTitle({
           )}
           <Semibold style={{ marginBottom: 0, color: colors.grey600 }}>{title}</Semibold>
         </div>
-        {onCancel && <CancelButton onCancel={onCancel} cancelModalTitle={cancelModalTitle} />}
+        {onCancel && (
+          <CancelButton
+            onCancel={onCancel}
+            cancelModalTitle={cancelModalTitle}
+            showConfirmCancelModal={showConfirmCancelModal || localShowModal}
+            setShowConfirmCancelModal={setShowConfirmCancelModal || setLocalShowModal}
+          />
+        )}
       </div>
       <ProgressBar value={value} />
     </div>
@@ -41,4 +51,7 @@ MultiStepPageTitle.prototype = {
   onCancel: PropTypes.func,
   style: PropTypes.object,
   value: PropTypes.number,
+  cancelModalTitle: PropTypes.string,
+  showConfirmCancelModal: PropTypes.bool,
+  setShowConfirmCancelModal: PropTypes.func,
 };

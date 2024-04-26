@@ -18,6 +18,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import AddAnimalsFormCard from './AddAnimalsFormCard';
 import { componentDecorators } from '../../../stories/Pages/config/Decorators';
 import { Option } from './AnimalSelect';
+import { FormProvider, useForm } from 'react-hook-form';
 
 const mockSelectOptions = (...labels: string[]): Option[] =>
   labels.map((label, i) => ({ label: label, value: i }));
@@ -25,11 +26,24 @@ const mockSelectOptions = (...labels: string[]): Option[] =>
 const meta: Meta<typeof AddAnimalsFormCard> = {
   title: 'Components/AddAnimalsFormCard',
   component: AddAnimalsFormCard,
-  decorators: componentDecorators,
+  decorators: [
+    ...componentDecorators,
+    (Story) => {
+      const methods = useForm();
+      return (
+        <FormProvider {...methods}>
+          <Story />
+        </FormProvider>
+      );
+    },
+  ],
   args: {
     typeOptions: mockSelectOptions('Chicken', 'Cattle', 'Sheep', 'Dog'),
     breedOptions: mockSelectOptions('Hereform', 'Angus', 'Landrace', 'Leghorn', 'German Shephard'),
-    sexDetailsOptions: [{ id: 0, label: 'Male', count: 0 }],
+    sexDetailsOptions: [
+      { id: 0, label: 'Male', count: 0 },
+      { id: 1, label: 'Female', count: 0 },
+    ],
   },
 };
 

@@ -13,8 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { CreatableSelect } from '../../Form/ReactSelect';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import NumberInput from '../../Form/NumberInput';
 import Checkbox from '../../Form/Checkbox';
@@ -48,7 +47,6 @@ type AddAnimalsFormCardProps = AnimalTypeSelectProps &
     sexDetailsOptions: SexDetailsType;
     onIndividualProfilesCheck?: (isChecked: boolean) => void;
     onRemoveButtonClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    onSubmit: SubmitHandler<FormFields>;
     showRemoveButton?: boolean;
     isActive?: boolean;
   };
@@ -59,21 +57,15 @@ export default function AddAnimalsFormCard({
   sexDetailsOptions,
   onTypeChange,
   onIndividualProfilesCheck,
-  onSubmit,
   showRemoveButton,
   isActive,
 }: AddAnimalsFormCardProps) {
-  const { control, watch, handleSubmit } = useForm<FormFields>({
-    defaultValues: {
-      count: 0,
-      sexDetails: sexDetailsOptions,
-    },
-  });
+  const { control, watch } = useFormContext<FormFields>();
   const watchAnimalCount = watch('count') || 0;
   const watchAnimalType = watch('type');
 
   return (
-    <Card as="form" className={styles.form} isActive={isActive} onSubmit={handleSubmit(onSubmit)}>
+    <Card className={styles.form} isActive={isActive}>
       <div className={styles.formHeader}>
         <Text>Add animal to your inventory</Text>
         {showRemoveButton && (
@@ -110,7 +102,7 @@ export default function AddAnimalsFormCard({
           control={control}
           render={({ field }) => (
             <SexDetails
-              initialDetails={field.value}
+              initialDetails={sexDetailsOptions}
               maxCount={watchAnimalCount}
               onConfirm={(details) => field.onChange(details)}
             />

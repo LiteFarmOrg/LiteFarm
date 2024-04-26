@@ -65,7 +65,7 @@ const GeneralDetails = ({
           </div>
           {isMaleSelected && (
             <div>
-              <InputBaseLabel optional label={t('ANIMAL.ADD_ANIMAL.USED_FOR_REPRODUCTION')} />
+              <InputBaseLabel optional label={t('ADD_ANIMAL.USED_FOR_REPRODUCTION')} />
               {/* @ts-ignore */}
               <RadioGroup name={DetailsFields.USED_FOR_PRODUCTION} hookFormControl={control} row />
             </div>
@@ -90,7 +90,7 @@ const GeneralDetails = ({
             })}
             trigger={trigger}
             optional
-            placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.BATCH_NAME')}
+            placeholder={t('ADD_ANIMAL.PLACEHOLDER.BATCH_NAME')}
             errors={getInputErrors(errors, DetailsFields.NAME)}
           />
         </>

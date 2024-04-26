@@ -54,7 +54,7 @@ const AnimalDetails = ({
   const sections = [
     {
       key: sectionKeys.GENERAL,
-      title: t('ANIMAL.ADD_ANIMAL.GENERAL_DETAILS'),
+      title: t('ADD_ANIMAL.GENERAL_DETAILS'),
       content: (
         <GeneralDetails
           {...commonProps}
@@ -65,12 +65,12 @@ const AnimalDetails = ({
     },
     {
       key: sectionKeys.UNIQUE,
-      title: t('ANIMAL.ADD_ANIMAL.UNIQUE_DETAILS'),
+      title: t('ADD_ANIMAL.UNIQUE_DETAILS'),
       content: <UniqueDetails {...commonProps} {...uniqueDetailsProps} />,
     },
     {
       key: sectionKeys.OTHER,
-      title: t('ANIMAL.ADD_ANIMAL.OTHER_DETAILS'),
+      title: t('ADD_ANIMAL.OTHER_DETAILS'),
       content: (
         <OtherDetails
           {...commonProps}
@@ -81,7 +81,7 @@ const AnimalDetails = ({
     },
     {
       key: sectionKeys.ORIGIN,
-      title: t('ANIMAL.ADD_ANIMAL.ORIGIN'),
+      title: t('ADD_ANIMAL.ORIGIN'),
       content: <Origin {...commonProps} {...originProps} />,
     },
   ];

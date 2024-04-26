@@ -54,7 +54,7 @@ const UniqueDetails = ({
         })}
         trigger={trigger}
         optional
-        placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.NAME')}
+        placeholder={t('ADD_ANIMAL.PLACEHOLDER.NAME')}
         errors={getInputErrors(errors, DetailsFields.NAME)}
       />
       {/* @ts-ignore */}
@@ -73,7 +73,7 @@ const UniqueDetails = ({
         })}
         trigger={trigger}
         optional
-        placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_NUMBER')}
+        placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_NUMBER')}
         errors={getInputErrors(errors, DetailsFields.TAG_NUMBER)}
       />
       <Controller
@@ -86,7 +86,7 @@ const UniqueDetails = ({
             value={value}
             onChange={onChange}
             options={tagColorOptions}
-            placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_COLOUR')}
+            placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_COLOUR')}
           />
         )}
       />
@@ -100,7 +100,7 @@ const UniqueDetails = ({
             value={value}
             onChange={onChange}
             options={tagTypeOptions}
-            placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_TYPE')}
+            placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_TYPE')}
           />
         )}
       />
@@ -114,7 +114,7 @@ const UniqueDetails = ({
             })}
             trigger={trigger}
             optional
-            placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_TYPE_INFO')}
+            placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_TYPE_INFO')}
             errors={getInputErrors(errors, DetailsFields.TAG_TYPE_INFO)}
           />
         </>
@@ -129,7 +129,7 @@ const UniqueDetails = ({
             value={value}
             onChange={onChange}
             options={tagPlacementOptions}
-            placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_PLACEMENT')}
+            placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_PLACEMENT')}
           />
         )}
       />
@@ -144,7 +144,7 @@ const UniqueDetails = ({
             })}
             trigger={trigger}
             optional
-            placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.TAG_PLACEMENT_INFO')}
+            placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_PLACEMENT_INFO')}
             errors={getInputErrors(errors, DetailsFields.TAG_PLACEMENT_INFO)}
           />
         </>

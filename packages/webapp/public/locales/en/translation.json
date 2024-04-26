@@ -4,6 +4,25 @@
     "ANIMALS_TOTAL_other": "{{count}} animals total",
     "ANIMALS_UNSPECIFIED_one": "{{count}} unspecified",
     "ANIMALS_UNSPECIFIED_other": "{{count}} unspecified",
+    "GENERAL_DETAILS": "General details",
+    "ORIGIN": "Origin",
+    "OTHER_DETAILS": "Other details",
+    "PLACEHOLDER": {
+      "BATCH_NAME": "Type in the batch name",
+      "DAM": "Type in a dam",
+      "MERCHANT": "Type in a merchant",
+      "NAME": "Type in a name",
+      "ORGANIC_STATUS": "What's the organic status?",
+      "OTHER_DETAILS": "Enter a description",
+      "PRICE": "How much did it cost?",
+      "SIRE": "Type in a sire",
+      "TAG_COLOUR": "What colour is the tag?",
+      "TAG_NUMBER": "Type in the tag number",
+      "TAG_PLACEMENT": "Where is the tag located?",
+      "TAG_PLACEMENT_INFO": "Tell us where the tag is",
+      "TAG_TYPE": "What is the tag type?",
+      "TAG_TYPE_INFO": "Please describe your tag type"
+    },
     "SELECT_SEXES": "Select sexes",
     "SEX_DETAIL": "Sex detail",
     "SEX_DETAIL_ERROR_one": "Maximum animal count: {{count}}",
@@ -20,7 +39,9 @@
       "BATCH_SUMMARY_COUNT_other": "{{count}} batches",
       "HERE_IS_SUMMARY": "Here is a summary of your added animals:",
       "MAIN": "You successfully added {{animalCount}} {{and}} {{batchCount}} to your inventory."
-    }
+    },
+    "UNIQUE_DETAILS": "Unique details",
+    "USED_FOR_REPRODUCTION": "Used for reproduction?"
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",
@@ -181,29 +202,6 @@
     "WILD_CROP": "Wild crops"
   },
   "ANIMAL": {
-    "ADD_ANIMAL": {
-      "GENERAL_DETAILS": "General details",
-      "ORIGIN": "Origin",
-      "OTHER_DETAILS": "Other details",
-      "PLACEHOLDER": {
-        "BATCH_NAME": "Type in the batch name",
-        "DAM": "Type in a dam",
-        "MERCHANT": "Type in a merchant",
-        "NAME": "Type in a name",
-        "ORGANIC_STATUS": "What's the organic status?",
-        "OTHER_DETAILS": "Enter a description",
-        "PRICE": "How much did it cost?",
-        "SIRE": "Type in a sire",
-        "TAG_COLOUR": "What colour is the tag?",
-        "TAG_NUMBER": "Type in the tag number",
-        "TAG_PLACEMENT": "Where is the tag located?",
-        "TAG_PLACEMENT_INFO": "Tell us where the tag is",
-        "TAG_TYPE": "What is the tag type?",
-        "TAG_TYPE_INFO": "Please describe your tag type"
-      },
-      "UNIQUE_DETAILS": "Unique details",
-      "USED_FOR_REPRODUCTION": "Used for reproduction?"
-    },
     "ADD_MORE_BODY_TEXT": "Do you have another animal type or a different breed?",
     "ADD_MORE_BUTTON": "Add more animals",
     "ANIMAL_BREED": "Breed",

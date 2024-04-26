@@ -55,7 +55,7 @@ const Origin = ({ t, formMethods, currency, originOptions, origin }: OriginProps
           })}
           trigger={trigger}
           optional
-          placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.MERCHANT')}
+          placeholder={t('ADD_ANIMAL.PLACEHOLDER.MERCHANT')}
           errors={getInputErrors(errors, DetailsFields.MERCHANT)}
         />
         {/* @ts-ignore */}
@@ -67,7 +67,7 @@ const Origin = ({ t, formMethods, currency, originOptions, origin }: OriginProps
           hookFormRegister={register(DetailsFields.PRICE)}
           max={9999999999}
           optional
-          placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.PRICE')}
+          placeholder={t('ADD_ANIMAL.PLACEHOLDER.PRICE')}
           errors={getInputErrors(errors, DetailsFields.PRICE)}
         />
       </>
@@ -83,7 +83,7 @@ const Origin = ({ t, formMethods, currency, originOptions, origin }: OriginProps
           })}
           trigger={trigger}
           optional
-          placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.DAM')}
+          placeholder={t('ADD_ANIMAL.PLACEHOLDER.DAM')}
           errors={getInputErrors(errors, DetailsFields.DAM)}
         />
         {/* @ts-ignore */}
@@ -96,7 +96,7 @@ const Origin = ({ t, formMethods, currency, originOptions, origin }: OriginProps
           })}
           trigger={trigger}
           optional
-          placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.SIRE')}
+          placeholder={t('ADD_ANIMAL.PLACEHOLDER.SIRE')}
           errors={getInputErrors(errors, DetailsFields.SIRE)}
         />
       </>

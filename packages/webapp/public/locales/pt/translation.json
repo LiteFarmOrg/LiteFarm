@@ -6,6 +6,25 @@
     "ANIMALS_UNSPECIFIED_one": "MISSING",
     "ANIMALS_UNSPECIFIED_many": "MISSING",
     "ANIMALS_UNSPECIFIED_other": "MISSING",
+    "GENERAL_DETAILS": "MISSING",
+    "ORIGIN": "MISSING",
+    "OTHER_DETAILS": "MISSING",
+    "PLACEHOLDER": {
+      "BATCH_NAME": "MISSING",
+      "DAM": "MISSING",
+      "MERCHANT": "MISSING",
+      "NAME": "MISSING",
+      "ORGANIC_STATUS": "MISSING",
+      "OTHER_DETAILS": "MISSING",
+      "PRICE": "MISSING",
+      "SIRE": "MISSING",
+      "TAG_COLOUR": "MISSING",
+      "TAG_NUMBER": "MISSING",
+      "TAG_PLACEMENT": "MISSING",
+      "TAG_PLACEMENT_INFO": "MISSING",
+      "TAG_TYPE": "MISSING",
+      "TAG_TYPE_INFO": "MISSING"
+    },
     "SELECT_SEXES": "MISSING",
     "SEX_DETAIL": "MISSING",
     "SEX_DETAIL_ERROR_one": "MISSING",
@@ -24,7 +43,9 @@
       "BATCH_SUMMARY_COUNT_other": "MISSING",
       "HERE_IS_SUMMARY": "MISSING",
       "MAIN": "MISSING"
-    }
+    },
+    "UNIQUE_DETAILS": "MISSING",
+    "USED_FOR_REPRODUCTION": "MISSING"
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "É necessário informar um endereço",
@@ -185,29 +206,6 @@
     "WILD_CROP": "Cultivos silvestres"
   },
   "ANIMAL": {
-    "ADD_ANIMAL": {
-      "GENERAL_DETAILS": "MISSING",
-      "ORIGIN": "MISSING",
-      "OTHER_DETAILS": "MISSING",
-      "PLACEHOLDER": {
-        "BATCH_NAME": "MISSING",
-        "DAM": "MISSING",
-        "MERCHANT": "MISSING",
-        "NAME": "MISSING",
-        "ORGANIC_STATUS": "MISSING",
-        "OTHER_DETAILS": "MISSING",
-        "PRICE": "MISSING",
-        "SIRE": "MISSING",
-        "TAG_COLOUR": "MISSING",
-        "TAG_NUMBER": "MISSING",
-        "TAG_PLACEMENT": "MISSING",
-        "TAG_PLACEMENT_INFO": "MISSING",
-        "TAG_TYPE": "MISSING",
-        "TAG_TYPE_INFO": "MISSING"
-      },
-      "UNIQUE_DETAILS": "MISSING",
-      "USED_FOR_REPRODUCTION": "MISSING"
-    },
     "ADD_MORE_BODY_TEXT": "MISSING",
     "ADD_MORE_BUTTON": "MISSING",
     "ANIMAL_BREED": "MISSING",

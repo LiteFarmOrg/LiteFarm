@@ -73,7 +73,7 @@ const OtherDetails = ({
             value={value}
             onChange={onChange}
             options={organicStatusOptions}
-            placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.ORGANIC_STATUS')}
+            placeholder={t('ADD_ANIMAL.PLACEHOLDER.ORGANIC_STATUS')}
           />
         )}
       />
@@ -84,7 +84,7 @@ const OtherDetails = ({
           maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
         })}
         optional
-        placeholder={t('ANIMAL.ADD_ANIMAL.PLACEHOLDER.OTHER_DETAILS')}
+        placeholder={t('ADD_ANIMAL.PLACEHOLDER.OTHER_DETAILS')}
         errors={errors?.[DetailsFields.OTHER_DETAILS]?.message}
       />
       <ImagePicker

@@ -96,5 +96,4 @@ export interface FormMethods extends UseFormReturn<FormValues> {}
 
 export type CommonDetailsProps = {
   t: TFunction;
-  formMethods: FormMethods;
 };

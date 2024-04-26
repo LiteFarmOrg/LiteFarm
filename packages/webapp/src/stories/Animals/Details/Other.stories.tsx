@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
@@ -32,7 +32,11 @@ const meta: Meta<OtherDetailsProps> = {
       const { t } = useTranslation();
       const formMethods: FormMethods = useForm({ mode: 'onBlur' });
 
-      return <Story t={t} formMethods={formMethods} />;
+      return (
+        <FormProvider {...formMethods}>
+          <Story t={t} />
+        </FormProvider>
+      );
     },
   ],
   // avoid "Maximum update depth exceeded" https://github.com/storybookjs/storybook/issues/12306

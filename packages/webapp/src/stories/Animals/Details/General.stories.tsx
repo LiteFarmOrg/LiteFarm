@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
@@ -36,7 +36,11 @@ const meta: Meta<GeneralDetailsProps> = {
       const sex = formMethods.watch(DetailsFields.SEX);
       const isMaleSelected = sex === 1;
 
-      return <Story t={t} formMethods={formMethods} isMaleSelected={isMaleSelected} />;
+      return (
+        <FormProvider {...formMethods}>
+          <Story t={t} isMaleSelected={isMaleSelected} />
+        </FormProvider>
+      );
     },
   ],
   // avoid "Maximum update depth exceeded" https://github.com/storybookjs/storybook/issues/12306

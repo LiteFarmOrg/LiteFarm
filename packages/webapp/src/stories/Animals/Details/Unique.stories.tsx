@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
@@ -38,12 +38,13 @@ const meta: Meta<UniqueDetailsProps> = {
       const shouldShowTagPlacementInput = tagPlacement?.label === 'Other';
 
       return (
-        <Story
-          t={t}
-          formMethods={formMethods}
-          shouldShowTagTypeInput={shouldShowTagTypeInput}
-          shouldShowTagPlacementInput={shouldShowTagPlacementInput}
-        />
+        <FormProvider {...formMethods}>
+          <Story
+            t={t}
+            shouldShowTagTypeInput={shouldShowTagTypeInput}
+            shouldShowTagPlacementInput={shouldShowTagPlacementInput}
+          />
+        </FormProvider>
       );
     },
   ],

@@ -14,7 +14,7 @@
  */
 
 import { Suspense } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { Meta, StoryObj } from '@storybook/react';
 import AnimalCreationDetails, {
   AnimalDetailsProps,
@@ -49,27 +49,28 @@ export const Default: Story = {
     return (
       <Suspense>
         <div style={{ padding: '16px' }}>
-          <AnimalDetails
-            formMethods={formMethods}
-            generalDetailProps={{
-              typeOptions,
-              breedOptions,
-              sexOptions,
-              useOptions,
-            }}
-            uniqueDetailsProps={{
-              tagTypeOptions,
-              tagColorOptions,
-              tagPlacementOptions,
-            }}
-            otherDetailsProps={{
-              organicStatusOptions,
-            }}
-            originProps={{
-              currency: '$',
-              originOptions,
-            }}
-          />
+          <FormProvider {...formMethods}>
+            <AnimalDetails
+              generalDetailProps={{
+                typeOptions,
+                breedOptions,
+                sexOptions,
+                useOptions,
+              }}
+              uniqueDetailsProps={{
+                tagTypeOptions,
+                tagColorOptions,
+                tagPlacementOptions,
+              }}
+              otherDetailsProps={{
+                organicStatusOptions,
+              }}
+              originProps={{
+                currency: '$',
+                originOptions,
+              }}
+            />
+          </FormProvider>
         </div>
       </Suspense>
     );

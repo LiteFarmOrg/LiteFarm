@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Controller, useController } from 'react-hook-form';
+import { Controller, useController, useFormContext } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
@@ -27,18 +27,13 @@ export type OtherDetailsProps = CommonDetailsProps & {
   animalOrBatch: AnimalOrBatchKeys;
 };
 
-const OtherDetails = ({
-  t,
-  formMethods,
-  organicStatusOptions,
-  animalOrBatch,
-}: OtherDetailsProps) => {
+const OtherDetails = ({ t, organicStatusOptions, animalOrBatch }: OtherDetailsProps) => {
   const {
     control,
     resetField,
     register,
     formState: { errors },
-  } = formMethods;
+  } = useFormContext();
 
   const { field } = useController({ control, name: DetailsFields.ANIMAL_IMAGE });
 

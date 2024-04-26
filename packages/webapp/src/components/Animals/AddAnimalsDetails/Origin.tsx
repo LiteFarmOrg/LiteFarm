@@ -14,6 +14,7 @@
  */
 
 import { useMemo } from 'react';
+import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
 import { DetailsFields, type Option, type CommonDetailsProps } from './type';
@@ -26,13 +27,13 @@ export type OriginProps = CommonDetailsProps & {
   origin?: AnimalOrigins;
 };
 
-const Origin = ({ t, formMethods, currency, originOptions, origin }: OriginProps) => {
+const Origin = ({ t, currency, originOptions, origin }: OriginProps) => {
   const {
     control,
     register,
     trigger,
     formState: { errors },
-  } = formMethods;
+  } = useFormContext();
 
   const fields = useMemo(() => {
     return origin === AnimalOrigins.BROUGHT_IN ? (

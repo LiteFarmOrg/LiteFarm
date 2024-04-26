@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../Form/Input';
 import { DetailsFields, type Option, type CommonDetailsProps } from './type';
@@ -29,7 +29,6 @@ export type UniqueDetailsProps = CommonDetailsProps & {
 
 const UniqueDetails = ({
   t,
-  formMethods,
   tagTypeOptions,
   tagColorOptions,
   tagPlacementOptions,
@@ -41,7 +40,7 @@ const UniqueDetails = ({
     register,
     trigger,
     formState: { errors },
-  } = formMethods;
+  } = useFormContext();
 
   return (
     <div className={styles.sectionWrapper}>

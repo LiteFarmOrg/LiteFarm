@@ -22,7 +22,6 @@ import Origin, { type OriginProps } from './Origin';
 import ExpandableItem from '../../Expandable/ExpandableItem';
 import useExpandable from '../../Expandable/useExpandableItem';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
-import { type FormMethods } from './type';
 import styles from './styles.module.scss';
 
 enum sectionKeys {
@@ -33,15 +32,13 @@ enum sectionKeys {
 }
 
 export type AnimalDetailsProps = {
-  formMethods: FormMethods;
-  generalDetailProps: Omit<GeneralDetailsProps, 't' | 'formMethods' | 'animalOrBatch'>;
-  uniqueDetailsProps: Omit<UniqueDetailsProps, 't' | 'formMethods'>;
-  otherDetailsProps: Omit<OtherDetailsProps, 't' | 'formMethods' | 'animalOrBatch'>;
-  originProps: Omit<OriginProps, 't' | 'formMethods'>;
+  generalDetailProps: Omit<GeneralDetailsProps, 't' | 'animalOrBatch'>;
+  uniqueDetailsProps: Omit<UniqueDetailsProps, 't'>;
+  otherDetailsProps: Omit<OtherDetailsProps, 't' | 'animalOrBatch'>;
+  originProps: Omit<OriginProps, 't'>;
 };
 
 const AnimalDetails = ({
-  formMethods,
   generalDetailProps,
   uniqueDetailsProps,
   otherDetailsProps,
@@ -49,7 +46,7 @@ const AnimalDetails = ({
 }: AnimalDetailsProps) => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const { t } = useTranslation(['translation', 'common', 'animal']);
-  const commonProps = { t, formMethods };
+  const commonProps = { t };
 
   const sections = [
     {

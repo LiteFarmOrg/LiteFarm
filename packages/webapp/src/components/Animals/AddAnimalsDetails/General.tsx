@@ -14,7 +14,7 @@
  */
 
 import { useMemo } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
 import ReactSelect from '../../Form/ReactSelect';
@@ -34,7 +34,6 @@ export type GeneralDetailsProps = CommonDetailsProps & {
 
 const GeneralDetails = ({
   t,
-  formMethods,
   typeOptions,
   breedOptions,
   sexOptions,
@@ -47,7 +46,7 @@ const GeneralDetails = ({
     register,
     trigger,
     formState: { errors },
-  } = formMethods;
+  } = useFormContext();
 
   const sexInputs = useMemo(() => {
     if (animalOrBatch === AnimalOrBatchKeys.ANIMAL) {

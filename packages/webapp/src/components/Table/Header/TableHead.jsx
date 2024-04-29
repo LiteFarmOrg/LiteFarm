@@ -33,7 +33,7 @@ export default function EnhancedTableHead({
   onSelectAllClick,
   numSelected,
   rowCount,
-  backgroundColor,
+  headerClass,
 }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -43,7 +43,7 @@ export default function EnhancedTableHead({
     <TableHead className={styles.headerRow}>
       <TableRow>
         {shouldShowCheckbox && (
-          <TableCell padding="checkbox" className={styles.checkboxCell}>
+          <TableCell padding="checkbox" className={clsx(headerClass, styles.checkboxCell)}>
             <Checkbox
               color="primary"
               indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -62,9 +62,13 @@ export default function EnhancedTableHead({
               key={id}
               align={align || 'left'}
               sortDirection={active ? order : false}
-              className={clsx(styles.tableCell, styles.tableHead, dense && styles.dense)}
+              className={clsx(
+                headerClass,
+                styles.tableCell,
+                styles.tableHead,
+                dense && styles.dense,
+              )}
               {...columnProps}
-              style={{ backgroundColor }}
             >
               <TableSortLabel
                 active={active}
@@ -107,6 +111,4 @@ EnhancedTableHead.propTypes = {
   onSelectAllClick: PropTypes.func,
   numSelected: PropTypes.number,
   rowCount: PropTypes.number,
-  /** Mui adds grey background color to sticky header by default */
-  backgroundColor: PropTypes.string,
 };

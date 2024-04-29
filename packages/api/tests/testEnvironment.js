@@ -125,6 +125,8 @@ async function tableCleanup(knex) {
     DELETE FROM "animal_identifier_color";
     DELETE FROM "animal_identifier_placement";
     DELETE FROM "animal_origin";
+    DELETE FROM "animal_type_use_relationship";
+    DELETE FROM "animal_use";
     DELETE FROM "default_animal_breed";
     DELETE FROM "custom_animal_breed";
     DELETE FROM "default_animal_type";

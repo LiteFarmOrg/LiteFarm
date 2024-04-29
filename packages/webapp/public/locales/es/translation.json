@@ -9,6 +9,9 @@
     "GENERAL_DETAILS": "MISSING",
     "ORIGIN": "MISSING",
     "OTHER_DETAILS": "MISSING",
+    "OUT_OF_COUNT_one": "MISSING",
+    "OUT_OF_COUNT_many": "MISSING",
+    "OUT_OF_COUNT_other": "MISSING",
     "PLACEHOLDER": {
       "BATCH_NAME": "MISSING",
       "DAM": "MISSING",
@@ -25,6 +28,7 @@
       "TAG_TYPE": "MISSING",
       "TAG_TYPE_INFO": "MISSING"
     },
+    "REMOVE_CONFIRM": "MISSING",
     "SELECT_SEXES": "MISSING",
     "SEX_DETAIL": "MISSING",
     "SEX_DETAIL_ERROR_one": "MISSING",

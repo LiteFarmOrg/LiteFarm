@@ -143,7 +143,10 @@ describe('Animal Group Tests', () => {
         const [secondFarm] = await mocks.farmFactory();
 
         // Create two animals groups and add animals and batches to each of them
-        const groups = await Promise.all([makeAnimalGroup(mainFarm), makeAnimalGroup(mainFarm)]);
+        const groups = await Promise.all([
+          makeAnimalGroup(mainFarm, { name: 'group1' }),
+          makeAnimalGroup(mainFarm, { name: 'group2' }),
+        ]);
         const animalRelationships = await Promise.all(
           groups.map(
             async (group) =>

@@ -16,6 +16,7 @@
 import type { ReactElement, ReactNode, ChangeEvent } from 'react';
 import type { ColumnInstance } from 'react-table';
 import { ReactComponentLike } from 'prop-types';
+import { ClassValue } from 'clsx';
 
 export enum TableKind {
   V1 = 'v1',
@@ -83,5 +84,5 @@ export type TableV2Props<RowData extends TableRowData> = {
   stickyHeader?: boolean;
   maxHeight?: number | string;
   spacerRowHeight?: number;
-  headerBackgroundColor?: string;
+  headerClass?: ClassValue;
 };

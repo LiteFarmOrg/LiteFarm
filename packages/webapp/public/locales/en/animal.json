@@ -43,5 +43,17 @@
     "CATTLE": "Cattle",
     "CHICKEN": "Chicken",
     "PIGS": "Pigs"
+  },
+  "USE": {
+    "MILK": "Milk",
+    "EGGS": "Eggs",
+    "FAT": "Fat",
+    "MEAT": "Meat",
+    "ANIMAL_FIBERS_AND_SKINS": "Animal Fibers and Skins",
+    "LABOUR_AND_DRAFT": "Labour and Draft",
+    "BREEDING": "Breeding",
+    "RECREATIONAL_OR_CULTURAL_USE": "Recreational or Cultural Use",
+    "COMPANIONSHIP": "Companionship",
+    "OTHER": "Other"
   }
 }

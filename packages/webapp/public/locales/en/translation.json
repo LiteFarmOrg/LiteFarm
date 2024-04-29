@@ -7,6 +7,8 @@
     "GENERAL_DETAILS": "General details",
     "ORIGIN": "Origin",
     "OTHER_DETAILS": "Other details",
+    "OUT_OF_COUNT_one": "{{animalNumber}} out of {{count}}",
+    "OUT_OF_COUNT_other": "{{animalNumber}} out of {{count}}",
     "PLACEHOLDER": {
       "BATCH_NAME": "Type in the batch name",
       "DAM": "Type in a dam",
@@ -23,6 +25,7 @@
       "TAG_TYPE": "What is the tag type?",
       "TAG_TYPE_INFO": "Please describe your tag type"
     },
+    "REMOVE_CONFIRM": "Do you really want to remove?",
     "SELECT_SEXES": "Select sexes",
     "SEX_DETAIL": "Sex detail",
     "SEX_DETAIL_ERROR_one": "Maximum animal count: {{count}}",

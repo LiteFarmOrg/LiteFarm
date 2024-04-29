@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023-2024 LiteFarm.org
+ *  Copyright 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,26 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.mainContentWithIcon {
-  display: flex;
-}
+import express from 'express';
 
-.mainContentWrapper {
-  width: calc(100% - 24px);
-}
+const router = express.Router();
+import checkScope from '../middleware/acl/checkScope.js';
+import animalUseController from '../controllers/animalUseController.js';
 
-.clickable {
-  cursor: pointer;
-}
+router.get('/', checkScope(['get:animal_uses']), animalUseController.getAnimalUses());
 
-.icon {
-  color: var(--grey500);
-}
-
-.iconWrapper {
-  height: 24px;
-}
-
-.mainContentWrapper.leftCollapse {
-  order: 1;
-}
+export default router;

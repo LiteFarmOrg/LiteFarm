@@ -1,9 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  hookFormPersistHistoryStackSelector,
-  hookFormPersistSelector,
-} from './hookFormPersistSlice';
+import { hookFormPersistSelector } from './hookFormPersistSlice';
 import Spinner from '../../../components/Spinner';
 import useHookFormPersist from './index';
 

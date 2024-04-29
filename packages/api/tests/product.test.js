@@ -206,6 +206,34 @@ describe('Product Tests', () => {
           done();
         });
       });
+
+      test('should return 400 if n, p, or k value is provided without npk_unit', async (done) => {
+        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+        const npkProduct = mocks.fakeProduct({ farm_id: userFarm.farm_id, n: 70, p: 30, k: 30 });
+
+        postProductRequest(npkProduct, userFarm, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        });
+      });
+
+      test('should return 400 if npk_unit is percent and n + p + k > 100', async (done) => {
+        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+        const npkProduct = mocks.fakeProduct({
+          farm_id: userFarm.farm_id,
+          n: 70,
+          p: 30,
+          k: 20,
+          npk_unit: 'percent',
+        });
+
+        postProductRequest(npkProduct, userFarm, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        });
+      });
     });
   });
 });

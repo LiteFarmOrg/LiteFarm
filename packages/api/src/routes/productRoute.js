@@ -29,4 +29,11 @@ router.get(
 
 router.post('/', checkScope(['add:product']), productController.addProduct());
 
+router.patch(
+  '/:product_id',
+  hasFarmAccess({ params: 'product_id' }),
+  checkScope(['edit:product']),
+  productController.updateProduct(),
+);
+
 export default router;

@@ -391,6 +391,8 @@ const taskController = {
             .where({ task_id });
           return removeNullTypes(task);
         });
+
+        // debugger;
         if (result.assignee_user_id) {
           const { assignee_user_id, task_id, taskType } = result;
           await sendTaskNotification(

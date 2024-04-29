@@ -59,6 +59,21 @@ const productController = {
       }
     };
   },
+  updateProduct() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const { farm_id } = req.headers;
+        const { product_id } = req.params;
+        const data = req.body;
+        await baseController.patch(ProductModel, product_id, { ...data, farm_id }, req, { trx });
+        await trx.commit();
+        res.status(204).send();
+      } catch (error) {
+        await handleObjectionError(error, res, trx);
+      }
+    };
+  },
 };
 
 export default productController;

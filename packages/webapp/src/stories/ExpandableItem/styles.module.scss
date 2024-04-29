@@ -1,0 +1,70 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../assets/mixin.scss';
+
+.expandedContent {
+  padding: 8px;
+}
+
+.icon {
+  @include svgColorFill(var(--Colors-Primary-Primary-teal-300));
+  background: transparent;
+}
+
+.mockForm {
+  margin: 12px;
+  padding: 8px;
+  border: 1px solid black;
+}
+
+.animalsExpandableItem {
+  align-items: center;
+  background-color: var(--White);
+
+  // Important; sets the positioning for the removal warning (which covers the collapse icon on mobile)
+  position: relative;
+}
+
+.animalsCollapseIcon {
+  padding-right: 16px;
+
+  @include xs-breakpoint {
+    padding-right: 8px;
+  }
+}
+
+// Transaction list styles
+.expandableItem {
+  align-items: center;
+  padding: 12px 4px;
+}
+
+.expandableItemWrapper {
+  border: solid 1px transparent;
+  border-bottom: solid 1px var(--grey200);
+  background-color: var(--bgInputListTile);
+
+  &.expanded {
+    background-color: #f6fbfa;
+    border: solid 1px var(--grey400);
+    box-shadow: 0px 0px 4px 0px #66738a1a;
+    border-radius: 1px;
+  }
+
+  &:hover:not(.expanded) {
+    background-color: var(--grey200);
+  }
+}

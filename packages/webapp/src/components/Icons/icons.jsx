@@ -62,6 +62,7 @@ import { ReactComponent as SoilAmendmentTask } from '../../assets/images/task/So
 // System
 import { ReactComponent as MoreHorizontalIcon } from '../../assets/images/more-horizontal.svg';
 import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
+import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
 
 const iconMap = {
   // Finances Carousel
@@ -107,6 +108,7 @@ const iconMap = {
   // System
   MORE_HORIZONTAL: MoreHorizontalIcon,
   PLUS_CIRCLE: PlusCircleIcon,
+  TRASH: TrashIcon,
 };
 
 export default iconMap;

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023-2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
+
 import clsx from 'clsx';
 import { expect } from '@storybook/jest';
 import { within, userEvent, waitForElementToBeRemoved } from '@storybook/testing-library';
@@ -20,8 +20,9 @@ import Expandable from '../../components/Expandable/ExpandableItem';
 import useExpandable from '../../components/Expandable/useExpandableItem';
 import TransactionItem from '../../components/Finances/Transaction/Mobile/Item';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
-import styles from '../../components/Finances/Transaction/Mobile/styles.module.scss';
+import { Main } from '../../components/Typography';
+import styles from './styles.module.scss';
+import { AnimalFormHeaderItem } from '../../components/Animals/AddAnimalsForm/AnimalFormHeaderItem';
 
 export default {
   title: 'Components/Expandable',
@@ -29,43 +30,51 @@ export default {
   decorators: componentDecorators,
 };
 
-const data = [
+const mockTransactionsData = [
   {
     transaction: 'Summer Harvest',
     type: 'Crop sales',
     amount: 17551.5,
     expandedContent: 'Expanded content 1',
-    icon: <SoilAmendment />,
+    icon: 'SOIL_AMENDMENT',
   },
   {
     transaction: 'Gas refill',
     type: 'Fuel',
     amount: -873.0,
     expandedContent: 'Expanded content 2',
-    icon: <SoilAmendment />,
+    icon: 'SOIL_AMENDMENT',
   },
   {
     transaction: 'Pesticide and traps',
     type: 'Pest control',
     amount: -873.0,
     expandedContent: 'Expanded content 3',
-    icon: <SoilAmendment />,
+    icon: 'SOIL_AMENDMENT',
   },
 ];
 
-const MainContent = ({ transaction, type, amount, icon }) => {
+const TransactionContent = ({ transaction, type, amount, icon }) => {
   return (
     <TransactionItem
       transaction={transaction}
       type={type}
       amount={amount}
-      icon={icon}
+      iconKey={icon}
       currencySymbol="€"
     />
   );
 };
 
-const Test = ({ defaultExpandedIds = [], isSingleExpandable, iconClickOnly }) => {
+const Test = ({
+  data = [],
+  mainContent: MainContent,
+  defaultExpandedIds = [],
+  isSingleExpandable,
+  iconClickOnly,
+  leftCollapseIcon,
+  transactionStyles = true,
+}) => {
   const { expandedIds, toggleExpanded } = useExpandable({ defaultExpandedIds, isSingleExpandable });
 
   return data.map((values, index) => {
@@ -73,16 +82,25 @@ const Test = ({ defaultExpandedIds = [], isSingleExpandable, iconClickOnly }) =>
     return (
       <div
         key={index}
-        className={clsx(styles.expandableItemWrapper, isExpanded && styles.expanded)}
+        className={clsx(
+          transactionStyles && styles.expandableItemWrapper,
+          isExpanded && styles.expanded,
+        )}
       >
         <Expandable
           isExpanded={isExpanded}
           onClick={() => toggleExpanded(index)}
-          mainContent={<MainContent {...values} />}
+          mainContent={<MainContent {...values} isExpanded={isExpanded} />}
           expandedContent={<div className={styles.expandedContent}>{values.expandedContent}</div>}
           iconClickOnly={iconClickOnly}
-          classes={{ mainContentWithIcon: styles.expandableItem }}
+          classes={{
+            mainContentWithIcon: transactionStyles
+              ? styles.expandableItem
+              : styles.animalsExpandableItem,
+            icon: transactionStyles ? '' : styles.animalsCollapseIcon,
+          }}
           key={index}
+          leftCollapseIcon={leftCollapseIcon}
         />
       </div>
     );
@@ -90,9 +108,17 @@ const Test = ({ defaultExpandedIds = [], isSingleExpandable, iconClickOnly }) =>
 };
 
 export const SingleExpandableItem = {
-  render: () => <Test isSingleExpandable={true} iconClickOnly={false} />,
+  render: () => (
+    <Test
+      data={mockTransactionsData}
+      mainContent={TransactionContent}
+      isSingleExpandable={true}
+      iconClickOnly={false}
+    />
+  ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const data = mockTransactionsData;
 
     const row0 = canvas.getByText(data[0].transaction);
     await userEvent.click(row0);
@@ -123,13 +149,112 @@ export const SingleExpandableItem = {
 };
 
 export const MultipleExpandableItem = {
-  render: () => <Test isSingleExpandable={false} iconClickOnly={false} />,
+  render: () => (
+    <Test
+      data={mockTransactionsData}
+      mainContent={TransactionContent}
+      isSingleExpandable={false}
+      iconClickOnly={false}
+    />
+  ),
 };
 
 export const IconClickOnlyExpandableItem = {
-  render: () => <Test isSingleExpandable={true} iconClickOnly={true} />,
+  render: () => (
+    <Test
+      data={mockTransactionsData}
+      mainContent={TransactionContent}
+      isSingleExpandable={true}
+      iconClickOnly={true}
+    />
+  ),
 };
 
 export const ExpandableItemWithDefaultExpanded = {
-  render: () => <Test defaultExpandedIds={[1]} isSingleExpandable={true} iconClickOnly={false} />,
+  render: () => (
+    <Test
+      data={mockTransactionsData}
+      mainContent={TransactionContent}
+      defaultExpandedIds={[1]}
+      isSingleExpandable={true}
+      iconClickOnly={false}
+    />
+  ),
+};
+
+export const LeftCollapseIcon = {
+  render: () => (
+    <Test
+      data={mockTransactionsData}
+      mainContent={TransactionContent}
+      defaultExpandedIds={[1]}
+      isSingleExpandable={true}
+      iconClickOnly={false}
+      leftCollapseIcon={true}
+    />
+  ),
+};
+
+// Inner expandables
+const mockAnimalDetailsData = [
+  {
+    formTitle: 'General detail',
+    expandedContent: <div className={styles.mockForm}>General form here</div>,
+  },
+  {
+    formTitle: 'Unique detail',
+    expandedContent: <div className={styles.mockForm}>Unique detail form here</div>,
+  },
+  {
+    formTitle: 'Origin',
+    expandedContent: <div className={styles.mockForm}>Origin form here</div>,
+  },
+  {
+    formTitle: 'Other Details',
+    expandedContent: <div className={styles.mockForm}>Other details form here</div>,
+  },
+];
+
+const AnimalDetailsContent = ({ formTitle }) => {
+  return <Main>{formTitle}</Main>;
+};
+
+// Outer expandable (AnimalFormHeaderItem)
+const mockAnimalData = {
+  type: 'Cattle',
+  breed: 'Aberdeen',
+  sex: 'Female',
+  iconKey: 'CATTLE',
+  number: 7,
+  totalCount: 14,
+  onRemove: (e) => {
+    e.stopPropagation();
+    console.log('removing');
+  },
+  expandedContent: (
+    <Test
+      data={mockAnimalDetailsData}
+      mainContent={AnimalDetailsContent}
+      isSingleExpandable
+      iconClickOnly={false}
+    />
+  ),
+};
+
+const AnimalsMainContent = (props) => {
+  return <AnimalFormHeaderItem {...props} />;
+};
+
+export const NestedExpandable = {
+  render: () => (
+    <Test
+      data={[mockAnimalData]}
+      mainContent={AnimalsMainContent}
+      defaultExpandedIds={[1]}
+      isSingleExpandable={true}
+      iconClickOnly={false}
+      leftCollapseIcon={true}
+      transactionStyles={false}
+    />
+  ),
 };

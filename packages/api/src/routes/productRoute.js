@@ -27,11 +27,6 @@ router.get(
   productController.getProductsByFarm(),
 );
 
-router.post(
-  '/',
-  hasFarmAccess({ body: 'farm_id' }),
-  checkScope(['add:product']),
-  productController.addProduct(),
-);
+router.post('/', checkScope(['add:product']), productController.addProduct());
 
 export default router;

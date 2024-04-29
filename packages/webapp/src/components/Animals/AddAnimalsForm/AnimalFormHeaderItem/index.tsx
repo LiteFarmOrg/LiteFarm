@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
@@ -67,6 +67,12 @@ export const AnimalFormHeaderItem = ({
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  useEffect(() => {
+    if (!isExpanded) {
+      setIsRemoving(false);
+    }
+  }, [isExpanded]);
 
   return (
     <div className={styles.mainContent}>

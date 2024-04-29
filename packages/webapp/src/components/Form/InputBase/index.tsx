@@ -71,18 +71,18 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
             toolTipContent={toolTipContent}
           />
         )}
-        <InputBaseField
-          {...inputProps}
-          leftSection={leftSection}
-          mainSection={mainSection}
-          rightSection={rightSection}
-          isError={!!error}
-          resetIcon={
-            !!error && showResetIcon ? <Cross isClickable onClick={onResetIconClick} /> : undefined
-          }
-          ref={ref}
-        />
       </label>
+      <InputBaseField
+        {...inputProps}
+        leftSection={leftSection}
+        mainSection={mainSection}
+        rightSection={rightSection}
+        isError={!!error}
+        resetIcon={
+          !!error && showResetIcon ? <Cross isClickable onClick={onResetIconClick} /> : undefined
+        }
+        ref={ref}
+      />
       {info && !error && <Info style={classes?.info}>{info}</Info>}
       {error && (
         <Error data-cy="error" style={classes?.errors}>

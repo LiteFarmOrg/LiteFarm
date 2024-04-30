@@ -59,6 +59,13 @@ export const up = async function (knex) {
 };
 
 export const down = async function (knex) {
+  await knex('rolePermissions')
+    .where({
+      role_id: 3,
+      permission_id: 129,
+    })
+    .del();
+
   const permissions = [169, 170];
 
   await knex('rolePermissions').whereIn('permission_id', permissions).del();

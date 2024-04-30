@@ -94,6 +94,7 @@ export default function AddAnimalsFormCard({
           control={control}
           defaultValue={0}
           label="count"
+          className={styles.countInput}
           allowDecimal={false}
           showStepper
         />

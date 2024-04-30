@@ -25,4 +25,12 @@
   display: flex;
   align-items: start;
   gap: 16px;
+
+  .countInput {
+    flex-basis: 104px;
+  }
+
+  > *:last-child {
+    flex: 1;
+  }
 }

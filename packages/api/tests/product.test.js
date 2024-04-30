@@ -176,9 +176,10 @@ describe('Product Tests', () => {
       });
     });
 
-    describe('Post fertilizer authorization tests', () => {
-      test('Owner should post and get product', async (done) => {
-        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+    test('All users should be able to post and get a product', async (done) => {
+      const allUserRoles = [1, 2, 3, 5];
+      for (const role of allUserRoles) {
+        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(role));
         prod.farm_id = userFarm.farm_id;
         postProductRequest(prod, userFarm, async (err, res) => {
           expect(res.status).toBe(201);
@@ -189,69 +190,43 @@ describe('Product Tests', () => {
           expect(productsSaved.length).toBe(1);
           done();
         });
+      }
+    });
+
+    test('should return 400 if n, p, or k value is provided without npk_unit', async (done) => {
+      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+      const npkProduct = mocks.fakeProduct({ farm_id: userFarm.farm_id, n: 70, p: 30, k: 30 });
+
+      postProductRequest(npkProduct, userFarm, (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('should return 400 if npk_unit is percent and n + p + k > 100', async (done) => {
+      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+      const npkProduct = mocks.fakeProduct({
+        farm_id: userFarm.farm_id,
+        n: 70,
+        p: 30,
+        k: 20,
+        npk_unit: 'percent',
       });
 
-      test('Manager should post and get a product', async (done) => {
-        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(2));
-        prod.farm_id = userFarm.farm_id;
-        postProductRequest(prod, userFarm, async (err, res) => {
-          expect(res.status).toBe(201);
-          const products = await productModel
-            .query()
-            .context({ showHidden: true })
-            .where('farm_id', userFarm.farm_id);
-          expect(products.length).toBe(1);
-          done();
-        });
-      });
-
-      test('should return 403 status if product  is posted by worker', async (done) => {
-        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(3));
-        prod.farm_id = userFarm.farm_id;
-        postProductRequest(prod, userFarm, async (err, res) => {
-          expect(res.status).toBe(403);
-          expect(res.error.text).toBe(
-            'User does not have the following permission(s): add:product',
-          );
-          done();
-        });
-      });
-
-      test('should return 400 if n, p, or k value is provided without npk_unit', async (done) => {
-        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
-
-        const npkProduct = mocks.fakeProduct({ farm_id: userFarm.farm_id, n: 70, p: 30, k: 30 });
-
-        postProductRequest(npkProduct, userFarm, (err, res) => {
-          expect(res.status).toBe(400);
-          done();
-        });
-      });
-
-      test('should return 400 if npk_unit is percent and n + p + k > 100', async (done) => {
-        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
-
-        const npkProduct = mocks.fakeProduct({
-          farm_id: userFarm.farm_id,
-          n: 70,
-          p: 30,
-          k: 20,
-          npk_unit: 'percent',
-        });
-
-        postProductRequest(npkProduct, userFarm, (err, res) => {
-          expect(res.status).toBe(400);
-          done();
-        });
+      postProductRequest(npkProduct, userFarm, (err, res) => {
+        expect(res.status).toBe(400);
+        done();
       });
     });
   });
 
   describe('Update product', () => {
-    test('Owner, manager, and extension officer should be able to patch product', async () => {
-      const adminRoles = [1, 2, 5];
+    test('All users should be able to patch product', async () => {
+      const allUserRoles = [1, 2, 3, 5];
 
-      for (const role of adminRoles) {
+      for (const role of allUserRoles) {
         const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(role));
 
         const [origProduct] = await mocks.productFactory({
@@ -276,29 +251,6 @@ describe('Product Tests', () => {
       }
     });
 
-    test('Worker should not be able to patch product', async () => {
-      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(3));
-
-      const [origProduct] = await mocks.productFactory({
-        promisedFarm: [{ farm_id: userFarm.farm_id }],
-      });
-
-      const res = await patchRequest(
-        {
-          supplier: 'UBC Botanical Garden',
-        },
-        origProduct.product_id,
-        userFarm,
-      );
-      expect(res.status).toBe(403);
-      expect(res.error.text).toBe('User does not have the following permission(s): edit:product');
-
-      const [updatedProduct] = await productModel
-        .query()
-        .where({ product_id: origProduct.product_id });
-      expect(updatedProduct.supplier).toBe(origProduct.supplier);
-    });
-
     test('should return 400 if n, p, or k value is patched without npk_unit', async () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
@@ -318,7 +270,7 @@ describe('Product Tests', () => {
       expect(res.status).toBe(400);
     });
 
-    test('should return 400 if npk_unit is percent and n + p + k > 100', async () => {
+    test('should return 400 if patched npk_unit is percent and patched n + p + k > 100', async () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const [origProduct] = await mocks.productFactory({

@@ -45,6 +45,7 @@
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
   "ADD_PRODUCT": {
+    "COMPOSITION": "MISSING",
     "PRESS_ENTER": "Digite e pressione enter para adicionar...",
     "PRODUCT_LABEL": "Produto",
     "SUPPLIER_LABEL": "Fornecedor"

@@ -24,7 +24,7 @@ export type Option = {
 
 export type AnimalTypeSelectProps = {
   typeOptions: Option[];
-  onTypeChange?: (option: Option) => void;
+  onTypeChange?: (Option: Option | null) => void;
 };
 
 export type AnimalBreedSelectProps = {
@@ -47,10 +47,8 @@ export function AnimalTypeSelect<T extends FieldValues>({
           label="Type"
           options={typeOptions}
           onChange={(option) => {
-            if (option) {
-              field.onChange(option);
-              onTypeChange?.(option);
-            }
+            field.onChange(option);
+            onTypeChange?.(option);
           }}
         />
       )}
@@ -92,11 +90,7 @@ export function AnimalBreedSelect<T extends FieldValues>({
               : undefined
           }
           components={{ Menu: AnimalBreedMenu }}
-          onChange={(option) => {
-            if (option) {
-              field.onChange(option);
-            }
-          }}
+          onChange={(option) => field.onChange(option)}
         />
       )}
     />

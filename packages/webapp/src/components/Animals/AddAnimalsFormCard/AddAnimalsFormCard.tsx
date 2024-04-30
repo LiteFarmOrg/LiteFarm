@@ -60,7 +60,7 @@ export default function AddAnimalsFormCard({
   showRemoveButton,
   isActive,
 }: AddAnimalsFormCardProps) {
-  const { control, watch } = useFormContext<FormFields>();
+  const { control, watch, register } = useFormContext<FormFields>();
   const watchAnimalCount = watch('count') || 0;
   const watchAnimalType = watch('type');
 
@@ -113,6 +113,7 @@ export default function AddAnimalsFormCard({
       <Checkbox
         label="Create individual animal profiles"
         tooltipContent="tooltip content"
+        hookFormRegister={register('createIndividualProfiles')}
         onChange={(e) => onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked)}
       />
       {/*@ts-ignore*/}

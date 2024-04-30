@@ -1,0 +1,112 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../assets/mixin';
+
+/*----------------------------------------
+  NumberInputWithSelect
+----------------------------------------*/
+
+.inputWithSelectWrapper {
+  position: relative;
+
+  // NumberInput
+  label + div {
+    padding-right: 52px;
+  }
+
+  &:focus-within {
+    label + div {
+      border-color: var(--inputActive);
+    }
+
+    > div:nth-child(2) svg {
+      color: var(--Colors-Neutral-Neutral-600);
+    }
+  }
+
+  &.hasError {
+    input {
+      color: var(--Colors-Accent---singles-Red-full);
+    }
+
+    label + div {
+      border-color: var(--Colors-Accent---singles-Red-full);
+    }
+  }
+
+  &.disabled {
+    label + div {
+      padding-right: 28px;
+      background-color: #fcfcff !important;
+
+      input {
+        color: var(--Colors-Neutral-Neutral-300);
+        @include truncateText();
+      }
+    }
+  }
+}
+
+/*----------------------------------------
+  Composition inputs
+----------------------------------------*/
+
+.inputsWrapper {
+  position: relative;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+  display: flex;
+  gap: 24px;
+
+  > div {
+    flex: 1;
+  }
+
+  @include sm-breakpoint {
+    &::after {
+      content: '';
+      position: absolute;
+      left: 8px;
+      bottom: 32px;
+      width: calc(100% - 16px);
+      border-bottom: dashed 1px var(--Colors-Neutral-Neutral-300);
+      z-index: -1;
+    }
+  }
+
+  @include md-breakpoint {
+    flex-direction: column;
+  }
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--Colors-Accent---singles-Red-full);
+  justify-content: center;
+
+  .errorIcon {
+    width: 20px;
+  }
+
+  @include md-breakpoint {
+    .errorMessage {
+      flex: 1;
+    }
+  }
+}

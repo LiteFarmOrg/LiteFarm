@@ -42,6 +42,7 @@ type FormFields = {
   count?: number;
   createIndividualProfiles?: boolean;
   group?: string;
+  batch?: string;
 };
 
 type AddAnimalsFormCardProps = AnimalTypeSelectProps &
@@ -67,6 +68,7 @@ export default function AddAnimalsFormCard({
   const { t } = useTranslation();
   const watchAnimalCount = watch('count') || 0;
   const watchAnimalType = watch('type');
+  const shouldCreateIndividualProfiles = watch('createIndividualProfiles');
 
   return (
     <Card className={styles.form} isActive={isActive}>
@@ -120,13 +122,23 @@ export default function AddAnimalsFormCard({
         hookFormRegister={register('createIndividualProfiles')}
         onChange={(e) => onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked)}
       />
-      {/* @ts-ignore */}
-      <Input
-        label={t('ADD_ANIMAL.GROUP_NAME')}
-        optional
-        placeholder={t('ADD_ANIMAL.GROUP_NAME_PLACEHOLDER')}
-        hookFormRegister={register('group')}
-      />
+      {shouldCreateIndividualProfiles ? (
+        // @ts-ignore
+        <Input
+          label={t('ADD_ANIMAL.GROUP_NAME')}
+          optional
+          placeholder={t('ADD_ANIMAL.GROUP_NAME_PLACEHOLDER')}
+          hookFormRegister={register('group')}
+        />
+      ) : (
+        // @ts-ignore
+        <Input
+          label={t('ADD_ANIMAL.BATCH_NAME')}
+          optional
+          placeholder={t('ADD_ANIMAL.BATCH_NAME_PLACEHOLDER')}
+          hookFormRegister={register('batch')}
+        />
+      )}
     </Card>
   );
 }

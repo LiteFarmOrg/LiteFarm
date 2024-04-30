@@ -5,6 +5,8 @@
     "ANIMALS_TOTAL_other": "{{count}} animals total",
     "ANIMALS_UNSPECIFIED_one": "{{count}} unspecified",
     "ANIMALS_UNSPECIFIED_other": "{{count}} unspecified",
+    "BATCH_NAME": "Batch name",
+    "BATCH_NAME_PLACEHOLDER": "Type in batch name",
     "BREED": "Breed",
     "BREED_PLACEHOLDER": "Add your animal breed",
     "CREATE_INDIVIDUAL_PROFILES": "Create individual animal profiles",

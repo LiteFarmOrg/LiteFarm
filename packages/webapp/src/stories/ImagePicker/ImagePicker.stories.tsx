@@ -13,11 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
-import ImagePicker, { type ImagePickerProps } from '../../containers/ImagePicker';
-import { FormProvider, useController, useForm } from 'react-hook-form';
+import ImagePicker, { type ImagePickerProps } from '../../components/ImagePicker';
+import { useController, useForm } from 'react-hook-form';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<ImagePickerProps> = {

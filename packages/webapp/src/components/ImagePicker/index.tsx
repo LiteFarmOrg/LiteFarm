@@ -15,11 +15,11 @@
 
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AddLink } from '../../components/Typography';
-import PureFilePickerWrapper from '../../components/Form/FilePickerWrapper';
-import TextButton from '../../components/Form/Button/TextButton';
-import InputBaseLabel from '../../components/Form/InputBase/InputBaseLabel';
-import { MediaWithAuthentication } from '../MediaWithAuthentication';
+import { AddLink } from '../Typography';
+import PureFilePickerWrapper from '../Form/FilePickerWrapper';
+import TextButton from '../Form/Button/TextButton';
+import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
+import { MediaWithAuthentication } from '../../containers/MediaWithAuthentication';
 import { ReactComponent as CameraIcon } from '../../assets/images/farm-profile/camera.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/trash.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/farm-profile/edit.svg';

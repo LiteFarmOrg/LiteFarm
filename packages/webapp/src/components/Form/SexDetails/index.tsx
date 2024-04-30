@@ -89,7 +89,7 @@ export default function SexDetails({
         }
       />
     ),
-    [isPopoverOpen],
+    [isPopoverOpen, maxCount],
   );
 
   return (

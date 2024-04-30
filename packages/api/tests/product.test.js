@@ -55,6 +55,16 @@ describe('Product Tests', () => {
       .end(callback);
   }
 
+  async function patchRequest(data, product_id, { user_id, farm_id }) {
+    return await chai
+      .request(server)
+      .patch(`/product/${product_id}`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data);
+  }
+
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
@@ -234,6 +244,98 @@ describe('Product Tests', () => {
           done();
         });
       });
+    });
+  });
+
+  describe('Update product', () => {
+    test('Owner, manager, and extension officer should be able to patch product', async () => {
+      const adminRoles = [1, 2, 5];
+
+      for (const role of adminRoles) {
+        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(role));
+
+        const [origProduct] = await mocks.productFactory({
+          promisedFarm: [{ farm_id: userFarm.farm_id }],
+        });
+
+        const res = await patchRequest(
+          {
+            supplier: 'UBC Botanical Garden',
+          },
+          origProduct.product_id,
+          userFarm,
+        );
+
+        expect(res.status).toBe(204);
+
+        const [updatedProduct] = await productModel
+          .query()
+          .where({ product_id: origProduct.product_id });
+
+        expect(updatedProduct.supplier).toBe('UBC Botanical Garden');
+      }
+    });
+
+    test('Worker should not be able to patch product', async () => {
+      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(3));
+
+      const [origProduct] = await mocks.productFactory({
+        promisedFarm: [{ farm_id: userFarm.farm_id }],
+      });
+
+      const res = await patchRequest(
+        {
+          supplier: 'UBC Botanical Garden',
+        },
+        origProduct.product_id,
+        userFarm,
+      );
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe('User does not have the following permission(s): edit:product');
+
+      const [updatedProduct] = await productModel
+        .query()
+        .where({ product_id: origProduct.product_id });
+      expect(updatedProduct.supplier).toBe(origProduct.supplier);
+    });
+
+    test('should return 400 if n, p, or k value is patched without npk_unit', async () => {
+      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+      const [origProduct] = await mocks.productFactory({
+        promisedFarm: [{ farm_id: userFarm.farm_id }],
+      });
+
+      const res = await patchRequest(
+        {
+          n: 70,
+          p: 30,
+          k: 30,
+        },
+        origProduct.product_id,
+        userFarm,
+      );
+      expect(res.status).toBe(400);
+    });
+
+    test('should return 400 if npk_unit is percent and n + p + k > 100', async () => {
+      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+      const [origProduct] = await mocks.productFactory({
+        promisedFarm: [{ farm_id: userFarm.farm_id }],
+      });
+
+      const res = await patchRequest(
+        {
+          n: 70,
+          p: 30,
+          k: 30,
+          npk_unit: 'percent',
+        },
+        origProduct.product_id,
+        userFarm,
+      );
+      expect(res.status).toBe(400);
     });
   });
 });

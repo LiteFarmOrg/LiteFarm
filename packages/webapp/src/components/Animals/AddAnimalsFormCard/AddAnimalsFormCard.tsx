@@ -33,6 +33,7 @@ import {
   type Option,
 } from './AnimalSelect';
 
+// Should be moved up to parent component that calls useForm
 type FormFields = {
   type?: Option;
   breed?: Option;
@@ -116,8 +117,8 @@ export default function AddAnimalsFormCard({
         hookFormRegister={register('createIndividualProfiles')}
         onChange={(e) => onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked)}
       />
-      {/*@ts-ignore*/}
-      <Input label="Group name" optional />
+      {/* @ts-ignore */}
+      <Input label="Group name" optional hookFormRegister={register('group')} />
     </Card>
   );
 }

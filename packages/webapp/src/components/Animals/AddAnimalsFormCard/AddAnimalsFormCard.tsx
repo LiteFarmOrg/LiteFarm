@@ -59,6 +59,7 @@ export default function AddAnimalsFormCard({
   onTypeChange,
   onIndividualProfilesCheck,
   showRemoveButton,
+  onRemoveButtonClick,
   isActive,
 }: AddAnimalsFormCardProps) {
   const { control, watch, register } = useFormContext<FormFields>();
@@ -70,7 +71,7 @@ export default function AddAnimalsFormCard({
       <div className={styles.formHeader}>
         <Text>Add animal to your inventory</Text>
         {showRemoveButton && (
-          <TextButton className={styles.removeBtn}>
+          <TextButton className={styles.removeBtn} onClick={onRemoveButtonClick}>
             {' '}
             <XIcon /> remove
           </TextButton>

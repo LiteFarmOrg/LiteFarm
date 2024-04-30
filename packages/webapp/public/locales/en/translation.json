@@ -1,9 +1,17 @@
 {
   "ADD_ANIMAL": {
+    "ADD_TO_INVENTORY": "Add animal to your inventory",
     "ANIMALS_TOTAL_one": "{{count}} animal total",
     "ANIMALS_TOTAL_other": "{{count}} animals total",
     "ANIMALS_UNSPECIFIED_one": "{{count}} unspecified",
     "ANIMALS_UNSPECIFIED_other": "{{count}} unspecified",
+    "BREED": "Breed",
+    "BREED_PLACEHOLDER": "Add your animal breed",
+    "CREATE_INDIVIDUAL_PROFILES": "Create individual animal profiles",
+    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately. This allows for detailed records and individualised care plans, all animals will be conveniently grouped. If you don't select 'Create Individual Animal Profiles' you'll create an Animal Batch. This is ideal for\u00a0managing animals collectively. In batch mode, individual animal details are not tracked.",
+    "GROUP_NAME": "Group name",
+    "GROUP_NAME_PLACEHOLDER": "Type in group name",
+    "NO_TYPE_SELECTED_MESSAGE": "Please select a type first",
     "SELECT_SEXES": "Select sexes",
     "SEX_DETAIL": "Sex detail",
     "SEX_DETAIL_ERROR_one": "Maximum animal count: {{count}}",
@@ -20,7 +28,9 @@
       "BATCH_SUMMARY_COUNT_other": "{{count}} batches",
       "HERE_IS_SUMMARY": "Here is a summary of your added animals:",
       "MAIN": "You successfully added {{animalCount}} {{and}} {{batchCount}} to your inventory."
-    }
+    },
+    "TYPE": "Type",
+    "TYPE_PLACEHOLDER": "Select the animal type"
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",

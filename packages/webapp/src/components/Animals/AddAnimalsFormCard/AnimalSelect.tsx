@@ -16,6 +16,7 @@
 import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
 import { CreatableSelect } from '../../Form/ReactSelect';
 import { components, MenuProps } from 'react-select';
+import { useTranslation } from 'react-i18next';
 
 export type Option = {
   label: string;
@@ -38,13 +39,15 @@ export function AnimalTypeSelect<T extends FieldValues>({
   typeOptions,
   onTypeChange,
 }: AnimalTypeSelectProps & UseControllerProps<T>) {
+  const { t } = useTranslation();
   return (
     <Controller
       name={name}
       control={control}
       render={({ field }) => (
         <CreatableSelect
-          label="Type"
+          label={t('ADD_ANIMAL.TYPE')}
+          placeholder={t('ADD_ANIMAL.TYPE_PLACEHOLDER')}
           options={typeOptions}
           onChange={(option) => {
             field.onChange(option);
@@ -62,14 +65,16 @@ export function AnimalBreedSelect<T extends FieldValues>({
   breedOptions,
   showNoTypeSelectedMessage,
 }: AnimalBreedSelectProps & UseControllerProps<T>) {
+  const { t } = useTranslation();
   return (
     <Controller
       name={name}
       control={control}
       render={({ field }) => (
         <CreatableSelect
-          label="Breed"
           options={breedOptions}
+          label={t('ADD_ANIMAL.BREED')}
+          placeholder={t('ADD_ANIMAL.BREED_PLACEHOLDER')}
           //@ts-ignore
           showNoTypeSelectedMessage={showNoTypeSelectedMessage}
           styles={
@@ -98,8 +103,10 @@ export function AnimalBreedSelect<T extends FieldValues>({
 }
 
 function AnimalBreedMenu(props: MenuProps) {
+  const { t } = useTranslation();
+
   //@ts-ignore
   if (props.selectProps.showNoTypeSelectedMessage)
-    return <components.Menu {...props}>Please select a type first</components.Menu>;
+    return <components.Menu {...props}>{t('ADD_ANIMAL.NO_TYPE_SELECTED_MESSAGE')}</components.Menu>;
   return <components.Menu {...props} />;
 }

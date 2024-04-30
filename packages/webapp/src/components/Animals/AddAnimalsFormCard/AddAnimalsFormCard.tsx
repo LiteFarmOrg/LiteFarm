@@ -32,6 +32,7 @@ import {
   type AnimalTypeSelectProps,
   type Option,
 } from './AnimalSelect';
+import { useTranslation } from 'react-i18next';
 
 // Should be moved up to parent component that calls useForm
 type FormFields = {
@@ -63,17 +64,18 @@ export default function AddAnimalsFormCard({
   isActive,
 }: AddAnimalsFormCardProps) {
   const { control, watch, register } = useFormContext<FormFields>();
+  const { t } = useTranslation();
   const watchAnimalCount = watch('count') || 0;
   const watchAnimalType = watch('type');
 
   return (
     <Card className={styles.form} isActive={isActive}>
       <div className={styles.formHeader}>
-        <Text>Add animal to your inventory</Text>
+        <Text>{t('ADD_ANIMAL.ADD_TO_INVENTORY')}</Text>
         {showRemoveButton && (
           <TextButton className={styles.removeBtn} onClick={onRemoveButtonClick}>
             {' '}
-            <XIcon /> remove
+            <XIcon /> {t('common:REMOVE')}
           </TextButton>
         )}
       </div>
@@ -95,7 +97,7 @@ export default function AddAnimalsFormCard({
           name="count"
           control={control}
           defaultValue={0}
-          label="count"
+          label={t('common:COUNT')}
           className={styles.countInput}
           allowDecimal={false}
           showStepper
@@ -113,13 +115,18 @@ export default function AddAnimalsFormCard({
         />
       </div>
       <Checkbox
-        label="Create individual animal profiles"
-        tooltipContent="tooltip content"
+        label={t('ADD_ANIMAL.CREATE_INDIVIDUAL_PROFILES')}
+        tooltipContent={t('ADD_ANIMAL.CREATE_INDIVIDUAL_PROFILES_TOOLTIP')}
         hookFormRegister={register('createIndividualProfiles')}
         onChange={(e) => onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked)}
       />
       {/* @ts-ignore */}
-      <Input label="Group name" optional hookFormRegister={register('group')} />
+      <Input
+        label={t('ADD_ANIMAL.GROUP_NAME')}
+        optional
+        placeholder={t('ADD_ANIMAL.GROUP_NAME_PLACEHOLDER')}
+        hookFormRegister={register('group')}
+      />
     </Card>
   );
 }

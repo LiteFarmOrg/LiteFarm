@@ -34,7 +34,6 @@ export type NumberInputProps<T extends FieldValues> = UseControllerProps<T> &
      * Controls visibility of stepper.
      */
     showStepper?: boolean;
-
     className?: string;
   };
 

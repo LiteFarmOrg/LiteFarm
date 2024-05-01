@@ -16,57 +16,26 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
 import ImagePicker, { type ImagePickerProps } from '../../components/ImagePicker';
-import { useController, useForm } from 'react-hook-form';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<ImagePickerProps> = {
   title: 'Components/ImagePicker',
   component: ImagePicker,
-  decorators: [
-    ...componentDecorators,
-    (Story) => {
-      const { control, resetField } = useForm({ mode: 'onChange' });
-      const { field } = useController({ control, name: 'image' });
-
-      const handleSelectImage = (imageFile: any) => {
-        field.onChange(imageFile);
-      };
-
-      const handleRemoveImage = () => {
-        resetField('image');
-      };
-      const props = { label: 'Image', handleSelectImage, handleRemoveImage };
-      return <Story {...props} />;
-    },
-  ],
+  decorators: componentDecorators,
+  args: {
+    label: 'Image',
+    onSelectImage: () => console.log('select'),
+    onRemoveImage: () => console.log('remove'),
+  },
 };
 export default meta;
 
 type Story = StoryObj<typeof ImagePicker>;
 
-export const Default: Story = {
-  render: (args, context) => {
-    const { label, handleSelectImage, handleRemoveImage } = context;
-    return (
-      <ImagePicker
-        label={label}
-        onSelectImage={handleSelectImage}
-        onRemoveImage={handleRemoveImage}
-      />
-    );
-  },
-};
+export const Default: Story = {};
 
 export const WithDefaultUrl: Story = {
-  render: (args, context) => {
-    const { label, handleSelectImage, handleRemoveImage } = context;
-    return (
-      <ImagePicker
-        label={label}
-        onSelectImage={handleSelectImage}
-        onRemoveImage={handleRemoveImage}
-        defaultUrl="/src/assets/images/certification/Farmland.svg"
-      />
-    );
+  args: {
+    defaultUrl: '/src/assets/images/certification/Farmland.svg',
   },
 };

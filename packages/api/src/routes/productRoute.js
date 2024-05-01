@@ -19,6 +19,7 @@ const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
 import productController from './../controllers/productController.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
+import { checkProductValidity } from '../middleware/validation/checkProductValidity.js';
 
 // Get the crop on a bed
 router.get(
@@ -29,9 +30,17 @@ router.get(
 
 router.post(
   '/',
-  hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:product']),
+  checkProductValidity(),
   productController.addProduct(),
+);
+
+router.patch(
+  '/:product_id',
+  hasFarmAccess({ params: 'product_id' }),
+  checkScope(['edit:product']),
+  checkProductValidity(),
+  productController.updateProduct(),
 );
 
 export default router;

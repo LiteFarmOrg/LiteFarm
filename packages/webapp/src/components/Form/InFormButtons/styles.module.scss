@@ -1,0 +1,57 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusText {
+  font-size: 16px;
+  color: var(--Colors-Neutral-Neutral-300);
+}
+
+.informationalText {
+  margin-top: 0;
+  text-align: center;
+  color: var(--Colors-Neutral-Neutral-300);
+}
+
+.buttons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.button {
+  min-height: 32px;
+  height: 32px;
+  font-size: 14px;
+}
+
+.confirmButton {
+  padding: 8px 12px;
+  color: var(--Colors-Neutral-Neutral-900);
+  border: 1px solid var(--Colors-Neutral-Neutral-900);
+
+  &:disabled {
+    color: var(--Colors-Neutral-Neutral-100);
+    border: 1px solid var(--Colors-Neutral-Neutral-100);
+  }
+}

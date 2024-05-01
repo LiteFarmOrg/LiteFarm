@@ -48,6 +48,7 @@ const Input = ({
   currency,
   stepper = false,
   className = '',
+  trigger,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -71,6 +72,8 @@ const Input = ({
     input.current.value = '';
     onChange?.({ target: input.current });
     hookFormRegister?.onChange({ target: input.current });
+    // Manually trigger validation against the new value ''
+    trigger?.(name);
     setShowError(false);
   };
 
@@ -277,6 +280,7 @@ Input.propTypes = {
   min: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   placeholder: PropTypes.string,
   className: PropTypes.string,
+  trigger: PropTypes.func,
 };
 
 export default Input;

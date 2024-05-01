@@ -6,9 +6,28 @@
     "ANIMALS_UNSPECIFIED_one": "MISSING",
     "ANIMALS_UNSPECIFIED_many": "MISSING",
     "ANIMALS_UNSPECIFIED_other": "MISSING",
+    "GENERAL_DETAILS": "MISSING",
+    "ORIGIN": "MISSING",
+    "OTHER_DETAILS": "MISSING",
     "OUT_OF_COUNT_one": "MISSING",
     "OUT_OF_COUNT_many": "MISSING",
     "OUT_OF_COUNT_other": "MISSING",
+    "PLACEHOLDER": {
+      "BATCH_NAME": "MISSING",
+      "DAM": "MISSING",
+      "MERCHANT": "MISSING",
+      "NAME": "MISSING",
+      "ORGANIC_STATUS": "MISSING",
+      "OTHER_DETAILS": "MISSING",
+      "PRICE": "MISSING",
+      "SIRE": "MISSING",
+      "TAG_COLOUR": "MISSING",
+      "TAG_NUMBER": "MISSING",
+      "TAG_PLACEMENT": "MISSING",
+      "TAG_PLACEMENT_INFO": "MISSING",
+      "TAG_TYPE": "MISSING",
+      "TAG_TYPE_INFO": "MISSING"
+    },
     "REMOVE_CONFIRM": "MISSING",
     "SELECT_SEXES": "MISSING",
     "SEX_DETAIL": "MISSING",
@@ -28,7 +47,9 @@
       "BATCH_SUMMARY_COUNT_other": "MISSING",
       "HERE_IS_SUMMARY": "MISSING",
       "MAIN": "MISSING"
-    }
+    },
+    "UNIQUE_DETAILS": "MISSING",
+    "USED_FOR_REPRODUCTION": "MISSING"
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Une adresse est requise",
@@ -198,6 +219,24 @@
     "ANIMAL_LOCATIONS": "MISSING",
     "ANIMAL_SEXES": "MISSING",
     "ANIMAL_TYPE": "MISSING",
+    "ATTRIBUTE": {
+      "ANIMAL_IMAGE": "MISSING",
+      "BATCH_IMAGE": "MISSING",
+      "BATCH_NAME": "MISSING",
+      "DAM": "MISSING",
+      "DATE_OF_BIRTH": "MISSING",
+      "MERCHANT": "MISSING",
+      "ORGANIC_STATUS": "MISSING",
+      "OTHER_DETAILS_ANIMAL": "MISSING",
+      "OTHER_DETAILS_BATCH": "MISSING",
+      "SIRE": "MISSING",
+      "TAG_COLOUR": "MISSING",
+      "TAG_NUMBER": "MISSING",
+      "TAG_PLACEMENT": "MISSING",
+      "TAG_PLACEMENT_INFO": "MISSING",
+      "TAG_TYPE": "MISSING",
+      "WEANING_DATE": "MISSING"
+    },
     "BATCH": "MISSING",
     "FILTER": {
       "BATCHES": "MISSING",
@@ -1935,6 +1974,13 @@
     "CANT_FIND": "Oups\u00a0! Nous n'avons pas réussi a  trouver cela.",
     "MAYBE_LATER": "Espérons le trouver plus tard.",
     "UNKNOWN_RECORD": "Enregistrement inconnu"
+  },
+  "UPLOADER": {
+    "CHANGE_IMAGE": "Changer image",
+    "CLICK_TO_UPLOAD": "Cliquer pour télécharger",
+    "DRAG_DROP": "ou glisser déposer",
+    "REMOVE_IMAGE": "Supprimer image",
+    "UPLOAD_IMAGE": "Ajouter une image"
   },
   "WAGE": {
     "ERROR": "Le salaire doit être un nombre décimal valide et non négatif",

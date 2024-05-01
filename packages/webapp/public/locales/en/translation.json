@@ -4,8 +4,27 @@
     "ANIMALS_TOTAL_other": "{{count}} animals total",
     "ANIMALS_UNSPECIFIED_one": "{{count}} unspecified",
     "ANIMALS_UNSPECIFIED_other": "{{count}} unspecified",
+    "GENERAL_DETAILS": "General details",
+    "ORIGIN": "Origin",
+    "OTHER_DETAILS": "Other details",
     "OUT_OF_COUNT_one": "{{animalNumber}} out of {{count}}",
     "OUT_OF_COUNT_other": "{{animalNumber}} out of {{count}}",
+    "PLACEHOLDER": {
+      "BATCH_NAME": "Type in the batch name",
+      "DAM": "Type in a dam",
+      "MERCHANT": "Type in a merchant",
+      "NAME": "Type in a name",
+      "ORGANIC_STATUS": "What's the organic status?",
+      "OTHER_DETAILS": "Enter a description",
+      "PRICE": "How much did it cost?",
+      "SIRE": "Type in a sire",
+      "TAG_COLOUR": "What colour is the tag?",
+      "TAG_NUMBER": "Type in the tag number",
+      "TAG_PLACEMENT": "Where is the tag located?",
+      "TAG_PLACEMENT_INFO": "Tell us where the tag is",
+      "TAG_TYPE": "What is the tag type?",
+      "TAG_TYPE_INFO": "Please describe your tag type"
+    },
     "REMOVE_CONFIRM": "Do you really want to remove?",
     "SELECT_SEXES": "Select sexes",
     "SEX_DETAIL": "Sex detail",
@@ -23,7 +42,9 @@
       "BATCH_SUMMARY_COUNT_other": "{{count}} batches",
       "HERE_IS_SUMMARY": "Here is a summary of your added animals:",
       "MAIN": "You successfully added {{animalCount}} {{and}} {{batchCount}} to your inventory."
-    }
+    },
+    "UNIQUE_DETAILS": "Unique details",
+    "USED_FOR_REPRODUCTION": "Used for reproduction?"
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",
@@ -193,6 +214,24 @@
     "ANIMAL_LOCATIONS": "Location",
     "ANIMAL_SEXES": "Sex",
     "ANIMAL_TYPE": "Type",
+    "ATTRIBUTE": {
+      "ANIMAL_IMAGE": "Animal image",
+      "BATCH_IMAGE": "Batch image",
+      "BATCH_NAME": "Batch name",
+      "DAM": "Dam",
+      "DATE_OF_BIRTH": "Date of birth",
+      "MERCHANT": "Merchant",
+      "ORGANIC_STATUS": "Organic status",
+      "OTHER_DETAILS_ANIMAL": "Other animal details",
+      "OTHER_DETAILS_BATCH": "Batch details",
+      "SIRE": "Sire",
+      "TAG_COLOUR": "Tag colour",
+      "TAG_NUMBER": "Tag number",
+      "TAG_PLACEMENT": "Tag placement",
+      "TAG_PLACEMENT_INFO": "Specify tag placement",
+      "TAG_TYPE": "Tag type",
+      "WEANING_DATE": "Weaning date"
+    },
     "BATCH": "Batch",
     "FILTER": {
       "BATCHES": "Batches",
@@ -1926,6 +1965,13 @@
     "CANT_FIND": "Oops! We weren’t able to find that.",
     "MAYBE_LATER": "Maybe it’ll turnip later.",
     "UNKNOWN_RECORD": "Unknown record"
+  },
+  "UPLOADER": {
+    "CHANGE_IMAGE": "Change Image",
+    "CLICK_TO_UPLOAD": "Click to upload",
+    "DRAG_DROP": "or drag and drop",
+    "REMOVE_IMAGE": "Remove Image",
+    "UPLOAD_IMAGE": "Upload Image"
   },
   "WAGE": {
     "ERROR": "Wage must be a valid, non-negative decimal number",

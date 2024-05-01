@@ -6,9 +6,28 @@
     "ANIMALS_UNSPECIFIED_one": "MISSING",
     "ANIMALS_UNSPECIFIED_many": "MISSING",
     "ANIMALS_UNSPECIFIED_other": "MISSING",
+    "GENERAL_DETAILS": "MISSING",
+    "ORIGIN": "MISSING",
+    "OTHER_DETAILS": "MISSING",
     "OUT_OF_COUNT_one": "MISSING",
     "OUT_OF_COUNT_many": "MISSING",
     "OUT_OF_COUNT_other": "MISSING",
+    "PLACEHOLDER": {
+      "BATCH_NAME": "MISSING",
+      "DAM": "MISSING",
+      "MERCHANT": "MISSING",
+      "NAME": "MISSING",
+      "ORGANIC_STATUS": "MISSING",
+      "OTHER_DETAILS": "MISSING",
+      "PRICE": "MISSING",
+      "SIRE": "MISSING",
+      "TAG_COLOUR": "MISSING",
+      "TAG_NUMBER": "MISSING",
+      "TAG_PLACEMENT": "MISSING",
+      "TAG_PLACEMENT_INFO": "MISSING",
+      "TAG_TYPE": "MISSING",
+      "TAG_TYPE_INFO": "MISSING"
+    },
     "REMOVE_CONFIRM": "MISSING",
     "SELECT_SEXES": "MISSING",
     "SEX_DETAIL": "MISSING",
@@ -24,7 +43,9 @@
       "ALL_DONE": "MISSING",
       "HERE_IS_SUMMARY": "MISSING",
       "MAIN": "MISSING"
-    }
+    },
+    "UNIQUE_DETAILS": "MISSING",
+    "USED_FOR_REPRODUCTION": "MISSING"
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "MISSING",
@@ -178,6 +199,24 @@
     "ANIMAL_LOCATIONS": "MISSING",
     "ANIMAL_SEXES": "MISSING",
     "ANIMAL_TYPE": "MISSING",
+    "ATTRIBUTE": {
+      "ANIMAL_IMAGE": "MISSING",
+      "BATCH_IMAGE": "MISSING",
+      "BATCH_NAME": "MISSING",
+      "DAM": "MISSING",
+      "DATE_OF_BIRTH": "MISSING",
+      "MERCHANT": "MISSING",
+      "ORGANIC_STATUS": "MISSING",
+      "OTHER_DETAILS_ANIMAL": "MISSING",
+      "OTHER_DETAILS_BATCH": "MISSING",
+      "SIRE": "MISSING",
+      "TAG_COLOUR": "MISSING",
+      "TAG_NUMBER": "MISSING",
+      "TAG_PLACEMENT": "MISSING",
+      "TAG_PLACEMENT_INFO": "MISSING",
+      "TAG_TYPE": "MISSING",
+      "WEANING_DATE": "MISSING"
+    },
     "BATCH": "MISSING",
     "FILTER": {
       "BATCHES": "MISSING",
@@ -1724,6 +1763,13 @@
     "CANT_FIND": "MISSING",
     "MAYBE_LATER": "MISSING",
     "UNKNOWN_RECORD": "MISSING"
+  },
+  "UPLOADER": {
+    "CHANGE_IMAGE": "Cambiar imagen",
+    "CLICK_TO_UPLOAD": "Clickee para subir",
+    "DRAG_DROP": "o arrastre y suelte",
+    "REMOVE_IMAGE": "Eliminar imagen",
+    "UPLOAD_IMAGE": "Subir imagen"
   },
   "WAGE": {
     "ERROR": "MISSING",

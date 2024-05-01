@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (productModel.js) is part of LiteFarm.
+ *  Copyright (c) 2021-2024 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -44,6 +44,13 @@ class ProductModel extends baseModel {
           enum: ['soil_amendment_task', 'pest_control_task', 'cleaning_task'],
         },
         farm_id: { type: 'string' },
+        n: { type: ['number', 'null'] },
+        p: { type: ['number', 'null'] },
+        k: { type: ['number', 'null'] },
+        npk_unit: {
+          type: ['string', 'null'],
+          enum: ['ratio', 'percent', null],
+        },
         ...this.baseProperties,
       },
       additionalProperties: false,

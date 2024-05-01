@@ -55,13 +55,28 @@ describe('Product Tests', () => {
       .end(callback);
   }
 
+  async function patchRequest(data, product_id, { user_id, farm_id }) {
+    return await chai
+      .request(server)
+      .patch(`/product/${product_id}`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data);
+  }
+
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
 
-  function getFakeFertilizer(farm_id = farm.farm_id) {
-    const fertilizer = mocks.fakeFertilizer();
-    return { ...fertilizer, farm_id };
+  async function createProductInDatabase(mainFarm, properties) {
+    const [product] = await mocks.productFactory(
+      {
+        promisedFarm: [mainFarm],
+      },
+      properties,
+    );
+    return product;
   }
 
   afterAll(async (done) => {
@@ -166,9 +181,10 @@ describe('Product Tests', () => {
       });
     });
 
-    describe('Post fertilizer authorization tests', () => {
-      test('Owner should post and get product', async (done) => {
-        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+    test('All users should be able to post and get a product', async (done) => {
+      const allUserRoles = [1, 2, 3, 5];
+      for (const role of allUserRoles) {
+        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(role));
         prod.farm_id = userFarm.farm_id;
         postProductRequest(prod, userFarm, async (err, res) => {
           expect(res.status).toBe(201);
@@ -179,33 +195,141 @@ describe('Product Tests', () => {
           expect(productsSaved.length).toBe(1);
           done();
         });
+      }
+    });
+
+    test('should return 400 if n, p, or k value is provided without npk_unit', async (done) => {
+      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+      const npkProduct = mocks.fakeProduct({ farm_id: userFarm.farm_id, n: 70, p: 30, k: 30 });
+
+      postProductRequest(npkProduct, userFarm, (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('should return 400 if npk_unit is percent and n + p + k > 100', async (done) => {
+      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+      const npkProduct = mocks.fakeProduct({
+        farm_id: userFarm.farm_id,
+        n: 70,
+        p: 30,
+        k: 20,
+        npk_unit: 'percent',
       });
 
-      test('Manager should post and get a product', async (done) => {
-        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(2));
-        prod.farm_id = userFarm.farm_id;
-        postProductRequest(prod, userFarm, async (err, res) => {
-          expect(res.status).toBe(201);
-          const products = await productModel
-            .query()
-            .context({ showHidden: true })
-            .where('farm_id', userFarm.farm_id);
-          expect(products.length).toBe(1);
-          done();
-        });
+      postProductRequest(npkProduct, userFarm, (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('should return 409 conflict if a product is created with the same name as an existing product', async (done) => {
+      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+      const fertilizerProductA = mocks.fakeProduct({
+        name: 'Fertilizer Product A',
+        type: 'soil_amendment_task',
       });
 
-      test('should return 403 status if product  is posted by worker', async (done) => {
-        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(3));
-        prod.farm_id = userFarm.farm_id;
-        postProductRequest(prod, userFarm, async (err, res) => {
-          expect(res.status).toBe(403);
-          expect(res.error.text).toBe(
-            'User does not have the following permission(s): add:product',
-          );
-          done();
-        });
+      await createProductInDatabase(userFarm, fertilizerProductA);
+
+      postProductRequest(fertilizerProductA, userFarm, (err, res) => {
+        expect(res.status).toBe(409);
+        done();
       });
+    });
+  });
+
+  describe('Update product', () => {
+    test('All users should be able to patch product', async () => {
+      const allUserRoles = [1, 2, 3, 5];
+
+      for (const role of allUserRoles) {
+        const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm(role));
+
+        const origProduct = await createProductInDatabase(userFarm);
+
+        const res = await patchRequest(
+          {
+            supplier: 'UBC Botanical Garden',
+          },
+          origProduct.product_id,
+          userFarm,
+        );
+
+        expect(res.status).toBe(204);
+
+        const [updatedProduct] = await productModel
+          .query()
+          .where({ product_id: origProduct.product_id });
+
+        expect(updatedProduct.supplier).toBe('UBC Botanical Garden');
+      }
+    });
+
+    test('should return 400 if n, p, or k value is patched without npk_unit', async () => {
+      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+      const origProduct = await createProductInDatabase(userFarm);
+
+      const res = await patchRequest(
+        {
+          n: 70,
+          p: 30,
+          k: 30,
+        },
+        origProduct.product_id,
+        userFarm,
+      );
+      expect(res.status).toBe(400);
+    });
+
+    test('should return 400 if patched npk_unit is percent and patched n + p + k > 100', async () => {
+      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+      const origProduct = await createProductInDatabase(userFarm);
+
+      const res = await patchRequest(
+        {
+          n: 70,
+          p: 30,
+          k: 30,
+          npk_unit: 'percent',
+        },
+        origProduct.product_id,
+        userFarm,
+      );
+      expect(res.status).toBe(400);
+    });
+
+    test('should return 409 conflict if a product is patched to a name that conflicts with an existing product', async () => {
+      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+      const fertilizerProductA = mocks.fakeProduct({
+        name: 'Fertilizer Product A',
+        type: 'soil_amendment_task',
+      });
+
+      await createProductInDatabase(userFarm, fertilizerProductA);
+
+      const fertilizerProductB = mocks.fakeProduct({
+        name: 'Fertilizer Product B',
+        type: 'soil_amendment_task',
+      });
+
+      const origProduct = await createProductInDatabase(userFarm, fertilizerProductB);
+
+      const res = await patchRequest(
+        {
+          name: 'Fertilizer Product A',
+        },
+        origProduct.product_id,
+        userFarm,
+      );
+      expect(res.status).toBe(409);
     });
   });
 });

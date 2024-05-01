@@ -14,9 +14,9 @@
  */
 
 import baseController from '../controllers/baseController.js';
-
 import ProductModel from '../models/productModel.js';
 import { transaction, Model } from 'objection';
+import { handleObjectionError } from '../util/errorCodes.js';
 
 const productController = {
   getProductsByFarm() {
@@ -43,17 +43,34 @@ const productController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
+        const { farm_id } = req.headers;
         const data = req.body;
-        data.product_translation_key = data.name;
-        const result = await baseController.postWithResponse(ProductModel, data, req, { trx });
+
+        const result = await baseController.postWithResponse(
+          ProductModel,
+          { ...data, farm_id },
+          req,
+          { trx },
+        );
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
-        //handle more exceptions
-        await trx.rollback();
-        res.status(400).json({
-          error,
-        });
+        await handleObjectionError(error, res, trx);
+      }
+    };
+  },
+  updateProduct() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const { farm_id } = req.headers;
+        const { product_id } = req.params;
+        const data = req.body;
+        await baseController.patch(ProductModel, product_id, { ...data, farm_id }, req, { trx });
+        await trx.commit();
+        res.status(204).send();
+      } catch (error) {
+        await handleObjectionError(error, res, trx);
       }
     };
   },

@@ -16,6 +16,7 @@
 import { transaction } from 'objection';
 import { handleObjectionError } from '../../util/errorCodes.js';
 import ProductModel from '../../models/productModel.js';
+import { checkAndTrimString } from '../../util/util.js';
 
 export function checkProductValidity() {
   return async (req, res, next) => {
@@ -33,6 +34,13 @@ export function checkProductValidity() {
     if (req.body.npk_unit === 'percent' && req.body.n + req.body.p + req.body.k > 100) {
       return res.status(400).send('percent npk values must not exceed 100');
     }
+
+    // Null empty strings
+    ['name', 'supplier'].forEach((key) => {
+      if (req.body[key]) {
+        req.body[key] = checkAndTrimString(req.body[key]);
+      }
+    });
 
     const trx = await transaction.start(ProductModel.knex());
 

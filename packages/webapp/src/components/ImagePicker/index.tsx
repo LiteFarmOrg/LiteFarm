@@ -19,7 +19,6 @@ import { AddLink } from '../Typography';
 import PureFilePickerWrapper from '../Form/FilePickerWrapper';
 import TextButton from '../Form/Button/TextButton';
 import InputBaseLabel from '../Form/InputBase/InputBaseLabel';
-import { MediaWithAuthentication } from '../../containers/MediaWithAuthentication';
 import { ReactComponent as CameraIcon } from '../../assets/images/farm-profile/camera.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/trash.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/farm-profile/edit.svg';
@@ -82,11 +81,7 @@ export default function ImagePicker({
       {label && <InputBaseLabel label={label} optional={optional} />}
       {previewUrl ? (
         <div className={styles.imageContainer}>
-          {previewUrl === defaultUrl ? (
-            <MediaWithAuthentication fileUrls={[defaultUrl]} alt="image thumbnail" />
-          ) : (
-            <img src={previewUrl} alt="image preview" />
-          )}
+          <img src={previewUrl} alt="image preview" />
           <div className={styles.imageActions}>
             <PureFilePickerWrapper onChange={handleFileInputChange} accept="image/*">
               <TextButton type="button">

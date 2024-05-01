@@ -34,23 +34,30 @@ export function checkProductValidity() {
       return res.status(400).send('percent npk values must not exceed 100');
     }
 
-    // Check uniqueness for POST
     const trx = await transaction.start(ProductModel.knex());
+
+    // Check name uniqueness
     try {
       const { farm_id } = req.headers;
       const { product_id } = req.params;
+      let { type, name } = req.body;
 
-      if (!product_id) {
-        const existingRecord = await ProductModel.query(trx)
-          .where({ farm_id })
-          .andWhere({ type: req.body.type })
-          .andWhere({ name: req.body.name })
-          .whereNotDeleted();
+      if (product_id) {
+        const currentRecord = await ProductModel.query(trx).findById(product_id);
+        type = type ?? currentRecord.type;
+        name = name ?? currentRecord.name;
+      }
 
-        if (existingRecord.length) {
-          await trx.rollback();
-          return res.status(409).send('Product with this name already exists');
-        }
+      const existingRecord = await ProductModel.query(trx)
+        .where({ farm_id })
+        .andWhere({ type })
+        .andWhere({ name })
+        .whereNot({ product_id: product_id ?? null })
+        .whereNotDeleted();
+
+      if (existingRecord.length) {
+        await trx.rollback();
+        return res.status(409).send('Product with this name already exists');
       }
 
       await trx.commit();

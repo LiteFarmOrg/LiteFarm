@@ -27,7 +27,7 @@ const meta: Meta<typeof CompositionInputs> = {
   args: {
     unitName: 'compositionUnit',
     unitOptions: [
-      { label: '%', value: 'percentage' },
+      { label: '%', value: 'percent' },
       {
         label: <RatioOptionIcon />,
         value: 'ratio',
@@ -53,7 +53,7 @@ export const Default: Story = {
       defaultValues: {
         compositionUnit: {
           label: '%',
-          value: 'percentage',
+          value: 'percent',
         },
         N: null,
         P: null,
@@ -117,7 +117,7 @@ export const Disabled: Story = {
       defaultValues: {
         compositionUnit: {
           label: '%',
-          value: 'percentage',
+          value: 'percent',
         },
         N: 20,
         P: 30,
@@ -147,7 +147,7 @@ export const SwitchModes: Story = {
       defaultValues: {
         compositionUnit: {
           label: '%',
-          value: 'percentage',
+          value: 'percent',
         },
       },
     });

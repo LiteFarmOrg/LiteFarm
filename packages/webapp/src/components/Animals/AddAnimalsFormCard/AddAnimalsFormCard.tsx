@@ -21,7 +21,7 @@ import SexDetails from '../../Form/SexDetails';
 import styles from './styles.module.scss';
 import Input from '../../Form/Input';
 import Card from '../../CardV2';
-import { Text } from '../../Typography';
+import { Main } from '../../Typography';
 import TextButton from '../../Form/Button/TextButton';
 import { ReactComponent as XIcon } from '../../../assets/images/x-icon.svg';
 import { type Details as SexDetailsType } from '../../Form/SexDetails/SexDetailsPopover';
@@ -73,7 +73,7 @@ export default function AddAnimalsFormCard({
   return (
     <Card className={styles.form} isActive={isActive}>
       <div className={styles.formHeader}>
-        <Text>{t('ADD_ANIMAL.ADD_TO_INVENTORY')}</Text>
+        <Main>{t('ADD_ANIMAL.ADD_TO_INVENTORY')}</Main>
         {showRemoveButton && (
           <TextButton className={styles.removeBtn} onClick={onRemoveButtonClick}>
             {' '}

@@ -91,7 +91,7 @@ export default function AddAnimalsFormCard({
         name="breed"
         control={control}
         breedOptions={breedOptions}
-        showNoTypeSelectedMessage={!watchAnimalType}
+        isTypeSelected={!!watchAnimalType}
       />
 
       <div className={styles.countAndSexDetailsWrapper}>

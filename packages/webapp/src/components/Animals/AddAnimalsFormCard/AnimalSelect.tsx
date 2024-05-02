@@ -15,7 +15,6 @@
 
 import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
 import { CreatableSelect } from '../../Form/ReactSelect';
-import { components, MenuProps } from 'react-select';
 import { useTranslation } from 'react-i18next';
 
 export type Option = {
@@ -26,11 +25,6 @@ export type Option = {
 export type AnimalTypeSelectProps = {
   typeOptions: Option[];
   onTypeChange?: (Option: Option | null) => void;
-};
-
-export type AnimalBreedSelectProps = {
-  breedOptions: Option[];
-  showNoTypeSelectedMessage: boolean;
 };
 
 export function AnimalTypeSelect<T extends FieldValues>({
@@ -59,11 +53,16 @@ export function AnimalTypeSelect<T extends FieldValues>({
   );
 }
 
+export type AnimalBreedSelectProps = {
+  breedOptions: Option[];
+  isTypeSelected: boolean;
+};
+
 export function AnimalBreedSelect<T extends FieldValues>({
   name,
   control,
   breedOptions,
-  showNoTypeSelectedMessage,
+  isTypeSelected,
 }: AnimalBreedSelectProps & UseControllerProps<T>) {
   const { t } = useTranslation();
   return (
@@ -74,39 +73,17 @@ export function AnimalBreedSelect<T extends FieldValues>({
         <CreatableSelect
           options={breedOptions}
           label={t('ADD_ANIMAL.BREED')}
-          placeholder={t('ADD_ANIMAL.BREED_PLACEHOLDER')}
-          //@ts-ignore
-          showNoTypeSelectedMessage={showNoTypeSelectedMessage}
-          styles={
-            showNoTypeSelectedMessage
-              ? {
-                  menu: (baseStyles) => ({
-                    ...baseStyles,
-                    boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-                    borderRadius: '4px',
-                    padding: '10px',
-                    color: 'var(--Colors-Neutral-Neutral-600)',
-                    fontSize: '16px',
-                    lineHeight: '20px',
-                    fontStyle: 'italic',
-                    fontWeight: 400,
-                  }),
-                }
-              : undefined
+          optional
+          controlShouldRenderValue={isTypeSelected}
+          placeholder={
+            isTypeSelected
+              ? t('ADD_ANIMAL.BREED_PLACEHOLDER')
+              : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')
           }
-          components={{ Menu: AnimalBreedMenu }}
+          isDisabled={!isTypeSelected}
           onChange={(option) => field.onChange(option)}
         />
       )}
     />
   );
-}
-
-function AnimalBreedMenu(props: MenuProps) {
-  const { t } = useTranslation();
-
-  //@ts-ignore
-  if (props.selectProps.showNoTypeSelectedMessage)
-    return <components.Menu {...props}>{t('ADD_ANIMAL.NO_TYPE_SELECTED_MESSAGE')}</components.Menu>;
-  return <components.Menu {...props} />;
 }

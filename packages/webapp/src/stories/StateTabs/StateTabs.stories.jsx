@@ -17,7 +17,18 @@ import { useState } from 'react';
 import StateTabs from '../../components/RouterTab/StateTab';
 import { componentDecorators } from '../Pages/config/Decorators';
 
-const meta = {
+const twoTabs = [
+  { key: 'WEIGHT', label: 'Weight' },
+  { key: 'APPLICATION_RATE', label: 'Application rate' },
+];
+
+const threeTabs = [
+  { key: 'WEIGHT', label: 'Weight' },
+  { key: 'APPLICATION_RATE', label: 'Application rate' },
+  { key: 'OTHER', label: 'Other' },
+];
+
+export default {
   title: 'Components/RouterTab/StateTabs',
   component: StateTabs,
   decorators: [
@@ -28,54 +39,22 @@ const meta = {
       return <Story state={state} setState={setState} />;
     },
   ],
-  args: {
-    state: 'WEIGHT',
-    tabs: [
-      { key: 'WEIGHT', label: 'Weight' },
-      { key: 'APPLICATION_RATE', label: 'Application rate' },
-    ],
+  args: { state: 'WEIGHT', tabs: twoTabs },
+  render: (args, context) => {
+    return <StateTabs {...args} {...context} />;
   },
 };
 
-export const Pill = {
-  render: (args, context) => {
-    return <StateTabs {...args} {...context} kind="pill" />;
-  },
-};
+export const Pill = {};
 
 export const PillThreeTabs = {
-  render: (args, context) => {
-    return (
-      <StateTabs
-        {...args}
-        {...context}
-        kind="pill"
-        tabs={[
-          { key: 'WEIGHT', label: 'Weight' },
-          { key: 'APPLICATION_RATE', label: 'Application rate' },
-          { key: 'OTHER', label: 'Other' },
-        ]}
-      />
-    );
-  },
+  args: { tabs: threeTabs },
 };
 
 export const Plane = {
-  render: (args, context) => {
-    return (
-      <>
-        <StateTabs {...args} {...context} kind="plane" />
-        <div
-          style={{
-            height: '100px',
-            border: '1px solid #d0d4db',
-            borderTop: 'none',
-            backgroundColor: '#fff',
-          }}
-        ></div>
-      </>
-    );
-  },
+  args: { variant: 'plane' },
 };
 
-export default meta;
+export const PlaneThreeTabs = {
+  args: { variant: 'plane', tabs: threeTabs },
+};

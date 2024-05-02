@@ -18,7 +18,7 @@ import { Semibold } from '../../Typography';
 import styles from '../styles.module.scss';
 import clsx from 'clsx';
 
-const KIND = {
+const VARIANT = {
   PILL: 'pill',
   PLANE: 'plane',
 };
@@ -34,21 +34,27 @@ const KIND = {
  * @param {string} props.state - The key corresponding to the currently selected tab.
  * @param {function} props.setState - A function to update the selected tab
  * @param {string} props.className - Optional CSS styling to applied to the tab container
- * @param {('pill'|'plane')} props.kind - Determines the style of the tabs.
+ * @param {('pill'|'plane')} props.variant - Determines the style of the tabs.
  *
  * @returns {React.Component} The rendered StateTab component.
  */
 
-export default function StateTab({ tabs, state, setState, className = '', kind = KIND.PILL }) {
+export default function StateTab({
+  tabs,
+  state,
+  setState,
+  className = '',
+  variant = VARIANT.PILL,
+}) {
   const isSelected = (key) => state === key;
-  const kindClassName = styles[kind];
+  const variantClassName = styles[variant];
 
   return (
-    <div className={clsx(styles.container, className, kindClassName)}>
+    <div className={clsx(styles.container, className, variantClassName)}>
       {tabs.map((tab, index) => (
         <Semibold
           key={index}
-          className={clsx(styles.tab, isSelected(tab.key) && styles.selected, kindClassName)}
+          className={clsx(styles.tab, isSelected(tab.key) && styles.selected, variantClassName)}
           onClick={() => !isSelected(tab.key) && setState(tab.key)}
           id={tab.label + index}
         >
@@ -69,5 +75,5 @@ StateTab.propTypes = {
   state: PropTypes.string.isRequired,
   setState: PropTypes.func.isRequired,
   className: PropTypes.string,
-  kind: PropTypes.oneOf(['pill', 'plane']),
+  variant: PropTypes.oneOf(['pill', 'plane']),
 };

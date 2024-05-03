@@ -15,7 +15,14 @@
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Controller, useController } from 'react-hook-form';
-import type { Control, FieldValues, Path, PathValue, UseFormGetValues } from 'react-hook-form';
+import type {
+  Control,
+  FieldValues,
+  Path,
+  PathValue,
+  UseFormGetValues,
+  UseFormWatch,
+} from 'react-hook-form';
 import ReactSelect from '../ReactSelect';
 import useReactSelectStyles from '../Unit/useReactSelectStyles';
 import useNumberInput from '../NumberInput/useNumberInput';
@@ -26,6 +33,7 @@ import styles from './styles.module.scss';
 
 type NumberInputWithSelectProps<T extends FieldValues> = {
   control: Control<T>;
+  watch: UseFormWatch<T>;
   getValues: UseFormGetValues<T>;
   name: Path<T>;
   unitName: string;
@@ -40,6 +48,7 @@ const REACT_SELECT_WIDTH = 44;
 
 const NumberInputWithSelect = <T extends FieldValues>({
   control,
+  watch,
   getValues,
   name,
   unitName,
@@ -50,6 +59,8 @@ const NumberInputWithSelect = <T extends FieldValues>({
   className,
 }: NumberInputWithSelectProps<T>) => {
   const { t } = useTranslation();
+  const unit = watch(unitName as Path<T>);
+
   const reactSelectStyles = useReactSelectStyles(disabled, {
     reactSelectWidth: REACT_SELECT_WIDTH,
   });
@@ -66,6 +77,7 @@ const NumberInputWithSelect = <T extends FieldValues>({
   reactSelectStyles.singleValue = (provided) => ({
     ...provided,
     color: 'var(--Colors-Neutral-Neutral-300, #98A1B1);',
+    paddingTop: unit?.value === 'ratio' ? '4px' : 0,
   });
   reactSelectStyles.option = (provided, state) => ({
     ...reactSelectDefaultStyles.option?.(provided, state),

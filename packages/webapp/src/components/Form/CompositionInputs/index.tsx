@@ -15,7 +15,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { Control } from 'react-hook-form';
-import type { FieldValues, Path, PathValue, UseFormGetValues } from 'react-hook-form';
+import type { FieldValues, Path, PathValue, UseFormGetValues, UseFormWatch } from 'react-hook-form';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import InputBaseLabel from '../InputBase/InputBaseLabel';
 import NumberInputWithSelect from './NumberInputWithSelect';
@@ -23,6 +23,7 @@ import styles from './styles.module.scss';
 
 type CompositionInputsProps<T extends FieldValues> = {
   control: Control<T>;
+  watch: UseFormWatch<T>;
   getValues: UseFormGetValues<T>;
   unitName: string;
   unitOptions: PathValue<T, Path<T>>[];
@@ -34,6 +35,7 @@ type CompositionInputsProps<T extends FieldValues> = {
 const CompositionInputs = <T extends FieldValues>({
   control,
   getValues,
+  watch,
   unitName,
   unitOptions,
   inputsInfo,
@@ -54,10 +56,11 @@ const CompositionInputs = <T extends FieldValues>({
               unitName={unitName}
               name={name as Path<T>}
               control={control}
+              watch={watch}
+              getValues={getValues}
               unitOptions={unitOptions}
               error={error}
               disabled={disabled}
-              getValues={getValues}
             />
           );
         })}

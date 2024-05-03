@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-input {
+.input input {
   all: unset;
   height: 100%;
   width: 100%;
@@ -55,7 +55,7 @@ input {
   color: var(--grey500);
 }
 
-input:focus::placeholder {
+.input input:focus::placeholder {
   color: transparent;
 }
 

@@ -136,6 +136,7 @@ import animalSexRoute from './routes/animalSexRoute.js';
 import animalOriginRoute from './routes/animalOriginRoute.js';
 import animalGroupRoute from './routes/animalGroupRoute.js';
 import animalRemovalReasonRoute from './routes/animalRemovalReasonRoute.js';
+import animalUseRoute from './routes/animalUseRoute.js';
 import cropRoutes from './routes/cropRoute.js';
 import cropVarietyRoutes from './routes/cropVarietyRoute.js';
 import fieldRoutes from './routes/fieldRoute.js';
@@ -288,6 +289,7 @@ app
   .use('/animal_origins', animalOriginRoute)
   .use('/animal_groups', animalGroupRoute)
   .use('/animal_removal_reasons', animalRemovalReasonRoute)
+  .use('/animal_uses', animalUseRoute)
   .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
   .use('/crop', cropRoutes)

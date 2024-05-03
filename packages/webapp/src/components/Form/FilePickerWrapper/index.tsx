@@ -53,5 +53,5 @@ PureFilePickerWrapper.propTypes = {
   style: PropTypes.object,
   onChange: PropTypes.func,
   children: PropTypes.node,
-  className: PropTypes.object,
+  className: PropTypes.string,
 };

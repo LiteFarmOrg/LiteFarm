@@ -21,22 +21,20 @@ import styles from './styles.module.scss';
 
 type CompositionInputsProps = {
   control: any;
+  getValues: any;
   unitName: string;
   unitOptions: { label: any; value: string }[];
   inputsInfo: { name: string; label: string }[];
-  initialValues?: {
-    [key in CompositionInputsProps['inputsInfo'][number]['name']]?: number;
-  };
   error?: string;
   disabled?: boolean;
 };
 
 const CompositionInputs = ({
   control,
+  getValues,
   unitName,
   unitOptions,
   inputsInfo,
-  initialValues = {},
   error = '',
   disabled = false,
 }: CompositionInputsProps) => {
@@ -57,7 +55,7 @@ const CompositionInputs = ({
               unitOptions={unitOptions}
               hasError={!!error}
               disabled={disabled}
-              initialValue={initialValues[name]}
+              getValues={getValues}
             />
           );
         })}

@@ -105,11 +105,6 @@ export const Default: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
-    initialValues: {
-      N: 20,
-      P: 30,
-      K: 50,
-    },
   },
   render: (args) => {
     const methods = useForm({

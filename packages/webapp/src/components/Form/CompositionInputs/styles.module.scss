@@ -20,18 +20,7 @@
 ----------------------------------------*/
 
 .inputWithSelectWrapper {
-  position: relative;
-
-  // NumberInput
-  label + div {
-    padding-right: 52px;
-  }
-
   &:focus-within {
-    label + div {
-      border-color: var(--inputActive);
-    }
-
     > div:nth-child(2) svg {
       color: var(--Colors-Neutral-Neutral-600);
     }
@@ -42,22 +31,26 @@
       color: var(--Colors-Accent---singles-Red-full);
     }
 
-    label + div {
+    &:not(:focus-within) .selectWrapper {
       border-color: var(--Colors-Accent---singles-Red-full);
     }
   }
 
   &.disabled {
-    label + div {
-      padding-right: 28px;
-      background-color: #fcfcff !important;
+    input {
+      color: var(--Colors-Neutral-Neutral-300);
+      @include truncateText();
+    }
 
-      input {
-        color: var(--Colors-Neutral-Neutral-300);
-        @include truncateText();
-      }
+    .selectWrapper {
+      border-left: none;
     }
   }
+}
+
+.selectWrapper {
+  margin-right: -8px;
+  border-left: 1px solid var(--grey400);
 }
 
 /*----------------------------------------

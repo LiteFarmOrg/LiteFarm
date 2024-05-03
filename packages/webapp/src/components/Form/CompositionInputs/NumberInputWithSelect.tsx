@@ -14,93 +14,110 @@
  */
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { Controller } from 'react-hook-form';
-import NumberInput from '../NumberInput';
+import { Controller, useController } from 'react-hook-form';
 import ReactSelect from '../ReactSelect';
 import useReactSelectStyles from '../Unit/useReactSelectStyles';
-import InputBaseLabel from '../InputBase/InputBaseLabel';
+import useNumberInput from '../NumberInput/useNumberInput';
+import InputBase from '../InputBase';
+import { Cross } from '../../Icons';
+import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import styles from './styles.module.scss';
 
 type NumberInputWithSelectProps = {
   control: any;
+  getValues: any;
   name: string;
   unitName: string;
   label: string;
   unitOptions: { label: any; value: string }[];
-  initialValue?: number;
   disabled?: boolean;
   hasError?: boolean;
   className?: string;
 };
 
+const REACT_SELECT_WIDTH = 44;
+
 const NumberInputWithSelect = ({
   control,
+  getValues,
   name,
   unitName,
   label,
   unitOptions,
-  initialValue,
   disabled,
   hasError,
   className,
 }: NumberInputWithSelectProps) => {
   const { t } = useTranslation();
   const reactSelectStyles = useReactSelectStyles(disabled, {
-    // when modifying this value, padding-right of NumberInput in the scss file should be adjusted together.
-    reactSelectWidth: 44,
+    reactSelectWidth: REACT_SELECT_WIDTH,
   });
   reactSelectStyles.control = (provided) => ({
     ...provided,
-    backgroundColor: '#F7F8FA',
     boxShadow: 'none',
-    boxSizing: 'border-box',
-    borderRadius: '0 4px 4px 0',
-    minHeight: '46px',
+    borderRadius: 0,
+    height: '46px',
     paddingLeft: disabled ? '4px' : '8px',
     fontSize: '16px',
     border: 'none',
+    background: 'inherit',
   });
   reactSelectStyles.singleValue = (provided) => ({
     ...provided,
-    color: 'var(--Colors-Neutral-Neutral-600)',
-    position: 'absolute',
-    left: 0,
-    top: 0,
+    color: 'var(--Colors-Neutral-Neutral-300, #98A1B1);',
+  });
+  reactSelectStyles.option = (provided, state) => ({
+    ...reactSelectDefaultStyles.option?.(provided, state),
+    color: 'var(--Colors-Neutral-Neutral-300, #98A1B1);',
+  });
+
+  const { field } = useController({ control, name });
+  const { inputProps, reset } = useNumberInput({
+    onChange: (value) => field.onChange(value),
+    initialValue: getValues(name),
+    max: 999999999,
   });
 
   return (
-    <div className={className}>
-      <InputBaseLabel label={label} optional />
-      <div
-        className={clsx(
-          styles.inputWithSelectWrapper,
-          hasError && styles.hasError,
-          disabled && styles.disabled,
-        )}
-      >
-        <NumberInput
-          initialValue={initialValue}
-          name={name}
-          control={control}
-          optional={true}
-          placeholder={disabled ? '' : t('common:ENTER_VALUE')}
-          disabled={disabled}
-        />
-        <Controller
-          control={control}
-          name={unitName}
-          render={({ field: { onChange, value } }) => (
-            <ReactSelect
-              options={unitOptions}
-              onChange={onChange}
-              value={value}
-              styles={{ ...(reactSelectStyles as any) }}
-              style={{ position: 'absolute', top: '1px', right: '1px' }}
-              isDisabled={disabled}
-            />
-          )}
-        />
-      </div>
+    <div
+      className={clsx(
+        styles.inputWithSelectWrapper,
+        hasError && styles.hasError,
+        disabled && styles.disabled,
+        className,
+      )}
+    >
+      <InputBase
+        {...inputProps}
+        label={label}
+        optional
+        placeholder={disabled ? '' : t('common:ENTER_VALUE')}
+        disabled={disabled}
+        error={hasError ? 'Error text that will not be shown' : ''}
+        showErrorText={false}
+        showResetIcon={false}
+        rightSection={
+          <>
+            {/* TODO */}
+            {hasError && <Cross isClickable onClick={reset} />}
+            <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
+              <Controller
+                control={control}
+                name={unitName}
+                render={({ field: { onChange, value } }) => (
+                  <ReactSelect
+                    options={unitOptions}
+                    onChange={onChange}
+                    value={value}
+                    styles={{ ...(reactSelectStyles as any) }}
+                    isDisabled={disabled}
+                  />
+                )}
+              />
+            </div>
+          </>
+        }
+      />
     </div>
   );
 };

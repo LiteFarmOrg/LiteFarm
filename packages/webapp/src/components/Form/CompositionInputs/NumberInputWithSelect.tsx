@@ -32,7 +32,7 @@ type NumberInputWithSelectProps<T extends FieldValues> = {
   label: string;
   unitOptions: PathValue<T, Path<T>>[];
   disabled?: boolean;
-  hasError?: boolean;
+  error?: string;
   className?: string;
 };
 
@@ -46,7 +46,7 @@ const NumberInputWithSelect = <T extends FieldValues>({
   label,
   unitOptions,
   disabled,
-  hasError,
+  error,
   className,
 }: NumberInputWithSelectProps<T>) => {
   const { t } = useTranslation();
@@ -73,7 +73,7 @@ const NumberInputWithSelect = <T extends FieldValues>({
   });
 
   const { field } = useController({ control, name });
-  const { inputProps, reset } = useNumberInput({
+  const { inputProps, update, numericValue } = useNumberInput({
     onChange: (value) => field.onChange(value),
     initialValue: getValues(name),
     max: 999999999,
@@ -83,7 +83,7 @@ const NumberInputWithSelect = <T extends FieldValues>({
     <div
       className={clsx(
         styles.inputWithSelectWrapper,
-        hasError && styles.hasError,
+        error && styles.hasError,
         disabled && styles.disabled,
         className,
       )}
@@ -94,13 +94,12 @@ const NumberInputWithSelect = <T extends FieldValues>({
         optional
         placeholder={disabled ? '' : t('common:ENTER_VALUE')}
         disabled={disabled}
-        error={hasError ? 'Error text that will not be shown' : ''}
+        error={error}
         showErrorText={false}
         showResetIcon={false}
         rightSection={
           <>
-            {/* TODO */}
-            {hasError && <Cross isClickable onClick={reset} />}
+            {error && numericValue ? <Cross isClickable onClick={() => update(NaN)} /> : null}
             <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
               <Controller
                 control={control}

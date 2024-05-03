@@ -55,7 +55,7 @@ const CompositionInputs = <T extends FieldValues>({
               name={name as Path<T>}
               control={control}
               unitOptions={unitOptions}
-              hasError={!!error}
+              error={error}
               disabled={disabled}
               getValues={getValues}
             />

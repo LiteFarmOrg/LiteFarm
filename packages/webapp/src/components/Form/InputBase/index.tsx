@@ -27,6 +27,7 @@ export type HTMLInputProps = ComponentPropsWithoutRef<'input'>;
 // props meant to be shared with other similar input components
 export type InputBaseSharedProps = InputBaseLabelProps & {
   showResetIcon?: boolean;
+  showErrorText?: boolean;
   onResetIconClick?: () => void;
   info?: string;
   error?: string;
@@ -54,6 +55,7 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
     mainSection,
     rightSection,
     showResetIcon = true,
+    showErrorText = true,
     onResetIconClick,
     classes,
     ...inputProps
@@ -84,7 +86,7 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
         />
       </label>
       {info && !error && <Info style={classes?.info}>{info}</Info>}
-      {error && (
+      {showErrorText && error && (
         <Error data-cy="error" style={classes?.errors}>
           {error}
         </Error>

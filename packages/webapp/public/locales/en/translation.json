@@ -61,6 +61,7 @@
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "ADD_PRODUCT": {
+    "COMPOSITION": "Composition",
     "PRESS_ENTER": "Type and press enter to add...",
     "PRODUCT_LABEL": "Product",
     "SUPPLIER_LABEL": "Supplier"

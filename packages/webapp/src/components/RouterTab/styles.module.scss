@@ -1,28 +1,94 @@
-.default {
-}
-
-.selected {
-  color: var(--teal700);
-  border: 1px solid var(--teal700);
-  border-radius: 19px;
-  height: 38px;
-  background: white;
-}
+/*
+ *  Copyright 2021-2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
 
 .container {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   background-color: var(--grey400);
-  height: 36px;
-  align-items: center;
-  border-radius: 18px;
+
+  &.pill {
+    height: 36px;
+    align-items: center;
+    border-radius: 18px;
+  }
+
+  &.plane {
+    height: 40px;
+    border-radius: 8px 8px 0 0;
+    background: var(--Colors-Neutral-Neutral-50);
+  }
 }
 
-.pill {
-  flex-grow: 1;
-  justify-content: center;
+.tab {
+  flex: 1;
   align-items: center;
   display: flex;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &.pill {
+    justify-content: center;
+  }
+
+  &.plane {
+    font-weight: 400;
+    color: var(--Colors-Neutral-Neutral-300);
+    border: solid 1px var(--Colors-Neutral-Neutral-50);
+    border-bottom: none;
+    padding: 0 16px;
+
+    &:first-child {
+      border-radius: 8px 0 0 0;
+    }
+    &:last-child {
+      border-radius: 0 8px 0 0;
+    }
+  }
+}
+
+.selected {
+  background: white;
+
+  &.pill {
+    color: var(--teal700);
+    border: 1px solid var(--teal700);
+    border-radius: 19px;
+    height: 38px;
+  }
+
+  &.plane {
+    border-radius: 0;
+    border: 1px solid var(--Colors-Neutral-Neutral-100);
+    border-bottom: none;
+    color: var(--Colors-Neutral-Neutral-900);
+    overflow: hidden;
+
+    &:after {
+      content: url('../../assets/images/check-in-circle.svg');
+      width: 24px;
+      height: 20px;
+      padding-left: 4px;
+    }
+  }
+}
+
+.tabText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

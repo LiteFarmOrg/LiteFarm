@@ -21,6 +21,7 @@ import InputBaseLabel, { InputBaseLabelProps } from '../InputBase/InputBaseLabel
 import { useTranslation } from 'react-i18next';
 import { ClearIndicator, MultiValueRemove } from './components';
 import scss from './styles.module.scss';
+import { MenuOpenDropdownIndicator } from './components';
 
 type CreatableSelectProps<
   Option = unknown,
@@ -79,7 +80,12 @@ const CreatableSelect = React.forwardRef((props, ref) => {
           ...(baseStyles as any),
           ...styles,
         }}
-        components={{ ClearIndicator, MultiValueRemove, ...components }}
+        components={{
+          ClearIndicator,
+          MultiValueRemove,
+          DropdownIndicator: MenuOpenDropdownIndicator,
+          ...components,
+        }}
         ref={ref}
         {...restProps}
       />

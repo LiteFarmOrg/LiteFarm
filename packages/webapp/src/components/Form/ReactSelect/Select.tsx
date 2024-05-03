@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import InputBaseLabel, { type InputBaseLabelProps } from '../InputBase/InputBaseLabel';
 import { styles as baseStyles } from './styles';
 import scss from './styles.module.scss';
-import { ClearIndicator, MultiValueRemove } from './components';
+import { ClearIndicator, MenuOpenDropdownIndicator, MultiValueRemove } from './components';
 
 type SelectProps<
   Option = unknown,
@@ -81,6 +81,7 @@ const Select = React.forwardRef((props, ref) => {
         components={{
           ClearIndicator,
           MultiValueRemove,
+          DropdownIndicator: MenuOpenDropdownIndicator,
           ...components,
         }}
         isSearchable={isSearchable ?? (options?.length ?? 0) > 8}

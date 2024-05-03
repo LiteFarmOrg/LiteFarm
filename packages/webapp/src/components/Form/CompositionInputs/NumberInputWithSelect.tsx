@@ -15,6 +15,7 @@
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Controller, useController } from 'react-hook-form';
+import type { Control, FieldValues, Path, PathValue, UseFormGetValues } from 'react-hook-form';
 import ReactSelect from '../ReactSelect';
 import useReactSelectStyles from '../Unit/useReactSelectStyles';
 import useNumberInput from '../NumberInput/useNumberInput';
@@ -23,13 +24,13 @@ import { Cross } from '../../Icons';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import styles from './styles.module.scss';
 
-type NumberInputWithSelectProps = {
-  control: any;
-  getValues: any;
-  name: string;
+type NumberInputWithSelectProps<T extends FieldValues> = {
+  control: Control<T>;
+  getValues: UseFormGetValues<T>;
+  name: Path<T>;
   unitName: string;
   label: string;
-  unitOptions: { label: any; value: string }[];
+  unitOptions: PathValue<T, Path<T>>[];
   disabled?: boolean;
   hasError?: boolean;
   className?: string;
@@ -37,7 +38,7 @@ type NumberInputWithSelectProps = {
 
 const REACT_SELECT_WIDTH = 44;
 
-const NumberInputWithSelect = ({
+const NumberInputWithSelect = <T extends FieldValues>({
   control,
   getValues,
   name,
@@ -47,7 +48,7 @@ const NumberInputWithSelect = ({
   disabled,
   hasError,
   className,
-}: NumberInputWithSelectProps) => {
+}: NumberInputWithSelectProps<T>) => {
   const { t } = useTranslation();
   const reactSelectStyles = useReactSelectStyles(disabled, {
     reactSelectWidth: REACT_SELECT_WIDTH,
@@ -103,7 +104,7 @@ const NumberInputWithSelect = ({
             <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
               <Controller
                 control={control}
-                name={unitName}
+                name={unitName as Path<T>}
                 render={({ field: { onChange, value } }) => (
                   <ReactSelect
                     options={unitOptions}

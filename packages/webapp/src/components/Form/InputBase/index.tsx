@@ -37,7 +37,7 @@ export type InputBaseSharedProps = InputBaseLabelProps & {
 } & Pick<HTMLInputProps, 'placeholder' | 'disabled'>;
 
 type InputBaseProps = InputBaseSharedProps &
-  Pick<InputBaseFieldProps, 'leftSection' | 'rightSection' | 'mainSection'> &
+  Pick<InputBaseFieldProps, 'leftSection' | 'rightSection' | 'mainSection' | 'resetIconPosition'> &
   HTMLInputProps;
 
 const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {

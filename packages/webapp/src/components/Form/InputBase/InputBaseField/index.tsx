@@ -24,10 +24,19 @@ export type InputBaseFieldProps = {
   rightSection?: ReactNode;
   isError?: boolean;
   resetIcon?: ReactElement;
+  resetIconPosition?: 'left' | 'right';
 } & HTMLInputProps;
 
 const InputBaseField = forwardRef<HTMLInputElement, InputBaseFieldProps>((props, ref) => {
-  const { isError, resetIcon, leftSection, mainSection, rightSection, ...inputProps } = props;
+  const {
+    isError,
+    resetIcon,
+    resetIconPosition = 'right',
+    leftSection,
+    mainSection,
+    rightSection,
+    ...inputProps
+  } = props;
 
   return (
     <div
@@ -42,7 +51,13 @@ const InputBaseField = forwardRef<HTMLInputElement, InputBaseFieldProps>((props,
       )}
       {mainSection || <input {...inputProps} ref={ref} />}
       {(!!resetIcon || rightSection) && (
-        <div className={clsx(styles.inputSection, styles.inputSectionRight)}>
+        <div
+          className={clsx(
+            styles.inputSection,
+            styles.inputSectionRight,
+            resetIconPosition === 'left' && styles.resetIconLeft,
+          )}
+        >
           {rightSection}
           {resetIcon}
         </div>

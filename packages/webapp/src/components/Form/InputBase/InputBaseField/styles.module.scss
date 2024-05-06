@@ -75,5 +75,9 @@
   }
   &Right {
     padding-left: 6px;
+
+    &.resetIconLeft {
+      flex-direction: row-reverse;
+    }
   }
 }

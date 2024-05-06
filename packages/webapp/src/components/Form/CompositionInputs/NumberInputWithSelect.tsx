@@ -27,7 +27,6 @@ import ReactSelect from '../ReactSelect';
 import useReactSelectStyles from '../Unit/useReactSelectStyles';
 import useNumberInput from '../NumberInput/useNumberInput';
 import InputBase from '../InputBase';
-import { Cross } from '../../Icons';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import styles from './styles.module.scss';
 
@@ -108,26 +107,24 @@ const NumberInputWithSelect = <T extends FieldValues>({
         disabled={disabled}
         error={error}
         showErrorText={false}
-        showResetIcon={false}
+        onResetIconClick={() => update(NaN)}
+        resetIconPosition="left"
         rightSection={
-          <>
-            {error && numericValue ? <Cross isClickable onClick={() => update(NaN)} /> : null}
-            <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
-              <Controller
-                control={control}
-                name={unitName as Path<T>}
-                render={({ field: { onChange, value } }) => (
-                  <ReactSelect
-                    options={unitOptions}
-                    onChange={onChange}
-                    value={value}
-                    styles={{ ...(reactSelectStyles as any) }}
-                    isDisabled={disabled}
-                  />
-                )}
-              />
-            </div>
-          </>
+          <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
+            <Controller
+              control={control}
+              name={unitName as Path<T>}
+              render={({ field: { onChange, value } }) => (
+                <ReactSelect
+                  options={unitOptions}
+                  onChange={onChange}
+                  value={value}
+                  styles={{ ...(reactSelectStyles as any) }}
+                  isDisabled={disabled}
+                />
+              )}
+            />
+          </div>
         }
       />
     </div>

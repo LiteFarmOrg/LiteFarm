@@ -12,44 +12,33 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { ReactElement } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { Controller, useController } from 'react-hook-form';
-import type {
-  Control,
-  FieldValues,
-  Path,
-  PathValue,
-  UseFormGetValues,
-  UseFormWatch,
-} from 'react-hook-form';
 import ReactSelect from '../ReactSelect';
 import useReactSelectStyles from '../Unit/useReactSelectStyles';
 import useNumberInput from '../NumberInput/useNumberInput';
 import InputBase from '../InputBase';
-import { Cross } from '../../Icons';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import styles from './styles.module.scss';
 
-type NumberInputWithSelectProps<T extends FieldValues> = {
-  control: Control<T>;
-  watch: UseFormWatch<T>;
-  getValues: UseFormGetValues<T>;
-  name: Path<T>;
-  unitName: string;
+type ReactSelectOption = { value: string; label: ReactElement | string };
+
+export type NumberInputWithSelectProps<T extends string, U extends string> = {
+  name: T;
+  unitName: U;
   label: string;
-  unitOptions: PathValue<T, Path<T>>[];
+  unitOptions: ReactSelectOption[];
   disabled?: boolean;
   error?: string;
   className?: string;
+  values?: { [K in T | U]?: number | ReactSelectOption | undefined };
+  onChange: (fieldName: T | U, value: number | ReactSelectOption) => void;
 };
 
 const REACT_SELECT_WIDTH = 44;
 
-const NumberInputWithSelect = <T extends FieldValues>({
-  control,
-  watch,
-  getValues,
+const NumberInputWithSelect = <T extends string, U extends string>({
   name,
   unitName,
   label,
@@ -57,9 +46,11 @@ const NumberInputWithSelect = <T extends FieldValues>({
   disabled,
   error,
   className,
-}: NumberInputWithSelectProps<T>) => {
+  onChange,
+  values = {},
+}: NumberInputWithSelectProps<T, U>) => {
   const { t } = useTranslation();
-  const unit = watch(unitName as Path<T>);
+  const unit = values[unitName] as ReactSelectOption;
 
   const reactSelectStyles = useReactSelectStyles(disabled, {
     reactSelectWidth: REACT_SELECT_WIDTH,
@@ -84,10 +75,9 @@ const NumberInputWithSelect = <T extends FieldValues>({
     color: 'var(--Colors-Neutral-Neutral-300, #98A1B1);',
   });
 
-  const { field } = useController({ control, name });
-  const { inputProps, update, numericValue } = useNumberInput({
-    onChange: (value) => field.onChange(value),
-    initialValue: getValues(name),
+  const { inputProps, update } = useNumberInput({
+    onChange: (value) => onChange(name, value),
+    initialValue: values[name] as number,
     max: 999999999,
   });
 
@@ -108,26 +98,18 @@ const NumberInputWithSelect = <T extends FieldValues>({
         disabled={disabled}
         error={error}
         showErrorText={false}
-        showResetIcon={false}
+        onResetIconClick={() => update(NaN)}
+        resetIconPosition="left"
         rightSection={
-          <>
-            {error && numericValue ? <Cross isClickable onClick={() => update(NaN)} /> : null}
-            <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
-              <Controller
-                control={control}
-                name={unitName as Path<T>}
-                render={({ field: { onChange, value } }) => (
-                  <ReactSelect
-                    options={unitOptions}
-                    onChange={onChange}
-                    value={value}
-                    styles={{ ...(reactSelectStyles as any) }}
-                    isDisabled={disabled}
-                  />
-                )}
-              />
-            </div>
-          </>
+          <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
+            <ReactSelect
+              options={unitOptions}
+              onChange={(value) => onChange(unitName, value as ReactSelectOption)}
+              value={unit}
+              styles={{ ...(reactSelectStyles as any) }}
+              isDisabled={disabled}
+            />
+          </div>
         }
       />
     </div>

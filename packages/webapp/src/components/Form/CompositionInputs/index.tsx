@@ -14,34 +14,27 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Control } from 'react-hook-form';
-import type { FieldValues, Path, PathValue, UseFormGetValues, UseFormWatch } from 'react-hook-form';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import InputBaseLabel from '../InputBase/InputBaseLabel';
-import NumberInputWithSelect from './NumberInputWithSelect';
+import NumberInputWithSelect, { NumberInputWithSelectProps } from './NumberInputWithSelect';
 import styles from './styles.module.scss';
 
-type CompositionInputsProps<T extends FieldValues> = {
-  control: Control<T>;
-  watch: UseFormWatch<T>;
-  getValues: UseFormGetValues<T>;
-  unitName: string;
-  unitOptions: PathValue<T, Path<T>>[];
-  inputsInfo: { name: string; label: string }[];
-  error?: string;
-  disabled?: boolean;
+type CompositionInputsProps<T extends string, U extends string> = Omit<
+  NumberInputWithSelectProps<T, U>,
+  'name' | 'label'
+> & {
+  inputsInfo: { name: T; label: string }[];
 };
 
-const CompositionInputs = <T extends FieldValues>({
-  control,
-  getValues,
-  watch,
+const CompositionInputs = <T extends string, U extends string>({
   unitName,
   unitOptions,
   inputsInfo,
   error = '',
   disabled = false,
-}: CompositionInputsProps<T>) => {
+  onChange,
+  values,
+}: CompositionInputsProps<T, U>) => {
   const { t } = useTranslation();
 
   return (
@@ -54,13 +47,12 @@ const CompositionInputs = <T extends FieldValues>({
               key={label}
               label={label}
               unitName={unitName}
-              name={name as Path<T>}
-              control={control}
-              watch={watch}
-              getValues={getValues}
+              name={name}
               unitOptions={unitOptions}
               error={error}
               disabled={disabled}
+              onChange={onChange}
+              values={values}
             />
           );
         })}

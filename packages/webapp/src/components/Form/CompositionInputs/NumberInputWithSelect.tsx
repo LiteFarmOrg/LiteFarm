@@ -22,7 +22,7 @@ import InputBase from '../InputBase';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import styles from './styles.module.scss';
 
-type Option = { value: string; label: ReactNode };
+export type Option = { value: string; label: ReactNode };
 
 export const UNIT = 'unit';
 

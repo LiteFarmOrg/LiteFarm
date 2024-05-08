@@ -86,7 +86,7 @@ const NumberInputWithSelect = ({
     color: 'var(--Colors-Neutral-Neutral-300, #98A1B1);',
   });
 
-  const { inputProps, update, clear } = useNumberInput({
+  const { inputProps, update, clear, numericValue } = useNumberInput({
     onChange: (value) => onChange(name, value),
     initialValue: values[name],
     max: 999999999,
@@ -94,11 +94,10 @@ const NumberInputWithSelect = ({
 
   useEffect(() => {
     // If the value is updated from the parent, update the visible value in the input.
-    // Should be able to compare different types (string and number).
-    if (inputProps.value != values[name]) {
+    if (numericValue !== values[name]) {
       update(values[name] || NaN);
     }
-  }, [inputProps.value, values[name]]);
+  }, [numericValue, values[name]]);
 
   return (
     <div

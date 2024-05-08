@@ -20,7 +20,7 @@ import { componentDecorators } from '../../Pages/config/Decorators';
 import CompositionInputs from '../../../components/Form/CompositionInputs';
 import Button from '../../../components/Form/Button';
 import { ReactComponent as RatioOptionIcon } from '../../../assets/images/ratio-option.svg';
-import { NPK } from '../../../components/Form/CompositionInputs/NumberInputWithSelect';
+import { NPK, Option } from '../../../components/Form/CompositionInputs/NumberInputWithSelect';
 
 const meta: Meta<typeof CompositionInputs> = {
   title: 'Components/CompositionInput',
@@ -108,9 +108,16 @@ export const Disabled: Story = {
 
 export const WithError: Story = {
   args: {
-    values: {},
     error:
       'Error message will appear here. Error message will appear here. Error message will appear here. Error message will appear here.',
+  },
+  render: (args) => {
+    const [values, setValues] = useState({});
+    const onChange = (name: string, value: number | Option | null) => {
+      setValues({ ...values, [name]: value });
+    };
+
+    return <CompositionInputs {...args} onChange={onChange} values={values} />;
   },
 };
 

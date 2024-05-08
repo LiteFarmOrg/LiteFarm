@@ -22,7 +22,7 @@ import InputBase from '../InputBase';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import styles from './styles.module.scss';
 
-type Option = { value: string; label: ReactNode };
+export type Option = { value: string; label: ReactNode };
 
 export const UNIT = 'unit';
 
@@ -86,18 +86,18 @@ const NumberInputWithSelect = ({
     color: 'var(--Colors-Neutral-Neutral-300, #98A1B1);',
   });
 
-  const { inputProps, update } = useNumberInput({
+  const { inputProps, update, clear, numericValue } = useNumberInput({
     onChange: (value) => onChange(name, value),
     initialValue: values[name],
     max: 999999999,
   });
 
   useEffect(() => {
-    // If the value is updated from the parent, update the actual value in the input
-    if (inputProps.value !== values[name]) {
+    // If the value is updated from the parent, update the visible value in the input.
+    if (numericValue !== values[name]) {
       update(values[name] || NaN);
     }
-  }, [inputProps.value, values[name]]);
+  }, [numericValue, values[name]]);
 
   return (
     <div
@@ -116,7 +116,7 @@ const NumberInputWithSelect = ({
         disabled={disabled}
         error={error}
         showErrorText={false}
-        onResetIconClick={() => update(NaN)}
+        onResetIconClick={clear}
         resetIconPosition="left"
         rightSection={
           <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>

@@ -351,7 +351,7 @@ const taskController = {
           const [task] = await TaskModel.query(trx)
             .withGraphFetched(
               `
-          [locations.[location_defaults], managementPlans, taskType, soil_amendment_task, irrigation_task.[irrigation_type],scouting_task,
+          [locations.[location_defaults], managementPlans, taskType, soil_amendment_task.[soil_amendment_task_products], irrigation_task.[irrigation_type],scouting_task,
           field_work_task.[field_work_task_type], cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
           `,
             )

@@ -200,6 +200,7 @@ export default function useNumberInput({
     numericValue,
     inputProps,
     reset: () => update(initialValue ?? NaN),
+    clear: () => update(NaN),
     update,
     increment,
     decrement,

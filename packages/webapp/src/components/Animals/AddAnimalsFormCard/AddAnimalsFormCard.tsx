@@ -76,7 +76,6 @@ export default function AddAnimalsFormCard({
         <Main>{t('ADD_ANIMAL.ADD_TO_INVENTORY')}</Main>
         {showRemoveButton && (
           <TextButton className={styles.removeBtn} onClick={onRemoveButtonClick}>
-            {' '}
             <XIcon /> {t('common:REMOVE')}
           </TextButton>
         )}

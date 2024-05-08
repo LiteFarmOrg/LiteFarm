@@ -86,15 +86,16 @@ const NumberInputWithSelect = ({
     color: 'var(--Colors-Neutral-Neutral-300, #98A1B1);',
   });
 
-  const { inputProps, update } = useNumberInput({
+  const { inputProps, update, clear } = useNumberInput({
     onChange: (value) => onChange(name, value),
     initialValue: values[name],
     max: 999999999,
   });
 
   useEffect(() => {
-    // If the value is updated from the parent, update the actual value in the input
-    if (inputProps.value !== values[name]) {
+    // If the value is updated from the parent, update the visible value in the input.
+    // Should be able to compare different types (string and number).
+    if (inputProps.value != values[name]) {
       update(values[name] || NaN);
     }
   }, [inputProps.value, values[name]]);
@@ -116,7 +117,7 @@ const NumberInputWithSelect = ({
         disabled={disabled}
         error={error}
         showErrorText={false}
-        onResetIconClick={() => update(NaN)}
+        onResetIconClick={clear}
         resetIconPosition="left"
         rightSection={
           <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>

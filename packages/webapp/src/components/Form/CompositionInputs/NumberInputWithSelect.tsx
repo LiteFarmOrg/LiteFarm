@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { ReactElement } from 'react';
+import { ReactNode, useEffect } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import ReactSelect from '../ReactSelect';
@@ -22,25 +22,36 @@ import InputBase from '../InputBase';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import styles from './styles.module.scss';
 
-type ReactSelectOption = { value: string; label: ReactElement | string };
+type Option = { value: string; label: ReactNode };
 
-export type NumberInputWithSelectProps<T extends string, U extends string> = {
-  name: T;
-  unitName: U;
+export const UNIT = 'unit';
+
+export enum NPK {
+  N = 'n',
+  P = 'p',
+  K = 'k',
+}
+
+export type NumberInputWithSelectProps = {
+  name: NPK;
   label: string;
-  unitOptions: ReactSelectOption[];
+  unitOptions: Option[];
   disabled?: boolean;
   error?: string;
   className?: string;
-  values?: { [K in T | U]?: number | ReactSelectOption | undefined };
-  onChange: (fieldName: T | U, value: number | ReactSelectOption) => void;
+  values?: {
+    [NPK.N]?: number | null;
+    [NPK.P]?: number | null;
+    [NPK.K]?: number | null;
+    [UNIT]?: Option;
+  };
+  onChange: (fieldName: string, value: number | Option | null) => void;
 };
 
 const REACT_SELECT_WIDTH = 44;
 
-const NumberInputWithSelect = <T extends string, U extends string>({
+const NumberInputWithSelect = ({
   name,
-  unitName,
   label,
   unitOptions,
   disabled,
@@ -48,9 +59,9 @@ const NumberInputWithSelect = <T extends string, U extends string>({
   className,
   onChange,
   values = {},
-}: NumberInputWithSelectProps<T, U>) => {
+}: NumberInputWithSelectProps) => {
   const { t } = useTranslation();
-  const unit = values[unitName] as ReactSelectOption;
+  const unit = values[UNIT];
 
   const reactSelectStyles = useReactSelectStyles(disabled, {
     reactSelectWidth: REACT_SELECT_WIDTH,
@@ -77,9 +88,16 @@ const NumberInputWithSelect = <T extends string, U extends string>({
 
   const { inputProps, update } = useNumberInput({
     onChange: (value) => onChange(name, value),
-    initialValue: values[name] as number,
+    initialValue: values[name],
     max: 999999999,
   });
+
+  useEffect(() => {
+    // If the value is updated from the parent, update the actual value in the input
+    if (inputProps.value !== values[name]) {
+      update(values[name] || NaN);
+    }
+  }, [inputProps.value, values[name]]);
 
   return (
     <div
@@ -104,7 +122,7 @@ const NumberInputWithSelect = <T extends string, U extends string>({
           <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
             <ReactSelect
               options={unitOptions}
-              onChange={(value) => onChange(unitName, value as ReactSelectOption)}
+              onChange={(value) => onChange(UNIT, value || null)}
               value={unit}
               styles={{ ...(reactSelectStyles as any) }}
               isDisabled={disabled}

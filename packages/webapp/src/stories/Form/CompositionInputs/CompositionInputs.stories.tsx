@@ -20,12 +20,12 @@ import { componentDecorators } from '../../Pages/config/Decorators';
 import CompositionInputs from '../../../components/Form/CompositionInputs';
 import Button from '../../../components/Form/Button';
 import { ReactComponent as RatioOptionIcon } from '../../../assets/images/ratio-option.svg';
+import { NPK } from '../../../components/Form/CompositionInputs/NumberInputWithSelect';
 
 const meta: Meta<typeof CompositionInputs> = {
   title: 'Components/CompositionInput',
   component: CompositionInputs,
   args: {
-    unitName: 'unit',
     unitOptions: [
       { label: '%', value: 'percent' },
       {
@@ -34,9 +34,9 @@ const meta: Meta<typeof CompositionInputs> = {
       },
     ],
     inputsInfo: [
-      { name: 'n', label: 'Nitrogen (N)' },
-      { name: 'p', label: 'Phosphorous (P)' },
-      { name: 'k', label: 'Potassium (K)' },
+      { name: NPK.N, label: 'Nitrogen (N)' },
+      { name: NPK.P, label: 'Phosphorous (P)' },
+      { name: NPK.K, label: 'Potassium (K)' },
     ],
   },
   decorators: [...componentDecorators],

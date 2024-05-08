@@ -34,15 +34,25 @@ import {
 } from './AnimalSelect';
 import { useTranslation } from 'react-i18next';
 
+const FIELD_NAMES = {
+  TYPE: 'type',
+  BREED: 'breed',
+  SEX_DETAILS: 'sexDetails',
+  COUNT: 'count',
+  CREATE_INDIVIDUAL_PROFILES: 'createIndividualProfiles',
+  GROUP: 'group',
+  BATCH: 'batch',
+} as const;
+
 // Should be moved up to parent component that calls useForm
 type FormFields = {
-  type?: Option;
-  breed?: Option;
-  sexDetails: SexDetailsType;
-  count?: number;
-  createIndividualProfiles?: boolean;
-  group?: string;
-  batch?: string;
+  [FIELD_NAMES.TYPE]?: Option;
+  [FIELD_NAMES.BREED]?: Option;
+  [FIELD_NAMES.SEX_DETAILS]: SexDetailsType;
+  [FIELD_NAMES.COUNT]?: number;
+  [FIELD_NAMES.CREATE_INDIVIDUAL_PROFILES]?: boolean;
+  [FIELD_NAMES.GROUP]?: string;
+  [FIELD_NAMES.BATCH]?: string;
 };
 
 type AddAnimalsFormCardProps = AnimalTypeSelectProps &

@@ -16,25 +16,21 @@
 import { useTranslation } from 'react-i18next';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import InputBaseLabel from '../InputBase/InputBaseLabel';
-import NumberInputWithSelect, { NumberInputWithSelectProps } from './NumberInputWithSelect';
+import NumberInputWithSelect, { NPK, NumberInputWithSelectProps } from './NumberInputWithSelect';
 import styles from './styles.module.scss';
 
-type CompositionInputsProps<T extends string, U extends string> = Omit<
-  NumberInputWithSelectProps<T, U>,
-  'name' | 'label'
-> & {
-  inputsInfo: { name: T; label: string }[];
+type CompositionInputsProps = Omit<NumberInputWithSelectProps, 'name' | 'label'> & {
+  inputsInfo: { name: NPK; label: string }[];
 };
 
-const CompositionInputs = <T extends string, U extends string>({
-  unitName,
+const CompositionInputs = ({
   unitOptions,
   inputsInfo,
   error = '',
   disabled = false,
   onChange,
   values,
-}: CompositionInputsProps<T, U>) => {
+}: CompositionInputsProps) => {
   const { t } = useTranslation();
 
   return (
@@ -46,7 +42,6 @@ const CompositionInputs = <T extends string, U extends string>({
             <NumberInputWithSelect
               key={label}
               label={label}
-              unitName={unitName}
               name={name}
               unitOptions={unitOptions}
               error={error}

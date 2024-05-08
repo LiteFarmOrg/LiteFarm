@@ -15,7 +15,7 @@
 
 import Model from './baseFormatModel.js';
 import taskModel from './taskModel.js';
-import productModel from './productModel.js';
+import soilAmendmentTaskProductsModel from './soilAmendmentTaskProductsModel.js';
 
 class SoilAmendmentTaskModel extends Model {
   static get tableName() {
@@ -40,12 +40,6 @@ class SoilAmendmentTaskModel extends Model {
           enum: ['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other'],
         },
         other_purpose: { type: ['string', 'null'] },
-        product_id: { type: 'integer', minimum: 0 },
-        product_quantity: { type: 'number' },
-        product_quantity_unit: {
-          type: 'string',
-          enum: ['g', 'lb', 'kg', 't', 'mt', 'oz', 'l', 'gal', 'ml', 'fl-oz'],
-        },
       },
       additionalProperties: false,
     };
@@ -65,12 +59,12 @@ class SoilAmendmentTaskModel extends Model {
           to: 'task.task_id',
         },
       },
-      product: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: productModel,
+      soil_amendment_task_products: {
+        relation: Model.HasManyRelation,
+        modelClass: soilAmendmentTaskProductsModel,
         join: {
-          from: 'soil_amendment_task.product_id',
-          to: 'product.product_id',
+          from: 'soil_amendment_task.task_id',
+          to: 'soil_amendment_task_products.task_id',
         },
       },
     };
@@ -90,6 +84,7 @@ class SoilAmendmentTaskModel extends Model {
       // relationMappings
       task: 'omit',
       product: 'omit',
+      soil_amendment_task_products: 'keep',
     };
   }
 }

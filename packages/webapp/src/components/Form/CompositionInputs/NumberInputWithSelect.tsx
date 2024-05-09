@@ -94,8 +94,11 @@ const NumberInputWithSelect = ({
 
   useEffect(() => {
     // If the value is updated from the parent, update the visible value in the input.
-    if (numericValue !== values[name]) {
-      update(values[name] || NaN);
+    const isNumericValueNumber = !isNaN(numericValue);
+    const isValueNumber = typeof values[name] === 'number';
+
+    if ((isNumericValueNumber || isValueNumber) && numericValue !== values[name]) {
+      update(values[name] ?? NaN);
     }
   }, [numericValue, values[name]]);
 

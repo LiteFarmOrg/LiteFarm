@@ -25,6 +25,29 @@ class SoilAmendmentTaskModel extends Model {
   static get idColumn() {
     return 'task_id';
   }
+
+  // Format purpose array to postgres format
+  async $beforeInsert(queryContext) {
+    await super.$beforeInsert(queryContext);
+    this.purpose = `{${this.purpose.join(',')}}`;
+  }
+
+  async $beforeUpdate(opt, queryContext) {
+    await super.$beforeUpdate(opt, queryContext);
+    this.purpose = `{${this.purpose.join(',')}}`;
+  }
+
+  // Format returned array to js array format
+  $parseDatabaseJson(json) {
+    json = super.$parseDatabaseJson(json);
+
+    if (json.purpose) {
+      json.purpose = json.purpose.slice(1, -1).split(',');
+    }
+
+    return json;
+  }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.
@@ -36,8 +59,11 @@ class SoilAmendmentTaskModel extends Model {
       properties: {
         task_id: { type: 'integer' },
         purpose: {
-          type: 'string',
-          enum: ['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other'],
+          type: ['array'],
+          items: {
+            type: 'string',
+            enum: ['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other'],
+          },
         },
         other_purpose: { type: ['string', 'null'] },
       },

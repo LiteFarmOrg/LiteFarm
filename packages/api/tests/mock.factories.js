@@ -1148,23 +1148,36 @@ async function soil_amendment_taskFactory(
 ) {
   const [task, product] = await Promise.all([promisedTask, promisedProduct]);
   const [{ task_id }] = task;
-  const [{ product_id }] = product;
   return knex('soil_amendment_task')
-    .insert({ task_id, product_id, ...soil_amendment_task })
+    .insert({
+      task_id,
+      ...soil_amendment_task,
+    })
     .returning('*');
 }
 
 function fakeSoilAmendmentTask(defaultData = {}) {
   return {
-    product_quantity: faker.datatype.number(),
-    purpose: faker.helpers.arrayElement([
-      'structure',
-      'moisture_retention',
-      'nutrient_availability',
-      'ph',
-      'other',
-    ]),
+    purpose: [
+      faker.helpers.arrayElement([
+        'structure',
+        'moisture_retention',
+        'nutrient_availability',
+        'ph',
+        'other',
+      ]),
+    ],
     ...defaultData,
+  };
+}
+
+function fakeSoilAmendmentTaskProduct(product_id) {
+  return {
+    product_id,
+    product_quantity: faker.datatype.number(),
+    product_quantity_unit: faker.helpers.arrayElement(['lb', 'kg']),
+    application_rate: faker.datatype.number(),
+    application_rate_unit: faker.helpers.arrayElement(['lb/ac', 'kg/ha']),
   };
 }
 
@@ -2480,6 +2493,7 @@ export default {
   fakeFieldWorkTask,
   soil_taskFactory,
   fakeSoilTask,
+  fakeSoilAmendmentTaskProduct,
   irrigation_taskFactory,
   fakeIrrigationTask,
   scouting_taskFactory,

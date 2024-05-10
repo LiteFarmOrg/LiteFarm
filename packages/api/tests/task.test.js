@@ -1024,8 +1024,7 @@ describe('Task tests', () => {
         productData = mocks.fakeProduct({ supplier: 'test' });
       });
       const fakeTaskData = {
-        soil_amendment_task: () =>
-          mocks.fakeSoilAmendmentTask({ product_id: product, product: productData }),
+        soil_amendment_task: () => mocks.fakeSoilAmendmentTask(),
         pest_control_task: () =>
           mocks.fakePestControlTask({ product_id: product, product: productData }),
         irrigation_task: () => mocks.fakeIrrigationTask(),
@@ -1407,9 +1406,19 @@ describe('Task tests', () => {
           planting_management_plan_id,
         }));
 
+        const [farmProduct] = await mocks.productFactory(
+          { promisedFarm: [{ farm_id }] },
+          mocks.fakeProduct({ type: 'soil_amendment_task' }),
+        );
+
         const data = {
           ...mocks.fakeTask({
-            soil_amendment_task: { ...fakeTaskData.soil_amendment_task() },
+            soil_amendment_task: {
+              ...fakeTaskData.soil_amendment_task(),
+              soil_amendment_task_products: [
+                mocks.fakeSoilAmendmentTaskProduct(farmProduct.product_id),
+              ],
+            },
             task_type_id,
             owner_user_id: user_id,
           }),
@@ -1457,9 +1466,19 @@ describe('Task tests', () => {
         const managementPlans = plantingManagementPlans.map(({ planting_management_plan_id }) => ({
           planting_management_plan_id,
         }));
+        const [farmProduct] = await mocks.productFactory(
+          { promisedFarm: [{ farm_id }] },
+          mocks.fakeProduct({ type: 'soil_amendment_task' }),
+        );
+
         const data = {
           ...mocks.fakeTask({
-            soil_amendment_task: { ...fakeTaskData.soil_amendment_task() },
+            soil_amendment_task: {
+              ...fakeTaskData.soil_amendment_task(),
+              soil_amendment_task_products: [
+                mocks.fakeSoilAmendmentTaskProduct(farmProduct.product_id),
+              ],
+            },
             task_type_id,
             owner_user_id: user_id,
             wage_at_moment: 50,
@@ -1788,9 +1807,6 @@ describe('Task tests', () => {
           const patched_soil_amendment_task = await knex('soil_amendment_task')
             .where({ task_id })
             .first();
-          expect(patched_soil_amendment_task.product_quantity).toBe(
-            new_soil_amendment_task.product_quantity,
-          );
           expect(patched_soil_amendment_task.purpose).toBe(new_soil_amendment_task.purpose);
           done();
         },

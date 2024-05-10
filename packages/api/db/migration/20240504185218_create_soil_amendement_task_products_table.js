@@ -25,7 +25,7 @@ export const up = async function (knex) {
     table.decimal('product_quantity', 36, 12);
     table.enu('product_quantity_unit', productQuantityUnits);
     table.decimal('application_rate', 36, 12);
-    table.enu('application_rate_unit', ['kg/ha', 'lb/acre']);
+    table.enu('application_rate_unit', ['kg/ha', 'lb/ac']);
 
     table.check(
       '?? IS NOT NULL AND ?? IS NULL OR ?? IS NULL AND ?? IS NOT NULL',

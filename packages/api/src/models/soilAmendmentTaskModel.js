@@ -26,15 +26,30 @@ class SoilAmendmentTaskModel extends Model {
     return 'task_id';
   }
 
-  // Format purpose array to postgres format
   async $beforeInsert(queryContext) {
     await super.$beforeInsert(queryContext);
+    // Format purpose array to postgres format
     this.purpose = `{${this.purpose.join(',')}}`;
+
+    if (!this.soil_amendment_task_products || this.soil_amendment_task_products.length === 0) {
+      throw new Error('soil_amendment_task_products is required');
+    }
   }
 
   async $beforeUpdate(opt, queryContext) {
     await super.$beforeUpdate(opt, queryContext);
-    this.purpose = `{${this.purpose.join(',')}}`;
+
+    if ('purpose' in this) {
+      // Format purpose array to postgres format
+      this.purpose = `{${this.purpose.join(',')}}`;
+    }
+
+    if (
+      'soil_amendment_task_products' in this &&
+      (!this.soil_amendment_task_products || this.soil_amendment_task_products.length === 0)
+    ) {
+      throw new Error('soil_amendment_task_products is required');
+    }
   }
 
   // Format returned array to js array format

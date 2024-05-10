@@ -24,7 +24,7 @@ import styles from './styles.module.scss';
 
 export type Option = { value: string; label: ReactNode };
 
-export const UNIT = 'unit';
+export const UNIT = 'npk_unit';
 
 export enum NPK {
   N = 'n',

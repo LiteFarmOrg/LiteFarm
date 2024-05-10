@@ -76,9 +76,9 @@ export default function AddAnimalsFormCard({
 }: AddAnimalsFormCardProps) {
   const { control, watch, register } = useFormContext<FormFields>();
   const { t } = useTranslation();
-  const watchAnimalCount = watch('count') || 0;
-  const watchAnimalType = watch('type');
-  const shouldCreateIndividualProfiles = watch('createIndividualProfiles');
+  const watchAnimalCount = watch(FIELD_NAMES.COUNT) || 0;
+  const watchAnimalType = watch(FIELD_NAMES.TYPE);
+  const shouldCreateIndividualProfiles = watch(FIELD_NAMES.CREATE_INDIVIDUAL_PROFILES);
 
   return (
     <Card className={styles.form} isActive={isActive}>
@@ -91,13 +91,13 @@ export default function AddAnimalsFormCard({
         )}
       </div>
       <AnimalTypeSelect
-        name="type"
+        name={FIELD_NAMES.TYPE}
         control={control}
         typeOptions={typeOptions}
         onTypeChange={onTypeChange}
       />
       <AnimalBreedSelect
-        name="breed"
+        name={FIELD_NAMES.BREED}
         control={control}
         breedOptions={breedOptions}
         isTypeSelected={!!watchAnimalType}
@@ -105,7 +105,7 @@ export default function AddAnimalsFormCard({
 
       <div className={styles.countAndSexDetailsWrapper}>
         <NumberInput
-          name="count"
+          name={FIELD_NAMES.COUNT}
           control={control}
           defaultValue={0}
           label={t('common:COUNT')}
@@ -114,7 +114,7 @@ export default function AddAnimalsFormCard({
           showStepper
         />
         <Controller
-          name="sexDetails"
+          name={FIELD_NAMES.SEX_DETAILS}
           control={control}
           render={({ field }) => (
             <SexDetails
@@ -128,7 +128,7 @@ export default function AddAnimalsFormCard({
       <Checkbox
         label={t('ADD_ANIMAL.CREATE_INDIVIDUAL_PROFILES')}
         tooltipContent={t('ADD_ANIMAL.CREATE_INDIVIDUAL_PROFILES_TOOLTIP')}
-        hookFormRegister={register('createIndividualProfiles')}
+        hookFormRegister={register(FIELD_NAMES.CREATE_INDIVIDUAL_PROFILES)}
         onChange={(e) => onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked)}
       />
       {shouldCreateIndividualProfiles ? (
@@ -137,7 +137,7 @@ export default function AddAnimalsFormCard({
           label={t('ADD_ANIMAL.GROUP_NAME')}
           optional
           placeholder={t('ADD_ANIMAL.GROUP_NAME_PLACEHOLDER')}
-          hookFormRegister={register('group')}
+          hookFormRegister={register(FIELD_NAMES.GROUP)}
         />
       ) : (
         // @ts-ignore
@@ -145,7 +145,7 @@ export default function AddAnimalsFormCard({
           label={t('ADD_ANIMAL.BATCH_NAME')}
           optional
           placeholder={t('ADD_ANIMAL.BATCH_NAME_PLACEHOLDER')}
-          hookFormRegister={register('batch')}
+          hookFormRegister={register(FIELD_NAMES.BATCH)}
         />
       )}
     </Card>

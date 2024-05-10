@@ -1380,7 +1380,7 @@ describe('Task tests', () => {
         });
       });
 
-      test('should create a task (i.e soilamendment)  with multiple management plans', async (done) => {
+      test('should create a task (i.e soil amendment) with multiple management plans', async (done) => {
         const { user_id, farm_id, location_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement = await Promise.all(
           [...Array(3)].map(async () =>
@@ -1431,7 +1431,7 @@ describe('Task tests', () => {
         });
       });
 
-      test('should create a task (i.e soilamendment) and override wage', async (done) => {
+      test('should create a task (i.e soil amendment) and override wage', async (done) => {
         const { user_id, farm_id, location_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement = await Promise.all(
           [...Array(3)].map(async () =>
@@ -1483,7 +1483,7 @@ describe('Task tests', () => {
         });
       });
 
-      test('should create a task (i.e soilamendment) and patch a product', async (done) => {
+      test('should create a task (i.e pest control) and patch a product', async (done) => {
         const { user_id, farm_id, location_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement = await Promise.all(
           [...Array(3)].map(async () =>
@@ -1509,13 +1509,13 @@ describe('Task tests', () => {
         const managementPlans = plantingManagementPlans.map(({ planting_management_plan_id }) => ({
           planting_management_plan_id,
         }));
-        const soilAmendmentProduct = mocks.fakeProduct();
-        soilAmendmentProduct.name = 'soilProduct';
+        const pestControlProduct = mocks.fakeProduct();
+        pestControlProduct.name = 'pestProduct';
         const data = {
           ...mocks.fakeTask({
-            soil_amendment_task: {
-              ...fakeTaskData.soil_amendment_task(),
-              product: soilAmendmentProduct,
+            pest_control_task: {
+              ...fakeTaskData.pest_control_task(),
+              product: pestControlProduct,
             },
             task_type_id,
             owner_user_id: user_id,
@@ -1525,10 +1525,10 @@ describe('Task tests', () => {
           managementPlans,
         };
 
-        postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', data, async (err, res) => {
+        postTaskRequest({ user_id, farm_id }, 'pest_control_task', data, async (err, res) => {
           expect(res.status).toBe(201);
           const { task_id } = res.body;
-          const { product_id } = res.body.soil_amendment_task;
+          const { product_id } = res.body.pest_control_task;
           const createdTask = await knex('task').where({ task_id }).first();
           expect(createdTask).toBeDefined();
           const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id }).first();
@@ -1538,12 +1538,12 @@ describe('Task tests', () => {
           const isTaskRelatedToManagementPlans = await knex('management_tasks').where({ task_id });
           expect(isTaskRelatedToManagementPlans.length).toBe(3);
           const specificProduct = await knex('product').where({ product_id }).first();
-          expect(specificProduct.name).toBe('soilProduct');
+          expect(specificProduct.name).toBe('pestProduct');
           done();
         });
       });
 
-      test('should create a task (i.e soilamendment) and create a product', async (done) => {
+      test('should create a task (i.e pest control) and create a product', async (done) => {
         const { user_id, farm_id, location_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement = await Promise.all(
           [...Array(3)].map(async () =>
@@ -1569,14 +1569,14 @@ describe('Task tests', () => {
         const managementPlans = plantingManagementPlans.map(({ planting_management_plan_id }) => ({
           planting_management_plan_id,
         }));
-        const soilAmendmentProduct = mocks.fakeProduct();
-        soilAmendmentProduct.name = 'soilProduct2';
-        soilAmendmentProduct.farm_id = farm_id;
+        const pestControlProduct = mocks.fakeProduct();
+        pestControlProduct.name = 'pestProduct2';
+        pestControlProduct.farm_id = farm_id;
         const data = {
           ...mocks.fakeTask({
-            soil_amendment_task: {
-              ...fakeTaskData.soil_amendment_task(),
-              product: soilAmendmentProduct,
+            pest_control_task: {
+              ...fakeTaskData.pest_control_task(),
+              product: pestControlProduct,
               product_id: null,
             },
             task_type_id,
@@ -1587,10 +1587,10 @@ describe('Task tests', () => {
           managementPlans,
         };
 
-        postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', data, async (err, res) => {
+        postTaskRequest({ user_id, farm_id }, 'pest_control_task', data, async (err, res) => {
           expect(res.status).toBe(201);
           const { task_id } = res.body;
-          const { product_id } = res.body.soil_amendment_task;
+          const { product_id } = res.body.pest_control_task;
           const createdTask = await knex('task').where({ task_id }).first();
           expect(createdTask).toBeDefined();
           const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id }).first();
@@ -1600,7 +1600,7 @@ describe('Task tests', () => {
           const isTaskRelatedToManagementPlans = await knex('management_tasks').where({ task_id });
           expect(isTaskRelatedToManagementPlans.length).toBe(3);
           const specificProduct = await knex('product').where({ product_id }).first();
-          expect(specificProduct.name).toBe('soilProduct2');
+          expect(specificProduct.name).toBe('pestProduct2');
           done();
         });
       });
@@ -1731,11 +1731,11 @@ describe('Task tests', () => {
           { user_id: another_id, farm_id },
           {
             ...fakeCompletionData,
-            soil_amendment_task: fakeTaskData.soil_amendment_task(),
+            pest_control_task: fakeTaskData.pest_control_task(),
             assignee_user_id: user_id,
           },
           task_id,
-          'soil_amendment_task',
+          'pest_control_task',
           async (err, res) => {
             expect(res.status).toBe(403);
             done();
@@ -2079,7 +2079,7 @@ describe('Task tests', () => {
         },
       );
     });
-    test('should complete a task (i.e soilamendment) with multiple management plans', async (done) => {
+    test('should complete a task (i.e pest control task) with multiple management plans', async (done) => {
       const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
       const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
@@ -2122,7 +2122,7 @@ describe('Task tests', () => {
         promisedTask: [{ task_id }],
         promisedField: [{ location_id }],
       });
-      await mocks.soil_amendment_taskFactory({ promisedTask: [{ task_id }] });
+      await mocks.pest_control_taskFactory({ promisedTask: [{ task_id }] });
 
       await mocks.management_tasksFactory({
         promisedTask: [{ task_id }],
@@ -2137,16 +2137,16 @@ describe('Task tests', () => {
         promisedPlantingManagementPlan: [managementPlans[2]],
       });
 
-      const new_soil_amendment_task = fakeTaskData.soil_amendment_task();
+      const new_pest_control_task = fakeTaskData.pest_control_task();
 
       completeTaskRequest(
         { user_id, farm_id },
         {
           ...fakeCompletionData,
-          soil_amendment_task: { task_id, ...new_soil_amendment_task },
+          pest_control_task: { task_id, ...new_pest_control_task },
         },
         task_id,
-        'soil_amendment_task',
+        'pest_control_task',
         async (err, res) => {
           expect(res.status).toBe(200);
           const completed_task = await knex('task').where({ task_id }).first();
@@ -2154,13 +2154,15 @@ describe('Task tests', () => {
           expect(completed_task.duration).toBe(duration);
           expect(completed_task.happiness).toBe(happiness);
           expect(completed_task.completion_notes).toBe(notes);
-          const patched_soil_amendment_task = await knex('soil_amendment_task')
+          const patched_pest_control_task = await knex('pest_control_task')
             .where({ task_id })
             .first();
-          expect(patched_soil_amendment_task.product_quantity).toBe(
-            new_soil_amendment_task.product_quantity,
+          expect(patched_pest_control_task.product_quantity).toBe(
+            new_pest_control_task.product_quantity,
           );
-          expect(patched_soil_amendment_task.purpose).toBe(new_soil_amendment_task.purpose);
+          expect(patched_pest_control_task.control_method).toBe(
+            new_pest_control_task.control_method,
+          );
           const management_plan_1 = await knex('management_plan')
             .where({ management_plan_id: promisedManagement[0][0].management_plan_id })
             .first();

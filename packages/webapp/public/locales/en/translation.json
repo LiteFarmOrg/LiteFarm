@@ -61,9 +61,12 @@
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "ADD_PRODUCT": {
+    "BUTTON_WARNING": "Any changes will affect all tasks involving this product",
     "COMPOSITION": "Composition",
+    "EDIT_PRODUCT_DETAILS": "Edit product details",
     "PRESS_ENTER": "Type and press enter to add...",
     "PRODUCT_LABEL": "Product",
+    "SAVE_PRODUCT": "Save product",
     "SUPPLIER_LABEL": "Supplier"
   },
   "ADD_TASK": {

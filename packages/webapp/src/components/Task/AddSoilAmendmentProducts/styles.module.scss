@@ -13,6 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+// (Buttons)
+.editButton {
+  width: fit-content;
+  align-self: center;
+}
+
 // (useProductOptions)
 .productOption {
   display: flex;

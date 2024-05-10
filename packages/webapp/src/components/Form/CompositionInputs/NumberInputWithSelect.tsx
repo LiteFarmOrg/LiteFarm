@@ -32,6 +32,11 @@ export enum NPK {
   K = 'k',
 }
 
+export enum Unit {
+  PERCENT = 'percent',
+  RATIO = 'ratio',
+}
+
 export type NumberInputWithSelectProps = {
   name: NPK;
   label: string;
@@ -43,9 +48,9 @@ export type NumberInputWithSelectProps = {
     [NPK.N]?: number | null;
     [NPK.P]?: number | null;
     [NPK.K]?: number | null;
-    [UNIT]?: Option;
+    [UNIT]?: Unit;
   };
-  onChange: (fieldName: string, value: number | Option | null) => void;
+  onChange: (fieldName: string, value: number | string | null) => void;
 };
 
 const REACT_SELECT_WIDTH = 44;
@@ -79,7 +84,7 @@ const NumberInputWithSelect = ({
   reactSelectStyles.singleValue = (provided) => ({
     ...provided,
     color: 'var(--Colors-Neutral-Neutral-300, #98A1B1);',
-    paddingTop: unit?.value === 'ratio' ? '4px' : 0,
+    paddingTop: unit === Unit.RATIO ? '4px' : 0,
   });
   reactSelectStyles.option = (provided, state) => ({
     ...reactSelectDefaultStyles.option?.(provided, state),
@@ -125,8 +130,8 @@ const NumberInputWithSelect = ({
           <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
             <ReactSelect
               options={unitOptions}
-              onChange={(value) => onChange(UNIT, value || null)}
-              value={unit}
+              onChange={(option) => onChange(UNIT, option?.value || null)}
+              value={unitOptions.find(({ value }) => value === unit)}
               styles={{ ...(reactSelectStyles as any) }}
               isDisabled={disabled}
             />

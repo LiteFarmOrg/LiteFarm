@@ -20,17 +20,17 @@ import { componentDecorators } from '../../Pages/config/Decorators';
 import CompositionInputs from '../../../components/Form/CompositionInputs';
 import Button from '../../../components/Form/Button';
 import { ReactComponent as RatioOptionIcon } from '../../../assets/images/ratio-option.svg';
-import { NPK, Option } from '../../../components/Form/CompositionInputs/NumberInputWithSelect';
+import { NPK, Unit } from '../../../components/Form/CompositionInputs/NumberInputWithSelect';
 
 const meta: Meta<typeof CompositionInputs> = {
   title: 'Components/CompositionInput',
   component: CompositionInputs,
   args: {
     unitOptions: [
-      { label: '%', value: 'percent' },
+      { label: '%', value: Unit.PERCENT },
       {
         label: <RatioOptionIcon />,
-        value: 'ratio',
+        value: Unit.RATIO,
       },
     ],
     inputsInfo: [
@@ -52,10 +52,7 @@ export const Default: Story = {
       mode: 'onChange',
       defaultValues: {
         composition: {
-          unit: {
-            label: '%',
-            value: 'percent',
-          },
+          unit: Unit.PERCENT,
           n: undefined,
           p: undefined,
           k: undefined,
@@ -71,7 +68,7 @@ export const Default: Story = {
           validate: (value) => {
             const { n, p, k, unit } = value;
             return (
-              unit.value === 'percent' &&
+              unit === Unit.PERCENT &&
               (n || 0) + (p || 0) + (k || 0) > 100 &&
               'The total percentage of N, P, and K must not exceed 100%. Please adjust your values.'
             );
@@ -101,7 +98,7 @@ export const Disabled: Story = {
       n: 20,
       p: 30,
       k: 50,
-      unit: { label: '%', value: 'percent' },
+      unit: Unit.PERCENT,
     },
   },
 };
@@ -113,7 +110,7 @@ export const WithError: Story = {
   },
   render: (args) => {
     const [values, setValues] = useState({});
-    const onChange = (name: string, value: number | Option | null) => {
+    const onChange = (name: string, value: number | string | null) => {
       setValues({ ...values, [name]: value });
     };
 
@@ -129,10 +126,7 @@ export const SwitchModes: Story = {
       mode: 'onBlur',
       defaultValues: {
         composition: {
-          unit: {
-            label: '%',
-            value: 'percent',
-          },
+          unit: Unit.PERCENT,
         },
       },
     });

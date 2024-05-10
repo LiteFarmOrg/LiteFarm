@@ -36,11 +36,16 @@ class SoilAmendmentTaskProducts extends Model {
 
       properties: {
         task_id: { type: 'integer' },
-        product_id: { type: 'integer', minimum: 0 },
+        product_id: { type: 'integer' },
         product_quantity: { type: 'number' },
         product_quantity_unit: {
           type: 'string',
           enum: ['g', 'lb', 'kg', 't', 'mt', 'oz'],
+        },
+        application_rate: { type: 'number' },
+        application_rate_unit: {
+          type: 'string',
+          enum: ['kg/ha', 'lb/ac'],
         },
       },
       additionalProperties: false,

@@ -78,9 +78,12 @@
     "TELL_US_ABOUT_YOUR_FARM": "Parlez-nous de votre exploitation"
   },
   "ADD_PRODUCT": {
+    "BUTTON_WARNING": "MISSING",
     "COMPOSITION": "MISSING",
+    "EDIT_PRODUCT_DETAILS": "MISSING",
     "PRESS_ENTER": "Tapez et appuyez sur Entrée pour ajouter...",
     "PRODUCT_LABEL": "Produit",
+    "SAVE_PRODUCT": "MISSING",
     "SUPPLIER_LABEL": "Fournisseur"
   },
   "ADD_TASK": {

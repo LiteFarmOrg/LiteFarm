@@ -22,15 +22,15 @@ export const up = async function (knex) {
     table.increments('id').primary();
     table.integer('task_id').references('task_id').inTable('soil_amendment_task');
     table.integer('product_id').references('product_id').inTable('product');
-    table.decimal('product_quantity', 36, 12);
-    table.enu('product_quantity_unit', productQuantityUnits);
+    table.decimal('product_quantity', 36, 12).notNullable();
+    table.enu('product_quantity_unit', productQuantityUnits).notNullable();
     table.decimal('application_rate', 36, 12);
     table.enu('application_rate_unit', ['kg/ha', 'lb/ac']);
 
     table.check(
-      '?? IS NOT NULL AND ?? IS NULL OR ?? IS NULL AND ?? IS NOT NULL',
-      ['product_quantity', 'application_rate', 'product_quantity', 'application_rate'],
-      'quantity_or_rate_check',
+      '(?? IS NULL AND ?? IS NULL) OR (?? IS NOT NULL AND ?? IS NOT NULL)',
+      ['application_rate', 'application_rate_unit', 'application_rate', 'application_rate_unit'],
+      'application_rate_unit_check',
     );
   });
 

@@ -32,7 +32,7 @@ class SoilAmendmentTaskProducts extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: [],
+      required: ['product_quantity', 'product_quantity_unit'],
 
       properties: {
         task_id: { type: 'integer' },

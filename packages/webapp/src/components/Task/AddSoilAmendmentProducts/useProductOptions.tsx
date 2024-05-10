@@ -14,8 +14,9 @@
  */
 
 import { useMemo } from 'react';
-import { type Product, Unit } from './types';
+import { type Product } from './types';
 import styles from './styles.module.scss';
+import { Unit } from '../../Form/CompositionInputs/NumberInputWithSelect';
 
 const useProductOptions = (products: Product[] = []) => {
   return useMemo(() => {

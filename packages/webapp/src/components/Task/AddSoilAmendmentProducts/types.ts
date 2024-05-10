@@ -13,22 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { NPK, UNIT, Unit } from '../../Form/CompositionInputs/NumberInputWithSelect';
+
 export const FIELD_NAMES = {
   PRODUCT_ID: 'product_id',
   NAME: 'name',
   SUPPLIER: `supplier`,
   PERMITTED: `on_permitted_substances_list`,
-  UNIT: 'unit',
   COMPOSITION: 'composition',
-  N: 'n',
-  P: 'p',
-  K: 'k',
+  UNIT,
+  N: NPK.N,
+  P: NPK.P,
+  K: NPK.K,
 } as const;
-
-export enum Unit {
-  PERCENT = 'percent',
-  RATIO = 'ratio',
-}
 
 export type FormFields = {
   [FIELD_NAMES.PRODUCT_ID]?: number | string;
@@ -44,15 +41,15 @@ export type FormFields = {
 };
 
 export type Product = {
-  product_id: number;
-  name: string;
+  [FIELD_NAMES.PRODUCT_ID]: number;
+  [FIELD_NAMES.NAME]: string;
   product_translation_key: string | null;
-  supplier?: string | null;
+  [FIELD_NAMES.SUPPLIER]?: string | null;
   type: 'soil_amendment_task' | 'cleaning_task' | 'pest_control';
   farm_id: string;
-  on_permitted_substances_list: 'YES' | null;
-  n: number | null;
-  p: number | null;
-  k: number | null;
-  npk_unit: Unit | null;
+  [FIELD_NAMES.PERMITTED]?: 'YES' | null;
+  [FIELD_NAMES.N]?: number | null;
+  [FIELD_NAMES.P]?: number | null;
+  [FIELD_NAMES.K]?: number | null;
+  [FIELD_NAMES.UNIT]: Unit | null;
 };

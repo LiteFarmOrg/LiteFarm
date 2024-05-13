@@ -76,7 +76,12 @@
     "BUTTON_WARNING": "Any changes will affect all tasks involving this product",
     "COMPOSITION": "Composition",
     "EDIT_PRODUCT_DETAILS": "Edit product details",
+    "NITROGEN": "Nitrogen (N)",
+    "NPK_ERROR": "The total percentage of N, P, and K must not exceed 100%. Please adjust your values.",
+    "PHOSPHOROUS": "Phosphorous (P)",
+    "POTASSIUM": "Potassium (K)",
     "PRESS_ENTER": "Type and press enter to add...",
+    "PRODUCT_DETAILS": "Product details",
     "PRODUCT_LABEL": "Product",
     "SAVE_PRODUCT": "Save product",
     "SUPPLIER_LABEL": "Supplier"

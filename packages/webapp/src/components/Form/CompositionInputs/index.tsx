@@ -29,6 +29,7 @@ const CompositionInputs = ({
   error = '',
   disabled = false,
   onChange,
+  onBlur,
   values,
 }: CompositionInputsProps) => {
   const { t } = useTranslation();
@@ -47,6 +48,7 @@ const CompositionInputs = ({
               error={error}
               disabled={disabled}
               onChange={onChange}
+              onBlur={onBlur}
               values={values}
             />
           );

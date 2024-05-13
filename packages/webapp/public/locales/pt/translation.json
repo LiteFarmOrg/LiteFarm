@@ -69,7 +69,12 @@
     "BUTTON_WARNING": "MISSING",
     "COMPOSITION": "MISSING",
     "EDIT_PRODUCT_DETAILS": "MISSING",
+    "NITROGEN": "MISSING",
+    "NPK_ERROR": "MISSING",
+    "PHOSPHOROUS": "MISSING",
+    "POTASSIUM": "MISSING",
     "PRESS_ENTER": "Digite e pressione enter para adicionar...",
+    "PRODUCT_DETAILS": "MISSING",
     "PRODUCT_LABEL": "Produto",
     "SAVE_PRODUCT": "MISSING",
     "SUPPLIER_LABEL": "Fornecedor"

@@ -126,7 +126,10 @@ const NumberInputWithSelect = ({
         disabled={disabled}
         error={error}
         showErrorText={false}
-        onBlur={onBlur}
+        onBlur={(e) => {
+          onBlur?.();
+          inputProps.onBlur?.(e);
+        }}
         onResetIconClick={clear}
         resetIconPosition="left"
         rightSection={

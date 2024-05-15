@@ -25,6 +25,7 @@ export type ButtonsProps = {
   isSaveDisabled: boolean;
   onCancel: () => void;
   onEdit: () => void;
+  onSave: () => void;
 };
 
 const Buttons = ({
@@ -33,6 +34,7 @@ const Buttons = ({
   isSaveDisabled,
   onCancel,
   onEdit,
+  onSave,
 }: ButtonsProps) => {
   const { t } = useTranslation(['translation', 'common']);
 
@@ -43,8 +45,8 @@ const Buttons = ({
         confirmText={t('ADD_PRODUCT.SAVE_PRODUCT')}
         onCancel={onCancel}
         informationalText={t('ADD_PRODUCT.BUTTON_WARNING')}
-        confirmButtonType="submit"
         isDisabled={isSaveDisabled}
+        onConfirm={onSave}
       />
     );
   }

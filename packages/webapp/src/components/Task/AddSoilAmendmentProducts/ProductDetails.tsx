@@ -13,7 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Controller, useFormContext } from 'react-hook-form';
+import { useEffect, useRef, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
@@ -26,7 +27,7 @@ import RadioGroup from '../../Form/RadioGroup';
 import CompositionInputs from '../../Form/CompositionInputs';
 import { NPK, UNIT, Unit } from '../../Form/CompositionInputs/NumberInputWithSelect';
 import Buttons from './Buttons';
-import { FIELD_NAMES } from './types';
+import { FIELD_NAMES, type FormFields, type Product, type ProductId } from './types';
 import { CANADA } from '../AddProduct/constants';
 import styles from './styles.module.scss';
 
@@ -36,37 +37,120 @@ const unitOptions = [
 ];
 
 export type ProductDetailsProps = {
+  productId: number | string;
+  products?: Product[];
   isReadOnly: boolean;
   isExpanded: boolean;
-  isProductEntered: boolean;
-  isEditingProduct: boolean;
+  farm: { farm_id: string; interested: boolean; country_id: number };
+  expand: () => void;
+  unExpand: () => void;
   toggleExpanded: () => void;
-  onCancel: () => void;
-  onEdit: () => void;
-  farm: {
-    country_id: number;
-    interested: boolean;
-  };
+  clearProduct: () => void;
+  setProductId: (id: number | string | undefined) => void;
+  onSave: (data: FormFields & { farm_id: string } & { product_id: ProductId }) => void;
+};
+
+const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
+
+export const defaultValues = {
+  [FIELD_NAMES.SUPPLIER]: '',
+  [FIELD_NAMES.COMPOSITION]: {
+    [FIELD_NAMES.UNIT]: Unit.PERCENT,
+    [FIELD_NAMES.N]: NaN,
+    [FIELD_NAMES.P]: NaN,
+    [FIELD_NAMES.K]: NaN,
+  },
 };
 
 const ProductDetails = ({
+  productId,
+  products = [],
   isReadOnly,
   isExpanded,
-  isProductEntered,
-  isEditingProduct,
+  farm: { farm_id, country_id, interested },
+  expand,
+  unExpand,
   toggleExpanded,
-  onCancel,
-  onEdit,
-  farm: { country_id, interested },
+  clearProduct,
+  setProductId,
+  onSave,
 }: ProductDetailsProps) => {
   const { t } = useTranslation();
-  const {
-    control,
-    register,
-    formState: { errors, isValid, isDirty },
-  } = useFormContext();
+  const [isEditingProduct, setIsEditingProduct] = useState(false);
+  const previousProductIdRef = useRef<number | string | undefined>(productId);
+
   const inCanada = country_id === CANADA;
   const isDetailDisabled = isReadOnly || !isEditingProduct;
+  const isProductEntered = !!productId;
+
+  const {
+    control,
+    getValues,
+    handleSubmit,
+    reset,
+    setFocus,
+    trigger,
+    register,
+    formState: { errors, isValid, isDirty },
+  } = useForm<FormFields>({
+    mode: 'onBlur',
+    defaultValues,
+  });
+
+  useEffect(() => {
+    const selectedProduct = products.find(({ product_id }) => product_id === productId);
+    const { supplier, on_permitted_substances_list, n, p, k, npk_unit } = selectedProduct || {};
+
+    const wasAddingNewProduct = isNewProduct(previousProductIdRef.current);
+    const isAddingNewProduct = !!(productId && !selectedProduct);
+    const shouldNotResetFields = wasAddingNewProduct && isAddingNewProduct;
+
+    if (!productId || !shouldNotResetFields) {
+      reset({
+        [FIELD_NAMES.SUPPLIER]: supplier || '',
+        [FIELD_NAMES.PERMITTED]: on_permitted_substances_list || undefined,
+        [FIELD_NAMES.COMPOSITION]: {
+          [FIELD_NAMES.UNIT]: npk_unit || Unit.PERCENT,
+          [FIELD_NAMES.N]: n ?? NaN,
+          [FIELD_NAMES.P]: p ?? NaN,
+          [FIELD_NAMES.K]: k ?? NaN,
+        },
+      });
+    }
+
+    setIsEditingProduct(isAddingNewProduct);
+    if (isAddingNewProduct) {
+      expand();
+    }
+
+    trigger();
+
+    if (productId) {
+      // Wait for the card to be expaneded
+      setTimeout(() => {
+        setFocus(FIELD_NAMES.SUPPLIER);
+      }, 0);
+    }
+    previousProductIdRef.current = productId;
+  }, [productId]);
+
+  const onCancel = () => {
+    if (isNewProduct(productId)) {
+      clearProduct();
+      setProductId(undefined);
+      unExpand();
+    } else {
+      reset();
+      setIsEditingProduct(false);
+    }
+  };
+
+  const onSubmit = (data: FormFields) => {
+    onSave({ ...data, farm_id, product_id: productId });
+
+    setIsEditingProduct(false);
+    reset(getValues());
+  };
 
   return (
     <div
@@ -156,9 +240,10 @@ const ProductDetails = ({
             <Buttons
               isEditingProduct={isEditingProduct}
               isEditDisabled={!isProductEntered}
-              isSaveDisabled={!(isDirty && isValid)}
+              isSaveDisabled={!isProductEntered || !(isDirty && isValid)}
               onCancel={onCancel}
-              onEdit={onEdit}
+              onEdit={() => setIsEditingProduct(true)}
+              onSave={() => handleSubmit(onSubmit)}
             />
           )}
         </div>

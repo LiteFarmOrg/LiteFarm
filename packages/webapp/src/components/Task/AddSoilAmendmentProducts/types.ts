@@ -27,8 +27,9 @@ export const FIELD_NAMES = {
   K: NPK.K,
 } as const;
 
+export type ProductId = number | string | undefined;
+
 export type FormFields = {
-  [FIELD_NAMES.PRODUCT_ID]?: number | string;
   [FIELD_NAMES.NAME]?: string;
   [FIELD_NAMES.SUPPLIER]?: string | null;
   [FIELD_NAMES.PERMITTED]?: string | null;

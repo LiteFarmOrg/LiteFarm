@@ -14,10 +14,10 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as Edit } from '../../../assets/images/edit-02.svg';
-import InFormButtons from '../../Form/InFormButtons';
-import Button from '../../Form/Button';
-import styles from './styles.module.scss';
+import { ReactComponent as Edit } from '../../../../assets/images/edit-02.svg';
+import InFormButtons from '../../../Form/InFormButtons';
+import Button from '../../../Form/Button';
+import styles from '../styles.module.scss';
 
 export type ButtonsProps = {
   isEditingProduct: boolean;

@@ -19,17 +19,17 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowUp';
-import { ReactComponent as RatioOptionIcon } from '../../../assets/images/ratio-option.svg';
-import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
-import Input, { getInputErrors } from '../../Form/Input';
-import TextButton from '../../Form/Button/TextButton';
-import RadioGroup from '../../Form/RadioGroup';
-import CompositionInputs from '../../Form/CompositionInputs';
-import { NPK, UNIT, Unit } from '../../Form/CompositionInputs/NumberInputWithSelect';
+import { ReactComponent as RatioOptionIcon } from '../../../../assets/images/ratio-option.svg';
+import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
+import Input, { getInputErrors } from '../../../Form/Input';
+import TextButton from '../../../Form/Button/TextButton';
+import RadioGroup from '../../../Form/RadioGroup';
+import CompositionInputs from '../../../Form/CompositionInputs';
+import { NPK, UNIT, Unit } from '../../../Form/CompositionInputs/NumberInputWithSelect';
 import Buttons from './Buttons';
-import { FIELD_NAMES, type FormFields, type Product, type ProductId } from './types';
-import { CANADA } from '../AddProduct/constants';
-import styles from './styles.module.scss';
+import { FIELD_NAMES, type FormFields, type Product, type ProductId } from '../types';
+import { CANADA } from '../../AddProduct/constants';
+import styles from '../styles.module.scss';
 
 const unitOptions = [
   { label: '%', value: Unit.PERCENT },
@@ -47,7 +47,7 @@ export type ProductDetailsProps = {
   toggleExpanded: () => void;
   clearProduct: () => void;
   setProductId: (id: number | string | undefined) => void;
-  onSave: (data: FormFields & { farm_id: string } & { product_id: ProductId }) => void;
+  onSave: (data: FormFields & { farm_id: string; product_id: ProductId }) => void;
 };
 
 const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';

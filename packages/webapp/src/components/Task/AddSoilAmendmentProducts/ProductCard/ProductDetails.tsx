@@ -47,7 +47,10 @@ export type ProductDetailsProps = {
   toggleExpanded: () => void;
   clearProduct: () => void;
   setProductId: (id: number | string | undefined) => void;
-  onSave: (data: FormFields & { farm_id: string; product_id: ProductId }) => void;
+  onSave: (
+    data: FormFields & { farm_id: string; product_id: ProductId },
+    callback?: (id: number) => void,
+  ) => void;
 };
 
 const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
@@ -146,7 +149,8 @@ const ProductDetails = ({
   };
 
   const onSubmit = (data: FormFields) => {
-    onSave({ ...data, farm_id, product_id: productId });
+    const callback = isNewProduct(productId) ? setProductId : undefined;
+    onSave({ ...data, farm_id, product_id: productId }, callback);
 
     setIsEditingProduct(false);
     reset(getValues());

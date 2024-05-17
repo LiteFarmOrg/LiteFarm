@@ -14,6 +14,7 @@
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
   "ADD_PRODUCT": {
+    "COMPOSITION": "MISSING",
     "PRESS_ENTER": "Escriba y presione enter para agregar...",
     "PRODUCT_LABEL": "Producto",
     "SUPPLIER_LABEL": "Proveedor/a"

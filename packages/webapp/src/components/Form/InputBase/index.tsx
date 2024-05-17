@@ -28,6 +28,7 @@ export type HTMLInputProps = ComponentPropsWithoutRef<'input'>;
 // props meant to be shared with other similar input components
 export type InputBaseSharedProps = InputBaseLabelProps & {
   showResetIcon?: boolean;
+  showErrorText?: boolean;
   onResetIconClick?: () => void;
   info?: string;
   error?: string;
@@ -37,7 +38,7 @@ export type InputBaseSharedProps = InputBaseLabelProps & {
 } & Pick<HTMLInputProps, 'placeholder' | 'disabled'>;
 
 type InputBaseProps = InputBaseSharedProps &
-  Pick<InputBaseFieldProps, 'leftSection' | 'rightSection' | 'mainSection'> &
+  Pick<InputBaseFieldProps, 'leftSection' | 'rightSection' | 'mainSection' | 'resetIconPosition'> &
   HTMLInputProps;
 
 const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
@@ -55,6 +56,7 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
     mainSection,
     rightSection,
     showResetIcon = true,
+    showErrorText = true,
     onResetIconClick,
     classes,
     className,
@@ -86,7 +88,7 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
         />
       </label>
       {info && !error && <Info style={classes?.info}>{info}</Info>}
-      {error && (
+      {showErrorText && error && (
         <Error data-cy="error" style={classes?.errors}>
           {error}
         </Error>

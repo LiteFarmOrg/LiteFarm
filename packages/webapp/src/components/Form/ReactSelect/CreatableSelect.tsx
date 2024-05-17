@@ -19,9 +19,8 @@ import { GroupBase, SelectInstance } from 'react-select';
 import { styles as baseStyles } from './styles';
 import InputBaseLabel, { InputBaseLabelProps } from '../InputBase/InputBaseLabel';
 import { useTranslation } from 'react-i18next';
-import { ClearIndicator, MultiValueRemove } from './components';
+import { ClearIndicator, MultiValueRemove, MenuOpenDropdownIndicator } from './components';
 import scss from './styles.module.scss';
-import { MenuOpenDropdownIndicator } from './components';
 
 type CreatableSelectProps<
   Option = unknown,

@@ -15,9 +15,9 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import AddAnimalsFormCard from './AddAnimalsFormCard';
-import { componentDecorators } from '../../../stories/Pages/config/Decorators';
-import { Option } from './AnimalSelect';
+import AddAnimalsFormCard from '../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
+import { componentDecorators } from '../Pages/config/Decorators';
+import { Option } from '../../components/Animals/AddAnimalsFormCard/AnimalSelect';
 import { FormProvider, useForm } from 'react-hook-form';
 
 const mockSelectOptions = (...labels: string[]): Option[] =>

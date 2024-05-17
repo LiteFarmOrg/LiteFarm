@@ -15,8 +15,8 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { componentDecorators } from '../../stories/Pages/config/Decorators';
-import Card from './index';
+import { componentDecorators } from '../Pages/config/Decorators';
+import Card from '../../components/CardV2/index';
 
 const meta: Meta<typeof Card> = {
   title: 'Components/CardV2',

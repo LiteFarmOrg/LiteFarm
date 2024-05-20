@@ -13,14 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-input {
+.inputWrapper .input {
   all: unset;
   height: 100%;
   width: 100%;
   flex: 1;
 }
 
-.input {
+.inputWrapper {
   display: flex;
   cursor: text;
   width: 100%;
@@ -47,15 +47,15 @@ input {
   }
 }
 
-.input:focus-within {
+.inputWrapper:focus-within {
   border-color: var(--inputActive);
 }
 
-.input ::placeholder {
+.inputWrapper ::placeholder {
   color: var(--grey500);
 }
 
-input:focus::placeholder {
+.inputWrapper .input:focus::placeholder {
   color: transparent;
 }
 
@@ -75,5 +75,9 @@ input:focus::placeholder {
   }
   &Right {
     padding-left: 6px;
+
+    &.resetIconLeft {
+      flex-direction: row-reverse;
+    }
   }
 }

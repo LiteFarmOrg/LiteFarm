@@ -74,10 +74,18 @@ const PureFilterPage = ({
       <FilterGroup
         filters={filters}
         onChange={(filterKey, filterState) => {
-          setTempFilter({
-            ...tempFilter,
-            [filterKey]: filterState,
-          });
+          if (filterKey === 'DATE_RANGE') {
+            setTempFilter({
+              ...tempFilter,
+              FROM_DATE: filterState.fromDate,
+              TO_DATE: filterState.toDate,
+            });
+          } else {
+            setTempFilter({
+              ...tempFilter,
+              [filterKey]: filterState,
+            });
+          }
           setDirty();
         }}
         shouldReset={shouldReset}

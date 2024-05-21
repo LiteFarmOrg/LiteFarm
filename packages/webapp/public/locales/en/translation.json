@@ -61,6 +61,7 @@
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "ADD_PRODUCT": {
+    "ADD_ANOTHER_PRODUCT": "Add another product",
     "APPLICATION_RATE": "Application rate",
     "BUTTON_WARNING": "Any changes will affect all tasks involving this product",
     "COMPOSITION": "Composition",

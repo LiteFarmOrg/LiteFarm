@@ -14,11 +14,10 @@
  */
 
 import PropTypes from 'prop-types';
-import { Semibold } from '../../Typography';
 import styles from '../styles.module.scss';
 import clsx from 'clsx';
 
-const VARIANT = {
+const VARIANTS = {
   PILL: 'pill',
   PLANE: 'plane',
 };
@@ -44,7 +43,7 @@ export default function StateTab({
   state,
   setState,
   className = '',
-  variant = VARIANT.PILL,
+  variant = VARIANTS.PILL,
 }) {
   const isSelected = (key) => state === key;
   const variantClassName = styles[variant];
@@ -52,14 +51,14 @@ export default function StateTab({
   return (
     <div className={clsx(styles.container, className, variantClassName)}>
       {tabs.map((tab, index) => (
-        <Semibold
+        <button
           key={index}
           className={clsx(styles.tab, isSelected(tab.key) && styles.selected, variantClassName)}
           onClick={() => !isSelected(tab.key) && setState(tab.key)}
           id={tab.label + index}
         >
           <span className={styles.tabText}>{tab.label}</span>
-        </Semibold>
+        </button>
       ))}
     </div>
   );
@@ -75,5 +74,5 @@ StateTab.propTypes = {
   state: PropTypes.string.isRequired,
   setState: PropTypes.func.isRequired,
   className: PropTypes.string,
-  variant: PropTypes.oneOf(['pill', 'plane']),
+  variant: PropTypes.oneOf(Object.values(VARIANTS)),
 };

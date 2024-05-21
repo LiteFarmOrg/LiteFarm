@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../assets/mixin.scss';
+
 .container {
   display: flex;
   flex-direction: row;
@@ -37,12 +39,29 @@
   align-items: center;
   display: flex;
   cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  border: solid 1px var(--grey400);
+  background-color: inherit;
+  height: 100%;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fontColor);
+  font-family: 'Open Sans', 'SansSerif', serif;
+
+  &:focus-visible {
+    outline: none;
+  }
 
   &.pill {
     justify-content: center;
+
+    &:not(.selected) {
+      &:first-child {
+        border-radius: 18px 0 0 18px;
+      }
+      &:last-child {
+        border-radius: 0 18px 18px 0;
+      }
+    }
   }
 
   &.plane {
@@ -87,8 +106,7 @@
   }
 }
 
+.tab,
 .tabText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  @include truncateText();
 }

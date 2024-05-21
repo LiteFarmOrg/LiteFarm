@@ -66,9 +66,11 @@
     "TELL_US_ABOUT_YOUR_FARM": "Parlez-nous de votre exploitation"
   },
   "ADD_PRODUCT": {
+    "APPLICATION_RATE": "MISSING",
     "BUTTON_WARNING": "MISSING",
     "COMPOSITION": "MISSING",
     "EDIT_PRODUCT_DETAILS": "MISSING",
+    "ENTER_APPLICATION_RATE": "MISSING",
     "NITROGEN": "MISSING",
     "NPK_ERROR": "MISSING",
     "PHOSPHOROUS": "MISSING",
@@ -76,8 +78,11 @@
     "PRESS_ENTER": "Tapez et appuyez sur Entrée pour ajouter...",
     "PRODUCT_DETAILS": "MISSING",
     "PRODUCT_LABEL": "Produit",
+    "QUANTITY_PLACEHOLDER": "MISSING",
+    "QUANTITY_TO_APPLY": "MISSING",
     "SAVE_PRODUCT": "MISSING",
-    "SUPPLIER_LABEL": "Fournisseur"
+    "SUPPLIER_LABEL": "Fournisseur",
+    "TOTAL_AREA": "MISSING"
   },
   "ADD_TASK": {
     "ADD_A_CUSTOM_TASK": "Ajouter une tâche personnalisée",

@@ -61,9 +61,11 @@
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "ADD_PRODUCT": {
+    "APPLICATION_RATE": "Application rate",
     "BUTTON_WARNING": "Any changes will affect all tasks involving this product",
     "COMPOSITION": "Composition",
     "EDIT_PRODUCT_DETAILS": "Edit product details",
+    "ENTER_APPLICATION_RATE": "Enter application rate",
     "NITROGEN": "Nitrogen (N)",
     "NPK_ERROR": "The total percentage of N, P, and K must not exceed 100%. Please adjust your values.",
     "PHOSPHOROUS": "Phosphorous (P)",
@@ -71,8 +73,11 @@
     "PRESS_ENTER": "Type and press enter to add...",
     "PRODUCT_DETAILS": "Product details",
     "PRODUCT_LABEL": "Product",
+    "QUANTITY_PLACEHOLDER": "Enter the quantity of product to apply",
+    "QUANTITY_TO_APPLY": "Quantity to apply",
     "SAVE_PRODUCT": "Save product",
-    "SUPPLIER_LABEL": "Supplier"
+    "SUPPLIER_LABEL": "Supplier",
+    "TOTAL_AREA": "Total area"
   },
   "ADD_TASK": {
     "ADD_A_CUSTOM_TASK": "Add a custom task",

@@ -26,6 +26,12 @@ import styles from './styles.module.scss';
 
 export type AddSoilAmendmentProductsProps = ProductCardProps & { products: Product[] };
 
+type ProductId = 'number' | 'string';
+
+interface ProductFields {
+  product_id: ProductId;
+}
+
 const FIELD_NAME = 'soil_amendment_task_products';
 
 const AddSoilAmendmentProducts = ({ products, ...props }: AddSoilAmendmentProductsProps) => {
@@ -47,23 +53,34 @@ const AddSoilAmendmentProducts = ({ products, ...props }: AddSoilAmendmentProduc
 
   const productsForTask = watch(FIELD_NAME);
 
+  const getAvailableProductOptions = (selectedProductId: ProductId) => {
+    // Returns the products that have not been selected by any other select
+    const otherSelectedProductIds = productsForTask
+      .filter(({ product_id }: ProductFields): boolean => product_id !== selectedProductId)
+      .map(({ product_id }: ProductFields): ProductId => product_id);
+
+    return productsOfType.filter(({ product_id }) => !otherSelectedProductIds.includes(product_id));
+  };
+
   return (
     <>
       <div className={styles.products}>
         {fields.map((field, index) => {
           const namePrefix = `${FIELD_NAME}.${index}`;
+          const productId = productsForTask[index]?.product_id;
+
           return (
             <ProductCard
               {...props}
               key={field.id}
               onRemove={index ? () => remove(index) : undefined}
               namePrefix={namePrefix}
-              products={productsOfType}
+              products={getAvailableProductOptions(productId)}
               isExpanded={expandedIds.includes(field.id)}
               toggleExpanded={() => toggleExpanded(field.id)}
               unExpand={() => unExpand(field.id)}
               expand={() => expand(field.id)}
-              productId={productsForTask[index]?.product_id}
+              productId={productId}
               setProductId={(id: number | string | undefined) => {
                 setValue(`${namePrefix}.product_id`, id);
               }}

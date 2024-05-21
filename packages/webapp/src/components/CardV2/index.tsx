@@ -13,28 +13,28 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.container {
-  display: flex;
-  align-items: center;
-}
+import { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react';
+import styles from './styles.module.scss';
+import clsx from 'clsx';
 
-.label {
-  min-width: 72px;
-  padding-left: 8px;
-}
+type CardProps<T extends ElementType> = ComponentPropsWithoutRef<T> & {
+  as?: T;
+  isActive?: boolean;
+  className?: string;
+  children: ReactNode;
+};
 
-.countInput {
-  width: 100%;
-  text-align: center;
-  font-weight: 700;
-  color: var(--Colors-Neutral-Neutral-600);
-}
-
-.stepperBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &:disabled {
-    color: var(--Colors-Neutral-Neutral-100);
-  }
+export default function Card<T extends ElementType = 'div'>({
+  as,
+  isActive,
+  children,
+  className,
+  ...props
+}: CardProps<T>) {
+  const TagName = as || 'div';
+  return (
+    <TagName className={clsx(styles.card, isActive && styles.active, className)} {...props}>
+      {children}
+    </TagName>
+  );
 }

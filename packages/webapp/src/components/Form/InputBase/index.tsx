@@ -21,6 +21,7 @@ import { Error, Info, TextWithExternalLink } from '../../Typography';
 import { Cross } from '../../Icons';
 import type { InputBaseFieldProps } from './InputBaseField';
 import type { InputBaseLabelProps } from './InputBaseLabel';
+import clsx from 'clsx';
 
 export type HTMLInputProps = ComponentPropsWithoutRef<'input'>;
 
@@ -58,11 +59,12 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
     showErrorText = true,
     onResetIconClick,
     classes,
+    className,
     ...inputProps
   } = props;
 
   return (
-    <div className={styles.inputWrapper}>
+    <div className={clsx(styles.inputWrapper, className)}>
       <label>
         {label && (
           <InputBaseLabel

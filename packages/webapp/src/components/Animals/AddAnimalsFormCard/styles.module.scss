@@ -13,28 +13,43 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.container {
+.form {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.label {
-  min-width: 72px;
-  padding-left: 8px;
+.formHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.removeBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 16px;
+  padding: 4px 8px;
+  border: 1px solid var(--Colors-Primary-Primary-teal-50);
+  background-color: var(--Colors-Primary-Primary-teal-50);
+  color: var(--Colors-Primary-Primary-teal-700);
+  font-weight: 600;
+
+  &:hover {
+    color: var(--Colors-Primary-Primary-teal-50);
+    background-color: var(--Colors-Primary-Primary-teal-600);
+  }
+}
+
+.countAndSexDetailsWrapper {
+  display: flex;
+  align-items: start;
+  gap: 16px;
 }
 
 .countInput {
-  width: 100%;
-  text-align: center;
-  font-weight: 700;
-  color: var(--Colors-Neutral-Neutral-600);
-}
-
-.stepperBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &:disabled {
-    color: var(--Colors-Neutral-Neutral-100);
+  flex-basis: 104px;
+  & + div {
+    flex: 1;
   }
 }

@@ -14,7 +14,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { Semibold } from '../../Typography';
 import styles from '../styles.module.scss';
 import clsx from 'clsx';
 
@@ -52,14 +51,14 @@ export default function StateTab({
   return (
     <div className={clsx(styles.container, className, variantClassName)}>
       {tabs.map((tab, index) => (
-        <Semibold
+        <button
           key={index}
           className={clsx(styles.tab, isSelected(tab.key) && styles.selected, variantClassName)}
           onClick={() => !isSelected(tab.key) && setState(tab.key)}
           id={tab.label + index}
         >
           <span className={styles.tabText}>{tab.label}</span>
-        </Semibold>
+        </button>
       ))}
     </div>
   );

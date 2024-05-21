@@ -112,3 +112,16 @@
   display: flex;
   justify-content: space-between;
 }
+
+/*----------------------------------------
+  QuantityApplicationRate
+----------------------------------------*/
+
+.applicationRateDisabledFields {
+  display: flex;
+  gap: 8px;
+
+  > div {
+    flex: 1;
+  }
+}

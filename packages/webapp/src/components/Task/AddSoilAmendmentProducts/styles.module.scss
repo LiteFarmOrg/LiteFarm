@@ -37,6 +37,38 @@
 }
 
 /*----------------------------------------
+  AddSoilAmendmentProducts
+----------------------------------------*/
+.products {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 8px;
+}
+
+.addAnotherProduct {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  color: var(--Colors-Accent---singles-Blue-full, #0669e1);
+  font-family: 'Open Sans';
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  width: fit-content;
+  gap: 4px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+
+    path {
+      stroke: var(--Colors-Accent---singles-Blue-full, #0669e1);
+    }
+  }
+}
+
+/*----------------------------------------
   ProductCard
 ----------------------------------------*/
 .productCard {

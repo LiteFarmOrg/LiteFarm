@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../assets/mixin.scss';
+
 .container {
   display: flex;
   flex-direction: row;
@@ -37,9 +39,6 @@
   align-items: center;
   display: flex;
   cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   border: solid 1px var(--grey400);
   background-color: inherit;
   height: 100%;
@@ -107,8 +106,7 @@
   }
 }
 
+.tab,
 .tabText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  @include truncateText();
 }

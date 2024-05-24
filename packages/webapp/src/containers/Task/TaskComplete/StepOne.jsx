@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
 import PureCompleteStepOne from '../../../components/Task/TaskComplete/StepOne';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { taskWithProductSelector } from '../../taskSlice';
 import { productsSelector } from '../../productSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
-import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getProducts } from '../saga';
+
+function generateProductsKey(products) {
+  return products.map((product) => `${product.product_id}-${product.supplier}`).join('-');
+}
 
 function TaskCompleteStepOne({ history, match, location }) {
   const {
@@ -41,10 +44,12 @@ function TaskCompleteStepOne({ history, match, location }) {
     );
   }, [dispatch, task_id]);
 
+  const productsKey = generateProductsKey(products);
+
   return (
     <HookFormPersistProvider>
       <PureCompleteStepOne
-        key={products.length} // Adding key prop to force re-render
+        key={productsKey}
         onContinue={onContinue}
         onGoBack={onGoBack}
         system={system}

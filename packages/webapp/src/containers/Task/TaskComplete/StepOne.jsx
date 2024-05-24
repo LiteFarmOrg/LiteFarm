@@ -8,6 +8,7 @@ import { productsSelector } from '../../productSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import { useDispatch } from 'react-redux';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { getProducts } from '../saga';
 
 function TaskCompleteStepOne({ history, match, location }) {
   const {
@@ -31,14 +32,19 @@ function TaskCompleteStepOne({ history, match, location }) {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
+
+  useEffect(() => {
     dispatch(
       setPersistedPaths([`/tasks/${task_id}/complete`, `/tasks/${task_id}/before_complete`]),
     );
-  }, []);
+  }, [dispatch, task_id]);
 
   return (
     <HookFormPersistProvider>
       <PureCompleteStepOne
+        key={products.length} // Adding key prop to force re-render
         onContinue={onContinue}
         onGoBack={onGoBack}
         system={system}

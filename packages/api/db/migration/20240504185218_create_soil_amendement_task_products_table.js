@@ -13,101 +13,515 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-// No changes here to maintain compatibility with the original data
-const productQuantityUnits = ['g', 'lb', 'kg', 't', 'mt', 'oz', 'l', 'gal', 'ml', 'fl-oz'];
+const weightUnits = ['g', 'lb', 'kg', 't', 'mt', 'oz'];
+const applicationRateWeightUnits = [
+  'g/m2',
+  'lb/ft2',
+  'kg/m2',
+  't/ft2',
+  'mt/m2',
+  'oz/ft2',
+  'g/ha',
+  'lb/ac',
+  'kg/ha',
+  't/ac',
+  'mt/ha',
+  'oz/ac',
+];
+//const applicationRateWeightUnits =['kg/ha', 'lb/ac'];
+const rawMetricWeightUnits = `('g', 'kg', 'mt')`;
+const rawImperialWeightUnits = `('oz', 'lb', 't')`;
+const rawWeightUnits = `('g', 'lb', 'kg', 't', 'mt', 'oz')`;
+const rawMetricVolumeUnits = `('l', 'ml')`;
+const rawImperialVolumeUnits = `('gal', 'fl-oz')`;
+const volumeUnits = ['l', 'gal', 'ml', 'fl-oz'];
+const applicationRateVolumeUnits = [
+  'l/m2',
+  'gal/ft2',
+  'ml/m2',
+  'fl-oz/ft2',
+  'l/ha',
+  'gal/ac',
+  'ml/ha',
+  'fl-oz/ac',
+];
+const rawVolumeUnits = `('l', 'gal', 'ml', 'fl-oz')`;
+const elementalUnits = ['percent', 'ratio', 'ppm', 'mg/kg'];
+const rawElements = 'n, p, k, calcium, magnesium, sulfur, copper, manganese, boron';
+const rawElementsAddition = 'n + p + k + calcium + magnesium + sulfur + copper + manganese + boron';
+
+const amendmentProductPurposeKeys = [
+  'STRUCTURE',
+  'MOISTURE_RETENTION',
+  'NUTRIENT_AVAILABILITY',
+  'PH',
+  'OTHER',
+];
+const applicationMethodKeys = [
+  'BROADCAST',
+  'BANDED',
+  'WITH_PLANTER',
+  'SIDE_DRESS',
+  'FERTIGATION',
+  'FOLIAR',
+  'OTHER',
+];
+const soildAmendmentProductStateKeys = ['DRY', 'CUSTOM_DRY', 'CUSTOM_LIQUID', 'LIQUID', 'UNKNOWN'];
 
 export const up = async function (knex) {
-  // Create new product table
-  await knex.schema.createTable('soil_amendment_task_products', (table) => {
+  // Create product_state table
+  await knex.schema.createTable('soil_amendment_product_state', (table) => {
     table.increments('id').primary();
-    table.integer('task_id').references('task_id').inTable('soil_amendment_task');
-    table.integer('product_id').references('product_id').inTable('product');
-    table.decimal('product_quantity', 36, 12).notNullable();
-    table.enu('product_quantity_unit', productQuantityUnits).notNullable();
-    table.decimal('application_rate', 36, 12);
-    table.enu('application_rate_unit', ['kg/ha', 'lb/ac']);
+    table.string('key').notNullable();
+  });
 
+  // Add product states
+  for (const key of soildAmendmentProductStateKeys) {
+    await knex('soil_amendment_product_state').insert({
+      key,
+    });
+  }
+
+  await knex.schema.createTable('soil_amendment_product', (table) => {
+    table.increments('id').primary();
+    table.integer('product_id').references('product_id').inTable('product').notNullable();
+    table
+      .integer('soil_amendment_product_state_id')
+      .references('id')
+      .inTable('soil_amendment_product_state')
+      .nullable();
+    table.decimal('n');
+    table.decimal('p');
+    table.decimal('k');
+    table.decimal('calcium');
+    table.decimal('magnesium');
+    table.decimal('sulfur');
+    table.decimal('copper');
+    table.decimal('manganese');
+    table.decimal('boron');
+    table.enu('elemental_unit', elementalUnits);
+    table.decimal('ammonium_ppm');
+    table.decimal('nitrate_ppm');
     table.check(
-      '(?? IS NULL AND ?? IS NULL) OR (?? IS NOT NULL AND ?? IS NOT NULL)',
-      ['application_rate', 'application_rate_unit', 'application_rate', 'application_rate_unit'],
-      'application_rate_unit_check',
+      `(COALESCE(${rawElements}) IS NULL AND elemental_unit IS NULL) OR (COALESCE(${rawElements}) IS NOT NULL AND elemental_unit IS NOT NULL)`,
+      [],
+      'elemental_unit_check',
+    );
+    table.check(
+      `elemental_unit != 'percent' OR (elemental_unit = 'percent' AND (${rawElementsAddition}) <= 100)`,
+      [],
+      'elemental_percent_check',
     );
   });
 
-  // Migrate existng data to the new table (reversibly)
+  // Create amendment purpose table
+  await knex.schema.createTable('soil_amendment_purpose', (table) => {
+    table.increments('id').primary();
+    table.string('key').notNullable();
+  });
+
+  // Add purpose types
+  for (const key of amendmentProductPurposeKeys) {
+    await knex('soil_amendment_purpose').insert({
+      key,
+    });
+  }
+
+  // Create amendment task method table
+  await knex.schema.createTable('soil_amendment_method', (table) => {
+    table.increments('id').primary();
+    table.string('key').notNullable();
+  });
+
+  // Add method types
+  for (const key of applicationMethodKeys) {
+    await knex('soil_amendment_method').insert({
+      key,
+    });
+  }
+
+  // Create new product table
+  await knex.schema.createTable('soil_amendment_task_products', (table) => {
+    table.increments('id').primary();
+    table.integer('task_id').references('task_id').inTable('task').notNullable();
+    // TODO: backfill data if nulls exist on prod and constrain this to notNullable()
+    table.integer('product_id').references('product_id').inTable('product');
+    table.decimal('weight', 36, 12);
+    table.enu('weight_unit', weightUnits);
+    table.decimal('volume', 36, 12);
+    table.enu('volume_unit', volumeUnits);
+    table.enu('application_rate_weight_unit', applicationRateWeightUnits);
+    table.enu('application_rate_volume_unit', applicationRateVolumeUnits);
+    // TODO: backfill data for percent_of_location_amended then make notNullable and defaulted to 100
+    table.decimal('percent_of_location_amended', 36, 12);
+    // TODO: backfill data for total_area_amended_in_ha then make notNullable
+    table.decimal('total_area_amended_in_ha', 36, 12);
+    table.string('other_purpose');
+    table.boolean('deleted').notNullable().defaultTo(false);
+    table
+      .string('created_by_user_id')
+      .notNullable()
+      .references('user_id')
+      .inTable('users')
+      .defaultTo(1);
+    table
+      .string('updated_by_user_id')
+      .notNullable()
+      .references('user_id')
+      .inTable('users')
+      .defaultTo(1);
+    table.dateTime('created_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
+    table.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
+    // TODO: null product quantities exist on prod remove last OR constraint condition in the future
+    table.check(
+      '(?? IS NULL AND ?? IS NOT NULL) OR (?? IS NULL AND ?? IS NOT NULL) OR (?? IS NULL AND ?? IS NULL)',
+      ['weight', 'volume', 'volume', 'weight', 'weight', 'volume'],
+      'volume_or_weight_check',
+    );
+    table.check(
+      '(?? IS NULL AND ?? IS NULL AND ?? IS NULL) OR (?? IS NOT NULL AND ?? IS NOT NULL AND ?? IS NOT NULL)',
+      [
+        'weight',
+        'weight_unit',
+        'application_rate_weight_unit',
+        'weight',
+        'weight_unit',
+        'application_rate_weight_unit',
+      ],
+      'weight_unit_check',
+    );
+    table.check(
+      '(?? IS NULL AND ?? IS NULL AND ?? IS NULL) OR (?? IS NOT NULL AND ?? IS NOT NULL AND ?? IS NOT NULL)',
+      [
+        'volume',
+        'volume_unit',
+        'application_rate_volume_unit',
+        'volume',
+        'volume_unit',
+        'application_rate_volume_unit',
+      ],
+      'volume_unit_check',
+    );
+  });
+
+  // Create amendment purpose table
+  await knex.schema.createTable('soil_amendment_task_products_purpose_relationship', (table) => {
+    table
+      .integer('task_products_id')
+      .references('id')
+      .inTable('soil_amendment_task_products')
+      .notNullable();
+    table.integer('purpose_id').references('id').inTable('soil_amendment_purpose').notNullable();
+    table.unique(['task_products_id', 'purpose_id'], 'unique_task_products_purpose_relationship');
+  });
+
+  // Migrate existing weight data to the new table (reversibly)
   await knex.raw(`
-    INSERT INTO soil_amendment_task_products (task_id, product_id, product_quantity, product_quantity_unit)
-    SELECT task_id, product_id, product_quantity, product_quantity_unit FROM soil_amendment_task
+    INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit, other_purpose)
+    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'kg/ha'::text, other_purpose FROM soil_amendment_task
+    WHERE product_quantity_unit IN ${rawMetricWeightUnits}
   `);
 
-  await knex.schema.raw(
-    "CREATE TYPE purpose_enum AS ENUM ('structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other')",
-  );
+  await knex.raw(`
+    INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit, other_purpose)
+    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'lb/ac'::text, other_purpose FROM soil_amendment_task
+    WHERE product_quantity_unit IN ${rawImperialWeightUnits}
+  `);
 
+  // Migrate existing volume data to the new table (reversibly)
+  await knex.raw(`
+    INSERT INTO soil_amendment_task_products (task_id, product_id, volume, volume_unit, application_rate_volume_unit, other_purpose)
+    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'l/ha'::text , other_purpose FROM soil_amendment_task
+    WHERE product_quantity_unit IN ${rawMetricVolumeUnits}
+  `);
+
+  await knex.raw(`
+    INSERT INTO soil_amendment_task_products (task_id, product_id, volume, volume_unit, application_rate_volume_unit, other_purpose)
+    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'gal/ac'::text, other_purpose FROM soil_amendment_task
+    WHERE product_quantity_unit IN ${rawImperialVolumeUnits}
+  `);
+
+  // Get Product Ids, and Purposes
+  const soilAmendmentPurposes = await knex.select().table('soil_amendment_purpose');
+  const soilAmendmentTaskPurposes = await knex
+    .select('task_id', 'purpose')
+    .table('soil_amendment_task');
+  const soilAmendmentTaskProducts = await knex
+    .select('id', 'task_id')
+    .table('soil_amendment_task_products');
+  const soilAmendmentTaskProductsPurposes = soilAmendmentTaskPurposes.map((task) => {
+    const soilAmendmentTaskProduct = soilAmendmentTaskProducts.find(
+      (pr) => pr.task_id === task.task_id,
+    );
+    const soilAmendmentPurpose = soilAmendmentPurposes.find(
+      (pu) => pu.key === task.purpose.toUpperCase(),
+    );
+    return { task_products_id: soilAmendmentTaskProduct.id, purpose_id: soilAmendmentPurpose.id };
+  });
+
+  // Insert into relationship table
+  for (const taskProductPurpose of soilAmendmentTaskProductsPurposes) {
+    await knex('soil_amendment_task_products_purpose_relationship').insert(taskProductPurpose);
+  }
+
+  // Alter soil amendmendment task
   await knex.schema.alterTable('soil_amendment_task', (table) => {
     table.dropColumn('product_id');
     table.dropColumn('product_quantity');
     table.dropColumn('product_quantity_unit');
-
-    // Migrate purpose. From https://github.com/knex/knex/issues/5038
-    table
-      .specificType('temp_purpose', 'purpose_enum[]')
-      .defaultTo(
-        knex.raw(
-          "ARRAY['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other']::purpose_enum[]",
-        ),
-      );
+    table.dropColumn('other_purpose');
+    table.dropColumn('purpose');
+    table.string('method_id');
+    table.string('other_application_method');
   });
 
+  // Alter cleaning task for volume and weight
+  // https://github.com/knex/knex/issues/5966
+  await knex.schema.alterTable('cleaning_task', (table) => {
+    table.decimal('weight', 36, 12);
+    table.enu('weight_unit', weightUnits);
+    table.decimal('volume', 36, 12);
+    table.enu('volume_unit', volumeUnits);
+  });
+
+  // Alter pest control task for volume and weight
+  // https://github.com/knex/knex/issues/5966
+  await knex.schema.alterTable('pest_control_task', (table) => {
+    table.decimal('weight', 36, 12);
+    table.enu('weight_unit', weightUnits);
+    table.decimal('volume', 36, 12);
+    table.enu('volume_unit', volumeUnits);
+  });
+
+  // Migrate cleaning task existing volume and weight data (reversibly)
   await knex.raw(`
-    UPDATE soil_amendment_task
-    SET temp_purpose = ARRAY[purpose::purpose_enum]
+    UPDATE cleaning_task
+    SET (volume, volume_unit) = (product_quantity, product_quantity_unit)
+    WHERE product_quantity IS NOT NULL
+    AND product_quantity_unit IN ${rawVolumeUnits}
+  `);
+  await knex.raw(`
+    UPDATE cleaning_task
+    SET (weight, weight_unit) = (product_quantity, product_quantity_unit)
+    WHERE product_quantity IS NOT NULL
+    AND product_quantity_unit IN ${rawWeightUnits}
   `);
 
-  await knex.schema.alterTable('soil_amendment_task', (table) => {
-    table.dropColumn('purpose');
-    table.renameColumn('temp_purpose', 'purpose');
+  // Product is not required for cleaning task
+  await knex.schema.alterTable('cleaning_task', (table) => {
+    table.check(
+      '(weight IS NULL AND volume IS NOT NULL) OR (volume IS NULL AND weight IS NOT NULL) OR (weight IS NULL AND volume IS NULL)',
+      [],
+      'volume_or_weight_check',
+    );
+    table.check(
+      '(weight IS NULL AND weight_unit IS NULL) OR (weight IS NOT NULL AND weight_unit IS NOT NULL)',
+      [],
+      'weight_unit_check',
+    );
+    table.check(
+      '(volume IS NULL AND volume_unit IS NULL) OR (volume IS NOT NULL AND volume_unit IS NOT NULL)',
+      [],
+      'volume_unit_check',
+    );
   });
+
+  // Migrate pest control task existing volume and weight data (reversibly)
+  await knex.raw(`
+    UPDATE pest_control_task
+    SET (volume, volume_unit) = (product_quantity, product_quantity_unit)
+    WHERE product_quantity IS NOT NULL
+    AND product_quantity_unit IN ${rawVolumeUnits}
+  `);
+  await knex.raw(`
+    UPDATE pest_control_task
+    SET (weight, weight_unit) = (product_quantity, product_quantity_unit)
+    WHERE product_quantity IS NOT NULL
+    AND product_quantity_unit IN ${rawWeightUnits}
+  `);
+
+  // Product not required for pest control task
+  await knex.schema.alterTable('pest_control_task', (table) => {
+    table.check(
+      '(weight IS NULL AND volume IS NOT NULL) OR (volume IS NULL AND weight IS NOT NULL) OR (weight IS NULL AND volume IS NULL)',
+      [],
+      'volume_or_weight_check',
+    );
+    table.check(
+      '(weight IS NULL AND weight_unit IS NULL) OR (weight IS NOT NULL AND weight_unit IS NOT NULL)',
+      [],
+      'weight_unit_check',
+    );
+    table.check(
+      '(volume IS NULL AND volume_unit IS NULL) OR (volume IS NOT NULL AND volume_unit IS NOT NULL)',
+      [],
+      'volume_unit_check',
+    );
+  });
+
+  // Alter cleaning task for volume and weight
+  await knex.schema.alterTable('cleaning_task', (table) => {
+    table.dropColumn('product_quantity');
+    table.dropColumn('product_quantity_unit');
+  });
+
+  // Alter cleaning task for volume and weight
+  await knex.schema.alterTable('pest_control_task', (table) => {
+    table.dropColumn('product_quantity');
+    table.dropColumn('product_quantity_unit');
+  });
+
+  // Alter product to add product state type id
+  // Removing npk to add new table instead no attempt to keep values as it is currently unused
+  await knex.schema.alterTable('product', (table) => {
+    table.dropChecks(['npk_unit_check', 'npk_percent_check']);
+    table.dropColumn('n');
+    table.dropColumn('p');
+    table.dropColumn('k');
+    table.dropColumn('npk_unit');
+  });
+
+  //Add permissions
+  // Use task or product permissions as needed
 };
 
 export const down = async function (knex) {
-  // Reverse migration of purpose
-  await knex.schema.alterTable('soil_amendment_task', (table) => {
-    table.enu('temp_purpose', [
-      'structure',
-      'moisture_retention',
-      'nutrient_availability',
-      'ph',
-      'other',
-    ]);
+  // No prod data unreleased feature - destroys data
+  await knex.schema.alterTable('product', (table) => {
+    table.decimal('n');
+    table.decimal('p');
+    table.decimal('k');
+    table.enu('npk_unit', ['ratio', 'percent']);
+    table.check(
+      '(COALESCE(n, p, k) IS NULL AND npk_unit IS NULL) OR (COALESCE(n, p, k) IS NOT NULL AND npk_unit IS NOT NULL)',
+      [],
+      'npk_unit_check',
+    );
+    table.check(
+      "npk_unit != 'percent' OR (npk_unit = 'percent' AND (n + p + k) <= 100)",
+      [],
+      'npk_percent_check',
+    );
   });
-
-  await knex.raw(`
-      UPDATE soil_amendment_task
-      SET temp_purpose = purpose[1]
-    `);
-
-  await knex.schema.alterTable('soil_amendment_task', (table) => {
-    table.dropColumn('purpose');
-    table.renameColumn('temp_purpose', 'purpose');
-  });
-
-  await knex.schema.raw('DROP TYPE purpose_enum');
 
   // Reverse product data migration
   await knex.schema.alterTable('soil_amendment_task', (table) => {
     table.decimal('product_quantity', 36, 12);
-    table.enu('product_quantity_unit', productQuantityUnits);
+    table.text('product_quantity_unit');
     table.integer('product_id').references('product_id').inTable('product');
+    table.string('other_purpose');
+    table.text('purpose');
+    table.dropColumn('method_id');
+    table.dropColumn('other_application_method');
   });
 
-  // Preserves one product per soil amendment task
-  await knex.raw(`
-    UPDATE soil_amendment_task
-    SET product_quantity = satp.product_quantity, product_quantity_unit = satp.product_quantity_unit, product_id = satp.product_id
-    FROM soil_amendment_task_products satp
-    WHERE soil_amendment_task.task_id = satp.task_id
-  `);
+  await knex.schema.alterTable('cleaning_task', (table) => {
+    table.decimal('product_quantity', 36, 12);
+    table.text('product_quantity_unit').defaultTo('l');
+  });
 
+  await knex.schema.alterTable('pest_control_task', (table) => {
+    table.decimal('product_quantity', 36, 12);
+    table.text('product_quantity_unit').defaultTo('l');
+  });
+
+  // only saves the first product, destroys application rates
+  const soilAmendmentTasks = await knex.select('*').table('soil_amendment_task');
+  for (const task of soilAmendmentTasks) {
+    const firstTaskProduct = await knex
+      .select('*')
+      .table('soil_amendment_task_products')
+      .where('task_id', task.task_id)
+      .orderBy('id', 'asc')
+      .first();
+    const firstTaskProductPurposeRelationship = await knex
+      .select('*')
+      .table('soil_amendment_task_products_purpose_relationship')
+      .where('task_products_id', firstTaskProduct.id)
+      .first();
+    const firstTaskProductPurpose = await knex
+      .select('key')
+      .table('soil_amendment_purpose')
+      .where('id', firstTaskProductPurposeRelationship.purpose_id);
+    if (firstTaskProduct.weight) {
+      await knex('soil_amendment_task')
+        .where('task_id', task.task_id)
+        .update({
+          product_id: firstTaskProduct.product_id,
+          product_quantity: firstTaskProduct.weight,
+          product_quantity_unit: firstTaskProduct.weight_unit,
+          other_purpose: firstTaskProduct.other_purpose,
+          purpose: String(firstTaskProductPurpose[0].key).toLowerCase(),
+        });
+    } else if (firstTaskProduct.volume) {
+      await knex('soil_amendment_task')
+        .where('task_id', task.task_id)
+        .update({
+          product_id: firstTaskProduct.product_id,
+          product_quantity: firstTaskProduct.volume,
+          product_quantity_unit: firstTaskProduct.volume_unit,
+          other_purpose: firstTaskProduct.other_purpose,
+          purpose: String(firstTaskProductPurpose[0].key).toLowerCase(),
+        });
+    } else {
+      console.log('Should never reach here unless null quantity values - soil amendment');
+    }
+  }
+
+  // Reverses cleaning task separation
+  const cleaningTasks = await knex.select('*').table('cleaning_task');
+  for (const task of cleaningTasks) {
+    if (task.weight) {
+      await knex('cleaning_task').where('task_id', task.task_id).update({
+        product_quantity: task.weight,
+        product_quantity_unit: task.weight_unit,
+      });
+    } else if (task.volume) {
+      await knex('cleaning_task').where('task_id', task.task_id).update({
+        product_quantity: task.volume,
+        product_quantity_unit: task.volume_unit,
+      });
+    }
+  }
+
+  const pestControlTasks = await knex.select('*').table('pest_control_task');
+  for (const task of pestControlTasks) {
+    if (task.weight) {
+      await knex('pest_control_task').where('task_id', task.task_id).update({
+        product_quantity: task.weight,
+        product_quantity_unit: task.weight_unit,
+      });
+    } else if (task.volume) {
+      await knex('pest_control_task').where('task_id', task.task_id).update({
+        product_quantity: task.volume,
+        product_quantity_unit: task.volume_unit,
+      });
+    }
+  }
+
+  await knex.schema.alterTable('cleaning_task', (table) => {
+    table.dropChecks(['volume_or_weight_check', 'weight_unit_check', 'volume_unit_check']);
+    table.dropColumn('weight');
+    table.dropColumn('weight_unit');
+    table.dropColumn('volume');
+    table.dropColumn('volume_unit');
+  });
+
+  await knex.schema.alterTable('pest_control_task', (table) => {
+    table.dropChecks(['volume_or_weight_check', 'weight_unit_check', 'volume_unit_check']);
+    table.dropColumn('weight');
+    table.dropColumn('weight_unit');
+    table.dropColumn('volume');
+    table.dropColumn('volume_unit');
+  });
+
+  await knex.schema.dropTable('soil_amendment_task_products_purpose_relationship');
   await knex.schema.dropTable('soil_amendment_task_products');
+  await knex.schema.dropTable('soil_amendment_purpose');
+  await knex.schema.dropTable('soil_amendment_method');
+  await knex.schema.dropTable('soil_amendment_product');
+  await knex.schema.dropTable('soil_amendment_product_state');
+
+  //Remove permissions
+  // Use task or product permissions as needed
 };

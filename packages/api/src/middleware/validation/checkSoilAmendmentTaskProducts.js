@@ -57,7 +57,7 @@ export function checkSoilAmendmentTaskProducts() {
           return res
             .status(400)
             .send(
-              `Soil amendmenent product ${product.product_id} does not exist or does not belong to the given farm`,
+              `Soil amendment product ${product.product_id} does not exist or does not belong to the given farm`,
             );
         }
       }

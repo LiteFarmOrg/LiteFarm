@@ -87,3 +87,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@mixin flex-column-gap($gap: 16px) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}

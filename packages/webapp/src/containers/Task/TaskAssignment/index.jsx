@@ -113,7 +113,7 @@ export default function TaskManagement({ history, match, location }) {
     Object.keys(data).forEach((key) => {
       if (assignTaskFields.includes(key)) {
         delete postData[key];
-        delete postData['already_completed'];
+        delete postData[ALREADY_COMPLETED];
       }
     });
     dispatch(

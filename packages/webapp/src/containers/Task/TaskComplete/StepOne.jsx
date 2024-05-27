@@ -9,11 +9,8 @@ import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import { setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getProducts } from '../saga';
 
-function generateProductsKey(products) {
-  return products.map((product) => `${product.product_id}-${product.supplier}`).join('-');
-}
-
 function TaskCompleteStepOne({ history, match, location }) {
+  // Extracting necessary values from the Redux store using selectors
   const {
     units: { measurement: system },
     country_id,
@@ -25,31 +22,37 @@ function TaskCompleteStepOne({ history, match, location }) {
   const products = useSelector(productsSelector);
   const persistedPaths = [`/tasks/${task_id}/complete`];
 
+  // Handler for when the user continues to the next step
   const onContinue = (data) => {
     history.push(persistedPaths[0], location?.state);
   };
 
+  // Handler for when the user goes back to the previous step
   const onGoBack = () => {
     history.back();
   };
 
   const dispatch = useDispatch();
+
+  // Effect to dispatch the getProducts action when the component mounts
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
 
+  // Effect to set persisted paths when the component mounts or when task_id changes
   useEffect(() => {
     dispatch(
       setPersistedPaths([`/tasks/${task_id}/complete`, `/tasks/${task_id}/before_complete`]),
     );
   }, [dispatch, task_id]);
 
-  const productsKey = generateProductsKey(products);
+  // Generate a unique key based on products length and a timestamp
+  const productsKey = `${products.length}-${Date.now()}`;
 
   return (
     <HookFormPersistProvider>
       <PureCompleteStepOne
-        key={productsKey}
+        key={productsKey} // Using generated key to force re-render on any product change
         onContinue={onContinue}
         onGoBack={onGoBack}
         system={system}

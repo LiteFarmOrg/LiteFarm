@@ -26,6 +26,52 @@ class PestControlTask extends Model {
     return 'task_id';
   }
 
+  // TODO: remove stub and update controller and FE to accept volume and weight
+  $parseDatabaseJson(json) {
+    // Remember to call the super class's implementation.
+    json = super.$parseDatabaseJson(json);
+    if (json.weight && json.weight_unit) {
+      json.product_quantity = json.weight;
+      json.product_quantity_unit = json.weight_unit;
+      delete json.weight;
+      delete json.weight_unit;
+    } else if (json.volume && json.volume_unit) {
+      json.product_quantity = json.volume;
+      json.product_quantity_unit = json.volume_unit;
+      delete json.volume;
+      delete json.volume_unit;
+    }
+    return json;
+  }
+
+  // TODO: remove stub and update controller and FE to accept volume and weight
+  $formatDatabaseJson(json) {
+    // Remember to call the super class's implementation.
+    json = super.$formatDatabaseJson(json);
+    const weightUnits = ['g', 'lb', 'kg', 't', 'mt', 'oz'];
+    const volumeUnits = ['l', 'gal', 'ml', 'fl-oz'];
+    if (json.product_quantity && json.product_quantity_unit) {
+      if (weightUnits.includes(json.product_quantity_unit)) {
+        json.weight = json.product_quantity;
+        json.weight_unit = json.product_quantity_unit;
+        delete json.product_quantity;
+        delete json.product_quantity_unit;
+      } else if (volumeUnits.includes(json.product_quantity_unit)) {
+        json.volume = json.product_quantity;
+        json.volume_unit = json.product_quantity_unit;
+        delete json.product_quantity;
+        delete json.product_quantity_unit;
+      }
+    } else if (json.product_quantity && !json.product_quantity_unit) {
+      json.volume = json.product_quantity;
+      //Database previously defaulted to 'l'
+      json.volume_unit = 'l';
+      delete json.product_quantity;
+      delete json.product_quantity_unit;
+    }
+    return json;
+  }
+
   $parseJson(json, opt) {
     // Remember to call the super class's implementation.
     json = super.$parseJson(json, opt);

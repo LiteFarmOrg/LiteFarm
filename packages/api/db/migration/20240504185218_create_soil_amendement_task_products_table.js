@@ -13,6 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+const soilAmendmentFertiliserTypeKeys = ['DRY', 'LIQUID'];
+const elementalUnits = ['percent', 'ratio', 'ppm', 'mg/kg'];
+const molecularCompoundsUnits = ['ppm', 'mg/kg'];
+const rawElements = 'n, p, k, calcium, magnesium, sulfur, copper, manganese, boron';
+const rawElementsAddition = 'n + p + k + calcium + magnesium + sulfur + copper + manganese + boron';
+const rawMolecularCompounds = 'ammonium, nitrate';
+const amendmentProductPurposeKeys = [
+  'STRUCTURE',
+  'MOISTURE_RETENTION',
+  'NUTRIENT_AVAILABILITY',
+  'PH',
+  'OTHER',
+];
+
 const weightUnits = ['g', 'lb', 'kg', 't', 'mt', 'oz'];
 const applicationRateWeightUnits = [
   'g/m2',
@@ -46,17 +60,6 @@ const applicationRateVolumeUnits = [
   'fl-oz/ac',
 ];
 const rawVolumeUnits = `('l', 'gal', 'ml', 'fl-oz')`;
-const elementalUnits = ['percent', 'ratio', 'ppm', 'mg/kg'];
-const rawElements = 'n, p, k, calcium, magnesium, sulfur, copper, manganese, boron';
-const rawElementsAddition = 'n + p + k + calcium + magnesium + sulfur + copper + manganese + boron';
-
-const amendmentProductPurposeKeys = [
-  'STRUCTURE',
-  'MOISTURE_RETENTION',
-  'NUTRIENT_AVAILABILITY',
-  'PH',
-  'OTHER',
-];
 const applicationMethodKeys = [
   'BROADCAST',
   'BANDED',
@@ -66,18 +69,16 @@ const applicationMethodKeys = [
   'FOLIAR',
   'OTHER',
 ];
-const soildAmendmentProductStateKeys = ['DRY', 'CUSTOM_DRY', 'CUSTOM_LIQUID', 'LIQUID', 'UNKNOWN'];
 
 export const up = async function (knex) {
-  // Create product_state table
-  await knex.schema.createTable('soil_amendment_product_state', (table) => {
+  // Create fertliser types table
+  await knex.schema.createTable('soil_amendment_fertiliser_type', (table) => {
     table.increments('id').primary();
     table.string('key').notNullable();
   });
-
-  // Add product states
-  for (const key of soildAmendmentProductStateKeys) {
-    await knex('soil_amendment_product_state').insert({
+  // Add fertiliser types
+  for (const key of soilAmendmentFertiliserTypeKeys) {
+    await knex('soil_amendment_fertiliser_type').insert({
       key,
     });
   }
@@ -86,9 +87,9 @@ export const up = async function (knex) {
     table.increments('id').primary();
     table.integer('product_id').references('product_id').inTable('product').notNullable();
     table
-      .integer('soil_amendment_product_state_id')
+      .integer('soil_amendment_fertiliser_type_id')
       .references('id')
-      .inTable('soil_amendment_product_state')
+      .inTable('soil_amendment_fertiliser_type')
       .nullable();
     table.decimal('n');
     table.decimal('p');
@@ -100,8 +101,9 @@ export const up = async function (knex) {
     table.decimal('manganese');
     table.decimal('boron');
     table.enu('elemental_unit', elementalUnits);
-    table.decimal('ammonium_ppm');
-    table.decimal('nitrate_ppm');
+    table.decimal('ammonium');
+    table.decimal('nitrate');
+    table.enu('molecular_compounds_unit', molecularCompoundsUnits);
     table.check(
       `(COALESCE(${rawElements}) IS NULL AND elemental_unit IS NULL) OR (COALESCE(${rawElements}) IS NOT NULL AND elemental_unit IS NOT NULL)`,
       [],
@@ -111,6 +113,11 @@ export const up = async function (knex) {
       `elemental_unit != 'percent' OR (elemental_unit = 'percent' AND (${rawElementsAddition}) <= 100)`,
       [],
       'elemental_percent_check',
+    );
+    table.check(
+      `(COALESCE(${rawMolecularCompounds}) IS NULL AND molecular_compounds_unit IS NULL) OR (COALESCE(${rawMolecularCompounds}) IS NOT NULL AND elemental_unit IS NOT NULL)`,
+      [],
+      'molecular_compounds_unit_check',
     );
   });
 
@@ -520,7 +527,7 @@ export const down = async function (knex) {
   await knex.schema.dropTable('soil_amendment_purpose');
   await knex.schema.dropTable('soil_amendment_method');
   await knex.schema.dropTable('soil_amendment_product');
-  await knex.schema.dropTable('soil_amendment_product_state');
+  await knex.schema.dropTable('soil_amendment_fertiliser_type');
 
   //Remove permissions
   // Use task or product permissions as needed

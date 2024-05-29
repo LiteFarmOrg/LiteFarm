@@ -1,5 +1,53 @@
 {
   "ADD_ANIMAL": {
+    "ADD_TO_INVENTORY": "MISSING",
+    "ANIMALS_TOTAL_one": "MISSING",
+    "ANIMALS_TOTAL_many": "MISSING",
+    "ANIMALS_TOTAL_other": "MISSING",
+    "ANIMALS_UNSPECIFIED_one": "MISSING",
+    "ANIMALS_UNSPECIFIED_many": "MISSING",
+    "ANIMALS_UNSPECIFIED_other": "MISSING",
+    "BATCH_NAME": "MISSING",
+    "BATCH_NAME_PLACEHOLDER": "MISSING",
+    "BREED": "MISSING",
+    "BREED_PLACEHOLDER": "MISSING",
+    "BREED_PLACEHOLDER_DISABLED": "MISSING",
+    "CREATE_INDIVIDUAL_PROFILES": "MISSING",
+    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "MISSING",
+    "GENERAL_DETAILS": "MISSING",
+    "GROUP_NAME": "MISSING",
+    "GROUP_NAME_PLACEHOLDER": "MISSING",
+    "ORIGIN": "MISSING",
+    "OTHER_DETAILS": "MISSING",
+    "OUT_OF_COUNT_one": "MISSING",
+    "OUT_OF_COUNT_many": "MISSING",
+    "OUT_OF_COUNT_other": "MISSING",
+    "PLACEHOLDER": {
+      "BATCH_NAME": "MISSING",
+      "DAM": "MISSING",
+      "MERCHANT": "MISSING",
+      "NAME": "MISSING",
+      "ORGANIC_STATUS": "MISSING",
+      "OTHER_DETAILS": "MISSING",
+      "PRICE": "MISSING",
+      "SIRE": "MISSING",
+      "TAG_COLOUR": "MISSING",
+      "TAG_NUMBER": "MISSING",
+      "TAG_PLACEMENT": "MISSING",
+      "TAG_PLACEMENT_INFO": "MISSING",
+      "TAG_TYPE": "MISSING",
+      "TAG_TYPE_INFO": "MISSING"
+    },
+    "REMOVE_CONFIRM": "MISSING",
+    "SELECT_SEXES": "MISSING",
+    "SEX_DETAIL": "MISSING",
+    "SEX_DETAIL_ERROR_one": "MISSING",
+    "SEX_DETAIL_ERROR_many": "MISSING",
+    "SEX_DETAIL_ERROR_other": "MISSING",
+    "SEX_DETAIL_ERROR_POPOVER_one": "MISSING",
+    "SEX_DETAIL_ERROR_POPOVER_many": "MISSING",
+    "SEX_DETAIL_ERROR_POPOVER_other": "MISSING",
+    "SPECIFY_SEX": "MISSING",
     "SUMMARY": {
       "ADD_MORE_DETAILS": "MISSING",
       "ALL_DONE": "MISSING",
@@ -9,7 +57,11 @@
       "BATCH_SUMMARY_COUNT_other": "MISSING",
       "HERE_IS_SUMMARY": "MISSING",
       "MAIN": "MISSING"
-    }
+    },
+    "TYPE": "MISSING",
+    "TYPE_PLACEHOLDER": "MISSING",
+    "UNIQUE_DETAILS": "MISSING",
+    "USED_FOR_REPRODUCTION": "MISSING"
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Dirección es obligatoria",
@@ -26,6 +78,7 @@
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
   "ADD_PRODUCT": {
+    "COMPOSITION": "MISSING",
     "PRESS_ENTER": "Escriba y presione enter para agregar...",
     "PRODUCT_LABEL": "Producto",
     "SUPPLIER_LABEL": "Proveedor/a"
@@ -179,6 +232,20 @@
     "ANIMAL_LOCATIONS": "MISSING",
     "ANIMAL_SEXES": "MISSING",
     "ANIMAL_TYPE": "MISSING",
+    "ATTRIBUTE": {
+      "BATCH_NAME": "MISSING",
+      "DAM": "MISSING",
+      "DATE_OF_BIRTH": "MISSING",
+      "MERCHANT": "MISSING",
+      "ORGANIC_STATUS": "MISSING",
+      "SIRE": "MISSING",
+      "TAG_COLOUR": "MISSING",
+      "TAG_NUMBER": "MISSING",
+      "TAG_PLACEMENT": "MISSING",
+      "TAG_PLACEMENT_INFO": "MISSING",
+      "TAG_TYPE": "MISSING",
+      "WEANING_DATE": "MISSING"
+    },
     "BATCH": "MISSING",
     "FILTER": {
       "BATCHES": "MISSING",
@@ -850,6 +917,9 @@
     "CLEAR_ALL_FILTERS": "Borrar todos los filtros",
     "SELECT_ALL": "Seleccionar todos",
     "SELECTED": "{{count}} seleccionados",
+    "SELECTED_one": "MISSING",
+    "SELECTED_many": "MISSING",
+    "SELECTED_other": "MISSING",
     "SHOWING_ALL": "Mostrando todos",
     "SHOWING_ALL_DEFAULT": "Mostrando Todos (Default)"
   },
@@ -1913,6 +1983,13 @@
     "CANT_FIND": "¡Ups! No pudimos encontrar eso.",
     "MAYBE_LATER": "Tal vez aparezca más tarde.",
     "UNKNOWN_RECORD": "Registro desconocido"
+  },
+  "UPLOADER": {
+    "CHANGE_IMAGE": "MISSING",
+    "CLICK_TO_UPLOAD": "MISSING",
+    "DRAG_DROP": "MISSING",
+    "REMOVE_IMAGE": "MISSING",
+    "UPLOAD_IMAGE": "MISSING"
   },
   "WAGE": {
     "ERROR": "Salario debe ser válido, no números decimales negativos",

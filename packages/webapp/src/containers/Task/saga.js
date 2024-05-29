@@ -551,7 +551,7 @@ const getTaskCompletePathname = (task_id, task_translation_key) => {
 export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload }) {
-  let { alreadyCompleted, returnPath, setShowCannotCreateModal, ...data } = payload;
+  let { alreadyCompleted, returnPath, setShowCannotCreateModal, callback, ...data } = payload;
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, farm_id: task_farm_id } = yield select(
@@ -584,6 +584,7 @@ export function* createTaskSaga({ payload }) {
       header,
     );
     if (result) {
+      callback?.();
       const { task_id, taskType } =
         task_translation_key === 'HARVEST_TASK' ? result.data[0] : result.data;
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });

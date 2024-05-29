@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { createTask, updateUserFarmWage, setUserFarmWageDoNotAskAgain } from '../saga';
+import { createTask, updateUserFarmWage, setUserFarmWageDoNotAskAgain, getProducts } from '../saga';
 import { useTranslation } from 'react-i18next';
 import { cloneObject } from '../../../util';
 import useTaskAssignForm from '../../../components/Task/AssignTask/useTaskAssignForm';
@@ -116,6 +116,11 @@ export default function TaskManagement({ history, match, location }) {
         delete postData[key];
       }
     });
+
+    const taskTypesWithProduct = ['cleaning_task', 'soil_amendment_task', 'pest_control_task'];
+    const shouldGetProducts =
+      already_completed && taskTypesWithProduct.some((taskType) => postData[taskType]?.product);
+    postData.callback = shouldGetProducts ? () => dispatch(getProducts()) : undefined;
     dispatch(
       createTask({ ...postData, setShowCannotCreateModal, alreadyCompleted: already_completed }),
     );

@@ -37,6 +37,24 @@
 }
 
 /*----------------------------------------
+  ProductCard
+----------------------------------------*/
+.productCard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Neutral-Neutral-100, #d0d4db);
+  background: var(--White, #fff);
+  box-shadow: 0px 0px 4px 0px var(--Colors-Neutral-Neutral-200, #b9bfc9);
+
+  &:focus-within {
+    border: 1px solid var(--Form-focus, #89d1c7);
+  }
+}
+
+/*----------------------------------------
   ProductDetails
 ----------------------------------------*/
 .productDetails {

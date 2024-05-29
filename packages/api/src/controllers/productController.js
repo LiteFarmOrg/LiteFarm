@@ -45,13 +45,9 @@ const productController = {
       try {
         const { farm_id } = req.headers;
         const data = req.body;
-
-        const result = await baseController.postWithResponse(
-          ProductModel,
-          { ...data, farm_id },
-          req,
-          { trx },
-        );
+        const result = await ProductModel.query(trx)
+          .context({ user_id: req?.auth?.user_id })
+          .insertGraph({ ...data, farm_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {

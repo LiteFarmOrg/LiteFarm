@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import Model from './baseFormatModel';
+import Model from './baseFormatModel.js';
 
 class soilAmendmentProduct extends Model {
   static get tableName() {
@@ -29,7 +29,6 @@ class soilAmendmentProduct extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['key'],
       properties: {
         id: { type: 'integer' },
         product_id: { type: 'integer' },

@@ -42,7 +42,7 @@ function ConsentForm({
 
     formState: { errors },
   } = useForm();
-  const [consentVersion] = useState('5.0');
+  const [consentVersion] = useState('6.0');
   const consent =
     role.role_id === 3 ? getLanguageConsent(language).worker : getLanguageConsent(language).owner;
   const checkboxName = 'consentCheckbox';

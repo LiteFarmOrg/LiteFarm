@@ -1857,7 +1857,7 @@ describe('Task tests', () => {
           const patched_pest_control_task = await knex('pest_control_task')
             .where({ task_id })
             .first();
-          expect(patched_pest_control_task.product_quantity).toBe(
+          expect(patched_pest_control_task.volume || patched_pest_control_task.weight).toBe(
             new_pest_control_task.product_quantity,
           );
           expect(patched_pest_control_task.pest_target).toBe(new_pest_control_task.pest_target);
@@ -2173,7 +2173,7 @@ describe('Task tests', () => {
           const patched_pest_control_task = await knex('pest_control_task')
             .where({ task_id })
             .first();
-          expect(patched_pest_control_task.product_quantity).toBe(
+          expect(patched_pest_control_task.volume || patched_pest_control_task.weight).toBe(
             new_pest_control_task.product_quantity,
           );
           expect(patched_pest_control_task.control_method).toBe(

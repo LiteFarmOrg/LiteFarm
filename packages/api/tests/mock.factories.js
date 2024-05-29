@@ -1466,6 +1466,9 @@ function fakeDisease(defaultData = {}) {
   };
 }
 
+const volumeUnits = ['l', 'gal', 'ml', 'fl-oz'];
+const weightUnits = ['g', 'lb', 'kg', 't', 'mt', 'oz'];
+
 async function pest_control_taskFactory(
   { promisedTask = taskFactory(), promisedProduct = productFactory() } = {},
   pestTask = fakePestControlTask(),
@@ -1473,11 +1476,26 @@ async function pest_control_taskFactory(
   const [task, product] = await Promise.all([promisedTask, promisedProduct]);
   const [{ task_id }] = task;
   const [{ product_id }] = product;
+
+  // The model normally handles this conversion, but this is a direct insert into the database
+  const isVolume = volumeUnits.includes(pestTask.product_quantity_unit);
+  const isWeight = weightUnits.includes(pestTask.product_quantity_unit);
+
+  const updatedPestTask = {
+    ...pestTask,
+    volume: isVolume ? pestTask.product_quantity : null,
+    volume_unit: isVolume ? pestTask.product_quantity_unit : null,
+    weight: isWeight ? pestTask.product_quantity : null,
+    weight_unit: isWeight ? pestTask.product_quantity_unit : null,
+  };
+  delete updatedPestTask.product_quantity;
+  delete updatedPestTask.product_quantity_unit;
+
   return knex('pest_control_task')
     .insert({
       task_id,
       product_id,
-      ...pestTask,
+      ...updatedPestTask,
     })
     .returning('*');
 }
@@ -1485,6 +1503,7 @@ async function pest_control_taskFactory(
 function fakePestControlTask(defaultData = {}) {
   return {
     product_quantity: faker.datatype.number(2000),
+    product_quantity_unit: faker.helpers.arrayElement([...volumeUnits, ...weightUnits]),
     pest_target: faker.lorem.words(2),
     control_method: faker.helpers.arrayElement([
       'systemicSpray',

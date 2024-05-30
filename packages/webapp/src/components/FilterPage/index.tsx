@@ -52,6 +52,7 @@ const PureFilterPage = ({
   const resetFilter = () => {
     triggerReset();
     setIsDirty(true);
+    setTempFilter({});
   };
 
   const [isDirty, setIsDirty] = useState(false);

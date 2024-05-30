@@ -16,9 +16,8 @@
 const soilAmendmentFertiliserTypeKeys = ['DRY', 'LIQUID'];
 const elementalUnits = ['percent', 'ratio', 'ppm', 'mg/kg'];
 const molecularCompoundsUnits = ['ppm', 'mg/kg'];
-const rawElements = 'n, p, k, calcium, magnesium, sulfur, copper, manganese, boron';
-const rawElementsAddition = 'n + p + k + calcium + magnesium + sulfur + copper + manganese + boron';
-const rawMolecularCompounds = 'ammonium, nitrate';
+const elements = ['n', 'p', 'k', 'calcium', 'magnesium', 'sulfur', 'manganese', 'boron'];
+const compounds = ['ammonium', 'nitrate'];
 const amendmentProductPurposeKeys = [
   'STRUCTURE',
   'MOISTURE_RETENTION',
@@ -26,8 +25,19 @@ const amendmentProductPurposeKeys = [
   'PH',
   'OTHER',
 ];
-
-const weightUnits = ['g', 'lb', 'kg', 't', 'mt', 'oz'];
+const amendmentMethodKeys = [
+  'BROADCAST',
+  'BANDED',
+  'FURROW_HOLE',
+  'SIDE_DRESS',
+  'FERTIGATION',
+  'FOLIAR',
+  'OTHER',
+];
+const furrowHoleDepthUnits = ['cm', 'in'];
+const metricWeightUnits = ['g', 'kg', 'mt'];
+const imperialWeightUnits = ['oz', 'lb', 't'];
+const weightUnits = [...metricWeightUnits, ...imperialWeightUnits];
 const applicationRateWeightUnits = [
   'g/m2',
   'lb/ft2',
@@ -42,13 +52,9 @@ const applicationRateWeightUnits = [
   'mt/ha',
   'oz/ac',
 ];
-//const applicationRateWeightUnits =['kg/ha', 'lb/ac'];
-const rawMetricWeightUnits = `('g', 'kg', 'mt')`;
-const rawImperialWeightUnits = `('oz', 'lb', 't')`;
-const rawWeightUnits = `('g', 'lb', 'kg', 't', 'mt', 'oz')`;
-const rawMetricVolumeUnits = `('l', 'ml')`;
-const rawImperialVolumeUnits = `('gal', 'fl-oz')`;
-const volumeUnits = ['l', 'gal', 'ml', 'fl-oz'];
+const metricVolumeUnits = ['ml', 'l'];
+const imperialVolumeUnits = ['fl-oz', 'gal'];
+const volumeUnits = [...metricVolumeUnits, ...imperialVolumeUnits];
 const applicationRateVolumeUnits = [
   'l/m2',
   'gal/ft2',
@@ -58,16 +64,6 @@ const applicationRateVolumeUnits = [
   'gal/ac',
   'ml/ha',
   'fl-oz/ac',
-];
-const rawVolumeUnits = `('l', 'gal', 'ml', 'fl-oz')`;
-const applicationMethodKeys = [
-  'BROADCAST',
-  'BANDED',
-  'WITH_PLANTER',
-  'SIDE_DRESS',
-  'FERTIGATION',
-  'FOLIAR',
-  'OTHER',
 ];
 
 export const up = async function (knex) {
@@ -84,8 +80,7 @@ export const up = async function (knex) {
   }
 
   await knex.schema.createTable('soil_amendment_product', (table) => {
-    table.increments('id').primary();
-    table.integer('product_id').references('product_id').inTable('product').notNullable();
+    table.integer('product_id').references('product_id').inTable('product').primary();
     table
       .integer('soil_amendment_fertiliser_type_id')
       .references('id')
@@ -105,21 +100,39 @@ export const up = async function (knex) {
     table.decimal('nitrate');
     table.enu('molecular_compounds_unit', molecularCompoundsUnits);
     table.check(
-      `(COALESCE(${rawElements}) IS NULL AND elemental_unit IS NULL) OR (COALESCE(${rawElements}) IS NOT NULL AND elemental_unit IS NOT NULL)`,
+      `(COALESCE(${elements.join(
+        ', ',
+      )}) IS NULL AND elemental_unit IS NULL) OR (COALESCE(${elements.join(
+        ', ',
+      )}) IS NOT NULL AND elemental_unit IS NOT NULL)`,
       [],
       'elemental_unit_check',
     );
     table.check(
-      `elemental_unit != 'percent' OR (elemental_unit = 'percent' AND (${rawElementsAddition}) <= 100)`,
+      `elemental_unit != 'percent' OR (elemental_unit = 'percent' AND (${elements.join(
+        ' + ',
+      )}) <= 100)`,
       [],
       'elemental_percent_check',
     );
     table.check(
-      `(COALESCE(${rawMolecularCompounds}) IS NULL AND molecular_compounds_unit IS NULL) OR (COALESCE(${rawMolecularCompounds}) IS NOT NULL AND elemental_unit IS NOT NULL)`,
+      `(COALESCE(${compounds.join(
+        ', ',
+      )}) IS NULL AND molecular_compounds_unit IS NULL) OR (COALESCE(${compounds.join(
+        ', ',
+      )}) IS NOT NULL AND elemental_unit IS NOT NULL)`,
       [],
       'molecular_compounds_unit_check',
     );
   });
+
+  // TODO: Migrate fertilizer table into here?
+  // Insert blank record into soil amendment product
+  await knex.raw(`
+    INSERT INTO soil_amendment_product (product_id)
+    SELECT product_id FROM product
+    WHERE product.type = 'soil_amendment_task'
+  `);
 
   // Create amendment purpose table
   await knex.schema.createTable('soil_amendment_purpose', (table) => {
@@ -141,7 +154,7 @@ export const up = async function (knex) {
   });
 
   // Add method types
-  for (const key of applicationMethodKeys) {
+  for (const key of amendmentMethodKeys) {
     await knex('soil_amendment_method').insert({
       key,
     });
@@ -226,26 +239,26 @@ export const up = async function (knex) {
   await knex.raw(`
     INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit, other_purpose)
     SELECT task_id, product_id, product_quantity, product_quantity_unit, 'kg/ha'::text, other_purpose FROM soil_amendment_task
-    WHERE product_quantity_unit IN ${rawMetricWeightUnits}
+    WHERE product_quantity_unit IN ('${metricWeightUnits.join("', '")}')
   `);
 
   await knex.raw(`
     INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit, other_purpose)
     SELECT task_id, product_id, product_quantity, product_quantity_unit, 'lb/ac'::text, other_purpose FROM soil_amendment_task
-    WHERE product_quantity_unit IN ${rawImperialWeightUnits}
+    WHERE product_quantity_unit IN ('${imperialWeightUnits.join("', '")}')
   `);
 
   // Migrate existing volume data to the new table (reversibly)
   await knex.raw(`
     INSERT INTO soil_amendment_task_products (task_id, product_id, volume, volume_unit, application_rate_volume_unit, other_purpose)
     SELECT task_id, product_id, product_quantity, product_quantity_unit, 'l/ha'::text , other_purpose FROM soil_amendment_task
-    WHERE product_quantity_unit IN ${rawMetricVolumeUnits}
+    WHERE product_quantity_unit IN ('${metricVolumeUnits.join("', '")}')
   `);
 
   await knex.raw(`
     INSERT INTO soil_amendment_task_products (task_id, product_id, volume, volume_unit, application_rate_volume_unit, other_purpose)
     SELECT task_id, product_id, product_quantity, product_quantity_unit, 'gal/ac'::text, other_purpose FROM soil_amendment_task
-    WHERE product_quantity_unit IN ${rawImperialVolumeUnits}
+    WHERE product_quantity_unit IN ('${imperialVolumeUnits.join("', '")}')
   `);
 
   // Get Product Ids, and Purposes
@@ -279,6 +292,8 @@ export const up = async function (knex) {
     table.dropColumn('other_purpose');
     table.dropColumn('purpose');
     table.string('method_id');
+    table.decimal('furrow_hole_depth', 36, 12);
+    table.enu('furrow_hole_depth_unit', furrowHoleDepthUnits);
     table.string('other_application_method');
   });
 
@@ -305,13 +320,13 @@ export const up = async function (knex) {
     UPDATE cleaning_task
     SET (volume, volume_unit) = (product_quantity, product_quantity_unit)
     WHERE product_quantity IS NOT NULL
-    AND product_quantity_unit IN ${rawVolumeUnits}
+    AND product_quantity_unit IN ('${volumeUnits.join("', '")}')
   `);
   await knex.raw(`
     UPDATE cleaning_task
     SET (weight, weight_unit) = (product_quantity, product_quantity_unit)
     WHERE product_quantity IS NOT NULL
-    AND product_quantity_unit IN ${rawWeightUnits}
+    AND product_quantity_unit IN ('${weightUnits.join("', '")}')
   `);
 
   // Product is not required for cleaning task
@@ -338,13 +353,13 @@ export const up = async function (knex) {
     UPDATE pest_control_task
     SET (volume, volume_unit) = (product_quantity, product_quantity_unit)
     WHERE product_quantity IS NOT NULL
-    AND product_quantity_unit IN ${rawVolumeUnits}
+    AND product_quantity_unit IN ('${volumeUnits.join("', '")}')
   `);
   await knex.raw(`
     UPDATE pest_control_task
     SET (weight, weight_unit) = (product_quantity, product_quantity_unit)
     WHERE product_quantity IS NOT NULL
-    AND product_quantity_unit IN ${rawWeightUnits}
+    AND product_quantity_unit IN ('${weightUnits.join("', '")}')
   `);
 
   // Product not required for pest control task
@@ -414,22 +429,27 @@ export const down = async function (knex) {
   // Reverse product data migration
   await knex.schema.alterTable('soil_amendment_task', (table) => {
     table.decimal('product_quantity', 36, 12);
-    table.text('product_quantity_unit');
+    table.enu('product_quantity_unit', [...weightUnits, ...volumeUnits]).defaultTo('kg');
     table.integer('product_id').references('product_id').inTable('product');
     table.string('other_purpose');
-    table.text('purpose');
+    table.enu(
+      'purpose',
+      amendmentProductPurposeKeys.map((k) => k.toLowerCase()),
+    );
     table.dropColumn('method_id');
     table.dropColumn('other_application_method');
+    table.dropColumn('furrow_hole_depth');
+    table.dropColumn('furrow_hole_depth_unit');
   });
 
   await knex.schema.alterTable('cleaning_task', (table) => {
     table.decimal('product_quantity', 36, 12);
-    table.text('product_quantity_unit').defaultTo('l');
+    table.enu('product_quantity_unit', volumeUnits).defaultTo('l');
   });
 
   await knex.schema.alterTable('pest_control_task', (table) => {
     table.decimal('product_quantity', 36, 12);
-    table.text('product_quantity_unit').defaultTo('l');
+    table.text('product_quantity_unit', [...weightUnits, ...volumeUnits]).defaultTo('l');
   });
 
   // only saves the first product, destroys application rates

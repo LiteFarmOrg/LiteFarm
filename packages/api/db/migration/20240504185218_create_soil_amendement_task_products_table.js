@@ -120,7 +120,7 @@ export const up = async function (knex) {
         ', ',
       )}) IS NULL AND molecular_compounds_unit IS NULL) OR (COALESCE(${compounds.join(
         ', ',
-      )}) IS NOT NULL AND elemental_unit IS NOT NULL)`,
+      )}) IS NOT NULL AND molecular_compounds_unit IS NOT NULL)`,
       [],
       'molecular_compounds_unit_check',
     );

@@ -28,7 +28,8 @@ const productController = {
           .whereNotDeleted()
           .where({
             farm_id,
-          });
+          })
+          .withGraphFetched('soil_amendment_product');
         return res.status(200).send(rows);
       } catch (error) {
         //handle more exceptions
@@ -62,7 +63,14 @@ const productController = {
         const { farm_id } = req.headers;
         const { product_id } = req.params;
         const data = req.body;
-        await baseController.patch(ProductModel, product_id, { ...data, farm_id }, req, { trx });
+
+        // This will replace the entire related object (e.g. soil_amendment_product) so keep that in mind when constructing the request
+        await baseController.upsertGraph(
+          ProductModel,
+          { ...data, farm_id, product_id: parseInt(product_id) },
+          req,
+          { trx },
+        );
         await trx.commit();
         res.status(204).send();
       } catch (error) {

@@ -52,6 +52,7 @@ export type ProductDetailsProps = {
     data: FormFields & { farm_id: string; product_id: ProductId; type: string },
     callback?: (id: number) => void,
   ) => void;
+  setFieldValidity: (isValid: boolean) => void;
 };
 
 const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
@@ -78,6 +79,7 @@ const ProductDetails = ({
   clearProduct,
   setProductId,
   onSave,
+  setFieldValidity,
 }: ProductDetailsProps) => {
   const { t } = useTranslation();
   const [isEditingProduct, setIsEditingProduct] = useState(false);
@@ -137,6 +139,10 @@ const ProductDetails = ({
     }
     previousProductIdRef.current = productId;
   }, [productId]);
+
+  useEffect(() => {
+    setFieldValidity(isValid);
+  }, [isValid]);
 
   const onCancel = () => {
     if (isNewProduct(productId)) {

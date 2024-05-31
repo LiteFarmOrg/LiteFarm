@@ -14,6 +14,7 @@
  */
 
 import { NPK, UNIT, Unit } from '../../Form/CompositionInputs/NumberInputWithSelect';
+import { TASK_TYPES } from '../../../containers/Task/constants';
 
 export const FIELD_NAMES = {
   PRODUCT_ID: 'product_id',
@@ -44,13 +45,16 @@ export type FormFields = {
 export type Product = {
   [FIELD_NAMES.PRODUCT_ID]: number;
   [FIELD_NAMES.NAME]: string;
-  product_translation_key: string | null;
   [FIELD_NAMES.SUPPLIER]?: string | null;
-  type: 'soil_amendment_task' | 'cleaning_task' | 'pest_control';
-  farm_id: string;
   [FIELD_NAMES.PERMITTED]?: 'YES' | null;
   [FIELD_NAMES.N]?: number | null;
   [FIELD_NAMES.P]?: number | null;
   [FIELD_NAMES.K]?: number | null;
   [FIELD_NAMES.UNIT]: Unit | null;
+  farm_id: string;
+  type:
+    | typeof TASK_TYPES.SOIL_AMENDMENT
+    | typeof TASK_TYPES.CLEANING
+    | typeof TASK_TYPES.PEST_CONTROL;
+  product_translation_key: string | null;
 };

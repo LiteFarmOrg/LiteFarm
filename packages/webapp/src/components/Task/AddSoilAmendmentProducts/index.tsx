@@ -50,7 +50,7 @@ const AddSoilAmendmentProducts = ({ products, ...props }: AddSoilAmendmentProduc
     [products],
   );
 
-  const { expandedIds, toggleExpanded, expand, unExpand } = useExpandable({
+  const { expandedIds, toggleExpanded, expand, unExpand, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
 
@@ -84,6 +84,11 @@ const AddSoilAmendmentProducts = ({ products, ...props }: AddSoilAmendmentProduc
     remove(index);
   };
 
+  const onAddAnotherProduct = () => {
+    resetExpanded();
+    append(defaultValues);
+  };
+
   return (
     <>
       <div className={styles.products}>
@@ -113,7 +118,7 @@ const AddSoilAmendmentProducts = ({ products, ...props }: AddSoilAmendmentProduc
       </div>
       <TextButton
         disabled={!!invalidProducts.length}
-        onClick={() => append(defaultValues)}
+        onClick={onAddAnotherProduct}
         className={styles.addAnotherProduct}
       >
         <PlusCircleIcon />

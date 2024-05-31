@@ -37,7 +37,12 @@ const FIELD_NAME = 'soil_amendment_task_products';
 
 const AddSoilAmendmentProducts = ({ products, ...props }: AddSoilAmendmentProductsProps) => {
   const { t } = useTranslation();
-  const { control, setValue, watch } = useFormContext();
+  const {
+    control,
+    setValue,
+    watch,
+    formState: { isValid },
+  } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: FIELD_NAME,
     control,
@@ -89,7 +94,11 @@ const AddSoilAmendmentProducts = ({ products, ...props }: AddSoilAmendmentProduc
           );
         })}
       </div>
-      <TextButton onClick={() => append(defaultValues)} className={styles.addAnotherProduct}>
+      <TextButton
+        disabled={!isValid}
+        onClick={() => append(defaultValues)}
+        className={styles.addAnotherProduct}
+      >
         <PlusCircleIcon />
         {t('ADD_PRODUCT.ADD_ANOTHER_PRODUCT')}
       </TextButton>

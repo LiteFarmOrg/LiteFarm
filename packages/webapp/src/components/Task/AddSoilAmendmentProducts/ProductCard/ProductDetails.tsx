@@ -248,7 +248,7 @@ const ProductDetails = ({
               isSaveDisabled={!isProductEntered || !(isDirty && isValid)}
               onCancel={onCancel}
               onEdit={() => setIsEditingProduct(true)}
-              onSave={() => handleSubmit(onSubmit)}
+              onSave={handleSubmit(onSubmit)}
             />
           )}
         </div>

@@ -198,10 +198,17 @@ describe('Product Tests', () => {
       }
     });
 
-    test('should return 400 if n, p, or k value is provided without npk_unit', async (done) => {
+    test('should return 400 if elemental value is provided without elemental_unit', async (done) => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
-      const npkProduct = mocks.fakeProduct({ farm_id: userFarm.farm_id, n: 70, p: 30, k: 30 });
+      const npkProduct = mocks.fakeProduct({
+        farm_id: userFarm.farm_id,
+        soil_amendment_product: {
+          n: 70,
+          p: 30,
+          k: 20,
+        },
+      });
 
       postProductRequest(npkProduct, userFarm, (err, res) => {
         expect(res.status).toBe(400);
@@ -209,15 +216,17 @@ describe('Product Tests', () => {
       });
     });
 
-    test('should return 400 if npk_unit is percent and n + p + k > 100', async (done) => {
+    test('should return 400 if elemental_unit is percent and n + p + k > 100', async (done) => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const npkProduct = mocks.fakeProduct({
         farm_id: userFarm.farm_id,
-        n: 70,
-        p: 30,
-        k: 20,
-        npk_unit: 'percent',
+        soil_amendment_product: {
+          n: 70,
+          p: 30,
+          k: 20,
+          elemental_unit: 'percent',
+        },
       });
 
       postProductRequest(npkProduct, userFarm, (err, res) => {
@@ -270,16 +279,18 @@ describe('Product Tests', () => {
       }
     });
 
-    test('should return 400 if n, p, or k value is patched without npk_unit', async () => {
+    test('should return 400 if n, p, or k value is patched without elemental_unit', async () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const origProduct = await createProductInDatabase(userFarm);
 
       const res = await patchRequest(
         {
-          n: 70,
-          p: 30,
-          k: 30,
+          soil_amendment_product: {
+            n: 70,
+            p: 30,
+            k: 30,
+          },
         },
         origProduct.product_id,
         userFarm,
@@ -287,17 +298,19 @@ describe('Product Tests', () => {
       expect(res.status).toBe(400);
     });
 
-    test('should return 400 if patched npk_unit is percent and patched n + p + k > 100', async () => {
+    test('should return 400 if patched elemental_unit is percent and patched n + p + k > 100', async () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
       const origProduct = await createProductInDatabase(userFarm);
 
       const res = await patchRequest(
         {
-          n: 70,
-          p: 30,
-          k: 30,
-          npk_unit: 'percent',
+          soil_amendment_product: {
+            n: 70,
+            p: 30,
+            k: 30,
+            elemental_unit: 'percent',
+          },
         },
         origProduct.product_id,
         userFarm,

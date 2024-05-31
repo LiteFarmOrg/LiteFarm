@@ -20,7 +20,7 @@ class soilAmendmentProduct extends Model {
   }
 
   static get idColumn() {
-    return 'id';
+    return 'product_id';
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -30,7 +30,6 @@ class soilAmendmentProduct extends Model {
     return {
       type: 'object',
       properties: {
-        id: { type: 'integer' },
         product_id: { type: 'integer' },
         soil_amendment_fertiliser_type_id: { type: ['integer', 'null'] },
         n: { type: ['number', 'null'] },

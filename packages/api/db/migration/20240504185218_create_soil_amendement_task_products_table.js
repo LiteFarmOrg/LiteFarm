@@ -109,9 +109,9 @@ export const up = async function (knex) {
       'elemental_unit_check',
     );
     table.check(
-      `elemental_unit != 'percent' OR (elemental_unit = 'percent' AND (${elements.join(
-        ' + ',
-      )}) <= 100)`,
+      `elemental_unit != 'percent' OR (elemental_unit = 'percent' AND (${elements
+        .map((element) => `COALESCE(${element}, 0)`)
+        .join(' + ')}) <= 100)`,
       [],
       'elemental_percent_check',
     );

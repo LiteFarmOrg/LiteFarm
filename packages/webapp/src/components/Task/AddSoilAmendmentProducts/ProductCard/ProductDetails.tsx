@@ -59,7 +59,7 @@ const isNewProduct = (productId: ProductId): boolean => typeof productId === 'st
 export const defaultValues = {
   [FIELD_NAMES.SUPPLIER]: '',
   [FIELD_NAMES.COMPOSITION]: {
-    [FIELD_NAMES.UNIT]: Unit.PERCENT,
+    [FIELD_NAMES.UNIT]: Unit.RATIO,
     [FIELD_NAMES.N]: NaN,
     [FIELD_NAMES.P]: NaN,
     [FIELD_NAMES.K]: NaN,
@@ -114,7 +114,7 @@ const ProductDetails = ({
         [FIELD_NAMES.SUPPLIER]: supplier || '',
         [FIELD_NAMES.PERMITTED]: on_permitted_substances_list || undefined,
         [FIELD_NAMES.COMPOSITION]: {
-          [FIELD_NAMES.UNIT]: npk_unit || Unit.PERCENT,
+          [FIELD_NAMES.UNIT]: npk_unit || Unit.RATIO,
           [FIELD_NAMES.N]: n ?? NaN,
           [FIELD_NAMES.P]: p ?? NaN,
           [FIELD_NAMES.K]: k ?? NaN,
@@ -209,12 +209,12 @@ const ProductDetails = ({
             control={control}
             rules={{
               validate: (value): boolean | string => {
-                if (!value || value[UNIT] === Unit.RATIO) {
+                if (!value || value[UNIT] !== Unit.PERCENT) {
                   return true;
                 }
                 return (
                   (value[NPK.N] || 0) + (value[NPK.P] || 0) + (value[NPK.K] || 0) <= 100 ||
-                  t('ADD_PRODUCT.NPK_ERROR')
+                  t('ADD_PRODUCT.COMPOSITION_ERROR')
                 );
               },
             }}

@@ -31,6 +31,7 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 );
 import mocks from './mock.factories.js';
 import productModel from '../src/models/productModel.js';
+import soilAmendmentProductModel from '../src/models/soilAmendmentProductModel.js';
 
 describe('Product Tests', () => {
   // let middleware;
@@ -250,6 +251,41 @@ describe('Product Tests', () => {
         done();
       });
     });
+
+    test('should successfully populate soil_amendment_product table', async (done) => {
+      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+      const soilAmendmentProduct = mocks.fakeProduct({
+        farm_id: userFarm.farm_id,
+        type: 'soil_amendment_task',
+        soil_amendment_product: {
+          n: 1,
+          p: 2,
+          k: 1,
+          elemental_unit: 'ratio',
+        },
+      });
+
+      postProductRequest(soilAmendmentProduct, userFarm, async (err, res) => {
+        expect(res.status).toBe(201);
+
+        const [productRecord] = await productModel
+          .query()
+          .context({ showHidden: true })
+          .where('farm_id', userFarm.farm_id);
+
+        const [soilAmendmentProductRecord] = await soilAmendmentProductModel
+          .query()
+          .where({ product_id: productRecord.product_id });
+
+        expect(soilAmendmentProductRecord.n).toBe(1);
+        expect(soilAmendmentProductRecord.p).toBe(2);
+        expect(soilAmendmentProductRecord.k).toBe(1);
+        expect(soilAmendmentProductRecord.elemental_unit).toBe('ratio');
+
+        done();
+      });
+    });
   });
 
   describe('Update product', () => {
@@ -343,6 +379,40 @@ describe('Product Tests', () => {
         userFarm,
       );
       expect(res.status).toBe(409);
+    });
+
+    test('should successfully patch soil_amendment_product table values', async () => {
+      const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
+
+      const fertilizerProduct = mocks.fakeProduct({
+        name: 'Fertilizer Product',
+        type: 'soil_amendment_task',
+      });
+
+      // Note: this is a direct knex insert (not via model) so creating a record in the soil_amendment_product table cannot be done like this
+      const origProduct = await createProductInDatabase(userFarm, fertilizerProduct);
+
+      const res = await patchRequest(
+        {
+          soil_amendment_product: {
+            ammonium: 78,
+            nitrate: 112,
+            molecular_compounds_unit: 'ppm',
+          },
+        },
+        origProduct.product_id,
+        userFarm,
+      );
+
+      expect(res.status).toBe(204);
+
+      const [updatedSoilAmendmentProduct] = await soilAmendmentProductModel
+        .query()
+        .where({ product_id: origProduct.product_id });
+
+      expect(updatedSoilAmendmentProduct.ammonium).toBe(78);
+      expect(updatedSoilAmendmentProduct.nitrate).toBe(112);
+      expect(updatedSoilAmendmentProduct.molecular_compounds_unit).toBe('ppm');
     });
   });
 });

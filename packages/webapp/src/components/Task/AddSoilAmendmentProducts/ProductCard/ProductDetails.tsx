@@ -29,6 +29,7 @@ import { NPK, UNIT, Unit } from '../../../Form/CompositionInputs/NumberInputWith
 import Buttons from './Buttons';
 import { FIELD_NAMES, type FormFields, type Product, type ProductId } from '../types';
 import { CANADA } from '../../AddProduct/constants';
+import { TASK_TYPES } from '../../../../containers/Task/constants';
 import styles from '../styles.module.scss';
 
 const unitOptions = [
@@ -48,7 +49,7 @@ export type ProductDetailsProps = {
   clearProduct: () => void;
   setProductId: (id: number | string | undefined) => void;
   onSave: (
-    data: FormFields & { farm_id: string; product_id: ProductId },
+    data: FormFields & { farm_id: string; product_id: ProductId; type: string },
     callback?: (id: number) => void,
   ) => void;
 };
@@ -150,7 +151,7 @@ const ProductDetails = ({
 
   const onSubmit = (data: FormFields) => {
     const callback = isNewProduct(productId) ? setProductId : undefined;
-    onSave({ ...data, farm_id, product_id: productId }, callback);
+    onSave({ ...data, farm_id, product_id: productId, type: TASK_TYPES.SOIL_AMENDMENT }, callback);
 
     setIsEditingProduct(false);
     reset(getValues());

@@ -22,6 +22,7 @@ import TextButton from '../../Form/Button/TextButton';
 import { type Product } from './types';
 import { defaultValues } from './ProductCard/ProductDetails';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
+import { TASK_TYPES } from '../../../containers/Task/constants';
 import styles from './styles.module.scss';
 
 export type AddSoilAmendmentProductsProps = ProductCardProps & { products: Product[] };
@@ -43,7 +44,7 @@ const AddSoilAmendmentProducts = ({ products, ...props }: AddSoilAmendmentProduc
   });
 
   const productsOfType = useMemo(
-    () => products.filter((product) => product.type === 'soil_amendment_task'),
+    () => products.filter((product) => product.type === TASK_TYPES.SOIL_AMENDMENT),
     [products],
   );
 

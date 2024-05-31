@@ -19,8 +19,8 @@ import { TASK_TYPES } from '../../../containers/Task/constants';
 export const FIELD_NAMES = {
   PRODUCT_ID: 'product_id',
   NAME: 'name',
-  SUPPLIER: `supplier`,
-  PERMITTED: `on_permitted_substances_list`,
+  SUPPLIER: 'supplier',
+  PERMITTED: 'on_permitted_substances_list',
   COMPOSITION: 'composition',
   UNIT,
   N: NPK.N,
@@ -31,11 +31,10 @@ export const FIELD_NAMES = {
 export type ProductId = number | string | undefined;
 
 export type FormFields = {
-  [FIELD_NAMES.NAME]?: string;
   [FIELD_NAMES.SUPPLIER]?: string | null;
-  [FIELD_NAMES.PERMITTED]?: string | null;
+  [FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
   [FIELD_NAMES.COMPOSITION]?: {
-    [FIELD_NAMES.UNIT]: Unit;
+    [FIELD_NAMES.UNIT]?: Unit;
     [FIELD_NAMES.N]?: number | null;
     [FIELD_NAMES.P]?: number | null;
     [FIELD_NAMES.K]?: number | null;
@@ -46,11 +45,11 @@ export type Product = {
   [FIELD_NAMES.PRODUCT_ID]: number;
   [FIELD_NAMES.NAME]: string;
   [FIELD_NAMES.SUPPLIER]?: string | null;
-  [FIELD_NAMES.PERMITTED]?: 'YES' | null;
+  [FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
   [FIELD_NAMES.N]?: number | null;
   [FIELD_NAMES.P]?: number | null;
   [FIELD_NAMES.K]?: number | null;
-  [FIELD_NAMES.UNIT]: Unit | null;
+  [FIELD_NAMES.UNIT]?: Unit | null;
   farm_id: string;
   type:
     | typeof TASK_TYPES.SOIL_AMENDMENT

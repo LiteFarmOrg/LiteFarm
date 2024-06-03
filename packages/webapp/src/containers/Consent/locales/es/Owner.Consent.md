@@ -93,7 +93,8 @@ Usamos sus datos principalmente de tres formas:
 - Para mejorar los servicios de visualización de datos agrícolas que le proporcionamos: Como se ha descrito anteriormente, utilizamos sus datos de uso (es decir, información general sobre cómo interactúa con la plataforma LiteFarm) para mejorar la plataforma LiteFarm y los servicios que proporciona.
 - Para generar información sobre los beneficios o impactos financieros, ambientales y sociales de sus decisiones de administración: LiteFarm utiliza los datos de gestión que Ud. ingresa en la aplicación (consulte más arriba la sección "Información de Administración de la Finca" para obtener una lista completa), junto con algoritmos incorporados y algunos datos públicos (por ejemplo, información de la estación meteorológica local, coeficientes de cultivos, contenido de nutrientes de cultivos y fertilizantes, datos de presencia de especies y datos topográficos) para generar conocimiento sobre los beneficios / impactos financieros, ambientales y sociales de sus decisiones de gestión.
 - Para realizar investigaciones académicas no comerciales sobre sistemas de alimentación sostenibles: junto con nuestros colaboradores académicos(as) utilizaremos sus datos de gestión agrícola de manera anónima (consulte más arriba la sección "Información de administración agrícola" para obtener una lista completa) para llevar a cabo investigación académica sobre actividades agronómicas, ecológicas y sistemas de alimentación. Parte de esta investigación será realizada por estudiantes universitarios y de posgrado.
-- Evaluaremos rigurosamente cada propuesta de proyecto para asegurarnos de que sus datos se utilicen de manera efectiva para avanzar en el conocimiento sobre sistemas de alimentación sostenibles, ayudar a los(as) agricultores(as) a tomar decisiones de gestión sostenible e influir en las políticas públicas en beneficio de los(as) agricultores(as). Lo(La) mantendremos informado(a) sobre los proyectos de investigación a través de su correo electrónico (a menos que prefiera no participar), y Ud. siempre podrá comunicarse con nosotros para obtener más información sobre la investigación que sus datos están ayudando a hacer posible.
+
+Evaluaremos rigurosamente cada propuesta de proyecto para asegurarnos de que sus datos se utilicen de manera efectiva para avanzar en el conocimiento sobre sistemas de alimentación sostenibles, ayudar a los(as) agricultores(as) a tomar decisiones de gestión sostenible e influir en las políticas públicas en beneficio de los(as) agricultores(as). Lo(La) mantendremos informado(a) sobre los proyectos de investigación a través de su correo electrónico (a menos que prefiera no participar), y Ud. siempre podrá comunicarse con nosotros para obtener más información sobre la investigación que sus datos están ayudando a hacer posible.
 
 **¿Qué compartimos?**
 
@@ -106,6 +107,10 @@ Desde algunas áreas de nuestro sitio podríamos instalar una galleta informáti
 **¿Dónde almacenamos sus datos?**
 
 Nuestra aplicación está alojada en Digital Ocean para servir nuestro sitio web de manera rápida y confiable a un número impredecible de personas. Esto significa que sus datos se almacenarán potencialmente en múltiples centros de datos y ubicaciones en Canadá y los Estados Unidos de América. Aunque nuestra aplicación no es comercial, observamos que Digital Ocean participa en el programa Privacy Shield, desarrollado por el Departamento de Comercio de EEUU y la Unión Europea (UE) y proporciona servicios de conformidad con el Reglamento General de Protección de Datos (GDPR) de la UE. Además de nuestro almacenamiento en la nube, una copia local de la base de datos de LiteFarm está alojada en un servidor encriptado y protegido con contraseña en la Universidad de Columbia Británica. Se pueden almacenar copias anónimas de la base de datos LIteFarm en repositorios públicos de acuerdo con los estándares de publicación para la reproducibilidad científica.
+
+Los agricultores que participan en una red de certificación pueden optar por exportar los datos que han introducido en LiteFarm en un informe descargable que pueden compartir con una parte externa (por ejemplo, un certificador orgánica). Algunos certificadores pueden solicitar de forma independiente preguntas adicionales al agricultor relacionadas con su proceso de certificación, que los agricultores pueden optar por responder como parte de su descarga de certificación dentro de la aplicación LiteFarm. Para facilitar la integración de preguntas de certificadores independientes, LiteFarm contiene una integración con SurveyStack, una plataforma de cuestionarios de encuestas de código abierto y acceso libre. Al aceptar esta política de privacidad, usted no está obligado a hacer uso de la integración con SurveyStack. Se trata de una función opcional para facilitar el proceso de certificación entre su granja y su certificador.
+
+Los datos introducidos a través de la integración de SurveyStack se almacenan en la infraestructura de SurveyStack utilizando MongoDB en Amazon Web Services (AWS) a través del servicio MongoDB Cloud Atlas. SurveyStack pretende crear un ecosistema de datos abierto. Por lo tanto, todos los datos de envío de la plataforma SurveyStack son públicos, excepto los datos asociados a los campos de la encuesta marcados como privados, a los que sólo pueden acceder la persona que completa la encuesta y el creador de la misma (por ejemplo, un certificador). Se anima a los certificadores a hacer privadas sus encuestas, pero el equipo de LiteFarm no tiene ningún control sobre si lo hacen o no.
 
 **¿Cómo protegemos sus datos?**
 
@@ -139,7 +144,7 @@ Si crea una cuenta de LiteFarm, ocasionalmente le enviaremos un correo electrón
 
 **Licencia**
 
-El sitio web de LiteFarm es de uso gratuito. El software en sí tiene la licencia GNU Public License v3, que es una licencia gratuita y de código abierto ( https://www.gnu.org/licenses/quick-guide-gplv3.en.html )
+El sitio web de LiteFarm es de uso gratuito. El software en sí tiene la licencia GNU Public License v3, que es una licencia gratuita y de código abierto (https://www.gnu.org/licenses/quick-guide-gplv3.en.html)
 
 **Para mayor información**
 
@@ -149,7 +154,7 @@ Sobre la aplicación, comuníquese con:
 
 Sobre a este estudio, comuníquese con la investigadora principal:
 
-- Investigadora principal: Dra. Hannah Wittman ( hannah.wittman@ubc.ca )
+- Investigadora principal: Dra. Hannah Wittman (hannah.wittman@ubc.ca)
 
 **Si tiene algún comentario o queja sobre sus derechos como participante en la investigación y/o sus experiencias mientras participa en este estudio**
 

@@ -16,7 +16,7 @@ El equipo de LiteFarm es un grupo multidisciplinario de científicos(as), invest
 
 #### ¿Quién financia LiteFarm?
 
-LiteFarm es financiado por el Centro de Sistemas de Alimentación Sostenibles de UBC y por otras subvenciones. Para conocer la lista completa, por favor visite: https://www.litefarm.org/community-1. Nuestros patrocinadores externos no tienen voz en la operación y administración de LiteFarm, y no cuentan con acceso a la información personal almacenada en la plataforma. Nuestro modelo de financiación es actualmente impulsado por donantes y subvenciones.
+LiteFarm es financiado por el Centro de Sistemas de Alimentación Sostenibles de UBC y por otras subvenciones. Para conocer la lista completa, por favor visite: https://ubcfarm.ubc.ca/csfs-research/litefarm/. Nuestros patrocinadores externos no tienen voz en la operación y administración de LiteFarm, y no cuentan con acceso a la información personal almacenada en la plataforma. Nuestro modelo de financiación es actualmente impulsado por donantes y subvenciones.
 
 #### ¿Por qué realizamos este proyecto?
 

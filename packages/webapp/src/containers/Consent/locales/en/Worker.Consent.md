@@ -8,11 +8,11 @@ We understand that your privacy and the protection of your data are important to
 
 #### What is LiteFarm?
 
-LiteFarm is a participatory science research project hosted at the University of British Columbia to help improve access to digital agricultural technology for farming communities and develop better understanding of pathways towards sustainable agriculture.UBC works with farmer organizations to pilot and evaluate tool and knowledge aims to help farmers manage their farms in more profitable and environmentally and socially sustainable ways. The code underlying LiteFarm is free and open source (GPLv3) so that researchers, experts, and developers across the world can help to improve the services offered to the farming community. LiteFarm is a non-commercial entity.
+LiteFarm is a participatory science research project hosted at the University of British Columbia to help improve access to digital agricultural technology for farming communities and develop better understanding of pathways towards sustainable agriculture. UBC works with farmer organizations to pilot and evaluate tool and knowledge aims to help farmers manage their farms in more profitable and environmentally and socially sustainable ways. The code underlying LiteFarm is free and open source (GPLv3) so that researchers, experts, and developers across the world can help to improve the services offered to the farming community. LiteFarm is a non-commercial entity.
 
 #### Who is the LiteFarm team?
 
-The LiteFarm team is a cross-disciplinary group of scientists, researchers, farmers, designers and software professionals. The team was initially formed at the University of British Columbia (UBC), and has grown to include a participatory global network of individuals and organizations. The Principal Investigators are Dr. Zia Mehrabi (University of Colorado) and Dr. Hannah Wittman (hannah.wittman@ubc.ca), as well as DR. Sean Smukler, Director of the Centre for Sustainable Food Systems at UBC Farm.
+The LiteFarm team is a cross-disciplinary group of scientists, researchers, farmers, designers and software professionals. The team was initially formed at the University of British Columbia (UBC), and has grown to include a participatory global network of individuals and organizations. The Principal Investigators are Dr. Zia Mehrabi (University of Colorado) and Dr. Hannah Wittman (hannah.wittman@ubc.ca), as well as Dr. Sean Smukler, Director of the Centre for Sustainable Food Systems at UBC Farm.
 
 #### Who funds LiteFarm?
 
@@ -108,7 +108,7 @@ You have the right to know what data we have about you, request a copy of it, up
 
 Your usage of LiteFarm is entirely voluntary. If you decide to use LiteFarm, you may choose to inactivate your account at any time without giving a reason, and without any further action by the researcher. If you wish to remove all of your data from the LiteFarm database, you may do so by emailing litefarm.team@ubc.ca with your request.
 
-If you withdraw your consent by emailing itefarm.team@ubc.ca, your account(s) on the LiteFarm platform will be marked as inactive and you will not be able to use the LiteFarm platform. However, your information will not be deleted in the case you would like to return at a later time. You can request that your data be permanently and irrevocably deleted by sending a request to litefarm.team@ubc.ca. If you plan to withdraw consent, and would like a copy of your data please request that when you withdraw your consent.
+If you withdraw your consent by emailing litefarm.team@ubc.ca, your account(s) on the LiteFarm platform will be marked as inactive and you will not be able to use the LiteFarm platform. However, your information will not be deleted in the case you would like to return at a later time. You can request that your data be permanently and irrevocably deleted by sending a request to litefarm.team@ubc.ca. If you plan to withdraw consent, and would like a copy of your data please request that when you withdraw your consent.
 
 **How do we make changes to the Privacy Policy?**
 

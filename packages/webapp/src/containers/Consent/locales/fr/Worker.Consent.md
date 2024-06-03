@@ -1,4 +1,4 @@
-##### Version 6.0:
+##### Version 6: April 30, 2024
 
 #### Formulaire de consentement éclairé et politique de confidentialité (version pour ouvrières et ouvriers)
 

@@ -1,4 +1,4 @@
-##### Version 6.0:
+##### Version 6: April 30, 2024
 
 #### Informed Consent Form and Privacy Policy (Farm Workers)
 
@@ -20,7 +20,7 @@ LiteFarm is funded by the Centre for Sustainable Food Systems at UBC and other g
 
 #### Why are we conducting this project?
 
-We recognize gaps in farmer access to digital technology services, low adoption rates, and a need expressed by farmers to combine a range of agricultral data managment services in a single, non-commercially driven platform. We want to develop a solution that both helps farmers operate their business in a more financially and ecologically sustainable way, and also helps advance the science of sustainability.
+We recognize gaps in farmer access to digital technology services, low adoption rates, and a need expressed by farmers to combine a range of agricultural data management services in a single, non-commercially driven platform. We want to develop a solution that both helps farmers operate their business in a more financially and ecologically sustainable way, and also helps advance the science of sustainability.
 
 #### What data do we collect?
 
@@ -90,7 +90,7 @@ Our application is hosted on Digital Ocean to quickly and reliably serve our web
 
 **How do we protect your data?**
 
-We follow industry best practices to secure user data, and we have built and continue to maintain the Litefarm application in line with Open Web Application Security Project’s Annotated Application Security Verification Standard Level 2. Access to the Litefarm database is limited to members of the LiteFarm team who have undergone ethics training (Tri-Council Policy Statement: Ethical Conduct for Research Involving Humans, TCPS2), and have signed confidentiality agreements. However, we cannot guarantee that data transmitted over the internet will always be secure. As a result, though we strive to protect your personal information, we cannot ensure the security of any information you transmit while using LiteFarm.
+We follow industry best practices to secure user data, and we have built and continue to maintain the LiteFarm application in line with Open Web Application Security Project’s Annotated Application Security Verification Standard Level 2. Access to the LiteFarm database is limited to members of the LiteFarm team who have undergone ethics training (Tri-Council Policy Statement: Ethical Conduct for Research Involving Humans, TCPS2), and have signed confidentiality agreements. However, we cannot guarantee that data transmitted over the internet will always be secure. As a result, though we strive to protect your personal information, we cannot ensure the security of any information you transmit while using LiteFarm.
 
 **What other potential risks are involved with using LiteFarm?**
 
@@ -126,7 +126,7 @@ At this time, the LiteFarm application is free to use. The software itself is li
 
 With respect to the application, please contact:
 
-- Product Manager: Kevin Cussen ( litefarm.team@ubc.ca)
+- Product Manager: Kevin Cussen (litefarm.team@ubc.ca)
 
 With respect to this study, please contact the principal investigator:
 

@@ -22,7 +22,7 @@ type Variant = 'remove';
 
 type ButtonProps = {
   variant?: Variant;
-  children?: ReactNode | string;
+  children?: ReactNode;
   disabled?: boolean;
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -33,8 +33,8 @@ type ButtonProps = {
 interface Config {
   [key: string]: {
     translationKey: string;
-    icon: ReactNode;
-    callback: (text: string) => string;
+    icon?: ReactNode;
+    format?: (text: string) => string;
   };
 }
 
@@ -42,17 +42,17 @@ const CONFIG: Config = {
   remove: {
     translationKey: 'common:REMOVE',
     icon: <XIcon />,
-    callback: (text) => text.toLowerCase(),
+    format: (text) => text.toLowerCase(),
   },
 };
 
-const generateContent = (t: TFunction, variant: Variant) => {
-  const { translationKey, icon, callback = (text: string): string => text } = CONFIG[variant];
+const generateContent = (t: TFunction, variant: Variant): ReactNode => {
+  const { translationKey, icon, format = (text: string): string => text } = CONFIG[variant];
 
   return (
     <>
       {icon}
-      <span>{callback(t(translationKey))}</span>
+      <span>{format(t(translationKey))}</span>
     </>
   );
 };

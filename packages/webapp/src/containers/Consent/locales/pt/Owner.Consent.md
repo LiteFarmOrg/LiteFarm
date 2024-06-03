@@ -1,4 +1,4 @@
-##### Version 6.0:
+##### Version 6: April 24, 2024
 
 #### Formulário de Consentimento Livre e Esclarecido e Política de Privacidade (Produtores Rurais e Gerentes Rurais)
 
@@ -118,7 +118,7 @@ Os dados inseridos através da integração SurveyStack são armazenados na infr
 
 **Como protegemos os seus dados?**
 
-Seguimos as melhores práticas do setor para proteger os dados dos usuários, e construímos e continuamos mantendo o aplicativo Litefarm alinhado ao Padrão de Verificação de Segurança de Aplicativos Comentado de Nível 2, do Projeto de Segurança de Aplicativos da Web Aberta. O acesso à base de dados de Litefarm é limitado aos membros da equipe LiteFarm que passaram pelo treinamento de ética (Declaração da Política do Conselho Triplo: Conduta Ética para Pesquisas Envolvendo Seres Humanos, TCPS2) e que assinaram acordos de confidencialidade. Entretanto, não podemos garantir que os dados transmitidos pela Internet estarão sempre seguros. Como resultado, embora nos esforcemos para proteger suas informações pessoais, não podemos garantir que alguma informação não possa ser transmitida durante o uso da LiteFarm.
+Seguimos as melhores práticas do setor para proteger os dados dos usuários, e construímos e continuamos mantendo o aplicativo LiteFarm alinhado ao Padrão de Verificação de Segurança de Aplicativos Comentado de Nível 2, do Projeto de Segurança de Aplicativos da Web Aberta. O acesso à base de dados de LiteFarm é limitado aos membros da equipe LiteFarm que passaram pelo treinamento de ética (Declaração da Política do Conselho Triplo: Conduta Ética para Pesquisas Envolvendo Seres Humanos, TCPS2) e que assinaram acordos de confidencialidade. Entretanto, não podemos garantir que os dados transmitidos pela Internet estarão sempre seguros. Como resultado, embora nos esforcemos para proteger suas informações pessoais, não podemos garantir que alguma informação não possa ser transmitida durante o uso da LiteFarm.
 
 **Que outros riscos potenciais estão envolvidos no uso da LiteFarm?**
 

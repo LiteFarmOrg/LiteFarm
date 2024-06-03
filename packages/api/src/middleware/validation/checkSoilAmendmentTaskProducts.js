@@ -33,17 +33,17 @@ export function checkSoilAmendmentTaskProducts() {
           return res.status(400).send('product_id is required');
         }
 
-        if (!product.product_quantity) {
-          return res.status(400).send('product_quantity is required');
+        if (!product.volume && !product.weight) {
+          return res.status(400).send('volume or weight is required');
         }
 
-        if (!product.product_quantity_unit) {
-          return res.status(400).send('product_quantity_unit is required');
+        if (!product.volume_unit && !product.weight_unit) {
+          return res.status(400).send('volume_unit or weight_unit is required');
         }
 
-        if (product.application_rate && !product.application_rate_unit) {
-          return res.status(400).send('application_rate_unit is required');
-        }
+        // if (product.application_rate && !product.application_rate_unit) {
+        //   return res.status(400).send('application_rate_unit is required');
+        // }
 
         const existingProduct = await ProductModel.query()
           .where({

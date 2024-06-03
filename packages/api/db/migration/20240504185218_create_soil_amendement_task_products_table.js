@@ -232,7 +232,7 @@ export const up = async function (knex) {
       .inTable('soil_amendment_task_products')
       .notNullable();
     table.integer('purpose_id').references('id').inTable('soil_amendment_purpose').notNullable();
-    table.unique(['task_products_id', 'purpose_id'], 'unique_task_products_purpose_relationship');
+    table.primary(['task_products_id', 'purpose_id']);
   });
 
   // Migrate existing weight data to the new table (reversibly)
@@ -291,7 +291,7 @@ export const up = async function (knex) {
     table.dropColumn('product_quantity_unit');
     table.dropColumn('other_purpose');
     table.dropColumn('purpose');
-    table.string('method_id');
+    table.integer('method_id').references('id').inTable('soil_amendment_method');
     table.decimal('furrow_hole_depth', 36, 12);
     table.enu('furrow_hole_depth_unit', furrowHoleDepthUnits);
     table.string('other_application_method');

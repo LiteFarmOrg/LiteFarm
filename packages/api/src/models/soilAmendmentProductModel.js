@@ -41,10 +41,10 @@ class soilAmendmentProduct extends Model {
         copper: { type: ['number', 'null'] },
         manganese: { type: ['number', 'null'] },
         boron: { type: ['number', 'null'] },
-        elemental_unit: { type: 'string', enum: ['percent', 'ratio', 'ppm', 'mg/kg'] },
+        elemental_unit: { type: ['string', 'null'], enum: ['percent', 'ratio', 'ppm', 'mg/kg'] },
         ammonium: { type: ['number', 'null'] },
         nitrate: { type: ['number', 'null'] },
-        molecular_compounds_unit: { type: 'string', enum: ['ppm', 'mg/kg'] },
+        molecular_compounds_unit: { type: ['string', 'null'], enum: ['ppm', 'mg/kg'] },
       },
       additionalProperties: false,
     };

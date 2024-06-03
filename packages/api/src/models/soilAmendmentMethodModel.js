@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import Model from './baseFormatModel';
+import Model from './baseFormatModel.js';
 
 class soilAmendmentMethod extends Model {
   static get tableName() {

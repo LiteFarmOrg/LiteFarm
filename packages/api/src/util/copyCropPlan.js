@@ -25,6 +25,8 @@ import PestControlTaskModel from '../models/pestControlTask.js';
 import ScoutingTaskModel from '../models/scoutingTaskModel.js';
 import SoilTaskModel from '../models/soilTaskModel.js';
 import SoilAmendmentTaskModel from '../models/soilAmendmentTaskModel.js';
+import SoilAmendmentTaskProductsModel from '../models/soilAmendmentTaskProductsModel.js';
+import soilAmendmentTaskProductPurposeRelationshipModel from '../models/soilAmendmentTaskProductPurposeRelationshipModel.js';
 import IrrigationTaskModel from '../models/irrigationTaskModel.js';
 import HarvestTaskModel from '../models/harvestTaskModel.js';
 import FieldWorkTaskModel from '../models/fieldWorkTaskModel.js';
@@ -35,7 +37,6 @@ import BedMethodModel from '../models/bedMethodModel.js';
 import ContainerMethodModel from '../models/containerMethodModel.js';
 import _omit from 'lodash/omit.js';
 import { getUUIDMap } from '../util/util.js';
-
 /**
  * Formats and returns an array of management plan data based on the provided management plan group.
  *
@@ -317,6 +318,31 @@ export const getManagementPlanTemplateGraph = (
                               managementTask.task.soil_amendment_task,
                               getPropertiesToDelete(SoilAmendmentTaskModel),
                             ),
+                            soil_amendment_task_products: managementTask.task.soil_amendment_task
+                              .soil_amendment_task_products
+                              ? managementTask.task.soil_amendment_task.soil_amendment_task_products.map(
+                                  (taskProduct) => {
+                                    return {
+                                      ..._omit(
+                                        taskProduct,
+                                        getPropertiesToDelete(SoilAmendmentTaskProductsModel),
+                                      ),
+                                      purpose_relationships: taskProduct.purpose_relationships
+                                        ? taskProduct.purpose_relationships.map((relationship) => {
+                                            return {
+                                              ..._omit(
+                                                relationship,
+                                                getPropertiesToDelete(
+                                                  soilAmendmentTaskProductPurposeRelationshipModel,
+                                                ),
+                                              ),
+                                            };
+                                          })
+                                        : null,
+                                    };
+                                  },
+                                )
+                              : null,
                           }
                         : null,
                       field_work_task: managementTask.task.field_work_task

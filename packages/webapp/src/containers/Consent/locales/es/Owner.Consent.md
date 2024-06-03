@@ -155,10 +155,6 @@ Sobre a este estudio, comuníquese con la investigadora principal:
 
 Comuníquese con la Línea de Quejas del(a) Participante de Investigación de la Oficina de Ética de Investigación de la UBC al 604-822-8598 (llamada local). Si la llamada es de larga distancia llame sin cargo al 1-877-822-8598, o envíe un correo electrónico a RSIL@ors.ubc.ca
 
-**Consentimiento y firmas del participante**
-
-Su participación en LiteFarm es completamente voluntaria. Como participante Ud. tiene derecho a negarse a participar. Puede optar por rechazar este formulario de consentimiento en cualquier momento sin dar una razón y sin que el(la) investigador(a) tome medidas adicionales.
-
 **Consentimiento**
 
 Al presionar más abajo Aceptar, Ud. estará indicando que ha descargado una copia de este Formulario de Consentimiento Informado y Política de Privacidad para sus propios registros y que acepta participar en este estudio.

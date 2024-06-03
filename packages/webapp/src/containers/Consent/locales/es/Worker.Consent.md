@@ -48,10 +48,6 @@ LiteFarm utiliza la información de administración que Ud. ingresa en la aplica
 
 - Información del registro de control de plagas: nombre del producto; cantidad de producto aplicado; objetivo de la aplicación (es decir, nombre de la plaga o enfermedad), nombre común, nombre científico, grupo; nombre del ingrediente activo; concentración de ingrediente activo; intervalo de cosecha; intervalo de entrada; tipo de control (aspersión sistémica, aspersión foliar, fumigación, quema, control biológico, recolección manual o tratamiento térmico); campo y cultivo tratado.
 
-- Información sobre las actividades realizadas en la propiedad: duración, campo, cultivos impactados, insumos de recursos y/o materiales, fechas de actividades, notas, estado de la actividad, etc.
-
-- Información del registro de control de plagas: nombre del producto; cantidad de producto aplicado; objetivo de la aplicación (es decir, nombre de la plaga o enfermedad), nombre común, nombre científico, grupo; nombre del ingrediente activo; concentración de ingrediente activo; intervalo de cosecha; intervalo de entrada; tipo de control (aspersión sistémica, aspersión foliar, fumigación, quema, control biológico, recolección manual o tratamiento térmico); campo y cultivo tratado.
-
 - Información del registro de cosecha: campo cosechado; cosecha ya cosechada; cantidad.
 
 - Información del registro de siembra: campo sembrado; cultivo sembrado; profundidad de espaciado, largo, ancho y proporción.
@@ -124,7 +120,7 @@ Si crea una cuenta de LiteFarm, ocasionalmente le enviaremos un correo electrón
 
 **Licencia**
 
-El sitio web de LiteFarm es de uso gratuito. El software en sí tiene la licencia GNU Public License v3, que es una licencia gratuita y de código abierto (https://www.gnu.org/licenses/quick-guide-gplv3.en.html )
+El sitio web de LiteFarm es de uso gratuito. El software en sí tiene la licencia GNU Public License v3, que es una licencia gratuita y de código abierto (https://www.gnu.org/licenses/quick-guide-gplv3.en.html)
 
 **Para más información**
 
@@ -134,7 +130,7 @@ Sobre la aplicación, comuníquese con:
 
 Sobre este estudio, comuníquese con la investigadora principal:
 
-- Investigadora principal: Dra. Hannah Wittman ( hannah.wittman@ubc.ca )
+- Investigadora principal: Dra. Hannah Wittman (hannah.wittman@ubc.ca)
 
 **Si tiene algún comentario o queja sobre sus derechos como participante en la investigación y/o sus experiencias mientras participan en este estudio**
 

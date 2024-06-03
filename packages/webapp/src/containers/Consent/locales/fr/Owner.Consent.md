@@ -1,4 +1,4 @@
-##### Version 6.0:
+##### Version 6: April 24, 2024
 
 #### Formulaire de consentement éclairé et politique de confidentialité (propriétaire et gestionnaire de ferme)
 

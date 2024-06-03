@@ -131,7 +131,7 @@ const ProductDetails = ({
 
     trigger();
 
-    if (productId) {
+    if (isAddingNewProduct && productId) {
       // Wait for the card to be expaneded
       setTimeout(() => {
         setFocus(FIELD_NAMES.SUPPLIER);
@@ -181,7 +181,7 @@ const ProductDetails = ({
         <KeyboardArrowDownIcon className={styles.expandIcon} />
       </TextButton>
 
-      <Collapse id={'id'} in={isExpanded} timeout="auto" unmountOnExit>
+      <Collapse id={`product_details-${productId}`} in={isExpanded} timeout="auto" unmountOnExit>
         <div className={styles.sectionBody}>
           {/* @ts-ignore */}
           <Input

@@ -60,7 +60,7 @@ const AddSoilAmendmentProducts = ({
 
   const productsForTask = watch(FIELD_NAME);
 
-  const getAvailableProductOptions = (selectedProductId: ProductId) => {
+  const getAvailableProductOptions = (selectedProductId: ProductId): Product[] => {
     // Returns the products that have not been selected by any other select
     const otherSelectedProductIds = productsForTask
       .filter(({ product_id }: ProductFields): boolean => product_id !== selectedProductId)
@@ -69,17 +69,19 @@ const AddSoilAmendmentProducts = ({
     return productsOfType.filter(({ product_id }) => !otherSelectedProductIds.includes(product_id));
   };
 
-  const getInvalidProductsUpdater = (fieldId: string) => (isValid: boolean) => {
-    setInvalidProducts((prevState) => {
-      if (isValid && prevState.includes(fieldId)) {
-        return prevState.filter((id) => id !== fieldId);
-      }
-      if (!isValid && !prevState.includes(fieldId)) {
-        return [...prevState, fieldId];
-      }
-      return prevState;
-    });
-  };
+  const getInvalidProductsUpdater =
+    (fieldId: string) =>
+    (isValid: boolean): void => {
+      setInvalidProducts((prevState) => {
+        if (isValid && prevState.includes(fieldId)) {
+          return prevState.filter((id) => id !== fieldId);
+        }
+        if (!isValid && !prevState.includes(fieldId)) {
+          return [...prevState, fieldId];
+        }
+        return prevState;
+      });
+    };
 
   const onRemove = (index: number, fieldId: string): void => {
     if (invalidProducts.includes(fieldId)) {
@@ -88,7 +90,7 @@ const AddSoilAmendmentProducts = ({
     remove(index);
   };
 
-  const onAddAnotherProduct = () => {
+  const onAddAnotherProduct = (): void => {
     resetExpanded();
     append(defaultValues);
   };

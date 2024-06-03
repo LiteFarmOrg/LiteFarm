@@ -1,4 +1,4 @@
-##### Version 6.0:
+##### Version 6: April 30, 2024
 
 #### Formulário de Consentimento Livre e Esclarecido e Política de Privacidade (Trabalhadores Agrícolas)
 

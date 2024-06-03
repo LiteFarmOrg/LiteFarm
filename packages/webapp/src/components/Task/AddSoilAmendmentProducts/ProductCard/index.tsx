@@ -13,14 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { GroupBase, SelectInstance } from 'react-select';
 import SmallButton from '../../../Form/Button/SmallButton';
 import { CreatableSelect } from '../../../Form/ReactSelect';
 import ProductDetails, { ProductDetailsProps } from './ProductDetails';
-import useProductOptions from '../useProductOptions';
+import { Product } from '../types';
 import styles from '../styles.module.scss';
 
 export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct'> & {
@@ -33,10 +33,32 @@ export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct'> & {
 
 interface ProductOption {
   value: number | string;
-  label: JSX.Element;
+  label: string;
+  data: Omit<Product, 'product_id' | 'name'>;
 }
 
 type SelectRef = SelectInstance<ProductOption, false, GroupBase<ProductOption>>;
+
+const formatOptionLabel = ({ label, data }: ProductOption): ReactNode => {
+  const prefix = ['N', 'P', 'K'];
+  const { n, p, k, npk_unit } = data || {};
+
+  let npk = '';
+  if (n || p || k) {
+    if (npk_unit === 'ratio') {
+      npk = [n, p, k].map((value) => value || 0).join(' : ');
+    } else {
+      npk = [n, p, k].map((value, index) => `${prefix[index]}: ${value || 0}%`).join(', ');
+    }
+  }
+
+  return (
+    <span className={styles.productOption}>
+      <span key="name">{label}</span>
+      <span key="npk">{npk}</span>
+    </span>
+  );
+};
 
 const SoilAmendmentProductCard = ({
   namePrefix,
@@ -44,7 +66,7 @@ const SoilAmendmentProductCard = ({
   system,
   onSaveProduct,
   isReadOnly,
-  products,
+  products = [],
   totalArea,
   ...props
 }: ProductCardProps) => {
@@ -54,7 +76,9 @@ const SoilAmendmentProductCard = ({
   const PRODUCT_ID = `${namePrefix}.product_id`;
 
   const selectRef = useRef<SelectRef>(null);
-  const productOptions = useProductOptions(products);
+  const productOptions = products.map(({ product_id, name, ...rest }) => {
+    return { value: product_id, label: name, data: rest };
+  });
 
   const clearProduct = () => {
     selectRef?.current?.clearValue();
@@ -79,6 +103,7 @@ const SoilAmendmentProductCard = ({
               hasLeaf={true}
               isDisabled={isReadOnly}
               isClearable={false}
+              formatOptionLabel={formatOptionLabel}
             />
           )}
         />

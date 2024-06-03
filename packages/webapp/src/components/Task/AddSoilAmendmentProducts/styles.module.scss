@@ -78,6 +78,11 @@
   }
 }
 
+.productOption {
+  display: flex;
+  justify-content: space-between;
+}
+
 /*----------------------------------------
   ProductDetails
 ----------------------------------------*/
@@ -145,10 +150,4 @@
 .editButton {
   width: fit-content;
   align-self: center;
-}
-
-// (useProductOptions)
-.productOption {
-  display: flex;
-  justify-content: space-between;
 }

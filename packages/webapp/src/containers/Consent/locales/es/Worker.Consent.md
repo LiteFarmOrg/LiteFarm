@@ -1,4 +1,4 @@
-##### Version 6.0:
+##### Version 6: April 30, 2024
 
 #### Formulario de consentimiento informado y política de privacidad (trabajadores agrícolas)
 

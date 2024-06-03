@@ -1,4 +1,4 @@
-##### Version 6.0:
+##### Version 6: April 24, 2024
 
 #### Informed Consent Form and Privacy Policy (Farm Owner and Farm Manager)
 

@@ -35,7 +35,11 @@ interface ProductFields {
 
 const FIELD_NAME = 'soil_amendment_task_products';
 
-const AddSoilAmendmentProducts = ({ products, ...props }: AddSoilAmendmentProductsProps) => {
+const AddSoilAmendmentProducts = ({
+  products,
+  isReadOnly,
+  ...props
+}: AddSoilAmendmentProductsProps) => {
   const [invalidProducts, setInvalidProducts] = useState<string[]>([]);
 
   const { t } = useTranslation();
@@ -100,6 +104,7 @@ const AddSoilAmendmentProducts = ({ products, ...props }: AddSoilAmendmentProduc
             <ProductCard
               {...props}
               key={field.id}
+              isReadOnly={isReadOnly}
               onRemove={index ? () => onRemove(index, field.id) : undefined}
               namePrefix={namePrefix}
               products={getAvailableProductOptions(productId)}
@@ -116,14 +121,16 @@ const AddSoilAmendmentProducts = ({ products, ...props }: AddSoilAmendmentProduc
           );
         })}
       </div>
-      <TextButton
-        disabled={!!invalidProducts.length}
-        onClick={onAddAnotherProduct}
-        className={styles.addAnotherProduct}
-      >
-        <PlusCircleIcon />
-        {t('ADD_PRODUCT.ADD_ANOTHER_PRODUCT')}
-      </TextButton>
+      {!isReadOnly && (
+        <TextButton
+          disabled={!!invalidProducts.length}
+          onClick={onAddAnotherProduct}
+          className={styles.addAnotherProduct}
+        >
+          <PlusCircleIcon />
+          {t('ADD_PRODUCT.ADD_ANOTHER_PRODUCT')}
+        </TextButton>
+      )}
     </>
   );
 };

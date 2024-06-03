@@ -16,7 +16,7 @@ The LiteFarm team is a cross-disciplinary group of scientists, researchers, farm
 
 #### Who funds LiteFarm?
 
-LiteFarm is funded by the Centre for Sustainable Food Systems at UBC and other grants. For a complete list, please visit: https://www.litefarm.org/community-1. Our external funders have no say in the operation and management of LiteFarm, and are unable to access any of the personal information housed on the platform. Our funding model is currently donor and grant-driven.
+LiteFarm is funded by the Centre for Sustainable Food Systems at UBC and other grants. For a complete list, please visit: https://ubcfarm.ubc.ca/csfs-research/litefarm/. Our external funders have no say in the operation and management of LiteFarm, and are unable to access any of the personal information housed on the platform. Our funding model is currently donor and grant-driven.
 
 #### Why are we conducting this project?
 

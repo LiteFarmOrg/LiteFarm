@@ -47,12 +47,11 @@ function TaskCompleteStepOne({ history, match, location }) {
   }, [dispatch, task_id]);
 
   // Generate a unique key based on products length and a timestamp
-  const productsKey = `${products.length}-${Date.now()}`;
-
+  console.log('Rendering PureCompleteStepOne with key:', JSON.stringify(products));
   return (
     <HookFormPersistProvider>
       <PureCompleteStepOne
-        key={productsKey} // Using generated key to force re-render on any product change
+        key={JSON.stringify(products)}
         onContinue={onContinue}
         onGoBack={onGoBack}
         system={system}

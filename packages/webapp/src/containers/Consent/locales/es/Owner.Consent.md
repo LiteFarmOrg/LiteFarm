@@ -1,4 +1,4 @@
-##### Version 6.0:
+##### Version 6: April 24, 2024
 
 #### Formulario de consentimiento informado y política de privacidad (propietario y administrador de la finca)
 
@@ -114,7 +114,7 @@ Los datos introducidos a través de la integración de SurveyStack se almacenan 
 
 **¿Cómo protegemos sus datos?**
 
-Seguimos las mejores prácticas de la industria para proteger los datos de nuestros usuarios(as), y hemos construido y continuamos manteniendo Litefarm en línea con el Nivel 2 del Estándar de Verificación de Seguridad de Aplicaciones Anotadas de Open Web Application Security. El acceso a la base de datos de Litefarm está limitado a los(as) miembros del equipo de LiteFarm quienes han sido capacitados en ética (Declaración de Política del Tri-Council: Conducta Etica para la Investigación que Involucra a Seres Humanos, TCPS2), y han firmado acuerdos de confidencialidad. Sin embargo, no podemos garantizar que los datos transmitidos a través de Internet sean siempre seguros. Como resultado, aunque nos esforzamos por proteger su información personal, no podemos garantizar la seguridad de la información que Ud. comparte mientras usa LiteFarm.
+Seguimos las mejores prácticas de la industria para proteger los datos de nuestros usuarios(as), y hemos construido y continuamos manteniendo LiteFarm en línea con el Nivel 2 del Estándar de Verificación de Seguridad de Aplicaciones Anotadas de Open Web Application Security. El acceso a la base de datos de LiteFarm está limitado a los(as) miembros del equipo de LiteFarm quienes han sido capacitados en ética (Declaración de Política del Tri-Council: Conducta Etica para la Investigación que Involucra a Seres Humanos, TCPS2), y han firmado acuerdos de confidencialidad. Sin embargo, no podemos garantizar que los datos transmitidos a través de Internet sean siempre seguros. Como resultado, aunque nos esforzamos por proteger su información personal, no podemos garantizar la seguridad de la información que Ud. comparte mientras usa LiteFarm.
 
 **¿Qué otros potenciales riesgos involucra el uso de LiteFarm?**
 

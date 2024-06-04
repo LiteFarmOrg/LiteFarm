@@ -1,12 +1,10 @@
-##### Version 6: April 24, 2024
+##### Version 6: May 31, 2024
 
 #### Formulaire de consentement éclairé et politique de confidentialité (propriétaire et gestionnaire de ferme)
 
 Bienvenue à LiteFarm !
 
-Nous comprenons que la confidentialité et la protection de vos données sont importantes. L’intention du Formulaire de consentement éclairé et politique de confidentialité est de vous aider à comprendre nos protocoles pour collectionner, à utiliser, et à partager vos données. Votre compréhension est essentielle pour le consentement.
-
-Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans le Formulaire de consentement éclairé et politique de confidentialité **pour chaque ferme à laquelle vous êtes associé avec un compte sur l’application LiteFarm**. Sans votre consentement vous ne pourrez pas utiliser l’application LiteFarm.
+Nous comprenons que la confidentialité et la protection de vos données sont importantes. L’intention du Formulaire de consentement éclairé et politique de confidentialité est de vous aider à comprendre nos protocoles pour collectionner, à utiliser, et à partager vos données. Votre compréhension est essentielle pour le consentement. Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans le Formulaire de consentement éclairé et politique de confidentialité **pour chaque ferme à laquelle vous êtes associé avec un compte sur l’application LiteFarm**. Sans votre consentement vous ne pourrez pas utiliser l’application LiteFarm.
 
 #### C’est quoi l’application LiteFarm ?
 
@@ -30,9 +28,7 @@ Selon les parties de l’application LiteFarm que vous utilisez, nous pouvons co
 
 **Informations personnelles**
 
-« Informations personnelles » décrit toute information pouvant être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tierce partie sans votre consentement.
-
-Ceci comprend :
+« Informations personnelles » décrit toute information pouvant être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tierce partie sans votre consentement. Ceci comprend :
 
 - Les coordonnées (nom, adresse, numéro de téléphone, adresse courriel)
 
@@ -50,9 +46,7 @@ Ceci comprend :
 
 **Informations sur la gestion de la ferme :**
 
-LiteFarm utilise les informations de gestion que vous entrez dans l'application pour générer des informations sur les avantages ou les impacts financiers, environnementaux et sociaux de vos décisions de gestion. Nous avons rendu ces données anonymes pour mener des recherches universitaires non commerciales sur les systèmes alimentaires durables. Car ces données sont anonymisées lorsqu'elles sont utilisées dans nos recherches, elles ne peuvent pas être retracées jusqu'à vous ou votre ferme.
-
-Ces données comprennent :
+LiteFarm utilise les informations de gestion que vous entrez dans l'application pour générer des informations sur les avantages ou les impacts financiers, environnementaux et sociaux de vos décisions de gestion. Nous avons rendu ces données anonymes pour mener des recherches universitaires non commerciales sur les systèmes alimentaires durables. Car ces données sont anonymisées lorsqu'elles sont utilisées dans nos recherches, elles ne peuvent pas être retracées jusqu'à vous ou votre ferme. Ces données comprennent :
 
 - Les informations sur l'emplacement de la ferme : différents types de données à propos de la ferme, y compris la taille ; des noms; les endroits de cultures plantées; statut biologique; et d'autres attributs spécifiques au type d'emplacement;
 
@@ -92,9 +86,7 @@ Ces données comprennent :
 
 **Données d'utilisation**
 
-Nous recueillons des données d'utilisation (c'est-à-dire des statistiques générales sur les utilisateurs, les modèles de trafic et la façon dont les utilisateurs réagissent aux diverses fonctionnalités du site) pour améliorer la qualité des services que nous vous fournissons. Ce type de données comprend : le temps de la journée où vous vous connectez à l’application LiteFarm, les pages que vous demandez, la durée de votre visite sur le site, la façon dont vous interagissez avec l'application et les détails techniques concernant votre appareil (par exemple, le navigateur, le type d'écran et le processeur).
-
-Ces données seront soit associées à votre nom d'utilisateur avec LiteFarm (si vous êtes connecté à l'application) ou à votre adresse IP (si vous n'êtes pas connecté). Nous pouvons utiliser des logiciels tels que Google Analytics pour collecter et analyser les données d’utilisation, mais dans ces cas, toutes les informations personnelles seront rendues anonymes.
+Nous recueillons des données d'utilisation (c'est-à-dire des statistiques générales sur les utilisateurs, les modèles de trafic et la façon dont les utilisateurs réagissent aux diverses fonctionnalités du site) pour améliorer la qualité des services que nous vous fournissons. Ce type de données comprend : le temps de la journée où vous vous connectez à l’application LiteFarm, les pages que vous demandez, la durée de votre visite sur le site, la façon dont vous interagissez avec l'application et les détails techniques concernant votre appareil (par exemple, le navigateur, le type d'écran et le processeur). Ces données seront soit associées à votre nom d'utilisateur avec LiteFarm (si vous êtes connecté à l'application) ou à votre adresse IP (si vous n'êtes pas connecté). Nous pouvons utiliser des logiciels tels que Google Analytics pour collecter et analyser les données d’utilisation, mais dans ces cas, toutes les informations personnelles seront rendues anonymes.
 
 **Comment utilisons-nous les données ?**
 
@@ -120,11 +112,7 @@ La plupart des navigateurs web acceptent automatiquement les cookies, mais vous 
 
 **Où stockons-nous vos données ?**
 
-Notre application est hébergée sur Digital Ocean pour servir rapidement et de manière fiable notre site web à un nombre imprévisible de personnes. Cela signifie que vos données seront potentiellement stockées dans plusieurs centres de données et emplacements au Canada et aux États-Unis d'Amérique.
-
-Bien que notre application ne soit pas commerciale, nous notons que Digital Ocean participe au programme « Privacy Shield » développé par le Département du commerce des États-Unis et l'Union Européenne (UE) et offre des services de conformité au Règlement général sur la protection des données (RGPD) de l'UE.
-
-En plus de notre stockage en nuage, une copie locale de la base de données LiteFarm est hébergée sur un serveur crypté et protégé par mot de passe à l'Université de la Colombie-Britannique (UBC). Des copies anonymisées de la base de données LiteFarm peuvent être stockées sur des référentiels publics conformément aux normes de publication pour la reproductibilité scientifique.
+Notre application est hébergée sur Digital Ocean pour servir rapidement et de manière fiable notre site web à un nombre imprévisible de personnes. Cela signifie que vos données seront potentiellement stockées dans plusieurs centres de données et emplacements au Canada et aux États-Unis d'Amérique. Bien que notre application ne soit pas commerciale, nous notons que Digital Ocean participe au programme « Privacy Shield » développé par le Département du commerce des États-Unis et l'Union Européenne (UE) et offre des services de conformité au Règlement général sur la protection des données (RGPD) de l'UE. En plus de notre stockage en nuage, une copie locale de la base de données LiteFarm est hébergée sur un serveur crypté et protégé par mot de passe à l'Université de la Colombie-Britannique (UBC). Des copies anonymisées de la base de données LiteFarm peuvent être stockées sur des référentiels publics conformément aux normes de publication pour la reproductibilité scientifique.
 
 Les agriculteurs participant à un réseau de certification peuvent choisir d'exporter les données qu'ils ont insérées dans LiteFarm dans un rapport téléchargeable qu'ils peuvent partager avec une partie externe (par exemple, un certificateur agricole). Certains certificateurs peuvent indépendamment demander des questions supplémentaires à l'agriculteur concernant leur processus de certification, auxquelles les agriculteurs peuvent choisir de répondre dans le cadre de leur téléchargement de certification dans l'application LiteFarm. Afin de faciliter l'intégration de questions provenant de certificateurs indépendants, LiteFarm contient une intégration avec SurveyStack, une plateforme de questionnaire d'enquête open-source et libre d'accès. En acceptant cette politique de confidentialité, vous n'êtes pas obligé d'utiliser l'intégration de SurveyStack. Il s'agit d'une fonctionnalité facultative destinée à faciliter le processus de certification entre votre exploitation et votre certificateur.
 
@@ -132,9 +120,7 @@ Les données saisies via l'intégration SurveyStack sont stockées dans l'infras
 
 **Comment protégeons-nous vos données ?**
 
-Nous suivons les meilleures pratiques de l'industrie pour sécuriser les données des utilisateurs, et nous avons construit et continuons à maintenir LiteFarm conformément à la norme de vérification de la sécurité des applications annotées de niveau 2 du projet Open Web Application Security.
-
-L'accès à la base de données est limité aux membres de l'équipe LiteFarm qui ont suivi une formation en éthique (Énoncé de politique des trois Conseils : Éthique de la recherche avec des êtres humains, EPTC2) et ont signé des ententes de confidentialité. Cependant, nous ne pouvons pas garantir que les données transmises sur Internet seront toujours sécurisées. Malgré le fait que nous nous efforçons de protéger vos informations personnelles, l’utilisation des applications et des données infonuagiques présente toujours une certaine mesure de risque de piratage.
+Nous suivons les meilleures pratiques de l'industrie pour sécuriser les données des utilisateurs, et nous avons construit et continuons à maintenir LiteFarm conformément à la norme de vérification de la sécurité des applications annotées de niveau 2 du projet Open Web Application Security. L'accès à la base de données est limité aux membres de l'équipe LiteFarm qui ont suivi une formation en éthique (Énoncé de politique des trois Conseils : Éthique de la recherche avec des êtres humains, EPTC2) et ont signé des ententes de confidentialité. Cependant, nous ne pouvons pas garantir que les données transmises sur Internet seront toujours sécurisées. En conséquence, bien que nous nous efforcions de protéger vos informations personnelles, nous ne pouvons pas garantir la sécurité de toute information que vous transmettez en utilisant LiteFarm.
 
 **Quels autres risques sont liés à l'utilisation de LiteFarm ?**
 

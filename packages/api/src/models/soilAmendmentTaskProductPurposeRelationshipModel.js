@@ -47,7 +47,7 @@ class soilAmendmentTaskProductPurposeRelationshipModel extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: soilAmendmentPurposeModel,
         join: {
-          from: 'soil_amendment_task_product_purpose_relationship.purpose_id',
+          from: 'soil_amendment_task_products_purpose_relationship.purpose_id',
           to: 'soil_amendment_purpose.id',
         },
       },

@@ -1427,9 +1427,9 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: {
-              ...fakeTaskData.soil_amendment_task(),
+              ...mocks.fakeSoilAmendmentTask(),
               soil_amendment_task_products: [
-                mocks.fakeSoilAmendmentTaskProduct(farmProduct.product_id),
+                { product_id: farmProduct.product_id, ...mocks.fakeSoilAmendmentTaskProduct() },
               ],
             },
             task_type_id,
@@ -1487,9 +1487,9 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: {
-              ...fakeTaskData.soil_amendment_task(),
+              ...mocks.fakeSoilAmendmentTask(),
               soil_amendment_task_products: [
-                mocks.fakeSoilAmendmentTaskProduct(farmProduct.product_id),
+                { product_id: farmProduct.product_id, ...mocks.fakeSoilAmendmentTaskProduct() },
               ],
             },
             task_type_id,

@@ -65,6 +65,7 @@ class SoilAmendmentTaskProducts extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
+      // LF-4246 - null data present on prod
       // required: ['product_id'],
       // oneOf: [
       //   {
@@ -124,18 +125,6 @@ class SoilAmendmentTaskProducts extends Model {
           to: 'soil_amendment_task.task_id',
         },
       },
-      // purposes: {
-      //   relation: Model.ManyToManyRelation,
-      //   modelClass: soilAmendmentPurposeModel,
-      //   join: {
-      //     from: 'soil_amendment_task_products.id',
-      //     through: {
-      //       from: 'soil_amendment_task_products_purpose_relationship.task_products_id',
-      //       to: 'soil_amendment_task_products_purpose_relationship.purpose_id',
-      //     },
-      //     to: 'soil_amendment_purpose.id'
-      //   }
-      // },
       purpose_relationships: {
         relation: Model.HasManyRelation,
         modelClass: soilAmendmentTaskProductPurposeRelationshipModel,
@@ -169,7 +158,6 @@ class SoilAmendmentTaskProducts extends Model {
       product: 'omit',
       soil_amendment_task: 'omit',
       purpose_relationships: 'edit',
-      // purposes: 'omit'
     };
   }
 }

@@ -164,7 +164,7 @@ export const up = async function (knex) {
   await knex.schema.createTable('soil_amendment_task_products', (table) => {
     table.increments('id').primary();
     table.integer('task_id').references('task_id').inTable('task').notNullable();
-    // TODO: backfill data if nulls exist on prod and constrain this to notNullable()
+    // TODO: LF-4246 backfill data if nulls exist on prod and constrain this to notNullable()
     table.integer('product_id').references('product_id').inTable('product');
     table.decimal('weight', 36, 12);
     table.enu('weight_unit', weightUnits);
@@ -172,9 +172,9 @@ export const up = async function (knex) {
     table.enu('volume_unit', volumeUnits);
     table.enu('application_rate_weight_unit', applicationRateWeightUnits);
     table.enu('application_rate_volume_unit', applicationRateVolumeUnits);
-    // TODO: backfill data for percent_of_location_amended then make notNullable and defaulted to 100
+    // TODO: LF-4246 backfill data for percent_of_location_amended then make notNullable and defaulted to 100
     table.decimal('percent_of_location_amended', 36, 12);
-    // TODO: backfill data for total_area_amended_in_ha then make notNullable
+    // TODO: LF-4246 backfill data for total_area_amended_in_ha then make notNullable
     table.decimal('total_area_amended_in_ha', 36, 12);
     table.string('other_purpose');
     table.boolean('deleted').notNullable().defaultTo(false);
@@ -192,7 +192,7 @@ export const up = async function (knex) {
       .defaultTo(1);
     table.dateTime('created_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
     table.dateTime('updated_at').notNullable().defaultTo(new Date('2000/1/1').toISOString());
-    // TODO: null product quantities exist on prod remove last OR constraint condition in the future
+    // TODO: LF-4246 null product quantities exist on prod remove last OR constraint condition in the future
     table.check(
       '(?? IS NULL AND ?? IS NOT NULL) OR (?? IS NULL AND ?? IS NOT NULL) OR (?? IS NULL AND ?? IS NULL)',
       ['weight', 'volume', 'volume', 'weight', 'weight', 'volume'],
@@ -298,7 +298,6 @@ export const up = async function (knex) {
   });
 
   // Alter cleaning task for volume and weight
-  // https://github.com/knex/knex/issues/5966
   await knex.schema.alterTable('cleaning_task', (table) => {
     table.decimal('weight', 36, 12);
     table.enu('weight_unit', weightUnits);
@@ -307,7 +306,6 @@ export const up = async function (knex) {
   });
 
   // Alter pest control task for volume and weight
-  // https://github.com/knex/knex/issues/5966
   await knex.schema.alterTable('pest_control_task', (table) => {
     table.decimal('weight', 36, 12);
     table.enu('weight_unit', weightUnits);
@@ -330,6 +328,7 @@ export const up = async function (knex) {
   `);
 
   // Product is not required for cleaning task
+  // https://github.com/knex/knex/issues/5966
   await knex.schema.alterTable('cleaning_task', (table) => {
     table.check(
       '(weight IS NULL AND volume IS NOT NULL) OR (volume IS NULL AND weight IS NOT NULL) OR (weight IS NULL AND volume IS NULL)',
@@ -403,7 +402,7 @@ export const up = async function (knex) {
     table.dropColumn('npk_unit');
   });
 
-  //Add permissions
+  // Add permissions
   // Use task or product permissions as needed
 };
 

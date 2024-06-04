@@ -176,7 +176,6 @@ export const up = async function (knex) {
     table.decimal('percent_of_location_amended', 36, 12);
     // TODO: LF-4246 backfill data for total_area_amended_in_ha then make notNullable
     table.decimal('total_area_amended_in_ha', 36, 12);
-    table.string('other_purpose');
     table.boolean('deleted').notNullable().defaultTo(false);
     table
       .string('created_by_user_id')
@@ -224,6 +223,9 @@ export const up = async function (knex) {
     );
   });
 
+  const soilAmendmentPurposes = await knex.select().table('soil_amendment_purpose');
+  const otherPurpose = soilAmendmentPurposes.find((pu) => pu.key === 'OTHER');
+
   // Create amendment purpose table
   await knex.schema.createTable('soil_amendment_task_products_purpose_relationship', (table) => {
     table
@@ -233,38 +235,43 @@ export const up = async function (knex) {
       .notNullable();
     table.integer('purpose_id').references('id').inTable('soil_amendment_purpose').notNullable();
     table.primary(['task_products_id', 'purpose_id']);
+    table.string('other_purpose');
+    table.check(
+      '(?? IS NOT NULL AND ?? = ??) OR (?? IS NULL)',
+      ['other_purpose', 'purpose_id', otherPurpose.id, 'other_purpose'],
+      'other_purpose_id_check',
+    );
   });
 
   // Migrate existing weight data to the new table (reversibly)
   await knex.raw(`
-    INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit, other_purpose)
-    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'kg/ha'::text, other_purpose FROM soil_amendment_task
+    INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit)
+    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'kg/ha'::text FROM soil_amendment_task
     WHERE product_quantity_unit IN ('${metricWeightUnits.join("', '")}')
   `);
 
   await knex.raw(`
-    INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit, other_purpose)
-    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'lb/ac'::text, other_purpose FROM soil_amendment_task
+    INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit)
+    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'lb/ac'::text FROM soil_amendment_task
     WHERE product_quantity_unit IN ('${imperialWeightUnits.join("', '")}')
   `);
 
   // Migrate existing volume data to the new table (reversibly)
   await knex.raw(`
-    INSERT INTO soil_amendment_task_products (task_id, product_id, volume, volume_unit, application_rate_volume_unit, other_purpose)
-    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'l/ha'::text , other_purpose FROM soil_amendment_task
+    INSERT INTO soil_amendment_task_products (task_id, product_id, volume, volume_unit, application_rate_volume_unit)
+    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'l/ha'::text FROM soil_amendment_task
     WHERE product_quantity_unit IN ('${metricVolumeUnits.join("', '")}')
   `);
 
   await knex.raw(`
-    INSERT INTO soil_amendment_task_products (task_id, product_id, volume, volume_unit, application_rate_volume_unit, other_purpose)
-    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'gal/ac'::text, other_purpose FROM soil_amendment_task
+    INSERT INTO soil_amendment_task_products (task_id, product_id, volume, volume_unit, application_rate_volume_unit)
+    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'gal/ac'::text FROM soil_amendment_task
     WHERE product_quantity_unit IN ('${imperialVolumeUnits.join("', '")}')
   `);
 
   // Get Product Ids, and Purposes
-  const soilAmendmentPurposes = await knex.select().table('soil_amendment_purpose');
   const soilAmendmentTaskPurposes = await knex
-    .select('task_id', 'purpose')
+    .select('task_id', 'purpose', 'other_purpose')
     .table('soil_amendment_task');
   const soilAmendmentTaskProducts = await knex
     .select('id', 'task_id')
@@ -276,13 +283,20 @@ export const up = async function (knex) {
     const soilAmendmentPurpose = soilAmendmentPurposes.find(
       (pu) => pu.key === task.purpose.toUpperCase(),
     );
-    return { task_products_id: soilAmendmentTaskProduct.id, purpose_id: soilAmendmentPurpose.id };
+    return {
+      task_products_id: soilAmendmentTaskProduct.id,
+      purpose_id: soilAmendmentPurpose.id,
+      other_purpose: task.other_purpose,
+    };
   });
 
   // Insert into relationship table
   for (const taskProductPurpose of soilAmendmentTaskProductsPurposes) {
     await knex('soil_amendment_task_products_purpose_relationship').insert(taskProductPurpose);
   }
+
+  const soilAmendmentMethods = await knex.select().table('soil_amendment_method');
+  const otherSoilAmendmentMethod = soilAmendmentMethods.find((method) => method.key === 'OTHER');
 
   // Alter soil amendmendment task
   await knex.schema.alterTable('soil_amendment_task', (table) => {
@@ -295,6 +309,11 @@ export const up = async function (knex) {
     table.decimal('furrow_hole_depth', 36, 12);
     table.enu('furrow_hole_depth_unit', furrowHoleDepthUnits);
     table.string('other_application_method');
+    table.check(
+      `(other_application_method IS NOT NULL AND method_id = ${otherSoilAmendmentMethod.id}) OR (other_application_method IS NULL)`,
+      [],
+      'other_application_method_id_check',
+    );
   });
 
   // Alter cleaning task for volume and weight
@@ -427,6 +446,7 @@ export const down = async function (knex) {
 
   // Reverse product data migration
   await knex.schema.alterTable('soil_amendment_task', (table) => {
+    table.dropChecks(['other_application_method_id_check']);
     table.decimal('product_quantity', 36, 12);
     table.enu('product_quantity_unit', [...weightUnits, ...volumeUnits]).defaultTo('kg');
     table.integer('product_id').references('product_id').inTable('product');
@@ -476,7 +496,7 @@ export const down = async function (knex) {
           product_id: firstTaskProduct.product_id,
           product_quantity: firstTaskProduct.weight,
           product_quantity_unit: firstTaskProduct.weight_unit,
-          other_purpose: firstTaskProduct.other_purpose,
+          other_purpose: firstTaskProductPurposeRelationship.other_purpose,
           purpose: String(firstTaskProductPurpose[0].key).toLowerCase(),
         });
     } else if (firstTaskProduct.volume) {
@@ -486,7 +506,7 @@ export const down = async function (knex) {
           product_id: firstTaskProduct.product_id,
           product_quantity: firstTaskProduct.volume,
           product_quantity_unit: firstTaskProduct.volume_unit,
-          other_purpose: firstTaskProduct.other_purpose,
+          other_purpose: firstTaskProductPurposeRelationship.other_purpose,
           purpose: String(firstTaskProductPurpose[0].key).toLowerCase(),
         });
     } else {

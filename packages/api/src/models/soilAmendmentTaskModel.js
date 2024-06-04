@@ -34,8 +34,7 @@ class SoilAmendmentTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: [],
-
+      required: ['method_id'],
       properties: {
         task_id: { type: 'integer' },
         method_id: { type: ['integer', 'null'] },

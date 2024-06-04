@@ -99,7 +99,6 @@ class SoilAmendmentTaskProducts extends Model {
         },
         percent_of_location_amended: { type: ['number', 'null'] },
         total_area_amended_in_ha: { type: ['number', 'null'] },
-        other_purpose: { type: ['string', 'null'] },
         ...super.baseProperties,
       },
       additionalProperties: false,
@@ -153,7 +152,6 @@ class SoilAmendmentTaskProducts extends Model {
       // TODO: revisit when copy allows location changing
       percent_of_location_amended: 'keep',
       total_area_amended_in_ha: 'keep',
-      other_purpose: 'keep',
       // relationMappings
       product: 'omit',
       soil_amendment_task: 'omit',

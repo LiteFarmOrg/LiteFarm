@@ -35,6 +35,7 @@ class soilAmendmentTaskProductPurposeRelationshipModel extends Model {
       properties: {
         task_products_id: { type: 'integer' },
         purpose_id: { type: 'integer' },
+        other_purpose: { type: ['string', 'null'] },
       },
       additionalProperties: false,
     };
@@ -61,6 +62,7 @@ class soilAmendmentTaskProductPurposeRelationshipModel extends Model {
       // jsonSchema()
       task_products_id: 'omit',
       purpose_id: 'keep',
+      other_purpose: 'keep',
       // relationMappings()
       purpose: 'omit',
     };

@@ -50,8 +50,6 @@ const meta: Meta<ComponentWithFormMethodsProps> = {
     products,
     defaultValues: [defaultValues],
   },
-  // avoid "Maximum update depth exceeded" https://github.com/storybookjs/storybook/issues/12306
-  // parameters: { docs: { source: { type: 'code' } } },
 };
 
 export default meta;

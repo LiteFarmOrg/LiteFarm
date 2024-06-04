@@ -1142,15 +1142,33 @@ function fakeProduct(defaultData = {}) {
   };
 }
 
+async function soil_amendment_methodFactory() {
+  return knex('soil_amendment_method').insert({ key: faker.lorem.word() }).returning('*');
+}
+
+async function soil_amendment_purposeFactory() {
+  return knex('soil_amendment_purpose').insert({ key: faker.lorem.word() }).returning('*');
+}
+
 async function soil_amendment_taskFactory(
-  { promisedTask = taskFactory(), promisedProduct = productFactory() } = {},
+  {
+    promisedTask = taskFactory(),
+    promisedProduct = productFactory(),
+    promisedMethod = soil_amendment_methodFactory(),
+  } = {},
   soil_amendment_task = fakeSoilAmendmentTask(),
 ) {
-  const [task, product] = await Promise.all([promisedTask, promisedProduct]);
+  const [task, product, method] = await Promise.all([
+    promisedTask,
+    promisedProduct,
+    promisedMethod,
+  ]);
   const [{ task_id }] = task;
+  const [{ method_id }] = method;
   return knex('soil_amendment_task')
     .insert({
       task_id,
+      method_id,
       ...soil_amendment_task,
     })
     .returning('*');
@@ -2494,6 +2512,9 @@ export default {
   productFactory,
   fakeProduct,
   soil_amendment_taskFactory,
+  soil_amendment_task_productFactory,
+  soil_amendment_methodFactory,
+  soil_amendment_purposeFactory,
   fakeSoilAmendmentTask,
   pesticideFactory,
   fakePesticide,

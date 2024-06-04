@@ -1,4 +1,4 @@
-##### Version 6: April 30, 2024
+##### Version 6: May 31, 2024
 
 #### Formulaire de consentement éclairé et politique de confidentialité (version pour ouvrières et ouvriers)
 
@@ -48,9 +48,7 @@ Ceci comprend :
 
 **Informations sur la gestion de la ferme :**
 
-LiteFarm utilise les informations de gestion que vous entrez dans l'application pour générer des informations sur les avantages ou les impacts financiers, environnementaux et sociaux de vos décisions de gestion. Nous avons rendu ces données anonymes pour mener des recherches universitaires non commerciales sur les systèmes alimentaires durables. Car ces données sont anonymisées lorsqu'elles sont utilisées dans nos recherches, elles ne peuvent pas être retracées jusqu'à vous ou votre ferme.
-
-Ces données comprennent :
+LiteFarm utilise les informations de gestion que vous entrez dans l'application pour générer des informations sur les avantages ou les impacts financiers, environnementaux et sociaux de vos décisions de gestion. Nous avons rendu ces données anonymes pour mener des recherches universitaires non commerciales sur les systèmes alimentaires durables. Car ces données sont anonymisées lorsqu'elles sont utilisées dans nos recherches, elles ne peuvent pas être retracées jusqu'à vous ou votre ferme. Ces données comprennent :
 
 - Les informations sur les tâches que vous avez performé à votre poste : la duration, les dates, l’endroit, les cultures affectées, les pratiques agricoles, l'état d'achèvement, etc.
 
@@ -74,9 +72,7 @@ Ces données comprennent :
 
 **Données d'utilisation**
 
-Nous recueillons des données d'utilisation (c'est-à-dire des statistiques générales sur les utilisateurs, les modèles de trafic et la façon dont les utilisateurs réagissent aux diverses fonctionnalités du site) pour améliorer la qualité des services que nous vous fournissons. Ce type de données comprend : le temps de la journée où vous vous connectez à l’application LiteFarm, les pages que vous demandez, la durée de votre visite sur le site, la façon dont vous interagissez avec l'application et les détails techniques concernant votre appareil (par exemple, le navigateur, le type d'écran et le processeur).
-
-Ces données seront soit associées à votre nom d'utilisateur avec LiteFarm (si vous êtes connecté à l'application) ou à votre adresse IP (si vous n'êtes pas connecté). Nous pouvons utiliser des logiciels tels que Google Analytics pour collecter et analyser ces données, mais dans ces cas, toutes les informations personnelles seront anonymisées.
+Nous recueillons des données d'utilisation (c'est-à-dire des statistiques générales sur les utilisateurs, les modèles de trafic et la façon dont les utilisateurs réagissent aux diverses fonctionnalités du site) pour améliorer la qualité des services que nous vous fournissons. Ce type de données comprend : le temps de la journée où vous vous connectez à l’application LiteFarm, les pages que vous demandez, la durée de votre visite sur le site, la façon dont vous interagissez avec l'application et les détails techniques concernant votre appareil (par exemple, le navigateur, le type d'écran et le processeur). Ces données seront soit associées à votre nom d'utilisateur avec LiteFarm (si vous êtes connecté à l'application) ou à votre adresse IP (si vous n'êtes pas connecté). Nous pouvons utiliser des logiciels tels que Google Analytics pour collecter et analyser ces données, mais dans ces cas, toutes les informations personnelles seront anonymisées.
 
 **Comment utilisons-nous les données ?**
 
@@ -86,23 +82,17 @@ Les informations que vous fournissez sur l'achèvement des tâches sont affiché
 
 **Que partageons-nous ?**
 
-Nous ne partagerons vos données avec des tierces personnes que si elles sont à la fois anonymisées (c'est-à-dire qu'elles ne contiennent aucune information personnelle) et nécessaires pour atteindre nos objectifs de recherche ou valider des découvertes scientifiques. Plus précisément, nous pouvons partager des données anonymisées à un moment donné dans le futur avec d'autres chercheurs à des fins de recherche universitaire non commerciale. Tout chercheur universitaire externe qui demande l'utilisation des données de LiteFarm sera soumis à un examen interne et sera évalué selon nos normes d'éthique et de sécurité existantes. En raison des normes de publication en matière de reproductibilité scientifique, les données anonymisées utilisées pour la recherche universitaire peuvent être déposées dans des référentiels publics.
+Nous ne partagerons vos données avec des tierces personnes que si elles sont à la fois anonymisées (c'est-à-dire qu'elles ne contiennent aucune information personnelle) et nécessaires pour atteindre nos objectifs de recherche ou valider des découvertes scientifiques. Plus précisément, nous pouvons partager des données anonymisées à un moment donné dans le futur avec d'autres chercheurs à des fins de recherche universitaire non commerciale. Tout chercheur universitaire externe qui demande l'utilisation des données de LiteFarm sera soumis à un examen interne et sera évalué selon nos normes d'éthique et de sécurité existantes. En raison des normes de publication en matière de reproductibilité scientifique, les données anonymisées utilisées pour la recherche universitaire peuvent être déposées dans des référentiels publics. Des copies de diffusions non publiques de données anonymisées peuvent être partagées avec des chercheurs universitaires à des fins de recherche non commerciales, dans le cadre de licences à usage unique confidentielles et limitées dans le temps. Si une utilisation de recherche universitaire inclut l'utilisation de photos téléchargées sur LiteFarm, toutes les caractéristiques identifiables qui divulguent des informations personnelles (par exemple, les visages des personnes) seront estompées des photos avant qu'elles ne soient partagées.
 
-Des copies de diffusions non publiques de données anonymisées peuvent être partagées avec des chercheurs universitaires à des fins de recherche non commerciales, dans le cadre de licences à usage unique confidentielles et limitées dans le temps. Si une utilisation de recherche universitaire inclut l'utilisation de photos téléchargées sur LiteFarm, toutes les caractéristiques identifiables qui divulguent des informations personnelles (par exemple, les visages des personnes) seront estompées des photos avant qu'elles ne soient partagées. Nous ne partageons aucune information personnelle avec des services d'analyse tiers, tels que Google Analytics. Grâce à nos protocoles de sécurité, nous protégeons la vulnérabilité des informations personnelles sur le site web LiteFarm et nous utilisons des protocoles d'anonymisation IP pour empêcher l'identification et la géolocalisation par des tierces parties.
+Nous ne partageons aucune information personnelle avec des services d'analyse tiers, tels que Google Analytics. Grâce à nos protocoles de sécurité, nous protégeons la vulnérabilité des informations personnelles sur le site web LiteFarm et nous utilisons des protocoles d'anonymisation IP pour empêcher l'identification et la géolocalisation par des tierces parties.
 
 **Comment nous utilisons les « cookies » ?**
 
-Dans certaines sections de notre site, un cookie peut être placé sur votre ordinateur ou appareil. Un cookie est un petit fichier qui réside sur le disque dur de votre ordinateur ou de votre appareil et qui nous permet d'améliorer la qualité de votre visite sur nos sites web. Nous utilisons des cookies pour identifier les pages qui sont utilisées et pour améliorer notre site web. Nous n'utilisons ces informations qu'à des fins d'analyses statistiques. Elles ne sont pas partagées avec d'autres sites et ne sont pas utilisées à des fins publicitaires. Vous pouvez choisir d'accepter ou de refuser les cookies.
-
-La plupart des navigateurs web acceptent automatiquement les cookies, mais vous pouvez généralement modifier les paramètres de votre navigateur pour refuser les cookies si vous le préférez. Cependant, si vous choisissez de refuser les cookies de LiteFarm, la fonctionnalité, y compris votre capacité à vous connecter et à utiliser l'application, peut être altérée. L'acceptation des cookies est implicite si vous continuez à accéder à notre site web sans ajuster les paramètres de votre navigateur.
+Dans certaines sections de notre site, un cookie peut être placé sur votre ordinateur ou appareil. Un cookie est un petit fichier qui réside sur le disque dur de votre ordinateur ou de votre appareil et qui nous permet d'améliorer la qualité de votre visite sur nos sites web. Nous utilisons des cookies pour identifier les pages qui sont utilisées et pour améliorer notre site web. Nous n'utilisons ces informations qu'à des fins d'analyses statistiques. Elles ne sont pas partagées avec d'autres sites et ne sont pas utilisées à des fins publicitaires. Vous pouvez choisir d'accepter ou de refuser les cookies. La plupart des navigateurs web acceptent automatiquement les cookies, mais vous pouvez généralement modifier les paramètres de votre navigateur pour refuser les cookies si vous le préférez. Cependant, si vous choisissez de refuser les cookies de LiteFarm, la fonctionnalité, y compris votre capacité à vous connecter et à utiliser l'application, peut être altérée. L'acceptation des cookies est implicite si vous continuez à accéder à notre site web sans ajuster les paramètres de votre navigateur.
 
 **Où stockons-nous vos données ?**
 
-Notre application est hébergée sur Digital Ocean pour servir rapidement et de manière fiable notre site web à un nombre imprévisible de personnes. Cela signifie que vos données seront potentiellement stockées dans plusieurs centres de données et emplacements au Canada et aux États-Unis d'Amérique.
-
-Bien que notre application ne soit pas commerciale, nous notons que Digital Ocean participe au programme « Privacy Shield » développé par le Département du commerce des États-Unis et l'Union Européenne (UE) et offre des services de conformité au Règlement général sur la protection des données (RGPD) de l'UE.
-
-En plus de notre stockage en nuage, une copie locale de la base de données LiteFarm est hébergée sur un serveur crypté et protégé par mot de passe à l'Université de la Colombie-Britannique (UBC). Des copies anonymisées de la base de données LiteFarm peuvent être stockées sur des référentiels publics conformément aux normes de publication pour la reproductibilité scientifique.
+Notre application est hébergée sur Digital Ocean pour servir rapidement et de manière fiable notre site web à un nombre imprévisible de personnes. Cela signifie que vos données seront potentiellement stockées dans plusieurs centres de données et emplacements au Canada et aux États-Unis d'Amérique. Bien que notre application ne soit pas commerciale, nous notons que Digital Ocean participe au programme « Privacy Shield » développé par le Département du commerce des États-Unis et l'Union Européenne (UE) et offre des services de conformité au Règlement général sur la protection des données (RGPD) de l'UE. En plus de notre stockage en nuage, une copie locale de la base de données LiteFarm est hébergée sur un serveur crypté et protégé par mot de passe à l'Université de la Colombie-Britannique (UBC). Des copies anonymisées de la base de données LiteFarm peuvent être stockées sur des référentiels publics conformément aux normes de publication pour la reproductibilité scientifique.
 
 **Comment protégeons-nous vos données ?**
 
@@ -128,9 +118,7 @@ Si vous retirez votre consentement en envoyant un courriel à litefarm.team@ubc.
 
 **Comment apportons-nous des modifications à la politique de confidentialité ?**
 
-Bien que la plupart des changements soient probablement mineurs, LiteFarm peut occasionnellement modifier sa politique de confidentialité. Nous publierons une version mise à jour et révisée de la politique de confidentialité sur le site web de LiteFarm (www.litefarm.org) et vous informerons via l'application lorsque nous apporterons des modifications.
-
-Vous devrez accepter le nouveau formulaire de consentement pour continuer à utiliser l’application. Si vous n'acceptez pas les modifications, vous pourrez télécharger vos données, mais vous ne pourrez pas saisir de nouvelles données dans l'application. Les révisions entrent en vigueur dès leur publication. Votre utilisation continue de ce site après toute modification de cette politique de confidentialité constitue votre acceptation de cette modification.
+Bien que la plupart des changements soient probablement mineurs, LiteFarm peut occasionnellement modifier sa politique de confidentialité. Nous publierons une version mise à jour et révisée de la politique de confidentialité sur le site web de LiteFarm (www.litefarm.org) et vous informerons via l'application lorsque nous apporterons des modifications. Vous devrez accepter le nouveau formulaire de consentement pour continuer à utiliser l’application. Si vous n'acceptez pas les modifications, vous pourrez télécharger vos données, mais vous ne pourrez pas saisir de nouvelles données dans l'application. Les révisions entrent en vigueur dès leur publication. Votre utilisation continue de ce site après toute modification de cette politique de confidentialité constitue votre acceptation de cette modification.
 
 **Quand allons-nous vous contacter ?**
 

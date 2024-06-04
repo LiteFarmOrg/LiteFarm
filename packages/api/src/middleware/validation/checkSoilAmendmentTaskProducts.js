@@ -45,10 +45,6 @@ export function checkSoilAmendmentTaskProducts() {
           return res.status(400).send('weight_unit and application_rate_weight_unit is required');
         }
 
-        if (!product.application_rate_unit) {
-          return res.status(400).send('application_rate_unit is required');
-        }
-
         if (!product.percent_of_location_amended && !product.total_area_amended_in_ha) {
           return res
             .status(400)

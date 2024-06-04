@@ -33,16 +33,22 @@ export function checkSoilAmendmentTaskProducts() {
           return res.status(400).send('product_id is required');
         }
 
-        if (!product.product_quantity) {
-          return res.status(400).send('product_quantity is required');
+        if (!product.volume && !product.weight) {
+          return res.status(400).send('volume or weight is required');
         }
 
-        if (!product.product_quantity_unit) {
-          return res.status(400).send('product_quantity_unit is required');
+        if (product.volume && !product.volume_unit && !product.application_rate_volume_unit) {
+          return res.status(400).send('volume_unit and application_rate_volume_unit is required');
         }
 
-        if (product.application_rate && !product.application_rate_unit) {
-          return res.status(400).send('application_rate_unit is required');
+        if (product.weight && !product.weight_unit && !product.application_rate_weight_unit) {
+          return res.status(400).send('weight_unit and application_rate_weight_unit is required');
+        }
+
+        if (!product.percent_of_location_amended && !product.total_area_amended_in_ha) {
+          return res
+            .status(400)
+            .send('percent_of_location_amended and total_area_amended_in_ha is required');
         }
 
         const existingProduct = await ProductModel.query()
@@ -57,7 +63,7 @@ export function checkSoilAmendmentTaskProducts() {
           return res
             .status(400)
             .send(
-              `Soil amendmenent product ${product.product_id} does not exist or does not belong to the given farm`,
+              `Soil amendment product ${product.product_id} does not exist or does not belong to the given farm`,
             );
         }
       }

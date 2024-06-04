@@ -351,7 +351,7 @@ const taskController = {
           const [task] = await TaskModel.query(trx)
             .withGraphFetched(
               `
-          [locations.[location_defaults], managementPlans, taskType, soil_amendment_task.[soil_amendment_task_products], irrigation_task.[irrigation_type],scouting_task,
+          [locations.[location_defaults], managementPlans, taskType, soil_amendment_task.[soil_amendment_task_products.[purpose_relationships]], irrigation_task.[irrigation_type],scouting_task,
           field_work_task.[field_work_task_type], cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
           `,
             )
@@ -703,7 +703,7 @@ const taskController = {
       const graphTasks = await TaskModel.query()
         .whereNotDeleted()
         .withGraphFetched(
-          `[locations.[location_defaults], managementPlans, soil_amendment_task.[soil_amendment_task_products], field_work_task.[field_work_task_type], cleaning_task, pest_control_task, harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task.[irrigation_type]]
+          `[locations.[location_defaults], managementPlans, soil_amendment_task.[soil_amendment_task_products.[purpose_relationships]], field_work_task.[field_work_task_type], cleaning_task, pest_control_task, harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task.[irrigation_type]]
         `,
         )
         .whereIn('task_id', taskIds);

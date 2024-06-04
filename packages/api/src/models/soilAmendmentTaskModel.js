@@ -16,7 +16,9 @@
 import Model from './baseFormatModel.js';
 import taskModel from './taskModel.js';
 import soilAmendmentTaskProductsModel from './soilAmendmentTaskProductsModel.js';
+import soilAmendmentMethodModel from './soilAmendmentMethodModel.js';
 
+const furrowHoleDepthUnits = ['cm', 'in'];
 class SoilAmendmentTaskModel extends Model {
   static get tableName() {
     return 'soil_amendment_task';
@@ -26,61 +28,22 @@ class SoilAmendmentTaskModel extends Model {
     return 'task_id';
   }
 
-  async $beforeInsert(queryContext) {
-    await super.$beforeInsert(queryContext);
-    // Format purpose array to postgres format
-    this.purpose = `{${this.purpose.join(',')}}`;
-
-    if (!this.soil_amendment_task_products || this.soil_amendment_task_products.length === 0) {
-      throw new Error('soil_amendment_task_products is required');
-    }
-  }
-
-  async $beforeUpdate(opt, queryContext) {
-    await super.$beforeUpdate(opt, queryContext);
-
-    if ('purpose' in this) {
-      // Format purpose array to postgres format
-      this.purpose = `{${this.purpose.join(',')}}`;
-    }
-
-    if (
-      'soil_amendment_task_products' in this &&
-      (!this.soil_amendment_task_products || this.soil_amendment_task_products.length === 0)
-    ) {
-      throw new Error('soil_amendment_task_products is required');
-    }
-  }
-
-  // Format returned array to js array format
-  $parseDatabaseJson(json) {
-    json = super.$parseDatabaseJson(json);
-
-    if (json.purpose) {
-      json.purpose = json.purpose.slice(1, -1).split(',');
-    }
-
-    return json;
-  }
-
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.
   static get jsonSchema() {
     return {
       type: 'object',
-      required: [],
-
+      required: ['method_id'],
       properties: {
         task_id: { type: 'integer' },
-        purpose: {
-          type: ['array'],
-          items: {
-            type: 'string',
-            enum: ['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other'],
-          },
+        method_id: { type: ['integer', 'null'] },
+        furrow_hole_depth: { type: ['number', 'null'] },
+        furrow_hole_depth_unit: {
+          type: ['string', 'null'],
+          enum: [...furrowHoleDepthUnits, null],
         },
-        other_purpose: { type: ['string', 'null'] },
+        other_application_method: { type: ['string', 'null'] },
       },
       additionalProperties: false,
     };
@@ -108,6 +71,14 @@ class SoilAmendmentTaskModel extends Model {
           to: 'soil_amendment_task_products.task_id',
         },
       },
+      method: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: soilAmendmentMethodModel,
+        join: {
+          from: 'soil_amendment_task.method_id',
+          to: 'soil_amendment_method.id',
+        },
+      },
     };
   }
 
@@ -117,12 +88,15 @@ class SoilAmendmentTaskModel extends Model {
     return {
       // jsonSchema()
       task_id: 'omit',
-      purpose: 'keep',
-      other_purpose: 'keep',
+      method_id: 'keep',
+      furrow_hole_depth: 'keep',
+      furrow_hole_depth_unit: 'keep',
+      other_application_method: 'keep',
       // relationMappings
       task: 'omit',
       product: 'omit',
-      soil_amendment_task_products: 'keep',
+      soil_amendment_task_products: 'edit',
+      method: 'omit',
     };
   }
 }

@@ -20,19 +20,27 @@ import { checkAndTrimString } from '../../util/util.js';
 
 export function checkProductValidity() {
   return async (req, res, next) => {
-    // Check that npk values are positive
-    if (req.body.n < 0 || req.body.p < 0 || req.body.k < 0) {
-      return res.status(400).send('npk values must all be positive');
-    }
+    const { soil_amendment_product: sap } = req.body;
+    const elements = ['n', 'p', 'k', 'calcium', 'magnesium', 'sulfur', 'manganese', 'boron'];
 
-    // Check that a unit has been provided along with npk values
-    if ((req.body.n || req.body.p || req.body.k) && !req.body.npk_unit) {
-      return res.status(400).send('npk_unit is required');
-    }
+    if (sap) {
+      // Check that element values are all positive
+      if (!elements.every((element) => !sap[element] || sap[element] >= 0)) {
+        return res.status(400).send('element values must all be positive');
+      }
 
-    // Check that npk values do not exceed 100 if npk_unit is percent
-    if (req.body.npk_unit === 'percent' && req.body.n + req.body.p + req.body.k > 100) {
-      return res.status(400).send('percent npk values must not exceed 100');
+      // Check that a unit has been provided along with element values
+      if (elements.some((element) => sap[element]) && !sap.elemental_unit) {
+        return res.status(400).send('elemental_unit is required');
+      }
+
+      // Check that element values do not exceed 100 if element_unit is percent
+      if (
+        sap.elemental_unit === 'percent' &&
+        elements.reduce((sum, element) => sum + (sap[element] || 0), 0) > 100
+      ) {
+        return res.status(400).send('percent elemental values must not exceed 100');
+      }
     }
 
     // Null empty strings

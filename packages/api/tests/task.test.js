@@ -1016,15 +1016,32 @@ describe('Task tests', () => {
     describe('creating types of tasks', () => {
       let product;
       let productData;
+      let soilAmendmentMethod;
       beforeEach(async () => {
         [{ product_id: product }] = await mocks.productFactory(
           {},
           mocks.fakeProduct({ supplier: 'mock' }),
         );
         productData = mocks.fakeProduct({ supplier: 'test' });
+
+        [{ id: soilAmendmentMethod }] = await mocks.soil_amendment_methodFactory();
       });
       const fakeTaskData = {
-        soil_amendment_task: () => mocks.fakeSoilAmendmentTask(),
+        soil_amendment_task: async (farm_id) => {
+          // checkSoilAmendmentTaskProducts middleware requires a product that belongs to the given farm
+          const [{ product_id: soilAmendmentProduct }] = await mocks.productFactory(
+            { promisedFarm: [{ farm_id }] },
+            // of type 'soil_amendment_task'
+            mocks.fakeProduct({ type: 'soil_amendment_task' }),
+          );
+
+          return mocks.fakeSoilAmendmentTask({
+            method_id: soilAmendmentMethod,
+            soil_amendment_task_products: [
+              { product_id: soilAmendmentProduct, ...mocks.fakeSoilAmendmentTaskProduct() },
+            ],
+          });
+        },
         pest_control_task: () =>
           mocks.fakePestControlTask({ product_id: product, product: productData }),
         irrigation_task: () => mocks.fakeIrrigationTask(),
@@ -1252,7 +1269,7 @@ describe('Task tests', () => {
           } = await userFarmTaskGenerator();
           const data = {
             ...mocks.fakeTask({
-              [type]: { ...fakeTaskData[type]() },
+              [type]: { ...(await fakeTaskData[type](farm_id)) },
               task_type_id,
               owner_user_id: user_id,
             }),
@@ -1414,9 +1431,10 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: {
-              ...fakeTaskData.soil_amendment_task(),
+              method_id: soilAmendmentMethod,
+              ...mocks.fakeSoilAmendmentTask(),
               soil_amendment_task_products: [
-                mocks.fakeSoilAmendmentTaskProduct(farmProduct.product_id),
+                { product_id: farmProduct.product_id, ...mocks.fakeSoilAmendmentTaskProduct() },
               ],
             },
             task_type_id,
@@ -1474,9 +1492,10 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: {
-              ...fakeTaskData.soil_amendment_task(),
+              method_id: soilAmendmentMethod,
+              ...mocks.fakeSoilAmendmentTask(),
               soil_amendment_task_products: [
-                mocks.fakeSoilAmendmentTaskProduct(farmProduct.product_id),
+                { product_id: farmProduct.product_id, ...mocks.fakeSoilAmendmentTaskProduct() },
               ],
             },
             task_type_id,
@@ -1709,8 +1728,20 @@ describe('Task tests', () => {
     });
 
     const fakeTaskData = {
-      soil_amendment_task: () =>
-        mocks.fakeSoilAmendmentTask({ product_id: product, product: productData }),
+      soil_amendment_task: async (farm_id) => {
+        // checkSoilAmendmentTaskProducts middleware requires a product that belongs to the given farm
+        const [{ product_id: soilAmendmentProduct }] = await mocks.productFactory(
+          { promisedFarm: [{ farm_id }] },
+          // of type 'soil_amendment_task'
+          mocks.fakeProduct({ type: 'soil_amendment_task' }),
+        );
+
+        return mocks.fakeSoilAmendmentTask({
+          soil_amendment_task_products: [
+            { product_id: soilAmendmentProduct, ...mocks.fakeSoilAmendmentTaskProduct() },
+          ],
+        });
+      },
       pest_control_task: () =>
         mocks.fakePestControlTask({ product_id: product, product: productData }),
       irrigation_task: () => mocks.fakeIrrigationTask(),
@@ -1787,7 +1818,7 @@ describe('Task tests', () => {
       });
       await mocks.soil_amendment_taskFactory({ promisedTask: [{ task_id }] });
 
-      const new_soil_amendment_task = fakeTaskData.soil_amendment_task();
+      const new_soil_amendment_task = await fakeTaskData.soil_amendment_task(farm_id);
 
       completeTaskRequest(
         { user_id, farm_id },
@@ -1857,7 +1888,7 @@ describe('Task tests', () => {
           const patched_pest_control_task = await knex('pest_control_task')
             .where({ task_id })
             .first();
-          expect(patched_pest_control_task.product_quantity).toBe(
+          expect(patched_pest_control_task.volume || patched_pest_control_task.weight).toBe(
             new_pest_control_task.product_quantity,
           );
           expect(patched_pest_control_task.pest_target).toBe(new_pest_control_task.pest_target);
@@ -2173,7 +2204,7 @@ describe('Task tests', () => {
           const patched_pest_control_task = await knex('pest_control_task')
             .where({ task_id })
             .first();
-          expect(patched_pest_control_task.product_quantity).toBe(
+          expect(patched_pest_control_task.volume || patched_pest_control_task.weight).toBe(
             new_pest_control_task.product_quantity,
           );
           expect(patched_pest_control_task.control_method).toBe(

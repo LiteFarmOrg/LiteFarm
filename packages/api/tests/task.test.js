@@ -1016,12 +1016,15 @@ describe('Task tests', () => {
     describe('creating types of tasks', () => {
       let product;
       let productData;
+      let soilAmendmentMethod;
       beforeEach(async () => {
         [{ product_id: product }] = await mocks.productFactory(
           {},
           mocks.fakeProduct({ supplier: 'mock' }),
         );
         productData = mocks.fakeProduct({ supplier: 'test' });
+
+        [{ id: soilAmendmentMethod }] = await mocks.soil_amendment_methodFactory();
       });
       const fakeTaskData = {
         soil_amendment_task: async (farm_id) => {
@@ -1033,6 +1036,7 @@ describe('Task tests', () => {
           );
 
           return mocks.fakeSoilAmendmentTask({
+            method_id: soilAmendmentMethod,
             soil_amendment_task_products: [
               { product_id: soilAmendmentProduct, ...mocks.fakeSoilAmendmentTaskProduct() },
             ],
@@ -1427,6 +1431,7 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: {
+              method_id: soilAmendmentMethod,
               ...mocks.fakeSoilAmendmentTask(),
               soil_amendment_task_products: [
                 { product_id: farmProduct.product_id, ...mocks.fakeSoilAmendmentTaskProduct() },
@@ -1487,6 +1492,7 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: {
+              method_id: soilAmendmentMethod,
               ...mocks.fakeSoilAmendmentTask(),
               soil_amendment_task_products: [
                 { product_id: farmProduct.product_id, ...mocks.fakeSoilAmendmentTaskProduct() },

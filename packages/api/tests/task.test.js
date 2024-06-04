@@ -1722,8 +1722,20 @@ describe('Task tests', () => {
     });
 
     const fakeTaskData = {
-      soil_amendment_task: () =>
-        mocks.fakeSoilAmendmentTask({ product_id: product, product: productData }),
+      soil_amendment_task: async (farm_id) => {
+        // checkSoilAmendmentTaskProducts middleware requires a product that belongs to the given farm
+        const [{ product_id: soilAmendmentProduct }] = await mocks.productFactory(
+          { promisedFarm: [{ farm_id }] },
+          // of type 'soil_amendment_task'
+          mocks.fakeProduct({ type: 'soil_amendment_task' }),
+        );
+
+        return mocks.fakeSoilAmendmentTask({
+          soil_amendment_task_products: [
+            { product_id: soilAmendmentProduct, ...mocks.fakeSoilAmendmentTaskProduct() },
+          ],
+        });
+      },
       pest_control_task: () =>
         mocks.fakePestControlTask({ product_id: product, product: productData }),
       irrigation_task: () => mocks.fakeIrrigationTask(),
@@ -1800,7 +1812,7 @@ describe('Task tests', () => {
       });
       await mocks.soil_amendment_taskFactory({ promisedTask: [{ task_id }] });
 
-      const new_soil_amendment_task = fakeTaskData.soil_amendment_task();
+      const new_soil_amendment_task = await fakeTaskData.soil_amendment_task(farm_id);
 
       completeTaskRequest(
         { user_id, farm_id },

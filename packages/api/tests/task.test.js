@@ -1024,7 +1024,20 @@ describe('Task tests', () => {
         productData = mocks.fakeProduct({ supplier: 'test' });
       });
       const fakeTaskData = {
-        soil_amendment_task: () => mocks.fakeSoilAmendmentTask(),
+        soil_amendment_task: async (farm_id) => {
+          // checkSoilAmendmentTaskProducts middleware requires a product that belongs to the given farm
+          const [{ product_id: soilAmendmentProduct }] = await mocks.productFactory(
+            { promisedFarm: [{ farm_id }] },
+            // of type 'soil_amendment_task'
+            mocks.fakeProduct({ type: 'soil_amendment_task' }),
+          );
+
+          return mocks.fakeSoilAmendmentTask({
+            soil_amendment_task_products: [
+              { product_id: soilAmendmentProduct, ...mocks.fakeSoilAmendmentTaskProduct() },
+            ],
+          });
+        },
         pest_control_task: () =>
           mocks.fakePestControlTask({ product_id: product, product: productData }),
         irrigation_task: () => mocks.fakeIrrigationTask(),
@@ -1252,7 +1265,7 @@ describe('Task tests', () => {
           } = await userFarmTaskGenerator();
           const data = {
             ...mocks.fakeTask({
-              [type]: { ...fakeTaskData[type]() },
+              [type]: { ...(await fakeTaskData[type](farm_id)) },
               task_type_id,
               owner_user_id: user_id,
             }),

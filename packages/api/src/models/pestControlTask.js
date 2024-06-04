@@ -54,11 +54,15 @@ class PestControlTask extends Model {
       if (weightUnits.includes(json.product_quantity_unit)) {
         json.weight = json.product_quantity;
         json.weight_unit = json.product_quantity_unit;
+        json.volume = null;
+        json.volume_unit = null;
         delete json.product_quantity;
         delete json.product_quantity_unit;
       } else if (volumeUnits.includes(json.product_quantity_unit)) {
         json.volume = json.product_quantity;
         json.volume_unit = json.product_quantity_unit;
+        json.weight = null;
+        json.weight_unit = null;
         delete json.product_quantity;
         delete json.product_quantity_unit;
       }
@@ -66,6 +70,8 @@ class PestControlTask extends Model {
       json.volume = json.product_quantity;
       //Database previously defaulted to 'l'
       json.volume_unit = 'l';
+      json.weight = null;
+      json.weight_unit = null;
       delete json.product_quantity;
       delete json.product_quantity_unit;
     }

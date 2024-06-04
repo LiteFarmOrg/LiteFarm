@@ -1176,26 +1176,40 @@ async function soil_amendment_taskFactory(
 
 function fakeSoilAmendmentTask(defaultData = {}) {
   return {
-    purpose: [
-      faker.helpers.arrayElement([
-        'structure',
-        'moisture_retention',
-        'nutrient_availability',
-        'ph',
-        'other',
-      ]),
-    ],
     ...defaultData,
   };
 }
 
-function fakeSoilAmendmentTaskProduct(product_id) {
+async function soil_amendment_task_productFactory({
+  promisedSoilAmendmentTask = soil_amendment_taskFactory(),
+  soil_amendment_task_product = fakeSoilAmendmentTaskProduct(),
+}) {
+  const soilAmendmentTask = await promisedSoilAmendmentTask;
+  return knex('soil_amendment_task_product').insert({
+    task_id: soilAmendmentTask.task_id,
+    product_id: soilAmendmentTask.product_id,
+    ...soil_amendment_task_product,
+  });
+}
+
+function fakeSoilAmendmentTaskProduct() {
   return {
-    product_id,
-    product_quantity: faker.datatype.number(),
-    product_quantity_unit: faker.helpers.arrayElement(['lb', 'kg']),
-    application_rate: faker.datatype.number(),
-    application_rate_unit: faker.helpers.arrayElement(['lb/ac', 'kg/ha']),
+    weight: faker.datatype.number(),
+    weight_unit: faker.helpers.arrayElement(['lb', 'kg']),
+    application_rate_weight_unit: faker.helpers.arrayElement([
+      'g/m2',
+      'lb/ft2',
+      'kg/m2',
+      't/ft2',
+      'mt/m2',
+      'oz/ft2',
+      'g/ha',
+      'lb/ac',
+      'kg/ha',
+      't/ac',
+      'mt/ha',
+      'oz/ac',
+    ]),
   };
 }
 

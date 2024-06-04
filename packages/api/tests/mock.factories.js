@@ -1180,16 +1180,17 @@ function fakeSoilAmendmentTask(defaultData = {}) {
   };
 }
 
-async function soil_amendment_task_productFactory({
-  promisedSoilAmendmentTask = soil_amendment_taskFactory(),
+async function soil_amendment_task_productsFactory(
+  { promisedSoilAmendmentTask = soil_amendment_taskFactory() } = {},
   soil_amendment_task_product = fakeSoilAmendmentTaskProduct(),
-}) {
-  const soilAmendmentTask = await promisedSoilAmendmentTask;
-  return knex('soil_amendment_task_product').insert({
-    task_id: soilAmendmentTask.task_id,
-    product_id: soilAmendmentTask.product_id,
-    ...soil_amendment_task_product,
-  });
+) {
+  const [soilAmendmentTask] = await promisedSoilAmendmentTask;
+  return knex('soil_amendment_task_products')
+    .insert({
+      task_id: soilAmendmentTask.task_id,
+      ...soil_amendment_task_product,
+    })
+    .returning('*');
 }
 
 function fakeSoilAmendmentTaskProduct() {
@@ -2527,10 +2528,10 @@ export default {
   fakeHarvestUse,
   productFactory,
   fakeProduct,
-  soil_amendment_taskFactory,
-  soil_amendment_task_productFactory,
   soil_amendment_methodFactory,
   soil_amendment_purposeFactory,
+  soil_amendment_taskFactory,
+  soil_amendment_task_productsFactory,
   fakeSoilAmendmentTask,
   pesticideFactory,
   fakePesticide,

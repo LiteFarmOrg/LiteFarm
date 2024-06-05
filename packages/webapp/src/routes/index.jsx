@@ -16,6 +16,7 @@
 import React, { Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Spinner from '../components/Spinner';
+import { CONSENT_VERSION } from '../util/constants';
 
 // Components that have already been set up with code splitting
 import OnboardingFlow from './Onboarding';
@@ -298,8 +299,17 @@ const Routes = ({ isCompactSideMenu }) => {
     chooseFarmFlowSelector,
     (pre, next) => pre.isInvitationFlow === next.isInvitationFlow,
   );
-  let { step_five, has_consent, role_id, status, step_one, farm_id, step_three, step_four } =
-    userFarm;
+  let {
+    step_five,
+    has_consent,
+    consent_version,
+    role_id,
+    status,
+    step_one,
+    farm_id,
+    step_three,
+    step_four,
+  } = userFarm;
   const hasSelectedFarm = !!farm_id;
   const hasFinishedOnBoardingFlow = step_one && step_four && step_five;
   if (isAuthenticated()) {
@@ -316,13 +326,13 @@ const Routes = ({ isCompactSideMenu }) => {
               component={() => <ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
             />
             <Route path="/outro" exact component={JoinFarmSuccessScreen} />
-            {!has_consent && <Redirect to={'/consent'} />}
+            {(!has_consent || consent_version !== CONSENT_VERSION) && <Redirect to={'/consent'} />}
           </Switch>
         </Suspense>
       );
     } else if (!hasSelectedFarm || !hasFinishedOnBoardingFlow) {
       return <OnboardingFlow {...userFarm} />;
-    } else if (!has_consent) {
+    } else if (!has_consent || consent_version !== CONSENT_VERSION) {
       return (
         <Suspense fallback={<Spinner />}>
           <Switch>
@@ -332,7 +342,7 @@ const Routes = ({ isCompactSideMenu }) => {
               exact
               component={() => <ConsentForm goForwardTo={'/'} goBackTo={null} />}
             />
-            {!has_consent && <Redirect to={'/consent'} />}
+            {(!has_consent || consent_version !== CONSENT_VERSION) && <Redirect to={'/consent'} />}
           </Switch>
         </Suspense>
       );

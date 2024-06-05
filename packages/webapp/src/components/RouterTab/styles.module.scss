@@ -53,6 +53,8 @@
 
   &.pill {
     justify-content: center;
+    height: 36px;
+    padding: 8px;
 
     &:not(.selected) {
       &:first-child {

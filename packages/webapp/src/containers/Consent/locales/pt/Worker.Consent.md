@@ -108,7 +108,7 @@ Você tem o direito de saber quais dados temos sobre você, solicitar uma cópia
 
 O seu uso no aplicativo LiteFarm é totalmente voluntário. Se você decidir usar a LiteFarm, você pode escolher desativar sua conta a qualquer momento, mesmo se não tiver motivos, e sem nenhuma ação adicional do pesquisador. Se você deseja remover todos os seus dados da base de dados do LiteFarm, você pode enviar uma solicitação para o endereço de e-mail: litefarm.team@ubc.ca.
 
-Se você retirar seu consentimento enviando um e-mail para data@litefarm.org, sua(s) conta(s) na plataforma LiteFarm serão marcadas como inativas e você não poderá usar a plataforma LiteFarm. No entanto, suas informações não serão excluídas caso você queira retornar posteriormente. Você pode solicitar que seus dados sejam permanentemente e irrevogavelmente excluídos, enviando uma solicitação para litefarm.team@ubc.ca. Se você pretende retirar o consentimento e deseja uma cópia dos seus dados, solicite-o ao retirar o seu consentimento.
+Se você retirar seu consentimento enviando um e-mail para litefarm.team@ubc.ca, sua(s) conta(s) na plataforma LiteFarm serão marcadas como inativas e você não poderá usar a plataforma LiteFarm. No entanto, suas informações não serão excluídas caso você queira retornar posteriormente. Você pode solicitar que seus dados sejam permanentemente e irrevogavelmente excluídos, enviando uma solicitação para litefarm.team@ubc.ca. Se você pretende retirar o consentimento e deseja uma cópia dos seus dados, solicite-o ao retirar o seu consentimento.
 
 **Como fazemos alterações na Política de Privacidade?**
 

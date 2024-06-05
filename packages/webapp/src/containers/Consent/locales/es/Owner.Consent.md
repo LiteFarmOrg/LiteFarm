@@ -46,7 +46,7 @@ Dependiendo de las partes de la plataforma LiteFarm que Ud. utilice, nosotros po
 
 LiteFarm utiliza la información de administración que Ud. ingresa en la aplicación para generar información sobre los beneficios o impactos financieros, ambientales y sociales de sus decisiones de administración. Estos datos los volvemos anónimos para realizar investigaciones académicas no comerciales sobre sistemas de alimentación sostenibles. Ya que nuestra investigación se basa en datos anónimos, éstos no pueden ser rastreados hasta Ud. o su finca. Estos datos incluyen:
 
-- Información sobre la ubicación de la explotación: ubicación de los lotes/campos, incluido el tamaño, nombre del lote/campo, cultivos plantados en cada uno; estado ecológico, y otros atributos específicos del tipo de ubicación.
+- Información sobre la ubicación de la explotación: ubicación de los campos, incluido el tamaño, nombre del campo, cultivos plantados en cada uno; estado ecológico, y otros atributos específicos del tipo de ubicación.
 
 - Información sobre cultivos: Información sobre el cultivo: tipo de cultivo, variedad, proveedor, nombres comunes, especie, género, grupo de cultivo, estado de la certificación ecológica e información complementaria.
 
@@ -56,13 +56,13 @@ LiteFarm utiliza la información de administración que Ud. ingresa en la aplica
 
 - Información sobre el control de plagas: nombre del producto; cantidad de producto aplicada; objetivo de la aplicación (o sea, de la plaga o enfermedad), nombre común, nombre científico, grupo; concentración del ingrediente activo; intervalo de cosecha; intervalo de entrada; tipo de control; lugar(es) y cultivo(s) objetivo.
 
-- Información sobre la cosecha: lote/campo cosechado; cultivo cosechado; cantidad cosechada, usos de las cosechas.
+- Información sobre la cosecha: campo cosechado; cultivo cosechado; cantidad cosechada, usos de las cosechas.
 
 - Información sobre la siembra: campo sembrado; cultivo sembrado; profundidad de espaciado, largo, ancho y proporción.
 
-- Información del trabajo de campo: lote/campo; cultivo, tipo de trabajo (arado, labrado en cumbrera, labrado zonal, labranza del mantillo, arar), notas.
+- Información del trabajo de campo: campo; cultivo, tipo de trabajo (arado, labrado en cumbrera, labrado zonal, labranza del mantillo, arar), notas.
 
-- Información sobre el suelo: lote/campo; profundidad; textura; porcentaje de potasio, fósforo, nitrógeno, materia orgánica, carbono orgánico, carbono inorgánico, carbono total, azufre, calcio, magnesio, sodio, zinc, manganeso, hierro, cobre, boro; capacidad de intercambio catiónico (CEC); grado de acidez (pH); densidad aparente.
+- Información sobre el suelo: campo; profundidad; textura; porcentaje de potasio, fósforo, nitrógeno, materia orgánica, carbono orgánico, carbono inorgánico, carbono total, azufre, calcio, magnesio, sodio, zinc, manganeso, hierro, cobre, boro; capacidad de intercambio catiónico (CEC); grado de acidez (pH); densidad aparente.
 
 - Datos de sensores como el contenido de agua y la temperatura del suelo que usted, el agricultor, envía a la aplicación a través de la integración de LiteFarm con sensores de terceros.
 

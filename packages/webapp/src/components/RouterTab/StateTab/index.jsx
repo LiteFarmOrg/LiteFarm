@@ -19,7 +19,7 @@ import clsx from 'clsx';
 
 const VARIANTS = {
   PILL: 'pill',
-  PLANE: 'plane',
+  PLAIN: 'plain',
 };
 
 /**
@@ -33,7 +33,7 @@ const VARIANTS = {
  * @param {string} props.state - The key corresponding to the currently selected tab.
  * @param {function} props.setState - A function to update the selected tab
  * @param {string} props.className - Optional CSS styling to applied to the tab container
- * @param {('pill'|'plane')} props.variant - Determines the style of the tabs.
+ * @param {('pill'|'plain')} props.variant - Determines the style of the tabs.
  *
  * @returns {React.Component} The rendered StateTab component.
  */

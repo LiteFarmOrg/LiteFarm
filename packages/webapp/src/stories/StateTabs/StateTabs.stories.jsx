@@ -51,10 +51,10 @@ export const PillThreeTabs = {
   args: { tabs: threeTabs },
 };
 
-export const Plane = {
-  args: { variant: 'plane' },
+export const Plain = {
+  args: { variant: 'plain' },
 };
 
-export const PlaneThreeTabs = {
-  args: { variant: 'plane', tabs: threeTabs },
+export const PlainThreeTabs = {
+  args: { variant: 'plain', tabs: threeTabs },
 };

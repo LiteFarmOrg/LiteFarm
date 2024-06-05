@@ -16,7 +16,7 @@ El equipo de LiteFarm es un grupo multidisciplinario de científicos(as), invest
 
 #### ¿Quién financia LiteFarm?
 
-LiteFarm es financiado por el Centro de Sistemas de Alimentación Sostenibles de UBC y por otras subvenciones. Para conocer la lista completa, por favor visite: https://ubcfarm.ubc.ca/csfs-research/litefarm/. Nuestros patrocinadores externos no tienen voz en la operación y administración de LiteFarm, y no cuentan con acceso a la información personal almacenada en la plataforma. Nuestro modelo de financiación es actualmente impulsado por donantes y subvenciones.
+LiteFarm es financiado por el Centro de Sistemas Alimentarios Sostenibles de UBC y por otras subvenciones. Para conocer la lista completa, por favor visite: https://ubcfarm.ubc.ca/csfs-research/litefarm/. Nuestros patrocinadores externos no tienen voz en la operación y administración de LiteFarm, y no cuentan con acceso a la información personal almacenada en la plataforma. Nuestro modelo de financiación es actualmente impulsado por donantes y subvenciones.
 
 #### ¿Por qué realizamos este proyecto?
 
@@ -108,7 +108,7 @@ Ud. tiene derecho a saber qué datos tenemos sobre usted, solicitar una copia de
 
 Su uso en la aplicación LiteFarm es completamente voluntario. Si decide utilizar LiteFarm, puede optar por desactivar su cuenta en cualquier momento, incluso si no tiene ningún motivo y sin ninguna otra acción por parte del investigador. Si desea eliminar todos sus datos de la base de datos de LiteFarm, puede enviar una solicitud a la dirección de correo electrónico: litefarm.team@ubc.ca.
 
-Si Ud. retira el consentimiento enviando un correo electrónico a data@litefarm.org, su(s) cuenta(s) en la plataforma LiteFarm se identificarán como inactivas y no podrá utilizar la plataforma LiteFarm. Sin embargo, su información no se eliminará en caso de que desee regresar más adelante. Puede solicitar que sus datos se eliminen de forma permanente e irrevocable enviando una solicitud a litefarm.team@ubc.ca. Si desea retirar el consentimiento y desea una copia de sus datos, solicítelo cuando retire su consentimiento.
+Si Ud. retira el consentimiento enviando un correo electrónico a litefarm.team@ubc.ca, su(s) cuenta(s) en la plataforma LiteFarm se identificarán como inactivas y no podrá utilizar la plataforma LiteFarm. Sin embargo, su información no se eliminará en caso de que desee regresar más adelante. Puede solicitar que sus datos se eliminen de forma permanente e irrevocable enviando una solicitud a litefarm.team@ubc.ca. Si desea retirar el consentimiento y desea una copia de sus datos, solicítelo cuando retire su consentimiento.
 
 **¿Cómo podemos modificar la Política de privacidad?**
 

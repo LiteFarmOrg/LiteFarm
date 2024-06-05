@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureConsent from '../../components/Consent';
 import { userFarmSelector } from '../userFarmSlice';

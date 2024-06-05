@@ -2324,12 +2324,10 @@ async function animal_identifier_colorFactory() {
   return knex('animal_identifier_color').insert({ key: faker.lorem.word() }).returning('*');
 }
 
-async function animal_identifier_placementFactory(
-  promisedAnimalType = default_animal_typeFactory(),
-) {
-  const [animalType] = await promisedAnimalType;
+async function animal_identifier_placementFactory() {
+  const [{ id: identifier_id }] = await animal_identifierFactory();
   return knex('animal_identifier_placement')
-    .insert({ default_type_id: animalType.id, key: faker.lorem.word() })
+    .insert({ identifier_id, key: faker.lorem.word() })
     .returning('*');
 }
 

@@ -91,7 +91,7 @@ describe('Animal Identifier Placement Tests', () => {
 
   // GET TESTS
   describe('Get animal identifier placement tests', () => {
-    test('All users should get identifier placements for a specific type', async () => {
+    test('All users should get identifier placements for a specific identifier type', async () => {
       const roles = [1, 2, 3, 5];
 
       // Create two placement options with two different default types
@@ -104,7 +104,7 @@ describe('Animal Identifier Placement Tests', () => {
         const res = await getRequestAsPromise({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
-          query_params_string: `default_type_id=${firstPlacement.default_type_id}`,
+          query_params_string: `identifier_id=${firstPlacement.identifier_id}`,
         });
 
         expect(res.status).toBe(200);
@@ -114,7 +114,7 @@ describe('Animal Identifier Placement Tests', () => {
       }
     });
 
-    test('All users should get placements for all types', async () => {
+    test('All users should get identifier placements for all identifier types', async () => {
       const roles = [1, 2, 3, 5];
 
       // Create two placement options with two different default types

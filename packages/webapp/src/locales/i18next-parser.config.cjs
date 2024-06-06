@@ -4,5 +4,5 @@ module.exports = {
   output: 'public/locales/$LOCALE/$NAMESPACE.json',
   sort: true,
   defaultValue: 'MISSING',
-  locales: ['en', 'es', 'pt', 'fr'],
+  locales: ['en', 'de', 'es', 'pt', 'fr'],
 };

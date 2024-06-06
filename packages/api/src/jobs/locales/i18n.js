@@ -4,7 +4,7 @@ import Backend from 'i18next-fs-backend';
 i18n.use(Backend).init(
   {
     fallbackLng: 'en',
-    preload: ['en', 'es', 'pt', 'fr'],
+    preload: ['de', 'en', 'es', 'pt', 'fr'],
     ns: ['translation', 'crop'],
     defaultNS: 'translation',
     nsSeparator: ':',

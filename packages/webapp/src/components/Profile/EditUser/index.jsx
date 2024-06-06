@@ -13,6 +13,7 @@ import Checkbox from '../../Form/Checkbox';
 import { useSelector } from 'react-redux';
 import { userFarmsByFarmSelector } from '../../../containers/userFarmSlice';
 import useGenderOptions from '../../../hooks/useGenderOptions';
+import useLanguageOptions from '../../../hooks/useLanguageOptions';
 
 export default function PureEditUser({
   userFarm,
@@ -43,12 +44,8 @@ export default function PureEditUser({
   const adminRoles = [1, 2, 5];
 
   const genderOptions = useGenderOptions();
-  const languageOptions = [
-    { value: 'en', label: t('PROFILE.ACCOUNT.ENGLISH') },
-    { value: 'es', label: t('PROFILE.ACCOUNT.SPANISH') },
-    { value: 'pt', label: t('PROFILE.ACCOUNT.PORTUGUESE') },
-    { value: 'fr', label: t('PROFILE.ACCOUNT.FRENCH') },
-  ];
+  const languageOptions = useLanguageOptions();
+
   const isPseudoUser = userFarm.role_id === 4;
   const roleOptions = Object.keys(dropDownMap).map((role_id) => ({
     value: role_id,

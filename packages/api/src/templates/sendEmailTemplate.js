@@ -71,7 +71,7 @@ const emailTransporter = new EmailTemplates({
     root: path.join(dir, 'emails'),
   },
   i18n: {
-    locales: ['en', 'es', 'fr', 'pt'],
+    locales: ['de', 'en', 'es', 'fr', 'pt'],
     directory: path.join(dir, 'locales'),
     objectNotation: true,
   },

@@ -11,7 +11,7 @@
     "BREED_PLACEHOLDER": "Add your animal breed",
     "BREED_PLACEHOLDER_DISABLED": "Please select a type first",
     "CREATE_INDIVIDUAL_PROFILES": "Create individual animal profiles",
-    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately. This allows for detailed records and individualised care plans, all animals will be conveniently grouped. If you don't select 'Create Individual Animal Profiles' you'll create an Animal Batch. This is ideal for\u00a0managing animals collectively. In batch mode, individual animal details are not tracked.",
+    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately. This allows for detailed records and individualised care plans, all animals will be conveniently grouped. If you don't select 'Create Individual Animal Profiles' you'll create an Animal Batch. This is ideal for managing animals collectively. In batch mode, individual animal details are not tracked.",
     "GENERAL_DETAILS": "General details",
     "GROUP_NAME": "Group name",
     "GROUP_NAME_PLACEHOLDER": "Type in group name",
@@ -38,10 +38,10 @@
     "REMOVE_CONFIRM": "Do you really want to remove?",
     "SELECT_SEXES": "Select sexes",
     "SEX_DETAIL": "Sex detail",
-    "SEX_DETAIL_ERROR_one": "Maximum animal count: {{count}}",
-    "SEX_DETAIL_ERROR_other": "Maximum animal count: {{count}}",
     "SEX_DETAIL_ERROR_POPOVER_one": "You cannot have more than {{count}} animal",
     "SEX_DETAIL_ERROR_POPOVER_other": "You cannot have more than {{count}} animals",
+    "SEX_DETAIL_ERROR_one": "Maximum animal count: {{count}}",
+    "SEX_DETAIL_ERROR_other": "Maximum animal count: {{count}}",
     "SPECIFY_SEX": "Specify sex",
     "SUMMARY": {
       "ADD_MORE_DETAILS": "Add more details to your animals",
@@ -83,10 +83,10 @@
     "ADD_A_TASK": "Add a task",
     "ADD_CUSTOM_TASK": "Add custom task",
     "AFFECT_PLANS": "Will this task affect any plans?",
+    "ASSIGNEE": "Assignee",
     "ASSIGN_ALL_TO_PERSON": "Assign all tasks on this date to {{name}}",
     "ASSIGN_DATE": "Change task date",
     "ASSIGN_TASK": "Assign task",
-    "ASSIGNEE": "Assignee",
     "CANCEL": "task creation",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Estimated water usage",
@@ -119,8 +119,8 @@
       "TYPE_OF_FIELD_WORK": "Type of field work"
     },
     "GO_TO_CATALOGUE": "Go to Crop Catalogue",
-    "HARVEST_EVERYTHING": "Harvest everything that is ready",
     "HARVESTING_INFO": "Each plan will generate an individual harvest task",
+    "HARVEST_EVERYTHING": "Harvest everything that is ready",
     "HOURLY_WAGE": {
       "ASSIGNEE_WAGE_WARNING": "{{name}} doesn't currently have an hourly wage assigned.",
       "DONT_ASK": "No, do not ask again for this employee",
@@ -256,16 +256,16 @@
     },
     "REMOVE_ANIMAL": "Remove animals",
     "SEARCH_INVENTORY_PLACEHOLDER": "Search your inventory",
-    "SHOWING_RESULTS_WITH_COUNT_one": "Showing {{count}} result",
     "SHOWING_RESULTS_WITH_COUNT_many": "Showing {{count}} results",
+    "SHOWING_RESULTS_WITH_COUNT_one": "Showing {{count}} result",
     "SHOWING_RESULTS_WITH_COUNT_other": "Showing {{count}} results"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
     "NUMBER_0F_BEDS": "# of beds",
     "NUMBER_OF_ROWS": "# of rows in bed",
-    "PLANT_SPACING": "Plant spacing",
-    "PLANTING_DETAILS": "Please specify planting details"
+    "PLANTING_DETAILS": "Please specify planting details",
+    "PLANT_SPACING": "Plant spacing"
   },
   "BROADCAST_PLAN": {
     "AREA_USED": "Area used",
@@ -431,8 +431,8 @@
     "ADD_CROP": "Add a new crop",
     "ADD_CROPS_T0_YOUR_FARM": "Add crops to your farm",
     "ADD_TO_YOUR_FARM": "Add to your farm",
-    "CAN_NOT_FIND": "Can't find what you're looking for?",
     "CANCEL": "crop creation",
+    "CAN_NOT_FIND": "Can't find what you're looking for?",
     "COVER_CROP": "Can this be grown as a cover crop?",
     "CREATE_MANAGEMENT_PLANS": "Create crop plans",
     "CROP_CATALOGUE": "Crop catalogue",
@@ -451,9 +451,9 @@
     "HERE_YOU_CAN": "Here you can:",
     "LETS_BEGIN": "Let's begin",
     "NEW_CROP_NAME": "New Crop Name",
-    "NO_RESULTS_FOUND": "No results found. Please change your filters.",
     "NOMINATE_CROP": "Nominate this crop for inclusion in the LiteFarm crop catalogue",
     "NOMINATE_CROP_TOOLTIP": "Nominating this crop for inclusion in the LiteFarm crop catalogue grants the LiteFarm team permission to share information about this crop with a specialist in your region. Approved crops will become part of the crop catalogue shown to all users.",
+    "NO_RESULTS_FOUND": "No results found. Please change your filters.",
     "ON_YOUR_FARM": "On your farm",
     "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
     "SPECIES": "Species"
@@ -544,9 +544,9 @@
     },
     "ADD_DOCUMENT": "Add a new document",
     "ARCHIVE": "Archive",
+    "ARCHIVED": "Archived",
     "ARCHIVE_DOCUMENT": "Archive document?",
     "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
-    "ARCHIVED": "Archived",
     "CANCEL": "Cancel",
     "CANCEL_MODAL": "document creation",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
@@ -625,9 +625,9 @@
     },
     "DETAILED_HISTORY": "Detailed History",
     "EDIT_EXPENSE": {
+      "RETIRED": "(retired)",
       "RETIRE_EXPENSE_MESSAGE": "Retiring this expense type will remove it as a possible choice for future expenses. You can still search and filter for historical instances of this expense type on the Finances tab.",
       "RETIRE_EXPENSE_TYPE": "Retire expense type",
-      "RETIRED": "(retired)",
       "TITLE": "Edit Expense",
       "TITLE_1": "Edit Expense(1 of 2)",
       "TITLE_2": "Edit Expense (2 of 2)"
@@ -731,8 +731,8 @@
     "EXPORT_MODAL": {
       "BODY": "How do you want to export your farm map?",
       "DOWNLOAD": "Download",
-      "EMAIL_TO_ME": "Email to me",
       "EMAILING": "Emailing",
+      "EMAIL_TO_ME": "Email to me",
       "TITLE": "Export your farm map"
     },
     "FARM_SITE_BOUNDARY": {
@@ -880,6 +880,15 @@
       "BODY": "You can only retire locations that have no active or planned crops or tasks.",
       "TITLE": "Unable to retire"
     },
+    "WATERCOURSE": {
+      "BUFFER": "Riparian buffer",
+      "EDIT_TITLE": "Edit watercourse",
+      "IRRIGATION": "Is this area used for irrigation?",
+      "LENGTH": "Total length",
+      "NAME": "Watercourse name",
+      "TITLE": "Add watercourse",
+      "WIDTH": "Watercourse width"
+    },
     "WATER_VALVE": {
       "EDIT_TITLE": "Edit water valve",
       "GROUNDWATER": "Groundwater",
@@ -890,15 +899,6 @@
       "SURFACE_WATER": "Surface water",
       "TITLE": "Add water valve",
       "WATER_VALVE_TYPE": "What is the source?"
-    },
-    "WATERCOURSE": {
-      "BUFFER": "Riparian buffer",
-      "EDIT_TITLE": "Edit watercourse",
-      "IRRIGATION": "Is this area used for irrigation?",
-      "LENGTH": "Total length",
-      "NAME": "Watercourse name",
-      "TITLE": "Add watercourse",
-      "WIDTH": "Watercourse width"
     }
   },
   "FIELDS": {
@@ -915,9 +915,9 @@
     "CLEAR": "clear",
     "CLEAR_ALL": "Clear all",
     "CLEAR_ALL_FILTERS": "Clear all filters",
-    "SELECT_ALL": "Select all",
     "SELECTED_one": "{{count}} selected",
     "SELECTED_other": "{{count}} selected",
+    "SELECT_ALL": "Select all",
     "SHOWING_ALL": "Showing all",
     "SHOWING_ALL_DEFAULT": "Showing All (Default)"
   },
@@ -1001,8 +1001,8 @@
     "GREETING": "Good day, "
   },
   "HOVERPILL": {
-    "PLUS_OTHERS_COUNT_one": "+ {{count}} other",
     "PLUS_OTHERS_COUNT_many": "+ {{count}} others",
+    "PLUS_OTHERS_COUNT_one": "+ {{count}} other",
     "PLUS_OTHERS_COUNT_other": "+ {{count}} others"
   },
   "INSIGHTS": {
@@ -1165,8 +1165,8 @@
     "ABANDON_MANAGEMENT_PLAN_TITLE": "Abandon crop plan?",
     "ADD_MANAGEMENT_PLAN": "Add a crop plan",
     "AGE": "Age",
-    "AS_COVER_CROP": "As cover crop",
     "ASSIGN_ALL_TASKS": "All tasks generated as part of this crop plan will be assigned to this individual. You can modify this assignment later",
+    "AS_COVER_CROP": "As cover crop",
     "BEDS": "Beds",
     "BROADCAST": "Broadcast or drill",
     "COMPLETE_PLAN": {
@@ -1235,10 +1235,10 @@
     "HARVEST_TO_DATE": "Harvest to date",
     "HARVEST_TO_DATE_INFO": "Harvest to date is calculated based on completed harvest tasks within this crop plan",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "Was it planted in a container or in the ground?",
-    "IN_GROUND": "In ground",
     "INCOMPLETE_TASK_CONTENT": "This plan has tasks that aren’t completed yet. You’ll need to mark the tasks complete in order to complete this crop plan.",
     "INCOMPLETE_TASK_TITLE": "You have incomplete tasks",
     "INDIVIDUAL_CONTAINER": "Individual or container",
+    "IN_GROUND": "In ground",
     "IS_TRANSPLANT": "Will this crop be transplanted?",
     "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?",
     "LOCATION_SUBTEXT": "Only locations that can grow crops are shown.",
@@ -1251,10 +1251,6 @@
     "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
     "NUMBER_OF_CONTAINER": "# of containers",
     "PENDING_TASK": "Pending tasks",
-    "PLAN_AND_ID": "Plan {{id}}",
-    "PLAN_NAME": "Crop plan name",
-    "PLAN_NOTES": "Plan notes",
-    "PLANT_SPACING": "Plant spacing",
     "PLANTED_ALREADY": "Will you be planting this crop or is it already in the ground?",
     "PLANTING": "Planting",
     "PLANTING_DATE": "What is your planting date?",
@@ -1266,12 +1262,17 @@
     "PLANTING_NOTE": "Planting notes",
     "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
+    "PLANT_SPACING": "Plant spacing",
+    "PLAN_AND_ID": "Plan {{id}}",
+    "PLAN_NAME": "Crop plan name",
+    "PLAN_NOTES": "Plan notes",
     "RATE_THIS_MANAGEMENT_PLAN": "Plan rating",
     "REMOVE_PIN": "Remove pin",
     "REPEATED_MP_SPOTLIGHT": {
       "BODY": "You can click here to see all crop plans in this group. Modifying an individual crop plan won’t change anything about others in the group.",
       "TITLE": "Congrats! You’ve created your first repeating crop plan!"
     },
+    "ROWS": "Rows",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "Were the rows all the same length?",
       "LENGTH_OF_ROW": "Length of row",
@@ -1279,17 +1280,16 @@
       "SAME_LENGTH": "Are your rows all the same length?",
       "TOTAL_LENGTH": "Total length of rows"
     },
-    "ROWS": "Rows",
-    "SEED_DATE": "What is your seeding date?",
-    "SEED_OR_SEEDLING": "How will you plant this crop?",
     "SEEDING_DATE": "Seeding date",
     "SEEDLING": "Seedling or planting stock",
     "SEEDLING_AGE": "What is the approximate age of the seedling or planting stock?",
     "SEEDLING_AGE_INFO": "Approximate age will help LiteFarm estimate harvest dates for seedlings. For cuttings and other planting stock without an obvious age, you can enter 0.",
+    "SEED_DATE": "What is your seeding date?",
+    "SEED_OR_SEEDLING": "How will you plant this crop?",
+    "SELECTED_STARTING_LOCATION": "Always select this as the starting location for crops that will be transplanted",
     "SELECT_A_PLANTING_LOCATION": "Select a planting location",
     "SELECT_A_SEEDING_LOCATION": "Select a seeding location",
     "SELECT_CURRENT_LOCATION": "Select the crop's current location",
-    "SELECTED_STARTING_LOCATION": "Always select this as the starting location for crops that will be transplanted",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
     "STATUS": {
@@ -1332,6 +1332,7 @@
     "ANIMALS_LOCATION": "Locations",
     "CERTIFICATIONS": "Certifications",
     "CROPS": "Crops",
+    "DASHBOARD": "!MISSING!MENU.DASHBOARD",
     "DOCUMENTS": "Documents",
     "ESTIMATED_REVENUES": "Estimated revenues",
     "FARM_SETTINGS": "Farm settings",
@@ -1467,10 +1468,12 @@
       "ENGLISH": "English",
       "FIRST_NAME": "First Name",
       "FRENCH": "French",
+      "GERMAN": "!MISSING!PROFILE.ACCOUNT.GERMAN",
       "LANGUAGE": "Language",
       "LAST_NAME": "Last Name",
       "PHONE_NUMBER": "Phone Number",
       "PORTUGUESE": "Portuguese",
+      "SLOVAK": "!MISSING!PROFILE.ACCOUNT.SLOVAK",
       "SPANISH": "Spanish",
       "USER_ADDRESS": "Address"
     },
@@ -1539,8 +1542,8 @@
     "MORE_DETAILS": "Do you want to give more details?",
     "NATURAL_DEATH": "Natural Death",
     "REMOVAL_REASONS": "Removal reasons",
-    "REMOVE_ANIMALS": "Remove animals",
     "REMOVED_AND_ARCHIVED": "These animals have been successfully removed from your farm and will be available in your historical inventory.",
+    "REMOVE_ANIMALS": "Remove animals",
     "SLAUGHTERED_FOR_CONSUMPTION": "Slaughtered for consumption",
     "SLAUGHTERED_FOR_SALE": "Slaughtered for sale",
     "SOLD": "Sold",
@@ -1610,9 +1613,9 @@
       "MESSAGE": "This will remove the revenue from your farm's records. It will no longer be reflected in any financial summaries."
     },
     "EDIT_REVENUE": {
+      "RETIRED": "(retired)",
       "RETIRE_REVENUE_MESSAGE": "Retiring this revenue type will remove it as a possible choice for future incomes. You can still search and filter for previous incomes of this revenue type on the Finances tab.",
       "RETIRE_REVENUE_TYPE": "Retire revenue type",
-      "RETIRED": "(retired)",
       "REVENUE_TYPE": "Revenue type"
     }
   },
@@ -1716,8 +1719,8 @@
       "BRAND_TOOLTIP": "Brands that LiteFarm can integrate with are shown below. If you would no longer like to use this sensor brand, try retiring this sensor instead.",
       "DEPTH": "Depth",
       "EDIT": "Edit",
-      "EXTERNAL_ID_TOOLTIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
       "EXTERNAL_IDENTIFIER": "External Identifier",
+      "EXTERNAL_ID_TOOLTIP": "This id is used to uniquely identify this sensor in other, integrated systems and cannot be changed. If it is no longer being used, try retiring this sensor and adding a new one.",
       "LATITUDE": "Latitude",
       "LONGITUDE": "Longitude",
       "MODEL": "Model",
@@ -1837,8 +1840,8 @@
     "TITLE": "Switching Farms"
   },
   "TABLE": {
-    "LOAD_MORE": "+ Load more",
     "LOADING_TEXT": "Loading...",
+    "LOAD_MORE": "+ Load more",
     "NEXT_TEXT": "Next",
     "NO_DATA_TEXT": "No rows found",
     "NUMBER_MORE": "+ {{number}} more",
@@ -1873,10 +1876,10 @@
       "WHEN": "When was the task abandoned?",
       "WHICH_DATE": "Which date?"
     },
+    "ABANDONMENT_DETAILS": "Task abandonment details",
     "ABANDON_TASK": "Abandon this task",
     "ABANDON_TASK_DURATION": "Was any work completed for this task?",
     "ABANDON_TASK_HELPTEXT": "Work completed on this abandoned task will be incorporated into labour costs. If no work was completed, please select that instead.",
-    "ABANDONMENT_DETAILS": "Task abandonment details",
     "ADD_CUSTOM_HARVEST_USE": "Create a custom harvest use",
     "ADD_HARVEST_USE": "Add another harvest use",
     "ADD_TASK": "Create a task",

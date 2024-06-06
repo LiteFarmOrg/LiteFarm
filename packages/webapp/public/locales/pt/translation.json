@@ -2,10 +2,8 @@
   "ADD_ANIMAL": {
     "ADD_TO_INVENTORY": "MISSING",
     "ANIMALS_TOTAL_one": "MISSING",
-    "ANIMALS_TOTAL_many": "MISSING",
     "ANIMALS_TOTAL_other": "MISSING",
     "ANIMALS_UNSPECIFIED_one": "MISSING",
-    "ANIMALS_UNSPECIFIED_many": "MISSING",
     "ANIMALS_UNSPECIFIED_other": "MISSING",
     "BATCH_NAME": "MISSING",
     "BATCH_NAME_PLACEHOLDER": "MISSING",
@@ -20,7 +18,6 @@
     "ORIGIN": "MISSING",
     "OTHER_DETAILS": "MISSING",
     "OUT_OF_COUNT_one": "MISSING",
-    "OUT_OF_COUNT_many": "MISSING",
     "OUT_OF_COUNT_other": "MISSING",
     "PLACEHOLDER": {
       "BATCH_NAME": "MISSING",
@@ -41,12 +38,10 @@
     "REMOVE_CONFIRM": "MISSING",
     "SELECT_SEXES": "MISSING",
     "SEX_DETAIL": "MISSING",
-    "SEX_DETAIL_ERROR_one": "MISSING",
-    "SEX_DETAIL_ERROR_many": "MISSING",
-    "SEX_DETAIL_ERROR_other": "MISSING",
     "SEX_DETAIL_ERROR_POPOVER_one": "MISSING",
-    "SEX_DETAIL_ERROR_POPOVER_many": "MISSING",
     "SEX_DETAIL_ERROR_POPOVER_other": "MISSING",
+    "SEX_DETAIL_ERROR_one": "MISSING",
+    "SEX_DETAIL_ERROR_other": "MISSING",
     "SPECIFY_SEX": "MISSING",
     "SUMMARY": {
       "ADD_MORE_DETAILS": "MISSING",
@@ -88,10 +83,10 @@
     "ADD_A_TASK": "Adicione uma tarefa",
     "ADD_CUSTOM_TASK": "Adicionar tarefa personalizada",
     "AFFECT_PLANS": "Esta tarefa influenciará em algum plano",
+    "ASSIGNEE": "Responsável",
     "ASSIGN_ALL_TO_PERSON": "Atribuir todas as tarefas neste dia para {{name}}",
     "ASSIGN_DATE": "Atribuir data de vencimento",
     "ASSIGN_TASK": "Atribuir tarefa",
-    "ASSIGNEE": "Responsável",
     "CANCEL": "criação de tarefa",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Uso estimado de água",
@@ -124,8 +119,8 @@
       "TYPE_OF_FIELD_WORK": "Tipo de trabalho de campo"
     },
     "GO_TO_CATALOGUE": "Vá ao catálogo de cultivos",
-    "HARVEST_EVERYTHING": "Colher tudo que estiver pronto",
     "HARVESTING_INFO": "Cada plano irá gerar uma tarefa de colheita individual",
+    "HARVEST_EVERYTHING": "Colher tudo que estiver pronto",
     "HOURLY_WAGE": {
       "ASSIGNEE_WAGE_WARNING": "{{name}} atualmente não tem um salário por hora atribuído.",
       "DONT_ASK": "Não, não pergunte novamente para este funcionário",
@@ -261,16 +256,16 @@
     },
     "REMOVE_ANIMAL": "MISSING",
     "SEARCH_INVENTORY_PLACEHOLDER": "MISSING",
-    "SHOWING_RESULTS_WITH_COUNT_one": "MISSING",
     "SHOWING_RESULTS_WITH_COUNT_many": "MISSING",
+    "SHOWING_RESULTS_WITH_COUNT_one": "MISSING",
     "SHOWING_RESULTS_WITH_COUNT_other": "MISSING"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Comprimento dos canteiros ",
     "NUMBER_0F_BEDS": "Nº de canteiros",
     "NUMBER_OF_ROWS": "Nº de linhas",
-    "PLANT_SPACING": "Espaçamento",
-    "PLANTING_DETAILS": "Por favor, especifique os detalhes do plantio"
+    "PLANTING_DETAILS": "Por favor, especifique os detalhes do plantio",
+    "PLANT_SPACING": "Espaçamento"
   },
   "BROADCAST_PLAN": {
     "AREA_USED": "Área usada",
@@ -436,8 +431,8 @@
     "ADD_CROP": "Adicionar um novo cultivo",
     "ADD_CROPS_T0_YOUR_FARM": "Adicionar cultivos à sua fazenda",
     "ADD_TO_YOUR_FARM": "Adicionar à sua fazenda",
-    "CAN_NOT_FIND": "Não consegue encontrar o que está procurando?",
     "CANCEL": "criação de cultivo",
+    "CAN_NOT_FIND": "Não consegue encontrar o que está procurando?",
     "COVER_CROP": "Isso pode ser cultivado como uma cultivo de cobertura?",
     "CREATE_MANAGEMENT_PLANS": "Criar um plano de cultivo",
     "CROP_CATALOGUE": "Catálogo de cultivo",
@@ -456,9 +451,9 @@
     "HERE_YOU_CAN": "Aqui você pode:",
     "LETS_BEGIN": "Vamos começar!",
     "NEW_CROP_NAME": "Nome do cultivo",
-    "NO_RESULTS_FOUND": "Nenhum resultado encontrado. Por favor, mude seus filtros.",
     "NOMINATE_CROP": "Indique este cultivo para inclusão no catálogo de cultivos do LiteFarm",
     "NOMINATE_CROP_TOOLTIP": "Nomear este cultivo para inclusão no catálogo do LiteFarm concede à equipe LiteFarm permissão para compartilhar informações sobre este cultivo com um especialista em sua região. Os cultivos aprovados farão parte do catálogo mostrado a todos os usuários.",
+    "NO_RESULTS_FOUND": "Nenhum resultado encontrado. Por favor, mude seus filtros.",
     "ON_YOUR_FARM": "Em sua fazenda",
     "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar os cultivos mais rapidamente.",
     "SPECIES": "Espécie"
@@ -475,6 +470,7 @@
     "MANAGEMENT_PLANS": "Planos de cultivo",
     "MANAGEMENT_TAB": "Manejo",
     "ORGANIC": "A semente ou o cultivo tem certificação orgânica?",
+    "ORGANIC_COMPLIANCE": "!MISSING!Organic Compliance",
     "PERENNIAL": "Perene",
     "TREATED": "As sementes deste cultivo foram tratadas?"
   },
@@ -548,9 +544,9 @@
     },
     "ADD_DOCUMENT": "Adicionar um novo documento",
     "ARCHIVE": "Arquivar",
+    "ARCHIVED": "Arquivado",
     "ARCHIVE_DOCUMENT": "Arquivar documento?",
     "ARCHIVE_DOCUMENT_TEXT": "Arquivar este documento o moverá para a seção arquivada de seus documentos, mas não o excluirá. Os documentos arquivados não serão exportados para suas certificações. Você quer prosseguir?",
-    "ARCHIVED": "Arquivado",
     "CANCEL": "Cancelar",
     "CANCEL_MODAL": "criação de documento",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Documentos de conformidade e sua certificação",
@@ -629,9 +625,9 @@
     },
     "DETAILED_HISTORY": "História Detalhada",
     "EDIT_EXPENSE": {
+      "RETIRED": "(encerrada)",
       "RETIRE_EXPENSE_MESSAGE": "Encerrar este tipo de despesa o removerá como uma opção possível para despesas futuras. Ainda é possível buscar esse tipo de despesa no histórico na guia Finanças.",
       "RETIRE_EXPENSE_TYPE": "Encerrar tipo de despesa",
-      "RETIRED": "(encerrada)",
       "TITLE": "Editar despesa",
       "TITLE_1": "Editar Despesa (1 de 2)",
       "TITLE_2": "Editar Despesa (2 de 2)"
@@ -735,8 +731,8 @@
     "EXPORT_MODAL": {
       "BODY": "Como você quer exportar o seu mapa?",
       "DOWNLOAD": "Download",
-      "EMAIL_TO_ME": "Enviar e-mail para mim",
       "EMAILING": "Enviando...",
+      "EMAIL_TO_ME": "Enviar e-mail para mim",
       "TITLE": "Exporte o mapa do seu sítio/fazenda"
     },
     "FARM_SITE_BOUNDARY": {
@@ -884,6 +880,15 @@
       "BODY": "Você só pode retirar locais que não tenham cultivos, tarefas ativas ou planejadas.",
       "TITLE": "Não é possível retirar"
     },
+    "WATERCOURSE": {
+      "BUFFER": "Mata ciliar",
+      "EDIT_TITLE": "Editar curso d'água",
+      "IRRIGATION": "Esta área é usada para irrigação?",
+      "LENGTH": "Comprimento total",
+      "NAME": "Nome do curso d'água",
+      "TITLE": "Adicionar curso d'água",
+      "WIDTH": "Largura do curso d'água"
+    },
     "WATER_VALVE": {
       "EDIT_TITLE": "Editar ponto de captação de água",
       "GROUNDWATER": "Água subterrânea",
@@ -894,15 +899,6 @@
       "SURFACE_WATER": "Água superficial",
       "TITLE": "Adicionar ponto de captação de água",
       "WATER_VALVE_TYPE": "Qual é a fonte?"
-    },
-    "WATERCOURSE": {
-      "BUFFER": "Mata ciliar",
-      "EDIT_TITLE": "Editar curso d'água",
-      "IRRIGATION": "Esta área é usada para irrigação?",
-      "LENGTH": "Comprimento total",
-      "NAME": "Nome do curso d'água",
-      "TITLE": "Adicionar curso d'água",
-      "WIDTH": "Largura do curso d'água"
     }
   },
   "FIELDS": {
@@ -919,10 +915,9 @@
     "CLEAR": "limpar",
     "CLEAR_ALL": "Limpar tudo",
     "CLEAR_ALL_FILTERS": "Remover todos os filtros",
-    "SELECT_ALL": "Selecionar tudo",
     "SELECTED_one": "MISSING",
-    "SELECTED_many": "MISSING",
     "SELECTED_other": "MISSING",
+    "SELECT_ALL": "Selecionar tudo",
     "SHOWING_ALL": "MISSING",
     "SHOWING_ALL_DEFAULT": "MISSING"
   },
@@ -958,6 +953,7 @@
       "REVENUE_TYPE": "Tipos de receita",
       "TITLE": "Filtrar transações"
     },
+    "MANAGE_CUSTOM_TYPE": "!MISSING!Manage custom type",
     "REPORT": {
       "DATES": "Datas",
       "FILE_TITLE": "MISSING",
@@ -1005,8 +1001,8 @@
     "GREETING": "Bom dia, "
   },
   "HOVERPILL": {
-    "PLUS_OTHERS_COUNT_one": "MISSING",
     "PLUS_OTHERS_COUNT_many": "MISSING",
+    "PLUS_OTHERS_COUNT_one": "MISSING",
     "PLUS_OTHERS_COUNT_other": "MISSING"
   },
   "INSIGHTS": {
@@ -1027,7 +1023,6 @@
       "MAMMALS": "Mamíferos",
       "PLANTS": "Plantas",
       "SPECIES_COUNT_one": "{{count}} espécie",
-      "SPECIES_COUNT_many": "{{count}} espécies",
       "SPECIES_COUNT_other": "{{count}} espécies",
       "TITLE": "Biodiversidade"
     },
@@ -1042,7 +1037,6 @@
     "PRICES": {
       "INFO": "Mostramos a trajetória comparativa entre seus preços de venda em relação aos preços de venda dos mesmos produtos encontrados a uma determinada distância de você, utilizando dados coletados na rede LiteFarm.",
       "NEARBY_FARMS_one": "O preço de mercado é baseado em {{count}} fazenda na sua região",
-      "NEARBY_FARMS_many": "O preço de mercado é baseado em {{count}} fazendas na sua região",
       "NEARBY_FARMS_other": "O preço de mercado é baseado em {{count}} fazendas na sua região",
       "NETWORK_PRICE": "Preço de mercado",
       "NO_ADDRESS": "Atualmente você não tem um endereço na LiteFarm. Atualize-o em seu perfil para obter informações de preços nas proximidades!",
@@ -1171,8 +1165,8 @@
     "ABANDON_MANAGEMENT_PLAN_TITLE": "Abandonar plano de cultivo?",
     "ADD_MANAGEMENT_PLAN": "Adicionar um plano de cultivo",
     "AGE": "Época",
-    "AS_COVER_CROP": "Como cultivo de cobertura",
     "ASSIGN_ALL_TASKS": "Todas as tarefas geradas como parte deste plano de cultivo serão atribuídas a este indivíduo. Você pode modificar esta atribuição mais tarde",
+    "AS_COVER_CROP": "Como cultivo de cobertura",
     "BEDS": "Canteiros",
     "BROADCAST": "Semeadura a lanço ou com máquina semeadora",
     "COMPLETE_PLAN": {
@@ -1241,10 +1235,10 @@
     "HARVEST_TO_DATE": "Colheita até o momento",
     "HARVEST_TO_DATE_INFO": "A colheita até o momento é calculada com base nas tarefas de colheita concluídas neste plano de cultivo",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "Foi plantado em um recipiente ou no solo?",
-    "IN_GROUND": "No solo",
     "INCOMPLETE_TASK_CONTENT": "Este plano têm tarefas que ainda não foram completadas. Você precisará marcar as tarefas como concluídas, a fim de concluir este plano de cultivo. ",
     "INCOMPLETE_TASK_TITLE": "Você tem tarefas incompletas",
     "INDIVIDUAL_CONTAINER": "Individual ou recipiente",
+    "IN_GROUND": "No solo",
     "IS_TRANSPLANT": "Este cultivo será transplantado?",
     "KNOW_HOW_IS_CROP_PLANTED": "Você sabe como o cultivo foi plantado?",
     "LOCATION_SUBTEXT": "Apenas os locais que podem cultivar são mostrados.",
@@ -1257,11 +1251,6 @@
     "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
     "NUMBER_OF_CONTAINER": "Nº des recipientes",
     "PENDING_TASK": "Tarefas pendentes",
-    "PLAN_AND_ID": "Plan {{id}}",
-    "PLAN_AND_ID_plural": "",
-    "PLAN_NAME": "Nome do plano de cultivo",
-    "PLAN_NOTES": "Notas do plano",
-    "PLANT_SPACING": "Espaçamento de plantas",
     "PLANTED_ALREADY": "Você vai plantar este cultivo ou ele já está plantado?",
     "PLANTING": "Plantando",
     "PLANTING_DATE": "Qual é a sua data de plantio?",
@@ -1273,12 +1262,17 @@
     "PLANTING_NOTE": "Notas de plantio",
     "PLANTING_SOIL": "Solo de plantio a ser usado",
     "PLANTS_PER_CONTAINER": "Nº de plantas /recipiente",
+    "PLANT_SPACING": "Espaçamento de plantas",
+    "PLAN_AND_ID": "Plan {{id}}",
+    "PLAN_NAME": "Nome do plano de cultivo",
+    "PLAN_NOTES": "Notas do plano",
     "RATE_THIS_MANAGEMENT_PLAN": "Avalie este plano de cultivo",
     "REMOVE_PIN": "Remover alfinete",
     "REPEATED_MP_SPOTLIGHT": {
       "BODY": "Você pode clicar aqui para ver todos os planos de cultivo neste grupo. A modificação de um plano de cultivo individual não mudará nada sobre os outros no grupo.",
       "TITLE": "Parabéns! Você criou seu primeiro plano de cultivo repetido!"
     },
+    "ROWS": "Linhas",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "As linhas eram todas do mesmo comprimento?",
       "LENGTH_OF_ROW": "Comprimento da linha",
@@ -1286,17 +1280,16 @@
       "SAME_LENGTH": "As linhas são do mesmo comprimento?",
       "TOTAL_LENGTH": "Comprimento total das linhas"
     },
-    "ROWS": "Linhas",
-    "SEED_DATE": "Qual é a sua data de semeadura?",
-    "SEED_OR_SEEDLING": "Como você vai plantar este cultivo?",
     "SEEDING_DATE": "Data da semeadura",
     "SEEDLING": "Estoque de mudas ou plantio",
     "SEEDLING_AGE": "Qual é a idade da muda ou do estoque de plantio?",
     "SEEDLING_AGE_INFO": "A data aproximada vai ajudar o LiteFarm a estimar as datas de colheita das mudas. Para estacas e outras mudas que não se saiba a idade exata, você pode colocar 0.",
+    "SEED_DATE": "Qual é a sua data de semeadura?",
+    "SEED_OR_SEEDLING": "Como você vai plantar este cultivo?",
+    "SELECTED_STARTING_LOCATION": "Sempre selecione este como o local de início para os cultivos que serão transplantados ",
     "SELECT_A_PLANTING_LOCATION": "Selecione um local de plantio",
     "SELECT_A_SEEDING_LOCATION": "Selecione um local de semeadura",
     "SELECT_CURRENT_LOCATION": "Selecione o local atual do cultivo",
-    "SELECTED_STARTING_LOCATION": "Sempre selecione este como o local de início para os cultivos que serão transplantados ",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
     "STARTED": "Vamos começar",
     "STATUS": {
@@ -1339,6 +1332,7 @@
     "ANIMALS_LOCATION": "MISSING",
     "CERTIFICATIONS": "Certificações",
     "CROPS": "Cultivos",
+    "DASHBOARD": "!MISSING!MENU.DASHBOARD",
     "DOCUMENTS": "Documentos",
     "ESTIMATED_REVENUES": "Receitas estimadas",
     "FARM_SETTINGS": "Configurações",
@@ -1474,10 +1468,12 @@
       "ENGLISH": "Inglês",
       "FIRST_NAME": "Primeiro nome",
       "FRENCH": "Francês",
+      "GERMAN": "!MISSING!PROFILE.ACCOUNT.GERMAN",
       "LANGUAGE": "Idioma",
       "LAST_NAME": "Sobrenome",
       "PHONE_NUMBER": "Número de telefone",
       "PORTUGUESE": "Português",
+      "SLOVAK": "!MISSING!PROFILE.ACCOUNT.SLOVAK",
       "SPANISH": "Espanhol",
       "USER_ADDRESS": "Endereço"
     },
@@ -1546,8 +1542,8 @@
     "MORE_DETAILS": "MISSING",
     "NATURAL_DEATH": "MISSING",
     "REMOVAL_REASONS": "MISSING",
-    "REMOVE_ANIMALS": "MISSING",
     "REMOVED_AND_ARCHIVED": "MISSING",
+    "REMOVE_ANIMALS": "MISSING",
     "SLAUGHTERED_FOR_CONSUMPTION": "MISSING",
     "SLAUGHTERED_FOR_SALE": "MISSING",
     "SOLD": "MISSING",
@@ -1617,9 +1613,9 @@
       "MESSAGE": "Isto removerá a receita dos registros da sua fazenda. Não será mais mostrada em nenhum resumo financeiro."
     },
     "EDIT_REVENUE": {
+      "RETIRED": "(encerrado)",
       "RETIRE_REVENUE_MESSAGE": "A retirada deste tipo de receita irá removê-lo como uma escolha possível para rendimentos futuros. Você ainda pode pesquisar e filtrar rendimentos anteriores deste tipo na aba Finanças.",
       "RETIRE_REVENUE_TYPE": "Encerrar tipo de receita",
-      "RETIRED": "(encerrado)",
       "REVENUE_TYPE": "Tipo de receita"
     }
   },
@@ -1723,8 +1719,8 @@
       "BRAND_TOOLTIP": "As marcas com as quais o LiteFarm pode se integrar são mostradas abaixo. Se você não quiser mais usar esta marca de sensor, tente removê-lo.",
       "DEPTH": "Profundidade",
       "EDIT": "Editar",
-      "EXTERNAL_ID_TOOLTIP": "Este id é usado para identificar exclusivamente este sensor em outros sistemas integrados e não pode ser alterado. Se não estiver mais sendo usado, tente remover este sensor e adicionar um novo",
       "EXTERNAL_IDENTIFIER": "Identificador externo",
+      "EXTERNAL_ID_TOOLTIP": "Este id é usado para identificar exclusivamente este sensor em outros sistemas integrados e não pode ser alterado. Se não estiver mais sendo usado, tente remover este sensor e adicionar um novo",
       "LATITUDE": "Latitude",
       "LONGITUDE": "Longitude",
       "MODEL": "Modelo",
@@ -1844,8 +1840,8 @@
     "TITLE": "Mudar de sítio/fazenda"
   },
   "TABLE": {
-    "LOAD_MORE": "+ Carregar more",
     "LOADING_TEXT": "carregando...",
+    "LOAD_MORE": "+ Carregar more",
     "NEXT_TEXT": "Próxima",
     "NO_DATA_TEXT": "Nenhum usuário encontrado",
     "NUMBER_MORE": "+ {{number}} mais",
@@ -1880,10 +1876,10 @@
       "WHEN": "Quando a tarefa foi abandonada?",
       "WHICH_DATE": "Qual data?"
     },
+    "ABANDONMENT_DETAILS": "Detalhes do abandono da tarefa",
     "ABANDON_TASK": "Abandonar esta tarefa",
     "ABANDON_TASK_DURATION": "Algum trabalho foi concluído para esta tarefa?",
     "ABANDON_TASK_HELPTEXT": "O trabalho concluído nesta tarefa abandonada será incorporado aos custos de mão de obra. Se nenhum trabalho foi concluído, selecionar isto.",
-    "ABANDONMENT_DETAILS": "Detalhes do abandono da tarefa",
     "ADD_CUSTOM_HARVEST_USE": "Crie um uso de colheita personalizado",
     "ADD_HARVEST_USE": "Adicionar outro uso para a colheita",
     "ADD_TASK": "Criar tarefa",
@@ -1967,7 +1963,6 @@
     },
     "TASK": "tarefa",
     "TASKS_COUNT_one": "{{count}} tarefa",
-    "TASKS_COUNT_many": "{{count}} tarefas",
     "TASKS_COUNT_other": "{{count}} tarefas",
     "TRANSPLANT": "Transplantar",
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",

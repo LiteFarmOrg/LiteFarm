@@ -76,6 +76,11 @@
       "UPDATE": "Información sobre la finca actualizada exitosamente!"
     }
   },
+  "LOGIN": {
+    "ERROR": {
+      "LOGIN_FAIL": "No se pudo iniciar sesión con información del usuario"
+    }
+  },
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "No se pudo agregar tipo de uso habitual de la cosecha",
@@ -84,11 +89,6 @@
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Tipos de usos habituales de la cosecha agregados exitosamente"
-    }
-  },
-  "LOGIN": {
-    "ERROR": {
-      "LOGIN_FAIL": "No se pudo iniciar sesión con información del usuario"
     }
   },
   "MANAGEMENT_PLAN": {

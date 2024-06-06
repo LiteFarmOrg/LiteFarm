@@ -1,6 +1,6 @@
 {
   "CROP_SALE": {
-    "REVENUE_NAME": "Venta de cultivos",
-    "CUSTOM_DESCRIPTION": "Ingresos asociados a la venta de cultivos cosechados en esta granja."
+    "CUSTOM_DESCRIPTION": "Ingresos asociados a la venta de cultivos cosechados en esta granja.",
+    "REVENUE_NAME": "Venta de cultivos"
   }
 }

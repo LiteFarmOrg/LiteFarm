@@ -76,6 +76,11 @@
       "UPDATE": "Informations sur l'exploitation mises à jour !"
     }
   },
+  "LOGIN": {
+    "ERROR": {
+      "LOGIN_FAIL": "Impossible de se connecter aux informations de l'utilisateur"
+    }
+  },
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Impossible d'ajouter un usage personnalisé",
@@ -84,11 +89,6 @@
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Usage personnalisé ajouté"
-    }
-  },
-  "LOGIN": {
-    "ERROR": {
-      "LOGIN_FAIL": "Impossible de se connecter aux informations de l'utilisateur"
     }
   },
   "MANAGEMENT_PLAN": {

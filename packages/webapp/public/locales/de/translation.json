@@ -1,4 +1,63 @@
 {
+  "ADD_ANIMAL": {
+    "ADD_TO_INVENTORY": "Tier zu deinem Inventar hinzufügen",
+    "ANIMALS_TOTAL_one": "!MISSING!{{count}} animal total",
+    "ANIMALS_TOTAL_other": "!MISSING!{{count}} animals total",
+    "ANIMALS_UNSPECIFIED_one": "!MISSING!{{count}} unspecified",
+    "ANIMALS_UNSPECIFIED_other": "!MISSING!{{count}} unspecified",
+    "BATCH_NAME": "Gruppenname",
+    "BATCH_NAME_PLACEHOLDER": "Gruppenname eintippen",
+    "BREED": "Rasse",
+    "BREED_PLACEHOLDER": "Ihre Tierrasse hinzufügen",
+    "BREED_PLACEHOLDER_DISABLED": "Bitte wählen Sie zuerst eine Rasse",
+    "CREATE_INDIVIDUAL_PROFILES": "Individuelle Tierprofile erstellen",
+    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Wählen Sie diese Option, wenn Sie jedes Tier einzeln verfolgen und verwalten möchten. Dies ermöglicht detaillierte Aufzeichnungen und individuelle Pflegepläne, wobei alle Tiere bequem gruppiert werden können. Wenn Sie die Option \"Individuelle Tierprofile erstellen\" nicht wählen, erstellen Sie eine Tiergruppe. Dies ist ideal für die kollektive Verwaltung von Tieren. Im Gruppenmodus werden die Details der einzelnen Tiere nicht verfolgt.",
+    "GENERAL_DETAILS": "Allgemeine Angaben",
+    "GROUP_NAME": "Name der Gruppe",
+    "GROUP_NAME_PLACEHOLDER": "Gruppenname eintippen",
+    "ORIGIN": "Herkunft",
+    "OTHER_DETAILS": "Andere Details",
+    "OUT_OF_COUNT_one": "!MISSING!{{animalNumber}} out of {{count}}",
+    "OUT_OF_COUNT_other": "!MISSING!{{animalNumber}} out of {{count}}",
+    "PLACEHOLDER": {
+      "BATCH_NAME": "Geben Sie den Namen der Gruppe ein",
+      "DAM": "!MISSING!Type in a dam",
+      "MERCHANT": "Geben Sie einen Händler ein",
+      "NAME": "Einen Namen eingeben",
+      "ORGANIC_STATUS": "Wie ist der ökologische Status?",
+      "OTHER_DETAILS": "Eine Beschreibung eingeben",
+      "PRICE": "Wie viel hat das gekostet?",
+      "SIRE": "!MISSING!Type in a sire",
+      "TAG_COLOUR": "Welche Farbe hat das Etikett?",
+      "TAG_NUMBER": "Geben Sie die Tag-Nummer ein",
+      "TAG_PLACEMENT": "Wo befindet sich die Markierung?",
+      "TAG_PLACEMENT_INFO": "Sagen Sie uns, wo der Tag ist",
+      "TAG_TYPE": "Was ist der Tag-Typ?",
+      "TAG_TYPE_INFO": "Bitte beschreiben Sie Ihren Tag-Typ"
+    },
+    "REMOVE_CONFIRM": "Möchten Sie wirklich löschen?",
+    "SELECT_SEXES": "Geschlechter auswählen",
+    "SEX_DETAIL": "Geschlecht Detail",
+    "SEX_DETAIL_ERROR_POPOVER_one": "!MISSING!You cannot have more than {{count}} animal",
+    "SEX_DETAIL_ERROR_POPOVER_other": "!MISSING!You cannot have more than {{count}} animals",
+    "SEX_DETAIL_ERROR_one": "!MISSING!Maximum animal count: {{count}}",
+    "SEX_DETAIL_ERROR_other": "!MISSING!Maximum animal count: {{count}}",
+    "SPECIFY_SEX": "Geschlecht angeben",
+    "SUMMARY": {
+      "ADD_MORE_DETAILS": "Weitere Details zu Ihren Tieren hinzufügen",
+      "ALL_DONE": "Alles erledigt!",
+      "ANIMAL_SUMMARY_COUNT_one": "!MISSING!{{count}} individual animal",
+      "ANIMAL_SUMMARY_COUNT_other": "!MISSING!{{count}} individual animals",
+      "BATCH_SUMMARY_COUNT_one": "!MISSING!{{count}} batch",
+      "BATCH_SUMMARY_COUNT_other": "!MISSING!{{count}} batches",
+      "HERE_IS_SUMMARY": "Hier ist eine Zusammenfassung der hinzugefügten Tiere:",
+      "MAIN": "!MISSING!You successfully added {{animalCount}} {{and}} {{batchCount}} to your inventory."
+    },
+    "TYPE": "Art",
+    "TYPE_PLACEHOLDER": "Wählen Sie die Tierart",
+    "UNIQUE_DETAILS": "Einzigartige Details",
+    "USED_FOR_REPRODUCTION": "Für die Reproduktion verwendet?"
+  },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Adresse ist erforderlich",
     "DISABLE_GEO_LOCATION": "Die Standortdienste müssen aktiviert sein, um Ihren aktuellen Standort zu finden.",
@@ -14,6 +73,7 @@
     "TELL_US_ABOUT_YOUR_FARM": "Erzählen Sie uns von Ihrem Betrieb"
   },
   "ADD_PRODUCT": {
+    "COMPOSITION": "Zusammensetzung",
     "PRESS_ENTER": "Tippen Sie und drücken Sie die Eingabetaste, um etwas hinzuzufügen...",
     "PRODUCT_LABEL": "Produkt",
     "SUPPLIER_LABEL": "Lieferant"
@@ -150,31 +210,55 @@
     "TASK": "Aufgabe",
     "TASK_NOTES_CHAR_LIMIT": "Notizen müssen weniger als 10.000 Zeichen umfassen",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Erzählen Sie uns von dieser Aufgabe",
+    "THIS_TASK_IS_COMPLETED": "Diese Aufgabe ist bereits erledigt",
+    "THIS_TASK_IS_COMPLETED_EXPLANATION": "Wenn Sie auf \"Speichern\" klicken, wird diese Aufgabe sofort gespeichert. Sie werden dann aufgefordert, sie abzuschließen.",
     "TRANSPLANT_METHOD": "Umpflanzsmethode",
     "WAGE_OVERRIDE": "Lohnaufhebung",
     "WHAT_PLANTING_METHOD": "Was ist die Umpflanzmethode?",
     "WILD_CROP": "Wildfrüchte"
   },
   "ANIMAL": {
-    "ANIMAL_BREED": "TODO!! Breed",
-    "ANIMAL_GROUPS": "TODO!! Group",
-    "ANIMAL_ID": "TODO!! ID",
-    "ANIMAL_IDENTIFICATION": "TODO!! Identification",
-    "ANIMAL_LOCATIONS": "TODO!! Location",
-    "ANIMAL_SEXES": "TODO!! Sex",
-    "ANIMAL_TYPE": "TODO!! Type",
-    "FILTER": {
-      "BATCHES": "TODO!! Batches",
-      "BATCHES_OR_INDIVIDUALS": "TODO!! Batches or Individuals",
-      "FEMALE": "TODO!! Female",
-      "INDIVIDUALS": "TODO!! Individuals",
-      "MALE": "TODO!! Male",
-      "TITLE": "TODO!! Filter animals"
+    "ADD_MORE_BODY_TEXT": "Haben Sie eine andere Tierart oder eine andere Rasse?",
+    "ADD_MORE_BUTTON": "Weitere Tiere hinzufügen",
+    "ANIMAL_BREED": "Rasse",
+    "ANIMAL_GROUPS": "Gruppe",
+    "ANIMAL_ID": "ID",
+    "ANIMAL_IDENTIFICATION": "Identifizierung",
+    "ANIMAL_LOCATIONS": "Standort",
+    "ANIMAL_SEXES": "Geschlecht",
+    "ANIMAL_TYPE": "Art",
+    "ATTRIBUTE": {
+      "ANIMAL_IMAGE": "Tierbild",
+      "BATCH_IMAGE": "Gruppenbild",
+      "BATCH_NAME": "Gruppenname",
+      "DAM": "Damm",
+      "DATE_OF_BIRTH": "Datum der Geburt",
+      "MERCHANT": "Händler",
+      "ORGANIC_STATUS": "Organischer Status",
+      "OTHER_DETAILS_ANIMAL": "Andere Tierdetails",
+      "OTHER_DETAILS_BATCH": "Gruppendetails",
+      "SIRE": "Vater",
+      "TAG_COLOUR": "Tag Farbe",
+      "TAG_NUMBER": "Tag-Nummer",
+      "TAG_PLACEMENT": "Tag-Platzierung",
+      "TAG_PLACEMENT_INFO": "Platzierung der Markierung festlegen",
+      "TAG_TYPE": "Tag Typ",
+      "WEANING_DATE": "Datum der Entwöhnung"
     },
-    "REMOVE_ANIMAL": "TODO!! Remove animals",
-    "SEARCH_INVENTORY_PLACEHOLDER": "TODO!! Search your inventory",
-    "SHOWING_RESULTS_WITH_COUNT_one": "TODO!! Showing {{count}} result",
-    "SHOWING_RESULTS_WITH_COUNT_other": "TODO!! Showing {{count}} results"
+    "BATCH": "Gruppe",
+    "FILTER": {
+      "BATCHES": "Gruppen",
+      "BATCHES_OR_INDIVIDUALS": "Gruppen oder Einzeltiere",
+      "FEMALE": "Weiblich",
+      "INDIVIDUALS": "Einzeltiere",
+      "MALE": "Männlich",
+      "TITLE": "Tiere filtern"
+    },
+    "REMOVE_ANIMAL": "Tiere entfernen",
+    "SEARCH_INVENTORY_PLACEHOLDER": "Ihr Inventar durchsuchen",
+    "SHOWING_RESULTS_WITH_COUNT_many": "!MISSING!Showing {{count}} results",
+    "SHOWING_RESULTS_WITH_COUNT_one": "Zeige {{count}} Ergebnis",
+    "SHOWING_RESULTS_WITH_COUNT_other": "Zeige {{count}} Ergebnisse"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Länge der Betten",
@@ -512,11 +596,11 @@
     "TASK": "Aufgabe"
   },
   "ERROR_FALLBACK": {
-    "CONTACT": "TODO!! Still stuck in the mud? No worries, we're here to pull you out: <1>{{supportEmail}}</1>",
-    "MAIN": "TODO!! Sometimes LiteFarm gets lost and just needs a bit of help. One of these usually resolves the problem:",
-    "RELOAD": "TODO!! Reload the page",
-    "SUBTITLE": "TODO!! Don't worry, it's not you, it's us.",
-    "TITLE": "TODO!! Oops! Seems like this page has wandered off!"
+    "CONTACT": "Stecken Sie fest? Kein Problem, wir helfen Ihnen raus: <1>{{supportEmail}}</1>",
+    "MAIN": "Manchmal verirrt sich LiteFarm und braucht nur ein wenig Hilfe. Eine davon löst das Problem in der Regel:",
+    "RELOAD": "Laden Sie die Seite neu",
+    "SUBTITLE": "Keine Sorge, es liegt nicht an Ihnen, es liegt an uns.",
+    "TITLE": "Ups! Es scheint, dass diese Seite abgewandert ist!"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -828,9 +912,14 @@
     "TITLE": "Dateigröße zu groß"
   },
   "FILTER": {
+    "CLEAR": "löschen",
     "CLEAR_ALL": "Alle löschen",
     "CLEAR_ALL_FILTERS": "Alle Filter löschen",
-    "SELECT_ALL": "Alle auswählen"
+    "SELECTED_one": "!MISSING!{{count}} selected",
+    "SELECTED_other": "!MISSING!{{count}} selected",
+    "SELECT_ALL": "Alle auswählen",
+    "SHOWING_ALL": "Zeigt alle",
+    "SHOWING_ALL_DEFAULT": "Alle anzeigen (Standard)"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
@@ -912,9 +1001,9 @@
     "GREETING": "Guten Tag!"
   },
   "HOVERPILL": {
-    "PLUS_OTHERS_COUNT_many": "TODO!! + {{count}} others",
-    "PLUS_OTHERS_COUNT_one": "TODO!! + {{count}} other",
-    "PLUS_OTHERS_COUNT_other": "TODO!! + {{count}} others"
+    "PLUS_OTHERS_COUNT_many": "+ {{count}} andere",
+    "PLUS_OTHERS_COUNT_one": "+ {{count}} andere",
+    "PLUS_OTHERS_COUNT_other": "+ {{count}} andere"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -933,7 +1022,6 @@
       },
       "MAMMALS": "Säugetiere",
       "PLANTS": "Pflanzen",
-      "SPECIES_COUNT_many": "TODO!! INSIGHTS.BIODIVERSITY.SPECIES_COUNT_many",
       "SPECIES_COUNT_one": "{{count}} Arten",
       "SPECIES_COUNT_other": "{{count}} Arten",
       "TITLE": "Artenvielfalt"
@@ -948,8 +1036,6 @@
     },
     "PRICES": {
       "INFO": "Wir zeigen Ihnen die Entwicklung Ihrer Verkaufspreise im Vergleich zu den Verkaufspreisen für dieselben Waren in einer bestimmten Entfernung von Ihnen, die über das LiteFarm-Netzwerk gesammelt wurden.",
-      "NEARBY_FARMS": "TODO!! INSIGHTS.PRICES.NEARBY_FARMS",
-      "NEARBY_FARMS_many": "TODO!! INSIGHTS.PRICES.NEARBY_FARMS_many",
       "NEARBY_FARMS_one": "Der Netzwerkpreis basiert auf{{count}} Bauernhof in Ihrer Nähe",
       "NEARBY_FARMS_other": "Der Netzwerkpreis basiert auf{{count}} Bauernhöfe in Ihrer Nähe",
       "NETWORK_PRICE": "Netzwerk Preis",
@@ -1178,7 +1264,6 @@
     "PLANTS_PER_CONTAINER": "# Anzahl der Pflanzen/Behälter",
     "PLANT_SPACING": "Abstand zwischen den Pflanzen",
     "PLAN_AND_ID": "Plan{{id}}",
-    "PLAN_AND_ID_plural": "TODO!! MANAGEMENT_PLAN.PLAN_AND_ID_plural",
     "PLAN_NAME": "Name des Anbauplans",
     "PLAN_NOTES": "Anmerkungen zum Plan",
     "RATE_THIS_MANAGEMENT_PLAN": "Bewertung des Plans",
@@ -1241,10 +1326,10 @@
   },
   "MENU": {
     "ACTUAL_REVENUES": "Tatsächliche Einnahmen",
-    "ANIMALS": "TODO!! Animals",
-    "ANIMALS_GROUPS": "TODO!! Groups",
-    "ANIMALS_INVENTORY": "TODO!! Inventory",
-    "ANIMALS_LOCATION": "TODO!! Locations",
+    "ANIMALS": "Tiere",
+    "ANIMALS_GROUPS": "Gruppen",
+    "ANIMALS_INVENTORY": "Bestand",
+    "ANIMALS_LOCATION": "Standorte",
     "CERTIFICATIONS": "Zertifizierungen",
     "CROPS": "Kulturpflanzen",
     "DASHBOARD": "Dashboard",
@@ -1451,20 +1536,20 @@
     "NOTES": "Hinweise zur Veröffentlichung"
   },
   "REMOVE_ANIMALS": {
-    "CREATED_IN_ERROR": "TODO!! Created in error",
-    "CULLED": "TODO!! Culled",
-    "EXPLANATION": "TODO!! Explanation",
-    "MORE_DETAILS": "TODO!! Do you want to give more details?",
-    "NATURAL_DEATH": "TODO!! Natural Death",
-    "REMOVAL_REASONS": "TODO!! Removal reasons",
-    "REMOVED_AND_ARCHIVED": "TODO!! These animals have been successfully removed from your farm and will be available in your historical inventory.",
-    "REMOVE_ANIMALS": "TODO!! Remove animals",
-    "SLAUGHTERED_FOR_CONSUMPTION": "TODO!! Slaughtered for consumption",
-    "SLAUGHTERED_FOR_SALE": "TODO!! Slaughtered for sale",
-    "SOLD": "TODO!! Sold",
-    "WHY": "TODO!! Tell us why you are removing these animals",
-    "WILL_BE_ARCHIVED": "TODO!! These animals will be archived and accessible for future reference",
-    "WILL_BE_PERMANENTLY_REMOVED": "TODO!! These animals will be permanently removed from your farm"
+    "CREATED_IN_ERROR": "Irrtümlich erstellt",
+    "CULLED": "Gekeult",
+    "EXPLANATION": "Erläuterung",
+    "MORE_DETAILS": "Möchten Sie weitere Einzelheiten angeben?",
+    "NATURAL_DEATH": "Natürlicher Tod",
+    "REMOVAL_REASONS": "Gründe für die Entfernung",
+    "REMOVED_AND_ARCHIVED": "Diese Tiere wurden erfolgreich von Ihrer Farm entfernt und sind nun in Ihrem historischen Inventar verfügbar.",
+    "REMOVE_ANIMALS": "Tiere entfernen",
+    "SLAUGHTERED_FOR_CONSUMPTION": "Für den Verzehr geschlachtet",
+    "SLAUGHTERED_FOR_SALE": "Zum Verkauf geschlachtet",
+    "SOLD": "Verkauft",
+    "WHY": "Sagen Sie uns, warum Sie diese Tiere entfernen",
+    "WILL_BE_ARCHIVED": "Diese Tiere werden archiviert und sind für zukünftige Referenzen zugänglich.",
+    "WILL_BE_PERMANENTLY_REMOVED": "Diese Tiere werden dauerhaft aus Ihrem Betrieb entfernt"
   },
   "REPEAT_PLAN": {
     "AFTER": "Nach",
@@ -1620,9 +1705,9 @@
     "ZERO": "0 Ergebnisse"
   },
   "SECTION_HEADER": {
-    "ANIMALS_GROUPS": "TODO!! Animal groups",
-    "ANIMALS_INVENTORY": "TODO!! Animal inventory",
-    "ANIMALS_LOCATION": "TODO!! Animal locations"
+    "ANIMALS_GROUPS": "Tiergruppen",
+    "ANIMALS_INVENTORY": "Tierbestand",
+    "ANIMALS_LOCATION": "Standorte der Tiere"
   },
   "SENSOR": {
     "BRAND": "Marke",
@@ -1877,7 +1962,6 @@
       "PLANNED": "Geplant"
     },
     "TASK": "Aufgabe",
-    "TASKS_COUNT_many": "TODO!! TASK.TASKS_COUNT_many",
     "TASKS_COUNT_one": "{{count}} Aufgabe",
     "TASKS_COUNT_other": "{{count}} Aufgaben",
     "TRANSPLANT": "Umpflanzen",
@@ -1897,6 +1981,13 @@
     "CANT_FIND": "Huch! Das konnten wir nicht finden.",
     "MAYBE_LATER": "Vielleicht klappt es später mit der Rübe.",
     "UNKNOWN_RECORD": "Unbekannter Rekord"
+  },
+  "UPLOADER": {
+    "CHANGE_IMAGE": "Bild ändern",
+    "CLICK_TO_UPLOAD": "Hochladen",
+    "DRAG_DROP": "oder ziehen und ablegen",
+    "REMOVE_IMAGE": "Bild entfernen",
+    "UPLOAD_IMAGE": "Bild hochladen"
   },
   "WAGE": {
     "ERROR": "Der Lohn muss eine gültige, nicht-negative Dezimalzahl sein",

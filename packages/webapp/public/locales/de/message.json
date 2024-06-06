@@ -1,4 +1,10 @@
 {
+  "ANIMALS": {
+    "FAILED_REMOVE_ANIMALS": "Ausgewählte Tiere konnten nicht entfernt werden",
+    "FAILED_REMOVE_BATCHES": "Ausgewählte Gruppen konnten nicht entfernt werden",
+    "SUCCESS_REMOVE_ANIMALS": "Ausgewählte Tiere erfolgreich entfernt",
+    "SUCCESS_REMOVE_BATCHES": "Erfolgreich ausgewählte Gruppen entfernt"
+  },
   "ASSIGN_TASK": {
     "ERROR": "Aufgaben nicht zugewiesen",
     "SUCCESS": "Erfolgreich zugewiesene Aufgaben"

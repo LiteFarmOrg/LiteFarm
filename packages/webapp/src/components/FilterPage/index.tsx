@@ -52,7 +52,26 @@ const PureFilterPage = ({
   const resetFilter = () => {
     triggerReset();
     setIsDirty(true);
-    setTempFilter({});
+    setTempFilter(
+      (() => {
+        const result: { [key: string]: { [key: string]: { active: boolean; label: string } } } = {};
+
+        filters.forEach((item) => {
+          result[item.filterKey] = {};
+          if (item.options && item.options.length > 0) {
+            item.options.forEach((option) => {
+              result[item.filterKey][option.value] = {
+                active: false,
+                label: option.label,
+              };
+            });
+          }
+        });
+        result['FROM_DATE'] = {};
+        result['TO_DATE'] = {};
+        return result;
+      })(),
+    );
   };
 
   const [isDirty, setIsDirty] = useState(false);
@@ -75,6 +94,7 @@ const PureFilterPage = ({
       <FilterGroup
         filters={filters}
         onChange={(filterKey, filterState) => {
+          console.log('filterKey', filterKey, 'filterState', filterState);
           if (filterKey === 'DATE_RANGE') {
             setTempFilter({
               ...tempFilter,

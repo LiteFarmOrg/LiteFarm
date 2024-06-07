@@ -31,6 +31,7 @@ export default function ExpenseItemsForType({ type, register, control, getValues
   const dispatch = useDispatch();
   const selectedExpense = useSelector(selectedExpenseSelector);
 
+  const itemsQuantity = getValues(`${EXPENSE_DETAIL}.${type.id}`).length;
   const { fields, append, remove } = useFieldArray({
     control,
     name: `${EXPENSE_DETAIL}.${type.id}`,
@@ -69,6 +70,7 @@ export default function ExpenseItemsForType({ type, register, control, getValues
                 getErrors={(fieldName) =>
                   getInputErrors(errors, `${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`)
                 }
+                itemsQuantity={itemsQuantity}
               />
             );
           })}

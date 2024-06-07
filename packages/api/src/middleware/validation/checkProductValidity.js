@@ -21,7 +21,17 @@ import { checkAndTrimString } from '../../util/util.js';
 export function checkProductValidity() {
   return async (req, res, next) => {
     const { soil_amendment_product: sap } = req.body;
-    const elements = ['n', 'p', 'k', 'calcium', 'magnesium', 'sulfur', 'manganese', 'boron'];
+    const elements = [
+      'n',
+      'p',
+      'k',
+      'calcium',
+      'magnesium',
+      'sulfur',
+      'copper',
+      'manganese',
+      'boron',
+    ];
 
     if (sap) {
       // Check that element values are all positive

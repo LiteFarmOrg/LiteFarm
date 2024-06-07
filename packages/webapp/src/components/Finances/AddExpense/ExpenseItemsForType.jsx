@@ -53,7 +53,9 @@ export default function ExpenseItemsForType({ type, register, control, getValues
 
   return (
     <div className={styles.expenseItemsForType}>
-      <Main className={styles.type}>{type.name}</Main>
+      <Main className={styles.type}>
+        {type.name} ({itemsQuantity})
+      </Main>
       {fields && fields.length ? (
         <div className={styles.box}>
           {fields.map((field, index) => {

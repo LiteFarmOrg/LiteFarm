@@ -98,7 +98,7 @@ class SoilAmendmentTaskProducts extends Model {
           enum: [...applicationRateVolumeUnits, null],
         },
         percent_of_location_amended: { type: ['number', 'null'] },
-        total_area_amended_in_ha: { type: ['number', 'null'] },
+        total_area_amended_in_m2: { type: ['number', 'null'] },
         ...super.baseProperties,
       },
       additionalProperties: false,
@@ -151,7 +151,7 @@ class SoilAmendmentTaskProducts extends Model {
       application_rate_volume_unit: 'keep',
       // TODO: revisit when copy allows location changing
       percent_of_location_amended: 'keep',
-      total_area_amended_in_ha: 'keep',
+      total_area_amended_in_m2: 'keep',
       // relationMappings
       product: 'omit',
       soil_amendment_task: 'omit',

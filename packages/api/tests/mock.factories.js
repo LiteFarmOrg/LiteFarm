@@ -1212,7 +1212,7 @@ function fakeSoilAmendmentTaskProduct() {
       'oz/ac',
     ]),
     percent_of_location_amended: faker.datatype.number(100),
-    total_area_amended_in_ha: faker.datatype.number(1000),
+    total_area_amended_in_m2: faker.datatype.number(1000),
   };
 }
 

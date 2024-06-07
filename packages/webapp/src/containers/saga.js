@@ -152,7 +152,6 @@ import {
   onLoadingWatercourseStart,
 } from './watercourseSlice';
 import { api } from '../store/api/apiSlice';
-import { CONSENT_VERSION } from '../util/constants';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -589,8 +588,8 @@ export function* checkAppVersionSaga() {
 }
 
 export function* fetchAllSaga() {
-  const { has_consent, consent_version, user_id, farm_id } = yield select(userFarmSelector);
-  if (!has_consent || consent_version !== CONSENT_VERSION) return history.push('/consent');
+  const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
+  if (!has_consent) return history.push('/consent');
 
   const isAdmin = yield select(isAdminSelector);
   const adminTasks = [

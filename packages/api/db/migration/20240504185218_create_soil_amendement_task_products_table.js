@@ -283,18 +283,21 @@ export const up = async function (knex) {
       (pr) => pr.task_id === task.task_id,
     );
     const soilAmendmentPurpose = soilAmendmentPurposes.find(
-      (pu) => pu.key === task.purpose.toUpperCase(),
+      (pu) => pu.key === task.purpose?.toUpperCase(),
     );
     return {
-      task_products_id: soilAmendmentTaskProduct.id || null,
-      purpose_id: soilAmendmentPurpose.id || null,
+      task_products_id: soilAmendmentTaskProduct?.id || null,
+      purpose_id: soilAmendmentPurpose?.id || null,
       other_purpose: task.other_purpose || null,
     };
   });
 
   // Insert into relationship table
   for (const taskProductPurpose of soilAmendmentTaskProductsPurposes) {
-    await knex('soil_amendment_task_products_purpose_relationship').insert(taskProductPurpose);
+    if (taskProductPurpose.purpose_id && taskProductPurpose.task_products_id) {
+      await knex('soil_amendment_task_products_purpose_relationship').insert(taskProductPurpose);
+    }
+    // LF-4246 - no purpose_id or task_product_id
   }
 
   const soilAmendmentMethods = await knex.select().table('soil_amendment_method');
@@ -487,10 +490,12 @@ export const down = async function (knex) {
       .table('soil_amendment_task_products_purpose_relationship')
       .where('task_products_id', firstTaskProduct.id)
       .first();
-    const firstTaskProductPurpose = await knex
-      .select('key')
-      .table('soil_amendment_purpose')
-      .where('id', firstTaskProductPurposeRelationship.purpose_id);
+    const firstTaskProductPurpose = firstTaskProductPurposeRelationship
+      ? await knex
+          .select('key')
+          .table('soil_amendment_purpose')
+          .where('id', firstTaskProductPurposeRelationship.purpose_id)
+      : null;
     if (firstTaskProduct.weight) {
       await knex('soil_amendment_task')
         .where('task_id', task.task_id)
@@ -498,8 +503,10 @@ export const down = async function (knex) {
           product_id: firstTaskProduct.product_id,
           product_quantity: firstTaskProduct.weight,
           product_quantity_unit: firstTaskProduct.weight_unit,
-          other_purpose: firstTaskProductPurposeRelationship.other_purpose,
-          purpose: String(firstTaskProductPurpose[0].key).toLowerCase(),
+          other_purpose: firstTaskProductPurposeRelationship?.other_purpose || null,
+          purpose: firstTaskProductPurpose
+            ? String(firstTaskProductPurpose[0].key).toLowerCase()
+            : null,
         });
     } else if (firstTaskProduct.volume) {
       await knex('soil_amendment_task')
@@ -508,11 +515,11 @@ export const down = async function (knex) {
           product_id: firstTaskProduct.product_id,
           product_quantity: firstTaskProduct.volume,
           product_quantity_unit: firstTaskProduct.volume_unit,
-          other_purpose: firstTaskProductPurposeRelationship.other_purpose,
-          purpose: String(firstTaskProductPurpose[0].key).toLowerCase(),
+          other_purpose: firstTaskProductPurposeRelationship?.other_purpose || null,
+          purpose: firstTaskProductPurpose
+            ? String(firstTaskProductPurpose[0].key).toLowerCase()
+            : null,
         });
-    } else {
-      console.log('Should never reach here unless null quantity values - soil amendment');
     }
   }
 

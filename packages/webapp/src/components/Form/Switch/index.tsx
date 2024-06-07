@@ -16,7 +16,7 @@ const Switch = ({ checked, onChange, label, leftLabel, ...props }: SwitchProps) 
       {leftLabel && <Main>{leftLabel}</Main>}
       <label className={styles.switch}>
         <input onChange={onChange} checked={checked} type="checkbox" />
-        <span className={clsx(styles.slider, styles.round)} />
+        <span className={clsx(styles.track, styles.round)} />
       </label>
       {label && <Main>{label}</Main>}
     </div>

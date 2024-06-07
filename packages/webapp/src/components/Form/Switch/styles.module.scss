@@ -18,8 +18,7 @@
   height: 0;
 }
 
-/* The slider */
-.slider {
+.track {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -30,7 +29,8 @@
   transition: background-color 0.3s ease-out;
 }
 
-.slider:before {
+/* Thumb */
+.track:before {
   position: absolute;
   content: '';
   height: 20px;
@@ -41,20 +41,22 @@
   transition: 0.3s ease-out;
 }
 
-input:checked + .slider {
+/* Track (active) */
+input:checked + .track {
   background-color: #78ca9e;
 }
 
-input:checked + .slider:before {
+/* Thumb (active) */
+input:checked + .track:before {
   transform: translateX(28px);
   background-color: #247360;
 }
 
-/* Rounded sliders */
-.slider.round {
+/* Rounded track and thumb */
+.track.round {
   border-radius: 34px;
 }
 
-.slider.round:before {
+.track.round:before {
   border-radius: 50%;
 }

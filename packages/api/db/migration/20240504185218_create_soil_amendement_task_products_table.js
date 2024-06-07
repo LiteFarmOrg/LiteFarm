@@ -16,7 +16,7 @@
 const soilAmendmentFertiliserTypeKeys = ['DRY', 'LIQUID'];
 const elementalUnits = ['percent', 'ratio', 'ppm', 'mg/kg'];
 const molecularCompoundsUnits = ['ppm', 'mg/kg'];
-const elements = ['n', 'p', 'k', 'calcium', 'magnesium', 'sulfur', 'manganese', 'boron'];
+const elements = ['n', 'p', 'k', 'calcium', 'magnesium', 'sulfur', 'copper', 'manganese', 'boron'];
 const compounds = ['ammonium', 'nitrate'];
 const amendmentProductPurposeKeys = [
   'STRUCTURE',
@@ -67,7 +67,7 @@ const applicationRateVolumeUnits = [
 ];
 
 export const up = async function (knex) {
-  // Create fertliser types table
+  // Create fertiliser types table
   await knex.schema.createTable('soil_amendment_fertiliser_type', (table) => {
     table.increments('id').primary();
     table.string('key').notNullable();
@@ -86,19 +86,21 @@ export const up = async function (knex) {
       .references('id')
       .inTable('soil_amendment_fertiliser_type')
       .nullable();
-    table.decimal('n');
-    table.decimal('p');
-    table.decimal('k');
-    table.decimal('calcium');
-    table.decimal('magnesium');
-    table.decimal('sulfur');
-    table.decimal('copper');
-    table.decimal('manganese');
-    table.decimal('boron');
+    table.decimal('n', 36, 12);
+    table.decimal('p', 36, 12);
+    table.decimal('k', 36, 12);
+    table.decimal('calcium', 36, 12);
+    table.decimal('magnesium', 36, 12);
+    table.decimal('sulfur', 36, 12);
+    table.decimal('copper', 36, 12);
+    table.decimal('manganese', 36, 12);
+    table.decimal('boron', 36, 12);
     table.enu('elemental_unit', elementalUnits);
-    table.decimal('ammonium');
-    table.decimal('nitrate');
+    table.decimal('ammonium', 36, 12);
+    table.decimal('nitrate', 36, 12);
     table.enu('molecular_compounds_unit', molecularCompoundsUnits);
+    // Dry matter content is currently 100 - moisture content
+    table.decimal('moisture_content_percent', 36, 12);
     table.check(
       `(COALESCE(${elements.join(
         ', ',
@@ -174,8 +176,8 @@ export const up = async function (knex) {
     table.enu('application_rate_volume_unit', applicationRateVolumeUnits);
     // TODO: LF-4246 backfill data for percent_of_location_amended then make notNullable and defaulted to 100
     table.decimal('percent_of_location_amended', 36, 12);
-    // TODO: LF-4246 backfill data for total_area_amended_in_ha then make notNullable
-    table.decimal('total_area_amended_in_ha', 36, 12);
+    // TODO: LF-4246 backfill data for total_area_amended_in_m2 then make notNullable
+    table.decimal('total_area_amended_in_m2', 36, 12);
     table.boolean('deleted').notNullable().defaultTo(false);
     table
       .string('created_by_user_id')
@@ -281,18 +283,21 @@ export const up = async function (knex) {
       (pr) => pr.task_id === task.task_id,
     );
     const soilAmendmentPurpose = soilAmendmentPurposes.find(
-      (pu) => pu.key === task.purpose.toUpperCase(),
+      (pu) => pu.key === task.purpose?.toUpperCase(),
     );
     return {
-      task_products_id: soilAmendmentTaskProduct.id,
-      purpose_id: soilAmendmentPurpose.id,
-      other_purpose: task.other_purpose,
+      task_products_id: soilAmendmentTaskProduct?.id || null,
+      purpose_id: soilAmendmentPurpose?.id || null,
+      other_purpose: task.other_purpose || null,
     };
   });
 
   // Insert into relationship table
   for (const taskProductPurpose of soilAmendmentTaskProductsPurposes) {
-    await knex('soil_amendment_task_products_purpose_relationship').insert(taskProductPurpose);
+    if (taskProductPurpose.purpose_id && taskProductPurpose.task_products_id) {
+      await knex('soil_amendment_task_products_purpose_relationship').insert(taskProductPurpose);
+    }
+    // LF-4246 - no purpose_id or task_product_id
   }
 
   const soilAmendmentMethods = await knex.select().table('soil_amendment_method');
@@ -485,10 +490,12 @@ export const down = async function (knex) {
       .table('soil_amendment_task_products_purpose_relationship')
       .where('task_products_id', firstTaskProduct.id)
       .first();
-    const firstTaskProductPurpose = await knex
-      .select('key')
-      .table('soil_amendment_purpose')
-      .where('id', firstTaskProductPurposeRelationship.purpose_id);
+    const firstTaskProductPurpose = firstTaskProductPurposeRelationship
+      ? await knex
+          .select('key')
+          .table('soil_amendment_purpose')
+          .where('id', firstTaskProductPurposeRelationship.purpose_id)
+      : null;
     if (firstTaskProduct.weight) {
       await knex('soil_amendment_task')
         .where('task_id', task.task_id)
@@ -496,8 +503,10 @@ export const down = async function (knex) {
           product_id: firstTaskProduct.product_id,
           product_quantity: firstTaskProduct.weight,
           product_quantity_unit: firstTaskProduct.weight_unit,
-          other_purpose: firstTaskProductPurposeRelationship.other_purpose,
-          purpose: String(firstTaskProductPurpose[0].key).toLowerCase(),
+          other_purpose: firstTaskProductPurposeRelationship?.other_purpose || null,
+          purpose: firstTaskProductPurpose
+            ? String(firstTaskProductPurpose[0].key).toLowerCase()
+            : null,
         });
     } else if (firstTaskProduct.volume) {
       await knex('soil_amendment_task')
@@ -506,11 +515,11 @@ export const down = async function (knex) {
           product_id: firstTaskProduct.product_id,
           product_quantity: firstTaskProduct.volume,
           product_quantity_unit: firstTaskProduct.volume_unit,
-          other_purpose: firstTaskProductPurposeRelationship.other_purpose,
-          purpose: String(firstTaskProductPurpose[0].key).toLowerCase(),
+          other_purpose: firstTaskProductPurposeRelationship?.other_purpose || null,
+          purpose: firstTaskProductPurpose
+            ? String(firstTaskProductPurpose[0].key).toLowerCase()
+            : null,
         });
-    } else {
-      console.log('Should never reach here unless null quantity values - soil amendment');
     }
   }
 

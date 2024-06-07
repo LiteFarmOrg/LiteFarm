@@ -22,7 +22,7 @@ import { DATE, NOTE, VALUE } from './constants';
 import styles from './styles.module.scss';
 import { useCurrencySymbol } from '../../../containers/hooks/useCurrencySymbol';
 
-export default function ExpenseItemInputs({ register, onRemove, getErrors }) {
+export default function ExpenseItemInputs({ register, onRemove, getErrors, itemsQuantity }) {
   const { t } = useTranslation();
 
   return (
@@ -55,15 +55,17 @@ export default function ExpenseItemInputs({ register, onRemove, getErrors }) {
         })}
         currency={useCurrencySymbol()}
       />
-      <IconLink
-        className={styles.iconLink}
-        icon={<TrashIcon className={styles.icon} />}
-        onClick={onRemove}
-        isIconClickable
-        underlined={false}
-      >
-        {t('common:REMOVE_ITEM')}
-      </IconLink>
+      {itemsQuantity > 1 ? (
+        <IconLink
+          className={styles.iconLink}
+          icon={<TrashIcon className={styles.icon} />}
+          onClick={onRemove}
+          isIconClickable
+          underlined={false}
+        >
+          {t('common:REMOVE_ITEM')}
+        </IconLink>
+      ) : null}
     </div>
   );
 }
@@ -73,4 +75,5 @@ ExpenseItemInputs.propTypes = {
   onRemove: PropTypes.func,
   onChange: PropTypes.func,
   getErrors: PropTypes.func,
+  itemsQuantity: PropTypes.bool,
 };

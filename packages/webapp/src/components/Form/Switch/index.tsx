@@ -1,10 +1,15 @@
-import React from 'react';
+import { ChangeEvent } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import { Main } from '../../Typography';
 
-const Switch = ({ checked, onChange, label, ...props }) => {
+interface SwitchProps {
+  checked?: boolean;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  label?: string;
+}
+
+const Switch = ({ checked, onChange, label, ...props }: SwitchProps) => {
   return (
     <div className={styles.container} {...props}>
       <label className={styles.switch}>
@@ -14,12 +19,6 @@ const Switch = ({ checked, onChange, label, ...props }) => {
       {label && <Main>{label}</Main>}
     </div>
   );
-};
-
-Switch.propTypes = {
-  onChange: PropTypes.func,
-  label: PropTypes.string,
-  checked: PropTypes.bool,
 };
 
 export default Switch;

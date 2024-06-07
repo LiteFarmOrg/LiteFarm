@@ -42,7 +42,7 @@ const CONFIG: Config = {
   remove: {
     translationKey: 'common:REMOVE',
     icon: <XIcon />,
-    format: (text) => text.toLowerCase(),
+    format: (text) => text.toLocaleLowerCase(),
   },
 };
 

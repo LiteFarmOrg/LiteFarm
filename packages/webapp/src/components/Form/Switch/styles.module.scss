@@ -60,3 +60,39 @@ input:checked + .track:before {
 .track.round:before {
   border-radius: 50%;
 }
+
+/* Yes/No text */
+.innerText {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  color: white;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.528px;
+
+  /* center in the track space minus thumb */
+  width: calc(100% - 20px);
+  text-align: center;
+
+  transition: opacity 0.3s;
+}
+
+.no {
+  right: 0;
+}
+
+input:checked + .track .no {
+  opacity: 0;
+}
+
+.yes {
+  left: 0;
+  opacity: 0;
+}
+
+input:checked + .track .yes {
+  opacity: 1;
+}

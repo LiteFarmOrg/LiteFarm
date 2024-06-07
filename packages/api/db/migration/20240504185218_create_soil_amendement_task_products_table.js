@@ -101,6 +101,7 @@ export const up = async function (knex) {
     table.enu('molecular_compounds_unit', molecularCompoundsUnits);
     // Dry matter content is currently 100 - moisture content
     table.decimal('moisture_content_percent', 36, 12);
+    table.check('moisture_content_percent <= 100', [], 'moisture_percent_check');
     table.check(
       `(COALESCE(${elements.join(
         ', ',

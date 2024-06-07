@@ -23,3 +23,10 @@ WithLabel.args = {
   checked: true,
   label: 'Switch',
 };
+
+export const WithLeftLabel = Template.bind({});
+WithLeftLabel.args = {
+  checked: true,
+  leftLabel: 'Left',
+  label: 'Right',
+};

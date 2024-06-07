@@ -1151,7 +1151,7 @@ async function soil_amendment_purposeFactory() {
 }
 
 async function soil_amendment_fertiliser_typeFactory() {
-  return knex('soil_amendment_purpose').insert({ key: faker.lorem.word() }).returning('*');
+  return knex('soil_amendment_fertiliser_type').insert({ key: faker.lorem.word() }).returning('*');
 }
 
 async function soil_amendment_taskFactory(

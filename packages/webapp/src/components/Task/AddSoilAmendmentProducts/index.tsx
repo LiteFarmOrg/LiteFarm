@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import useExpandable from '../../Expandable/useExpandableItem';
@@ -49,10 +49,7 @@ const AddSoilAmendmentProducts = ({
     control,
   });
 
-  const productsOfType = useMemo(
-    () => products.filter((product) => product.type === TASK_TYPES.SOIL_AMENDMENT),
-    [products],
-  );
+  const productsOfType = products.filter((product) => product.type === TASK_TYPES.SOIL_AMENDMENT);
 
   const { expandedIds, toggleExpanded, expand, unExpand, resetExpanded } = useExpandable({
     isSingleExpandable: true,

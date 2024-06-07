@@ -1,5 +1,5 @@
 // DeepL API key
-const deeplApiKey = '28ee2af4-e7ae-52c4-fcb9-fabd7bed2456:fx';
+const deeplApiKey = 'ADD KEY HERE :)';
 
 // Function to translate text using DeepL API
 export async function translateText(text, targetLang, context) {

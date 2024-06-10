@@ -9,3 +9,5 @@ export const DO_CDN_URL = `https://${
 // Changing this forces logout and updates the new release card
 export const APP_VERSION = '3.6.0';
 export const VERSION_RELEASE_NOTES_LINK = 'https://www.litefarm.org/post/a-new-look-for-a-new-year';
+
+export const CONSENT_VERSION = '6.0';

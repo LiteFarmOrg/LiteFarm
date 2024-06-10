@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureConsent from '../../components/Consent';
 import { userFarmSelector } from '../userFarmSlice';
@@ -15,6 +14,7 @@ import PortugueseWorkerConsent from './locales/pt/Worker.Consent.md';
 import SpanishOwnerConsent from './locales/es/Owner.Consent.md';
 import SpanishWorkerConsent from './locales/es/Worker.Consent.md';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { CONSENT_VERSION } from '../../util/constants';
 
 const languageConsent = {
   en: { worker: <EnglishWorkerConsent />, owner: <EnglishOwnerConsent /> },
@@ -42,7 +42,6 @@ function ConsentForm({
 
     formState: { errors },
   } = useForm();
-  const [consentVersion] = useState('5.0');
   const consent =
     role.role_id === 3 ? getLanguageConsent(language).worker : getLanguageConsent(language).owner;
   const checkboxName = 'consentCheckbox';
@@ -58,7 +57,7 @@ function ConsentForm({
   };
 
   const updateConsent = (data) => {
-    dispatch(patchConsent({ has_consent: true, consent_version: consentVersion, goForwardTo }));
+    dispatch(patchConsent({ has_consent: true, consent_version: CONSENT_VERSION, goForwardTo }));
   };
 
   return (

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
+import { CONSENT_VERSION } from '../util/constants';
 
 export function onLoadingStart(state) {
   state.loading = true;
@@ -92,6 +93,10 @@ const userFarmSlice = createSlice({
         const prevUserFarms = state.byFarmIdUserId[farm_id] || {};
         state.byFarmIdUserId[farm_id] = prevUserFarms;
         state.byFarmIdUserId[farm_id][user_id] = prevUserFarms[user_id] || {};
+
+        const { has_consent, consent_version } = userFarm;
+        userFarm.has_consent = has_consent && consent_version === CONSENT_VERSION;
+
         Object.assign(state.byFarmIdUserId[farm_id][user_id], userFarm);
         delete state.byFarmIdUserId[farm_id][user_id].role;
       });

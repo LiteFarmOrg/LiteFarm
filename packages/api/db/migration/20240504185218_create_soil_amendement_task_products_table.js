@@ -176,8 +176,8 @@ export const up = async function (knex) {
     table.enu('application_rate_volume_unit', applicationRateVolumeUnits);
     // TODO: LF-4246 backfill data for percent_of_location_amended then make notNullable and defaulted to 100
     table.decimal('percent_of_location_amended', 36, 12);
-    // TODO: LF-4246 backfill data for total_area_amended_in_m2 then make notNullable
-    table.decimal('total_area_amended_in_m2', 36, 12);
+    // TODO: LF-4246 backfill data for total_area_amended in m2 then make notNullable
+    table.decimal('total_area_amended', 36, 12);
     table.boolean('deleted').notNullable().defaultTo(false);
     table
       .string('created_by_user_id')

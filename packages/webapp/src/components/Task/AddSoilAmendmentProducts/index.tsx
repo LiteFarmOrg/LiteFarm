@@ -22,7 +22,6 @@ import TextButton from '../../Form/Button/TextButton';
 import { type Product } from './types';
 import { defaultValues } from './ProductCard/ProductDetails';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
-import { TASK_TYPES } from '../../../containers/Task/constants';
 import styles from './styles.module.scss';
 
 export type AddSoilAmendmentProductsProps = ProductCardProps & { products: Product[] };
@@ -49,8 +48,6 @@ const AddSoilAmendmentProducts = ({
     control,
   });
 
-  const productsOfType = products.filter((product) => product.type === TASK_TYPES.SOIL_AMENDMENT);
-
   const { expandedIds, toggleExpanded, expand, unExpand, resetExpanded } = useExpandable({
     isSingleExpandable: true,
   });
@@ -63,7 +60,7 @@ const AddSoilAmendmentProducts = ({
       .filter(({ product_id }: ProductFields): boolean => product_id !== selectedProductId)
       .map(({ product_id }: ProductFields): ProductId => product_id);
 
-    return productsOfType.filter(({ product_id }) => !otherSelectedProductIds.includes(product_id));
+    return products.filter(({ product_id }) => !otherSelectedProductIds.includes(product_id));
   };
 
   const getInvalidProductsUpdater =

@@ -81,12 +81,4 @@ export const products = [
     k: 1,
     npk_unit: Unit.PERCENT,
   },
-  {
-    product_id: 6,
-    name: 'Cleaning product',
-    product_translation_key: null,
-    supplier: 'Supplier',
-    type: 'cleaning_task',
-    farm_id: 'xxx',
-  },
 ];

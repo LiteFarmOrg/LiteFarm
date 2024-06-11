@@ -1193,7 +1193,7 @@ async function soil_amendment_task_productsFactory(
     .returning('*');
 }
 
-function fakeSoilAmendmentTaskProduct() {
+function fakeSoilAmendmentTaskProduct(defaultData = {}) {
   return {
     weight: faker.datatype.number(),
     weight_unit: faker.helpers.arrayElement(['lb', 'kg']),
@@ -1213,6 +1213,7 @@ function fakeSoilAmendmentTaskProduct() {
     ]),
     percent_of_location_amended: faker.datatype.number(100),
     total_area_amended: faker.datatype.number(1000),
+    ...defaultData,
   };
 }
 

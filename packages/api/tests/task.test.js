@@ -1038,7 +1038,7 @@ describe('Task tests', () => {
           return mocks.fakeSoilAmendmentTask({
             method_id: soilAmendmentMethod,
             soil_amendment_task_products: [
-              { product_id: soilAmendmentProduct, ...mocks.fakeSoilAmendmentTaskProduct() },
+              mocks.fakeSoilAmendmentTaskProduct({ product_id: soilAmendmentProduct }),
             ],
           });
         },
@@ -1434,7 +1434,7 @@ describe('Task tests', () => {
               method_id: soilAmendmentMethod,
               ...mocks.fakeSoilAmendmentTask(),
               soil_amendment_task_products: [
-                { product_id: farmProduct.product_id, ...mocks.fakeSoilAmendmentTaskProduct() },
+                mocks.fakeSoilAmendmentTaskProduct({ product_id: farmProduct.product_id }),
               ],
             },
             task_type_id,
@@ -1495,7 +1495,7 @@ describe('Task tests', () => {
               method_id: soilAmendmentMethod,
               ...mocks.fakeSoilAmendmentTask(),
               soil_amendment_task_products: [
-                { product_id: farmProduct.product_id, ...mocks.fakeSoilAmendmentTaskProduct() },
+                mocks.fakeSoilAmendmentTaskProduct({ product_id: farmProduct.product_id }),
               ],
             },
             task_type_id,
@@ -1738,7 +1738,7 @@ describe('Task tests', () => {
 
         return mocks.fakeSoilAmendmentTask({
           soil_amendment_task_products: [
-            { product_id: soilAmendmentProduct, ...mocks.fakeSoilAmendmentTaskProduct() },
+            mocks.fakeSoilAmendmentTaskProduct({ product_id: soilAmendmentProduct }),
           ],
         });
       },

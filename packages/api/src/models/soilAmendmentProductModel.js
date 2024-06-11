@@ -45,6 +45,7 @@ class soilAmendmentProduct extends Model {
         ammonium: { type: ['number', 'null'] },
         nitrate: { type: ['number', 'null'] },
         molecular_compounds_unit: { type: ['string', 'null'], enum: ['ppm', 'mg/kg'] },
+        moisture_content_percent: { type: ['number', 'null'] },
       },
       additionalProperties: false,
     };

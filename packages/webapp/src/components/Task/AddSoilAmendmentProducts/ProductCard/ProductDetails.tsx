@@ -141,8 +141,8 @@ const ProductDetails = ({
   }, [productId]);
 
   useEffect(() => {
-    setFieldValidity(isValid);
-  }, [isValid]);
+    setFieldValidity(!!(productId && isValid));
+  }, [productId, isValid]);
 
   const onCancel = () => {
     if (isNewProduct(productId)) {

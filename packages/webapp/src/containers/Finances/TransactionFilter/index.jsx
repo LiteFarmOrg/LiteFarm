@@ -56,6 +56,9 @@ const TransactionFilter = () => {
   };
 
   const handleApply = () => {
+    checkActiveFilters('EXPENSE_TYPE');
+    checkActiveFilters('REVENUE_TYPE');
+
     dispatch(setTransactionsFilter(tempTransactionsFilter));
     setIsFilterOpen(false);
     setIsDirty(false);

@@ -41,16 +41,12 @@
       color: var(--Colors-Neutral-Neutral-300);
       @include truncateText();
     }
-
-    .selectWrapper {
-      border-left: none;
-    }
   }
-}
 
-.selectWrapper {
-  margin-right: -8px;
-  border-left: 1px solid var(--grey400);
+  &:not(.disabled) .selectWrapper {
+    margin-right: -8px;
+    border-left: 1px solid var(--grey400);
+  }
 }
 
 /*----------------------------------------
@@ -63,14 +59,19 @@
   border: 1px solid var(--Colors-Neutral-Neutral-50);
   display: flex;
   gap: 24px;
+  flex-wrap: wrap;
 
   > div {
-    flex: 1;
+    flex: 1 0 31%; // align up to 3 items in a row
   }
 
   @include md-breakpoint {
     flex-direction: column;
   }
+}
+
+.selectValue {
+  color: var(--Colors-Neutral-Neutral-300, #98a1b1);
 }
 
 .error {

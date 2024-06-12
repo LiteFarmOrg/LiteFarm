@@ -35,12 +35,17 @@ class PestControlTask extends Model {
       json.product_quantity_unit = json.weight_unit;
       delete json.weight;
       delete json.weight_unit;
+      delete json.volume;
+      delete json.volume_unit;
     } else if (json.volume && json.volume_unit) {
       json.product_quantity = json.volume;
       json.product_quantity_unit = json.volume_unit;
+      delete json.weight;
+      delete json.weight_unit;
       delete json.volume;
       delete json.volume_unit;
     }
+    // Database checks prevent quantity && !quantity_unit
     return json;
   }
 
@@ -50,6 +55,15 @@ class PestControlTask extends Model {
     json = super.$formatDatabaseJson(json);
     const weightUnits = ['g', 'lb', 'kg', 't', 'mt', 'oz'];
     const volumeUnits = ['l', 'gal', 'ml', 'fl-oz'];
+    const defaultAction = (json) => {
+      json.volume = json.product_quantity;
+      //Database previously defaulted to 'l'
+      json.volume_unit = 'l';
+      json.weight = null;
+      json.weight_unit = null;
+      delete json.product_quantity;
+      delete json.product_quantity_unit;
+    };
     if (json.product_quantity && json.product_quantity_unit) {
       if (weightUnits.includes(json.product_quantity_unit)) {
         json.weight = json.product_quantity;
@@ -65,15 +79,11 @@ class PestControlTask extends Model {
         json.weight_unit = null;
         delete json.product_quantity;
         delete json.product_quantity_unit;
+      } else {
+        defaultAction(json);
       }
     } else if (json.product_quantity && !json.product_quantity_unit) {
-      json.volume = json.product_quantity;
-      //Database previously defaulted to 'l'
-      json.volume_unit = 'l';
-      json.weight = null;
-      json.weight_unit = null;
-      delete json.product_quantity;
-      delete json.product_quantity_unit;
+      defaultAction(json);
     }
     return json;
   }

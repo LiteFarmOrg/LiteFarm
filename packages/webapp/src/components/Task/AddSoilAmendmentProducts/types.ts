@@ -13,8 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { NPK, UNIT, Unit } from '../../Form/CompositionInputs/NumberInputWithSelect';
+import { Unit } from '../../Form/CompositionInputs/NumberInputWithSelect';
 import { TASK_TYPES } from '../../../containers/Task/constants';
+
+export enum NPK {
+  N = 'n',
+  P = 'p',
+  K = 'k',
+}
 
 export const FIELD_NAMES = {
   PRODUCT_ID: 'product_id',
@@ -22,7 +28,7 @@ export const FIELD_NAMES = {
   SUPPLIER: 'supplier',
   PERMITTED: 'on_permitted_substances_list',
   COMPOSITION: 'composition',
-  UNIT,
+  UNIT: 'npk_unit',
   N: NPK.N,
   P: NPK.P,
   K: NPK.K,

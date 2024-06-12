@@ -25,9 +25,9 @@ import Input, { getInputErrors } from '../../../Form/Input';
 import TextButton from '../../../Form/Button/TextButton';
 import RadioGroup from '../../../Form/RadioGroup';
 import CompositionInputs from '../../../Form/CompositionInputs';
-import { NPK, UNIT, Unit } from '../../../Form/CompositionInputs/NumberInputWithSelect';
+import { Unit } from '../../../Form/CompositionInputs/NumberInputWithSelect';
 import Buttons from './Buttons';
-import { FIELD_NAMES, type FormFields, type Product, type ProductId } from '../types';
+import { FIELD_NAMES, NPK, type FormFields, type Product, type ProductId } from '../types';
 import { CANADA } from '../../AddProduct/constants';
 import { TASK_TYPES } from '../../../../containers/Task/constants';
 import styles from '../styles.module.scss';
@@ -215,7 +215,7 @@ const ProductDetails = ({
             control={control}
             rules={{
               validate: (value): boolean | string => {
-                if (!value || value[UNIT] !== Unit.PERCENT) {
+                if (!value || value[FIELD_NAMES.UNIT] !== Unit.PERCENT) {
                   return true;
                 }
                 return (
@@ -235,13 +235,14 @@ const ProductDetails = ({
                   ]}
                   disabled={isDetailDisabled}
                   error={fieldState.error?.message}
-                  values={field.value}
+                  values={field.value || {}}
                   onChange={(name, value) => {
                     field.onChange({ ...field.value, [name]: value });
                   }}
                   // onBlur needs to be passed manually
                   // https://stackoverflow.com/questions/61661432/how-to-make-react-hook-form-controller-validation-triggered-on-blur
                   onBlur={field.onBlur}
+                  unitFieldName={FIELD_NAMES.UNIT}
                 />
               );
             }}

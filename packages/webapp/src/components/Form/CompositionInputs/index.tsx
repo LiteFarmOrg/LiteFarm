@@ -16,21 +16,28 @@
 import { useTranslation } from 'react-i18next';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import InputBaseLabel from '../InputBase/InputBaseLabel';
-import NumberInputWithSelect, { NPK, NumberInputWithSelectProps } from './NumberInputWithSelect';
+import NumberInputWithSelect, { NumberInputWithSelectProps } from './NumberInputWithSelect';
 import styles from './styles.module.scss';
 
-type CompositionInputsProps = Omit<NumberInputWithSelectProps, 'name' | 'label'> & {
-  inputsInfo: { name: NPK; label: string }[];
+type CompositionInputsProps = Omit<
+  NumberInputWithSelectProps,
+  'name' | 'label' | 'value' | 'unit'
+> & {
+  inputsInfo: { name: string; label: string }[];
+  values: { [key: string]: any };
+  unitFieldName: string;
 };
 
 const CompositionInputs = ({
-  unitOptions,
   inputsInfo,
   error = '',
   disabled = false,
   onChange,
   onBlur,
   values,
+  unitFieldName,
+  reactSelectJustifyContent,
+  ...props
 }: CompositionInputsProps) => {
   const { t } = useTranslation();
 
@@ -41,15 +48,20 @@ const CompositionInputs = ({
         {inputsInfo.map(({ name, label }) => {
           return (
             <NumberInputWithSelect
+              {...props}
               key={label}
               label={label}
               name={name}
-              unitOptions={unitOptions}
               error={error}
               disabled={disabled}
               onChange={onChange}
               onBlur={onBlur}
-              values={values}
+              unit={values?.[unitFieldName]!}
+              unitFieldName={unitFieldName}
+              value={values?.[name]}
+              reactSelectJustifyContent={
+                reactSelectJustifyContent || (disabled ? 'flex-end' : 'flex-start')
+              }
             />
           );
         })}

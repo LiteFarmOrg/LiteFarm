@@ -37,3 +37,12 @@ ToggleVariant.args = {
   label: 'Right',
   isToggleVariant: true,
 };
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+  checked: true,
+  leftLabel: 'Left',
+  label: 'Right',
+  isToggleVariant: true,
+  disabled: true,
+};

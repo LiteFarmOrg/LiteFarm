@@ -110,3 +110,17 @@ input:checked + .track .yes {
 .track.track.toggle:before {
   background-color: #2b303a; // neutral 900
 }
+
+/* Disabled / Read-only */
+.track.track.disabled {
+  background-color: #f0f1f3; // neutral 50
+  outline: none;
+
+  .innerText {
+    display: none;
+  }
+}
+
+.track.track.disabled:before {
+  background-color: #d0d4db; // neutral 100
+}

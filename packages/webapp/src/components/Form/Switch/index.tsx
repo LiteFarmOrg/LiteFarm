@@ -10,6 +10,7 @@ interface SwitchProps {
   label?: string;
   leftLabel?: string;
   isToggleVariant?: boolean;
+  disabled?: boolean;
 }
 
 const Switch = ({
@@ -18,6 +19,7 @@ const Switch = ({
   label,
   leftLabel,
   isToggleVariant,
+  disabled,
   ...props
 }: SwitchProps) => {
   const { t } = useTranslation();
@@ -26,8 +28,15 @@ const Switch = ({
     <div className={styles.container} {...props}>
       {leftLabel && <Main>{leftLabel}</Main>}
       <label className={styles.switch}>
-        <input onChange={onChange} checked={checked} type="checkbox" />
-        <span className={clsx(styles.track, styles.round, isToggleVariant && styles.toggle)}>
+        <input onChange={onChange} checked={checked} type="checkbox" disabled={disabled} />
+        <span
+          className={clsx(
+            styles.track,
+            styles.round,
+            isToggleVariant && styles.toggle,
+            disabled && styles.disabled,
+          )}
+        >
           <span className={clsx(styles.innerText, styles.yes)}>{t('common:YES')}</span>
           <span className={clsx(styles.innerText, styles.no)}>{t('common:NO')}</span>
         </span>

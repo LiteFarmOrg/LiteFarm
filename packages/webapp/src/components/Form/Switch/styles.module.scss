@@ -115,6 +115,7 @@ input:checked + .track .yes {
 .track.track.disabled {
   background-color: var(--Colors-Neutral-Neutral-50);
   outline: none;
+  cursor: default;
 
   .innerText {
     display: none;

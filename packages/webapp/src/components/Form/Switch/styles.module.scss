@@ -25,7 +25,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #d0d4db;
+  background-color: var(--Colors-Neutral-Neutral-100);
   transition: background-color 0.1s ease-out;
 }
 
@@ -37,19 +37,19 @@
   width: 20px;
   left: 4px;
   bottom: 4px;
-  background-color: #858fa1;
+  background-color: var(--Colors-Neutral-Neutral-400);
   transition: 0.1s ease-out;
 }
 
 /* Track (active) */
 input:checked + .track {
-  background-color: #78ca9e;
+  background-color: var(--Colors-Light-green);
 }
 
 /* Thumb (active) */
 input:checked + .track:before {
   transform: translateX(28px);
-  background-color: #247360;
+  background-color: var(--Colors-Primary-green);
 }
 
 /* Rounded track and thumb */
@@ -99,8 +99,8 @@ input:checked + .track .yes {
 
 /* Left/Right toggle (= variant with no off/on state) */
 .track.track.toggle {
-  background-color: #f0f1f3; // neutral 50
-  outline: 1px solid #d0d4db; // neutral 100
+  background-color: var(--Colors-Neutral-Neutral-50);
+  outline: 1px solid var(--Colors-Neutral-Neutral-100);
 
   .innerText {
     display: none;
@@ -108,12 +108,12 @@ input:checked + .track .yes {
 }
 
 .track.track.toggle:before {
-  background-color: #2b303a; // neutral 900
+  background-color: var(--Colors-Neutral-Neutral-900);
 }
 
 /* Disabled / Read-only */
 .track.track.disabled {
-  background-color: #f0f1f3; // neutral 50
+  background-color: var(--Colors-Neutral-Neutral-50);
   outline: none;
 
   .innerText {
@@ -122,5 +122,5 @@ input:checked + .track .yes {
 }
 
 .track.track.disabled:before {
-  background-color: #d0d4db; // neutral 100
+  background-color: var(--Colors-Neutral-Neutral-100);
 }

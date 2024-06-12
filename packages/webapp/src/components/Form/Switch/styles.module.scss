@@ -96,3 +96,17 @@ input:checked + .track .no {
 input:checked + .track .yes {
   opacity: 1;
 }
+
+/* Left/Right toggle (= variant with no off/on state) */
+.track.track.toggle {
+  background-color: #f0f1f3; // neutral 50
+  outline: 1px solid #d0d4db; // neutral 100
+
+  .innerText {
+    display: none;
+  }
+}
+
+.track.track.toggle:before {
+  background-color: #2b303a; // neutral 900
+}

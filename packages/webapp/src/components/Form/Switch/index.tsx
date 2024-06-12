@@ -9,9 +9,17 @@ interface SwitchProps {
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   label?: string;
   leftLabel?: string;
+  isToggleVariant?: boolean;
 }
 
-const Switch = ({ checked, onChange, label, leftLabel, ...props }: SwitchProps) => {
+const Switch = ({
+  checked,
+  onChange,
+  label,
+  leftLabel,
+  isToggleVariant,
+  ...props
+}: SwitchProps) => {
   const { t } = useTranslation();
 
   return (
@@ -19,7 +27,7 @@ const Switch = ({ checked, onChange, label, leftLabel, ...props }: SwitchProps) 
       {leftLabel && <Main>{leftLabel}</Main>}
       <label className={styles.switch}>
         <input onChange={onChange} checked={checked} type="checkbox" />
-        <span className={clsx(styles.track, styles.round)}>
+        <span className={clsx(styles.track, styles.round, isToggleVariant && styles.toggle)}>
           <span className={clsx(styles.innerText, styles.yes)}>{t('common:YES')}</span>
           <span className={clsx(styles.innerText, styles.no)}>{t('common:NO')}</span>
         </span>

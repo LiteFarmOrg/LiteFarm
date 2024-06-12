@@ -1151,18 +1151,10 @@ async function soil_amendment_purposeFactory() {
 }
 
 async function soil_amendment_taskFactory(
-  {
-    promisedTask = taskFactory(),
-    promisedProduct = productFactory(),
-    promisedMethod = soil_amendment_methodFactory(),
-  } = {},
+  { promisedTask = taskFactory(), promisedMethod = soil_amendment_methodFactory() } = {},
   soil_amendment_task = fakeSoilAmendmentTask(),
 ) {
-  const [task, product, method] = await Promise.all([
-    promisedTask,
-    promisedProduct,
-    promisedMethod,
-  ]);
+  const [task, method] = await Promise.all([promisedTask, promisedMethod]);
   const [{ task_id }] = task;
   const [{ method_id }] = method;
   return knex('soil_amendment_task')

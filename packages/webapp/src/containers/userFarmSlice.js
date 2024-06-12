@@ -93,10 +93,6 @@ const userFarmSlice = createSlice({
         const prevUserFarms = state.byFarmIdUserId[farm_id] || {};
         state.byFarmIdUserId[farm_id] = prevUserFarms;
         state.byFarmIdUserId[farm_id][user_id] = prevUserFarms[user_id] || {};
-
-        const { has_consent, consent_version } = userFarm;
-        userFarm.has_consent = has_consent && consent_version === CONSENT_VERSION;
-
         Object.assign(state.byFarmIdUserId[farm_id][user_id], userFarm);
         delete state.byFarmIdUserId[farm_id][user_id].role;
       });
@@ -223,6 +219,9 @@ export const userFarmSelector = createSelector(
       ? {
           is_admin: adminRoles.includes(byFarmIdUserId[farm_id][user_id].role_id),
           ...byFarmIdUserId[farm_id][user_id],
+          has_consent:
+            byFarmIdUserId[farm_id][user_id].has_consent &&
+            byFarmIdUserId[farm_id][user_id].consent_version === CONSENT_VERSION,
         }
       : {};
   },

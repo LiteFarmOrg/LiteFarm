@@ -20,19 +20,16 @@ Checked.args = {
 
 export const WithLabel = Template.bind({});
 WithLabel.args = {
-  checked: true,
   label: 'Switch',
 };
 
 export const WithLeftLabel = Template.bind({});
 WithLeftLabel.args = {
-  checked: true,
   leftLabel: 'Switch',
 };
 
 export const ToggleVariant = Template.bind({});
 ToggleVariant.args = {
-  checked: true,
   leftLabel: 'Left',
   label: 'Right',
   isToggleVariant: true,
@@ -40,7 +37,6 @@ ToggleVariant.args = {
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-  checked: true,
   leftLabel: 'Left',
   label: 'Right',
   isToggleVariant: true,

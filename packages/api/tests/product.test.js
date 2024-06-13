@@ -239,14 +239,14 @@ describe('Product Tests', () => {
     test('should return 409 conflict if a product is created with the same name as an existing product', async (done) => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
-      const fertilizerProductA = mocks.fakeProduct({
-        name: 'Fertilizer Product A',
+      const fertiliserProductA = mocks.fakeProduct({
+        name: 'Fertiliser Product A',
         type: 'soil_amendment_task',
       });
 
-      await createProductInDatabase(userFarm, fertilizerProductA);
+      await createProductInDatabase(userFarm, fertiliserProductA);
 
-      postProductRequest(fertilizerProductA, userFarm, (err, res) => {
+      postProductRequest(fertiliserProductA, userFarm, (err, res) => {
         expect(res.status).toBe(409);
         done();
       });
@@ -357,23 +357,23 @@ describe('Product Tests', () => {
     test('should return 409 conflict if a product is patched to a name that conflicts with an existing product', async () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
-      const fertilizerProductA = mocks.fakeProduct({
-        name: 'Fertilizer Product A',
+      const fertiliserProductA = mocks.fakeProduct({
+        name: 'Fertiliser Product A',
         type: 'soil_amendment_task',
       });
 
-      await createProductInDatabase(userFarm, fertilizerProductA);
+      await createProductInDatabase(userFarm, fertiliserProductA);
 
-      const fertilizerProductB = mocks.fakeProduct({
-        name: 'Fertilizer Product B',
+      const fertiliserProductB = mocks.fakeProduct({
+        name: 'Fertiliser Product B',
         type: 'soil_amendment_task',
       });
 
-      const origProduct = await createProductInDatabase(userFarm, fertilizerProductB);
+      const origProduct = await createProductInDatabase(userFarm, fertiliserProductB);
 
       const res = await patchRequest(
         {
-          name: 'Fertilizer Product A',
+          name: 'Fertiliser Product A',
         },
         origProduct.product_id,
         userFarm,
@@ -384,13 +384,13 @@ describe('Product Tests', () => {
     test('should successfully patch soil_amendment_product table values', async () => {
       const [userFarm] = await mocks.userFarmFactory({}, fakeUserFarm());
 
-      const fertilizerProduct = mocks.fakeProduct({
-        name: 'Fertilizer Product',
+      const fertiliserProduct = mocks.fakeProduct({
+        name: 'Fertiliser Product',
         type: 'soil_amendment_task',
       });
 
       // Note: this is a direct knex insert (not via model) so creating a record in the soil_amendment_product table cannot be done like this
-      const origProduct = await createProductInDatabase(userFarm, fertilizerProduct);
+      const origProduct = await createProductInDatabase(userFarm, fertiliserProduct);
 
       const res = await patchRequest(
         {

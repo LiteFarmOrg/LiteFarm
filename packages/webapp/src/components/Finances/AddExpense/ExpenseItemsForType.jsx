@@ -51,7 +51,7 @@ export default function ExpenseItemsForType({ type, register, control, getValues
                 getErrors={(fieldName) =>
                   getInputErrors(errors, `${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`)
                 }
-                isRemovable={itemsQuantity}
+                isRemovable={itemsQuantity > 1}
               />
             );
           })}

@@ -55,7 +55,7 @@ export default function ExpenseItemInputs({ register, onRemove, getErrors, isRem
         })}
         currency={useCurrencySymbol()}
       />
-      {isRemovable > 1 ? (
+      {isRemovable ? (
         <IconLink
           className={styles.iconLink}
           icon={<TrashIcon className={styles.icon} />}

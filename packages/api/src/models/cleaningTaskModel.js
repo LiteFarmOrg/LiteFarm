@@ -18,7 +18,6 @@ import taskModel from './taskModel.js';
 
 class CleaningTaskModel extends Model {
   // TODO: remove stub and update controller and FE to accept volume and weight
-  // TODO: remove stub and update controller and FE to accept volume and weight
   $parseDatabaseJson(json) {
     // Remember to call the super class's implementation.
     json = super.$parseDatabaseJson(json);

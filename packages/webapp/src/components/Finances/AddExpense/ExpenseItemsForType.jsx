@@ -12,8 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useFieldArray } from 'react-hook-form';
@@ -22,37 +20,22 @@ import ExpenseItemInputs from './ExpenseItemInputs';
 import { getInputErrors } from '../../Form/Input';
 import { DATE, NOTE, VALUE, EXPENSE_DETAIL } from './constants';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
-import { selectedExpenseSelector } from '../../../containers/Finances/selectors';
-import { setSelectedExpenseTypes } from '../../../containers/Finances/actions';
 import styles from './styles.module.scss';
 
 export default function ExpenseItemsForType({ type, register, control, getValues, errors }) {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const selectedExpense = useSelector(selectedExpenseSelector);
 
+  const itemsQuantity = getValues(`${EXPENSE_DETAIL}.${type.id}`).length;
   const { fields, append, remove } = useFieldArray({
     control,
     name: `${EXPENSE_DETAIL}.${type.id}`,
   });
 
-  // Unselect the type when all items are removed, select the type when the first item is added.
-  // If the user removes items for the type, it will be unselected in the previous page when going back.
-  const handleSelectedExpenseTypes = (operationType) => {
-    const itemsLength = getValues(`${EXPENSE_DETAIL}.${type.id}`).length;
-    const allItemsRemoved = itemsLength === 0;
-    const firstItemAdded = operationType === 'add' && itemsLength === 1;
-
-    if (allItemsRemoved) {
-      dispatch(setSelectedExpenseTypes(selectedExpense.filter((id) => id !== type.id)));
-    } else if (firstItemAdded) {
-      dispatch(setSelectedExpenseTypes([...new Set([...selectedExpense, type.id])]));
-    }
-  };
-
   return (
     <div className={styles.expenseItemsForType}>
-      <Main className={styles.type}>{type.name}</Main>
+      <Main className={styles.type}>
+        {type.name} ({itemsQuantity})
+      </Main>
       {fields && fields.length ? (
         <div className={styles.box}>
           {fields.map((field, index) => {
@@ -61,7 +44,6 @@ export default function ExpenseItemsForType({ type, register, control, getValues
                 key={field.id}
                 onRemove={() => {
                   remove(index);
-                  handleSelectedExpenseTypes('remove');
                 }}
                 register={(fieldName, options) =>
                   register(`${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`, options)
@@ -69,6 +51,7 @@ export default function ExpenseItemsForType({ type, register, control, getValues
                 getErrors={(fieldName) =>
                   getInputErrors(errors, `${EXPENSE_DETAIL}.${type.id}.${index}.${fieldName}`)
                 }
+                isRemovable={itemsQuantity > 1}
               />
             );
           })}
@@ -77,7 +60,6 @@ export default function ExpenseItemsForType({ type, register, control, getValues
       <AddLink
         onClick={() => {
           append({ [DATE]: getLocalDateInYYYYDDMM(), [NOTE]: '', [VALUE]: null });
-          handleSelectedExpenseTypes('add');
         }}
       >
         {t('common:ADD_ANOTHER_ITEM')}

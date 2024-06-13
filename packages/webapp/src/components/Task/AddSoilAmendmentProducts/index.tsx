@@ -99,7 +99,7 @@ const AddSoilAmendmentProducts = ({
               {...props}
               key={field.id}
               isReadOnly={isReadOnly}
-              onRemove={index ? () => onRemove(index, field.id) : undefined}
+              onRemove={fields.length > 1 ? () => onRemove(index, field.id) : undefined}
               namePrefix={namePrefix}
               products={getAvailableProductOptions(productId)}
               isExpanded={expandedIds.includes(field.id)}

@@ -1155,18 +1155,10 @@ async function soil_amendment_fertiliser_typeFactory() {
 }
 
 async function soil_amendment_taskFactory(
-  {
-    promisedTask = taskFactory(),
-    promisedProduct = productFactory(),
-    promisedMethod = soil_amendment_methodFactory(),
-  } = {},
+  { promisedTask = taskFactory(), promisedMethod = soil_amendment_methodFactory() } = {},
   soil_amendment_task = fakeSoilAmendmentTask(),
 ) {
-  const [task, product, method] = await Promise.all([
-    promisedTask,
-    promisedProduct,
-    promisedMethod,
-  ]);
+  const [task, method] = await Promise.all([promisedTask, promisedMethod]);
   const [{ task_id }] = task;
   const [{ method_id }] = method;
   return knex('soil_amendment_task')
@@ -1197,7 +1189,7 @@ async function soil_amendment_task_productsFactory(
     .returning('*');
 }
 
-function fakeSoilAmendmentTaskProduct() {
+function fakeSoilAmendmentTaskProduct(defaultData = {}) {
   return {
     weight: faker.datatype.number(),
     weight_unit: faker.helpers.arrayElement(['lb', 'kg']),
@@ -1216,7 +1208,8 @@ function fakeSoilAmendmentTaskProduct() {
       'oz/ac',
     ]),
     percent_of_location_amended: faker.datatype.number(100),
-    total_area_amended_in_m2: faker.datatype.number(1000),
+    total_area_amended: faker.datatype.number(1000),
+    ...defaultData,
   };
 }
 

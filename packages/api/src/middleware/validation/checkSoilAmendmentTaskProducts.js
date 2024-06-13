@@ -45,10 +45,18 @@ export function checkSoilAmendmentTaskProducts() {
           return res.status(400).send('weight_unit and application_rate_weight_unit is required');
         }
 
-        if (!product.percent_of_location_amended && !product.total_area_amended_in_m2) {
+        if (!product.percent_of_location_amended || !product.total_area_amended) {
           return res
             .status(400)
-            .send('percent_of_location_amended and total_area_amended_in_m2 is required');
+            .send('percent_of_location_amended and total_area_amended is required');
+        }
+
+        if (!Array.isArray(product.purpose_relationships)) {
+          return res.status(400).send('purpose_relationships must be an array');
+        }
+
+        if (!product.purpose_relationships?.length) {
+          return res.status(400).send('purpose_relationships is required');
         }
 
         const existingProduct = await ProductModel.query()

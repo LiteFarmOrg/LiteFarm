@@ -83,6 +83,13 @@
   justify-content: space-between;
 }
 
+.removeButton {
+  @include xs-breakpoint {
+    align-self: flex-end;
+    margin-bottom: -16px;
+  }
+}
+
 /*----------------------------------------
   ProductDetails
 ----------------------------------------*/

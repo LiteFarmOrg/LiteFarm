@@ -18,29 +18,25 @@ import taskModel from './taskModel.js';
 
 class CleaningTaskModel extends Model {
   // TODO: remove stub and update controller and FE to accept volume and weight
+  // TODO: remove stub and update controller and FE to accept volume and weight
   $parseDatabaseJson(json) {
     // Remember to call the super class's implementation.
     json = super.$parseDatabaseJson(json);
-    const deleteWeightVolume = (json) => {
-      delete json.weight;
-      delete json.weight_unit;
-      delete json.volume;
-      delete json.volume_unit;
-    };
     if (json.weight && json.weight_unit) {
       json.product_quantity = json.weight;
       json.product_quantity_unit = json.weight_unit;
-      deleteWeightVolume(json);
     } else if (json.volume && json.volume_unit) {
       json.product_quantity = json.volume;
       json.product_quantity_unit = json.volume_unit;
-      deleteWeightVolume(json);
     } else if (!json.volume && !json.weight) {
       json.product_quantity = null;
       json.product_quantity_unit = null;
-      deleteWeightVolume(json);
     }
     // Database checks prevent quantity && !quantity_unit
+    delete json.weight;
+    delete json.weight_unit;
+    delete json.volume;
+    delete json.volume_unit;
     return json;
   }
 

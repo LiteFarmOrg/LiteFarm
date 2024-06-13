@@ -133,7 +133,7 @@ input:checked + .track .yes {
   cursor: default;
 
   .innerText {
-    display: none;
+    color: var(--Colors-Neutral-Neutral-200);
   }
 }
 

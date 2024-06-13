@@ -51,8 +51,12 @@ export function checkSoilAmendmentTaskProducts() {
             .send('percent_of_location_amended and total_area_amended is required');
         }
 
+        if (!Array.isArray(product.purpose_relationships)) {
+          return res.status(400).send('purpose_relationships must be an array');
+        }
+
         if (!product.purpose_relationships?.length) {
-          return res.status(400).send('purpose is required');
+          return res.status(400).send('purpose_relationships is required');
         }
 
         const existingProduct = await ProductModel.query()

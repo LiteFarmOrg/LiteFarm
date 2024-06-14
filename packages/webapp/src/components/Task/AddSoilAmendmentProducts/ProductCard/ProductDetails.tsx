@@ -47,7 +47,7 @@ export type ProductDetailsProps = {
   unExpand: () => void;
   toggleExpanded: () => void;
   clearProduct: () => void;
-  setProductId: (id: number | string | undefined) => void;
+  setProductId: (id: ProductId) => void;
   onSave: (
     data: FormFields & { farm_id: string; product_id: ProductId; type: string },
     callback?: (id: number) => void,
@@ -83,7 +83,7 @@ const ProductDetails = ({
 }: ProductDetailsProps) => {
   const { t } = useTranslation();
   const [isEditingProduct, setIsEditingProduct] = useState(false);
-  const previousProductIdRef = useRef<number | string | undefined>(productId);
+  const previousProductIdRef = useRef<ProductId>(productId);
 
   const inCanada = country_id === CANADA;
   const isDetailDisabled = isReadOnly || !isEditingProduct;

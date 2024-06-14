@@ -15,8 +15,10 @@
 
 import Model from './baseFormatModel.js';
 import taskModel from './taskModel.js';
-import productModel from './productModel.js';
+import soilAmendmentTaskProductsModel from './soilAmendmentTaskProductsModel.js';
+import soilAmendmentMethodModel from './soilAmendmentMethodModel.js';
 
+const furrowHoleDepthUnits = ['cm', 'in'];
 class SoilAmendmentTaskModel extends Model {
   static get tableName() {
     return 'soil_amendment_task';
@@ -25,27 +27,23 @@ class SoilAmendmentTaskModel extends Model {
   static get idColumn() {
     return 'task_id';
   }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.
   static get jsonSchema() {
     return {
       type: 'object',
-      required: [],
-
+      required: ['method_id'],
       properties: {
         task_id: { type: 'integer' },
-        purpose: {
-          type: 'string',
-          enum: ['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other'],
+        method_id: { type: ['integer', 'null'] },
+        furrow_hole_depth: { type: ['number', 'null'] },
+        furrow_hole_depth_unit: {
+          type: ['string', 'null'],
+          enum: [...furrowHoleDepthUnits, null],
         },
-        other_purpose: { type: ['string', 'null'] },
-        product_id: { type: 'integer', minimum: 0 },
-        product_quantity: { type: 'number' },
-        product_quantity_unit: {
-          type: 'string',
-          enum: ['g', 'lb', 'kg', 't', 'mt', 'oz', 'l', 'gal', 'ml', 'fl-oz'],
-        },
+        other_application_method: { type: ['string', 'null'] },
       },
       additionalProperties: false,
     };
@@ -65,12 +63,20 @@ class SoilAmendmentTaskModel extends Model {
           to: 'task.task_id',
         },
       },
-      product: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: productModel,
+      soil_amendment_task_products: {
+        relation: Model.HasManyRelation,
+        modelClass: soilAmendmentTaskProductsModel,
         join: {
-          from: 'soil_amendment_task.product_id',
-          to: 'product.product_id',
+          from: 'soil_amendment_task.task_id',
+          to: 'soil_amendment_task_products.task_id',
+        },
+      },
+      method: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: soilAmendmentMethodModel,
+        join: {
+          from: 'soil_amendment_task.method_id',
+          to: 'soil_amendment_method.id',
         },
       },
     };
@@ -82,14 +88,15 @@ class SoilAmendmentTaskModel extends Model {
     return {
       // jsonSchema()
       task_id: 'omit',
-      purpose: 'keep',
-      other_purpose: 'keep',
-      product_id: 'keep',
-      product_quantity: 'keep',
-      product_quantity_unit: 'keep',
+      method_id: 'keep',
+      furrow_hole_depth: 'keep',
+      furrow_hole_depth_unit: 'keep',
+      other_application_method: 'keep',
       // relationMappings
       task: 'omit',
       product: 'omit',
+      soil_amendment_task_products: 'edit',
+      method: 'omit',
     };
   }
 }

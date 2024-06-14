@@ -103,6 +103,7 @@ class IrrigationTaskModel extends Model {
       application_depth: 'keep',
       application_depth_unit: 'keep',
       measuring_type: 'keep',
+      // TODO: revisit when copy allows location changing
       percent_of_location_irrigated: 'keep',
       default_location_flow_rate: 'omit',
       default_location_application_depth: 'omit',

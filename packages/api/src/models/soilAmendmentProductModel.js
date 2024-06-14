@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2021-2024 LiteFarm.org
+ *  Copyright 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,58 +12,44 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import Model from './baseFormatModel.js';
 
-import { Model } from 'objection';
-import baseModel from './baseModel.js';
-import soilAmendmentProductModel from './soilAmendmentProductModel.js';
-
-class ProductModel extends baseModel {
+class soilAmendmentProduct extends Model {
   static get tableName() {
-    return 'product';
+    return 'soil_amendment_product';
   }
 
   static get idColumn() {
     return 'product_id';
   }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'farm_id'],
       properties: {
         product_id: { type: 'integer' },
-        name: { type: 'string' },
-        product_translation_key: { type: 'string' },
-        supplier: { type: 'string' },
-        on_permitted_substances_list: {
-          type: ['string', 'null'],
-          enum: ['YES', 'NO', 'NOT_SURE', null],
-        },
-        type: {
-          type: 'string',
-          enum: ['soil_amendment_task', 'pest_control_task', 'cleaning_task'],
-        },
-        farm_id: { type: 'string' },
-        ...this.baseProperties,
+        soil_amendment_fertiliser_type_id: { type: ['integer', 'null'] },
+        n: { type: ['number', 'null'] },
+        p: { type: ['number', 'null'] },
+        k: { type: ['number', 'null'] },
+        calcium: { type: ['number', 'null'] },
+        magnesium: { type: ['number', 'null'] },
+        sulfur: { type: ['number', 'null'] },
+        copper: { type: ['number', 'null'] },
+        manganese: { type: ['number', 'null'] },
+        boron: { type: ['number', 'null'] },
+        elemental_unit: { type: ['string', 'null'], enum: ['percent', 'ratio', 'ppm', 'mg/kg'] },
+        ammonium: { type: ['number', 'null'] },
+        nitrate: { type: ['number', 'null'] },
+        molecular_compounds_unit: { type: ['string', 'null'], enum: ['ppm', 'mg/kg'] },
+        moisture_content_percent: { type: ['number', 'null'] },
       },
       additionalProperties: false,
     };
   }
-
-  static get relationMappings() {
-    return {
-      soil_amendment_product: {
-        relation: Model.HasOneRelation,
-        modelClass: soilAmendmentProductModel,
-        join: {
-          from: 'product.product_id',
-          to: 'soil_amendment_product.product_id',
-        },
-      },
-    };
-  }
 }
 
-export default ProductModel;
+export default soilAmendmentProduct;

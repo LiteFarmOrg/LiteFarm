@@ -58,9 +58,6 @@ const TransactionFilter = () => {
   };
 
   const handleApply = () => {
-    checkActiveFilters('EXPENSE_TYPE');
-    checkActiveFilters('REVENUE_TYPE');
-
     dispatch(setTransactionsFilter(tempTransactionsFilter));
     setIsFilterOpen(false);
     setIsDirty(false);
@@ -85,7 +82,7 @@ const TransactionFilter = () => {
             transactionsFilter={transactionsFilter}
             onChange={(filterKey, filterState) => {
               !isDirty && setIsDirty(true);
-              setTempTransactionsFilter({ ...tempTransactionsFilter, [filterKey]: filterState });
+              checkActiveFilters(filterKey, filterState);
             }}
           />
         </>

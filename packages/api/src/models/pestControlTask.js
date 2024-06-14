@@ -26,7 +26,7 @@ class PestControlTask extends Model {
     return 'task_id';
   }
 
-  // TODO: remove stub and update controller and FE to accept volume and weight
+  // TODO: LF-4263 remove stub and update controller and FE to accept volume and weight
   $parseDatabaseJson(json) {
     // Remember to call the super class's implementation.
     json = super.$parseDatabaseJson(json);
@@ -48,7 +48,7 @@ class PestControlTask extends Model {
     return json;
   }
 
-  // TODO: remove stub and update controller and FE to accept volume and weight
+  // TODO: LF-4263 remove stub and update controller and FE to accept volume and weight
   $formatDatabaseJson(json) {
     // Remember to call the super class's implementation.
     json = super.$formatDatabaseJson(json);

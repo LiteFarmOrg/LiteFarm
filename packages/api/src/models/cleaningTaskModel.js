@@ -17,7 +17,7 @@ import Model from './baseFormatModel.js';
 import taskModel from './taskModel.js';
 
 class CleaningTaskModel extends Model {
-  // TODO: remove stub and update controller and FE to accept volume and weight
+  // TODO: LF-4263 remove stub and update controller and FE to accept volume and weight
   $parseDatabaseJson(json) {
     // Remember to call the super class's implementation.
     json = super.$parseDatabaseJson(json);
@@ -39,7 +39,7 @@ class CleaningTaskModel extends Model {
     return json;
   }
 
-  // TODO: remove stub and update controller and FE to accept volume and weight
+  // TODO: LF-4263 remove stub and update controller and FE to accept volume and weight
   $formatDatabaseJson(json) {
     // Remember to call the super class's implementation.
     json = super.$formatDatabaseJson(json);

@@ -520,6 +520,16 @@ export const down = async function (knex) {
             ? String(firstTaskProductPurpose[0].key).toLowerCase()
             : null,
         });
+    } else {
+      await knex('soil_amendment_task')
+        .where('task_id', task.task_id)
+        .update({
+          product_id: firstTaskProduct.product_id || null,
+          other_purpose: firstTaskProductPurposeRelationship?.other_purpose || null,
+          purpose: firstTaskProductPurpose
+            ? String(firstTaskProductPurpose[0].key).toLowerCase()
+            : null,
+        });
     }
   }
 

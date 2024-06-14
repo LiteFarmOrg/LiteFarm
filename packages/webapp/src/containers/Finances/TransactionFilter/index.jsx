@@ -38,19 +38,21 @@ const TransactionFilter = () => {
   const transactionsFilter = useSelector(transactionsFilterSelector);
   const dispatch = useDispatch();
 
-  const checkActiveFilters = (filterType) => {
-    // Check if filterType ("EXPENSE_TYPE" or "REVENUE_TYPE") has active filters:
-    const hasActiveFilters =
-      tempTransactionsFilter[filterType] &&
-      Object.values(tempTransactionsFilter[filterType]).some((filter) => {
-        return filter.active === true;
-      });
+  const checkActiveFilters = (filterKey, filterState) => {
+    // Check if filterState (filterKey "EXPENSE_TYPE" or "REVENUE_TYPE") has active filters:
+    const hasActiveFilters = Object.values(filterState).some((filter) => {
+      return filter.active === true;
+    });
 
-    // If filterType has no active filters, reset its value to undefined:
-    if (!hasActiveFilters && tempTransactionsFilter[filterType]) {
+    // If filterKey has no active filters, reset its value to undefined:
+    if (!hasActiveFilters) {
       setTempTransactionsFilter((prevState) => {
-        prevState[filterType] = undefined;
+        prevState[filterKey] = undefined;
         return prevState;
+      });
+    } else {
+      setTempTransactionsFilter((prevState) => {
+        return { ...prevState, [filterKey]: filterState };
       });
     }
   };

@@ -52,7 +52,8 @@ const TransactionFilter = () => {
       });
     } else {
       setTempTransactionsFilter((prevState) => {
-        return { ...prevState, [filterKey]: filterState };
+        prevState[filterKey] = filterState;
+        return prevState;
       });
     }
   };

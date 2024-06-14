@@ -25,6 +25,7 @@ import {
 } from '../middleware/validation/assignTask.js';
 import taskController from '../controllers/taskController.js';
 import { createOrPatchProduct } from '../middleware/validation/product.js';
+import { checkSoilAmendmentTaskProducts } from '../middleware/validation/checkSoilAmendmentTaskProducts.js';
 
 router.patch(
   '/assign/:task_id',
@@ -82,7 +83,7 @@ router.post(
   modelMapping['soil_amendment_task'],
   hasFarmAccess({ mixed: 'taskManagementPlanAndLocation' }),
   isWorkerToSelfOrAdmin(),
-  createOrPatchProduct('soil_amendment_task'),
+  checkSoilAmendmentTaskProducts(),
   taskController.createTask('soil_amendment_task'),
 );
 
@@ -165,7 +166,7 @@ router.patch(
   modelMapping['soil_amendment_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
-  createOrPatchProduct('soil_amendment_task'),
+  checkSoilAmendmentTaskProducts(),
   taskController.completeTask('soil_amendment_task'),
 );
 

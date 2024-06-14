@@ -44,7 +44,7 @@ const TransactionFilter = () => {
       return filter.active === true;
     });
 
-    // If filterKey has no active filters, reset its value to undefined:
+    // If filterState has no active filters, reset the value of its filterKey on 'tempTransactionsFilter' to undefined:
     if (!hasActiveFilters) {
       setTempTransactionsFilter((prevState) => {
         prevState[filterKey] = undefined;

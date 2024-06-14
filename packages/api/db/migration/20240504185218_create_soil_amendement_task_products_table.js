@@ -246,28 +246,35 @@ export const up = async function (knex) {
   });
 
   // Migrate existing weight data to the new table (reversibly)
+  // This case should never happen - but if it does lets not delete data
   await knex.raw(`
     INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit)
-    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'kg/ha'::text FROM soil_amendment_task
+    SELECT task_id, product_id, product_quantity, (CASE WHEN product_quantity IS NOT NULL THEN 'kg'::text ELSE NULL END) , (CASE WHEN product_quantity IS NOT NULL THEN 'kg/ha'::text ELSE NULL END) FROM soil_amendment_task
+    WHERE product_quantity_unit IS NULL
+  `);
+
+  await knex.raw(`
+    INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit)
+    SELECT task_id, product_id, product_quantity, (CASE WHEN product_quantity IS NOT NULL THEN product_quantity_unit ELSE NULL END) , (CASE WHEN product_quantity IS NOT NULL THEN 'kg/ha'::text ELSE NULL END) FROM soil_amendment_task
     WHERE product_quantity_unit IN ('${metricWeightUnits.join("', '")}')
   `);
 
   await knex.raw(`
     INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit)
-    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'lb/ac'::text FROM soil_amendment_task
+    SELECT task_id, product_id, product_quantity,(CASE WHEN product_quantity IS NOT NULL THEN product_quantity_unit ELSE NULL END), (CASE WHEN product_quantity IS NOT NULL THEN 'lb/ac'::text ELSE NULL END) FROM soil_amendment_task
     WHERE product_quantity_unit IN ('${imperialWeightUnits.join("', '")}')
   `);
 
   // Migrate existing volume data to the new table (reversibly)
   await knex.raw(`
     INSERT INTO soil_amendment_task_products (task_id, product_id, volume, volume_unit, application_rate_volume_unit)
-    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'l/ha'::text FROM soil_amendment_task
+    SELECT task_id, product_id, product_quantity,(CASE WHEN product_quantity IS NOT NULL THEN product_quantity_unit ELSE NULL END), (CASE WHEN product_quantity IS NOT NULL THEN 'l/ha'::text ELSE NULL END) FROM soil_amendment_task
     WHERE product_quantity_unit IN ('${metricVolumeUnits.join("', '")}')
   `);
 
   await knex.raw(`
     INSERT INTO soil_amendment_task_products (task_id, product_id, volume, volume_unit, application_rate_volume_unit)
-    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'gal/ac'::text FROM soil_amendment_task
+    SELECT task_id, product_id, product_quantity, (CASE WHEN product_quantity IS NOT NULL THEN product_quantity_unit ELSE NULL END), (CASE WHEN product_quantity IS NOT NULL THEN 'gal/ac'::text ELSE NULL END) FROM soil_amendment_task
     WHERE product_quantity_unit IN ('${imperialVolumeUnits.join("', '")}')
   `);
 
@@ -515,6 +522,16 @@ export const down = async function (knex) {
           product_id: firstTaskProduct.product_id,
           product_quantity: firstTaskProduct.volume,
           product_quantity_unit: firstTaskProduct.volume_unit,
+          other_purpose: firstTaskProductPurposeRelationship?.other_purpose || null,
+          purpose: firstTaskProductPurpose
+            ? String(firstTaskProductPurpose[0].key).toLowerCase()
+            : null,
+        });
+    } else {
+      await knex('soil_amendment_task')
+        .where('task_id', task.task_id)
+        .update({
+          product_id: firstTaskProduct.product_id || null,
           other_purpose: firstTaskProductPurposeRelationship?.other_purpose || null,
           purpose: firstTaskProductPurpose
             ? String(firstTaskProductPurpose[0].key).toLowerCase()

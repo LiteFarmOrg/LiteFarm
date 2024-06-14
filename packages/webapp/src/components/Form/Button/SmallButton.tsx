@@ -40,7 +40,7 @@ interface Config {
 
 const CONFIG: Config = {
   remove: {
-    translationKey: 'common:REMOVE',
+    translationKey: 'common:REMOVE', // t('common:REMOVE')
     icon: <XIcon />,
     format: (text) => text.toLocaleLowerCase(),
   },

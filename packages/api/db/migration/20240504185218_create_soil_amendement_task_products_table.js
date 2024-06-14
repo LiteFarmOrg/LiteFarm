@@ -248,26 +248,26 @@ export const up = async function (knex) {
   // Migrate existing weight data to the new table (reversibly)
   await knex.raw(`
     INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit)
-    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'kg/ha'::text FROM soil_amendment_task
+    SELECT task_id, product_id, product_quantity, (CASE WHEN product_quantity IS NOT NULL THEN product_quantity_unit ELSE NULL END) , (CASE WHEN product_quantity IS NOT NULL THEN 'kg/ha'::text ELSE NULL END) FROM soil_amendment_task
     WHERE product_quantity_unit IN ('${metricWeightUnits.join("', '")}')
   `);
 
   await knex.raw(`
     INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit)
-    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'lb/ac'::text FROM soil_amendment_task
+    SELECT task_id, product_id, product_quantity,(CASE WHEN product_quantity IS NOT NULL THEN product_quantity_unit ELSE NULL END), (CASE WHEN product_quantity IS NOT NULL THEN 'lb/ac'::text ELSE NULL END) FROM soil_amendment_task
     WHERE product_quantity_unit IN ('${imperialWeightUnits.join("', '")}')
   `);
 
   // Migrate existing volume data to the new table (reversibly)
   await knex.raw(`
     INSERT INTO soil_amendment_task_products (task_id, product_id, volume, volume_unit, application_rate_volume_unit)
-    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'l/ha'::text FROM soil_amendment_task
+    SELECT task_id, product_id, product_quantity,(CASE WHEN product_quantity IS NOT NULL THEN product_quantity_unit ELSE NULL END), (CASE WHEN product_quantity IS NOT NULL THEN 'l/ha'::text ELSE NULL END) FROM soil_amendment_task
     WHERE product_quantity_unit IN ('${metricVolumeUnits.join("', '")}')
   `);
 
   await knex.raw(`
     INSERT INTO soil_amendment_task_products (task_id, product_id, volume, volume_unit, application_rate_volume_unit)
-    SELECT task_id, product_id, product_quantity, product_quantity_unit, 'gal/ac'::text FROM soil_amendment_task
+    SELECT task_id, product_id, product_quantity, (CASE WHEN product_quantity IS NOT NULL THEN product_quantity_unit ELSE NULL END), (CASE WHEN product_quantity IS NOT NULL THEN 'gal/ac'::text ELSE NULL END) FROM soil_amendment_task
     WHERE product_quantity_unit IN ('${imperialVolumeUnits.join("', '")}')
   `);
 

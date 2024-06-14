@@ -19,14 +19,12 @@ import { useTranslation } from 'react-i18next';
 import useExpandable from '../../Expandable/useExpandableItem';
 import ProductCard, { type ProductCardProps } from './ProductCard';
 import TextButton from '../../Form/Button/TextButton';
-import { type Product } from './types';
+import type { ProductId, Product } from './types';
 import { defaultValues } from './ProductCard/ProductDetails';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
 import styles from './styles.module.scss';
 
 export type AddSoilAmendmentProductsProps = ProductCardProps & { products: Product[] };
-
-type ProductId = 'number' | 'string';
 
 interface ProductFields {
   product_id: ProductId;
@@ -109,7 +107,7 @@ const AddSoilAmendmentProducts = ({
               unExpand={() => unExpand(field.id)}
               expand={() => expand(field.id)}
               productId={productId}
-              setProductId={(id: number | string | undefined) => {
+              setProductId={(id: ProductId) => {
                 setValue(`${namePrefix}.product_id`, id);
               }}
               setFieldValidity={getInvalidProductsUpdater(field.id)}

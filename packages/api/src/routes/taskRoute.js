@@ -26,6 +26,7 @@ import {
 import taskController from '../controllers/taskController.js';
 import { createOrPatchProduct } from '../middleware/validation/product.js';
 import { checkSoilAmendmentTaskProducts } from '../middleware/validation/checkSoilAmendmentTaskProducts.js';
+import { checkAbandonTask } from '../middleware/validation/checkTask.js';
 
 router.patch(
   '/assign/:task_id',
@@ -63,6 +64,7 @@ router.patch(
   '/abandon/:task_id',
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
+  checkAbandonTask(),
   taskController.abandonTask,
 );
 

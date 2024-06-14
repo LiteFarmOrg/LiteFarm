@@ -246,6 +246,13 @@ export const up = async function (knex) {
   });
 
   // Migrate existing weight data to the new table (reversibly)
+  // This case should never happen - but if it does lets not delete data
+  await knex.raw(`
+    INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit)
+    SELECT task_id, product_id, product_quantity, (CASE WHEN product_quantity IS NOT NULL THEN 'kg'::text ELSE NULL END) , (CASE WHEN product_quantity IS NOT NULL THEN 'kg/ha'::text ELSE NULL END) FROM soil_amendment_task
+    WHERE product_quantity_unit IS NULL
+  `);
+
   await knex.raw(`
     INSERT INTO soil_amendment_task_products (task_id, product_id, weight, weight_unit, application_rate_weight_unit)
     SELECT task_id, product_id, product_quantity, (CASE WHEN product_quantity IS NOT NULL THEN product_quantity_unit ELSE NULL END) , (CASE WHEN product_quantity IS NOT NULL THEN 'kg/ha'::text ELSE NULL END) FROM soil_amendment_task

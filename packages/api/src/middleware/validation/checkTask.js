@@ -29,6 +29,11 @@ export function checkAbandonTask() {
         abandon_date,
       } = req.body;
 
+      // Notifications will not send without, and checks below will be faulty
+      if (!user_id) {
+        return res.status(400).send('must have user_id');
+      }
+
       if (!abandonment_reason) {
         return res.status(400).send('must have abandonment_reason');
       }

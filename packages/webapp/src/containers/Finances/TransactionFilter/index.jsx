@@ -38,7 +38,7 @@ const TransactionFilter = () => {
   const transactionsFilter = useSelector(transactionsFilterSelector);
   const dispatch = useDispatch();
 
-  const checkActiveFilters = (filterKey, filterState) => {
+  const handleChangeFilters = (filterKey, filterState) => {
     // Check if filterState (filterKey "EXPENSE_TYPE" or "REVENUE_TYPE") has active filters:
     const hasActiveFilters = Object.values(filterState).some((filter) => {
       return filter.active === true;
@@ -82,7 +82,7 @@ const TransactionFilter = () => {
             transactionsFilter={transactionsFilter}
             onChange={(filterKey, filterState) => {
               !isDirty && setIsDirty(true);
-              checkActiveFilters(filterKey, filterState);
+              handleChangeFilters(filterKey, filterState);
             }}
           />
         </>

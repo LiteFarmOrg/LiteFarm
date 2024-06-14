@@ -42,6 +42,7 @@
   bottom: 0;
   background-color: var(--Colors-Neutral-Neutral-100);
   transition: background-color 0.1s ease-out;
+  border-radius: 34px;
 }
 
 /* Thumb */
@@ -54,6 +55,7 @@
   bottom: 4px;
   background-color: var(--Colors-Neutral-Neutral-400);
   transition: 0.1s ease-out;
+  border-radius: 50%;
 }
 
 /* Track (active) */
@@ -65,15 +67,6 @@ input:checked + .track {
 input:checked + .track:before {
   transform: translateX(28px);
   background-color: var(--Colors-Primary-green);
-}
-
-/* Rounded track and thumb */
-.track.round {
-  border-radius: 34px;
-}
-
-.track.round:before {
-  border-radius: 50%;
 }
 
 /* Yes/No text */

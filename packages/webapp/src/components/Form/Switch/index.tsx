@@ -47,7 +47,6 @@ const Switch = ({
         <span
           className={clsx(
             styles.track,
-            styles.round,
             isToggleVariant && styles.toggle,
             disabled && styles.disabled,
           )}

@@ -1,0 +1,160 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../assets/mixin.scss';
+
+@mixin sectionStyle() {
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.05);
+
+  &.border {
+    border: 1px solid var(--Colors-Neutral-Neutral-100, #d0d4db);
+  }
+}
+
+.sectionBody {
+  padding: 8px 16px 16px 16px;
+  border-radius: 0 0 8px 8px;
+  @include flex-column-gap();
+
+  &.border {
+    border: 1px solid var(--Colors-Neutral-Neutral-100, #d0d4db);
+    border-top: none;
+  }
+}
+
+/*----------------------------------------
+  AddSoilAmendmentProducts
+----------------------------------------*/
+.products {
+  @include flex-column-gap(24px);
+  margin-bottom: 8px;
+}
+
+.addAnotherProduct {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  color: var(--Colors-Accent---singles-Blue-full, #0669e1);
+  font-family: 'Open Sans';
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  width: fit-content;
+  gap: 4px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/*----------------------------------------
+  ProductCard
+----------------------------------------*/
+.productCard {
+  @include flex-column-gap();
+  padding: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Neutral-Neutral-100, #d0d4db);
+  background: var(--White, #fff);
+  box-shadow: 0px 0px 4px 0px var(--Colors-Neutral-Neutral-200, #b9bfc9);
+
+  &:focus-within {
+    border: 1px solid var(--Form-focus, #89d1c7);
+  }
+}
+
+.productOption {
+  display: flex;
+  justify-content: space-between;
+}
+
+.removeButton {
+  @include xs-breakpoint {
+    align-self: flex-end;
+    margin-bottom: -16px;
+  }
+}
+
+/*----------------------------------------
+  ProductDetails
+----------------------------------------*/
+.productDetails {
+  border: solid 1px transparent;
+
+  .expandIcon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #cce3ff;
+    background: var(--Colors-Accent---singles-Blue-light, #e9f3ff);
+    transform: rotate(180deg);
+
+    path {
+      stroke-width: 2px;
+      stroke: var(--Colors-Accent---singles-Blue-full, #0669e1);
+    }
+  }
+  .productDetailsTitle {
+    padding: 4px 8px;
+    text-align: left;
+    font-size: 14px;
+    color: var(--Colors-Accent---singles-Blue-full, #0669e1);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &.disabled {
+    .productDetailsTitle {
+      color: var(--Colors-Neutral-Neutral-100, #d0d4db);
+    }
+    .expandIcon {
+      background: #f1f1f1;
+      border-color: #efefef;
+
+      path {
+        stroke: #d6d6d6;
+      }
+    }
+  }
+
+  &.expanded {
+    @include sectionStyle();
+
+    .expandIcon {
+      transform: rotate(0deg);
+    }
+
+    .productDetailsTitle {
+      width: 100%;
+      background: var(--Colors-Backgrounds-table-row-bg, #f7fbff);
+    }
+  }
+
+  .permitedSubstance {
+    @include flex-column-gap(8px);
+  }
+}
+
+/*----------------------------------------
+  Buttons
+----------------------------------------*/
+.editButton {
+  width: fit-content;
+  align-self: center;
+}

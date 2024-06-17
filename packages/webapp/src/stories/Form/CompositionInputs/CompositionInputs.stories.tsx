@@ -20,7 +20,7 @@ import { componentDecorators } from '../../Pages/config/Decorators';
 import CompositionInputs from '../../../components/Form/CompositionInputs';
 import Button from '../../../components/Form/Button';
 import { ReactComponent as RatioOptionIcon } from '../../../assets/images/ratio-option.svg';
-import { NPK, Unit } from '../../../components/Form/CompositionInputs/NumberInputWithSelect';
+import { NPK, UNIT, Unit } from '../../../components/Form/CompositionInputs/NumberInputWithSelect';
 
 const meta: Meta<typeof CompositionInputs> = {
   title: 'Components/CompositionInput',
@@ -52,7 +52,7 @@ export const Default: Story = {
       mode: 'onChange',
       defaultValues: {
         composition: {
-          unit: Unit.PERCENT,
+          [UNIT]: Unit.PERCENT,
           n: undefined,
           p: undefined,
           k: undefined,
@@ -66,9 +66,9 @@ export const Default: Story = {
         control={control}
         rules={{
           validate: (value) => {
-            const { n, p, k, unit } = value;
+            const { n, p, k, npk_unit } = value;
             return (
-              unit === Unit.PERCENT &&
+              npk_unit === Unit.PERCENT &&
               (n || 0) + (p || 0) + (k || 0) > 100 &&
               'The total percentage of N, P, and K must not exceed 100%. Please adjust your values.'
             );
@@ -98,7 +98,7 @@ export const Disabled: Story = {
       n: 20,
       p: 30,
       k: 50,
-      unit: Unit.PERCENT,
+      [UNIT]: Unit.PERCENT,
     },
   },
 };
@@ -126,7 +126,7 @@ export const SwitchModes: Story = {
       mode: 'onBlur',
       defaultValues: {
         composition: {
-          unit: Unit.PERCENT,
+          [UNIT]: Unit.PERCENT,
         },
       },
     });

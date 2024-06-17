@@ -227,8 +227,6 @@ export const up = async function (knex) {
   });
 
   const soilAmendmentPurposes = await knex.select().table('soil_amendment_purpose');
-  // LF-4246
-  //const otherPurpose = soilAmendmentPurposes.find((pu) => pu.key === 'OTHER');
 
   // Create amendment purpose table
   await knex.schema.createTable('soil_amendment_task_products_purpose_relationship', (table) => {
@@ -240,12 +238,6 @@ export const up = async function (knex) {
     table.integer('purpose_id').references('id').inTable('soil_amendment_purpose').notNullable();
     table.primary(['task_products_id', 'purpose_id']);
     table.string('other_purpose');
-    // LF-4246 - add back in this check
-    // table.check(
-    //   '(?? IS NOT NULL AND ?? = ??) OR (?? IS NULL)',
-    //   ['other_purpose', 'purpose_id', otherPurpose.id, 'other_purpose'],
-    //   'other_purpose_id_check',
-    // );
   });
 
   // Migrate existing weight data to the new table (reversibly)

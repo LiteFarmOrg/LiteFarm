@@ -85,6 +85,7 @@ export const Default: Story = {
           return (
             <CompositionInputs
               {...args}
+              mainLabel="Composition"
               unitOptions={unitOptions}
               error={fieldState.error?.message}
               values={field.value}
@@ -102,6 +103,7 @@ export const Default: Story = {
 
 export const Disabled: Story = {
   args: {
+    mainLabel: 'Composition',
     unitOptions,
     disabled: true,
     values: {
@@ -125,7 +127,13 @@ export const WithError: Story = {
     };
 
     return (
-      <CompositionInputs {...args} unitOptions={unitOptions} onChange={onChange} values={values} />
+      <CompositionInputs
+        {...args}
+        mainLabel="Composition"
+        unitOptions={unitOptions}
+        onChange={onChange}
+        values={values}
+      />
     );
   },
 };
@@ -153,6 +161,7 @@ export const SwitchModes: Story = {
             return (
               <CompositionInputs
                 {...args}
+                mainLabel="Composition"
                 unitOptions={unitOptions}
                 disabled={disabled}
                 error={fieldState.error?.message}
@@ -190,6 +199,7 @@ export const OneUnit: Story = {
           { name: 'moistureContent', label: 'Moisture content' },
           { name: 'dryMatterContent', label: 'Dry matter content' },
         ]}
+        unit="%"
       />
     );
   },

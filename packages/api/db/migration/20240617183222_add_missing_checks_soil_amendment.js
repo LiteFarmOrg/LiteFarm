@@ -27,8 +27,8 @@ export const up = async function (knex) {
 
   await knex.schema.alterTable('soil_amendment_task_products_purpose_relationship', (table) => {
     table.check(
-      '(?? IS NOT NULL AND ?? = ??) OR (?? IS NULL)',
-      ['other_purpose', 'purpose_id', otherPurpose.id, 'other_purpose'],
+      `(other_purpose IS NOT NULL AND purpose_id = ${otherPurpose.id}) OR (other_purpose IS NULL)`,
+      [],
       'other_purpose_id_check',
     );
   });

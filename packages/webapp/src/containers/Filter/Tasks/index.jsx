@@ -166,6 +166,7 @@ const TasksFilterPage = ({ onGoBack }) => {
     },
     {
       subject: t('TASK.FILTER.DATE_RANGE'),
+      filterKey: FilterType.DATE_RANGE,
       type: FilterType.DATE_RANGE,
       defaultFromDate: tasksFilter[FROM_DATE],
       defaultToDate: tasksFilter[TO_DATE],

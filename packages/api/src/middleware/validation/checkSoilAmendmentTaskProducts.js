@@ -14,6 +14,7 @@
  */
 
 import ProductModel from '../../models/productModel.js';
+import SoilAmendmentPurposeModel from '../../models/soilAmendmentPurposeModel.js';
 
 export function checkSoilAmendmentTaskProducts() {
   return async (req, res, next) => {
@@ -57,6 +58,16 @@ export function checkSoilAmendmentTaskProducts() {
 
         if (!product.purpose_relationships?.length) {
           return res.status(400).send('purpose_relationships is required');
+        }
+
+        const otherPurpose = await SoilAmendmentPurposeModel.query()
+          .where({ key: 'OTHER' })
+          .first();
+
+        for (const relationship of product.purpose_relationships) {
+          if (relationship.purpose_id != otherPurpose.id && relationship.other_purpose) {
+            return res.status(400).send('other_purpose is for other purpose');
+          }
         }
 
         const existingProduct = await ProductModel.query()

@@ -20,6 +20,7 @@ export interface FilterState {
   [filterOptionId: string]: /* e.g. ABANDONED, COMPLETED */ {
     active?: boolean;
     label?: string /* e.g. 'Abandoned', 'Completed */;
+    [key: string]: any;
   };
 }
 

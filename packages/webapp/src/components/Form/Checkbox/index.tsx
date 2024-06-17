@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { PropsWithChildren, ReactChildren, ReactEventHandler } from 'react';
+import React, { PropsWithChildren, ReactEventHandler } from 'react';
 import styles from './checkbox.module.scss';
+import { UseFormRegisterReturn } from 'react-hook-form';
 import clsx from 'clsx';
 import { Error, Main } from '../../Typography';
 import { ReactComponent as PartiallyChecked } from '../../../assets/images/partially-checked.svg';
@@ -32,12 +33,7 @@ interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
     error?: object;
   };
   style?: object;
-  hookFormRegister?: {
-    ref: React.RefObject<HTMLInputElement>;
-    name: string;
-    onChange: ReactEventHandler;
-    onBlur: ReactEventHandler;
-  };
+  hookFormRegister?: UseFormRegisterReturn;
   onChange?: ReactEventHandler;
   onBlur?: ReactEventHandler;
   sm?: boolean;

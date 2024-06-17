@@ -15,9 +15,16 @@
 
 import { Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
-import { ClearIndicatorProps, GroupBase, MultiValueRemoveProps } from 'react-select';
+import {
+  ClearIndicatorProps,
+  DropdownIndicatorProps,
+  GroupBase,
+  MultiValueRemoveProps,
+  components,
+} from 'react-select';
 import { colors } from '../../../assets/theme';
 import { BsX } from 'react-icons/bs';
+import { ReactComponent as SearchIcon } from '../../../assets/images/search.svg';
 
 function ClearIndicator<
   Option = unknown,
@@ -52,4 +59,14 @@ function MultiValueRemove<
   );
 }
 
-export { ClearIndicator, MultiValueRemove };
+function MenuOpenDropdownIndicator<T>(props: DropdownIndicatorProps<T>) {
+  if (props.selectProps.menuIsOpen && props.selectProps.isSearchable)
+    return (
+      <components.DropdownIndicator {...props}>
+        <SearchIcon />
+      </components.DropdownIndicator>
+    );
+
+  return <components.DropdownIndicator {...props} />;
+}
+export { ClearIndicator, MultiValueRemove, MenuOpenDropdownIndicator };

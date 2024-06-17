@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import type { RootState } from '../store/store';
 import { AxiosError } from 'axios';
+import { CONSENT_VERSION } from '../util/constants';
 
 export interface Units {
   currency: string;
@@ -253,6 +254,9 @@ export const userFarmSelector = createSelector(
       ? {
           is_admin: adminRoles.includes(byFarmIdUserId[farm_id][user_id].role_id),
           ...byFarmIdUserId[farm_id][user_id],
+          has_consent:
+            byFarmIdUserId[farm_id][user_id].has_consent &&
+            byFarmIdUserId[farm_id][user_id].consent_version === CONSENT_VERSION,
         }
       : {};
   },

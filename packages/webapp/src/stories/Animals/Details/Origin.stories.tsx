@@ -35,8 +35,8 @@ const meta: Meta<OriginProps> = {
       const origin = !originId
         ? undefined
         : originId === 1
-          ? AnimalOrigins.BROUGHT_IN
-          : AnimalOrigins.BORN_AT_FARM;
+        ? AnimalOrigins.BROUGHT_IN
+        : AnimalOrigins.BORN_AT_FARM;
 
       return (
         <FormProvider {...formMethods}>

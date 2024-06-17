@@ -14,9 +14,18 @@
     "TELL_US_ABOUT_YOUR_FARM": "Parlez-nous de votre exploitation"
   },
   "ADD_PRODUCT": {
+    "ADD_ANOTHER_PRODUCT": "MISSING",
+    "BUTTON_WARNING": "MISSING",
     "COMPOSITION": "MISSING",
+    "COMPOSITION_ERROR": "MISSING",
+    "EDIT_PRODUCT_DETAILS": "MISSING",
+    "NITROGEN": "MISSING",
+    "PHOSPHOROUS": "MISSING",
+    "POTASSIUM": "MISSING",
     "PRESS_ENTER": "Tapez et appuyez sur Entrée pour ajouter...",
+    "PRODUCT_DETAILS": "MISSING",
     "PRODUCT_LABEL": "Produit",
+    "SAVE_PRODUCT": "MISSING",
     "SUPPLIER_LABEL": "Fournisseur"
   },
   "ADD_TASK": {

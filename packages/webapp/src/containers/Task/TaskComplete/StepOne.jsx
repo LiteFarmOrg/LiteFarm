@@ -4,7 +4,7 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { taskWithProductSelector } from '../../taskSlice';
-import { productsSelector } from '../../productSlice';
+import { productsForTaskTypeSelector } from '../../productSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 
 function TaskCompleteStepOne({ history, match, location }) {
@@ -16,7 +16,7 @@ function TaskCompleteStepOne({ history, match, location }) {
   const task_id = match.params.task_id;
   const task = useSelector(taskWithProductSelector(task_id));
   const selectedTaskType = task.taskType;
-  const products = useSelector(productsSelector);
+  const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
   const persistedPaths = [`/tasks/${task_id}/complete`];
 
   const onContinue = (data) => {

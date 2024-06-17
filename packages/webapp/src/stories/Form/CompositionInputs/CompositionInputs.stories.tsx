@@ -24,19 +24,20 @@ import { Unit } from '../../../components/Form/CompositionInputs/NumberInputWith
 
 const UNIT_FIELD_NAME = 'unit';
 
+const unitOptions = [
+  { label: '%', value: Unit.PERCENT },
+  {
+    label: <RatioOptionIcon />,
+    value: Unit.RATIO,
+  },
+  { label: 'mg/kg', value: 'mg/kg' },
+  { label: 'ppm', value: 'ppm' },
+];
+
 const meta: Meta<typeof CompositionInputs> = {
   title: 'Components/CompositionInput',
   component: CompositionInputs,
   args: {
-    unitOptions: [
-      { label: '%', value: Unit.PERCENT },
-      {
-        label: <RatioOptionIcon />,
-        value: Unit.RATIO,
-      },
-      { label: 'mg/kg', value: 'mg/kg' },
-      { label: 'ppm', value: 'ppm' },
-    ],
     inputsInfo: [
       { name: 'n', label: 'Nitrogen (N)' },
       { name: 'p', label: 'Phosphorous (P)' },
@@ -84,6 +85,7 @@ export const Default: Story = {
           return (
             <CompositionInputs
               {...args}
+              unitOptions={unitOptions}
               error={fieldState.error?.message}
               values={field.value}
               onChange={(name, value) => {
@@ -100,6 +102,7 @@ export const Default: Story = {
 
 export const Disabled: Story = {
   args: {
+    unitOptions,
     disabled: true,
     values: {
       n: 20,
@@ -121,7 +124,9 @@ export const WithError: Story = {
       setValues({ ...values, [name]: value });
     };
 
-    return <CompositionInputs {...args} onChange={onChange} values={values} />;
+    return (
+      <CompositionInputs {...args} unitOptions={unitOptions} onChange={onChange} values={values} />
+    );
   },
 };
 
@@ -148,6 +153,7 @@ export const SwitchModes: Story = {
             return (
               <CompositionInputs
                 {...args}
+                unitOptions={unitOptions}
                 disabled={disabled}
                 error={fieldState.error?.message}
                 values={field.value}
@@ -180,7 +186,6 @@ export const OneUnit: Story = {
           setValue(name, inputtedFieldValue);
           setValue(theOtherField, theOtherFieldValue);
         }}
-        unitOptions={[{ label: '%', value: Unit.PERCENT }]}
         inputsInfo={[
           { name: 'moistureContent', label: 'Moisture content' },
           { name: 'dryMatterContent', label: 'Dry matter content' },
@@ -200,6 +205,7 @@ export const SixInputs: Story = {
       { name: 'Mn', label: 'Manganese (Mn)' },
       { name: 'B', label: 'Boron (B)' },
     ],
+    unitOptions,
   },
   render: (args) => {
     const { control } = useForm({

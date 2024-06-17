@@ -32,17 +32,17 @@ export enum Unit {
 export type NumberInputWithSelectProps = {
   name: string;
   label: string;
-  unitOptions: Option[];
+  unitOptions?: Option[];
   disabled?: boolean;
   error?: string;
   className?: string;
   value?: number | null;
-  unit: Unit;
+  unit: Unit | string;
   unitFieldName: string;
   onChange: (fieldName: string, value: number | string | null) => void;
   onBlur?: () => void;
   reactSelectWidth?: number;
-  reactSelectJustifyContent?: string;
+  reactSelectJustifyContent?: 'center' | 'flex-start' | 'flex-end';
 };
 
 const REACT_SELECT_WIDTH = 44;
@@ -50,7 +50,7 @@ const REACT_SELECT_WIDTH = 44;
 const NumberInputWithSelect = ({
   name,
   label,
-  unitOptions,
+  unitOptions = [],
   disabled,
   error,
   className,
@@ -133,9 +133,7 @@ const NumberInputWithSelect = ({
         onResetIconClick={clear}
         resetIconPosition="left"
         rightSection={
-          unitOptions.length === 1 ? (
-            <span className={styles.selectValue}>{unitOptions[0].label}</span>
-          ) : (
+          unitOptions.length ? (
             <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
               <ReactSelect
                 options={unitOptions}
@@ -146,6 +144,8 @@ const NumberInputWithSelect = ({
                 onBlur={onBlur}
               />
             </div>
+          ) : (
+            <span className={styles.selectValue}>{unit}</span>
           )
         }
       />

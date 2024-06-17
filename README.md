@@ -46,7 +46,7 @@ Run `docker compose up` in the root directory to configure and start all develop
 
 For more information, see [services (local development dependencies)](#services-local-development-dependencies) below.
 
-Once the database container is running and the `.env` files have been configured [as described below](#adding-environment-files), in a terminal navigate to the `packages/api` folder. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database used by the app.
+Once the database container is running and the `.env` files have been configured [as described above](#adding-environment-files), in a terminal navigate to the `packages/api` folder. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database used by the app.
 
 ### Database - Native installation
 
@@ -306,7 +306,7 @@ Notes:
 
 You can use Storybook to visualize and test out the UI components used throughout the app.
 
-- To view Storybook on your local environment, run `pnmp storybook` on the `packages/webapp` directory and navigate to http://localhost:6006
+- To view Storybook on your local environment, run `pnpm storybook` on the `packages/webapp` directory and navigate to http://localhost:6006
 - To view the deployed version of Storybook, which is updated automatically with the latest changes on the integration branch, go to https://65316fc4f177c73a9181a843-yobioprfjv.chromatic.com
 
 ## How to Contribute

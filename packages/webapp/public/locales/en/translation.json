@@ -1,10 +1,20 @@
 {
   "ADD_ANIMAL": {
+    "ADD_TO_INVENTORY": "Add animal to your inventory",
     "ANIMALS_TOTAL_one": "{{count}} animal total",
     "ANIMALS_TOTAL_other": "{{count}} animals total",
     "ANIMALS_UNSPECIFIED_one": "{{count}} unspecified",
     "ANIMALS_UNSPECIFIED_other": "{{count}} unspecified",
+    "BATCH_NAME": "Batch name",
+    "BATCH_NAME_PLACEHOLDER": "Type in batch name",
+    "BREED": "Breed",
+    "BREED_PLACEHOLDER": "Add your animal breed",
+    "BREED_PLACEHOLDER_DISABLED": "Please select a type first",
+    "CREATE_INDIVIDUAL_PROFILES": "Create individual animal profiles",
+    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately. This allows for detailed records and individualised care plans, all animals will be conveniently grouped. If you don't select 'Create Individual Animal Profiles' you'll create an Animal Batch. This is ideal for\u00a0managing animals collectively. In batch mode, individual animal details are not tracked.",
     "GENERAL_DETAILS": "General details",
+    "GROUP_NAME": "Group name",
+    "GROUP_NAME_PLACEHOLDER": "Type in group name",
     "ORIGIN": "Origin",
     "OTHER_DETAILS": "Other details",
     "OUT_OF_COUNT_one": "{{animalNumber}} out of {{count}}",
@@ -43,6 +53,8 @@
       "HERE_IS_SUMMARY": "Here is a summary of your added animals:",
       "MAIN": "You successfully added {{animalCount}} {{and}} {{batchCount}} to your inventory."
     },
+    "TYPE": "Type",
+    "TYPE_PLACEHOLDER": "Select the animal type",
     "UNIQUE_DETAILS": "Unique details",
     "USED_FOR_REPRODUCTION": "Used for reproduction?"
   },
@@ -61,6 +73,7 @@
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "ADD_PRODUCT": {
+    "COMPOSITION": "Composition",
     "PRESS_ENTER": "Type and press enter to add...",
     "PRODUCT_LABEL": "Product",
     "SUPPLIER_LABEL": "Supplier"

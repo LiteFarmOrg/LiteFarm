@@ -17,9 +17,9 @@ import React from 'react';
 import ReactSelect, { SelectInstance, Props, GroupBase } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import InputBaseLabel, { type InputBaseLabelProps } from '../InputBase/InputBaseLabel';
-import { styles } from './styles';
+import { styles as baseStyles } from './styles';
 import scss from './styles.module.scss';
-import { ClearIndicator, MultiValueRemove } from './components';
+import { ClearIndicator, MenuOpenDropdownIndicator, MultiValueRemove } from './components';
 
 type SelectProps<
   Option = unknown,
@@ -54,6 +54,7 @@ const Select = React.forwardRef((props, ref) => {
     components,
     defaultValue,
     style,
+    styles,
     placeholder = t('common:SELECT') + '...',
     ...restProps
   } = props;
@@ -71,12 +72,16 @@ const Select = React.forwardRef((props, ref) => {
       )}
       <ReactSelect
         menuPortalTarget={document.body}
-        styles={{ ...(styles as any), ...props.styles }}
+        styles={{
+          ...(baseStyles as any),
+          ...styles,
+        }}
         placeholder={placeholder}
         options={options}
         components={{
           ClearIndicator,
           MultiValueRemove,
+          DropdownIndicator: MenuOpenDropdownIndicator,
           ...components,
         }}
         isSearchable={isSearchable ?? (options?.length ?? 0) > 8}

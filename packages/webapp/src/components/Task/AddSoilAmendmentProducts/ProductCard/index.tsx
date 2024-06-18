@@ -130,7 +130,12 @@ const SoilAmendmentProductCard = ({
         <Controller
           control={control}
           name={PRODUCT_ID}
-          rules={{ required: true }}
+          rules={{
+            required: true,
+            validate: (value) => {
+              return typeof value === 'number';
+            },
+          }}
           render={({ field: { value, onChange } }) => (
             <CreatableSelect
               ref={selectRef}

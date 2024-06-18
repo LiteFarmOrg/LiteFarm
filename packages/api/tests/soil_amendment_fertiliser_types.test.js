@@ -52,7 +52,7 @@ describe('Soil Amendment FertiliserType Test', () => {
   async function getRequest({ user_id, farm_id }) {
     return await chai
       .request(server)
-      .get('/soil_amendment_fertiliser_type')
+      .get('/soil_amendment_fertiliser_types')
       .set('user_id', user_id)
       .set('farm_id', farm_id);
   }

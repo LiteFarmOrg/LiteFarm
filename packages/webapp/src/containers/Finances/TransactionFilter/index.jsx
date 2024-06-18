@@ -38,6 +38,19 @@ const TransactionFilter = () => {
   const transactionsFilter = useSelector(transactionsFilterSelector);
   const dispatch = useDispatch();
 
+  const handleChangeFilters = (filterKey, filterState) => {
+    // Check if filterState (filterKey "EXPENSE_TYPE" or "REVENUE_TYPE") has active filters:
+    const hasActiveFilters = Object.values(filterState).some((filter) => {
+      return filter.active === true;
+    });
+
+    // If filterState has no active filters, reset the value of its filterKey on 'tempTransactionsFilter' to undefined:
+    setTempTransactionsFilter((prevState) => ({
+      ...prevState,
+      [filterKey]: !hasActiveFilters ? undefined : filterState,
+    }));
+  };
+
   const handleApply = () => {
     dispatch(setTransactionsFilter(tempTransactionsFilter));
     setIsFilterOpen(false);
@@ -63,7 +76,7 @@ const TransactionFilter = () => {
             transactionsFilter={transactionsFilter}
             onChange={(filterKey, filterState) => {
               !isDirty && setIsDirty(true);
-              setTempTransactionsFilter({ ...tempTransactionsFilter, [filterKey]: filterState });
+              handleChangeFilters(filterKey, filterState);
             }}
           />
         </>

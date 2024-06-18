@@ -77,12 +77,12 @@ const NumberInputWithSelect = ({
   });
   reactSelectStyles.singleValue = (provided) => ({
     ...provided,
-    color: 'var(--Colors-Neutral-Neutral-300, #98A1B1);',
+    color: 'var(--Colors-Neutral-Neutral-600, #5D697E);',
     paddingTop: unit === Unit.RATIO ? '4px' : 0,
   });
   reactSelectStyles.option = (provided, state) => ({
     ...reactSelectDefaultStyles.option?.(provided, state),
-    color: 'var(--Colors-Neutral-Neutral-300, #98A1B1);',
+    color: 'var(--Colors-Neutral-Neutral-600, #5D697E);',
   });
   reactSelectStyles.valueContainer = (provided) => ({
     ...provided,

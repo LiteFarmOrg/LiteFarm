@@ -84,15 +84,13 @@ describe('Soil Amendment Purpose Test', () => {
   describe('GET soil amendment purpose tests', () => {
     test('All farm users should get soil amendment purpose', async () => {
       const roles = [1, 2, 3, 5];
-
+      await makeSoilAmendmentPurpose();
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
 
-        await makeSoilAmendmentPurpose();
-
         const res = await getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id });
         expect(res.status).toBe(200);
-        expect(res.body.length).toBeGreaterThanOrEqual(1);
+        expect(res.body.length).toBe(1);
       }
     });
 
@@ -109,7 +107,7 @@ describe('Soil Amendment Purpose Test', () => {
       });
 
       expect(res.status).toBe(200);
-      expect(res.body.length).toBeGreaterThanOrEqual(1);
+      expect(res.body.length).toBe(1);
     });
   });
 });

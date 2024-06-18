@@ -85,14 +85,14 @@ describe('Soil Amendment FertiliserType Test', () => {
     test('All farm users should get soil amendment fertiliser type', async () => {
       const roles = [1, 2, 3, 5];
 
+      await makeSoilAmendmentFertiliserType();
+
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
 
-        await makeSoilAmendmentFertiliserType();
-
         const res = await getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id });
         expect(res.status).toBe(200);
-        expect(res.body.length).toBeGreaterThanOrEqual(1);
+        expect(res.body.length).toBe(1);
       }
     });
 
@@ -109,7 +109,7 @@ describe('Soil Amendment FertiliserType Test', () => {
       });
 
       expect(res.status).toBe(200);
-      expect(res.body.length).toBeGreaterThanOrEqual(1);
+      expect(res.body.length).toBe(1);
     });
   });
 });

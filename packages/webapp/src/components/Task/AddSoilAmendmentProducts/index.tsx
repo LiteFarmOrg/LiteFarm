@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import useExpandable from '../../Expandable/useExpandableItem';
@@ -41,10 +40,13 @@ const AddSoilAmendmentProducts = ({
   isReadOnly,
   ...props
 }: AddSoilAmendmentProductsProps) => {
-  const [invalidProducts, setInvalidProducts] = useState<string[]>([]);
-
   const { t } = useTranslation();
-  const { control, setValue, watch } = useFormContext();
+  const {
+    control,
+    setValue,
+    watch,
+    formState: { isDirty, isValid },
+  } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: FIELD_NAME,
     control,
@@ -63,27 +65,6 @@ const AddSoilAmendmentProducts = ({
       .map(({ product_id }: ProductFields): ProductId => product_id);
 
     return products.filter(({ product_id }) => !otherSelectedProductIds.includes(product_id));
-  };
-
-  const getInvalidProductsUpdater =
-    (fieldId: string) =>
-    (isValid: boolean): void => {
-      setInvalidProducts((prevState) => {
-        if (isValid && prevState.includes(fieldId)) {
-          return prevState.filter((id) => id !== fieldId);
-        }
-        if (!isValid && !prevState.includes(fieldId)) {
-          return [...prevState, fieldId];
-        }
-        return prevState;
-      });
-    };
-
-  const onRemove = (index: number, fieldId: string): void => {
-    if (invalidProducts.includes(fieldId)) {
-      setInvalidProducts(invalidProducts.filter((id) => id !== fieldId));
-    }
-    remove(index);
   };
 
   const onAddAnotherProduct = (): void => {
@@ -115,7 +96,7 @@ const AddSoilAmendmentProducts = ({
               {...props}
               key={field.id}
               isReadOnly={isReadOnly}
-              onRemove={fields.length > 1 ? () => onRemove(index, field.id) : undefined}
+              onRemove={fields.length > 1 ? () => remove(index) : undefined}
               namePrefix={namePrefix}
               products={getAvailableProductOptions(productId)}
               isExpanded={expandedIds.includes(field.id)}
@@ -126,7 +107,6 @@ const AddSoilAmendmentProducts = ({
               setProductId={(id: ProductId) => {
                 setValue(`${namePrefix}.product_id`, id);
               }}
-              setFieldValidity={getInvalidProductsUpdater(field.id)}
               purposeOptions={purposeOptions}
               otherPurposeId={otherPurposeId}
             />
@@ -135,7 +115,7 @@ const AddSoilAmendmentProducts = ({
       </div>
       {!isReadOnly && (
         <TextButton
-          disabled={!!invalidProducts.length}
+          disabled={!isValid}
           onClick={onAddAnotherProduct}
           className={styles.addAnotherProduct}
         >

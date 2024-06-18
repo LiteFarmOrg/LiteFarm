@@ -78,3 +78,26 @@ export function checkAbandonTask() {
     }
   };
 }
+
+export function checkCompleteTask() {
+  return async (req, res, next) => {
+    try {
+      const { task_id } = req.params;
+      //const { user_id } = req.auth;
+      const { assignee_user_id } = await TaskModel.query()
+        .select('owner_user_id', 'assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
+        .where({ task_id })
+        .first();
+      // cannot abandon an unassigned task with rating or duration
+      const hasAssignee = assignee_user_id !== null;
+      if (!hasAssignee) {
+        return res.status(400).send('An unassigned task cannot be completed');
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        error,
+      });
+    }
+  };
+}

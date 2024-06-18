@@ -26,7 +26,7 @@ import {
 import taskController from '../controllers/taskController.js';
 import { createOrPatchProduct } from '../middleware/validation/product.js';
 import { checkSoilAmendmentTaskProducts } from '../middleware/validation/checkSoilAmendmentTaskProducts.js';
-import { checkAbandonTask } from '../middleware/validation/checkTask.js';
+import { checkAbandonTask, checkCompleteTask } from '../middleware/validation/checkTask.js';
 
 router.patch(
   '/assign/:task_id',
@@ -168,7 +168,8 @@ router.patch(
   modelMapping['soil_amendment_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
-  checkSoilAmendmentTaskProducts(),
+  //checkSoilAmendmentTaskProducts(),
+  checkCompleteTask(),
   taskController.completeTask('soil_amendment_task'),
 );
 

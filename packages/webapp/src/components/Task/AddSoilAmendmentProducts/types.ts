@@ -28,6 +28,8 @@ export enum NPK {
 
 export const FIELD_NAMES = {
   PRODUCT_ID: 'product_id',
+  PURPOSES: 'purposes',
+  OTHER_PURPOSE: 'other_purpose',
   NAME: 'name',
   SUPPLIER: 'supplier',
   PERMITTED: 'on_permitted_substances_list',

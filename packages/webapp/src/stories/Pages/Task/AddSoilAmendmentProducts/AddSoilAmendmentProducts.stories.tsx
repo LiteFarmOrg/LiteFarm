@@ -23,6 +23,14 @@ import { defaultValues } from '../../../../components/Task/AddSoilAmendmentProdu
 import { products } from './products';
 import { FormFields } from '../../../../components/Task/AddSoilAmendmentProducts/types';
 
+const purposes = [
+  { id: 1, key: 'STRUCTURE' },
+  { id: 2, key: 'MOISTURE_RETENTION' },
+  { id: 3, key: 'NUTRIENT_AVAILABILITY' },
+  { id: 4, key: 'PH' },
+  { id: 5, key: 'OTHER' },
+];
+
 type ComponentWithFormMethodsProps = AddSoilAmendmentProductsProps & {
   defaultValues: (FormFields & { product_id?: number })[];
 };
@@ -48,6 +56,7 @@ const meta: Meta<ComponentWithFormMethodsProps> = {
     onSaveProduct: console.log,
     system: 'metric',
     products,
+    purposes,
     defaultValues: [defaultValues],
   },
 };

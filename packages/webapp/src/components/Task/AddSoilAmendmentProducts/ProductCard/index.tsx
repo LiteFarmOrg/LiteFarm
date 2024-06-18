@@ -18,9 +18,10 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { GroupBase, SelectInstance } from 'react-select';
 import SmallButton from '../../../Form/Button/SmallButton';
-import { CreatableSelect } from '../../../Form/ReactSelect';
-import ProductDetails, { ProductDetailsProps } from './ProductDetails';
-import { Product } from '../types';
+import ReactSelect, { CreatableSelect } from '../../../Form/ReactSelect';
+import Input from '../../../Form/Input';
+import ProductDetails, { type ProductDetailsProps } from './ProductDetails';
+import { FIELD_NAMES, type Product } from '../types';
 import styles from '../styles.module.scss';
 
 export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct'> & {
@@ -29,6 +30,8 @@ export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct'> & {
   onRemove?: () => void;
   onSaveProduct: ProductDetailsProps['onSave'];
   totalArea: number;
+  purposeOptions: { label: string; value: number }[];
+  otherPurposeId?: number;
 };
 
 interface ProductOption {
@@ -68,12 +71,17 @@ const SoilAmendmentProductCard = ({
   isReadOnly,
   products = [],
   totalArea,
+  purposeOptions,
+  otherPurposeId,
   ...props
 }: ProductCardProps) => {
   const { t } = useTranslation();
-  const { control } = useFormContext();
+  const { control, register, watch, setValue } = useFormContext();
 
-  const PRODUCT_ID = `${namePrefix}.product_id`;
+  const PRODUCT_ID = `${namePrefix}.${FIELD_NAMES.PRODUCT_ID}`;
+  const PURPOSES = `${namePrefix}.${FIELD_NAMES.PURPOSES}`;
+
+  const purposes = watch(PURPOSES);
 
   const selectRef = useRef<SelectRef>(null);
   const productOptions = products.map(({ product_id, name, ...rest }) => {
@@ -87,6 +95,37 @@ const SoilAmendmentProductCard = ({
   return (
     <div className={styles.productCard}>
       {onRemove && <SmallButton onClick={onRemove} className={styles.removeButton} />}
+      <Controller
+        control={control}
+        name={PURPOSES}
+        rules={{ required: true }}
+        render={({ field: { onChange, value: selectedOptions = [] } }) => (
+          <ReactSelect
+            isMulti
+            value={purposeOptions.filter(({ value }) => selectedOptions.includes(value))}
+            isDisabled={isReadOnly}
+            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PURPOSE')}
+            options={purposeOptions}
+            onChange={(e) => {
+              onChange(e);
+              const newPurposes = e.map(({ value }) => value);
+              setValue(PURPOSES, newPurposes, { shouldValidate: true });
+            }}
+          />
+        )}
+      />
+      {purposes?.includes(otherPurposeId) && (
+        <>
+          {/* @ts-ignore */}
+          <Input
+            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
+            name={FIELD_NAMES.OTHER_PURPOSE}
+            disabled={isReadOnly}
+            hookFormRegister={register(FIELD_NAMES.OTHER_PURPOSE)}
+            optional
+          />
+        </>
+      )}
       <div>
         <Controller
           control={control}

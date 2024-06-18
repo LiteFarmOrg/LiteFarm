@@ -24,7 +24,10 @@ import { defaultValues } from './ProductCard/ProductDetails';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
 import styles from './styles.module.scss';
 
-export type AddSoilAmendmentProductsProps = ProductCardProps & { products: Product[] };
+export type AddSoilAmendmentProductsProps = ProductCardProps & {
+  products: Product[];
+  purposes?: { id: number; key: string }[];
+};
 
 interface ProductFields {
   product_id: ProductId;
@@ -34,6 +37,7 @@ const FIELD_NAME = 'soil_amendment_task_products';
 
 const AddSoilAmendmentProducts = ({
   products,
+  purposes = [],
   isReadOnly,
   ...props
 }: AddSoilAmendmentProductsProps) => {
@@ -87,6 +91,18 @@ const AddSoilAmendmentProducts = ({
     append(defaultValues);
   };
 
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.STRUCTURE')
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.MOISTURE_RETENTION')
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.NUTRIENT_AVAILABILITY')
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.PH')
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER')
+  const purposeOptions = purposes.map(({ id, key }) => ({
+    value: id,
+    label: t(`ADD_TASK.SOIL_AMENDMENT_VIEW.${key}`),
+  }));
+
+  const otherPurposeId = purposes.find(({ key }) => key === 'OTHER')?.id;
+
   return (
     <>
       <div className={styles.products}>
@@ -111,6 +127,8 @@ const AddSoilAmendmentProducts = ({
                 setValue(`${namePrefix}.product_id`, id);
               }}
               setFieldValidity={getInvalidProductsUpdater(field.id)}
+              purposeOptions={purposeOptions}
+              otherPurposeId={otherPurposeId}
             />
           );
         })}

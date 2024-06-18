@@ -20,14 +20,10 @@ import useReactSelectStyles from '../Unit/useReactSelectStyles';
 import useNumberInput from '../NumberInput/useNumberInput';
 import InputBase from '../InputBase';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
+import { ReactComponent as RatioOptionIcon } from '../../../assets/images/ratio-option.svg';
 import styles from './styles.module.scss';
 
-export type Option = { value: string; label: ReactNode };
-
-export enum Unit {
-  PERCENT = 'percent',
-  RATIO = 'ratio',
-}
+export type Option = { value: string; label: string };
 
 export type NumberInputWithSelectProps = {
   name: string;
@@ -37,7 +33,7 @@ export type NumberInputWithSelectProps = {
   error?: string;
   className?: string;
   value?: number | null;
-  unit: Unit | string;
+  unit: string;
   unitFieldName: string;
   onChange: (fieldName: string, value: number | string | null) => void;
   onBlur?: () => void;
@@ -46,6 +42,10 @@ export type NumberInputWithSelectProps = {
 };
 
 const REACT_SELECT_WIDTH = 44;
+
+const formatOptionLabel = ({ label, value }: Option): ReactNode => {
+  return value === 'ratio' ? <RatioOptionIcon className={styles.ratioIcon} /> : label;
+};
 
 const NumberInputWithSelect = ({
   name,
@@ -78,7 +78,6 @@ const NumberInputWithSelect = ({
   reactSelectStyles.singleValue = (provided) => ({
     ...provided,
     color: 'var(--Colors-Neutral-Neutral-600, #5D697E);',
-    paddingTop: unit === Unit.RATIO ? '4px' : 0,
   });
   reactSelectStyles.option = (provided, state) => ({
     ...reactSelectDefaultStyles.option?.(provided, state),
@@ -142,6 +141,7 @@ const NumberInputWithSelect = ({
                 styles={{ ...(reactSelectStyles as any) }}
                 isDisabled={disabled}
                 onBlur={onBlur}
+                formatOptionLabel={formatOptionLabel}
               />
             </div>
           ) : (

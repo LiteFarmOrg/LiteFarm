@@ -19,17 +19,13 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import CompositionInputs from '../../../components/Form/CompositionInputs';
 import Button from '../../../components/Form/Button';
-import { ReactComponent as RatioOptionIcon } from '../../../assets/images/ratio-option.svg';
-import { Unit } from '../../../components/Form/CompositionInputs/NumberInputWithSelect';
 
 const UNIT_FIELD_NAME = 'unit';
+const PERCENT = 'percent';
 
 const unitOptions = [
-  { label: '%', value: Unit.PERCENT },
-  {
-    label: <RatioOptionIcon />,
-    value: Unit.RATIO,
-  },
+  { label: '%', value: 'percent' },
+  { label: 'ratio', value: 'ratio' },
   { label: 'mg/kg', value: 'mg/kg' },
   { label: 'ppm', value: 'ppm' },
 ];
@@ -59,7 +55,7 @@ export const Default: Story = {
       mode: 'onChange',
       defaultValues: {
         composition: {
-          [UNIT_FIELD_NAME]: Unit.PERCENT,
+          [UNIT_FIELD_NAME]: PERCENT,
           n: undefined,
           p: undefined,
           k: undefined,
@@ -75,7 +71,7 @@ export const Default: Story = {
           validate: (value) => {
             const { n, p, k, unit } = value;
             return (
-              unit === Unit.PERCENT &&
+              unit === PERCENT &&
               (n || 0) + (p || 0) + (k || 0) > 100 &&
               'The total percentage of N, P, and K must not exceed 100%. Please adjust your values.'
             );
@@ -110,7 +106,7 @@ export const Disabled: Story = {
       n: 20,
       p: 30,
       k: 50,
-      [UNIT_FIELD_NAME]: Unit.PERCENT,
+      [UNIT_FIELD_NAME]: PERCENT,
     },
   },
 };
@@ -146,7 +142,7 @@ export const SwitchModes: Story = {
       mode: 'onBlur',
       defaultValues: {
         composition: {
-          [UNIT_FIELD_NAME]: Unit.PERCENT,
+          [UNIT_FIELD_NAME]: PERCENT,
         },
       },
     });
@@ -222,7 +218,7 @@ export const SixInputs: Story = {
       mode: 'onChange',
       defaultValues: {
         composition: {
-          [UNIT_FIELD_NAME]: Unit.PERCENT,
+          [UNIT_FIELD_NAME]: PERCENT,
           Ca: undefined,
           Mg: undefined,
           S: undefined,
@@ -245,7 +241,7 @@ export const SixInputs: Story = {
               0,
             );
             return (
-              unit === Unit.PERCENT &&
+              unit === PERCENT &&
               totalPercentage > 100 &&
               'The total percentage must not exceed 100%. Please adjust your values.'
             );

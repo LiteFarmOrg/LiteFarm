@@ -19,22 +19,20 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowUp';
-import { ReactComponent as RatioOptionIcon } from '../../../../assets/images/ratio-option.svg';
 import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
 import Input, { getInputErrors } from '../../../Form/Input';
 import TextButton from '../../../Form/Button/TextButton';
 import RadioGroup from '../../../Form/RadioGroup';
 import CompositionInputs from '../../../Form/CompositionInputs';
-import { Unit } from '../../../Form/CompositionInputs/NumberInputWithSelect';
 import Buttons from './Buttons';
-import { FIELD_NAMES, NPK, type FormFields, type Product, type ProductId } from '../types';
+import { FIELD_NAMES, NPK, Unit, type FormFields, type Product, type ProductId } from '../types';
 import { CANADA } from '../../AddProduct/constants';
 import { TASK_TYPES } from '../../../../containers/Task/constants';
 import styles from '../styles.module.scss';
 
 const unitOptions = [
   { label: '%', value: Unit.PERCENT },
-  { label: <RatioOptionIcon />, value: Unit.RATIO },
+  { label: Unit.RATIO, value: Unit.RATIO },
 ];
 
 export type ProductDetailsProps = {

@@ -13,8 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Unit } from '../../Form/CompositionInputs/NumberInputWithSelect';
 import { TASK_TYPES } from '../../../containers/Task/constants';
+
+export enum Unit {
+  RATIO = 'ratio',
+  PERCENT = 'percent',
+}
 
 export enum NPK {
   N = 'n',

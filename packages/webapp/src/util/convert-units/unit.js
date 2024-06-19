@@ -232,6 +232,20 @@ export const soilAmounts = {
   databaseUnit: databaseUnit.mass,
 };
 
+export const soilAmountsVolume = {
+  metric: {
+    units: ['ml', 'l'],
+    defaultUnit: 'l',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['gal', 'fl-oz'],
+    defaultUnit: 'gal',
+    breakpoints: [128],
+  },
+  databaseUnit: databaseUnit.volume,
+};
+
 export const seedYield = {
   metric: {
     units: ['kg', 'mt'],

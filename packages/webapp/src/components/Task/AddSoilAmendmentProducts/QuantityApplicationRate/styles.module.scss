@@ -1,0 +1,63 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; // temporary
+}
+
+.applicationRateCard {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  gap: 16px;
+  align-self: stretch;
+
+  border-radius: 8px;
+  border: 1px solid var(--Colors-Neutral-Neutral-100, #d0d4db);
+  background: var(--White, #fff);
+}
+
+.advancedSection {
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Accent---singles-Blue-light, #e9f3ff);
+  background: var(--White, #fff);
+
+  .expandIcon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #cce3ff;
+    background: var(--Colors-Accent---singles-Blue-light, #e9f3ff);
+    transform: rotate(180deg);
+
+    path {
+      stroke-width: 2px;
+      stroke: var(--Colors-Accent---singles-Blue-full, #0669e1);
+    }
+  }
+  .advancedTitle {
+    width: 100%;
+    padding: 4px 8px;
+    font-size: 14px;
+    color: var(--Colors-Accent---singles-Blue-full, #0669e1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+}

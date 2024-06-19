@@ -19,25 +19,28 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import CompositionInputs from '../../../components/Form/CompositionInputs';
 import Button from '../../../components/Form/Button';
-import { ReactComponent as RatioOptionIcon } from '../../../assets/images/ratio-option.svg';
-import { NPK, UNIT, Unit } from '../../../components/Form/CompositionInputs/NumberInputWithSelect';
+
+const UNIT_FIELD_NAME = 'unit';
+const PERCENT = 'percent';
+
+const unitOptions = [
+  { label: '%', value: 'percent' },
+  { label: 'ratio', value: 'ratio' },
+  { label: 'mg/kg', value: 'mg/kg' },
+  { label: 'ppm', value: 'ppm' },
+];
 
 const meta: Meta<typeof CompositionInputs> = {
   title: 'Components/CompositionInput',
   component: CompositionInputs,
   args: {
-    unitOptions: [
-      { label: '%', value: Unit.PERCENT },
-      {
-        label: <RatioOptionIcon />,
-        value: Unit.RATIO,
-      },
-    ],
     inputsInfo: [
-      { name: NPK.N, label: 'Nitrogen (N)' },
-      { name: NPK.P, label: 'Phosphorous (P)' },
-      { name: NPK.K, label: 'Potassium (K)' },
+      { name: 'n', label: 'Nitrogen (N)' },
+      { name: 'p', label: 'Phosphorous (P)' },
+      { name: 'k', label: 'Potassium (K)' },
     ],
+    unitFieldName: UNIT_FIELD_NAME,
+    reactSelectWidth: 76,
   },
   decorators: [...componentDecorators],
 };
@@ -52,7 +55,7 @@ export const Default: Story = {
       mode: 'onChange',
       defaultValues: {
         composition: {
-          [UNIT]: Unit.PERCENT,
+          [UNIT_FIELD_NAME]: PERCENT,
           n: undefined,
           p: undefined,
           k: undefined,
@@ -66,9 +69,9 @@ export const Default: Story = {
         control={control}
         rules={{
           validate: (value) => {
-            const { n, p, k, npk_unit } = value;
+            const { n, p, k, unit } = value;
             return (
-              npk_unit === Unit.PERCENT &&
+              unit === PERCENT &&
               (n || 0) + (p || 0) + (k || 0) > 100 &&
               'The total percentage of N, P, and K must not exceed 100%. Please adjust your values.'
             );
@@ -78,11 +81,14 @@ export const Default: Story = {
           return (
             <CompositionInputs
               {...args}
+              mainLabel="Composition"
+              unitOptions={unitOptions}
               error={fieldState.error?.message}
               values={field.value}
               onChange={(name, value) => {
                 field.onChange({ ...field.value, [name]: value });
               }}
+              reactSelectJustifyContent="flex-start"
             />
           );
         }}
@@ -93,12 +99,14 @@ export const Default: Story = {
 
 export const Disabled: Story = {
   args: {
+    mainLabel: 'Composition',
+    unitOptions,
     disabled: true,
     values: {
       n: 20,
       p: 30,
       k: 50,
-      [UNIT]: Unit.PERCENT,
+      [UNIT_FIELD_NAME]: PERCENT,
     },
   },
 };
@@ -114,7 +122,15 @@ export const WithError: Story = {
       setValues({ ...values, [name]: value });
     };
 
-    return <CompositionInputs {...args} onChange={onChange} values={values} />;
+    return (
+      <CompositionInputs
+        {...args}
+        mainLabel="Composition"
+        unitOptions={unitOptions}
+        onChange={onChange}
+        values={values}
+      />
+    );
   },
 };
 
@@ -126,7 +142,7 @@ export const SwitchModes: Story = {
       mode: 'onBlur',
       defaultValues: {
         composition: {
-          [UNIT]: Unit.PERCENT,
+          [UNIT_FIELD_NAME]: PERCENT,
         },
       },
     });
@@ -141,6 +157,8 @@ export const SwitchModes: Story = {
             return (
               <CompositionInputs
                 {...args}
+                mainLabel="Composition"
+                unitOptions={unitOptions}
                 disabled={disabled}
                 error={fieldState.error?.message}
                 values={field.value}
@@ -152,6 +170,97 @@ export const SwitchModes: Story = {
           }}
         />
       </>
+    );
+  },
+};
+
+export const OneUnit: Story = {
+  render: (args) => {
+    const { watch, setValue } = useForm({ mode: 'onBlur' });
+    const values = watch();
+
+    return (
+      <CompositionInputs
+        {...args}
+        values={values}
+        onChange={(name, value) => {
+          const theOtherField = name === 'moistureContent' ? 'dryMatterContent' : 'moistureContent';
+          const inputtedFieldValue = Math.min(100, +(value || 0));
+          const theOtherFieldValue = 100 - inputtedFieldValue;
+
+          setValue(name, inputtedFieldValue);
+          setValue(theOtherField, theOtherFieldValue);
+        }}
+        inputsInfo={[
+          { name: 'moistureContent', label: 'Moisture content' },
+          { name: 'dryMatterContent', label: 'Dry matter content' },
+        ]}
+        unit="%"
+      />
+    );
+  },
+};
+
+export const SixInputs: Story = {
+  args: {
+    inputsInfo: [
+      { name: 'Ca', label: 'Calcium (Ca)' },
+      { name: 'Mg', label: 'Magnesium (Mg)' },
+      { name: 'S', label: 'Sulfur (S)' },
+      { name: 'Cu', label: 'Copper (Cu)' },
+      { name: 'Mn', label: 'Manganese (Mn)' },
+      { name: 'B', label: 'Boron (B)' },
+    ],
+    unitOptions,
+  },
+  render: (args) => {
+    const { control } = useForm({
+      mode: 'onChange',
+      defaultValues: {
+        composition: {
+          [UNIT_FIELD_NAME]: PERCENT,
+          Ca: undefined,
+          Mg: undefined,
+          S: undefined,
+          Cu: undefined,
+          Mn: undefined,
+          B: undefined,
+        },
+      },
+    });
+
+    return (
+      <Controller
+        name="composition"
+        control={control}
+        rules={{
+          validate: (value) => {
+            const { Ca, Mg, S, Cu, Mn, B, unit } = value;
+            const totalPercentage = [Ca, Mg, S, Cu, Mn, B].reduce(
+              (acc, current) => acc + (current || 0),
+              0,
+            );
+            return (
+              unit === PERCENT &&
+              totalPercentage > 100 &&
+              'The total percentage must not exceed 100%. Please adjust your values.'
+            );
+          },
+        }}
+        render={({ field, fieldState }) => {
+          return (
+            <CompositionInputs
+              {...args}
+              error={fieldState.error?.message}
+              values={field.value}
+              onChange={(name, value) => {
+                field.onChange({ ...field.value, [name]: value });
+              }}
+              reactSelectJustifyContent="flex-start"
+            />
+          );
+        }}
+      />
     );
   },
 };

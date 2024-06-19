@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Unit } from '../../../../components/Form/CompositionInputs/NumberInputWithSelect';
+import { Unit } from '../../../../components/Task/AddSoilAmendmentProducts/types';
 
 export const products = [
   {

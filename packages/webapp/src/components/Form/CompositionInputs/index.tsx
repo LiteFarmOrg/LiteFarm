@@ -26,7 +26,6 @@ type CompositionInputsProps = Omit<
   inputsInfo: { name: string; label: string }[];
   values: { [key: string]: any };
   unit?: string;
-  unitFieldName: string;
 };
 
 /**
@@ -43,7 +42,7 @@ const CompositionInputs = ({
   onBlur,
   values,
   unit,
-  unitFieldName,
+  unitFieldName = '',
   reactSelectJustifyContent,
   ...props
 }: CompositionInputsProps) => {

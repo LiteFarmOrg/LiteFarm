@@ -34,7 +34,7 @@ export type NumberInputWithSelectProps = {
   className?: string;
   value?: number | null;
   unit: string;
-  unitFieldName: string;
+  unitFieldName?: string;
   onChange: (fieldName: string, value: number | string | null) => void;
   onBlur?: () => void;
   reactSelectWidth?: number;
@@ -58,7 +58,7 @@ const NumberInputWithSelect = ({
   onBlur,
   value,
   unit,
-  unitFieldName,
+  unitFieldName = '',
   reactSelectWidth = REACT_SELECT_WIDTH,
   reactSelectJustifyContent = 'center',
 }: NumberInputWithSelectProps) => {

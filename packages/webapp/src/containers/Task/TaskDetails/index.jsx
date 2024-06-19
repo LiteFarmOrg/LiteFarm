@@ -3,7 +3,7 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../saga';
-import { productsSelector } from '../../productSlice';
+import { productsForTaskTypeSelector } from '../../productSlice';
 import { taskTypeSelector } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
@@ -24,8 +24,8 @@ function TaskDetails({ history, match, location }) {
   } = useSelector(userFarmSelector);
   const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const products = useSelector(productsSelector);
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
+  const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
   const managementPlanIds = persistedFormData.managementPlans?.map(
     ({ management_plan_id }) => management_plan_id,
   );

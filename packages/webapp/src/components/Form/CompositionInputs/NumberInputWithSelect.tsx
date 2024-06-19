@@ -24,7 +24,7 @@ import styles from './styles.module.scss';
 
 export type Option = { value: string; label: ReactNode };
 
-export const UNIT = 'unit';
+export const UNIT = 'npk_unit';
 
 export enum NPK {
   N = 'n',
@@ -51,6 +51,7 @@ export type NumberInputWithSelectProps = {
     [UNIT]?: Unit;
   };
   onChange: (fieldName: string, value: number | string | null) => void;
+  onBlur?: () => void;
 };
 
 const REACT_SELECT_WIDTH = 44;
@@ -63,6 +64,7 @@ const NumberInputWithSelect = ({
   error,
   className,
   onChange,
+  onBlur,
   values = {},
 }: NumberInputWithSelectProps) => {
   const { t } = useTranslation();
@@ -124,6 +126,10 @@ const NumberInputWithSelect = ({
         disabled={disabled}
         error={error}
         showErrorText={false}
+        onBlur={(e) => {
+          onBlur?.();
+          inputProps.onBlur?.(e);
+        }}
         onResetIconClick={clear}
         resetIconPosition="left"
         rightSection={
@@ -134,6 +140,7 @@ const NumberInputWithSelect = ({
               value={unitOptions.find(({ value }) => value === unit)}
               styles={{ ...(reactSelectStyles as any) }}
               isDisabled={disabled}
+              onBlur={onBlur}
             />
           </div>
         }

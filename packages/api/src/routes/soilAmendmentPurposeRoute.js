@@ -1,5 +1,5 @@
 /*
- *  Copyright 2021 - 2024 LiteFarm.org
+ *  Copyright 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,15 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const TODO = 'TODO';
-export const UNASSIGNED = 'UNASSIGNED';
-export const ALL = 'ALL';
+import express from 'express';
 
-export const TASK_TYPES = {
-  CLEANING: 'cleaning_task',
-  FIELD_WORK: 'field_work_task',
-  PEST_CONTROL: 'pest_control_task',
-  SOIL_AMENDMENT: 'soil_amendment_task',
-  HARVEST: 'harvest_tasks',
-  IRRIGATION: 'irrigation_task',
-};
+const router = express.Router();
+import soilAmendmentPurposeController from '../controllers/soilAmendmentPurposeController.js';
+
+router.get('/', soilAmendmentPurposeController.getSoilAmendmentPurposes());
+
+export default router;

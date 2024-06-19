@@ -21,7 +21,7 @@ import SmallButton from '../../../Form/Button/SmallButton';
 import ReactSelect, { CreatableSelect } from '../../../Form/ReactSelect';
 import Input from '../../../Form/Input';
 import ProductDetails, { type ProductDetailsProps } from './ProductDetails';
-import { FIELD_NAMES, type Product } from '../types';
+import { PRODUCT_FIELD_NAMES, type Product } from '../types';
 import styles from '../styles.module.scss';
 
 export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct'> & {
@@ -78,8 +78,8 @@ const SoilAmendmentProductCard = ({
   const { t } = useTranslation();
   const { control, register, watch, setValue } = useFormContext();
 
-  const PRODUCT_ID = `${namePrefix}.${FIELD_NAMES.PRODUCT_ID}`;
-  const PURPOSES = `${namePrefix}.${FIELD_NAMES.PURPOSES}`;
+  const PRODUCT_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.PRODUCT_ID}`;
+  const PURPOSES = `${namePrefix}.${PRODUCT_FIELD_NAMES.PURPOSES}`;
 
   const purposes = watch(PURPOSES);
 
@@ -119,9 +119,9 @@ const SoilAmendmentProductCard = ({
           {/* @ts-ignore */}
           <Input
             label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
-            name={FIELD_NAMES.OTHER_PURPOSE}
+            name={PRODUCT_FIELD_NAMES.OTHER_PURPOSE}
             disabled={isReadOnly}
-            hookFormRegister={register(FIELD_NAMES.OTHER_PURPOSE)}
+            hookFormRegister={register(PRODUCT_FIELD_NAMES.OTHER_PURPOSE)}
             optional
           />
         </>

@@ -25,7 +25,14 @@ import TextButton from '../../../Form/Button/TextButton';
 import RadioGroup from '../../../Form/RadioGroup';
 import CompositionInputs from '../../../Form/CompositionInputs';
 import Buttons from './Buttons';
-import { FIELD_NAMES, NPK, Unit, type FormFields, type Product, type ProductId } from '../types';
+import {
+  PRODUCT_FIELD_NAMES,
+  NPK,
+  Unit,
+  type ProductFormFields,
+  type Product,
+  type ProductId,
+} from '../types';
 import { CANADA } from '../../AddProduct/constants';
 import { TASK_TYPES } from '../../../../containers/Task/constants';
 import styles from '../styles.module.scss';
@@ -47,7 +54,7 @@ export type ProductDetailsProps = {
   clearProduct: () => void;
   setProductId: (id: ProductId) => void;
   onSave: (
-    data: FormFields & { farm_id: string; product_id: ProductId; type: string },
+    data: ProductFormFields & { farm_id: string; product_id: ProductId; type: string },
     callback?: (id: number) => void,
   ) => void;
 };
@@ -55,12 +62,12 @@ export type ProductDetailsProps = {
 const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
 
 export const defaultValues = {
-  [FIELD_NAMES.SUPPLIER]: '',
-  [FIELD_NAMES.COMPOSITION]: {
-    [FIELD_NAMES.UNIT]: Unit.RATIO,
-    [FIELD_NAMES.N]: NaN,
-    [FIELD_NAMES.P]: NaN,
-    [FIELD_NAMES.K]: NaN,
+  [PRODUCT_FIELD_NAMES.SUPPLIER]: '',
+  [PRODUCT_FIELD_NAMES.COMPOSITION]: {
+    [PRODUCT_FIELD_NAMES.UNIT]: Unit.RATIO,
+    [PRODUCT_FIELD_NAMES.N]: NaN,
+    [PRODUCT_FIELD_NAMES.P]: NaN,
+    [PRODUCT_FIELD_NAMES.K]: NaN,
   },
 };
 
@@ -94,7 +101,7 @@ const ProductDetails = ({
     trigger,
     register,
     formState: { errors, isValid, isDirty },
-  } = useForm<FormFields>({
+  } = useForm<ProductFormFields>({
     mode: 'onBlur',
     defaultValues,
   });
@@ -109,13 +116,13 @@ const ProductDetails = ({
 
     if (!productId || !shouldNotResetFields) {
       reset({
-        [FIELD_NAMES.SUPPLIER]: supplier || '',
-        [FIELD_NAMES.PERMITTED]: on_permitted_substances_list || undefined,
-        [FIELD_NAMES.COMPOSITION]: {
-          [FIELD_NAMES.UNIT]: npk_unit || Unit.RATIO,
-          [FIELD_NAMES.N]: n ?? NaN,
-          [FIELD_NAMES.P]: p ?? NaN,
-          [FIELD_NAMES.K]: k ?? NaN,
+        [PRODUCT_FIELD_NAMES.SUPPLIER]: supplier || '',
+        [PRODUCT_FIELD_NAMES.PERMITTED]: on_permitted_substances_list || undefined,
+        [PRODUCT_FIELD_NAMES.COMPOSITION]: {
+          [PRODUCT_FIELD_NAMES.UNIT]: npk_unit || Unit.RATIO,
+          [PRODUCT_FIELD_NAMES.N]: n ?? NaN,
+          [PRODUCT_FIELD_NAMES.P]: p ?? NaN,
+          [PRODUCT_FIELD_NAMES.K]: k ?? NaN,
         },
       });
     }
@@ -130,7 +137,7 @@ const ProductDetails = ({
     if (isAddingNewProduct && productId) {
       // Wait for the card to be expaneded
       setTimeout(() => {
-        setFocus(FIELD_NAMES.SUPPLIER);
+        setFocus(PRODUCT_FIELD_NAMES.SUPPLIER);
       }, 0);
     }
     previousProductIdRef.current = productId;
@@ -147,7 +154,7 @@ const ProductDetails = ({
     }
   };
 
-  const onSubmit = (data: FormFields) => {
+  const onSubmit = (data: ProductFormFields) => {
     const callback = isNewProduct(productId) ? setProductId : undefined;
     onSave({ ...data, farm_id, product_id: productId, type: TASK_TYPES.SOIL_AMENDMENT }, callback);
 
@@ -177,15 +184,15 @@ const ProductDetails = ({
         <div className={styles.sectionBody}>
           {/* @ts-ignore */}
           <Input
-            name={FIELD_NAMES.SUPPLIER}
+            name={PRODUCT_FIELD_NAMES.SUPPLIER}
             label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
-            hookFormRegister={register(FIELD_NAMES.SUPPLIER, {
+            hookFormRegister={register(PRODUCT_FIELD_NAMES.SUPPLIER, {
               required: interested,
               maxLength: 255,
             })}
             disabled={isDetailDisabled}
             hasLeaf={true}
-            errors={getInputErrors(errors, FIELD_NAMES.SUPPLIER)}
+            errors={getInputErrors(errors, PRODUCT_FIELD_NAMES.SUPPLIER)}
             optional={!interested}
           />
           {interested && inCanada && (
@@ -194,7 +201,7 @@ const ProductDetails = ({
               {/* @ts-ignore */}
               <RadioGroup
                 hookFormControl={control}
-                name={FIELD_NAMES.PERMITTED}
+                name={PRODUCT_FIELD_NAMES.PERMITTED}
                 required={true}
                 disabled={isDetailDisabled}
                 showNotSure
@@ -203,11 +210,11 @@ const ProductDetails = ({
           )}
 
           <Controller
-            name={FIELD_NAMES.COMPOSITION}
+            name={PRODUCT_FIELD_NAMES.COMPOSITION}
             control={control}
             rules={{
               validate: (value): boolean | string => {
-                if (!value || value[FIELD_NAMES.UNIT] !== Unit.PERCENT) {
+                if (!value || value[PRODUCT_FIELD_NAMES.UNIT] !== Unit.PERCENT) {
                   return true;
                 }
                 return (
@@ -234,7 +241,7 @@ const ProductDetails = ({
                   // onBlur needs to be passed manually
                   // https://stackoverflow.com/questions/61661432/how-to-make-react-hook-form-controller-validation-triggered-on-blur
                   onBlur={field.onBlur}
-                  unitFieldName={FIELD_NAMES.UNIT}
+                  unitFieldName={PRODUCT_FIELD_NAMES.UNIT}
                 />
               );
             }}

@@ -26,7 +26,7 @@ export enum NPK {
   K = 'k',
 }
 
-export const FIELD_NAMES = {
+export const PRODUCT_FIELD_NAMES = {
   PRODUCT_ID: 'product_id',
   PURPOSES: 'purposes',
   OTHER_PURPOSE: 'other_purpose',
@@ -42,26 +42,28 @@ export const FIELD_NAMES = {
 
 export type ProductId = number | string | undefined;
 
-export type FormFields = {
-  [FIELD_NAMES.SUPPLIER]?: string | null;
-  [FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
-  [FIELD_NAMES.COMPOSITION]?: {
-    [FIELD_NAMES.UNIT]?: Unit;
-    [FIELD_NAMES.N]?: number | null;
-    [FIELD_NAMES.P]?: number | null;
-    [FIELD_NAMES.K]?: number | null;
+export type ProductFormFields = {
+  [PRODUCT_FIELD_NAMES.SUPPLIER]?: string | null;
+  [PRODUCT_FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
+  [PRODUCT_FIELD_NAMES.PURPOSES]?: number[];
+  [PRODUCT_FIELD_NAMES.OTHER_PURPOSE]?: string;
+  [PRODUCT_FIELD_NAMES.COMPOSITION]?: {
+    [PRODUCT_FIELD_NAMES.UNIT]?: Unit;
+    [PRODUCT_FIELD_NAMES.N]?: number | null;
+    [PRODUCT_FIELD_NAMES.P]?: number | null;
+    [PRODUCT_FIELD_NAMES.K]?: number | null;
   };
 };
 
 export type Product = {
-  [FIELD_NAMES.PRODUCT_ID]: number;
-  [FIELD_NAMES.NAME]: string;
-  [FIELD_NAMES.SUPPLIER]?: string | null;
-  [FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
-  [FIELD_NAMES.N]?: number | null;
-  [FIELD_NAMES.P]?: number | null;
-  [FIELD_NAMES.K]?: number | null;
-  [FIELD_NAMES.UNIT]?: Unit | null;
+  [PRODUCT_FIELD_NAMES.PRODUCT_ID]: number;
+  [PRODUCT_FIELD_NAMES.NAME]: string;
+  [PRODUCT_FIELD_NAMES.SUPPLIER]?: string | null;
+  [PRODUCT_FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
+  [PRODUCT_FIELD_NAMES.N]?: number | null;
+  [PRODUCT_FIELD_NAMES.P]?: number | null;
+  [PRODUCT_FIELD_NAMES.K]?: number | null;
+  [PRODUCT_FIELD_NAMES.UNIT]?: Unit | null;
   farm_id: string;
   type:
     | typeof TASK_TYPES.SOIL_AMENDMENT

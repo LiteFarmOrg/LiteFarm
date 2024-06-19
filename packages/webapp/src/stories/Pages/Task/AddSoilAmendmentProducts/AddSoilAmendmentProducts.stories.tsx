@@ -21,7 +21,7 @@ import AddSoilAmendmentProducts, {
 } from '../../../../components/Task/AddSoilAmendmentProducts';
 import { defaultValues } from '../../../../components/Task/AddSoilAmendmentProducts/ProductCard/ProductDetails';
 import { products } from './products';
-import { FormFields } from '../../../../components/Task/AddSoilAmendmentProducts/types';
+import { ProductFormFields } from '../../../../components/Task/AddSoilAmendmentProducts/types';
 
 const purposes = [
   { id: 1, key: 'STRUCTURE' },
@@ -32,7 +32,7 @@ const purposes = [
 ];
 
 type ComponentWithFormMethodsProps = AddSoilAmendmentProductsProps & {
-  defaultValues: (FormFields & { product_id?: number })[];
+  defaultValues: (ProductFormFields & { product_id?: number })[];
 };
 
 const ComponentWithFormMethods = ({ defaultValues, ...props }: ComponentWithFormMethodsProps) => {

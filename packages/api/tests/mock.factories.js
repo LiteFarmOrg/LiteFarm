@@ -1144,6 +1144,10 @@ async function soil_amendment_purposeFactory() {
   return knex('soil_amendment_purpose').insert({ key: faker.lorem.word() }).returning('*');
 }
 
+async function soil_amendment_fertiliser_typeFactory() {
+  return knex('soil_amendment_fertiliser_type').insert({ key: faker.lorem.word() }).returning('*');
+}
+
 async function soil_amendment_taskFactory(
   { promisedTask = taskFactory(), promisedMethod = soil_amendment_methodFactory() } = {},
   soil_amendment_task = fakeSoilAmendmentTask(),
@@ -2259,6 +2263,7 @@ export default {
   fakeProduct,
   soil_amendment_methodFactory,
   soil_amendment_purposeFactory,
+  soil_amendment_fertiliser_typeFactory,
   soil_amendment_taskFactory,
   soil_amendment_task_productsFactory,
   fakeSoilAmendmentTask,

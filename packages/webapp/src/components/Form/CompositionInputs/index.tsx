@@ -29,6 +29,11 @@ type CompositionInputsProps = Omit<
   unitFieldName: string;
 };
 
+/**
+ * Component for inputs that share the same unit.
+ * Changing the unit of one input updates the units of all inputs.
+ * Units that require unit system conversions are not supported.
+ */
 const CompositionInputs = ({
   mainLabel = '',
   inputsInfo,

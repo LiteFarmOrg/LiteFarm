@@ -2253,6 +2253,7 @@ describe('Task tests', () => {
       abandonment_reason: CROP_FAILURE,
       other_abandonment_reason: null,
       abandonment_notes: sampleNote,
+      abandon_date: new Date(),
     };
 
     test('An unassigned task should not abandoned with a rating', async (done) => {

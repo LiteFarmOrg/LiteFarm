@@ -168,8 +168,7 @@ router.patch(
   modelMapping['soil_amendment_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
-  //checkSoilAmendmentTaskProducts(),
-  checkCompleteTask(),
+  checkCompleteTask('soil_amendment_task'),
   taskController.completeTask('soil_amendment_task'),
 );
 

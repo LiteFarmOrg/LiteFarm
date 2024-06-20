@@ -31,6 +31,11 @@ const purposes = [
   { id: 5, key: 'OTHER' },
 ];
 
+const fertiliserTypes = [
+  { id: 1, key: 'DRY' },
+  { id: 2, key: 'LIQUID' },
+];
+
 type ComponentWithFormMethodsProps = AddSoilAmendmentProductsProps & {
   defaultValues: (ProductFormFields & { product_id?: number })[];
 };
@@ -57,6 +62,7 @@ const meta: Meta<ComponentWithFormMethodsProps> = {
     system: 'metric',
     products,
     purposes,
+    fertiliserTypes,
     defaultValues: [defaultValues],
   },
 };

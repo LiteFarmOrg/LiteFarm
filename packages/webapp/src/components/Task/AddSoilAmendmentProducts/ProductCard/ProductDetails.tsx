@@ -24,6 +24,7 @@ import Input, { getInputErrors } from '../../../Form/Input';
 import TextButton from '../../../Form/Button/TextButton';
 import RadioGroup from '../../../Form/RadioGroup';
 import CompositionInputs from '../../../Form/CompositionInputs';
+import ReactSelect from '../../../Form/ReactSelect';
 import Buttons from './Buttons';
 import {
   PRODUCT_FIELD_NAMES,
@@ -35,7 +36,10 @@ import {
 } from '../types';
 import { CANADA } from '../../AddProduct/constants';
 import { TASK_TYPES } from '../../../../containers/Task/constants';
+import { roundToTwoDecimal } from '../../../../util';
 import styles from '../styles.module.scss';
+
+const { MOISTURE_CONTENT, DRY_MATTER_CONTENT } = PRODUCT_FIELD_NAMES;
 
 const unitOptions = [
   { label: '%', value: Unit.PERCENT },
@@ -57,6 +61,7 @@ export type ProductDetailsProps = {
     data: ProductFormFields & { farm_id: string; product_id: ProductId; type: string },
     callback?: (id: number) => void,
   ) => void;
+  fertiliserTypeOptions: { label: string; value: number }[];
 };
 
 const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
@@ -83,6 +88,7 @@ const ProductDetails = ({
   clearProduct,
   setProductId,
   onSave,
+  fertiliserTypeOptions,
 }: ProductDetailsProps) => {
   const { t } = useTranslation();
   const [isEditingProduct, setIsEditingProduct] = useState(false);
@@ -94,6 +100,8 @@ const ProductDetails = ({
 
   const {
     control,
+    watch,
+    setValue,
     getValues,
     handleSubmit,
     reset,
@@ -105,6 +113,8 @@ const ProductDetails = ({
     mode: 'onBlur',
     defaultValues,
   });
+
+  const [moistureContent, dryMatterContent] = watch([MOISTURE_CONTENT, DRY_MATTER_CONTENT]);
 
   useEffect(() => {
     const selectedProduct = products.find(({ product_id }) => product_id === productId);
@@ -162,6 +172,15 @@ const ProductDetails = ({
     reset(getValues());
   };
 
+  const handleMoistureDryMatterContentChange = (fieldName: string, value?: number) => {
+    const theOtherField = fieldName === MOISTURE_CONTENT ? DRY_MATTER_CONTENT : MOISTURE_CONTENT;
+    const inputtedFieldValue = Math.min(100, +(value ? roundToTwoDecimal(value) : 0));
+    const theOtherFieldValue = +(100 * 100 - inputtedFieldValue * 100) / 100;
+
+    setValue(fieldName as typeof MOISTURE_CONTENT | typeof DRY_MATTER_CONTENT, inputtedFieldValue);
+    setValue(theOtherField, theOtherFieldValue);
+  };
+
   return (
     <div
       className={clsx(
@@ -208,6 +227,32 @@ const ProductDetails = ({
               />
             </div>
           )}
+
+          <ReactSelect
+            isDisabled={isReadOnly}
+            label={t('ADD_PRODUCT.FERTILISER_TYPE')}
+            placeholder={t('ADD_PRODUCT.FERTILISER_TYPE_PLACEHOLDER')}
+            options={fertiliserTypeOptions}
+            onChange={(e) => setValue(PRODUCT_FIELD_NAMES.FERTILISER_TYPE, e?.value)}
+          />
+
+          <CompositionInputs
+            onChange={(fieldName: string, value: string | number | null): void => {
+              handleMoistureDryMatterContentChange(fieldName, value ? +value : undefined);
+            }}
+            inputsInfo={[
+              {
+                name: MOISTURE_CONTENT,
+                label: t('ADD_PRODUCT.MOISTURE_CONTENT'),
+              },
+              {
+                name: DRY_MATTER_CONTENT,
+                label: t('ADD_PRODUCT.DRY_MATTER_CONTENT'),
+              },
+            ]}
+            values={{ [MOISTURE_CONTENT]: moistureContent, [DRY_MATTER_CONTENT]: dryMatterContent }}
+            unit="%"
+          />
 
           <Controller
             name={PRODUCT_FIELD_NAMES.COMPOSITION}

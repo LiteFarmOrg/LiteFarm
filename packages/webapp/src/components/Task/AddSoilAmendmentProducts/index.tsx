@@ -26,6 +26,7 @@ import styles from './styles.module.scss';
 export type AddSoilAmendmentProductsProps = ProductCardProps & {
   products: Product[];
   purposes?: { id: number; key: string }[];
+  fertiliserTypes?: { id: number; key: string }[];
 };
 
 interface ProductFields {
@@ -37,6 +38,7 @@ const FIELD_NAME = 'soil_amendment_task_products';
 const AddSoilAmendmentProducts = ({
   products,
   purposes = [],
+  fertiliserTypes = [],
   isReadOnly,
   ...props
 }: AddSoilAmendmentProductsProps) => {
@@ -82,6 +84,13 @@ const AddSoilAmendmentProducts = ({
     label: t(`ADD_TASK.SOIL_AMENDMENT_VIEW.${key}`),
   }));
 
+  // t('ADD_PRODUCT.DRY_FERTILISER')
+  // t('ADD_PRODUCT.LIQUID_FERTILISER')
+  const fertiliserTypeOptions = fertiliserTypes.map(({ id, key }) => ({
+    value: id,
+    label: t(`ADD_PRODUCT.${key}_FERTILISER`),
+  }));
+
   const otherPurposeId = purposes.find(({ key }) => key === 'OTHER')?.id;
 
   return (
@@ -109,6 +118,7 @@ const AddSoilAmendmentProducts = ({
               }}
               purposeOptions={purposeOptions}
               otherPurposeId={otherPurposeId}
+              fertiliserTypeOptions={fertiliserTypeOptions}
             />
           );
         })}

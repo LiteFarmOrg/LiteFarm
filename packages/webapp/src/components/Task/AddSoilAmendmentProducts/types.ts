@@ -26,6 +26,12 @@ export enum NPK {
   K = 'k',
 }
 
+export const TASK_PRODUCT_FIELD_NAMES = {
+  PRODUCT_ID: 'product_id',
+  PURPOSES: 'purposes',
+  OTHER_PURPOSE: 'other_purpose',
+} as const;
+
 export const PRODUCT_FIELD_NAMES = {
   PRODUCT_ID: 'product_id',
   PURPOSES: 'purposes',
@@ -33,6 +39,9 @@ export const PRODUCT_FIELD_NAMES = {
   NAME: 'name',
   SUPPLIER: 'supplier',
   PERMITTED: 'on_permitted_substances_list',
+  FERTILISER_TYPE: 'fertiliser_type',
+  MOISTURE_CONTENT: 'moisture_content',
+  DRY_MATTER_CONTENT: 'dry_matter_content',
   COMPOSITION: 'composition',
   UNIT: 'npk_unit',
   N: NPK.N,
@@ -47,6 +56,9 @@ export type ProductFormFields = {
   [PRODUCT_FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
   [PRODUCT_FIELD_NAMES.PURPOSES]?: number[];
   [PRODUCT_FIELD_NAMES.OTHER_PURPOSE]?: string;
+  [PRODUCT_FIELD_NAMES.FERTILISER_TYPE]?: number;
+  [PRODUCT_FIELD_NAMES.MOISTURE_CONTENT]?: number;
+  [PRODUCT_FIELD_NAMES.DRY_MATTER_CONTENT]?: number;
   [PRODUCT_FIELD_NAMES.COMPOSITION]?: {
     [PRODUCT_FIELD_NAMES.UNIT]?: Unit;
     [PRODUCT_FIELD_NAMES.N]?: number | null;
@@ -60,6 +72,8 @@ export type Product = {
   [PRODUCT_FIELD_NAMES.NAME]: string;
   [PRODUCT_FIELD_NAMES.SUPPLIER]?: string | null;
   [PRODUCT_FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
+  [PRODUCT_FIELD_NAMES.FERTILISER_TYPE]?: number;
+  [PRODUCT_FIELD_NAMES.MOISTURE_CONTENT]?: number;
   [PRODUCT_FIELD_NAMES.N]?: number | null;
   [PRODUCT_FIELD_NAMES.P]?: number | null;
   [PRODUCT_FIELD_NAMES.K]?: number | null;

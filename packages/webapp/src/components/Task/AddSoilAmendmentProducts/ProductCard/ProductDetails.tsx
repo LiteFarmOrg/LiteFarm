@@ -271,6 +271,7 @@ const ProductDetails = ({
             render={({ field, fieldState }) => {
               return (
                 <CompositionInputs
+                  mainLabel={t('ADD_PRODUCT.COMPOSITION')}
                   unitOptions={unitOptions}
                   inputsInfo={[
                     { name: NPK.N, label: t('ADD_PRODUCT.NITROGEN') },

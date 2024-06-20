@@ -1,6 +1,7 @@
 name: Crowdin Upload Action
 
 on:
+  workflow_dispatch:
   push:
     paths:
       # Most translations

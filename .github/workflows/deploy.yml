@@ -1,4 +1,4 @@
-name: 'Deploy'
+name: "Deploy"
 on:
   workflow_dispatch:
 
@@ -26,8 +26,8 @@ jobs:
         with:
           script_stop: true
           host: ${{ secrets.BETA_SSH_HOST }}
-          username: ${{ secrets.BETA_SSH_USER }}
-          passphrase: ${{ secrets.BETA_SSH_PASS }}
-          key: ${{ secrets.BETA_SSH_KEY }}
+          username: ${{ secrets.BETA_SSH_USER_NEW }}
+          passphrase: ${{ secrets.BETA_SSH_PASS_NEW }}
+          key: ${{ secrets.BETA_SSH_KEY_NEW }}
           command_timeout: 20m
           script: ${{ steps.script.outputs.content }}

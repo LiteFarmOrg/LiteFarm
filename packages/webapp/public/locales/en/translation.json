@@ -73,9 +73,18 @@
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "ADD_PRODUCT": {
+    "ADD_ANOTHER_PRODUCT": "Add another product",
+    "BUTTON_WARNING": "Any changes will affect all tasks involving this product",
     "COMPOSITION": "Composition",
+    "COMPOSITION_ERROR": "Error: The total percentage of N, P, K, and additional nutrients must not exceed 100%. Please adjust your values.",
+    "EDIT_PRODUCT_DETAILS": "Edit product details",
+    "NITROGEN": "Nitrogen (N)",
+    "PHOSPHOROUS": "Phosphorous (P)",
+    "POTASSIUM": "Potassium (K)",
     "PRESS_ENTER": "Type and press enter to add...",
+    "PRODUCT_DETAILS": "Product details",
     "PRODUCT_LABEL": "Product",
+    "SAVE_PRODUCT": "Save product",
     "SUPPLIER_LABEL": "Supplier"
   },
   "ADD_TASK": {

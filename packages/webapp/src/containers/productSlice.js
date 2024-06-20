@@ -43,11 +43,8 @@ const productSlice = createSlice({
     deleteTaskSuccess: productAdapter.removeOne,
   },
 });
-export const {
-  onLoadingProductFail,
-  onLoadingProductStart,
-  getProductsSuccess,
-} = productSlice.actions;
+export const { onLoadingProductFail, onLoadingProductStart, getProductsSuccess } =
+  productSlice.actions;
 export default productSlice.reducer;
 
 export const productReducerSelector = (state) => state.entitiesReducer[productSlice.name];
@@ -62,6 +59,15 @@ export const productsSelector = createSelector(
     return products.filter((product) => product.farm_id === farm_id);
   },
 );
+
+export const productsForTaskTypeSelector = (taskType) => {
+  return createSelector([productSelectors.selectAll, loginSelector], (products, { farm_id }) => {
+    return products.filter(
+      (product) =>
+        product.farm_id === farm_id && product.type === taskType.task_translation_key.toLowerCase(),
+    );
+  });
+};
 
 export const productEntitiesSelector = productSelectors.selectEntities;
 

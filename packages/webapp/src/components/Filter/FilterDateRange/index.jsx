@@ -68,15 +68,24 @@ export function FilterDateRange({
   };
   const handleFromDateChange = (e) => {
     setFromDate(e.target.value);
-    onChange(e.target.value || undefined);
+    const filterState = {
+      fromDate: e.target.value || undefined,
+      toDate,
+    };
+    onChange(filterState);
     setDirty?.();
   };
 
   const handleToDateChange = (e) => {
     setToDate(e.target.value);
-    onChange(e.target.value || undefined);
+    const filterState = {
+      fromDate,
+      toDate: e.target.value || undefined,
+    };
+    onChange(filterState);
     setDirty?.();
   };
+
   return (
     <div className={clsx([styles.container, className])} style={style}>
       <Switch label={subject} checked={showDateFilter} onChange={onSwitchClick} />

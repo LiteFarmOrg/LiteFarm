@@ -16,6 +16,9 @@ jobs:
           upload_sources: false
           upload_translations: false
           download_translations: true
+          skip_untranslated_strings: true
+          skip_untranslated_files: true
+          export_only_approved: true
           source: packages/webapp/public/locales/en/*.json # Sources pattern
           translation: packages/webapp/public/locales/%two_letters_code%/%original_file_name% # Translations pattern
           localization_branch_name: l10n_crowdin_translations

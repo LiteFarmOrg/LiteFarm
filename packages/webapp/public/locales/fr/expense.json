@@ -40,7 +40,7 @@
     "CUSTOM_DESCRIPTION": "Dépenses liées aux personnes employées et sous contrat."
   },
   "INFRASTRUCTURE": {
-    "EXPENSE_NAME": "Infrastructure",
+    "EXPENSE_NAME": "",
     "CUSTOM_DESCRIPTION": "Dépenses liées à la construction ou à l'amélioration des structures de l'exploitation."
   },
   "TRANSPORTATION": {
@@ -48,7 +48,7 @@
     "CUSTOM_DESCRIPTION": "Dépenses liées au déplacement des intrants, des extrants et des personnes."
   },
   "SERVICES": {
-    "EXPENSE_NAME": "Services",
+    "EXPENSE_NAME": "",
     "CUSTOM_DESCRIPTION": "Dépenses liées à d'autres services tels que l'octroi de licences, la certification, le soutien agronomique, les essais, la commercialisation et autres."
   }
 }

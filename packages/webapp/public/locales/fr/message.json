@@ -1,221 +1,221 @@
 {
   "ANIMALS": {
-    "FAILED_REMOVE_ANIMALS": "MISSING",
-    "FAILED_REMOVE_BATCHES": "MISSING",
-    "SUCCESS_REMOVE_ANIMALS": "MISSING",
-    "SUCCESS_REMOVE_BATCHES": "MISSING"
+    "FAILED_REMOVE_ANIMALS": "",
+    "FAILED_REMOVE_BATCHES": "",
+    "SUCCESS_REMOVE_ANIMALS": "",
+    "SUCCESS_REMOVE_BATCHES": ""
   },
   "ASSIGN_TASK": {
-    "ERROR": "Erreur à l'attribution des tâches",
-    "SUCCESS": "Tâches attribuées"
+    "ERROR": "",
+    "SUCCESS": ""
   },
   "ATTACHMENTS": {
     "ERROR": {
-      "CREATE": "Erreur à la création du document",
-      "FAILED_ARCHIVE": "Erreur à l'archivage du document",
-      "FAILED_UNARCHIVE": "Erreur à la restauration du document",
-      "FAILED_UPLOAD": "Erreur au téléchargement du document",
-      "UPDATE": "Erreur à la mise à jour"
+      "CREATE": "",
+      "FAILED_ARCHIVE": "",
+      "FAILED_UNARCHIVE": "",
+      "FAILED_UPLOAD": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ARCHIVE": "Document archivé",
-      "CREATE": "Document créé",
-      "UNARCHIVE": "Document restauré",
-      "UPDATE": "Document mis à jour"
+      "ARCHIVE": "",
+      "CREATE": "",
+      "UNARCHIVE": "",
+      "UPDATE": ""
     }
   },
   "BULK_UPLOAD": {
     "ERROR": {
-      "UPLOAD": "Le chargement du fichier CSV sur le serveur a échoué"
+      "UPLOAD": ""
     }
   },
   "CROP_VARIETY": {
     "ERROR": {
-      "ADD": "Erreur à l'ajout de la variété",
-      "ADD_ALREADY_EXISTS": "Erreur : la variété existe déjà",
-      "DELETE": "Erreur à la suppression de la variété",
-      "UPDATE": "Erreur à la mise à jour de la variété"
+      "ADD": "",
+      "ADD_ALREADY_EXISTS": "",
+      "DELETE": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ADD": "Variété de culture ajoutée",
-      "DELETE": "Variété de culture supprimée",
-      "UPDATE": "Variété de culture mise à jour"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     }
   },
   "EXPENSE": {
     "ERROR": {
-      "ADD": "Impossible d'ajouter de nouvelles dépenses",
-      "DELETE": "Impossible de supprimer les dépenses",
-      "UPDATE": "Impossible de mettre à jour les dépenses"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ADD": "Nouvelles dépenses ajoutées",
-      "DELETE": "Dépenses supprimées",
-      "UPDATE": "Dépenses mises à jour"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     }
   },
   "EXPENSE_TYPE": {
     "ERROR": {
-      "ADD": "Impossible d'ajouter un type dépenses",
-      "DELETE": "Impossible de supprimer un type de dépenses",
-      "UPDATE": "Impossible de mettre à jour un type de dépenses"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ADD": "Nouveau type de dépenses ajoutées",
-      "DELETE": "Type de dépenses supprimées",
-      "UPDATE": "Type de dépenses mis à jour"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     }
   },
   "FARM": {
     "ERROR": {
-      "ADD": "Impossible d'ajouter une exploitation. Veuillez contacter LiteFarm pour obtenir de l'aide",
-      "FETCH": "Impossible de récupérer l'exploitation à partir de la base de données",
-      "UPDATE": "Impossible de mettre à jour les informations de l'exploitation"
+      "ADD": "",
+      "FETCH": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "UPDATE": "Informations sur l'exploitation mises à jour !"
+      "UPDATE": ""
     }
   },
   "LOG_HARVEST": {
     "ERROR": {
-      "ADD_USE_TYPE": "Impossible d'ajouter un usage personnalisé",
-      "AMOUNT_TOTAL": "Le total n'est pas égal au montant à allouer",
-      "GET_TYPES": "Impossible de récupérer les usages de récolte"
+      "ADD_USE_TYPE": "",
+      "AMOUNT_TOTAL": "",
+      "GET_TYPES": ""
     },
     "SUCCESS": {
-      "ADD_USE_TYPE": "Usage personnalisé ajouté"
+      "ADD_USE_TYPE": ""
     }
   },
   "LOGIN": {
     "ERROR": {
-      "LOGIN_FAIL": "Impossible de se connecter aux informations de l'utilisateur"
+      "LOGIN_FAIL": ""
     }
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "ABANDON": "Impossible d'abandonner le plan de culture",
-      "COMPLETE": "Impossible de terminer le plan de culture",
-      "DELETE": "Impossible de supprimer le plan de culture",
-      "POST": "Impossible d'ajouter le plan de culture"
+      "ABANDON": "",
+      "COMPLETE": "",
+      "DELETE": "",
+      "POST": ""
     },
     "SUCCESS": {
-      "ABANDON": "Plan de culture abandonné",
-      "COMPLETE": "Plan de culture terminé",
-      "DELETE": "Plan de culture supprimé",
-      "POST": "Plan de culture ajouté"
+      "ABANDON": "",
+      "COMPLETE": "",
+      "DELETE": "",
+      "POST": ""
     }
   },
   "MAP": {
-    "FAIL_PATCH": "Impossible de mettre à jour",
-    "FAIL_POST": "Impossible d'ajouter",
-    "SUCCESS_DELETE": "Supprimé avec succès",
-    "SUCCESS_PATCH": "Mise à jour réussie",
-    "SUCCESS_POST": "Enregistré avec succès",
-    "SUCCESS_UPLOAD": "Téléchargé avec succès"
+    "FAIL_PATCH": "",
+    "FAIL_POST": "",
+    "SUCCESS_DELETE": "",
+    "SUCCESS_PATCH": "",
+    "SUCCESS_POST": "",
+    "SUCCESS_UPLOAD": ""
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
-      "CREATE": "Impossible de créer la certification",
-      "UPDATE": "Impossible de mettre à jour la certification"
+      "CREATE": "",
+      "UPDATE": ""
     }
   },
   "PLAN": {
     "ERROR": {
-      "EDIT": "Impossible de mettre à jour le plan de culture"
+      "EDIT": ""
     },
     "SUCCESS": {
-      "EDIT": "Plan de culture mis à jour"
+      "EDIT": ""
     }
   },
   "REPEAT_PLAN": {
     "ERROR": {
-      "POST": "Impossible de répéter {{planName}}"
+      "POST": ""
     },
     "SUCCESS": {
-      "POST": "{{planName}} a été répété avec succès"
+      "POST": ""
     }
   },
   "REVENUE": {
     "ERROR": {
-      "EDIT": "Impossible de mettre à jour le chiffre d'affaires"
+      "EDIT": ""
     },
     "SUCCESS": {
-      "EDIT": "Chiffre d'affaires mis à jour"
+      "EDIT": ""
     }
   },
   "REVENUE_TYPE": {
     "ERROR": {
-      "ADD": "Impossible d'ajouter le type de recettes",
-      "DELETE": "Impossible de supprimer le type de recettes",
-      "UPDATE": "Impossible de mettre à jour le type de recettes"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ADD": "Type de recettes ajouté",
-      "DELETE": "Type de recettes supprimé",
-      "UPDATE": "Type de recettes mis à jour"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     }
   },
   "SALE": {
     "ERROR": {
-      "ADD": "Impossible d'ajouter la vente",
-      "DELETE": "Impossible de supprimer la vente",
-      "UPDATE": "Impossible de mettre à jour la vente"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ADD": "Vente ajoutée",
-      "DELETE": "Vente supprimée",
-      "UPDATE": "Vente mise à jour"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     }
   },
   "SENSOR": {
-    "ERROR_UPDATE": "Erreur de mise à jour du capteur",
-    "SUCCESSFUL_UPDATE": "Le capteur a été mis à jour"
+    "ERROR_UPDATE": "",
+    "SUCCESSFUL_UPDATE": ""
   },
   "TASK": {
     "ABANDON": {
-      "FAILED": "Impossible d'abandonner une tâche",
-      "SUCCESS": "Tâche abandonnée"
+      "FAILED": "",
+      "SUCCESS": ""
     },
     "COMPLETE": {
-      "FAILED": "Impossible de compléter une tâche",
-      "SUCCESS": "Tâche complétée "
+      "FAILED": "",
+      "SUCCESS": ""
     },
     "CREATE": {
-      "FAILED": "Impossible de créer une tâche",
-      "SUCCESS": "Tâche créée"
+      "FAILED": "",
+      "SUCCESS": ""
     },
     "UPDATE": {
-      "FAILED": "Échec de la mise à jour de la tâche"
+      "FAILED": ""
     }
   },
   "TASK_TYPE": {
     "CREATE": {
-      "FAILED": "Impossible de créer une tâche personnalisée",
-      "SUCCESS": "Tâche personnalisée créée"
+      "FAILED": "",
+      "SUCCESS": ""
     },
     "DELETE": {
-      "FAILED": "Impossible de supprimer une tâche personnalisée",
-      "SUCCESS": "Tâche personnalisée supprimée"
+      "FAILED": "",
+      "SUCCESS": ""
     }
   },
   "USER": {
     "ERROR": {
-      "ADD": "Impossible d'ajouter l'utilisateur",
-      "AGREEMENT": "Impossible de mettre à jour le contrat d'utilisation",
-      "EXISTS": "L'utilisateur existe déjà dans le réseau LiteFarm",
-      "INVITE": "Erreur lors de la création du compte utilisateur; veuillez contacter LiteFarm pour obtenir de l'aide",
-      "MAX_RESET_EMAILS": "Un lien de réinitialisation de mot de passe vous a été envoyé par e-mail, veuillez vérifier votre boîte de réception et votre dossier spam.",
-      "RESET_PASSWORD": "Il y a un problème avec la réinitialisation du mot de passe par courriel; veuillez contacter LiteFarm pour obtenir de l'aide.",
-      "RESTORE": "Une erreur s'est produite lors de la restauration de l'accès",
-      "REVOKE": "Une erreur s'est produite lors de la révocation de l'accès",
-      "SIGNUP_UNKNOWN": "Problème inconnu ! Veuillez réessayer plus tard.",
-      "UPDATE": "Impossible de mettre à jour les informations utilisateur"
+      "ADD": "",
+      "AGREEMENT": "",
+      "EXISTS": "",
+      "INVITE": "",
+      "MAX_RESET_EMAILS": "",
+      "RESET_PASSWORD": "",
+      "RESTORE": "",
+      "REVOKE": "",
+      "SIGNUP_UNKNOWN": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ADD": "L'utilisateur a bien été ajouté à l'exploitation",
-      "RESTORE": "Accès utilisateur restauré",
-      "REVOKE": "Accès utilisateur révoqué",
-      "UPDATE": "Informations de l'utilisateur mises à jour"
+      "ADD": "",
+      "RESTORE": "",
+      "REVOKE": "",
+      "UPDATE": ""
     }
   }
 }

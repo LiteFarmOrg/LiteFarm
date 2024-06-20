@@ -1,41 +1,41 @@
 {
   "CROP_CATALOGUE": {
-    "LOCATION": "Lieu",
-    "STATUS": "Statut",
-    "SUPPLIERS": "Fournisseurs",
-    "ACTIVE": "Actif",
-    "ABANDONED": "Abandoné",
-    "COMPLETE": "Terminé",
-    "PLANNED": "Planifié",
-    "NEEDS_PLAN": "Plan Requis"
+    "LOCATION": "",
+    "STATUS": "",
+    "SUPPLIERS": "",
+    "ACTIVE": "",
+    "ABANDONED": "",
+    "COMPLETE": "",
+    "PLANNED": "",
+    "NEEDS_PLAN": ""
   },
   "DOCUMENTS": {
-    "CLEANING_PRODUCT": "Produit Nettoyant",
-    "CROP_COMPLIANCE": "Conformité de Culture",
-    "FERTILIZING_PRODUCT": "Produit Fertilisant",
-    "INVOICES": "Facture",
-    "OTHER": "Autre",
-    "PEST_CONTROL_PRODUCT": "Produit Phytosanitaire",
-    "RECEIPTS": "Reçu",
-    "SOIL_AMENDMENT": "Amendement",
-    "SOIL_SAMPLE_RESULTS": "Analyse de sol",
-    "WATER_SAMPLE_RESULTS": "Analyse d'eau",
-    "UNCATEGORIZED": "Non Classé"
+    "CLEANING_PRODUCT": "",
+    "CROP_COMPLIANCE": "",
+    "FERTILIZING_PRODUCT": "",
+    "OTHER": "",
+    "PEST_CONTROL_PRODUCT": "",
+    "SOIL_AMENDMENT": "",
+    "SOIL_SAMPLE_RESULTS": "",
+    "WATER_SAMPLE_RESULTS": "",
+    "UNCATEGORIZED": "",
+    "RECEIPTS": "",
+    "INVOICES": ""
   },
   "TASKS": {
-    "LOCATION": "Lieu",
-    "ABANDONED": "Abandonnée",
-    "COMPLETED": "Terminée",
-    "FOR_REVIEW": "Pour évaluer",
-    "LATE": "En retard",
-    "PLANNED": "Planifiée",
-    "STATUS": "Statut",
-    "SUPPLIERS": "Fournisseurs",
-    "ACTIVE": "Active"
+    "LOCATION": "",
+    "STATUS": "",
+    "SUPPLIERS": "",
+    "ACTIVE": "",
+    "ABANDONED": "",
+    "COMPLETED": "",
+    "LATE": "",
+    "PLANNED": "",
+    "FOR_REVIEW": ""
   },
   "FILTER": {
-    "VALID_ON": "Valable le",
-    "FROM_DATE": "Du",
-    "TO_DATE": "Au"
+    "VALID_ON": "",
+    "FROM_DATE": "",
+    "TO_DATE": ""
   }
 }

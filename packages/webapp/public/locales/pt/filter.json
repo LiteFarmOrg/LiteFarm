@@ -1,41 +1,41 @@
 {
   "CROP_CATALOGUE": {
-    "LOCATION": "Localização",
-    "STATUS": "Status",
-    "SUPPLIERS": "Fornecedores",
-    "ACTIVE": "Ativo",
-    "ABANDONED": "Abandonado",
-    "COMPLETE": "Finalizado",
-    "PLANNED": "Planejado",
-    "NEEDS_PLAN": "Precisa de um plano"
+    "LOCATION": "",
+    "STATUS": "",
+    "SUPPLIERS": "",
+    "ACTIVE": "",
+    "ABANDONED": "",
+    "COMPLETE": "",
+    "PLANNED": "",
+    "NEEDS_PLAN": ""
   },
   "DOCUMENTS": {
-    "CLEANING_PRODUCT": "Produto de limpeza",
-    "CROP_COMPLIANCE": "Conformidade da safra",
-    "FERTILIZING_PRODUCT": "Fertilizante",
-    "OTHER": "Outro",
-    "PEST_CONTROL_PRODUCT": "Produto de controle de praga",
-    "SOIL_AMENDMENT": "Correção de solo",
-    "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
-    "WATER_SAMPLE_RESULTS": "Resultados da amostra de água",
-    "UNCATEGORIZED": "Não categorizado",
-    "RECEIPTS": "Recibos",
-    "INVOICES": "Faturas"
+    "CLEANING_PRODUCT": "",
+    "CROP_COMPLIANCE": "",
+    "FERTILIZING_PRODUCT": "",
+    "OTHER": "",
+    "PEST_CONTROL_PRODUCT": "",
+    "SOIL_AMENDMENT": "",
+    "SOIL_SAMPLE_RESULTS": "",
+    "WATER_SAMPLE_RESULTS": "",
+    "UNCATEGORIZED": "",
+    "RECEIPTS": "",
+    "INVOICES": ""
   },
   "TASKS": {
-    "ABANDONED": "Abandonada",
-    "ACTIVE": "Ativa",
-    "COMPLETED": "Completa",
-    "FOR REVIEW": "Para revisão",
-    "LATE": "Atrasada",
-    "LOCATION": "Localização",
-    "PLANNED": "Planejada",
-    "STATUS": "Situação",
-    "SUPPLIERS": "Fornecedores"
+    "LOCATION": "",
+    "STATUS": "",
+    "SUPPLIERS": "",
+    "ACTIVE": "",
+    "ABANDONED": "",
+    "COMPLETED": "",
+    "LATE": "",
+    "PLANNED": "",
+    "FOR_REVIEW": ""
   },
   "FILTER": {
-    "VALID_ON": "Válido em",
-    "FROM_DATE": "De",
-    "TO_DATE": "Até"
+    "VALID_ON": "",
+    "FROM_DATE": "",
+    "TO_DATE": ""
   }
 }

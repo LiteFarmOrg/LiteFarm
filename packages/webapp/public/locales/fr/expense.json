@@ -1,54 +1,54 @@
 {
   "EQUIPMENT": {
-    "EXPENSE_NAME": "Équipment",
-    "CUSTOM_DESCRIPTION": "Dépenses liées aux outils simples, aux fournitures et aux pièces détachées nécessaires à l'exploitation de votre exploitation."
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
   },
   "SOIL_AMENDMENT": {
-    "EXPENSE_NAME": "Amendements",
-    "CUSTOM_DESCRIPTION": "Dépenses liées aux additifs tels que les engrais qui améliorent les caractéristiques de votre sol."
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
   },
   "MACHINERY": {
-    "EXPENSE_NAME": "Machinerie",
-    "CUSTOM_DESCRIPTION": "Dépenses liées à l'achat, au crédit-bail, à la location et à l'entretien des machines."
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
   },
   "PEST_CONTROL": {
-    "EXPENSE_NAME": "Produits phytosanitaires",
-    "CUSTOM_DESCRIPTION": "Dépenses liées à l'achat d'ingrédients, de produits et de dispositifs utilisés pour gérer les nuisibles."
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
   },
   "FUEL": {
-    "EXPENSE_NAME": "Carburant",
-    "CUSTOM_DESCRIPTION": "Dépenses liées au ravitaillement en carburant des infrastructures, des véhicules, des machines et des équipements."
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
   },
   "LAND": {
-    "EXPENSE_NAME": "Terrain",
-    "CUSTOM_DESCRIPTION": "Dépenses liées à l'achat, au financement, au bail, à la location, à l'accès, aux taxes et aux autres frais liés à la propriété ou à l'utilisation d'un terrain."
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
   },
   "SEEDS_AND_PLANTS": {
-    "EXPENSE_NAME": "Semences et plantes",
-    "CUSTOM_DESCRIPTION": "Achats de semences, de jeunes pousses et de plants utilisés pour la plantation et le repiquage."
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
   },
   "MISCELLANEOUS": {
-    "EXPENSE_NAME": "Divers",
-    "CUSTOM_DESCRIPTION": "Tout le reste. Envisagez de créer un type de dépenses personnalisées si vous avez d'autres dépenses de ce type à l'avenir."
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
   },
   "UTILITIES": {
-    "EXPENSE_NAME": "Réseaux",
-    "CUSTOM_DESCRIPTION": "Dépenses récurrentes liées à l'électricité, au gaz, à l'eau (y compris l'irrigation), à l'enlèvement des ordures et à d'autres services périodiques."
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
   },
   "LABOUR": {
-    "EXPENSE_NAME": "Travail",
-    "CUSTOM_DESCRIPTION": "Dépenses liées aux personnes employées et sous contrat."
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
   },
   "INFRASTRUCTURE": {
-    "EXPENSE_NAME": "Infrastructure",
-    "CUSTOM_DESCRIPTION": "Dépenses liées à la construction ou à l'amélioration des structures de l'exploitation."
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
   },
   "TRANSPORTATION": {
-    "EXPENSE_NAME": "Transport",
-    "CUSTOM_DESCRIPTION": "Dépenses liées au déplacement des intrants, des extrants et des personnes."
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
   },
   "SERVICES": {
-    "EXPENSE_NAME": "Services",
-    "CUSTOM_DESCRIPTION": "Dépenses liées à d'autres services tels que l'octroi de licences, la certification, le soutien agronomique, les essais, la commercialisation et autres."
+    "EXPENSE_NAME": "",
+    "CUSTOM_DESCRIPTION": ""
   }
 }

@@ -1,221 +1,221 @@
 {
   "ANIMALS": {
-    "FAILED_REMOVE_ANIMALS": "MISSING",
-    "FAILED_REMOVE_BATCHES": "MISSING",
-    "SUCCESS_REMOVE_ANIMALS": "MISSING",
-    "SUCCESS_REMOVE_BATCHES": "MISSING"
+    "FAILED_REMOVE_ANIMALS": "",
+    "FAILED_REMOVE_BATCHES": "",
+    "SUCCESS_REMOVE_ANIMALS": "",
+    "SUCCESS_REMOVE_BATCHES": ""
   },
   "ASSIGN_TASK": {
-    "ERROR": "Erro em atribuir as tarefas",
-    "SUCCESS": "Tarefas foram atribuídas com sucesso"
+    "ERROR": "",
+    "SUCCESS": ""
   },
   "ATTACHMENTS": {
     "ERROR": {
-      "CREATE": "Falha ao criar documento",
-      "FAILED_ARCHIVE": "Falha ao arquivar o documento",
-      "FAILED_UNARCHIVE": "Falha ao desarquivar documento",
-      "FAILED_UPLOAD": "Anexos não carregados",
-      "UPDATE": "Falha ao atualizar o documento"
+      "CREATE": "",
+      "FAILED_ARCHIVE": "",
+      "FAILED_UNARCHIVE": "",
+      "FAILED_UPLOAD": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ARCHIVE": "Documento arquivado com sucesso",
-      "CREATE": "Documento criado com sucesso",
-      "UNARCHIVE": "Documento desarquivado com sucesso",
-      "UPDATE": "Documento atualizado com sucesso"
+      "ARCHIVE": "",
+      "CREATE": "",
+      "UNARCHIVE": "",
+      "UPDATE": ""
     }
   },
   "BULK_UPLOAD": {
     "ERROR": {
-      "UPLOAD": "Falha ao carregar o arquivo CSV"
+      "UPLOAD": ""
     }
   },
   "CROP_VARIETY": {
     "ERROR": {
-      "ADD": "Erro: falha ao adicionar variedade ao banco de dados",
-      "ADD_ALREADY_EXISTS": "Erro: Variedade já existe",
-      "DELETE": "Falha ao deletar variedade de cultivo",
-      "UPDATE": "Falha ao atualizar variedade de cultivo"
+      "ADD": "",
+      "ADD_ALREADY_EXISTS": "",
+      "DELETE": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ADD": "Variedade salva com sucesso!",
-      "DELETE": "Variedade de cultivo deletado",
-      "UPDATE": "Variedade de cultivo atualizada com sucesso"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     }
   },
   "EXPENSE": {
     "ERROR": {
-      "ADD": "Falha ao adicionar novas despesas",
-      "DELETE": "Falha ao excluir despesas",
-      "UPDATE": "Falha ao atualizar despesas!"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ADD": "Novas despesas adicionadas com sucesso!",
-      "DELETE": "Despesas excluídas com sucesso!",
-      "UPDATE": "Despesas atualizadas com sucesso!"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     }
   },
   "EXPENSE_TYPE": {
     "ERROR": {
-      "ADD": "Falha ao criar despesa personalizada",
-      "DELETE": "Falha ao excluir despesa personalizada",
-      "UPDATE": "Falha ao atualizar despesa personalizada"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ADD": "Despesa personalizada criada com sucesso",
-      "DELETE": "Despesa personalizada excluída com sucesso",
-      "UPDATE": "Despesa personalizada atualizada com sucesso"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     }
   },
   "FARM": {
     "ERROR": {
-      "ADD": "Falha ao adicionar sito novo, favor entre em contato com o Litefarm para obter assistência",
-      "FETCH": "Falha de trazer o sitio do banco de dados",
-      "UPDATE": "Falha de atualizar informações do sitio"
+      "ADD": "",
+      "FETCH": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "UPDATE": "Informação da fazenda atualizada com sucesso!"
+      "UPDATE": ""
     }
   },
   "LOG_HARVEST": {
     "ERROR": {
-      "ADD_USE_TYPE": "Falha ao adicionar uso/destino de colheita personalizado",
-      "AMOUNT_TOTAL": "O total não é igual ao valor a ser alocado.",
-      "GET_TYPES": "Falha ao buscar uso/destino de colheita"
+      "ADD_USE_TYPE": "",
+      "AMOUNT_TOTAL": "",
+      "GET_TYPES": ""
     },
     "SUCCESS": {
-      "ADD_USE_TYPE": "Uso/destino de colheita personalizado adicionado com sucesso"
+      "ADD_USE_TYPE": ""
     }
   },
   "LOGIN": {
     "ERROR": {
-      "LOGIN_FAIL": "Falha no login das informações do usuário"
+      "LOGIN_FAIL": ""
     }
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "ABANDON": "Erro em abandonar o plano de cultivo!",
-      "COMPLETE": "Erro ao completar o plano de cultivo!",
-      "DELETE": "Falha ao remover o plano de cultivo!",
-      "POST": "Erro ao adicionar plano de cultivo!"
+      "ABANDON": "",
+      "COMPLETE": "",
+      "DELETE": "",
+      "POST": ""
     },
     "SUCCESS": {
-      "ABANDON": "Plano de cultivo abandonado com sucesso!",
-      "COMPLETE": "Plano de cultivo concluído com sucesso! ",
-      "DELETE": "Plano de cultivo removido com sucesso!",
-      "POST": "Plano de cultivo adicionado com sucesso!"
+      "ABANDON": "",
+      "COMPLETE": "",
+      "DELETE": "",
+      "POST": ""
     }
   },
   "MAP": {
-    "FAIL_PATCH": "Falha ao atualizar",
-    "FAIL_POST": "Falha ao adicionar novo/a",
-    "SUCCESS_DELETE": " retirado/a com sucesso",
-    "SUCCESS_PATCH": " atualizado/a com sucesso",
-    "SUCCESS_POST": " salvo/a com sucesso",
-    "SUCCESS_UPLOAD": "Carregado com sucesso"
+    "FAIL_PATCH": "",
+    "FAIL_POST": "",
+    "SUCCESS_DELETE": "",
+    "SUCCESS_PATCH": "",
+    "SUCCESS_POST": "",
+    "SUCCESS_UPLOAD": ""
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
-      "CREATE": "Falha ao criar a certificação",
-      "UPDATE": "Falha ao atualizar a certificação"
+      "CREATE": "",
+      "UPDATE": ""
     }
   },
   "PLAN": {
     "ERROR": {
-      "EDIT": "Falha ao atualizar o plano de cultivo"
+      "EDIT": ""
     },
     "SUCCESS": {
-      "EDIT": "Plano de cultivo atualizado com sucesso"
+      "EDIT": ""
     }
   },
   "REPEAT_PLAN": {
     "ERROR": {
-      "POST": "Falha ao repetir {{planName}}"
+      "POST": ""
     },
     "SUCCESS": {
-      "POST": "{{planName}} repetido com sucesso"
+      "POST": ""
     }
   },
   "REVENUE": {
     "ERROR": {
-      "EDIT": "Falha ao atualizar a receita"
+      "EDIT": ""
     },
     "SUCCESS": {
-      "EDIT": "Receita atualizada com sucesso"
+      "EDIT": ""
     }
   },
   "REVENUE_TYPE": {
     "ERROR": {
-      "ADD": "Falha ao adicionar tipo de receita",
-      "DELETE": "Falha ao encerrar tipo de receita",
-      "UPDATE": "Falha ao atualizar tipo de receita"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ADD": "Tipo de receita adicionado com sucesso",
-      "DELETE": "Tipo de receita encerrado com sucesso",
-      "UPDATE": "Tipo de receita atualizado com sucesso"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     }
   },
   "SALE": {
     "ERROR": {
-      "ADD": "Falha ao adicionar venda",
-      "DELETE": "Falha de excluir venda nova",
-      "UPDATE": "Falha de atualizar venda"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ADD": "Venda adicionada com sucesso",
-      "DELETE": "Venda excluída com sucesso",
-      "UPDATE": "Venda atualizada com sucesso"
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
     }
   },
   "SENSOR": {
-    "ERROR_UPDATE": "Erro ao atualizar sensor",
-    "SUCCESSFUL_UPDATE": "Sensor atualizado com sucesso"
+    "ERROR_UPDATE": "",
+    "SUCCESSFUL_UPDATE": ""
   },
   "TASK": {
     "ABANDON": {
-      "FAILED": "Erro ao completar tarefa",
-      "SUCCESS": "Tarefa abandonada com sucesso"
+      "FAILED": "",
+      "SUCCESS": ""
     },
     "COMPLETE": {
-      "FAILED": "Erro ao completar tarefa",
-      "SUCCESS": "Tarefa concluída com sucesso"
+      "FAILED": "",
+      "SUCCESS": ""
     },
     "CREATE": {
-      "FAILED": "Erro ao completar tarefa",
-      "SUCCESS": "Tarefa criada com sucesso"
+      "FAILED": "",
+      "SUCCESS": ""
     },
     "UPDATE": {
-      "FAILED": "Falha ao atualizar a tarefa"
+      "FAILED": ""
     }
   },
   "TASK_TYPE": {
     "CREATE": {
-      "FAILED": "Erro ao criar tarefa personalizada",
-      "SUCCESS": "Tarefa personalizada criada com sucesso"
+      "FAILED": "",
+      "SUCCESS": ""
     },
     "DELETE": {
-      "FAILED": "Erro ao deletar tarefa personalizada",
-      "SUCCESS": "Tarefa personalizada deletada com sucesso"
+      "FAILED": "",
+      "SUCCESS": ""
     }
   },
   "USER": {
     "ERROR": {
-      "ADD": "Falha de adicionar usuário",
-      "AGREEMENT": "Falha de atualizar o contrato do usuário",
-      "EXISTS": "O usuário já existe na rede de LiteFarm",
-      "INVITE": "Erro ao criar conta de usuário, entre em contato com LiteFarm para assistência.",
-      "MAX_RESET_EMAILS": "Um link de redefinição de senha foi enviado para você, por favor verifique sua caixa de entrada e pasta de spam.",
-      "RESET_PASSWORD": "Erro ao enviar e-mail de redefinição de senha, favor entrar em contato com a LiteFarm para obter assistência.",
-      "RESTORE": "Ocorreu um erro, o acesso não foi restaurado",
-      "REVOKE": "Ocorreu um erro, o acesso não foi revogado",
-      "SIGNUP_UNKNOWN": "Problema desconhecido! Tente mais tarde.",
-      "UPDATE": "Falha na atualização das informações do usuário"
+      "ADD": "",
+      "AGREEMENT": "",
+      "EXISTS": "",
+      "INVITE": "",
+      "MAX_RESET_EMAILS": "",
+      "RESET_PASSWORD": "",
+      "RESTORE": "",
+      "REVOKE": "",
+      "SIGNUP_UNKNOWN": "",
+      "UPDATE": ""
     },
     "SUCCESS": {
-      "ADD": "Usuário adicionado ao sitio com sucesso!",
-      "RESTORE": "Acesso do usuário restaurado!",
-      "REVOKE": "Acesso do usuário revogado!",
-      "UPDATE": "Informações do usuário atualizadas com sucesso!"
+      "ADD": "",
+      "RESTORE": "",
+      "REVOKE": "",
+      "UPDATE": ""
     }
   }
 }

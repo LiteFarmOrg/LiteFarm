@@ -43,7 +43,6 @@ const CompositionInputs = ({
   values,
   unit,
   unitFieldName = '',
-  reactSelectJustifyContent,
   ...props
 }: CompositionInputsProps) => {
   return (
@@ -65,9 +64,6 @@ const CompositionInputs = ({
                 unit={unit || values?.[unitFieldName]}
                 unitFieldName={unitFieldName}
                 value={values?.[name]}
-                reactSelectJustifyContent={
-                  reactSelectJustifyContent || (disabled ? 'flex-end' : 'flex-start')
-                }
               />
             );
           })}

@@ -38,7 +38,6 @@ export type NumberInputWithSelectProps = {
   onChange: (fieldName: string, value: number | string | null) => void;
   onBlur?: () => void;
   reactSelectWidth?: number;
-  reactSelectJustifyContent?: 'center' | 'flex-start' | 'flex-end';
 };
 
 const REACT_SELECT_WIDTH = 44;
@@ -60,7 +59,6 @@ const NumberInputWithSelect = ({
   unit,
   unitFieldName = '',
   reactSelectWidth = REACT_SELECT_WIDTH,
-  reactSelectJustifyContent = 'center',
 }: NumberInputWithSelectProps) => {
   const { t } = useTranslation();
 
@@ -89,7 +87,7 @@ const NumberInputWithSelect = ({
     width: `${reactSelectWidth - 19}px`,
     display: 'flex',
     background: disabled ? 'var(--inputDisabled)' : 'inherit',
-    justifyContent: reactSelectJustifyContent,
+    justifyContent: disabled ? 'flex-end' : 'center',
   });
 
   const { inputProps, update, clear, numericValue } = useNumberInput({

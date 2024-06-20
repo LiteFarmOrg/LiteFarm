@@ -2325,9 +2325,9 @@ async function animal_identifier_colorFactory() {
 }
 
 async function animal_identifier_placementFactory() {
-  const [{ id: identifier_id }] = await animal_identifierFactory();
+  const [{ id: identifier_type_id }] = await animal_identifier_typeFactory();
   return knex('animal_identifier_placement')
-    .insert({ identifier_id, key: faker.lorem.word() })
+    .insert({ identifier_type_id, key: faker.lorem.word() })
     .returning('*');
 }
 

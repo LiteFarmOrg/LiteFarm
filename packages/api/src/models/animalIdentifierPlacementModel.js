@@ -33,7 +33,7 @@ class AnimalIdentifierPlacement extends baseModel {
       required: ['identifier_id', 'key'],
       properties: {
         id: { type: 'integer' },
-        identifier_id: { type: 'integer' },
+        identifier_type_id: { type: 'integer' },
         key: { type: 'string' },
       },
       additionalProperties: false,

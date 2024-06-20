@@ -26,6 +26,18 @@ export enum NPK {
   K = 'k',
 }
 
+export enum Nutrients {
+  N = 'n',
+  P = 'p',
+  K = 'k',
+  CA = 'calcium',
+  MG = 'magnesium',
+  S = 'sulfur',
+  CU = 'copper',
+  MN = 'manganese',
+  B = 'boron',
+}
+
 export const TASK_PRODUCT_FIELD_NAMES = {
   PRODUCT_ID: 'product_id',
   PURPOSES: 'purposes',
@@ -44,9 +56,15 @@ export const PRODUCT_FIELD_NAMES = {
   DRY_MATTER_CONTENT: 'dry_matter_content',
   COMPOSITION: 'composition',
   UNIT: 'npk_unit',
-  N: NPK.N,
-  P: NPK.P,
-  K: NPK.K,
+  N: Nutrients.N,
+  P: Nutrients.P,
+  K: Nutrients.K,
+  CA: Nutrients.CA,
+  MG: Nutrients.MG,
+  S: Nutrients.S,
+  CU: Nutrients.CU,
+  MN: Nutrients.MN,
+  B: Nutrients.B,
 } as const;
 
 export type ProductId = number | string | undefined;
@@ -64,6 +82,12 @@ export type ProductFormFields = {
     [PRODUCT_FIELD_NAMES.N]?: number | null;
     [PRODUCT_FIELD_NAMES.P]?: number | null;
     [PRODUCT_FIELD_NAMES.K]?: number | null;
+    [PRODUCT_FIELD_NAMES.CA]?: number | null;
+    [PRODUCT_FIELD_NAMES.MG]?: number | null;
+    [PRODUCT_FIELD_NAMES.S]?: number | null;
+    [PRODUCT_FIELD_NAMES.CU]?: number | null;
+    [PRODUCT_FIELD_NAMES.MN]?: number | null;
+    [PRODUCT_FIELD_NAMES.B]?: number | null;
   };
 };
 
@@ -77,6 +101,12 @@ export type Product = {
   [PRODUCT_FIELD_NAMES.N]?: number | null;
   [PRODUCT_FIELD_NAMES.P]?: number | null;
   [PRODUCT_FIELD_NAMES.K]?: number | null;
+  [PRODUCT_FIELD_NAMES.CA]?: number | null;
+  [PRODUCT_FIELD_NAMES.MG]?: number | null;
+  [PRODUCT_FIELD_NAMES.S]?: number | null;
+  [PRODUCT_FIELD_NAMES.CU]?: number | null;
+  [PRODUCT_FIELD_NAMES.MN]?: number | null;
+  [PRODUCT_FIELD_NAMES.B]?: number | null;
   [PRODUCT_FIELD_NAMES.UNIT]?: Unit | null;
   farm_id: string;
   type:

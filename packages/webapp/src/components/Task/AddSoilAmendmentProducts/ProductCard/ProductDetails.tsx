@@ -28,7 +28,7 @@ import ReactSelect from '../../../Form/ReactSelect';
 import Buttons from './Buttons';
 import {
   PRODUCT_FIELD_NAMES,
-  NPK,
+  Nutrients,
   Unit,
   type ProductFormFields,
   type Product,
@@ -37,9 +37,27 @@ import {
 import { CANADA } from '../../AddProduct/constants';
 import { TASK_TYPES } from '../../../../containers/Task/constants';
 import { roundToTwoDecimal } from '../../../../util';
+import useExpandable from '../../../Expandable/useExpandableItem';
 import styles from '../styles.module.scss';
 
-const { MOISTURE_CONTENT, DRY_MATTER_CONTENT } = PRODUCT_FIELD_NAMES;
+const {
+  FERTILISER_TYPE,
+  MOISTURE_CONTENT,
+  DRY_MATTER_CONTENT,
+  SUPPLIER,
+  PERMITTED,
+  COMPOSITION,
+  UNIT,
+  N,
+  P,
+  K,
+  CA,
+  MG,
+  S,
+  CU,
+  MN,
+  B,
+} = PRODUCT_FIELD_NAMES;
 
 const unitOptions = [
   { label: '%', value: Unit.PERCENT },
@@ -67,14 +85,33 @@ export type ProductDetailsProps = {
 const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
 
 export const defaultValues = {
-  [PRODUCT_FIELD_NAMES.SUPPLIER]: '',
-  [PRODUCT_FIELD_NAMES.COMPOSITION]: {
-    [PRODUCT_FIELD_NAMES.UNIT]: Unit.RATIO,
-    [PRODUCT_FIELD_NAMES.N]: NaN,
-    [PRODUCT_FIELD_NAMES.P]: NaN,
-    [PRODUCT_FIELD_NAMES.K]: NaN,
+  [SUPPLIER]: '',
+  [COMPOSITION]: {
+    [UNIT]: Unit.RATIO,
+    [N]: NaN,
+    [P]: NaN,
+    [K]: NaN,
+    [CA]: NaN,
+    [MG]: NaN,
+    [S]: NaN,
+    [CU]: NaN,
+    [MN]: NaN,
+    [B]: NaN,
   },
 };
+
+const validateCompositionValues = (value?: ProductFormFields['composition']): boolean | string => {
+  if (!value || value[UNIT] !== Unit.PERCENT) {
+    return true;
+  }
+  const total = Object.keys(Nutrients).reduce((acc: number, key) => {
+    const valueKey = Nutrients[key as keyof typeof Nutrients];
+    return acc + (value[valueKey] || 0);
+  }, 0);
+  return total <= 100 || `t('ADD_PRODUCT.COMPOSITION_ERROR')`;
+};
+
+const subtractFrom100 = (value: number) => +(100 * 100 - value * 100) / 100;
 
 const ProductDetails = ({
   productId,
@@ -84,7 +121,7 @@ const ProductDetails = ({
   farm: { farm_id, country_id, interested },
   expand,
   unExpand,
-  toggleExpanded,
+  toggleExpanded: toggleProductDetailsExpanded,
   clearProduct,
   setProductId,
   onSave,
@@ -97,6 +134,8 @@ const ProductDetails = ({
   const inCanada = country_id === CANADA;
   const isDetailDisabled = isReadOnly || !isEditingProduct;
   const isProductEntered = !!productId;
+
+  const additionalNutrientsId = `additional-nutrients-${productId}`;
 
   const {
     control,
@@ -116,23 +155,44 @@ const ProductDetails = ({
 
   const [moistureContent, dryMatterContent] = watch([MOISTURE_CONTENT, DRY_MATTER_CONTENT]);
 
+  const {
+    expandedIds: expandedAdditionalNutrientsIds,
+    toggleExpanded: toggleAdditionalNutrientsExpanded,
+    unExpand: unExpandAdditionalNutrients,
+  } = useExpandable();
+
+  const isAdditionalNutrientsExpanded =
+    expandedAdditionalNutrientsIds.includes(additionalNutrientsId);
+
   useEffect(() => {
     const selectedProduct = products.find(({ product_id }) => product_id === productId);
-    const { supplier, on_permitted_substances_list, n, p, k, npk_unit } = selectedProduct || {};
-
     const wasAddingNewProduct = isNewProduct(previousProductIdRef.current);
     const isAddingNewProduct = !!(productId && !selectedProduct);
     const shouldNotResetFields = wasAddingNewProduct && isAddingNewProduct;
 
+    const dryMatterContent =
+      typeof selectedProduct?.[MOISTURE_CONTENT] === 'number'
+        ? subtractFrom100(selectedProduct[MOISTURE_CONTENT] as number)
+        : undefined;
+
     if (!productId || !shouldNotResetFields) {
       reset({
-        [PRODUCT_FIELD_NAMES.SUPPLIER]: supplier || '',
-        [PRODUCT_FIELD_NAMES.PERMITTED]: on_permitted_substances_list || undefined,
-        [PRODUCT_FIELD_NAMES.COMPOSITION]: {
-          [PRODUCT_FIELD_NAMES.UNIT]: npk_unit || Unit.RATIO,
-          [PRODUCT_FIELD_NAMES.N]: n ?? NaN,
-          [PRODUCT_FIELD_NAMES.P]: p ?? NaN,
-          [PRODUCT_FIELD_NAMES.K]: k ?? NaN,
+        [SUPPLIER]: selectedProduct?.[SUPPLIER] || '',
+        [PERMITTED]: selectedProduct?.[PERMITTED] || undefined,
+        [FERTILISER_TYPE]: selectedProduct?.[FERTILISER_TYPE] || undefined,
+        [MOISTURE_CONTENT]: selectedProduct?.[MOISTURE_CONTENT] || undefined,
+        [DRY_MATTER_CONTENT]: dryMatterContent,
+        [COMPOSITION]: {
+          [UNIT]: selectedProduct?.[UNIT] || Unit.RATIO,
+          [N]: selectedProduct?.[N] ?? NaN,
+          [P]: selectedProduct?.[P] ?? NaN,
+          [K]: selectedProduct?.[K] ?? NaN,
+          [CA]: selectedProduct?.[CA] ?? NaN,
+          [MG]: selectedProduct?.[MG] ?? NaN,
+          [S]: selectedProduct?.[S] ?? NaN,
+          [CU]: selectedProduct?.[CU] ?? NaN,
+          [MN]: selectedProduct?.[MN] ?? NaN,
+          [B]: selectedProduct?.[B] ?? NaN,
         },
       });
     }
@@ -147,7 +207,7 @@ const ProductDetails = ({
     if (isAddingNewProduct && productId) {
       // Wait for the card to be expaneded
       setTimeout(() => {
-        setFocus(PRODUCT_FIELD_NAMES.SUPPLIER);
+        setFocus(SUPPLIER);
       }, 0);
     }
     previousProductIdRef.current = productId;
@@ -175,10 +235,18 @@ const ProductDetails = ({
   const handleMoistureDryMatterContentChange = (fieldName: string, value?: number) => {
     const theOtherField = fieldName === MOISTURE_CONTENT ? DRY_MATTER_CONTENT : MOISTURE_CONTENT;
     const inputtedFieldValue = Math.min(100, +(value ? roundToTwoDecimal(value) : 0));
-    const theOtherFieldValue = +(100 * 100 - inputtedFieldValue * 100) / 100;
+    const theOtherFieldValue = subtractFrom100(inputtedFieldValue);
 
     setValue(fieldName as typeof MOISTURE_CONTENT | typeof DRY_MATTER_CONTENT, inputtedFieldValue);
     setValue(theOtherField, theOtherFieldValue);
+  };
+
+  const toggleProductDetails = () => {
+    toggleProductDetailsExpanded();
+
+    if (isAdditionalNutrientsExpanded) {
+      unExpandAdditionalNutrients(additionalNutrientsId);
+    }
   };
 
   return (
@@ -192,26 +260,26 @@ const ProductDetails = ({
     >
       <TextButton
         disabled={!isProductEntered}
-        onClick={toggleExpanded}
+        onClick={toggleProductDetails}
         className={clsx(styles.productDetailsTitle)}
       >
         <span>{t('ADD_PRODUCT.PRODUCT_DETAILS')}</span>
-        <KeyboardArrowDownIcon className={styles.expandIcon} />
+        <KeyboardArrowDownIcon className={clsx(styles.expandIcon, isExpanded && styles.expanded)} />
       </TextButton>
 
       <Collapse id={`product_details-${productId}`} in={isExpanded} timeout="auto" unmountOnExit>
         <div className={styles.sectionBody}>
           {/* @ts-ignore */}
           <Input
-            name={PRODUCT_FIELD_NAMES.SUPPLIER}
+            name={SUPPLIER}
             label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
-            hookFormRegister={register(PRODUCT_FIELD_NAMES.SUPPLIER, {
+            hookFormRegister={register(SUPPLIER, {
               required: interested,
               maxLength: 255,
             })}
             disabled={isDetailDisabled}
             hasLeaf={true}
-            errors={getInputErrors(errors, PRODUCT_FIELD_NAMES.SUPPLIER)}
+            errors={getInputErrors(errors, SUPPLIER)}
             optional={!interested}
           />
           {interested && inCanada && (
@@ -220,7 +288,7 @@ const ProductDetails = ({
               {/* @ts-ignore */}
               <RadioGroup
                 hookFormControl={control}
-                name={PRODUCT_FIELD_NAMES.PERMITTED}
+                name={PERMITTED}
                 required={true}
                 disabled={isDetailDisabled}
                 showNotSure
@@ -233,7 +301,7 @@ const ProductDetails = ({
             label={t('ADD_PRODUCT.FERTILISER_TYPE')}
             placeholder={t('ADD_PRODUCT.FERTILISER_TYPE_PLACEHOLDER')}
             options={fertiliserTypeOptions}
-            onChange={(e) => setValue(PRODUCT_FIELD_NAMES.FERTILISER_TYPE, e?.value)}
+            onChange={(e) => setValue(FERTILISER_TYPE, e?.value)}
           />
 
           <CompositionInputs
@@ -255,28 +323,18 @@ const ProductDetails = ({
           />
 
           <Controller
-            name={PRODUCT_FIELD_NAMES.COMPOSITION}
+            name={COMPOSITION}
             control={control}
-            rules={{
-              validate: (value): boolean | string => {
-                if (!value || value[PRODUCT_FIELD_NAMES.UNIT] !== Unit.PERCENT) {
-                  return true;
-                }
-                return (
-                  (value[NPK.N] || 0) + (value[NPK.P] || 0) + (value[NPK.K] || 0) <= 100 ||
-                  t('ADD_PRODUCT.COMPOSITION_ERROR')
-                );
-              },
-            }}
+            rules={{ validate: validateCompositionValues }}
             render={({ field, fieldState }) => {
               return (
                 <CompositionInputs
                   mainLabel={t('ADD_PRODUCT.COMPOSITION')}
                   unitOptions={unitOptions}
                   inputsInfo={[
-                    { name: NPK.N, label: t('ADD_PRODUCT.NITROGEN') },
-                    { name: NPK.P, label: t('ADD_PRODUCT.PHOSPHOROUS') },
-                    { name: NPK.K, label: t('ADD_PRODUCT.POTASSIUM') },
+                    { name: Nutrients.N, label: t('ADD_PRODUCT.NITROGEN') },
+                    { name: Nutrients.P, label: t('ADD_PRODUCT.PHOSPHOROUS') },
+                    { name: Nutrients.K, label: t('ADD_PRODUCT.POTASSIUM') },
                   ]}
                   disabled={isDetailDisabled}
                   error={fieldState.error?.message}
@@ -287,11 +345,73 @@ const ProductDetails = ({
                   // onBlur needs to be passed manually
                   // https://stackoverflow.com/questions/61661432/how-to-make-react-hook-form-controller-validation-triggered-on-blur
                   onBlur={field.onBlur}
-                  unitFieldName={PRODUCT_FIELD_NAMES.UNIT}
+                  unitFieldName={UNIT}
                 />
               );
             }}
           />
+
+          <div
+            className={clsx(
+              styles.border,
+              isAdditionalNutrientsExpanded && styles.expanded,
+              styles.additionalNutrients,
+            )}
+          >
+            <TextButton
+              disabled={!isProductEntered}
+              onClick={() => toggleAdditionalNutrientsExpanded(additionalNutrientsId)}
+              className={clsx(styles.additionalNutrientsTitle)}
+            >
+              <span>{t('ADD_PRODUCT.ADDITIONAL_NUTRIENTS')}</span>
+              <KeyboardArrowDownIcon
+                className={clsx(
+                  styles.expandIcon,
+                  isAdditionalNutrientsExpanded && styles.expanded,
+                )}
+              />
+            </TextButton>
+
+            <Collapse
+              id={additionalNutrientsId}
+              in={isAdditionalNutrientsExpanded}
+              timeout="auto"
+              unmountOnExit
+            >
+              <div className={styles.sectionBody}>
+                <Controller
+                  name={COMPOSITION}
+                  control={control}
+                  rules={{ validate: validateCompositionValues }}
+                  render={({ field, fieldState }) => {
+                    return (
+                      <CompositionInputs
+                        unitOptions={unitOptions}
+                        inputsInfo={[
+                          { name: Nutrients.CA, label: t('ADD_PRODUCT.CALCIUM') },
+                          { name: Nutrients.MG, label: t('ADD_PRODUCT.MAGNESIUM') },
+                          { name: Nutrients.S, label: t('ADD_PRODUCT.SULFUR') },
+                          { name: Nutrients.CU, label: t('ADD_PRODUCT.COPPER') },
+                          { name: Nutrients.MN, label: t('ADD_PRODUCT.MANGANESE') },
+                          { name: Nutrients.B, label: t('ADD_PRODUCT.BORON') },
+                        ]}
+                        disabled={isDetailDisabled}
+                        error={fieldState.error?.message}
+                        values={field.value || {}}
+                        onChange={(name, value) => {
+                          field.onChange({ ...field.value, [name]: value });
+                        }}
+                        // onBlur needs to be passed manually
+                        // https://stackoverflow.com/questions/61661432/how-to-make-react-hook-form-controller-validation-triggered-on-blur
+                        onBlur={field.onBlur}
+                        unitFieldName={UNIT}
+                      />
+                    );
+                  }}
+                />
+              </div>
+            </Collapse>
+          </div>
 
           {!isReadOnly && (
             <Buttons

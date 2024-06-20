@@ -108,6 +108,10 @@
       stroke-width: 2px;
       stroke: var(--Colors-Accent---singles-Blue-full, #0669e1);
     }
+
+    &.expanded {
+      transform: rotate(0deg);
+    }
   }
   .productDetailsTitle {
     padding: 4px 8px;
@@ -136,10 +140,6 @@
   &.expanded {
     @include sectionStyle();
 
-    .expandIcon {
-      transform: rotate(0deg);
-    }
-
     .productDetailsTitle {
       width: 100%;
       background: var(--Colors-Backgrounds-table-row-bg, #f7fbff);
@@ -148,6 +148,21 @@
 
   .permitedSubstance {
     @include flex-column-gap(8px);
+  }
+
+  // Additional nutrients
+  .additionalNutrients {
+    border: solid 1px var(--Colors-Accent---singles-Blue-light, #e9f3ff);
+    border-radius: 4px;
+  }
+  .additionalNutrientsTitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    height: 40px;
+    color: var(--Colors-Accent---singles-Blue-full, #0669e1);
   }
 }
 

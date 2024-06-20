@@ -1,0 +1,54 @@
+{
+  "EQUIPMENT": {
+    "EXPENSE_NAME": "Equipment",
+    "CUSTOM_DESCRIPTION": "Expenses related to simple tools, supplies, and parts for operating your farm."
+  },
+  "SOIL_AMENDMENT": {
+    "EXPENSE_NAME": "Soil Amendment",
+    "CUSTOM_DESCRIPTION": "Expenses related to additives such as fertilizers that improve the attributes of your soil."
+  },
+  "MACHINERY": {
+    "EXPENSE_NAME": "Machinery",
+    "CUSTOM_DESCRIPTION": "Expenses related to the purchase, lease, rental, and maintenance of machinery."
+  },
+  "PEST_CONTROL": {
+    "EXPENSE_NAME": "Pest Control",
+    "CUSTOM_DESCRIPTION": "Expenses related to the purchase of ingredients, products, and devices used to manage unwanted species."
+  },
+  "FUEL": {
+    "EXPENSE_NAME": "Fuel",
+    "CUSTOM_DESCRIPTION": "Expenses related to the fuelling of infrastructure, vehicles, machinery, and equipment."
+  },
+  "LAND": {
+    "EXPENSE_NAME": "Land",
+    "CUSTOM_DESCRIPTION": "Expenses related to the purchase, financing, lease, rental, access, tax, and other fees for land ownership or use."
+  },
+  "SEEDS_AND_PLANTS": {
+    "EXPENSE_NAME": "Seeds and Plants",
+    "CUSTOM_DESCRIPTION": "Purchases of seeds, starts, and seedlings used in planting and transplanting."
+  },
+  "MISCELLANEOUS": {
+    "EXPENSE_NAME": "Miscellaneous",
+    "CUSTOM_DESCRIPTION": "Everything else. Consider creating a custom expense type if you will have additional expenses like this in the future."
+  },
+  "UTILITIES": {
+    "EXPENSE_NAME": "Utilities",
+    "CUSTOM_DESCRIPTION": "Recurring expenses related to electricity, gas, water (including irrigation), garbage collection, and other periodic services."
+  },
+  "LABOUR": {
+    "EXPENSE_NAME": "Contract labour",
+    "CUSTOM_DESCRIPTION": "Expenses related to contracted individuals."
+  },
+  "INFRASTRUCTURE": {
+    "EXPENSE_NAME": "Infrastructure",
+    "CUSTOM_DESCRIPTION": "Expenses related to building or improving structures on the farm."
+  },
+  "TRANSPORTATION": {
+    "EXPENSE_NAME": "Transportation",
+    "CUSTOM_DESCRIPTION": "Expenses related to moving inputs, outputs, and people."
+  },
+  "SERVICES": {
+    "EXPENSE_NAME": "Services",
+    "CUSTOM_DESCRIPTION": "Expenses related to other services such as licensing, certification, agronomy support, testing, marketing, and others."
+  }
+}

@@ -1,0 +1,221 @@
+{
+  "ANIMALS": {
+    "FAILED_REMOVE_ANIMALS": "Failed to remove selected animals",
+    "FAILED_REMOVE_BATCHES": "Failed to remove selected batches",
+    "SUCCESS_REMOVE_ANIMALS": "Successfully removed selected animals",
+    "SUCCESS_REMOVE_BATCHES": "Successfully removed selected batches"
+  },
+  "ASSIGN_TASK": {
+    "ERROR": "Failed to assign tasks",
+    "SUCCESS": "Successfully assigned tasks"
+  },
+  "ATTACHMENTS": {
+    "ERROR": {
+      "CREATE": "Failed to create document",
+      "FAILED_ARCHIVE": "Failed to archive document",
+      "FAILED_UNARCHIVE": "Failed to unarchive document",
+      "FAILED_UPLOAD": "Failed to upload attachments",
+      "UPDATE": "Failed to update document"
+    },
+    "SUCCESS": {
+      "ARCHIVE": "Successfully archived document",
+      "CREATE": "Successfully created document",
+      "UNARCHIVE": "Successfully unarchived document",
+      "UPDATE": "Successfully updated document"
+    }
+  },
+  "BULK_UPLOAD": {
+    "ERROR": {
+      "UPLOAD": "Failed to upload the CSV file"
+    }
+  },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "ADD": "Error: failed to add varietal to database",
+      "ADD_ALREADY_EXISTS": "Error: Varietal exists",
+      "DELETE": "Failed to delete crop variety",
+      "UPDATE": "Failed to update crop variety"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully saved varietal!",
+      "DELETE": "Deleted crop variety",
+      "UPDATE": "Successfully updated crop variety"
+    }
+  },
+  "EXPENSE": {
+    "ERROR": {
+      "ADD": "Failed to add new expenses",
+      "DELETE": "Failed to delete expenses",
+      "UPDATE": "Failed to update expenses!"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully added new expenses!",
+      "DELETE": "Successfully deleted expenses!",
+      "UPDATE": "Successfully updated expenses!"
+    }
+  },
+  "EXPENSE_TYPE": {
+    "ERROR": {
+      "ADD": "Failed to create custom expense",
+      "DELETE": "Failed to delete custom expense",
+      "UPDATE": "Failed to update custom expense"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully created custom expense",
+      "DELETE": "Successfully retired custom expense",
+      "UPDATE": "Successfully updated custom expense"
+    }
+  },
+  "FARM": {
+    "ERROR": {
+      "ADD": "Failed to add farm, please contact litefarm for assistance",
+      "FETCH": "failed to fetch farm from database",
+      "UPDATE": "Failed to update farm info"
+    },
+    "SUCCESS": {
+      "UPDATE": "Successfully updated farm info!"
+    }
+  },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "Failed to add custom harvest use type",
+      "AMOUNT_TOTAL": "Total does not equal the amount to allocate",
+      "GET_TYPES": "Failed to fetch harvest use types"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "Successfully added custom harvest use type"
+    }
+  },
+  "LOGIN": {
+    "ERROR": {
+      "LOGIN_FAIL": "Failed to login user info"
+    }
+  },
+  "MANAGEMENT_PLAN": {
+    "ERROR": {
+      "ABANDON": "Failed to abandon crop plan!",
+      "COMPLETE": "Failed to complete crop plan!",
+      "DELETE": "Failed to delete crop plan!",
+      "POST": "Failed to add crop plan!"
+    },
+    "SUCCESS": {
+      "ABANDON": "Successfully abandoned crop plan!",
+      "COMPLETE": "Successfully completed crop plan!",
+      "DELETE": "Successfully deleted crop plan!",
+      "POST": "Successfully added crop plan!"
+    }
+  },
+  "MAP": {
+    "FAIL_PATCH": "Failed to update",
+    "FAIL_POST": "Failed to add new",
+    "SUCCESS_DELETE": "Successfully retired",
+    "SUCCESS_PATCH": "Successfully updated",
+    "SUCCESS_POST": "Successfully saved",
+    "SUCCESS_UPLOAD": "Successfully uploaded"
+  },
+  "ORGANIC_CERTIFIER_SURVEY": {
+    "ERROR": {
+      "CREATE": "Failed to create certification.",
+      "UPDATE": "Failed to update certification!"
+    }
+  },
+  "PLAN": {
+    "ERROR": {
+      "EDIT": "Failed to update crop plan"
+    },
+    "SUCCESS": {
+      "EDIT": "crop plan successfully updated"
+    }
+  },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": "Failed to repeat {{planName}}"
+    },
+    "SUCCESS": {
+      "POST": "{{planName}} repeated successfully"
+    }
+  },
+  "REVENUE": {
+    "ERROR": {
+      "EDIT": "Failed to update revenue"
+    },
+    "SUCCESS": {
+      "EDIT": "Revenue successfully updated"
+    }
+  },
+  "REVENUE_TYPE": {
+    "ERROR": {
+      "ADD": "Failed to add revenue type",
+      "DELETE": "Failed to retire revenue type",
+      "UPDATE": "Failed to update revenue type"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully added revenue type",
+      "DELETE": "Successfully retired revenue type",
+      "UPDATE": "Successfully updated revenue type"
+    }
+  },
+  "SALE": {
+    "ERROR": {
+      "ADD": "Failed to add sale",
+      "DELETE": "Failed to delete new sale",
+      "UPDATE": "Failed to update sale"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully added sale",
+      "DELETE": "Successfully deleted sale",
+      "UPDATE": "Successfully updated sale"
+    }
+  },
+  "SENSOR": {
+    "ERROR_UPDATE": "Error updating sensor",
+    "SUCCESSFUL_UPDATE": "Sensor successfully updated"
+  },
+  "TASK": {
+    "ABANDON": {
+      "FAILED": "Failed to abandon task",
+      "SUCCESS": "Successfully abandoned task"
+    },
+    "COMPLETE": {
+      "FAILED": "Failed to complete task",
+      "SUCCESS": "Successfully completed task"
+    },
+    "CREATE": {
+      "FAILED": "Failed to create task",
+      "SUCCESS": "Successfully created task"
+    },
+    "UPDATE": {
+      "FAILED": "Failed to update task"
+    }
+  },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "Failed to create custom task",
+      "SUCCESS": "Successfully created custom task"
+    },
+    "DELETE": {
+      "FAILED": "Failed to delete custom task",
+      "SUCCESS": "Successfully deleted custom task"
+    }
+  },
+  "USER": {
+    "ERROR": {
+      "ADD": "Failed to add user",
+      "AGREEMENT": "Failed to update user agreement",
+      "EXISTS": "User already exists in LiteFarm Network",
+      "INVITE": "Error creating user account, please contact LiteFarm for assistance.",
+      "MAX_RESET_EMAILS": "A password reset link has been emailed to you, please check your inbox and spam folder.",
+      "RESET_PASSWORD": "Error with sending password reset email, please contact LiteFarm for assistance.",
+      "RESTORE": "There was an error restoring access",
+      "REVOKE": "There was an error revoking access",
+      "SIGNUP_UNKNOWN": "Unknown issue! Try again later.",
+      "UPDATE": "Failed to update user info"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully added user to farm!",
+      "RESTORE": "User access restored",
+      "REVOKE": "User access revoked!",
+      "UPDATE": "Successfully updated user info!"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "CLAY": "Clay",
+  "CLAY_LOAM": "Clay Loam",
+  "LOAM": "Loam",
+  "LOAMY_SAND": "Loamy Sand",
+  "SAND": "Sand",
+  "SANDY_CLAY": "Sandy Clay",
+  "SANDY_CLAYLOAM": "Sandy Clayloam",
+  "SANDY_LOAM": "Sandy Loam",
+  "SILT": "Silt",
+  "SILT_LOAM": "Silt Loam",
+  "SILTY_CLAY": "Silty Clay",
+  "SILTY_CLAYLOAM": "Silty Clayloam"
+}

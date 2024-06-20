@@ -2,10 +2,8 @@
   "ADD_ANIMAL": {
     "ADD_TO_INVENTORY": "MISSING",
     "ANIMALS_TOTAL_one": "MISSING",
-    "ANIMALS_TOTAL_many": "MISSING",
     "ANIMALS_TOTAL_other": "MISSING",
     "ANIMALS_UNSPECIFIED_one": "MISSING",
-    "ANIMALS_UNSPECIFIED_many": "MISSING",
     "ANIMALS_UNSPECIFIED_other": "MISSING",
     "BATCH_NAME": "MISSING",
     "BATCH_NAME_PLACEHOLDER": "MISSING",
@@ -20,7 +18,6 @@
     "ORIGIN": "MISSING",
     "OTHER_DETAILS": "MISSING",
     "OUT_OF_COUNT_one": "MISSING",
-    "OUT_OF_COUNT_many": "MISSING",
     "OUT_OF_COUNT_other": "MISSING",
     "PLACEHOLDER": {
       "BATCH_NAME": "MISSING",
@@ -42,10 +39,8 @@
     "SELECT_SEXES": "MISSING",
     "SEX_DETAIL": "MISSING",
     "SEX_DETAIL_ERROR_one": "MISSING",
-    "SEX_DETAIL_ERROR_many": "MISSING",
     "SEX_DETAIL_ERROR_other": "MISSING",
     "SEX_DETAIL_ERROR_POPOVER_one": "MISSING",
-    "SEX_DETAIL_ERROR_POPOVER_many": "MISSING",
     "SEX_DETAIL_ERROR_POPOVER_other": "MISSING",
     "SPECIFY_SEX": "MISSING",
     "SUMMARY": {
@@ -484,6 +479,7 @@
     "MANAGEMENT_PLANS": "Planes de cultivo",
     "MANAGEMENT_TAB": "Administrar",
     "ORGANIC": "¿La semilla o el cultivo están certificados como orgánicos?",
+    "ORGANIC_COMPLIANCE": "Organic Compliance",
     "PERENNIAL": "Perenne",
     "TREATED": "¿Se han tratado las semillas de este cultivo?"
   },
@@ -929,9 +925,7 @@
     "CLEAR_ALL": "Borrar todos",
     "CLEAR_ALL_FILTERS": "Borrar todos los filtros",
     "SELECT_ALL": "Seleccionar todos",
-    "SELECTED": "{{count}} seleccionados",
     "SELECTED_one": "MISSING",
-    "SELECTED_many": "MISSING",
     "SELECTED_other": "MISSING",
     "SHOWING_ALL": "Mostrando todos",
     "SHOWING_ALL_DEFAULT": "MISSING"
@@ -1038,7 +1032,6 @@
       "MAMMALS": "Mamíferos",
       "PLANTS": "Plantas",
       "SPECIES_COUNT_one": "{{count}} especies",
-      "SPECIES_COUNT_many": "{{count}} especies",
       "SPECIES_COUNT_other": "{{count}} especies",
       "TITLE": "Biodiversidad"
     },
@@ -1053,7 +1046,6 @@
     "PRICES": {
       "INFO": "Le mostramos la trayectoria de sus precios de venta en comparacion a los precios de venta de los mismos bienes cerca de su granja. Esta información es recolectada a través de la red de LiteFarm.",
       "NEARBY_FARMS_one": "El precio del mercado se basa en {{count}} granja en su área local",
-      "NEARBY_FARMS_many": "El precio del mercado se basa en {{count}} granjas en su área local",
       "NEARBY_FARMS_other": "El precio del mercado se basa en {{count}} granjas en su área local",
       "NETWORK_PRICE": "Precio de red",
       "NO_ADDRESS": "Actualmente no tienes una direccion en Litefarm. Por favor actualizala en su Perfil para obtener data de ventas cercanas.",
@@ -1977,7 +1969,6 @@
     },
     "TASK": "tarea",
     "TASKS_COUNT_one": "{{count}} tarea",
-    "TASKS_COUNT_many": "{{count}} tareas",
     "TASKS_COUNT_other": "{{count}} tareas",
     "TRANSPLANT": "Trasplantar",
     "TRANSPLANT_LOCATIONS": "Seleccione una ubicación para el trasplante",

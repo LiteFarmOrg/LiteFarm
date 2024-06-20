@@ -2,10 +2,8 @@
   "ADD_ANIMAL": {
     "ADD_TO_INVENTORY": "MISSING",
     "ANIMALS_TOTAL_one": "MISSING",
-    "ANIMALS_TOTAL_many": "MISSING",
     "ANIMALS_TOTAL_other": "MISSING",
     "ANIMALS_UNSPECIFIED_one": "MISSING",
-    "ANIMALS_UNSPECIFIED_many": "MISSING",
     "ANIMALS_UNSPECIFIED_other": "MISSING",
     "BATCH_NAME": "MISSING",
     "BATCH_NAME_PLACEHOLDER": "MISSING",
@@ -20,7 +18,6 @@
     "ORIGIN": "MISSING",
     "OTHER_DETAILS": "MISSING",
     "OUT_OF_COUNT_one": "MISSING",
-    "OUT_OF_COUNT_many": "MISSING",
     "OUT_OF_COUNT_other": "MISSING",
     "PLACEHOLDER": {
       "BATCH_NAME": "MISSING",
@@ -42,10 +39,8 @@
     "SELECT_SEXES": "MISSING",
     "SEX_DETAIL": "MISSING",
     "SEX_DETAIL_ERROR_one": "MISSING",
-    "SEX_DETAIL_ERROR_many": "MISSING",
     "SEX_DETAIL_ERROR_other": "MISSING",
     "SEX_DETAIL_ERROR_POPOVER_one": "MISSING",
-    "SEX_DETAIL_ERROR_POPOVER_many": "MISSING",
     "SEX_DETAIL_ERROR_POPOVER_other": "MISSING",
     "SPECIFY_SEX": "MISSING",
     "SUMMARY": {
@@ -484,6 +479,7 @@
     "MANAGEMENT_PLANS": "Planos de cultivo",
     "MANAGEMENT_TAB": "Manejo",
     "ORGANIC": "A semente ou o cultivo tem certificação orgânica?",
+    "ORGANIC_COMPLIANCE": "Organic Compliance",
     "PERENNIAL": "Perene",
     "TREATED": "As sementes deste cultivo foram tratadas?"
   },
@@ -930,7 +926,6 @@
     "CLEAR_ALL_FILTERS": "Remover todos os filtros",
     "SELECT_ALL": "Selecionar tudo",
     "SELECTED_one": "MISSING",
-    "SELECTED_many": "MISSING",
     "SELECTED_other": "MISSING",
     "SHOWING_ALL": "MISSING",
     "SHOWING_ALL_DEFAULT": "MISSING"
@@ -967,6 +962,7 @@
       "REVENUE_TYPE": "Tipos de receita",
       "TITLE": "Filtrar transações"
     },
+    "MANAGE_CUSTOM_TYPE": "Manage custom type",
     "REPORT": {
       "DATES": "Datas",
       "FILE_TITLE": "MISSING",
@@ -1036,7 +1032,6 @@
       "MAMMALS": "Mamíferos",
       "PLANTS": "Plantas",
       "SPECIES_COUNT_one": "{{count}} espécie",
-      "SPECIES_COUNT_many": "{{count}} espécies",
       "SPECIES_COUNT_other": "{{count}} espécies",
       "TITLE": "Biodiversidade"
     },
@@ -1051,7 +1046,6 @@
     "PRICES": {
       "INFO": "Mostramos a trajetória comparativa entre seus preços de venda em relação aos preços de venda dos mesmos produtos encontrados a uma determinada distância de você, utilizando dados coletados na rede LiteFarm.",
       "NEARBY_FARMS_one": "O preço de mercado é baseado em {{count}} fazenda na sua região",
-      "NEARBY_FARMS_many": "O preço de mercado é baseado em {{count}} fazendas na sua região",
       "NEARBY_FARMS_other": "O preço de mercado é baseado em {{count}} fazendas na sua região",
       "NETWORK_PRICE": "Preço de mercado",
       "NO_ADDRESS": "Atualmente você não tem um endereço na LiteFarm. Atualize-o em seu perfil para obter informações de preços nas proximidades!",
@@ -1267,7 +1261,6 @@
     "NUMBER_OF_CONTAINER": "Nº des recipientes",
     "PENDING_TASK": "Tarefas pendentes",
     "PLAN_AND_ID": "Plan {{id}}",
-    "PLAN_AND_ID_plural": "",
     "PLAN_NAME": "Nome do plano de cultivo",
     "PLAN_NOTES": "Notas do plano",
     "PLANT_SPACING": "Espaçamento de plantas",
@@ -1976,7 +1969,6 @@
     },
     "TASK": "tarefa",
     "TASKS_COUNT_one": "{{count}} tarefa",
-    "TASKS_COUNT_many": "{{count}} tarefas",
     "TASKS_COUNT_other": "{{count}} tarefas",
     "TRANSPLANT": "Transplantar",
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",

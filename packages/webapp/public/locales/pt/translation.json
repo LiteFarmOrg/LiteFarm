@@ -2,10 +2,8 @@
   "ADD_ANIMAL": {
     "ADD_TO_INVENTORY": "MISSING",
     "ANIMALS_TOTAL_one": "MISSING",
-    "ANIMALS_TOTAL_many": "MISSING",
     "ANIMALS_TOTAL_other": "MISSING",
     "ANIMALS_UNSPECIFIED_one": "MISSING",
-    "ANIMALS_UNSPECIFIED_many": "MISSING",
     "ANIMALS_UNSPECIFIED_other": "MISSING",
     "BATCH_NAME": "MISSING",
     "BATCH_NAME_PLACEHOLDER": "MISSING",
@@ -20,7 +18,6 @@
     "ORIGIN": "MISSING",
     "OTHER_DETAILS": "MISSING",
     "OUT_OF_COUNT_one": "MISSING",
-    "OUT_OF_COUNT_many": "MISSING",
     "OUT_OF_COUNT_other": "MISSING",
     "PLACEHOLDER": {
       "BATCH_NAME": "MISSING",
@@ -42,10 +39,8 @@
     "SELECT_SEXES": "MISSING",
     "SEX_DETAIL": "MISSING",
     "SEX_DETAIL_ERROR_one": "MISSING",
-    "SEX_DETAIL_ERROR_many": "MISSING",
     "SEX_DETAIL_ERROR_other": "MISSING",
     "SEX_DETAIL_ERROR_POPOVER_one": "MISSING",
-    "SEX_DETAIL_ERROR_POPOVER_many": "MISSING",
     "SEX_DETAIL_ERROR_POPOVER_other": "MISSING",
     "SPECIFY_SEX": "MISSING",
     "SUMMARY": {
@@ -143,7 +138,7 @@
       "WANT_TO_SET_HOURLY_WAGE": "Você gostaria de definir um salário por hora?"
     },
     "HOW_MUCH_IS_HARVESTED": "Quanto está sendo colhido?",
-    "HR": "/hr",
+    "HR": "",
     "IRRIGATION_VIEW": {
       "BRAND_TOOLTIP": "Esta tarefa é para regar seu cultivo. Se você deseja instalar a irrigação, crie uma tarefa de trabalho de campo.",
       "CALCULATE_WATER_USAGE": "Calcular uso de água",
@@ -174,7 +169,7 @@
         "SUB_SURFACE": "Subsuperficial"
       },
       "TYPE_OF_IRRIGATION": "Tipo de Irrigação",
-      "VOLUME": "Volume",
+      "VOLUME": "",
       "WATER_USE_CALCULATOR": "Calculadora do uso de água",
       "WATER_USE_CALCULATOR_INFO": {
         "PHRASE1": "Esta calculadora ajuda você a calcular o uso de água com base em",
@@ -217,7 +212,7 @@
       "NUTRIENT_AVAILABILITY": "Disponibilidade de nutriente",
       "OTHER": "Outro",
       "OTHER_PURPOSE": "Descreva o objetivo",
-      "PH": "pH",
+      "PH": "",
       "PURPOSE": "Objetivo",
       "STRUCTURE": "Estrutura"
     },
@@ -434,11 +429,11 @@
     "TREATED": "As sementes desta cultivo foram tratadas?",
     "VARIETAL_IMAGE": "Personalize a imagem para variedade ou cultivar",
     "VARIETAL_IMAGE_INFO": "Se você deseja que esta variedade ou cultivar tenha uma imagem diferente da cultura padrão, você pode personalizar a imagem aqui.",
-    "VARIETAL_PLACEHOLDER": "Ex. Cabernet sauvignon",
+    "VARIETAL_PLACEHOLDER": "",
     "VARIETAL_SUBTEXT": "Saiba mais sobre variedades",
     "VARIETAL_SUBTITLE": "Conte-nos sobre a variedade ou cultivar específica que você pretende cultivar",
     "VARIETY_COMMON_NAME": "Nome Comum",
-    "VARIETY_CULTIVAR": "Cultivar",
+    "VARIETY_CULTIVAR": "",
     "VARIETY_VARIETAL": "Variedade"
   },
   "CROP_CATALOGUE": {
@@ -484,6 +479,7 @@
     "MANAGEMENT_PLANS": "Planos de cultivo",
     "MANAGEMENT_TAB": "Manejo",
     "ORGANIC": "A semente ou o cultivo tem certificação orgânica?",
+    "ORGANIC_COMPLIANCE": "",
     "PERENNIAL": "Perene",
     "TREATED": "As sementes deste cultivo foram tratadas?"
   },
@@ -540,10 +536,10 @@
   "DAYS_OF_WEEK_SELECT": {
     "FRIDAY": "S",
     "MONDAY": "S",
-    "SATURDAY": "S",
+    "SATURDAY": "",
     "SUNDAY": "D",
     "THURSDAY": "Q",
-    "TUESDAY": "T",
+    "TUESDAY": "",
     "WEDNESDAY": "Q"
   },
   "DOCUMENTS": {
@@ -682,7 +678,7 @@
         "DEFAULT": "Algo deu errado. Entre em contato com support@litefarm.org para obter assistência.",
         "PARTIAL_SUCCESS_BOTTOM_TEXT": "Eles agora devem estar visíveis no mapa da fazenda. Esses sensores serão ignorados em uploads futuros\n\n",
         "PARTIAL_SUCCESS_TOP_TEXT": "Os seguintes sensores em seu arquivo foram carregados com sucesso ou já existem em sua fazenda:\n\n",
-        "ROW": "[Row: {{ row }}][Column: {{ column }}] {{- errorMessage }} {{ value }}\n",
+        "ROW": "",
         "SOME_ERRORS": "Infelizmente, houve alguns erros com o seu upload:\n\n"
       },
       "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "Clique aqui para baixar o modelo",
@@ -696,8 +692,8 @@
       "SENSOR_FIELDS": {
         "BRAND": "Marca",
         "DEPTH": "Profundidade_cm",
-        "LATITUDE": "Latitude",
-        "LONGITUDE": "Longitude",
+        "LATITUDE": "",
+        "LONGITUDE": "",
         "MODEL": "Modelo",
         "NAME": "Nome",
         "READING_TYPES": "tipos_de_medição",
@@ -743,7 +739,7 @@
     },
     "EXPORT_MODAL": {
       "BODY": "Como você quer exportar o seu mapa?",
-      "DOWNLOAD": "Download",
+      "DOWNLOAD": "",
       "EMAIL_TO_ME": "Enviar e-mail para mim",
       "EMAILING": "Enviando...",
       "TITLE": "Exporte o mapa do seu sítio/fazenda"
@@ -825,7 +821,7 @@
       "POINTS": "Pontos",
       "RESIDENCE": "Residência",
       "SATELLITE": "Imagem de satélite",
-      "SENSOR": "Sensor",
+      "SENSOR": "",
       "SHOW_ALL": "Mostrar todos",
       "SURFACE_WATER": "Água superficial",
       "TITLE": "Filtre o seu mapa",
@@ -930,7 +926,6 @@
     "CLEAR_ALL_FILTERS": "Remover todos os filtros",
     "SELECT_ALL": "Selecionar tudo",
     "SELECTED_one": "MISSING",
-    "SELECTED_many": "MISSING",
     "SELECTED_other": "MISSING",
     "SHOWING_ALL": "MISSING",
     "SHOWING_ALL_DEFAULT": "MISSING"
@@ -967,6 +962,7 @@
       "REVENUE_TYPE": "Tipos de receita",
       "TITLE": "Filtrar transações"
     },
+    "MANAGE_CUSTOM_TYPE": "",
     "REPORT": {
       "DATES": "Datas",
       "FILE_TITLE": "MISSING",
@@ -1036,7 +1032,6 @@
       "MAMMALS": "Mamíferos",
       "PLANTS": "Plantas",
       "SPECIES_COUNT_one": "{{count}} espécie",
-      "SPECIES_COUNT_many": "{{count}} espécies",
       "SPECIES_COUNT_other": "{{count}} espécies",
       "TITLE": "Biodiversidade"
     },
@@ -1051,7 +1046,6 @@
     "PRICES": {
       "INFO": "Mostramos a trajetória comparativa entre seus preços de venda em relação aos preços de venda dos mesmos produtos encontrados a uma determinada distância de você, utilizando dados coletados na rede LiteFarm.",
       "NEARBY_FARMS_one": "O preço de mercado é baseado em {{count}} fazenda na sua região",
-      "NEARBY_FARMS_many": "O preço de mercado é baseado em {{count}} fazendas na sua região",
       "NEARBY_FARMS_other": "O preço de mercado é baseado em {{count}} fazendas na sua região",
       "NETWORK_PRICE": "Preço de mercado",
       "NO_ADDRESS": "Atualmente você não tem um endereço na LiteFarm. Atualize-o em seu perfil para obter informações de preços nas proximidades!",
@@ -1067,8 +1061,8 @@
       "INFO": "A matéria orgânica do solo é necessária para manter um ambiente de solo saudável para seus cultivos. Preenchemos esses dados a partir de seus registros de análise de solo mais recentes. Se você não possui nenhum dado, nós prevemos o potencial de matéria orgânica do solo por sua localização global.",
       "TITLE": "Matéria Orgânica do Solo"
     },
-    "TITLE": "Insights",
-    "UNAVAILABLE": "Unavailable"
+    "TITLE": "",
+    "UNAVAILABLE": ""
   },
   "INTRODUCE_MAP": {
     "BODY": "O mapa da fazenda tem novos recursos. Ele agora se encontra no menu Minha Fazenda.",
@@ -1162,7 +1156,7 @@
     "HARVEST_ALLOCATION_SUBTITLE": "Quanto da colheita será destinado para cada propósito?",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Quantidade para alocar",
     "HARVEST_USE_TYPE_SUBTITLE": "Como a colheita sera utilizada/destinada?",
-    "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
+    "QUANTITY_ERROR": "",
     "TITLE": "Registro de Colheita (passo 1 de 3)"
   },
   "MANAGEMENT_DETAIL": {
@@ -1266,8 +1260,7 @@
     "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
     "NUMBER_OF_CONTAINER": "Nº des recipientes",
     "PENDING_TASK": "Tarefas pendentes",
-    "PLAN_AND_ID": "Plan {{id}}",
-    "PLAN_AND_ID_plural": "",
+    "PLAN_AND_ID": "",
     "PLAN_NAME": "Nome do plano de cultivo",
     "PLAN_NOTES": "Notas do plano",
     "PLANT_SPACING": "Espaçamento de plantas",
@@ -1466,7 +1459,7 @@
     "ROWS": "linhas",
     "SPACE_BETWEEN": "Espaço entre {{types}}",
     "SPECIFY": "Especificar {{types}}",
-    "SPECIFY_PLACEHOLDER": "Ex. {{types}} 1 - 4",
+    "SPECIFY_PLACEHOLDER": "",
     "TOOLTIP": "Os 40 primeiros caracteres deste campo serão exibidos em qualquer lugar em que seu plano de cultivo esteja visível. ",
     "WIDTH": "Largura de {{type}}",
     "WORD_LIMIT": "Somente {{limit}} caracteres podem ser exibidos"
@@ -1506,7 +1499,7 @@
       "DRAG_DROP": "ou arraste e solte",
       "FARM_IMAGE": "Imagem da fazenda/sitio",
       "FARM_NAME": "Nome do sítio/fazenda",
-      "IMPERIAL": "Imperial",
+      "IMPERIAL": "",
       "METRIC": "Métrico",
       "PHONE_NUMBER": "Número de telefone",
       "REMOVE_IMAGE": "Remover imagem",
@@ -1649,7 +1642,7 @@
       "MANAGE_CUSTOM_REVENUE_TYPE": "Gerenciar tipos de receita personalizados",
       "SALE_VALUE_ERROR": "O valor da venda deve ser um número acima de 0 e abaixo de 999,999,999",
       "TABLE_HEADERS": {
-        "TOTAL": "Total"
+        "TOTAL": ""
       },
       "WHICH_TYPE_TO_RECORD": "Escolha seu tipo de receita abaixo:"
     },
@@ -1706,8 +1699,8 @@
       "TITLE": "Trabalho"
     },
     "SUMMARY": {
-      "SUBTOTAL": "Subtotal",
-      "TOTAL": "Total",
+      "SUBTOTAL": "",
+      "TOTAL": "",
       "TYPE": "Tipo"
     }
   },
@@ -1734,8 +1727,8 @@
       "EDIT": "Editar",
       "EXTERNAL_ID_TOOLTIP": "Este id é usado para identificar exclusivamente este sensor em outros sistemas integrados e não pode ser alterado. Se não estiver mais sendo usado, tente remover este sensor e adicionar um novo",
       "EXTERNAL_IDENTIFIER": "Identificador externo",
-      "LATITUDE": "Latitude",
-      "LONGITUDE": "Longitude",
+      "LATITUDE": "",
+      "LONGITUDE": "",
       "MODEL": "Modelo",
       "NAME": "Nome do Sensor",
       "RETIRE": "Remover"
@@ -1743,7 +1736,7 @@
     "EXTERNAL_IDENTIFIER": "Identificador externo",
     "HOURS_AGO": "{{time}} hora(s) atrás",
     "LAST_UPDATED": "Última atualização {{latestReadingUpdate}}",
-    "LATITUDE": "Latitude",
+    "LATITUDE": "",
     "LONGTITUDE": "Longitude",
     "MINUTES_AGO": "{{time}} minuto(s) atrás",
     "MODAL": {
@@ -1797,8 +1790,8 @@
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "AMBIENT_TEMPERATURE_FOR": "Temperatura ambiente para",
-      "C": "Celsius (°C)",
-      "F": "Fahrenheit (°F)",
+      "C": "",
+      "F": "",
       "TITLE": "Temperatura do solo",
       "Y_AXIS_LABEL": "em {{units}}"
     },
@@ -1976,7 +1969,6 @@
     },
     "TASK": "tarefa",
     "TASKS_COUNT_one": "{{count}} tarefa",
-    "TASKS_COUNT_many": "{{count}} tarefas",
     "TASKS_COUNT_other": "{{count}} tarefas",
     "TRANSPLANT": "Transplantar",
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",

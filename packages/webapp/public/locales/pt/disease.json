@@ -129,7 +129,7 @@
     "PEA_RUST": "Ferrugem da Ervilha",
     "BOTTOM_ROT": "Podridão Basal",
     "BUD_NECROSIS": "Necrose da Gema",
-    "ESCA": "Esca",
+    "ESCA": "",
     "JACKET_ROT": "Podridão do Fruto",
     "ARMILLARIA_ROOT_ROT": "Podridão Radicular - Armillaria",
     "BROWN_ROT": "Podridão Parda",
@@ -228,7 +228,7 @@
     "CHILLI_CERCOSPORA_LEAF_SPOT": "Cercosporiose da Pimenta",
     "POWDERY_MILDEW_OF_CEREALS": "Oídio dos Cereais",
     "SEPTORIA_LEAF_SPOT": "Mancha de Septoria",
-    "MELANOSE": "Melanose",
+    "MELANOSE": "",
     "BROWN_RUST_OF_RYE": "Ferrugem da Folha",
     "DAMPING-OFF": "Tombamento (Damping-Off)",
     "VASCULAR_WILT_OF_BANANA": "Murcha Vascular da Banana",
@@ -256,7 +256,7 @@
     "DRY_ROOT_ROT_OF_BEAN": "Podridão Radicular Seca do feijão",
     "WHEAT_STEM_RUST": "Ferrugem Negra do Trigo",
     "CERCOSPORA_LEAF_SPOT_OF_OLIVE": "Cercosporiose da Oliveira",
-    "RHYNCHOSPORIUM": "Rhynchosporium",
+    "RHYNCHOSPORIUM": "",
     "CITRUS_BLACK_SPOT": "Mancha Preta dos Citros",
     "MANGO_DIEBACK_DISEASE": "Podridão da Mangueira",
     "BOTRYOSPHAERIA_DIEBACK": "Morte Descendente",
@@ -507,7 +507,7 @@
     "CITRUS_TRISTEZA_VIRUS": "Vírus da Tristesa dos Citros",
     "SUGARCANE_MOSAIC_VIRUS": "Vírus do Mosaico da Cana-de-açúcar",
     "CITRUS_LEPROSIS": "Leprose Cítrica",
-    "STRIGA": "Striga"
+    "STRIGA": ""
   },
   "group": {
     "BACTERIA": "Bactéria",
@@ -519,8 +519,8 @@
     "WEED": "Erva"
   },
   "PESTICIDE": {
-    "ROUNDUP": "Roundup",
-    "DIPEL": "Dipel 2X DF",
+    "ROUNDUP": "",
+    "DIPEL": "",
     "NEEM_OIL": "Óleo de neem",
     "SULFOCALCIUM_SYRUP": "Xarope de Sulfocalcio",
     "BORDEAUX_MIXTURE": "Bordeux"

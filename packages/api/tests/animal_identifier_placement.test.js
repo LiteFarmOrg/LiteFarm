@@ -75,9 +75,13 @@ describe('Animal Identifier Placement Tests', () => {
   }
 
   beforeEach(async () => {
-    await tableCleanup(knex);
     [farm] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
+  });
+
+  afterEach(async (done) => {
+    await tableCleanup(knex);
+    done();
   });
 
   afterAll(async (done) => {

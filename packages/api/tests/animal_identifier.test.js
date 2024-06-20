@@ -45,8 +45,8 @@ async function returnUserFarms(role) {
   return { mainFarm, user };
 }
 
-describe('Animal identifier tests', () => {
-  describe('GET /animal_identifier', () => {
+describe('Animal identifier type tests', () => {
+  describe('GET /animal_identifier_type', () => {
     let farm;
     let newOwner;
 
@@ -66,7 +66,7 @@ describe('Animal identifier tests', () => {
     });
 
     test('should return all animal identifiers for all users', async () => {
-      const mockIdentifiers = await mocks.animal_identifierFactory(3);
+      const mockIdentifiers = await mocks.animal_identifier_typeFactory(3);
       const requester = chai.request(server).keepOpen();
 
       async function makeRequest(user) {
@@ -76,7 +76,7 @@ describe('Animal identifier tests', () => {
         } = await returnUserFarms(user);
 
         const response = await requester
-          .get('/animal_identifier')
+          .get('/animal_identifier_type')
           .set('user_id', user_id)
           .set('farm_id', farm_id);
 

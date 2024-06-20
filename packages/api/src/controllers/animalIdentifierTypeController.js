@@ -13,11 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import express from 'express';
+import AnimalIdentifierType from '../models/animalIdentifierType.js';
 
-const router = express.Router();
-import { getIdentifier } from '../controllers/animalIdentifierController.js';
+async function getIdentifierType(_, res) {
+  try {
+    return res.status(200).send(await AnimalIdentifierType.query());
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      error,
+    });
+  }
+}
 
-router.get('/', getIdentifier);
-
-export default router;
+export { getIdentifierType };

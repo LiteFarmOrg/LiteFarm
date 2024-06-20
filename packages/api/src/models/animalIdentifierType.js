@@ -15,9 +15,9 @@
 
 import baseModel from './baseModel.js';
 
-class AnimalIdentifier extends baseModel {
+class AnimalIdentifierType extends baseModel {
   static get tableName() {
-    return 'animal_identifier';
+    return 'animal_identifier_type';
   }
 
   static get idColumn() {
@@ -40,4 +40,4 @@ class AnimalIdentifier extends baseModel {
   }
 }
 
-export default AnimalIdentifier;
+export default AnimalIdentifierType;

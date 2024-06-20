@@ -4,7 +4,7 @@
  */
 
 export const up = async function (knex) {
-  await knex.schema.createTable('animal_identifier', (table) => {
+  await knex.schema.createTable('animal_identifier_type', (table) => {
     table.increments('id').primary();
     table.string('key').notNullable();
   });
@@ -22,22 +22,26 @@ export const up = async function (knex) {
 
   await knex.schema.createTable('animal_identifier_placement', (table) => {
     table.increments('id').primary();
-    table.integer('identifier_id').references('id').inTable('animal_identifier').notNullable();
+    table
+      .integer('identifier_type_id')
+      .references('id')
+      .inTable('animal_identifier_type')
+      .notNullable();
     table.string('key').notNullable();
   });
 
-  await knex('animal_identifier').insert([
+  await knex('animal_identifier_type').insert([
     { id: 1, key: 'EAR_TAG' },
     { id: 2, key: 'LEG_BAND' },
     { id: 3, key: 'OTHER' },
   ]);
 
   await knex('animal_identifier_placement').insert([
-    { identifier_id: 1, key: 'LEFT_EAR' },
-    { identifier_id: 1, key: 'RIGHT_EAR' },
-    { identifier_id: 2, key: 'LEFT_LEG' },
-    { identifier_id: 2, key: 'RIGHT_LEG' },
-    { identifier_id: 3, key: 'OTHER' },
+    { identifier_type_id: 1, key: 'LEFT_EAR' },
+    { identifier_type_id: 1, key: 'RIGHT_EAR' },
+    { identifier_type_id: 2, key: 'LEFT_LEG' },
+    { identifier_type_id: 2, key: 'RIGHT_LEG' },
+    { identifier_type_id: 3, key: 'OTHER' },
   ]);
 
   await knex.raw(`
@@ -102,5 +106,5 @@ export const down = async function (knex) {
     t.foreign('identifier_placement_id').references('id').inTable('animal_identifier_placement');
   });
 
-  await knex.schema.dropTable('animal_identifier');
+  await knex.schema.dropTable('animal_identifier_type');
 };

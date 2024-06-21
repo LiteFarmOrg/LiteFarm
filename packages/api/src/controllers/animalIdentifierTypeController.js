@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import AnimalIdentifierType from '../models/animalIdentifierType.js';
+import AnimalIdentifierType from '../models/animalIdentifierTypeModel.js';
 
 async function getIdentifierTypes(_, res) {
   try {

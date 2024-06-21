@@ -8,7 +8,7 @@ on:
     branches: [integration]
 
 jobs:
-  synchronize-core-frontend-translations:
+  synchronize-translations:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -25,9 +25,9 @@ jobs:
               source: packages/webapp/src/containers/Consent/locales/en/*.md,
               translation: packages/webapp/src/containers/Consent/locales/%two_letters_code%/%original_file_name%,
             },
-            # Backend tranlsations, pdf and json files (crop.json is copied jobs scheduler init during build)
+            # Backend tranlsations - skipping pdf (crop.json is copied jobs scheduler init during build)
             {
-              source: packages/api/src/jobs/locales/en/*,
+              source: packages/api/src/jobs/locales/en/*.json,
               translation: packages/api/src/jobs/locales/%two_letters_code%/%original_file_name%,
             },
             # email templates
@@ -45,6 +45,8 @@ jobs:
         with:
           upload_sources: true
           upload_translations: true
+          upload_sources_args: --preserve-hierarchy
+          upload_translations_args: --preserve-hierarchy
           download_translations: false
           auto_approve_imported: true
           import_eq_suggestions: true

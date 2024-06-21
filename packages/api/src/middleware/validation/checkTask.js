@@ -129,3 +129,22 @@ export function checkCompleteTask(taskType) {
     }
   };
 }
+
+export function checkDeleteTask() {
+  return async (req, res, next) => {
+    try {
+      const { user_id } = req.headers;
+
+      if (!user_id) {
+        return res.status(400).send('must have user_id');
+      }
+
+      next();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        error,
+      });
+    }
+  };
+}

@@ -26,7 +26,11 @@ import {
 import taskController from '../controllers/taskController.js';
 import { createOrPatchProduct } from '../middleware/validation/product.js';
 import { checkSoilAmendmentTaskProducts } from '../middleware/validation/checkSoilAmendmentTaskProducts.js';
-import { checkAbandonTask, checkCompleteTask } from '../middleware/validation/checkTask.js';
+import {
+  checkAbandonTask,
+  checkCompleteTask,
+  checkDeleteTask,
+} from '../middleware/validation/checkTask.js';
 
 router.patch(
   '/assign/:task_id',
@@ -276,6 +280,7 @@ router.delete(
   '/:task_id',
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['delete:task']),
+  checkDeleteTask(),
   taskController.deleteTask,
 );
 

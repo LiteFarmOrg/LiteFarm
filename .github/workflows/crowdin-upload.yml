@@ -48,8 +48,8 @@ jobs:
           download_translations: false
           auto_approve_imported: true
           import_eq_suggestions: true
-          source: { { matrix.locales.source } } # Sources pattern
-          translation: { { matrix.locales.translation } } # Translations pattern
+          source: ${{ matrix.locales.source }} # Sources pattern
+          translation: ${{ matrix.locales.translation }} # Translations pattern
         env:
           GITHUB_TOKEN: ${{ secrets.CROWDIN_TEMP_PERSONAL_TOKEN }}
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}

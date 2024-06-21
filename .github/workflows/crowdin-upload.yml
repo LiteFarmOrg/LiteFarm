@@ -4,9 +4,35 @@ on:
   workflow_dispatch:
   push:
     paths:
-      # Most translations
       - "*/locales"
     branches: [integration]
+
+strategy:
+  fail-fast: false
+  max-parallel: 1 # Should be 1 to avoid parallel builds
+  matrix:
+    locales: [
+        # Frontend core translations
+        {
+          source: packages/webapp/public/locales/en/*.json,
+          translation: packages/webapp/public/locales/%two_letters_code%/%original_file_name%,
+        },
+        # Consent Forms
+        {
+          source: packages/webapp/src/containers/Consent/locales/en/*.md,
+          translation: packages/webapp/src/containers/Consent/locales/%two_letters_code%/%original_file_name%,
+        },
+        # Backend tranlsations, pdf and json files (crop.json is copied jobs scheduler init during build)
+        {
+          source: packages/api/src/jobs/locales/en/*,
+          translation: packages/api/src/jobs/locales/%two_letters_code%/%original_file_name%,
+        },
+        # email templates
+        {
+          source: packages/api/src/templates/locales/en.json,
+          translation: packages/api/src/templates/locales/%two_letters_code%.%file_extension%,
+        },
+      ]
 
 jobs:
   synchronize-core-frontend-translations:
@@ -21,8 +47,10 @@ jobs:
           upload_sources: true
           upload_translations: true
           download_translations: false
-          source: packages/webapp/public/locales/en/*.json # Sources pattern
-          translation: packages/webapp/public/locales/%two_letters_code%/%original_file_name% # Translations pattern
+          auto_approve_imported: true
+          import_eq_suggestions: true
+          source: { { matrix.locales.source } } # Sources pattern
+          translation: { { matrix.locales.translation } } # Translations pattern
         env:
           GITHUB_TOKEN: ${{ secrets.CROWDIN_TEMP_PERSONAL_TOKEN }}
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}

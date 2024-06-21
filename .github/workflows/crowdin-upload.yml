@@ -2,10 +2,6 @@ name: Crowdin Upload Action
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "*/locales"
-    branches: [integration]
 
 jobs:
   synchronize-translations:

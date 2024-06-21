@@ -10,33 +10,33 @@ on:
 strategy:
   fail-fast: false
   max-parallel: 1 # Should be 1 to avoid parallel builds
-  matrix:
-    locales: [
-        # Frontend core translations
-        {
-          source: packages/webapp/public/locales/en/*.json,
-          translation: packages/webapp/public/locales/%two_letters_code%/%original_file_name%,
-        },
-        # Consent Forms
-        {
-          source: packages/webapp/src/containers/Consent/locales/en/*.md,
-          translation: packages/webapp/src/containers/Consent/locales/%two_letters_code%/%original_file_name%,
-        },
-        # Backend tranlsations, pdf and json files (crop.json is copied jobs scheduler init during build)
-        {
-          source: packages/api/src/jobs/locales/en/*,
-          translation: packages/api/src/jobs/locales/%two_letters_code%/%original_file_name%,
-        },
-        # email templates
-        {
-          source: packages/api/src/templates/locales/en.json,
-          translation: packages/api/src/templates/locales/%two_letters_code%.%file_extension%,
-        },
-      ]
 
 jobs:
   synchronize-core-frontend-translations:
     runs-on: ubuntu-latest
+    matrix:
+      locales: [
+          # Frontend core translations
+          {
+            source: packages/webapp/public/locales/en/*.json,
+            translation: packages/webapp/public/locales/%two_letters_code%/%original_file_name%,
+          },
+          # Consent Forms
+          {
+            source: packages/webapp/src/containers/Consent/locales/en/*.md,
+            translation: packages/webapp/src/containers/Consent/locales/%two_letters_code%/%original_file_name%,
+          },
+          # Backend tranlsations, pdf and json files (crop.json is copied jobs scheduler init during build)
+          {
+            source: packages/api/src/jobs/locales/en/*,
+            translation: packages/api/src/jobs/locales/%two_letters_code%/%original_file_name%,
+          },
+          # email templates
+          {
+            source: packages/api/src/templates/locales/en.json,
+            translation: packages/api/src/templates/locales/%two_letters_code%.%file_extension%,
+          },
+        ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4

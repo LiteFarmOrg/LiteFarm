@@ -18,7 +18,7 @@
  * @returns { Promise<void> }
  */
 
-const PERMISSION_NAME = 'get:animal_identifier_type';
+const PERMISSION_NAME = 'get:animal_identifier_types';
 
 export const up = async function (knex) {
   // Synchronize the permissions_permission_id_seq sequence with the latest permission_id value.

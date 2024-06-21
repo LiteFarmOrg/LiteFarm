@@ -17,8 +17,8 @@ import express from 'express';
 import checkScope from '../middleware/acl/checkScope.js';
 
 const router = express.Router();
-import { getIdentifierType } from '../controllers/animalIdentifierTypeController.js';
+import { getIdentifierTypes } from '../controllers/animalIdentifierTypeController.js';
 
-router.get('/', checkScope(['get:animal_identifier_type']), getIdentifierType);
+router.get('/', checkScope(['get:animal_identifier_types']), getIdentifierTypes);
 
 export default router;

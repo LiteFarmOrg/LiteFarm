@@ -15,7 +15,7 @@
 
 import AnimalIdentifierType from '../models/animalIdentifierType.js';
 
-async function getIdentifierType(_, res) {
+async function getIdentifierTypes(_, res) {
   try {
     return res.status(200).send(await AnimalIdentifierType.query());
   } catch (error) {
@@ -26,4 +26,4 @@ async function getIdentifierType(_, res) {
   }
 }
 
-export { getIdentifierType };
+export { getIdentifierTypes };

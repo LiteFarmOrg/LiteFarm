@@ -46,7 +46,7 @@ async function returnUserFarms(role) {
 }
 
 describe('Animal identifier type tests', () => {
-  describe('GET /animal_identifier_type', () => {
+  describe('GET /animal_identifier_types', () => {
     let farm;
     let newOwner;
 
@@ -76,7 +76,7 @@ describe('Animal identifier type tests', () => {
         } = await returnUserFarms(user);
 
         const response = await requester
-          .get('/animal_identifier_type')
+          .get('/animal_identifier_types')
           .set('user_id', user_id)
           .set('farm_id', farm_id);
 

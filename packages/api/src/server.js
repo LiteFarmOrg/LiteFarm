@@ -287,7 +287,7 @@ app
   .use('/custom_animal_breeds', customAnimalBreedRoute)
   .use('/animals', animalRoute)
   .use('/animal_batches', animalBatchRoute)
-  .use('/animal_identifier_type', animalIdentifierTypeRoute)
+  .use('/animal_identifier_types', animalIdentifierTypeRoute)
   .use('/animal_identifier_colors', animalIdentifierColorRoute)
   .use('/animal_identifier_placements', animalIdentifierPlacementRoute)
   .use('/animal_sexes', animalSexRoute)

@@ -100,17 +100,6 @@ export const defaultValues = {
   },
 };
 
-const validateCompositionValues = (value?: ProductFormFields['composition']): boolean | string => {
-  if (!value || value[UNIT] !== Unit.PERCENT) {
-    return true;
-  }
-  const total = Object.keys(Nutrients).reduce((acc: number, key) => {
-    const valueKey = Nutrients[key as keyof typeof Nutrients];
-    return acc + (value[valueKey] || 0);
-  }, 0);
-  return total <= 100 || `t('ADD_PRODUCT.COMPOSITION_ERROR')`;
-};
-
 const subtractFrom100 = (value: number) => +(100 * 100 - value * 100) / 100;
 
 const ProductDetails = ({
@@ -249,6 +238,52 @@ const ProductDetails = ({
     }
   };
 
+  const renderCompositionInputsWithController = ({
+    mainLabel = '',
+    inputsInfo,
+    shouldShowError = false,
+  }: {
+    mainLabel?: string;
+    inputsInfo: { name: string; label: string }[];
+    shouldShowError: boolean;
+  }) => {
+    return (
+      <Controller
+        name={COMPOSITION}
+        control={control}
+        rules={{
+          validate: (value: ProductFormFields['composition']): boolean | string => {
+            if (!value || value[UNIT] !== Unit.PERCENT) {
+              return true;
+            }
+            const total = Object.keys(Nutrients).reduce((acc: number, key) => {
+              const valueKey = Nutrients[key as keyof typeof Nutrients];
+              return acc + (value[valueKey] || 0);
+            }, 0);
+            return total <= 100 || t('ADD_PRODUCT.COMPOSITION_ERROR');
+          },
+        }}
+        render={({ field, fieldState }) => {
+          return (
+            <CompositionInputs
+              mainLabel={mainLabel}
+              unitOptions={unitOptions}
+              inputsInfo={inputsInfo}
+              disabled={isDetailDisabled}
+              error={shouldShowError ? fieldState.error?.message : undefined}
+              values={field.value || {}}
+              onChange={(name, value) => field.onChange({ ...field.value, [name]: value })}
+              // onBlur needs to be passed manually
+              // https://stackoverflow.com/questions/61661432/how-to-make-react-hook-form-controller-validation-triggered-on-blur
+              onBlur={field.onBlur}
+              unitFieldName={UNIT}
+            />
+          );
+        }}
+      />
+    );
+  };
+
   return (
     <div
       className={clsx(
@@ -322,34 +357,15 @@ const ProductDetails = ({
             unit="%"
           />
 
-          <Controller
-            name={COMPOSITION}
-            control={control}
-            rules={{ validate: validateCompositionValues }}
-            render={({ field, fieldState }) => {
-              return (
-                <CompositionInputs
-                  mainLabel={t('ADD_PRODUCT.COMPOSITION')}
-                  unitOptions={unitOptions}
-                  inputsInfo={[
-                    { name: Nutrients.N, label: t('ADD_PRODUCT.NITROGEN') },
-                    { name: Nutrients.P, label: t('ADD_PRODUCT.PHOSPHOROUS') },
-                    { name: Nutrients.K, label: t('ADD_PRODUCT.POTASSIUM') },
-                  ]}
-                  disabled={isDetailDisabled}
-                  error={fieldState.error?.message}
-                  values={field.value || {}}
-                  onChange={(name, value) => {
-                    field.onChange({ ...field.value, [name]: value });
-                  }}
-                  // onBlur needs to be passed manually
-                  // https://stackoverflow.com/questions/61661432/how-to-make-react-hook-form-controller-validation-triggered-on-blur
-                  onBlur={field.onBlur}
-                  unitFieldName={UNIT}
-                />
-              );
-            }}
-          />
+          {renderCompositionInputsWithController({
+            mainLabel: t('ADD_PRODUCT.COMPOSITION'),
+            inputsInfo: [
+              { name: Nutrients.N, label: t('ADD_PRODUCT.NITROGEN') },
+              { name: Nutrients.P, label: t('ADD_PRODUCT.PHOSPHOROUS') },
+              { name: Nutrients.K, label: t('ADD_PRODUCT.POTASSIUM') },
+            ],
+            shouldShowError: true, // TODO
+          })}
 
           <div
             className={clsx(
@@ -379,36 +395,17 @@ const ProductDetails = ({
               unmountOnExit
             >
               <div className={styles.sectionBody}>
-                <Controller
-                  name={COMPOSITION}
-                  control={control}
-                  rules={{ validate: validateCompositionValues }}
-                  render={({ field, fieldState }) => {
-                    return (
-                      <CompositionInputs
-                        unitOptions={unitOptions}
-                        inputsInfo={[
-                          { name: Nutrients.CA, label: t('ADD_PRODUCT.CALCIUM') },
-                          { name: Nutrients.MG, label: t('ADD_PRODUCT.MAGNESIUM') },
-                          { name: Nutrients.S, label: t('ADD_PRODUCT.SULFUR') },
-                          { name: Nutrients.CU, label: t('ADD_PRODUCT.COPPER') },
-                          { name: Nutrients.MN, label: t('ADD_PRODUCT.MANGANESE') },
-                          { name: Nutrients.B, label: t('ADD_PRODUCT.BORON') },
-                        ]}
-                        disabled={isDetailDisabled}
-                        error={fieldState.error?.message}
-                        values={field.value || {}}
-                        onChange={(name, value) => {
-                          field.onChange({ ...field.value, [name]: value });
-                        }}
-                        // onBlur needs to be passed manually
-                        // https://stackoverflow.com/questions/61661432/how-to-make-react-hook-form-controller-validation-triggered-on-blur
-                        onBlur={field.onBlur}
-                        unitFieldName={UNIT}
-                      />
-                    );
-                  }}
-                />
+                {renderCompositionInputsWithController({
+                  inputsInfo: [
+                    { name: Nutrients.CA, label: t('ADD_PRODUCT.CALCIUM') },
+                    { name: Nutrients.MG, label: t('ADD_PRODUCT.MAGNESIUM') },
+                    { name: Nutrients.S, label: t('ADD_PRODUCT.SULFUR') },
+                    { name: Nutrients.CU, label: t('ADD_PRODUCT.COPPER') },
+                    { name: Nutrients.MN, label: t('ADD_PRODUCT.MANGANESE') },
+                    { name: Nutrients.B, label: t('ADD_PRODUCT.BORON') },
+                  ],
+                  shouldShowError: true, // TODO
+                })}
               </div>
             </Collapse>
           </div>

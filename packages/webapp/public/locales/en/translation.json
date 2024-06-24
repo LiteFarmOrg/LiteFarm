@@ -207,14 +207,22 @@
     "SELECT_ALL_PLANS": "Select all plans",
     "SELECT_TASK_TYPE": "Select task type",
     "SOIL_AMENDMENT_VIEW": {
+      "ADVANCED": "Advanced",
+      "APPLICATION_RATE": "Application rate",
+      "APPLIED_TO": "Applied to <1>{{percentOfArea}}%</1> of your <4>{{locationArea}} {{locationAreaUnit}}</4> {{locationType}}",
       "IS_PERMITTED": "Is the soil amendment in the permitted substances list?",
       "MOISTURE_RETENTION": "Moisture retention",
       "NUTRIENT_AVAILABILITY": "Nutrient availability",
       "OTHER": "Other",
       "OTHER_PURPOSE": "Describe the purpose",
+      "PERECENT_TO_AMEND": "% of location to amend",
       "PH": "pH",
       "PURPOSE": "Purpose",
-      "STRUCTURE": "Structure"
+      "QUANTITY": "Quantity to apply",
+      "STRUCTURE": "Structure",
+      "TOTAL_AREA": "Total area",
+      "VOLUME": "Volume",
+      "WEIGHT": "Weight"
     },
     "TASK": "task",
     "TASK_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",

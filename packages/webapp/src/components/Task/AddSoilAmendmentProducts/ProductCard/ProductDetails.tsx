@@ -62,6 +62,8 @@ const {
 const unitOptions = [
   { label: '%', value: Unit.PERCENT },
   { label: Unit.RATIO, value: Unit.RATIO },
+  { label: Unit.PPM, value: Unit.PPM },
+  { label: Unit['MG/KG'], value: Unit['MG/KG'] },
 ];
 
 export type ProductDetailsProps = {
@@ -83,6 +85,8 @@ export type ProductDetailsProps = {
 };
 
 const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
+
+const MG_KG_REACT_SELECT_WIDTH = 76;
 
 export const defaultValues = {
   [SUPPLIER]: '',
@@ -277,6 +281,7 @@ const ProductDetails = ({
               // https://stackoverflow.com/questions/61661432/how-to-make-react-hook-form-controller-validation-triggered-on-blur
               onBlur={field.onBlur}
               unitFieldName={UNIT}
+              reactSelectWidth={MG_KG_REACT_SELECT_WIDTH}
             />
           );
         }}

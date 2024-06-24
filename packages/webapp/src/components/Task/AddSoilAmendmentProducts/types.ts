@@ -18,6 +18,8 @@ import { TASK_TYPES } from '../../../containers/Task/constants';
 export enum Unit {
   RATIO = 'ratio',
   PERCENT = 'percent',
+  PPM = 'ppm',
+  'MG/KG' = 'mg/kg',
 }
 
 export enum NPK {

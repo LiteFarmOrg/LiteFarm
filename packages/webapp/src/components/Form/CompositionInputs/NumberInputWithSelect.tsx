@@ -20,59 +20,51 @@ import useReactSelectStyles from '../Unit/useReactSelectStyles';
 import useNumberInput from '../NumberInput/useNumberInput';
 import InputBase from '../InputBase';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
+import { ReactComponent as RatioOptionIcon } from '../../../assets/images/ratio-option.svg';
 import styles from './styles.module.scss';
 
-export type Option = { value: string; label: ReactNode };
-
-export const UNIT = 'npk_unit';
-
-export enum NPK {
-  N = 'n',
-  P = 'p',
-  K = 'k',
-}
-
-export enum Unit {
-  PERCENT = 'percent',
-  RATIO = 'ratio',
-}
+export type Option = { value: string; label: string };
 
 export type NumberInputWithSelectProps = {
-  name: NPK;
+  name: string;
   label: string;
-  unitOptions: Option[];
+  unitOptions?: Option[];
   disabled?: boolean;
   error?: string;
   className?: string;
-  values?: {
-    [NPK.N]?: number | null;
-    [NPK.P]?: number | null;
-    [NPK.K]?: number | null;
-    [UNIT]?: Unit;
-  };
+  value?: number | null;
+  unit: string;
+  unitFieldName: string;
   onChange: (fieldName: string, value: number | string | null) => void;
   onBlur?: () => void;
+  reactSelectWidth?: number;
+  reactSelectJustifyContent?: 'center' | 'flex-start' | 'flex-end';
 };
 
 const REACT_SELECT_WIDTH = 44;
 
+const formatOptionLabel = ({ label, value }: Option): ReactNode => {
+  return value === 'ratio' ? <RatioOptionIcon className={styles.ratioIcon} /> : label;
+};
+
 const NumberInputWithSelect = ({
   name,
   label,
-  unitOptions,
+  unitOptions = [],
   disabled,
   error,
   className,
   onChange,
   onBlur,
-  values = {},
+  value,
+  unit,
+  unitFieldName,
+  reactSelectWidth = REACT_SELECT_WIDTH,
+  reactSelectJustifyContent = 'center',
 }: NumberInputWithSelectProps) => {
   const { t } = useTranslation();
-  const unit = values[UNIT];
 
-  const reactSelectStyles = useReactSelectStyles(disabled, {
-    reactSelectWidth: REACT_SELECT_WIDTH,
-  });
+  const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
   reactSelectStyles.control = (provided) => ({
     ...provided,
     boxShadow: 'none',
@@ -85,29 +77,36 @@ const NumberInputWithSelect = ({
   });
   reactSelectStyles.singleValue = (provided) => ({
     ...provided,
-    color: 'var(--Colors-Neutral-Neutral-300, #98A1B1);',
-    paddingTop: unit === Unit.RATIO ? '4px' : 0,
+    color: 'var(--Colors-Neutral-Neutral-600, #5D697E);',
   });
   reactSelectStyles.option = (provided, state) => ({
     ...reactSelectDefaultStyles.option?.(provided, state),
-    color: 'var(--Colors-Neutral-Neutral-300, #98A1B1);',
+    color: 'var(--Colors-Neutral-Neutral-600, #5D697E);',
+  });
+  reactSelectStyles.valueContainer = (provided) => ({
+    ...provided,
+    padding: '0',
+    width: `${reactSelectWidth - 19}px`,
+    display: 'flex',
+    background: disabled ? 'var(--inputDisabled)' : 'inherit',
+    justifyContent: reactSelectJustifyContent,
   });
 
   const { inputProps, update, clear, numericValue } = useNumberInput({
     onChange: (value) => onChange(name, value),
-    initialValue: values[name],
+    initialValue: value,
     max: 999999999,
   });
 
   useEffect(() => {
     // If the value is updated from the parent, update the visible value in the input.
     const isNumericValueNumber = !isNaN(numericValue);
-    const isValueNumber = typeof values[name] === 'number';
+    const isValueNumber = typeof value === 'number';
 
-    if ((isNumericValueNumber || isValueNumber) && numericValue !== values[name]) {
-      update(values[name] ?? NaN);
+    if ((isNumericValueNumber || isValueNumber) && numericValue !== value) {
+      update(value ?? NaN);
     }
-  }, [numericValue, values[name]]);
+  }, [numericValue, value]);
 
   return (
     <div
@@ -133,16 +132,21 @@ const NumberInputWithSelect = ({
         onResetIconClick={clear}
         resetIconPosition="left"
         rightSection={
-          <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
-            <ReactSelect
-              options={unitOptions}
-              onChange={(option) => onChange(UNIT, option?.value || null)}
-              value={unitOptions.find(({ value }) => value === unit)}
-              styles={{ ...(reactSelectStyles as any) }}
-              isDisabled={disabled}
-              onBlur={onBlur}
-            />
-          </div>
+          unitOptions.length ? (
+            <div className={styles.selectWrapper} onClick={(e) => e.preventDefault()}>
+              <ReactSelect
+                options={unitOptions}
+                onChange={(option) => onChange(unitFieldName, option?.value || null)}
+                value={unitOptions.find(({ value }) => value === unit)}
+                styles={{ ...(reactSelectStyles as any) }}
+                isDisabled={disabled}
+                onBlur={onBlur}
+                formatOptionLabel={formatOptionLabel}
+              />
+            </div>
+          ) : (
+            <span className={styles.selectValue}>{unit}</span>
+          )
         }
       />
     </div>

@@ -13,53 +13,68 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useTranslation } from 'react-i18next';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import InputBaseLabel from '../InputBase/InputBaseLabel';
-import NumberInputWithSelect, { NPK, NumberInputWithSelectProps } from './NumberInputWithSelect';
+import NumberInputWithSelect, { NumberInputWithSelectProps } from './NumberInputWithSelect';
 import styles from './styles.module.scss';
 
-type CompositionInputsProps = Omit<NumberInputWithSelectProps, 'name' | 'label'> & {
-  inputsInfo: { name: NPK; label: string }[];
+type CompositionInputsProps = Omit<
+  NumberInputWithSelectProps,
+  'name' | 'label' | 'value' | 'unit'
+> & {
+  mainLabel?: string;
+  inputsInfo: { name: string; label: string }[];
+  values: { [key: string]: any };
+  unit?: string;
+  unitFieldName: string;
 };
 
 const CompositionInputs = ({
-  unitOptions,
+  mainLabel = '',
   inputsInfo,
   error = '',
   disabled = false,
   onChange,
   onBlur,
   values,
+  unit,
+  unitFieldName,
+  reactSelectJustifyContent,
+  ...props
 }: CompositionInputsProps) => {
-  const { t } = useTranslation();
-
   return (
-    <div>
-      <InputBaseLabel label={t('ADD_PRODUCT.COMPOSITION')} />
-      <div className={styles.inputsWrapper}>
-        {inputsInfo.map(({ name, label }) => {
-          return (
-            <NumberInputWithSelect
-              key={label}
-              label={label}
-              name={name}
-              unitOptions={unitOptions}
-              error={error}
-              disabled={disabled}
-              onChange={onChange}
-              onBlur={onBlur}
-              values={values}
-            />
-          );
-        })}
-      </div>
-      {error && (
-        <div className={styles.error}>
-          <BsFillExclamationCircleFill className={styles.errorIcon} />
-          <span className={styles.errorMessage}>{error}</span>
+    <div className={styles.compositionInputsWrapper}>
+      {mainLabel && <InputBaseLabel label={mainLabel} />}
+      <div>
+        <div className={styles.inputsWrapper}>
+          {inputsInfo.map(({ name, label }) => {
+            return (
+              <NumberInputWithSelect
+                {...props}
+                key={label}
+                label={label}
+                name={name}
+                error={error}
+                disabled={disabled}
+                onChange={onChange}
+                onBlur={onBlur}
+                unit={unit || values?.[unitFieldName]}
+                unitFieldName={unitFieldName}
+                value={values?.[name]}
+                reactSelectJustifyContent={
+                  reactSelectJustifyContent || (disabled ? 'flex-end' : 'flex-start')
+                }
+              />
+            );
+          })}
         </div>
-      )}
+        {error && (
+          <div className={styles.error}>
+            <BsFillExclamationCircleFill className={styles.errorIcon} />
+            <span className={styles.errorMessage}>{error}</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

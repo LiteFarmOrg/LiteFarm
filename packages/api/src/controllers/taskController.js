@@ -72,18 +72,36 @@ async function updateTaskWithCompletedData(
   data,
   wagePatchData,
   nonModifiable,
+  typeOfTask,
 ) {
-  const task = await TaskModel.query(trx)
-    .context({ user_id })
-    .upsertGraph(
-      { task_id, ...data, ...wagePatchData },
-      {
-        noUpdate: nonModifiable,
-        noDelete: true,
-        noInsert: true,
-      },
-    );
-  return task;
+  if (typeOfTask === 'soil_amendment_task') {
+    // Allows the insertion of missing data if no id present
+    // Soft deletes tables with soft delete option and hard deletes ones without
+    const task = await TaskModel.query(trx)
+      .context({ user_id })
+      .upsertGraph(
+        { task_id, ...data, ...wagePatchData },
+        {
+          noUpdate: nonModifiable,
+          noDelete: nonModifiable,
+          noInsert: nonModifiable,
+          insertMissing: true,
+        },
+      );
+    return task;
+  } else {
+    const task = await TaskModel.query(trx)
+      .context({ user_id })
+      .upsertGraph(
+        { task_id, ...data, ...wagePatchData },
+        {
+          noUpdate: nonModifiable,
+          noDelete: true,
+          noInsert: true,
+        },
+      );
+    return task;
+  }
 }
 
 const taskController = {
@@ -579,6 +597,7 @@ const taskController = {
             data,
             finalWage,
             nonModifiable,
+            typeOfTask,
           );
 
           await patchManagementPlanStartDate(trx, req, typeOfTask);

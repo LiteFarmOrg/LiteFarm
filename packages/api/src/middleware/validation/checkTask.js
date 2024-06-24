@@ -89,14 +89,10 @@ export function checkCompleteTask(taskType) {
     try {
       const { task_id } = req.params;
       const { user_id } = req.headers;
-      const { happiness, duration, complete_date } = req.body;
+      const { duration, complete_date } = req.body;
 
       if (!user_id) {
         return res.status(400).send('must have user_id');
-      }
-
-      if (!happiness) {
-        return res.status(400).send('must have happiness rating');
       }
 
       if (!duration) {

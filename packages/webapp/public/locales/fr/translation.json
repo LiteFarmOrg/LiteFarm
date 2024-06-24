@@ -212,14 +212,22 @@
     "SELECT_ALL_PLANS": "Sélectionner tous les plans",
     "SELECT_TASK_TYPE": "Sélectionnez le type de tâche",
     "SOIL_AMENDMENT_VIEW": {
+      "ADVANCED": "MISSING",
+      "APPLICATION_RATE": "MISSING",
+      "APPLIED_TO": "MISSING",
       "IS_PERMITTED": "L'amendement du sol est-il dans la liste des substances autorisées\u00a0?",
       "MOISTURE_RETENTION": "Rétention d'humidité",
       "NUTRIENT_AVAILABILITY": "Disponibilité des nutriments",
       "OTHER": "Autre",
       "OTHER_PURPOSE": "Décrivez l'objectif'",
+      "PERECENT_TO_AMEND": "MISSING",
       "PH": "pH",
       "PURPOSE": "Objectif",
-      "STRUCTURE": "Structure"
+      "QUANTITY": "MISSING",
+      "STRUCTURE": "Structure",
+      "TOTAL_AREA": "MISSING",
+      "VOLUME": "MISSING",
+      "WEIGHT": "MISSING"
     },
     "TASK": "tâche",
     "TASK_NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",

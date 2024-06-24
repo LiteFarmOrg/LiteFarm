@@ -212,14 +212,22 @@
     "SELECT_ALL_PLANS": "Seleccionar todos los planes",
     "SELECT_TASK_TYPE": "Seleccionar tipo de tarea",
     "SOIL_AMENDMENT_VIEW": {
+      "ADVANCED": "MISSING",
+      "APPLICATION_RATE": "MISSING",
+      "APPLIED_TO": "MISSING",
       "IS_PERMITTED": "¿Está el fetilizante del suelo en la lista de sustancias permitidas?",
       "MOISTURE_RETENTION": "Retención de humedad",
       "NUTRIENT_AVAILABILITY": "Disponibilidad de nutrientes",
       "OTHER": "Otro",
       "OTHER_PURPOSE": "Describe el propósito",
+      "PERECENT_TO_AMEND": "MISSING",
       "PH": "pH",
       "PURPOSE": "Propósito",
-      "STRUCTURE": "Estructura"
+      "QUANTITY": "MISSING",
+      "STRUCTURE": "Estructura",
+      "TOTAL_AREA": "MISSING",
+      "VOLUME": "MISSING",
+      "WEIGHT": "MISSING"
     },
     "TASK": "tarea",
     "TASK_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",

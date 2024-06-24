@@ -8,7 +8,7 @@
   "SANDY_CLAYLOAM": "Loam Argilo-Sableux",
   "SANDY_LOAM": "Loam Sableux",
   "SILT": "Limon",
-  "SILT_LOAM": "Loam Limoneux",
   "SILTY_CLAY": "Argile Limoneux",
-  "SILTY_CLAYLOAM": "Loam Argilo-Limoneux"
+  "SILTY_CLAYLOAM": "Loam Argilo-Limoneux",
+  "SILT_LOAM": "Loam Limoneux"
 }

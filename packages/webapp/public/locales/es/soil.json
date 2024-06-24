@@ -8,7 +8,7 @@
   "SANDY_CLAYLOAM": "Franco Arcillo Arenosa",
   "SANDY_LOAM": "Franco Arenosa",
   "SILT": "Limosa",
-  "SILT_LOAM": "Franco Limosa",
   "SILTY_CLAY": "Arcillo Limosa",
-  "SILTY_CLAYLOAM": "Franco Arcillo Limosa"
+  "SILTY_CLAYLOAM": "Franco Arcillo Limosa",
+  "SILT_LOAM": "Franco Limosa"
 }

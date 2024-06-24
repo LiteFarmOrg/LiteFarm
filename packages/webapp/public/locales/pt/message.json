@@ -76,6 +76,11 @@
       "UPDATE": "Informação da fazenda atualizada com sucesso!"
     }
   },
+  "LOGIN": {
+    "ERROR": {
+      "LOGIN_FAIL": "Falha no login das informações do usuário"
+    }
+  },
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Falha ao adicionar uso/destino de colheita personalizado",
@@ -84,11 +89,6 @@
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Uso/destino de colheita personalizado adicionado com sucesso"
-    }
-  },
-  "LOGIN": {
-    "ERROR": {
-      "LOGIN_FAIL": "Falha no login das informações do usuário"
     }
   },
   "MANAGEMENT_PLAN": {

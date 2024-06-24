@@ -11,6 +11,7 @@ import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../locales/i18n';
 import useGenderOptions from '../../hooks/useGenderOptions';
+import useLanguageOptions from '../../hooks/useLanguageOptions';
 
 export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNotSSO }) {
   const {
@@ -41,13 +42,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
   } = validatePasswordWithErrors(password);
 
   const genderOptions = useGenderOptions();
-
-  const languageOptions = [
-    { value: 'en', label: t('PROFILE.ACCOUNT.ENGLISH') },
-    { value: 'es', label: t('PROFILE.ACCOUNT.SPANISH') },
-    { value: 'pt', label: t('PROFILE.ACCOUNT.PORTUGUESE') },
-    { value: 'fr', label: t('PROFILE.ACCOUNT.FRENCH') },
-  ];
+  const languageOptions = useLanguageOptions();
 
   const getLanguageOption = (language) => {
     return languageOptions.findIndex((object) => object.value === language);

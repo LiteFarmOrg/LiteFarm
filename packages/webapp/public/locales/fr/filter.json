@@ -1,13 +1,13 @@
 {
   "CROP_CATALOGUE": {
-    "LOCATION": "Lieu",
-    "STATUS": "Statut",
-    "SUPPLIERS": "Fournisseurs",
-    "ACTIVE": "Actif",
     "ABANDONED": "Abandoné",
+    "ACTIVE": "Actif",
     "COMPLETE": "Terminé",
+    "LOCATION": "Lieu",
+    "NEEDS_PLAN": "Plan Requis",
     "PLANNED": "Planifié",
-    "NEEDS_PLAN": "Plan Requis"
+    "STATUS": "Statut",
+    "SUPPLIERS": "Fournisseurs"
   },
   "DOCUMENTS": {
     "CLEANING_PRODUCT": "Produit Nettoyant",
@@ -19,23 +19,23 @@
     "RECEIPTS": "Reçu",
     "SOIL_AMENDMENT": "Amendement",
     "SOIL_SAMPLE_RESULTS": "Analyse de sol",
-    "WATER_SAMPLE_RESULTS": "Analyse d'eau",
-    "UNCATEGORIZED": "Non Classé"
+    "UNCATEGORIZED": "Non Classé",
+    "WATER_SAMPLE_RESULTS": "Analyse d'eau"
+  },
+  "FILTER": {
+    "FROM_DATE": "Du",
+    "TO_DATE": "Au",
+    "VALID_ON": "Valable le"
   },
   "TASKS": {
-    "LOCATION": "Lieu",
     "ABANDONED": "Abandonnée",
+    "ACTIVE": "Active",
     "COMPLETED": "Terminée",
     "FOR_REVIEW": "Pour évaluer",
     "LATE": "En retard",
+    "LOCATION": "Lieu",
     "PLANNED": "Planifiée",
     "STATUS": "Statut",
-    "SUPPLIERS": "Fournisseurs",
-    "ACTIVE": "Active"
-  },
-  "FILTER": {
-    "VALID_ON": "Valable le",
-    "FROM_DATE": "Du",
-    "TO_DATE": "Au"
+    "SUPPLIERS": "Fournisseurs"
   }
 }

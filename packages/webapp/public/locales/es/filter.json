@@ -1,41 +1,41 @@
 {
   "CROP_CATALOGUE": {
-    "LOCATION": "Ubicación",
-    "STATUS": "Estatus",
-    "SUPPLIERS": "Proveedor",
-    "ACTIVE": "Activo",
     "ABANDONED": "Abandanado",
+    "ACTIVE": "Activo",
     "COMPLETE": "Terminado",
+    "LOCATION": "Ubicación",
+    "NEEDS_PLAN": "Necesita un plan",
     "PLANNED": "Planificado",
-    "NEEDS_PLAN": "Necesita un plan"
+    "STATUS": "Estatus",
+    "SUPPLIERS": "Proveedor"
   },
   "DOCUMENTS": {
     "CLEANING_PRODUCT": "Producto de limpieza",
     "CROP_COMPLIANCE": "Cumplimiento de cultivos",
     "FERTILIZING_PRODUCT": "Producto fertilizante",
+    "INVOICES": "Facturas",
     "OTHER": "Otro",
     "PEST_CONTROL_PRODUCT": "Producto de control de plagas",
+    "RECEIPTS": "Recibos",
     "SOIL_AMENDMENT": "Aditivo de suelo",
     "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo",
-    "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua",
     "UNCATEGORIZED": "Sin categorizar",
-    "RECEIPTS": "Recibos",
-    "INVOICES": "Facturas"
+    "WATER_SAMPLE_RESULTS": "Resultados de la muestra de agua"
+  },
+  "FILTER": {
+    "FROM_DATE": "Desde",
+    "TO_DATE": "Hasta",
+    "VALID_ON": "Válido en"
   },
   "TASKS": {
-    "LOCATION": "Ubicación",
     "ABANDONED": "Abandonada",
+    "ACTIVE": "Activo",
     "COMPLETED": "Completada",
     "FOR_REVIEW": "Para la revisión",
     "LATE": "Tarde",
+    "LOCATION": "Ubicación",
     "PLANNED": "Planificada",
     "STATUS": "Estatus",
-    "SUPPLIERS": "Proveedores",
-    "ACTIVE": "Activo"
-  },
-  "FILTER": {
-    "VALID_ON": "Válido en",
-    "FROM_DATE": "Desde",
-    "TO_DATE": "Hasta"
+    "SUPPLIERS": "Proveedores"
   }
 }

@@ -1,0 +1,54 @@
+{
+  "EQUIPMENT": {
+    "CUSTOM_DESCRIPTION": "Ausgaben für einfache Werkzeuge, Verbrauchsmaterialien und Teile für den Betrieb Ihres Betriebs.",
+    "EXPENSE_NAME": "Ausrüstung"
+  },
+  "FUEL": {
+    "CUSTOM_DESCRIPTION": "Ausgaben im Zusammenhang mit der Betankung von Infrastruktur, Fahrzeugen, Maschinen und Geräten.",
+    "EXPENSE_NAME": "Kraftstoff"
+  },
+  "INFRASTRUCTURE": {
+    "CUSTOM_DESCRIPTION": "Ausgaben im Zusammenhang mit dem Bau oder der Verbesserung von Strukturen auf dem Bauernhof.",
+    "EXPENSE_NAME": "Infrastruktur"
+  },
+  "LABOUR": {
+    "CUSTOM_DESCRIPTION": "Ausgaben für unter Vertrag stehende Personen.",
+    "EXPENSE_NAME": "Vertragsarbeit"
+  },
+  "LAND": {
+    "CUSTOM_DESCRIPTION": "Ausgaben im Zusammenhang mit dem Kauf, der Finanzierung, der Pacht, der Miete, dem Zugang, der Steuer und anderen Gebühren für Landbesitz oder -nutzung.",
+    "EXPENSE_NAME": "Land"
+  },
+  "MACHINERY": {
+    "CUSTOM_DESCRIPTION": "Ausgaben im Zusammenhang mit dem Kauf, dem Leasing, der Miete und der Wartung von Maschinen.",
+    "EXPENSE_NAME": "Maschinenpark"
+  },
+  "MISCELLANEOUS": {
+    "CUSTOM_DESCRIPTION": "Alles andere. Erwägen Sie die Erstellung eines benutzerdefinierten Ausgabentyps, wenn Sie in Zukunft zusätzliche Ausgaben wie diese haben werden.",
+    "EXPENSE_NAME": "Sonstiges"
+  },
+  "PEST_CONTROL": {
+    "CUSTOM_DESCRIPTION": "Ausgaben im Zusammenhang mit dem Kauf von Zutaten, Produkten und Geräten zur Bekämpfung unerwünschter Arten.",
+    "EXPENSE_NAME": "Schädlingsbekämpfung"
+  },
+  "SEEDS_AND_PLANTS": {
+    "CUSTOM_DESCRIPTION": "Kauf von Saatgut, Anfängen und Setzlingen für die An- und Umpflanzung.",
+    "EXPENSE_NAME": "Saatgut und Pflanzen"
+  },
+  "SERVICES": {
+    "CUSTOM_DESCRIPTION": "Ausgaben im Zusammenhang mit anderen Dienstleistungen wie Lizenzierung, Zertifizierung, agronomische Unterstützung, Tests, Marketing und andere.",
+    "EXPENSE_NAME": "Dienstleistungen"
+  },
+  "SOIL_AMENDMENT": {
+    "CUSTOM_DESCRIPTION": "Ausgaben für Zusatzstoffe wie Düngemittel, die die Eigenschaften Ihres Bodens verbessern.",
+    "EXPENSE_NAME": "Bodenverbesserung"
+  },
+  "TRANSPORTATION": {
+    "CUSTOM_DESCRIPTION": "Kosten im Zusammenhang mit dem Transport von Inputs, Outputs und Menschen.",
+    "EXPENSE_NAME": "Transport"
+  },
+  "UTILITIES": {
+    "CUSTOM_DESCRIPTION": "Wiederkehrende Ausgaben für Strom, Gas, Wasser (einschließlich Bewässerung), Müllabfuhr und andere regelmäßig anfallende Dienstleistungen.",
+    "EXPENSE_NAME": "Versorgungsunternehmen"
+  }
+}

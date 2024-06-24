@@ -1,12 +1,12 @@
 {
-  "SALES": "Ventas",
-  "SELF-CONSUMPTION": "Autoconsumo",
   "ANIMAL_FEED": "Alimento Animal",
   "COMPOST": "Compost",
-  "GIFT": "Regalo",
-  "EXCHANGE": "Trueque",
-  "SAVED_FOR_SEED": "Guardar para semilla",
-  "NOT_SURE": "No lo se",
   "DONATION": "Donacion",
-  "OTHER": "Otro"
+  "EXCHANGE": "Trueque",
+  "GIFT": "Regalo",
+  "NOT_SURE": "No lo se",
+  "OTHER": "Otro",
+  "SALES": "Ventas",
+  "SAVED_FOR_SEED": "Guardar para semilla",
+  "SELF-CONSUMPTION": "Autoconsumo"
 }

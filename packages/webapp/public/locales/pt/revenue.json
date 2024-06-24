@@ -1,6 +1,6 @@
 {
   "CROP_SALE": {
-    "REVENUE_NAME": "Venda de cultivos",
-    "CUSTOM_DESCRIPTION": "Receitas associadas à venda de cultivos desta fazenda/sítio."
+    "CUSTOM_DESCRIPTION": "Receitas associadas à venda de cultivos desta fazenda/sítio.",
+    "REVENUE_NAME": "Venda de cultivos"
   }
 }

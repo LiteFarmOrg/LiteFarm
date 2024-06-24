@@ -18,8 +18,8 @@
     "BROUGHT_IN": "Brought in"
   },
   "SEX": {
-    "MALE": "Male",
-    "FEMALE": "Female"
+    "FEMALE": "Female",
+    "MALE": "Male"
   },
   "TAG_COLOR": {
     "BLUE": "Blue",
@@ -45,15 +45,15 @@
     "PIGS": "Pigs"
   },
   "USE": {
-    "MILK": "Milk",
+    "ANIMAL_FIBERS_AND_SKINS": "Animal Fibers and Skins",
+    "BREEDING": "Breeding",
+    "COMPANIONSHIP": "Companionship",
     "EGGS": "Eggs",
     "FAT": "Fat",
-    "MEAT": "Meat",
-    "ANIMAL_FIBERS_AND_SKINS": "Animal Fibers and Skins",
     "LABOUR_AND_DRAFT": "Labour and Draft",
-    "BREEDING": "Breeding",
-    "RECREATIONAL_OR_CULTURAL_USE": "Recreational or Cultural Use",
-    "COMPANIONSHIP": "Companionship",
-    "OTHER": "Other"
+    "MEAT": "Meat",
+    "MILK": "Milk",
+    "OTHER": "Other",
+    "RECREATIONAL_OR_CULTURAL_USE": "Recreational or Cultural Use"
   }
 }

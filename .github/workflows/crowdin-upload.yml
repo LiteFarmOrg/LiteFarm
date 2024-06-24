@@ -2,6 +2,10 @@ name: Crowdin Upload Action
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - "**/locales"
+    branches: [integration]
 
 jobs:
   synchronize-translations:
@@ -46,6 +50,7 @@ jobs:
           download_translations: false
           auto_approve_imported: false
           import_eq_suggestions: true
+          crowdin_branch_name: ${{ github.head_ref }}
           source: ${{ matrix.locales.source }} # Sources pattern
           translation: ${{ matrix.locales.translation }} # Translations pattern
         env:

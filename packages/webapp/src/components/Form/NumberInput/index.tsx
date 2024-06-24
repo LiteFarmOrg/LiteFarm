@@ -34,6 +34,8 @@ export type NumberInputProps<T extends FieldValues> = UseControllerProps<T> &
      * Controls visibility of stepper.
      */
     showStepper?: boolean;
+
+    className?: string;
   };
 
 export default function NumberInput<T extends FieldValues>({
@@ -52,6 +54,7 @@ export default function NumberInput<T extends FieldValues>({
   control,
   rules,
   defaultValue,
+  className,
   onChange,
   onBlur,
   ...props
@@ -81,6 +84,7 @@ export default function NumberInput<T extends FieldValues>({
     <InputBase
       {...props}
       {...inputProps}
+      className={className}
       error={fieldState.error?.message}
       onResetIconClick={reset}
       leftSection={currencySymbol}

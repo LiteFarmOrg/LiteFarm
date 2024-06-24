@@ -55,6 +55,7 @@ export function NumberInputStepperButton(
 ) {
   return (
     <button
+      type="button"
       className={clsx(styles.stepperBtnUnstyled, props.className)}
       aria-label={props['aria-label']}
       tabIndex={-1}

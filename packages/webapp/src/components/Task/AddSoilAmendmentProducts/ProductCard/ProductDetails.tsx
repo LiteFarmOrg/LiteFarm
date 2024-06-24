@@ -57,6 +57,8 @@ const {
   CU,
   MN,
   B,
+  AMMONIUM,
+  NITRATE,
 } = PRODUCT_FIELD_NAMES;
 
 const unitOptions = [
@@ -146,7 +148,12 @@ const ProductDetails = ({
     defaultValues,
   });
 
-  const [moistureContent, dryMatterContent] = watch([MOISTURE_CONTENT, DRY_MATTER_CONTENT]);
+  const [moistureContent, dryMatterContent, ammonium, nitrate] = watch([
+    MOISTURE_CONTENT,
+    DRY_MATTER_CONTENT,
+    AMMONIUM,
+    NITRATE,
+  ]);
 
   const {
     expandedIds: expandedAdditionalNutrientsIds,
@@ -411,6 +418,27 @@ const ProductDetails = ({
                   ],
                   shouldShowError: true, // TODO
                 })}
+
+                <CompositionInputs
+                  onChange={(fieldName: string, value: string | number | null): void => {
+                    setValue(
+                      fieldName as typeof AMMONIUM | typeof NITRATE,
+                      value ? +value : undefined,
+                    );
+                  }}
+                  inputsInfo={[
+                    {
+                      name: AMMONIUM,
+                      label: t('ADD_PRODUCT.AMMONIUM'),
+                    },
+                    {
+                      name: NITRATE,
+                      label: t('ADD_PRODUCT.NITRATE'),
+                    },
+                  ]}
+                  values={{ [AMMONIUM]: ammonium, [NITRATE]: nitrate }}
+                  unit="ppm"
+                />
               </div>
             </Collapse>
           </div>

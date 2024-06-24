@@ -34,6 +34,7 @@ import {
   type Product,
   type ProductId,
 } from '../types';
+import useInputsInfo from './useInputsInfo';
 import { CANADA } from '../../AddProduct/constants';
 import { TASK_TYPES } from '../../../../containers/Task/constants';
 import { roundToTwoDecimal } from '../../../../util';
@@ -161,6 +162,8 @@ const ProductDetails = ({
     unExpand: unExpandAdditionalNutrients,
   } = useExpandable();
 
+  const inputsInfo = useInputsInfo();
+
   const isAdditionalNutrientsExpanded =
     expandedAdditionalNutrientsIds.includes(additionalNutrientsId);
 
@@ -170,7 +173,7 @@ const ProductDetails = ({
     const isAddingNewProduct = !!(productId && !selectedProduct);
     const shouldNotResetFields = wasAddingNewProduct && isAddingNewProduct;
 
-    const dryMatterContent =
+    const newDryMatterContent =
       typeof selectedProduct?.[MOISTURE_CONTENT] === 'number'
         ? subtractFrom100(selectedProduct[MOISTURE_CONTENT] as number)
         : undefined;
@@ -181,7 +184,7 @@ const ProductDetails = ({
         [PERMITTED]: selectedProduct?.[PERMITTED] || undefined,
         [FERTILISER_TYPE]: selectedProduct?.[FERTILISER_TYPE] || undefined,
         [MOISTURE_CONTENT]: selectedProduct?.[MOISTURE_CONTENT] || undefined,
-        [DRY_MATTER_CONTENT]: dryMatterContent,
+        [DRY_MATTER_CONTENT]: newDryMatterContent,
         [COMPOSITION]: {
           [UNIT]: selectedProduct?.[UNIT] || Unit.RATIO,
           [N]: selectedProduct?.[N] ?? NaN,
@@ -194,6 +197,8 @@ const ProductDetails = ({
           [MN]: selectedProduct?.[MN] ?? NaN,
           [B]: selectedProduct?.[B] ?? NaN,
         },
+        [AMMONIUM]: selectedProduct?.[AMMONIUM] ?? NaN,
+        [NITRATE]: selectedProduct?.[NITRATE] ?? NaN,
       });
     }
 
@@ -355,27 +360,14 @@ const ProductDetails = ({
             onChange={(fieldName: string, value: string | number | null): void => {
               handleMoistureDryMatterContentChange(fieldName, value ? +value : undefined);
             }}
-            inputsInfo={[
-              {
-                name: MOISTURE_CONTENT,
-                label: t('ADD_PRODUCT.MOISTURE_CONTENT'),
-              },
-              {
-                name: DRY_MATTER_CONTENT,
-                label: t('ADD_PRODUCT.DRY_MATTER_CONTENT'),
-              },
-            ]}
+            inputsInfo={inputsInfo.moistureDrymatterContents}
             values={{ [MOISTURE_CONTENT]: moistureContent, [DRY_MATTER_CONTENT]: dryMatterContent }}
             unit="%"
           />
 
           {renderCompositionInputsWithController({
             mainLabel: t('ADD_PRODUCT.COMPOSITION'),
-            inputsInfo: [
-              { name: Nutrients.N, label: t('ADD_PRODUCT.NITROGEN') },
-              { name: Nutrients.P, label: t('ADD_PRODUCT.PHOSPHOROUS') },
-              { name: Nutrients.K, label: t('ADD_PRODUCT.POTASSIUM') },
-            ],
+            inputsInfo: inputsInfo.npk,
             shouldShowError: true, // TODO
           })}
 
@@ -408,14 +400,7 @@ const ProductDetails = ({
             >
               <div className={styles.sectionBody}>
                 {renderCompositionInputsWithController({
-                  inputsInfo: [
-                    { name: Nutrients.CA, label: t('ADD_PRODUCT.CALCIUM') },
-                    { name: Nutrients.MG, label: t('ADD_PRODUCT.MAGNESIUM') },
-                    { name: Nutrients.S, label: t('ADD_PRODUCT.SULFUR') },
-                    { name: Nutrients.CU, label: t('ADD_PRODUCT.COPPER') },
-                    { name: Nutrients.MN, label: t('ADD_PRODUCT.MANGANESE') },
-                    { name: Nutrients.B, label: t('ADD_PRODUCT.BORON') },
-                  ],
+                  inputsInfo: inputsInfo.additionalNutrients,
                   shouldShowError: true, // TODO
                 })}
 
@@ -426,16 +411,7 @@ const ProductDetails = ({
                       value ? +value : undefined,
                     );
                   }}
-                  inputsInfo={[
-                    {
-                      name: AMMONIUM,
-                      label: t('ADD_PRODUCT.AMMONIUM'),
-                    },
-                    {
-                      name: NITRATE,
-                      label: t('ADD_PRODUCT.NITRATE'),
-                    },
-                  ]}
+                  inputsInfo={inputsInfo.ammoniumNitrate}
                   values={{ [AMMONIUM]: ammonium, [NITRATE]: nitrate }}
                   unit="ppm"
                 />

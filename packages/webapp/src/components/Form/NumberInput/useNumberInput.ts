@@ -56,6 +56,10 @@ export type NumberInputOptions = {
    */
   min?: number;
   /**
+   * Controls whether or not to clamp value on blur that is outside of allowed range
+   */
+  clampOnBlur?: boolean;
+  /**
    * Function called when number value of input changes.
    * @param value - Current value represented as number or NaN if input field is empty.
    */
@@ -75,6 +79,7 @@ export default function useNumberInput({
   step = 1,
   min = 0,
   max = Infinity,
+  clampOnBlur = true,
   onChange,
   onBlur,
 }: NumberInputOptions) {
@@ -134,7 +139,7 @@ export default function useNumberInput({
   };
 
   const handleBlur = () => {
-    if (numericValue < min || numericValue > max) {
+    if (clampOnBlur && (numericValue < min || numericValue > max)) {
       update(clamp(numericValue, min, max));
     }
     setIsFocused(false);

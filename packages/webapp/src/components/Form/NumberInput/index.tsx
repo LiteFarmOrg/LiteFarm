@@ -52,6 +52,7 @@ export default function NumberInput({
   max = Infinity,
   min = 0,
   showStepper = false,
+  clampOnBlur = true,
   name,
   control,
   rules,
@@ -69,6 +70,7 @@ export default function NumberInput({
     step,
     min,
     max,
+    clampOnBlur,
     onChange: (value) => {
       field.onChange(isNaN(value) ? null : value);
       onChange?.(value);

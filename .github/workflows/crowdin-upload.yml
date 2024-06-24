@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "*/locales"
+      - "**/locales"
     branches: [integration]
 
 jobs:
@@ -48,8 +48,9 @@ jobs:
           upload_sources_args: --preserve-hierarchy
           upload_translations_args: --preserve-hierarchy
           download_translations: false
-          auto_approve_imported: true
+          auto_approve_imported: false
           import_eq_suggestions: true
+          crowdin_branch_name: ${{ github.head_ref }}
           source: ${{ matrix.locales.source }} # Sources pattern
           translation: ${{ matrix.locales.translation }} # Translations pattern
         env:

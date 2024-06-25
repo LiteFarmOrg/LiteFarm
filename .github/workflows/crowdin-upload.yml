@@ -52,7 +52,7 @@ jobs:
           download_translations: false
           auto_approve_imported: false
           import_eq_suggestions: true
-          crowdin_branch_name: ${{ env.BRANCH_NAME }}
+          crowdin_branch_name: string-test-for-crowdin-branch
           source: ${{ matrix.locales.source }} # Sources pattern
           translation: ${{ matrix.locales.translation }} # Translations pattern
         env:

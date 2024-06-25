@@ -1,7 +1,6 @@
 {
   "BREED": {
     "ANGUS": "Angus",
-    "AZURE_BLUE": "Azure blue",
     "CHAROLAIS": "Charolais",
     "COBB_500": "Cobb 500",
     "CORNISH_CROSS": "Cornish Cross",
@@ -9,7 +8,8 @@
     "HEREFORD": "Hereford",
     "LANDRACE": "Landrace",
     "LEGHORN": "Leghorn",
-    "NOIRAN": "Noiran",
+    "PLYMOUTH_ROCK": "Plymouth Rock",
+    "RHODE_ISLAND_RED": "Rhode Island Red",
     "ROSS_308": "Ross 308",
     "YORKSHIRE_LARGE_WHITE": "Yorkshire Large White"
   },

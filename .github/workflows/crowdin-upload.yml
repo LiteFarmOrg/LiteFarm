@@ -50,7 +50,7 @@ jobs:
           upload_sources_args: --preserve-hierarchy
           upload_translations_args: --preserve-hierarchy
           download_translations: false
-          auto_approve_imported: true
+          auto_approve_imported: false
           import_eq_suggestions: true
           crowdin_branch_name: ${{ env.BRANCH_NAME }}
           source: ${{ matrix.locales.source }} # Sources pattern

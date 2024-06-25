@@ -78,9 +78,18 @@
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
   "ADD_PRODUCT": {
+    "ADD_ANOTHER_PRODUCT": "MISSING",
+    "BUTTON_WARNING": "MISSING",
     "COMPOSITION": "MISSING",
+    "COMPOSITION_ERROR": "MISSING",
+    "EDIT_PRODUCT_DETAILS": "MISSING",
+    "NITROGEN": "MISSING",
+    "PHOSPHOROUS": "MISSING",
+    "POTASSIUM": "MISSING",
     "PRESS_ENTER": "Digite e pressione enter para adicionar...",
+    "PRODUCT_DETAILS": "MISSING",
     "PRODUCT_LABEL": "Produto",
+    "SAVE_PRODUCT": "MISSING",
     "SUPPLIER_LABEL": "Fornecedor"
   },
   "ADD_TASK": {
@@ -203,14 +212,22 @@
     "SELECT_ALL_PLANS": "Selecionar todos os planos",
     "SELECT_TASK_TYPE": "Selecionar tipo de tarefa",
     "SOIL_AMENDMENT_VIEW": {
+      "ADVANCED": "MISSING",
+      "APPLICATION_RATE": "MISSING",
+      "APPLIED_TO": "MISSING",
       "IS_PERMITTED": "O corretivo de solo está na lista de substâncias permitidas?",
       "MOISTURE_RETENTION": "Retenção de umidade",
       "NUTRIENT_AVAILABILITY": "Disponibilidade de nutriente",
       "OTHER": "Outro",
       "OTHER_PURPOSE": "Descreva o objetivo",
+      "PERECENT_TO_AMEND": "MISSING",
       "PH": "pH",
       "PURPOSE": "Objetivo",
-      "STRUCTURE": "Estrutura"
+      "QUANTITY": "MISSING",
+      "STRUCTURE": "Estrutura",
+      "TOTAL_AREA": "MISSING",
+      "VOLUME": "MISSING",
+      "WEIGHT": "MISSING"
     },
     "TASK": "tarefa",
     "TASK_NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",

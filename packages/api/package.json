@@ -1,6 +1,6 @@
 {
   "name": "litefarm-api",
-  "version": "3.6.3",
+  "version": "3.6.4",
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "type": "module",
@@ -86,7 +86,6 @@
     "objection": "^3.0.1",
     "objection-soft-delete": "^1.0.7",
     "pg": "^8.5.1",
-    "pug": "^3.0.2",
     "puppeteer": "^13.3.1",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",

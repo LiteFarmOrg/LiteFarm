@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { Model } from 'objection';
 import baseModel from './baseModel.js';
+import soilAmendmentProductModel from './soilAmendmentProductModel.js';
 
 class ProductModel extends baseModel {
   static get tableName() {
@@ -44,16 +46,22 @@ class ProductModel extends baseModel {
           enum: ['soil_amendment_task', 'pest_control_task', 'cleaning_task'],
         },
         farm_id: { type: 'string' },
-        n: { type: ['number', 'null'] },
-        p: { type: ['number', 'null'] },
-        k: { type: ['number', 'null'] },
-        npk_unit: {
-          type: ['string', 'null'],
-          enum: ['ratio', 'percent', null],
-        },
         ...this.baseProperties,
       },
       additionalProperties: false,
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      soil_amendment_product: {
+        relation: Model.HasOneRelation,
+        modelClass: soilAmendmentProductModel,
+        join: {
+          from: 'product.product_id',
+          to: 'soil_amendment_product.product_id',
+        },
+      },
     };
   }
 }

@@ -17,6 +17,58 @@ import Model from './baseFormatModel.js';
 import taskModel from './taskModel.js';
 
 class CleaningTaskModel extends Model {
+  // TODO: LF-4263 remove stub and update controller and FE to accept volume and weight
+  $parseDatabaseJson(json) {
+    // Remember to call the super class's implementation.
+    json = super.$parseDatabaseJson(json);
+    if (json.weight && json.weight_unit) {
+      json.product_quantity = json.weight;
+      json.product_quantity_unit = json.weight_unit;
+    } else if (json.volume && json.volume_unit) {
+      json.product_quantity = json.volume;
+      json.product_quantity_unit = json.volume_unit;
+    } else if (!json.volume && !json.weight) {
+      json.product_quantity = null;
+      json.product_quantity_unit = null;
+    }
+    // Database checks prevent quantity && !quantity_unit
+    delete json.weight;
+    delete json.weight_unit;
+    delete json.volume;
+    delete json.volume_unit;
+    return json;
+  }
+
+  // TODO: LF-4263 remove stub and update controller and FE to accept volume and weight
+  $formatDatabaseJson(json) {
+    // Remember to call the super class's implementation.
+    json = super.$formatDatabaseJson(json);
+    const weightUnits = ['g', 'lb', 'kg', 't', 'mt', 'oz'];
+    const volumeUnits = ['l', 'gal', 'ml', 'fl-oz'];
+    if (json.product_quantity) {
+      if (json.product_quantity_unit && weightUnits.includes(json.product_quantity_unit)) {
+        json.weight = json.product_quantity;
+        json.weight_unit = json.product_quantity_unit;
+        json.volume = null;
+        json.volume_unit = null;
+      } else if (json.product_quantity_unit && volumeUnits.includes(json.product_quantity_unit)) {
+        json.volume = json.product_quantity;
+        json.volume_unit = json.product_quantity_unit;
+        json.weight = null;
+        json.weight_unit = null;
+      } else {
+        json.volume = json.product_quantity;
+        //Database previously defaulted to 'l'
+        json.volume_unit = 'l';
+        json.weight = null;
+        json.weight_unit = null;
+      }
+    }
+    delete json.product_quantity;
+    delete json.product_quantity_unit;
+    return json;
+  }
+
   static get tableName() {
     return 'cleaning_task';
   }

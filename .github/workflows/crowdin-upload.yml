@@ -3,9 +3,11 @@ name: Crowdin Upload Action
 on:
   workflow_dispatch:
   push:
+    branches:
+      - integration
     paths:
-      - "**/locales"
-    branches: [integration]
+      - "**/locales/**.md"
+      - "**/locales/**.json"
 
 jobs:
   synchronize-translations:
@@ -50,10 +52,11 @@ jobs:
           download_translations: false
           auto_approve_imported: false
           import_eq_suggestions: true
-          crowdin_branch_name: ${{ github.head_ref }}
+          crowdin_branch_name: ${{ env.BRANCH_NAME }}
           source: ${{ matrix.locales.source }} # Sources pattern
           translation: ${{ matrix.locales.translation }} # Translations pattern
         env:
           GITHUB_TOKEN: ${{ secrets.CROWDIN_TEMP_PERSONAL_TOKEN }}
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}

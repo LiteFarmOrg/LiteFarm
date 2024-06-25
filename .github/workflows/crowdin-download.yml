@@ -20,13 +20,14 @@ jobs:
           export_only_approved: true
           source: packages/webapp/public/locales/en/*.json # Sources pattern
           translation: packages/webapp/public/locales/%two_letters_code%/%original_file_name% # Translations pattern
-          localization_branch_name: l10n_crowdin_translations
+          localization_branch_name: l10n_crowdin_translations_${{ env.BRANCH_NAME }}
           create_pull_request: true
           pull_request_title: "New Crowdin translations"
           pull_request_body: "New Crowdin pull request with translations"
-          pull_request_base_branch_name: ${{ github.head_ref }}
-          crowdin_branch_name: ${{ github.head_ref }}
+          pull_request_base_branch_name: ${{ env.BRANCH_NAME }}
+          crowdin_branch_name: ${{ env.BRANCH_NAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.CROWDIN_TEMP_PERSONAL_TOKEN }}
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}

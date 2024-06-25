@@ -75,6 +75,7 @@
   "ADD_PRODUCT": {
     "ADD_ANOTHER_PRODUCT": "Add another product",
     "ADDITIONAL_NUTRIENTS": "Additional nutrients",
+    "AMMONIUM": "Ammonium - NH4-N",
     "BORON": "Boron (B)",
     "BUTTON_WARNING": "Any changes will affect all tasks involving this product",
     "CALCIUM": "Calcium (Ca)",
@@ -90,6 +91,7 @@
     "MAGNESIUM": "Magnesium (Mg)",
     "MANGANESE": "Manganese (Mn)",
     "MOISTURE_CONTENT": "Moisture content",
+    "NITRATE": "Nitrate - NO3-N",
     "NITROGEN": "Nitrogen (N)",
     "PHOSPHOROUS": "Phosphorous (P)",
     "POTASSIUM": "Potassium (K)",

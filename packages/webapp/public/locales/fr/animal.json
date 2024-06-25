@@ -1,59 +1,60 @@
 {
   "BREED": {
-    "ANGUS": "MISSING",
-    "CHAROLAIS": "MISSING",
-    "COBB_500": "MISSING",
-    "CORNISH_CROSS": "MISSING",
-    "DUROC": "MISSING",
-    "HEREFORD": "MISSING",
-    "LANDRACE": "MISSING",
-    "LEGHORN": "MISSING",
-    "PLYMOUTH_ROCK": "MISSING",
-    "RHODE_ISLAND_RED": "MISSING",
-    "ROSS_308": "MISSING",
-    "YORKSHIRE_LARGE_WHITE": "MISSING"
+    "ANGUS": "",
+    "CHAROLAIS": "",
+    "COBB_500": "",
+    "CORNISH_CROSS": "",
+    "DUROC": "",
+    "HEREFORD": "",
+    "LANDRACE": "",
+    "LEGHORN": "",
+    "OTHER": "",
+    "PLYMOUTH_ROCK": "",
+    "RHODE_ISLAND_RED": "",
+    "ROSS_308": "",
+    "YORKSHIRE_LARGE_WHITE": ""
   },
   "ORIGIN": {
-    "BORN_AT_FARM": "MISSING",
-    "BROUGHT_IN": "MISSING"
+    "BORN_AT_FARM": "",
+    "BROUGHT_IN": ""
   },
   "SEX": {
-    "MALE": "MISSING",
-    "FEMALE": "MISSING"
+    "MALE": "",
+    "FEMALE": ""
   },
   "TAG_COLOR": {
-    "BLUE": "MISSING",
-    "GREEN": "MISSING",
-    "ORANGE": "MISSING",
-    "RED": "MISSING",
-    "WHITE": "MISSING",
-    "YELLOW": "MISSING"
+    "BLUE": "",
+    "GREEN": "",
+    "ORANGE": "",
+    "RED": "",
+    "WHITE": "",
+    "YELLOW": ""
   },
   "TAG_PLACEMENT": {
-    "LEFT_EAR": "MISSING",
-    "LEFT_LEG": "MISSING",
-    "RIGHT_EAR": "MISSING",
-    "RIGHT_LEG": "MISSING"
+    "LEFT_EAR": "",
+    "LEFT_LEG": "",
+    "RIGHT_EAR": "",
+    "RIGHT_LEG": ""
   },
   "TAG_TYPE": {
-    "EAR_TAG": "MISSING",
-    "LEG_BAND": "MISSING"
+    "EAR_TAG": "",
+    "LEG_BAND": ""
   },
   "TYPE": {
-    "CATTLE": "MISSING",
-    "CHICKEN": "MISSING",
-    "PIGS": "MISSING"
+    "CATTLE": "",
+    "CHICKEN": "",
+    "PIGS": ""
   },
   "USE": {
-    "MILK": "MISSING",
-    "EGGS": "MISSING",
-    "FAT": "MISSING",
-    "MEAT": "MISSING",
-    "ANIMAL_FIBERS_AND_SKINS": "MISSING",
-    "LABOUR_AND_DRAFT": "MISSING",
-    "BREEDING": "MISSING",
-    "RECREATIONAL_OR_CULTURAL_USE": "MISSING",
-    "COMPANIONSHIP": "MISSING",
-    "OTHER": "MISSING"
+    "MILK": "",
+    "EGGS": "",
+    "FAT": "",
+    "MEAT": "",
+    "ANIMAL_FIBERS_AND_SKINS": "",
+    "LABOUR_AND_DRAFT": "",
+    "BREEDING": "",
+    "RECREATIONAL_OR_CULTURAL_USE": "",
+    "COMPANIONSHIP": "",
+    "OTHER": ""
   }
 }

@@ -52,7 +52,7 @@ jobs:
           download_translations: false
           auto_approve_imported: true
           import_eq_suggestions: true
-          crowdin_branch_name: ${{ github.head_ref }}
+          crowdin_branch_name: ${{ env.BRANCH_NAME }}
           source: ${{ matrix.locales.source }} # Sources pattern
           translation: ${{ matrix.locales.translation }} # Translations pattern
         env:

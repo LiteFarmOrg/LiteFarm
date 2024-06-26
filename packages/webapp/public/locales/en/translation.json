@@ -511,7 +511,6 @@
     "MANAGEMENT_PLANS": "Crop Plans",
     "MANAGEMENT_TAB": "Management",
     "ORGANIC": "Is the seed or crop certified organic?",
-    "ORGANIC_COMPLIANCE": "Organic Compliance",
     "PERENNIAL": "Perennial",
     "TREATED": "Have the seeds for this crop been treated?"
   },
@@ -994,7 +993,6 @@
       "REVENUE_TYPE": "Revenue types",
       "TITLE": "Filter transactions"
     },
-    "MANAGE_CUSTOM_TYPE": "Manage custom type",
     "REPORT": {
       "DATES": "Dates",
       "FILE_TITLE": "Financial Report",

@@ -319,13 +319,14 @@ const taskController = {
     return async (req, res, next) => {
       try {
         // Do not allow to create a task if location is deleted
+        const locations = req.body.locations;
         if (
-          await baseController.isDeleted(null, Location, {
-            [Location.idColumn]: req.body.locations[0]?.location_id,
-          })
-        ) {
+          locations?.length &&
+          (await baseController.isDeleted(null, Location, {
+            [Location.idColumn]: locations[0].location_id,
+          }))
+        )
           return res.status(409).send('location deleted');
-        }
 
         // OC: the "noInsert" rule will not fail if a relationship is present in the graph.
         // it will just ignore the insert on it. This is just a 2nd layer of protection

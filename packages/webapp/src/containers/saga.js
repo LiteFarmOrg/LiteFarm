@@ -162,11 +162,11 @@ axiosWithoutInterceptors.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (error?.response?.status === 401) {
+    if (error?.response?.status === 401 && error?.config?.url?.startsWith(url)) {
       if (localStorage.getItem('id_token')) {
         logout();
       }
-    } else if (error?.response?.status === 403) {
+    } else if (error?.response?.status === 403 && error?.config?.url?.startsWith(url)) {
       store?.dispatch(handle403());
     }
     return Promise.reject(error);

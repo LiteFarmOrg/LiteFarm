@@ -320,7 +320,7 @@ const ProductDetails = ({
       </TextButton>
 
       <Collapse id={`product_details-${productId}`} in={isExpanded} timeout="auto" unmountOnExit>
-        <div className={styles.sectionBody}>
+        <div className={styles.productDetailsContent}>
           {/* @ts-ignore */}
           <Input
             name={SUPPLIER}
@@ -371,13 +371,7 @@ const ProductDetails = ({
             shouldShowError: true, // TODO
           })}
 
-          <div
-            className={clsx(
-              styles.border,
-              isAdditionalNutrientsExpanded && styles.expanded,
-              styles.additionalNutrients,
-            )}
-          >
+          <div className={clsx(styles.additionalNutrients)}>
             <TextButton
               disabled={!isProductEntered}
               onClick={() => toggleAdditionalNutrientsExpanded(additionalNutrientsId)}
@@ -398,7 +392,7 @@ const ProductDetails = ({
               timeout="auto"
               unmountOnExit
             >
-              <div className={styles.sectionBody}>
+              <div className={styles.additionalNutrientsBody}>
                 {renderCompositionInputsWithController({
                   inputsInfo: inputsInfo.additionalNutrients,
                   shouldShowError: true, // TODO

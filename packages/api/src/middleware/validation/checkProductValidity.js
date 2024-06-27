@@ -44,18 +44,23 @@ export function checkProductValidity() {
       pest_control_task: null,
     };
 
-    const nonModifiableAssets = typesOfProducts.filter((a) => a !== taskTypeProductMap[type]);
+    if (!product_id) {
+      const nonModifiableAssets = typesOfProducts.filter((a) => a !== taskTypeProductMap[type]);
+      if (!name) {
+        return res.status(400).send('new product must have name');
+      }
 
-    if (!type) {
-      return res.status(400).send('must have type of product');
-    }
+      if (!type) {
+        return res.status(400).send('new product must have type');
+      }
 
-    if (taskTypeProductMap[type] && !req.body[taskTypeProductMap[type]]) {
-      return res.status(400).send('must have product details');
-    }
+      if (taskTypeProductMap[type] && !req.body[taskTypeProductMap[type]]) {
+        return res.status(400).send('must have product details');
+      }
 
-    if (nonModifiableAssets.some((asset) => Object.hasOwn(req.body, asset))) {
-      return res.status(400).send('must not have other product type details');
+      if (nonModifiableAssets.some((asset) => Object.hasOwn(req.body, asset))) {
+        return res.status(400).send('must not have other product type details');
+      }
     }
 
     if (sap) {

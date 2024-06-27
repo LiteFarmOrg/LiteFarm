@@ -162,7 +162,7 @@ axiosWithoutInterceptors.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (error?.response?.status === 401 && error?.config?.url.startsWith(url)) {
+    if (error?.response?.status === 401 && error?.config?.url?.startsWith(url)) {
       if (localStorage.getItem('id_token')) {
         logout();
       }

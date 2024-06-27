@@ -183,7 +183,7 @@ const ProductDetails = ({
         [SUPPLIER]: selectedProduct?.[SUPPLIER] || '',
         [PERMITTED]: selectedProduct?.[PERMITTED] || undefined,
         [FERTILISER_TYPE]: selectedProduct?.[FERTILISER_TYPE] || undefined,
-        [MOISTURE_CONTENT]: selectedProduct?.[MOISTURE_CONTENT] || undefined,
+        [MOISTURE_CONTENT]: selectedProduct?.[MOISTURE_CONTENT] ?? undefined,
         [DRY_MATTER_CONTENT]: newDryMatterContent,
         [COMPOSITION]: {
           [UNIT]: selectedProduct?.[UNIT] || Unit.RATIO,
@@ -239,8 +239,10 @@ const ProductDetails = ({
 
   const handleMoistureDryMatterContentChange = (fieldName: string, value?: number) => {
     const theOtherField = fieldName === MOISTURE_CONTENT ? DRY_MATTER_CONTENT : MOISTURE_CONTENT;
-    const inputtedFieldValue = Math.min(100, +(value ? roundToTwoDecimal(value) : 0));
-    const theOtherFieldValue = subtractFrom100(inputtedFieldValue);
+    const inputtedFieldValue =
+      typeof value === 'number' ? Math.min(100, roundToTwoDecimal(value)) : undefined;
+    const theOtherFieldValue =
+      typeof inputtedFieldValue === 'number' ? subtractFrom100(inputtedFieldValue) : undefined;
 
     setValue(fieldName as typeof MOISTURE_CONTENT | typeof DRY_MATTER_CONTENT, inputtedFieldValue);
     setValue(theOtherField, theOtherFieldValue);
@@ -359,7 +361,10 @@ const ProductDetails = ({
           <CompositionInputs
             disabled={isDetailDisabled}
             onChange={(fieldName: string, value: string | number | null): void => {
-              handleMoistureDryMatterContentChange(fieldName, value ? +value : undefined);
+              handleMoistureDryMatterContentChange(
+                fieldName,
+                value === null || value === undefined ? undefined : +value,
+              );
             }}
             inputsInfo={inputsInfo.moistureDrymatterContents}
             values={{ [MOISTURE_CONTENT]: moistureContent, [DRY_MATTER_CONTENT]: dryMatterContent }}

@@ -143,7 +143,7 @@ const ProductDetails = ({
     setFocus,
     trigger,
     register,
-    formState: { errors, isValid, isDirty },
+    formState: { errors, isValid },
   } = useForm<ProductFormFields>({
     mode: 'onBlur',
     defaultValues,
@@ -426,7 +426,7 @@ const ProductDetails = ({
             <Buttons
               isEditingProduct={isEditingProduct}
               isEditDisabled={!isProductEntered}
-              isSaveDisabled={!isProductEntered || !(isDirty && isValid)}
+              isSaveDisabled={!isProductEntered || !isValid}
               onCancel={onCancel}
               onEdit={() => setIsEditingProduct(true)}
               onSave={handleSubmit(onSubmit)}

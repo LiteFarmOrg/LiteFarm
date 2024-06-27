@@ -149,11 +149,12 @@ const ProductDetails = ({
     defaultValues,
   });
 
-  const [moistureContent, dryMatterContent, ammonium, nitrate] = watch([
+  const [moistureContent, dryMatterContent, ammonium, nitrate, fertiliserType] = watch([
     MOISTURE_CONTENT,
     DRY_MATTER_CONTENT,
     AMMONIUM,
     NITRATE,
+    FERTILISER_TYPE,
   ]);
 
   const {
@@ -351,6 +352,7 @@ const ProductDetails = ({
           )}
 
           <ReactSelect
+            value={fertiliserTypeOptions.find(({ value }) => value === fertiliserType) || null}
             isDisabled={isDetailDisabled}
             label={t('ADD_PRODUCT.FERTILISER_TYPE')}
             placeholder={t('ADD_PRODUCT.FERTILISER_TYPE_PLACEHOLDER')}

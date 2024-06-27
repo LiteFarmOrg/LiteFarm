@@ -166,7 +166,7 @@ axiosWithoutInterceptors.interceptors.response.use(
       if (localStorage.getItem('id_token')) {
         logout();
       }
-    } else if (error?.response?.status === 403 && error?.config?.url.startsWith(url)) {
+    } else if (error?.response?.status === 403 && error?.config?.url?.startsWith(url)) {
       store?.dispatch(handle403());
     }
     return Promise.reject(error);

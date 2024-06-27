@@ -349,7 +349,7 @@ const ProductDetails = ({
           )}
 
           <ReactSelect
-            isDisabled={isReadOnly}
+            isDisabled={isDetailDisabled}
             label={t('ADD_PRODUCT.FERTILISER_TYPE')}
             placeholder={t('ADD_PRODUCT.FERTILISER_TYPE_PLACEHOLDER')}
             options={fertiliserTypeOptions}
@@ -357,6 +357,7 @@ const ProductDetails = ({
           />
 
           <CompositionInputs
+            disabled={isDetailDisabled}
             onChange={(fieldName: string, value: string | number | null): void => {
               handleMoistureDryMatterContentChange(fieldName, value ? +value : undefined);
             }}
@@ -399,6 +400,7 @@ const ProductDetails = ({
                 })}
 
                 <CompositionInputs
+                  disabled={isDetailDisabled}
                   onChange={(fieldName: string, value: string | number | null): void => {
                     setValue(
                       fieldName as typeof AMMONIUM | typeof NITRATE,

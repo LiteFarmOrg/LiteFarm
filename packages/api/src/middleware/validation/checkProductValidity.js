@@ -20,7 +20,11 @@ import { checkAndTrimString } from '../../util/util.js';
 
 export function checkProductValidity() {
   return async (req, res, next) => {
+    const { farm_id } = req.headers;
+    const { product_id } = req.params;
     const { soil_amendment_product: sap } = req.body;
+    let { type, name } = req.body;
+
     const elements = [
       'n',
       'p',
@@ -32,6 +36,27 @@ export function checkProductValidity() {
       'manganese',
       'boron',
     ];
+    const molecularCompounds = ['ammonium', 'nitrate'];
+    const typesOfProducts = ['soil_amendment_product'];
+    const taskTypeProductMap = {
+      soil_amendment_task: 'soil_amendment_product',
+      cleaning_task: null,
+      pest_control_task: null,
+    };
+
+    const nonModifiableAssets = typesOfProducts.filter((a) => a !== taskTypeProductMap[type]);
+
+    if (!type) {
+      return res.status(400).send('must have type of product');
+    }
+
+    if (taskTypeProductMap[type] && !req.body[taskTypeProductMap[type]]) {
+      return res.status(400).send('must have product details');
+    }
+
+    if (nonModifiableAssets.some((asset) => Object.hasOwn(req.body, asset))) {
+      return res.status(400).send('must not have other product type details');
+    }
 
     if (sap) {
       // Check that element values are all positive
@@ -51,6 +76,15 @@ export function checkProductValidity() {
       ) {
         return res.status(400).send('percent elemental values must not exceed 100');
       }
+
+      // Check that compound values are all positive
+      if (!molecularCompounds.every((compound) => !sap[compound] || sap[compound] >= 0)) {
+        return res.status(400).send('compounds values must all be positive');
+      }
+
+      if (sap.moisture_content_percent && !sap.moisture_content_percent >= 0) {
+        return res.status(400).send('moisture content value must be positive');
+      }
     }
 
     // Null empty strings
@@ -64,10 +98,6 @@ export function checkProductValidity() {
 
     // Check name uniqueness
     try {
-      const { farm_id } = req.headers;
-      const { product_id } = req.params;
-      let { type, name } = req.body;
-
       if (product_id) {
         const currentRecord = await ProductModel.query(trx).findById(product_id);
         type = type ?? currentRecord.type;

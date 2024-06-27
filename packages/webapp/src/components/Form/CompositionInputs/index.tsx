@@ -26,6 +26,7 @@ type CompositionInputsProps = Omit<
   inputsInfo: { name: string; label: string }[];
   values: { [key: string]: any };
   unit?: string;
+  shouldShowErrorMessage?: boolean;
 };
 
 /**
@@ -37,6 +38,7 @@ const CompositionInputs = ({
   mainLabel = '',
   inputsInfo,
   error = '',
+  shouldShowErrorMessage = true,
   disabled = false,
   onChange,
   onBlur,
@@ -68,7 +70,7 @@ const CompositionInputs = ({
             );
           })}
         </div>
-        {error && (
+        {shouldShowErrorMessage && error && (
           <div className={styles.error}>
             <BsFillExclamationCircleFill className={styles.errorIcon} />
             <span className={styles.errorMessage}>{error}</span>

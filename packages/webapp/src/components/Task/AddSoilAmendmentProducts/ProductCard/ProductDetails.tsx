@@ -260,11 +260,11 @@ const ProductDetails = ({
   const renderCompositionInputsWithController = ({
     mainLabel = '',
     inputsInfo,
-    shouldShowError = false,
+    shouldShowErrorMessage = false,
   }: {
     mainLabel?: string;
     inputsInfo: { name: string; label: string }[];
-    shouldShowError: boolean;
+    shouldShowErrorMessage: boolean;
   }) => {
     return (
       <Controller
@@ -289,7 +289,8 @@ const ProductDetails = ({
               unitOptions={unitOptions}
               inputsInfo={inputsInfo}
               disabled={isDetailDisabled}
-              error={shouldShowError ? fieldState.error?.message : undefined}
+              error={fieldState.error?.message}
+              shouldShowErrorMessage={shouldShowErrorMessage}
               values={field.value || {}}
               onChange={(name, value) => field.onChange({ ...field.value, [name]: value })}
               // onBlur needs to be passed manually
@@ -376,7 +377,7 @@ const ProductDetails = ({
           {renderCompositionInputsWithController({
             mainLabel: t('ADD_PRODUCT.COMPOSITION'),
             inputsInfo: inputsInfo.npk,
-            shouldShowError: true, // TODO
+            shouldShowErrorMessage: !isAdditionalNutrientsExpanded,
           })}
 
           <div className={clsx(styles.additionalNutrients)}>
@@ -403,7 +404,7 @@ const ProductDetails = ({
               <div className={styles.additionalNutrientsBody}>
                 {renderCompositionInputsWithController({
                   inputsInfo: inputsInfo.additionalNutrients,
-                  shouldShowError: true, // TODO
+                  shouldShowErrorMessage: true,
                 })}
 
                 <CompositionInputs

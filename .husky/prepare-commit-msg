@@ -1,0 +1,2 @@
+#!/bin/sh
+node .husky/prepare-commit-msg.js $1

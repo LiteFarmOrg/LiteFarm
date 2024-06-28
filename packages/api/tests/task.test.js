@@ -1909,7 +1909,6 @@ describe('Task tests', () => {
 
       const taskData = {
         ...mocks.fakeTask({
-          task_id: task_id ? task_id : undefined,
           soil_amendment_task: {
             method_id: soilAmendmentMethod,
             ...soilAmendmentTaskData,
@@ -1928,6 +1927,8 @@ describe('Task tests', () => {
         const createdTask = res.body;
         const createdTaskProducts = createdTask.soil_amendment_task.soil_amendment_task_products;
         const { task_id } = createdTask;
+        // Delete abandonment reason to prevent validation error
+        delete createdTask.abandonment_reason;
 
         // Remove a purpose relationship
         const taskProductIdForDeletedPurpose = createdTaskProducts[0].id;

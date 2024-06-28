@@ -1732,13 +1732,14 @@ describe('Task tests', () => {
     let product;
     let productData;
     let soilAmendmentPurpose;
+    let soilAmendmentMethod;
     beforeEach(async () => {
       [{ product_id: product }] = await mocks.productFactory(
         {},
         mocks.fakeProduct({ supplier: 'mock' }),
       );
       productData = mocks.fakeProduct({ supplier: 'test' });
-
+      [{ id: soilAmendmentMethod }] = await mocks.soil_amendment_methodFactory();
       [{ id: soilAmendmentPurpose }] = await mocks.soil_amendment_purposeFactory();
     });
 
@@ -1860,6 +1861,138 @@ describe('Task tests', () => {
           done();
         },
       );
+    });
+
+    test('should be able to update a soil amendment task', async (done) => {
+      const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
+      const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+
+      // Insert a second available purpose
+      let soilAmendmentPurposeTwo;
+      [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
+
+      // Insert three differents products
+      const [{ product_id: soilAmendmentProductOne }] = await mocks.productFactory(
+        { promisedFarm: [{ farm_id }] },
+        // of type 'soil_amendment_task'
+        mocks.fakeProduct({ type: 'soil_amendment_task' }),
+      );
+      const [{ product_id: soilAmendmentProductTwo }] = await mocks.productFactory(
+        { promisedFarm: [{ farm_id }] },
+        // of type 'soil_amendment_task'
+        mocks.fakeProduct({ type: 'soil_amendment_task' }),
+      );
+      const [{ product_id: soilAmendmentProductThree }] = await mocks.productFactory(
+        { promisedFarm: [{ farm_id }] },
+        // of type 'soil_amendment_task'
+        mocks.fakeProduct({ type: 'soil_amendment_task' }),
+      );
+
+      // Initial task product state
+      const soilAmendmentTaskData = mocks.fakeSoilAmendmentTask({
+        soil_amendment_task_products: [
+          mocks.fakeSoilAmendmentTaskProduct({
+            product_id: soilAmendmentProductOne,
+            purpose_relationships: [
+              { purpose_id: soilAmendmentPurpose },
+              { purpose_id: soilAmendmentPurposeTwo },
+            ],
+          }),
+          mocks.fakeSoilAmendmentTaskProduct({
+            product_id: soilAmendmentProductTwo,
+            purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+          }),
+        ],
+      });
+
+      const taskData = {
+        ...mocks.fakeTask({
+          task_id: task_id ? task_id : undefined,
+          soil_amendment_task: {
+            method_id: soilAmendmentMethod,
+            ...soilAmendmentTaskData,
+          },
+          task_type_id,
+          owner_user_id: user_id,
+          wage_at_moment: 50,
+          assignee_user_id: user_id,
+        }),
+        locations: [{ location_id }],
+      };
+
+      // Add task
+      postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', taskData, async (err, res) => {
+        expect(res.status).toBe(201);
+        const createdTask = res.body;
+        const createdTaskProducts = createdTask.soil_amendment_task.soil_amendment_task_products;
+        const { task_id } = createdTask;
+
+        // Remove a purpose relationship
+        const taskProductIdForDeletedPurpose = createdTaskProducts[0].id;
+        const deletedPurposeRelationship = createdTaskProducts[0].purpose_relationships.pop();
+        // Delete a task product
+        const deleted_task_product_id = createdTaskProducts[1].id;
+        createdTaskProducts[1].deleted = true;
+        // Add a new task product
+        createdTaskProducts[2] = mocks.fakeSoilAmendmentTaskProduct({
+          product_id: soilAmendmentProductThree,
+          purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+        });
+
+        // Update the task
+        completeTaskRequest(
+          { user_id, farm_id },
+          {
+            ...createdTask,
+            ...fakeCompletionData,
+          },
+          task_id,
+          'soil_amendment_task',
+          async (err, res) => {
+            expect(res.status).toBe(200);
+
+            // Two active and one deleted task product should be present
+            const completed_task_products = await knex('soil_amendment_task_products').where({
+              task_id,
+            });
+            expect(completed_task_products.length).toBe(3);
+            expect(
+              completed_task_products.find((prod) => prod.id == deleted_task_product_id).deleted,
+            ).toBe(true);
+            const completed_soil_amendment_task_products_purpose_relationship = await knex(
+              'soil_amendment_task_products_purpose_relationship',
+            ).whereIn('task_products_id', [
+              completed_task_products[0].id,
+              completed_task_products[1].id,
+              completed_task_products[2].id,
+            ]);
+            expect(completed_task_products.length).toBe(3);
+
+            // The relationship created originally should be hard deleted
+            const deletedRelationship = await knex(
+              'soil_amendment_task_products_purpose_relationship',
+            ).where('task_products_id', taskProductIdForDeletedPurpose);
+            expect(deletedRelationship.length).toBe(1);
+            expect(deletedRelationship[0].purpose_id).not.toBe(
+              deletedPurposeRelationship.purpose_id,
+            );
+            console.log('patch', completed_soil_amendment_task_products_purpose_relationship);
+
+            // The added product should be present and have a relationship
+            const addedTaskProduct = await knex('soil_amendment_task_products')
+              .where({ task_id })
+              .andWhere({ product_id: soilAmendmentProductThree });
+            expect(addedTaskProduct.length).toBe(1);
+            const addedRelationship = await knex(
+              'soil_amendment_task_products_purpose_relationship',
+            ).where('task_products_id', addedTaskProduct[0].id);
+            expect(addedRelationship.length).toBe(1);
+            done();
+          },
+        );
+      });
     });
 
     test('should be able to complete a pest control task', async (done) => {

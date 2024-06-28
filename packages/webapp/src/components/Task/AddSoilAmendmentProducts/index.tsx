@@ -23,7 +23,10 @@ import { defaultValues } from './ProductCard/ProductDetails';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
 import styles from './styles.module.scss';
 
-export type AddSoilAmendmentProductsProps = ProductCardProps & {
+export type AddSoilAmendmentProductsProps = Pick<
+  ProductCardProps,
+  'isReadOnly' | 'farm' | 'onSave' | 'system' | 'onSaveProduct'
+> & {
   products: Product[];
   purposes?: { id: number; key: string }[];
   fertiliserTypes?: { id: number; key: string }[];
@@ -47,7 +50,7 @@ const AddSoilAmendmentProducts = ({
     control,
     setValue,
     watch,
-    formState: { isDirty, isValid },
+    formState: { isValid },
   } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: FIELD_NAME,

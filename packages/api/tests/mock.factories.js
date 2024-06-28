@@ -1207,8 +1207,8 @@ function fakeSoilAmendmentTaskProduct(defaultData = {}) {
       'mt/ha',
       'oz/ac',
     ]),
-    percent_of_location_amended: faker.datatype.number(100),
-    total_area_amended: faker.datatype.number(1000),
+    percent_of_location_amended: faker.datatype.number({ min: 1, max: 100 }),
+    total_area_amended: faker.datatype.number({ min: 1, max: 1000 }),
     ...defaultData,
   };
 }

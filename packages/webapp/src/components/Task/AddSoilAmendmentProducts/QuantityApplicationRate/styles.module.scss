@@ -36,6 +36,7 @@
   border-radius: 4px;
   border: 1px solid var(--Colors-Accent---singles-Blue-light, #e9f3ff);
   background: var(--White, #fff);
+  padding: 4px 16px 16px 16px;
 
   .expandIcon {
     width: 16px;
@@ -52,12 +53,38 @@
   }
   .advancedTitle {
     width: 100%;
-    padding: 4px 8px;
+    padding: 4px;
     font-size: 14px;
     color: var(--Colors-Accent---singles-Blue-full, #0669e1);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 4px;
+  }
+
+  &.expanded {
+    .expandIcon {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.sectionBody {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.locationSection {
+  display: flex;
+
+  & > div {
+    flex: 1;
+  }
+
+  svg {
+    height: 40px;
+    align-self: flex-end;
+    margin-bottom: 4px;
   }
 }

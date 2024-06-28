@@ -85,7 +85,7 @@ export function checkProductValidity() {
     try {
       if (product_id) {
         const currentRecord = await ProductModel.query(trx).findById(product_id);
-
+        // Prevent changing type for now, prevents orphan task type products
         if (type && type != currentRecord.type) {
           return res.status(400).send('cannot change product type');
         }

@@ -15,7 +15,17 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
-import { url } from '../../apiConfig';
+import {
+  soilAmendmentMethodsUrl,
+  soilAmendmentPurposesUrl,
+  soilAmendmentFertiliserTypesUrl,
+  url,
+} from '../../apiConfig';
+import type {
+  SoilAmendmentMethod,
+  SoilAmendmentPurpose,
+  SoilAmendmentFertiliserType,
+} from './types';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -32,11 +42,27 @@ export const api = createApi({
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: [],
+  tagTypes: ['SoilAmendmentMethods', 'SoilAmendmentPurposes', 'SoilAmendmentFertiliserTypes'],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>
+    getSoilAmendmentMethods: build.query<SoilAmendmentMethod[], void>({
+      query: () => `${soilAmendmentMethodsUrl}`,
+      providesTags: ['SoilAmendmentMethods'],
+    }),
+    getSoilAmendmentPurposes: build.query<SoilAmendmentPurpose[], void>({
+      query: () => `${soilAmendmentPurposesUrl}`,
+      providesTags: ['SoilAmendmentPurposes'],
+    }),
+    getSoilAmendmentFertiliserTypes: build.query<SoilAmendmentFertiliserType[], void>({
+      query: () => `${soilAmendmentFertiliserTypesUrl}`,
+      providesTags: ['SoilAmendmentFertiliserTypes'],
+    }),
   }),
 });
 
-export const {} = api;
+export const {
+  useGetSoilAmendmentMethodsQuery,
+  useGetSoilAmendmentPurposesQuery,
+  useGetSoilAmendmentFertiliserTypesQuery,
+} = api;

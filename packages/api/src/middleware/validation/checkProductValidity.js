@@ -82,10 +82,14 @@ export function checkProductValidity() {
 
     const trx = await transaction.start(ProductModel.knex());
 
-    // Check name uniqueness
     try {
       if (product_id) {
         const currentRecord = await ProductModel.query(trx).findById(product_id);
+
+        if (type && type != currentRecord.type) {
+          return res.status(400).send('cannot change product type');
+        }
+
         type = type ?? currentRecord.type;
         name = name ?? currentRecord.name;
       }
@@ -108,6 +112,7 @@ export function checkProductValidity() {
         return res.status(400).send('must not have other product type details');
       }
 
+      // Check name uniqueness
       const existingRecord = await ProductModel.query(trx)
         .where({ farm_id })
         .andWhere({ type })

@@ -29,7 +29,6 @@ export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct'> & {
   system: 'metric' | 'imperial';
   onRemove?: () => void;
   onSaveProduct: ProductDetailsProps['onSave'];
-  totalArea: number;
   purposeOptions: { label: string; value: number }[];
   otherPurposeId?: number;
 };
@@ -70,7 +69,6 @@ const SoilAmendmentProductCard = ({
   onSaveProduct,
   isReadOnly,
   products = [],
-  totalArea,
   purposeOptions,
   otherPurposeId,
   ...props

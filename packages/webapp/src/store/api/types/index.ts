@@ -115,3 +115,18 @@ export type AnimalRemovalReason = {
   key: AnimalRemovalReasonKeys;
   id: number;
 };
+
+export type SoilAmendmentMethod = {
+  id: number;
+  key: string;
+};
+
+export type SoilAmendmentPurpose = {
+  id: number;
+  key: string;
+};
+
+export type SoilAmendmentFertiliserType = {
+  id: number;
+  key: string;
+};

@@ -25,6 +25,9 @@ import {
   defaultAnimalTypesUrl,
   animalSexesUrl,
   animalRemovalReasonsUrl,
+  soilAmendmentMethodsUrl,
+  soilAmendmentPurposesUrl,
+  soilAmendmentFertiliserTypesUrl,
   url,
 } from '../../apiConfig';
 import type {
@@ -37,6 +40,9 @@ import type {
   DefaultAnimalType,
   AnimalSex,
   AnimalRemovalReason,
+  SoilAmendmentMethod,
+  SoilAmendmentPurpose,
+  SoilAmendmentFertiliserType,
 } from './types';
 
 export const api = createApi({
@@ -64,6 +70,9 @@ export const api = createApi({
     'DefaultAnimalTypes',
     'AnimalSexes',
     'AnimalRemovalReasons',
+    'SoilAmendmentMethods',
+    'SoilAmendmentPurposes',
+    'SoilAmendmentFertiliserTypes',
   ],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
@@ -136,6 +145,18 @@ export const api = createApi({
       }),
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
+    getSoilAmendmentMethods: build.query<SoilAmendmentMethod[], void>({
+      query: () => `${soilAmendmentMethodsUrl}`,
+      providesTags: ['SoilAmendmentMethods'],
+    }),
+    getSoilAmendmentPurposes: build.query<SoilAmendmentPurpose[], void>({
+      query: () => `${soilAmendmentPurposesUrl}`,
+      providesTags: ['SoilAmendmentPurposes'],
+    }),
+    getSoilAmendmentFertiliserTypes: build.query<SoilAmendmentFertiliserType[], void>({
+      query: () => `${soilAmendmentFertiliserTypesUrl}`,
+      providesTags: ['SoilAmendmentFertiliserTypes'],
+    }),
   }),
 });
 
@@ -153,4 +174,7 @@ export const {
   useRemoveAnimalBatchesMutation,
   useDeleteAnimalsMutation,
   useDeleteAnimalBatchesMutation,
+  useGetSoilAmendmentMethodsQuery,
+  useGetSoilAmendmentPurposesQuery,
+  useGetSoilAmendmentFertiliserTypesQuery,
 } = api;

@@ -44,25 +44,6 @@ export function checkProductValidity() {
       pest_control_task: null,
     };
 
-    if (!product_id) {
-      const nonModifiableAssets = typesOfProducts.filter((a) => a !== taskTypeProductMap[type]);
-      if (!name) {
-        return res.status(400).send('new product must have name');
-      }
-
-      if (!type) {
-        return res.status(400).send('new product must have type');
-      }
-
-      if (taskTypeProductMap[type] && !req.body[taskTypeProductMap[type]]) {
-        return res.status(400).send('must have product details');
-      }
-
-      if (nonModifiableAssets.some((asset) => Object.hasOwn(req.body, asset))) {
-        return res.status(400).send('must not have other product type details');
-      }
-    }
-
     if (sap) {
       // Check that element values are all positive
       if (!elements.every((element) => !sap[element] || sap[element] >= 0)) {
@@ -107,6 +88,24 @@ export function checkProductValidity() {
         const currentRecord = await ProductModel.query(trx).findById(product_id);
         type = type ?? currentRecord.type;
         name = name ?? currentRecord.name;
+      }
+
+      if (!name) {
+        return res.status(400).send('new product must have name');
+      }
+
+      if (!type) {
+        return res.status(400).send('new product must have type');
+      }
+
+      const nonModifiableAssets = typesOfProducts.filter((a) => a !== taskTypeProductMap[type]);
+
+      if (taskTypeProductMap[type] && !req.body[taskTypeProductMap[type]]) {
+        return res.status(400).send('must have product details');
+      }
+
+      if (nonModifiableAssets.some((asset) => Object.hasOwn(req.body, asset))) {
+        return res.status(400).send('must not have other product type details');
       }
 
       const existingRecord = await ProductModel.query(trx)

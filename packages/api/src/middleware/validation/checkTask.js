@@ -112,7 +112,7 @@ export function checkCompleteTask(taskType) {
       if (!hasAssignee) {
         return res.status(400).send('An unassigned task cannot be completed');
       }
-      if (req.body[taskType] == 'soil_amendment_task') {
+      if (req.body[taskType] && req.body[taskType] == 'soil_amendment_task') {
         checkUpdateMiddlewareMap[taskType]()(req, res, next);
       } else {
         next();

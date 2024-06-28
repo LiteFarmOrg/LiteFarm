@@ -35,6 +35,28 @@ export default meta;
 
 type Story = StoryObj<typeof QuantityApplicationRate>;
 
-export const Alternate: Story = {
-  args: {},
+export const Metric: Story = {
+  args: {
+    system: 'metric',
+    location: {
+      type: 'field',
+      total_area: 5200,
+      total_area_unit: 'ha',
+    },
+  },
+};
+
+export const Imperial: Story = {
+  args: {
+    system: 'imperial',
+    location: {
+      type: 'garden',
+      total_area: 12323,
+      total_area_unit: 'ft2',
+    },
+  },
+};
+
+export const ReadOnly: Story = {
+  args: { isReadOnly: true },
 };

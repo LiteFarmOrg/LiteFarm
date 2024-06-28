@@ -184,7 +184,7 @@ const ProductDetails = ({
         [SUPPLIER]: selectedProduct?.[SUPPLIER] || '',
         [PERMITTED]: selectedProduct?.[PERMITTED] || undefined,
         [FERTILISER_TYPE]: selectedProduct?.[FERTILISER_TYPE] || undefined,
-        [MOISTURE_CONTENT]: selectedProduct?.[MOISTURE_CONTENT] ?? undefined,
+        [MOISTURE_CONTENT]: selectedProduct?.[MOISTURE_CONTENT] ?? NaN,
         [DRY_MATTER_CONTENT]: newDryMatterContent,
         [COMPOSITION]: {
           [UNIT]: selectedProduct?.[UNIT] || Unit.RATIO,

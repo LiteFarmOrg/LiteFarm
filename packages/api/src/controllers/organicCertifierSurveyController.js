@@ -271,8 +271,11 @@ const organicCertifierSurveyController = {
       `
           SELECT DISTINCT p.name,
                           p.supplier,
-                          sat.volume,
-                          sat.volume_unit,
+                          CASE 
+                              WHEN satp.volume IS NOT NULL AND satp.volume_unit IS NOT NULL THEN satp.volume || ' ' || satp.volume_unit
+                              WHEN satp.weight IS NOT NULL AND satp.weight_unit IS NOT NULL THEN satp.weight || ' ' || satp.weight_unit
+                              ELSE ''
+                          END AS product_quantity,
                           CASE
                               WHEN t.complete_date is null
                                   THEN t.due_date
@@ -281,8 +284,8 @@ const organicCertifierSurveyController = {
                           t.task_id,
                           p.on_permitted_substances_list
           FROM task t
-                   JOIN soil_amendment_task_products sat ON sat.task_id = t.task_id
-                   JOIN product p ON p.product_id = sat.product_id
+                   JOIN soil_amendment_task_products satp ON satp.task_id = t.task_id
+                   JOIN product p ON p.product_id = satp.product_id
                    JOIN location_tasks tl ON t.task_id = tl.task_id
                    JOIN location l ON tl.location_id = l.location_id
                    JOIN (SELECT location_id
@@ -331,9 +334,12 @@ const organicCertifierSurveyController = {
     const cleaningTask = await knex.raw(
       `
           SELECT p.name,
-                 p.supplier,
-                 ct.volume,
-                 ct.volume_unit,
+                 p.supplier, 
+                 CASE 
+                     WHEN ct.volume IS NOT NULL AND ct.volume_unit IS NOT NULL THEN ct.volume || ' ' || ct.volume_unit
+                     WHEN ct.weight IS NOT NULL AND ct.weight_unit IS NOT NULL THEN ct.weight || ' ' || ct.weight_unit
+                     ELSE ''
+                 END AS product_quantity,
                  CASE
                      WHEN t.complete_date is null
                          THEN t.due_date
@@ -635,8 +641,11 @@ const organicCertifierSurveyController = {
       `
           SELECT DISTINCT p.name,
                           p.supplier,
-                          pct.volume,
-                          pct.volume_unit,
+                          CASE 
+                              WHEN pct.volume IS NOT NULL AND pct.volume_unit IS NOT NULL THEN pct.volume || ' ' || pct.volume_unit
+                              WHEN pct.weight IS NOT NULL AND pct.weight_unit IS NOT NULL THEN pct.weight || ' ' || pct.weight_unit
+                              ELSE ''
+                          END AS product_quantity,
                           t.complete_date::date as date_used, CASE
                                                                   WHEN t.complete_date is null
                                                                       THEN t.due_date
@@ -674,8 +683,11 @@ const organicCertifierSurveyController = {
       `
           SELECT DISTINCT p.name,
                           p.supplier,
-                          pct.volume,
-                          pct.volume_unit,
+                          CASE 
+                              WHEN pct.volume IS NOT NULL AND pct.volume_unit IS NOT NULL THEN pct.volume || ' ' || pct.volume_unit
+                              WHEN pct.weight IS NOT NULL AND pct.weight_unit IS NOT NULL THEN pct.weight || ' ' || pct.weight_unit
+                              ELSE ''
+                          END AS product_quantity,
                           CASE
                               WHEN t.complete_date is null
                                   THEN t.due_date

@@ -119,6 +119,11 @@ export function checkCompleteTask(taskType) {
         return res.status(400).send('must have completion date');
       }
 
+      const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
+      if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
+        return res.status(400).send('Task has already been completed or abandoned');
+      }
+
       const { assignee_user_id } = await TaskModel.query()
         .select('owner_user_id', 'assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
         .where({ task_id })

@@ -1996,6 +1996,191 @@ describe('Task tests', () => {
       });
     });
 
+    test('should  not be able to delete the last purpose', async (done) => {
+      const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
+      const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+
+      // Insert a second available purpose
+      let soilAmendmentPurposeTwo;
+      [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
+
+      // Insert three differents products
+      const [{ product_id: soilAmendmentProductOne }] = await mocks.productFactory(
+        { promisedFarm: [{ farm_id }] },
+        // of type 'soil_amendment_task'
+        mocks.fakeProduct({ type: 'soil_amendment_task' }),
+      );
+      const [{ product_id: soilAmendmentProductTwo }] = await mocks.productFactory(
+        { promisedFarm: [{ farm_id }] },
+        // of type 'soil_amendment_task'
+        mocks.fakeProduct({ type: 'soil_amendment_task' }),
+      );
+
+      // Initial task product state
+      const soilAmendmentTaskData = mocks.fakeSoilAmendmentTask({
+        soil_amendment_task_products: [
+          mocks.fakeSoilAmendmentTaskProduct({
+            product_id: soilAmendmentProductOne,
+            purpose_relationships: [
+              { purpose_id: soilAmendmentPurpose },
+              { purpose_id: soilAmendmentPurposeTwo },
+            ],
+          }),
+          mocks.fakeSoilAmendmentTaskProduct({
+            product_id: soilAmendmentProductTwo,
+            purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+          }),
+        ],
+      });
+
+      const taskData = {
+        ...mocks.fakeTask({
+          soil_amendment_task: {
+            method_id: soilAmendmentMethod,
+            ...soilAmendmentTaskData,
+          },
+          task_type_id,
+          owner_user_id: user_id,
+          wage_at_moment: 50,
+          assignee_user_id: user_id,
+        }),
+        locations: [{ location_id }],
+      };
+
+      // Add task
+      postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', taskData, async (err, res) => {
+        expect(res.status).toBe(201);
+        const createdTask = res.body;
+        const createdTaskProducts = createdTask.soil_amendment_task.soil_amendment_task_products;
+        const { task_id } = createdTask;
+        // Delete abandonment reason to prevent validation error
+        delete createdTask.abandonment_reason;
+
+        // Remove all purpose relationships
+        const taskProductForDeletedPurpose = createdTaskProducts.find(
+          (product) => product.product_id == soilAmendmentProductTwo,
+        );
+        const taskProductIdForDeletedPurpose = taskProductForDeletedPurpose.id;
+        taskProductForDeletedPurpose.purpose_relationships.pop();
+
+        // Update the task
+        completeTaskRequest(
+          { user_id, farm_id },
+          {
+            ...createdTask,
+            ...fakeCompletionData,
+          },
+          task_id,
+          'soil_amendment_task',
+          async (err, res) => {
+            expect(res.status).toBe(400);
+            const completed_soil_amendment_task_products_purpose_relationship = await knex(
+              'soil_amendment_task_products_purpose_relationship',
+            ).whereIn('task_products_id', [taskProductIdForDeletedPurpose]);
+            expect(completed_soil_amendment_task_products_purpose_relationship.length).toBe(1);
+            done();
+          },
+        );
+      });
+    });
+
+    test('should not be able to delete the last product', async (done) => {
+      const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
+      const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+
+      // Insert a second available purpose
+      let soilAmendmentPurposeTwo;
+      [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
+
+      // Insert three differents products
+      const [{ product_id: soilAmendmentProductOne }] = await mocks.productFactory(
+        { promisedFarm: [{ farm_id }] },
+        // of type 'soil_amendment_task'
+        mocks.fakeProduct({ type: 'soil_amendment_task' }),
+      );
+      const [{ product_id: soilAmendmentProductTwo }] = await mocks.productFactory(
+        { promisedFarm: [{ farm_id }] },
+        // of type 'soil_amendment_task'
+        mocks.fakeProduct({ type: 'soil_amendment_task' }),
+      );
+
+      // Initial task product state
+      const soilAmendmentTaskData = mocks.fakeSoilAmendmentTask({
+        soil_amendment_task_products: [
+          mocks.fakeSoilAmendmentTaskProduct({
+            product_id: soilAmendmentProductOne,
+            purpose_relationships: [
+              { purpose_id: soilAmendmentPurpose },
+              { purpose_id: soilAmendmentPurposeTwo },
+            ],
+          }),
+          mocks.fakeSoilAmendmentTaskProduct({
+            product_id: soilAmendmentProductTwo,
+            purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+          }),
+        ],
+      });
+
+      const taskData = {
+        ...mocks.fakeTask({
+          soil_amendment_task: {
+            method_id: soilAmendmentMethod,
+            ...soilAmendmentTaskData,
+          },
+          task_type_id,
+          owner_user_id: user_id,
+          wage_at_moment: 50,
+          assignee_user_id: user_id,
+        }),
+        locations: [{ location_id }],
+      };
+
+      // Add task
+      postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', taskData, async (err, res) => {
+        expect(res.status).toBe(201);
+        const createdTask = res.body;
+        const createdTaskProducts = createdTask.soil_amendment_task.soil_amendment_task_products;
+        const { task_id } = createdTask;
+        // Delete abandonment reason to prevent validation error
+        delete createdTask.abandonment_reason;
+
+        // Remove all purpose relationships
+        const taskProductForDeletedPurpose = createdTaskProducts.find(
+          (product) => product.product_id == soilAmendmentProductTwo,
+        );
+        const deletedPurposeRelationship = taskProductForDeletedPurpose.purpose_relationships.pop();
+
+        taskProductForDeletedPurpose.purpose_relationships.push(deletedPurposeRelationship);
+        // Delete a task product
+        createdTaskProducts[0].deleted = true;
+        createdTaskProducts[1].deleted = true;
+
+        completeTaskRequest(
+          { user_id, farm_id },
+          {
+            ...createdTask,
+            ...fakeCompletionData,
+          },
+          task_id,
+          'soil_amendment_task',
+          async (err, res) => {
+            expect(res.status).toBe(400);
+
+            // Two active and one deleted task product should be present
+            const completed_task_products = await knex('soil_amendment_task_products').where({
+              task_id,
+            });
+            expect(completed_task_products.length).toBe(2);
+            done();
+          },
+        );
+      });
+    });
+
     test('should be able to complete a pest control task', async (done) => {
       const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);

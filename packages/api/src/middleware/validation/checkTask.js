@@ -17,8 +17,24 @@ import TaskModel from '../../models/taskModel.js';
 import { checkSoilAmendmentTaskProducts } from './checkSoilAmendmentTaskProducts.js';
 const adminRoles = [1, 2, 5];
 
+export function noReqBodyCheckYet() {
+  return async (req, res, next) => {
+    next();
+  };
+}
+
 const checkUpdateMiddlewareMap = {
   soil_amendment_task: checkSoilAmendmentTaskProducts,
+  cleaning_task: noReqBodyCheckYet,
+  pest_control_task: noReqBodyCheckYet,
+  irrigation_task: noReqBodyCheckYet,
+  scouting_task: noReqBodyCheckYet,
+  soil_task: noReqBodyCheckYet,
+  field_work_task: noReqBodyCheckYet,
+  harvest_task: noReqBodyCheckYet,
+  plant_task: noReqBodyCheckYet,
+  transplant_task: noReqBodyCheckYet,
+  custom_task: noReqBodyCheckYet,
 };
 
 export function checkAbandonTask() {
@@ -103,6 +119,11 @@ export function checkCompleteTask(taskType) {
         return res.status(400).send('must have completion date');
       }
 
+      const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
+      if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
+        return res.status(400).send('Task has already been completed or abandoned');
+      }
+
       const { assignee_user_id } = await TaskModel.query()
         .select('owner_user_id', 'assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
         .where({ task_id })
@@ -112,7 +133,8 @@ export function checkCompleteTask(taskType) {
       if (!hasAssignee) {
         return res.status(400).send('An unassigned task cannot be completed');
       }
-      if (req.body[taskType] && req.body[taskType] == 'soil_amendment_task') {
+
+      if (taskType in req.body) {
         checkUpdateMiddlewareMap[taskType]()(req, res, next);
       } else {
         next();

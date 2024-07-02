@@ -29,6 +29,10 @@ export function checkSoilAmendmentTaskProducts() {
         return res.status(400).send('soil_amendment_task_products is required');
       }
 
+      if (!soil_amendment_task_products.some((rel) => !rel.deleted)) {
+        return res.status(400).send('at least task product is required');
+      }
+
       for (const product of soil_amendment_task_products) {
         if (!product.product_id) {
           return res.status(400).send('product_id is required');
@@ -56,6 +60,7 @@ export function checkSoilAmendmentTaskProducts() {
           return res.status(400).send('purpose_relationships must be an array');
         }
 
+        // Currently prevents deletion of last relationship, allows deletion if not provided
         if (!product.purpose_relationships?.length) {
           return res.status(400).send('purpose_relationships is required');
         }

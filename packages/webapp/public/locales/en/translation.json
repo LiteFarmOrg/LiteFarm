@@ -237,6 +237,8 @@
       "MOISTURE_RETENTION": "Moisture retention",
       "NUTRIENT_AVAILABILITY": "Nutrient availability",
       "OTHER": "Other",
+      "OTHER_METHOD": "Tell us more about the application method",
+      "OTHER_METHOD_PLACEHOLDER": "Describe your soil amendment method...",
       "OTHER_PURPOSE": "Describe the purpose",
       "PERECENT_TO_AMEND": "% of location area to amend",
       "PH": "pH",

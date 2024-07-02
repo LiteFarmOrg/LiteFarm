@@ -242,6 +242,8 @@
       "MOISTURE_RETENTION": "Rétention d'humidité",
       "NUTRIENT_AVAILABILITY": "Disponibilité des nutriments",
       "OTHER": "Autre",
+      "OTHER_METHOD": "MISSING",
+      "OTHER_METHOD_PLACEHOLDER": "MISSING",
       "OTHER_PURPOSE": "Décrivez l'objectif'",
       "PERECENT_TO_AMEND": "MISSING",
       "PH": "pH",

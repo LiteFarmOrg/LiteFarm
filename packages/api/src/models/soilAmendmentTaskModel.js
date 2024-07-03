@@ -62,6 +62,14 @@ class SoilAmendmentTaskModel extends Model {
           to: 'task.task_id',
         },
       },
+      soil_amendment_task_product: {
+        relation: Model.HasManyRelation,
+        modelClass: soilAmendmentTaskProductsModel,
+        join: {
+          from: 'soil_amendment_task.task_id',
+          to: 'soil_amendment_task_product.task_id',
+        },
+      },
       method: {
         relation: Model.BelongsToOneRelation,
         modelClass: soilAmendmentMethodModel,
@@ -86,6 +94,7 @@ class SoilAmendmentTaskModel extends Model {
       // relationMappings
       task: 'omit',
       product: 'omit',
+      soil_amendment_task_product: 'edit',
       method: 'omit',
     };
   }

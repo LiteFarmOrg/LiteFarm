@@ -65,8 +65,8 @@ async function tableCleanup(knex) {
     DELETE FROM "wash_and_pack_task";
     DELETE FROM "cleaning_task";
     DELETE FROM "soil_amendment_task";
-    DELETE FROM "soil_amendment_task_products_purpose_relationship";
-    DELETE FROM "soil_amendment_task_products";
+    DELETE FROM "soil_amendment_task_product_purpose_relationship";
+    DELETE FROM "soil_amendment_task_product";
     DELETE FROM "soil_amendment_purpose";
     DELETE FROM "soil_amendment_method";
     DELETE FROM "soil_amendment_product";

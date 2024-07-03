@@ -19,21 +19,21 @@ import SoilAmendmentPurposeModel from '../../models/soilAmendmentPurposeModel.js
 export function checkSoilAmendmentTaskProducts() {
   return async (req, res, next) => {
     try {
-      const { soil_amendment_task_products } = req.body;
+      const { soil_amendment_task_product } = req.body.soil_amendment_task;
 
-      if (!Array.isArray(soil_amendment_task_products)) {
-        return res.status(400).send('soil_amendment_task_products must be an array');
+      if (!Array.isArray(soil_amendment_task_product)) {
+        return res.status(400).send('soil_amendment_task_product must be an array');
       }
 
-      if (!soil_amendment_task_products.length) {
-        return res.status(400).send('soil_amendment_task_products is required');
+      if (!soil_amendment_task_product.length) {
+        return res.status(400).send('soil_amendment_task_product is required');
       }
 
-      if (!soil_amendment_task_products.some((rel) => !rel.deleted)) {
+      if (!soil_amendment_task_product.some((rel) => !rel.deleted)) {
         return res.status(400).send('at least one task product is required');
       }
 
-      for (const product of soil_amendment_task_products) {
+      for (const product of soil_amendment_task_product) {
         if (!product.product_id) {
           return res.status(400).send('product_id is required');
         }

@@ -318,29 +318,32 @@ export const getManagementPlanTemplateGraph = (
                               managementTask.task.soil_amendment_task,
                               getPropertiesToDelete(SoilAmendmentTaskModel),
                             ),
-                          }
-                        : null,
-                      soil_amendment_task_products: managementTask.task.soil_amendment_task_products
-                        ? managementTask.task.soil_amendment_task_products.map((taskProduct) => {
-                            return {
-                              ..._omit(
-                                taskProduct,
-                                getPropertiesToDelete(SoilAmendmentTaskProductsModel),
-                              ),
-                              purpose_relationships: taskProduct.purpose_relationships
-                                ? taskProduct.purpose_relationships.map((relationship) => {
+                            soil_amendment_task_product: managementTask.task.soil_amendment_task
+                              .soil_amendment_task_product
+                              ? managementTask.task.soil_amendment_task.soil_amendment_task_product.map(
+                                  (taskProduct) => {
                                     return {
                                       ..._omit(
-                                        relationship,
-                                        getPropertiesToDelete(
-                                          soilAmendmentTaskProductPurposeRelationshipModel,
-                                        ),
+                                        taskProduct,
+                                        getPropertiesToDelete(SoilAmendmentTaskProductsModel),
                                       ),
+                                      purpose_relationships: taskProduct.purpose_relationships
+                                        ? taskProduct.purpose_relationships.map((relationship) => {
+                                            return {
+                                              ..._omit(
+                                                relationship,
+                                                getPropertiesToDelete(
+                                                  soilAmendmentTaskProductPurposeRelationshipModel,
+                                                ),
+                                              ),
+                                            };
+                                          })
+                                        : null,
                                     };
-                                  })
-                                : null,
-                            };
-                          })
+                                  },
+                                )
+                              : null,
+                          }
                         : null,
                       field_work_task: managementTask.task.field_work_task
                         ? {

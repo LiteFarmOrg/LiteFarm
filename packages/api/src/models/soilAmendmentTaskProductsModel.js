@@ -53,7 +53,7 @@ const applicationRateVolumeUnits = [
 
 class SoilAmendmentTaskProducts extends BaseModel {
   static get tableName() {
-    return 'soil_amendment_task_products';
+    return 'soil_amendment_task_product';
   }
 
   static get idColumn() {
@@ -113,7 +113,7 @@ class SoilAmendmentTaskProducts extends BaseModel {
         relation: Model.BelongsToOneRelation,
         modelClass: productModel,
         join: {
-          from: 'soil_amendment_task_products.product_id',
+          from: 'soil_amendment_task_product.product_id',
           to: 'product.product_id',
         },
       },
@@ -121,16 +121,16 @@ class SoilAmendmentTaskProducts extends BaseModel {
         relation: Model.BelongsToOneRelation,
         modelClass: taskModel,
         join: {
-          from: 'soil_amendment_task_products.task_id',
-          to: 'task.task_id',
+          from: 'soil_amendment_task_product.task_id',
+          to: 'soil_amendment_task.task_id',
         },
       },
       purpose_relationships: {
         relation: Model.HasManyRelation,
         modelClass: soilAmendmentTaskProductPurposeRelationshipModel,
         join: {
-          from: 'soil_amendment_task_products.id',
-          to: 'soil_amendment_task_products_purpose_relationship.task_products_id',
+          from: 'soil_amendment_task_product.id',
+          to: 'soil_amendment_task_product_purpose_relationship.task_products_id',
         },
       },
     };

@@ -1455,13 +1455,13 @@ describe('Task tests', () => {
             soil_amendment_task: {
               method_id: soilAmendmentMethod,
               ...mocks.fakeSoilAmendmentTask(),
+              soil_amendment_task_product: [
+                mocks.fakeSoilAmendmentTaskProduct({
+                  product_id: farmProduct.product_id,
+                  purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+                }),
+              ],
             },
-            soil_amendment_task_products: [
-              mocks.fakeSoilAmendmentTaskProduct({
-                product_id: farmProduct.product_id,
-                purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
-              }),
-            ],
             task_type_id,
             owner_user_id: user_id,
           }),
@@ -1523,13 +1523,13 @@ describe('Task tests', () => {
             soil_amendment_task: {
               method_id: soilAmendmentMethod,
               ...mocks.fakeSoilAmendmentTask(),
+              soil_amendment_task_product: [
+                mocks.fakeSoilAmendmentTaskProduct({
+                  product_id: farmProduct.product_id,
+                  purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+                }),
+              ],
             },
-            soil_amendment_task_products: [
-              mocks.fakeSoilAmendmentTaskProduct({
-                product_id: farmProduct.product_id,
-                purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
-              }),
-            ],
             task_type_id,
             owner_user_id: user_id,
             wage_at_moment: 50,

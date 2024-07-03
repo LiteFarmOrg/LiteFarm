@@ -92,6 +92,15 @@ export const up = async function (knex) {
     table.decimal('weight', 36, 12).nullable().checkPositive('check_positive_weight').alter();
     table.decimal('volume', 36, 12).nullable().checkPositive('check_positive_volume').alter();
   });
+
+  /*----------------------------------------
+   Rename tables to the singular instead of plural
+  ----------------------------------------*/
+  await knex.schema.renameTable('soil_amendment_task_products', 'soil_amendment_task_product');
+  await knex.schema.renameTable(
+    'soil_amendment_task_products_purpose_relationship',
+    'soil_amendment_task_product_purpose_relationship',
+  );
 };
 
 export const down = async function (knex) {
@@ -145,4 +154,13 @@ export const down = async function (knex) {
   await knex.schema.alterTable('pest_control_task', (table) => {
     table.dropChecks(['check_positive_weight', 'check_positive_volume']);
   });
+
+  /*----------------------------------------
+   Rename tables to the singular instead of plural
+  ----------------------------------------*/
+  await knex.schema.renameTable('soil_amendment_task_product', 'soil_amendment_task_products');
+  await knex.schema.renameTable(
+    'soil_amendment_task_product_purpose_relationship',
+    'soil_amendment_task_products_purpose_relationship',
+  );
 };

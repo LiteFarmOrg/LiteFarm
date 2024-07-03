@@ -1195,12 +1195,12 @@ function fakeSoilAmendmentTask(defaultData = {}) {
   };
 }
 
-async function soil_amendment_task_productsFactory(
+async function soil_amendment_task_productFactory(
   { promisedTask = taskFactory() } = {},
   soil_amendment_task_product = fakeSoilAmendmentTaskProduct(),
 ) {
   const [task] = await promisedTask;
-  return knex('soil_amendment_task_products')
+  return knex('soil_amendment_task_product')
     .insert({
       task_id: task.task_id,
       ...soil_amendment_task_product,
@@ -2550,7 +2550,7 @@ export default {
   soil_amendment_purposeFactory,
   soil_amendment_fertiliser_typeFactory,
   soil_amendment_taskFactory,
-  soil_amendment_task_productsFactory,
+  soil_amendment_task_productFactory,
   fakeSoilAmendmentTask,
   pesticideFactory,
   fakePesticide,

@@ -39,7 +39,7 @@ interface ProductFields {
   product_id: ProductId;
 }
 
-const FIELD_NAME = 'soil_amendment_task_products';
+const FIELD_NAME = 'soil_amendment_task_product';
 
 const defaultValues = {
   [TASK_PRODUCT_FIELD_NAMES.PRODUCT_ID]: undefined,

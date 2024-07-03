@@ -13,10 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
 import styles from './styles.module.scss';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -25,22 +25,17 @@ import TextButton from '../../../Form/Button/TextButton';
 import Switch from '../../../Form/Switch';
 import Unit from '../../../Form/Unit';
 import NumberInput from '../../../Form/NumberInput';
-import { Main } from '../../../Typography';
-import { getUnitOptionMap } from '../../../../util/convert-units/getUnitOptionMap';
 import {
   location_area,
   soilAmounts,
   soilAmountsVolume,
   applicationRateWeight,
   applicationRateVolume,
-  getDefaultUnit,
-  convertFn,
-  roundToTwoDecimal,
 } from '../../../../util/convert-units/unit';
 import { TASK_PRODUCT_FIELD_NAMES, type TaskProductFormFields } from '../types';
+import { AreaApplicationSummary } from './AreaApplicationSummary';
+import { useQuantityApplicationRate } from './useQuantityApplicationRate';
 
-/* -----------------
-  temporarily in component */
 const SOIL_AMENDMENT_UNITS = {
   WEIGHT: {
     units: soilAmounts, // original
@@ -49,18 +44,17 @@ const SOIL_AMENDMENT_UNITS = {
     units: soilAmountsVolume,
   },
   APPLICATION_RATE_WEIGHT: {
-    units: applicationRateWeight, // TODO: create new
+    units: applicationRateWeight,
   },
   APPLICATION_RATE_VOLUME: {
-    units: applicationRateVolume, // TODO: create new
+    units: applicationRateVolume,
   },
 };
-/* ----------------- */
 
 interface Location {
   type: string;
   total_area: number;
-  total_area_unit: string;
+  total_area_unit: 'm2' | 'ha' | 'ft2' | 'ac';
 }
 
 export type QuantityApplicationRateProps = {
@@ -73,7 +67,7 @@ export type QuantityApplicationRateProps = {
 const QuantityApplicationRate = ({
   productId,
   isReadOnly,
-  system = 'metric', // measurementSelector
+  system, // measurementSelector
   location,
 }: QuantityApplicationRateProps) => {
   const { t } = useTranslation();
@@ -86,71 +80,19 @@ const QuantityApplicationRate = ({
 
   const { total_area, total_area_unit, type } = location;
 
-  const {
-    control,
-    getValues,
-    setValue,
-    handleSubmit,
-    reset,
-    setFocus,
-    trigger,
-    register,
+  const { control, getValues, setValue, register, watch } = useForm<TaskProductFormFields>();
+
+  /* Control of relationship between quantity, area, and application rate */
+  const { previewStringValue, previewStringUnit } = useQuantityApplicationRate({
+    total_area,
+    total_area_unit,
+    system,
+    isWeight,
     watch,
-    formState: { errors, isValid, isDirty },
-  } = useForm<TaskProductFormFields>({
-    mode: 'onBlur',
+    setValue,
   });
 
-  const PERCENT_OF_LOCATION = watch(TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION);
-  const APPLICATION_AREA = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA);
-  const QUANTITY_TO_APPLY_WEIGHT = watch(TASK_PRODUCT_FIELD_NAMES.WEIGHT);
-  const QUANTITY_TO_APPLY_VOLUME = watch(TASK_PRODUCT_FIELD_NAMES.VOLUME);
-
-  /* Set initial application area to area total area */
-  useEffect(() => {
-    if (!APPLICATION_AREA) {
-      setValue(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA, total_area);
-
-      /* display user-selected unit initially */
-      setValue(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA_UNIT, total_area_unit);
-    }
-  }, []);
-
-  /* For the preview string, always use the user-defined unit. This replicates the conversion the unit component would do if the value had been displayed in a <Unit /> rather than a straight string */
-  const previewStringTotalAreaValue =
-    total_area &&
-    roundToTwoDecimal(
-      convertFn(location_area[system], total_area, location_area.databaseUnit, total_area_unit),
-    );
-
-  /* Update application area based on percent of location */
-  useEffect(() => {
-    const calculated_area = total_area * (PERCENT_OF_LOCATION || 100) * 0.01;
-    setValue(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA, calculated_area);
-
-    /* calculate appropriate unit for the calculated area according to defined breakpoints */
-    setValue(
-      TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA_UNIT,
-      /* @ts-ignore */
-      getUnitOptionMap()[getDefaultUnit(location_area, calculated_area, system).displayUnit],
-    );
-  }, [PERCENT_OF_LOCATION]);
-
-  /* Update application rate based on quantity */
-  useEffect(() => {
-    if (QUANTITY_TO_APPLY_WEIGHT) {
-      setValue(
-        TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE,
-        QUANTITY_TO_APPLY_WEIGHT / APPLICATION_AREA!,
-      );
-    }
-    if (QUANTITY_TO_APPLY_VOLUME) {
-      setValue(
-        TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE,
-        QUANTITY_TO_APPLY_VOLUME / APPLICATION_AREA!,
-      );
-    }
-  }, [QUANTITY_TO_APPLY_VOLUME, QUANTITY_TO_APPLY_WEIGHT]);
+  const percent_of_location = watch(TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION);
 
   /* Label for weight/volume switch */
   const formatLabel = (labelKey: string, shouldBeBold: boolean) => {
@@ -184,14 +126,15 @@ const QuantityApplicationRate = ({
             hookFormGetValue={getValues}
             hookFromWatch={watch}
             control={control}
+            mode={'onChange'}
             disabled={isReadOnly}
             required
             key={isWeight ? 'weight' : 'volume'}
           />
-          <FieldApplicationSummary
-            locationArea={previewStringTotalAreaValue}
-            locationAreaUnit={total_area_unit}
-            percentOfArea={PERCENT_OF_LOCATION || 0}
+          <AreaApplicationSummary
+            locationArea={previewStringValue!}
+            locationAreaUnit={previewStringUnit!}
+            percentOfArea={percent_of_location || 0}
             locationType={t(`FARM_MAP.MAP_FILTER.${type.toUpperCase()}`).toLocaleLowerCase()}
           />
         </div>
@@ -201,19 +144,14 @@ const QuantityApplicationRate = ({
             <KeyboardArrowDownIcon className={styles.expandIcon} />
           </TextButton>
 
-          <Collapse
-            id={`application_rate-${productId}`}
-            in={isExpanded}
-            timeout="auto"
-            unmountOnExit
-          >
+          <Collapse id={`application_rate-${productId}`} in={isExpanded} timeout="auto">
             <div className={styles.sectionBody}>
               <div className={styles.locationSection}>
                 <NumberInput
                   name={TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION}
                   control={control}
-                  defaultValue={100}
                   label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PERECENT_TO_AMEND')}
+                  defaultValue={100}
                   min={0}
                   max={100}
                   rules={{ required: t('common:REQUIRED') }}
@@ -231,6 +169,7 @@ const QuantityApplicationRate = ({
                   hookFormGetValue={getValues}
                   hookFromWatch={watch}
                   control={control}
+                  mode={'onChange'}
                   disabled
                   required
                 />
@@ -239,14 +178,27 @@ const QuantityApplicationRate = ({
               <Unit
                 label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.APPLICATION_RATE')}
                 register={register}
-                name={TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE}
-                displayUnitName={TASK_PRODUCT_FIELD_NAMES[isWeight ? 'WEIGHT_UNIT' : 'VOLUME_UNIT']}
-                unitType={SOIL_AMENDMENT_UNITS[isWeight ? 'WEIGHT' : 'VOLUME'].units}
+                name={
+                  TASK_PRODUCT_FIELD_NAMES[
+                    isWeight ? 'APPLICATION_RATE_WEIGHT' : 'APPLICATION_RATE_VOLUME'
+                  ]
+                }
+                displayUnitName={
+                  TASK_PRODUCT_FIELD_NAMES[
+                    isWeight ? 'APPLICATION_RATE_WEIGHT_UNIT' : 'APPLICATION_RATE_VOLUME_UNIT'
+                  ]
+                }
+                unitType={
+                  SOIL_AMENDMENT_UNITS[
+                    isWeight ? 'APPLICATION_RATE_WEIGHT' : 'APPLICATION_RATE_VOLUME'
+                  ].units
+                }
                 system={system}
                 hookFormSetValue={setValue}
                 hookFormGetValue={getValues}
                 hookFromWatch={watch}
                 control={control}
+                mode={'onChange'}
                 disabled={isReadOnly}
                 required
                 key={isWeight ? 'weight' : 'volume'}
@@ -260,38 +212,3 @@ const QuantityApplicationRate = ({
 };
 
 export default QuantityApplicationRate;
-
-interface FieldApplicationSummaryProps {
-  locationArea: number;
-  locationAreaUnit: string;
-  percentOfArea: number;
-  locationType: string;
-}
-
-const FieldApplicationSummary = ({
-  locationArea,
-  locationAreaUnit,
-  percentOfArea,
-  locationType,
-}: FieldApplicationSummaryProps) => {
-  return (
-    <Main>
-      <Trans
-        i18nKey="ADD_TASK.SOIL_AMENDMENT_VIEW.APPLIED_TO"
-        values={{
-          percentOfArea,
-          locationArea,
-          locationAreaUnit,
-          locationType,
-        }}
-      >
-        Applied to <b>{{ percentOfArea } as any}%</b> of your{' '}
-        <em>
-          {/* see https://github.com/i18next/react-i18next/issues/1483 for necessity of any */}
-          {{ locationArea } as any} {{ locationAreaUnit } as any}
-        </em>{' '}
-        {locationType}
-      </Trans>
-    </Main>
-  );
-};

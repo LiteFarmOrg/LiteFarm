@@ -122,7 +122,7 @@ export const down = async function (knex) {
   });
 
   // Create new product table
-  await knex.schema.alterTable('soil_amendment_task_products', (table) => {
+  await knex.schema.alterTable('soil_amendment_task_product', (table) => {
     table.dropChecks([
       'check_positive_weight',
       'check_positive_volume',

@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { addTableEnumConstraintSql, dropTableEnumConstraintSql } from '../util.js';
+
 export const up = async function (knex) {
   /*----------------------------------------
    Fix negative number values - only present on prod on soil_amendment task
@@ -92,6 +94,21 @@ export const up = async function (knex) {
     table.decimal('weight', 36, 12).nullable().checkPositive('check_positive_weight').alter();
     table.decimal('volume', 36, 12).nullable().checkPositive('check_positive_volume').alter();
   });
+
+  /*----------------------------------------
+   Add type constraint to product
+  ----------------------------------------*/
+  await knex.raw(dropTableEnumConstraintSql('product', 'type'));
+  await knex.schema.alterTable('product', (table) => {
+    table.text('type').notNullable().alter();
+  });
+  await knex.raw(
+    addTableEnumConstraintSql('product', 'type', [
+      'soil_amendment_task',
+      'pest_control_task',
+      'cleaning_task',
+    ]),
+  );
 };
 
 export const down = async function (knex) {
@@ -145,4 +162,19 @@ export const down = async function (knex) {
   await knex.schema.alterTable('pest_control_task', (table) => {
     table.dropChecks(['check_positive_weight', 'check_positive_volume']);
   });
+
+  /*----------------------------------------
+   Add type constraint to product
+  ----------------------------------------*/
+  await knex.raw(dropTableEnumConstraintSql('product', 'type'));
+  await knex.schema.alterTable('product', (table) => {
+    table.text('type').nullable().alter();
+  });
+  await knex.raw(
+    addTableEnumConstraintSql('product', 'type', [
+      'soil_amendment_task',
+      'pest_control_task',
+      'cleaning_task',
+    ]),
+  );
 };

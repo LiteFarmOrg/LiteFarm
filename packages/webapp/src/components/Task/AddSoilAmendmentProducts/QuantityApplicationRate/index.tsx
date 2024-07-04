@@ -80,14 +80,22 @@ const QuantityApplicationRate = ({
   const { control, getValues, setValue, register, watch } = useForm<TaskProductFormFields>();
 
   /* Control of relationship between quantity, area, and application rate */
-  const { isWeight, toggleMeasure, previewStringValue, previewStringUnit } =
-    useQuantityApplicationRate({
-      total_area,
-      total_area_unit,
-      system,
-      watch,
-      setValue,
-    });
+  const {
+    onQuantityChange,
+    onApplicationRateChange,
+    onPercentLocationChange,
+    isWeight,
+    toggleMeasure,
+    previewStringValue,
+    previewStringUnit,
+  } = useQuantityApplicationRate({
+    total_area,
+    total_area_unit,
+    system,
+    watch,
+    setValue,
+    getValues,
+  });
 
   const percent_of_location = watch(TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION);
 
@@ -124,6 +132,7 @@ const QuantityApplicationRate = ({
             hookFromWatch={watch}
             control={control}
             mode={'onChange'}
+            onChange={onQuantityChange}
             disabled={isReadOnly}
             required
             key={isWeight ? 'weight' : 'volume'}
@@ -152,6 +161,7 @@ const QuantityApplicationRate = ({
                   min={0}
                   max={100}
                   rules={{ required: t('common:REQUIRED') }}
+                  onChange={onPercentLocationChange}
                 />
                 <SwapIcon />
                 {/* @ts-ignore */}
@@ -196,6 +206,7 @@ const QuantityApplicationRate = ({
                 hookFromWatch={watch}
                 control={control}
                 mode={'onChange'}
+                onChange={onApplicationRateChange}
                 disabled={isReadOnly}
                 required
                 key={isWeight ? 'weight' : 'volume'}

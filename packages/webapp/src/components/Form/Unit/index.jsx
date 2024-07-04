@@ -58,6 +58,7 @@ const Unit = ({
   onBlur,
   hasLeaf,
   autoConversion,
+  onChange: additionalOnChange,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -144,7 +145,9 @@ const Unit = ({
             size={1}
             onKeyDown={onKeyDown}
             onBlur={inputOnBlur}
-            onChange={inputOnChange}
+            onChange={(event) => {
+              inputOnChange(event), additionalOnChange?.();
+            }}
             onWheel={preventNumberScrolling}
             data-testid={testId}
             {...props}

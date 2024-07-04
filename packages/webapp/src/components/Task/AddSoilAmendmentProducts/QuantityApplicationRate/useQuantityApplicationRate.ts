@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { UseFormWatch, UseFormSetValue } from 'react-hook-form';
+import { UseFormWatch, UseFormSetValue, UseFormGetValues } from 'react-hook-form';
 import { TASK_PRODUCT_FIELD_NAMES, TaskProductFormFields, UnitOption } from '../types';
 import { getUnitOptionMap } from '../../../../util/convert-units/getUnitOptionMap';
 import { convertFn, getDefaultUnit, location_area } from '../../../../util/convert-units/unit';
@@ -27,6 +27,7 @@ interface UseQuantityApplicationRate {
   system: 'metric' | 'imperial';
   watch: UseFormWatch<TaskProductFormFields>;
   setValue: UseFormSetValue<TaskProductFormFields>;
+  getValues: UseFormGetValues<TaskProductFormFields>;
 }
 
 export const useQuantityApplicationRate = ({
@@ -35,16 +36,12 @@ export const useQuantityApplicationRate = ({
   system,
   watch,
   setValue,
+  getValues,
 }: UseQuantityApplicationRate) => {
-  const percent_of_location = watch(TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION);
   const application_area = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA);
   const application_area_unit = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA_UNIT);
-  const weight = watch(TASK_PRODUCT_FIELD_NAMES.WEIGHT);
   const weight_unit = watch(TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT);
-  const volume = watch(TASK_PRODUCT_FIELD_NAMES.VOLUME);
   const volume_unit = watch(TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT);
-  const application_rate_weight = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT);
-  const application_rate_volume = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME);
   const application_rate_weight_unit = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT);
   const application_rate_volume_unit = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT);
 
@@ -67,10 +64,11 @@ export const useQuantityApplicationRate = ({
     }
   }, []);
 
-  /* Update application area based on percent of location */
-  useEffect(() => {
-    const calculatedArea = (total_area * (percent_of_location || 100)) / 100;
+  /* Update application area + rate based on percent of location */
+  const onPercentLocationChange = () => {
+    const percent_of_location = getValues(TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION);
 
+    const calculatedArea = (total_area * (percent_of_location || 100)) / 100;
     setValue(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA, calculatedArea);
 
     /* set unit of the total area component according to default breakpoints */
@@ -80,10 +78,19 @@ export const useQuantityApplicationRate = ({
       getUnitOptionMap()[getDefaultUnit(location_area, calculatedArea, system).displayUnit],
       { shouldValidate: true },
     );
-  }, [percent_of_location]);
 
-  /* Update application rate based on quantity */
-  useEffect(() => {
+    /* update application rate */
+    onQuantityChange();
+  };
+
+  const onQuantityChange = () => {
+    const weight = getValues(TASK_PRODUCT_FIELD_NAMES.WEIGHT);
+    const weight_unit = getValues(TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT);
+    const application_area = getValues(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA);
+
+    const volume = getValues(TASK_PRODUCT_FIELD_NAMES.VOLUME);
+    const volume_unit = getValues(TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT);
+
     if (weight && isWeight && weight_unit && application_area) {
       setValue(
         TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT,
@@ -99,10 +106,19 @@ export const useQuantityApplicationRate = ({
           .to('l/ha'), // database unit application_rate_volume
       );
     }
-  }, [weight, weight_unit, volume, volume_unit, application_area]);
+  };
 
-  /* Update quantity based on application rate */
-  useEffect(() => {
+  const onApplicationRateChange = () => {
+    const application_rate_weight = getValues(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT);
+    const application_rate_weight_unit = getValues(
+      TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT,
+    );
+    const application_rate_volume = getValues(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME);
+    const application_rate_volume_unit = getValues(
+      TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT,
+    );
+
+    const application_area = getValues(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA);
     if (isWeight && application_rate_weight && application_rate_weight_unit && application_area) {
       setValue(
         TASK_PRODUCT_FIELD_NAMES.WEIGHT,
@@ -119,14 +135,18 @@ export const useQuantityApplicationRate = ({
         convert(application_rate_volume).from('l/ha').to('l/m2') * application_area,
       );
     }
-  }, [
-    application_rate_weight,
-    application_rate_weight_unit,
-    application_rate_volume,
-    application_rate_volume_unit,
-  ]);
+  };
 
-  /* For the preview string, replicate the conversion the unit component would do if the value had been displayed in a <Unit /> rather than a string. However, don't update upon changes to application_area_unit */
+  /* Trigger recalculation when units are changed */
+  useEffect(() => {
+    onQuantityChange();
+  }, [weight_unit, volume_unit]);
+
+  useEffect(() => {
+    onApplicationRateChange();
+  }, [application_rate_weight_unit, application_rate_volume_unit]);
+
+  /* For the preview string, replicate the conversion the unit component would do if the value had been displayed in a <Unit /> rather than a string. However, don't update upon changes to application_area_unit beyond the initial undefined > defined change */
   const [previewStringValue, setPreviewStringValue] = useState<number | null>(null);
   const [previewStringUnit, setPreviewStringUnit] = useState<string | null>(null);
 
@@ -148,5 +168,13 @@ export const useQuantityApplicationRate = ({
     }
   }, [location_area, application_area_unit]);
 
-  return { isWeight, toggleMeasure, previewStringValue, previewStringUnit };
+  return {
+    isWeight,
+    toggleMeasure,
+    previewStringValue,
+    previewStringUnit,
+    onQuantityChange,
+    onApplicationRateChange,
+    onPercentLocationChange,
+  };
 };

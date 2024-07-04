@@ -75,22 +75,19 @@ const QuantityApplicationRate = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpanded = () => setIsExpanded((prev) => !prev);
 
-  const [isWeight, setIsWeight] = useState(true);
-  const toggleUnit = () => setIsWeight((prev) => !prev);
-
   const { total_area, total_area_unit, type } = location;
 
   const { control, getValues, setValue, register, watch } = useForm<TaskProductFormFields>();
 
   /* Control of relationship between quantity, area, and application rate */
-  const { previewStringValue, previewStringUnit } = useQuantityApplicationRate({
-    total_area,
-    total_area_unit,
-    system,
-    isWeight,
-    watch,
-    setValue,
-  });
+  const { isWeight, toggleMeasure, previewStringValue, previewStringUnit } =
+    useQuantityApplicationRate({
+      total_area,
+      total_area_unit,
+      system,
+      watch,
+      setValue,
+    });
 
   const percent_of_location = watch(TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION);
 
@@ -108,7 +105,7 @@ const QuantityApplicationRate = ({
         leftLabel={formatLabel('ADD_TASK.SOIL_AMENDMENT_VIEW.WEIGHT', isWeight)}
         label={formatLabel('ADD_TASK.SOIL_AMENDMENT_VIEW.VOLUME', !isWeight)}
         isToggleVariant
-        onChange={toggleUnit}
+        onChange={toggleMeasure}
         checked={!isWeight}
       />
       <div className={styles.applicationRateCard}>

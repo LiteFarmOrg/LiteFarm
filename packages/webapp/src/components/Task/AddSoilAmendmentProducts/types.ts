@@ -14,6 +14,7 @@
  */
 
 import { TASK_TYPES } from '../../../containers/Task/constants';
+import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 
 export enum Unit {
   RATIO = 'ratio',
@@ -66,4 +67,38 @@ export type Product = {
     | typeof TASK_TYPES.CLEANING
     | typeof TASK_TYPES.PEST_CONTROL;
   product_translation_key: string | null;
+};
+
+export const TASK_PRODUCT_FIELD_NAMES = {
+  WEIGHT: 'weight',
+  WEIGHT_UNIT: 'weight_unit',
+  VOLUME: 'volume',
+  VOLUME_UNIT: 'volume_unit',
+  PERCENT_OF_LOCATION: 'percent_of_location',
+  APPLICATION_AREA: 'location_area',
+  APPLICATION_AREA_UNIT: 'location_area_unit',
+  APPLICATION_RATE_WEIGHT: 'application_rate_weight',
+  APPLICATION_RATE_WEIGHT_UNIT: 'application_rate_weight_unit',
+  APPLICATION_RATE_VOLUME: 'application_rate_volume',
+  APPLICATION_RATE_VOLUME_UNIT: 'application_rate_volume_unit',
+} as const;
+
+type UnitKeys = keyof ReturnType<typeof getUnitOptionMap>;
+export interface UnitOption {
+  value: UnitKeys;
+  label: string;
+}
+
+export type TaskProductFormFields = {
+  [TASK_PRODUCT_FIELD_NAMES.WEIGHT]?: number;
+  [TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT]?: UnitOption | null;
+  [TASK_PRODUCT_FIELD_NAMES.VOLUME]?: number;
+  [TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT]?: UnitOption | null;
+  [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION]?: number | null;
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA]?: number | null;
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA_UNIT]?: UnitOption | null;
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT]?: number | null;
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT]?: UnitOption;
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME]?: number | null;
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT]?: UnitOption;
 };

@@ -86,6 +86,7 @@ export const animalRemovalReasonsUrl = `${URI}/animal_removal_reasons`;
 export const soilAmendmentMethodsUrl = `${URI}/soil_amendment_methods`;
 export const soilAmendmentPurposesUrl = `${URI}/soil_amendment_purposes`;
 export const soilAmendmentFertiliserTypesUrl = `${URI}/soil_amendment_fertiliser_types`;
+export const productUrl = `${URI}/product`;
 
 export const url = URI;
 
@@ -139,8 +140,9 @@ export default {
   defaultAnimalTypesUrl,
   animalSexesUrl,
   animalRemovalReasonsUrl,
-  url,
   soilAmendmentMethodsUrl,
   soilAmendmentPurposesUrl,
   soilAmendmentFertiliserTypesUrl,
+  productUrl,
+  url,
 };

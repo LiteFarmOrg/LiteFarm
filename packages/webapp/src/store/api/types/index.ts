@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { TASK_TYPES } from '../../../containers/Task/constants';
+
 // If we don't necessarily want to type an endpoint
 export type Result = Array<{ [key: string]: any }>;
 
@@ -116,17 +118,51 @@ export type AnimalRemovalReason = {
   id: number;
 };
 
-export type SoilAmendmentMethod = {
+export interface SoilAmendmentMethod {
   id: number;
   key: string;
-};
+}
 
-export type SoilAmendmentPurpose = {
+export interface SoilAmendmentPurpose {
   id: number;
   key: string;
-};
+}
 
-export type SoilAmendmentFertiliserType = {
+export interface SoilAmendmentFertiliserType {
   id: number;
   key: string;
+}
+
+interface Product {
+  product_id?: number | string;
+  name: string;
+  product_translation_key?: string;
+  supplier?: string;
+  type?:
+    | typeof TASK_TYPES.SOIL_AMENDMENT
+    | typeof TASK_TYPES.CLEANING
+    | typeof TASK_TYPES.PEST_CONTROL;
+  farm_id?: string;
+  on_permitted_substances_list?: 'YES' | 'NO' | 'NOT_SURE' | null;
+}
+
+export type SoilAmendmentProduct = Product & {
+  soil_amendment_product: {
+    product_id?: number;
+    soil_amendment_fertiliser_type_id?: number;
+    n?: number;
+    p?: number;
+    k?: number;
+    calcium?: number;
+    magnesium?: number;
+    sulfur?: number;
+    copper?: number;
+    manganese?: number;
+    boron?: number;
+    elemental_unit?: 'percent' | 'ratio' | 'ppm' | 'mg/kg';
+    ammonium?: number;
+    nitrate?: number;
+    molecular_compounds_unit?: 'ppm' | 'mg/kg';
+    moisture_content_percent?: number;
+  };
 };

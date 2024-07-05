@@ -303,6 +303,20 @@ export const pest = {
   databaseUnit: databaseUnit.mass,
 };
 
+export const furrow_hole_depth = {
+  metric: {
+    units: ['cm'],
+    defaultUnit: 'cm',
+    breakpoints: [],
+  },
+  imperial: {
+    units: ['in'],
+    defaultUnit: 'in',
+    breakpoints: [],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
 //TODO move to storybook
 
 const areaUnits = {

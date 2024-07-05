@@ -36,7 +36,7 @@ interface ProductFields {
   product_id: ProductId;
 }
 
-const FIELD_NAME = 'soil_amendment_task_products';
+const FIELD_NAME = 'soil_amendment_task.soil_amendment_task_products';
 
 const AddSoilAmendmentProducts = ({
   products,

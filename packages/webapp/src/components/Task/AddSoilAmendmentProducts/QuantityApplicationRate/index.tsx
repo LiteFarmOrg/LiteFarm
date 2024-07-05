@@ -112,11 +112,11 @@ const QuantityApplicationRate = ({
     // t('ADD_TASK.SOIL_AMENDMENT_VIEW.VOLUME')
     const label = t(labelKey);
     return shouldBeBold ? (
-      <div className={styles.switchLabel}>
+      <span className={styles.switchLabel}>
         <b>{label}</b>
-      </div>
+      </span>
     ) : (
-      <div className={styles.switchLabel}>{label}</div>
+      <span className={styles.switchLabel}>{label}</span>
     );
   };
 

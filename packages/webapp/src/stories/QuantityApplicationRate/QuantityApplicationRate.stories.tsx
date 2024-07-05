@@ -16,6 +16,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
 import QuantityApplicationRate from '../../components/Task/AddSoilAmendmentProducts/QuantityApplicationRate';
+import { TASK_PRODUCT_FIELD_NAMES } from '../../components/Task/AddSoilAmendmentProducts/types';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof QuantityApplicationRate> = {
@@ -40,8 +41,8 @@ export const Metric: Story = {
     system: 'metric',
     location: {
       type: 'field',
-      total_area: 5200,
-      total_area_unit: 'ha',
+      total_area: 15200,
+      total_area_unit: 'm2',
     },
   },
 };
@@ -51,12 +52,40 @@ export const Imperial: Story = {
     system: 'imperial',
     location: {
       type: 'garden',
-      total_area: 12323,
-      total_area_unit: 'ft2',
+      total_area: 15200,
+      total_area_unit: 'm2',
     },
   },
 };
 
-export const ReadOnly: Story = {
-  args: { isReadOnly: true },
+export const ReadOnlyWeight: Story = {
+  args: {
+    isReadOnly: true,
+    system: 'metric',
+    location: {
+      type: 'garden',
+      total_area: 15000,
+      total_area_unit: 'ha',
+    },
+    defaultValues: {
+      [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION]: 50,
+      [TASK_PRODUCT_FIELD_NAMES.WEIGHT]: 15,
+    },
+  },
+};
+
+export const ReadOnlyVolume: Story = {
+  args: {
+    isReadOnly: true,
+    system: 'metric',
+    location: {
+      type: 'garden',
+      total_area: 15000,
+      total_area_unit: 'ha',
+    },
+    defaultValues: {
+      [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION]: 50,
+      [TASK_PRODUCT_FIELD_NAMES.VOLUME]: 15,
+    },
+  },
 };

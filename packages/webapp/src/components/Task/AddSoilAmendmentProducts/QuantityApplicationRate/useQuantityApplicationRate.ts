@@ -45,7 +45,10 @@ export const useQuantityApplicationRate = ({
   const application_rate_weight_unit = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT);
   const application_rate_volume_unit = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT);
 
-  const [isWeight, setIsWeight] = useState(true);
+  const [isWeight, setIsWeight] = useState(() => {
+    const volumeValue = getValues(TASK_PRODUCT_FIELD_NAMES.VOLUME);
+    return isNaN(Number(volumeValue));
+  });
 
   const toggleMeasure = () => {
     setIsWeight((prev) => !prev);

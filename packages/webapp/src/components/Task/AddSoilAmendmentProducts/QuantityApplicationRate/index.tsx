@@ -62,6 +62,7 @@ export type QuantityApplicationRateProps = {
   isReadOnly: boolean;
   system: 'metric' | 'imperial';
   location: Location;
+  defaultValues: TaskProductFormFields;
 };
 
 const QuantityApplicationRate = ({
@@ -69,6 +70,7 @@ const QuantityApplicationRate = ({
   isReadOnly,
   system, // measurementSelector
   location,
+  defaultValues,
 }: QuantityApplicationRateProps) => {
   const { t } = useTranslation();
 
@@ -77,7 +79,12 @@ const QuantityApplicationRate = ({
 
   const { total_area, total_area_unit, type } = location;
 
-  const { control, getValues, setValue, register, watch } = useForm<TaskProductFormFields>();
+  const { control, getValues, setValue, register, watch } = useForm<TaskProductFormFields>({
+    defaultValues: {
+      [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION]: 100,
+      ...defaultValues,
+    },
+  });
 
   /* Control of relationship between quantity, area, and application rate */
   const {
@@ -171,12 +178,15 @@ const QuantityApplicationRate = ({
                   name={TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION}
                   control={control}
                   label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PERECENT_TO_AMEND')}
-                  defaultValue={100}
                   min={0}
                   max={100}
                   rules={{ required: t('common:REQUIRED') }}
                   onChange={onPercentLocationChange}
                   classes={{ label: inputLabelStyles }}
+                  disabled={isReadOnly}
+                  defaultValue={
+                    defaultValues?.[TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION] || 100
+                  }
                 />
                 <SwapIcon />
                 {/* @ts-ignore */}

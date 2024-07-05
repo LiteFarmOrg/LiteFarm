@@ -89,7 +89,7 @@
     margin-bottom: 4px;
   }
 
-  @include xs-breakpoint {
+  @include md-breakpoint {
     flex-direction: column;
 
     svg {

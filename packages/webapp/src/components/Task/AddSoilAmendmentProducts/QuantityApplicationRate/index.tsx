@@ -51,7 +51,7 @@ const SOIL_AMENDMENT_UNITS = {
   },
 };
 
-interface Location {
+export interface Location {
   type: string;
   total_area: number;
   total_area_unit: 'm2' | 'ha' | 'ft2' | 'ac';
@@ -62,7 +62,7 @@ export type QuantityApplicationRateProps = {
   isReadOnly: boolean;
   system: 'metric' | 'imperial';
   location: Location;
-  defaultValues: TaskProductFormFields;
+  defaultValues?: TaskProductFormFields;
 };
 
 const QuantityApplicationRate = ({

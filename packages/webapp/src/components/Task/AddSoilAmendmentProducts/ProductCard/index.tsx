@@ -22,13 +22,14 @@ import { CreatableSelect } from '../../../Form/ReactSelect';
 import ProductDetails, { ProductDetailsProps } from './ProductDetails';
 import { Product } from '../types';
 import styles from '../styles.module.scss';
+import QuantityApplicationRate, { Location } from '../QuantityApplicationRate';
 
 export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct'> & {
   namePrefix: string;
   system: 'metric' | 'imperial';
   onRemove?: () => void;
   onSaveProduct: ProductDetailsProps['onSave'];
-  totalArea: number;
+  location: Location;
 };
 
 interface ProductOption {
@@ -67,7 +68,7 @@ const SoilAmendmentProductCard = ({
   onSaveProduct,
   isReadOnly,
   products = [],
-  totalArea,
+  location,
   ...props
 }: ProductCardProps) => {
   const { t } = useTranslation();
@@ -115,7 +116,13 @@ const SoilAmendmentProductCard = ({
           products={products}
         />
       </div>
-      {/* TODO: LF-4249 <QuantityApplicationRate /> */}
+      {/* TODO: LF-4221 Update soil amendment task flow. <QuantityApplicationRate /> can  receive values for readOnly or edit via the defaultValues prop but this may require adjust depending on final form organization */}
+      <QuantityApplicationRate
+        productId={PRODUCT_ID}
+        system={system}
+        location={location}
+        isReadOnly={isReadOnly}
+      />
     </div>
   );
 };

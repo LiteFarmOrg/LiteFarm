@@ -104,7 +104,20 @@ const QuantityApplicationRate = ({
     // t('ADD_TASK.SOIL_AMENDMENT_VIEW.WEIGHT')
     // t('ADD_TASK.SOIL_AMENDMENT_VIEW.VOLUME')
     const label = t(labelKey);
-    return shouldBeBold ? <b>{label}</b> : label;
+    return shouldBeBold ? (
+      <div className={styles.switchLabel}>
+        <b>{label}</b>
+      </div>
+    ) : (
+      <div className={styles.switchLabel}>{label}</div>
+    );
+  };
+
+  // Unit and NumberInput accept inline style objects, rather than classnames, to style subcomponents
+  const inputLabelStyles = {
+    color: 'var(--Colors-Neutral-Neutral-500)',
+    fontSize: '16px',
+    lineHeight: 'normal',
   };
 
   return (
@@ -136,6 +149,7 @@ const QuantityApplicationRate = ({
             disabled={isReadOnly}
             required
             key={isWeight ? 'weight' : 'volume'}
+            classes={{ label: inputLabelStyles }}
           />
           <AreaApplicationSummary
             locationArea={previewStringValue!}
@@ -162,6 +176,7 @@ const QuantityApplicationRate = ({
                   max={100}
                   rules={{ required: t('common:REQUIRED') }}
                   onChange={onPercentLocationChange}
+                  classes={{ label: inputLabelStyles }}
                 />
                 <SwapIcon />
                 {/* @ts-ignore */}
@@ -179,6 +194,7 @@ const QuantityApplicationRate = ({
                   mode={'onChange'}
                   disabled
                   required
+                  classes={{ label: inputLabelStyles }}
                 />
               </div>
               {/* @ts-ignore */}
@@ -210,6 +226,7 @@ const QuantityApplicationRate = ({
                 disabled={isReadOnly}
                 required
                 key={isWeight ? 'weight' : 'volume'}
+                classes={{ label: inputLabelStyles }}
               />
             </div>
           </Collapse>

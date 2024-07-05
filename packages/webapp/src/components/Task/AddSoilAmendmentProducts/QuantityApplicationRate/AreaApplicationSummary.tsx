@@ -15,6 +15,7 @@
 
 import { Trans } from 'react-i18next';
 import { Main } from '../../../Typography';
+import styles from './styles.module.scss';
 
 interface AreaApplicationSummaryProps {
   locationArea: number;
@@ -30,7 +31,7 @@ export const AreaApplicationSummary = ({
   locationType,
 }: AreaApplicationSummaryProps) => {
   return (
-    <Main>
+    <Main className={styles.summaryText}>
       <Trans
         i18nKey="ADD_TASK.SOIL_AMENDMENT_VIEW.APPLIED_TO"
         values={{

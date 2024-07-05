@@ -22,6 +22,11 @@ export enum Unit {
   'MG/KG' = 'mg/kg',
 }
 
+export enum MolecularCompoundsUnit {
+  PPM = 'ppm',
+  'MG/KG' = 'mg/kg',
+}
+
 export enum Nutrients {
   N = 'n',
   P = 'p',
@@ -63,6 +68,7 @@ export const PRODUCT_FIELD_NAMES = {
   B: Nutrients.B,
   AMMONIUM: 'ammonium',
   NITRATE: 'nitrate',
+  MOLECULAR_COMPOUNDS_UNIT: 'molecular_compounds_unit',
 } as const;
 
 export type ProductId = number | string | undefined;
@@ -89,6 +95,7 @@ export type ProductFormFields = {
   };
   [PRODUCT_FIELD_NAMES.AMMONIUM]?: number;
   [PRODUCT_FIELD_NAMES.NITRATE]?: number;
+  [PRODUCT_FIELD_NAMES.MOLECULAR_COMPOUNDS_UNIT]?: MolecularCompoundsUnit;
 };
 
 export type Product = {
@@ -110,6 +117,7 @@ export type Product = {
   [PRODUCT_FIELD_NAMES.UNIT]?: Unit | null;
   [PRODUCT_FIELD_NAMES.AMMONIUM]?: number;
   [PRODUCT_FIELD_NAMES.NITRATE]?: number;
+  [PRODUCT_FIELD_NAMES.MOLECULAR_COMPOUNDS_UNIT]?: MolecularCompoundsUnit;
   farm_id: string;
   type:
     | typeof TASK_TYPES.SOIL_AMENDMENT

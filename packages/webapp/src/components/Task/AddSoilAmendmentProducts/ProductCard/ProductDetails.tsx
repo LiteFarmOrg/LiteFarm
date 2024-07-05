@@ -26,14 +26,8 @@ import RadioGroup from '../../../Form/RadioGroup';
 import CompositionInputs from '../../../Form/CompositionInputs';
 import ReactSelect from '../../../Form/ReactSelect';
 import Buttons from './Buttons';
-import {
-  PRODUCT_FIELD_NAMES,
-  Nutrients,
-  Unit,
-  type ProductFormFields,
-  type Product,
-  type ProductId,
-} from '../types';
+import type { ProductFormFields, Product, ProductId } from '../types';
+import { PRODUCT_FIELD_NAMES, Nutrients, Unit, MolecularCompoundsUnit } from '../types';
 import useInputsInfo from './useInputsInfo';
 import { CANADA } from '../../AddProduct/constants';
 import { TASK_TYPES } from '../../../../containers/Task/constants';
@@ -60,13 +54,19 @@ const {
   B,
   AMMONIUM,
   NITRATE,
+  MOLECULAR_COMPOUNDS_UNIT,
 } = PRODUCT_FIELD_NAMES;
 
-const unitOptions = [
+const elementalUnitOptions = [
   { label: '%', value: Unit.PERCENT },
   { label: Unit.RATIO, value: Unit.RATIO },
   { label: Unit.PPM, value: Unit.PPM },
   { label: Unit['MG/KG'], value: Unit['MG/KG'] },
+];
+
+const molecularCompoundsUnitOptions = [
+  { label: MolecularCompoundsUnit.PPM, value: MolecularCompoundsUnit.PPM },
+  { label: MolecularCompoundsUnit['MG/KG'], value: MolecularCompoundsUnit['MG/KG'] },
 ];
 
 export type ProductDetailsProps = {
@@ -105,6 +105,7 @@ export const defaultValues = {
     [MN]: NaN,
     [B]: NaN,
   },
+  [MOLECULAR_COMPOUNDS_UNIT]: MolecularCompoundsUnit.PPM,
 };
 
 const subtractFrom100 = (value: number) => +(100 * 100 - value * 100) / 100;
@@ -149,12 +150,20 @@ const ProductDetails = ({
     defaultValues,
   });
 
-  const [moistureContent, dryMatterContent, ammonium, nitrate, fertiliserType] = watch([
+  const [
+    moistureContent,
+    dryMatterContent,
+    ammonium,
+    nitrate,
+    fertiliserType,
+    molecularCompoundsUnit,
+  ] = watch([
     MOISTURE_CONTENT,
     DRY_MATTER_CONTENT,
     AMMONIUM,
     NITRATE,
     FERTILISER_TYPE,
+    MOLECULAR_COMPOUNDS_UNIT,
   ]);
 
   const {
@@ -200,6 +209,8 @@ const ProductDetails = ({
         },
         [AMMONIUM]: selectedProduct?.[AMMONIUM] ?? NaN,
         [NITRATE]: selectedProduct?.[NITRATE] ?? NaN,
+        [MOLECULAR_COMPOUNDS_UNIT]:
+          selectedProduct?.[MOLECULAR_COMPOUNDS_UNIT] ?? MolecularCompoundsUnit.PPM,
       });
     }
 
@@ -286,7 +297,7 @@ const ProductDetails = ({
           return (
             <CompositionInputs
               mainLabel={mainLabel}
-              unitOptions={unitOptions}
+              unitOptions={elementalUnitOptions}
               inputsInfo={inputsInfo}
               disabled={isDetailDisabled}
               error={fieldState.error?.message}
@@ -303,6 +314,17 @@ const ProductDetails = ({
         }}
       />
     );
+  };
+
+  const handleMolecularCompoundsChange = (name: string, value: string | number | null): void => {
+    let newValue: MolecularCompoundsUnit | number | undefined;
+    if (value === MolecularCompoundsUnit.PPM || value === MolecularCompoundsUnit['MG/KG']) {
+      newValue = value as MolecularCompoundsUnit;
+    } else {
+      newValue = value ? +value : undefined;
+    }
+
+    setValue(name as typeof AMMONIUM | typeof NITRATE | typeof MOLECULAR_COMPOUNDS_UNIT, newValue);
   };
 
   return (
@@ -409,15 +431,16 @@ const ProductDetails = ({
 
                 <CompositionInputs
                   disabled={isDetailDisabled}
-                  onChange={(fieldName: string, value: string | number | null): void => {
-                    setValue(
-                      fieldName as typeof AMMONIUM | typeof NITRATE,
-                      value ? +value : undefined,
-                    );
-                  }}
+                  onChange={handleMolecularCompoundsChange}
                   inputsInfo={inputsInfo.ammoniumNitrate}
-                  values={{ [AMMONIUM]: ammonium, [NITRATE]: nitrate }}
-                  unit="ppm"
+                  values={{
+                    [AMMONIUM]: ammonium,
+                    [NITRATE]: nitrate,
+                    [MOLECULAR_COMPOUNDS_UNIT]: molecularCompoundsUnit,
+                  }}
+                  unitOptions={molecularCompoundsUnitOptions}
+                  unitFieldName={MOLECULAR_COMPOUNDS_UNIT}
+                  reactSelectWidth={MG_KG_REACT_SELECT_WIDTH}
                 />
               </div>
             </Collapse>

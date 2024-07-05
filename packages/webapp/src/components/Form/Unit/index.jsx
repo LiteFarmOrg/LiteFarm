@@ -32,7 +32,7 @@ import useElementWidth from '../../hooks/useElementWidth';
 
 const Unit = ({
   disabled = false,
-  classes = { container: {} },
+  classes = {},
   style = {},
   label,
   info,
@@ -109,7 +109,7 @@ const Unit = ({
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
       {label && (
         <div className={styles.labelContainer}>
-          <Label>
+          <Label style={classes.label}>
             {label}{' '}
             {optional && (
               <Label sm className={styles.sm}>

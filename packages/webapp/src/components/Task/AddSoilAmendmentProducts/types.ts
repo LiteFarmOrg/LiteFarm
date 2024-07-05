@@ -39,6 +39,13 @@ export enum Nutrients {
   B = 'boron',
 }
 
+export const TASK_FIELD_NAMES = {
+  METHOD_ID: 'method_id',
+  OTHER_APPLICATION_METHOD: 'other_application_method',
+  FURROW_HOLE_DEPTH: 'furrow_hole_depth',
+  FURROW_HOLE_DEPTH_UNIT: 'furrow_hole_depth_unit',
+} as const;
+
 export const TASK_PRODUCT_FIELD_NAMES = {
   PRODUCT_ID: 'product_id',
   PURPOSES: 'purposes',

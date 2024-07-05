@@ -19,7 +19,7 @@ import SoilAmendmentPurposeModel from '../../models/soilAmendmentPurposeModel.js
 export function checkSoilAmendmentTaskProducts() {
   return async (req, res, next) => {
     try {
-      const { soil_amendment_task_products } = req.body.soil_amendment_task;
+      const { soil_amendment_task_products } = req.body;
 
       if (!Array.isArray(soil_amendment_task_products)) {
         return res.status(400).send('soil_amendment_task_products must be an array');

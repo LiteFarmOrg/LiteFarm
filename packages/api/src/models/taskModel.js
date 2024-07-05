@@ -17,6 +17,7 @@ import Model from './baseFormatModel.js';
 
 import BaseModel from './baseModel.js';
 import soilAmendmentTaskModel from './soilAmendmentTaskModel.js';
+import soilAmendmentTaskProductsModel from './soilAmendmentTaskProductsModel.js';
 import pestControlTask from './pestControlTask.js';
 import irrigationTaskModel from './irrigationTaskModel.js';
 import scoutingTaskModel from './scoutingTaskModel.js';
@@ -98,6 +99,14 @@ class TaskModel extends BaseModel {
         join: {
           from: 'task.task_id',
           to: 'soil_amendment_task.task_id',
+        },
+      },
+      soil_amendment_task_products: {
+        relation: Model.HasManyRelation,
+        modelClass: soilAmendmentTaskProductsModel,
+        join: {
+          from: 'task.task_id',
+          to: 'soil_amendment_task_products.task_id',
         },
       },
       pest_control_task: {
@@ -246,6 +255,7 @@ class TaskModel extends BaseModel {
       action_needed: 'omit',
       // relationMappings
       soil_amendment_task: 'edit',
+      soil_amendment_task_products: 'edit',
       pest_control_task: 'edit',
       irrigation_task: 'edit',
       scouting_task: 'edit',
@@ -414,15 +424,37 @@ class TaskModel extends BaseModel {
       });
   }
 
-  static async deleteTask(task_id, user) {
+  static async deleteTask(task_id, user, trx) {
     try {
-      const deleteResponse = await TaskModel.query()
+      const deleteResponse = await TaskModel.query(trx)
         .context(user)
         .patchAndFetchById(task_id, { deleted: true });
       return deleteResponse;
     } catch (error) {
       return error;
     }
+  }
+
+  static async deleteTaskAndTaskProduct(user, task_id, trx) {
+    const taskTypesWithProducts = ['soil_amendment_task'];
+    const taskType = await TaskModel.relatedQuery('taskType', trx).for(task_id).first();
+    const { farm_id, task_translation_key } = taskType;
+    const taskTypeKey = task_translation_key?.toLowerCase();
+    const relatedQueryStringDeletedTaskProduct = `${taskTypeKey}_products`;
+    let task;
+    if (!farm_id && taskTypesWithProducts.some((type) => type == taskTypeKey)) {
+      await TaskModel.relatedQuery(relatedQueryStringDeletedTaskProduct, trx)
+        .for(task_id)
+        .context(user)
+        .patch({ deleted: true });
+      task = await TaskModel.query(trx)
+        .withGraphFetched(relatedQueryStringDeletedTaskProduct)
+        .context({ ...user, showHidden: true })
+        .patchAndFetchById(task_id, { deleted: true });
+    } else {
+      task = TaskModel.deleteTask(task_id, user, trx);
+    }
+    return task;
   }
 }
 

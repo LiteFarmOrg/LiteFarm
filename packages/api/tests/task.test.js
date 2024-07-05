@@ -201,6 +201,8 @@ describe('Task tests', () => {
     return userFarms;
   };
 
+  const tasksWithProducts = ['soil_amendment_task'];
+
   async function getTask(task_id) {
     return knex('task').where({ task_id }).first();
   }
@@ -1029,8 +1031,9 @@ describe('Task tests', () => {
 
         [{ id: soilAmendmentPurpose }] = await mocks.soil_amendment_purposeFactory();
       });
-      const fakeTaskData = {
-        soil_amendment_task: async (farm_id) => {
+
+      const fakeProductData = {
+        soil_amendment_task_products: async (farm_id) => {
           // checkSoilAmendmentTaskProducts middleware requires a product that belongs to the given farm
           const [{ product_id: soilAmendmentProduct }] = await mocks.productFactory(
             { promisedFarm: [{ farm_id }] },
@@ -1038,16 +1041,17 @@ describe('Task tests', () => {
             mocks.fakeProduct({ type: 'soil_amendment_task' }),
           );
 
-          return mocks.fakeSoilAmendmentTask({
-            method_id: soilAmendmentMethod,
-            soil_amendment_task_products: [
-              mocks.fakeSoilAmendmentTaskProduct({
-                product_id: soilAmendmentProduct,
-                purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
-              }),
-            ],
-          });
+          return [
+            mocks.fakeSoilAmendmentTaskProduct({
+              product_id: soilAmendmentProduct,
+              purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+            }),
+          ];
         },
+      };
+
+      const fakeTaskData = {
+        soil_amendment_task: () => mocks.fakeSoilAmendmentTask({ method_id: soilAmendmentMethod }),
         pest_control_task: () =>
           mocks.fakePestControlTask({ product_id: product, product: productData }),
         irrigation_task: () => mocks.fakeIrrigationTask(),
@@ -1273,9 +1277,10 @@ describe('Task tests', () => {
             planting_management_plan_id,
             task_type_id,
           } = await userFarmTaskGenerator();
+
           const data = {
             ...mocks.fakeTask({
-              [type]: { ...(await fakeTaskData[type](farm_id)) },
+              [type]: { ...fakeTaskData[type]() },
               task_type_id,
               owner_user_id: user_id,
             }),
@@ -1283,6 +1288,9 @@ describe('Task tests', () => {
             managementPlans: [{ planting_management_plan_id }],
           };
 
+          if (tasksWithProducts.some((task) => task == type)) {
+            data[`${type}_products`] = [...(await fakeProductData[`${type}_products`](farm_id))];
+          }
           postTaskRequest({ user_id, farm_id }, type, data, async (err, res) => {
             expect(res.status).toBe(201);
             const { task_id } = res.body;
@@ -1439,13 +1447,13 @@ describe('Task tests', () => {
             soil_amendment_task: {
               method_id: soilAmendmentMethod,
               ...mocks.fakeSoilAmendmentTask(),
-              soil_amendment_task_products: [
-                mocks.fakeSoilAmendmentTaskProduct({
-                  product_id: farmProduct.product_id,
-                  purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
-                }),
-              ],
             },
+            soil_amendment_task_products: [
+              mocks.fakeSoilAmendmentTaskProduct({
+                product_id: farmProduct.product_id,
+                purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+              }),
+            ],
             task_type_id,
             owner_user_id: user_id,
           }),
@@ -1503,13 +1511,13 @@ describe('Task tests', () => {
             soil_amendment_task: {
               method_id: soilAmendmentMethod,
               ...mocks.fakeSoilAmendmentTask(),
-              soil_amendment_task_products: [
-                mocks.fakeSoilAmendmentTaskProduct({
-                  product_id: farmProduct.product_id,
-                  purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
-                }),
-              ],
             },
+            soil_amendment_task_products: [
+              mocks.fakeSoilAmendmentTaskProduct({
+                product_id: farmProduct.product_id,
+                purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+              }),
+            ],
             task_type_id,
             owner_user_id: user_id,
             wage_at_moment: 50,
@@ -1743,8 +1751,8 @@ describe('Task tests', () => {
       [{ id: soilAmendmentPurpose }] = await mocks.soil_amendment_purposeFactory();
     });
 
-    const fakeTaskData = {
-      soil_amendment_task: async (farm_id) => {
+    const fakeProductData = {
+      soil_amendment_task_products: async (farm_id) => {
         // checkSoilAmendmentTaskProducts middleware requires a product that belongs to the given farm
         const [{ product_id: soilAmendmentProduct }] = await mocks.productFactory(
           { promisedFarm: [{ farm_id }] },
@@ -1752,15 +1760,18 @@ describe('Task tests', () => {
           mocks.fakeProduct({ type: 'soil_amendment_task' }),
         );
 
-        return mocks.fakeSoilAmendmentTask({
-          soil_amendment_task_products: [
-            mocks.fakeSoilAmendmentTaskProduct({
-              product_id: soilAmendmentProduct,
-              purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
-            }),
-          ],
-        });
+        return [
+          mocks.fakeSoilAmendmentTaskProduct({
+            product_id: soilAmendmentProduct,
+            purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+          }),
+        ];
       },
+    };
+
+    const fakeTaskData = {
+      soil_amendment_task: () => mocks.fakeSoilAmendmentTask({ method_id: soilAmendmentMethod }),
+
       pest_control_task: () =>
         mocks.fakePestControlTask({ product_id: product, product: productData }),
       irrigation_task: () => mocks.fakeIrrigationTask(),
@@ -1837,13 +1848,17 @@ describe('Task tests', () => {
       });
       await mocks.soil_amendment_taskFactory({ promisedTask: [{ task_id }] });
 
-      const new_soil_amendment_task = await fakeTaskData.soil_amendment_task(farm_id);
+      const new_soil_amendment_task = fakeTaskData.soil_amendment_task(farm_id);
+      const new_soil_amendment_task_products = await fakeProductData.soil_amendment_task_products(
+        farm_id,
+      );
 
       completeTaskRequest(
         { user_id, farm_id },
         {
           ...fakeCompletionData,
           soil_amendment_task: { task_id, ...new_soil_amendment_task },
+          soil_amendment_task_products: new_soil_amendment_task_products,
         },
         task_id,
         'soil_amendment_task',
@@ -1891,28 +1906,26 @@ describe('Task tests', () => {
       );
 
       // Initial task product state
-      const soilAmendmentTaskData = mocks.fakeSoilAmendmentTask({
-        soil_amendment_task_products: [
-          mocks.fakeSoilAmendmentTaskProduct({
-            product_id: soilAmendmentProductOne,
-            purpose_relationships: [
-              { purpose_id: soilAmendmentPurpose },
-              { purpose_id: soilAmendmentPurposeTwo },
-            ],
-          }),
-          mocks.fakeSoilAmendmentTaskProduct({
-            product_id: soilAmendmentProductTwo,
-            purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
-          }),
-        ],
-      });
+      const soilAmendmentTaskProductData = [
+        mocks.fakeSoilAmendmentTaskProduct({
+          product_id: soilAmendmentProductOne,
+          purpose_relationships: [
+            { purpose_id: soilAmendmentPurpose },
+            { purpose_id: soilAmendmentPurposeTwo },
+          ],
+        }),
+        mocks.fakeSoilAmendmentTaskProduct({
+          product_id: soilAmendmentProductTwo,
+          purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+        }),
+      ];
 
       const taskData = {
         ...mocks.fakeTask({
-          soil_amendment_task: {
+          soil_amendment_task: mocks.fakeSoilAmendmentTask({
             method_id: soilAmendmentMethod,
-            ...soilAmendmentTaskData,
-          },
+          }),
+          soil_amendment_task_products: soilAmendmentTaskProductData,
           task_type_id,
           owner_user_id: user_id,
           wage_at_moment: 50,
@@ -1925,7 +1938,7 @@ describe('Task tests', () => {
       postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', taskData, async (err, res) => {
         expect(res.status).toBe(201);
         const createdTask = res.body;
-        const createdTaskProducts = createdTask.soil_amendment_task.soil_amendment_task_products;
+        const createdTaskProducts = createdTask.soil_amendment_task_products;
         const { task_id } = createdTask;
         // Delete abandonment reason to prevent validation error
         delete createdTask.abandonment_reason;
@@ -2019,28 +2032,26 @@ describe('Task tests', () => {
       );
 
       // Initial task product state
-      const soilAmendmentTaskData = mocks.fakeSoilAmendmentTask({
-        soil_amendment_task_products: [
-          mocks.fakeSoilAmendmentTaskProduct({
-            product_id: soilAmendmentProductOne,
-            purpose_relationships: [
-              { purpose_id: soilAmendmentPurpose },
-              { purpose_id: soilAmendmentPurposeTwo },
-            ],
-          }),
-          mocks.fakeSoilAmendmentTaskProduct({
-            product_id: soilAmendmentProductTwo,
-            purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
-          }),
-        ],
-      });
+      const soilAmendmentTaskProductData = [
+        mocks.fakeSoilAmendmentTaskProduct({
+          product_id: soilAmendmentProductOne,
+          purpose_relationships: [
+            { purpose_id: soilAmendmentPurpose },
+            { purpose_id: soilAmendmentPurposeTwo },
+          ],
+        }),
+        mocks.fakeSoilAmendmentTaskProduct({
+          product_id: soilAmendmentProductTwo,
+          purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+        }),
+      ];
 
       const taskData = {
         ...mocks.fakeTask({
-          soil_amendment_task: {
+          soil_amendment_task: mocks.fakeSoilAmendmentTask({
             method_id: soilAmendmentMethod,
-            ...soilAmendmentTaskData,
-          },
+          }),
+          soil_amendment_task_products: soilAmendmentTaskProductData,
           task_type_id,
           owner_user_id: user_id,
           wage_at_moment: 50,
@@ -2053,7 +2064,7 @@ describe('Task tests', () => {
       postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', taskData, async (err, res) => {
         expect(res.status).toBe(201);
         const createdTask = res.body;
-        const createdTaskProducts = createdTask.soil_amendment_task.soil_amendment_task_products;
+        const createdTaskProducts = createdTask.soil_amendment_task_products;
         const { task_id } = createdTask;
         // Delete abandonment reason to prevent validation error
         delete createdTask.abandonment_reason;
@@ -2109,28 +2120,26 @@ describe('Task tests', () => {
       );
 
       // Initial task product state
-      const soilAmendmentTaskData = mocks.fakeSoilAmendmentTask({
-        soil_amendment_task_products: [
-          mocks.fakeSoilAmendmentTaskProduct({
-            product_id: soilAmendmentProductOne,
-            purpose_relationships: [
-              { purpose_id: soilAmendmentPurpose },
-              { purpose_id: soilAmendmentPurposeTwo },
-            ],
-          }),
-          mocks.fakeSoilAmendmentTaskProduct({
-            product_id: soilAmendmentProductTwo,
-            purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
-          }),
-        ],
-      });
+      const soilAmendmentTaskProductData = [
+        mocks.fakeSoilAmendmentTaskProduct({
+          product_id: soilAmendmentProductOne,
+          purpose_relationships: [
+            { purpose_id: soilAmendmentPurpose },
+            { purpose_id: soilAmendmentPurposeTwo },
+          ],
+        }),
+        mocks.fakeSoilAmendmentTaskProduct({
+          product_id: soilAmendmentProductTwo,
+          purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+        }),
+      ];
 
       const taskData = {
         ...mocks.fakeTask({
-          soil_amendment_task: {
+          soil_amendment_task: mocks.fakeSoilAmendmentTask({
             method_id: soilAmendmentMethod,
-            ...soilAmendmentTaskData,
-          },
+          }),
+          soil_amendment_task_products: soilAmendmentTaskProductData,
           task_type_id,
           owner_user_id: user_id,
           wage_at_moment: 50,
@@ -2143,7 +2152,7 @@ describe('Task tests', () => {
       postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', taskData, async (err, res) => {
         expect(res.status).toBe(201);
         const createdTask = res.body;
-        const createdTaskProducts = createdTask.soil_amendment_task.soil_amendment_task_products;
+        const createdTaskProducts = createdTask.soil_amendment_task_products;
         const { task_id } = createdTask;
         // Delete abandonment reason to prevent validation error
         delete createdTask.abandonment_reason;

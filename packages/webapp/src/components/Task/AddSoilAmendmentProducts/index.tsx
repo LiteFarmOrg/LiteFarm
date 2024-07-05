@@ -18,8 +18,7 @@ import { useTranslation } from 'react-i18next';
 import useExpandable from '../../Expandable/useExpandableItem';
 import ProductCard, { type ProductCardProps } from './ProductCard';
 import TextButton from '../../Form/Button/TextButton';
-import type { ProductId, Product } from './types';
-import { defaultValues } from './ProductCard/ProductDetails';
+import { type ProductId, type Product, TASK_PRODUCT_FIELD_NAMES } from './types';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
 import styles from './styles.module.scss';
 
@@ -37,6 +36,11 @@ interface ProductFields {
 }
 
 const FIELD_NAME = 'soil_amendment_task.soil_amendment_task_products';
+
+const defaultValues = {
+  [TASK_PRODUCT_FIELD_NAMES.PRODUCT_ID]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.PURPOSES]: [],
+};
 
 const AddSoilAmendmentProducts = ({
   products,

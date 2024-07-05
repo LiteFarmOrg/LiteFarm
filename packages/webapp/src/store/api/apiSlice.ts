@@ -19,12 +19,14 @@ import {
   soilAmendmentMethodsUrl,
   soilAmendmentPurposesUrl,
   soilAmendmentFertiliserTypesUrl,
+  productUrl,
   url,
 } from '../../apiConfig';
 import type {
   SoilAmendmentMethod,
   SoilAmendmentPurpose,
   SoilAmendmentFertiliserType,
+  SoilAmendmentProduct,
 } from './types';
 
 export const api = createApi({
@@ -42,7 +44,12 @@ export const api = createApi({
     },
     responseHandler: 'content-type',
   }),
-  tagTypes: ['SoilAmendmentMethods', 'SoilAmendmentPurposes', 'SoilAmendmentFertiliserTypes'],
+  tagTypes: [
+    'SoilAmendmentMethods',
+    'SoilAmendmentPurposes',
+    'SoilAmendmentFertiliserTypes',
+    'SoilAmendmentProduct',
+  ],
   endpoints: (build) => ({
     // redux-toolkit.js.org/rtk-query/usage-with-typescript#typing-query-and-mutation-endpoints
     // <ResultType, QueryArg>
@@ -58,6 +65,22 @@ export const api = createApi({
       query: () => `${soilAmendmentFertiliserTypesUrl}`,
       providesTags: ['SoilAmendmentFertiliserTypes'],
     }),
+    addSoilAmendmentProduct: build.mutation<SoilAmendmentProduct, Partial<SoilAmendmentProduct>>({
+      query: (body) => ({
+        url: `${productUrl}`,
+        method: 'POST',
+        body,
+      }),
+    }),
+    UpdateSoilAmendmentProduct: build.mutation<SoilAmendmentProduct, Partial<SoilAmendmentProduct>>(
+      {
+        query: ({ product_id, ...patch }) => ({
+          url: `${productUrl}/${product_id}`,
+          method: 'PATCH',
+          body: patch,
+        }),
+      },
+    ),
   }),
 });
 
@@ -65,4 +88,6 @@ export const {
   useGetSoilAmendmentMethodsQuery,
   useGetSoilAmendmentPurposesQuery,
   useGetSoilAmendmentFertiliserTypesQuery,
+  useAddSoilAmendmentProductMutation,
+  useUpdateSoilAmendmentProductMutation,
 } = api;

@@ -78,6 +78,7 @@ const SoilAmendmentProductCard = ({
 
   const PRODUCT_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.PRODUCT_ID}`;
   const PURPOSES = `${namePrefix}.${PRODUCT_FIELD_NAMES.PURPOSES}`;
+  const OTHER_PURPOSE = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE}`;
 
   const purposes = watch(PURPOSES);
 
@@ -117,9 +118,9 @@ const SoilAmendmentProductCard = ({
           {/* @ts-ignore */}
           <Input
             label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
-            name={PRODUCT_FIELD_NAMES.OTHER_PURPOSE}
+            name={OTHER_PURPOSE}
             disabled={isReadOnly}
-            hookFormRegister={register(PRODUCT_FIELD_NAMES.OTHER_PURPOSE)}
+            hookFormRegister={register(OTHER_PURPOSE)}
             optional
           />
         </>

@@ -95,7 +95,7 @@ export function* getProductsSaga() {
     yield put(getProductsSuccess(result.data));
   } catch (e) {
     yield put(onLoadingProductFail());
-    console.log('failed to fetch field crops by date');
+    console.log('failed to fetch products');
   }
 }
 

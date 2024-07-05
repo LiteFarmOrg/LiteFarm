@@ -62,6 +62,9 @@ export const useQuantityApplicationRate = ({
         getUnitOptionMap()[total_area_unit] as UnitOption,
       );
     }
+
+    /* update unit of application area and string */
+    onPercentLocationChange();
   }, []);
 
   /* Update application area + rate based on percent of location */

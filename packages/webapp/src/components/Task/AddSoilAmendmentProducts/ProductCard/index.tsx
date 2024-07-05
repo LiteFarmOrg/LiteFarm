@@ -24,7 +24,7 @@ import ProductDetails, { type ProductDetailsProps } from './ProductDetails';
 import { PRODUCT_FIELD_NAMES, type Product } from '../types';
 import styles from '../styles.module.scss';
 
-export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct'> & {
+export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSave'> & {
   namePrefix: string;
   system: 'metric' | 'imperial';
   onRemove?: () => void;

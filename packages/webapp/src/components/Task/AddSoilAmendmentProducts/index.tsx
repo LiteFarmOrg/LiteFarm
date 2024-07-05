@@ -24,7 +24,7 @@ import styles from './styles.module.scss';
 
 export type AddSoilAmendmentProductsProps = Pick<
   ProductCardProps,
-  'isReadOnly' | 'farm' | 'onSave' | 'system' | 'onSaveProduct'
+  'isReadOnly' | 'farm' | 'system' | 'onSaveProduct'
 > & {
   products: Product[];
   purposes?: { id: number; key: string }[];

@@ -15,56 +15,51 @@
 
 @import '../../../../assets/mixin.scss';
 
-.container {
+.container,
+.applicationRateCard,
+.advancedSection,
+.sectionBody {
   display: flex;
   flex-direction: column;
+}
+
+.container {
   gap: 8px;
 }
 
 .applicationRateCard {
-  display: flex;
-  padding: 16px;
-  flex-direction: column;
   gap: 16px;
-  align-self: stretch;
-
+  padding: 16px;
   border-radius: 8px;
-  border: 1px solid var(--Colors-Neutral-Neutral-100, #d0d4db);
-  background: var(--White, #fff);
+  border: 1px solid var(--Colors-Neutral-Neutral-100);
 }
 
 .advancedSection {
-  width: 100%;
-  border-radius: 4px;
-  border: 1px solid var(--Colors-Accent---singles-Blue-light, #e9f3ff);
-  background: var(--White, #fff);
-  display: flex;
   padding: 4px 16px;
-  flex-direction: column;
-  align-self: stretch;
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Accent---singles-Blue-light);
 
   .expandIcon {
     width: 16px;
     height: 16px;
     border-radius: 50%;
     border: 1px solid #cce3ff;
-    background: var(--Colors-Accent---singles-Blue-light, #e9f3ff);
+    background: var(--Colors-Accent---singles-Blue-light);
     transform: rotate(180deg);
 
     path {
       stroke-width: 2px;
-      stroke: var(--Colors-Accent---singles-Blue-full, #0669e1);
+      stroke: var(--Colors-Accent---singles-Blue-full);
     }
   }
   .advancedTitle {
-    width: 100%;
-    padding: 4px 8px;
-    font-size: 14px;
-    color: var(--Colors-Accent---singles-Blue-full, #0669e1);
     display: flex;
-    align-items: center;
     justify-content: center;
     gap: 4px;
+
+    padding: 4px 8px;
+    font-size: 14px;
+    color: var(--Colors-Accent---singles-Blue-full);
   }
 
   &.expanded {
@@ -78,20 +73,14 @@
 }
 
 .sectionBody {
-  display: flex;
-  flex-direction: column;
   gap: 16px;
-  width: 100%;
 }
 
 .locationSection {
   display: flex;
-  width: 100%;
-  align-self: stretch;
 
   & > div {
     flex: 1;
-    width: 100%;
   }
 
   svg {
@@ -111,10 +100,10 @@
 }
 
 .switchLabel {
-  color: var(--Colors-Neutral-Neutral-900, #2b303a);
+  color: var(--Colors-Neutral-Neutral-900);
 }
 
 .summaryText {
-  color: var(--Colors-Neutral-Neutral-900, #2b303a);
+  color: var(--Colors-Neutral-Neutral-900);
   font-size: 14px;
 }

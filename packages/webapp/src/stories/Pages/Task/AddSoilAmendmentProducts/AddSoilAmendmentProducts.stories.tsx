@@ -58,7 +58,7 @@ const meta: Meta<ComponentWithFormMethodsProps> = {
   component: ComponentWithFormMethods,
   decorators: [...componentDecorators],
   args: {
-    onSaveProduct: console.log,
+    onSaveProduct: async (data) => console.log(data),
     system: 'metric',
     products,
     purposes,

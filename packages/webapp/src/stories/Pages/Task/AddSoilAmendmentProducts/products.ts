@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Unit } from '../../../../components/Task/AddSoilAmendmentProducts/types';
+import { ElementalUnit } from '../../../../components/Task/AddSoilAmendmentProducts/types';
 
 export const products = [
   {
@@ -27,7 +27,7 @@ export const products = [
     n: 32,
     p: 5,
     k: 3,
-    npk_unit: Unit.PERCENT,
+    npk_unit: ElementalUnit.PERCENT,
   },
   {
     product_id: 2,
@@ -40,7 +40,7 @@ export const products = [
     n: 2,
     p: 0,
     k: 3.3,
-    npk_unit: Unit.RATIO,
+    npk_unit: ElementalUnit.RATIO,
   },
   {
     product_id: 3,
@@ -66,7 +66,7 @@ export const products = [
     n: 0,
     p: 0,
     k: 1,
-    npk_unit: Unit.PERCENT,
+    npk_unit: ElementalUnit.PERCENT,
   },
   {
     product_id: 5,
@@ -77,8 +77,8 @@ export const products = [
     farm_id: 'xxx',
     on_permitted_substances_list: 'NOT_SURE' as const,
     n: 99,
-    p: null,
+    p: undefined,
     k: 1,
-    npk_unit: Unit.PERCENT,
+    npk_unit: ElementalUnit.PERCENT,
   },
 ];

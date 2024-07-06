@@ -15,7 +15,7 @@
 
 import { TASK_TYPES } from '../../../containers/Task/constants';
 
-export enum Unit {
+export enum ElementalUnit {
   RATIO = 'ratio',
   PERCENT = 'percent',
   PPM = 'ppm',
@@ -39,6 +39,11 @@ export enum Nutrients {
   B = 'boron',
 }
 
+export enum MolecularCompound {
+  AMMONIUM = 'ammonium',
+  NITRATE = 'nitrate',
+}
+
 export const TASK_FIELD_NAMES = {
   METHOD_ID: 'method_id',
   OTHER_APPLICATION_METHOD: 'other_application_method',
@@ -59,11 +64,11 @@ export const PRODUCT_FIELD_NAMES = {
   NAME: 'name',
   SUPPLIER: 'supplier',
   PERMITTED: 'on_permitted_substances_list',
-  FERTILISER_TYPE: 'fertiliser_type',
-  MOISTURE_CONTENT: 'moisture_content',
+  FERTILISER_TYPE_ID: 'soil_amendment_fertiliser_type_id',
+  MOISTURE_CONTENT: 'moisture_content_percent',
   DRY_MATTER_CONTENT: 'dry_matter_content',
   COMPOSITION: 'composition',
-  UNIT: 'npk_unit',
+  ELEMENTAL_UNIT: 'elemental_unit',
   N: Nutrients.N,
   P: Nutrients.P,
   K: Nutrients.K,
@@ -73,32 +78,32 @@ export const PRODUCT_FIELD_NAMES = {
   CU: Nutrients.CU,
   MN: Nutrients.MN,
   B: Nutrients.B,
-  AMMONIUM: 'ammonium',
-  NITRATE: 'nitrate',
+  AMMONIUM: MolecularCompound.AMMONIUM,
+  NITRATE: MolecularCompound.NITRATE,
   MOLECULAR_COMPOUNDS_UNIT: 'molecular_compounds_unit',
 } as const;
 
 export type ProductId = number | string | undefined;
 
 export type ProductFormFields = {
-  [PRODUCT_FIELD_NAMES.SUPPLIER]?: string | null;
+  [PRODUCT_FIELD_NAMES.SUPPLIER]?: string;
   [PRODUCT_FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
   [PRODUCT_FIELD_NAMES.PURPOSES]?: number[];
   [PRODUCT_FIELD_NAMES.OTHER_PURPOSE]?: string;
-  [PRODUCT_FIELD_NAMES.FERTILISER_TYPE]?: number;
+  [PRODUCT_FIELD_NAMES.FERTILISER_TYPE_ID]?: number;
   [PRODUCT_FIELD_NAMES.MOISTURE_CONTENT]?: number;
   [PRODUCT_FIELD_NAMES.DRY_MATTER_CONTENT]?: number;
   [PRODUCT_FIELD_NAMES.COMPOSITION]?: {
-    [PRODUCT_FIELD_NAMES.UNIT]?: Unit;
-    [PRODUCT_FIELD_NAMES.N]?: number | null;
-    [PRODUCT_FIELD_NAMES.P]?: number | null;
-    [PRODUCT_FIELD_NAMES.K]?: number | null;
-    [PRODUCT_FIELD_NAMES.CA]?: number | null;
-    [PRODUCT_FIELD_NAMES.MG]?: number | null;
-    [PRODUCT_FIELD_NAMES.S]?: number | null;
-    [PRODUCT_FIELD_NAMES.CU]?: number | null;
-    [PRODUCT_FIELD_NAMES.MN]?: number | null;
-    [PRODUCT_FIELD_NAMES.B]?: number | null;
+    [PRODUCT_FIELD_NAMES.ELEMENTAL_UNIT]?: ElementalUnit;
+    [PRODUCT_FIELD_NAMES.N]?: number;
+    [PRODUCT_FIELD_NAMES.P]?: number;
+    [PRODUCT_FIELD_NAMES.K]?: number;
+    [PRODUCT_FIELD_NAMES.CA]?: number;
+    [PRODUCT_FIELD_NAMES.MG]?: number;
+    [PRODUCT_FIELD_NAMES.S]?: number;
+    [PRODUCT_FIELD_NAMES.CU]?: number;
+    [PRODUCT_FIELD_NAMES.MN]?: number;
+    [PRODUCT_FIELD_NAMES.B]?: number;
   };
   [PRODUCT_FIELD_NAMES.AMMONIUM]?: number;
   [PRODUCT_FIELD_NAMES.NITRATE]?: number;
@@ -110,25 +115,25 @@ export type Product = {
   [PRODUCT_FIELD_NAMES.NAME]: string;
   [PRODUCT_FIELD_NAMES.SUPPLIER]?: string | null;
   [PRODUCT_FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
-  [PRODUCT_FIELD_NAMES.FERTILISER_TYPE]?: number;
+  [PRODUCT_FIELD_NAMES.FERTILISER_TYPE_ID]?: number;
   [PRODUCT_FIELD_NAMES.MOISTURE_CONTENT]?: number;
-  [PRODUCT_FIELD_NAMES.N]?: number | null;
-  [PRODUCT_FIELD_NAMES.P]?: number | null;
-  [PRODUCT_FIELD_NAMES.K]?: number | null;
-  [PRODUCT_FIELD_NAMES.CA]?: number | null;
-  [PRODUCT_FIELD_NAMES.MG]?: number | null;
-  [PRODUCT_FIELD_NAMES.S]?: number | null;
-  [PRODUCT_FIELD_NAMES.CU]?: number | null;
-  [PRODUCT_FIELD_NAMES.MN]?: number | null;
-  [PRODUCT_FIELD_NAMES.B]?: number | null;
-  [PRODUCT_FIELD_NAMES.UNIT]?: Unit | null;
+  [PRODUCT_FIELD_NAMES.N]?: number;
+  [PRODUCT_FIELD_NAMES.P]?: number;
+  [PRODUCT_FIELD_NAMES.K]?: number;
+  [PRODUCT_FIELD_NAMES.CA]?: number;
+  [PRODUCT_FIELD_NAMES.MG]?: number;
+  [PRODUCT_FIELD_NAMES.S]?: number;
+  [PRODUCT_FIELD_NAMES.CU]?: number;
+  [PRODUCT_FIELD_NAMES.MN]?: number;
+  [PRODUCT_FIELD_NAMES.B]?: number;
+  [PRODUCT_FIELD_NAMES.ELEMENTAL_UNIT]?: ElementalUnit | null;
   [PRODUCT_FIELD_NAMES.AMMONIUM]?: number;
   [PRODUCT_FIELD_NAMES.NITRATE]?: number;
   [PRODUCT_FIELD_NAMES.MOLECULAR_COMPOUNDS_UNIT]?: MolecularCompoundsUnit;
-  farm_id: string;
-  type:
+  farm_id?: string;
+  type?:
     | typeof TASK_TYPES.SOIL_AMENDMENT
     | typeof TASK_TYPES.CLEANING
     | typeof TASK_TYPES.PEST_CONTROL;
-  product_translation_key: string | null;
+  product_translation_key?: string | null;
 };

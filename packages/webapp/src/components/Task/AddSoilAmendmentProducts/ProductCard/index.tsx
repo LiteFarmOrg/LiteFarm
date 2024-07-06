@@ -43,11 +43,11 @@ type SelectRef = SelectInstance<ProductOption, false, GroupBase<ProductOption>>;
 
 const formatOptionLabel = ({ label, data }: ProductOption): ReactNode => {
   const prefix = ['N', 'P', 'K'];
-  const { n, p, k, npk_unit } = data || {};
+  const { n, p, k, elemental_unit } = data || {};
 
   let npk = '';
   if (n || p || k) {
-    if (npk_unit === 'ratio') {
+    if (elemental_unit === 'ratio') {
       npk = [n, p, k].map((value) => value || 0).join(' : ');
     } else {
       npk = [n, p, k].map((value, index) => `${prefix[index]}: ${value || 0}%`).join(', ');

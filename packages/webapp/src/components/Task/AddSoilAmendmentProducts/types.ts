@@ -13,19 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { TASK_TYPES } from '../../../containers/Task/constants';
-
-export enum ElementalUnit {
-  RATIO = 'ratio',
-  PERCENT = 'percent',
-  PPM = 'ppm',
-  'MG/KG' = 'mg/kg',
-}
-
-export enum MolecularCompoundsUnit {
-  PPM = 'ppm',
-  'MG/KG' = 'mg/kg',
-}
+import { ElementalUnit, MolecularCompoundsUnit } from '../../../store/api/types';
 
 export enum Nutrients {
   N = 'n',
@@ -108,32 +96,4 @@ export type ProductFormFields = {
   [PRODUCT_FIELD_NAMES.AMMONIUM]?: number;
   [PRODUCT_FIELD_NAMES.NITRATE]?: number;
   [PRODUCT_FIELD_NAMES.MOLECULAR_COMPOUNDS_UNIT]?: MolecularCompoundsUnit;
-};
-
-export type Product = {
-  [PRODUCT_FIELD_NAMES.PRODUCT_ID]: number;
-  [PRODUCT_FIELD_NAMES.NAME]: string;
-  [PRODUCT_FIELD_NAMES.SUPPLIER]?: string | null;
-  [PRODUCT_FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
-  [PRODUCT_FIELD_NAMES.FERTILISER_TYPE_ID]?: number;
-  [PRODUCT_FIELD_NAMES.MOISTURE_CONTENT]?: number;
-  [PRODUCT_FIELD_NAMES.N]?: number;
-  [PRODUCT_FIELD_NAMES.P]?: number;
-  [PRODUCT_FIELD_NAMES.K]?: number;
-  [PRODUCT_FIELD_NAMES.CA]?: number;
-  [PRODUCT_FIELD_NAMES.MG]?: number;
-  [PRODUCT_FIELD_NAMES.S]?: number;
-  [PRODUCT_FIELD_NAMES.CU]?: number;
-  [PRODUCT_FIELD_NAMES.MN]?: number;
-  [PRODUCT_FIELD_NAMES.B]?: number;
-  [PRODUCT_FIELD_NAMES.ELEMENTAL_UNIT]?: ElementalUnit | null;
-  [PRODUCT_FIELD_NAMES.AMMONIUM]?: number;
-  [PRODUCT_FIELD_NAMES.NITRATE]?: number;
-  [PRODUCT_FIELD_NAMES.MOLECULAR_COMPOUNDS_UNIT]?: MolecularCompoundsUnit;
-  farm_id?: string;
-  type?:
-    | typeof TASK_TYPES.SOIL_AMENDMENT
-    | typeof TASK_TYPES.CLEANING
-    | typeof TASK_TYPES.PEST_CONTROL;
-  product_translation_key?: string | null;
 };

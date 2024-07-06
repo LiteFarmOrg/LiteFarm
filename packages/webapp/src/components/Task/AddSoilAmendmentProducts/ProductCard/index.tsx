@@ -21,7 +21,8 @@ import SmallButton from '../../../Form/Button/SmallButton';
 import ReactSelect, { CreatableSelect } from '../../../Form/ReactSelect';
 import Input from '../../../Form/Input';
 import ProductDetails, { type ProductDetailsProps } from './ProductDetails';
-import { PRODUCT_FIELD_NAMES, type Product } from '../types';
+import { PRODUCT_FIELD_NAMES } from '../types';
+import type { SoilAmendmentProduct } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
 
 export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSave'> & {
@@ -36,14 +37,14 @@ export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSav
 interface ProductOption {
   value: number | string;
   label: string;
-  data: Omit<Product, 'product_id' | 'name'>;
+  data: Omit<SoilAmendmentProduct, 'product_id' | 'name'>;
 }
 
 type SelectRef = SelectInstance<ProductOption, false, GroupBase<ProductOption>>;
 
 const formatOptionLabel = ({ label, data }: ProductOption): ReactNode => {
   const prefix = ['N', 'P', 'K'];
-  const { n, p, k, elemental_unit } = data || {};
+  const { n, p, k, elemental_unit } = data?.soil_amendment_product || {};
 
   let npk = '';
   if (n || p || k) {

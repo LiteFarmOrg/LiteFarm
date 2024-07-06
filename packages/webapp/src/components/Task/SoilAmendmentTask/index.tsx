@@ -33,8 +33,9 @@ import {
   enqueueErrorSnackbar,
   enqueueSuccessSnackbar,
 } from '../../../containers/Snackbar/snackbarSlice';
-import type { Product, ProductFormFields, ProductId } from '../AddSoilAmendmentProducts/types';
+import type { ProductFormFields, ProductId } from '../AddSoilAmendmentProducts/types';
 import { MolecularCompound, Nutrients, TASK_FIELD_NAMES } from '../AddSoilAmendmentProducts/types';
+import type { SoilAmendmentProduct } from '../../../store/api/types';
 import { getProducts } from '../../../containers/Task/saga';
 import { TASK_TYPES } from '../../../containers/Task/constants';
 import { furrow_hole_depth } from '../../../util/convert-units/unit';
@@ -45,7 +46,7 @@ type PureSoilAmendmentTaskProps = UseFormReturn &
 
 const hasNoValue = (
   keys: (Nutrients | MolecularCompound)[],
-  object: Omit<Product, 'product_id' | 'name'>,
+  object: Omit<SoilAmendmentProduct['soil_amendment_product'], 'product_id' | 'name'>,
 ): boolean => {
   return keys.every((item) => !object[item] && object[item] !== 0);
 };

@@ -12,6 +12,7 @@ export const getProduct = (obj) => {
     'on_permitted_substances_list',
     'type',
     'farm_id',
+    'soil_amendment_product',
   ]);
 };
 

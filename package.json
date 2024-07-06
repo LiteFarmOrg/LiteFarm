@@ -16,6 +16,7 @@
     "ngrok:api": "ngrok start --config=./ngrok/ngrok.yml api",
     "ngrok:webapp": "ngrok start --config=./ngrok/ngrok.yml webapp"
   },
+  "type": "module",
   "jest": {
     "testPathIgnorePatterns": [
       "<rootDir>[/\\\\](node_modules|packages/webapp/scripts)[/\\\\]"

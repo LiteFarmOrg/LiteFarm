@@ -1,5 +1,5 @@
-const fs = require("fs");
-const { execSync } = require("child_process");
+import fs from "node:fs";
+import { execSync } from "node:child_process";
 
 const ticketNumberRegex = /LF-\d+/;
 const commitMessageFilePath = process.argv[2];

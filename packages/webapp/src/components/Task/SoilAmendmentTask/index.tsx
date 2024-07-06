@@ -14,23 +14,41 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import { Controller, FormProvider, UseFormReturn } from 'react-hook-form';
 import {
   useGetSoilAmendmentMethodsQuery,
   useGetSoilAmendmentPurposesQuery,
   useGetSoilAmendmentFertiliserTypesQuery,
+  useAddSoilAmendmentProductMutation,
+  useUpdateSoilAmendmentProductMutation,
 } from '../../../store/api/apiSlice';
 import ReactSelect from '../../Form/ReactSelect';
 import Input from '../../Form/Input';
 import Unit from '../../Form/Unit';
 import AddSoilAmendmentProducts from '../AddSoilAmendmentProducts';
 import { type ProductCardProps } from '../AddSoilAmendmentProducts/ProductCard';
-import { TASK_FIELD_NAMES } from '../AddSoilAmendmentProducts/types';
+import { isNewProduct } from '../AddSoilAmendmentProducts/ProductCard/ProductDetails';
+import {
+  enqueueErrorSnackbar,
+  enqueueSuccessSnackbar,
+} from '../../../containers/Snackbar/snackbarSlice';
+import type { Product, ProductFormFields, ProductId } from '../AddSoilAmendmentProducts/types';
+import { MolecularCompound, Nutrients, TASK_FIELD_NAMES } from '../AddSoilAmendmentProducts/types';
+import { getProducts } from '../../../containers/Task/saga';
+import { TASK_TYPES } from '../../../containers/Task/constants';
 import { furrow_hole_depth } from '../../../util/convert-units/unit';
 import styles from './styles.module.scss';
 
 type PureSoilAmendmentTaskProps = UseFormReturn &
   Pick<ProductCardProps, 'farm' | 'system' | 'products'> & { disabled: boolean };
+
+const hasNoValue = (
+  keys: (Nutrients | MolecularCompound)[],
+  object: Omit<Product, 'product_id' | 'name'>,
+): boolean => {
+  return keys.every((item) => !object[item] && object[item] !== 0);
+};
 
 const PureSoilAmendmentTask = ({
   farm,
@@ -42,10 +60,13 @@ const PureSoilAmendmentTask = ({
   const { control, register, setValue, getValues, watch } = props;
 
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const { data: methods = [] } = useGetSoilAmendmentMethodsQuery();
   const { data: purposes = [] } = useGetSoilAmendmentPurposesQuery();
   const { data: fertiliserTypes = [] } = useGetSoilAmendmentFertiliserTypesQuery();
+  const [addProduct] = useAddSoilAmendmentProductMutation();
+  const [updateProduct] = useUpdateSoilAmendmentProductMutation();
 
   // t('ADD_TASK.SOIL_AMENDMENT_VIEW.BROADCAST')
   // t('ADD_TASK.SOIL_AMENDMENT_VIEW.BANDED')
@@ -67,6 +88,50 @@ const PureSoilAmendmentTask = ({
   const methodIdsMap = methods.reduce<{ [key: string]: number }>((acc, currentValue) => {
     return { ...acc, [currentValue.key]: currentValue.id };
   }, {});
+
+  const onSaveProduct = async (
+    data: ProductFormFields & { product_id: ProductId },
+    callback: (product_id: ProductId) => void = () => ({}),
+  ) => {
+    const { product_id, supplier, on_permitted_substances_list, composition, ...body } = data;
+    const isNew = isNewProduct(product_id);
+    delete body.dry_matter_content;
+
+    const formattedData = {
+      type: TASK_TYPES.SOIL_AMENDMENT,
+      supplier,
+      on_permitted_substances_list,
+      soil_amendment_product: { ...body, ...composition },
+      [isNew ? 'name' : 'product_id']: product_id,
+    };
+
+    if (hasNoValue(Object.values(Nutrients), formattedData.soil_amendment_product)) {
+      delete formattedData.soil_amendment_product.elemental_unit;
+    }
+    if (hasNoValue(Object.values(MolecularCompound), formattedData.soil_amendment_product)) {
+      delete formattedData.soil_amendment_product.molecular_compounds_unit;
+    }
+
+    let message = '';
+    let result;
+
+    try {
+      result = await (isNew ? addProduct : updateProduct)(formattedData).unwrap();
+    } catch (e) {
+      console.log(e);
+      message = isNew ? 'Failed to create product' : 'Failed to update product'; //TODO
+      dispatch(enqueueErrorSnackbar(message));
+      return;
+    }
+
+    dispatch(getProducts());
+
+    message = isNew ? 'Successfully created product' : 'Successfully updated product'; //TODO
+    dispatch(enqueueSuccessSnackbar(message));
+
+    // Set product_id for the newly created product. Should be called after getProducts()
+    callback(result?.product_id);
+  };
 
   return (
     <>
@@ -128,8 +193,7 @@ const PureSoilAmendmentTask = ({
           purposes={purposes}
           fertiliserTypes={fertiliserTypes}
           isReadOnly={disabled}
-          onSave={() => console.log('TODO')}
-          onSaveProduct={console.log}
+          onSaveProduct={onSaveProduct}
         />
       </FormProvider>
     </>

@@ -134,7 +134,7 @@ export interface SoilAmendmentFertiliserType {
 }
 
 interface Product {
-  product_id?: number | string;
+  product_id: number | string;
   name: string;
   product_translation_key?: string;
   supplier?: string;
@@ -144,6 +144,18 @@ interface Product {
     | typeof TASK_TYPES.PEST_CONTROL;
   farm_id?: string;
   on_permitted_substances_list?: 'YES' | 'NO' | 'NOT_SURE' | null;
+}
+
+export enum ElementalUnit {
+  RATIO = 'ratio',
+  PERCENT = 'percent',
+  PPM = 'ppm',
+  'MG/KG' = 'mg/kg',
+}
+
+export enum MolecularCompoundsUnit {
+  PPM = 'ppm',
+  'MG/KG' = 'mg/kg',
 }
 
 export type SoilAmendmentProduct = Product & {
@@ -159,10 +171,10 @@ export type SoilAmendmentProduct = Product & {
     copper?: number;
     manganese?: number;
     boron?: number;
-    elemental_unit?: 'percent' | 'ratio' | 'ppm' | 'mg/kg';
+    elemental_unit?: ElementalUnit;
     ammonium?: number;
     nitrate?: number;
-    molecular_compounds_unit?: 'ppm' | 'mg/kg';
+    molecular_compounds_unit?: MolecularCompoundsUnit;
     moisture_content_percent?: number;
   };
 };

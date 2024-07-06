@@ -18,7 +18,8 @@ import { useTranslation } from 'react-i18next';
 import useExpandable from '../../Expandable/useExpandableItem';
 import ProductCard, { type ProductCardProps } from './ProductCard';
 import TextButton from '../../Form/Button/TextButton';
-import { type ProductId, type Product, TASK_PRODUCT_FIELD_NAMES } from './types';
+import { type ProductId, TASK_PRODUCT_FIELD_NAMES } from './types';
+import type { SoilAmendmentProduct } from '../../../store/api/types';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
 import styles from './styles.module.scss';
 
@@ -26,7 +27,7 @@ export type AddSoilAmendmentProductsProps = Pick<
   ProductCardProps,
   'isReadOnly' | 'farm' | 'system' | 'onSaveProduct'
 > & {
-  products: Product[];
+  products: SoilAmendmentProduct[];
   purposes?: { id: number; key: string }[];
   fertiliserTypes?: { id: number; key: string }[];
 };
@@ -67,7 +68,7 @@ const AddSoilAmendmentProducts = ({
 
   const productsForTask = watch(FIELD_NAME);
 
-  const getAvailableProductOptions = (selectedProductId: ProductId): Product[] => {
+  const getAvailableProductOptions = (selectedProductId: ProductId): SoilAmendmentProduct[] => {
     // Returns the products that have not been selected by any other select
     const otherSelectedProductIds = productsForTask
       .filter(({ product_id }: ProductFields): boolean => product_id !== selectedProductId)

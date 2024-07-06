@@ -26,8 +26,12 @@ import RadioGroup from '../../../Form/RadioGroup';
 import CompositionInputs from '../../../Form/CompositionInputs';
 import ReactSelect from '../../../Form/ReactSelect';
 import Buttons from './Buttons';
-import type { ProductFormFields, Product, ProductId } from '../types';
-import { PRODUCT_FIELD_NAMES, Nutrients, ElementalUnit, MolecularCompoundsUnit } from '../types';
+import { type ProductFormFields, type ProductId, PRODUCT_FIELD_NAMES, Nutrients } from '../types';
+import {
+  ElementalUnit,
+  MolecularCompoundsUnit,
+  type SoilAmendmentProduct,
+} from '../../../../store/api/types';
 import useInputsInfo from './useInputsInfo';
 import { CANADA } from '../../AddProduct/constants';
 import { roundToTwoDecimal } from '../../../../util';
@@ -70,7 +74,7 @@ const molecularCompoundsUnitOptions = [
 
 export type ProductDetailsProps = {
   productId: number | string;
-  products?: Product[];
+  products?: SoilAmendmentProduct[];
   isReadOnly: boolean;
   isExpanded: boolean;
   farm: { farm_id: string; interested: boolean; country_id: number };
@@ -182,34 +186,36 @@ const ProductDetails = ({
     const isAddingNewProduct = !!(productId && !selectedProduct);
     const shouldNotResetFields = wasAddingNewProduct && isAddingNewProduct;
 
+    const selectedProductData = selectedProduct?.soil_amendment_product;
+
     const newDryMatterContent =
-      typeof selectedProduct?.[MOISTURE_CONTENT] === 'number'
-        ? subtractFrom100(selectedProduct[MOISTURE_CONTENT] as number)
+      typeof selectedProductData?.[MOISTURE_CONTENT] === 'number'
+        ? subtractFrom100(selectedProductData[MOISTURE_CONTENT] as number)
         : undefined;
 
     if (!productId || !shouldNotResetFields) {
       reset({
         [SUPPLIER]: selectedProduct?.[SUPPLIER] || '',
         [PERMITTED]: selectedProduct?.[PERMITTED] || undefined,
-        [FERTILISER_TYPE_ID]: selectedProduct?.[FERTILISER_TYPE_ID] || undefined,
-        [MOISTURE_CONTENT]: selectedProduct?.[MOISTURE_CONTENT] ?? NaN,
+        [FERTILISER_TYPE_ID]: selectedProductData?.[FERTILISER_TYPE_ID] || undefined,
+        [MOISTURE_CONTENT]: selectedProductData?.[MOISTURE_CONTENT] ?? NaN,
         [DRY_MATTER_CONTENT]: newDryMatterContent,
         [COMPOSITION]: {
-          [ELEMENTAL_UNIT]: selectedProduct?.[ELEMENTAL_UNIT] || ElementalUnit.RATIO,
-          [N]: selectedProduct?.[N] ?? NaN,
-          [P]: selectedProduct?.[P] ?? NaN,
-          [K]: selectedProduct?.[K] ?? NaN,
-          [CA]: selectedProduct?.[CA] ?? NaN,
-          [MG]: selectedProduct?.[MG] ?? NaN,
-          [S]: selectedProduct?.[S] ?? NaN,
-          [CU]: selectedProduct?.[CU] ?? NaN,
-          [MN]: selectedProduct?.[MN] ?? NaN,
-          [B]: selectedProduct?.[B] ?? NaN,
+          [ELEMENTAL_UNIT]: selectedProductData?.[ELEMENTAL_UNIT] || ElementalUnit.RATIO,
+          [N]: selectedProductData?.[N] ?? NaN,
+          [P]: selectedProductData?.[P] ?? NaN,
+          [K]: selectedProductData?.[K] ?? NaN,
+          [CA]: selectedProductData?.[CA] ?? NaN,
+          [MG]: selectedProductData?.[MG] ?? NaN,
+          [S]: selectedProductData?.[S] ?? NaN,
+          [CU]: selectedProductData?.[CU] ?? NaN,
+          [MN]: selectedProductData?.[MN] ?? NaN,
+          [B]: selectedProductData?.[B] ?? NaN,
         },
-        [AMMONIUM]: selectedProduct?.[AMMONIUM] ?? NaN,
-        [NITRATE]: selectedProduct?.[NITRATE] ?? NaN,
+        [AMMONIUM]: selectedProductData?.[AMMONIUM] ?? NaN,
+        [NITRATE]: selectedProductData?.[NITRATE] ?? NaN,
         [MOLECULAR_COMPOUNDS_UNIT]:
-          selectedProduct?.[MOLECULAR_COMPOUNDS_UNIT] ?? MolecularCompoundsUnit.PPM,
+          selectedProductData?.[MOLECULAR_COMPOUNDS_UNIT] ?? MolecularCompoundsUnit.PPM,
       });
     }
 

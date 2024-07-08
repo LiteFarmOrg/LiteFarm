@@ -32,14 +32,6 @@ import Location from '../models/locationModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
 import baseController from './baseController.js';
 const adminRoles = [1, 2, 5];
-// const isDateInPast = (date) => {
-//   const today = new Date();
-//   const newDate = new Date(date);
-//   if (newDate.setUTCHours(0, 0, 0, 0) < today.setUTCHours(0, 0, 0, 0)) {
-//     return true;
-//   }
-//   return false;
-// };
 
 async function getTaskAssigneeAndFinalWage(farm_id, user_id, task_id) {
   const {

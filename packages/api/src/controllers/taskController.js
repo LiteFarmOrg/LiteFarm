@@ -763,8 +763,6 @@ const taskController = {
         return await TaskModel.deleteTaskAndTaskProduct(req.auth, task_id, trx);
       });
 
-      //const result = await TaskModel.deleteTask(task_id, req.auth);
-
       if (!result) return res.status(404).send('Task not found');
 
       await sendTaskNotification(

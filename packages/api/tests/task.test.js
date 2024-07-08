@@ -1885,8 +1885,7 @@ describe('Task tests', () => {
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
 
       // Insert a second available purpose
-      let soilAmendmentPurposeTwo;
-      [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
+      const [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
 
       // Insert three differents products
       const [{ product_id: soilAmendmentProductOne }] = await mocks.productFactory(
@@ -2015,8 +2014,7 @@ describe('Task tests', () => {
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
 
       // Insert a second available purpose
-      let soilAmendmentPurposeTwo;
-      [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
+      const [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
 
       // Insert three differents products
       const [{ product_id: soilAmendmentProductOne }] = await mocks.productFactory(
@@ -2103,8 +2101,7 @@ describe('Task tests', () => {
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
 
       // Insert a second available purpose
-      let soilAmendmentPurposeTwo;
-      [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
+      const [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
 
       // Insert three differents products
       const [{ product_id: soilAmendmentProductOne }] = await mocks.productFactory(

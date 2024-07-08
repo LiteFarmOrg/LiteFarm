@@ -73,7 +73,7 @@ export function checkAbandonTask() {
       }
 
       const { owner_user_id, assignee_user_id } = await TaskModel.query()
-        .select('owner_user_id', 'assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
+        .select('owner_user_id', 'assignee_user_id')
         .where({ task_id })
         .first();
       const isUserTaskOwner = user_id === owner_user_id;
@@ -125,10 +125,11 @@ export function checkCompleteTask(taskType) {
       }
 
       const { assignee_user_id } = await TaskModel.query()
-        .select('owner_user_id', 'assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
+        .select('assignee_user_id')
         .where({ task_id })
         .first();
-      // cannot abandon an unassigned task with rating or duration
+
+      // cannot complete an unassigned task
       const hasAssignee = assignee_user_id !== null;
       if (!hasAssignee) {
         return res.status(400).send('An unassigned task cannot be completed');

@@ -437,24 +437,28 @@ class TaskModel extends BaseModel {
 
   static async deleteTaskAndTaskProduct(user, task_id, trx) {
     const taskTypesWithProducts = ['soil_amendment_task'];
+
     const taskType = await TaskModel.relatedQuery('taskType', trx).for(task_id).first();
     const { farm_id, task_translation_key } = taskType;
     const taskTypeKey = task_translation_key?.toLowerCase();
-    const relatedQueryStringDeletedTaskProduct = `${taskTypeKey}_products`;
-    let task;
-    if (!farm_id && taskTypesWithProducts.some((type) => type == taskTypeKey)) {
-      await TaskModel.relatedQuery(relatedQueryStringDeletedTaskProduct, trx)
+
+    const relatedProductTable = `${taskTypeKey}_products`;
+
+    if (!farm_id && taskTypesWithProducts.includes(taskTypeKey)) {
+      // Mark related products as deleted
+      await TaskModel.relatedQuery(relatedProductTable, trx)
         .for(task_id)
         .context(user)
         .patch({ deleted: true });
-      task = await TaskModel.query(trx)
-        .withGraphFetched(relatedQueryStringDeletedTaskProduct)
+      // Mark the task itself as deleted and fetch the updated task
+      return await TaskModel.query(trx)
+        .withGraphFetched(relatedProductTable)
         .context({ ...user, showHidden: true })
         .patchAndFetchById(task_id, { deleted: true });
     } else {
-      task = TaskModel.deleteTask(task_id, user, trx);
+      // If the task is custom or does not have associated product, delete just the task
+      return TaskModel.deleteTask(task_id, user, trx);
     }
-    return task;
   }
 }
 

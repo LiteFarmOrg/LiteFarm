@@ -1992,7 +1992,6 @@ describe('Task tests', () => {
             expect(deletedRelationship[0].purpose_id).not.toBe(
               deletedPurposeRelationship.purpose_id,
             );
-            console.log('patch', completed_soil_amendment_task_products_purpose_relationship);
 
             // The added product should be present and have a relationship
             const addedTaskProduct = await knex('soil_amendment_task_products')

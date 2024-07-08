@@ -410,11 +410,6 @@ const managementPlanController = {
             }),
           );
 
-          // await TaskModel.query(trx)
-          //   .context(req.auth)
-          //   .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
-          //   .delete();
-
           const taskIdsRelatedToManyManagementPlans = tasksWithManagementPlanCount
             .filter(({ count }) => Number(count) > 1)
             .map(({ task_id }) => task_id);

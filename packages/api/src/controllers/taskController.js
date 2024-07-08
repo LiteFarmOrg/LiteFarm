@@ -271,7 +271,7 @@ const taskController = {
         wage_at_moment,
         override_hourly_wage,
       } = await TaskModel.query()
-        .select('owner_user_id', 'assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
+        .select('assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
         .where({ task_id })
         .first();
 

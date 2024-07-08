@@ -30,7 +30,7 @@ export function checkSoilAmendmentTaskProducts() {
       }
 
       if (!soil_amendment_task_products.some((rel) => !rel.deleted)) {
-        return res.status(400).send('at least task product is required');
+        return res.status(400).send('at least one task product is required');
       }
 
       for (const product of soil_amendment_task_products) {

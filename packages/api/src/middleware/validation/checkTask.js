@@ -135,7 +135,7 @@ export function checkCompleteTask(taskType) {
         return res.status(400).send('An unassigned task cannot be completed');
       }
 
-      if (taskType in req.body) {
+      if (`${taskType}_products` in req.body) {
         checkUpdateMiddlewareMap[taskType]()(req, res, next);
       } else {
         next();

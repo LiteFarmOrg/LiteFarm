@@ -16,6 +16,7 @@
 import TaskModel from '../../models/taskModel.js';
 import { checkSoilAmendmentTaskProducts } from './checkSoilAmendmentTaskProducts.js';
 const adminRoles = [1, 2, 5];
+const taskTypesRequiringProducts = ['soil_amendment_task'];
 
 export function noReqBodyCheckYet() {
   return async (req, res, next) => {
@@ -23,7 +24,7 @@ export function noReqBodyCheckYet() {
   };
 }
 
-const checkUpdateMiddlewareMap = {
+const checkProductsMiddlewareMap = {
   soil_amendment_task: checkSoilAmendmentTaskProducts,
   cleaning_task: noReqBodyCheckYet,
   pest_control_task: noReqBodyCheckYet,
@@ -136,10 +137,37 @@ export function checkCompleteTask(taskType) {
       }
 
       if (`${taskType}_products` in req.body) {
-        checkUpdateMiddlewareMap[taskType]()(req, res, next);
+        checkProductsMiddlewareMap[taskType]()(req, res, next);
       } else {
         next();
       }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        error,
+      });
+    }
+  };
+}
+
+export function checkCreateTask(taskType) {
+  return async (req, res, next) => {
+    try {
+      const { user_id } = req.headers;
+
+      if (!user_id) {
+        return res.status(400).send('must have user_id');
+      }
+
+      if (!(taskType in req.body) && taskType !== 'custom_task') {
+        return res.status(400).send('must have task details body');
+      }
+
+      if (taskTypesRequiringProducts.includes(taskType) && !(`${taskType}_products` in req.body)) {
+        return res.status(400).send('task type requires products');
+      }
+
+      checkProductsMiddlewareMap[taskType]()(req, res, next);
     } catch (error) {
       console.error(error);
       return res.status(500).json({

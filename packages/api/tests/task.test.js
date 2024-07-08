@@ -1857,6 +1857,7 @@ describe('Task tests', () => {
         { user_id, farm_id },
         {
           ...fakeCompletionData,
+          task_id,
           soil_amendment_task: { task_id, ...new_soil_amendment_task },
           soil_amendment_task_products: new_soil_amendment_task_products,
         },

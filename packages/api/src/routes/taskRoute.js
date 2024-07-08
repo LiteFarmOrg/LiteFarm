@@ -25,10 +25,11 @@ import {
 } from '../middleware/validation/assignTask.js';
 import taskController from '../controllers/taskController.js';
 import { createOrPatchProduct } from '../middleware/validation/product.js';
-import { checkSoilAmendmentTaskProducts } from '../middleware/validation/checkSoilAmendmentTaskProducts.js';
+import checkParamAgainstBody from '../middleware/acl/checkParamAgainstBody.js';
 import {
   checkAbandonTask,
   checkCompleteTask,
+  checkCreateTask,
   checkDeleteTask,
 } from '../middleware/validation/checkTask.js';
 
@@ -89,7 +90,7 @@ router.post(
   modelMapping['soil_amendment_task'],
   hasFarmAccess({ mixed: 'taskManagementPlanAndLocation' }),
   isWorkerToSelfOrAdmin(),
-  checkSoilAmendmentTaskProducts(),
+  checkCreateTask('soil_amendment_task'),
   taskController.createTask('soil_amendment_task'),
 );
 
@@ -172,6 +173,7 @@ router.patch(
   modelMapping['soil_amendment_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
+  checkParamAgainstBody('task_id'),
   checkCompleteTask('soil_amendment_task'),
   taskController.completeTask('soil_amendment_task'),
 );

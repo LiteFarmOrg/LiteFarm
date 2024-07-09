@@ -91,14 +91,14 @@ export const useQuantityApplicationRate = ({
     const volume = getValues(TASK_PRODUCT_FIELD_NAMES.VOLUME);
     const volume_unit = getValues(TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT);
 
-    if (weight && isWeight && weight_unit && application_area) {
+    if ((weight || weight === 0) && isWeight && weight_unit && application_area) {
       setValue(
         TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT,
         convert(weight / application_area)
           .from('kg/m2') // database unit weight / database unit area
           .to('kg/ha'), // database unit application_rate_weight
       );
-    } else if (volume && !isWeight && volume_unit && application_area) {
+    } else if ((volume || volume === 0) && !isWeight && volume_unit && application_area) {
       setValue(
         TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME,
         convert(volume / application_area)
@@ -119,14 +119,19 @@ export const useQuantityApplicationRate = ({
     );
 
     const application_area = getValues(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED);
-    if (isWeight && application_rate_weight && application_rate_weight_unit && application_area) {
+    if (
+      isWeight &&
+      (application_rate_weight || application_rate_weight === 0) &&
+      application_rate_weight_unit &&
+      application_area
+    ) {
       setValue(
         TASK_PRODUCT_FIELD_NAMES.WEIGHT,
         convert(application_rate_weight).from('kg/ha').to('kg/m2') * application_area,
       );
     } else if (
       !isWeight &&
-      application_rate_volume &&
+      (application_rate_volume || application_rate_volume === 0) &&
       application_rate_volume_unit &&
       application_area
     ) {

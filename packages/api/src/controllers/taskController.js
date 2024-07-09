@@ -755,9 +755,6 @@ const taskController = {
       const { user_id, farm_id } = req.headers;
 
       const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
-      if (checkTaskStatus?.complete_date || checkTaskStatus?.abandon_date) {
-        return res.status(400).send('Task has already been completed or abandoned');
-      }
 
       const result = await TaskModel.transaction(async (trx) => {
         return await TaskModel.deleteTaskAndTaskProduct(req.auth, task_id, trx);

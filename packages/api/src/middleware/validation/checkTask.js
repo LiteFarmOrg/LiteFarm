@@ -180,10 +180,16 @@ export function checkCreateTask(taskType) {
 export function checkDeleteTask() {
   return async (req, res, next) => {
     try {
+      const { task_id } = req.params;
       const { user_id } = req.headers;
 
       if (!user_id) {
         return res.status(400).send('must have user_id');
+      }
+
+      const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
+      if (checkTaskStatus?.complete_date || checkTaskStatus?.abandon_date) {
+        return res.status(400).send('Task has already been completed or abandoned');
       }
 
       next();

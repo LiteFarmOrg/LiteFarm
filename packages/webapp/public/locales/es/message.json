@@ -121,6 +121,16 @@
       "EDIT": "Plan de cultivo actualizado con éxito"
     }
   },
+  "PRODUCT": {
+    "ERROR": {
+      "CREATE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "CREATE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
   "REPEAT_PLAN": {
     "ERROR": {
       "POST": "Fallo al repetir {{planName}}"

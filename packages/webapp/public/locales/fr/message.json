@@ -121,6 +121,16 @@
       "EDIT": "Plan de culture mis à jour"
     }
   },
+  "PRODUCT": {
+    "ERROR": {
+      "CREATE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "CREATE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
   "REPEAT_PLAN": {
     "ERROR": {
       "POST": "Impossible de répéter {{planName}}"

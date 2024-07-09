@@ -106,7 +106,7 @@ export const applicationRateVolume: Measure<'metric' | 'imperial', ApplicationRa
   anchors: {
     metric: {
       imperial: {
-        ratio: 0.264172 / 2.47105, // l/gal * (ac/ha)
+        ratio: (1 / 3.78541) * (1 / 2.47105), // l/gal * (ac/ha)
       },
     },
     imperial: {
@@ -211,7 +211,7 @@ export const applicationRateWeight: Measure<'metric' | 'imperial', ApplicationRa
   anchors: {
     metric: {
       imperial: {
-        ratio: 2.20462 / 2.47105, // kg/lb * (ac/ha)
+        ratio: 2.20462 * (1 / 2.47105), // kg/lb * (ac/ha)
       },
     },
     imperial: {

@@ -88,7 +88,6 @@ export const Default: Story = {
               onChange={(name, value) => {
                 field.onChange({ ...field.value, [name]: value });
               }}
-              reactSelectJustifyContent="flex-start"
             />
           );
         }}
@@ -256,7 +255,6 @@ export const SixInputs: Story = {
               onChange={(name, value) => {
                 field.onChange({ ...field.value, [name]: value });
               }}
-              reactSelectJustifyContent="flex-start"
             />
           );
         }}

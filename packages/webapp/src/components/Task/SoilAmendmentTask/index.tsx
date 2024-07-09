@@ -60,7 +60,7 @@ const PureSoilAmendmentTask = ({
 }: PureSoilAmendmentTaskProps) => {
   const { control, register, setValue, getValues, watch } = props;
 
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'message']);
   const dispatch = useDispatch();
 
   const { data: methods = [] } = useGetSoilAmendmentMethodsQuery();
@@ -113,21 +113,22 @@ const PureSoilAmendmentTask = ({
       delete formattedData.soil_amendment_product.molecular_compounds_unit;
     }
 
-    let message = '';
     let result;
 
     try {
       result = await (isNew ? addProduct : updateProduct)(formattedData).unwrap();
     } catch (e) {
       console.log(e);
-      message = isNew ? 'Failed to create product' : 'Failed to update product'; //TODO
+      const message = isNew ? t('message:PRODUCT.ERROR.CREATE') : t('message:PRODUCT.ERROR.UPDATE');
       dispatch(enqueueErrorSnackbar(message));
       return;
     }
 
     dispatch(getProducts());
 
-    message = isNew ? 'Successfully created product' : 'Successfully updated product'; //TODO
+    const message = isNew
+      ? t('message:PRODUCT.SUCCESS.CREATE')
+      : t('message:PRODUCT.SUCCESS.UPDATE');
     dispatch(enqueueSuccessSnackbar(message));
 
     // Set product_id for the newly created product. Should be called after getProducts()

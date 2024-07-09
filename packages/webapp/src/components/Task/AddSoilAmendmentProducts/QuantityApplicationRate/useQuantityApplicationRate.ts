@@ -15,7 +15,7 @@
 
 import { useEffect, useState } from 'react';
 import { UseFormWatch, UseFormSetValue, UseFormGetValues } from 'react-hook-form';
-import { TASK_PRODUCT_FIELD_NAMES, TaskProductFormFields, UnitOption } from '../types';
+import { TASK_PRODUCT_FIELD_NAMES, TaskProductFormFields } from '../types';
 import { getUnitOptionMap } from '../../../../util/convert-units/getUnitOptionMap';
 import { convertFn, getDefaultUnit, location_area } from '../../../../util/convert-units/unit';
 import { roundToTwoDecimal } from '../../../../util';
@@ -58,12 +58,6 @@ export const useQuantityApplicationRate = ({
   useEffect(() => {
     if (!application_area) {
       setValue(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED, total_area);
-
-      /* display user-selected unit initially */
-      setValue(
-        TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT,
-        getUnitOptionMap()[total_area_unit] as UnitOption,
-      );
     }
 
     /* update unit of application area and string */

@@ -38,8 +38,8 @@ export const useQuantityApplicationRate = ({
   setValue,
   getValues,
 }: UseQuantityApplicationRate) => {
-  const application_area = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA);
-  const application_area_unit = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA_UNIT);
+  const application_area = watch(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED);
+  const application_area_unit = watch(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT);
   const weight_unit = watch(TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT);
   const volume_unit = watch(TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT);
   const application_rate_weight_unit = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT);
@@ -57,11 +57,11 @@ export const useQuantityApplicationRate = ({
   /* Set initial application area to area total area */
   useEffect(() => {
     if (!application_area) {
-      setValue(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA, total_area);
+      setValue(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED, total_area);
 
       /* display user-selected unit initially */
       setValue(
-        TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA_UNIT,
+        TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT,
         getUnitOptionMap()[total_area_unit] as UnitOption,
       );
     }
@@ -72,14 +72,14 @@ export const useQuantityApplicationRate = ({
 
   /* Update application area + rate based on percent of location */
   const onPercentLocationChange = () => {
-    const percent_of_location = getValues(TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION);
+    const percent_of_location = getValues(TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED);
 
     const calculatedArea = (total_area * (percent_of_location || 100)) / 100;
-    setValue(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA, calculatedArea);
+    setValue(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED, calculatedArea);
 
     /* set unit of the total area component according to default breakpoints */
     setValue(
-      TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA_UNIT,
+      TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT,
       /* @ts-ignore */
       getUnitOptionMap()[getDefaultUnit(location_area, calculatedArea, system).displayUnit],
       { shouldValidate: true },
@@ -92,7 +92,7 @@ export const useQuantityApplicationRate = ({
   const onQuantityChange = () => {
     const weight = getValues(TASK_PRODUCT_FIELD_NAMES.WEIGHT);
     const weight_unit = getValues(TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT);
-    const application_area = getValues(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA);
+    const application_area = getValues(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED);
 
     const volume = getValues(TASK_PRODUCT_FIELD_NAMES.VOLUME);
     const volume_unit = getValues(TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT);
@@ -124,7 +124,7 @@ export const useQuantityApplicationRate = ({
       TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT,
     );
 
-    const application_area = getValues(TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA);
+    const application_area = getValues(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED);
     if (isWeight && application_rate_weight && application_rate_weight_unit && application_area) {
       setValue(
         TASK_PRODUCT_FIELD_NAMES.WEIGHT,

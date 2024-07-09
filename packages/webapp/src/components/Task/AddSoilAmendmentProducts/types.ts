@@ -74,9 +74,9 @@ export const TASK_PRODUCT_FIELD_NAMES = {
   WEIGHT_UNIT: 'weight_unit',
   VOLUME: 'volume',
   VOLUME_UNIT: 'volume_unit',
-  PERCENT_OF_LOCATION: 'percent_of_location',
-  APPLICATION_AREA: 'location_area',
-  APPLICATION_AREA_UNIT: 'location_area_unit',
+  PERCENT_OF_LOCATION_AMENDED: 'percent_of_location_amended',
+  TOTAL_AREA_AMENDED: 'total_area_amended',
+  TOTAL_AREA_AMENDED_UNIT: 'total_area_amended_unit',
   APPLICATION_RATE_WEIGHT: 'application_rate_weight',
   APPLICATION_RATE_WEIGHT_UNIT: 'application_rate_weight_unit',
   APPLICATION_RATE_VOLUME: 'application_rate_volume',
@@ -94,9 +94,9 @@ export type TaskProductFormFields = {
   [TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT]?: UnitOption | null;
   [TASK_PRODUCT_FIELD_NAMES.VOLUME]?: number;
   [TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT]?: UnitOption | null;
-  [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION]?: number | null;
-  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA]?: number | null;
-  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA_UNIT]?: UnitOption | null;
+  [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED]?: number | null;
+  [TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED]?: number | null;
+  [TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT]?: UnitOption | null;
   [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT]?: number | null;
   [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT]?: UnitOption;
   [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME]?: number | null;

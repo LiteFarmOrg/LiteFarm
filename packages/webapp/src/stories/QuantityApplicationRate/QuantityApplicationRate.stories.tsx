@@ -68,7 +68,7 @@ export const ReadOnlyWeight: Story = {
       total_area_unit: 'ha',
     },
     defaultValues: {
-      [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION]: 50,
+      [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED]: 50,
       [TASK_PRODUCT_FIELD_NAMES.WEIGHT]: 15,
     },
   },
@@ -84,7 +84,7 @@ export const ReadOnlyVolume: Story = {
       total_area_unit: 'ha',
     },
     defaultValues: {
-      [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION]: 50,
+      [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED]: 50,
       [TASK_PRODUCT_FIELD_NAMES.VOLUME]: 15,
     },
   },

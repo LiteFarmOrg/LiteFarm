@@ -81,7 +81,7 @@ const QuantityApplicationRate = ({
 
   const { control, getValues, setValue, register, watch } = useForm<TaskProductFormFields>({
     defaultValues: {
-      [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION]: 100,
+      [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED]: 100,
       ...defaultValues,
     },
   });
@@ -104,7 +104,7 @@ const QuantityApplicationRate = ({
     getValues,
   });
 
-  const percent_of_location = watch(TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION);
+  const percent_of_location = watch(TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED);
 
   /* Label for weight/volume switch */
   const formatLabel = (labelKey: string, shouldBeBold: boolean) => {
@@ -175,7 +175,7 @@ const QuantityApplicationRate = ({
             <div className={styles.sectionBody}>
               <div className={styles.locationSection}>
                 <NumberInput
-                  name={TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION}
+                  name={TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED}
                   control={control}
                   label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PERECENT_TO_AMEND')}
                   min={0}
@@ -185,7 +185,7 @@ const QuantityApplicationRate = ({
                   classes={{ label: inputLabelStyles }}
                   disabled={isReadOnly}
                   defaultValue={
-                    defaultValues?.[TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION] || 100
+                    defaultValues?.[TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED] || 100
                   }
                 />
                 <SwapIcon />
@@ -193,8 +193,8 @@ const QuantityApplicationRate = ({
                 <Unit
                   register={register}
                   label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.TOTAL_AREA')}
-                  name={TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA}
-                  displayUnitName={TASK_PRODUCT_FIELD_NAMES.APPLICATION_AREA_UNIT}
+                  name={TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED}
+                  displayUnitName={TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT}
                   unitType={location_area}
                   system={system}
                   hookFormSetValue={setValue}

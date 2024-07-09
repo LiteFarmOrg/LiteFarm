@@ -120,13 +120,6 @@ const QuantityApplicationRate = ({
     );
   };
 
-  // Unit and NumberInput accept inline style objects, rather than classnames, to style subcomponents
-  const inputLabelStyles = {
-    color: 'var(--Colors-Neutral-Neutral-500)',
-    fontSize: '16px',
-    lineHeight: 'normal',
-  };
-
   return (
     <div className={styles.container}>
       <Switch
@@ -156,7 +149,6 @@ const QuantityApplicationRate = ({
             disabled={isReadOnly}
             required
             key={isWeight ? 'weight' : 'volume'}
-            classes={{ label: inputLabelStyles }}
           />
           <AreaApplicationSummary
             locationArea={previewStringValue!}
@@ -182,7 +174,6 @@ const QuantityApplicationRate = ({
                   max={100}
                   rules={{ required: t('common:REQUIRED') }}
                   onChange={onPercentLocationChange}
-                  classes={{ label: inputLabelStyles }}
                   disabled={isReadOnly}
                   defaultValue={
                     defaultValues?.[TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED] || 100
@@ -204,7 +195,6 @@ const QuantityApplicationRate = ({
                   mode={'onChange'}
                   disabled
                   required
-                  classes={{ label: inputLabelStyles }}
                 />
               </div>
               {/* @ts-ignore */}
@@ -236,7 +226,6 @@ const QuantityApplicationRate = ({
                 disabled={isReadOnly}
                 required
                 key={isWeight ? 'weight' : 'volume'}
-                classes={{ label: inputLabelStyles }}
               />
             </div>
           </Collapse>

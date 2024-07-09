@@ -21,10 +21,23 @@ import AddSoilAmendmentProducts, {
 } from '../../../../components/Task/AddSoilAmendmentProducts';
 import { defaultValues } from '../../../../components/Task/AddSoilAmendmentProducts/ProductCard/ProductDetails';
 import { products } from './products';
-import { FormFields } from '../../../../components/Task/AddSoilAmendmentProducts/types';
+import { ProductFormFields } from '../../../../components/Task/AddSoilAmendmentProducts/types';
+
+const purposes = [
+  { id: 1, key: 'STRUCTURE' },
+  { id: 2, key: 'MOISTURE_RETENTION' },
+  { id: 3, key: 'NUTRIENT_AVAILABILITY' },
+  { id: 4, key: 'PH' },
+  { id: 5, key: 'OTHER' },
+];
+
+const fertiliserTypes = [
+  { id: 1, key: 'DRY' },
+  { id: 2, key: 'LIQUID' },
+];
 
 type ComponentWithFormMethodsProps = AddSoilAmendmentProductsProps & {
-  defaultValues: (FormFields & { product_id?: number })[];
+  defaultValues: (ProductFormFields & { product_id?: number })[];
 };
 
 const ComponentWithFormMethods = ({ defaultValues, ...props }: ComponentWithFormMethodsProps) => {
@@ -48,6 +61,8 @@ const meta: Meta<ComponentWithFormMethodsProps> = {
     onSaveProduct: console.log,
     system: 'metric',
     products,
+    purposes,
+    fertiliserTypes,
     defaultValues: [defaultValues],
     location: {
       type: 'garden',

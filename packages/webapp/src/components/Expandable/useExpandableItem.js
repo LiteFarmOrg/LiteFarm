@@ -15,7 +15,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-export default function useExpandable({ defaultExpandedIds = [], isSingleExpandable }) {
+export default function useExpandable({ defaultExpandedIds = [], isSingleExpandable } = {}) {
   const [expandedIds, setExpandedIds] = useState(defaultExpandedIds);
 
   const expand = (id) => {

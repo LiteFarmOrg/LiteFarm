@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import useExpandable from '../../Expandable/useExpandableItem';
@@ -23,8 +22,17 @@ import type { ProductId, Product } from './types';
 import { defaultValues } from './ProductCard/ProductDetails';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
 import styles from './styles.module.scss';
+import { Location } from './QuantityApplicationRate';
 
-export type AddSoilAmendmentProductsProps = ProductCardProps & { products: Product[] };
+export type AddSoilAmendmentProductsProps = Pick<
+  ProductCardProps,
+  'isReadOnly' | 'farm' | 'onSave' | 'system' | 'onSaveProduct'
+> & {
+  products: Product[];
+  purposes?: { id: number; key: string }[];
+  fertiliserTypes?: { id: number; key: string }[];
+  location: Location;
+};
 
 interface ProductFields {
   product_id: ProductId;
@@ -34,13 +42,19 @@ const FIELD_NAME = 'soil_amendment_task_products';
 
 const AddSoilAmendmentProducts = ({
   products,
+  purposes = [],
+  fertiliserTypes = [],
   isReadOnly,
+  location,
   ...props
 }: AddSoilAmendmentProductsProps) => {
-  const [invalidProducts, setInvalidProducts] = useState<string[]>([]);
-
   const { t } = useTranslation();
-  const { control, setValue, watch } = useFormContext();
+  const {
+    control,
+    setValue,
+    watch,
+    formState: { isValid },
+  } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: FIELD_NAME,
     control,
@@ -61,31 +75,29 @@ const AddSoilAmendmentProducts = ({
     return products.filter(({ product_id }) => !otherSelectedProductIds.includes(product_id));
   };
 
-  const getInvalidProductsUpdater =
-    (fieldId: string) =>
-    (isValid: boolean): void => {
-      setInvalidProducts((prevState) => {
-        if (isValid && prevState.includes(fieldId)) {
-          return prevState.filter((id) => id !== fieldId);
-        }
-        if (!isValid && !prevState.includes(fieldId)) {
-          return [...prevState, fieldId];
-        }
-        return prevState;
-      });
-    };
-
-  const onRemove = (index: number, fieldId: string): void => {
-    if (invalidProducts.includes(fieldId)) {
-      setInvalidProducts(invalidProducts.filter((id) => id !== fieldId));
-    }
-    remove(index);
-  };
-
   const onAddAnotherProduct = (): void => {
     resetExpanded();
     append(defaultValues);
   };
+
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.STRUCTURE')
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.MOISTURE_RETENTION')
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.NUTRIENT_AVAILABILITY')
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.PH')
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER')
+  const purposeOptions = purposes.map(({ id, key }) => ({
+    value: id,
+    label: t(`ADD_TASK.SOIL_AMENDMENT_VIEW.${key}`),
+  }));
+
+  // t('ADD_PRODUCT.DRY_FERTILISER')
+  // t('ADD_PRODUCT.LIQUID_FERTILISER')
+  const fertiliserTypeOptions = fertiliserTypes.map(({ id, key }) => ({
+    value: id,
+    label: t(`ADD_PRODUCT.${key}_FERTILISER`),
+  }));
+
+  const otherPurposeId = purposes.find(({ key }) => key === 'OTHER')?.id;
 
   return (
     <>
@@ -99,7 +111,7 @@ const AddSoilAmendmentProducts = ({
               {...props}
               key={field.id}
               isReadOnly={isReadOnly}
-              onRemove={fields.length > 1 ? () => onRemove(index, field.id) : undefined}
+              onRemove={fields.length > 1 ? () => remove(index) : undefined}
               namePrefix={namePrefix}
               products={getAvailableProductOptions(productId)}
               isExpanded={expandedIds.includes(field.id)}
@@ -110,14 +122,17 @@ const AddSoilAmendmentProducts = ({
               setProductId={(id: ProductId) => {
                 setValue(`${namePrefix}.product_id`, id);
               }}
-              setFieldValidity={getInvalidProductsUpdater(field.id)}
+              purposeOptions={purposeOptions}
+              otherPurposeId={otherPurposeId}
+              fertiliserTypeOptions={fertiliserTypeOptions}
+              location={location}
             />
           );
         })}
       </div>
       {!isReadOnly && (
         <TextButton
-          disabled={!!invalidProducts.length}
+          disabled={!isValid}
           onClick={onAddAnotherProduct}
           className={styles.addAnotherProduct}
         >

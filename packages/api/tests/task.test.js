@@ -1947,13 +1947,14 @@ describe('Task tests', () => {
         const taskProductIdForDeletedPurpose = createdTaskProducts[0].id;
         const deletedPurposeRelationship = createdTaskProducts[0].purpose_relationships.pop();
         // Delete a task product
-        const deleted_task_product_id = createdTaskProducts[1].id;
-        createdTaskProducts[1].deleted = true;
+        const deletedTaskProduct = createdTaskProducts.pop();
         // Add a new task product
-        createdTaskProducts[2] = mocks.fakeSoilAmendmentTaskProduct({
-          product_id: soilAmendmentProductThree,
-          purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
-        });
+        createdTaskProducts.push(
+          mocks.fakeSoilAmendmentTaskProduct({
+            product_id: soilAmendmentProductThree,
+            purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+          }),
+        );
 
         // Update the task
         completeTaskRequest(
@@ -1973,7 +1974,7 @@ describe('Task tests', () => {
             });
             expect(completed_task_products.length).toBe(3);
             expect(
-              completed_task_products.find((prod) => prod.id == deleted_task_product_id).deleted,
+              completed_task_products.find((prod) => prod.id == deletedTaskProduct.id).deleted,
             ).toBe(true);
             const completed_soil_amendment_task_products_purpose_relationship = await knex(
               'soil_amendment_task_products_purpose_relationship',
@@ -1982,7 +1983,7 @@ describe('Task tests', () => {
               completed_task_products[1].id,
               completed_task_products[2].id,
             ]);
-            expect(completed_task_products.length).toBe(3);
+            expect(completed_soil_amendment_task_products_purpose_relationship.length).toBe(3);
 
             // The relationship created originally should be hard deleted
             const deletedRelationship = await knex(
@@ -2162,8 +2163,8 @@ describe('Task tests', () => {
 
         taskProductForDeletedPurpose.purpose_relationships.push(deletedPurposeRelationship);
         // Delete a task product
-        createdTaskProducts[0].deleted = true;
-        createdTaskProducts[1].deleted = true;
+        const deletedTaskProductOne = createdTaskProducts.pop();
+        const deletedTaskProductTwo = createdTaskProducts.pop();
 
         completeTaskRequest(
           { user_id, farm_id },

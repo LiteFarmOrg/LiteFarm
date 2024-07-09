@@ -84,6 +84,7 @@ const QuantityApplicationRate = ({
       [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED]: 100,
       ...defaultValues,
     },
+    mode: 'onBlur',
   });
 
   /* Control of relationship between quantity, area, and application rate */
@@ -176,9 +177,6 @@ const QuantityApplicationRate = ({
                   rules={{ required: t('common:REQUIRED') }}
                   onChange={onPercentLocationChange}
                   disabled={isReadOnly}
-                  defaultValue={
-                    defaultValues?.[TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED] || 100
-                  }
                 />
                 <SwapIcon />
                 {/* @ts-ignore */}

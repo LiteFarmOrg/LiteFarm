@@ -128,6 +128,7 @@ const QuantityApplicationRate = ({
         isToggleVariant
         onChange={toggleMeasure}
         checked={!isWeight}
+        disabled={isReadOnly}
       />
       <div className={styles.applicationRateCard}>
         <div>

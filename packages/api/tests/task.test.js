@@ -1280,7 +1280,7 @@ describe('Task tests', () => {
 
           const data = {
             ...mocks.fakeTask({
-              [type]: { ...fakeTaskData[type]() },
+              [type]: fakeTaskData[type](),
               task_type_id,
               owner_user_id: user_id,
             }),
@@ -1289,7 +1289,7 @@ describe('Task tests', () => {
           };
 
           if (tasksWithProducts.some((task) => task == type)) {
-            data[`${type}_products`] = [...(await fakeProductData[`${type}_products`](farm_id))];
+            data[`${type}_products`] = await fakeProductData[`${type}_products`](farm_id);
           }
           postTaskRequest({ user_id, farm_id }, type, data, async (err, res) => {
             expect(res.status).toBe(201);
@@ -2018,7 +2018,7 @@ describe('Task tests', () => {
       // Insert a second available purpose
       const [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
 
-      // Insert three differents products
+      // Insert two differents products
       const [{ product_id: soilAmendmentProductOne }] = await mocks.productFactory(
         { promisedFarm: [{ farm_id }] },
         // of type 'soil_amendment_task'
@@ -2105,7 +2105,7 @@ describe('Task tests', () => {
       // Insert a second available purpose
       const [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
 
-      // Insert three differents products
+      // Insert two differents products
       const [{ product_id: soilAmendmentProductOne }] = await mocks.productFactory(
         { promisedFarm: [{ farm_id }] },
         // of type 'soil_amendment_task'

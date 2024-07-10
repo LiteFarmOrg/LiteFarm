@@ -102,7 +102,9 @@ export function checkProductValidity() {
         return res.status(400).send('new product must have type');
       }
 
-      const nonModifiableAssets = typesOfProducts.filter((a) => a !== taskTypeProductMap[type]);
+      const nonModifiableAssets = Object.values(taskTypeProductMap).filter((productType) => {
+  return productType !== taskTypeProductMap[type];
+});
 
       if (taskTypeProductMap[type] && !req.body[taskTypeProductMap[type]]) {
         return res.status(400).send('must have product details');

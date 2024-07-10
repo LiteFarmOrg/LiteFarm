@@ -29,12 +29,14 @@ const dataTransformsMapping = {
 
 const getQuantityWeight = (quantity, measurement) => {
   if (measurement === 'imperial') {
-    return `${(quantity * 0.453592).toFixed(2)} lb`;
+    // convert kg to lb
+    return `${(quantity * 2.20462).toFixed(2)} lb`;
   }
   return `${quantity} kg`;
 };
 const getQuantityVolume = (quantity, measurement) => {
   if (measurement === 'imperial') {
+    // convert l to gal
     return `${(quantity * 0.264172).toFixed(2)} gal`;
   }
   return `${quantity} l`;

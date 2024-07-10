@@ -37,11 +37,8 @@ export function checkProductValidity() {
       'boron',
     ];
     const molecularCompounds = ['ammonium', 'nitrate'];
-    const typesOfProducts = ['soil_amendment_product'];
     const taskTypeProductMap = {
       soil_amendment_task: 'soil_amendment_product',
-      cleaning_task: null,
-      pest_control_task: null,
     };
 
     if (sap) {
@@ -103,10 +100,14 @@ export function checkProductValidity() {
       }
 
       const nonModifiableAssets = Object.values(taskTypeProductMap).filter((productType) => {
-  return productType !== taskTypeProductMap[type];
-});
+        return productType !== taskTypeProductMap[type];
+      });
 
-      if (taskTypeProductMap[type] && !req.body[taskTypeProductMap[type]]) {
+      if (
+        !(req.method === 'PATCH') &&
+        taskTypeProductMap[type] &&
+        !req.body[taskTypeProductMap[type]]
+      ) {
         return res.status(400).send('must have product details');
       }
 

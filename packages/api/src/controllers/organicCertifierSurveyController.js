@@ -301,6 +301,7 @@ const organicCertifierSurveyController = {
             AND abandon_date IS NULL
             AND p.farm_id = :farm_id
             AND t.deleted = false
+            AND satp.deleted = false
       `,
       { to_date, from_date, farm_id },
     );

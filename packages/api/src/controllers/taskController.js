@@ -32,14 +32,6 @@ import Location from '../models/locationModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
 import baseController from './baseController.js';
 const adminRoles = [1, 2, 5];
-// const isDateInPast = (date) => {
-//   const today = new Date();
-//   const newDate = new Date(date);
-//   if (newDate.setUTCHours(0, 0, 0, 0) < today.setUTCHours(0, 0, 0, 0)) {
-//     return true;
-//   }
-//   return false;
-// };
 
 async function getTaskAssigneeAndFinalWage(farm_id, user_id, task_id) {
   const {
@@ -72,18 +64,36 @@ async function updateTaskWithCompletedData(
   data,
   wagePatchData,
   nonModifiable,
+  typeOfTask,
 ) {
-  const task = await TaskModel.query(trx)
-    .context({ user_id })
-    .upsertGraph(
-      { task_id, ...data, ...wagePatchData },
-      {
-        noUpdate: nonModifiable,
-        noDelete: true,
-        noInsert: true,
-      },
-    );
-  return task;
+  if (typeOfTask === 'soil_amendment_task') {
+    // Allows the insertion of missing data if no id present
+    // Soft deletes tables with soft delete option and hard deletes ones without
+    const task = await TaskModel.query(trx)
+      .context({ user_id })
+      .upsertGraph(
+        { task_id, ...data, ...wagePatchData },
+        {
+          noUpdate: nonModifiable,
+          noDelete: nonModifiable,
+          noInsert: nonModifiable,
+          insertMissing: true,
+        },
+      );
+    return task;
+  } else {
+    const task = await TaskModel.query(trx)
+      .context({ user_id })
+      .upsertGraph(
+        { task_id, ...data, ...wagePatchData },
+        {
+          noUpdate: nonModifiable,
+          noDelete: true,
+          noInsert: true,
+        },
+      );
+    return task;
+  }
 }
 
 const taskController = {
@@ -247,33 +257,15 @@ const taskController = {
       } = req.body;
 
       const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
-      if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
-        return res.status(400).send('Task has already been completed or abandoned');
-      }
 
       const {
-        owner_user_id,
         assignee_user_id,
         wage_at_moment,
         override_hourly_wage,
       } = await TaskModel.query()
-        .select('owner_user_id', 'assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
+        .select('assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
         .where({ task_id })
         .first();
-      const isUserTaskOwner = user_id === owner_user_id;
-      const isUserTaskAssignee = user_id === assignee_user_id;
-      const hasAssignee = assignee_user_id !== null;
-      // TODO: move to middleware
-      // cannot abandon task if user is worker and not assignee and not creator
-      if (!adminRoles.includes(req.role) && !isUserTaskOwner && !isUserTaskAssignee) {
-        return res
-          .status(403)
-          .send('A worker who is not assignee or owner of task cannot abandon it');
-      }
-      // cannot abandon an unassigned task with rating or duration
-      if (!hasAssignee && (happiness || duration)) {
-        return res.status(400).send('An unassigned task should not be rated or have time clocked');
-      }
 
       let wage = { amount: 0 };
       if (assignee_user_id) {
@@ -352,7 +344,7 @@ const taskController = {
           const [task] = await TaskModel.query(trx)
             .withGraphFetched(
               `
-          [locations.[location_defaults], managementPlans, taskType, soil_amendment_task.[soil_amendment_task_products.[purpose_relationships]], irrigation_task.[irrigation_type],scouting_task,
+          [locations.[location_defaults], managementPlans, taskType, soil_amendment_task, soil_amendment_task_products.[purpose_relationships], irrigation_task.[irrigation_type],scouting_task,
           field_work_task.[field_work_task_type], cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
           `,
             )
@@ -598,6 +590,7 @@ const taskController = {
             data,
             finalWage,
             nonModifiable,
+            typeOfTask,
           );
 
           await patchManagementPlanStartDate(trx, req, typeOfTask);
@@ -704,7 +697,7 @@ const taskController = {
       const graphTasks = await TaskModel.query()
         .whereNotDeleted()
         .withGraphFetched(
-          `[locations.[location_defaults], managementPlans, soil_amendment_task.[soil_amendment_task_products.[purpose_relationships]], field_work_task.[field_work_task_type], cleaning_task, pest_control_task, harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task.[irrigation_type]]
+          `[locations.[location_defaults], managementPlans, soil_amendment_task, soil_amendment_task_products.[purpose_relationships], field_work_task.[field_work_task_type], cleaning_task, pest_control_task, harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task.[irrigation_type]]
         `,
         )
         .whereIn('task_id', taskIds);
@@ -763,11 +756,11 @@ const taskController = {
       const { user_id, farm_id } = req.headers;
 
       const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
-      if (checkTaskStatus.complete_date || checkTaskStatus.abandon_date) {
-        return res.status(400).send('Task has already been completed or abandoned');
-      }
 
-      const result = await TaskModel.deleteTask(task_id, req.auth);
+      const result = await TaskModel.transaction(async (trx) => {
+        return await TaskModel.deleteTaskAndTaskProduct(req.auth, task_id, trx);
+      });
+
       if (!result) return res.status(404).send('Task not found');
 
       await sendTaskNotification(

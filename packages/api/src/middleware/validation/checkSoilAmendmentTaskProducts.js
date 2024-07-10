@@ -38,15 +38,23 @@ export function checkSoilAmendmentTaskProducts() {
           return res.status(400).send('product_id is required');
         }
 
-        if (!product.volume && !product.weight) {
+        if (isNaN(product.volume) && isNaN(product.weight)) {
           return res.status(400).send('volume or weight is required');
         }
 
-        if (product.volume && !product.volume_unit && !product.application_rate_volume_unit) {
+        if (
+          !isNaN(product.volume) &&
+          !product.volume_unit &&
+          !product.application_rate_volume_unit
+        ) {
           return res.status(400).send('volume_unit and application_rate_volume_unit is required');
         }
 
-        if (product.weight && !product.weight_unit && !product.application_rate_weight_unit) {
+        if (
+          !isNaN(product.weight) &&
+          !product.weight_unit &&
+          !product.application_rate_weight_unit
+        ) {
           return res.status(400).send('weight_unit and application_rate_weight_unit is required');
         }
 

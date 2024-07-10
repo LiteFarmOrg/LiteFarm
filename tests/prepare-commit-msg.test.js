@@ -32,6 +32,7 @@ describe("prepare-commit-msg - adding JIRA ticket number to commit messages", ()
       branchName: `LF-1212-test-branch`,
       commitMsg: "LF-1212 test commit",
     });
+
     prepareCommitMsg();
 
     assert.equal(mockWriteCommitMsg.mock.callCount(), 0);
@@ -42,6 +43,7 @@ describe("prepare-commit-msg - adding JIRA ticket number to commit messages", ()
       branchName: `LF-1212-test-branch`,
       commitMsg: "test LF-1212 commit",
     });
+
     prepareCommitMsg();
 
     assert.equal(mockWriteCommitMsg.mock.callCount(), 0);
@@ -52,6 +54,8 @@ describe("prepare-commit-msg - adding JIRA ticket number to commit messages", ()
       branchName: `test-branch`,
       commitMsg: "test commit",
     });
+
+    prepareCommitMsg();
 
     assert.equal(mockWriteCommitMsg.mock.callCount(), 0);
   });

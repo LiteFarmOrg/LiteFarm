@@ -85,6 +85,7 @@ export const useQuantityApplicationRate = ({
         convert(weight / application_area)
           .from('kg/m2') // database unit weight / database unit area
           .to('kg/ha'), // database unit application_rate_weight
+        { shouldValidate: true },
       );
     } else if ((volume || volume === 0) && !isWeight && volume_unit && application_area) {
       setValue(
@@ -92,6 +93,7 @@ export const useQuantityApplicationRate = ({
         convert(volume / application_area)
           .from('l/m2') // database unit volume / database unit area
           .to('l/ha'), // database unit application_rate_volume
+        { shouldValidate: true },
       );
     }
   };
@@ -116,6 +118,7 @@ export const useQuantityApplicationRate = ({
       setValue(
         TASK_PRODUCT_FIELD_NAMES.WEIGHT,
         convert(application_rate_weight).from('kg/ha').to('kg/m2') * application_area,
+        { shouldValidate: true },
       );
     } else if (
       !isWeight &&
@@ -126,6 +129,7 @@ export const useQuantityApplicationRate = ({
       setValue(
         TASK_PRODUCT_FIELD_NAMES.VOLUME,
         convert(application_rate_volume).from('l/ha').to('l/m2') * application_area,
+        { shouldValidate: true },
       );
     }
   };

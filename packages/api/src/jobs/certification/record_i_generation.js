@@ -27,16 +27,15 @@ const dataTransformsMapping = {
   on_permitted_substances_list: boolToStringTransformation,
 };
 
-const getQuantityWeight = (quantity, measurement, isInputs) => {
-  // if (measurement === 'imperial') return with lb to kg conversion and lb unit
+const getQuantityWeight = (quantity, measurement) => {
   if (measurement === 'imperial') {
-    return `${(quantity * (isInputs ? 0.453592 : 1)).toFixed(2)} lb`;
+    return `${(quantity * 0.453592).toFixed(2)} lb`;
   }
   return `${quantity} kg`;
 };
-const getQuantityVolume = (quantity, measurement, isInputs) => {
+const getQuantityVolume = (quantity, measurement) => {
   if (measurement === 'imperial') {
-    return `${(quantity * (isInputs ? 0.264172 : 1)).toFixed(2)} gal`;
+    return `${(quantity * 0.264172).toFixed(2)} gal`;
   }
   return `${quantity} l`;
 };
@@ -214,10 +213,10 @@ export default (data, exportId, from_date, to_date, farm_name, measurement, isIn
           const cell = `${dataToCellMapping[k]}${rowN}`;
           if (k === 'weight' || k === 'volume') {
             if (k === 'weight' && row[k]) {
-              const weightValue = getQuantityWeight(row[k], measurement, isInputs);
+              const weightValue = getQuantityWeight(row[k], measurement);
               workbook.sheet(0).cell(cell).value(weightValue);
             } else if (k === 'volume' && row[k]) {
-              const volumeValue = getQuantityVolume(row[k], measurement, isInputs);
+              const volumeValue = getQuantityVolume(row[k], measurement);
               workbook.sheet(0).cell(cell).value(volumeValue);
             }
           } else {

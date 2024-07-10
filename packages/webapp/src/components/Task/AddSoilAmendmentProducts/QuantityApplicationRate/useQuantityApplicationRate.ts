@@ -71,12 +71,8 @@ export const useQuantityApplicationRate = ({
 
   const updateApplicationRate = () => {
     const weight = getValues(TASK_PRODUCT_FIELD_NAMES.WEIGHT);
-    const weight_unit = getValues(TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT);
     const application_area = getValues(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED);
-
     const volume = getValues(TASK_PRODUCT_FIELD_NAMES.VOLUME);
-    const volume_unit = getValues(TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT);
-
     if ((weight || weight === 0) && isWeight && weight_unit && application_area) {
       setValue(
         TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT,
@@ -98,14 +94,7 @@ export const useQuantityApplicationRate = ({
 
   const updateQuantity = () => {
     const application_rate_weight = getValues(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT);
-    const application_rate_weight_unit = getValues(
-      TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT,
-    );
     const application_rate_volume = getValues(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME);
-    const application_rate_volume_unit = getValues(
-      TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT,
-    );
-
     const application_area = getValues(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED);
     if (
       isWeight &&

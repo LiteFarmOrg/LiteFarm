@@ -54,9 +54,7 @@ export const useQuantityApplicationRate = ({
   };
 
   /* Update application area + rate based on percent of location */
-  const onPercentLocationChange = () => {
-    const percent_of_location = getValues(TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED);
-
+  const onPercentLocationChange = (percent_of_location: number) => {
     const calculatedArea = (total_area * (percent_of_location || 100)) / 100;
     setValue(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED, calculatedArea);
 

@@ -38,11 +38,19 @@ export const useQuantityApplicationRate = ({
   setValue,
   getValues,
 }: UseQuantityApplicationRate) => {
-  const application_area_unit = watch(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT);
-  const weight_unit = watch(TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT);
-  const volume_unit = watch(TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT);
-  const application_rate_weight_unit = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT);
-  const application_rate_volume_unit = watch(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT);
+  const [
+    application_area_unit,
+    weight_unit,
+    volume_unit,
+    application_rate_weight_unit,
+    application_rate_volume_unit,
+  ] = watch([
+    TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT,
+    TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT,
+    TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT,
+    TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT,
+    TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT,
+  ]);
 
   const [isWeight, setIsWeight] = useState(() => {
     const volumeValue = getValues(TASK_PRODUCT_FIELD_NAMES.VOLUME);

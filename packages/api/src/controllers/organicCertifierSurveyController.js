@@ -271,11 +271,8 @@ const organicCertifierSurveyController = {
       `
           SELECT DISTINCT p.name,
                           p.supplier,
-                          CASE 
-                              WHEN satp.volume IS NOT NULL AND satp.volume_unit IS NOT NULL THEN satp.volume || ' ' || satp.volume_unit
-                              WHEN satp.weight IS NOT NULL AND satp.weight_unit IS NOT NULL THEN satp.weight || ' ' || satp.weight_unit
-                              ELSE ''
-                          END AS product_quantity,
+                          satp.volume,
+                          satp.weight,
                           CASE
                               WHEN t.complete_date is null
                                   THEN t.due_date
@@ -335,11 +332,8 @@ const organicCertifierSurveyController = {
       `
           SELECT p.name,
                  p.supplier, 
-                 CASE 
-                     WHEN ct.volume IS NOT NULL AND ct.volume_unit IS NOT NULL THEN ct.volume || ' ' || ct.volume_unit
-                     WHEN ct.weight IS NOT NULL AND ct.weight_unit IS NOT NULL THEN ct.weight || ' ' || ct.weight_unit
-                     ELSE ''
-                 END AS product_quantity,
+                 ct.volume,
+                 ct.weight,
                  CASE
                      WHEN t.complete_date is null
                          THEN t.due_date
@@ -641,11 +635,8 @@ const organicCertifierSurveyController = {
       `
           SELECT DISTINCT p.name,
                           p.supplier,
-                          CASE 
-                              WHEN pct.volume IS NOT NULL AND pct.volume_unit IS NOT NULL THEN pct.volume || ' ' || pct.volume_unit
-                              WHEN pct.weight IS NOT NULL AND pct.weight_unit IS NOT NULL THEN pct.weight || ' ' || pct.weight_unit
-                              ELSE ''
-                          END AS product_quantity,
+                          pct.volume,
+                          pct.weight,
                           t.complete_date::date as date_used, CASE
                                                                   WHEN t.complete_date is null
                                                                       THEN t.due_date
@@ -683,11 +674,8 @@ const organicCertifierSurveyController = {
       `
           SELECT DISTINCT p.name,
                           p.supplier,
-                          CASE 
-                              WHEN pct.volume IS NOT NULL AND pct.volume_unit IS NOT NULL THEN pct.volume || ' ' || pct.volume_unit
-                              WHEN pct.weight IS NOT NULL AND pct.weight_unit IS NOT NULL THEN pct.weight || ' ' || pct.weight_unit
-                              ELSE ''
-                          END AS product_quantity,
+                          pct.volume,
+                          pct.weight,
                           CASE
                               WHEN t.complete_date is null
                                   THEN t.due_date

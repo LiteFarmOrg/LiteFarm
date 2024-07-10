@@ -3,7 +3,8 @@ import { i18n, t, tCrop } from '../locales/i18nt.js';
 const dataToCellMapping = {
   name: 'A',
   supplier: 'B',
-  product_quantity: 'C',
+  weight: 'C',
+  volume: 'C',
   date_used: 'D',
   affected: 'E',
   on_permitted_substances_list: 'G',
@@ -23,8 +24,21 @@ const boolToStringTransformation = (str) => {
 };
 const dataTransformsMapping = {
   date_used: (date) => (date ? date.split('T')[0] : ''),
-  product_quantity: (quantity) => (quantity ? quantity : 0),
   on_permitted_substances_list: boolToStringTransformation,
+};
+
+const getQuantityWeight = (quantity, measurement, isInputs) => {
+  // if (measurement === 'imperial') return with lb to kg conversion and lb unit
+  if (measurement === 'imperial') {
+    return `${(quantity * (isInputs ? 0.453592 : 1)).toFixed(2)} lb`;
+  }
+  return `${quantity} kg`;
+};
+const getQuantityVolume = (quantity, measurement, isInputs) => {
+  if (measurement === 'imperial') {
+    return `${(quantity * (isInputs ? 0.264172 : 1)).toFixed(2)} gal`;
+  }
+  return `${quantity} l`;
 };
 
 export default (data, exportId, from_date, to_date, farm_name, measurement, isInputs) => {
@@ -198,8 +212,20 @@ export default (data, exportId, from_date, to_date, farm_name, measurement, isIn
         .filter((k) => k !== 'task_id')
         .map((k) => {
           const cell = `${dataToCellMapping[k]}${rowN}`;
-          const value = dataTransformsMapping[k] ? dataTransformsMapping[k](row[k]) : row[k];
-          workbook.sheet(0).cell(cell).value(value);
+          if (k === 'weight' || k === 'volume') {
+            if (k === 'weight' && row[k]) {
+              const weightValue = getQuantityWeight(row[k], measurement, isInputs);
+              workbook.sheet(0).cell(cell).value(weightValue);
+            } else if (k === 'volume' && row[k]) {
+              const volumeValue = getQuantityVolume(row[k], measurement, isInputs);
+              workbook.sheet(0).cell(cell).value(volumeValue);
+            }
+          } else {
+            const value = dataTransformsMapping[k]
+              ? dataTransformsMapping[k](row[k], measurement, isInputs)
+              : row[k];
+            workbook.sheet(0).cell(cell).value(value);
+          }
         });
     });
     return workbook.toFileAsync(

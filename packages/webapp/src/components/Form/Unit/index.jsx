@@ -97,6 +97,7 @@ const Unit = ({
     max,
     onBlur,
     onChangeUnitOption,
+    additionalOnChange,
     autoConversion,
   });
 
@@ -146,7 +147,7 @@ const Unit = ({
             onKeyDown={onKeyDown}
             onBlur={inputOnBlur}
             onChange={(event) => {
-              inputOnChange(event), additionalOnChange?.();
+              inputOnChange(event);
             }}
             onWheel={preventNumberScrolling}
             data-testid={testId}

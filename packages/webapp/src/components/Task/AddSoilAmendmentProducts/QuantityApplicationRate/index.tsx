@@ -82,6 +82,7 @@ const QuantityApplicationRate = ({
   const { control, getValues, setValue, register, watch } = useForm<TaskProductFormFields>({
     defaultValues: {
       [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED]: 100,
+      [TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED]: total_area,
       ...defaultValues,
     },
     mode: 'onBlur',

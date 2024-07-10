@@ -38,7 +38,6 @@ export const useQuantityApplicationRate = ({
   setValue,
   getValues,
 }: UseQuantityApplicationRate) => {
-  const application_area = watch(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED);
   const application_area_unit = watch(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT);
   const weight_unit = watch(TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT);
   const volume_unit = watch(TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT);
@@ -53,16 +52,6 @@ export const useQuantityApplicationRate = ({
   const toggleMeasure = () => {
     setIsWeight((prev) => !prev);
   };
-
-  /* Set initial application area to area total area */
-  useEffect(() => {
-    if (!application_area) {
-      setValue(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED, total_area);
-    }
-
-    /* update unit of application area and string */
-    onPercentLocationChange();
-  }, []);
 
   /* Update application area + rate based on percent of location */
   const onPercentLocationChange = () => {

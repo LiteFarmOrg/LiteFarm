@@ -90,8 +90,8 @@ const QuantityApplicationRate = ({
 
   /* Control of relationship between quantity, area, and application rate */
   const {
-    onQuantityChange,
-    onApplicationRateChange,
+    updateApplicationRate,
+    updateQuantity,
     onPercentLocationChange,
     isWeight,
     toggleMeasure,
@@ -148,7 +148,7 @@ const QuantityApplicationRate = ({
             hookFromWatch={watch}
             control={control}
             mode={'onChange'}
-            onChange={onQuantityChange}
+            onChange={updateApplicationRate}
             disabled={isReadOnly}
             required
             key={isWeight ? 'weight' : 'volume'}
@@ -222,7 +222,7 @@ const QuantityApplicationRate = ({
                 hookFromWatch={watch}
                 control={control}
                 mode={'onChange'}
-                onChange={onApplicationRateChange}
+                onChange={updateQuantity}
                 disabled={isReadOnly}
                 required
                 key={isWeight ? 'weight' : 'volume'}

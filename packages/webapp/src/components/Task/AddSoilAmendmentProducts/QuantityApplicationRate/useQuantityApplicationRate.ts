@@ -68,11 +68,10 @@ export const useQuantityApplicationRate = ({
       { shouldValidate: true },
     );
 
-    /* update application rate */
-    onQuantityChange();
+    updateApplicationRate();
   };
 
-  const onQuantityChange = () => {
+  const updateApplicationRate = () => {
     const weight = getValues(TASK_PRODUCT_FIELD_NAMES.WEIGHT);
     const weight_unit = getValues(TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT);
     const application_area = getValues(TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED);
@@ -97,7 +96,7 @@ export const useQuantityApplicationRate = ({
     }
   };
 
-  const onApplicationRateChange = () => {
+  const updateQuantity = () => {
     const application_rate_weight = getValues(TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT);
     const application_rate_weight_unit = getValues(
       TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT,
@@ -133,11 +132,11 @@ export const useQuantityApplicationRate = ({
 
   /* Trigger recalculation when units are changed */
   useEffect(() => {
-    onQuantityChange();
+    updateApplicationRate();
   }, [weight_unit, volume_unit]);
 
   useEffect(() => {
-    onApplicationRateChange();
+    updateQuantity();
   }, [application_rate_weight_unit, application_rate_volume_unit]);
 
   /* For the preview string, replicate the conversion the unit component would do if the value had been displayed in a <Unit /> rather than a string. However, don't update upon changes to application_area_unit beyond the initial undefined > defined change */
@@ -167,8 +166,8 @@ export const useQuantityApplicationRate = ({
     toggleMeasure,
     previewStringValue,
     previewStringUnit,
-    onQuantityChange,
-    onApplicationRateChange,
+    updateApplicationRate,
+    updateQuantity,
     onPercentLocationChange,
   };
 };

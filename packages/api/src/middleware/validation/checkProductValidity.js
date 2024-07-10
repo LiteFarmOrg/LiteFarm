@@ -68,7 +68,7 @@ export function checkProductValidity() {
         return res.status(400).send('compounds values must all be positive');
       }
 
-      if (sap.moisture_content_percent && !sap.moisture_content_percent >= 0) {
+      if (sap.moisture_content_percent && sap.moisture_content_percent < 0) {
         return res.status(400).send('moisture content value must be positive');
       }
     }

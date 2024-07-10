@@ -15,24 +15,28 @@ const git = {
 function prepareCommitMsg() {
   try {
     const branchName = git.getCurrentBranchName();
-    console.log(branchName);
     const match = branchName.match(ticketNumberRegex);
+
+    // Branch name doesn't contain ticket number
     if (!match) {
       console.warn(
         "JIRA ticket number not found in branch name. Proceeding without modification."
       );
-      process.exit();
+      return;
     }
 
     const commitMessage = git.readCommitMsg();
 
-    if (!commitMessage.match(ticketNumberRegex)) {
-      git.writeCommitMsg(match[0] + " " + commitMessage);
-    } else {
+    // Commit message already contains ticket number
+    if (commitMessage.match(ticketNumberRegex)) {
       console.log(
         "Commit message already contains a JIRA ticket number. Proceeding without modification."
       );
+      return;
     }
+
+    // Modify commit message
+    git.writeCommitMsg(match[0] + " " + commitMessage);
   } catch (error) {
     console.error("Error processing commit message:", error);
   }

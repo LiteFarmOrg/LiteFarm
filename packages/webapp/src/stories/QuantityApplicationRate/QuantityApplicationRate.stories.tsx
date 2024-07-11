@@ -17,17 +17,23 @@ import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
 import QuantityApplicationRate from '../../components/Task/AddSoilAmendmentProducts/QuantityApplicationRate';
 import { TASK_PRODUCT_FIELD_NAMES } from '../../components/Task/AddSoilAmendmentProducts/types';
+import { FormProvider, useForm } from 'react-hook-form';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof QuantityApplicationRate> = {
   title: 'Components/QuantityApplicationRate',
   component: QuantityApplicationRate,
   decorators: [
-    (Story) => (
-      <div style={{ position: 'relative' }}>
-        <Story />
-      </div>
-    ),
+    (Story, { args }) => {
+      const methods = useForm({
+        defaultValues: args.defaultValues,
+      });
+      return (
+        <FormProvider {...methods}>
+          <Story />
+        </FormProvider>
+      );
+    },
     ...componentDecorators,
   ],
   args: {},

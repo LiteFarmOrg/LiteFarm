@@ -14,7 +14,7 @@
  */
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
@@ -79,14 +79,7 @@ const QuantityApplicationRate = ({
 
   const { total_area, total_area_unit, type } = location;
 
-  const { control, getValues, setValue, register, watch } = useForm<TaskProductFormFields>({
-    defaultValues: {
-      [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED]: 100,
-      [TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED]: total_area,
-      ...defaultValues,
-    },
-    mode: 'onBlur',
-  });
+  const { control, getValues, setValue, register, watch } = useFormContext<TaskProductFormFields>();
 
   /* Control of relationship between quantity, area, and application rate */
   const {
@@ -178,6 +171,9 @@ const QuantityApplicationRate = ({
                   rules={{ required: t('common:REQUIRED') }}
                   onChange={onPercentLocationChange}
                   disabled={isReadOnly}
+                  defaultValue={
+                    defaultValues?.[TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED] || 100
+                  }
                 />
                 <SwapIcon />
                 {/* @ts-ignore */}
@@ -193,6 +189,9 @@ const QuantityApplicationRate = ({
                   hookFromWatch={watch}
                   control={control}
                   mode={'onChange'}
+                  defaultValue={
+                    defaultValues?.[TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED] || total_area
+                  }
                   disabled
                   required
                 />

@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import useExpandable from '../../Expandable/useExpandableItem';
 import ProductCard, { type ProductCardProps } from './ProductCard';
 import TextButton from '../../Form/Button/TextButton';
+import { Label } from '../../Typography';
 import { type ProductId, TASK_PRODUCT_FIELD_NAMES } from './types';
 import type { SoilAmendmentProduct } from '../../../store/api/types';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
@@ -105,6 +106,9 @@ const AddSoilAmendmentProducts = ({
 
   return (
     <>
+      <Label className={styles.productsInstruction}>
+        {t(`ADD_PRODUCT.TELL_US_WHAT_YOU_WILL_BE_APPLYING`)}
+      </Label>
       <div className={styles.products}>
         {fields.map((field, index) => {
           const namePrefix = `${FIELD_NAME}.${index}`;

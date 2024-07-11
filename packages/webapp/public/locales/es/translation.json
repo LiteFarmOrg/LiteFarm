@@ -67,6 +67,7 @@
     "CUSTOM_TASK_TYPE": "Tipo de tarea personalizada",
     "DO_YOU_NEED_TO_OVERRIDE": "¿Necesita alterar el salario de los cesionarios para esta tarea?",
     "DO_YOU_WANT_TO_ASSIGN": "¿Quiere asignar la tarea ahora?",
+    "DUPLICATE_NAME": "MISSING",
     "EDIT_CUSTOM_TASK": "Editar la tarea personalizada",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Describe el tipo de trabajo de campo",

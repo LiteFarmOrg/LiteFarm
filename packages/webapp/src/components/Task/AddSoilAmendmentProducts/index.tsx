@@ -77,6 +77,8 @@ const AddSoilAmendmentProducts = ({
     return products.filter(({ product_id }) => !otherSelectedProductIds.includes(product_id));
   };
 
+  const productNames: SoilAmendmentProduct['name'][] = products.map(({ name }) => name);
+
   const onAddAnotherProduct = (): void => {
     resetExpanded();
     append(defaultValues);
@@ -116,6 +118,7 @@ const AddSoilAmendmentProducts = ({
               onRemove={fields.length > 1 ? () => remove(index) : undefined}
               namePrefix={namePrefix}
               products={getAvailableProductOptions(productId)}
+              productNames={productNames}
               isExpanded={expandedIds.includes(field.id)}
               toggleExpanded={() => toggleExpanded(field.id)}
               unExpand={() => unExpand(field.id)}

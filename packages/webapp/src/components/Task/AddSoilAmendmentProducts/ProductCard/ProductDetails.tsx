@@ -390,6 +390,7 @@ const ProductDetails = ({
             placeholder={t('ADD_PRODUCT.FERTILISER_TYPE_PLACEHOLDER')}
             options={fertiliserTypeOptions}
             onChange={(e) => setValue(FERTILISER_TYPE_ID, e?.value)}
+            optional
           />
 
           <CompositionInputs

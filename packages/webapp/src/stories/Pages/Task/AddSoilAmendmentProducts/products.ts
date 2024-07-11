@@ -91,4 +91,19 @@ export const products = [
       elemental_unit: ElementalUnit.PERCENT,
     },
   },
+  {
+    product_id: 6,
+    name: 'Product 4',
+    product_translation_key: undefined,
+    supplier: 'Supplier',
+    type: 'soil_amendment_task',
+    farm_id: 'xxx',
+    on_permitted_substances_list: 'NOT_SURE' as const,
+    soil_amendment_product: {
+      n: 99,
+      p: 1,
+      k: undefined,
+      elemental_unit: ElementalUnit.RATIO,
+    },
+  },
 ];

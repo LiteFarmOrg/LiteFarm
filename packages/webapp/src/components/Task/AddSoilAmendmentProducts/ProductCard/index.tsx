@@ -22,7 +22,7 @@ import ReactSelect, { CreatableSelect } from '../../../Form/ReactSelect';
 import Input from '../../../Form/Input';
 import ProductDetails, { type ProductDetailsProps } from './ProductDetails';
 import { PRODUCT_FIELD_NAMES } from '../types';
-import type { SoilAmendmentProduct } from '../../../../store/api/types';
+import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
 
 export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSave'> & {
@@ -47,11 +47,17 @@ const formatOptionLabel = ({ label, data }: ProductOption): ReactNode => {
   const { n, p, k, elemental_unit } = data?.soil_amendment_product || {};
 
   let npk = '';
-  if (n || p || k) {
-    if (elemental_unit === 'ratio') {
-      npk = [n, p, k].map((value) => value || 0).join(' : ');
-    } else {
-      npk = [n, p, k].map((value, index) => `${prefix[index]}: ${value || 0}%`).join(', ');
+  // TODO: Handle ppm and mg/kg
+  if ([n, p, k].some((value) => typeof value === 'number')) {
+    if (elemental_unit === ElementalUnit.RATIO) {
+      npk = [n, p, k].map((value) => value ?? '--').join(' : ');
+    } else if (elemental_unit === ElementalUnit.PERCENT) {
+      npk = [n, p, k]
+        .map((value, index) => {
+          const formattedValue = typeof value === 'number' ? value + '%' : '--';
+          return `${prefix[index]}: ${formattedValue}`;
+        })
+        .join(', ');
     }
   }
 

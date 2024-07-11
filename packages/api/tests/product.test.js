@@ -79,7 +79,7 @@ describe('Product Tests', () => {
         properties,
       );
       const [soilAmendmentProduct] = await mocks.soil_amendment_productFactory({
-        promisedProduct: product,
+        promisedProduct: [product],
       });
       return soilAmendmentProduct;
     } else {

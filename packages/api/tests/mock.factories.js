@@ -1143,11 +1143,11 @@ function fakeProduct(defaultData = {}) {
   };
 }
 
-async function soil_amendment_productFactory({ promisedProduct = productFactory() }) {
-  const [product] = await Promise.all([promisedProduct]);
-  const productDetails = fakeProductDetails(product.type);
+async function soil_amendment_productFactory({ promisedProduct = productFactory() } = {}) {
+  const [{ product_id, type }] = await promisedProduct;
+  const productDetails = fakeProductDetails(type);
   return knex('soil_amendment_product')
-    .insert({ product_id: product.product_id, ...productDetails })
+    .insert({ product_id, ...productDetails })
     .returning('*');
 }
 

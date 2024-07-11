@@ -166,6 +166,7 @@ const SoilAmendmentProductCard = ({
               const newPurposes = e.map(({ value }) => value);
               setValue(PURPOSES, newPurposes, { shouldValidate: true });
             }}
+            style={{ paddingBottom: '12px' }} // TODO: remove after adding <QuantityApplicationRate />
           />
         )}
       />

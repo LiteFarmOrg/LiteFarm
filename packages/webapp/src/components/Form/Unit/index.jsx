@@ -58,7 +58,7 @@ const Unit = ({
   onBlur,
   hasLeaf,
   autoConversion,
-  onChange: additionalOnChange,
+  onChange: onInputChange,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -97,7 +97,7 @@ const Unit = ({
     max,
     onBlur,
     onChangeUnitOption,
-    additionalOnChange,
+    onInputChange,
     autoConversion,
   });
 

@@ -167,7 +167,7 @@ export const api = createApi({
         body,
       }),
     }),
-    UpdateSoilAmendmentProduct: build.mutation<SoilAmendmentProduct, Partial<SoilAmendmentProduct>>(
+    updateSoilAmendmentProduct: build.mutation<SoilAmendmentProduct, Partial<SoilAmendmentProduct>>(
       {
         query: ({ product_id, ...patch }) => ({
           url: `${productUrl}/${product_id}`,

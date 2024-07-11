@@ -317,6 +317,10 @@ useUnit.propTypes = {
   to: PropTypes.string,
   required: PropTypes.bool,
   optional: PropTypes.bool,
+  autoConversion: PropTypes.bool,
+  onBlur: PropTypes.func,
+  onChangeUnitOption: PropTypes.func,
+  onInputChange: PropTypes.func,
   mode: PropTypes.oneOf(['onBlur', 'onChange']),
   max: PropTypes.number,
 };

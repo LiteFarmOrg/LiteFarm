@@ -149,7 +149,7 @@ const QuantityApplicationRate = ({
           <AreaApplicationSummary
             locationArea={previewStringValue!}
             locationAreaUnit={previewStringUnit!}
-            percentOfArea={percent_of_location || 100}
+            percentOfArea={Math.min(percent_of_location || 100, 100)}
             locationType={t(`FARM_MAP.MAP_FILTER.${type.toUpperCase()}`).toLocaleLowerCase()}
           />
         </div>

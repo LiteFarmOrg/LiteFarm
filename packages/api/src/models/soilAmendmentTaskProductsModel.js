@@ -13,9 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import Model from './baseModel.js';
+import Model from './baseFormatModel.js';
+import BaseModel from './baseModel.js';
 import productModel from './productModel.js';
-import soilAmendmentTaskModel from './soilAmendmentTaskModel.js';
+import taskModel from './taskModel.js';
 //import soilAmendmentPurposeModel from './soilAmendmentPurposeModel.js';
 import soilAmendmentTaskProductPurposeRelationshipModel from './soilAmendmentTaskProductPurposeRelationshipModel.js';
 
@@ -50,7 +51,7 @@ const applicationRateVolumeUnits = [
   'fl-oz/ac',
 ];
 
-class SoilAmendmentTaskProducts extends Model {
+class SoilAmendmentTaskProducts extends BaseModel {
   static get tableName() {
     return 'soil_amendment_task_products';
   }
@@ -116,12 +117,12 @@ class SoilAmendmentTaskProducts extends Model {
           to: 'product.product_id',
         },
       },
-      soil_amendment_task: {
+      task: {
         relation: Model.BelongsToOneRelation,
-        modelClass: soilAmendmentTaskModel,
+        modelClass: taskModel,
         join: {
           from: 'soil_amendment_task_products.task_id',
-          to: 'soil_amendment_task.task_id',
+          to: 'task.task_id',
         },
       },
       purpose_relationships: {

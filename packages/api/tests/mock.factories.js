@@ -1196,13 +1196,13 @@ function fakeSoilAmendmentTask(defaultData = {}) {
 }
 
 async function soil_amendment_task_productsFactory(
-  { promisedSoilAmendmentTask = soil_amendment_taskFactory() } = {},
+  { promisedTask = taskFactory() } = {},
   soil_amendment_task_product = fakeSoilAmendmentTaskProduct(),
 ) {
-  const [soilAmendmentTask] = await promisedSoilAmendmentTask;
+  const [task] = await promisedTask;
   return knex('soil_amendment_task_products')
     .insert({
-      task_id: soilAmendmentTask.task_id,
+      task_id: task.task_id,
       ...soil_amendment_task_product,
     })
     .returning('*');

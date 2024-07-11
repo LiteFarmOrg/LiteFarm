@@ -16,6 +16,7 @@
 import TaskModel from '../../models/taskModel.js';
 import { checkSoilAmendmentTaskProducts } from './checkSoilAmendmentTaskProducts.js';
 const adminRoles = [1, 2, 5];
+const taskTypesRequiringProducts = ['soil_amendment_task'];
 
 export function noReqBodyCheckYet() {
   return async (req, res, next) => {
@@ -23,7 +24,7 @@ export function noReqBodyCheckYet() {
   };
 }
 
-const checkUpdateMiddlewareMap = {
+const checkProductsMiddlewareMap = {
   soil_amendment_task: checkSoilAmendmentTaskProducts,
   cleaning_task: noReqBodyCheckYet,
   pest_control_task: noReqBodyCheckYet,
@@ -73,7 +74,7 @@ export function checkAbandonTask() {
       }
 
       const { owner_user_id, assignee_user_id } = await TaskModel.query()
-        .select('owner_user_id', 'assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
+        .select('owner_user_id', 'assignee_user_id')
         .where({ task_id })
         .first();
       const isUserTaskOwner = user_id === owner_user_id;
@@ -125,17 +126,18 @@ export function checkCompleteTask(taskType) {
       }
 
       const { assignee_user_id } = await TaskModel.query()
-        .select('owner_user_id', 'assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
+        .select('assignee_user_id')
         .where({ task_id })
         .first();
-      // cannot abandon an unassigned task with rating or duration
+
+      // cannot complete an unassigned task
       const hasAssignee = assignee_user_id !== null;
       if (!hasAssignee) {
         return res.status(400).send('An unassigned task cannot be completed');
       }
 
-      if (taskType in req.body) {
-        checkUpdateMiddlewareMap[taskType]()(req, res, next);
+      if (`${taskType}_products` in req.body) {
+        checkProductsMiddlewareMap[taskType]()(req, res, next);
       } else {
         next();
       }
@@ -148,13 +150,46 @@ export function checkCompleteTask(taskType) {
   };
 }
 
-export function checkDeleteTask() {
+export function checkCreateTask(taskType) {
   return async (req, res, next) => {
     try {
       const { user_id } = req.headers;
 
       if (!user_id) {
         return res.status(400).send('must have user_id');
+      }
+
+      if (!(taskType in req.body) && taskType !== 'custom_task') {
+        return res.status(400).send('must have task details body');
+      }
+
+      if (taskTypesRequiringProducts.includes(taskType) && !(`${taskType}_products` in req.body)) {
+        return res.status(400).send('task type requires products');
+      }
+
+      checkProductsMiddlewareMap[taskType]()(req, res, next);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        error,
+      });
+    }
+  };
+}
+
+export function checkDeleteTask() {
+  return async (req, res, next) => {
+    try {
+      const { task_id } = req.params;
+      const { user_id } = req.headers;
+
+      if (!user_id) {
+        return res.status(400).send('must have user_id');
+      }
+
+      const checkTaskStatus = await TaskModel.getTaskStatus(task_id);
+      if (checkTaskStatus?.complete_date || checkTaskStatus?.abandon_date) {
+        return res.status(400).send('Task has already been completed or abandoned');
       }
 
       next();

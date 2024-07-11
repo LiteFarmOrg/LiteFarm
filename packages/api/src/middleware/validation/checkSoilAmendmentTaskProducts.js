@@ -19,7 +19,7 @@ import SoilAmendmentPurposeModel from '../../models/soilAmendmentPurposeModel.js
 export function checkSoilAmendmentTaskProducts() {
   return async (req, res, next) => {
     try {
-      const { soil_amendment_task_products } = req.body.soil_amendment_task;
+      const { soil_amendment_task_products } = req.body;
 
       if (!Array.isArray(soil_amendment_task_products)) {
         return res.status(400).send('soil_amendment_task_products must be an array');
@@ -30,7 +30,7 @@ export function checkSoilAmendmentTaskProducts() {
       }
 
       if (!soil_amendment_task_products.some((rel) => !rel.deleted)) {
-        return res.status(400).send('at least task product is required');
+        return res.status(400).send('at least one task product is required');
       }
 
       for (const product of soil_amendment_task_products) {
@@ -38,15 +38,23 @@ export function checkSoilAmendmentTaskProducts() {
           return res.status(400).send('product_id is required');
         }
 
-        if (!product.volume && !product.weight) {
+        if (typeof product.volume !== 'number' && typeof product.weight !== 'number') {
           return res.status(400).send('volume or weight is required');
         }
 
-        if (product.volume && !product.volume_unit && !product.application_rate_volume_unit) {
+        if (
+          typeof product.volume === 'number' &&
+          !product.volume_unit &&
+          !product.application_rate_volume_unit
+        ) {
           return res.status(400).send('volume_unit and application_rate_volume_unit is required');
         }
 
-        if (product.weight && !product.weight_unit && !product.application_rate_weight_unit) {
+        if (
+          typeof product.weight === 'number' &&
+          !product.weight_unit &&
+          !product.application_rate_weight_unit
+        ) {
           return res.status(400).send('weight_unit and application_rate_weight_unit is required');
         }
 

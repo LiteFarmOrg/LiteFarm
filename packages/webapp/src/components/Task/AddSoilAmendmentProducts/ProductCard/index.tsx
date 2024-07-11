@@ -101,37 +101,6 @@ const SoilAmendmentProductCard = ({
   return (
     <div className={styles.productCard}>
       {onRemove && <SmallButton onClick={onRemove} className={styles.removeButton} />}
-      <Controller
-        control={control}
-        name={PURPOSES}
-        rules={{ required: true }}
-        render={({ field: { onChange, value: selectedOptions = [] } }) => (
-          <ReactSelect
-            isMulti
-            value={purposeOptions.filter(({ value }) => selectedOptions.includes(value))}
-            isDisabled={isReadOnly}
-            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PURPOSE')}
-            options={purposeOptions}
-            onChange={(e) => {
-              onChange(e);
-              const newPurposes = e.map(({ value }) => value);
-              setValue(PURPOSES, newPurposes, { shouldValidate: true });
-            }}
-          />
-        )}
-      />
-      {purposes?.includes(otherPurposeId) && (
-        <>
-          {/* @ts-ignore */}
-          <Input
-            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
-            name={OTHER_PURPOSE}
-            disabled={isReadOnly}
-            hookFormRegister={register(OTHER_PURPOSE)}
-            optional
-          />
-        </>
-      )}
       <div>
         <Controller
           control={control}
@@ -165,6 +134,37 @@ const SoilAmendmentProductCard = ({
           products={products}
         />
       </div>
+      <Controller
+        control={control}
+        name={PURPOSES}
+        rules={{ required: true }}
+        render={({ field: { onChange, value: selectedOptions = [] } }) => (
+          <ReactSelect
+            isMulti
+            value={purposeOptions.filter(({ value }) => selectedOptions.includes(value))}
+            isDisabled={isReadOnly}
+            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PURPOSE')}
+            options={purposeOptions}
+            onChange={(e) => {
+              onChange(e);
+              const newPurposes = e.map(({ value }) => value);
+              setValue(PURPOSES, newPurposes, { shouldValidate: true });
+            }}
+          />
+        )}
+      />
+      {purposes?.includes(otherPurposeId) && (
+        <>
+          {/* @ts-ignore */}
+          <Input
+            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
+            name={OTHER_PURPOSE}
+            disabled={isReadOnly}
+            hookFormRegister={register(OTHER_PURPOSE)}
+            optional
+          />
+        </>
+      )}
       {/* TODO: LF-4249 <QuantityApplicationRate /> */}
     </div>
   );

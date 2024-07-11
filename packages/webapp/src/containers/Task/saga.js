@@ -78,6 +78,7 @@ import {
   createCompleteTaskUrl,
 } from '../../util/siteMapConstants';
 import { setPersistedPaths, setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { api } from '../../store/api/apiSlice';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -513,11 +514,38 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
   );
 };
 
+const formatPurposeIdsToRelationships = (purposeIds, otherPurpose, otherPurposeId) => {
+  return purposeIds.map((purpose_id) => {
+    return { purpose_id, other_purpose: purpose_id === otherPurposeId ? otherPurpose : null };
+  });
+};
+
+const getSoilAmendmentTaskBody = (
+  data,
+  endpoint,
+  managementPlanWithCurrentLocationEntities,
+  { purposes },
+) => {
+  const otherPurposeId = purposes?.find(({ key }) => key === 'OTHER')?.id;
+  const baseState = getPostTaskBody(data, endpoint, managementPlanWithCurrentLocationEntities);
+  return produce(baseState, (draftState) => {
+    baseState.soil_amendment_task_products.forEach(
+      ({ purposes: purposeIds, other_purpose }, index) => {
+        draftState.soil_amendment_task_products[index].purpose_relationships =
+          formatPurposeIdsToRelationships(purposeIds, other_purpose, otherPurposeId);
+
+        delete draftState.soil_amendment_task_products[index].other_purpose;
+        delete draftState.soil_amendment_task_products[index].purposes;
+      },
+    );
+  });
+};
+
 const taskTypeGetPostTaskBodyFunctionMap = {
   CLEANING_TASK: getPostTaskBody,
   FIELD_WORK_TASK: getPostTaskBody,
   PEST_CONTROL_TASK: getPostTaskBody,
-  SOIL_AMENDMENT_TASK: getPostTaskBody,
+  SOIL_AMENDMENT_TASK: getSoilAmendmentTaskBody,
   HARVEST_TASK: getPostHarvestTaskBody,
   TRANSPLANT_TASK: getTransplantTaskBody,
   IRRIGATION_TASK: getIrrigationTaskBody,
@@ -529,6 +557,7 @@ const getPostTaskReqBody = (
   task_translation_key,
   isCustomTask,
   managementPlanWithCurrentLocationEntities,
+  taskTypeSpecificData,
 ) => {
   if (isCustomTask)
     return getPostTaskBody(data, endpoint, managementPlanWithCurrentLocationEntities);
@@ -536,6 +565,7 @@ const getPostTaskReqBody = (
     data,
     endpoint,
     managementPlanWithCurrentLocationEntities,
+    taskTypeSpecificData,
   );
 };
 
@@ -557,7 +587,15 @@ export function* createTaskSaga({ payload }) {
   const { task_translation_key, farm_id: task_farm_id } = yield select(
     taskTypeSelector(data.task_type_id),
   );
-
+  const taskTypeSpecificData = {};
+  if (task_translation_key === 'SOIL_AMENDMENT_TASK') {
+    // Access cached data
+    // https://redux-toolkit.js.org/rtk-query/usage/usage-without-react-hooks#accessing-cached-data--request-status
+    const purposes = yield select((state) =>
+      api.endpoints.getSoilAmendmentPurposes.select()(state),
+    );
+    taskTypeSpecificData.purposes = purposes.data;
+  }
   const header = getHeader(user_id, farm_id);
   const isCustomTask = !!task_farm_id;
   const isHarvest = task_translation_key === 'HARVEST_TASK';
@@ -580,6 +618,7 @@ export function* createTaskSaga({ payload }) {
         task_translation_key,
         isCustomTask,
         managementPlanWithCurrentLocationEntities,
+        taskTypeSpecificData,
       ),
       header,
     );

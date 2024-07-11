@@ -18,6 +18,10 @@
 /*----------------------------------------
   AddSoilAmendmentProducts
 ----------------------------------------*/
+.productsInstruction {
+  padding-bottom: 8px;
+}
+
 .products {
   @include flex-column-gap(24px);
   margin-bottom: 8px;

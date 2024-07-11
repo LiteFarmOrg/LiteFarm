@@ -41,7 +41,8 @@
     "PRODUCT_LABEL": "Producto",
     "SAVE_PRODUCT": "MISSING",
     "SULFUR": "MISSING",
-    "SUPPLIER_LABEL": "Proveedor/a"
+    "SUPPLIER_LABEL": "Proveedor/a",
+    "TELL_US_WHAT_YOU_WILL_BE_APPLYING": "MISSING"
   },
   "ADD_TASK": {
     "ADD_A_CUSTOM_TASK": "Agregar una tarea personalizada",

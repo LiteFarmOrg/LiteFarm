@@ -29,7 +29,7 @@ const productCheckMap = {
   // cleaning_task: checkCleaningProduct
 };
 
-function checkSoilAmendmentProduct(res, sap) {
+function checkSoilAmendmentProduct(res, sap, isCreatingNew) {
   const elements = [
     'n',
     'p',
@@ -48,7 +48,7 @@ function checkSoilAmendmentProduct(res, sap) {
   }
 
   // Check that a unit has been provided along with element values
-  if (elements.some((element) => sap[element]) && !sap.elemental_unit) {
+  if (isCreatingNew && elements.some((element) => sap[element]) && !sap.elemental_unit) {
     return res.status(400).send('elemental_unit is required');
   }
 
@@ -74,12 +74,13 @@ export function checkProductValidity() {
   return async (req, res, next) => {
     const { farm_id } = req.headers;
     const { product_id } = req.params;
+    const isCreatingNew = req.method === 'POST';
 
     let { type, name } = req.body;
     const { [taskProductRelationMap[type]]: productDetails } = req.body;
 
     if (productDetails) {
-      productCheckMap[type](res, productDetails);
+      productCheckMap[type](res, productDetails, isCreatingNew);
     }
 
     // Null empty strings
@@ -103,11 +104,13 @@ export function checkProductValidity() {
         name = name ?? currentRecord.name;
       }
 
-      if (!name) {
+      // Prevents error on name uniqeness check
+      if (isCreatingNew && !name) {
         return res.status(400).send('new product must have name');
       }
 
-      if (!type) {
+      // Prevents error on name uniqeness check
+      if (isCreatingNew && !type) {
         return res.status(400).send('new product must have type');
       }
 
@@ -116,7 +119,7 @@ export function checkProductValidity() {
       });
 
       if (
-        !(req.method === 'PATCH') &&
+        isCreatingNew &&
         taskProductRelationMap[type] &&
         !req.body[taskProductRelationMap[type]]
       ) {

@@ -131,6 +131,7 @@
     "CUSTOM_TASK_TYPE": "Type de tâche personnalisée",
     "DO_YOU_NEED_TO_OVERRIDE": "Avez-vous besoin de changer le salaire des employés pour cette tâche\u00a0?",
     "DO_YOU_WANT_TO_ASSIGN": "Souhaitez-vous affecter la tâche maintenant\u00a0?",
+    "DUPLICATE_NAME": "MISSING",
     "EDIT_CUSTOM_TASK": "Modifier la tâche personnalisée",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Décrivez le type de travail de terrain",

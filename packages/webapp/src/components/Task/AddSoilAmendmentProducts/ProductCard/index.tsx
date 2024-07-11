@@ -19,7 +19,8 @@ import { useTranslation } from 'react-i18next';
 import { GroupBase, SelectInstance } from 'react-select';
 import SmallButton from '../../../Form/Button/SmallButton';
 import ReactSelect, { CreatableSelect } from '../../../Form/ReactSelect';
-import Input from '../../../Form/Input';
+import Input, { getInputErrors } from '../../../Form/Input';
+import { Error } from '../../../Typography';
 import ProductDetails, { type ProductDetailsProps } from './ProductDetails';
 import { PRODUCT_FIELD_NAMES } from '../types';
 import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
@@ -32,6 +33,7 @@ export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSav
   onSaveProduct: ProductDetailsProps['onSave'];
   purposeOptions: { label: string; value: number }[];
   otherPurposeId?: number;
+  productNames: SoilAmendmentProduct['name'][];
 };
 
 interface ProductOption {
@@ -76,12 +78,19 @@ const SoilAmendmentProductCard = ({
   onSaveProduct,
   isReadOnly,
   products = [],
+  productNames = [],
   purposeOptions,
   otherPurposeId,
   ...props
 }: ProductCardProps) => {
   const { t } = useTranslation();
-  const { control, register, watch, setValue } = useFormContext();
+  const {
+    control,
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
 
   const PRODUCT_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.PRODUCT_ID}`;
   const PURPOSES = `${namePrefix}.${PRODUCT_FIELD_NAMES.PURPOSES}`;
@@ -108,6 +117,9 @@ const SoilAmendmentProductCard = ({
           rules={{
             required: true,
             validate: (value) => {
+              if (typeof value === 'string' && productNames.includes(value.trim())) {
+                return 'DUPLICATE_NAME';
+              }
               return typeof value === 'number';
             },
           }}
@@ -126,13 +138,17 @@ const SoilAmendmentProductCard = ({
             />
           )}
         />
-        <ProductDetails
-          {...props}
-          onSave={onSaveProduct}
-          isReadOnly={isReadOnly}
-          clearProduct={clearProduct}
-          products={products}
-        />
+        {getInputErrors(errors, PRODUCT_ID) === 'DUPLICATE_NAME' ? (
+          <Error>{t('ADD_TASK.DUPLICATE_NAME')}</Error>
+        ) : (
+          <ProductDetails
+            {...props}
+            onSave={onSaveProduct}
+            isReadOnly={isReadOnly}
+            clearProduct={clearProduct}
+            products={products}
+          />
+        )}
       </div>
       <Controller
         control={control}

@@ -126,6 +126,7 @@
     "CUSTOM_TASK_TYPE": "Custom Task Type",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
+    "DUPLICATE_NAME": "A product with this name already exists. Please choose another.",
     "EDIT_CUSTOM_TASK": "Edit custom task",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",

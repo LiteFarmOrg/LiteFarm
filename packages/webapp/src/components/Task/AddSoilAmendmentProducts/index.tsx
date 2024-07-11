@@ -122,7 +122,7 @@ const AddSoilAmendmentProducts = ({
               expand={() => expand(field.id)}
               productId={productId}
               setProductId={(id: ProductId) => {
-                setValue(`${namePrefix}.product_id`, id);
+                setValue(`${namePrefix}.product_id`, id, { shouldValidate: true });
               }}
               purposeOptions={purposeOptions}
               otherPurposeId={otherPurposeId}

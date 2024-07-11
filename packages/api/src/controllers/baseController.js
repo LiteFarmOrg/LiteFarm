@@ -188,7 +188,7 @@ export default {
     return await model
       .query(trx)
       .context({ user_id: req?.auth?.user_id, ...context })
-      .upsertGraph(data, { insertMissing: true });
+      .upsertGraph(removeAdditionalPropertiesWithRelations(model, data), { insertMissing: true });
   },
 
   // send back the resource that was just created

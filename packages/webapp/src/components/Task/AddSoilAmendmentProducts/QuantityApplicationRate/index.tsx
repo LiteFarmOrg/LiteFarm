@@ -141,7 +141,7 @@ const QuantityApplicationRate = ({
             hookFromWatch={watch}
             control={control}
             mode={'onChange'}
-            onChange={updateApplicationRate}
+            onInputChange={updateApplicationRate}
             onChangeUnitOption={updateApplicationRate}
             disabled={isReadOnly}
             required
@@ -222,7 +222,7 @@ const QuantityApplicationRate = ({
                 hookFromWatch={watch}
                 control={control}
                 mode={'onChange'}
-                onChange={updateQuantity}
+                onInputChange={updateQuantity}
                 onChangeUnitOption={updateQuantity}
                 disabled={isReadOnly}
                 required

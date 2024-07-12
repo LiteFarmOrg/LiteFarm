@@ -19,38 +19,47 @@ import { useTranslation } from 'react-i18next';
 import { GroupBase, SelectInstance } from 'react-select';
 import SmallButton from '../../../Form/Button/SmallButton';
 import ReactSelect, { CreatableSelect } from '../../../Form/ReactSelect';
-import Input from '../../../Form/Input';
+import Input, { getInputErrors } from '../../../Form/Input';
+import { Error } from '../../../Typography';
 import ProductDetails, { type ProductDetailsProps } from './ProductDetails';
-import { PRODUCT_FIELD_NAMES, type Product } from '../types';
+import { PRODUCT_FIELD_NAMES } from '../types';
+import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
 
-export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct'> & {
+export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSave'> & {
   namePrefix: string;
   system: 'metric' | 'imperial';
   onRemove?: () => void;
   onSaveProduct: ProductDetailsProps['onSave'];
   purposeOptions: { label: string; value: number }[];
   otherPurposeId?: number;
+  productNames: SoilAmendmentProduct['name'][];
 };
 
 interface ProductOption {
   value: number | string;
   label: string;
-  data: Omit<Product, 'product_id' | 'name'>;
+  data: Omit<SoilAmendmentProduct, 'product_id' | 'name'>;
 }
 
 type SelectRef = SelectInstance<ProductOption, false, GroupBase<ProductOption>>;
 
 const formatOptionLabel = ({ label, data }: ProductOption): ReactNode => {
   const prefix = ['N', 'P', 'K'];
-  const { n, p, k, npk_unit } = data || {};
+  const { n, p, k, elemental_unit } = data?.soil_amendment_product || {};
 
   let npk = '';
-  if (n || p || k) {
-    if (npk_unit === 'ratio') {
-      npk = [n, p, k].map((value) => value || 0).join(' : ');
-    } else {
-      npk = [n, p, k].map((value, index) => `${prefix[index]}: ${value || 0}%`).join(', ');
+  // TODO: Handle ppm and mg/kg
+  if ([n, p, k].some((value) => typeof value === 'number')) {
+    if (elemental_unit === ElementalUnit.RATIO) {
+      npk = [n, p, k].map((value) => value ?? '--').join(' : ');
+    } else if (elemental_unit === ElementalUnit.PERCENT) {
+      npk = [n, p, k]
+        .map((value, index) => {
+          const formattedValue = typeof value === 'number' ? value + '%' : '--';
+          return `${prefix[index]}: ${formattedValue}`;
+        })
+        .join(', ');
     }
   }
 
@@ -69,15 +78,23 @@ const SoilAmendmentProductCard = ({
   onSaveProduct,
   isReadOnly,
   products = [],
+  productNames = [],
   purposeOptions,
   otherPurposeId,
   ...props
 }: ProductCardProps) => {
   const { t } = useTranslation();
-  const { control, register, watch, setValue } = useFormContext();
+  const {
+    control,
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
 
   const PRODUCT_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.PRODUCT_ID}`;
   const PURPOSES = `${namePrefix}.${PRODUCT_FIELD_NAMES.PURPOSES}`;
+  const OTHER_PURPOSE = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE}`;
 
   const purposes = watch(PURPOSES);
 
@@ -93,37 +110,6 @@ const SoilAmendmentProductCard = ({
   return (
     <div className={styles.productCard}>
       {onRemove && <SmallButton onClick={onRemove} className={styles.removeButton} />}
-      <Controller
-        control={control}
-        name={PURPOSES}
-        rules={{ required: true }}
-        render={({ field: { onChange, value: selectedOptions = [] } }) => (
-          <ReactSelect
-            isMulti
-            value={purposeOptions.filter(({ value }) => selectedOptions.includes(value))}
-            isDisabled={isReadOnly}
-            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PURPOSE')}
-            options={purposeOptions}
-            onChange={(e) => {
-              onChange(e);
-              const newPurposes = e.map(({ value }) => value);
-              setValue(PURPOSES, newPurposes, { shouldValidate: true });
-            }}
-          />
-        )}
-      />
-      {purposes?.includes(otherPurposeId) && (
-        <>
-          {/* @ts-ignore */}
-          <Input
-            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
-            name={PRODUCT_FIELD_NAMES.OTHER_PURPOSE}
-            disabled={isReadOnly}
-            hookFormRegister={register(PRODUCT_FIELD_NAMES.OTHER_PURPOSE)}
-            optional
-          />
-        </>
-      )}
       <div>
         <Controller
           control={control}
@@ -131,6 +117,9 @@ const SoilAmendmentProductCard = ({
           rules={{
             required: true,
             validate: (value) => {
+              if (typeof value === 'string' && productNames.includes(value.trim())) {
+                return 'DUPLICATE_NAME';
+              }
               return typeof value === 'number';
             },
           }}
@@ -149,14 +138,50 @@ const SoilAmendmentProductCard = ({
             />
           )}
         />
-        <ProductDetails
-          {...props}
-          onSave={onSaveProduct}
-          isReadOnly={isReadOnly}
-          clearProduct={clearProduct}
-          products={products}
-        />
+        {getInputErrors(errors, PRODUCT_ID) === 'DUPLICATE_NAME' ? (
+          <Error>{t('ADD_TASK.DUPLICATE_NAME')}</Error>
+        ) : (
+          <ProductDetails
+            {...props}
+            onSave={onSaveProduct}
+            isReadOnly={isReadOnly}
+            clearProduct={clearProduct}
+            products={products}
+          />
+        )}
       </div>
+      <Controller
+        control={control}
+        name={PURPOSES}
+        rules={{ required: true }}
+        render={({ field: { onChange, value: selectedOptions = [] } }) => (
+          <ReactSelect
+            isMulti
+            value={purposeOptions.filter(({ value }) => selectedOptions.includes(value))}
+            isDisabled={isReadOnly}
+            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PURPOSE')}
+            options={purposeOptions}
+            onChange={(e) => {
+              onChange(e);
+              const newPurposes = e.map(({ value }) => value);
+              setValue(PURPOSES, newPurposes, { shouldValidate: true });
+            }}
+            style={{ paddingBottom: '12px' }} // TODO: remove after adding <QuantityApplicationRate />
+          />
+        )}
+      />
+      {purposes?.includes(otherPurposeId) && (
+        <>
+          {/* @ts-ignore */}
+          <Input
+            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
+            name={OTHER_PURPOSE}
+            disabled={isReadOnly}
+            hookFormRegister={register(OTHER_PURPOSE)}
+            optional
+          />
+        </>
+      )}
       {/* TODO: LF-4249 <QuantityApplicationRate /> */}
     </div>
   );

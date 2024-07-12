@@ -32,7 +32,7 @@ import {
   applicationRateWeight,
   applicationRateVolume,
 } from '../../../../util/convert-units/unit';
-import { TASK_PRODUCT_FIELD_NAMES, type TaskProductFormFields } from '../types';
+import { TASK_PRODUCT_FIELD_NAMES } from '../types';
 import { AreaApplicationSummary } from './AreaApplicationSummary';
 import { useQuantityApplicationRate } from './useQuantityApplicationRate';
 
@@ -62,7 +62,8 @@ export type QuantityApplicationRateProps = {
   isReadOnly: boolean;
   system: 'metric' | 'imperial';
   location: Location;
-  defaultValues?: TaskProductFormFields;
+  defaultValues?: any; // TODO: remove prop entirely
+  namePrefix: string;
 };
 
 const QuantityApplicationRate = ({
@@ -71,15 +72,28 @@ const QuantityApplicationRate = ({
   system, // measurementSelector
   location,
   defaultValues,
+  namePrefix,
 }: QuantityApplicationRateProps) => {
   const { t } = useTranslation();
+
+  const WEIGHT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.WEIGHT}`;
+  const VOLUME = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.VOLUME}`;
+  const WEIGHT_UNIT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT}`;
+  const VOLUME_UNIT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT}`;
+  const PERCENT_OF_LOCATION_AMENDED = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED}`;
+  const TOTAL_AREA_AMENDED = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED}`;
+  const TOTAL_AREA_AMENDED_UNIT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT}`;
+  const APPLICATION_RATE_WEIGHT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT}`;
+  const APPLICATION_RATE_VOLUME = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME}`;
+  const APPLICATION_RATE_WEIGHT_UNIT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT}`;
+  const APPLICATION_RATE_VOLUME_UNIT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT}`;
 
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpanded = () => setIsExpanded((prev) => !prev);
 
   const { total_area, total_area_unit, type } = location;
 
-  const { control, getValues, setValue, register, watch } = useFormContext<TaskProductFormFields>();
+  const { control, getValues, setValue, register, watch } = useFormContext();
 
   /* Control of relationship between quantity, area, and application rate */
   const {
@@ -94,12 +108,10 @@ const QuantityApplicationRate = ({
     total_area,
     total_area_unit,
     system,
-    watch,
-    setValue,
-    getValues,
+    namePrefix,
   });
 
-  const percent_of_location = watch(TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED);
+  const percent_of_location = watch(PERCENT_OF_LOCATION_AMENDED);
 
   /* Label for weight/volume switch */
   const formatLabel = (labelKey: string, shouldBeBold: boolean) => {
@@ -132,8 +144,8 @@ const QuantityApplicationRate = ({
             label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.QUANTITY')}
             data-cy="soilAmendment-quantity"
             register={register}
-            name={TASK_PRODUCT_FIELD_NAMES[isWeight ? 'WEIGHT' : 'VOLUME']}
-            displayUnitName={TASK_PRODUCT_FIELD_NAMES[isWeight ? 'WEIGHT_UNIT' : 'VOLUME_UNIT']}
+            name={isWeight ? WEIGHT : VOLUME}
+            displayUnitName={isWeight ? WEIGHT_UNIT : VOLUME_UNIT}
             unitType={SOIL_AMENDMENT_UNITS[isWeight ? 'WEIGHT' : 'VOLUME'].units}
             system={system}
             hookFormSetValue={setValue}
@@ -164,7 +176,7 @@ const QuantityApplicationRate = ({
             <div className={styles.sectionBody}>
               <div className={styles.locationSection}>
                 <NumberInput
-                  name={TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED}
+                  name={PERCENT_OF_LOCATION_AMENDED}
                   control={control}
                   label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PERECENT_TO_AMEND')}
                   min={0.0001}
@@ -172,17 +184,15 @@ const QuantityApplicationRate = ({
                   rules={{ required: t('common:REQUIRED') }}
                   onChange={onPercentLocationChange}
                   disabled={isReadOnly}
-                  defaultValue={
-                    defaultValues?.[TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED] || 100
-                  }
+                  defaultValue={defaultValues?.[PERCENT_OF_LOCATION_AMENDED] || 100}
                 />
                 <SwapIcon />
                 {/* @ts-ignore */}
                 <Unit
                   register={register}
                   label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.TOTAL_AREA')}
-                  name={TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED}
-                  displayUnitName={TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT}
+                  name={TOTAL_AREA_AMENDED}
+                  displayUnitName={TOTAL_AREA_AMENDED_UNIT}
                   unitType={location_area}
                   system={system}
                   hookFormSetValue={setValue}
@@ -190,9 +200,7 @@ const QuantityApplicationRate = ({
                   hookFromWatch={watch}
                   control={control}
                   mode={'onChange'}
-                  defaultValue={
-                    defaultValues?.[TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED] || total_area
-                  }
+                  defaultValue={defaultValues?.[TOTAL_AREA_AMENDED] || total_area}
                   disabled
                   required
                 />
@@ -201,15 +209,9 @@ const QuantityApplicationRate = ({
               <Unit
                 label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.APPLICATION_RATE')}
                 register={register}
-                name={
-                  TASK_PRODUCT_FIELD_NAMES[
-                    isWeight ? 'APPLICATION_RATE_WEIGHT' : 'APPLICATION_RATE_VOLUME'
-                  ]
-                }
+                name={isWeight ? APPLICATION_RATE_WEIGHT : APPLICATION_RATE_VOLUME}
                 displayUnitName={
-                  TASK_PRODUCT_FIELD_NAMES[
-                    isWeight ? 'APPLICATION_RATE_WEIGHT_UNIT' : 'APPLICATION_RATE_VOLUME_UNIT'
-                  ]
+                  isWeight ? APPLICATION_RATE_WEIGHT_UNIT : APPLICATION_RATE_VOLUME_UNIT
                 }
                 unitType={
                   SOIL_AMENDMENT_UNITS[

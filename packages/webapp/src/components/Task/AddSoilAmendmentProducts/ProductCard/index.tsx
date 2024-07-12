@@ -185,12 +185,12 @@ const SoilAmendmentProductCard = ({
           />
         </>
       )}
-      {/* TODO: LF-4221 Update soil amendment task flow. <QuantityApplicationRate /> can  receive values for readOnly or edit via the defaultValues prop but this may require adjust depending on final form organization */}
       <QuantityApplicationRate
         productId={PRODUCT_ID}
         system={system}
         location={location}
         isReadOnly={isReadOnly}
+        namePrefix={namePrefix}
       />
     </div>
   );

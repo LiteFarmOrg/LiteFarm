@@ -407,7 +407,6 @@ describe('Product Tests', () => {
         origProduct.product_id,
         userFarm,
       );
-      console.log(res);
       expect(res.status).toBe(409);
     });
 

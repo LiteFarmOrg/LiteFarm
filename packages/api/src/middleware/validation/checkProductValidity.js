@@ -29,7 +29,7 @@ const productCheckMap = {
   // cleaning_task: checkCleaningProduct
 };
 
-function checkSoilAmendmentProduct(res, sap, isCreatingNew) {
+function checkSoilAmendmentProduct(res, sap) {
   const elements = [
     'n',
     'p',
@@ -45,11 +45,6 @@ function checkSoilAmendmentProduct(res, sap, isCreatingNew) {
   // Check that element values are all positive
   if (!elements.every((element) => !sap[element] || sap[element] >= 0)) {
     return res.status(400).send('element values must all be positive');
-  }
-
-  // Check that a unit has been provided along with element values
-  if (isCreatingNew && elements.some((element) => sap[element]) && !sap.elemental_unit) {
-    return res.status(400).send('elemental_unit is required');
   }
 
   // Check that element values do not exceed 100 if element_unit is percent
@@ -80,7 +75,7 @@ export function checkProductValidity() {
     const { [taskProductRelationMap[type]]: productDetails } = req.body;
 
     if (productDetails) {
-      productCheckMap[type](res, productDetails, isCreatingNew);
+      productCheckMap[type](res, productDetails);
     }
 
     // Null empty strings

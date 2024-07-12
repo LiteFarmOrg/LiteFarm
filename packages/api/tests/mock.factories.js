@@ -1137,9 +1137,28 @@ function fakeProduct(defaultData = {}) {
     name: faker.lorem.words(2),
     supplier: faker.lorem.words(3),
     on_permitted_substances_list: faker.helpers.arrayElement(['YES', 'NO', 'NOT_SURE']),
-    type: faker.helpers.arrayElement(['soil_amendment_task', 'pest_control_task', 'cleaning_task']),
+    // For soil_amendment_task use soil_amendment_productFactory
+    type: faker.helpers.arrayElement(['pest_control_task', 'cleaning_task']),
     ...defaultData,
   };
+}
+
+async function soil_amendment_productFactory({ promisedProduct = productFactory() } = {}) {
+  const [{ product_id, type }] = await promisedProduct;
+  const productDetails = fakeProductDetails(type);
+  return knex('soil_amendment_product')
+    .insert({ product_id, ...productDetails })
+    .returning('*');
+}
+
+function fakeProductDetails(type, defaultData = {}) {
+  if (type === 'soil_amendment_task') {
+    return {
+      ...defaultData,
+    };
+  }
+
+  return {};
 }
 
 async function soil_amendment_methodFactory() {
@@ -2525,6 +2544,8 @@ export default {
   fakeHarvestUse,
   productFactory,
   fakeProduct,
+  fakeProductDetails,
+  soil_amendment_productFactory,
   soil_amendment_methodFactory,
   soil_amendment_purposeFactory,
   soil_amendment_fertiliser_typeFactory,

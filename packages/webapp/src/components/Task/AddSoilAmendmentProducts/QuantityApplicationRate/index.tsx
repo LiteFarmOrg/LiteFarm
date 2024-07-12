@@ -62,8 +62,7 @@ export type QuantityApplicationRateProps = {
   isReadOnly: boolean;
   system: 'metric' | 'imperial';
   location: Location;
-  defaultValues?: any; // TODO: remove prop entirely
-  namePrefix: string;
+  namePrefix?: string;
 };
 
 const QuantityApplicationRate = ({
@@ -71,8 +70,7 @@ const QuantityApplicationRate = ({
   isReadOnly,
   system, // measurementSelector
   location,
-  defaultValues,
-  namePrefix,
+  namePrefix = '',
 }: QuantityApplicationRateProps) => {
   const { t } = useTranslation();
 
@@ -93,7 +91,7 @@ const QuantityApplicationRate = ({
 
   const { total_area, total_area_unit, type } = location;
 
-  const { control, getValues, setValue, register, watch } = useFormContext();
+  const { control, getValues, setValue, register, watch, formState } = useFormContext();
 
   /* Control of relationship between quantity, area, and application rate */
   const {
@@ -184,7 +182,7 @@ const QuantityApplicationRate = ({
                   rules={{ required: t('common:REQUIRED') }}
                   onChange={onPercentLocationChange}
                   disabled={isReadOnly}
-                  defaultValue={defaultValues?.[PERCENT_OF_LOCATION_AMENDED] || 100}
+                  defaultValue={formState.defaultValues?.[PERCENT_OF_LOCATION_AMENDED] || 100}
                 />
                 <SwapIcon />
                 {/* @ts-ignore */}
@@ -200,7 +198,7 @@ const QuantityApplicationRate = ({
                   hookFromWatch={watch}
                   control={control}
                   mode={'onChange'}
-                  defaultValue={defaultValues?.[TOTAL_AREA_AMENDED] || total_area}
+                  defaultValue={formState.defaultValues?.[TOTAL_AREA_AMENDED] || total_area}
                   disabled
                   required
                 />

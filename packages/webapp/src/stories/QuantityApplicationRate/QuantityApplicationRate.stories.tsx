@@ -24,9 +24,9 @@ const meta: Meta<typeof QuantityApplicationRate> = {
   title: 'Components/QuantityApplicationRate',
   component: QuantityApplicationRate,
   decorators: [
-    (Story, { args }) => {
+    (Story, context) => {
       const methods = useForm({
-        defaultValues: args.defaultValues,
+        defaultValues: { ...context.parameters.formDefaultValues },
       });
       return (
         <FormProvider {...methods}>
@@ -47,7 +47,7 @@ export const Metric: Story = {
     system: 'metric',
     location: {
       type: 'field',
-      total_area: 15200,
+      total_area: 15000,
       total_area_unit: 'm2',
     },
   },
@@ -58,7 +58,7 @@ export const Imperial: Story = {
     system: 'imperial',
     location: {
       type: 'garden',
-      total_area: 15200,
+      total_area: 15000,
       total_area_unit: 'm2',
     },
   },
@@ -73,9 +73,12 @@ export const ReadOnlyWeight: Story = {
       total_area: 15000,
       total_area_unit: 'ha',
     },
-    defaultValues: {
+  },
+  parameters: {
+    formDefaultValues: {
       [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED]: 50,
       [TASK_PRODUCT_FIELD_NAMES.WEIGHT]: 15,
+      [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT]: 20,
     },
   },
 };
@@ -89,9 +92,12 @@ export const ReadOnlyVolume: Story = {
       total_area: 15000,
       total_area_unit: 'ha',
     },
-    defaultValues: {
+  },
+  parameters: {
+    formDefaultValues: {
       [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED]: 50,
       [TASK_PRODUCT_FIELD_NAMES.VOLUME]: 15,
+      [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME]: 20,
     },
   },
 };

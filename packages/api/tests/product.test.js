@@ -71,13 +71,26 @@ describe('Product Tests', () => {
   }
 
   async function createProductInDatabase(mainFarm, properties) {
-    const [product] = await mocks.productFactory(
-      {
-        promisedFarm: [mainFarm],
-      },
-      properties,
-    );
-    return product;
+    if (properties?.type === 'soil_amendment_task') {
+      const [product] = await mocks.productFactory(
+        {
+          promisedFarm: [mainFarm],
+        },
+        properties,
+      );
+      const [soilAmendmentProduct] = await mocks.soil_amendment_productFactory({
+        promisedProduct: [product],
+      });
+      return soilAmendmentProduct;
+    } else {
+      const [product] = await mocks.productFactory(
+        {
+          promisedFarm: [mainFarm],
+        },
+        properties,
+      );
+      return product;
+    }
   }
 
   afterAll(async (done) => {
@@ -244,12 +257,20 @@ describe('Product Tests', () => {
         type: 'soil_amendment_task',
       });
 
+      const soilAmendmentProductDetails = {
+        soil_amendment_product: mocks.fakeProductDetails('soil_amendment_task'),
+      };
+
       await createProductInDatabase(userFarm, fertiliserProductA);
 
-      postProductRequest(fertiliserProductA, userFarm, (err, res) => {
-        expect(res.status).toBe(409);
-        done();
-      });
+      postProductRequest(
+        { ...fertiliserProductA, ...soilAmendmentProductDetails },
+        userFarm,
+        (err, res) => {
+          expect(res.status).toBe(409);
+          done();
+        },
+      );
     });
 
     test('should successfully populate soil_amendment_product table', async (done) => {
@@ -364,10 +385,18 @@ describe('Product Tests', () => {
 
       await createProductInDatabase(userFarm, fertiliserProductA);
 
+      const soilAmendmentProductDetailsA = {
+        soil_amendment_product: mocks.fakeProductDetails('soil_amendment_task'),
+      };
+
       const fertiliserProductB = mocks.fakeProduct({
         name: 'Fertiliser Product B',
         type: 'soil_amendment_task',
       });
+
+      const soilAmendmentProductDetailsB = {
+        soil_amendment_product: mocks.fakeProductDetails('soil_amendment_task'),
+      };
 
       const origProduct = await createProductInDatabase(userFarm, fertiliserProductB);
 

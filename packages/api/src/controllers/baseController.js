@@ -173,7 +173,7 @@ export default {
     return await model
       .query(trx)
       .context({ user_id: req?.auth?.user_id, ...context })
-      .upsertGraph(data, { insertMissing: true });
+      .upsertGraph(removeAdditionalPropertiesWithRelations(model, data), { insertMissing: true });
   },
 
   // fetch an object and all of its related objects

@@ -18,16 +18,17 @@ import { useTranslation } from 'react-i18next';
 import useExpandable from '../../Expandable/useExpandableItem';
 import ProductCard, { type ProductCardProps } from './ProductCard';
 import TextButton from '../../Form/Button/TextButton';
-import type { ProductId, Product } from './types';
-import { defaultValues } from './ProductCard/ProductDetails';
+import { Label } from '../../Typography';
+import { type ProductId, TASK_PRODUCT_FIELD_NAMES } from './types';
+import type { SoilAmendmentProduct } from '../../../store/api/types';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
 import styles from './styles.module.scss';
 
 export type AddSoilAmendmentProductsProps = Pick<
   ProductCardProps,
-  'isReadOnly' | 'farm' | 'onSave' | 'system' | 'onSaveProduct'
+  'isReadOnly' | 'farm' | 'system' | 'onSaveProduct'
 > & {
-  products: Product[];
+  products: SoilAmendmentProduct[];
   purposes?: { id: number; key: string }[];
   fertiliserTypes?: { id: number; key: string }[];
 };
@@ -36,7 +37,12 @@ interface ProductFields {
   product_id: ProductId;
 }
 
-const FIELD_NAME = 'soil_amendment_task_products';
+const FIELD_NAME = 'soil_amendment_task.soil_amendment_task_products';
+
+const defaultValues = {
+  [TASK_PRODUCT_FIELD_NAMES.PRODUCT_ID]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.PURPOSES]: [],
+};
 
 const AddSoilAmendmentProducts = ({
   products,
@@ -63,7 +69,7 @@ const AddSoilAmendmentProducts = ({
 
   const productsForTask = watch(FIELD_NAME);
 
-  const getAvailableProductOptions = (selectedProductId: ProductId): Product[] => {
+  const getAvailableProductOptions = (selectedProductId: ProductId): SoilAmendmentProduct[] => {
     // Returns the products that have not been selected by any other select
     const otherSelectedProductIds = productsForTask
       .filter(({ product_id }: ProductFields): boolean => product_id !== selectedProductId)
@@ -71,6 +77,8 @@ const AddSoilAmendmentProducts = ({
 
     return products.filter(({ product_id }) => !otherSelectedProductIds.includes(product_id));
   };
+
+  const productNames: SoilAmendmentProduct['name'][] = products.map(({ name }) => name);
 
   const onAddAnotherProduct = (): void => {
     resetExpanded();
@@ -98,6 +106,9 @@ const AddSoilAmendmentProducts = ({
 
   return (
     <>
+      <Label className={styles.productsInstruction}>
+        {t(`ADD_PRODUCT.TELL_US_WHAT_YOU_WILL_BE_APPLYING`)}
+      </Label>
       <div className={styles.products}>
         {fields.map((field, index) => {
           const namePrefix = `${FIELD_NAME}.${index}`;
@@ -111,13 +122,14 @@ const AddSoilAmendmentProducts = ({
               onRemove={fields.length > 1 ? () => remove(index) : undefined}
               namePrefix={namePrefix}
               products={getAvailableProductOptions(productId)}
+              productNames={productNames}
               isExpanded={expandedIds.includes(field.id)}
               toggleExpanded={() => toggleExpanded(field.id)}
               unExpand={() => unExpand(field.id)}
               expand={() => expand(field.id)}
               productId={productId}
               setProductId={(id: ProductId) => {
-                setValue(`${namePrefix}.product_id`, id);
+                setValue(`${namePrefix}.product_id`, id, { shouldValidate: true });
               }}
               purposeOptions={purposeOptions}
               otherPurposeId={otherPurposeId}

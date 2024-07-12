@@ -43,7 +43,7 @@ type ComponentWithFormMethodsProps = AddSoilAmendmentProductsProps & {
 const ComponentWithFormMethods = ({ defaultValues, ...props }: ComponentWithFormMethodsProps) => {
   const methods = useForm({
     mode: 'onChange',
-    defaultValues: { soil_amendment_task_products: defaultValues },
+    defaultValues: { soil_amendment_task: { soil_amendment_task_products: [{}] } },
   });
   return (
     <FormProvider {...methods}>
@@ -58,7 +58,7 @@ const meta: Meta<ComponentWithFormMethodsProps> = {
   component: ComponentWithFormMethods,
   decorators: [...componentDecorators],
   args: {
-    onSaveProduct: console.log,
+    onSaveProduct: async (data) => console.log(data),
     system: 'metric',
     products,
     purposes,

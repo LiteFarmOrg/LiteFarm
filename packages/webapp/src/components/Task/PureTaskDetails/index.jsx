@@ -37,6 +37,7 @@ export default function PureTaskDetails({
 
   const defaults = {
     CLEANING_TASK: { cleaning_task: { agent_used: false } },
+    SOIL_AMENDMENT_TASK: { soil_amendment_task: { soil_amendment_task_products: [{}] } }, // TODO
   };
 
   const harvest_tasks = useMemo(() => {

@@ -74,6 +74,11 @@ export const alertsUrl = `${URI}/notification_user/subscribe`;
 export const notificationsUrl = `${URI}/notification_user`;
 export const clearAlertsUrl = `${URI}/notification_user/clear_alerts`;
 export const sensorUrl = `${URI}/sensor`;
+export const soilAmendmentMethodsUrl = `${URI}/soil_amendment_methods`;
+export const soilAmendmentPurposesUrl = `${URI}/soil_amendment_purposes`;
+export const soilAmendmentFertiliserTypesUrl = `${URI}/soil_amendment_fertiliser_types`;
+export const productUrl = `${URI}/product`;
+
 export const url = URI;
 
 export default {
@@ -117,5 +122,9 @@ export default {
   alertsUrl,
   notificationsUrl,
   sensorUrl,
+  soilAmendmentMethodsUrl,
+  soilAmendmentPurposesUrl,
+  soilAmendmentFertiliserTypesUrl,
+  productUrl,
   url,
 };

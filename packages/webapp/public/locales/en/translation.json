@@ -41,7 +41,8 @@
     "PRODUCT_LABEL": "Product",
     "SAVE_PRODUCT": "Save product",
     "SULFUR": "Sulfur (S)",
-    "SUPPLIER_LABEL": "Supplier"
+    "SUPPLIER_LABEL": "Supplier",
+    "TELL_US_WHAT_YOU_WILL_BE_APPLYING": "Tell us what you will be applying..."
   },
   "ADD_TASK": {
     "ADD_A_CUSTOM_TASK": "Add a custom task",
@@ -67,6 +68,7 @@
     "CUSTOM_TASK_TYPE": "Custom Task Type",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
+    "DUPLICATE_NAME": "A product with this name already exists. Please choose another.",
     "EDIT_CUSTOM_TASK": "Edit custom task",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",

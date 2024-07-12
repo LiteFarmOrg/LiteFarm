@@ -72,6 +72,7 @@ import {
   onLoadingHarvestUseTypeStart,
 } from '../harvestUseTypeSlice';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
+import { getSoilAmendmentTaskProductsSuccess } from '../slice/taskSlice/soilAmendmentTaskProductSlice';
 import {
   createBeforeCompleteTaskUrl,
   createCompleteHarvestQuantityTaskUrl,
@@ -318,6 +319,12 @@ const taskTypeActionMap = {
   },
 };
 
+const taskProductTypeActionMap = {
+  SOIL_AMENDMENT_TASK: {
+    success: (tasks) => put(getSoilAmendmentTaskProductsSuccess(tasks)),
+  },
+};
+
 export const onLoadingTaskStart = createAction('onLoadingTaskStartSaga');
 
 export function* onLoadingTaskStartSaga() {
@@ -375,6 +382,10 @@ export function* getTasksSaga() {
   }
 }
 
+const taskTypeProductMap = {
+  SOIL_AMENDMENT_TASK: 'soil_amendment_task_products',
+};
+
 export function* getAllTasksSuccessSaga({ payload: tasks }) {
   const taskTypeEntities = yield select(taskTypeEntitiesSelector);
   const tasksByTranslationKeyDefault = Object.keys(taskTypeActionMap).reduce(
@@ -384,10 +395,20 @@ export function* getAllTasksSuccessSaga({ payload: tasks }) {
     },
     {},
   );
+  const productsByTranslationKey = {};
   const tasksByTranslationKey = tasks.reduce((tasksByTranslationKey, task) => {
     const { task_translation_key } = taskTypeEntities[task.task_type_id];
     if (taskTypeActionMap[task_translation_key]) {
       tasksByTranslationKey[task_translation_key].push(task[task_translation_key.toLowerCase()]);
+    }
+    if (taskTypeProductMap[task_translation_key]) {
+      if (!productsByTranslationKey[task_translation_key]) {
+        productsByTranslationKey[task_translation_key] = [];
+      }
+      productsByTranslationKey[task_translation_key] = [
+        ...productsByTranslationKey[task_translation_key],
+        ...task[taskTypeProductMap[task_translation_key]],
+      ];
     }
     return tasksByTranslationKey;
   }, tasksByTranslationKeyDefault);
@@ -395,6 +416,9 @@ export function* getAllTasksSuccessSaga({ payload: tasks }) {
     try {
       yield taskTypeActionMap[task_translation_key].success(
         tasksByTranslationKey[task_translation_key],
+      );
+      yield taskProductTypeActionMap[task_translation_key]?.success(
+        productsByTranslationKey[task_translation_key],
       );
     } catch (e) {
       yield put(taskTypeActionMap[task_translation_key].fail(e));

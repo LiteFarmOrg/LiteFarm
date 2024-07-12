@@ -21,6 +21,7 @@ import { plantTaskEntitiesSelector } from './slice/taskSlice/plantTaskSlice';
 import { transplantTaskEntitiesSelector } from './slice/taskSlice/transplantTaskSlice';
 import { plantingManagementPlanEntitiesSelector } from './plantingManagementPlanSlice';
 import { irrigationTaskEntitiesSelector } from './slice/taskSlice/irrigationTaskSlice';
+import { soilAmendmentTaskProductEntitiesSelector } from './slice/taskSlice/soilAmendmentTaskProductSlice';
 
 export const getTask = (obj) => {
   const task = pick(obj, [
@@ -161,6 +162,10 @@ export const taskSelectors = taskAdapter.getSelectors(
   (state) => state.entitiesReducer[taskSlice.name],
 );
 
+const taskTypeProductMap = {
+  SOIL_AMENDMENT_TASK: 'soil_amendment_task_products',
+};
+
 //TODO: refactor
 export const taskEntitiesSelector = createSelector(
   [
@@ -179,6 +184,7 @@ export const taskEntitiesSelector = createSelector(
     plantTaskEntitiesSelector,
     transplantTaskEntitiesSelector,
     plantingManagementPlanEntitiesSelector,
+    soilAmendmentTaskProductEntitiesSelector,
   ],
   (
     userFarmEntities,
@@ -196,6 +202,7 @@ export const taskEntitiesSelector = createSelector(
     plantTaskEntities,
     transplantTaskEntities,
     plantingManagementPlanEntities,
+    soilAmendmentTaskProductEntities,
   ) => {
     const subTaskEntities = {
       ...cleaningTaskEntities,
@@ -206,6 +213,9 @@ export const taskEntitiesSelector = createSelector(
       ...soilAmendmentTaskEntities,
       ...plantTaskEntities,
       ...transplantTaskEntities,
+    };
+    const taskProductEntities = {
+      ...soilAmendmentTaskProductEntities,
     };
 
     const getManagementPlanByPlantingManagementPlan = ({
@@ -243,6 +253,12 @@ export const taskEntitiesSelector = createSelector(
           taskEntities[task_id].managementPlans = [
             getManagementPlanByPlantingManagementPlan(subtask),
           ];
+        }
+        if (!farm_id && taskTypeProductMap[task_translation_key]) {
+          const taskProducts = Object.values(taskProductEntities).filter((taskProduct) => {
+            return taskProduct.task_id == task_id;
+          });
+          taskEntities[task_id][taskTypeProductMap[task_translation_key]] = taskProducts;
         }
         taskEntities[task_id].assignee =
           userFarmEntities[userFarm.farm_id][taskEntities[task_id].assignee_user_id];

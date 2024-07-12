@@ -46,13 +46,13 @@
     "ERROR": {
       "ADD": "No se pudo agregar nuevos gastos",
       "DELETE": "No se pudo borrar gastos",
-      "UPDATE": "No se pudo actualizar gastos!"
+      "UPDATE": "No se pudo actualizar gastos!",
+      "EXPENSE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "ADD": "¡Nuevos gastos agregados exitosamente!",
       "DELETE": "¡Gastos eliminados exitosamente!",
-      "UPDATE": "¡Gastos actualizados exitosamente!",
-      "EXPENSE_DELETED": "MISSING"
+      "UPDATE": "¡Gastos actualizados exitosamente!"
     }
   },
   "EXPENSE_TYPE": {

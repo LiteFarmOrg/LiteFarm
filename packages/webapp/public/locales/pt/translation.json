@@ -105,7 +105,8 @@
     "PRODUCT_LABEL": "Produto",
     "SAVE_PRODUCT": "MISSING",
     "SULFUR": "MISSING",
-    "SUPPLIER_LABEL": "Fornecedor"
+    "SUPPLIER_LABEL": "Fornecedor",
+    "TELL_US_WHAT_YOU_WILL_BE_APPLYING": "MISSING"
   },
   "ADD_TASK": {
     "ADD_A_CUSTOM_TASK": "Adicione uma tarefa personalizada",
@@ -131,6 +132,7 @@
     "CUSTOM_TASK_TYPE": "Tipo de tarefa personalizada",
     "DO_YOU_NEED_TO_OVERRIDE": "Você precisa substituir o salário dos trabalhadores para esta tarefa?",
     "DO_YOU_WANT_TO_ASSIGN": "Você quer atribuir a tarefa agora?",
+    "DUPLICATE_NAME": "MISSING",
     "EDIT_CUSTOM_TASK": "Editar tarefa personalizada",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Descreva o tipo de trabalho de campo",

@@ -92,7 +92,7 @@
       "LISTED_IN_PSL": "Listed in the PSL? (Y/N)",
       "NOTES": "Notes",
       "PRODUCT_NAME": "Product name",
-      "QUANTITY": "Quantity ({{unit}})",
+      "QUANTITY": "Quantity",
       "SUPPLIER": "Brand Name or Source/Supplier"
     },
     "VARIETALS": "Varietal(s)"

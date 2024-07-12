@@ -1147,7 +1147,7 @@ async function soil_amendment_methodFactory() {
 }
 
 async function soil_amendment_purposeFactory() {
-  return knex('soil_amendment_purpose').insert({ key: faker.lorem.word() }).returning('*');
+  return knex('soil_amendment_purpose').insert({ key: 'OTHER' }).returning('*');
 }
 
 async function soil_amendment_fertiliser_typeFactory() {
@@ -1177,13 +1177,13 @@ function fakeSoilAmendmentTask(defaultData = {}) {
 }
 
 async function soil_amendment_task_productsFactory(
-  { promisedSoilAmendmentTask = soil_amendment_taskFactory() } = {},
+  { promisedTask = taskFactory() } = {},
   soil_amendment_task_product = fakeSoilAmendmentTaskProduct(),
 ) {
-  const [soilAmendmentTask] = await promisedSoilAmendmentTask;
+  const [task] = await promisedTask;
   return knex('soil_amendment_task_products')
     .insert({
-      task_id: soilAmendmentTask.task_id,
+      task_id: task.task_id,
       ...soil_amendment_task_product,
     })
     .returning('*');
@@ -1207,8 +1207,8 @@ function fakeSoilAmendmentTaskProduct(defaultData = {}) {
       'mt/ha',
       'oz/ac',
     ]),
-    percent_of_location_amended: faker.datatype.number(100),
-    total_area_amended: faker.datatype.number(1000),
+    percent_of_location_amended: faker.datatype.number({ min: 1, max: 100 }),
+    total_area_amended: faker.datatype.number({ min: 1, max: 1000 }),
     ...defaultData,
   };
 }

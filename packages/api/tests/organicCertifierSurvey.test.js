@@ -42,7 +42,7 @@ jest.mock('../src/templates/sendEmailTemplate.js', () => ({
 
 import organicCertifierSurveyModel from '../src/models/organicCertifierSurveyModel';
 
-xdescribe('organic certification Tests', () => {
+describe('organic certification Tests', () => {
   let owner;
   let farm;
   let ownerFarm;

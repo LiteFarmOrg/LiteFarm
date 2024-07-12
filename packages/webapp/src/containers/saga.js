@@ -577,7 +577,7 @@ export function* logUserInfoSaga() {
       yield call(axios.post, logUserInfoUrl(), data, header);
     }
   } catch (e) {
-    console.log('failed to fetch field crops by date');
+    console.log('failed to log user info');
   }
 }
 

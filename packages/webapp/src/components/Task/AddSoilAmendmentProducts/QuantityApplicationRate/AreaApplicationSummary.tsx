@@ -21,7 +21,8 @@ interface AreaApplicationSummaryProps {
   locationArea: number;
   locationAreaUnit: string;
   percentOfArea: number;
-  locationType: string;
+  locationType?: string;
+  locationCount: number;
 }
 
 export const AreaApplicationSummary = ({
@@ -29,25 +30,44 @@ export const AreaApplicationSummary = ({
   locationAreaUnit,
   percentOfArea,
   locationType,
+  locationCount,
 }: AreaApplicationSummaryProps) => {
   return (
     <Main className={styles.summaryText}>
-      <Trans
-        i18nKey="ADD_TASK.SOIL_AMENDMENT_VIEW.APPLIED_TO"
-        values={{
-          percentOfArea,
-          locationArea,
-          locationAreaUnit,
-          locationType,
-        }}
-      >
-        Applied to <b>{{ percentOfArea } as any}%</b> of your{' '}
-        <em>
-          {/* see https://github.com/i18next/react-i18next/issues/1483 */}
-          {{ locationArea } as any} {{ locationAreaUnit } as any}
-        </em>{' '}
-        {locationType}
-      </Trans>
+      {locationCount == 1 ? (
+        <Trans
+          i18nKey="ADD_TASK.SOIL_AMENDMENT_VIEW.APPLIED_TO"
+          values={{
+            percentOfArea,
+            locationArea,
+            locationAreaUnit,
+            locationType,
+          }}
+        >
+          Applied to <b>{{ percentOfArea } as any}%</b> of your{' '}
+          <em>
+            {{ locationArea } as any} {{ locationAreaUnit } as any}
+          </em>{' '}
+          {locationType}
+        </Trans>
+      ) : (
+        <Trans
+          i18nKey="ADD_TASK.SOIL_AMENDMENT_VIEW.APPLIED_TO_MULTIPLE"
+          values={{
+            percentOfArea,
+            locationCount,
+            locationArea,
+            locationAreaUnit,
+          }}
+        >
+          Applied to <b>{{ percentOfArea } as any}%</b> of your {{ locationCount }} locations with
+          total area
+          <em>
+            {/* see https://github.com/i18next/react-i18next/issues/1483 */}
+            {{ locationArea } as any} {{ locationAreaUnit } as any}
+          </em>
+        </Trans>
+      )}
     </Main>
   );
 };

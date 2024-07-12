@@ -23,7 +23,7 @@ import { useFormContext } from 'react-hook-form';
 
 interface UseQuantityApplicationRate {
   total_area: number;
-  total_area_unit: 'm2' | 'ha' | 'ft2' | 'ac'; // as defined in location_area
+  total_area_unit?: 'm2' | 'ha' | 'ft2' | 'ac'; // as defined in location_area
   system: 'metric' | 'imperial';
   namePrefix: string;
 }
@@ -132,9 +132,10 @@ export const useQuantityApplicationRate = ({
   useEffect(() => {
     if (application_area_unit && previewStringValue === null) {
       /* if the user-selected unit is in the wrong system (e.g. metric stored value but farm on imperial), use the <Unit /> converted unit */
-      const unit = location_area[system].units.includes(total_area_unit)
-        ? getUnitOptionMap()[total_area_unit]
-        : application_area_unit;
+      const unit =
+        total_area_unit && location_area[system].units.includes(total_area_unit)
+          ? getUnitOptionMap()[total_area_unit]
+          : application_area_unit;
 
       const value =
         total_area &&

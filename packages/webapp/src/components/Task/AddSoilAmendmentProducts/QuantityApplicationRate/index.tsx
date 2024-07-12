@@ -61,7 +61,7 @@ export type QuantityApplicationRateProps = {
   productId: number | string;
   isReadOnly: boolean;
   system: 'metric' | 'imperial';
-  location: Location;
+  locations: Location[];
   namePrefix?: string;
 };
 
@@ -69,7 +69,7 @@ const QuantityApplicationRate = ({
   productId,
   isReadOnly,
   system, // measurementSelector
-  location,
+  locations,
   namePrefix = '',
 }: QuantityApplicationRateProps) => {
   const { t } = useTranslation();
@@ -89,7 +89,13 @@ const QuantityApplicationRate = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpanded = () => setIsExpanded((prev) => !prev);
 
-  const { total_area, total_area_unit, type } = location;
+  let total_area, total_area_unit, type;
+  const locationCount = locations.length;
+  if (locationCount === 1) {
+    [{ total_area, total_area_unit, type }] = locations;
+  } else {
+    total_area = locations.reduce((acc, { total_area }) => acc + total_area, 0);
+  }
 
   const { control, getValues, setValue, register, watch, formState } = useFormContext();
 
@@ -161,7 +167,10 @@ const QuantityApplicationRate = ({
             locationArea={previewStringValue!}
             locationAreaUnit={previewStringUnit!}
             percentOfArea={Math.min(percent_of_location || 100, 100)}
-            locationType={t(`FARM_MAP.MAP_FILTER.${type.toUpperCase()}`).toLocaleLowerCase()}
+            locationType={
+              type && t(`FARM_MAP.MAP_FILTER.${type.toUpperCase()}`).toLocaleLowerCase()
+            }
+            locationCount={locationCount}
           />
         </div>
         <div className={clsx(styles.border, styles.advancedSection, isExpanded && styles.expanded)}>

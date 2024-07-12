@@ -64,11 +64,13 @@ const meta: Meta<ComponentWithFormMethodsProps> = {
     purposes,
     fertiliserTypes,
     defaultValues: [defaultValues],
-    location: {
-      type: 'garden',
-      total_area: 15000,
-      total_area_unit: 'm2',
-    },
+    locations: [
+      {
+        type: 'garden',
+        total_area: 15000,
+        total_area_unit: 'm2',
+      },
+    ],
   },
 };
 

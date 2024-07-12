@@ -32,7 +32,7 @@ export type AddSoilAmendmentProductsProps = Pick<
   products: SoilAmendmentProduct[];
   purposes?: { id: number; key: string }[];
   fertiliserTypes?: { id: number; key: string }[];
-  location: Location;
+  locations: Location[];
 };
 
 interface ProductFields {
@@ -51,7 +51,7 @@ const AddSoilAmendmentProducts = ({
   purposes = [],
   fertiliserTypes = [],
   isReadOnly,
-  location,
+  locations,
   ...props
 }: AddSoilAmendmentProductsProps) => {
   const { t } = useTranslation();
@@ -137,7 +137,7 @@ const AddSoilAmendmentProducts = ({
               purposeOptions={purposeOptions}
               otherPurposeId={otherPurposeId}
               fertiliserTypeOptions={fertiliserTypeOptions}
-              location={location}
+              locations={locations}
             />
           );
         })}

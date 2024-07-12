@@ -35,7 +35,7 @@ export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSav
   purposeOptions: { label: string; value: number }[];
   otherPurposeId?: number;
   productNames: SoilAmendmentProduct['name'][];
-  location: Location;
+  locations: Location[];
 };
 
 interface ProductOption {
@@ -83,7 +83,7 @@ const SoilAmendmentProductCard = ({
   productNames = [],
   purposeOptions,
   otherPurposeId,
-  location,
+  locations,
   ...props
 }: ProductCardProps) => {
   const { t } = useTranslation();
@@ -188,7 +188,7 @@ const SoilAmendmentProductCard = ({
       <QuantityApplicationRate
         productId={PRODUCT_ID}
         system={system}
-        location={location}
+        locations={locations}
         isReadOnly={isReadOnly}
         namePrefix={namePrefix}
       />

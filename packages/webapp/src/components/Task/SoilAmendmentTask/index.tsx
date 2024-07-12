@@ -40,12 +40,12 @@ import { getProducts } from '../../../containers/Task/saga';
 import { TASK_TYPES } from '../../../containers/Task/constants';
 import { furrow_hole_depth } from '../../../util/convert-units/unit';
 import styles from './styles.module.scss';
-import { locationByIdSelector } from '../../../containers/locationSlice';
+import { locationsSelector } from '../../../containers/locationSlice';
 
 type PureSoilAmendmentTaskProps = UseFormReturn &
   Pick<ProductCardProps, 'farm' | 'system' | 'products'> & {
     disabled: boolean;
-    task?: { locations: { location_id: number }[] }; // TODO: will be passed in form state
+    task?: { locations: { location_id: number }[] };
     locations: { location_id: number }[];
   };
 
@@ -68,15 +68,11 @@ const PureSoilAmendmentTask = ({
   const { t } = useTranslation(['translation', 'message']);
   const dispatch = useDispatch();
 
-  // TODO: Handle multiple locations
-  const location = useSelector(
-    locationByIdSelector(
-      props.task?.locations[0]?.location_id || // complete task
-        props.locations?.[0]?.location_id, // add task
-    ),
+  const { task, locations: propLocations } = props;
+  const taskLocationIds = (task?.locations || propLocations)?.map(({ location_id }) => location_id);
+  const locations = useSelector(locationsSelector).filter(({ location_id }) =>
+    taskLocationIds?.includes(location_id),
   );
-
-  console.log(location);
 
   const { data: methods = [] } = useGetSoilAmendmentMethodsQuery();
   const { data: purposes = [] } = useGetSoilAmendmentPurposesQuery();
@@ -211,7 +207,7 @@ const PureSoilAmendmentTask = ({
           fertiliserTypes={fertiliserTypes}
           isReadOnly={disabled}
           onSaveProduct={onSaveProduct}
-          location={location!}
+          locations={locations}
         />
       </FormProvider>
     </>

@@ -45,22 +45,49 @@ type Story = StoryObj<typeof QuantityApplicationRate>;
 export const Metric: Story = {
   args: {
     system: 'metric',
-    location: {
-      type: 'field',
-      total_area: 15000,
-      total_area_unit: 'm2',
-    },
+    locations: [
+      {
+        type: 'field',
+        total_area: 15000,
+        total_area_unit: 'm2',
+      },
+    ],
   },
 };
 
 export const Imperial: Story = {
   args: {
     system: 'imperial',
-    location: {
-      type: 'garden',
-      total_area: 15000,
-      total_area_unit: 'm2',
-    },
+    locations: [
+      {
+        type: 'garden',
+        total_area: 15000,
+        total_area_unit: 'm2',
+      },
+    ],
+  },
+};
+
+export const MultipleLocations: Story = {
+  args: {
+    system: 'metric',
+    locations: [
+      {
+        type: 'field',
+        total_area: 10000,
+        total_area_unit: 'm2',
+      },
+      {
+        type: 'garden',
+        total_area: 500,
+        total_area_unit: 'm2',
+      },
+      {
+        type: 'field',
+        total_area: 10000,
+        total_area_unit: 'm2',
+      },
+    ],
   },
 };
 
@@ -68,11 +95,13 @@ export const ReadOnlyWeight: Story = {
   args: {
     isReadOnly: true,
     system: 'metric',
-    location: {
-      type: 'garden',
-      total_area: 15000,
-      total_area_unit: 'ha',
-    },
+    locations: [
+      {
+        type: 'garden',
+        total_area: 15000,
+        total_area_unit: 'ha',
+      },
+    ],
   },
   parameters: {
     formDefaultValues: {
@@ -87,11 +116,13 @@ export const ReadOnlyVolume: Story = {
   args: {
     isReadOnly: true,
     system: 'metric',
-    location: {
-      type: 'garden',
-      total_area: 15000,
-      total_area_unit: 'ha',
-    },
+    locations: [
+      {
+        type: 'garden',
+        total_area: 15000,
+        total_area_unit: 'ha',
+      },
+    ],
   },
   parameters: {
     formDefaultValues: {

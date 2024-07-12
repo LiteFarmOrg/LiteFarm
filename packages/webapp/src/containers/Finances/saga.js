@@ -336,7 +336,12 @@ export function* editExpenseSaga(action) {
     history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.UPDATE')));
+    if (e.response.data == 'expense deleted') {
+      yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.EXPENSE_DELETED')));
+      history.push(FINANCES_HOME_URL);
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.UPDATE')));
+    }
   }
 }
 

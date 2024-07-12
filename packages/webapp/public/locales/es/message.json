@@ -51,7 +51,8 @@
     "SUCCESS": {
       "ADD": "¡Nuevos gastos agregados exitosamente!",
       "DELETE": "¡Gastos eliminados exitosamente!",
-      "UPDATE": "¡Gastos actualizados exitosamente!"
+      "UPDATE": "¡Gastos actualizados exitosamente!",
+      "EXPENSE_DELETED": "MISSING"
     }
   },
   "EXPENSE_TYPE": {

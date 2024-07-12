@@ -25,6 +25,7 @@ interface UseQuantityApplicationRate {
   total_area: number;
   total_area_unit?: 'm2' | 'ha' | 'ft2' | 'ac'; // as defined in location_area
   system: 'metric' | 'imperial';
+  isWeight: boolean;
   namePrefix: string;
 }
 
@@ -32,6 +33,7 @@ export const useQuantityApplicationRate = ({
   total_area,
   total_area_unit,
   system,
+  isWeight,
   namePrefix,
 }: UseQuantityApplicationRate) => {
   const TOTAL_AREA_AMENDED = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED}`;
@@ -44,15 +46,6 @@ export const useQuantityApplicationRate = ({
   const { setValue, getValues, watch } = useFormContext();
 
   const application_area_unit = watch(TOTAL_AREA_AMENDED_UNIT);
-
-  const [isWeight, setIsWeight] = useState(() => {
-    const volumeValue = getValues(VOLUME);
-    return isNaN(Number(volumeValue));
-  });
-
-  const toggleMeasure = () => {
-    setIsWeight((prev) => !prev);
-  };
 
   /* Update application area + rate based on percent of location */
   const onPercentLocationChange = (percent_of_location: number) => {
@@ -149,8 +142,6 @@ export const useQuantityApplicationRate = ({
   }, [location_area, application_area_unit]);
 
   return {
-    isWeight,
-    toggleMeasure,
     previewStringValue,
     previewStringUnit,
     updateApplicationRate,

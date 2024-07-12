@@ -74,6 +74,8 @@ const QuantityApplicationRate = ({
 }: QuantityApplicationRateProps) => {
   const { t } = useTranslation();
 
+  const { control, getValues, setValue, register, watch, formState } = useFormContext();
+
   const WEIGHT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.WEIGHT}`;
   const VOLUME = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.VOLUME}`;
   const WEIGHT_UNIT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT}`;
@@ -89,6 +91,15 @@ const QuantityApplicationRate = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpanded = () => setIsExpanded((prev) => !prev);
 
+  const [isWeight, setIsWeight] = useState(() => {
+    const volumeValue = getValues(VOLUME);
+    return isNaN(Number(volumeValue));
+  });
+
+  const toggleMeasure = () => {
+    setIsWeight((prev) => !prev);
+  };
+
   let total_area, total_area_unit, type;
   const locationCount = locations.length;
   if (locationCount === 1) {
@@ -97,15 +108,11 @@ const QuantityApplicationRate = ({
     total_area = locations.reduce((acc, { total_area }) => acc + total_area, 0);
   }
 
-  const { control, getValues, setValue, register, watch, formState } = useFormContext();
-
   /* Control of relationship between quantity, area, and application rate */
   const {
     updateApplicationRate,
     updateQuantity,
     onPercentLocationChange,
-    isWeight,
-    toggleMeasure,
     previewStringValue,
     previewStringUnit,
   } = useQuantityApplicationRate({
@@ -113,6 +120,7 @@ const QuantityApplicationRate = ({
     total_area_unit,
     system,
     namePrefix,
+    isWeight,
   });
 
   const percent_of_location = watch(PERCENT_OF_LOCATION_AMENDED);

@@ -94,3 +94,14 @@ export const formatSoilAmendmentProductToDBStructure = (
     };
   });
 };
+
+export const formatTaskReadOnlyDefaultValues = (task: {
+  taskType?: { task_translation_key: string };
+  [key: string]: any;
+}) => {
+  if (task.taskType?.task_translation_key === 'SOIL_AMENDMENT_TASK') {
+    return formatSoilAmendmentTaskToFormStructure(task as DBSoilAmendmentTask);
+  }
+
+  return structuredClone(task);
+};

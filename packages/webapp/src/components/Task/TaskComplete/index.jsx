@@ -17,6 +17,7 @@ import { getDateInputFormat } from '../../../util/moment';
 import { isNotInFuture } from '../../Form/Input/utils';
 import { useIsTaskType } from '../../../containers/Task/useIsTaskType';
 import { ORIGINAL_DUE_DATE, TODAY_DUE_DATE, ANOTHER_DUE_DATE } from '../AbandonTask/constants';
+import { TASKTYPE_PRODUCT_MAP } from '../../../containers/Task/constants';
 
 export default function PureTaskComplete({
   onSave,
@@ -124,6 +125,10 @@ export default function PureTaskComplete({
         }
         if (isIrrigationLocation && persistedFormData.locations?.length) {
           data.location_id = persistedFormData.locations[0].location_id;
+        }
+        if (TASKTYPE_PRODUCT_MAP[data.task_translation_key]) {
+          const taskProductKey = TASKTYPE_PRODUCT_MAP[data.task_translation_key];
+          data[taskProductKey] = persistedFormData?.[taskProductKey];
         }
         onSave(data);
       })}

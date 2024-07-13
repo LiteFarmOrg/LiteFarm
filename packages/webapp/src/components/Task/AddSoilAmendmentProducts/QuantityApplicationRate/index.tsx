@@ -166,7 +166,6 @@ const QuantityApplicationRate = ({
             control={control}
             mode={'onChange'}
             onInputChange={updateApplicationRate}
-            onChangeUnitOption={updateApplicationRate}
             disabled={isReadOnly}
             required
             key={isWeight ? 'weight' : 'volume'}
@@ -240,7 +239,6 @@ const QuantityApplicationRate = ({
                 control={control}
                 mode={'onChange'}
                 onInputChange={updateQuantity}
-                onChangeUnitOption={updateQuantity}
                 disabled={isReadOnly}
                 required
                 key={isWeight ? 'weight' : 'volume'}

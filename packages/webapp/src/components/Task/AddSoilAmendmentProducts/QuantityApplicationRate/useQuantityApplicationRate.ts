@@ -129,7 +129,7 @@ export const useQuantityApplicationRate = ({
     }
   };
 
-  /* Trigger recalculation when units are changed */
+  /* Trigger recalculation when units are changed. Note this cannot be done on the onChangeUnitOption handler because that callback is triggered before the database (hidden input) value has been updated, which the calculations require  */
   useEffect(() => {
     updateApplicationRate();
   }, [weight_unit, volume_unit]);

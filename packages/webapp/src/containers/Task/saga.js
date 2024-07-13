@@ -79,6 +79,8 @@ import {
   createCompleteTaskUrl,
 } from '../../util/siteMapConstants';
 import { setPersistedPaths, setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { formatSoilAmendmentProductToDBStructure } from '../../util/task';
+import { TASKTYPE_PRODUCT_MAP } from './constants';
 import { api } from '../../store/api/apiSlice';
 
 const taskTypeEndpoint = [
@@ -382,10 +384,6 @@ export function* getTasksSaga() {
   }
 }
 
-const taskTypeProductMap = {
-  SOIL_AMENDMENT_TASK: 'soil_amendment_task_products',
-};
-
 export function* getAllTasksSuccessSaga({ payload: tasks }) {
   const taskTypeEntities = yield select(taskTypeEntitiesSelector);
   const tasksByTranslationKeyDefault = Object.keys(taskTypeActionMap).reduce(
@@ -401,13 +399,13 @@ export function* getAllTasksSuccessSaga({ payload: tasks }) {
     if (taskTypeActionMap[task_translation_key]) {
       tasksByTranslationKey[task_translation_key].push(task[task_translation_key.toLowerCase()]);
     }
-    if (taskTypeProductMap[task_translation_key]) {
+    if (TASKTYPE_PRODUCT_MAP[task_translation_key]) {
       if (!productsByTranslationKey[task_translation_key]) {
         productsByTranslationKey[task_translation_key] = [];
       }
       productsByTranslationKey[task_translation_key] = [
         ...productsByTranslationKey[task_translation_key],
-        ...task[taskTypeProductMap[task_translation_key]],
+        ...task[TASKTYPE_PRODUCT_MAP[task_translation_key]],
       ];
     }
     return tasksByTranslationKey;
@@ -538,31 +536,19 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
   );
 };
 
-const formatPurposeIdsToRelationships = (purposeIds, otherPurpose, otherPurposeId) => {
-  return purposeIds.map((purpose_id) => {
-    return { purpose_id, other_purpose: purpose_id === otherPurposeId ? otherPurpose : null };
-  });
-};
-
 const getSoilAmendmentTaskBody = (
   data,
   endpoint,
   managementPlanWithCurrentLocationEntities,
   { purposes },
 ) => {
-  const otherPurposeId = purposes?.find(({ key }) => key === 'OTHER')?.id;
-  const baseState = getPostTaskBody(data, endpoint, managementPlanWithCurrentLocationEntities);
-  return produce(baseState, (draftState) => {
-    baseState.soil_amendment_task_products.forEach(
-      ({ purposes: purposeIds, other_purpose }, index) => {
-        draftState.soil_amendment_task_products[index].purpose_relationships =
-          formatPurposeIdsToRelationships(purposeIds, other_purpose, otherPurposeId);
-
-        delete draftState.soil_amendment_task_products[index].other_purpose;
-        delete draftState.soil_amendment_task_products[index].purposes;
-      },
-    );
-  });
+  return {
+    ...getPostTaskBody(data, endpoint, managementPlanWithCurrentLocationEntities),
+    soil_amendment_task_products: formatSoilAmendmentProductToDBStructure(
+      data.soil_amendment_task_products,
+      { purposes },
+    ),
+  };
 };
 
 const taskTypeGetPostTaskBodyFunctionMap = {

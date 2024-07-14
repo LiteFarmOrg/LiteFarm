@@ -20,6 +20,10 @@ const upsertManySoilAmendmentTaskProduct = (state, { payload: taskProducts }) =>
   soilAmendmentTaskProductAdapter.upsertMany(state, taskProducts);
 };
 
+const removeManySoilAmendmentTaskProduct = (state, { payload: idsToRemove }) => {
+  soilAmendmentTaskProductAdapter.removeMany(state, idsToRemove);
+};
+
 const soilAmendmentTaskProductAdapter = createEntityAdapter({
   selectId: (soilAmendmentTaskProduct) => soilAmendmentTaskProduct.id,
 });
@@ -29,10 +33,12 @@ const soilAmendmentTaskProductSlice = createSlice({
   initialState: soilAmendmentTaskProductAdapter.getInitialState({}),
   reducers: {
     getSoilAmendmentTaskProductsSuccess: upsertManySoilAmendmentTaskProduct,
+    removeSoilAmendmentTaskProducts: removeManySoilAmendmentTaskProduct,
   },
 });
 
-export const { getSoilAmendmentTaskProductsSuccess } = soilAmendmentTaskProductSlice.actions;
+export const { getSoilAmendmentTaskProductsSuccess, removeSoilAmendmentTaskProducts } =
+  soilAmendmentTaskProductSlice.actions;
 
 export default soilAmendmentTaskProductSlice.reducer;
 
@@ -52,3 +58,10 @@ export const soilAmendmentTaskProductStatusSelector = createSelector(
     return { loading, error, loaded };
   },
 );
+
+export const soilAmendmentTaskProductsByTaskIdSelector = (taskId) => {
+  return createSelector([soilAmendmentTaskProductEntitiesSelector], (entities) => {
+    // taskId could be a string or number (should use "==")
+    return Object.values(entities).filter((product) => product.task_id == taskId);
+  });
+};

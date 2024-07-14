@@ -344,7 +344,7 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingIrrigationTaskStart());
 }
 
-export function* getTasksSuccessSaga({ payload: tasks }) {
+function* handleGetTasksSuccess(tasks, successAction) {
   const taskTypeEntities = yield select(taskTypeEntitiesSelector);
   const tasksByTranslationKeyDefault = Object.keys(taskTypeActionMap).reduce(
     (tasksByTranslationKeyDefault, task_translation_key) => {
@@ -353,24 +353,44 @@ export function* getTasksSuccessSaga({ payload: tasks }) {
     },
     {},
   );
+
+  const productsByTranslationKey = {};
   const tasksByTranslationKey = tasks.reduce((tasksByTranslationKey, task) => {
     const { task_translation_key } = taskTypeEntities[task.task_type_id];
     if (taskTypeActionMap[task_translation_key]) {
       tasksByTranslationKey[task_translation_key].push(task[task_translation_key.toLowerCase()]);
     }
+    if (TASKTYPE_PRODUCT_MAP[task_translation_key]) {
+      if (!productsByTranslationKey[task_translation_key]) {
+        productsByTranslationKey[task_translation_key] = [];
+      }
+      productsByTranslationKey[task_translation_key] = [
+        ...productsByTranslationKey[task_translation_key],
+        ...task[TASKTYPE_PRODUCT_MAP[task_translation_key]],
+      ];
+    }
     return tasksByTranslationKey;
   }, tasksByTranslationKeyDefault);
+
   for (const task_translation_key in taskTypeActionMap) {
     try {
       yield taskTypeActionMap[task_translation_key].success(
         tasksByTranslationKey[task_translation_key],
+      );
+      yield taskProductTypeActionMap[task_translation_key]?.success(
+        productsByTranslationKey[task_translation_key],
       );
     } catch (e) {
       yield put(taskTypeActionMap[task_translation_key].fail(e));
       console.log(e);
     }
   }
-  yield put(addManyTasksFromGetReq(tasks));
+
+  yield put(successAction(tasks));
+}
+
+export function* getTasksSuccessSaga({ payload: tasks }) {
+  yield handleGetTasksSuccess(tasks, addManyTasksFromGetReq);
 }
 
 export const getTasks = createAction('getTasksSaga');
@@ -389,45 +409,7 @@ export function* getTasksSaga() {
 }
 
 export function* getAllTasksSuccessSaga({ payload: tasks }) {
-  const taskTypeEntities = yield select(taskTypeEntitiesSelector);
-  const tasksByTranslationKeyDefault = Object.keys(taskTypeActionMap).reduce(
-    (tasksByTranslationKeyDefault, task_translation_key) => {
-      tasksByTranslationKeyDefault[task_translation_key] = [];
-      return tasksByTranslationKeyDefault;
-    },
-    {},
-  );
-  const productsByTranslationKey = {};
-  const tasksByTranslationKey = tasks.reduce((tasksByTranslationKey, task) => {
-    const { task_translation_key } = taskTypeEntities[task.task_type_id];
-    if (taskTypeActionMap[task_translation_key]) {
-      tasksByTranslationKey[task_translation_key].push(task[task_translation_key.toLowerCase()]);
-    }
-    if (TASKTYPE_PRODUCT_MAP[task_translation_key]) {
-      if (!productsByTranslationKey[task_translation_key]) {
-        productsByTranslationKey[task_translation_key] = [];
-      }
-      productsByTranslationKey[task_translation_key] = [
-        ...productsByTranslationKey[task_translation_key],
-        ...task[TASKTYPE_PRODUCT_MAP[task_translation_key]],
-      ];
-    }
-    return tasksByTranslationKey;
-  }, tasksByTranslationKeyDefault);
-  for (const task_translation_key in taskTypeActionMap) {
-    try {
-      yield taskTypeActionMap[task_translation_key].success(
-        tasksByTranslationKey[task_translation_key],
-      );
-      yield taskProductTypeActionMap[task_translation_key]?.success(
-        productsByTranslationKey[task_translation_key],
-      );
-    } catch (e) {
-      yield put(taskTypeActionMap[task_translation_key].fail(e));
-      console.log(e);
-    }
-  }
-  yield put(addAllTasksFromGetReq(tasks));
+  yield handleGetTasksSuccess(tasks, addAllTasksFromGetReq);
 }
 
 const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {

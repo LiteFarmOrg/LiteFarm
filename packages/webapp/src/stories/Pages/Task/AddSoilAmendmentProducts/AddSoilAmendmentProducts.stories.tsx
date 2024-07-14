@@ -64,6 +64,13 @@ const meta: Meta<ComponentWithFormMethodsProps> = {
     purposes,
     fertiliserTypes,
     defaultValues: [defaultValues],
+    locations: [
+      {
+        type: 'garden',
+        total_area: 15000,
+        total_area_unit: 'm2',
+      },
+    ],
   },
 };
 
@@ -87,6 +94,11 @@ export const ReadOnly: Story = {
   args: {
     isReadOnly: true,
     farm: { interested: true, country_id: 37, farm_id: 'xxx' },
-    defaultValues: [{ ...defaultValues, product_id: 3 }],
+    defaultValues: [
+      {
+        ...defaultValues,
+        product_id: 3,
+      },
+    ],
   },
 };

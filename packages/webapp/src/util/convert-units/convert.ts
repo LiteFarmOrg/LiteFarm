@@ -1,3 +1,26 @@
-import configureMeasurements, { allMeasures } from 'convert-units';
+import configureMeasurements, {
+  allMeasures,
+  AllMeasuresUnits,
+  AllMeasuresSystems,
+  Measure,
+} from 'convert-units';
+import {
+  applicationRateVolume,
+  applicationRateWeight,
+  ApplicationRateVolumeUnits,
+  ApplicationRateWeightUnits,
+} from './applicationRates';
 
-export const convert = (number: number) => configureMeasurements(allMeasures)(Number(number) || undefined);
+type ExtendedMeasureUnits =
+  | AllMeasuresUnits
+  | ApplicationRateVolumeUnits
+  | ApplicationRateWeightUnits;
+
+const extendedMeasures: Record<string, Measure<AllMeasuresSystems, ExtendedMeasureUnits>> = {
+  ...allMeasures,
+  applicationRateVolume,
+  applicationRateWeight,
+};
+
+export const convert = (number: number) =>
+  configureMeasurements(extendedMeasures)(Number(number) || undefined);

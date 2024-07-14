@@ -25,6 +25,7 @@ import ProductDetails, { type ProductDetailsProps } from './ProductDetails';
 import { PRODUCT_FIELD_NAMES } from '../types';
 import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
+import QuantityApplicationRate, { Location } from '../QuantityApplicationRate';
 
 export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSave'> & {
   namePrefix: string;
@@ -34,6 +35,7 @@ export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSav
   purposeOptions: { label: string; value: number }[];
   otherPurposeId?: number;
   productNames: SoilAmendmentProduct['name'][];
+  locations: Location[];
 };
 
 interface ProductOption {
@@ -81,6 +83,7 @@ const SoilAmendmentProductCard = ({
   productNames = [],
   purposeOptions,
   otherPurposeId,
+  locations,
   ...props
 }: ProductCardProps) => {
   const { t } = useTranslation();
@@ -184,7 +187,13 @@ const SoilAmendmentProductCard = ({
           />
         </>
       )}
-      {/* TODO: LF-4249 <QuantityApplicationRate /> */}
+      <QuantityApplicationRate
+        productId={PRODUCT_ID}
+        system={system}
+        locations={locations}
+        isReadOnly={isReadOnly}
+        namePrefix={namePrefix}
+      />
     </div>
   );
 };

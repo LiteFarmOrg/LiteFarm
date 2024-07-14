@@ -1,0 +1,109 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../../assets/mixin.scss';
+
+.container,
+.applicationRateCard,
+.advancedSection,
+.sectionBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  gap: 8px;
+}
+
+.applicationRateCard {
+  gap: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--Colors-Neutral-Neutral-100);
+}
+
+.advancedSection {
+  padding: 4px 16px;
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Accent---singles-Blue-light);
+
+  .expandIcon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #cce3ff;
+    background: var(--Colors-Accent---singles-Blue-light);
+    transform: rotate(180deg);
+
+    path {
+      stroke-width: 2px;
+      stroke: var(--Colors-Accent---singles-Blue-full);
+    }
+  }
+  .advancedTitle {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+
+    padding: 4px 8px;
+    font-size: 14px;
+    color: var(--Colors-Accent---singles-Blue-full);
+  }
+
+  &.expanded {
+    padding: 4px 16px 16px 16px;
+    gap: 4px;
+
+    .expandIcon {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.sectionBody {
+  gap: 16px;
+}
+
+.locationSection {
+  display: flex;
+
+  & > div {
+    flex: 1;
+  }
+
+  svg {
+    height: 40px;
+    align-self: flex-end;
+    margin-bottom: 4px;
+  }
+
+  @include md-breakpoint {
+    flex-direction: column;
+
+    svg {
+      align-self: center;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.switchLabel {
+  color: var(--Colors-Neutral-Neutral-900);
+}
+
+.summaryText {
+  color: var(--Colors-Neutral-Neutral-900);
+  font-size: 14px;
+}

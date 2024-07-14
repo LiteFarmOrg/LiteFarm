@@ -109,7 +109,9 @@ const SoilAmendmentProductCard = ({
 
   return (
     <div className={styles.productCard}>
-      {onRemove && <SmallButton onClick={onRemove} className={styles.removeButton} />}
+      {!isReadOnly && onRemove && (
+        <SmallButton onClick={onRemove} className={styles.removeButton} />
+      )}
       <div>
         <Controller
           control={control}

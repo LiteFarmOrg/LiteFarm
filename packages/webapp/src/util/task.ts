@@ -105,3 +105,22 @@ export const formatTaskReadOnlyDefaultValues = (task: {
 
   return structuredClone(task);
 };
+
+// Defined for getRemovedTaskProductIds, could be integrated with the types above later
+interface DBTaskProduct {
+  id: number;
+  [key: string]: any;
+}
+
+const extractTaskProductIds = (taskProducts: DBTaskProduct[]): number[] => {
+  return taskProducts.map(({ id }) => id);
+};
+
+export const getRemovedTaskProductIds = (
+  oldTaskProducts: DBTaskProduct[],
+  newTaskProducts: DBTaskProduct[],
+): number[] => {
+  const [oldIds, newIds] = [oldTaskProducts, newTaskProducts].map(extractTaskProductIds);
+
+  return oldIds.filter((id) => !newIds.includes(id));
+};

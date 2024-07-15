@@ -15,6 +15,11 @@
 
 import { SoilAmendmentPurpose } from '../store/api/types';
 
+interface UnitOption {
+  label: string;
+  value: string;
+}
+
 interface PurposeRelationship {
   purpose_id: number;
   other_purpose?: string;
@@ -22,12 +27,33 @@ interface PurposeRelationship {
 
 type DBSoilAmendmentTaskProduct = {
   purpose_relationships: PurposeRelationship[];
+  other_purpose?: string;
+  weight?: number;
+  weight_unit?: string;
+  volume?: number;
+  volume_unit?: string;
+  percent_of_location_amended: number;
+  total_area_amended: number;
+  application_rate_weight: number;
+  application_rate_weight_unit: string;
   [key: string]: any;
 };
 
 type FormSoilAmendmentTaskProduct = {
   purposes: number[];
   other_purpose?: string;
+  weight?: number;
+  weight_unit?: UnitOption;
+  volume?: number;
+  volume_unit?: UnitOption;
+  percent_of_location_amended: number;
+  total_area_amended: number;
+  total_area_amended_unit: UnitOption;
+  application_rate_weight: number;
+  application_rate_weight_unit: UnitOption;
+  application_rate_volume: number;
+  application_rate_volume_unit: UnitOption;
+  is_weight: boolean;
   [key: string]: any;
 };
 
@@ -49,6 +75,7 @@ export const formatSoilAmendmentTaskToFormStructure = (
   const formattedTaskProducts = task.soil_amendment_task_products.map(
     (dbTaskProduct: DBSoilAmendmentTaskProduct): FormSoilAmendmentTaskProduct => {
       const { purpose_relationships, ...rest } = dbTaskProduct;
+      /* @ts-ignore */ // TODO: remove
       const formattedTaskProduct = { ...rest, purposes: [] } as FormSoilAmendmentTaskProduct;
 
       dbTaskProduct.purpose_relationships.forEach(({ purpose_id, other_purpose }) => {
@@ -75,6 +102,11 @@ const formatPurposeIdsToRelationships = (
   });
 };
 
+type RemainingFormSATProductKeys = keyof Omit<
+  FormSoilAmendmentTaskProduct,
+  'purposes' | 'other_purpose' | 'is_weight'
+>;
+
 export const formatSoilAmendmentProductToDBStructure = (
   soilAmendmentTaskProducts: FormSoilAmendmentTaskProduct[],
   { purposes }: { purposes: SoilAmendmentPurpose[] },
@@ -83,9 +115,34 @@ export const formatSoilAmendmentProductToDBStructure = (
   if (!otherPurposeId) {
     throw Error('id for OTHER purpose does not exist');
   }
-  return soilAmendmentTaskProducts.map(({ purposes: purposeIds, other_purpose, ...rest }) => {
+  return soilAmendmentTaskProducts.map((formTaskProduct) => {
+    const { purposes: purposeIds, other_purpose, is_weight, ...rest } = formTaskProduct;
+
+    const propertiesToDelete: RemainingFormSATProductKeys[] = [
+      'application_rate_weight',
+      'application_rate_volume',
+      'total_area_amended_unit',
+      ...(is_weight
+        ? ([
+            'volume',
+            'volume_unit',
+            'application_rate_volume_unit',
+          ] as RemainingFormSATProductKeys[])
+        : ([
+            'weight',
+            'weight_unit',
+            'application_rate_weight_unit',
+          ] as RemainingFormSATProductKeys[])),
+    ];
+
+    propertiesToDelete.forEach((property) => delete rest[property]);
+
     return {
       ...rest,
+      weight_unit: rest.weight_unit?.value,
+      volume_unit: rest.volume_unit?.value,
+      application_rate_volume_unit: rest.application_rate_volume_unit?.value,
+      application_rate_weight_unit: rest.application_rate_weight_unit?.value,
       purpose_relationships: formatPurposeIdsToRelationships(
         purposeIds,
         other_purpose,

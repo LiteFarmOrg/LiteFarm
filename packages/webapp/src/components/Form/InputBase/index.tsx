@@ -34,7 +34,9 @@ export type InputBaseSharedProps = InputBaseLabelProps & {
   error?: string;
   link?: string;
   textWithExternalLink?: string;
-  classes?: Record<'input' | 'label' | 'container' | 'info' | 'errors', React.CSSProperties>;
+  classes?: Partial<
+    Record<'input' | 'label' | 'container' | 'info' | 'errors', React.CSSProperties>
+  >;
 } & Pick<HTMLInputProps, 'placeholder' | 'disabled'>;
 
 type InputBaseProps = InputBaseSharedProps &
@@ -73,6 +75,7 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
             hasLeaf={hasLeaf}
             optional={optional}
             toolTipContent={toolTipContent}
+            labelStyles={classes?.label}
           />
         )}
         <InputBaseField

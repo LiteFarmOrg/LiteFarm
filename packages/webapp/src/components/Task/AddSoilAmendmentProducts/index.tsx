@@ -23,6 +23,7 @@ import { type ProductId, TASK_PRODUCT_FIELD_NAMES } from './types';
 import type { SoilAmendmentProduct } from '../../../store/api/types';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
 import styles from './styles.module.scss';
+import { Location } from './QuantityApplicationRate';
 
 export type AddSoilAmendmentProductsProps = Pick<
   ProductCardProps,
@@ -31,6 +32,7 @@ export type AddSoilAmendmentProductsProps = Pick<
   products: SoilAmendmentProduct[];
   purposes?: { id: number; key: string }[];
   fertiliserTypes?: { id: number; key: string }[];
+  locations: Location[];
 };
 
 interface ProductFields {
@@ -49,6 +51,7 @@ const AddSoilAmendmentProducts = ({
   purposes = [],
   fertiliserTypes = [],
   isReadOnly,
+  locations,
   ...props
 }: AddSoilAmendmentProductsProps) => {
   const { t } = useTranslation();
@@ -134,6 +137,7 @@ const AddSoilAmendmentProducts = ({
               purposeOptions={purposeOptions}
               otherPurposeId={otherPurposeId}
               fertiliserTypeOptions={fertiliserTypeOptions}
+              locations={locations}
             />
           );
         })}

@@ -39,7 +39,9 @@ export const up = async function (knex) {
 
   await knex.schema.alterTable('soil_amendment_product', (table) => {
     table.decimal('n', 36, 12).nullable().checkPositive('check_positive_n').alter();
+    // P in this case stands for Phosphate P2O5 also known as "Available Phosphorus"
     table.decimal('p', 36, 12).nullable().checkPositive('check_positive_p').alter();
+    // K in this case stands for Potassium Oxide K2O also known as "Soluble Potash",
     table.decimal('k', 36, 12).nullable().checkPositive('check_positive_k').alter();
     table.decimal('calcium', 36, 12).nullable().checkPositive('check_positive_calcium').alter();
     table.decimal('magnesium', 36, 12).nullable().checkPositive('check_positive_magnesium').alter();

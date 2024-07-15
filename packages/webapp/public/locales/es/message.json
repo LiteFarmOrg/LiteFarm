@@ -169,7 +169,8 @@
     "ERROR": {
       "ADD": "No se pudo agregar venta",
       "DELETE": "No se pudo borrar nueva venta",
-      "UPDATE": "No se pudo actualizar venta"
+      "UPDATE": "No se pudo actualizar venta",
+      "SALE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "ADD": "Venta agregada exitosamente",

@@ -169,7 +169,8 @@
     "ERROR": {
       "ADD": "Failed to add sale",
       "DELETE": "Failed to delete new sale",
-      "UPDATE": "Failed to update sale"
+      "UPDATE": "Failed to update sale",
+      "SALE_DELETED": "It appears you are trying to edit a deleted sale, please try again. Contact litefarm for assistance if the problem persists!."
     },
     "SUCCESS": {
       "ADD": "Successfully added sale",

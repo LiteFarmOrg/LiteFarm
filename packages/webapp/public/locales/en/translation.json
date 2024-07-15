@@ -16,7 +16,7 @@
   "ADD_PRODUCT": {
     "ADD_ANOTHER_PRODUCT": "Add another product",
     "ADDITIONAL_NUTRIENTS": "Additional nutrients",
-    "AMMONIUM": "Ammonium - NH4-N",
+    "AMMONIUM": "Ammonium (NH₄)",
     "BORON": "Boron (B)",
     "BUTTON_WARNING": "Any changes will affect all tasks involving this product",
     "CALCIUM": "Calcium (Ca)",
@@ -32,17 +32,17 @@
     "MAGNESIUM": "Magnesium (Mg)",
     "MANGANESE": "Manganese (Mn)",
     "MOISTURE_CONTENT": "Moisture content",
-    "NITRATE": "Nitrate - NO3-N",
+    "NITRATE": "Nitrate (NO₃)",
     "NITROGEN": "Nitrogen (N)",
-    "PHOSPHOROUS": "Phosphorous (P)",
-    "POTASSIUM": "Potassium (K)",
+    "PHOSPHOROUS": "Phosphorous (P₂O₅)",
+    "POTASSIUM": "Potassium (K₂O)",
     "PRESS_ENTER": "Type and press enter to add...",
     "PRODUCT_DETAILS": "Product details",
     "PRODUCT_LABEL": "Product",
     "SAVE_PRODUCT": "Save product",
     "SULFUR": "Sulfur (S)",
     "SUPPLIER_LABEL": "Supplier",
-    "TELL_US_WHAT_YOU_WILL_BE_APPLYING": "Tell us what you will be applying..."
+    "WHAT_YOU_WILL_BE_APPLYING": "What will you be applying?"
   },
   "ADD_TASK": {
     "ADD_A_CUSTOM_TASK": "Add a custom task",

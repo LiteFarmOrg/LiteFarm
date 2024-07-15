@@ -87,18 +87,18 @@ const QuantityApplicationRate = ({
   const APPLICATION_RATE_VOLUME = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME}`;
   const APPLICATION_RATE_WEIGHT_UNIT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT}`;
   const APPLICATION_RATE_VOLUME_UNIT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT}`;
+  const IS_WEIGHT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.IS_WEIGHT}`;
+
+  const isWeight = getValues(IS_WEIGHT);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpanded = () => setIsExpanded((prev) => !prev);
 
-  const [isWeight, setIsWeight] = useState(() => {
-    const volumeValue = getValues(VOLUME);
-    return isNaN(Number(volumeValue));
-  });
-
-  const toggleMeasure = () => {
-    setIsWeight((prev) => !prev);
-  };
+  // TODO: Set default value
+  // const [isWeight, setIsWeight] = useState(() => {
+  //   const volumeValue = getValues(VOLUME);
+  //   return isNaN(Number(volumeValue));
+  // });
 
   let total_area, total_area_unit, type;
   const locationCount = locations.length;
@@ -145,7 +145,7 @@ const QuantityApplicationRate = ({
         leftLabel={formatLabel('ADD_TASK.SOIL_AMENDMENT_VIEW.WEIGHT', isWeight)}
         label={formatLabel('ADD_TASK.SOIL_AMENDMENT_VIEW.VOLUME', !isWeight)}
         isToggleVariant
-        onChange={toggleMeasure}
+        onChange={(e) => setValue(IS_WEIGHT, e.target.checked ? false : true)}
         checked={!isWeight}
         disabled={isReadOnly}
       />

@@ -31,7 +31,7 @@ class ProductModel extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'farm_id'],
+      required: ['name', 'farm_id', 'type'],
       properties: {
         product_id: { type: 'integer' },
         name: { type: 'string' },

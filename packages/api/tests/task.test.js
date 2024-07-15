@@ -1035,15 +1035,19 @@ describe('Task tests', () => {
       const fakeProductData = {
         soil_amendment_task_products: async (farm_id) => {
           // checkSoilAmendmentTaskProducts middleware requires a product that belongs to the given farm
-          const [{ product_id: soilAmendmentProduct }] = await mocks.productFactory(
+          const [soilAmendmentProduct] = await mocks.productFactory(
             { promisedFarm: [{ farm_id }] },
             // of type 'soil_amendment_task'
             mocks.fakeProduct({ type: 'soil_amendment_task' }),
           );
+          // Make product details available
+          await mocks.soil_amendment_productFactory({
+            promisedProduct: [soilAmendmentProduct],
+          });
 
           return [
             mocks.fakeSoilAmendmentTaskProduct({
-              product_id: soilAmendmentProduct,
+              product_id: soilAmendmentProduct.product_id,
               purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
             }),
           ];
@@ -1441,6 +1445,10 @@ describe('Task tests', () => {
           { promisedFarm: [{ farm_id }] },
           mocks.fakeProduct({ type: 'soil_amendment_task' }),
         );
+        // Make product details available
+        await mocks.soil_amendment_productFactory({
+          promisedProduct: [farmProduct],
+        });
 
         const data = {
           ...mocks.fakeTask({
@@ -1505,6 +1513,10 @@ describe('Task tests', () => {
           { promisedFarm: [{ farm_id }] },
           mocks.fakeProduct({ type: 'soil_amendment_task' }),
         );
+        // Make product details available
+        await mocks.soil_amendment_productFactory({
+          promisedProduct: [farmProduct],
+        });
 
         const data = {
           ...mocks.fakeTask({
@@ -1754,15 +1766,19 @@ describe('Task tests', () => {
     const fakeProductData = {
       soil_amendment_task_products: async (farm_id) => {
         // checkSoilAmendmentTaskProducts middleware requires a product that belongs to the given farm
-        const [{ product_id: soilAmendmentProduct }] = await mocks.productFactory(
+        const [soilAmendmentProduct] = await mocks.productFactory(
           { promisedFarm: [{ farm_id }] },
           // of type 'soil_amendment_task'
           mocks.fakeProduct({ type: 'soil_amendment_task' }),
         );
+        // Make product details available
+        await mocks.soil_amendment_productFactory({
+          promisedProduct: [soilAmendmentProduct],
+        });
 
         return [
           mocks.fakeSoilAmendmentTaskProduct({
-            product_id: soilAmendmentProduct,
+            product_id: soilAmendmentProduct.product_id,
             purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
           }),
         ];
@@ -1889,33 +1905,45 @@ describe('Task tests', () => {
       const [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
 
       // Insert three differents products
-      const [{ product_id: soilAmendmentProductOne }] = await mocks.productFactory(
+      const [soilAmendmentProductOne] = await mocks.productFactory(
         { promisedFarm: [{ farm_id }] },
         // of type 'soil_amendment_task'
         mocks.fakeProduct({ type: 'soil_amendment_task' }),
       );
-      const [{ product_id: soilAmendmentProductTwo }] = await mocks.productFactory(
+      // Make product details available
+      await mocks.soil_amendment_productFactory({
+        promisedProduct: [soilAmendmentProductOne],
+      });
+      const [soilAmendmentProductTwo] = await mocks.productFactory(
         { promisedFarm: [{ farm_id }] },
         // of type 'soil_amendment_task'
         mocks.fakeProduct({ type: 'soil_amendment_task' }),
       );
-      const [{ product_id: soilAmendmentProductThree }] = await mocks.productFactory(
+      // Make product details available
+      await mocks.soil_amendment_productFactory({
+        promisedProduct: [soilAmendmentProductTwo],
+      });
+      const [soilAmendmentProductThree] = await mocks.productFactory(
         { promisedFarm: [{ farm_id }] },
         // of type 'soil_amendment_task'
         mocks.fakeProduct({ type: 'soil_amendment_task' }),
       );
+      // Make product details available
+      await mocks.soil_amendment_productFactory({
+        promisedProduct: [soilAmendmentProductThree],
+      });
 
       // Initial task product state
       const soilAmendmentTaskProductData = [
         mocks.fakeSoilAmendmentTaskProduct({
-          product_id: soilAmendmentProductOne,
+          product_id: soilAmendmentProductOne.product_id,
           purpose_relationships: [
             { purpose_id: soilAmendmentPurpose },
             { purpose_id: soilAmendmentPurposeTwo },
           ],
         }),
         mocks.fakeSoilAmendmentTaskProduct({
-          product_id: soilAmendmentProductTwo,
+          product_id: soilAmendmentProductTwo.product_id,
           purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
         }),
       ];
@@ -1951,7 +1979,7 @@ describe('Task tests', () => {
         // Add a new task product
         createdTaskProducts.push(
           mocks.fakeSoilAmendmentTaskProduct({
-            product_id: soilAmendmentProductThree,
+            product_id: soilAmendmentProductThree.product_id,
             purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
           }),
         );
@@ -1997,7 +2025,7 @@ describe('Task tests', () => {
             // The added product should be present and have a relationship
             const addedTaskProduct = await knex('soil_amendment_task_products')
               .where({ task_id })
-              .andWhere({ product_id: soilAmendmentProductThree });
+              .andWhere({ product_id: soilAmendmentProductThree.product_id });
             expect(addedTaskProduct.length).toBe(1);
             const addedRelationship = await knex(
               'soil_amendment_task_products_purpose_relationship',
@@ -2019,28 +2047,36 @@ describe('Task tests', () => {
       const [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
 
       // Insert two differents products
-      const [{ product_id: soilAmendmentProductOne }] = await mocks.productFactory(
+      const [soilAmendmentProductOne] = await mocks.productFactory(
         { promisedFarm: [{ farm_id }] },
         // of type 'soil_amendment_task'
         mocks.fakeProduct({ type: 'soil_amendment_task' }),
       );
-      const [{ product_id: soilAmendmentProductTwo }] = await mocks.productFactory(
+      // Make product details available
+      await mocks.soil_amendment_productFactory({
+        promisedProduct: [soilAmendmentProductOne],
+      });
+      const [soilAmendmentProductTwo] = await mocks.productFactory(
         { promisedFarm: [{ farm_id }] },
         // of type 'soil_amendment_task'
         mocks.fakeProduct({ type: 'soil_amendment_task' }),
       );
+      // Make product details available
+      await mocks.soil_amendment_productFactory({
+        promisedProduct: [soilAmendmentProductTwo],
+      });
 
       // Initial task product state
       const soilAmendmentTaskProductData = [
         mocks.fakeSoilAmendmentTaskProduct({
-          product_id: soilAmendmentProductOne,
+          product_id: soilAmendmentProductOne.product_id,
           purpose_relationships: [
             { purpose_id: soilAmendmentPurpose },
             { purpose_id: soilAmendmentPurposeTwo },
           ],
         }),
         mocks.fakeSoilAmendmentTaskProduct({
-          product_id: soilAmendmentProductTwo,
+          product_id: soilAmendmentProductTwo.product_id,
           purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
         }),
       ];
@@ -2070,7 +2106,7 @@ describe('Task tests', () => {
 
         // Remove all purpose relationships
         const taskProductForDeletedPurpose = createdTaskProducts.find(
-          (product) => product.product_id == soilAmendmentProductTwo,
+          (product) => product.product_id == soilAmendmentProductTwo.product_id,
         );
         const taskProductIdForDeletedPurpose = taskProductForDeletedPurpose.id;
         taskProductForDeletedPurpose.purpose_relationships.pop();
@@ -2106,7 +2142,7 @@ describe('Task tests', () => {
       const [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
 
       // Insert one product
-      const [{ product_id: soilAmendmentProductOne }] = await mocks.productFactory(
+      const [soilAmendmentProductOne] = await mocks.productFactory(
         { promisedFarm: [{ farm_id }] },
         // of type 'soil_amendment_task'
         mocks.fakeProduct({ type: 'soil_amendment_task' }),
@@ -2115,7 +2151,7 @@ describe('Task tests', () => {
       // Initial task product state
       const soilAmendmentTaskProductData = [
         mocks.fakeSoilAmendmentTaskProduct({
-          product_id: soilAmendmentProductOne,
+          product_id: soilAmendmentProductOne.product_id,
           purpose_relationships: [
             { purpose_id: soilAmendmentPurpose },
             { purpose_id: soilAmendmentPurposeTwo },
@@ -2182,16 +2218,20 @@ describe('Task tests', () => {
       const [{ id: soilAmendmentPurposeTwo }] = await mocks.soil_amendment_purposeFactory();
 
       // Insert one product
-      const [{ product_id: soilAmendmentProductOne }] = await mocks.productFactory(
+      const [soilAmendmentProductOne] = await mocks.productFactory(
         { promisedFarm: [{ farm_id }] },
         // of type 'soil_amendment_task'
         mocks.fakeProduct({ type: 'soil_amendment_task' }),
       );
+      // Make product details available
+      await mocks.soil_amendment_productFactory({
+        promisedProduct: [soilAmendmentProductOne],
+      });
 
       // Initial task product state
       const soilAmendmentTaskProductData = [
         mocks.fakeSoilAmendmentTaskProduct({
-          product_id: soilAmendmentProductOne,
+          product_id: soilAmendmentProductOne.product_id,
           purpose_relationships: [
             { purpose_id: soilAmendmentPurpose },
             { purpose_id: soilAmendmentPurposeTwo },

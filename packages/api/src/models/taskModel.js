@@ -101,16 +101,16 @@ class TaskModel extends BaseModel {
           to: 'soil_amendment_task.task_id',
         },
       },
-      soil_amendment_task_products: {
+      soil_amendment_task_product: {
         relation: Model.HasManyRelation,
         modelClass: soilAmendmentTaskProductModel,
         join: {
           from: 'task.task_id',
-          to: 'soil_amendment_task_products.task_id',
+          to: 'soil_amendment_task_product.task_id',
         },
         modify: (query) =>
           query.select('*').whereIn('id', function () {
-            this.select('id').from('soil_amendment_task_products').where('deleted', false);
+            this.select('id').from('soil_amendment_task_product').where('deleted', false);
           }),
       },
       pest_control_task: {
@@ -259,7 +259,7 @@ class TaskModel extends BaseModel {
       action_needed: 'omit',
       // relationMappings
       soil_amendment_task: 'edit',
-      soil_amendment_task_products: 'edit',
+      soil_amendment_task_product: 'edit',
       pest_control_task: 'edit',
       irrigation_task: 'edit',
       scouting_task: 'edit',
@@ -446,7 +446,7 @@ class TaskModel extends BaseModel {
     const { farm_id, task_translation_key } = taskType;
     const taskTypeKey = task_translation_key?.toLowerCase();
 
-    const relatedProductTable = `${taskTypeKey}_products`;
+    const relatedProductTable = `${taskTypeKey}_product`;
 
     if (!farm_id && taskTypesWithProducts.includes(taskTypeKey)) {
       // Mark related products as deleted

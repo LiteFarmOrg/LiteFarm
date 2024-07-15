@@ -122,7 +122,7 @@ class SoilAmendmentTaskProduct extends BaseModel {
         modelClass: taskModel,
         join: {
           from: 'soil_amendment_task_product.task_id',
-          to: 'soil_amendment_task.task_id',
+          to: 'task.task_id',
         },
       },
       purpose_relationships: {
@@ -155,7 +155,7 @@ class SoilAmendmentTaskProduct extends BaseModel {
       total_area_amended: 'keep',
       // relationMappings
       product: 'omit',
-      soil_amendment_task: 'omit',
+      task: 'omit',
       purpose_relationships: 'edit',
     };
   }

@@ -281,7 +281,7 @@ const organicCertifierSurveyController = {
                           t.task_id,
                           p.on_permitted_substances_list
           FROM task t
-                   JOIN soil_amendment_task_products satp ON satp.task_id = t.task_id
+                   JOIN soil_amendment_task_product satp ON satp.task_id = t.task_id
                    JOIN product p ON p.product_id = satp.product_id
                    JOIN location_tasks tl ON t.task_id = tl.task_id
                    JOIN location l ON tl.location_id = l.location_id

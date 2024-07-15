@@ -136,7 +136,7 @@ export function checkCompleteTask(taskType) {
         return res.status(400).send('An unassigned task cannot be completed');
       }
 
-      if (`${taskType}_products` in req.body) {
+      if (`${taskType}_product` in req.body) {
         checkProductsMiddlewareMap[taskType]()(req, res, next);
       } else {
         next();
@@ -163,7 +163,7 @@ export function checkCreateTask(taskType) {
         return res.status(400).send('must have task details body');
       }
 
-      if (taskTypesRequiringProducts.includes(taskType) && !(`${taskType}_products` in req.body)) {
+      if (taskTypesRequiringProducts.includes(taskType) && !(`${taskType}_product` in req.body)) {
         return res.status(400).send('task type requires products');
       }
 

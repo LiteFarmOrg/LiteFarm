@@ -1033,7 +1033,7 @@ describe('Task tests', () => {
       });
 
       const fakeProductData = {
-        soil_amendment_task_products: async (farm_id) => {
+        soil_amendment_task_product: async (farm_id) => {
           // checkSoilAmendmentTaskProducts middleware requires a product that belongs to the given farm
           const [soilAmendmentProduct] = await mocks.productFactory(
             { promisedFarm: [{ farm_id }] },
@@ -1292,8 +1292,8 @@ describe('Task tests', () => {
             managementPlans: [{ planting_management_plan_id }],
           };
 
-          if (tasksWithProducts.some((task) => task == type)) {
-            data[`${type}_products`] = await fakeProductData[`${type}_products`](farm_id);
+          if (tasksWithProducts.includes(type)) {
+            data[`${type}_product`] = await fakeProductData[`${type}_product`](farm_id);
           }
           postTaskRequest({ user_id, farm_id }, type, data, async (err, res) => {
             expect(res.status).toBe(201);
@@ -1455,13 +1455,13 @@ describe('Task tests', () => {
             soil_amendment_task: {
               method_id: soilAmendmentMethod,
               ...mocks.fakeSoilAmendmentTask(),
-              soil_amendment_task_product: [
-                mocks.fakeSoilAmendmentTaskProduct({
-                  product_id: farmProduct.product_id,
-                  purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
-                }),
-              ],
             },
+            soil_amendment_task_product: [
+              mocks.fakeSoilAmendmentTaskProduct({
+                product_id: farmProduct.product_id,
+                purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+              }),
+            ],
             task_type_id,
             owner_user_id: user_id,
           }),
@@ -1523,13 +1523,13 @@ describe('Task tests', () => {
             soil_amendment_task: {
               method_id: soilAmendmentMethod,
               ...mocks.fakeSoilAmendmentTask(),
-              soil_amendment_task_product: [
-                mocks.fakeSoilAmendmentTaskProduct({
-                  product_id: farmProduct.product_id,
-                  purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
-                }),
-              ],
             },
+            soil_amendment_task_product: [
+              mocks.fakeSoilAmendmentTaskProduct({
+                product_id: farmProduct.product_id,
+                purpose_relationships: [{ purpose_id: soilAmendmentPurpose }],
+              }),
+            ],
             task_type_id,
             owner_user_id: user_id,
             wage_at_moment: 50,
@@ -1764,7 +1764,7 @@ describe('Task tests', () => {
     });
 
     const fakeProductData = {
-      soil_amendment_task_products: async (farm_id) => {
+      soil_amendment_task_product: async (farm_id) => {
         // checkSoilAmendmentTaskProducts middleware requires a product that belongs to the given farm
         const [soilAmendmentProduct] = await mocks.productFactory(
           { promisedFarm: [{ farm_id }] },
@@ -1865,7 +1865,7 @@ describe('Task tests', () => {
       await mocks.soil_amendment_taskFactory({ promisedTask: [{ task_id }] });
 
       const new_soil_amendment_task = fakeTaskData.soil_amendment_task(farm_id);
-      const new_soil_amendment_task_products = await fakeProductData.soil_amendment_task_products(
+      const new_soil_amendment_task_product = await fakeProductData.soil_amendment_task_product(
         farm_id,
       );
 
@@ -1875,7 +1875,7 @@ describe('Task tests', () => {
           ...fakeCompletionData,
           task_id,
           soil_amendment_task: { task_id, ...new_soil_amendment_task },
-          soil_amendment_task_products: new_soil_amendment_task_products,
+          soil_amendment_task_product: new_soil_amendment_task_product,
         },
         task_id,
         'soil_amendment_task',
@@ -1953,7 +1953,7 @@ describe('Task tests', () => {
           soil_amendment_task: mocks.fakeSoilAmendmentTask({
             method_id: soilAmendmentMethod,
           }),
-          soil_amendment_task_products: soilAmendmentTaskProductData,
+          soil_amendment_task_product: soilAmendmentTaskProductData,
           task_type_id,
           owner_user_id: user_id,
           wage_at_moment: 50,
@@ -1966,7 +1966,7 @@ describe('Task tests', () => {
       postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', taskData, async (err, res) => {
         expect(res.status).toBe(201);
         const createdTask = res.body;
-        const createdTaskProducts = createdTask.soil_amendment_task_products;
+        const createdTaskProducts = createdTask.soil_amendment_task_product;
         const { task_id } = createdTask;
         // Delete abandonment reason to prevent validation error
         delete createdTask.abandonment_reason;
@@ -1997,25 +1997,25 @@ describe('Task tests', () => {
             expect(res.status).toBe(200);
 
             // Two active and one deleted task product should be present
-            const completed_task_products = await knex('soil_amendment_task_products').where({
+            const completedTaskProducts = await knex('soil_amendment_task_product').where({
               task_id,
             });
-            expect(completed_task_products.length).toBe(3);
+            expect(completedTaskProducts.length).toBe(3);
             expect(
-              completed_task_products.find((prod) => prod.id == deletedTaskProduct.id).deleted,
+              completedTaskProducts.find((prod) => prod.id == deletedTaskProduct.id).deleted,
             ).toBe(true);
-            const completed_soil_amendment_task_products_purpose_relationship = await knex(
-              'soil_amendment_task_products_purpose_relationship',
+            const completed_soil_amendment_task_product_purpose_relationship = await knex(
+              'soil_amendment_task_product_purpose_relationship',
             ).whereIn('task_product_id', [
-              completed_task_products[0].id,
-              completed_task_products[1].id,
-              completed_task_products[2].id,
+              completedTaskProducts[0].id,
+              completedTaskProducts[1].id,
+              completedTaskProducts[2].id,
             ]);
-            expect(completed_soil_amendment_task_products_purpose_relationship.length).toBe(3);
+            expect(completed_soil_amendment_task_product_purpose_relationship.length).toBe(3);
 
             // The relationship created originally should be hard deleted
             const deletedRelationship = await knex(
-              'soil_amendment_task_products_purpose_relationship',
+              'soil_amendment_task_product_purpose_relationship',
             ).where('task_product_id', taskProductIdForDeletedPurpose);
             expect(deletedRelationship.length).toBe(1);
             expect(deletedRelationship[0].purpose_id).not.toBe(
@@ -2023,12 +2023,12 @@ describe('Task tests', () => {
             );
 
             // The added product should be present and have a relationship
-            const addedTaskProduct = await knex('soil_amendment_task_products')
+            const addedTaskProduct = await knex('soil_amendment_task_product')
               .where({ task_id })
               .andWhere({ product_id: soilAmendmentProductThree.product_id });
             expect(addedTaskProduct.length).toBe(1);
             const addedRelationship = await knex(
-              'soil_amendment_task_products_purpose_relationship',
+              'soil_amendment_task_product_purpose_relationship',
             ).where('task_product_id', addedTaskProduct[0].id);
             expect(addedRelationship.length).toBe(1);
             done();
@@ -2086,7 +2086,7 @@ describe('Task tests', () => {
           soil_amendment_task: mocks.fakeSoilAmendmentTask({
             method_id: soilAmendmentMethod,
           }),
-          soil_amendment_task_products: soilAmendmentTaskProductData,
+          soil_amendment_task_product: soilAmendmentTaskProductData,
           task_type_id,
           owner_user_id: user_id,
           wage_at_moment: 50,
@@ -2099,7 +2099,7 @@ describe('Task tests', () => {
       postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', taskData, async (err, res) => {
         expect(res.status).toBe(201);
         const createdTask = res.body;
-        const createdTaskProducts = createdTask.soil_amendment_task_products;
+        const createdTaskProducts = createdTask.soil_amendment_task_product;
         const { task_id } = createdTask;
         // Delete abandonment reason to prevent validation error
         delete createdTask.abandonment_reason;
@@ -2122,10 +2122,10 @@ describe('Task tests', () => {
           'soil_amendment_task',
           async (err, res) => {
             expect(res.status).toBe(400);
-            const completed_soil_amendment_task_products_purpose_relationship = await knex(
-              'soil_amendment_task_products_purpose_relationship',
+            const completed_soil_amendment_task_product_purpose_relationship = await knex(
+              'soil_amendment_task_product_purpose_relationship',
             ).whereIn('task_product_id', [taskProductIdForDeletedPurpose]);
-            expect(completed_soil_amendment_task_products_purpose_relationship.length).toBe(1);
+            expect(completed_soil_amendment_task_product_purpose_relationship.length).toBe(1);
             done();
           },
         );
@@ -2164,7 +2164,7 @@ describe('Task tests', () => {
           soil_amendment_task: mocks.fakeSoilAmendmentTask({
             method_id: soilAmendmentMethod,
           }),
-          soil_amendment_task_products: soilAmendmentTaskProductData,
+          soil_amendment_task_product: soilAmendmentTaskProductData,
           task_type_id,
           owner_user_id: user_id,
           wage_at_moment: 50,
@@ -2177,7 +2177,7 @@ describe('Task tests', () => {
       postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', taskData, async (err, res) => {
         expect(res.status).toBe(201);
         const createdTask = res.body;
-        const createdTaskProducts = createdTask.soil_amendment_task_products;
+        const createdTaskProducts = createdTask.soil_amendment_task_product;
         const { task_id } = createdTask;
         // Delete abandonment reason to prevent validation error
         delete createdTask.abandonment_reason;
@@ -2197,11 +2197,11 @@ describe('Task tests', () => {
             expect(res.status).toBe(400);
 
             // One deleted task product should be present
-            const completed_task_products = await knex('soil_amendment_task_products').where({
+            const completedTaskProducts = await knex('soil_amendment_task_product').where({
               task_id,
             });
-            expect(completed_task_products.length).toBe(1);
-            expect(completed_task_products[0].deleted).toBe(false);
+            expect(completedTaskProducts.length).toBe(1);
+            expect(completedTaskProducts[0].deleted).toBe(false);
             done();
           },
         );
@@ -2244,7 +2244,7 @@ describe('Task tests', () => {
           soil_amendment_task: mocks.fakeSoilAmendmentTask({
             method_id: soilAmendmentMethod,
           }),
-          soil_amendment_task_products: soilAmendmentTaskProductData,
+          soil_amendment_task_product: soilAmendmentTaskProductData,
           task_type_id,
           owner_user_id: user_id,
           wage_at_moment: 50,
@@ -2262,7 +2262,7 @@ describe('Task tests', () => {
         delete createdTask.abandonment_reason;
 
         // Delete a task product
-        createdTask.soil_amendment_task_products[0].deleted = true;
+        createdTask.soil_amendment_task_product[0].deleted = true;
 
         completeTaskRequest(
           { user_id, farm_id },
@@ -2276,11 +2276,11 @@ describe('Task tests', () => {
             expect(res.status).toBe(400);
 
             // One deleted task product should be present
-            const completed_task_products = await knex('soil_amendment_task_products').where({
+            const completedTaskProducts = await knex('soil_amendment_task_product').where({
               task_id,
             });
-            expect(completed_task_products.length).toBe(1);
-            expect(completed_task_products[0].deleted).toBe(false);
+            expect(completedTaskProducts.length).toBe(1);
+            expect(completedTaskProducts[0].deleted).toBe(false);
             done();
           },
         );

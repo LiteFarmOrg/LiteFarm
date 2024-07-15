@@ -25,8 +25,8 @@ import PestControlTaskModel from '../models/pestControlTask.js';
 import ScoutingTaskModel from '../models/scoutingTaskModel.js';
 import SoilTaskModel from '../models/soilTaskModel.js';
 import SoilAmendmentTaskModel from '../models/soilAmendmentTaskModel.js';
-import SoilAmendmentTaskProductsModel from '../models/soilAmendmentTaskProductsModel.js';
-import soilAmendmentTaskProductPurposeRelationshipModel from '../models/soilAmendmentTaskProductPurposeRelationshipModel.js';
+import SoilAmendmentTaskProductModel from '../models/soilAmendmentTaskProductModel.js';
+import SoilAmendmentTaskProductPurposeRelationshipModel from '../models/soilAmendmentTaskProductPurposeRelationshipModel.js';
 import IrrigationTaskModel from '../models/irrigationTaskModel.js';
 import HarvestTaskModel from '../models/harvestTaskModel.js';
 import FieldWorkTaskModel from '../models/fieldWorkTaskModel.js';
@@ -325,7 +325,7 @@ export const getManagementPlanTemplateGraph = (
                                     return {
                                       ..._omit(
                                         taskProduct,
-                                        getPropertiesToDelete(SoilAmendmentTaskProductsModel),
+                                        getPropertiesToDelete(SoilAmendmentTaskProductModel),
                                       ),
                                       purpose_relationships: taskProduct.purpose_relationships
                                         ? taskProduct.purpose_relationships.map((relationship) => {
@@ -333,7 +333,7 @@ export const getManagementPlanTemplateGraph = (
                                               ..._omit(
                                                 relationship,
                                                 getPropertiesToDelete(
-                                                  soilAmendmentTaskProductPurposeRelationshipModel,
+                                                  SoilAmendmentTaskProductPurposeRelationshipModel,
                                                 ),
                                               ),
                                             };

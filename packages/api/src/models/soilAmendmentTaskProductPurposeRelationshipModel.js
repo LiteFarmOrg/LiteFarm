@@ -22,7 +22,7 @@ class soilAmendmentTaskProductPurposeRelationshipModel extends Model {
   }
 
   static get idColumn() {
-    return ['task_products_id', 'purpose_id'];
+    return ['task_product_id', 'purpose_id'];
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -31,9 +31,9 @@ class soilAmendmentTaskProductPurposeRelationshipModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['task_products_id', 'purpose_id'],
+      required: ['task_product_id', 'purpose_id'],
       properties: {
-        task_products_id: { type: 'integer' },
+        task_product_id: { type: 'integer' },
         purpose_id: { type: 'integer' },
         other_purpose: { type: ['string', 'null'] },
       },
@@ -60,7 +60,7 @@ class soilAmendmentTaskProductPurposeRelationshipModel extends Model {
   static get templateMappingSchema() {
     return {
       // jsonSchema()
-      task_products_id: 'omit',
+      task_product_id: 'omit',
       purpose_id: 'keep',
       other_purpose: 'keep',
       // relationMappings()

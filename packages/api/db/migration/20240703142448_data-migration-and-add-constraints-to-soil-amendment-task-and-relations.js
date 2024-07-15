@@ -103,6 +103,9 @@ export const up = async function (knex) {
     'soil_amendment_task_products_purpose_relationship',
     'soil_amendment_task_product_purpose_relationship',
   );
+  await knex.schema.alterTable('soil_amendment_task_product_purpose_relationship', (table) => {
+    table.renameColumn('task_products_id', 'task_product_id');
+  });
 
   /*----------------------------------------
    Add type constraint to product
@@ -222,6 +225,9 @@ export const down = async function (knex) {
     'soil_amendment_task_product_purpose_relationship',
     'soil_amendment_task_products_purpose_relationship',
   );
+  await knex.schema.alterTable('soil_amendment_task_products_purpose_relationship', (table) => {
+    table.renameColumn('task_product_id', 'task_products_id');
+  });
 
   /*----------------------------------------
    Add type constraint to product

@@ -2006,7 +2006,7 @@ describe('Task tests', () => {
             ).toBe(true);
             const completed_soil_amendment_task_products_purpose_relationship = await knex(
               'soil_amendment_task_products_purpose_relationship',
-            ).whereIn('task_products_id', [
+            ).whereIn('task_product_id', [
               completed_task_products[0].id,
               completed_task_products[1].id,
               completed_task_products[2].id,
@@ -2016,7 +2016,7 @@ describe('Task tests', () => {
             // The relationship created originally should be hard deleted
             const deletedRelationship = await knex(
               'soil_amendment_task_products_purpose_relationship',
-            ).where('task_products_id', taskProductIdForDeletedPurpose);
+            ).where('task_product_id', taskProductIdForDeletedPurpose);
             expect(deletedRelationship.length).toBe(1);
             expect(deletedRelationship[0].purpose_id).not.toBe(
               deletedPurposeRelationship.purpose_id,
@@ -2029,7 +2029,7 @@ describe('Task tests', () => {
             expect(addedTaskProduct.length).toBe(1);
             const addedRelationship = await knex(
               'soil_amendment_task_products_purpose_relationship',
-            ).where('task_products_id', addedTaskProduct[0].id);
+            ).where('task_product_id', addedTaskProduct[0].id);
             expect(addedRelationship.length).toBe(1);
             done();
           },
@@ -2124,7 +2124,7 @@ describe('Task tests', () => {
             expect(res.status).toBe(400);
             const completed_soil_amendment_task_products_purpose_relationship = await knex(
               'soil_amendment_task_products_purpose_relationship',
-            ).whereIn('task_products_id', [taskProductIdForDeletedPurpose]);
+            ).whereIn('task_product_id', [taskProductIdForDeletedPurpose]);
             expect(completed_soil_amendment_task_products_purpose_relationship.length).toBe(1);
             done();
           },

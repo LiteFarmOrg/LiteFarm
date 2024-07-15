@@ -130,7 +130,7 @@ class SoilAmendmentTaskProducts extends BaseModel {
         modelClass: soilAmendmentTaskProductPurposeRelationshipModel,
         join: {
           from: 'soil_amendment_task_product.id',
-          to: 'soil_amendment_task_product_purpose_relationship.task_products_id',
+          to: 'soil_amendment_task_product_purpose_relationship.task_product_id',
         },
       },
     };

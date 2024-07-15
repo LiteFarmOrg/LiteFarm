@@ -94,12 +94,6 @@ const QuantityApplicationRate = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpanded = () => setIsExpanded((prev) => !prev);
 
-  // TODO: Set default value
-  // const [isWeight, setIsWeight] = useState(() => {
-  //   const volumeValue = getValues(VOLUME);
-  //   return isNaN(Number(volumeValue));
-  // });
-
   let total_area, total_area_unit, type;
   const locationCount = locations.length;
   if (locationCount === 1) {

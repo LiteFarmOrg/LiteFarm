@@ -14,6 +14,7 @@
  */
 
 import { SoilAmendmentPurpose } from '../store/api/types';
+import { getUnitOptionMap } from './convert-units/getUnitOptionMap';
 
 interface UnitOption {
   label: string;
@@ -34,8 +35,10 @@ type DBSoilAmendmentTaskProduct = {
   volume_unit?: string;
   percent_of_location_amended: number;
   total_area_amended: number;
-  application_rate_weight: number;
-  application_rate_weight_unit: string;
+  application_rate_weight?: number;
+  application_rate_weight_unit?: string;
+  application_rate_volume?: number;
+  application_rate_volume_unit?: string;
   [key: string]: any;
 };
 
@@ -48,11 +51,11 @@ type FormSoilAmendmentTaskProduct = {
   volume_unit?: UnitOption;
   percent_of_location_amended: number;
   total_area_amended: number;
-  total_area_amended_unit: UnitOption;
-  application_rate_weight: number;
-  application_rate_weight_unit: UnitOption;
-  application_rate_volume: number;
-  application_rate_volume_unit: UnitOption;
+  total_area_amended_unit?: UnitOption;
+  application_rate_weight?: number;
+  application_rate_weight_unit?: UnitOption;
+  application_rate_volume?: number;
+  application_rate_volume_unit?: UnitOption;
   is_weight: boolean;
   [key: string]: any;
 };
@@ -75,8 +78,13 @@ export const formatSoilAmendmentTaskToFormStructure = (
   const formattedTaskProducts = task.soil_amendment_task_products.map(
     (dbTaskProduct: DBSoilAmendmentTaskProduct): FormSoilAmendmentTaskProduct => {
       const { purpose_relationships, ...rest } = dbTaskProduct;
-      /* @ts-ignore */ // TODO: remove
-      const formattedTaskProduct = { ...rest, purposes: [] } as FormSoilAmendmentTaskProduct;
+      const isWeight = rest.weight || rest.weight === 0;
+
+      const formattedTaskProduct = {
+        ...rest,
+        purposes: [],
+        is_weight: isWeight,
+      } as FormSoilAmendmentTaskProduct;
 
       dbTaskProduct.purpose_relationships.forEach(({ purpose_id, other_purpose }) => {
         if (other_purpose) {
@@ -85,7 +93,24 @@ export const formatSoilAmendmentTaskToFormStructure = (
         formattedTaskProduct.purposes.push(purpose_id);
       });
 
-      return formattedTaskProduct;
+      const unitOptions: { [key: string]: UnitOption } = getUnitOptionMap();
+
+      return {
+        ...formattedTaskProduct,
+        weight_unit: isWeight && rest.weight_unit ? unitOptions[rest.weight_unit] : undefined,
+        volume_unit: !isWeight && rest.volume_unit ? unitOptions[rest.volume_unit] : undefined,
+        total_area_amended_unit: rest.total_area_amended_unit
+          ? unitOptions[rest.total_area_amended_unit]
+          : undefined,
+        application_rate_weight_unit:
+          rest.application_rate_weight && rest.application_rate_weight_unit
+            ? unitOptions[rest.application_rate_weight_unit]
+            : undefined,
+        application_rate_volume_unit:
+          rest.application_rate_volume && rest.application_rate_volume_unit
+            ? unitOptions[rest.application_rate_volume_unit]
+            : undefined,
+      };
     },
   );
 

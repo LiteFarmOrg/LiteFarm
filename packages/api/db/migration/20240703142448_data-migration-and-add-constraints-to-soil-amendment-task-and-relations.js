@@ -151,6 +151,21 @@ export const up = async function (knex) {
       indexName: 'task_product_uniqueness_composite',
     });
   });
+
+  /*----------------------------------------
+   Repair created_by and and updated_by on soil_amendment_task_product
+  ----------------------------------------*/
+  const allTaskProducts = await knex('soil_amendment_task_product').select('id', 'task_id');
+  for (const tp of allTaskProducts) {
+    const task = await knex('task')
+      .select('created_by_user_id', 'updated_by_user_id')
+      .where({ task_id: tp.task_id })
+      .first();
+    await knex('soil_amendment_task_product').where('id', tp.id).update({
+      created_by_user_id: task.created_by_user_id,
+      updated_by_user_id: task.updated_by_user_id,
+    });
+  }
 };
 
 export const down = async function (knex) {
@@ -226,4 +241,15 @@ export const down = async function (knex) {
   await knex.schema.alterTable('soil_amendment_task_products', (table) => {
     table.dropChecks(['task_product_uniqueness_composite']);
   });
+
+  /*----------------------------------------
+   Repair created_by and and updated_by on soil_amendment_task_product
+  ----------------------------------------*/
+  const allTaskProducts = await knex('soil_amendment_task_product').select('id', 'task_id');
+  for (const tp of allTaskProducts) {
+    const litefarmDBId = 1;
+    await knex('soil_amendment_task_product')
+      .where('id', tp.id)
+      .update({ created_by_user_id: litefarmDBId, updated_by_user_id: litefarmDBId });
+  }
 };

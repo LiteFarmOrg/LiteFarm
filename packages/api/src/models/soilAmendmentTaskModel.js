@@ -16,6 +16,7 @@
 import Model from './baseFormatModel.js';
 import taskModel from './taskModel.js';
 import soilAmendmentMethodModel from './soilAmendmentMethodModel.js';
+import soilAmendmentTaskProductModel from './soilAmendmentTaskProductModel.js';
 
 const furrowHoleDepthUnits = ['cm', 'in'];
 class SoilAmendmentTaskModel extends Model {
@@ -64,7 +65,7 @@ class SoilAmendmentTaskModel extends Model {
       },
       soil_amendment_task_product: {
         relation: Model.HasManyRelation,
-        modelClass: soilAmendmentTaskProductsModel,
+        modelClass: soilAmendmentTaskProductModel,
         join: {
           from: 'soil_amendment_task.task_id',
           to: 'soil_amendment_task_product.task_id',

@@ -51,7 +51,7 @@ const applicationRateVolumeUnits = [
   'fl-oz/ac',
 ];
 
-class SoilAmendmentTaskProducts extends BaseModel {
+class SoilAmendmentTaskProduct extends BaseModel {
   static get tableName() {
     return 'soil_amendment_task_product';
   }
@@ -161,4 +161,4 @@ class SoilAmendmentTaskProducts extends BaseModel {
   }
 }
 
-export default SoilAmendmentTaskProducts;
+export default SoilAmendmentTaskProduct;

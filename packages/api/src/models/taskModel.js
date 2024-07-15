@@ -17,7 +17,7 @@ import Model from './baseFormatModel.js';
 
 import BaseModel from './baseModel.js';
 import soilAmendmentTaskModel from './soilAmendmentTaskModel.js';
-import soilAmendmentTaskProductsModel from './soilAmendmentTaskProductsModel.js';
+import soilAmendmentTaskProductModel from './soilAmendmentTaskProductModel.js';
 import pestControlTask from './pestControlTask.js';
 import irrigationTaskModel from './irrigationTaskModel.js';
 import scoutingTaskModel from './scoutingTaskModel.js';
@@ -103,7 +103,7 @@ class TaskModel extends BaseModel {
       },
       soil_amendment_task_products: {
         relation: Model.HasManyRelation,
-        modelClass: soilAmendmentTaskProductsModel,
+        modelClass: soilAmendmentTaskProductModel,
         join: {
           from: 'task.task_id',
           to: 'soil_amendment_task_products.task_id',

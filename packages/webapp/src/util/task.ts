@@ -78,7 +78,7 @@ export const formatSoilAmendmentTaskToFormStructure = (
   const formattedTaskProducts = task.soil_amendment_task_products.map(
     (dbTaskProduct: DBSoilAmendmentTaskProduct): FormSoilAmendmentTaskProduct => {
       const { purpose_relationships, ...rest } = dbTaskProduct;
-      const isWeight = rest.weight || rest.weight === 0;
+      const isWeight = !!(rest.weight || rest.weight === 0);
 
       const formattedTaskProduct = {
         ...rest,
@@ -147,27 +147,22 @@ export const formatSoilAmendmentProductToDBStructure = (
       'application_rate_weight',
       'application_rate_volume',
       'total_area_amended_unit',
-      ...(is_weight
-        ? ([
-            'volume',
-            'volume_unit',
-            'application_rate_volume_unit',
-          ] as RemainingFormSATProductKeys[])
-        : ([
-            'weight',
-            'weight_unit',
-            'application_rate_weight_unit',
-          ] as RemainingFormSATProductKeys[])),
     ];
 
     propertiesToDelete.forEach((property) => delete rest[property]);
 
     return {
       ...rest,
-      weight_unit: rest.weight_unit?.value,
-      volume_unit: rest.volume_unit?.value,
-      application_rate_volume_unit: rest.application_rate_volume_unit?.value,
-      application_rate_weight_unit: rest.application_rate_weight_unit?.value,
+      weight: is_weight ? rest.weight : undefined,
+      weight_unit: is_weight ? rest.weight_unit?.value : undefined,
+      application_rate_weight_unit: is_weight
+        ? rest.application_rate_weight_unit?.value
+        : undefined,
+      volume: !is_weight ? rest.volume : undefined,
+      volume_unit: !is_weight ? rest.volume_unit?.value : undefined,
+      application_rate_volume_unit: !is_weight
+        ? rest.application_rate_volume_unit?.value
+        : undefined,
       purpose_relationships: formatPurposeIdsToRelationships(
         purposeIds,
         other_purpose,

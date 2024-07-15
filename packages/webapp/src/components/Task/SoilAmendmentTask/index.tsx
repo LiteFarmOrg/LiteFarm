@@ -14,7 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Controller, FormProvider, UseFormReturn } from 'react-hook-form';
 import {
   useGetSoilAmendmentMethodsQuery,
@@ -40,9 +40,14 @@ import { getProducts } from '../../../containers/Task/saga';
 import { TASK_TYPES } from '../../../containers/Task/constants';
 import { furrow_hole_depth } from '../../../util/convert-units/unit';
 import styles from './styles.module.scss';
+import { locationsSelector } from '../../../containers/locationSlice';
 
 type PureSoilAmendmentTaskProps = UseFormReturn &
-  Pick<ProductCardProps, 'farm' | 'system' | 'products'> & { disabled: boolean };
+  Pick<ProductCardProps, 'farm' | 'system' | 'products'> & {
+    disabled: boolean;
+    task?: { locations: { location_id: number }[] };
+    locations: { location_id: number }[];
+  };
 
 const hasNoValue = (
   keys: (Nutrients | MolecularCompound)[],
@@ -62,6 +67,12 @@ const PureSoilAmendmentTask = ({
 
   const { t } = useTranslation(['translation', 'message']);
   const dispatch = useDispatch();
+
+  const { task, locations: propLocations } = props;
+  const taskLocationIds = (task?.locations || propLocations)?.map(({ location_id }) => location_id);
+  const locations = useSelector(locationsSelector).filter(({ location_id }) =>
+    taskLocationIds?.includes(location_id),
+  );
 
   const { data: methods = [] } = useGetSoilAmendmentMethodsQuery();
   const { data: purposes = [] } = useGetSoilAmendmentPurposesQuery();
@@ -196,6 +207,7 @@ const PureSoilAmendmentTask = ({
           fertiliserTypes={fertiliserTypes}
           isReadOnly={disabled}
           onSaveProduct={onSaveProduct}
+          locations={locations}
         />
       </FormProvider>
     </>

@@ -169,6 +169,7 @@
       "APPLICATION_METHOD": "Application method",
       "APPLICATION_RATE": "Application rate",
       "APPLIED_TO": "Applied to <1>{{percentOfArea}}%</1> of your <4>{{locationArea}} {{locationAreaUnit}}</4> {{locationType}}",
+      "APPLIED_TO_MULTIPLE": "Applied to <1>{{ percentOfArea }}%</1> of your {{locationCount}} locations with total area <5>{{ locationArea }} {{ locationAreaUnit }}</5>",
       "BANDED": "Banded",
       "BROADCAST": "Broadcast",
       "FERTIGATION": "Fertigation",
@@ -189,7 +190,7 @@
       "QUANTITY": "Quantity to apply",
       "SIDE_DRESS": "Sidedress (surface)",
       "STRUCTURE": "Structure",
-      "TOTAL_AREA": "Total area",
+      "TOTAL_AREA": "Total application area",
       "VOLUME": "Volume",
       "WEIGHT": "Weight"
     },

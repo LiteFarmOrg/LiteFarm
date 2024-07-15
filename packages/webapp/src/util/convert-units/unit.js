@@ -18,6 +18,8 @@ const databaseUnit = {
   degree: 'deg',
   temperature: 'C',
   pressure: 'kPa',
+  applicationRateWeight: 'kg/ha',
+  applicationRateVolume: 'l/ha',
 };
 
 // These constants are used to determine units based on the guideline.
@@ -230,6 +232,48 @@ export const soilAmounts = {
     breakpoints: [16],
   },
   databaseUnit: databaseUnit.mass,
+};
+
+export const soilAmountsVolume = {
+  metric: {
+    units: ['ml', 'l'],
+    defaultUnit: 'l',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['gal', 'fl-oz'],
+    defaultUnit: 'gal',
+    breakpoints: [128],
+  },
+  databaseUnit: databaseUnit.volume,
+};
+
+export const applicationRateWeight = {
+  metric: {
+    units: ['g/ha', 'kg/ha', 'mt/ha', 'g/m2', 'kg/m2', 'mt/m2'],
+    defaultUnit: 'kg/ha',
+    breakpoints: [], // do not auto switch units
+  },
+  imperial: {
+    units: ['oz/ft2', 'lb/ft2', 't/ft2', 'oz/ac', 'lb/ac', 't/ac'],
+    defaultUnit: 'lb/ac',
+    breakpoints: [],
+  },
+  databaseUnit: databaseUnit.applicationRateWeight,
+};
+
+export const applicationRateVolume = {
+  metric: {
+    units: ['ml/ha', 'l/ha', 'ml/m2', 'l/m2'],
+    defaultUnit: 'l/ha',
+    breakpoints: [], // do not auto switch units
+  },
+  imperial: {
+    units: ['gal/ft2', 'fl-oz/ft2', 'gal/ac', 'fl-oz/ac'],
+    defaultUnit: 'gal/ac',
+    breakpoints: [],
+  },
+  databaseUnit: databaseUnit.applicationRateVolume,
 };
 
 export const seedYield = {

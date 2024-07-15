@@ -32,7 +32,7 @@ import useElementWidth from '../../hooks/useElementWidth';
 
 const Unit = ({
   disabled = false,
-  classes = { container: {} },
+  classes = {},
   style = {},
   label,
   info,
@@ -58,6 +58,7 @@ const Unit = ({
   onBlur,
   hasLeaf,
   autoConversion,
+  onInputChange,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -96,6 +97,7 @@ const Unit = ({
     max,
     onBlur,
     onChangeUnitOption,
+    onInputChange,
     autoConversion,
   });
 
@@ -108,7 +110,7 @@ const Unit = ({
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
       {label && (
         <div className={styles.labelContainer}>
-          <Label>
+          <Label style={classes.label}>
             {label}{' '}
             {optional && (
               <Label sm className={styles.sm}>
@@ -144,7 +146,9 @@ const Unit = ({
             size={1}
             onKeyDown={onKeyDown}
             onBlur={inputOnBlur}
-            onChange={inputOnChange}
+            onChange={(event) => {
+              inputOnChange(event);
+            }}
             onWheel={preventNumberScrolling}
             data-testid={testId}
             {...props}

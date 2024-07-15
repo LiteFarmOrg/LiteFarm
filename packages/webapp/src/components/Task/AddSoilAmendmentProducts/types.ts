@@ -14,6 +14,7 @@
  */
 
 import { ElementalUnit, MolecularCompoundsUnit } from '../../../store/api/types';
+import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 
 export enum Nutrients {
   N = 'n',
@@ -43,6 +44,17 @@ export const TASK_PRODUCT_FIELD_NAMES = {
   PRODUCT_ID: 'product_id',
   PURPOSES: 'purposes',
   OTHER_PURPOSE: 'other_purpose',
+  WEIGHT: 'weight',
+  WEIGHT_UNIT: 'weight_unit',
+  VOLUME: 'volume',
+  VOLUME_UNIT: 'volume_unit',
+  PERCENT_OF_LOCATION_AMENDED: 'percent_of_location_amended',
+  TOTAL_AREA_AMENDED: 'total_area_amended',
+  TOTAL_AREA_AMENDED_UNIT: 'total_area_amended_unit',
+  APPLICATION_RATE_WEIGHT: 'application_rate_weight',
+  APPLICATION_RATE_WEIGHT_UNIT: 'application_rate_weight_unit',
+  APPLICATION_RATE_VOLUME: 'application_rate_volume',
+  APPLICATION_RATE_VOLUME_UNIT: 'application_rate_volume_unit',
 } as const;
 
 export const PRODUCT_FIELD_NAMES = {
@@ -97,3 +109,9 @@ export type ProductFormFields = {
   [PRODUCT_FIELD_NAMES.NITRATE]?: number;
   [PRODUCT_FIELD_NAMES.MOLECULAR_COMPOUNDS_UNIT]?: MolecularCompoundsUnit;
 };
+
+type UnitKeys = keyof ReturnType<typeof getUnitOptionMap>;
+export interface UnitOption {
+  value: UnitKeys;
+  label: string;
+}

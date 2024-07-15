@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ChangeEvent } from 'react';
+import { ChangeEvent, ReactNode } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -22,8 +22,8 @@ import { Main } from '../../Typography';
 interface SwitchProps {
   checked?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  label?: string;
-  leftLabel?: string;
+  label?: ReactNode | string;
+  leftLabel?: ReactNode | string;
   isToggleVariant?: boolean;
   disabled?: boolean;
 }

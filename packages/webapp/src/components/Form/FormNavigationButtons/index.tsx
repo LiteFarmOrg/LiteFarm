@@ -27,6 +27,7 @@ export interface FormNavigationButtonsProps {
   informationalText?: string;
   onCancel: () => void;
   onContinue: () => void;
+  onPrevious: () => void;
 }
 
 const FormNavigationButtons = ({
@@ -36,6 +37,7 @@ const FormNavigationButtons = ({
   informationalText,
   onCancel,
   onContinue,
+  onPrevious,
 }: FormNavigationButtonsProps) => {
   const { t } = useTranslation();
 
@@ -45,6 +47,16 @@ const FormNavigationButtons = ({
       <div className={styles.buttonContainer}>
         <Button color="secondary-cta" onClick={onCancel} className={styles.button} sm fullLength>
           {t('common:CANCEL')}
+        </Button>
+        <Button
+          color="secondary"
+          disabled={isDisabled}
+          onClick={onPrevious}
+          className={styles.button}
+          sm
+          fullLength
+        >
+          {t('common:PREVIOUS')}
         </Button>
         <Button
           color="primary"

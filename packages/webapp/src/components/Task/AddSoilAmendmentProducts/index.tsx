@@ -110,7 +110,7 @@ const AddSoilAmendmentProducts = ({
   return (
     <>
       <Label className={styles.productsInstruction}>
-        {t(`ADD_PRODUCT.TELL_US_WHAT_YOU_WILL_BE_APPLYING`)}
+        {t(`ADD_PRODUCT.WHAT_YOU_WILL_BE_APPLYING`)}
       </Label>
       <div className={styles.products}>
         {fields.map((field, index) => {

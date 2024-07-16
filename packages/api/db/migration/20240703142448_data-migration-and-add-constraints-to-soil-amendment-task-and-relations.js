@@ -271,10 +271,10 @@ export const down = async function (knex) {
   /*----------------------------------------
    Repair created_by and and updated_by on soil_amendment_task_product
   ----------------------------------------*/
-  const allTaskProducts = await knex('soil_amendment_task_product').select('id', 'task_id');
+  const allTaskProducts = await knex('soil_amendment_task_products').select('id', 'task_id');
   for (const tp of allTaskProducts) {
     const litefarmDBId = 1;
-    await knex('soil_amendment_task_product')
+    await knex('soil_amendment_task_products')
       .where('id', tp.id)
       .update({ created_by_user_id: litefarmDBId, updated_by_user_id: litefarmDBId });
   }

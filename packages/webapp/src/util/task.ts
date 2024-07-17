@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { SoilAmendmentPurpose } from '../store/api/types';
+import { SoilAmendmentMethod, SoilAmendmentPurpose } from '../store/api/types';
 import { getUnitOptionMap } from './convert-units/getUnitOptionMap';
 
 interface UnitOption {
@@ -170,6 +170,24 @@ export const formatSoilAmendmentProductToDBStructure = (
       ),
     };
   });
+};
+
+export const formatSoilAmendmentTaskToDBStructure = (
+  soilAmendmentTask: FormSoilAmendmentTask,
+  { methods }: { methods: SoilAmendmentMethod[] },
+): DBSoilAmendmentTask => {
+  const soilAmendmentTaskClone = structuredClone(soilAmendmentTask);
+  const furrowHoleId = methods?.find(({ key }) => key === 'FURROW_HOLE')?.id;
+  if (!furrowHoleId) {
+    throw Error('id for FURROW_HOLE method does not exist');
+  }
+  soilAmendmentTaskClone.furrow_hole_depth_unit =
+    soilAmendmentTaskClone.furrow_hole_depth_unit.value;
+  if (soilAmendmentTask.method_id !== furrowHoleId) {
+    delete soilAmendmentTaskClone.furrow_hole_depth;
+    delete soilAmendmentTaskClone.furrow_hole_depth_unit;
+  }
+  return soilAmendmentTaskClone;
 };
 
 export const formatTaskReadOnlyDefaultValues = (task: {

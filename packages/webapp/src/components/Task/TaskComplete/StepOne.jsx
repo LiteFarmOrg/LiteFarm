@@ -10,9 +10,9 @@ import PureCleaningTask from '../CleaningTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
-import { cloneObject } from '../../../util';
 import { PurePlantingTask } from '../PlantingTask';
 import PureIrrigationTask from '../PureIrrigationTask';
+import { formatTaskReadOnlyDefaultValues } from '../../../util/task';
 
 export default function PureCompleteStepOne({
   persistedFormData,
@@ -26,9 +26,9 @@ export default function PureCompleteStepOne({
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
-  const defaultsToUse = persistedFormData.need_changes
-    ? cloneObject(persistedFormData)
-    : cloneObject(selectedTask);
+  const defaultsToUse = formatTaskReadOnlyDefaultValues(
+    persistedFormData.need_changes ? persistedFormData : selectedTask,
+  );
   const {
     register,
     handleSubmit,

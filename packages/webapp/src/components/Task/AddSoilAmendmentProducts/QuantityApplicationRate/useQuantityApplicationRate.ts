@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState } from 'react';
-import { TASK_PRODUCT_FIELD_NAMES, UnitOption } from '../types';
+import { useEffect, useMemo } from 'react';
+import { TASK_PRODUCT_FIELD_NAMES } from '../types';
 import { getUnitOptionMap } from '../../../../util/convert-units/getUnitOptionMap';
 import { convertFn, getDefaultUnit, location_area } from '../../../../util/convert-units/unit';
 import { roundToTwoDecimal } from '../../../../util';
@@ -139,31 +139,35 @@ export const useQuantityApplicationRate = ({
   }, [application_rate_weight_unit, application_rate_volume_unit]);
 
   /* For the preview string, replicate the conversion the unit component would do if the value had been displayed in a <Unit /> rather than a string. However, don't update upon changes to application_area_unit beyond the initial undefined > defined change */
-  const [previewStringValue, setPreviewStringValue] = useState<number | null>(null);
-  const [previewStringUnit, setPreviewStringUnit] = useState<string | null>(null);
+  const previewStrings = useMemo(() => {
+    let previewStringUnit;
+    let previewStringValue;
 
-  useEffect(() => {
-    if (application_area_unit && previewStringValue === null) {
-      /* if the user-selected unit is in the wrong system (e.g. metric stored value but farm on imperial), use the <Unit /> converted unit */
-      const unit =
+    if (application_area_unit) {
+      previewStringUnit =
         total_area_unit && location_area[system].units.includes(total_area_unit)
           ? getUnitOptionMap()[total_area_unit]
           : application_area_unit;
 
-      const value =
+      previewStringValue =
         total_area &&
         roundToTwoDecimal(
-          convertFn(location_area[system], total_area, location_area.databaseUnit, unit.value),
+          convertFn(
+            location_area[system],
+            total_area,
+            location_area.databaseUnit,
+            previewStringUnit.value,
+          ),
         );
-
-      setPreviewStringValue(value);
-      setPreviewStringUnit(unit.label);
+      previewStringUnit = previewStringUnit.label;
     }
-  }, [location_area, application_area_unit]);
+
+    return { previewStringUnit, previewStringValue };
+  }, [!!application_area_unit, total_area]);
 
   return {
-    previewStringValue,
-    previewStringUnit,
+    previewStringValue: previewStrings.previewStringValue,
+    previewStringUnit: previewStrings.previewStringUnit,
     updateApplicationRate,
     updateQuantity,
     onPercentLocationChange,

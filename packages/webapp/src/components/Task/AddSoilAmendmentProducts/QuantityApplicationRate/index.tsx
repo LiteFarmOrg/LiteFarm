@@ -72,7 +72,7 @@ const QuantityApplicationRate = ({
 }: QuantityApplicationRateProps) => {
   const { t } = useTranslation();
 
-  const { control, getValues, setValue, register, watch, formState } = useFormContext();
+  const { control, getValues, setValue, register, watch } = useFormContext();
 
   const WEIGHT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.WEIGHT}`;
   const VOLUME = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.VOLUME}`;
@@ -190,7 +190,7 @@ const QuantityApplicationRate = ({
                   rules={{ required: t('common:REQUIRED') }}
                   onChange={updateTotalArea}
                   disabled={isReadOnly}
-                  defaultValue={formState.defaultValues?.[PERCENT_OF_LOCATION_AMENDED] || 100}
+                  defaultValue={100}
                 />
                 <SwapIcon />
                 {/* @ts-ignore */}

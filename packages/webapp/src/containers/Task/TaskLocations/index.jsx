@@ -27,6 +27,7 @@ export default function TaskLocationsSwitch({ history, match, location }) {
   const isHarvestLocation = useIsTaskType('HARVEST_TASK');
   const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
+  const isSoilAmendmentLocation = useIsTaskType('SOIL_AMENDMENT_TASK');
 
   if (isHarvestLocation) {
     return <TaskActiveAndPlannedCropLocations history={history} location={location} />;
@@ -38,6 +39,10 @@ export default function TaskLocationsSwitch({ history, match, location }) {
 
   if (isIrrigationLocation) {
     return <TaskIrrigationLocations history={history} location={location} />;
+  }
+
+  if (isSoilAmendmentLocation) {
+    return <TaskSoilAmendmentLocations history={history} location={location} />;
   }
 
   return <TaskAllLocations history={history} location={location} />;
@@ -106,6 +111,26 @@ function TaskIrrigationLocations({ history, location }) {
       title={t('TASK.IRRIGATION_LOCATION')}
       onContinue={onContinue}
       readOnlyPinCoordinates={readOnlyPinCoordinates}
+      location={location}
+    />
+  );
+}
+
+//This goes to all crop locations, multiSelect, not wildCrops with pins
+function TaskSoilAmendmentLocations({ history, location }) {
+  const { t } = useTranslation();
+  const cropLocations = useSelector(cropLocationsSelector);
+  const onContinue = () => {
+    history.push('/add_task/task_crops', location.state);
+  };
+
+  return (
+    <TaskLocations
+      locations={cropLocations}
+      history={history}
+      isMulti={true}
+      title={t('TASK.SOIL_AMENDMENT_LOCATION')}
+      onContinue={onContinue}
       location={location}
     />
   );

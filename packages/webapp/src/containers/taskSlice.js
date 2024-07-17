@@ -21,7 +21,6 @@ import { plantTaskEntitiesSelector } from './slice/taskSlice/plantTaskSlice';
 import { transplantTaskEntitiesSelector } from './slice/taskSlice/transplantTaskSlice';
 import { plantingManagementPlanEntitiesSelector } from './plantingManagementPlanSlice';
 import { irrigationTaskEntitiesSelector } from './slice/taskSlice/irrigationTaskSlice';
-import { soilAmendmentTaskProductEntitiesSelector } from './slice/taskSlice/soilAmendmentTaskProductSlice';
 
 export const getTask = (obj) => {
   const task = pick(obj, [
@@ -181,7 +180,6 @@ export const taskEntitiesSelector = createSelector(
     plantTaskEntitiesSelector,
     transplantTaskEntitiesSelector,
     plantingManagementPlanEntitiesSelector,
-    soilAmendmentTaskProductEntitiesSelector,
   ],
   (
     userFarmEntities,
@@ -199,7 +197,6 @@ export const taskEntitiesSelector = createSelector(
     plantTaskEntities,
     transplantTaskEntities,
     plantingManagementPlanEntities,
-    soilAmendmentTaskProductEntities,
   ) => {
     const subTaskEntities = {
       ...cleaningTaskEntities,
@@ -210,9 +207,6 @@ export const taskEntitiesSelector = createSelector(
       ...soilAmendmentTaskEntities,
       ...plantTaskEntities,
       ...transplantTaskEntities,
-    };
-    const taskProductEntities = {
-      ...soilAmendmentTaskProductEntities,
     };
 
     const getManagementPlanByPlantingManagementPlan = ({

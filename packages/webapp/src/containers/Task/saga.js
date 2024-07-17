@@ -73,18 +73,12 @@ import {
 } from '../harvestUseTypeSlice';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
 import {
-  getSoilAmendmentTaskProductsSuccess,
-  removeSoilAmendmentTaskProducts,
-  soilAmendmentTaskProductsByTaskIdSelector,
-} from '../slice/taskSlice/soilAmendmentTaskProductSlice';
-import {
   createBeforeCompleteTaskUrl,
   createCompleteHarvestQuantityTaskUrl,
   createCompleteTaskUrl,
 } from '../../util/siteMapConstants';
 import { setPersistedPaths, setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import { formatSoilAmendmentProductToDBStructure, getRemovedTaskProductIds } from '../../util/task';
-import { TASKTYPE_PRODUCT_MAP } from './constants';
+import { formatSoilAmendmentProductToDBStructure } from '../../util/task';
 import { api } from '../../store/api/apiSlice';
 
 const taskTypeEndpoint = [

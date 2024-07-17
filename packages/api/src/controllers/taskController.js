@@ -702,6 +702,14 @@ const taskController = {
         )
         .whereIn('task_id', taskIds);
       const filteredTasks = graphTasks.map(removeNullTypes);
+
+      /* Clean before returning to frontend */
+      filteredTasks.forEach((task) => {
+        if (!task.soil_amendment_task) {
+          delete task.soil_amendment_task_products;
+        }
+      });
+
       if (graphTasks) {
         res.status(200).send(filteredTasks);
       }

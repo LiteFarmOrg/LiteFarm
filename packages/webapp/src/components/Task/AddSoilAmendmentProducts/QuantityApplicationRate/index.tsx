@@ -58,7 +58,6 @@ export interface Location {
 }
 
 export type QuantityApplicationRateProps = {
-  productId: number | string;
   isReadOnly: boolean;
   system: 'metric' | 'imperial';
   locations: Location[];
@@ -66,7 +65,6 @@ export type QuantityApplicationRateProps = {
 };
 
 const QuantityApplicationRate = ({
-  productId,
   isReadOnly,
   system, // measurementSelector
   locations,
@@ -180,7 +178,7 @@ const QuantityApplicationRate = ({
             <KeyboardArrowDownIcon className={styles.expandIcon} />
           </TextButton>
 
-          <Collapse id={`application_rate-${productId}`} in={isExpanded} timeout="auto">
+          <Collapse id={'application_rate'} in={isExpanded} timeout="auto">
             <div className={styles.sectionBody}>
               <div className={styles.locationSection}>
                 <NumberInput

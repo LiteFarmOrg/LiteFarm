@@ -24,14 +24,14 @@
   },
   "TASKS": {
     "LOCATION": "Ubicación",
-    "ABANDONED": "Abandonada",
-    "COMPLETED": "Completada",
-    "FOR_REVIEW": "Para la revisión",
-    "LATE": "Tarde",
-    "PLANNED": "Planificada",
     "STATUS": "Estatus",
     "SUPPLIERS": "Proveedores",
-    "ACTIVE": "Activo"
+    "ACTIVE": "Activo",
+    "ABANDONED": "Abandonada",
+    "COMPLETED": "Completada",
+    "LATE": "Tarde",
+    "PLANNED": "Planificada",
+    "FOR_REVIEW": "Para la revisión"
   },
   "FILTER": {
     "VALID_ON": "Válido en",

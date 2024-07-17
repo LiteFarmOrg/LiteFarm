@@ -25,7 +25,6 @@ import {
 } from '../middleware/validation/assignTask.js';
 import taskController from '../controllers/taskController.js';
 import { createOrPatchProduct } from '../middleware/validation/product.js';
-import checkParamAgainstBody from '../middleware/acl/checkParamAgainstBody.js';
 import {
   checkAbandonTask,
   checkCompleteTask,
@@ -173,7 +172,6 @@ router.patch(
   modelMapping['soil_amendment_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
-  checkParamAgainstBody('task_id'),
   checkCompleteTask('soil_amendment_task'),
   taskController.completeTask('soil_amendment_task'),
 );

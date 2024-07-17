@@ -72,6 +72,14 @@ import {
   onLoadingHarvestUseTypeStart,
 } from '../harvestUseTypeSlice';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
+import {
+  getSoilAmendmentTaskProductsSuccess,
+  removeSoilAmendmentTaskProducts,
+  soilAmendmentTaskProductsByTaskIdSelector,
+} from '../slice/taskSlice/soilAmendmentTaskProductSlice';
+import { formatSoilAmendmentProductToDBStructure, getRemovedTaskProductIds } from '../../util/task';
+import { TASKTYPE_PRODUCT_MAP } from './constants';
+import { api } from '../../store/api/apiSlice';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -303,6 +311,12 @@ const taskTypeActionMap = {
   },
 };
 
+const taskProductTypeActionMap = {
+  SOIL_AMENDMENT_TASK: {
+    success: (tasks) => put(getSoilAmendmentTaskProductsSuccess(tasks)),
+  },
+};
+
 export const onLoadingTaskStart = createAction('onLoadingTaskStartSaga');
 
 export function* onLoadingTaskStartSaga() {
@@ -316,7 +330,7 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingIrrigationTaskStart());
 }
 
-export function* getTasksSuccessSaga({ payload: tasks }) {
+function* handleGetTasksSuccess(tasks, successAction) {
   const taskTypeEntities = yield select(taskTypeEntitiesSelector);
   const tasksByTranslationKeyDefault = Object.keys(taskTypeActionMap).reduce(
     (tasksByTranslationKeyDefault, task_translation_key) => {
@@ -325,24 +339,44 @@ export function* getTasksSuccessSaga({ payload: tasks }) {
     },
     {},
   );
+
+  const productsByTranslationKey = {};
   const tasksByTranslationKey = tasks.reduce((tasksByTranslationKey, task) => {
     const { task_translation_key } = taskTypeEntities[task.task_type_id];
     if (taskTypeActionMap[task_translation_key]) {
       tasksByTranslationKey[task_translation_key].push(task[task_translation_key.toLowerCase()]);
     }
+    if (TASKTYPE_PRODUCT_MAP[task_translation_key]) {
+      if (!productsByTranslationKey[task_translation_key]) {
+        productsByTranslationKey[task_translation_key] = [];
+      }
+      productsByTranslationKey[task_translation_key] = [
+        ...productsByTranslationKey[task_translation_key],
+        ...task[TASKTYPE_PRODUCT_MAP[task_translation_key]],
+      ];
+    }
     return tasksByTranslationKey;
   }, tasksByTranslationKeyDefault);
+
   for (const task_translation_key in taskTypeActionMap) {
     try {
       yield taskTypeActionMap[task_translation_key].success(
         tasksByTranslationKey[task_translation_key],
+      );
+      yield taskProductTypeActionMap[task_translation_key]?.success(
+        productsByTranslationKey[task_translation_key],
       );
     } catch (e) {
       yield put(taskTypeActionMap[task_translation_key].fail(e));
       console.log(e);
     }
   }
-  yield put(addManyTasksFromGetReq(tasks));
+
+  yield put(successAction(tasks));
+}
+
+export function* getTasksSuccessSaga({ payload: tasks }) {
+  yield handleGetTasksSuccess(tasks, addManyTasksFromGetReq);
 }
 
 export const getTasks = createAction('getTasksSaga');
@@ -361,32 +395,7 @@ export function* getTasksSaga() {
 }
 
 export function* getAllTasksSuccessSaga({ payload: tasks }) {
-  const taskTypeEntities = yield select(taskTypeEntitiesSelector);
-  const tasksByTranslationKeyDefault = Object.keys(taskTypeActionMap).reduce(
-    (tasksByTranslationKeyDefault, task_translation_key) => {
-      tasksByTranslationKeyDefault[task_translation_key] = [];
-      return tasksByTranslationKeyDefault;
-    },
-    {},
-  );
-  const tasksByTranslationKey = tasks.reduce((tasksByTranslationKey, task) => {
-    const { task_translation_key } = taskTypeEntities[task.task_type_id];
-    if (taskTypeActionMap[task_translation_key]) {
-      tasksByTranslationKey[task_translation_key].push(task[task_translation_key.toLowerCase()]);
-    }
-    return tasksByTranslationKey;
-  }, tasksByTranslationKeyDefault);
-  for (const task_translation_key in taskTypeActionMap) {
-    try {
-      yield taskTypeActionMap[task_translation_key].success(
-        tasksByTranslationKey[task_translation_key],
-      );
-    } catch (e) {
-      yield put(taskTypeActionMap[task_translation_key].fail(e));
-      console.log(e);
-    }
-  }
-  yield put(addAllTasksFromGetReq(tasks));
+  yield handleGetTasksSuccess(tasks, addAllTasksFromGetReq);
 }
 
 const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
@@ -499,11 +508,26 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
   );
 };
 
+const getSoilAmendmentTaskBody = (
+  data,
+  endpoint,
+  managementPlanWithCurrentLocationEntities,
+  { purposes },
+) => {
+  return {
+    ...getPostTaskBody(data, endpoint, managementPlanWithCurrentLocationEntities),
+    soil_amendment_task_products: formatSoilAmendmentProductToDBStructure(
+      data.soil_amendment_task_products,
+      { purposes },
+    ),
+  };
+};
+
 const taskTypeGetPostTaskBodyFunctionMap = {
   CLEANING_TASK: getPostTaskBody,
   FIELD_WORK_TASK: getPostTaskBody,
   PEST_CONTROL_TASK: getPostTaskBody,
-  SOIL_AMENDMENT_TASK: getPostTaskBody,
+  SOIL_AMENDMENT_TASK: getSoilAmendmentTaskBody,
   HARVEST_TASK: getPostHarvestTaskBody,
   TRANSPLANT_TASK: getTransplantTaskBody,
   IRRIGATION_TASK: getIrrigationTaskBody,
@@ -515,6 +539,7 @@ const getPostTaskReqBody = (
   task_translation_key,
   isCustomTask,
   managementPlanWithCurrentLocationEntities,
+  taskTypeSpecificData,
 ) => {
   if (isCustomTask)
     return getPostTaskBody(data, endpoint, managementPlanWithCurrentLocationEntities);
@@ -522,6 +547,7 @@ const getPostTaskReqBody = (
     data,
     endpoint,
     managementPlanWithCurrentLocationEntities,
+    taskTypeSpecificData,
   );
 };
 
@@ -535,7 +561,15 @@ export function* createTaskSaga({ payload }) {
   const { task_translation_key, farm_id: task_farm_id } = yield select(
     taskTypeSelector(data.task_type_id),
   );
-
+  const taskTypeSpecificData = {};
+  if (task_translation_key === 'SOIL_AMENDMENT_TASK') {
+    // Access cached data
+    // https://redux-toolkit.js.org/rtk-query/usage/usage-without-react-hooks#accessing-cached-data--request-status
+    const purposes = yield select((state) =>
+      api.endpoints.getSoilAmendmentPurposes.select()(state),
+    );
+    taskTypeSpecificData.purposes = purposes.data;
+  }
   const header = getHeader(user_id, farm_id);
   const isCustomTask = !!task_farm_id;
   const isHarvest = task_translation_key === 'HARVEST_TASK';
@@ -558,6 +592,7 @@ export function* createTaskSaga({ payload }) {
         task_translation_key,
         isCustomTask,
         managementPlanWithCurrentLocationEntities,
+        taskTypeSpecificData,
       ),
       header,
     );
@@ -703,11 +738,30 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
   );
 };
 
+const getCompleteSoilAmendmentTaskBody = (data, taskTypeSpecificData) => {
+  const soilAmendmentTaskProducts = formatSoilAmendmentProductToDBStructure(
+    data.soil_amendment_task_products,
+    taskTypeSpecificData,
+  );
+  return {
+    ...data.taskData,
+    soil_amendment_task_products: soilAmendmentTaskProducts,
+  };
+};
+
 const taskTypeGetCompleteTaskBodyFunctionMap = {
   HARVEST_TASK: getCompleteHarvestTaskBody,
   TRANSPLANT_TASK: getCompletePlantingTaskBody('TRANSPLANT_TASK'),
   PLANT_TASK: getCompletePlantingTaskBody('PLANT_TASK'),
   IRRIGATION_TASK: getCompleteIrrigationTaskBody('IRRIGATION_TASK'),
+  SOIL_AMENDMENT_TASK: getCompleteSoilAmendmentTaskBody,
+};
+
+const taskTypeProductsAfterCompletionActionMap = {
+  SOIL_AMENDMENT_TASK: {
+    taskProductsByTaskIdSelector: soilAmendmentTaskProductsByTaskIdSelector,
+    removeTaskProducts: removeSoilAmendmentTaskProducts,
+  },
 };
 
 export const completeTask = createAction('completeTaskSaga');
@@ -718,8 +772,17 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   const { task_translation_key, isCustomTaskType } = data;
   const header = getHeader(user_id, farm_id);
   const endpoint = isCustomTaskType ? 'custom_task' : task_translation_key.toLowerCase();
+  const taskTypeSpecificData = {};
+  if (task_translation_key === 'SOIL_AMENDMENT_TASK') {
+    // Access cached data
+    // https://redux-toolkit.js.org/rtk-query/usage/usage-without-react-hooks#accessing-cached-data--request-status
+    const purposes = yield select((state) =>
+      api.endpoints.getSoilAmendmentPurposes.select()(state),
+    );
+    taskTypeSpecificData.purposes = purposes.data;
+  }
   const taskData = taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key]
-    ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data)
+    ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data, taskTypeSpecificData)
     : data.taskData;
   try {
     const result = yield call(
@@ -730,6 +793,16 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
     );
     if (result) {
       yield put(putTaskSuccess(result.data));
+      if (taskTypeProductsAfterCompletionActionMap[task_translation_key]) {
+        const { taskProductsByTaskIdSelector, removeTaskProducts } =
+          taskTypeProductsAfterCompletionActionMap[task_translation_key];
+        const oldTaskProducts = yield select(taskProductsByTaskIdSelector(task_id));
+        const removedTaskProductIds = getRemovedTaskProductIds(
+          oldTaskProducts,
+          result.data[TASKTYPE_PRODUCT_MAP[task_translation_key]],
+        );
+        yield put(removeTaskProducts(removedTaskProductIds));
+      }
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.COMPLETE.SUCCESS'),
         pathname: returnPath ?? '/tasks',

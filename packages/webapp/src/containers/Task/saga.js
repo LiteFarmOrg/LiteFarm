@@ -771,13 +771,6 @@ const taskTypeGetCompleteTaskBodyFunctionMap = {
   SOIL_AMENDMENT_TASK: getCompleteSoilAmendmentTaskBody,
 };
 
-const taskTypeProductsAfterCompletionActionMap = {
-  SOIL_AMENDMENT_TASK: {
-    taskProductsByTaskIdSelector: soilAmendmentTaskProductsByTaskIdSelector,
-    removeTaskProducts: removeSoilAmendmentTaskProducts,
-  },
-};
-
 export const completeTask = createAction('completeTaskSaga');
 
 export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
@@ -798,6 +791,7 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   const taskData = taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key]
     ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data, taskTypeSpecificData)
     : data.taskData;
+
   try {
     const result = yield call(
       axios.patch,
@@ -807,16 +801,7 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
     );
     if (result) {
       yield put(putTaskSuccess(result.data));
-      if (taskTypeProductsAfterCompletionActionMap[task_translation_key]) {
-        const { taskProductsByTaskIdSelector, removeTaskProducts } =
-          taskTypeProductsAfterCompletionActionMap[task_translation_key];
-        const oldTaskProducts = yield select(taskProductsByTaskIdSelector(task_id));
-        const removedTaskProductIds = getRemovedTaskProductIds(
-          oldTaskProducts,
-          result.data[TASKTYPE_PRODUCT_MAP[task_translation_key]],
-        );
-        yield put(removeTaskProducts(removedTaskProductIds));
-      }
+
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.COMPLETE.SUCCESS'),
         pathname: returnPath ?? '/tasks',

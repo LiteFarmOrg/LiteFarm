@@ -41,7 +41,7 @@ interface ProductFields {
 
 const FIELD_NAME = 'soil_amendment_task_products';
 
-const defaultValues = {
+export const defaultValues = {
   [TASK_PRODUCT_FIELD_NAMES.PRODUCT_ID]: undefined,
   [TASK_PRODUCT_FIELD_NAMES.PURPOSES]: [],
   [TASK_PRODUCT_FIELD_NAMES.IS_WEIGHT]: true,

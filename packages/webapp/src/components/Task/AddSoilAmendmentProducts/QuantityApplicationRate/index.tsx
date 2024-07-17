@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -86,11 +86,6 @@ const QuantityApplicationRate = ({
   const APPLICATION_RATE_WEIGHT_UNIT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT}`;
   const APPLICATION_RATE_VOLUME_UNIT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT}`;
   const IS_WEIGHT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.IS_WEIGHT}`;
-
-  // New task products should default to weight
-  useEffect(() => {
-    setValue(IS_WEIGHT, getValues(IS_WEIGHT) ?? true);
-  }, []);
 
   const isWeight = getValues(IS_WEIGHT);
 

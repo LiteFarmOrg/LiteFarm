@@ -104,7 +104,7 @@ const QuantityApplicationRate = ({
   const {
     updateApplicationRate,
     updateQuantity,
-    onPercentLocationChange,
+    updateTotalArea,
     previewStringValue,
     previewStringUnit,
   } = useQuantityApplicationRate({
@@ -188,7 +188,7 @@ const QuantityApplicationRate = ({
                   min={0.0001}
                   max={100}
                   rules={{ required: t('common:REQUIRED') }}
-                  onChange={onPercentLocationChange}
+                  onChange={updateTotalArea}
                   disabled={isReadOnly}
                   defaultValue={formState.defaultValues?.[PERCENT_OF_LOCATION_AMENDED] || 100}
                 />
@@ -206,7 +206,6 @@ const QuantityApplicationRate = ({
                   hookFromWatch={watch}
                   control={control}
                   mode={'onChange'}
-                  defaultValue={formState.defaultValues?.[TOTAL_AREA_AMENDED] || total_area}
                   disabled
                   required
                 />

@@ -63,8 +63,12 @@ export const useQuantityApplicationRate = ({
     APPLICATION_RATE_VOLUME_UNIT,
   ]);
 
+  useEffect(() => {
+    updateTotalArea(100);
+  }, []);
+
   /* Update application area + rate based on percent of location */
-  const onPercentLocationChange = (percent_of_location: number) => {
+  const updateTotalArea = (percent_of_location: number) => {
     const calculatedArea = (total_area * Math.min(percent_of_location || 100, 100)) / 100;
     setValue(TOTAL_AREA_AMENDED, calculatedArea);
 
@@ -170,6 +174,6 @@ export const useQuantityApplicationRate = ({
     previewStringUnit: previewStrings.previewStringUnit,
     updateApplicationRate,
     updateQuantity,
-    onPercentLocationChange,
+    updateTotalArea,
   };
 };

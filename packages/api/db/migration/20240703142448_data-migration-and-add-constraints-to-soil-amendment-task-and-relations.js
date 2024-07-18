@@ -66,7 +66,7 @@ export const up = async function (knex) {
     table.check('moisture_content_percent >= 0', [], 'check_positive_moisture_content');
   });
 
-  // Create new product table
+  // Alter new product table
   await knex.schema.alterTable('soil_amendment_task_products', (table) => {
     table.decimal('weight', 36, 12).nullable().alter();
     table.check('weight >= 0', [], 'check_positive_weight');
@@ -205,7 +205,7 @@ export const down = async function (knex) {
     ]);
   });
 
-  // Create new product table
+  // Alter new product table
   await knex.schema.alterTable('soil_amendment_task_products', (table) => {
     table.dropChecks([
       'check_positive_weight',
@@ -220,7 +220,7 @@ export const down = async function (knex) {
     table.dropChecks(['check_positive_furrow_hole_depth']);
   });
 
-  // // Alter cleaning task for volume and weight
+  // Alter cleaning task for volume and weight
   await knex.schema.alterTable('cleaning_task', (table) => {
     table.dropChecks(['check_positive_weight', 'check_positive_volume']);
   });

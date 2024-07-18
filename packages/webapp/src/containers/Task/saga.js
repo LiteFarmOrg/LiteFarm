@@ -73,11 +73,6 @@ import {
 } from '../harvestUseTypeSlice';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
 import {
-  getSoilAmendmentTaskProductsSuccess,
-  removeSoilAmendmentTaskProducts,
-  soilAmendmentTaskProductsByTaskIdSelector,
-} from '../slice/taskSlice/soilAmendmentTaskProductSlice';
-import {
   createBeforeCompleteTaskUrl,
   createCompleteHarvestQuantityTaskUrl,
   createCompleteTaskUrl,
@@ -86,7 +81,6 @@ import { setPersistedPaths, setFormData } from '../hooks/useHookFormPersist/hook
 import {
   formatSoilAmendmentTaskToDBStructure,
   formatSoilAmendmentProductToDBStructure,
-  getRemovedTaskProductIds,
 } from '../../util/task';
 import { TASKTYPE_PRODUCT_MAP } from './constants';
 import { api } from '../../store/api/apiSlice';
@@ -329,12 +323,6 @@ const taskTypeActionMap = {
   },
 };
 
-const taskProductTypeActionMap = {
-  SOIL_AMENDMENT_TASK: {
-    success: (tasks) => put(getSoilAmendmentTaskProductsSuccess(tasks)),
-  },
-};
-
 export const onLoadingTaskStart = createAction('onLoadingTaskStartSaga');
 
 export function* onLoadingTaskStartSaga() {
@@ -357,21 +345,10 @@ function* handleGetTasksSuccess(tasks, successAction) {
     },
     {},
   );
-
-  const productsByTranslationKey = {};
   const tasksByTranslationKey = tasks.reduce((tasksByTranslationKey, task) => {
     const { task_translation_key } = taskTypeEntities[task.task_type_id];
     if (taskTypeActionMap[task_translation_key]) {
       tasksByTranslationKey[task_translation_key].push(task[task_translation_key.toLowerCase()]);
-    }
-    if (TASKTYPE_PRODUCT_MAP[task_translation_key]) {
-      if (!productsByTranslationKey[task_translation_key]) {
-        productsByTranslationKey[task_translation_key] = [];
-      }
-      productsByTranslationKey[task_translation_key] = [
-        ...productsByTranslationKey[task_translation_key],
-        ...task[TASKTYPE_PRODUCT_MAP[task_translation_key]],
-      ];
     }
     return tasksByTranslationKey;
   }, tasksByTranslationKeyDefault);
@@ -380,9 +357,6 @@ function* handleGetTasksSuccess(tasks, successAction) {
     try {
       yield taskTypeActionMap[task_translation_key].success(
         tasksByTranslationKey[task_translation_key],
-      );
-      yield taskProductTypeActionMap[task_translation_key]?.success(
-        productsByTranslationKey[task_translation_key],
       );
     } catch (e) {
       yield put(taskTypeActionMap[task_translation_key].fail(e));
@@ -805,13 +779,6 @@ const taskTypeGetCompleteTaskBodyFunctionMap = {
   SOIL_AMENDMENT_TASK: getCompleteSoilAmendmentTaskBody,
 };
 
-const taskTypeProductsAfterCompletionActionMap = {
-  SOIL_AMENDMENT_TASK: {
-    taskProductsByTaskIdSelector: soilAmendmentTaskProductsByTaskIdSelector,
-    removeTaskProducts: removeSoilAmendmentTaskProducts,
-  },
-};
-
 export const completeTask = createAction('completeTaskSaga');
 
 export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
@@ -834,6 +801,7 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   const taskData = taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key]
     ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data, taskTypeSpecificData)
     : data.taskData;
+
   try {
     const result = yield call(
       axios.patch,
@@ -843,16 +811,7 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
     );
     if (result) {
       yield put(putTaskSuccess(result.data));
-      if (taskTypeProductsAfterCompletionActionMap[task_translation_key]) {
-        const { taskProductsByTaskIdSelector, removeTaskProducts } =
-          taskTypeProductsAfterCompletionActionMap[task_translation_key];
-        const oldTaskProducts = yield select(taskProductsByTaskIdSelector(task_id));
-        const removedTaskProductIds = getRemovedTaskProductIds(
-          oldTaskProducts,
-          result.data[TASKTYPE_PRODUCT_MAP[task_translation_key]],
-        );
-        yield put(removeTaskProducts(removedTaskProductIds));
-      }
+
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.COMPLETE.SUCCESS'),
         pathname: returnPath ?? '/tasks',

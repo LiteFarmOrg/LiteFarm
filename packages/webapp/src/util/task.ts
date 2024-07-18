@@ -208,7 +208,7 @@ export const formatSoilAmendmentTaskToDBStructure = (
   }
   return {
     ...rest,
-    method_id,
+    method_id: method_id ? method_id : undefined,
     furrow_hole_depth: method_id === furrowHoleId ? furrow_hole_depth : undefined,
     furrow_hole_depth_unit: method_id === furrowHoleId ? furrow_hole_depth_unit?.value : undefined,
     other_application_method:

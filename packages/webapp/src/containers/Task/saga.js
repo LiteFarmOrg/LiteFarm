@@ -782,17 +782,21 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
 };
 
 const getCompleteSoilAmendmentTaskBody = (data, taskTypeSpecificData) => {
-  const soilAmendmentTask = formatSoilAmendmentTaskToDBStructure(
-    data.soil_amendment_task,
-    taskTypeSpecificData,
-  );
+  let soilAmendmentTask;
+  if (data.soil_amendment_task) {
+    soilAmendmentTask = formatSoilAmendmentTaskToDBStructure(
+      data.soil_amendment_task,
+      taskTypeSpecificData,
+    );
+    data.taskData.soil_amendment_task = soilAmendmentTask;
+  }
   const soilAmendmentTaskProducts = formatSoilAmendmentProductToDBStructure(
     data.soil_amendment_task_products,
     taskTypeSpecificData,
   );
   return {
     ...data.taskData,
-    soil_amendment_task: soilAmendmentTask,
+    //soil_amendment_task: soilAmendmentTask,
     soil_amendment_task_products: soilAmendmentTaskProducts,
   };
 };

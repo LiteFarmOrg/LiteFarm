@@ -61,18 +61,30 @@ type FormSoilAmendmentTaskProduct = {
 };
 
 type DBSoilAmendmentTask = {
-  soil_amendment_task_products: DBSoilAmendmentTaskProduct[];
+  furrow_hole_depth?: number;
+  furrow_hole_depth_unit?: string;
+  other_application_method?: string;
   [key: string]: any;
 };
 
 type FormSoilAmendmentTask = {
+  furrow_hole_depth?: number;
+  furrow_hole_depth_unit?: UnitOption;
+  other_application_method?: string;
+  [key: string]: any;
+};
+
+type DBTask = {
+  soil_amendment_task_products: DBSoilAmendmentTaskProduct[];
+  [key: string]: any;
+};
+
+type FormTask = {
   soil_amendment_task_products: FormSoilAmendmentTaskProduct[];
   [key: string]: any;
 };
 
-export const formatSoilAmendmentTaskToFormStructure = (
-  task: DBSoilAmendmentTask,
-): FormSoilAmendmentTask => {
+export const formatSoilAmendmentTaskToFormStructure = (task: DBTask): FormTask => {
   const taskClone = structuredClone(task);
 
   const formattedTaskProducts = task.soil_amendment_task_products.map(
@@ -203,7 +215,7 @@ export const formatTaskReadOnlyDefaultValues = (task: {
   [key: string]: any;
 }) => {
   if (task.taskType?.task_translation_key === 'SOIL_AMENDMENT_TASK') {
-    return formatSoilAmendmentTaskToFormStructure(task as DBSoilAmendmentTask);
+    return formatSoilAmendmentTaskToFormStructure(task as DBTask);
   }
 
   return structuredClone(task);

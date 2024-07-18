@@ -1856,6 +1856,7 @@
     "SELECT_DATE": "Select the task date",
     "SELECT_TASK_LOCATIONS": "Select the task location(s)",
     "SELECT_WILD_CROP": "This task targets a wild crop",
+    "SOIL_AMENDMENT_LOCATION": "Select the soil amendment location(s)",
     "STATUS": {
       "ABANDONED": "Abandoned",
       "COMPLETED": "Completed",

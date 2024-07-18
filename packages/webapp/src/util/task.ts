@@ -178,6 +178,7 @@ export const formatSoilAmendmentTaskToDBStructure = (
 ): DBSoilAmendmentTask => {
   const soilAmendmentTaskClone = structuredClone(soilAmendmentTask);
   const furrowHoleId = methods?.find(({ key }) => key === 'FURROW_HOLE')?.id;
+  const otherMethodId = methods?.find(({ key }) => key === 'OTHER')?.id;
   if (!furrowHoleId) {
     throw Error('id for FURROW_HOLE method does not exist');
   }
@@ -187,6 +188,12 @@ export const formatSoilAmendmentTaskToDBStructure = (
   } else {
     delete soilAmendmentTaskClone.furrow_hole_depth;
     delete soilAmendmentTaskClone.furrow_hole_depth_unit;
+  }
+  if (!otherMethodId) {
+    throw Error('id for OTHER method does not exist');
+  }
+  if (soilAmendmentTask.method_id !== otherMethodId) {
+    delete soilAmendmentTaskClone.other_application_method;
   }
   return soilAmendmentTaskClone;
 };

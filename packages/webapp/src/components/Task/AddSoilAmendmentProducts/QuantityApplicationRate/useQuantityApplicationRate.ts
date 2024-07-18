@@ -36,6 +36,7 @@ export const useQuantityApplicationRate = ({
   isWeight,
   namePrefix,
 }: UseQuantityApplicationRate) => {
+  const PERCENT_OF_LOCATION_AMENDED = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED}`;
   const TOTAL_AREA_AMENDED = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED}`;
   const TOTAL_AREA_AMENDED_UNIT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT}`;
   const VOLUME = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.VOLUME}`;
@@ -64,7 +65,7 @@ export const useQuantityApplicationRate = ({
   ]);
 
   useEffect(() => {
-    updateTotalArea(100);
+    updateTotalArea(getValues(PERCENT_OF_LOCATION_AMENDED));
   }, []);
 
   /* Update application area + rate based on percent of location */

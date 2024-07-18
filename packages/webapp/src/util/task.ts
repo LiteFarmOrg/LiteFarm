@@ -181,9 +181,10 @@ export const formatSoilAmendmentTaskToDBStructure = (
   if (!furrowHoleId) {
     throw Error('id for FURROW_HOLE method does not exist');
   }
-  soilAmendmentTaskClone.furrow_hole_depth_unit =
-    soilAmendmentTaskClone.furrow_hole_depth_unit.value;
-  if (soilAmendmentTask.method_id !== furrowHoleId) {
+  if (soilAmendmentTask.method_id === furrowHoleId) {
+    soilAmendmentTaskClone.furrow_hole_depth_unit =
+      soilAmendmentTaskClone.furrow_hole_depth_unit.value;
+  } else {
     delete soilAmendmentTaskClone.furrow_hole_depth;
     delete soilAmendmentTaskClone.furrow_hole_depth_unit;
   }

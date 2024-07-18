@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { SoilAmendmentPurpose } from '../store/api/types';
+import { SoilAmendmentMethod, SoilAmendmentPurpose } from '../store/api/types';
 import { getUnitOptionMap } from './convert-units/getUnitOptionMap';
 
 interface UnitOption {
@@ -46,33 +46,54 @@ type FormSoilAmendmentTaskProduct = {
   purposes: number[];
   other_purpose?: string;
   weight?: number;
-  weight_unit?: UnitOption;
+  weight_unit?: UnitOption | string;
   volume?: number;
-  volume_unit?: UnitOption;
+  volume_unit?: UnitOption | string;
   percent_of_location_amended: number;
   total_area_amended: number;
-  total_area_amended_unit?: UnitOption;
+  total_area_amended_unit?: UnitOption | string;
   application_rate_weight?: number;
-  application_rate_weight_unit?: UnitOption;
+  application_rate_weight_unit?: UnitOption | string;
   application_rate_volume?: number;
-  application_rate_volume_unit?: UnitOption;
+  application_rate_volume_unit?: UnitOption | string;
   is_weight: boolean;
   [key: string]: any;
 };
 
 type DBSoilAmendmentTask = {
-  soil_amendment_task_products: DBSoilAmendmentTaskProduct[];
+  furrow_hole_depth?: number;
+  furrow_hole_depth_unit?: string;
+  other_application_method?: string;
   [key: string]: any;
 };
 
 type FormSoilAmendmentTask = {
+  furrow_hole_depth?: number;
+  furrow_hole_depth_unit?: UnitOption;
+  other_application_method?: string;
+  [key: string]: any;
+};
+
+type DBTask = {
+  soil_amendment_task_products: DBSoilAmendmentTaskProduct[];
+  [key: string]: any;
+};
+
+type FormTask = {
   soil_amendment_task_products: FormSoilAmendmentTaskProduct[];
   [key: string]: any;
 };
 
-export const formatSoilAmendmentTaskToFormStructure = (
-  task: DBSoilAmendmentTask,
-): FormSoilAmendmentTask => {
+// Type guard
+function isFormSoilAmendmentTask(task: DBTask | FormTask): task is FormTask {
+  return 'purposes' in task.soil_amendment_task_products[0];
+}
+
+export const formatSoilAmendmentTaskToFormStructure = (task: DBTask | FormTask): FormTask => {
+  if (isFormSoilAmendmentTask(task)) {
+    return task as FormTask;
+  }
+
   const taskClone = structuredClone(task);
 
   const formattedTaskProducts = task.soil_amendment_task_products.map(
@@ -93,23 +114,17 @@ export const formatSoilAmendmentTaskToFormStructure = (
         formattedTaskProduct.purposes.push(purpose_id);
       });
 
-      const unitOptions: { [key: string]: UnitOption } = getUnitOptionMap();
-
       return {
         ...formattedTaskProduct,
-        weight_unit: isWeight && rest.weight_unit ? unitOptions[rest.weight_unit] : undefined,
-        volume_unit: !isWeight && rest.volume_unit ? unitOptions[rest.volume_unit] : undefined,
-        total_area_amended_unit: rest.total_area_amended_unit
-          ? unitOptions[rest.total_area_amended_unit]
+        weight_unit: isWeight ? rest.weight_unit : undefined,
+        volume_unit: !isWeight ? rest.volume_unit : undefined,
+        total_area_amended_unit: rest.total_area_amended_unit || undefined,
+        application_rate_weight_unit: rest.application_rate_weight
+          ? rest.application_rate_weight_unit
           : undefined,
-        application_rate_weight_unit:
-          rest.application_rate_weight && rest.application_rate_weight_unit
-            ? unitOptions[rest.application_rate_weight_unit]
-            : undefined,
-        application_rate_volume_unit:
-          rest.application_rate_volume && rest.application_rate_volume_unit
-            ? unitOptions[rest.application_rate_volume_unit]
-            : undefined,
+        application_rate_volume_unit: rest.application_rate_volume
+          ? rest.application_rate_volume_unit
+          : undefined,
       };
     },
   );
@@ -154,14 +169,14 @@ export const formatSoilAmendmentProductToDBStructure = (
     return {
       ...rest,
       weight: is_weight ? rest.weight : undefined,
-      weight_unit: is_weight ? rest.weight_unit?.value : undefined,
+      weight_unit: is_weight ? (rest.weight_unit as UnitOption)?.value : undefined,
       application_rate_weight_unit: is_weight
-        ? rest.application_rate_weight_unit?.value
+        ? (rest.application_rate_weight_unit as UnitOption)?.value
         : undefined,
       volume: !is_weight ? rest.volume : undefined,
-      volume_unit: !is_weight ? rest.volume_unit?.value : undefined,
+      volume_unit: !is_weight ? (rest.volume_unit as UnitOption)?.value : undefined,
       application_rate_volume_unit: !is_weight
-        ? rest.application_rate_volume_unit?.value
+        ? (rest.application_rate_volume_unit as UnitOption)?.value
         : undefined,
       purpose_relationships: formatPurposeIdsToRelationships(
         purposeIds,
@@ -172,12 +187,41 @@ export const formatSoilAmendmentProductToDBStructure = (
   });
 };
 
+export const formatSoilAmendmentTaskToDBStructure = (
+  soilAmendmentTask: FormSoilAmendmentTask,
+  { methods }: { methods: SoilAmendmentMethod[] },
+): DBSoilAmendmentTask => {
+  const {
+    method_id,
+    furrow_hole_depth,
+    furrow_hole_depth_unit,
+    other_application_method,
+    ...rest
+  } = soilAmendmentTask;
+  const furrowHoleId = methods?.find(({ key }) => key === 'FURROW_HOLE')?.id;
+  const otherMethodId = methods?.find(({ key }) => key === 'OTHER')?.id;
+  if (!furrowHoleId) {
+    throw Error('id for FURROW_HOLE method does not exist');
+  }
+  if (!otherMethodId) {
+    throw Error('id for OTHER method does not exist');
+  }
+  return {
+    ...rest,
+    method_id,
+    furrow_hole_depth: method_id === furrowHoleId ? furrow_hole_depth : undefined,
+    furrow_hole_depth_unit: method_id === furrowHoleId ? furrow_hole_depth_unit?.value : undefined,
+    other_application_method:
+      soilAmendmentTask.method_id === otherMethodId ? other_application_method : undefined,
+  };
+};
+
 export const formatTaskReadOnlyDefaultValues = (task: {
   taskType?: { task_translation_key: string };
   [key: string]: any;
 }) => {
   if (task.taskType?.task_translation_key === 'SOIL_AMENDMENT_TASK') {
-    return formatSoilAmendmentTaskToFormStructure(task as DBSoilAmendmentTask);
+    return formatSoilAmendmentTaskToFormStructure(task as DBTask);
   }
 
   return structuredClone(task);

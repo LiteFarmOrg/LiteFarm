@@ -1,8 +1,6 @@
 import React from 'react';
 import decorators from '../../config/Decorators';
-import {
-  PureCertifierSelectionScreen,
-} from '../../../../components/OrganicCertifierSurvey/CertifierSelection/PureCertifierSelectionScreen';
+import { PureCertifierSelectionScreen } from '../../../../components/OrganicCertifierSurvey/CertifierSelection/PureCertifierSelectionScreen';
 import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
@@ -70,8 +68,8 @@ const certifiers = [
 const certifications = [
   {
     certification_id: 1,
-    certification_type: 'Organic',
-    certification_translation_key: 'ORGANIC',
+    certification_type: 'Third-party Organic',
+    certification_translation_key: 'THIRD_PARTY_ORGANIC',
   },
   {
     certification_id: 2,

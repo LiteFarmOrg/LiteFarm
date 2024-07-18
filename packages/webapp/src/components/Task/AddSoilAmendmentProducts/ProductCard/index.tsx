@@ -188,7 +188,6 @@ const SoilAmendmentProductCard = ({
         </>
       )}
       <QuantityApplicationRate
-        productId={PRODUCT_ID}
         system={system}
         locations={locations}
         isReadOnly={isReadOnly}

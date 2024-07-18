@@ -58,7 +58,6 @@ export interface Location {
 }
 
 export type QuantityApplicationRateProps = {
-  productId: number | string;
   isReadOnly: boolean;
   system: 'metric' | 'imperial';
   locations: Location[];
@@ -66,7 +65,6 @@ export type QuantityApplicationRateProps = {
 };
 
 const QuantityApplicationRate = ({
-  productId,
   isReadOnly,
   system, // measurementSelector
   locations,
@@ -74,7 +72,7 @@ const QuantityApplicationRate = ({
 }: QuantityApplicationRateProps) => {
   const { t } = useTranslation();
 
-  const { control, getValues, setValue, register, watch, formState } = useFormContext();
+  const { control, getValues, setValue, register, watch } = useFormContext();
 
   const WEIGHT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.WEIGHT}`;
   const VOLUME = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.VOLUME}`;
@@ -106,7 +104,7 @@ const QuantityApplicationRate = ({
   const {
     updateApplicationRate,
     updateQuantity,
-    onPercentLocationChange,
+    updateTotalArea,
     previewStringValue,
     previewStringUnit,
   } = useQuantityApplicationRate({
@@ -180,7 +178,7 @@ const QuantityApplicationRate = ({
             <KeyboardArrowDownIcon className={styles.expandIcon} />
           </TextButton>
 
-          <Collapse id={`application_rate-${productId}`} in={isExpanded} timeout="auto">
+          <Collapse id={'application_rate'} in={isExpanded} timeout="auto">
             <div className={styles.sectionBody}>
               <div className={styles.locationSection}>
                 <NumberInput
@@ -190,9 +188,9 @@ const QuantityApplicationRate = ({
                   min={0.0001}
                   max={100}
                   rules={{ required: t('common:REQUIRED') }}
-                  onChange={onPercentLocationChange}
+                  onChange={updateTotalArea}
                   disabled={isReadOnly}
-                  defaultValue={formState.defaultValues?.[PERCENT_OF_LOCATION_AMENDED] || 100}
+                  defaultValue={100}
                 />
                 <SwapIcon />
                 {/* @ts-ignore */}
@@ -208,7 +206,6 @@ const QuantityApplicationRate = ({
                   hookFromWatch={watch}
                   control={control}
                   mode={'onChange'}
-                  defaultValue={formState.defaultValues?.[TOTAL_AREA_AMENDED] || total_area}
                   disabled
                   required
                 />

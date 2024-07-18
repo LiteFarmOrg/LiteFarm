@@ -17,7 +17,7 @@ import { ReactNode } from 'react';
 import InputBase, { type InputBaseSharedProps } from '../InputBase';
 import NumberInputStepper from './NumberInputStepper';
 import useNumberInput, { NumberInputOptions } from './useNumberInput';
-import { FieldValues, UseControllerProps, useController } from 'react-hook-form';
+import { FieldValues, UseControllerProps, useController, get } from 'react-hook-form';
 
 export type NumberInputProps<T extends FieldValues> = UseControllerProps<T> &
   InputBaseSharedProps &
@@ -61,7 +61,7 @@ export default function NumberInput<T extends FieldValues>({
 }: NumberInputProps<T>) {
   const { field, fieldState, formState } = useController({ name, control, rules, defaultValue });
   const { inputProps, reset, numericValue, increment, decrement } = useNumberInput({
-    initialValue: defaultValue || formState.defaultValues?.[name],
+    initialValue: get(formState.defaultValues, name) || defaultValue,
     allowDecimal,
     decimalDigits,
     locale,

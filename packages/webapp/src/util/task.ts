@@ -46,16 +46,16 @@ type FormSoilAmendmentTaskProduct = {
   purposes: number[];
   other_purpose?: string;
   weight?: number;
-  weight_unit?: UnitOption;
+  weight_unit?: UnitOption | string;
   volume?: number;
-  volume_unit?: UnitOption;
+  volume_unit?: UnitOption | string;
   percent_of_location_amended: number;
   total_area_amended: number;
-  total_area_amended_unit?: UnitOption;
+  total_area_amended_unit?: UnitOption | string;
   application_rate_weight?: number;
-  application_rate_weight_unit?: UnitOption;
+  application_rate_weight_unit?: UnitOption | string;
   application_rate_volume?: number;
-  application_rate_volume_unit?: UnitOption;
+  application_rate_volume_unit?: UnitOption | string;
   is_weight: boolean;
   [key: string]: any;
 };
@@ -93,23 +93,17 @@ export const formatSoilAmendmentTaskToFormStructure = (
         formattedTaskProduct.purposes.push(purpose_id);
       });
 
-      const unitOptions: { [key: string]: UnitOption } = getUnitOptionMap();
-
       return {
         ...formattedTaskProduct,
-        weight_unit: isWeight && rest.weight_unit ? unitOptions[rest.weight_unit] : undefined,
-        volume_unit: !isWeight && rest.volume_unit ? unitOptions[rest.volume_unit] : undefined,
-        total_area_amended_unit: rest.total_area_amended_unit
-          ? unitOptions[rest.total_area_amended_unit]
+        weight_unit: isWeight ? rest.weight_unit : undefined,
+        volume_unit: !isWeight ? rest.volume_unit : undefined,
+        total_area_amended_unit: rest.total_area_amended_unit || undefined,
+        application_rate_weight_unit: rest.application_rate_weight
+          ? rest.application_rate_weight_unit
           : undefined,
-        application_rate_weight_unit:
-          rest.application_rate_weight && rest.application_rate_weight_unit
-            ? unitOptions[rest.application_rate_weight_unit]
-            : undefined,
-        application_rate_volume_unit:
-          rest.application_rate_volume && rest.application_rate_volume_unit
-            ? unitOptions[rest.application_rate_volume_unit]
-            : undefined,
+        application_rate_volume_unit: rest.application_rate_volume
+          ? rest.application_rate_volume_unit
+          : undefined,
       };
     },
   );
@@ -154,14 +148,14 @@ export const formatSoilAmendmentProductToDBStructure = (
     return {
       ...rest,
       weight: is_weight ? rest.weight : undefined,
-      weight_unit: is_weight ? rest.weight_unit?.value : undefined,
+      weight_unit: is_weight ? (rest.weight_unit as UnitOption)?.value : undefined,
       application_rate_weight_unit: is_weight
-        ? rest.application_rate_weight_unit?.value
+        ? (rest.application_rate_weight_unit as UnitOption)?.value
         : undefined,
       volume: !is_weight ? rest.volume : undefined,
-      volume_unit: !is_weight ? rest.volume_unit?.value : undefined,
+      volume_unit: !is_weight ? (rest.volume_unit as UnitOption)?.value : undefined,
       application_rate_volume_unit: !is_weight
-        ? rest.application_rate_volume_unit?.value
+        ? (rest.application_rate_volume_unit as UnitOption)?.value
         : undefined,
       purpose_relationships: formatPurposeIdsToRelationships(
         purposeIds,

@@ -50,19 +50,8 @@ export const useQuantityApplicationRate = ({
 
   const { setValue, getValues, watch } = useFormContext();
 
-  const [
-    application_area_unit,
-    weight_unit,
-    volume_unit,
-    application_rate_weight_unit,
-    application_rate_volume_unit,
-  ] = watch([
-    TOTAL_AREA_AMENDED_UNIT,
-    WEIGHT_UNIT,
-    VOLUME_UNIT,
-    APPLICATION_RATE_WEIGHT_UNIT,
-    APPLICATION_RATE_VOLUME_UNIT,
-  ]);
+  const [weight_unit, volume_unit, application_rate_weight_unit, application_rate_volume_unit] =
+    watch([WEIGHT_UNIT, VOLUME_UNIT, APPLICATION_RATE_WEIGHT_UNIT, APPLICATION_RATE_VOLUME_UNIT]);
 
   useEffect(() => {
     updateTotalArea(getValues(PERCENT_OF_LOCATION_AMENDED));
@@ -148,11 +137,12 @@ export const useQuantityApplicationRate = ({
     let previewStringUnit;
     let previewStringValue;
 
-    if (application_area_unit) {
+    if (total_area) {
       previewStringUnit =
         total_area_unit && location_area[system].units.includes(total_area_unit)
           ? getUnitOptionMap()[total_area_unit]
-          : application_area_unit;
+          : /* @ts-ignore */
+            getUnitOptionMap()[getDefaultUnit(location_area, total_area, system).displayUnit];
 
       previewStringValue =
         total_area &&
@@ -168,7 +158,7 @@ export const useQuantityApplicationRate = ({
     }
 
     return { previewStringUnit, previewStringValue };
-  }, [!!application_area_unit, total_area]);
+  }, [total_area]);
 
   return {
     previewStringValue: previewStrings.previewStringValue,

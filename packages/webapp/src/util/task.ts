@@ -188,26 +188,29 @@ export const formatSoilAmendmentTaskToDBStructure = (
   soilAmendmentTask: FormSoilAmendmentTask,
   { methods }: { methods: SoilAmendmentMethod[] },
 ): DBSoilAmendmentTask => {
-  const soilAmendmentTaskClone = structuredClone(soilAmendmentTask);
+  const {
+    method_id,
+    furrow_hole_depth,
+    furrow_hole_depth_unit,
+    other_application_method,
+    ...rest
+  } = soilAmendmentTask;
   const furrowHoleId = methods?.find(({ key }) => key === 'FURROW_HOLE')?.id;
   const otherMethodId = methods?.find(({ key }) => key === 'OTHER')?.id;
   if (!furrowHoleId) {
     throw Error('id for FURROW_HOLE method does not exist');
   }
-  if (soilAmendmentTask.method_id === furrowHoleId) {
-    soilAmendmentTaskClone.furrow_hole_depth_unit =
-      soilAmendmentTaskClone.furrow_hole_depth_unit.value;
-  } else {
-    delete soilAmendmentTaskClone.furrow_hole_depth;
-    delete soilAmendmentTaskClone.furrow_hole_depth_unit;
-  }
   if (!otherMethodId) {
     throw Error('id for OTHER method does not exist');
   }
-  if (soilAmendmentTask.method_id !== otherMethodId) {
-    delete soilAmendmentTaskClone.other_application_method;
-  }
-  return soilAmendmentTaskClone;
+  return {
+    ...rest,
+    method_id,
+    furrow_hole_depth: method_id === furrowHoleId ? furrow_hole_depth : undefined,
+    furrow_hole_depth_unit: method_id === furrowHoleId ? furrow_hole_depth_unit?.value : undefined,
+    other_application_method:
+      soilAmendmentTask.method_id === otherMethodId ? other_application_method : undefined,
+  };
 };
 
 export const formatTaskReadOnlyDefaultValues = (task: {

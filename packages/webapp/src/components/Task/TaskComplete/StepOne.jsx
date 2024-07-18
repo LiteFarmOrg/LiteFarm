@@ -63,6 +63,19 @@ export default function PureCompleteStepOne({
       ? soilAmendmentContinueDisabled(getValues(CHANGES_NEEDED), isValid)
       : !isValid;
 
+  const onSubmit = (event) => {
+    event.preventDefault();
+
+    if (
+      taskType === 'SOIL_AMENDMENT_TASK' &&
+      soilAmendmentContinueDisabled(getValues(CHANGES_NEEDED)) === false
+    ) {
+      onContinue();
+    } else {
+      handleSubmit(onContinue)();
+    }
+  };
+
   return (
     <Form
       buttonGroup={
@@ -75,7 +88,7 @@ export default function PureCompleteStepOne({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(onContinue)}
+      onSubmit={onSubmit}
     >
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}

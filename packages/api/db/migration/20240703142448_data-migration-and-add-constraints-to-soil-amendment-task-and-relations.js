@@ -118,14 +118,14 @@ export const up = async function (knex) {
   const taskProductsWithDuplicates = await knex
     .select('task_id', 'product_id')
     .count('*', { as: 'cnt' })
-    .from('soil_amendment_task_product')
+    .from('soil_amendment_task_products')
     .groupBy('task_id', 'product_id')
     .havingRaw('COUNT(*) > 1')
     .orderBy('task_id', 'asc');
   for (const taskProduct of taskProductsWithDuplicates) {
     const duplicates = await knex
       .select('*')
-      .table('soil_amendment_task_product')
+      .table('soil_amendment_task_products')
       .where({ task_id: taskProduct.task_id, product_id: taskProduct.product_id })
       .orderBy('created_at', 'asc');
     const countOfNotDeleted = duplicates.filter((dupe) => !dupe.deleted);
@@ -133,7 +133,7 @@ export const up = async function (knex) {
     let hardDelete;
     if (countOfNotDeleted.length === 0) {
       keep = duplicates.pop();
-      await knex('soil_amendment_task_product').where('id', keep.id).update({ deleted: false });
+      await knex('soil_amendment_task_products').where('id', keep.id).update({ deleted: false });
       hardDelete = duplicates;
     } else if (countOfNotDeleted.length >= 1) {
       //Choose only or latest task_product with deleted false
@@ -141,14 +141,14 @@ export const up = async function (knex) {
       hardDelete = duplicates.filter((dupe) => dupe.id !== keep.id);
     }
     for (const deleteable of hardDelete) {
-      await knex('soil_amendment_task_product_purpose_relationship')
+      await knex('soil_amendment_task_products_purpose_relationship')
         .where('task_products_id', deleteable.id)
         .del();
-      await knex('soil_amendment_task_product').where('id', deleteable.id).del();
+      await knex('soil_amendment_task_products').where('id', deleteable.id).del();
     }
   }
 
-  await knex.schema.alterTable('soil_amendment_task_product', (table) => {
+  await knex.schema.alterTable('soil_amendment_task_products', (table) => {
     table.unique(['task_id', 'product_id'], {
       indexName: 'task_product_uniqueness_composite',
     });
@@ -157,13 +157,13 @@ export const up = async function (knex) {
   /*----------------------------------------
    Repair created_by and and updated_by on soil_amendment_task_product
   ----------------------------------------*/
-  const allTaskProducts = await knex('soil_amendment_task_product').select('id', 'task_id');
+  const allTaskProducts = await knex('soil_amendment_task_products').select('id', 'task_id');
   for (const tp of allTaskProducts) {
     const task = await knex('task')
       .select('created_by_user_id', 'updated_by_user_id')
       .where({ task_id: tp.task_id })
       .first();
-    await knex('soil_amendment_task_product').where('id', tp.id).update({
+    await knex('soil_amendment_task_products').where('id', tp.id).update({
       created_by_user_id: task.created_by_user_id,
       updated_by_user_id: task.updated_by_user_id,
     });
@@ -198,7 +198,7 @@ export const down = async function (knex) {
   });
 
   // Create new product table
-  await knex.schema.alterTable('soil_amendment_task_product', (table) => {
+  await knex.schema.alterTable('soil_amendment_task_products', (table) => {
     table.dropChecks([
       'check_positive_weight',
       'check_positive_volume',
@@ -247,10 +247,10 @@ export const down = async function (knex) {
   /*----------------------------------------
    Repair created_by and and updated_by on soil_amendment_task_product
   ----------------------------------------*/
-  const allTaskProducts = await knex('soil_amendment_task_product').select('id', 'task_id');
+  const allTaskProducts = await knex('soil_amendment_task_products').select('id', 'task_id');
   for (const tp of allTaskProducts) {
     const litefarmDBId = 1;
-    await knex('soil_amendment_task_product')
+    await knex('soil_amendment_task_products')
       .where('id', tp.id)
       .update({ created_by_user_id: litefarmDBId, updated_by_user_id: litefarmDBId });
   }

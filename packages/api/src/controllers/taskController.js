@@ -22,7 +22,7 @@ import ManagementTasksModel from '../models/managementTasksModel.js';
 import TransplantTaskModel from '../models/transplantTaskModel.js';
 import PlantTaskModel from '../models/plantTaskModel.js';
 import HarvestUse from '../models/harvestUseModel.js';
-import SoilAmendmentTaskProductModel from '../models/soilAmendmentTaskProductModel.js';
+import SoilAmendmentTaskProductModel from '../models/soilAmendmentTaskProductsModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
 import User from '../models/userModel.js';
 import { typesOfTask } from './../middleware/validation/task.js';
@@ -70,9 +70,9 @@ async function updateTaskWithCompletedData(
   if (typeOfTask === 'soil_amendment_task') {
     // Unretire deleted taskProduct or find missing id to avoid uniqueness error
     const existingTaskProducts = await SoilAmendmentTaskProductModel.query(trx).where({ task_id });
-    const { soil_amendment_task_product } = data;
+    const { soil_amendment_task_products } = data;
     const unretireIds = [];
-    soil_amendment_task_product.forEach((taskProduct) => {
+    soil_amendment_task_products.forEach((taskProduct) => {
       if (!taskProduct.id) {
         const existingDeletedProduct = existingTaskProducts.find(
           (etp) => etp.product_id === taskProduct.product_id,

@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  PureCertificationSelection,
-} from '../../../../components/OrganicCertifierSurvey/CertificationSelection/PureCertificationSelection';
+import { PureCertificationSelection } from '../../../../components/OrganicCertifierSurvey/CertificationSelection/PureCertificationSelection';
 import decorators from '../../config/Decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
 
@@ -21,8 +19,8 @@ Primary.args = {
   certifications: [
     {
       certification_id: 1,
-      certification_type: 'Organic',
-      certification_translation_key: 'ORGANIC',
+      certification_type: 'Third-party Organic',
+      certification_translation_key: 'THIRD_PARTY_ORGANIC',
     },
     {
       certification_id: 2,

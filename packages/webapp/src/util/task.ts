@@ -33,7 +33,7 @@ type DBSoilAmendmentTaskProduct = {
   weight_unit?: string;
   volume?: number;
   volume_unit?: string;
-  percent_of_location_amended: number;
+  percent_of_location_amended?: number;
   total_area_amended: number;
   application_rate_weight?: number;
   application_rate_weight_unit?: string;
@@ -74,7 +74,9 @@ type FormSoilAmendmentTask = {
 function isFormSoilAmendmentTask(
   task: DBSoilAmendmentTask | FormSoilAmendmentTask,
 ): task is FormSoilAmendmentTask {
-  return 'purposes' in task.soil_amendment_task_products[0];
+  return (
+    task.soil_amendment_task_products?.[0] && 'purposes' in task.soil_amendment_task_products[0]
+  );
 }
 
 export const formatSoilAmendmentTaskToFormStructure = (
@@ -88,13 +90,14 @@ export const formatSoilAmendmentTaskToFormStructure = (
 
   const formattedTaskProducts = task.soil_amendment_task_products.map(
     (dbTaskProduct: DBSoilAmendmentTaskProduct): FormSoilAmendmentTaskProduct => {
-      const { purpose_relationships, ...rest } = dbTaskProduct;
+      const { purpose_relationships, percent_of_location_amended, ...rest } = dbTaskProduct;
       const isWeight = !!(rest.weight || rest.weight === 0);
 
       const formattedTaskProduct = {
         ...rest,
         purposes: [],
         is_weight: isWeight,
+        percent_of_location_amended: percent_of_location_amended ?? 100,
       } as FormSoilAmendmentTaskProduct;
 
       dbTaskProduct.purpose_relationships.forEach(({ purpose_id, other_purpose }) => {

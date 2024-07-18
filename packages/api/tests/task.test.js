@@ -207,6 +207,15 @@ describe('Task tests', () => {
     return knex('task').where({ task_id }).first();
   }
 
+  beforeAll(async () => {
+    // Check in controller expects Soil Amendment Task to exist
+    await knex('task_type').insert({
+      farm_id: null,
+      task_name: 'Soil amendment',
+      task_translation_key: 'SOIL_AMENDMENT_TASK',
+    });
+  });
+
   afterAll(async (done) => {
     await tableCleanup(knex);
     await knex.destroy();

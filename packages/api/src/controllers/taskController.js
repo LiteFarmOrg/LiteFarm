@@ -702,6 +702,20 @@ const taskController = {
         )
         .whereIn('task_id', taskIds);
       const filteredTasks = graphTasks.map(removeNullTypes);
+
+      /* Clean before returning to frontend */
+      const {
+        task_type_id: soilAmendmentTypeId,
+      } = await TaskTypeModel.query()
+        .whereNotDeleted()
+        .where({ farm_id: null, task_translation_key: 'SOIL_AMENDMENT_TASK' })
+        .first();
+      filteredTasks.forEach((task) => {
+        if (task.task_type_id !== soilAmendmentTypeId) {
+          delete task.soil_amendment_task_products;
+        }
+      });
+
       if (graphTasks) {
         res.status(200).send(filteredTasks);
       }

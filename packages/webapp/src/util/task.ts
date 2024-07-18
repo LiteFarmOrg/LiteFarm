@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { SoilAmendmentPurpose } from '../store/api/types';
+import { SoilAmendmentMethod, SoilAmendmentPurpose } from '../store/api/types';
 import { getUnitOptionMap } from './convert-units/getUnitOptionMap';
 
 interface UnitOption {
@@ -61,29 +61,39 @@ type FormSoilAmendmentTaskProduct = {
 };
 
 type DBSoilAmendmentTask = {
-  soil_amendment_task_products: DBSoilAmendmentTaskProduct[];
+  furrow_hole_depth?: number;
+  furrow_hole_depth_unit?: string;
+  other_application_method?: string;
   [key: string]: any;
 };
 
 type FormSoilAmendmentTask = {
+  furrow_hole_depth?: number;
+  furrow_hole_depth_unit?: UnitOption;
+  other_application_method?: string;
+  [key: string]: any;
+};
+
+type DBTask = {
+  soil_amendment_task_products: DBSoilAmendmentTaskProduct[];
+  [key: string]: any;
+};
+
+type FormTask = {
   soil_amendment_task_products: FormSoilAmendmentTaskProduct[];
   [key: string]: any;
 };
 
 // Type guard
-function isFormSoilAmendmentTask(
-  task: DBSoilAmendmentTask | FormSoilAmendmentTask,
-): task is FormSoilAmendmentTask {
+function isFormSoilAmendmentTask(task: DBTask | FormTask): task is FormTask {
   return (
     task.soil_amendment_task_products?.[0] && 'purposes' in task.soil_amendment_task_products[0]
   );
 }
 
-export const formatSoilAmendmentTaskToFormStructure = (
-  task: DBSoilAmendmentTask | FormSoilAmendmentTask,
-): FormSoilAmendmentTask => {
+export const formatSoilAmendmentTaskToFormStructure = (task: DBTask | FormTask): FormTask => {
   if (isFormSoilAmendmentTask(task)) {
-    return task as FormSoilAmendmentTask;
+    return task as FormTask;
   }
 
   const taskClone = structuredClone(task);
@@ -180,12 +190,41 @@ export const formatSoilAmendmentProductToDBStructure = (
   });
 };
 
+export const formatSoilAmendmentTaskToDBStructure = (
+  soilAmendmentTask: FormSoilAmendmentTask,
+  { methods }: { methods: SoilAmendmentMethod[] },
+): DBSoilAmendmentTask => {
+  const {
+    method_id,
+    furrow_hole_depth,
+    furrow_hole_depth_unit,
+    other_application_method,
+    ...rest
+  } = soilAmendmentTask;
+  const furrowHoleId = methods?.find(({ key }) => key === 'FURROW_HOLE')?.id;
+  const otherMethodId = methods?.find(({ key }) => key === 'OTHER')?.id;
+  if (!furrowHoleId) {
+    throw Error('id for FURROW_HOLE method does not exist');
+  }
+  if (!otherMethodId) {
+    throw Error('id for OTHER method does not exist');
+  }
+  return {
+    ...rest,
+    method_id,
+    furrow_hole_depth: method_id === furrowHoleId ? furrow_hole_depth : undefined,
+    furrow_hole_depth_unit: method_id === furrowHoleId ? furrow_hole_depth_unit?.value : undefined,
+    other_application_method:
+      soilAmendmentTask.method_id === otherMethodId ? other_application_method : undefined,
+  };
+};
+
 export const formatTaskReadOnlyDefaultValues = (task: {
   taskType?: { task_translation_key: string };
   [key: string]: any;
 }) => {
   if (task.taskType?.task_translation_key === 'SOIL_AMENDMENT_TASK') {
-    return formatSoilAmendmentTaskToFormStructure(task as DBSoilAmendmentTask);
+    return formatSoilAmendmentTaskToFormStructure(task as DBTask);
   }
 
   return structuredClone(task);

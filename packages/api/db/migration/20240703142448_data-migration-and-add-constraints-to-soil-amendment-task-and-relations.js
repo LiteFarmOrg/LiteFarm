@@ -38,63 +38,72 @@ export const up = async function (knex) {
   ----------------------------------------*/
 
   await knex.schema.alterTable('soil_amendment_product', (table) => {
-    table.decimal('n', 36, 12).nullable().checkPositive('check_positive_n').alter();
+    table.decimal('n', 36, 12).nullable().alter();
+    table.check('n >= 0', [], 'check_positive_n');
     // P in this case stands for Phosphate P2O5 also known as "Available Phosphorus"
-    table.decimal('p', 36, 12).nullable().checkPositive('check_positive_p').alter();
+    table.decimal('p', 36, 12).nullable().alter();
+    table.check('p >= 0', [], 'check_positive_p');
     // K in this case stands for Potassium Oxide K2O also known as "Soluble Potash",
-    table.decimal('k', 36, 12).nullable().checkPositive('check_positive_k').alter();
-    table.decimal('calcium', 36, 12).nullable().checkPositive('check_positive_calcium').alter();
-    table.decimal('magnesium', 36, 12).nullable().checkPositive('check_positive_magnesium').alter();
-    table.decimal('sulfur', 36, 12).nullable().checkPositive('check_positive_sulfur').alter();
-    table.decimal('copper', 36, 12).nullable().checkPositive('check_positive_copper').alter();
-    table.decimal('manganese', 36, 12).nullable().checkPositive('check_positive_manganese').alter();
-    table.decimal('boron', 36, 12).nullable().checkPositive('check_positive_boron').alter();
-    table.decimal('ammonium', 36, 12).nullable().checkPositive('check_positive_ammonium').alter();
-    table.decimal('nitrate', 36, 12).nullable().checkPositive('check_positive_nitrate').alter();
-    table
-      .decimal('moisture_content_percent', 36, 12)
-      .nullable()
-      .checkPositive('check_positive_moisture_content')
-      .alter();
+    table.decimal('k', 36, 12).nullable().alter();
+    table.check('k >= 0', [], 'check_positive_k');
+    table.decimal('calcium', 36, 12).nullable().alter();
+    table.check('calcium >= 0', [], 'check_positive_calcium');
+    table.decimal('magnesium', 36, 12).nullable().alter();
+    table.check('magnesium >= 0', [], 'check_positive_magnesium');
+    table.decimal('sulfur', 36, 12).nullable().alter();
+    table.check('sulfur >= 0', [], 'check_positive_sulfur');
+    table.decimal('copper', 36, 12).nullable().alter();
+    table.check('copper >= 0', [], 'check_positive_copper');
+    table.decimal('manganese', 36, 12).nullable().alter();
+    table.check('manganese >= 0', [], 'check_positive_manganese');
+    table.decimal('boron', 36, 12).nullable().alter();
+    table.check('boron >= 0', [], 'check_positive_boron');
+    table.decimal('ammonium', 36, 12).nullable().alter();
+    table.check('ammonium >= 0', [], 'check_positive_ammonium');
+    table.decimal('nitrate', 36, 12).nullable().alter();
+    table.check('nitrate >= 0', [], 'check_positive_nitrate');
+    table.decimal('moisture_content_percent', 36, 12).nullable().alter();
+    table.check('moisture_content_percent >= 0', [], 'check_positive_moisture_content');
   });
 
   // Create new product table
   await knex.schema.alterTable('soil_amendment_task_products', (table) => {
-    table.decimal('weight', 36, 12).nullable().checkPositive('check_positive_weight').alter();
-    table.decimal('volume', 36, 12).nullable().checkPositive('check_positive_volume').alter();
+    table.decimal('weight', 36, 12).nullable().alter();
+    table.check('weight >= 0', [], 'check_positive_weight');
+    table.decimal('volume', 36, 12).nullable().alter();
+    table.check('volume >= 0', [], 'check_positive_volume');
     // TODO: LF-4246 backfill data for percent_of_location_amended then make notNullable and defaulted to 100
-    table
-      .decimal('percent_of_location_amended', 36, 12)
-      .nullable()
-      .checkPositive('check_positive_percent_of_location_amended')
-      .alter();
+    table.decimal('percent_of_location_amended', 36, 12).nullable().alter();
+    table.check(
+      'percent_of_location_amended >= 0',
+      [],
+      'check_positive_percent_of_location_amended',
+    );
     // TODO: LF-4246 backfill data for total_area_amended in m2 then make notNullable
-    table
-      .decimal('total_area_amended', 36, 12)
-      .nullable()
-      .checkPositive('check_positive_total_area_amended')
-      .alter();
+    table.decimal('total_area_amended', 36, 12).nullable().alter();
+    table.check('total_area_amended >= 0', [], 'check_positive_total_area_amended');
   });
 
   // Alter soil amendmendment task
   await knex.schema.alterTable('soil_amendment_task', (table) => {
-    table
-      .decimal('furrow_hole_depth', 36, 12)
-      .nullable()
-      .checkPositive('check_positive_furrow_hole_depth')
-      .alter();
+    table.decimal('furrow_hole_depth', 36, 12).nullable().alter();
+    table.check('furrow_hole_depth >= 0', [], 'check_positive_furrow_hole_depth');
   });
 
   // Alter cleaning task for volume and weight
   await knex.schema.alterTable('cleaning_task', (table) => {
-    table.decimal('weight', 36, 12).nullable().checkPositive('check_positive_weight').alter();
-    table.decimal('volume', 36, 12).nullable().checkPositive('check_positive_volume').alter();
+    table.decimal('weight', 36, 12).nullable().alter();
+    table.check('weight >= 0', [], 'check_positive_weight');
+    table.decimal('volume', 36, 12).nullable().alter();
+    table.check('volume >= 0', [], 'check_positive_volume');
   });
 
   // Alter pest control task for volume and weight
   await knex.schema.alterTable('pest_control_task', (table) => {
-    table.decimal('weight', 36, 12).nullable().checkPositive('check_positive_weight').alter();
-    table.decimal('volume', 36, 12).nullable().checkPositive('check_positive_volume').alter();
+    table.decimal('weight', 36, 12).nullable().alter();
+    table.check('weight >= 0', [], ['check_positive_weight']);
+    table.decimal('volume', 36, 12).nullable().alter();
+    table.check('volume >= 0', [], ['check_positive_volume']);
   });
 
   /*----------------------------------------
@@ -179,7 +188,6 @@ export const down = async function (knex) {
   /*----------------------------------------
    Add checkPositive contraint  - to all new and touched number values
   ----------------------------------------*/
-
   await knex.schema.alterTable('soil_amendment_product', (table) => {
     table.dropChecks([
       'check_positive_n',
@@ -212,7 +220,7 @@ export const down = async function (knex) {
     table.dropChecks(['check_positive_furrow_hole_depth']);
   });
 
-  // Alter cleaning task for volume and weight
+  // // Alter cleaning task for volume and weight
   await knex.schema.alterTable('cleaning_task', (table) => {
     table.dropChecks(['check_positive_weight', 'check_positive_volume']);
   });

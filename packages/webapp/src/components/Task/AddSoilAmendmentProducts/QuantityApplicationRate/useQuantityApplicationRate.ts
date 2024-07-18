@@ -132,7 +132,7 @@ export const useQuantityApplicationRate = ({
     updateQuantity();
   }, [application_rate_weight_unit, application_rate_volume_unit]);
 
-  /* For the preview string, replicate the conversion the unit component would do if the value had been displayed in a <Unit /> rather than a string. However, don't update upon changes to application_area_unit beyond the initial undefined > defined change */
+  /* For the preview string, replicate the conversion the unit component would do if the value had been displayed in a <Unit /> rather than a string */
   const previewStrings = useMemo(() => {
     let previewStringUnit;
     let previewStringValue;

@@ -70,9 +70,20 @@ type FormSoilAmendmentTask = {
   [key: string]: any;
 };
 
+// Type guard
+function isFormSoilAmendmentTask(
+  task: DBSoilAmendmentTask | FormSoilAmendmentTask,
+): task is FormSoilAmendmentTask {
+  return 'purposes' in task.soil_amendment_task_products[0];
+}
+
 export const formatSoilAmendmentTaskToFormStructure = (
-  task: DBSoilAmendmentTask,
+  task: DBSoilAmendmentTask | FormSoilAmendmentTask,
 ): FormSoilAmendmentTask => {
+  if (isFormSoilAmendmentTask(task)) {
+    return task as FormSoilAmendmentTask;
+  }
+
   const taskClone = structuredClone(task);
 
   const formattedTaskProducts = task.soil_amendment_task_products.map(

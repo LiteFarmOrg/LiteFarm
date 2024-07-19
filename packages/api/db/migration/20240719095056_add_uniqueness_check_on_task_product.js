@@ -32,17 +32,17 @@ export const up = async function (knex) {
       .orderBy('created_at', 'asc');
     const countOfNotDeleted = duplicates.filter((dupe) => !dupe.deleted);
     let keep;
-    let hardDelete;
+    let softDelete;
     if (countOfNotDeleted.length === 0) {
       keep = duplicates.pop();
       await knex('soil_amendment_task_products').where('id', keep.id).update({ deleted: false });
-      hardDelete = duplicates;
+      softDelete = duplicates;
     } else if (countOfNotDeleted.length >= 1) {
       //Choose only or latest task_product with deleted false
       keep = countOfNotDeleted.pop();
-      hardDelete = duplicates.filter((dupe) => dupe.id !== keep.id);
+      softDelete = duplicates.filter((dupe) => dupe.id !== keep.id);
     }
-    for (const deleteable of hardDelete) {
+    for (const deleteable of softDelete) {
       await knex('soil_amendment_task_products_purpose_relationship')
         .where('task_products_id', deleteable.id)
         .del();
@@ -50,11 +50,13 @@ export const up = async function (knex) {
     }
   }
 
-  await knex.schema.alterTable('soil_amendment_task_products', (table) => {
-    table.unique(['task_id', 'product_id'], {
-      indexName: 'task_product_uniqueness_composite',
-    });
-  });
+  // Add the partial unique index using raw SQL
+  // Knex partial indexes not working correctly
+  await knex.raw(`
+    CREATE UNIQUE INDEX task_product_uniqueness_composite
+    ON soil_amendment_task_products(task_id, product_id)
+    WHERE deleted = false;
+  `);
 };
 
 export const down = async function (knex) {
@@ -62,6 +64,6 @@ export const down = async function (knex) {
    Add uniqueness check for (task_id, product_id) composite
   ----------------------------------------*/
   await knex.schema.alterTable('soil_amendment_task_products', (table) => {
-    table.dropChecks(['task_product_uniqueness_composite']);
+    table.dropIndex(['task_id', 'product_id'], 'task_product_uniqueness_composite');
   });
 };

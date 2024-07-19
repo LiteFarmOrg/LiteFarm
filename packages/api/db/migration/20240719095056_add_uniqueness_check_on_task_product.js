@@ -43,10 +43,9 @@ export const up = async function (knex) {
       softDelete = duplicates.filter((dupe) => dupe.id !== keep.id);
     }
     for (const deleteable of softDelete) {
-      await knex('soil_amendment_task_products_purpose_relationship')
-        .where('task_products_id', deleteable.id)
-        .del();
-      await knex('soil_amendment_task_products').where('id', deleteable.id).del();
+      await knex('soil_amendment_task_products')
+        .update({ deleted: true })
+        .where('id', deleteable.id);
     }
   }
 

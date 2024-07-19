@@ -72,65 +72,72 @@ export default function PureTaskComplete({
   const disabled = !isValid || (!happiness && !prefer_not_to_say);
 
   const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
+
+  let task_type_name = persistedFormData?.taskType.task_translation_key.toLowerCase();
+
+  const format = (formData) => {
+    let completeDate = '';
+    switch (formData[DATE_CHOICE]) {
+      case TODAY_DUE_DATE:
+        completeDate = date_today;
+        break;
+      case ANOTHER_DUE_DATE:
+        completeDate = formData[ANOTHER_DATE];
+        break;
+      case ORIGINAL_DUE_DATE:
+      default:
+        completeDate = date_due;
+        break;
+    }
+
+    let data = {
+      taskData: {
+        duration: duration,
+        happiness: prefer_not_to_say ? null : happiness,
+        completion_notes: notes,
+        complete_date: completeDate,
+      },
+      task_translation_key: persistedFormData?.taskType.task_translation_key,
+      isCustomTaskType: !!persistedFormData?.taskType.farm_id,
+    };
+    const isFieldWork = task_type_name === 'field_work_task';
+    const isOtherFieldWork =
+      isFieldWork && persistedFormData?.field_work_task?.field_work_task_type.value === 'OTHER';
+
+    // Won't send task type details if need_changes is false
+    if (persistedFormData?.need_changes && !isOtherFieldWork) {
+      data.taskData[task_type_name] = getObjectInnerValues(persistedFormData[task_type_name]);
+    } else if (isOtherFieldWork) {
+      data.taskData[task_type_name] = { ...persistedFormData[task_type_name] };
+    }
+    //TODO: replace with useIsTaskType
+    if (task_type_name === 'harvest_task') {
+      data.harvest_uses = persistedFormData?.harvest_uses;
+      data.taskData[task_type_name] = {
+        ...persistedFormData?.harvest_task,
+        actual_quantity: persistedFormData?.actual_quantity,
+        actual_quantity_unit: persistedFormData?.actual_quantity_unit.value,
+      };
+    }
+    if (isIrrigationLocation && persistedFormData.locations?.length) {
+      data.location_id = persistedFormData.locations[0].location_id;
+    }
+
+    // Won't send task type details if need_changes is false
+    if (persistedFormData?.need_changes && TASK_TYPE_PRODUCT_MAP[data.task_translation_key]) {
+      const taskProductKey = TASK_TYPE_PRODUCT_MAP[data.task_translation_key];
+      data[taskProductKey] = persistedFormData?.[taskProductKey];
+    }
+
+    return data;
+  };
+
   const onSubmit = (event) => {
     event.preventDefault();
 
-    let task_type_name = persistedFormData?.taskType.task_translation_key.toLowerCase();
-
-    const format = (formData) => {
-      let completeDate = '';
-      switch (formData[DATE_CHOICE]) {
-        case TODAY_DUE_DATE:
-          completeDate = date_today;
-          break;
-        case ANOTHER_DUE_DATE:
-          completeDate = formData[ANOTHER_DATE];
-          break;
-        case ORIGINAL_DUE_DATE:
-        default:
-          completeDate = date_due;
-          break;
-      }
-
-      let data = {
-        taskData: {
-          duration: duration,
-          happiness: prefer_not_to_say ? null : happiness,
-          completion_notes: notes,
-          complete_date: completeDate,
-        },
-        task_translation_key: persistedFormData?.taskType.task_translation_key,
-        isCustomTaskType: !!persistedFormData?.taskType.farm_id,
-      };
-      const isFieldWork = task_type_name === 'field_work_task';
-      const isOtherFieldWork =
-        isFieldWork && persistedFormData?.field_work_task?.field_work_task_type.value === 'OTHER';
-      if (persistedFormData?.need_changes && !isOtherFieldWork) {
-        data.taskData[task_type_name] = getObjectInnerValues(persistedFormData[task_type_name]);
-      } else if (isOtherFieldWork) {
-        data.taskData[task_type_name] = { ...persistedFormData[task_type_name] };
-      }
-      //TODO: replace with useIsTaskType
-      if (task_type_name === 'harvest_task') {
-        data.harvest_uses = persistedFormData?.harvest_uses;
-        data.taskData[task_type_name] = {
-          ...persistedFormData?.harvest_task,
-          actual_quantity: persistedFormData?.actual_quantity,
-          actual_quantity_unit: persistedFormData?.actual_quantity_unit.value,
-        };
-      }
-      if (isIrrigationLocation && persistedFormData.locations?.length) {
-        data.location_id = persistedFormData.locations[0].location_id;
-      }
-      if (TASK_TYPE_PRODUCT_MAP[data.task_translation_key]) {
-        const taskProductKey = TASK_TYPE_PRODUCT_MAP[data.task_translation_key];
-        data[taskProductKey] = persistedFormData?.[taskProductKey];
-      }
-
-      return data;
-    };
-
-    if (task_type_name === 'soil_amendment_task' && getValues('need_changes') === false) {
+    // When a soil amendment task is completed without changes, allow the user to complete the task even if isValid is false
+    // (handleSubmit does not work if isValid is false)
+    if (task_type_name === 'soil_amendment_task' && persistedFormData?.need_changes === false) {
       const formData = getValues();
       onSave(format(formData));
     } else {

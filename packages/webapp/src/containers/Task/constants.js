@@ -26,6 +26,6 @@ export const TASK_TYPES = {
   IRRIGATION: 'irrigation_task',
 };
 
-export const TASKTYPE_PRODUCT_MAP = {
+export const TASK_TYPE_PRODUCT_MAP = {
   SOIL_AMENDMENT_TASK: 'soil_amendment_task_products',
 };

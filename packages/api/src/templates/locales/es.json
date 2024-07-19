@@ -1,15 +1,4 @@
 {
-  "HELP_REQUEST": {
-    "RESPONSE": "Gracias por contactarnos. Alguien de nuestro equipo de ayuda le contactará dentro de las próximas 48 horas. Puede encontrar un resumen de su solicitud más abajo.",
-    "TYPE_HEADER": "Tipo de soporte",
-    "MESSAGE_HEADER": "Mensaje",
-    "CONTACT_METHOD_HEADER": "Método de contacto preferido",
-    "SUBJECT": "Su solicitud de ayuda a LiteFarm a las",
-    "REQUEST_INFORMATION": "Solicitar Información",
-    "REPORT_A_BUG": "Reportar un error",
-    "REQUEST_A_FEATURE": "Solicitar una característica",
-    "OTHER": "Otro"
-  },
   "TEMPLATE": {
     "DEAR": "Estimado/a",
     "CHEERS": "Saludos",
@@ -20,20 +9,23 @@
     "OR": "o",
     "CONTACT": "Contacte con nosotres"
   },
+  "HELP_REQUEST": {
+    "RESPONSE": "Gracias por contactarnos. Alguien de nuestro equipo de ayuda le contactará dentro de las próximas 48 horas. Puede encontrar un resumen de su solicitud más abajo.",
+    "TYPE_HEADER": "Tipo de soporte",
+    "MESSAGE_HEADER": "Mensaje",
+    "REQUEST_INFORMATION": "Solicitar Información",
+    "REPORT_A_BUG": "Reportar un error",
+    "REQUEST_A_FEATURE": "Solicitar una característica",
+    "OTHER": "Otro",
+    "CONTACT_METHOD_HEADER": "Método de contacto preferido",
+    "SUBJECT": "Su solicitud de ayuda a LiteFarm a las"
+  },
   "INVITE": {
     "GREAT_FOLK": "Las personas de",
-    "YOU_CAN_ACCEPT": "le invitan a registrar su finca en LiteFarm! LiteFarm es una herramienta de software de código abierto creado para ayudar a los agricultores y campesinos a manejar sus fincas. Puede conocer más sobre LiteFarm en",
     "INVITED_YOU": "Puede aceptar esta invitación (desde cualquier dispositivo electrónico) usando el botón de abajo",
+    "YOU_CAN_ACCEPT": "le invitan a registrar su finca en LiteFarm! LiteFarm es una herramienta de software de código abierto creado para ayudar a los agricultores y campesinos a manejar sus fincas. Puede conocer más sobre LiteFarm en",
     "SUBJECT0": "Has sido invitado a unirse a",
     "SUBJECT1": "en LiteFarm!"
-  },
-  "COMMON": {
-    "JOIN": "Únase",
-    "LOG_IN": "Iniciar Sesión",
-    "OWNER": "Dueño/a",
-    "EXTENSION_OFFICER": "Oficial de extensión",
-    "WORKER": "Trabajador/a",
-    "MANAGER": "Gerente"
   },
   "PASSWORD_RESET_REQUEST": {
     "DID_YOU_FORGET": "Olvidó su clave en LiteFarm? No se preocupe! Haga clic en el botón de Cambiar y su acceso será restaurado pronto.",
@@ -41,26 +33,9 @@
     "IGNORE": "Si Ud. no solicitó que le enviaramos este correo, por favor ignórelo. No habrá cambios en su cuenta.",
     "SUBJECT": "Solicitud de recuperación de clave"
   },
-  "CREATE_ACCOUNT_CONFIRMATION": {
-    "WELCOME": "Bienvenido/a a LiteFarm! LiteFarm es una herramienta de software de código abierto creado para ayudar a los/las agricultores y campesinos/as a manejar sus fincas. Puede conocer más acerca de LiteFarm en",
-    "CLICK_BELOW": "También puede iniciar sesión (en cualquier dispositivo electrónico) usando el botón de abajo",
-    "SUBJECT": "Bienvenido a LiteFarm!"
-  },
-  "ACCEPT_INVITE_CONFIRMATION": {
-    "CONGRATS": "Felicitaciones! Se ha convertido en el/la nuevo/a",
-    "AT": "en",
-    "CLICK_BELOW": "Puede iniciar sesión (en cualquier dispositivo electrónico) haciendo clic en el botón de abajo",
-    "SUBJECT": "Se unió exitosamente"
-  },
   "PASSWORD_RESET_CONFIRMATION": {
     "UPDATED": "Hemos actualizado su clave en LiteFarm. Haga click en `Iniciar Sesión` abajo para acceder a su cuenta.",
     "SUBJECT": "Su clave en LiteFarm ha cambiado"
-  },
-  "REVOKE_ACCESS": {
-    "ADMIN": "Al parece desde",
-    "REVOKE": "han revocado el acceso a su finca en LiteFarm. Si ha habido un error, por favor contacte a su administrador para resolver el problema.",
-    "SUBJECT0": "Ha perdido acceso a",
-    "SUBJECT1": "en LiteFarm!"
   },
   "RESTORE_ACCESS": {
     "ADMIN": "Al parecer desde",
@@ -68,6 +43,23 @@
     "CLICK_BELOW": "Inicie sesión haciendo clic abajo",
     "SUBJECT0": "Su acceso a",
     "SUBJECT1": "ha sido restaurado!"
+  },
+  "REVOKE_ACCESS": {
+    "ADMIN": "Al parece desde",
+    "REVOKE": "han revocado el acceso a su finca en LiteFarm. Si ha habido un error, por favor contacte a su administrador para resolver el problema.",
+    "SUBJECT0": "Ha perdido acceso a",
+    "SUBJECT1": "en LiteFarm!"
+  },
+  "ACCEPT_INVITE_CONFIRMATION": {
+    "CONGRATS": "Felicitaciones! Se ha convertido en el/la nuevo/a",
+    "AT": "en",
+    "CLICK_BELOW": "Puede iniciar sesión (en cualquier dispositivo electrónico) haciendo clic en el botón de abajo",
+    "SUBJECT": "Se unió exitosamente"
+  },
+  "CREATE_ACCOUNT_CONFIRMATION": {
+    "WELCOME": "Bienvenido/a a LiteFarm! LiteFarm es una herramienta de software de código abierto creado para ayudar a los/las agricultores y campesinos/as a manejar sus fincas. Puede conocer más acerca de LiteFarm en",
+    "CLICK_BELOW": "También puede iniciar sesión (en cualquier dispositivo electrónico) usando el botón de abajo",
+    "SUBJECT": "Bienvenido a LiteFarm!"
   },
   "WITHHOLD_CONSENT": {
     "RECENT": "Recientemente, mientra formaba parte de",
@@ -97,10 +89,17 @@
     "SEASON": "Esperamos que haya tenido una increíble temporada en",
     "CERTIFICATION": "Puede hacer clic en el link de abajo para descargar el zip con sus documentos de certificación y todos los documentos adicionales (imágenes de empaques de semillas, escaneos de sus facturas de insumos, etc.) Para su periodo de reporte.",
     "PRIVACY": "En LiteFarm, tomamos su privacidad enserio, asi que tendrá que tener su sesión iniciada antes de poder acceder a sus documentos. Disculpe por los inconvenientes ocasionados. Buena suerte con su certificación y gracias por usar LiteFarm!",
-    "GET_EXPORT": "Obtener sus documentos",
     "SUBJECT": "sus documentos de certificación de LiteFarm",
     "HI": "Hola",
     "GET_YOUR_EXPORT": "Obtener documentos",
-    "LANGUAGE_DELAY": "Los cultivos e insumos en el reporte estan en inglés, pero muy pronto estara disponible en español. Pedimos disculpas por los inconvenientes."
+    "LANGUAGE_DELAY": ""
+  },
+  "COMMON": {
+    "JOIN": "Únase",
+    "LOG_IN": "Iniciar Sesión",
+    "OWNER": "Dueño/a",
+    "MANAGER": "Gerente",
+    "WORKER": "Trabajador/a",
+    "EXTENSION_OFFICER": "Oficial de extensión"
   }
 }

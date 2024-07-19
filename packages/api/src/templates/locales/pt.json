@@ -13,12 +13,12 @@
     "RESPONSE": "Obrigado por nos contatar. Alguém do nosso time de suporte entrará em contato dentro de 48 horas. Um resumo do seu pedido está mostrado abaixo.",
     "TYPE_HEADER": "Tipo de suporte",
     "MESSAGE_HEADER": "Mensagem",
-    "CONTACT_METHOD_HEADER": "Método de contato preferido",
-    "SUBJECT": "Seu pedido de ajuda para LiteFarm às",
     "REQUEST_INFORMATION": "Pedir informação",
     "REPORT_A_BUG": "Reportar um erro",
     "REQUEST_A_FEATURE": "Solicite um recurso",
-    "OTHER": "Outro"
+    "OTHER": "Outro",
+    "CONTACT_METHOD_HEADER": "Método de contato preferido",
+    "SUBJECT": "Seu pedido de ajuda para LiteFarm às"
   },
   "INVITE": {
     "GREAT_FOLK": "O grande pessoal da",
@@ -78,14 +78,6 @@
     "RESTORE": "Se você o fizer, mais uma vez será capaz de acessar o sistema do LiteFarm.",
     "SUBJECT": "Você não concordou com a política de privacidade da LiteFarm - aqui estão suas opções"
   },
-  "COMMON": {
-    "JOIN": "Junte-se",
-    "LOG_IN": "Conecte-se",
-    "OWNER": "Proprietário(a)",
-    "EXTENSION_OFFICER": "Técnico(a) de Extensão",
-    "WORKER": "Trabalhador(a)",
-    "MANAGER": "Gerente"
-  },
   "EXPORT_MAP": {
     "EXPORT": "Aqui está a exportação do mapa de ",
     "REQUESTED": "que você solicitou do LiteFarm.",
@@ -94,12 +86,20 @@
     "SUBJECT1": "em LiteFarm"
   },
   "EXPORT": {
-    "HI": "Olá",
     "SEASON": "Esperamos que você tenha tido uma safra fantástica em",
     "CERTIFICATION": "Você pode clicar no link abaixo para baixar seus documentos de certificação e outros documentos de apoio (fotos dos pacotes de sementes, seus recibos digitalizados, etc.) para o período do relatório.",
-    "GET_YOUR_EXPORT": "Obter documentos",
-    "SUBJECT": "Seus documentos de certificação são exportados do LiteFarm",
     "PRIVACY": "No LiteFarm, consideramos a sua privacidade importante, então você precisa estar logado antes de acessar sua exportação. Desculpe por qualquer inconveniente. Boa sorte com seu envio e agradecemos a você por usar o LiteFarm!",
-    "LANGUAGE_DELAY": "Os registros de cultivos e insumos são exportados atualmente em inglês, mas em breve estarão disponíveis em português. Pedimos desculpas pelo transtorno."
+    "SUBJECT": "Seus documentos de certificação são exportados do LiteFarm",
+    "HI": "Olá",
+    "GET_YOUR_EXPORT": "Obter documentos",
+    "LANGUAGE_DELAY": ""
+  },
+  "COMMON": {
+    "JOIN": "Junte-se",
+    "LOG_IN": "Conecte-se",
+    "OWNER": "Proprietário(a)",
+    "MANAGER": "Gerente",
+    "WORKER": "Trabalhador(a)",
+    "EXTENSION_OFFICER": "Técnico(a) de Extensão"
   }
 }

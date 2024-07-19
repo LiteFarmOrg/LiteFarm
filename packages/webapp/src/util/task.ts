@@ -151,9 +151,12 @@ type RemainingFormSATProductKeys = keyof Omit<
 >;
 
 export const formatSoilAmendmentProductToDBStructure = (
-  soilAmendmentTaskProducts: FormSoilAmendmentTaskProduct[],
+  soilAmendmentTaskProducts: FormSoilAmendmentTaskProduct[] | undefined,
   { purposes }: { purposes: SoilAmendmentPurpose[] },
-): DBSoilAmendmentTaskProduct[] => {
+): DBSoilAmendmentTaskProduct[] | undefined => {
+  if (!soilAmendmentTaskProducts) {
+    return undefined;
+  }
   const otherPurposeId = purposes?.find(({ key }) => key === 'OTHER')?.id;
   if (!otherPurposeId) {
     throw Error('id for OTHER purpose does not exist');
@@ -191,9 +194,12 @@ export const formatSoilAmendmentProductToDBStructure = (
 };
 
 export const formatSoilAmendmentTaskToDBStructure = (
-  soilAmendmentTask: FormSoilAmendmentTask,
+  soilAmendmentTask: FormSoilAmendmentTask | undefined,
   { methods }: { methods: SoilAmendmentMethod[] },
-): DBSoilAmendmentTask => {
+): DBSoilAmendmentTask | undefined => {
+  if (!soilAmendmentTask) {
+    return undefined;
+  }
   const {
     method_id,
     furrow_hole_depth,

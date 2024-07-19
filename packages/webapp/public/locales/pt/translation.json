@@ -1856,7 +1856,6 @@
     "SELECT_DATE": "Selecionar a data da tarefa",
     "SELECT_TASK_LOCATIONS": "Selecionar o(s) local(is) da tarefa",
     "SELECT_WILD_CROP": "Esta tarefa é para um cultivo silvestre",
-    "SOIL_AMENDMENT_LOCATION": "MISSING",
     "STATUS": {
       "ABANDONED": "Abandonada",
       "COMPLETED": "Completa",

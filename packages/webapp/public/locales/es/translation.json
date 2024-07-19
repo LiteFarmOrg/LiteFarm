@@ -1856,7 +1856,6 @@
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la(s) ubicación(es) de la tarea",
     "SELECT_WILD_CROP": "Esta tarea se dirige a un cultivo silvestre",
-    "SOIL_AMENDMENT_LOCATION": "MISSING",
     "STATUS": {
       "ABANDONED": "Abandonada",
       "COMPLETED": "Completada",

@@ -1856,7 +1856,6 @@
     "SELECT_DATE": "Sélectionnez la date de la tâche",
     "SELECT_TASK_LOCATIONS": "Sélectionnez le(s) emplacement(s) de la tâche",
     "SELECT_WILD_CROP": "Cette tâche cible une culture sauvage",
-    "SOIL_AMENDMENT_LOCATION": "MISSING",
     "STATUS": {
       "ABANDONED": "Abandonnée",
       "COMPLETED": "Terminée",

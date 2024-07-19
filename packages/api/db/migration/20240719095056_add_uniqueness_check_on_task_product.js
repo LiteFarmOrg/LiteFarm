@@ -30,16 +30,16 @@ export const up = async function (knex) {
       .table('soil_amendment_task_products')
       .where({ task_id: taskProduct.task_id, product_id: taskProduct.product_id })
       .orderBy('created_at', 'asc');
-    const countOfNotDeleted = duplicates.filter((dupe) => !dupe.deleted);
+    const notDeletedDuplicates = duplicates.filter((dupe) => !dupe.deleted);
     let keep;
     let softDelete;
-    if (countOfNotDeleted.length === 0) {
+    if (notDeletedDuplicates.length === 0) {
       keep = duplicates.pop();
       await knex('soil_amendment_task_products').where('id', keep.id).update({ deleted: false });
       softDelete = duplicates;
-    } else if (countOfNotDeleted.length >= 1) {
+    } else if (notDeletedDuplicates.length >= 1) {
       //Choose only or latest task_product with deleted false
-      keep = countOfNotDeleted.pop();
+      keep = notDeletedDuplicates.pop();
       softDelete = duplicates.filter((dupe) => dupe.id !== keep.id);
     }
     for (const deleteable of softDelete) {

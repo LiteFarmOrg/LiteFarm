@@ -26,6 +26,7 @@ import { PRODUCT_FIELD_NAMES } from '../types';
 import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
 import QuantityApplicationRate, { Location } from '../QuantityApplicationRate';
+import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtils';
 
 export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSave'> & {
   namePrefix: string;
@@ -182,7 +183,10 @@ const SoilAmendmentProductCard = ({
             label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
             name={OTHER_PURPOSE}
             disabled={isReadOnly}
-            hookFormRegister={register(OTHER_PURPOSE)}
+            hookFormRegister={register(OTHER_PURPOSE, {
+              maxLength: hookFormMaxCharsValidation(255),
+            })}
+            errors={getInputErrors(errors, OTHER_PURPOSE)}
             optional
           />
         </>

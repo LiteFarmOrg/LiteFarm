@@ -73,7 +73,6 @@ import {
 } from '../harvestUseTypeSlice';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
 import { formatSoilAmendmentProductToDBStructure } from '../../util/task';
-import { api } from '../../store/api/apiSlice';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -482,17 +481,11 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
   );
 };
 
-const getSoilAmendmentTaskBody = (
-  data,
-  endpoint,
-  managementPlanWithCurrentLocationEntities,
-  { purposes },
-) => {
+const getSoilAmendmentTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
   return {
     ...getPostTaskBody(data, endpoint, managementPlanWithCurrentLocationEntities),
     soil_amendment_task_products: formatSoilAmendmentProductToDBStructure(
       data.soil_amendment_task_products,
-      { purposes },
     ),
   };
 };
@@ -536,14 +529,6 @@ export function* createTaskSaga({ payload }) {
     taskTypeSelector(data.task_type_id),
   );
   const taskTypeSpecificData = {};
-  if (task_translation_key === 'SOIL_AMENDMENT_TASK') {
-    // Access cached data
-    // https://redux-toolkit.js.org/rtk-query/usage/usage-without-react-hooks#accessing-cached-data--request-status
-    const purposes = yield select((state) =>
-      api.endpoints.getSoilAmendmentPurposes.select()(state),
-    );
-    taskTypeSpecificData.purposes = purposes.data;
-  }
   const header = getHeader(user_id, farm_id);
   const isCustomTask = !!task_farm_id;
   const isHarvest = task_translation_key === 'HARVEST_TASK';
@@ -712,10 +697,9 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
   );
 };
 
-const getCompleteSoilAmendmentTaskBody = (data, taskTypeSpecificData) => {
+const getCompleteSoilAmendmentTaskBody = (data) => {
   const soilAmendmentTaskProducts = formatSoilAmendmentProductToDBStructure(
     data.soil_amendment_task_products,
-    taskTypeSpecificData,
   );
   return {
     ...data.taskData,
@@ -740,14 +724,6 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   const header = getHeader(user_id, farm_id);
   const endpoint = isCustomTaskType ? 'custom_task' : task_translation_key.toLowerCase();
   const taskTypeSpecificData = {};
-  if (task_translation_key === 'SOIL_AMENDMENT_TASK') {
-    // Access cached data
-    // https://redux-toolkit.js.org/rtk-query/usage/usage-without-react-hooks#accessing-cached-data--request-status
-    const purposes = yield select((state) =>
-      api.endpoints.getSoilAmendmentPurposes.select()(state),
-    );
-    taskTypeSpecificData.purposes = purposes.data;
-  }
   const taskData = taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key]
     ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data, taskTypeSpecificData)
     : data.taskData;

@@ -13,8 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { SoilAmendmentPurpose } from '../store/api/types';
-
 interface UnitOption {
   label: string;
   value: string;
@@ -127,10 +125,9 @@ export const formatSoilAmendmentTaskToFormStructure = (
 const formatPurposeIdsToRelationships = (
   purposeIds: number[],
   otherPurpose: string | undefined,
-  otherPurposeId: number,
 ): PurposeRelationship[] => {
   return purposeIds.map((purpose_id) => {
-    return { purpose_id, other_purpose: purpose_id === otherPurposeId ? otherPurpose : undefined };
+    return { purpose_id, other_purpose: otherPurpose };
   });
 };
 
@@ -141,12 +138,7 @@ type RemainingFormSATProductKeys = keyof Omit<
 
 export const formatSoilAmendmentProductToDBStructure = (
   soilAmendmentTaskProducts: FormSoilAmendmentTaskProduct[],
-  { purposes }: { purposes: SoilAmendmentPurpose[] },
 ): DBSoilAmendmentTaskProduct[] => {
-  const otherPurposeId = purposes?.find(({ key }) => key === 'OTHER')?.id;
-  if (!otherPurposeId) {
-    throw Error('id for OTHER purpose does not exist');
-  }
   return soilAmendmentTaskProducts.map((formTaskProduct) => {
     const { purposes: purposeIds, other_purpose, is_weight, ...rest } = formTaskProduct;
 
@@ -170,11 +162,7 @@ export const formatSoilAmendmentProductToDBStructure = (
       application_rate_volume_unit: !is_weight
         ? (rest.application_rate_volume_unit as UnitOption)?.value
         : undefined,
-      purpose_relationships: formatPurposeIdsToRelationships(
-        purposeIds,
-        other_purpose,
-        otherPurposeId,
-      ),
+      purpose_relationships: formatPurposeIdsToRelationships(purposeIds, other_purpose),
     };
   });
 };

@@ -181,6 +181,7 @@ const PureSoilAmendmentTask = ({
               defaultValue={undefined} // TODO
               system={system}
               placeholder={t('ADD_TASK.SOIL_AMENDMENT_VIEW.FURROW_HOLE_DEPTH_PLACEHOLDER')}
+              shouldUnregister={true}
             />
           </>
         )}

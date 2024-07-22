@@ -137,8 +137,11 @@ type RemainingFormSATProductKeys = keyof Omit<
 >;
 
 export const formatSoilAmendmentProductToDBStructure = (
-  soilAmendmentTaskProducts: FormSoilAmendmentTaskProduct[],
-): DBSoilAmendmentTaskProduct[] => {
+  soilAmendmentTaskProducts: FormSoilAmendmentTaskProduct[] | undefined,
+): DBSoilAmendmentTaskProduct[] | undefined => {
+  if (!soilAmendmentTaskProducts) {
+    return undefined;
+  }
   return soilAmendmentTaskProducts.map((formTaskProduct) => {
     const { purposes: purposeIds, other_purpose, is_weight, ...rest } = formTaskProduct;
 

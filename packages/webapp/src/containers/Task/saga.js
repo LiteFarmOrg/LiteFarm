@@ -72,10 +72,7 @@ import {
   onLoadingHarvestUseTypeStart,
 } from '../harvestUseTypeSlice';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
-import {
-  formatSoilAmendmentTaskToDBStructure,
-  formatSoilAmendmentProductToDBStructure,
-} from '../../util/task';
+import { formatSoilAmendmentProductToDBStructure } from '../../util/task';
 import { api } from '../../store/api/apiSlice';
 
 const taskTypeEndpoint = [
@@ -489,13 +486,10 @@ const getSoilAmendmentTaskBody = (
   data,
   endpoint,
   managementPlanWithCurrentLocationEntities,
-  { purposes, methods },
+  { purposes },
 ) => {
   return {
     ...getPostTaskBody(data, endpoint, managementPlanWithCurrentLocationEntities),
-    soil_amendment_task: formatSoilAmendmentTaskToDBStructure(data.soil_amendment_task, {
-      methods,
-    }),
     soil_amendment_task_products: formatSoilAmendmentProductToDBStructure(
       data.soil_amendment_task_products,
       { purposes },
@@ -549,8 +543,6 @@ export function* createTaskSaga({ payload }) {
       api.endpoints.getSoilAmendmentPurposes.select()(state),
     );
     taskTypeSpecificData.purposes = purposes.data;
-    const methods = yield select((state) => api.endpoints.getSoilAmendmentMethods.select()(state));
-    taskTypeSpecificData.methods = methods.data;
   }
   const header = getHeader(user_id, farm_id);
   const isCustomTask = !!task_farm_id;
@@ -721,17 +713,12 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
 };
 
 const getCompleteSoilAmendmentTaskBody = (data, taskTypeSpecificData) => {
-  const soilAmendmentTask = formatSoilAmendmentTaskToDBStructure(
-    data.soil_amendment_task,
-    taskTypeSpecificData,
-  );
   const soilAmendmentTaskProducts = formatSoilAmendmentProductToDBStructure(
     data.soil_amendment_task_products,
     taskTypeSpecificData,
   );
   return {
     ...data.taskData,
-    soil_amendment_task: soilAmendmentTask,
     soil_amendment_task_products: soilAmendmentTaskProducts,
   };
 };
@@ -760,8 +747,6 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
       api.endpoints.getSoilAmendmentPurposes.select()(state),
     );
     taskTypeSpecificData.purposes = purposes.data;
-    const methods = yield select((state) => api.endpoints.getSoilAmendmentMethods.select()(state));
-    taskTypeSpecificData.methods = methods.data;
   }
   const taskData = taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key]
     ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data, taskTypeSpecificData)

@@ -30,19 +30,21 @@ class SoilAmendmentTaskModel extends Model {
   async $beforeUpdate(queryContext) {
     await super.$beforeUpdate(queryContext);
 
-    const methodKey = await soilAmendmentMethodModel
-      .query(queryContext.transaction)
-      .findById(this.method_id)
-      .select('key')
-      .first();
+    if (this.method_id) {
+      const { key } = await soilAmendmentMethodModel
+        .query(queryContext.transaction)
+        .findById(this.method_id)
+        .select('key')
+        .first();
 
-    if (methodKey !== 'OTHER') {
-      this.other_application_method = null;
-    }
+      if (key !== 'OTHER') {
+        this.other_application_method = null;
+      }
 
-    if (methodKey !== 'FURROW_HOLE') {
-      this.furrow_hole_depth = null;
-      this.furrow_hole_depth_unit = null;
+      if (key !== 'FURROW_HOLE') {
+        this.furrow_hole_depth = null;
+        this.furrow_hole_depth_unit = null;
+      }
     }
   }
 

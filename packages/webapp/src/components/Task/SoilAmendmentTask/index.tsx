@@ -24,7 +24,8 @@ import {
   useUpdateSoilAmendmentProductMutation,
 } from '../../../store/api/apiSlice';
 import ReactSelect from '../../Form/ReactSelect';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
+import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import Unit from '../../Form/Unit';
 import AddSoilAmendmentProducts from '../AddSoilAmendmentProducts';
 import { type ProductCardProps } from '../AddSoilAmendmentProducts/ProductCard';
@@ -63,7 +64,14 @@ const PureSoilAmendmentTask = ({
   disabled = false,
   ...props
 }: PureSoilAmendmentTaskProps) => {
-  const { control, register, setValue, getValues, watch } = props;
+  const {
+    control,
+    register,
+    setValue,
+    getValues,
+    watch,
+    formState: { errors },
+  } = props;
 
   const { t } = useTranslation(['translation', 'message']);
   const dispatch = useDispatch();
@@ -191,7 +199,10 @@ const PureSoilAmendmentTask = ({
               label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_METHOD')}
               name={OTHER_APPLICATION_METHOD}
               disabled={disabled}
-              hookFormRegister={register(OTHER_APPLICATION_METHOD)}
+              hookFormRegister={register(OTHER_APPLICATION_METHOD, {
+                maxLength: hookFormMaxCharsValidation(255),
+              })}
+              errors={getInputErrors(errors, OTHER_APPLICATION_METHOD)}
               optional
               placeholder={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_METHOD_PLACEHOLDER')}
             />

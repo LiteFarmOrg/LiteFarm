@@ -184,6 +184,7 @@ const SoilAmendmentProductCard = ({
             name={OTHER_PURPOSE}
             disabled={isReadOnly}
             hookFormRegister={register(OTHER_PURPOSE, {
+              shouldUnregister: true,
               maxLength: hookFormMaxCharsValidation(255),
             })}
             errors={getInputErrors(errors, OTHER_PURPOSE)}

@@ -189,6 +189,7 @@ const PureSoilAmendmentTask = ({
               defaultValue={undefined} // TODO
               system={system}
               placeholder={t('ADD_TASK.SOIL_AMENDMENT_VIEW.FURROW_HOLE_DEPTH_PLACEHOLDER')}
+              shouldUnregister={true}
             />
           </>
         )}
@@ -200,6 +201,7 @@ const PureSoilAmendmentTask = ({
               name={OTHER_APPLICATION_METHOD}
               disabled={disabled}
               hookFormRegister={register(OTHER_APPLICATION_METHOD, {
+                shouldUnregister: true,
                 maxLength: hookFormMaxCharsValidation(255),
               })}
               errors={getInputErrors(errors, OTHER_APPLICATION_METHOD)}

@@ -106,15 +106,11 @@ export const formatSoilAmendmentTaskToFormStructure = (
 
       return {
         ...formattedTaskProduct,
-        weight_unit: isWeight ? rest.weight_unit || undefined : undefined,
-        volume_unit: !isWeight ? rest.volume_unit || undefined : undefined,
-        total_area_amended_unit: rest.total_area_amended_unit || undefined,
-        application_rate_weight_unit: rest.application_rate_weight
-          ? rest.application_rate_weight_unit || undefined
-          : undefined,
-        application_rate_volume_unit: rest.application_rate_volume
-          ? rest.application_rate_volume_unit || undefined
-          : undefined,
+        weight_unit: rest.weight_unit ?? undefined,
+        volume_unit: rest.volume_unit ?? undefined,
+        total_area_amended_unit: rest.total_area_amended_unit ?? undefined,
+        application_rate_weight_unit: rest.application_rate_weight_unit ?? undefined,
+        application_rate_volume_unit: rest.application_rate_volume_unit ?? undefined,
       };
     },
   );

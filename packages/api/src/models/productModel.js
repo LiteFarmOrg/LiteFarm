@@ -36,7 +36,7 @@ class ProductModel extends baseModel {
         product_id: { type: 'integer' },
         name: { type: 'string' },
         product_translation_key: { type: 'string' },
-        supplier: { type: 'string' },
+        supplier: { type: 'string', minLength: 1, maxLength: 255 },
         on_permitted_substances_list: {
           type: ['string', 'null'],
           enum: ['YES', 'NO', 'NOT_SURE', null],

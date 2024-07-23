@@ -63,7 +63,7 @@ class SoilAmendmentTaskModel extends Model {
           type: ['string', 'null'],
           enum: [...furrowHoleDepthUnits, null],
         },
-        other_application_method: { type: ['string', 'null'] },
+        other_application_method: { type: ['string', 'null'], minLength: 1, maxLength: 255 },
       },
       additionalProperties: false,
     };

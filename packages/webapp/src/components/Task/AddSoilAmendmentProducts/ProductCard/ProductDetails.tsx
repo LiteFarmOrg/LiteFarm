@@ -21,6 +21,7 @@ import { Collapse } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowUp';
 import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
 import Input, { getInputErrors } from '../../../Form/Input';
+import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtils';
 import TextButton from '../../../Form/Button/TextButton';
 import RadioGroup from '../../../Form/RadioGroup';
 import CompositionInputs from '../../../Form/CompositionInputs';
@@ -362,7 +363,7 @@ const ProductDetails = ({
             label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
             hookFormRegister={register(SUPPLIER, {
               required: interested,
-              maxLength: 255,
+              maxLength: hookFormMaxCharsValidation(255),
             })}
             disabled={isDetailDisabled}
             hasLeaf={true}

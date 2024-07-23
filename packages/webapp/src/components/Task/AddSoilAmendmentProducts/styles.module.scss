@@ -164,6 +164,14 @@
 /*----------------------------------------
   Buttons
 ----------------------------------------*/
+.inFormButtons {
+  button {
+    @include xs-breakpoint {
+      max-width: 80px;
+    }
+  }
+}
+
 .editButton {
   width: fit-content;
   align-self: center;

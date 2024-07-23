@@ -167,7 +167,7 @@
 .inFormButtons {
   button {
     @include xs-breakpoint {
-      max-width: 80px;
+      max-width: 150px;
     }
   }
 }

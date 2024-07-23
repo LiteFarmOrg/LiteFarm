@@ -25,6 +25,10 @@
 .statusText {
   font-size: 16px;
   color: var(--Colors-Neutral-Neutral-300);
+
+  @include xs-breakpoint {
+    display: none;
+  }
 }
 
 .informationalText {

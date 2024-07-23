@@ -69,7 +69,9 @@ const formatOptionLabel = ({ label, data }: ProductOption): ReactNode => {
   return (
     <span className={styles.productOption}>
       <span key="name">{label}</span>
-      <span key="npk">{npk}</span>
+      <span className={styles.npkText} key="npk">
+        {npk}
+      </span>
     </span>
   );
 };

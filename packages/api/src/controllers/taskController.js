@@ -68,20 +68,20 @@ async function updateTaskWithCompletedData(
   typeOfTask,
 ) {
   if (typeOfTask === 'soil_amendment_task') {
-    // Unretire deleted taskProduct or find missing id to avoid uniqueness error
-    //const existingTaskProducts = await SoilAmendmentTaskProductsModel.query(trx).where({ task_id });
     const { soil_amendment_task_products } = data;
 
-    // Temporarily soft delete all with task_id since there is no constraint on deletions
-    await SoilAmendmentTaskProductsModel.query(trx)
-      .context({ user_id })
-      .update({ deleted: true })
-      .where('task_id', task_id);
+    if (soil_amendment_task_products) {
+      // Temporarily soft delete all with task_id since there is no constraint on deletions
+      await SoilAmendmentTaskProductsModel.query(trx)
+        .context({ user_id })
+        .update({ deleted: true })
+        .where('task_id', task_id);
 
-    // Set deleted false for all in update query
-    soil_amendment_task_products.forEach((taskProduct) => {
-      taskProduct.deleted = false;
-    });
+      // Set deleted false for all in update query
+      soil_amendment_task_products.forEach((taskProduct) => {
+        taskProduct.deleted = false;
+      });
+    }
 
     // Allows the insertion of missing data if no id present
     // Soft deletes table rows with soft delete option and hard deletes ones without

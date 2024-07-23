@@ -27,6 +27,27 @@ class SoilAmendmentTaskModel extends Model {
     return 'task_id';
   }
 
+  async $beforeUpdate(queryContext) {
+    await super.$beforeUpdate(queryContext);
+
+    if (this.method_id) {
+      const { key } = await soilAmendmentMethodModel
+        .query(queryContext.transaction)
+        .findById(this.method_id)
+        .select('key')
+        .first();
+
+      if (key !== 'OTHER') {
+        this.other_application_method = null;
+      }
+
+      if (key !== 'FURROW_HOLE') {
+        this.furrow_hole_depth = null;
+        this.furrow_hole_depth_unit = null;
+      }
+    }
+  }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.

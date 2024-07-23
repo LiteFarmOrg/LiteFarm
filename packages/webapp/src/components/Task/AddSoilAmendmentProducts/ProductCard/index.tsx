@@ -182,7 +182,7 @@ const SoilAmendmentProductCard = ({
             label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
             name={OTHER_PURPOSE}
             disabled={isReadOnly}
-            hookFormRegister={register(OTHER_PURPOSE)}
+            hookFormRegister={register(OTHER_PURPOSE, { shouldUnregister: true })}
             optional
           />
         </>

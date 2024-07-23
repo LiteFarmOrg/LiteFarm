@@ -181,6 +181,7 @@ const PureSoilAmendmentTask = ({
               defaultValue={undefined} // TODO
               system={system}
               placeholder={t('ADD_TASK.SOIL_AMENDMENT_VIEW.FURROW_HOLE_DEPTH_PLACEHOLDER')}
+              shouldUnregister={true}
             />
           </>
         )}
@@ -191,7 +192,7 @@ const PureSoilAmendmentTask = ({
               label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_METHOD')}
               name={OTHER_APPLICATION_METHOD}
               disabled={disabled}
-              hookFormRegister={register(OTHER_APPLICATION_METHOD)}
+              hookFormRegister={register(OTHER_APPLICATION_METHOD, { shouldUnregister: true })}
               optional
               placeholder={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_METHOD_PLACEHOLDER')}
             />

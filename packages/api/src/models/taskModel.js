@@ -108,10 +108,6 @@ class TaskModel extends BaseModel {
           from: 'task.task_id',
           to: 'soil_amendment_task_products.task_id',
         },
-        modify: (query) =>
-          query.select('*').whereIn('id', function () {
-            this.select('id').from('soil_amendment_task_products').where('deleted', false);
-          }),
       },
       pest_control_task: {
         relation: Model.HasOneRelation,

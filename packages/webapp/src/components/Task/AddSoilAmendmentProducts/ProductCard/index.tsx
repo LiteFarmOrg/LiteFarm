@@ -51,18 +51,25 @@ const formatOptionLabel = ({ label, data }: ProductOption): ReactNode => {
   const prefix = ['N', 'P', 'K'];
   const { n, p, k, elemental_unit } = data?.soil_amendment_product || {};
 
-  let npk = '';
+  let npk: ReactNode = '';
   // TODO: Handle ppm and mg/kg
   if ([n, p, k].some((value) => typeof value === 'number')) {
     if (elemental_unit === ElementalUnit.RATIO) {
       npk = [n, p, k].map((value) => value ?? '--').join(' : ');
     } else if (elemental_unit === ElementalUnit.PERCENT) {
-      npk = [n, p, k]
-        .map((value, index) => {
-          const formattedValue = typeof value === 'number' ? value + '%' : '--';
-          return `${prefix[index]}: ${formattedValue}`;
-        })
-        .join(', ');
+      npk = (
+        <>
+          {[n, p, k].map((value, index, array) => {
+            const formattedValue = typeof value === 'number' ? value + '%' : '--';
+            return (
+              <span key={index} className={styles.npkValue}>
+                {prefix[index]}: {formattedValue}
+                {index < array.length - 1 && ','}
+              </span>
+            );
+          })}
+        </>
+      );
     }
   }
 

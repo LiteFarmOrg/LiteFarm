@@ -83,9 +83,13 @@ const taskTypeEndpoint = [
   'irrigation_task',
 ];
 
-export const getProducts = createAction('getProductsSaga');
+// TypeScript complains without payload.
+// https://redux-toolkit.js.org/api/createAction#using-prepare-callbacks-to-customize-action-contents
+export const getProducts = createAction('getProductsSaga', function prepare(payload) {
+  return { payload };
+});
 
-export function* getProductsSaga() {
+export function* getProductsSaga({ payload } = {}) {
   const { productsUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -94,9 +98,13 @@ export function* getProductsSaga() {
     yield put(onLoadingProductStart());
     const result = yield call(axios.get, `${productsUrl}/farm/${farm_id}`, header);
     yield put(getProductsSuccess(result.data));
+
+    if (payload?.callback) {
+      yield call(payload.callback, result.data);
+    }
   } catch (e) {
     yield put(onLoadingProductFail());
-    console.log('failed to fetch products');
+    console.log('failed to fetch products', e);
   }
 }
 

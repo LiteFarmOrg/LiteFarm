@@ -27,7 +27,7 @@ import { Location } from './QuantityApplicationRate';
 
 export type AddSoilAmendmentProductsProps = Pick<
   ProductCardProps,
-  'isReadOnly' | 'farm' | 'system' | 'onSaveProduct'
+  'isReadOnly' | 'farm' | 'system' | 'onSaveProduct' | 'productsVersion'
 > & {
   products: SoilAmendmentProduct[];
   purposes?: { id: number; key: string }[];

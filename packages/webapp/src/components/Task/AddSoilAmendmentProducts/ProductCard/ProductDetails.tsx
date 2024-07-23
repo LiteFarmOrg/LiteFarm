@@ -89,6 +89,7 @@ export type ProductDetailsProps = {
     callback?: (id: ProductId) => void,
   ) => Promise<void>;
   fertiliserTypeOptions: { label: string; value: number }[];
+  productsVersion: number;
 };
 
 export const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
@@ -127,6 +128,7 @@ const ProductDetails = ({
   setProductId,
   onSave,
   fertiliserTypeOptions,
+  productsVersion,
 }: ProductDetailsProps) => {
   const { t } = useTranslation();
   const [isEditingProduct, setIsEditingProduct] = useState(false);
@@ -234,7 +236,7 @@ const ProductDetails = ({
       }, 0);
     }
     previousProductIdRef.current = productId;
-  }, [productId, products]);
+  }, [productId, productsVersion]);
 
   const onCancel = () => {
     if (isNewProduct(productId)) {

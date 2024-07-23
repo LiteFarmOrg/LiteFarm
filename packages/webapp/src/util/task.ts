@@ -26,16 +26,16 @@ interface PurposeRelationship {
 type DBSoilAmendmentTaskProduct = {
   purpose_relationships: PurposeRelationship[];
   other_purpose?: string;
-  weight?: number;
-  weight_unit?: string;
-  volume?: number;
-  volume_unit?: string;
+  weight?: number | null;
+  weight_unit?: string | null;
+  volume?: number | null;
+  volume_unit?: string | null;
   percent_of_location_amended?: number;
   total_area_amended: number;
-  application_rate_weight?: number;
-  application_rate_weight_unit?: string;
-  application_rate_volume?: number;
-  application_rate_volume_unit?: string;
+  application_rate_weight?: number | null;
+  application_rate_weight_unit?: string | null;
+  application_rate_volume?: number | null;
+  application_rate_volume_unit?: string | null;
   [key: string]: any;
 };
 
@@ -106,15 +106,11 @@ export const formatSoilAmendmentTaskToFormStructure = (
 
       return {
         ...formattedTaskProduct,
-        weight_unit: isWeight ? rest.weight_unit : undefined,
-        volume_unit: !isWeight ? rest.volume_unit : undefined,
-        total_area_amended_unit: rest.total_area_amended_unit || undefined,
-        application_rate_weight_unit: rest.application_rate_weight
-          ? rest.application_rate_weight_unit
-          : undefined,
-        application_rate_volume_unit: rest.application_rate_volume
-          ? rest.application_rate_volume_unit
-          : undefined,
+        weight_unit: rest.weight_unit ?? undefined,
+        volume_unit: rest.volume_unit ?? undefined,
+        total_area_amended_unit: rest.total_area_amended_unit ?? undefined,
+        application_rate_weight_unit: rest.application_rate_weight_unit ?? undefined,
+        application_rate_volume_unit: rest.application_rate_volume_unit ?? undefined,
       };
     },
   );
@@ -155,16 +151,16 @@ export const formatSoilAmendmentProductToDBStructure = (
 
     return {
       ...rest,
-      weight: is_weight ? rest.weight : undefined,
-      weight_unit: is_weight ? (rest.weight_unit as UnitOption)?.value : undefined,
+      weight: is_weight ? rest.weight : null,
+      weight_unit: is_weight ? (rest.weight_unit as UnitOption)?.value : null,
       application_rate_weight_unit: is_weight
         ? (rest.application_rate_weight_unit as UnitOption)?.value
-        : undefined,
-      volume: !is_weight ? rest.volume : undefined,
-      volume_unit: !is_weight ? (rest.volume_unit as UnitOption)?.value : undefined,
+        : null,
+      volume: !is_weight ? rest.volume : null,
+      volume_unit: !is_weight ? (rest.volume_unit as UnitOption)?.value : null,
       application_rate_volume_unit: !is_weight
         ? (rest.application_rate_volume_unit as UnitOption)?.value
-        : undefined,
+        : null,
       purpose_relationships: formatPurposeIdsToRelationships(purposeIds, other_purpose),
     };
   });

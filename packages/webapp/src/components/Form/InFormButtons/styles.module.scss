@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../../assets/mixin';
+
 .container {
   display: flex;
   flex-direction: column;
@@ -23,6 +25,10 @@
 .statusText {
   font-size: 16px;
   color: var(--Colors-Neutral-Neutral-300);
+
+  @include xs-breakpoint {
+    display: none;
+  }
 }
 
 .informationalText {
@@ -43,10 +49,12 @@
   min-height: 32px;
   height: 32px;
   font-size: 14px;
+  display: inline-block;
+
+  @include truncateText();
 }
 
 .confirmButton {
-  padding: 8px 12px;
   color: var(--Colors-Neutral-Neutral-900);
   border: 1px solid var(--Colors-Neutral-Neutral-900);
 

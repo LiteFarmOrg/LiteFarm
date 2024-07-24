@@ -514,6 +514,7 @@ const getPostTaskReqBody = (
   task_translation_key,
   isCustomTask,
   managementPlanWithCurrentLocationEntities,
+  taskTypeSpecificData,
 ) => {
   if (isCustomTask)
     return getPostTaskBody(data, endpoint, managementPlanWithCurrentLocationEntities);
@@ -521,6 +522,7 @@ const getPostTaskReqBody = (
     data,
     endpoint,
     managementPlanWithCurrentLocationEntities,
+    taskTypeSpecificData,
   );
 };
 
@@ -534,6 +536,7 @@ export function* createTaskSaga({ payload }) {
   const { task_translation_key, farm_id: task_farm_id } = yield select(
     taskTypeSelector(data.task_type_id),
   );
+  const taskTypeSpecificData = {};
   const header = getHeader(user_id, farm_id);
   const isCustomTask = !!task_farm_id;
   const isHarvest = task_translation_key === 'HARVEST_TASK';
@@ -556,6 +559,7 @@ export function* createTaskSaga({ payload }) {
         task_translation_key,
         isCustomTask,
         managementPlanWithCurrentLocationEntities,
+        taskTypeSpecificData,
       ),
       header,
     );
@@ -727,8 +731,9 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   const { task_translation_key, isCustomTaskType } = data;
   const header = getHeader(user_id, farm_id);
   const endpoint = isCustomTaskType ? 'custom_task' : task_translation_key.toLowerCase();
+  const taskTypeSpecificData = {};
   const taskData = taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key]
-    ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data)
+    ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data, taskTypeSpecificData)
     : data.taskData;
 
   try {

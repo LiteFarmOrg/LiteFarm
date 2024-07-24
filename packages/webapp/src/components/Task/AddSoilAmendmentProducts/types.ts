@@ -62,6 +62,7 @@ export const PRODUCT_FIELD_NAMES = {
   PRODUCT_ID: 'product_id',
   PURPOSES: 'purposes',
   OTHER_PURPOSE: 'other_purpose',
+  OTHER_PURPOSE_ID: 'other_purpose_id',
   NAME: 'name',
   SUPPLIER: 'supplier',
   PERMITTED: 'on_permitted_substances_list',

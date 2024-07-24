@@ -121,9 +121,10 @@ export const formatSoilAmendmentTaskToFormStructure = (
 const formatPurposeIdsToRelationships = (
   purposeIds: number[],
   otherPurpose: string | undefined,
+  otherPurposeId: number,
 ): PurposeRelationship[] => {
   return purposeIds.map((purpose_id) => {
-    return { purpose_id, other_purpose: otherPurpose };
+    return { purpose_id, other_purpose: purpose_id == otherPurposeId ? otherPurpose : undefined };
   });
 };
 
@@ -139,7 +140,13 @@ export const formatSoilAmendmentProductToDBStructure = (
     return undefined;
   }
   return soilAmendmentTaskProducts.map((formTaskProduct) => {
-    const { purposes: purposeIds, other_purpose, is_weight, ...rest } = formTaskProduct;
+    const {
+      purposes: purposeIds,
+      other_purpose,
+      other_purpose_id,
+      is_weight,
+      ...rest
+    } = formTaskProduct;
 
     const propertiesToDelete: RemainingFormSATProductKeys[] = [
       'application_rate_weight',
@@ -161,7 +168,11 @@ export const formatSoilAmendmentProductToDBStructure = (
       application_rate_volume_unit: !is_weight
         ? (rest.application_rate_volume_unit as UnitOption)?.value
         : null,
-      purpose_relationships: formatPurposeIdsToRelationships(purposeIds, other_purpose),
+      purpose_relationships: formatPurposeIdsToRelationships(
+        purposeIds,
+        other_purpose,
+        other_purpose_id,
+      ),
     };
   });
 };

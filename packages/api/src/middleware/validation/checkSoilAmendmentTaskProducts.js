@@ -33,6 +33,10 @@ export function checkSoilAmendmentTaskProducts() {
         return res.status(400).send('at least one task product is required');
       }
 
+      if (soil_amendment_task_products.some((rel) => rel.deleted)) {
+        res.status(400).send('Deleted task products should be omitted from request body');
+      }
+
       for (const product of soil_amendment_task_products) {
         if (!product.product_id) {
           return res.status(400).send('product_id is required');

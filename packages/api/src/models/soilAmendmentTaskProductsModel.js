@@ -136,6 +136,13 @@ class SoilAmendmentTaskProducts extends BaseModel {
     };
   }
 
+  static modifiers = {
+    filterDeleted(query) {
+      const { ref } = SoilAmendmentTaskProducts;
+      query.where(ref('deleted'), false);
+    },
+  };
+
   // Custom function used in copy crop plan
   // Should contain all jsonSchema() and relationMappings() keys
   static get templateMappingSchema() {

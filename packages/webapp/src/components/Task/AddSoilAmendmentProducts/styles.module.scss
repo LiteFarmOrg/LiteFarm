@@ -66,6 +66,16 @@
   justify-content: space-between;
 }
 
+.npkText {
+  padding-left: 8px;
+  text-align: right;
+}
+
+.npkValue {
+  padding-left: 4px;
+  display: inline-block;
+}
+
 .removeButton {
   @include xs-breakpoint {
     align-self: flex-end;

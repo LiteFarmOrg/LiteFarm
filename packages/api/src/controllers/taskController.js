@@ -41,7 +41,7 @@ async function getTaskAssigneeAndFinalWage(farm_id, user_id, task_id) {
     wage_at_moment,
     override_hourly_wage,
   } = await TaskModel.getTaskAssignee(task_id, farm_id);
-  const { role_id } = await UserFarmModel.getUserRoleId(user_id);
+  const { role_id } = await UserFarmModel.getUserRoleId(user_id, farm_id);
   if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
     throw new Error("Not authorized to complete other people's task");
   }

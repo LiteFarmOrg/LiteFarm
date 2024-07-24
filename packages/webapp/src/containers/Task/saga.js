@@ -533,6 +533,33 @@ const getPostTaskReqBody = (
   );
 };
 
+function* fetchSoilAmendmentPurposes() {
+  // Access cached data
+  // https://redux-toolkit.js.org/rtk-query/usage/usage-without-react-hooks#accessing-cached-data--request-status
+  const cachedData = yield select((state) =>
+    api.endpoints.getSoilAmendmentPurposes.select()(state),
+  );
+
+  if (cachedData && cachedData.isSuccess) {
+    return cachedData.data;
+  }
+
+  const promise = yield put(api.endpoints.getSoilAmendmentPurposes.initiate());
+
+  // Wait for the promise to resolve
+  yield promise;
+
+  // Select the result from the state
+  const response = yield select((state) => api.endpoints.getSoilAmendmentPurposes.select()(state));
+
+  if (response.error) {
+    console.error(response.error);
+    return null;
+  } else {
+    return response.data;
+  }
+}
+
 export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload }) {
@@ -545,12 +572,13 @@ export function* createTaskSaga({ payload }) {
   );
   const taskTypeSpecificData = {};
   if (task_translation_key === 'SOIL_AMENDMENT_TASK') {
-    // Access cached data
-    // https://redux-toolkit.js.org/rtk-query/usage/usage-without-react-hooks#accessing-cached-data--request-status
-    const purposes = yield select((state) =>
-      api.endpoints.getSoilAmendmentPurposes.select()(state),
-    );
-    taskTypeSpecificData.purposes = purposes.data;
+    const purposes = yield call(fetchSoilAmendmentPurposes);
+    if (purposes) {
+      taskTypeSpecificData.purposes = purposes;
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
+      return;
+    }
   }
   const header = getHeader(user_id, farm_id);
   const isCustomTask = !!task_farm_id;
@@ -749,12 +777,13 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   const endpoint = isCustomTaskType ? 'custom_task' : task_translation_key.toLowerCase();
   const taskTypeSpecificData = {};
   if (task_translation_key === 'SOIL_AMENDMENT_TASK') {
-    // Access cached data
-    // https://redux-toolkit.js.org/rtk-query/usage/usage-without-react-hooks#accessing-cached-data--request-status
-    const purposes = yield select((state) =>
-      api.endpoints.getSoilAmendmentPurposes.select()(state),
-    );
-    taskTypeSpecificData.purposes = purposes.data;
+    const purposes = yield call(fetchSoilAmendmentPurposes);
+    if (purposes) {
+      taskTypeSpecificData.purposes = purposes;
+    } else {
+      yield put(enqueueErrorSnackbar(i18n.t('message:TASK.COMPLETE.FAILED')));
+      return;
+    }
   }
   const taskData = taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key]
     ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data, taskTypeSpecificData)

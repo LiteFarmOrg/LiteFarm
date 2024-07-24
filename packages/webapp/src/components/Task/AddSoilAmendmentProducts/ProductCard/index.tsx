@@ -52,7 +52,6 @@ const formatOptionLabel = ({ label, data }: ProductOption): ReactNode => {
   const { n, p, k, elemental_unit } = data?.soil_amendment_product || {};
 
   let npk: ReactNode = '';
-  // TODO: Handle ppm and mg/kg
   if ([n, p, k].some((value) => typeof value === 'number')) {
     if (elemental_unit === ElementalUnit.RATIO) {
       npk = [n, p, k].map((value) => value ?? '--').join(' : ');

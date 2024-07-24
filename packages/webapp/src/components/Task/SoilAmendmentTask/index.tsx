@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Controller, FormProvider, UseFormReturn } from 'react-hook-form';
@@ -64,6 +65,8 @@ const PureSoilAmendmentTask = ({
   disabled = false,
   ...props
 }: PureSoilAmendmentTaskProps) => {
+  const [productsVersion, setProductsVersion] = useState(0);
+
   const {
     control,
     register,
@@ -132,7 +135,7 @@ const PureSoilAmendmentTask = ({
       delete formattedData.soil_amendment_product.molecular_compounds_unit;
     }
 
-    let result;
+    let result = {} as SoilAmendmentProduct;
 
     try {
       result = await (isNew ? addProduct : updateProduct)(formattedData).unwrap();
@@ -143,15 +146,19 @@ const PureSoilAmendmentTask = ({
       return;
     }
 
-    dispatch(getProducts());
+    const onProductsFetched = () => {
+      const message = isNew
+        ? t('message:PRODUCT.SUCCESS.CREATE')
+        : t('message:PRODUCT.SUCCESS.UPDATE');
+      dispatch(enqueueSuccessSnackbar(message));
 
-    const message = isNew
-      ? t('message:PRODUCT.SUCCESS.CREATE')
-      : t('message:PRODUCT.SUCCESS.UPDATE');
-    dispatch(enqueueSuccessSnackbar(message));
+      setProductsVersion((prev) => prev + 1);
 
-    // Set product_id for the newly created product. Should be called after getProducts()
-    callback(result?.product_id);
+      // Set product_id for the newly created product. Should be called after getProducts()
+      callback(result?.product_id);
+    };
+
+    dispatch(getProducts({ callback: onProductsFetched }));
   };
 
   return (
@@ -222,6 +229,7 @@ const PureSoilAmendmentTask = ({
           isReadOnly={disabled}
           onSaveProduct={onSaveProduct}
           locations={locations}
+          productsVersion={productsVersion}
         />
       </FormProvider>
     </>

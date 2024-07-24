@@ -56,14 +56,17 @@ export const api = createApi({
     getSoilAmendmentMethods: build.query<SoilAmendmentMethod[], void>({
       query: () => `${soilAmendmentMethodsUrl}`,
       providesTags: ['SoilAmendmentMethods'],
+      keepUnusedDataFor: 7 * 24 * 60 * 60, // 1 week in seconds
     }),
     getSoilAmendmentPurposes: build.query<SoilAmendmentPurpose[], void>({
       query: () => `${soilAmendmentPurposesUrl}`,
       providesTags: ['SoilAmendmentPurposes'],
+      keepUnusedDataFor: 7 * 24 * 60 * 60, // 1 week in seconds
     }),
     getSoilAmendmentFertiliserTypes: build.query<SoilAmendmentFertiliserType[], void>({
       query: () => `${soilAmendmentFertiliserTypesUrl}`,
       providesTags: ['SoilAmendmentFertiliserTypes'],
+      keepUnusedDataFor: 7 * 24 * 60 * 60, // 1 week in seconds
     }),
     addSoilAmendmentProduct: build.mutation<SoilAmendmentProduct, Partial<SoilAmendmentProduct>>({
       query: (body) => ({

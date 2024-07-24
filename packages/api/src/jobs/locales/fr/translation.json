@@ -21,7 +21,7 @@
     "NEW_AREA": "Zone (Ajoutée cette année)",
     "NON_ORGANIC": "Surface non-biologique en",
     "NON_PRODUCING": "Inexploitées",
-    "OPERATION NAME": "NOM DE L'EXPLOITATION",
+    "OPERATION_NAME": "NOM DE L'EXPLOITATION",
     "ORGANIC_AREA": "Zone",
     "PLEASE_VERIFY": "Veuillez vérifier les détails et apporter les modifications nécessaires chaque année. Si l’opération se déroule sur plusieurs sites, veuillez vous assurer de décrire chaque site séparément. Veuillez vous référer à l'exemple d'onglet ci-dessous pour savoir comment remplir ce formulaire.",
     "PRODUCTION": "production",
@@ -90,7 +90,7 @@
       "CROP_FIELD_APPLIED_TO": "Culture/champ appliqué à ou unité de production utilisée dans",
       "DATE_USED": "Date utilisée",
       "LISTED_IN_PSL": "Figurant sur la liste des substances permises? (O/N)",
-      "Notes": "Notes",
+      "NOTES": "Notes",
       "PRODUCT_NAME": "Nom du produit",
       "QUANTITY": "Quantité",
       "SUPPLIER": "Nom commercial ou source/fournisseur"

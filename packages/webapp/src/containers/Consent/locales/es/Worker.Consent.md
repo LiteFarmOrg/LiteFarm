@@ -42,7 +42,7 @@ Dependiendo de las partes de la plataforma LiteFarm que Ud. utilice, nosotros po
 
 **Información sobre la Administración de la Finca**
 
-LiteFarm utiliza la información de administración que Ud. ingresa en la aplicación para generar información sobre los beneficios o impactos financieros, ambientales y sociales de sus decisiones de administración. Estos datos los volvemos anónimos para realizar investigaciones académicas no comerciales sobre sistemas de alimentación sostenibles. Ya que nuestra investigación se basa en datos anónimos, éstos no pueden ser rastreados hasta Ud. o su finca. Estos datos incluyen:
+LiteFarm utiliza la información de administración que Ud. ingresa en la aplicación para generar información sobre los beneficios o impactos financieros, ambientales y sociales de sus decisiones de administración. Estos datos los volvemos anónimos para realizar investigaciones académicas no comerciales sobre sistemas de alimentación sostenibles. Debido a que estos datos son anonimizados cuando se utilizan en nuestra investigación, no pueden ser rastreados hasta usted o su granja. Estos datos incluyen:
 
 - Información sobre las actividades realizadas en la propiedad: duración, campo, cultivos impactados, insumos de recursos y/o materiales, fechas de actividades, notas, estado de la actividad, etc.
 
@@ -102,7 +102,7 @@ Nuestro objetivo es conservar sus datos indefinidamente en aras de la productivi
 
 **¿Cuáles son sus derechos con respecto a su información personal?**
 
-Ud. tiene derecho a saber qué datos tenemos sobre usted, solicitar una copia de los mismos, actualizar y corregir sus datos; solicitar que dejemos de recopilar sus datos; solicitar transferencia de sus datos o hacer preguntas sobre cualquier análisis que utilice sus datos. Para cualquier información o solicitud de este tipo, póngase en contacto con litefarm.team@ubc.ca.
+tiene derecho a saber qué datos tenemos sobre usted, solicitar una copia de los mismos, actualizar y corregir sus datos; solicitar que dejemos de recopilar sus datos; solicitar transferencia de sus datos o hacer preguntas sobre cualquier análisis que utilice sus datos. Para cualquier información o solicitud de este tipo, póngase en contacto con litefarm.team@ubc.ca.
 
 **¿Qué sucede si Ud. retira el consentimiento?**
 
@@ -130,11 +130,11 @@ Sobre la aplicación, comuníquese con:
 
 Sobre este estudio, comuníquese con la investigadora principal:
 
-- Investigadora principal: Dra. Hannah Wittman (hannah.wittman@ubc.ca)
+- Hannah Wittman (hannah.wittman@ubc.ca)
 
 **Si tiene algún comentario o queja sobre sus derechos como participante en la investigación y/o sus experiencias mientras participan en este estudio**
 
-Comuníquese con la Línea de Quejas del(a) Participante de Investigación de la Oficina de Ética de Investigación de la UBC al 604-822-8598 (llamada local). Si la llamada es de larga distancia llame sin cargo al 1-877-822-8598, o envíe un correo electrónico a RSIL@ors.ubc.ca
+Comuníquese con la Línea de Quejas del(a) Participante de Investigación de la Oficina de Ética de Investigación de la UBC al 604-822-8598 (llamada local).
 
 **Consentimiento**
 

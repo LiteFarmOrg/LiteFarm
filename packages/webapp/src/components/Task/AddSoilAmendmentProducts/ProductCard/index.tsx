@@ -185,7 +185,12 @@ const SoilAmendmentProductCard = ({
           />
         )}
       />
-      <input type="hidden" value={otherPurposeId} {...register(OTHER_PURPOSE_ID)} />
+      <input
+        type="hidden"
+        value={otherPurposeId}
+        defaultValue={otherPurposeId}
+        {...register(OTHER_PURPOSE_ID)}
+      />
 
       {purposes?.includes(otherPurposeId) && (
         <>

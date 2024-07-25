@@ -107,6 +107,7 @@ const SoilAmendmentProductCard = ({
   const PRODUCT_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.PRODUCT_ID}`;
   const PURPOSES = `${namePrefix}.${PRODUCT_FIELD_NAMES.PURPOSES}`;
   const OTHER_PURPOSE = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE}`;
+  const OTHER_PURPOSE_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE_ID}`;
 
   const purposes = watch(PURPOSES);
 
@@ -184,6 +185,13 @@ const SoilAmendmentProductCard = ({
           />
         )}
       />
+      <input
+        type="hidden"
+        value={otherPurposeId}
+        defaultValue={otherPurposeId}
+        {...register(OTHER_PURPOSE_ID)}
+      />
+
       {purposes?.includes(otherPurposeId) && (
         <>
           {/* @ts-ignore */}

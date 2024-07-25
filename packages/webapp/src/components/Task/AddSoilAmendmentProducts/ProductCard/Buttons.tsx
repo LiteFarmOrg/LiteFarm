@@ -41,6 +41,7 @@ const Buttons = ({
   if (isEditingProduct) {
     return (
       <InFormButtons
+        className={styles.inFormButtons}
         statusText={t('common:EDITING')}
         confirmText={t('ADD_PRODUCT.SAVE_PRODUCT')}
         onCancel={onCancel}

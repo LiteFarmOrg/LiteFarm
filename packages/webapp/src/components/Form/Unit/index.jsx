@@ -59,6 +59,7 @@ const Unit = ({
   hasLeaf,
   autoConversion,
   onInputChange,
+  shouldUnregister,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -165,6 +166,7 @@ const Unit = ({
           <Controller
             control={control}
             name={displayUnitName}
+            shouldUnregister={shouldUnregister}
             render={({ field: { onBlur, value, ref } }) => (
               <Select
                 data-cy="unit-select"
@@ -202,6 +204,7 @@ const Unit = ({
           valueAsNumber: true,
           max: { value: getMax(), message: t('UNIT.VALID_VALUE') + max },
           min: { value: 0, message: t('UNIT.VALID_VALUE') + max },
+          shouldUnregister,
         })}
         data-testid={`${testId}-hiddeninput`}
       />
@@ -283,6 +286,8 @@ Unit.propTypes = {
   onBlur: PropTypes.func,
   /** testId used for component testing */
   'data-testid': PropTypes.string,
+  /** react hook form shouldUnregister - unmounting input removes value */
+  shouldUnregister: PropTypes.bool,
 };
 
 export default Unit;

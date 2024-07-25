@@ -46,7 +46,7 @@ function TaskReadOnly({ history, match, location }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const task = useReadonlyTask(task_id);
-  const selectedTaskType = task.taskType;
+  const selectedTaskType = task?.taskType;
   const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);

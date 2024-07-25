@@ -27,7 +27,7 @@ import { Location } from './QuantityApplicationRate';
 
 export type AddSoilAmendmentProductsProps = Pick<
   ProductCardProps,
-  'isReadOnly' | 'farm' | 'system' | 'onSaveProduct'
+  'isReadOnly' | 'farm' | 'system' | 'onSaveProduct' | 'productsVersion'
 > & {
   products: SoilAmendmentProduct[];
   purposes?: { id: number; key: string }[];
@@ -42,9 +42,21 @@ interface ProductFields {
 const FIELD_NAME = 'soil_amendment_task_products';
 
 export const defaultValues = {
-  [TASK_PRODUCT_FIELD_NAMES.PRODUCT_ID]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.PRODUCT_ID]: '', // Using an empty string instead of undefined to avoid issues with append()
   [TASK_PRODUCT_FIELD_NAMES.PURPOSES]: [],
+  [TASK_PRODUCT_FIELD_NAMES.OTHER_PURPOSE]: '',
+  [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED]: 100,
+  [TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT]: undefined,
   [TASK_PRODUCT_FIELD_NAMES.IS_WEIGHT]: true,
+  [TASK_PRODUCT_FIELD_NAMES.WEIGHT]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.VOLUME]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT]: undefined,
 };
 
 const AddSoilAmendmentProducts = ({

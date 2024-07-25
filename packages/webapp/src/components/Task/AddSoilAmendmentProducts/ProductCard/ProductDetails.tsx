@@ -21,6 +21,7 @@ import { Collapse } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowUp';
 import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
 import Input, { getInputErrors } from '../../../Form/Input';
+import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtils';
 import TextButton from '../../../Form/Button/TextButton';
 import RadioGroup from '../../../Form/RadioGroup';
 import CompositionInputs from '../../../Form/CompositionInputs';
@@ -88,6 +89,7 @@ export type ProductDetailsProps = {
     callback?: (id: ProductId) => void,
   ) => Promise<void>;
   fertiliserTypeOptions: { label: string; value: number }[];
+  productsVersion: number;
 };
 
 export const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
@@ -126,6 +128,7 @@ const ProductDetails = ({
   setProductId,
   onSave,
   fertiliserTypeOptions,
+  productsVersion,
 }: ProductDetailsProps) => {
   const { t } = useTranslation();
   const [isEditingProduct, setIsEditingProduct] = useState(false);
@@ -233,7 +236,7 @@ const ProductDetails = ({
       }, 0);
     }
     previousProductIdRef.current = productId;
-  }, [productId, products]);
+  }, [productId, productsVersion]);
 
   const onCancel = () => {
     if (isNewProduct(productId)) {
@@ -362,7 +365,7 @@ const ProductDetails = ({
             label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
             hookFormRegister={register(SUPPLIER, {
               required: interested,
-              maxLength: 255,
+              maxLength: hookFormMaxCharsValidation(255),
             })}
             disabled={isDetailDisabled}
             hasLeaf={true}
@@ -387,7 +390,6 @@ const ProductDetails = ({
             value={fertiliserTypeOptions.find(({ value }) => value === fertiliserType) || null}
             isDisabled={isDetailDisabled}
             label={t('ADD_PRODUCT.FERTILISER_TYPE')}
-            placeholder={t('ADD_PRODUCT.FERTILISER_TYPE_PLACEHOLDER')}
             options={fertiliserTypeOptions}
             onChange={(e) => setValue(FERTILISER_TYPE_ID, e?.value)}
             optional

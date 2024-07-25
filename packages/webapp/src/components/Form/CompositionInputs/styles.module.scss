@@ -1,0 +1,98 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../assets/mixin';
+
+/*----------------------------------------
+  NumberInputWithSelect
+----------------------------------------*/
+
+.inputWithSelectWrapper {
+  &:focus-within {
+    > div:nth-child(2) svg {
+      color: var(--Colors-Neutral-Neutral-600);
+    }
+  }
+
+  &.hasError {
+    input {
+      color: var(--Colors-Accent---singles-Red-full);
+    }
+
+    &:not(:focus-within) .selectWrapper {
+      border-color: var(--Colors-Accent---singles-Red-full);
+    }
+  }
+
+  &.disabled {
+    input {
+      color: var(--Colors-Neutral-Neutral-300);
+      @include truncateText();
+    }
+  }
+
+  &:not(.disabled) .selectWrapper {
+    margin-right: -8px;
+    border-left: 1px solid var(--grey400);
+  }
+}
+
+.ratioIcon {
+  margin-top: 4px;
+}
+
+/*----------------------------------------
+  Composition inputs
+----------------------------------------*/
+.compositionInputsWrapper {
+  @include flex-column-gap(12px);
+}
+
+.inputsWrapper {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+
+  > div {
+    flex: 1 0 31%; // align up to 3 items in a row
+  }
+
+  @include md-breakpoint {
+    flex-direction: column;
+  }
+}
+
+.selectValue {
+  color: var(--Colors-Neutral-Neutral-600, #5d697e);
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--Colors-Accent---singles-Red-full);
+  justify-content: center;
+  margin-top: 8px;
+
+  .errorIcon {
+    width: 20px;
+  }
+
+  @include md-breakpoint {
+    .errorMessage {
+      flex: 1;
+    }
+  }
+}

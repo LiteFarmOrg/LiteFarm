@@ -14,9 +14,9 @@
  */
 
 import baseController from '../controllers/baseController.js';
-
 import ProductModel from '../models/productModel.js';
 import { transaction, Model } from 'objection';
+import { handleObjectionError } from '../util/errorCodes.js';
 
 const productController = {
   getProductsByFarm() {
@@ -28,7 +28,8 @@ const productController = {
           .whereNotDeleted()
           .where({
             farm_id,
-          });
+          })
+          .withGraphFetched('soil_amendment_product');
         return res.status(200).send(rows);
       } catch (error) {
         //handle more exceptions
@@ -43,17 +44,37 @@ const productController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
+        const { farm_id } = req.headers;
         const data = req.body;
-        data.product_translation_key = data.name;
-        const result = await baseController.postWithResponse(ProductModel, data, req, { trx });
+        const result = await ProductModel.query(trx)
+          .context({ user_id: req?.auth?.user_id })
+          .insertGraph({ ...data, farm_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
-        //handle more exceptions
-        await trx.rollback();
-        res.status(400).json({
-          error,
-        });
+        await handleObjectionError(error, res, trx);
+      }
+    };
+  },
+  updateProduct() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const { farm_id } = req.headers;
+        const { product_id } = req.params;
+        const data = req.body;
+
+        // This will replace the entire related object (e.g. soil_amendment_product) so keep that in mind when constructing the request
+        await baseController.upsertGraph(
+          ProductModel,
+          { ...data, farm_id, product_id: parseInt(product_id) },
+          req,
+          { trx },
+        );
+        await trx.commit();
+        res.status(204).send();
+      } catch (error) {
+        await handleObjectionError(error, res, trx);
       }
     };
   },

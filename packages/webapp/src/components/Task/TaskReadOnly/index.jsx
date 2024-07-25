@@ -30,7 +30,6 @@ import { useForm } from 'react-hook-form';
 import TimeSlider from '../../Form/Slider/TimeSlider';
 import Rating from '../../Rating';
 import Checkbox from '../../Form/Checkbox';
-import { cloneObject } from '../../../util';
 import PureCleaningTask from '../CleaningTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
@@ -54,6 +53,7 @@ import PureIrrigationTask from '../PureIrrigationTask';
 import DeleteBox from './DeleteBox';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { certifierSurveySelector } from '../../../containers/OrganicCertifierSurvey/slice';
+import { formatTaskReadOnlyDefaultValues } from '../../../util/task';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -120,7 +120,7 @@ export default function PureTaskReadOnly({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: cloneObject(task),
+    defaultValues: formatTaskReadOnlyDefaultValues(task),
   });
 
   const taskAfterCompleteComponents = {

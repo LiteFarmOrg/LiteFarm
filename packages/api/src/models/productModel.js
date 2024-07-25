@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (productModel.js) is part of LiteFarm.
+ *  Copyright (c) 2021-2024 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,7 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { Model } from 'objection';
 import baseModel from './baseModel.js';
+import soilAmendmentProductModel from './soilAmendmentProductModel.js';
 
 class ProductModel extends baseModel {
   static get tableName() {
@@ -29,12 +31,12 @@ class ProductModel extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'farm_id'],
+      required: ['name', 'farm_id', 'type'],
       properties: {
         product_id: { type: 'integer' },
         name: { type: 'string' },
         product_translation_key: { type: 'string' },
-        supplier: { type: 'string' },
+        supplier: { type: ['string', 'null'], maxLength: 255 },
         on_permitted_substances_list: {
           type: ['string', 'null'],
           enum: ['YES', 'NO', 'NOT_SURE', null],
@@ -47,6 +49,19 @@ class ProductModel extends baseModel {
         ...this.baseProperties,
       },
       additionalProperties: false,
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      soil_amendment_product: {
+        relation: Model.HasOneRelation,
+        modelClass: soilAmendmentProductModel,
+        join: {
+          from: 'product.product_id',
+          to: 'soil_amendment_product.product_id',
+        },
+      },
     };
   }
 }

@@ -1131,33 +1131,97 @@ function fakeProduct(defaultData = {}) {
     name: faker.lorem.words(2),
     supplier: faker.lorem.words(3),
     on_permitted_substances_list: faker.helpers.arrayElement(['YES', 'NO', 'NOT_SURE']),
-    type: faker.helpers.arrayElement(['soil_amendment_task', 'pest_control_task', 'cleaning_task']),
+    // For soil_amendment_task use soil_amendment_productFactory
+    type: faker.helpers.arrayElement(['pest_control_task', 'cleaning_task']),
     ...defaultData,
   };
 }
 
+async function soil_amendment_productFactory({ promisedProduct = productFactory() } = {}) {
+  const [{ product_id, type }] = await promisedProduct;
+  const productDetails = fakeProductDetails(type);
+  return knex('soil_amendment_product')
+    .insert({ product_id, ...productDetails })
+    .returning('*');
+}
+
+function fakeProductDetails(type, defaultData = {}) {
+  if (type === 'soil_amendment_task') {
+    return {
+      ...defaultData,
+    };
+  }
+
+  return {};
+}
+
+async function soil_amendment_methodFactory() {
+  return knex('soil_amendment_method').insert({ key: faker.lorem.word() }).returning('*');
+}
+
+async function soil_amendment_purposeFactory() {
+  return knex('soil_amendment_purpose').insert({ key: 'OTHER' }).returning('*');
+}
+
+async function soil_amendment_fertiliser_typeFactory() {
+  return knex('soil_amendment_fertiliser_type').insert({ key: faker.lorem.word() }).returning('*');
+}
+
 async function soil_amendment_taskFactory(
-  { promisedTask = taskFactory(), promisedProduct = productFactory() } = {},
+  { promisedTask = taskFactory(), promisedMethod = soil_amendment_methodFactory() } = {},
   soil_amendment_task = fakeSoilAmendmentTask(),
 ) {
-  const [task, product] = await Promise.all([promisedTask, promisedProduct]);
+  const [task, method] = await Promise.all([promisedTask, promisedMethod]);
   const [{ task_id }] = task;
-  const [{ product_id }] = product;
+  const [{ method_id }] = method;
   return knex('soil_amendment_task')
-    .insert({ task_id, product_id, ...soil_amendment_task })
+    .insert({
+      task_id,
+      method_id,
+      ...soil_amendment_task,
+    })
     .returning('*');
 }
 
 function fakeSoilAmendmentTask(defaultData = {}) {
   return {
-    product_quantity: faker.datatype.number(),
-    purpose: faker.helpers.arrayElement([
-      'structure',
-      'moisture_retention',
-      'nutrient_availability',
-      'ph',
-      'other',
+    ...defaultData,
+  };
+}
+
+async function soil_amendment_task_productsFactory(
+  { promisedTask = taskFactory() } = {},
+  soil_amendment_task_product = fakeSoilAmendmentTaskProduct(),
+) {
+  const [task] = await promisedTask;
+  return knex('soil_amendment_task_products')
+    .insert({
+      task_id: task.task_id,
+      ...soil_amendment_task_product,
+    })
+    .returning('*');
+}
+
+function fakeSoilAmendmentTaskProduct(defaultData = {}) {
+  return {
+    weight: faker.datatype.number(),
+    weight_unit: faker.helpers.arrayElement(['lb', 'kg']),
+    application_rate_weight_unit: faker.helpers.arrayElement([
+      'g/m2',
+      'lb/ft2',
+      'kg/m2',
+      't/ft2',
+      'mt/m2',
+      'oz/ft2',
+      'g/ha',
+      'lb/ac',
+      'kg/ha',
+      't/ac',
+      'mt/ha',
+      'oz/ac',
     ]),
+    percent_of_location_amended: faker.datatype.number({ min: 1, max: 100 }),
+    total_area_amended: faker.datatype.number({ min: 1, max: 1000 }),
     ...defaultData,
   };
 }
@@ -1447,6 +1511,9 @@ function fakeDisease(defaultData = {}) {
   };
 }
 
+const volumeUnits = ['l', 'gal', 'ml', 'fl-oz'];
+const weightUnits = ['g', 'lb', 'kg', 't', 'mt', 'oz'];
+
 async function pest_control_taskFactory(
   { promisedTask = taskFactory(), promisedProduct = productFactory() } = {},
   pestTask = fakePestControlTask(),
@@ -1454,11 +1521,26 @@ async function pest_control_taskFactory(
   const [task, product] = await Promise.all([promisedTask, promisedProduct]);
   const [{ task_id }] = task;
   const [{ product_id }] = product;
+
+  // The model normally handles this conversion, but this is a direct insert into the database
+  const isVolume = volumeUnits.includes(pestTask.product_quantity_unit);
+  const isWeight = weightUnits.includes(pestTask.product_quantity_unit);
+
+  const updatedPestTask = {
+    ...pestTask,
+    volume: isVolume ? pestTask.product_quantity : null,
+    volume_unit: isVolume ? pestTask.product_quantity_unit : null,
+    weight: isWeight ? pestTask.product_quantity : null,
+    weight_unit: isWeight ? pestTask.product_quantity_unit : null,
+  };
+  delete updatedPestTask.product_quantity;
+  delete updatedPestTask.product_quantity_unit;
+
   return knex('pest_control_task')
     .insert({
       task_id,
       product_id,
-      ...pestTask,
+      ...updatedPestTask,
     })
     .returning('*');
 }
@@ -1466,6 +1548,7 @@ async function pest_control_taskFactory(
 function fakePestControlTask(defaultData = {}) {
   return {
     product_quantity: faker.datatype.number(2000),
+    product_quantity_unit: faker.helpers.arrayElement([...volumeUnits, ...weightUnits]),
     pest_target: faker.lorem.words(2),
     control_method: faker.helpers.arrayElement([
       'systemicSpray',
@@ -2197,7 +2280,13 @@ export default {
   fakeHarvestUse,
   productFactory,
   fakeProduct,
+  fakeProductDetails,
+  soil_amendment_productFactory,
+  soil_amendment_methodFactory,
+  soil_amendment_purposeFactory,
+  soil_amendment_fertiliser_typeFactory,
   soil_amendment_taskFactory,
+  soil_amendment_task_productsFactory,
   fakeSoilAmendmentTask,
   pesticideFactory,
   fakePesticide,
@@ -2216,6 +2305,7 @@ export default {
   fakeFieldWorkTask,
   soil_taskFactory,
   fakeSoilTask,
+  fakeSoilAmendmentTaskProduct,
   irrigation_taskFactory,
   fakeIrrigationTask,
   scouting_taskFactory,

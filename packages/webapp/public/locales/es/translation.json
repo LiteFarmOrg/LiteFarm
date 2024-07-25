@@ -1,6 +1,6 @@
 {
   "ADD_FARM": {
-    "ADDRESS_IS_REQUIRED": "Dirección es obligatoria",
+    "ADDRESS_IS_REQUIRED": "La dirección es obligatoria",
     "DISABLE_GEO_LOCATION": "Los servicios de ubicación deben estar habilitados para encontrar su ubicación actual.",
     "ENTER_A_VALID_ADDRESS": "Por favor ingrese dirección válida o coordine",
     "ENTER_LOCATION_PLACEHOLDER": "Ingresa una ubicación",
@@ -14,9 +14,34 @@
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
   "ADD_PRODUCT": {
+    "ADD_ANOTHER_PRODUCT": "Añadir otro producto",
+    "ADDITIONAL_NUTRIENTS": "Nutrientes adicionales",
+    "AMMONIUM": "Amonio (NH₄)",
+    "BORON": "Boro (B)",
+    "BUTTON_WARNING": "Cualquier cambio afectará a todas las tareas relacionadas con este producto",
+    "CALCIUM": "Calcio (Ca)",
+    "COMPOSITION": "Composición",
+    "COMPOSITION_ERROR": "Error: El porcentaje total de N, P, K y nutrientes adicionales no debe superar el 100%. Por favor, ajuste sus valores.",
+    "COPPER": "Cobre (Cu)",
+    "DRY_FERTILISER": "Sólido",
+    "DRY_MATTER_CONTENT": "Contenido de materia seca",
+    "EDIT_PRODUCT_DETAILS": "Editar detalles del producto",
+    "FERTILISER_TYPE": "¿Este producto es sólido o líquido?",
+    "LIQUID_FERTILISER": "Líquido",
+    "MAGNESIUM": "Magnesio (Mg)",
+    "MANGANESE": "Manganeso (Mn)",
+    "MOISTURE_CONTENT": "Contenido de humedad",
+    "NITRATE": "Nitrato (NO₃)",
+    "NITROGEN": "Nitrógeno (N)",
+    "PHOSPHOROUS": "Fósforo (P₂O₅)",
+    "POTASSIUM": "Potasio (K₂O)",
     "PRESS_ENTER": "Escriba y presione enter para agregar...",
+    "PRODUCT_DETAILS": "Detalles del producto",
     "PRODUCT_LABEL": "Producto",
-    "SUPPLIER_LABEL": "Proveedor/a"
+    "SAVE_PRODUCT": "Guardar producto",
+    "SULFUR": "Azufre (S)",
+    "SUPPLIER_LABEL": "Proveedor/a",
+    "WHAT_YOU_WILL_BE_APPLYING": "¿Qué aplicará?"
   },
   "ADD_TASK": {
     "ADD_A_CUSTOM_TASK": "Agregar una tarea personalizada",
@@ -42,6 +67,7 @@
     "CUSTOM_TASK_TYPE": "Tipo de tarea personalizada",
     "DO_YOU_NEED_TO_OVERRIDE": "¿Necesita alterar el salario de los cesionarios para esta tarea?",
     "DO_YOU_WANT_TO_ASSIGN": "¿Quiere asignar la tarea ahora?",
+    "DUPLICATE_NAME": "Ya existe un producto con este nombre. Por favor, elija otro.",
     "EDIT_CUSTOM_TASK": "Editar la tarea personalizada",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Describe el tipo de trabajo de campo",
@@ -138,14 +164,34 @@
     "SELECT_ALL_PLANS": "Seleccionar todos los planes",
     "SELECT_TASK_TYPE": "Seleccionar tipo de tarea",
     "SOIL_AMENDMENT_VIEW": {
+      "ADVANCED": "Avanzado",
+      "APPLICATION_METHOD": "Método de aplicación",
+      "APPLICATION_RATE": "Tasa de aplicación",
+      "APPLIED_TO": "Aplicado a <1>{{percentOfArea}}%</1> de su <4>{{locationArea}} {{locationAreaUnit}}</4> {{locationType}}",
+      "APPLIED_TO_MULTIPLE": "Se aplica a <1>{{ percentOfArea }}%</1> de sus {{locationCount}} ubicaciones con área total <5>{{ locationArea }} {{ locationAreaUnit }}</5>",
+      "BANDED": "En bandas",
+      "BROADCAST": "Transmisión",
+      "FERTIGATION": "Fertirrigación",
+      "FOLIAR": "Foliar",
+      "FURROW_HOLE": "Surco / agujero",
+      "FURROW_HOLE_DEPTH": "Profundidad de surco / agujero",
+      "FURROW_HOLE_DEPTH_PLACEHOLDER": "¿A qué profundidad se aplicó el aditivo?",
       "IS_PERMITTED": "¿Está el fetilizante del suelo en la lista de sustancias permitidas?",
       "MOISTURE_RETENTION": "Retención de humedad",
       "NUTRIENT_AVAILABILITY": "Disponibilidad de nutrientes",
       "OTHER": "Otro",
+      "OTHER_METHOD": "Más información sobre el método de aplicación",
+      "OTHER_METHOD_PLACEHOLDER": "Describa su método de aditivo del suelo...",
       "OTHER_PURPOSE": "Describe el propósito",
+      "PERECENT_TO_AMEND": "% del área a realizar aditivos",
       "PH": "pH",
       "PURPOSE": "Propósito",
-      "STRUCTURE": "Estructura"
+      "QUANTITY": "Cantidad a aplicar",
+      "SIDE_DRESS": "Lateral (superficie)",
+      "STRUCTURE": "Estructura",
+      "TOTAL_AREA": "Superficie total de aplicación",
+      "VOLUME": "Volumen",
+      "WEIGHT": "Peso"
     },
     "TASK": "tarea",
     "TASK_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
@@ -195,7 +241,7 @@
       "SUBTITLE_ONE": "Esta es una lista de certificadores de",
       "SUBTITLE_TWO": "con los que trabajamos en su país",
       "TITLE": "Que tipo de certificación?",
-      "TOOLTIP": "No ve su certificación? Litefarm esta dedicado en apoyar la agricultura sostenible y las certificaciones son una gran parte de esto. Solicita otra certificacion aqui y haremos nuestro mejor esfuerzo en incorporarla en la aplicacion."
+      "TOOLTIP": "¿No ve su certificación? LiteFarm se dedica a apoyar la agricultura sostenible y las certificaciones son una parte importante de ello. Solicite otra certificación aquí y haremos todo lo posible para incorporarla a la aplicación."
     },
     "CERTIFIER_SELECTION": {
       "INFO": "Esto probablemente significa que Litefarm no trabaja actualmente con su certificador - Lo sentimos! Litefarm si produce formularios genericos que se pueden ayudar en la mayoria de los casos.",
@@ -343,7 +389,7 @@
     },
     "FILTER_TITLE": "Filtro de catálogo de cultivos ",
     "GENUS": "Género",
-    "HERE_YOU_CAN": "Acá puede",
+    "HERE_YOU_CAN": "Aquí puede:",
     "LETS_BEGIN": "Vamos a comenzar",
     "NEW_CROP_NAME": "Nombre de nuevo cultivo",
     "NO_RESULTS_FOUND": "No se han encontrado resultados. Por favor, cambie sus filtros.",
@@ -454,7 +500,7 @@
     "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "SPOTLIGHT": {
       "CDC": "Cuando llegue el momento de generar su exportación de certificación, LiteFarm exportará automáticamente todos los documentos de cumplimiento que sean válidos en la fecha de exportación que especifique. Los documentos de cumplimiento se archivarán automáticamente cuando expiran.",
-      "HERE_YOU_CAN": "Aqui uno puede:",
+      "HERE_YOU_CAN": "Aquí puede:",
       "YOU_CAN_ONE": "Cargar los documentos que desee incluir en la exportación de su certificación.",
       "YOU_CAN_THREE": "Archivar documentos innecesarios",
       "YOU_CAN_TWO": "Clasificar y controlar las fechas de vencimiento de su documento"
@@ -488,6 +534,13 @@
   "ENTITY_TYPES": {
     "LOCATION": "ubicación",
     "TASK": "tarea"
+  },
+  "ERROR_FALLBACK": {
+    "CONTACT": "¿Aún atascado en el barro? No te preocupes, estamos aquí para sacarte: <1>{{supportEmail}}</1>",
+    "MAIN": "A veces, LiteFarm se pierde y sólo necesita un poco de ayuda. Uno de estos suele resolver el problema:",
+    "RELOAD": "Volver a cargar la página",
+    "SUBTITLE": "No se preocupe, no es usted, somos nosotros/as.",
+    "TITLE": "¡Uy! ¡Parece que esta página se ha desviado!"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -579,7 +632,7 @@
       },
       "TITLE": "Agregar sensores al mapa",
       "UPLOAD_ERROR_LINK": "Haga clic aquí para verlos",
-      "UPLOAD_ERROR_MESSAGE": "Hubo algunos problemas con tu subida.",
+      "UPLOAD_ERROR_MESSAGE": "Hubo algunos problemas con su carga. ",
       "UPLOAD_INSTRUCTION_MESSAGE": "para el formato correcto.",
       "UPLOAD_LINK_MESSAGE": "Descargar plantilla",
       "UPLOAD_PLACEHOLDER": "Subir archivo CSV",
@@ -620,7 +673,7 @@
       "DOWNLOAD": "Descargar",
       "EMAIL_TO_ME": "Enviar a mi correo",
       "EMAILING": "Enviando",
-      "TITLE": "Exporta su mapa"
+      "TITLE": "Exporte su mapa"
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Editar limites de la granja",
@@ -668,7 +721,7 @@
       "NAME": "Nombre de invernadero",
       "NON_ORGANIC": "No orgánico",
       "ORGANIC": "Orgánico",
-      "SUPPLEMENTAL_LIGHTING": "Tiene luz suplementaria?",
+      "SUPPLEMENTAL_LIGHTING": "¿Tiene luz suplementaria?",
       "TITLE": "Agregar invernadero",
       "TRANSITIONING": "En transicion"
     },
@@ -684,8 +737,11 @@
       "ADD_TITLE": "Agregar a su mapa",
       "AREAS": "Áreas",
       "BARN": "Granero",
+      "BUFFER_ZONE": "Zona delimitada",
       "BZ": "Zona delimitada",
       "CA": "Área ceremonial",
+      "CEREMONIAL_AREA": "Área ceremonial",
+      "FARM_SITE_BOUNDARY": "Limites de granja",
       "FENCE": "Cerca",
       "FIELD": "Campo",
       "FSB": "Limites de granja",
@@ -696,6 +752,7 @@
       "LABEL": "Etiqueta",
       "LINES": "Lineas",
       "NA": "Área natural",
+      "NATURAL_AREA": "Área natural",
       "POINTS": "Puntos",
       "RESIDENCE": "Residencia",
       "SATELLITE": "Imagen de Satelite",
@@ -703,6 +760,7 @@
       "SHOW_ALL": "Muestra todo",
       "SURFACE_WATER": "Agua de superficie",
       "TITLE": "Filtra su mapa",
+      "WATER_VALVE": "Valvula de agua",
       "WATERCOURSE": "Arroyo",
       "WV": "Valvula de agua"
     },
@@ -721,10 +779,10 @@
       "ADD": "Añadir ubicaciones a su mapa",
       "ADD_TITLE": "Añadir a su mapa",
       "EXPORT": "Descargar o compartir su mapa",
-      "EXPORT_TITLE": "Exporta su mapa",
+      "EXPORT_TITLE": "Exporte su mapa",
       "FILTER": "Cambiar que se ve en el mapa",
       "FILTER_TITLE": "Filtra su mapa",
-      "HERE_YOU_CAN": "Aqui puede: "
+      "HERE_YOU_CAN": "Aquí puede:"
     },
     "SURFACE_WATER": {
       "EDIT_TITLE": "Editar agua de superficie",
@@ -835,9 +893,9 @@
       "REVENUE_TYPE": "Tipos de ingresos",
       "TITLE": "Filtrar transacciones"
     },
-    "MANAGE_CUSTOM_TYPE": "Administrar tipos personalizados",
     "REPORT": {
       "DATES": "Fechas",
+      "FILE_TITLE": "Informe económico",
       "SETTINGS": "Configuración del reporte",
       "TRANSACTION": "Transacción",
       "TRANSACTIONS": "Transacciones"
@@ -899,7 +957,6 @@
       "MAMMALS": "Mamíferos",
       "PLANTS": "Plantas",
       "SPECIES_COUNT_one": "{{count}} especies",
-      "SPECIES_COUNT_many": "{{count}} especies",
       "SPECIES_COUNT_other": "{{count}} especies",
       "TITLE": "Biodiversidad"
     },
@@ -914,7 +971,6 @@
     "PRICES": {
       "INFO": "Le mostramos la trayectoria de sus precios de venta en comparacion a los precios de venta de los mismos bienes cerca de su granja. Esta información es recolectada a través de la red de LiteFarm.",
       "NEARBY_FARMS_one": "El precio del mercado se basa en {{count}} granja en su área local",
-      "NEARBY_FARMS_many": "El precio del mercado se basa en {{count}} granjas en su área local",
       "NEARBY_FARMS_other": "El precio del mercado se basa en {{count}} granjas en su área local",
       "NETWORK_PRICE": "Precio de red",
       "NO_ADDRESS": "Actualmente no tienes una direccion en Litefarm. Por favor actualizala en su Perfil para obtener data de ventas cercanas.",
@@ -1147,7 +1203,7 @@
     "RATE_THIS_MANAGEMENT_PLAN": "Valora este plan de administración",
     "REMOVE_PIN": "Quitar el pin",
     "REPEATED_MP_SPOTLIGHT": {
-      "BODY": "Ud. puede hacer clic para ver todos los planes de cultivo en éste grupo. Si modifica un plan de cultivo individual no cambiará nada en los otros planes del mismo grupo.",
+      "BODY": "Ud. puede hacer click para ver todos los planes de cultivo en este grupo. Si modifica un plan de cultivo individual, no cambiará nada en los otros planes del mismo grupo.",
       "TITLE": "!Felicidades! Ud. ha creado su primer plan de cultivo repetido"
     },
     "ROW_METHOD": {
@@ -1168,7 +1224,7 @@
     "SELECT_A_SEEDING_LOCATION": "Seleccione una ubicación de siembra",
     "SELECT_CURRENT_LOCATION": "Seleccione la ubicación actual del cultivo",
     "SELECTED_STARTING_LOCATION": "Seleccione siempre esta como la ubicación de inicio para los cultivos que se trasplantarán",
-    "SPOTLIGHT_HERE_YOU_CAN": "Aqui une puede:",
+    "SPOTLIGHT_HERE_YOU_CAN": "Aquí puede:",
     "STARTED": "Empecemos",
     "STATUS": {
       "ABANDONED": "Abandonado",
@@ -1252,7 +1308,7 @@
     "NONE_TO_DISPLAY": "No hay notificaciones para mostrar.",
     "PAGE_TITLE": "Notificaciones",
     "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "La carga del tuvo errores. Haga clic en “Llevame allí” para ver los detalles.",
+      "BODY": "La carga del sensor tuvo errores. Haga clic en “Llevame allí” para ver los detalles.",
       "TITLE": "Errores al cargar sensores"
     },
     "SENSOR_BULK_UPLOAD_SUCCESS": {
@@ -1402,9 +1458,9 @@
     "CLEAR_ALL": "Borrar todo"
   },
   "RELEASE": {
-    "BETTER": "MISSING",
+    "BETTER": "¡LiteFarm ha mejorado!",
     "LITEFARM_UPDATED": "LiteFarm v{{version}} ya está disponible!",
-    "NOTES": "MISSING"
+    "NOTES": "Notas de publicación"
   },
   "REPEAT_PLAN": {
     "AFTER": "Después",
@@ -1804,6 +1860,7 @@
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la(s) ubicación(es) de la tarea",
     "SELECT_WILD_CROP": "Esta tarea se dirige a un cultivo silvestre",
+    "SOIL_AMENDMENT_LOCATION": "Seleccione la(s) ubicación(es) de aditivo del suelo",
     "STATUS": {
       "ABANDONED": "Abandonada",
       "COMPLETED": "Completada",
@@ -1813,7 +1870,6 @@
     },
     "TASK": "tarea",
     "TASKS_COUNT_one": "{{count}} tarea",
-    "TASKS_COUNT_many": "{{count}} tareas",
     "TASKS_COUNT_other": "{{count}} tareas",
     "TRANSPLANT": "Trasplantar",
     "TRANSPLANT_LOCATIONS": "Seleccione una ubicación para el trasplante",

@@ -39,7 +39,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
       // Automatically instrument Node.js libraries and frameworks
       ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
     ],
-    release: '3.6.4.1',
+    release: '3.6.5',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production
@@ -129,6 +129,9 @@ import cropVarietyRoutes from './routes/cropVarietyRoute.js';
 import fieldRoutes from './routes/fieldRoute.js';
 import saleRoutes from './routes/saleRoute.js';
 import taskTypeRoutes from './routes/taskTypeRoute.js';
+import soilAmendmentMethodRoute from './routes/soilAmendmentMethodRoute.js';
+import soilAmendmentPurposeRoute from './routes/soilAmendmentPurposeRoute.js';
+import soilAmendmentFertiliserTypeRoute from './routes/soilAmendmentFertiliserTypeRoute.js';
 import userRoutes from './routes/userRoute.js';
 import farmExpenseRoute from './routes/farmExpenseRoute.js';
 import farmExpenseTypeRoute from './routes/farmExpenseTypeRoute.js';
@@ -272,6 +275,9 @@ app
   .use('/sale', saleRoutes)
   .use('/revenue_type', revenueTypeRoute)
   .use('/task_type', taskTypeRoutes)
+  .use('/soil_amendment_purposes', soilAmendmentPurposeRoute)
+  .use('/soil_amendment_methods', soilAmendmentMethodRoute)
+  .use('/soil_amendment_fertiliser_types', soilAmendmentFertiliserTypeRoute)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)
   .use('/expense_type', farmExpenseTypeRoute)

@@ -121,6 +121,16 @@
       "EDIT": "crop plan successfully updated"
     }
   },
+  "PRODUCT": {
+    "ERROR": {
+      "CREATE": "Failed to create product",
+      "UPDATE": "Failed to update product"
+    },
+    "SUCCESS": {
+      "CREATE": "Successfully created product",
+      "UPDATE": "Successfully updated product"
+    }
+  },
   "REPEAT_PLAN": {
     "ERROR": {
       "POST": "Failed to repeat {{planName}}"

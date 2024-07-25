@@ -10,9 +10,16 @@ import PureCleaningTask from '../CleaningTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
-import { cloneObject } from '../../../util';
 import { PurePlantingTask } from '../PlantingTask';
 import PureIrrigationTask from '../PureIrrigationTask';
+import { formatTaskReadOnlyDefaultValues } from '../../../util/task';
+
+const soilAmendmentContinueDisabled = (needsChange, isValid) => {
+  if (!needsChange) {
+    return false;
+  }
+  return !isValid;
+};
 
 export default function PureCompleteStepOne({
   persistedFormData,
@@ -26,9 +33,9 @@ export default function PureCompleteStepOne({
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
-  const defaultsToUse = persistedFormData.need_changes
-    ? cloneObject(persistedFormData)
-    : cloneObject(selectedTask);
+  const defaultsToUse = formatTaskReadOnlyDefaultValues(
+    persistedFormData.need_changes ? persistedFormData : selectedTask,
+  );
   const {
     register,
     handleSubmit,
@@ -51,14 +58,37 @@ export default function PureCompleteStepOne({
   const changesRequired = watch(CHANGES_NEEDED);
   const taskType = selectedTaskType?.task_translation_key;
 
+  const continueDisabled =
+    taskType === 'SOIL_AMENDMENT_TASK'
+      ? soilAmendmentContinueDisabled(getValues(CHANGES_NEEDED), isValid)
+      : !isValid;
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+
+    if (
+      taskType === 'SOIL_AMENDMENT_TASK' &&
+      soilAmendmentContinueDisabled(getValues(CHANGES_NEEDED)) === false
+    ) {
+      onContinue();
+    } else {
+      handleSubmit(onContinue)();
+    }
+  };
+
   return (
     <Form
       buttonGroup={
-        <Button data-cy="beforeComplete-submit" type={'submit'} disabled={!isValid} fullLength>
+        <Button
+          data-cy="beforeComplete-submit"
+          type={'submit'}
+          disabled={continueDisabled}
+          fullLength
+        >
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(onContinue)}
+      onSubmit={onSubmit}
     >
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}

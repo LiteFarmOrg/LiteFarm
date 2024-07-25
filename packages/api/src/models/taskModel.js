@@ -17,6 +17,7 @@ import Model from './baseFormatModel.js';
 
 import BaseModel from './baseModel.js';
 import soilAmendmentTaskModel from './soilAmendmentTaskModel.js';
+import soilAmendmentTaskProductsModel from './soilAmendmentTaskProductsModel.js';
 import pestControlTask from './pestControlTask.js';
 import irrigationTaskModel from './irrigationTaskModel.js';
 import scoutingTaskModel from './scoutingTaskModel.js';
@@ -98,6 +99,14 @@ class TaskModel extends BaseModel {
         join: {
           from: 'task.task_id',
           to: 'soil_amendment_task.task_id',
+        },
+      },
+      soil_amendment_task_products: {
+        relation: Model.HasManyRelation,
+        modelClass: soilAmendmentTaskProductsModel,
+        join: {
+          from: 'task.task_id',
+          to: 'soil_amendment_task_products.task_id',
         },
       },
       pest_control_task: {
@@ -246,6 +255,7 @@ class TaskModel extends BaseModel {
       action_needed: 'omit',
       // relationMappings
       soil_amendment_task: 'edit',
+      soil_amendment_task_products: 'edit',
       pest_control_task: 'edit',
       irrigation_task: 'edit',
       scouting_task: 'edit',
@@ -268,7 +278,7 @@ class TaskModel extends BaseModel {
    * @async
    * @returns {Object} - Object {assignee_user_id, assignee_role_id, wage_at_moment, override_hourly_wage}
    */
-  static async getTaskAssignee(taskId) {
+  static async getTaskAssignee(taskId, farmId) {
     return await TaskModel.query()
       .whereNotDeleted()
       .join('users', 'task.assignee_user_id', 'users.user_id')
@@ -279,7 +289,7 @@ class TaskModel extends BaseModel {
           'users.user_id as assignee_user_id, role.role_id as assignee_role_id, task.wage_at_moment, task.override_hourly_wage',
         ),
       )
-      .where('task.task_id', taskId)
+      .where({ 'task.task_id': taskId, 'uf.farm_id': farmId })
       .first();
   }
 
@@ -414,14 +424,40 @@ class TaskModel extends BaseModel {
       });
   }
 
-  static async deleteTask(task_id, user) {
+  static async deleteTask(task_id, user, trx) {
     try {
-      const deleteResponse = await TaskModel.query()
+      const deleteResponse = await TaskModel.query(trx)
         .context(user)
         .patchAndFetchById(task_id, { deleted: true });
       return deleteResponse;
     } catch (error) {
       return error;
+    }
+  }
+
+  static async deleteTaskAndTaskProduct(user, task_id, trx) {
+    const taskTypesWithProducts = ['soil_amendment_task'];
+
+    const taskType = await TaskModel.relatedQuery('taskType', trx).for(task_id).first();
+    const { farm_id, task_translation_key } = taskType;
+    const taskTypeKey = task_translation_key?.toLowerCase();
+
+    const relatedProductTable = `${taskTypeKey}_products`;
+
+    if (!farm_id && taskTypesWithProducts.includes(taskTypeKey)) {
+      // Mark related products as deleted
+      await TaskModel.relatedQuery(relatedProductTable, trx)
+        .for(task_id)
+        .context(user)
+        .patch({ deleted: true });
+      // Mark the task itself as deleted and fetch the updated task
+      return await TaskModel.query(trx)
+        .withGraphFetched(relatedProductTable)
+        .context({ ...user, showHidden: true })
+        .patchAndFetchById(task_id, { deleted: true });
+    } else {
+      // If the task is custom or does not have associated product, delete just the task
+      return TaskModel.deleteTask(task_id, user, trx);
     }
   }
 }

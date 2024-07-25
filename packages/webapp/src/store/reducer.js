@@ -17,6 +17,7 @@ import { combineReducers } from 'redux';
 import baseReducer from '../containers/reducer';
 import { combineForms } from 'react-redux-form';
 import { PURGE } from 'redux-persist';
+import { api } from './api/apiSlice';
 import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
 import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
@@ -238,6 +239,7 @@ const tempStateReducer = combineReducers({
 
 // combine all reducers here and pass it to application
 const appReducer = combineReducers({
+  [api.reducerPath]: api.reducer,
   profileForms: combineForms(
     {
       addInfo: addUserInfo,

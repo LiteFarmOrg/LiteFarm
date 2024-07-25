@@ -13,6 +13,7 @@ import PureHarvestingTask from '../HarvestingTask';
 import PurePestControlTask from '../PestControlTask';
 import PureIrrigationTask from '../PureIrrigationTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
+import { defaultValues as soilAmendmentProductDefaultValues } from '../AddSoilAmendmentProducts';
 
 export default function PureTaskDetails({
   handleGoBack,
@@ -37,6 +38,9 @@ export default function PureTaskDetails({
 
   const defaults = {
     CLEANING_TASK: { cleaning_task: { agent_used: false } },
+    SOIL_AMENDMENT_TASK: {
+      soil_amendment_task_products: [soilAmendmentProductDefaultValues],
+    },
   };
 
   const harvest_tasks = useMemo(() => {

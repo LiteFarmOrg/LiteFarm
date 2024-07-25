@@ -33,3 +33,63 @@
     @content;
   }
 }
+
+@mixin md-breakpoint {
+  @media only screen and (max-width: 900px) {
+    @content;
+  }
+}
+
+@mixin lg-breakpoint {
+  @media only screen and (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin xlg-breakpoint {
+  @media only screen and (min-width: 1536px) {
+    @content;
+  }
+}
+
+// Custom icons from figma use a variety of strokes and fills
+@mixin svgColorFill($newColor) {
+  svg {
+    path {
+      &[stroke] {
+        stroke: $newColor;
+      }
+      &[fill] {
+        fill: $newColor;
+      }
+    }
+    rect {
+      &[stroke] {
+        stroke: $newColor;
+      }
+      &[fill] {
+        fill: $newColor;
+      }
+    }
+    circle {
+      &[stroke] {
+        stroke: $newColor;
+      }
+      &[fill] {
+        fill: $newColor;
+      }
+    }
+  }
+}
+
+@mixin truncateText() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin flex-column-gap($gap: 16px) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}

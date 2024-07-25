@@ -1,5 +1,5 @@
-import ReactSelect from '../../Form/ReactSelect';
-import React, { useEffect, useMemo, useState } from 'react';
+import { CreatableSelect } from '../../Form/ReactSelect';
+import { useEffect, useMemo, useState } from 'react';
 import { ReactComponent as Leaf } from '../../../assets/images/farmMapFilter/Leaf.svg';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -24,11 +24,6 @@ const AddProduct = ({
 }) => {
   const { t } = useTranslation();
   const { farm_id, interested, country_id } = farm;
-
-  const productsOfType = useMemo(
-    () => products.filter((product) => product.type === type),
-    [products.length, type],
-  );
 
   const [productValue, setProductValue] = useState(null);
   const typesOfProduct = {
@@ -56,7 +51,7 @@ const AddProduct = ({
 
   const processProduct = (value) => {
     setValue(`${type}.product.product_id`, undefined);
-    let product = productsOfType.find(({ product_id }) => product_id === value?.value);
+    let product = products.find(({ product_id }) => product_id === value?.value);
     if (product) {
       const { supplier, on_permitted_substances_list } = product;
       setValue(NAME, value?.label, { shouldValidate: true });
@@ -90,9 +85,9 @@ const AddProduct = ({
 
   return (
     <>
-      <ReactSelect
+      <CreatableSelect
         label={t('ADD_PRODUCT.PRODUCT_LABEL')}
-        options={transformProductsToLabel(productsOfType)}
+        options={transformProductsToLabel(products)}
         onChange={(e) => {
           processProduct(e);
           setProductValue(e);
@@ -100,7 +95,6 @@ const AddProduct = ({
         placeholder={t('ADD_PRODUCT.PRESS_ENTER')}
         value={productValue}
         style={{ marginBottom: '40px' }}
-        creatable
         hasLeaf={true}
         isDisabled={disabled}
       />

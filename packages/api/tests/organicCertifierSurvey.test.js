@@ -182,8 +182,13 @@ describe('organic certification Tests', () => {
       describe('Get all supported certifications', () => {
         test('User should get all supported certifications', async (done) => {
           getAllSupportedCertificationsRequest({}, (err, res) => {
+            const thirdPartyOrganic = res.body.find(
+              (cert) => cert.certification_translation_key === 'THIRD_PARTY_ORGANIC',
+            );
+            const pgs = res.body.find((cert) => cert.certification_translation_key === 'PGS');
             expect(res.status).toBe(200);
-            expect(res.body[0].certification_type).toBe('Organic');
+            expect(thirdPartyOrganic.certification_type).toBe('Third-party Organic');
+            expect(pgs.certification_type).toBe('Participatory Guarantee System');
             done();
           });
         });

@@ -27,6 +27,21 @@ function removeAdditionalProperties(model, data) {
   return lodash.pick(data, Object.keys(model.jsonSchema.properties));
 }
 
+function removeAdditionalPropertiesWithRelations(model, data) {
+  const modelKeys = Object.keys(model.jsonSchema.properties);
+  const relationKeys = Object.keys(model.relationMappings || {});
+
+  if (Array.isArray(data)) {
+    const arrayWithoutAdditionalProperties = data.map((obj) => {
+      return lodash.pick(obj, [...modelKeys, ...relationKeys]);
+    });
+    return arrayWithoutAdditionalProperties;
+  }
+  //remove all the unnecessary properties
+
+  return lodash.pick(data, [...modelKeys, ...relationKeys]);
+}
+
 export default {
   async get(model) {
     if (model.isSoftDelete) {
@@ -173,7 +188,7 @@ export default {
     return await model
       .query(trx)
       .context({ user_id: req?.auth?.user_id, ...context })
-      .upsertGraph(data, { insertMissing: true });
+      .upsertGraph(removeAdditionalPropertiesWithRelations(model, data), { insertMissing: true });
   },
 
   // fetch an object and all of its related objects

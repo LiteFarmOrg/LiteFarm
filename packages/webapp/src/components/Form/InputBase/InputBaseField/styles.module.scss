@@ -1,0 +1,83 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.inputWrapper .input {
+  all: unset;
+  height: 100%;
+  width: 100%;
+  flex: 1;
+}
+
+.inputWrapper {
+  display: flex;
+  cursor: text;
+  width: 100%;
+  border: 1px solid var(--grey400);
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: 48px;
+  padding: 0 8px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--fontColor);
+  background-color: white;
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.inputDisabled {
+  background-color: var(--inputDisabled) !important;
+  color: var(--grey600);
+  border-color: var(--inputDefault);
+  cursor: not-allowed;
+
+  > * {
+    pointer-events: none;
+  }
+}
+
+.inputWrapper:focus-within {
+  border-color: var(--inputActive);
+}
+
+.inputWrapper ::placeholder {
+  color: var(--grey500);
+}
+
+.inputWrapper .input:focus::placeholder {
+  color: transparent;
+}
+
+.inputError {
+  border-color: var(--error);
+}
+
+.inputSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  cursor: default;
+
+  &Left {
+    padding-right: 6px;
+  }
+  &Right {
+    padding-left: 6px;
+
+    &.resetIconLeft {
+      flex-direction: row-reverse;
+    }
+  }
+}

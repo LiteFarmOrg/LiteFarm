@@ -22,7 +22,7 @@ import {
   userFarmsByFarmSelector,
   userFarmSelector,
 } from '../../userFarmSlice';
-import { productsSelector } from '../../productSlice';
+import { productsForTaskTypeSelector } from '../../productSlice';
 import {
   setFormData,
   setPersistedPaths,
@@ -46,7 +46,8 @@ function TaskReadOnly({ history, match, location }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const task = useReadonlyTask(task_id);
-  const products = useSelector(productsSelector);
+  const selectedTaskType = task?.taskType;
+  const products = useSelector(productsForTaskTypeSelector(selectedTaskType));
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);

@@ -43,6 +43,7 @@ export const AreaApplicationSummary = ({
             locationAreaUnit,
             locationType,
           }}
+          shouldUnescape
         >
           Applied to <b>{{ percentOfArea } as any}%</b> of your{' '}
           <em>

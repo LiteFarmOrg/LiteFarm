@@ -35,7 +35,7 @@ class soilAmendmentTaskProductPurposeRelationshipModel extends Model {
       properties: {
         task_products_id: { type: 'integer' },
         purpose_id: { type: 'integer' },
-        other_purpose: { type: ['string', 'null'] },
+        other_purpose: { type: ['string', 'null'], minLength: 1, maxLength: 255 },
       },
       additionalProperties: false,
     };

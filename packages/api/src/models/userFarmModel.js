@@ -147,12 +147,12 @@ class userFarm extends Model {
    * @async
    * @returns {number} Number corresponding to role_id.
    */
-  static async getUserRoleId(userId) {
+  static async getUserRoleId(userId, farmId) {
     return userFarm
       .query()
       .join('role', 'userFarm.role_id', 'role.role_id')
       .select('role.role_id')
-      .where('userFarm.user_id', userId)
+      .where({ 'userFarm.user_id': userId, 'userFarm.farm_id': farmId })
       .first();
   }
 

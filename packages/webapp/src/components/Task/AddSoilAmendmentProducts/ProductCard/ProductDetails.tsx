@@ -366,6 +366,12 @@ const ProductDetails = ({
             hookFormRegister={register(SUPPLIER, {
               required: interested,
               maxLength: hookFormMaxCharsValidation(255),
+              validate: (value) => {
+                if (value?.trim().length === 0) {
+                  return t('COMMON_ERRORS.UNIT.REQUIRED');
+                }
+                return true;
+              },
             })}
             disabled={isDetailDisabled}
             hasLeaf={true}

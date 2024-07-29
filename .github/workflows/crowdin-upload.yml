@@ -45,8 +45,8 @@ jobs:
       - name: Crowdin sync
         uses: crowdin/github-action@v2
         with:
-          upload_sources: ${{ vars.CROWDIN_UPLOAD_SOURCES || false }}
-          upload_translations: false
+          upload_sources: true
+          upload_translations: ${{ vars.CROWDIN_UPLOAD_TRANSLATIONS || false }}
           upload_sources_args: --preserve-hierarchy
           upload_translations_args: --preserve-hierarchy
           download_translations: false

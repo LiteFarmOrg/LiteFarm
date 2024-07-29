@@ -45,12 +45,12 @@ jobs:
       - name: Crowdin sync
         uses: crowdin/github-action@v2
         with:
-          upload_sources: true
+          upload_sources: ${{ vars.CROWDIN_UPLOAD_SOURCES }}
           upload_translations: false
           upload_sources_args: --preserve-hierarchy
           upload_translations_args: --preserve-hierarchy
           download_translations: false
-          auto_approve_imported: false
+          auto_approve_imported: ${{ vars.CROWDIN_AUTO_APPROVE }}
           import_eq_suggestions: true
           crowdin_branch_name: ${{ env.BRANCH_NAME }}
           source: ${{ matrix.locales.source }} # Sources pattern

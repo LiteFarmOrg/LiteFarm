@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { GroupBase, SelectInstance } from 'react-select';
@@ -101,6 +101,7 @@ const SoilAmendmentProductCard = ({
     register,
     watch,
     setValue,
+    getValues,
     formState: { errors },
   } = useFormContext();
 
@@ -119,6 +120,12 @@ const SoilAmendmentProductCard = ({
   const clearProduct = () => {
     selectRef?.current?.clearValue();
   };
+
+  useEffect(() => {
+    if (otherPurposeId && !getValues(OTHER_PURPOSE_ID)) {
+      setValue(OTHER_PURPOSE_ID, otherPurposeId);
+    }
+  }, [otherPurposeId]);
 
   return (
     <div className={styles.productCard}>
@@ -181,16 +188,11 @@ const SoilAmendmentProductCard = ({
               const newPurposes = e.map(({ value }) => value);
               setValue(PURPOSES, newPurposes, { shouldValidate: true });
             }}
-            style={{ paddingBottom: '12px' }} // TODO: remove after adding <QuantityApplicationRate />
+            style={{ paddingBottom: '12px' }}
           />
         )}
       />
-      <input
-        type="hidden"
-        value={otherPurposeId}
-        defaultValue={otherPurposeId}
-        {...register(OTHER_PURPOSE_ID)}
-      />
+      <input type="hidden" {...register(OTHER_PURPOSE_ID)} />
 
       {purposes?.includes(otherPurposeId) && (
         <>

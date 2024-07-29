@@ -11,12 +11,6 @@ on:
         description: "Auto approve imported translations"
         type: boolean
         default: false
-  push:
-    branches:
-      - integration
-    paths:
-      - "**/locales/**.md"
-      - "**/locales/**.json"
 
 jobs:
   synchronize-translations:

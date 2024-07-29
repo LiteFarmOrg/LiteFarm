@@ -2,12 +2,15 @@ name: Crowdin Upload Action
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - integration
-    paths:
-      - "**/locales/**.md"
-      - "**/locales/**.json"
+    inputs:
+      upload_translations:
+        description: "Upload translations to Crowdin"
+        type: boolean
+        default: false
+      auto_approve_imported:
+        description: "Auto approve imported translations"
+        type: boolean
+        default: false
 
 jobs:
   synchronize-translations:
@@ -46,11 +49,11 @@ jobs:
         uses: crowdin/github-action@v2
         with:
           upload_sources: true
-          upload_translations: false
+          upload_translations: ${{ github.event.inputs.upload_translations || false }}
           upload_sources_args: --preserve-hierarchy
           upload_translations_args: --preserve-hierarchy
           download_translations: false
-          auto_approve_imported: false
+          auto_approve_imported: ${{ github.event.inputs.auto_approve_imported || false }}
           import_eq_suggestions: true
           crowdin_branch_name: ${{ env.BRANCH_NAME }}
           source: ${{ matrix.locales.source }} # Sources pattern

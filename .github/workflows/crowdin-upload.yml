@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       upload_translations:
-        description: "Upload translations to Crowdin?"
+        description: "Upload translations to Crowdin"
         type: boolean
         default: false
       auto_approve_imported:
-        description: "Auto approve imported translations?"
+        description: "Auto approve imported translations"
         type: boolean
         default: false
   push:

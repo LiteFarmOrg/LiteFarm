@@ -13,12 +13,12 @@
     "RESPONSE": "Merci de nous avoir contactés. Un membre de notre équipe d'assistance vous contactera dans les 48 heures. Un récapitulatif de votre demande est présenté ci-dessous.",
     "TYPE_HEADER": "Type d'aide",
     "MESSAGE_HEADER": "Message",
-    "CONTACT_METHOD_HEADER": "Méthode de contact préférée",
-    "SUBJECT": "Votre demande d'aide LiteFarm à",
     "REQUEST_INFORMATION": "Informations requises",
     "REPORT_A_BUG": "Signaler un bogue",
     "REQUEST_A_FEATURE": "Demander une fonctionnalité",
-    "OTHER": "Autre"
+    "OTHER": "Autre",
+    "CONTACT_METHOD_HEADER": "Méthode de contact préférée",
+    "SUBJECT": "Votre demande d'aide LiteFarm à"
   },
   "INVITE": {
     "GREAT_FOLK": "Les gens formidables de",
@@ -85,21 +85,21 @@
     "SUBJECT0": "Voici votre carte de ferme pour",
     "SUBJECT1": "sur LiteFarm"
   },
+  "EXPORT": {
+    "SEASON": "Nous espérons que vous avez eu une saison fantastique à",
+    "CERTIFICATION": " Vous pouvez cliquer sur le lien ci-dessous pour télécharger un fichier zip de vos documents de certification et tous les documents à l'appui (photos d'emballages de semences, reçus d'entrée, etc.) pour votre période de déclaration.",
+    "PRIVACY": "Chez LiteFarm, nous prenons votre vie privée au sérieux, donc vous devrez être connecté avant que vous puissiez accéder votre export. Désolée pour le dérangement. Bonne chance avec votre soumission et merci d'utiliser LiteFarm!",
+    "SUBJECT": "Export de documents de certification de LiteFarm",
+    "HI": "Bonjour",
+    "GET_YOUR_EXPORT": "Obtenir vos documents",
+    "LANGUAGE_DELAY": ""
+  },
   "COMMON": {
     "JOIN": "Rejoindre",
     "LOG_IN": "Connexion",
     "OWNER": "Propriétaire",
-    "EXTENSION_OFFICER": "Agent de vulgarisation",
+    "MANAGER": "Gestionnaire",
     "WORKER": "Ouvrier",
-    "MANAGER": "Gestionnaire"
-  },
-  "EXPORT": {
-    "HI": "Bonjour",
-    "SEASON": "Nous espérons que vous avez eu une saison fantastique à",
-    "CERTIFICATION": " Vous pouvez cliquer sur le lien ci-dessous pour télécharger un fichier zip de vos documents de certification et tous les documents à l'appui (photos d'emballages de semences, reçus d'entrée, etc.) pour votre période de déclaration.",
-    "GET_YOUR_EXPORT": "Obtenir vos documents",
-    "SUBJECT": "Export de documents de certification de LiteFarm",
-    "PRIVACY": "Chez LiteFarm, nous prenons votre vie privée au sérieux, donc vous devrez être connecté avant que vous puissiez accéder votre export. Désolée pour le dérangement. Bonne chance avec votre soumission et merci d'utiliser LiteFarm!",
-    "LANGUAGE_DELAY": "Les cultures et les intrants dans les documents sont en anglais, mais ils seront disponible en français très prochainement. Nous sommes sincèrement désolés pour tout inconvénient."
+    "EXTENSION_OFFICER": "Agent de vulgarisation"
   }
 }

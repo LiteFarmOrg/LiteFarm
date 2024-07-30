@@ -1,0 +1,221 @@
+{
+  "ANIMALS": {
+    "FAILED_REMOVE_ANIMALS": "Ausgewählte Tiere konnten nicht entfernt werden",
+    "FAILED_REMOVE_BATCHES": "Ausgewählte Gruppen konnten nicht entfernt werden",
+    "SUCCESS_REMOVE_ANIMALS": "Ausgewählte Tiere erfolgreich entfernt",
+    "SUCCESS_REMOVE_BATCHES": "Erfolgreich ausgewählte Gruppen entfernt"
+  },
+  "ASSIGN_TASK": {
+    "ERROR": "Aufgaben nicht zugewiesen",
+    "SUCCESS": "Erfolgreich zugewiesene Aufgaben"
+  },
+  "ATTACHMENTS": {
+    "ERROR": {
+      "CREATE": "Dokument konnte nicht erstellt werden",
+      "FAILED_ARCHIVE": "Archivierung des Dokuments fehlgeschlagen",
+      "FAILED_UNARCHIVE": "Das Dokument konnte nicht entarchiviert werden",
+      "FAILED_UPLOAD": "Anhänge konnten nicht hochgeladen werden",
+      "UPDATE": "Aktualisierung des Dokuments fehlgeschlagen"
+    },
+    "SUCCESS": {
+      "ARCHIVE": "Erfolgreich archiviertes Dokument",
+      "CREATE": "Erfolgreich erstelltes Dokument",
+      "UNARCHIVE": "Erfolgreich nicht archiviertes Dokument",
+      "UPDATE": "Erfolgreich aktualisiertes Dokument"
+    }
+  },
+  "BULK_UPLOAD": {
+    "ERROR": {
+      "UPLOAD": "Hochladen der CSV-Datei fehlgeschlagen"
+    }
+  },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "ADD": "Fehler: Sorte konnte nicht zur Datenbank hinzugefügt werden",
+      "ADD_ALREADY_EXISTS": "Fehler: Sorte existiert",
+      "DELETE": "Nicht gelöschte Pflanzensorte",
+      "UPDATE": "Aktualisierung der Pflanzensorten fehlgeschlagen"
+    },
+    "SUCCESS": {
+      "ADD": "Erfolgreich gerettete Sorte!",
+      "DELETE": "Gelöschte Pflanzensorte",
+      "UPDATE": "Erfolgreich aktualisierte Pflanzensorte"
+    }
+  },
+  "EXPENSE": {
+    "ERROR": {
+      "ADD": "Keine neuen Ausgaben mehr",
+      "DELETE": "Ausgaben nicht gelöscht",
+      "UPDATE": "Nicht aktualisierte Ausgaben!"
+    },
+    "SUCCESS": {
+      "ADD": "Erfolgreich neue Ausgaben hinzugefügt!",
+      "DELETE": "Erfolgreich gestrichene Ausgaben!",
+      "UPDATE": "Erfolgreich aktualisierte Ausgaben!"
+    }
+  },
+  "EXPENSE_TYPE": {
+    "ERROR": {
+      "ADD": "Keine kundenspezifischen Kosten",
+      "DELETE": "Benutzerdefinierte Ausgabe konnte nicht gelöscht werden",
+      "UPDATE": "Aktualisierung der benutzerdefinierten Ausgaben fehlgeschlagen"
+    },
+    "SUCCESS": {
+      "ADD": "Erfolgreich erstellte kundenspezifische Ausgaben",
+      "DELETE": "Erfolgreich in den Ruhestand getretene kundenspezifische Ausgaben",
+      "UPDATE": "Erfolgreich aktualisierte kundenspezifische Ausgaben"
+    }
+  },
+  "FARM": {
+    "ERROR": {
+      "ADD": "Bauernhof konnte nicht hinzugefügt werden, bitte kontaktieren Sie litefarm für Hilfe",
+      "FETCH": "Bauernhof nicht aus der Datenbank abrufen können",
+      "UPDATE": "Aktualisierung der Betriebsdaten fehlgeschlagen"
+    },
+    "SUCCESS": {
+      "UPDATE": "Erfolgreich aktualisierte Betriebsdaten!"
+    }
+  },
+  "LOGIN": {
+    "ERROR": {
+      "LOGIN_FAIL": "Benutzerdaten wurden nicht eingelesen"
+    }
+  },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "Es wurde versäumt, eine benutzerdefinierte Erntenutzungsart hinzuzufügen",
+      "AMOUNT_TOTAL": "Die Gesamtsumme ist nicht gleich der zu verteilende Betrag",
+      "GET_TYPES": "Ernteverwendungsarten konnten nicht abgefragt werden"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "Erfolgreiche Hinzufügung einer benutzerdefinierten Erntenutzungsart"
+    }
+  },
+  "MANAGEMENT_PLAN": {
+    "ERROR": {
+      "ABANDON": "Der Ernteplan wurde nicht eingestellt!",
+      "COMPLETE": "Anbauplan nicht abgeschlossen!",
+      "DELETE": "Ernteplan nicht gelöscht!",
+      "POST": "Es ist nicht gelungen, einen Anbauplan hinzuzufügen!"
+    },
+    "SUCCESS": {
+      "ABANDON": "Erfolgreich eingestellter Anbauplan!",
+      "COMPLETE": "Erfolgreich abgeschlossener Ernteplan!",
+      "DELETE": "Erfolgreich gelöschter Ernteplan!",
+      "POST": "Ernteplan erfolgreich hinzugefügt!"
+    }
+  },
+  "MAP": {
+    "FAIL_PATCH": "Aktualisierung fehlgeschlagen",
+    "FAIL_POST": "Keine neuen Daten hinzugefügt",
+    "SUCCESS_DELETE": "Erfolgreich in Rente gegangen",
+    "SUCCESS_PATCH": "Erfolgreich aktualisiert",
+    "SUCCESS_POST": "Erfolgreich gerettet",
+    "SUCCESS_UPLOAD": "Erfolgreich hochgeladen"
+  },
+  "ORGANIC_CERTIFIER_SURVEY": {
+    "ERROR": {
+      "CREATE": "Wir haben es versäumt, eine Zertifizierung zu schaffen.",
+      "UPDATE": "Die Zertifizierung wurde nicht aktualisiert!"
+    }
+  },
+  "PLAN": {
+    "ERROR": {
+      "EDIT": "Aktualisierung des Anbauplans fehlgeschlagen"
+    },
+    "SUCCESS": {
+      "EDIT": "Ernteplan erfolgreich aktualisiert"
+    }
+  },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": "Nicht zu wiederholen{{planName}}"
+    },
+    "SUCCESS": {
+      "POST": "{{planName}} erfolgreich wiederholt"
+    }
+  },
+  "REVENUE": {
+    "ERROR": {
+      "EDIT": "Aktualisierung der Einnahmen gescheitert"
+    },
+    "SUCCESS": {
+      "EDIT": "Einnahmen erfolgreich aktualisiert"
+    }
+  },
+  "REVENUE_TYPE": {
+    "ERROR": {
+      "ADD": "Keine zusätzliche Einkommensart",
+      "DELETE": "Einkommensart nicht aufgegeben",
+      "UPDATE": "Aktualisierung der Einnahmeart fehlgeschlagen"
+    },
+    "SUCCESS": {
+      "ADD": "Erfolgreich neue Einkommensart",
+      "DELETE": "Erfolgreich in Rente gegangene Einkommensart",
+      "UPDATE": "Erfolgreich aktualisierte Einkommensart"
+    }
+  },
+  "SALE": {
+    "ERROR": {
+      "ADD": "Verkauf nicht möglich",
+      "DELETE": "Neuer Verkauf wurde nicht gelöscht",
+      "UPDATE": "Verkauf nicht aktualisiert"
+    },
+    "SUCCESS": {
+      "ADD": "Erfolgreicher Zusatzverkauf",
+      "DELETE": "Erfolgreich gelöschter Verkauf",
+      "UPDATE": "Erfolgreich aktualisierter Verkauf"
+    }
+  },
+  "SENSOR": {
+    "ERROR_UPDATE": "Sensor zur Fehleraktualisierung",
+    "SUCCESSFUL_UPDATE": "Sensor erfolgreich aktualisiert"
+  },
+  "TASK": {
+    "ABANDON": {
+      "FAILED": "Aufgabe nicht eingestellt",
+      "SUCCESS": "Erfolgreich eingestellte Aufgabe"
+    },
+    "COMPLETE": {
+      "FAILED": "Aufgabe nicht erfüllt",
+      "SUCCESS": "Aufgabe erfolgreich abgeschlossen"
+    },
+    "CREATE": {
+      "FAILED": "Aufgabe nicht erfüllt",
+      "SUCCESS": "Erfolgreich erstellte Aufgabe"
+    },
+    "UPDATE": {
+      "FAILED": "Aktualisierung der Aufgabe fehlgeschlagen"
+    }
+  },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "Fehlgeschlagene Erstellung einer benutzerdefinierten Aufgabe",
+      "SUCCESS": "Erfolgreich erstellte kundenspezifische Aufgabe"
+    },
+    "DELETE": {
+      "FAILED": "Benutzerdefinierte Aufgabe konnte nicht gelöscht werden",
+      "SUCCESS": "Erfolgreich gelöste benutzerdefinierte Aufgabe"
+    }
+  },
+  "USER": {
+    "ERROR": {
+      "ADD": "Benutzer nicht hinzugefügt",
+      "AGREEMENT": "Aktualisierung der Nutzungsvereinbarung fehlgeschlagen",
+      "EXISTS": "Benutzer existiert bereits im LiteFarm-Netzwerk",
+      "INVITE": "Fehler bei der Erstellung eines Benutzerkontos, bitte kontaktieren Sie LiteFarm für Hilfe.",
+      "MAX_RESET_EMAILS": "Ein Link zum Zurücksetzen des Passworts wurde Ihnen per E-Mail zugesandt. Bitte überprüfen Sie Ihren Posteingang und Ihren Spam-Ordner.",
+      "RESET_PASSWORD": "Fehler beim Senden der E-Mail zum Zurücksetzen des Passworts, bitte kontaktieren Sie LiteFarm für Hilfe.",
+      "RESTORE": "Bei der Wiederherstellung des Zugriffs ist ein Fehler aufgetreten",
+      "REVOKE": "Es ist ein Fehler beim Entzug des Zugangs aufgetreten",
+      "SIGNUP_UNKNOWN": "Unbekanntes Problem! Versuchen Sie es später noch einmal.",
+      "UPDATE": "Aktualisierung der Benutzerinformationen fehlgeschlagen"
+    },
+    "SUCCESS": {
+      "ADD": "Erfolgreich Nutzer in den Betrieb aufgenommen!",
+      "RESTORE": "Benutzerzugang wiederhergestellt",
+      "REVOKE": "Benutzerzugang widerrufen!",
+      "UPDATE": "Erfolgreich aktualisierte Benutzerinformationen!"
+    }
+  }
+}

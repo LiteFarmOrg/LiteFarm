@@ -77,7 +77,9 @@ import {
   createCompleteHarvestQuantityTaskUrl,
   createCompleteTaskUrl,
 } from '../../util/siteMapConstants';
-import { setPersistedPaths, setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { formatSoilAmendmentProductToDBStructure } from '../../util/task';
+import { api } from '../../store/api/apiSlice';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -88,9 +90,13 @@ const taskTypeEndpoint = [
   'irrigation_task',
 ];
 
-export const getProducts = createAction('getProductsSaga');
+// TypeScript complains without payload.
+// https://redux-toolkit.js.org/api/createAction#using-prepare-callbacks-to-customize-action-contents
+export const getProducts = createAction('getProductsSaga', function prepare(payload) {
+  return { payload };
+});
 
-export function* getProductsSaga() {
+export function* getProductsSaga({ payload } = {}) {
   const { productsUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -99,9 +105,13 @@ export function* getProductsSaga() {
     yield put(onLoadingProductStart());
     const result = yield call(axios.get, `${productsUrl}/farm/${farm_id}`, header);
     yield put(getProductsSuccess(result.data));
+
+    if (payload?.callback) {
+      yield call(payload.callback, result.data);
+    }
   } catch (e) {
     yield put(onLoadingProductFail());
-    console.log('failed to fetch products');
+    console.log('failed to fetch products', e);
   }
 }
 
@@ -330,7 +340,7 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingIrrigationTaskStart());
 }
 
-export function* getTasksSuccessSaga({ payload: tasks }) {
+function* handleGetTasksSuccess(tasks, successAction) {
   const taskTypeEntities = yield select(taskTypeEntitiesSelector);
   const tasksByTranslationKeyDefault = Object.keys(taskTypeActionMap).reduce(
     (tasksByTranslationKeyDefault, task_translation_key) => {
@@ -346,6 +356,7 @@ export function* getTasksSuccessSaga({ payload: tasks }) {
     }
     return tasksByTranslationKey;
   }, tasksByTranslationKeyDefault);
+
   for (const task_translation_key in taskTypeActionMap) {
     try {
       yield taskTypeActionMap[task_translation_key].success(
@@ -356,7 +367,12 @@ export function* getTasksSuccessSaga({ payload: tasks }) {
       console.log(e);
     }
   }
-  yield put(addManyTasksFromGetReq(tasks));
+
+  yield put(successAction(tasks));
+}
+
+export function* getTasksSuccessSaga({ payload: tasks }) {
+  yield handleGetTasksSuccess(tasks, addManyTasksFromGetReq);
 }
 
 export const getTasks = createAction('getTasksSaga');
@@ -375,32 +391,7 @@ export function* getTasksSaga() {
 }
 
 export function* getAllTasksSuccessSaga({ payload: tasks }) {
-  const taskTypeEntities = yield select(taskTypeEntitiesSelector);
-  const tasksByTranslationKeyDefault = Object.keys(taskTypeActionMap).reduce(
-    (tasksByTranslationKeyDefault, task_translation_key) => {
-      tasksByTranslationKeyDefault[task_translation_key] = [];
-      return tasksByTranslationKeyDefault;
-    },
-    {},
-  );
-  const tasksByTranslationKey = tasks.reduce((tasksByTranslationKey, task) => {
-    const { task_translation_key } = taskTypeEntities[task.task_type_id];
-    if (taskTypeActionMap[task_translation_key]) {
-      tasksByTranslationKey[task_translation_key].push(task[task_translation_key.toLowerCase()]);
-    }
-    return tasksByTranslationKey;
-  }, tasksByTranslationKeyDefault);
-  for (const task_translation_key in taskTypeActionMap) {
-    try {
-      yield taskTypeActionMap[task_translation_key].success(
-        tasksByTranslationKey[task_translation_key],
-      );
-    } catch (e) {
-      yield put(taskTypeActionMap[task_translation_key].fail(e));
-      console.log(e);
-    }
-  }
-  yield put(addAllTasksFromGetReq(tasks));
+  yield handleGetTasksSuccess(tasks, addAllTasksFromGetReq);
 }
 
 const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
@@ -513,11 +504,20 @@ const getIrrigationTaskBody = (data, endpoint, managementPlanWithCurrentLocation
   );
 };
 
+const getSoilAmendmentTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
+  return {
+    ...getPostTaskBody(data, endpoint, managementPlanWithCurrentLocationEntities),
+    soil_amendment_task_products: formatSoilAmendmentProductToDBStructure(
+      data.soil_amendment_task_products,
+    ),
+  };
+};
+
 const taskTypeGetPostTaskBodyFunctionMap = {
   CLEANING_TASK: getPostTaskBody,
   FIELD_WORK_TASK: getPostTaskBody,
   PEST_CONTROL_TASK: getPostTaskBody,
-  SOIL_AMENDMENT_TASK: getPostTaskBody,
+  SOIL_AMENDMENT_TASK: getSoilAmendmentTaskBody,
   HARVEST_TASK: getPostHarvestTaskBody,
   TRANSPLANT_TASK: getTransplantTaskBody,
   IRRIGATION_TASK: getIrrigationTaskBody,
@@ -557,7 +557,6 @@ export function* createTaskSaga({ payload }) {
   const { task_translation_key, farm_id: task_farm_id } = yield select(
     taskTypeSelector(data.task_type_id),
   );
-
   const header = getHeader(user_id, farm_id);
   const isCustomTask = !!task_farm_id;
   const isHarvest = task_translation_key === 'HARVEST_TASK';
@@ -737,11 +736,22 @@ const getCompleteIrrigationTaskBody = (task_translation_key) => (data) => {
   );
 };
 
+const getCompleteSoilAmendmentTaskBody = (data) => {
+  const soilAmendmentTaskProducts = formatSoilAmendmentProductToDBStructure(
+    data.soil_amendment_task_products,
+  );
+  return {
+    ...data.taskData,
+    soil_amendment_task_products: soilAmendmentTaskProducts,
+  };
+};
+
 const taskTypeGetCompleteTaskBodyFunctionMap = {
   HARVEST_TASK: getCompleteHarvestTaskBody,
   TRANSPLANT_TASK: getCompletePlantingTaskBody('TRANSPLANT_TASK'),
   PLANT_TASK: getCompletePlantingTaskBody('PLANT_TASK'),
   IRRIGATION_TASK: getCompleteIrrigationTaskBody('IRRIGATION_TASK'),
+  SOIL_AMENDMENT_TASK: getCompleteSoilAmendmentTaskBody,
 };
 
 export const completeTask = createAction('completeTaskSaga');
@@ -752,9 +762,11 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   const { task_translation_key, isCustomTaskType } = data;
   const header = getHeader(user_id, farm_id);
   const endpoint = isCustomTaskType ? 'custom_task' : task_translation_key.toLowerCase();
+
   const taskData = taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key]
     ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data)
     : data.taskData;
+
   try {
     const result = yield call(
       axios.patch,
@@ -764,6 +776,7 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
     );
     if (result) {
       yield put(putTaskSuccess(result.data));
+
       yield call(onReqSuccessSaga, {
         message: i18n.t('message:TASK.COMPLETE.SUCCESS'),
         pathname: returnPath ?? '/tasks',

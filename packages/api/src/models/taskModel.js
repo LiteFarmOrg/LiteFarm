@@ -108,10 +108,6 @@ class TaskModel extends BaseModel {
           from: 'task.task_id',
           to: 'soil_amendment_task_products.task_id',
         },
-        modify: (query) =>
-          query.select('*').whereIn('id', function () {
-            this.select('id').from('soil_amendment_task_products').where('deleted', false);
-          }),
       },
       pest_control_task: {
         relation: Model.HasOneRelation,
@@ -282,7 +278,7 @@ class TaskModel extends BaseModel {
    * @async
    * @returns {Object} - Object {assignee_user_id, assignee_role_id, wage_at_moment, override_hourly_wage}
    */
-  static async getTaskAssignee(taskId) {
+  static async getTaskAssignee(taskId, farmId) {
     return await TaskModel.query()
       .whereNotDeleted()
       .join('users', 'task.assignee_user_id', 'users.user_id')
@@ -293,7 +289,7 @@ class TaskModel extends BaseModel {
           'users.user_id as assignee_user_id, role.role_id as assignee_role_id, task.wage_at_moment, task.override_hourly_wage',
         ),
       )
-      .where('task.task_id', taskId)
+      .where({ 'task.task_id': taskId, 'uf.farm_id': farmId })
       .first();
   }
 

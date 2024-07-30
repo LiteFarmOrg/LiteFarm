@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState } from 'react';
-import { TASK_PRODUCT_FIELD_NAMES, UnitOption } from '../types';
+import { useEffect, useMemo } from 'react';
+import { TASK_PRODUCT_FIELD_NAMES } from '../types';
 import { getUnitOptionMap } from '../../../../util/convert-units/getUnitOptionMap';
 import { convertFn, getDefaultUnit, location_area } from '../../../../util/convert-units/unit';
 import { roundToTwoDecimal } from '../../../../util';
@@ -36,6 +36,7 @@ export const useQuantityApplicationRate = ({
   isWeight,
   namePrefix,
 }: UseQuantityApplicationRate) => {
+  const PERCENT_OF_LOCATION_AMENDED = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED}`;
   const TOTAL_AREA_AMENDED = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED}`;
   const TOTAL_AREA_AMENDED_UNIT = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT}`;
   const VOLUME = `${namePrefix}.${TASK_PRODUCT_FIELD_NAMES.VOLUME}`;
@@ -49,22 +50,15 @@ export const useQuantityApplicationRate = ({
 
   const { setValue, getValues, watch } = useFormContext();
 
-  const [
-    application_area_unit,
-    weight_unit,
-    volume_unit,
-    application_rate_weight_unit,
-    application_rate_volume_unit,
-  ] = watch([
-    TOTAL_AREA_AMENDED_UNIT,
-    WEIGHT_UNIT,
-    VOLUME_UNIT,
-    APPLICATION_RATE_WEIGHT_UNIT,
-    APPLICATION_RATE_VOLUME_UNIT,
-  ]);
+  const [weight_unit, volume_unit, application_rate_weight_unit, application_rate_volume_unit] =
+    watch([WEIGHT_UNIT, VOLUME_UNIT, APPLICATION_RATE_WEIGHT_UNIT, APPLICATION_RATE_VOLUME_UNIT]);
+
+  useEffect(() => {
+    updateTotalArea(getValues(PERCENT_OF_LOCATION_AMENDED));
+  }, []);
 
   /* Update application area + rate based on percent of location */
-  const onPercentLocationChange = (percent_of_location: number) => {
+  const updateTotalArea = (percent_of_location: number) => {
     const calculatedArea = (total_area * Math.min(percent_of_location || 100, 100)) / 100;
     setValue(TOTAL_AREA_AMENDED, calculatedArea);
 
@@ -138,34 +132,39 @@ export const useQuantityApplicationRate = ({
     updateQuantity();
   }, [application_rate_weight_unit, application_rate_volume_unit]);
 
-  /* For the preview string, replicate the conversion the unit component would do if the value had been displayed in a <Unit /> rather than a string. However, don't update upon changes to application_area_unit beyond the initial undefined > defined change */
-  const [previewStringValue, setPreviewStringValue] = useState<number | null>(null);
-  const [previewStringUnit, setPreviewStringUnit] = useState<string | null>(null);
+  /* For the preview string, replicate the conversion the unit component would do if the value had been displayed in a <Unit /> rather than a string */
+  const previewStrings = useMemo(() => {
+    let previewStringUnit;
+    let previewStringValue;
 
-  useEffect(() => {
-    if (application_area_unit && previewStringValue === null) {
-      /* if the user-selected unit is in the wrong system (e.g. metric stored value but farm on imperial), use the <Unit /> converted unit */
-      const unit =
+    if (total_area) {
+      previewStringUnit =
         total_area_unit && location_area[system].units.includes(total_area_unit)
           ? getUnitOptionMap()[total_area_unit]
-          : application_area_unit;
+          : /* @ts-ignore */
+            getUnitOptionMap()[getDefaultUnit(location_area, total_area, system).displayUnit];
 
-      const value =
+      previewStringValue =
         total_area &&
         roundToTwoDecimal(
-          convertFn(location_area[system], total_area, location_area.databaseUnit, unit.value),
+          convertFn(
+            location_area[system],
+            total_area,
+            location_area.databaseUnit,
+            previewStringUnit.value,
+          ),
         );
-
-      setPreviewStringValue(value);
-      setPreviewStringUnit(unit.label);
+      previewStringUnit = previewStringUnit.label;
     }
-  }, [location_area, application_area_unit]);
+
+    return { previewStringUnit, previewStringValue };
+  }, [total_area]);
 
   return {
-    previewStringValue,
-    previewStringUnit,
+    previewStringValue: previewStrings.previewStringValue,
+    previewStringUnit: previewStrings.previewStringUnit,
     updateApplicationRate,
     updateQuantity,
-    onPercentLocationChange,
+    updateTotalArea,
   };
 };

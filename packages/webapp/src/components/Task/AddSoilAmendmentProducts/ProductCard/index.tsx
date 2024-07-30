@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { GroupBase, SelectInstance } from 'react-select';
@@ -26,6 +26,7 @@ import { PRODUCT_FIELD_NAMES } from '../types';
 import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
 import QuantityApplicationRate, { Location } from '../QuantityApplicationRate';
+import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtils';
 
 export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSave'> & {
   namePrefix: string;
@@ -50,25 +51,33 @@ const formatOptionLabel = ({ label, data }: ProductOption): ReactNode => {
   const prefix = ['N', 'P', 'K'];
   const { n, p, k, elemental_unit } = data?.soil_amendment_product || {};
 
-  let npk = '';
-  // TODO: Handle ppm and mg/kg
+  let npk: ReactNode = '';
   if ([n, p, k].some((value) => typeof value === 'number')) {
     if (elemental_unit === ElementalUnit.RATIO) {
       npk = [n, p, k].map((value) => value ?? '--').join(' : ');
     } else if (elemental_unit === ElementalUnit.PERCENT) {
-      npk = [n, p, k]
-        .map((value, index) => {
-          const formattedValue = typeof value === 'number' ? value + '%' : '--';
-          return `${prefix[index]}: ${formattedValue}`;
-        })
-        .join(', ');
+      npk = (
+        <>
+          {[n, p, k].map((value, index, array) => {
+            const formattedValue = typeof value === 'number' ? value + '%' : '--';
+            return (
+              <span key={index} className={styles.npkValue}>
+                {prefix[index]}: {formattedValue}
+                {index < array.length - 1 && ','}
+              </span>
+            );
+          })}
+        </>
+      );
     }
   }
 
   return (
     <span className={styles.productOption}>
       <span key="name">{label}</span>
-      <span key="npk">{npk}</span>
+      <span className={styles.npkText} key="npk">
+        {npk}
+      </span>
     </span>
   );
 };
@@ -92,12 +101,14 @@ const SoilAmendmentProductCard = ({
     register,
     watch,
     setValue,
+    getValues,
     formState: { errors },
   } = useFormContext();
 
   const PRODUCT_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.PRODUCT_ID}`;
   const PURPOSES = `${namePrefix}.${PRODUCT_FIELD_NAMES.PURPOSES}`;
   const OTHER_PURPOSE = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE}`;
+  const OTHER_PURPOSE_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE_ID}`;
 
   const purposes = watch(PURPOSES);
 
@@ -110,9 +121,17 @@ const SoilAmendmentProductCard = ({
     selectRef?.current?.clearValue();
   };
 
+  useEffect(() => {
+    if (otherPurposeId && !getValues(OTHER_PURPOSE_ID)) {
+      setValue(OTHER_PURPOSE_ID, otherPurposeId);
+    }
+  }, [otherPurposeId]);
+
   return (
     <div className={styles.productCard}>
-      {onRemove && <SmallButton onClick={onRemove} className={styles.removeButton} />}
+      {!isReadOnly && onRemove && (
+        <SmallButton onClick={onRemove} className={styles.removeButton} />
+      )}
       <div>
         <Controller
           control={control}
@@ -169,10 +188,12 @@ const SoilAmendmentProductCard = ({
               const newPurposes = e.map(({ value }) => value);
               setValue(PURPOSES, newPurposes, { shouldValidate: true });
             }}
-            style={{ paddingBottom: '12px' }} // TODO: remove after adding <QuantityApplicationRate />
+            style={{ paddingBottom: '12px' }}
           />
         )}
       />
+      <input type="hidden" {...register(OTHER_PURPOSE_ID)} />
+
       {purposes?.includes(otherPurposeId) && (
         <>
           {/* @ts-ignore */}
@@ -180,13 +201,16 @@ const SoilAmendmentProductCard = ({
             label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
             name={OTHER_PURPOSE}
             disabled={isReadOnly}
-            hookFormRegister={register(OTHER_PURPOSE)}
+            hookFormRegister={register(OTHER_PURPOSE, {
+              shouldUnregister: true,
+              maxLength: hookFormMaxCharsValidation(255),
+            })}
+            errors={getInputErrors(errors, OTHER_PURPOSE)}
             optional
           />
         </>
       )}
       <QuantityApplicationRate
-        productId={PRODUCT_ID}
         system={system}
         locations={locations}
         isReadOnly={isReadOnly}

@@ -1635,8 +1635,8 @@ export default {
       entities: {
         1: {
           certification_id: 1,
-          certification_translation_key: 'ORGANIC',
-          certification_type: 'Organic',
+          certification_translation_key: 'THIRD_PARTY_ORGANIC',
+          certification_type: 'Third-party Organic',
         },
         2: {
           certification_id: 2,

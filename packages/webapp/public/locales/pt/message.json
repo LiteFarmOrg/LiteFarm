@@ -129,12 +129,12 @@
   },
   "PRODUCT": {
     "ERROR": {
-      "CREATE": "MISSING",
-      "UPDATE": "MISSING"
+      "CREATE": "Falha ao criar o produto",
+      "UPDATE": "Falha ao atualizar o produto"
     },
     "SUCCESS": {
-      "CREATE": "MISSING",
-      "UPDATE": "MISSING"
+      "CREATE": "Produto criado com sucesso",
+      "UPDATE": "Produto atualizado com sucesso"
     }
   },
   "REPEAT_PLAN": {

@@ -22,6 +22,7 @@ import ManagementTasksModel from '../models/managementTasksModel.js';
 import TransplantTaskModel from '../models/transplantTaskModel.js';
 import PlantTaskModel from '../models/plantTaskModel.js';
 import HarvestUse from '../models/harvestUseModel.js';
+import SoilAmendmentTaskProductsModel from '../models/soilAmendmentTaskProductsModel.js';
 import NotificationUser from '../models/notificationUserModel.js';
 import User from '../models/userModel.js';
 import { typesOfTask } from './../middleware/validation/task.js';
@@ -39,8 +40,8 @@ async function getTaskAssigneeAndFinalWage(farm_id, user_id, task_id) {
     assignee_role_id,
     wage_at_moment,
     override_hourly_wage,
-  } = await TaskModel.getTaskAssignee(task_id);
-  const { role_id } = await UserFarmModel.getUserRoleId(user_id);
+  } = await TaskModel.getTaskAssignee(task_id, farm_id);
+  const { role_id } = await UserFarmModel.getUserRoleId(user_id, farm_id);
   if (!canCompleteTask(assignee_user_id, assignee_role_id, user_id, role_id)) {
     throw new Error("Not authorized to complete other people's task");
   }
@@ -67,8 +68,23 @@ async function updateTaskWithCompletedData(
   typeOfTask,
 ) {
   if (typeOfTask === 'soil_amendment_task') {
+    const { soil_amendment_task_products } = data;
+
+    if (soil_amendment_task_products) {
+      // Temporarily soft delete all with task_id since there is no constraint on deletions
+      await SoilAmendmentTaskProductsModel.query(trx)
+        .context({ user_id })
+        .update({ deleted: true })
+        .where('task_id', task_id);
+
+      // Set deleted false for all in update query
+      soil_amendment_task_products.forEach((taskProduct) => {
+        taskProduct.deleted = false;
+      });
+    }
+
     // Allows the insertion of missing data if no id present
-    // Soft deletes tables with soft delete option and hard deletes ones without
+    // Soft deletes table rows with soft delete option and hard deletes ones without
     const task = await TaskModel.query(trx)
       .context({ user_id })
       .upsertGraph(
@@ -697,11 +713,25 @@ const taskController = {
       const graphTasks = await TaskModel.query()
         .whereNotDeleted()
         .withGraphFetched(
-          `[locations.[location_defaults], managementPlans, soil_amendment_task, soil_amendment_task_products.[purpose_relationships], field_work_task.[field_work_task_type], cleaning_task, pest_control_task, harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task.[irrigation_type]]
+          `[locations.[location_defaults], managementPlans, soil_amendment_task, soil_amendment_task_products(filterDeleted).[purpose_relationships], field_work_task.[field_work_task_type], cleaning_task, pest_control_task, harvest_task.[harvest_use], plant_task, transplant_task, irrigation_task.[irrigation_type]]
         `,
         )
         .whereIn('task_id', taskIds);
       const filteredTasks = graphTasks.map(removeNullTypes);
+
+      /* Clean before returning to frontend */
+      const {
+        task_type_id: soilAmendmentTypeId,
+      } = await TaskTypeModel.query()
+        .whereNotDeleted()
+        .where({ farm_id: null, task_translation_key: 'SOIL_AMENDMENT_TASK' })
+        .first();
+      filteredTasks.forEach((task) => {
+        if (task.task_type_id !== soilAmendmentTypeId) {
+          delete task.soil_amendment_task_products;
+        }
+      });
+
       if (graphTasks) {
         res.status(200).send(filteredTasks);
       }

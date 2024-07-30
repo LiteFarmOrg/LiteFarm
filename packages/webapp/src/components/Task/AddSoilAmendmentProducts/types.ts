@@ -55,12 +55,14 @@ export const TASK_PRODUCT_FIELD_NAMES = {
   APPLICATION_RATE_WEIGHT_UNIT: 'application_rate_weight_unit',
   APPLICATION_RATE_VOLUME: 'application_rate_volume',
   APPLICATION_RATE_VOLUME_UNIT: 'application_rate_volume_unit',
+  IS_WEIGHT: 'is_weight',
 } as const;
 
 export const PRODUCT_FIELD_NAMES = {
   PRODUCT_ID: 'product_id',
   PURPOSES: 'purposes',
   OTHER_PURPOSE: 'other_purpose',
+  OTHER_PURPOSE_ID: 'other_purpose_id',
   NAME: 'name',
   SUPPLIER: 'supplier',
   PERMITTED: 'on_permitted_substances_list',

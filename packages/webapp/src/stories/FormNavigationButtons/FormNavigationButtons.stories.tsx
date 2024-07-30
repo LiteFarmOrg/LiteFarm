@@ -75,6 +75,12 @@ export const FinalStep: Story = {
   },
 };
 
+export const WithPreviousButton: Story = {
+  args: {
+    hasPreviousButton: true,
+  },
+};
+
 export const WithInformationalText: Story = {
   args: {
     isFinalStep: true,

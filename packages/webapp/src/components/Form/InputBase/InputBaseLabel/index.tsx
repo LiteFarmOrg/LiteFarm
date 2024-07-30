@@ -26,6 +26,7 @@ export type InputBaseLabelProps = {
   hasLeaf?: boolean;
   toolTipContent?: string;
   icon?: ReactNode;
+  labelStyles?: React.CSSProperties;
 };
 
 export default function InputBaseLabel(props: InputBaseLabelProps) {
@@ -33,7 +34,7 @@ export default function InputBaseLabel(props: InputBaseLabelProps) {
 
   return (
     <div className={styles.labelContainer}>
-      <Label>
+      <Label style={props.labelStyles}>
         {props.label}
         {props.optional && (
           <Label sm className={styles.sm}>

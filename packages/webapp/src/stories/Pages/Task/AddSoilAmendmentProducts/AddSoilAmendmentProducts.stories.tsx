@@ -21,7 +21,6 @@ import AddSoilAmendmentProducts, {
 } from '../../../../components/Task/AddSoilAmendmentProducts';
 import { defaultValues } from '../../../../components/Task/AddSoilAmendmentProducts/ProductCard/ProductDetails';
 import { products } from './products';
-import { ProductFormFields } from '../../../../components/Task/AddSoilAmendmentProducts/types';
 
 const purposes = [
   { id: 1, key: 'STRUCTURE' },
@@ -37,13 +36,13 @@ const fertiliserTypes = [
 ];
 
 type ComponentWithFormMethodsProps = AddSoilAmendmentProductsProps & {
-  defaultValues: (ProductFormFields & { product_id?: number })[];
+  defaultValues: { [key: string]: any };
 };
 
 const ComponentWithFormMethods = ({ defaultValues, ...props }: ComponentWithFormMethodsProps) => {
   const methods = useForm({
     mode: 'onChange',
-    defaultValues: { soil_amendment_task_products: defaultValues },
+    defaultValues: { soil_amendment_task_products: [{}], ...defaultValues },
   });
   return (
     <FormProvider {...methods}>
@@ -58,12 +57,19 @@ const meta: Meta<ComponentWithFormMethodsProps> = {
   component: ComponentWithFormMethods,
   decorators: [...componentDecorators],
   args: {
-    onSaveProduct: console.log,
+    onSaveProduct: async (data) => console.log(data),
     system: 'metric',
     products,
     purposes,
     fertiliserTypes,
     defaultValues: [defaultValues],
+    locations: [
+      {
+        type: 'garden',
+        total_area: 15000,
+        total_area_unit: 'm2',
+      },
+    ],
   },
 };
 
@@ -87,6 +93,20 @@ export const ReadOnly: Story = {
   args: {
     isReadOnly: true,
     farm: { interested: true, country_id: 37, farm_id: 'xxx' },
-    defaultValues: [{ ...defaultValues, product_id: 3 }],
+    defaultValues: {
+      soil_amendment_task_products: [
+        {
+          id: 77,
+          product_id: 3,
+          volume: 30,
+          volume_unit: { value: 'l', label: 'l' },
+          application_rate_volume_unit: { value: 'l/ha', label: 'l/ha' },
+          percent_of_location_amended: 100,
+          total_area_amended: 10,
+          purposes: [5],
+          other_purpose: 'Test purpose',
+        },
+      ],
+    },
   },
 };

@@ -92,7 +92,7 @@
       "LISTED_IN_PSL": "¿Listado en la Lista de Sustancias Permitidas? (S/N)",
       "NOTES": "Notas",
       "PRODUCT_NAME": "Nombre de Producto",
-      "QUANTITY": "Cantidad ({{unit}})",
+      "QUANTITY": "Cantidad",
       "SUPPLIER": "Nombre de marca o fuente/proveedor"
     },
     "VARIETALS": "Varietal(es)"

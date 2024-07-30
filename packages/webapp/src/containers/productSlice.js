@@ -12,6 +12,7 @@ export const getProduct = (obj) => {
     'on_permitted_substances_list',
     'type',
     'farm_id',
+    'soil_amendment_product',
   ]);
 };
 
@@ -62,6 +63,9 @@ export const productsSelector = createSelector(
 
 export const productsForTaskTypeSelector = (taskType) => {
   return createSelector([productSelectors.selectAll, loginSelector], (products, { farm_id }) => {
+    if (taskType === undefined) {
+      return undefined;
+    }
     return products.filter(
       (product) =>
         product.farm_id === farm_id && product.type === taskType.task_translation_key.toLowerCase(),

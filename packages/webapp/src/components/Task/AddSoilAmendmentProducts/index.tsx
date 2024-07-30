@@ -18,18 +18,21 @@ import { useTranslation } from 'react-i18next';
 import useExpandable from '../../Expandable/useExpandableItem';
 import ProductCard, { type ProductCardProps } from './ProductCard';
 import TextButton from '../../Form/Button/TextButton';
-import type { ProductId, Product } from './types';
-import { defaultValues } from './ProductCard/ProductDetails';
+import { Label } from '../../Typography';
+import { type ProductId, TASK_PRODUCT_FIELD_NAMES } from './types';
+import type { SoilAmendmentProduct } from '../../../store/api/types';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
 import styles from './styles.module.scss';
+import { Location } from './QuantityApplicationRate';
 
 export type AddSoilAmendmentProductsProps = Pick<
   ProductCardProps,
-  'isReadOnly' | 'farm' | 'onSave' | 'system' | 'onSaveProduct'
+  'isReadOnly' | 'farm' | 'system' | 'onSaveProduct' | 'productsVersion'
 > & {
-  products: Product[];
+  products: SoilAmendmentProduct[];
   purposes?: { id: number; key: string }[];
   fertiliserTypes?: { id: number; key: string }[];
+  locations: Location[];
 };
 
 interface ProductFields {
@@ -38,11 +41,30 @@ interface ProductFields {
 
 const FIELD_NAME = 'soil_amendment_task_products';
 
+export const defaultValues = {
+  [TASK_PRODUCT_FIELD_NAMES.PRODUCT_ID]: '', // Using an empty string instead of undefined to avoid issues with append()
+  [TASK_PRODUCT_FIELD_NAMES.PURPOSES]: [],
+  [TASK_PRODUCT_FIELD_NAMES.OTHER_PURPOSE]: '',
+  [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED]: 100,
+  [TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.IS_WEIGHT]: true,
+  [TASK_PRODUCT_FIELD_NAMES.WEIGHT]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.VOLUME]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT]: undefined,
+};
+
 const AddSoilAmendmentProducts = ({
   products,
   purposes = [],
   fertiliserTypes = [],
   isReadOnly,
+  locations,
   ...props
 }: AddSoilAmendmentProductsProps) => {
   const { t } = useTranslation();
@@ -63,7 +85,7 @@ const AddSoilAmendmentProducts = ({
 
   const productsForTask = watch(FIELD_NAME);
 
-  const getAvailableProductOptions = (selectedProductId: ProductId): Product[] => {
+  const getAvailableProductOptions = (selectedProductId: ProductId): SoilAmendmentProduct[] => {
     // Returns the products that have not been selected by any other select
     const otherSelectedProductIds = productsForTask
       .filter(({ product_id }: ProductFields): boolean => product_id !== selectedProductId)
@@ -71,6 +93,8 @@ const AddSoilAmendmentProducts = ({
 
     return products.filter(({ product_id }) => !otherSelectedProductIds.includes(product_id));
   };
+
+  const productNames: SoilAmendmentProduct['name'][] = products.map(({ name }) => name);
 
   const onAddAnotherProduct = (): void => {
     resetExpanded();
@@ -98,6 +122,9 @@ const AddSoilAmendmentProducts = ({
 
   return (
     <>
+      <Label className={styles.productsInstruction}>
+        {t(`ADD_PRODUCT.WHAT_YOU_WILL_BE_APPLYING`)}
+      </Label>
       <div className={styles.products}>
         {fields.map((field, index) => {
           const namePrefix = `${FIELD_NAME}.${index}`;
@@ -111,17 +138,19 @@ const AddSoilAmendmentProducts = ({
               onRemove={fields.length > 1 ? () => remove(index) : undefined}
               namePrefix={namePrefix}
               products={getAvailableProductOptions(productId)}
+              productNames={productNames}
               isExpanded={expandedIds.includes(field.id)}
               toggleExpanded={() => toggleExpanded(field.id)}
               unExpand={() => unExpand(field.id)}
               expand={() => expand(field.id)}
               productId={productId}
               setProductId={(id: ProductId) => {
-                setValue(`${namePrefix}.product_id`, id);
+                setValue(`${namePrefix}.product_id`, id, { shouldValidate: true });
               }}
               purposeOptions={purposeOptions}
               otherPurposeId={otherPurposeId}
               fertiliserTypeOptions={fertiliserTypeOptions}
+              locations={locations}
             />
           );
         })}

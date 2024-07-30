@@ -18,6 +18,10 @@
 /*----------------------------------------
   AddSoilAmendmentProducts
 ----------------------------------------*/
+.productsInstruction {
+  padding-bottom: 8px;
+}
+
 .products {
   @include flex-column-gap(24px);
   margin-bottom: 8px;
@@ -60,6 +64,16 @@
 .productOption {
   display: flex;
   justify-content: space-between;
+}
+
+.npkText {
+  padding-left: 8px;
+  text-align: right;
+}
+
+.npkValue {
+  padding-left: 4px;
+  display: inline-block;
 }
 
 .removeButton {
@@ -160,6 +174,14 @@
 /*----------------------------------------
   Buttons
 ----------------------------------------*/
+.inFormButtons {
+  button {
+    @include xs-breakpoint {
+      max-width: 150px;
+    }
+  }
+}
+
 .editButton {
   width: fit-content;
   align-self: center;

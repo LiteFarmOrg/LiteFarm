@@ -91,6 +91,7 @@ const useUnit = ({
   max,
   onBlur,
   onChangeUnitOption,
+  onInputChange,
   autoConversion = false,
 }) => {
   const onClear = () => {
@@ -199,6 +200,7 @@ const useUnit = ({
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
     mode === 'onChange' && onBlurForHook(e);
+    onInputChange?.();
   };
 
   const hookFormSetHiddenValue = useCallback(
@@ -315,6 +317,10 @@ useUnit.propTypes = {
   to: PropTypes.string,
   required: PropTypes.bool,
   optional: PropTypes.bool,
+  autoConversion: PropTypes.bool,
+  onBlur: PropTypes.func,
+  onChangeUnitOption: PropTypes.func,
+  onInputChange: PropTypes.func,
   mode: PropTypes.oneOf(['onBlur', 'onChange']),
   max: PropTypes.number,
 };

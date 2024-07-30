@@ -21,28 +21,32 @@ import { Collapse } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowUp';
 import InputBaseLabel from '../../../Form/InputBase/InputBaseLabel';
 import Input, { getInputErrors } from '../../../Form/Input';
+import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtils';
 import TextButton from '../../../Form/Button/TextButton';
 import RadioGroup from '../../../Form/RadioGroup';
 import CompositionInputs from '../../../Form/CompositionInputs';
 import ReactSelect from '../../../Form/ReactSelect';
 import Buttons from './Buttons';
-import type { ProductFormFields, Product, ProductId } from '../types';
-import { PRODUCT_FIELD_NAMES, Nutrients, Unit, MolecularCompoundsUnit } from '../types';
+import { type ProductFormFields, type ProductId, PRODUCT_FIELD_NAMES, Nutrients } from '../types';
+import {
+  ElementalUnit,
+  MolecularCompoundsUnit,
+  type SoilAmendmentProduct,
+} from '../../../../store/api/types';
 import useInputsInfo from './useInputsInfo';
 import { CANADA } from '../../AddProduct/constants';
-import { TASK_TYPES } from '../../../../containers/Task/constants';
 import { roundToTwoDecimal } from '../../../../util';
 import useExpandable from '../../../Expandable/useExpandableItem';
 import styles from '../styles.module.scss';
 
 const {
-  FERTILISER_TYPE,
+  FERTILISER_TYPE_ID,
   MOISTURE_CONTENT,
   DRY_MATTER_CONTENT,
   SUPPLIER,
   PERMITTED,
   COMPOSITION,
-  UNIT,
+  ELEMENTAL_UNIT,
   N,
   P,
   K,
@@ -58,10 +62,10 @@ const {
 } = PRODUCT_FIELD_NAMES;
 
 const elementalUnitOptions = [
-  { label: '%', value: Unit.PERCENT },
-  { label: Unit.RATIO, value: Unit.RATIO },
-  { label: Unit.PPM, value: Unit.PPM },
-  { label: Unit['MG/KG'], value: Unit['MG/KG'] },
+  { label: '%', value: ElementalUnit.PERCENT },
+  { label: ElementalUnit.RATIO, value: ElementalUnit.RATIO },
+  { label: ElementalUnit.PPM, value: ElementalUnit.PPM },
+  { label: ElementalUnit['MG/KG'], value: ElementalUnit['MG/KG'] },
 ];
 
 const molecularCompoundsUnitOptions = [
@@ -71,7 +75,7 @@ const molecularCompoundsUnitOptions = [
 
 export type ProductDetailsProps = {
   productId: number | string;
-  products?: Product[];
+  products?: SoilAmendmentProduct[];
   isReadOnly: boolean;
   isExpanded: boolean;
   farm: { farm_id: string; interested: boolean; country_id: number };
@@ -81,20 +85,21 @@ export type ProductDetailsProps = {
   clearProduct: () => void;
   setProductId: (id: ProductId) => void;
   onSave: (
-    data: ProductFormFields & { farm_id: string; product_id: ProductId; type: string },
-    callback?: (id: number) => void,
-  ) => void;
+    data: ProductFormFields & { product_id: ProductId },
+    callback?: (id: ProductId) => void,
+  ) => Promise<void>;
   fertiliserTypeOptions: { label: string; value: number }[];
+  productsVersion: number;
 };
 
-const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
+export const isNewProduct = (productId: ProductId): boolean => typeof productId === 'string';
 
 const MG_KG_REACT_SELECT_WIDTH = 76;
 
 export const defaultValues = {
   [SUPPLIER]: '',
   [COMPOSITION]: {
-    [UNIT]: Unit.RATIO,
+    [ELEMENTAL_UNIT]: ElementalUnit.RATIO,
     [N]: NaN,
     [P]: NaN,
     [K]: NaN,
@@ -115,7 +120,7 @@ const ProductDetails = ({
   products = [],
   isReadOnly,
   isExpanded,
-  farm: { farm_id, country_id, interested },
+  farm: { country_id, interested },
   expand,
   unExpand,
   toggleExpanded: toggleProductDetailsExpanded,
@@ -123,6 +128,7 @@ const ProductDetails = ({
   setProductId,
   onSave,
   fertiliserTypeOptions,
+  productsVersion,
 }: ProductDetailsProps) => {
   const { t } = useTranslation();
   const [isEditingProduct, setIsEditingProduct] = useState(false);
@@ -162,7 +168,7 @@ const ProductDetails = ({
     DRY_MATTER_CONTENT,
     AMMONIUM,
     NITRATE,
-    FERTILISER_TYPE,
+    FERTILISER_TYPE_ID,
     MOLECULAR_COMPOUNDS_UNIT,
   ]);
 
@@ -183,34 +189,36 @@ const ProductDetails = ({
     const isAddingNewProduct = !!(productId && !selectedProduct);
     const shouldNotResetFields = wasAddingNewProduct && isAddingNewProduct;
 
+    const selectedProductData = selectedProduct?.soil_amendment_product;
+
     const newDryMatterContent =
-      typeof selectedProduct?.[MOISTURE_CONTENT] === 'number'
-        ? subtractFrom100(selectedProduct[MOISTURE_CONTENT] as number)
+      typeof selectedProductData?.[MOISTURE_CONTENT] === 'number'
+        ? subtractFrom100(selectedProductData[MOISTURE_CONTENT] as number)
         : undefined;
 
     if (!productId || !shouldNotResetFields) {
       reset({
         [SUPPLIER]: selectedProduct?.[SUPPLIER] || '',
         [PERMITTED]: selectedProduct?.[PERMITTED] || undefined,
-        [FERTILISER_TYPE]: selectedProduct?.[FERTILISER_TYPE] || undefined,
-        [MOISTURE_CONTENT]: selectedProduct?.[MOISTURE_CONTENT] ?? NaN,
+        [FERTILISER_TYPE_ID]: selectedProductData?.[FERTILISER_TYPE_ID] || undefined,
+        [MOISTURE_CONTENT]: selectedProductData?.[MOISTURE_CONTENT] ?? NaN,
         [DRY_MATTER_CONTENT]: newDryMatterContent,
         [COMPOSITION]: {
-          [UNIT]: selectedProduct?.[UNIT] || Unit.RATIO,
-          [N]: selectedProduct?.[N] ?? NaN,
-          [P]: selectedProduct?.[P] ?? NaN,
-          [K]: selectedProduct?.[K] ?? NaN,
-          [CA]: selectedProduct?.[CA] ?? NaN,
-          [MG]: selectedProduct?.[MG] ?? NaN,
-          [S]: selectedProduct?.[S] ?? NaN,
-          [CU]: selectedProduct?.[CU] ?? NaN,
-          [MN]: selectedProduct?.[MN] ?? NaN,
-          [B]: selectedProduct?.[B] ?? NaN,
+          [ELEMENTAL_UNIT]: selectedProductData?.[ELEMENTAL_UNIT] || ElementalUnit.RATIO,
+          [N]: selectedProductData?.[N] ?? NaN,
+          [P]: selectedProductData?.[P] ?? NaN,
+          [K]: selectedProductData?.[K] ?? NaN,
+          [CA]: selectedProductData?.[CA] ?? NaN,
+          [MG]: selectedProductData?.[MG] ?? NaN,
+          [S]: selectedProductData?.[S] ?? NaN,
+          [CU]: selectedProductData?.[CU] ?? NaN,
+          [MN]: selectedProductData?.[MN] ?? NaN,
+          [B]: selectedProductData?.[B] ?? NaN,
         },
-        [AMMONIUM]: selectedProduct?.[AMMONIUM] ?? NaN,
-        [NITRATE]: selectedProduct?.[NITRATE] ?? NaN,
+        [AMMONIUM]: selectedProductData?.[AMMONIUM] ?? NaN,
+        [NITRATE]: selectedProductData?.[NITRATE] ?? NaN,
         [MOLECULAR_COMPOUNDS_UNIT]:
-          selectedProduct?.[MOLECULAR_COMPOUNDS_UNIT] ?? MolecularCompoundsUnit.PPM,
+          selectedProductData?.[MOLECULAR_COMPOUNDS_UNIT] ?? MolecularCompoundsUnit.PPM,
       });
     }
 
@@ -228,7 +236,7 @@ const ProductDetails = ({
       }, 0);
     }
     previousProductIdRef.current = productId;
-  }, [productId]);
+  }, [productId, productsVersion]);
 
   const onCancel = () => {
     if (isNewProduct(productId)) {
@@ -242,11 +250,15 @@ const ProductDetails = ({
   };
 
   const onSubmit = (data: ProductFormFields) => {
-    const callback = isNewProduct(productId) ? setProductId : undefined;
-    onSave({ ...data, farm_id, product_id: productId, type: TASK_TYPES.SOIL_AMENDMENT }, callback);
+    const callback = (id: ProductId) => {
+      if (isNewProduct(productId)) {
+        setProductId(id);
+      }
 
-    setIsEditingProduct(false);
-    reset(getValues());
+      setIsEditingProduct(false);
+      reset(getValues());
+    };
+    onSave({ ...data, product_id: productId }, callback);
   };
 
   const handleMoistureDryMatterContentChange = (fieldName: string, value?: number) => {
@@ -283,7 +295,7 @@ const ProductDetails = ({
         control={control}
         rules={{
           validate: (value: ProductFormFields['composition']): boolean | string => {
-            if (!value || value[UNIT] !== Unit.PERCENT) {
+            if (!value || value[ELEMENTAL_UNIT] !== ElementalUnit.PERCENT) {
               return true;
             }
             const total = Object.keys(Nutrients).reduce((acc: number, key) => {
@@ -307,7 +319,7 @@ const ProductDetails = ({
               // onBlur needs to be passed manually
               // https://stackoverflow.com/questions/61661432/how-to-make-react-hook-form-controller-validation-triggered-on-blur
               onBlur={field.onBlur}
-              unitFieldName={UNIT}
+              unitFieldName={ELEMENTAL_UNIT}
               reactSelectWidth={MG_KG_REACT_SELECT_WIDTH}
             />
           );
@@ -353,7 +365,7 @@ const ProductDetails = ({
             label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
             hookFormRegister={register(SUPPLIER, {
               required: interested,
-              maxLength: 255,
+              maxLength: hookFormMaxCharsValidation(255),
             })}
             disabled={isDetailDisabled}
             hasLeaf={true}
@@ -378,9 +390,9 @@ const ProductDetails = ({
             value={fertiliserTypeOptions.find(({ value }) => value === fertiliserType) || null}
             isDisabled={isDetailDisabled}
             label={t('ADD_PRODUCT.FERTILISER_TYPE')}
-            placeholder={t('ADD_PRODUCT.FERTILISER_TYPE_PLACEHOLDER')}
             options={fertiliserTypeOptions}
-            onChange={(e) => setValue(FERTILISER_TYPE, e?.value)}
+            onChange={(e) => setValue(FERTILISER_TYPE_ID, e?.value)}
+            optional
           />
 
           <CompositionInputs

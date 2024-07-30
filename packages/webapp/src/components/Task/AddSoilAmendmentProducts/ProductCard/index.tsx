@@ -13,51 +13,71 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { GroupBase, SelectInstance } from 'react-select';
 import SmallButton from '../../../Form/Button/SmallButton';
 import ReactSelect, { CreatableSelect } from '../../../Form/ReactSelect';
-import Input from '../../../Form/Input';
+import Input, { getInputErrors } from '../../../Form/Input';
+import { Error } from '../../../Typography';
 import ProductDetails, { type ProductDetailsProps } from './ProductDetails';
-import { PRODUCT_FIELD_NAMES, type Product } from '../types';
+import { PRODUCT_FIELD_NAMES } from '../types';
+import { ElementalUnit, type SoilAmendmentProduct } from '../../../../store/api/types';
 import styles from '../styles.module.scss';
+import QuantityApplicationRate, { Location } from '../QuantityApplicationRate';
+import { hookFormMaxCharsValidation } from '../../../Form/hookformValidationUtils';
 
-export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct'> & {
+export type ProductCardProps = Omit<ProductDetailsProps, 'clearProduct' | 'onSave'> & {
   namePrefix: string;
   system: 'metric' | 'imperial';
   onRemove?: () => void;
   onSaveProduct: ProductDetailsProps['onSave'];
   purposeOptions: { label: string; value: number }[];
   otherPurposeId?: number;
+  productNames: SoilAmendmentProduct['name'][];
+  locations: Location[];
 };
 
 interface ProductOption {
   value: number | string;
   label: string;
-  data: Omit<Product, 'product_id' | 'name'>;
+  data: Omit<SoilAmendmentProduct, 'product_id' | 'name'>;
 }
 
 type SelectRef = SelectInstance<ProductOption, false, GroupBase<ProductOption>>;
 
 const formatOptionLabel = ({ label, data }: ProductOption): ReactNode => {
   const prefix = ['N', 'P', 'K'];
-  const { n, p, k, npk_unit } = data || {};
+  const { n, p, k, elemental_unit } = data?.soil_amendment_product || {};
 
-  let npk = '';
-  if (n || p || k) {
-    if (npk_unit === 'ratio') {
-      npk = [n, p, k].map((value) => value || 0).join(' : ');
-    } else {
-      npk = [n, p, k].map((value, index) => `${prefix[index]}: ${value || 0}%`).join(', ');
+  let npk: ReactNode = '';
+  if ([n, p, k].some((value) => typeof value === 'number')) {
+    if (elemental_unit === ElementalUnit.RATIO) {
+      npk = [n, p, k].map((value) => value ?? '--').join(' : ');
+    } else if (elemental_unit === ElementalUnit.PERCENT) {
+      npk = (
+        <>
+          {[n, p, k].map((value, index, array) => {
+            const formattedValue = typeof value === 'number' ? value + '%' : '--';
+            return (
+              <span key={index} className={styles.npkValue}>
+                {prefix[index]}: {formattedValue}
+                {index < array.length - 1 && ','}
+              </span>
+            );
+          })}
+        </>
+      );
     }
   }
 
   return (
     <span className={styles.productOption}>
       <span key="name">{label}</span>
-      <span key="npk">{npk}</span>
+      <span className={styles.npkText} key="npk">
+        {npk}
+      </span>
     </span>
   );
 };
@@ -69,15 +89,26 @@ const SoilAmendmentProductCard = ({
   onSaveProduct,
   isReadOnly,
   products = [],
+  productNames = [],
   purposeOptions,
   otherPurposeId,
+  locations,
   ...props
 }: ProductCardProps) => {
   const { t } = useTranslation();
-  const { control, register, watch, setValue } = useFormContext();
+  const {
+    control,
+    register,
+    watch,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useFormContext();
 
   const PRODUCT_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.PRODUCT_ID}`;
   const PURPOSES = `${namePrefix}.${PRODUCT_FIELD_NAMES.PURPOSES}`;
+  const OTHER_PURPOSE = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE}`;
+  const OTHER_PURPOSE_ID = `${namePrefix}.${PRODUCT_FIELD_NAMES.OTHER_PURPOSE_ID}`;
 
   const purposes = watch(PURPOSES);
 
@@ -90,39 +121,16 @@ const SoilAmendmentProductCard = ({
     selectRef?.current?.clearValue();
   };
 
+  useEffect(() => {
+    if (otherPurposeId && !getValues(OTHER_PURPOSE_ID)) {
+      setValue(OTHER_PURPOSE_ID, otherPurposeId);
+    }
+  }, [otherPurposeId]);
+
   return (
     <div className={styles.productCard}>
-      {onRemove && <SmallButton onClick={onRemove} className={styles.removeButton} />}
-      <Controller
-        control={control}
-        name={PURPOSES}
-        rules={{ required: true }}
-        render={({ field: { onChange, value: selectedOptions = [] } }) => (
-          <ReactSelect
-            isMulti
-            value={purposeOptions.filter(({ value }) => selectedOptions.includes(value))}
-            isDisabled={isReadOnly}
-            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PURPOSE')}
-            options={purposeOptions}
-            onChange={(e) => {
-              onChange(e);
-              const newPurposes = e.map(({ value }) => value);
-              setValue(PURPOSES, newPurposes, { shouldValidate: true });
-            }}
-          />
-        )}
-      />
-      {purposes?.includes(otherPurposeId) && (
-        <>
-          {/* @ts-ignore */}
-          <Input
-            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
-            name={PRODUCT_FIELD_NAMES.OTHER_PURPOSE}
-            disabled={isReadOnly}
-            hookFormRegister={register(PRODUCT_FIELD_NAMES.OTHER_PURPOSE)}
-            optional
-          />
-        </>
+      {!isReadOnly && onRemove && (
+        <SmallButton onClick={onRemove} className={styles.removeButton} />
       )}
       <div>
         <Controller
@@ -131,6 +139,9 @@ const SoilAmendmentProductCard = ({
           rules={{
             required: true,
             validate: (value) => {
+              if (typeof value === 'string' && productNames.includes(value.trim())) {
+                return 'DUPLICATE_NAME';
+              }
               return typeof value === 'number';
             },
           }}
@@ -149,15 +160,62 @@ const SoilAmendmentProductCard = ({
             />
           )}
         />
-        <ProductDetails
-          {...props}
-          onSave={onSaveProduct}
-          isReadOnly={isReadOnly}
-          clearProduct={clearProduct}
-          products={products}
-        />
+        {getInputErrors(errors, PRODUCT_ID) === 'DUPLICATE_NAME' ? (
+          <Error>{t('ADD_TASK.DUPLICATE_NAME')}</Error>
+        ) : (
+          <ProductDetails
+            {...props}
+            onSave={onSaveProduct}
+            isReadOnly={isReadOnly}
+            clearProduct={clearProduct}
+            products={products}
+          />
+        )}
       </div>
-      {/* TODO: LF-4249 <QuantityApplicationRate /> */}
+      <Controller
+        control={control}
+        name={PURPOSES}
+        rules={{ required: true }}
+        render={({ field: { onChange, value: selectedOptions = [] } }) => (
+          <ReactSelect
+            isMulti
+            value={purposeOptions.filter(({ value }) => selectedOptions.includes(value))}
+            isDisabled={isReadOnly}
+            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PURPOSE')}
+            options={purposeOptions}
+            onChange={(e) => {
+              onChange(e);
+              const newPurposes = e.map(({ value }) => value);
+              setValue(PURPOSES, newPurposes, { shouldValidate: true });
+            }}
+            style={{ paddingBottom: '12px' }}
+          />
+        )}
+      />
+      <input type="hidden" {...register(OTHER_PURPOSE_ID)} />
+
+      {purposes?.includes(otherPurposeId) && (
+        <>
+          {/* @ts-ignore */}
+          <Input
+            label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
+            name={OTHER_PURPOSE}
+            disabled={isReadOnly}
+            hookFormRegister={register(OTHER_PURPOSE, {
+              shouldUnregister: true,
+              maxLength: hookFormMaxCharsValidation(255),
+            })}
+            errors={getInputErrors(errors, OTHER_PURPOSE)}
+            optional
+          />
+        </>
+      )}
+      <QuantityApplicationRate
+        system={system}
+        locations={locations}
+        isReadOnly={isReadOnly}
+        namePrefix={namePrefix}
+      />
     </div>
   );
 };

@@ -4,9 +4,7 @@
 
 Bienvenue à LiteFarm !
 
-Nous comprenons que la confidentialité et la protection de vos données sont importantes. L’intention du Formulaire de consentement éclairé et politique de confidentialité est de vous aider à comprendre nos protocoles pour collectionner, à utiliser, et à partager vos données. Votre compréhension est essentielle pour le consentement.
-
-Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans le Formulaire de consentement éclairé et politique de confidentialité pour chaque ferme à laquelle vous êtes associé avec un compte sur l’application LiteFarm. Sans votre consentement vous ne pourrez pas utiliser l’application LiteFarm.
+Nous comprenons que la confidentialité et la protection de vos données sont importantes. L’intention du Formulaire de consentement éclairé et politique de confidentialité est de vous aider à comprendre nos protocoles pour collectionner, à utiliser, et à partager vos données. Veuillez garder à l'esprit que vous devrez consentir aux protocoles décrits dans le Formulaire de consentement éclairé et politique de confidentialité pour chaque ferme à laquelle vous êtes associé avec un compte sur l’application LiteFarm. If you do not agree with our practices as outlined in this Informed Consent Form and Privacy Policy, you will not be able to use the LiteFarm platform.
 
 #### C’est quoi l’application LiteFarm ?
 
@@ -18,7 +16,7 @@ L'équipe LiteFarm est un groupe interdisciplinaire de scientifiques, de cherche
 
 #### Qui finance LiteFarm ?
 
-LiteFarm est financé par le Centre pour les systèmes alimentaires durable [Center for Sustainable Food Systems] à UBC et d'autres subventions. Pour une liste complète, veuillez visiter: https://ubcfarm.ubc.ca/csfs-research/litefarm/. Nos bailleurs de fonds externes n'ont pas leur mot à dire dans le fonctionnement et la gestion de LiteFarm et ne peuvent accéder à aucune des informations personnelles hébergées sur la plateforme. Présentement, les donateurs et bourses de recherche fournissent le financement pour le logiciel et l'équipe LiteFarm.
+LiteFarm est financé par le Centre pour les systèmes alimentaires durable [Center for Sustainable Food Systems] à UBC et d'autres subventions. Pour une liste complète, veuillez visiter: https://ubcfarm.ubc.ca/csfs-research/litefarm/. Nos bailleurs de fonds externes n'ont pas leur mot à dire dans le fonctionnement et la gestion de LiteFarm et ne peuvent accéder à aucune des informations personnelles hébergées sur la plateforme. Our funding model is currently donor and grant-driven.
 
 #### Pourquoi menons-nous ce projet ?
 
@@ -30,15 +28,11 @@ Selon les parties de l’application LiteFarm que vous utilisez, nous pouvons co
 
 **Informations personnelles**
 
-« Informations personnelles » décrit toute information pouvant être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tierce partie sans votre consentement.
-
-Ceci comprend :
+« Informations personnelles » décrit toute information pouvant être utilisée pour vous identifier ou identifier vos employés. LiteFarm ne divulgue jamais d'informations personnelles à des tierce partie sans votre consentement. Ceci comprend :
 
 - Les coordonnées (nom, adresse, numéro de téléphone, adresse courriel)
 
 - Les informations démographiques (sexe, année de naissance, préférence linguistique, pays, devise)
-
-- Les informations sur l'entreprise (nom de la ferme, adresse de la ferme, coordonnées de la ferme)
 
 - Les photos
 
@@ -88,7 +82,7 @@ Nous ne partageons aucune information personnelle avec des services d'analyse ti
 
 **Comment nous utilisons les « cookies » ?**
 
-Dans certaines sections de notre site, un cookie peut être placé sur votre ordinateur ou appareil. Un cookie est un petit fichier qui réside sur le disque dur de votre ordinateur ou de votre appareil et qui nous permet d'améliorer la qualité de votre visite sur nos sites web. Nous utilisons des cookies pour identifier les pages qui sont utilisées et pour améliorer notre site web. Nous n'utilisons ces informations qu'à des fins d'analyses statistiques. Elles ne sont pas partagées avec d'autres sites et ne sont pas utilisées à des fins publicitaires. Vous pouvez choisir d'accepter ou de refuser les cookies. La plupart des navigateurs web acceptent automatiquement les cookies, mais vous pouvez généralement modifier les paramètres de votre navigateur pour refuser les cookies si vous le préférez. Cependant, si vous choisissez de refuser les cookies de LiteFarm, la fonctionnalité, y compris votre capacité à vous connecter et à utiliser l'application, peut être altérée. L'acceptation des cookies est implicite si vous continuez à accéder à notre site web sans ajuster les paramètres de votre navigateur.
+Dans certaines sections de notre site, un cookie peut être placé sur votre ordinateur ou appareil. Un cookie est un petit fichier qui réside sur le disque dur de votre ordinateur ou de votre appareil et qui nous permet d'améliorer la qualité de votre visite sur nos sites web. Nous utilisons des cookies pour identifier les pages qui sont utilisées et pour améliorer notre site web. Nous n'utilisons ces informations qu'à des fins d'analyses statistiques. Vous pouvez choisir d'accepter ou de refuser les cookies. La plupart des navigateurs web acceptent automatiquement les cookies, mais vous pouvez généralement modifier les paramètres de votre navigateur pour refuser les cookies si vous le préférez. Cependant, si vous choisissez de refuser les cookies de LiteFarm, la fonctionnalité, y compris votre capacité à vous connecter et à utiliser l'application, peut être altérée. L'acceptation des cookies est implicite si vous continuez à accéder à notre site web sans ajuster les paramètres de votre navigateur.
 
 **Où stockons-nous vos données ?**
 

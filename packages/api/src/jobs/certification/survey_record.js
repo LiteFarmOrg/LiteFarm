@@ -1,6 +1,6 @@
 import XlsxPopulate from 'xlsx-populate';
 import rp from 'request-promise';
-const surveyStackURL = 'https://app.surveystack.io/api/';
+const surveyStackURL = 'https://staging.surveystack.io/api/';
 
 export default async (emailQueue, submission, exportId, organicCertifierSurvey, certifier) => {
   if (!submission) {

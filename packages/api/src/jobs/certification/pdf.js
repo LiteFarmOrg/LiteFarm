@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 import fs from 'fs';
 import rp from 'request-promise';
-const surveyStackURL = 'https://app.surveystack.io/api/';
+const surveyStackURL = 'https://staging.surveystack.io/api/';
 
 export default (nextQueue, emailQueue) => async (job) => {
   console.log('STEP 3 > PDF');

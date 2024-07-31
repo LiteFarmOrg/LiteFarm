@@ -12,7 +12,7 @@ const git = {
   writeCommitMsg: (msg) => fs.writeFileSync(commitMessageFilePath, msg),
 };
 
-function prepareCommitMsg() {
+function processCommitMsg() {
   try {
     const branchName = git.getCurrentBranchName();
     const match = branchName.match(ticketNumberRegex);
@@ -27,8 +27,16 @@ function prepareCommitMsg() {
 
     const commitMessage = git.readCommitMsg();
 
-    // Commit message already contains ticket number
-    if (commitMessage.match(ticketNumberRegex)) {
+    const filteredCommitMessage = commitMessage
+      .split("\n")
+      .filter((line) => !line.trim().startsWith("#"))
+      .join("\n")
+      .trim();
+
+    if (filteredCommitMessage === "") return;
+
+    // Check if commit already contains ticket number
+    if (filteredCommitMessage.match(ticketNumberRegex)) {
       console.log(
         "Commit message already contains a JIRA ticket number. Proceeding without modification."
       );
@@ -36,15 +44,16 @@ function prepareCommitMsg() {
     }
 
     // Modify commit message
-    git.writeCommitMsg(match[0] + " " + commitMessage);
+    git.writeCommitMsg(match[0] + " " + filteredCommitMessage);
   } catch (error) {
     console.error("Error processing commit message:", error);
   }
 }
 
 // Call the hook only when this file is executed directly by node.
+// This is needed to ensure proper execution of tests.
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  prepareCommitMsg();
+  processCommitMsg();
 }
 
-export { git, prepareCommitMsg };
+export { git, processCommitMsg };

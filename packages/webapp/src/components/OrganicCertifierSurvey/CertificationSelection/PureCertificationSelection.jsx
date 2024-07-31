@@ -50,7 +50,7 @@ export function PureCertificationSelection({
     const certificationRadioOptions = certifications.map((certification) => ({
       label: t(`certifications:${certification.certification_translation_key}`),
       value: certification.certification_id,
-      'data-cy': `${CERTIFICATION_ID}-${certification.certification_id}`,
+      'data-cy': `certification_type-${certification.certification_translation_key}`,
     }));
     return [
       ...certificationRadioOptions,

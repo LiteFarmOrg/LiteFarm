@@ -127,6 +127,16 @@
       "EDIT": "Plano de cultivo atualizado com sucesso"
     }
   },
+  "PRODUCT": {
+    "ERROR": {
+      "CREATE": "Falha ao criar o produto",
+      "UPDATE": "Falha ao atualizar o produto"
+    },
+    "SUCCESS": {
+      "CREATE": "Produto criado com sucesso",
+      "UPDATE": "Produto atualizado com sucesso"
+    }
+  },
   "REPEAT_PLAN": {
     "ERROR": {
       "POST": "Falha ao repetir {{planName}}"

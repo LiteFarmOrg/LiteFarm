@@ -26,20 +26,25 @@ type CompositionInputsProps = Omit<
   inputsInfo: { name: string; label: string }[];
   values: { [key: string]: any };
   unit?: string;
-  unitFieldName: string;
+  shouldShowErrorMessage?: boolean;
 };
 
+/**
+ * Component for inputs that share the same unit.
+ * Changing the unit of one input updates the units of all inputs.
+ * Units that require unit system conversions are not supported.
+ */
 const CompositionInputs = ({
   mainLabel = '',
   inputsInfo,
   error = '',
+  shouldShowErrorMessage = true,
   disabled = false,
   onChange,
   onBlur,
   values,
   unit,
-  unitFieldName,
-  reactSelectJustifyContent,
+  unitFieldName = '',
   ...props
 }: CompositionInputsProps) => {
   return (
@@ -61,14 +66,11 @@ const CompositionInputs = ({
                 unit={unit || values?.[unitFieldName]}
                 unitFieldName={unitFieldName}
                 value={values?.[name]}
-                reactSelectJustifyContent={
-                  reactSelectJustifyContent || (disabled ? 'flex-end' : 'flex-start')
-                }
               />
             );
           })}
         </div>
-        {error && (
+        {shouldShowErrorMessage && error && (
           <div className={styles.error}>
             <BsFillExclamationCircleFill className={styles.errorIcon} />
             <span className={styles.errorMessage}>{error}</span>

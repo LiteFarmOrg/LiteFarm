@@ -127,6 +127,16 @@
       "EDIT": "Plan de culture mis à jour"
     }
   },
+  "PRODUCT": {
+    "ERROR": {
+      "CREATE": "Erreur à la création du produit",
+      "UPDATE": "Erreur à la mise à jour produit"
+    },
+    "SUCCESS": {
+      "CREATE": "Produit créé avec succès",
+      "UPDATE": "Produit mis à jour avec succès"
+    }
+  },
   "REPEAT_PLAN": {
     "ERROR": {
       "POST": "Impossible de répéter {{planName}}"

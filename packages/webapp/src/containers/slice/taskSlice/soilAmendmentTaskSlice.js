@@ -4,12 +4,11 @@ import { createSelector } from 'reselect';
 import { pick } from '../../../util/pick';
 
 const soilAmendmentTaskProperties = [
-  'other_purpose',
-  'product_id',
-  'product_quantity',
-  'product_quantity_unit',
-  'purpose',
   'task_id',
+  'method_id',
+  'furrow_hole_depth',
+  'furrow_hole_depth_unit',
+  'other_application_method',
 ];
 
 const getSoilAmendmentTask = (task) => {

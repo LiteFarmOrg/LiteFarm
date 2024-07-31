@@ -1137,9 +1137,28 @@ function fakeProduct(defaultData = {}) {
     name: faker.lorem.words(2),
     supplier: faker.lorem.words(3),
     on_permitted_substances_list: faker.helpers.arrayElement(['YES', 'NO', 'NOT_SURE']),
-    type: faker.helpers.arrayElement(['soil_amendment_task', 'pest_control_task', 'cleaning_task']),
+    // For soil_amendment_task use soil_amendment_productFactory
+    type: faker.helpers.arrayElement(['pest_control_task', 'cleaning_task']),
     ...defaultData,
   };
+}
+
+async function soil_amendment_productFactory({ promisedProduct = productFactory() } = {}) {
+  const [{ product_id, type }] = await promisedProduct;
+  const productDetails = fakeProductDetails(type);
+  return knex('soil_amendment_product')
+    .insert({ product_id, ...productDetails })
+    .returning('*');
+}
+
+function fakeProductDetails(type, defaultData = {}) {
+  if (type === 'soil_amendment_task') {
+    return {
+      ...defaultData,
+    };
+  }
+
+  return {};
 }
 
 async function soil_amendment_methodFactory() {
@@ -1147,7 +1166,7 @@ async function soil_amendment_methodFactory() {
 }
 
 async function soil_amendment_purposeFactory() {
-  return knex('soil_amendment_purpose').insert({ key: faker.lorem.word() }).returning('*');
+  return knex('soil_amendment_purpose').insert({ key: 'OTHER' }).returning('*');
 }
 
 async function soil_amendment_fertiliser_typeFactory() {
@@ -1177,13 +1196,13 @@ function fakeSoilAmendmentTask(defaultData = {}) {
 }
 
 async function soil_amendment_task_productsFactory(
-  { promisedSoilAmendmentTask = soil_amendment_taskFactory() } = {},
+  { promisedTask = taskFactory() } = {},
   soil_amendment_task_product = fakeSoilAmendmentTaskProduct(),
 ) {
-  const [soilAmendmentTask] = await promisedSoilAmendmentTask;
+  const [task] = await promisedTask;
   return knex('soil_amendment_task_products')
     .insert({
-      task_id: soilAmendmentTask.task_id,
+      task_id: task.task_id,
       ...soil_amendment_task_product,
     })
     .returning('*');
@@ -1207,8 +1226,8 @@ function fakeSoilAmendmentTaskProduct(defaultData = {}) {
       'mt/ha',
       'oz/ac',
     ]),
-    percent_of_location_amended: faker.datatype.number(100),
-    total_area_amended: faker.datatype.number(1000),
+    percent_of_location_amended: faker.datatype.number({ min: 1, max: 100 }),
+    total_area_amended: faker.datatype.number({ min: 1, max: 1000 }),
     ...defaultData,
   };
 }
@@ -2529,6 +2548,8 @@ export default {
   fakeHarvestUse,
   productFactory,
   fakeProduct,
+  fakeProductDetails,
+  soil_amendment_productFactory,
   soil_amendment_methodFactory,
   soil_amendment_purposeFactory,
   soil_amendment_fertiliser_typeFactory,

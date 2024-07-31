@@ -13,18 +13,27 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import useExpandable from '../../Expandable/useExpandableItem';
 import ProductCard, { type ProductCardProps } from './ProductCard';
 import TextButton from '../../Form/Button/TextButton';
-import type { ProductId, Product } from './types';
-import { defaultValues } from './ProductCard/ProductDetails';
+import { Label } from '../../Typography';
+import { type ProductId, TASK_PRODUCT_FIELD_NAMES } from './types';
+import type { SoilAmendmentProduct } from '../../../store/api/types';
 import { ReactComponent as PlusCircleIcon } from '../../../assets/images/plus-circle.svg';
 import styles from './styles.module.scss';
+import { Location } from './QuantityApplicationRate';
 
-export type AddSoilAmendmentProductsProps = ProductCardProps & { products: Product[] };
+export type AddSoilAmendmentProductsProps = Pick<
+  ProductCardProps,
+  'isReadOnly' | 'farm' | 'system' | 'onSaveProduct' | 'productsVersion'
+> & {
+  products: SoilAmendmentProduct[];
+  purposes?: { id: number; key: string }[];
+  fertiliserTypes?: { id: number; key: string }[];
+  locations: Location[];
+};
 
 interface ProductFields {
   product_id: ProductId;
@@ -32,15 +41,39 @@ interface ProductFields {
 
 const FIELD_NAME = 'soil_amendment_task_products';
 
+export const defaultValues = {
+  [TASK_PRODUCT_FIELD_NAMES.PRODUCT_ID]: '', // Using an empty string instead of undefined to avoid issues with append()
+  [TASK_PRODUCT_FIELD_NAMES.PURPOSES]: [],
+  [TASK_PRODUCT_FIELD_NAMES.OTHER_PURPOSE]: '',
+  [TASK_PRODUCT_FIELD_NAMES.PERCENT_OF_LOCATION_AMENDED]: 100,
+  [TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.TOTAL_AREA_AMENDED_UNIT]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.IS_WEIGHT]: true,
+  [TASK_PRODUCT_FIELD_NAMES.WEIGHT]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.WEIGHT_UNIT]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_WEIGHT_UNIT]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.VOLUME]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.VOLUME_UNIT]: undefined,
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME]: NaN,
+  [TASK_PRODUCT_FIELD_NAMES.APPLICATION_RATE_VOLUME_UNIT]: undefined,
+};
+
 const AddSoilAmendmentProducts = ({
   products,
+  purposes = [],
+  fertiliserTypes = [],
   isReadOnly,
+  locations,
   ...props
 }: AddSoilAmendmentProductsProps) => {
-  const [invalidProducts, setInvalidProducts] = useState<string[]>([]);
-
   const { t } = useTranslation();
-  const { control, setValue, watch } = useFormContext();
+  const {
+    control,
+    setValue,
+    watch,
+    formState: { isValid },
+  } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     name: FIELD_NAME,
     control,
@@ -52,7 +85,7 @@ const AddSoilAmendmentProducts = ({
 
   const productsForTask = watch(FIELD_NAME);
 
-  const getAvailableProductOptions = (selectedProductId: ProductId): Product[] => {
+  const getAvailableProductOptions = (selectedProductId: ProductId): SoilAmendmentProduct[] => {
     // Returns the products that have not been selected by any other select
     const otherSelectedProductIds = productsForTask
       .filter(({ product_id }: ProductFields): boolean => product_id !== selectedProductId)
@@ -61,34 +94,37 @@ const AddSoilAmendmentProducts = ({
     return products.filter(({ product_id }) => !otherSelectedProductIds.includes(product_id));
   };
 
-  const getInvalidProductsUpdater =
-    (fieldId: string) =>
-    (isValid: boolean): void => {
-      setInvalidProducts((prevState) => {
-        if (isValid && prevState.includes(fieldId)) {
-          return prevState.filter((id) => id !== fieldId);
-        }
-        if (!isValid && !prevState.includes(fieldId)) {
-          return [...prevState, fieldId];
-        }
-        return prevState;
-      });
-    };
-
-  const onRemove = (index: number, fieldId: string): void => {
-    if (invalidProducts.includes(fieldId)) {
-      setInvalidProducts(invalidProducts.filter((id) => id !== fieldId));
-    }
-    remove(index);
-  };
+  const productNames: SoilAmendmentProduct['name'][] = products.map(({ name }) => name);
 
   const onAddAnotherProduct = (): void => {
     resetExpanded();
     append(defaultValues);
   };
 
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.STRUCTURE')
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.MOISTURE_RETENTION')
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.NUTRIENT_AVAILABILITY')
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.PH')
+  // t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER')
+  const purposeOptions = purposes.map(({ id, key }) => ({
+    value: id,
+    label: t(`ADD_TASK.SOIL_AMENDMENT_VIEW.${key}`),
+  }));
+
+  // t('ADD_PRODUCT.DRY_FERTILISER')
+  // t('ADD_PRODUCT.LIQUID_FERTILISER')
+  const fertiliserTypeOptions = fertiliserTypes.map(({ id, key }) => ({
+    value: id,
+    label: t(`ADD_PRODUCT.${key}_FERTILISER`),
+  }));
+
+  const otherPurposeId = purposes.find(({ key }) => key === 'OTHER')?.id;
+
   return (
     <>
+      <Label className={styles.productsInstruction}>
+        {t(`ADD_PRODUCT.WHAT_YOU_WILL_BE_APPLYING`)}
+      </Label>
       <div className={styles.products}>
         {fields.map((field, index) => {
           const namePrefix = `${FIELD_NAME}.${index}`;
@@ -99,25 +135,29 @@ const AddSoilAmendmentProducts = ({
               {...props}
               key={field.id}
               isReadOnly={isReadOnly}
-              onRemove={fields.length > 1 ? () => onRemove(index, field.id) : undefined}
+              onRemove={fields.length > 1 ? () => remove(index) : undefined}
               namePrefix={namePrefix}
               products={getAvailableProductOptions(productId)}
+              productNames={productNames}
               isExpanded={expandedIds.includes(field.id)}
               toggleExpanded={() => toggleExpanded(field.id)}
               unExpand={() => unExpand(field.id)}
               expand={() => expand(field.id)}
               productId={productId}
               setProductId={(id: ProductId) => {
-                setValue(`${namePrefix}.product_id`, id);
+                setValue(`${namePrefix}.product_id`, id, { shouldValidate: true });
               }}
-              setFieldValidity={getInvalidProductsUpdater(field.id)}
+              purposeOptions={purposeOptions}
+              otherPurposeId={otherPurposeId}
+              fertiliserTypeOptions={fertiliserTypeOptions}
+              locations={locations}
             />
           );
         })}
       </div>
       {!isReadOnly && (
         <TextButton
-          disabled={!!invalidProducts.length}
+          disabled={!isValid}
           onClick={onAddAnotherProduct}
           className={styles.addAnotherProduct}
         >

@@ -27,6 +27,7 @@ export interface InFormButtonsProps {
   onCancel: () => void;
   onConfirm?: () => void;
   confirmButtonType?: 'button' | 'submit';
+  className?: string;
 }
 
 const InFormButtons = ({
@@ -37,11 +38,12 @@ const InFormButtons = ({
   onCancel,
   onConfirm,
   confirmButtonType = 'button',
+  className,
 }: InFormButtonsProps) => {
   const { t } = useTranslation();
 
   return (
-    <div className={styles.container}>
+    <div className={clsx(styles.container, className)}>
       <div className={styles.buttons}>
         {statusText && <span className={styles.statusText}>{statusText}</span>}
         <Button type="button" color="secondary-cta" className={styles.button} onClick={onCancel}>

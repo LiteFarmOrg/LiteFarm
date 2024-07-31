@@ -13,57 +13,107 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { TASK_TYPES } from '../../../containers/Task/constants';
+import { ElementalUnit, MolecularCompoundsUnit } from '../../../store/api/types';
+import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
 
-export enum Unit {
-  RATIO = 'ratio',
-  PERCENT = 'percent',
-}
-
-export enum NPK {
+export enum Nutrients {
   N = 'n',
   P = 'p',
   K = 'k',
+  CA = 'calcium',
+  MG = 'magnesium',
+  S = 'sulfur',
+  CU = 'copper',
+  MN = 'manganese',
+  B = 'boron',
 }
 
-export const FIELD_NAMES = {
+export enum MolecularCompound {
+  AMMONIUM = 'ammonium',
+  NITRATE = 'nitrate',
+}
+
+export const TASK_FIELD_NAMES = {
+  METHOD_ID: 'method_id',
+  OTHER_APPLICATION_METHOD: 'other_application_method',
+  FURROW_HOLE_DEPTH: 'furrow_hole_depth',
+  FURROW_HOLE_DEPTH_UNIT: 'furrow_hole_depth_unit',
+} as const;
+
+export const TASK_PRODUCT_FIELD_NAMES = {
   PRODUCT_ID: 'product_id',
+  PURPOSES: 'purposes',
+  OTHER_PURPOSE: 'other_purpose',
+  WEIGHT: 'weight',
+  WEIGHT_UNIT: 'weight_unit',
+  VOLUME: 'volume',
+  VOLUME_UNIT: 'volume_unit',
+  PERCENT_OF_LOCATION_AMENDED: 'percent_of_location_amended',
+  TOTAL_AREA_AMENDED: 'total_area_amended',
+  TOTAL_AREA_AMENDED_UNIT: 'total_area_amended_unit',
+  APPLICATION_RATE_WEIGHT: 'application_rate_weight',
+  APPLICATION_RATE_WEIGHT_UNIT: 'application_rate_weight_unit',
+  APPLICATION_RATE_VOLUME: 'application_rate_volume',
+  APPLICATION_RATE_VOLUME_UNIT: 'application_rate_volume_unit',
+  IS_WEIGHT: 'is_weight',
+} as const;
+
+export const PRODUCT_FIELD_NAMES = {
+  PRODUCT_ID: 'product_id',
+  PURPOSES: 'purposes',
+  OTHER_PURPOSE: 'other_purpose',
+  OTHER_PURPOSE_ID: 'other_purpose_id',
   NAME: 'name',
   SUPPLIER: 'supplier',
   PERMITTED: 'on_permitted_substances_list',
+  FERTILISER_TYPE_ID: 'soil_amendment_fertiliser_type_id',
+  MOISTURE_CONTENT: 'moisture_content_percent',
+  DRY_MATTER_CONTENT: 'dry_matter_content',
   COMPOSITION: 'composition',
-  UNIT: 'npk_unit',
-  N: NPK.N,
-  P: NPK.P,
-  K: NPK.K,
+  ELEMENTAL_UNIT: 'elemental_unit',
+  N: Nutrients.N,
+  P: Nutrients.P,
+  K: Nutrients.K,
+  CA: Nutrients.CA,
+  MG: Nutrients.MG,
+  S: Nutrients.S,
+  CU: Nutrients.CU,
+  MN: Nutrients.MN,
+  B: Nutrients.B,
+  AMMONIUM: MolecularCompound.AMMONIUM,
+  NITRATE: MolecularCompound.NITRATE,
+  MOLECULAR_COMPOUNDS_UNIT: 'molecular_compounds_unit',
 } as const;
 
 export type ProductId = number | string | undefined;
 
-export type FormFields = {
-  [FIELD_NAMES.SUPPLIER]?: string | null;
-  [FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
-  [FIELD_NAMES.COMPOSITION]?: {
-    [FIELD_NAMES.UNIT]?: Unit;
-    [FIELD_NAMES.N]?: number | null;
-    [FIELD_NAMES.P]?: number | null;
-    [FIELD_NAMES.K]?: number | null;
+export type ProductFormFields = {
+  [PRODUCT_FIELD_NAMES.SUPPLIER]?: string;
+  [PRODUCT_FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
+  [PRODUCT_FIELD_NAMES.PURPOSES]?: number[];
+  [PRODUCT_FIELD_NAMES.OTHER_PURPOSE]?: string;
+  [PRODUCT_FIELD_NAMES.FERTILISER_TYPE_ID]?: number;
+  [PRODUCT_FIELD_NAMES.MOISTURE_CONTENT]?: number;
+  [PRODUCT_FIELD_NAMES.DRY_MATTER_CONTENT]?: number;
+  [PRODUCT_FIELD_NAMES.COMPOSITION]?: {
+    [PRODUCT_FIELD_NAMES.ELEMENTAL_UNIT]?: ElementalUnit;
+    [PRODUCT_FIELD_NAMES.N]?: number;
+    [PRODUCT_FIELD_NAMES.P]?: number;
+    [PRODUCT_FIELD_NAMES.K]?: number;
+    [PRODUCT_FIELD_NAMES.CA]?: number;
+    [PRODUCT_FIELD_NAMES.MG]?: number;
+    [PRODUCT_FIELD_NAMES.S]?: number;
+    [PRODUCT_FIELD_NAMES.CU]?: number;
+    [PRODUCT_FIELD_NAMES.MN]?: number;
+    [PRODUCT_FIELD_NAMES.B]?: number;
   };
+  [PRODUCT_FIELD_NAMES.AMMONIUM]?: number;
+  [PRODUCT_FIELD_NAMES.NITRATE]?: number;
+  [PRODUCT_FIELD_NAMES.MOLECULAR_COMPOUNDS_UNIT]?: MolecularCompoundsUnit;
 };
 
-export type Product = {
-  [FIELD_NAMES.PRODUCT_ID]: number;
-  [FIELD_NAMES.NAME]: string;
-  [FIELD_NAMES.SUPPLIER]?: string | null;
-  [FIELD_NAMES.PERMITTED]?: 'YES' | 'NO' | 'NOT_SURE' | null;
-  [FIELD_NAMES.N]?: number | null;
-  [FIELD_NAMES.P]?: number | null;
-  [FIELD_NAMES.K]?: number | null;
-  [FIELD_NAMES.UNIT]?: Unit | null;
-  farm_id: string;
-  type:
-    | typeof TASK_TYPES.SOIL_AMENDMENT
-    | typeof TASK_TYPES.CLEANING
-    | typeof TASK_TYPES.PEST_CONTROL;
-  product_translation_key: string | null;
-};
+type UnitKeys = keyof ReturnType<typeof getUnitOptionMap>;
+export interface UnitOption {
+  value: UnitKeys;
+  label: string;
+}

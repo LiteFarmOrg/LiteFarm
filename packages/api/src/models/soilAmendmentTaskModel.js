@@ -15,7 +15,6 @@
 
 import Model from './baseFormatModel.js';
 import taskModel from './taskModel.js';
-import soilAmendmentTaskProductsModel from './soilAmendmentTaskProductsModel.js';
 import soilAmendmentMethodModel from './soilAmendmentMethodModel.js';
 
 const furrowHoleDepthUnits = ['cm', 'in'];
@@ -26,6 +25,27 @@ class SoilAmendmentTaskModel extends Model {
 
   static get idColumn() {
     return 'task_id';
+  }
+
+  async $beforeUpdate(queryContext) {
+    await super.$beforeUpdate(queryContext);
+
+    if (this.method_id) {
+      const { key } = await soilAmendmentMethodModel
+        .query(queryContext.transaction)
+        .findById(this.method_id)
+        .select('key')
+        .first();
+
+      if (key !== 'OTHER') {
+        this.other_application_method = null;
+      }
+
+      if (key !== 'FURROW_HOLE') {
+        this.furrow_hole_depth = null;
+        this.furrow_hole_depth_unit = null;
+      }
+    }
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -43,7 +63,7 @@ class SoilAmendmentTaskModel extends Model {
           type: ['string', 'null'],
           enum: [...furrowHoleDepthUnits, null],
         },
-        other_application_method: { type: ['string', 'null'] },
+        other_application_method: { type: ['string', 'null'], minLength: 1, maxLength: 255 },
       },
       additionalProperties: false,
     };
@@ -61,14 +81,6 @@ class SoilAmendmentTaskModel extends Model {
         join: {
           from: 'soil_amendment_task.task_id',
           to: 'task.task_id',
-        },
-      },
-      soil_amendment_task_products: {
-        relation: Model.HasManyRelation,
-        modelClass: soilAmendmentTaskProductsModel,
-        join: {
-          from: 'soil_amendment_task.task_id',
-          to: 'soil_amendment_task_products.task_id',
         },
       },
       method: {
@@ -95,7 +107,6 @@ class SoilAmendmentTaskModel extends Model {
       // relationMappings
       task: 'omit',
       product: 'omit',
-      soil_amendment_task_products: 'edit',
       method: 'omit',
     };
   }

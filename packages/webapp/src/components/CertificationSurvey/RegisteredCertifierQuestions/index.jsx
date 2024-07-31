@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Info, Main, Semibold } from '../../Typography';
 import { colors } from '../../../assets/theme';
 import { ReactComponent as PostSurveySplash } from '../../../assets/images/certification/CompleteSurveySplash.svg';
+const surveyGroupId = import.meta.env.VITE_SURVEY_GROUP_ID;
 
 const RegisteredCertifierQuestionsSurvey = ({
   certiferAcronym,
@@ -49,7 +50,7 @@ const PreSurveyBody = ({ surveyId }) => {
   return (
     <iframe
       title="temp iframe title"
-      src={`https://app.surveystack.io/surveys/${surveyId}?minimal_ui=true`}
+      src={`https://staging.surveystack.io/groups/${surveyGroupId}/surveys/${surveyId}/submissions/new?minimal_ui=true`}
       className={styles.surveyFrame}
       allow="geolocation"
     />

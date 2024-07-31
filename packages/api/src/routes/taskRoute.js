@@ -25,7 +25,12 @@ import {
 } from '../middleware/validation/assignTask.js';
 import taskController from '../controllers/taskController.js';
 import { createOrPatchProduct } from '../middleware/validation/product.js';
-import { checkSoilAmendmentTaskProducts } from '../middleware/validation/checkSoilAmendmentTaskProducts.js';
+import {
+  checkAbandonTask,
+  checkCompleteTask,
+  checkCreateTask,
+  checkDeleteTask,
+} from '../middleware/validation/checkTask.js';
 
 router.patch(
   '/assign/:task_id',
@@ -63,6 +68,7 @@ router.patch(
   '/abandon/:task_id',
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
+  checkAbandonTask(),
   taskController.abandonTask,
 );
 
@@ -83,7 +89,7 @@ router.post(
   modelMapping['soil_amendment_task'],
   hasFarmAccess({ mixed: 'taskManagementPlanAndLocation' }),
   isWorkerToSelfOrAdmin(),
-  checkSoilAmendmentTaskProducts(),
+  checkCreateTask('soil_amendment_task'),
   taskController.createTask('soil_amendment_task'),
 );
 
@@ -166,7 +172,7 @@ router.patch(
   modelMapping['soil_amendment_task'],
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
-  checkSoilAmendmentTaskProducts(),
+  checkCompleteTask('soil_amendment_task'),
   taskController.completeTask('soil_amendment_task'),
 );
 
@@ -274,6 +280,7 @@ router.delete(
   '/:task_id',
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['delete:task']),
+  checkDeleteTask(),
   taskController.deleteTask,
 );
 

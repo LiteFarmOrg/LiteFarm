@@ -1,5 +1,6 @@
 {
   "ADD_ANIMAL": {
+    "ADD_ANIMALS": "MISSING",
     "ADD_TO_INVENTORY": "MISSING",
     "ANIMALS_TOTAL_one": "MISSING",
     "ANIMALS_TOTAL_many": "MISSING",

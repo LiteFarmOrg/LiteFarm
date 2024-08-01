@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { ChangeEvent } from 'react';
+import { History } from 'history';
 import Table from '../../../components/Table';
 import PureSearchBarWithBackdrop from '../../PopupFilter/PureSearchWithBackdrop';
 import NoSearchResults from '../../../components/Card/NoSearchResults';
@@ -21,11 +22,13 @@ import ClearFiltersButton, {
 } from '../../../components/Button/ClearFiltersButton';
 import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import AnimalsFilter from '../../../containers/Animals/AnimalsFilter';
+import FloatingButtonMenu from '../../Menu/FloatingButtonMenu';
 import { TableV2Column, TableKind } from '../../Table/types';
 import type { Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { sumObjectValues } from '../../../util';
+import { useTranslation } from 'react-i18next';
 
 const HEIGHTS = {
   filterAndSearch: 64,
@@ -54,6 +57,7 @@ const PureAnimalInventory = ({
   clearFilters,
   isLoading,
   containerHeight,
+  history,
 }: {
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
@@ -68,7 +72,10 @@ const PureAnimalInventory = ({
   clearFilters: () => void;
   isLoading: boolean;
   containerHeight?: number;
+  history: History;
 }) => {
+  const { t } = useTranslation();
+
   if (isLoading) {
     return null;
   }
@@ -140,6 +147,15 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
+      <FloatingButtonMenu
+        type={'add'}
+        options={[
+          {
+            label: t('ADD_ANIMAL.ADD_ANIMALS'),
+            onClick: () => history.push('/animals/inventory/add_animals'),
+          },
+        ]}
+      />
     </>
   );
 };

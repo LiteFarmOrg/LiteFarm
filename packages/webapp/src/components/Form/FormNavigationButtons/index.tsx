@@ -28,7 +28,7 @@ export interface FormNavigationButtonsProps {
   hasPreviousButton?: boolean;
   onCancel: () => void;
   onContinue: () => void;
-  onPrevious: () => void;
+  onPrevious?: () => void;
 }
 
 const FormNavigationButtons = ({

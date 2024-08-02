@@ -90,6 +90,12 @@ const SaleController = {
           saleData.value = value;
         }
 
+        // do not allow updates to deleted records
+        if (await baseController.isDeleted(trx, SaleModel, { sale_id })) {
+          await trx.rollback();
+          return res.status(409).send('sale deleted');
+        }
+
         const newSale = await SaleModel.query(trx)
           .context(req.auth)
           .where('sale_id', sale_id)

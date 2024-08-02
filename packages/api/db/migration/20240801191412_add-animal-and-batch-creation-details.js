@@ -25,6 +25,23 @@ export const up = async function (knex) {
       'reproduction_sex_check',
     );
   });
+
+  const otherUse = await knex('animal_use').select('*').where({ key: 'OTHER' }).first();
+
+  await knex.schema.createTable('animal_use_relationship', (table) => {
+    table.increments('id').primary();
+    table.integer('animal_id').references('id').inTable('animal').notNullable();
+    table.integer('use_id').references('id').inTable('animal_use').notNullable();
+    table.string('other_use');
+    table.unique(['animal_id', 'use_id'], {
+      indexName: 'animal_use_uniqueness_check',
+    });
+    table.check(
+      `(other_use IS NOT NULL AND use_id = ${otherUse.id}) OR (other_use IS NULL)`,
+      [],
+      'other_use_id_check',
+    );
+  });
 };
 
 export const down = async function (knex) {
@@ -32,4 +49,6 @@ export const down = async function (knex) {
     table.dropChecks(['reproduction_sex_check']);
     table.dropColumn('used_for_reproduction');
   });
+
+  await knex.schema.dropTable('animal_use_relationship');
 };

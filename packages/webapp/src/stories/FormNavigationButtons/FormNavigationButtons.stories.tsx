@@ -77,7 +77,7 @@ export const FinalStep: Story = {
 
 export const WithPreviousButton: Story = {
   args: {
-    hasPreviousButton: true,
+    onPrevious: () => console.log('It uses onPrevious prop.'),
   },
 };
 

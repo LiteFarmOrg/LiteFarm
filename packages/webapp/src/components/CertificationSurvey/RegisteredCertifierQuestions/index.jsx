@@ -50,7 +50,7 @@ const PreSurveyBody = ({ surveyId }) => {
   return (
     <iframe
       title="temp iframe title"
-      src={`https://staging.surveystack.io/groups/${surveyGroupId}/surveys/${surveyId}/submissions/new?minimal_ui=true`}
+      src={`https://app.surveystack.io/groups/${surveyGroupId}/surveys/${surveyId}/submissions/new?minimal_ui=true`}
       className={styles.surveyFrame}
       allow="geolocation"
     />

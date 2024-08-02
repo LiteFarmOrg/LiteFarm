@@ -25,7 +25,6 @@ export interface FormNavigationButtonsProps {
   isDisabled?: boolean;
   contextualContent?: React.ReactNode | string;
   informationalText?: string;
-  hasPreviousButton?: boolean;
   onCancel: () => void;
   onContinue: () => void;
   onPrevious?: () => void;
@@ -36,7 +35,6 @@ const FormNavigationButtons = ({
   isDisabled = false,
   contextualContent,
   informationalText,
-  hasPreviousButton,
   onCancel,
   onContinue,
   onPrevious,

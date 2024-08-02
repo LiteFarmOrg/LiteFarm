@@ -51,14 +51,7 @@ const FormNavigationButtons = ({
           {t('common:CANCEL')}
         </Button>
         {hasPreviousButton && (
-          <Button
-            color="secondary"
-            disabled={isDisabled}
-            onClick={onPrevious}
-            className={styles.button}
-            sm
-            fullLength
-          >
+          <Button color="secondary" onClick={onPrevious} className={styles.button} sm fullLength>
             {t('common:PREVIOUS')}
           </Button>
         )}

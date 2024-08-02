@@ -46,7 +46,8 @@
     "ERROR": {
       "ADD": "Falha ao adicionar novas despesas",
       "DELETE": "Falha ao excluir despesas",
-      "UPDATE": "Falha ao atualizar despesas!"
+      "UPDATE": "Falha ao atualizar despesas!",
+      "EXPENSE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "ADD": "Novas despesas adicionadas com sucesso!",

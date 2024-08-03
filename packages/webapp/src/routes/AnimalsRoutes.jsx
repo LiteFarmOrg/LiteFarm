@@ -35,7 +35,11 @@ const AnimalsRoutes = ({ isCompactSideMenu }) => (
     />
     <Route path={ANIMALS_LOCATION_URL} exact component={Location} />
     <Route path={ANIMALS_GROUPS_URL} exact component={Groups} />
-    <Route path={ADD_ANIMALS_URL} exact component={AddAnimals} />
+    <Route
+      path={ADD_ANIMALS_URL}
+      exact
+      render={(props) => <AddAnimals isCompactSideMenu={isCompactSideMenu} {...props} />}
+    />
   </Switch>
 );
 

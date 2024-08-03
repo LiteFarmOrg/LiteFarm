@@ -32,6 +32,9 @@ const meta: Meta<typeof FormNavigationButtons> = {
     ),
     ...componentDecorators,
   ],
+  args: {
+    onPrevious: undefined, // Otherwise Storybook will add this prop to every story as truthy.
+  },
 };
 
 export default meta;

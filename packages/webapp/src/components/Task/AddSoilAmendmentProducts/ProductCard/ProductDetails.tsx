@@ -367,7 +367,7 @@ const ProductDetails = ({
               required: interested,
               maxLength: hookFormMaxCharsValidation(255),
               validate: (value) => {
-                if (value?.trim().length === 0) {
+                if (interested && value?.trim().length === 0) {
                   return t('COMMON_ERRORS.UNIT.REQUIRED');
                 }
                 return true;

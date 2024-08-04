@@ -138,8 +138,8 @@ const onboardCompleteQuestions = (role) => {
 
   cy.url().should('include', '/certification/selection');
   cy.get(Selectors.CERTIFICATION_SELECTION_CONTINUE).should('exist').and('be.disabled');
-  cy.get(Selectors.CERTIFICATION_SELECTION_TYPE).should('exist');
-  cy.get(Selectors.RADIO).first().check();
+  cy.get(Selectors.THIRD_PARTY_ORGANIC).should('exist');
+  cy.get(Selectors.THIRD_PARTY_ORGANIC).check();
   cy.get(Selectors.CERTIFICATION_SELECTION_CONTINUE).should('not.be.disabled').click();
 
   // Select certifier

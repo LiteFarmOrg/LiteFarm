@@ -46,7 +46,8 @@
     "ERROR": {
       "ADD": "Falha ao adicionar novas despesas",
       "DELETE": "Falha ao excluir despesas",
-      "UPDATE": "Falha ao atualizar despesas!"
+      "UPDATE": "Falha ao atualizar despesas!",
+      "EXPENSE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "ADD": "Novas despesas adicionadas com sucesso!",
@@ -169,7 +170,8 @@
     "ERROR": {
       "ADD": "Falha ao adicionar venda",
       "DELETE": "Falha de excluir venda nova",
-      "UPDATE": "Falha de atualizar venda"
+      "UPDATE": "Falha de atualizar venda",
+      "SALE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "ADD": "Venda adicionada com sucesso",

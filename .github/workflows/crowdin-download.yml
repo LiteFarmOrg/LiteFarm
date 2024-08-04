@@ -52,8 +52,8 @@ jobs:
           translation: ${{ matrix.locales.translation }} # Translations pattern
           localization_branch_name: l10n_crowdin_translations_${{ env.BRANCH_NAME }}_${{ matrix.locales.name }}
           create_pull_request: true
-          pull_request_title: "New Crowdin translations"
-          pull_request_body: "New Crowdin pull request with translations"
+          pull_request_title: "New Crowdin translations ${{ matrix.locales.name }}"
+          pull_request_body: "New Crowdin pull request with translations of ${{ matrix.locales.name }}"
           pull_request_base_branch_name: ${{ env.BRANCH_NAME }}
           crowdin_branch_name: ${{ env.BRANCH_NAME }}
         env:

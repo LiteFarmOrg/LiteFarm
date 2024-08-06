@@ -13,10 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { FormFields as AnimalBasicsFormFields } from '../../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
-
-export const ANIMAL_BASICS_FIELD_ARRAY_NAME = 'animals'; // check what's desired here
+import { STEPS } from '../AddAnimals';
 
 export type AddAnimalsFormFields = {
-  [ANIMAL_BASICS_FIELD_ARRAY_NAME]: AnimalBasicsFormFields[];
+  [STEPS.BASICS]: AnimalBasicsFormFields[];
   // TODO: add other form fields here
 };

@@ -55,7 +55,7 @@ export function AnimalTypeSelect<T extends FieldValues>({
 
 export type AnimalBreedSelectProps = {
   breedOptions: Option[];
-  isTypeSelected: boolean;
+  isTypeSelected?: boolean;
 };
 
 export function AnimalBreedSelect<T extends FieldValues>({

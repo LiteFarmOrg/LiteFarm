@@ -30,7 +30,7 @@ class AnimalBatchUseRelationshipModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['animal_batch_id', 'use_id'],
+      required: ['use_id'],
       properties: {
         id: { type: 'integer' },
         animal_batch_id: { type: 'integer' },

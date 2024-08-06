@@ -32,6 +32,9 @@ const meta: Meta<typeof FormNavigationButtons> = {
     ),
     ...componentDecorators,
   ],
+  args: {
+    onPrevious: undefined, // Otherwise Storybook will add this prop to every story as truthy.
+  },
 };
 
 export default meta;
@@ -72,6 +75,12 @@ export const FinalStep: Story = {
   args: {
     isFinalStep: true,
     ...onClickHandlers,
+  },
+};
+
+export const WithPreviousButton: Story = {
+  args: {
+    onPrevious: () => console.log('It uses onPrevious prop.'),
   },
 };
 

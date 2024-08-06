@@ -20,6 +20,8 @@ import { useTranslation } from 'react-i18next';
 export type Option = {
   label: string;
   value: string | number;
+  default_type_id?: number;
+  custom_type_id?: number;
 };
 
 export type AnimalTypeSelectProps = {
@@ -55,7 +57,7 @@ export function AnimalTypeSelect<T extends FieldValues>({
 
 export type AnimalBreedSelectProps = {
   breedOptions: Option[];
-  isTypeSelected: boolean;
+  isTypeSelected?: boolean;
 };
 
 export function AnimalBreedSelect<T extends FieldValues>({

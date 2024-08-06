@@ -12,34 +12,11 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { FormFields as AnimalBasicsFormFields } from '../../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
 
-export enum AnimalTranslationKey {
-  CATTLE = 'CATTLE',
-  CHICKEN = 'CHICKEN',
-  PIGS = 'PIGS',
-}
+export const ANIMAL_BASICS_FIELD_ARRAY_NAME = 'animals'; // check what's desired here
 
-export enum ANIMAL_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
-}
-
-export enum ANIMAL_ID_ENTITY {
-  TYPE = 'type',
-  BREED = 'breed',
-}
-
-export enum AnimalOrBatchKeys {
-  ANIMAL = 'ANIMAL',
-  BATCH = 'BATCH',
-}
-
-export enum AnimalSexes {
-  MALE = 'MALE',
-  FEMALE = 'FEMALE',
-}
-
-export enum AnimalOrigins {
-  BROUGHT_IN = 'BROUGHT_IN',
-  BORN_AT_FARM = 'BORN_AT_FARM',
-}
+export type AddAnimalsFormFields = {
+  [ANIMAL_BASICS_FIELD_ARRAY_NAME]: AnimalBasicsFormFields[];
+  // TODO: add other form fields here
+};

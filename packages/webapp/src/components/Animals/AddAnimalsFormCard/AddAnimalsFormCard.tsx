@@ -33,8 +33,10 @@ import {
   type Option,
 } from './AnimalSelect';
 import { useTranslation } from 'react-i18next';
+import { parseUniqueAnimalId } from '../../../util/animal';
+import { ANIMAL_ID_ENTITY } from '../../../containers/Animals/types';
 
-const FIELD_NAMES = {
+export const FIELD_NAMES = {
   TYPE: 'type',
   BREED: 'breed',
   SEX_DETAILS: 'sexDetails',
@@ -44,8 +46,7 @@ const FIELD_NAMES = {
   BATCH: 'batch',
 } as const;
 
-// Should be moved up to parent component that calls useForm
-type FormFields = {
+export type FormFields = {
   [FIELD_NAMES.TYPE]?: Option;
   [FIELD_NAMES.BREED]?: Option;
   [FIELD_NAMES.SEX_DETAILS]: SexDetailsType;
@@ -62,6 +63,7 @@ type AddAnimalsFormCardProps = AnimalTypeSelectProps &
     onRemoveButtonClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
     showRemoveButton?: boolean;
     isActive?: boolean;
+    namePrefix?: string;
   };
 
 export default function AddAnimalsFormCard({
@@ -73,12 +75,25 @@ export default function AddAnimalsFormCard({
   showRemoveButton,
   onRemoveButtonClick,
   isActive,
+  namePrefix = '',
 }: AddAnimalsFormCardProps) {
-  const { control, watch, register } = useFormContext<FormFields>();
+  const { control, watch, register } = useFormContext();
   const { t } = useTranslation();
-  const watchAnimalCount = watch(FIELD_NAMES.COUNT) || 0;
-  const watchAnimalType = watch(FIELD_NAMES.TYPE);
-  const shouldCreateIndividualProfiles = watch(FIELD_NAMES.CREATE_INDIVIDUAL_PROFILES);
+  const watchAnimalCount = watch(`${namePrefix}.${FIELD_NAMES.COUNT}`) || 0;
+  const watchAnimalType = watch(`${namePrefix}.${FIELD_NAMES.TYPE}`);
+  const shouldCreateIndividualProfiles = watch(
+    `${namePrefix}.${FIELD_NAMES.CREATE_INDIVIDUAL_PROFILES}`,
+  );
+
+  const typeKey = watchAnimalType?.value
+    ? parseUniqueAnimalId(watchAnimalType.value, ANIMAL_ID_ENTITY.TYPE)
+    : {};
+
+  const filteredBreeds = breedOptions.filter(
+    ({ custom_type_id, default_type_id }) =>
+      (custom_type_id && custom_type_id === typeKey.custom_type_id) ||
+      (default_type_id && default_type_id === typeKey.default_type_id),
+  );
 
   return (
     <Card className={styles.form} isActive={isActive}>
@@ -91,21 +106,21 @@ export default function AddAnimalsFormCard({
         )}
       </div>
       <AnimalTypeSelect
-        name={FIELD_NAMES.TYPE}
+        name={`${namePrefix}.${FIELD_NAMES.TYPE}`}
         control={control}
         typeOptions={typeOptions}
         onTypeChange={onTypeChange}
       />
       <AnimalBreedSelect
-        name={FIELD_NAMES.BREED}
+        name={`${namePrefix}.${FIELD_NAMES.BREED}`}
         control={control}
-        breedOptions={breedOptions}
+        breedOptions={filteredBreeds}
         isTypeSelected={!!watchAnimalType}
       />
 
       <div className={styles.countAndSexDetailsWrapper}>
         <NumberInput
-          name={FIELD_NAMES.COUNT}
+          name={`${namePrefix}.${FIELD_NAMES.COUNT}`}
           control={control}
           defaultValue={0}
           label={t('common:COUNT')}
@@ -114,7 +129,7 @@ export default function AddAnimalsFormCard({
           showStepper
         />
         <Controller
-          name={FIELD_NAMES.SEX_DETAILS}
+          name={`${namePrefix}.${FIELD_NAMES.SEX_DETAILS}`}
           control={control}
           render={({ field }) => (
             <SexDetails
@@ -128,7 +143,7 @@ export default function AddAnimalsFormCard({
       <Checkbox
         label={t('ADD_ANIMAL.CREATE_INDIVIDUAL_PROFILES')}
         tooltipContent={t('ADD_ANIMAL.CREATE_INDIVIDUAL_PROFILES_TOOLTIP')}
-        hookFormRegister={register(FIELD_NAMES.CREATE_INDIVIDUAL_PROFILES)}
+        hookFormRegister={register(`${namePrefix}.${FIELD_NAMES.CREATE_INDIVIDUAL_PROFILES}`)}
         onChange={(e) => onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked)}
       />
       {shouldCreateIndividualProfiles ? (
@@ -137,7 +152,7 @@ export default function AddAnimalsFormCard({
           label={t('ADD_ANIMAL.GROUP_NAME')}
           optional
           placeholder={t('ADD_ANIMAL.GROUP_NAME_PLACEHOLDER')}
-          hookFormRegister={register(FIELD_NAMES.GROUP)}
+          hookFormRegister={register(`${namePrefix}.${FIELD_NAMES.GROUP}`)}
         />
       ) : (
         // @ts-ignore
@@ -145,7 +160,7 @@ export default function AddAnimalsFormCard({
           label={t('ADD_ANIMAL.BATCH_NAME')}
           optional
           placeholder={t('ADD_ANIMAL.BATCH_NAME_PLACEHOLDER')}
-          hookFormRegister={register(FIELD_NAMES.BATCH)}
+          hookFormRegister={register(`${namePrefix}.${FIELD_NAMES.BATCH}`)}
         />
       )}
     </Card>

@@ -78,6 +78,13 @@ const farmExpenseController = {
       const { user_id } = req.auth;
 
       const trx = await transaction.start(Model.knex());
+
+      // do not allow updates to deleted records
+      if (await baseController.isDeleted(trx, FarmExpenseModel, { farm_expense_id })) {
+        await trx.rollback();
+        return res.status(409).send('expense deleted');
+      }
+
       try {
         const result = await FarmExpenseModel.query(trx)
           .context({ user_id })

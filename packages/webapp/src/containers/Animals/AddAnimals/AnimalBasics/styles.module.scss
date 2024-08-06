@@ -13,33 +13,25 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export enum AnimalTranslationKey {
-  CATTLE = 'CATTLE',
-  CHICKEN = 'CHICKEN',
-  PIGS = 'PIGS',
-}
+@import '../../../../assets/mixin.scss';
 
-export enum ANIMAL_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
-}
+.cardContainer {
+  padding: 16px;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 16px;
 
-export enum ANIMAL_ID_ENTITY {
-  TYPE = 'type',
-  BREED = 'breed',
-}
+  > div {
+    width: 400px;
+  }
 
-export enum AnimalOrBatchKeys {
-  ANIMAL = 'ANIMAL',
-  BATCH = 'BATCH',
-}
+  @include xs-breakpoint {
+    flex-flow: column nowrap;
+    align-items: center;
 
-export enum AnimalSexes {
-  MALE = 'MALE',
-  FEMALE = 'FEMALE',
-}
-
-export enum AnimalOrigins {
-  BROUGHT_IN = 'BROUGHT_IN',
-  BORN_AT_FARM = 'BORN_AT_FARM',
+    > div {
+      width: 100%;
+      min-width: 350px;
+    }
+  }
 }

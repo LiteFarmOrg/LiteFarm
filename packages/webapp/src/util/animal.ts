@@ -21,7 +21,7 @@ import type {
   Animal,
   AnimalBatch,
 } from '../store/api/types';
-import { ANIMAL_ID_PREFIX, AnimalOrBatchKeys } from '../containers/Animals/types';
+import { ANIMAL_ID_PREFIX, ANIMAL_ID_ENTITY, AnimalOrBatchKeys } from '../containers/Animals/types';
 
 /**
  * Generates a unique ID based on the given type or breed entity.
@@ -32,6 +32,14 @@ export const generateUniqueAnimalId = (
   entity: DefaultAnimalType | CustomAnimalType | DefaultAnimalBreed | CustomAnimalBreed,
 ): string => {
   return `${ANIMAL_ID_PREFIX['key' in entity ? 'DEFAULT' : 'CUSTOM']}_${entity.id}`;
+};
+
+export const parseUniqueAnimalId = (
+  uniqueId: string,
+  type: ANIMAL_ID_ENTITY,
+): Partial<Record<string, number>> => {
+  const [prefix, id] = uniqueId.split('_');
+  return { [`${prefix}_${type}_id`]: Number(id) };
 };
 
 export const generateInventoryId = (

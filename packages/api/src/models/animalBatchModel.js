@@ -89,7 +89,7 @@ class AnimalBatchModel extends baseModel {
         removal_date: { type: ['string', 'null'], format: 'date-time' },
         organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
         supplier: { type: ['string', 'null'], maxLength: 255 },
-        price: { type: ['number', null] },
+        price: { type: ['number', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,

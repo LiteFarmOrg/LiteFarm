@@ -23,6 +23,7 @@ import AnimalGroupRelationshipModel from '../models/animalGroupRelationshipModel
 import { assignInternalIdentifiers } from '../util/animal.js';
 import { handleObjectionError } from '../util/errorCodes.js';
 import { checkAndTrimString } from '../util/util.js';
+import AnimalUseRelationshipModel from '../models/animalUseRelationshipModel.js';
 
 const animalController = {
   getFarmAnimals() {
@@ -146,6 +147,23 @@ const animalController = {
           }
 
           individualAnimalResult.group_ids = groupIds;
+
+          const animalUseRelationships = [];
+          if (animal.animal_use_relationships?.length) {
+            for (const relationship of animal.animal_use_relationships) {
+              animalUseRelationships.push(
+                await baseController.postWithResponse(
+                  AnimalUseRelationshipModel,
+                  { ...relationship, animal_id: individualAnimalResult.id },
+                  req,
+                  { trx },
+                ),
+              );
+            }
+          }
+
+          individualAnimalResult.animal_use_relationships = animalUseRelationships;
+
           result.push(individualAnimalResult);
         }
 

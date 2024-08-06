@@ -32,7 +32,11 @@ const animalController = {
         const rows = await AnimalModel.query()
           .where({ farm_id })
           .whereNotDeleted()
-          .withGraphFetched({ internal_identifier: true, group_ids: true });
+          .withGraphFetched({
+            internal_identifier: true,
+            group_ids: true,
+            animal_use_relationships: true,
+          });
         return res.status(200).send(
           rows.map(({ internal_identifier, group_ids, ...rest }) => ({
             ...rest,

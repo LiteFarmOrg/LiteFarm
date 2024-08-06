@@ -46,13 +46,7 @@ export const defaultValues = {
 
 const AnimalBasics = () => {
   const { t } = useTranslation(['animal', 'common', 'translation']);
-  const {
-    control,
-    setValue,
-    getValues,
-    watch,
-    formState: { isValid },
-  } = useFormContext<AddAnimalsFormFields>();
+  const { control } = useFormContext<AddAnimalsFormFields>();
 
   const { fields, append, remove } = useFieldArray({
     name: ANIMAL_BASICS_FIELD_ARRAY_NAME,
@@ -87,10 +81,13 @@ const AnimalBasics = () => {
     ...defaultBreeds.map((defaultBreed) => ({
       label: t(`animal:BREED.${defaultBreed.key}`),
       value: generateUniqueAnimalId(defaultBreed),
+      default_type_id: defaultBreed.default_type_id,
     })),
     ...customBreeds.map((customBreed) => ({
       label: customBreed.breed,
       value: generateUniqueAnimalId(customBreed),
+      default_type_id: customBreed.default_type_id,
+      custom_type_id: customBreed.custom_type_id,
     })),
   ];
 
@@ -124,6 +121,7 @@ const AnimalBasics = () => {
       <div className={styles.cardContainer}>
         {fields.map((field, index) => {
           const namePrefix = `${ANIMAL_BASICS_FIELD_ARRAY_NAME}.${index}`;
+
           return (
             <AddAnimalsFormCard
               key={field.id}

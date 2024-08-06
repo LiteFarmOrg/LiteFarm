@@ -16,9 +16,8 @@
 export const up = async function (knex) {
   // Sexes that are allowed to be used for reproduction
   const maleSex = await knex('animal_sex').select('*').where({ key: 'MALE' }).first();
-  // TODO: revisit after LF-4170
-  //const otherIdentifierType = await knex('animal_identifier_type').select('*').where({ key: 'OTHER' }).first();
-  //const otherIdentifierPlacement = await knex('animal_identifier_placement').select('*').where({ key: 'OTHER' }).first();
+  // TODO: revisit after LF-4170 placement -> type
+  // const otherIdentifierType = await knex('animal_identifier_placement').select('*').where({ key: 'OTHER' }).first();
 
   await knex.schema.alterTable('animal', (table) => {
     table.boolean('used_for_reproduction').nullable();
@@ -27,19 +26,17 @@ export const up = async function (knex) {
       [],
       'reproduction_sex_check',
     );
-    // TODO: revisit after LF-4170
-    // table.integer('identifier_type_id').references('id').inTable('animal_identifier_type').nullable();
+    // TODO: revisit after LF-4170 placement -> type
+    table
+      .integer('identifier_type_id')
+      .references('id')
+      .inTable('animal_identifier_placement')
+      .nullable();
     table.string('identifier_type_other').nullable();
     // table.check(
     //   `(identifier_type_other IS NOT NULL AND identifier_type_id = ${otherIdentifierType.id}) OR (identifier_type_other IS NULL)`,
     //   [],
     //   'identifier_type_other_id_check',
-    // );
-    table.string('identifier_placement_other').nullable();
-    // table.check(
-    //   `(identifier_placement_other IS NOT NULL AND identifier_placement_id = ${otherIdentifierPlacement.id}) OR (identifier_placement_other IS NULL)`,
-    //   [],
-    //   'identifier_placement_other_id_check',
     // );
     table
       .enu('organic_status', ['Non-Organic', 'Transitional', 'Organic'])
@@ -68,13 +65,12 @@ export const up = async function (knex) {
 export const down = async function (knex) {
   await knex.schema.alterTable('animal', (table) => {
     // TODO: revisit after LF-4170
-    // table.dropChecks(['reproduction_sex_check','identifier_type_other_id_check', 'identifier_placement_other_id_check']);
+    // table.dropChecks(['reproduction_sex_check', 'identifier_type_other_id_check']);
     table.dropChecks(['reproduction_sex_check']);
-    //table.dropColumns(['used_for_reproduction', 'identifier_type_id', 'identifier_type_other','identifier_placement_other']);
     table.dropColumns([
       'used_for_reproduction',
+      'identifier_type_id',
       'identifier_type_other',
-      'identifier_placement_other',
       'organic_status',
     ]);
   });

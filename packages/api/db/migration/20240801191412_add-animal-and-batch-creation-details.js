@@ -73,6 +73,21 @@ export const up = async function (knex) {
     table.string('dam').nullable();
     table.string('sire').nullable();
   });
+
+  await knex.schema.createTable('animal_batch_use_relationship', (table) => {
+    table.increments('id').primary();
+    table.integer('animal_batch_id').references('id').inTable('animal_batch').notNullable();
+    table.integer('use_id').references('id').inTable('animal_use').notNullable();
+    table.string('other_use');
+    table.unique(['animal_batch_id', 'use_id'], {
+      indexName: 'animal_batch_use_uniqueness_check',
+    });
+    table.check(
+      `(other_use IS NOT NULL AND use_id = ${otherUse.id}) OR (other_use IS NULL)`,
+      [],
+      'other_use_id_check',
+    );
+  });
 };
 
 export const down = async function (knex) {
@@ -95,4 +110,6 @@ export const down = async function (knex) {
   await knex.schema.alterTable('animal_batch', (table) => {
     table.dropColumns(['organic_status', 'supplier', 'price', 'dam', 'sire']);
   });
+
+  await knex.schema.dropTable('animal_batch_use_relationship');
 };

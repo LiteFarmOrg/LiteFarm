@@ -29,6 +29,7 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { sumObjectValues } from '../../../util';
 import { useTranslation } from 'react-i18next';
+import { ADD_ANIMALS_URL } from '../../../util/siteMapConstants';
 
 const HEIGHTS = {
   filterAndSearch: 64,
@@ -152,7 +153,7 @@ const PureAnimalInventory = ({
         options={[
           {
             label: t('ADD_ANIMAL.ADD_ANIMALS'),
-            onClick: () => history.push('/animals/inventory/add_animals'),
+            onClick: () => history.push(ADD_ANIMALS_URL),
           },
         ]}
       />

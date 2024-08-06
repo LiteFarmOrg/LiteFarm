@@ -46,7 +46,6 @@ export const PageTitle: Story = {
 
 const stepperFormCommonProps = {
   stepperProgressBarConfig: {
-    steps: ['Page 1', 'Page 2', 'Page 3'],
     isMobile: false,
     isDarkMode: true,
   },

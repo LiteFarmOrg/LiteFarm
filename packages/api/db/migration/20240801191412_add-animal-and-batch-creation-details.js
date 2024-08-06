@@ -16,9 +16,13 @@
 export const up = async function (knex) {
   // Sexes that are allowed to be used for reproduction
   const maleSex = await knex('animal_sex').select('*').where({ key: 'MALE' }).first();
+  const otherUse = await knex('animal_use').select('*').where({ key: 'OTHER' }).first();
   // TODO: revisit after LF-4170 placement -> type
   // const otherIdentifierType = await knex('animal_identifier_placement').select('*').where({ key: 'OTHER' }).first();
 
+  /*----------------------------------------
+   Update animal with new details
+  ----------------------------------------*/
   await knex.schema.alterTable('animal', (table) => {
     table.boolean('used_for_reproduction').nullable();
     table.check(
@@ -46,8 +50,6 @@ export const up = async function (knex) {
     table.float('price').unsigned().nullable();
   });
 
-  const otherUse = await knex('animal_use').select('*').where({ key: 'OTHER' }).first();
-
   await knex.schema.createTable('animal_use_relationship', (table) => {
     table.increments('id').primary();
     table.integer('animal_id').references('id').inTable('animal').notNullable();
@@ -63,6 +65,9 @@ export const up = async function (knex) {
     );
   });
 
+  /*----------------------------------------
+   Update animal batch with new details
+  ----------------------------------------*/
   await knex.schema.alterTable('animal_batch', (table) => {
     table
       .enu('organic_status', ['Non-Organic', 'Transitional', 'Organic'])
@@ -91,6 +96,9 @@ export const up = async function (knex) {
 };
 
 export const down = async function (knex) {
+  /*----------------------------------------
+   Undo: Update animal with new details
+  ----------------------------------------*/
   await knex.schema.alterTable('animal', (table) => {
     // TODO: revisit after LF-4170
     // table.dropChecks(['reproduction_sex_check', 'identifier_type_other_id_check']);
@@ -107,6 +115,9 @@ export const down = async function (knex) {
 
   await knex.schema.dropTable('animal_use_relationship');
 
+  /*----------------------------------------
+   Undo: Update animal batch with new details
+  ----------------------------------------*/
   await knex.schema.alterTable('animal_batch', (table) => {
     table.dropColumns(['organic_status', 'supplier', 'price', 'dam', 'sire']);
   });

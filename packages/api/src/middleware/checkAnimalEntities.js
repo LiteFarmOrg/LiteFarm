@@ -4,6 +4,7 @@ import { handleObjectionError } from '../util/errorCodes.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import DefaultAnimalBreedModel from '../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
+import AnimalUseModel from '../models/animalUseModel.js';
 
 /**
  * Middleware function to check if the provided animal entities exist and belong to the farm. The IDs must be passed as a comma-separated query string.
@@ -186,6 +187,23 @@ export function validateAnimalBatchCreationBody(animalBatchKey) {
               await trx.rollback();
               return res.status(400).send('Duplicate sex ids in detail');
             }
+          }
+        }
+
+        const relationshipsKey =
+          animalBatchKey === 'batch'
+            ? 'animal_batch_use_relationships'
+            : 'animal_use_relationships';
+
+        if (!Array.isArray(animalOrBatch[relationshipsKey])) {
+          return res.status(400).send(`${relationshipsKey} must be an array`);
+        }
+
+        const otherUse = await AnimalUseModel.query().where({ key: 'OTHER' }).first();
+
+        for (const relationship of animalOrBatch[relationshipsKey]) {
+          if (relationship.use_id != otherUse.id && relationship.use_other) {
+            return res.status(400).send('other_use notes is for other use type');
           }
         }
 

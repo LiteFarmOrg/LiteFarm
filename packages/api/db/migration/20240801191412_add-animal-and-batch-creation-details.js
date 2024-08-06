@@ -70,6 +70,8 @@ export const up = async function (knex) {
       .defaultTo('Non-Organic');
     table.string('supplier').nullable();
     table.float('price').unsigned().nullable();
+    table.string('dam').nullable();
+    table.string('sire').nullable();
   });
 };
 
@@ -91,6 +93,6 @@ export const down = async function (knex) {
   await knex.schema.dropTable('animal_use_relationship');
 
   await knex.schema.alterTable('animal_batch', (table) => {
-    table.dropColumns(['organic_status', 'supplier', 'price']);
+    table.dropColumns(['organic_status', 'supplier', 'price', 'dam', 'sire']);
   });
 };

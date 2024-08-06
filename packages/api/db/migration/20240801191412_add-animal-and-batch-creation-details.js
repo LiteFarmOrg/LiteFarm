@@ -41,6 +41,7 @@ export const up = async function (knex) {
     //   [],
     //   'identifier_placement_other_id_check',
     // );
+    table.boolean('organic').nullable();
   });
 
   const otherUse = await knex('animal_use').select('*').where({ key: 'OTHER' }).first();
@@ -71,6 +72,7 @@ export const down = async function (knex) {
       'used_for_reproduction',
       'identifier_type_other',
       'identifier_placement_other',
+      'organic',
     ]);
   });
 

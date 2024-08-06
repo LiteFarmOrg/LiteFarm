@@ -62,6 +62,15 @@ export const up = async function (knex) {
       'other_use_id_check',
     );
   });
+
+  await knex.schema.alterTable('animal_batch', (table) => {
+    table
+      .enu('organic_status', ['Non-Organic', 'Transitional', 'Organic'])
+      .notNullable()
+      .defaultTo('Non-Organic');
+    table.string('supplier').nullable();
+    table.float('price').unsigned().nullable();
+  });
 };
 
 export const down = async function (knex) {
@@ -80,4 +89,8 @@ export const down = async function (knex) {
   });
 
   await knex.schema.dropTable('animal_use_relationship');
+
+  await knex.schema.alterTable('animal_batch', (table) => {
+    table.dropColumns(['organic_status', 'supplier', 'price']);
+  });
 };

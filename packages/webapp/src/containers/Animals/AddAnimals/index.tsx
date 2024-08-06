@@ -13,10 +13,68 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-interface AddAnimalsProps {}
+import { useTranslation } from 'react-i18next';
+import { History } from 'history';
+import { useMediaQuery } from '@mui/material';
+import theme from '../../../assets/theme';
+import { MultiStepForm, VARIANT } from '../../../components/Form/MultiStepForm';
+import AddAnimalBasics from '../AddAnimalBasics';
+import AddAnimalDetails from '../AddAnimalDetails';
+import AddAnimalSummary from '../AddAnimalSummary';
 
-function AddAnimals(props: AddAnimalsProps) {
-  return <div>Add animals</div>;
+export const STEPS = {
+  BASICS: 'basics',
+  DETAILS: 'details',
+};
+
+interface AddAnimalsProps {
+  isCompactSideMenu: boolean;
+  history: History;
+}
+
+function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
+  const { t } = useTranslation(['translation', 'common']);
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const onSave = (data: any, onGoForward: () => void) => {
+    // TODO: API request
+    onGoForward();
+  };
+
+  const getFormSteps = () => [
+    {
+      FormContent: AddAnimalBasics,
+      title: t('ADD_ANIMAL.ANIMAL_BASICS'),
+    },
+    {
+      FormContent: AddAnimalDetails,
+      title: t('ADD_ANIMAL.ANIMAL_DETAILS'),
+    },
+    {
+      FormContent: AddAnimalSummary,
+      title: t('common:DONE'),
+    },
+  ];
+
+  const stepperProgressBarConfig = { isMobile, isDarkMode: true };
+
+  const defaultFormValues = {
+    [STEPS.BASICS]: [],
+    [STEPS.DETAILS]: [],
+  };
+
+  return (
+    <MultiStepForm
+      stepperProgressBarConfig={stepperProgressBarConfig}
+      onSave={onSave}
+      hasSummaryWithinForm={true}
+      isCompactSideMenu={isCompactSideMenu}
+      variant={VARIANT.STEPPER_PROGRESS_BAR}
+      history={history}
+      getSteps={getFormSteps}
+      defaultFormValues={defaultFormValues}
+    />
+  );
 }
 
 export default AddAnimals;

@@ -42,6 +42,8 @@ export const up = async function (knex) {
       .enu('organic_status', ['Non-Organic', 'Transitional', 'Organic'])
       .notNullable()
       .defaultTo('Non-Organic');
+    table.string('supplier').nullable();
+    table.float('price').unsigned().nullable();
   });
 
   const otherUse = await knex('animal_use').select('*').where({ key: 'OTHER' }).first();
@@ -72,6 +74,8 @@ export const down = async function (knex) {
       'identifier_type_id',
       'identifier_type_other',
       'organic_status',
+      'supplier',
+      'price',
     ]);
   });
 

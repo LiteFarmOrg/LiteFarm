@@ -46,7 +46,8 @@
     "ERROR": {
       "ADD": "Impossible d'ajouter de nouvelles dépenses",
       "DELETE": "Impossible de supprimer les dépenses",
-      "UPDATE": "Impossible de mettre à jour les dépenses"
+      "UPDATE": "Impossible de mettre à jour les dépenses",
+      "EXPENSE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "ADD": "Nouvelles dépenses ajoutées",
@@ -169,7 +170,8 @@
     "ERROR": {
       "ADD": "Impossible d'ajouter la vente",
       "DELETE": "Impossible de supprimer la vente",
-      "UPDATE": "Impossible de mettre à jour la vente"
+      "UPDATE": "Impossible de mettre à jour la vente",
+      "SALE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "ADD": "Vente ajoutée",

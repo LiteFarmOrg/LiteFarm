@@ -29,7 +29,12 @@ const animalBatchController = {
         const rows = await AnimalBatchModel.query()
           .where({ farm_id })
           .whereNotDeleted()
-          .withGraphFetched({ internal_identifier: true, group_ids: true, sex_detail: true });
+          .withGraphFetched({
+            internal_identifier: true,
+            group_ids: true,
+            sex_detail: true,
+            animal_batch_use_relationships: true,
+          });
         return res.status(200).send(
           rows.map(({ internal_identifier, group_ids, ...rest }) => ({
             ...rest,

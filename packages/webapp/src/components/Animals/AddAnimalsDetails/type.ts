@@ -29,6 +29,7 @@ export enum DetailsFields {
   SEX = 'sex',
   USED_FOR_REPRODUCTION = 'USED_FOR_REPRODUCTION',
   USE = 'use',
+  OTHER_USE = 'other_use',
 
   // UNIQUE
   DATE_OF_BIRTH = 'birth_date',

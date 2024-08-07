@@ -22,6 +22,7 @@ import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { DetailsFields, type Option, type CommonDetailsProps } from './type';
 import styles from './styles.module.scss';
+import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 
 export type GeneralDetailsProps = CommonDetailsProps & {
   typeOptions: Option[DetailsFields.TYPE][];
@@ -30,6 +31,7 @@ export type GeneralDetailsProps = CommonDetailsProps & {
   useOptions: Option[DetailsFields.USE][];
   animalOrBatch: AnimalOrBatchKeys;
   isMaleSelected?: boolean;
+  isOtherUseSelected?: boolean;
 };
 
 const GeneralDetails = ({
@@ -40,6 +42,7 @@ const GeneralDetails = ({
   useOptions,
   animalOrBatch,
   isMaleSelected,
+  isOtherUseSelected,
 }: GeneralDetailsProps) => {
   const {
     control,
@@ -89,7 +92,7 @@ const GeneralDetails = ({
             type="text"
             label={t('ANIMAL.ATTRIBUTE.BATCH_NAME')}
             hookFormRegister={register(DetailsFields.NAME, {
-              maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+              maxLength: hookFormMaxCharsValidation(255),
             })}
             trigger={trigger}
             optional
@@ -139,6 +142,21 @@ const GeneralDetails = ({
           />
         )}
       />
+      {isOtherUseSelected && (
+        <>
+          {/* @ts-ignore */}
+          <Input
+            type="text"
+            label={t('ANIMAL.ATTRIBUTE.OTHER_USE')}
+            hookFormRegister={register(DetailsFields.OTHER_USE, {
+              maxLength: hookFormMaxCharsValidation(255),
+            })}
+            optional
+            placeholder={t('ADD_ANIMAL.PLACEHOLDER.OTHER_USE')}
+            errors={getInputErrors(errors, DetailsFields.OTHER_USE)}
+          />
+        </>
+      )}
     </div>
   );
 };

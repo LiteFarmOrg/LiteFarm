@@ -50,7 +50,7 @@ export enum DetailsFields {
   DAM = 'dam',
   SIRE = 'sire',
   BROUGHT_IN_DATE = 'brought_in_date',
-  MERCHANT = 'merchant',
+  SUPPLIER = 'supplier',
   PRICE = 'price',
 }
 
@@ -87,7 +87,7 @@ export type FormValues = {
   [DetailsFields.DAM]?: string;
   [DetailsFields.SIRE]?: string;
   [DetailsFields.BROUGHT_IN_DATE]?: string;
-  [DetailsFields.MERCHANT]?: string;
+  [DetailsFields.SUPPLIER]?: string;
   [DetailsFields.PRICE]?: number;
 };
 

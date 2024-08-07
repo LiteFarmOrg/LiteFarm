@@ -24,6 +24,7 @@ import { assignInternalIdentifiers } from '../util/animal.js';
 import { handleObjectionError } from '../util/errorCodes.js';
 import { checkAndTrimString } from '../util/util.js';
 import AnimalUseRelationshipModel from '../models/animalUseRelationshipModel.js';
+import { uploadPublicImage } from '../util/imageUpload.js';
 
 const animalController = {
   getFarmAnimals() {
@@ -259,6 +260,11 @@ const animalController = {
       } catch (error) {
         handleObjectionError(error, res, trx);
       }
+    };
+  },
+  uploadAnimalImage() {
+    return async (req, res, next) => {
+      await uploadPublicImage('animal')(req, res, next);
     };
   },
 };

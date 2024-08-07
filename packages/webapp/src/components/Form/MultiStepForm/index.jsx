@@ -110,6 +110,14 @@ export const MultiStepForm = ({
     history.back();
   };
 
+  const onPrevious = () => {
+    if (!activeStepIndex) {
+      return;
+    }
+    storeFormData();
+    setActiveStepIndex(activeStepIndex - 1);
+  };
+
   const onClickAway = () => {
     setShowConfirmCancelModal(true);
   };
@@ -163,6 +171,8 @@ export const MultiStepForm = ({
               onContinue={onContinue}
               onCancel={onCancel}
               onGoBack={onGoBack}
+              onPrevious={onPrevious}
+              isFirstStep={!activeStepIndex}
               isFinalStep={isFinalStep}
             />
           </FloatingContainer>

@@ -20,6 +20,7 @@ import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { handleObjectionError } from '../util/errorCodes.js';
 import { assignInternalIdentifiers } from '../util/animal.js';
+import { uploadPublicImage } from '../util/imageUpload.js';
 
 const animalBatchController = {
   getFarmAnimalBatches() {
@@ -209,6 +210,11 @@ const animalBatchController = {
       } catch (error) {
         handleObjectionError(error, res, trx);
       }
+    };
+  },
+  uploadAnimalBatchImage() {
+    return async (req, res, next) => {
+      await uploadPublicImage('animal_batch')(req, res, next);
     };
   },
 };

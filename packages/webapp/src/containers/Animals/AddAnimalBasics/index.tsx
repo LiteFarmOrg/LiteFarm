@@ -90,7 +90,7 @@ const AddAnimalBasics = () => {
   const sexDetailsOptions = sexes.map(({ id, key }) => ({
     id,
     label: t(`animal:SEX.${key}`),
-    count: 0, // TODO: make sure this correct; surprised it is included in the options object
+    count: 0,
   }));
 
   return (

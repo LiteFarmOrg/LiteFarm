@@ -22,8 +22,7 @@ import styles from './styles.module.scss';
 import Input from '../../Form/Input';
 import Card from '../../CardV2';
 import { Main } from '../../Typography';
-import TextButton from '../../Form/Button/TextButton';
-import { ReactComponent as XIcon } from '../../../assets/images/x-icon.svg';
+import SmallButton from '../../Form/Button/SmallButton';
 import { type Details as SexDetailsType } from '../../Form/SexDetails/SexDetailsPopover';
 import {
   AnimalBreedSelect,
@@ -99,11 +98,7 @@ export default function AddAnimalsFormCard({
     <Card className={styles.form} isActive={isActive}>
       <div className={styles.formHeader}>
         <Main>{t('ADD_ANIMAL.ADD_TO_INVENTORY')}</Main>
-        {showRemoveButton && (
-          <TextButton className={styles.removeBtn} onClick={onRemoveButtonClick}>
-            <XIcon /> {t('common:REMOVE')}
-          </TextButton>
-        )}
+        {showRemoveButton && <SmallButton variant="remove" onClick={onRemoveButtonClick} />}
       </div>
       <AnimalTypeSelect
         name={`${namePrefix}.${FIELD_NAMES.TYPE}`}

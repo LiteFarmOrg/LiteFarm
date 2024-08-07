@@ -195,15 +195,17 @@ export function validateAnimalBatchCreationBody(animalBatchKey) {
             ? 'animal_batch_use_relationships'
             : 'animal_use_relationships';
 
-        if (!Array.isArray(animalOrBatch[relationshipsKey])) {
-          return res.status(400).send(`${relationshipsKey} must be an array`);
-        }
+        if (animalOrBatch[relationshipsKey]) {
+          if (!Array.isArray(animalOrBatch[relationshipsKey])) {
+            return res.status(400).send(`${relationshipsKey} must be an array`);
+          }
 
-        const otherUse = await AnimalUseModel.query().where({ key: 'OTHER' }).first();
+          const otherUse = await AnimalUseModel.query().where({ key: 'OTHER' }).first();
 
-        for (const relationship of animalOrBatch[relationshipsKey]) {
-          if (relationship.use_id != otherUse.id && relationship.use_other) {
-            return res.status(400).send('other_use notes is for other use type');
+          for (const relationship of animalOrBatch[relationshipsKey]) {
+            if (relationship.use_id != otherUse.id && relationship.use_other) {
+              return res.status(400).send('other_use notes is for other use type');
+            }
           }
         }
 

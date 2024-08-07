@@ -21,6 +21,7 @@ import styles from './styles.module.scss';
 import { ReactComponent as ChevronRight } from '../../../assets/images/buttons/chevron-right.svg';
 
 export interface FormNavigationButtonsProps {
+  isFirstStep?: boolean;
   isFinalStep?: boolean;
   isDisabled?: boolean;
   contextualContent?: React.ReactNode | string;
@@ -31,6 +32,7 @@ export interface FormNavigationButtonsProps {
 }
 
 const FormNavigationButtons = ({
+  isFirstStep = false,
   isFinalStep = false,
   isDisabled = false,
   contextualContent,
@@ -49,7 +51,14 @@ const FormNavigationButtons = ({
           {t('common:CANCEL')}
         </Button>
         {onPrevious && (
-          <Button color="secondary" onClick={onPrevious} className={styles.button} sm fullLength>
+          <Button
+            color="secondary"
+            disabled={isFirstStep}
+            onClick={onPrevious}
+            className={styles.button}
+            sm
+            fullLength
+          >
             {t('common:PREVIOUS')}
           </Button>
         )}

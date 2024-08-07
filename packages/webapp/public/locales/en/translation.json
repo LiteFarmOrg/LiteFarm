@@ -1,6 +1,9 @@
 {
   "ADD_ANIMAL": {
+    "ADD_ANIMALS": "Add animals",
     "ADD_TO_INVENTORY": "Add animal to your inventory",
+    "ANIMAL_BASICS": "Animal basics",
+    "ANIMAL_DETAILS": "Animal details",
     "ANIMALS_TOTAL_one": "{{count}} animal total",
     "ANIMALS_TOTAL_other": "{{count}} animals total",
     "ANIMALS_UNSPECIFIED_one": "{{count}} unspecified",

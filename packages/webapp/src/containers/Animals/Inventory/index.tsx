@@ -18,6 +18,7 @@ import PureAnimalInventory, { SearchProps } from '../../../components/Animals/In
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
+import { History } from 'history';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
@@ -42,6 +43,7 @@ import FloatingContainer from '../../../components/FloatingContainer';
 interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
   containerHeight: number;
+  history: History;
 }
 
 const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: string[]) => {
@@ -53,7 +55,7 @@ const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: s
   return selectedIds.filter((id) => visibleRowIdsSet.has(id));
 };
 
-function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
+function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>([]);
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
@@ -232,6 +234,7 @@ function AnimalInventory({ isCompactSideMenu }: AnimalInventoryProps) {
         isFilterActive={isFilterActive}
         clearFilters={clearFilters}
         isLoading={isLoading}
+        history={history}
       />
       {selectedInventoryIds.length ? (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>

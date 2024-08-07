@@ -35,6 +35,7 @@ class AnimalUseRelationshipModel extends Model {
         id: { type: 'integer' },
         animal_id: { type: 'integer' },
         use_id: { type: 'integer' },
+        other_use: { type: ['string', 'null'] },
       },
       additionalProperties: false,
     };

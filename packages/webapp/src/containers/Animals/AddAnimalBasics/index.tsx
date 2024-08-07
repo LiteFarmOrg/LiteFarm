@@ -28,6 +28,7 @@ import MoreAnimalsCard from '../../../components/Animals/AddAnimalsForm/MoreAnim
 import { FIELD_NAMES } from '../../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
 import { AddAnimalsFormFields } from '../AddAnimals/types';
 import { generateUniqueAnimalId } from '../../../util/animal';
+import { ANIMAL_ID_PREFIX } from '../types';
 import { STEPS } from '../AddAnimals';
 
 export const animalBasicsDefaultValues = {
@@ -77,13 +78,14 @@ const AddAnimalBasics = () => {
     ...defaultBreeds.map((defaultBreed) => ({
       label: t(`animal:BREED.${defaultBreed.key}`),
       value: generateUniqueAnimalId(defaultBreed),
-      default_type_id: defaultBreed.default_type_id,
+      type: generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, defaultBreed.default_type_id),
     })),
     ...customBreeds.map((customBreed) => ({
       label: customBreed.breed,
       value: generateUniqueAnimalId(customBreed),
-      default_type_id: customBreed.default_type_id,
-      custom_type_id: customBreed.custom_type_id,
+      type: customBreed.default_type_id
+        ? generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, customBreed.default_type_id)
+        : generateUniqueAnimalId(ANIMAL_ID_PREFIX.CUSTOM, customBreed.custom_type_id),
     })),
   ];
 

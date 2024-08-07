@@ -32,8 +32,6 @@ import {
   type Option,
 } from './AnimalSelect';
 import { useTranslation } from 'react-i18next';
-import { parseUniqueAnimalId } from '../../../util/animal';
-import { ANIMAL_ID_ENTITY } from '../../../containers/Animals/types';
 
 export const FIELD_NAMES = {
   TYPE: 'type',
@@ -84,15 +82,7 @@ export default function AddAnimalsFormCard({
     `${namePrefix}.${FIELD_NAMES.CREATE_INDIVIDUAL_PROFILES}`,
   );
 
-  const typeKey = watchAnimalType?.value
-    ? parseUniqueAnimalId(watchAnimalType.value, ANIMAL_ID_ENTITY.TYPE)
-    : {};
-
-  const filteredBreeds = breedOptions.filter(
-    ({ custom_type_id, default_type_id }) =>
-      (custom_type_id && custom_type_id === typeKey.custom_type_id) ||
-      (default_type_id && default_type_id === typeKey.default_type_id),
-  );
+  const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
   return (
     <Card className={styles.form} isActive={isActive}>

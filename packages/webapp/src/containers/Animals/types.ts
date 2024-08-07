@@ -24,11 +24,6 @@ export enum ANIMAL_ID_PREFIX {
   CUSTOM = 'custom',
 }
 
-export enum ANIMAL_ID_ENTITY {
-  TYPE = 'type',
-  BREED = 'breed',
-}
-
 export enum AnimalOrBatchKeys {
   ANIMAL = 'ANIMAL',
   BATCH = 'BATCH',

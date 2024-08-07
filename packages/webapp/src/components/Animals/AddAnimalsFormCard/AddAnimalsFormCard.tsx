@@ -14,7 +14,7 @@
  */
 
 import { Controller, useFormContext } from 'react-hook-form';
-
+import { useTranslation } from 'react-i18next';
 import NumberInput from '../../Form/NumberInput';
 import Checkbox from '../../Form/Checkbox';
 import SexDetails from '../../Form/SexDetails';
@@ -24,34 +24,13 @@ import Card from '../../CardV2';
 import { Main } from '../../Typography';
 import SmallButton from '../../Form/Button/SmallButton';
 import { type Details as SexDetailsType } from '../../Form/SexDetails/SexDetailsPopover';
+import { ANIMAL_BASICS_FIELD_NAMES as FIELD_NAMES } from '../../../containers/Animals/AddAnimals/types';
 import {
   AnimalBreedSelect,
   AnimalTypeSelect,
   type AnimalBreedSelectProps,
   type AnimalTypeSelectProps,
-  type Option,
 } from './AnimalSelect';
-import { useTranslation } from 'react-i18next';
-
-export const FIELD_NAMES = {
-  TYPE: 'type',
-  BREED: 'breed',
-  SEX_DETAILS: 'sexDetails',
-  COUNT: 'count',
-  CREATE_INDIVIDUAL_PROFILES: 'createIndividualProfiles',
-  GROUP: 'group',
-  BATCH: 'batch',
-} as const;
-
-export type FormFields = {
-  [FIELD_NAMES.TYPE]?: Option;
-  [FIELD_NAMES.BREED]?: Option;
-  [FIELD_NAMES.SEX_DETAILS]: SexDetailsType;
-  [FIELD_NAMES.COUNT]?: number;
-  [FIELD_NAMES.CREATE_INDIVIDUAL_PROFILES]?: boolean;
-  [FIELD_NAMES.GROUP]?: string;
-  [FIELD_NAMES.BATCH]?: string;
-};
 
 type AddAnimalsFormCardProps = AnimalTypeSelectProps &
   AnimalBreedSelectProps & {

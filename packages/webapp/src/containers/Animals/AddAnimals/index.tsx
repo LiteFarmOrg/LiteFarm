@@ -18,9 +18,9 @@ import { History } from 'history';
 import { useMediaQuery } from '@mui/material';
 import theme from '../../../assets/theme';
 import { MultiStepForm, VARIANT } from '../../../components/Form/MultiStepForm';
-import AddAnimalBasics, { animalBasicsDefaultValues } from '../AddAnimalBasics';
-import AddAnimalDetails from '../AddAnimalDetails';
-import AddAnimalSummary from '../AddAnimalSummary';
+import AddAnimalBasics, { animalBasicsDefaultValues } from './AddAnimalBasics';
+import AddAnimalDetails from './AddAnimalDetails';
+import AddAnimalSummary from './AddAnimalSummary';
 
 export const STEPS = {
   BASICS: 'basics',

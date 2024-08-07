@@ -29,6 +29,13 @@ export const VARIANT = {
   STEPPER_PROGRESS_BAR: 'stepper_progress_bar',
 };
 
+const Wrapper = ({ variant, children }) => {
+  if (variant === VARIANT.PAGE_TITLE) {
+    return <Layout>{children}</Layout>;
+  }
+  return children;
+};
+
 export const MultiStepForm = ({
   history,
   getSteps,
@@ -149,7 +156,7 @@ export const MultiStepForm = ({
             activeStep={activeStepIndex}
           />
         )}
-        <Layout>
+        <Wrapper variant={variant}>
           {variant === VARIANT.PAGE_TITLE && (
             <MultiStepPageTitle
               title={activeStep.title}
@@ -164,7 +171,7 @@ export const MultiStepForm = ({
           <FormProvider {...form}>
             <activeStep.FormContent onGoForward={onGoForward} form={form} />
           </FormProvider>
-        </Layout>
+        </Wrapper>
         {shouldShowFormNavigationButtons && (
           <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
             <FormNavigationButtons

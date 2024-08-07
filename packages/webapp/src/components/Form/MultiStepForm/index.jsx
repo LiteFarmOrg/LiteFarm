@@ -61,7 +61,7 @@ export const MultiStepForm = ({
   const steps = useMemo(() => getSteps(formData), [getSteps, formData]);
   const progressBarValue = useMemo(
     () => (100 / (steps.length + 1)) * (activeStepIndex + 1),
-    [steps],
+    [steps, activeStepIndex],
   );
 
   const isSummaryPage =

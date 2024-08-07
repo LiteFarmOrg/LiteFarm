@@ -27,7 +27,6 @@ export enum DetailsFields {
   TYPE = 'type',
   BREED = 'breed',
   SEX = 'sex',
-  USED_FOR_REPRODUCTION = 'USED_FOR_REPRODUCTION',
   USE = 'use',
   OTHER_USE = 'other_use',
 
@@ -72,7 +71,6 @@ export type FormValues = {
   [DetailsFields.TYPE]: Option[DetailsFields.TYPE];
   [DetailsFields.BREED]?: Option[DetailsFields.BREED];
   [DetailsFields.SEX]?: number;
-  [DetailsFields.USED_FOR_REPRODUCTION]?: boolean;
   [DetailsFields.USE]?: Option[DetailsFields.USE][];
   [DetailsFields.DATE_OF_BIRTH]?: string;
   [DetailsFields.TAG_NUMBER]?: string;

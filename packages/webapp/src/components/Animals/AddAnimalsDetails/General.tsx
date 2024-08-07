@@ -30,7 +30,6 @@ export type GeneralDetailsProps = CommonDetailsProps & {
   sexOptions: Option[DetailsFields.SEX][];
   useOptions: Option[DetailsFields.USE][];
   animalOrBatch: AnimalOrBatchKeys;
-  isMaleSelected?: boolean;
   isOtherUseSelected?: boolean;
 };
 
@@ -41,7 +40,6 @@ const GeneralDetails = ({
   sexOptions,
   useOptions,
   animalOrBatch,
-  isMaleSelected,
   isOtherUseSelected,
 }: GeneralDetailsProps) => {
   const {
@@ -65,23 +63,11 @@ const GeneralDetails = ({
               row
             />
           </div>
-          {isMaleSelected && (
-            <div>
-              <InputBaseLabel optional label={t('ADD_ANIMAL.USED_FOR_REPRODUCTION')} />
-              {/* @ts-ignore */}
-              <RadioGroup
-                name={DetailsFields.USED_FOR_REPRODUCTION}
-                hookFormControl={control}
-                row
-              />
-            </div>
-          )}
         </>
       );
     }
-
     return 'TODO: LF-4159';
-  }, [animalOrBatch, t, isMaleSelected, sexOptions, control]);
+  }, [animalOrBatch, t, sexOptions, control]);
 
   return (
     <div className={styles.sectionWrapper}>

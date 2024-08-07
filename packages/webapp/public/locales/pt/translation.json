@@ -64,8 +64,7 @@
     },
     "TYPE": "MISSING",
     "TYPE_PLACEHOLDER": "MISSING",
-    "UNIQUE_DETAILS": "MISSING",
-    "USED_FOR_REPRODUCTION": "MISSING"
+    "UNIQUE_DETAILS": "MISSING"
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "É necessário informar um endereço",

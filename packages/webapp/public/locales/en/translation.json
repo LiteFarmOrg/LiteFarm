@@ -59,8 +59,7 @@
     },
     "TYPE": "Type",
     "TYPE_PLACEHOLDER": "Select the animal type",
-    "UNIQUE_DETAILS": "Unique details",
-    "USED_FOR_REPRODUCTION": "Used for reproduction?"
+    "UNIQUE_DETAILS": "Unique details"
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",

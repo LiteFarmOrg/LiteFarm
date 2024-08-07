@@ -80,6 +80,7 @@ export const FinalStep: Story = {
 
 export const WithPreviousButton: Story = {
   args: {
+    isFirstStep: false,
     onPrevious: () => console.log('It uses onPrevious prop.'),
   },
 };

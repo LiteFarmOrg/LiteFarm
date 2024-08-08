@@ -19,10 +19,10 @@ const animalIdentifierPlacementController = {
   getAnimalIdentifierPlacements() {
     return async (req, res) => {
       try {
-        const { identifier_id } = req.query;
+        const { default_type_id } = req.query;
         const rows = await AnimalIdentifierPlacement.query().modify((queryBuilder) => {
-          if (identifier_id) {
-            queryBuilder.where('identifier_id', identifier_id);
+          if (default_type_id) {
+            queryBuilder.where('default_type_id', default_type_id);
           }
         });
         return res.status(200).send(rows);

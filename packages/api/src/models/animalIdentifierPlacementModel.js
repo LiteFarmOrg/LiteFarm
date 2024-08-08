@@ -30,10 +30,10 @@ class AnimalIdentifierPlacement extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['identifier_id', 'key'],
+      required: ['default_type_id', 'key'],
       properties: {
         id: { type: 'integer' },
-        identifier_id: { type: 'integer' },
+        default_type_id: { type: 'integer' },
         key: { type: 'string' },
       },
       additionalProperties: false,

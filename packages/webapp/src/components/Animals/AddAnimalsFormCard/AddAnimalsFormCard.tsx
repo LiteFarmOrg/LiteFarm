@@ -13,8 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useRef, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { SelectInstance } from 'react-select';
 import NumberInput from '../../Form/NumberInput';
 import Checkbox from '../../Form/Checkbox';
 import SexDetails from '../../Form/SexDetails';
@@ -63,6 +65,12 @@ export default function AddAnimalsFormCard({
 
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
+  const breedSelectRef = useRef<SelectInstance>(null);
+
+  useEffect(() => {
+    breedSelectRef?.current?.clearValue();
+  }, [watchAnimalType?.value]);
+
   return (
     <Card className={styles.form} isActive={isActive}>
       <div className={styles.formHeader}>
@@ -76,6 +84,7 @@ export default function AddAnimalsFormCard({
         onTypeChange={onTypeChange}
       />
       <AnimalBreedSelect
+        breedSelectRef={breedSelectRef}
         name={`${namePrefix}.${FIELD_NAMES.BREED}`}
         control={control}
         breedOptions={filteredBreeds}

@@ -16,6 +16,8 @@
 import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
 import { CreatableSelect } from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
+import { RefObject } from 'react';
+import { SelectInstance } from 'react-select';
 
 export type Option = {
   label: string;
@@ -57,6 +59,7 @@ export function AnimalTypeSelect<T extends FieldValues>({
 export type AnimalBreedSelectProps = {
   breedOptions: Option[];
   isTypeSelected?: boolean;
+  breedSelectRef?: RefObject<SelectInstance>;
 };
 
 export function AnimalBreedSelect<T extends FieldValues>({
@@ -64,6 +67,7 @@ export function AnimalBreedSelect<T extends FieldValues>({
   control,
   breedOptions,
   isTypeSelected,
+  breedSelectRef,
 }: AnimalBreedSelectProps & UseControllerProps<T>) {
   const { t } = useTranslation();
   return (
@@ -72,6 +76,7 @@ export function AnimalBreedSelect<T extends FieldValues>({
       control={control}
       render={({ field }) => (
         <CreatableSelect
+          ref={breedSelectRef}
           options={breedOptions}
           label={t('ADD_ANIMAL.BREED')}
           optional

@@ -17,7 +17,6 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-const PERMISSION_NAME = 'get:animal_identifier_types';
 
 export const up = async function (knex) {
   await knex.schema.createTable('animal_identifier_type', (table) => {
@@ -33,7 +32,7 @@ export const up = async function (knex) {
 
   await knex('permissions').insert({
     permission_id: 171,
-    name: PERMISSION_NAME,
+    name: 'get:animal_identifier_types',
     description: 'get animal identifier types',
   });
 
@@ -49,13 +48,6 @@ export const up = async function (knex) {
 
 export const down = async function (knex) {
   await knex.schema.dropTable('animal_identifier_type');
-
-  await knex.raw(`
-        DELETE FROM "rolePermissions" rp
-        USING permissions p
-        WHERE rp.permission_id = p.permission_id 
-        AND p.name = '${PERMISSION_NAME}'
-      `);
-
-  await knex('permissions').where('name', PERMISSION_NAME).del();
+  await knex('rolePermissions').where('permission_id', 171).del();
+  await knex('permissions').where('permission_id', 171).del();
 };

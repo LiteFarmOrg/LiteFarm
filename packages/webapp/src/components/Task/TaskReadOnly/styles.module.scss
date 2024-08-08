@@ -34,7 +34,8 @@
 }
 
 .deleteText {
-  padding-bottom: 16px;
+  width: fit-content;
+  margin-bottom: 16px;
 
   span {
     text-decoration: none;
@@ -75,7 +76,7 @@
 
   svg {
     transform: translate(0px, 3px);
-    margin-right: 8px,
+    margin-right: 8px;
   }
 }
 

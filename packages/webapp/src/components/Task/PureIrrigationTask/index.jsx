@@ -16,6 +16,7 @@ import { getIrrigationTaskTypes } from '../../../containers/Task/IrrigationTaskT
 import { useDispatch, useSelector } from 'react-redux';
 import { irrigationTaskTypesSliceSelector } from '../../../containers/irrigationTaskTypesSlice';
 import { cropLocationsSelector } from '../../../containers/locationSlice';
+import { BsFillExclamationCircleFill } from 'react-icons/bs';
 
 export default function PureIrrigationTask({
   system,
@@ -199,6 +200,7 @@ export default function PureIrrigationTask({
     !measurement_type ||
     (measurement_type === 'DEPTH' && !location);
 
+  const calculatorLinkIsDisabled = measurement_type === 'DEPTH' && !location;
   return (
     <>
       <Controller
@@ -303,16 +305,51 @@ export default function PureIrrigationTask({
         onKeyDown={numberOnKeyDown}
         onChangeUnitOption={() => setEstimatedWaterUsageComputed(true)}
       />
-      {!disabled && (
-        <>
-          <Label style={{ marginTop: '4px', marginBottom: `${disabled ? 36 : 0}px` }}>
-            {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
-            <Underlined onClick={() => !disabled && setShowWaterUseCalculatorModal(true)}>
-              {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
-            </Underlined>
-          </Label>
-        </>
-      )}
+      {!disabled &&
+        (!calculatorLinkIsDisabled ? (
+          <>
+            <Label style={{ marginTop: '4px', marginBottom: `${disabled ? 36 : 0}px` }}>
+              {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
+              <Underlined onClick={() => !disabled && setShowWaterUseCalculatorModal(true)}>
+                {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
+              </Underlined>
+            </Label>
+          </>
+        ) : (
+          <>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <Label
+                style={{
+                  marginTop: '4px',
+                  marginBottom: `${disabled ? 36 : 0}px`,
+                  color: 'var(--Colors-Neutral-Neutral-300)',
+                }}
+              >
+                {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
+                {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
+              </Label>
+              <div
+                style={{
+                  color: 'var(--Colors-Accent---singles-Red-full)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                }}
+              >
+                <BsFillExclamationCircleFill />
+                <Label
+                  style={{
+                    marginTop: '4px',
+                    marginBottom: `${disabled ? 36 : 0}px`,
+                    color: 'var(--Colors-Accent---singles-Red-full)',
+                  }}
+                >
+                  For wild crops, estimation of water usage by depth is not available.
+                </Label>
+              </div>
+            </div>
+          </>
+        ))}
 
       {!waterCalculatorDisabled && (
         <WaterUsageCalculatorModal

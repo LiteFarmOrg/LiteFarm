@@ -197,7 +197,7 @@ export default function PureIrrigationTask({
   const waterCalculatorDisabled =
     !showWaterUseCalculatorModal ||
     !measurement_type ||
-    (measurement_type === 'DEPTH' && !(location || getValues().show_wild_crop));
+    (measurement_type === 'DEPTH' && !location);
 
   return (
     <>

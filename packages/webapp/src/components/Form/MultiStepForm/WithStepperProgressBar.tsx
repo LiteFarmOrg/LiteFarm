@@ -21,6 +21,7 @@ import StepperProgressBar from '../../StepperProgressBar';
 import FloatingContainer from '../../FloatingContainer';
 import FormNavigationButtons from '../FormNavigationButtons';
 import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
+import styles from './styles.module.scss';
 
 interface WithStepperProgressBarProps {
   children: ReactNode;
@@ -107,7 +108,7 @@ export const WithStepperProgressBar = ({
         />
       }
     >
-      {children}
+      <div className={styles.contentWrapper}>{children}</div>
       {shouldShowFormNavigationButtons && (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
           <FormNavigationButtons

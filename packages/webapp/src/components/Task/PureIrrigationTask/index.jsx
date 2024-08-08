@@ -317,10 +317,9 @@ export default function PureIrrigationTask({
           </>
         ) : (
           <>
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
               <Label
                 style={{
-                  marginTop: '4px',
                   marginBottom: `${disabled ? 36 : 0}px`,
                   color: 'var(--Colors-Neutral-Neutral-300)',
                 }}
@@ -339,7 +338,6 @@ export default function PureIrrigationTask({
                 <BsFillExclamationCircleFill />
                 <Label
                   style={{
-                    marginTop: '4px',
                     marginBottom: `${disabled ? 36 : 0}px`,
                     color: 'var(--Colors-Accent---singles-Red-full)',
                   }}

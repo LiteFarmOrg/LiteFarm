@@ -13,7 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const AddAnimalSummary = () => {
+import { Animal, AnimalBatch } from '../../../../store/api/types';
+
+type AddAnimalSummaryProps = {
+  formResultData: { animals: Animal[]; batches: AnimalBatch[] };
+};
+
+const AddAnimalSummary = ({ formResultData }: AddAnimalSummaryProps) => {
   return <div>Add animal summary</div>;
 };
 

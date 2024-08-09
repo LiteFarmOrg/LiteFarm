@@ -15,8 +15,10 @@
 
 export const up = async function (knex) {
   const otherUse = await knex('animal_use').select('*').where({ key: 'OTHER' }).first();
-  // TODO: revisit after LF-4170 placement -> type
-  // const otherIdentifierType = await knex('animal_identifier_placement').select('*').where({ key: 'OTHER' }).first();
+  const otherIdentifierType = await knex('animal_identifier_type')
+    .select('*')
+    .where({ key: 'OTHER' })
+    .first();
 
   /*----------------------------------------
    Update animal with new details
@@ -29,11 +31,11 @@ export const up = async function (knex) {
       .inTable('animal_identifier_placement')
       .nullable();
     table.string('identifier_type_other').nullable();
-    // table.check(
-    //   `(identifier_type_other IS NOT NULL AND identifier_type_id = ${otherIdentifierType.id}) OR (identifier_type_other IS NULL)`,
-    //   [],
-    //   'identifier_type_other_id_check',
-    // );
+    table.check(
+      `(identifier_type_other IS NOT NULL AND identifier_type_id = ${otherIdentifierType.id}) OR (identifier_type_other IS NULL)`,
+      [],
+      'identifier_type_other_id_check',
+    );
     table
       .enu('organic_status', ['Non-Organic', 'Transitional', 'Organic'])
       .notNullable()
@@ -92,8 +94,7 @@ export const down = async function (knex) {
    Undo: Update animal with new details
   ----------------------------------------*/
   await knex.schema.alterTable('animal', (table) => {
-    // TODO: revisit after LF-4170
-    // table.dropChecks(['identifier_type_other_id_check']);
+    table.dropChecks(['identifier_type_other_id_check']);
     table.dropColumns([
       'identifier_type_id',
       'identifier_type_other',

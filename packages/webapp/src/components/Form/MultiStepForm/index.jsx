@@ -96,8 +96,6 @@ MultiStepForm.propTypes = {
   history: PropTypes.object,
   getSteps: PropTypes.func,
   defaultFormValues: PropTypes.object,
-
-  // PAGE_TITLE variant
   cancelModalTitle: PropTypes.string,
 
   // STEPPER_PROGRESS_BAR variant

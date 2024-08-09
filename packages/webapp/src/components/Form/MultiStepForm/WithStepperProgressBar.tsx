@@ -13,14 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { UseFormHandleSubmit, FieldValues, FormState } from 'react-hook-form';
 import { History } from 'history';
 import StepperProgressBar from '../../StepperProgressBar';
 import FloatingContainer from '../../FloatingContainer';
 import FormNavigationButtons from '../FormNavigationButtons';
 import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
+import CancelFlowModal from '../../Modals/CancelFlowModal';
 import styles from './styles.module.scss';
 
 interface WithStepperProgressBarProps {
@@ -28,6 +28,7 @@ interface WithStepperProgressBarProps {
   history: History;
   steps: { formContent: ReactNode; title: string }[];
   activeStepIndex: number;
+  cancelModalTitle: string;
   isCompactSideMenu: boolean;
   hasSummaryWithinForm: boolean;
   stepperProgressBarConfig?: {
@@ -48,6 +49,7 @@ export const WithStepperProgressBar = ({
   history,
   steps,
   activeStepIndex,
+  cancelModalTitle,
   isCompactSideMenu,
   hasSummaryWithinForm,
   stepperProgressBarConfig = {},
@@ -59,7 +61,10 @@ export const WithStepperProgressBar = ({
   handleSubmit,
   formState: { isValid },
 }: WithStepperProgressBarProps) => {
-  const { t } = useTranslation();
+  const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
+    unblock: undefined,
+    retry: undefined,
+  });
 
   const isSummaryPage = hasSummaryWithinForm && activeStepIndex === steps.length - 1;
 
@@ -76,17 +81,11 @@ export const WithStepperProgressBar = ({
       return;
     }
     const unblock = history.block((tx) => {
-      if (window.confirm(`TODO: ${t('CANCEL_FLOW_MODAL.BODY')}`)) {
-        // Unblock the navigation.
-        unblock();
-
-        // Retry the transition.
-        tx.retry();
-      }
+      setTransition({ unblock, retry: tx.retry });
     });
 
     return () => unblock();
-  }, [isSummaryPage]);
+  }, [isSummaryPage, history]);
 
   const isFinalStep =
     (!hasSummaryWithinForm && activeStepIndex === steps.length - 1) ||
@@ -100,6 +99,15 @@ export const WithStepperProgressBar = ({
       return;
     }
     onGoForward();
+  };
+
+  const handleCancel = () => {
+    try {
+      transition.unblock?.();
+      transition.retry?.();
+    } catch (e) {
+      console.error(`Error during canceling ${cancelModalTitle}: ${e}`);
+    }
   };
 
   return (
@@ -125,6 +133,13 @@ export const WithStepperProgressBar = ({
             isDisabled={!isValid}
           />
         </FloatingContainer>
+      )}
+      {transition.unblock && (
+        <CancelFlowModal
+          flow={cancelModalTitle}
+          dismissModal={() => setTransition({ unblock: undefined, retry: undefined })}
+          handleCancel={handleCancel}
+        />
       )}
     </FixedHeaderContainer>
   );

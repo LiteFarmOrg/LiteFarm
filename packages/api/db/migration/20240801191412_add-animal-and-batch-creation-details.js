@@ -24,11 +24,10 @@ export const up = async function (knex) {
    Update animal with new details
   ----------------------------------------*/
   await knex.schema.alterTable('animal', (table) => {
-    // TODO: revisit after LF-4170 placement -> type
     table
       .integer('identifier_type_id')
       .references('id')
-      .inTable('animal_identifier_placement')
+      .inTable('animal_identifier_type')
       .nullable();
     table.string('identifier_type_other').nullable();
     table.check(

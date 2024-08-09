@@ -14,6 +14,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import { History } from 'history';
 import { useMediaQuery } from '@mui/material';
 import theme from '../../../assets/theme';
@@ -21,6 +22,10 @@ import { MultiStepForm, VARIANT } from '../../../components/Form/MultiStepForm';
 import AddAnimalBasics, { animalBasicsDefaultValues } from './AddAnimalBasics';
 import AddAnimalDetails from './AddAnimalDetails';
 import AddAnimalSummary from './AddAnimalSummary';
+import { useAddAnimalBatchesMutation, useAddAnimalsMutation } from '../../../store/api/apiSlice';
+import { Animal, AnimalBatch } from '../../../store/api/types';
+import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
+import { formatAnimalDetailsToDBStructure, formatBatchDetailsToDBStructure } from './utils';
 
 export const STEPS = {
   BASICS: 'basics',
@@ -33,11 +38,45 @@ interface AddAnimalsProps {
 }
 
 function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
-  const { t } = useTranslation(['translation', 'common']);
+  const { t } = useTranslation(['translation', 'common', 'message']);
+  const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const onSave = (data: any, onGoForward: () => void) => {
-    // TODO: API request
+  const [addAnimals] = useAddAnimalsMutation();
+  const [addAnimalBatches] = useAddAnimalBatchesMutation();
+
+  const onSave = async (
+    data: any,
+    onGoForward: () => void,
+    setFormResultData: (data: any) => void,
+  ) => {
+    const formattedAnimals = formatAnimalDetailsToDBStructure([]);
+    const formattedBatches = formatBatchDetailsToDBStructure([]);
+    let animalsResult: Animal[] = [];
+    let batchesResult: AnimalBatch[] = [];
+
+    try {
+      animalsResult = await addAnimals(formattedAnimals).unwrap();
+    } catch (e) {
+      console.error(e);
+      dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_CREATE_ANIMALS')));
+    }
+    try {
+      batchesResult = await addAnimalBatches(formattedBatches).unwrap();
+    } catch (e) {
+      console.error(e);
+      dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_CREATE_BATCHES')));
+    }
+
+    if (!animalsResult.length && !batchesResult.length) {
+      return;
+    }
+
+    const resultData: { animals: Animal[]; batches: AnimalBatch[] } = {
+      animals: animalsResult,
+      batches: batchesResult,
+    };
+    setFormResultData(resultData);
     onGoForward();
   };
 

@@ -34,6 +34,7 @@ interface WithStepperProgressBarProps {
     isMobile?: boolean;
     isDarkMode?: boolean;
   };
+  stepperProgressBarTitle?: ReactNode;
   onSave: (data: FieldValues, onGoForward: () => void) => void;
   onGoBack: () => void;
   onCancel: () => void;
@@ -49,6 +50,7 @@ export const WithStepperProgressBar = ({
   isCompactSideMenu,
   hasSummaryWithinForm,
   stepperProgressBarConfig = {},
+  stepperProgressBarTitle,
   onSave,
   onGoBack,
   onCancel,
@@ -103,6 +105,7 @@ export const WithStepperProgressBar = ({
       header={
         <StepperProgressBar
           {...stepperProgressBarConfig}
+          title={stepperProgressBarTitle}
           steps={steps.map(({ title }) => title)}
           activeStep={activeStepIndex}
         />

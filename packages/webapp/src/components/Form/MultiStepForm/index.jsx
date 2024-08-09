@@ -108,4 +108,5 @@ MultiStepForm.propTypes = {
     isMobile: PropTypes.bool,
     isDarkMode: PropTypes.bool,
   }),
+  stepperProgressBarTitle: PropTypes.node,
 };

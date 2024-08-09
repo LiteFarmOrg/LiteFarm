@@ -169,12 +169,18 @@ describe('Animal Tests', () => {
         res.body.forEach((animal) => {
           expect(animal.farm_id).toBe(mainFarm.farm_id);
         });
-        expect({ ...firstAnimal, internal_identifier: 1, group_ids: [] }).toMatchObject(
-          res.body[0],
-        );
-        expect({ ...secondAnimal, internal_identifier: 2, group_ids: [] }).toMatchObject(
-          res.body[1],
-        );
+        expect({
+          ...firstAnimal,
+          internal_identifier: 1,
+          group_ids: [],
+          animal_use_relationships: [],
+        }).toMatchObject(res.body[0]);
+        expect({
+          ...secondAnimal,
+          internal_identifier: 2,
+          group_ids: [],
+          animal_use_relationships: [],
+        }).toMatchObject(res.body[1]);
       }
     });
 

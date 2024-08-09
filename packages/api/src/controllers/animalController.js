@@ -23,6 +23,8 @@ import AnimalGroupRelationshipModel from '../models/animalGroupRelationshipModel
 import { assignInternalIdentifiers } from '../util/animal.js';
 import { handleObjectionError } from '../util/errorCodes.js';
 import { checkAndTrimString } from '../util/util.js';
+import AnimalUseRelationshipModel from '../models/animalUseRelationshipModel.js';
+import { uploadPublicImage } from '../util/imageUpload.js';
 
 const animalController = {
   getFarmAnimals() {
@@ -32,7 +34,11 @@ const animalController = {
         const rows = await AnimalModel.query()
           .where({ farm_id })
           .whereNotDeleted()
-          .withGraphFetched({ internal_identifier: true, group_ids: true });
+          .withGraphFetched({
+            internal_identifier: true,
+            group_ids: true,
+            animal_use_relationships: true,
+          });
         return res.status(200).send(
           rows.map(({ internal_identifier, group_ids, ...rest }) => ({
             ...rest,
@@ -142,6 +148,23 @@ const animalController = {
           }
 
           individualAnimalResult.group_ids = groupIds;
+
+          const animalUseRelationships = [];
+          if (animal.animal_use_relationships?.length) {
+            for (const relationship of animal.animal_use_relationships) {
+              animalUseRelationships.push(
+                await baseController.postWithResponse(
+                  AnimalUseRelationshipModel,
+                  { ...relationship, animal_id: individualAnimalResult.id },
+                  req,
+                  { trx },
+                ),
+              );
+            }
+          }
+
+          individualAnimalResult.animal_use_relationships = animalUseRelationships;
+
           result.push(individualAnimalResult);
         }
 
@@ -237,6 +260,11 @@ const animalController = {
       } catch (error) {
         handleObjectionError(error, res, trx);
       }
+    };
+  },
+  uploadAnimalImage() {
+    return async (req, res, next) => {
+      await uploadPublicImage('animal')(req, res, next);
     };
   },
 };

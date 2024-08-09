@@ -34,7 +34,7 @@ export const sexOptions = [
 export const useOptions = [
   { label: 'A', value: 'A' },
   { label: 'B', value: 'B' },
-  { label: 'C', value: 'C' },
+  { label: 'Other', value: 'OTHER' },
 ];
 
 export const tagTypeOptions = [

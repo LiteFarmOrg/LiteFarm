@@ -74,6 +74,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
       history={history}
       getSteps={getFormSteps}
       defaultFormValues={defaultFormValues}
+      cancelModalTitle={t('ADD_ANIMAL.ADD_ANIMALS_FLOW')}
     />
   );
 }

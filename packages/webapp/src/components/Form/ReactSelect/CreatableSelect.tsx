@@ -58,6 +58,10 @@ const CreatableSelect = React.forwardRef((props, ref) => {
     ...restProps
   } = props;
 
+  const isValidNewOption = (inputValue: string) => {
+    return inputValue.trim().length > 0;
+  };
+
   return (
     <div data-cy="react-select" className={scss.container} style={style}>
       {(label || toolTipContent || icon) && (
@@ -75,6 +79,7 @@ const CreatableSelect = React.forwardRef((props, ref) => {
         isClearable
         placeholder={placeholder}
         formatCreateLabel={(userInput) => `${createPromptText} "${userInput}"`}
+        isValidNewOption={isValidNewOption}
         styles={{
           ...(baseStyles as any),
           ...styles,

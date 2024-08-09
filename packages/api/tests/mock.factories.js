@@ -2407,15 +2407,6 @@ async function animal_identifier_colorFactory() {
   return knex('animal_identifier_color').insert({ key: faker.lorem.word() }).returning('*');
 }
 
-async function animal_identifier_placementFactory(
-  promisedAnimalType = default_animal_typeFactory(),
-) {
-  const [animalType] = await promisedAnimalType;
-  return knex('animal_identifier_placement')
-    .insert({ default_type_id: animalType.id, key: faker.lorem.word() })
-    .returning('*');
-}
-
 async function animal_sexFactory() {
   return knex('animal_sex').insert({ key: faker.lorem.word() }).returning('*');
 }
@@ -2656,7 +2647,6 @@ export default {
   animal_batchFactory,
   animal_identifier_typeFactory,
   animal_identifier_colorFactory,
-  animal_identifier_placementFactory,
   animal_sexFactory,
   animal_originFactory,
   fakeAnimalGroup,

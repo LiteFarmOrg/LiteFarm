@@ -132,7 +132,6 @@ import animalRoute from './routes/animalRoute.js';
 import animalBatchRoute from './routes/animalBatchRoute.js';
 import animalIdentifierColorRoute from './routes/animalIdentifierColorRoute.js';
 import animalIdentifierTypeRoute from './routes/animalIdentifierTypeRoute.js';
-import animalIdentifierPlacementRoute from './routes/animalIdentifierPlacementRoute.js';
 import animalSexRoute from './routes/animalSexRoute.js';
 import animalOriginRoute from './routes/animalOriginRoute.js';
 import animalGroupRoute from './routes/animalGroupRoute.js';
@@ -289,7 +288,6 @@ app
   .use('/animal_batches', animalBatchRoute)
   .use('/animal_identifier_types', animalIdentifierTypeRoute)
   .use('/animal_identifier_colors', animalIdentifierColorRoute)
-  .use('/animal_identifier_placements', animalIdentifierPlacementRoute)
   .use('/animal_sexes', animalSexRoute)
   .use('/animal_origins', animalOriginRoute)
   .use('/animal_groups', animalGroupRoute)

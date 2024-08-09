@@ -38,6 +38,7 @@ export const MultiStepForm = ({
 }) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [formData, setFormData] = useState();
+  const [formResultData, setFormResultData] = useState();
 
   const form = useForm({
     mode: 'onBlur',
@@ -81,11 +82,16 @@ export const MultiStepForm = ({
       onGoBack={onGoBack}
       onCancel={onCancel}
       onGoForward={onGoForward}
+      setFormResultData={setFormResultData}
       {...form}
       {...props}
     >
       <FormProvider {...form}>
-        <activeStep.FormContent onGoForward={onGoForward} form={form} />
+        <activeStep.FormContent
+          onGoForward={onGoForward}
+          form={form}
+          formResultData={formResultData}
+        />
       </FormProvider>
     </Component>
   );

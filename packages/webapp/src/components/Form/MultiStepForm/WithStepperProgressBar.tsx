@@ -36,12 +36,17 @@ interface WithStepperProgressBarProps {
     isDarkMode?: boolean;
   };
   stepperProgressBarTitle?: ReactNode;
-  onSave: (data: FieldValues, onGoForward: () => void) => void;
+  onSave: (
+    data: FieldValues,
+    onGoForward: () => void,
+    setFormResultData: (data: any) => void,
+  ) => void;
   onGoBack: () => void;
   onCancel: () => void;
   onGoForward: () => void;
   formState: FormState<FieldValues>;
   handleSubmit: UseFormHandleSubmit<FieldValues>;
+  setFormResultData: (data: any) => void;
 }
 
 export const WithStepperProgressBar = ({
@@ -60,6 +65,7 @@ export const WithStepperProgressBar = ({
   onGoForward,
   handleSubmit,
   formState: { isValid },
+  setFormResultData,
 }: WithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
@@ -95,7 +101,7 @@ export const WithStepperProgressBar = ({
 
   const onContinue = () => {
     if (isFinalStep) {
-      handleSubmit((data: FieldValues) => onSave(data, onGoForward))();
+      handleSubmit((data: FieldValues) => onSave(data, onGoForward, setFormResultData))();
       return;
     }
     onGoForward();

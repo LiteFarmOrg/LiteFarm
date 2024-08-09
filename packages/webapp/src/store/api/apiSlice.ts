@@ -148,6 +148,22 @@ export const api = createApi({
       }),
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
+    addAnimals: build.mutation<Animal[], Partial<Animal>[]>({
+      query: (body) => ({
+        url: `${animalsUrl}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Animals'],
+    }),
+    addAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
+      query: (body) => ({
+        url: `${animalBatchesUrl}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['AnimalBatches'],
+    }),
     getSoilAmendmentMethods: build.query<SoilAmendmentMethod[], void>({
       query: () => `${soilAmendmentMethodsUrl}`,
       providesTags: ['SoilAmendmentMethods'],
@@ -193,6 +209,8 @@ export const {
   useRemoveAnimalBatchesMutation,
   useDeleteAnimalsMutation,
   useDeleteAnimalBatchesMutation,
+  useAddAnimalsMutation,
+  useAddAnimalBatchesMutation,
   useGetSoilAmendmentMethodsQuery,
   useGetSoilAmendmentPurposesQuery,
   useGetSoilAmendmentFertiliserTypesQuery,

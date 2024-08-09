@@ -13,8 +13,25 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const AddAnimalBasics = () => {
-  return <div>Add animals basics</div>;
-};
+@import '../../../../assets/mixin.scss';
 
-export default AddAnimalBasics;
+.cardContainer {
+  padding: 16px;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 16px;
+
+  > div {
+    width: 400px;
+  }
+
+  @include xs-breakpoint {
+    flex-flow: column nowrap;
+    align-items: center;
+
+    > div {
+      width: 100%;
+      min-width: 350px;
+    }
+  }
+}

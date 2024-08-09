@@ -18,14 +18,14 @@ import { History } from 'history';
 import { useMediaQuery } from '@mui/material';
 import theme from '../../../assets/theme';
 import { MultiStepForm, VARIANT } from '../../../components/Form/MultiStepForm';
-import AddAnimalBasics from '../AddAnimalBasics';
-import AddAnimalDetails from '../AddAnimalDetails';
-import AddAnimalSummary from '../AddAnimalSummary';
+import AddAnimalBasics, { animalBasicsDefaultValues } from './AddAnimalBasics';
+import AddAnimalDetails from './AddAnimalDetails';
+import AddAnimalSummary from './AddAnimalSummary';
 
 export const STEPS = {
   BASICS: 'basics',
   DETAILS: 'details',
-};
+} as const;
 
 interface AddAnimalsProps {
   isCompactSideMenu: boolean;
@@ -59,7 +59,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
   const stepperProgressBarConfig = { isMobile, isDarkMode: true };
 
   const defaultFormValues = {
-    [STEPS.BASICS]: [],
+    [STEPS.BASICS]: [animalBasicsDefaultValues],
     [STEPS.DETAILS]: [],
   };
 

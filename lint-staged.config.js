@@ -1,3 +1,3 @@
-module.exports = {
-  '*.{md,yml}': 'prettier --write'
+export default {
+  "*.{md,yml,json,js}": "prettier --write",
 };

@@ -1,5 +1,7 @@
 {
   "ANIMALS": {
+    "FAILED_CREATE_ANIMALS": "Failed to create animals",
+    "FAILED_CREATE_BATCHES": "Failed to create batches",
     "FAILED_REMOVE_ANIMALS": "Failed to remove selected animals",
     "FAILED_REMOVE_BATCHES": "Failed to remove selected batches",
     "SUCCESS_REMOVE_ANIMALS": "Successfully removed selected animals",

@@ -28,7 +28,6 @@ import {
   useOptions,
   tagTypeOptions,
   tagColorOptions,
-  tagPlacementOptions,
   organicStatusOptions,
   originOptions,
 } from './mockData';
@@ -60,7 +59,6 @@ export const Default: Story = {
               uniqueDetailsProps={{
                 tagTypeOptions,
                 tagColorOptions,
-                tagPlacementOptions,
               }}
               otherDetailsProps={{
                 organicStatusOptions,

@@ -29,12 +29,6 @@
     "WHITE": "White",
     "YELLOW": "Yellow"
   },
-  "TAG_PLACEMENT": {
-    "LEFT_EAR": "Left ear",
-    "LEFT_LEG": "Left leg",
-    "RIGHT_EAR": "Right ear",
-    "RIGHT_LEG": "Right leg"
-  },
   "TAG_TYPE": {
     "EAR_TAG": "Ear tag",
     "LEG_BAND": "Leg band"

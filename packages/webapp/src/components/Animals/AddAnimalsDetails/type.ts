@@ -36,8 +36,6 @@ export enum DetailsFields {
   TAG_COLOR = 'identifier_color_id',
   TAG_TYPE = 'identifier_type',
   TAG_TYPE_INFO = 'identifier_type_info',
-  TAG_PLACEMENT = 'identifier_placement_id',
-  TAG_PLACEMENT_INFO = 'identifier_placement_info',
 
   // OTHER
   WEANING_DATE = 'weaning_date',
@@ -60,7 +58,6 @@ export type Option = {
   [DetailsFields.USE]: ReactSelectOption<number | string>; // TODO: LF-4159
   [DetailsFields.TAG_COLOR]: ReactSelectOption<number>;
   [DetailsFields.TAG_TYPE]: ReactSelectOption<number>;
-  [DetailsFields.TAG_PLACEMENT]: ReactSelectOption<number>;
   [DetailsFields.ORGANIC_STATUS]: ReactSelectOption<number>;
   [DetailsFields.SEX]: ReactSelectOption<number>;
   [DetailsFields.ORIGIN]: ReactSelectOption<number>;
@@ -78,8 +75,6 @@ export type FormValues = {
   [DetailsFields.TAG_COLOR]?: Option[DetailsFields.TAG_COLOR];
   [DetailsFields.TAG_TYPE]?: Option[DetailsFields.TAG_TYPE];
   [DetailsFields.TAG_TYPE_INFO]?: string;
-  [DetailsFields.TAG_PLACEMENT]?: Option[DetailsFields.TAG_PLACEMENT] | null;
-  [DetailsFields.TAG_PLACEMENT_INFO]?: string;
   [DetailsFields.WEANING_DATE]?: string;
   [DetailsFields.ORGANIC_STATUS]?: Option[DetailsFields.TAG_TYPE];
   [DetailsFields.OTHER_DETAILS]?: string;

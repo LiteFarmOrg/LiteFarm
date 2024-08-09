@@ -52,14 +52,6 @@ export const tagColorOptions = [
   { value: 6, label: 'Red' },
 ];
 
-export const tagPlacementOptions = [
-  { value: 1, label: 'Left ear' },
-  { value: 2, label: 'Right ear' },
-  { value: 3, label: 'Left leg' },
-  { value: 4, label: 'Right leg' },
-  { value: 5, label: 'Other' },
-];
-
 export const organicStatusOptions = [
   { value: 1, label: 'Non-Organic' },
   { value: 2, label: 'Organic' },

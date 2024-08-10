@@ -84,6 +84,7 @@ const BatchDetails = ({
             <ExpandableItem
               itemKey={key}
               isExpanded={isExpanded}
+              iconClickOnly={false}
               onClick={() => toggleExpanded(key)}
               mainContent={title}
               expandedContent={<div className={styles.expandedContentWrapper}>{content}</div>}

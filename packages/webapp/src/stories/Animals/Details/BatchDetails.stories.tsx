@@ -25,6 +25,7 @@ import {
   typeOptions,
   breedOptions,
   sexOptions,
+  sexDetailsOptions,
   useOptions,
   organicStatusOptions,
   originOptions,
@@ -53,6 +54,7 @@ export const Default: Story = {
                 breedOptions,
                 sexOptions,
                 useOptions,
+                sexDetailsOptions,
               }}
               otherDetailsProps={{
                 organicStatusOptions,

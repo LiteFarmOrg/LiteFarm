@@ -25,6 +25,7 @@ import {
   typeOptions,
   breedOptions,
   sexOptions,
+  sexDetailsOptions,
   useOptions,
   tagTypeOptions,
   tagColorOptions,
@@ -56,6 +57,7 @@ export const Default: Story = {
                 breedOptions,
                 sexOptions,
                 useOptions,
+                sexDetailsOptions,
               }}
               uniqueDetailsProps={{
                 tagTypeOptions,

@@ -31,6 +31,11 @@ export const sexOptions = [
   { value: 2, label: 'Female' },
 ];
 
+export const sexDetailsOptions = [
+  { id: 0, label: 'Male', count: 0 },
+  { id: 1, label: 'Female', count: 0 },
+];
+
 export const useOptions = [
   { label: 'A', value: 'A' },
   { label: 'B', value: 'B' },

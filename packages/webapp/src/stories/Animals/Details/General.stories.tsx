@@ -22,7 +22,7 @@ import GeneralDetails, {
 } from '../../../components/Animals/AddAnimalsDetails/General';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { DetailsFields, FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
-import { typeOptions, breedOptions, sexOptions, useOptions } from './mockData';
+import { typeOptions, breedOptions, sexOptions, sexDetailsOptions, useOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<GeneralDetailsProps> = {
@@ -64,6 +64,7 @@ export const Batch: Story = {
   args: {
     ...commonProps,
     animalOrBatch: AnimalOrBatchKeys.BATCH,
+    sexDetailsOptions,
   },
   render: (args, context) => <GeneralDetails {...args} {...context} />,
 };

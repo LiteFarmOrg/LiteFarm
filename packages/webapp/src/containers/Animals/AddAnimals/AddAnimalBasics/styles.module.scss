@@ -13,26 +13,25 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.form {
+@import '../../../../assets/mixin.scss';
+
+.cardContainer {
+  padding: 16px;
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
   gap: 16px;
-}
 
-.formHeader {
-  display: flex;
-  justify-content: space-between;
-}
+  > div {
+    width: 400px;
+  }
 
-.countAndSexDetailsWrapper {
-  display: flex;
-  align-items: start;
-  gap: 16px;
-}
+  @include xs-breakpoint {
+    flex-flow: column nowrap;
+    align-items: center;
 
-.countInput {
-  flex-basis: 104px;
-  & + div {
-    flex: 1;
+    > div {
+      width: 100%;
+      min-width: 350px;
+    }
   }
 }

@@ -10,12 +10,13 @@
     "lint": "lerna run lint",
     "start": "lerna run start",
     "bootstrap": "lerna bootstrap",
-    "prepare": "husky install",
+    "prepare": "husky install && chmod u+x .husky/*",
     "ngrok": "ngrok start --config=./ngrok/ngrok.yml --all",
     "ngrok:setup": "node ./ngrok/ngrok-setup.js",
     "ngrok:api": "ngrok start --config=./ngrok/ngrok.yml api",
     "ngrok:webapp": "ngrok start --config=./ngrok/ngrok.yml webapp"
   },
+  "type": "module",
   "jest": {
     "testPathIgnorePatterns": [
       "<rootDir>[/\\\\](node_modules|packages/webapp/scripts)[/\\\\]"

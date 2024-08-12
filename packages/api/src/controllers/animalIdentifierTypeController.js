@@ -13,26 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+import AnimalIdentifierType from '../models/animalIdentifierTypeModel.js';
 
-.formHeader {
-  display: flex;
-  justify-content: space-between;
-}
-
-.countAndSexDetailsWrapper {
-  display: flex;
-  align-items: start;
-  gap: 16px;
-}
-
-.countInput {
-  flex-basis: 104px;
-  & + div {
-    flex: 1;
+async function getIdentifierTypes(_, res) {
+  try {
+    return res.status(200).send(await AnimalIdentifierType.query());
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      error,
+    });
   }
 }
+
+export { getIdentifierTypes };

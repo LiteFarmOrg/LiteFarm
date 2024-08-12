@@ -27,8 +27,6 @@ import { DetailsFields, type Option, type CommonDetailsProps } from './type';
 import styles from './styles.module.scss';
 
 export type GeneralDetailsProps = CommonDetailsProps & {
-  typeOptions: Option[DetailsFields.TYPE][];
-  breedOptions: Option[DetailsFields.BREED][];
   sexOptions: Option[DetailsFields.SEX][];
   useOptions: Option[DetailsFields.USE][];
   animalOrBatch: AnimalOrBatchKeys;
@@ -38,8 +36,6 @@ export type GeneralDetailsProps = CommonDetailsProps & {
 
 const GeneralDetails = ({
   t,
-  typeOptions,
-  breedOptions,
   sexOptions,
   useOptions,
   animalOrBatch,
@@ -137,7 +133,7 @@ const GeneralDetails = ({
             label={t('ANIMAL.ANIMAL_TYPE')}
             value={value}
             onChange={onChange}
-            options={typeOptions}
+            isDisabled
           />
         )}
       />
@@ -150,7 +146,7 @@ const GeneralDetails = ({
             optional
             value={value}
             onChange={onChange}
-            options={breedOptions}
+            isDisabled
           />
         )}
       />

@@ -13,28 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export enum AnimalTranslationKey {
-  CATTLE = 'CATTLE',
-  CHICKEN = 'CHICKEN',
-  PIGS = 'PIGS',
+import AnimalIdentifierType from '../models/animalIdentifierTypeModel.js';
+
+async function getIdentifierTypes(_, res) {
+  try {
+    return res.status(200).send(await AnimalIdentifierType.query());
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      error,
+    });
+  }
 }
 
-export enum ANIMAL_ID_PREFIX {
-  DEFAULT = 'default',
-  CUSTOM = 'custom',
-}
-
-export enum AnimalOrBatchKeys {
-  ANIMAL = 'ANIMAL',
-  BATCH = 'BATCH',
-}
-
-export enum AnimalSexes {
-  MALE = 'MALE',
-  FEMALE = 'FEMALE',
-}
-
-export enum AnimalOrigins {
-  BROUGHT_IN = 'BROUGHT_IN',
-  BORN_AT_FARM = 'BORN_AT_FARM',
-}
+export { getIdentifierTypes };

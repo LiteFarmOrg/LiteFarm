@@ -13,8 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useRef, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-
+import { useTranslation } from 'react-i18next';
+import { SelectInstance } from 'react-select';
 import NumberInput from '../../Form/NumberInput';
 import Checkbox from '../../Form/Checkbox';
 import SexDetails from '../../Form/SexDetails';
@@ -24,36 +26,13 @@ import Card from '../../CardV2';
 import { Main } from '../../Typography';
 import SmallButton from '../../Form/Button/SmallButton';
 import { type Details as SexDetailsType } from '../../Form/SexDetails/SexDetailsPopover';
+import { ANIMAL_BASICS_FIELD_NAMES as FIELD_NAMES } from '../../../containers/Animals/AddAnimals/types';
 import {
   AnimalBreedSelect,
   AnimalTypeSelect,
   type AnimalBreedSelectProps,
   type AnimalTypeSelectProps,
-  type Option,
 } from './AnimalSelect';
-import { useTranslation } from 'react-i18next';
-import { parseUniqueAnimalId } from '../../../util/animal';
-import { ANIMAL_ID_ENTITY } from '../../../containers/Animals/types';
-
-export const FIELD_NAMES = {
-  TYPE: 'type',
-  BREED: 'breed',
-  SEX_DETAILS: 'sexDetails',
-  COUNT: 'count',
-  CREATE_INDIVIDUAL_PROFILES: 'createIndividualProfiles',
-  GROUP: 'group',
-  BATCH: 'batch',
-} as const;
-
-export type FormFields = {
-  [FIELD_NAMES.TYPE]?: Option;
-  [FIELD_NAMES.BREED]?: Option;
-  [FIELD_NAMES.SEX_DETAILS]: SexDetailsType;
-  [FIELD_NAMES.COUNT]?: number;
-  [FIELD_NAMES.CREATE_INDIVIDUAL_PROFILES]?: boolean;
-  [FIELD_NAMES.GROUP]?: string;
-  [FIELD_NAMES.BATCH]?: string;
-};
 
 type AddAnimalsFormCardProps = AnimalTypeSelectProps &
   AnimalBreedSelectProps & {
@@ -84,15 +63,13 @@ export default function AddAnimalsFormCard({
     `${namePrefix}.${FIELD_NAMES.CREATE_INDIVIDUAL_PROFILES}`,
   );
 
-  const typeKey = watchAnimalType?.value
-    ? parseUniqueAnimalId(watchAnimalType.value, ANIMAL_ID_ENTITY.TYPE)
-    : {};
+  const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
-  const filteredBreeds = breedOptions.filter(
-    ({ custom_type_id, default_type_id }) =>
-      (custom_type_id && custom_type_id === typeKey.custom_type_id) ||
-      (default_type_id && default_type_id === typeKey.default_type_id),
-  );
+  const breedSelectRef = useRef<SelectInstance>(null);
+
+  useEffect(() => {
+    breedSelectRef?.current?.clearValue();
+  }, [watchAnimalType?.value]);
 
   return (
     <Card className={styles.form} isActive={isActive}>
@@ -107,6 +84,7 @@ export default function AddAnimalsFormCard({
         onTypeChange={onTypeChange}
       />
       <AnimalBreedSelect
+        breedSelectRef={breedSelectRef}
         name={`${namePrefix}.${FIELD_NAMES.BREED}`}
         control={control}
         breedOptions={filteredBreeds}

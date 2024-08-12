@@ -2397,6 +2397,12 @@ async function animal_batchFactory(
     });
 }
 
+async function animal_identifier_typeFactory(rows = 1) {
+  return knex('animal_identifier_type')
+    .insert(Array(rows).fill({ key: faker.lorem.word() }))
+    .returning('*');
+}
+
 async function animal_identifier_colorFactory() {
   return knex('animal_identifier_color').insert({ key: faker.lorem.word() }).returning('*');
 }
@@ -2648,6 +2654,7 @@ export default {
   fakeAnimalBatch,
   animalFactory,
   animal_batchFactory,
+  animal_identifier_typeFactory,
   animal_identifier_colorFactory,
   animal_identifier_placementFactory,
   animal_sexFactory,

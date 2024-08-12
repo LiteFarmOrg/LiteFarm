@@ -22,13 +22,14 @@ import {
   useGetDefaultAnimalBreedsQuery,
   useGetCustomAnimalBreedsQuery,
   useGetAnimalSexesQuery,
-} from '../../../store/api/apiSlice';
-import AddAnimalsFormCard from '../../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
-import MoreAnimalsCard from '../../../components/Animals/AddAnimalsForm/MoreAnimalsCard';
-import { FIELD_NAMES } from '../../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
-import { AddAnimalsFormFields } from '../AddAnimals/types';
-import { generateUniqueAnimalId } from '../../../util/animal';
-import { STEPS } from '../AddAnimals';
+} from '../../../../store/api/apiSlice';
+import AddAnimalsFormCard from '../../../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
+import MoreAnimalsCard from '../../../../components/Animals/AddAnimalsForm/MoreAnimalsCard';
+import { ANIMAL_BASICS_FIELD_NAMES as FIELD_NAMES } from '../types';
+import { AddAnimalsFormFields } from '../types';
+import { generateUniqueAnimalId } from '../../../../util/animal';
+import { ANIMAL_ID_PREFIX } from '../../types';
+import { STEPS } from '..';
 
 export const animalBasicsDefaultValues = {
   [FIELD_NAMES.TYPE]: undefined,
@@ -77,13 +78,14 @@ const AddAnimalBasics = () => {
     ...defaultBreeds.map((defaultBreed) => ({
       label: t(`animal:BREED.${defaultBreed.key}`),
       value: generateUniqueAnimalId(defaultBreed),
-      default_type_id: defaultBreed.default_type_id,
+      type: generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, defaultBreed.default_type_id),
     })),
     ...customBreeds.map((customBreed) => ({
       label: customBreed.breed,
       value: generateUniqueAnimalId(customBreed),
-      default_type_id: customBreed.default_type_id,
-      custom_type_id: customBreed.custom_type_id,
+      type: customBreed.default_type_id
+        ? generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, customBreed.default_type_id)
+        : generateUniqueAnimalId(ANIMAL_ID_PREFIX.CUSTOM, customBreed.custom_type_id),
     })),
   ];
 

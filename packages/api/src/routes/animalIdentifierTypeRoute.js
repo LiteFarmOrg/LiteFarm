@@ -13,25 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '../../../assets/mixin.scss';
+import express from 'express';
+import checkScope from '../middleware/acl/checkScope.js';
 
-.cardContainer {
-  padding: 16px;
-  display: flex;
-  flex-flow: row wrap;
-  gap: 16px;
+const router = express.Router();
+import { getIdentifierTypes } from '../controllers/animalIdentifierTypeController.js';
 
-  > div {
-    width: 400px;
-  }
+router.get('/', checkScope(['get:animal_identifier_types']), getIdentifierTypes);
 
-  @include xs-breakpoint {
-    flex-flow: column nowrap;
-    align-items: center;
-
-    > div {
-      width: 100%;
-      min-width: 350px;
-    }
-  }
-}
+export default router;

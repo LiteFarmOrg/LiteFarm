@@ -31,7 +31,7 @@ export type GeneralDetailsProps = CommonDetailsProps & {
   useOptions: Option[DetailsFields.USE][];
   animalOrBatch: AnimalOrBatchKeys;
   isMaleSelected?: boolean;
-  sexDetailsOptions: SexDetailsType;
+  sexDetailsOptions?: SexDetailsType;
 };
 
 const GeneralDetails = ({
@@ -97,7 +97,7 @@ const GeneralDetails = ({
           control={control}
           render={({ field }) => (
             <SexDetails
-              initialDetails={sexDetailsOptions}
+              initialDetails={sexDetailsOptions!}
               maxCount={watchBatchCount}
               onConfirm={(details) => field.onChange(details)}
             />

@@ -1,0 +1,49 @@
+/*
+ *  Copyright 2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../../../assets/mixin.scss';
+
+.expandedContainer {
+  outline: 1px solid var(--Colors-Neutral-Neutral-100);
+  border-radius: 4px 4px 0 0;
+  margin-block: 4px;
+  position: relative; // for remove badge
+}
+
+.expandableHeader {
+  // Should these go into a different component? It's controlling the placement of the left collapse
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: var(--White, #fff);
+  padding-inline: 16px;
+  margin-block: 4px;
+
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50, #f0f1f3);
+  background: var(--White, #fff);
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.07);
+}
+
+.expandedHeader {
+  border: none;
+  box-shadow: none;
+  margin-block: 0;
+}
+
+.sectionHeader {
+  padding-block: 8px;
+}

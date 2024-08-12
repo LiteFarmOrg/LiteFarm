@@ -68,8 +68,14 @@ export default function AddAnimalsFormCard({
 
   const breedSelectRef = useRef<SelectInstance>(null);
 
+  // For navigating back...
+  const prevAnimalTypeRef = useRef(watchAnimalType?.value);
+
   useEffect(() => {
-    breedSelectRef?.current?.clearValue();
+    if (prevAnimalTypeRef.current !== watchAnimalType?.value) {
+      breedSelectRef?.current?.clearValue();
+      prevAnimalTypeRef.current = watchAnimalType?.value;
+    }
   }, [watchAnimalType?.value]);
 
   return (

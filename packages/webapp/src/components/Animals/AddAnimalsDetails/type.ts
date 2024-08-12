@@ -15,6 +15,7 @@
 
 import { UseFormReturn } from 'react-hook-form';
 import { TFunction } from 'react-i18next';
+import { Option as AnimalSelectOption } from '../AddAnimalsFormCard/AnimalSelect';
 
 export type ReactSelectOption<T extends string | number> = {
   label: string;
@@ -29,6 +30,8 @@ export enum DetailsFields {
   SEX = 'sex',
   USED_FOR_REPRODUCTION = 'USED_FOR_REPRODUCTION',
   USE = 'use',
+  COUNT = 'count',
+  SEX_DETAILS = 'sexDetails',
 
   // UNIQUE
   DATE_OF_BIRTH = 'birth_date',
@@ -55,9 +58,9 @@ export enum DetailsFields {
 }
 
 export type Option = {
-  [DetailsFields.TYPE]: ReactSelectOption<string>; // TODO: LF-4159
-  [DetailsFields.BREED]: ReactSelectOption<string>; // TODO: LF-4159
-  [DetailsFields.USE]: ReactSelectOption<number | string>; // TODO: LF-4159
+  [DetailsFields.TYPE]: AnimalSelectOption;
+  [DetailsFields.BREED]: AnimalSelectOption;
+  [DetailsFields.USE]: ReactSelectOption<number | string>;
   [DetailsFields.TAG_COLOR]: ReactSelectOption<number>;
   [DetailsFields.TAG_TYPE]: ReactSelectOption<number>;
   [DetailsFields.TAG_PLACEMENT]: ReactSelectOption<number>;
@@ -92,7 +95,7 @@ export type FormValues = {
   [DetailsFields.PRICE]?: number;
 };
 
-export interface FormMethods extends UseFormReturn<FormValues> {}
+export interface FormMethods extends UseFormReturn<Partial<FormValues>> {}
 
 export type CommonDetailsProps = {
   t: TFunction;

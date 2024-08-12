@@ -17,25 +17,23 @@ import { Suspense } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Meta, StoryObj } from '@storybook/react';
 import AnimalCreationDetails, {
-  AnimalDetailsProps,
-} from '../../../components/Animals/AddAnimalsDetails';
-import AnimalDetails from '../../../components/Animals/AddAnimalsDetails';
+  BatchDetailsProps,
+} from '../../../components/Animals/AddBatchDetails';
+import BatchDetails from '../../../components/Animals/AddBatchDetails';
 import { FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
 import {
   sexOptions,
+  sexDetailsOptions,
   useOptions,
-  tagTypeOptions,
-  tagColorOptions,
-  tagPlacementOptions,
   organicStatusOptions,
   originOptions,
   defaultValues,
 } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
-const meta: Meta<AnimalDetailsProps> = {
-  title: 'Components/AddAnimalsDetails',
-  component: AnimalDetails,
+const meta: Meta<BatchDetailsProps> = {
+  title: 'Components/AddBatchDetails',
+  component: BatchDetails,
 };
 export default meta;
 
@@ -51,15 +49,11 @@ export const Default: Story = {
       <Suspense>
         <div style={{ padding: '16px' }}>
           <FormProvider {...formMethods}>
-            <AnimalDetails
+            <BatchDetails
               generalDetailProps={{
                 sexOptions,
                 useOptions,
-              }}
-              uniqueDetailsProps={{
-                tagTypeOptions,
-                tagColorOptions,
-                tagPlacementOptions,
+                sexDetailsOptions,
               }}
               otherDetailsProps={{
                 organicStatusOptions,

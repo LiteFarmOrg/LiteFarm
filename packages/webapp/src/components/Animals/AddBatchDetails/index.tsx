@@ -15,35 +15,31 @@
 
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import GeneralDetails, { type GeneralDetailsProps } from './General';
-import UniqueDetails, { type UniqueDetailsProps } from './Unique';
-import OtherDetails, { type OtherDetailsProps } from './Other';
-import Origin, { type OriginProps } from './Origin';
+import GeneralDetails, { type GeneralDetailsProps } from '../AddAnimalsDetails/General';
+import OtherDetails, { type OtherDetailsProps } from '../AddAnimalsDetails/Other';
+import Origin, { type OriginProps } from '../AddAnimalsDetails/Origin';
 import ExpandableItem from '../../Expandable/ExpandableItem';
 import useExpandable from '../../Expandable/useExpandableItem';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
-import styles from './styles.module.scss';
+import styles from '../AddAnimalsDetails/styles.module.scss';
 
 enum sectionKeys {
   GENERAL,
   ORIGIN,
-  UNIQUE,
   OTHER,
 }
 
-export type AnimalDetailsProps = {
+export type BatchDetailsProps = {
   generalDetailProps: Omit<GeneralDetailsProps, 't' | 'animalOrBatch'>;
-  uniqueDetailsProps: Omit<UniqueDetailsProps, 't'>;
   otherDetailsProps: Omit<OtherDetailsProps, 't' | 'animalOrBatch'>;
   originProps: Omit<OriginProps, 't'>;
 };
 
-const AnimalDetails = ({
+const BatchDetails = ({
   generalDetailProps,
-  uniqueDetailsProps,
   otherDetailsProps,
   originProps,
-}: AnimalDetailsProps) => {
+}: BatchDetailsProps) => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const { t } = useTranslation(['translation', 'common', 'animal']);
   const commonProps = { t };
@@ -56,14 +52,9 @@ const AnimalDetails = ({
         <GeneralDetails
           {...commonProps}
           {...generalDetailProps}
-          animalOrBatch={AnimalOrBatchKeys.ANIMAL}
+          animalOrBatch={AnimalOrBatchKeys.BATCH}
         />
       ),
-    },
-    {
-      key: sectionKeys.UNIQUE,
-      title: t('ADD_ANIMAL.UNIQUE_DETAILS'),
-      content: <UniqueDetails {...commonProps} {...uniqueDetailsProps} />,
     },
     {
       key: sectionKeys.OTHER,
@@ -72,7 +63,7 @@ const AnimalDetails = ({
         <OtherDetails
           {...commonProps}
           {...otherDetailsProps}
-          animalOrBatch={AnimalOrBatchKeys.ANIMAL}
+          animalOrBatch={AnimalOrBatchKeys.BATCH}
         />
       ),
     },
@@ -105,4 +96,4 @@ const AnimalDetails = ({
   );
 };
 
-export default AnimalDetails;
+export default BatchDetails;

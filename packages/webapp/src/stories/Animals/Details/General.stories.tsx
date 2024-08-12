@@ -21,8 +21,12 @@ import GeneralDetails, {
   GeneralDetailsProps,
 } from '../../../components/Animals/AddAnimalsDetails/General';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
-import { DetailsFields, FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
-import { typeOptions, breedOptions, sexOptions, useOptions } from './mockData';
+import {
+  DetailsFields,
+  FormMethods,
+  FormValues,
+} from '../../../components/Animals/AddAnimalsDetails/type';
+import { sexOptions, sexDetailsOptions, useOptions, defaultValues } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<GeneralDetailsProps> = {
@@ -32,7 +36,10 @@ const meta: Meta<GeneralDetailsProps> = {
     ...componentDecorators,
     (Story) => {
       const { t } = useTranslation();
-      const formMethods: FormMethods = useForm({ mode: 'onBlur' });
+      const formMethods: FormMethods = useForm({
+        mode: 'onBlur',
+        defaultValues,
+      });
       const sex = formMethods.watch(DetailsFields.SEX);
       const isMaleSelected = sex === 1;
 
@@ -50,7 +57,7 @@ export default meta;
 
 type Story = StoryObj<typeof GeneralDetails>;
 
-const commonProps = { typeOptions, breedOptions, sexOptions, useOptions };
+const commonProps = { sexOptions, useOptions };
 
 export const Animal: Story = {
   args: {
@@ -64,6 +71,7 @@ export const Batch: Story = {
   args: {
     ...commonProps,
     animalOrBatch: AnimalOrBatchKeys.BATCH,
+    sexDetailsOptions,
   },
   render: (args, context) => <GeneralDetails {...args} {...context} />,
 };

@@ -13,22 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const typeOptions = [
-  { value: 'default_1', label: 'Cattle' },
-  { value: 'default_2', label: 'Pig' },
-  { value: 'default_3', label: 'Chicken' },
-  { value: 'custom_1', label: 'Sheep' },
-];
-
-export const breedOptions = [
-  { value: '1', label: 'Angus' },
-  { value: '2', label: 'Cobb 5' },
-];
+import { DetailsFields, FormValues } from '../../../components/Animals/AddAnimalsDetails/type';
 
 export const sexOptions = [
   { value: 0, label: `I don't know` },
   { value: 1, label: 'Male' },
   { value: 2, label: 'Female' },
+];
+
+export const sexDetailsOptions = [
+  { id: 0, label: 'Male', count: 0 },
+  { id: 1, label: 'Female', count: 0 },
 ];
 
 export const useOptions = [
@@ -70,3 +65,8 @@ export const originOptions = [
   { value: 1, label: 'Brought in' },
   { value: 2, label: 'Born at the farm' },
 ];
+
+export const defaultValues: Partial<FormValues> = {
+  [DetailsFields.TYPE]: { value: 'default_1', label: 'Cattle' },
+  [DetailsFields.BREED]: { value: 'default_2', label: 'Angus' },
+};

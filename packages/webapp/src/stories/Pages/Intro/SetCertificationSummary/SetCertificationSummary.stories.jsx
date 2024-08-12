@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  PureSetCertificationSummary,
-} from '../../../../components/OrganicCertifierSurvey/SetCertificationSummary/PureSetCertificationSummary';
+import { PureSetCertificationSummary } from '../../../../components/OrganicCertifierSurvey/SetCertificationSummary/PureSetCertificationSummary';
 import decorators from '../../config/Decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
 

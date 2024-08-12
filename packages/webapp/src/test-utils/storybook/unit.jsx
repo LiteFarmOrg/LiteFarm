@@ -12,8 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { within, userEvent, waitFor, screen } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { within, userEvent, waitFor, screen, expect } from '@storybook/test';
 import selectEvent from 'react-select-event';
 import { roundToTwoDecimal, convertFn } from '../../util/convert-units/unit';
 import { getUnitOptionMap } from '../../util/convert-units/getUnitOptionMap';

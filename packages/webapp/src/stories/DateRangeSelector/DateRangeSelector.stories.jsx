@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { Suspense } from 'react';
-import { within, userEvent, screen, fireEvent } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { within, userEvent, screen, fireEvent } from '@storybook/test';
+import { expect } from '@storybook/test';
 import selectEvent from 'react-select-event';
 import moment from 'moment';
 import DateRangeSelector from '../../components/DateRangeSelector';

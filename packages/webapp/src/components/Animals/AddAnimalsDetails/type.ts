@@ -58,8 +58,8 @@ export enum DetailsFields {
 }
 
 export type Option = {
-  [DetailsFields.TYPE]: ReactSelectOption<number | string>;
-  [DetailsFields.BREED]: ReactSelectOption<number | string>;
+  [DetailsFields.TYPE]: AnimalSelectOption;
+  [DetailsFields.BREED]: AnimalSelectOption;
   [DetailsFields.USE]: ReactSelectOption<number | string>;
   [DetailsFields.TAG_COLOR]: ReactSelectOption<number>;
   [DetailsFields.TAG_TYPE]: ReactSelectOption<number>;

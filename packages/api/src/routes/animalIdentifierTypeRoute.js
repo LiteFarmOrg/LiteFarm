@@ -13,8 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const AddAnimalBasics = () => {
-  return <div>Add animals basics</div>;
-};
+import express from 'express';
+import checkScope from '../middleware/acl/checkScope.js';
 
-export default AddAnimalBasics;
+const router = express.Router();
+import { getIdentifierTypes } from '../controllers/animalIdentifierTypeController.js';
+
+router.get('/', checkScope(['get:animal_identifier_types']), getIdentifierTypes);
+
+export default router;

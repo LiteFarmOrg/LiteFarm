@@ -25,13 +25,36 @@ import { ANIMAL_ID_PREFIX, AnimalOrBatchKeys } from '../containers/Animals/types
 
 /**
  * Generates a unique ID based on the given type or breed entity.
- * @param entity - The entity for which to generate the unique ID (type or breed, either custom or default).
+ * @param entity - The entity for which to generate the unique ID (type or breed, either custom or default) -OR- the prefix indicating default or custom
  * @returns The prefixed unique ID.
  */
-export const generateUniqueAnimalId = (
+
+const generateIdFromString = (prefix: ANIMAL_ID_PREFIX, id: number): string => {
+  return `${prefix}_${id}`;
+};
+
+const generateIdFromObject = (
   entity: DefaultAnimalType | CustomAnimalType | DefaultAnimalBreed | CustomAnimalBreed,
 ): string => {
   return `${ANIMAL_ID_PREFIX['key' in entity ? 'DEFAULT' : 'CUSTOM']}_${entity.id}`;
+};
+
+export const generateUniqueAnimalId = (
+  entity:
+    | DefaultAnimalType
+    | CustomAnimalType
+    | DefaultAnimalBreed
+    | CustomAnimalBreed
+    | ANIMAL_ID_PREFIX, // ('default' | 'custom'),
+  id?: number,
+): string => {
+  if (typeof entity === 'string' && id !== undefined) {
+    return generateIdFromString(entity, id);
+  } else {
+    return generateIdFromObject(
+      entity as DefaultAnimalType | CustomAnimalType | DefaultAnimalBreed | CustomAnimalBreed,
+    );
+  }
 };
 
 export const generateInventoryId = (

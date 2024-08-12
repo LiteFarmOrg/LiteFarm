@@ -33,16 +33,15 @@ type BaseFormHeader = {
   showRemove?: boolean;
   onRemove: () => void;
   isExpanded: boolean;
+  count?: number;
 };
 
 type AnimalFormHeader = BaseFormHeader & {
   sex: string;
-  count?: never;
   isBatch: false;
 };
 
 type BatchFormHeader = BaseFormHeader & {
-  count: number;
   sex?: never;
   isBatch: true;
 };

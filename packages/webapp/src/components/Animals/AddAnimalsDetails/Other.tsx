@@ -20,7 +20,11 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import ImagePicker from '../../ImagePicker';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import styles from './styles.module.scss';
-import { DetailsFields, type Option, type CommonDetailsProps } from './type';
+import {
+  DetailsFields,
+  type Option,
+  type CommonDetailsProps,
+} from '../../../containers/Animals/AddAnimals/types';
 
 export type OtherDetailsProps = CommonDetailsProps & {
   organicStatusOptions: Option[DetailsFields.ORGANIC_STATUS][];

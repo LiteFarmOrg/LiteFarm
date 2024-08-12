@@ -21,11 +21,8 @@ import GeneralDetails, {
   GeneralDetailsProps,
 } from '../../../components/Animals/AddAnimalsDetails/General';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
-import {
-  DetailsFields,
-  FormMethods,
-  FormValues,
-} from '../../../components/Animals/AddAnimalsDetails/type';
+import { DetailsFields, FormMethods } from '../../../containers/Animals/AddAnimals/types';
+
 import { sexOptions, sexDetailsOptions, useOptions, defaultValues } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript

@@ -19,7 +19,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import Origin, { OriginProps } from '../../../components/Animals/AddAnimalsDetails/Origin';
 import { AnimalOrigins } from '../../../containers/Animals/types';
-import { DetailsFields, FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
+import { DetailsFields, FormMethods } from '../../../containers/Animals/AddAnimals/types';
 import { originOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
@@ -35,8 +35,8 @@ const meta: Meta<OriginProps> = {
       const origin = !originId
         ? undefined
         : originId === 1
-        ? AnimalOrigins.BROUGHT_IN
-        : AnimalOrigins.BORN_AT_FARM;
+          ? AnimalOrigins.BROUGHT_IN
+          : AnimalOrigins.BORN_AT_FARM;
 
       return (
         <FormProvider {...formMethods}>

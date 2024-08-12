@@ -20,7 +20,7 @@ import { componentDecorators } from '../../Pages/config/Decorators';
 import UniqueDetails, {
   UniqueDetailsProps,
 } from '../../../components/Animals/AddAnimalsDetails/Unique';
-import { DetailsFields, FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
+import { DetailsFields, FormMethods } from '../../../containers/Animals/AddAnimals/types';
 import { tagTypeOptions, tagColorOptions, tagPlacementOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript

@@ -16,7 +16,11 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../Form/Input';
-import { DetailsFields, type Option, type CommonDetailsProps } from './type';
+import {
+  DetailsFields,
+  type Option,
+  type CommonDetailsProps,
+} from '../../../containers/Animals/AddAnimals/types';
 import styles from './styles.module.scss';
 
 export type UniqueDetailsProps = CommonDetailsProps & {

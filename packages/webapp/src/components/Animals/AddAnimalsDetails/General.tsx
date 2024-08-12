@@ -23,8 +23,13 @@ import NumberInput from '../../Form/NumberInput';
 import SexDetails from '../../Form/SexDetails';
 import { type Details as SexDetailsType } from '../../Form/SexDetails/SexDetailsPopover';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
-import { DetailsFields, type Option, type CommonDetailsProps } from './type';
+import {
+  DetailsFields,
+  type Option,
+  type CommonDetailsProps,
+} from '../../../containers/Animals/AddAnimals/types';
 import styles from './styles.module.scss';
+import { hookFormMinValidation } from '../../Form/hookformValidationUtils';
 
 export type GeneralDetailsProps = CommonDetailsProps & {
   sexOptions: Option[DetailsFields.SEX][];

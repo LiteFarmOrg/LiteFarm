@@ -20,7 +20,7 @@ import AnimalCreationDetails, {
   BatchDetailsProps,
 } from '../../../components/Animals/AddBatchDetails';
 import BatchDetails from '../../../components/Animals/AddBatchDetails';
-import { FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
+import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
 import {
   sexOptions,
   sexDetailsOptions,

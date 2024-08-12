@@ -18,18 +18,18 @@ import styles from './styles.module.scss';
 import AddAnimalsFormCard from '../../../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
 import MoreAnimalsCard from '../../../../components/Animals/AddAnimalsForm/MoreAnimalsCard';
 import { useAnimalOptions } from '../useAnimalOptions';
-import { ANIMAL_BASICS_FIELD_NAMES as FIELD_NAMES } from '../types';
+import { BasicsFields } from '../types';
 import { AddAnimalsFormFields } from '../types';
 import { STEPS } from '..';
 
 export const animalBasicsDefaultValues = {
-  [FIELD_NAMES.TYPE]: undefined,
-  [FIELD_NAMES.BREED]: undefined,
-  [FIELD_NAMES.SEX_DETAILS]: [{ id: '', label: '', count: NaN }],
-  [FIELD_NAMES.COUNT]: NaN,
-  [FIELD_NAMES.CREATE_INDIVIDUAL_PROFILES]: false,
-  [FIELD_NAMES.GROUP]: '',
-  [FIELD_NAMES.BATCH]: '',
+  [BasicsFields.TYPE]: undefined,
+  [BasicsFields.BREED]: undefined,
+  [BasicsFields.SEX_DETAILS]: [{ id: '', label: '', count: NaN }],
+  [BasicsFields.COUNT]: 1,
+  [BasicsFields.CREATE_INDIVIDUAL_PROFILES]: false,
+  [BasicsFields.GROUP]: '',
+  [BasicsFields.BATCH]: '',
 };
 
 const AddAnimalBasics = () => {
@@ -43,6 +43,7 @@ const AddAnimalBasics = () => {
   const onAddCard = (): void => {
     append(animalBasicsDefaultValues);
   };
+
   const onRemoveCard = (index: number): void => {
     remove(index);
   };

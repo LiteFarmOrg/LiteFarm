@@ -19,7 +19,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import Other, { OtherDetailsProps } from '../../../components/Animals/AddAnimalsDetails/Other';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
-import { FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
+import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
 import { organicStatusOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript

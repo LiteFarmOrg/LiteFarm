@@ -15,7 +15,7 @@
 
 import { ReactNode, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { UseFormHandleSubmit, FieldValues } from 'react-hook-form';
+import { UseFormHandleSubmit, FieldValues, FormState } from 'react-hook-form';
 import { History } from 'history';
 import StepperProgressBar from '../../StepperProgressBar';
 import FloatingContainer from '../../FloatingContainer';
@@ -39,6 +39,7 @@ interface WithStepperProgressBarProps {
   onGoBack: () => void;
   onCancel: () => void;
   onGoForward: () => void;
+  formState: FormState<FieldValues>;
   handleSubmit: UseFormHandleSubmit<FieldValues>;
 }
 
@@ -56,6 +57,7 @@ export const WithStepperProgressBar = ({
   onCancel,
   onGoForward,
   handleSubmit,
+  formState: { isValid },
 }: WithStepperProgressBarProps) => {
   const { t } = useTranslation();
 
@@ -120,6 +122,7 @@ export const WithStepperProgressBar = ({
             onPrevious={onGoBack}
             isFirstStep={!activeStepIndex}
             isFinalStep={isFinalStep}
+            isDisabled={!isValid}
           />
         </FloatingContainer>
       )}

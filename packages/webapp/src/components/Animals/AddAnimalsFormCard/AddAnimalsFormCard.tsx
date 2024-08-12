@@ -33,6 +33,7 @@ import {
   type AnimalBreedSelectProps,
   type AnimalTypeSelectProps,
 } from './AnimalSelect';
+import { hookFormMinValidation } from '../../Form/hookformValidationUtils';
 
 type AddAnimalsFormCardProps = AnimalTypeSelectProps &
   AnimalBreedSelectProps & {
@@ -55,7 +56,7 @@ export default function AddAnimalsFormCard({
   isActive,
   namePrefix = '',
 }: AddAnimalsFormCardProps) {
-  const { control, watch, register } = useFormContext();
+  const { control, watch, register, trigger, getValues } = useFormContext();
   const { t } = useTranslation();
   const watchAnimalCount = watch(`${namePrefix}.${FIELD_NAMES.COUNT}`) || 0;
   const watchAnimalType = watch(`${namePrefix}.${FIELD_NAMES.TYPE}`);
@@ -100,6 +101,14 @@ export default function AddAnimalsFormCard({
           className={styles.countInput}
           allowDecimal={false}
           showStepper
+          rules={{
+            required: {
+              value: true,
+              message: t('common:REQUIRED'),
+            },
+            min: hookFormMinValidation(1),
+          }}
+          onChange={() => trigger(`${namePrefix}.${FIELD_NAMES.COUNT}`)}
         />
         <Controller
           name={`${namePrefix}.${FIELD_NAMES.SEX_DETAILS}`}

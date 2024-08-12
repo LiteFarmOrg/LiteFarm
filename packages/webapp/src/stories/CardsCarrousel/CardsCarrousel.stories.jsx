@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import React from 'react';
-import { expect } from '@storybook/jest';
-import { within, userEvent, waitForElementToBeRemoved } from '@storybook/testing-library';
+import { expect } from '@storybook/test';
+import { within, userEvent, waitForElementToBeRemoved } from '@storybook/test';
 import CardsCarrousel from '../../components/CardsCarrousel';
 import { componentDecorators } from '../Pages/config/Decorators';
 import Icon from '../../components/Icons';

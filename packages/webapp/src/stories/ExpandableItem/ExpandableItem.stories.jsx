@@ -14,8 +14,8 @@
  */
 
 import clsx from 'clsx';
-import { expect } from '@storybook/jest';
-import { within, userEvent, waitForElementToBeRemoved } from '@storybook/testing-library';
+import { expect } from '@storybook/test';
+import { within, userEvent, waitForElementToBeRemoved } from '@storybook/test';
 import Expandable from '../../components/Expandable/ExpandableItem';
 import useExpandable from '../../components/Expandable/useExpandableItem';
 import TransactionItem from '../../components/Finances/Transaction/Mobile/Item';

@@ -32,6 +32,7 @@ export type GeneralDetailsProps = CommonDetailsProps & {
   animalOrBatch: AnimalOrBatchKeys;
   isMaleSelected?: boolean;
   sexDetailsOptions?: SexDetailsType;
+  namePrefix?: string;
 };
 
 const GeneralDetails = ({
@@ -41,16 +42,18 @@ const GeneralDetails = ({
   animalOrBatch,
   isMaleSelected,
   sexDetailsOptions,
+  namePrefix = '',
 }: GeneralDetailsProps) => {
   const {
     control,
     register,
     trigger,
     watch,
+    getValues,
     formState: { errors },
   } = useFormContext();
 
-  const watchBatchCount = watch(DetailsFields.COUNT) || 0;
+  const watchBatchCount = watch(`${namePrefix}.${DetailsFields.COUNT}`) || 0;
 
   const sexInputs = useMemo(() => {
     if (animalOrBatch === AnimalOrBatchKeys.ANIMAL) {
@@ -60,7 +63,7 @@ const GeneralDetails = ({
             <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
             {/* @ts-ignore */}
             <RadioGroup
-              name={DetailsFields.SEX}
+              name={`${namePrefix}.${DetailsFields.SEX}`}
               radios={sexOptions}
               hookFormControl={control}
               row
@@ -71,7 +74,7 @@ const GeneralDetails = ({
               <InputBaseLabel optional label={t('ADD_ANIMAL.USED_FOR_REPRODUCTION')} />
               {/* @ts-ignore */}
               <RadioGroup
-                name={DetailsFields.USED_FOR_REPRODUCTION}
+                name={`${namePrefix}.${DetailsFields.USED_FOR_REPRODUCTION}`}
                 hookFormControl={control}
                 row
               />
@@ -84,16 +87,25 @@ const GeneralDetails = ({
     return (
       <div className={styles.countAndSexDetailsWrapper}>
         <NumberInput
-          name={DetailsFields.COUNT}
+          name={`${namePrefix}.${DetailsFields.COUNT}`}
           control={control}
-          defaultValue={0}
           label={t('common:COUNT')}
           className={styles.countInput}
           allowDecimal={false}
           showStepper
+          defaultValue={getValues(`${namePrefix}.${DetailsFields.COUNT}`)}
+          rules={{
+            required: {
+              value: true,
+              message: t('common:REQUIRED'),
+            },
+            min: hookFormMinValidation(1),
+          }}
+          // TODO: shouldn't trigger be default value for onChange?
+          onChange={() => trigger(`${namePrefix}.${DetailsFields.COUNT}`)}
         />
         <Controller
-          name={DetailsFields.SEX_DETAILS}
+          name={`${namePrefix}.${DetailsFields.SEX_DETAILS}`}
           control={control}
           render={({ field }) => (
             <SexDetails
@@ -115,19 +127,19 @@ const GeneralDetails = ({
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.BATCH_NAME')}
-            hookFormRegister={register(DetailsFields.NAME, {
+            hookFormRegister={register(`${namePrefix}.${DetailsFields.NAME}`, {
               maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
             })}
             trigger={trigger}
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.BATCH_NAME')}
-            errors={getInputErrors(errors, DetailsFields.NAME)}
+            errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.NAME}`)}
           />
         </>
       )}
       <Controller
         control={control}
-        name={DetailsFields.TYPE}
+        name={`${namePrefix}.${DetailsFields.TYPE}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ANIMAL_TYPE')}
@@ -139,7 +151,7 @@ const GeneralDetails = ({
       />
       <Controller
         control={control}
-        name={DetailsFields.BREED}
+        name={`${namePrefix}.${DetailsFields.BREED}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ANIMAL_BREED')}
@@ -153,7 +165,7 @@ const GeneralDetails = ({
       {sexInputs}
       <Controller
         control={control}
-        name={DetailsFields.USE}
+        name={`${namePrefix}.${DetailsFields.USE}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('common:USE')}

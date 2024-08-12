@@ -36,6 +36,7 @@ export type AnimalDetailsProps = {
   uniqueDetailsProps: Omit<UniqueDetailsProps, 't'>;
   otherDetailsProps: Omit<OtherDetailsProps, 't' | 'animalOrBatch'>;
   originProps: Omit<OriginProps, 't'>;
+  namePrefix?: string;
 };
 
 const AnimalDetails = ({
@@ -43,10 +44,11 @@ const AnimalDetails = ({
   uniqueDetailsProps,
   otherDetailsProps,
   originProps,
+  namePrefix,
 }: AnimalDetailsProps) => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const { t } = useTranslation(['translation', 'common', 'animal']);
-  const commonProps = { t };
+  const commonProps = { t, namePrefix };
 
   const sections = [
     {

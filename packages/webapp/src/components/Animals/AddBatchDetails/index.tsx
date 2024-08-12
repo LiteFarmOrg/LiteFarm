@@ -33,16 +33,18 @@ export type BatchDetailsProps = {
   generalDetailProps: Omit<GeneralDetailsProps, 't' | 'animalOrBatch'>;
   otherDetailsProps: Omit<OtherDetailsProps, 't' | 'animalOrBatch'>;
   originProps: Omit<OriginProps, 't'>;
+  namePrefix?: string;
 };
 
 const BatchDetails = ({
   generalDetailProps,
   otherDetailsProps,
   originProps,
+  namePrefix,
 }: BatchDetailsProps) => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const { t } = useTranslation(['translation', 'common', 'animal']);
-  const commonProps = { t };
+  const commonProps = { t, namePrefix };
 
   const sections = [
     {

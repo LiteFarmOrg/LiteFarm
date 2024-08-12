@@ -25,6 +25,7 @@ export type UniqueDetailsProps = CommonDetailsProps & {
   tagPlacementOptions: Option[DetailsFields.TAG_PLACEMENT][];
   shouldShowTagTypeInput?: boolean;
   shouldShowTagPlacementInput?: boolean;
+  namePrefix?: string;
 };
 
 const UniqueDetails = ({
@@ -34,6 +35,7 @@ const UniqueDetails = ({
   tagPlacementOptions,
   shouldShowTagTypeInput,
   shouldShowTagPlacementInput,
+  namePrefix = '',
 }: UniqueDetailsProps) => {
   const {
     control,
@@ -48,36 +50,36 @@ const UniqueDetails = ({
       <Input
         type="text"
         label={t('common:NAME')}
-        hookFormRegister={register(DetailsFields.NAME, {
+        hookFormRegister={register(`${namePrefix}.${DetailsFields.NAME}`, {
           maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
         })}
         trigger={trigger}
         optional
         placeholder={t('ADD_ANIMAL.PLACEHOLDER.NAME')}
-        errors={getInputErrors(errors, DetailsFields.NAME)}
+        errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.NAME}`)}
       />
       {/* @ts-ignore */}
       <Input
         type="date"
         label={t('ANIMAL.ATTRIBUTE.DATE_OF_BIRTH')}
-        hookFormRegister={register(DetailsFields.DATE_OF_BIRTH)}
+        hookFormRegister={register(`${namePrefix}.${DetailsFields.DATE_OF_BIRTH}`)}
         optional
       />
       {/* @ts-ignore */}
       <Input
         type="text"
         label={t('ANIMAL.ATTRIBUTE.TAG_NUMBER')}
-        hookFormRegister={register(DetailsFields.TAG_NUMBER, {
+        hookFormRegister={register(`${namePrefix}.${DetailsFields.TAG_NUMBER}`, {
           maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
         })}
         trigger={trigger}
         optional
         placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_NUMBER')}
-        errors={getInputErrors(errors, DetailsFields.TAG_NUMBER)}
+        errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.TAG_NUMBER}`)}
       />
       <Controller
         control={control}
-        name={DetailsFields.TAG_COLOR}
+        name={`${namePrefix}.${DetailsFields.TAG_COLOR}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ATTRIBUTE.TAG_COLOUR')}
@@ -91,7 +93,7 @@ const UniqueDetails = ({
       />
       <Controller
         control={control}
-        name={DetailsFields.TAG_TYPE}
+        name={`${namePrefix}.${DetailsFields.TAG_TYPE}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ATTRIBUTE.TAG_TYPE')}
@@ -108,19 +110,19 @@ const UniqueDetails = ({
           {/* @ts-ignore */}
           <Input
             type="text"
-            hookFormRegister={register(DetailsFields.TAG_TYPE_INFO, {
+            hookFormRegister={register(`${namePrefix}.${DetailsFields.TAG_TYPE_INFO}`, {
               maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
             })}
             trigger={trigger}
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_TYPE_INFO')}
-            errors={getInputErrors(errors, DetailsFields.TAG_TYPE_INFO)}
+            errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.TAG_TYPE_INFO}`)}
           />
         </>
       )}
       <Controller
         control={control}
-        name={DetailsFields.TAG_PLACEMENT}
+        name={`${namePrefix}.${DetailsFields.TAG_PLACEMENT}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ATTRIBUTE.TAG_PLACEMENT')}
@@ -138,13 +140,13 @@ const UniqueDetails = ({
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.TAG_PLACEMENT_INFO')}
-            hookFormRegister={register(DetailsFields.TAG_PLACEMENT_INFO, {
+            hookFormRegister={register(`${namePrefix}.${DetailsFields.TAG_PLACEMENT_INFO}`, {
               maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
             })}
             trigger={trigger}
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_PLACEMENT_INFO')}
-            errors={getInputErrors(errors, DetailsFields.TAG_PLACEMENT_INFO)}
+            errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.TAG_PLACEMENT_INFO}`)}
           />
         </>
       )}

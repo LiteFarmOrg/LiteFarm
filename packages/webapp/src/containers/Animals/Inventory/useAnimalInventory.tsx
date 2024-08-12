@@ -107,7 +107,7 @@ const chooseIdentification = (animalOrBatch: Animal | AnimalBatch) => {
   return `${t('ANIMAL.ANIMAL_ID')}${animalOrBatch.internal_identifier}`;
 };
 
-const chooseAnimalTypeLabel = (
+export const chooseAnimalTypeLabel = (
   animalOrBatch: Animal | AnimalBatch,
   defaultAnimalTypes: DefaultAnimalType[],
   customAnimalTypes: CustomAnimalType[],
@@ -123,7 +123,7 @@ const chooseAnimalTypeLabel = (
   }
 };
 
-const chooseAnimalBreedLabel = (
+export const chooseAnimalBreedLabel = (
   animalOrBatch: Animal | AnimalBatch,
   defaultAnimalBreeds: DefaultAnimalBreed[],
   customAnimalBreeds: CustomAnimalBreed[],

@@ -41,15 +41,17 @@ export function AnimalTypeSelect<T extends FieldValues>({
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field: { onChange, value } }) => (
         <CreatableSelect
           label={t('ADD_ANIMAL.TYPE')}
           placeholder={t('ADD_ANIMAL.TYPE_PLACEHOLDER')}
-          options={typeOptions}
+          /* @ts-ignore */
+          options={typeOptions} // TODO: fix ts-ignore
           onChange={(option) => {
-            field.onChange(option);
+            onChange(option);
             onTypeChange?.(option);
           }}
+          value={value}
         />
       )}
     />
@@ -74,7 +76,7 @@ export function AnimalBreedSelect<T extends FieldValues>({
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field: { onChange, value } }) => (
         <CreatableSelect
           ref={breedSelectRef}
           options={breedOptions}
@@ -87,7 +89,8 @@ export function AnimalBreedSelect<T extends FieldValues>({
               : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')
           }
           isDisabled={!isTypeSelected}
-          onChange={(option) => field.onChange(option)}
+          onChange={(option) => onChange(option)}
+          value={value}
         />
       )}
     />

@@ -96,7 +96,7 @@ export default function AddAnimalsFormCard({
         <NumberInput
           name={`${namePrefix}.${FIELD_NAMES.COUNT}`}
           control={control}
-          defaultValue={0}
+          defaultValue={getValues(`${namePrefix}.${FIELD_NAMES.COUNT}`) || 1}
           label={t('common:COUNT')}
           className={styles.countInput}
           allowDecimal={false}

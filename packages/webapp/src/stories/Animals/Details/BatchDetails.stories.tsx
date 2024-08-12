@@ -22,13 +22,12 @@ import AnimalCreationDetails, {
 import BatchDetails from '../../../components/Animals/AddBatchDetails';
 import { FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
 import {
-  typeOptions,
-  breedOptions,
   sexOptions,
   sexDetailsOptions,
   useOptions,
   organicStatusOptions,
   originOptions,
+  defaultValues,
 } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
@@ -42,7 +41,9 @@ type Story = StoryObj<typeof AnimalCreationDetails>;
 
 export const Default: Story = {
   render: () => {
-    const formMethods: FormMethods = useForm();
+    const formMethods: FormMethods = useForm({
+      defaultValues,
+    });
 
     return (
       <Suspense>
@@ -50,8 +51,6 @@ export const Default: Story = {
           <FormProvider {...formMethods}>
             <BatchDetails
               generalDetailProps={{
-                typeOptions,
-                breedOptions,
                 sexOptions,
                 useOptions,
                 sexDetailsOptions,

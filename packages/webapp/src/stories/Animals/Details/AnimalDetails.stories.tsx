@@ -22,8 +22,6 @@ import AnimalCreationDetails, {
 import AnimalDetails from '../../../components/Animals/AddAnimalsDetails';
 import { FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
 import {
-  typeOptions,
-  breedOptions,
   sexOptions,
   sexDetailsOptions,
   useOptions,
@@ -32,6 +30,7 @@ import {
   tagPlacementOptions,
   organicStatusOptions,
   originOptions,
+  defaultValues,
 } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
@@ -45,7 +44,9 @@ type Story = StoryObj<typeof AnimalCreationDetails>;
 
 export const Default: Story = {
   render: () => {
-    const formMethods: FormMethods = useForm();
+    const formMethods: FormMethods = useForm({
+      defaultValues,
+    });
 
     return (
       <Suspense>
@@ -53,8 +54,6 @@ export const Default: Story = {
           <FormProvider {...formMethods}>
             <AnimalDetails
               generalDetailProps={{
-                typeOptions,
-                breedOptions,
                 sexOptions,
                 useOptions,
                 sexDetailsOptions,

@@ -33,7 +33,9 @@
 .sectionWrapper {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+  padding: 16px;
+  background: var(--White);
 }
 
 .countAndSexDetailsWrapper {

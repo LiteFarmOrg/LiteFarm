@@ -26,7 +26,7 @@ import BatchDetails from '../../../../components/Animals/AddBatchDetails';
 import { useCurrencySymbol } from '../../../hooks/useCurrencySymbol';
 import { useAnimalOptions } from '../useAnimalOptions';
 import { STEPS } from '..';
-import { DetailsFields } from '../types';
+import { AnimalBasicsFormFields, DetailsFields } from '../types';
 import { AddAnimalsFormFields } from '../types';
 import { AnimalOrBatchKeys } from '../../types';
 
@@ -35,7 +35,7 @@ const AddAnimalDetails = () => {
   const { t } = useTranslation(['animal', 'common', 'translation']);
   const { control, getValues } = useFormContext<AddAnimalsFormFields>();
 
-  const { fields, append, remove, replace } = useFieldArray({
+  const { fields, remove, update } = useFieldArray({
     name: STEPS.DETAILS,
     control,
   });
@@ -66,29 +66,37 @@ const AddAnimalDetails = () => {
 
   /* Populate details values based on basics data */
   useEffect(() => {
-    replace([]); // TODO: figure out how to correctly update rather than clear + append
+    const detailsArray: Array<Record<string, any>> = [];
 
-    getValues(STEPS.BASICS).forEach((animalOrBatch) => {
-      // Animals
+    const createAnimal = (animalOrBatch: AnimalBasicsFormFields) => ({
+      [DetailsFields.TYPE]: animalOrBatch.type,
+      [DetailsFields.BREED]: animalOrBatch.breed,
+      [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
+      [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,
+    });
+
+    const createBatch = (animalOrBatch: AnimalBasicsFormFields) => ({
+      [DetailsFields.TYPE]: animalOrBatch.type,
+      [DetailsFields.BREED]: animalOrBatch.breed,
+      [DetailsFields.COUNT]: animalOrBatch.count,
+      [DetailsFields.NAME]: animalOrBatch.batch,
+      [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.BATCH,
+      [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,
+    });
+
+    getValues(STEPS.BASICS).forEach((animalOrBatch: AnimalBasicsFormFields) => {
       if (animalOrBatch.createIndividualProfiles) {
         for (let i = 0; i < animalOrBatch.count; i++) {
-          append({
-            [DetailsFields.TYPE]: animalOrBatch.type!, // existence should be enforced by form
-            [DetailsFields.BREED]: animalOrBatch.breed,
-            // Ignore/delete group?
-            [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
-          });
+          detailsArray.push(createAnimal(animalOrBatch));
         }
       } else {
-        // Batch
-        append({
-          [DetailsFields.TYPE]: animalOrBatch.type!, // existence should be enforced by form
-          [DetailsFields.BREED]: animalOrBatch.breed,
-          [DetailsFields.COUNT]: animalOrBatch.count,
-          [DetailsFields.NAME]: animalOrBatch.batch,
-          [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.BATCH,
-        });
+        detailsArray.push(createBatch(animalOrBatch));
       }
+    });
+
+    detailsArray.forEach((entity, index) => {
+      const origData = getValues(STEPS.DETAILS)[index];
+      update(index, { ...origData, ...entity });
     });
   }, []);
 

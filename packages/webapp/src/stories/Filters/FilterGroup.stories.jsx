@@ -15,8 +15,8 @@
 
 import { componentDecorators } from '../Pages/config/Decorators';
 import FilterGroup from '../../components/Filter/FilterGroup';
-import { userEvent, within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/test';
+import { expect } from '@storybook/test';
 import { FilterType } from '../../components/Filter/types';
 
 const filters = [

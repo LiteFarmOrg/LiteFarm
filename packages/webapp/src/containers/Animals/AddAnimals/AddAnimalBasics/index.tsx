@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import styles from './styles.module.scss';
 import AddAnimalsFormCard from '../../../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
@@ -28,17 +29,47 @@ export const animalBasicsDefaultValues = {
   [BasicsFields.SEX_DETAILS]: undefined,
   [BasicsFields.COUNT]: NaN, // setting default here overrides form values
   [BasicsFields.CREATE_INDIVIDUAL_PROFILES]: false,
-  [BasicsFields.GROUP]: '',
-  [BasicsFields.BATCH]: '',
+  [BasicsFields.GROUP_NAME]: '',
+  [BasicsFields.BATCH_NAME]: '',
 };
 
 const AddAnimalBasics = () => {
   const { control, getValues, setValue } = useFormContext<AddAnimalsFormFields>();
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, update } = useFieldArray({
     name: STEPS.BASICS,
     control,
   });
+
+  // Update form values based on details fields
+  useEffect(() => {
+    const detailsFields = getValues(STEPS.DETAILS);
+
+    if (!detailsFields) {
+      return;
+    }
+
+    const updatedData = (detailsData: any) => {
+      return {
+        [BasicsFields.BATCH_NAME]: detailsData?.[DetailsFields.BATCH_NAME],
+        [BasicsFields.COUNT]: detailsData?.[DetailsFields.COUNT],
+        [BasicsFields.SEX_DETAILS]: detailsData?.[DetailsFields.SEX_DETAILS],
+      };
+    };
+
+    fields.forEach((field, index) => {
+      const basicsCardId = field[BasicsFields.FIELD_ARRAY_ID];
+
+      const detailsData = detailsFields.find(
+        (field) => field[DetailsFields.BASICS_FIELD_ARRAY_ID] === basicsCardId,
+      );
+
+      update(index, {
+        ...field,
+        ...updatedData(detailsData),
+      });
+    });
+  }, []);
 
   const onAddCard = (): void => {
     append(animalBasicsDefaultValues);

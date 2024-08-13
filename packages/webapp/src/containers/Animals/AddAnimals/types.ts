@@ -24,8 +24,8 @@ export const BasicsFields = {
   SEX_DETAILS: 'sexDetails',
   COUNT: 'count',
   CREATE_INDIVIDUAL_PROFILES: 'createIndividualProfiles',
-  GROUP: 'group',
-  BATCH: 'batch',
+  GROUP_NAME: 'group_name',
+  BATCH_NAME: 'batch_name',
   FIELD_ARRAY_ID: 'field_array_id', // for synching basics and details
 } as const;
 
@@ -35,8 +35,8 @@ export type AnimalBasicsFormFields = {
   [BasicsFields.SEX_DETAILS]: SexDetailsType | undefined;
   [BasicsFields.COUNT]: number;
   [BasicsFields.CREATE_INDIVIDUAL_PROFILES]?: boolean;
-  [BasicsFields.GROUP]?: string;
-  [BasicsFields.BATCH]?: string;
+  [BasicsFields.GROUP_NAME]?: string;
+  [BasicsFields.BATCH_NAME]?: string;
   [BasicsFields.FIELD_ARRAY_ID]?: string;
 };
 
@@ -45,7 +45,7 @@ export enum DetailsFields {
   BASICS_FIELD_ARRAY_ID = 'field_array_id', // remove before submitting
 
   // GENERAL
-  NAME = 'name',
+  BATCH_NAME = 'batch_name',
   TYPE = 'type',
   BREED = 'breed',
   SEX = 'sex',
@@ -55,6 +55,7 @@ export enum DetailsFields {
   SEX_DETAILS = 'sex_details',
 
   // UNIQUE
+  NAME = 'name', // animal name
   DATE_OF_BIRTH = 'birth_date',
   TAG_NUMBER = 'identifier',
   TAG_COLOR = 'identifier_color_id',
@@ -98,6 +99,7 @@ export type Option = {
 export type AnimalDetailsFormFields = {
   [DetailsFields.ANIMAL_OR_BATCH]?: string;
   [DetailsFields.BASICS_FIELD_ARRAY_ID]?: string;
+  [DetailsFields.BATCH_NAME]?: string;
   [DetailsFields.COUNT]?: number;
   [DetailsFields.NAME]?: string; // batch name (BATCH in basics form)
   [DetailsFields.TYPE]: Option[DetailsFields.TYPE];

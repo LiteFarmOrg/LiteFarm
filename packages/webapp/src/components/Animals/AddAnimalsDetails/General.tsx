@@ -133,13 +133,13 @@ const GeneralDetails = ({
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.BATCH_NAME')}
-            hookFormRegister={register(`${namePrefix}.${DetailsFields.NAME}`, {
+            hookFormRegister={register(`${namePrefix}.${DetailsFields.BATCH_NAME}`, {
               maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
             })}
             trigger={trigger}
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.BATCH_NAME')}
-            errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.NAME}`)}
+            errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.BATCH_NAME}`)}
           />
         </>
       )}

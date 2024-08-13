@@ -76,6 +76,7 @@ const AddAnimalDetails = () => {
       return {
         [DetailsFields.TYPE]: animalOrBatch.type,
         [DetailsFields.BREED]: animalOrBatch.breed,
+        [DetailsFields.COUNT]: animalOrBatch.count,
         [DetailsFields.SEX]: transformedSexDetails?.[i],
         [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
         [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,
@@ -87,7 +88,7 @@ const AddAnimalDetails = () => {
         [DetailsFields.TYPE]: animalOrBatch.type,
         [DetailsFields.BREED]: animalOrBatch.breed,
         [DetailsFields.COUNT]: animalOrBatch.count,
-        [DetailsFields.NAME]: animalOrBatch.batch,
+        [DetailsFields.BATCH_NAME]: animalOrBatch.batch_name,
         [DetailsFields.SEX_DETAILS]: animalOrBatch.sexDetails,
         [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.BATCH,
         [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,

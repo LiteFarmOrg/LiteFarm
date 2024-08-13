@@ -59,7 +59,8 @@ export default function AddAnimalsFormCard({
 }: AddAnimalsFormCardProps) {
   const { control, watch, register, trigger, getValues, setValue } = useFormContext();
   const { t } = useTranslation();
-  const watchAnimalCount = watch(`${namePrefix}.${BasicsFields.COUNT}`) || 1;
+  const countFieldName = `${namePrefix}.${BasicsFields.COUNT}`;
+  const watchAnimalCount = watch(countFieldName);
   const watchAnimalType = watch(`${namePrefix}.${BasicsFields.TYPE}`);
   const shouldCreateIndividualProfiles = watch(
     `${namePrefix}.${BasicsFields.CREATE_INDIVIDUAL_PROFILES}`,
@@ -74,6 +75,13 @@ export default function AddAnimalsFormCard({
     }
     setValue(uuidFieldName, identifierRef.current);
   }, []);
+
+  // Hopefully temp...
+  useEffect(() => {
+    if (watchAnimalCount == undefined) {
+      setValue(countFieldName, 1);
+    }
+  }, [watchAnimalCount]);
 
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
@@ -151,7 +159,7 @@ export default function AddAnimalsFormCard({
           label={t('ADD_ANIMAL.GROUP_NAME')}
           optional
           placeholder={t('ADD_ANIMAL.GROUP_NAME_PLACEHOLDER')}
-          hookFormRegister={register(`${namePrefix}.${BasicsFields.GROUP}`)}
+          hookFormRegister={register(`${namePrefix}.${BasicsFields.GROUP_NAME}`)}
         />
       ) : (
         // @ts-ignore
@@ -159,7 +167,7 @@ export default function AddAnimalsFormCard({
           label={t('ADD_ANIMAL.BATCH_NAME')}
           optional
           placeholder={t('ADD_ANIMAL.BATCH_NAME_PLACEHOLDER')}
-          hookFormRegister={register(`${namePrefix}.${BasicsFields.BATCH}`)}
+          hookFormRegister={register(`${namePrefix}.${BasicsFields.BATCH_NAME}`)}
         />
       )}
     </Card>

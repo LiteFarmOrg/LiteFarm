@@ -26,6 +26,7 @@ export const BasicsFields = {
   CREATE_INDIVIDUAL_PROFILES: 'createIndividualProfiles',
   GROUP: 'group',
   BATCH: 'batch',
+  FIELD_ARRAY_ID: 'field_array_id', // for synching basics and details
 } as const;
 
 export type AnimalBasicsFormFields = {
@@ -36,10 +37,12 @@ export type AnimalBasicsFormFields = {
   [BasicsFields.CREATE_INDIVIDUAL_PROFILES]?: boolean;
   [BasicsFields.GROUP]?: string;
   [BasicsFields.BATCH]?: string;
+  [BasicsFields.FIELD_ARRAY_ID]?: string;
 };
 
 export enum DetailsFields {
   ANIMAL_OR_BATCH = 'animal_or_batch', // remove before submitting
+  BASICS_FIELD_ARRAY_ID = 'field_array_id', // remove before submitting
 
   // GENERAL
   NAME = 'name',
@@ -94,6 +97,7 @@ export type Option = {
 
 export type AnimalDetailsFormFields = {
   [DetailsFields.ANIMAL_OR_BATCH]?: string;
+  [DetailsFields.BASICS_FIELD_ARRAY_ID]?: string;
   [DetailsFields.COUNT]?: number;
   [DetailsFields.NAME]?: string; // batch name (BATCH in basics form)
   [DetailsFields.TYPE]: Option[DetailsFields.TYPE];

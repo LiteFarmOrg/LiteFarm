@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { v4 as uuidv4 } from 'uuid';
 import { useRef, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -56,13 +57,23 @@ export default function AddAnimalsFormCard({
   isActive,
   namePrefix = '',
 }: AddAnimalsFormCardProps) {
-  const { control, watch, register, trigger, getValues } = useFormContext();
+  const { control, watch, register, trigger, getValues, setValue } = useFormContext();
   const { t } = useTranslation();
   const watchAnimalCount = watch(`${namePrefix}.${BasicsFields.COUNT}`) || 0;
   const watchAnimalType = watch(`${namePrefix}.${BasicsFields.TYPE}`);
   const shouldCreateIndividualProfiles = watch(
     `${namePrefix}.${BasicsFields.CREATE_INDIVIDUAL_PROFILES}`,
   );
+
+  const uuidFieldName = `${namePrefix}.${BasicsFields.FIELD_ARRAY_ID}`;
+  const identifierRef = useRef(getValues(uuidFieldName) || '');
+
+  useEffect(() => {
+    if (!identifierRef.current) {
+      identifierRef.current = uuidv4();
+    }
+    setValue(uuidFieldName, identifierRef.current);
+  }, []);
 
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 

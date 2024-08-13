@@ -86,16 +86,24 @@ export const formatDBAnimalsToSummary = (data: Animal[], config: Config): Animal
       animalsPerTypeAndBreed[typeBreedkey] = {
         type: typeString,
         breed: breedString,
-        sexDetails: Object.values(sexMap).reduce((acc, key) => ({ ...acc, [key]: 0 }), {}),
+        sexDetails: {},
         iconKey: typeString.toUpperCase(),
-      };
+        count: 0,
+      } as AnimalSummary;
     }
 
-    const sexLabel = sexMap[animal.sex_id];
     const typeBreedSummary = animalsPerTypeAndBreed[typeBreedkey];
 
-    if (typeBreedSummary && sexLabel) {
-      typeBreedSummary.sexDetails[sexLabel]! += 1; // Non-null assertion operator
+    typeBreedSummary.count += 1;
+
+    const sexLabel = sexMap[animal.sex_id];
+
+    if (sexLabel) {
+      if (!typeBreedSummary.sexDetails[sexLabel]) {
+        typeBreedSummary.sexDetails[sexLabel] = 0;
+      }
+
+      typeBreedSummary.sexDetails[sexLabel]! += 1;
     }
   });
 

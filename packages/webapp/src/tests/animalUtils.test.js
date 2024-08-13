@@ -64,12 +64,14 @@ describe('animalUtils test', () => {
   };
 
   describe('formatDBAnimalsToSummary test', () => {
-    const createTypeBreedSummary = (type, breed, maleCount, femaleCount) => ({
-      type,
-      breed,
-      sexDetails: { Male: maleCount, Female: femaleCount },
-      iconKey: type.toUpperCase(),
-    });
+    const createTypeBreedSummary = (type, breed, maleCount, femaleCount, animalCount) => {
+      const sexDetails = {
+        ...(maleCount ? { Male: maleCount } : {}),
+        ...(femaleCount ? { Female: femaleCount } : {}),
+      };
+
+      return { type, breed, sexDetails, iconKey: type.toUpperCase(), count: animalCount };
+    };
 
     test('Should format one type correctly', () => {
       const animals = [
@@ -77,7 +79,7 @@ describe('animalUtils test', () => {
         { id: 2, default_type_id: defaultTypeId.CATTLE },
         { id: 3, default_type_id: defaultTypeId.CATTLE },
       ];
-      const expectedResult = [createTypeBreedSummary('Cattle', null, 0, 0)];
+      const expectedResult = [createTypeBreedSummary('Cattle', null, 0, 0, 3)];
 
       expect(formatDBAnimalsToSummary(animals, config)).toEqual(expectedResult);
     });
@@ -90,9 +92,9 @@ describe('animalUtils test', () => {
         { id: 4, default_type_id: defaultTypeId.CHICKEN },
       ];
       const expectedResult = [
-        createTypeBreedSummary('Cattle', null, 0, 0),
-        createTypeBreedSummary('Pigs', null, 0, 0),
-        createTypeBreedSummary('Chicken', null, 0, 0),
+        createTypeBreedSummary('Cattle', null, 0, 0, 1),
+        createTypeBreedSummary('Pigs', null, 0, 0, 2),
+        createTypeBreedSummary('Chicken', null, 0, 0, 1),
       ];
 
       expect(formatDBAnimalsToSummary(animals, config)).toEqual(expectedResult);
@@ -106,9 +108,9 @@ describe('animalUtils test', () => {
         { id: 4, default_type_id: defaultTypeId.CATTLE, default_breed_id: defaultBreedId.HEREFORD },
       ];
       const expectedResult = [
-        createTypeBreedSummary('Cattle', 'Angus', 0, 0),
-        createTypeBreedSummary('Cattle', null, 0, 0),
-        createTypeBreedSummary('Cattle', 'Hereford', 0, 0),
+        createTypeBreedSummary('Cattle', 'Angus', 0, 0, 1),
+        createTypeBreedSummary('Cattle', null, 0, 0, 1),
+        createTypeBreedSummary('Cattle', 'Hereford', 0, 0, 2),
       ];
 
       expect(formatDBAnimalsToSummary(animals, config)).toEqual(expectedResult);
@@ -121,7 +123,7 @@ describe('animalUtils test', () => {
         { id: 3, default_type_id: defaultTypeId.CATTLE, sex_id: sexId.FEMALE },
         { id: 4, default_type_id: defaultTypeId.CATTLE },
       ];
-      const expectedResult = [createTypeBreedSummary('Cattle', null, 1, 2)];
+      const expectedResult = [createTypeBreedSummary('Cattle', null, 1, 2, 4)];
 
       expect(formatDBAnimalsToSummary(animals, config)).toEqual(expectedResult);
     });
@@ -140,26 +142,31 @@ describe('animalUtils test', () => {
           default_breed_id: defaultBreedId.ANGUS,
           sex_id: sexId.MALE,
         })),
-        ...[8, 9, 10].map((id) => ({
+        {
+          id: 8,
+          default_type_id: defaultTypeId.CATTLE,
+          default_breed_id: defaultBreedId.ANGUS,
+        },
+        ...[9, 10, 11].map((id) => ({
           id,
           default_type_id: defaultTypeId.CHICKEN,
           sex_id: sexId.MALE,
         })),
-        ...[11, 12, 13].map((id) => ({
+        ...[12, 13, 14].map((id) => ({
           id,
           default_type_id: defaultTypeId.CHICKEN,
           sex_id: sexId.FEMALE,
         })),
-        ...[14, 15, 16, 17].map((id) => ({
+        ...[15, 16, 17, 18].map((id) => ({
           id,
           custom_type_id: customTypeId.DOG,
           sex_id: sexId.MALE,
         })),
       ];
       const expectedResult = [
-        createTypeBreedSummary('Cattle', 'Angus', 3, 4),
-        createTypeBreedSummary('Chicken', null, 3, 3),
-        createTypeBreedSummary('Dog', null, 4, 0),
+        createTypeBreedSummary('Cattle', 'Angus', 3, 4, 8),
+        createTypeBreedSummary('Chicken', null, 3, 3, 6),
+        createTypeBreedSummary('Dog', null, 4, 0, 4),
       ];
 
       expect(formatDBAnimalsToSummary(animals, config)).toEqual(expectedResult);

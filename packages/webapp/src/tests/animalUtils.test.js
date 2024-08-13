@@ -14,13 +14,35 @@
  */
 
 import { expect, describe, test, vi } from 'vitest';
-import { formatDBAnimalsToSummary } from '../containers/Animals/AddAnimals/utils';
+import {
+  formatDBAnimalsToSummary,
+  formatDBBatchesToSummary,
+} from '../containers/Animals/AddAnimals/utils';
 
 describe('animalUtils test', () => {
+  vi.mock('../locales/i18n', () => {
+    return {
+      default: {
+        t: vi.fn((key) => {
+          return {
+            'animal:SEX.MALE': 'Male',
+            'animal:SEX.FEMALE': 'Female',
+            'TYPE.CATTLE': 'Cattle',
+            'TYPE.PIGS': 'Pigs',
+            'TYPE.CHICKEN': 'Chicken',
+            'BREED.ANGUS': 'Angus',
+            'BREED.HEREFORD': 'Hereford',
+            'BREED.DALMATIAN': 'Dalmatian',
+          }[key];
+        }),
+      },
+    };
+  });
+
   const defaultTypeId = { CATTLE: 1, PIGS: 2, CHICKEN: 3 };
   const customTypeId = { DOG: 1, CAT: 2 };
   const defaultBreedId = { ANGUS: 1, HEREFORD: 2, LANDRACE: 3 };
-  const customBreedId = { BEAGLE: 1, DLMATIAN: 2 };
+  const customBreedId = { BEAGLE: 1 };
   const sexId = { MALE: 1, FEMALE: 2 };
 
   const config = {
@@ -42,24 +64,6 @@ describe('animalUtils test', () => {
   };
 
   describe('formatDBAnimalsToSummary test', () => {
-    vi.mock('../locales/i18n', () => {
-      return {
-        default: {
-          t: vi.fn((key) => {
-            return {
-              'animal:SEX.MALE': 'Male',
-              'animal:SEX.FEMALE': 'Female',
-              'TYPE.CATTLE': 'Cattle',
-              'TYPE.PIGS': 'Pigs',
-              'TYPE.CHICKEN': 'Chicken',
-              'BREED.ANGUS': 'Angus',
-              'BREED.HEREFORD': 'Hereford',
-            }[key];
-          }),
-        },
-      };
-    });
-
     const createTypeBreedSummary = (type, breed, maleCount, femaleCount) => ({
       type,
       breed,
@@ -159,6 +163,42 @@ describe('animalUtils test', () => {
       ];
 
       expect(formatDBAnimalsToSummary(animals, config)).toEqual(expectedResult);
+    });
+  });
+
+  describe('formatDBBatchesToSummary test', () => {
+    test('Should calculate counts correctly while formatting different types and breeds', () => {
+      const batches = [
+        {
+          id: 1,
+          default_type_id: defaultTypeId.CATTLE,
+          default_breed_id: defaultBreedId.ANGUS,
+          count: 100,
+        },
+        {
+          id: 2,
+          default_type_id: defaultTypeId.CATTLE,
+          default_breed_id: defaultBreedId.ANGUS,
+          count: 150,
+        },
+        {
+          id: 3,
+          default_type_id: defaultTypeId.CHICKEN,
+          count: 1238,
+        },
+        {
+          id: 4,
+          custom_type_id: customTypeId.DOG,
+          count: 101,
+        },
+      ];
+      const expectedResult = [
+        { type: 'Cattle', breed: 'Angus', iconKey: 'CATTLE', count: 250 },
+        { type: 'Chicken', breed: null, iconKey: 'CHICKEN', count: 1238 },
+        { type: 'Dog', breed: null, iconKey: 'DOG', count: 101 },
+      ];
+
+      expect(formatDBBatchesToSummary(batches, config)).toEqual(expectedResult);
     });
   });
 });

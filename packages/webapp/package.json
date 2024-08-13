@@ -98,6 +98,7 @@
     "@types/react-redux": "^7.1.25",
     "@types/react-router-dom": "4.3.1",
     "@types/react-table": "^7.7.19",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/parser": "^5.45.0",
     "@vitejs/plugin-react": "^4.1.0",
     "babel-loader": "^8.3.0",

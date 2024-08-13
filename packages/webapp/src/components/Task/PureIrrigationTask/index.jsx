@@ -5,6 +5,7 @@ import { Controller } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
+import typographyStyles from '../../Typography/typography.module.scss';
 import styles from '../../Typography/typography.module.scss';
 import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
 import Unit from '../../Form/Unit';
@@ -253,7 +254,7 @@ export default function PureIrrigationTask({
       />
       <div style={{ paddingBlock: '10px' }} />
 
-      <Label className={styles.label} style={{ marginBottom: '24px', fontSize: '16px' }}>
+      <Label className={typographyStyles.label} style={{ marginBottom: '24px', fontSize: '16px' }}>
         {t('ADD_TASK.IRRIGATION_VIEW.HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE')}
       </Label>
 

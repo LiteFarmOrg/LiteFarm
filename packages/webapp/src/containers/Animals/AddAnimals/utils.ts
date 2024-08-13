@@ -53,29 +53,31 @@ export const getSexLabelById = (sexId: number, sexMap: { [key: number]: string }
   return sexMap[sexId];
 };
 
-export const formatDBAnimalsToSummary = (
-  data: Animal[],
-  config: {
-    defaultTypes: DefaultAnimalType[];
-    customTypes: CustomAnimalType[];
-    defaultBreeds: DefaultAnimalBreed[];
-    customBreeds: CustomAnimalBreed[];
-    sexes: AnimalSex[];
-  },
-): AnimalSummary[] => {
+const getTypeBreedKey = (animalOrBatch: Animal | AnimalBatch): string => {
+  const { default_type_id, custom_type_id, default_breed_id, custom_breed_id } = animalOrBatch;
+  const typeKey = `${default_type_id ? 'D' : 'C'}-${default_type_id || custom_type_id}`;
+  let breedKey = '';
+  if (default_breed_id || custom_breed_id) {
+    breedKey = `_${default_breed_id ? 'D' : 'C'}-${default_breed_id || custom_breed_id}`;
+  }
+
+  return `${typeKey}_${breedKey}`;
+};
+
+interface Config {
+  defaultTypes: DefaultAnimalType[];
+  customTypes: CustomAnimalType[];
+  defaultBreeds: DefaultAnimalBreed[];
+  customBreeds: CustomAnimalBreed[];
+  sexes: AnimalSex[];
+}
+
+export const formatDBAnimalsToSummary = (data: Animal[], config: Config): AnimalSummary[] => {
   const animalsPerTypeAndBreed = {} as { [key: string]: AnimalSummary };
   const { defaultTypes, customTypes, defaultBreeds, customBreeds, sexes } = config;
 
   data.forEach((animal) => {
-    const { default_type_id, custom_type_id, default_breed_id, custom_breed_id, sex_id } = animal;
-    const typeKey = `${default_type_id ? 'D' : 'C'}-${default_type_id || custom_type_id}`;
-    let breedKey = '';
-    if (default_breed_id || custom_breed_id) {
-      breedKey = `_${default_breed_id ? 'D' : 'C'}-${default_breed_id || custom_breed_id}`;
-    }
-
-    const typeBreedkey = `${typeKey}_${breedKey}`;
-
+    const typeBreedkey = getTypeBreedKey(animal);
     const sexMap = getSexMap(sexes, true);
 
     if (!animalsPerTypeAndBreed[typeBreedkey]) {
@@ -89,7 +91,7 @@ export const formatDBAnimalsToSummary = (
       };
     }
 
-    const sexLabel = sexMap[sex_id];
+    const sexLabel = sexMap[animal.sex_id];
     const typeBreedSummary = animalsPerTypeAndBreed[typeBreedkey];
 
     if (typeBreedSummary && sexLabel) {

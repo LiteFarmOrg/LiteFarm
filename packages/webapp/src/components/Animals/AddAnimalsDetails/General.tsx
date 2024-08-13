@@ -106,7 +106,6 @@ const GeneralDetails = ({
             },
             min: hookFormMinValidation(1),
           }}
-          // TODO: shouldn't trigger be default value for onChange?
           onChange={() => trigger(`${namePrefix}.${DetailsFields.COUNT}`)}
         />
         <Controller

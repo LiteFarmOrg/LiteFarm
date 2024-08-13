@@ -71,12 +71,12 @@ const AddAnimalDetails = () => {
     const createAnimal = (
       animalOrBatch: AnimalBasicsFormFields,
       i: number,
-      flattenedSexDetails?: number[],
+      transformedSexDetails?: number[],
     ) => {
       return {
         [DetailsFields.TYPE]: animalOrBatch.type,
         [DetailsFields.BREED]: animalOrBatch.breed,
-        [DetailsFields.SEX]: flattenedSexDetails?.[i],
+        [DetailsFields.SEX]: transformedSexDetails?.[i],
         [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
         [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,
       };
@@ -95,13 +95,14 @@ const AddAnimalDetails = () => {
     };
 
     getValues(STEPS.BASICS).forEach((animalOrBatch: AnimalBasicsFormFields) => {
-      const flattenedSexDetails = animalOrBatch.sexDetails?.flatMap((item) =>
-        Array(item.count).fill(item.id),
+      const transformedSexDetails = animalOrBatch.sexDetails?.flatMap((sexDetail) =>
+        // Ouputs an array of ids, e.g. [1, 1, 1, 2, 2] */
+        Array(sexDetail.count).fill(sexDetail.id),
       );
 
       if (animalOrBatch.createIndividualProfiles) {
         for (let i = 0; i < animalOrBatch.count; i++) {
-          detailsArray.push(createAnimal(animalOrBatch, i, flattenedSexDetails));
+          detailsArray.push(createAnimal(animalOrBatch, i, transformedSexDetails));
         }
       } else {
         detailsArray.push(createBatch(animalOrBatch));
@@ -159,6 +160,7 @@ const AddAnimalDetails = () => {
 
     const mainContent = (
       <AnimalFormHeaderItem
+        showRemove={fields.length > 1}
         key={field.id}
         isExpanded={isExpanded}
         onRemove={() => onRemoveCard(index)}

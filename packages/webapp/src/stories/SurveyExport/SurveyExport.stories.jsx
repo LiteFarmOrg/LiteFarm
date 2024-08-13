@@ -12,8 +12,10 @@ export default {
 const PrimaryTemplate = (args) => {
   window.data = {
     questionAnswerMap: {
-      'sinetgubg ksiafuaisasd asidufhsdg asdfuhsdg asdfuhsdg  safusdag': 'ASjj AOSIDJ woeitj aoij ASF ASOIj  aetA SOifAJET OAISJF oqwjroG AEOtjwoeitj ASF oijweto jSF OWIEJToi wjsDF',
-      '2sinetgubg ksiafuaisasd asidufhsdg asdfuhsdg asdfuhsdg  safusdag': 'ASjj AOSIDJ woeitj aoij ASF ASOIj  aetA SOifAJET OAISJF oqwjroG AEOtjwoeitj ASF oijweto jSF OWIEJToi wjsDF',
+      'sinetgubg ksiafuaisasd asidufhsdg asdfuhsdg asdfuhsdg  safusdag':
+        'ASjj AOSIDJ woeitj aoij ASF ASOIj  aetA SOifAJET OAISJF oqwjroG AEOtjwoeitj ASF oijweto jSF OWIEJToi wjsDF',
+      '2sinetgubg ksiafuaisasd asidufhsdg asdfuhsdg asdfuhsdg  safusdag':
+        'ASjj AOSIDJ woeitj aoij ASF ASOIj  aetA SOifAJET OAISJF oqwjroG AEOtjwoeitj ASF oijweto jSF OWIEJToi wjsDF',
     },
     certifier: { certifier_name: 'certifier_name' },
     certification: { certification_translation_key: 'ORGANIC' },
@@ -35,8 +37,10 @@ Primary.parameters = {
 const SecondaryTemplate = (args) => {
   window.data = {
     questionAnswerMap: {
-      'sinetgubg ksiafuaisasd asidufhsdg asdfuhsdg asdfuhsdg  safusdag': 'ASjj AOSIDJ woeitj aoij ASF ASOIj  aetA SOifAJET OAISJF oqwjroG AEOtjwoeitj ASF oijweto jSF OWIEJToi wjsDF',
-      '2sinetgubg ksiafuaisasd asidufhsdg asdfuhsdg asdfuhsdg  safusdag': 'ASjj AOSIDJ woeitj aoij ASF ASOIj  aetA SOifAJET OAISJF oqwjroG AEOtjwoeitj ASF oijweto jSF OWIEJToi wjsDF',
+      'sinetgubg ksiafuaisasd asidufhsdg asdfuhsdg asdfuhsdg  safusdag':
+        'ASjj AOSIDJ woeitj aoij ASF ASOIj  aetA SOifAJET OAISJF oqwjroG AEOtjwoeitj ASF oijweto jSF OWIEJToi wjsDF',
+      '2sinetgubg ksiafuaisasd asidufhsdg asdfuhsdg asdfuhsdg  safusdag':
+        'ASjj AOSIDJ woeitj aoij ASF ASOIj  aetA SOifAJET OAISJF oqwjroG AEOtjwoeitj ASF oijweto jSF OWIEJToi wjsDF',
     },
     organicCertifierSurvey: {
       requested_certification: 'requested_certification',

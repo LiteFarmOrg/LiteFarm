@@ -68,26 +68,40 @@ const AddAnimalDetails = () => {
   useEffect(() => {
     const detailsArray: Array<Record<string, any>> = [];
 
-    const createAnimal = (animalOrBatch: AnimalBasicsFormFields) => ({
-      [DetailsFields.TYPE]: animalOrBatch.type,
-      [DetailsFields.BREED]: animalOrBatch.breed,
-      [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
-      [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,
-    });
+    const createAnimal = (
+      animalOrBatch: AnimalBasicsFormFields,
+      i: number,
+      flattenedSexDetails?: number[],
+    ) => {
+      return {
+        [DetailsFields.TYPE]: animalOrBatch.type,
+        [DetailsFields.BREED]: animalOrBatch.breed,
+        [DetailsFields.SEX]: flattenedSexDetails?.[i],
+        [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
+        [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,
+      };
+    };
 
-    const createBatch = (animalOrBatch: AnimalBasicsFormFields) => ({
-      [DetailsFields.TYPE]: animalOrBatch.type,
-      [DetailsFields.BREED]: animalOrBatch.breed,
-      [DetailsFields.COUNT]: animalOrBatch.count,
-      [DetailsFields.NAME]: animalOrBatch.batch,
-      [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.BATCH,
-      [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,
-    });
+    const createBatch = (animalOrBatch: AnimalBasicsFormFields) => {
+      return {
+        [DetailsFields.TYPE]: animalOrBatch.type,
+        [DetailsFields.BREED]: animalOrBatch.breed,
+        [DetailsFields.COUNT]: animalOrBatch.count,
+        [DetailsFields.NAME]: animalOrBatch.batch,
+        [DetailsFields.SEX_DETAILS]: animalOrBatch.sexDetails,
+        [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.BATCH,
+        [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,
+      };
+    };
 
     getValues(STEPS.BASICS).forEach((animalOrBatch: AnimalBasicsFormFields) => {
+      const flattenedSexDetails = animalOrBatch.sexDetails?.flatMap((item) =>
+        Array(item.count).fill(item.id),
+      );
+
       if (animalOrBatch.createIndividualProfiles) {
         for (let i = 0; i < animalOrBatch.count; i++) {
-          detailsArray.push(createAnimal(animalOrBatch));
+          detailsArray.push(createAnimal(animalOrBatch, i, flattenedSexDetails));
         }
       } else {
         detailsArray.push(createBatch(animalOrBatch));

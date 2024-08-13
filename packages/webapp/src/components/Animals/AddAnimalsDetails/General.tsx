@@ -112,13 +112,15 @@ const GeneralDetails = ({
         <Controller
           name={`${namePrefix}.${DetailsFields.SEX_DETAILS}`}
           control={control}
-          render={({ field }) => (
-            <SexDetails
-              initialDetails={sexDetailsOptions!}
-              maxCount={watchBatchCount}
-              onConfirm={(details) => field.onChange(details)}
-            />
-          )}
+          render={({ field: { onChange, value } }) => {
+            return (
+              <SexDetails
+                initialDetails={value || sexDetailsOptions}
+                maxCount={watchBatchCount}
+                onConfirm={(details) => onChange(details)}
+              />
+            );
+          }}
         />
       </div>
     );

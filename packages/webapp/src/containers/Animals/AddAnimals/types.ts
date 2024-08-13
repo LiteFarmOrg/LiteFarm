@@ -32,7 +32,7 @@ export const BasicsFields = {
 export type AnimalBasicsFormFields = {
   [BasicsFields.TYPE]: AnimalSelectOption | undefined;
   [BasicsFields.BREED]?: AnimalSelectOption | undefined;
-  [BasicsFields.SEX_DETAILS]: SexDetailsType;
+  [BasicsFields.SEX_DETAILS]: SexDetailsType | undefined;
   [BasicsFields.COUNT]: number;
   [BasicsFields.CREATE_INDIVIDUAL_PROFILES]?: boolean;
   [BasicsFields.GROUP]?: string;

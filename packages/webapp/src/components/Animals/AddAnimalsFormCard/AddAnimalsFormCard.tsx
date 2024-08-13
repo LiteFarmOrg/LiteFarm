@@ -59,7 +59,7 @@ export default function AddAnimalsFormCard({
 }: AddAnimalsFormCardProps) {
   const { control, watch, register, trigger, getValues, setValue } = useFormContext();
   const { t } = useTranslation();
-  const watchAnimalCount = watch(`${namePrefix}.${BasicsFields.COUNT}`) || 0;
+  const watchAnimalCount = watch(`${namePrefix}.${BasicsFields.COUNT}`) || 1;
   const watchAnimalType = watch(`${namePrefix}.${BasicsFields.TYPE}`);
   const shouldCreateIndividualProfiles = watch(
     `${namePrefix}.${BasicsFields.CREATE_INDIVIDUAL_PROFILES}`,
@@ -130,11 +130,11 @@ export default function AddAnimalsFormCard({
         <Controller
           name={`${namePrefix}.${BasicsFields.SEX_DETAILS}`}
           control={control}
-          render={({ field }) => (
+          render={({ field: { onChange, value } }) => (
             <SexDetails
-              initialDetails={sexDetailsOptions}
+              initialDetails={value || sexDetailsOptions}
               maxCount={watchAnimalCount}
-              onConfirm={(details) => field.onChange(details)}
+              onConfirm={(details) => onChange(details)}
             />
           )}
         />

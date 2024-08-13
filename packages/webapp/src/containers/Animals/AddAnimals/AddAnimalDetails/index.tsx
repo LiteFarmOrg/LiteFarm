@@ -45,8 +45,6 @@ const AddAnimalDetails = () => {
   };
 
   const {
-    typeOptions,
-    breedOptions,
     sexOptions,
     sexDetailsOptions,
     useOptions,
@@ -56,8 +54,6 @@ const AddAnimalDetails = () => {
     organicStatusOptions,
     originOptions,
   } = useAnimalOptions(
-    'type',
-    'breed',
     'sex',
     'sexDetails',
     'use',
@@ -101,8 +97,6 @@ const AddAnimalDetails = () => {
   const batchElements: ReactElement[] = [];
 
   const generalDetailProps = {
-    typeOptions,
-    breedOptions,
     sexOptions,
     useOptions,
     sexDetailsOptions,

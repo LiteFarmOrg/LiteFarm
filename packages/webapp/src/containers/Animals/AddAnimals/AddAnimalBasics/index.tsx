@@ -26,7 +26,7 @@ export const animalBasicsDefaultValues = {
   [BasicsFields.TYPE]: undefined,
   [BasicsFields.BREED]: undefined,
   [BasicsFields.SEX_DETAILS]: [{ id: '', label: '', count: NaN }],
-  [BasicsFields.COUNT]: 1,
+  [BasicsFields.COUNT]: NaN, // setting default here overrides form values
   [BasicsFields.CREATE_INDIVIDUAL_PROFILES]: false,
   [BasicsFields.GROUP]: '',
   [BasicsFields.BATCH]: '',

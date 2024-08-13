@@ -6,7 +6,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import Checkbox from '../../Form/Checkbox';
 import RadioGroup from '../../Form/RadioGroup';
 import typographyStyles from '../../Typography/typography.module.scss';
-import styles from '../../Typography/typography.module.scss';
+import styles from './styles.module.scss';
 import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
 import Unit from '../../Form/Unit';
 import { getUnitOptionMap } from '../../../util/convert-units/getUnitOptionMap';
@@ -318,7 +318,7 @@ export default function PureIrrigationTask({
           </>
         ) : (
           <>
-            <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
+            <div className={styles.waterCalculatorWrapper}>
               <Label
                 style={{
                   marginBottom: `${disabled ? 36 : 0}px`,
@@ -328,14 +328,7 @@ export default function PureIrrigationTask({
                 {t('ADD_TASK.IRRIGATION_VIEW.NOT_SURE')}{' '}
                 {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE')}
               </Label>
-              <div
-                style={{
-                  color: 'var(--Colors-Accent---singles-Red-full)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                }}
-              >
+              <div className={styles.waterCalculatorWarningWrapper}>
                 <BsFillExclamationCircleFill />
                 <Label
                   style={{

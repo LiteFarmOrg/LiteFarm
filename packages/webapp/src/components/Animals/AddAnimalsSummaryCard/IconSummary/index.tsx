@@ -45,7 +45,11 @@ export const IconSummary = ({
           {!isBatch && ':'}
         </Main>
         <div className={styles.details}>
-          {isBatch ? <BatchDetails count={count} /> : <AnimalDetails sexDetails={sexDetails} />}
+          {isBatch ? (
+            <BatchDetails count={count} />
+          ) : (
+            <AnimalDetails sexDetails={sexDetails} animalCount={count} />
+          )}
         </div>
       </div>
     </div>
@@ -65,17 +69,25 @@ const BatchDetails = ({ count }: { count: number }) => {
   );
 };
 
-const AnimalDetails = ({ sexDetails }: { sexDetails: AnimalSexCountSummary }) => {
+const AnimalDetails = ({
+  sexDetails,
+  animalCount,
+}: {
+  sexDetails: AnimalSexCountSummary;
+  animalCount: number;
+}) => {
+  const { t } = useTranslation();
   const sexCountEntries = Object.entries(sexDetails);
+
+  const renderSexCountEntries = () => {
+    return sexCountEntries.length
+      ? `(${sexCountEntries.map(([sex, count]) => `${count} ${sex}`).join(' / ')})`
+      : '';
+  };
+
   return (
     <Main className={styles.detailText}>
-      {sexCountEntries.map(([sex, count], index) => {
-        return (
-          <span key={sex}>
-            {count} {sex} {index < sexCountEntries.length - 1 ? '/ ' : ''}
-          </span>
-        );
-      })}
+      {t('ANIMAL.ANIMAL_COUNT', { count: animalCount })} {renderSexCountEntries()}
     </Main>
   );
 };

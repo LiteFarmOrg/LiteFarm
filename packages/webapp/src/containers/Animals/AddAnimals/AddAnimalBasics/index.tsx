@@ -18,7 +18,7 @@ import styles from './styles.module.scss';
 import AddAnimalsFormCard from '../../../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
 import MoreAnimalsCard from '../../../../components/Animals/AddAnimalsForm/MoreAnimalsCard';
 import { useAnimalOptions } from '../useAnimalOptions';
-import { BasicsFields } from '../types';
+import { BasicsFields, DetailsFields } from '../types';
 import { AddAnimalsFormFields } from '../types';
 import { STEPS } from '..';
 
@@ -33,7 +33,7 @@ export const animalBasicsDefaultValues = {
 };
 
 const AddAnimalBasics = () => {
-  const { control } = useFormContext<AddAnimalsFormFields>();
+  const { control, getValues, setValue } = useFormContext<AddAnimalsFormFields>();
 
   const { fields, append, remove } = useFieldArray({
     name: STEPS.BASICS,
@@ -45,6 +45,17 @@ const AddAnimalBasics = () => {
   };
 
   const onRemoveCard = (index: number): void => {
+    const basicsCardBeingRemoved = fields[index];
+
+    const basicsCardId = basicsCardBeingRemoved[BasicsFields.FIELD_ARRAY_ID];
+
+    // Remove the corresponding details entries
+    const detailsFields = getValues(STEPS.DETAILS);
+    const updatedDetailsFields = detailsFields.filter(
+      (field) => field[DetailsFields.BASICS_FIELD_ARRAY_ID] !== basicsCardId,
+    );
+    setValue(STEPS.DETAILS, updatedDetailsFields);
+
     remove(index);
   };
 

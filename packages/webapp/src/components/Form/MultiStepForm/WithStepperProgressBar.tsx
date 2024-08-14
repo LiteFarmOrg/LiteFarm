@@ -39,7 +39,7 @@ interface WithStepperProgressBarProps {
   onSave: (
     data: FieldValues,
     onGoForward: () => void,
-    setFormResultData: (data: any) => void,
+    setFormResultData?: (data: any) => void,
   ) => void;
   onGoBack: () => void;
   onCancel: () => void;

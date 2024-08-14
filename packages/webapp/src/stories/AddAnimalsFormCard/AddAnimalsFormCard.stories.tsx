@@ -20,8 +20,11 @@ import { componentDecorators } from '../Pages/config/Decorators';
 import { Option } from '../../components/Animals/AddAnimalsFormCard/AnimalSelect';
 import { FormProvider, useForm } from 'react-hook-form';
 
-const mockSelectOptions = (...labels: string[]): Option[] =>
-  labels.map((label, i) => ({ label: label, value: i }));
+const mockTypeSelectOptions = (...labels: string[]): Option[] =>
+  labels.map((label, i) => ({ label: label, value: `${i}` }));
+
+const mockBreedSelectOptions = (...breedTypePairs: [string, number][]): Option[] =>
+  breedTypePairs.map(([label, type], i) => ({ label: label, value: i, type: `${type}` }));
 
 const meta: Meta<typeof AddAnimalsFormCard> = {
   title: 'Components/AddAnimalsFormCard',
@@ -38,8 +41,14 @@ const meta: Meta<typeof AddAnimalsFormCard> = {
     },
   ],
   args: {
-    typeOptions: mockSelectOptions('Chicken', 'Cattle', 'Sheep', 'Dog'),
-    breedOptions: mockSelectOptions('Hereform', 'Angus', 'Landrace', 'Leghorn', 'German Shephard'),
+    typeOptions: mockTypeSelectOptions('Chicken', 'Cattle', 'Sheep', 'Dog'),
+    breedOptions: mockBreedSelectOptions(
+      ['Hereform', 1], // Cattle
+      ['Angus', 1], // Cattle
+      ['Landrace', 2], // Sheep
+      ['Leghorn', 0], // Chicken
+      ['German Shepherd', 3], // Dog
+    ),
     sexDetailsOptions: [
       { id: 0, label: 'Male', count: 0 },
       { id: 1, label: 'Female', count: 0 },

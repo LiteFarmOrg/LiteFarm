@@ -16,8 +16,8 @@
 import React from 'react';
 import DaysOfWeekSelect from '../../../components/Form/DaysOfWeekSelect';
 import { componentDecorators } from '../../Pages/config/Decorators';
-import { userEvent, within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/test';
+import { expect } from '@storybook/test';
 
 export default {
   title: 'Components/DaysOfWeekSelect',

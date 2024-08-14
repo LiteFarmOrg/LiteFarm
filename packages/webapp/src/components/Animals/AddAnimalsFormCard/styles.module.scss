@@ -24,23 +24,6 @@
   justify-content: space-between;
 }
 
-.removeBtn {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  border-radius: 16px;
-  padding: 4px 8px;
-  border: 1px solid var(--Colors-Primary-Primary-teal-50);
-  background-color: var(--Colors-Primary-Primary-teal-50);
-  color: var(--Colors-Primary-Primary-teal-700);
-  font-weight: 600;
-
-  &:hover {
-    color: var(--Colors-Primary-Primary-teal-50);
-    background-color: var(--Colors-Primary-Primary-teal-600);
-  }
-}
-
 .countAndSexDetailsWrapper {
   display: flex;
   align-items: start;

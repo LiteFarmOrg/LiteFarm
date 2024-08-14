@@ -23,7 +23,6 @@ Admin.args = {
   userFarm,
   history: {},
   isAdmin: true,
-
 };
 Admin.parameters = {
   ...chromaticSmallScreen,
@@ -34,7 +33,6 @@ Worker.args = {
   userFarm,
   history: {},
   isAdmin: false,
-
 };
 Worker.parameters = {
   ...chromaticSmallScreen,

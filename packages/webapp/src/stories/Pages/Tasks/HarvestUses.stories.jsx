@@ -15,8 +15,8 @@
 import React from 'react';
 import PureHarvestUses from '../../../components/Task/TaskComplete/HarvestComplete/HarvestUses';
 import UnitTest from '../../../test-utils/storybook/unit';
-import { within, userEvent, waitFor } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
+import { within, userEvent, waitFor } from '@storybook/test';
+import { expect } from '@storybook/test';
 
 import decorator from '../config/Decorators';
 

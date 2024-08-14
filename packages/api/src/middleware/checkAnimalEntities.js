@@ -203,7 +203,7 @@ export function validateAnimalBatchCreationBody(animalBatchKey) {
           const otherUse = await AnimalUseModel.query().where({ key: 'OTHER' }).first();
 
           for (const relationship of animalOrBatch[relationshipsKey]) {
-            if (relationship.use_id != otherUse.id && relationship.use_other) {
+            if (relationship.use_id != otherUse.id && relationship.other_use) {
               return res.status(400).send('other_use notes is for other use type');
             }
           }

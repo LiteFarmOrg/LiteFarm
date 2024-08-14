@@ -12,17 +12,34 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
-import PropTypes from 'prop-types';
+
 import clsx from 'clsx';
 import { Collapse } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import styles from './styles.module.scss';
+import { ReactNode } from 'react';
 
 const icons = {
   up: <KeyboardArrowUpIcon className={styles.icon} />,
   down: <KeyboardArrowDownIcon className={styles.icon} />,
+};
+
+type ExpandableItemProps = {
+  isExpanded: boolean;
+  onClick: () => void;
+  mainContent: ReactNode;
+  expandedContent: ReactNode;
+  iconClickOnly?: boolean;
+  classes?:
+    | {
+        mainContentWithIcon: string;
+        mainContentWrapper: string;
+        icon: string;
+      }
+    | Record<string, never>;
+  itemKey: string | number;
+  leftCollapseIcon?: boolean;
 };
 
 export default function ExpandableItem({
@@ -34,7 +51,7 @@ export default function ExpandableItem({
   classes = {},
   itemKey,
   leftCollapseIcon = false,
-}) {
+}: ExpandableItemProps) {
   const onElementClick = () => {
     if (!iconClickOnly) {
       onClick();
@@ -83,16 +100,3 @@ export default function ExpandableItem({
     </>
   );
 }
-
-ExpandableItem.propTypes = {
-  isExpanded: PropTypes.bool,
-  onClick: PropTypes.func,
-  mainContent: PropTypes.node,
-  expandedContent: PropTypes.node,
-  iconClickOnly: PropTypes.bool,
-  classes: PropTypes.shape({
-    mainContentWithIcon: PropTypes.string,
-    icon: PropTypes.string,
-  }),
-  key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};

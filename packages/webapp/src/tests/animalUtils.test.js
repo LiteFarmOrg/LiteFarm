@@ -200,9 +200,9 @@ describe('animalUtils test', () => {
         },
       ];
       const expectedResult = [
-        { type: 'Cattle', breed: 'Angus', iconKey: 'CATTLE', count: 250 },
-        { type: 'Chicken', breed: null, iconKey: 'CHICKEN', count: 1238 },
-        { type: 'Dog', breed: null, iconKey: 'DOG', count: 101 },
+        { type: 'Cattle', breed: 'Angus', count: 250 },
+        { type: 'Chicken', breed: null, count: 1238 },
+        { type: 'Dog', breed: null, count: 101 },
       ];
 
       expect(formatDBBatchesToSummary(batches, config)).toEqual(expectedResult);

@@ -118,12 +118,9 @@ export const formatDBBatchesToSummary = (data: AnimalBatch[], config: Config): B
     const typeBreedkey = getTypeBreedKey(batch);
 
     if (!batchesPerTypeAndBreed[typeBreedkey]) {
-      const typeString = chooseAnimalTypeLabel(batch, defaultTypes, customTypes);
-      const breedString = chooseAnimalBreedLabel(batch, defaultBreeds, customBreeds);
       batchesPerTypeAndBreed[typeBreedkey] = {
-        type: typeString,
-        breed: breedString,
-        iconKey: typeString.toUpperCase(),
+        type: chooseAnimalTypeLabel(batch, defaultTypes, customTypes),
+        breed: chooseAnimalBreedLabel(batch, defaultBreeds, customBreeds),
         count: 0,
       };
     }

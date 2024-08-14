@@ -138,6 +138,13 @@ export default function AddAnimalsFormCard({
         <Controller
           name={`${namePrefix}.${BasicsFields.SEX_DETAILS}`}
           control={control}
+          rules={{
+            validate: (details: SexDetailsType) => {
+              if (!details) return true;
+              const total = details.reduce((prevCount, { count }) => prevCount + count, 0);
+              return total <= watchAnimalCount || 'Invalid sexDetails for count';
+            },
+          }}
           render={({ field: { onChange, value } }) => (
             <SexDetails
               initialDetails={value || sexDetailsOptions}

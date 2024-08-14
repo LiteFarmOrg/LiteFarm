@@ -111,6 +111,13 @@ const GeneralDetails = ({
         <Controller
           name={`${namePrefix}.${DetailsFields.SEX_DETAILS}`}
           control={control}
+          rules={{
+            validate: (details: SexDetailsType) => {
+              if (!details) return true;
+              const total = details.reduce((prevCount, { count }) => prevCount + count, 0);
+              return total <= watchBatchCount || 'Invalid sexDetails for count';
+            },
+          }}
           render={({ field: { onChange, value } }) => {
             return (
               <SexDetails

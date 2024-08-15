@@ -17,12 +17,15 @@ import express from 'express';
 
 const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
+import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import AnimalController from '../controllers/animalController.js';
 import AnimalModel from '../models/animalModel.js';
 import {
   checkAnimalEntities,
   validateAnimalBatchCreationBody,
 } from '../middleware/checkAnimalEntities.js';
+import multerDiskUpload from '../util/fileUpload.js';
+import validateFileExtension from '../middleware/validation/uploadImage.js';
 
 router.get('/', checkScope(['get:animals']), AnimalController.getFarmAnimals());
 router.post(
@@ -42,6 +45,14 @@ router.delete(
   checkScope(['delete:animals']),
   checkAnimalEntities(AnimalModel),
   AnimalController.deleteAnimals(),
+);
+router.post(
+  '/upload/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['add:animals']),
+  multerDiskUpload,
+  validateFileExtension,
+  AnimalController.uploadAnimalImage(),
 );
 
 export default router;

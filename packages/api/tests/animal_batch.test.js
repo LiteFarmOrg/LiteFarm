@@ -191,12 +191,18 @@ describe('Animal Batch Tests', () => {
           expect(animalBatch.farm_id).toBe(mainFarm.farm_id);
           expect(animalBatch.internal_identifier).toBeGreaterThan(0);
         });
-        expect({ ...firstAnimalBatch, internal_identifier: 1, group_ids: [] }).toMatchObject(
-          res.body[0],
-        );
-        expect({ ...secondAnimalBatch, internal_identifier: 2, group_ids: [] }).toMatchObject(
-          res.body[1],
-        );
+        expect({
+          ...firstAnimalBatch,
+          internal_identifier: 1,
+          group_ids: [],
+          animal_batch_use_relationships: [],
+        }).toMatchObject(res.body[0]);
+        expect({
+          ...secondAnimalBatch,
+          internal_identifier: 2,
+          group_ids: [],
+          animal_batch_use_relationships: [],
+        }).toMatchObject(res.body[1]);
       }
     });
 

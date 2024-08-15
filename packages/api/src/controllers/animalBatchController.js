@@ -20,6 +20,7 @@ import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { handleObjectionError } from '../util/errorCodes.js';
 import { assignInternalIdentifiers } from '../util/animal.js';
+import { uploadPublicImage } from '../util/imageUpload.js';
 
 const animalBatchController = {
   getFarmAnimalBatches() {
@@ -29,7 +30,12 @@ const animalBatchController = {
         const rows = await AnimalBatchModel.query()
           .where({ farm_id })
           .whereNotDeleted()
-          .withGraphFetched({ internal_identifier: true, group_ids: true, sex_detail: true });
+          .withGraphFetched({
+            internal_identifier: true,
+            group_ids: true,
+            sex_detail: true,
+            animal_batch_use_relationships: true,
+          });
         return res.status(200).send(
           rows.map(({ internal_identifier, group_ids, ...rest }) => ({
             ...rest,
@@ -204,6 +210,11 @@ const animalBatchController = {
       } catch (error) {
         handleObjectionError(error, res, trx);
       }
+    };
+  },
+  uploadAnimalBatchImage() {
+    return async (req, res, next) => {
+      await uploadPublicImage('animal_batch')(req, res, next);
     };
   },
 };

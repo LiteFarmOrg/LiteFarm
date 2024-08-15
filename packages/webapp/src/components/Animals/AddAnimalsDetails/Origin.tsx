@@ -53,16 +53,16 @@ const Origin = ({ t, currency, originOptions, origin, namePrefix = '' }: OriginP
         />
         {/* @ts-ignore */}
         <Input
-          key={DetailsFields.MERCHANT}
+          key={DetailsFields.SUPPLIER}
           type="text"
-          label={t('ANIMAL.ATTRIBUTE.MERCHANT')}
-          hookFormRegister={register(`${namePrefix}.${DetailsFields.MERCHANT}`, {
+          label={t('ANIMAL.ATTRIBUTE.SUPPLIER')}
+          hookFormRegister={register(`${namePrefix}.${DetailsFields.SUPPLIER}`, {
             maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
           })}
           trigger={trigger}
           optional
-          placeholder={t('ADD_ANIMAL.PLACEHOLDER.MERCHANT')}
-          errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.MERCHANT}`)}
+          placeholder={t('ADD_ANIMAL.PLACEHOLDER.SUPPLIER')}
+          errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.SUPPLIER}`)}
         />
         {/* @ts-ignore */}
         <Input

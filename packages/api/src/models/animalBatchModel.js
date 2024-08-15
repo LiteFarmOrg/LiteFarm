@@ -19,6 +19,7 @@ import AnimalBatchSexDetailModel from './animalBatchSexDetailModel.js';
 import AnimalBatchGroupRelationshipModel from './animalBatchGroupRelationshipModel.js';
 import AnimalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
 import { checkAndTrimString } from '../util/util.js';
+import AnimalBatchUseRelationshipModel from './animalBatchUseRelationshipModel.js';
 
 class AnimalBatchModel extends baseModel {
   static get tableName() {
@@ -86,6 +87,9 @@ class AnimalBatchModel extends baseModel {
         animal_removal_reason_id: { type: ['integer', 'null'] },
         removal_explanation: { type: ['string', 'null'] },
         removal_date: { type: ['string', 'null'], format: 'date-time' },
+        organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
+        supplier: { type: ['string', 'null'], maxLength: 255 },
+        price: { type: ['number', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -123,6 +127,14 @@ class AnimalBatchModel extends baseModel {
           query.select('animal_group_id').whereIn('animal_group_id', function () {
             this.select('id').from('animal_group').where('deleted', false);
           }),
+      },
+      animal_batch_use_relationships: {
+        relation: Model.HasManyRelation,
+        modelClass: AnimalBatchUseRelationshipModel,
+        join: {
+          from: 'animal_batch.id',
+          to: 'animal_batch_use_relationship.animal_batch_id',
+        },
       },
     };
   }

@@ -49,8 +49,8 @@ export enum DetailsFields {
   TYPE = 'type',
   BREED = 'breed',
   SEX = 'sex',
-  USED_FOR_REPRODUCTION = 'USED_FOR_REPRODUCTION',
   USE = 'use',
+  OTHER_USE = 'other_use',
   COUNT = 'count',
   SEX_DETAILS = 'sex_details',
 
@@ -75,7 +75,7 @@ export enum DetailsFields {
   DAM = 'dam',
   SIRE = 'sire',
   BROUGHT_IN_DATE = 'brought_in_date',
-  MERCHANT = 'merchant',
+  SUPPLIER = 'supplier',
   PRICE = 'price',
 }
 
@@ -105,8 +105,8 @@ export type AnimalDetailsFormFields = {
   [DetailsFields.TYPE]: Option[DetailsFields.TYPE];
   [DetailsFields.BREED]?: Option[DetailsFields.BREED];
   [DetailsFields.SEX]?: number;
-  [DetailsFields.USED_FOR_REPRODUCTION]?: boolean;
   [DetailsFields.USE]?: Option[DetailsFields.USE][];
+  [DetailsFields.OTHER_USE]?: string;
   [DetailsFields.DATE_OF_BIRTH]?: string;
   [DetailsFields.TAG_NUMBER]?: string;
   [DetailsFields.TAG_COLOR]?: Option[DetailsFields.TAG_COLOR];
@@ -122,7 +122,7 @@ export type AnimalDetailsFormFields = {
   [DetailsFields.DAM]?: string;
   [DetailsFields.SIRE]?: string;
   [DetailsFields.BROUGHT_IN_DATE]?: string;
-  [DetailsFields.MERCHANT]?: string;
+  [DetailsFields.SUPPLIER]?: string;
   [DetailsFields.PRICE]?: number;
 };
 

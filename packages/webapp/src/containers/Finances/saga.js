@@ -111,11 +111,17 @@ export function* updateSaleSaga(action) {
     history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(`failed to update sale`);
-    if (e.response.data == 'sale deleted') {
-      yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.SALE_DELETED')));
-      history.push(FINANCES_HOME_URL);
-    } else {
-      yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.UPDATE')));
+    switch (e.response.data) {
+      case 'sale deleted':
+        yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.SALE_DELETED')));
+        history.push(FINANCES_HOME_URL);
+        break;
+      case 'revenue type deleted':
+        yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE.ERROR.REVENUE_TYPE_DELETED')));
+        history.push(FINANCES_HOME_URL);
+        break;
+      default:
+        yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.UPDATE')));
     }
   }
 }

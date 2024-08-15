@@ -149,7 +149,8 @@
   },
   "REVENUE": {
     "ERROR": {
-      "EDIT": "Impossible de mettre à jour le chiffre d'affaires"
+      "EDIT": "Impossible de mettre à jour le chiffre d'affaires",
+      "REVENUE_TYPE_DELETED": "This revenue type no longer exists"
     },
     "SUCCESS": {
       "EDIT": "Chiffre d'affaires mis à jour"

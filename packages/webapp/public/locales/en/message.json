@@ -149,7 +149,8 @@
   },
   "REVENUE": {
     "ERROR": {
-      "EDIT": "Failed to update revenue"
+      "EDIT": "Failed to update revenue",
+      "REVENUE_TYPE_DELETED": "This revenue type no longer exists"
     },
     "SUCCESS": {
       "EDIT": "Revenue successfully updated"

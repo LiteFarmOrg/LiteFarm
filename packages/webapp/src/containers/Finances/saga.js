@@ -341,11 +341,17 @@ export function* editExpenseSaga(action) {
     history.push(FINANCES_HOME_URL);
   } catch (e) {
     console.log(e);
-    if (e.response.data == 'expense deleted') {
-      yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.EXPENSE_DELETED')));
-      history.push(FINANCES_HOME_URL);
-    } else {
-      yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.UPDATE')));
+    switch (e.response.data) {
+      case 'expense deleted':
+        yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.EXPENSE_DELETED')));
+        history.push(FINANCES_HOME_URL);
+        break;
+      case 'expense type deleted':
+        yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.EXPENSE_TYPE_DELETED')));
+        history.push(FINANCES_HOME_URL);
+        break;
+      default:
+        yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.UPDATE')));
     }
   }
 }

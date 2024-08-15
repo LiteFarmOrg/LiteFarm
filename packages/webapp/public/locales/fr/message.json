@@ -47,7 +47,8 @@
       "ADD": "Impossible d'ajouter de nouvelles dépenses",
       "DELETE": "Impossible de supprimer les dépenses",
       "UPDATE": "Impossible de mettre à jour les dépenses",
-      "EXPENSE_DELETED": "MISSING"
+      "EXPENSE_DELETED": "MISSING",
+      "EXPENSE_TYPE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "ADD": "Nouvelles dépenses ajoutées",

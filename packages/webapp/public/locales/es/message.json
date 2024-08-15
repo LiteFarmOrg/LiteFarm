@@ -47,7 +47,8 @@
       "ADD": "No se pudo agregar nuevos gastos",
       "DELETE": "No se pudo borrar gastos",
       "UPDATE": "No se pudo actualizar gastos!",
-      "EXPENSE_DELETED": "MISSING"
+      "EXPENSE_DELETED": "MISSING",
+      "EXPENSE_TYPE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "ADD": "¡Nuevos gastos agregados exitosamente!",

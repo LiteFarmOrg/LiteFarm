@@ -16,6 +16,7 @@
 import baseController from '../controllers/baseController.js';
 
 import FarmExpenseModel from '../models/farmExpenseModel.js';
+import ExpenseType from '../models/expenseTypeModel.js';
 import { transaction, Model } from 'objection';
 
 const farmExpenseController = {
@@ -83,6 +84,14 @@ const farmExpenseController = {
       if (await baseController.isDeleted(trx, FarmExpenseModel, { farm_expense_id })) {
         await trx.rollback();
         return res.status(409).send('expense deleted');
+      }
+
+      // do not allow to change to deleted expense type
+      if (
+        await baseController.isDeleted(trx, ExpenseType, { expense_type_id: data.expense_type_id })
+      ) {
+        await trx.rollback();
+        return res.status(409).send('expense type deleted');
       }
 
       try {

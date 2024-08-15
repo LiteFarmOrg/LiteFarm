@@ -47,7 +47,8 @@
       "ADD": "Failed to add new expenses",
       "DELETE": "Failed to delete expenses",
       "UPDATE": "Failed to update expenses!",
-      "EXPENSE_DELETED": "This expense no longer exists"
+      "EXPENSE_DELETED": "This expense no longer exists",
+      "EXPENSE_TYPE_DELETED": "This expense type no longer exists"
     },
     "SUCCESS": {
       "ADD": "Successfully added new expenses!",

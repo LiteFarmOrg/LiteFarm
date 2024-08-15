@@ -76,7 +76,6 @@ const AddAnimalDetails = () => {
       return {
         [DetailsFields.TYPE]: animalOrBatch.type,
         [DetailsFields.BREED]: animalOrBatch.breed,
-        [DetailsFields.COUNT]: animalOrBatch.count,
         [DetailsFields.SEX]: transformedSexDetails?.[i],
         [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
         [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,

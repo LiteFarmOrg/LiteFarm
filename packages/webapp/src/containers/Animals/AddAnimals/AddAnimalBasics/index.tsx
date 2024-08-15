@@ -22,6 +22,7 @@ import { useAnimalOptions } from '../useAnimalOptions';
 import { BasicsFields, DetailsFields } from '../types';
 import { AddAnimalsFormFields } from '../types';
 import { STEPS } from '..';
+import { Details as SexDetailsType } from '../../../../components/Form/SexDetails/SexDetailsPopover';
 
 export const animalBasicsDefaultValues = {
   [BasicsFields.TYPE]: undefined,
@@ -36,10 +37,16 @@ export const animalBasicsDefaultValues = {
 const AddAnimalBasics = () => {
   const { control, getValues, setValue } = useFormContext<AddAnimalsFormFields>();
 
-  const { fields, append, remove, update, replace } = useFieldArray({
+  const { fields, append, remove, replace } = useFieldArray({
     name: STEPS.BASICS,
     control,
   });
+
+  const { typeOptions, breedOptions, sexDetailsOptions } = useAnimalOptions(
+    'type',
+    'breed',
+    'sexDetails',
+  );
 
   const detailsFields = getValues(STEPS.DETAILS);
 
@@ -49,19 +56,27 @@ const AddAnimalBasics = () => {
       return;
     }
 
-    // Update fields (only batches have fields that can be updated in this way)
-    const updatedBatchData = (detailsData: any) => {
+    const updatedSexDetails = (detailsData: any): SexDetailsType => {
+      return sexDetailsOptions.map((option: { id: number; label: string; count: number }) => ({
+        ...option,
+        count: detailsData.filter(({ sex }: { sex: number }) => sex === option.id).length,
+      }));
+    };
+
+    // Update fields with details fields or regenerate count + sexDetails
+    const updatedData = (detailsData: any) => {
       return {
         [BasicsFields.BATCH_NAME]: detailsData?.[DetailsFields.BATCH_NAME],
-        [BasicsFields.COUNT]: detailsData?.[DetailsFields.COUNT],
-        [BasicsFields.SEX_DETAILS]: detailsData?.[DetailsFields.SEX_DETAILS],
+        [BasicsFields.COUNT]: detailsData?.[DetailsFields.COUNT] || detailsData.length,
+        [BasicsFields.SEX_DETAILS]:
+          detailsData?.[DetailsFields.SEX_DETAILS] || updatedSexDetails(detailsData),
       };
     };
 
     // Track basics cards with no corresponding details
     const removalIndices: number[] = [];
 
-    fields.forEach((field, index) => {
+    const updatedBasicFields = fields.map((field, index) => {
       const basicsCardId = field[BasicsFields.FIELD_ARRAY_ID];
 
       const detailsData = detailsFields.filter(
@@ -70,18 +85,19 @@ const AddAnimalBasics = () => {
 
       if (!detailsData.length) {
         removalIndices.push(index);
+        return field;
       } else {
-        update(index, {
+        return {
           ...field,
-          ...updatedBatchData(detailsData),
-        });
+          ...updatedData(detailsData),
+        };
       }
     });
 
     // Remove cards that have no corresponding details
-    const filteredFields = fields.filter((_, index) => !removalIndices.includes(index));
+    const filteredFields = updatedBasicFields.filter((_, index) => !removalIndices.includes(index));
     replace(filteredFields);
-  }, [detailsFields]);
+  }, [detailsFields, !!sexDetailsOptions]);
 
   const onAddCard = (): void => {
     append(animalBasicsDefaultValues);
@@ -101,12 +117,6 @@ const AddAnimalBasics = () => {
 
     remove(index);
   };
-
-  const { typeOptions, breedOptions, sexDetailsOptions } = useAnimalOptions(
-    'type',
-    'breed',
-    'sexDetails',
-  );
 
   return (
     <div className={styles.cardContainer}>

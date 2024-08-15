@@ -13,11 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
+import { Controller, FieldError, FieldValues, UseControllerProps } from 'react-hook-form';
 import { CreatableSelect } from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import { RefObject } from 'react';
 import { SelectInstance } from 'react-select';
+import { Error } from '../../Typography';
 
 export type Option = {
   label: string;
@@ -28,6 +29,7 @@ export type Option = {
 export type AnimalTypeSelectProps = {
   typeOptions: Option[];
   onTypeChange?: (Option: Option | null) => void;
+  error?: FieldError;
 };
 
 export function AnimalTypeSelect<T extends FieldValues>({
@@ -35,26 +37,31 @@ export function AnimalTypeSelect<T extends FieldValues>({
   control,
   typeOptions,
   onTypeChange,
+  error,
 }: AnimalTypeSelectProps & UseControllerProps<T>) {
   const { t } = useTranslation();
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field: { onChange, value } }) => (
-        <CreatableSelect
-          label={t('ADD_ANIMAL.TYPE')}
-          placeholder={t('ADD_ANIMAL.TYPE_PLACEHOLDER')}
-          /* @ts-ignore */
-          options={typeOptions} // TODO: fix ts-ignore
-          onChange={(option) => {
-            onChange(option);
-            onTypeChange?.(option);
-          }}
-          value={value}
-        />
-      )}
-    />
+    <div>
+      <Controller
+        name={name}
+        control={control}
+        rules={{ required: { value: true, message: t('common:REQUIRED') } }}
+        render={({ field: { onChange, value } }) => (
+          <CreatableSelect
+            label={t('ADD_ANIMAL.TYPE')}
+            placeholder={t('ADD_ANIMAL.TYPE_PLACEHOLDER')}
+            /* @ts-ignore */
+            options={typeOptions} // TODO: fix ts-ignore
+            onChange={(option) => {
+              onChange(option);
+              onTypeChange?.(option);
+            }}
+            value={value}
+          />
+        )}
+      />
+      {error && <Error>{error.message}</Error>}
+    </div>
   );
 }
 

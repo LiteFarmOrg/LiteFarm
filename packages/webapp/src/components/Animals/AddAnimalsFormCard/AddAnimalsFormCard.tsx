@@ -15,7 +15,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import { useRef, useEffect } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, get, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SelectInstance } from 'react-select';
 import NumberInput from '../../Form/NumberInput';
@@ -57,7 +57,15 @@ export default function AddAnimalsFormCard({
   isActive,
   namePrefix = '',
 }: AddAnimalsFormCardProps) {
-  const { control, watch, register, trigger, getValues, setValue } = useFormContext();
+  const {
+    control,
+    watch,
+    register,
+    trigger,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
   const { t } = useTranslation();
   const countFieldName = `${namePrefix}.${BasicsFields.COUNT}`;
   const watchAnimalCount = watch(countFieldName);
@@ -107,7 +115,11 @@ export default function AddAnimalsFormCard({
         name={`${namePrefix}.${BasicsFields.TYPE}`}
         control={control}
         typeOptions={typeOptions}
-        onTypeChange={onTypeChange}
+        onTypeChange={(option) => {
+          trigger(`${namePrefix}.${BasicsFields.TYPE}`);
+          onTypeChange?.(option);
+        }}
+        error={get(errors, `${namePrefix}.${BasicsFields.TYPE}`)}
       />
       <AnimalBreedSelect
         breedSelectRef={breedSelectRef}

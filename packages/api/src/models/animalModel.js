@@ -18,6 +18,7 @@ import AnimalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
 import AnimalGroupRelationshipModel from './animalGroupRelationshipModel.js';
 import Model from './baseFormatModel.js';
 import { checkAndTrimString } from '../util/util.js';
+import AnimalUseRelationshipModel from './animalUseRelationshipModel.js';
 
 class Animal extends baseModel {
   static get tableName() {
@@ -94,6 +95,11 @@ class Animal extends baseModel {
         animal_removal_reason_id: { type: ['integer', 'null'] },
         removal_explanation: { type: ['string', 'null'] },
         removal_date: { type: ['string', 'null'], format: 'date-time' },
+        identifier_type_id: { type: ['integer', 'null'] },
+        identifier_type_other: { type: ['string', 'null'] },
+        organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
+        supplier: { type: ['string', 'null'], maxLength: 255 },
+        price: { type: ['number', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -122,6 +128,14 @@ class Animal extends baseModel {
           query.select('animal_group_id').whereIn('animal_group_id', function () {
             this.select('id').from('animal_group').where('deleted', false);
           }),
+      },
+      animal_use_relationships: {
+        relation: Model.HasManyRelation,
+        modelClass: AnimalUseRelationshipModel,
+        join: {
+          from: 'animal.id',
+          to: 'animal_use_relationship.animal_id',
+        },
       },
     };
   }

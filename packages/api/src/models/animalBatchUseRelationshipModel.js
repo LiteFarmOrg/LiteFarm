@@ -21,7 +21,7 @@ class AnimalBatchUseRelationshipModel extends Model {
   }
 
   static get idColumn() {
-    return 'id';
+    return ['animal_batch_id', 'use_id'];
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -30,9 +30,8 @@ class AnimalBatchUseRelationshipModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['use_id'],
+      required: ['animal_batch_id', 'use_id'],
       properties: {
-        id: { type: 'integer' },
         animal_batch_id: { type: 'integer' },
         use_id: { type: 'integer' },
         other_use: { type: ['string', 'null'] },

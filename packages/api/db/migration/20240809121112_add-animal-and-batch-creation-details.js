@@ -44,13 +44,10 @@ export const up = async function (knex) {
   });
 
   await knex.schema.createTable('animal_use_relationship', (table) => {
-    table.increments('id').primary();
     table.integer('animal_id').references('id').inTable('animal').notNullable();
     table.integer('use_id').references('id').inTable('animal_use').notNullable();
+    table.primary(['animal_id', 'use_id']);
     table.string('other_use');
-    table.unique(['animal_id', 'use_id'], {
-      indexName: 'animal_use_uniqueness_check',
-    });
     table.check(
       `(other_use IS NOT NULL AND use_id = ${otherUse.id}) OR (other_use IS NULL)`,
       [],
@@ -73,13 +70,10 @@ export const up = async function (knex) {
   });
 
   await knex.schema.createTable('animal_batch_use_relationship', (table) => {
-    table.increments('id').primary();
     table.integer('animal_batch_id').references('id').inTable('animal_batch').notNullable();
     table.integer('use_id').references('id').inTable('animal_use').notNullable();
+    table.primary(['animal_batch_id', 'use_id']);
     table.string('other_use');
-    table.unique(['animal_batch_id', 'use_id'], {
-      indexName: 'animal_batch_use_uniqueness_check',
-    });
     table.check(
       `(other_use IS NOT NULL AND use_id = ${otherUse.id}) OR (other_use IS NULL)`,
       [],

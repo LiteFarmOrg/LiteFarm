@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import styles from './styles.module.scss';
 import AddAnimalsFormCard from '../../../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
@@ -36,20 +36,21 @@ export const animalBasicsDefaultValues = {
 const AddAnimalBasics = () => {
   const { control, getValues, setValue } = useFormContext<AddAnimalsFormFields>();
 
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove, update, replace } = useFieldArray({
     name: STEPS.BASICS,
     control,
   });
 
-  // Update form values based on details fields
-  useEffect(() => {
-    const detailsFields = getValues(STEPS.DETAILS);
+  const detailsFields = getValues(STEPS.DETAILS);
 
-    if (!detailsFields) {
+  // Update form values based on changes made within details, including removal
+  useLayoutEffect(() => {
+    if (!detailsFields.length) {
       return;
     }
 
-    const updatedData = (detailsData: any) => {
+    // Update fields (only batches have fields that can be updated in this way)
+    const updatedBatchData = (detailsData: any) => {
       return {
         [BasicsFields.BATCH_NAME]: detailsData?.[DetailsFields.BATCH_NAME],
         [BasicsFields.COUNT]: detailsData?.[DetailsFields.COUNT],
@@ -57,19 +58,30 @@ const AddAnimalBasics = () => {
       };
     };
 
+    // Track basics cards with no corresponding details
+    const removalIndices: number[] = [];
+
     fields.forEach((field, index) => {
       const basicsCardId = field[BasicsFields.FIELD_ARRAY_ID];
 
-      const detailsData = detailsFields.find(
-        (field) => field[DetailsFields.BASICS_FIELD_ARRAY_ID] === basicsCardId,
+      const detailsData = detailsFields.filter(
+        (entity) => entity[DetailsFields.BASICS_FIELD_ARRAY_ID] === basicsCardId,
       );
 
-      update(index, {
-        ...field,
-        ...updatedData(detailsData),
-      });
+      if (!detailsData.length) {
+        removalIndices.push(index);
+      } else {
+        update(index, {
+          ...field,
+          ...updatedBatchData(detailsData),
+        });
+      }
     });
-  }, []);
+
+    // Remove cards that have no corresponding details
+    const filteredFields = fields.filter((_, index) => !removalIndices.includes(index));
+    replace(filteredFields);
+  }, [detailsFields]);
 
   const onAddCard = (): void => {
     append(animalBasicsDefaultValues);

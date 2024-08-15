@@ -41,11 +41,12 @@ const meta: Meta<GeneralDetailsProps> = {
         defaultValues,
       });
       const sex = formMethods.watch(DetailsFields.SEX);
-      const isMaleSelected = sex === 1;
+      const use = formMethods.watch(DetailsFields.USE);
+      const isOtherUseSelected = use?.some((selected) => selected.value === 'OTHER');
 
       return (
         <FormProvider {...formMethods}>
-          <Story t={t} isMaleSelected={isMaleSelected} />
+          <Story t={t} isOtherUseSelected={isOtherUseSelected} />
         </FormProvider>
       );
     },

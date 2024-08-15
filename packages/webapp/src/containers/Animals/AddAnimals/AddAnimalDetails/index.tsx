@@ -35,7 +35,7 @@ const AddAnimalDetails = () => {
   const { t } = useTranslation(['animal', 'common', 'translation']);
   const { control, getValues } = useFormContext<AddAnimalsFormFields>();
 
-  const { fields, remove, update } = useFieldArray({
+  const { fields, remove, replace } = useFieldArray({
     name: STEPS.DETAILS,
     control,
   });
@@ -109,10 +109,17 @@ const AddAnimalDetails = () => {
       }
     });
 
-    detailsArray.forEach((entity, index) => {
-      const origData = getValues(STEPS.DETAILS)[index];
-      update(index, { ...origData, ...entity });
-    });
+    const currentDetails = getValues(STEPS.DETAILS);
+    const updatedDetailsArray = detailsArray
+      .map((entity, index) => {
+        const origData = currentDetails[index];
+        return { ...origData, ...entity };
+      })
+      // Remove extra items if the count is less than the initial count
+      .slice(0, detailsArray.length);
+
+    // Update the details array
+    replace(updatedDetailsArray);
   }, []);
 
   /* Render logic */

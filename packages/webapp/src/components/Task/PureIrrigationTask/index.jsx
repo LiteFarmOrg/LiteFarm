@@ -336,7 +336,7 @@ export default function PureIrrigationTask({
                     color: 'var(--Colors-Accent---singles-Red-full)',
                   }}
                 >
-                  For wild crops, estimation of water usage by depth is not available.
+                  {t('ADD_TASK.IRRIGATION_VIEW.CALCULATE_WATER_USAGE_WARNING')}
                 </Label>
               </div>
             </div>

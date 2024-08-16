@@ -162,6 +162,7 @@
     "IRRIGATION_VIEW": {
       "BRAND_TOOLTIP": "Esta tarefa é para regar seu cultivo. Se você deseja instalar a irrigação, crie uma tarefa de trabalho de campo.",
       "CALCULATE_WATER_USAGE": "Calcular uso de água",
+      "CALCULATE_WATER_USAGE_WARNING": "MISSING",
       "DEFAULT_APPLICATION_DEPTH": "Definir como profundidade de aplicação padrão para esta área",
       "DEFAULT_LOCATION_FLOW_RATE": "Definir como vazão padrão para esta área",
       "DEPTH": "Profundidade",

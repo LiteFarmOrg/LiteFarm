@@ -162,6 +162,7 @@
     "IRRIGATION_VIEW": {
       "BRAND_TOOLTIP": "Cette tâche est d'arroser votre emplacement. Pour configuer l'irrigation, créez plutôt une tâche de terrain.",
       "CALCULATE_WATER_USAGE": "Calculer la consommation d'eau",
+      "CALCULATE_WATER_USAGE_WARNING": "MISSING",
       "DEFAULT_APPLICATION_DEPTH": "Sélectionner cette profondeur d'application par défaut pour cet emplacement",
       "DEFAULT_LOCATION_FLOW_RATE": "Sélectionner ce débit par défaut pour cet emplacement",
       "DEPTH": "Profondeur",

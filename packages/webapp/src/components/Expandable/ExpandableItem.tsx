@@ -52,18 +52,6 @@ export default function ExpandableItem({
   itemKey,
   leftCollapseIcon = false,
 }: ExpandableItemProps) {
-  const onElementClick = () => {
-    if (!iconClickOnly) {
-      onClick();
-    }
-  };
-
-  const onIconClick = () => {
-    if (iconClickOnly) {
-      onClick();
-    }
-  };
-
   const id = `expanded-content-${itemKey}`;
 
   return (
@@ -74,7 +62,6 @@ export default function ExpandableItem({
           !iconClickOnly && styles.clickable,
           classes.mainContentWithIcon,
         )}
-        onClick={onElementClick}
         aria-controls={id}
         aria-expanded={isExpanded}
       >
@@ -87,10 +74,9 @@ export default function ExpandableItem({
         >
           {mainContent}
         </div>
-
         <button
-          onClick={onIconClick}
-          className={clsx(styles.iconButton, iconClickOnly && styles.clickable, classes.icon)}
+          onClick={onClick}
+          className={clsx(styles.iconButton, iconClickOnly && styles.iconClickOnly, classes.icon)}
         >
           {icons[isExpanded ? 'up' : 'down']}
         </button>

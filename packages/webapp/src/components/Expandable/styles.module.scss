@@ -38,6 +38,13 @@
     inset: 0;
     content: '';
   }
+
+  &.iconClickOnly {
+    cursor: pointer;
+    &::after {
+      content: none;
+    }
+  }
 }
 
 .mainContentWrapper.leftCollapse {

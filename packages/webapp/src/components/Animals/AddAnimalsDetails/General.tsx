@@ -19,34 +19,39 @@ import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
 import ReactSelect from '../../Form/ReactSelect';
 import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
+import NumberInput from '../../Form/NumberInput';
+import SexDetails from '../../Form/SexDetails';
+import { type Details as SexDetailsType } from '../../Form/SexDetails/SexDetailsPopover';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { DetailsFields, type Option, type CommonDetailsProps } from './type';
 import styles from './styles.module.scss';
+import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 
 export type GeneralDetailsProps = CommonDetailsProps & {
-  typeOptions: Option[DetailsFields.TYPE][];
-  breedOptions: Option[DetailsFields.BREED][];
   sexOptions: Option[DetailsFields.SEX][];
   useOptions: Option[DetailsFields.USE][];
   animalOrBatch: AnimalOrBatchKeys;
-  isMaleSelected?: boolean;
+  isOtherUseSelected?: boolean;
+  sexDetailsOptions?: SexDetailsType;
 };
 
 const GeneralDetails = ({
   t,
-  typeOptions,
-  breedOptions,
   sexOptions,
   useOptions,
   animalOrBatch,
-  isMaleSelected,
+  isOtherUseSelected,
+  sexDetailsOptions,
 }: GeneralDetailsProps) => {
   const {
     control,
     register,
     trigger,
+    watch,
     formState: { errors },
   } = useFormContext();
+
+  const watchBatchCount = watch(DetailsFields.COUNT) || 0;
 
   const sexInputs = useMemo(() => {
     if (animalOrBatch === AnimalOrBatchKeys.ANIMAL) {
@@ -62,23 +67,35 @@ const GeneralDetails = ({
               row
             />
           </div>
-          {isMaleSelected && (
-            <div>
-              <InputBaseLabel optional label={t('ADD_ANIMAL.USED_FOR_REPRODUCTION')} />
-              {/* @ts-ignore */}
-              <RadioGroup
-                name={DetailsFields.USED_FOR_REPRODUCTION}
-                hookFormControl={control}
-                row
-              />
-            </div>
-          )}
         </>
       );
     }
 
-    return 'TODO: LF-4159';
-  }, [animalOrBatch, t, isMaleSelected, sexOptions, control]);
+    return (
+      <div className={styles.countAndSexDetailsWrapper}>
+        <NumberInput
+          name={DetailsFields.COUNT}
+          control={control}
+          defaultValue={0}
+          label={t('common:COUNT')}
+          className={styles.countInput}
+          allowDecimal={false}
+          showStepper
+        />
+        <Controller
+          name={DetailsFields.SEX_DETAILS}
+          control={control}
+          render={({ field }) => (
+            <SexDetails
+              initialDetails={sexDetailsOptions!}
+              maxCount={watchBatchCount}
+              onConfirm={(details) => field.onChange(details)}
+            />
+          )}
+        />
+      </div>
+    );
+  }, [animalOrBatch, t, sexOptions, control, watchBatchCount]);
 
   return (
     <div className={styles.sectionWrapper}>
@@ -89,7 +106,7 @@ const GeneralDetails = ({
             type="text"
             label={t('ANIMAL.ATTRIBUTE.BATCH_NAME')}
             hookFormRegister={register(DetailsFields.NAME, {
-              maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+              maxLength: hookFormMaxCharsValidation(255),
             })}
             trigger={trigger}
             optional
@@ -106,7 +123,7 @@ const GeneralDetails = ({
             label={t('ANIMAL.ANIMAL_TYPE')}
             value={value}
             onChange={onChange}
-            options={typeOptions}
+            isDisabled
           />
         )}
       />
@@ -119,7 +136,7 @@ const GeneralDetails = ({
             optional
             value={value}
             onChange={onChange}
-            options={breedOptions}
+            isDisabled
           />
         )}
       />
@@ -139,6 +156,21 @@ const GeneralDetails = ({
           />
         )}
       />
+      {isOtherUseSelected && (
+        <>
+          {/* @ts-ignore */}
+          <Input
+            type="text"
+            label={t('ANIMAL.ATTRIBUTE.OTHER_USE')}
+            hookFormRegister={register(DetailsFields.OTHER_USE, {
+              maxLength: hookFormMaxCharsValidation(255),
+            })}
+            optional
+            placeholder={t('ADD_ANIMAL.PLACEHOLDER.OTHER_USE')}
+            errors={getInputErrors(errors, DetailsFields.OTHER_USE)}
+          />
+        </>
+      )}
     </div>
   );
 };

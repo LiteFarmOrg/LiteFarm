@@ -13,26 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+@import '../../../assets/mixin.scss';
 
-.formHeader {
+.waterCalculatorWrapper {
   display: flex;
-  justify-content: space-between;
-}
+  gap: 10px;
+  margin-top: 4px;
 
-.countAndSexDetailsWrapper {
-  display: flex;
-  align-items: start;
-  gap: 16px;
-}
-
-.countInput {
-  flex-basis: 104px;
-  & + div {
-    flex: 1;
+  @include md-breakpoint {
+    flex-direction: column;
   }
+}
+
+.waterCalculatorWarningWrapper {
+  color: var(--Colors-Accent---singles-Red-full);
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }

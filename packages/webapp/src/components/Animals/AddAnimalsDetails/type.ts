@@ -15,6 +15,7 @@
 
 import { UseFormReturn } from 'react-hook-form';
 import { TFunction } from 'react-i18next';
+import { Option as AnimalSelectOption } from '../AddAnimalsFormCard/AnimalSelect';
 
 export type ReactSelectOption<T extends string | number> = {
   label: string;
@@ -27,8 +28,10 @@ export enum DetailsFields {
   TYPE = 'type',
   BREED = 'breed',
   SEX = 'sex',
-  USED_FOR_REPRODUCTION = 'USED_FOR_REPRODUCTION',
   USE = 'use',
+  COUNT = 'count',
+  SEX_DETAILS = 'sexDetails',
+  OTHER_USE = 'other_use',
 
   // UNIQUE
   DATE_OF_BIRTH = 'birth_date',
@@ -48,14 +51,14 @@ export enum DetailsFields {
   DAM = 'dam',
   SIRE = 'sire',
   BROUGHT_IN_DATE = 'brought_in_date',
-  MERCHANT = 'merchant',
+  SUPPLIER = 'supplier',
   PRICE = 'price',
 }
 
 export type Option = {
-  [DetailsFields.TYPE]: ReactSelectOption<string>; // TODO: LF-4159
-  [DetailsFields.BREED]: ReactSelectOption<string>; // TODO: LF-4159
-  [DetailsFields.USE]: ReactSelectOption<number | string>; // TODO: LF-4159
+  [DetailsFields.TYPE]: AnimalSelectOption;
+  [DetailsFields.BREED]: AnimalSelectOption;
+  [DetailsFields.USE]: ReactSelectOption<number>;
   [DetailsFields.TAG_COLOR]: ReactSelectOption<number>;
   [DetailsFields.TAG_TYPE]: ReactSelectOption<number>;
   [DetailsFields.ORGANIC_STATUS]: ReactSelectOption<number>;
@@ -68,7 +71,6 @@ export type FormValues = {
   [DetailsFields.TYPE]: Option[DetailsFields.TYPE];
   [DetailsFields.BREED]?: Option[DetailsFields.BREED];
   [DetailsFields.SEX]?: number;
-  [DetailsFields.USED_FOR_REPRODUCTION]?: boolean;
   [DetailsFields.USE]?: Option[DetailsFields.USE][];
   [DetailsFields.DATE_OF_BIRTH]?: string;
   [DetailsFields.TAG_NUMBER]?: string;
@@ -83,11 +85,11 @@ export type FormValues = {
   [DetailsFields.DAM]?: string;
   [DetailsFields.SIRE]?: string;
   [DetailsFields.BROUGHT_IN_DATE]?: string;
-  [DetailsFields.MERCHANT]?: string;
+  [DetailsFields.SUPPLIER]?: string;
   [DetailsFields.PRICE]?: number;
 };
 
-export interface FormMethods extends UseFormReturn<FormValues> {}
+export interface FormMethods extends UseFormReturn<Partial<FormValues>> {}
 
 export type CommonDetailsProps = {
   t: TFunction;

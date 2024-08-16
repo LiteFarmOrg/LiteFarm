@@ -13,8 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const AddAnimalBasics = () => {
-  return <div>Add animals basics</div>;
-};
+@import '../../../assets/mixin.scss';
 
-export default AddAnimalBasics;
+.contentWrapper {
+  padding-bottom: 88px; // button height 72px + button top 16px
+
+  @include sm-breakpoint {
+    padding-bottom: 104px; // button height 72px + button top 16px + button bottom 16px
+  }
+}

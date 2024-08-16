@@ -89,3 +89,12 @@ export const Responsive: Story = {
     );
   },
 };
+
+export const MobileDarkModeWithTitle: Story = {
+  args: {
+    steps: ['Animal basics', 'Animal details', 'Done'],
+    isMobile: true,
+    isDarkMode: true,
+    title: 'Add Animals',
+  },
+};

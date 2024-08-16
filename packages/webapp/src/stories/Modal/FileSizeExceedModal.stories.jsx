@@ -12,8 +12,7 @@ export default {
 const Template = (args) => <FileSizeExceedModal {...args} />;
 
 export const Primary = Template.bind({});
-Primary.args = {
-};
+Primary.args = {};
 Primary.parameters = {
   ...chromaticSmallScreen,
 };

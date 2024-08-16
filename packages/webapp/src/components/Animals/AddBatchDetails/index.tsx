@@ -49,7 +49,7 @@ const BatchDetails = ({
   const sections = [
     {
       key: sectionKeys.GENERAL,
-      title: t('ADD_ANIMAL.GENERAL_DETAILS'),
+      title: t('ADD_ANIMAL.GENERAL_DETAILS_BATCH'),
       content: (
         <GeneralDetails
           {...commonProps}
@@ -60,7 +60,7 @@ const BatchDetails = ({
     },
     {
       key: sectionKeys.OTHER,
-      title: t('ADD_ANIMAL.OTHER_DETAILS'),
+      title: t('ADD_ANIMAL.OTHER_DETAILS_BATCH'),
       content: (
         <OtherDetails
           {...commonProps}
@@ -71,7 +71,7 @@ const BatchDetails = ({
     },
     {
       key: sectionKeys.ORIGIN,
-      title: t('ADD_ANIMAL.ORIGIN'),
+      title: t('ADD_ANIMAL.ORIGIN_BATCH'),
       content: <Origin {...commonProps} {...originProps} />,
     },
   ];

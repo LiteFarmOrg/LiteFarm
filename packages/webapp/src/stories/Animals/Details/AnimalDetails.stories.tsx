@@ -20,7 +20,7 @@ import AnimalCreationDetails, {
   AnimalDetailsProps,
 } from '../../../components/Animals/AddAnimalsDetails';
 import AnimalDetails from '../../../components/Animals/AddAnimalsDetails';
-import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
+import { DetailsFields, FormMethods } from '../../../containers/Animals/AddAnimals/types';
 import {
   sexOptions,
   useOptions,
@@ -31,6 +31,7 @@ import {
   originOptions,
   defaultValues,
 } from './mockData';
+import { AnimalOrigins } from '../../../containers/Animals/types';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<AnimalDetailsProps> = {
@@ -46,6 +47,13 @@ export const Default: Story = {
     const formMethods: FormMethods = useForm({
       defaultValues,
     });
+
+    const originId = formMethods.watch(DetailsFields.ORIGIN);
+    const origin = !originId
+      ? undefined
+      : originId === 1
+        ? AnimalOrigins.BROUGHT_IN
+        : AnimalOrigins.BORN_AT_FARM;
 
     return (
       <Suspense>
@@ -67,6 +75,7 @@ export const Default: Story = {
               originProps={{
                 currency: '$',
                 originOptions,
+                origin,
               }}
             />
           </FormProvider>

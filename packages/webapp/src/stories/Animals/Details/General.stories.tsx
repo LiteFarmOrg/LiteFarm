@@ -37,9 +37,9 @@ const meta: Meta<GeneralDetailsProps> = {
         mode: 'onBlur',
         defaultValues,
       });
-      const sex = formMethods.watch(DetailsFields.SEX);
       const use = formMethods.watch(DetailsFields.USE);
-      const isOtherUseSelected = use?.some((selected) => selected.value === 'OTHER');
+      const otherUseId = 2; // mockData. Container should derive from KEY
+      const isOtherUseSelected = use?.some((selected) => selected.value === otherUseId);
 
       return (
         <FormProvider {...formMethods}>

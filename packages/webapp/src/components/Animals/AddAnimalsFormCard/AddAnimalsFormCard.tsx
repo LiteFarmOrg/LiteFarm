@@ -84,13 +84,6 @@ export default function AddAnimalsFormCard({
     setValue(uuidFieldName, identifierRef.current);
   }, []);
 
-  // Hopefully temp...
-  useEffect(() => {
-    if (watchAnimalCount == undefined) {
-      setValue(countFieldName, 1);
-    }
-  }, [watchAnimalCount]);
-
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
   const breedSelectRef = useRef<SelectInstance>(null);

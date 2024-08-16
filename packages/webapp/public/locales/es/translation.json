@@ -167,6 +167,7 @@
     "IRRIGATION_VIEW": {
       "BRAND_TOOLTIP": "Esta tarea es para regar su ubicación. Si desea instalar riego, cree una tarea de trabajo de campo en su lugar.",
       "CALCULATE_WATER_USAGE": "Calcular el consumo de agua",
+      "CALCULATE_WATER_USAGE_WARNING": "MISSING",
       "DEFAULT_APPLICATION_DEPTH": "Establecer como profundidad de aplicación predeterminada para esta ubicación",
       "DEFAULT_LOCATION_FLOW_RATE": "Establecer como índice de flujo predeterminado para esta ubicación",
       "DEPTH": "Profundidad",

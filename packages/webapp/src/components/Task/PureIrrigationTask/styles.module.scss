@@ -20,7 +20,7 @@
   gap: 10px;
   margin-top: 4px;
 
-  @include xs-breakpoint {
+  @include md-breakpoint {
     flex-direction: column;
   }
 }

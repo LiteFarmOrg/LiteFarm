@@ -1,6 +1,7 @@
 {
   "ADD_ANIMAL": {
     "ADD_ANIMALS": "Add animals",
+    "ADD_ANIMALS_TITLE": "Add Animals",
     "ADD_TO_INVENTORY": "Add animal to your inventory",
     "ANIMAL_BASICS": "Animal basics",
     "ANIMAL_DETAILS": "Animal details",
@@ -164,6 +165,7 @@
     "IRRIGATION_VIEW": {
       "BRAND_TOOLTIP": "This task is for watering your location. If you want to install irrigation, create a field work task instead.",
       "CALCULATE_WATER_USAGE": "Calculate Water Usage",
+      "CALCULATE_WATER_USAGE_WARNING": "For wild crops, estimation of water usage by depth is not available.",
       "DEFAULT_APPLICATION_DEPTH": "Set as default application depth for this location",
       "DEFAULT_LOCATION_FLOW_RATE": "Set as default flow rate for this location",
       "DEPTH": "Depth",

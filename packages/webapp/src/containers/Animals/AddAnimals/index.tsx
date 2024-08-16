@@ -65,6 +65,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
 
   return (
     <MultiStepForm
+      stepperProgressBarTitle={isMobile && t('ADD_ANIMAL.ADD_ANIMALS_TITLE')}
       stepperProgressBarConfig={stepperProgressBarConfig}
       onSave={onSave}
       hasSummaryWithinForm={true}

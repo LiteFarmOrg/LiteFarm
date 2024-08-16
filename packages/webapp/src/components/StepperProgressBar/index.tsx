@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { ReactNode } from 'react';
+import clsx from 'clsx';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -31,6 +33,7 @@ export type StepperProgressBarProps = {
   activeStep: number;
   isMobile?: boolean;
   isDarkMode?: boolean;
+  title?: ReactNode;
 };
 
 const StepperProgressBar = ({
@@ -38,9 +41,17 @@ const StepperProgressBar = ({
   activeStep,
   isMobile,
   isDarkMode,
+  title, // Currently supported only when isMobile is true
 }: StepperProgressBarProps) => {
   return (
-    <div className={isDarkMode ? styles.darkMode : styles.lightMode}>
+    <div
+      className={clsx(
+        isDarkMode ? styles.darkMode : styles.lightMode,
+        styles.wrapper,
+        isMobile && styles.isMobile,
+      )}
+    >
+      {isMobile && title && <div className={styles.title}>{title}</div>}
       <Stepper
         activeStep={activeStep}
         alternativeLabel={isMobile}

@@ -101,7 +101,7 @@ export type AnimalDetailsFormFields = {
   [DetailsFields.BASICS_FIELD_ARRAY_ID]?: string;
   [DetailsFields.BATCH_NAME]?: string;
   [DetailsFields.COUNT]?: number;
-  [DetailsFields.NAME]?: string; // batch name (BATCH in basics form)
+  [DetailsFields.NAME]?: string;
   [DetailsFields.TYPE]: Option[DetailsFields.TYPE];
   [DetailsFields.BREED]?: Option[DetailsFields.BREED];
   [DetailsFields.SEX]?: number;

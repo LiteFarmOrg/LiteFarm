@@ -15,15 +15,20 @@
 
 @import '../../../../assets/mixin.scss';
 
+.container {
+  padding: 16px;
+}
+
+// Passed in classes to ExpandableItem
 .expandedContainer {
   outline: 1px solid var(--Colors-Neutral-Neutral-100);
   border-radius: 4px 4px 0 0;
   margin-block: 4px;
-  position: relative; // for remove badge
+  position: relative; // to position remove section on mobile
 }
 
+// Passed in classes to ExpandableItem
 .expandableHeader {
-  // Should these go into a different component? It's controlling the placement of the left collapse
   display: flex;
   align-items: center;
   gap: 8px;

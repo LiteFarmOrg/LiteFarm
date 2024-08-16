@@ -19,35 +19,39 @@ import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
 import ReactSelect from '../../Form/ReactSelect';
 import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
+import NumberInput from '../../Form/NumberInput';
+import SexDetails from '../../Form/SexDetails';
+import { type Details as SexDetailsType } from '../../Form/SexDetails/SexDetailsPopover';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { DetailsFields, type Option, type CommonDetailsProps } from './type';
 import styles from './styles.module.scss';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 
 export type GeneralDetailsProps = CommonDetailsProps & {
-  typeOptions: Option[DetailsFields.TYPE][];
-  breedOptions: Option[DetailsFields.BREED][];
   sexOptions: Option[DetailsFields.SEX][];
   useOptions: Option[DetailsFields.USE][];
   animalOrBatch: AnimalOrBatchKeys;
   isOtherUseSelected?: boolean;
+  sexDetailsOptions?: SexDetailsType;
 };
 
 const GeneralDetails = ({
   t,
-  typeOptions,
-  breedOptions,
   sexOptions,
   useOptions,
   animalOrBatch,
   isOtherUseSelected,
+  sexDetailsOptions,
 }: GeneralDetailsProps) => {
   const {
     control,
     register,
     trigger,
+    watch,
     formState: { errors },
   } = useFormContext();
+
+  const watchBatchCount = watch(DetailsFields.COUNT) || 0;
 
   const sexInputs = useMemo(() => {
     if (animalOrBatch === AnimalOrBatchKeys.ANIMAL) {
@@ -66,8 +70,32 @@ const GeneralDetails = ({
         </>
       );
     }
-    return 'TODO: LF-4159';
-  }, [animalOrBatch, t, sexOptions, control]);
+
+    return (
+      <div className={styles.countAndSexDetailsWrapper}>
+        <NumberInput
+          name={DetailsFields.COUNT}
+          control={control}
+          defaultValue={0}
+          label={t('common:COUNT')}
+          className={styles.countInput}
+          allowDecimal={false}
+          showStepper
+        />
+        <Controller
+          name={DetailsFields.SEX_DETAILS}
+          control={control}
+          render={({ field }) => (
+            <SexDetails
+              initialDetails={sexDetailsOptions!}
+              maxCount={watchBatchCount}
+              onConfirm={(details) => field.onChange(details)}
+            />
+          )}
+        />
+      </div>
+    );
+  }, [animalOrBatch, t, sexOptions, control, watchBatchCount]);
 
   return (
     <div className={styles.sectionWrapper}>
@@ -95,7 +123,7 @@ const GeneralDetails = ({
             label={t('ANIMAL.ANIMAL_TYPE')}
             value={value}
             onChange={onChange}
-            options={typeOptions}
+            isDisabled
           />
         )}
       />
@@ -108,7 +136,7 @@ const GeneralDetails = ({
             optional
             value={value}
             onChange={onChange}
-            options={breedOptions}
+            isDisabled
           />
         )}
       />

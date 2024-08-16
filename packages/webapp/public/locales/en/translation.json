@@ -17,10 +17,13 @@
     "CREATE_INDIVIDUAL_PROFILES": "Create individual animal profiles",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately. This allows for detailed records and individualised care plans, all animals will be conveniently grouped. If you don't select 'Create Individual Animal Profiles' you'll create an Animal Batch. This is ideal for\u00a0managing animals collectively. In batch mode, individual animal details are not tracked.",
     "GENERAL_DETAILS": "General details",
+    "GENERAL_DETAILS_BATCH": "Batch general details",
     "GROUP_NAME": "Group name",
     "GROUP_NAME_PLACEHOLDER": "Type in group name",
     "ORIGIN": "Origin",
+    "ORIGIN_BATCH": "Batch origin",
     "OTHER_DETAILS": "Other details",
+    "OTHER_DETAILS_BATCH": "Batch other details",
     "OUT_OF_COUNT_one": "{{animalNumber}} out of {{count}}",
     "OUT_OF_COUNT_other": "{{animalNumber}} out of {{count}}",
     "PLACEHOLDER": {

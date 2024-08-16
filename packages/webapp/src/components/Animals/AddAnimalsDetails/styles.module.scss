@@ -35,3 +35,16 @@
   flex-direction: column;
   gap: 16px;
 }
+
+.countAndSexDetailsWrapper {
+  display: flex;
+  align-items: start;
+  gap: 16px;
+}
+
+.countInput {
+  flex-basis: 104px;
+  & + div {
+    flex: 1;
+  }
+}

@@ -63,13 +63,20 @@ const AddAnimalBasics = () => {
       }));
     };
 
-    // Update fields with details fields or regenerate count + sexDetails
-    const updatedData = (detailsData: any) => {
+    // Update fields based on the corresponding fields on the batch cards
+    const updatedBatchData = (detailsData: any) => {
       return {
         [BasicsFields.BATCH_NAME]: detailsData?.[0]?.[DetailsFields.BATCH_NAME],
-        [BasicsFields.COUNT]: detailsData?.[0]?.[DetailsFields.COUNT] || detailsData.length,
-        [BasicsFields.SEX_DETAILS]:
-          detailsData?.[0]?.[DetailsFields.SEX_DETAILS] || updatedSexDetails(detailsData),
+        [BasicsFields.COUNT]: detailsData?.[0]?.[DetailsFields.COUNT],
+        [BasicsFields.SEX_DETAILS]: detailsData?.[0]?.[DetailsFields.SEX_DETAILS],
+      };
+    };
+
+    // Generate new values based on interaction with the animal expandable items + sex radios
+    const generatedAnimalData = (detailsData: any) => {
+      return {
+        [BasicsFields.COUNT]: detailsData.length,
+        [BasicsFields.SEX_DETAILS]: updatedSexDetails(detailsData),
       };
     };
 
@@ -87,10 +94,15 @@ const AddAnimalBasics = () => {
         removalIndices.push(index);
         return field;
       } else {
-        return {
-          ...field,
-          ...updatedData(detailsData),
-        };
+        return field[BasicsFields.CREATE_INDIVIDUAL_PROFILES]
+          ? {
+              ...field,
+              ...generatedAnimalData(detailsData),
+            }
+          : {
+              ...field,
+              ...updatedBatchData(detailsData),
+            };
       }
     });
 

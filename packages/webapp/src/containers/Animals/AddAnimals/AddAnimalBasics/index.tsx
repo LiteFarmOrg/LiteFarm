@@ -66,10 +66,10 @@ const AddAnimalBasics = () => {
     // Update fields with details fields or regenerate count + sexDetails
     const updatedData = (detailsData: any) => {
       return {
-        [BasicsFields.BATCH_NAME]: detailsData?.[DetailsFields.BATCH_NAME],
-        [BasicsFields.COUNT]: detailsData?.[DetailsFields.COUNT] || detailsData.length,
+        [BasicsFields.BATCH_NAME]: detailsData?.[0]?.[DetailsFields.BATCH_NAME],
+        [BasicsFields.COUNT]: detailsData?.[0]?.[DetailsFields.COUNT] || detailsData.length,
         [BasicsFields.SEX_DETAILS]:
-          detailsData?.[DetailsFields.SEX_DETAILS] || updatedSexDetails(detailsData),
+          detailsData?.[0]?.[DetailsFields.SEX_DETAILS] || updatedSexDetails(detailsData),
       };
     };
 

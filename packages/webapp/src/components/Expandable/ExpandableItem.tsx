@@ -87,12 +87,13 @@ export default function ExpandableItem({
         >
           {mainContent}
         </div>
-        <div
+
+        <button
           onClick={onIconClick}
-          className={clsx(styles.iconWrapper, iconClickOnly && styles.clickable, classes.icon)}
+          className={clsx(styles.iconButton, iconClickOnly && styles.clickable, classes.icon)}
         >
           {icons[isExpanded ? 'up' : 'down']}
-        </div>
+        </button>
       </div>
       <Collapse id={id} in={isExpanded} timeout="auto" unmountOnExit>
         {expandedContent}

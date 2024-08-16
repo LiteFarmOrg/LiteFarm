@@ -28,12 +28,15 @@ import { useAnimalOptions } from '../useAnimalOptions';
 import { STEPS } from '..';
 import { AnimalBasicsFormFields, DetailsFields } from '../types';
 import { AddAnimalsFormFields } from '../types';
-import { AnimalOrBatchKeys } from '../../types';
+import { AnimalOrBatchKeys, AnimalOrigins } from '../../types';
+
+// Workaround for watch() TypeScript errors with these interpolated strings
+type FieldType<T extends string> = `${typeof STEPS.DETAILS}.${number}.${T}`;
 
 const AddAnimalDetails = () => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const { t } = useTranslation(['animal', 'common', 'translation']);
-  const { control, getValues } = useFormContext<AddAnimalsFormFields>();
+  const { control, getValues, watch } = useFormContext<AddAnimalsFormFields>();
 
   const { fields, remove, replace } = useFieldArray({
     name: STEPS.DETAILS,
@@ -158,6 +161,22 @@ const AddAnimalDetails = () => {
 
     const isAnimal = field.animal_or_batch === AnimalOrBatchKeys.ANIMAL;
 
+    const countFieldName = `${namePrefix}.${DetailsFields.COUNT}` as FieldType<
+      typeof DetailsFields.COUNT
+    >;
+    const watchedCount = watch(countFieldName);
+
+    const originField = `${namePrefix}.${DetailsFields.ORIGIN}` as FieldType<
+      typeof DetailsFields.ORIGIN
+    >;
+    const watchedOrigin = watch(originField);
+
+    const origin = !watchedOrigin
+      ? undefined
+      : watchedOrigin === 1 // TODO enum
+        ? AnimalOrigins.BROUGHT_IN
+        : AnimalOrigins.BORN_AT_FARM;
+
     const commonProps = {
       itemKey: field.id,
       isExpanded: isExpanded,
@@ -177,7 +196,7 @@ const AddAnimalDetails = () => {
         number={isAnimal ? animalIndex : batchIndex}
         iconKey={'CUSTOM_ANIMAL'} // TODO: Need to get the key instead of label and pass
         isBatch={!isAnimal}
-        count={field.count}
+        count={!isAnimal ? watchedCount : undefined}
         sex={sexOptions.label}
       />
     );
@@ -193,7 +212,7 @@ const AddAnimalDetails = () => {
             tagPlacementOptions,
           }}
           otherDetailsProps={otherDetailsProps}
-          originProps={originProps}
+          originProps={{ ...originProps, origin }}
           namePrefix={namePrefix}
         />
       ) : (
@@ -201,7 +220,7 @@ const AddAnimalDetails = () => {
           key={field.id}
           generalDetailProps={generalDetailProps}
           otherDetailsProps={otherDetailsProps}
-          originProps={originProps}
+          originProps={{ ...originProps, origin }}
           namePrefix={namePrefix}
         />
       );

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -26,12 +26,10 @@ import BatchDetails from '../../../../components/Animals/AddBatchDetails';
 import { useCurrencySymbol } from '../../../hooks/useCurrencySymbol';
 import { useAnimalOptions } from '../useAnimalOptions';
 import { STEPS } from '..';
-import { AnimalBasicsFormFields, DetailsFields } from '../types';
+import { DetailsFields } from '../types';
 import { AddAnimalsFormFields } from '../types';
 import { AnimalOrBatchKeys, AnimalOrigins } from '../../types';
-
-// Workaround for watch() TypeScript errors with these interpolated strings
-type FieldType<T extends string> = `${typeof STEPS.DETAILS}.${number}.${T}`;
+import usePopulateDetails from './usePopulateDetails';
 
 const AddAnimalDetails = () => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
@@ -67,63 +65,8 @@ const AddAnimalDetails = () => {
     'origin',
   );
 
-  /* Populate details values based on basics data */
-  useEffect(() => {
-    const detailsArray: Array<Record<string, any>> = [];
-
-    const createAnimal = (
-      animalOrBatch: AnimalBasicsFormFields,
-      i: number,
-      transformedSexDetails?: number[],
-    ) => {
-      return {
-        [DetailsFields.TYPE]: animalOrBatch.type,
-        [DetailsFields.BREED]: animalOrBatch.breed,
-        [DetailsFields.SEX]: transformedSexDetails?.[i],
-        [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
-        [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,
-      };
-    };
-
-    const createBatch = (animalOrBatch: AnimalBasicsFormFields) => {
-      return {
-        [DetailsFields.TYPE]: animalOrBatch.type,
-        [DetailsFields.BREED]: animalOrBatch.breed,
-        [DetailsFields.COUNT]: animalOrBatch.count,
-        [DetailsFields.BATCH_NAME]: animalOrBatch.batch_name,
-        [DetailsFields.SEX_DETAILS]: animalOrBatch.sexDetails,
-        [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.BATCH,
-        [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,
-      };
-    };
-
-    getValues(STEPS.BASICS).forEach((animalOrBatch: AnimalBasicsFormFields) => {
-      const transformedSexDetails = animalOrBatch.sexDetails?.flatMap((sexDetail) =>
-        // Ouputs an array of ids, e.g. [1, 1, 1, 2, 2] */
-        Array(sexDetail.count).fill(sexDetail.id),
-      );
-
-      if (animalOrBatch.createIndividualProfiles) {
-        for (let i = 0; i < animalOrBatch.count; i++) {
-          detailsArray.push(createAnimal(animalOrBatch, i, transformedSexDetails));
-        }
-      } else {
-        detailsArray.push(createBatch(animalOrBatch));
-      }
-    });
-
-    const currentDetails = getValues(STEPS.DETAILS);
-    const updatedDetailsArray = detailsArray
-      .map((entity, index) => {
-        const origData = currentDetails[index];
-        return { ...origData, ...entity };
-      })
-      // Remove extra items if the count is less than the initial count
-      .slice(0, detailsArray.length);
-
-    // Update the details array
-    replace(updatedDetailsArray);
-  }, []);
+  /* Populate details form based on basics data */
+  usePopulateDetails(getValues, replace);
 
   /* Render logic */
   const animalElements: ReactElement[] = [];
@@ -156,19 +99,15 @@ const AddAnimalDetails = () => {
   ).length;
 
   fields.forEach((field, index) => {
-    const namePrefix = `${STEPS.DETAILS}.${index}`;
+    const namePrefix = `${STEPS.DETAILS}.${index}` as const;
     const isExpanded = expandedIds.includes(field.id);
 
     const isAnimal = field.animal_or_batch === AnimalOrBatchKeys.ANIMAL;
 
-    const countFieldName = `${namePrefix}.${DetailsFields.COUNT}` as FieldType<
-      typeof DetailsFields.COUNT
-    >;
+    const countFieldName = `${namePrefix}.${DetailsFields.COUNT}` as const;
     const watchedCount = watch(countFieldName);
 
-    const originField = `${namePrefix}.${DetailsFields.ORIGIN}` as FieldType<
-      typeof DetailsFields.ORIGIN
-    >;
+    const originField = `${namePrefix}.${DetailsFields.ORIGIN}` as const;
     const watchedOrigin = watch(originField);
 
     const origin = !watchedOrigin

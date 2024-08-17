@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useLayoutEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import styles from './styles.module.scss';
 import AddAnimalsFormCard from '../../../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
@@ -22,7 +21,7 @@ import { useAnimalOptions } from '../useAnimalOptions';
 import { BasicsFields, DetailsFields } from '../types';
 import { AddAnimalsFormFields } from '../types';
 import { STEPS } from '..';
-import { Details as SexDetailsType } from '../../../../components/Form/SexDetails/SexDetailsPopover';
+import { useUpdateBasics } from './useUpdateBasics';
 
 export const animalBasicsDefaultValues = {
   [BasicsFields.TYPE]: undefined,
@@ -48,85 +47,23 @@ const AddAnimalBasics = () => {
     'sexDetails',
   );
 
-  const detailsFields = getValues(STEPS.DETAILS);
-
-  // Update form values based on changes made within details, including removal
-  useLayoutEffect(() => {
-    if (!detailsFields.length) {
-      return;
-    }
-
-    const updatedSexDetails = (detailsData: any): SexDetailsType => {
-      return sexDetailsOptions.map((option: { id: number; label: string; count: number }) => ({
-        ...option,
-        count: detailsData.filter(({ sex }: { sex: number }) => sex === option.id).length,
-      }));
-    };
-
-    // Update fields based on the corresponding fields on the batch cards
-    const updatedBatchData = (detailsData: any) => {
-      return {
-        [BasicsFields.BATCH_NAME]: detailsData?.[0]?.[DetailsFields.BATCH_NAME],
-        [BasicsFields.COUNT]: detailsData?.[0]?.[DetailsFields.COUNT],
-        [BasicsFields.SEX_DETAILS]: detailsData?.[0]?.[DetailsFields.SEX_DETAILS],
-      };
-    };
-
-    // Generate new values based on interaction with the animal expandable items + sex radios
-    const generatedAnimalData = (detailsData: any) => {
-      return {
-        [BasicsFields.COUNT]: detailsData.length,
-        [BasicsFields.SEX_DETAILS]: updatedSexDetails(detailsData),
-      };
-    };
-
-    // Track basics cards with no corresponding details
-    const removalIndices: number[] = [];
-
-    const updatedBasicFields = fields.map((field, index) => {
-      const basicsCardId = field[BasicsFields.FIELD_ARRAY_ID];
-
-      const detailsData = detailsFields.filter(
-        (entity) => entity[DetailsFields.BASICS_FIELD_ARRAY_ID] === basicsCardId,
-      );
-
-      if (!detailsData.length) {
-        removalIndices.push(index);
-        return field;
-      } else {
-        return field[BasicsFields.CREATE_INDIVIDUAL_PROFILES]
-          ? {
-              ...field,
-              ...generatedAnimalData(detailsData),
-            }
-          : {
-              ...field,
-              ...updatedBatchData(detailsData),
-            };
-      }
-    });
-
-    // Remove cards that have no corresponding details
-    const filteredFields = updatedBasicFields.filter((_, index) => !removalIndices.includes(index));
-    replace(filteredFields);
-  }, [detailsFields, !!sexDetailsOptions]);
+  // Update basics form based on details data
+  useUpdateBasics(fields, replace);
 
   const onAddCard = (): void => {
     append(animalBasicsDefaultValues);
   };
 
   const onRemoveCard = (index: number): void => {
-    const basicsCardBeingRemoved = fields[index];
-
-    const basicsCardId = basicsCardBeingRemoved[BasicsFields.FIELD_ARRAY_ID];
-
     // Remove the corresponding details entries
+    const removedBasicsCardId = fields[index][BasicsFields.FIELD_ARRAY_ID];
     const detailsFields = getValues(STEPS.DETAILS);
     const updatedDetailsFields = detailsFields.filter(
-      (field) => field[DetailsFields.BASICS_FIELD_ARRAY_ID] !== basicsCardId,
+      (field) => field[DetailsFields.BASICS_FIELD_ARRAY_ID] !== removedBasicsCardId,
     );
     setValue(STEPS.DETAILS, updatedDetailsFields);
 
+    // Remove the basics card
     remove(index);
   };
 

@@ -76,7 +76,6 @@ const AddAnimalDetails = () => {
 
   const generalDetailProps = {
     sexOptions,
-    useOptions,
     sexDetailsOptions,
   };
 
@@ -118,6 +117,11 @@ const AddAnimalDetails = () => {
         ? AnimalOrigins.BROUGHT_IN
         : AnimalOrigins.BORN_AT_FARM;
 
+    const useOptionsForType = useOptions.find(
+      ({ default_type_id }: { default_type_id: string | null }) =>
+        default_type_id === `${parseUniqueDefaultId(field.type.value)}` || default_type_id === null,
+    );
+
     const commonProps = {
       itemKey: field.id,
       isExpanded: isExpanded,
@@ -146,7 +150,7 @@ const AddAnimalDetails = () => {
       field.animal_or_batch === AnimalOrBatchKeys.ANIMAL ? (
         <AnimalDetails
           key={field.id}
-          generalDetailProps={generalDetailProps}
+          generalDetailProps={{ ...generalDetailProps, useOptions: useOptionsForType.uses }}
           uniqueDetailsProps={{
             tagTypeOptions,
             tagColorOptions,
@@ -158,7 +162,7 @@ const AddAnimalDetails = () => {
       ) : (
         <BatchDetails
           key={field.id}
-          generalDetailProps={generalDetailProps}
+          generalDetailProps={{ ...generalDetailProps, useOptions: useOptionsForType.uses }}
           otherDetailsProps={otherDetailsProps}
           originProps={{ ...originProps, origin }}
           namePrefix={namePrefix}

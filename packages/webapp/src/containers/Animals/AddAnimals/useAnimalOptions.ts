@@ -19,6 +19,10 @@ import {
   useGetDefaultAnimalBreedsQuery,
   useGetCustomAnimalBreedsQuery,
   useGetAnimalSexesQuery,
+  useGetAnimalIdentifierTypesQuery,
+  useGetAnimalIdentifierColorsQuery,
+  useGetAnimalOriginsQuery,
+  useGetAnimalUsesQuery,
 } from '../../../store/api/apiSlice';
 import { useTranslation } from 'react-i18next';
 import { generateUniqueAnimalId } from '../../../util/animal';
@@ -44,6 +48,10 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
   const { data: defaultBreeds = [] } = useGetDefaultAnimalBreedsQuery();
   const { data: customBreeds = [] } = useGetCustomAnimalBreedsQuery();
   const { data: sexes = [] } = useGetAnimalSexesQuery();
+  const { data: identifierTypes = [] } = useGetAnimalIdentifierTypesQuery();
+  const { data: identifierColors = [] } = useGetAnimalIdentifierColorsQuery();
+  const { data: orgins = [] } = useGetAnimalOriginsQuery();
+  const { data: uses = [] } = useGetAnimalUsesQuery();
 
   const options: any = {};
 
@@ -97,50 +105,45 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
     }));
   }
 
-  // TODO: Replace with actual enum table values once API is complete
   if (optionTypes.includes('use')) {
-    options.useOptions = [
-      { label: 'Companionship', value: 0 },
-      { label: 'Food', value: 1 },
-      { label: 'Fiber', value: 2 },
-      { label: 'Milk', value: 3 },
-      { label: 'Meat', value: 4 },
-      { label: 'Breeding', value: 5 },
-    ];
+    options.useOptions = uses.map((animalType) => ({
+      default_type_id: animalType.default_type_id,
+      uses: animalType.uses.map((use) => ({
+        value: use.id,
+        label: t(`animal:USE.${use.key}`),
+      })),
+    }));
   }
 
   if (optionTypes.includes('tagType')) {
-    options.tagTypeOptions = [
-      { value: 1, label: 'Ear tags' },
-      { value: 2, label: 'Leg bands' },
-      { value: 3, label: 'Other' },
-    ];
+    options.tagTypeOptions = identifierTypes.map(({ id, key }) => ({
+      value: id,
+      label: t(`animal:TAG_TYPE.${key}`),
+    }));
   }
 
   if (optionTypes.includes('tagColor')) {
-    options.tagColorOptions = [
-      { value: 1, label: 'Yellow' },
-      { value: 2, label: 'White' },
-      { value: 3, label: 'Orange' },
-      { value: 4, label: 'Green' },
-      { value: 5, label: 'Blue' },
-      { value: 6, label: 'Red' },
-    ];
+    options.tagColorOptions = identifierColors.map(({ id, key }) => ({
+      value: id,
+      label: t(`animal:TAG_COLOR.${key}`),
+    }));
   }
 
+  // A string enum on the animal + animal_batch tables
   if (optionTypes.includes('organicStatus')) {
     options.organicStatusOptions = [
-      { value: 1, label: 'Non-Organic' },
-      { value: 2, label: 'Organic' },
-      { value: 3, label: 'Transitioning' },
+      { value: 'Non-Organic', label: t('common:NON_ORGANIC') },
+      { value: 'Organic', label: t('common:ORGANIC') },
+      { value: 'Transitional', label: t('common:TRANSITIONING') },
     ];
   }
 
   if (optionTypes.includes('origin')) {
-    options.originOptions = [
-      { value: 1, label: 'Brought in' },
-      { value: 2, label: 'Born at the farm' },
-    ];
+    options.originOptions = orgins.map(({ id, key }) => ({
+      value: id,
+      label: t(`animal:ORIGIN.${key}`),
+      key: key,
+    }));
   }
 
   return options;

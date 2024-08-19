@@ -59,7 +59,7 @@ export type AnimalInventory = {
 
 const { t } = i18n;
 
-const getDefaultAnimalIconName = (
+export const getDefaultAnimalIconName = (
   defaultAnimalTypes: DefaultAnimalType[],
   defaultTypeId: number | null,
 ) => {

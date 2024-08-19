@@ -57,6 +57,10 @@ export const generateUniqueAnimalId = (
   }
 };
 
+export const parseUniqueAnimalId = (uniqueId: string): number => {
+  return Number(uniqueId.split('_')[1]);
+};
+
 export const generateInventoryId = (
   key: AnimalOrBatchKeys,
   animalOrBatch: Animal | AnimalBatch,

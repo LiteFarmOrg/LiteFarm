@@ -25,6 +25,7 @@ import { generateUniqueAnimalId } from '../../../util/animal';
 import { ANIMAL_ID_PREFIX } from '../types';
 
 type OptionType =
+  | 'default_types'
   | 'type'
   | 'breed'
   | 'sex'
@@ -45,6 +46,11 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
   const { data: sexes = [] } = useGetAnimalSexesQuery();
 
   const options: any = {};
+
+  // For icons
+  if (optionTypes.includes('default_types')) {
+    options.defaultTypes = defaultTypes;
+  }
 
   if (optionTypes.includes('type')) {
     options.typeOptions = [

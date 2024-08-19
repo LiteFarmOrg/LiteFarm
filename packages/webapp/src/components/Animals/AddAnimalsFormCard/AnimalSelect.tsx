@@ -22,7 +22,7 @@ import { Error } from '../../Typography';
 
 export type Option = {
   label: string;
-  value: string | number;
+  value: string;
   type?: string;
 };
 

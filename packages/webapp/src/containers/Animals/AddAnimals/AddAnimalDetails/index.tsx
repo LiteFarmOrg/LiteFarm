@@ -29,6 +29,8 @@ import { STEPS } from '..';
 import { DetailsFields } from '../types';
 import { AddAnimalsFormFields } from '../types';
 import { AnimalOrBatchKeys, AnimalOrigins } from '../../types';
+import { parseUniqueAnimalId } from '../../../../util/animal';
+import { getDefaultAnimalIconName } from '../../Inventory/useAnimalInventory';
 import usePopulateDetails from './usePopulateDetails';
 
 const AddAnimalDetails = () => {
@@ -46,6 +48,7 @@ const AddAnimalDetails = () => {
   };
 
   const {
+    defaultTypes,
     sexOptions,
     sexDetailsOptions,
     useOptions,
@@ -54,6 +57,7 @@ const AddAnimalDetails = () => {
     organicStatusOptions,
     originOptions,
   } = useAnimalOptions(
+    'default_types',
     'sex',
     'sexDetails',
     'use',
@@ -131,7 +135,7 @@ const AddAnimalDetails = () => {
         breed={field.breed?.label}
         totalCount={isAnimal ? animalCount : batchCount}
         number={isAnimal ? animalIndex : batchIndex}
-        iconKey={'CUSTOM_ANIMAL'} // TODO: Need to get the key instead of label and pass
+        iconKey={getDefaultAnimalIconName(defaultTypes, parseUniqueAnimalId(field.type.value))}
         isBatch={!isAnimal}
         count={!isAnimal ? watchedCount : undefined}
         sex={sexOptions.label}

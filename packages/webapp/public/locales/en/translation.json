@@ -38,8 +38,6 @@
       "SUPPLIER": "Type in a supplier",
       "TAG_COLOUR": "What colour is the tag?",
       "TAG_NUMBER": "Type in the tag number",
-      "TAG_PLACEMENT": "Where is the tag located?",
-      "TAG_PLACEMENT_INFO": "Tell us where the tag is",
       "TAG_TYPE": "What is the tag type?",
       "TAG_TYPE_INFO": "Please describe your tag type"
     },
@@ -294,8 +292,6 @@
       "SUPPLIER": "Supplier",
       "TAG_COLOUR": "Tag colour",
       "TAG_NUMBER": "Tag number",
-      "TAG_PLACEMENT": "Tag placement",
-      "TAG_PLACEMENT_INFO": "Specify tag placement",
       "TAG_TYPE": "Tag type",
       "WEANING_DATE": "Weaning date"
     },

@@ -41,8 +41,6 @@
       "SUPPLIER": "MISSING",
       "TAG_COLOUR": "MISSING",
       "TAG_NUMBER": "MISSING",
-      "TAG_PLACEMENT": "MISSING",
-      "TAG_PLACEMENT_INFO": "MISSING",
       "TAG_TYPE": "MISSING",
       "TAG_TYPE_INFO": "MISSING"
     },
@@ -299,8 +297,6 @@
       "SUPPLIER": "MISSING",
       "TAG_COLOUR": "MISSING",
       "TAG_NUMBER": "MISSING",
-      "TAG_PLACEMENT": "MISSING",
-      "TAG_PLACEMENT_INFO": "MISSING",
       "TAG_TYPE": "MISSING",
       "WEANING_DATE": "MISSING"
     },

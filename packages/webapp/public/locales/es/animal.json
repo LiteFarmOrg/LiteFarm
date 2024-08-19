@@ -29,12 +29,6 @@
     "WHITE": "MISSING",
     "YELLOW": "MISSING"
   },
-  "TAG_PLACEMENT": {
-    "LEFT_EAR": "MISSING",
-    "LEFT_LEG": "MISSING",
-    "RIGHT_EAR": "MISSING",
-    "RIGHT_LEG": "MISSING"
-  },
   "TAG_TYPE": {
     "EAR_TAG": "MISSING",
     "LEG_BAND": "MISSING"

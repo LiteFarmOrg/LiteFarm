@@ -15,10 +15,10 @@
 
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import GeneralDetails, { type GeneralDetailsProps } from './General';
-import UniqueDetails, { type UniqueDetailsProps } from './Unique';
-import OtherDetails, { type OtherDetailsProps } from './Other';
-import Origin, { type OriginProps } from './Origin';
+import GeneralDetails, { type GeneralDetailsProps } from '../DetailCards/General';
+import UniqueDetails, { type UniqueDetailsProps } from '../DetailCards/Unique';
+import OtherDetails, { type OtherDetailsProps } from '../DetailCards/Other';
+import Origin, { type OriginProps } from '../DetailCards/Origin';
 import ExpandableItem from '../../Expandable/ExpandableItem';
 import useExpandable from '../../Expandable/useExpandableItem';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';

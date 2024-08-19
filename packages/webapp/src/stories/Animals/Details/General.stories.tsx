@@ -19,7 +19,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import GeneralDetails, {
   GeneralDetailsProps,
-} from '../../../components/Animals/AddAnimalsDetails/General';
+} from '../../../components/Animals/DetailCards/General';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { DetailsFields, FormMethods } from '../../../containers/Animals/AddAnimals/types';
 

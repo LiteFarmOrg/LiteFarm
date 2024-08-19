@@ -17,7 +17,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
-import Other, { OtherDetailsProps } from '../../../components/Animals/AddAnimalsDetails/Other';
+import Other, { OtherDetailsProps } from '../../../components/Animals/DetailCards/Other';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
 import { organicStatusOptions } from './mockData';

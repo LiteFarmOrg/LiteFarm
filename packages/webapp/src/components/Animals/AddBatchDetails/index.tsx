@@ -15,9 +15,9 @@
 
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import GeneralDetails, { type GeneralDetailsProps } from '../AddAnimalsDetails/General';
-import OtherDetails, { type OtherDetailsProps } from '../AddAnimalsDetails/Other';
-import Origin, { type OriginProps } from '../AddAnimalsDetails/Origin';
+import GeneralDetails, { type GeneralDetailsProps } from '../DetailCards/General';
+import OtherDetails, { type OtherDetailsProps } from '../DetailCards/Other';
+import Origin, { type OriginProps } from '../DetailCards/Origin';
 import ExpandableItem from '../../Expandable/ExpandableItem';
 import useExpandable from '../../Expandable/useExpandableItem';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';

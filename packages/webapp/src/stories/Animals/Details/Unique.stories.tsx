@@ -17,9 +17,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
-import UniqueDetails, {
-  UniqueDetailsProps,
-} from '../../../components/Animals/AddAnimalsDetails/Unique';
+import UniqueDetails, { UniqueDetailsProps } from '../../../components/Animals/DetailCards/Unique';
 import { DetailsFields, FormMethods } from '../../../containers/Animals/AddAnimals/types';
 import { tagTypeOptions, tagColorOptions } from './mockData';
 

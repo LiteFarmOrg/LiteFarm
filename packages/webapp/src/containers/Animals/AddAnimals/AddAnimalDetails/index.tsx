@@ -29,7 +29,7 @@ import { STEPS } from '..';
 import { DetailsFields } from '../types';
 import { AddAnimalsFormFields } from '../types';
 import { AnimalOrBatchKeys, AnimalOrigins } from '../../types';
-import { parseUniqueAnimalId } from '../../../../util/animal';
+import { parseUniqueDefaultId } from '../../../../util/animal';
 import { getDefaultAnimalIconName } from '../../Inventory/useAnimalInventory';
 import usePopulateDetails from './usePopulateDetails';
 
@@ -135,7 +135,7 @@ const AddAnimalDetails = () => {
         breed={field.breed?.label}
         totalCount={isAnimal ? animalCount : batchCount}
         number={isAnimal ? animalIndex : batchIndex}
-        iconKey={getDefaultAnimalIconName(defaultTypes, parseUniqueAnimalId(field.type.value))}
+        iconKey={getDefaultAnimalIconName(defaultTypes, parseUniqueDefaultId(field.type.value))}
         isBatch={!isAnimal}
         count={!isAnimal ? watchedCount : undefined}
         sex={sexOptions.label}

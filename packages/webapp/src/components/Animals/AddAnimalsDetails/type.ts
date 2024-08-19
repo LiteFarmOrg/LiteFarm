@@ -15,6 +15,7 @@
 
 import { UseFormReturn } from 'react-hook-form';
 import { TFunction } from 'react-i18next';
+import { Option as AnimalSelectOption } from '../AddAnimalsFormCard/AnimalSelect';
 
 export type ReactSelectOption<T extends string | number> = {
   label: string;
@@ -28,6 +29,8 @@ export enum DetailsFields {
   BREED = 'breed',
   SEX = 'sex',
   USE = 'use',
+  COUNT = 'count',
+  SEX_DETAILS = 'sexDetails',
   OTHER_USE = 'other_use',
 
   // UNIQUE
@@ -36,8 +39,6 @@ export enum DetailsFields {
   TAG_COLOR = 'identifier_color_id',
   TAG_TYPE = 'identifier_type',
   TAG_TYPE_INFO = 'identifier_type_info',
-  TAG_PLACEMENT = 'identifier_placement_id',
-  TAG_PLACEMENT_INFO = 'identifier_placement_info',
 
   // OTHER
   WEANING_DATE = 'weaning_date',
@@ -55,12 +56,11 @@ export enum DetailsFields {
 }
 
 export type Option = {
-  [DetailsFields.TYPE]: ReactSelectOption<string>; // TODO: LF-4159
-  [DetailsFields.BREED]: ReactSelectOption<string>; // TODO: LF-4159
-  [DetailsFields.USE]: ReactSelectOption<number | string>; // TODO: LF-4159
+  [DetailsFields.TYPE]: AnimalSelectOption;
+  [DetailsFields.BREED]: AnimalSelectOption;
+  [DetailsFields.USE]: ReactSelectOption<number>;
   [DetailsFields.TAG_COLOR]: ReactSelectOption<number>;
   [DetailsFields.TAG_TYPE]: ReactSelectOption<number>;
-  [DetailsFields.TAG_PLACEMENT]: ReactSelectOption<number>;
   [DetailsFields.ORGANIC_STATUS]: ReactSelectOption<number>;
   [DetailsFields.SEX]: ReactSelectOption<number>;
   [DetailsFields.ORIGIN]: ReactSelectOption<number>;
@@ -77,8 +77,6 @@ export type FormValues = {
   [DetailsFields.TAG_COLOR]?: Option[DetailsFields.TAG_COLOR];
   [DetailsFields.TAG_TYPE]?: Option[DetailsFields.TAG_TYPE];
   [DetailsFields.TAG_TYPE_INFO]?: string;
-  [DetailsFields.TAG_PLACEMENT]?: Option[DetailsFields.TAG_PLACEMENT] | null;
-  [DetailsFields.TAG_PLACEMENT_INFO]?: string;
   [DetailsFields.WEANING_DATE]?: string;
   [DetailsFields.ORGANIC_STATUS]?: Option[DetailsFields.TAG_TYPE];
   [DetailsFields.OTHER_DETAILS]?: string;
@@ -91,7 +89,7 @@ export type FormValues = {
   [DetailsFields.PRICE]?: number;
 };
 
-export interface FormMethods extends UseFormReturn<FormValues> {}
+export interface FormMethods extends UseFormReturn<Partial<FormValues>> {}
 
 export type CommonDetailsProps = {
   t: TFunction;

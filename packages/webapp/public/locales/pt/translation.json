@@ -1,6 +1,7 @@
 {
   "ADD_ANIMAL": {
     "ADD_ANIMALS": "MISSING",
+    "ADD_ANIMALS_TITLE": "MISSING",
     "ADD_TO_INVENTORY": "MISSING",
     "ANIMAL_BASICS": "MISSING",
     "ANIMAL_DETAILS": "MISSING",
@@ -18,10 +19,13 @@
     "CREATE_INDIVIDUAL_PROFILES": "MISSING",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "MISSING",
     "GENERAL_DETAILS": "MISSING",
+    "GENERAL_DETAILS_BATCH": "MISSING",
     "GROUP_NAME": "MISSING",
     "GROUP_NAME_PLACEHOLDER": "MISSING",
     "ORIGIN": "MISSING",
+    "ORIGIN_BATCH": "MISSING",
     "OTHER_DETAILS": "MISSING",
+    "OTHER_DETAILS_BATCH": "MISSING",
     "OUT_OF_COUNT_one": "MISSING",
     "OUT_OF_COUNT_many": "MISSING",
     "OUT_OF_COUNT_other": "MISSING",
@@ -37,8 +41,6 @@
       "SUPPLIER": "MISSING",
       "TAG_COLOUR": "MISSING",
       "TAG_NUMBER": "MISSING",
-      "TAG_PLACEMENT": "MISSING",
-      "TAG_PLACEMENT_INFO": "MISSING",
       "TAG_TYPE": "MISSING",
       "TAG_TYPE_INFO": "MISSING"
     },
@@ -166,6 +168,7 @@
     "IRRIGATION_VIEW": {
       "BRAND_TOOLTIP": "Esta tarefa é para regar seu cultivo. Se você deseja instalar a irrigação, crie uma tarefa de trabalho de campo.",
       "CALCULATE_WATER_USAGE": "Calcular uso de água",
+      "CALCULATE_WATER_USAGE_WARNING": "MISSING",
       "DEFAULT_APPLICATION_DEPTH": "Definir como profundidade de aplicação padrão para esta área",
       "DEFAULT_LOCATION_FLOW_RATE": "Definir como vazão padrão para esta área",
       "DEPTH": "Profundidade",
@@ -294,8 +297,6 @@
       "SUPPLIER": "MISSING",
       "TAG_COLOUR": "MISSING",
       "TAG_NUMBER": "MISSING",
-      "TAG_PLACEMENT": "MISSING",
-      "TAG_PLACEMENT_INFO": "MISSING",
       "TAG_TYPE": "MISSING",
       "WEANING_DATE": "MISSING"
     },

@@ -84,7 +84,6 @@ class Animal extends baseModel {
         birth_date: { type: ['string', 'null'], format: 'date' },
         identifier: { type: ['string', 'null'] },
         identifier_color_id: { type: ['integer', 'null'] },
-        identifier_placement_id: { type: ['integer', 'null'] },
         origin_id: { type: ['integer', 'null'] },
         dam: { type: ['string', 'null'] },
         sire: { type: ['string', 'null'] },

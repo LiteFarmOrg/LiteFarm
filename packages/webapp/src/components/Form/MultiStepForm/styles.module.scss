@@ -13,16 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import express from 'express';
+@import '../../../assets/mixin.scss';
 
-const router = express.Router();
-import checkScope from '../middleware/acl/checkScope.js';
-import animalIdentifierPlacementController from '../controllers/animalIdentifierPlacementController.js';
+.contentWrapper {
+  padding-bottom: 88px; // button height 72px + button top 16px
 
-router.get(
-  '/',
-  checkScope(['get:animal_identifier_placements']),
-  animalIdentifierPlacementController.getAnimalIdentifierPlacements(),
-);
-
-export default router;
+  @include sm-breakpoint {
+    padding-bottom: 104px; // button height 72px + button top 16px + button bottom 16px
+  }
+}

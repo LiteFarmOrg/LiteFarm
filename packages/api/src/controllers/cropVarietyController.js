@@ -1,15 +1,9 @@
 import CropVarietyModel from '../models/cropVarietyModel.js';
 import ManagementPlanModel from '../models/managementPlanModel.js';
 import CropModel from '../models/cropModel.js';
-import {
-  getPublicS3BucketName,
-  s3,
-  imaginaryPost,
-  getPublicS3Url,
-} from '../util/digitalOceanSpaces.js';
-import { v4 as uuidv4 } from 'uuid';
 import baseController from './baseController.js';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { uploadPublicImage } from '../util/imageUpload.js';
+
 const { post } = baseController;
 
 const cropVarietyController = {
@@ -131,40 +125,7 @@ const cropVarietyController = {
   },
   uploadCropImage() {
     return async (req, res, next) => {
-      try {
-        const TYPE = 'webp';
-        const fileName = `crop_variety/${uuidv4()}.${TYPE}`;
-
-        const THUMBNAIL_FORMAT = 'webp';
-        const LENGTH = '208';
-
-        const compressedImage = await imaginaryPost(
-          req.file,
-          {
-            width: LENGTH,
-            height: LENGTH,
-            type: THUMBNAIL_FORMAT,
-            aspectratio: '1:1',
-          },
-          { endpoint: 'smartcrop' },
-        );
-
-        await s3.send(
-          new PutObjectCommand({
-            Body: compressedImage.data,
-            Bucket: getPublicS3BucketName(),
-            Key: fileName,
-            ACL: 'public-read',
-          }),
-        );
-
-        return res.status(201).json({
-          url: `${getPublicS3Url()}/${fileName}`,
-        });
-      } catch (error) {
-        console.log(error);
-        return res.status(400).send('Fail to upload image');
-      }
+      await uploadPublicImage('crop_variety')(req, res, next);
     };
   },
 };

@@ -104,6 +104,26 @@ export interface AnimalSex {
   key: string;
 }
 
+export interface AnimalIdentifierType {
+  id: number;
+  key: string;
+}
+
+export interface AnimalIdentifierColor {
+  id: number;
+  key: string;
+}
+
+export interface AnimalOrigin {
+  id: number;
+  key: string;
+}
+
+export interface AnimalUse {
+  default_type_id: number | null;
+  uses: { id: string; key: string }[];
+}
+
 export type AnimalRemovalReasonKeys =
   | 'SOLD'
   | 'SLAUGHTERED_FOR_SALE'

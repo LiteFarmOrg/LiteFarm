@@ -17,7 +17,7 @@ import { Controller, FieldError, FieldValues, UseControllerProps } from 'react-h
 import { CreatableSelect } from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import { RefObject } from 'react';
-import { SelectInstance } from 'react-select';
+import { GroupBase, SelectInstance, OptionsOrGroups } from 'react-select';
 import { Error } from '../../Typography';
 
 export type Option = {
@@ -27,7 +27,7 @@ export type Option = {
 };
 
 export type AnimalTypeSelectProps = {
-  typeOptions: Option[];
+  typeOptions: OptionsOrGroups<Option, GroupBase<Option>>;
   onTypeChange?: (Option: Option | null) => void;
   error?: FieldError;
 };
@@ -50,8 +50,7 @@ export function AnimalTypeSelect<T extends FieldValues>({
           <CreatableSelect
             label={t('ADD_ANIMAL.TYPE')}
             placeholder={t('ADD_ANIMAL.TYPE_PLACEHOLDER')}
-            /* @ts-ignore */
-            options={typeOptions} // TODO: fix ts-ignore
+            options={typeOptions}
             onChange={(option) => {
               onChange(option);
               onTypeChange?.(option);

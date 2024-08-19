@@ -17,15 +17,21 @@
 
 .cardContainer {
   padding: 16px;
-  display: flex;
-  flex-flow: row wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 
-  > div {
-    width: 400px;
+  @include md-breakpoint {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  @include lg-breakpoint {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    // https://stackoverflow.com/questions/47601564/equal-width-columns-in-css-grid
   }
 
   @include xs-breakpoint {
+    display: flex;
     flex-flow: column nowrap;
     align-items: center;
 

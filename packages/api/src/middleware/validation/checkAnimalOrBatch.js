@@ -57,6 +57,10 @@ export function checkEditAnimalOrBatch(animalOrBatchKey) {
 export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
   return async (req, res, next) => {
     try {
+      if (!Array.isArray(req.body)) {
+        return res.status(400).send('Request body should be an array');
+      }
+
       for (const animalOrBatch of req.body) {
         const { animal_removal_reason_id, removal_date } = animalOrBatch;
         if (!animal_removal_reason_id || !removal_date) {

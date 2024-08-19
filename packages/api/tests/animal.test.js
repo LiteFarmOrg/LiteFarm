@@ -896,7 +896,7 @@ describe('Animal Tests', () => {
           },
         ],
       );
-      console.log(res);
+
       expect(res).toMatchObject({
         status: 400,
         body: {

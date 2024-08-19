@@ -21,7 +21,7 @@ import UniqueDetails, {
   UniqueDetailsProps,
 } from '../../../components/Animals/AddAnimalsDetails/Unique';
 import { DetailsFields, FormMethods } from '../../../containers/Animals/AddAnimals/types';
-import { tagTypeOptions, tagColorOptions, tagPlacementOptions } from './mockData';
+import { tagTypeOptions, tagColorOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<UniqueDetailsProps> = {
@@ -33,17 +33,11 @@ const meta: Meta<UniqueDetailsProps> = {
       const { t } = useTranslation();
       const formMethods: FormMethods = useForm({ mode: 'onBlur' });
       const tagType = formMethods.watch(DetailsFields.TAG_TYPE);
-      const tagPlacement = formMethods.watch(DetailsFields.TAG_PLACEMENT);
       const shouldShowTagTypeInput = tagType?.label === 'Other';
-      const shouldShowTagPlacementInput = tagPlacement?.label === 'Other';
 
       return (
         <FormProvider {...formMethods}>
-          <Story
-            t={t}
-            shouldShowTagTypeInput={shouldShowTagTypeInput}
-            shouldShowTagPlacementInput={shouldShowTagPlacementInput}
-          />
+          <Story t={t} shouldShowTagTypeInput={shouldShowTagTypeInput} />
         </FormProvider>
       );
     },
@@ -56,6 +50,6 @@ export default meta;
 type Story = StoryObj<typeof UniqueDetails>;
 
 export const Unique: Story = {
-  args: { tagTypeOptions, tagColorOptions, tagPlacementOptions },
+  args: { tagTypeOptions, tagColorOptions },
   render: (args, context) => <UniqueDetails {...args} {...context} />,
 };

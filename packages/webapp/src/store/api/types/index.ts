@@ -31,7 +31,6 @@ export interface Animal {
   id: number;
   identifier: string | null;
   identifier_color_id: number | null;
-  identifier_placement_id: number | null;
   internal_identifier: number;
   name: string | null;
   notes: string | null;

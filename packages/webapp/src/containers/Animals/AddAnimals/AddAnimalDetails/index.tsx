@@ -51,7 +51,6 @@ const AddAnimalDetails = () => {
     useOptions,
     tagTypeOptions,
     tagColorOptions,
-    tagPlacementOptions,
     organicStatusOptions,
     originOptions,
   } = useAnimalOptions(
@@ -60,7 +59,6 @@ const AddAnimalDetails = () => {
     'use',
     'tagType',
     'tagColor',
-    'tagPlacement',
     'organicStatus',
     'origin',
   );
@@ -148,7 +146,6 @@ const AddAnimalDetails = () => {
           uniqueDetailsProps={{
             tagTypeOptions,
             tagColorOptions,
-            tagPlacementOptions,
           }}
           otherDetailsProps={otherDetailsProps}
           originProps={{ ...originProps, origin }}

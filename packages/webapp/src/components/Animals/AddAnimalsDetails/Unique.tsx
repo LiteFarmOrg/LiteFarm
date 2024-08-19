@@ -26,9 +26,7 @@ import styles from './styles.module.scss';
 export type UniqueDetailsProps = CommonDetailsProps & {
   tagTypeOptions: Option[DetailsFields.TAG_TYPE][];
   tagColorOptions: Option[DetailsFields.TAG_COLOR][];
-  tagPlacementOptions: Option[DetailsFields.TAG_PLACEMENT][];
   shouldShowTagTypeInput?: boolean;
-  shouldShowTagPlacementInput?: boolean;
   namePrefix?: string;
 };
 
@@ -36,9 +34,7 @@ const UniqueDetails = ({
   t,
   tagTypeOptions,
   tagColorOptions,
-  tagPlacementOptions,
   shouldShowTagTypeInput,
-  shouldShowTagPlacementInput,
   namePrefix = '',
 }: UniqueDetailsProps) => {
   const {
@@ -121,36 +117,6 @@ const UniqueDetails = ({
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_TYPE_INFO')}
             errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.TAG_TYPE_INFO}`)}
-          />
-        </>
-      )}
-      <Controller
-        control={control}
-        name={`${namePrefix}.${DetailsFields.TAG_PLACEMENT}`}
-        render={({ field: { onChange, value } }) => (
-          <ReactSelect
-            label={t('ANIMAL.ATTRIBUTE.TAG_PLACEMENT')}
-            optional
-            value={value}
-            onChange={onChange}
-            options={tagPlacementOptions}
-            placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_PLACEMENT')}
-          />
-        )}
-      />
-      {shouldShowTagPlacementInput && (
-        <>
-          {/* @ts-ignore */}
-          <Input
-            type="text"
-            label={t('ANIMAL.ATTRIBUTE.TAG_PLACEMENT_INFO')}
-            hookFormRegister={register(`${namePrefix}.${DetailsFields.TAG_PLACEMENT_INFO}`, {
-              maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
-            })}
-            trigger={trigger}
-            optional
-            placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_PLACEMENT_INFO')}
-            errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.TAG_PLACEMENT_INFO}`)}
           />
         </>
       )}

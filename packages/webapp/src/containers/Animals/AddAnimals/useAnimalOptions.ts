@@ -32,7 +32,6 @@ type OptionType =
   | 'use'
   | 'tagType'
   | 'tagColor'
-  | 'tagPlacement'
   | 'organicStatus'
   | 'origin';
 
@@ -120,16 +119,6 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
       { value: 4, label: 'Green' },
       { value: 5, label: 'Blue' },
       { value: 6, label: 'Red' },
-    ];
-  }
-
-  if (optionTypes.includes('tagPlacement')) {
-    options.tagPlacementOptions = [
-      { value: 1, label: 'Left ear' },
-      { value: 2, label: 'Right ear' },
-      { value: 3, label: 'Left leg' },
-      { value: 4, label: 'Right leg' },
-      { value: 5, label: 'Other' },
     ];
   }
 

@@ -2,7 +2,7 @@
   "ADD_ANIMAL": {
     "ADD_ANIMALS": "Add animals",
     "ADD_ANIMALS_TITLE": "Add Animals",
-    "ADD_TO_INVENTORY": "Add animal to your inventory",
+    "ADD_TO_INVENTORY": "Add animals to your inventory",
     "ANIMAL_BASICS": "Animal basics",
     "ANIMAL_DETAILS": "Animal details",
     "ANIMALS_TOTAL_one": "{{count}} animal total",

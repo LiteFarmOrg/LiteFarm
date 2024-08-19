@@ -2,6 +2,7 @@
   "ADD_ANIMAL": {
     "ADD_ANIMALS": "Add animals",
     "ADD_ANIMALS_TITLE": "Add Animals",
+    "ADD_DETAILS_INFO": "Fill in your animal details below or save and pick this up later on.",
     "ADD_TO_INVENTORY": "Add animal to your inventory",
     "ANIMAL_BASICS": "Animal basics",
     "ANIMAL_DETAILS": "Animal details",

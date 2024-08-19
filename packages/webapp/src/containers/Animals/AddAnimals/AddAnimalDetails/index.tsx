@@ -33,7 +33,7 @@ import usePopulateDetails from './usePopulateDetails';
 
 const AddAnimalDetails = () => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
-  const { t } = useTranslation(['animal', 'common', 'translation']);
+  const { t } = useTranslation();
   const { control, getValues, watch } = useFormContext<AddAnimalsFormFields>();
 
   const { fields, remove, replace } = useFieldArray({
@@ -191,17 +191,19 @@ const AddAnimalDetails = () => {
       <Semibold>
         {title} ({count})
       </Semibold>
-      <Info>Fill in your animal details below or save and pick this up later on.</Info>
+      <Info>{t('ADD_ANIMAL.ADD_DETAILS_INFO')}</Info>
     </div>
   );
 
   return (
     <div className={styles.container}>
-      {!!animalCount && <SectionHeader title="Individuals" count={animalCount} />}
+      {!!animalCount && (
+        <SectionHeader title={t('ANIMAL.FILTER.INDIVIDUALS')} count={animalCount} />
+      )}
 
       {animalElements}
 
-      {!!batchCount && <SectionHeader title="Batches" count={batchCount} />}
+      {!!batchCount && <SectionHeader title={t('ANIMAL.FILTER.BATCHES')} count={batchCount} />}
 
       {batchElements}
     </div>

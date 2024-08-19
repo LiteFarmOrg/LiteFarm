@@ -81,6 +81,16 @@ describe('Animal Tests', () => {
 
   const postRequestAsPromise = util.promisify(postRequest);
 
+  async function removeRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
+    return await chai
+      .request(server)
+      .patch('/animals/remove')
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data);
+  }
+
   async function patchRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
     return await chai
       .request(server)
@@ -736,7 +746,7 @@ describe('Animal Tests', () => {
           custom_type_id: customAnimalType.id,
         });
 
-        const res = await patchRequest(
+        const res = await removeRequest(
           {
             user_id: user.user_id,
             farm_id: mainFarm.farm_id,
@@ -782,7 +792,7 @@ describe('Animal Tests', () => {
           default_type_id: defaultTypeId,
         });
 
-        const res = await patchRequest(
+        const res = await removeRequest(
           {
             user_id: user.user_id,
             farm_id: mainFarm.farm_id,
@@ -813,7 +823,7 @@ describe('Animal Tests', () => {
         default_type_id: defaultTypeId,
       });
 
-      const res = await patchRequest(
+      const res = await removeRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -842,7 +852,7 @@ describe('Animal Tests', () => {
         default_type_id: defaultTypeId,
       });
 
-      const res = await patchRequest(
+      const res = await removeRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -856,12 +866,8 @@ describe('Animal Tests', () => {
         ],
       );
 
-      expect(res).toMatchObject({
-        status: 400,
-        body: {
-          type: 'CheckViolation',
-        },
-      });
+      expect(res.status).toBe(400);
+      expect(res.error.text).toBe('Must send reason and date of removal');
 
       // Check database
       const animalRecord = await AnimalModel.query().findById(animal.id);
@@ -876,7 +882,7 @@ describe('Animal Tests', () => {
         default_type_id: defaultTypeId,
       });
 
-      const res = await patchRequest(
+      const res = await removeRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -890,12 +896,12 @@ describe('Animal Tests', () => {
           },
         ],
       );
-
+      console.log(res);
       expect(res).toMatchObject({
         status: 400,
         body: {
           error: 'Invalid ids',
-          invalidAnimalIds: [animal.id],
+          invalidIds: [animal.id],
         },
       });
 

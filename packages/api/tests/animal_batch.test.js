@@ -80,6 +80,16 @@ describe('Animal Batch Tests', () => {
 
   const postRequestAsPromise = util.promisify(postRequest);
 
+  async function removeRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
+    return await chai
+      .request(server)
+      .patch('/animal_batches/remove')
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data);
+  }
+
   async function patchRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
     return await chai
       .request(server)
@@ -730,7 +740,7 @@ describe('Animal Batch Tests', () => {
           default_type_id: defaultTypeId,
         });
 
-        const res = await patchRequest(
+        const res = await removeRequest(
           {
             user_id: user.user_id,
             farm_id: mainFarm.farm_id,
@@ -777,7 +787,7 @@ describe('Animal Batch Tests', () => {
           default_type_id: defaultTypeId,
         });
 
-        const res = await patchRequest(
+        const res = await removeRequest(
           {
             user_id: user.user_id,
             farm_id: mainFarm.farm_id,
@@ -811,7 +821,7 @@ describe('Animal Batch Tests', () => {
         default_type_id: defaultTypeId,
       });
 
-      const res = await patchRequest(
+      const res = await removeRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -845,7 +855,7 @@ describe('Animal Batch Tests', () => {
         default_type_id: defaultTypeId,
       });
 
-      const res = await patchRequest(
+      const res = await removeRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -859,12 +869,8 @@ describe('Animal Batch Tests', () => {
         ],
       );
 
-      expect(res).toMatchObject({
-        status: 400,
-        body: {
-          type: 'CheckViolation',
-        },
-      });
+      expect(res.status).toBe(400);
+      expect(res.error.text).toBe('Must send reason and date of removal');
 
       // Check database
       const batchRecord = await AnimalBatchModel.query().findById(animalBatch.id);
@@ -880,7 +886,7 @@ describe('Animal Batch Tests', () => {
         default_type_id: defaultTypeId,
       });
 
-      const res = await patchRequest(
+      const res = await removeRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -899,7 +905,7 @@ describe('Animal Batch Tests', () => {
         status: 400,
         body: {
           error: 'Invalid ids',
-          invalidAnimalBatchIds: [animalBatch.id],
+          invalidIds: [animalBatch.id],
         },
       });
 

@@ -125,6 +125,9 @@ const AddAnimalDetails = () => {
         default_type_id === `${parseUniqueDefaultId(field.type.value)}` || default_type_id === null,
     );
 
+    const watchedUse = watch(`${namePrefix}.${DetailsFields.USE}`) as Option[DetailsFields.USE][];
+    const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
+
     const commonProps = {
       itemKey: field.id,
       isExpanded: isExpanded,
@@ -153,7 +156,11 @@ const AddAnimalDetails = () => {
       field.animal_or_batch === AnimalOrBatchKeys.ANIMAL ? (
         <AnimalDetails
           key={field.id}
-          generalDetailProps={{ ...generalDetailProps, useOptions: useOptionsForType.uses }}
+          generalDetailProps={{
+            ...generalDetailProps,
+            useOptions: useOptionsForType.uses,
+            isOtherUseSelected,
+          }}
           uniqueDetailsProps={{
             tagTypeOptions,
             tagColorOptions,
@@ -165,7 +172,11 @@ const AddAnimalDetails = () => {
       ) : (
         <BatchDetails
           key={field.id}
-          generalDetailProps={{ ...generalDetailProps, useOptions: useOptionsForType.uses }}
+          generalDetailProps={{
+            ...generalDetailProps,
+            useOptions: useOptionsForType.uses,
+            isOtherUseSelected,
+          }}
           otherDetailsProps={otherDetailsProps}
           originProps={{ ...originProps, origin }}
           namePrefix={namePrefix}

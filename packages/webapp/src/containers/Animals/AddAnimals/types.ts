@@ -80,6 +80,7 @@ export enum DetailsFields {
 export type ReactSelectOption<T extends string | number> = {
   label: string;
   value: T;
+  key?: string;
 };
 
 export type Option = {

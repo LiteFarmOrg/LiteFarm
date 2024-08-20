@@ -111,6 +111,7 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
       uses: animalType.uses.map((use) => ({
         value: use.id,
         label: t(`animal:USE.${use.key}`),
+        key: use.key,
       })),
     }));
   }

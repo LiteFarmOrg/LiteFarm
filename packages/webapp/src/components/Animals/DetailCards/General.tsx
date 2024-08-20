@@ -189,12 +189,12 @@ const GeneralDetails = ({
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.OTHER_USE')}
-            hookFormRegister={register(DetailsFields.OTHER_USE, {
+            hookFormRegister={register(`${namePrefix}.${DetailsFields.OTHER_USE}`, {
               maxLength: hookFormMaxCharsValidation(255),
             })}
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.OTHER_USE')}
-            errors={getInputErrors(errors, DetailsFields.OTHER_USE)}
+            errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.OTHER_USE}`)}
           />
         </>
       )}

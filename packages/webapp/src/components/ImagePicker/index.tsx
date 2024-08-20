@@ -86,7 +86,7 @@ export default function ImagePicker({
   return (
     <>
       {showFileSizeExceedsModal && (
-        <FileSizeExceedModal dismissModal={() => setShowFileSizeExceedsModal(false)} />
+        <FileSizeExceedModal size={5} dismissModal={() => setShowFileSizeExceedsModal(false)} />
       )}
       <div>
         {label && <InputBaseLabel label={label} optional={optional} />}

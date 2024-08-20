@@ -967,7 +967,7 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "Les fichiers ne peuvent pas dépasser 10MB.",
+    "BODY": "Les fichiers ne peuvent pas dépasser {{size}} MB.",
     "TITLE": "Fichier trop volumineux"
   },
   "FILTER": {

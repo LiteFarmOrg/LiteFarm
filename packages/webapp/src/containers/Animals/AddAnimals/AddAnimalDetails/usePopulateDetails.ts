@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { useEffect } from 'react';
+import { groupBy } from 'lodash';
 import { STEPS } from '..';
 import { AnimalBasicsFormFields, DetailsFields } from '../types';
 import { AnimalOrBatchKeys } from '../../types';
@@ -61,16 +62,26 @@ export const usePopulateDetails = (getValues: Function, replace: Function) => {
         detailsArray.push(createBatch(animalOrBatch));
       }
     });
-
     const currentDetails = getValues(STEPS.DETAILS);
-    const updatedDetailsArray = detailsArray
-      .map((entity, index) => {
-        const origData = currentDetails[index];
-        return { ...origData, ...entity };
-      })
-      // Remove extra items if the count has been decreased
-      .slice(0, detailsArray.length);
 
+    if (currentDetails.length === 0) {
+      replace(detailsArray);
+      return;
+    }
+    const groupedOrigDetails = groupBy(currentDetails, DetailsFields.BASICS_FIELD_ARRAY_ID);
+    const groupedUpdated = groupBy(detailsArray, DetailsFields.BASICS_FIELD_ARRAY_ID);
+
+    // Merge the new data with the original and trim the original data to reflect the updated count
+    const updatedDetailsArray = Object.keys(groupedUpdated).flatMap((fieldArrayId) => {
+      const updatedData = groupedUpdated[fieldArrayId];
+      const origGroup = groupedOrigDetails[fieldArrayId] || [];
+      const trimmedOrigGroup = origGroup.slice(0, updatedData.length);
+
+      return updatedData.map((entity, index) => {
+        const origData = trimmedOrigGroup[index] || {};
+        return { ...origData, ...entity };
+      });
+    });
     // Update the details array
     replace(updatedDetailsArray);
   }, [getValues, replace]);

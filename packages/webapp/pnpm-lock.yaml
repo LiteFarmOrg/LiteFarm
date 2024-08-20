@@ -231,6 +231,9 @@ devDependencies:
   '@types/d3':
     specifier: ^7.4.0
     version: 7.4.0
+  '@types/lodash':
+    specifier: ^4.17.7
+    version: 4.17.7
   '@types/prop-types':
     specifier: ^15.7.5
     version: 15.7.5

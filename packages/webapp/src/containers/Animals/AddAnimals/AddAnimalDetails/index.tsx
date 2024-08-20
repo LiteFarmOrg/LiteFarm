@@ -26,7 +26,7 @@ import BatchDetails from '../../../../components/Animals/AddBatchDetails';
 import { useCurrencySymbol } from '../../../hooks/useCurrencySymbol';
 import { useAnimalOptions } from '../useAnimalOptions';
 import { STEPS } from '..';
-import { DetailsFields } from '../types';
+import { DetailsFields, Option } from '../types';
 import { AddAnimalsFormFields } from '../types';
 import { AnimalOrBatchKeys, AnimalOrigins } from '../../types';
 import { parseUniqueDefaultId } from '../../../../util/animal';
@@ -111,11 +111,14 @@ const AddAnimalDetails = () => {
     const originField = `${namePrefix}.${DetailsFields.ORIGIN}` as const;
     const watchedOrigin = watch(originField);
 
-    const origin = !watchedOrigin
-      ? undefined
-      : watchedOrigin === 1 // TODO enum
-        ? AnimalOrigins.BROUGHT_IN
-        : AnimalOrigins.BORN_AT_FARM;
+    const getOriginEnum = (watchedOrigin: number): AnimalOrigins => {
+      const originOption = originOptions.find(
+        (option: Option[DetailsFields.ORIGIN]) => option.value === watchedOrigin,
+      );
+      return AnimalOrigins[originOption.key as keyof typeof AnimalOrigins];
+    };
+
+    const origin = !watchedOrigin ? undefined : getOriginEnum(watchedOrigin);
 
     const useOptionsForType = useOptions.find(
       ({ default_type_id }: { default_type_id: string | null }) =>

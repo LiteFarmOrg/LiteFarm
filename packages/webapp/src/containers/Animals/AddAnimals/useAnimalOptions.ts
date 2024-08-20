@@ -117,10 +117,17 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
   }
 
   if (optionTypes.includes('tagType')) {
-    options.tagTypeOptions = identifierTypes.map(({ id, key }) => ({
-      value: id,
-      label: t(`animal:TAG_TYPE.${key}`),
-    }));
+    options.tagTypeOptions = identifierTypes.map(({ id, key }) =>
+      key === 'OTHER'
+        ? {
+            value: id,
+            label: t(`common:OTHER`),
+          }
+        : {
+            value: id,
+            label: t(`animal:TAG_TYPE.${key}`),
+          },
+    );
   }
 
   if (optionTypes.includes('tagColor')) {

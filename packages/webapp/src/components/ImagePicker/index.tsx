@@ -86,7 +86,6 @@ export default function ImagePicker({
   return (
     <>
       {showFileSizeExceedsModal && (
-        //@ts-ignore
         <FileSizeExceedModal dismissModal={() => setShowFileSizeExceedsModal(false)} />
       )}
       <div>

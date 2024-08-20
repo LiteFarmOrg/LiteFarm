@@ -1,8 +1,15 @@
-import React from 'react';
 import ModalComponent from '../ModalComponent/v2';
 import { useTranslation } from 'react-i18next';
 
-export default function FileSizeExceedModal({ dismissModal, handleRetry }) {
+type FileSizeExceedModalProps = {
+  dismissModal: () => void;
+  handleRetry?: () => void;
+};
+
+export default function FileSizeExceedModal({
+  dismissModal,
+  handleRetry,
+}: FileSizeExceedModalProps) {
   const { t } = useTranslation();
   return (
     <ModalComponent

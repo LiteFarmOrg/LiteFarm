@@ -125,6 +125,10 @@ const AddAnimalDetails = () => {
     const watchedUse = watch(`${namePrefix}.${DetailsFields.USE}`) as Option[DetailsFields.USE][];
     const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 
+    const watchedTagType = watch(
+      `${namePrefix}.${DetailsFields.TAG_TYPE}`,
+    ) as Option[DetailsFields.TAG_TYPE];
+
     const mainContent = (
       <AnimalFormHeaderItem
         showRemove={fields.length > 1}
@@ -154,6 +158,7 @@ const AddAnimalDetails = () => {
           uniqueDetailsProps={{
             tagTypeOptions,
             tagColorOptions,
+            shouldShowTagTypeInput: watchedTagType?.key === 'OTHER',
           }}
           otherDetailsProps={otherDetailsProps}
           originProps={{ ...originProps, origin }}

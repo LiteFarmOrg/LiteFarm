@@ -122,6 +122,7 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
         ? {
             value: id,
             label: t(`common:OTHER`),
+            key: key,
           }
         : {
             value: id,

@@ -23,6 +23,7 @@ import { ReactComponent as CameraIcon } from '../../assets/images/farm-profile/c
 import { ReactComponent as TrashIcon } from '../../assets/images/farm-profile/trash.svg';
 import { ReactComponent as EditIcon } from '../../assets/images/farm-profile/edit.svg';
 import styles from './styles.module.scss';
+import FileSizeExceedModal from '../Modals/FileSizeExceedModal';
 
 export type ImagePickerProps = {
   onSelectImage: (file: File) => void;
@@ -40,6 +41,7 @@ export default function ImagePicker({
   optional = true, // false is not yet supported
 }: ImagePickerProps) {
   const [previewUrl, setPreviewUrl] = useState(defaultUrl);
+  const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);
   const dropContainerRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
 
@@ -57,7 +59,12 @@ export default function ImagePicker({
   const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
-    showImage(file);
+    if (file.size > 5e6) {
+      setShowFileSizeExceedsModal(true);
+      e.target.value = '';
+    } else {
+      showImage(file);
+    }
   };
 
   const handleDragEvent = (e: React.DragEvent) => {
@@ -77,53 +84,59 @@ export default function ImagePicker({
   }, [previewUrl]);
 
   return (
-    <div>
-      {label && <InputBaseLabel label={label} optional={optional} />}
-      {previewUrl ? (
-        <div className={styles.imageContainer}>
-          <img src={previewUrl} alt="image preview" />
-          <div className={styles.imageActions}>
-            <PureFilePickerWrapper onChange={handleFileInputChange} accept="image/*">
-              <TextButton type="button">
-                <EditIcon />
-                {t('UPLOADER.CHANGE_IMAGE')}
-              </TextButton>
-            </PureFilePickerWrapper>
-            <TextButton type="button" onClick={removeImage}>
-              <TrashIcon />
-              {t('UPLOADER.REMOVE_IMAGE')}
-            </TextButton>
-          </div>
-        </div>
-      ) : (
-        <>
-          <PureFilePickerWrapper
-            accept="image/*"
-            className={styles.filePickerWrapper}
-            onChange={handleFileInputChange}
-          >
-            <span className={styles.filePickerBtn}>
-              <CameraIcon /> {t('UPLOADER.UPLOAD_IMAGE')}
-            </span>
-          </PureFilePickerWrapper>
-          <div
-            ref={dropContainerRef}
-            className={styles.dropContainer}
-            onDrop={handleDragEvent}
-            onDragEnter={handleDragEvent}
-            onDragLeave={handleDragEvent}
-            onDragOver={handleDragEvent}
-          >
-            <CameraIcon className={styles.cameraIcon} />
-            <div className={styles.flexWrapper}>
-              <PureFilePickerWrapper accept="image/*" onChange={handleFileInputChange}>
-                <AddLink> {t('UPLOADER.CLICK_TO_UPLOAD')}</AddLink>
+    <>
+      {showFileSizeExceedsModal && (
+        //@ts-ignore
+        <FileSizeExceedModal dismissModal={() => setShowFileSizeExceedsModal(false)} />
+      )}
+      <div>
+        {label && <InputBaseLabel label={label} optional={optional} />}
+        {previewUrl ? (
+          <div className={styles.imageContainer}>
+            <img src={previewUrl} alt="image preview" />
+            <div className={styles.imageActions}>
+              <PureFilePickerWrapper onChange={handleFileInputChange} accept="image/*">
+                <TextButton type="button">
+                  <EditIcon />
+                  {t('UPLOADER.CHANGE_IMAGE')}
+                </TextButton>
               </PureFilePickerWrapper>
-              <span> {t('UPLOADER.DRAG_DROP')}</span>
+              <TextButton type="button" onClick={removeImage}>
+                <TrashIcon />
+                {t('UPLOADER.REMOVE_IMAGE')}
+              </TextButton>
             </div>
           </div>
-        </>
-      )}
-    </div>
+        ) : (
+          <>
+            <PureFilePickerWrapper
+              accept="image/*"
+              className={styles.filePickerWrapper}
+              onChange={handleFileInputChange}
+            >
+              <span className={styles.filePickerBtn}>
+                <CameraIcon /> {t('UPLOADER.UPLOAD_IMAGE')}
+              </span>
+            </PureFilePickerWrapper>
+            <div
+              ref={dropContainerRef}
+              className={styles.dropContainer}
+              onDrop={handleDragEvent}
+              onDragEnter={handleDragEvent}
+              onDragLeave={handleDragEvent}
+              onDragOver={handleDragEvent}
+            >
+              <CameraIcon className={styles.cameraIcon} />
+              <div className={styles.flexWrapper}>
+                <PureFilePickerWrapper accept="image/*" onChange={handleFileInputChange}>
+                  <AddLink> {t('UPLOADER.CLICK_TO_UPLOAD')}</AddLink>
+                </PureFilePickerWrapper>
+                <span> {t('UPLOADER.DRAG_DROP')}</span>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }

@@ -64,7 +64,7 @@ export const WithStepperProgressBar = ({
   onCancel,
   onGoForward,
   handleSubmit,
-  formState: { isValid },
+  formState: { isValid, isDirty },
   setFormResultData,
 }: WithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
@@ -74,16 +74,10 @@ export const WithStepperProgressBar = ({
 
   const isSummaryPage = hasSummaryWithinForm && activeStepIndex === steps.length - 1;
 
-  const isSummaryPageRef = useRef(isSummaryPage);
-
-  useEffect(() => {
-    isSummaryPageRef.current = isSummaryPage;
-  }, [isSummaryPage]);
-
   // Block the page transition
   // https://github.com/remix-run/history/blob/dev/docs/blocking-transitions.md
   useEffect(() => {
-    if (isSummaryPage) {
+    if (isSummaryPage || !isDirty) {
       return;
     }
     const unblock = history.block((tx) => {
@@ -91,7 +85,7 @@ export const WithStepperProgressBar = ({
     });
 
     return () => unblock();
-  }, [isSummaryPage, history]);
+  }, [isSummaryPage, isDirty, history]);
 
   const isFinalStep =
     (!hasSummaryWithinForm && activeStepIndex === steps.length - 1) ||

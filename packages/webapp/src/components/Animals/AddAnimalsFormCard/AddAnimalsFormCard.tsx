@@ -74,6 +74,7 @@ export default function AddAnimalsFormCard({
     `${namePrefix}.${BasicsFields.CREATE_INDIVIDUAL_PROFILES}`,
   );
 
+  // Assign a unique identifier to each form card to track its associated details fields
   const uuidFieldName = `${namePrefix}.${BasicsFields.FIELD_ARRAY_ID}`;
   const identifierRef = useRef(getValues(uuidFieldName) || '');
 
@@ -88,7 +89,7 @@ export default function AddAnimalsFormCard({
 
   const breedSelectRef = useRef<SelectInstance>(null);
 
-  // For navigating back...
+  // Ref used to prevent breed being cleared when navigating back to basics step
   const prevAnimalTypeRef = useRef(watchAnimalType?.value);
 
   useEffect(() => {
@@ -126,7 +127,6 @@ export default function AddAnimalsFormCard({
         <NumberInput
           name={`${namePrefix}.${BasicsFields.COUNT}`}
           control={control}
-          defaultValue={getValues(`${namePrefix}.${BasicsFields.COUNT}`) || 1}
           label={t('common:COUNT')}
           className={styles.countInput}
           allowDecimal={false}

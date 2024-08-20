@@ -23,13 +23,13 @@ export const usePopulateDetails = (getValues: Function, replace: Function) => {
 
     const createAnimal = (
       animalOrBatch: AnimalBasicsFormFields,
-      i: number,
+      index: number,
       transformedSexDetails?: number[],
     ) => {
       return {
         [DetailsFields.TYPE]: animalOrBatch.type,
         [DetailsFields.BREED]: animalOrBatch.breed,
-        [DetailsFields.SEX]: transformedSexDetails?.[i],
+        [DetailsFields.SEX]: transformedSexDetails?.[index],
         [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
         [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,
       };
@@ -49,7 +49,7 @@ export const usePopulateDetails = (getValues: Function, replace: Function) => {
 
     getValues(STEPS.BASICS).forEach((animalOrBatch: AnimalBasicsFormFields) => {
       const transformedSexDetails = animalOrBatch.sexDetails?.flatMap((sexDetail) =>
-        // Outputs an array of ids, e.g. [1, 1, 1, 2, 2]
+        // flatMap to output an array of ids, e.g. [1, 1, 1, 2, 2]
         Array(sexDetail.count).fill(sexDetail.id),
       );
 
@@ -68,7 +68,7 @@ export const usePopulateDetails = (getValues: Function, replace: Function) => {
         const origData = currentDetails[index];
         return { ...origData, ...entity };
       })
-      // Remove extra items if the count is less than the initial count
+      // Remove extra items if the count has been decreased
       .slice(0, detailsArray.length);
 
     // Update the details array

@@ -105,11 +105,8 @@ const AddAnimalDetails = () => {
 
     const isAnimal = field.animal_or_batch === AnimalOrBatchKeys.ANIMAL;
 
-    const countFieldName = `${namePrefix}.${DetailsFields.COUNT}` as const;
-    const watchedCount = watch(countFieldName);
-
-    const originField = `${namePrefix}.${DetailsFields.ORIGIN}` as const;
-    const watchedOrigin = watch(originField);
+    const watchedCount = watch(`${namePrefix}.${DetailsFields.COUNT}`);
+    const watchedOrigin = watch(`${namePrefix}.${DetailsFields.ORIGIN}`);
 
     const getOriginEnum = (watchedOrigin: number): AnimalOrigins => {
       const originOption = originOptions.find(
@@ -127,13 +124,6 @@ const AddAnimalDetails = () => {
 
     const watchedUse = watch(`${namePrefix}.${DetailsFields.USE}`) as Option[DetailsFields.USE][];
     const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
-
-    const commonProps = {
-      itemKey: field.id,
-      isExpanded: isExpanded,
-      iconClickOnly: false,
-      onClick: () => toggleExpanded(field.id),
-    };
 
     const mainContent = (
       <AnimalFormHeaderItem
@@ -186,7 +176,10 @@ const AddAnimalDetails = () => {
     const expandableItem = (
       <div key={field.id}>
         <ExpandableItem
-          {...commonProps}
+          itemKey={field.id}
+          isExpanded={isExpanded}
+          iconClickOnly={false}
+          onClick={() => toggleExpanded(field.id)}
           mainContent={mainContent}
           expandedContent={expandedContent}
           classes={{

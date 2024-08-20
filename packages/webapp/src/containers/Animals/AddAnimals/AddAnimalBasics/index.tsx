@@ -74,7 +74,7 @@ const AddAnimalBasics = () => {
 
         return (
           <AddAnimalsFormCard
-            key={field.id} // uuid used b/c this is not kept between renders
+            key={field.id}
             typeOptions={typeOptions}
             breedOptions={breedOptions}
             sexDetailsOptions={sexDetailsOptions}

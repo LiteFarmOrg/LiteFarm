@@ -70,7 +70,7 @@ export const MultiStepForm = ({
     history.back();
   };
 
-  const activeStep = steps[activeStepIndex];
+  const { FormContent } = steps[activeStepIndex];
 
   const Component = components[variant];
 
@@ -87,11 +87,7 @@ export const MultiStepForm = ({
       {...props}
     >
       <FormProvider {...form}>
-        <activeStep.FormContent
-          onGoForward={onGoForward}
-          form={form}
-          formResultData={formResultData}
-        />
+        <FormContent onGoForward={onGoForward} form={form} formResultData={formResultData} />
       </FormProvider>
     </Component>
   );

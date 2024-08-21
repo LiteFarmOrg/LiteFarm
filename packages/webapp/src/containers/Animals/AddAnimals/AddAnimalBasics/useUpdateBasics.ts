@@ -61,34 +61,24 @@ export const useUpdateBasics = (
       };
     };
 
-    const removalIndices: number[] = [];
+    const filteredFields: AnimalBasicsFormFields[] = [];
 
-    const updatedBasicsData = fields.map((field: AnimalBasicsFormFields, index: number) => {
+    fields.forEach((field) => {
       const basicsCardId = field[BasicsFields.FIELD_ARRAY_ID];
 
       const detailsData = detailsFields.filter(
         (entity) => entity[DetailsFields.BASICS_FIELD_ARRAY_ID] === basicsCardId,
       );
 
-      if (!detailsData.length) {
-        removalIndices.push(index);
-        return field;
-      } else {
-        return field[BasicsFields.CREATE_INDIVIDUAL_PROFILES]
-          ? {
-              ...field,
-              ...generatedAnimalData(detailsData),
-            }
-          : {
-              ...field,
-              ...updatedBatchData(detailsData),
-            };
+      if (detailsData.length) {
+        filteredFields.push(
+          field[BasicsFields.CREATE_INDIVIDUAL_PROFILES]
+            ? { ...field, ...generatedAnimalData(detailsData) }
+            : { ...field, ...updatedBatchData(detailsData) },
+        );
       }
     });
 
-    const filteredFields = updatedBasicsData.filter(
-      (_, index: number) => !removalIndices.includes(index),
-    );
     replace(filteredFields);
   }, [!!sexDetailsOptions]);
 };

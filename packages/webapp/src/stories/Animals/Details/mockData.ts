@@ -38,7 +38,7 @@ export const useOptions = [
 export const tagTypeOptions = [
   { value: 1, label: 'Ear tags' },
   { value: 2, label: 'Leg bands' },
-  { value: 3, label: 'Other' },
+  { value: 3, label: 'Other', key: 'OTHER' },
 ];
 
 export const tagColorOptions = [

@@ -42,9 +42,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
   const watchedOrigin = watch(`${namePrefix}${DetailsFields.ORIGIN}`);
 
   const getOriginEnum = (watchedOrigin: number): AnimalOrigins => {
-    const originOption = originOptions.find(
-      (option: Option[DetailsFields.ORIGIN]) => option.value === watchedOrigin,
-    );
+    const originOption = originOptions.find((option) => option.value === watchedOrigin);
     return AnimalOrigins[originOption?.key as keyof typeof AnimalOrigins];
   };
 

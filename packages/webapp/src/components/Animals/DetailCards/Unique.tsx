@@ -26,22 +26,25 @@ import styles from './styles.module.scss';
 export type UniqueDetailsProps = CommonDetailsProps & {
   tagTypeOptions: Option[DetailsFields.TAG_TYPE][];
   tagColorOptions: Option[DetailsFields.TAG_COLOR][];
-  shouldShowTagTypeInput?: boolean;
 };
 
 const UniqueDetails = ({
   t,
   tagTypeOptions,
   tagColorOptions,
-  shouldShowTagTypeInput,
+
   namePrefix = '',
 }: UniqueDetailsProps) => {
   const {
     control,
     register,
     trigger,
+    watch,
     formState: { errors },
   } = useFormContext();
+
+  const watchedTagType = watch(`${namePrefix}${DetailsFields.TAG_TYPE}`);
+  const shouldShowTagTypeInput = watchedTagType?.key === 'OTHER';
 
   return (
     <div className={styles.sectionWrapper}>

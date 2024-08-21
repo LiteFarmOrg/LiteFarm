@@ -112,10 +112,6 @@ const AddAnimalDetails = () => {
         default_type_id === `${parseUniqueDefaultId(field.type.value)}` || default_type_id === null,
     );
 
-    const watchedTagType = watch(
-      `${namePrefix}${DetailsFields.TAG_TYPE}`,
-    ) as Option[DetailsFields.TAG_TYPE];
-
     const mainContent = (
       <AnimalFormHeaderItem
         showRemove={fields.length > 1}
@@ -144,7 +140,6 @@ const AddAnimalDetails = () => {
           uniqueDetailsProps={{
             tagTypeOptions,
             tagColorOptions,
-            shouldShowTagTypeInput: watchedTagType?.key === 'OTHER',
           }}
           otherDetailsProps={otherDetailsProps}
           originProps={originProps}

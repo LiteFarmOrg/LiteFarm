@@ -18,8 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import Origin, { OriginProps } from '../../../components/Animals/DetailCards/Origin';
-import { AnimalOrigins } from '../../../containers/Animals/types';
-import { DetailsFields, FormMethods } from '../../../containers/Animals/AddAnimals/types';
+import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
 import { originOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
@@ -31,16 +30,10 @@ const meta: Meta<OriginProps> = {
     (Story) => {
       const { t } = useTranslation();
       const formMethods: FormMethods = useForm({ mode: 'onBlur' });
-      const originId = formMethods.watch(DetailsFields.ORIGIN);
-      const origin = !originId
-        ? undefined
-        : originId === 1
-          ? AnimalOrigins.BROUGHT_IN
-          : AnimalOrigins.BORN_AT_FARM;
 
       return (
         <FormProvider {...formMethods}>
-          <Story t={t} origin={origin} />
+          <Story t={t} />
         </FormProvider>
       );
     },

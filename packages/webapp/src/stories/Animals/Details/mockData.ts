@@ -57,8 +57,8 @@ export const organicStatusOptions = [
 ];
 
 export const originOptions = [
-  { value: 1, label: 'Brought in' },
-  { value: 2, label: 'Born at the farm' },
+  { value: 1, label: 'Brought in', key: 'BROUGHT_IN' },
+  { value: 2, label: 'Born at the farm', key: 'BORN_AT_FARM' },
 ];
 
 export const defaultValues: Partial<AnimalDetailsFormFields> = {

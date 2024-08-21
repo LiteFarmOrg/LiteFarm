@@ -106,16 +106,6 @@ const AddAnimalDetails = () => {
     const isAnimal = field.animal_or_batch === AnimalOrBatchKeys.ANIMAL;
 
     const watchedCount = watch(`${namePrefix}${DetailsFields.COUNT}`);
-    const watchedOrigin = watch(`${namePrefix}${DetailsFields.ORIGIN}`);
-
-    const getOriginEnum = (watchedOrigin: number): AnimalOrigins => {
-      const originOption = originOptions.find(
-        (option: Option[DetailsFields.ORIGIN]) => option.value === watchedOrigin,
-      );
-      return AnimalOrigins[originOption.key as keyof typeof AnimalOrigins];
-    };
-
-    const origin = !watchedOrigin ? undefined : getOriginEnum(watchedOrigin);
 
     const useOptionsForType = useOptions.find(
       ({ default_type_id }: { default_type_id: string | null }) =>
@@ -161,7 +151,7 @@ const AddAnimalDetails = () => {
             shouldShowTagTypeInput: watchedTagType?.key === 'OTHER',
           }}
           otherDetailsProps={otherDetailsProps}
-          originProps={{ ...originProps, origin }}
+          originProps={originProps}
           namePrefix={namePrefix}
         />
       ) : (
@@ -173,7 +163,7 @@ const AddAnimalDetails = () => {
             isOtherUseSelected,
           }}
           otherDetailsProps={otherDetailsProps}
-          originProps={{ ...originProps, origin }}
+          originProps={originProps}
           namePrefix={namePrefix}
         />
       );

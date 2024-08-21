@@ -28,16 +28,27 @@ import styles from './styles.module.scss';
 export type OriginProps = CommonDetailsProps & {
   currency: string;
   originOptions: Option[DetailsFields.ORIGIN][];
-  origin?: AnimalOrigins;
 };
 
-const Origin = ({ t, currency, originOptions, origin, namePrefix = '' }: OriginProps) => {
+const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) => {
   const {
     control,
     register,
     trigger,
+    watch,
     formState: { errors },
   } = useFormContext();
+
+  const watchedOrigin = watch(`${namePrefix}${DetailsFields.ORIGIN}`);
+
+  const getOriginEnum = (watchedOrigin: number): AnimalOrigins => {
+    const originOption = originOptions.find(
+      (option: Option[DetailsFields.ORIGIN]) => option.value === watchedOrigin,
+    );
+    return AnimalOrigins[originOption?.key as keyof typeof AnimalOrigins];
+  };
+
+  const origin = !watchedOrigin ? undefined : getOriginEnum(watchedOrigin);
 
   const fields = useMemo(() => {
     return origin === AnimalOrigins.BROUGHT_IN ? (

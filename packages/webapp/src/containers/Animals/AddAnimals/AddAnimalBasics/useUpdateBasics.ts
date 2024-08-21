@@ -82,5 +82,5 @@ export const useUpdateBasics = (fields: any, replace: any) => {
       (_: any, index: number) => !removalIndices.includes(index),
     );
     replace(filteredFields);
-  }, [detailsFields, !!sexDetailsOptions]);
+  }, [!!sexDetailsOptions]);
 };

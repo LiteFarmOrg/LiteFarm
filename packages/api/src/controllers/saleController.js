@@ -97,7 +97,10 @@ const SaleController = {
         }
 
         // do not allow to change to deleted sale/revenue type
-        if (await baseController.isDeleted(trx, RevenueTypeModel, { revenue_type_id })) {
+        if (
+          revenue_type_id &&
+          (await baseController.isDeleted(trx, RevenueTypeModel, { revenue_type_id }))
+        ) {
           await trx.rollback();
           return res.status(409).send('revenue type deleted');
         }

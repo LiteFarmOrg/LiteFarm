@@ -12,51 +12,58 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { UseFieldArrayReplace, useFormContext } from 'react-hook-form';
 import { useEffect } from 'react';
 import { groupBy } from 'lodash';
 import { STEPS } from '..';
-import { AnimalBasicsFormFields, DetailsFields } from '../types';
+import {
+  AddAnimalsFormFields,
+  AnimalBasicsFormFields,
+  AnimalDetailsFormFields,
+  BasicsFields,
+  DetailsFields,
+} from '../types';
 import { AnimalOrBatchKeys } from '../../types';
 
-export const usePopulateDetails = (getValues: Function, replace: Function) => {
-  useEffect(() => {
-    const detailsArray: Array<Record<string, any>> = [];
+export const usePopulateDetails = (
+  replace: UseFieldArrayReplace<AddAnimalsFormFields, 'details'>,
+) => {
+  const { getValues } = useFormContext<AddAnimalsFormFields>();
 
-    const createAnimal = (
-      animalOrBatch: AnimalBasicsFormFields,
-      index: number,
-      transformedSexDetails?: number[],
-    ) => {
+  useEffect(() => {
+    const detailsArray: AnimalDetailsFormFields[] = [];
+
+    const createAnimal = (animalOrBatch: AnimalBasicsFormFields, sex_id?: number) => {
       return {
-        [DetailsFields.TYPE]: animalOrBatch.type,
-        [DetailsFields.BREED]: animalOrBatch.breed,
-        [DetailsFields.SEX]: transformedSexDetails?.[index],
+        [DetailsFields.TYPE]: animalOrBatch[BasicsFields.TYPE]!,
+        [DetailsFields.BREED]: animalOrBatch[BasicsFields.BREED],
+        [DetailsFields.SEX]: sex_id,
         [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
-        [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,
+        [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch[BasicsFields.FIELD_ARRAY_ID],
       };
     };
 
     const createBatch = (animalOrBatch: AnimalBasicsFormFields) => {
       return {
-        [DetailsFields.TYPE]: animalOrBatch.type,
-        [DetailsFields.BREED]: animalOrBatch.breed,
-        [DetailsFields.COUNT]: animalOrBatch.count,
-        [DetailsFields.BATCH_NAME]: animalOrBatch.batch_name,
-        [DetailsFields.SEX_DETAILS]: animalOrBatch.sexDetails,
+        [DetailsFields.TYPE]: animalOrBatch[BasicsFields.TYPE]!,
+        [DetailsFields.BREED]: animalOrBatch[BasicsFields.BREED],
+        [DetailsFields.COUNT]: animalOrBatch[BasicsFields.COUNT],
+        [DetailsFields.BATCH_NAME]: animalOrBatch[BasicsFields.BATCH_NAME],
+        [DetailsFields.SEX_DETAILS]: animalOrBatch[BasicsFields.SEX_DETAILS],
         [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.BATCH,
-        [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch.field_array_id,
+        [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch[BasicsFields.FIELD_ARRAY_ID],
       };
     };
 
     getValues(STEPS.BASICS).forEach((animalOrBatch: AnimalBasicsFormFields) => {
-      const transformedSexDetails = animalOrBatch.sexDetails?.flatMap((sexDetail) =>
-        // flatMap to output an array of ids, e.g. [1, 1, 1, 2, 2]
-        Array(sexDetail.count).fill(sexDetail.id),
-      );
-
       if (animalOrBatch.createIndividualProfiles) {
-        for (let i = 0; i < animalOrBatch.count; i++) {
-          detailsArray.push(createAnimal(animalOrBatch, i, transformedSexDetails));
+        const transformedSexDetails = animalOrBatch[BasicsFields.SEX_DETAILS]?.flatMap(
+          (sexDetail) =>
+            // flatMap to output an array of ids, e.g. [1, 1, 1, 2, 2]
+            Array(sexDetail.count).fill(sexDetail.id),
+        );
+        for (let i = 0; i < animalOrBatch[BasicsFields.COUNT]; i++) {
+          detailsArray.push(createAnimal(animalOrBatch, transformedSexDetails?.[i]));
         }
       } else {
         detailsArray.push(createBatch(animalOrBatch));
@@ -84,7 +91,7 @@ export const usePopulateDetails = (getValues: Function, replace: Function) => {
     });
     // Update the details array
     replace(updatedDetailsArray);
-  }, [getValues, replace]);
+  }, []);
 };
 
 export default usePopulateDetails;

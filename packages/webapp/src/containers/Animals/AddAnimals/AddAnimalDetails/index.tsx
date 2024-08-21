@@ -68,7 +68,7 @@ const AddAnimalDetails = () => {
   );
 
   /* Populate details form based on basics data */
-  usePopulateDetails(getValues, replace);
+  usePopulateDetails(replace);
 
   /* Render logic */
   const animalElements: ReactElement[] = [];

@@ -120,8 +120,8 @@ export interface AnimalOrigin {
 }
 
 export interface AnimalUse {
-  default_type_id: number | null;
-  uses: { id: string; key: string }[];
+  default_type_id: string | null;
+  uses: { id: number; key: string }[];
 }
 
 export type AnimalRemovalReasonKeys =

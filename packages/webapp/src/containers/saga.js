@@ -293,15 +293,15 @@ export function* putFarmSaga({ payload: farm }) {
   const { headers } = getHeader(user_id, farm_id);
 
   // OC: We should never update address information of a farm.
-  let { address, grid_points, isImageRemoved, imageFile, ...data } = farm;
+  let { address, grid_points, imageFile, ...data } = farm;
   if (data.farm_phone_number === null) {
     delete data.farm_phone_number;
   }
 
   data.units = { measurement: data.units.measurement, currency: units.currency };
-  data.shouldRemoveImage = isImageRemoved;
 
   const formData = new FormData();
+
   formData.append('_file_', imageFile);
   formData.append('data', JSON.stringify(data));
 

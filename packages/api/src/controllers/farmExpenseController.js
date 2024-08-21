@@ -88,7 +88,10 @@ const farmExpenseController = {
 
       // do not allow to change to deleted expense type
       if (
-        await baseController.isDeleted(trx, ExpenseType, { expense_type_id: data.expense_type_id })
+        'expense_type_id' in data &&
+        (await baseController.isDeleted(trx, ExpenseType, {
+          expense_type_id: data.expense_type_id,
+        }))
       ) {
         await trx.rollback();
         return res.status(409).send('expense type deleted');

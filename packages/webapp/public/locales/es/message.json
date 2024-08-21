@@ -150,7 +150,7 @@
   "REVENUE": {
     "ERROR": {
       "EDIT": "No se pudieron actualizar los ingresos",
-      "REVENUE_TYPE_DELETED": "This revenue type has been deleted"
+      "REVENUE_TYPE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "EDIT": "Ingresos actualizados correctamente"

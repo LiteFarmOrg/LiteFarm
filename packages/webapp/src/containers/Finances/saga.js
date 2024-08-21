@@ -353,7 +353,6 @@ export function* editExpenseSaga(action) {
         break;
       case 'expense type deleted':
         yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.EXPENSE_TYPE_DELETED')));
-        history.push(FINANCES_HOME_URL);
         break;
       default:
         yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.UPDATE')));

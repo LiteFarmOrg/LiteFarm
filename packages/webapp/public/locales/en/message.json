@@ -48,7 +48,7 @@
       "DELETE": "Failed to delete expenses",
       "UPDATE": "Failed to update expenses!",
       "EXPENSE_DELETED": "This expense no longer exists",
-      "EXPENSE_TYPE_DELETED": "This expense type no longer exists"
+      "EXPENSE_TYPE_DELETED": "This expense type has been deleted"
     },
     "SUCCESS": {
       "ADD": "Successfully added new expenses!",
@@ -150,7 +150,7 @@
   "REVENUE": {
     "ERROR": {
       "EDIT": "Failed to update revenue",
-      "REVENUE_TYPE_DELETED": "This revenue type no longer exists"
+      "REVENUE_TYPE_DELETED": "This revenue type has been deleted"
     },
     "SUCCESS": {
       "EDIT": "Revenue successfully updated"

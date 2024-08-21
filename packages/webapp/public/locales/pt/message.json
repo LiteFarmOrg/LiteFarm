@@ -150,7 +150,7 @@
   "REVENUE": {
     "ERROR": {
       "EDIT": "Falha ao atualizar a receita",
-      "REVENUE_TYPE_DELETED": "This revenue type no longer exists"
+      "REVENUE_TYPE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "EDIT": "Receita atualizada com sucesso"

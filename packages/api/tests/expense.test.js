@@ -395,7 +395,6 @@ describe('Expense Tests', () => {
       const patchData = {
         value: expense.value + 5,
         note: 'patched in note',
-        expense_type_id: expense.expense_type_id,
       };
 
       patchRequest(
@@ -432,7 +431,6 @@ describe('Expense Tests', () => {
       const patchData = {
         value: expense.value + 5,
         note: 'patched in note',
-        expense_type_id: expense.expense_type_id,
       };
 
       patchRequest(
@@ -461,7 +459,6 @@ describe('Expense Tests', () => {
       const patchData = {
         value: expense.value + 5,
         note: 'patched in note',
-        expense_type_id: expense.expense_type_id,
       };
 
       patchRequest(
@@ -498,7 +495,6 @@ describe('Expense Tests', () => {
       const patchData = {
         value: expense.value + 5,
         note: 'patched in note',
-        expense_type_id: expense.expense_type_id,
       };
 
       patchRequest(
@@ -527,7 +523,6 @@ describe('Expense Tests', () => {
       const patchData = {
         value: expense.value + 5,
         note: 'patched in note',
-        expense_type_id: expense.expense_type_id,
       };
 
       patchRequest(

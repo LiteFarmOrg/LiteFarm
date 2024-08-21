@@ -26,9 +26,9 @@ import BatchDetails from '../../../../components/Animals/AddBatchDetails';
 import { useCurrencySymbol } from '../../../hooks/useCurrencySymbol';
 import { useAnimalOptions } from '../useAnimalOptions';
 import { STEPS } from '..';
-import { DetailsFields, Option } from '../types';
+import { DetailsFields } from '../types';
 import { AddAnimalsFormFields } from '../types';
-import { AnimalOrBatchKeys, AnimalOrigins } from '../../types';
+import { AnimalOrBatchKeys } from '../../types';
 import { parseUniqueDefaultId } from '../../../../util/animal';
 import { getDefaultAnimalIconName } from '../../Inventory/useAnimalInventory';
 import usePopulateDetails from './usePopulateDetails';
@@ -36,7 +36,7 @@ import usePopulateDetails from './usePopulateDetails';
 const AddAnimalDetails = () => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const { t } = useTranslation();
-  const { control, getValues, watch } = useFormContext<AddAnimalsFormFields>();
+  const { control, watch } = useFormContext<AddAnimalsFormFields>();
 
   const { fields, remove, replace } = useFieldArray({
     name: STEPS.DETAILS,
@@ -177,10 +177,10 @@ const AddAnimalDetails = () => {
       </div>
     );
 
-    if (field.animal_or_batch === AnimalOrBatchKeys.ANIMAL) {
+    if (isAnimal) {
       animalElements.push(expandableItem);
       animalIndex++;
-    } else if (field.animal_or_batch === AnimalOrBatchKeys.BATCH) {
+    } else {
       batchElements.push(expandableItem);
       batchIndex++;
     }

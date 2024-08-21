@@ -95,9 +95,7 @@ const AddAnimalDetails = () => {
   const animalCount = fields.filter(
     (field) => field.animal_or_batch === AnimalOrBatchKeys.ANIMAL,
   ).length;
-  const batchCount = fields.filter(
-    (field) => field.animal_or_batch === AnimalOrBatchKeys.BATCH,
-  ).length;
+  const batchCount = fields.length - animalCount;
 
   fields.forEach((field, index) => {
     const namePrefix = `${STEPS.DETAILS}.${index}.` as const;
@@ -129,33 +127,28 @@ const AddAnimalDetails = () => {
       />
     );
 
+    const commonProps = {
+      key: field.id,
+      generalDetailProps: {
+        ...generalDetailProps,
+        useOptions: useOptionsForType.uses,
+      },
+      otherDetailsProps: otherDetailsProps,
+      originProps: originProps,
+      namePrefix: namePrefix,
+    };
+
     const expandedContent =
       field.animal_or_batch === AnimalOrBatchKeys.ANIMAL ? (
         <AnimalDetails
-          key={field.id}
-          generalDetailProps={{
-            ...generalDetailProps,
-            useOptions: useOptionsForType.uses,
-          }}
+          {...commonProps}
           uniqueDetailsProps={{
             tagTypeOptions,
             tagColorOptions,
           }}
-          otherDetailsProps={otherDetailsProps}
-          originProps={originProps}
-          namePrefix={namePrefix}
         />
       ) : (
-        <BatchDetails
-          key={field.id}
-          generalDetailProps={{
-            ...generalDetailProps,
-            useOptions: useOptionsForType.uses,
-          }}
-          otherDetailsProps={otherDetailsProps}
-          originProps={originProps}
-          namePrefix={namePrefix}
-        />
+        <BatchDetails {...commonProps} />
       );
 
     const expandableItem = (

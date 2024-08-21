@@ -103,6 +103,7 @@ export type AnimalDetailsFormFields = {
   [DetailsFields.TYPE]: Option[DetailsFields.TYPE];
   [DetailsFields.BREED]?: Option[DetailsFields.BREED];
   [DetailsFields.SEX]?: number;
+  [DetailsFields.SEX_DETAILS]?: SexDetailsType;
   [DetailsFields.USE]?: Option[DetailsFields.USE][];
   [DetailsFields.OTHER_USE]?: string;
   [DetailsFields.DATE_OF_BIRTH]?: string;

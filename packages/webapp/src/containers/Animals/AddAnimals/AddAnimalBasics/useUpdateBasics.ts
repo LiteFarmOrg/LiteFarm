@@ -14,14 +14,22 @@
  */
 
 import { useLayoutEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, UseFieldArrayReplace } from 'react-hook-form';
 import { useAnimalOptions } from '../useAnimalOptions';
-import { BasicsFields, DetailsFields } from '../types';
+import {
+  AnimalBasicsFormFields,
+  AnimalDetailsFormFields,
+  BasicsFields,
+  DetailsFields,
+} from '../types';
 import { AddAnimalsFormFields } from '../types';
 import { STEPS } from '..';
 import { Details as SexDetailsType } from '../../../../components/Form/SexDetails/SexDetailsPopover';
 
-export const useUpdateBasics = (fields: any, replace: any) => {
+export const useUpdateBasics = (
+  fields: AnimalBasicsFormFields[],
+  replace: UseFieldArrayReplace<AddAnimalsFormFields, 'basics'>,
+) => {
   const { getValues } = useFormContext<AddAnimalsFormFields>();
   const { sexDetailsOptions } = useAnimalOptions('sexDetails');
   const detailsFields = getValues(STEPS.DETAILS);
@@ -31,22 +39,22 @@ export const useUpdateBasics = (fields: any, replace: any) => {
       return;
     }
 
-    const updatedSexDetails = (detailsData: any): SexDetailsType => {
-      return sexDetailsOptions.map((option: { id: number; label: string; count: number }) => ({
+    const updatedSexDetails = (detailsData: AnimalDetailsFormFields[]): SexDetailsType => {
+      return sexDetailsOptions.map((option: SexDetailsType[0]) => ({
         ...option,
-        count: detailsData.filter(({ sex }: { sex: number }) => sex === option.id).length,
+        count: detailsData.filter(({ sex }: { sex?: number }) => sex === option.id).length,
       }));
     };
 
-    const updatedBatchData = (detailsData: any) => {
+    const updatedBatchData = (detailsData: AnimalDetailsFormFields[]) => {
       return {
         [BasicsFields.BATCH_NAME]: detailsData?.[0]?.[DetailsFields.BATCH_NAME],
-        [BasicsFields.COUNT]: detailsData?.[0]?.[DetailsFields.COUNT],
+        [BasicsFields.COUNT]: detailsData?.[0]?.[DetailsFields.COUNT] || 1,
         [BasicsFields.SEX_DETAILS]: detailsData?.[0]?.[DetailsFields.SEX_DETAILS],
       };
     };
 
-    const generatedAnimalData = (detailsData: any) => {
+    const generatedAnimalData = (detailsData: AnimalDetailsFormFields[]) => {
       return {
         [BasicsFields.COUNT]: detailsData.length,
         [BasicsFields.SEX_DETAILS]: updatedSexDetails(detailsData),
@@ -55,7 +63,7 @@ export const useUpdateBasics = (fields: any, replace: any) => {
 
     const removalIndices: number[] = [];
 
-    const updatedBasicsData = fields.map((field: any, index: number) => {
+    const updatedBasicsData = fields.map((field: AnimalBasicsFormFields, index: number) => {
       const basicsCardId = field[BasicsFields.FIELD_ARRAY_ID];
 
       const detailsData = detailsFields.filter(
@@ -79,7 +87,7 @@ export const useUpdateBasics = (fields: any, replace: any) => {
     });
 
     const filteredFields = updatedBasicsData.filter(
-      (_: any, index: number) => !removalIndices.includes(index),
+      (_, index: number) => !removalIndices.includes(index),
     );
     replace(filteredFields);
   }, [!!sexDetailsOptions]);

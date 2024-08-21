@@ -67,8 +67,7 @@ export default function AddAnimalsFormCard({
     formState: { errors },
   } = useFormContext();
   const { t } = useTranslation();
-  const countFieldName = `${namePrefix}${BasicsFields.COUNT}`;
-  const watchAnimalCount = watch(countFieldName);
+  const watchAnimalCount = watch(`${namePrefix}${BasicsFields.COUNT}`);
   const watchAnimalType = watch(`${namePrefix}${BasicsFields.TYPE}`);
   const shouldCreateIndividualProfiles = watch(
     `${namePrefix}${BasicsFields.CREATE_INDIVIDUAL_PROFILES}`,

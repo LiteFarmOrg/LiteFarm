@@ -112,7 +112,7 @@ export type AnimalDetailsFormFields = {
   [DetailsFields.TAG_TYPE]?: Option[DetailsFields.TAG_TYPE];
   [DetailsFields.TAG_TYPE_INFO]?: string;
   [DetailsFields.WEANING_DATE]?: string;
-  [DetailsFields.ORGANIC_STATUS]?: Option[DetailsFields.TAG_TYPE];
+  [DetailsFields.ORGANIC_STATUS]?: Option[DetailsFields.ORGANIC_STATUS];
   [DetailsFields.OTHER_DETAILS]?: string;
   [DetailsFields.ANIMAL_IMAGE]?: any;
   [DetailsFields.ORIGIN]?: number;

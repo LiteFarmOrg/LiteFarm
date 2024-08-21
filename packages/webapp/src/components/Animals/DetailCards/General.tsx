@@ -38,7 +38,6 @@ export type GeneralDetailsProps = CommonDetailsProps & {
   sexOptions: Option[DetailsFields.SEX][];
   useOptions: Option[DetailsFields.USE][];
   animalOrBatch: AnimalOrBatchKeys;
-  isOtherUseSelected?: boolean;
   sexDetailsOptions?: SexDetailsType;
 };
 
@@ -47,7 +46,6 @@ const GeneralDetails = ({
   sexOptions,
   useOptions,
   animalOrBatch,
-  isOtherUseSelected,
   sexDetailsOptions,
   namePrefix = '',
 }: GeneralDetailsProps) => {
@@ -61,6 +59,9 @@ const GeneralDetails = ({
   } = useFormContext();
 
   const watchBatchCount = watch(`${namePrefix}${DetailsFields.COUNT}`) || 0;
+  const watchedUse = watch(`${namePrefix}${DetailsFields.USE}`) as Option[DetailsFields.USE][];
+
+  const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 
   const sexInputs = useMemo(() => {
     if (animalOrBatch === AnimalOrBatchKeys.ANIMAL) {

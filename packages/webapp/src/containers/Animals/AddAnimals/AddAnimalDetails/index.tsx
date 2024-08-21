@@ -112,9 +112,6 @@ const AddAnimalDetails = () => {
         default_type_id === `${parseUniqueDefaultId(field.type.value)}` || default_type_id === null,
     );
 
-    const watchedUse = watch(`${namePrefix}${DetailsFields.USE}`) as Option[DetailsFields.USE][];
-    const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
-
     const watchedTagType = watch(
       `${namePrefix}${DetailsFields.TAG_TYPE}`,
     ) as Option[DetailsFields.TAG_TYPE];
@@ -143,7 +140,6 @@ const AddAnimalDetails = () => {
           generalDetailProps={{
             ...generalDetailProps,
             useOptions: useOptionsForType.uses,
-            isOtherUseSelected,
           }}
           uniqueDetailsProps={{
             tagTypeOptions,
@@ -160,7 +156,6 @@ const AddAnimalDetails = () => {
           generalDetailProps={{
             ...generalDetailProps,
             useOptions: useOptionsForType.uses,
-            isOtherUseSelected,
           }}
           otherDetailsProps={otherDetailsProps}
           originProps={originProps}

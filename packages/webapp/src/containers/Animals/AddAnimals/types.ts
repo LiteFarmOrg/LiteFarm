@@ -128,6 +128,7 @@ export interface FormMethods extends UseFormReturn<Partial<AnimalDetailsFormFiel
 
 export type CommonDetailsProps = {
   t: TFunction;
+  namePrefix?: string;
 };
 
 // Used by AddAnimals Form

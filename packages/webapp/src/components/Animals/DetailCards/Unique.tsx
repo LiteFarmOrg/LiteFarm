@@ -27,7 +27,6 @@ export type UniqueDetailsProps = CommonDetailsProps & {
   tagTypeOptions: Option[DetailsFields.TAG_TYPE][];
   tagColorOptions: Option[DetailsFields.TAG_COLOR][];
   shouldShowTagTypeInput?: boolean;
-  namePrefix?: string;
 };
 
 const UniqueDetails = ({

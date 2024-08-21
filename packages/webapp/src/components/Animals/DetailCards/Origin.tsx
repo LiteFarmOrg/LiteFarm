@@ -29,7 +29,6 @@ export type OriginProps = CommonDetailsProps & {
   currency: string;
   originOptions: Option[DetailsFields.ORIGIN][];
   origin?: AnimalOrigins;
-  namePrefix?: string;
 };
 
 const Origin = ({ t, currency, originOptions, origin, namePrefix = '' }: OriginProps) => {

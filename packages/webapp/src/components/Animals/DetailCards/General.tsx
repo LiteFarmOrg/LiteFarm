@@ -40,7 +40,6 @@ export type GeneralDetailsProps = CommonDetailsProps & {
   animalOrBatch: AnimalOrBatchKeys;
   isOtherUseSelected?: boolean;
   sexDetailsOptions?: SexDetailsType;
-  namePrefix?: string;
 };
 
 const GeneralDetails = ({

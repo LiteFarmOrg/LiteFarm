@@ -29,7 +29,6 @@ import {
 export type OtherDetailsProps = CommonDetailsProps & {
   organicStatusOptions: Option[DetailsFields.ORGANIC_STATUS][];
   animalOrBatch: AnimalOrBatchKeys;
-  namePrefix?: string;
 };
 
 const OtherDetails = ({

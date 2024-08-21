@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import ProfileLayout from '../ProfileLayout';
-import FarmImagePicker from './FarmImagePicker';
 import { Label } from '../../Typography';
+import ImagePicker from '../../ImagePicker';
 
 export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
   const MEASUREMENT = 'units.measurement';
@@ -52,11 +52,10 @@ export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
   };
 
   const handleRemoveImage = () => {
-    setValue(IS_IMAGE_REMOVED, true, { shouldDirty: true });
+    // Only mark the image as being removed when there is an existing uploaded image
+    if (thumbnailUrl) setValue(IS_IMAGE_REMOVED, true);
     resetField(IMAGE_FILE);
   };
-
-  const isImageRemoved = getValues(IS_IMAGE_REMOVED);
 
   return (
     <ProfileLayout
@@ -117,11 +116,10 @@ export default function PureFarm({ userFarm, onSubmit, history, isAdmin }) {
       <div>
         <input type="checkbox" style={{ display: 'none' }} {...register(IS_IMAGE_REMOVED)} />
         <Label>{t('PROFILE.FARM.FARM_IMAGE')}</Label>
-        <FarmImagePicker
+        <ImagePicker
+          defaultUrl={thumbnailUrl}
           onSelectImage={handleSelectImage}
           onRemoveImage={handleRemoveImage}
-          thumbnailUrl={thumbnailUrl}
-          isImageRemoved={isImageRemoved}
         />
       </div>
     </ProfileLayout>

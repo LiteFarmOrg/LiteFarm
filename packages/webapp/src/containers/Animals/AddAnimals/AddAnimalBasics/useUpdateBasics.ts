@@ -42,7 +42,7 @@ export const useUpdateBasics = (
     const updatedSexDetails = (detailsData: AnimalDetailsFormFields[]): SexDetailsType => {
       return sexDetailsOptions.map((option: SexDetailsType[0]) => ({
         ...option,
-        count: detailsData.filter(({ sex }: { sex?: number }) => sex === option.id).length,
+        count: detailsData.filter(({ sex_id }: { sex_id?: number }) => sex_id === option.id).length,
       }));
     };
 

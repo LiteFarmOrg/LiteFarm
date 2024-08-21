@@ -61,7 +61,7 @@ const GeneralDetails = ({
     formState: { errors },
   } = useFormContext();
 
-  const watchBatchCount = watch(`${namePrefix}.${DetailsFields.COUNT}`) || 0;
+  const watchBatchCount = watch(`${namePrefix}${DetailsFields.COUNT}`) || 0;
 
   const sexInputs = useMemo(() => {
     if (animalOrBatch === AnimalOrBatchKeys.ANIMAL) {
@@ -71,7 +71,7 @@ const GeneralDetails = ({
             <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
             {/* @ts-ignore */}
             <RadioGroup
-              name={`${namePrefix}.${DetailsFields.SEX}`}
+              name={`${namePrefix}${DetailsFields.SEX}`}
               radios={sexOptions}
               hookFormControl={control}
               row
@@ -84,13 +84,13 @@ const GeneralDetails = ({
     return (
       <div className={styles.countAndSexDetailsWrapper}>
         <NumberInput
-          name={`${namePrefix}.${DetailsFields.COUNT}`}
+          name={`${namePrefix}${DetailsFields.COUNT}`}
           control={control}
           label={t('common:COUNT')}
           className={styles.countInput}
           allowDecimal={false}
           showStepper
-          defaultValue={getValues(`${namePrefix}.${DetailsFields.COUNT}`)}
+          defaultValue={getValues(`${namePrefix}${DetailsFields.COUNT}`)}
           rules={{
             required: {
               value: true,
@@ -98,10 +98,10 @@ const GeneralDetails = ({
             },
             min: hookFormMinValidation(1),
           }}
-          onChange={() => trigger(`${namePrefix}.${DetailsFields.COUNT}`)}
+          onChange={() => trigger(`${namePrefix}${DetailsFields.COUNT}`)}
         />
         <Controller
-          name={`${namePrefix}.${DetailsFields.SEX_DETAILS}`}
+          name={`${namePrefix}${DetailsFields.SEX_DETAILS}`}
           control={control}
           rules={{
             validate: (details: SexDetailsType) => {
@@ -132,19 +132,19 @@ const GeneralDetails = ({
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.BATCH_NAME')}
-            hookFormRegister={register(`${namePrefix}.${DetailsFields.BATCH_NAME}`, {
+            hookFormRegister={register(`${namePrefix}${DetailsFields.BATCH_NAME}`, {
               maxLength: hookFormMaxCharsValidation(255),
             })}
             trigger={trigger}
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.BATCH_NAME')}
-            errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.BATCH_NAME}`)}
+            errors={getInputErrors(errors, `${namePrefix}${DetailsFields.BATCH_NAME}`)}
           />
         </>
       )}
       <Controller
         control={control}
-        name={`${namePrefix}.${DetailsFields.TYPE}`}
+        name={`${namePrefix}${DetailsFields.TYPE}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ANIMAL_TYPE')}
@@ -156,7 +156,7 @@ const GeneralDetails = ({
       />
       <Controller
         control={control}
-        name={`${namePrefix}.${DetailsFields.BREED}`}
+        name={`${namePrefix}${DetailsFields.BREED}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ANIMAL_BREED')}
@@ -170,7 +170,7 @@ const GeneralDetails = ({
       {sexInputs}
       <Controller
         control={control}
-        name={`${namePrefix}.${DetailsFields.USE}`}
+        name={`${namePrefix}${DetailsFields.USE}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('common:USE')}
@@ -189,12 +189,12 @@ const GeneralDetails = ({
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.OTHER_USE')}
-            hookFormRegister={register(`${namePrefix}.${DetailsFields.OTHER_USE}`, {
+            hookFormRegister={register(`${namePrefix}${DetailsFields.OTHER_USE}`, {
               maxLength: hookFormMaxCharsValidation(255),
             })}
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.OTHER_USE')}
-            errors={getInputErrors(errors, `${namePrefix}.${DetailsFields.OTHER_USE}`)}
+            errors={getInputErrors(errors, `${namePrefix}${DetailsFields.OTHER_USE}`)}
           />
         </>
       )}

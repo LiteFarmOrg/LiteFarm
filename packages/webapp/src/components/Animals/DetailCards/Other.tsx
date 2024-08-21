@@ -45,14 +45,14 @@ const OtherDetails = ({
     formState: { errors },
   } = useFormContext();
 
-  const { field } = useController({ control, name: `${namePrefix}.${DetailsFields.ANIMAL_IMAGE}` });
+  const { field } = useController({ control, name: `${namePrefix}${DetailsFields.ANIMAL_IMAGE}` });
 
   const handleSelectImage = (imageFile: any) => {
     field.onChange(imageFile);
   };
 
   const handleRemoveImage = () => {
-    resetField(`${namePrefix}.${DetailsFields.ANIMAL_IMAGE}`);
+    resetField(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`);
   };
 
   return (
@@ -63,14 +63,14 @@ const OtherDetails = ({
           <Input
             type="date"
             label={t('ANIMAL.ATTRIBUTE.WEANING_DATE')}
-            hookFormRegister={register(`${namePrefix}.${DetailsFields.WEANING_DATE}`)}
+            hookFormRegister={register(`${namePrefix}${DetailsFields.WEANING_DATE}`)}
             optional
           />
         </>
       )}
       <Controller
         control={control}
-        name={`${namePrefix}.${DetailsFields.ORGANIC_STATUS}`}
+        name={`${namePrefix}${DetailsFields.ORGANIC_STATUS}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ATTRIBUTE.ORGANIC_STATUS')}
@@ -85,12 +85,12 @@ const OtherDetails = ({
       {/* @ts-ignore */}
       <InputAutoSize
         label={t(`ANIMAL.ATTRIBUTE.OTHER_DETAILS_${animalOrBatch.toUpperCase()}`)}
-        hookFormRegister={register(`${namePrefix}.${DetailsFields.OTHER_DETAILS}`, {
+        hookFormRegister={register(`${namePrefix}${DetailsFields.OTHER_DETAILS}`, {
           maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
         })}
         optional
         placeholder={t('ADD_ANIMAL.PLACEHOLDER.OTHER_DETAILS')}
-        errors={errors?.[`${namePrefix}.${DetailsFields.OTHER_DETAILS}`]?.message}
+        errors={errors?.[`${namePrefix}${DetailsFields.OTHER_DETAILS}`]?.message}
       />
       <ImagePicker
         label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}

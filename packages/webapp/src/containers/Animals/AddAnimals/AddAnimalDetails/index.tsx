@@ -100,13 +100,13 @@ const AddAnimalDetails = () => {
   ).length;
 
   fields.forEach((field, index) => {
-    const namePrefix = `${STEPS.DETAILS}.${index}` as const;
+    const namePrefix = `${STEPS.DETAILS}.${index}.` as const;
     const isExpanded = expandedIds.includes(field.id);
 
     const isAnimal = field.animal_or_batch === AnimalOrBatchKeys.ANIMAL;
 
-    const watchedCount = watch(`${namePrefix}.${DetailsFields.COUNT}`);
-    const watchedOrigin = watch(`${namePrefix}.${DetailsFields.ORIGIN}`);
+    const watchedCount = watch(`${namePrefix}${DetailsFields.COUNT}`);
+    const watchedOrigin = watch(`${namePrefix}${DetailsFields.ORIGIN}`);
 
     const getOriginEnum = (watchedOrigin: number): AnimalOrigins => {
       const originOption = originOptions.find(
@@ -122,11 +122,11 @@ const AddAnimalDetails = () => {
         default_type_id === `${parseUniqueDefaultId(field.type.value)}` || default_type_id === null,
     );
 
-    const watchedUse = watch(`${namePrefix}.${DetailsFields.USE}`) as Option[DetailsFields.USE][];
+    const watchedUse = watch(`${namePrefix}${DetailsFields.USE}`) as Option[DetailsFields.USE][];
     const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 
     const watchedTagType = watch(
-      `${namePrefix}.${DetailsFields.TAG_TYPE}`,
+      `${namePrefix}${DetailsFields.TAG_TYPE}`,
     ) as Option[DetailsFields.TAG_TYPE];
 
     const mainContent = (

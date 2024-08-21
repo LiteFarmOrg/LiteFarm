@@ -70,7 +70,7 @@ const AddAnimalBasics = () => {
   return (
     <div className={styles.cardContainer}>
       {fields.map((field, index) => {
-        const namePrefix = `${STEPS.BASICS}.${index}`;
+        const namePrefix = `${STEPS.BASICS}.${index}.`;
 
         return (
           <AddAnimalsFormCard

@@ -13,8 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactElement } from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { FieldArrayWithId, useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import { Info, Semibold } from '../../../../components/Typography';
@@ -33,9 +32,11 @@ import { parseUniqueDefaultId } from '../../../../util/animal';
 import { getDefaultAnimalIconName } from '../../Inventory/useAnimalInventory';
 import usePopulateDetails from './usePopulateDetails';
 
+type AnimalDetailsField = FieldArrayWithId<AddAnimalsFormFields, 'details'>;
+
 const AddAnimalDetails = () => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
-  const { t } = useTranslation();
+
   const { control, watch } = useFormContext<AddAnimalsFormFields>();
 
   const { fields, remove, replace } = useFieldArray({
@@ -71,9 +72,6 @@ const AddAnimalDetails = () => {
   usePopulateDetails(replace);
 
   /* Render logic */
-  const animalElements: ReactElement[] = [];
-  const batchElements: ReactElement[] = [];
-
   const generalDetailProps = {
     sexOptions,
     sexDetailsOptions,
@@ -89,19 +87,14 @@ const AddAnimalDetails = () => {
     originOptions,
   };
 
-  let animalIndex = 1;
-  let batchIndex = 1;
+  const isAnimalField = (field: AnimalDetailsField) =>
+    field.animal_or_batch === AnimalOrBatchKeys.ANIMAL;
 
-  const animalCount = fields.filter(
-    (field) => field.animal_or_batch === AnimalOrBatchKeys.ANIMAL,
-  ).length;
-  const batchCount = fields.length - animalCount;
-
-  fields.forEach((field, index) => {
+  const generateExpandableItem = (field: AnimalDetailsField, index: number) => {
     const namePrefix = `${STEPS.DETAILS}.${index}.` as const;
     const isExpanded = expandedIds.includes(field.id);
 
-    const isAnimal = field.animal_or_batch === AnimalOrBatchKeys.ANIMAL;
+    const isAnimal = isAnimalField(field);
 
     const watchedCount = watch(`${namePrefix}${DetailsFields.COUNT}`);
 
@@ -119,7 +112,7 @@ const AddAnimalDetails = () => {
         type={field.type.label}
         breed={field.breed?.label}
         totalCount={isAnimal ? animalCount : batchCount}
-        number={isAnimal ? animalIndex : batchIndex}
+        number={index + 1}
         iconKey={getDefaultAnimalIconName(defaultTypes, parseUniqueDefaultId(field.type.value))}
         isBatch={!isAnimal}
         count={!isAnimal ? watchedCount : undefined}
@@ -138,20 +131,19 @@ const AddAnimalDetails = () => {
       namePrefix: namePrefix,
     };
 
-    const expandedContent =
-      field.animal_or_batch === AnimalOrBatchKeys.ANIMAL ? (
-        <AnimalDetails
-          {...commonProps}
-          uniqueDetailsProps={{
-            tagTypeOptions,
-            tagColorOptions,
-          }}
-        />
-      ) : (
-        <BatchDetails {...commonProps} />
-      );
+    const expandedContent = isAnimal ? (
+      <AnimalDetails
+        {...commonProps}
+        uniqueDetailsProps={{
+          tagTypeOptions,
+          tagColorOptions,
+        }}
+      />
+    ) : (
+      <BatchDetails {...commonProps} />
+    );
 
-    const expandableItem = (
+    return (
       <div key={field.id}>
         <ExpandableItem
           itemKey={field.id}
@@ -169,38 +161,37 @@ const AddAnimalDetails = () => {
         />
       </div>
     );
+  };
 
-    if (isAnimal) {
-      animalElements.push(expandableItem);
-      animalIndex++;
-    } else {
-      batchElements.push(expandableItem);
-      batchIndex++;
-    }
-  });
+  const animals = fields.filter(isAnimalField);
+  const batches = fields.filter((field) => !isAnimalField(field));
 
-  const SectionHeader = ({ title, count }: { title: string; count: number }) => (
-    <div className={styles.sectionHeader}>
-      <Semibold>
-        {title} ({count})
-      </Semibold>
-      <Info>{t('ADD_ANIMAL.ADD_DETAILS_INFO')}</Info>
-    </div>
-  );
+  const animalCount = animals.length;
+  const batchCount = batches.length;
 
   return (
     <div className={styles.container}>
-      {!!animalCount && (
-        <SectionHeader title={t('ANIMAL.FILTER.INDIVIDUALS')} count={animalCount} />
-      )}
+      {!!animalCount && <SectionHeader title={'ANIMAL.FILTER.INDIVIDUALS'} count={animalCount} />}
 
-      {animalElements}
+      {animals.map(generateExpandableItem)}
 
-      {!!batchCount && <SectionHeader title={t('ANIMAL.FILTER.BATCHES')} count={batchCount} />}
+      {!!batchCount && <SectionHeader title={'ANIMAL.FILTER.BATCHES'} count={batchCount} />}
 
-      {batchElements}
+      {batches.map(generateExpandableItem)}
     </div>
   );
 };
 
 export default AddAnimalDetails;
+
+const SectionHeader = ({ title, count }: { title: string; count: number }) => {
+  const { t } = useTranslation();
+  return (
+    <div className={styles.sectionHeader}>
+      <Semibold>
+        {t(title)} ({count})
+      </Semibold>
+      <Info>{t('ADD_ANIMAL.ADD_DETAILS_INFO')}</Info>
+    </div>
+  );
+};

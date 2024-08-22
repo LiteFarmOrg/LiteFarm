@@ -87,6 +87,11 @@ const AddAnimalDetails = () => {
     originOptions,
   };
 
+  const uniqueDetailsProps = {
+    tagTypeOptions,
+    tagColorOptions,
+  };
+
   const isAnimalField = (field: AnimalDetailsField) =>
     field.animal_or_batch === AnimalOrBatchKeys.ANIMAL;
 
@@ -134,13 +139,7 @@ const AddAnimalDetails = () => {
     };
 
     const expandedContent = isAnimal ? (
-      <AnimalDetails
-        {...commonProps}
-        uniqueDetailsProps={{
-          tagTypeOptions,
-          tagColorOptions,
-        }}
-      />
+      <AnimalDetails {...commonProps} uniqueDetailsProps={uniqueDetailsProps} />
     ) : (
       <BatchDetails {...commonProps} />
     );

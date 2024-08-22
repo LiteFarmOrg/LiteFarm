@@ -48,7 +48,7 @@ export enum DetailsFields {
   BATCH_NAME = 'batch_name',
   TYPE = 'type',
   BREED = 'breed',
-  SEX = 'sex',
+  SEX = 'sex_id',
   USE = 'use',
   OTHER_USE = 'other_use',
   COUNT = 'count',
@@ -58,15 +58,15 @@ export enum DetailsFields {
   NAME = 'name', // animal name
   DATE_OF_BIRTH = 'birth_date',
   TAG_NUMBER = 'identifier',
-  TAG_COLOR = 'identifier_color_id',
+  TAG_COLOR = 'identifier_color',
   TAG_TYPE = 'identifier_type',
-  TAG_TYPE_INFO = 'identifier_type_info',
+  TAG_TYPE_INFO = 'identifier_type_other',
 
   // OTHER
   WEANING_DATE = 'weaning_date',
   ORGANIC_STATUS = 'organic_status',
   OTHER_DETAILS = 'notes',
-  ANIMAL_IMAGE = 'image_file',
+  ANIMAL_IMAGE = 'photo_url',
 
   // ORIGIN
   ORIGIN = 'origin_id',

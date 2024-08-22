@@ -91,10 +91,12 @@ const AddAnimalDetails = () => {
     field.animal_or_batch === AnimalOrBatchKeys.ANIMAL;
 
   const generateExpandableItem = (field: AnimalDetailsField, index: number) => {
-    const namePrefix = `${STEPS.DETAILS}.${index}.` as const;
-    const isExpanded = expandedIds.includes(field.id);
-
     const isAnimal = isAnimalField(field);
+
+    const fieldArrayIndex = isAnimal ? index : animalCount + index;
+    const namePrefix = `${STEPS.DETAILS}.${fieldArrayIndex}.` as const;
+
+    const isExpanded = expandedIds.includes(field.id);
 
     const watchedCount = watch(`${namePrefix}${DetailsFields.COUNT}`);
 

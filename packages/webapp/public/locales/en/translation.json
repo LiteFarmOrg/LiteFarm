@@ -1,6 +1,7 @@
 {
   "ADD_ANIMAL": {
     "ADD_ANIMALS": "Add animals",
+    "ADD_ANIMALS_FLOW": "addition of animals",
     "ADD_ANIMALS_TITLE": "Add Animals",
     "ADD_TO_INVENTORY": "Add animal to your inventory",
     "ANIMAL_BASICS": "Animal basics",

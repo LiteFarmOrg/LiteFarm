@@ -38,6 +38,7 @@ export const MultiStepForm = ({
 }) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [formData, setFormData] = useState();
+  const [formResultData, setFormResultData] = useState();
 
   const form = useForm({
     mode: 'onBlur',
@@ -69,7 +70,7 @@ export const MultiStepForm = ({
     history.back();
   };
 
-  const activeStep = steps[activeStepIndex];
+  const { FormContent } = steps[activeStepIndex];
 
   const Component = components[variant];
 
@@ -81,11 +82,12 @@ export const MultiStepForm = ({
       onGoBack={onGoBack}
       onCancel={onCancel}
       onGoForward={onGoForward}
+      setFormResultData={setFormResultData}
       {...form}
       {...props}
     >
       <FormProvider {...form}>
-        <activeStep.FormContent onGoForward={onGoForward} form={form} />
+        <FormContent onGoForward={onGoForward} form={form} formResultData={formResultData} />
       </FormProvider>
     </Component>
   );
@@ -96,8 +98,6 @@ MultiStepForm.propTypes = {
   history: PropTypes.object,
   getSteps: PropTypes.func,
   defaultFormValues: PropTypes.object,
-
-  // PAGE_TITLE variant
   cancelModalTitle: PropTypes.string,
 
   // STEPPER_PROGRESS_BAR variant

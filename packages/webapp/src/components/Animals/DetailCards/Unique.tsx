@@ -32,7 +32,6 @@ const UniqueDetails = ({
   t,
   tagTypeOptions,
   tagColorOptions,
-
   namePrefix = '',
 }: UniqueDetailsProps) => {
   const {

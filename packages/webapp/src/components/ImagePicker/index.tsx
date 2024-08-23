@@ -51,6 +51,10 @@ export default function ImagePicker({
   };
 
   const showImage = (file: File) => {
+    if (file.size > 5e6) {
+      setShowFileSizeExceedsModal(true);
+      return;
+    }
     const url = URL.createObjectURL(file);
     setPreviewUrl(url);
     onSelectImage(file);
@@ -59,12 +63,8 @@ export default function ImagePicker({
   const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
-    if (file.size > 5e6) {
-      setShowFileSizeExceedsModal(true);
-      e.target.value = '';
-    } else {
-      showImage(file);
-    }
+    showImage(file);
+    e.target.value = '';
   };
 
   const handleDragEvent = (e: React.DragEvent) => {
@@ -75,7 +75,7 @@ export default function ImagePicker({
       dropContainerRef.current?.classList.toggle(styles.dropContainerActive);
     } else if (e.type === 'drop') {
       const file = e.dataTransfer?.files[0];
-      if (file) showImage(file);
+      showImage(file);
     }
   };
 

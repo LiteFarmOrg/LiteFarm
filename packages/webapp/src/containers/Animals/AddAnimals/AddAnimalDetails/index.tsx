@@ -72,11 +72,6 @@ const AddAnimalDetails = () => {
   usePopulateDetails(replace);
 
   /* Render logic */
-  const generalDetailProps = {
-    sexOptions,
-    sexDetailsOptions,
-  };
-
   const currency = useCurrencySymbol();
 
   const isAnimalField = (field: AnimalDetailsField) =>

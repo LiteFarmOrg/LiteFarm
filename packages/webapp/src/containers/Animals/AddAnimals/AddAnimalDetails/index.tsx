@@ -77,11 +77,14 @@ const AddAnimalDetails = () => {
   const isAnimalField = (field: AnimalDetailsField) =>
     field.animal_or_batch === AnimalOrBatchKeys.ANIMAL;
 
-  const generateExpandableItem = (field: AnimalDetailsField, index: number) => {
-    const isAnimal = isAnimalField(field);
-
-    const fieldArrayIndex = fields.findIndex(({ id }) => id === field.id);
+  const generateExpandableItem = (
+    fieldWithFieldArrayIndex: AnimalDetailsField & { fieldArrayIndex: number },
+    index: number,
+  ) => {
+    const { fieldArrayIndex, ...field } = fieldWithFieldArrayIndex;
     const namePrefix = `${STEPS.DETAILS}.${fieldArrayIndex}.` as const;
+
+    const isAnimal = isAnimalField(field);
 
     const isExpanded = expandedIds.includes(field.id);
 
@@ -150,8 +153,13 @@ const AddAnimalDetails = () => {
     );
   };
 
-  const animals = fields.filter(isAnimalField);
-  const batches = fields.filter((field) => !isAnimalField(field));
+  const animals: (AnimalDetailsField & { fieldArrayIndex: number })[] = [];
+  const batches: (AnimalDetailsField & { fieldArrayIndex: number })[] = [];
+
+  fields.forEach((animalOrBatch, index) => {
+    const array = isAnimalField(animalOrBatch) ? animals : batches;
+    array.push({ ...animalOrBatch, fieldArrayIndex: index });
+  });
 
   const animalCount = animals.length;
   const batchCount = batches.length;

@@ -963,7 +963,7 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "Files cannot be larger than 10MB.",
+    "BODY": "Files cannot be larger than {{size}} MB.",
     "TITLE": "File size too large"
   },
   "FILTER": {

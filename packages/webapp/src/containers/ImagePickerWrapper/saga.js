@@ -6,10 +6,12 @@ import { axios, getHeader } from '../saga';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 
-const { cropVarietyURL, cropURL } = apiConfig;
+const { cropVarietyURL, cropURL, animalBatchesUrl, animalsUrl } = apiConfig;
 const imageRouteURL = {
   crop_variety: cropVarietyURL,
   crop: cropURL,
+  animal: animalsUrl,
+  animalBatch: animalBatchesUrl,
   //deprecated
   'storybook/': cropVarietyURL,
 };

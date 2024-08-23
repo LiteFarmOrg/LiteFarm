@@ -103,6 +103,7 @@ const OtherDetails = ({
         onFileUpload={onFileUpload}
         onRemoveImage={handleRemoveImage}
         shouldGetImageUrl={true}
+        defaultUrl={field.value}
       />
     </div>
   );

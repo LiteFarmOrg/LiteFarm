@@ -77,20 +77,7 @@ const AddAnimalDetails = () => {
     sexDetailsOptions,
   };
 
-  const otherDetailsProps = {
-    organicStatusOptions,
-  };
-
   const currency = useCurrencySymbol();
-  const originProps = {
-    currency: currency,
-    originOptions,
-  };
-
-  const uniqueDetailsProps = {
-    tagTypeOptions,
-    tagColorOptions,
-  };
 
   const isAnimalField = (field: AnimalDetailsField) =>
     field.animal_or_batch === AnimalOrBatchKeys.ANIMAL;
@@ -130,16 +117,20 @@ const AddAnimalDetails = () => {
     const commonProps = {
       key: field.id,
       generalDetailProps: {
-        ...generalDetailProps,
+        sexOptions,
+        sexDetailsOptions,
         useOptions: useOptionsForType.uses,
       },
-      otherDetailsProps: otherDetailsProps,
-      originProps: originProps,
+      otherDetailsProps: { organicStatusOptions },
+      originProps: {
+        currency: currency,
+        originOptions,
+      },
       namePrefix: namePrefix,
     };
 
     const expandedContent = isAnimal ? (
-      <AnimalDetails {...commonProps} uniqueDetailsProps={uniqueDetailsProps} />
+      <AnimalDetails {...commonProps} uniqueDetailsProps={{ tagTypeOptions, tagColorOptions }} />
     ) : (
       <BatchDetails {...commonProps} />
     );

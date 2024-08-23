@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import styles from './styles.module.scss';
 import AddAnimalsFormCard from '../../../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
@@ -41,6 +42,8 @@ const AddAnimalBasics = () => {
     control,
   });
 
+  const [formUpdated, setFormUpdated] = useState(false);
+
   const { typeOptions, breedOptions, sexDetailsOptions } = useAnimalOptions(
     'type',
     'breed',
@@ -48,7 +51,7 @@ const AddAnimalBasics = () => {
   );
 
   // Update basics form based on details data
-  useUpdateBasics(fields, replace);
+  useUpdateBasics(fields, replace, setFormUpdated);
 
   const onAddCard = (): void => {
     append(animalBasicsDefaultValues);
@@ -58,34 +61,36 @@ const AddAnimalBasics = () => {
     // Remove the corresponding details entries
     const removedBasicsCardId = fields[index][BasicsFields.FIELD_ARRAY_ID];
     const detailsFields = getValues(STEPS.DETAILS);
-    const updatedDetailsFields = detailsFields.filter(
+    const formUpdatedDetailsFields = detailsFields.filter(
       (field) => field[DetailsFields.BASICS_FIELD_ARRAY_ID] !== removedBasicsCardId,
     );
-    setValue(STEPS.DETAILS, updatedDetailsFields);
+    setValue(STEPS.DETAILS, formUpdatedDetailsFields);
 
     // Remove the basics card
     remove(index);
   };
 
   return (
-    <div className={styles.cardContainer}>
-      {fields.map((field, index) => {
-        const namePrefix = `${STEPS.BASICS}.${index}.`;
+    formUpdated && (
+      <div className={styles.cardContainer}>
+        {fields.map((field, index) => {
+          const namePrefix = `${STEPS.BASICS}.${index}.`;
 
-        return (
-          <AddAnimalsFormCard
-            key={field.id}
-            typeOptions={typeOptions}
-            breedOptions={breedOptions}
-            sexDetailsOptions={sexDetailsOptions}
-            showRemoveButton={fields.length > 1}
-            onRemoveButtonClick={() => onRemoveCard(index)}
-            namePrefix={namePrefix}
-          />
-        );
-      })}
-      <MoreAnimalsCard onClick={onAddCard} />
-    </div>
+          return (
+            <AddAnimalsFormCard
+              key={field.id}
+              typeOptions={typeOptions}
+              breedOptions={breedOptions}
+              sexDetailsOptions={sexDetailsOptions}
+              showRemoveButton={fields.length > 1}
+              onRemoveButtonClick={() => onRemoveCard(index)}
+              namePrefix={namePrefix}
+            />
+          );
+        })}
+        <MoreAnimalsCard onClick={onAddCard} />
+      </div>
+    )
   );
 };
 

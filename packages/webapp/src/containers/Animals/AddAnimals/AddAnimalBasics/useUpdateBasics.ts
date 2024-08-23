@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useLayoutEffect } from 'react';
+import { useEffect, Dispatch, SetStateAction } from 'react';
 import { useFormContext, UseFieldArrayReplace } from 'react-hook-form';
 import { useAnimalOptions } from '../useAnimalOptions';
 import {
@@ -29,13 +29,15 @@ import { Details as SexDetailsType } from '../../../../components/Form/SexDetail
 export const useUpdateBasics = (
   fields: AnimalBasicsFormFields[],
   replace: UseFieldArrayReplace<AddAnimalsFormFields, 'basics'>,
+  setFormUpdated: Dispatch<SetStateAction<boolean>>,
 ) => {
   const { getValues } = useFormContext<AddAnimalsFormFields>();
   const { sexDetailsOptions } = useAnimalOptions('sexDetails');
   const detailsFields = getValues(STEPS.DETAILS);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!detailsFields.length) {
+      setFormUpdated(true);
       return;
     }
 
@@ -80,5 +82,6 @@ export const useUpdateBasics = (
     });
 
     replace(filteredFields);
+    setFormUpdated(true);
   }, [!!sexDetailsOptions]);
 };

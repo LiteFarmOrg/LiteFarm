@@ -98,7 +98,7 @@ const AddAnimalDetails = () => {
   const generateExpandableItem = (field: AnimalDetailsField, index: number) => {
     const isAnimal = isAnimalField(field);
 
-    const fieldArrayIndex = isAnimal ? index : animalCount + index;
+    const fieldArrayIndex = fields.findIndex(({ id }) => id === field.id);
     const namePrefix = `${STEPS.DETAILS}.${fieldArrayIndex}.` as const;
 
     const isExpanded = expandedIds.includes(field.id);

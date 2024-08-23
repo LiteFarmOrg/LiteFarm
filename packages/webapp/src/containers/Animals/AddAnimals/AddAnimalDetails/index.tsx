@@ -115,7 +115,7 @@ const AddAnimalDetails = () => {
         showRemove={fields.length > 1}
         key={field.id}
         isExpanded={isExpanded}
-        onRemove={() => onRemoveCard(index)}
+        onRemove={() => onRemoveCard(fieldArrayIndex)}
         type={field.type.label}
         breed={field.breed?.label}
         totalCount={isAnimal ? animalCount : batchCount}

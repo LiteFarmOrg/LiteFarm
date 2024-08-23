@@ -15,7 +15,6 @@
 
 import { useEffect, Dispatch, SetStateAction } from 'react';
 import { useFormContext, UseFieldArrayReplace } from 'react-hook-form';
-import { useAnimalOptions } from '../useAnimalOptions';
 import {
   AnimalBasicsFormFields,
   AnimalDetailsFormFields,
@@ -30,9 +29,9 @@ export const useUpdateBasics = (
   fields: AnimalBasicsFormFields[],
   replace: UseFieldArrayReplace<AddAnimalsFormFields, 'basics'>,
   setFormUpdated: Dispatch<SetStateAction<boolean>>,
+  sexDetailsOptions: SexDetailsType,
 ) => {
   const { getValues } = useFormContext<AddAnimalsFormFields>();
-  const { sexDetailsOptions } = useAnimalOptions('sexDetails');
   const detailsFields = getValues(STEPS.DETAILS);
 
   useEffect(() => {

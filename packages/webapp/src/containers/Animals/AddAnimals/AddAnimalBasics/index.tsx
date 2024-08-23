@@ -51,7 +51,7 @@ const AddAnimalBasics = () => {
   );
 
   // Update basics form based on details data
-  useUpdateBasics(fields, replace, setFormUpdated);
+  useUpdateBasics(fields, replace, setFormUpdated, sexDetailsOptions);
 
   const onAddCard = (): void => {
     append(animalBasicsDefaultValues);

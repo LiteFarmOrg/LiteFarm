@@ -18,17 +18,13 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { enqueueErrorSnackbar } from '../../containers/Snackbar/snackbarSlice';
 import { uploadImage } from '../../containers/ImagePickerWrapper/saga';
-import { FileEvent } from '.';
+import { FileEvent, OnFileUpload } from '.';
 
-type GetOnFileUpload = (
+export type GetOnFileUpload = (
   targetRoute: string,
   onSelectImage: (imageUrl: string) => void,
   onLoading?: (loading: boolean) => void,
-) => (
-  e: ChangeEvent<HTMLInputElement> | DragEvent,
-  setPreviewUrl: (url: string) => void,
-  event: FileEvent,
-) => Promise<void>;
+) => OnFileUpload;
 
 /**
  * Custom hook designed to be used as a helper for the `ImagePicker` component to save the image URL

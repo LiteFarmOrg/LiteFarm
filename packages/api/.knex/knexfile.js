@@ -15,14 +15,16 @@
 // import path from 'path';
 // import { fileURLToPath } from 'url';
 
-const dotenv = require('dotenv');
-const path = require('path');
+import * as dotenv from 'dotenv';
+import path from 'node:path';
 
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+const dirname = import.meta.dirname;
 
-const root = path.resolve(__dirname, '../');
+dotenv.config({ path: path.resolve(dirname, '../.env') });
 
-module.exports = {
+const root = path.resolve(dirname, '../');
+
+export default {
   development: {
     client: 'postgresql',
     connection: {

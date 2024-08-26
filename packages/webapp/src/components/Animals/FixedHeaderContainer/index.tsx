@@ -31,7 +31,7 @@ import styles from './styles.module.scss';
 
 const PAPER_BORDER = 2;
 
-const FULL_WIDTH_ROUTES = [ADD_ANIMALS_URL];
+const CONTENT_FULL_WIDTH_ROUTES = [ADD_ANIMALS_URL];
 
 export enum ContainerKind {
   OVERFLOW,
@@ -79,7 +79,9 @@ const FixedHeaderContainer = ({
 }: FixedHeaderContainerProps) => {
   const [paperHeightInPx, setPaperHeightInPx] = useState<number | null>(null);
   const paperRef = useRef<HTMLDivElement>(null);
-  const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(history.location.pathname, path));
+  const isFullWidth = CONTENT_FULL_WIDTH_ROUTES.some((path) =>
+    matchPath(history.location.pathname, path),
+  );
 
   useLayoutEffect(() => {
     if (kind === ContainerKind.OVERFLOW) {

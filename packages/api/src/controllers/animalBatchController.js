@@ -128,6 +128,62 @@ const animalBatchController = {
     };
   },
 
+  editAnimalBatches() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+
+      try {
+        // select only allowed properties to edit
+        for (const animalBatch of req.body) {
+          const {
+            id,
+            count,
+            custom_breed_id,
+            custom_type_id,
+            default_breed_id,
+            default_type_id,
+            name,
+            notes,
+            photo_url,
+            organic_status,
+            supplier,
+            price,
+            sex_detail,
+            group_ids,
+            animal_batch_use_relationships,
+          } = animalBatch;
+
+          await baseController.upsertGraph(
+            AnimalBatchModel,
+            {
+              id,
+              count,
+              custom_breed_id,
+              custom_type_id,
+              default_breed_id,
+              default_type_id,
+              name,
+              notes,
+              photo_url,
+              organic_status,
+              supplier,
+              price,
+              sex_detail,
+              group_ids,
+              animal_batch_use_relationships,
+            },
+            req,
+            { trx },
+          );
+        }
+        await trx.commit();
+        return res.status(204).send();
+      } catch (error) {
+        handleObjectionError(error, res, trx);
+      }
+    };
+  },
+
   removeAnimalBatches() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());

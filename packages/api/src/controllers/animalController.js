@@ -177,7 +177,81 @@ const animalController = {
       }
     };
   },
+  editAnimals() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
 
+      try {
+        // select only allowed properties to edit
+        for (const animal of req.body) {
+          const {
+            id,
+            default_type_id,
+            custom_type_id,
+            default_breed_id,
+            custom_breed_id,
+            sex_id,
+            name,
+            birth_date,
+            identifier,
+            identifier_color_id,
+            identifier_placement_id,
+            origin_id,
+            dam,
+            sire,
+            brought_in_date,
+            weaning_date,
+            notes,
+            photo_url,
+            identifier_type_id,
+            identifier_type_other,
+            organic_status,
+            supplier,
+            price,
+            group_ids,
+            animal_use_relationships,
+          } = animal;
+
+          await baseController.upsertGraph(
+            AnimalModel,
+            {
+              id,
+              default_type_id,
+              custom_type_id,
+              default_breed_id,
+              custom_breed_id,
+              sex_id,
+              name,
+              birth_date,
+              identifier,
+              identifier_color_id,
+              identifier_placement_id,
+              origin_id,
+              dam,
+              sire,
+              brought_in_date,
+              weaning_date,
+              notes,
+              photo_url,
+              identifier_type_id,
+              identifier_type_other,
+              organic_status,
+              supplier,
+              price,
+              group_ids,
+              animal_use_relationships,
+            },
+            req,
+            { trx },
+          );
+        }
+        await trx.commit();
+        return res.status(204).send();
+      } catch (error) {
+        handleObjectionError(error, res, trx);
+      }
+    };
+  },
   removeAnimals() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());

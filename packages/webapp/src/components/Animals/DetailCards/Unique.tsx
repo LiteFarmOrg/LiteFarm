@@ -16,27 +16,34 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../Form/Input';
-import { DetailsFields, type Option, type CommonDetailsProps } from './type';
+import {
+  DetailsFields,
+  type Option,
+  type CommonDetailsProps,
+} from '../../../containers/Animals/AddAnimals/types';
 import styles from './styles.module.scss';
 
 export type UniqueDetailsProps = CommonDetailsProps & {
   tagTypeOptions: Option[DetailsFields.TAG_TYPE][];
   tagColorOptions: Option[DetailsFields.TAG_COLOR][];
-  shouldShowTagTypeInput?: boolean;
 };
 
 const UniqueDetails = ({
   t,
   tagTypeOptions,
   tagColorOptions,
-  shouldShowTagTypeInput,
+  namePrefix = '',
 }: UniqueDetailsProps) => {
   const {
     control,
     register,
     trigger,
+    watch,
     formState: { errors },
   } = useFormContext();
+
+  const watchedTagType = watch(`${namePrefix}${DetailsFields.TAG_TYPE}`);
+  const shouldShowTagTypeInput = watchedTagType?.key === 'OTHER';
 
   return (
     <div className={styles.sectionWrapper}>
@@ -44,36 +51,36 @@ const UniqueDetails = ({
       <Input
         type="text"
         label={t('common:NAME')}
-        hookFormRegister={register(DetailsFields.NAME, {
+        hookFormRegister={register(`${namePrefix}${DetailsFields.NAME}`, {
           maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
         })}
         trigger={trigger}
         optional
         placeholder={t('ADD_ANIMAL.PLACEHOLDER.NAME')}
-        errors={getInputErrors(errors, DetailsFields.NAME)}
+        errors={getInputErrors(errors, `${namePrefix}${DetailsFields.NAME}`)}
       />
       {/* @ts-ignore */}
       <Input
         type="date"
         label={t('ANIMAL.ATTRIBUTE.DATE_OF_BIRTH')}
-        hookFormRegister={register(DetailsFields.DATE_OF_BIRTH)}
+        hookFormRegister={register(`${namePrefix}${DetailsFields.DATE_OF_BIRTH}`)}
         optional
       />
       {/* @ts-ignore */}
       <Input
         type="text"
         label={t('ANIMAL.ATTRIBUTE.TAG_NUMBER')}
-        hookFormRegister={register(DetailsFields.TAG_NUMBER, {
+        hookFormRegister={register(`${namePrefix}${DetailsFields.TAG_NUMBER}`, {
           maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
         })}
         trigger={trigger}
         optional
         placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_NUMBER')}
-        errors={getInputErrors(errors, DetailsFields.TAG_NUMBER)}
+        errors={getInputErrors(errors, `${namePrefix}${DetailsFields.TAG_NUMBER}`)}
       />
       <Controller
         control={control}
-        name={DetailsFields.TAG_COLOR}
+        name={`${namePrefix}${DetailsFields.TAG_COLOR}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ATTRIBUTE.TAG_COLOUR')}
@@ -87,7 +94,7 @@ const UniqueDetails = ({
       />
       <Controller
         control={control}
-        name={DetailsFields.TAG_TYPE}
+        name={`${namePrefix}${DetailsFields.TAG_TYPE}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ATTRIBUTE.TAG_TYPE')}
@@ -104,13 +111,13 @@ const UniqueDetails = ({
           {/* @ts-ignore */}
           <Input
             type="text"
-            hookFormRegister={register(DetailsFields.TAG_TYPE_INFO, {
+            hookFormRegister={register(`${namePrefix}${DetailsFields.TAG_TYPE_INFO}`, {
               maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
             })}
             trigger={trigger}
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.TAG_TYPE_INFO')}
-            errors={getInputErrors(errors, DetailsFields.TAG_TYPE_INFO)}
+            errors={getInputErrors(errors, `${namePrefix}${DetailsFields.TAG_TYPE_INFO}`)}
           />
         </>
       )}

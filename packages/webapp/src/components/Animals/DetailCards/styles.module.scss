@@ -13,44 +13,23 @@
 *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
 */
 
-@import '../../../assets/mixin.scss';
-
-.wrapper {
-  height: calc(100vh - var(--global-navbar-height));
-  max-width: 100vw;
+.sectionWrapper {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: var(--White);
 }
 
-.paper {
-  width: 100%;
-  overflow-y: auto;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  flex: 1;
-
-  &.hasMaxWidth {
-    max-width: 1024px;
-  }
-
-  @include lg-breakpoint {
-    margin: 16px auto;
-    border-radius: 8px;
-    border: 1px solid var(--Colors-Primary-Primary-teal-50);
-  }
-}
-
-.overflowStyle {
+.countAndSexDetailsWrapper {
   display: flex;
-  justify-content: center;
-  overflow-y: scroll;
+  align-items: start;
+  gap: 16px;
 }
 
-.childrenWrapper {
-  width: 100%;
-
-  &.hasMaxWidth {
-    max-width: 1024px;
+.countInput {
+  flex-basis: 104px;
+  & + div {
+    flex: 1;
   }
 }

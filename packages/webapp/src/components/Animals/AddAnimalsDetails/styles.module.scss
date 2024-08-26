@@ -29,22 +29,10 @@
   margin-top: 16px;
 }
 
-.detailsWrapper,
-.sectionWrapper {
+.detailsWrapper {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.countAndSexDetailsWrapper {
-  display: flex;
-  align-items: start;
-  gap: 16px;
-}
-
-.countInput {
-  flex-basis: 104px;
-  & + div {
-    flex: 1;
-  }
+  gap: 8px;
+  padding: 16px;
+  background: var(--White);
 }

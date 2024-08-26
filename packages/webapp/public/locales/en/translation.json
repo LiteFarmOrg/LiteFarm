@@ -3,7 +3,8 @@
     "ADD_ANIMALS": "Add animals",
     "ADD_ANIMALS_FLOW": "addition of animals",
     "ADD_ANIMALS_TITLE": "Add Animals",
-    "ADD_TO_INVENTORY": "Add animal to your inventory",
+    "ADD_DETAILS_INFO": "Fill in your animal details below or save and pick this up later on.",
+    "ADD_TO_INVENTORY": "Add animals to your inventory",
     "ANIMAL_BASICS": "Animal basics",
     "ANIMAL_DETAILS": "Animal details",
     "ANIMALS_TOTAL_one": "{{count}} animal total",
@@ -16,7 +17,7 @@
     "BREED_PLACEHOLDER": "Add your animal breed",
     "BREED_PLACEHOLDER_DISABLED": "Please select a type first",
     "CREATE_INDIVIDUAL_PROFILES": "Create individual animal profiles",
-    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately. This allows for detailed records and individualised care plans, all animals will be conveniently grouped. If you don't select 'Create Individual Animal Profiles' you'll create an Animal Batch. This is ideal for\u00a0managing animals collectively. In batch mode, individual animal details are not tracked.",
+    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately",
     "GENERAL_DETAILS": "General details",
     "GENERAL_DETAILS_BATCH": "Batch general details",
     "GROUP_NAME": "Group name",
@@ -965,7 +966,7 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "Files cannot be larger than 10MB.",
+    "BODY": "Files cannot be larger than {{size}} MB.",
     "TITLE": "File size too large"
   },
   "FILTER": {

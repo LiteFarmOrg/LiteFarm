@@ -17,23 +17,36 @@ import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
-import { DetailsFields, type Option, type CommonDetailsProps } from './type';
+import {
+  DetailsFields,
+  type Option,
+  type CommonDetailsProps,
+} from '../../../containers/Animals/AddAnimals/types';
 import { AnimalOrigins } from '../../../containers/Animals/types';
 import styles from './styles.module.scss';
 
 export type OriginProps = CommonDetailsProps & {
   currency: string;
   originOptions: Option[DetailsFields.ORIGIN][];
-  origin?: AnimalOrigins;
 };
 
-const Origin = ({ t, currency, originOptions, origin }: OriginProps) => {
+const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) => {
   const {
     control,
     register,
     trigger,
+    watch,
     formState: { errors },
   } = useFormContext();
+
+  const watchedOrigin = watch(`${namePrefix}${DetailsFields.ORIGIN}`);
+
+  const getOriginEnum = (watchedOrigin: number): AnimalOrigins => {
+    const originOption = originOptions.find((option) => option.value === watchedOrigin);
+    return AnimalOrigins[originOption?.key as keyof typeof AnimalOrigins];
+  };
+
+  const origin = !watchedOrigin ? undefined : getOriginEnum(watchedOrigin);
 
   const fields = useMemo(() => {
     return origin === AnimalOrigins.BROUGHT_IN ? (
@@ -43,7 +56,7 @@ const Origin = ({ t, currency, originOptions, origin }: OriginProps) => {
           key={DetailsFields.BROUGHT_IN_DATE}
           type="date"
           label={t('common:DATE')}
-          hookFormRegister={register(DetailsFields.BROUGHT_IN_DATE)}
+          hookFormRegister={register(`${namePrefix}${DetailsFields.BROUGHT_IN_DATE}`)}
           optional
         />
         {/* @ts-ignore */}
@@ -51,13 +64,13 @@ const Origin = ({ t, currency, originOptions, origin }: OriginProps) => {
           key={DetailsFields.SUPPLIER}
           type="text"
           label={t('ANIMAL.ATTRIBUTE.SUPPLIER')}
-          hookFormRegister={register(DetailsFields.SUPPLIER, {
+          hookFormRegister={register(`${namePrefix}${DetailsFields.SUPPLIER}`, {
             maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
           })}
           trigger={trigger}
           optional
           placeholder={t('ADD_ANIMAL.PLACEHOLDER.SUPPLIER')}
-          errors={getInputErrors(errors, DetailsFields.SUPPLIER)}
+          errors={getInputErrors(errors, `${namePrefix}${DetailsFields.SUPPLIER}`)}
         />
         {/* @ts-ignore */}
         <Input
@@ -65,11 +78,11 @@ const Origin = ({ t, currency, originOptions, origin }: OriginProps) => {
           type="number"
           currency={currency}
           label={t('common:PRICE')}
-          hookFormRegister={register(DetailsFields.PRICE)}
+          hookFormRegister={register(`${namePrefix}${DetailsFields.PRICE}`)}
           max={9999999999}
           optional
           placeholder={t('ADD_ANIMAL.PLACEHOLDER.PRICE')}
-          errors={getInputErrors(errors, DetailsFields.PRICE)}
+          errors={getInputErrors(errors, `${namePrefix}${DetailsFields.PRICE}`)}
         />
       </>
     ) : (
@@ -79,26 +92,26 @@ const Origin = ({ t, currency, originOptions, origin }: OriginProps) => {
           key={DetailsFields.DAM}
           type="text"
           label={t('ANIMAL.ATTRIBUTE.DAM')}
-          hookFormRegister={register(DetailsFields.DAM, {
+          hookFormRegister={register(`${namePrefix}${DetailsFields.DAM}`, {
             maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
           })}
           trigger={trigger}
           optional
           placeholder={t('ADD_ANIMAL.PLACEHOLDER.DAM')}
-          errors={getInputErrors(errors, DetailsFields.DAM)}
+          errors={getInputErrors(errors, `${namePrefix}${DetailsFields.DAM}`)}
         />
         {/* @ts-ignore */}
         <Input
           key={DetailsFields.SIRE}
           type="text"
           label={t('ANIMAL.ATTRIBUTE.SIRE')}
-          hookFormRegister={register(DetailsFields.SIRE, {
+          hookFormRegister={register(`${namePrefix}${DetailsFields.SIRE}`, {
             maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
           })}
           trigger={trigger}
           optional
           placeholder={t('ADD_ANIMAL.PLACEHOLDER.SIRE')}
-          errors={getInputErrors(errors, DetailsFields.SIRE)}
+          errors={getInputErrors(errors, `${namePrefix}${DetailsFields.SIRE}`)}
         />
       </>
     );
@@ -109,7 +122,7 @@ const Origin = ({ t, currency, originOptions, origin }: OriginProps) => {
       <div>
         {/* @ts-ignore */}
         <RadioGroup
-          name={DetailsFields.ORIGIN}
+          name={`${namePrefix}${DetailsFields.ORIGIN}`}
           radios={originOptions}
           hookFormControl={control}
           row

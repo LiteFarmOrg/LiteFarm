@@ -19,13 +19,10 @@ import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import GeneralDetails, {
   GeneralDetailsProps,
-} from '../../../components/Animals/AddAnimalsDetails/General';
+} from '../../../components/Animals/DetailCards/General';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
-import {
-  DetailsFields,
-  FormMethods,
-  FormValues,
-} from '../../../components/Animals/AddAnimalsDetails/type';
+import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
+
 import { sexOptions, sexDetailsOptions, useOptions, defaultValues } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
@@ -40,13 +37,10 @@ const meta: Meta<GeneralDetailsProps> = {
         mode: 'onBlur',
         defaultValues,
       });
-      const use = formMethods.watch(DetailsFields.USE);
-      const otherUseId = 2; // mockData. Container should derive from KEY
-      const isOtherUseSelected = use?.some((selected) => selected.value === otherUseId);
 
       return (
         <FormProvider {...formMethods}>
-          <Story t={t} isOtherUseSelected={isOtherUseSelected} />
+          <Story t={t} />
         </FormProvider>
       );
     },

@@ -26,6 +26,7 @@ import {
 } from '../middleware/checkAnimalEntities.js';
 import multerDiskUpload from '../util/fileUpload.js';
 import validateFileExtension from '../middleware/validation/uploadImage.js';
+import { checkRemoveAnimalOrBatch } from '../middleware/validation/checkAnimalOrBatch.js';
 
 router.get('/', checkScope(['get:animals']), AnimalController.getFarmAnimals());
 router.post(
@@ -35,10 +36,11 @@ router.post(
   AnimalController.addAnimals(),
 );
 router.patch(
-  '/',
+  '/remove',
   checkScope(['edit:animals']),
+  checkRemoveAnimalOrBatch('animal'),
   // Can't use hasFarmAccess because body is an array & because of non-unique id field
-  AnimalController.editAnimals(),
+  AnimalController.removeAnimals(),
 );
 router.delete(
   '/',

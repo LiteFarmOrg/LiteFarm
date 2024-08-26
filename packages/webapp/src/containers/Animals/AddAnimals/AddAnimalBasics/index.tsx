@@ -13,107 +13,84 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-import {
-  useGetDefaultAnimalTypesQuery,
-  useGetCustomAnimalTypesQuery,
-  useGetDefaultAnimalBreedsQuery,
-  useGetCustomAnimalBreedsQuery,
-  useGetAnimalSexesQuery,
-} from '../../../../store/api/apiSlice';
 import AddAnimalsFormCard from '../../../../components/Animals/AddAnimalsFormCard/AddAnimalsFormCard';
 import MoreAnimalsCard from '../../../../components/Animals/AddAnimalsForm/MoreAnimalsCard';
-import { ANIMAL_BASICS_FIELD_NAMES as FIELD_NAMES } from '../types';
+import { useAnimalOptions } from '../useAnimalOptions';
+import { BasicsFields, DetailsFields } from '../types';
 import { AddAnimalsFormFields } from '../types';
-import { generateUniqueAnimalId } from '../../../../util/animal';
-import { ANIMAL_ID_PREFIX } from '../../types';
 import { STEPS } from '..';
+import { useUpdateBasics } from './useUpdateBasics';
 
 export const animalBasicsDefaultValues = {
-  [FIELD_NAMES.TYPE]: undefined,
-  [FIELD_NAMES.BREED]: undefined,
-  [FIELD_NAMES.SEX_DETAILS]: [{ id: '', label: '', count: NaN }],
-  [FIELD_NAMES.COUNT]: NaN,
-  [FIELD_NAMES.CREATE_INDIVIDUAL_PROFILES]: false,
-  [FIELD_NAMES.GROUP]: '',
-  [FIELD_NAMES.BATCH]: '',
+  [BasicsFields.TYPE]: undefined,
+  [BasicsFields.BREED]: undefined,
+  [BasicsFields.SEX_DETAILS]: undefined,
+  [BasicsFields.COUNT]: 1,
+  [BasicsFields.CREATE_INDIVIDUAL_PROFILES]: false,
+  [BasicsFields.GROUP_NAME]: '',
+  [BasicsFields.BATCH_NAME]: '',
 };
 
 const AddAnimalBasics = () => {
-  const { t } = useTranslation(['animal', 'common', 'translation']);
-  const { control } = useFormContext<AddAnimalsFormFields>();
+  const { control, getValues, setValue } = useFormContext<AddAnimalsFormFields>();
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, replace } = useFieldArray({
     name: STEPS.BASICS,
     control,
   });
 
+  const [formUpdated, setFormUpdated] = useState(false);
+
+  const { typeOptions, breedOptions, sexDetailsOptions } = useAnimalOptions(
+    'type',
+    'breed',
+    'sexDetails',
+  );
+
+  // Update basics form based on details data
+  useUpdateBasics(fields, replace, setFormUpdated, sexDetailsOptions);
+
   const onAddCard = (): void => {
     append(animalBasicsDefaultValues);
   };
+
   const onRemoveCard = (index: number): void => {
+    // Remove the corresponding details entries
+    const removedBasicsCardId = fields[index][BasicsFields.FIELD_ARRAY_ID];
+    const detailsFields = getValues(STEPS.DETAILS);
+    const formUpdatedDetailsFields = detailsFields.filter(
+      (field) => field[DetailsFields.BASICS_FIELD_ARRAY_ID] !== removedBasicsCardId,
+    );
+    setValue(STEPS.DETAILS, formUpdatedDetailsFields);
+
+    // Remove the basics card
     remove(index);
   };
 
-  const { data: defaultTypes = [] } = useGetDefaultAnimalTypesQuery();
-  const { data: customTypes = [] } = useGetCustomAnimalTypesQuery();
-  const { data: defaultBreeds = [] } = useGetDefaultAnimalBreedsQuery();
-  const { data: customBreeds = [] } = useGetCustomAnimalBreedsQuery();
-  const { data: sexes = [] } = useGetAnimalSexesQuery();
-
-  const typeOptions = [
-    ...defaultTypes.map((defaultType) => ({
-      label: t(`animal:TYPE.${defaultType.key}`),
-      value: generateUniqueAnimalId(defaultType),
-    })),
-    ...customTypes.map((customType) => ({
-      label: customType.type,
-      value: generateUniqueAnimalId(customType),
-    })),
-  ];
-
-  const breedOptions = [
-    ...defaultBreeds.map((defaultBreed) => ({
-      label: t(`animal:BREED.${defaultBreed.key}`),
-      value: generateUniqueAnimalId(defaultBreed),
-      type: generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, defaultBreed.default_type_id),
-    })),
-    ...customBreeds.map((customBreed) => ({
-      label: customBreed.breed,
-      value: generateUniqueAnimalId(customBreed),
-      type: customBreed.default_type_id
-        ? generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, customBreed.default_type_id)
-        : generateUniqueAnimalId(ANIMAL_ID_PREFIX.CUSTOM, customBreed.custom_type_id),
-    })),
-  ];
-
-  const sexDetailsOptions = sexes.map(({ id, key }) => ({
-    id,
-    label: t(`animal:SEX.${key}`),
-    count: 0,
-  }));
-
   return (
-    <div className={styles.cardContainer}>
-      {fields.map((field, index) => {
-        const namePrefix = `${STEPS.BASICS}.${index}`;
+    formUpdated && (
+      <div className={styles.cardContainer}>
+        {fields.map((field, index) => {
+          const namePrefix = `${STEPS.BASICS}.${index}.`;
 
-        return (
-          <AddAnimalsFormCard
-            key={field.id}
-            typeOptions={typeOptions}
-            breedOptions={breedOptions}
-            sexDetailsOptions={sexDetailsOptions}
-            showRemoveButton={fields.length > 1}
-            onRemoveButtonClick={() => onRemoveCard(index)}
-            namePrefix={namePrefix}
-          />
-        );
-      })}
-      <MoreAnimalsCard onClick={onAddCard} />
-    </div>
+          return (
+            <AddAnimalsFormCard
+              key={field.id}
+              typeOptions={typeOptions}
+              breedOptions={breedOptions}
+              sexDetailsOptions={sexDetailsOptions}
+              showRemoveButton={fields.length > 1}
+              onRemoveButtonClick={() => onRemoveCard(index)}
+              namePrefix={namePrefix}
+            />
+          );
+        })}
+        <MoreAnimalsCard onClick={onAddCard} />
+      </div>
+    )
   );
 };
 

@@ -15,9 +15,9 @@
 
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import GeneralDetails, { type GeneralDetailsProps } from '../AddAnimalsDetails/General';
-import OtherDetails, { type OtherDetailsProps } from '../AddAnimalsDetails/Other';
-import Origin, { type OriginProps } from '../AddAnimalsDetails/Origin';
+import GeneralDetails, { type GeneralDetailsProps } from '../DetailCards/General';
+import OtherDetails, { type OtherDetailsProps } from '../DetailCards/Other';
+import Origin, { type OriginProps } from '../DetailCards/Origin';
 import ExpandableItem from '../../Expandable/ExpandableItem';
 import useExpandable from '../../Expandable/useExpandableItem';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
@@ -33,16 +33,18 @@ export type BatchDetailsProps = {
   generalDetailProps: Omit<GeneralDetailsProps, 't' | 'animalOrBatch'>;
   otherDetailsProps: Omit<OtherDetailsProps, 't' | 'animalOrBatch'>;
   originProps: Omit<OriginProps, 't'>;
+  namePrefix?: string;
 };
 
 const BatchDetails = ({
   generalDetailProps,
   otherDetailsProps,
   originProps,
+  namePrefix,
 }: BatchDetailsProps) => {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const { t } = useTranslation(['translation', 'common', 'animal']);
-  const commonProps = { t };
+  const commonProps = { t, namePrefix };
 
   const sections = [
     {

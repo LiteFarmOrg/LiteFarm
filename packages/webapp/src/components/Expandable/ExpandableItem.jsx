@@ -50,12 +50,13 @@ export default function ExpandableItem({
   const id = `expanded-content-${itemKey}`;
 
   return (
-    <>
+    <div className={clsx(classes.container, isExpanded && classes.expandedContainer)}>
       <div
         className={clsx(
           styles.mainContentWithIcon,
           !iconClickOnly && styles.clickable,
           classes.mainContentWithIcon,
+          isExpanded && classes.expandedMainContentWithIcon,
         )}
         onClick={onElementClick}
         aria-controls={id}
@@ -80,7 +81,7 @@ export default function ExpandableItem({
       <Collapse id={id} in={isExpanded} timeout="auto" unmountOnExit>
         {expandedContent}
       </Collapse>
-    </>
+    </div>
   );
 }
 
@@ -91,7 +92,11 @@ ExpandableItem.propTypes = {
   expandedContent: PropTypes.node,
   iconClickOnly: PropTypes.bool,
   classes: PropTypes.shape({
+    container: PropTypes.string,
+    expandedContainer: PropTypes.string,
+    expandedMainContentWithIcon: PropTypes.string,
     mainContentWithIcon: PropTypes.string,
+    mainContentWrapper: PropTypes.string,
     icon: PropTypes.string,
   }),
   key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

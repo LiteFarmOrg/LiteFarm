@@ -13,21 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
+import { Controller, FieldError, FieldValues, UseControllerProps } from 'react-hook-form';
 import { CreatableSelect } from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import { RefObject } from 'react';
-import { SelectInstance } from 'react-select';
+import { GroupBase, SelectInstance, OptionsOrGroups } from 'react-select';
+import { Error } from '../../Typography';
 
 export type Option = {
   label: string;
-  value: string | number;
+  value: string;
   type?: string;
 };
 
 export type AnimalTypeSelectProps = {
-  typeOptions: Option[];
+  typeOptions: OptionsOrGroups<Option, GroupBase<Option>>;
   onTypeChange?: (Option: Option | null) => void;
+  error?: FieldError;
 };
 
 export function AnimalTypeSelect<T extends FieldValues>({
@@ -35,24 +37,30 @@ export function AnimalTypeSelect<T extends FieldValues>({
   control,
   typeOptions,
   onTypeChange,
+  error,
 }: AnimalTypeSelectProps & UseControllerProps<T>) {
   const { t } = useTranslation();
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field }) => (
-        <CreatableSelect
-          label={t('ADD_ANIMAL.TYPE')}
-          placeholder={t('ADD_ANIMAL.TYPE_PLACEHOLDER')}
-          options={typeOptions}
-          onChange={(option) => {
-            field.onChange(option);
-            onTypeChange?.(option);
-          }}
-        />
-      )}
-    />
+    <div>
+      <Controller
+        name={name}
+        control={control}
+        rules={{ required: { value: true, message: t('common:REQUIRED') } }}
+        render={({ field: { onChange, value } }) => (
+          <CreatableSelect
+            label={t('ADD_ANIMAL.TYPE')}
+            placeholder={t('ADD_ANIMAL.TYPE_PLACEHOLDER')}
+            options={typeOptions}
+            onChange={(option) => {
+              onChange(option);
+              onTypeChange?.(option);
+            }}
+            value={value}
+          />
+        )}
+      />
+      {error && <Error>{error.message}</Error>}
+    </div>
   );
 }
 
@@ -74,7 +82,7 @@ export function AnimalBreedSelect<T extends FieldValues>({
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field: { onChange, value } }) => (
         <CreatableSelect
           ref={breedSelectRef}
           options={breedOptions}
@@ -87,7 +95,8 @@ export function AnimalBreedSelect<T extends FieldValues>({
               : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')
           }
           isDisabled={!isTypeSelected}
-          onChange={(option) => field.onChange(option)}
+          onChange={(option) => onChange(option)}
+          value={value}
         />
       )}
     />

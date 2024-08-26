@@ -21,7 +21,7 @@ import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 
 export type Details = {
-  id: string | number;
+  id: number;
   label: string;
   count: number;
 }[];

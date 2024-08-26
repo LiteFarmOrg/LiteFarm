@@ -17,10 +17,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
-import UniqueDetails, {
-  UniqueDetailsProps,
-} from '../../../components/Animals/AddAnimalsDetails/Unique';
-import { DetailsFields, FormMethods } from '../../../components/Animals/AddAnimalsDetails/type';
+import UniqueDetails, { UniqueDetailsProps } from '../../../components/Animals/DetailCards/Unique';
+import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
 import { tagTypeOptions, tagColorOptions } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
@@ -32,12 +30,10 @@ const meta: Meta<UniqueDetailsProps> = {
     (Story) => {
       const { t } = useTranslation();
       const formMethods: FormMethods = useForm({ mode: 'onBlur' });
-      const tagType = formMethods.watch(DetailsFields.TAG_TYPE);
-      const shouldShowTagTypeInput = tagType?.label === 'Other';
 
       return (
         <FormProvider {...formMethods}>
-          <Story t={t} shouldShowTagTypeInput={shouldShowTagTypeInput} />
+          <Story t={t} />
         </FormProvider>
       );
     },

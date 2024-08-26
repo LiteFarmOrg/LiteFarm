@@ -13,7 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { DetailsFields, FormValues } from '../../../components/Animals/AddAnimalsDetails/type';
+import {
+  DetailsFields,
+  AnimalDetailsFormFields,
+} from '../../../containers/Animals/AddAnimals/types';
 
 export const sexOptions = [
   { value: 0, label: `I don't know` },
@@ -29,13 +32,13 @@ export const sexDetailsOptions = [
 export const useOptions = [
   { label: 'A', value: 0 },
   { label: 'B', value: 1 },
-  { label: 'Other', value: 2 },
+  { label: 'Other', value: 2, key: 'OTHER' },
 ];
 
 export const tagTypeOptions = [
   { value: 1, label: 'Ear tags' },
   { value: 2, label: 'Leg bands' },
-  { value: 3, label: 'Other' },
+  { value: 3, label: 'Other', key: 'OTHER' },
 ];
 
 export const tagColorOptions = [
@@ -54,11 +57,11 @@ export const organicStatusOptions = [
 ];
 
 export const originOptions = [
-  { value: 1, label: 'Brought in' },
-  { value: 2, label: 'Born at the farm' },
+  { value: 1, label: 'Brought in', key: 'BROUGHT_IN' },
+  { value: 2, label: 'Born at the farm', key: 'BORN_AT_FARM' },
 ];
 
-export const defaultValues: Partial<FormValues> = {
+export const defaultValues: Partial<AnimalDetailsFormFields> = {
   [DetailsFields.TYPE]: { value: 'default_1', label: 'Cattle' },
   [DetailsFields.BREED]: { value: 'default_2', label: 'Angus' },
 };

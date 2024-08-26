@@ -23,15 +23,21 @@ import NumberInput from '../../Form/NumberInput';
 import SexDetails from '../../Form/SexDetails';
 import { type Details as SexDetailsType } from '../../Form/SexDetails/SexDetailsPopover';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
-import { DetailsFields, type Option, type CommonDetailsProps } from './type';
+import {
+  DetailsFields,
+  type Option,
+  type CommonDetailsProps,
+} from '../../../containers/Animals/AddAnimals/types';
 import styles from './styles.module.scss';
-import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
+import {
+  hookFormMinValidation,
+  hookFormMaxCharsValidation,
+} from '../../Form/hookformValidationUtils';
 
 export type GeneralDetailsProps = CommonDetailsProps & {
   sexOptions: Option[DetailsFields.SEX][];
   useOptions: Option[DetailsFields.USE][];
   animalOrBatch: AnimalOrBatchKeys;
-  isOtherUseSelected?: boolean;
   sexDetailsOptions?: SexDetailsType;
 };
 
@@ -40,18 +46,22 @@ const GeneralDetails = ({
   sexOptions,
   useOptions,
   animalOrBatch,
-  isOtherUseSelected,
   sexDetailsOptions,
+  namePrefix = '',
 }: GeneralDetailsProps) => {
   const {
     control,
     register,
     trigger,
     watch,
+    getValues,
     formState: { errors },
   } = useFormContext();
 
-  const watchBatchCount = watch(DetailsFields.COUNT) || 0;
+  const watchBatchCount = watch(`${namePrefix}${DetailsFields.COUNT}`) || 0;
+  const watchedUse = watch(`${namePrefix}${DetailsFields.USE}`) as Option[DetailsFields.USE][];
+
+  const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 
   const sexInputs = useMemo(() => {
     if (animalOrBatch === AnimalOrBatchKeys.ANIMAL) {
@@ -61,7 +71,7 @@ const GeneralDetails = ({
             <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
             {/* @ts-ignore */}
             <RadioGroup
-              name={DetailsFields.SEX}
+              name={`${namePrefix}${DetailsFields.SEX}`}
               radios={sexOptions}
               hookFormControl={control}
               row
@@ -74,24 +84,41 @@ const GeneralDetails = ({
     return (
       <div className={styles.countAndSexDetailsWrapper}>
         <NumberInput
-          name={DetailsFields.COUNT}
+          name={`${namePrefix}${DetailsFields.COUNT}`}
           control={control}
-          defaultValue={0}
           label={t('common:COUNT')}
           className={styles.countInput}
           allowDecimal={false}
           showStepper
+          defaultValue={getValues(`${namePrefix}${DetailsFields.COUNT}`)}
+          rules={{
+            required: {
+              value: true,
+              message: t('common:REQUIRED'),
+            },
+            min: hookFormMinValidation(1),
+          }}
+          onChange={() => trigger(`${namePrefix}${DetailsFields.COUNT}`)}
         />
         <Controller
-          name={DetailsFields.SEX_DETAILS}
+          name={`${namePrefix}${DetailsFields.SEX_DETAILS}`}
           control={control}
-          render={({ field }) => (
-            <SexDetails
-              initialDetails={sexDetailsOptions!}
-              maxCount={watchBatchCount}
-              onConfirm={(details) => field.onChange(details)}
-            />
-          )}
+          rules={{
+            validate: (details: SexDetailsType) => {
+              if (!details) return true;
+              const total = details.reduce((prevCount, { count }) => prevCount + count, 0);
+              return total <= watchBatchCount || 'Invalid sexDetails for count';
+            },
+          }}
+          render={({ field: { onChange, value } }) => {
+            return (
+              <SexDetails
+                initialDetails={value || sexDetailsOptions}
+                maxCount={watchBatchCount}
+                onConfirm={(details) => onChange(details)}
+              />
+            );
+          }}
         />
       </div>
     );
@@ -105,19 +132,19 @@ const GeneralDetails = ({
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.BATCH_NAME')}
-            hookFormRegister={register(DetailsFields.NAME, {
+            hookFormRegister={register(`${namePrefix}${DetailsFields.BATCH_NAME}`, {
               maxLength: hookFormMaxCharsValidation(255),
             })}
             trigger={trigger}
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.BATCH_NAME')}
-            errors={getInputErrors(errors, DetailsFields.NAME)}
+            errors={getInputErrors(errors, `${namePrefix}${DetailsFields.BATCH_NAME}`)}
           />
         </>
       )}
       <Controller
         control={control}
-        name={DetailsFields.TYPE}
+        name={`${namePrefix}${DetailsFields.TYPE}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ANIMAL_TYPE')}
@@ -129,7 +156,7 @@ const GeneralDetails = ({
       />
       <Controller
         control={control}
-        name={DetailsFields.BREED}
+        name={`${namePrefix}${DetailsFields.BREED}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ANIMAL_BREED')}
@@ -143,7 +170,7 @@ const GeneralDetails = ({
       {sexInputs}
       <Controller
         control={control}
-        name={DetailsFields.USE}
+        name={`${namePrefix}${DetailsFields.USE}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('common:USE')}
@@ -162,12 +189,12 @@ const GeneralDetails = ({
           <Input
             type="text"
             label={t('ANIMAL.ATTRIBUTE.OTHER_USE')}
-            hookFormRegister={register(DetailsFields.OTHER_USE, {
+            hookFormRegister={register(`${namePrefix}${DetailsFields.OTHER_USE}`, {
               maxLength: hookFormMaxCharsValidation(255),
             })}
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.OTHER_USE')}
-            errors={getInputErrors(errors, DetailsFields.OTHER_USE)}
+            errors={getInputErrors(errors, `${namePrefix}${DetailsFields.OTHER_USE}`)}
           />
         </>
       )}

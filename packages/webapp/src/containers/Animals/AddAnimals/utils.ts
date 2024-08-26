@@ -13,14 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Animal, AnimalBatch } from '../../../../store/api/types';
-
-type AddAnimalSummaryProps = {
-  formResultData: { animals: Animal[]; batches: AnimalBatch[] };
+// TODO
+export const formatAnimalDetailsToDBStructure = (data: any) => {
+  return data;
 };
 
-const AddAnimalSummary = ({ formResultData }: AddAnimalSummaryProps) => {
-  return <div>Add animal summary</div>;
+export const formatBatchDetailsToDBStructure = (data: any) => {
+  return data;
 };
-
-export default AddAnimalSummary;

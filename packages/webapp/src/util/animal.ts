@@ -57,6 +57,13 @@ export const generateUniqueAnimalId = (
   }
 };
 
+export const parseUniqueDefaultId = (uniqueId: string): number | null => {
+  if (uniqueId.startsWith(ANIMAL_ID_PREFIX.CUSTOM)) {
+    return null;
+  }
+  return Number(uniqueId.split('_')[1]);
+};
+
 export const generateInventoryId = (
   key: AnimalOrBatchKeys,
   animalOrBatch: Animal | AnimalBatch,

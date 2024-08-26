@@ -13,14 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { UseFormHandleSubmit, FieldValues, FormState } from 'react-hook-form';
 import { History } from 'history';
 import StepperProgressBar from '../../StepperProgressBar';
 import FloatingContainer from '../../FloatingContainer';
 import FormNavigationButtons from '../FormNavigationButtons';
 import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
+import CancelFlowModal from '../../Modals/CancelFlowModal';
 import styles from './styles.module.scss';
 
 interface WithStepperProgressBarProps {
@@ -28,6 +28,7 @@ interface WithStepperProgressBarProps {
   history: History;
   steps: { formContent: ReactNode; title: string }[];
   activeStepIndex: number;
+  cancelModalTitle: string;
   isCompactSideMenu: boolean;
   hasSummaryWithinForm: boolean;
   stepperProgressBarConfig?: {
@@ -35,12 +36,17 @@ interface WithStepperProgressBarProps {
     isDarkMode?: boolean;
   };
   stepperProgressBarTitle?: ReactNode;
-  onSave: (data: FieldValues, onGoForward: () => void) => void;
+  onSave: (
+    data: FieldValues,
+    onGoForward: () => void,
+    setFormResultData?: (data: any) => void,
+  ) => void;
   onGoBack: () => void;
   onCancel: () => void;
   onGoForward: () => void;
   formState: FormState<FieldValues>;
   handleSubmit: UseFormHandleSubmit<FieldValues>;
+  setFormResultData: (data: any) => void;
 }
 
 export const WithStepperProgressBar = ({
@@ -48,6 +54,7 @@ export const WithStepperProgressBar = ({
   history,
   steps,
   activeStepIndex,
+  cancelModalTitle,
   isCompactSideMenu,
   hasSummaryWithinForm,
   stepperProgressBarConfig = {},
@@ -57,36 +64,28 @@ export const WithStepperProgressBar = ({
   onCancel,
   onGoForward,
   handleSubmit,
-  formState: { isValid },
+  formState: { isValid, isDirty },
+  setFormResultData,
 }: WithStepperProgressBarProps) => {
-  const { t } = useTranslation();
+  const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
+    unblock: undefined,
+    retry: undefined,
+  });
 
   const isSummaryPage = hasSummaryWithinForm && activeStepIndex === steps.length - 1;
-
-  const isSummaryPageRef = useRef(isSummaryPage);
-
-  useEffect(() => {
-    isSummaryPageRef.current = isSummaryPage;
-  }, [isSummaryPage]);
 
   // Block the page transition
   // https://github.com/remix-run/history/blob/dev/docs/blocking-transitions.md
   useEffect(() => {
-    if (isSummaryPage) {
+    if (isSummaryPage || !isDirty) {
       return;
     }
     const unblock = history.block((tx) => {
-      if (window.confirm(`TODO: ${t('CANCEL_FLOW_MODAL.BODY')}`)) {
-        // Unblock the navigation.
-        unblock();
-
-        // Retry the transition.
-        tx.retry();
-      }
+      setTransition({ unblock, retry: tx.retry });
     });
 
     return () => unblock();
-  }, [isSummaryPage]);
+  }, [isSummaryPage, isDirty, history]);
 
   const isFinalStep =
     (!hasSummaryWithinForm && activeStepIndex === steps.length - 1) ||
@@ -96,10 +95,19 @@ export const WithStepperProgressBar = ({
 
   const onContinue = () => {
     if (isFinalStep) {
-      handleSubmit((data: FieldValues) => onSave(data, onGoForward))();
+      handleSubmit((data: FieldValues) => onSave(data, onGoForward, setFormResultData))();
       return;
     }
     onGoForward();
+  };
+
+  const handleCancel = () => {
+    try {
+      transition.unblock?.();
+      transition.retry?.();
+    } catch (e) {
+      console.error(`Error during canceling ${cancelModalTitle}: ${e}`);
+    }
   };
 
   return (
@@ -125,6 +133,13 @@ export const WithStepperProgressBar = ({
             isDisabled={!isValid}
           />
         </FloatingContainer>
+      )}
+      {transition.unblock && (
+        <CancelFlowModal
+          flow={cancelModalTitle}
+          dismissModal={() => setTransition({ unblock: undefined, retry: undefined })}
+          handleCancel={handleCancel}
+        />
       )}
     </FixedHeaderContainer>
   );

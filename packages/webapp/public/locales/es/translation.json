@@ -1,7 +1,9 @@
 {
   "ADD_ANIMAL": {
     "ADD_ANIMALS": "MISSING",
+    "ADD_ANIMALS_FLOW": "MISSING",
     "ADD_ANIMALS_TITLE": "MISSING",
+    "ADD_DETAILS_INFO": "MISSING",
     "ADD_TO_INVENTORY": "MISSING",
     "ANIMAL_BASICS": "MISSING",
     "ANIMAL_DETAILS": "MISSING",
@@ -967,7 +969,7 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "Los archivos no pueden exceder los 10 MB.",
+    "BODY": "Los archivos no pueden exceder los {{size}} MB.",
     "TITLE": "Tamaño de archivo demasiado grande"
   },
   "FILTER": {

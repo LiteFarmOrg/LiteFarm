@@ -24,7 +24,7 @@ const mockTypeSelectOptions = (...labels: string[]): Option[] =>
   labels.map((label, i) => ({ label: label, value: `${i}` }));
 
 const mockBreedSelectOptions = (...breedTypePairs: [string, number][]): Option[] =>
-  breedTypePairs.map(([label, type], i) => ({ label: label, value: i, type: `${type}` }));
+  breedTypePairs.map(([label, type], i) => ({ label: label, value: `${i}`, type: `${type}` }));
 
 const meta: Meta<typeof AddAnimalsFormCard> = {
   title: 'Components/AddAnimalsFormCard',

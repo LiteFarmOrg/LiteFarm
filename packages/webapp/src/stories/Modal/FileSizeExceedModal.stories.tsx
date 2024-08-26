@@ -1,18 +1,17 @@
-import React from 'react';
 import FileSizeExceedModal from '../../components/Modals/FileSizeExceedModal';
 import { componentDecorators } from '../Pages/config/Decorators';
 import { chromaticSmallScreen } from '../Pages/config/chromatic';
+import type { Meta, StoryObj } from '@storybook/react/*';
 
-export default {
+const meta: Meta<typeof FileSizeExceedModal> = {
   title: 'Components/Modals/FileSizeExceedModal',
   decorators: componentDecorators,
   component: FileSizeExceedModal,
+  parameters: { ...chromaticSmallScreen },
 };
 
-const Template = (args) => <FileSizeExceedModal {...args} />;
+export default meta;
+type Story = StoryObj<typeof FileSizeExceedModal>;
 
-export const Primary = Template.bind({});
-Primary.args = {};
-Primary.parameters = {
-  ...chromaticSmallScreen,
-};
+export const Primary: Story = {};
+export const DynamicSize: Story = { args: { size: 5 } };

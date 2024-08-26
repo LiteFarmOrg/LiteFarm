@@ -20,14 +20,23 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import ImagePicker from '../../ImagePicker';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import styles from './styles.module.scss';
-import { DetailsFields, type Option, type CommonDetailsProps } from './type';
+import {
+  DetailsFields,
+  type Option,
+  type CommonDetailsProps,
+} from '../../../containers/Animals/AddAnimals/types';
 
 export type OtherDetailsProps = CommonDetailsProps & {
   organicStatusOptions: Option[DetailsFields.ORGANIC_STATUS][];
   animalOrBatch: AnimalOrBatchKeys;
 };
 
-const OtherDetails = ({ t, organicStatusOptions, animalOrBatch }: OtherDetailsProps) => {
+const OtherDetails = ({
+  t,
+  organicStatusOptions,
+  animalOrBatch,
+  namePrefix = '',
+}: OtherDetailsProps) => {
   const {
     control,
     resetField,
@@ -35,14 +44,14 @@ const OtherDetails = ({ t, organicStatusOptions, animalOrBatch }: OtherDetailsPr
     formState: { errors },
   } = useFormContext();
 
-  const { field } = useController({ control, name: DetailsFields.ANIMAL_IMAGE });
+  const { field } = useController({ control, name: `${namePrefix}${DetailsFields.ANIMAL_IMAGE}` });
 
   const handleSelectImage = (imageFile: any) => {
     field.onChange(imageFile);
   };
 
   const handleRemoveImage = () => {
-    resetField(DetailsFields.ANIMAL_IMAGE);
+    resetField(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`);
   };
 
   return (
@@ -53,14 +62,14 @@ const OtherDetails = ({ t, organicStatusOptions, animalOrBatch }: OtherDetailsPr
           <Input
             type="date"
             label={t('ANIMAL.ATTRIBUTE.WEANING_DATE')}
-            hookFormRegister={register(DetailsFields.WEANING_DATE)}
+            hookFormRegister={register(`${namePrefix}${DetailsFields.WEANING_DATE}`)}
             optional
           />
         </>
       )}
       <Controller
         control={control}
-        name={DetailsFields.ORGANIC_STATUS}
+        name={`${namePrefix}${DetailsFields.ORGANIC_STATUS}`}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ATTRIBUTE.ORGANIC_STATUS')}
@@ -75,12 +84,12 @@ const OtherDetails = ({ t, organicStatusOptions, animalOrBatch }: OtherDetailsPr
       {/* @ts-ignore */}
       <InputAutoSize
         label={t(`ANIMAL.ATTRIBUTE.OTHER_DETAILS_${animalOrBatch.toUpperCase()}`)}
-        hookFormRegister={register(DetailsFields.OTHER_DETAILS, {
+        hookFormRegister={register(`${namePrefix}${DetailsFields.OTHER_DETAILS}`, {
           maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
         })}
         optional
         placeholder={t('ADD_ANIMAL.PLACEHOLDER.OTHER_DETAILS')}
-        errors={errors?.[DetailsFields.OTHER_DETAILS]?.message}
+        errors={errors?.[`${namePrefix}${DetailsFields.OTHER_DETAILS}`]?.message}
       />
       <ImagePicker
         label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}

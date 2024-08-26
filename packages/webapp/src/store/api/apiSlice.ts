@@ -24,6 +24,10 @@ import {
   defaultAnimalBreedsUrl,
   defaultAnimalTypesUrl,
   animalSexesUrl,
+  animalIdentifierTypesUrl,
+  animalIdentifierColorsUrl,
+  animalOriginsUrl,
+  animalUsesUrl,
   animalRemovalReasonsUrl,
   soilAmendmentMethodsUrl,
   soilAmendmentPurposesUrl,
@@ -45,6 +49,10 @@ import type {
   SoilAmendmentPurpose,
   SoilAmendmentFertiliserType,
   SoilAmendmentProduct,
+  AnimalIdentifierType,
+  AnimalIdentifierColor,
+  AnimalOrigin,
+  AnimalUse,
 } from './types';
 
 export const api = createApi({
@@ -71,6 +79,10 @@ export const api = createApi({
     'DefaultAnimalBreeds',
     'DefaultAnimalTypes',
     'AnimalSexes',
+    'AnimalIdentifierTypes',
+    'AnimalIdentifierColors',
+    'AnimalOrigins',
+    'AnimalUses',
     'AnimalRemovalReasons',
     'SoilAmendmentMethods',
     'SoilAmendmentPurposes',
@@ -112,6 +124,22 @@ export const api = createApi({
       query: () => `${animalSexesUrl}`,
       providesTags: ['AnimalSexes'],
     }),
+    getAnimalIdentifierTypes: build.query<AnimalIdentifierType[], void>({
+      query: () => `${animalIdentifierTypesUrl}`,
+      providesTags: ['AnimalIdentifierTypes'],
+    }),
+    getAnimalIdentifierColors: build.query<AnimalIdentifierColor[], void>({
+      query: () => `${animalIdentifierColorsUrl}`,
+      providesTags: ['AnimalIdentifierColors'],
+    }),
+    getAnimalOrigins: build.query<AnimalOrigin[], void>({
+      query: () => `${animalOriginsUrl}`,
+      providesTags: ['AnimalOrigins'],
+    }),
+    getAnimalUses: build.query<AnimalUse[], void>({
+      query: () => `${animalUsesUrl}`,
+      providesTags: ['AnimalUses'],
+    }),
     getAnimalRemovalReasons: build.query<AnimalRemovalReason[], void>({
       query: () => `${animalRemovalReasonsUrl}`,
       providesTags: ['AnimalRemovalReasons'],
@@ -147,6 +175,22 @@ export const api = createApi({
         params: { ids: del },
       }),
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
+    }),
+    addAnimals: build.mutation<Animal[], Partial<Animal>[]>({
+      query: (body) => ({
+        url: `${animalsUrl}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Animals'],
+    }),
+    addAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
+      query: (body) => ({
+        url: `${animalBatchesUrl}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['AnimalBatches'],
     }),
     getSoilAmendmentMethods: build.query<SoilAmendmentMethod[], void>({
       query: () => `${soilAmendmentMethodsUrl}`,
@@ -188,11 +232,17 @@ export const {
   useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
   useGetAnimalSexesQuery,
+  useGetAnimalIdentifierTypesQuery,
+  useGetAnimalIdentifierColorsQuery,
+  useGetAnimalOriginsQuery,
+  useGetAnimalUsesQuery,
   useGetAnimalRemovalReasonsQuery,
   useRemoveAnimalsMutation,
   useRemoveAnimalBatchesMutation,
   useDeleteAnimalsMutation,
   useDeleteAnimalBatchesMutation,
+  useAddAnimalsMutation,
+  useAddAnimalBatchesMutation,
   useGetSoilAmendmentMethodsQuery,
   useGetSoilAmendmentPurposesQuery,
   useGetSoilAmendmentFertiliserTypesQuery,

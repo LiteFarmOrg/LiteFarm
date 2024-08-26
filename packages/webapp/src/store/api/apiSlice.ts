@@ -17,9 +17,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
 import {
   animalsUrl,
-  removeAnimalsUrl,
   animalBatchesUrl,
-  removeAnimalBatchesUrl,
   animalGroupsUrl,
   customAnimalBreedsUrl,
   customAnimalTypesUrl,
@@ -120,7 +118,7 @@ export const api = createApi({
     }),
     removeAnimals: build.mutation<Animal[], Partial<Animal>[]>({
       query: (patch) => ({
-        url: `${removeAnimalsUrl}`,
+        url: `${animalsUrl}/remove`,
         method: 'PATCH',
         body: patch,
       }),
@@ -128,7 +126,7 @@ export const api = createApi({
     }),
     removeAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
       query: (patch) => ({
-        url: `${removeAnimalBatchesUrl}`,
+        url: `${animalBatchesUrl}/remove`,
         method: 'PATCH',
         body: patch,
       }),

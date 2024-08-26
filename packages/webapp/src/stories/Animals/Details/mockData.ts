@@ -70,13 +70,18 @@ export const defaultValues: Partial<AnimalDetailsFormFields> = {
 };
 
 export const getOnFileUpload: GetOnFileUpload =
-  (targetRoute, onSelectImage) => async (e, setPreviewUrl, event) => {
+  (targetRoute, onSelectImage) => async (e, setPreviewUrl, setFileSizeExceeded, event) => {
     const file =
       event === FileEvent.CHANGE
         ? (e as ChangeEvent<HTMLInputElement>)?.target?.files?.[0]
         : (e as DragEvent).dataTransfer?.files?.[0];
 
     if (file) {
+      if (file.size > 5e6) {
+        setFileSizeExceeded(true);
+        return;
+      }
+
       const url = URL.createObjectURL(file);
       setPreviewUrl(url);
       onSelectImage(url);

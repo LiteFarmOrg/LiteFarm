@@ -65,7 +65,8 @@ export default function useImagePickerUpload(): { getOnFileUpload: GetOnFileUplo
   };
 
   const getOnFileUpload: GetOnFileUpload =
-    (targetRoute, onSelectImage, onLoading) => async (e, setPreviewUrl, event) => {
+    (targetRoute, onSelectImage, onLoading) =>
+    async (e, setPreviewUrl, setFileSizeExceeded, event) => {
       onLoading?.(true);
 
       const blob =
@@ -81,7 +82,12 @@ export default function useImagePickerUpload(): { getOnFileUpload: GetOnFileUplo
         if (isNotImage) {
           dispatch(enqueueErrorSnackbar(t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
           onUploadFail('Not an image file');
-        } else if (blob.size < 200000) {
+        } else {
+          if (blob.size > 5e6) {
+            setFileSizeExceeded(true);
+            return;
+          }
+
           dispatch(
             // @ts-ignore
             uploadImage({
@@ -91,26 +97,6 @@ export default function useImagePickerUpload(): { getOnFileUpload: GetOnFileUplo
               targetRoute,
             }),
           );
-        } else {
-          const Compressor = await import('compressorjs').then((Compressor) => Compressor.default);
-          new Compressor(blob, {
-            quality: blob.size > 1000000 ? 0.6 : 0.8,
-            convertSize: 200000,
-            success(compressedBlob) {
-              dispatch(
-                // @ts-ignore
-                uploadImage({
-                  file: compressedBlob,
-                  onUploadSuccess,
-                  onUploadFail,
-                  targetRoute,
-                }),
-              );
-            },
-            error(err) {
-              onUploadFail(err.message);
-            },
-          });
         }
       } else {
         // E.g. file picker is cancelled so no files are present

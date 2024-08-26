@@ -33,6 +33,7 @@ export enum FileEvent {
 export type OnFileUpload = (
   e: ChangeEvent<HTMLInputElement> | DragEvent,
   setPreviewUrl: (url: string) => void,
+  setFileSizeExceeded: (exceeded: boolean) => void,
   event: FileEvent,
 ) => Promise<void>;
 
@@ -77,7 +78,7 @@ export default function ImagePicker({
 
   const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (shouldGetImageUrl) {
-      onFileUpload?.(e, setPreviewUrl, FileEvent.CHANGE);
+      onFileUpload?.(e, setPreviewUrl, setShowFileSizeExceedsModal, FileEvent.CHANGE);
       return;
     }
 
@@ -95,7 +96,7 @@ export default function ImagePicker({
       dropContainerRef.current?.classList.toggle(styles.dropContainerActive);
     } else if (e.type === 'drop') {
       if (shouldGetImageUrl) {
-        onFileUpload?.(e, setPreviewUrl, FileEvent.DRAG);
+        onFileUpload?.(e, setPreviewUrl, setShowFileSizeExceedsModal, FileEvent.DRAG);
         return;
       }
 

@@ -22,11 +22,16 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { matchPath } from 'react-router-dom';
 import clsx from 'clsx';
 import { Paper } from '@mui/material';
+import history from '../../../history';
+import { ADD_ANIMALS_URL } from '../../../util/siteMapConstants';
 import styles from './styles.module.scss';
 
 const PAPER_BORDER = 2;
+
+const CONTENT_FULL_WIDTH_ROUTES = [ADD_ANIMALS_URL];
 
 export enum ContainerKind {
   OVERFLOW,
@@ -43,18 +48,26 @@ type FixedHeaderContainerProps = {
   };
 };
 
-type WrapperProps = Pick<FixedHeaderContainerProps, 'children' | 'classes'>;
+type WrapperProps = Pick<FixedHeaderContainerProps, 'children' | 'classes'> & {
+  hasMaxWidth: boolean;
+};
 type PaperWrapperProps = WrapperProps & { paperRef: RefObject<HTMLDivElement> | null };
 
-const PaperWrapper = ({ children, paperRef, classes = {} }: PaperWrapperProps) => (
-  <Paper component="div" ref={paperRef} className={clsx(styles.paper, classes.paper)}>
+const PaperWrapper = ({ children, paperRef, classes = {}, hasMaxWidth }: PaperWrapperProps) => (
+  <Paper
+    component="div"
+    ref={paperRef}
+    className={clsx(styles.paper, hasMaxWidth && styles.hasMaxWidth, classes.paper)}
+  >
     {children}
   </Paper>
 );
 
-const DivWrapper = ({ children, classes = {} }: WrapperProps) => (
+const DivWrapper = ({ children, classes = {}, hasMaxWidth }: WrapperProps) => (
   <div className={clsx(styles.overflowStyle, classes.divWrapper)}>
-    <div className={clsx(styles.childrenWrapper)}>{children}</div>
+    <div className={clsx(styles.childrenWrapper, hasMaxWidth && styles.hasMaxWidth)}>
+      {children}
+    </div>
   </div>
 );
 
@@ -66,6 +79,9 @@ const FixedHeaderContainer = ({
 }: FixedHeaderContainerProps) => {
   const [paperHeightInPx, setPaperHeightInPx] = useState<number | null>(null);
   const paperRef = useRef<HTMLDivElement>(null);
+  const isFullWidth = CONTENT_FULL_WIDTH_ROUTES.some((path) =>
+    matchPath(history.location.pathname, path),
+  );
 
   useLayoutEffect(() => {
     if (kind === ContainerKind.OVERFLOW) {
@@ -107,7 +123,7 @@ const FixedHeaderContainer = ({
   return (
     <div className={styles.wrapper}>
       {header}
-      <Wrapper paperRef={paperRef} classes={classes}>
+      <Wrapper paperRef={paperRef} classes={classes} hasMaxWidth={!isFullWidth}>
         {childrenWithProps}
       </Wrapper>
     </div>

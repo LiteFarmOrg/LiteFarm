@@ -18,20 +18,16 @@
 .cardContainer {
   padding: 16px;
   display: flex;
-  flex-flow: row wrap;
+  flex-wrap: wrap;
   gap: 16px;
 
   > div {
-    width: 400px;
+    flex: 1 1 480px;
+    min-width: 360px;
+    max-width: 480px;
   }
 
   @include xs-breakpoint {
-    flex-flow: column nowrap;
-    align-items: center;
-
-    > div {
-      width: 100%;
-      min-width: 350px;
-    }
+    justify-content: center;
   }
 }

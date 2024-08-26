@@ -24,12 +24,15 @@
 
 .paper {
   width: 100%;
-  max-width: 1024px;
   overflow-y: auto;
   border: none;
   border-radius: 0;
   box-shadow: none;
   flex: 1;
+
+  &.hasMaxWidth {
+    max-width: 1024px;
+  }
 
   @include lg-breakpoint {
     margin: 16px auto;
@@ -46,5 +49,8 @@
 
 .childrenWrapper {
   width: 100%;
-  max-width: 1024px;
+
+  &.hasMaxWidth {
+    max-width: 1024px;
+  }
 }

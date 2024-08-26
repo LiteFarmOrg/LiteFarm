@@ -14,7 +14,7 @@
  */
 import { UseFieldArrayReplace, useFormContext } from 'react-hook-form';
 import { useEffect } from 'react';
-import { groupBy } from 'lodash';
+import groupBy from 'lodash-es/groupBy';
 import { STEPS } from '..';
 import {
   AddAnimalsFormFields,

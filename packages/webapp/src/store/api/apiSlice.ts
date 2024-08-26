@@ -146,7 +146,7 @@ export const api = createApi({
     }),
     removeAnimals: build.mutation<Animal[], Partial<Animal>[]>({
       query: (patch) => ({
-        url: `${animalsUrl}`,
+        url: `${animalsUrl}/remove`,
         method: 'PATCH',
         body: patch,
       }),
@@ -154,7 +154,7 @@ export const api = createApi({
     }),
     removeAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
       query: (patch) => ({
-        url: `${animalBatchesUrl}`,
+        url: `${animalBatchesUrl}/remove`,
         method: 'PATCH',
         body: patch,
       }),

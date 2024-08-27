@@ -16,6 +16,7 @@
 import {
   DetailsFields,
   AnimalDetailsFormFields,
+  ReactSelectOption,
 } from '../../../containers/Animals/AddAnimals/types';
 
 export const sexOptions = [
@@ -50,11 +51,12 @@ export const tagColorOptions = [
   { value: 6, label: 'Red' },
 ];
 
-export const organicStatusOptions = [
-  { value: 1, label: 'Non-Organic' },
-  { value: 2, label: 'Organic' },
-  { value: 3, label: 'Transitioning' },
-];
+export const organicStatusOptions: ReactSelectOption<'Non-Organic' | 'Organic' | 'Transitional'>[] =
+  [
+    { value: 'Non-Organic', label: 'Non-Organic' },
+    { value: 'Organic', label: 'Organic' },
+    { value: 'Transitional', label: 'Transitioning' },
+  ];
 
 export const originOptions = [
   { value: 1, label: 'Brought in', key: 'BROUGHT_IN' },

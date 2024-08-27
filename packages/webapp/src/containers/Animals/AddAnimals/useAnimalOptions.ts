@@ -28,7 +28,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { generateUniqueAnimalId } from '../../../util/animal';
 import { ANIMAL_ID_PREFIX } from '../types';
-import { AnimalUse, AnimalTypeUseRelationship, DefaultAnimalType } from '../../../store/api/types';
 
 type OptionType =
   | 'default_types'
@@ -109,13 +108,13 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
   }
 
   if (optionTypes.includes('use')) {
-    options.useOptions = defaultTypes.map((animalType: DefaultAnimalType) => {
+    options.useOptions = defaultTypes.map((animalType) => {
       return {
         default_type_id: animalType.id,
         uses: typeUseRelationships
-          .filter((typeUse: AnimalTypeUseRelationship) => typeUse.default_type_id === animalType.id)
-          .map((animalUse: AnimalTypeUseRelationship) => {
-            const useKey = uses.find((use: AnimalUse) => use.id === animalUse.animal_use_id);
+          .filter((typeUse) => typeUse.default_type_id === animalType.id)
+          .map((animalUse) => {
+            const useKey = uses.find((use) => use.id === animalUse.animal_use_id);
             return {
               value: animalUse.animal_use_id,
               label: t(`animal:USE.${useKey?.key}`),
@@ -127,7 +126,7 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
     // Add all uses to custom type
     options.useOptions.push({
       default_type_id: null,
-      uses: uses.map((use: AnimalUse) => {
+      uses: uses.map((use) => {
         return {
           value: use.id,
           label: t(`animal:USE.${use.key}`),

@@ -86,6 +86,7 @@ export const animalIdentifierTypesUrl = `${URI}/animal_identifier_types`;
 export const animalIdentifierColorsUrl = `${URI}/animal_identifier_colors`;
 export const animalOriginsUrl = `${URI}/animal_origins`;
 export const animalUsesUrl = `${URI}/animal_uses`;
+export const animalTypeUseRelationshipsUrl = `${URI}/animal_type_use_relationships`;
 export const animalRemovalReasonsUrl = `${URI}/animal_removal_reasons`;
 export const soilAmendmentMethodsUrl = `${URI}/soil_amendment_methods`;
 export const soilAmendmentPurposesUrl = `${URI}/soil_amendment_purposes`;
@@ -147,6 +148,7 @@ export default {
   animalIdentifierColorsUrl,
   animalOriginsUrl,
   animalUsesUrl,
+  animalTypeUseRelationshipsUrl,
   animalRemovalReasonsUrl,
   soilAmendmentMethodsUrl,
   soilAmendmentPurposesUrl,

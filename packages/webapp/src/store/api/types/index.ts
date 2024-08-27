@@ -120,8 +120,13 @@ export interface AnimalOrigin {
 }
 
 export interface AnimalUse {
-  default_type_id: number | null;
-  uses: { id: number; key: string }[];
+  id: number;
+  key: string;
+}
+
+export interface AnimalTypeUseRelationship {
+  default_type_id: number;
+  animal_use_id: number;
 }
 
 export type AnimalRemovalReasonKeys =

@@ -28,6 +28,7 @@ import {
   animalIdentifierColorsUrl,
   animalOriginsUrl,
   animalUsesUrl,
+  animalTypeUseRelationshipsUrl,
   animalRemovalReasonsUrl,
   soilAmendmentMethodsUrl,
   soilAmendmentPurposesUrl,
@@ -53,6 +54,7 @@ import type {
   AnimalIdentifierColor,
   AnimalOrigin,
   AnimalUse,
+  AnimalTypeUseRelationship,
 } from './types';
 
 export const api = createApi({
@@ -83,6 +85,7 @@ export const api = createApi({
     'AnimalIdentifierColors',
     'AnimalOrigins',
     'AnimalUses',
+    'AnimalTypeUseRelationships',
     'AnimalRemovalReasons',
     'SoilAmendmentMethods',
     'SoilAmendmentPurposes',
@@ -139,6 +142,10 @@ export const api = createApi({
     getAnimalUses: build.query<AnimalUse[], void>({
       query: () => `${animalUsesUrl}`,
       providesTags: ['AnimalUses'],
+    }),
+    getAnimalTypeUseRelationships: build.query<AnimalTypeUseRelationship[], void>({
+      query: () => `${animalTypeUseRelationshipsUrl}`,
+      providesTags: ['AnimalTypeUseRelationships'],
     }),
     getAnimalRemovalReasons: build.query<AnimalRemovalReason[], void>({
       query: () => `${animalRemovalReasonsUrl}`,
@@ -236,6 +243,7 @@ export const {
   useGetAnimalIdentifierColorsQuery,
   useGetAnimalOriginsQuery,
   useGetAnimalUsesQuery,
+  useGetAnimalTypeUseRelationshipsQuery,
   useGetAnimalRemovalReasonsQuery,
   useRemoveAnimalsMutation,
   useRemoveAnimalBatchesMutation,

@@ -16,6 +16,6 @@
 export const iconNames = {
   CATTLE: 'CATTLE',
   CHICKEN: 'CHICKEN',
-  PIGS: 'PIG',
+  PIGS: 'PIGS',
   '': 'CUSTOM_ANIMAL',
 };

@@ -31,7 +31,7 @@ export const mockTiles = [
   },
   {
     label: 'Pig',
-    iconName: 'PIG',
+    iconName: 'PIGS',
     count: 20,
   },
   {

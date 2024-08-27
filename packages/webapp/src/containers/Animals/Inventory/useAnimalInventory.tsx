@@ -70,7 +70,7 @@ export const getDefaultAnimalIconName = (
     case AnimalTranslationKey.CHICKEN:
       return 'CHICKEN';
     case AnimalTranslationKey.PIGS:
-      return 'PIG';
+      return 'PIGS';
     default:
       return 'CUSTOM_ANIMAL';
   }

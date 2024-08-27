@@ -114,7 +114,6 @@ const formatCommonDetails = (
     ...formatUse(isAnimal, data[DetailsFields.USE], data[DetailsFields.OTHER_USE]),
 
     // Other
-    weaning_date: convertDate(data[DetailsFields.WEANING_DATE]),
     organic_status: data[DetailsFields.ORGANIC_STATUS]?.value,
     notes: data[DetailsFields.OTHER_DETAILS],
     photo_url: data[DetailsFields.ANIMAL_IMAGE],
@@ -122,7 +121,7 @@ const formatCommonDetails = (
     // Origin
     ...formatOrigin(data, broughtInId),
 
-    // Unique (animal) / General (batch)
+    // Unique (animal) | General (batch)
     name: data[DetailsFields.NAME],
   };
 };
@@ -134,11 +133,14 @@ export const formatAnimalDetailsToDBStructure = (
   return {
     ...formatCommonDetails(true, data, broughtInId),
 
+    // Other
+    weaning_date: convertDate(data[DetailsFields.WEANING_DATE]),
+
     // Unique
     birth_date: convertDate(data[DetailsFields.DATE_OF_BIRTH]),
     identifier: data[DetailsFields.TAG_NUMBER],
-    identifier_color_id: data[DetailsFields.TAG_COLOR]?.value,
     identifier_type_id: data[DetailsFields.TAG_TYPE]?.value,
+    identifier_color_id: data[DetailsFields.TAG_COLOR]?.value,
     identifier_type_other: data[DetailsFields.TAG_TYPE_INFO],
   };
 };

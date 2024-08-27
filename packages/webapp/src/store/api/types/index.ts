@@ -30,6 +30,8 @@ export interface Animal {
   group_ids: number[];
   id: number;
   identifier: string | null;
+  identifier_type_id: number | null;
+  identifier_type_other: string | null;
   identifier_color_id: number | null;
   internal_identifier: number;
   name: string | null;
@@ -39,6 +41,9 @@ export interface Animal {
   sex_id: number;
   sire: string | null;
   weaning_date: string | null;
+  organic_status: 'Non-Organic' | 'Transitional' | 'Organic' | null; // confirm
+  supplier: string | null;
+  price: number | null;
   animal_removal_reason_id: number | null;
   removal_explanation: string | null;
   removal_date: string | null;
@@ -58,6 +63,9 @@ export interface AnimalBatch {
   notes: string | null;
   photo_url: string | null;
   sex_detail: { sex_id: number; count: number }[];
+  organic_status: 'Non-Organic' | 'Transitional' | 'Organic' | null; // confirm
+  supplier: string | null;
+  price: number | null;
   animal_removal_reason_id: number | null;
   removal_explanation: string | null;
   removal_date: string | null;

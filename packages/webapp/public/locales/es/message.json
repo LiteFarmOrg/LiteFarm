@@ -49,7 +49,8 @@
       "ADD": "No se pudo agregar nuevos gastos",
       "DELETE": "No se pudo borrar gastos",
       "UPDATE": "No se pudo actualizar gastos!",
-      "EXPENSE_DELETED": "MISSING"
+      "EXPENSE_DELETED": "MISSING",
+      "EXPENSE_TYPE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "ADD": "¡Nuevos gastos agregados exitosamente!",
@@ -150,7 +151,8 @@
   },
   "REVENUE": {
     "ERROR": {
-      "EDIT": "No se pudieron actualizar los ingresos"
+      "EDIT": "No se pudieron actualizar los ingresos",
+      "REVENUE_TYPE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "EDIT": "Ingresos actualizados correctamente"

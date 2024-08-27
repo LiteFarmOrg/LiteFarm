@@ -49,7 +49,8 @@
       "ADD": "Falha ao adicionar novas despesas",
       "DELETE": "Falha ao excluir despesas",
       "UPDATE": "Falha ao atualizar despesas!",
-      "EXPENSE_DELETED": "MISSING"
+      "EXPENSE_DELETED": "MISSING",
+      "EXPENSE_TYPE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "ADD": "Novas despesas adicionadas com sucesso!",
@@ -150,7 +151,8 @@
   },
   "REVENUE": {
     "ERROR": {
-      "EDIT": "Falha ao atualizar a receita"
+      "EDIT": "Falha ao atualizar a receita",
+      "REVENUE_TYPE_DELETED": "MISSING"
     },
     "SUCCESS": {
       "EDIT": "Receita atualizada com sucesso"

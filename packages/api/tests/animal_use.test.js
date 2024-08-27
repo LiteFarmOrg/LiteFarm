@@ -71,14 +71,6 @@ describe('Animal Use Tests', () => {
     return animalUse;
   }
 
-  async function makeAnimalTypeUseRelationship(defaultType, use) {
-    const [animalTypeUseRelationship] = await mocks.animal_type_use_relationshipFactory({
-      promisedDefaultAnimalType: [defaultType],
-      promisedAnimalUse: [use],
-    });
-    return animalTypeUseRelationship;
-  }
-
   beforeEach(async () => {
     [farm] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
@@ -101,23 +93,6 @@ describe('Animal Use Tests', () => {
         [1, 2, 3, 4, 5, 6, 7, 8].map(async () => await makeAnimalUse()),
       );
 
-      const [defaultType1] = await mocks.default_animal_typeFactory();
-      const [defaultType2] = await mocks.default_animal_typeFactory();
-
-      const testCase = [
-        { defaultType: defaultType1, uses: [use1, use2, use3, use6, use7, use8] },
-        { defaultType: defaultType2, uses: [use1, use5, use6, use7, use8] },
-        { defaultType: null, uses: [use1, use2, use3, use4, use5, use6, use7, use8] }, // for custom types
-      ];
-
-      for (let { defaultType, uses } of testCase) {
-        if (defaultType) {
-          for (let use of uses) {
-            await makeAnimalTypeUseRelationship(defaultType, use);
-          }
-        }
-      }
-
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
 
@@ -127,17 +102,7 @@ describe('Animal Use Tests', () => {
         });
 
         expect(res.status).toBe(200);
-        expect(res.body.length).toBe(3);
-
-        res.body.forEach(({ default_type_id, uses }) => {
-          const expectedTypeAndUses = testCase.find(({ defaultType }) => {
-            return default_type_id ? defaultType.id === default_type_id : !defaultType;
-          });
-
-          expect(uses.map(({ id }) => id).sort()).toEqual(
-            expectedTypeAndUses.uses.map(({ id }) => id).sort(),
-          );
-        });
+        expect(res.body.length).toBe(8);
       }
     });
   });

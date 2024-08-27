@@ -37,15 +37,26 @@ export type OnFileUpload = (
   event: FileEvent,
 ) => Promise<void>;
 
-export type ImagePickerProps = {
-  onSelectImage?: (file: File) => void; // Required if `shouldGetImageUrl` is false or falsy.
+type CommonProps = {
   onRemoveImage: () => void;
   label?: string;
   optional?: boolean;
   defaultUrl?: string;
-  shouldGetImageUrl?: boolean;
-  onFileUpload?: OnFileUpload; // Required if `shouldGetImageUrl` is true.
 };
+
+type ImageUrlUpload = CommonProps & {
+  shouldGetImageUrl: true;
+  onSelectImage?: never;
+  onFileUpload: OnFileUpload;
+};
+
+type DirectImageUpload = CommonProps & {
+  shouldGetImageUrl?: false;
+  onSelectImage: (file: File) => void;
+  onFileUpload?: never;
+};
+
+export type ImagePickerProps = ImageUrlUpload | DirectImageUpload;
 
 export default function ImagePicker({
   onRemoveImage,

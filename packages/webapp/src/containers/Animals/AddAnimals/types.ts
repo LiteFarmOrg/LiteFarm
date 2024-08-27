@@ -89,7 +89,7 @@ export type Option = {
   [DetailsFields.USE]: ReactSelectOption<number>;
   [DetailsFields.TAG_COLOR]: ReactSelectOption<number>;
   [DetailsFields.TAG_TYPE]: ReactSelectOption<number>;
-  [DetailsFields.ORGANIC_STATUS]: ReactSelectOption<number>;
+  [DetailsFields.ORGANIC_STATUS]: ReactSelectOption<'Non-Organic' | 'Transitional' | 'Organic'>;
   [DetailsFields.SEX]: ReactSelectOption<number>;
   [DetailsFields.ORIGIN]: ReactSelectOption<number>;
 };

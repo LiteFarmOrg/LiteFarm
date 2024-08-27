@@ -205,3 +205,7 @@ export type SoilAmendmentProduct = Product & {
     moisture_content_percent?: number;
   };
 };
+
+export type PostBatchSexDetail = {
+  animal_batch_sex_detail?: { sex_id: number; count: number }[];
+};

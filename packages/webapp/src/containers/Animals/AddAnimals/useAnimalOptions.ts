@@ -23,10 +23,12 @@ import {
   useGetAnimalIdentifierColorsQuery,
   useGetAnimalOriginsQuery,
   useGetAnimalUsesQuery,
+  useGetAnimalTypeUseRelationshipsQuery,
 } from '../../../store/api/apiSlice';
 import { useTranslation } from 'react-i18next';
 import { generateUniqueAnimalId } from '../../../util/animal';
 import { ANIMAL_ID_PREFIX } from '../types';
+import { AnimalUse, AnimalTypeUseRelationship, DefaultAnimalType } from '../../../store/api/types';
 
 type OptionType =
   | 'default_types'
@@ -52,6 +54,7 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
   const { data: identifierColors = [] } = useGetAnimalIdentifierColorsQuery();
   const { data: orgins = [] } = useGetAnimalOriginsQuery();
   const { data: uses = [] } = useGetAnimalUsesQuery();
+  const { data: typeUseRelationships = [] } = useGetAnimalTypeUseRelationshipsQuery();
 
   const options: any = {};
 
@@ -106,14 +109,32 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
   }
 
   if (optionTypes.includes('use')) {
-    options.useOptions = uses.map((animalType) => ({
-      default_type_id: animalType.default_type_id,
-      uses: animalType.uses.map((use) => ({
-        value: use.id,
-        label: t(`animal:USE.${use.key}`),
-        key: use.key,
-      })),
-    }));
+    options.useOptions = defaultTypes.map((animalType: DefaultAnimalType) => {
+      return {
+        default_type_id: animalType.id,
+        uses: typeUseRelationships
+          .filter((typeUse: AnimalTypeUseRelationship) => typeUse.default_type_id === animalType.id)
+          .map((animalUse: AnimalTypeUseRelationship) => {
+            const useKey = uses.find((use: AnimalUse) => use.id === animalUse.animal_use_id);
+            return {
+              value: animalUse.animal_use_id,
+              label: t(`animal:USE.${useKey?.key}`),
+              key: useKey?.key,
+            };
+          }),
+      };
+    });
+    // Add all uses to custom type
+    options.useOptions.push({
+      default_type_id: null,
+      uses: uses.map((use: AnimalUse) => {
+        return {
+          value: use.id,
+          label: t(`animal:USE.${use.key}`),
+          key: use.key,
+        };
+      }),
+    });
   }
 
   if (optionTypes.includes('tagType')) {

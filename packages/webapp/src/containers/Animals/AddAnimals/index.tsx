@@ -22,10 +22,16 @@ import { MultiStepForm, VARIANT } from '../../../components/Form/MultiStepForm';
 import AddAnimalBasics, { animalBasicsDefaultValues } from './AddAnimalBasics';
 import AddAnimalDetails from './AddAnimalDetails';
 import AddAnimalSummary from './AddAnimalSummary';
-import { useAddAnimalBatchesMutation, useAddAnimalsMutation } from '../../../store/api/apiSlice';
-import { Animal, AnimalBatch } from '../../../store/api/types';
+import {
+  useAddAnimalBatchesMutation,
+  useAddAnimalsMutation,
+  useGetAnimalOriginsQuery,
+} from '../../../store/api/apiSlice';
+import { Animal, AnimalBatch, PostBatchSexDetail } from '../../../store/api/types';
 import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
-import { formatAnimalDetailsToDBStructure, formatBatchDetailsToDBStructure } from './utils';
+import { formatAnimalDetailsToDBStructure, formatBatchDetailToDBStructure } from './utils';
+import { AnimalDetailsFormFields } from './types';
+import { AnimalOrBatchKeys } from '../types';
 
 export const STEPS = {
   BASICS: 'basics',
@@ -45,24 +51,42 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
   const [addAnimals] = useAddAnimalsMutation();
   const [addAnimalBatches] = useAddAnimalBatchesMutation();
 
+  const { data: orgins = [] } = useGetAnimalOriginsQuery();
+
   const onSave = async (
     data: any,
     onGoForward: () => void,
     setFormResultData: (data: any) => void,
   ) => {
-    const formattedAnimals = formatAnimalDetailsToDBStructure([]);
-    const formattedBatches = formatBatchDetailsToDBStructure([]);
-    let animalsResult: Animal[] = [];
-    let batchesResult: AnimalBatch[] = [];
+    const details = data[STEPS.DETAILS] as AnimalDetailsFormFields[];
+    const broughtInId = orgins.find((origin) => origin.key === 'BROUGHT_IN')?.id;
+
+    const formattedAnimals: Partial<Animal>[] = [];
+    const formattedBatches: (Partial<AnimalBatch> & PostBatchSexDetail)[] = [];
+
+    details.forEach((animalOrBatch) => {
+      if (animalOrBatch.animal_or_batch === AnimalOrBatchKeys.ANIMAL) {
+        formattedAnimals.push(formatAnimalDetailsToDBStructure(animalOrBatch, broughtInId));
+      } else {
+        formattedBatches.push(formatBatchDetailToDBStructure(animalOrBatch, broughtInId));
+      }
+    });
+
+    let animalsResult: Partial<Animal>[] = [];
+    let batchesResult: Partial<AnimalBatch>[] = [];
 
     try {
-      animalsResult = await addAnimals(formattedAnimals).unwrap();
+      if (formattedAnimals.length) {
+        animalsResult = await addAnimals(formattedAnimals).unwrap();
+      }
     } catch (e) {
       console.error(e);
       dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_CREATE_ANIMALS')));
     }
     try {
-      batchesResult = await addAnimalBatches(formattedBatches).unwrap();
+      if (formattedBatches.length) {
+        batchesResult = await addAnimalBatches(formattedBatches).unwrap();
+      }
     } catch (e) {
       console.error(e);
       dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_CREATE_BATCHES')));
@@ -72,11 +96,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
       return;
     }
 
-    const resultData: { animals: Animal[]; batches: AnimalBatch[] } = {
-      animals: animalsResult,
-      batches: batchesResult,
-    };
-    setFormResultData(resultData);
+    setFormResultData({ animals: animalsResult, batches: batchesResult });
     onGoForward();
   };
 

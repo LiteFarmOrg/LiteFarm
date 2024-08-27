@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import knex from '../util/knex.js';
 import baseModel from './baseModel.js';
 
 class AnimalUse extends baseModel {
@@ -38,32 +37,6 @@ class AnimalUse extends baseModel {
       },
       additionalProperties: false,
     };
-  }
-
-  static async getAnimalUsesForTypes() {
-    const typeUseRelationships = await knex('animal_type_use_relationship')
-      .select({
-        default_type_id: 'default_type_id',
-        useId: 'animal_use.id',
-        useKey: 'animal_use.key',
-      })
-      .join('animal_use', 'animal_type_use_relationship.animal_use_id', '=', 'animal_use.id');
-
-    const usesPerType = typeUseRelationships.reduce((map, { default_type_id, useId, useKey }) => {
-      map[default_type_id] = map[default_type_id] || [];
-      map[default_type_id].push({ id: useId, key: useKey });
-
-      return map;
-    }, {});
-
-    const response = Object.entries(usesPerType).map(([defaultTypeId, uses]) => {
-      return { default_type_id: +defaultTypeId, uses };
-    });
-
-    const allUses = await AnimalUse.query();
-    response.push({ default_type_id: null, uses: allUses });
-
-    return response;
   }
 }
 

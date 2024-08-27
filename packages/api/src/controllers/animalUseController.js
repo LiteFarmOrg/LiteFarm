@@ -19,7 +19,7 @@ const animalUseController = {
   getAnimalUses() {
     return async (_req, res) => {
       try {
-        const uses = await AnimalUse.getAnimalUsesForTypes();
+        const uses = await AnimalUse.query();
         return res.status(200).send(uses);
       } catch (error) {
         console.error(error);

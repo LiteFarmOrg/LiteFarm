@@ -29,6 +29,7 @@ import {
   organicStatusOptions,
   originOptions,
   defaultValues,
+  getOnFileUpload,
 } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
@@ -61,6 +62,8 @@ export const Default: Story = {
               }}
               otherDetailsProps={{
                 organicStatusOptions,
+                getOnFileUpload,
+                imageUploadTargetRoute: 'test',
               }}
               originProps={{
                 currency: '$',

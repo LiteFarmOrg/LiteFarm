@@ -73,11 +73,9 @@ const OtherDetails = ({
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ATTRIBUTE.ORGANIC_STATUS')}
-            optional
-            value={value}
+            value={value ?? organicStatusOptions.find(({ value }) => value === 'Non-Organic')}
             onChange={onChange}
             options={organicStatusOptions}
-            placeholder={t('ADD_ANIMAL.PLACEHOLDER.ORGANIC_STATUS')}
           />
         )}
       />

@@ -17,6 +17,7 @@ export const up = async function (knex) {
   await knex.schema.alterTable('animal_batch', (table) => {
     table.datetime('brought_in_date');
     table.datetime('birth_date');
+    table.integer('origin_id').references('id').inTable('animal_origin');
   });
 };
 
@@ -24,5 +25,6 @@ export const down = async function (knex) {
   await knex.schema.alterTable('animal_batch', (table) => {
     table.dropColumn('brought_in_date');
     table.dropColumn('birth_date');
+    table.dropColumn('origin_id');
   });
 };

@@ -50,9 +50,12 @@ export interface Animal {
 }
 
 export interface AnimalBatch {
+  birth_date: string | null;
+  brought_in_date: string | null;
   count: number;
   custom_breed_id: number | null;
   custom_type_id: number | null;
+  dam: string | null;
   default_breed_id: number | null;
   default_type_id: number | null;
   farm_id: string;
@@ -61,8 +64,10 @@ export interface AnimalBatch {
   internal_identifier: number;
   name: string | null;
   notes: string | null;
+  origin_id: number;
   photo_url: string | null;
   sex_detail: { sex_id: number; count: number }[];
+  sire: string | null;
   organic_status: 'Non-Organic' | 'Transitional' | 'Organic';
   supplier: string | null;
   price: number | null;

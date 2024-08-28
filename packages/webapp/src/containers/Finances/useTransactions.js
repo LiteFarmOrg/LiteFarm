@@ -115,7 +115,6 @@ const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseT
       const expenseType = expenseTypes.find(
         (expenseType) => expenseType?.expense_type_id === expense.expense_type_id,
       );
-      console.log(expenseType);
       return {
         icon: expenseType?.farm_id ? 'OTHER' : (expenseType?.expense_translation_key ?? 'OTHER'),
         date: expense.expense_date,

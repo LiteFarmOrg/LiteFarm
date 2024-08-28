@@ -18,7 +18,7 @@ import { Animal, AnimalBatch, PostBatchSexDetail } from '../../../store/api/type
 import { toLocalISOString } from '../../../util/moment';
 import { DetailsFields, type AnimalDetailsFormFields } from './types';
 
-const formatTypeOrBreed = (
+const formatFormTypeOrBreed = (
   typeOrBreed: 'type' | 'breed',
   data?: { label: string; value: string; __isNew__?: boolean },
 ) => {
@@ -33,7 +33,7 @@ const formatTypeOrBreed = (
   return { [`${defaultOrCustom}_${typeOrBreed}_id`]: +id };
 };
 
-const formatSexDetailsAndCount = (
+const formatFormSexDetailsAndCount = (
   data: AnimalDetailsFormFields,
 ): Pick<AnimalBatch, 'count'> & PostBatchSexDetail => {
   if (!data[DetailsFields.SEX_DETAILS] || !data[DetailsFields.SEX_DETAILS].length) {
@@ -48,7 +48,7 @@ const formatSexDetailsAndCount = (
   };
 };
 
-const formatUse = (
+const formatFormUse = (
   isAnimal: boolean,
   use: AnimalDetailsFormFields[DetailsFields.USE],
   otherUse: AnimalDetailsFormFields[DetailsFields.OTHER_USE],
@@ -71,7 +71,7 @@ const formatUse = (
   return { [key]: useRelations };
 };
 
-const convertDate = (date?: string): string | undefined => {
+const convertFormDate = (date?: string): string | undefined => {
   if (!date) {
     return undefined;
   }
@@ -87,7 +87,7 @@ const formatOrigin = (
       origin_id: data[DetailsFields.ORIGIN],
       ...(data.origin_id === broughtInId
         ? {
-            brought_in_date: convertDate(data[DetailsFields.BROUGHT_IN_DATE]),
+            brought_in_date: convertFormDate(data[DetailsFields.BROUGHT_IN_DATE]),
             supplier: data[DetailsFields.SUPPLIER],
             price: data[DetailsFields.PRICE] ? +data[DetailsFields.PRICE] : undefined,
           }
@@ -108,10 +108,10 @@ const formatCommonDetails = (
 ): Partial<Animal | AnimalBatch> => {
   return {
     // General
-    ...formatTypeOrBreed('type', data[DetailsFields.TYPE]),
-    ...formatTypeOrBreed('breed', data[DetailsFields.BREED]),
-    ...(isAnimal ? { sex_id: data[DetailsFields.SEX] } : formatSexDetailsAndCount(data)),
-    ...formatUse(isAnimal, data[DetailsFields.USE], data[DetailsFields.OTHER_USE]),
+    ...formatFormTypeOrBreed('type', data[DetailsFields.TYPE]),
+    ...formatFormTypeOrBreed('breed', data[DetailsFields.BREED]),
+    ...(isAnimal ? { sex_id: data[DetailsFields.SEX] } : formatFormSexDetailsAndCount(data)),
+    ...formatFormUse(isAnimal, data[DetailsFields.USE], data[DetailsFields.OTHER_USE]),
 
     // Other
     organic_status: data[DetailsFields.ORGANIC_STATUS]?.value,
@@ -134,10 +134,10 @@ export const formatAnimalDetailsToDBStructure = (
     ...formatCommonDetails(true, data, broughtInId),
 
     // Other
-    weaning_date: convertDate(data[DetailsFields.WEANING_DATE]),
+    weaning_date: convertFormDate(data[DetailsFields.WEANING_DATE]),
 
     // Unique
-    birth_date: convertDate(data[DetailsFields.DATE_OF_BIRTH]),
+    birth_date: convertFormDate(data[DetailsFields.DATE_OF_BIRTH]),
     identifier: data[DetailsFields.TAG_NUMBER],
     identifier_type_id: data[DetailsFields.TAG_TYPE]?.value,
     identifier_color_id: data[DetailsFields.TAG_COLOR]?.value,
@@ -145,7 +145,7 @@ export const formatAnimalDetailsToDBStructure = (
   };
 };
 
-export const formatBatchDetailToDBStructure = (
+export const formatBatchDetailsToDBStructure = (
   data: AnimalDetailsFormFields,
   broughtInId?: number,
 ): Partial<AnimalBatch> & PostBatchSexDetail => {

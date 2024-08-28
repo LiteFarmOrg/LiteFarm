@@ -29,7 +29,7 @@ import {
 } from '../../../store/api/apiSlice';
 import { Animal, AnimalBatch, PostBatchSexDetail } from '../../../store/api/types';
 import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
-import { formatAnimalDetailsToDBStructure, formatBatchDetailToDBStructure } from './utils';
+import { formatAnimalDetailsToDBStructure, formatBatchDetailsToDBStructure } from './utils';
 import { AnimalDetailsFormFields } from './types';
 import { AnimalOrBatchKeys } from '../types';
 
@@ -68,7 +68,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
       if (animalOrBatch.animal_or_batch === AnimalOrBatchKeys.ANIMAL) {
         formattedAnimals.push(formatAnimalDetailsToDBStructure(animalOrBatch, broughtInId));
       } else {
-        formattedBatches.push(formatBatchDetailToDBStructure(animalOrBatch, broughtInId));
+        formattedBatches.push(formatBatchDetailsToDBStructure(animalOrBatch, broughtInId));
       }
     });
 

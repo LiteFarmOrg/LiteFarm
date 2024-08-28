@@ -119,6 +119,13 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
 
   return (
     <div className={styles.sectionWrapper}>
+      {/* @ts-ignore */}
+      <Input
+        type="date"
+        label={t('ANIMAL.ATTRIBUTE.DATE_OF_BIRTH')}
+        hookFormRegister={register(`${namePrefix}${DetailsFields.DATE_OF_BIRTH}`)}
+        optional
+      />
       <div>
         {/* @ts-ignore */}
         <RadioGroup

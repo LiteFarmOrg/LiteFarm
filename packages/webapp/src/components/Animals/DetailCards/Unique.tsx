@@ -61,13 +61,6 @@ const UniqueDetails = ({
       />
       {/* @ts-ignore */}
       <Input
-        type="date"
-        label={t('ANIMAL.ATTRIBUTE.DATE_OF_BIRTH')}
-        hookFormRegister={register(`${namePrefix}${DetailsFields.DATE_OF_BIRTH}`)}
-        optional
-      />
-      {/* @ts-ignore */}
-      <Input
         type="text"
         label={t('ANIMAL.ATTRIBUTE.TAG_NUMBER')}
         hookFormRegister={register(`${namePrefix}${DetailsFields.TAG_NUMBER}`, {

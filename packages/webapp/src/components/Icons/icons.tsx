@@ -63,8 +63,56 @@ import { ReactComponent as SoilAmendmentTask } from '../../assets/images/task/So
 import { ReactComponent as MoreHorizontalIcon } from '../../assets/images/more-horizontal.svg';
 import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
+import { FunctionComponent } from 'react';
 
-const iconMap = {
+// Follows structure of https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type
+
+export type IconName =
+  | 'EXPENSE'
+  | 'CROP'
+  | 'PROFIT_LOSS'
+  // Revenue types
+  | 'CROP_SALE'
+  | 'CUSTOM'
+  // Expense types
+  | 'EQUIPMENT'
+  | 'SOIL_AMENDMENT'
+  | 'PEST_CONTROL'
+  | 'FUEL'
+  | 'MACHINERY'
+  | 'SEEDS_AND_PLANTS'
+  | 'OTHER'
+  | 'LAND'
+  | 'MISCELLANEOUS'
+  | 'UTILITIES'
+  | 'LABOUR'
+  | 'INFRASTRUCTURE'
+  | 'TRANSPORTATION'
+  | 'SERVICES'
+  // Animal Inventory
+  | 'CATTLE'
+  | 'CHICKEN'
+  | 'PIGS'
+  | 'BATCH'
+  | 'BATCH_GREEN' // svgColorFill does not work with this icon
+  | 'CUSTOM_ANIMAL'
+  | 'ALPACA'
+  | 'GOAT'
+  | 'RABBIT'
+  | 'SHEEP'
+  // Animal Inventory KPI
+  | 'ADD_ANIMAL'
+  | 'TASK_CREATION'
+  | 'CLONE'
+  | 'REMOVE_ANIMAL'
+  // Tasks
+  | 'SOIL_AMENDMENT_TASK'
+  // System
+  | 'MORE_HORIZONTAL'
+  | 'PLUS_CIRCLE'
+  | 'TRASH';
+
+export const iconMap: Record<IconName, FunctionComponent> = {
   // Finances Carousel
   EXPENSE: ExpenseIcon,
   CROP: CropIcon,
@@ -90,7 +138,7 @@ const iconMap = {
   // Animal Inventory
   CATTLE: CattleIcon,
   CHICKEN: ChickenIcon,
-  PIG: PigIcon,
+  PIGS: PigIcon,
   BATCH: BatchIcon,
   BATCH_GREEN: BatchIconGreen, // svgColorFill does not work with this icon
   CUSTOM_ANIMAL: CustomAnimalIcon,

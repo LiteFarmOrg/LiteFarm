@@ -16,7 +16,7 @@
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import Icon, { Icons } from '../../Icons';
+import Icon, { Icons, IconProps } from '../../Icons';
 import Button from '../../Form/Button';
 
 type MoreAnimalCardProps = {
@@ -27,8 +27,8 @@ type MoreAnimalCardProps = {
 export const MoreAnimalsCard = ({ className, onClick }: MoreAnimalCardProps) => {
   const { t } = useTranslation();
 
-  const iconDetails = [
-    { iconName: 'PIG' },
+  const iconDetails: IconProps[] = [
+    { iconName: 'PIGS' },
     { iconName: 'CHICKEN' },
     { iconName: 'RABBIT' },
     { iconName: 'SHEEP' },

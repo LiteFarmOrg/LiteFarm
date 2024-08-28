@@ -23,7 +23,7 @@ import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
 import type { AnimalInventory } from './useAnimalInventory';
-import ActionMenu from '../../../components/ActionMenu';
+import ActionMenu, { iconAction } from '../../../components/ActionMenu';
 import FixedHeaderContainer, {
   ContainerKind,
 } from '../../../components/Animals/FixedHeaderContainer';
@@ -193,7 +193,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
     }
   };
 
-  const iconActions = [
+  const iconActions: iconAction[] = [
     { label: t(`common:ADD_TO_GROUP`), iconName: 'ADD_ANIMAL', onClick: () => ({}) },
     { label: t(`common:CREATE_A_TASK`), iconName: 'TASK_CREATION', onClick: () => ({}) },
     { label: t(`common:CLONE`), iconName: 'CLONE', onClick: () => ({}) },

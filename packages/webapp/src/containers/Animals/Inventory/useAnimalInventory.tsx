@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { FC, useMemo } from 'react';
+import { useMemo } from 'react';
 import i18n from '../../../locales/i18n';
 import {
   useGetAnimalsQuery,
@@ -35,12 +35,13 @@ import {
   DefaultAnimalType,
 } from '../../../store/api/types';
 import { getComparator, orderEnum } from '../../../util/sort';
-import { AnimalOrBatchKeys, AnimalTranslationKey } from '../types';
+import { AnimalOrBatchKeys } from '../types';
 import { generateInventoryId } from '../../../util/animal';
+import { IconName } from '../../../components/Icons';
 
 export type AnimalInventory = {
   id: string;
-  iconName: string;
+  iconName: IconName;
   identification: string;
   type: string;
   breed: string;
@@ -63,17 +64,8 @@ export const getDefaultAnimalIconName = (
   defaultAnimalTypes: DefaultAnimalType[],
   defaultTypeId: number | null,
 ) => {
-  const key = defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key;
-  switch (key) {
-    case AnimalTranslationKey.CATTLE:
-      return 'CATTLE';
-    case AnimalTranslationKey.CHICKEN:
-      return 'CHICKEN';
-    case AnimalTranslationKey.PIGS:
-      return 'PIGS';
-    default:
-      return 'CUSTOM_ANIMAL';
-  }
+  return (defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key ||
+    'CUSTOM_ANIMAL') as IconName;
 };
 
 type hasId = {
@@ -192,7 +184,7 @@ const formatAnimalBatchesData = (
     .map((batch: AnimalBatch) => {
       return {
         id: generateInventoryId(AnimalOrBatchKeys.BATCH, batch),
-        iconName: 'BATCH',
+        iconName: 'BATCH' as IconName,
         identification: chooseIdentification(batch),
         type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),

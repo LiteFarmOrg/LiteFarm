@@ -13,12 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export enum AnimalTranslationKey {
-  CATTLE = 'CATTLE',
-  CHICKEN = 'CHICKEN',
-  PIGS = 'PIGS',
-}
-
 export enum ANIMAL_ID_PREFIX {
   DEFAULT = 'default',
   CUSTOM = 'custom',

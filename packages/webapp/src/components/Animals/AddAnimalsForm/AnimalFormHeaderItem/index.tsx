@@ -20,14 +20,14 @@ import { useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import { IconLink, Main } from '../../../Typography';
-import Icon from '../../../Icons';
+import Icon, { IconName } from '../../../Icons';
 import TextButton from '../../../Form/Button/TextButton';
 import { ReactComponent as TrashIcon } from '../../../../assets/images/animals/trash_icon_new.svg';
 
 type BaseFormHeader = {
   type: string;
   breed?: string;
-  iconKey: string;
+  iconKey: IconName;
   number: number;
   totalCount: number;
   showRemove?: boolean;

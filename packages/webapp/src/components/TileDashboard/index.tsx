@@ -21,13 +21,14 @@ import { SummaryTiles } from './SummaryTiles';
 import { DashboardTile } from './DashboardTile';
 import { MoreComponent } from './MoreComponent';
 import { useDynamicTileVisibility } from './useDynamicTileVisibility';
+import { IconName } from '../Icons';
 
 export type FilterId = string | number;
 
 export interface TypeCountTile {
   label: string;
   count: number;
-  iconName: string;
+  iconName: IconName;
   id: FilterId;
   onClick?: () => void;
 }

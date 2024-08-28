@@ -21,7 +21,6 @@ import { ReactComponent as ChevronRight } from '../../../assets/images/buttons/c
 import Button from '../../Form/Button';
 import { sumObjectValues } from '../../../util';
 import { IconSummary } from './IconSummary';
-import { iconNames } from '../../../containers/Animals/constants';
 import { AnimalSummary, BatchSummary } from './types';
 import { useMediaQuery, useTheme } from '@mui/material';
 
@@ -102,14 +101,12 @@ const IconSummaryAndButton = ({
     <div className={styles.iconSummaryAndButtonContainer}>
       <div className={styles.iconSummaryContainer}>
         {animalsInfo.map((animal, index) => {
-          const animalIconKey =
-            iconNames[animal.iconKey as keyof typeof iconNames] || iconNames[''];
           return (
             <IconSummary
               key={index}
               isBatch={false}
               sexDetails={animal.sexDetails}
-              iconKey={animalIconKey}
+              iconKey={animal.iconKey || 'CUSTOM_ANIMAL'}
               type={animal.type}
               breed={animal.breed}
             />

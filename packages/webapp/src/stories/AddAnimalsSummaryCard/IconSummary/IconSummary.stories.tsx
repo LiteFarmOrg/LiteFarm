@@ -43,7 +43,7 @@ export const Animal: Story = {
 export const AnimalNoBreed: Story = {
   args: {
     type: 'Pig',
-    iconKey: 'PIG',
+    iconKey: 'PIGS',
     isBatch: false,
     sexDetails: {
       Male: 1,

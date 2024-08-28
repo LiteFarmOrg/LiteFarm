@@ -18,6 +18,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { componentDecoratorsWithoutPadding } from '../Pages/config/Decorators';
 import { AddAnimalsSummaryCard } from '../../components/Animals/AddAnimalsSummaryCard';
 import styles from './styles.module.scss';
+import { AnimalSummary } from '../../components/Animals/AddAnimalsSummaryCard/types';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof AddAnimalsSummaryCard> = {
@@ -44,7 +45,7 @@ const ResizeWrapper = ({ children }: ResizeWrapperProps) => {
 
 type Story = StoryObj<typeof AddAnimalsSummaryCard>;
 
-const animalsInfo = [
+const animalsInfo: AnimalSummary[] = [
   {
     type: 'Cattle',
     breed: 'Aberdeen',
@@ -59,6 +60,7 @@ const animalsInfo = [
   {
     type: 'Guinea Pig',
     sexDetails: { Male: 4 },
+    /* @ts-ignore */
     iconKey: 'GUINEA_PIG', // non-existent keys will default to CUSTOM_ANIMAL icon
   },
 ];

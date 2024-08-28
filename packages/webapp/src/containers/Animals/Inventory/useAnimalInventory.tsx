@@ -37,11 +37,11 @@ import {
 import { getComparator, orderEnum } from '../../../util/sort';
 import { AnimalOrBatchKeys } from '../types';
 import { generateInventoryId } from '../../../util/animal';
-import { IconName } from '../../../components/Icons';
+import { AnimalTypeIconKey } from '../../../components/Icons/icons';
 
 export type AnimalInventory = {
   id: string;
-  iconName: IconName;
+  iconName: AnimalTypeIconKey;
   identification: string;
   type: string;
   breed: string;
@@ -65,7 +65,7 @@ export const getDefaultAnimalIconName = (
   defaultTypeId: number | null,
 ) => {
   return (defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key ||
-    'CUSTOM_ANIMAL') as IconName;
+    'CUSTOM_ANIMAL') as AnimalTypeIconKey;
 };
 
 type hasId = {
@@ -184,7 +184,7 @@ const formatAnimalBatchesData = (
     .map((batch: AnimalBatch) => {
       return {
         id: generateInventoryId(AnimalOrBatchKeys.BATCH, batch),
-        iconName: 'BATCH' as IconName,
+        iconName: 'BATCH' as AnimalTypeIconKey,
         identification: chooseIdentification(batch),
         type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),

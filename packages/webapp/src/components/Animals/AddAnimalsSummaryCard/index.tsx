@@ -23,6 +23,7 @@ import { sumObjectValues } from '../../../util';
 import { IconSummary } from './IconSummary';
 import { AnimalSummary, BatchSummary } from './types';
 import { useMediaQuery, useTheme } from '@mui/material';
+import { isAnimalTypeIconKey } from '../../Icons/icons';
 
 interface AddAnimalsSummaryCardProps {
   onContinue: () => void;
@@ -106,7 +107,7 @@ const IconSummaryAndButton = ({
               key={index}
               isBatch={false}
               sexDetails={animal.sexDetails}
-              iconKey={animal.iconKey || 'CUSTOM_ANIMAL'}
+              iconKey={isAnimalTypeIconKey(animal.iconKey) ? animal.iconKey : 'CUSTOM_ANIMAL'}
               type={animal.type}
               breed={animal.breed}
             />

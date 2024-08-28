@@ -65,8 +65,25 @@ import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circl
 import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
 import { FunctionComponent } from 'react';
 
-// Follows structure of https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type
+const AnimalTypeIcons = [
+  'CATTLE',
+  'CHICKEN',
+  'PIGS',
+  'BATCH',
+  'BATCH_GREEN', // svgColorFill does not work with this icon
+  'CUSTOM_ANIMAL',
+  'ALPACA',
+  'GOAT',
+  'RABBIT',
+  'SHEEP',
+] as const;
+export type AnimalTypeIconKey = (typeof AnimalTypeIcons)[number];
+// TypeGuard for animal type icons
+export const isAnimalTypeIconKey = (iconKey: string): iconKey is AnimalTypeIconKey => {
+  return AnimalTypeIcons.includes(iconKey as AnimalTypeIconKey);
+};
 
+// Follows structure of https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type
 export type IconName =
   | 'EXPENSE'
   | 'CROP'
@@ -90,16 +107,7 @@ export type IconName =
   | 'TRANSPORTATION'
   | 'SERVICES'
   // Animal Inventory
-  | 'CATTLE'
-  | 'CHICKEN'
-  | 'PIGS'
-  | 'BATCH'
-  | 'BATCH_GREEN' // svgColorFill does not work with this icon
-  | 'CUSTOM_ANIMAL'
-  | 'ALPACA'
-  | 'GOAT'
-  | 'RABBIT'
-  | 'SHEEP'
+  | AnimalTypeIconKey
   // Animal Inventory KPI
   | 'ADD_ANIMAL'
   | 'TASK_CREATION'

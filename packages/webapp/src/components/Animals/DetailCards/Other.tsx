@@ -73,7 +73,7 @@ const OtherDetails = ({
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ATTRIBUTE.ORGANIC_STATUS')}
-            value={value ?? organicStatusOptions.find(({ value }) => value === 'Non-Organic')}
+            value={value}
             onChange={onChange}
             options={organicStatusOptions}
           />

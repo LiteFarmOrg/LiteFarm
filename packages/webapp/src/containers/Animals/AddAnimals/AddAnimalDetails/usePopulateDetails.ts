@@ -22,13 +22,17 @@ import {
   AnimalDetailsFormFields,
   BasicsFields,
   DetailsFields,
+  Option,
 } from '../types';
 import { AnimalOrBatchKeys } from '../../types';
 
 export const usePopulateDetails = (
   replace: UseFieldArrayReplace<AddAnimalsFormFields, 'details'>,
+  organicStatusOptions: Option[DetailsFields.ORGANIC_STATUS][],
 ) => {
   const { getValues } = useFormContext<AddAnimalsFormFields>();
+
+  const defaultOrganicStatus = organicStatusOptions.find(({ value }) => value === 'Non-Organic');
 
   useEffect(() => {
     const detailsArray: AnimalDetailsFormFields[] = [];
@@ -40,6 +44,7 @@ export const usePopulateDetails = (
         [DetailsFields.SEX]: sex_id,
         [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
         [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch[BasicsFields.FIELD_ARRAY_ID],
+        [DetailsFields.ORGANIC_STATUS]: defaultOrganicStatus,
       };
     };
 
@@ -52,6 +57,7 @@ export const usePopulateDetails = (
         [DetailsFields.SEX_DETAILS]: animalOrBatch[BasicsFields.SEX_DETAILS],
         [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.BATCH,
         [DetailsFields.BASICS_FIELD_ARRAY_ID]: animalOrBatch[BasicsFields.FIELD_ARRAY_ID],
+        [DetailsFields.ORGANIC_STATUS]: defaultOrganicStatus,
       };
     };
 
@@ -86,7 +92,11 @@ export const usePopulateDetails = (
 
       return updatedData.map((entity, index) => {
         const origData = trimmedOrigGroup[index] || {};
-        return { ...origData, ...entity };
+        return {
+          ...origData,
+          ...entity,
+          [DetailsFields.ORGANIC_STATUS]: origData[DetailsFields.ORGANIC_STATUS],
+        };
       });
     });
     // Update the details array

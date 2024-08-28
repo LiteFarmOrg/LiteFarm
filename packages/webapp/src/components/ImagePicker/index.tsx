@@ -31,10 +31,10 @@ export enum FileEvent {
 }
 
 export type OnFileUpload = (
-  e: ChangeEvent<HTMLInputElement> | DragEvent,
+  event: ChangeEvent<HTMLInputElement> | DragEvent,
   setPreviewUrl: (url: string) => void,
   setFileSizeExceeded: (exceeded: boolean) => void,
-  event: FileEvent,
+  eventType: FileEvent,
 ) => Promise<void>;
 
 type CommonProps = {

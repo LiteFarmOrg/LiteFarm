@@ -30,11 +30,9 @@ export type GetOnFileUpload = (
  * Custom hook designed to be used as a helper for the `ImagePicker` component to save the image URL
  * rather than the file itself. (Created by extracting the logic from `ImagePickerWrapper`.)
  *
- * This hook could be simplified by directly taking `targetRoute`, `onSelectImage`, and `onLoading`
- * as parameters rather than passing these to the returned `getOnFileUpload` function. However, the
- * current structure allows for more flexibility. (Call the hook in a container and delegate the
- * detailed implementation in its child component - this keeps components pure and prevent stories
- * from being broken.)
+ * While the hook could be simplified by directly taking `targetRoute`, `onSelectImage`, and `onLoading`
+ * as parameters, the current structure provides greater flexibility. It allows parent containers to call
+ * the hook and delegate the specifics of these parameters to child components.
  *
  * @example
  * const { getOnFileUpload } = useImagePickerUpload();
@@ -66,13 +64,13 @@ export default function useImagePickerUpload(): { getOnFileUpload: GetOnFileUplo
 
   const getOnFileUpload: GetOnFileUpload =
     (targetRoute, onSelectImage, onLoading) =>
-    async (e, setPreviewUrl, setFileSizeExceeded, event) => {
+    async (event, setPreviewUrl, setFileSizeExceeded, eventType) => {
       onLoading?.(true);
 
       const blob =
-        event === FileEvent.CHANGE
-          ? (e as ChangeEvent<HTMLInputElement>)?.target?.files?.[0]
-          : (e as DragEvent).dataTransfer?.files?.[0];
+        eventType === FileEvent.CHANGE
+          ? (event as ChangeEvent<HTMLInputElement>)?.target?.files?.[0]
+          : (event as DragEvent).dataTransfer?.files?.[0];
 
       if (blob) {
         const onUploadFail = getOnUploadFail(onLoading);

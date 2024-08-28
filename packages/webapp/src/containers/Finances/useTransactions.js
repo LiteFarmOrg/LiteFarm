@@ -115,8 +115,9 @@ const buildExpenseTransactions = ({ expenses, expenseTypes, dateFilter, expenseT
       const expenseType = expenseTypes.find(
         (expenseType) => expenseType?.expense_type_id === expense.expense_type_id,
       );
+      console.log(expenseType);
       return {
-        icon: expenseType?.farm_id ? 'CUSTOM' : expenseType?.expense_translation_key,
+        icon: expenseType?.farm_id ? 'OTHER' : (expenseType?.expense_translation_key ?? 'OTHER'),
         date: expense.expense_date,
         transactionType: transactionTypeEnum.expense,
         typeLabel: getExpenseTypeLabel(expenseType),
@@ -148,7 +149,7 @@ const buildRevenueTransactions = ({
       (revenueType) => revenueType?.revenue_type_id == item.sale.revenue_type_id,
     );
     return {
-      icon: revenueType?.farm_id ? 'CUSTOM' : revenueType?.revenue_translation_key,
+      icon: revenueType?.farm_id ? 'CUSTOM' : (revenueType?.revenue_translation_key ?? 'CUSTOM'),
       date: item.sale.sale_date,
       transactionType: revenueType?.crop_generated
         ? transactionTypeEnum.cropRevenue

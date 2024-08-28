@@ -23,7 +23,7 @@ import { ReactComponent as ChevronDown } from '../../../assets/images/animals/ch
 import TextButton from '../../Form/Button/TextButton';
 import { TypeCountTile, FilterId } from '..';
 
-export interface MoreComponentProps {
+interface MoreComponentProps {
   moreIconTiles: TypeCountTile[];
   selectedFilterIds?: FilterId[];
   className?: string;

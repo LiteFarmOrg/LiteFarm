@@ -14,7 +14,7 @@
  */
 
 import i18n from '../../../locales/i18n';
-import { Animal, AnimalBatch, PostBatchSexDetail } from '../../../store/api/types';
+import { Animal, AnimalBatch, PostAnimalBatch, PostBatchSexDetail } from '../../../store/api/types';
 import { toLocalISOString } from '../../../util/moment';
 import { DetailsFields, type AnimalDetailsFormFields } from './types';
 
@@ -148,6 +148,6 @@ export const formatAnimalDetailsToDBStructure = (
 export const formatBatchDetailsToDBStructure = (
   data: AnimalDetailsFormFields,
   broughtInId?: number,
-): Partial<AnimalBatch> & PostBatchSexDetail => {
+): PostAnimalBatch => {
   return formatCommonDetails(false, data, broughtInId);
 };

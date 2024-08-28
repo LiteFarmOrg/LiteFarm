@@ -71,6 +71,12 @@ export interface AnimalBatch {
   removal_date: string | null;
 }
 
+export interface PostBatchSexDetail {
+  animal_batch_sex_detail?: { sex_id: number; count: number }[];
+}
+
+export type PostAnimalBatch = Partial<AnimalBatch> & PostBatchSexDetail;
+
 export interface AnimalGroup {
   farm_id: string;
   id: number;
@@ -204,8 +210,4 @@ export type SoilAmendmentProduct = Product & {
     molecular_compounds_unit?: MolecularCompoundsUnit;
     moisture_content_percent?: number;
   };
-};
-
-export type PostBatchSexDetail = {
-  animal_batch_sex_detail?: { sex_id: number; count: number }[];
 };

@@ -41,7 +41,7 @@ export interface Animal {
   sex_id: number;
   sire: string | null;
   weaning_date: string | null;
-  organic_status: 'Non-Organic' | 'Transitional' | 'Organic' | null; // confirm
+  organic_status: 'Non-Organic' | 'Transitional' | 'Organic';
   supplier: string | null;
   price: number | null;
   animal_removal_reason_id: number | null;
@@ -63,7 +63,7 @@ export interface AnimalBatch {
   notes: string | null;
   photo_url: string | null;
   sex_detail: { sex_id: number; count: number }[];
-  organic_status: 'Non-Organic' | 'Transitional' | 'Organic' | null; // confirm
+  organic_status: 'Non-Organic' | 'Transitional' | 'Organic';
   supplier: string | null;
   price: number | null;
   animal_removal_reason_id: number | null;

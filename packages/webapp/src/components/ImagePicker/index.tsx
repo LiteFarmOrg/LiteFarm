@@ -44,19 +44,17 @@ type CommonProps = {
   defaultUrl?: string;
 };
 
-type ImageUrlUpload = CommonProps & {
-  shouldGetImageUrl: true;
+type CustomFileUpload = CommonProps & {
   onSelectImage?: never;
   onFileUpload: OnFileUpload;
 };
 
 type DirectImageUpload = CommonProps & {
-  shouldGetImageUrl?: false;
   onSelectImage: (file: File) => void;
   onFileUpload?: never;
 };
 
-export type ImagePickerProps = ImageUrlUpload | DirectImageUpload;
+export type ImagePickerProps = CustomFileUpload | DirectImageUpload;
 
 export default function ImagePicker({
   onRemoveImage,
@@ -64,7 +62,6 @@ export default function ImagePicker({
   defaultUrl = '',
   label,
   optional = true, // false is not yet supported
-  shouldGetImageUrl = false,
   onFileUpload,
 }: ImagePickerProps) {
   const [previewUrl, setPreviewUrl] = useState(defaultUrl);
@@ -88,8 +85,8 @@ export default function ImagePicker({
   };
 
   const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (shouldGetImageUrl) {
-      onFileUpload?.(e, setPreviewUrl, setShowFileSizeExceedsModal, FileEvent.CHANGE);
+    if (onFileUpload) {
+      onFileUpload(e, setPreviewUrl, setShowFileSizeExceedsModal, FileEvent.CHANGE);
       return;
     }
 
@@ -106,8 +103,8 @@ export default function ImagePicker({
     if (e.type === 'dragenter' || e.type === 'dragleave') {
       dropContainerRef.current?.classList.toggle(styles.dropContainerActive);
     } else if (e.type === 'drop') {
-      if (shouldGetImageUrl) {
-        onFileUpload?.(e, setPreviewUrl, setShowFileSizeExceedsModal, FileEvent.DRAG);
+      if (onFileUpload) {
+        onFileUpload(e, setPreviewUrl, setShowFileSizeExceedsModal, FileEvent.DRAG);
         return;
       }
 

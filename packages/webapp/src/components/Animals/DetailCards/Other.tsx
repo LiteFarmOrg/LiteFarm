@@ -102,7 +102,6 @@ const OtherDetails = ({
         label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}
         onFileUpload={onFileUpload}
         onRemoveImage={handleRemoveImage}
-        shouldGetImageUrl={true}
         defaultUrl={field.value}
       />
     </div>

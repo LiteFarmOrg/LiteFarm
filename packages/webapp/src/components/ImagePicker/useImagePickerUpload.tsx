@@ -40,7 +40,6 @@ export type GetOnFileUpload = (
  *
  * <ImagePicker
  *   label={"label"}
- *   shouldGetImageUrl={true}
  *   onFileUpload={onFileUpload}
  *   onRemoveImage={() => console.log('remove')}
  * />

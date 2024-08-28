@@ -35,7 +35,7 @@ const formatFormTypeOrBreed = (
 
 const formatFormSexDetailsAndCount = (
   data: AnimalDetailsFormFields,
-): Pick<AnimalBatch, 'count'> & PostBatchSexDetail => {
+): Pick<PostAnimalBatch, 'count' | 'animal_batch_sex_detail'> => {
   if (!data[DetailsFields.SEX_DETAILS] || !data[DetailsFields.SEX_DETAILS].length) {
     return { count: data[DetailsFields.COUNT]! };
   }
@@ -81,7 +81,7 @@ const convertFormDate = (date?: string): string | undefined => {
 const formatOrigin = (
   data: AnimalDetailsFormFields,
   broughtInId?: number,
-): Partial<Animal | AnimalBatch> => {
+): Partial<Animal | PostAnimalBatch> => {
   if (broughtInId && data[DetailsFields.ORIGIN]) {
     return {
       origin_id: data[DetailsFields.ORIGIN],
@@ -105,7 +105,7 @@ const formatCommonDetails = (
   isAnimal: boolean,
   data: AnimalDetailsFormFields,
   broughtInId?: number,
-): Partial<Animal | AnimalBatch> => {
+): Partial<Animal | PostAnimalBatch> => {
   return {
     // General
     ...formatFormTypeOrBreed('type', data[DetailsFields.TYPE]),

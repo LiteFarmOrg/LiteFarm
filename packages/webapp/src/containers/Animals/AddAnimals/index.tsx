@@ -72,8 +72,8 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
       }
     });
 
-    let animalsResult: Partial<Animal>[] = [];
-    let batchesResult: Partial<AnimalBatch>[] = [];
+    let animalsResult: Animal[] = [];
+    let batchesResult: AnimalBatch[] = [];
 
     try {
       if (formattedAnimals.length) {

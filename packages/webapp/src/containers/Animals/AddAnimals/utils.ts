@@ -82,23 +82,26 @@ const formatOrigin = (
   data: AnimalDetailsFormFields,
   broughtInId?: number,
 ): Partial<Animal | PostAnimalBatch> => {
-  if (broughtInId && data[DetailsFields.ORIGIN]) {
-    return {
-      origin_id: data[DetailsFields.ORIGIN],
-      ...(data.origin_id === broughtInId
-        ? {
-            brought_in_date: convertFormDate(data[DetailsFields.BROUGHT_IN_DATE]),
-            supplier: data[DetailsFields.SUPPLIER],
-            price: data[DetailsFields.PRICE] ? +data[DetailsFields.PRICE] : undefined,
-          }
-        : {
-            dam: data[DetailsFields.DAM],
-            sire: data[DetailsFields.SIRE],
-          }),
-    };
+  if (!broughtInId && !data[DetailsFields.ORIGIN]) {
+    return { birth_date: convertFormDate(data[DetailsFields.DATE_OF_BIRTH]) };
   }
 
-  return {};
+  const isBroughtIn = broughtInId && data[DetailsFields.ORIGIN];
+
+  return {
+    birth_date: convertFormDate(data[DetailsFields.DATE_OF_BIRTH]),
+    origin_id: data[DetailsFields.ORIGIN],
+    ...(isBroughtIn
+      ? {
+          brought_in_date: convertFormDate(data[DetailsFields.BROUGHT_IN_DATE]),
+          supplier: data[DetailsFields.SUPPLIER],
+          price: data[DetailsFields.PRICE] ? +data[DetailsFields.PRICE] : undefined,
+        }
+      : {
+          dam: data[DetailsFields.DAM],
+          sire: data[DetailsFields.SIRE],
+        }),
+  };
 };
 
 const formatCommonDetails = (
@@ -137,7 +140,6 @@ export const formatAnimalDetailsToDBStructure = (
     weaning_date: convertFormDate(data[DetailsFields.WEANING_DATE]),
 
     // Unique
-    birth_date: convertFormDate(data[DetailsFields.DATE_OF_BIRTH]),
     identifier: data[DetailsFields.TAG_NUMBER],
     identifier_type_id: data[DetailsFields.TAG_TYPE]?.value,
     identifier_color_id: data[DetailsFields.TAG_COLOR]?.value,

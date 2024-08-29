@@ -31,6 +31,7 @@ import { AnimalOrBatchKeys } from '../../types';
 import { parseUniqueDefaultId } from '../../../../util/animal';
 import { getDefaultAnimalIconName } from '../../Inventory/useAnimalInventory';
 import usePopulateDetails from './usePopulateDetails';
+import useImagePickerUpload from '../../../../components/ImagePicker/useImagePickerUpload';
 
 type AnimalDetailsField = FieldArrayWithId<AddAnimalsFormFields, 'details'>;
 
@@ -43,6 +44,8 @@ const AddAnimalDetails = () => {
     name: STEPS.DETAILS,
     control,
   });
+
+  const { getOnFileUpload } = useImagePickerUpload();
 
   const onRemoveCard = (index: number): void => {
     remove(index);
@@ -91,8 +94,8 @@ const AddAnimalDetails = () => {
     const watchedCount = watch(`${namePrefix}${DetailsFields.COUNT}`);
 
     const useOptionsForType = useOptions.find(
-      ({ default_type_id }: { default_type_id: string | null }) =>
-        default_type_id === `${parseUniqueDefaultId(field.type.value)}` || default_type_id === null,
+      ({ default_type_id }: { default_type_id: number | null }) =>
+        default_type_id === parseUniqueDefaultId(field.type.value) || default_type_id === null,
     );
 
     const mainContent = (
@@ -119,7 +122,11 @@ const AddAnimalDetails = () => {
         sexDetailsOptions,
         useOptions: useOptionsForType.uses,
       },
-      otherDetailsProps: { organicStatusOptions },
+      otherDetailsProps: {
+        organicStatusOptions,
+        getOnFileUpload,
+        imageUploadTargetRoute: isAnimal ? 'animal' : 'animalBatch',
+      },
       originProps: {
         currency: currency,
         originOptions,

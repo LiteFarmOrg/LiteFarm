@@ -19,6 +19,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import ImagePicker from '../../ImagePicker';
+import { GetOnFileUpload } from '../../ImagePicker/useImagePickerUpload';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import styles from './styles.module.scss';
 import {
@@ -30,6 +31,8 @@ import {
 export type OtherDetailsProps = CommonDetailsProps & {
   organicStatusOptions: Option[DetailsFields.ORGANIC_STATUS][];
   animalOrBatch: AnimalOrBatchKeys;
+  imageUploadTargetRoute: string;
+  getOnFileUpload: GetOnFileUpload;
 };
 
 const OtherDetails = ({
@@ -37,6 +40,8 @@ const OtherDetails = ({
   organicStatusOptions,
   animalOrBatch,
   namePrefix = '',
+  imageUploadTargetRoute,
+  getOnFileUpload,
 }: OtherDetailsProps) => {
   const {
     control,
@@ -49,13 +54,15 @@ const OtherDetails = ({
 
   const { field } = useController({ control, name: `${namePrefix}${DetailsFields.ANIMAL_IMAGE}` });
 
-  const handleSelectImage = (imageFile: any) => {
-    field.onChange(imageFile);
+  const handleSelectImage = (imageUrl: string) => {
+    field.onChange(imageUrl);
   };
 
   const handleRemoveImage = () => {
     resetField(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`);
   };
+
+  const onFileUpload = getOnFileUpload(imageUploadTargetRoute, handleSelectImage);
 
   // Set default value for organic status
   useEffect(() => {
@@ -104,8 +111,9 @@ const OtherDetails = ({
       />
       <ImagePicker
         label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}
-        onSelectImage={handleSelectImage}
+        onFileUpload={onFileUpload}
         onRemoveImage={handleRemoveImage}
+        defaultUrl={field.value}
       />
     </div>
   );

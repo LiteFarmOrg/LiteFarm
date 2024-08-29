@@ -19,7 +19,6 @@ import { Title, Main } from '../../Typography';
 import { ReactComponent as RelaxedFarmer } from '../../../assets/images/animals/relaxed-farmer.svg';
 import { ReactComponent as ChevronRight } from '../../../assets/images/buttons/chevron-right.svg';
 import Button from '../../Form/Button';
-import { sumObjectValues } from '../../../util';
 import { IconSummary } from './IconSummary';
 import { iconNames } from '../../../containers/Animals/constants';
 import { AnimalSummary, BatchSummary } from './types';
@@ -41,7 +40,7 @@ export const AddAnimalsSummaryCard = ({
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const numberOfAnimals = animalsInfo.reduce((acc, animal) => {
-    return acc + sumObjectValues(animal.sexDetails);
+    return acc + animal.count;
   }, 0);
   const numberOfBatches = batchInfo.length;
 
@@ -112,6 +111,7 @@ const IconSummaryAndButton = ({
               iconKey={animalIconKey}
               type={animal.type}
               breed={animal.breed}
+              count={animal.count}
             />
           );
         })}

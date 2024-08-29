@@ -69,7 +69,7 @@ const AddAnimalDetails = () => {
   );
 
   /* Populate details form based on basics data */
-  usePopulateDetails(replace, organicStatusOptions);
+  usePopulateDetails(replace);
 
   /* Render logic */
   const currency = useCurrencySymbol();

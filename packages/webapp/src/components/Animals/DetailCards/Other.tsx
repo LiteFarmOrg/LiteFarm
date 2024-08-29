@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import Input from '../../Form/Input';
@@ -41,6 +42,8 @@ const OtherDetails = ({
     control,
     resetField,
     register,
+    getValues,
+    setValue,
     formState: { errors },
   } = useFormContext();
 
@@ -53,6 +56,16 @@ const OtherDetails = ({
   const handleRemoveImage = () => {
     resetField(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`);
   };
+
+  // Set default value for organic status
+  useEffect(() => {
+    if (!getValues(`${namePrefix}${DetailsFields.ORGANIC_STATUS}`)) {
+      setValue(
+        `${namePrefix}${DetailsFields.ORGANIC_STATUS}`,
+        organicStatusOptions.find(({ value }) => value === 'Non-Organic'),
+      );
+    }
+  }, []);
 
   return (
     <div className={styles.sectionWrapper}>

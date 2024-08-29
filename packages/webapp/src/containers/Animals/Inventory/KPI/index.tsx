@@ -24,7 +24,7 @@ import useQueries from '../../../../hooks/api/useQueries';
 import { CustomAnimalType, DefaultAnimalType } from '../../../../store/api/types';
 import { getComparator } from '../../../../util/sort';
 import { generateUniqueAnimalId } from '../../../../util/animal';
-import { AnimalTypeIconKey } from '../../../../components/Icons/icons';
+import { AnimalTypeIconKey, isAnimalTypeIconKey } from '../../../../components/Icons/icons';
 
 const formatAnimalTypes = (
   types: (DefaultAnimalType | CustomAnimalType)[],
@@ -35,7 +35,8 @@ const formatAnimalTypes = (
   types.forEach((type) => {
     if (type.count) {
       const label = 'type' in type ? type.type : t(`animal:TYPE.${type.key}`);
-      const iconKey = ('key' in type ? type.key : 'CUSTOM_ANIMAL') as AnimalTypeIconKey;
+      const typeKey = 'key' in type ? type.key : 'CUSTOM_ANIMAL';
+      const iconKey = isAnimalTypeIconKey(typeKey) ? typeKey : 'CUSTOM_ANIMAL';
       const id = generateUniqueAnimalId(type);
 
       formattedTypes.push({

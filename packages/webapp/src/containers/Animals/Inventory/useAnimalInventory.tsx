@@ -37,7 +37,7 @@ import {
 import { getComparator, orderEnum } from '../../../util/sort';
 import { AnimalOrBatchKeys } from '../types';
 import { generateInventoryId } from '../../../util/animal';
-import { AnimalTypeIconKey } from '../../../components/Icons/icons';
+import { AnimalTypeIconKey, isAnimalTypeIconKey } from '../../../components/Icons/icons';
 
 export type AnimalInventory = {
   id: string;
@@ -64,8 +64,8 @@ export const getDefaultAnimalIconName = (
   defaultAnimalTypes: DefaultAnimalType[],
   defaultTypeId: number | null,
 ) => {
-  return (defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key ||
-    'CUSTOM_ANIMAL') as AnimalTypeIconKey;
+  const typeKey = defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key || 'CUSTOM_ANIMAL';
+  return isAnimalTypeIconKey(typeKey) ? typeKey : 'CUSTOM_ANIMAL';
 };
 
 type hasId = {
@@ -138,7 +138,7 @@ const formatAnimalsData = (
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
-) => {
+): AnimalInventory[] => {
   return animals
     .filter(
       (animal: Animal) =>
@@ -174,7 +174,7 @@ const formatAnimalBatchesData = (
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
-) => {
+): AnimalInventory[] => {
   return animalBatches
     .filter(
       (batch: AnimalBatch) =>
@@ -184,7 +184,7 @@ const formatAnimalBatchesData = (
     .map((batch: AnimalBatch) => {
       return {
         id: generateInventoryId(AnimalOrBatchKeys.BATCH, batch),
-        iconName: 'BATCH' as AnimalTypeIconKey,
+        iconName: 'BATCH',
         identification: chooseIdentification(batch),
         type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),

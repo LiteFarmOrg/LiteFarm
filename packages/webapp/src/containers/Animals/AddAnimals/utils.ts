@@ -75,10 +75,10 @@ interface Config {
 export const formatDBAnimalsToSummary = (data: Animal[], config: Config): AnimalSummary[] => {
   const animalsPerTypeAndBreed = {} as { [key: string]: AnimalSummary };
   const { defaultTypes, customTypes, defaultBreeds, customBreeds, sexes } = config;
+  const sexMap = getSexMap(sexes, true);
 
   data.forEach((animal) => {
     const typeBreedkey = getTypeBreedKey(animal);
-    const sexMap = getSexMap(sexes, true);
 
     if (!animalsPerTypeAndBreed[typeBreedkey]) {
       const typeString = chooseAnimalTypeLabel(animal, defaultTypes, customTypes);

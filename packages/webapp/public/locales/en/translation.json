@@ -274,6 +274,8 @@
     "ADD_MORE_BODY_TEXT": "Do you have another animal type or a different breed?",
     "ADD_MORE_BUTTON": "Add more animals",
     "ANIMAL_BREED": "Breed",
+    "ANIMAL_COUNT_one": "{{count}} animal",
+    "ANIMAL_COUNT_other": "{{count}} animals",
     "ANIMAL_GROUPS": "Group",
     "ANIMAL_ID": "ID",
     "ANIMAL_IDENTIFICATION": "Identification",

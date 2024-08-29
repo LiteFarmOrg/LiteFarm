@@ -50,16 +50,25 @@ const animalsInfo = [
     breed: 'Aberdeen',
     sexDetails: { Male: 3, Female: 4 },
     iconKey: 'CATTLE',
+    count: 7,
   },
   {
     type: 'Chicken',
     sexDetails: { Male: 3, Female: 3 },
     iconKey: 'CHICKEN',
+    count: 6,
   },
   {
     type: 'Guinea Pig',
     sexDetails: { Male: 4 },
     iconKey: 'GUINEA_PIG', // non-existent keys will default to CUSTOM_ANIMAL icon
+    count: 4,
+  },
+  {
+    type: 'Dog',
+    sexDetails: {},
+    iconKey: 'DOG',
+    count: 2,
   },
 ];
 const batchInfo = [{ type: 'Chicken', breed: 'Plymouth Rock', count: 1238 }];

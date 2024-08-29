@@ -22,7 +22,7 @@ export interface AnimalSummary {
   breed?: string;
   sexDetails: AnimalSexCountSummary;
   iconKey: string;
-  count?: never;
+  count: number;
 }
 
 export interface BatchSummary {

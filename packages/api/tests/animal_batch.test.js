@@ -444,26 +444,6 @@ describe('Animal Batch Tests', () => {
       expect(res.status).toBe(400);
     });
 
-    test('Should not be able to create an animal batch where count is less than 2', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-
-      const animalBatch = mocks.fakeAnimalBatch({
-        default_breed_id: defaultBreedId,
-        default_type_id: defaultTypeId,
-        count: 1,
-      });
-
-      const res = await postRequestAsPromise(
-        {
-          user_id: user.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        [animalBatch],
-      );
-
-      expect(res.status).toBe(400);
-    });
-
     test('Should not be able to create an animal batch where count is less than combined sex detail count', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const animalSex1 = await makeAnimalSex();

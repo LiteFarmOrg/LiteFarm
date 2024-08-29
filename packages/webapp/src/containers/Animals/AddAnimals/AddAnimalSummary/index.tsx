@@ -13,14 +13,41 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { History } from 'history';
+import { AddAnimalsSummaryCard } from '../../../../components/Animals/AddAnimalsSummaryCard';
+import { ANIMALS_INVENTORY_URL } from '../../../../util/siteMapConstants';
+import {
+  useGetAnimalSexesQuery,
+  useGetCustomAnimalBreedsQuery,
+  useGetCustomAnimalTypesQuery,
+  useGetDefaultAnimalBreedsQuery,
+  useGetDefaultAnimalTypesQuery,
+} from '../../../../store/api/apiSlice';
+import useQueries from '../../../../hooks/api/useQueries';
+import { formatDBAnimalsToSummary, formatDBBatchesToSummary } from '../../AddAnimals/utils';
 import { Animal, AnimalBatch } from '../../../../store/api/types';
 
 type AddAnimalSummaryProps = {
+  history: History;
   formResultData: { animals: Animal[]; batches: AnimalBatch[] };
 };
 
-const AddAnimalSummary = ({ formResultData }: AddAnimalSummaryProps) => {
-  return <div>Add animal summary</div>;
+const AddAnimalSummary = ({ formResultData, history }: AddAnimalSummaryProps) => {
+  const { data: config, isLoading } = useQueries([
+    { label: 'defaultTypes', hook: useGetDefaultAnimalTypesQuery },
+    { label: 'customTypes', hook: useGetCustomAnimalTypesQuery },
+    { label: 'defaultBreeds', hook: useGetDefaultAnimalBreedsQuery },
+    { label: 'customBreeds', hook: useGetCustomAnimalBreedsQuery },
+    { label: 'sexes', hook: useGetAnimalSexesQuery },
+  ]);
+
+  return (
+    <AddAnimalsSummaryCard
+      animalsInfo={isLoading ? [] : formatDBAnimalsToSummary(formResultData.animals, config)}
+      batchInfo={isLoading ? [] : formatDBBatchesToSummary(formResultData.batches, config)}
+      onContinue={() => history.push(ANIMALS_INVENTORY_URL)}
+    />
+  );
 };
 
 export default AddAnimalSummary;

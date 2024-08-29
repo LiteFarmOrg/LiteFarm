@@ -94,8 +94,8 @@ const AddAnimalDetails = () => {
     const watchedCount = watch(`${namePrefix}${DetailsFields.COUNT}`);
 
     const useOptionsForType = useOptions.find(
-      ({ default_type_id }: { default_type_id: string | null }) =>
-        default_type_id === `${parseUniqueDefaultId(field.type.value)}` || default_type_id === null,
+      ({ default_type_id }: { default_type_id: number | null }) =>
+        default_type_id === parseUniqueDefaultId(field.type.value) || default_type_id === null,
     );
 
     const mainContent = (

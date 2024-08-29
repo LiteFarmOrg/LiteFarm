@@ -133,7 +133,7 @@ export interface AnimalOrigin {
 }
 
 export interface AnimalUse {
-  default_type_id: string | null;
+  default_type_id: number | null;
   uses: { id: number; key: string }[];
 }
 

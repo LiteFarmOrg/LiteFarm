@@ -57,7 +57,7 @@ class AnimalUse extends baseModel {
     }, {});
 
     const response = Object.entries(usesPerType).map(([defaultTypeId, uses]) => {
-      return { default_type_id: defaultTypeId, uses };
+      return { default_type_id: +defaultTypeId, uses };
     });
 
     const allUses = await AnimalUse.query();

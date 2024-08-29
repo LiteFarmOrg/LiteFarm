@@ -87,7 +87,12 @@ export const MultiStepForm = ({
       {...props}
     >
       <FormProvider {...form}>
-        <FormContent onGoForward={onGoForward} form={form} formResultData={formResultData} />
+        <FormContent
+          onGoForward={onGoForward}
+          form={form}
+          formResultData={formResultData}
+          history={history}
+        />
       </FormProvider>
     </Component>
   );

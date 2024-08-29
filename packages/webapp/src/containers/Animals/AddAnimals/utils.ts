@@ -14,7 +14,7 @@
  */
 
 import i18n from '../../../locales/i18n';
-import { Animal, AnimalBatch, PostAnimalBatch, PostBatchSexDetail } from '../../../store/api/types';
+import { Animal, AnimalBatch } from '../../../store/api/types';
 import { toLocalISOString } from '../../../util/moment';
 import { DetailsFields, type AnimalDetailsFormFields } from './types';
 
@@ -33,16 +33,14 @@ const formatFormTypeOrBreed = (
   return { [`${defaultOrCustom}_${typeOrBreed}_id`]: +id };
 };
 
-const formatFormSexDetailsAndCount = (
-  data: AnimalDetailsFormFields,
-): Pick<PostAnimalBatch, 'count' | 'animal_batch_sex_detail'> => {
+const formatFormSexDetailsAndCount = (data: AnimalDetailsFormFields): Partial<AnimalBatch> => {
   if (!data[DetailsFields.SEX_DETAILS] || !data[DetailsFields.SEX_DETAILS].length) {
     return { count: data[DetailsFields.COUNT]! };
   }
 
   return {
     count: data[DetailsFields.COUNT]!,
-    animal_batch_sex_detail: data[DetailsFields.SEX_DETAILS].map(({ id, count }) => {
+    sex_detail: data[DetailsFields.SEX_DETAILS].map(({ id, count }) => {
       return { sex_id: id, count };
     }),
   };
@@ -81,7 +79,7 @@ const convertFormDate = (date?: string): string | undefined => {
 const formatOrigin = (
   data: AnimalDetailsFormFields,
   broughtInId?: number,
-): Partial<Animal | PostAnimalBatch> => {
+): Partial<Animal | AnimalBatch> => {
   if (!broughtInId && !data[DetailsFields.ORIGIN]) {
     return { birth_date: convertFormDate(data[DetailsFields.DATE_OF_BIRTH]) };
   }
@@ -108,7 +106,7 @@ const formatCommonDetails = (
   isAnimal: boolean,
   data: AnimalDetailsFormFields,
   broughtInId?: number,
-): Partial<Animal | PostAnimalBatch> => {
+): Partial<Animal | AnimalBatch> => {
   return {
     // General
     ...formatFormTypeOrBreed('type', data[DetailsFields.TYPE]),
@@ -150,6 +148,6 @@ export const formatAnimalDetailsToDBStructure = (
 export const formatBatchDetailsToDBStructure = (
   data: AnimalDetailsFormFields,
   broughtInId?: number,
-): PostAnimalBatch => {
+): Partial<AnimalBatch> => {
   return formatCommonDetails(false, data, broughtInId);
 };

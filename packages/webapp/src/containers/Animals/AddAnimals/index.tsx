@@ -27,7 +27,7 @@ import {
   useAddAnimalsMutation,
   useGetAnimalOriginsQuery,
 } from '../../../store/api/apiSlice';
-import { Animal, AnimalBatch, PostAnimalBatch } from '../../../store/api/types';
+import { Animal, AnimalBatch } from '../../../store/api/types';
 import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
 import { formatAnimalDetailsToDBStructure, formatBatchDetailsToDBStructure } from './utils';
 import { AnimalDetailsFormFields } from './types';
@@ -62,7 +62,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     const broughtInId = orgins.find((origin) => origin.key === 'BROUGHT_IN')?.id;
 
     const formattedAnimals: Partial<Animal>[] = [];
-    const formattedBatches: PostAnimalBatch[] = [];
+    const formattedBatches: Partial<AnimalBatch>[] = [];
 
     details.forEach((animalOrBatch) => {
       if (animalOrBatch.animal_or_batch === AnimalOrBatchKeys.ANIMAL) {

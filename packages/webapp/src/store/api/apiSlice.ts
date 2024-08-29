@@ -53,7 +53,6 @@ import type {
   AnimalIdentifierColor,
   AnimalOrigin,
   AnimalUse,
-  PostAnimalBatch,
 } from './types';
 
 export const api = createApi({
@@ -185,7 +184,7 @@ export const api = createApi({
       }),
       invalidatesTags: ['Animals'],
     }),
-    addAnimalBatches: build.mutation<AnimalBatch[], PostAnimalBatch[]>({
+    addAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
       query: (body) => ({
         url: `${animalBatchesUrl}`,
         method: 'POST',

@@ -14,6 +14,7 @@
  */
 
 import { TASK_TYPES } from '../../../containers/Task/constants';
+import { OrganicStatus } from '../../../types';
 
 // If we don't necessarily want to type an endpoint
 export type Result = Array<{ [key: string]: any }>;
@@ -41,7 +42,7 @@ export interface Animal {
   sex_id: number;
   sire: string | null;
   weaning_date: string | null;
-  organic_status: 'Non-Organic' | 'Transitional' | 'Organic';
+  organic_status: OrganicStatus;
   supplier: string | null;
   price: number | null;
   animal_removal_reason_id: number | null;
@@ -68,7 +69,7 @@ export interface AnimalBatch {
   photo_url: string | null;
   sex_detail: { sex_id: number; count: number }[];
   sire: string | null;
-  organic_status: 'Non-Organic' | 'Transitional' | 'Organic';
+  organic_status: OrganicStatus;
   supplier: string | null;
   price: number | null;
   animal_removal_reason_id: number | null;

@@ -17,11 +17,11 @@
   position: relative;
 
   &[aria-expanded='true'] {
-    background-color: #e3b000;
+    background-color: var(--Btn-primary-hover);
   }
   @media (hover: hover) {
     &:hover {
-      background-color: #e3b000;
+      background-color: var(--Btn-primary-hover);
     }
   }
 

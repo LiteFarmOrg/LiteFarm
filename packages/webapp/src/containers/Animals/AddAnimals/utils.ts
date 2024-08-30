@@ -72,9 +72,9 @@ const formatFormUse = (
 
   const useRelations: { use_id: number; other_use?: string }[] = [];
 
-  use.forEach(({ value: useId, label }, index: number) => {
+  use.forEach(({ value: useId, key }, index: number) => {
     useRelations.push({ use_id: useId });
-    if (label === i18n.t('animal:USE.OTHER') && otherUse) {
+    if (key === 'OTHER' && otherUse) {
       useRelations[index].other_use = otherUse;
     }
   });
@@ -97,7 +97,7 @@ const formatOrigin = (
     return { birth_date: convertFormDate(data[DetailsFields.DATE_OF_BIRTH]) };
   }
 
-  const isBroughtIn = broughtInId && data[DetailsFields.ORIGIN];
+  const isBroughtIn = broughtInId === data[DetailsFields.ORIGIN];
 
   return {
     birth_date: convertFormDate(data[DetailsFields.DATE_OF_BIRTH]),

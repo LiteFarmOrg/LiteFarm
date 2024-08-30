@@ -28,7 +28,7 @@ import {
   useGetAnimalOriginsQuery,
 } from '../../../store/api/apiSlice';
 import { Animal, AnimalBatch } from '../../../store/api/types';
-import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { formatAnimalDetailsToDBStructure, formatBatchDetailsToDBStructure } from './utils';
 import { AnimalDetailsFormFields } from './types';
 import { AnimalOrBatchKeys } from '../types';
@@ -78,6 +78,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     try {
       if (formattedAnimals.length) {
         animalsResult = await addAnimals(formattedAnimals).unwrap();
+        dispatch(enqueueSuccessSnackbar('Successfully added new animals!'));
       }
     } catch (e) {
       console.error(e);
@@ -86,6 +87,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     try {
       if (formattedBatches.length) {
         batchesResult = await addAnimalBatches(formattedBatches).unwrap();
+        dispatch(enqueueSuccessSnackbar('Successfully added new animal batces!'));
       }
     } catch (e) {
       console.error(e);

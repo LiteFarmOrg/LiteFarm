@@ -57,7 +57,6 @@ export enum DetailsFields {
 
   // UNIQUE
   NAME = 'name', // animal name
-  DATE_OF_BIRTH = 'birth_date',
   TAG_NUMBER = 'identifier',
   TAG_COLOR = 'identifier_color',
   TAG_TYPE = 'identifier_type',
@@ -70,6 +69,7 @@ export enum DetailsFields {
   ANIMAL_IMAGE = 'photo_url',
 
   // ORIGIN
+  DATE_OF_BIRTH = 'birth_date',
   ORIGIN = 'origin_id',
   DAM = 'dam',
   SIRE = 'sire',

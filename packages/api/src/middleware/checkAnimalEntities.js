@@ -165,11 +165,6 @@ export function validateAnimalBatchCreationBody(animalBatchKey) {
         if (animalBatchKey === 'batch') {
           const { count, sex_detail } = animalOrBatch;
 
-          if (count < 2) {
-            await trx.rollback();
-            return res.status(400).send('Batch count must be greater than 1');
-          }
-
           if (sex_detail?.length) {
             let sexCount = 0;
             const sexIdSet = new Set();

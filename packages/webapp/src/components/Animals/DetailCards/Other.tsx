@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import { Controller, useController, useFormContext } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
 import Input from '../../Form/Input';
@@ -46,6 +47,8 @@ const OtherDetails = ({
     control,
     resetField,
     register,
+    getValues,
+    setValue,
     formState: { errors },
   } = useFormContext();
 
@@ -60,6 +63,16 @@ const OtherDetails = ({
   };
 
   const onFileUpload = getOnFileUpload(imageUploadTargetRoute, handleSelectImage);
+
+  // Set default value for organic status
+  useEffect(() => {
+    if (!getValues(`${namePrefix}${DetailsFields.ORGANIC_STATUS}`)) {
+      setValue(
+        `${namePrefix}${DetailsFields.ORGANIC_STATUS}`,
+        organicStatusOptions.find(({ value }) => value === 'Non-Organic'),
+      );
+    }
+  }, []);
 
   return (
     <div className={styles.sectionWrapper}>
@@ -80,11 +93,9 @@ const OtherDetails = ({
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ANIMAL.ATTRIBUTE.ORGANIC_STATUS')}
-            optional
             value={value}
             onChange={onChange}
             options={organicStatusOptions}
-            placeholder={t('ADD_ANIMAL.PLACEHOLDER.ORGANIC_STATUS')}
           />
         )}
       />

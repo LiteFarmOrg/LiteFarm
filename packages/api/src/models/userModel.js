@@ -37,6 +37,8 @@ class User extends Model {
   async $beforeInsert(context) {
     await super.$beforeInsert(context);
     this.email && (this.email = this.email.toLowerCase());
+    this.first_name && (this.first_name = this.first_name.trim());
+    this.last_name && (this.last_name = this.last_name.trim());
   }
 
   static async beforeFind(args) {

@@ -79,6 +79,9 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
         label={t('INVITE_USER.FULL_NAME')}
         hookFormRegister={register(NAME, { required: true, validate: isValidName })}
         errors={getInputErrors(errors, NAME)}
+        onBlur={(e) => {
+          e.target.value = e.target.value.trim();
+        }}
       />
       <Controller
         data-cy="invite-roleSelect"

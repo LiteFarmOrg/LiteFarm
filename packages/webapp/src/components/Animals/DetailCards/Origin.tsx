@@ -41,15 +41,8 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
 
   const watchedOrigin = watch(`${namePrefix}${DetailsFields.ORIGIN}`);
 
-  const getOriginEnum = (watchedOrigin: number): AnimalOrigins => {
-    const originOption = originOptions.find((option) => option.value === watchedOrigin);
-    return AnimalOrigins[originOption?.key as keyof typeof AnimalOrigins];
-  };
-
-  const origin = !watchedOrigin ? undefined : getOriginEnum(watchedOrigin);
-
   const fields = useMemo(() => {
-    return origin === AnimalOrigins.BROUGHT_IN ? (
+    return watchedOrigin?.key === AnimalOrigins.BROUGHT_IN ? (
       <>
         {/* @ts-ignore */}
         <Input
@@ -115,7 +108,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
         />
       </>
     );
-  }, [origin, Object.entries(errors)]);
+  }, [watchedOrigin, Object.entries(errors)]);
 
   return (
     <div className={styles.sectionWrapper}>
@@ -135,7 +128,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
           row
         />
       </div>
-      {origin && fields}
+      {watchedOrigin && fields}
     </div>
   );
 };

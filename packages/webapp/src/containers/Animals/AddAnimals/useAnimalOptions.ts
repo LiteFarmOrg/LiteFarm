@@ -26,7 +26,7 @@ import {
 } from '../../../store/api/apiSlice';
 import { useTranslation } from 'react-i18next';
 import { generateUniqueAnimalId } from '../../../util/animal';
-import { ANIMAL_ID_PREFIX } from '../types';
+import { ANIMAL_ID_PREFIX, AnimalOrigins } from '../types';
 
 type OptionType =
   | 'default_types'
@@ -149,9 +149,8 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
 
   if (optionTypes.includes('origin')) {
     options.originOptions = orgins.map(({ id, key }) => ({
-      value: id,
+      value: { id, key: AnimalOrigins[key] },
       label: t(`animal:ORIGIN.${key}`),
-      key: key,
     }));
   }
 

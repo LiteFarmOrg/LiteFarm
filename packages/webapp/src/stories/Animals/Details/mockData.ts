@@ -62,8 +62,8 @@ export const organicStatusOptions: ReactSelectOption<OrganicStatus>[] = [
 ];
 
 export const originOptions = [
-  { value: 1, label: 'Brought in', key: 'BROUGHT_IN' },
-  { value: 2, label: 'Born at the farm', key: 'BORN_AT_FARM' },
+  { value: { id: 1, key: 'BROUGHT_IN' }, label: 'Brought in' },
+  { value: { id: 2, key: 'BORN_AT_FARM' }, label: 'Born at the farm' },
 ];
 
 export const defaultValues: Partial<AnimalDetailsFormFields> = {

@@ -51,24 +51,21 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
   const [addAnimals] = useAddAnimalsMutation();
   const [addAnimalBatches] = useAddAnimalBatchesMutation();
 
-  const { data: orgins = [] } = useGetAnimalOriginsQuery();
-
   const onSave = async (
     data: any,
     onGoForward: () => void,
     setFormResultData: (data: any) => void,
   ) => {
     const details = data[STEPS.DETAILS] as AnimalDetailsFormFields[];
-    const broughtInId = orgins.find((origin) => origin.key === 'BROUGHT_IN')?.id;
 
     const formattedAnimals: Partial<Animal>[] = [];
     const formattedBatches: Partial<AnimalBatch>[] = [];
 
     details.forEach((animalOrBatch) => {
       if (animalOrBatch.animal_or_batch === AnimalOrBatchKeys.ANIMAL) {
-        formattedAnimals.push(formatAnimalDetailsToDBStructure(animalOrBatch, broughtInId));
+        formattedAnimals.push(formatAnimalDetailsToDBStructure(animalOrBatch));
       } else {
-        formattedBatches.push(formatBatchDetailsToDBStructure(animalOrBatch, broughtInId));
+        formattedBatches.push(formatBatchDetailsToDBStructure(animalOrBatch));
       }
     });
 

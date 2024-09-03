@@ -1,41 +1,41 @@
 {
   "CROP_CATALOGUE": {
-    "ABANDONED": "Eingestellt",
-    "ACTIVE": "Aktiv",
-    "COMPLETE": "Abgeschlossen",
     "LOCATION": "Standort",
-    "NEEDS_PLAN": "Bedarfsplan",
-    "PLANNED": "Geplant",
     "STATUS": "Status",
-    "SUPPLIERS": "Zulieferer"
+    "SUPPLIERS": "Zulieferer",
+    "ACTIVE": "Aktiv",
+    "ABANDONED": "Eingestellt",
+    "COMPLETE": "Abgeschlossen",
+    "PLANNED": "Geplant",
+    "NEEDS_PLAN": "Bedarfsplan"
   },
   "DOCUMENTS": {
     "CLEANING_PRODUCT": "Reinigungsprodukte",
-    "CROP_COMPLIANCE": "Einhaltung der Vorschriften für Kulturpflanzen",
-    "FERTILIZING_PRODUCT": "Produkt zur Düngung",
-    "INVOICES": "Rechnungen",
+    "CROP_COMPLIANCE": "Pflanzenanbaukonformität",
+    "FERTILIZING_PRODUCT": "Düngeprodukt",
     "OTHER": "Andere",
     "PEST_CONTROL_PRODUCT": "Produkt zur Schädlingsbekämpfung",
-    "RECEIPTS": "Quittungen",
     "SOIL_AMENDMENT": "Bodenverbesserung",
     "SOIL_SAMPLE_RESULTS": "Ergebnisse der Bodenproben",
-    "UNCATEGORIZED": "Uncategorized",
-    "WATER_SAMPLE_RESULTS": "Ergebnisse von Wasserproben"
-  },
-  "FILTER": {
-    "FROM_DATE": "Von",
-    "TO_DATE": "Auf",
-    "VALID_ON": "Gültig ab"
+    "WATER_SAMPLE_RESULTS": "Ergebnisse von Wasserproben",
+    "UNCATEGORIZED": "Nicht kategorisiert",
+    "RECEIPTS": "Quittungen",
+    "INVOICES": "Rechnungen"
   },
   "TASKS": {
-    "ABANDONED": "Eingestellt",
-    "ACTIVE": "Aktiv",
-    "COMPLETED": "Abgeschlossen",
-    "FOR_REVIEW": "Zur Überprüfung",
-    "LATE": "Später",
     "LOCATION": "Standort",
-    "PLANNED": "Geplant",
     "STATUS": "Status",
-    "SUPPLIERS": "Zulieferer"
+    "SUPPLIERS": "Zulieferer",
+    "ACTIVE": "Aktiv",
+    "ABANDONED": "Eingestellt",
+    "COMPLETED": "Abgeschlossen",
+    "LATE": "Später",
+    "PLANNED": "Geplant",
+    "FOR_REVIEW": "Zur Überprüfung"
+  },
+  "FILTER": {
+    "VALID_ON": "Gültig ab",
+    "FROM_DATE": "Von",
+    "TO_DATE": "Bis"
   }
 }

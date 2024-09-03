@@ -1,0 +1,1908 @@
+{
+  "ADD_FARM": {
+    "ADDRESS_IS_REQUIRED": "",
+    "DISABLE_GEO_LOCATION": "",
+    "ENTER_A_VALID_ADDRESS": "",
+    "ENTER_LOCATION_PLACEHOLDER": "",
+    "FARM_IS_REQUIRED": "",
+    "FARM_LOCATION": "",
+    "FARM_LOCATION_INPUT_INFO": "",
+    "FARM_NAME": "",
+    "FARM_NAME_ERROR": "",
+    "INVALID_FARM_LOCATION": "",
+    "LOCATING": "",
+    "TELL_US_ABOUT_YOUR_FARM": ""
+  },
+  "ADD_PRODUCT": {
+    "ADD_ANOTHER_PRODUCT": "",
+    "ADDITIONAL_NUTRIENTS": "",
+    "AMMONIUM": "",
+    "BORON": "",
+    "BUTTON_WARNING": "",
+    "CALCIUM": "",
+    "COMPOSITION": "",
+    "COMPOSITION_ERROR": "",
+    "COPPER": "",
+    "DRY_FERTILISER": "",
+    "DRY_MATTER_CONTENT": "",
+    "EDIT_PRODUCT_DETAILS": "",
+    "FERTILISER_TYPE": "",
+    "LIQUID_FERTILISER": "",
+    "MAGNESIUM": "",
+    "MANGANESE": "",
+    "MOISTURE_CONTENT": "",
+    "NITRATE": "",
+    "NITROGEN": "",
+    "PHOSPHOROUS": "",
+    "POTASSIUM": "",
+    "PRESS_ENTER": "",
+    "PRODUCT_DETAILS": "",
+    "PRODUCT_LABEL": "",
+    "SAVE_PRODUCT": "",
+    "SULFUR": "",
+    "SUPPLIER_LABEL": "",
+    "WHAT_YOU_WILL_BE_APPLYING": ""
+  },
+  "ADD_TASK": {
+    "ADD_A_CUSTOM_TASK": "",
+    "ADD_A_TASK": "",
+    "ADD_CUSTOM_TASK": "",
+    "AFFECT_PLANS": "",
+    "ASSIGN_ALL_TO_PERSON": "",
+    "ASSIGN_DATE": "",
+    "ASSIGN_TASK": "",
+    "ASSIGNEE": "",
+    "CANCEL": "",
+    "CLEANING_VIEW": {
+      "ESTIMATED_WATER": "",
+      "IS_PERMITTED": "",
+      "WHAT_NEEDS_TO_BE": "",
+      "WILL_CLEANER_BE_USED": ""
+    },
+    "CLEAR_ALL": "",
+    "CLEAR_ALL_PLANS": "",
+    "CUSTOM_TASK": "",
+    "CUSTOM_TASK_CHAR_LIMIT": "",
+    "CUSTOM_TASK_NAME": "",
+    "CUSTOM_TASK_TYPE": "",
+    "DO_YOU_NEED_TO_OVERRIDE": "",
+    "DO_YOU_WANT_TO_ASSIGN": "",
+    "DUPLICATE_NAME": "",
+    "EDIT_CUSTOM_TASK": "",
+    "FIELD_WORK_VIEW": {
+      "OTHER_TYPE_OF_FIELD_WORK": "",
+      "TYPE": {
+        "COVERING_SOIL": "",
+        "FENCING": "",
+        "OTHER": "",
+        "PREPARING_BEDS_OR_ROWS": "",
+        "PRUNING": "",
+        "SHADE_CLOTH": "",
+        "TERMINATION": "",
+        "TILLAGE": "",
+        "WEEDING": ""
+      },
+      "TYPE_OF_FIELD_WORK": ""
+    },
+    "GO_TO_CATALOGUE": "",
+    "HARVEST_EVERYTHING": "",
+    "HARVESTING_INFO": "",
+    "HOURLY_WAGE": {
+      "ASSIGNEE_WAGE_WARNING": "",
+      "DONT_ASK": "",
+      "FOR_THIS_TASK": "",
+      "SET_HOURLY_WAGE": "",
+      "WANT_TO_SET_HOURLY_WAGE": ""
+    },
+    "HOW_MUCH_IS_HARVESTED": "",
+    "HR": "",
+    "IRRIGATION_VIEW": {
+      "BRAND_TOOLTIP": "",
+      "CALCULATE_WATER_USAGE": "",
+      "DEFAULT_APPLICATION_DEPTH": "",
+      "DEFAULT_LOCATION_FLOW_RATE": "",
+      "DEPTH": "",
+      "ESTIMATED_APPLICATION_DEPTH": "",
+      "ESTIMATED_DURATION": "",
+      "ESTIMATED_FLOW_RATE": "",
+      "ESTIMATED_WATER_USAGE": "",
+      "HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE": "",
+      "IRRIGATED_AREA": "",
+      "IRRIGATION_TYPE_CHAR_LIMIT": "",
+      "LOCATION_SIZE": "",
+      "NOT_SURE": "",
+      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "",
+      "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "",
+      "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "",
+      "TOTAL_WATER_USAGE": "",
+      "TYPE": {
+        "CHANNEL": "",
+        "DRIP": "",
+        "FLOOD": "",
+        "HAND_WATERING": "",
+        "OTHER": "",
+        "PIVOT": "",
+        "SPRINKLER": "",
+        "SUB_SURFACE": ""
+      },
+      "TYPE_OF_IRRIGATION": "",
+      "VOLUME": "",
+      "WATER_USE_CALCULATOR": "",
+      "WATER_USE_CALCULATOR_INFO": {
+        "PHRASE1": "",
+        "PHRASE2": "",
+        "PHRASE3": ""
+      },
+      "WHAT_TYPE_OF_IRRIGATION": ""
+    },
+    "MANAGE_CUSTOM_TASKS": "",
+    "NEED_MANAGEMENT_PLAN": "",
+    "NO_MANAGEMENT_PLAN": "",
+    "PEST_CONTROL_VIEW": {
+      "BIOLOGICAL_CONTROL": "",
+      "FLAME_WEEDING": "",
+      "FOLIAR_SPRAY": "",
+      "HAND_WEEDING": "",
+      "HEAT_TREATMENT": "",
+      "IS_PERMITTED": "",
+      "OTHER": "",
+      "OTHER_PEST": "",
+      "PEST_CONTROL_METHOD": "",
+      "SOIL_FUMIGATION": "",
+      "SYSTEMIC_SPRAY": "",
+      "WHAT_PESTS": ""
+    },
+    "PLANTING_FROM": "",
+    "PLANTING_METHOD": "",
+    "PLANTING_STOCK": "",
+    "PLANTING_TASK": "",
+    "PLANTING_TASK_MODAL": "",
+    "RETIRE_CUSTOM_TASK": "",
+    "RETIRE_CUSTOM_TASK_CONTENT": "",
+    "SEED": "",
+    "SELECT_ALL": "",
+    "SELECT_ALL_PLANS": "",
+    "SELECT_TASK_TYPE": "",
+    "SOIL_AMENDMENT_VIEW": {
+      "ADVANCED": "",
+      "APPLICATION_METHOD": "",
+      "APPLICATION_RATE": "",
+      "APPLIED_TO": "",
+      "APPLIED_TO_MULTIPLE": "",
+      "BANDED": "",
+      "BROADCAST": "",
+      "FERTIGATION": "",
+      "FOLIAR": "",
+      "FURROW_HOLE": "",
+      "FURROW_HOLE_DEPTH": "",
+      "FURROW_HOLE_DEPTH_PLACEHOLDER": "",
+      "IS_PERMITTED": "",
+      "MOISTURE_RETENTION": "",
+      "NUTRIENT_AVAILABILITY": "",
+      "OTHER": "",
+      "OTHER_METHOD": "",
+      "OTHER_METHOD_PLACEHOLDER": "",
+      "OTHER_PURPOSE": "",
+      "PERECENT_TO_AMEND": "",
+      "PH": "",
+      "PURPOSE": "",
+      "QUANTITY": "",
+      "SIDE_DRESS": "",
+      "STRUCTURE": "",
+      "TOTAL_AREA": "",
+      "VOLUME": "",
+      "WEIGHT": ""
+    },
+    "TASK": "",
+    "TASK_NOTES_CHAR_LIMIT": "",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "",
+    "TRANSPLANT_METHOD": "",
+    "WAGE_OVERRIDE": "",
+    "WHAT_PLANTING_METHOD": "",
+    "WILD_CROP": ""
+  },
+  "BED_PLAN": {
+    "LENGTH_OF_BED": "",
+    "NUMBER_0F_BEDS": "",
+    "NUMBER_OF_ROWS": "",
+    "PLANT_SPACING": "",
+    "PLANTING_DETAILS": ""
+  },
+  "BROADCAST_PLAN": {
+    "AREA_USED": "",
+    "HISTORICAL_PERCENTAGE_LOCATION": "",
+    "LOCATION_SIZE": "",
+    "PERCENTAGE_LABEL": "",
+    "PERCENTAGE_LOCATION": "",
+    "PLANTING_NOTES": "",
+    "SEEDING_RATE": ""
+  },
+  "CANCEL_FLOW_MODAL": {
+    "BODY": "",
+    "TITLE": ""
+  },
+  "CERTIFICATION": {
+    "CERTIFICATION_EXPORT": {
+      "ADD": "",
+      "CHANGE_CERTIFICATION_PREFERENCE": "",
+      "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "",
+      "NO_CERTIFICATIONS": "",
+      "NO_LONGER_WORKING": "",
+      "SUPPORTED_CERTIFICATION_ONE": "",
+      "SUPPORTED_CERTIFICATION_TWO": "",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "",
+      "UPDATE_SUCCESS": ""
+    },
+    "CERTIFICATION_SELECTION": {
+      "REQUEST_CERTIFICATION": "",
+      "SUBTITLE_ONE": "",
+      "SUBTITLE_TWO": "",
+      "TITLE": "",
+      "TOOLTIP": ""
+    },
+    "CERTIFIER_SELECTION": {
+      "INFO": "",
+      "NOT_FOUND": "",
+      "REQUEST_CERTIFIER": "",
+      "TITLE": ""
+    },
+    "INPUT_PLACEHOLDER": "",
+    "INTERESTED_IN_CERTIFICATION": {
+      "PARAGRAPH": "",
+      "TITLE": "",
+      "WHY_ANSWER": ""
+    },
+    "REQUEST_CERTIFIER": {
+      "LABEL": "",
+      "REQUEST": "",
+      "SORRY_ONE": "",
+      "SORRY_THREE": "",
+      "SORRY_TWO": "",
+      "TITLE": ""
+    },
+    "SUMMARY": {
+      "BAD_NEWS": "",
+      "BAD_NEWS_INFO": "",
+      "CERTIFICATION": "",
+      "GOOD_NEWS": "",
+      "INFORMATION": "",
+      "TITLE": "",
+      "YOUR_CERTIFICATION": ""
+    }
+  },
+  "CERTIFICATIONS": {
+    "COULD_NOT_CONTACT_CERTIFIER": "",
+    "EXPORT": "",
+    "EXPORT_DOCS": "",
+    "EXPORT_DOWNLOADING_MESSAGE": "",
+    "EXPORT_FILE_TITLE": "",
+    "FILES_ARE_READY": "",
+    "FLOW_TITLE": "",
+    "GOOD_NEWS": "",
+    "HAVE_ALL_INFO": "",
+    "NEXT_WE_WILL_CHECK": "",
+    "NOTE_CANNOT_RESUBMIT": "",
+    "ORGANIC_CERTIFICATION_FROM": "",
+    "SELECT_REPORTING_PERIOD": "",
+    "UH_OH": "",
+    "WOULD_LIKE_ANSWERS": ""
+  },
+  "CERTIFICATIONS_MODAL": {
+    "MAYBE_LATER": "",
+    "STEP_ONE": {
+      "DESCRIPTION": "",
+      "TITLE": ""
+    },
+    "STEP_TWO": {
+      "DESCRIPTION": "",
+      "TITLE": ""
+    }
+  },
+  "CHOOSE_FARM": {
+    "ADD_NEW": "",
+    "CHOOSE_TITLE": "",
+    "INPUT_PLACEHOLDER": "",
+    "SWITCH_TITLE": ""
+  },
+  "COMMON_ERRORS": {
+    "UNIT": {
+      "NON_NEGATIVE": "",
+      "REQUIRED": "",
+      "TWO_DECIMALS": ""
+    }
+  },
+  "CONSENT": {
+    "DATA_POLICY": "",
+    "LABEL": ""
+  },
+  "CREATE_USER": {
+    "BIRTH_YEAR": "",
+    "BIRTH_YEAR_ERROR": "",
+    "BIRTH_YEAR_TOOLTIP": "",
+    "CREATE_BUTTON": "",
+    "DEFAULT_LANGUAGE": "",
+    "DEFAULT_LANGUAGE_VALUE": "",
+    "EMAIL": "",
+    "FULL_NAME": "",
+    "GENDER": "",
+    "GENDER_TOOLTIP": "",
+    "LANGUAGE_PREFERENCE": "",
+    "PASSWORD": "",
+    "TITLE": ""
+  },
+  "CROP": {
+    "ADD_CROP": "",
+    "ADD_IMAGE": "",
+    "ANNUAL": "",
+    "ANNUAL_OR_PERENNIAL": "",
+    "CULTIVAR_PLACEHOLDER": "",
+    "CULTIVAR_SUBTEXT": "",
+    "DUPLICATE_VARIETY": "",
+    "EDIT_CROP": "",
+    "EDIT_MODAL": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "IS_GENETICALLY_ENGINEERED": "",
+    "IS_ORGANIC": "",
+    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "",
+    "NEED_DOCUMENT_PERFORM_SEARCH": "",
+    "NEED_DOCUMENT_TREATED": "",
+    "NUTRIENTS_IN_EDIBLE_PORTION": "",
+    "PERENNIAL": "",
+    "PERFORM_SEARCH": "",
+    "PHYSIOLOGY_AND_ANATOMY": "",
+    "REPEAT_PLAN_MODAL": {
+      "DELETED_PLANS": ""
+    },
+    "TREATED": "",
+    "VARIETAL_IMAGE": "",
+    "VARIETAL_IMAGE_INFO": "",
+    "VARIETAL_PLACEHOLDER": "",
+    "VARIETAL_SUBTEXT": "",
+    "VARIETAL_SUBTITLE": "",
+    "VARIETY_COMMON_NAME": "",
+    "VARIETY_CULTIVAR": "",
+    "VARIETY_VARIETAL": ""
+  },
+  "CROP_CATALOGUE": {
+    "ADD_CROP": "",
+    "ADD_CROPS_T0_YOUR_FARM": "",
+    "ADD_TO_YOUR_FARM": "",
+    "CAN_NOT_FIND": "",
+    "CANCEL": "",
+    "COVER_CROP": "",
+    "CREATE_MANAGEMENT_PLANS": "",
+    "CROP_CATALOGUE": "",
+    "CROP_GROUP": "",
+    "CROP_GROUP_TOOL_TIP": "",
+    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "",
+    "DUPLICATE_CROP": "",
+    "FILTER": {
+      "LOCATION": "",
+      "STATUS": "",
+      "SUPPLIERS": "",
+      "TITLE": ""
+    },
+    "FILTER_TITLE": "",
+    "GENUS": "",
+    "HERE_YOU_CAN": "",
+    "LETS_BEGIN": "",
+    "NEW_CROP_NAME": "",
+    "NO_RESULTS_FOUND": "",
+    "NOMINATE_CROP": "",
+    "NOMINATE_CROP_TOOLTIP": "",
+    "ON_YOUR_FARM": "",
+    "SELECT_A_CROP": "",
+    "SPECIES": ""
+  },
+  "CROP_DETAIL": {
+    "ADD_PLAN": "",
+    "ANNUAL": "",
+    "ANNUAL_PERENNIAL": "",
+    "COMMERCIAL_AVAILABILITY": "",
+    "DETAIL_TAB": "",
+    "EDIT_CROP_DETAIL": "",
+    "GENETICALLY_ENGINEERED": "",
+    "HS_CODE": "",
+    "MANAGEMENT_PLANS": "",
+    "MANAGEMENT_TAB": "",
+    "ORGANIC": "",
+    "PERENNIAL": "",
+    "TREATED": ""
+  },
+  "CROP_MANAGEMENT": {
+    "GERMINATE": "",
+    "HARVEST": "",
+    "PLANT": "",
+    "SEED": "",
+    "TERMINATE": "",
+    "TRANSPLANT": ""
+  },
+  "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
+    "SUBTITLE": "",
+    "TITLE": ""
+  },
+  "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
+    "SUBTITLE": "",
+    "TITLE": ""
+  },
+  "CROP_VARIETIES": {
+    "ADD_VARIETY": "",
+    "CROP_VARIETIES": "",
+    "RETIRE": {
+      "CONFIRMATION": "",
+      "RETIRE_CROP_TITLE": "",
+      "UNABLE_TO_RETIRE": "",
+      "UNABLE_TO_RETIRE_TITLE": ""
+    },
+    "SUPPLIER": ""
+  },
+  "DATE_RANGE": {
+    "INVALID_RANGE_MESSAGE": ""
+  },
+  "DATE_RANGE_PICKER": {
+    "FROM": "",
+    "REVENUE_HELP_BODY": "",
+    "REVENUE_HELP_TITLE": "",
+    "TO": "",
+    "TO_MUST_BE_AFTER_FROM": ""
+  },
+  "DATE_RANGE_SELECTOR": {
+    "BACK": "",
+    "CLEAR_DATES": "",
+    "CUSTOM_RANGE": "",
+    "LAST_FOURTEEN_DAYS": "",
+    "LAST_MONTH": "",
+    "LAST_SEVEN_DAYS": "",
+    "LAST_THIRTY_DAYS": "",
+    "LAST_WEEK": "",
+    "THIS_MONTH": "",
+    "THIS_WEEK": "",
+    "YEAR_TO_DATE": ""
+  },
+  "DAYS_OF_WEEK_SELECT": {
+    "FRIDAY": "",
+    "MONDAY": "",
+    "SATURDAY": "",
+    "SUNDAY": "",
+    "THURSDAY": "",
+    "TUESDAY": "",
+    "WEDNESDAY": ""
+  },
+  "DOCUMENTS": {
+    "ADD": {
+      "ADD_MORE_PAGES": "",
+      "DOCUMENT_NAME": "",
+      "DOES_NOT_EXPIRE": "",
+      "TITLE": "",
+      "TYPE": "",
+      "VALID_UNTIL": ""
+    },
+    "ADD_DOCUMENT": "",
+    "ARCHIVE": "",
+    "ARCHIVE_DOCUMENT": "",
+    "ARCHIVE_DOCUMENT_TEXT": "",
+    "ARCHIVED": "",
+    "CANCEL": "",
+    "CANCEL_MODAL": "",
+    "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "",
+    "DOCUMENTS": "",
+    "EDIT_DOCUMENT": "",
+    "FILTER": {
+      "TITLE": "",
+      "TYPE": "",
+      "VALID_ON": ""
+    },
+    "NOTES_CHAR_LIMIT": "",
+    "SPOTLIGHT": {
+      "CDC": "",
+      "HERE_YOU_CAN": "",
+      "YOU_CAN_ONE": "",
+      "YOU_CAN_THREE": "",
+      "YOU_CAN_TWO": ""
+    },
+    "TYPE": {
+      "CLEANING_PRODUCT": "",
+      "CROP_COMPLIANCE": "",
+      "FERTILIZING_PRODUCT": "",
+      "INVOICES": "",
+      "OTHER": "",
+      "PEST_CONTROL_PRODUCT": "",
+      "RECEIPTS": "",
+      "SOIL_AMENDMENT": "",
+      "SOIL_SAMPLE_RESULTS": "",
+      "WATER_SAMPLE_RESULTS": ""
+    },
+    "UNARCHIVE": "",
+    "UNARCHIVE_DOCUMENT": "",
+    "UNARCHIVE_DOCUMENT_TEXT": "",
+    "VALID": ""
+  },
+  "ENTER_PASSWORD": {
+    "FORGOT": "",
+    "HINT": "",
+    "LABEL": "",
+    "ONE_NUMBER": "",
+    "ONE_SPECIAL_CHARACTER": "",
+    "ONE_UPPER_CASE": "",
+    "TOO_SHORT": ""
+  },
+  "ENTITY_TYPES": {
+    "LOCATION": "",
+    "TASK": ""
+  },
+  "ERROR_FALLBACK": {
+    "CONTACT": "",
+    "MAIN": "",
+    "RELOAD": "",
+    "SUBTITLE": "",
+    "TITLE": ""
+  },
+  "EXPENSE": {
+    "ADD_EXPENSE": {
+      "ADD_CUSTOM_EXPENSE": "",
+      "ADD_CUSTOM_EXPENSE_TYPE": "",
+      "CUSTOM_EXPENSE_NAME": "",
+      "CUSTOM_EXPENSE_TYPE": "",
+      "DUPLICATE_NAME": "",
+      "DUPLICATE_NAME_RETIRED": "",
+      "FLOW": "",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "",
+      "NEW_EXPENSE_ITEM": "",
+      "TITLE": "",
+      "WHICH_TYPES_TO_RECORD": ""
+    },
+    "CUSTOM_EXPENSE_DESCRIPTION": "",
+    "DELETE": {
+      "CONFIRM": "",
+      "HEADER": "",
+      "LINK": "",
+      "MESSAGE": ""
+    },
+    "DETAILED_HISTORY": "",
+    "EDIT_EXPENSE": {
+      "RETIRE_EXPENSE_MESSAGE": "",
+      "RETIRE_EXPENSE_TYPE": "",
+      "RETIRED": "",
+      "TITLE": "",
+      "TITLE_1": "",
+      "TITLE_2": ""
+    },
+    "ITEM_NAME": "",
+    "NO_EXPENSE": "",
+    "NO_EXPENSE_YEAR": "",
+    "OTHER_EXPENSES_TITLE": "",
+    "SUMMARY": "",
+    "TYPE": "",
+    "VALUE": ""
+  },
+  "EXPIRED_TOKEN": {
+    "RESET_PASSWORD": "",
+    "RESET_PASSWORD_LINK": ""
+  },
+  "FARM_MAP": {
+    "AREA_DETAILS": {
+      "NETWORK": "",
+      "PERIMETER": "",
+      "TOTAL_AREA": ""
+    },
+    "BARN": {
+      "ANIMALS": "",
+      "COLD_STORAGE": "",
+      "EDIT_TITLE": "",
+      "NAME": "",
+      "TITLE": "",
+      "WASH_PACK": ""
+    },
+    "BUFFER_ZONE": {
+      "EDIT_TITLE": "",
+      "NAME": "",
+      "TITLE": "",
+      "WIDTH": ""
+    },
+    "BULK_UPLOAD_SENSORS": {
+      "DOWNLOAD_FILE": {
+        "DEFAULT": "",
+        "PARTIAL_SUCCESS_BOTTOM_TEXT": "",
+        "PARTIAL_SUCCESS_TOP_TEXT": "",
+        "ROW": "",
+        "SOME_ERRORS": ""
+      },
+      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "",
+      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "",
+      "INVALID_FILE_TYPE": "",
+      "SENSOR_CLAIM_ERROR": {
+        "ALREADY_OCCUPIED": "",
+        "DOES_NOT_EXIST": "",
+        "INTERNAL_ERROR": ""
+      },
+      "SENSOR_FIELDS": {
+        "BRAND": "",
+        "DEPTH": "",
+        "LATITUDE": "",
+        "LONGITUDE": "",
+        "MODEL": "",
+        "NAME": "",
+        "READING_TYPES": "",
+        "SENSOR_EXTERNAL_ID": ""
+      },
+      "TITLE": "",
+      "UPLOAD_ERROR_LINK": "",
+      "UPLOAD_ERROR_MESSAGE": "",
+      "UPLOAD_INSTRUCTION_MESSAGE": "",
+      "UPLOAD_LINK_MESSAGE": "",
+      "UPLOAD_PLACEHOLDER": "",
+      "VALIDATION": {
+        "EXTERNAL_ID": "",
+        "FILE_ROW_LIMIT_EXCEEDED": "",
+        "MISSING_COLUMNS": "",
+        "SENSOR_BRAND": "",
+        "SENSOR_DEPTH": "",
+        "SENSOR_HARDWARE_VERSION": "",
+        "SENSOR_LATITUDE": "",
+        "SENSOR_LONGITUDE": "",
+        "SENSOR_MODEL": "",
+        "SENSOR_NAME": "",
+        "SENSOR_READING_TYPES": ""
+      }
+    },
+    "BULK_UPLOAD_TRANSITION": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "CEREMONIAL_AREA": {
+      "EDIT_TITLE": "",
+      "NAME": "",
+      "TITLE": ""
+    },
+    "CONFIRM_RETIRE": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "DRAWING_MANAGER": {
+      "REDRAW": "",
+      "ZERO_AREA_DETECTED": "",
+      "ZERO_LENGTH_DETECTED": ""
+    },
+    "EXPORT_MODAL": {
+      "BODY": "",
+      "DOWNLOAD": "",
+      "EMAIL_TO_ME": "",
+      "EMAILING": "",
+      "TITLE": ""
+    },
+    "FARM_SITE_BOUNDARY": {
+      "EDIT_TITLE": "",
+      "NAME": "",
+      "TITLE": ""
+    },
+    "FENCE": {
+      "EDIT_TITLE": "",
+      "LENGTH": "",
+      "NAME": "",
+      "PRESSURE_TREATED": "",
+      "TITLE": ""
+    },
+    "FIELD": {
+      "DATE": "",
+      "EDIT_TITLE": "",
+      "FIELD_TYPE": "",
+      "NAME": "",
+      "NON_ORGANIC": "",
+      "ORGANIC": "",
+      "TITLE": "",
+      "TRANSITIONING": ""
+    },
+    "GARDEN": {
+      "DATE": "",
+      "EDIT_TITLE": "",
+      "GARDEN_TYPE": "",
+      "NAME": "",
+      "NON_ORGANIC": "",
+      "ORGANIC": "",
+      "TITLE": "",
+      "TRANSITIONING": ""
+    },
+    "GATE": {
+      "EDIT_TITLE": "",
+      "NAME": "",
+      "TITLE": ""
+    },
+    "GREENHOUSE": {
+      "CO2_ENRICHMENT": "",
+      "DATE": "",
+      "EDIT_TITLE": "",
+      "GREENHOUSE_HEATED": "",
+      "GREENHOUSE_TYPE": "",
+      "NAME": "",
+      "NON_ORGANIC": "",
+      "ORGANIC": "",
+      "SUPPLEMENTAL_LIGHTING": "",
+      "TITLE": "",
+      "TRANSITIONING": ""
+    },
+    "LINE_DETAILS": {
+      "BUFFER_TITLE": "",
+      "BUFFER_ZONE_WIDTH": "",
+      "RIPARIAN_BUFFER": "",
+      "WATERCOURSE": "",
+      "WATERCOURSE_TITLE": ""
+    },
+    "LOCATION_CREATION_FLOW": "",
+    "MAP_FILTER": {
+      "ADD_TITLE": "",
+      "AREAS": "",
+      "BARN": "",
+      "BUFFER_ZONE": "",
+      "BZ": "",
+      "CA": "",
+      "CEREMONIAL_AREA": "",
+      "FARM_SITE_BOUNDARY": "",
+      "FENCE": "",
+      "FIELD": "",
+      "FSB": "",
+      "GARDEN": "",
+      "GATE": "",
+      "GREENHOUSE": "",
+      "HIDE_ALL": "",
+      "LABEL": "",
+      "LINES": "",
+      "NA": "",
+      "NATURAL_AREA": "",
+      "POINTS": "",
+      "RESIDENCE": "",
+      "SATELLITE": "",
+      "SENSOR": "",
+      "SHOW_ALL": "",
+      "SURFACE_WATER": "",
+      "TITLE": "",
+      "WATER_VALVE": "",
+      "WATERCOURSE": "",
+      "WV": ""
+    },
+    "NATURAL_AREA": {
+      "EDIT_TITLE": "",
+      "NAME": "",
+      "TITLE": ""
+    },
+    "NOTES_CHAR_LIMIT": "",
+    "RESIDENCE": {
+      "EDIT_TITLE": "",
+      "NAME": "",
+      "TITLE": ""
+    },
+    "SPOTLIGHT": {
+      "ADD": "",
+      "ADD_TITLE": "",
+      "EXPORT": "",
+      "EXPORT_TITLE": "",
+      "FILTER": "",
+      "FILTER_TITLE": "",
+      "HERE_YOU_CAN": ""
+    },
+    "SURFACE_WATER": {
+      "EDIT_TITLE": "",
+      "IRRIGATION": "",
+      "NAME": "",
+      "TITLE": ""
+    },
+    "TAB": {
+      "CROPS": "",
+      "DETAILS": "",
+      "READINGS": "",
+      "TASKS": ""
+    },
+    "TITLE": "",
+    "TUTORIAL": {
+      "ADJUST_AREA": {
+        "TEXT": "",
+        "TITLE": ""
+      },
+      "ADJUST_LINE": {
+        "TEXT": "",
+        "TITLE": ""
+      },
+      "AREA": {
+        "STEP_ONE": "",
+        "STEP_THREE": "",
+        "STEP_TWO": "",
+        "TITLE": ""
+      },
+      "LINE": {
+        "STEP_FOUR": "",
+        "STEP_ONE": "",
+        "STEP_THREE": "",
+        "STEP_TWO": "",
+        "TITLE": ""
+      }
+    },
+    "TUTORIALS": "",
+    "UNABLE_TO_RETIRE": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "WATER_VALVE": {
+      "EDIT_TITLE": "",
+      "GROUNDWATER": "",
+      "MAX_FLOW_RATE": "",
+      "MUNICIPAL_WATER": "",
+      "NAME": "",
+      "RAIN_WATER": "",
+      "SURFACE_WATER": "",
+      "TITLE": "",
+      "WATER_VALVE_TYPE": ""
+    },
+    "WATERCOURSE": {
+      "BUFFER": "",
+      "EDIT_TITLE": "",
+      "IRRIGATION": "",
+      "LENGTH": "",
+      "NAME": "",
+      "TITLE": "",
+      "WIDTH": ""
+    }
+  },
+  "FIELDS": {
+    "EDIT_FIELD": {
+      "SUPPLIER": "",
+      "VARIETY": ""
+    }
+  },
+  "FILE_SIZE_MODAL": {
+    "BODY": "",
+    "TITLE": ""
+  },
+  "FILTER": {
+    "CLEAR_ALL": "",
+    "CLEAR_ALL_FILTERS": "",
+    "SELECT_ALL": ""
+  },
+  "FINANCES": {
+    "ACTUAL_REVENUE": {
+      "ADD_REVENUE": "",
+      "TITLE": ""
+    },
+    "ADD_EXPENSE": "",
+    "ADD_REVENUE": "",
+    "ADD_TRANSACTION": "",
+    "CANT_FIND": {
+      "INFO_EXPENSE": "",
+      "INFO_REVENUE": "",
+      "MAIN": "",
+      "MANAGE_EXPENSE": "",
+      "MANAGE_REVENUE": "",
+      "MISC_EXPENSE": ""
+    },
+    "COST": "",
+    "DATE": "",
+    "ESTIMATED_REVENUE": {
+      "ESTIMATED_ANNUAL_REVENUE": "",
+      "ESTIMATED_ANNUAL_YIELD": "",
+      "ESTIMATED_CROP_REVENUE": "",
+      "ESTIMATED_PRICE_PER_UNIT": "",
+      "TITLE": ""
+    },
+    "EXPENSES": "",
+    "FILTER": {
+      "EXPENSE_TYPE": "",
+      "HELP_TEXT": "",
+      "REVENUE_TYPE": "",
+      "TITLE": ""
+    },
+    "REPORT": {
+      "DATES": "",
+      "FILE_TITLE": "",
+      "SETTINGS": "",
+      "TRANSACTION": "",
+      "TRANSACTIONS": ""
+    },
+    "REVENUE": "",
+    "SEARCH": {
+      "EXPENSE_TYPES": "",
+      "REVENUE_TYPES": ""
+    },
+    "TRANSACTION": {
+      "CROPS": "",
+      "DAILY_TOTAL": "",
+      "LABOUR_EXPENSE": "",
+      "VIEW_AND_EDIT": "",
+      "VIEW_LABOUR": ""
+    },
+    "VIEW_WITHIN_DATE_RANGE": "",
+    "WHOLE_FARM_REVENUE": ""
+  },
+  "FORM_VALIDATION": {
+    "OVER_255_CHARS": ""
+  },
+  "HELP": {
+    "ATTACHMENT_LABEL": "",
+    "EMAIL": "",
+    "MESSAGE_LABEL": "",
+    "OPTIONS": {
+      "OTHER": "",
+      "REPORT_BUG": "",
+      "REQUEST_FEATURE": "",
+      "REQUEST_INFO": ""
+    },
+    "PREFERRED_CONTACT": "",
+    "REQUIRED_LABEL": "",
+    "TITLE": "",
+    "TYPE_SUPPORT_LABEL": "",
+    "TYPE_SUPPORT_PLACEHOLDER": "",
+    "WHATSAPP": "",
+    "WHATSAPP_NUMBER_LABEL": ""
+  },
+  "HOME": {
+    "GREETING": ""
+  },
+  "INSIGHTS": {
+    "BIODIVERSITY": {
+      "AMPHIBIANS": "",
+      "API_OFFSET_LIMIT_ERROR_MESSAGE": "",
+      "BIRDS": "",
+      "CROP_VARIETIES": "",
+      "ERROR_TITLE": "",
+      "GENERIC_ERROR_MESSAGE": "",
+      "HEADER": "",
+      "INFO": "",
+      "INSECTS": "",
+      "LOADING": {
+        "BODY": "",
+        "TITLE": ""
+      },
+      "MAMMALS": "",
+      "PLANTS": "",
+      "SPECIES_COUNT_one": "",
+      "SPECIES_COUNT_other": "",
+      "TITLE": ""
+    },
+    "CLICK_TO_CALCULATE": "",
+    "CURRENT": "",
+    "INFO": "",
+    "LABOUR_HAPPINESS": {
+      "HEADER": "",
+      "INFO": "",
+      "TITLE": ""
+    },
+    "PRICES": {
+      "INFO": "",
+      "NEARBY_FARMS_one": "",
+      "NEARBY_FARMS_other": "",
+      "NETWORK_PRICE": "",
+      "NO_ADDRESS": "",
+      "OWN_PRICE": "",
+      "PERCENT_OF_MARKET": "",
+      "SALES_FROM_DISTANCE_AWAY": "",
+      "TITLE": "",
+      "Y_TITLE": ""
+    },
+    "SOIL_OM": {
+      "ALTERNATE_TITLE": "",
+      "HEADER": "",
+      "INFO": "",
+      "TITLE": ""
+    },
+    "TITLE": "",
+    "UNAVAILABLE": ""
+  },
+  "INTRODUCE_MAP": {
+    "BODY": "",
+    "TITLE": ""
+  },
+  "INVITATION": {
+    "BIRTH_YEAR": "",
+    "BIRTH_YEAR_ERROR": "",
+    "BIRTH_YEAR_TOOLTIP": "",
+    "CREATE_ACCOUNT": "",
+    "CREATE_NEW_ACCOUNT": "",
+    "EMAIL": "",
+    "FULL_NAME": "",
+    "GENDER": "",
+    "GENDER_TOOLTIP": "",
+    "PASSWORD": "",
+    "YOUR_INFORMATION": ""
+  },
+  "INVITE_SIGN_UP": {
+    "ERROR0": "",
+    "ERROR1": "",
+    "HOW_TO_CREATE": "",
+    "LITEFARM_ACCOUNT": "",
+    "SIGN_IN_WITH": "",
+    "TITLE": ""
+  },
+  "INVITE_USER": {
+    "ALREADY_EXISTING_EMAIL_ERROR": "",
+    "BIRTH_YEAR": "",
+    "BIRTH_YEAR_ERROR": "",
+    "BIRTH_YEAR_TOOLTIP": "",
+    "CHOOSE_ROLE": "",
+    "DEFAULT_LANGUAGE": "",
+    "DEFAULT_LANGUAGE_VALUE": "",
+    "EMAIL": "",
+    "EMAIL_INFO": "",
+    "FULL_NAME": "",
+    "GENDER": "",
+    "GENDER_TOOLTIP": "",
+    "INVALID_EMAIL_ERROR": "",
+    "INVITE": "",
+    "LANGUAGE_OF_INVITE": "",
+    "PHONE": "",
+    "PHONE_ERROR": "",
+    "ROLE": "",
+    "TITLE": "",
+    "WAGE": "",
+    "WAGE_ERROR": "",
+    "WAGE_RANGE_ERROR": ""
+  },
+  "JOIN_FARM_SUCCESS": {
+    "IMPORTANT_THINGS": "",
+    "SUCCESSFULLY_JOINED": ""
+  },
+  "LOCATION_CREATION": {
+    "CREATE_BUTTON": "",
+    "CROP_PLAN_BODY": "",
+    "GO_BACK_BUTTON": "",
+    "TASK_BODY": "",
+    "TASK_BODY_WORKER": "",
+    "TASK_TITLE": "",
+    "TITLE": ""
+  },
+  "LOCATION_CROPS": {
+    "ACTIVE_CROPS": "",
+    "ADD_NEW": "",
+    "INPUT_PLACEHOLDER": "",
+    "PAST_CROPS": "",
+    "PLANNED_CROPS": ""
+  },
+  "LOG_COMMON": {
+    "ADD_A_LOG": "",
+    "DELETE_CONFIRMATION": "",
+    "EDIT_A_LOG": "",
+    "FROM": "",
+    "LOCATION": "",
+    "NOTES": "",
+    "QUANTITY": "",
+    "SELECT_LOCATION": "",
+    "TO": ""
+  },
+  "LOG_DETAIL": {
+    "NO": "",
+    "YES": ""
+  },
+  "LOG_HARVEST": {
+    "ADD_CUSTOM_HARVEST_USE": "",
+    "CROP": "",
+    "CROP_PLACEHOLDER": "",
+    "CUSTOM_HARVEST_USE": "",
+    "HARVEST_ALLOCATION_SUBTITLE": "",
+    "HARVEST_ALLOCATION_SUBTITLE_TWO": "",
+    "HARVEST_USE_TYPE_SUBTITLE": "",
+    "QUANTITY_ERROR": "",
+    "TITLE": ""
+  },
+  "MANAGEMENT_DETAIL": {
+    "ABANDON_PLAN": "",
+    "ADD_A_TASK": "",
+    "DETAILS": "",
+    "TASKS": ""
+  },
+  "MANAGEMENT_PLAN": {
+    "ABANDON": {
+      "CANT_ABANDON_COMPLETED": "",
+      "CANT_ABANDON_CONCURRENT_USER": ""
+    },
+    "ABANDON_MANAGEMENT_PLAN_CONTENT": "",
+    "ABANDON_MANAGEMENT_PLAN_TITLE": "",
+    "ADD_MANAGEMENT_PLAN": "",
+    "AGE": "",
+    "AS_COVER_CROP": "",
+    "ASSIGN_ALL_TASKS": "",
+    "BEDS": "",
+    "BROADCAST": "",
+    "COMPLETE_PLAN": {
+      "ABANDON_DATE": "",
+      "ABANDON_NOTES": "",
+      "ABANDON_PLAN": "",
+      "ABANDON_REASON": "",
+      "CANT_COMPLETE_ABANDONED": "",
+      "CANT_COMPLETE_CONCURRENT_USER": "",
+      "COMPLETE_DATE": "",
+      "COMPLETE_PLAN": "",
+      "DATE_OF_CHANGE": "",
+      "FUTURE_DATE_INVALID": "",
+      "NOTES_CHAR_LIMIT": "",
+      "RATING": "",
+      "REASON": {
+        "CROP_FAILURE": "",
+        "LABOUR_ISSUE": "",
+        "MACHINERY_ISSUE": "",
+        "MARKET_PROBLEM": "",
+        "SCHEDULING_ISSUE": "",
+        "SOMETHING_ELSE": "",
+        "WEATHER": ""
+      },
+      "WHAT_HAPPENED": ""
+    },
+    "COMPLETION_NOTES": "",
+    "CONTAINER": "",
+    "CONTAINER_OR_IN_GROUND": "",
+    "CONTAINER_TYPE": "",
+    "COVER_INFO": "",
+    "COVER_OR_HARVEST": "",
+    "CROP_PLAN_REPEAT": "",
+    "CROP_PLAN_REPEAT_SUBTEXT": "",
+    "DAYS_FROM_PLANTING": "",
+    "DAYS_FROM_SEEDING": "",
+    "DAYS_TO_HARVEST": "",
+    "DAYS_TO_TERMINATION": "",
+    "DELETE": {
+      "CANT_DELETE_ABANDON": "",
+      "CANT_DELETE_ABANDON_INSTEAD": "",
+      "CANT_DELETE_CONCURRENT_USER": "",
+      "CANT_DELETE_MODIFIED_PLAN": "",
+      "CONFIRM_DELETION": "",
+      "DELETE_PLAN": "",
+      "DELETE_PLAN_MESSAGE": "",
+      "DELETE_PLAN_QUESTION": ""
+    },
+    "DETAIL_SPOTLIGHT_CONTENTS": "",
+    "DETAIL_SPOTLIGHT_TITLE": "",
+    "DO_YOU_WANT_TO_ABANDON_CONTENT": "",
+    "DROP_PIN": "",
+    "DURATION_TOOLTIP": "",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "",
+    "ESTIMATED_SEED": "",
+    "ESTIMATED_YIELD": "",
+    "FIRST_MP_SPOTLIGHT": {
+      "BODY_PART1": "",
+      "BODY_PART2": "",
+      "TITLE": ""
+    },
+    "FOR_HARVEST": "",
+    "GERMINATION": "",
+    "HARVEST": "",
+    "HARVEST_DATE": "",
+    "HARVEST_TO_DATE": "",
+    "HARVEST_TO_DATE_INFO": "",
+    "HISTORICAL_CONTAINER_OR_IN_GROUND": "",
+    "IN_GROUND": "",
+    "INCOMPLETE_TASK_CONTENT": "",
+    "INCOMPLETE_TASK_TITLE": "",
+    "INDIVIDUAL_CONTAINER": "",
+    "IS_TRANSPLANT": "",
+    "KNOW_HOW_IS_CROP_PLANTED": "",
+    "LOCATION_SUBTEXT": "",
+    "MANAGEMENT_PLAN_FLOW": "",
+    "MANAGEMENT_SPOTLIGHT_1": "",
+    "MANAGEMENT_SPOTLIGHT_2": "",
+    "MANAGEMENT_SPOTLIGHT_3": "",
+    "MANAGEMENT_SPOTLIGHT_TITLE": "",
+    "NEXT_HARVEST": "",
+    "NOTES_CHAR_LIMIT": "",
+    "NUMBER_OF_CONTAINER": "",
+    "PENDING_TASK": "",
+    "PLAN_AND_ID": "",
+    "PLAN_NAME": "",
+    "PLAN_NOTES": "",
+    "PLANT_SPACING": "",
+    "PLANTED_ALREADY": "",
+    "PLANTING": "",
+    "PLANTING_DATE": "",
+    "PLANTING_DATE_INFO": "",
+    "PLANTING_DATE_LABEL": "",
+    "PLANTING_DEPTH": "",
+    "PLANTING_METHOD": "",
+    "PLANTING_METHOD_TOOLTIP": "",
+    "PLANTING_NOTE": "",
+    "PLANTING_SOIL": "",
+    "PLANTS_PER_CONTAINER": "",
+    "RATE_THIS_MANAGEMENT_PLAN": "",
+    "REMOVE_PIN": "",
+    "REPEATED_MP_SPOTLIGHT": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "ROW_METHOD": {
+      "HISTORICAL_SAME_LENGTH": "",
+      "LENGTH_OF_ROW": "",
+      "NUMBER_OF_ROWS": "",
+      "SAME_LENGTH": "",
+      "TOTAL_LENGTH": ""
+    },
+    "ROWS": "",
+    "SEED_DATE": "",
+    "SEED_OR_SEEDLING": "",
+    "SEEDING_DATE": "",
+    "SEEDLING": "",
+    "SEEDLING_AGE": "",
+    "SEEDLING_AGE_INFO": "",
+    "SELECT_A_PLANTING_LOCATION": "",
+    "SELECT_A_SEEDING_LOCATION": "",
+    "SELECT_CURRENT_LOCATION": "",
+    "SELECTED_STARTING_LOCATION": "",
+    "SPOTLIGHT_HERE_YOU_CAN": "",
+    "STARTED": "",
+    "STATUS": {
+      "ABANDONED": "",
+      "ACTIVE": "",
+      "COMPLETED": "",
+      "PLANNED": ""
+    },
+    "SUPPLIER": "",
+    "TERMINATION": "",
+    "TERMINATION_DATE": "",
+    "TOTAL_PLANTS": "",
+    "TRANSPLANT": "",
+    "TRANSPLANT_DATE": "",
+    "TRANSPLANT_LOCATION": "",
+    "TRANSPLANT_SPOTLIGHT": {
+      "BODY": {
+        "PLANTED": "",
+        "SEEDED": "",
+        "TEXT": ""
+      },
+      "TITLE": {
+        "PLANTING": "",
+        "SEEDING": "",
+        "TEXT": ""
+      }
+    },
+    "WHAT_IS_AGE": "",
+    "WHAT_WAS_PLANTING_METHOD": "",
+    "WHAT_WAS_PLANTING_METHOD_INFO": "",
+    "WHERE_START_LOCATION": "",
+    "WHERE_TRANSPLANT_LOCATION": "",
+    "WILD_CROP": ""
+  },
+  "MENU": {
+    "ACTUAL_REVENUES": "",
+    "CERTIFICATIONS": "",
+    "CROPS": "",
+    "DOCUMENTS": "",
+    "ESTIMATED_REVENUES": "",
+    "FARM_SETTINGS": "",
+    "FINANCES": "",
+    "INSIGHTS": "",
+    "LABOUR_EXPENSES": "",
+    "MAP": "",
+    "OTHER_EXPENSES": "",
+    "PEOPLE": "",
+    "TASKS": "",
+    "TRANSACTION_LIST": ""
+  },
+  "MY_FARM": {
+    "CERTIFICATIONS": "",
+    "FARM_INFO": "",
+    "FARM_MAP": "",
+    "PEOPLE": ""
+  },
+  "NAVIGATION": {
+    "SPOTLIGHT": {
+      "COORDINATE_ACTIVITIES": "",
+      "EDIT_FARM_SETTING": "",
+      "FARM_TITLE": "",
+      "INFO": "",
+      "LOG_OUT": "",
+      "MANAGE_EMPLOYEE": "",
+      "MANAGE_TASK": "",
+      "MAP_FARM": "",
+      "NOTIFICATION_TITLE": "",
+      "PROFILE_TITLE": "",
+      "SEE_TASK": "",
+      "SEE_UPDATES": "",
+      "TASK_TITLE": "",
+      "TIPS": "",
+      "YOU_CAN": "",
+      "YOU_WILL_FIND": ""
+    }
+  },
+  "NOTIFICATION": {
+    "DAILY_TASKS_DUE_TODAY": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "NONE_TO_DISPLAY": "",
+    "PAGE_TITLE": "",
+    "SENSOR_BULK_UPLOAD_FAIL": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "SENSOR_BULK_UPLOAD_SUCCESS": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "TAKE_ME_THERE": "",
+    "TASK_ABANDONED": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "TASK_ASSIGNED": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "TASK_COMPLETED_BY_OTHER_USER": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "TASK_DELETED": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "TASK_REASSIGNED": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "TASK_UNASSIGNED": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "TIMELINE": {
+      "HEADING": "",
+      "MORE_RECENT_NOTIFICATION": "",
+      "VIEW_NOW": ""
+    },
+    "WEEKLY_UNASSIGNED_TASKS": {
+      "BODY": "",
+      "TITLE": ""
+    }
+  },
+  "OUTRO": {
+    "ALL_DONE": "",
+    "IMPORTANT_THINGS": ""
+  },
+  "PASSWORD_RESET": {
+    "BUTTON": "",
+    "BUTTON_SENDING": "",
+    "DESCRIPTION_BOTTOM": "",
+    "DESCRIPTION_TOP": "",
+    "LABEL_EMAIL": "",
+    "LABEL_NEW_PASSWORD": "",
+    "NEW_ACCOUNT_BUTTON": "",
+    "NEW_ACCOUNT_TITLE": "",
+    "TITLE": ""
+  },
+  "PASSWORD_RESET_SUCCESS_MODAL": {
+    "BUTTON": "",
+    "DESCRIPTION": "",
+    "TITLE": ""
+  },
+  "PLAN_GUIDANCE": {
+    "ADDITIONAL_GUIDANCE": "",
+    "BED": "",
+    "BEDS": "",
+    "NOTES": "",
+    "PLANTING_DEPTH": "",
+    "ROW": "",
+    "ROWS": "",
+    "SPACE_BETWEEN": "",
+    "SPECIFY": "",
+    "SPECIFY_PLACEHOLDER": "",
+    "TOOLTIP": "",
+    "WIDTH": "",
+    "WORD_LIMIT": ""
+  },
+  "PREPARING_EXPORT": {
+    "MESSAGE": "",
+    "TITLE": ""
+  },
+  "PROFILE": {
+    "ACCOUNT": {
+      "CONVERT_TO_HAVE_ACCOUNT": "",
+      "EDIT_USER": "",
+      "EMAIL": "",
+      "ENGLISH": "",
+      "FIRST_NAME": "",
+      "FRENCH": "",
+      "LANGUAGE": "",
+      "LAST_NAME": "",
+      "PHONE_NUMBER": "",
+      "PORTUGUESE": "",
+      "SPANISH": "",
+      "USER_ADDRESS": ""
+    },
+    "ACCOUNT_TAB": "",
+    "ERROR": {
+      "FARM_NAME_LENGTH": "",
+      "FIRST_NAME_LENGTH": "",
+      "LAST_NAME_LENGTH": "",
+      "PHONE_NUMBER_LENGTH": "",
+      "USER_ADDRESS_LENGTH": ""
+    },
+    "FARM": {
+      "ADDRESS": "",
+      "CHANGE_IMAGE": "",
+      "CLICK_TO_UPLOAD": "",
+      "CURRENCY": "",
+      "DRAG_DROP": "",
+      "FARM_IMAGE": "",
+      "FARM_NAME": "",
+      "IMPERIAL": "",
+      "METRIC": "",
+      "PHONE_NUMBER": "",
+      "REMOVE_IMAGE": "",
+      "UNITS": "",
+      "UPLOAD_IMAGE": ""
+    },
+    "FARM_TAB": "",
+    "PEOPLE": {
+      "DO_YOU_WANT_TO_REMOVE": "",
+      "INVALID_REVOKE_ACCESS": "",
+      "INVITE_USER": "",
+      "LAST_ADMIN_ERROR": "",
+      "RESTORE_ACCESS": "",
+      "REVOKE_ACCESS": "",
+      "SEARCH": "",
+      "THIS_WILL_REMOVE": ""
+    },
+    "PEOPLE_TAB": "",
+    "TABLE": {
+      "HEADER_EMAIL": "",
+      "HEADER_NAME": "",
+      "HEADER_ROLE": "",
+      "HEADER_STATUS": ""
+    }
+  },
+  "PROFILE_FLOATER": {
+    "HELP": "",
+    "INFO": "",
+    "LOG_OUT": "",
+    "SWITCH": "",
+    "TUTORIALS": ""
+  },
+  "REACT_SELECT": {
+    "CLEAR": "",
+    "CLEAR_ALL": ""
+  },
+  "RELEASE": {
+    "BETTER": "",
+    "LITEFARM_UPDATED": "",
+    "NOTES": ""
+  },
+  "REPEAT_PLAN": {
+    "AFTER": "",
+    "COMPLETION": "",
+    "CONFIRMATION": {
+      "AFTER_REPETITIONS": "",
+      "BEGINNING": "",
+      "CROP_NAME": "",
+      "FINISHING": "",
+      "HEADER": "",
+      "ON_DATE": "",
+      "WILL_CREATE": "",
+      "WILL_CREATE_BODY": "",
+      "WILL_REPEAT": ""
+    },
+    "DUE": "",
+    "DUPLICATE_NAME": "",
+    "EARLIEST_TASK": "",
+    "FINISH": "",
+    "INTERVAL": {
+      "DAY": "",
+      "MONTH": "",
+      "WEEK": "",
+      "YEAR": ""
+    },
+    "LATER_DATE_ERROR": "",
+    "MENU": "",
+    "ON": "",
+    "PLAN_NAME": "",
+    "REPEAT_EVERY": "",
+    "REPEAT_LIMIT_ERROR": "",
+    "REPEAT_ON": "",
+    "REPEAT_PLAN_FLOW": "",
+    "REPETITIONS": "",
+    "REPETITIONS_OF": "",
+    "START_DATE": "",
+    "SUBTITLE": "",
+    "TITLE": ""
+  },
+  "REQUEST_CONFIRMATION_MODAL": {
+    "BUTTON": "",
+    "DESCRIPTION": "",
+    "TITLE": ""
+  },
+  "REVENUE": {
+    "ADD_REVENUE": {
+      "ADD_CUSTOM_REVENUE": "",
+      "CANNOT_BE_CHANGED": "",
+      "CANNOT_BE_CHANGED_LATER": "",
+      "CROP_GENERATED": "",
+      "CUSTOM_REVENUE_NAME": "",
+      "CUSTOM_REVENUE_TYPE": "",
+      "DUPLICATE_NAME": "",
+      "DUPLICATE_NAME_RETIRED": ""
+    },
+    "CUSTOM_REVENUE_DESCRIPTION": "",
+    "DELETE": {
+      "CONFIRM": "",
+      "HEADER": "",
+      "LINK": "",
+      "MESSAGE": ""
+    },
+    "EDIT_REVENUE": {
+      "RETIRE_REVENUE_MESSAGE": "",
+      "RETIRE_REVENUE_TYPE": "",
+      "RETIRED": "",
+      "REVENUE_TYPE": ""
+    }
+  },
+  "ROLE_SELECTION": {
+    "FARM_EO": "",
+    "FARM_MANAGER": "",
+    "FARM_OWNER": "",
+    "IS_OWNER_OPERATED": "",
+    "TITLE": ""
+  },
+  "SALE": {
+    "ADD_SALE": {
+      "ADD_CUSTOM_REVENUE_TYPE": "",
+      "ADD_REVENUE": "",
+      "CROP_REQUIRED": "",
+      "CROP_VARIETY": "",
+      "FLOW": "",
+      "MANAGE_CUSTOM_REVENUE_TYPE": "",
+      "SALE_VALUE_ERROR": "",
+      "TABLE_HEADERS": {
+        "TOTAL": ""
+      },
+      "WHICH_TYPE_TO_RECORD": ""
+    },
+    "DETAIL": {
+      "CUSTOMER_NAME": "",
+      "TITLE": "",
+      "VALUE": ""
+    },
+    "EDIT_SALE": {
+      "TITLE": ""
+    },
+    "EXPENSE_DETAIL": {
+      "TITLE": ""
+    },
+    "FINANCES": {
+      "CARROUSEL_TEXT": {
+        "ESTIMATED_REVENUE": "",
+        "GENERIC": ""
+      },
+      "ESTIMATED_HARVEST_REVENUE": "",
+      "EXPENSES": "",
+      "EXPORT_REPORT": "",
+      "LABOUR_LABEL": "",
+      "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
+        "BODY": "",
+        "TITLE": ""
+      },
+      "MANAGE_CUSTOM_REVENUE_TYPES_SPOTLIGHT": {
+        "BODY": "",
+        "TITLE": ""
+      },
+      "PROFIT_LOSS": "",
+      "REPORT": "",
+      "REPORT_HELP_TEXT": "",
+      "TITLE": "",
+      "TOTAL_EXPENSES": "",
+      "TOTAL_LABOUR": "",
+      "TOTAL_OTHER": "",
+      "TOTAL_REVENUE": ""
+    },
+    "LABOUR": {
+      "BY": "",
+      "EMPLOYEES": "",
+      "TABLE": {
+        "DAILY_TOTAL": "",
+        "DATE": "",
+        "EMPLOYEE": "",
+        "LABOUR_COST": "",
+        "TASK": "",
+        "TIME": "",
+        "TYPE": ""
+      },
+      "TASKS": "",
+      "TITLE": ""
+    },
+    "SUMMARY": {
+      "SUBTOTAL": "",
+      "TOTAL": "",
+      "TYPE": ""
+    }
+  },
+  "SEARCH": {
+    "CLEAR_TERMS": "",
+    "CLEAR_TERMS_AND_FILTERS": "",
+    "NO_RESULTS_FOR": "",
+    "ZERO": ""
+  },
+  "SENSOR": {
+    "BRAND": "",
+    "BRAND_HELPTEXT": "",
+    "DAYS_AGO": "",
+    "DEPTH": "",
+    "DETAIL": {
+      "BRAND": "",
+      "BRAND_TOOLTIP": "",
+      "DEPTH": "",
+      "EDIT": "",
+      "EXTERNAL_ID_TOOLTIP": "",
+      "EXTERNAL_IDENTIFIER": "",
+      "LATITUDE": "",
+      "LONGITUDE": "",
+      "MODEL": "",
+      "NAME": "",
+      "RETIRE": ""
+    },
+    "EXTERNAL_IDENTIFIER": "",
+    "HOURS_AGO": "",
+    "LAST_UPDATED": "",
+    "LATITUDE": "",
+    "LONGTITUDE": "",
+    "MINUTES_AGO": "",
+    "MODAL": {
+      "BODY": "",
+      "TITLE": ""
+    },
+    "MODEL": "",
+    "MODEL_HELPTEXT": "",
+    "MONTHS_AGO": "",
+    "NO_DATA": "",
+    "NO_DATA_FOUND": "",
+    "READING": {
+      "SOIL_WATER_CONTENT": "",
+      "SOIL_WATER_POTENTIAL": "",
+      "TEMPERATURE": "",
+      "TYPES": "",
+      "UNKNOWN": ""
+    },
+    "READINGS_PREVIEW": {
+      "SOIL_WATER_POTENTIAL": "",
+      "TEMPERATURE": ""
+    },
+    "RETIRE": {
+      "BODY": "",
+      "CANCEL": "",
+      "RETIRE": "",
+      "RETIRE_FAILURE": "",
+      "RETIRE_SUCCESS": "",
+      "TITLE": ""
+    },
+    "SECONDS_AGO": "",
+    "SENSOR_FORECAST": {
+      "HIGH_AND_LOW_TEMPERATURE": "",
+      "TITLE": "",
+      "WEATHER_STATION": ""
+    },
+    "SENSOR_NAME": "",
+    "SENSOR_READING_CHART_SPOTLIGHT": {
+      "CONTENT": "",
+      "TITLE": ""
+    },
+    "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
+      "TITLE": "",
+      "Y_AXIS_LABEL": ""
+    },
+    "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
+      "KPA": "",
+      "PSI": "",
+      "TITLE": "",
+      "Y_AXIS_LABEL": ""
+    },
+    "TEMPERATURE_READINGS_OF_SENSOR": {
+      "AMBIENT_TEMPERATURE_FOR": "",
+      "C": "",
+      "F": "",
+      "TITLE": "",
+      "Y_AXIS_LABEL": ""
+    },
+    "VALIDATION": {
+      "READING_TYPES": ""
+    },
+    "VIEW_HEADER": {
+      "DETAILS": "",
+      "READINGS": "",
+      "TASKS": ""
+    }
+  },
+  "SIGNUP": {
+    "CHANGES": "",
+    "EMAIL_INVALID": "",
+    "ENTER_EMAIL": "",
+    "EXPIRED_ERROR": "",
+    "EXPIRED_INVITATION_LINK_ERROR": "",
+    "GOOGLE_BUTTON": "",
+    "INVITED_ERROR": "",
+    "LITEFARM_UPDATED": "",
+    "PASSWORD_ERROR": "",
+    "SIGN_IN": "",
+    "SSO_ERROR": "",
+    "USED_INVITATION_LINK_ERROR": "",
+    "WELCOME_BACK": "",
+    "WRONG_BROWSER": "",
+    "WRONG_BROWSER_BOTTOM": ""
+  },
+  "SLIDE_MENU": {
+    "CROPS": "",
+    "DOCUMENTS": "",
+    "FINANCES": "",
+    "INSIGHTS": "",
+    "MANAGE": "",
+    "TASKS": ""
+  },
+  "STATUS": {
+    "ACTIVE": "",
+    "INACTIVE": "",
+    "INVITED": ""
+  },
+  "SURVEY_STACK": {
+    "PRODUCED": "",
+    "SURVEY_ADDENDUM": "",
+    "TITLE": ""
+  },
+  "SWITCH_OUTRO": {
+    "BUTTON": "",
+    "DESCRIPTION_BOTTOM": "",
+    "DESCRIPTION_TOP": "",
+    "TITLE": ""
+  },
+  "TABLE": {
+    "LOAD_MORE": "",
+    "LOADING_TEXT": "",
+    "NEXT_TEXT": "",
+    "NO_DATA_TEXT": "",
+    "NUMBER_MORE": "",
+    "OF_TEXT": "",
+    "PAGE_TEXT": "",
+    "PREVIOUS_TEXT": "",
+    "ROWS_TEXT": ""
+  },
+  "TASK": {
+    "ABANDON": {
+      "ABANDON": "",
+      "DATE": "",
+      "DATE_ANOTHER": "",
+      "DATE_ORIGINAL": "",
+      "DATE_TODAY": "",
+      "EXPLANATION": "",
+      "INFO": "",
+      "NOTES": "",
+      "NOTES_CHAR_LIMIT": "",
+      "REASON": {
+        "CROP_FAILURE": "",
+        "LABOUR_ISSUE": "",
+        "MACHINERY_ISSUE": "",
+        "MARKET_PROBLEM": "",
+        "OTHER": "",
+        "SCHEDULING_ISSUE": "",
+        "WEATHER": ""
+      },
+      "REASON_FOR_ABANDONMENT": "",
+      "TITLE": "",
+      "WHAT_HAPPENED": "",
+      "WHEN": "",
+      "WHICH_DATE": ""
+    },
+    "ABANDON_TASK": "",
+    "ABANDON_TASK_DURATION": "",
+    "ABANDON_TASK_HELPTEXT": "",
+    "ABANDONMENT_DETAILS": "",
+    "ADD_CUSTOM_HARVEST_USE": "",
+    "ADD_HARVEST_USE": "",
+    "ADD_TASK": "",
+    "ADD_TASK_FLOW": "",
+    "AMOUNT_TO_ALLOCATE": "",
+    "CARD": {
+      "MULTIPLE_CROPS": "",
+      "MULTIPLE_LOCATIONS": ""
+    },
+    "COMPLETE": {
+      "DATE": "",
+      "WHEN": ""
+    },
+    "COMPLETE_HARVEST_QUANTITY": "",
+    "COMPLETE_TASK": "",
+    "COMPLETE_TASK_CHANGES": "",
+    "COMPLETE_TASK_DURATION": "",
+    "COMPLETE_TASK_FLOW": "",
+    "COMPLETION_DETAILS": "",
+    "COMPLETION_NOTES": "",
+    "COMPLETION_NOTES_CHAR_LIMIT": "",
+    "CREATE": {
+      "FAILED": "",
+      "LOCATION_DELETED": ""
+    },
+    "CREATE_CUSTOM_HARVEST_USE": "",
+    "CURRENT": "",
+    "DELETE": {
+      "CANT_DELETE_ABANDON": "",
+      "CANT_DELETE_ABANDON_INSTEAD": "",
+      "CANT_DELETE_PLANTING_TASK": "",
+      "CONFIRM_DELETION": "",
+      "DELETE_TASK": "",
+      "DELETE_TASK_MESSAGE": "",
+      "DELETE_TASK_QUESTION": "",
+      "FAILED": "",
+      "SUCCESS": ""
+    },
+    "DESCRIBE_HARVEST_USE": "",
+    "DETAILS": "",
+    "DID_YOU_ENJOY": "",
+    "DUE_DATE": "",
+    "DURATION": "",
+    "FILTER": {
+      "ASCENDING": "",
+      "ASSIGNEE": "",
+      "CROP": "",
+      "DATE_RANGE": "",
+      "DESCENDING": "",
+      "LOCATION": "",
+      "MY_TASK": "",
+      "SORT_BY": "",
+      "STATUS": "",
+      "TITLE": "",
+      "TYPE": "",
+      "UNASSIGNED": "",
+      "VIEW": ""
+    },
+    "HARVEST_USE": "",
+    "HARVEST_USE_ALREADY_EXISTS": "",
+    "HOW_WILL_HARVEST_BE_USED": "",
+    "IRRIGATION_LOCATION": "",
+    "LOCATIONS": "",
+    "NO_TASKS_TO_DISPLAY": "",
+    "NO_WORK_DONE": "",
+    "PAGE_TITLE": "",
+    "PREFER_NOT_TO_SAY": "",
+    "PROVIDE_RATING": "",
+    "QUANTITY_CANNOT_EXCEED": "",
+    "RATE_THIS_TASK": "",
+    "REMOVE_HARVEST_USE": "",
+    "SELECT_DATE": "",
+    "SELECT_TASK_LOCATIONS": "",
+    "SELECT_WILD_CROP": "",
+    "SOIL_AMENDMENT_LOCATION": "",
+    "STATUS": {
+      "ABANDONED": "",
+      "COMPLETED": "",
+      "FOR_REVIEW": "",
+      "LATE": "",
+      "PLANNED": ""
+    },
+    "TASK": "",
+    "TASKS_COUNT_one": "",
+    "TASKS_COUNT_other": "",
+    "TRANSPLANT": "",
+    "TRANSPLANT_LOCATIONS": "",
+    "UNASSIGNED": ""
+  },
+  "UNIT": {
+    "TIME": {
+      "DAY": "",
+      "MONTH": "",
+      "WEEK": "",
+      "YEAR": ""
+    },
+    "VALID_VALUE": ""
+  },
+  "UNKNOWN_RECORD": {
+    "CANT_FIND": "",
+    "MAYBE_LATER": "",
+    "UNKNOWN_RECORD": ""
+  },
+  "WAGE": {
+    "ERROR": "",
+    "HOURLY_WAGE": "",
+    "HOURLY_WAGE_RANGE_ERROR": "",
+    "HOURLY_WAGE_TOOLTIP": ""
+  },
+  "WEATHER": {
+    "HUMIDITY": "",
+    "WIND": ""
+  },
+  "WELCOME_SCREEN": {
+    "BUTTON": ""
+  },
+  "YEAR_SELECTOR": {
+    "TITLE": ""
+  }
+}

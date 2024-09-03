@@ -1,0 +1,225 @@
+{
+  "ASSIGN_TASK": {
+    "ERROR": "",
+    "SUCCESS": ""
+  },
+  "ATTACHMENTS": {
+    "ERROR": {
+      "CREATE": "",
+      "FAILED_ARCHIVE": "",
+      "FAILED_UNARCHIVE": "",
+      "FAILED_UPLOAD": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "ARCHIVE": "",
+      "CREATE": "",
+      "UNARCHIVE": "",
+      "UPDATE": ""
+    }
+  },
+  "BULK_UPLOAD": {
+    "ERROR": {
+      "UPLOAD": ""
+    }
+  },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "ADD": "",
+      "ADD_ALREADY_EXISTS": "",
+      "DELETE": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
+    }
+  },
+  "EXPENSE": {
+    "ERROR": {
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
+    }
+  },
+  "EXPENSE_TYPE": {
+    "ERROR": {
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
+    }
+  },
+  "FARM": {
+    "ERROR": {
+      "ADD": "",
+      "FETCH": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "UPDATE": ""
+    }
+  },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "",
+      "AMOUNT_TOTAL": "",
+      "GET_TYPES": ""
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": ""
+    }
+  },
+  "LOGIN": {
+    "ERROR": {
+      "LOGIN_FAIL": ""
+    }
+  },
+  "MANAGEMENT_PLAN": {
+    "ERROR": {
+      "ABANDON": "",
+      "COMPLETE": "",
+      "DELETE": "",
+      "POST": ""
+    },
+    "SUCCESS": {
+      "ABANDON": "",
+      "COMPLETE": "",
+      "DELETE": "",
+      "POST": ""
+    }
+  },
+  "MAP": {
+    "FAIL_PATCH": "",
+    "FAIL_POST": "",
+    "SUCCESS_DELETE": "",
+    "SUCCESS_PATCH": "",
+    "SUCCESS_POST": "",
+    "SUCCESS_UPLOAD": ""
+  },
+  "ORGANIC_CERTIFIER_SURVEY": {
+    "ERROR": {
+      "CREATE": "",
+      "UPDATE": ""
+    }
+  },
+  "PLAN": {
+    "ERROR": {
+      "EDIT": ""
+    },
+    "SUCCESS": {
+      "EDIT": ""
+    }
+  },
+  "PRODUCT": {
+    "ERROR": {
+      "CREATE": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "CREATE": "",
+      "UPDATE": ""
+    }
+  },
+  "REPEAT_PLAN": {
+    "ERROR": {
+      "POST": ""
+    },
+    "SUCCESS": {
+      "POST": ""
+    }
+  },
+  "REVENUE": {
+    "ERROR": {
+      "EDIT": ""
+    },
+    "SUCCESS": {
+      "EDIT": ""
+    }
+  },
+  "REVENUE_TYPE": {
+    "ERROR": {
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
+    }
+  },
+  "SALE": {
+    "ERROR": {
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "ADD": "",
+      "DELETE": "",
+      "UPDATE": ""
+    }
+  },
+  "SENSOR": {
+    "ERROR_UPDATE": "",
+    "SUCCESSFUL_UPDATE": ""
+  },
+  "TASK": {
+    "ABANDON": {
+      "FAILED": "",
+      "SUCCESS": ""
+    },
+    "COMPLETE": {
+      "FAILED": "",
+      "SUCCESS": ""
+    },
+    "CREATE": {
+      "FAILED": "",
+      "SUCCESS": ""
+    },
+    "UPDATE": {
+      "FAILED": ""
+    }
+  },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "",
+      "SUCCESS": ""
+    },
+    "DELETE": {
+      "FAILED": "",
+      "SUCCESS": ""
+    }
+  },
+  "USER": {
+    "ERROR": {
+      "ADD": "",
+      "AGREEMENT": "",
+      "EXISTS": "",
+      "INVITE": "",
+      "MAX_RESET_EMAILS": "",
+      "RESET_PASSWORD": "",
+      "RESTORE": "",
+      "REVOKE": "",
+      "SIGNUP_UNKNOWN": "",
+      "UPDATE": ""
+    },
+    "SUCCESS": {
+      "ADD": "",
+      "RESTORE": "",
+      "REVOKE": "",
+      "UPDATE": ""
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "CROP_CATALOGUE": {
+    "LOCATION": "स्थान",
+    "STATUS": "स्थिति",
+    "SUPPLIERS": "आपूर्तिकर्ता",
+    "ACTIVE": "सक्रिय",
+    "ABANDONED": "त्यागा हुआ",
+    "COMPLETE": "पूर्ण",
+    "PLANNED": "योजनाबद्ध",
+    "NEEDS_PLAN": "योजना की आवश्यकता है"
+  },
+  "DOCUMENTS": {
+    "CLEANING_PRODUCT": "सफाई उत्पाद",
+    "CROP_COMPLIANCE": "फसल अनुपालन",
+    "FERTILIZING_PRODUCT": "उर्वरक उत्पाद",
+    "OTHER": "कुछ और",
+    "PEST_CONTROL_PRODUCT": "कीट नियंत्रण उत्पाद",
+    "SOIL_AMENDMENT": "मृदा संशोधन",
+    "SOIL_SAMPLE_RESULTS": "मृदा नमूना परिणाम",
+    "WATER_SAMPLE_RESULTS": "जल नमूना परिणाम",
+    "UNCATEGORIZED": "अवर्गीकृत",
+    "RECEIPTS": "रसीदें",
+    "INVOICES": "चालान"
+  },
+  "TASKS": {
+    "LOCATION": "जगह",
+    "STATUS": "स्थिति",
+    "SUPPLIERS": "आपूर्तिकर्ता",
+    "ACTIVE": "सक्रिय",
+    "ABANDONED": "त्यागा हुआ",
+    "COMPLETED": "पूरा किया हुआ",
+    "LATE": "देरी से",
+    "PLANNED": "योजनाबद्ध",
+    "FOR_REVIEW": "समीक्षा हेतु"
+  },
+  "FILTER": {
+    "VALID_ON": "मान्य तारीख",
+    "FROM_DATE": "शुरुआत",
+    "TO_DATE": "तक"
+  }
+}

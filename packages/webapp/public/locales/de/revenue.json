@@ -1,6 +1,6 @@
 {
   "CROP_SALE": {
-    "CUSTOM_DESCRIPTION": "Einnahmen aus dem Verkauf der auf diesem Betrieb geernteten Pflanzen.",
-    "REVENUE_NAME": "Verkauf von Feldfrüchten"
+    "REVENUE_NAME": "Verkauf von Feldfrüchten",
+    "CUSTOM_DESCRIPTION": "Einnahmen aus dem Verkauf der auf diesem Betrieb geernteten Pflanzen."
   }
 }

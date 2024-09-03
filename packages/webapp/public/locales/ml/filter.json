@@ -1,0 +1,41 @@
+{
+  "CROP_CATALOGUE": {
+    "LOCATION": "",
+    "STATUS": "",
+    "SUPPLIERS": "",
+    "ACTIVE": "",
+    "ABANDONED": "",
+    "COMPLETE": "",
+    "PLANNED": "",
+    "NEEDS_PLAN": ""
+  },
+  "DOCUMENTS": {
+    "CLEANING_PRODUCT": "",
+    "CROP_COMPLIANCE": "",
+    "FERTILIZING_PRODUCT": "",
+    "OTHER": "",
+    "PEST_CONTROL_PRODUCT": "",
+    "SOIL_AMENDMENT": "",
+    "SOIL_SAMPLE_RESULTS": "",
+    "WATER_SAMPLE_RESULTS": "",
+    "UNCATEGORIZED": "",
+    "RECEIPTS": "",
+    "INVOICES": ""
+  },
+  "TASKS": {
+    "LOCATION": "",
+    "STATUS": "",
+    "SUPPLIERS": "",
+    "ACTIVE": "",
+    "ABANDONED": "",
+    "COMPLETED": "",
+    "LATE": "",
+    "PLANNED": "",
+    "FOR_REVIEW": ""
+  },
+  "FILTER": {
+    "VALID_ON": "",
+    "FROM_DATE": "",
+    "TO_DATE": ""
+  }
+}

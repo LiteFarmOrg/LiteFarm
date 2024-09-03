@@ -1,7 +1,7 @@
 {
   "EXTENSION_OFFICER": "Referent für Beratung",
-  "MANAGER": "Betriebsleiter",
-  "OWNER": "Besitzer einer Farm",
-  "WORKER": "Landarbeiter",
+  "MANAGER": "Farmbetreiber",
+  "OWNER": "Farmbesitzer",
+  "WORKER": "Farmarbeiter",
   "WORKER_WITHOUT_ACCOUNT": "Arbeiter ohne Konto"
 }

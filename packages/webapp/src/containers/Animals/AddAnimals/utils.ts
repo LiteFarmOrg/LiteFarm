@@ -215,7 +215,7 @@ export const formatDBAnimalsToSummary = (data: Animal[], config: Config): Animal
         sexDetails: {},
         iconKey: typeString.toUpperCase(),
         count: 0,
-      } as AnimalSummary;
+      };
     }
 
     const typeBreedSummary = animalsPerTypeAndBreed[typeBreedkey];

@@ -65,27 +65,62 @@ import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circl
 import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
 import { FunctionComponent } from 'react';
 
-const animalIconMap = {
-  CATTLE: CattleIcon,
-  CHICKEN: ChickenIcon,
-  PIGS: PigIcon,
-  BATCH: BatchIcon,
-  BATCH_GREEN: BatchIconGreen, // svgColorFill does not work with this icon
-  CUSTOM_ANIMAL: CustomAnimalIcon,
-  ALPACA: AlpacaIcon,
-  GOAT: GoatIcon,
-  RABBIT: RabbitIcon,
-  SHEEP: SheepIcon,
-};
-
-const AnimalTypeIcons = Object.keys(animalIconMap);
+const AnimalTypeIcons = [
+  'CATTLE',
+  'CHICKEN',
+  'PIGS',
+  'BATCH',
+  'BATCH_GREEN', // svgColorFill does not work with this icon
+  'CUSTOM_ANIMAL',
+  'ALPACA',
+  'GOAT',
+  'RABBIT',
+  'SHEEP',
+] as const;
 export type AnimalTypeIconKey = (typeof AnimalTypeIcons)[number];
 // TypeGuard for animal type icons
 export const isAnimalTypeIconKey = (iconKey: string): iconKey is AnimalTypeIconKey => {
   return AnimalTypeIcons.includes(iconKey as AnimalTypeIconKey);
 };
 
-export const iconMap: Record<string, FunctionComponent> = {
+// Follows structure of https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type
+export type IconName =
+  | 'EXPENSE'
+  | 'CROP'
+  | 'PROFIT_LOSS'
+  // Revenue types
+  | 'CROP_SALE'
+  | 'CUSTOM'
+  // Expense types
+  | 'EQUIPMENT'
+  | 'SOIL_AMENDMENT'
+  | 'PEST_CONTROL'
+  | 'FUEL'
+  | 'MACHINERY'
+  | 'SEEDS_AND_PLANTS'
+  | 'OTHER'
+  | 'LAND'
+  | 'MISCELLANEOUS'
+  | 'UTILITIES'
+  | 'LABOUR'
+  | 'INFRASTRUCTURE'
+  | 'TRANSPORTATION'
+  | 'SERVICES'
+  // Animal Inventory
+  | AnimalTypeIconKey
+  // Animal Inventory KPI
+  | 'ADD_ANIMAL'
+  | 'TASK_CREATION'
+  | 'CLONE'
+  | 'REMOVE_ANIMAL'
+  // Tasks
+  | 'SOIL_AMENDMENT_TASK'
+  // System
+  | 'MORE_HORIZONTAL'
+  | 'PLUS_CIRCLE'
+  | 'TRASH';
+
+export const iconMap: Record<IconName, FunctionComponent> = {
   // Finances Carousel
   EXPENSE: ExpenseIcon,
   CROP: CropIcon,
@@ -109,7 +144,16 @@ export const iconMap: Record<string, FunctionComponent> = {
   TRANSPORTATION: TransportationIcon,
   SERVICES: ServicesIcon,
   // Animal Inventory
-  ...animalIconMap,
+  CATTLE: CattleIcon,
+  CHICKEN: ChickenIcon,
+  PIGS: PigIcon,
+  BATCH: BatchIcon,
+  BATCH_GREEN: BatchIconGreen, // svgColorFill does not work with this icon
+  CUSTOM_ANIMAL: CustomAnimalIcon,
+  ALPACA: AlpacaIcon,
+  GOAT: GoatIcon,
+  RABBIT: RabbitIcon,
+  SHEEP: SheepIcon,
   // Animal Inventory KPI
   ADD_ANIMAL: AddAnimalIcon,
   TASK_CREATION: TaskCreationIcon,
@@ -122,7 +166,5 @@ export const iconMap: Record<string, FunctionComponent> = {
   PLUS_CIRCLE: PlusCircleIcon,
   TRASH: TrashIcon,
 };
-
-export type IconName = keyof typeof iconMap;
 
 export default iconMap;

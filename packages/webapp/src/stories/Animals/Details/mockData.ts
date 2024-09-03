@@ -21,6 +21,7 @@ import {
 } from '../../../containers/Animals/AddAnimals/types';
 import { FileEvent } from '../../../components/ImagePicker';
 import { GetOnFileUpload } from '../../../components/ImagePicker/useImagePickerUpload';
+import { OrganicStatus } from '../../../types';
 
 export const sexOptions = [
   { value: 0, label: `I don't know` },
@@ -54,12 +55,11 @@ export const tagColorOptions = [
   { value: 6, label: 'Red' },
 ];
 
-export const organicStatusOptions: ReactSelectOption<'Non-Organic' | 'Organic' | 'Transitional'>[] =
-  [
-    { value: 'Non-Organic', label: 'Non-Organic' },
-    { value: 'Organic', label: 'Organic' },
-    { value: 'Transitional', label: 'Transitioning' },
-  ];
+export const organicStatusOptions: ReactSelectOption<OrganicStatus>[] = [
+  { value: OrganicStatus.NON_ORGANIC, label: 'Non-Organic' },
+  { value: OrganicStatus.ORGANIC, label: 'Organic' },
+  { value: OrganicStatus.TRANSITIONAL, label: 'Transitioning' },
+];
 
 export const originOptions = [
   { value: 1, label: 'Brought in', key: 'BROUGHT_IN' },

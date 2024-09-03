@@ -17,6 +17,7 @@ import { TFunction } from 'react-i18next';
 import { STEPS } from '../AddAnimals';
 import type { Option as AnimalSelectOption } from '../../../components/Animals/AddAnimalsFormCard/AnimalSelect';
 import type { Details as SexDetailsType } from '../../../components/Form/SexDetails/SexDetailsPopover';
+import { OrganicStatus } from '../../../types';
 
 export const BasicsFields = {
   TYPE: 'type',
@@ -89,7 +90,7 @@ export type Option = {
   [DetailsFields.USE]: ReactSelectOption<number>;
   [DetailsFields.TAG_COLOR]: ReactSelectOption<number>;
   [DetailsFields.TAG_TYPE]: ReactSelectOption<number>;
-  [DetailsFields.ORGANIC_STATUS]: ReactSelectOption<'Non-Organic' | 'Transitional' | 'Organic'>;
+  [DetailsFields.ORGANIC_STATUS]: ReactSelectOption<OrganicStatus>;
   [DetailsFields.SEX]: ReactSelectOption<number>;
   [DetailsFields.ORIGIN]: ReactSelectOption<number>;
 };

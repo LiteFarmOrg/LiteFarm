@@ -14,11 +14,6 @@
  */
 
 import i18n from '../../../locales/i18n';
-
-import {
-  AnimalSummary,
-  BatchSummary,
-} from '../../../components/Animals/AddAnimalsSummaryCard/types';
 import {
   Animal,
   AnimalBatch,
@@ -28,15 +23,146 @@ import {
   DefaultAnimalBreed,
   DefaultAnimalType,
 } from '../../../store/api/types';
+import { toLocalISOString } from '../../../util/moment';
+import { DetailsFields, type AnimalDetailsFormFields } from './types';
+import {
+  AnimalSummary,
+  BatchSummary,
+} from '../../../components/Animals/AddAnimalsSummaryCard/types';
 import { chooseAnimalBreedLabel, chooseAnimalTypeLabel } from '../Inventory/useAnimalInventory';
 
-// TODO
-export const formatAnimalDetailsToDBStructure = (data: any) => {
-  return data;
+const formatFormTypeOrBreed = (
+  typeOrBreed: 'type' | 'breed',
+  data?: { label: string; value: string; __isNew__?: boolean },
+) => {
+  if (!data?.value) {
+    return {};
+  }
+  if (data.__isNew__) {
+    return { [`${typeOrBreed}_name`]: data.label };
+  }
+  const [defaultOrCustom, id] = data.value.split('_');
+
+  return { [`${defaultOrCustom}_${typeOrBreed}_id`]: +id };
 };
 
-export const formatBatchDetailsToDBStructure = (data: any) => {
-  return data;
+const formatFormSexDetailsAndCount = (data: AnimalDetailsFormFields): Partial<AnimalBatch> => {
+  if (!data[DetailsFields.SEX_DETAILS] || !data[DetailsFields.SEX_DETAILS].length) {
+    return { count: data[DetailsFields.COUNT]! };
+  }
+
+  return {
+    count: data[DetailsFields.COUNT]!,
+    sex_detail: data[DetailsFields.SEX_DETAILS].map(({ id, count }) => {
+      return { sex_id: id, count };
+    }),
+  };
+};
+
+const formatFormUse = (
+  isAnimal: boolean,
+  use: AnimalDetailsFormFields[DetailsFields.USE],
+  otherUse: AnimalDetailsFormFields[DetailsFields.OTHER_USE],
+) => {
+  if (!use || !use.length) {
+    return {};
+  }
+
+  const key = `animal${isAnimal ? '' : '_batch'}_use_relationships`;
+
+  const useRelations: { use_id: number; other_use?: string }[] = [];
+
+  use.forEach(({ value: useId, key }, index: number) => {
+    useRelations.push({ use_id: useId });
+    if (key === 'OTHER' && otherUse) {
+      useRelations[index].other_use = otherUse;
+    }
+  });
+
+  return { [key]: useRelations };
+};
+
+const convertFormDate = (date?: string): string | undefined => {
+  if (!date) {
+    return undefined;
+  }
+  return toLocalISOString(date);
+};
+
+const formatOrigin = (
+  data: AnimalDetailsFormFields,
+  broughtInId?: number,
+): Partial<Animal | AnimalBatch> => {
+  if (!broughtInId && !data[DetailsFields.ORIGIN]) {
+    return { birth_date: convertFormDate(data[DetailsFields.DATE_OF_BIRTH]) };
+  }
+
+  const isBroughtIn = broughtInId === data[DetailsFields.ORIGIN];
+
+  return {
+    birth_date: convertFormDate(data[DetailsFields.DATE_OF_BIRTH]),
+    origin_id: data[DetailsFields.ORIGIN],
+    ...(isBroughtIn
+      ? {
+          brought_in_date: convertFormDate(data[DetailsFields.BROUGHT_IN_DATE]),
+          supplier: data[DetailsFields.SUPPLIER],
+          price: data[DetailsFields.PRICE] ? +data[DetailsFields.PRICE] : undefined,
+        }
+      : {
+          dam: data[DetailsFields.DAM],
+          sire: data[DetailsFields.SIRE],
+        }),
+  };
+};
+
+const formatCommonDetails = (
+  isAnimal: boolean,
+  data: AnimalDetailsFormFields,
+  broughtInId?: number,
+): Partial<Animal | AnimalBatch> => {
+  return {
+    // General
+    ...formatFormTypeOrBreed('type', data[DetailsFields.TYPE]),
+    ...formatFormTypeOrBreed('breed', data[DetailsFields.BREED]),
+    ...(isAnimal ? { sex_id: data[DetailsFields.SEX] } : formatFormSexDetailsAndCount(data)),
+    ...formatFormUse(isAnimal, data[DetailsFields.USE], data[DetailsFields.OTHER_USE]),
+
+    // Other
+    organic_status: data[DetailsFields.ORGANIC_STATUS]?.value,
+    notes: data[DetailsFields.OTHER_DETAILS],
+    photo_url: data[DetailsFields.ANIMAL_IMAGE],
+
+    // Origin
+    ...formatOrigin(data, broughtInId),
+
+    // Unique (animal) | General (batch)
+    name: data[DetailsFields.NAME],
+  };
+};
+
+export const formatAnimalDetailsToDBStructure = (
+  data: AnimalDetailsFormFields,
+  broughtInId?: number,
+): Partial<Animal> => {
+  return {
+    ...formatCommonDetails(true, data, broughtInId),
+
+    // Other
+    weaning_date: convertFormDate(data[DetailsFields.WEANING_DATE]),
+
+    // Unique
+    identifier: data[DetailsFields.TAG_NUMBER],
+    identifier_type_id: data[DetailsFields.TAG_TYPE]?.value,
+    identifier_color_id: data[DetailsFields.TAG_COLOR]?.value,
+    identifier_type_other: data[DetailsFields.TAG_TYPE_INFO],
+  };
+};
+
+export const formatBatchDetailsToDBStructure = (
+  data: AnimalDetailsFormFields,
+  broughtInId?: number,
+): Partial<AnimalBatch> => {
+  return formatCommonDetails(false, data, broughtInId);
 };
 
 export const getSexMap = (

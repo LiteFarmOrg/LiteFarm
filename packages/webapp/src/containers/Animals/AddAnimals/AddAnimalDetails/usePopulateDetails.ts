@@ -24,11 +24,15 @@ import {
   DetailsFields,
 } from '../types';
 import { AnimalOrBatchKeys } from '../../types';
+import { useGetAnimalUsesQuery } from '../../../../store/api/apiSlice';
+import { parseUniqueDefaultId } from '../../../../util/animal';
 
 export const usePopulateDetails = (
   replace: UseFieldArrayReplace<AddAnimalsFormFields, 'details'>,
 ) => {
   const { getValues } = useFormContext<AddAnimalsFormFields>();
+
+  const { data: uses = [] } = useGetAnimalUsesQuery();
 
   useEffect(() => {
     const detailsArray: AnimalDetailsFormFields[] = [];
@@ -86,6 +90,17 @@ export const usePopulateDetails = (
 
       return updatedData.map((entity, index) => {
         const origData = trimmedOrigGroup[index] || {};
+        const currentDefaultTypeId = parseUniqueDefaultId(entity.type.value);
+        if (currentDefaultTypeId && origData.use) {
+          const { use: oldUse } = origData;
+          const useIdsForType =
+            uses
+              .find(({ default_type_id }) => currentDefaultTypeId === default_type_id)
+              ?.uses.map(({ id }) => id) || [];
+          const updatedUse = oldUse.filter(({ value }) => useIdsForType.includes(value));
+          origData.use = updatedUse;
+        }
+
         return {
           ...origData,
           ...entity,

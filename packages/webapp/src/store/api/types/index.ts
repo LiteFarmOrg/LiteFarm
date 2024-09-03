@@ -14,6 +14,7 @@
  */
 
 import { TASK_TYPES } from '../../../containers/Task/constants';
+import { OrganicStatus } from '../../../types';
 
 // If we don't necessarily want to type an endpoint
 export type Result = Array<{ [key: string]: any }>;
@@ -30,6 +31,8 @@ export interface Animal {
   group_ids: number[];
   id: number;
   identifier: string | null;
+  identifier_type_id: number | null;
+  identifier_type_other: string | null;
   identifier_color_id: number | null;
   internal_identifier: number;
   name: string | null;
@@ -39,15 +42,21 @@ export interface Animal {
   sex_id: number;
   sire: string | null;
   weaning_date: string | null;
+  organic_status: OrganicStatus;
+  supplier: string | null;
+  price: number | null;
   animal_removal_reason_id: number | null;
   removal_explanation: string | null;
   removal_date: string | null;
 }
 
 export interface AnimalBatch {
+  birth_date: string | null;
+  brought_in_date: string | null;
   count: number;
   custom_breed_id: number | null;
   custom_type_id: number | null;
+  dam: string | null;
   default_breed_id: number | null;
   default_type_id: number | null;
   farm_id: string;
@@ -56,8 +65,13 @@ export interface AnimalBatch {
   internal_identifier: number;
   name: string | null;
   notes: string | null;
+  origin_id: number;
   photo_url: string | null;
   sex_detail: { sex_id: number; count: number }[];
+  sire: string | null;
+  organic_status: OrganicStatus;
+  supplier: string | null;
+  price: number | null;
   animal_removal_reason_id: number | null;
   removal_explanation: string | null;
   removal_date: string | null;

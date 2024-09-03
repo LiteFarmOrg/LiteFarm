@@ -75,8 +75,9 @@
 
 .imageContainer {
   padding-top: 32px;
-  width: 488px;
+  max-width: 488px;
   overflow: hidden;
+  flex: 1;
 
   @include md-breakpoint {
     order: 1;

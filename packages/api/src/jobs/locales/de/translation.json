@@ -1,0 +1,102 @@
+{
+  "EXPORT_README_TITLE": "Ihr Zertifizierungsexport verstehen",
+  "N": "N",
+  "N/A": "nicht angegeben",
+  "NO": "Nein",
+  "NOT_SURE": "Nicht sicher",
+  "OPERATION_NAME": "NAME DES VORGANGS",
+  "RECORD_A": {
+    "ACRES": "Hektar",
+    "AREA": "Bereich",
+    "BUILDING": "(Gebäude, Wald, Biodiversitätsfläche, Einfahrt)",
+    "CERTIFIED": "Zertifiziert",
+    "CROPS_OR_ANIMALS": "Kulturpflanze(n) oder Tierart pro Einheit",
+    "CURRENT_STATUS": "Aktueller Status - markiere eins pro Einheit",
+    "EXPORT_DOCUMENT_NAME": "NACHWEIS A",
+    "HEADER": "NACHWEIS A - STANDORTIDENTIFIKATION",
+    "HECTARES": "Hektare",
+    "INDIVIDUAL_PRODUCTION_UNIT": "für jede einzelne Produktionseinheit (z. B. Parzelle/Feld/GH/definierter Bereich - entsprechend Ihrer Operation und auf Ihrer Karte gekennzeichnet)",
+    "NAME_OR_ID": "Name oder Identifikations #",
+    "NEW": "Neu",
+    "NEW_AREA": "Bereich (Dieses Jahr hinzugefügt)",
+    "NON_ORGANIC": "Nicht-Bio Bereich in",
+    "NON_PRODUCING": "Nicht-produzierend",
+    "OPERATION_NAME": "NAME DES VORGANGS",
+    "ORGANIC_AREA": "Biologischer Bereich",
+    "PLEASE_VERIFY": "Bitte überprüfen Sie die Details und machen Sie jährlich alle notwendigen Änderungen. Wenn die Operation mehrere separate Standorte betreibt, stellen Sie sicher, dass Sie jeden Standort einzeln beschreiben. Bitte lesen Sie die unten angeführte Registerkarte für Beispiele, wie Sie dieses Formular ausfüllen.",
+    "PRODUCTION": "Produktion",
+    "REMOVED": "Aus Programm entfernt",
+    "REPORTING_PERIOD": "Berichtszeitraum",
+    "ROW_FT": "Zeile Fuß",
+    "ROW_M": "Reihe M",
+    "SIZE_IN_PREFERRED_UNIT": "Größe in Bevorzugter Maßeinheit",
+    "SPLIT": "Aufteilen/Parallel",
+    "SQ_FT": "Sq Ft",
+    "SQ_M": "m²",
+    "TRANSITIONAL": "Übergangsweise",
+    "WHY_REMOVED": "Warum Entfernt oder andere Notizen"
+  },
+  "RECORD_D": {
+    "DATE_COMPLETED": "Daten vollständig",
+    "EXPORT_DOCUMENT_NAME": "NACHWEIS A",
+    "FROM": "Von",
+    "HEADER": "Nachweis D - Saatgut und Pflanzmaterial",
+    "NOTE": {
+      "LIST_ALL": "Listen Sie ALLES an Samen und Pflanzenmaterial, die während des Berichtszeitraums verwendet werden. Bitte beachten Sie:",
+      "ONE": "Stellen Sie sicher, dass Kaufbelege, Etiketten, Anhänger und Bio-Zertifikate für sämtliches Saatgut und Pflanzmaterial zur Überprüfung während der Inspektion verfügbar sind.",
+      "TWO": {
+        "A": "Kommerzielle Verfügbarkeitssuche pro COS 5.3 - (Nachweis D1 oder Äquivalent)",
+        "B": "Dokumentation zur Bestätigung des Nicht-GVO-Status",
+        "C": "Dokumentation, die bestätigt, dass jegliche Behandlungen, wie Inokulanten oder Saatgutbeschichtung PSL-konform sind (Hinweis: NOP-Konformität reicht nicht aus)",
+        "PART_1": "Wo",
+        "PART_2": "nicht-Bio Saatgut/Pflanzenmaterial",
+        "PART_3": "verwendet wird, ist die folgende Dokumentation erforderlich, um bei der Überprüfung verfügbar zu sein"
+      }
+    },
+    "REPORTING_PERIOD": "Berichtszeitraum",
+    "TABLE_COLUMN": {
+      "IS_SEARCH_COMPLETED": "Wenn es sich um nicht-zertifiziertes Bio-Saatgut/Pflanzenmaterial handelt, wurde die Suche abgeschlossen (J/N)",
+      "LIST_SEED_TREATMENTS": "Saatgutbehandlung auflisten (falls vorhanden)",
+      "LOT_NUMBER": "Grundstück # (falls zutreffend)",
+      "NON_GE_DOCS_AVAILABLE": "Nicht-GVO Dokumente verfügbar (J/N)",
+      "NOTES": "Notizen/Termine für mehrjährige Pflanzungen/usw.",
+      "SEED_CROP_OR_PLANTING_STOCK": "Saatguternte/Sorten oder Pflanzmaterial",
+      "STATUS_CERTIFIED_ORGANIC": "Saatgut-/Pflanzmaterialstatus = Zertifiziert biologisch (J/N)",
+      "SUPPLIER": "Quelle/Lieferant",
+      "TREATMENT_DOCS_AVAILABLE": "Behandlungsdokumente verfügbar (J/N)"
+    },
+    "TO": "Bis"
+  },
+  "RECORD_I": {
+    "CLEANERS": "Reiniger",
+    "CROP_PRODUCTION_AIDS": "Hilfsmittel im Pflanzenbau",
+    "EXPORT_DOCUMENT_NAME": "NACHWEIS I",
+    "HEADER": "Nachweis I",
+    "INPUT_CATEGORY": "Eingabekategorie",
+    "LOCATIONS": "Standort(e)",
+    "NOTE": {
+      "LIST_ALL": "Listen Sie ALLE Eingaben auf, die in den letzten 12 Monaten oder seit Ihrem letzten eingereichten Nachweis I verwendet wurden. Sie können dieses Dokument verwenden, um einen fortlaufenden Nachweis der verwendeten Eingaben während der gesamten Saison zu führen.",
+      "LIVESTOCK_INPUTS": "Hinweis: Tierhaltungsinputs wie Futter, Futtermittelzusätze und -ergänzungen, Gesundheitsprodukte und Produktionshilfsmittel, Tierstreu usw. sind im Nachweis LI-Tierhaltungsinputs aufzulisten.",
+      "ONE": {
+        "PART_1": "Bodenverbesserungsmittel, Pflanzenernährung, Produktionshilfsmittel und -materialien:",
+        "PART_2": "zB. als Mulche, Düngemittel, Blattsprays, Kompost, Dung, Topf- oder Pflanzsubstratmischungen oder -komponenten, Torfmoos, Bodenverbesserungsmittel usw."
+      },
+      "PLEASE_USE_SEPARATE_RECORD": "Bitte verwenden Sie einen eigenen Inputnachweis für jede Inputkategorie wie unten beschrieben und laden Sie jede einzelne in den entsprechenden Upload-Speicherort von Abschnitt 99 hoch:",
+      "PREP_INPUTS": "Hinweis: Vorbereitungsinputs: Lebensmittelzusatzstoffe, andere Zutaten und Verarbeitungshilfsmittel sind im Nachweis PM - Verarbeitung Master Zutaten und Verarbeitungshilfsmittel aufzulisten.",
+      "TWO": "Reinigungsmittel, Desinfektionsmittel, Sanitärmittel, Schädlingsbekämpfmittel."
+    },
+    "REPORTING_PERIOD": "BERICHTSZEITRAUM",
+    "TABLE_COLUMN": {
+      "CROP_FIELD_APPLIED_TO": "Pflanze/Feld, auf der/dem angewendet oder Produktionseinheit, die verwendet wird in",
+      "DATE_USED": "Verwendetes Datum",
+      "LISTED_IN_PSL": "Auf der PSL gelistet? (J/N)",
+      "NOTES": "Anmerkungen",
+      "PRODUCT_NAME": "Produktname",
+      "QUANTITY": "Menge",
+      "SUPPLIER": "Markenname oder Quelle/Lieferant"
+    },
+    "VARIETALS": "Sorte(n)"
+  },
+  "Y": "J",
+  "YES": "Ja"
+}

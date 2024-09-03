@@ -131,7 +131,7 @@ describe('Animal Use Tests', () => {
 
         res.body.forEach(({ default_type_id, uses }) => {
           const expectedTypeAndUses = testCase.find(({ defaultType }) => {
-            return default_type_id ? defaultType.id == default_type_id : !defaultType;
+            return default_type_id ? defaultType.id === default_type_id : !defaultType;
           });
 
           expect(uses.map(({ id }) => id).sort()).toEqual(

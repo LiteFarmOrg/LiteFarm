@@ -86,7 +86,10 @@ export const usePopulateDetails = (
 
       return updatedData.map((entity, index) => {
         const origData = trimmedOrigGroup[index] || {};
-        return { ...origData, ...entity };
+        return {
+          ...origData,
+          ...entity,
+        };
       });
     });
     // Update the details array

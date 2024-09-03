@@ -13,24 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { AnimalTypeIconKey } from '../../Icons/icons';
+export const up = async function (knex) {
+  await knex.schema.alterTable('animal_batch', (table) => {
+    table.datetime('brought_in_date');
+    table.datetime('birth_date');
+    table.integer('origin_id').references('id').inTable('animal_origin');
+  });
+};
 
-export interface AnimalSexCountSummary {
-  [key: string]: number | undefined;
-}
-
-export interface AnimalSummary {
-  type: string; // Translated, to display in the card
-  breed?: string;
-  sexDetails: AnimalSexCountSummary;
-  iconKey: AnimalTypeIconKey;
-  count: number;
-}
-
-export interface BatchSummary {
-  type: string;
-  breed?: string;
-  count: number;
-  sexDetails?: never;
-  iconKey?: never;
-}
+export const down = async function (knex) {
+  await knex.schema.alterTable('animal_batch', (table) => {
+    table.dropColumn('brought_in_date');
+    table.dropColumn('birth_date');
+    table.dropColumn('origin_id');
+  });
+};

@@ -37,6 +37,7 @@ export const Animal: Story = {
       Male: 3,
       Female: 7,
     },
+    count: 10,
   },
 };
 
@@ -49,6 +50,18 @@ export const AnimalNoBreed: Story = {
       Male: 1,
       Female: 2,
     },
+    count: 3,
+  },
+};
+
+export const AnimalNoSexDetails: Story = {
+  args: {
+    type: 'Cattle',
+    breed: 'Aberdeen',
+    iconKey: 'CATTLE',
+    isBatch: false,
+    sexDetails: {},
+    count: 10,
   },
 };
 
@@ -77,5 +90,6 @@ export const CustomType: Story = {
     sexDetails: {
       Male: 3,
     },
+    count: 3,
   },
 };

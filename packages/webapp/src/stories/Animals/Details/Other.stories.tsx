@@ -20,7 +20,7 @@ import { componentDecorators } from '../../Pages/config/Decorators';
 import Other, { OtherDetailsProps } from '../../../components/Animals/DetailCards/Other';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
-import { organicStatusOptions } from './mockData';
+import { organicStatusOptions, getOnFileUpload } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<OtherDetailsProps> = {
@@ -50,6 +50,7 @@ export const Animal: Story = {
   args: {
     organicStatusOptions,
     animalOrBatch: AnimalOrBatchKeys.ANIMAL,
+    getOnFileUpload,
   },
   render: (args, context) => <Other {...args} {...context} />,
 };
@@ -58,6 +59,7 @@ export const Batch: Story = {
   args: {
     organicStatusOptions,
     animalOrBatch: AnimalOrBatchKeys.BATCH,
+    getOnFileUpload,
   },
   render: (args, context) => <Other {...args} {...context} />,
 };

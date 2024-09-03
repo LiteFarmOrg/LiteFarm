@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, DragEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AddLink } from '../Typography';
 import PureFilePickerWrapper from '../Form/FilePickerWrapper';
@@ -25,13 +25,36 @@ import { ReactComponent as EditIcon } from '../../assets/images/farm-profile/edi
 import styles from './styles.module.scss';
 import FileSizeExceedModal from '../Modals/FileSizeExceedModal';
 
-export type ImagePickerProps = {
-  onSelectImage: (file: File) => void;
+export enum FileEvent {
+  CHANGE = 'change',
+  DRAG = 'drag',
+}
+
+export type OnFileUpload = (
+  event: ChangeEvent<HTMLInputElement> | DragEvent,
+  setPreviewUrl: (url: string) => void,
+  setFileSizeExceeded: (exceeded: boolean) => void,
+  eventType: FileEvent,
+) => Promise<void>;
+
+type CommonProps = {
   onRemoveImage: () => void;
   label?: string;
   optional?: boolean;
   defaultUrl?: string;
 };
+
+type CustomFileUpload = CommonProps & {
+  onSelectImage?: never;
+  onFileUpload: OnFileUpload;
+};
+
+type DirectImageUpload = CommonProps & {
+  onSelectImage: (file: File) => void;
+  onFileUpload?: never;
+};
+
+export type ImagePickerProps = CustomFileUpload | DirectImageUpload;
 
 export default function ImagePicker({
   onRemoveImage,
@@ -39,6 +62,7 @@ export default function ImagePicker({
   defaultUrl = '',
   label,
   optional = true, // false is not yet supported
+  onFileUpload,
 }: ImagePickerProps) {
   const [previewUrl, setPreviewUrl] = useState(defaultUrl);
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);
@@ -57,23 +81,33 @@ export default function ImagePicker({
     }
     const url = URL.createObjectURL(file);
     setPreviewUrl(url);
-    onSelectImage(file);
+    onSelectImage?.(file);
   };
 
   const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (onFileUpload) {
+      onFileUpload(e, setPreviewUrl, setShowFileSizeExceedsModal, FileEvent.CHANGE);
+      return;
+    }
+
     if (!e.target.files) return;
     const file = e.target.files[0];
     showImage(file);
     e.target.value = '';
   };
 
-  const handleDragEvent = (e: React.DragEvent) => {
+  const handleDragEvent = (e: DragEvent) => {
     e.preventDefault();
     if (e.type === 'dragover') return;
 
     if (e.type === 'dragenter' || e.type === 'dragleave') {
       dropContainerRef.current?.classList.toggle(styles.dropContainerActive);
     } else if (e.type === 'drop') {
+      if (onFileUpload) {
+        onFileUpload(e, setPreviewUrl, setShowFileSizeExceedsModal, FileEvent.DRAG);
+        return;
+      }
+
       const file = e.dataTransfer?.files[0];
       showImage(file);
     }

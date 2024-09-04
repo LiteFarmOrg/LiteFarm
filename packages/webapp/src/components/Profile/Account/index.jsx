@@ -8,15 +8,10 @@ import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import ProfileLayout from '../ProfileLayout';
 import useGenderOptions from '../../../hooks/useGenderOptions';
+import useLanguageOptionsMap from '../../../hooks/useLanguageOptions';
 
 const useLanguageOptions = (language_preference) => {
-  const { t } = useTranslation();
-  const languageOptionMap = {
-    en: { label: t('PROFILE.ACCOUNT.ENGLISH'), value: 'en' },
-    es: { label: t('PROFILE.ACCOUNT.SPANISH'), value: 'es' },
-    pt: { label: t('PROFILE.ACCOUNT.PORTUGUESE'), value: 'pt' },
-    fr: { label: t('PROFILE.ACCOUNT.FRENCH'), value: 'fr' },
-  };
+  const languageOptionMap = useLanguageOptionsMap();
   const languageOptions = Object.values(languageOptionMap);
   const languagePreferenceOptionRef = useRef();
   languagePreferenceOptionRef.current =

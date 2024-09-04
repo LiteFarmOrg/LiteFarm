@@ -1,0 +1,105 @@
+{
+  "TEMPLATE": {
+    "DEAR": "",
+    "CHEERS": "",
+    "LITEFARM_TEAM": "",
+    "NO_RESPONSE": "",
+    "GET_IN_TOUCH": "",
+    "HELP": "",
+    "OR": "",
+    "CONTACT": ""
+  },
+  "HELP_REQUEST": {
+    "RESPONSE": "",
+    "TYPE_HEADER": "",
+    "MESSAGE_HEADER": "",
+    "REQUEST_INFORMATION": "",
+    "REPORT_A_BUG": "",
+    "REQUEST_A_FEATURE": "",
+    "OTHER": "",
+    "CONTACT_METHOD_HEADER": "",
+    "SUBJECT": ""
+  },
+  "INVITE": {
+    "GREAT_FOLK": "",
+    "INVITED_YOU": "",
+    "YOU_CAN_ACCEPT": "",
+    "SUBJECT0": "",
+    "SUBJECT1": ""
+  },
+  "PASSWORD_RESET_REQUEST": {
+    "DID_YOU_FORGET": "",
+    "RESET": "",
+    "IGNORE": "",
+    "SUBJECT": ""
+  },
+  "PASSWORD_RESET_CONFIRMATION": {
+    "UPDATED": "",
+    "SUBJECT": ""
+  },
+  "RESTORE_ACCESS": {
+    "ADMIN": "",
+    "RESTORED": "",
+    "CLICK_BELOW": "",
+    "SUBJECT0": "",
+    "SUBJECT1": ""
+  },
+  "REVOKE_ACCESS": {
+    "ADMIN": "",
+    "REVOKE": "",
+    "SUBJECT0": "",
+    "SUBJECT1": ""
+  },
+  "ACCEPT_INVITE_CONFIRMATION": {
+    "CONGRATS": "",
+    "AT": "",
+    "CLICK_BELOW": "",
+    "SUBJECT": ""
+  },
+  "CREATE_ACCOUNT_CONFIRMATION": {
+    "WELCOME": "",
+    "CLICK_BELOW": "",
+    "SUBJECT": ""
+  },
+  "WITHHOLD_CONSENT": {
+    "RECENT": "",
+    "WITHHOLD": "",
+    "DEACTIVATE": "",
+    "HOWEVER": "",
+    "RIGHT": "",
+    "COPY": "",
+    "UPDATE": "",
+    "STOP": "",
+    "TRANSFER": "",
+    "DELETE": "",
+    "TO_REQUEST": "",
+    "SUPPORT": "",
+    "OTHERWISE": "",
+    "RESTORE": "",
+    "SUBJECT": ""
+  },
+  "EXPORT_MAP": {
+    "EXPORT": "",
+    "REQUESTED": "",
+    "GREETING": "",
+    "SUBJECT0": "",
+    "SUBJECT1": ""
+  },
+  "EXPORT": {
+    "SEASON": "",
+    "CERTIFICATION": "",
+    "PRIVACY": "",
+    "SUBJECT": "",
+    "HI": "",
+    "GET_YOUR_EXPORT": "",
+    "LANGUAGE_DELAY": ""
+  },
+  "COMMON": {
+    "JOIN": "",
+    "LOG_IN": "",
+    "OWNER": "",
+    "MANAGER": "",
+    "WORKER": "",
+    "EXTENSION_OFFICER": ""
+  }
+}

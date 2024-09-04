@@ -11,7 +11,7 @@
   },
   "HELP_REQUEST": {
     "RESPONSE": "Gracias por contactarnos. Alguien de nuestro equipo de ayuda le contactará dentro de las próximas 48 horas. Puede encontrar un resumen de su solicitud más abajo.",
-    "TYPE_HEADER": "Tipo de soporte",
+    "TYPE_HEADER": "Tipo de ayuda",
     "MESSAGE_HEADER": "Mensaje",
     "REQUEST_INFORMATION": "Solicitar Información",
     "REPORT_A_BUG": "Reportar un error",

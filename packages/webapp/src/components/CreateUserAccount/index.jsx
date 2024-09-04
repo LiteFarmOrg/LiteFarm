@@ -105,6 +105,9 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
         label={t('CREATE_USER.FULL_NAME')}
         placeholder={'e.g. Juan Perez'}
         hookFormRegister={register(NAME, { required: true })}
+        onBlur={(e) => {
+          e.target.value = e.target.value.trim();
+        }}
       />
       <Controller
         control={control}

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023, 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,9 +12,22 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import fr from './fr';
-import pt from './pt';
-import es from './es';
+
+import * as fr from '../../locales/fr/rrule.json';
+import * as pt from '../../locales/pt/rrule.json';
+import * as es from '../../locales/es/rrule.json';
+
+const getLanguage = (language) => {
+  const { getText, dayNames, monthNames } = language;
+
+  return {
+    getText: (id) => getText[id] || id,
+    language: {
+      dayNames: dayNames,
+      monthNames: monthNames,
+    },
+  };
+};
 
 const languageFiles = { fr, pt, es };
 
@@ -22,5 +35,5 @@ export const getRruleLanguage = (language) => {
   if (!Object.keys(languageFiles).includes(language)) {
     return { getText: (id) => id, language: null };
   }
-  return languageFiles[language];
+  return getLanguage(languageFiles[language]);
 };

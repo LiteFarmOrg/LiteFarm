@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023, 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,55 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const esStrings = {
-  every: 'cada',
-  until: 'hasta',
-  day: 'día',
-  days: 'días',
-  week: 'semana',
-  weeks: 'semanas',
-  on: 'en',
-  in: 'en',
-  'on the': 'en el',
-  for: 'para',
-  and: 'y',
-  or: 'o',
-  at: 'en',
-  last: 'último',
-  st: '',
-  nd: '',
-  rd: '',
-  th: '',
-  '(~ approximate)': '(~ aproximado)',
-  times: 'veces',
-  time: 'tiempo',
-  minutes: 'minutos',
-  hours: 'horas',
-  weekdays: 'días de entre semana',
-  weekday: 'día de entre semana',
-  months: 'meses',
-  month: 'mes',
-  years: 'años',
-  year: 'año',
-};
+import * as translations from '../../../public/locales/es/rrule.json';
+const { getText, dayNames, monthNames } = translations;
 
 export default {
-  getText: (id) => esStrings[id] || id,
+  getText: (id) => getText[id] || id,
   language: {
-    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-    monthNames: [
-      'Enero',
-      'Febrero',
-      'Marzo',
-      'Abril',
-      'Mayo',
-      'Junio',
-      'Julio',
-      'Agosto',
-      'Septiembre',
-      'Octubre',
-      'Noviembre',
-      'Diciembre',
-    ],
+    dayNames: dayNames,
+    monthNames: monthNames,
   },
 };

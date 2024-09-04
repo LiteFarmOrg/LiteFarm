@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023, 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,63 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const ptStrings = {
-  every: 'cada',
-  until: 'até',
-  day: 'dia',
-  days: 'dias',
-  week: 'semana',
-  weeks: 'semanas',
-  on: 'em',
-  in: 'em',
-  'on the': 'no',
-  for: 'para',
-  and: 'e',
-  or: 'ou',
-  at: 'em',
-  last: 'último',
-  st: 'º',
-  nd: 'º',
-  rd: 'º',
-  th: 'º',
-  '(~ approximate)': '(~ aproximado)',
-  times: 'vezes',
-  time: 'tempo',
-  minutes: 'minutos',
-  hours: 'horas',
-  weekdays: 'dias da semana',
-  weekday: 'dia da semana',
-  months: 'meses',
-  month: 'mês',
-  years: 'anos',
-  year: 'ano',
-};
+import * as translations from '../../../public/locales/pt/rrule.json';
+const { getText, dayNames, monthNames } = translations;
 
 export default {
-  getText: (id) => ptStrings[id] || id,
+  getText: (id) => getText[id] || id,
   language: {
-    dayNames: [
-      'Domingo',
-      'Segunda-feira',
-      'Terça-feira',
-      'Quarta-feira',
-      'Quinta-feira',
-      'Sexta-feira',
-      'Sábado',
-    ],
-    monthNames: [
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-      'Setembro',
-      'Outubro',
-      'Novembro',
-      'Dezembro',
-    ],
+    dayNames: dayNames,
+    monthNames: monthNames,
   },
 };

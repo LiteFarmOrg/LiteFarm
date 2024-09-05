@@ -13,13 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import * as fr from '../../locales/fr/rrule.json';
-import * as pt from '../../locales/pt/rrule.json';
-import * as es from '../../locales/es/rrule.json';
+// Import all translation files directly not dynamically
+const languageJsonFiles = import.meta.glob('../../locales/*/rrule.json', { eager: true });
+
+// TODO: Use reusable value specified in i18n
+const supportedLanguages = ['fr', 'pt', 'es'];
+let translationJson;
 
 const getLanguage = (language) => {
   const { getText, dayNames, monthNames } = language;
-
   return {
     getText: (id) => getText[id] || id,
     language: {
@@ -29,11 +31,10 @@ const getLanguage = (language) => {
   };
 };
 
-const languageFiles = { fr, pt, es };
-
 export const getRruleLanguage = (language) => {
-  if (!Object.keys(languageFiles).includes(language)) {
+  if (!supportedLanguages.includes(language)) {
     return { getText: (id) => id, language: null };
   }
-  return getLanguage(languageFiles[language]);
+  translationJson = languageJsonFiles[`../../locales/${language}/rrule.json`];
+  return getLanguage(translationJson);
 };

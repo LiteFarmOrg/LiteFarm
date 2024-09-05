@@ -13,6 +13,14 @@ import PortugueseOwnerConsent from './locales/pt/Owner.Consent.md';
 import PortugueseWorkerConsent from './locales/pt/Worker.Consent.md';
 import SpanishOwnerConsent from './locales/es/Owner.Consent.md';
 import SpanishWorkerConsent from './locales/es/Worker.Consent.md';
+import GermanOwnerConsent from './locales/de/Owner.Consent.md';
+import GermanWorkerConsent from './locales/de/Worker.Consent.md';
+import HindiOwnerConsent from './locales/hi/Owner.Consent.md';
+import HindiWorkerConsent from './locales/hi/Worker.Consent.md';
+import PunjabiOwnerConsent from './locales/pa/Owner.Consent.md';
+import PunjabiWorkerConsent from './locales/pa/Worker.Consent.md';
+import MalayalamOwnerConsent from './locales/ml/Owner.Consent.md';
+import MalayalamWorkerConsent from './locales/ml/Worker.Consent.md';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import { CONSENT_VERSION } from '../../util/constants';
 
@@ -21,6 +29,10 @@ const languageConsent = {
   fr: { worker: <FrenchWorkerConsent />, owner: <FrenchOwnerConsent /> },
   es: { worker: <SpanishWorkerConsent />, owner: <SpanishOwnerConsent /> },
   pt: { worker: <PortugueseWorkerConsent />, owner: <PortugueseOwnerConsent /> },
+  de: { worker: <GermanWorkerConsent />, owner: <GermanOwnerConsent /> },
+  hi: { worker: <HindiWorkerConsent />, owner: <HindiOwnerConsent /> },
+  pa: { worker: <PunjabiWorkerConsent />, owner: <PunjabiOwnerConsent /> },
+  ml: { worker: <MalayalamWorkerConsent />, owner: <MalayalamOwnerConsent /> },
 };
 
 const getLanguageConsent = (language) => languageConsent[language] || languageConsent.en;

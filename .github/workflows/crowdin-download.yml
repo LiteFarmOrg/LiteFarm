@@ -11,11 +11,16 @@ jobs:
       max-parallel: 1 # Should be 1 to avoid parallel builds
       matrix:
         locales: [
-            # Frontend core translations
+            # Frontend core i18n public translations
             {
               name: webapp_locales,
               source: packages/webapp/public/locales/en/*.json,
               translation: packages/webapp/public/locales/%two_letters_code%/%original_file_name%,
+            },
+            # Frontend compiled translations
+            {
+              source: packages/webapp/src/locales/en/*.json,
+              translation: packages/webapp/src/locales/%two_letters_code%/%original_file_name%,
             },
             # Consent Forms
             {

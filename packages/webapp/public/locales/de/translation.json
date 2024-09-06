@@ -1770,7 +1770,7 @@
       "REASON": {
         "CROP_FAILURE": "Missernten",
         "LABOUR_ISSUE": "Arbeitsproblem",
-        "MACHINERY_ISSUE": "",
+        "MACHINERY_ISSUE": "Maschinenproblem",
         "MARKET_PROBLEM": "Marktproblem",
         "OTHER": "Andere",
         "SCHEDULING_ISSUE": "Terminplanungsproblem",
@@ -1789,120 +1789,120 @@
     "ADD_CUSTOM_HARVEST_USE": "Erstellen einer benutzerdefinierten Erntenutzung",
     "ADD_HARVEST_USE": "Eine weitere Verwendung für die Ernte hinzufügen",
     "ADD_TASK": "Erstellen Sie eine Aufgabe",
-    "ADD_TASK_FLOW": "",
-    "AMOUNT_TO_ALLOCATE": "",
+    "ADD_TASK_FLOW": "Aufgabenerstellung",
+    "AMOUNT_TO_ALLOCATE": "Zuzuweisender Betrag",
     "CARD": {
-      "MULTIPLE_CROPS": "",
-      "MULTIPLE_LOCATIONS": ""
+      "MULTIPLE_CROPS": "Mehrere Kulturpflanzen",
+      "MULTIPLE_LOCATIONS": "Mehrere Standorte"
     },
     "COMPLETE": {
-      "DATE": "",
-      "WHEN": ""
+      "DATE": "Datum der Fertigstellung",
+      "WHEN": "Wann wurde die Aufgabe abgeschlossen?"
     },
-    "COMPLETE_HARVEST_QUANTITY": "",
-    "COMPLETE_TASK": "",
-    "COMPLETE_TASK_CHANGES": "",
-    "COMPLETE_TASK_DURATION": "",
-    "COMPLETE_TASK_FLOW": "",
-    "COMPLETION_DETAILS": "",
-    "COMPLETION_NOTES": "",
-    "COMPLETION_NOTES_CHAR_LIMIT": "",
+    "COMPLETE_HARVEST_QUANTITY": "Wie viel wurde geerntet?",
+    "COMPLETE_TASK": "Aufgabe abschließen",
+    "COMPLETE_TASK_CHANGES": "Mussten Sie bei dieser Aufgabe irgendwelche Änderungen vornehmen?",
+    "COMPLETE_TASK_DURATION": "Wie lange hat es gedauert, die Aufgabe zu erfüllen?",
+    "COMPLETE_TASK_FLOW": "Aufgabenerfüllung",
+    "COMPLETION_DETAILS": "Details zur Aufgabenerfüllung",
+    "COMPLETION_NOTES": "Notizen zur Erfüllung der Aufgabe",
+    "COMPLETION_NOTES_CHAR_LIMIT": "Notizen müssen weniger als 10.000 Zeichen umfassen",
     "CREATE": {
-      "FAILED": "",
-      "LOCATION_DELETED": ""
+      "FAILED": "Kann die Aufgabe nicht erschaffen",
+      "LOCATION_DELETED": "Ein anderer Benutzer hat den von Ihnen gewählten Standort aufgegeben. Bitte aktualisieren Sie die Seite, um den neuesten Stand zu erhalten."
     },
-    "CREATE_CUSTOM_HARVEST_USE": "",
-    "CURRENT": "",
+    "CREATE_CUSTOM_HARVEST_USE": "Erstellen einer benutzerdefinierten Erntenutzung",
+    "CURRENT": "Aktuell",
     "DELETE": {
-      "CANT_DELETE_ABANDON": "",
-      "CANT_DELETE_ABANDON_INSTEAD": "",
-      "CANT_DELETE_PLANTING_TASK": "",
-      "CONFIRM_DELETION": "",
-      "DELETE_TASK": "",
-      "DELETE_TASK_MESSAGE": "",
-      "DELETE_TASK_QUESTION": "",
-      "FAILED": "",
-      "SUCCESS": ""
+      "CANT_DELETE_ABANDON": "Zum Anbauplan gehen",
+      "CANT_DELETE_ABANDON_INSTEAD": "Möchten Sie stattdessen den Anbauplan einstellen?",
+      "CANT_DELETE_PLANTING_TASK": "Anpflanzungsaufgabe kann nicht gelöscht werden",
+      "CONFIRM_DELETION": "Löschung bestätigen",
+      "DELETE_TASK": "Aufgabe löschen",
+      "DELETE_TASK_MESSAGE": "Diese Aufgabe wird von Ihrem Betrieb entfernt. Wenn Sie eine Aufzeichnung dieser Aufgabe aufbewahren möchten, klicken Sie stattdessen auf \"Einstellen\".",
+      "DELETE_TASK_QUESTION": "Aufgabe löschen?",
+      "FAILED": "Aufgabe konnte nicht gelöscht werden",
+      "SUCCESS": "Aufgabe erfolgreich gelöscht"
     },
-    "DESCRIBE_HARVEST_USE": "",
-    "DETAILS": "",
-    "DID_YOU_ENJOY": "",
-    "DUE_DATE": "",
-    "DURATION": "",
+    "DESCRIBE_HARVEST_USE": "Beschreiben Sie die Verwendung der Ernte",
+    "DETAILS": "Details",
+    "DID_YOU_ENJOY": "Hat Ihnen diese Aufgabe Spaß gemacht?",
+    "DUE_DATE": "Fälligkeitsdatum",
+    "DURATION": "Dauer",
     "FILTER": {
-      "ASCENDING": "",
-      "ASSIGNEE": "",
-      "CROP": "",
-      "DATE_RANGE": "",
-      "DESCENDING": "",
-      "LOCATION": "",
-      "MY_TASK": "",
-      "SORT_BY": "",
-      "STATUS": "",
-      "TITLE": "",
-      "TYPE": "",
-      "UNASSIGNED": "",
-      "VIEW": ""
+      "ASCENDING": "Älteste zuerst",
+      "ASSIGNEE": "Beauftragter",
+      "CROP": "Kulturpflanzen",
+      "DATE_RANGE": "Nach Datumsbereich filtern",
+      "DESCENDING": "Neueste zuerst",
+      "LOCATION": "Standort",
+      "MY_TASK": "Meine Aufgaben",
+      "SORT_BY": "Sortieren nach",
+      "STATUS": "Status",
+      "TITLE": "Aufgaben-Filter",
+      "TYPE": "Typ",
+      "UNASSIGNED": "Unbeauftragt",
+      "VIEW": "Siehe"
     },
-    "HARVEST_USE": "",
-    "HARVEST_USE_ALREADY_EXISTS": "",
-    "HOW_WILL_HARVEST_BE_USED": "",
-    "IRRIGATION_LOCATION": "",
-    "LOCATIONS": "",
-    "NO_TASKS_TO_DISPLAY": "",
-    "NO_WORK_DONE": "",
-    "PAGE_TITLE": "",
-    "PREFER_NOT_TO_SAY": "",
-    "PROVIDE_RATING": "",
-    "QUANTITY_CANNOT_EXCEED": "",
-    "RATE_THIS_TASK": "",
-    "REMOVE_HARVEST_USE": "",
-    "SELECT_DATE": "",
-    "SELECT_TASK_LOCATIONS": "",
-    "SELECT_WILD_CROP": "",
-    "SOIL_AMENDMENT_LOCATION": "",
+    "HARVEST_USE": "Nutzung der Ernte",
+    "HARVEST_USE_ALREADY_EXISTS": "Ernteeinsatz bereits vorhanden",
+    "HOW_WILL_HARVEST_BE_USED": "Wie wird die Ernte genutzt?",
+    "IRRIGATION_LOCATION": "Wählen Sie einen Bewässerungsstandort",
+    "LOCATIONS": "Standort(e)",
+    "NO_TASKS_TO_DISPLAY": "Es gibt keine Aufgaben anzuzeigen.",
+    "NO_WORK_DONE": "Keine Arbeit wurde abgeschlossen",
+    "PAGE_TITLE": "Aufgaben",
+    "PREFER_NOT_TO_SAY": "Ich möchte es lieber nicht sagen",
+    "PROVIDE_RATING": "Bewertung abgeben",
+    "QUANTITY_CANNOT_EXCEED": "Die genutzte Erntemenge darf nicht größer sein als die zu verteilende Menge",
+    "RATE_THIS_TASK": "Bewerten Sie diese Aufgabe",
+    "REMOVE_HARVEST_USE": "Entfernen",
+    "SELECT_DATE": "Wählen Sie das Datum der Aufgabe",
+    "SELECT_TASK_LOCATIONS": "Wählen Sie die Aufgabenstellung(en)",
+    "SELECT_WILD_CROP": "Diese Aufgabe zielt auf eine Wildpflanze ab",
+    "SOIL_AMENDMENT_LOCATION": "Wählen Sie den/die Standort(e) der Bodenverbesserung",
     "STATUS": {
-      "ABANDONED": "",
-      "COMPLETED": "",
-      "FOR_REVIEW": "",
-      "LATE": "",
-      "PLANNED": ""
+      "ABANDONED": "Eingestellt",
+      "COMPLETED": "Abgeschlossen",
+      "FOR_REVIEW": "Zur Überprüfung",
+      "LATE": "Spät",
+      "PLANNED": "Geplant"
     },
-    "TASK": "",
-    "TASKS_COUNT_one": "",
-    "TASKS_COUNT_other": "",
-    "TRANSPLANT": "",
-    "TRANSPLANT_LOCATIONS": "",
-    "UNASSIGNED": ""
+    "TASK": "Aufgabe",
+    "TASKS_COUNT_one": "{{count}} Aufgabe",
+    "TASKS_COUNT_other": "{{count}} Aufgaben",
+    "TRANSPLANT": "Umpflanzen",
+    "TRANSPLANT_LOCATIONS": "Wählen Sie einen Umpflanzstandort",
+    "UNASSIGNED": "Nicht zugewiesen"
   },
   "UNIT": {
     "TIME": {
-      "DAY": "",
-      "MONTH": "",
-      "WEEK": "",
-      "YEAR": ""
+      "DAY": "Tage",
+      "MONTH": "Monate",
+      "WEEK": "Wochen",
+      "YEAR": "Jahre"
     },
-    "VALID_VALUE": ""
+    "VALID_VALUE": "Bitte geben Sie einen Wert zwischen 0-"
   },
   "UNKNOWN_RECORD": {
-    "CANT_FIND": "",
-    "MAYBE_LATER": "",
-    "UNKNOWN_RECORD": ""
+    "CANT_FIND": "Huch! Das konnten wir nicht finden.",
+    "MAYBE_LATER": "Vielleicht taucht es später noch auf.",
+    "UNKNOWN_RECORD": "Unbekannter Nachweis"
   },
   "WAGE": {
-    "ERROR": "",
-    "HOURLY_WAGE": "",
-    "HOURLY_WAGE_RANGE_ERROR": "",
-    "HOURLY_WAGE_TOOLTIP": ""
+    "ERROR": "Der Lohn muss eine gültige, nicht-negative Dezimalzahl sein",
+    "HOURLY_WAGE": "Stundenlohn",
+    "HOURLY_WAGE_RANGE_ERROR": "Der Stundenlohn muss eine positive Zahl sein, die kleiner als 999.999.999 ist.",
+    "HOURLY_WAGE_TOOLTIP": "Stundenlöhne können durch Auswahl einer Person auf der Registerkarte \"Personen\" unter \"Mein Betrieb\" festgelegt werden."
   },
   "WEATHER": {
-    "HUMIDITY": "",
-    "WIND": ""
+    "HUMIDITY": "Luftfeuchtigkeit",
+    "WIND": "Wind"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": ""
+    "BUTTON": "Los geht's"
   },
   "YEAR_SELECTOR": {
-    "TITLE": ""
+    "TITLE": "Jahr auswählen"
   }
 }

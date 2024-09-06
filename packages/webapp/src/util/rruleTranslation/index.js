@@ -12,12 +12,10 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
+import { languageCodes as supportedLanguages } from '../../hooks/useLanguageOptions';
 // Import all translation files directly not dynamically
 const languageJsonFiles = import.meta.glob('../../locales/*/rrule.json', { eager: true });
 
-// TODO: Use reusable value specified in i18n
-const supportedLanguages = ['fr', 'pt', 'es'];
 let translationJson;
 
 const getLanguage = (language) => {

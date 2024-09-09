@@ -14,16 +14,15 @@
  */
 import { useTranslation } from 'react-i18next';
 
-// TODO: LF-4056
 const supportedLanguages = [
-  ['en', 'PROFILE.ACCOUNT.ENGLISH'],
-  ['de', 'PROFILE.ACCOUNT.GERMAN'],
-  ['es', 'PROFILE.ACCOUNT.SPANISH'],
-  ['pt', 'PROFILE.ACCOUNT.PORTUGUESE'],
-  ['fr', 'PROFILE.ACCOUNT.FRENCH'],
-  ['hi', 'PROFILE.ACCOUNT.HINDI'],
-  ['pa', 'PROFILE.ACCOUNT.PUNJABI'],
-  ['ml', 'PROFILE.ACCOUNT.MALAYALAM'],
+  ['en', 'English'],
+  ['es', 'Español'],
+  ['de', 'Deutsch'],
+  ['fr', 'Français'],
+  ['pt', 'Português'],
+  ['hi', 'हिंदी'],
+  ['ml', 'മലയാളം'],
+  ['pa', 'ਪੰਜਾਬੀ'],
 ];
 
 const useLanguageOptions = () => {

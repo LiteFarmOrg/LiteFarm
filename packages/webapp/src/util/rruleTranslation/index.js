@@ -16,8 +16,6 @@ import { languageCodes as supportedLanguages } from '../../hooks/useLanguageOpti
 // Import all translation files directly not dynamically
 const languageJsonFiles = import.meta.glob('../../locales/*/rrule.json', { eager: true });
 
-let translationJson;
-
 const getLanguage = (language) => {
   const { getText, dayNames, monthNames } = language;
   return {
@@ -30,9 +28,11 @@ const getLanguage = (language) => {
 };
 
 export const getRruleLanguage = (language) => {
-  if (!supportedLanguages.includes(language)) {
+  const translationJson = languageJsonFiles[`../../locales/${language}/rrule.json`];
+
+  if (!supportedLanguages.includes(language) || !translationJson) {
     return { getText: (id) => id, language: null };
   }
-  translationJson = languageJsonFiles[`../../locales/${language}/rrule.json`];
+
   return getLanguage(translationJson);
 };

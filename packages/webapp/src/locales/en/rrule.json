@@ -1,5 +1,4 @@
 {
-  "__comment": "THIS IS A FILE COMMENT FOR rrule.json. This locale file is not for use in 'i18n' and only for use with 'rrule' software package. The english file is only used as a base for translation to other languages -- DO NOT MODIFY.",
   "getText": {
     "every": "every",
     "until": "until",

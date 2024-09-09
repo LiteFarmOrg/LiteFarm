@@ -43,27 +43,6 @@ export function useValidateBulkSensorData(onUpload, t) {
   const [errorTypeCode, setErrorTypeCode] = useState(ErrorTypes.DEFAULT);
   const lang = getLanguageFromLocalStorage();
 
-  // Required Fields
-  const SENSOR_NAME = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.NAME');
-  const SENSOR_LATITUDE = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.LATITUDE');
-  const SENSOR_LONGITUDE = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.LONGITUDE');
-  const SENSOR_READING_TYPES = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.READING_TYPES');
-
-  // Optional Fields
-  const SENSOR_EXTERNAL_ID = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.SENSOR_EXTERNAL_ID');
-  const SENSOR_DEPTH = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.DEPTH');
-  const SENSOR_BRAND = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.BRAND');
-  const SENSOR_MODEL = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.MODEL');
-
-  const requiredFields = [SENSOR_NAME, SENSOR_LATITUDE, SENSOR_LONGITUDE, SENSOR_READING_TYPES];
-  const templateFields = [
-    ...requiredFields,
-    SENSOR_EXTERNAL_ID,
-    SENSOR_DEPTH,
-    SENSOR_BRAND,
-    SENSOR_MODEL,
-  ];
-
   useEffect(() => {
     if (!disabled) setDisabled(0);
     else setDisabled(bulkSensorsUploadResponse.loading ? -1 : 1);
@@ -163,9 +142,9 @@ export function useValidateBulkSensorData(onUpload, t) {
     }
   };
 
-  const onShowErrorClick = (errorCode) => {
+  const onShowErrorClick = async (errorCode) => {
     if (errorCode === 2) {
-      onTemplateDownloadClick();
+      await onTemplateDownloadClick();
       return;
     }
     if (sheetErrors.length) {
@@ -186,9 +165,10 @@ export function useValidateBulkSensorData(onUpload, t) {
     }
   };
 
-  const onTemplateDownloadClick = () => {
+  const onTemplateDownloadClick = async () => {
     const element = document.createElement('a');
-    const file = new Blob([`${'\ufeff'}${templateFields.join(',')}`], {
+    const { CSV_HEADER_TRANSLATIONS } = await getSensorTranslations(lang);
+    const file = new Blob([`${'\ufeff'}${Object.values(CSV_HEADER_TRANSLATIONS).join(',')}`], {
       type: 'text/plain',
     });
     element.href = URL.createObjectURL(file);

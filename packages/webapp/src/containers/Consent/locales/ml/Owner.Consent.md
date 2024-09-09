@@ -1,114 +1,114 @@
-##### Version 6: May 31, 2024
+##### പതിപ്പ് 6: മെയ് 31, 2024
 
-#### Informed Consent Form and Privacy Policy (Farm Owner and Farm Manager)
+#### വിവരമുള്ള സമ്മത ഫോമും സ്വകാര്യതാ നയവും (ഫാം ഉടമയും ഫാം മാനേജരും)
 
-Welcome to LiteFarm!
+ലൈറ്റ്‌ഫോമിലേക്ക് സ്വാഗതം!
 
-We understand that your privacy and the protection of your data are important to you. We created this Informed Consent Form and Privacy Policy to help you understand how and when we collect, use and share your information, and to ensure we have your consent for doing so. Please keep in mind that you will need to consent to our collection and use of your data as described in this Informed Consent Form and Privacy Policy **for every farm that you are associated with via your account on the LiteFarm platform**. If you do not agree with our practices as outlined in this Informed Consent Form and Privacy Policy, you will not be able to use the LiteFarm platform.
+നിങ്ങളുടെ സ്വകാര്യതയും നിങ്ങളുടെ ഡാറ്റയുടെ സംരക്ഷണവും നിങ്ങൾക്ക് പ്രധാനമാണെന്ന് ഞങ്ങൾ മനസ്സിലാക്കുന്നു. നിങ്ങളുടെ വിവരങ്ങൾ ഞങ്ങൾ എങ്ങനെ, എപ്പോൾ ശേഖരിക്കുകയും ഉപയോഗിക്കുകയും പങ്കിടുകയും ചെയ്യുന്നുവെന്ന് മനസിലാക്കാനും അങ്ങനെ ചെയ്യുന്നതിന് നിങ്ങളുടെ സമ്മതമുണ്ടെന്ന് ഉറപ്പാക്കാനും നിങ്ങളെ സഹായിക്കുന്നതിന് ഞങ്ങൾ ഈ വിവരമുള്ള സമ്മത ഫോമും സ്വകാര്യതാ നയവും സൃഷ്ടിച്ചു. ലൈറ്റ്ഫാം പ്ലാറ്റ്‌ഫോമിലെ നിങ്ങളുടെ അക്കൗണ്ട് വഴി നിങ്ങൾ ബന്ധപ്പെടുത്തിയിരിക്കുന്ന എല്ലാ ഫാമിനും ഈ വിവരമുള്ള സമ്മത ഫോമിലും സ്വകാര്യതാ നയത്തിലും \*\* വിവരിച്ചിരിക്കുന്നതുപോലെ നിങ്ങളുടെ ഡാറ്റ ശേഖരിക്കുന്നതിനും ഉപയോഗിക്കുന്നതിനും നിങ്ങൾ പ്രത്യേകം സമ്മതം നൽകേണ്ടതുണ്ടെന്ന കാര്യം ദയവായി ഓർക്കുക\*\*. ഈ വിവരമുള്ള സമ്മത ഫോമിലും സ്വകാര്യതാ നയത്തിലും വിവരിച്ചിരിക്കുന്ന ഞങ്ങളുടെ പ്രവർത്തനങ്ങളുമായി നിങ്ങൾ യോജിക്കുന്നില്ലെങ്കിൽ, നിങ്ങൾക്ക് ലൈറ്റ്ഫാം പ്ലാറ്റ്ഫോം ഉപയോഗിക്കാൻ കഴിയില്ല.
 
-#### What is LiteFarm?
+#### എന്താണ് ലൈറ്റ്ഫാം?
 
-LiteFarm is a participatory science research project hosted at the University of British Columbia to help improve access to digital agricultural technology for farming communities and develop better understanding of pathways towards sustainable agriculture. UBC works with farmer organizations to pilot and evaluate tools and knowledge to help farmers manage their farms in more profitable and environmentally and socially sustainable ways. The code underlying LiteFarm is free and open source (GPLv3) so that researchers, experts, and developers across the world can help to improve the services offered to the farming community. LiteFarm is a non-commercial entity.
+കാർഷിക കമ്മ്യൂണിറ്റികൾക്കായി ഡിജിറ്റൽ കാർഷിക സാങ്കേതികവിദ്യയിലേക്കുള്ള പ്രവേശനം മെച്ചപ്പെടുത്തുന്നതിനും സുസ്ഥിര കൃഷിയിലേക്കുള്ള പാതകളെക്കുറിച്ച് നന്നായി മനസ്സിലാക്കുന്നതിനും സഹായിക്കുന്നതിന് ബ്രിട്ടീഷ് കൊളംബിയ സർവകലാശാലയിൽ സംഘടിപ്പിച്ച പങ്കാളിത്ത ശാസ്ത്ര ഗവേഷണ പദ്ധതിയാണ് ലൈറ്റ്ഫാം. കർഷകരെ കൂടുതൽ ലാഭകരവും പാരിസ്ഥിതികവും സാമൂഹികവുമായ സുസ്ഥിരമായ രീതിയിൽ കൃഷിയിടങ്ങൾ കൈകാര്യം ചെയ്യാൻ സഹായിക്കുന്നതിനുള്ള ഉപകരണവും വിജ്ഞാന ലക്ഷ്യങ്ങളും പൈലറ്റ് ചെയ്യുന്നതിനും വിലയിരുത്തുന്നതിനും കർഷക സംഘടനകളുമായി യുബിസി പ്രവർത്തിക്കുന്നു. ലൈറ്റ്ഫാം-ൻ്റെ അടിസ്ഥാനത്തിലുള്ള കോഡ് സൗജന്യവും ഓപ്പൺ സോഴ്‌സും (GPLv3) ആയതിനാൽ ലോകമെമ്പാടുമുള്ള ഗവേഷകർ, വിദഗ്ധർ, ഡെവലപ്പർമാർ എന്നിവർക്ക് കർഷക സമൂഹത്തിന് നൽകുന്ന സേവനങ്ങൾ മെച്ചപ്പെടുത്താൻ സഹായിക്കാനാകും. ലൈറ്റ്ഫാം ഒരു വാണിജ്യേതര സ്ഥാപനമാണ്.
 
-#### Who is the LiteFarm team?
+#### ആരാണ് ലൈറ്റ്ഫാം ടീം?
 
-The LiteFarm team is a cross-disciplinary group of scientists, researchers, farmers, designers and software professionals. The team was initially formed at the University of British Columbia (UBC), and has grown to include a participatory global network of individuals and organizations. The Principal Investigators are Dr. Zia Mehrabi (University of Colorado) and Dr. Hannah Wittman (hannah.wittman@ubc.ca), as well as Dr. Sean Smukler, Director of the Centre for Sustainable Food Systems at UBC Farm.
+ശാസ്ത്രജ്ഞർ, ഗവേഷകർ, കർഷകർ, ഡിസൈനർമാർ, സോഫ്റ്റ്‌വെയർ പ്രൊഫഷണലുകൾ എന്നിവരുടെ ക്രോസ് ഡിസിപ്ലിനറി ഗ്രൂപ്പാണ് ലൈറ്റ്ഫാം ടീം. ബ്രിട്ടീഷ് കൊളംബിയ സർവകലാശാലയിൽ (യുബിസി) ആദ്യം രൂപീകരിച്ച ടീം, വ്യക്തികളുടെയും സംഘടനകളുടെയും പങ്കാളിത്തമുള്ള ആഗോള ശൃംഖല ഉൾപ്പെടുത്തി വളർന്നു. പ്രധാന അന്വേഷകർ ഡോ. സിയ മെഹ്‌റാബിയും (കൊളറാഡോ സർവകലാശാല) ഡോ. ഹന്ന വിറ്റ്മാൻ (hannah.wittman@ubc.ca), അതുപോലെ ഡോ. യുബിസി ഫാമിലെ സെൻ്റർ ഫോർ സസ്റ്റൈനബിൾ ഫുഡ് സിസ്റ്റംസ് ഡയറക്ടർ സീൻ സ്മുക്ലർ.
 
-#### Who funds LiteFarm?
+#### ആരാണ് ലൈറ്റ്ഫാമിന് ഫണ്ട് നൽകുന്നത്?
 
-LiteFarm is funded by the Centre for Sustainable Food Systems at UBC and other grants. For a complete list, please visit: https://ubcfarm.ubc.ca/csfs-research/litefarm/. Our external funders have no say in the operation and management of LiteFarm, and are unable to access any of the personal information housed on the platform. Our funding model is currently donor and grant-driven.
+UBC-യിലെ സെൻ്റർ ഫോർ സസ്റ്റൈനബിൾ ഫുഡ് സിസ്റ്റവും മറ്റ് ഗ്രാൻ്റുകളും ആണ് ലൈറ്റ്ഫാമിന് ധനസഹായം നൽകുന്നത്. ഒരു സമ്പൂർണ്ണ ലിസ്റ്റിനായി, ദയവായി സന്ദർശിക്കുക: https://ubcfarm.ubc.ca/csfs-research/litefarm/. ഞങ്ങളുടെ ബാഹ്യ നിക്ഷേപകർക്ക് LiteFarm-ൻ്റെ പ്രവർത്തനത്തിലും മാനേജ്മെൻ്റിലും യാതൊരു അഭിപ്രായവുമില്ല, കൂടാതെ പ്ലാറ്റ്‌ഫോമിൽ സൂക്ഷിച്ചിരിക്കുന്ന വ്യക്തിഗത വിവരങ്ങളൊന്നും ആക്‌സസ് ചെയ്യാൻ അവർക്ക് കഴിയില്ല. ഞങ്ങളുടെ നിക്ഷേപ മോഡൽ നിലവിൽ ദാതാവും ഗ്രാൻ്റ്-ഗ്രാൻ്റ് നയിക്കപ്പെടുന്നതുമാണ്.
 
-#### Why are we conducting this project?
+#### എന്തുകൊണ്ടാണ് ഞങ്ങൾ ഈ പദ്ധതി നടത്തുന്നത്?
 
-We recognize gaps in farmer access to digital technology services, low adoption rates, and a need expressed by farmers to combine a range of agricultural data management services in a single, non-commercially driven platform. We want to develop a solution that both helps farmers operate their business in a more financially and ecologically sustainable way, and also helps advance the science of sustainability.
+ഡിജിറ്റൽ സാങ്കേതികവിദ്യ സേവനങ്ങളിലേക്കുള്ള കർഷകരുടെ പ്രവേശനത്തിലെ വിടവുകൾ, കുറഞ്ഞ സ്വീകരിക്കൽ നിരക്കുകൾ, കാർഷിക ഡാറ്റ മാനേജ്‌മെൻ്റ് സേവനങ്ങളുടെ ഒരു ശ്രേണി ഏകീകൃതവും വാണിജ്യപരമല്ലാത്തതുമായ പ്ലാറ്റ്‌ഫോമിൽ സംയോജിപ്പിക്കുന്നതിനുള്ള കർഷകരുടെ ആവശ്യകത എന്നിവ ഞങ്ങൾ തിരിച്ചറിയുന്നു. കർഷകരെ കൂടുതൽ സാമ്പത്തികമായും പാരിസ്ഥിതികമായും സുസ്ഥിരമായ രീതിയിൽ പ്രവർത്തിപ്പിക്കാൻ സഹായിക്കുന്ന ഒരു പരിഹാരം വികസിപ്പിക്കാൻ ഞങ്ങൾ ആഗ്രഹിക്കുന്നു.
 
-#### What data do we collect?
+#### എന്ത് ഡാറ്റയാണ് ഞങ്ങൾ ശേഖരിക്കുന്നത്?
 
-Depending on which parts of the LiteFarm platform you use, we may collect different kinds of information:
+നിങ്ങൾ ഉപയോഗിക്കുന്നത് ലൈറ്റ്‌ഫോം പ്ലാറ്റ്‌ഫോമിൻ്റെ ഏതൊക്കെ ഭാഗങ്ങൾ എന്നതിനെആശ്രയിച്ച്, ഞങ്ങൾ വിവിധ തരത്തിലുള്ള വിവരങ്ങൾ ശേഖരിച്ചേക്കാം:
 
-**Personal Information**
+**വ്യക്തിഗത വിവരങ്ങൾ**
 
-"Personal Information" describes any information that can be used to identify you or your workers. LiteFarm will never disclose personal information to third parties without your express consent. This includes:
+"നിങ്ങളെയോ നിങ്ങളുടെ തൊഴിലാളികളെയോ തിരിച്ചറിയാൻ ഉപയോഗിക്കാവുന്ന ഏതൊരു വിവരവും "വ്യക്തിഗത വിവരങ്ങൾ" വിവരിക്കുന്നു. നിങ്ങളുടെ വ്യക്തമായ സമ്മതമില്ലാതെ ലൈറ്റ്‌ഫാം ഒരിക്കലും സ്വകാര്യ വിവരങ്ങൾ മൂന്നാം കക്ഷികൾക്ക് വെളിപ്പെടുത്തില്ല. ഇതിൽ ഉൾപ്പെടുന്നു:
 
-- Contact information (name, address, phone number, email address)
+- ബന്ധപ്പെടാനുള്ള വിവരങ്ങൾ (പേര്, വിലാസം, ഫോൺ നമ്പർ, ഇമെയിൽ വിലാസം)
 
-- Demographic information (gender, year of birth, language preference, country, currency)
+- ജനസംഖ്യാപരമായ വിവരങ്ങൾ (ലിംഗഭേദം, ജനിച്ച വർഷം, ഭാഷാ മുൻഗണന, രാജ്യം, കറൻസി)
 
-- Business information (farm name, farm address, farm coordinates)
+- ബിസിനസ് വിവരങ്ങൾ (ഫാം പേര്, ഫാം വിലാസം, ഫാം കോർഡിനേറ്റുകൾ)
 
-- Photos
+- ഫോട്ടോകൾ
 
-- Internet Protocol (IP) address
+- ഇൻ്റർനെറ്റ് പ്രോട്ടോക്കോൾ (IP) വിലാസം
 
-- Worker information (name, role on farm, email address)
+- തൊഴിലാളി വിവരങ്ങൾ (പേര്, ഫാമിലെ പങ്ക്, ഇമെയിൽ വിലാസം)
 
-- Geolocation (e.g., GPS coordinates of farm locations, location boundaries, etc.)
+- ജിയോലൊക്കേഷൻ (ഉദാ. ഫാം ലൊക്കേഷനുകളുടെ GPS കോർഡിനേറ്റുകൾ, ലൊക്കേഷൻ അതിരുകൾ മുതലായവ)
 
-**Farm Management Information**
+**ഫാം മാനേജ്മെൻ്റ് വിവരങ്ങൾ**
 
-LiteFarm uses the management information that you enter into the app to generate insights about the financial, environmental, and social benefits or impacts of your management decisions. We anonymize this data to conduct non-commercial academic research on sustainable food systems. Because this data is anonymized when used in our research, it cannot be traced to you or your farm. This data includes:
+നിങ്ങളുടെ മാനേജ്‌മെൻ്റ് തീരുമാനങ്ങളുടെ സാമ്പത്തിക, പാരിസ്ഥിതിക, സാമൂഹിക നേട്ടങ്ങളെക്കുറിച്ചോ ആഘാതങ്ങളെക്കുറിച്ചോ ഉള്ള ഉൾക്കാഴ്‌ചകൾ സൃഷ്‌ടിക്കാൻ നിങ്ങൾ ആപ്പിൽ നൽകുന്ന മാനേജ്‌മെൻ്റ് വിവരങ്ങൾ ലൈറ്റ്‌ഫാം ഉപയോഗിക്കുന്നു. സുസ്ഥിര ഭക്ഷണ സംവിധാനങ്ങളെക്കുറിച്ച് വാണിജ്യേതര അക്കാദമിക് ഗവേഷണം നടത്താൻ ഞങ്ങൾ ഈ ഡാറ്റ അജ്ഞാതമാക്കുന്നു. ഞങ്ങളുടെ ഗവേഷണത്തിൽ ഉപയോഗിക്കുമ്പോൾ ഈ ഡാറ്റ അജ്ഞാതമാക്കിയതിനാൽ, അത് നിങ്ങളിലേക്കോ നിങ്ങളുടെ ഫാമിലേക്കോ കണ്ടെത്താൻ കഴിയില്ല. ഈ ഡാറ്റ ഉൾപ്പെടുന്നു:
 
-- Farm location information: different types of locations on the farm, including size; names; crops planted in locations; organic status; and other attributes specific to location type
+- ഫാം സ്ഥാനം വിവരങ്ങൾ: വലിപ്പം ഉൾപ്പെടെ ഫാമിലെ വിവിധ തരം സ്ഥാനങ്ങൾ പേരുകൾ; സ്ഥലങ്ങളിൽ നട്ടുപിടിപ്പിച്ച വിളകൾ; ജൈവ നില; കൂടാതെ സ്ഥാനം തരത്തിന് പ്രത്യേകമായ മറ്റ് ലക്ഷണങ്ങളും
 
-- Crop information: crop type, varietal, supplier, common names, species, genus, crop group, organic certification status and supporting information
+- വിള വിവരങ്ങൾ: വിളയുടെ തരം, ഇനം, വിതരണക്കാരൻ, പൊതുവായ പേരുകൾ, സ്പീഷീസ്, ജനുസ്സ്, വിള ഗ്രൂപ്പ്, ജൈവ സർട്ടിഫിക്കേഷൻ നിലയും പിന്തുണയ്ക്കുന്ന വിവരങ്ങളും
 
-- Crop management information: Including start and end dates; planting method; transplanting method; age of crop; tasks associated with the plan; estimated price of crops; estimated yield of crops, and others.
+- വിള പരിപാലന വിവരം: ആരംഭ, അവസാന തീയതികൾ ഉൾപ്പെടെ; നടീൽ രീതി; പറിച്ചുനടൽ രീതി; വിളയുടെ പ്രായം; പദ്ധതിയുമായി ബന്ധപ്പെട്ട ജോലികൾ; വിളകളുടെ കണക്കാക്കിയ വില; വിളകളുടെ കണക്കാക്കിയ വിളവ്, മറ്റുള്ളവ.
 
-- Information about tasks performed on the farm: assignee, creator, duration, location(s), crop(s) impacted, inputs, notes, dates, completion status, etc.
+- ഫാമിൽ നിർവഹിച്ച ചുമതലകൾളെക്കുറിച്ചുള്ള വിവരങ്ങൾ: ഏൽപ്പിക്കപ്പെട്ട ആൾ, സ്രഷ്ടാവ്, സ്ഥാനം(കൾ), വിള(കൾ) സ്വാധീനം, ഇൻപുട്ടുകൾ, കുറിപ്പുകൾ, തീയതികൾ, പൂർത്തീകരണ നില മുതലായവ.
 
-- Pest control information: product name; amount of product applied; application target (i.e., pest or disease name), common name, scientific name, group; active ingredient name; active ingredient concentration; harvest interval; entry interval; type of control; location(s) and crop(s) targeted.
+- കീട നിയന്ത്രണ വിവരങ്ങൾ: ഉൽപ്പന്നത്തിൻ്റെ പേര്; പ്രയോഗിച്ച ഉൽപ്പന്നത്തിൻ്റെ അളവ്; ആപ്ലിക്കേഷൻ ലക്ഷ്യം (അതായത്, കീടങ്ങളുടെ അല്ലെങ്കിൽ രോഗത്തിൻ്റെ പേര്), പൊതുവായ പേര്, ശാസ്ത്രീയ നാമം, ഗ്രൂപ്പ്; സജീവ ഘടകത്തിൻ്റെ പേര്; സജീവ ഘടകത്തിൻ്റെ ഏകാഗ്രത; വിളവെടുപ്പ് ഇടവേള; പ്രവേശന ഇടവേള; നിയന്ത്രണ തരം; ലൊക്കേഷൻ(കൾ), ലക്ഷ്യമിട്ട വിള(കൾ).
 
-- Harvest information: field harvested; crop harvested; quantity harvested, uses of harvests.
+- വിളവെടുപ്പ് വിവരങ്ങൾ: വിളവെടുത്ത പാടം; വിളവെടുത്ത വിള; വിളവെടുപ്പിൻ്റെ അളവ്, വിളവെടുപ്പിൻ്റെ ഉപയോഗം.
 
-- Seeding information: location(s) seeded; crop(s) seeded; spacing depth, length, width, and rate.
+- വിത്ത് വിതയ്ക്കൽ വിവരങ്ങൾ: വിതച്ച സ്ഥാനം(കൾ); വിതച്ച വിള (കൾ); അകലം ഡെപ്ത്, നീളം, വീതി, നിരക്ക്.
 
-- Field work information: location(s), crops(s); type of work, notes.
+- ഫീൽഡ് വർക്ക് വിവരങ്ങൾ: സ്ഥാനം(കൾ), വിളകൾ(കൾ); ജോലിയുടെ തരം, കുറിപ്പുകൾ.
 
-- Soil information: location; depth; texture; percentage potassium, phosphorus, nitrogen, organic matter, organic carbon, inorganic carbon, total carbon, sulfur, calcium, magnesium, sodium, zinc, manganese, iron, copper, boron; cation exchange capacity (CEC); pH; bulk density.
+- മണ്ണ് വിവരം: സ്ഥാനം; ആഴം; ടെക്സ്ചർ; ശതമാനം പൊട്ടാസ്യം, ഫോസ്ഫറസ്, നൈട്രജൻ, ജൈവവസ്തുക്കൾ, ഓർഗാനിക് കാർബൺ, അജൈവ കാർബൺ, മൊത്തം കാർബൺ, സൾഫർ, കാൽസ്യം, മഗ്നീഷ്യം, സോഡിയം, സിങ്ക്, മാംഗനീസ്, ഇരുമ്പ്, ചെമ്പ്, ബോറോൺ; കാറ്റേഷൻ എക്സ്ചേഞ്ച് കപ്പാസിറ്റി (CEC); pH; ബൾക്ക് സാന്ദ്രത.
 
-- Sensor data such as soil water content and soil temperature that you, the farmer, route to the app through LiteFarm integration with third-party sensors.
+- മൂന്നാം കക്ഷി സെൻസറുകളുമായുള്ള ലൈറ്റ്‌ഫാം സംയോജനത്തിലൂടെ ആപ്പിലേക്ക് പോകുന്ന കർഷകനായ നിങ്ങൾ മണ്ണിലെ വെള്ളത്തിൻ്റെ അംശവും മണ്ണിൻ്റെ താപനിലയും പോലുള്ള സെൻസർ ഡാറ്റ.
 
-- Irrigation information: location(s), crop(s); irrigation type, flow rate; total time flowing.
+- ജലസേചന വിവരം: സ്ഥാനം(കൾ), വിള(കൾ); ജലസേചന തരം, ഒഴുക്ക് നിരക്ക്; ഒഴുകുന്ന മൊത്തം സമയം.
 
-- Scouting information: location(s); crop(s); type; action needed (yes/no).
+- സ്കൗട്ടിംഗ് വിവരങ്ങൾ: സ്ഥാനം(കൾ); വിള(കൾ); തരം; നടപടി ആവശ്യമാണ് (അതെ/ഇല്ല).
 
-- Other information: location(s); crop(s); notes.
+- മറ്റ് വിവരങ്ങൾ: സ്ഥാനം(കൾ); വിള(കൾ); കുറിപ്പുകൾ.
 
-- Information relating to the completion of tasks including: date; duration of work; mood (happy, very happy, sad, very sad, neutral); notes on work.
+- ഇനിപ്പറയുന്നവ ഉൾപ്പെടെയുള്ള ജോലികൾ പൂർത്തിയാക്കുന്നതുമായി ബന്ധപ്പെട്ട വിവരങ്ങൾ: തീയതി; ജോലിയുടെ കാലാവധി; മാനസികാവസ്ഥ (സന്തോഷം, വളരെ സന്തോഷം, ദുഃഖം, വളരെ ദുഃഖം, നിഷ്പക്ഷത); ജോലിയെക്കുറിച്ചുള്ള കുറിപ്പുകൾ.
 
-- Expense information: date; type; name; expense amount.
+- ചെലവ് വിവരങ്ങൾ: തീയതി; തരം; പേര്; ചെലവ് തുക.
 
-- Sales information: date; name of buyer/market; crop; amount sold (kg); revenue.
+- വിൽപ്പന വിവരങ്ങൾ: തീയതി; വാങ്ങുന്നയാളുടെ/വിപണിയുടെ പേര്; വിള; വിറ്റ തുക (കിലോ); വരുമാനം.
 
-- Worker details: number of registered workers; hourly pay; email address; role; name, etc.
+- തൊഴിലാളികളുടെ വിശദാംശങ്ങൾ: രജിസ്റ്റർ ചെയ്ത തൊഴിലാളികളുടെ എണ്ണം; മണിക്കൂർ വേതനം; ഇമെയിൽ വിലാസം; പങ്ക്; പേര് മുതലായവ.
 
-- Farm specific details: preferred units (e.g. metric or imperial); currency; whether the farm is seeking certification; certifier; bed attributes; row attributes.
+- ഭുജത്തിൻ്റെ നിർദ്ദിഷ്ട വിശദാംശങ്ങൾ: മുൻഗണനയുള്ള യൂണിറ്റുകൾ (ഉദാ. മെട്രിക് അല്ലെങ്കിൽ ഇംപീരിയൽ); കറൻസി; ഫാം സർട്ടിഫിക്കേഷൻ തേടുന്നുണ്ടോ; സർട്ടിഫയർ; കിടക്ക ആട്രിബ്യൂട്ടുകൾ; വരി ആട്രിബ്യൂട്ടുകൾ.
 
-**Usage Data**
+**ഉപയോഗ ഡാറ്റ**
 
-We collect usage data (i.e., general statistics about users, traffic patterns, and how users respond to various site features) to improve the quality of services we provide to you. This type of data includes: when you log in to LiteFarm, pages you request, how long you visit the site for, how you interact with the app, and technical details about your device (e.g., browser, screen type, and processor). This data will either be associated with your LiteFarm username (if you are logged into the app) or your IP address (if you are not logged in). We may use software such as Google Analytics to collect and analyze _usage data_, but in these cases, all personal information will be _anonymized_.
+ഞങ്ങൾ നിങ്ങൾക്ക് നൽകുന്ന സേവനങ്ങളുടെ ഗുണനിലവാരം മെച്ചപ്പെടുത്തുന്നതിന് ഉപയോഗ ഡാറ്റ ശേഖരിക്കുക (അതായത്, ഉപയോക്താക്കളെക്കുറിച്ചുള്ള പൊതുവായ സ്ഥിതിവിവരക്കണക്കുകൾ, ട്രാഫിക് മാതൃകകൾ, വിവിധ സൈറ്റ് സവിശേഷതകളോട് ഉപയോക്താക്കൾ എങ്ങനെ പ്രതികരിക്കുന്നു). ഇത്തരത്തിലുള്ള ഡാറ്റയിൽ ഉൾപ്പെടുന്നു: നിങ്ങൾ ലൈറ്റ്ഫാം-ൽ ലോഗിൻ ചെയ്യുമ്പോൾ, നിങ്ങൾ അഭ്യർത്ഥിക്കുന്ന പേജുകൾ, എത്ര സമയത്തേക്ക് നിങ്ങൾ സൈറ്റ് സന്ദർശിക്കുന്നു, ആപ്പുമായി നിങ്ങൾ എങ്ങനെ ഇടപഴകുന്നു, നിങ്ങളുടെ ഉപകരണത്തെക്കുറിച്ചുള്ള സാങ്കേതിക വിശദാംശങ്ങൾ (ഉദാ. ബ്രൗസർ, സ്ക്രീൻ തരം, പ്രോസസ്സർ). ഈ ഡാറ്റ നിങ്ങളുടെ ലൈറ്റ്ഫാം ഉപയോക്തൃനാമവുമായോ (നിങ്ങൾ ആപ്പിൽ ലോഗിൻ ചെയ്‌തിട്ടുണ്ടെങ്കിൽ) അല്ലെങ്കിൽ നിങ്ങളുടെ IP വിലാസവുമായോ (നിങ്ങൾ ലോഗിൻ ചെയ്‌തിട്ടില്ലെങ്കിൽ) ബന്ധപ്പെടുത്തിയിരിക്കും. _ഉപയോഗ ഡാറ്റ_ ശേഖരിക്കുന്നതിനും വിശകലനം ചെയ്യുന്നതിനും ഞങ്ങൾ ഗൂഗിൾ അനലിറ്റിക്സ് പോലുള്ള സോഫ്‌റ്റ്‌വെയർ ഉപയോഗിച്ചേക്കാം, എന്നാൽ ഈ സന്ദർഭങ്ങളിൽ, എല്ലാ വ്യക്തിഗത വിവരങ്ങളും _അജ്ഞാതമാക്കപ്പെടും_.
 
-**How do we use data?**
+**ഞങ്ങൾ എങ്ങനെയാണ് ഡാറ്റ ഉപയോഗിക്കുന്നത്?**
 
-There are three primary ways that we use your data:
+ഞങ്ങൾ നിങ്ങളുടെ ഡാറ്റ ഉപയോഗിക്കുന്നതിന് മൂന്ന് പ്രാഥമിക മാർഗങ്ങളുണ്ട്:
 
-- To improve the agricultural data visualization services we provide you with: As described above, we use your usage data (i.e., general information about how you interact with the LiteFarm platform) to improve the LiteFarm platform and the services it provides.
+- കാർഷിക ഡാറ്റ വിഷ്വലൈസേഷൻ സേവനങ്ങൾ മെച്ചപ്പെടുത്തുന്നതിന് ഞങ്ങൾ നിങ്ങൾക്ക് നൽകുന്നു: മുകളിൽ വിവരിച്ചതുപോലെ, ലൈറ്റ്ഫാം പ്ലാറ്റ്‌ഫോമും അത് നൽകുന്ന സേവനങ്ങളും മെച്ചപ്പെടുത്താൻ ഞങ്ങൾ നിങ്ങളുടെ ഉപയോഗ ഡാറ്റ (അതായത്, ലൈറ്റ്ഫാം പ്ലാറ്റ്‌ഫോമുമായി നിങ്ങൾ എങ്ങനെ ഇടപഴകുന്നു എന്നതിനെക്കുറിച്ചുള്ള പൊതുവായ വിവരങ്ങൾ) ഉപയോഗിക്കുന്നു.
 
-- To generate insights about the financial, environmental, and social benefits or impacts of your management decisions: The LiteFarm platform uses the management data that you enter into the app (see “Farm management information” section above for a full list), along with built-in algorithms and some public data (e.g., local weather station information, crop coefficients, crop and fertilizer nutrient content, species occurrence data, and topographic data) to generate insights about financial, environmental, and social benefits/impacts of your management decisions.
+- നിങ്ങളുടെ മാനേജ്‌മെൻ്റ് തീരുമാനങ്ങളുടെ സാമ്പത്തിക, പാരിസ്ഥിതിക, സാമൂഹിക നേട്ടങ്ങളെക്കുറിച്ചോ ആഘാതങ്ങളെക്കുറിച്ചോ ഉള്ള ഉൾക്കാഴ്‌ചകൾ സൃഷ്‌ടിക്കാൻ: നിങ്ങൾ ആപ്പിൽ നൽകുന്ന മാനേജ്‌മെൻ്റ് ഡാറ്റയാണ്ലൈറ്റ്‌ഫാം പ്ലാറ്റ്‌ഫോം ഉപയോഗിക്കുന്നത് (പൂർണ്ണമായ പട്ടികയ്ക്കായി മുകളിലുള്ള "ഫാം മാനേജ്‌മെൻ്റ് വിവരം" വിഭാഗം കാണുക), അതോടോപ്പം നിങ്ങളുടെ മാനേജ്‌മെൻ്റ് തീരുമാനങ്ങളുടെ സാമ്പത്തിക, പാരിസ്ഥിതിക, സാമൂഹിക നേട്ടങ്ങളെ/ആഘാതങ്ങളെ കുറിച്ചുള്ള ഉൾക്കാഴ്‌ചകൾ സൃഷ്‌ടിക്കുന്നതിന് അവിഭാജ്യഭാഗമായ അൽഗോരിതങ്ങളിലും ചില പൊതു ഡാറ്റയിലും (ഉദാ. പ്രാദേശിക കാലാവസ്ഥാ സ്‌റ്റേഷൻ വിവരങ്ങൾ, വിള ഗുണകങ്ങൾ, വിള, വളം പോഷകങ്ങളുടെ ഉള്ളടക്കം, സ്പീഷിസ് ആവർത്തന ഡാറ്റ, ടോപ്പോഗ്രാഫിക് ഡാറ്റ) ഉപയോഗിക്കുന്നു.
 
 - To conduct non-commercial academic research on sustainable food systems: Along with our academic collaborators, we will use your anonymized farm management data (see “Farm management information” section above for a full list) to conduct agronomic, ecological, and food-systems based academic research. Some of this research will be conducted by students as part of their graduate and undergraduate degrees.
 
 We will rigorously evaluate every project proposal to ensure that your data is used effectively to advance knowledge on sustainable food systems, help farmers make sustainable management decisions, and impact public policy to benefit farmers. We will keep you in the loop on research projects through email (unless you would prefer to opt out), and you can always reach out to us to learn more about the research that your data is helping to make possible.
 
-**What do we share?**
+_ഞങ്ങൾ എന്താണ് പങ്കിടുന്നത്?_\*
 
-We will only share your data with third parties if it is both anonymized (i.e., contains no personal information) and necessary to accomplish our research goals or validate scientific findings. Specifically, we may share anonymized data at some point in the future with other researchers for non-commercial academic research purposes. Any third-party academic researchers who request use of LiteFarm data will undergo internal review, and will be assessed under our existing ethics and security standards. Due to publishing standards for scientific reproducibility, anonymized data that is used for academic research may be served on public repositories. Copies of non-public releases of anonymized data can be shared with academic researchers for non-commercial research purposes, under time-limited and confidential single-use licenses. If an academic research use includes the use of photos uploaded to LiteFarm, any identifiable features that disclose personal information (e.g., faces of people) will be blurred out of the photos before they are shared.
+നിങ്ങളുടെ ഡാറ്റ അജ്ഞാതമാണെങ്കിൽ (അതായത്, വ്യക്തിഗത വിവരങ്ങളൊന്നും അടങ്ങിയിട്ടില്ല) ഞങ്ങളുടെ ഗവേഷണ ലക്ഷ്യങ്ങൾ പൂർത്തീകരിക്കുന്നതിനോ ശാസ്ത്രീയ കണ്ടെത്തലുകൾ സാധൂകരിക്കുന്നതിനോ ആവശ്യമെങ്കിൽ മാത്രമേ ഞങ്ങൾ അത് മൂന്നാം കക്ഷികളുമായി പങ്കിടൂ. പ്രത്യേകിച്ചും, വാണിജ്യേതര അക്കാദമിക് ഗവേഷണ ആവശ്യങ്ങൾക്കായി ഞങ്ങൾ മറ്റ് ഗവേഷകരുമായി ഭാവിയിൽ ചില ഘട്ടങ്ങളിൽ അജ്ഞാത ഡാറ്റ പങ്കിട്ടേക്കാം. ലൈറ്റ്ഫാം ഡാറ്റയുടെ ഉപയോഗം അഭ്യർത്ഥിക്കുന്ന ഏതൊരു മൂന്നാം കക്ഷി അക്കാദമിക് ഗവേഷകരെയും ആന്തരിക അവലോകനത്തിന് വിധേയമാക്കുകയും ഞങ്ങളുടെ നിലവിലുള്ള ധാർമ്മികതയ്ക്കും സുരക്ഷാ മാനദണ്ഡങ്ങൾക്കും കീഴിൽ വിലയിരുത്തുകയും ചെയ്യും. ശാസ്ത്രീയ പുനർനിർമ്മാണത്തിനുള്ള പ്രസിദ്ധീകരണ മാനദണ്ഡങ്ങൾ കാരണം, അക്കാദമിക് ഗവേഷണത്തിനായി ഉപയോഗിക്കുന്ന അജ്ഞാത ഡാറ്റ പൊതു സംഭരണികളിൽ നൽകാം. അജ്ഞാത ഡാറ്റയുടെ പരസ്യമല്ലാത്ത റിലീസുകളുടെ പകർപ്പുകൾ വാണിജ്യേതര ഗവേഷണ ആവശ്യങ്ങൾക്കായി, സമയ പരിമിതവും രഹസ്യാത്മകവുമായ ഒറ്റത്തവണ ഉപയോഗ ലൈസൻസുകൾക്ക് കീഴിൽ അക്കാദമിക് ഗവേഷകരുമായി പങ്കിടാം. ഒരു അക്കാദമിക് ഗവേഷണ ഉപയോഗത്തിൽ ലൈറ്റ്ഫാം-ലേക്ക് അപ്‌ലോഡ് ചെയ്‌ത ഫോട്ടോകളുടെ ഉപയോഗം ഉൾപ്പെടുന്നുവെങ്കിൽ, വ്യക്തിഗത വിവരങ്ങൾ (ഉദാ. ആളുകളുടെ മുഖം) വെളിപ്പെടുത്തുന്ന ഏതെങ്കിലും തിരിച്ചറിയാവുന്ന ഫീച്ചറുകൾ ഫോട്ടോകൾ പങ്കിടുന്നതിന് മുമ്പ് അവയിൽ നിന്ന് മങ്ങിക്കപ്പെടും.
 
-We do not share any _personal information_ to third party analytics services, such as Google Analytics. Through our security protocols, we safeguard the vulnerability of personal information within the LiteFarm website, and we use IP anonymization protocols to prevent identification and geolocation by third parties.
+ഗൂഗിൾ അനലിറ്റിക്സ് പോലുള്ള മൂന്നാം കക്ഷി അനലിറ്റിക്‌സ് സേവനങ്ങളുമായി ഞങ്ങൾ _വ്യക്തിഗത വിവരങ്ങളൊന്നും പങ്കിടുന്നില്ല. ഞങ്ങളുടെ സുരക്ഷാ പ്രോട്ടോക്കോളുകൾ വഴി, ലൈറ്റ്ഫാം വെബ്‌സൈറ്റിനുള്ളിലെ വ്യക്തിഗത വിവരങ്ങളുടെ അപകടസാധ്യത ഞങ്ങൾ സംരക്ഷിക്കുന്നു, കൂടാതെ മൂന്നാം കക്ഷികൾ തിരിച്ചറിയുന്നതും ജിയോലൊക്കേഷനും തടയുന്നതിന് ഞങ്ങൾ IP അജ്ഞാതവൽക്കരണ പ്രോട്ടോക്കോളുകൾ ഉപയോഗിക്കുന്നു.
 
-**How we use cookies?**
+**ഞങ്ങൾ എങ്ങനെയാണ് കുക്കികൾ ഉപയോഗിക്കുന്നത്?**
 
-In some areas of our site, a cookie might be placed on your computer or device. A cookie is a small file that resides on your computer or device's hard drive that allows us to improve the quality of your visit to our websites by responding to you as an individual. We use cookies to identify which pages are being used and improve our website. we only use this information for statistical analysis purposes, they are not shared with other sites and are not used for advertisements. You can choose to accept or decline cookies. Most web browsers automatically accept cookies, but you can usually modify your browser setting to decline cookies if you prefer. However, if you choose to decline cookies from the LiteFarm then functionality, including your ability to log-in and use the application, may be impaired. Acceptance of cookies is implied if you continue to access our website without adjusting your browser settings.
+ഞങ്ങളുടെ സൈറ്റിൻ്റെ ചില മേഖലകളിൽ, നിങ്ങളുടെ കമ്പ്യൂട്ടറിലോ ഉപകരണത്തിലോ ഒരു കുക്കി സ്ഥാപിച്ചേക്കാം. A cookie is a small file that resides on your computer or device's hard drive that allows us to improve the quality of your visit to our websites by responding to you as an individual. We use cookies to identify which pages are being used and improve our website. we only use this information for statistical analysis purposes, they are not shared with other sites and are not used for advertisements. You can choose to accept or decline cookies. Most web browsers automatically accept cookies, but you can usually modify your browser setting to decline cookies if you prefer. However, if you choose to decline cookies from the LiteFarm then functionality, including your ability to log-in and use the application, may be impaired. Acceptance of cookies is implied if you continue to access our website without adjusting your browser settings.
 
 **Where do we store your data?**
 
@@ -170,4 +170,4 @@ Contact the Research Participant Complaint Line in the UBC Office of Research Et
 
 By pressing Agree below, it indicates that you have downloaded a copy of this consent form and Privacy Policy for your own records and that you consent to participate in this study.
 
-UBC Study ethics ID: H19-01482
+യുബിസി സ്റ്റഡി എത്തിക്‌സ് ഐഡി: H19-01482

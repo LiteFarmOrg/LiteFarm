@@ -40,6 +40,19 @@ import { sensorErrors, parseSensorCsv } from '../../../shared/validation/sensorC
 import syncAsyncResponse from '../util/syncAsyncResponse.js';
 import knex from '../util/knex.js';
 
+const getSensorTranslations = async (language, res) => {
+  // Remove country identifier from language preference
+  const parsedLanguage = language.includes('-') ? language.split('-')[0] : language;
+  const translations = await import(`../../../shared/locales/${parsedLanguage}/sensorCSV.json`, {
+    assert: { type: 'json' },
+  });
+  // Handle case where user language not supported
+  if (!translations) {
+    res.status(422).send('User language not yet supported');
+  }
+  return translations.default;
+};
+
 const sensorController = {
   async getSensorReadingTypes(req, res) {
     const { location_id } = req.params;
@@ -101,9 +114,15 @@ const sensorController = {
         'Ensemble Scientific',
       );
 
+      //TODO: LF-4443 - Sensor should not use User language (unrestricted string), accept as body param or farm level detail
       const [{ language_preference }] = await baseController.getIndividual(UserModel, user_id);
 
-      const { data, errors } = parseSensorCsv(req.file.buffer.toString(), language_preference);
+      const translations = await getSensorTranslations(language_preference);
+      const { data, errors } = parseSensorCsv(
+        req.file.buffer.toString(),
+        language_preference,
+        translations,
+      );
 
       if (errors.length > 0) {
         return await sendResponse(

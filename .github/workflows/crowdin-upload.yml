@@ -30,6 +30,11 @@ jobs:
               source: packages/webapp/src/containers/Consent/locales/en/*.md,
               translation: packages/webapp/src/containers/Consent/locales/%two_letters_code%/%original_file_name%,
             },
+            # Shared translations
+            {
+              source: packages/shared/locales/en/*.json,
+              translation: packages/shared/locales/%two_letters_code%/%original_file_name%,
+            },
             # Backend tranlsations - skipping pdf (crop.json is copied jobs scheduler init during build)
             {
               source: packages/api/src/jobs/locales/en/*.json,

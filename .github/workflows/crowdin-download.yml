@@ -19,6 +19,7 @@ jobs:
             },
             # Frontend compiled translations
             {
+              name: webapp_compiled_locales,
               source: packages/webapp/src/locales/en/*.json,
               translation: packages/webapp/src/locales/%two_letters_code%/%original_file_name%,
             },

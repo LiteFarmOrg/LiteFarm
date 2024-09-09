@@ -18,8 +18,17 @@ import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
 import { createSensorErrorDownload } from '../../../../util/sensor';
 import { ErrorTypes } from './constants';
-import parseSensorCsv from '../../../../../../shared/validation/sensorCSV.js';
+import parseSensorCsv from '@shared/validation/sensorCSV.js';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
+import { languageCodes } from '../../../../hooks/useLanguageOptions';
+
+const getSensorTranslations = async (language) => {
+  // return english if language not supported
+  if (!languageCodes.includes(language)) {
+    return await import('../../../../../../shared/locales/en/sensorCSV.json');
+  }
+  return await import(`../../../../../../shared/locales/${language}/sensorCSV.json`);
+};
 
 export function useValidateBulkSensorData(onUpload, t) {
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
@@ -96,7 +105,6 @@ export function useValidateBulkSensorData(onUpload, t) {
   };
 
   useEffect(() => {
-    // console.log(bulkSensorsUploadResponse)
     if (bulkSensorsUploadResponse?.defaultFailure) {
       setErrorCount(1);
       setErrorTypeCode(ErrorTypes.INVALID_CSV);
@@ -121,8 +129,8 @@ export function useValidateBulkSensorData(onUpload, t) {
       setSelectedFile(file);
 
       const fileString = await readFile(file);
-
-      const { data, errors } = parseSensorCsv(fileString, lang);
+      const translations = await getSensorTranslations(lang);
+      const { data, errors } = parseSensorCsv(fileString, lang, translations);
 
       const translatedErrors = translateErrors(errors);
 

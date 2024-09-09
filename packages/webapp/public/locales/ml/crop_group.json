@@ -1,1 +1,13 @@
-{}
+{
+  "BEVERAGE_AND_SPICE_CROPS": "പാനീയ സുഗന്ധവ്യഞ്ജന വിളകൾ",
+  "CEREALS": "ധാന്യങ്ങൾ",
+  "FRUITS_AND_NUTS": "പഴങ്ങളും പരിപ്പും",
+  "HIGH_STARCH_ROOT_TUBER_CROP": "അന്നജം ഉയർന്ന വേര് / കിഴങ്ങുവർഗ്ഗ വിളകൾ",
+  "LEGUMINOUS_CROPS": "പയർവർഗ്ഗ വിളകൾ",
+  "OILSEED_CROPS": "എണ്ണക്കുരു വിളകൾ",
+  "OTHER_CROPS": "മറ്റ് വിളകൾ",
+  "POTATOES_AND_YAMS": "ഉരുളക്കിഴങ്ങും ചേനയും",
+  "STIMULANT_SPICE_AROMATIC_CROPS": "ഉത്തേജക, സുഗന്ധവ്യഞ്ജന, സുഗന്ധ വിളകൾ",
+  "SUGAR_CROPS": "പഞ്ചസാര വിളകൾ",
+  "VEGETABLE_AND_MELONS": "പച്ചക്കറികളും മത്തനും"
+}

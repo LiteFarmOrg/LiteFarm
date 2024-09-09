@@ -1,0 +1,17 @@
+{
+  "CSV_HEADER_TRANSLATIONS": {
+    "name": "Nom",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "reading_types": "Type_de_données_relevées",
+    "external_id": "ID_externe",
+    "depth": "Profondeur_cm",
+    "brand": "Marque",
+    "model": "Modèle"
+  },
+  "READING_TYPE_TRANSLATIONS": {
+    "soil_water_content": "teneur_en_eau_du_sol",
+    "soil_water_potential": "potentiel_hydrique_du_sol",
+    "temperature": "température"
+  }
+}

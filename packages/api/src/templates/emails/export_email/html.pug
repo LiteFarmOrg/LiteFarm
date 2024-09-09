@@ -6,9 +6,5 @@ block content
         span=` ${t('EXPORT.CERTIFICATION')}`
     p
         span=`${t('EXPORT.PRIVACY')}`
-    p
-        - var delay = `${t('EXPORT.LANGUAGE_DELAY')}`
-        if delay != 'N/A'
-            span=delay
     a#email-button(href=`${buttonLink}` target='_blank')
         button.button=`${t('EXPORT.GET_YOUR_EXPORT')}`

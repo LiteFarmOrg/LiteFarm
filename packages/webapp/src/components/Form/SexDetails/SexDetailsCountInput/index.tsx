@@ -38,6 +38,7 @@ export default function SexDetailsCountInput({
     max,
     clampOnBlur: false,
     useGrouping: false,
+    allowDecimal: false,
     onChange: (num) => onCountChange?.(isNaN(num) ? 0 : num),
   });
 

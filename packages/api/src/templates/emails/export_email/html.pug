@@ -2,11 +2,13 @@ extends ../template
 block content
     p
         span=`${t('EXPORT.SEASON')} `
-        strong #{farm_name}!
+        strong #{farm_name}!HHAHAHHAHH
         span=` ${t('EXPORT.CERTIFICATION')}`
     p
         span=`${t('EXPORT.PRIVACY')}`
     p
-        span=`${t('EXPORT.LANGUAGE_DELAY')}`
+        - var delay = `${t('EXPORT.LANGUAGE_DELAY')}`
+        if delay != 'N/A'
+            span=delay
     a#email-button(href=`${buttonLink}` target='_blank')
         button.button=`${t('EXPORT.GET_YOUR_EXPORT')}`

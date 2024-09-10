@@ -40,12 +40,19 @@ export const addDaysToDate = (date, days, { toUTC = true } = {}) => {
 };
 /**
  *
- * @param date
- * @return {string}
+ * @param date string in form 'YYYY-MM-DD'
+ * @return {string} in form September 14, 2024 or as appropriate to language
  */
-export const getLocalizedDateString = (date, format = 'MMMM DD, YYYY') =>
-  moment(date).locale(getLanguageFromLocalStorage()).format(format);
+export const getLocalizedDateString = (date) => {
+  const language = getLanguageFromLocalStorage();
+  const parsedDate = moment(date);
 
+  if (!parsedDate.isValid()) {
+    return 'Invalid date';
+  }
+
+  return new Intl.DateTimeFormat(language, { dateStyle: 'long' }).format(parsedDate.toDate());
+};
 /**
  *
  * @param date

@@ -32,6 +32,7 @@ import CatalogSpotlight from './CatalogSpotlight';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import { useStartAddCropVarietyFlow } from '../CropVarieties/useStartAddCropVarietyFlow';
 import Drawer from '../../components/Drawer';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 export default function CropCatalogue({ history }) {
   const { t } = useTranslation();
@@ -89,6 +90,7 @@ export default function CropCatalogue({ history }) {
     history.push('/crop/new');
   };
   const resetFilter = () => dispatch(resetCropCatalogueFilter());
+  const language = getLanguageFromLocalStorage();
   return (
     <Layout>
       <PageTitle title={t('CROP_CATALOGUE.CROP_CATALOGUE')} style={{ paddingBottom: '20px' }} />
@@ -127,8 +129,7 @@ export default function CropCatalogue({ history }) {
             <CropStatusInfoBox
               status={{ active, abandoned, completed, planned, noPlans }}
               style={{ marginBottom: '16px' }}
-              date={date}
-              setDate={setDate}
+              language={language}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {filteredCropsWithoutManagementPlan.map((cropVariety) => {

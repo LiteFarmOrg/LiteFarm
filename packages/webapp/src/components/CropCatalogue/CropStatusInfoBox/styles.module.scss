@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  padding: 12px;
+  position: relative;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.secondRowContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.cropCountContainer {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  overflow-wrap: anywhere;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}

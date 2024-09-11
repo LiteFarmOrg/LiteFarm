@@ -41,7 +41,7 @@ export const getDate = (planStartDate) => {
   return date.getDate();
 };
 
-export const getLocalizedDateString = (planStartDate) => {
+export const getLocalizedDateStringFromISO = (planStartDate) => {
   const date = new Date(parseISOStringToLocalDate(planStartDate));
 
   return new Intl.DateTimeFormat(getLanguageFromLocalStorage(), { dateStyle: 'long' }).format(date);

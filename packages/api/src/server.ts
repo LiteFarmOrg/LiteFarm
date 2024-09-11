@@ -175,7 +175,7 @@ import sensorRoute from './routes/sensorRoute.js';
 // register API
 const router = promiseRouter();
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.sendStatus(200);
 });
 
@@ -345,9 +345,8 @@ const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
 };
 
 app
-  .use((req, res, next) => {
-    const error = new Error('Not found');
-    //@ts-expect-error
+  .use((_req, _res, next) => {
+    const error: Error & { status?: number } = new Error('Not found');
     error.status = 404;
     next(error);
   })

@@ -14,15 +14,7 @@
  */
 
 import './dotenvConfig.js';
-
-// import path from 'path';
-
-// import dotenv from 'dotenv';
-// console.log("Starting up")
-//
-// dotenv.config();
-// dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
-import express from 'express';
+import express, { ErrorRequestHandler, RequestHandler } from 'express';
 const app = express();
 import * as Sentry from '@sentry/node';
 import expressOasGenerator from 'express-oas-generator';
@@ -69,6 +61,7 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
  See https://github.com/mpashkovskiy/express-oas-generator#troubleshooting
  */
 expressOasGenerator.handleResponses(app, {
+  swaggerDocumentOptions: undefined,
   alwaysServeDocs: true,
   specOutputPath: process.env.UPDATE_OAS_FILES ? './oas.json' : undefined,
   specOutputFileBehavior: expressOasGenerator.SPEC_OUTPUT_FILE_BEHAVIOR.PRESERVE,
@@ -198,7 +191,7 @@ app.get('/', (req, res) => {
  * Strings that are not dates, have non-midnight times, or timezones other than Z are not changed, with a log message--
  *   these unexpected values will likely lead to errors.
  */
-app.set('json replacer', (key, value) => {
+app.set('json replacer', (key: string, value: string) => {
   // A list of database column names with Postgres type `date`.
   // (Except as bindings for `date` type database columns, avoid these keys in objects sent via JSON/HTTPS.)
   const pgDateTypeFields = [
@@ -233,7 +226,7 @@ app.set('json replacer', (key, value) => {
 });
 
 // Apply default express.json() request size limit to all routes except sensor webhook
-const applyExpressJSON = (req, res, next) => {
+const applyExpressJSON: RequestHandler = (req, res, next) => {
   if (req.path.startsWith('/sensor/reading/partner/1/farm/')) return next();
 
   const jsonMiddleware = express.json({ limit: '100kB' });
@@ -241,7 +234,7 @@ const applyExpressJSON = (req, res, next) => {
 };
 
 // Refuse GET or DELETE requests with a request body
-const rejectBodyInGetAndDelete = (req, res, next) => {
+const rejectBodyInGetAndDelete: RequestHandler = (req, res, next) => {
   if (
     (req.method === 'DELETE' || req.method === 'GET') &&
     req.body &&
@@ -342,20 +335,23 @@ if (process.env.SENTRY_DSN && environment !== 'development') {
 expressOasGenerator.handleRequests();
 
 // handle errors
+const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
+  res.status(error.status || 500);
+  res.json({
+    error: {
+      message: error.message,
+    },
+  });
+};
+
 app
   .use((req, res, next) => {
     const error = new Error('Not found');
+    //@ts-expect-error
     error.status = 404;
     next(error);
   })
-  .use((error, req, res, next) => {
-    res.status(error.status || 500);
-    res.json({
-      error: {
-        message: error.message,
-      },
-    });
-  });
+  .use(errorHandler);
 
 const port = process.env.PORT || 5000;
 if (

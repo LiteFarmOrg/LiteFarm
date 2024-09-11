@@ -4,6 +4,9 @@
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "type": "module",
+  "engines": {
+    "node": ">=20.6"
+  },
   "scripts": {
     "test": "node --inspect ./node_modules/.bin/jest --runInBand",
     "test-ci": "NODE_ENV=pipeline jest --runInBand --forceExit",

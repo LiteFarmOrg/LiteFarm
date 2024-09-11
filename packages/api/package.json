@@ -10,13 +10,14 @@
     "test-end2end": "jest endToEnd",
     "jest-w": "jest --watch",
     "start": "set NODE_ENV=development&& node src/server.js",
-    "start:prod": "node src/server.js",
+    "start:prod": "npm run build && node dist/api/src/server.js",
+    "build": "rimraf dist && tsc",
     "dev": "node --watch --import @swc-node/register/esm-register src/server.js",
     "nodemon": "set NODE_ENV=development&& nodemon --inspect=0.0.0.0:9230 src/server.js",
     "debug-email-template": "set NODE_ENV=development&& DEBUG=email-templates nodemon src/server.js",
     "debug-i18n": "set NODE_ENV=development&& DEBUG=i18n:* nodemon src/server.js",
-    "production": "NODE_ENV=production node src/server.js",
-    "integration": "NODE_ENV=integration node src/server.js",
+    "production": "NODE_ENV=production npm run start:prod",
+    "integration": "NODE_ENV=integration npm run start:prod",
     "migrate:testing:db": "NODE_ENV=test knex migrate:latest --env=test --knexfile=./.knex/knexfile.js",
     "migrate:dev:db": "knex migrate:latest --knexfile=./.knex/knexfile.js",
     "migrate:make:dev": "knex migrate:latest --knexfile=./.knex/knexfile.js",
@@ -125,7 +126,8 @@
     "lint-staged": "^10.5.3",
     "nodemon": "^2.0.22",
     "prettier": "2.2.1",
-    "start-server-and-test": "^1.11.7"
+    "start-server-and-test": "^1.11.7",
+    "typescript": "^5.6.2"
   },
   "lint-staged": {
     "*.{js,css,md}": "prettier --write",

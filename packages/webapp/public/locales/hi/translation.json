@@ -465,13 +465,13 @@
     "YEAR_TO_DATE": "वर्ष की शुरुआत से"
   },
   "DAYS_OF_WEEK_SELECT": {
-    "FRIDAY": "शुक्रवार",
-    "MONDAY": "सोमवार",
-    "SATURDAY": "शनिवार",
-    "SUNDAY": "रविवार",
-    "THURSDAY": "गुरुवार",
-    "TUESDAY": "मंगलवार",
-    "WEDNESDAY": "बुधवार"
+    "FRIDAY": "शुक्र",
+    "MONDAY": "सोम",
+    "SATURDAY": "शनि",
+    "SUNDAY": "रवि",
+    "THURSDAY": "गुर",
+    "TUESDAY": "मंगल",
+    "WEDNESDAY": "बुध"
   },
   "DOCUMENTS": {
     "ADD": {

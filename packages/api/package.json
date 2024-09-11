@@ -49,12 +49,6 @@
     ],
     "globalSetup": "./jest-global-setup.cjs"
   },
-  "nodemonConfig": {
-    "watch": [
-      "./src",
-      "../shared"
-    ]
-  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.456.0",
     "@googlemaps/google-maps-services-js": "^3.3.14",
@@ -130,7 +124,6 @@
     "eslint-plugin-json": "^4.0.1",
     "i18next-parser": "^5.3.0",
     "jest": "^26.4.2",
-    "nodemon": "^2.0.22",
     "prettier": "2.2.1",
     "start-server-and-test": "^1.11.7",
     "typescript": "^5.6.2",

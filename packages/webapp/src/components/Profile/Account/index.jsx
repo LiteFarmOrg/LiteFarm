@@ -41,14 +41,10 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
     shouldUnregister: true,
   });
   useEffect(() => {
-    // get proper translations for the selected options right after language preference is updated
-    setValue(userFarmEnum.language_preference, null, { shouldValidate: false, shouldDirty: false });
-    setTimeout(() => {
-      setValue(userFarmEnum.language_preference, languagePreferenceOptionRef.current, {
-        shouldValidate: false,
-        shouldDirty: false,
-      });
-    }, 100);
+    setValue(userFarmEnum.language_preference, languagePreferenceOptionRef.current, {
+      shouldValidate: false,
+      shouldDirty: false,
+    });
   }, [userFarm.language_preference]);
   const disabled = !isDirty || !isValid;
   return (

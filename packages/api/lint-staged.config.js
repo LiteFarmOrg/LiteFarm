@@ -1,4 +1,5 @@
 export default {
-  '*.{js,ts}': [() => 'tsc -p tsconfig.json --noEmit', 'eslint --quiet --fix'],
+  '*.{ts}': [() => 'tsc'],
   '*.{md,yml,json,js,ts}': 'prettier --write',
+  '*.{js,ts}': 'eslint --quiet --fix',
 };

@@ -2,9 +2,8 @@
   "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
     "allowJs": true,
-    "outDir": "dist",
-    "esModuleInterop": true
+    "noEmit": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src", "tests"]
 }

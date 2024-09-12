@@ -465,13 +465,13 @@
     "YEAR_TO_DATE": "ਸਾਲ ਦੀ ਮਿਤੀ ਤੱਕ"
   },
   "DAYS_OF_WEEK_SELECT": {
-    "FRIDAY": "ਐੱਫ",
-    "MONDAY": "ਐੱਮ",
-    "SATURDAY": "ਐੱਸ",
-    "SUNDAY": "ਐੱਸ",
-    "THURSDAY": "ਟੀ",
-    "TUESDAY": "ਟੀ",
-    "WEDNESDAY": "ਡਬਲਯੂ"
+    "FRIDAY": "ਸ਼ੁੱਕਰ",
+    "MONDAY": "ਸੋਮ",
+    "SATURDAY": "ਸ਼ਨੀ",
+    "SUNDAY": "ਐਤ",
+    "THURSDAY": "ਵੀਰ",
+    "TUESDAY": "ਮੰਗਲ",
+    "WEDNESDAY": "ਬੁੱਧ"
   },
   "DOCUMENTS": {
     "ADD": {
@@ -1896,7 +1896,7 @@
     "WIND": "ਹਵਾ"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": "Let's get started"
+    "BUTTON": "ਆਓ ਸ਼ੁਰੂ ਕਰੀਏ"
   },
   "YEAR_SELECTOR": {
     "TITLE": "ਸਾਲ ਚੁਣੋ"

@@ -29,8 +29,7 @@ interface PureFilterPageProps {
   title?: string;
   onApply: () => void /* The handler for Redux state update in this flow, e.g.
     () => dispatch(setCropCatalogueFilter(tempFilter)) */;
-  tempFilter: ReduxFilterEntity;
-  setTempFilter: (filter: ReduxFilterEntity) => void;
+  setTempFilter: (filter: (prevFilter: ReduxFilterEntity) => ReduxFilterEntity) => void;
   onGoBack?: () => void;
   children?: React.ReactNode;
 }
@@ -39,7 +38,6 @@ const PureFilterPage = ({
   title,
   filters,
   onApply,
-  tempFilter,
   setTempFilter,
   onGoBack,
   children,
@@ -74,17 +72,19 @@ const PureFilterPage = ({
       <FilterGroup
         filters={filters}
         onChange={(filterKey, filterState) => {
+          console.log(filterKey, 'filterKey');
+          console.log(filterState, 'filterState');
           if (filterKey === 'DATE_RANGE') {
-            setTempFilter({
-              ...tempFilter,
+            setTempFilter((prevTempFilter) => ({
+              ...prevTempFilter,
               ...(filterState.fromDate && { FROM_DATE: filterState.fromDate }),
               ...(filterState.toDate && { TO_DATE: filterState.toDate }),
-            });
+            }));
           } else {
-            setTempFilter({
-              ...tempFilter,
+            setTempFilter((prevTempFilter) => ({
+              ...prevTempFilter,
               [filterKey]: filterState,
-            });
+            }));
           }
           setDirty();
         }}

@@ -178,7 +178,6 @@ const TasksFilterPage = ({ onGoBack }) => {
       filters={filters}
       onApply={handleApply}
       onGoBack={onGoBack}
-      tempFilter={tempFilter}
       setTempFilter={setTempFilter}
     />
   );

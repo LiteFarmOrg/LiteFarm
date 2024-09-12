@@ -25,7 +25,6 @@ import { useStartAddCropVarietyFlow } from './useStartAddCropVarietyFlow';
 import useCropVarietyCatalogue from './useCropVarietyCatalogue';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
 import Drawer from '../../components/Drawer';
-import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 export default function CropVarieties({ history, match, location }) {
   const { t } = useTranslation();
@@ -87,7 +86,6 @@ export default function CropVarieties({ history, match, location }) {
   const goToVarietyCreation = () => {
     onAddCropVariety(crop_id);
   };
-  const language = getLanguageFromLocalStorage();
 
   return (
     <Layout>
@@ -127,7 +125,8 @@ export default function CropVarieties({ history, match, location }) {
             <CropStatusInfoBox
               status={{ active, abandoned, completed, planned, noPlans }}
               style={{ marginBottom: '16px' }}
-              language={language}
+              date={date}
+              setDate={setDate}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {filteredCropsWithoutManagementPlan.map((cropVariety) => {

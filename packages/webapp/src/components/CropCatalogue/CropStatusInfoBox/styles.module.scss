@@ -8,6 +8,7 @@
 
 .secondRowContainer {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -15,9 +16,4 @@
   display: flex;
   gap: 4px;
   align-items: center;
-  overflow-wrap: anywhere;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto;
 }

@@ -75,8 +75,8 @@ const PureFilterPage = ({
           if (filterKey === 'DATE_RANGE') {
             setTempFilter((prevTempFilter) => ({
               ...prevTempFilter,
-              ...(filterState.fromDate && { FROM_DATE: filterState.fromDate }),
-              ...(filterState.toDate && { TO_DATE: filterState.toDate }),
+              ...{ FROM_DATE: filterState.fromDate },
+              ...{ TO_DATE: filterState.toDate },
             }));
           } else {
             setTempFilter((prevTempFilter) => ({

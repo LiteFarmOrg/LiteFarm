@@ -39,6 +39,7 @@ export function FilterDateRange({
     if (shouldReset) {
       setFromDate('');
       setToDate('');
+      onChange({ fromDate: undefined, toDate: undefined });
     }
   }, [shouldReset]);
 

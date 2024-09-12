@@ -11,12 +11,11 @@ import useGenderOptions from '../../../hooks/useGenderOptions';
 import useLanguageOptionsMap from '../../../hooks/useLanguageOptions';
 
 const useLanguageOptions = (language_preference) => {
-  const languageOptionMap = useLanguageOptionsMap();
-  const languageOptions = Object.values(languageOptionMap);
+  const languageOptions = useLanguageOptionsMap();
   const languagePreferenceOptionRef = useRef();
   languagePreferenceOptionRef.current =
-    languageOptionMap[language_preference] || language_preference;
-  return { languageOptionMap, languageOptions, languagePreferenceOptionRef };
+    languageOptions.find(({ value }) => value === language_preference) || language_preference;
+  return { languageOptions, languagePreferenceOptionRef };
 };
 
 export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {

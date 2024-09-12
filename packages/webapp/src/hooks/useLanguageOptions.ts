@@ -12,7 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useTranslation } from 'react-i18next';
 
 const supportedLanguages = [
   ['en', 'English'],
@@ -26,11 +25,9 @@ const supportedLanguages = [
 ];
 
 const useLanguageOptions = () => {
-  const { t } = useTranslation();
-
   return supportedLanguages.map(([value, text]) => ({
     value,
-    label: t(text),
+    label: text,
   }));
 };
 

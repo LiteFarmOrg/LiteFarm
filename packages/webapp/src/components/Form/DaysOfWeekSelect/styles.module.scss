@@ -37,7 +37,7 @@
 /* Create a custom Checkbox */
 .checkmark {
   background-color: var(--bgInputListTile);
-  border: solid 1px var(--grey400);
+  outline: solid 1px var(--grey400);
   border-radius: 2px;
   min-width: 28px;
   .dayLetter {
@@ -53,7 +53,7 @@
 /* When the Checkbox is checked, add a green background */
 .container input:checked + .checkmark {
   background-color: var(--teal700);
-  border: none;
+  outline: none;
 
   .dayLetter {
     color: white;

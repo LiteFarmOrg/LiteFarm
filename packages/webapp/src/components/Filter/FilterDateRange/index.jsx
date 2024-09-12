@@ -36,7 +36,7 @@ export function FilterDateRange({
   const [toDate, setToDate] = useState(defaultToDate ?? '');
 
   useEffect(() => {
-    if (shouldReset) {
+    if (shouldReset && (fromDate || toDate)) {
       setFromDate('');
       setToDate('');
       onChange({ fromDate: undefined, toDate: undefined });

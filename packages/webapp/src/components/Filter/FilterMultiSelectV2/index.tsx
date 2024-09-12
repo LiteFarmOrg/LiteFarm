@@ -115,7 +115,7 @@ export const FilterMultiSelectV2 = ({
   const hiddenCountRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (shouldReset) {
+    if (shouldReset && value.length) {
       handleChange([]);
     }
   }, [shouldReset]);

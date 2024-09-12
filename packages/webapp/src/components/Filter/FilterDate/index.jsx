@@ -21,9 +21,9 @@ export function FilterDate({ defaultValue, onChange, subject, shouldReset, props
   const [date, setDate] = useState(defaultValue ?? '');
 
   useEffect(() => {
-    if (shouldReset) {
+    if (shouldReset && date) {
       setDate('');
-      onChange('');
+      onChange(undefined);
     }
   }, [shouldReset]);
 

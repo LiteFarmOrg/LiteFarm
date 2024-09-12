@@ -51,6 +51,15 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
       });
     }, 100);
   }, [userFarm.language_preference]);
+
+  // Update gender selection after language change
+  useEffect(() => {
+    setValue(
+      userFarmEnum.gender,
+      genderOptions.find(({ value }) => value === userFarm[userFarmEnum.gender]),
+    );
+  }, [genderOptions]);
+
   const disabled = !isDirty || !isValid;
   return (
     <ProfileLayout

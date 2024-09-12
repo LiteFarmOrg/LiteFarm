@@ -72,8 +72,6 @@ const PureFilterPage = ({
       <FilterGroup
         filters={filters}
         onChange={(filterKey, filterState) => {
-          console.log(filterKey, 'filterKey');
-          console.log(filterState, 'filterState');
           if (filterKey === 'DATE_RANGE') {
             setTempFilter((prevTempFilter) => ({
               ...prevTempFilter,

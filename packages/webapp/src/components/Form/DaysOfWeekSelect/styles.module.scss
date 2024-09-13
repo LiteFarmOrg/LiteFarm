@@ -15,15 +15,14 @@
 
 .container {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  width: 100%;
-  max-width: 312px;
 }
 
 /* Hide the browser's default Checkbox */
@@ -37,19 +36,12 @@
 
 /* Create a custom Checkbox */
 .checkmark {
-  position: relative;
-  height: 28px;
-  width: 28px;
   background-color: var(--bgInputListTile);
-  border: solid 1px var(--grey400);
+  outline: solid 1px var(--grey400);
   border-radius: 2px;
-  flex-shrink: 0;
-
+  min-width: 28px;
   .dayLetter {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin: 0px 8px 0px 8px;
     color: var(--grey400);
     font-weight: 700;
     font-family: 'Open Sans';
@@ -61,7 +53,7 @@
 /* When the Checkbox is checked, add a green background */
 .container input:checked + .checkmark {
   background-color: var(--teal700);
-  border: none;
+  outline: none;
 
   .dayLetter {
     color: white;

@@ -22,6 +22,8 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
     handleSubmit,
     watch,
     control,
+    setValue,
+    getValues,
     formState: { isDirty, isValid, errors },
   } = useForm({
     mode: 'onTouched',
@@ -64,6 +66,14 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
     i18n.changeLanguage(language);
     localStorage.setItem('litefarm_lang', language);
   }, [language]);
+
+  // Update gender selection after language change
+  useEffect(() => {
+    setValue(
+      GENDER,
+      genderOptions.find(({ value }) => value === getValues(GENDER)?.value),
+    );
+  }, [genderOptions]);
 
   const disabled = !isDirty || !isValid || (isNotSSO && !isPasswordValid);
 

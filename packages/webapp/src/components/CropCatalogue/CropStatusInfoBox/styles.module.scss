@@ -13,24 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const supportedLanguages = [
-  ['en', 'English'],
-  ['es', 'Español'],
-  ['de', 'Deutsch'],
-  ['fr', 'Français'],
-  ['pt', 'Português'],
-  ['hi', 'हिंदी'],
-  ['ml', 'മലയാളം'],
-  ['pa', 'ਪੰਜਾਬੀ'],
-];
+.container {
+  display: flex;
+  padding: 12px;
+  position: relative;
+  flex-direction: column;
+  row-gap: 16px;
+}
 
-const useLanguageOptions = () => {
-  return supportedLanguages.map(([value, text]) => ({
-    value,
-    label: text,
-  }));
-};
+.secondRowContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
-export const languageCodes = supportedLanguages.map(([code]) => code);
-
-export default useLanguageOptions;
+.cropCountContainer {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}

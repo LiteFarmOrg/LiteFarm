@@ -30,15 +30,7 @@
     "years": "ans",
     "year": "an"
   },
-  "dayNames": [
-    "Dimanche",
-    "Lundi",
-    "Mardi",
-    "Mercredi",
-    "Jeudi",
-    "Vendredi",
-    "Samedi"
-  ],
+  "dayNames": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
   "monthNames": [
     "Janvier",
     "Février",

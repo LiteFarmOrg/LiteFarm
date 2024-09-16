@@ -15,6 +15,8 @@ import useLanguageOptions from '../../hooks/useLanguageOptions';
 
 export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNotSSO }) {
   const genderOptions = useGenderOptions();
+  const getGenderOptionLabel = (option) => t(option.label);
+
   const GENDER = 'gender';
 
   const {
@@ -66,14 +68,6 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
     i18n.changeLanguage(language);
     localStorage.setItem('litefarm_lang', language);
   }, [language]);
-
-  // Update gender selection after language change
-  useEffect(() => {
-    setValue(
-      GENDER,
-      genderOptions.find(({ value }) => value === getValues(GENDER)?.value),
-    );
-  }, [genderOptions]);
 
   const disabled = !isDirty || !isValid || (isNotSSO && !isPasswordValid);
 
@@ -127,6 +121,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
             value={value}
             toolTipContent={t('CREATE_USER.GENDER_TOOLTIP')}
             style={{ marginBottom: '28px' }}
+            getOptionLabel={getGenderOptionLabel}
           />
         )}
       />

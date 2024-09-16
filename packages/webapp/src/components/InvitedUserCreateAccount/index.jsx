@@ -46,6 +46,8 @@ export default function PureInvitedUserCreateAccountPage({
 
   const { t } = useTranslation(['translation', 'gender']);
   const genderOptions = useGenderOptions();
+  const getGenderOptionLabel = (option) => t(option.label);
+
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 
   const onError = (error) => {
@@ -103,9 +105,8 @@ export default function PureInvitedUserCreateAccountPage({
             toolTipContent={t('INVITATION.GENDER_TOOLTIP')}
             style={{ marginBottom: '24px' }}
             autoOpen={autoOpen}
-            defaultValue={
-              gender ? genderOptions.filter((option) => option.value === gender) : genderOptions[3]
-            }
+            getOptionLabel={getGenderOptionLabel}
+            defaultValue={gender ?? genderOptions[3]}
           />
         )}
       />

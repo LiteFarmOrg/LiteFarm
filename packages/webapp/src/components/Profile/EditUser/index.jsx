@@ -44,6 +44,8 @@ export default function PureEditUser({
   const adminRoles = [1, 2, 5];
 
   const genderOptions = useGenderOptions();
+  const getGenderOptionLabel = (option) => t(option.label);
+
   const languageOptions = useLanguageOptions();
 
   const isPseudoUser = userFarm.role_id === 4;
@@ -234,6 +236,7 @@ export default function PureEditUser({
               toolTipContent={t('INVITE_USER.GENDER_TOOLTIP')}
               style={{ marginBottom: '24px' }}
               defaultValue={genderOptions[3]}
+              getOptionLabel={getGenderOptionLabel}
               {...field}
               optional
             />

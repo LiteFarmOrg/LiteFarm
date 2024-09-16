@@ -44,6 +44,8 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
   const title = t('INVITE_USER.TITLE');
 
   const genderOptions = useGenderOptions();
+  const getGenderOptionLabel = (option) => t(option.label);
+
   const languageOptions = useLanguageOptions();
 
   const disabled = !isValid || !isDirty;
@@ -129,6 +131,7 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
             toolTipContent={t('INVITE_USER.GENDER_TOOLTIP')}
             style={{ marginBottom: '24px' }}
             defaultValue={genderOptions[3]}
+            getOptionLabel={getGenderOptionLabel}
             {...field}
           />
         )}

@@ -370,7 +370,7 @@
   },
   "CROP_CATALOGUE": {
     "ADD_CROP": "Neue Kulturpflanze hinzufügen",
-    "ADD_CROPS_T0_YOUR_FARM": "Fügen Sie Ihrem Betrieb Pflanzen hinzu",
+    "ADD_CROPS_T0_YOUR_FARM": "Ihrem Betrieb Pflanzen hinzufügen",
     "ADD_TO_YOUR_FARM": "Zu Ihrem Betrieb hinzufügen",
     "CAN_NOT_FIND": "Können Sie nicht finden, was Sie suchen?",
     "CANCEL": "Schaffung von Kulturpflanzen",
@@ -379,7 +379,7 @@
     "CROP_CATALOGUE": "Kulturpflanzen-Katalog",
     "CROP_GROUP": "Kulturpflanzen-Gruppe",
     "CROP_GROUP_TOOL_TIP": "Wenn Sie eine Pflanzengruppe auswählen, kann LiteFarm viele Informationen zu dieser Pflanze vorausfüllen, z. B. die Vegetationsperiode, die Nährwerte und den geschätzten Jahresertrag. Keine Sorge, Sie können diese Werte unten ändern, sobald Sie eine Pflanzengruppe ausgewählt haben.",
-    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Dokumentieren Sie für den Bio-Landbau erforderliche Informationen",
+    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Für den Bio-Landbau erforderliche Informationen dokumentieren",
     "DUPLICATE_CROP": "Eine Kulturpflanze mit demselben Namen, derselben Gattung und derselben Art existiert bereits auf Ihrem Betrieb",
     "FILTER": {
       "LOCATION": "Standort",
@@ -501,9 +501,9 @@
     "SPOTLIGHT": {
       "CDC": "Wenn es an der Zeit ist, Ihren Zertifizierungsexport zu erstellen, exportiert LiteFarm automatisch alle Dokumente, die zu dem von Ihnen angegebenen Exportdatum gültig sind. Die Dokumente werden automatisch archiviert, wenn sie ablaufen.",
       "HERE_YOU_CAN": "Hier können Sie:",
-      "YOU_CAN_ONE": "Laden Sie Dokumente hoch, die Sie in Ihren Zertifizierungsexport aufnehmen möchten",
+      "YOU_CAN_ONE": "Dokumente hochladen, die Sie in Ihren Zertifizierungs-Export aufnehmen möchten",
       "YOU_CAN_THREE": "Nicht nötige Dokumente archivieren",
-      "YOU_CAN_TWO": "Kategorisieren Sie die Verfallsdaten Ihrer Dokumente und behalten Sie sie im Auge"
+      "YOU_CAN_TWO": "Die Verfallsdaten Ihrer Dokumente kategorisieren und im Auge behalten"
     },
     "TYPE": {
       "CLEANING_PRODUCT": "Reinigungsprodukt",

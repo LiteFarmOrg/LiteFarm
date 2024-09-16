@@ -106,7 +106,9 @@ export default function PureInvitedUserCreateAccountPage({
             style={{ marginBottom: '24px' }}
             autoOpen={autoOpen}
             getOptionLabel={getGenderOptionLabel}
-            defaultValue={gender ?? genderOptions[3]}
+            defaultValue={
+              gender ? genderOptions.filter((option) => option.value === gender) : genderOptions[3]
+            }
           />
         )}
       />

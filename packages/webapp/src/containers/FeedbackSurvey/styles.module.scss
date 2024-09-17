@@ -1,0 +1,15 @@
+.surveyButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    background: var(--blue700);
+    border-radius: 8px;
+}
+
+.surveyButtonIcon {
+    font-size: 24px;
+    color: white;
+}
+

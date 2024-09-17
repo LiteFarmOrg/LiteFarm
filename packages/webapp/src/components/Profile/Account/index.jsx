@@ -20,6 +20,8 @@ const useLanguageOptions = (language_preference) => {
 
 export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
   const genderOptions = useGenderOptions();
+  const getGenderOptionLabel = (option) => t(option.label);
+
   const { languageOptions, languagePreferenceOptionRef } = useLanguageOptions(
     userFarm.language_preference,
   );
@@ -46,6 +48,7 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
       shouldDirty: false,
     });
   }, [userFarm.language_preference]);
+
   const disabled = !isDirty || !isValid;
   return (
     <ProfileLayout
@@ -126,6 +129,7 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
             onChange={onChange}
             value={value}
             toolTipContent={t('CREATE_USER.GENDER_TOOLTIP')}
+            getOptionLabel={getGenderOptionLabel}
           />
         )}
       />

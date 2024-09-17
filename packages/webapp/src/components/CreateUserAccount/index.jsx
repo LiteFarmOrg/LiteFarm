@@ -14,18 +14,27 @@ import useGenderOptions from '../../hooks/useGenderOptions';
 import useLanguageOptions from '../../hooks/useLanguageOptions';
 
 export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNotSSO }) {
+  const genderOptions = useGenderOptions();
+  const getGenderOptionLabel = (option) => t(option.label);
+
+  const GENDER = 'gender';
+
   const {
     register,
     handleSubmit,
     watch,
     control,
+    setValue,
+    getValues,
     formState: { isDirty, isValid, errors },
   } = useForm({
     mode: 'onTouched',
+    defaultValues: {
+      [GENDER]: genderOptions.find(({ value }) => value === 'PREFER_NOT_TO_SAY'),
+    },
   });
 
   const NAME = 'name';
-  const GENDER = 'gender';
   const LANGUAGE = 'language';
   const BIRTHYEAR = 'birth_year';
   const PASSWORD = 'password';
@@ -41,7 +50,6 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
     isTooShort,
   } = validatePasswordWithErrors(password);
 
-  const genderOptions = useGenderOptions();
   const languageOptions = useLanguageOptions();
 
   const getLanguageOption = (language) => {
@@ -113,7 +121,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
             value={value}
             toolTipContent={t('CREATE_USER.GENDER_TOOLTIP')}
             style={{ marginBottom: '28px' }}
-            defaultValue={genderOptions[3]}
+            getOptionLabel={getGenderOptionLabel}
           />
         )}
       />

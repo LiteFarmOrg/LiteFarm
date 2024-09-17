@@ -928,7 +928,7 @@
       "REQUEST_FEATURE": "Solicite una función",
       "REQUEST_INFO": "Solicite información"
     },
-    "PREFERRED_CONTACT": "Forma de contacto preferida",
+    "PREFERRED_CONTACT": "Método de contacto preferido",
     "REQUIRED_LABEL": "Campo solicitado",
     "TITLE": "Solicitar ayuda",
     "TYPE_SUPPORT_LABEL": "Tipo de ayuda",
@@ -1394,14 +1394,10 @@
       "CONVERT_TO_HAVE_ACCOUNT": "Convertir a este trabajador en usuario con cuenta",
       "EDIT_USER": "Editar usuario",
       "EMAIL": "Correo electrónico",
-      "ENGLISH": "Inglés",
       "FIRST_NAME": "Primer nombre",
-      "FRENCH": "Francés",
       "LANGUAGE": "Idioma",
       "LAST_NAME": "Apellido",
       "PHONE_NUMBER": "Número de teléfono",
-      "PORTUGUESE": "Portugués",
-      "SPANISH": "Español",
       "USER_ADDRESS": "Dirección"
     },
     "ACCOUNT_TAB": "Cuenta",
@@ -1717,7 +1713,7 @@
     "SIGN_IN": "Iniciar sesión",
     "SSO_ERROR": "Por favor inicie sesión haciendo clic el boton Google de arriba",
     "USED_INVITATION_LINK_ERROR": "Esta invitación ya se ha utilizado, inicie sesión para acceder a esta granja",
-    "WELCOME_BACK": "Bienvenido",
+    "WELCOME_BACK": "Te damos la bienvenida nuevamente",
     "WRONG_BROWSER": "LiteFarm no es optimizada por este navegador.",
     "WRONG_BROWSER_BOTTOM": "Por favor inicie sesión usando Chrome."
   },

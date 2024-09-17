@@ -11,7 +11,7 @@
   },
   "HELP_REQUEST": {
     "RESPONSE": "Gracias por contactarnos. Alguien de nuestro equipo de ayuda le contactará dentro de las próximas 48 horas. Puede encontrar un resumen de su solicitud más abajo.",
-    "TYPE_HEADER": "Tipo de soporte",
+    "TYPE_HEADER": "Tipo de ayuda",
     "MESSAGE_HEADER": "Mensaje",
     "REQUEST_INFORMATION": "Solicitar Información",
     "REPORT_A_BUG": "Reportar un error",
@@ -39,7 +39,7 @@
   },
   "RESTORE_ACCESS": {
     "ADMIN": "Al parecer desde",
-    "RESTORED": "han renovado su acceso a su finca. Bienvenido/a nuevamente!",
+    "RESTORED": "han renovado su acceso a su finca. Te damos la bienvenida nuevamente!",
     "CLICK_BELOW": "Inicie sesión haciendo clic abajo",
     "SUBJECT0": "Su acceso a",
     "SUBJECT1": "ha sido restaurado!"
@@ -57,9 +57,9 @@
     "SUBJECT": "Se unió exitosamente"
   },
   "CREATE_ACCOUNT_CONFIRMATION": {
-    "WELCOME": "Bienvenido/a a LiteFarm! LiteFarm es una herramienta de software de código abierto creado para ayudar a los/las agricultores y campesinos/as a manejar sus fincas. Puede conocer más acerca de LiteFarm en",
+    "WELCOME": "Te damos la bienvenida a LiteFarm! LiteFarm es una herramienta de software de código abierto creado para ayudar a los/las agricultores y campesinos/as a manejar sus fincas. Puede conocer más acerca de LiteFarm en",
     "CLICK_BELOW": "También puede iniciar sesión (en cualquier dispositivo electrónico) usando el botón de abajo",
-    "SUBJECT": "Bienvenido a LiteFarm!"
+    "SUBJECT": "Te damos la bienvenida a LiteFarm!"
   },
   "WITHHOLD_CONSENT": {
     "RECENT": "Recientemente, mientra formaba parte de",
@@ -91,8 +91,7 @@
     "PRIVACY": "En LiteFarm, tomamos su privacidad enserio, asi que tendrá que tener su sesión iniciada antes de poder acceder a sus documentos. Disculpe por los inconvenientes ocasionados. Buena suerte con su certificación y gracias por usar LiteFarm!",
     "SUBJECT": "sus documentos de certificación de LiteFarm",
     "HI": "Hola",
-    "GET_YOUR_EXPORT": "Obtener documentos",
-    "LANGUAGE_DELAY": "Los cultivos e insumos en el reporte estan en inglés, pero muy pronto estara disponible en español. Pedimos disculpas por los inconvenientes."
+    "GET_YOUR_EXPORT": "Obtener documentos"
   },
   "COMMON": {
     "JOIN": "Únase",

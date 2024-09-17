@@ -10,6 +10,7 @@ import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import { getFirstNameLastName } from '../../util';
 import useGenderOptions from '../../hooks/useGenderOptions';
+import useLanguageOptions from '../../hooks/useLanguageOptions';
 
 export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, roleOptions = [] }) {
   const {
@@ -41,13 +42,11 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
   }, [selectedRoleId]);
   const { t } = useTranslation(['translation', 'common', 'gender']);
   const title = t('INVITE_USER.TITLE');
+
   const genderOptions = useGenderOptions();
-  const languageOptions = [
-    { value: 'en', label: t('PROFILE.ACCOUNT.ENGLISH') },
-    { value: 'es', label: t('PROFILE.ACCOUNT.SPANISH') },
-    { value: 'pt', label: t('PROFILE.ACCOUNT.PORTUGUESE') },
-    { value: 'fr', label: t('PROFILE.ACCOUNT.FRENCH') },
-  ];
+  const getGenderOptionLabel = (option) => t(option.label);
+
+  const languageOptions = useLanguageOptions();
 
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
@@ -132,6 +131,7 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
             toolTipContent={t('INVITE_USER.GENDER_TOOLTIP')}
             style={{ marginBottom: '24px' }}
             defaultValue={genderOptions[3]}
+            getOptionLabel={getGenderOptionLabel}
             {...field}
           />
         )}

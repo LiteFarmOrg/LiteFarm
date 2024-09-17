@@ -23,10 +23,10 @@
  * @param {Array<Validator>} validators
  * @param {Translation} headerTranslations - translations for each CSV header based on validator keys.
  */
-const getHeaderToValidatorMapping = (lang, validators, headerTranslations) => {
+const getHeaderToValidatorMapping = (validators, headerTranslations) => {
   const mapping = {};
   validators.forEach((validator, index) => {
-    mapping[headerTranslations[lang][validator.key]] = index;
+    mapping[headerTranslations[validator.key]] = index;
   });
   return mapping;
 };
@@ -73,7 +73,7 @@ const parseCsv = (
   const headers = rows[0].split(regex).map((h) => h.trim());
   const requiredHeaders = validators
     .filter((v) => v.required)
-    .map((v) => headerTranslations[lang][v.key]);
+    .map((v) => headerTranslations[v.key]);
   const headerErrors = [];
   requiredHeaders.forEach((header) => {
     if (!headers.includes(header)) {
@@ -84,7 +84,7 @@ const parseCsv = (
     return { data: [], errors: headerErrors };
   }
 
-  const allowedHeaders = validators.map((v) => headerTranslations[lang][v.key]);
+  const allowedHeaders = validators.map((v) => headerTranslations[v.key]);
 
   // get all rows except the header and filter out any empty rows
   const dataRows = rows.slice(1).filter((d) => !/^(,? ?\t?)+$/.test(d));
@@ -106,7 +106,7 @@ const parseCsv = (
   // with a particular key defined by getDataKeyFromRow if duplicates are in the file
   const uniqueDataKeys = new Set();
 
-  const headerMapping = getHeaderToValidatorMapping(lang, validators, headerTranslations);
+  const headerMapping = getHeaderToValidatorMapping(validators, headerTranslations);
 
   const { data, errors } = dataRows.reduce(
     (previous, row, rowIndex) => {

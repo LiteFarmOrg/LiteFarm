@@ -15,15 +15,15 @@
 import { useTranslation } from 'react-i18next';
 
 const genderOptions = [
-  { value: 'MALE', label: 'gender:MALE' },
-  { value: 'FEMALE', label: 'gender:FEMALE' },
-  { value: 'OTHER', label: 'gender:OTHER' },
-  { value: 'PREFER_NOT_TO_SAY', label: 'gender:PREFER_NOT_TO_SAY' },
+  { value: 'MALE', label: 'MALE' },
+  { value: 'FEMALE', label: 'FEMALE' },
+  { value: 'OTHER', label: 'OTHER' },
+  { value: 'PREFER_NOT_TO_SAY', label: 'PREFER_NOT_TO_SAY' },
 ];
 
 const useGenderOptions = () => {
   const { t } = useTranslation();
-  const getGenderOptionLabel = (option) => t(option.label);
+  const getGenderOptionLabel = (option) => t(option.label, { ns: 'gender' });
 
   return { genderOptions, getGenderOptionLabel };
 };

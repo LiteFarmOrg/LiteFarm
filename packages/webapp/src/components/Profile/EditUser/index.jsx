@@ -56,18 +56,7 @@ export default function PureEditUser({
     ? { value: 3, label: dropDownMap[3] }
     : { value: userFarm.role_id, label: dropDownMap[userFarm.role_id] };
 
-  const getDefaultGender = () => {
-    switch (userFarm.gender) {
-      case 'MALE':
-        return genderOptions[0];
-      case 'FEMALE':
-        return genderOptions[1];
-      case 'OTHER':
-        return genderOptions[2];
-      case 'PREFER_NOT_TO_SAY':
-        return genderOptions[3];
-    }
-  };
+  const getDefaultGender = () => genderOptions.find(({ value }) => value === userFarm.gender);
 
   const isUserLastAdmin = () => {
     if (userFarm.status === 'Invited') return false;

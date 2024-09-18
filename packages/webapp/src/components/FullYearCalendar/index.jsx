@@ -6,10 +6,7 @@ import PropTypes from 'prop-types';
 import { Semibold } from '../Typography';
 import YearSelectorModal from '../Modals/YearSelectorModal';
 import { getNewDate } from '../Form/InputDuration/utils';
-import 'rc-year-calendar/locales/rc-year-calendar.es';
-import 'rc-year-calendar/locales/rc-year-calendar.pt';
-import 'rc-year-calendar/locales/rc-year-calendar.fr';
-import 'rc-year-calendar/locales/rc-year-calendar.de';
+import.meta.glob('/node_modules/rc-year-calendar/locales/*.js', { eager: true });
 
 function FullYearCalendarView({
   seed_date,

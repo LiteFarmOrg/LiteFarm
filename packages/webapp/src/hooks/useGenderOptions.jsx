@@ -21,11 +21,14 @@ const genderOptions = [
   { value: 'PREFER_NOT_TO_SAY', label: 'PREFER_NOT_TO_SAY' },
 ];
 
+const getGenderOption = (record, genderKey = 'gender') =>
+  genderOptions.find(({ value }) => value === record[genderKey]);
+
 const useGenderOptions = () => {
   const { t } = useTranslation();
   const getGenderOptionLabel = (option) => t(option.label, { ns: 'gender' });
 
-  return { genderOptions, getGenderOptionLabel };
+  return { genderOptions, getGenderOptionLabel, getGenderOption };
 };
 
 export default useGenderOptions;

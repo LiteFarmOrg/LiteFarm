@@ -19,8 +19,7 @@ const useLanguageOptions = (language_preference) => {
 };
 
 export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
-  const genderOptions = useGenderOptions();
-  const getGenderOptionLabel = (option) => t(option.label);
+  const { genderOptions, getGenderOptionLabel } = useGenderOptions();
 
   const { languageOptions, languagePreferenceOptionRef } = useLanguageOptions(
     userFarm.language_preference,

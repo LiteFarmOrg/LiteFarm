@@ -43,8 +43,7 @@ export default function PureEditUser({
   const userFarms = useSelector(userFarmsByFarmSelector);
   const adminRoles = [1, 2, 5];
 
-  const genderOptions = useGenderOptions();
-  const getGenderOptionLabel = (option) => t(option.label);
+  const { genderOptions, getGenderOptionLabel } = useGenderOptions();
 
   const languageOptions = useLanguageOptions();
 

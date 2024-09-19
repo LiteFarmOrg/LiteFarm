@@ -88,6 +88,7 @@ const Select = React.forwardRef((props, ref) => {
         ref={ref}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
+        menuPlacement="auto"
         {...restProps}
       />
     </div>

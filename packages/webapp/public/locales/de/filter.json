@@ -1,0 +1,41 @@
+{
+  "CROP_CATALOGUE": {
+    "LOCATION": "Standort",
+    "STATUS": "Status",
+    "SUPPLIERS": "Zulieferer",
+    "ACTIVE": "Aktiv",
+    "ABANDONED": "Eingestellt",
+    "COMPLETE": "Abgeschlossen",
+    "PLANNED": "Geplant",
+    "NEEDS_PLAN": "Bedarfsplan"
+  },
+  "DOCUMENTS": {
+    "CLEANING_PRODUCT": "Reinigungsprodukte",
+    "CROP_COMPLIANCE": "Pflanzenanbaukonformität",
+    "FERTILIZING_PRODUCT": "Düngeprodukt",
+    "OTHER": "Andere",
+    "PEST_CONTROL_PRODUCT": "Produkt zur Schädlingsbekämpfung",
+    "SOIL_AMENDMENT": "Bodenverbesserung",
+    "SOIL_SAMPLE_RESULTS": "Ergebnisse der Bodenproben",
+    "WATER_SAMPLE_RESULTS": "Ergebnisse von Wasserproben",
+    "UNCATEGORIZED": "Nicht kategorisiert",
+    "RECEIPTS": "Quittungen",
+    "INVOICES": "Rechnungen"
+  },
+  "TASKS": {
+    "LOCATION": "Standort",
+    "STATUS": "Status",
+    "SUPPLIERS": "Zulieferer",
+    "ACTIVE": "Aktiv",
+    "ABANDONED": "Eingestellt",
+    "COMPLETED": "Abgeschlossen",
+    "LATE": "Später",
+    "PLANNED": "Geplant",
+    "FOR_REVIEW": "Zur Überprüfung"
+  },
+  "FILTER": {
+    "VALID_ON": "Gültig ab",
+    "FROM_DATE": "Von",
+    "TO_DATE": "Bis"
+  }
+}

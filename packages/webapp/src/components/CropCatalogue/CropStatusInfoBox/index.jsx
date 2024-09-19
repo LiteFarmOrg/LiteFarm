@@ -1,78 +1,45 @@
-import { makeStyles } from '@mui/styles';
+/*
+ *  Copyright 2021-2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
 
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Card from '../../Card';
 import { useTranslation } from 'react-i18next';
 import Square from '../../Square';
-import { getDateInputFormat } from '../../../util/moment';
+import styles from './styles.module.scss';
 
-const useStyles = makeStyles({
-  container: {
-    display: 'flex',
-    padding: '12px',
-    position: 'relative',
-    flexDirection: 'column',
-    rowGap: '16px',
-  },
-  semibold: {
-    fontWeight: 600,
-  },
-  secondRowContainer: {
-    display: 'flex',
-    gap: '10px',
-  },
-  cropCountContainer: {
-    display: 'flex',
-    gap: '4px',
-    alignItems: 'center',
-  },
-});
-
-export default function CropStatusInfoBox({
-  status,
-  date = getDateInputFormat(new Date()),
-  setDate,
-  ...props
-}) {
-  const classes = useStyles();
+export default function CropStatusInfoBox({ status, ...props }) {
   const { t } = useTranslation();
-  const onDateChange = (e) => setDate?.(e.target.value);
 
   return (
-    <Card color={'info'} className={clsx(classes.container)} {...props}>
-      {/* <NativeDatePickerWrapper
-        style={{
-          position: 'absolute',
-          right: '0',
-          transform: 'translateX(-12px)',
-        }}
-        value={date}
-        onChange={onDateChange}
-      >
-        <Underlined>{t('common:EDIT_DATE')}</Underlined>
-      </NativeDatePickerWrapper> */}
-      {/* <Text>
-        {t('CROP_CATALOGUE.CROP_STATUS')}{' '}
-        <span className={classes.semibold}>
-          {moment(date).locale(getLanguageFromLocalStorage()).format('MMMM DD, YYYY')}
-        </span>{' '}
-      </Text> */}
+    <Card color={'info'} className={clsx(styles.container)} {...props}>
       {status && (
-        <div className={classes.secondRowContainer}>
-          <div className={classes.cropCountContainer}>
+        <div className={styles.secondRowContainer}>
+          <div className={styles.cropCountContainer}>
             <Square>{status.active}</Square>
             {t('common:ACTIVE')}
           </div>
-          <div className={classes.cropCountContainer}>
+          <div className={styles.cropCountContainer}>
             <Square color={'planned'}>{status.planned}</Square>
             {t('common:PLANNED')}
           </div>
-          <div className={classes.cropCountContainer}>
+          <div className={styles.cropCountContainer}>
             <Square color={'past'}>{status.completed + status.abandoned}</Square>
             {t('common:PAST')}
           </div>
-          <div className={classes.cropCountContainer}>
+          <div className={styles.cropCountContainer}>
             <Square color={'needsPlan'}>{status.noPlans}</Square>
             {t('common:NEEDS_PLAN')}
           </div>
@@ -83,9 +50,6 @@ export default function CropStatusInfoBox({
 }
 
 CropStatusInfoBox.propTypes = {
-  setDate: PropTypes.func,
-  date: PropTypes.string,
-
   status: PropTypes.exact({
     active: PropTypes.number,
     abandoned: PropTypes.number,

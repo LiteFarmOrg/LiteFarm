@@ -80,7 +80,7 @@ import { persistor, store } from './store/store';
 import { GlobalScss } from './components/GlobalScss';
 import irrigationTaskTypesSaga from './containers/Task/IrrigationTaskTypes/saga';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-
+import './polyfillDateTimeFormat';
 const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
 
 if (import.meta.env.VITE_SENTRY_DSN) {

@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Error, Info, Label, TextWithExternalLink } from '../../Typography';
 import { Cross } from '../../Icons';
+import Icon from '../../Icons';
 import {
   MdVisibility,
   MdVisibilityOff,
@@ -47,6 +48,7 @@ const Input = ({
   placeholder,
   currency,
   stepper = false,
+  locked = false,
   className = '',
   trigger,
   ...props
@@ -145,6 +147,17 @@ const Input = ({
           }}
         />
       )}
+      {locked && (
+        <Icon
+          iconName={'LOCKED'}
+          style={{
+            position: 'absolute',
+            right: 0,
+            transform: 'translate(-17px, 40px)',
+            zIndex: 1,
+          }}
+        />
+      )}
       {isPassword &&
         !showError &&
         (showPassword ? (
@@ -169,7 +182,7 @@ const Input = ({
       <div className={styles.inputWrapper}>
         <input
           data-testid={testId}
-          disabled={disabled}
+          disabled={disabled || locked}
           className={clsx(
             styles.input,
             showError && styles.inputError,

@@ -203,3 +203,10 @@ PasswordWithLink.args = {
   type: 'password',
   icon: <Underlined>Forget password</Underlined>,
 };
+
+export const LockedInput = Template.bind({});
+LockedInput.args = {
+  label: 'locked',
+  locked: true,
+  placeholder: 'locked',
+};

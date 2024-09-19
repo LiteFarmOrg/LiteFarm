@@ -64,6 +64,9 @@ import { ReactComponent as MoreHorizontalIcon } from '../../assets/images/more-h
 import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
 
+// Input
+import { ReactComponent as LockedIcon } from '../../assets/images/lock-03.svg';
+
 const iconMap = {
   // Finances Carousel
   EXPENSE: ExpenseIcon,
@@ -109,6 +112,8 @@ const iconMap = {
   MORE_HORIZONTAL: MoreHorizontalIcon,
   PLUS_CIRCLE: PlusCircleIcon,
   TRASH: TrashIcon,
+  // Input
+  LOCKED: LockedIcon,
 };
 
 export default iconMap;

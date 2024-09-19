@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - integration
+      - "patch/**"
 
 jobs:
   automated_tests:

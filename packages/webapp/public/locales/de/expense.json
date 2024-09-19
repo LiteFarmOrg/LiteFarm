@@ -1,0 +1,54 @@
+{
+  "EQUIPMENT": {
+    "EXPENSE_NAME": "Ausrüstung",
+    "CUSTOM_DESCRIPTION": "Ausgaben für einfache Werkzeuge, Verbrauchsmaterialien und Teile für den Betrieb Ihrer Farm."
+  },
+  "SOIL_AMENDMENT": {
+    "EXPENSE_NAME": "Bodenverbesserung",
+    "CUSTOM_DESCRIPTION": "Ausgaben für Zusatzstoffe wie Düngemittel, die die Eigenschaften Ihres Bodens verbessern."
+  },
+  "MACHINERY": {
+    "EXPENSE_NAME": "Maschinen",
+    "CUSTOM_DESCRIPTION": "Ausgaben im Zusammenhang mit dem Kauf, dem Leasing, der Miete und der Wartung von Maschinen."
+  },
+  "PEST_CONTROL": {
+    "EXPENSE_NAME": "Schädlingsbekämpfung",
+    "CUSTOM_DESCRIPTION": "Ausgaben im Zusammenhang mit dem Kauf von Zutaten, Produkten und Geräten zur Bekämpfung unerwünschter Arten."
+  },
+  "FUEL": {
+    "EXPENSE_NAME": "Kraftstoff",
+    "CUSTOM_DESCRIPTION": "Ausgaben im Zusammenhang mit der Betankung von Infrastruktur, Fahrzeugen, Maschinen und Geräten."
+  },
+  "LAND": {
+    "EXPENSE_NAME": "Land",
+    "CUSTOM_DESCRIPTION": "Ausgaben im Zusammenhang mit dem Kauf, der Finanzierung, der Pacht, der Miete, dem Zugang, Steuern und anderen Gebühren für Landbesitz oder -nutzung."
+  },
+  "SEEDS_AND_PLANTS": {
+    "EXPENSE_NAME": "Saatgut und Pflanzen",
+    "CUSTOM_DESCRIPTION": "Kauf von Saatgut, Anfängen und Setzlingen für die An- und Umpflanzung."
+  },
+  "MISCELLANEOUS": {
+    "EXPENSE_NAME": "Sonstiges",
+    "CUSTOM_DESCRIPTION": "Alles andere. Erwägen Sie die Erstellung eines benutzerdefinierten Ausgabentyps, wenn Sie in Zukunft zusätzliche Ausgaben wie diese haben werden."
+  },
+  "UTILITIES": {
+    "EXPENSE_NAME": "Versorgungsunternehmen",
+    "CUSTOM_DESCRIPTION": "Wiederkehrende Ausgaben für Strom, Gas, Wasser (einschließlich Bewässerung), Müllabfuhr und andere regelmäßig anfallende Dienstleistungen."
+  },
+  "LABOUR": {
+    "EXPENSE_NAME": "Vertragsarbeit",
+    "CUSTOM_DESCRIPTION": "Ausgaben für unter Vertrag stehende Personen."
+  },
+  "INFRASTRUCTURE": {
+    "EXPENSE_NAME": "Infrastruktur",
+    "CUSTOM_DESCRIPTION": "Ausgaben im Zusammenhang mit dem Bau oder der Verbesserung von Strukturen auf dem Bauernhof."
+  },
+  "TRANSPORTATION": {
+    "EXPENSE_NAME": "Transport",
+    "CUSTOM_DESCRIPTION": "Kosten im Zusammenhang mit dem Transport von Inputs, Outputs und Menschen."
+  },
+  "SERVICES": {
+    "EXPENSE_NAME": "Dienstleistungen",
+    "CUSTOM_DESCRIPTION": "Ausgaben im Zusammenhang mit anderen Dienstleistungen wie Lizenzierung, Zertifizierung, agronomische Unterstützung, Tests, Marketing und andere."
+  }
+}

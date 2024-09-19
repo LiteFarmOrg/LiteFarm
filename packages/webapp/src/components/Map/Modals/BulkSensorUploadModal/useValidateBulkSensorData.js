@@ -18,17 +18,8 @@ import { useSelector } from 'react-redux';
 import { bulkSensorsUploadSliceSelector } from '../../../../containers/bulkSensorUploadSlice';
 import { createSensorErrorDownload } from '../../../../util/sensor';
 import { ErrorTypes } from './constants';
-import parseSensorCsv from '@shared/validation/sensorCSV.js';
+import parseSensorCsv from '../../../../../../shared/validation/sensorCSV.js';
 import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLocalStorage';
-import { languageCodes } from '../../../../hooks/useLanguageOptions';
-
-const getSensorTranslations = async (language) => {
-  // return english if language not supported
-  if (!languageCodes.includes(language)) {
-    return await import('../../../../../../shared/locales/en/sensorCSV.json');
-  }
-  return await import(`../../../../../../shared/locales/${language}/sensorCSV.json`);
-};
 
 export function useValidateBulkSensorData(onUpload, t) {
   const bulkSensorsUploadResponse = useSelector(bulkSensorsUploadSliceSelector);
@@ -42,6 +33,27 @@ export function useValidateBulkSensorData(onUpload, t) {
   const [uploadErrorMessage, setUploadErrorMessage] = useState('');
   const [errorTypeCode, setErrorTypeCode] = useState(ErrorTypes.DEFAULT);
   const lang = getLanguageFromLocalStorage();
+
+  // Required Fields
+  const SENSOR_NAME = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.NAME');
+  const SENSOR_LATITUDE = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.LATITUDE');
+  const SENSOR_LONGITUDE = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.LONGITUDE');
+  const SENSOR_READING_TYPES = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.READING_TYPES');
+
+  // Optional Fields
+  const SENSOR_EXTERNAL_ID = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.SENSOR_EXTERNAL_ID');
+  const SENSOR_DEPTH = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.DEPTH');
+  const SENSOR_BRAND = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.BRAND');
+  const SENSOR_MODEL = t('FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_FIELDS.MODEL');
+
+  const requiredFields = [SENSOR_NAME, SENSOR_LATITUDE, SENSOR_LONGITUDE, SENSOR_READING_TYPES];
+  const templateFields = [
+    ...requiredFields,
+    SENSOR_EXTERNAL_ID,
+    SENSOR_DEPTH,
+    SENSOR_BRAND,
+    SENSOR_MODEL,
+  ];
 
   useEffect(() => {
     if (!disabled) setDisabled(0);
@@ -84,6 +96,7 @@ export function useValidateBulkSensorData(onUpload, t) {
   };
 
   useEffect(() => {
+    // console.log(bulkSensorsUploadResponse)
     if (bulkSensorsUploadResponse?.defaultFailure) {
       setErrorCount(1);
       setErrorTypeCode(ErrorTypes.INVALID_CSV);
@@ -108,8 +121,8 @@ export function useValidateBulkSensorData(onUpload, t) {
       setSelectedFile(file);
 
       const fileString = await readFile(file);
-      const translations = await getSensorTranslations(lang);
-      const { data, errors } = parseSensorCsv(fileString, lang, translations);
+
+      const { data, errors } = parseSensorCsv(fileString, lang);
 
       const translatedErrors = translateErrors(errors);
 
@@ -142,9 +155,9 @@ export function useValidateBulkSensorData(onUpload, t) {
     }
   };
 
-  const onShowErrorClick = async (errorCode) => {
+  const onShowErrorClick = (errorCode) => {
     if (errorCode === 2) {
-      await onTemplateDownloadClick();
+      onTemplateDownloadClick();
       return;
     }
     if (sheetErrors.length) {
@@ -165,10 +178,9 @@ export function useValidateBulkSensorData(onUpload, t) {
     }
   };
 
-  const onTemplateDownloadClick = async () => {
+  const onTemplateDownloadClick = () => {
     const element = document.createElement('a');
-    const { CSV_HEADER_TRANSLATIONS } = await getSensorTranslations(lang);
-    const file = new Blob([`${'\ufeff'}${Object.values(CSV_HEADER_TRANSLATIONS).join(',')}`], {
+    const file = new Blob([`${'\ufeff'}${templateFields.join(',')}`], {
       type: 'text/plain',
     });
     element.href = URL.createObjectURL(file);

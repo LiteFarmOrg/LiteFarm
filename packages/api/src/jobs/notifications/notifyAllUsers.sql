@@ -23,7 +23,6 @@ INSERT INTO notification (
 )
 VALUES (
 -- TODO: Fill in translated text from here ...
--- TODO: Add newly translated languages (de, hi, ml, pa) ...
   '{ "en": "English title", "es": "Spanish title", "pt": "Portuguese title", "fr": "French title" }', -- title
   '{ "en": "English body", "es": "Spanish body", "pt": "Portuguese body", "fr": "French body" }', -- body
 -- ... to here.

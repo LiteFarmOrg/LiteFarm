@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Semibold } from '../Typography';
 import clsx from 'clsx';
+import moment from 'moment';
 import { getNewDate } from '../Form/InputDuration/utils';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
@@ -18,9 +19,7 @@ function FullMonthCalendarView({ date, stage }) {
     termination_date: t('CROP_MANAGEMENT.TERMINATE'),
   };
   const targetDate = getNewDate(date);
-  const monthName = new Intl.DateTimeFormat(getLanguageFromLocalStorage(), {
-    month: 'long',
-  }).format(targetDate);
+  const monthName = moment(targetDate).locale(getLanguageFromLocalStorage()).format('MMMM');
   const firstDayOfMonth = new Date(targetDate.getFullYear(), targetDate.getMonth(), 1);
   const lastDayOfMonth = new Date(targetDate.getFullYear(), targetDate.getMonth() + 1, 0);
   const startDay = firstDayOfMonth.getDay();
@@ -96,16 +95,10 @@ function FullMonthCalendarView({ date, stage }) {
             }}
           >
             {[...Array(previousMonthDays)].map((_, index) => (
-              <div
-                key={index}
-                style={{ flex: '1 0 13%', marginTop: '10px', alignSelf: 'center' }}
-              />
+              <div key={index} style={{ flex: '1 0 13%', marginTop: '10px', alignSelf: 'center' }} />
             ))}
             {[...Array(numberOfDays)].map((_, dayNumber) => (
-              <div
-                key={dayNumber}
-                style={{ flex: '1 0 13%', marginTop: '10px', alignSelf: 'center' }}
-              >
+              <div key={dayNumber} style={{ flex: '1 0 13%', marginTop: '10px', alignSelf: 'center' }}>
                 <span
                   style={{
                     backgroundColor: dayNumber + 1 === targetDate.getDate() && stageToColor[stage],
@@ -117,10 +110,7 @@ function FullMonthCalendarView({ date, stage }) {
               </div>
             ))}
             {[...Array(nextMonthDays)].map((_, index) => (
-              <div
-                key={index}
-                style={{ flex: '1 0 13%', marginTop: '10px', alignSelf: 'center' }}
-              />
+              <div key={index} style={{ flex: '1 0 13%', marginTop: '10px', alignSelf: 'center' }} />
             ))}
           </div>
         </div>

@@ -12,15 +12,7 @@ i18n
     defaultNS: 'translation',
     nsSeparator: ':',
     fallbackLng: 'en',
-    supportedLngs: ['en', 'pt', 'es', 'fr', 'de'],
-    locales: [
-      'en',
-      'pt',
-      'es',
-      'fr',
-      'de',
-      // 'hi', 'pa', 'ml'
-    ],
+    locales: ['en', 'pt', 'es', 'fr'],
     debug: false,
     detection: {
       order: ['localStorage', 'navigator', 'querystring'],

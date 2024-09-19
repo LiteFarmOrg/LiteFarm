@@ -46,18 +46,12 @@ export default function FileUploader({
           <label>
             {uploadErrorMessage}{' '}
             {!errorTypeCode && (
-              <span
-                className={styles.errorMessage}
-                onClick={async () => await onShowErrorClick(errorTypeCode)}
-              >
+              <span className={styles.errorMessage} onClick={() => onShowErrorClick(errorTypeCode)}>
                 {uploadErrorLink}
               </span>
             )}
             {errorTypeCode === 2 && (
-              <span
-                className={styles.errorMessage}
-                onClick={async () => await onShowErrorClick(errorTypeCode)}
-              >
+              <span className={styles.errorMessage} onClick={() => onShowErrorClick(errorTypeCode)}>
                 {invalidFileTypeErrorLink}
               </span>
             )}

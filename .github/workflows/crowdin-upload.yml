@@ -20,25 +20,15 @@ jobs:
       max-parallel: 1 # Should be 1 to avoid parallel builds
       matrix:
         locales: [
-            # Frontend core i18n public translations
+            # Frontend core translations
             {
               source: packages/webapp/public/locales/en/*.json,
               translation: packages/webapp/public/locales/%two_letters_code%/%original_file_name%,
-            },
-            # Frontend compiled translations
-            {
-              source: packages/webapp/src/locales/en/*.json,
-              translation: packages/webapp/src/locales/%two_letters_code%/%original_file_name%,
             },
             # Consent Forms
             {
               source: packages/webapp/src/containers/Consent/locales/en/*.md,
               translation: packages/webapp/src/containers/Consent/locales/%two_letters_code%/%original_file_name%,
-            },
-            # Shared translations
-            {
-              source: packages/shared/locales/en/*.json,
-              translation: packages/shared/locales/%two_letters_code%/%original_file_name%,
             },
             # Backend tranlsations - skipping pdf (crop.json is copied jobs scheduler init during build)
             {

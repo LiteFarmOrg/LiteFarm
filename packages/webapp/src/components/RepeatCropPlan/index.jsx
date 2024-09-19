@@ -29,7 +29,7 @@ import { Label, Main, Error } from '../Typography';
 import {
   getWeekday,
   getDate,
-  getLocalizedDateStringFromISO,
+  getLocalizedDateString,
   calculateMonthlyOptions,
   countOccurrences,
 } from './utils';
@@ -262,7 +262,7 @@ export default function PureRepeatCropPlan({
 
           <Main className={styles.taskSubtext}>
             {t('REPEAT_PLAN.EARLIEST_TASK', {
-              date: getLocalizedDateStringFromISO(origStartDate),
+              date: getLocalizedDateString(origStartDate),
               dateType: origStartDateTypes[origStartDateType],
             })}
           </Main>

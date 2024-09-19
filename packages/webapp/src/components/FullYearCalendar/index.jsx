@@ -9,7 +9,6 @@ import { getNewDate } from '../Form/InputDuration/utils';
 import 'rc-year-calendar/locales/rc-year-calendar.es';
 import 'rc-year-calendar/locales/rc-year-calendar.pt';
 import 'rc-year-calendar/locales/rc-year-calendar.fr';
-import 'rc-year-calendar/locales/rc-year-calendar.de';
 
 function FullYearCalendarView({
   seed_date,

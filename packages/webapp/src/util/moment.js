@@ -55,31 +55,28 @@ export const addDaysToDate = (date, days, { toUTC = true } = {}) => {
 };
 /**
  *
- * @param {string|Date} date - The date to format, either as a string or a Date object.
- * @param {Object} the Intl.DateTimeFormat options object.
- * @return {string} The formatted date string, or 'Invalid date' if the input date is invalid
- Default format: September 14, 2024 or as appropriate to language */
-export const getLocalizedDateString = (date, options = { dateStyle: 'long' }) => {
-  const language = getLanguageFromLocalStorage();
-  const parsedDate = moment(date);
+ * @param date
+ * @return {string}
+ */
+export const getLocalizedDateString = (date, format = 'MMMM DD, YYYY') =>
+  moment(date).locale(getLanguageFromLocalStorage()).format(format);
 
-  if (!parsedDate.isValid()) {
-    return 'Invalid date';
-  }
-
-  return new Intl.DateTimeFormat(language, options).format(parsedDate.toDate());
-};
-
+/**
+ *
+ * @param date
+ * @returns {string}
+ */
 export const getManagementPlanCardDate = (date) =>
-  getLocalizedDateString(date, { month: 'short', day: '2-digit', year: '2-digit' });
+  moment(date).locale(getLanguageFromLocalStorage()).format(`MMM DD,'YY`);
 
 export const getManagementPlanTileDate = (date) =>
-  getLocalizedDateString(date, { month: 'short', day: '2-digit', year: '2-digit' });
+  moment(date).locale(getLanguageFromLocalStorage()).format(`MMM DD,'YY`);
 
-export const getTaskCardDate = (date) => moment(date).format('MMM D, YYYY');
+export const getTaskCardDate = (date) =>
+  moment(date).locale(getLanguageFromLocalStorage()).format('MMM D, YYYY');
 
 export const getNotificationCardDate = (date) =>
-  getLocalizedDateString(date, { month: '2-digit', day: '2-digit', year: '2-digit' });
+  moment(date).locale(getLanguageFromLocalStorage()).format('MM/DD/YY');
 
 export const getCurrentDateLong = (date) => moment().format('L');
 

@@ -11,6 +11,7 @@ import useDocumentTileGap from './DocumentTile/useDocumentTileGap';
 import { getDocuments } from '../saga';
 import { expiredDocumentSelector, validDocumentSelector } from '../documentSlice';
 import { useFilterDocuments, useSortByName, useStringFilteredDocuments } from './util';
+import moment from 'moment';
 import DocumentsSpotlight from './DocumentsSpotlight';
 import { DocumentUploader } from './DocumentUploader';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
@@ -29,8 +30,13 @@ export default function Documents({ history }) {
   const lang = getLanguageFromLocalStorage();
 
   const getDisplayedDate = (date) => {
-    const options = { year: '2-digit', month: 'short', day: 'numeric' };
-    return date ? new Date(date).toLocaleDateString(lang, options) : null;
+    const formattedDate = moment(date).locale(lang).format('MMM D, YY');
+    return (
+      date &&
+      formattedDate.substring(0, formattedDate.length - 2) +
+        "'" +
+        formattedDate.substring(formattedDate.length - 2)
+    );
   };
 
   const [filterString, setFilterString] = useState('');

@@ -39,7 +39,7 @@
   },
   "RESTORE_ACCESS": {
     "ADMIN": "Parece que um dos administradores em",
-    "RESTORED": "renovou seu acesso ao seu sítio no LiteFarm. Te damos as boas-vindas de volta!",
+    "RESTORED": "renovou seu acesso ao seu sítio no LiteFarm. Bem-vindo de volta!",
     "CLICK_BELOW": "Você pode entrar novamente clicando abaixo",
     "SUBJECT0": "Seu acesso a",
     "SUBJECT1": "foi restaurado!"
@@ -57,9 +57,9 @@
     "SUBJECT": "Você juntou com sucesso a"
   },
   "CREATE_ACCOUNT_CONFIRMATION": {
-    "WELCOME": "Te damos as boas-vindas ao LiteFarm! LiteFarm é um software de código aberto e uma ferramenta para ajudar agricultores(as) a manejar seus sítios. Você pode ler mais sobre o LiteFarm em",
+    "WELCOME": "Bem-vindo(a) a LiteFarm! LiteFarm é um software de código aberto e uma ferramenta para ajudar agricultores(as) a manejar seus sítios. Você pode ler mais sobre o LiteFarm em",
     "CLICK_BELOW": "Você também pode entrar (em qualquer dispositivo) clicando no botão abaixo",
-    "SUBJECT": "Te damos as boas-vindas ao LiteFarm!"
+    "SUBJECT": "Bem-vindo(a) a LiteFarm!"
   },
   "WITHHOLD_CONSENT": {
     "RECENT": "Recentemente, ao iniciar o processo de cadastro junto a",

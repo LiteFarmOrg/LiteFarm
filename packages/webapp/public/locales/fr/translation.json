@@ -647,7 +647,7 @@
         "SENSOR_LONGITUDE": "La valeur de longitude n'est pas valide, elle doit être comprise entre -180 et 180 et avec moins de 10 décimales.",
         "SENSOR_MODEL": "Nom de modèle non valide, il doit être compris entre 1 et 100 caractères.",
         "SENSOR_NAME": "Nom de capteur non valide, if doit être compris entre 1 et 100 caractères.",
-        "SENSOR_READING_TYPES": "Type de données relevées non valide détecté : {{ reading_types }}. Les valeurs valides sont : teneur_en_eau_du_sol, potentiel_hydrique_du_sol, température."
+        "SENSOR_READING_TYPES": "Type de données relevées non valide détecté : {{ reading_types }}. Les valeurs valides sont : {{ allowed_reading_types }}."
       }
     },
     "BULK_UPLOAD_TRANSITION": {

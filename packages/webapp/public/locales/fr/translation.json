@@ -470,8 +470,8 @@
     "SATURDAY": "S",
     "SUNDAY": "D",
     "THURSDAY": "J",
-    "TUESDAY": "Ma",
-    "WEDNESDAY": "Me"
+    "TUESDAY": "M",
+    "WEDNESDAY": "M"
   },
   "DOCUMENTS": {
     "ADD": {

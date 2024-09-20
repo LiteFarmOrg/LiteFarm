@@ -1,41 +1,41 @@
 {
   "CROP_CATALOGUE": {
-    "LOCATION": "",
-    "STATUS": "",
-    "SUPPLIERS": "",
-    "ACTIVE": "",
-    "ABANDONED": "",
-    "COMPLETE": "",
-    "PLANNED": "",
-    "NEEDS_PLAN": ""
+    "LOCATION": "സ്ഥലം",
+    "STATUS": "സാഹചര്യം",
+    "SUPPLIERS": "വിതരണക്കാരൻ",
+    "ACTIVE": "സജീവമാണ്",
+    "ABANDONED": "ഉപേക്ഷിക്കുക",
+    "COMPLETE": "പൂർത്തിയായി",
+    "PLANNED": "ആസൂത്രണം ചെയ്തു",
+    "NEEDS_PLAN": "ആസൂത്രണം ആവശ്യമാണ്"
   },
   "DOCUMENTS": {
-    "CLEANING_PRODUCT": "",
-    "CROP_COMPLIANCE": "",
-    "FERTILIZING_PRODUCT": "",
-    "OTHER": "",
-    "PEST_CONTROL_PRODUCT": "",
-    "SOIL_AMENDMENT": "",
-    "SOIL_SAMPLE_RESULTS": "",
-    "WATER_SAMPLE_RESULTS": "",
-    "UNCATEGORIZED": "",
-    "RECEIPTS": "",
-    "INVOICES": ""
+    "CLEANING_PRODUCT": "ക്ലീനിംഗ് ഉൽപ്പന്നം",
+    "CROP_COMPLIANCE": "വിള പാലിക്കൽ",
+    "FERTILIZING_PRODUCT": "വളം ഉൽപ്പന്നങ്ങൾ",
+    "OTHER": "മറ്റുള്ളവ",
+    "PEST_CONTROL_PRODUCT": "കീട നിയന്ത്രണ ഉൽപ്പന്നങ്ങൾ",
+    "SOIL_AMENDMENT": "മണ്ണ് ഭേദഗതികൾ",
+    "SOIL_SAMPLE_RESULTS": "മണ്ണ് സാമ്പിൾ ഫലങ്ങൾ",
+    "WATER_SAMPLE_RESULTS": "വെള്ളം സാമ്പിൾ ഫലങ്ങൾ",
+    "UNCATEGORIZED": "തരംതിരിക്കാത്തത്",
+    "RECEIPTS": "രസീതുകൾ",
+    "INVOICES": "ഇൻവോയ്സുകൾ"
   },
   "TASKS": {
-    "LOCATION": "",
-    "STATUS": "",
-    "SUPPLIERS": "",
-    "ACTIVE": "",
-    "ABANDONED": "",
-    "COMPLETED": "",
-    "LATE": "",
-    "PLANNED": "",
-    "FOR_REVIEW": ""
+    "LOCATION": "സ്ഥാനം",
+    "STATUS": "സാഹചര്യം",
+    "SUPPLIERS": "വിതരണക്കാരൻ",
+    "ACTIVE": "സജീവമാണ്",
+    "ABANDONED": "ഉപേക്ഷിക്കുക",
+    "COMPLETED": "പൂർത്തിയാക്കി",
+    "LATE": "വൈകി",
+    "PLANNED": "ആസൂത്രണം ചെയ്തു",
+    "FOR_REVIEW": "അവലോകനത്തിനായി"
   },
   "FILTER": {
-    "VALID_ON": "",
-    "FROM_DATE": "",
-    "TO_DATE": ""
+    "VALID_ON": "സാധുതയുള്ള",
+    "FROM_DATE": "നിന്ന്",
+    "TO_DATE": "വരെ"
   }
 }

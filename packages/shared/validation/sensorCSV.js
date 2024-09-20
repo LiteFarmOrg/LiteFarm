@@ -17,20 +17,26 @@ import parseCsv from "./csv.js";
 
 // Sensor bulk upload error translation keys
 export const sensorErrors = {
-  FILE_ROW_LIMIT_EXCEEDED: "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.FILE_ROW_LIMIT_EXCEEDED",
+  FILE_ROW_LIMIT_EXCEEDED:
+    "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.FILE_ROW_LIMIT_EXCEEDED",
   MISSING_COLUMNS: "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.MISSING_COLUMNS",
   EXTERNAL_ID: "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.EXTERNAL_ID",
   SENSOR_NAME: "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_NAME",
   SENSOR_LATITUDE: "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LATITUDE",
   SENSOR_LONGITUDE: "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_LONGITUDE",
-  SENSOR_READING_TYPES: "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES",
+  SENSOR_READING_TYPES:
+    "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_READING_TYPES",
   SENSOR_DEPTH: "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_DEPTH",
   SENSOR_BRAND: "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_BRAND",
   SENSOR_MODEL: "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_MODEL",
-  SENSOR_HARDWARE_VERSION: "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_HARDWARE_VERSION",
-  SENSOR_ALREADY_OCCUPIED: "FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_CLAIM_ERROR.ALREADY_OCCUPIED",
-  SENSOR_DOES_NOT_EXIST: "FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_CLAIM_ERROR.DOES_NOT_EXIST",
-  INTERNAL_ERROR: "FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_CLAIM_ERROR.INTERNAL_ERROR",
+  SENSOR_HARDWARE_VERSION:
+    "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.SENSOR_HARDWARE_VERSION",
+  SENSOR_ALREADY_OCCUPIED:
+    "FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_CLAIM_ERROR.ALREADY_OCCUPIED",
+  SENSOR_DOES_NOT_EXIST:
+    "FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_CLAIM_ERROR.DOES_NOT_EXIST",
+  INTERNAL_ERROR:
+    "FARM_MAP.BULK_UPLOAD_SENSORS.SENSOR_CLAIM_ERROR.INTERNAL_ERROR",
 };
 
 const sensorCsvValidators = (translations) => {
@@ -71,14 +77,24 @@ const sensorCsvValidators = (translations) => {
       key: "reading_types",
       parse: (val, lang) => {
         const rawReadingTypes = val.replaceAll(" ", "").split(",");
-        return getReadableValuesForReadingTypes(lang, rawReadingTypes, translations);
+        return getReadableValuesForReadingTypes(
+          lang,
+          rawReadingTypes,
+          translations
+        );
       },
       validate: (val) => {
         if (!val.length || (val.length === 1 && val[0] === "")) {
           return false;
         }
-        const allowedReadingTypes = ["soil_water_potential", "soil_water_content", "temperature"];
-        return val.every((readingType) => allowedReadingTypes.includes(readingType));
+        const allowedReadingTypes = [
+          "soil_water_potential",
+          "soil_water_content",
+          "temperature",
+        ];
+        return val.every((readingType) =>
+          allowedReadingTypes.includes(readingType)
+        );
       },
       required: true,
       errorTranslationKey: sensorErrors.SENSOR_READING_TYPES,
@@ -113,7 +129,9 @@ const sensorCsvValidators = (translations) => {
 
 // Returns the readable values to save in the database based on the given translated reading types
 const getReadableValuesForReadingTypes = (lang, readingTypes, translations) => {
-  const translationEntries = Object.entries(translations.READING_TYPE_TRANSLATIONS);
+  const translationEntries = Object.entries(
+    translations.READING_TYPE_TRANSLATIONS
+  );
   return readingTypes.map((rt) => {
     const entryWithReadableValue = translationEntries.find((e) => e[1] === rt);
     return entryWithReadableValue ? entryWithReadableValue[0] : null;
@@ -137,7 +155,7 @@ export const parseSensorCsv = (csvString, lang, translations) => {
     sensorErrors.MISSING_COLUMNS,
     true,
     generateSensorKey,
-    100,
+    100
   );
 };
 

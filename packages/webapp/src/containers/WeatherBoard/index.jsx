@@ -8,17 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 export default function WeatherBoard() {
-  const {
-    error,
-    loaded,
-    date,
-    humidity,
-    iconName,
-    temperature,
-    wind,
-    measurement,
-    city,
-  } = useSelector(weatherSelector);
+  const { error, loaded, date, humidity, iconName, temperature, wind, measurement, city } =
+    useSelector(weatherSelector);
   const language_preference = getLanguageFromLocalStorage();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -29,7 +20,7 @@ export default function WeatherBoard() {
   const formattedForecast = {
     humidity: `${t('WEATHER.HUMIDITY')}: ${humidity}`,
     iconName,
-    date: utils.formatDate(language_preference, date),
+    date: utils.formatDate(language_preference, date * 1000 ?? new Date()),
     temperature: `${temperature}${tempUnit}`,
     wind: `${t('WEATHER.WIND')}: ${wind} ${speedUnit}`,
     city,

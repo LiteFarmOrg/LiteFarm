@@ -45,8 +45,7 @@ export default function PureInvitedUserCreateAccountPage({
   });
 
   const { t } = useTranslation(['translation', 'gender']);
-  const genderOptions = useGenderOptions();
-  const getGenderOptionLabel = (option) => t(option.label);
+  const { genderOptions, getGenderOptionLabel } = useGenderOptions();
 
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 

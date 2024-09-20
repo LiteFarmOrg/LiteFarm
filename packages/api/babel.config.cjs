@@ -10,6 +10,7 @@ module.exports = {
   ],
   "plugins": [
     "transform-es2015-modules-commonjs",
-    "babel-plugin-transform-import-meta"
+    "babel-plugin-transform-import-meta",
+    "@babel/plugin-syntax-import-assertions"
   ]
 }

@@ -49,6 +49,7 @@ const Input = ({
   stepper = false,
   className = '',
   trigger,
+  onCleared,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -72,6 +73,7 @@ const Input = ({
     input.current.value = '';
     onChange?.({ target: input.current });
     hookFormRegister?.onChange({ target: input.current });
+    onCleared();
     // Manually trigger validation against the new value ''
     trigger?.(name);
     setShowError(false);

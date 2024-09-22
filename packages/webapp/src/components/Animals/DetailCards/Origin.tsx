@@ -13,10 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
+import { isNotInFuture } from '../../Form/Input/utils';
 import {
   DetailsFields,
   type Option,
@@ -24,6 +25,7 @@ import {
 } from '../../../containers/Animals/AddAnimals/types';
 import { AnimalOrigins } from '../../../containers/Animals/types';
 import styles from './styles.module.scss';
+import moment from 'moment';
 
 export type OriginProps = CommonDetailsProps & {
   currency: string;
@@ -36,8 +38,10 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
     register,
     trigger,
     watch,
+    setError,
     formState: { errors },
   } = useFormContext();
+  const [isBirthDateValid, setIsBirthDateValid] = useState(true);
 
   const watchedOrigin = watch(`${namePrefix}${DetailsFields.ORIGIN}`);
 
@@ -57,6 +61,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
           type="date"
           label={t('common:DATE')}
           hookFormRegister={register(`${namePrefix}${DetailsFields.BROUGHT_IN_DATE}`)}
+          errors={getInputErrors(errors, `${namePrefix}${DetailsFields.BROUGHT_IN_DATE}`)}
           optional
         />
         {/* @ts-ignore */}
@@ -123,7 +128,19 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
       <Input
         type="date"
         label={t('ANIMAL.ATTRIBUTE.DATE_OF_BIRTH')}
-        hookFormRegister={register(`${namePrefix}${DetailsFields.DATE_OF_BIRTH}`)}
+        hookFormRegister={register(`${namePrefix}${DetailsFields.DATE_OF_BIRTH}`, {
+          validate: (value) => {
+            if (value === '' && isBirthDateValid) return true;
+            return moment(value, 'YYYY-MM-DD', true).isValid()
+              ? isNotInFuture(value)
+              : 'Invalid date';
+          },
+        })}
+        onCleared={() => setIsBirthDateValid(true)}
+        onKeyUp={(e: any) => {
+          setIsBirthDateValid(!e.target.validity.badInput);
+        }}
+        errors={getInputErrors(errors, `${namePrefix}${DetailsFields.DATE_OF_BIRTH}`)}
         optional
       />
       <div>

@@ -14,7 +14,14 @@
  */
 
 // In tempStateReducer > filterReducer
-export type ReduxFilterEntity<FilterKey extends string = string> = Record<FilterKey, FilterState>;
+export type ReduxFilterEntity<FilterKey extends string = string> = Record<FilterKey, FilterState> &
+  DateFilterState;
+
+type DateFilterState = {
+  FROM_DATE?: FilterState;
+  TO_DATE?: FilterState;
+  VALID_ON?: FilterState;
+};
 
 export interface FilterState {
   [filterOptionId: string]: /* e.g. ABANDONED, COMPLETED */ {

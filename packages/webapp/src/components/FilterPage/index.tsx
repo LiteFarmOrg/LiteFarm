@@ -52,6 +52,33 @@ const PureFilterPage = ({
   const resetFilter = () => {
     triggerReset();
     setIsDirty(true);
+    setTempFilter(
+      (() => {
+        const result: ReduxFilterEntity = {};
+
+        filters.forEach((item) => {
+          if (item.filterKey === 'DATE_RANGE') {
+            result['FROM_DATE'] = undefined;
+            result['TO_DATE'] = undefined;
+          } else if (item.filterKey === 'VALID_ON') {
+            result['VALID_ON'] = undefined;
+          } else {
+            result[item.filterKey] = {};
+
+            if (item.options && item.options.length > 0) {
+              item.options.forEach((option) => {
+                result[item.filterKey][option.value] = {
+                  active: false,
+                  label: option.label,
+                };
+              });
+            }
+          }
+        });
+
+        return result;
+      })(),
+    );
   };
 
   const [isDirty, setIsDirty] = useState(false);

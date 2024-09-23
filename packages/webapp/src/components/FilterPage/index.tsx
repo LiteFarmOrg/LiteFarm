@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../Layout';
 import PageTitle from '../PageTitle/v2';
@@ -83,10 +83,6 @@ const PureFilterPage = ({
 
   const [isDirty, setIsDirty] = useState(false);
   const setDirty = () => !isDirty && setIsDirty(true);
-
-  useEffect(() => {
-    console.log(tempFilter, 'tempFilter');
-  }, [tempFilter]);
 
   return (
     <Layout

@@ -20,7 +20,7 @@ export default function WeatherBoard() {
   const formattedForecast = {
     humidity: `${t('WEATHER.HUMIDITY')}: ${humidity}`,
     iconName,
-    date: utils.formatDate(language_preference, date * 1000 ?? new Date()),
+    date: utils.formatDate(language_preference, date ? date * 1000 : new Date()),
     temperature: `${temperature}${tempUnit}`,
     wind: `${t('WEATHER.WIND')}: ${wind} ${speedUnit}`,
     city,

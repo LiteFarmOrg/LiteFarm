@@ -69,8 +69,8 @@ export function FilterDateRange({
   const handleFromDateChange = (e) => {
     setFromDate(e.target.value);
     const filterState = {
-      fromDate: e.target.value || undefined,
-      toDate,
+      FROM_DATE: e.target.value || undefined,
+      TO_DATE: toDate,
     };
     onChange(filterState);
     setDirty?.();
@@ -79,8 +79,8 @@ export function FilterDateRange({
   const handleToDateChange = (e) => {
     setToDate(e.target.value);
     const filterState = {
-      fromDate,
-      toDate: e.target.value || undefined,
+      FROM_DATE: fromDate,
+      TO_DATE: e.target.value || undefined,
     };
     onChange(filterState);
     setDirty?.();

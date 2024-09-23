@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../Layout';
 import PageTitle from '../PageTitle/v2';
@@ -54,20 +54,20 @@ const PureFilterPage = ({
     setIsDirty(true);
     setTempFilter(
       (() => {
-        const result: ReduxFilterEntity = {};
+        const newTempFilter: ReduxFilterEntity = {};
 
         filters.forEach((item) => {
           if (item.filterKey === 'DATE_RANGE') {
-            result['FROM_DATE'] = undefined;
-            result['TO_DATE'] = undefined;
+            newTempFilter['FROM_DATE'] = undefined;
+            newTempFilter['TO_DATE'] = undefined;
           } else if (item.filterKey === 'VALID_ON') {
-            result['VALID_ON'] = undefined;
+            newTempFilter['VALID_ON'] = undefined;
           } else {
-            result[item.filterKey] = {};
+            newTempFilter[item.filterKey] = {};
 
             if (item.options && item.options.length > 0) {
               item.options.forEach((option) => {
-                result[item.filterKey][option.value] = {
+                newTempFilter[item.filterKey][option.value] = {
                   active: false,
                   label: option.label,
                 };
@@ -76,13 +76,17 @@ const PureFilterPage = ({
           }
         });
 
-        return result;
+        return newTempFilter;
       })(),
     );
   };
 
   const [isDirty, setIsDirty] = useState(false);
   const setDirty = () => !isDirty && setIsDirty(true);
+
+  useEffect(() => {
+    console.log(tempFilter, 'tempFilter');
+  }, [tempFilter]);
 
   return (
     <Layout
@@ -102,12 +106,13 @@ const PureFilterPage = ({
         filters={filters}
         onChange={(filterKey, filterState) => {
           if (filterKey === 'DATE_RANGE') {
-            let newTempFilter: ReduxFilterEntity = { ...tempFilter };
-
-            if (filterState.fromDate) newTempFilter['FROM_DATE'] = filterState.fromDate;
-            if (filterState.toDate) newTempFilter['TO_DATE'] = filterState.toDate;
-
-            setTempFilter(newTempFilter);
+            setTempFilter(
+              Object.assign(
+                { ...tempFilter },
+                filterState.fromDate ? { FROM_DATE: filterState.FROM_DATE } : {},
+                filterState.toDate ? { TO_DATE: filterState.TO_DATE } : {},
+              ),
+            );
           } else {
             setTempFilter({
               ...tempFilter,

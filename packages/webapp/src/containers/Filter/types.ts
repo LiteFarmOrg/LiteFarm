@@ -31,16 +31,8 @@ export interface FilterState {
   };
 }
 
-export type ContainerOnChangeCallback = (
-  filterKey: string,
-  filterState: FilterState & DateFilterLowercaseState,
-) => void;
+export type ContainerOnChangeCallback = (filterKey: string, filterState: FilterState) => void;
 
-interface DateFilterLowercaseState {
-  fromDate?: string;
-  toDate?: string;
-  validOn?: string;
-}
 // Only typing the properties relevant to filtering on location; there are no .ts files yet related to this entity
 export interface Location {
   name: string;

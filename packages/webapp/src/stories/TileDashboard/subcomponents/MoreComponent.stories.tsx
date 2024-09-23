@@ -17,7 +17,6 @@ import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import { MoreComponent } from '../../../components/TileDashboard/MoreComponent';
 import { mockTiles } from '../mockTiles';
-import { TypeCountTile } from '../../../components/TileDashboard';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof MoreComponent> = {
@@ -40,17 +39,13 @@ type Story = StoryObj<typeof MoreComponent>;
 
 export const Default: Story = {
   args: {
-    moreIconTiles: mockTiles
-      .slice(0, 4)
-      .map((tile, index) => ({ ...tile, id: index })) as TypeCountTile[],
+    moreIconTiles: mockTiles.slice(0, 4).map((tile, index) => ({ ...tile, id: index })),
   },
 };
 
 export const Selected: Story = {
   args: {
-    moreIconTiles: mockTiles
-      .slice(0, 4)
-      .map((tile, index) => ({ ...tile, id: index })) as TypeCountTile[],
+    moreIconTiles: mockTiles.slice(0, 4).map((tile, index) => ({ ...tile, id: index })),
     selectedFilterIds: [0, 3],
   },
 };

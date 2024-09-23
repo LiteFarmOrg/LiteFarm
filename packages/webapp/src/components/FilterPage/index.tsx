@@ -102,11 +102,12 @@ const PureFilterPage = ({
         filters={filters}
         onChange={(filterKey, filterState) => {
           if (filterKey === 'DATE_RANGE') {
-            setTempFilter({
-              ...tempFilter,
-              ...(filterState.fromDate && { FROM_DATE: filterState.fromDate }),
-              ...(filterState.toDate && { TO_DATE: filterState.toDate }),
-            });
+            let newTempFilter: ReduxFilterEntity = { ...tempFilter };
+
+            if (filterState.fromDate) newTempFilter['FROM_DATE'] = filterState.fromDate;
+            if (filterState.toDate) newTempFilter['TO_DATE'] = filterState.toDate;
+
+            setTempFilter(newTempFilter);
           } else {
             setTempFilter({
               ...tempFilter,

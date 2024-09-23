@@ -18,7 +18,11 @@ import PropTypes from 'prop-types';
 import { FilterDate } from '../FilterDate';
 import { FilterDateRange } from '../FilterDateRange';
 import styles from './styles.module.scss';
-import type { ContainerOnChangeCallback, FilterState } from '../../../containers/Filter/types';
+import type {
+  ContainerOnChangeCallback,
+  FilterState,
+  DateFilterState,
+} from '../../../containers/Filter/types';
 import { FilterType, type ComponentFilter } from '../types';
 import { FilterMultiSelectV2 } from '../FilterMultiSelectV2';
 

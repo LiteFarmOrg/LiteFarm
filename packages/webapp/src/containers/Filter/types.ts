@@ -17,11 +17,11 @@
 export type ReduxFilterEntity<FilterKey extends string = string> = Record<FilterKey, FilterState> &
   DateFilterState;
 
-type DateFilterState = {
-  FROM_DATE?: FilterState;
-  TO_DATE?: FilterState;
-  VALID_ON?: FilterState;
-};
+export interface DateFilterState {
+  FROM_DATE?: string;
+  TO_DATE?: string;
+  VALID_ON?: string;
+}
 
 export interface FilterState {
   [filterOptionId: string]: /* e.g. ABANDONED, COMPLETED */ {
@@ -31,8 +31,16 @@ export interface FilterState {
   };
 }
 
-export type ContainerOnChangeCallback = (filterKey: string, filterState: FilterState) => void;
+export type ContainerOnChangeCallback = (
+  filterKey: string,
+  filterState: FilterState & DateFilterLowercaseState,
+) => void;
 
+interface DateFilterLowercaseState {
+  fromDate?: string;
+  toDate?: string;
+  validOn?: string;
+}
 // Only typing the properties relevant to filtering on location; there are no .ts files yet related to this entity
 export interface Location {
   name: string;

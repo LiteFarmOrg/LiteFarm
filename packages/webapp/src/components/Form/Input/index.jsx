@@ -73,10 +73,10 @@ const Input = ({
     input.current.value = '';
     onChange?.({ target: input.current });
     hookFormRegister?.onChange({ target: input.current });
-    onCleared();
     // Manually trigger validation against the new value ''
     trigger?.(name);
     setShowError(false);
+    onCleared?.();
   };
 
   const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
@@ -283,6 +283,7 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   className: PropTypes.string,
   trigger: PropTypes.func,
+  onCleared: PropTypes.func,
 };
 
 export default Input;

@@ -465,13 +465,13 @@
     "YEAR_TO_DATE": "ਸਾਲ ਦੀ ਮਿਤੀ ਤੱਕ"
   },
   "DAYS_OF_WEEK_SELECT": {
-    "FRIDAY": "ਸ਼ੁੱਕਰ",
-    "MONDAY": "ਸੋਮ",
-    "SATURDAY": "ਸ਼ਨੀ",
-    "SUNDAY": "ਐਤ",
-    "THURSDAY": "ਵੀਰ",
-    "TUESDAY": "ਮੰਗਲ",
-    "WEDNESDAY": "ਬੁੱਧ"
+    "FRIDAY": "ਸ਼ੁੱ",
+    "MONDAY": "ਸੋ",
+    "SATURDAY": "ਸ਼",
+    "SUNDAY": "ਐ",
+    "THURSDAY": "ਵੀ",
+    "TUESDAY": "ਮੰ",
+    "WEDNESDAY": "ਬੁ"
   },
   "DOCUMENTS": {
     "ADD": {

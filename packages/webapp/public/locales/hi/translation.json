@@ -465,13 +465,13 @@
     "YEAR_TO_DATE": "वर्ष की शुरुआत से"
   },
   "DAYS_OF_WEEK_SELECT": {
-    "FRIDAY": "शुक्र",
-    "MONDAY": "सोम",
-    "SATURDAY": "शनि",
-    "SUNDAY": "रवि",
-    "THURSDAY": "गुर",
-    "TUESDAY": "मंगल",
-    "WEDNESDAY": "बुध"
+    "FRIDAY": "शु",
+    "MONDAY": "सो",
+    "SATURDAY": "श",
+    "SUNDAY": "र",
+    "THURSDAY": "गु",
+    "TUESDAY": "मं",
+    "WEDNESDAY": "बु"
   },
   "DOCUMENTS": {
     "ADD": {
@@ -1230,7 +1230,7 @@
       "ABANDONED": "त्यागा गया",
       "ACTIVE": "सक्रिय",
       "COMPLETED": "पूरा हुआ",
-      "PLANNED": "योजना बनाई गई"
+      "PLANNED": "योजनाबद्ध"
     },
     "SUPPLIER": "आपूर्तिकर्ता",
     "TERMINATION": "समाप्ति",
@@ -1862,7 +1862,7 @@
       "COMPLETED": "पूरा हुआ",
       "FOR_REVIEW": "समीक्षा के लिए",
       "LATE": "देर",
-      "PLANNED": "योजना बनाई गई"
+      "PLANNED": "योजनाबद्ध"
     },
     "TASK": "कार्य",
     "TASKS_COUNT_one": "{{count}} कार्य",

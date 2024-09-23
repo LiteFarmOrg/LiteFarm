@@ -109,8 +109,8 @@ const PureFilterPage = ({
             setTempFilter(
               Object.assign(
                 { ...tempFilter },
-                filterState.fromDate ? { FROM_DATE: filterState.FROM_DATE } : {},
-                filterState.toDate ? { TO_DATE: filterState.TO_DATE } : {},
+                filterState.fromDate ? { FROM_DATE: filterState.fromDate } : {},
+                filterState.toDate ? { TO_DATE: filterState.toDate } : {},
               ),
             );
           } else {

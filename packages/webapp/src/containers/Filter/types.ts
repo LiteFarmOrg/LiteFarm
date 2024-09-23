@@ -17,7 +17,7 @@
 export type ReduxFilterEntity<FilterKey extends string = string> = Record<FilterKey, FilterState> &
   DateFilterState;
 
-export interface DateFilterState {
+interface DateFilterState {
   FROM_DATE?: string;
   TO_DATE?: string;
   VALID_ON?: string;

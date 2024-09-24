@@ -23,6 +23,7 @@ import Button from '../Form/Button';
 import FilterGroup from '../Filter/FilterGroup';
 import type { ComponentFilter } from '../Filter/types';
 import type { ReduxFilterEntity } from '../../containers/Filter/types';
+import { c } from 'vitest/dist/reporters-5f784f42';
 
 interface PureFilterPageProps {
   filters: ComponentFilter[];
@@ -102,13 +103,15 @@ const PureFilterPage = ({
         filters={filters}
         onChange={(filterKey, filterState) => {
           if (filterKey === 'DATE_RANGE') {
-            setTempFilter(
-              Object.assign(
-                { ...tempFilter },
-                filterState.fromDate ? { FROM_DATE: filterState.fromDate } : {},
-                filterState.toDate ? { TO_DATE: filterState.toDate } : {},
-              ),
-            );
+            setTempFilter({
+              ...tempFilter,
+              ...((typeof filterState.fromDate === 'string' ||
+                typeof filterState.fromDate === 'undefined') && {
+                FROM_DATE: filterState.fromDate,
+              }),
+              ...((typeof filterState.fromDate === 'string' ||
+                typeof filterState.fromDate === 'undefined') && { TO_DATE: filterState.toDate }),
+            } as ReduxFilterEntity);
           } else {
             setTempFilter({
               ...tempFilter,

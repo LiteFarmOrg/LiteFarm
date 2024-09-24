@@ -13,11 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
-import { isNotInFuture } from '../../Form/Input/utils';
+import { isNotInFuture, parseISOStringToLocalDate } from '../../Form/Input/utils';
 import {
   DetailsFields,
   type Option,
@@ -25,7 +25,6 @@ import {
 } from '../../../containers/Animals/AddAnimals/types';
 import { AnimalOrigins } from '../../../containers/Animals/types';
 import styles from './styles.module.scss';
-import moment from 'moment';
 
 export type OriginProps = CommonDetailsProps & {
   currency: string;
@@ -64,7 +63,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
           hookFormRegister={register(`${namePrefix}${DetailsFields.BROUGHT_IN_DATE}`, {
             validate: (value) => {
               if (value === '' && isBroughtInDateValid) return true;
-              return moment(value, 'YYYY-MM-DD', true).isValid()
+              return !isNaN(new Date(value).valueOf())
                 ? isNotInFuture(value)
                 : t('common:INVALID_DATE');
             },
@@ -145,7 +144,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
         hookFormRegister={register(`${namePrefix}${DetailsFields.DATE_OF_BIRTH}`, {
           validate: (value) => {
             if (value === '' && isBirthDateValid) return true;
-            return moment(value, 'YYYY-MM-DD', true).isValid()
+            return !isNaN(new Date(value).valueOf())
               ? isNotInFuture(value)
               : t('common:INVALID_DATE');
           },
@@ -154,7 +153,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
           setIsBirthDateValid(true);
           clearErrors(`${namePrefix}${DetailsFields.DATE_OF_BIRTH}`);
         }}
-        onKeyUp={(e: any) => {
+        onKeyUp={(e: React.ChangeEvent<HTMLInputElement>): void => {
           setIsBirthDateValid(!e.target.validity.badInput);
         }}
         errors={getInputErrors(errors, `${namePrefix}${DetailsFields.DATE_OF_BIRTH}`)}

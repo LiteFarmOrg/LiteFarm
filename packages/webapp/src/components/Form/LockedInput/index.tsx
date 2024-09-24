@@ -16,6 +16,8 @@
 import InputBase, { type InputBaseSharedProps } from '../InputBase';
 import { FieldValues } from 'react-hook-form';
 import Icon from '../../Icons';
+import clsx from 'clsx';
+import styles from './styles.module.scss';
 
 export type LockedInputProps<T extends FieldValues> = InputBaseSharedProps & { className?: string };
 
@@ -28,7 +30,7 @@ export default function LockedInput<T extends FieldValues>({
       {...props}
       disabled
       className={className}
-      rightSection={<Icon iconName={'LOCKED'} />}
+      rightSection={<Icon iconName={'LOCKED'} className={clsx(styles.icon)} />}
     />
   );
 }

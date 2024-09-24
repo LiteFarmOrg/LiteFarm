@@ -23,7 +23,6 @@ import Button from '../Form/Button';
 import FilterGroup from '../Filter/FilterGroup';
 import type { ComponentFilter } from '../Filter/types';
 import type { ReduxFilterEntity } from '../../containers/Filter/types';
-import { c } from 'vitest/dist/reporters-5f784f42';
 
 interface PureFilterPageProps {
   filters: ComponentFilter[];

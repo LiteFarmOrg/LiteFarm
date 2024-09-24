@@ -402,7 +402,7 @@
   "CROP_DETAIL": {
     "ADD_PLAN": "योजना जोड़ें",
     "ANNUAL": "वार्षिक",
-    "ANNUAL_PERENNIAL": "क्या यह फसल वार्षिक या बारहमासी है?",
+    "ANNUAL_PERENNIAL": "क्या यह फसल वार्षिक है या बारहमासी?",
     "COMMERCIAL_AVAILABILITY": "क्या आपने वाणिज्यिक उपलब्धता की खोज की है?",
     "DETAIL_TAB": "विवरण",
     "EDIT_CROP_DETAIL": "फसल विवरण संपादित करें",
@@ -647,7 +647,7 @@
         "SENSOR_LONGITUDE": "अवैध देशांतर मान, -180 से 180 के बीच और 10 दशमलव से कम होना चाहिए।",
         "SENSOR_MODEL": "अवैध मॉडल नाम, 1 से 100 अक्षरों के बीच होना चाहिए।",
         "SENSOR_NAME": "अवैध सेंसर नाम, 1 से 100 अक्षरों के बीच होना चाहिए।",
-        "SENSOR_READING_TYPES": "अवैध पठन प्रकार पाया गया: {{ reading_types }}। मान्य मानों में शामिल हैं: {{ allowed_reading_types }}"
+        "SENSOR_READING_TYPES": "अवैध पठन प्रकार पाया गया: {{ reading_types }}। मान्य मानों में शामिल हैं: {{ allowed_reading_types }}।"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -1337,8 +1337,8 @@
       "TITLE": "कार्य पुनः सौंपा गया"
     },
     "TASK_UNASSIGNED": {
-      "BODY": "{{editor}} ने एक {{taskType}} कार्य को असाइन नहीं किया है।",
-      "TITLE": "कार्य असाइन नहीं किया गया"
+      "BODY": "{{editor}} ने एक {{taskType}} कार्य को सौंपा नहीं है",
+      "TITLE": "कार्य सौंपा नहीं गया"
     },
     "TIMELINE": {
       "HEADING": "अधिसूचना समयरेखा",
@@ -1346,7 +1346,7 @@
       "VIEW_NOW": "अभी देखें"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
-      "BODY": "इस सप्ताह आपके पास असाइन किए गए कार्य नहीं हैं।",
+      "BODY": "इस सप्ताह आपके पास सौंपे गए कार्य नहीं हैं।",
       "TITLE": "असाइन नहीं किए गए कार्य"
     }
   },
@@ -1486,9 +1486,9 @@
     "MENU": "फसल योजना दोहराएं",
     "ON": "पर",
     "PLAN_NAME": "दोहराई जाने वाली फसल योजना का नाम",
-    "REPEAT_EVERY": "हर बार दोहराएं",
+    "REPEAT_EVERY": "दोहराएं, हर",
     "REPEAT_LIMIT_ERROR": "इस योजना को 20 बार से अधिक दोहराया नहीं जा सकता",
-    "REPEAT_ON": "इस पर दोहराएं",
+    "REPEAT_ON": "इस दिन पर दोहराएं",
     "REPEAT_PLAN_FLOW": "फसल योजना दोहराव",
     "REPETITIONS": "दोहराव",
     "REPETITIONS_OF": "{{planName}} के दोहराव",
@@ -1497,7 +1497,7 @@
     "TITLE": "फसल योजना दोहराएं\""
   },
   "REQUEST_CONFIRMATION_MODAL": {
-    "BUTTON": "समझ गया",
+    "BUTTON": "समझ लिया",
     "DESCRIPTION": "कोई व्यक्ति 48 घंटों के भीतर आपसे संपर्क करेगा।",
     "TITLE": "सहायता अनुरोध सबमिट किया गया"
   },
@@ -1837,7 +1837,7 @@
       "STATUS": "स्थिति",
       "TITLE": "कार्य फ़िल्टर",
       "TYPE": "प्रकार",
-      "UNASSIGNED": "असाइन नहीं किया गया",
+      "UNASSIGNED": "सौंपा नहीं गया",
       "VIEW": "दृश्य"
     },
     "HARVEST_USE": "फसल उपयोग",
@@ -1861,7 +1861,7 @@
       "ABANDONED": "छोड़ा हुआ",
       "COMPLETED": "पूरा हुआ",
       "FOR_REVIEW": "समीक्षा के लिए",
-      "LATE": "देर",
+      "LATE": "देरी से",
       "PLANNED": "योजनाबद्ध"
     },
     "TASK": "कार्य",
@@ -1869,7 +1869,7 @@
     "TASKS_COUNT_other": "{{count}} कार्य",
     "TRANSPLANT": "प्रतिरोपण",
     "TRANSPLANT_LOCATIONS": "प्रतिरोपण स्थान का चयन करें",
-    "UNASSIGNED": "असाइन नहीं किया गया"
+    "UNASSIGNED": "सौंपा नहीं गया"
   },
   "UNIT": {
     "TIME": {

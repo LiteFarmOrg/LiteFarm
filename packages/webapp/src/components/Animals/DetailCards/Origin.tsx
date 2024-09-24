@@ -17,7 +17,7 @@ import React, { useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
-import { isNotInFuture, parseISOStringToLocalDate } from '../../Form/Input/utils';
+import { isNotInFuture } from '../../Form/Input/utils';
 import {
   DetailsFields,
   type Option,

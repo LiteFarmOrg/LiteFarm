@@ -647,7 +647,7 @@
         "SENSOR_LONGITUDE": "Valor de longitud no válido, debe estar entre -180 y 180. y menos de 10 decimales.",
         "SENSOR_MODEL": "Nombre de modelo no válido, debe tener entre 1 y 100 caracteres.",
         "SENSOR_NAME": "Nombre del sensor no válido, debe estar entre 1 y 100 caracteres.",
-        "SENSOR_READING_TYPES": "Tipo de lectura no válido detectado: {{ reading_types }} los valores válidos incluyen: contenido_de_agua_en_el_suelo, potencial_hídrico_del_suelo, temperatura."
+        "SENSOR_READING_TYPES": "Tipo de lectura no válido detectado: {{ reading_types }} los valores válidos incluyen: {{ allowed_reading_types }}."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -1713,7 +1713,7 @@
     "SIGN_IN": "Iniciar sesión",
     "SSO_ERROR": "Por favor inicie sesión haciendo clic el boton Google de arriba",
     "USED_INVITATION_LINK_ERROR": "Esta invitación ya se ha utilizado, inicie sesión para acceder a esta granja",
-    "WELCOME_BACK": "Bienvenido",
+    "WELCOME_BACK": "Te damos la bienvenida nuevamente",
     "WRONG_BROWSER": "LiteFarm no es optimizada por este navegador.",
     "WRONG_BROWSER_BOTTOM": "Por favor inicie sesión usando Chrome."
   },

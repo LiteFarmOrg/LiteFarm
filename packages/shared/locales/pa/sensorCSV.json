@@ -1,0 +1,17 @@
+{
+  "CSV_HEADER_TRANSLATIONS": {
+    "name": "ਨਾਮ",
+    "latitude": "ਵਿਥਕਾਰ",
+    "longitude": "ਲੰਬਕਾਰ",
+    "reading_types": "ਪੜ੍ਹਨਾ_ਕਿਸਮਾਂ",
+    "external_id": "ਬਾਹਰੀ_ID",
+    "depth": "ਡੂੰਘਾਈ_ਸੈ.ਮੀ",
+    "brand": "ਬ੍ਰਾਂਡ",
+    "model": "ਮਾਡਲ"
+  },
+  "READING_TYPE_TRANSLATIONS": {
+    "soil_water_content": "ਮਿੱਟੀ_ਪਾਣੀ_ਸਮੱਗਰੀ",
+    "soil_water_potential": "ਮਿੱਟੀ_ਪਾਣੀ_ਸੰਭਾਵੀ",
+    "temperature": "ਤਾਪਮਾਨ"
+  }
+}

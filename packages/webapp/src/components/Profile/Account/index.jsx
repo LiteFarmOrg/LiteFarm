@@ -19,7 +19,8 @@ const useLanguageOptions = (language_preference) => {
 };
 
 export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
-  const genderOptions = useGenderOptions();
+  const { genderOptions, getGenderOptionLabel, getGenderOption } = useGenderOptions();
+
   const { languageOptions, languagePreferenceOptionRef } = useLanguageOptions(
     userFarm.language_preference,
   );
@@ -34,9 +35,7 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
     mode: 'onChange',
     defaultValues: {
       ...userFarm,
-      [userFarmEnum.gender]: genderOptions.find(
-        ({ value }) => value === userFarm[userFarmEnum.gender],
-      ),
+      [userFarmEnum.gender]: getGenderOption(userFarm, userFarmEnum.gender),
     },
     shouldUnregister: true,
   });
@@ -46,6 +45,7 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
       shouldDirty: false,
     });
   }, [userFarm.language_preference]);
+
   const disabled = !isDirty || !isValid;
   return (
     <ProfileLayout
@@ -126,6 +126,7 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
             onChange={onChange}
             value={value}
             toolTipContent={t('CREATE_USER.GENDER_TOOLTIP')}
+            getOptionLabel={getGenderOptionLabel}
           />
         )}
       />

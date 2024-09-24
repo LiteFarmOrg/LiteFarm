@@ -14,15 +14,21 @@
  */
 import { useTranslation } from 'react-i18next';
 
+const genderOptions = [
+  { value: 'MALE', label: 'MALE' },
+  { value: 'FEMALE', label: 'FEMALE' },
+  { value: 'OTHER', label: 'OTHER' },
+  { value: 'PREFER_NOT_TO_SAY', label: 'PREFER_NOT_TO_SAY' },
+];
+
+const getGenderOption = (record, genderKey = 'gender') =>
+  genderOptions.find(({ value }) => value === record[genderKey]);
+
 const useGenderOptions = () => {
   const { t } = useTranslation();
+  const getGenderOptionLabel = (option) => t(option.label, { ns: 'gender' });
 
-  return [
-    { value: 'MALE', label: t('gender:MALE') },
-    { value: 'FEMALE', label: t('gender:FEMALE') },
-    { value: 'OTHER', label: t('gender:OTHER') },
-    { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
-  ];
+  return { genderOptions, getGenderOptionLabel, getGenderOption };
 };
 
 export default useGenderOptions;

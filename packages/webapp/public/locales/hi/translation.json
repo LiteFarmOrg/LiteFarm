@@ -465,13 +465,13 @@
     "YEAR_TO_DATE": "वर्ष की शुरुआत से"
   },
   "DAYS_OF_WEEK_SELECT": {
-    "FRIDAY": "शुक्र",
-    "MONDAY": "सोम",
-    "SATURDAY": "शनि",
-    "SUNDAY": "रवि",
-    "THURSDAY": "गुर",
-    "TUESDAY": "मंगल",
-    "WEDNESDAY": "बुध"
+    "FRIDAY": "शु",
+    "MONDAY": "सो",
+    "SATURDAY": "श",
+    "SUNDAY": "र",
+    "THURSDAY": "गु",
+    "TUESDAY": "मं",
+    "WEDNESDAY": "बु"
   },
   "DOCUMENTS": {
     "ADD": {
@@ -647,7 +647,7 @@
         "SENSOR_LONGITUDE": "अवैध देशांतर मान, -180 से 180 के बीच और 10 दशमलव से कम होना चाहिए।",
         "SENSOR_MODEL": "अवैध मॉडल नाम, 1 से 100 अक्षरों के बीच होना चाहिए।",
         "SENSOR_NAME": "अवैध सेंसर नाम, 1 से 100 अक्षरों के बीच होना चाहिए।",
-        "SENSOR_READING_TYPES": "अवैध पठन प्रकार पाया गया: {{ reading_types }}। मान्य मानों में शामिल हैं: मृदा जल सामग्री, मृदा जल क्षमता, तापमान।"
+        "SENSOR_READING_TYPES": "अवैध पठन प्रकार पाया गया: {{ reading_types }}। मान्य मानों में शामिल हैं: {{ allowed_reading_types }}"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -1230,7 +1230,7 @@
       "ABANDONED": "त्यागा गया",
       "ACTIVE": "सक्रिय",
       "COMPLETED": "पूरा हुआ",
-      "PLANNED": "योजना बनाई गई"
+      "PLANNED": "योजनाबद्ध"
     },
     "SUPPLIER": "आपूर्तिकर्ता",
     "TERMINATION": "समाप्ति",
@@ -1862,7 +1862,7 @@
       "COMPLETED": "पूरा हुआ",
       "FOR_REVIEW": "समीक्षा के लिए",
       "LATE": "देर",
-      "PLANNED": "योजना बनाई गई"
+      "PLANNED": "योजनाबद्ध"
     },
     "TASK": "कार्य",
     "TASKS_COUNT_one": "{{count}} कार्य",

@@ -65,62 +65,32 @@ import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circl
 import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
 import { FunctionComponent } from 'react';
 
-const AnimalTypeIcons = [
-  'CATTLE',
-  'CHICKEN',
-  'PIGS',
-  'BATCH',
-  'BATCH_GREEN', // svgColorFill does not work with this icon
-  'CUSTOM_ANIMAL',
-  'ALPACA',
-  'GOAT',
-  'RABBIT',
-  'SHEEP',
-] as const;
-export type AnimalTypeIconKey = (typeof AnimalTypeIcons)[number];
-// TypeGuard for animal type icons
-export const isAnimalTypeIconKey = (iconKey: string): iconKey is AnimalTypeIconKey => {
-  return AnimalTypeIcons.includes(iconKey as AnimalTypeIconKey);
+// Animal type: icon map
+const animalTypeIcons = {
+  CATTLE: CattleIcon,
+  CHICKEN: ChickenIcon,
+  PIGS: PigIcon,
+  BATCH: BatchIcon,
+  BATCH_GREEN: BatchIconGreen, // svgColorFill does not work with this icon
+  CUSTOM_ANIMAL: CustomAnimalIcon,
+  ALPACA: AlpacaIcon,
+  GOAT: GoatIcon,
+  RABBIT: RabbitIcon,
+  SHEEP: SheepIcon,
 };
 
-// Follows structure of https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type
-export type IconName =
-  | 'EXPENSE'
-  | 'CROP'
-  | 'PROFIT_LOSS'
-  // Revenue types
-  | 'CROP_SALE'
-  | 'CUSTOM'
-  // Expense types
-  | 'EQUIPMENT'
-  | 'SOIL_AMENDMENT'
-  | 'PEST_CONTROL'
-  | 'FUEL'
-  | 'MACHINERY'
-  | 'SEEDS_AND_PLANTS'
-  | 'OTHER'
-  | 'LAND'
-  | 'MISCELLANEOUS'
-  | 'UTILITIES'
-  | 'LABOUR'
-  | 'INFRASTRUCTURE'
-  | 'TRANSPORTATION'
-  | 'SERVICES'
-  // Animal Inventory
-  | AnimalTypeIconKey
-  // Animal Inventory KPI
-  | 'ADD_ANIMAL'
-  | 'TASK_CREATION'
-  | 'CLONE'
-  | 'REMOVE_ANIMAL'
-  // Tasks
-  | 'SOIL_AMENDMENT_TASK'
-  // System
-  | 'MORE_HORIZONTAL'
-  | 'PLUS_CIRCLE'
-  | 'TRASH';
+// Animal type: type key
+export type AnimalTypeIconKey = keyof typeof animalTypeIcons;
 
-export const iconMap: Record<IconName, FunctionComponent> = {
+// Animal type: typeguard
+export const isAnimalTypeIconKey = (iconKey: string): iconKey is AnimalTypeIconKey => {
+  return Object.keys(animalTypeIcons).includes(iconKey as AnimalTypeIconKey);
+};
+
+// Using satisfies as a constrained identity function
+// Example: https://kentcdodds.com/blog/how-to-write-a-constrained-identity-function-in-typescript
+// All: icon map
+export const iconMap = {
   // Finances Carousel
   EXPENSE: ExpenseIcon,
   CROP: CropIcon,
@@ -144,16 +114,7 @@ export const iconMap: Record<IconName, FunctionComponent> = {
   TRANSPORTATION: TransportationIcon,
   SERVICES: ServicesIcon,
   // Animal Inventory
-  CATTLE: CattleIcon,
-  CHICKEN: ChickenIcon,
-  PIGS: PigIcon,
-  BATCH: BatchIcon,
-  BATCH_GREEN: BatchIconGreen, // svgColorFill does not work with this icon
-  CUSTOM_ANIMAL: CustomAnimalIcon,
-  ALPACA: AlpacaIcon,
-  GOAT: GoatIcon,
-  RABBIT: RabbitIcon,
-  SHEEP: SheepIcon,
+  ...animalTypeIcons,
   // Animal Inventory KPI
   ADD_ANIMAL: AddAnimalIcon,
   TASK_CREATION: TaskCreationIcon,
@@ -165,6 +126,9 @@ export const iconMap: Record<IconName, FunctionComponent> = {
   MORE_HORIZONTAL: MoreHorizontalIcon,
   PLUS_CIRCLE: PlusCircleIcon,
   TRASH: TrashIcon,
-};
+} satisfies Record<string, FunctionComponent>;
+
+// All: type key
+export type IconName = keyof typeof iconMap;
 
 export default iconMap;

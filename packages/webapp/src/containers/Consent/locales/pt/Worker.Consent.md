@@ -2,7 +2,7 @@
 
 #### Formulário de Consentimento Livre e Esclarecido e Política de Privacidade (Trabalhadores Agrícolas)
 
-Te damos as boas-vindas ao LiteFarm!
+Bem-vindo à LiteFarm!
 
 Entendemos que sua privacidade e a proteção de seus dados são importantes para você. Criamos este Formulário de Consentimento Livre e Esclarecido e Política de Privacidade para ajudar você a entender como e quando coletaremos, usaremos e compartilharemos suas informações, e para garantir que teremos seu consentimento para fazer isso. Tenha em mente que você precisará consentir separadamente com nossa coleta e uso de seus dados, conforme descrito neste Formulário de Consentimento Livre e Esclarecido e Política de Privacidade, para cada propriedade rural à qual você está associado através de sua conta na plataforma LiteFarm. Caso não concorde com nossas práticas descritas neste Formulário de Consentimento Livre e Esclarecido e Política de Privacidade, você não poderá usar a plataforma LiteFarm.
 
@@ -112,7 +112,7 @@ Se você retirar seu consentimento enviando um e-mail para litefarm.team@ubc.ca,
 
 **Como fazemos alterações na Política de Privacidade?**
 
-Embora a maior parte das alterações seja pequena, a LiteFarm poderá alterar sua Política de Privacidade ocasionalmente. Postaremos uma versão atualizada e revisada da Política de Privacidade no site da LiteFarm (www.litefarm.org) e o notificaremos através do aplicativo quando fizermos alguma alteração. Você será solicitado a aceitar o novo formulário de consentimento para continuar usando o software. Se você não aceitar as alterações, poderá baixar seus dados, mas não conseguirá inserir novos dados no aplicativo. As revisões terão efeito imediatamente após a postagem. A continuação de seu uso deste site após qualquer alteração desta Política de Privacidade implicará em sua aceitação de tal alteração.
+Embora a maior parte das alterações seja pequena, a LiteFarm poderá alterar sua Política de Privacidade ocasionalmente. Postaremos uma versão atualizada e revisada da Política de Privacidade no site da LiteFarm (www.litefarm.org) e o notificaremos através do aplicativo quando fizermos alguma alteração. Você será solicitado a aceitar o novo formulário de consentimento para continuar usando o software. Se você não aceitar as alterações, poderá baixar seus dados, mas não conseguirá inserir novos dados no aplicativo. Depois de um mês, sua conta e seus dados serão marcados como inativos. As revisões terão efeito imediatamente após a postagem. A continuação de seu uso deste site após qualquer alteração desta Política de Privacidade implicará em sua aceitação de tal alteração.
 
 **Com faremos contato com você?**
 

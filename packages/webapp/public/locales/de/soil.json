@@ -1,0 +1,14 @@
+{
+  "CLAY": "Ton",
+  "CLAY_LOAM": "Tonlehm",
+  "LOAM": "Lehm",
+  "LOAMY_SAND": "Lehmiger Sand",
+  "SAND": "Sand",
+  "SANDY_CLAY": "Sandiger Ton",
+  "SANDY_CLAYLOAM": "Sandiger Tonlehm",
+  "SANDY_LOAM": "Sandiger Lehm",
+  "SILT": "Schluff",
+  "SILT_LOAM": "Schlufflehm",
+  "SILTY_CLAY": "Schluffiger Ton",
+  "SILTY_CLAYLOAM": "Schluffiger Tonlehm"
+}

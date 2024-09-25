@@ -23,10 +23,10 @@
  * @param {Array<Validator>} validators
  * @param {Translation} headerTranslations - translations for each CSV header based on validator keys.
  */
-const getHeaderToValidatorMapping = (lang, validators, headerTranslations) => {
+const getHeaderToValidatorMapping = (validators, headerTranslations) => {
   const mapping = {};
   validators.forEach((validator, index) => {
-    mapping[headerTranslations[lang][validator.key]] = index;
+    mapping[headerTranslations[validator.key]] = index;
   });
   return mapping;
 };
@@ -50,41 +50,45 @@ const parseCsv = (
   lang,
   validators,
   headerTranslations,
-  missingColumnsErrorKey = 'MISSING_COLUMNS',
+  missingColumnsErrorKey = "MISSING_COLUMNS",
   validateUniqueDataKeys = true,
   getDataKeyFromRow = (r) => r[validators[0].key],
   maxRows = null,
-  delimiter = ',',
+  delimiter = ","
 ) => {
   // regex checks for delimiters that are not contained within quotation marks
-  const regex = new RegExp(`(?!\\B"[^"]*)${delimiter}(?![^"]*"\\B)`)
+  const regex = new RegExp(`(?!\\B"[^"]*)${delimiter}(?![^"]*"\\B)`);
 
   // check if the length of the string is 0 or if the string contains no line returns
   if (csvString.length === 0 || !/\r\b|\r|\n/.test(csvString)) {
     return { data: [], errors: [] };
   }
 
-  const rows = csvString.split(/\r\n|\r|\n/).filter((elem) => elem !== '');
+  const rows = csvString.split(/\r\n|\r|\n/).filter((elem) => elem !== "");
 
   if (rows.length === 0) {
-    return { data: [], errors: []}
+    return { data: [], errors: [] };
   }
 
   const headers = rows[0].split(regex).map((h) => h.trim());
   const requiredHeaders = validators
     .filter((v) => v.required)
-    .map((v) => headerTranslations[lang][v.key]);
+    .map((v) => headerTranslations[v.key]);
   const headerErrors = [];
   requiredHeaders.forEach((header) => {
     if (!headers.includes(header)) {
-      headerErrors.push({ row: 1, column: header, translation_key: missingColumnsErrorKey });
+      headerErrors.push({
+        row: 1,
+        column: header,
+        translation_key: missingColumnsErrorKey,
+      });
     }
   });
   if (headerErrors.length > 0) {
     return { data: [], errors: headerErrors };
   }
 
-  const allowedHeaders = validators.map((v) => headerTranslations[lang][v.key]);
+  const allowedHeaders = validators.map((v) => headerTranslations[v.key]);
 
   // get all rows except the header and filter out any empty rows
   const dataRows = rows.slice(1).filter((d) => !/^(,? ?\t?)+$/.test(d));
@@ -96,17 +100,21 @@ const parseCsv = (
         {
           row: 1,
           column: "N/A",
-          translation_key: 'FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.FILE_ROW_LIMIT_EXCEEDED',
-          value: ""
-        }
-      ]
-    }
+          translation_key:
+            "FARM_MAP.BULK_UPLOAD_SENSORS.VALIDATION.FILE_ROW_LIMIT_EXCEEDED",
+          value: "",
+        },
+      ],
+    };
   }
   // Set to keep track of the unique keys - used to make sure only one data entry is uploaded
   // with a particular key defined by getDataKeyFromRow if duplicates are in the file
   const uniqueDataKeys = new Set();
 
-  const headerMapping = getHeaderToValidatorMapping(lang, validators, headerTranslations);
+  const headerMapping = getHeaderToValidatorMapping(
+    validators,
+    headerTranslations
+  );
 
   const { data, errors } = dataRows.reduce(
     (previous, row, rowIndex) => {
@@ -115,8 +123,11 @@ const parseCsv = (
         const currentValidator = validators[headerMapping[current]];
         if (allowedHeaders.includes(current)) {
           // remove any surrounding quotation marks
-          const val = values[index].replace(/^(["'])(.*)\1$/, '$2');
-          const parsedVal = currentValidator.parse(values[index].replace(/^(["'])(.*)\1$/, '$2'), lang);
+          const val = values[index].replace(/^(["'])(.*)\1$/, "$2");
+          const parsedVal = currentValidator.parse(
+            values[index].replace(/^(["'])(.*)\1$/, "$2"),
+            lang
+          );
           if (currentValidator.validate(parsedVal)) {
             previousObj[currentValidator.key] = parsedVal;
           } else {
@@ -124,7 +135,12 @@ const parseCsv = (
               row: rowIndex + 2,
               column: current,
               translation_key: currentValidator.errorTranslationKey,
-              variables: { [currentValidator.key]: currentValidator.key.useParsedValForError ? parsedVal : val },
+              variables: {
+                [currentValidator.key]: currentValidator.key
+                  .useParsedValForError
+                  ? parsedVal
+                  : val,
+              },
             });
           }
         }
@@ -142,7 +158,7 @@ const parseCsv = (
       }
       return previous;
     },
-    { data: [], errors: [] },
+    { data: [], errors: [] }
   );
 
   return { data, errors };

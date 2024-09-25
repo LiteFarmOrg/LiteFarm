@@ -65,6 +65,9 @@ import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circl
 import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
 import { FunctionComponent } from 'react';
 
+// Input
+import { ReactComponent as LockedIcon } from '../../assets/images/lock-03.svg';
+
 // Animal type: icon map
 const animalTypeIcons = {
   CATTLE: CattleIcon,
@@ -126,6 +129,8 @@ export const iconMap = {
   MORE_HORIZONTAL: MoreHorizontalIcon,
   PLUS_CIRCLE: PlusCircleIcon,
   TRASH: TrashIcon,
+  // Input
+  LOCKED: LockedIcon,
 } satisfies Record<string, FunctionComponent>;
 
 // All: type key

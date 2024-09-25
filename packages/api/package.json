@@ -1,6 +1,6 @@
 {
   "name": "litefarm-api",
-  "version": "3.6.6",
+  "version": "3.6.7",
   "description": "LiteFarm API server",
   "main": "./api/src/server.js",
   "type": "module",
@@ -25,7 +25,7 @@
     "migrate:testing:seed": "knex seed:run --env=test --knexfile=./.knex/knexfile.js",
     "migrate:rollback:testing:db": "NODE_ENV=test knex migrate:rollback --env=test --knexfile=./.knex/knexfile.js",
     "i18n-scheduler": "npx i18next 'src/jobs/certification/**/*.js' -c 'src/jobs/locales/i18next-parser.config.js'",
-    "scheduler": "cp ../webapp/public/locales/en/crop.json src/jobs/locales/en && cp ../webapp/public/locales/es/crop.json src/jobs/locales/es && cp ../webapp/public/locales/pt/crop.json src/jobs/locales/pt && cp ../webapp/public/locales/fr/crop.json src/jobs/locales/fr && node src/jobs/index.js",
+    "scheduler": "cp ../webapp/public/locales/en/crop.json src/jobs/locales/en && cp ../webapp/public/locales/es/crop.json src/jobs/locales/es && cp ../webapp/public/locales/pt/crop.json src/jobs/locales/pt && cp ../webapp/public/locales/fr/crop.json src/jobs/locales/fr && cp ../webapp/public/locales/de/crop.json src/jobs/locales/de && cp ../webapp/public/locales/de/crop.json src/jobs/locales/de && cp ../webapp/public/locales/hi/crop.json src/jobs/locales/hi && cp ../webapp/public/locales/hi/crop.json src/jobs/locales/pa && cp ../webapp/public/locales/ml/crop.json src/jobs/locales/ml && node src/jobs/index.js",
     "lint": "eslint src",
     "fix-lint": "eslint src --fix",
     "precommit": "lint-staged"
@@ -48,7 +48,7 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.456.0",
+    "@aws-sdk/client-s3": "^3.622.0",
     "@googlemaps/google-maps-services-js": "^3.3.14",
     "@sentry/node": "^7.56.0",
     "adm-zip": "^0.4.16",
@@ -65,7 +65,7 @@
     "dotenv": "^8.2.0",
     "email-templates": "^8.0.4",
     "exceljs": "4.3.0",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "express-jwt": "^8.4.1",
     "express-jwt-authz": "^2.4.1",
     "express-oas-generator": "^1.0.44",

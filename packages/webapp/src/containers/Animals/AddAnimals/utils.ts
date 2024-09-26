@@ -213,7 +213,7 @@ export const formatDBAnimalsToSummary = (data: Animal[], config: Config): Animal
         type: typeString,
         breed: breedString,
         sexDetails: {},
-        iconKey: typeString.toUpperCase(),
+        iconKey: typeString?.toUpperCase(),
         count: 0,
       };
     }

@@ -30,8 +30,8 @@ export const sexOptions = [
 ];
 
 export const sexDetailsOptions = [
-  { id: 0, label: 'Male', count: 0 },
-  { id: 1, label: 'Female', count: 0 },
+  { id: 0, label: 'Male', count: 1 },
+  { id: 1, label: 'Female', count: 2 },
 ];
 
 export const useOptions = [
@@ -69,6 +69,10 @@ export const originOptions = [
 export const defaultValues: Partial<AnimalDetailsFormFields> = {
   [DetailsFields.TYPE]: { value: 'default_1', label: 'Cattle' },
   [DetailsFields.BREED]: { value: 'default_2', label: 'Angus' },
+  [DetailsFields.SEX]: 2,
+  [DetailsFields.COUNT]: 3,
+  [DetailsFields.USE]: [{ value: 0, label: 'Other', key: 'OTHER' }],
+  [DetailsFields.ID]: 'ID12',
 };
 
 export const getOnFileUpload: GetOnFileUpload =

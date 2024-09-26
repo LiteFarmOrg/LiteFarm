@@ -33,6 +33,7 @@ import {
   hookFormMinValidation,
   hookFormMaxCharsValidation,
 } from '../../Form/hookformValidationUtils';
+import LockedInput from '../../Form/LockedInput';
 
 export type GeneralDetailsProps = CommonDetailsProps & {
   sexOptions: Option[DetailsFields.SEX][];
@@ -48,6 +49,7 @@ const GeneralDetails = ({
   animalOrBatch,
   sexDetailsOptions,
   namePrefix = '',
+  mode = 'add',
 }: GeneralDetailsProps) => {
   const {
     control,
@@ -75,6 +77,7 @@ const GeneralDetails = ({
               radios={sexOptions}
               hookFormControl={control}
               row
+              disabled={mode === 'readonly'}
             />
           </div>
         </>
@@ -99,6 +102,7 @@ const GeneralDetails = ({
             min: hookFormMinValidation(1),
           }}
           onChange={() => trigger(`${namePrefix}${DetailsFields.COUNT}`)}
+          disabled={mode === 'readonly'}
         />
         <Controller
           name={`${namePrefix}${DetailsFields.SEX_DETAILS}`}
@@ -116,6 +120,7 @@ const GeneralDetails = ({
                 initialDetails={value || sexDetailsOptions}
                 maxCount={watchBatchCount}
                 onConfirm={(details) => onChange(details)}
+                isDisabled={mode === 'readonly'}
               />
             );
           }}
@@ -126,6 +131,15 @@ const GeneralDetails = ({
 
   return (
     <div className={styles.sectionWrapper}>
+      {(mode === 'readonly' || mode === 'edit') && (
+        <>
+          {/* @ts-ignore */}
+          <LockedInput
+            label={t('ANIMAL.ATTRIBUTE.LITEFARM_ID')}
+            placeholder={getValues(`${namePrefix}${DetailsFields.ID}`)}
+          />
+        </>
+      )}
       {animalOrBatch === AnimalOrBatchKeys.BATCH && (
         <>
           {/* @ts-ignore */}
@@ -139,6 +153,7 @@ const GeneralDetails = ({
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.BATCH_NAME')}
             errors={getInputErrors(errors, `${namePrefix}${DetailsFields.BATCH_NAME}`)}
+            disabled={mode === 'readonly'}
           />
         </>
       )}
@@ -150,7 +165,7 @@ const GeneralDetails = ({
             label={t('ANIMAL.ANIMAL_TYPE')}
             value={value}
             onChange={onChange}
-            isDisabled
+            isDisabled={mode !== 'edit'}
           />
         )}
       />
@@ -163,7 +178,7 @@ const GeneralDetails = ({
             optional
             value={value}
             onChange={onChange}
-            isDisabled
+            isDisabled={mode !== 'edit'}
           />
         )}
       />
@@ -180,6 +195,7 @@ const GeneralDetails = ({
             onChange={onChange}
             options={useOptions}
             style={{ paddingBottom: '12px' }} // accomodate "Clear all" button space
+            isDisabled={mode === 'readonly'}
           />
         )}
       />
@@ -195,6 +211,7 @@ const GeneralDetails = ({
             optional
             placeholder={t('ADD_ANIMAL.PLACEHOLDER.OTHER_USE')}
             errors={getInputErrors(errors, `${namePrefix}${DetailsFields.OTHER_USE}`)}
+            disabled={mode === 'readonly'}
           />
         </>
       )}

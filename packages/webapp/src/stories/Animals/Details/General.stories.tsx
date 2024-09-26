@@ -70,3 +70,22 @@ export const Batch: Story = {
   },
   render: (args, context) => <GeneralDetails {...args} {...context} />,
 };
+
+export const AnimalReadOnly: Story = {
+  args: {
+    ...commonProps,
+    animalOrBatch: AnimalOrBatchKeys.ANIMAL,
+    mode: 'readonly',
+  },
+  render: (args, context) => <GeneralDetails {...args} {...context} />,
+};
+
+export const BatchReadOnly: Story = {
+  args: {
+    ...commonProps,
+    animalOrBatch: AnimalOrBatchKeys.BATCH,
+    sexDetailsOptions,
+    mode: 'readonly',
+  },
+  render: (args, context) => <GeneralDetails {...args} {...context} />,
+};

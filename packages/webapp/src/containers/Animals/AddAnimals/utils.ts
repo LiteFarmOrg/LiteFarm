@@ -30,6 +30,7 @@ import {
   BatchSummary,
 } from '../../../components/Animals/AddAnimalsSummaryCard/types';
 import { chooseAnimalBreedLabel, chooseAnimalTypeLabel } from '../Inventory/useAnimalInventory';
+import { AnimalOrigins } from '../types';
 
 const formatFormTypeOrBreed = (
   typeOrBreed: 'type' | 'breed',
@@ -89,19 +90,16 @@ const convertFormDate = (date?: string): string | undefined => {
   return toLocalISOString(date);
 };
 
-const formatOrigin = (
-  data: AnimalDetailsFormFields,
-  broughtInId?: number,
-): Partial<Animal | AnimalBatch> => {
-  if (!broughtInId && !data[DetailsFields.ORIGIN]) {
+const formatOrigin = (data: AnimalDetailsFormFields): Partial<Animal | AnimalBatch> => {
+  if (!data[DetailsFields.ORIGIN]) {
     return { birth_date: convertFormDate(data[DetailsFields.DATE_OF_BIRTH]) };
   }
 
-  const isBroughtIn = broughtInId === data[DetailsFields.ORIGIN];
+  const isBroughtIn = data[DetailsFields.ORIGIN]?.key === AnimalOrigins.BROUGHT_IN;
 
   return {
     birth_date: convertFormDate(data[DetailsFields.DATE_OF_BIRTH]),
-    origin_id: data[DetailsFields.ORIGIN],
+    origin_id: data[DetailsFields.ORIGIN]?.id,
     ...(isBroughtIn
       ? {
           brought_in_date: convertFormDate(data[DetailsFields.BROUGHT_IN_DATE]),
@@ -118,7 +116,6 @@ const formatOrigin = (
 const formatCommonDetails = (
   isAnimal: boolean,
   data: AnimalDetailsFormFields,
-  broughtInId?: number,
 ): Partial<Animal | AnimalBatch> => {
   return {
     // General
@@ -133,7 +130,7 @@ const formatCommonDetails = (
     photo_url: data[DetailsFields.ANIMAL_IMAGE],
 
     // Origin
-    ...formatOrigin(data, broughtInId),
+    ...formatOrigin(data),
 
     // Unique (animal) | General (batch)
     name: data[DetailsFields.NAME],
@@ -142,10 +139,9 @@ const formatCommonDetails = (
 
 export const formatAnimalDetailsToDBStructure = (
   data: AnimalDetailsFormFields,
-  broughtInId?: number,
 ): Partial<Animal> => {
   return {
-    ...formatCommonDetails(true, data, broughtInId),
+    ...formatCommonDetails(true, data),
 
     // Other
     weaning_date: convertFormDate(data[DetailsFields.WEANING_DATE]),
@@ -160,9 +156,8 @@ export const formatAnimalDetailsToDBStructure = (
 
 export const formatBatchDetailsToDBStructure = (
   data: AnimalDetailsFormFields,
-  broughtInId?: number,
 ): Partial<AnimalBatch> => {
-  return formatCommonDetails(false, data, broughtInId);
+  return formatCommonDetails(false, data);
 };
 
 export const getSexMap = (

@@ -130,7 +130,7 @@ export interface AnimalIdentifierColor {
 
 export interface AnimalOrigin {
   id: number;
-  key: string;
+  key: 'BROUGHT_IN' | 'BORN_AT_FARM';
 }
 
 export interface AnimalUse {

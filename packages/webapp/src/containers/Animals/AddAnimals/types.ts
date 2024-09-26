@@ -78,7 +78,12 @@ export enum DetailsFields {
   PRICE = 'price',
 }
 
-export type ReactSelectOption<T extends string | number> = {
+export interface OriginValue {
+  id: number;
+  key: string;
+}
+
+export type ReactSelectOption<T extends string | number | OriginValue> = {
   label: string;
   value: T;
   key?: string;
@@ -92,7 +97,7 @@ export type Option = {
   [DetailsFields.TAG_TYPE]: ReactSelectOption<number>;
   [DetailsFields.ORGANIC_STATUS]: ReactSelectOption<OrganicStatus>;
   [DetailsFields.SEX]: ReactSelectOption<number>;
-  [DetailsFields.ORIGIN]: ReactSelectOption<number>;
+  [DetailsFields.ORIGIN]: ReactSelectOption<OriginValue>;
 };
 
 export type AnimalDetailsFormFields = {
@@ -116,7 +121,7 @@ export type AnimalDetailsFormFields = {
   [DetailsFields.ORGANIC_STATUS]?: Option[DetailsFields.ORGANIC_STATUS];
   [DetailsFields.OTHER_DETAILS]?: string;
   [DetailsFields.ANIMAL_IMAGE]?: any;
-  [DetailsFields.ORIGIN]?: number;
+  [DetailsFields.ORIGIN]?: OriginValue;
   [DetailsFields.DAM]?: string;
   [DetailsFields.SIRE]?: string;
   [DetailsFields.BROUGHT_IN_DATE]?: string;

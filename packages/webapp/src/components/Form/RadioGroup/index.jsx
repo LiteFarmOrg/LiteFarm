@@ -92,24 +92,28 @@ export default function RadioGroup({
         </>
       )}
       {!!radios &&
-        radios.map((radioOptions) => (
-          <Radio
-            name={name}
-            key={radioOptions.value}
-            checked={field.value === radioOptions.value}
-            onChange={(e) => {
-              field?.onChange?.(radioOptions.value);
-              onChange?.({ target: { value: radioOptions.value } });
-            }}
-            onBlur={(e) => {
-              field?.onBlur?.(radioOptions.value);
-              onBlur?.({ target: { value: radioOptions.value } });
-            }}
-            value={field.value}
-            {...props}
-            {...radioOptions}
-          />
-        ))}
+        radios.map((radioOptions) => {
+          return (
+            <Radio
+              name={name}
+              key={radioOptions.value?.id || radioOptions.value}
+              checked={
+                field.value?.id === radioOptions.value?.id || field.value === radioOptions.value
+              }
+              onChange={(e) => {
+                field?.onChange?.(radioOptions.value);
+                onChange?.({ target: { value: radioOptions.value } });
+              }}
+              onBlur={(e) => {
+                field?.onBlur?.(radioOptions.value);
+                onBlur?.({ target: { value: radioOptions.value } });
+              }}
+              value={field.value}
+              {...props}
+              {...radioOptions}
+            />
+          );
+        })}
     </div>
   );
 }
@@ -130,7 +134,12 @@ RadioGroup.propTypes = {
       label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
       pill: PropTypes.string,
       defaultChecked: PropTypes.bool,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.number]),
+      value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.bool,
+        PropTypes.number,
+        PropTypes.object,
+      ]),
     }),
   ),
 };

@@ -20,9 +20,9 @@ import { ReactComponent as RelaxedFarmer } from '../../../assets/images/animals/
 import { ReactComponent as ChevronRight } from '../../../assets/images/buttons/chevron-right.svg';
 import Button from '../../Form/Button';
 import { IconSummary } from './IconSummary';
-import { iconNames } from '../../../containers/Animals/constants';
 import { AnimalSummary, BatchSummary } from './types';
 import { useMediaQuery, useTheme } from '@mui/material';
+import { isAnimalTypeIconKey } from '../../Icons/icons';
 
 interface AddAnimalsSummaryCardProps {
   onContinue: () => void;
@@ -101,14 +101,12 @@ const IconSummaryAndButton = ({
     <div className={styles.iconSummaryAndButtonContainer}>
       <div className={styles.iconSummaryContainer}>
         {animalsInfo.map((animal, index) => {
-          const animalIconKey =
-            iconNames[animal.iconKey as keyof typeof iconNames] || iconNames[''];
           return (
             <IconSummary
               key={index}
               isBatch={false}
               sexDetails={animal.sexDetails}
-              iconKey={animalIconKey}
+              iconKey={isAnimalTypeIconKey(animal.iconKey) ? animal.iconKey : 'CUSTOM_ANIMAL'}
               type={animal.type}
               breed={animal.breed}
               count={animal.count}

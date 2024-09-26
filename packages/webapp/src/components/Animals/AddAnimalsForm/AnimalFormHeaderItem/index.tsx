@@ -23,11 +23,12 @@ import { IconLink, Main } from '../../../Typography';
 import Icon from '../../../Icons';
 import TextButton from '../../../Form/Button/TextButton';
 import { ReactComponent as TrashIcon } from '../../../../assets/images/animals/trash_icon_new.svg';
+import { AnimalTypeIconKey } from '../../../Icons/icons';
 
 type BaseFormHeader = {
   type: string;
   breed?: string;
-  iconKey: string;
+  iconKey: AnimalTypeIconKey;
   number: number;
   totalCount: number;
   showRemove?: boolean;

@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { AnimalTypeIconKey } from '../../Icons/icons';
+
 export interface AnimalSexCountSummary {
   [key: string]: number | undefined;
 }
@@ -21,7 +23,7 @@ export interface AnimalSummary {
   type: string; // Translated, to display in the card
   breed?: string;
   sexDetails: AnimalSexCountSummary;
-  iconKey: string;
+  iconKey: AnimalTypeIconKey;
   count: number;
 }
 

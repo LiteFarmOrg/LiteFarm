@@ -199,7 +199,7 @@ interface Config {
 }
 
 export const formatDBAnimalsToSummary = (data: Animal[], config: Config): AnimalSummary[] => {
-  const animalsPerTypeAndBreed = {} as { [key: string]: AnimalSummary };
+  const animalsPerTypeAndBreed: { [key: string]: AnimalSummary } = {};
   const { defaultTypes, customTypes, defaultBreeds, customBreeds, sexes } = config;
   const sexMap = getSexMap(sexes, true);
 
@@ -215,7 +215,7 @@ export const formatDBAnimalsToSummary = (data: Animal[], config: Config): Animal
         sexDetails: {},
         iconKey: typeString.toUpperCase(),
         count: 0,
-      } as AnimalSummary;
+      };
     }
 
     const typeBreedSummary = animalsPerTypeAndBreed[typeBreedkey];
@@ -237,7 +237,7 @@ export const formatDBAnimalsToSummary = (data: Animal[], config: Config): Animal
 };
 
 export const formatDBBatchesToSummary = (data: AnimalBatch[], config: Config): BatchSummary[] => {
-  const batchesPerTypeAndBreed = {} as { [key: string]: BatchSummary };
+  const batchesPerTypeAndBreed: { [key: string]: BatchSummary } = {};
   const { defaultTypes, customTypes, defaultBreeds, customBreeds } = config;
 
   data.forEach((batch) => {

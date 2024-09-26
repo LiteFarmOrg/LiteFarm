@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { FC, useMemo } from 'react';
+import { useMemo } from 'react';
 import i18n from '../../../locales/i18n';
 import {
   useGetAnimalsQuery,
@@ -35,12 +35,13 @@ import {
   DefaultAnimalType,
 } from '../../../store/api/types';
 import { getComparator, orderEnum } from '../../../util/sort';
-import { AnimalOrBatchKeys, AnimalTranslationKey } from '../types';
+import { AnimalOrBatchKeys } from '../types';
 import { generateInventoryId } from '../../../util/animal';
+import { AnimalTypeIconKey, isAnimalTypeIconKey } from '../../../components/Icons/icons';
 
 export type AnimalInventory = {
   id: string;
-  iconName: string;
+  iconName: AnimalTypeIconKey;
   identification: string;
   type: string;
   breed: string;
@@ -63,17 +64,8 @@ export const getDefaultAnimalIconName = (
   defaultAnimalTypes: DefaultAnimalType[],
   defaultTypeId: number | null,
 ) => {
-  const key = defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key;
-  switch (key) {
-    case AnimalTranslationKey.CATTLE:
-      return 'CATTLE';
-    case AnimalTranslationKey.CHICKEN:
-      return 'CHICKEN';
-    case AnimalTranslationKey.PIGS:
-      return 'PIG';
-    default:
-      return 'CUSTOM_ANIMAL';
-  }
+  const typeKey = defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key || 'CUSTOM_ANIMAL';
+  return isAnimalTypeIconKey(typeKey) ? typeKey : 'CUSTOM_ANIMAL';
 };
 
 type hasId = {
@@ -146,7 +138,7 @@ const formatAnimalsData = (
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
-) => {
+): AnimalInventory[] => {
   return animals
     .filter(
       (animal: Animal) =>
@@ -182,7 +174,7 @@ const formatAnimalBatchesData = (
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
-) => {
+): AnimalInventory[] => {
   return animalBatches
     .filter(
       (batch: AnimalBatch) =>

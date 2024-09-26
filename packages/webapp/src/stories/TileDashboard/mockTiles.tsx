@@ -12,8 +12,14 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { IconName } from '../../components/Icons';
+export interface MockTypeCountTile {
+  label: string;
+  count: number;
+  iconName: IconName;
+}
 
-export const mockTiles = [
+export const mockTiles: MockTypeCountTile[] = [
   {
     label: 'Goat',
     iconName: 'GOAT',
@@ -31,7 +37,7 @@ export const mockTiles = [
   },
   {
     label: 'Pig',
-    iconName: 'PIG',
+    iconName: 'PIGS',
     count: 20,
   },
   {

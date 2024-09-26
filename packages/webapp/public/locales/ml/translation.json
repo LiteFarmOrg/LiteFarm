@@ -886,7 +886,7 @@
       "ESTIMATED_PRICE_PER_UNIT": "",
       "TITLE": ""
     },
-    "EXPENSES": "",
+    "EXPENSES": "ചെലവുകൾ",
     "FILTER": {
       "EXPENSE_TYPE": "ചെലവ് തരങ്ങൾ",
       "HELP_TEXT": "നിങ്ങളുടെ ഇടപാട് ലിസ്‌റ്റ് മികച്ചതാക്കാനും നിങ്ങൾ ആഗ്രഹിക്കുന്ന രീതിയിൽ പ്രവർത്തിക്കാനും ചുവടെയുള്ള ഫിൽട്ടറുകൾ ഉപയോഗിക്കാൻ മടിക്കേണ്ടതില്ല!",
@@ -900,7 +900,7 @@
       "TRANSACTION": "",
       "TRANSACTIONS": ""
     },
-    "REVENUE": "",
+    "REVENUE": "വരുമാനം",
     "SEARCH": {
       "EXPENSE_TYPES": "ചെലവ് തരം തിരയുക",
       "REVENUE_TYPES": "വരുമാന തരത്തിനായി തിരയുക"
@@ -1271,7 +1271,7 @@
     "MAP": "ഭൂപടം",
     "OTHER_EXPENSES": "മറ്റ് ചെലവുകൾ",
     "PEOPLE": "ആളുകൾ",
-    "TASKS": "yet to be translated",
+    "TASKS": "ചുമതലകൾ",
     "TRANSACTION_LIST": "ഇടപാട് ലിസ്റ്റ്"
   },
   "MY_FARM": {
@@ -1395,7 +1395,7 @@
       "EDIT_USER": "",
       "EMAIL": "ഇമെയിൽ",
       "FIRST_NAME": "പേരിന്റെ ആദ്യഭാഗം",
-      "LANGUAGE": "",
+      "LANGUAGE": "ഭാഷ",
       "LAST_NAME": "പേരിന്റെ അവസാന ഭാഗം",
       "PHONE_NUMBER": "ഫോൺ നമ്പർ",
       "USER_ADDRESS": "വിലാസം"
@@ -1564,7 +1564,7 @@
         "GENERIC": "*ഈ നമ്പറുകൾ നിങ്ങളുടെ തീയതി / ഫിൽട്ടർ തിരഞ്ഞെടുക്കൽ അടിസ്ഥാനമാക്കിയുള്ളതാണ്"
       },
       "ESTIMATED_HARVEST_REVENUE": "കണക്കാക്കിയ വിളവെടുപ്പ് വരുമാനം",
-      "EXPENSES": "",
+      "EXPENSES": "ചെലവുകൾ",
       "EXPORT_REPORT": "",
       "LABOUR_LABEL": "",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
@@ -1723,7 +1723,7 @@
     "FINANCES": "സാമ്പത്തികം",
     "INSIGHTS": "ഉൾക്കാഴ്ചകൾ",
     "MANAGE": "",
-    "TASKS": "yet to be translated"
+    "TASKS": "ചുമതലകൾ"
   },
   "STATUS": {
     "ACTIVE": "സജീവം",

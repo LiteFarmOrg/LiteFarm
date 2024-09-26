@@ -49,6 +49,7 @@ const Input = ({
   stepper = false,
   className = '',
   trigger,
+  onCleared,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -75,6 +76,7 @@ const Input = ({
     // Manually trigger validation against the new value ''
     trigger?.(name);
     setShowError(false);
+    onCleared?.();
   };
 
   const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
@@ -281,6 +283,7 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   className: PropTypes.string,
   trigger: PropTypes.func,
+  onCleared: PropTypes.func,
 };
 
 export default Input;

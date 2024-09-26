@@ -279,44 +279,44 @@
     "EXPORT_DOCS": "സർട്ടിഫിക്കേഷൻ രേഖകൾ കയറ്റുമതി ചെയ്യുക",
     "EXPORT_DOWNLOADING_MESSAGE": "നിങ്ങളുടെ ഓർഗാനിക് സർട്ടിഫിക്കേഷൻ ഫയലുകൾ ഡൗൺലോഡ് ചെയ്യുന്നു ...",
     "EXPORT_FILE_TITLE": "ജൈവ സർട്ടിഫിക്കേഷൻ",
-    "FILES_ARE_READY": "",
-    "FLOW_TITLE": "",
-    "GOOD_NEWS": "",
-    "HAVE_ALL_INFO": "",
-    "NEXT_WE_WILL_CHECK": "",
-    "NOTE_CANNOT_RESUBMIT": "",
-    "ORGANIC_CERTIFICATION_FROM": "",
-    "SELECT_REPORTING_PERIOD": "",
-    "UH_OH": "",
-    "WOULD_LIKE_ANSWERS": ""
+    "FILES_ARE_READY": "നിങ്ങളുടെ സർട്ടിഫിക്കേഷൻ ഫയലുകൾ ഇപ്പോൾ കയറ്റുമതി ചെയ്യാൻ തയ്യാറാണ്. ഈ വിലാസത്തിൽ ഞങ്ങൾ അവ നിങ്ങൾക്ക് അയയ്ക്കും:",
+    "FLOW_TITLE": "സർട്ടിഫിക്കേഷൻ രേഖകളുടെ കയറ്റുമതി",
+    "GOOD_NEWS": "സന്തോഷ വാർത്ത!",
+    "HAVE_ALL_INFO": "നിങ്ങളുടെ സർട്ടിഫിക്കേഷൻ ഡോക്യുമെൻ്റുകൾ പ്രോസസ്സ് ചെയ്യുന്നതിന് ഞങ്ങൾക്ക് ആവശ്യമായ എല്ലാ വിവരങ്ങളും ലൈറ്റ്ഫാമിൽ ഉണ്ടെന്ന് തോന്നുന്നു. ഈ വിലാസത്തിൽ ഞങ്ങൾ അവ നിങ്ങൾക്ക് അയയ്ക്കും:",
+    "NEXT_WE_WILL_CHECK": "നിങ്ങളുടെ സർട്ടിഫിക്കേഷൻ സമർപ്പിക്കൽ പ്രോസസ്സ് ചെയ്യുന്നതിന് നിങ്ങളുടെ സർട്ടിഫയർക്ക് എന്തെങ്കിലും അധിക വിവരങ്ങൾ ആവശ്യമുണ്ടോ എന്ന് ഞങ്ങൾ അടുത്തതായി പരിശോധിക്കും.",
+    "NOTE_CANNOT_RESUBMIT": "ശ്രദ്ധിക്കുക: ഒരിക്കൽ നിങ്ങൾ സർവേ സമർപ്പിച്ചാൽ നിങ്ങളുടെ ഉത്തരങ്ങൾ എഡിറ്റ് ചെയ്യാൻ കഴിയില്ല. സമർപ്പിച്ചതിന് ശേഷം അവ മാറ്റുന്നതിന്, ഒരു പുതിയ കയറ്റുമതി ആരംഭിക്കുക.",
+    "ORGANIC_CERTIFICATION_FROM": "ജൈവ സർട്ടിഫിക്കേഷൻ ലഭിച്ചത്",
+    "SELECT_REPORTING_PERIOD": "നിങ്ങളുടെ റിപ്പോർട്ടിംഗ് കാലയളവ് തിരഞ്ഞെടുക്കുക",
+    "UH_OH": "അയ്യോ!",
+    "WOULD_LIKE_ANSWERS": "ഞങ്ങൾ നിങ്ങളുടെ ഡോക്യുമെൻ്റുകൾ എക്‌സ്‌പോർട്ടുചെയ്യുന്നതിന് മുമ്പ് കുറച്ച് ചോദ്യങ്ങൾക്ക് നിങ്ങൾ ഉത്തരം നൽകാൻ നിങ്ങളുടെ സർട്ടിഫയർ ആഗ്രഹിക്കുന്നു."
   },
   "CERTIFICATIONS_MODAL": {
-    "MAYBE_LATER": "",
+    "MAYBE_LATER": "ഒരുപക്ഷേ പിന്നീട്",
     "STEP_ONE": {
-      "DESCRIPTION": "",
-      "TITLE": ""
+      "DESCRIPTION": "സർട്ടിഫിക്കേഷനുകൾക്കും സർട്ടിഫയറുകൾക്കും ഞങ്ങൾ പിന്തുണ ചേർത്തു! നിങ്ങളുടെ പ്രദേശത്ത് എന്താണ് ലഭ്യമെന്ന് കാണണോ?",
+      "TITLE": "പുതിയ സവിശേഷത!"
     },
     "STEP_TWO": {
-      "DESCRIPTION": "",
-      "TITLE": ""
+      "DESCRIPTION": "അത് കുഴപ്പമില്ല! \"എൻ്റെ ഫാം\" എന്നതിന് കീഴിൽ നിങ്ങൾക്ക് പിന്നീട് സർട്ടിഫിക്കേഷനുകളും സർട്ടിഫയറുകളും ചേർക്കാം.",
+      "TITLE": "സർട്ടിഫിക്കേഷനുകൾ കാണുന്നു"
     }
   },
   "CHOOSE_FARM": {
-    "ADD_NEW": "",
-    "CHOOSE_TITLE": "",
-    "INPUT_PLACEHOLDER": "yet to be translated",
+    "ADD_NEW": "പുതിയ ഫാം ചേർക്കുക",
+    "CHOOSE_TITLE": "നിങ്ങളുടെ ഫാം തിരഞ്ഞെടുക്കുക",
+    "INPUT_PLACEHOLDER": "തിരയുക",
     "SWITCH_TITLE": "മറ്റൊരു ഫാമിലേക്ക് മാറുക"
   },
   "COMMON_ERRORS": {
     "UNIT": {
-      "NON_NEGATIVE": "",
+      "NON_NEGATIVE": "നെഗറ്റീവ് അല്ലാത്ത സംഖ്യയായിരിക്കണം",
       "REQUIRED": "ആവശ്യമാണ്",
-      "TWO_DECIMALS": ""
+      "TWO_DECIMALS": "അളവ് 2 ദശാംശ സ്ഥാനങ്ങൾ വരെ ആയിരിക്കണം"
     }
   },
   "CONSENT": {
-    "DATA_POLICY": "",
-    "LABEL": ""
+    "DATA_POLICY": "ഞങ്ങളുടെ ഡാറ്റ നയം",
+    "LABEL": "ഞാൻ അംഗീകരിക്കുന്നു"
   },
   "CREATE_USER": {
     "BIRTH_YEAR": "ജനിച്ച വർഷം",
@@ -334,17 +334,17 @@
     "TITLE": "പുതിയ ഉപയോക്തൃ അക്കൗണ്ട് സൃഷ്ടിക്കുക"
   },
   "CROP": {
-    "ADD_CROP": "",
-    "ADD_IMAGE": "",
+    "ADD_CROP": "ഒരു വിള ചേർക്കുക",
+    "ADD_IMAGE": "ഇഷ്ടാനുസൃത ചിത്രം ചേർക്കുക",
     "ANNUAL": "വാർഷികം",
     "ANNUAL_OR_PERENNIAL": "വിള വാർഷികമോ വറ്റാത്തതോ ആണോ?",
     "CULTIVAR_PLACEHOLDER": "ഉദാ. റെഡ് ടെലിസിയസ്",
     "CULTIVAR_SUBTEXT": "കൃഷി ഇനങ്ങളെക്കുറിച്ച് കൂടുതലറിയുക",
-    "DUPLICATE_VARIETY": "",
-    "EDIT_CROP": "",
+    "DUPLICATE_VARIETY": "ഇതേ പേരിലുള്ള ഈ വിളയുടെ വൈവിധ്യം നിങ്ങളുടെ ഫാമിൽ ഇതിനകം നിലവിലുണ്ട്",
+    "EDIT_CROP": "വിള തിരുത്തുക",
     "EDIT_MODAL": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "ഈ വിള തിരുത്തുന്നത് നിലവിലുള്ള വിള പദ്ധതികളൊന്നും പരിഷ്കരിക്കില്ല. നിങ്ങളുടെ തിരുത്തലുകൾക്ക് ശേഷം സൃഷ്‌ടിച്ച വിള പദ്ധതികളെ മാത്രമേ ബാധിക്കൂ. തിരുത്തൽ തുടരണോ?",
+      "TITLE": "വിള തിരുത്തണോ?"
     },
     "IS_GENETICALLY_ENGINEERED": "",
     "IS_ORGANIC": "",
@@ -455,14 +455,14 @@
     "BACK": "",
     "CLEAR_DATES": "",
     "CUSTOM_RANGE": "",
-    "LAST_FOURTEEN_DAYS": "yet to be translated",
-    "LAST_MONTH": "yet to be translated",
-    "LAST_SEVEN_DAYS": "yet to be translated",
-    "LAST_THIRTY_DAYS": "yet to be translated",
-    "LAST_WEEK": "yet to be translated",
+    "LAST_FOURTEEN_DAYS": "കഴിഞ്ഞ 14 ദിവസം",
+    "LAST_MONTH": "കഴിഞ്ഞ മാസം",
+    "LAST_SEVEN_DAYS": "കഴിഞ്ഞ 7 ദിവസം",
+    "LAST_THIRTY_DAYS": "കഴിഞ്ഞ 30 ദിവസം",
+    "LAST_WEEK": "കഴിഞ്ഞ ആഴ്ച",
     "THIS_MONTH": "",
     "THIS_WEEK": "",
-    "YEAR_TO_DATE": "yet to be translated"
+    "YEAR_TO_DATE": "വർഷാരംഭം മുതൽ ഇന്ന് വരെ"
   },
   "DAYS_OF_WEEK_SELECT": {
     "FRIDAY": "",
@@ -544,16 +544,16 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "ADD_CUSTOM_EXPENSE": "yet to be translated",
-      "ADD_CUSTOM_EXPENSE_TYPE": "yet to be translated",
+      "ADD_CUSTOM_EXPENSE": "ഇഷ്ടാനുസൃത ചെലവ് ചേർക്കുക",
+      "ADD_CUSTOM_EXPENSE_TYPE": "ഇഷ്‌ടാനുസൃത ചെലവ് തരം ചേർക്കുക",
       "CUSTOM_EXPENSE_NAME": "",
       "CUSTOM_EXPENSE_TYPE": "",
       "DUPLICATE_NAME": "",
       "DUPLICATE_NAME_RETIRED": "",
       "FLOW": "",
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "yet to be translated",
-      "NEW_EXPENSE_ITEM": "yet to be translated",
-      "TITLE": "yet to be translated",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "ഇഷ്‌ടാനുസൃത ചെലവ് തരങ്ങൾ നിയന്ത്രിക്കുക",
+      "NEW_EXPENSE_ITEM": "പുതിയ ചെലവ് ഇനം",
+      "TITLE": "ചെലവ് ചേർക്കുക",
       "WHICH_TYPES_TO_RECORD": ""
     },
     "CUSTOM_EXPENSE_DESCRIPTION": "",
@@ -572,13 +572,13 @@
       "TITLE_1": "",
       "TITLE_2": ""
     },
-    "ITEM_NAME": "yet to be translated",
+    "ITEM_NAME": "ഇനത്തിൻ്റെ പേര്",
     "NO_EXPENSE": "",
     "NO_EXPENSE_YEAR": "",
     "OTHER_EXPENSES_TITLE": "മറ്റ് ചെലവുകൾ",
     "SUMMARY": "",
     "TYPE": "",
-    "VALUE": "yet to be translated"
+    "VALUE": "മൂല്യം"
   },
   "EXPIRED_TOKEN": {
     "RESET_PASSWORD": "",
@@ -734,45 +734,45 @@
     },
     "LOCATION_CREATION_FLOW": "",
     "MAP_FILTER": {
-      "ADD_TITLE": "yet to be translated",
+      "ADD_TITLE": "നിങ്ങളുടെ ഭൂപടത്തിലേക്ക് ചേർക്കുക",
       "AREAS": "",
-      "BARN": "yet to be translated",
-      "BUFFER_ZONE": "yet to be translated",
-      "BZ": "yet to be translated",
-      "CA": "yet to be translated",
-      "CEREMONIAL_AREA": "yet to be translated",
-      "FARM_SITE_BOUNDARY": "yet to be translated",
-      "FENCE": "yet to be translated",
-      "FIELD": "yet to be translated",
-      "FSB": "yet to be translated",
-      "GARDEN": "yet to be translated",
-      "GATE": "yet to be translated",
-      "GREENHOUSE": "yet to be translated",
+      "BARN": "കളപ്പുര",
+      "BUFFER_ZONE": "ബഫർ സോൺ",
+      "BZ": "ബഫർ സോൺ",
+      "CA": "ആചാരപരമായ പ്രദേശം",
+      "CEREMONIAL_AREA": "ആചാരപരമായ പ്രദേശം",
+      "FARM_SITE_BOUNDARY": "ഫാം സൈറ്റിൻ്റെ അതിർത്തി",
+      "FENCE": "വേലി",
+      "FIELD": "വയൽ",
+      "FSB": "ഫാം സൈറ്റിൻ്റെ അതിർത്തി",
+      "GARDEN": "പൂന്തോട്ടം",
+      "GATE": "ഗേറ്റ്",
+      "GREENHOUSE": "ഹരിതഗൃഹം",
       "HIDE_ALL": "",
       "LABEL": "",
       "LINES": "",
-      "NA": "yet to be translated",
-      "NATURAL_AREA": "yet to be translated",
+      "NA": "സ്വാഭാവിക പ്രദേശം",
+      "NATURAL_AREA": "സ്വാഭാവിക പ്രദേശം",
       "POINTS": "",
-      "RESIDENCE": "yet to be translated",
+      "RESIDENCE": "താമസസ്ഥലം",
       "SATELLITE": "",
-      "SENSOR": "yet to be translated",
+      "SENSOR": "സെൻസർ",
       "SHOW_ALL": "",
-      "SURFACE_WATER": "yet to be translated",
+      "SURFACE_WATER": "ഉപരിതല ജലം",
       "TITLE": "",
-      "WATER_VALVE": "yet to be translated",
-      "WATERCOURSE": "yet to be translated",
-      "WV": "yet to be translated"
+      "WATER_VALVE": "വാട്ടർ വാൽവ്",
+      "WATERCOURSE": "ജലപാത",
+      "WV": "വാട്ടർ വാൽവ്"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "",
-      "NAME": "yet to be translated",
+      "NAME": "സ്വാഭാവിക പ്രദേശത്തിൻ്റെ പേര്",
       "TITLE": ""
     },
     "NOTES_CHAR_LIMIT": "",
     "RESIDENCE": {
       "EDIT_TITLE": "",
-      "NAME": "yet to be translated",
+      "NAME": "വസതിയുടെ പേര്",
       "TITLE": ""
     },
     "SPOTLIGHT": {
@@ -787,14 +787,14 @@
     "SURFACE_WATER": {
       "EDIT_TITLE": "",
       "IRRIGATION": "",
-      "NAME": "yet to be translated",
+      "NAME": "ഉപരിതല ജലത്തിൻ്റെ പേര്",
       "TITLE": ""
     },
     "TAB": {
-      "CROPS": "",
-      "DETAILS": "yet to be translated",
+      "CROPS": "വിളകൾ",
+      "DETAILS": "വിശദാംശങ്ങൾ",
       "READINGS": "",
-      "TASKS": "yet to be translated"
+      "TASKS": "ചുമതലകൾ"
     },
     "TITLE": "",
     "TUTORIAL": {
@@ -830,9 +830,9 @@
       "GROUNDWATER": "",
       "MAX_FLOW_RATE": "",
       "MUNICIPAL_WATER": "",
-      "NAME": "yet to be translated",
+      "NAME": "വാട്ടർ വാൽവിൻ്റെ പേര്",
       "RAIN_WATER": "",
-      "SURFACE_WATER": "yet to be translated",
+      "SURFACE_WATER": "ഉപരിതല ജലം",
       "TITLE": "",
       "WATER_VALVE_TYPE": ""
     },
@@ -841,9 +841,9 @@
       "EDIT_TITLE": "",
       "IRRIGATION": "",
       "LENGTH": "",
-      "NAME": "yet to be translated",
+      "NAME": "ജലപാതയുടെ പേര്",
       "TITLE": "",
-      "WIDTH": "yet to be translated"
+      "WIDTH": "ജലപാതയുടെ വീതി"
     }
   },
   "FIELDS": {
@@ -857,41 +857,41 @@
     "TITLE": ""
   },
   "FILTER": {
-    "CLEAR_ALL": "yet to be translated",
-    "CLEAR_ALL_FILTERS": "yet to be translated",
-    "SELECT_ALL": "yet to be translated"
+    "CLEAR_ALL": "എല്ലാം മായ്‌ക്കുക",
+    "CLEAR_ALL_FILTERS": "എല്ലാ ഫിൽട്ടറുകളും മായ്‌ക്കുക",
+    "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
-      "ADD_REVENUE": "yet to be translated",
+      "ADD_REVENUE": "വരുമാനം ചേർക്കുക",
       "TITLE": ""
     },
-    "ADD_EXPENSE": "yet to be translated",
-    "ADD_REVENUE": "yet to be translated",
-    "ADD_TRANSACTION": "yet to be translated",
+    "ADD_EXPENSE": "+ ചെലവ് ചേർക്കുക",
+    "ADD_REVENUE": "+ വരുമാനം ചേർക്കുക",
+    "ADD_TRANSACTION": "+ ഇടപാട് ചേർക്കുക",
     "CANT_FIND": {
-      "INFO_EXPENSE": "yet to be translated",
-      "INFO_REVENUE": "yet to be translated",
-      "MAIN": "yet to be translated",
-      "MANAGE_EXPENSE": "yet to be translated",
-      "MANAGE_REVENUE": "yet to be translated",
-      "MISC_EXPENSE": "yet to be translated"
+      "INFO_EXPENSE": "നിങ്ങൾക്ക് നിങ്ങളുടെ സ്വന്തം ഇഷ്‌ടാനുസൃത ചെലവ് തരങ്ങൾ സൃഷ്ടിക്കാനും കഴിയും!",
+      "INFO_REVENUE": "നിങ്ങൾക്ക് സ്വന്തമായി ഇഷ്‌ടാനുസൃത വരുമാന തരങ്ങൾ സൃഷ്‌ടിക്കാനും കഴിയും!",
+      "MAIN": "അനുയോജ്യമായ ഒരു വിഭാഗം കണ്ടെത്താൻ കഴിയുന്നില്ലേ?",
+      "MANAGE_EXPENSE": "നിങ്ങളുടെ ഇഷ്‌ടാനുസൃത ചെലവുകൾ നിയന്ത്രിക്കുക",
+      "MANAGE_REVENUE": "നിങ്ങളുടെ ഇഷ്‌ടാനുസൃത വരുമാനം നിയന്ത്രിക്കുക",
+      "MISC_EXPENSE": "അല്ലെങ്കിൽ<1>സൃഷ്ടിക്കുക<1>വിവിധ</1>ചെലവ്</1>"
     },
-    "COST": "yet to be translated",
-    "DATE": "yet to be translated",
+    "COST": "ചെലവ്",
+    "DATE": "തീയതി",
     "ESTIMATED_REVENUE": {
       "ESTIMATED_ANNUAL_REVENUE": "",
-      "ESTIMATED_ANNUAL_YIELD": "yet to be translated",
+      "ESTIMATED_ANNUAL_YIELD": "കണക്കാക്കിയ വാർഷിക വിളവെടുപ്പ്",
       "ESTIMATED_CROP_REVENUE": "",
       "ESTIMATED_PRICE_PER_UNIT": "",
       "TITLE": ""
     },
     "EXPENSES": "",
     "FILTER": {
-      "EXPENSE_TYPE": "yet to be translated",
-      "HELP_TEXT": "yet to be translated",
-      "REVENUE_TYPE": "yet to be translated",
-      "TITLE": "yet to be translated"
+      "EXPENSE_TYPE": "ചെലവ് തരങ്ങൾ",
+      "HELP_TEXT": "നിങ്ങളുടെ ഇടപാട് ലിസ്‌റ്റ് മികച്ചതാക്കാനും നിങ്ങൾ ആഗ്രഹിക്കുന്ന രീതിയിൽ പ്രവർത്തിക്കാനും ചുവടെയുള്ള ഫിൽട്ടറുകൾ ഉപയോഗിക്കാൻ മടിക്കേണ്ടതില്ല!",
+      "REVENUE_TYPE": "വരുമാന തരങ്ങൾ",
+      "TITLE": "ഇടപാടുകൾ ഫിൽട്ടർ ചെയ്യുക"
     },
     "REPORT": {
       "DATES": "",
@@ -902,14 +902,14 @@
     },
     "REVENUE": "",
     "SEARCH": {
-      "EXPENSE_TYPES": "yet to be translated",
-      "REVENUE_TYPES": "yet to be translated"
+      "EXPENSE_TYPES": "ചെലവ് തരം തിരയുക",
+      "REVENUE_TYPES": "വരുമാന തരത്തിനായി തിരയുക"
     },
     "TRANSACTION": {
-      "CROPS": "",
+      "CROPS": "വിളകൾ",
       "DAILY_TOTAL": "",
       "LABOUR_EXPENSE": "",
-      "VIEW_AND_EDIT": "yet to be translated",
+      "VIEW_AND_EDIT": "കാണുക & തിരുത്തുക",
       "VIEW_LABOUR": ""
     },
     "VIEW_WITHIN_DATE_RANGE": "",
@@ -920,7 +920,7 @@
   },
   "HELP": {
     "ATTACHMENT_LABEL": "",
-    "EMAIL": "yet to be translated",
+    "EMAIL": "ഇമെയിൽ",
     "MESSAGE_LABEL": "",
     "OPTIONS": {
       "OTHER": "",
@@ -929,7 +929,7 @@
       "REQUEST_INFO": ""
     },
     "PREFERRED_CONTACT": "",
-    "REQUIRED_LABEL": "yet to be translated",
+    "REQUIRED_LABEL": "ആവശ്യമായ ഫീൽഡ്",
     "TITLE": "",
     "TYPE_SUPPORT_LABEL": "",
     "TYPE_SUPPORT_PLACEHOLDER": "",
@@ -964,7 +964,7 @@
     "CURRENT": "",
     "INFO": "",
     "LABOUR_HAPPINESS": {
-      "HEADER": "yet to be translated",
+      "HEADER": "ചുമതലകൾ",
       "INFO": "",
       "TITLE": ""
     },
@@ -986,7 +986,7 @@
       "INFO": "",
       "TITLE": ""
     },
-    "TITLE": "yet to be translated",
+    "TITLE": "ഉൾക്കാഴ്ചകൾ",
     "UNAVAILABLE": ""
   },
   "INTRODUCE_MAP": {
@@ -994,16 +994,16 @@
     "TITLE": ""
   },
   "INVITATION": {
-    "BIRTH_YEAR": "yet to be translated",
-    "BIRTH_YEAR_ERROR": "yet to be translated",
-    "BIRTH_YEAR_TOOLTIP": "yet to be translated",
+    "BIRTH_YEAR": "ജനിച്ച വർഷം",
+    "BIRTH_YEAR_ERROR": "ജനന വർഷം 1900-നും _ ഇടയിലായിരിക്കണം",
+    "BIRTH_YEAR_TOOLTIP": "പ്രായത്തെക്കുറിച്ചുള്ള വിവരങ്ങൾ ഗവേഷണ ആവശ്യങ്ങൾക്കായി മാത്രം ശേഖരിക്കുന്നു, വ്യക്തിപരമായി തിരിച്ചറിയുന്ന വിവരങ്ങൾ നീക്കം ചെയ്‌തതിന് ശേഷം മാത്രമേ അത് പങ്കിടൂ",
     "CREATE_ACCOUNT": "",
     "CREATE_NEW_ACCOUNT": "",
-    "EMAIL": "yet to be translated",
-    "FULL_NAME": "yet to be translated",
-    "GENDER": "yet to be translated",
-    "GENDER_TOOLTIP": "yet to be translated",
-    "PASSWORD": "yet to be translated",
+    "EMAIL": "ഇമെയിൽ",
+    "FULL_NAME": "പൂർണ്ണമായ പേര്",
+    "GENDER": "ലിംഗം",
+    "GENDER_TOOLTIP": "ലിംഗവിവരങ്ങൾ ഗവേഷണ ആവശ്യങ്ങൾക്കായി മാത്രമാണ് ശേഖരിക്കുന്നത്, വ്യക്തിപരമായി തിരിച്ചറിയുന്ന വിവരങ്ങൾ നീക്കം ചെയ്തതിന് ശേഷം മാത്രമേ അവ പങ്കിടുകയുള്ളൂ",
+    "PASSWORD": "പാസ്സ്‌വേർഡ്",
     "YOUR_INFORMATION": ""
   },
   "INVITE_SIGN_UP": {
@@ -1017,12 +1017,12 @@
   "INVITE_USER": {
     "ALREADY_EXISTING_EMAIL_ERROR": "",
     "BIRTH_YEAR": "",
-    "BIRTH_YEAR_ERROR": "yet to be translated",
-    "BIRTH_YEAR_TOOLTIP": "yet to be translated",
+    "BIRTH_YEAR_ERROR": "ജനന വർഷം 1900-നും __-നും ഇടയിലായിരിക്കണം",
+    "BIRTH_YEAR_TOOLTIP": "പ്രായത്തെക്കുറിച്ചുള്ള വിവരങ്ങൾ ഗവേഷണ ആവശ്യങ്ങൾക്കായി മാത്രം ശേഖരിക്കുന്നു, വ്യക്തിപരമായി തിരിച്ചറിയുന്ന വിവരങ്ങൾ നീക്കം ചെയ്‌തതിന് ശേഷം മാത്രമേ അത് പങ്കിടൂ",
     "CHOOSE_ROLE": "",
     "DEFAULT_LANGUAGE": "മലയാളം",
     "DEFAULT_LANGUAGE_VALUE": "ml",
-    "EMAIL": "yet to be translated",
+    "EMAIL": "ഇമെയിൽ",
     "EMAIL_INFO": "",
     "FULL_NAME": "പൂർണ്ണമായ പേര്",
     "GENDER": "ലിംഗം",
@@ -1053,7 +1053,7 @@
   },
   "LOCATION_CROPS": {
     "ACTIVE_CROPS": "സജീവ വിളകൾ",
-    "ADD_NEW": "",
+    "ADD_NEW": "വിള ചേർക്കുക",
     "INPUT_PLACEHOLDER": "",
     "PAST_CROPS": "കഴിഞ്ഞ വിളകൾ",
     "PLANNED_CROPS": "ആസൂത്രിത വിളകൾ"
@@ -1131,7 +1131,7 @@
     "CONTAINER": "കണ്ടെയ്നർ",
     "CONTAINER_OR_IN_GROUND": "നിങ്ങൾ ഒരു കണ്ടെയ്നറിൽ നടുകയാണോ അതോ നിലത്ത് നടുകയാണോ?",
     "CONTAINER_TYPE": "കണ്ടെയ്നറിൻ്റെ തരം",
-    "COVER_INFO": "yet to be translated",
+    "COVER_INFO": "കവർ വിള തിരഞ്ഞെടുക്കുന്നത് സീസണിൻ്റെ അവസാനത്തിൽ കവർ വിള അവസാനിപ്പിക്കുന്നതിന് ഒരു ഫീൽഡ് വർക്ക് ചുമതല സൃഷ്ടിക്കും. വിളവെടുപ്പിനായി തിരഞ്ഞെടുക്കുന്നത് പകരം വിളവെടുപ്പ് ചുമതല സൃഷ്ടിക്കും.",
     "COVER_OR_HARVEST": "",
     "CROP_PLAN_REPEAT": "ഈ വിള പദ്ധതി ആവർത്തിക്കുന്നു",
     "CROP_PLAN_REPEAT_SUBTEXT": "'സംരക്ഷിക്കുക' ക്ലിക്ക് ചെയ്യുന്നത് ഈ ക്രോപ്പ് പ്ലാൻ ഉടനടി സംരക്ഷിക്കും. അത് എങ്ങനെ ആവർത്തിക്കുന്നുവെന്ന് വിവരിക്കാൻ നിങ്ങളോട് ആവശ്യപ്പെടും.",
@@ -1166,7 +1166,7 @@
     "GERMINATION": "മുളപ്പിക്കൽ",
     "HARVEST": "പ്രാരംഭ വിളവെടുപ്പ്",
     "HARVEST_DATE": "",
-    "HARVEST_TO_DATE": "yet to be translated",
+    "HARVEST_TO_DATE": "ഇന്നുവരെയുള്ള വിളവെടുപ്പ്",
     "HARVEST_TO_DATE_INFO": "ഈ വിള പദ്ധതിയിൽ പൂർത്തിയാക്കിയ വിളവെടുപ്പ് ജോലികൾ അടിസ്ഥാനമാക്കിയാണ് നാളിതുവരെയുള്ള വിളവെടുപ്പ് കണക്കാക്കുന്നത്",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "",
     "IN_GROUND": "നിലത്ത്",
@@ -1190,7 +1190,7 @@
     "PLAN_NOTES": "ആസൂത്രണം കുറിപ്പുകൾ",
     "PLANT_SPACING": "ചെടികളുടെ അകലം",
     "PLANTED_ALREADY": "നിങ്ങൾ ഈ വിള നടുകയാണോ അതോ ഇതിനകം നട്ടതാണോ?",
-    "PLANTING": "yet to be translated",
+    "PLANTING": "നടീൽ",
     "PLANTING_DATE": "",
     "PLANTING_DATE_INFO": "വിളകളുടെ പ്രായത്തെ അടിസ്ഥാനമാക്കി വിതയ്ക്കുന്ന തീയതി: {{seed_date}}",
     "PLANTING_DATE_LABEL": "നടീൽ തീയതി",
@@ -1404,7 +1404,7 @@
     "ERROR": {
       "FARM_NAME_LENGTH": "",
       "FIRST_NAME_LENGTH": "",
-      "LAST_NAME_LENGTH": "yet to be translated",
+      "LAST_NAME_LENGTH": "അവസാന നാമം 255 അക്ഷരങ്ങളിൽ കവിയരുത്",
       "PHONE_NUMBER_LENGTH": "",
       "USER_ADDRESS_LENGTH": ""
     },
@@ -1455,7 +1455,7 @@
   },
   "RELEASE": {
     "BETTER": "",
-    "LITEFARM_UPDATED": "yet to be translated",
+    "LITEFARM_UPDATED": "ലൈറ്റ്ഫാമിൻ്റെ v{{version}} ഇപ്പോൾ ലഭ്യമാണ!",
     "NOTES": ""
   },
   "REPEAT_PLAN": {
@@ -1503,16 +1503,16 @@
   },
   "REVENUE": {
     "ADD_REVENUE": {
-      "ADD_CUSTOM_REVENUE": "yet to be translated",
-      "CANNOT_BE_CHANGED": "yet to be translated",
-      "CANNOT_BE_CHANGED_LATER": "yet to be translated",
-      "CROP_GENERATED": "yet to be translated",
-      "CUSTOM_REVENUE_NAME": "yet to be translated",
-      "CUSTOM_REVENUE_TYPE": "yet to be translated",
+      "ADD_CUSTOM_REVENUE": "ഇഷ്‌ടാനുസൃത വരുമാനം ചേർക്കുക",
+      "CANNOT_BE_CHANGED": "ഇത് മാറ്റാൻ കഴിയില്ല",
+      "CANNOT_BE_CHANGED_LATER": "ഇത് പിന്നീട് മാറ്റാൻ കഴിയില്ല",
+      "CROP_GENERATED": "ഈ വരുമാനം വിളകളിൽ നിന്നാണോ?",
+      "CUSTOM_REVENUE_NAME": "ഇഷ്‌ടാനുസൃത വരുമാന നാമം",
+      "CUSTOM_REVENUE_TYPE": "ഇഷ്‌ടാനുസൃത വരുമാന തരം",
       "DUPLICATE_NAME": "",
       "DUPLICATE_NAME_RETIRED": ""
     },
-    "CUSTOM_REVENUE_DESCRIPTION": "yet to be translated",
+    "CUSTOM_REVENUE_DESCRIPTION": "ഇഷ്‌ടാനുസൃത വരുമാന വിവരണം",
     "DELETE": {
       "CONFIRM": "",
       "HEADER": "",
@@ -1531,26 +1531,26 @@
     "FARM_MANAGER": "ഫാം മാനേജർ",
     "FARM_OWNER": "ഫാം ഉടമ",
     "IS_OWNER_OPERATED": "ഇത് ഫാം ഉടമയാണോ പ്രവർത്തിപ്പിക്കുന്നത്?",
-    "TITLE": ""
+    "TITLE": "ഫാമിൽ നിങ്ങളുടെ പങ്ക് എന്താണ്?"
   },
   "SALE": {
     "ADD_SALE": {
-      "ADD_CUSTOM_REVENUE_TYPE": "yet to be translated",
-      "ADD_REVENUE": "yet to be translated",
+      "ADD_CUSTOM_REVENUE_TYPE": "ഇഷ്‌ടാനുസൃത വരുമാന തരം ചേർക്കുക",
+      "ADD_REVENUE": "വരുമാനം ചേർക്കുക",
       "CROP_REQUIRED": "ആവശ്യമാണ്",
-      "CROP_VARIETY": "yet to be translated",
+      "CROP_VARIETY": "വിള ഇനം",
       "FLOW": "",
-      "MANAGE_CUSTOM_REVENUE_TYPE": "yet to be translated",
+      "MANAGE_CUSTOM_REVENUE_TYPE": "ഇഷ്‌ടാനുസൃത വരുമാന തരങ്ങൾ നിയന്ത്രിക്കുക",
       "SALE_VALUE_ERROR": "",
       "TABLE_HEADERS": {
         "TOTAL": ""
       },
-      "WHICH_TYPE_TO_RECORD": "yet to be translated"
+      "WHICH_TYPE_TO_RECORD": "നിങ്ങളുടെ വരുമാന തരം താഴെ തിരഞ്ഞെടുക്കുക:"
     },
     "DETAIL": {
-      "CUSTOMER_NAME": "yet to be translated",
+      "CUSTOMER_NAME": "ഉപഭോക്താവിൻ്റെ പേര്",
       "TITLE": "",
-      "VALUE": "yet to be translated"
+      "VALUE": "മൂല്യം"
     },
     "EDIT_SALE": {
       "TITLE": ""
@@ -1563,7 +1563,7 @@
         "ESTIMATED_REVENUE": "",
         "GENERIC": "*ഈ നമ്പറുകൾ നിങ്ങളുടെ തീയതി / ഫിൽട്ടർ തിരഞ്ഞെടുക്കൽ അടിസ്ഥാനമാക്കിയുള്ളതാണ്"
       },
-      "ESTIMATED_HARVEST_REVENUE": "yet to be translated",
+      "ESTIMATED_HARVEST_REVENUE": "കണക്കാക്കിയ വിളവെടുപ്പ് വരുമാനം",
       "EXPENSES": "",
       "EXPORT_REPORT": "",
       "LABOUR_LABEL": "",
@@ -1575,14 +1575,14 @@
         "BODY": "yet to be translated",
         "TITLE": "yet to be translated"
       },
-      "PROFIT_LOSS": "yet to be translated",
-      "REPORT": "yet to be translated",
+      "PROFIT_LOSS": "ലാഭം / നഷ്ടം",
+      "REPORT": "റിപ്പോർട്ട്",
       "REPORT_HELP_TEXT": "",
-      "TITLE": "yet to be translated",
-      "TOTAL_EXPENSES": "yet to be translated",
-      "TOTAL_LABOUR": "yet to be translated",
-      "TOTAL_OTHER": "yet to be translated",
-      "TOTAL_REVENUE": "yet to be translated"
+      "TITLE": "സാമ്പത്തിക അവലോകനം",
+      "TOTAL_EXPENSES": "ആകെ ചെലവുകൾ",
+      "TOTAL_LABOUR": "ആകെ തൊഴിൽ",
+      "TOTAL_OTHER": "ആകെ മറ്റ്",
+      "TOTAL_REVENUE": "ആകെ വരുമാനം"
     },
     "LABOUR": {
       "BY": "",
@@ -1591,12 +1591,12 @@
         "DAILY_TOTAL": "",
         "DATE": "തീയതി",
         "EMPLOYEE": "",
-        "LABOUR_COST": "yet to be translated",
+        "LABOUR_COST": "തൊഴിൽ ചെലവ്",
         "TASK": "",
         "TIME": "",
         "TYPE": ""
       },
-      "TASKS": "yet to be translated",
+      "TASKS": "ചുമതലകൾ",
       "TITLE": ""
     },
     "SUMMARY": {
@@ -1607,9 +1607,9 @@
   },
   "SEARCH": {
     "CLEAR_TERMS": "",
-    "CLEAR_TERMS_AND_FILTERS": "yet to be translated",
+    "CLEAR_TERMS_AND_FILTERS": "എന്തുകൊണ്ട് വ്യത്യസ്ത നിബന്ധനകൾ പര്യവേക്ഷണം ചെയ്തുകൂടാ അല്ലെങ്കിൽ എന്തുകൊണ്ട് പുതിയ സാധ്യതകൾ കണ്ടെത്തുന്നതിനായി ഫിൽട്ടറുകൾ മായ്ച്ചുകൂടാ?",
     "NO_RESULTS_FOR": "",
-    "ZERO": "yet to be translated"
+    "ZERO": "0 ഫലങ്ങൾ"
   },
   "SENSOR": {
     "BRAND": "",
@@ -1626,7 +1626,7 @@
       "LATITUDE": "",
       "LONGITUDE": "",
       "MODEL": "",
-      "NAME": "yet to be translated",
+      "NAME": "സെൻസറിൻ്റെ പേര്",
       "RETIRE": ""
     },
     "EXTERNAL_IDENTIFIER": "",
@@ -1657,7 +1657,7 @@
     },
     "RETIRE": {
       "BODY": "",
-      "CANCEL": "yet to be translated",
+      "CANCEL": "റദ്ദാക്കുക",
       "RETIRE": "",
       "RETIRE_FAILURE": "",
       "RETIRE_SUCCESS": "",
@@ -1669,7 +1669,7 @@
       "TITLE": "",
       "WEATHER_STATION": ""
     },
-    "SENSOR_NAME": "yet to be translated",
+    "SENSOR_NAME": "സെൻസറിൻ്റെ പേര്",
     "SENSOR_READING_CHART_SPOTLIGHT": {
       "CONTENT": "",
       "TITLE": ""
@@ -1701,9 +1701,9 @@
     }
   },
   "SIGNUP": {
-    "CHANGES": "yet to be translated",
+    "CHANGES": "മാറ്റങ്ങളെക്കുറിച്ച് വായിക്കുക",
     "EMAIL_INVALID": "",
-    "ENTER_EMAIL": "yet to be translated",
+    "ENTER_EMAIL": "നിങ്ങളുടെ ഇമെയിൽ വിലാസം നൽകുക",
     "EXPIRED_ERROR": "",
     "EXPIRED_INVITATION_LINK_ERROR": "",
     "GOOGLE_BUTTON": "",
@@ -1719,14 +1719,14 @@
   },
   "SLIDE_MENU": {
     "CROPS": "yet to be translated",
-    "DOCUMENTS": "yet to be translated",
-    "FINANCES": "yet to be translated",
-    "INSIGHTS": "yet to be translated",
+    "DOCUMENTS": "പ്രമാണങ്ങൾ",
+    "FINANCES": "സാമ്പത്തികം",
+    "INSIGHTS": "ഉൾക്കാഴ്ചകൾ",
     "MANAGE": "",
     "TASKS": "yet to be translated"
   },
   "STATUS": {
-    "ACTIVE": "yet to be translated",
+    "ACTIVE": "സജീവം",
     "INACTIVE": "",
     "INVITED": ""
   },
@@ -1739,12 +1739,12 @@
     "BUTTON": "",
     "DESCRIPTION_BOTTOM": "",
     "DESCRIPTION_TOP": "",
-    "TITLE": "yet to be translated"
+    "TITLE": "ഫാമുകൾ മാറ്റുന്നു"
   },
   "TABLE": {
     "LOAD_MORE": "",
     "LOADING_TEXT": "",
-    "NEXT_TEXT": "yet to be translated",
+    "NEXT_TEXT": "അടുത്തത്",
     "NO_DATA_TEXT": "",
     "NUMBER_MORE": "",
     "OF_TEXT": "",
@@ -1784,7 +1784,7 @@
     "ABANDONMENT_DETAILS": "",
     "ADD_CUSTOM_HARVEST_USE": "",
     "ADD_HARVEST_USE": "",
-    "ADD_TASK": "",
+    "ADD_TASK": "ഒരു ചുമതല സൃഷ്ടിക്കുക",
     "ADD_TASK_FLOW": "",
     "AMOUNT_TO_ALLOCATE": "",
     "CARD": {
@@ -1821,62 +1821,62 @@
       "SUCCESS": ""
     },
     "DESCRIBE_HARVEST_USE": "",
-    "DETAILS": "yet to be translated",
+    "DETAILS": "വിശദാംശങ്ങൾ",
     "DID_YOU_ENJOY": "",
     "DUE_DATE": "",
     "DURATION": "",
     "FILTER": {
-      "ASCENDING": "yet to be translated",
-      "ASSIGNEE": "yet to be translated",
-      "CROP": "yet to be translated",
-      "DATE_RANGE": "yet to be translated",
-      "DESCENDING": "yet to be translated",
-      "LOCATION": "yet to be translated",
-      "MY_TASK": "yet to be translated",
-      "SORT_BY": "yet to be translated",
-      "STATUS": "yet to be translated",
+      "ASCENDING": "ഏറ്റവും പഴയത് ആദ്യം",
+      "ASSIGNEE": "ചുമതലപ്പെടുത്തപ്പെട്ട ആൾ",
+      "CROP": "വിള",
+      "DATE_RANGE": "തീയതി ശ്രേണി അനുസരിച്ച് ഫിൽട്ടർ ചെയ്യുക",
+      "DESCENDING": "ഏറ്റവും പുതിയത് ആദ്യം",
+      "LOCATION": "സ്ഥലം",
+      "MY_TASK": "എൻ്റെ ചുമതലകൾ",
+      "SORT_BY": "ഇങ്ങനെ അടുക്കുക",
+      "STATUS": "നില",
       "TITLE": "",
-      "TYPE": "yet to be translated",
-      "UNASSIGNED": "yet to be translated",
-      "VIEW": "yet to be translated"
+      "TYPE": "തരം",
+      "UNASSIGNED": "നിയോഗിച്ചിട്ടില്ല",
+      "VIEW": "കാണുക"
     },
     "HARVEST_USE": "",
     "HARVEST_USE_ALREADY_EXISTS": "",
     "HOW_WILL_HARVEST_BE_USED": "",
     "IRRIGATION_LOCATION": "",
-    "LOCATIONS": "yet to be translated",
-    "NO_TASKS_TO_DISPLAY": "yet to be translated",
+    "LOCATIONS": "സ്ഥലം (ങ്ങൾ)",
+    "NO_TASKS_TO_DISPLAY": "പ്രദർശിപ്പിക്കാൻ ചുമതലകളൊന്നുമില്ല.",
     "NO_WORK_DONE": "",
-    "PAGE_TITLE": "yet to be translated",
+    "PAGE_TITLE": "ചുമതലകൾ",
     "PREFER_NOT_TO_SAY": "",
     "PROVIDE_RATING": "",
     "QUANTITY_CANNOT_EXCEED": "",
     "RATE_THIS_TASK": "",
     "REMOVE_HARVEST_USE": "",
-    "SELECT_DATE": "yet to be translated",
+    "SELECT_DATE": "ചുമതലക്കുള്ള തീയതി തിരഞ്ഞെടുക്കുക",
     "SELECT_TASK_LOCATIONS": "",
     "SELECT_WILD_CROP": "",
     "SOIL_AMENDMENT_LOCATION": "",
     "STATUS": {
-      "ABANDONED": "yet to be translated",
-      "COMPLETED": "yet to be translated",
+      "ABANDONED": "ഉപേക്ഷിക്കപ്പെട്ടു",
+      "COMPLETED": "പൂർത്തിയായി",
       "FOR_REVIEW": "",
-      "LATE": "yet to be translated",
-      "PLANNED": "yet to be translated"
+      "LATE": "വൈകി",
+      "PLANNED": "ആസൂത്രണം ചെയ്തു"
     },
     "TASK": "",
     "TASKS_COUNT_one": "",
-    "TASKS_COUNT_other": "yet to be translated",
-    "TRANSPLANT": "yet to be translated",
+    "TASKS_COUNT_other": "{{count}} ചുമതലകൾ",
+    "TRANSPLANT": "പറിച്ചുനടൽ",
     "TRANSPLANT_LOCATIONS": "",
-    "UNASSIGNED": "yet to be translated"
+    "UNASSIGNED": "നിയോഗിച്ചിട്ടില്ല"
   },
   "UNIT": {
     "TIME": {
-      "DAY": "yet to be translated",
-      "MONTH": "yet to be translated",
-      "WEEK": "yet to be translated",
-      "YEAR": "yet to be translated"
+      "DAY": "ദിവസങ്ങൾ",
+      "MONTH": "മാസങ്ങൾ",
+      "WEEK": "ആഴ്ചകൾ",
+      "YEAR": "വർഷങ്ങൾ"
     },
     "VALID_VALUE": ""
   },
@@ -1887,16 +1887,16 @@
   },
   "WAGE": {
     "ERROR": "",
-    "HOURLY_WAGE": "yet to be translated",
+    "HOURLY_WAGE": "മണിക്കൂർ കൂലി",
     "HOURLY_WAGE_RANGE_ERROR": "",
-    "HOURLY_WAGE_TOOLTIP": "yet to be translated"
+    "HOURLY_WAGE_TOOLTIP": "എൻ്റെ ഫാം' എന്നതിന് കീഴിലുള്ള പീപ്പിൾ ടാബിൽ ഒരു വ്യക്തിയെ തിരഞ്ഞെടുത്ത് മണിക്കൂർ വേതനം ക്രമീകരിക്കാം."
   },
   "WEATHER": {
-    "HUMIDITY": "",
-    "WIND": ""
+    "HUMIDITY": "ഈർപ്പം",
+    "WIND": "കാറ്റ്"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": "yet to be translated"
+    "BUTTON": "നമുക്ക് തുടങ്ങാം"
   },
   "YEAR_SELECTOR": {
     "TITLE": ""

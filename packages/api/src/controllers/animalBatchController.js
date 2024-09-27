@@ -149,6 +149,7 @@ const animalBatchController = {
             supplier,
             price,
             sex_detail,
+            origin_id,
             group_ids,
             animal_batch_use_relationships,
           } = animalBatch;
@@ -169,6 +170,7 @@ const animalBatchController = {
               supplier,
               price,
               sex_detail,
+              origin_id,
               group_ids,
               animal_batch_use_relationships,
             },

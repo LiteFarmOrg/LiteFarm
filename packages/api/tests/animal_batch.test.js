@@ -14,7 +14,6 @@
  */
 
 import chai from 'chai';
-import util from 'util';
 import { faker } from '@faker-js/faker';
 
 import chaiHttp from 'chai-http';
@@ -57,28 +56,22 @@ describe('Animal Batch Tests', () => {
     animalRemovalReasonId = animalRemovalReason.id;
   });
 
-  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  async function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
+    return await chai
       .request(server)
       .get('/animal_batches')
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
 
-  const getRequestAsPromise = util.promisify(getRequest);
-
-  function postRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data, callback) {
-    chai
+  async function postRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
+    return await chai
       .request(server)
       .post('/animal_batches')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
-
-  const postRequestAsPromise = util.promisify(postRequest);
 
   async function removeRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
     return await chai
@@ -189,7 +182,7 @@ describe('Animal Batch Tests', () => {
           default_type_id: defaultTypeId,
         });
 
-        const res = await getRequestAsPromise({
+        const res = await getRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
         });
@@ -224,7 +217,7 @@ describe('Animal Batch Tests', () => {
       });
       const [unAuthorizedUser] = await mocks.usersFactory();
 
-      const res = await getRequestAsPromise({
+      const res = await getRequest({
         user_id: unAuthorizedUser.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -274,7 +267,7 @@ describe('Animal Batch Tests', () => {
           ],
         });
 
-        const res = await postRequestAsPromise(
+        const res = await postRequest(
           {
             user_id: user.user_id,
             farm_id: mainFarm.farm_id,
@@ -303,7 +296,7 @@ describe('Animal Batch Tests', () => {
           default_type_id: defaultTypeId,
         });
 
-        const res = await postRequestAsPromise(
+        const res = await postRequest(
           {
             user_id: user.user_id,
             farm_id: mainFarm.farm_id,
@@ -325,7 +318,7 @@ describe('Animal Batch Tests', () => {
         default_type_id: defaultTypeId,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -348,7 +341,7 @@ describe('Animal Batch Tests', () => {
           farm_id: farm.farm_id,
           default_type_id: defaultTypeId,
         });
-        const res = await postRequestAsPromise({ user_id: user.user_id, farm_id: farm.farm_id }, [
+        const res = await postRequest({ user_id: user.user_id, farm_id: farm.farm_id }, [
           animalBatch,
         ]);
 
@@ -364,7 +357,7 @@ describe('Animal Batch Tests', () => {
         custom_type_id: null,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -387,7 +380,7 @@ describe('Animal Batch Tests', () => {
         custom_type_id: animalType.id,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -412,7 +405,7 @@ describe('Animal Batch Tests', () => {
         custom_breed_id: animalBreed.id,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -433,7 +426,7 @@ describe('Animal Batch Tests', () => {
         default_breed_id: animalBreed.id,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -464,7 +457,7 @@ describe('Animal Batch Tests', () => {
         ],
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -486,7 +479,7 @@ describe('Animal Batch Tests', () => {
       });
 
       const postAnimalBatchesRequest = async (animalBatches) => {
-        const res = await postRequestAsPromise(
+        const res = await postRequest(
           { user_id: owner.user_id, farm_id: farm.farm_id },
           animalBatches,
         );
@@ -690,6 +683,319 @@ describe('Animal Batch Tests', () => {
     });
   });
 
+  // EDIT tests
+  describe('Edit animal batch tests', () => {
+    let animalGroup1;
+    let animalGroup2;
+    let animalSex1;
+    let animalSex2;
+    let animalIdentifierColor;
+    let animalIdentifierType;
+    let animalOrigin;
+    let animalRemovalReason;
+    let animalUse1;
+    let animalUse2;
+    let animalUse3;
+
+    beforeEach(async () => {
+      [animalGroup1] = await mocks.animal_groupFactory();
+      [animalGroup2] = await mocks.animal_groupFactory();
+      // Populate enums
+      [animalSex1] = await mocks.animal_sexFactory();
+      [animalSex2] = await mocks.animal_sexFactory();
+      [animalIdentifierColor] = await mocks.animal_identifier_colorFactory();
+      [animalIdentifierType] = await mocks.animal_identifier_typeFactory();
+      [animalOrigin] = await mocks.animal_originFactory();
+      [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
+      [animalUse1] = await mocks.animal_useFactory('OTHER');
+      [animalUse2] = await mocks.animal_useFactory();
+      [animalUse3] = await mocks.animal_useFactory();
+    });
+
+    async function addAnimalBatches(mainFarm, user) {
+      const [customAnimalType] = await mocks.custom_animal_typeFactory({
+        promisedFarm: [mainFarm],
+      });
+
+      // Create two batchess, one with a default type and one with a custom type
+      const firstBatch = mocks.fakeAnimalBatch({
+        name: 'edit test 1',
+        default_type_id: defaultTypeId,
+        animal_batch_use_relationships: [{ use_id: animalUse1.id }],
+        sire: 'Unchanged',
+        count: 4,
+        sex_detail: [
+          {
+            sex_id: animalSex1.id,
+            count: 2,
+          },
+          {
+            sex_id: animalSex2.id,
+            count: 2,
+          },
+        ],
+        group_name: animalGroup1.name,
+      });
+      const secondBatch = mocks.fakeAnimalBatch({
+        name: 'edit test 2',
+        custom_type_id: customAnimalType.id,
+        animal_batch_use_relationships: [{ use_id: animalUse1.id }],
+        sire: 'Unchanged',
+        count: 5,
+      });
+
+      const res = await postRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [firstBatch, secondBatch],
+      );
+
+      const returnedFirstBatch = res.body?.find((batch) => batch.name === 'edit test 1');
+      const returnedSecondBatch = res.body?.find((batch) => batch.name === 'edit test 2');
+
+      return { res, returnedFirstBatch, returnedSecondBatch };
+    }
+
+    async function editAnimalBatches(mainFarm, user, returnedFirstBatch, returnedSecondBatch) {
+      const [customAnimalType] = await mocks.custom_animal_typeFactory({
+        promisedFarm: [mainFarm],
+      });
+
+      // Make edits to batches - does not test all top level batch columns, but all relationships
+      const updatedFirstBatch = mocks.fakeAnimalBatch({
+        // should fail
+        extra_non_existant_property: 'hello',
+        id: returnedFirstBatch.id,
+        default_type_id: defaultTypeId,
+        name: 'Update Name 1',
+        sire: returnedFirstBatch.sire,
+        sex_detail: [
+          {
+            id: returnedFirstBatch.sex_detail.find((detail) => detail.sex_id === animalSex1.id)?.id,
+            animal_batch_id: returnedFirstBatch.id,
+            sex_id: animalSex1.id,
+            count: 2,
+          },
+          {
+            id: returnedFirstBatch.sex_detail.find((detail) => detail.sex_id === animalSex2.id)?.id,
+            animal_batch_id: returnedFirstBatch.id,
+            sex_id: animalSex2.id,
+            count: 3,
+          },
+        ],
+        count: 5,
+        origin_id: animalOrigin.id,
+        // should fail
+        animal_removal_reason_id: animalRemovalReason.id,
+        organic_status: 'Organic',
+        animal_batch_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],
+        group_ids: [{ animal_group_id: animalGroup2.id }],
+      });
+      const updatedSecondBatch = mocks.fakeAnimalBatch({
+        id: returnedSecondBatch.id,
+        custom_type_id: customAnimalType.id,
+        name: 'Update Name 1',
+        sire: returnedSecondBatch.sire,
+        sex_detail: [
+          {
+            sex_id: animalSex1.id,
+            count: 2,
+          },
+          {
+            sex_id: animalSex2.id,
+            count: 3,
+          },
+        ],
+        count: 5,
+        origin_id: animalOrigin.id,
+        // should fail
+        animal_removal_reason_id: animalRemovalReason.id,
+        organic_status: 'Organic',
+        animal_batch_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],
+        group_ids: [{ animal_group_id: animalGroup2.id }],
+      });
+
+      const patchRes = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [updatedFirstBatch, updatedSecondBatch],
+      );
+
+      // Remove or add properties not actually expected from get request
+      [updatedFirstBatch, updatedSecondBatch].forEach((batch) => {
+        // Should not cause an error
+        delete batch.extra_non_existant_property;
+        // Should not be able to update on edit
+        batch.animal_removal_reason_id = null;
+        // Return format different than post format
+        batch.group_ids = batch.group_ids.map((groupId) => groupId.animal_group_id);
+        batch.animal_batch_use_relationships.forEach((rel) => {
+          rel.animal_batch_id = batch.id;
+          rel.other_use = null;
+        });
+      });
+
+      return { res: patchRes, updatedFirstBatch, updatedSecondBatch };
+    }
+
+    test('Admin users should be able to edit batches', async () => {
+      const roles = [1, 2, 5];
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+
+        // Add batches to db
+        const { res: addRes, returnedFirstBatch, returnedSecondBatch } = await addAnimalBatches(
+          mainFarm,
+          user,
+        );
+        expect(addRes.status).toBe(201);
+        expect(returnedFirstBatch).toBeTruthy();
+        expect(returnedSecondBatch).toBeTruthy();
+
+        // Edit batches in db
+        const { res: editRes, updatedFirstBatch, updatedSecondBatch } = await editAnimalBatches(
+          mainFarm,
+          user,
+          returnedFirstBatch,
+          returnedSecondBatch,
+        );
+        expect(editRes.status).toBe(204);
+
+        // Get updated batches
+        const { body: batchRecords } = await getRequest({
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        });
+        const filteredBatchRecords = batchRecords.filter((record) =>
+          [returnedFirstBatch.id, returnedSecondBatch.id].includes(record.id),
+        );
+
+        // Test data matches expected changes
+        filteredBatchRecords.forEach((record) => {
+          // Remove properties that were not updated
+          delete record.internal_identifier;
+          // Remove base properties
+          delete record.created_at;
+          delete record.created_by_user_id;
+          delete record.deleted;
+          delete record.updated_at;
+          delete record.updated_by;
+          const updatedRecord = [updatedFirstBatch, updatedSecondBatch].find(
+            (batch) => batch.id === record.id,
+          );
+          expect(record).toMatchObject(updatedRecord);
+        });
+      }
+    });
+
+    test('Non-admin users should not be able to edit batches', async () => {
+      const adminRole = 1;
+      const { mainFarm, user: admin } = await returnUserFarms(adminRole);
+      const workerRole = 3;
+      const [user] = await mocks.usersFactory();
+      await mocks.userFarmFactory(
+        {
+          promisedUser: [user],
+          promisedFarm: [mainFarm],
+        },
+        fakeUserFarm(workerRole),
+      );
+
+      // Add animals to db
+      const { res: addRes, returnedFirstBatch, returnedSecondBatch } = await addAnimalBatches(
+        mainFarm,
+        admin,
+      );
+      expect(addRes.status).toBe(201);
+      expect(returnedFirstBatch).toBeTruthy();
+      expect(returnedSecondBatch).toBeTruthy();
+
+      // Edit animals in db
+      const { res: editRes } = await editAnimalBatches(
+        mainFarm,
+        user,
+        returnedFirstBatch,
+        returnedSecondBatch,
+      );
+
+      // Test failure
+      expect(editRes.status).toBe(403);
+      expect(editRes.error.text).toBe(
+        'User does not have the following permission(s): edit:animal_batches',
+      );
+    });
+
+    test('Should not be able to send out an individual batch instead of an array', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      // Add animals to db
+      const { res: addRes, returnedFirstBatch } = await addAnimalBatches(mainFarm, user);
+      expect(addRes.status).toBe(201);
+      expect(returnedFirstBatch).toBeTruthy();
+
+      // Change 1 thing
+      returnedFirstBatch.sire = 'Changed';
+
+      const res = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        {
+          ...returnedFirstBatch,
+        },
+      );
+
+      // Test for failure
+      expect(res).toMatchObject({
+        status: 400,
+        error: {
+          text: 'Request body should be an array',
+        },
+      });
+    });
+
+    test('Should not be able to edit a batch belonging to a different farm', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+
+      const batch = await makeAnimalBatch(secondFarm, {
+        default_type_id: defaultTypeId,
+      });
+
+      const res = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [
+          {
+            id: batch.id,
+            sire: 'Neighbours sire',
+          },
+        ],
+      );
+
+      expect(res).toMatchObject({
+        status: 400,
+        body: {
+          error: 'Invalid ids',
+          invalidIds: [batch.id],
+        },
+      });
+
+      // Check database
+      const batchRecord = await AnimalBatchModel.query().findById(batch.id);
+      expect(batchRecord.sire).toBeNull();
+    });
+  });
+
+  // REMOVE tests
   describe('Remove animal batch tests', () => {
     test('Admin users should be able to remove animal batches', async () => {
       const roles = [1, 2, 5];

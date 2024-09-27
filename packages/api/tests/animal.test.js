@@ -14,7 +14,6 @@
  */
 
 import chai from 'chai';
-import util from 'util';
 import { faker } from '@faker-js/faker';
 
 import chaiHttp from 'chai-http';
@@ -58,28 +57,23 @@ describe('Animal Tests', () => {
     animalRemovalReasonId = animalRemovalReason.id;
   });
 
-  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  async function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
+    return await chai
       .request(server)
       .get('/animals')
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
 
-  const getRequestAsPromise = util.promisify(getRequest);
-
-  function postRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data, callback) {
-    chai
+  async function postRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
+    return await chai
       .request(server)
       .post('/animals')
+      .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
-
-  const postRequestAsPromise = util.promisify(postRequest);
 
   async function removeRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
     return await chai
@@ -114,7 +108,7 @@ describe('Animal Tests', () => {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
 
-  async function returnUserFarms(role) {
+  async function returnUserFarms(role, farm = undefined) {
     const [mainFarm] = await mocks.farmFactory();
     const [user] = await mocks.usersFactory();
 
@@ -168,7 +162,7 @@ describe('Animal Tests', () => {
         // Create a third animal belonging to a different farm
         await makeAnimal(secondFarm);
 
-        const res = await getRequestAsPromise({
+        const res = await getRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
         });
@@ -181,13 +175,13 @@ describe('Animal Tests', () => {
         });
         expect({
           ...firstAnimal,
-          internal_identifier: 1,
+          internal_identifier: res.body[0].internal_identifier,
           group_ids: [],
           animal_use_relationships: [],
         }).toMatchObject(res.body[0]);
         expect({
           ...secondAnimal,
-          internal_identifier: 2,
+          internal_identifier: res.body[1].internal_identifier,
           group_ids: [],
           animal_use_relationships: [],
         }).toMatchObject(res.body[1]);
@@ -199,7 +193,7 @@ describe('Animal Tests', () => {
       await makeAnimal(mainFarm);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
-      const res = await getRequestAsPromise({
+      const res = await getRequest({
         user_id: unAuthorizedUser.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -229,7 +223,7 @@ describe('Animal Tests', () => {
           custom_breed_id: animalBreed.id,
         });
 
-        const res = await postRequestAsPromise(
+        const res = await postRequest(
           {
             user_id: user.user_id,
             farm_id: mainFarm.farm_id,
@@ -253,7 +247,7 @@ describe('Animal Tests', () => {
         const { mainFarm, user } = await returnUserFarms(role);
         const animal = mocks.fakeAnimal();
 
-        const res = await postRequestAsPromise(
+        const res = await postRequest(
           {
             user_id: user.user_id,
             farm_id: mainFarm.farm_id,
@@ -270,7 +264,7 @@ describe('Animal Tests', () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const animal = mocks.fakeAnimal();
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -293,9 +287,7 @@ describe('Animal Tests', () => {
           farm_id: farm.farm_id,
           default_type_id: defaultTypeId,
         });
-        const res = await postRequestAsPromise({ user_id: user.user_id, farm_id: farm.farm_id }, [
-          animal,
-        ]);
+        const res = await postRequest({ user_id: user.user_id, farm_id: farm.farm_id }, [animal]);
 
         expect(res.body[0].internal_identifier).toBe(animalCount + batchCount + 1);
       }
@@ -308,7 +300,7 @@ describe('Animal Tests', () => {
         custom_type_id: null,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -331,7 +323,7 @@ describe('Animal Tests', () => {
         custom_type_id: animalType.id,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -356,7 +348,7 @@ describe('Animal Tests', () => {
         custom_breed_id: animalBreed.id,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -375,7 +367,7 @@ describe('Animal Tests', () => {
         default_breed_id: animalBreed.id,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -397,10 +389,7 @@ describe('Animal Tests', () => {
       });
 
       const postAnimalsRequest = async (animals) => {
-        const res = await postRequestAsPromise(
-          { user_id: owner.user_id, farm_id: farm.farm_id },
-          animals,
-        );
+        const res = await postRequest({ user_id: owner.user_id, farm_id: farm.farm_id }, animals);
         return res;
       };
 
@@ -667,7 +656,7 @@ describe('Animal Tests', () => {
         return mocks.fakeAnimal(group_name ? { ...data, group_name } : data);
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -726,6 +715,286 @@ describe('Animal Tests', () => {
           expect(animal.group_ids.length).toBe(0);
         }
       });
+    });
+  });
+
+  // EDIT tests
+  describe('Edit animal tests', () => {
+    let animalGroup1;
+    let animalGroup2;
+    let animalSex;
+    let animalIdentifierColor;
+    let animalIdentifierType;
+    let animalOrigin;
+    let animalRemovalReason;
+    let animalUse1;
+    let animalUse2;
+    let animalUse3;
+
+    beforeEach(async () => {
+      [animalGroup1] = await mocks.animal_groupFactory();
+      [animalGroup2] = await mocks.animal_groupFactory();
+      // Populate enums
+      [animalSex] = await mocks.animal_sexFactory();
+      [animalIdentifierColor] = await mocks.animal_identifier_colorFactory();
+      [animalIdentifierType] = await mocks.animal_identifier_typeFactory();
+      [animalOrigin] = await mocks.animal_originFactory();
+      [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
+      [animalUse1] = await mocks.animal_useFactory('OTHER');
+      [animalUse2] = await mocks.animal_useFactory();
+      [animalUse3] = await mocks.animal_useFactory();
+    });
+
+    async function addAnimals(mainFarm, user) {
+      const [customAnimalType] = await mocks.custom_animal_typeFactory({
+        promisedFarm: [mainFarm],
+      });
+
+      // Create two animals, one with a default type and one with a custom type
+      const firstAnimal = mocks.fakeAnimal({
+        name: 'edit test 1',
+        default_type_id: defaultTypeId,
+        animal_use_relationships: [{ use_id: animalUse1.id }],
+        sire: 'Unchanged',
+        group_name: animalGroup1.name,
+      });
+      const secondAnimal = mocks.fakeAnimal({
+        name: 'edit test 2',
+        custom_type_id: customAnimalType.id,
+        animal_use_relationships: [{ use_id: animalUse1.id }],
+        sire: 'Unchanged',
+      });
+
+      const res = await postRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [firstAnimal, secondAnimal],
+      );
+
+      const returnedFirstAnimal = res.body?.find((animal) => animal.name === 'edit test 1');
+      const returnedSecondAnimal = res.body?.find((animal) => animal.name === 'edit test 2');
+
+      return { res, returnedFirstAnimal, returnedSecondAnimal };
+    }
+
+    async function editAnimals(mainFarm, user, returnedFirstAnimal, returnedSecondAnimal) {
+      const [customAnimalType] = await mocks.custom_animal_typeFactory({
+        promisedFarm: [mainFarm],
+      });
+
+      // Make edits to animals - does not test all top level animal columns, but all relationships
+      const updatedFirstAnimal = mocks.fakeAnimal({
+        // should fail
+        extra_non_existant_property: 'hello',
+        id: returnedFirstAnimal.id,
+        default_type_id: defaultTypeId,
+        name: 'Update Name 1',
+        sire: returnedFirstAnimal.sire,
+        sex_id: animalSex.id,
+        identifier: '2',
+        identifier_color_id: animalIdentifierColor.id,
+        origin_id: animalOrigin.id,
+        // should fail
+        animal_removal_reason_id: animalRemovalReason.id,
+        identifier_type_id: animalIdentifierType.id,
+        organic_status: 'Organic',
+        animal_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],
+        group_ids: [{ animal_group_id: animalGroup2.id }],
+      });
+      const updatedSecondAnimal = mocks.fakeAnimal({
+        id: returnedSecondAnimal.id,
+        custom_type_id: customAnimalType.id,
+        name: 'Update Name 1',
+        sire: returnedSecondAnimal.sire,
+        sex_id: animalSex.id,
+        identifier: '2',
+        identifier_color_id: animalIdentifierColor.id,
+        origin_id: animalOrigin.id,
+        // should fail
+        animal_removal_reason_id: animalRemovalReason.id,
+        identifier_type_id: animalIdentifierType.id,
+        organic_status: 'Organic',
+        animal_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],
+        group_ids: [{ animal_group_id: animalGroup2.id }],
+      });
+
+      const patchRes = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [updatedFirstAnimal, updatedSecondAnimal],
+      );
+
+      // Remove or add properties not actually expected from get request
+      [updatedFirstAnimal, updatedSecondAnimal].forEach((animal) => {
+        // Should not cause an error
+        delete animal.extra_non_existant_property;
+        // Should not be able to update on edit
+        animal.animal_removal_reason_id = null;
+        // Return format different than post format
+        animal.group_ids = animal.group_ids.map((groupId) => groupId.animal_group_id);
+        animal.animal_use_relationships.forEach((rel) => {
+          rel.animal_id = animal.id;
+          rel.other_use = null;
+        });
+      });
+
+      return { res: patchRes, updatedFirstAnimal, updatedSecondAnimal };
+    }
+
+    test('Admin users should be able to edit animals', async () => {
+      const roles = [1, 2, 5];
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+
+        // Add animals to db
+        const { res: addRes, returnedFirstAnimal, returnedSecondAnimal } = await addAnimals(
+          mainFarm,
+          user,
+        );
+        expect(addRes.status).toBe(201);
+        expect(returnedFirstAnimal).toBeTruthy();
+        expect(returnedSecondAnimal).toBeTruthy();
+
+        // Edit animals in db
+        const { res: editRes, updatedFirstAnimal, updatedSecondAnimal } = await editAnimals(
+          mainFarm,
+          user,
+          returnedFirstAnimal,
+          returnedSecondAnimal,
+        );
+        expect(editRes.status).toBe(204);
+
+        // Get updated animals
+        const { body: animalRecords } = await getRequest({
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        });
+        const filteredAnimalRecords = animalRecords.filter((record) =>
+          [returnedFirstAnimal.id, returnedSecondAnimal.id].includes(record.id),
+        );
+
+        // Test data matches expected changes
+        filteredAnimalRecords.forEach((record) => {
+          // Remove properties that were not updated
+          delete record.internal_identifier;
+          // Remove base properties
+          delete record.created_at;
+          delete record.created_by_user_id;
+          delete record.deleted;
+          delete record.updated_at;
+          delete record.updated_by;
+          const updatedRecord = [updatedFirstAnimal, updatedSecondAnimal].find(
+            (animal) => animal.id === record.id,
+          );
+          expect(record).toMatchObject(updatedRecord);
+        });
+      }
+    });
+
+    test('Non-admin users should not be able to edit animals', async () => {
+      const adminRole = 1;
+      const { mainFarm, user: admin } = await returnUserFarms(adminRole);
+      const workerRole = 3;
+      const [user] = await mocks.usersFactory();
+      await mocks.userFarmFactory(
+        {
+          promisedUser: [user],
+          promisedFarm: [mainFarm],
+        },
+        fakeUserFarm(workerRole),
+      );
+
+      // Add animals to db
+      const { res: addRes, returnedFirstAnimal, returnedSecondAnimal } = await addAnimals(
+        mainFarm,
+        admin,
+      );
+      expect(addRes.status).toBe(201);
+      expect(returnedFirstAnimal).toBeTruthy();
+      expect(returnedSecondAnimal).toBeTruthy();
+
+      // Edit animals in db
+      const { res: editRes } = await editAnimals(
+        mainFarm,
+        user,
+        returnedFirstAnimal,
+        returnedSecondAnimal,
+      );
+
+      // Test failure
+      expect(editRes.status).toBe(403);
+      expect(editRes.error.text).toBe(
+        'User does not have the following permission(s): edit:animals',
+      );
+    });
+
+    test('Should not be able to send out an individual animal instead of an array', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      // Add animals to db
+      const { res: addRes, returnedFirstAnimal } = await addAnimals(mainFarm, user);
+      expect(addRes.status).toBe(201);
+      expect(returnedFirstAnimal).toBeTruthy();
+
+      // Change 1 thing
+      returnedFirstAnimal.sire = 'Changed';
+
+      const res = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        {
+          ...returnedFirstAnimal,
+        },
+      );
+
+      // Test for failure
+      expect(res).toMatchObject({
+        status: 400,
+        error: {
+          text: 'Request body should be an array',
+        },
+      });
+    });
+
+    test('Should not be able to edit an animal belonging to a different farm', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+
+      const animal = await makeAnimal(secondFarm, {
+        default_type_id: defaultTypeId,
+      });
+
+      const res = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [
+          {
+            id: animal.id,
+            sire: 'Neighbours sire',
+          },
+        ],
+      );
+
+      expect(res).toMatchObject({
+        status: 400,
+        body: {
+          error: 'Invalid ids',
+          invalidIds: [animal.id],
+        },
+      });
+
+      // Check database
+      const animalRecord = await AnimalModel.query().findById(animal.id);
+      expect(animalRecord.sire).toBeNull();
     });
   });
 

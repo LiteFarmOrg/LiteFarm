@@ -2477,8 +2477,8 @@ async function animal_removal_reasonFactory() {
   return knex('animal_removal_reason').insert({ key: faker.lorem.word() }).returning('*');
 }
 
-async function animal_useFactory() {
-  return knex('animal_use').insert({ key: faker.lorem.word() }).returning('*');
+async function animal_useFactory(key = faker.lorem.word()) {
+  return knex('animal_use').insert({ key }).returning('*');
 }
 
 async function animal_type_use_relationshipFactory({

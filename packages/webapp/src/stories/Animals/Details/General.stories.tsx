@@ -23,7 +23,14 @@ import GeneralDetails, {
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
 
-import { sexOptions, sexDetailsOptions, useOptions, defaultValues } from './mockData';
+import {
+  typeOptions,
+  breedOptions,
+  sexOptions,
+  sexDetailsOptions,
+  useOptions,
+  defaultValues,
+} from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<GeneralDetailsProps> = {
@@ -86,6 +93,29 @@ export const BatchReadOnly: Story = {
     animalOrBatch: AnimalOrBatchKeys.BATCH,
     sexDetailsOptions,
     mode: 'readonly',
+  },
+  render: (args, context) => <GeneralDetails {...args} {...context} />,
+};
+
+export const AnimalEdit: Story = {
+  args: {
+    ...commonProps,
+    animalOrBatch: AnimalOrBatchKeys.ANIMAL,
+    mode: 'edit',
+    typeOptions,
+    breedOptions,
+  },
+  render: (args, context) => <GeneralDetails {...args} {...context} />,
+};
+
+export const BatchEdit: Story = {
+  args: {
+    ...commonProps,
+    animalOrBatch: AnimalOrBatchKeys.BATCH,
+    sexDetailsOptions,
+    mode: 'edit',
+    typeOptions,
+    breedOptions,
   },
   render: (args, context) => <GeneralDetails {...args} {...context} />,
 };

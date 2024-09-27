@@ -13,8 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useEffect, useMemo, useRef } from 'react';
+import { Controller, get, useFormContext } from 'react-hook-form';
+import { SelectInstance } from 'react-select';
 import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
 import ReactSelect from '../../Form/ReactSelect';
@@ -34,12 +35,20 @@ import {
   hookFormMaxCharsValidation,
 } from '../../Form/hookformValidationUtils';
 import LockedInput from '../../Form/LockedInput';
+import {
+  AnimalTypeSelect,
+  Option as AnimalSelectOption,
+  AnimalBreedSelect,
+} from '../AddAnimalsFormCard/AnimalSelect';
 
 export type GeneralDetailsProps = CommonDetailsProps & {
   sexOptions: Option[DetailsFields.SEX][];
   useOptions: Option[DetailsFields.USE][];
   animalOrBatch: AnimalOrBatchKeys;
   sexDetailsOptions?: SexDetailsType;
+  typeOptions?: AnimalSelectOption[];
+  breedOptions?: AnimalSelectOption[];
+  onTypeChange?: (Option: AnimalSelectOption | null) => void;
 };
 
 const GeneralDetails = ({
@@ -50,6 +59,9 @@ const GeneralDetails = ({
   sexDetailsOptions,
   namePrefix = '',
   mode = 'add',
+  typeOptions = [],
+  onTypeChange,
+  breedOptions = [],
 }: GeneralDetailsProps) => {
   const {
     control,
@@ -62,6 +74,15 @@ const GeneralDetails = ({
 
   const watchBatchCount = watch(`${namePrefix}${DetailsFields.COUNT}`) || 0;
   const watchedUse = watch(`${namePrefix}${DetailsFields.USE}`) as Option[DetailsFields.USE][];
+
+  const watchAnimalType = watch(`${namePrefix}${DetailsFields.TYPE}`);
+  const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
+
+  const breedSelectRef = useRef<SelectInstance>(null);
+
+  useEffect(() => {
+    breedSelectRef?.current?.clearValue();
+  }, [watchAnimalType?.value]);
 
   const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 
@@ -157,30 +178,24 @@ const GeneralDetails = ({
           />
         </>
       )}
-      <Controller
-        control={control}
+      <AnimalTypeSelect
         name={`${namePrefix}${DetailsFields.TYPE}`}
-        render={({ field: { onChange, value } }) => (
-          <ReactSelect
-            label={t('ANIMAL.ANIMAL_TYPE')}
-            value={value}
-            onChange={onChange}
-            isDisabled={mode !== 'edit'}
-          />
-        )}
-      />
-      <Controller
         control={control}
+        typeOptions={typeOptions}
+        onTypeChange={(option) => {
+          trigger(`${namePrefix}${DetailsFields.TYPE}`);
+          onTypeChange?.(option);
+        }}
+        error={get(errors, `${namePrefix}${DetailsFields.TYPE}`)}
+        isDisabled={mode !== 'edit'}
+      />
+      <AnimalBreedSelect
+        breedSelectRef={breedSelectRef}
         name={`${namePrefix}${DetailsFields.BREED}`}
-        render={({ field: { onChange, value } }) => (
-          <ReactSelect
-            label={t('ANIMAL.ANIMAL_BREED')}
-            optional
-            value={value}
-            onChange={onChange}
-            isDisabled={mode !== 'edit'}
-          />
-        )}
+        control={control}
+        breedOptions={filteredBreeds}
+        isTypeSelected={!!watchAnimalType}
+        isDisabled={mode !== 'edit'}
       />
       {sexInputs}
       <Controller

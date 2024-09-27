@@ -23,6 +23,49 @@ import { FileEvent } from '../../../components/ImagePicker';
 import { GetOnFileUpload } from '../../../components/ImagePicker/useImagePickerUpload';
 import { OrganicStatus } from '../../../types';
 
+export const typeOptions = [
+  {
+    label: 'Cattle',
+    value: 'default_1',
+  },
+  {
+    label: 'Pigs',
+    value: 'default_2',
+  },
+  {
+    label: 'Chicken',
+    value: 'default_3',
+  },
+];
+
+export const breedOptions = [
+  {
+    label: 'Angus',
+    value: 'default_1',
+    type: 'default_1',
+  },
+  {
+    label: 'Yorkshire Large White',
+    value: 'default_4',
+    type: 'default_2',
+  },
+  {
+    label: 'Landrace',
+    value: 'default_5',
+    type: 'default_2',
+  },
+  {
+    label: 'Cornish Cross',
+    value: 'default_7',
+    type: 'default_3',
+  },
+  {
+    label: 'Ross 308',
+    value: 'default_8',
+    type: 'default_3',
+  },
+];
+
 export const sexOptions = [
   { value: 0, label: `I don't know` },
   { value: 1, label: 'Male' },
@@ -68,7 +111,11 @@ export const originOptions = [
 
 export const defaultValues: Partial<AnimalDetailsFormFields> = {
   [DetailsFields.TYPE]: { value: 'default_1', label: 'Cattle' },
-  [DetailsFields.BREED]: { value: 'default_2', label: 'Angus' },
+  [DetailsFields.BREED]: {
+    label: 'Angus',
+    value: 'default_1',
+    type: 'default_1',
+  },
   [DetailsFields.SEX]: 2,
   [DetailsFields.COUNT]: 3,
   [DetailsFields.USE]: [{ value: 0, label: 'Other', key: 'OTHER' }],

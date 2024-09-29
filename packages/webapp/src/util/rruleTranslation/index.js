@@ -1,5 +1,5 @@
 /*
- *  Copyright 2023 LiteFarm.org
+ *  Copyright 2023, 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -12,15 +12,27 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import fr from './fr';
-import pt from './pt';
-import es from './es';
+import { languageCodes as supportedLanguages } from '../../hooks/useLanguageOptions';
+// Import all translation files directly not dynamically
+const languageJsonFiles = import.meta.glob('../../locales/*/rrule.json', { eager: true });
 
-const languageFiles = { fr, pt, es };
+const getLanguage = (language) => {
+  const { getText, dayNames, monthNames } = language;
+  return {
+    getText: (id) => getText[id] || id,
+    language: {
+      dayNames: dayNames,
+      monthNames: monthNames,
+    },
+  };
+};
 
 export const getRruleLanguage = (language) => {
-  if (!Object.keys(languageFiles).includes(language)) {
+  const translationJson = languageJsonFiles[`../../locales/${language}/rrule.json`];
+
+  if (!supportedLanguages.includes(language) || !translationJson) {
     return { getText: (id) => id, language: null };
   }
-  return languageFiles[language];
+
+  return getLanguage(translationJson);
 };

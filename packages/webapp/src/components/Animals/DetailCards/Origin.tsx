@@ -13,10 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
+import { isNotInFuture } from '../../Form/Input/utils';
 import {
   DetailsFields,
   type Option,
@@ -36,8 +37,11 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
     register,
     trigger,
     watch,
+    clearErrors,
     formState: { errors },
   } = useFormContext();
+  const [isBirthDateValid, setIsBirthDateValid] = useState(true);
+  const [isBroughtInDateValid, setIsBroughtInDateValid] = useState(true);
 
   const watchedOrigin = watch(`${namePrefix}${DetailsFields.ORIGIN}`);
 
@@ -56,7 +60,22 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
           key={DetailsFields.BROUGHT_IN_DATE}
           type="date"
           label={t('common:DATE')}
-          hookFormRegister={register(`${namePrefix}${DetailsFields.BROUGHT_IN_DATE}`)}
+          hookFormRegister={register(`${namePrefix}${DetailsFields.BROUGHT_IN_DATE}`, {
+            validate: (value) => {
+              if (value === '' && isBroughtInDateValid) return true;
+              return !isNaN(new Date(value).valueOf())
+                ? isNotInFuture(value)
+                : t('common:INVALID_DATE');
+            },
+          })}
+          onCleared={() => {
+            setIsBroughtInDateValid(true);
+            clearErrors(`${namePrefix}${DetailsFields.BROUGHT_IN_DATE}`);
+          }}
+          onKeyUp={(e: any) => {
+            setIsBroughtInDateValid(!e.target.validity.badInput);
+          }}
+          errors={getInputErrors(errors, `${namePrefix}${DetailsFields.BROUGHT_IN_DATE}`)}
           optional
         />
         {/* @ts-ignore */}
@@ -116,14 +135,28 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
       </>
     );
   }, [origin, Object.entries(errors)]);
-
   return (
     <div className={styles.sectionWrapper}>
       {/* @ts-ignore */}
       <Input
         type="date"
         label={t('ANIMAL.ATTRIBUTE.DATE_OF_BIRTH')}
-        hookFormRegister={register(`${namePrefix}${DetailsFields.DATE_OF_BIRTH}`)}
+        hookFormRegister={register(`${namePrefix}${DetailsFields.DATE_OF_BIRTH}`, {
+          validate: (value) => {
+            if (value === '' && isBirthDateValid) return true;
+            return !isNaN(new Date(value).valueOf())
+              ? isNotInFuture(value)
+              : t('common:INVALID_DATE');
+          },
+        })}
+        onCleared={() => {
+          setIsBirthDateValid(true);
+          clearErrors(`${namePrefix}${DetailsFields.DATE_OF_BIRTH}`);
+        }}
+        onKeyUp={(e: React.ChangeEvent<HTMLInputElement>): void => {
+          setIsBirthDateValid(!e.target.validity.badInput);
+        }}
+        errors={getInputErrors(errors, `${namePrefix}${DetailsFields.DATE_OF_BIRTH}`)}
         optional
       />
       <div>

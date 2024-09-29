@@ -16,13 +16,22 @@
 import Cross from './cross';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
-import iconMap from './icons';
+import iconMap, { IconName } from './icons';
 
 export { Cross };
 
 export { iconMap };
 
-const Icon = ({ iconName, circle = false, className = '', ...rest }) => {
+export type { IconName };
+
+export interface IconProps {
+  iconName: IconName;
+  circle?: boolean;
+  className?: string;
+  [key: string]: any;
+}
+
+const Icon = ({ iconName, circle = false, className = '', ...rest }: IconProps) => {
   const CustomIcon = iconMap[iconName];
 
   // Wrapper for display block used to prevent overwriting display in className
@@ -37,7 +46,13 @@ const Icon = ({ iconName, circle = false, className = '', ...rest }) => {
 
 export default Icon;
 
-export const Icons = ({ iconDetails, pill = false, className = '' }) => {
+export interface IconsProps {
+  iconDetails: IconProps[];
+  pill?: boolean;
+  className?: string;
+}
+
+export const Icons = ({ iconDetails, pill = false, className = '' }: IconsProps) => {
   const CustomIcons = iconDetails.map((iconDetail, i) => {
     const { iconName, ...rest } = iconDetail;
     const CustomIcon = iconMap[iconName];

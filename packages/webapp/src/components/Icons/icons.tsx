@@ -63,8 +63,37 @@ import { ReactComponent as SoilAmendmentTask } from '../../assets/images/task/So
 import { ReactComponent as MoreHorizontalIcon } from '../../assets/images/more-horizontal.svg';
 import { ReactComponent as PlusCircleIcon } from '../../assets/images/plus-circle.svg';
 import { ReactComponent as TrashIcon } from '../../assets/images/animals/trash_icon_new.svg';
+import { FunctionComponent } from 'react';
 
-const iconMap = {
+// Input
+import { ReactComponent as LockedIcon } from '../../assets/images/lock-03.svg';
+
+// Animal type: icon map
+const animalTypeIcons = {
+  CATTLE: CattleIcon,
+  CHICKEN: ChickenIcon,
+  PIGS: PigIcon,
+  BATCH: BatchIcon,
+  BATCH_GREEN: BatchIconGreen, // svgColorFill does not work with this icon
+  CUSTOM_ANIMAL: CustomAnimalIcon,
+  ALPACA: AlpacaIcon,
+  GOAT: GoatIcon,
+  RABBIT: RabbitIcon,
+  SHEEP: SheepIcon,
+};
+
+// Animal type: type key
+export type AnimalTypeIconKey = keyof typeof animalTypeIcons;
+
+// Animal type: typeguard
+export const isAnimalTypeIconKey = (iconKey: string): iconKey is AnimalTypeIconKey => {
+  return Object.keys(animalTypeIcons).includes(iconKey as AnimalTypeIconKey);
+};
+
+// Using satisfies as a constrained identity function
+// Example: https://kentcdodds.com/blog/how-to-write-a-constrained-identity-function-in-typescript
+// All: icon map
+export const iconMap = {
   // Finances Carousel
   EXPENSE: ExpenseIcon,
   CROP: CropIcon,
@@ -88,16 +117,7 @@ const iconMap = {
   TRANSPORTATION: TransportationIcon,
   SERVICES: ServicesIcon,
   // Animal Inventory
-  CATTLE: CattleIcon,
-  CHICKEN: ChickenIcon,
-  PIG: PigIcon,
-  BATCH: BatchIcon,
-  BATCH_GREEN: BatchIconGreen, // svgColorFill does not work with this icon
-  CUSTOM_ANIMAL: CustomAnimalIcon,
-  ALPACA: AlpacaIcon,
-  GOAT: GoatIcon,
-  RABBIT: RabbitIcon,
-  SHEEP: SheepIcon,
+  ...animalTypeIcons,
   // Animal Inventory KPI
   ADD_ANIMAL: AddAnimalIcon,
   TASK_CREATION: TaskCreationIcon,
@@ -109,6 +129,11 @@ const iconMap = {
   MORE_HORIZONTAL: MoreHorizontalIcon,
   PLUS_CIRCLE: PlusCircleIcon,
   TRASH: TrashIcon,
-};
+  // Input
+  LOCKED: LockedIcon,
+} satisfies Record<string, FunctionComponent>;
+
+// All: type key
+export type IconName = keyof typeof iconMap;
 
 export default iconMap;

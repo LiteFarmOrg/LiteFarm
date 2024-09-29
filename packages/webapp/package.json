@@ -1,6 +1,6 @@
 {
   "name": "litefarm-webapp",
-  "version": "3.6.6",
+  "version": "3.6.7",
   "description": "LiteFarm Web application",
   "type": "module",
   "scripts": {
@@ -29,7 +29,7 @@
     "@reduxjs/toolkit": "^1.9.1",
     "@sentry/react": "^6.19.7",
     "@sentry/tracing": "^6.19.7",
-    "axios": "^0.28.0",
+    "axios": "^1.7.4",
     "chart.js": "^4.4.0",
     "clsx": "^1.2.1",
     "compressorjs": "^1.1.1",
@@ -121,7 +121,7 @@
     "sass": "^1.56.1",
     "storybook": "^8.2.8",
     "typescript": "^4.9.5",
-    "vite": "^4.5.3",
+    "vite": "^4.5.5",
     "vite-plugin-istanbul": "^4.0.0",
     "vite-plugin-pwa": "^0.14.3",
     "vite-plugin-svgr": "^2.4.0",

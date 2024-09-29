@@ -13,11 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import clsx from 'clsx';
-import Icon from '../../../Icons';
+import Icon, { IconName } from '../../../Icons';
 import styles from '../styles.module.scss';
 
 export type IconTextProps = {
-  iconName: string;
+  iconName: IconName;
   iconBorder: boolean;
   text: string | number | null | undefined;
   subtext: string | number | null | undefined;

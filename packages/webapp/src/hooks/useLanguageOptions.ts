@@ -13,9 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const iconNames = {
-  CATTLE: 'CATTLE',
-  CHICKEN: 'CHICKEN',
-  PIGS: 'PIG',
-  '': 'CUSTOM_ANIMAL',
+const supportedLanguages = [
+  ['en', 'English'],
+  ['es', 'Español'],
+  ['de', 'Deutsch'],
+  ['fr', 'Français'],
+  ['pt', 'Português'],
+  // ['hi', 'हिंदी'],
+  // ['ml', 'മലയാളം'],
+  // ['pa', 'ਪੰਜਾਬੀ'],
+];
+
+const useLanguageOptions = () => {
+  return supportedLanguages.map(([value, text]) => ({
+    value,
+    label: text,
+  }));
 };
+
+export const languageCodes = supportedLanguages.map(([code]) => code);
+
+export default useLanguageOptions;

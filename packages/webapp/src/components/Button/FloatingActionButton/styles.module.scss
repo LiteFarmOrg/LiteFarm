@@ -16,20 +16,21 @@
 .floatingActionButton {
   position: relative;
 
-  &[aria-expanded="true"] {
-    background-color: #E3B000;
-  }
   @media (hover: hover) {
     &:hover {
-      background-color: #E3B000;
+      background-color: var(--Btn-primary-hover);
     }
+  }
+  &[aria-expanded='true'] {
+    background-color: var(--yellow700);
   }
 
   &.add {
-    &::before, &::after {
-      content: "";
+    &::before,
+    &::after {
+      content: '';
       position: absolute;
-      background-color: #634D00;
+      background-color: var(--yellow900);
       transition: 0.5s;
     }
 
@@ -47,16 +48,21 @@
       height: 4px;
     }
 
-    &[aria-expanded="true"] {
-      &::before, &::after {
-        background-color: #fff;
-      }
-    }
     @media (hover: hover) {
       &:hover {
-        &::before, &::after {
+        &::before,
+        &::after {
           background-color: #fff;
         }
+      }
+    }
+
+    &[aria-expanded='true'] {
+      box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+
+      &::before,
+      &::after {
+        background-color: var(--yellow900);
       }
     }
   }

@@ -16,7 +16,7 @@
 import { ReactNode } from 'react';
 import clsx from 'clsx';
 import TextButton from '../Form/Button/TextButton';
-import Icon from '../Icons';
+import Icon, { IconName } from '../Icons';
 import styles from './styles.module.scss';
 
 interface action {
@@ -24,8 +24,8 @@ interface action {
   onClick: () => void;
 }
 
-interface iconAction extends action {
-  iconName: string;
+export interface iconAction extends action {
+  iconName: IconName;
 }
 
 export interface ActionMenuProps {

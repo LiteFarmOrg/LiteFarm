@@ -1526,14 +1526,10 @@
       "CONVERT_TO_HAVE_ACCOUNT": "Converter este trabalhador para usuário com conta",
       "EDIT_USER": "Editar usuário",
       "EMAIL": "E-mail",
-      "ENGLISH": "Inglês",
       "FIRST_NAME": "Primeiro nome",
-      "FRENCH": "Francês",
       "LANGUAGE": "Idioma",
       "LAST_NAME": "Sobrenome",
       "PHONE_NUMBER": "Número de telefone",
-      "PORTUGUESE": "Português",
-      "SPANISH": "Espanhol",
       "USER_ADDRESS": "Endereço"
     },
     "ACCOUNT_TAB": "Conta",
@@ -1870,7 +1866,7 @@
     "SIGN_IN": "Conecte-se",
     "SSO_ERROR": "Faça login clicando no botão do Google acima",
     "USED_INVITATION_LINK_ERROR": "Este convite já foi utilizado, por favor, faça o login para acessar essa fazenda",
-    "WELCOME_BACK": "Bem-vindo de volta",
+    "WELCOME_BACK": "Te damos as boas-vindas de volta",
     "WRONG_BROWSER": "LiteFarm não é otimizado para este navegador.",
     "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
   },

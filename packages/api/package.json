@@ -46,7 +46,10 @@
     "collectCoverageFrom": [
       "src/**/*.{js,ts,jsx,mjs}"
     ],
-    "globalSetup": "./jest-global-setup.cjs"
+    "globalSetup": "./jest-global-setup.cjs",
+    "setupFiles": [
+      "dotenv/config"
+    ]
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.456.0",

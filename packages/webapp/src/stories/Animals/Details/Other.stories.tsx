@@ -20,7 +20,7 @@ import { componentDecorators } from '../../Pages/config/Decorators';
 import Other, { OtherDetailsProps } from '../../../components/Animals/DetailCards/Other';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
-import { organicStatusOptions, getOnFileUpload } from './mockData';
+import { organicStatusOptions, getOnFileUpload, defaultValues } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<OtherDetailsProps> = {
@@ -30,7 +30,10 @@ const meta: Meta<OtherDetailsProps> = {
     ...componentDecorators,
     (Story) => {
       const { t } = useTranslation();
-      const formMethods: FormMethods = useForm({ mode: 'onBlur' });
+      const formMethods: FormMethods = useForm({
+        mode: 'onBlur',
+        defaultValues,
+      });
 
       return (
         <FormProvider {...formMethods}>
@@ -60,6 +63,46 @@ export const Batch: Story = {
     organicStatusOptions,
     animalOrBatch: AnimalOrBatchKeys.BATCH,
     getOnFileUpload,
+  },
+  render: (args, context) => <Other {...args} {...context} />,
+};
+
+export const AnimalReadonly: Story = {
+  args: {
+    organicStatusOptions,
+    animalOrBatch: AnimalOrBatchKeys.ANIMAL,
+    getOnFileUpload,
+    mode: 'readonly',
+  },
+  render: (args, context) => <Other {...args} {...context} />,
+};
+
+export const BatchReadonly: Story = {
+  args: {
+    organicStatusOptions,
+    animalOrBatch: AnimalOrBatchKeys.BATCH,
+    getOnFileUpload,
+    mode: 'readonly',
+  },
+  render: (args, context) => <Other {...args} {...context} />,
+};
+
+export const AnimalEdit: Story = {
+  args: {
+    organicStatusOptions,
+    animalOrBatch: AnimalOrBatchKeys.ANIMAL,
+    getOnFileUpload,
+    mode: 'edit',
+  },
+  render: (args, context) => <Other {...args} {...context} />,
+};
+
+export const BatchEdit: Story = {
+  args: {
+    organicStatusOptions,
+    animalOrBatch: AnimalOrBatchKeys.BATCH,
+    getOnFileUpload,
+    mode: 'edit',
   },
   render: (args, context) => <Other {...args} {...context} />,
 };

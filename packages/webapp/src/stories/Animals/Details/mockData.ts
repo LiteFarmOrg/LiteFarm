@@ -125,6 +125,7 @@ export const defaultValues: Partial<AnimalDetailsFormFields> = {
   [DetailsFields.BROUGHT_IN_DATE]: '2024-10-01',
   [DetailsFields.TAG_TYPE]: { value: 3, label: 'Other', key: 'OTHER' },
   [DetailsFields.TAG_TYPE_INFO]: 'Microchip',
+  [DetailsFields.ANIMAL_IMAGE]: '/src/assets/images/certification/Farmland.svg',
 };
 
 export const getOnFileUpload: GetOnFileUpload =

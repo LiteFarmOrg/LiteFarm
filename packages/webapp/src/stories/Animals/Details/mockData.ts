@@ -22,6 +22,7 @@ import {
 import { FileEvent } from '../../../components/ImagePicker';
 import { GetOnFileUpload } from '../../../components/ImagePicker/useImagePickerUpload';
 import { OrganicStatus } from '../../../types';
+import { Details } from '@mui/icons-material';
 
 export const typeOptions = [
   {
@@ -118,10 +119,12 @@ export const defaultValues: Partial<AnimalDetailsFormFields> = {
   },
   [DetailsFields.SEX]: 2,
   [DetailsFields.COUNT]: 3,
-  [DetailsFields.USE]: [{ value: 0, label: 'Other', key: 'OTHER' }],
+  [DetailsFields.USE]: [{ value: 2, label: 'Other', key: 'OTHER' }],
   [DetailsFields.ID]: 'ID12',
   [DetailsFields.ORIGIN]: 1,
   [DetailsFields.BROUGHT_IN_DATE]: '2024-10-01',
+  [DetailsFields.TAG_TYPE]: { value: 3, label: 'Other', key: 'OTHER' },
+  [DetailsFields.TAG_TYPE_INFO]: 'Microchip',
 };
 
 export const getOnFileUpload: GetOnFileUpload =

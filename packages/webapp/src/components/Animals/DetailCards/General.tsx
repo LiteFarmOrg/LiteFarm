@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import { SelectInstance } from 'react-select';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -79,10 +79,6 @@ const GeneralDetails = ({
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
   const breedSelectRef = useRef<SelectInstance>(null);
-
-  useEffect(() => {
-    breedSelectRef?.current?.clearValue();
-  }, [watchAnimalType?.value]);
 
   const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 
@@ -185,6 +181,7 @@ const GeneralDetails = ({
         onTypeChange={(option) => {
           trigger(`${namePrefix}${DetailsFields.TYPE}`);
           onTypeChange?.(option);
+          breedSelectRef?.current?.clearValue();
         }}
         error={get(errors, `${namePrefix}${DetailsFields.TYPE}`)}
         isDisabled={mode !== 'edit'}

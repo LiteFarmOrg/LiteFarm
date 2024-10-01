@@ -24,6 +24,13 @@
   }
 }
 
+.imageContainer.disabled,
+.dropContainer.disabled,
+.filePickerWrapper.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
 .imageActions {
   margin-left: 8px;
   gap: 4px;

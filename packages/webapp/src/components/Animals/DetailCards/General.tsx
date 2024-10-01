@@ -16,6 +16,7 @@
 import { useMemo, useRef } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import { SelectInstance } from 'react-select';
+import clsx from 'clsx';
 import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
 import ReactSelect from '../../Form/ReactSelect';
@@ -147,7 +148,7 @@ const GeneralDetails = ({
   }, [animalOrBatch, t, sexOptions, control, watchBatchCount]);
 
   return (
-    <div className={styles.sectionWrapper}>
+    <div className={clsx(styles.sectionWrapper, mode === 'edit' && styles.edit)}>
       {(mode === 'readonly' || mode === 'edit') && (
         <>
           {/* @ts-ignore */}

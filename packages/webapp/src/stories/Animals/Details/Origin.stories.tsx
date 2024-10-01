@@ -19,7 +19,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import Origin, { OriginProps } from '../../../components/Animals/DetailCards/Origin';
 import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
-import { originOptions } from './mockData';
+import { originOptions, defaultValues } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<OriginProps> = {
@@ -29,7 +29,10 @@ const meta: Meta<OriginProps> = {
     ...componentDecorators,
     (Story) => {
       const { t } = useTranslation();
-      const formMethods: FormMethods = useForm({ mode: 'onBlur' });
+      const formMethods: FormMethods = useForm({
+        mode: 'onBlur',
+        defaultValues,
+      });
 
       return (
         <FormProvider {...formMethods}>
@@ -47,5 +50,23 @@ type Story = StoryObj<typeof Origin>;
 
 export const OriginDetails: Story = {
   args: { currency: '$', originOptions },
+  render: (args, context) => <Origin {...args} {...context} />,
+};
+
+export const OriginReadonly: Story = {
+  args: {
+    currency: '$',
+    originOptions,
+    mode: 'readonly',
+  },
+  render: (args, context) => <Origin {...args} {...context} />,
+};
+
+export const OriginEdit: Story = {
+  args: {
+    currency: '$',
+    originOptions,
+    mode: 'edit',
+  },
   render: (args, context) => <Origin {...args} {...context} />,
 };

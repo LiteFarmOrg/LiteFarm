@@ -30,7 +30,7 @@ export type OriginProps = CommonDetailsProps & {
   originOptions: Option[DetailsFields.ORIGIN][];
 };
 
-const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) => {
+const Origin = ({ t, currency, originOptions, namePrefix = '', mode = 'add' }: OriginProps) => {
   const {
     control,
     register,
@@ -58,6 +58,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
           label={t('common:DATE')}
           hookFormRegister={register(`${namePrefix}${DetailsFields.BROUGHT_IN_DATE}`)}
           optional
+          disabled={mode === 'readonly'}
         />
         {/* @ts-ignore */}
         <Input
@@ -71,6 +72,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
           optional
           placeholder={t('ADD_ANIMAL.PLACEHOLDER.SUPPLIER')}
           errors={getInputErrors(errors, `${namePrefix}${DetailsFields.SUPPLIER}`)}
+          disabled={mode === 'readonly'}
         />
         {/* @ts-ignore */}
         <Input
@@ -83,6 +85,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
           optional
           placeholder={t('ADD_ANIMAL.PLACEHOLDER.PRICE')}
           errors={getInputErrors(errors, `${namePrefix}${DetailsFields.PRICE}`)}
+          disabled={mode === 'readonly'}
         />
       </>
     ) : (
@@ -99,6 +102,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
           optional
           placeholder={t('ADD_ANIMAL.PLACEHOLDER.DAM')}
           errors={getInputErrors(errors, `${namePrefix}${DetailsFields.DAM}`)}
+          disabled={mode === 'readonly'}
         />
         {/* @ts-ignore */}
         <Input
@@ -112,6 +116,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
           optional
           placeholder={t('ADD_ANIMAL.PLACEHOLDER.SIRE')}
           errors={getInputErrors(errors, `${namePrefix}${DetailsFields.SIRE}`)}
+          disabled={mode === 'readonly'}
         />
       </>
     );
@@ -125,6 +130,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
         label={t('ANIMAL.ATTRIBUTE.DATE_OF_BIRTH')}
         hookFormRegister={register(`${namePrefix}${DetailsFields.DATE_OF_BIRTH}`)}
         optional
+        disabled={mode === 'readonly'}
       />
       <div>
         {/* @ts-ignore */}
@@ -133,6 +139,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '' }: OriginProps) =>
           radios={originOptions}
           hookFormControl={control}
           row
+          disabled={mode === 'readonly'}
         />
       </div>
       {origin && fields}

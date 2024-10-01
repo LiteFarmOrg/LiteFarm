@@ -120,6 +120,8 @@ export const defaultValues: Partial<AnimalDetailsFormFields> = {
   [DetailsFields.COUNT]: 3,
   [DetailsFields.USE]: [{ value: 0, label: 'Other', key: 'OTHER' }],
   [DetailsFields.ID]: 'ID12',
+  [DetailsFields.ORIGIN]: 1,
+  [DetailsFields.BROUGHT_IN_DATE]: '2024-10-01',
 };
 
 export const getOnFileUpload: GetOnFileUpload =

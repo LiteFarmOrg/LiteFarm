@@ -88,16 +88,6 @@ export default function AddAnimalsFormCard({
 
   const breedSelectRef = useRef<SelectInstance>(null);
 
-  // Ref used to prevent breed being cleared when navigating back to basics step
-  const prevAnimalTypeRef = useRef(watchAnimalType?.value);
-
-  useEffect(() => {
-    if (prevAnimalTypeRef.current !== watchAnimalType?.value) {
-      breedSelectRef?.current?.clearValue();
-      prevAnimalTypeRef.current = watchAnimalType?.value;
-    }
-  }, [watchAnimalType?.value]);
-
   return (
     <Card className={styles.form} isActive={isActive}>
       <div className={styles.formHeader}>
@@ -111,6 +101,7 @@ export default function AddAnimalsFormCard({
         onTypeChange={(option) => {
           trigger(`${namePrefix}${BasicsFields.TYPE}`);
           onTypeChange?.(option);
+          breedSelectRef?.current?.clearValue();
         }}
         error={get(errors, `${namePrefix}${BasicsFields.TYPE}`)}
       />

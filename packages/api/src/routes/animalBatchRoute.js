@@ -19,23 +19,20 @@ const router = express.Router();
 import checkScope from '../middleware/acl/checkScope.js';
 import hasFarmAccess from '../middleware/acl/hasFarmAccess.js';
 import AnimalBatchController from '../controllers/animalBatchController.js';
-import AnimalBatchModel from '../models/animalBatchModel.js';
-import {
-  checkAnimalEntities,
-  validateAnimalBatchCreationBody,
-} from '../middleware/checkAnimalEntities.js';
 import multerDiskUpload from '../util/fileUpload.js';
 import validateFileExtension from '../middleware/validation/uploadImage.js';
 import {
   checkRemoveAnimalOrBatch,
   checkEditAnimalOrBatch,
+  checkCreateAnimalOrBatch,
+  checkDeleteAnimalOrBatch,
 } from '../middleware/validation/checkAnimalOrBatch.js';
 
 router.get('/', checkScope(['get:animal_batches']), AnimalBatchController.getFarmAnimalBatches());
 router.post(
   '/',
   checkScope(['add:animal_batches']),
-  validateAnimalBatchCreationBody('batch'),
+  checkCreateAnimalOrBatch('batch'),
   AnimalBatchController.addAnimalBatches(),
 );
 router.patch(
@@ -55,7 +52,7 @@ router.patch(
 router.delete(
   '/',
   checkScope(['delete:animal_batches']),
-  checkAnimalEntities(AnimalBatchModel),
+  checkDeleteAnimalOrBatch('batch'),
   AnimalBatchController.deleteAnimalBatches(),
 );
 router.post(

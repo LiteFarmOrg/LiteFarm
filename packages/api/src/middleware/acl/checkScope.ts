@@ -13,21 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import userFarmModel from '../../models/userFarmModel.js';
+import { RequestHandler } from 'express';
+import { getPermissions } from '../../queries/userFarmQueries.js';
+import { FarmId, UserId } from '../../types.js';
 
-const getScopes = async (user_id, farm_id, { checkConsent }) => {
+const getScopes = async (
+  user_id: UserId,
+  farm_id: FarmId,
+  { checkConsent }: { checkConsent: boolean },
+) => {
   // essential to fetch the most updated userFarm info to know user's most updated granted access
   try {
-    const permissionQuery = userFarmModel
-      .query()
-      .distinct('permissions.name', 'userFarm.role_id')
-      .join('rolePermissions', 'userFarm.role_id', 'rolePermissions.role_id')
-      .join('permissions', 'permissions.permission_id', 'rolePermissions.permission_id')
-      .where('userFarm.farm_id', farm_id)
-      .where('userFarm.user_id', user_id)
-      .where('userFarm.status', 'Active');
-
-    return checkConsent ? permissionQuery.where('userFarm.has_consent', true) : permissionQuery;
+    return await getPermissions(farm_id, user_id, checkConsent);
   } catch (error) {
     console.log('getScopes query error', error);
     return [];
@@ -40,7 +37,7 @@ const getScopes = async (user_id, farm_id, { checkConsent }) => {
  * @param expectedScopes - array of required scopes to make request [ 'get:crops', 'add:sales' ]
  * @param checkConsent {boolean}
  */
-const checkScope = (expectedScopes, { checkConsent = true } = {}) => {
+const checkScope = (expectedScopes: string, { checkConsent = true } = {}): RequestHandler => {
   if (!Array.isArray(expectedScopes)) {
     throw new Error(
       'Parameter expectedScopes must be an array of strings representing the scopes for the endpoint(s)',
@@ -52,7 +49,7 @@ const checkScope = (expectedScopes, { checkConsent = true } = {}) => {
       return next();
     }
     const { headers } = req;
-    const { user_id } = req.auth;
+    const user_id = req.auth?.user_id;
     const { farm_id } = headers; // these are the minimum props needed for most endpoints' authorization
 
     if (!user_id || user_id === 'undefined')

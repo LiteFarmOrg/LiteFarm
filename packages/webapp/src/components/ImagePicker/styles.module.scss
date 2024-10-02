@@ -13,6 +13,8 @@
 *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
 */
 
+@import '../../assets/mixin.scss';
+
 .imageContainer {
   display: flex;
   align-items: start;
@@ -29,6 +31,14 @@
 .filePickerWrapper.disabled {
   pointer-events: none;
   cursor: default;
+}
+
+.imageContainer.disabled {
+  @include svgColorFill(var(--Colors-Neutral-Neutral-200));
+
+  button {
+    color: var(--Colors-Neutral-Neutral-200);
+  }
 }
 
 .imageActions {

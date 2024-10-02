@@ -998,6 +998,7 @@ describe('Animal Tests', () => {
     });
   });
 
+  // REMOVE tests
   describe('Remove animal tests', () => {
     test('Admin users should be able to remove animals', async () => {
       const roles = [1, 2, 5];

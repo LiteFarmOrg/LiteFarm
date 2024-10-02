@@ -66,6 +66,7 @@ const animalController = {
 
         for (const animal of req.body) {
           await checkAndAddCustomTypeAndBreed(req, animal, farm_id, trx);
+          // TODO: Comment out for animals v1?
           await checkAndAddGroup(req, animal, farm_id, trx);
 
           // Remove farm_id if it happens to be set in animal object since it should be obtained from header
@@ -77,6 +78,8 @@ const animalController = {
             req,
             { trx },
           );
+
+          // TODO: Comment out for animals v1?
           // Format group_ids
           const groupIdMap =
             individualAnimalResult.group_ids?.map((group) => group.animal_group_id) || [];
@@ -104,8 +107,16 @@ const animalController = {
       const trx = await transaction.start(Model.knex());
 
       try {
+        const { farm_id } = req.headers;
+        // Create utility object used in type and breed
+        req.body.typeIdsMap = {};
+        req.body.typeBreedIdsMap = {};
+
         // select only allowed properties to edit
         for (const animal of req.body) {
+          await checkAndAddCustomTypeAndBreed(req, animal, farm_id, trx);
+          // TODO: Comment out for animals v1?
+          await checkAndAddGroup(req, animal, farm_id, trx);
           const {
             id,
             default_type_id,
@@ -167,7 +178,12 @@ const animalController = {
             { trx },
           );
         }
+        // delete utility objects
+        delete req.body.typeIdsMap;
+        delete req.body.typeBreedIdsMap;
+
         await trx.commit();
+        // Do not send result revalidate using tags on frontend
         return res.status(204).send();
       } catch (error) {
         handleObjectionError(error, res, trx);

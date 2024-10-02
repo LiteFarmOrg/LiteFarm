@@ -104,8 +104,18 @@ const animalBatchController = {
       const trx = await transaction.start(Model.knex());
 
       try {
+        const { farm_id } = req.headers;
+
+        // Create utility object used in type and breed
+        req.body.typeIdsMap = {};
+        req.body.typeBreedIdsMap = {};
+
         // select only allowed properties to edit
         for (const animalBatch of req.body) {
+          await checkAndAddCustomTypeAndBreed(req, animalBatch, farm_id, trx);
+          // TODO: allow animal group editing
+          // await checkAndAddGroup(req, animal, farm_id, trx);
+
           const {
             id,
             count,
@@ -149,7 +159,13 @@ const animalBatchController = {
             { trx },
           );
         }
+
+        // delete utility objects
+        delete req.body.typeIdsMap;
+        delete req.body.typeBreedIdsMap;
+
         await trx.commit();
+        // Do not send result revalidate using tags on frontend
         return res.status(204).send();
       } catch (error) {
         handleObjectionError(error, res, trx);

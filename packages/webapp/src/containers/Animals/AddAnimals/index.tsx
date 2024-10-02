@@ -28,7 +28,7 @@ import {
   useGetAnimalOriginsQuery,
 } from '../../../store/api/apiSlice';
 import { Animal, AnimalBatch } from '../../../store/api/types';
-import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { formatAnimalDetailsToDBStructure, formatBatchDetailsToDBStructure } from './utils';
 import { AnimalDetailsFormFields } from './types';
 import { AnimalOrBatchKeys } from '../types';
@@ -78,18 +78,30 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     try {
       if (formattedAnimals.length) {
         animalsResult = await addAnimals(formattedAnimals).unwrap();
+        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_CREATE_ANIMALS')));
       }
     } catch (e) {
       console.error(e);
-      dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_CREATE_ANIMALS')));
+      dispatch(
+        enqueueErrorSnackbar({
+          message: t('message:ANIMALS.FAILED_CREATE_ANIMALS'),
+          persist: true,
+        }),
+      );
     }
     try {
       if (formattedBatches.length) {
         batchesResult = await addAnimalBatches(formattedBatches).unwrap();
+        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_CREATE_BATCHES')));
       }
     } catch (e) {
       console.error(e);
-      dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_CREATE_BATCHES')));
+      dispatch(
+        enqueueErrorSnackbar({
+          message: t('message:ANIMALS.FAILED_CREATE_BATCHES'),
+          persist: true,
+        }),
+      );
     }
 
     if (!animalsResult.length && !batchesResult.length) {

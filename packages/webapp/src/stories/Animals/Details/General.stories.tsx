@@ -29,6 +29,7 @@ import {
   sexOptions,
   sexDetailsOptions,
   useOptions,
+  addDefaults,
   defaultValues,
 } from './mockData';
 
@@ -38,11 +39,12 @@ const meta: Meta<GeneralDetailsProps> = {
   component: GeneralDetails,
   decorators: [
     ...componentDecorators,
-    (Story) => {
+    (Story, { args }) => {
       const { t } = useTranslation();
       const formMethods: FormMethods = useForm({
         mode: 'onBlur',
-        defaultValues,
+        defaultValues:
+          args.mode === 'readonly' || args.mode === 'edit' ? defaultValues : addDefaults,
       });
 
       return (

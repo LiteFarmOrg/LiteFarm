@@ -110,7 +110,7 @@ export const originOptions = [
   { value: 2, label: 'Born at the farm', key: 'BORN_AT_FARM' },
 ];
 
-export const defaultValues: Partial<AnimalDetailsFormFields> = {
+export const addDefaults: Partial<AnimalDetailsFormFields> = {
   [DetailsFields.TYPE]: { value: 'default_1', label: 'Cattle' },
   [DetailsFields.BREED]: {
     label: 'Angus',
@@ -119,6 +119,10 @@ export const defaultValues: Partial<AnimalDetailsFormFields> = {
   },
   [DetailsFields.SEX]: 2,
   [DetailsFields.COUNT]: 3,
+};
+
+export const defaultValues: Partial<AnimalDetailsFormFields> = {
+  ...addDefaults,
   [DetailsFields.USE]: [{ value: 2, label: 'Other', key: 'OTHER' }],
   [DetailsFields.ID]: 'ID12',
   [DetailsFields.ORIGIN]: 1,

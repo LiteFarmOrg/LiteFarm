@@ -19,7 +19,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../../Pages/config/Decorators';
 import Origin, { OriginProps } from '../../../components/Animals/DetailCards/Origin';
 import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
-import { originOptions, defaultValues } from './mockData';
+import { originOptions, addDefaults, defaultValues } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<OriginProps> = {
@@ -27,11 +27,12 @@ const meta: Meta<OriginProps> = {
   component: Origin,
   decorators: [
     ...componentDecorators,
-    (Story) => {
+    (Story, { args }) => {
       const { t } = useTranslation();
       const formMethods: FormMethods = useForm({
         mode: 'onBlur',
-        defaultValues,
+        defaultValues:
+          args.mode === 'readonly' || args.mode === 'edit' ? defaultValues : addDefaults,
       });
 
       return (

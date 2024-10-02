@@ -20,7 +20,7 @@ import { componentDecorators } from '../../Pages/config/Decorators';
 import Other, { OtherDetailsProps } from '../../../components/Animals/DetailCards/Other';
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
-import { organicStatusOptions, getOnFileUpload, defaultValues } from './mockData';
+import { organicStatusOptions, getOnFileUpload, addDefaults, defaultValues } from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<OtherDetailsProps> = {
@@ -28,11 +28,12 @@ const meta: Meta<OtherDetailsProps> = {
   component: Other,
   decorators: [
     ...componentDecorators,
-    (Story) => {
+    (Story, { args }) => {
       const { t } = useTranslation();
       const formMethods: FormMethods = useForm({
         mode: 'onBlur',
-        defaultValues,
+        defaultValues:
+          args.mode === 'readonly' || args.mode === 'edit' ? defaultValues : addDefaults,
       });
 
       return (

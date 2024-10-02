@@ -12,7 +12,7 @@ function Icon({ type = 'success' }) {
   if (type === 'success') return <Checkmark className={styles.button} />;
 }
 
-export function PureSnackbarWithoutBorder({ className, onDismiss, title, type }) {
+export function PureSnackbarWithoutBorder({ className, onDismiss, title, type, persist }) {
   const [dismissProgressBar, setDismissProgressBar] = useState(false);
 
   return (
@@ -32,28 +32,37 @@ export function PureSnackbarWithoutBorder({ className, onDismiss, title, type })
         </div>
       </div>
       <div className={styles.progressBarContainer}>
-        {!dismissProgressBar && <ProgressBar type={type} onDismiss={onDismiss} />}
+        {!dismissProgressBar && <ProgressBar type={type} onDismiss={onDismiss} persist={persist} />}
       </div>
     </div>
   );
 }
 
-export const PureSnackbar = forwardRef(({ message, type, onDismiss }, ref) => (
+export const PureSnackbar = forwardRef(({ message, type, onDismiss, persist }, ref) => (
   <div className={clsx(styles.container, styles[type])} ref={ref}>
-    <PureSnackbarWithoutBorder title={message} onDismiss={onDismiss} type={type} />
+    <PureSnackbarWithoutBorder
+      title={message}
+      onDismiss={onDismiss}
+      type={type}
+      persist={persist}
+    />
   </div>
 ));
 
+PureSnackbarWithoutBorder.displayName = 'PureSnackbarWithoutBorder';
 PureSnackbarWithoutBorder.prototype = {
   className: PropTypes.string,
   title: PropTypes.string,
   farmName: PropTypes.string,
   closeSuccessHeader: PropTypes.func,
   type: PropTypes.oneOf(['success', 'error']),
+  persist: PropTypes.bool,
 };
 
+PureSnackbar.displayName = 'PureSnackbar';
 PureSnackbar.prototype = {
   type: PropTypes.oneOf(['success', 'error']),
   message: PropTypes.string,
   onDismiss: PropTypes.func,
+  persist: PropTypes.bool,
 };

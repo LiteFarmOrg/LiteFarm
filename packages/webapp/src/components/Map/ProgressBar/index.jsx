@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ProgressBar({ onDismiss, type = 'success' }) {
+export default function ProgressBar({ onDismiss, type = 'success', persist }) {
   const classes = useStyles();
   const [progress, setProgress] = useState(0);
 
@@ -40,10 +40,10 @@ export default function ProgressBar({ onDismiss, type = 'success' }) {
   }, []);
 
   useEffect(() => {
-    if (progress >= MAX_PROGRESS) {
+    if (!persist && progress >= MAX_PROGRESS) {
       onDismiss?.();
     }
-  }, [progress]);
+  }, [progress, persist]);
 
   return (
     <div className={classes.root}>

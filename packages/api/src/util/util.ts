@@ -22,8 +22,8 @@ import { v4 as uuidv4 } from 'uuid';
  * @param {string} property - The property of each object to use as the key in the UUID map.
  * @returns {Object} - The UUID map with property values as keys and UUIDs as values.
  */
-export const getUUIDMap = (arr, property) => {
-  const uuidMap = {};
+export const getUUIDMap = (arr: Record<string, string>[], property: string) => {
+  const uuidMap: Record<string, string> = {};
   arr.forEach((item) => {
     uuidMap[item[property]] = uuidv4();
   });
@@ -36,8 +36,9 @@ export const getUUIDMap = (arr, property) => {
  * @param {string[]} dates - An array of date strings to be converted and sorted.
  * @returns {Date[]} - An array of JavaScript Date objects sorted in ascending order.
  */
-export const getSortedDates = (dates) => {
+export const getSortedDates = (dates: string[]) => {
   const jsDates = dates.map((date) => new Date(date));
+  //@ts-expect-error To be fixed
   return jsDates.sort((date1, date2) => date1 - date2);
 };
 
@@ -48,9 +49,27 @@ export const getSortedDates = (dates) => {
  * @param {string} input - The input string to validate and trim.
  * @return {string | null} - The trimmed string if valid, otherwise null.
  */
-export const checkAndTrimString = (input) => {
+export const checkAndTrimString = (input: string) => {
   if (typeof input !== 'string' || !input.trim()) {
     return null;
   }
   return input.trim();
+};
+
+export const baseProperties = [
+  'created_at',
+  'created_by_user_id',
+  'updated_by_user_id',
+  'updated_at',
+  'deleted',
+] as const;
+
+export const omitBaseProperties = <T extends Record<string, unknown>>(
+  obj: T,
+): Omit<T, typeof baseProperties[number]> => {
+  const newObj = { ...obj };
+  for (const property of baseProperties) {
+    delete newObj[property];
+  }
+  return newObj;
 };

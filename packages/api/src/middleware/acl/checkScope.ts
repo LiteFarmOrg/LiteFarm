@@ -37,7 +37,7 @@ const getScopes = async (
  * @param expectedScopes - array of required scopes to make request [ 'get:crops', 'add:sales' ]
  * @param checkConsent {boolean}
  */
-const checkScope = (expectedScopes: string, { checkConsent = true } = {}): RequestHandler => {
+const checkScope = (expectedScopes: string[], { checkConsent = true } = {}): RequestHandler => {
   if (!Array.isArray(expectedScopes)) {
     throw new Error(
       'Parameter expectedScopes must be an array of strings representing the scopes for the endpoint(s)',

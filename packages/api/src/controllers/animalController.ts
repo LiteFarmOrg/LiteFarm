@@ -26,15 +26,16 @@ import { checkAndTrimString, omitBaseProperties } from '../util/util.js';
 import AnimalUseRelationshipModel from '../models/animalUseRelationshipModel.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
 import animalQueries from '../queries/animalQueries.js';
-import { NextFunction, Request, Response } from 'express';
-import { AuthenticatedRequest } from '../types.js';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 
-const animalController = {
+type AnimalController = Record<string, () => RequestHandler>;
+
+const animalController: AnimalController = {
   getFarmAnimals() {
-    return async (req: AuthenticatedRequest, res: Response) => {
+    return async (req, res) => {
       try {
         const { farm_id } = req.headers;
-        const rows = await animalQueries.getFarmAnimals(farm_id);
+        const rows = await animalQueries.getFarmAnimals(farm_id!);
         return res.status(200).json(
           rows.map(({ group_ids, internal_identifier, ...row }) => ({
             ...omitBaseProperties(row),

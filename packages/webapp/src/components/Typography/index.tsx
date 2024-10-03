@@ -13,6 +13,7 @@ type TypographyProps = {
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   children?: ReactNode;
   className?: string;
+  id?: string;
 };
 
 export const Underlined = ({

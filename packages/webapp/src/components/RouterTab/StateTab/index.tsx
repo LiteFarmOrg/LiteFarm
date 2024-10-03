@@ -1,7 +1,20 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Semibold } from '../../Typography';
 import styles from '../styles.module.scss';
 import clsx from 'clsx';
+
+interface Tab {
+  label: string;
+  key: string;
+}
+
+interface StateTabProps {
+  tabs: Tab[];
+  state: string;
+  setState: React.Dispatch<React.SetStateAction<string>>;
+  className?: string;
+}
 
 /**
  * A version of RouterTab that toggles an active tab held in parent state, rather than using path changes.
@@ -18,8 +31,8 @@ import clsx from 'clsx';
  * @returns {React.Component} The rendered StateTab component.
  */
 
-export default function StateTab({ tabs, state, setState, className = '' }) {
-  const isSelected = (key) => state === key;
+const StateTab = ({ tabs, state, setState, className = '' }: StateTabProps) => {
+  const isSelected = (key: string) => state === key;
   return (
     <div className={clsx(styles.container, className)}>
       {tabs.map((tab, index) => (
@@ -34,16 +47,18 @@ export default function StateTab({ tabs, state, setState, className = '' }) {
       ))}
     </div>
   );
-}
+};
 
 StateTab.propTypes = {
   tabs: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       key: PropTypes.string.isRequired,
-    }),
+    }).isRequired,
   ).isRequired,
   state: PropTypes.string.isRequired,
   setState: PropTypes.func.isRequired,
   className: PropTypes.string,
 };
+
+export default StateTab;

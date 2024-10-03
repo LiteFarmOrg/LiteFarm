@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "concurrently": "^9.0.1",
     "husky": "^7.0.4",
     "lerna": "^5.0.0",
     "lint-staged": "^13.2.2",
@@ -14,7 +15,8 @@
     "ngrok": "ngrok start --config=./ngrok/ngrok.yml --all",
     "ngrok:setup": "node ./ngrok/ngrok-setup.js",
     "ngrok:api": "ngrok start --config=./ngrok/ngrok.yml api",
-    "ngrok:webapp": "ngrok start --config=./ngrok/ngrok.yml webapp"
+    "ngrok:webapp": "ngrok start --config=./ngrok/ngrok.yml webapp",
+    "dev": "concurrently -n api,webapp \"cd packages/api && npm run nodemon\" \"cd packages/webapp && pnpm dev\""
   },
   "type": "module",
   "jest": {

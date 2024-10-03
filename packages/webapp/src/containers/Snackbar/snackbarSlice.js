@@ -14,28 +14,11 @@ const snackbarSlice = createSlice({
         { message, key, options: { variant: 'common' } },
       ];
     },
-    /**
-     * Accept a string message directly or an object containing the message and persist.
-     *
-     * Examples:
-     * - enqueueErrorSnackbar("Error message.")
-     * - enqueueErrorSnackbar({ message: "Error message.", persist: true })
-     *
-     * @param {string | { message: string, persist?: boolean }} payload
-     */
-    enqueueErrorSnackbar: (state, { payload }) => {
-      if (typeof payload === 'object' && !payload.message) {
-        console.error('Invalid payload: missing message property');
-        return;
-      }
-
-      const message = typeof payload === 'object' ? payload.message : payload;
-      const persist = typeof payload === 'object' && payload.persist ? payload.persist : false;
-
+    enqueueErrorSnackbar: (state, { payload: message }) => {
       const key = `error-${new Date().getTime()}`;
       state.notifications = [
         ...state.notifications,
-        { message, key, options: { variant: 'common', persist } },
+        { message, key, options: { variant: 'common', persist: true } },
       ];
     },
     closeSnackbar: (state, { payload: key }) => {

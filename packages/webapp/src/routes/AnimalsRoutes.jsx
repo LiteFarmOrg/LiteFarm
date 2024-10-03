@@ -20,11 +20,13 @@ import {
   ANIMALS_LOCATION_URL,
   ANIMALS_GROUPS_URL,
   ADD_ANIMALS_URL,
+  createAnimalDetailsUrl,
 } from '../util/siteMapConstants';
 const Inventory = React.lazy(() => import('../containers/Animals/Inventory'));
 const Location = React.lazy(() => import('../containers/Animals/Location'));
 const Groups = React.lazy(() => import('../containers/Animals/Groups'));
 const AddAnimals = React.lazy(() => import('../containers/Animals/AddAnimals'));
+const Details = React.lazy(() => import('../containers/Animals/AnimalDetails'));
 
 const AnimalsRoutes = ({ isCompactSideMenu }) => (
   <Switch>
@@ -39,6 +41,11 @@ const AnimalsRoutes = ({ isCompactSideMenu }) => (
       path={ADD_ANIMALS_URL}
       exact
       render={(props) => <AddAnimals isCompactSideMenu={isCompactSideMenu} {...props} />}
+    />
+    <Route
+      path={createAnimalDetailsUrl(':id')}
+      exact
+      render={(props) => <Details isCompactSideMenu={isCompactSideMenu} {...props} />}
     />
   </Switch>
 );

@@ -23,6 +23,13 @@ export const ANIMALS_INVENTORY_URL = '/animals/inventory';
 export const ANIMALS_LOCATION_URL = '/animals/location';
 export const ANIMALS_GROUPS_URL = '/animals/groups';
 export const ADD_ANIMALS_URL = '/animals/inventory/add_animals';
+export const createAnimalDetailsUrl = (id: string | number): string => {
+  return `/animals/${id}`;
+};
+// Check if this is the desired pattern (there are also two versions in this file)
+export const createEditAnimalUrl = (id: string | number): string => {
+  return `${createAnimalDetailsUrl(id)}/edit`;
+};
 
 // Finances
 

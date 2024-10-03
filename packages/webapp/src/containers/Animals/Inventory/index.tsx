@@ -40,6 +40,9 @@ import {
 import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 
+// TODO: Decide if this the pattern to use, or the row.path property set up in the inventory
+import { createAnimalDetailsUrl } from '../../../util/siteMapConstants';
+
 interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
   containerHeight: number;
@@ -135,6 +138,18 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
     ],
     [t, isDesktop],
   );
+
+  const onRowClick = (_event: ChangeEvent, row: AnimalInventory) => {
+    // row = {
+    //   id: 'ANIMAL_60',
+    //   identification: 'ID32', // or could be name
+    //   path: '/animal/32', //
+    // ...
+    // };
+
+    // TODO: Decide on URL pattern. If crateAnimalDetailsUrl() is desired, then row.path should be removed and replaced with the numeric part of identifier
+    history.push(createAnimalDetailsUrl(row.id));
+  };
 
   const makeAnimalsSearchableString = (animal: AnimalInventory) => {
     return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
@@ -235,6 +250,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
         clearFilters={clearFilters}
         isLoading={isLoading}
         history={history}
+        onRowClick={onRowClick}
       />
       {selectedInventoryIds.length ? (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>

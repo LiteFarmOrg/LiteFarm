@@ -1,7 +1,15 @@
 import PropTypes from 'prop-types';
-import { Semibold } from '../../Typography';
-import styles from '../styles.module.scss';
-import clsx from 'clsx';
+import TabComponent, { TabProps } from '../Tab';
+
+type Tab = {
+  label: string;
+  key: string;
+};
+
+type StateTabProps = Omit<TabProps<Tab>, 'onClick' | 'isSelected'> & {
+  state: Tab['key'];
+  setState: (key: Tab['key']) => void;
+};
 
 /**
  * A version of RouterTab that toggles an active tab held in parent state, rather than using path changes.
@@ -17,23 +25,11 @@ import clsx from 'clsx';
  *
  * @returns {React.Component} The rendered StateTab component.
  */
+export default function StateTab({ state, setState, ...props }: StateTabProps) {
+  const isSelected = (tab: Tab) => state === tab.key;
+  const onClick = (tab: Tab) => !isSelected(tab) && setState(tab.key);
 
-export default function StateTab({ tabs, state, setState, className = '' }) {
-  const isSelected = (key) => state === key;
-  return (
-    <div className={clsx(styles.container, className, styles.pill)}>
-      {tabs.map((tab, index) => (
-        <Semibold
-          key={index}
-          className={clsx(styles.tab, styles.pill, isSelected(tab.key) && styles.selected)}
-          onClick={() => !isSelected(tab.key) && setState(tab.key)}
-          id={tab.label + index}
-        >
-          {tab.label}
-        </Semibold>
-      ))}
-    </div>
-  );
+  return <TabComponent<Tab> onClick={onClick} isSelected={isSelected} {...props} />;
 }
 
 StateTab.propTypes = {

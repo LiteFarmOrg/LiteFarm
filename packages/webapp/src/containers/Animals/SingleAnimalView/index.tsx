@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { History } from 'history';
 import styles from './styles.module.scss';
-import { MultiStepForm, VARIANT } from '../../../components/Form/MultiStepForm';
+import { ContextForm, VARIANT } from '../../../components/Form/ContextForm/';
 // TODO: LF-4382 Tabs component That ticket includes the decision on whether to create a RouterTab (route change) or StateTab (component state) variant. However RouterTab should be used in the implementation to trigger the destructive action pop-up modal -- StateTab is just the placeholder
 import StateTab from '../../../components/RouterTab/StateTab';
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
@@ -67,7 +67,7 @@ function SingleAnimalView({ isCompactSideMenu, history }: AddAnimalsProps) {
     [STEPS.DETAILS]: [],
   };
 
-  // Override the onCancel in MultiStepForm because we don't want to navigate away
+  // Override the onCancel in ContextForm because we don't want to navigate away
   const onCancel = () => {
     setCheckIsFormDirty(true);
   };
@@ -106,7 +106,7 @@ function SingleAnimalView({ isCompactSideMenu, history }: AddAnimalsProps) {
         />
       </div>
       {activeTab === TABS.DETAILS && (
-        <MultiStepForm
+        <ContextForm
           onSave={onSave}
           hasSummaryWithinForm={false}
           isCompactSideMenu={isCompactSideMenu}

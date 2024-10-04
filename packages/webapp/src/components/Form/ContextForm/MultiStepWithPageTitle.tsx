@@ -18,7 +18,7 @@ import { ClickAwayListener } from '@mui/material';
 import Layout from '../../Layout';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 
-interface WithPageTitleProps {
+interface MultiStepWithPageTitleProps {
   children: ReactNode;
   steps: { formContent: ReactNode; title: string }[];
   activeStepIndex: number;
@@ -27,14 +27,14 @@ interface WithPageTitleProps {
   onCancel: () => void;
 }
 
-export const WithPageTitle = ({
+export const MultiStepWithPageTitle = ({
   children,
   steps,
   activeStepIndex,
   cancelModalTitle,
   onGoBack,
   onCancel,
-}: WithPageTitleProps) => {
+}: MultiStepWithPageTitleProps) => {
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
 
   const progressBarValue = useMemo(

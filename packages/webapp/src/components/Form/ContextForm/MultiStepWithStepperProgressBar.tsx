@@ -23,7 +23,7 @@ import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
 import styles from './styles.module.scss';
 
-interface WithStepperProgressBarProps {
+interface MultiStepWithStepperProgressBarProps {
   children: ReactNode;
   history: History;
   steps: { formContent: ReactNode; title: string }[];
@@ -49,7 +49,7 @@ interface WithStepperProgressBarProps {
   setFormResultData: (data: any) => void;
 }
 
-export const WithStepperProgressBar = ({
+export const MultiStepWithStepperProgressBar = ({
   children,
   history,
   steps,
@@ -66,7 +66,7 @@ export const WithStepperProgressBar = ({
   handleSubmit,
   formState: { isValid, isDirty },
   setFormResultData,
-}: WithStepperProgressBarProps) => {
+}: MultiStepWithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
     retry: undefined,

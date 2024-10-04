@@ -16,9 +16,9 @@
 import { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormProvider, useForm } from 'react-hook-form';
-import { WithPageTitle } from './WithPageTitle';
-import { WithStepperProgressBar } from './WithStepperProgressBar';
-import { WithReadonlyEdit } from './WithReadonlyEdit';
+import { MultiStepWithPageTitle } from './MultiStepWithPageTitle';
+import { MultiStepWithStepperProgressBar } from './MultiStepWithStepperProgressBar';
+import { WithReadonlyEdit } from './SingleStepWithReadonlyEdit';
 
 export const VARIANT = {
   PAGE_TITLE: 'page_title',
@@ -27,12 +27,12 @@ export const VARIANT = {
 };
 
 const components = {
-  [VARIANT.PAGE_TITLE]: (props) => <WithPageTitle {...props} />,
-  [VARIANT.STEPPER_PROGRESS_BAR]: (props) => <WithStepperProgressBar {...props} />,
+  [VARIANT.PAGE_TITLE]: (props) => <MultiStepWithPageTitle {...props} />,
+  [VARIANT.STEPPER_PROGRESS_BAR]: (props) => <MultiStepWithStepperProgressBar {...props} />,
   [VARIANT.READONLY_EDIT]: (props) => <WithReadonlyEdit {...props} />,
 };
 
-export const MultiStepForm = ({
+export const ContextForm = ({
   history,
   getSteps,
   defaultFormValues,
@@ -104,7 +104,7 @@ export const MultiStepForm = ({
   );
 };
 
-MultiStepForm.propTypes = {
+ContextForm.propTypes = {
   variant: PropTypes.oneOf(Object.values(VARIANT)),
   history: PropTypes.object,
   getSteps: PropTypes.func,

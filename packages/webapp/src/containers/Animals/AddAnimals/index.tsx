@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux';
 import { History } from 'history';
 import { useMediaQuery } from '@mui/material';
 import theme from '../../../assets/theme';
-import { MultiStepForm, VARIANT } from '../../../components/Form/MultiStepForm';
+import { ContextForm, VARIANT } from '../../../components/Form/ContextForm/';
 import AddAnimalBasics, { animalBasicsDefaultValues } from './AddAnimalBasics';
 import AddAnimalDetails from './AddAnimalDetails';
 import AddAnimalSummary from './AddAnimalSummary';
@@ -123,7 +123,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
   };
 
   return (
-    <MultiStepForm
+    <ContextForm
       stepperProgressBarTitle={isMobile && t('ADD_ANIMAL.ADD_ANIMALS_TITLE')}
       stepperProgressBarConfig={stepperProgressBarConfig}
       onSave={onSave}

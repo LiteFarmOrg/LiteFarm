@@ -84,3 +84,17 @@
 .tabText {
   @include truncateText();
 }
+
+@include xs-breakpoint {
+  .container {
+    &.underline {
+      border-bottom: 1px solid var(--Colors-Neutral-Neutral-50);
+    }
+  }
+
+  .tab {
+    &.underline {
+      font-size: 14px;
+    }
+  }
+}

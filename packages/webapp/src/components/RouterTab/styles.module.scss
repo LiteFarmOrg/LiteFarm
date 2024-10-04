@@ -11,6 +11,12 @@
     align-items: center;
     border-radius: 18px;
   }
+
+  &.underline {
+    height: 41px;
+    background-color: white;
+    border-bottom: 1px solid var(--Colors-Neutral-Neutral-100, #d0d4db);
+  }
 }
 
 .tab {
@@ -44,6 +50,16 @@
       }
     }
   }
+
+  &.underline {
+    height: 42px;
+    font-weight: 400;
+    justify-content: center;
+    color: var(--Colors-Neutral-Neutral-300);
+    background-color: transparent;
+    border: none;
+    padding: 0 16px;
+  }
 }
 
 .selected {
@@ -54,6 +70,20 @@
     border: 1px solid var(--teal700);
     border-radius: 19px;
     height: 38px;
+  }
+
+  &.underline {
+    font-weight: 600;
+    border-radius: 0;
+    border-bottom: none;
+    color: var(--Colors-Accent---singles-Blue-dark);
+    border-bottom: 2px solid var(--Colors-Accent---singles-Blue-dark, #032d61);
+
+    &:after {
+      width: 24px;
+      height: 20px;
+      padding-left: 4px;
+    }
   }
 }
 

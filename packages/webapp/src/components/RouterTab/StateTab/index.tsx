@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
-import TabComponent, { TabProps } from '../Tab';
+import TabComponent, { BaseTab, TabProps } from '../Tab';
 
-type Tab = {
-  label: string;
+type Tab = BaseTab & {
   key: string;
 };
 

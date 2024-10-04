@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { CSSProperties } from 'react';
+import { ReactNode, CSSProperties } from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
@@ -21,7 +21,12 @@ export enum VARIANTS {
   UNDERLINE = 'underline',
 }
 
-export type TabProps<T extends { label: string }> = {
+export type BaseTab = {
+  label: string;
+  format?: (tab: BaseTab, isSelected: boolean) => ReactNode;
+};
+
+export type TabProps<T extends BaseTab> = {
   tabs: T[];
   onClick: (tab: T) => void;
   isSelected: (tab: T) => boolean;
@@ -30,7 +35,7 @@ export type TabProps<T extends { label: string }> = {
   className?: string;
 };
 
-export default function Tab<T extends { label: string }>({
+export default function Tab<T extends BaseTab>({
   tabs,
   onClick,
   isSelected,
@@ -49,7 +54,9 @@ export default function Tab<T extends { label: string }>({
           onClick={() => onClick(tab)}
           id={tab.label + index}
         >
-          <span className={styles.tabText}>{tab.label}</span>
+          <span className={styles.tabText}>
+            {tab.format ? tab.format(tab, isSelected(tab)) : tab.label}
+          </span>
         </button>
       ))}
     </div>

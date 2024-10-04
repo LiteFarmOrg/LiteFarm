@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import { History } from 'history';
-import TabComponent, { TabProps, VARIANTS } from './Tab';
+import TabComponent, { BaseTab, TabProps, VARIANTS } from './Tab';
 
-type Tab = {
-  label: string;
+type Tab = BaseTab & {
   path: string;
   state?: string;
 };

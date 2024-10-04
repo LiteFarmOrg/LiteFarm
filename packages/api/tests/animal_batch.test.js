@@ -951,13 +951,8 @@ describe('Animal Batch Tests', () => {
         },
       );
 
-      // Test for failure
-      expect(res).toMatchObject({
-        status: 400,
-        error: {
-          text: 'Request body should be an array',
-        },
-      });
+      expect(res.status).toBe(400);
+      expect(res.error.text).toBe('Request body should be an array');
     });
 
     test('Should not be able to edit a batch belonging to a different farm', async () => {
@@ -1121,12 +1116,8 @@ describe('Animal Batch Tests', () => {
         },
       );
 
-      expect(res).toMatchObject({
-        status: 400,
-        error: {
-          text: 'Request body should be an array',
-        },
-      });
+      expect(res.status).toBe(400);
+      expect(res.error.text).toBe('Request body should be an array');
 
       // Check database
       const batchRecord = await AnimalBatchModel.query().findById(animalBatch.id);
@@ -1154,7 +1145,6 @@ describe('Animal Batch Tests', () => {
           },
         ],
       );
-
       expect(res.status).toBe(400);
       expect(res.error.text).toBe('Must send reason and date of removal');
 

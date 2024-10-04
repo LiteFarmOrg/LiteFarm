@@ -955,12 +955,8 @@ describe('Animal Tests', () => {
       );
 
       // Test for failure
-      expect(res).toMatchObject({
-        status: 400,
-        error: {
-          text: 'Request body should be an array',
-        },
-      });
+      expect(res.status).toBe(400);
+      expect(res.error.text).toBe('Request body should be an array');
     });
 
     test('Should not be able to edit an animal belonging to a different farm', async () => {
@@ -1098,7 +1094,6 @@ describe('Animal Tests', () => {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
         },
-
         {
           id: animal.id,
           animal_removal_reason_id: animalRemovalReasonId,
@@ -1107,12 +1102,8 @@ describe('Animal Tests', () => {
         },
       );
 
-      expect(res).toMatchObject({
-        status: 400,
-        error: {
-          text: 'Request body should be an array',
-        },
-      });
+      expect(res.status).toBe(400);
+      expect(res.error.text).toBe('Request body should be an array');
     });
 
     test('Should not be able to remove an animal without providng a removal_date', async () => {
@@ -1135,7 +1126,6 @@ describe('Animal Tests', () => {
           },
         ],
       );
-
       expect(res.status).toBe(400);
       expect(res.error.text).toBe('Must send reason and date of removal');
 

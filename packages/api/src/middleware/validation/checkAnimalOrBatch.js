@@ -90,8 +90,7 @@ const checkValidAnimalOrBatchIds = async (animalOrBatchKey, ids, farm_id, trx) =
 };
 
 // AnimalOrBatch checks
-const checkExactlyOneAnimalTypeProvided = (animalOrBatch) => {
-  const { default_type_id, custom_type_id, type_name } = animalOrBatch;
+const checkExactlyOneAnimalTypeProvided = (default_type_id, custom_type_id, type_name) => {
   if (hasMultipleValues([default_type_id, custom_type_id, type_name])) {
     throw newCustomError(
       'Exactly one of default_type_id, custom_type_id, or type_name must be sent',
@@ -99,15 +98,14 @@ const checkExactlyOneAnimalTypeProvided = (animalOrBatch) => {
   }
 };
 
-const checksIfTypeProvided = (animalOrBatch) => {
+const checksIfTypeProvided = (animalOrBatch, required = true) => {
   const { default_type_id, custom_type_id, type_name } = animalOrBatch;
-  if (default_type_id || custom_type_id || type_name) {
-    checkExactlyOneAnimalTypeProvided(animalOrBatch);
+  if (default_type_id || custom_type_id || type_name || required) {
+    checkExactlyOneAnimalTypeProvided(default_type_id, custom_type_id, type_name);
   }
 };
 
-const checkExactlyOneAnimalBreedProvided = (animalOrBatch) => {
-  const { default_breed_id, custom_breed_id, breed_name } = animalOrBatch;
+const checkExactlyOneAnimalBreedProvided = (default_breed_id, custom_breed_id, breed_name) => {
   if (hasMultipleValues([default_breed_id, custom_breed_id, breed_name])) {
     throw newCustomError(
       'Exactly one of default_breed_id, custom_breed_id and breed_name must be sent',
@@ -118,7 +116,7 @@ const checkExactlyOneAnimalBreedProvided = (animalOrBatch) => {
 const checksIfBreedProvided = (animalOrBatch) => {
   const { default_breed_id, custom_breed_id, breed_name } = animalOrBatch;
   if (default_breed_id || custom_breed_id || breed_name) {
-    checkExactlyOneAnimalBreedProvided(animalOrBatch);
+    checkExactlyOneAnimalBreedProvided(default_breed_id, custom_breed_id, breed_name);
   }
 };
 
@@ -306,7 +304,7 @@ export function checkCreateAnimalOrBatch(animalOrBatchKey) {
         const { type_name, breed_name } = animalOrBatch;
 
         // also edit
-        checkExactlyOneAnimalTypeProvided(animalOrBatch);
+        checksIfTypeProvided(animalOrBatch);
         checksIfBreedProvided(animalOrBatch);
 
         await checkCustomTypeBelongsToFarm(animalOrBatch, farm_id);
@@ -355,7 +353,7 @@ export function checkEditAnimalOrBatch(animalOrBatchKey) {
         checkIdExistsAndIsNumber(animalOrBatch.id);
         await checkIfRecordExists(animalOrBatch, animalOrBatchKey, invalidIds, farm_id);
 
-        checksIfTypeProvided(animalOrBatch);
+        checksIfTypeProvided(animalOrBatch, false);
         // nullTypesExistingOnRecord();
         checksIfBreedProvided(animalOrBatch);
         // nullBreedsExistingOnRecord();

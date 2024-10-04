@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import clsx from 'clsx';
 import Tab from '../../components/RouterTab/Tab';
 import { componentDecorators } from '../Pages/config/Decorators';
+import { ReactComponent as TasksIcon } from '../../assets/images/nav/tasks.svg';
+import styles from './styles.module.scss';
 
 export default {
   title: 'Components/Tab',
@@ -46,7 +49,7 @@ Underline.args = {
     { label: 'Tasks', path: '/2' },
   ],
   variant: 'underline',
-  classes: { container: { padding: '0 16px' } },
+  className: styles.underlineContainerDesktop,
 };
 
 export const UnderlineFourTabs = Template.bind({});
@@ -58,11 +61,33 @@ UnderlineFourTabs.args = {
     { label: 'Timeline', path: '/4' },
   ],
   variant: 'underline',
-  classes: { container: { padding: '0 16px' } },
+  className: styles.underlineContainerDesktop,
 };
 
-export const Mobile = Template.bind({});
-Mobile.args = {
+export const FormattedLabel = Template.bind({});
+FormattedLabel.args = {
+  tabs: [
+    { label: 'Basic info', path: '/1' },
+    {
+      label: 'Tasks',
+      path: '/2',
+      format: (tab, isSelected) => (
+        <span className={styles.taskLabel}>
+          <TasksIcon className={styles.taskLabelIcon} />
+          <span>{tab.label}</span>
+          <span className={clsx(styles.number, isSelected && styles.selected)}>4</span>
+        </span>
+      ),
+    },
+    { label: 'Groups', path: '/3' },
+    { label: 'Timeline', path: '/4' },
+  ],
+  variant: 'underline',
+  className: styles.underlineContainerDesktop,
+};
+
+export const UnderlineFourTabsMobile = Template.bind({});
+UnderlineFourTabsMobile.args = {
   tabs: [
     { label: 'Basic info', path: '/1' },
     { label: 'Tasks', path: '/2' },
@@ -70,5 +95,4 @@ Mobile.args = {
     { label: 'Timeline', path: '/4' },
   ],
   variant: 'underline',
-  classes: { container: { width: '320px' } },
 };

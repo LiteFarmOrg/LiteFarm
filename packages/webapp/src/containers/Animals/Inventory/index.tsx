@@ -41,7 +41,7 @@ import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 
 // TODO: Decide if this the pattern to use, or the row.path property set up in the inventory
-import { createReadonlyAnimalUrl } from '../../../util/siteMapConstants';
+import { createReadonlyEditSingleAnimalView } from '../../../util/siteMapConstants';
 
 interface AnimalInventoryProps {
   isCompactSideMenu: boolean;
@@ -148,7 +148,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
     // };
 
     // TODO: Decide on URL pattern. If crateAnimalDetailsUrl() is desired, then row.path should be removed and replaced with the numeric part of identifier
-    history.push(createReadonlyAnimalUrl(row.id));
+    history.push(createReadonlyEditSingleAnimalView(row.id));
   };
 
   const makeAnimalsSearchableString = (animal: AnimalInventory) => {

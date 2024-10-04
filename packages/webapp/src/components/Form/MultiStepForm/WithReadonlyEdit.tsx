@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { UseFormHandleSubmit, FieldValues, FormState } from 'react-hook-form';
 import { History } from 'history';
 import FloatingContainer from '../../FloatingContainer';
@@ -41,6 +41,9 @@ interface WithReadonlyEditProps {
   handleSubmit: UseFormHandleSubmit<FieldValues>;
   setFormResultData: (data: any) => void;
   isEditing: boolean;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  checkIsFormDirty: boolean;
+  setCheckIsFormDirty: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const WithReadonlyEdit = ({
@@ -59,6 +62,9 @@ export const WithReadonlyEdit = ({
   formState: { isValid, isDirty },
   setFormResultData,
   isEditing,
+  setIsEditing,
+  checkIsFormDirty,
+  setCheckIsFormDirty,
 }: WithReadonlyEditProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
@@ -80,6 +86,18 @@ export const WithReadonlyEdit = ({
     return () => unblock();
   }, [isSummaryPage, isDirty, history]);
 
+  // Also manage the confirmation modal manually
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
+  useEffect(() => {
+    if (isEditing && isDirty && checkIsFormDirty) {
+      setShowConfirmationModal(true);
+    } else if (isEditing && !isDirty && checkIsFormDirty) {
+      setIsEditing(false);
+      setCheckIsFormDirty(false);
+    }
+  }, [checkIsFormDirty]);
+
   const isFinalStep =
     (!hasSummaryWithinForm && activeStepIndex === steps.length - 1) ||
     (hasSummaryWithinForm && activeStepIndex === steps.length - 2);
@@ -92,6 +110,12 @@ export const WithReadonlyEdit = ({
     onGoForward();
   };
 
+  const handleDismissModal = () => {
+    setTransition({ unblock: undefined, retry: undefined });
+    setShowConfirmationModal(false);
+    setCheckIsFormDirty(false); // to re-trigger check when cancelling again
+  };
+
   const handleCancel = () => {
     try {
       transition.unblock?.();
@@ -99,6 +123,9 @@ export const WithReadonlyEdit = ({
     } catch (e) {
       console.error(`Error during canceling ${cancelModalTitle}: ${e}`);
     }
+    setShowConfirmationModal(false);
+    setIsEditing(false);
+    setCheckIsFormDirty(false);
   };
 
   return (
@@ -116,10 +143,10 @@ export const WithReadonlyEdit = ({
           />
         </FloatingContainer>
       )}
-      {isEditing && transition.unblock && (
+      {(transition.unblock || showConfirmationModal) && (
         <CancelFlowModal
           flow={cancelModalTitle}
-          dismissModal={() => setTransition({ unblock: undefined, retry: undefined })}
+          dismissModal={handleDismissModal}
           handleCancel={handleCancel}
         />
       )}

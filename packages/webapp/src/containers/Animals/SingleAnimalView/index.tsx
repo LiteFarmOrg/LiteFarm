@@ -18,12 +18,11 @@ import { useTranslation } from 'react-i18next';
 import { History } from 'history';
 import styles from './styles.module.scss';
 import { MultiStepForm, VARIANT } from '../../../components/Form/MultiStepForm';
-// TODO: LF-4382 Tabs component That ticket includes the decision on whether to create a RouterTab (route change) or StateTab (component state) variant. StateTab has been chosen for the placeholder
+// TODO: LF-4382 Tabs component That ticket includes the decision on whether to create a RouterTab (route change) or StateTab (component state) variant. However RouterTab should be used in the implementation to trigger the destructive action pop-up modal -- StateTab is just the placeholder
 import StateTab from '../../../components/RouterTab/StateTab';
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
 import AnimalTasks from './AnimalTasks';
 import Button from '../../../components/Form/Button';
-import { createEditAnimalUrl, createReadonlyAnimalUrl } from '../../../util/siteMapConstants';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -37,30 +36,24 @@ enum TABS {
 interface AddAnimalsProps {
   isCompactSideMenu: boolean;
   history: History;
-  match: any; // not sure what this type is
 }
 
-function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps) {
+function SingleAnimalView({ isCompactSideMenu, history }: AddAnimalsProps) {
   const { t } = useTranslation(['translation', 'common', 'message']);
 
-  const [isEditing, setIsEditing] = useState(match.path.endsWith('/edit'));
+  const [isEditing, setIsEditing] = useState(false);
+  const [checkIsFormDirty, setCheckIsFormDirty] = useState(false);
 
-  useEffect(() => {
-    setIsEditing(match.path.endsWith('/edit'));
-  }, [match.path]);
-
-  const toggleEdit = () => {
-    if (isEditing) {
-      history.push(createReadonlyAnimalUrl(match.params.id));
-    } else {
-      history.push(createEditAnimalUrl(match.params.id));
-    }
+  // For now, assuming that the only way to exit edit will be through the cancel button and not through the header
+  const initiateEdit = () => {
+    setIsEditing(true);
   };
 
   const [activeTab, setActiveTab] = useState<string>(TABS.DETAILS);
 
   const onSave = async (data: any, onGoForward: () => void) => {
     console.log(data);
+    setIsEditing(false);
   };
 
   const getFormSteps = () => [
@@ -74,9 +67,9 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     [STEPS.DETAILS]: [],
   };
 
-  // Overwrite the onCancel defined in MultiStepForm
+  // Override the onCancel in MultiStepForm because we don't want to navigate away
   const onCancel = () => {
-    history.push(createReadonlyAnimalUrl(match.params.id));
+    setCheckIsFormDirty(true);
   };
 
   return (
@@ -84,9 +77,15 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
       <div>
         {/* TODO: LF-4381 Header component */}
         <h1>LF-4381 Header component</h1>
-        <Button color={'secondary-cta'} onClick={toggleEdit}>
-          Toggle Edit
-        </Button>
+        {isEditing ? (
+          <Button color={'primary'} disabled>
+            ...Editing
+          </Button>
+        ) : (
+          <Button color={'secondary-cta'} onClick={initiateEdit}>
+            Toggle Edit
+          </Button>
+        )}
       </div>
       {/* TODO: LF-4382 Tabs component */}
       <div>
@@ -118,6 +117,9 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
           cancelModalTitle={t('ANIMALS.EDIT_ANIMAL_FLOW')}
           isEditing={isEditing}
           onCancel={onCancel}
+          setIsEditing={setIsEditing}
+          checkIsFormDirty={checkIsFormDirty}
+          setCheckIsFormDirty={setCheckIsFormDirty}
           key={isEditing ? 'edit' : 'readonly'}
         />
       )}

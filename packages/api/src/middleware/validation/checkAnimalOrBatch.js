@@ -210,21 +210,31 @@ const checksIfBreedProvided = async (animalOrBatch, farm_id, animalOrBatchRecord
   }
 };
 
-const checkBatchSexDetail = async (animalOrBatch, animalOrBatchKey) => {
+const checkBatchSexDetail = async (
+  animalOrBatch,
+  animalOrBatchKey,
+  animalOrBatchRecord = undefined,
+) => {
   if (animalOrBatchKey === 'batch') {
-    const { count, sex_detail } = animalOrBatch;
-
-    if (sex_detail?.length) {
+    let count = animalOrBatch.count;
+    let sexDetail = animalOrBatch.sex_detail;
+    if (!count) {
+      count = animalOrBatchRecord.count;
+    }
+    if (!sexDetail) {
+      sexDetail = animalOrBatchRecord.sex_detail;
+    }
+    if (sexDetail?.length) {
       let sexCount = 0;
       const sexIdSet = new Set();
-      sex_detail.forEach((detail) => {
+      sexDetail.forEach((detail) => {
         sexCount += detail.count;
         sexIdSet.add(detail.sex_id);
       });
       if (sexCount > count) {
         throw newCustomError('Batch count must be greater than or equal to sex detail count');
       }
-      if (sex_detail.length != sexIdSet.size) {
+      if (sexDetail.length != sexIdSet.size) {
         throw newCustomError('Duplicate sex ids in detail');
       }
     }
@@ -398,6 +408,7 @@ export function checkEditAnimalOrBatch(animalOrBatchKey) {
         // nullTypesExistingOnRecord();
         await checksIfBreedProvided(animalOrBatch, farm_id, animalOrBatchRecord);
         // nullBreedsExistingOnRecord();
+        await checkBatchSexDetail(animalOrBatch, animalOrBatchKey, animalOrBatchRecord);
       }
 
       //TODO: should this error be actually in loop and not outside?

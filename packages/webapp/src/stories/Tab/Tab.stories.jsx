@@ -46,6 +46,7 @@ Underline.args = {
     { label: 'Tasks', path: '/2' },
   ],
   variant: 'underline',
+  classes: { container: { padding: '0 16px' } },
 };
 
 export const UnderlineFourTabs = Template.bind({});
@@ -57,4 +58,17 @@ UnderlineFourTabs.args = {
     { label: 'Timeline', path: '/4' },
   ],
   variant: 'underline',
+  classes: { container: { padding: '0 16px' } },
+};
+
+export const Mobile = Template.bind({});
+Mobile.args = {
+  tabs: [
+    { label: 'Basic info', path: '/1' },
+    { label: 'Tasks', path: '/2' },
+    { label: 'Groups', path: '/3' },
+    { label: 'Timeline', path: '/4' },
+  ],
+  variant: 'underline',
+  classes: { container: { width: '320px' } },
 };

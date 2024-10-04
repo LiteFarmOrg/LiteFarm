@@ -29,12 +29,10 @@ const AnimalOrBatchModel = {
 };
 
 // Utils
-const hasOneValue = (values) => {
+const hasMultipleValues = (values) => {
   const nonNullValues = values.filter(Boolean);
-  return nonNullValues.length === 1;
+  return !(nonNullValues.length === 1);
 };
-
-const allFalsy = (values) => values.every((value) => !value);
 
 const checkIdExistsAndIsNumber = (id) => {
   if (!id || isNaN(Number(id))) {
@@ -92,26 +90,38 @@ const checkValidAnimalOrBatchIds = async (animalOrBatchKey, ids, farm_id, trx) =
 };
 
 // AnimalOrBatch checks
-const checkOneAnimalTypeProvided = (animalOrBatch) => {
+const checkExactlyOneAnimalTypeProvided = (animalOrBatch) => {
   const { default_type_id, custom_type_id, type_name } = animalOrBatch;
-  if (!hasOneValue([default_type_id, custom_type_id, type_name])) {
+  if (hasMultipleValues([default_type_id, custom_type_id, type_name])) {
     throw newCustomError(
       'Exactly one of default_type_id, custom_type_id, or type_name must be sent',
     );
   }
 };
 
-const checkMaxOneAnimalBreedProvided = (animalOrBatch) => {
+const checksIfTypeProvided = (animalOrBatch) => {
+  const { default_type_id, custom_type_id, type_name } = animalOrBatch;
+  if (default_type_id || custom_type_id || type_name) {
+    checkExactlyOneAnimalTypeProvided(animalOrBatch);
+  }
+};
+
+const checkExactlyOneAnimalBreedProvided = (animalOrBatch) => {
   const { default_breed_id, custom_breed_id, breed_name } = animalOrBatch;
-  if (
-    !hasOneValue([default_breed_id, custom_breed_id, breed_name]) &&
-    !allFalsy([default_breed_id, custom_breed_id, breed_name])
-  ) {
+  if (hasMultipleValues([default_breed_id, custom_breed_id, breed_name])) {
     throw newCustomError(
       'Exactly one of default_breed_id, custom_breed_id and breed_name must be sent',
     );
   }
 };
+
+const checksIfBreedProvided = (animalOrBatch) => {
+  const { default_breed_id, custom_breed_id, breed_name } = animalOrBatch;
+  if (default_breed_id || custom_breed_id || breed_name) {
+    checkExactlyOneAnimalBreedProvided(animalOrBatch);
+  }
+};
+
 const checkCustomTypeBelongsToFarm = async (animalOrBatch, farm_id) => {
   const { custom_type_id } = animalOrBatch;
   if (custom_type_id) {
@@ -295,8 +305,10 @@ export function checkCreateAnimalOrBatch(animalOrBatchKey) {
       for (const animalOrBatch of req.body) {
         const { type_name, breed_name } = animalOrBatch;
 
-        checkOneAnimalTypeProvided(animalOrBatch);
-        checkMaxOneAnimalBreedProvided(animalOrBatch);
+        // also edit
+        checkExactlyOneAnimalTypeProvided(animalOrBatch);
+        checksIfBreedProvided(animalOrBatch);
+
         await checkCustomTypeBelongsToFarm(animalOrBatch, farm_id);
         await checkBreedMatchesType(animalOrBatch);
         checkDefaultBreedDoesNotUseCustomType(animalOrBatch);
@@ -342,6 +354,11 @@ export function checkEditAnimalOrBatch(animalOrBatchKey) {
       for (const animalOrBatch of req.body) {
         checkIdExistsAndIsNumber(animalOrBatch.id);
         await checkIfRecordExists(animalOrBatch, animalOrBatchKey, invalidIds, farm_id);
+
+        checksIfTypeProvided(animalOrBatch);
+        // nullTypesExistingOnRecord();
+        checksIfBreedProvided(animalOrBatch);
+        // nullBreedsExistingOnRecord();
       }
 
       await checkInvalidIds(invalidIds);

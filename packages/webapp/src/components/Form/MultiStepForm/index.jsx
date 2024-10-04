@@ -18,15 +18,18 @@ import PropTypes from 'prop-types';
 import { FormProvider, useForm } from 'react-hook-form';
 import { WithPageTitle } from './WithPageTitle';
 import { WithStepperProgressBar } from './WithStepperProgressBar';
+import { WithReadonlyEdit } from './WithReadonlyEdit';
 
 export const VARIANT = {
   PAGE_TITLE: 'page_title',
   STEPPER_PROGRESS_BAR: 'stepper_progress_bar',
+  READONLY_EDIT: 'readonly_edit',
 };
 
 const components = {
   [VARIANT.PAGE_TITLE]: (props) => <WithPageTitle {...props} />,
   [VARIANT.STEPPER_PROGRESS_BAR]: (props) => <WithStepperProgressBar {...props} />,
+  [VARIANT.READONLY_EDIT]: (props) => <WithReadonlyEdit {...props} />,
 };
 
 export const MultiStepForm = ({
@@ -34,6 +37,7 @@ export const MultiStepForm = ({
   getSteps,
   defaultFormValues,
   variant = VARIANT.PAGE_TITLE,
+  isEditing = false,
   ...props
 }) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
@@ -83,6 +87,7 @@ export const MultiStepForm = ({
       onCancel={onCancel}
       onGoForward={onGoForward}
       setFormResultData={setFormResultData}
+      isEditing={isEditing}
       {...form}
       {...props}
     >
@@ -92,6 +97,7 @@ export const MultiStepForm = ({
           form={form}
           formResultData={formResultData}
           history={history}
+          isEditing={isEditing}
         />
       </FormProvider>
     </Component>

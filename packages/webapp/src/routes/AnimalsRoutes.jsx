@@ -20,13 +20,14 @@ import {
   ANIMALS_LOCATION_URL,
   ANIMALS_GROUPS_URL,
   ADD_ANIMALS_URL,
-  createAnimalDetailsUrl,
+  createReadonlyAnimalUrl,
+  createEditAnimalUrl,
 } from '../util/siteMapConstants';
 const Inventory = React.lazy(() => import('../containers/Animals/Inventory'));
 const Location = React.lazy(() => import('../containers/Animals/Location'));
 const Groups = React.lazy(() => import('../containers/Animals/Groups'));
 const AddAnimals = React.lazy(() => import('../containers/Animals/AddAnimals'));
-const Details = React.lazy(() => import('../containers/Animals/AnimalDetails'));
+const SingleAnimalView = React.lazy(() => import('../containers/Animals/SingleAnimalView'));
 
 const AnimalsRoutes = ({ isCompactSideMenu }) => (
   <Switch>
@@ -43,9 +44,14 @@ const AnimalsRoutes = ({ isCompactSideMenu }) => (
       render={(props) => <AddAnimals isCompactSideMenu={isCompactSideMenu} {...props} />}
     />
     <Route
-      path={createAnimalDetailsUrl(':id')}
+      path={createReadonlyAnimalUrl(':id')}
       exact
-      render={(props) => <Details isCompactSideMenu={isCompactSideMenu} {...props} />}
+      render={(props) => <SingleAnimalView isCompactSideMenu={isCompactSideMenu} {...props} />}
+    />
+    <Route
+      path={createEditAnimalUrl(':id')}
+      exact
+      render={(props) => <SingleAnimalView isCompactSideMenu={isCompactSideMenu} {...props} />}
     />
   </Switch>
 );

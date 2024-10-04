@@ -1,28 +1,63 @@
-.default {
-}
-
-.selected {
-  color: var(--teal700);
-  border: 1px solid var(--teal700);
-  border-radius: 19px;
-  height: 38px;
-  background: white;
-}
+@import '../../assets/mixin.scss';
 
 .container {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   background-color: var(--grey400);
-  height: 36px;
-  align-items: center;
-  border-radius: 18px;
+
+  &.pill {
+    height: 36px;
+    align-items: center;
+    border-radius: 18px;
+  }
 }
 
-.pill {
-  flex-grow: 1;
-  justify-content: center;
+.tab {
+  flex: 1;
   align-items: center;
   display: flex;
   cursor: pointer;
+  border: solid 1px var(--grey400);
+  background-color: inherit;
+  height: 100%;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fontColor);
+  font-family: 'Open Sans', 'SansSerif', serif;
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &.pill {
+    justify-content: center;
+    height: 36px;
+    padding: 8px;
+
+    &:not(.selected) {
+      &:first-child {
+        border-radius: 18px 0 0 18px;
+      }
+      &:last-child {
+        border-radius: 0 18px 18px 0;
+      }
+    }
+  }
+}
+
+.selected {
+  background: white;
+
+  &.pill {
+    color: var(--teal700);
+    border: 1px solid var(--teal700);
+    border-radius: 19px;
+    height: 38px;
+  }
+}
+
+.tab,
+.tabText {
+  @include truncateText();
 }

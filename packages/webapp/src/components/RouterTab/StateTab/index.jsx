@@ -21,11 +21,11 @@ import clsx from 'clsx';
 export default function StateTab({ tabs, state, setState, className = '' }) {
   const isSelected = (key) => state === key;
   return (
-    <div className={clsx(styles.container, className)}>
+    <div className={clsx(styles.container, className, styles.pill)}>
       {tabs.map((tab, index) => (
         <Semibold
           key={index}
-          className={clsx(styles.pill, isSelected(tab.key) && styles.selected)}
+          className={clsx(styles.tab, styles.pill, isSelected(tab.key) && styles.selected)}
           onClick={() => !isSelected(tab.key) && setState(tab.key)}
           id={tab.label + index}
         >

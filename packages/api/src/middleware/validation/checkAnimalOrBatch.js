@@ -34,7 +34,7 @@ const hasMultipleValues = (values) => {
   return !(nonNullValues.length === 1);
 };
 
-const checkIdExistsAndIsNumber = (id) => {
+const checkIdIsNumber = (id) => {
   if (!id || isNaN(Number(id))) {
     throw newCustomError('Must send valid ids');
   }
@@ -67,7 +67,7 @@ const checkValidAnimalOrBatchIds = async (animalOrBatchKey, ids, farm_id, trx) =
 
   for (const id of idsSet) {
     // For query syntax like ids=,,, which will pass the above check
-    checkIdExistsAndIsNumber(id);
+    checkIdIsNumber(id);
 
     const existingRecord = await AnimalOrBatchModel[animalOrBatchKey]
       .query(trx)
@@ -132,20 +132,14 @@ const checkExactlyOneAnimalBreedProvided = (default_breed_id, custom_breed_id, b
 };
 
 const checkDefaultBreedMatchesType = async (
-  animalOrBatchKey,
-  farm_id,
-  id,
+  animalOrBatchRecord,
   default_breed_id,
   default_type_id,
 ) => {
   let defaultTypeId = default_type_id;
   // If not editing type, check record type
-  if (!defaultTypeId && id) {
-    defaultTypeId = await AnimalOrBatchModel[animalOrBatchKey]
-      .query()
-      .findById(id)
-      .where({ farm_id })
-      .whereNotDeleted();
+  if (!defaultTypeId && animalOrBatchRecord) {
+    defaultTypeId = animalOrBatchRecord.default_type_id;
   }
   if (defaultTypeId) {
     const defaultBreed = await DefaultAnimalBreedModel.query().findById(default_breed_id);
@@ -159,25 +153,17 @@ const checkDefaultBreedMatchesType = async (
 };
 
 const checkCustomBreedMatchesType = async (
-  animalOrBatchKey,
-  farm_id,
-  id,
+  animalOrBatchRecord,
   customBreed,
   default_type_id,
   custom_type_id,
 ) => {
   let defaultTypeId = default_type_id;
   let customTypeId = custom_type_id;
-  let record;
   // If not editing type, check record type
-  if (!defaultTypeId && !customTypeId && id) {
-    record = await AnimalOrBatchModel[animalOrBatchKey]
-      .query()
-      .findById(id)
-      .where({ farm_id })
-      .whereNotDeleted();
-    defaultTypeId = record.default_type_id;
-    customTypeId = record.custom_type_id;
+  if (!defaultTypeId && !customTypeId && animalOrBatchRecord) {
+    defaultTypeId = animalOrBatchRecord.default_type_id;
+    customTypeId = animalOrBatchRecord.custom_type_id;
   }
 
   if (customBreed.default_type_id && customBreed.default_type_id !== defaultTypeId) {
@@ -189,12 +175,11 @@ const checkCustomBreedMatchesType = async (
   }
 };
 
-const checksIfBreedProvided = async (animalOrBatch, animalOrBatchKey, farm_id) => {
+const checksIfBreedProvided = async (animalOrBatch, farm_id, animalOrBatchRecord = undefined) => {
   const {
     default_breed_id,
     custom_breed_id,
     breed_name,
-    id,
     default_type_id,
     custom_type_id,
   } = animalOrBatch;
@@ -202,13 +187,7 @@ const checksIfBreedProvided = async (animalOrBatch, animalOrBatchKey, farm_id) =
     checkExactlyOneAnimalBreedProvided(default_breed_id, custom_breed_id, breed_name);
   }
   if (default_breed_id) {
-    await checkDefaultBreedMatchesType(
-      animalOrBatchKey,
-      farm_id,
-      id,
-      default_breed_id,
-      default_type_id,
-    );
+    await checkDefaultBreedMatchesType(animalOrBatchRecord, default_breed_id, default_type_id);
   }
   if (custom_breed_id) {
     const customBreed = await CustomAnimalBreedModel.query()
@@ -220,9 +199,7 @@ const checksIfBreedProvided = async (animalOrBatch, animalOrBatchKey, farm_id) =
     }
     await checkRecordBelongsToFarm(customBreed, farm_id, 'custom breed');
     await checkCustomBreedMatchesType(
-      animalOrBatchKey,
-      farm_id,
-      id,
+      animalOrBatchRecord,
       customBreed,
       default_type_id,
       custom_type_id,
@@ -305,16 +282,12 @@ const checkRemovalDataProvided = (animalOrBatch) => {
   }
 };
 
-const checkIfRecordExists = async (animalOrBatch, animalOrBatchKey, invalidIds, farm_id) => {
-  const animalOrBatchRecord = await AnimalOrBatchModel[animalOrBatchKey]
+const getRecordIfExists = async (animalOrBatch, animalOrBatchKey, farm_id) => {
+  return await AnimalOrBatchModel[animalOrBatchKey]
     .query()
     .findById(animalOrBatch.id)
     .where({ farm_id })
     .whereNotDeleted();
-
-  if (!animalOrBatchRecord) {
-    invalidIds.push(animalOrBatch.id);
-  }
 };
 
 // Post loop checks
@@ -369,7 +342,7 @@ export function checkCreateAnimalOrBatch(animalOrBatchKey) {
 
         // also edit
         await checksIfTypeProvided(animalOrBatch, farm_id);
-        await checksIfBreedProvided(animalOrBatch, animalOrBatchKey, farm_id);
+        await checksIfBreedProvided(animalOrBatch, farm_id);
 
         await checkBatchSexDetail(animalOrBatch, animalOrBatchKey);
         await checkAnimalUseRelationship(animalOrBatch, animalOrBatchKey);
@@ -410,15 +383,24 @@ export function checkEditAnimalOrBatch(animalOrBatchKey) {
       const invalidIds = [];
 
       for (const animalOrBatch of req.body) {
-        checkIdExistsAndIsNumber(animalOrBatch.id);
-        await checkIfRecordExists(animalOrBatch, animalOrBatchKey, invalidIds, farm_id);
+        checkIdIsNumber(animalOrBatch.id);
+        const animalOrBatchRecord = await getRecordIfExists(
+          animalOrBatch,
+          animalOrBatchKey,
+          farm_id,
+        );
+        if (!animalOrBatchRecord) {
+          invalidIds.push(animalOrBatch.id);
+          continue;
+        }
 
         await checksIfTypeProvided(animalOrBatch, farm_id, false);
         // nullTypesExistingOnRecord();
-        await checksIfBreedProvided(animalOrBatch, animalOrBatchKey, farm_id);
+        await checksIfBreedProvided(animalOrBatch, farm_id, animalOrBatchRecord);
         // nullBreedsExistingOnRecord();
       }
 
+      //TODO: should this error be actually in loop and not outside?
       await checkInvalidIds(invalidIds);
 
       next();
@@ -453,10 +435,20 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
         checkRemovalDataProvided(animalOrBatch);
 
         // From Edit
-        checkIdExistsAndIsNumber(animalOrBatch.id);
-        await checkIfRecordExists(animalOrBatch, animalOrBatchKey, invalidIds, farm_id);
+        checkIdIsNumber(animalOrBatch.id);
+        const animalOrBatchRecord = await getRecordIfExists(
+          animalOrBatch,
+          animalOrBatchKey,
+          farm_id,
+        );
+        if (!animalOrBatchRecord) {
+          invalidIds.push(animalOrBatch.id);
+          continue;
+        }
+        // No record should skip this loop
       }
 
+      //TODO: should this error be actually in loop and not outside?
       await checkInvalidIds(invalidIds);
       next();
     } catch (error) {

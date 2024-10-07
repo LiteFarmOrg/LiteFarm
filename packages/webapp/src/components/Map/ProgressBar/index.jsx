@@ -21,12 +21,12 @@ const useStyles = makeStyles({
 const INCREMENT = 12.5;
 const MAX_PROGRESS = 100 + INCREMENT;
 
-export default function ProgressBar({ onDismiss, type = 'success', persist }) {
+export default function ProgressBar({ onDismiss, type = 'success' }) {
   const classes = useStyles();
-  const [progress, setProgress] = useState(persist ? MAX_PROGRESS : 0);
+  const [progress, setProgress] = useState(onDismiss ? 0 : MAX_PROGRESS);
 
   useEffect(() => {
-    if (persist) {
+    if (!onDismiss) {
       return;
     }
 
@@ -41,13 +41,13 @@ export default function ProgressBar({ onDismiss, type = 'success', persist }) {
     return () => {
       clearInterval(timer);
     };
-  }, [persist]);
+  }, [onDismiss]);
 
   useEffect(() => {
-    if (!persist && progress >= MAX_PROGRESS) {
+    if (progress >= MAX_PROGRESS) {
       onDismiss?.();
     }
-  }, [progress, persist]);
+  }, [progress]);
 
   return (
     <div className={classes.root}>

@@ -32,7 +32,9 @@ export function PureSnackbarWithoutBorder({ className, onDismiss, title, type, p
         </div>
       </div>
       <div className={styles.progressBarContainer}>
-        {!dismissProgressBar && <ProgressBar type={type} onDismiss={onDismiss} persist={persist} />}
+        {!dismissProgressBar && (
+          <ProgressBar type={type} onDismiss={persist ? undefined : onDismiss} />
+        )}
       </div>
     </div>
   );

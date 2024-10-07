@@ -35,6 +35,7 @@ RouterTab.prototype = {
     label: PropTypes.string,
     path: PropTypes.string,
     state: PropTypes.string,
+    format: PropTypes.func,
   }),
   history: PropTypes.object,
   classes: PropTypes.object,

@@ -50,6 +50,7 @@ StateTab.propTypes = {
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       key: PropTypes.string.isRequired,
+      format: PropTypes.func,
     }),
   ).isRequired,
   state: PropTypes.string.isRequired,

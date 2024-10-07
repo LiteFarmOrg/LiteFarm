@@ -241,20 +241,23 @@ const checkBatchSexDetail = async (
   }
 };
 
+const checkOtherUseRelationshipNotes = async (relationships) => {
+  const otherUse = await AnimalUseModel.query().where({ key: 'OTHER' }).first();
+
+  for (const relationship of relationships) {
+    if (relationship.use_id != otherUse.id && relationship.other_use) {
+      throw newCustomError('other_use notes is for other use type');
+    }
+  }
+};
+
 const checkAnimalUseRelationship = async (animalOrBatch, animalOrBatchKey) => {
   const relationshipsKey =
     animalOrBatchKey === 'batch' ? 'animal_batch_use_relationships' : 'animal_use_relationships';
 
   if (animalOrBatch[relationshipsKey]) {
     checkIsArray(animalOrBatch[relationshipsKey], relationshipsKey);
-
-    const otherUse = await AnimalUseModel.query().where({ key: 'OTHER' }).first();
-
-    for (const relationship of animalOrBatch[relationshipsKey]) {
-      if (relationship.use_id != otherUse.id && relationship.other_use) {
-        throw newCustomError('other_use notes is for other use type');
-      }
-    }
+    checkOtherUseRelationshipNotes(animalOrBatch[relationshipsKey]);
   }
 };
 
@@ -350,10 +353,8 @@ export function checkCreateAnimalOrBatch(animalOrBatchKey) {
       for (const animalOrBatch of req.body) {
         const { type_name, breed_name } = animalOrBatch;
 
-        // also edit
         await checksIfTypeProvided(animalOrBatch, farm_id);
         await checksIfBreedProvided(animalOrBatch, farm_id);
-
         await checkBatchSexDetail(animalOrBatch, animalOrBatchKey);
         await checkAnimalUseRelationship(animalOrBatch, animalOrBatchKey);
 
@@ -409,6 +410,8 @@ export function checkEditAnimalOrBatch(animalOrBatchKey) {
         await checksIfBreedProvided(animalOrBatch, farm_id, animalOrBatchRecord);
         // nullBreedsExistingOnRecord();
         await checkBatchSexDetail(animalOrBatch, animalOrBatchKey, animalOrBatchRecord);
+        await checkAnimalUseRelationship(animalOrBatch, animalOrBatchKey);
+        // Null other use if type changed
       }
 
       //TODO: should this error be actually in loop and not outside?

@@ -47,6 +47,8 @@ interface MultiStepWithStepperProgressBarProps {
   formState: FormState<FieldValues>;
   handleSubmit: UseFormHandleSubmit<FieldValues>;
   setFormResultData: (data: any) => void;
+  isEditing?: boolean;
+  setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const MultiStepWithStepperProgressBar = ({
@@ -66,6 +68,8 @@ export const MultiStepWithStepperProgressBar = ({
   handleSubmit,
   formState: { isValid, isDirty },
   setFormResultData,
+  isEditing,
+  setIsEditing,
 }: MultiStepWithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
@@ -73,6 +77,7 @@ export const MultiStepWithStepperProgressBar = ({
   });
 
   const isSummaryPage = hasSummaryWithinForm && activeStepIndex === steps.length - 1;
+  const isSingleStep = steps.length === 1;
 
   // Block the page transition
   // https://github.com/remix-run/history/blob/dev/docs/blocking-transitions.md
@@ -91,11 +96,12 @@ export const MultiStepWithStepperProgressBar = ({
     (!hasSummaryWithinForm && activeStepIndex === steps.length - 1) ||
     (hasSummaryWithinForm && activeStepIndex === steps.length - 2);
 
-  const shouldShowFormNavigationButtons = !isSummaryPage;
+  const shouldShowFormNavigationButtons = !isSummaryPage || isEditing;
 
   const onContinue = () => {
     if (isFinalStep) {
       handleSubmit((data: FieldValues) => onSave(data, onGoForward, setFormResultData))();
+      setIsEditing?.(false);
       return;
     }
     onGoForward();
@@ -108,17 +114,20 @@ export const MultiStepWithStepperProgressBar = ({
     } catch (e) {
       console.error(`Error during canceling ${cancelModalTitle}: ${e}`);
     }
+    setIsEditing?.(false);
   };
 
   return (
     <FixedHeaderContainer
       header={
-        <StepperProgressBar
-          {...stepperProgressBarConfig}
-          title={stepperProgressBarTitle}
-          steps={steps.map(({ title }) => title)}
-          activeStep={activeStepIndex}
-        />
+        isSingleStep ? null : (
+          <StepperProgressBar
+            {...stepperProgressBarConfig}
+            title={stepperProgressBarTitle}
+            steps={steps.map(({ title }) => title)}
+            activeStep={activeStepIndex}
+          />
+        )
       }
     >
       <div className={styles.contentWrapper}>{children}</div>
@@ -127,7 +136,7 @@ export const MultiStepWithStepperProgressBar = ({
           <FormNavigationButtons
             onContinue={onContinue}
             onCancel={onCancel}
-            onPrevious={onGoBack}
+            onPrevious={isSingleStep ? undefined : onGoBack}
             isFirstStep={!activeStepIndex}
             isFinalStep={isFinalStep}
             isDisabled={!isValid}

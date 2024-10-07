@@ -42,7 +42,6 @@ function SingleAnimalView({ isCompactSideMenu, history }: AddAnimalsProps) {
   const { t } = useTranslation(['translation', 'common', 'message']);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [checkIsFormDirty, setCheckIsFormDirty] = useState(false);
 
   // For now, assuming that the only way to exit edit will be through the cancel button and not through the header
   const initiateEdit = () => {
@@ -53,7 +52,6 @@ function SingleAnimalView({ isCompactSideMenu, history }: AddAnimalsProps) {
 
   const onSave = async (data: any, onGoForward: () => void) => {
     console.log(data);
-    setIsEditing(false);
   };
 
   const getFormSteps = () => [
@@ -65,11 +63,6 @@ function SingleAnimalView({ isCompactSideMenu, history }: AddAnimalsProps) {
 
   const defaultFormValues = {
     [STEPS.DETAILS]: [],
-  };
-
-  // Override the onCancel in ContextForm because we don't want to navigate away
-  const onCancel = () => {
-    setCheckIsFormDirty(true);
   };
 
   return (
@@ -110,16 +103,13 @@ function SingleAnimalView({ isCompactSideMenu, history }: AddAnimalsProps) {
           onSave={onSave}
           hasSummaryWithinForm={false}
           isCompactSideMenu={isCompactSideMenu}
-          variant={VARIANT.READONLY_EDIT}
+          variant={VARIANT.STEPPER_PROGRESS_BAR}
           history={history}
           getSteps={getFormSteps}
           defaultFormValues={defaultFormValues}
           cancelModalTitle={t('ANIMALS.EDIT_ANIMAL_FLOW')}
           isEditing={isEditing}
-          onCancel={onCancel}
           setIsEditing={setIsEditing}
-          checkIsFormDirty={checkIsFormDirty}
-          setCheckIsFormDirty={setCheckIsFormDirty}
           key={isEditing ? 'edit' : 'readonly'}
         />
       )}

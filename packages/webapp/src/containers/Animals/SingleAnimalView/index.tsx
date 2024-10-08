@@ -13,11 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { History } from 'history';
 import styles from './styles.module.scss';
-import { ContextForm, VARIANT } from '../../../components/Form/ContextForm/';
+import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
 // TODO: LF-4382 Tabs component That ticket includes the decision on whether to create a RouterTab (route change) or StateTab (component state) variant. However RouterTab should be used in the implementation to trigger the destructive action pop-up modal -- StateTab is just the placeholder
 import StateTab from '../../../components/RouterTab/StateTab';
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
@@ -103,7 +103,7 @@ function SingleAnimalView({ isCompactSideMenu, history }: AddAnimalsProps) {
           onSave={onSave}
           hasSummaryWithinForm={false}
           isCompactSideMenu={isCompactSideMenu}
-          variant={VARIANT.STEPPER_PROGRESS_BAR}
+          variant={Variant.STEPPER_PROGRESS_BAR}
           history={history}
           getSteps={getFormSteps}
           defaultFormValues={defaultFormValues}

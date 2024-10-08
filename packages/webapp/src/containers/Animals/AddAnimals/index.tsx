@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux';
 import { History } from 'history';
 import { useMediaQuery } from '@mui/material';
 import theme from '../../../assets/theme';
-import { ContextForm, VARIANT } from '../../../components/Form/ContextForm/';
+import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
 import AddAnimalBasics, { animalBasicsDefaultValues } from './AddAnimalBasics';
 import AddAnimalDetails from './AddAnimalDetails';
 import AddAnimalSummary from './AddAnimalSummary';
@@ -129,7 +129,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
       onSave={onSave}
       hasSummaryWithinForm={true}
       isCompactSideMenu={isCompactSideMenu}
-      variant={VARIANT.STEPPER_PROGRESS_BAR}
+      variant={Variant.STEPPER_PROGRESS_BAR}
       history={history}
       getSteps={getFormSteps}
       defaultFormValues={defaultFormValues}

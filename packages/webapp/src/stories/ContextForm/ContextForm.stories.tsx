@@ -15,7 +15,7 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { ContextForm, VARIANT } from '../../components/Form/ContextForm';
+import { ContextForm, Variant } from '../../components/Form/ContextForm';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<typeof ContextForm> = {
@@ -54,7 +54,7 @@ const stepperFormCommonProps = {
     onGoForward();
   },
   isCompactSideMenu: true,
-  variant: VARIANT.STEPPER_PROGRESS_BAR,
+  variant: Variant.STEPPER_PROGRESS_BAR,
   history: { block: () => () => ({}) },
   getSteps: () => [
     {

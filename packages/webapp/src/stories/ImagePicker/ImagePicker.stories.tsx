@@ -42,13 +42,13 @@ export const WithDefaultUrl: Story = {
 
 export const DefaultDisabled: Story = {
   args: {
-    disabled: true,
+    isDisabled: true,
   },
 };
 
 export const WithDefaultUrlDisabled: Story = {
   args: {
     defaultUrl: '/src/assets/images/certification/Farmland.svg',
-    disabled: true,
+    isDisabled: true,
   },
 };

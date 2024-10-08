@@ -43,7 +43,7 @@ type CommonProps = {
   label?: string;
   optional?: boolean;
   defaultUrl?: string;
-  disabled?: boolean;
+  isDisabled?: boolean;
 };
 
 type CustomFileUpload = CommonProps & {
@@ -65,7 +65,7 @@ export default function ImagePicker({
   label,
   optional = true, // false is not yet supported
   onFileUpload,
-  disabled = false,
+  isDisabled = false,
 }: ImagePickerProps) {
   const [previewUrl, setPreviewUrl] = useState(defaultUrl);
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);
@@ -128,13 +128,13 @@ export default function ImagePicker({
       <div>
         {label && <InputBaseLabel label={label} optional={optional} />}
         {previewUrl ? (
-          <div className={clsx(styles.imageContainer, disabled && styles.disabled)}>
+          <div className={clsx(styles.imageContainer, isDisabled && styles.disabled)}>
             <img src={previewUrl} alt="image preview" />
             <div className={styles.imageActions}>
               <PureFilePickerWrapper
                 onChange={handleFileInputChange}
                 accept="image/*"
-                disabled={disabled}
+                disabled={isDisabled}
               >
                 <TextButton type="button">
                   <EditIcon />
@@ -151,9 +151,9 @@ export default function ImagePicker({
           <>
             <PureFilePickerWrapper
               accept="image/*"
-              className={clsx(styles.filePickerWrapper, disabled && styles.disabled)}
+              className={clsx(styles.filePickerWrapper, isDisabled && styles.disabled)}
               onChange={handleFileInputChange}
-              disabled={disabled}
+              disabled={isDisabled}
             >
               <span className={styles.filePickerBtn}>
                 <CameraIcon /> {t('UPLOADER.UPLOAD_IMAGE')}
@@ -161,7 +161,7 @@ export default function ImagePicker({
             </PureFilePickerWrapper>
             <div
               ref={dropContainerRef}
-              className={clsx(styles.dropContainer, disabled && styles.disabled)}
+              className={clsx(styles.dropContainer, isDisabled && styles.disabled)}
               onDrop={handleDragEvent}
               onDragEnter={handleDragEvent}
               onDragLeave={handleDragEvent}

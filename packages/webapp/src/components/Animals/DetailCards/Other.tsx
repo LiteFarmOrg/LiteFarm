@@ -118,7 +118,7 @@ const OtherDetails = ({
         onFileUpload={onFileUpload}
         onRemoveImage={handleRemoveImage}
         defaultUrl={field.value}
-        disabled={mode === 'readonly'}
+        isDisabled={mode === 'readonly'}
       />
     </div>
   );

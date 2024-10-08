@@ -49,6 +49,8 @@ interface WithStepperProgressBarProps {
   setFormResultData: (data: any) => void;
   isEditing?: boolean;
   setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
+  showCancelFlow?: boolean;
+  setShowCancelFlow?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const WithStepperProgressBar = ({
@@ -70,6 +72,8 @@ export const WithStepperProgressBar = ({
   setFormResultData,
   isEditing,
   setIsEditing,
+  showCancelFlow,
+  setShowCancelFlow,
 }: WithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
@@ -108,13 +112,14 @@ export const WithStepperProgressBar = ({
   };
 
   const handleCancel = () => {
+    console.log('handle cancel');
+    setIsEditing?.(false);
     try {
       transition.unblock?.();
       transition.retry?.();
     } catch (e) {
       console.error(`Error during canceling ${cancelModalTitle}: ${e}`);
     }
-    setIsEditing?.(false);
   };
 
   return (
@@ -143,10 +148,13 @@ export const WithStepperProgressBar = ({
           />
         </FloatingContainer>
       )}
-      {transition.unblock && (
+      {(transition.unblock || showCancelFlow) && (
         <CancelFlowModal
           flow={cancelModalTitle}
-          dismissModal={() => setTransition({ unblock: undefined, retry: undefined })}
+          dismissModal={() => {
+            setTransition({ unblock: undefined, retry: undefined });
+            setShowCancelFlow?.(false);
+          }}
           handleCancel={handleCancel}
         />
       )}

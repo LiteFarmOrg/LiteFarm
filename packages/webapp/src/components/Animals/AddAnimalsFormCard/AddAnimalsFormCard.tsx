@@ -14,10 +14,9 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { SelectInstance } from 'react-select';
 import NumberInput from '../../Form/NumberInput';
 import Checkbox from '../../Form/Checkbox';
 import SexDetails from '../../Form/SexDetails';
@@ -64,6 +63,7 @@ export default function AddAnimalsFormCard({
     trigger,
     getValues,
     setValue,
+    resetField,
     formState: { errors },
   } = useFormContext();
   const { t } = useTranslation();
@@ -75,18 +75,14 @@ export default function AddAnimalsFormCard({
 
   // Assign a unique identifier to each form card to track its associated details fields
   const uuidFieldName = `${namePrefix}${BasicsFields.FIELD_ARRAY_ID}`;
-  const identifierRef = useRef(getValues(uuidFieldName) || '');
 
   useEffect(() => {
-    if (!identifierRef.current) {
-      identifierRef.current = uuidv4();
+    if (!getValues(uuidFieldName)) {
+      setValue(uuidFieldName, uuidv4());
     }
-    setValue(uuidFieldName, identifierRef.current);
   }, []);
 
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
-
-  const breedSelectRef = useRef<SelectInstance>(null);
 
   return (
     <Card className={styles.form} isActive={isActive}>
@@ -101,12 +97,11 @@ export default function AddAnimalsFormCard({
         onTypeChange={(option) => {
           trigger(`${namePrefix}${BasicsFields.TYPE}`);
           onTypeChange?.(option);
-          breedSelectRef?.current?.clearValue();
+          resetField(`${namePrefix}${BasicsFields.BREED}`, { defaultValue: null });
         }}
         error={get(errors, `${namePrefix}${BasicsFields.TYPE}`)}
       />
       <AnimalBreedSelect
-        breedSelectRef={breedSelectRef}
         name={`${namePrefix}${BasicsFields.BREED}`}
         control={control}
         breedOptions={filteredBreeds}

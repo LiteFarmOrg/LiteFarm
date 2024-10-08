@@ -13,9 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
-import { SelectInstance } from 'react-select';
 import clsx from 'clsx';
 import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
@@ -70,6 +69,7 @@ const GeneralDetails = ({
     trigger,
     watch,
     getValues,
+    resetField,
     formState: { errors },
   } = useFormContext();
 
@@ -78,8 +78,6 @@ const GeneralDetails = ({
 
   const watchAnimalType = watch(`${namePrefix}${DetailsFields.TYPE}`);
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
-
-  const breedSelectRef = useRef<SelectInstance>(null);
 
   const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 
@@ -182,13 +180,12 @@ const GeneralDetails = ({
         onTypeChange={(option) => {
           trigger(`${namePrefix}${DetailsFields.TYPE}`);
           onTypeChange?.(option);
-          breedSelectRef?.current?.clearValue();
+          resetField(`${namePrefix}${DetailsFields.BREED}`, { defaultValue: null });
         }}
         error={get(errors, `${namePrefix}${DetailsFields.TYPE}`)}
         isDisabled={mode !== 'edit'}
       />
       <AnimalBreedSelect
-        breedSelectRef={breedSelectRef}
         name={`${namePrefix}${DetailsFields.BREED}`}
         control={control}
         breedOptions={filteredBreeds}

@@ -242,7 +242,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
         isWorker={isWorker}
         history={history}
       />
-      {selectedInventoryIds.length ? (
+      {!isWorker && selectedInventoryIds.length ? (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
           <ActionMenu
             headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}

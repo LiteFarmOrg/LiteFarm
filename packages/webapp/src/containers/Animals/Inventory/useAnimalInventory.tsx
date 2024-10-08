@@ -38,6 +38,7 @@ import { getComparator, orderEnum } from '../../../util/sort';
 import { AnimalOrBatchKeys } from '../types';
 import { generateInventoryId } from '../../../util/animal';
 import { AnimalTypeIconKey, isAnimalTypeIconKey } from '../../../components/Icons/icons';
+import { createSingleAnimalViewURL } from '../../../util/siteMapConstants';
 
 export type AnimalInventory = {
   id: string;
@@ -153,7 +154,7 @@ const formatAnimalsData = (
         type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
         groups: animal.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
-        path: `/animal/${animal.internal_identifier}`,
+        path: createSingleAnimalViewURL(animal.internal_identifier),
         count: 1,
         batch: false,
         // preserve some untransformed data for filtering
@@ -189,7 +190,7 @@ const formatAnimalBatchesData = (
         type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),
         groups: batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
-        path: `/batch/${batch.internal_identifier}`,
+        path: createSingleAnimalViewURL(batch.internal_identifier),
         count: batch.count,
         batch: true,
         // preserve some untransformed data for filtering

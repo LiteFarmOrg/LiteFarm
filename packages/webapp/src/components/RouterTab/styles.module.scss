@@ -1,28 +1,115 @@
-.default {
-}
+/*
+ *  Copyright 2021-2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
 
-.selected {
-  color: var(--teal700);
-  border: 1px solid var(--teal700);
-  border-radius: 19px;
-  height: 38px;
-  background: white;
-}
+@import '../../assets/mixin.scss';
 
 .container {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   background-color: var(--grey400);
-  height: 36px;
-  align-items: center;
-  border-radius: 18px;
+
+  &.pill {
+    height: 36px;
+    align-items: center;
+    border-radius: 18px;
+  }
+
+  &.underline {
+    height: 41px;
+    background-color: white;
+    border-bottom: 1px solid var(--Colors-Neutral-Neutral-100);
+  }
 }
 
-.pill {
-  flex-grow: 1;
-  justify-content: center;
+.tab {
+  flex: 1;
   align-items: center;
   display: flex;
   cursor: pointer;
+  border: solid 1px var(--grey400);
+  background-color: inherit;
+  height: 100%;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--fontColor);
+  font-family: 'Open Sans', 'SansSerif', serif;
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &.pill {
+    justify-content: center;
+    height: 36px;
+    padding: 8px;
+
+    &:not(.selected) {
+      &:first-child {
+        border-radius: 18px 0 0 18px;
+      }
+      &:last-child {
+        border-radius: 0 18px 18px 0;
+      }
+    }
+  }
+
+  &.underline {
+    height: 42px;
+    font-weight: 400;
+    justify-content: center;
+    color: var(--Colors-Neutral-Neutral-300);
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0 16px;
+  }
+}
+
+.selected {
+  background: white;
+
+  &.pill {
+    color: var(--teal700);
+    border: 1px solid var(--teal700);
+    border-radius: 19px;
+    height: 38px;
+  }
+
+  &.underline {
+    font-weight: 600;
+    color: var(--Colors-Accent---singles-Blue-dark);
+    border-color: var(--Colors-Accent---singles-Blue-dark);
+  }
+}
+
+.tab,
+.tabText {
+  @include truncateText();
+}
+
+@include xs-breakpoint {
+  .container {
+    &.underline {
+      border-bottom: 1px solid var(--Colors-Neutral-Neutral-50);
+    }
+  }
+
+  .tab {
+    &.underline {
+      font-size: 14px;
+    }
+  }
 }

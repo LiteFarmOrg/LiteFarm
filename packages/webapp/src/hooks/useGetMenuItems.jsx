@@ -54,67 +54,62 @@ export const useGetMenuItems = () => {
         path: '/crop_catalogue',
         key: 'crops',
       },
-
+      {
+        label: t('MENU.ANIMALS'),
+        icon: <AnimalsIcon />,
+        path: ANIMALS_URL,
+        key: 'animals',
+        subMenu: [
+          {
+            label: t('MENU.ANIMALS_INVENTORY'),
+            path: ANIMALS_INVENTORY_URL,
+            key: 'animals_inventory',
+          },
+          {
+            label: t('MENU.ANIMALS_LOCATION'),
+            path: ANIMALS_LOCATION_URL,
+            key: 'animals_location',
+          },
+          {
+            label: t('MENU.ANIMALS_GROUPS'),
+            path: ANIMALS_GROUPS_URL,
+            key: 'animals_groups',
+          },
+        ],
+      },
       { label: t('MENU.INSIGHTS'), icon: <InsightsIcon />, path: '/Insights', key: 'insights' },
     ];
 
     if (isAdmin) {
-      list.splice(
-        3,
-        0,
-        {
-          label: t('MENU.ANIMALS'),
-          icon: <AnimalsIcon />,
-          path: ANIMALS_URL,
-          key: 'animals',
-          subMenu: [
-            {
-              label: t('MENU.ANIMALS_INVENTORY'),
-              path: ANIMALS_INVENTORY_URL,
-              key: 'animals_inventory',
-            },
-            {
-              label: t('MENU.ANIMALS_LOCATION'),
-              path: ANIMALS_LOCATION_URL,
-              key: 'animals_location',
-            },
-            {
-              label: t('MENU.ANIMALS_GROUPS'),
-              path: ANIMALS_GROUPS_URL,
-              key: 'animals_groups',
-            },
-          ],
-        },
-        {
-          label: t('MENU.FINANCES'),
-          icon: <FinancesIcon />,
-          path: FINANCES_URL,
-          key: 'finances',
-          subMenu: [
-            {
-              label: t('MENU.TRANSACTION_LIST'),
-              path: FINANCES_HOME_URL,
-              key: 'transactions',
-            },
-            {
-              label: t('MENU.OTHER_EXPENSES'),
-              path: OTHER_EXPENSE_URL,
-              key: 'other_expense',
-            },
-            { label: t('MENU.LABOUR_EXPENSES'), path: LABOUR_URL, key: 'labour' },
-            {
-              label: t('MENU.ACTUAL_REVENUES'),
-              path: ACTUAL_REVENUE_URL,
-              key: 'actual_revenue',
-            },
-            {
-              label: t('MENU.ESTIMATED_REVENUES'),
-              path: ESTIMATED_REVENUE_URL,
-              key: 'estimated_revenue',
-            },
-          ],
-        },
-      );
+      list.splice(3, 0, {
+        label: t('MENU.FINANCES'),
+        icon: <FinancesIcon />,
+        path: FINANCES_URL,
+        key: 'finances',
+        subMenu: [
+          {
+            label: t('MENU.TRANSACTION_LIST'),
+            path: FINANCES_HOME_URL,
+            key: 'transactions',
+          },
+          {
+            label: t('MENU.OTHER_EXPENSES'),
+            path: OTHER_EXPENSE_URL,
+            key: 'other_expense',
+          },
+          { label: t('MENU.LABOUR_EXPENSES'), path: LABOUR_URL, key: 'labour' },
+          {
+            label: t('MENU.ACTUAL_REVENUES'),
+            path: ACTUAL_REVENUE_URL,
+            key: 'actual_revenue',
+          },
+          {
+            label: t('MENU.ESTIMATED_REVENUES'),
+            path: ESTIMATED_REVENUE_URL,
+            key: 'estimated_revenue',
+          },
+        ],
+      });
       list.push({
         label: t('MENU.DOCUMENTS'),
         icon: <DocumentsIcon />,

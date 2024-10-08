@@ -765,7 +765,7 @@ describe('Animal Batch Tests', () => {
 
       // Make edits to batches - does not test all top level batch columns, but all relationships
       const updatedFirstBatch = mocks.fakeAnimalBatch({
-        // should fail
+        // Extra properties are silently removed
         extra_non_existant_property: 'hello',
         id: returnedFirstBatch.id,
         default_type_id: defaultTypeId,
@@ -787,7 +787,7 @@ describe('Animal Batch Tests', () => {
         ],
         count: 5,
         origin_id: animalOrigin.id,
-        // should fail
+        // Extra properties are silently removed
         animal_removal_reason_id: animalRemovalReason.id,
         organic_status: 'Organic',
         animal_batch_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],
@@ -810,7 +810,7 @@ describe('Animal Batch Tests', () => {
         ],
         count: 5,
         origin_id: animalOrigin.id,
-        // should fail
+        // Extra properties are silently removed
         animal_removal_reason_id: animalRemovalReason.id,
         organic_status: 'Organic',
         animal_batch_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],

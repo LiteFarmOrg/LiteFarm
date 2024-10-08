@@ -786,7 +786,7 @@ describe('Animal Tests', () => {
 
       // Make edits to animals - does not test all top level animal columns, but all relationships
       const updatedFirstAnimal = mocks.fakeAnimal({
-        // should fail
+        // Extra properties are silently removed
         extra_non_existant_property: 'hello',
         id: returnedFirstAnimal.id,
         default_type_id: defaultTypeId,
@@ -796,7 +796,7 @@ describe('Animal Tests', () => {
         identifier: '2',
         identifier_color_id: animalIdentifierColor.id,
         origin_id: animalOrigin.id,
-        // should fail
+        // Extra properties are silently removed
         animal_removal_reason_id: animalRemovalReason.id,
         identifier_type_id: animalIdentifierType.id,
         organic_status: 'Organic',
@@ -812,7 +812,7 @@ describe('Animal Tests', () => {
         identifier: '2',
         identifier_color_id: animalIdentifierColor.id,
         origin_id: animalOrigin.id,
-        // should fail
+        // Extra properties are silently removed
         animal_removal_reason_id: animalRemovalReason.id,
         identifier_type_id: animalIdentifierType.id,
         organic_status: 'Organic',

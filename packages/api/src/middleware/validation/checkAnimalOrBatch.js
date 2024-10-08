@@ -484,10 +484,8 @@ export function checkEditAnimalOrBatch(animalOrBatchKey) {
 
         await checkAnimalType(animalOrBatch, farm_id, false);
         await checkAnimalBreed(animalOrBatch, farm_id, animalOrBatchRecord, false);
-
         await checkBatchSexDetail(animalOrBatch, animalOrBatchKey, animalOrBatchRecord);
         await checkAnimalUseRelationship(animalOrBatch, animalOrBatchKey);
-        // Null brought in date if origin_id changes from brought in
         await checkAnimalOrigin(animalOrBatch, false);
       }
 

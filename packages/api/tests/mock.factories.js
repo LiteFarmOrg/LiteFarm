@@ -2411,8 +2411,8 @@ async function animal_sexFactory() {
   return knex('animal_sex').insert({ key: faker.lorem.word() }).returning('*');
 }
 
-async function animal_originFactory() {
-  return knex('animal_origin').insert({ key: faker.lorem.word() }).returning('*');
+async function animal_originFactory(key = 'BROUGHT_IN') {
+  return knex('animal_origin').insert({ key }).returning('*');
 }
 
 function fakeAnimalGroup(defaultData = {}) {

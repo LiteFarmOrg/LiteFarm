@@ -22,6 +22,7 @@ import CustomAnimalTypeModel from '../../models/customAnimalTypeModel.js';
 import DefaultAnimalBreedModel from '../../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../../models/customAnimalBreedModel.js';
 import AnimalUseModel from '../../models/animalUseModel.js';
+import AnimalOriginModel from '../../models/animalOriginModel.js';
 
 const AnimalOrBatchModel = {
   animal: AnimalModel,
@@ -36,11 +37,11 @@ const hasMultipleValues = (values) => {
 
 // Checks that at least one of the properties is defined
 const oneExists = (values, object) => {
-  return !values.every((prop) => prop in object);
+  return values.some((prop) => prop in object);
 };
 
 // Checks that at least one value is truthy
-const oneTruthy = (values) => !values.every((value) => !value);
+const oneTruthy = (values) => values.some((value) => !!value);
 
 const checkIdIsNumber = (id) => {
   if (!id || isNaN(Number(id))) {
@@ -304,6 +305,7 @@ const checkOtherUseRelationshipNotes = async (relationships) => {
   const otherUse = await AnimalUseModel.query().where({ key: 'OTHER' }).first();
 
   for (const relationship of relationships) {
+    // TODO: Add test what happens when editing use (must all pre-existing be provided?)
     if (relationship.use_id != otherUse.id && relationship.other_use) {
       throw newCustomError('other_use notes is for other use type');
     }
@@ -317,6 +319,21 @@ const checkAnimalUseRelationship = async (animalOrBatch, animalOrBatchKey) => {
   if (animalOrBatch[relationshipsKey]) {
     checkIsArray(animalOrBatch[relationshipsKey], relationshipsKey);
     checkOtherUseRelationshipNotes(animalOrBatch[relationshipsKey]);
+  }
+};
+
+const checkAnimalOrigin = async (animalOrBatch, creating = true) => {
+  const { origin_id, brought_in_date } = animalOrBatch;
+  if (oneExists(['origin_id', 'brought_in_date'], animalOrBatch)) {
+    if (!creating) {
+      // Overwrite with null in db if editing
+      setFalsyValuesToNull(['origin_id', 'brought_in_date'], animalOrBatch);
+    }
+    const broughtInOrigin = await AnimalOriginModel.query().where({ key: 'BROUGHT_IN' }).first();
+    if (origin_id != broughtInOrigin.id && brought_in_date) {
+      // TODO: Add new test supplying either origin or brought in date
+      throw newCustomError('Brought in date must be used with brought in origin');
+    }
   }
 };
 
@@ -416,6 +433,7 @@ export function checkCreateAnimalOrBatch(animalOrBatchKey) {
         await checkAnimalBreed(animalOrBatch, farm_id);
         await checkBatchSexDetail(animalOrBatch, animalOrBatchKey);
         await checkAnimalUseRelationship(animalOrBatch, animalOrBatchKey);
+        await checkAnimalOrigin(animalOrBatch);
 
         // Skip the process if type_name and breed_name are not passed
         if (!type_name && !breed_name) {
@@ -469,8 +487,8 @@ export function checkEditAnimalOrBatch(animalOrBatchKey) {
 
         await checkBatchSexDetail(animalOrBatch, animalOrBatchKey, animalOrBatchRecord);
         await checkAnimalUseRelationship(animalOrBatch, animalOrBatchKey);
-        // Null other use if type changed
         // Null brought in date if origin_id changes from brought in
+        await checkAnimalOrigin(animalOrBatch, false);
       }
 
       //TODO: should this error be actually in loop and not outside?

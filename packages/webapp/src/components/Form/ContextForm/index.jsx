@@ -16,8 +16,8 @@
 import { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormProvider, useForm } from 'react-hook-form';
-import { MultiStepWithPageTitle } from './MultiStepWithPageTitle';
-import { MultiStepWithStepperProgressBar } from './MultiStepWithStepperProgressBar';
+import { WithPageTitle } from './WithPageTitle';
+import { WithStepperProgressBar } from './WithStepperProgressBar';
 import { WithReadonlyEdit } from './SingleStepWithReadonlyEdit';
 
 export const VARIANT = {
@@ -27,8 +27,8 @@ export const VARIANT = {
 };
 
 const components = {
-  [VARIANT.PAGE_TITLE]: (props) => <MultiStepWithPageTitle {...props} />,
-  [VARIANT.STEPPER_PROGRESS_BAR]: (props) => <MultiStepWithStepperProgressBar {...props} />,
+  [VARIANT.PAGE_TITLE]: (props) => <WithPageTitle {...props} />,
+  [VARIANT.STEPPER_PROGRESS_BAR]: (props) => <WithStepperProgressBar {...props} />,
   [VARIANT.READONLY_EDIT]: (props) => <WithReadonlyEdit {...props} />,
 };
 
@@ -37,7 +37,7 @@ export const ContextForm = ({
   getSteps,
   defaultFormValues,
   variant = VARIANT.PAGE_TITLE,
-  isEditing = false,
+  isEditing = true,
   ...props
 }) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);

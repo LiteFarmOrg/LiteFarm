@@ -23,7 +23,7 @@ import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
 import CancelFlowModal from '../../Modals/CancelFlowModal';
 import styles from './styles.module.scss';
 
-interface MultiStepWithStepperProgressBarProps {
+interface WithStepperProgressBarProps {
   children: ReactNode;
   history: History;
   steps: { formContent: ReactNode; title: string }[];
@@ -51,7 +51,7 @@ interface MultiStepWithStepperProgressBarProps {
   setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const MultiStepWithStepperProgressBar = ({
+export const WithStepperProgressBar = ({
   children,
   history,
   steps,
@@ -70,7 +70,7 @@ export const MultiStepWithStepperProgressBar = ({
   setFormResultData,
   isEditing,
   setIsEditing,
-}: MultiStepWithStepperProgressBarProps) => {
+}: WithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
     retry: undefined,
@@ -96,7 +96,7 @@ export const MultiStepWithStepperProgressBar = ({
     (!hasSummaryWithinForm && activeStepIndex === steps.length - 1) ||
     (hasSummaryWithinForm && activeStepIndex === steps.length - 2);
 
-  const shouldShowFormNavigationButtons = !isSummaryPage || isEditing;
+  const shouldShowFormNavigationButtons = !isSummaryPage && isEditing;
 
   const onContinue = () => {
     if (isFinalStep) {

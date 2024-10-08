@@ -17,18 +17,15 @@ import { useState, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { WithPageTitle } from './WithPageTitle';
 import { WithStepperProgressBar } from './WithStepperProgressBar';
-import { WithReadonlyEdit } from './SingleStepWithReadonlyEdit';
 
 export enum Variant {
   PAGE_TITLE = 'page_title',
   STEPPER_PROGRESS_BAR = 'stepper_progress_bar',
-  READONLY_EDIT = 'readonly_edit',
 }
 
 const components = {
   [Variant.PAGE_TITLE]: (props: any) => <WithPageTitle {...props} />,
   [Variant.STEPPER_PROGRESS_BAR]: (props: any) => <WithStepperProgressBar {...props} />,
-  [Variant.READONLY_EDIT]: (props: any) => <WithReadonlyEdit {...props} />,
 };
 
 interface ContextFormProps {
@@ -47,6 +44,7 @@ export const ContextForm = ({
   defaultFormValues,
   variant = Variant.PAGE_TITLE,
   isEditing = true,
+  setIsEditing,
   ...props
 }: ContextFormProps) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
@@ -80,7 +78,7 @@ export const ContextForm = ({
   };
 
   const onCancel = () => {
-    history.back();
+    setIsEditing ? setIsEditing(false) : history.back();
   };
 
   const { FormContent } = steps[activeStepIndex];
@@ -97,6 +95,7 @@ export const ContextForm = ({
       onGoForward={onGoForward}
       setFormResultData={setFormResultData}
       isEditing={isEditing}
+      setIsEditing={setIsEditing}
       {...form}
       {...props}
     >

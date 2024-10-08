@@ -41,7 +41,7 @@ FloatingMenu.displayName = 'FloatingMenu';
 FloatingMenu.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      label: PropTypes.string,
+      label: PropTypes.node,
       onClick: PropTypes.func,
     }),
   ),

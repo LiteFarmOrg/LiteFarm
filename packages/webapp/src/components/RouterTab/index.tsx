@@ -14,7 +14,7 @@
  */
 import PropTypes from 'prop-types';
 import { History } from 'history';
-import TabComponent, { BaseTab, TabProps, VARIANTS } from './Tab';
+import TabComponent, { BaseTab, TabProps, Variant } from './Tab';
 
 type Tab = BaseTab & {
   path: string;
@@ -39,5 +39,5 @@ RouterTab.prototype = {
   }),
   history: PropTypes.object,
   classes: PropTypes.object,
-  variant: PropTypes.oneOf(Object.values(VARIANTS)),
+  variant: PropTypes.oneOf(Object.values(Variant)),
 };

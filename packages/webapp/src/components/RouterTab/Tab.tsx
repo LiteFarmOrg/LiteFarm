@@ -16,7 +16,7 @@ import { ReactNode, CSSProperties } from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 
-export enum VARIANTS {
+export enum Variant {
   PILL = 'pill',
   UNDERLINE = 'underline',
 }
@@ -30,7 +30,7 @@ export type TabProps<T extends BaseTab> = {
   tabs: T[];
   onClick: (tab: T) => void;
   isSelected: (tab: T) => boolean;
-  variant?: VARIANTS;
+  variant?: Variant;
   classes?: { container?: CSSProperties };
   className?: string;
 };
@@ -39,7 +39,7 @@ export default function Tab<T extends BaseTab>({
   tabs,
   onClick,
   isSelected,
-  variant = VARIANTS.PILL,
+  variant = Variant.PILL,
   classes,
   className = '',
 }: TabProps<T>) {

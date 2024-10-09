@@ -15,30 +15,22 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { History } from 'history';
+import { RouteComponentProps } from 'react-router-dom';
 import styles from './styles.module.scss';
 import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
-// TODO: LF-4382 Tabs component That ticket includes the decision on whether to create a RouterTab (route change) or StateTab (component state) variant. However RouterTab should be used in the implementation to trigger the destructive action pop-up modal -- StateTab is just the placeholder
-import StateTab from '../../../components/RouterTab/StateTab';
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
-import AnimalTasks from './AnimalTasks';
 import Button from '../../../components/Form/Button';
+import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 
 export const STEPS = {
   DETAILS: 'details',
 } as const;
 
-enum TABS {
-  DETAILS = 'DETAILS',
-  TASKS = 'TASKS',
-}
-
-interface AddAnimalsProps {
+interface AddAnimalsProps extends RouteComponentProps {
   isCompactSideMenu: boolean;
-  history: History;
 }
 
-function SingleAnimalView({ isCompactSideMenu, history }: AddAnimalsProps) {
+function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps) {
   const { t } = useTranslation(['translation', 'common', 'message']);
 
   const [isEditing, setIsEditing] = useState(false);
@@ -47,8 +39,6 @@ function SingleAnimalView({ isCompactSideMenu, history }: AddAnimalsProps) {
   const initiateEdit = () => {
     setIsEditing(true);
   };
-
-  const [activeTab, setActiveTab] = useState<string>(TABS.DETAILS);
 
   const onSave = async (data: any, onGoForward: () => void) => {
     console.log(data);
@@ -65,6 +55,17 @@ function SingleAnimalView({ isCompactSideMenu, history }: AddAnimalsProps) {
     [STEPS.DETAILS]: [],
   };
 
+  const routerTabs = [
+    {
+      label: t('ANIMAL.TABS.BASIC_INFO'),
+      path: match.url,
+    },
+    {
+      label: t('ANIMAL.TABS.TASKS'),
+      path: `${match.url}/tasks`,
+    },
+  ];
+
   return (
     <div className={styles.container}>
       <div>
@@ -80,41 +81,25 @@ function SingleAnimalView({ isCompactSideMenu, history }: AddAnimalsProps) {
           </Button>
         )}
       </div>
-      {/* TODO: LF-4382 Tabs component */}
-      <div>
-        <h2>LF-4382 Tabs component</h2>
-        <StateTab
-          state={activeTab}
-          setState={setActiveTab}
-          tabs={[
-            {
-              label: t('ANIMAL.TABS.DETAILS'),
-              key: TABS.DETAILS,
-            },
-            {
-              label: t('ANIMAL.TABS.TASKS'),
-              key: TABS.TASKS,
-            },
-          ]}
-        />
-      </div>
-      {activeTab === TABS.DETAILS && (
-        <ContextForm
-          onSave={onSave}
-          hasSummaryWithinForm={false}
-          isCompactSideMenu={isCompactSideMenu}
-          variant={Variant.STEPPER_PROGRESS_BAR}
-          history={history}
-          getSteps={getFormSteps}
-          defaultFormValues={defaultFormValues}
-          cancelModalTitle={t('ANIMALS.EDIT_ANIMAL_FLOW')}
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
-          key={isEditing ? 'edit' : 'readonly'}
-        />
-      )}
-      {/* TODO: Has not yet been scoped. Revisit after movement */}
-      {activeTab === TABS.TASKS && <AnimalTasks />}
+      <Tab
+        tabs={routerTabs}
+        variant={TabVariants.UNDERLINE}
+        isSelected={(tab) => tab.path === match.url}
+        onClick={(tab) => history.push(tab.path)}
+      />
+      <ContextForm
+        onSave={onSave}
+        hasSummaryWithinForm={false}
+        isCompactSideMenu={isCompactSideMenu}
+        variant={Variant.STEPPER_PROGRESS_BAR}
+        history={history}
+        getSteps={getFormSteps}
+        defaultFormValues={defaultFormValues}
+        cancelModalTitle={t('ANIMALS.EDIT_ANIMAL_FLOW')}
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
+        key={isEditing ? 'edit' : 'readonly'}
+      />
     </div>
   );
 }

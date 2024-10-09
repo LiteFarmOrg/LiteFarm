@@ -26,6 +26,9 @@ export const ADD_ANIMALS_URL = '/animals/inventory/add_animals';
 export const createSingleAnimalViewURL = (id: string | number): string => {
   return `/animals/${id}`;
 };
+export const createSingleAnimalTasksURL = (id: string | number): string => {
+  return `${createSingleAnimalViewURL(id)}/tasks`;
+};
 
 // Finances
 

@@ -78,6 +78,7 @@ export default function SexDetails({
           <TextButton
             onClick={isDisabled ? () => {} : (e) => setAnchor(e.currentTarget)}
             className={styles.button}
+            disabled={isDisabled}
           >
             {!total ? (
               <span className={isPopoverOpen ? styles.placeholderDark : styles.placeholder}>

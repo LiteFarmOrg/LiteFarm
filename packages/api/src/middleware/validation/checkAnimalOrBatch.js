@@ -15,6 +15,14 @@
 
 import { Model, transaction } from 'objection';
 import { handleObjectionError } from '../../util/errorCodes.js';
+import { oneExists, setFalsyValuesToNull } from '../../util/middleware.js';
+import {
+  customError,
+  checkIsArray,
+  checkIdIsNumber,
+  checkExactlyOneIsProvided,
+  checkRecordBelongsToFarm,
+} from '../../util/customErrors.js';
 
 import AnimalModel from '../../models/animalModel.js';
 import AnimalBatchModel from '../../models/animalBatchModel.js';
@@ -29,44 +37,9 @@ const AnimalOrBatchModel = {
   batch: AnimalBatchModel,
 };
 
-// Utils
-const hasMultipleValues = (values) => {
-  const nonNullValues = values.filter(Boolean);
-  return !(nonNullValues.length === 1);
-};
-
-// Checks that at least one of the properties is defined
-const oneExists = (values, object) => {
-  return values.some((prop) => prop in object);
-};
-
-// Checks that at least one value is truthy
-const oneTruthy = (values) => values.some((value) => !!value);
-
-const checkIdIsNumber = (id) => {
-  if (!id || isNaN(Number(id))) {
-    throw newCustomError('Must send valid ids');
-  }
-};
-
-const newCustomError = (message, code = 400, body = undefined) => {
-  const error = new Error(message);
-  error.code = code;
-  error.body = body;
-  error.type = 'LiteFarmCustom';
-  return error;
-};
-
-// Body checks
-const checkIsArray = (array, descriptiveErrorText = '') => {
-  if (!Array.isArray(array)) {
-    throw newCustomError(`${descriptiveErrorText} should be an array`);
-  }
-};
-
 const checkValidAnimalOrBatchIds = async (animalOrBatchKey, ids, farm_id, trx) => {
   if (!ids || !ids.length) {
-    throw newCustomError('Must send ids');
+    throw customError('Must send ids');
   }
 
   const idsSet = new Set(ids.split(','));
@@ -90,30 +63,11 @@ const checkValidAnimalOrBatchIds = async (animalOrBatchKey, ids, farm_id, trx) =
   }
 
   if (invalidIds.length) {
-    throw newCustomError(
+    throw customError(
       'Some entities do not exist, are already deleted, or are not associated with the given farm.',
       400,
       { error: 'Invalid ids', invalidIds },
     );
-  }
-};
-
-// AnimalOrBatch checks
-const checkExactlyOneIsProvided = (array, descriptiveErrorMessage) => {
-  if (oneTruthy(array) && hasMultipleValues(array)) {
-    throw newCustomError(`Exactly one of ${descriptiveErrorMessage} must be sent`);
-  }
-};
-
-const setFalsyValuesToNull = (array, obj) => {
-  for (const val of array) {
-    obj[val] = obj[val] || null;
-  }
-};
-
-const checkRecordBelongsToFarm = async (record, farm_id, descriptiveErrorMessage) => {
-  if (record && record.farm_id !== farm_id) {
-    throw newCustomError(`Forbidden ${descriptiveErrorMessage} does not belong to this farm`, 403);
   }
 };
 
@@ -135,7 +89,7 @@ const checkAnimalType = async (animalOrBatch, farm_id, creating = true) => {
       const customType = await CustomAnimalTypeModel.query().findById(custom_type_id);
       if (!customType) {
         // TODO: new error add test
-        throw newCustomError('Custom type does not exist');
+        throw customError('Custom type does not exist');
       }
       await checkRecordBelongsToFarm(customType, farm_id, 'custom type');
     }
@@ -165,11 +119,11 @@ const checkDefaultBreedMatchesType = async (
   if (defaultTypeId && defaultBreedId) {
     const defaultBreed = await DefaultAnimalBreedModel.query().findById(defaultBreedId);
     if (defaultBreed && defaultBreed.default_type_id !== defaultTypeId) {
-      throw newCustomError('Breed does not match type');
+      throw customError('Breed does not match type');
     }
   } else if (!defaultTypeId) {
     // TODO: new error untested should prevents need for pre-existing checkDefaultBreedDoesNotUseCustomType
-    throw newCustomError('Default breed must use default type');
+    throw customError('Default breed must use default type');
   }
 };
 
@@ -192,11 +146,11 @@ const checkCustomBreedMatchesType = async (
   }
 
   if (customBreed.default_type_id && customBreed.default_type_id !== defaultTypeId) {
-    throw newCustomError('Breed does not match type');
+    throw customError('Breed does not match type');
   }
 
   if (customBreed.custom_type_id && customBreed.custom_type_id !== customTypeId) {
-    throw newCustomError('Breed does not match type');
+    throw customError('Breed does not match type');
   }
 };
 
@@ -246,7 +200,7 @@ const checkAnimalBreed = async (
         .findById(custom_breed_id);
       if (!customBreed) {
         // TODO : new error add test
-        throw newCustomError('Custom breed does not exist');
+        throw customError('Custom breed does not exist');
       }
     } else if (animalOrBatchRecord?.custom_breed_id) {
       customBreed = await CustomAnimalBreedModel.query()
@@ -292,10 +246,10 @@ const checkBatchSexDetail = async (
         sexIdSet.add(detail.sex_id);
       });
       if (sexCount > count) {
-        throw newCustomError('Batch count must be greater than or equal to sex detail count');
+        throw customError('Batch count must be greater than or equal to sex detail count');
       }
       if (sexDetail.length != sexIdSet.size) {
-        throw newCustomError('Duplicate sex ids in detail');
+        throw customError('Duplicate sex ids in detail');
       }
     }
   }
@@ -307,7 +261,7 @@ const checkOtherUseRelationshipNotes = async (relationships) => {
   for (const relationship of relationships) {
     // TODO: Add test what happens when editing use (must all pre-existing be provided?)
     if (relationship.use_id != otherUse.id && relationship.other_use) {
-      throw newCustomError('other_use notes is for other use type');
+      throw customError('other_use notes is for other use type');
     }
   }
 };
@@ -332,7 +286,7 @@ const checkAnimalOrigin = async (animalOrBatch, creating = true) => {
     const broughtInOrigin = await AnimalOriginModel.query().where({ key: 'BROUGHT_IN' }).first();
     if (origin_id != broughtInOrigin.id && brought_in_date) {
       // TODO: Add new test supplying either origin or brought in date
-      throw newCustomError('Brought in date must be used with brought in origin');
+      throw customError('Brought in date must be used with brought in origin');
     }
   }
 };
@@ -348,7 +302,7 @@ const checkAndAddCustomTypesOrBreeds = (animalOrBatch, newTypesSet, newBreedsSet
   } = animalOrBatch;
   if (type_name) {
     if (default_breed_id || custom_breed_id) {
-      throw newCustomError('Cannot create a new type associated with an existing breed');
+      throw customError('Cannot create a new type associated with an existing breed');
     }
     newTypesSet.add(type_name);
   }
@@ -367,7 +321,7 @@ const checkAndAddCustomTypesOrBreeds = (animalOrBatch, newTypesSet, newBreedsSet
 const checkRemovalDataProvided = (animalOrBatch) => {
   const { animal_removal_reason_id, removal_date } = animalOrBatch;
   if (!animal_removal_reason_id || !removal_date) {
-    throw newCustomError('Must send reason and date of removal');
+    throw customError('Must send reason and date of removal');
   }
 };
 
@@ -389,7 +343,7 @@ const checkCustomTypeAndBreedConflicts = async (newTypesSet, newBreedsSet, farm_
     );
 
     if (record.length) {
-      throw newCustomError('Animal type already exists', 409);
+      throw customError('Animal type already exists', 409);
     }
   }
 
@@ -402,14 +356,14 @@ const checkCustomTypeAndBreedConflicts = async (newTypesSet, newBreedsSet, farm_
     );
 
     if (record.length) {
-      throw newCustomError('Animal breed already exists', 409);
+      throw customError('Animal breed already exists', 409);
     }
   }
 };
 
 const checkInvalidIds = async (invalidIds) => {
   if (invalidIds.length) {
-    throw newCustomError(
+    throw customError(
       'Some animals or batches do not exist or are not associated with the given farm.',
       400,
       { error: 'Invalid ids', invalidIds },

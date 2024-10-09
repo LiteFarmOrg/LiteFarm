@@ -18,6 +18,7 @@ import { useAnimalOptions } from '../AddAnimals/useAnimalOptions';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { useTranslation } from 'react-i18next';
 import { AnimalOrBatchKeys } from '../types';
+import { CommonDetailsProps } from '../AddAnimals/types';
 import GeneralDetails from '../../../components/Animals/DetailCards/General';
 import UniqueDetails from '../../../components/Animals/DetailCards/Unique';
 import Origin from '../../../components/Animals/DetailCards/Origin';
@@ -52,10 +53,9 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
 
   const currency = useCurrencySymbol();
 
-  const commonProps = {
+  const commonProps: CommonDetailsProps = {
     t,
-    animalOrBatch: isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH,
-    // mode: isEditing ? 'edit' : 'readonly', // Requires merge of LF-4388 with these modes
+    mode: isEditing ? 'edit' : 'readonly',
   };
 
   const generalDetailProps = {
@@ -82,11 +82,17 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
   return (
     <>
       <h2>LF-4383 Animal Details Form Container</h2>
-      <h3>Readonly mode requires merge of LF-4388</h3>
-      {isEditing && <h3>Editing...</h3>}
-      <GeneralDetails {...generalDetailProps} {...commonProps} />
+      <GeneralDetails
+        {...generalDetailProps}
+        {...commonProps}
+        animalOrBatch={isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH}
+      />
       <UniqueDetails {...uniqueDetailsProps} {...commonProps} />
-      <OtherDetails {...commonProps} {...otherDetailsProps} />
+      <OtherDetails
+        {...commonProps}
+        {...otherDetailsProps}
+        animalOrBatch={isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH}
+      />
       <Origin {...originProps} {...commonProps} />
     </>
   );

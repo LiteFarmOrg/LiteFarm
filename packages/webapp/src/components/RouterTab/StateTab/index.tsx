@@ -1,20 +1,28 @@
-import React from 'react';
+/*
+ *  Copyright 2021-2024 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
 import PropTypes from 'prop-types';
-import { Semibold } from '../../Typography';
-import styles from '../styles.module.scss';
-import clsx from 'clsx';
+import TabComponent, { BaseTab, TabProps } from '../Tab';
 
-interface Tab {
-  label: string;
+type Tab = BaseTab & {
   key: string;
-}
+};
 
-interface StateTabProps {
-  tabs: Tab[];
-  state: string;
-  setState: React.Dispatch<React.SetStateAction<string>>;
-  className?: string;
-}
+type StateTabProps = Omit<TabProps<Tab>, 'onClick' | 'isSelected'> & {
+  state: Tab['key'];
+  setState: (key: Tab['key']) => void;
+};
 
 /**
  * A version of RouterTab that toggles an active tab held in parent state, rather than using path changes.
@@ -30,35 +38,22 @@ interface StateTabProps {
  *
  * @returns {React.Component} The rendered StateTab component.
  */
+export default function StateTab({ state, setState, ...props }: StateTabProps) {
+  const isSelected = (tab: Tab) => state === tab.key;
+  const onClick = (tab: Tab) => !isSelected(tab) && setState(tab.key);
 
-const StateTab = ({ tabs, state, setState, className = '' }: StateTabProps) => {
-  const isSelected = (key: string) => state === key;
-  return (
-    <div className={clsx(styles.container, className)}>
-      {tabs.map((tab, index) => (
-        <Semibold
-          key={index}
-          className={clsx(styles.pill, isSelected(tab.key) && styles.selected)}
-          onClick={() => !isSelected(tab.key) && setState(tab.key)}
-          id={tab.label + index}
-        >
-          {tab.label}
-        </Semibold>
-      ))}
-    </div>
-  );
-};
+  return <TabComponent<Tab> onClick={onClick} isSelected={isSelected} {...props} />;
+}
 
 StateTab.propTypes = {
   tabs: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       key: PropTypes.string.isRequired,
-    }).isRequired,
+      format: PropTypes.func,
+    }),
   ).isRequired,
   state: PropTypes.string.isRequired,
   setState: PropTypes.func.isRequired,
   className: PropTypes.string,
 };
-
-export default StateTab;

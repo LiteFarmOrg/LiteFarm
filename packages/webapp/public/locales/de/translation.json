@@ -204,6 +204,10 @@
   "ANIMAL": {
     "ATTRIBUTE": {
       "LITEFARM_ID": "MISSING"
+    },
+    "TABS": {
+      "BASIC_INFO": "MISSING",
+      "TASKS": "MISSING"
     }
   },
   "BED_PLAN": {

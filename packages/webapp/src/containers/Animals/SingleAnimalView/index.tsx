@@ -110,6 +110,7 @@ function SingleAnimalView({ isCompactSideMenu, history }: AddAnimalsProps) {
           cancelModalTitle={t('ANIMALS.EDIT_ANIMAL_FLOW')}
           isEditing={isEditing}
           setIsEditing={setIsEditing}
+          key={isEditing ? 'edit' : 'readonly'}
         />
       )}
       {/* TODO: Has not yet been scoped. Revisit after movement */}

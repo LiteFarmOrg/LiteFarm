@@ -50,6 +50,7 @@ export const ContextForm = ({
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [formData, setFormData] = useState({});
   const [formResultData, setFormResultData] = useState();
+  const [showCancelFlow, setShowCancelFlow] = useState(false);
 
   const form = useForm({
     mode: 'onBlur',
@@ -78,7 +79,15 @@ export const ContextForm = ({
   };
 
   const onCancel = () => {
-    setIsEditing ? setIsEditing(false) : history.back();
+    if (setIsEditing) {
+      if (form.formState.isDirty) {
+        setShowCancelFlow(true);
+      } else {
+        setIsEditing?.(false);
+      }
+      return;
+    }
+    history.back();
   };
 
   const { FormContent } = steps[activeStepIndex];
@@ -96,6 +105,8 @@ export const ContextForm = ({
       setFormResultData={setFormResultData}
       isEditing={isEditing}
       setIsEditing={setIsEditing}
+      showCancelFlow={showCancelFlow}
+      setShowCancelFlow={setShowCancelFlow}
       {...form}
       {...props}
     >

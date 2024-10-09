@@ -49,6 +49,8 @@ interface WithStepperProgressBarProps {
   setFormResultData: (data: any) => void;
   isEditing?: boolean;
   setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
+  showCancelFlow?: boolean;
+  setShowCancelFlow?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const WithStepperProgressBar = ({
@@ -70,6 +72,8 @@ export const WithStepperProgressBar = ({
   setFormResultData,
   isEditing,
   setIsEditing,
+  showCancelFlow,
+  setShowCancelFlow,
 }: WithStepperProgressBarProps) => {
   const [transition, setTransition] = useState<{ unblock?: () => void; retry?: () => void }>({
     unblock: undefined,
@@ -98,17 +102,6 @@ export const WithStepperProgressBar = ({
 
   const shouldShowFormNavigationButtons = !isSummaryPage && isEditing;
 
-  // Also manage the confirmation modal manually (for readonly/edit)
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-
-  useEffect(() => {
-    if (!isEditing && isDirty) {
-      setShowConfirmationModal(true);
-    } else if (!isEditing && !isDirty) {
-      setIsEditing?.(false);
-    }
-  }, [isEditing]);
-
   const onContinue = () => {
     if (isFinalStep) {
       handleSubmit((data: FieldValues) => onSave(data, onGoForward, setFormResultData))();
@@ -126,12 +119,11 @@ export const WithStepperProgressBar = ({
       console.error(`Error during canceling ${cancelModalTitle}: ${e}`);
     }
     setIsEditing?.(false);
-    setShowConfirmationModal(false);
   };
 
   const handleDismissModal = () => {
     setTransition({ unblock: undefined, retry: undefined });
-    setShowConfirmationModal(false);
+    setShowCancelFlow?.(false);
     setIsEditing?.(true);
   };
 
@@ -161,7 +153,7 @@ export const WithStepperProgressBar = ({
           />
         </FloatingContainer>
       )}
-      {(transition.unblock || showConfirmationModal) && (
+      {(transition.unblock || showCancelFlow) && (
         <CancelFlowModal
           flow={cancelModalTitle}
           dismissModal={handleDismissModal}

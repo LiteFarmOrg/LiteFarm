@@ -1,6 +1,9 @@
 {
   "name": "shared",
   "type": "module",
+  "engines": {
+    "node": ">=20.6"
+  },
   "dependencies": {
     "core-js": "^3.24.1"
   }

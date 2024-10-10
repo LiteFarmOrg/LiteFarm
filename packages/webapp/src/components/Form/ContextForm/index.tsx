@@ -14,31 +14,43 @@
  */
 
 import { useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { FormProvider, useForm } from 'react-hook-form';
 import { WithPageTitle } from './WithPageTitle';
 import { WithStepperProgressBar } from './WithStepperProgressBar';
 
-export const VARIANT = {
-  PAGE_TITLE: 'page_title',
-  STEPPER_PROGRESS_BAR: 'stepper_progress_bar',
-};
+export enum Variant {
+  PAGE_TITLE = 'page_title',
+  STEPPER_PROGRESS_BAR = 'stepper_progress_bar',
+}
 
 const components = {
-  [VARIANT.PAGE_TITLE]: (props) => <WithPageTitle {...props} />,
-  [VARIANT.STEPPER_PROGRESS_BAR]: (props) => <WithStepperProgressBar {...props} />,
+  [Variant.PAGE_TITLE]: (props: any) => <WithPageTitle {...props} />,
+  [Variant.STEPPER_PROGRESS_BAR]: (props: any) => <WithStepperProgressBar {...props} />,
 };
 
-export const MultiStepForm = ({
+interface ContextFormProps {
+  history: any; // mocking in Storybook prevents more specific type
+  getSteps: (data?: any) => any;
+  defaultFormValues: any;
+  variant?: Variant;
+  isEditing?: boolean;
+  setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
+  [key: string]: any;
+}
+
+export const ContextForm = ({
   history,
   getSteps,
   defaultFormValues,
-  variant = VARIANT.PAGE_TITLE,
+  variant = Variant.PAGE_TITLE,
+  isEditing = true,
+  setIsEditing,
   ...props
-}) => {
+}: ContextFormProps) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState({});
   const [formResultData, setFormResultData] = useState();
+  const [showCancelFlow, setShowCancelFlow] = useState(false);
 
   const form = useForm({
     mode: 'onBlur',
@@ -67,6 +79,14 @@ export const MultiStepForm = ({
   };
 
   const onCancel = () => {
+    if (setIsEditing) {
+      if (form.formState.isDirty) {
+        setShowCancelFlow(true);
+      } else {
+        setIsEditing?.(false);
+      }
+      return;
+    }
     history.back();
   };
 
@@ -83,6 +103,10 @@ export const MultiStepForm = ({
       onCancel={onCancel}
       onGoForward={onGoForward}
       setFormResultData={setFormResultData}
+      isEditing={isEditing}
+      setIsEditing={setIsEditing}
+      showCancelFlow={showCancelFlow}
+      setShowCancelFlow={setShowCancelFlow}
       {...form}
       {...props}
     >
@@ -92,26 +116,9 @@ export const MultiStepForm = ({
           form={form}
           formResultData={formResultData}
           history={history}
+          isEditing={isEditing}
         />
       </FormProvider>
     </Component>
   );
-};
-
-MultiStepForm.propTypes = {
-  variant: PropTypes.oneOf(Object.values(VARIANT)),
-  history: PropTypes.object,
-  getSteps: PropTypes.func,
-  defaultFormValues: PropTypes.object,
-  cancelModalTitle: PropTypes.string,
-
-  // STEPPER_PROGRESS_BAR variant
-  isCompactSideMenu: PropTypes.bool,
-  hasSummaryWithinForm: PropTypes.bool,
-  onSave: PropTypes.func,
-  stepperProgressBarConfig: PropTypes.shape({
-    isMobile: PropTypes.bool,
-    isDarkMode: PropTypes.bool,
-  }),
-  stepperProgressBarTitle: PropTypes.node,
 };

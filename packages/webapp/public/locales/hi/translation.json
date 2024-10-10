@@ -201,6 +201,15 @@
     "WHAT_PLANTING_METHOD": "प्रत्यारोपण की विधि क्या है?",
     "WILD_CROP": "जंगली फसलें"
   },
+  "ANIMAL": {
+    "ATTRIBUTE": {
+      "LITEFARM_ID": "MISSING"
+    },
+    "TABS": {
+      "BASIC_INFO": "MISSING",
+      "TASKS": "MISSING"
+    }
+  },
   "BED_PLAN": {
     "LENGTH_OF_BED": "बेड की लंबाई",
     "NUMBER_0F_BEDS": "बेड की संख्या",

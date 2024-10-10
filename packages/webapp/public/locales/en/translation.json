@@ -312,7 +312,11 @@
     "SEARCH_INVENTORY_PLACEHOLDER": "Search your inventory",
     "SHOWING_RESULTS_WITH_COUNT_one": "Showing {{count}} result",
     "SHOWING_RESULTS_WITH_COUNT_many": "Showing {{count}} results",
-    "SHOWING_RESULTS_WITH_COUNT_other": "Showing {{count}} results"
+    "SHOWING_RESULTS_WITH_COUNT_other": "Showing {{count}} results",
+    "TABS": {
+      "BASIC_INFO": "Basic info",
+      "TASKS": "Tasks"
+    }
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",

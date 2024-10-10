@@ -37,6 +37,7 @@ import {
   isFilterCurrentlyActiveSelector,
   resetAnimalsFilter,
 } from '../../../containers/filterSlice';
+import { userFarmSelector } from '../../userFarmSlice';
 import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 
@@ -63,6 +64,10 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
   const { t } = useTranslation(['translation', 'animal', 'common', 'message']);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+
+  const role = useSelector(userFarmSelector);
+  const isWorker = 'role_id' in role ? role.role_id === 3 : false;
+
   const zIndexBase = theme.zIndex.drawer;
 
   const { inventory, isLoading } = useAnimalInventory();
@@ -234,6 +239,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
         isFilterActive={isFilterActive}
         clearFilters={clearFilters}
         isLoading={isLoading}
+        isWorker={isWorker}
         history={history}
       />
       {selectedInventoryIds.length ? (

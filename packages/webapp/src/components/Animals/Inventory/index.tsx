@@ -58,6 +58,7 @@ const PureAnimalInventory = ({
   clearFilters,
   isLoading,
   containerHeight,
+  isWorker,
   history,
 }: {
   filteredInventory: AnimalInventory[];
@@ -73,6 +74,7 @@ const PureAnimalInventory = ({
   clearFilters: () => void;
   isLoading: boolean;
   containerHeight?: number;
+  isWorker: boolean;
   history: History;
 }) => {
   const { t } = useTranslation();
@@ -148,15 +150,17 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
-      <FloatingButtonMenu
-        type={'add'}
-        options={[
-          {
-            label: t('ADD_ANIMAL.ADD_ANIMALS'),
-            onClick: () => history.push(ADD_ANIMALS_URL),
-          },
-        ]}
-      />
+      {!isWorker && (
+        <FloatingButtonMenu
+          type={'add'}
+          options={[
+            {
+              label: t('ADD_ANIMAL.ADD_ANIMALS'),
+              onClick: () => history.push(ADD_ANIMALS_URL),
+            },
+          ]}
+        />
+      )}
     </>
   );
 };

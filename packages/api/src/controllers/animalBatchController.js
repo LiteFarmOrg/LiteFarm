@@ -19,6 +19,7 @@ import baseController from './baseController.js';
 import { handleObjectionError } from '../util/errorCodes.js';
 import { assignInternalIdentifiers, checkAndAddCustomTypeAndBreed } from '../util/animal.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
+import _pick from 'lodash/pick.js';
 
 const animalBatchController = {
   getFarmAnimalBatches() {
@@ -116,48 +117,28 @@ const animalBatchController = {
           // TODO: allow animal group editing
           // await checkAndAddGroup(req, animal, farm_id, trx);
 
-          const {
-            id,
-            count,
-            custom_breed_id,
-            custom_type_id,
-            default_breed_id,
-            default_type_id,
-            name,
-            notes,
-            photo_url,
-            organic_status,
-            supplier,
-            price,
-            sex_detail,
-            origin_id,
-            group_ids,
-            animal_batch_use_relationships,
-          } = animalBatch;
+          const desiredKeys = [
+            'id',
+            'count',
+            'custom_breed_id',
+            'custom_type_id',
+            'default_breed_id',
+            'default_type_id',
+            'name',
+            'notes',
+            'photo_url',
+            'organic_status',
+            'supplier',
+            'price',
+            'sex_detail',
+            'origin_id',
+            'group_ids',
+            'animal_batch_use_relationships',
+          ];
+          const keysExisting = desiredKeys.filter((key) => key in animalBatch);
+          const data = _pick(animalBatch, keysExisting);
 
-          await baseController.upsertGraph(
-            AnimalBatchModel,
-            {
-              id,
-              count,
-              custom_breed_id,
-              custom_type_id,
-              default_breed_id,
-              default_type_id,
-              name,
-              notes,
-              photo_url,
-              organic_status,
-              supplier,
-              price,
-              sex_detail,
-              origin_id,
-              group_ids,
-              animal_batch_use_relationships,
-            },
-            req,
-            { trx },
-          );
+          await baseController.upsertGraph(AnimalBatchModel, data, req, { trx });
         }
 
         // delete utility objects

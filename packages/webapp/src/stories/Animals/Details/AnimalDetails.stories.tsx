@@ -28,7 +28,7 @@ import {
   tagColorOptions,
   organicStatusOptions,
   originOptions,
-  defaultValues,
+  addDefaults,
   getOnFileUpload,
 } from './mockData';
 
@@ -44,7 +44,7 @@ type Story = StoryObj<typeof AnimalCreationDetails>;
 export const Default: Story = {
   render: () => {
     const formMethods: FormMethods = useForm({
-      defaultValues,
+      defaultValues: addDefaults,
     });
 
     return (

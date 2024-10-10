@@ -30,6 +30,7 @@ export type AnimalTypeSelectProps = {
   typeOptions: OptionsOrGroups<Option, GroupBase<Option>>;
   onTypeChange?: (Option: Option | null) => void;
   error?: FieldError;
+  isDisabled?: boolean;
 };
 
 export function AnimalTypeSelect<T extends FieldValues>({
@@ -38,6 +39,7 @@ export function AnimalTypeSelect<T extends FieldValues>({
   typeOptions,
   onTypeChange,
   error,
+  isDisabled = false,
 }: AnimalTypeSelectProps & UseControllerProps<T>) {
   const { t } = useTranslation();
   return (
@@ -56,6 +58,7 @@ export function AnimalTypeSelect<T extends FieldValues>({
               onTypeChange?.(option);
             }}
             value={value}
+            isDisabled={isDisabled}
           />
         )}
       />
@@ -68,6 +71,7 @@ export type AnimalBreedSelectProps = {
   breedOptions: Option[];
   isTypeSelected?: boolean;
   breedSelectRef?: RefObject<SelectInstance>;
+  isDisabled?: boolean;
 };
 
 export function AnimalBreedSelect<T extends FieldValues>({
@@ -76,6 +80,7 @@ export function AnimalBreedSelect<T extends FieldValues>({
   breedOptions,
   isTypeSelected,
   breedSelectRef,
+  isDisabled = false,
 }: AnimalBreedSelectProps & UseControllerProps<T>) {
   const { t } = useTranslation();
   return (
@@ -94,7 +99,7 @@ export function AnimalBreedSelect<T extends FieldValues>({
               ? t('ADD_ANIMAL.BREED_PLACEHOLDER')
               : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')
           }
-          isDisabled={!isTypeSelected}
+          isDisabled={!isTypeSelected || isDisabled}
           onChange={(option) => onChange(option)}
           value={value}
         />

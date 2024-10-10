@@ -46,6 +46,7 @@ export enum DetailsFields {
   BASICS_FIELD_ARRAY_ID = 'field_array_id', // remove before submitting
 
   // GENERAL
+  ID = 'id',
   BATCH_NAME = 'batch_name',
   TYPE = 'type',
   BREED = 'breed',
@@ -98,6 +99,7 @@ export type Option = {
 export type AnimalDetailsFormFields = {
   [DetailsFields.ANIMAL_OR_BATCH]?: string;
   [DetailsFields.BASICS_FIELD_ARRAY_ID]?: string;
+  [DetailsFields.ID]?: string;
   [DetailsFields.BATCH_NAME]?: string;
   [DetailsFields.COUNT]?: number;
   [DetailsFields.NAME]?: string;
@@ -130,6 +132,7 @@ export interface FormMethods extends UseFormReturn<Partial<AnimalDetailsFormFiel
 export type CommonDetailsProps = {
   t: TFunction;
   namePrefix?: string;
+  mode?: 'add' | 'edit' | 'readonly';
 };
 
 // Used by AddAnimals Form

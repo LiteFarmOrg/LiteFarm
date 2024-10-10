@@ -90,17 +90,6 @@ describe('Animal Tests', () => {
       .set('farm_id', farm_id)
       .send(data);
   }
-
-  async function patchRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
-    return await chai
-      .request(server)
-      .patch('/animals')
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(data);
-  }
-
   async function deleteRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id, query = '' }) {
     return await chai
       .request(server)
@@ -278,7 +267,7 @@ describe('Animal Tests', () => {
         animal,
       );
 
-      expect(res.status).toBe(500);
+      expect(res.status).toBe(400);
     });
 
     test('Unique internal_identifier should be added within the same farm_id between animals and animalBatches', async () => {
@@ -705,7 +694,7 @@ describe('Animal Tests', () => {
       }
 
       // animalIds of animals that didn't have group_name in request body should not exist in animal_group_relationship table
-      const animalsWithoutGroups = res.body.filter((animal, index) => {
+      const animalsWithoutGroups = res.body.filter((_, index) => {
         return !animalsGroups[index].group_name;
       });
       for (let animal of animalsWithoutGroups) {

@@ -27,11 +27,14 @@ import {
 import multerDiskUpload from '../util/fileUpload.js';
 import validateFileExtension from '../middleware/validation/uploadImage.js';
 import { checkRemoveAnimalOrBatch } from '../middleware/validation/checkAnimalOrBatch.js';
+import { validateBody } from '../middleware/validation/validate.js';
+import { addBatchAnimalsSchema } from '../schemas/animalBatchSchemas.js';
 
 router.get('/', checkScope(['get:animal_batches']), AnimalBatchController.getFarmAnimalBatches());
 router.post(
   '/',
   checkScope(['add:animal_batches']),
+  validateBody(addBatchAnimalsSchema),
   validateAnimalBatchCreationBody('batch'),
   AnimalBatchController.addAnimalBatches(),
 );

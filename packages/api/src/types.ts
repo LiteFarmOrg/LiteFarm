@@ -1,4 +1,5 @@
-import { Request } from 'express';
+import { Request, RequestHandler } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
 import { IncomingHttpHeaders } from 'http';
 import { JwtPayload } from 'jsonwebtoken';
 import { RolePermissions, UserFarm } from 'kysely-codegen';
@@ -12,3 +13,5 @@ export interface AuthenticatedRequest extends Request {
   role?: RoleId | null;
   headers: IncomingHttpHeaders & { farm_id: FarmId };
 }
+
+export type TypedRequestHandler<Body = unknown> = RequestHandler<ParamsDictionary, unknown, Body>;

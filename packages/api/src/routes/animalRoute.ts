@@ -27,12 +27,15 @@ import {
 import multerDiskUpload from '../util/fileUpload.js';
 import validateFileExtension from '../middleware/validation/uploadImage.js';
 import { checkRemoveAnimalOrBatch } from '../middleware/validation/checkAnimalOrBatch.js';
+import { validateBody } from '../middleware/validation/validate.js';
+import { addAnimalsSchema } from '../schemas/animalSchemas.js';
 
 router.get('/', checkScope(['get:animals']), AnimalController.getFarmAnimals());
 
 router.post(
   '/',
   checkScope(['add:animals']),
+  validateBody(addAnimalsSchema),
   validateAnimalBatchCreationBody(),
   AnimalController.addAnimals(),
 );
@@ -46,7 +49,6 @@ router.patch(
 router.delete(
   '/',
   checkScope(['delete:animals']),
-  //@ts-expect-error Todo: fix type error
   checkAnimalEntities(AnimalModel),
   AnimalController.deleteAnimals(),
 );

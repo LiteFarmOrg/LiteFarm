@@ -90,16 +90,6 @@ describe('Animal Batch Tests', () => {
       .send(data);
   }
 
-  async function patchRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
-    return await chai
-      .request(server)
-      .patch('/animal_batches')
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(data);
-  }
-
   async function deleteRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id, query = '' }) {
     return await chai
       .request(server)
@@ -243,9 +233,6 @@ describe('Animal Batch Tests', () => {
       const animalSex2 = await makeAnimalSex();
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
-        const [animalType] = await mocks.custom_animal_typeFactory({
-          promisedFarm: [mainFarm],
-        });
         const [animalBreed] = await mocks.custom_animal_breedFactory({
           promisedFarm: [mainFarm],
         });
@@ -333,7 +320,7 @@ describe('Animal Batch Tests', () => {
         animalBatch,
       );
 
-      expect(res.status).toBe(500);
+      expect(res.status).toBe(400);
     });
 
     test('Unique internal_identifier should be added within the same farm_id between animals and animalBatches', async () => {

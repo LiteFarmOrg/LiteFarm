@@ -13,16 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useTranslation } from 'react-i18next';
+import AnimalBatchBasicInfo from '../../../components/Animals/AnimalBatchBasicInfo';
 import useImagePickerUpload from '../../../components/ImagePicker/useImagePickerUpload';
 import { useAnimalOptions } from '../AddAnimals/useAnimalOptions';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
-import { useTranslation } from 'react-i18next';
-import { AnimalOrBatchKeys } from '../types';
 import { CommonDetailsProps } from '../AddAnimals/types';
-import GeneralDetails from '../../../components/Animals/DetailCards/General';
-import UniqueDetails from '../../../components/Animals/DetailCards/Unique';
-import Origin from '../../../components/Animals/DetailCards/Origin';
-import OtherDetails from '../../../components/Animals/DetailCards/Other';
 
 // TODO: LF-4383 Animal Details Form Container. This is placeholder
 const AnimalReadonlyEdit = ({ isEditing = false }) => {
@@ -78,22 +74,16 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
     tagColorOptions,
   };
 
-  // TODO: LF-4383 Animal details Form container -- Create a real wrapping component with styles for these cards, passing of readonly and edit modes in child components, and decision about whether Animal + Batch will be handled via prop or via separate components (as in AnimalDetails and BatchDetails). ExpandableItem is not necessary for this component as they will never collapse
   return (
     <>
-      <h2>LF-4383 Animal Details Form Container</h2>
-      <GeneralDetails
-        {...generalDetailProps}
-        {...commonProps}
-        animalOrBatch={isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH}
+      <AnimalBatchBasicInfo
+        isAnimal={isAnimal}
+        generalDetailProps={generalDetailProps}
+        uniqueDetailsProps={uniqueDetailsProps}
+        otherDetailsProps={otherDetailsProps}
+        originProps={originProps}
+        commonProps={commonProps}
       />
-      <UniqueDetails {...uniqueDetailsProps} {...commonProps} />
-      <OtherDetails
-        {...commonProps}
-        {...otherDetailsProps}
-        animalOrBatch={isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH}
-      />
-      <Origin {...originProps} {...commonProps} />
     </>
   );
 };

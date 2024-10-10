@@ -12,17 +12,19 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-// import path from 'path';
-// import { fileURLToPath } from 'url';
 
-const dotenv = require('dotenv');
-const path = require('path');
+import dotenv from 'dotenv';
+dotenv.config({ path: '../.env' });
 
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+const migrations = {
+  directory: '../db/migration',
+};
 
-const root = path.resolve(__dirname, '../');
+const seeds = {
+  directory: '../db/seeds',
+};
 
-module.exports = {
+export default {
   development: {
     client: 'postgresql',
     connection: {
@@ -32,12 +34,8 @@ module.exports = {
       password: process.env.DEV_DATABASE_PASSWORD,
       port: process.env.DEV_DATABASE_PORT || 5432,
     },
-    migrations: {
-      directory: root + '/db/migration',
-    },
-    seeds: {
-      directory: root + '/db/seeds',
-    },
+    migrations,
+    seeds,
   },
 
   ci: {
@@ -48,12 +46,8 @@ module.exports = {
       user: 'postgres',
       password: 'postgres',
     },
-    migrations: {
-      directory: root + '/db/migration',
-    },
-    seeds: {
-      directory: root + '/db/seeds',
-    },
+    migrations,
+    seeds,
   },
 
   integration: {
@@ -66,24 +60,16 @@ module.exports = {
       password: process.env.DEV_DATABASE_PASSWORD,
       ssl: { rejectUnauthorized: false },
     },
-    migrations: {
-      directory: root + '/db/migration',
-    },
-    seeds: {
-      directory: root + '/db/seeds',
-    },
+    migrations,
+    seeds,
   },
 
   production: {
     client: 'postgresql',
     debug: true,
     connection: process.env.DATABASE_URL,
-    migrations: {
-      directory: root + '/db/migration',
-    },
-    seeds: {
-      directory: root + '/db/seeds',
-    },
+    migrations,
+    seeds,
     ssl: {
       rejectUnauthorized: false,
     },
@@ -98,12 +84,8 @@ module.exports = {
       port: process.env.TEST_DATABASE_PORT || 5432,
     },
     pool: { min: 0, max: 100 },
-    migrations: {
-      directory: root + '/db/migration',
-    },
-    seeds: {
-      directory: root + '/db/seeds',
-    },
+    migrations,
+    seeds,
   },
   pipeline: {
     client: 'postgresql',
@@ -115,11 +97,7 @@ module.exports = {
       password: 'pipeline',
     },
     pool: { min: 0, max: 100 },
-    migrations: {
-      directory: root + '/db/migration',
-    },
-    seeds: {
-      directory: root + '/db/seeds',
-    },
+    migrations,
+    seeds,
   },
 };

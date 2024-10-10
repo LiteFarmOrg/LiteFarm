@@ -13,7 +13,7 @@ If you’re a farmer and would like to join LiteFarm you can sign up today at ap
 LiteFarm is comprised of three applications which all reside in this monorepo.
 
 - `packages/webapp` is the client-facing application
-- `packages/api` is the back-end API server with entry point `src/server.js`
+- `packages/api` is the back-end API server with entry point `src/server.ts`
 - `packages/api/src/jobs` is the "jobs scheduler" for certification exports, with entry point `index.js`
 
 ## Preliminaries
@@ -103,7 +103,7 @@ In a Terminal window:
 
 ## api
 
-In a terminal, navigate to the `packages/api` folder. Run `npm run nodemon` to launch the backend application. Nodemon will automatically restart the application when changes are made to the backend code.
+In a terminal, navigate to the `packages/api` folder. Run `npm run dev` to launch the backend application in development mode. The server will automatically restart when changes are made to the backend code.
 
 ## webapp
 
@@ -261,7 +261,7 @@ _Note: Please make sure to run the commands in the following order:_
 - `npm run ngrok` or `npm run ngrok:api` or `npm run ngrok:webapp`
 - `npm run ngrok:setup` (in a new terminal)
 - `pnpm dev` (in a new terminal from the `packages/webapp` folder)
-- `npm run nodemon` (in a new terminal from the `packages/api` folder)
+- `npm run dev` (in a new terminal from the `packages/api` folder)
 
 # Docker
 

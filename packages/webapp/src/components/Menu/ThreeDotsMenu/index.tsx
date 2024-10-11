@@ -13,21 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import { forwardRef, ReactNode } from 'react';
+import clsx from 'clsx';
 import { BsThreeDots } from 'react-icons/bs';
 import FloatingMenu from '../FloatingButtonMenu/FloatingMenu';
 import DropdownButton from '../../Form/DropDownButton';
 import styles from './styles.module.scss';
 
 export type ThreeDotsMenuProps = {
+  classes?: { button?: string };
   options: { label: ReactNode; onClick: () => void }[];
 };
 
-const ThreeDotsMenu = ({ options }: ThreeDotsMenuProps) => {
+const ThreeDotsMenu = ({ options, classes }: ThreeDotsMenuProps) => {
   return (
     <DropdownButton
       type={'v2'}
       noIcon
-      classes={{ button: styles.menuButton }}
+      classes={{ button: clsx(styles.menuButton, classes?.button) }}
       Menu={forwardRef((menuProps, ref) => (
         <FloatingMenu
           ref={ref}

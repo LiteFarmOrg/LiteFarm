@@ -7,7 +7,7 @@ git stash
 git pull origin integration
 export NVM_DIR=~/.nvm
 source ~/.nvm/nvm.sh
-nvm use 18.16.1
+nvm use --lts
 node -v
 cd packages/api
 npm install

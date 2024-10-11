@@ -4,6 +4,9 @@
   "description": "Cypress e2e tests for LiteFarm",
   "main": "index.js",
   "type": "commonjs",
+  "engines": {
+    "node": ">=20.6"
+  },
   "scripts": {
     "precommit": "lint-staged",
     "cypress": "cypress open"

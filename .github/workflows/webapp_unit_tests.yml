@@ -9,6 +9,7 @@ jobs:
   webapp_unit_tests:
     name: Webapp Unit Tests
     runs-on: ubuntu-latest
+    container: node:lts
     defaults:
       run:
         working-directory: packages/webapp
@@ -18,7 +19,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.26.1
+          version: 9
       - name: Install dependencies
         run: pnpm install
       - name: Run unit tests

@@ -11,6 +11,7 @@ jobs:
   run-linters-in-webapp:
     name: Run linters in webapp
     runs-on: ubuntu-latest
+    container: node:lts
     defaults:
       run:
         working-directory: packages/webapp/
@@ -22,7 +23,7 @@ jobs:
       - name: Set up pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.26.1
+          version: 9
 
       - name: Install pnpm dependencies
         run: pnpm install
@@ -44,7 +45,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install dependencies for Node.js server
         run: npm install

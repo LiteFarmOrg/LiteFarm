@@ -54,6 +54,7 @@ export default function DropdownButton({
     autoFocusItem: isOpen,
     id: 'composition-menu',
     'aria-labelledby': 'composition-button',
+    onCloseMenu: () => setOpen(false),
   };
 
   return (

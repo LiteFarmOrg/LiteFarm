@@ -60,6 +60,7 @@ describe('Animal Batch Tests', () => {
     return await chai
       .request(server)
       .get('/animal_batches')
+      .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id);
   }
@@ -696,6 +697,8 @@ describe('Animal Batch Tests', () => {
     let animalUse1;
     let animalUse2;
     let animalUse3;
+    let animalBreed;
+    let animalBreed2;
 
     beforeEach(async () => {
       [animalGroup1] = await mocks.animal_groupFactory();
@@ -710,6 +713,8 @@ describe('Animal Batch Tests', () => {
       [animalUse1] = await mocks.animal_useFactory('OTHER');
       [animalUse2] = await mocks.animal_useFactory();
       [animalUse3] = await mocks.animal_useFactory();
+      [animalBreed] = await mocks.default_animal_breedFactory();
+      [animalBreed2] = await mocks.default_animal_breedFactory();
     });
 
     async function addAnimalBatches(mainFarm, user) {
@@ -987,6 +992,437 @@ describe('Animal Batch Tests', () => {
       // Check database
       const batchRecord = await AnimalBatchModel.query().findById(batch.id);
       expect(batchRecord.sire).toBeNull();
+    });
+
+    const customErrors = [
+      {
+        testName: 'Exactly one type provided',
+        getPatchBody: (batch) => [
+          {
+            id: batch.id,
+            default_type_id: batch.default_type_id,
+            type_name: 'string',
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Exactly one of default_type_id, custom_type_id, or type_name must be sent',
+        },
+      },
+      {
+        testName: 'Custom type id is number',
+        getPatchBody: (batch) => [
+          {
+            id: batch.id,
+            custom_type_id: 'string',
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Must send valid ids',
+        },
+      },
+      {
+        testName: 'Custom id exists',
+        getPatchBody: (batch) => [
+          {
+            id: batch.id,
+            custom_type_id: 1000000,
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Custom type does not exist',
+        },
+      },
+      {
+        testName: 'Custom type does not belong to farm',
+        getPatchBody: (batch, existingBatches, customs) => [
+          {
+            id: batch.id,
+            custom_type_id: customs.otherFarm.otherCustomAnimalType.id,
+          },
+        ],
+        patchErr: {
+          code: 403,
+          message: 'Forbidden custom type does not belong to this farm',
+        },
+      },
+      {
+        testName: 'Exactly one breed provided',
+        getPatchBody: (batch) => [
+          {
+            id: batch.id,
+            default_type_id: animalBreed.default_type_id,
+            default_breed_id: animalBreed.id,
+            breed_name: 'string',
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Exactly one of default_breed_id, custom_breed_id, or breed_name must be sent',
+        },
+      },
+      {
+        testName: 'Default type matches default breed -- default type is changed',
+        getPatchBody: (batch, existingBatches) => [
+          {
+            id: existingBatches[0].id,
+            default_type_id: animalBreed2.default_type_id,
+          },
+        ],
+        getPostBody: () => [
+          {
+            default_type_id: animalBreed.default_type_id,
+            default_breed_id: animalBreed.id,
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Breed does not match type',
+        },
+      },
+      {
+        testName: 'Default type matches default breed -- default breed is changed',
+        getPatchBody: (batch, existingBatches) => [
+          {
+            id: existingBatches[0].id,
+            default_breed_id: animalBreed2.id,
+          },
+        ],
+        getPostBody: () => [
+          {
+            default_type_id: animalBreed.default_type_id,
+            default_breed_id: animalBreed.id,
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Breed does not match type',
+        },
+      },
+      {
+        testName: 'Default breed is a number',
+        getPatchBody: (batch) => [
+          {
+            id: batch.id,
+            default_breed_id: 'string',
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Must send valid ids',
+        },
+      },
+      {
+        testName: 'Default breed provided exists (optional to provide)',
+        getPatchBody: (batch) => [
+          {
+            id: batch.id,
+            default_breed_id: 1000000,
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Default breed does not exist',
+        },
+      },
+      {
+        testName: 'Default type matches default breed -- both are changed but mismatch',
+        getPatchBody: (batch, existingBatches) => [
+          {
+            id: existingBatches[0].id,
+            default_type_id: animalBreed.default_type_id,
+            default_breed_id: animalBreed2.id,
+          },
+        ],
+        getPostBody: () => [
+          {
+            default_type_id: animalBreed.default_type_id,
+            default_breed_id: animalBreed.id,
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Breed does not match type',
+        },
+      },
+      {
+        testName: 'Custom type cannot be used with default breed',
+        getPostBody: (customs) => [
+          {
+            custom_type_id: customs.customAnimalType.id,
+            default_breed_id: animalBreed.id,
+          },
+        ],
+        postErr: {
+          code: 400,
+          message: 'Default breed must use default type',
+        },
+      },
+      {
+        testName: 'Custom breed is a number',
+        getPatchBody: (batch) => [
+          {
+            id: batch.id,
+            custom_breed_id: 'string',
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Must send valid ids',
+        },
+      },
+      {
+        testName: 'Custom breed provided exists (optional to provide)',
+        getPatchBody: (batch) => [
+          {
+            id: batch.id,
+            custom_breed_id: 1000000,
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Custom breed does not exist',
+        },
+      },
+      {
+        testName: 'Custom breed provided exists (optional to provide)',
+        getPatchBody: (batch) => [
+          {
+            id: batch.id,
+            custom_breed_id: 1000000,
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Custom breed does not exist',
+        },
+      },
+      {
+        testName: 'Custom breed does not belong to farm',
+        getPatchBody: (batch, existingBatches, customs) => [
+          {
+            id: batch.id,
+            custom_breed_id: customs.otherFarm.otherCustomAnimalBreed.id,
+          },
+        ],
+        patchErr: {
+          code: 403,
+          message: 'Forbidden custom breed does not belong to this farm',
+        },
+      },
+      {
+        testName: 'Default type matches custom breed -- default type is changed',
+        getPatchBody: (batch, existingBatches, customs) => [
+          {
+            id: existingBatches[0].id,
+            default_type_id: animalBreed.default_type_id,
+          },
+        ],
+        getPostBody: (customs) => [
+          {
+            default_type_id: customs.customAnimalBreed.default_type_id,
+            custom_breed_id: customs.customAnimalBreed.id,
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Breed does not match type',
+        },
+      },
+      {
+        testName: 'Default type matches custom breed -- custom type is changed',
+        getPatchBody: (batch, existingBatches, customs) => [
+          {
+            id: existingBatches[0].id,
+            custom_type_id: customs.customAnimalBreed2.custom_type_id,
+          },
+        ],
+        getPostBody: (customs) => [
+          {
+            default_type_id: customs.customAnimalBreed.default_type_id,
+            custom_breed_id: customs.customAnimalBreed.id,
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Breed does not match type',
+        },
+      },
+      {
+        testName: 'Default type matches custom breed -- breed and type are changed',
+        getPatchBody: (batch, existingBatches, customs) => [
+          {
+            id: existingBatches[0].id,
+            default_type_id: customs.customAnimalBreed.default_type_id,
+            custom_breed_id: customs.customAnimalBreed2.id,
+          },
+        ],
+        getPostBody: (customs) => [
+          {
+            default_type_id: customs.customAnimalBreed.default_type_id,
+            custom_breed_id: customs.customAnimalBreed.id,
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Breed does not match type',
+        },
+      },
+      {
+        testName: 'Check create batch sex detail',
+        getPostBody: (customs) => [
+          {
+            count: 3,
+            sex_detail: [
+              {
+                sex_id: animalSex1.id,
+                count: 2,
+              },
+              {
+                sex_id: animalSex2.id,
+                count: 2,
+              },
+            ],
+          },
+        ],
+        postErr: {
+          code: 400,
+          message: 'Batch count must be greater than or equal to sex detail count',
+        },
+      },
+      {
+        testName: 'Check create batch sex detail -- change count',
+        getPatchBody: (batch, existingBatches) => [
+          {
+            id: existingBatches[0].id,
+            count: 3,
+          },
+        ],
+        getPostBody: () => [
+          {
+            default_type_id: animalBreed.default_type_id,
+            count: 4,
+            sex_detail: [
+              {
+                sex_id: animalSex1.id,
+                count: 2,
+              },
+              {
+                sex_id: animalSex2.id,
+                count: 2,
+              },
+            ],
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Batch count must be greater than or equal to sex detail count',
+        },
+      },
+      {
+        testName: 'Check create batch sex detail -- change sex_detail',
+        getPatchBody: (batch, existingBatches) => [
+          {
+            id: existingBatches[0].id,
+            count: 3,
+          },
+        ],
+        getPostBody: () => [
+          {
+            default_type_id: animalBreed.default_type_id,
+            count: 4,
+            sex_detail: [
+              {
+                sex_id: animalSex1.id,
+                count: 2,
+              },
+              {
+                sex_id: animalSex2.id,
+                count: 2,
+              },
+            ],
+          },
+        ],
+        patchErr: {
+          code: 400,
+          message: 'Batch count must be greater than or equal to sex detail count',
+        },
+      },
+    ];
+
+    customErrors.forEach(async (error) => {
+      await test(`CustomError: ${error.testName}`, async () => {
+        const { mainFarm, user } = await returnUserFarms(1);
+        const { mainFarm: otherFarm } = await returnUserFarms(1);
+        const batch = await makeAnimalBatch(mainFarm, {
+          default_type_id: defaultTypeId,
+        });
+        const [customAnimalType] = await mocks.custom_animal_typeFactory({
+          promisedFarm: [mainFarm],
+        });
+        const [customAnimalBreed] = await mocks.custom_animal_breedFactory(
+          {
+            promisedFarm: [mainFarm],
+          },
+          undefined,
+          false,
+        );
+        const [customAnimalBreed2] = await mocks.custom_animal_breedFactory({
+          promisedFarm: [mainFarm],
+        });
+        const [otherCustomAnimalType] = await mocks.custom_animal_typeFactory({
+          promisedFarm: [otherFarm],
+        });
+        const [otherCustomAnimalBreed] = await mocks.custom_animal_breedFactory({
+          promisedFarm: [otherFarm],
+        });
+        const customs = {
+          customAnimalType,
+          customAnimalBreed,
+          customAnimalBreed2,
+          otherFarm: { otherCustomAnimalType, otherCustomAnimalBreed },
+        };
+        const makeCheckGetBatch = async (getPostBody) => {
+          // Default type matches default breed
+          const batches = getPostBody(customs).map((batch) => mocks.fakeAnimalBatch(batch));
+          const postRes = await postRequest(
+            {
+              user_id: user.user_id,
+              farm_id: mainFarm.farm_id,
+            },
+            [...batches],
+          );
+          console.log(error.testName);
+          console.log(postRes);
+          expect(postRes.status).toBe(error.postErr?.code || 201);
+          expect(postRes.error.text).toBe(error.postErr?.message || undefined);
+          return postRes.body;
+        };
+
+        const existingBatches = error.getPostBody
+          ? await makeCheckGetBatch(error.getPostBody)
+          : undefined;
+
+        const editCheckBatch = async (getPatchBody) => {
+          const batches = getPatchBody(batch, existingBatches, customs).map((batch) =>
+            mocks.fakeAnimalBatch(batch),
+          );
+          const patchRes = await patchRequest(
+            {
+              user_id: user.user_id,
+              farm_id: mainFarm.farm_id,
+            },
+            [...batches],
+          );
+          expect(patchRes.status).toBe(error.patchErr?.code || 204);
+          expect(patchRes.error.text).toBe(error.patchErr?.message || undefined);
+        };
+        if (error.getPatchBody) {
+          await editCheckBatch(error.getPatchBody);
+        }
+      });
     });
   });
 

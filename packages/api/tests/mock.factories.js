@@ -2281,22 +2281,27 @@ function fakeCustomAnimalBreed(defaultData = {}) {
 async function custom_animal_breedFactory(
   {
     promisedFarm = farmFactory(),
-    promisedAnimalType = custom_animal_typeFactory({ promisedFarm }),
+    promisedCustomAnimalType = custom_animal_typeFactory({ promisedFarm }),
+    promisedDefaultAnimalType = default_animal_typeFactory({ promisedFarm }),
     properties = {},
   } = {},
   animalBreed = fakeCustomAnimalBreed(properties),
+  customType = true,
 ) {
-  const [farm, user, animalType] = await Promise.all([
+  const [farm, user, customAnimalType, defaultAnimalType] = await Promise.all([
     promisedFarm,
     usersFactory(),
-    promisedAnimalType,
+    promisedCustomAnimalType,
+    promisedDefaultAnimalType,
   ]);
   const [{ farm_id }] = farm;
   const [{ user_id }] = user;
-  const [{ id: custom_type_id }] = animalType;
+  const [{ id: custom_type_id }] = customAnimalType;
+  const [{ id: default_type_id }] = defaultAnimalType;
+  const type = customType ? { custom_type_id } : { default_type_id };
   const base = baseProperties(user_id);
   return knex('custom_animal_breed')
-    .insert({ farm_id, custom_type_id, ...animalBreed, ...base })
+    .insert({ farm_id, ...type, ...animalBreed, ...base })
     .returning('*');
 }
 

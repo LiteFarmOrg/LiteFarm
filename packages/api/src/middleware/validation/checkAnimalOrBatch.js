@@ -86,9 +86,9 @@ const checkAnimalType = async (animalOrBatch, farm_id, creating = true) => {
       setFalsyValuesToNull(typeKeyOptions, animalOrBatch);
     }
     if (custom_type_id) {
+      checkIdIsNumber(custom_type_id);
       const customType = await CustomAnimalTypeModel.query().findById(custom_type_id);
       if (!customType) {
-        // TODO: new error add test
         throw customError('Custom type does not exist');
       }
       await checkRecordBelongsToFarm(customType, farm_id, 'custom type');
@@ -117,8 +117,12 @@ const checkDefaultBreedMatchesType = async (
   }
 
   if (defaultTypeId && defaultBreedId) {
+    checkIdIsNumber(defaultBreedId);
     const defaultBreed = await DefaultAnimalBreedModel.query().findById(defaultBreedId);
-    if (defaultBreed && defaultBreed.default_type_id !== defaultTypeId) {
+    if (!defaultBreed) {
+      throw customError('Default breed does not exist');
+    }
+    if (defaultBreed.default_type_id !== defaultTypeId) {
       throw customError('Breed does not match type');
     }
   } else if (!defaultTypeId) {
@@ -194,18 +198,23 @@ const checkAnimalBreed = async (
   ) {
     let customBreed;
     // Find customBreed if exists
-    if (custom_breed_id) {
+    if (oneExists(breedKeyOptions, animalOrBatch) && custom_breed_id) {
+      checkIdIsNumber(custom_breed_id);
       customBreed = await CustomAnimalBreedModel.query()
         .whereNotDeleted()
         .findById(custom_breed_id);
       if (!customBreed) {
-        // TODO : new error add test
         throw customError('Custom breed does not exist');
       }
     } else if (animalOrBatchRecord?.custom_breed_id) {
+      checkIdIsNumber(animalOrBatchRecord?.custom_breed_id);
       customBreed = await CustomAnimalBreedModel.query()
         .whereNotDeleted()
         .findById(animalOrBatchRecord.custom_breed_id);
+      if (!customBreed) {
+        // This should not be possible
+        throw customError('Custom breed does not exist');
+      }
     }
     // Check custom breed if exists
     if (customBreed) {

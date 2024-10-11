@@ -9,6 +9,7 @@ jobs:
   webapp_unit_tests:
     name: Webapp Unit Tests
     runs-on: ubuntu-latest
+    container: node:lts
     defaults:
       run:
         working-directory: packages/webapp

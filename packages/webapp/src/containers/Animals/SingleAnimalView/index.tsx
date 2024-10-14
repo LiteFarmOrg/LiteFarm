@@ -21,17 +21,32 @@ import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
 import Button from '../../../components/Form/Button';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
+import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../../store/api/apiSlice';
 
 export const STEPS = {
   DETAILS: 'details',
 } as const;
 
-interface AddAnimalsProps extends RouteComponentProps {
+interface RouteParams {
+  id: string;
+}
+
+interface AddAnimalsProps extends RouteComponentProps<RouteParams> {
   isCompactSideMenu: boolean;
 }
 
 function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps) {
   const { t } = useTranslation(['translation', 'common', 'message']);
+
+  const { data: animals = [] } = useGetAnimalsQuery();
+  const { data: batches = [] } = useGetAnimalBatchesQuery();
+
+  const selectedAnimal = animals.find(
+    (animal) => animal.internal_identifier === Number(match.params.id),
+  );
+  const selectedBatch = batches.find(
+    (batch) => batch.internal_identifier === Number(match.params.id),
+  );
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -51,9 +66,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     },
   ];
 
-  const defaultFormValues = {
-    [STEPS.DETAILS]: [],
-  };
+  const defaultFormValues = selectedAnimal || selectedBatch;
 
   const routerTabs = [
     {

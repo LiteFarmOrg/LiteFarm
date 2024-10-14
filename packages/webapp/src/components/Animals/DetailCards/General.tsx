@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -23,7 +23,7 @@ import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
 import NumberInput from '../../Form/NumberInput';
 import SexDetails from '../../Form/SexDetails';
 import { type Details as SexDetailsType } from '../../Form/SexDetails/SexDetailsPopover';
-import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
+import { ANIMAL_ID_PREFIX, AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import {
   DetailsFields,
   type Option,
@@ -40,15 +40,30 @@ import {
   Option as AnimalSelectOption,
   AnimalBreedSelect,
 } from '../AddAnimalsFormCard/AnimalSelect';
+import { generateUniqueAnimalId } from '../../../util/animal';
+
+type UseOptions =
+  | Option[DetailsFields.USE][] // Add Animals Flow
+  | {
+      // Single Animal View
+      default_type_id: number;
+      uses: Option[DetailsFields.USE][];
+    }[];
 
 export type GeneralDetailsProps = CommonDetailsProps & {
   sexOptions: Option[DetailsFields.SEX][];
-  useOptions: Option[DetailsFields.USE][];
+  useOptions: UseOptions;
   animalOrBatch: AnimalOrBatchKeys;
   sexDetailsOptions?: SexDetailsType;
   typeOptions?: AnimalSelectOption[];
   breedOptions?: AnimalSelectOption[];
   onTypeChange?: (Option: AnimalSelectOption | null) => void;
+};
+
+const isUseOptionsAllTypes = (
+  useOptions: UseOptions,
+): useOptions is { default_type_id: number; uses: Option[DetailsFields.USE][] }[] => {
+  return typeof useOptions[0] === 'object';
 };
 
 const GeneralDetails = ({
@@ -70,8 +85,53 @@ const GeneralDetails = ({
     watch,
     getValues,
     resetField,
-    formState: { errors },
+    setValue,
+    formState: { errors, defaultValues },
   } = useFormContext();
+
+  const [useOptionsState, setUseOptionsState] = useState(useOptions);
+
+  useEffect(() => {
+    if (mode === 'add') {
+      return;
+    }
+    if (typeOptions) {
+      const typeId = defaultValues?.custom_type_id
+        ? generateUniqueAnimalId(ANIMAL_ID_PREFIX.CUSTOM, defaultValues?.custom_type_id)
+        : generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, defaultValues?.default_type_id);
+      setValue(
+        `${namePrefix}${DetailsFields.TYPE}`,
+        typeOptions.find(({ value }) => value === typeId),
+        { shouldValidate: true },
+      );
+    }
+
+    if ((breedOptions && defaultValues?.custom_breed_id) || defaultValues?.default_breed_id) {
+      const breedId = defaultValues?.custom_breed_id
+        ? generateUniqueAnimalId(ANIMAL_ID_PREFIX.CUSTOM, defaultValues?.custom_breed_id)
+        : generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, defaultValues?.default_breed_id);
+
+      setValue(
+        `${namePrefix}${DetailsFields.BREED}`,
+        breedOptions.find(({ value }) => value === breedId),
+      );
+    }
+
+    if (isUseOptionsAllTypes(useOptions)) {
+      const useOptionsForType = useOptions.find(
+        ({ default_type_id }) => default_type_id === defaultValues?.default_type_id,
+      );
+
+      const animalUses = defaultValues?.animal_use_relationships?.map(
+        ({ use_id }: { use_id: number }) => {
+          return useOptionsForType?.uses.find(({ value }) => value === use_id);
+        },
+      );
+
+      setValue(`${namePrefix}${DetailsFields.USE}`, animalUses);
+      setUseOptionsState(useOptionsForType?.uses || []);
+    }
+  }, []);
 
   const watchBatchCount = watch(`${namePrefix}${DetailsFields.COUNT}`) || 0;
   const watchedUse = watch(`${namePrefix}${DetailsFields.USE}`) as Option[DetailsFields.USE][];
@@ -203,7 +263,7 @@ const GeneralDetails = ({
             isMulti
             value={value}
             onChange={onChange}
-            options={useOptions}
+            options={useOptionsState}
             style={{ paddingBottom: '12px' }} // accomodate "Clear all" button space
             isDisabled={mode === 'readonly'}
           />

@@ -28,6 +28,8 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
   const isAnimal = true; // TODO LF-4383 decide how to handle animals vs batches
 
   const {
+    typeOptions,
+    breedOptions,
     sexOptions,
     sexDetailsOptions,
     useOptions,
@@ -36,6 +38,9 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
     organicStatusOptions,
     originOptions,
   } = useAnimalOptions(
+    'type',
+    'breed',
+    'default_types',
     'sex',
     'sexDetails',
     'use',
@@ -55,6 +60,8 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
   };
 
   const generalDetailProps = {
+    typeOptions,
+    breedOptions,
     sexOptions,
     sexDetailsOptions,
     useOptions,

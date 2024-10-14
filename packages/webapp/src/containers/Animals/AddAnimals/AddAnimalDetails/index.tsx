@@ -36,7 +36,10 @@ import useImagePickerUpload from '../../../../components/ImagePicker/useImagePic
 type AnimalDetailsField = FieldArrayWithId<AddAnimalsFormFields, 'details'>;
 
 const AddAnimalDetails = () => {
-  const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
+  const { expandedIds, toggleExpanded } = useExpandable(
+    // @ts-ignore
+    { isSingleExpandable: true },
+  );
 
   const { control, watch } = useFormContext<AddAnimalsFormFields>();
 

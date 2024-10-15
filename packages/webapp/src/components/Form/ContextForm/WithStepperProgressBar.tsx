@@ -124,7 +124,6 @@ export const WithStepperProgressBar = ({
   const handleDismissModal = () => {
     setTransition({ unblock: undefined, retry: undefined });
     setShowCancelFlow?.(false);
-    setIsEditing?.(true);
   };
 
   return (

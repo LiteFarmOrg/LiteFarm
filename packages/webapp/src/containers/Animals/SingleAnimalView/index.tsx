@@ -22,6 +22,7 @@ import AnimalReadonlyEdit from './AnimalReadonlyEdit';
 import Button from '../../../components/Form/Button';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../../store/api/apiSlice';
+import { getLocalDateInYYYYDDMM } from '../../../util/date';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -66,7 +67,23 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     },
   ];
 
-  const defaultFormValues = selectedAnimal || selectedBatch;
+  const defaultFormValues = {
+    ...(selectedAnimal
+      ? {
+          ...selectedAnimal,
+          birth_date: adjustDate(selectedAnimal.birth_date),
+          brought_in_date: adjustDate(selectedAnimal.brought_in_date),
+          weaning_date: adjustDate(selectedAnimal.weaning_date),
+        }
+      : {}),
+    ...(selectedBatch
+      ? {
+          ...selectedBatch,
+          birth_date: adjustDate(selectedBatch.birth_date),
+          brought_in_date: adjustDate(selectedBatch.brought_in_date),
+        }
+      : {}),
+  };
 
   const routerTabs = [
     {
@@ -118,3 +135,8 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
 }
 
 export default SingleAnimalView;
+
+// Send dates to the formatting function or maintain null
+const adjustDate = (date?: string | null) => {
+  return date ? getLocalDateInYYYYDDMM(new Date(date)) : null;
+};

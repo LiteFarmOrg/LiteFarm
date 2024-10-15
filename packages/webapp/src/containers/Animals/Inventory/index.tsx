@@ -136,6 +136,10 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
     [t, isDesktop],
   );
 
+  const onRowClick = (_event: ChangeEvent, row: AnimalInventory) => {
+    history.push(row.path);
+  };
+
   const makeAnimalsSearchableString = (animal: AnimalInventory) => {
     return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
       .filter(Boolean)
@@ -235,6 +239,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
         clearFilters={clearFilters}
         isLoading={isLoading}
         history={history}
+        onRowClick={onRowClick}
       />
       {selectedInventoryIds.length ? (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>

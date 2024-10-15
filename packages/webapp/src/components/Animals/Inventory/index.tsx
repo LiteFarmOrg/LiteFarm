@@ -53,6 +53,7 @@ const PureAnimalInventory = ({
   onSelectInventory,
   handleSelectAllClick,
   selectedIds,
+  onRowClick,
   totalInventoryCount,
   isFilterActive,
   clearFilters,
@@ -67,6 +68,7 @@ const PureAnimalInventory = ({
   searchProps: SearchProps;
   onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
   handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
+  onRowClick: (event: ChangeEvent, row: AnimalInventory) => void;
   selectedIds: string[];
   totalInventoryCount: number;
   isFilterActive: boolean;
@@ -139,6 +141,7 @@ const PureAnimalInventory = ({
             maxHeight={tableMaxHeight}
             spacerRowHeight={isDesktop ? 96 : 120}
             headerClass={styles.headerClass}
+            onRowClick={onRowClick}
           />
         ) : (
           <NoSearchResults

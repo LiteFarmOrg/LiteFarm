@@ -61,13 +61,19 @@ export const AnimalWithoutPhoto: Story = {
 
 export const AnimalWithoutLocation: Story = {
   args: {
-    animalOrBatch: { ...mockAnimal1, location: undefined, photo_url: null },
+    animalOrBatch: mockAnimal1,
+  },
+};
+
+export const AnimalWithoutAge: Story = {
+  args: {
+    animalOrBatch: { ...mockAnimal1, location: 'Pig House', birth_date: null },
   },
 };
 
 export const AnimalWithLongTexts: Story = {
   args: {
-    animalOrBatch: { ...mockAnimal2, location: 'Pig House ABCDEFG' },
+    animalOrBatch: { ...mockAnimal2, location: 'Pig House ABCDEFG', birth_date: null },
   },
 };
 
@@ -80,7 +86,7 @@ export const EditMode: Story = {
 
 export const EditModeWithLongText: Story = {
   args: {
-    animalOrBatch: { ...mockAnimal2, location: 'Pig House ABCDEFG' },
+    animalOrBatch: { ...mockAnimal2, location: 'Pig House ABCDEFG', birth_date: null },
     isEditing: true,
   },
 };

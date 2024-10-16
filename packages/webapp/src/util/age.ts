@@ -78,9 +78,9 @@ export const calculateAge = (birth: Date, today: Date = new Date()): Age => {
     Math.min(daysInNextMonth, birth.getDate()),
   );
 
-  const daysBetweenBirthdays = new Date(
-    nextBirthDate.getTime() - previousBirthDate.getTime(),
-  ).getDate();
+  const daysBetweenBirthdays = Math.round(
+    (nextBirthDate.getTime() - previousBirthDate.getTime()) / (1000 * 60 * 60 * 24),
+  );
 
   return { years, months, days, daysBetweenBirthdays };
 };

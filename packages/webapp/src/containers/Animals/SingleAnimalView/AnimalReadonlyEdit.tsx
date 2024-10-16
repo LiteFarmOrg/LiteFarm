@@ -14,18 +14,23 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { useFormContext } from 'react-hook-form';
 import AnimalBatchBasicInfo from '../../../components/Animals/AnimalBatchBasicInfo';
 import useImagePickerUpload from '../../../components/ImagePicker/useImagePickerUpload';
 import { useAnimalOptions } from '../AddAnimals/useAnimalOptions';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
 import { CommonDetailsProps } from '../AddAnimals/types';
+import { AnimalOrBatchKeys } from '../types';
 
-// TODO: LF-4383 Animal Details Form Container. This is placeholder
 const AnimalReadonlyEdit = ({ isEditing = false }) => {
   const { getOnFileUpload } = useImagePickerUpload();
   const { t } = useTranslation(['translation', 'common', 'animal']);
 
-  const isAnimal = true; // TODO LF-4383 decide how to handle animals vs batches
+  const {
+    formState: { defaultValues },
+  } = useFormContext();
+
+  const isAnimal = defaultValues?.animal_or_batch === AnimalOrBatchKeys.ANIMAL;
 
   const {
     typeOptions,
@@ -49,8 +54,6 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
     'organicStatus',
     'origin',
   );
-
-  // TODO: LF-4383 Form container -- useOptions per type used to be narrowed in the container; now since type can be altered this will have to be moved to the component
 
   const currency = useCurrencySymbol();
 

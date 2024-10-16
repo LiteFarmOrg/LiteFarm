@@ -21,8 +21,24 @@ import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
 import Button from '../../../components/Form/Button';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
-import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../../store/api/apiSlice';
-import { getLocalDateInYYYYDDMM } from '../../../util/date';
+import { generateFormDate } from './utils';
+
+// Form Submission
+import {
+  useGetAnimalsQuery,
+  useGetAnimalBatchesQuery,
+  useAddAnimalsMutation,
+  useGetAnimalOriginsQuery,
+  useAddAnimalBatchesMutation,
+} from '../../../store/api/apiSlice';
+import {
+  formatAnimalDetailsToDBStructure,
+  formatBatchDetailsToDBStructure,
+} from '../AddAnimals/utils';
+import { AnimalOrBatchKeys } from '../types';
+import { useDispatch } from 'react-redux';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
+import { Animal, AnimalBatch } from '../../../store/api/types';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -56,8 +72,59 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     setIsEditing(true);
   };
 
-  const onSave = async (data: any, onGoForward: () => void) => {
-    console.log(data);
+  // Form submission logic, based on AddAnimals
+  const dispatch = useDispatch();
+
+  const [addAnimals] = useAddAnimalsMutation();
+  const [addAnimalBatches] = useAddAnimalBatchesMutation();
+
+  const { data: orgins = [] } = useGetAnimalOriginsQuery();
+
+  const onSave = async (
+    data: any,
+    onGoForward: () => void,
+    // setFormResultData: (data: any) => void, // only needed for summary
+  ) => {
+    const broughtInId = orgins.find((origin) => origin.key === 'BROUGHT_IN')?.id;
+
+    const formattedAnimals: Partial<Animal>[] = [];
+    const formattedBatches: Partial<AnimalBatch>[] = [];
+
+    if (data.animal_or_batch === AnimalOrBatchKeys.ANIMAL) {
+      formattedAnimals.push(formatAnimalDetailsToDBStructure(data, broughtInId));
+    } else {
+      formattedBatches.push(formatBatchDetailsToDBStructure(data, broughtInId));
+    }
+
+    let animalsResult: Animal[] = [];
+    let batchesResult: AnimalBatch[] = [];
+
+    try {
+      if (formattedAnimals.length) {
+        animalsResult = await addAnimals(formattedAnimals).unwrap();
+        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_CREATE_ANIMALS')));
+      }
+    } catch (e) {
+      console.error(e);
+      dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_CREATE_ANIMALS')));
+    }
+    try {
+      if (formattedBatches.length) {
+        batchesResult = await addAnimalBatches(formattedBatches).unwrap();
+        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_CREATE_BATCHES')));
+      }
+    } catch (e) {
+      console.error(e);
+      dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_CREATE_BATCHES')));
+    }
+
+    if (!animalsResult.length && !batchesResult.length) {
+      return;
+    }
+
+    // only needed for summary
+    // setFormResultData({ animals: animalsResult, batches: batchesResult });
+    onGoForward();
   };
 
   const getFormSteps = () => [
@@ -71,16 +138,18 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     ...(selectedAnimal
       ? {
           ...selectedAnimal,
-          birth_date: adjustDate(selectedAnimal.birth_date),
-          brought_in_date: adjustDate(selectedAnimal.brought_in_date),
-          weaning_date: adjustDate(selectedAnimal.weaning_date),
+          animal_or_batch: AnimalOrBatchKeys.ANIMAL,
+          birth_date: generateFormDate(selectedAnimal.birth_date),
+          brought_in_date: generateFormDate(selectedAnimal.brought_in_date),
+          weaning_date: generateFormDate(selectedAnimal.weaning_date),
         }
       : {}),
     ...(selectedBatch
       ? {
           ...selectedBatch,
-          birth_date: adjustDate(selectedBatch.birth_date),
-          brought_in_date: adjustDate(selectedBatch.brought_in_date),
+          animal_or_batch: AnimalOrBatchKeys.BATCH,
+          birth_date: generateFormDate(selectedBatch.birth_date),
+          brought_in_date: generateFormDate(selectedBatch.brought_in_date),
         }
       : {}),
   };
@@ -135,8 +204,3 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
 }
 
 export default SingleAnimalView;
-
-// Send dates to the formatting function or maintain null
-const adjustDate = (date?: string | null) => {
-  return date ? getLocalDateInYYYYDDMM(new Date(date)) : null;
-};

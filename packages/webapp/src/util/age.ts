@@ -19,19 +19,20 @@ interface Age {
   years: number;
   months: number;
   days: number;
+  daysBetweenBirthdays: number;
 }
 
 /**
  * Calculates the age in years, months, and days from the birth date
  * to the current date.
  *
- * @param {Date} birth - The birth date in ISO format.
- * @param {Date} [today] - The current date in ISO format (optional).
- * @returns {{ years: number; months: number; days: number }} - The age calculated.
+ * @param {Date} birth - The birth date.
+ * @param {Date} [today] - The current date (optional).
+ * @returns {{ years: number; months: number; days: number, daysBetweenBirthdays }} - The calculated age.
  * @throws {Error} - If the current date is before the birth date.
  */
 export const calculateAge = (birth: Date, today: Date = new Date()): Age => {
-  if (+today < +birth) {
+  if (today < birth) {
     throw new Error('The currentDate must be on or after the birthDate.');
   }
 
@@ -62,20 +63,44 @@ export const calculateAge = (birth: Date, today: Date = new Date()): Age => {
     years -= 1;
   }
 
-  return { years, months, days };
+  const previousBirthDate = new Date(
+    today.getFullYear(),
+    today.getMonth() + (today.getDate() - birth.getDate() >= 0 ? 0 : -1),
+    adjustedBirthDate,
+  );
+
+  const nextMonth = new Date(previousBirthDate.getFullYear(), previousBirthDate.getMonth() + 1, 0);
+  const daysInNextMonth = nextMonth.getDate();
+
+  const nextBirthDate = new Date(
+    previousBirthDate.getFullYear(),
+    previousBirthDate.getMonth() + 1,
+    Math.min(daysInNextMonth, birth.getDate()),
+  );
+
+  const daysBetweenBirthdays = new Date(
+    nextBirthDate.getTime() - previousBirthDate.getTime(),
+  ).getDate();
+
+  return { years, months, days, daysBetweenBirthdays };
 };
 
-export const formatAge = ({ years, months, days }: Age): string => {
+export const formatAge = ({ years, months, days, daysBetweenBirthdays }: Age): string => {
   if (!years && !months) {
     return i18n.t('common:AGE_DAYS_COUNT', { count: days });
   }
 
   if (!years) {
-    const formattedMonths = Math.floor((months + days / 31) * 10) / 10;
+    const formattedMonths = Math.round((months + days / daysBetweenBirthdays) * 10) / 10;
+
+    if (formattedMonths === 12) {
+      return i18n.t('common:AGE_YEARS_COUNT', { count: 1 });
+    }
+
     return i18n.t('common:AGE_MONTHS_COUNT', { count: formattedMonths });
   }
 
-  const formattedYears = Math.floor((years + months / 12) * 10) / 10;
+  const formattedYears = Math.round((years + months / 12) * 10) / 10;
   return i18n.t('common:AGE_YEARS_COUNT', { count: formattedYears });
 };
 

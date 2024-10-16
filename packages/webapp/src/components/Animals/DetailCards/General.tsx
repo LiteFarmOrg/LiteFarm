@@ -95,7 +95,7 @@ const GeneralDetails = ({
     if (mode === 'add') {
       return;
     }
-    if (typeOptions) {
+    if ((typeOptions && defaultValues?.custom_type_id) || defaultValues?.default_type_id) {
       const typeId = defaultValues?.custom_type_id
         ? generateUniqueAnimalId(ANIMAL_ID_PREFIX.CUSTOM, defaultValues?.custom_type_id)
         : generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, defaultValues?.default_type_id);

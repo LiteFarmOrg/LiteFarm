@@ -65,7 +65,11 @@ const AnimalImageWithCount = ({ isResponsive, photoUrl, count }: AnimalImageWith
 };
 
 const Age = ({ birthDate, t }: { birthDate?: Animal['birth_date']; t: TFunction }) => (
-  <div className={styles.bold}>{birthDate ? getAge(new Date(birthDate)) : t('common:UNKNOWN')}</div>
+  <div className={styles.bold}>
+    {birthDate
+      ? getAge(new Date(birthDate))
+      : t('common:PROPERTY_UNKNOWN', { property: t('common:AGE') })}
+  </div>
 );
 
 const Location = ({ location, t }: { location?: string; t: TFunction }) => (

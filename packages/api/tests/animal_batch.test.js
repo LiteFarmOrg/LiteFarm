@@ -46,6 +46,8 @@ describe('Animal Batch Tests', () => {
   let defaultBreedId;
   let defaultTypeId;
   let animalRemovalReasonId;
+  let animalUse1;
+  let animalOrigin1;
 
   const mockDate = new Date('2024/3/12').toISOString();
 
@@ -56,6 +58,9 @@ describe('Animal Batch Tests', () => {
 
     const [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
     animalRemovalReasonId = animalRemovalReason.id;
+
+    [animalUse1] = await mocks.animal_useFactory('OTHER');
+    [animalOrigin1] = await mocks.animal_originFactory('BROUGHT_IN');
   });
 
   async function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
@@ -693,21 +698,10 @@ describe('Animal Batch Tests', () => {
     let animalGroup2;
     let animalSex1;
     let animalSex2;
-    let animalIdentifierColor;
-    let animalIdentifierType;
-    let animalOrigin1;
     let animalOrigin2;
     let animalRemovalReason;
-    let animalUse1;
     let animalUse2;
     let animalUse3;
-    let animalBreed;
-    let animalBreed2;
-
-    beforeAll(async () => {
-      [animalUse1] = await mocks.animal_useFactory('OTHER');
-      [animalOrigin1] = await mocks.animal_originFactory('BROUGHT_IN');
-    });
 
     beforeEach(async () => {
       [animalGroup1] = await mocks.animal_groupFactory();
@@ -715,14 +709,10 @@ describe('Animal Batch Tests', () => {
       // Populate enums
       [animalSex1] = await mocks.animal_sexFactory();
       [animalSex2] = await mocks.animal_sexFactory();
-      [animalIdentifierColor] = await mocks.animal_identifier_colorFactory();
-      [animalIdentifierType] = await mocks.animal_identifier_typeFactory();
       [animalOrigin2] = await mocks.animal_originFactory();
       [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
       [animalUse2] = await mocks.animal_useFactory();
       [animalUse3] = await mocks.animal_useFactory();
-      [animalBreed] = await mocks.default_animal_breedFactory();
-      [animalBreed2] = await mocks.default_animal_breedFactory();
     });
 
     async function addAnimalBatches(mainFarm, user) {
@@ -734,7 +724,7 @@ describe('Animal Batch Tests', () => {
       const firstBatch = mocks.fakeAnimalBatch({
         name: 'edit test 1',
         default_type_id: defaultTypeId,
-        animal_batch_use_relationships: [{ use_id: animalUse1.id }],
+        animal_batch_use_relationships: [{ use_id: animalUse2.id }],
         sire: 'Unchanged',
         count: 4,
         sex_detail: [
@@ -752,7 +742,7 @@ describe('Animal Batch Tests', () => {
       const secondBatch = mocks.fakeAnimalBatch({
         name: 'edit test 2',
         custom_type_id: customAnimalType.id,
-        animal_batch_use_relationships: [{ use_id: animalUse1.id }],
+        animal_batch_use_relationships: [{ use_id: animalUse2.id }],
         sire: 'Unchanged',
         count: 5,
       });
@@ -799,7 +789,7 @@ describe('Animal Batch Tests', () => {
           },
         ],
         count: 5,
-        origin_id: animalOrigin1.id,
+        origin_id: animalOrigin2.id,
         // Extra properties are silently removed
         animal_removal_reason_id: animalRemovalReason.id,
         organic_status: 'Organic',
@@ -822,7 +812,7 @@ describe('Animal Batch Tests', () => {
           },
         ],
         count: 5,
-        origin_id: animalOrigin1.id,
+        origin_id: animalOrigin2.id,
         // Extra properties are silently removed
         animal_removal_reason_id: animalRemovalReason.id,
         organic_status: 'Organic',
@@ -1000,790 +990,6 @@ describe('Animal Batch Tests', () => {
       // Check database
       const batchRecord = await AnimalBatchModel.query().findById(batch.id);
       expect(batchRecord.sire).toBeNull();
-    });
-
-    const customErrors = [
-      {
-        testName: 'Exactly one type provided',
-        getPatchBody: (batch) => [
-          {
-            id: batch.id,
-            default_type_id: batch.default_type_id,
-            type_name: 'string',
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Exactly one of default_type_id, custom_type_id, or type_name must be sent',
-        },
-      },
-      {
-        testName: 'Custom type id is number',
-        getPatchBody: (batch) => [
-          {
-            id: batch.id,
-            custom_type_id: 'string',
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Must send valid ids',
-        },
-      },
-      {
-        testName: 'Custom id exists',
-        getPatchBody: (batch) => [
-          {
-            id: batch.id,
-            custom_type_id: 1000000,
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Custom type does not exist',
-        },
-      },
-      {
-        testName: 'Custom type does not belong to farm',
-        getPatchBody: (batch, existingBatches, customs) => [
-          {
-            id: batch.id,
-            custom_type_id: customs.otherFarm.otherCustomAnimalType.id,
-          },
-        ],
-        patchErr: {
-          code: 403,
-          message: 'Forbidden custom type does not belong to this farm',
-        },
-      },
-      {
-        testName: 'Exactly one breed provided',
-        getPatchBody: (batch) => [
-          {
-            id: batch.id,
-            default_type_id: animalBreed.default_type_id,
-            default_breed_id: animalBreed.id,
-            breed_name: 'string',
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Exactly one of default_breed_id, custom_breed_id, or breed_name must be sent',
-        },
-      },
-      {
-        testName: 'Default type matches default breed -- default type is changed',
-        getPatchBody: (batch, existingBatches) => [
-          {
-            id: existingBatches[0].id,
-            default_type_id: animalBreed2.default_type_id,
-          },
-        ],
-        getPostBody: () => [
-          {
-            default_type_id: animalBreed.default_type_id,
-            default_breed_id: animalBreed.id,
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Breed does not match type',
-        },
-      },
-      {
-        testName: 'Default type matches default breed -- default breed is changed',
-        getPatchBody: (batch, existingBatches) => [
-          {
-            id: existingBatches[0].id,
-            default_breed_id: animalBreed2.id,
-          },
-        ],
-        getPostBody: () => [
-          {
-            default_type_id: animalBreed.default_type_id,
-            default_breed_id: animalBreed.id,
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Breed does not match type',
-        },
-      },
-      {
-        testName: 'Default breed is a number',
-        getPatchBody: (batch) => [
-          {
-            id: batch.id,
-            default_breed_id: 'string',
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Must send valid ids',
-        },
-      },
-      {
-        testName: 'Default breed provided exists (optional to provide)',
-        getPatchBody: (batch) => [
-          {
-            id: batch.id,
-            default_breed_id: 1000000,
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Default breed does not exist',
-        },
-      },
-      {
-        testName: 'Default type matches default breed -- both are changed but mismatch',
-        getPatchBody: (batch, existingBatches) => [
-          {
-            id: existingBatches[0].id,
-            default_type_id: animalBreed.default_type_id,
-            default_breed_id: animalBreed2.id,
-          },
-        ],
-        getPostBody: () => [
-          {
-            default_type_id: animalBreed.default_type_id,
-            default_breed_id: animalBreed.id,
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Breed does not match type',
-        },
-      },
-      {
-        testName: 'Custom type cannot be used with default breed',
-        getPostBody: (customs) => [
-          {
-            custom_type_id: customs.customAnimalType.id,
-            default_breed_id: animalBreed.id,
-          },
-        ],
-        postErr: {
-          code: 400,
-          message: 'Default breed must use default type',
-        },
-      },
-      {
-        testName: 'Custom breed is a number',
-        getPatchBody: (batch) => [
-          {
-            id: batch.id,
-            custom_breed_id: 'string',
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Must send valid ids',
-        },
-      },
-      {
-        testName: 'Custom breed provided exists (optional to provide)',
-        getPatchBody: (batch) => [
-          {
-            id: batch.id,
-            custom_breed_id: 1000000,
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Custom breed does not exist',
-        },
-      },
-      {
-        testName: 'Custom breed provided exists (optional to provide)',
-        getPatchBody: (batch) => [
-          {
-            id: batch.id,
-            custom_breed_id: 1000000,
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Custom breed does not exist',
-        },
-      },
-      {
-        testName: 'Custom breed does not belong to farm',
-        getPatchBody: (batch, existingBatches, customs) => [
-          {
-            id: batch.id,
-            custom_breed_id: customs.otherFarm.otherCustomAnimalBreed.id,
-          },
-        ],
-        patchErr: {
-          code: 403,
-          message: 'Forbidden custom breed does not belong to this farm',
-        },
-      },
-      {
-        testName: 'Default type matches custom breed -- default type is changed',
-        getPatchBody: (batch, existingBatches, customs) => [
-          {
-            id: existingBatches[0].id,
-            default_type_id: animalBreed.default_type_id,
-          },
-        ],
-        getPostBody: (customs) => [
-          {
-            default_type_id: customs.customAnimalBreed.default_type_id,
-            custom_breed_id: customs.customAnimalBreed.id,
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Breed does not match type',
-        },
-      },
-      {
-        testName: 'Default type matches custom breed -- custom type is changed',
-        getPatchBody: (batch, existingBatches, customs) => [
-          {
-            id: existingBatches[0].id,
-            custom_type_id: customs.customAnimalBreed2.custom_type_id,
-          },
-        ],
-        getPostBody: (customs) => [
-          {
-            default_type_id: customs.customAnimalBreed.default_type_id,
-            custom_breed_id: customs.customAnimalBreed.id,
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Breed does not match type',
-        },
-      },
-      {
-        testName: 'Default type matches custom breed -- breed and type are changed',
-        getPatchBody: (batch, existingBatches, customs) => [
-          {
-            id: existingBatches[0].id,
-            default_type_id: customs.customAnimalBreed.default_type_id,
-            custom_breed_id: customs.customAnimalBreed2.id,
-          },
-        ],
-        getPostBody: (customs) => [
-          {
-            default_type_id: customs.customAnimalBreed.default_type_id,
-            custom_breed_id: customs.customAnimalBreed.id,
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Breed does not match type',
-        },
-      },
-      {
-        testName: 'Check create batch sex detail',
-        getPostBody: (customs) => [
-          {
-            count: 3,
-            sex_detail: [
-              {
-                sex_id: animalSex1.id,
-                count: 2,
-              },
-              {
-                sex_id: animalSex2.id,
-                count: 2,
-              },
-            ],
-          },
-        ],
-        postErr: {
-          code: 400,
-          message: 'Batch count must be greater than or equal to sex detail count',
-        },
-      },
-      {
-        testName: 'Check edit batch sex detail -- change count',
-        getPatchBody: (batch, existingBatches) => [
-          {
-            id: existingBatches[0].id,
-            count: 3,
-          },
-        ],
-        getPostBody: () => [
-          {
-            default_type_id: animalBreed.default_type_id,
-            count: 4,
-            sex_detail: [
-              {
-                sex_id: animalSex1.id,
-                count: 2,
-              },
-              {
-                sex_id: animalSex2.id,
-                count: 2,
-              },
-            ],
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Batch count must be greater than or equal to sex detail count',
-        },
-      },
-      {
-        testName: 'Check edit batch sex detail -- change sex_detail',
-        getPatchBody: (batch, existingBatches) => [
-          {
-            id: existingBatches[0].id,
-            sex_detail: [
-              {
-                sex_id: animalSex1.id,
-                count: 5,
-              },
-              {
-                sex_id: animalSex2.id,
-                count: 2,
-              },
-            ],
-          },
-        ],
-        getPostBody: () => [
-          {
-            default_type_id: animalBreed.default_type_id,
-            count: 4,
-            sex_detail: [
-              {
-                sex_id: animalSex1.id,
-                count: 2,
-              },
-              {
-                sex_id: animalSex2.id,
-                count: 2,
-              },
-            ],
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Batch count must be greater than or equal to sex detail count',
-        },
-      },
-      {
-        testName: 'Check edit batch sex detail -- duplicate sex ids not allowed',
-        getPatchBody: (batch, existingBatches) => [
-          {
-            id: existingBatches[0].id,
-            sex_detail: [
-              {
-                sex_id: animalSex1.id,
-                count: 1,
-              },
-              {
-                sex_id: animalSex1.id,
-                count: 1,
-              },
-              {
-                sex_id: animalSex2.id,
-                count: 2,
-              },
-            ],
-          },
-        ],
-        getPostBody: () => [
-          {
-            default_type_id: animalBreed.default_type_id,
-            count: 4,
-            sex_detail: [
-              {
-                sex_id: animalSex1.id,
-                count: 2,
-              },
-              {
-                sex_id: animalSex2.id,
-                count: 1,
-              },
-            ],
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Duplicate sex ids in detail',
-        },
-      },
-      {
-        testName: 'Check edit batch sex detail -- patching sex id with record id updates record',
-        getRawRecordMismatch: (existingBatches) => {
-          return {
-            model: AnimalBatchSexDetailModel,
-            where: { animal_batch_id: existingBatches[0].id },
-            getMatchingBody: (existingBatches, records) => {
-              return [
-                {
-                  ...records[0],
-                  id: existingBatches[0].sex_detail[0].id,
-                  sex_id: animalSex1.id,
-                  count: 1,
-                  animal_batch_id: existingBatches[0].id,
-                },
-              ];
-            },
-          };
-        },
-        getPatchBody: (batch, existingBatches) => [
-          {
-            id: existingBatches[0].id,
-            sex_detail: [
-              {
-                id: existingBatches[0].sex_detail[0].id,
-                sex_id: animalSex1.id,
-                count: 1,
-              },
-            ],
-          },
-        ],
-        getPostBody: () => [
-          {
-            default_type_id: animalBreed.default_type_id,
-            count: 4,
-            sex_detail: [
-              {
-                sex_id: animalSex1.id,
-                count: 2,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        testName:
-          'Check edit batch sex detail -- patching sex id without record id deletes previous record and adds new one',
-        getRawRecordMismatch: (existingBatches) => {
-          return {
-            model: AnimalBatchSexDetailModel,
-            where: { animal_batch_id: existingBatches[0].id },
-            getMatchingBody: (existingBatches, records) => {
-              const record1 = records.find(
-                (record) => record.id === existingBatches[0].sex_detail[0].id,
-              );
-              const record2 = records.find(
-                (record) => record.id != existingBatches[0].sex_detail[0].id,
-              );
-              return [
-                {
-                  ...record1,
-                  id: existingBatches[0].sex_detail[0].id,
-                  sex_id: animalSex1.id,
-                  count: 2,
-                  animal_batch_id: existingBatches[0].id,
-                  deleted: true,
-                },
-                {
-                  ...record2,
-                  id: record2.id,
-                  sex_id: animalSex1.id,
-                  count: 1,
-                  animal_batch_id: existingBatches[0].id,
-                  deleted: false,
-                },
-              ];
-            },
-          };
-        },
-        getPatchBody: (batch, existingBatches) => [
-          {
-            id: existingBatches[0].id,
-            sex_detail: [
-              {
-                sex_id: animalSex1.id,
-                count: 1,
-              },
-            ],
-          },
-        ],
-        getPostBody: () => [
-          {
-            default_type_id: animalBreed.default_type_id,
-            count: 4,
-            sex_detail: [
-              {
-                sex_id: animalSex1.id,
-                count: 2,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        testName:
-          'Check edit batch sex detail -- patching sex detail with empty array deletes sex details',
-        getRawRecordMismatch: (existingBatches) => {
-          return {
-            model: AnimalBatchSexDetailModel,
-            where: { animal_batch_id: existingBatches[0].id },
-            getMatchingBody: (existingBatches, records) => {
-              return [
-                {
-                  ...records[0],
-                  deleted: true,
-                },
-                {
-                  ...records[1],
-                  deleted: true,
-                },
-              ];
-            },
-          };
-        },
-        getPatchBody: (batch, existingBatches) => [
-          {
-            id: existingBatches[0].id,
-            sex_detail: [],
-          },
-        ],
-        getPostBody: () => [
-          {
-            default_type_id: animalBreed.default_type_id,
-            count: 4,
-            sex_detail: [
-              {
-                sex_id: animalSex1.id,
-                count: 2,
-              },
-              {
-                sex_id: animalSex2.id,
-                count: 2,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        testName: 'Use relationships is an array',
-        getPatchBody: (batch) => [
-          {
-            id: batch.id,
-            animal_batch_use_relationships: 'string',
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'animal_batch_use_relationships should be an array',
-        },
-      },
-      {
-        testName: 'Other use notes is for other use type',
-        getPatchBody: (batch) => [
-          {
-            id: batch.id,
-            animal_batch_use_relationships: [
-              {
-                use_id: animalUse2.id,
-                other_use: 'Leather',
-              },
-            ],
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'other_use notes is for other use type',
-        },
-      },
-      {
-        testName: 'Check edit use -- patching use relationship with empty array hard deletes use',
-        getRawRecordMismatch: (existingBatches) => {
-          return {
-            model: AnimalBatchUseRelationshipModel,
-            where: { animal_batch_id: existingBatches[0].id },
-            getMatchingBody: (existingBatches, records) => {
-              return [];
-            },
-          };
-        },
-        getPatchBody: (batch, existingBatches) => [
-          {
-            id: existingBatches[0].id,
-            animal_batch_use_relationships: [],
-          },
-        ],
-        getPostBody: () => [
-          {
-            default_type_id: animalBreed.default_type_id,
-            animal_batch_use_relationships: [
-              {
-                use_id: animalUse2.id,
-              },
-              {
-                use_id: animalUse3.id,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        testName:
-          'Check edit use -- patching use relationship requires all pre-existing uses to be present hard deletes missing',
-        getRawRecordMismatch: (existingBatches) => {
-          return {
-            model: AnimalBatchUseRelationshipModel,
-            where: { animal_batch_id: existingBatches[0].id },
-            getMatchingBody: (existingBatches, records) => {
-              return [
-                {
-                  ...records[0],
-                  use_id: animalUse1.id,
-                  other_use: 'Leather',
-                },
-              ];
-            },
-          };
-        },
-        getPatchBody: (batch, existingBatches) => [
-          {
-            id: existingBatches[0].id,
-            animal_batch_use_relationships: [
-              {
-                use_id: animalUse1.id,
-                other_use: 'Leather',
-              },
-            ],
-          },
-        ],
-        getPostBody: () => [
-          {
-            default_type_id: animalBreed.default_type_id,
-            animal_batch_use_relationships: [
-              {
-                use_id: animalUse1.id,
-              },
-              {
-                use_id: animalUse2.id,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        testName: 'Origin id must be brought in to have brought in date',
-        getPatchBody: (batch) => [
-          {
-            id: batch.id,
-            origin_id: animalOrigin2.id,
-            brought_in_date: new Date(),
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Brought in date must be used with brought in origin',
-        },
-      },
-      {
-        testName: 'Cannot create a new type associated with an existing breed',
-        getPatchBody: (batch) => [
-          {
-            id: batch.id,
-            defaultBreedId: animalBreed.id,
-            type_name: 'string',
-          },
-        ],
-        patchErr: {
-          code: 400,
-          message: 'Cannot create a new type associated with an existing breed',
-        },
-      },
-    ];
-
-    customErrors.forEach(async (error) => {
-      await test(`CustomError: ${error.testName}`, async () => {
-        // Create userFarms needed for tests
-        const { mainFarm, user } = await returnUserFarms(1);
-        const { mainFarm: otherFarm } = await returnUserFarms(1);
-
-        // Make, then group, farm specific resources
-        const [customAnimalType] = await mocks.custom_animal_typeFactory({
-          promisedFarm: [mainFarm],
-        });
-        const [customAnimalBreed] = await mocks.custom_animal_breedFactory(
-          {
-            promisedFarm: [mainFarm],
-          },
-          undefined,
-          false,
-        );
-        const [customAnimalBreed2] = await mocks.custom_animal_breedFactory({
-          promisedFarm: [mainFarm],
-        });
-        const [otherCustomAnimalType] = await mocks.custom_animal_typeFactory({
-          promisedFarm: [otherFarm],
-        });
-        const [otherCustomAnimalBreed] = await mocks.custom_animal_breedFactory({
-          promisedFarm: [otherFarm],
-        });
-        const customs = {
-          customAnimalType,
-          customAnimalBreed,
-          customAnimalBreed2,
-          otherFarm: { otherCustomAnimalType, otherCustomAnimalBreed },
-        };
-
-        const makeCheckGetBatch = async (getPostBody) => {
-          const batches = getPostBody(customs).map((batch) => mocks.fakeAnimalBatch(batch));
-          const postRes = await postRequest(
-            {
-              user_id: user.user_id,
-              farm_id: mainFarm.farm_id,
-            },
-            [...batches],
-          );
-
-          // If checking error body on post
-          expect(postRes.status).toBe(error.postErr?.code || 201);
-          expect(postRes.error.text).toBe(error.postErr?.message || undefined);
-          return postRes.body;
-        };
-
-        let existingBatches;
-        if (error.getPostBody) {
-          existingBatches = await makeCheckGetBatch(error.getPostBody);
-        }
-
-        const editCheckBatch = async (getPatchBody) => {
-          // for skipping makeCheckGetBatch
-          const batch = await makeAnimalBatch(mainFarm, {
-            default_type_id: defaultTypeId,
-          });
-          const batches = getPatchBody(batch, existingBatches, customs);
-          const patchRes = await patchRequest(
-            {
-              user_id: user.user_id,
-              farm_id: mainFarm.farm_id,
-            },
-            [...batches],
-          );
-          // If checking error body on patch
-          expect(patchRes.status).toBe(error.patchErr?.code || 204);
-          expect(patchRes.error.text).toBe(error.patchErr?.message || undefined);
-        };
-
-        if (error.getPatchBody) {
-          await editCheckBatch(error.getPatchBody);
-        }
-
-        // If checking for errors on record object
-        const rawGetMatch = async (getRawRecordMismatch) => {
-          const rawRecordMatch = getRawRecordMismatch(existingBatches);
-          // Include deleted
-          const records = await rawRecordMatch.model
-            .query()
-            .where(rawRecordMatch.where)
-            .context({ showHidden: true });
-          const expectedBody = rawRecordMatch.getMatchingBody(existingBatches, records);
-          // No fallback if provided
-          expect(records).toEqual(expectedBody);
-        };
-
-        if (error.getRawRecordMismatch) {
-          await rawGetMatch(error.getRawRecordMismatch);
-        }
-      });
     });
   });
 
@@ -2129,5 +1335,830 @@ describe('Animal Batch Tests', () => {
         },
       });
     });
+  });
+
+  // MIDDLEWARE tests
+  describe('Edit animal batch tests', () => {
+    let animalSex1;
+    let animalSex2;
+    let animalOrigin2;
+    let animalUse2;
+    let animalUse3;
+    let animalBreed;
+    let animalBreed2;
+
+    beforeEach(async () => {
+      // Populate enums
+      [animalSex1] = await mocks.animal_sexFactory();
+      [animalSex2] = await mocks.animal_sexFactory();
+      [animalOrigin2] = await mocks.animal_originFactory();
+      [animalUse2] = await mocks.animal_useFactory();
+      [animalUse3] = await mocks.animal_useFactory();
+      [animalBreed] = await mocks.default_animal_breedFactory();
+      [animalBreed2] = await mocks.default_animal_breedFactory();
+    });
+
+    // Top level structure is endpoint string with value as in caps, value is an array of tests
+    // Example: {'CREATE': [{test1}, {test2},...],'EDIT': [{test1}, {test2},...}
+    // Test structure to test 'CREATE' middleware is:
+    // { testName: 'name', getPostBody: function() {return [batch]}, postErr: {code: 400, message: 'errorMessage'}}
+    // Test structure to test 'EDIT' middleware is:
+    // { testName: 'name', getPostBody?: function() {return [batch]}, getPatchBody?: function() {return [editedBatch]}, patchErr: {code: 400, message: 'errorMessage'}} }
+    // Test structure to test raw data expectations is:
+    // { testName: 'name', getPostBody?: function() {return [batch]}, getPatchBody?: function() {return [editedBatch]}, getRawRecordMismatch: function() return { model: Model, where: {id}, getMatchingBody: function() return [records] } } }
+    const middlewareErrors = {
+      CREATE: [
+        {
+          testName: 'Custom type cannot be used with default breed',
+          getPostBody: (customs) => [
+            {
+              custom_type_id: customs.customAnimalType.id,
+              default_breed_id: animalBreed.id,
+            },
+          ],
+          postErr: {
+            code: 400,
+            message: 'Default breed must use default type',
+          },
+        },
+        {
+          testName: 'Check create batch sex detail',
+          getPostBody: (customs) => [
+            {
+              count: 3,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+          postErr: {
+            code: 400,
+            message: 'Batch count must be greater than or equal to sex detail count',
+          },
+        },
+      ],
+      EDIT: [
+        {
+          testName: 'Exactly one type provided',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              default_type_id: batch.default_type_id,
+              type_name: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Exactly one of default_type_id, custom_type_id, or type_name must be sent',
+          },
+        },
+        {
+          testName: 'Custom type id is number',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              custom_type_id: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Must send valid ids',
+          },
+        },
+        {
+          testName: 'Custom id exists',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              custom_type_id: 1000000,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Custom type does not exist',
+          },
+        },
+        {
+          testName: 'Custom type does not belong to farm',
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: batch.id,
+              custom_type_id: customs.otherFarm.otherCustomAnimalType.id,
+            },
+          ],
+          patchErr: {
+            code: 403,
+            message: 'Forbidden custom type does not belong to this farm',
+          },
+        },
+        {
+          testName: 'Exactly one breed provided',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed.id,
+              breed_name: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Exactly one of default_breed_id, custom_breed_id, or breed_name must be sent',
+          },
+        },
+        {
+          testName: 'Default type matches default breed -- default type is changed',
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              default_type_id: animalBreed2.default_type_id,
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+        {
+          testName: 'Default type matches default breed -- default breed is changed',
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              default_breed_id: animalBreed2.id,
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+        {
+          testName: 'Default breed is a number',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              default_breed_id: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Must send valid ids',
+          },
+        },
+        {
+          testName: 'Default breed provided exists (optional to provide)',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              default_breed_id: 1000000,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Default breed does not exist',
+          },
+        },
+        {
+          testName: 'Default type matches default breed -- both are changed but mismatch',
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed2.id,
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+
+        {
+          testName: 'Custom breed is a number',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              custom_breed_id: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Must send valid ids',
+          },
+        },
+        {
+          testName: 'Custom breed provided exists (optional to provide)',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              custom_breed_id: 1000000,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Custom breed does not exist',
+          },
+        },
+        {
+          testName: 'Custom breed provided exists (optional to provide)',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              custom_breed_id: 1000000,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Custom breed does not exist',
+          },
+        },
+        {
+          testName: 'Custom breed does not belong to farm',
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: batch.id,
+              custom_breed_id: customs.otherFarm.otherCustomAnimalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 403,
+            message: 'Forbidden custom breed does not belong to this farm',
+          },
+        },
+        {
+          testName: 'Default type matches custom breed -- default type is changed',
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: existingBatches[0].id,
+              default_type_id: animalBreed.default_type_id,
+            },
+          ],
+          getPostBody: (customs) => [
+            {
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+        {
+          testName: 'Default type matches custom breed -- custom type is changed',
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: existingBatches[0].id,
+              custom_type_id: customs.customAnimalBreed2.custom_type_id,
+            },
+          ],
+          getPostBody: (customs) => [
+            {
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+        {
+          testName: 'Default type matches custom breed -- breed and type are changed',
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: existingBatches[0].id,
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed2.id,
+            },
+          ],
+          getPostBody: (customs) => [
+            {
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+
+        {
+          testName: 'Check edit batch sex detail -- change count',
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              count: 3,
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              count: 4,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Batch count must be greater than or equal to sex detail count',
+          },
+        },
+        {
+          testName: 'Check edit batch sex detail -- change sex_detail',
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 5,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              count: 4,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Batch count must be greater than or equal to sex detail count',
+          },
+        },
+        {
+          testName: 'Check edit batch sex detail -- duplicate sex ids not allowed',
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 1,
+                },
+                {
+                  sex_id: animalSex1.id,
+                  count: 1,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              count: 4,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 1,
+                },
+              ],
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Duplicate sex ids in detail',
+          },
+        },
+        {
+          testName: 'Check edit batch sex detail -- patching sex id with record id updates record',
+          getRawRecordMismatch: (existingBatches) => {
+            return {
+              model: AnimalBatchSexDetailModel,
+              where: { animal_batch_id: existingBatches[0].id },
+              getMatchingBody: (existingBatches, records) => {
+                return [
+                  {
+                    ...records[0],
+                    id: existingBatches[0].sex_detail[0].id,
+                    sex_id: animalSex1.id,
+                    count: 1,
+                    animal_batch_id: existingBatches[0].id,
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              sex_detail: [
+                {
+                  id: existingBatches[0].sex_detail[0].id,
+                  sex_id: animalSex1.id,
+                  count: 1,
+                },
+              ],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              count: 4,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          testName:
+            'Check edit batch sex detail -- patching sex id without record id deletes previous record and adds new one',
+          getRawRecordMismatch: (existingBatches) => {
+            return {
+              model: AnimalBatchSexDetailModel,
+              where: { animal_batch_id: existingBatches[0].id },
+              getMatchingBody: (existingBatches, records) => {
+                const record1 = records.find(
+                  (record) => record.id === existingBatches[0].sex_detail[0].id,
+                );
+                const record2 = records.find(
+                  (record) => record.id != existingBatches[0].sex_detail[0].id,
+                );
+                return [
+                  {
+                    ...record1,
+                    id: existingBatches[0].sex_detail[0].id,
+                    sex_id: animalSex1.id,
+                    count: 2,
+                    animal_batch_id: existingBatches[0].id,
+                    deleted: true,
+                  },
+                  {
+                    ...record2,
+                    id: record2.id,
+                    sex_id: animalSex1.id,
+                    count: 1,
+                    animal_batch_id: existingBatches[0].id,
+                    deleted: false,
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 1,
+                },
+              ],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              count: 4,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          testName:
+            'Check edit batch sex detail -- patching sex detail with empty array deletes sex details',
+          getRawRecordMismatch: (existingBatches) => {
+            return {
+              model: AnimalBatchSexDetailModel,
+              where: { animal_batch_id: existingBatches[0].id },
+              getMatchingBody: (existingBatches, records) => {
+                return [
+                  {
+                    ...records[0],
+                    deleted: true,
+                  },
+                  {
+                    ...records[1],
+                    deleted: true,
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              sex_detail: [],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              count: 4,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          testName: 'Use relationships is an array',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              animal_batch_use_relationships: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'animal_batch_use_relationships should be an array',
+          },
+        },
+        {
+          testName: 'Other use notes is for other use type',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              animal_batch_use_relationships: [
+                {
+                  use_id: animalUse2.id,
+                  other_use: 'Leather',
+                },
+              ],
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'other_use notes is for other use type',
+          },
+        },
+        {
+          testName: 'Check edit use -- patching use relationship with empty array hard deletes use',
+          getRawRecordMismatch: (existingBatches) => {
+            return {
+              model: AnimalBatchUseRelationshipModel,
+              where: { animal_batch_id: existingBatches[0].id },
+              getMatchingBody: (existingBatches, records) => {
+                return [];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              animal_batch_use_relationships: [],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              animal_batch_use_relationships: [
+                {
+                  use_id: animalUse2.id,
+                },
+                {
+                  use_id: animalUse3.id,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          testName:
+            'Check edit use -- patching use relationship requires all pre-existing uses to be present hard deletes missing',
+          getRawRecordMismatch: (existingBatches) => {
+            return {
+              model: AnimalBatchUseRelationshipModel,
+              where: { animal_batch_id: existingBatches[0].id },
+              getMatchingBody: (existingBatches, records) => {
+                return [
+                  {
+                    ...records[0],
+                    use_id: animalUse1.id,
+                    other_use: 'Leather',
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              animal_batch_use_relationships: [
+                {
+                  use_id: animalUse1.id,
+                  other_use: 'Leather',
+                },
+              ],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              animal_batch_use_relationships: [
+                {
+                  use_id: animalUse1.id,
+                },
+                {
+                  use_id: animalUse2.id,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          testName: 'Origin id must be brought in to have brought in date',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              origin_id: animalOrigin2.id,
+              brought_in_date: new Date(),
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Brought in date must be used with brought in origin',
+          },
+        },
+        {
+          testName: 'Cannot create a new type associated with an existing breed',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              defaultBreedId: animalBreed.id,
+              type_name: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Cannot create a new type associated with an existing breed',
+          },
+        },
+      ],
+    };
+
+    // Takes middleWareErrors object and makes it into individual tests
+    for (const errorEndpoint in middlewareErrors) {
+      middlewareErrors[errorEndpoint].forEach(async (error) => {
+        await test(`${errorEndpoint} Middleware: ${error.testName}`, async () => {
+          // Create userFarms needed for tests
+          const { mainFarm, user } = await returnUserFarms(1);
+          const { mainFarm: otherFarm } = await returnUserFarms(1);
+
+          // Make, then group, farm specific resources
+          const [customAnimalType] = await mocks.custom_animal_typeFactory({
+            promisedFarm: [mainFarm],
+          });
+          const [customAnimalBreed] = await mocks.custom_animal_breedFactory(
+            {
+              promisedFarm: [mainFarm],
+            },
+            undefined,
+            false,
+          );
+          const [customAnimalBreed2] = await mocks.custom_animal_breedFactory({
+            promisedFarm: [mainFarm],
+          });
+          const [otherCustomAnimalType] = await mocks.custom_animal_typeFactory({
+            promisedFarm: [otherFarm],
+          });
+          const [otherCustomAnimalBreed] = await mocks.custom_animal_breedFactory({
+            promisedFarm: [otherFarm],
+          });
+          const customs = {
+            customAnimalType,
+            customAnimalBreed,
+            customAnimalBreed2,
+            otherFarm: { otherCustomAnimalType, otherCustomAnimalBreed },
+          };
+
+          // Post endpoint for testing CREATE or testing EDIT against existing record
+          const makeCheckGetBatch = async (getPostBody) => {
+            const batches = getPostBody(customs).map((batch) => mocks.fakeAnimalBatch(batch));
+            const postRes = await postRequest(
+              {
+                user_id: user.user_id,
+                farm_id: mainFarm.farm_id,
+              },
+              [...batches],
+            );
+
+            // If checking error body on post
+            expect(postRes.status).toBe(error.postErr?.code || 201);
+            expect(postRes.error.text).toBe(error.postErr?.message || undefined);
+            return postRes.body;
+          };
+
+          let existingBatches;
+          if (error.getPostBody) {
+            existingBatches = await makeCheckGetBatch(error.getPostBody);
+          }
+
+          // Patch endpoint for testing EDIT or testing raw successful records against
+          const editCheckBatch = async (getPatchBody) => {
+            // for skipping makeCheckGetBatch
+            const batch = await makeAnimalBatch(mainFarm, {
+              default_type_id: defaultTypeId,
+            });
+            const batches = getPatchBody(batch, existingBatches, customs);
+            const patchRes = await patchRequest(
+              {
+                user_id: user.user_id,
+                farm_id: mainFarm.farm_id,
+              },
+              [...batches],
+            );
+            // If checking error body on patch
+            expect(patchRes.status).toBe(error.patchErr?.code || 204);
+            expect(patchRes.error.text).toBe(error.patchErr?.message || undefined);
+          };
+
+          if (error.getPatchBody) {
+            await editCheckBatch(error.getPatchBody);
+          }
+
+          // For checking raw records made in CREATE or EDIT
+          const rawGetMatch = async (getRawRecordMismatch) => {
+            const rawRecordMatch = getRawRecordMismatch(existingBatches);
+            // Include deleted
+            const records = await rawRecordMatch.model
+              .query()
+              .where(rawRecordMatch.where)
+              .context({ showHidden: true });
+            const expectedBody = rawRecordMatch.getMatchingBody(existingBatches, records);
+            // No fallback if provided
+            expect(records).toEqual(expectedBody);
+          };
+
+          if (error.getRawRecordMismatch) {
+            await rawGetMatch(error.getRawRecordMismatch);
+          }
+        });
+      });
+    }
   });
 });

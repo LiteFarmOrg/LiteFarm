@@ -27,9 +27,9 @@ import { generateFormDate } from './utils';
 import {
   useGetAnimalsQuery,
   useGetAnimalBatchesQuery,
-  useAddAnimalsMutation,
   useGetAnimalOriginsQuery,
-  useAddAnimalBatchesMutation,
+  useUpdateAnimalsMutation,
+  useUpdateAnimalBatchesMutation,
 } from '../../../store/api/apiSlice';
 import {
   formatAnimalDetailsToDBStructure,
@@ -75,8 +75,8 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
   // Form submission logic, based on AddAnimals
   const dispatch = useDispatch();
 
-  const [addAnimals] = useAddAnimalsMutation();
-  const [addAnimalBatches] = useAddAnimalBatchesMutation();
+  const [updateAnimals] = useUpdateAnimalsMutation();
+  const [updateBatches] = useUpdateAnimalBatchesMutation();
 
   const { data: orgins = [] } = useGetAnimalOriginsQuery();
 
@@ -91,9 +91,15 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     const formattedBatches: Partial<AnimalBatch>[] = [];
 
     if (data.animal_or_batch === AnimalOrBatchKeys.ANIMAL) {
-      formattedAnimals.push(formatAnimalDetailsToDBStructure(data, broughtInId));
+      formattedAnimals.push({
+        ...formatAnimalDetailsToDBStructure(data, broughtInId),
+        id: data.id, // wasn't yet present on Add flow
+      });
     } else {
-      formattedBatches.push(formatBatchDetailsToDBStructure(data, broughtInId));
+      formattedBatches.push({
+        ...formatBatchDetailsToDBStructure(data, broughtInId),
+        id: data.id,
+      });
     }
 
     let animalsResult: Animal[] = [];
@@ -101,7 +107,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
 
     try {
       if (formattedAnimals.length) {
-        animalsResult = await addAnimals(formattedAnimals).unwrap();
+        animalsResult = await updateAnimals(formattedAnimals).unwrap();
         dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_CREATE_ANIMALS')));
       }
     } catch (e) {
@@ -110,7 +116,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     }
     try {
       if (formattedBatches.length) {
-        batchesResult = await addAnimalBatches(formattedBatches).unwrap();
+        batchesResult = await updateBatches(formattedBatches).unwrap();
         dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_CREATE_BATCHES')));
       }
     } catch (e) {

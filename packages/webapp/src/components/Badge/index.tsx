@@ -20,13 +20,13 @@ import styles from './styles.module.scss';
 
 // Define the Props
 interface BadgeProps {
-  content: string;
+  content?: string;
   title: string;
   showIcon?: boolean;
   style?: React.CSSProperties;
 }
 
-const Badge: React.FC<BadgeProps> = ({ content, title, showIcon = true, style }) => {
+const Badge: React.FC<BadgeProps> = ({ content = '', title, showIcon = true, style }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [tooltipHover, setTooltipHover] = useState<boolean>(false);
 
@@ -92,10 +92,16 @@ const Badge: React.FC<BadgeProps> = ({ content, title, showIcon = true, style })
           className={styles.badge}
           style={{ ...style }}
           onClick={(e) => {
-            e.stopPropagation();
-            handleTooltipOpen();
+            if (showIcon) {
+              e.stopPropagation();
+              handleTooltipOpen();
+            }
           }} // Toggle on click for both desktop and mobile
-          onMouseEnter={handleTooltipOpen} // Show on hover (desktop)
+          onMouseEnter={() => {
+            if (showIcon) {
+              handleTooltipOpen();
+            }
+          }} // Show on hover (desktop)
         >
           <span>{title}</span> {showIcon && <InfoOutlinedIcon />}
         </IconButton>

@@ -24,6 +24,7 @@
   box-shadow: 0px 4px 12px 0px #00000040;
   z-index: 10;
 }
+
 .badge {
   color: var(--Colors-Accent-Accent-yellow-600);
   background: #fffbf2;
@@ -53,8 +54,11 @@
   left: 50px;
   top: 8px;
   border-radius: 16px;
-  &:focus {
-    border-radius: 6px 6px 4px 4px !important;
+  &:focus,
+  &:hover {
+    color: var(--Colors-Accent-Accent-yellow-600);
+    background: #fffbf2;
+    border-radius: 16px !important;
   }
 
   @include xs-breakpoint {

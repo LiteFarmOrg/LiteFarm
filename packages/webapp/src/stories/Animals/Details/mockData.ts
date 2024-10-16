@@ -22,6 +22,50 @@ import {
 import { FileEvent } from '../../../components/ImagePicker';
 import { GetOnFileUpload } from '../../../components/ImagePicker/useImagePickerUpload';
 import { OrganicStatus } from '../../../types';
+import { Details } from '@mui/icons-material';
+
+export const typeOptions = [
+  {
+    label: 'Cattle',
+    value: 'default_1',
+  },
+  {
+    label: 'Pigs',
+    value: 'default_2',
+  },
+  {
+    label: 'Chicken',
+    value: 'default_3',
+  },
+];
+
+export const breedOptions = [
+  {
+    label: 'Angus',
+    value: 'default_1',
+    type: 'default_1',
+  },
+  {
+    label: 'Yorkshire Large White',
+    value: 'default_4',
+    type: 'default_2',
+  },
+  {
+    label: 'Landrace',
+    value: 'default_5',
+    type: 'default_2',
+  },
+  {
+    label: 'Cornish Cross',
+    value: 'default_7',
+    type: 'default_3',
+  },
+  {
+    label: 'Ross 308',
+    value: 'default_8',
+    type: 'default_3',
+  },
+];
 
 export const sexOptions = [
   { value: 0, label: `I don't know` },
@@ -30,8 +74,8 @@ export const sexOptions = [
 ];
 
 export const sexDetailsOptions = [
-  { id: 0, label: 'Male', count: 0 },
-  { id: 1, label: 'Female', count: 0 },
+  { id: 0, label: 'Male', count: 1 },
+  { id: 1, label: 'Female', count: 2 },
 ];
 
 export const useOptions = [
@@ -66,9 +110,26 @@ export const originOptions = [
   { value: 2, label: 'Born at the farm', key: 'BORN_AT_FARM' },
 ];
 
-export const defaultValues: Partial<AnimalDetailsFormFields> = {
+export const addDefaults: Partial<AnimalDetailsFormFields> = {
   [DetailsFields.TYPE]: { value: 'default_1', label: 'Cattle' },
-  [DetailsFields.BREED]: { value: 'default_2', label: 'Angus' },
+  [DetailsFields.BREED]: {
+    label: 'Angus',
+    value: 'default_1',
+    type: 'default_1',
+  },
+  [DetailsFields.SEX]: 2,
+  [DetailsFields.COUNT]: 3,
+};
+
+export const defaultValues: Partial<AnimalDetailsFormFields> = {
+  ...addDefaults,
+  [DetailsFields.USE]: [{ value: 2, label: 'Other', key: 'OTHER' }],
+  [DetailsFields.ID]: 'ID12',
+  [DetailsFields.ORIGIN]: 1,
+  [DetailsFields.BROUGHT_IN_DATE]: '2024-10-01',
+  [DetailsFields.TAG_TYPE]: { value: 3, label: 'Other', key: 'OTHER' },
+  [DetailsFields.TAG_TYPE_INFO]: 'Microchip',
+  [DetailsFields.ANIMAL_IMAGE]: '/src/assets/images/certification/Farmland.svg',
 };
 
 export const getOnFileUpload: GetOnFileUpload =

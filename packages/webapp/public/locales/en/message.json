@@ -4,6 +4,8 @@
     "FAILED_CREATE_BATCHES": "Failed to create batches",
     "FAILED_REMOVE_ANIMALS": "Failed to remove selected animals",
     "FAILED_REMOVE_BATCHES": "Failed to remove selected batches",
+    "SUCCESS_CREATE_ANIMALS": "Successfully created animals",
+    "SUCCESS_CREATE_BATCHES": "Successfully created batches",
     "SUCCESS_REMOVE_ANIMALS": "Successfully removed selected animals",
     "SUCCESS_REMOVE_BATCHES": "Successfully removed selected batches"
   },

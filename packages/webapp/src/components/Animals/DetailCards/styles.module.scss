@@ -21,6 +21,10 @@
   background: var(--White);
 }
 
+.sectionWrapper.edit {
+  gap: 16px; // increase gap in edit mode to accomodate Clear on selects
+}
+
 .countAndSexDetailsWrapper {
   display: flex;
   align-items: start;

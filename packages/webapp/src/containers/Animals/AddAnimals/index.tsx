@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux';
 import { History } from 'history';
 import { useMediaQuery } from '@mui/material';
 import theme from '../../../assets/theme';
-import { MultiStepForm, VARIANT } from '../../../components/Form/MultiStepForm';
+import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
 import AddAnimalBasics, { animalBasicsDefaultValues } from './AddAnimalBasics';
 import AddAnimalDetails from './AddAnimalDetails';
 import AddAnimalSummary from './AddAnimalSummary';
@@ -28,7 +28,7 @@ import {
   useGetAnimalOriginsQuery,
 } from '../../../store/api/apiSlice';
 import { Animal, AnimalBatch } from '../../../store/api/types';
-import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { formatAnimalDetailsToDBStructure, formatBatchDetailsToDBStructure } from './utils';
 import { AnimalDetailsFormFields } from './types';
 import { AnimalOrBatchKeys } from '../types';
@@ -78,6 +78,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     try {
       if (formattedAnimals.length) {
         animalsResult = await addAnimals(formattedAnimals).unwrap();
+        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_CREATE_ANIMALS')));
       }
     } catch (e) {
       console.error(e);
@@ -86,6 +87,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     try {
       if (formattedBatches.length) {
         batchesResult = await addAnimalBatches(formattedBatches).unwrap();
+        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_CREATE_BATCHES')));
       }
     } catch (e) {
       console.error(e);
@@ -123,13 +125,13 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
   };
 
   return (
-    <MultiStepForm
+    <ContextForm
       stepperProgressBarTitle={isMobile && t('ADD_ANIMAL.ADD_ANIMALS_TITLE')}
       stepperProgressBarConfig={stepperProgressBarConfig}
       onSave={onSave}
       hasSummaryWithinForm={true}
       isCompactSideMenu={isCompactSideMenu}
-      variant={VARIANT.STEPPER_PROGRESS_BAR}
+      variant={Variant.STEPPER_PROGRESS_BAR}
       history={history}
       getSteps={getFormSteps}
       defaultFormValues={defaultFormValues}

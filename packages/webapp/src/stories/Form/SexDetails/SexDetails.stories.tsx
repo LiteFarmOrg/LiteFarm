@@ -26,7 +26,27 @@ const meta: Meta<typeof SexDetails> = {
     maxCount: 100,
   },
   render: (args) => {
-    const { control } = useForm();
+    const { control } = useForm(
+      args.isDisabled
+        ? {
+            defaultValues: {
+              name: [
+                {
+                  count: 1,
+                  id: 0,
+                  label: 'Male',
+                },
+                {
+                  count: 2,
+                  id: 2,
+                  label: 'Female',
+                },
+              ],
+            },
+          }
+        : {},
+    );
+
     return (
       <Controller
         name="name"
@@ -60,5 +80,12 @@ export const Primary: Story = {
 export const MultipleSexes: Story = {
   args: {
     initialDetails: createInitialDetails('Bull', 'Cow', 'Heifer', 'Steer', 'Calf'),
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    initialDetails: createInitialDetails('Male', 'Female'),
+    isDisabled: true,
   },
 };

@@ -15,17 +15,17 @@
 
 import { Meta, StoryObj } from '@storybook/react';
 import { componentDecorators } from '../Pages/config/Decorators';
-import { MultiStepForm, VARIANT } from '../../components/Form/MultiStepForm';
+import { ContextForm, Variant } from '../../components/Form/ContextForm';
 
 // https://storybook.js.org/docs/writing-stories/typescript
-const meta: Meta<typeof MultiStepForm> = {
-  title: 'Components/MultiStepForm',
-  component: MultiStepForm,
+const meta: Meta<typeof ContextForm> = {
+  title: 'Components/ContextForm',
+  component: ContextForm,
   decorators: componentDecorators,
 };
 export default meta;
 
-type Story = StoryObj<typeof MultiStepForm>;
+type Story = StoryObj<typeof ContextForm>;
 
 export const PageTitle: Story = {
   args: {
@@ -54,7 +54,7 @@ const stepperFormCommonProps = {
     onGoForward();
   },
   isCompactSideMenu: true,
-  variant: VARIANT.STEPPER_PROGRESS_BAR,
+  variant: Variant.STEPPER_PROGRESS_BAR,
   history: { block: () => () => ({}) },
   getSteps: () => [
     {

@@ -16,7 +16,10 @@
 import { expect, describe, test, vi } from 'vitest';
 import { calculateAge, formatAge } from '../util/age';
 
-const getDate = (date) => new Date(`${date} 00:00:00-08`);
+const getDate = (dateString) => {
+  const [year, month, day] = dateString.split('-');
+  return new Date(year, month - 1, day);
+};
 
 const generateAge = (years, months, days) => {
   return { years, months, days };

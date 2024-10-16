@@ -316,6 +316,9 @@ const checkAndAddCustomTypesOrBreeds = (
     }
 
     if (defaultBreedId || customBreedId) {
+      // Currently unreachable - test removed
+      // default breed - default breed must use default type  - error already exists
+      // custom breed - breed does not match type - custom breed already has type associated could not possibly match a not existing type
       throw customError('Cannot create a new type associated with an existing breed');
     }
     newTypesSet.add(type_name);
@@ -348,16 +351,23 @@ const checkRemovalDataProvided = (animalOrBatch) => {
 };
 
 const getRecordIfExists = async (animalOrBatch, animalOrBatchKey, farm_id) => {
+  const relations =
+    animalOrBatchKey === 'batch'
+      ? {
+          group_ids: true,
+          sex_detail: true,
+          animal_batch_use_relationships: true,
+        }
+      : {
+          group_ids: true,
+          animal_use_relationships: true,
+        };
   return await AnimalOrBatchModel[animalOrBatchKey]
     .query()
     .findById(animalOrBatch.id)
     .where({ farm_id })
     .whereNotDeleted()
-    .withGraphFetched({
-      group_ids: true,
-      sex_detail: animalOrBatchKey === 'batch' ? true : false,
-      animal_batch_use_relationships: true,
-    });
+    .withGraphFetched(relations);
 };
 
 // Post loop checks

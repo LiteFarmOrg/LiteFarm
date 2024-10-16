@@ -23,6 +23,7 @@ import {
 } from '../util/animal.js';
 import { handleObjectionError } from '../util/errorCodes.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
+import _pick from 'lodash/pick.js';
 
 const animalController = {
   getFarmAnimals() {
@@ -117,66 +118,41 @@ const animalController = {
           await checkAndAddCustomTypeAndBreed(req, animal, farm_id, trx);
           // TODO: Comment out for animals v1?
           await checkAndAddGroup(req, animal, farm_id, trx);
-          const {
-            id,
-            default_type_id,
-            custom_type_id,
-            default_breed_id,
-            custom_breed_id,
-            sex_id,
-            name,
-            birth_date,
-            identifier,
-            identifier_color_id,
-            identifier_placement_id,
-            origin_id,
-            dam,
-            sire,
-            brought_in_date,
-            weaning_date,
-            notes,
-            photo_url,
-            identifier_type_id,
-            identifier_type_other,
-            organic_status,
-            supplier,
-            price,
-            group_ids,
-            animal_use_relationships,
-          } = animal;
 
-          await baseController.upsertGraph(
-            AnimalModel,
-            {
-              id,
-              default_type_id,
-              custom_type_id,
-              default_breed_id,
-              custom_breed_id,
-              sex_id,
-              name,
-              birth_date,
-              identifier,
-              identifier_color_id,
-              identifier_placement_id,
-              origin_id,
-              dam,
-              sire,
-              brought_in_date,
-              weaning_date,
-              notes,
-              photo_url,
-              identifier_type_id,
-              identifier_type_other,
-              organic_status,
-              supplier,
-              price,
-              group_ids,
-              animal_use_relationships,
-            },
-            req,
-            { trx },
-          );
+          const desiredKeys = [
+            'id',
+            'custom_breed_id',
+            'custom_type_id',
+            'default_breed_id',
+            'default_type_id',
+            'sex_id',
+            'name',
+            'birth_date',
+            'identifier',
+            'identifier_color_id',
+            'identifier_placement_id',
+            'identifier_type_id',
+            'identifier_type_other',
+            'origin_id',
+            'dam',
+            'sire',
+            'brought_in_date',
+            'weaning_date',
+            'notes',
+            'photo_url',
+            'organic_status',
+            'supplier',
+            'price',
+            'sex_detail',
+            'origin_id',
+            'group_ids',
+            'animal_use_relationships',
+          ];
+
+          const keysExisting = desiredKeys.filter((key) => key in animal);
+          const data = _pick(animal, keysExisting);
+
+          await baseController.upsertGraph(AnimalModel, data, req, { trx });
         }
         // delete utility objects
         delete req.body.typeIdsMap;

@@ -5,6 +5,8 @@
   "ADD_ANOTHER_ITEM": "Add another item",
   "ADD_ITEM": "Add {{itemName}}",
   "ADD_TO_GROUP": "Add to group",
+  "AGE_DAYS_COUNT_one": "{{count}}d",
+  "AGE_DAYS_COUNT_other": "{{count}}d",
   "AGE_MONTHS_COUNT_one": "{{count}}m",
   "AGE_MONTHS_COUNT_other": "{{count}}m",
   "AGE_YEARS_COUNT_one": "{{count}}y",

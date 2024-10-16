@@ -39,12 +39,15 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 import mocks from './mock.factories.js';
 import CustomAnimalTypeModel from '../src/models/customAnimalTypeModel.js';
 import CustomAnimalBreedModel from '../src/models/customAnimalBreedModel.js';
+import AnimalUseRelationshipModel from '../src/models/animalUseRelationshipModel.js';
 
 describe('Animal Tests', () => {
   let farm;
   let newOwner;
   let defaultTypeId;
   let animalRemovalReasonId;
+  let animalUse1;
+  let animalOrigin1;
 
   const mockDate = new Date('2024/3/12').toISOString();
 
@@ -55,6 +58,9 @@ describe('Animal Tests', () => {
     // Alternatively the enum table could be kept (not cleaned up)
     const [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
     animalRemovalReasonId = animalRemovalReason.id;
+
+    [animalUse1] = await mocks.animal_useFactory('OTHER');
+    [animalOrigin1] = await mocks.animal_originFactory('BROUGHT_IN');
   });
 
   async function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
@@ -272,7 +278,8 @@ describe('Animal Tests', () => {
         animal,
       );
 
-      expect(res.status).toBe(500);
+      expect(res.status).toBe(400);
+      expect(res.error.text).toBe('Request body should be an array');
     });
 
     test('Unique internal_identifier should be added within the same farm_id between animals and animalBatches', async () => {
@@ -727,7 +734,6 @@ describe('Animal Tests', () => {
     let animalIdentifierType;
     let animalOrigin;
     let animalRemovalReason;
-    let animalUse1;
     let animalUse2;
     let animalUse3;
 
@@ -740,7 +746,6 @@ describe('Animal Tests', () => {
       [animalIdentifierType] = await mocks.animal_identifier_typeFactory();
       [animalOrigin] = await mocks.animal_originFactory();
       [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
-      [animalUse1] = await mocks.animal_useFactory('OTHER');
       [animalUse2] = await mocks.animal_useFactory();
       [animalUse3] = await mocks.animal_useFactory();
     });
@@ -1320,5 +1325,535 @@ describe('Animal Tests', () => {
         },
       });
     });
+  });
+
+  // MIDDLEWARE tests
+  describe('Edit animal animal tests', () => {
+    let animalOrigin2;
+    let animalUse2;
+    let animalUse3;
+    let animalBreed;
+    let animalBreed2;
+
+    beforeEach(async () => {
+      // Populate enums
+      [animalOrigin2] = await mocks.animal_originFactory();
+      [animalUse2] = await mocks.animal_useFactory();
+      [animalUse3] = await mocks.animal_useFactory();
+      [animalBreed] = await mocks.default_animal_breedFactory();
+      [animalBreed2] = await mocks.default_animal_breedFactory();
+    });
+
+    // Top level structure is endpoint string with value as in caps, value is an array of tests
+    // Example: {'CREATE': [{test1}, {test2},...],'EDIT': [{test1}, {test2},...}
+    // Test structure to test 'CREATE' middleware is:
+    // { testName: 'name', getPostBody: function() {return [animal]}, postErr: {code: 400, message: 'errorMessage'}}
+    // Test structure to test 'EDIT' middleware is:
+    // { testName: 'name', getPostBody?: function() {return [animal]}, getPatchBody?: function() {return [editedAnimal]}, patchErr: {code: 400, message: 'errorMessage'}} }
+    // Test structure to test raw data expectations is:
+    // { testName: 'name', getPostBody?: function() {return [animal]}, getPatchBody?: function() {return [editedAnimal]}, getRawRecordMismatch: function() return { model: Model, where: {id}, getMatchingBody: function() return [records] } } }
+    const middlewareErrors = {
+      CREATE: [
+        {
+          testName: 'Custom type cannot be used with default breed',
+          getPostBody: (customs) => [
+            {
+              custom_type_id: customs.customAnimalType.id,
+              default_breed_id: animalBreed.id,
+            },
+          ],
+          postErr: {
+            code: 400,
+            message: 'Default breed must use default type',
+          },
+        },
+      ],
+      EDIT: [
+        {
+          testName: 'Exactly one type provided',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              default_type_id: animal.default_type_id,
+              type_name: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Exactly one of default_type_id, custom_type_id, or type_name must be sent',
+          },
+        },
+        {
+          testName: 'Custom type id is number',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              custom_type_id: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Must send valid ids',
+          },
+        },
+        {
+          testName: 'Custom id exists',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              custom_type_id: 1000000,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Custom type does not exist',
+          },
+        },
+        {
+          testName: 'Custom type does not belong to farm',
+          getPatchBody: (animal, existingAnimals, customs) => [
+            {
+              id: animal.id,
+              custom_type_id: customs.otherFarm.otherCustomAnimalType.id,
+            },
+          ],
+          patchErr: {
+            code: 403,
+            message: 'Forbidden custom type does not belong to this farm',
+          },
+        },
+        {
+          testName: 'Exactly one breed provided',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed.id,
+              breed_name: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Exactly one of default_breed_id, custom_breed_id, or breed_name must be sent',
+          },
+        },
+        {
+          testName: 'Default type matches default breed -- default type is changed',
+          getPatchBody: (animal, existingAnimals) => [
+            {
+              id: existingAnimals[0].id,
+              default_type_id: animalBreed2.default_type_id,
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+        {
+          testName: 'Default type matches default breed -- default breed is changed',
+          getPatchBody: (animal, existingAnimals) => [
+            {
+              id: existingAnimals[0].id,
+              default_breed_id: animalBreed2.id,
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+        {
+          testName: 'Default breed is a number',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              default_breed_id: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Must send valid ids',
+          },
+        },
+        {
+          testName: 'Default breed provided exists (optional to provide)',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              default_breed_id: 1000000,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Default breed does not exist',
+          },
+        },
+        {
+          testName: 'Default type matches default breed -- both are changed but mismatch',
+          getPatchBody: (animal, existingAnimals) => [
+            {
+              id: existingAnimals[0].id,
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed2.id,
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+
+        {
+          testName: 'Custom breed is a number',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              custom_breed_id: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Must send valid ids',
+          },
+        },
+        {
+          testName: 'Custom breed provided exists (optional to provide)',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              custom_breed_id: 1000000,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Custom breed does not exist',
+          },
+        },
+        {
+          testName: 'Custom breed provided exists (optional to provide)',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              custom_breed_id: 1000000,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Custom breed does not exist',
+          },
+        },
+        {
+          testName: 'Custom breed does not belong to farm',
+          getPatchBody: (animal, existingAnimals, customs) => [
+            {
+              id: animal.id,
+              custom_breed_id: customs.otherFarm.otherCustomAnimalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 403,
+            message: 'Forbidden custom breed does not belong to this farm',
+          },
+        },
+        {
+          testName: 'Default type matches custom breed -- default type is changed',
+          getPatchBody: (animal, existingAnimals, customs) => [
+            {
+              id: existingAnimals[0].id,
+              default_type_id: animalBreed.default_type_id,
+            },
+          ],
+          getPostBody: (customs) => [
+            {
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+        {
+          testName: 'Default type matches custom breed -- custom type is changed',
+          getPatchBody: (animal, existingAnimals, customs) => [
+            {
+              id: existingAnimals[0].id,
+              custom_type_id: customs.customAnimalBreed2.custom_type_id,
+            },
+          ],
+          getPostBody: (customs) => [
+            {
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+        {
+          testName: 'Default type matches custom breed -- breed and type are changed',
+          getPatchBody: (animal, existingAnimals, customs) => [
+            {
+              id: existingAnimals[0].id,
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed2.id,
+            },
+          ],
+          getPostBody: (customs) => [
+            {
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+        {
+          testName: 'Use relationships is an array',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              animal_use_relationships: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'animal_use_relationships should be an array',
+          },
+        },
+        {
+          testName: 'Other use notes is for other use type',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              animal_use_relationships: [
+                {
+                  use_id: animalUse2.id,
+                  other_use: 'Leather',
+                },
+              ],
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'other_use notes is for other use type',
+          },
+        },
+        {
+          testName: 'Check edit use -- patching use relationship with empty array hard deletes use',
+          getRawRecordMismatch: (existingAnimals) => {
+            return {
+              model: AnimalUseRelationshipModel,
+              where: { animal_id: existingAnimals[0].id },
+              getMatchingBody: (existingAnimals, records) => {
+                return [];
+              },
+            };
+          },
+          getPatchBody: (animal, existingAnimals) => [
+            {
+              id: existingAnimals[0].id,
+              animal_use_relationships: [],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              animal_use_relationships: [
+                {
+                  use_id: animalUse2.id,
+                },
+                {
+                  use_id: animalUse3.id,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          testName:
+            'Check edit use -- patching use relationship requires all pre-existing uses to be present hard deletes missing',
+          getRawRecordMismatch: (existingAnimals) => {
+            return {
+              model: AnimalUseRelationshipModel,
+              where: { animal_id: existingAnimals[0].id },
+              getMatchingBody: (existingAnimals, records) => {
+                return [
+                  {
+                    ...records[0],
+                    use_id: animalUse1.id,
+                    other_use: 'Leather',
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (animal, existingAnimals) => [
+            {
+              id: existingAnimals[0].id,
+              animal_use_relationships: [
+                {
+                  use_id: animalUse1.id,
+                  other_use: 'Leather',
+                },
+              ],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              animal_use_relationships: [
+                {
+                  use_id: animalUse1.id,
+                },
+                {
+                  use_id: animalUse2.id,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          testName: 'Origin id must be brought in to have brought in date',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              origin_id: animalOrigin2.id,
+              brought_in_date: new Date(),
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Brought in date must be used with brought in origin',
+          },
+        },
+      ],
+    };
+
+    // Takes middleWareErrors object and makes it into individual tests
+    for (const errorEndpoint in middlewareErrors) {
+      middlewareErrors[errorEndpoint].forEach(async (error) => {
+        await test(`${errorEndpoint} Middleware: ${error.testName}`, async () => {
+          // Create userFarms needed for tests
+          const { mainFarm, user } = await returnUserFarms(1);
+          const { mainFarm: otherFarm } = await returnUserFarms(1);
+
+          // Make, then group, farm specific resources
+          const [customAnimalType] = await mocks.custom_animal_typeFactory({
+            promisedFarm: [mainFarm],
+          });
+          const [customAnimalBreed] = await mocks.custom_animal_breedFactory(
+            {
+              promisedFarm: [mainFarm],
+            },
+            undefined,
+            false,
+          );
+          const [customAnimalBreed2] = await mocks.custom_animal_breedFactory({
+            promisedFarm: [mainFarm],
+          });
+          const [otherCustomAnimalType] = await mocks.custom_animal_typeFactory({
+            promisedFarm: [otherFarm],
+          });
+          const [otherCustomAnimalBreed] = await mocks.custom_animal_breedFactory({
+            promisedFarm: [otherFarm],
+          });
+          const customs = {
+            customAnimalType,
+            customAnimalBreed,
+            customAnimalBreed2,
+            otherFarm: { otherCustomAnimalType, otherCustomAnimalBreed },
+          };
+
+          // Post endpoint for testing CREATE or testing EDIT against existing record
+          const makeCheckGetAnimal = async (getPostBody) => {
+            const animals = getPostBody(customs).map((animal) => mocks.fakeAnimal(animal));
+            const postRes = await postRequest(
+              {
+                user_id: user.user_id,
+                farm_id: mainFarm.farm_id,
+              },
+              [...animals],
+            );
+
+            // If checking error body on post
+            expect(postRes.status).toBe(error.postErr?.code || 201);
+            expect(postRes.error.text).toBe(error.postErr?.message || undefined);
+            return postRes.body;
+          };
+
+          let existingAnimals;
+          if (error.getPostBody) {
+            existingAnimals = await makeCheckGetAnimal(error.getPostBody);
+          }
+
+          // Patch endpoint for testing EDIT or testing raw successful records against
+          const editCheckAnimal = async (getPatchBody) => {
+            // for skipping makeCheckGetAnimal
+            const animal = await makeAnimal(mainFarm, {
+              default_type_id: defaultTypeId,
+            });
+            const animals = getPatchBody(animal, existingAnimals, customs);
+            const patchRes = await patchRequest(
+              {
+                user_id: user.user_id,
+                farm_id: mainFarm.farm_id,
+              },
+              [...animals],
+            );
+            console.log(error.testName);
+            console.log(patchRes);
+            // If checking error body on patch
+            expect(patchRes.status).toBe(error.patchErr?.code || 204);
+            expect(patchRes.error.text).toBe(error.patchErr?.message || undefined);
+          };
+
+          if (error.getPatchBody) {
+            await editCheckAnimal(error.getPatchBody);
+          }
+
+          // For checking raw records made in CREATE or EDIT
+          const rawGetMatch = async (getRawRecordMismatch) => {
+            const rawRecordMatch = getRawRecordMismatch(existingAnimals);
+            // Include deleted
+            const records = await rawRecordMatch.model
+              .query()
+              .where(rawRecordMatch.where)
+              .context({ showHidden: true });
+            const expectedBody = rawRecordMatch.getMatchingBody(existingAnimals, records);
+            // No fallback if provided
+            expect(records).toEqual(expectedBody);
+          };
+
+          if (error.getRawRecordMismatch) {
+            await rawGetMatch(error.getRawRecordMismatch);
+          }
+        });
+      });
+    }
   });
 });

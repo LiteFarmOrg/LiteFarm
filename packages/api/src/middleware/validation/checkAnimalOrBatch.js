@@ -31,6 +31,7 @@ import DefaultAnimalBreedModel from '../../models/defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from '../../models/customAnimalBreedModel.js';
 import AnimalUseModel from '../../models/animalUseModel.js';
 import AnimalOriginModel from '../../models/animalOriginModel.js';
+import AnimalIdentifierType from '../../models/animalIdentifierTypeModel.js';
 
 const AnimalOrBatchModel = {
   animal: AnimalModel,
@@ -292,6 +293,23 @@ const checkAnimalOrigin = async (animalOrBatch, creating = true) => {
   }
 };
 
+const checkAnimalIdentifier = async (animalOrBatch, animalOrBatchKey, creating = true) => {
+  if (animalOrBatchKey === 'animal') {
+    const { identifier_type_id, identifier_type_other } = animalOrBatch;
+    if (oneExists(['identifier_type_id', 'identifier_type_other'], animalOrBatch)) {
+      const otherIdentifier = await AnimalIdentifierType.query().where({ key: 'OTHER' }).first();
+      // Overwrite date with null in db if editing origin_id
+      if (!creating && identifier_type_id != otherIdentifier.id) {
+        setFalsyValuesToNull(['identifier_type_other'], animalOrBatch);
+      }
+
+      if (identifier_type_id != otherIdentifier.id && identifier_type_other) {
+        throw customError('Other identifier notes must be used with "other" identifier');
+      }
+    }
+  }
+};
+
 const checkAndAddCustomTypesOrBreeds = (
   animalOrBatch,
   newTypesSet,
@@ -427,6 +445,7 @@ export function checkCreateAnimalOrBatch(animalOrBatchKey) {
         await checkBatchSexDetail(animalOrBatch, animalOrBatchKey);
         await checkAnimalUseRelationship(animalOrBatch, animalOrBatchKey);
         await checkAnimalOrigin(animalOrBatch);
+        await checkAnimalIdentifier(animalOrBatch, animalOrBatchKey);
 
         // Skip the process if type_name and breed_name are not passed
         if (!type_name && !breed_name) {
@@ -484,6 +503,7 @@ export function checkEditAnimalOrBatch(animalOrBatchKey) {
         await checkBatchSexDetail(animalOrBatch, animalOrBatchKey, animalOrBatchRecord);
         await checkAnimalUseRelationship(animalOrBatch, animalOrBatchKey);
         await checkAnimalOrigin(animalOrBatch, false);
+        await checkAnimalIdentifier(animalOrBatch, animalOrBatchKey, false);
 
         // Skip the process if type_name and breed_name are not passed
         if (!type_name && !breed_name) {

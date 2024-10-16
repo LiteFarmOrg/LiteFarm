@@ -2402,9 +2402,9 @@ async function animal_batchFactory(
     });
 }
 
-async function animal_identifier_typeFactory(rows = 1) {
+async function animal_identifier_typeFactory(rows = 1, key = faker.lorem.word()) {
   return knex('animal_identifier_type')
-    .insert(Array(rows).fill({ key: faker.lorem.word() }))
+    .insert(Array(rows).fill({ key, id: key === 'OTHER' ? 3 : undefined }))
     .returning('*');
 }
 

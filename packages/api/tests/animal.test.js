@@ -48,6 +48,7 @@ describe('Animal Tests', () => {
   let animalRemovalReasonId;
   let animalUse1;
   let animalOrigin1;
+  let animalIdentifier1;
 
   const mockDate = new Date('2024/3/12').toISOString();
 
@@ -61,6 +62,7 @@ describe('Animal Tests', () => {
 
     [animalUse1] = await mocks.animal_useFactory('OTHER');
     [animalOrigin1] = await mocks.animal_originFactory('BROUGHT_IN');
+    [animalIdentifier1] = await mocks.animal_identifier_typeFactory(undefined, 'OTHER');
   });
 
   async function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
@@ -1334,6 +1336,7 @@ describe('Animal Tests', () => {
     let animalUse3;
     let animalBreed;
     let animalBreed2;
+    let animalIdentifier2;
 
     beforeEach(async () => {
       // Populate enums
@@ -1342,6 +1345,7 @@ describe('Animal Tests', () => {
       [animalUse3] = await mocks.animal_useFactory();
       [animalBreed] = await mocks.default_animal_breedFactory();
       [animalBreed2] = await mocks.default_animal_breedFactory();
+      [animalIdentifier2] = await mocks.animal_identifier_typeFactory();
     });
 
     // Top level structure is endpoint string with value as in caps, value is an array of tests
@@ -1749,6 +1753,20 @@ describe('Animal Tests', () => {
           patchErr: {
             code: 400,
             message: 'Brought in date must be used with brought in origin',
+          },
+        },
+        {
+          testName: 'Other identifier notes must be used with "other" identifier',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              identifier_type_id: animalIdentifier2.id,
+              identifier_type_other: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Other identifier notes must be used with "other" identifier',
           },
         },
       ],

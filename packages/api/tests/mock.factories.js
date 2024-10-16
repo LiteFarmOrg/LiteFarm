@@ -2416,8 +2416,10 @@ async function animal_sexFactory() {
   return knex('animal_sex').insert({ key: faker.lorem.word() }).returning('*');
 }
 
-async function animal_originFactory(key = 'BROUGHT_IN') {
-  return knex('animal_origin').insert({ key }).returning('*');
+async function animal_originFactory(key = faker.lorem.word()) {
+  return knex('animal_origin')
+    .insert({ key, id: key === 'BROUGHT_IN' ? 1 : undefined })
+    .returning('*');
 }
 
 function fakeAnimalGroup(defaultData = {}) {
@@ -2483,7 +2485,9 @@ async function animal_removal_reasonFactory() {
 }
 
 async function animal_useFactory(key = faker.lorem.word()) {
-  return knex('animal_use').insert({ key }).returning('*');
+  return knex('animal_use')
+    .insert({ key, id: key === 'OTHER' ? 10 : undefined })
+    .returning('*');
 }
 
 async function animal_type_use_relationshipFactory({

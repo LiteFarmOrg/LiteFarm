@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../assets/mixin.scss';
+
 .tooltip {
   color: #000;
   border-radius: 4px;
@@ -20,28 +22,48 @@
   padding: 8px;
   border: 1px solid var(--Colors-Neutral-Neutral-50);
   box-shadow: 0px 4px 12px 0px #00000040;
-
+  z-index: 10;
 }
 .badge {
-  //color: #E8A700;
   color: var(--Colors-Accent-Accent-yellow-600);
-  background: #FFFBF2;
+  background: #fffbf2;
   border-radius: 16px;
   height: 24px;
   font-size: 14px;
-  padding: 4px;
-  > svg{
+  padding: 5px 4px 5px 6px;
+  > svg {
     margin-left: 3px;
   }
-  &:hover{
-    background: #FFEAB2;
+  &:hover {
+    background: #ffeab2;
     color: var(--Colors-Accent-Accent-yellow-700);
-
-
   }
-  &:focus{
+  &:focus {
     background: var(--Colors-Accent-Accent-yellow-500);
     color: var(--Colors-Accent-Accent-yellow-50);
-    border-radius:8px 8px 4px 4px;
+    border-radius: 8px 8px 4px 4px !important;
+  }
+}
+
+:global(.hasBadge) .badge {
+  height: 12px;
+  font-size: 11px;
+  padding: 6px;
+  position: absolute;
+  left: 50px;
+  top: 8px;
+  border-radius: 16px;
+  &:focus {
+    border-radius: 6px 6px 4px 4px !important;
+  }
+
+  @include xs-breakpoint {
+    height: 16px;
+    position: relative;
+    font-size: 14px;
+    top: initial;
+    left: initial;
+    padding: 6px;
+    margin-right: 6px;
   }
 }

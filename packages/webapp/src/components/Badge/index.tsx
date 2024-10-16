@@ -14,26 +14,31 @@
  */
 
 import React, { useState } from 'react';
-import { Tooltip, ClickAwayListener, IconButton } from '@mui/material';
+import { Tooltip, ClickAwayListener, IconButton, tooltipClasses } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import styles from './styles.module.scss';
 
 // Define the Props
 interface BadgeProps {
-  content: React.ReactNode;
+  content: string;
   title: string;
   showIcon?: boolean;
+  style?: React.CSSProperties;
 }
 
-const Badge: React.FC<BadgeProps> = ({ content, title = 'Beta', showIcon = true }) => {
+const Badge: React.FC<BadgeProps> = ({ content, title, showIcon = true, style }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [tooltipHover, setTooltipHover] = useState<boolean>(false);
 
   const handleTooltipOpen = () => {
-    if (!tooltipHover) setOpen(true);
+    if (!tooltipHover) {
+      setOpen(true);
+    }
   };
   const handleTooltipClose = () => {
-    if (!tooltipHover) setOpen(false);
+    if (!tooltipHover) {
+      setOpen(false);
+    }
   };
   const handleTooltipContentHover = (hovering: boolean) => {
     setTooltipHover(hovering);
@@ -42,31 +47,30 @@ const Badge: React.FC<BadgeProps> = ({ content, title = 'Beta', showIcon = true 
 
   const tooltipContent = (
     <div
-      onClick={() => handleTooltipContentHover(true)}
+      onClick={(e) => {
+        e.stopPropagation();
+        handleTooltipContentHover(true);
+      }}
       onMouseEnter={() => handleTooltipContentHover(true)}
       onMouseLeave={() => handleTooltipContentHover(false)}
       className={styles.tooltip}
-    >
-      {content}
-    </div>
+      dangerouslySetInnerHTML={{ __html: content }}
+    />
   );
-
-  const popperProps = {
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, -10],
-        },
-      },
-    ],
-  };
-  const componentsProps = {
+  const slotProps = {
     tooltip: {
       sx: {
         backgroundColor: '#fff',
         p: 0,
         m: 0,
+      },
+    },
+    popper: {
+      sx: {
+        [`&.${tooltipClasses.popper}[data-popper-placement*="bottom"] .${tooltipClasses.tooltip}`]:
+          {
+            marginTop: '2px',
+          },
       },
     },
   };
@@ -82,12 +86,15 @@ const Badge: React.FC<BadgeProps> = ({ content, title = 'Beta', showIcon = true 
         disableTouchListener
         enterTouchDelay={0}
         placement="bottom-start"
-        PopperProps={popperProps}
-        componentsProps={componentsProps}
+        slotProps={slotProps}
       >
         <IconButton
           className={styles.badge}
-          onClick={handleTooltipOpen} // Toggle on click for both desktop and mobile
+          style={{ ...style }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleTooltipOpen();
+          }} // Toggle on click for both desktop and mobile
           onMouseEnter={handleTooltipOpen} // Show on hover (desktop)
         >
           <span>{title}</span> {showIcon && <InfoOutlinedIcon />}

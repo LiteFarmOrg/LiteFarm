@@ -124,7 +124,7 @@ export type AnimalSingleViewHeaderProps = {
   onEdit: () => void;
   onRemove: () => void;
   onBack: () => void;
-  animalOrBatch: (Animal | AnimalBatch) & { location?: string }; // location is TBD
+  animalOrBatch: (Animal | AnimalBatch) & { location?: string }; // TODO: LF-4481
   defaultTypes: DefaultAnimalType[];
   customTypes: CustomAnimalType[];
   defaultBreeds: DefaultAnimalBreed[];

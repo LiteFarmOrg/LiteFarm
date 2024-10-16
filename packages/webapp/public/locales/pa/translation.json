@@ -1909,5 +1909,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "ਸਾਲ ਚੁਣੋ"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "MISSING",
+      "CONTENT": "MISSING"
+    }
   }
 }

@@ -2065,5 +2065,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Selecione o ano"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "MISSING",
+      "CONTENT": "MISSING"
+    }
   }
 }

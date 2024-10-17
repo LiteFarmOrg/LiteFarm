@@ -1771,10 +1771,10 @@ describe('Animal Tests', () => {
         },
         {
           testName: 'Cannot create a new type associated with an existing breed',
-          getPatchBody: (animal) => [
+          getPatchBody: (animal, existingAnimals, customs) => [
             {
               id: animal.id,
-              defaultBreedId: animalBreed.id,
+              custom_breed_id: customs.customAnimalBreed.id,
               type_name: 'string',
             },
           ],
@@ -1782,6 +1782,68 @@ describe('Animal Tests', () => {
             code: 400,
             message: 'Cannot create a new type associated with an existing breed',
           },
+        },
+        {
+          testName: 'Change to custom type and null pre-existing breed',
+          getRawRecordMismatch: (existingAnimals) => {
+            return {
+              model: AnimalModel,
+              where: { id: existingAnimals[0].id },
+              getMatchingBody: (existingAnimals, records, customs) => {
+                return [
+                  {
+                    ...records[0],
+                    custom_type_id: customs.customAnimalType.id,
+                    custom_breed_id: null,
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (animal, existingAnimals, customs) => [
+            {
+              id: existingAnimals[0].id,
+              custom_type_id: customs.customAnimalType.id,
+              custom_breed_id: null,
+            },
+          ],
+          getPostBody: (customs) => [
+            {
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed.id,
+            },
+          ],
+        },
+        {
+          testName:
+            'Successfully edit Custom type matches new breed name -- previous breed not exist',
+          getRawRecordMismatch: (existingAnimals, patchedAnimals) => {
+            return {
+              model: CustomAnimalBreedModel,
+              where: { id: patchedAnimals.custom_breed_id },
+              getMatchingBody: (existingAnimals, records, customs) => {
+                return [
+                  {
+                    ...records[0],
+                    custom_type_id: customs.customAnimalType.id,
+                    breed: 'New breed here',
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (animal, existingAnimals, customs) => [
+            {
+              id: existingAnimals[0].id,
+              custom_type_id: customs.customAnimalType.id,
+              breed_name: 'New breed here',
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: defaultTypeId,
+            },
+          ],
         },
       ],
     };
@@ -1857,20 +1919,21 @@ describe('Animal Tests', () => {
               },
               [...animals],
             );
-            console.log(error.testName);
-            console.log(patchRes);
             // If checking error body on patch
             expect(patchRes.status).toBe(error.patchErr?.code || 204);
             expect(patchRes.error.text).toBe(error.patchErr?.message || undefined);
+            const batchesIds = animals.map((animal) => animal.id);
+            return await AnimalModel.query().findById(batchesIds);
           };
 
+          let patchedAnimals;
           if (error.getPatchBody) {
-            await editCheckAnimal(error.getPatchBody);
+            patchedAnimals = await editCheckAnimal(error.getPatchBody);
           }
 
           // For checking raw records made in CREATE or EDIT
           const rawGetMatch = async (getRawRecordMismatch) => {
-            const rawRecordMatch = getRawRecordMismatch(existingAnimals);
+            const rawRecordMatch = getRawRecordMismatch(existingAnimals, patchedAnimals);
             // Include deleted
             const records = await rawRecordMatch.model
               .query()

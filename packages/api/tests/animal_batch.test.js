@@ -1363,7 +1363,7 @@ describe('Animal Batch Tests', () => {
     // Test structure to test 'CREATE' middleware is:
     // { testName: 'name', getPostBody: function() {return [batch]}, postErr: {code: 400, message: 'errorMessage'}}
     // Test structure to test 'EDIT' middleware is:
-    // { testName: 'name', getPostBody?: function() {return [batch]}, getPatchBody?: function() {return [editedBatch]}, patchErr: {code: 400, message: 'errorMessage'}} }
+    // { testName: 'name', getPostBody?: function() {return [batch]}, getPatchBody: function() {return [editedBatch]}, patchErr: {code: 400, message: 'errorMessage'}} }
     // Test structure to test raw data expectations is:
     // { testName: 'name', getPostBody?: function() {return [batch]}, getPatchBody?: function() {return [editedBatch]}, getRawRecordMismatch: function() return { model: Model, where: {id}, getMatchingBody: function() return [records] } } }
     const middlewareErrors = {
@@ -1385,6 +1385,7 @@ describe('Animal Batch Tests', () => {
           testName: 'Check create batch sex detail',
           getPostBody: (customs) => [
             {
+              default_type_id: defaultTypeId,
               count: 3,
               sex_detail: [
                 {
@@ -2046,10 +2047,10 @@ describe('Animal Batch Tests', () => {
         },
         {
           testName: 'Cannot create a new type associated with an existing breed',
-          getPatchBody: (batch) => [
+          getPatchBody: (batch, existingBatches, customs) => [
             {
               id: batch.id,
-              defaultBreedId: animalBreed.id,
+              custom_breed_id: customs.customAnimalBreed.id,
               type_name: 'string',
             },
           ],
@@ -2057,6 +2058,68 @@ describe('Animal Batch Tests', () => {
             code: 400,
             message: 'Cannot create a new type associated with an existing breed',
           },
+        },
+        {
+          testName: 'Change to custom type and null pre-existing breed',
+          getRawRecordMismatch: (existingBatches) => {
+            return {
+              model: AnimalBatchModel,
+              where: { id: existingBatches[0].id },
+              getMatchingBody: (existingBatches, records, customs) => {
+                return [
+                  {
+                    ...records[0],
+                    custom_type_id: customs.customAnimalType.id,
+                    custom_breed_id: null,
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: existingBatches[0].id,
+              custom_type_id: customs.customAnimalType.id,
+              custom_breed_id: null,
+            },
+          ],
+          getPostBody: (customs) => [
+            {
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed.id,
+            },
+          ],
+        },
+        {
+          testName:
+            'Successfully edit Custom type matches new breed name -- previous breed not exist',
+          getRawRecordMismatch: (existingBatches, patchedBatches) => {
+            return {
+              model: CustomAnimalBreedModel,
+              where: { id: patchedBatches.custom_breed_id },
+              getMatchingBody: (existingBatches, records, customs) => {
+                return [
+                  {
+                    ...records[0],
+                    custom_type_id: customs.customAnimalType.id,
+                    breed: 'New breed here',
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: existingBatches[0].id,
+              custom_type_id: customs.customAnimalType.id,
+              breed_name: 'New breed here',
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: defaultTypeId,
+            },
+          ],
         },
       ],
     };
@@ -2106,7 +2169,6 @@ describe('Animal Batch Tests', () => {
               },
               [...batches],
             );
-
             // If checking error body on post
             expect(postRes.status).toBe(error.postErr?.code || 201);
             expect(postRes.error.text).toBe(error.postErr?.message || undefined);
@@ -2135,15 +2197,18 @@ describe('Animal Batch Tests', () => {
             // If checking error body on patch
             expect(patchRes.status).toBe(error.patchErr?.code || 204);
             expect(patchRes.error.text).toBe(error.patchErr?.message || undefined);
+            const batchesIds = batches.map((batch) => batch.id);
+            return await AnimalBatchModel.query().findById(batchesIds);
           };
 
+          let patchedBatches;
           if (error.getPatchBody) {
-            await editCheckBatch(error.getPatchBody);
+            patchedBatches = await editCheckBatch(error.getPatchBody);
           }
 
           // For checking raw records made in CREATE or EDIT
           const rawGetMatch = async (getRawRecordMismatch) => {
-            const rawRecordMatch = getRawRecordMismatch(existingBatches);
+            const rawRecordMatch = getRawRecordMismatch(existingBatches, patchedBatches);
             // Include deleted
             const records = await rawRecordMatch.model
               .query()

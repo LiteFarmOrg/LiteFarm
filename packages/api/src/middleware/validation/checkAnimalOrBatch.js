@@ -191,7 +191,7 @@ const checkAnimalBreed = async (
   // Check if custom breed or custom type is present
   if (
     (oneExists(breedKeyOptions, animalOrBatch) && custom_breed_id) ||
-    (oneExists(typeKeyOptions, animalOrBatch) && (default_type_id || custom_type_id))
+    (oneExists(typeKeyOptions, animalOrBatch) && (default_type_id || custom_type_id) && !breed_name)
   ) {
     let customBreed;
     // Find customBreed if exists
@@ -334,9 +334,6 @@ const checkAndAddCustomTypesOrBreeds = (
     }
 
     if (defaultBreedId || customBreedId) {
-      // Currently unreachable - test removed
-      // default breed - default breed must use default type  - error already exists
-      // custom breed - breed does not match type - custom breed already has type associated could not possibly match a not existing type
       throw customError('Cannot create a new type associated with an existing breed');
     }
     newTypesSet.add(type_name);

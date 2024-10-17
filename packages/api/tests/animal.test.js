@@ -1769,6 +1769,20 @@ describe('Animal Tests', () => {
             message: 'Other identifier notes must be used with "other" identifier',
           },
         },
+        {
+          testName: 'Cannot create a new type associated with an existing breed',
+          getPatchBody: (animal) => [
+            {
+              id: animal.id,
+              defaultBreedId: animalBreed.id,
+              type_name: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Cannot create a new type associated with an existing breed',
+          },
+        },
       ],
     };
 
@@ -1862,7 +1876,7 @@ describe('Animal Tests', () => {
               .query()
               .where(rawRecordMatch.where)
               .context({ showHidden: true });
-            const expectedBody = rawRecordMatch.getMatchingBody(existingAnimals, records);
+            const expectedBody = rawRecordMatch.getMatchingBody(existingAnimals, records, customs);
             // No fallback if provided
             expect(records).toEqual(expectedBody);
           };

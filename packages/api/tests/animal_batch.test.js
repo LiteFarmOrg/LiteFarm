@@ -2044,6 +2044,20 @@ describe('Animal Batch Tests', () => {
             message: 'Brought in date must be used with brought in origin',
           },
         },
+        {
+          testName: 'Cannot create a new type associated with an existing breed',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              defaultBreedId: animalBreed.id,
+              type_name: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Cannot create a new type associated with an existing breed',
+          },
+        },
       ],
     };
 
@@ -2135,7 +2149,7 @@ describe('Animal Batch Tests', () => {
               .query()
               .where(rawRecordMatch.where)
               .context({ showHidden: true });
-            const expectedBody = rawRecordMatch.getMatchingBody(existingBatches, records);
+            const expectedBody = rawRecordMatch.getMatchingBody(existingBatches, records, customs);
             // No fallback if provided
             expect(records).toEqual(expectedBody);
           };

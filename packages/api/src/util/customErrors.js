@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { oneTruthy, hasMultipleValues } from './middleware.js';
+import { notExactlyOneValue } from './middleware.js';
 
 // Constructs a reusable error object
 export const customError = (message, code = 400, body = undefined) => {
@@ -37,7 +37,7 @@ export const checkIdIsNumber = (id) => {
 };
 
 export const checkExactlyOneIsProvided = (values, errorText) => {
-  if (oneTruthy(values) && hasMultipleValues(values)) {
+  if (notExactlyOneValue(values)) {
     throw customError(`Exactly one of ${errorText} must be sent`);
   }
 };

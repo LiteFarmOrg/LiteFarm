@@ -14,10 +14,10 @@
  */
 
 // Utils
-// Checks an array has more than one truthy value
-export const hasMultipleValues = (values) => {
+// Checks an array has exactly one truthy value
+export const notExactlyOneValue = (values) => {
   const nonNullValues = values.filter(Boolean);
-  return nonNullValues.length > 1;
+  return !(nonNullValues.length === 1);
 };
 
 // Checks an array of object keys against object -- at least one of the properties is defined

@@ -57,7 +57,7 @@ export default function InputAutoSize({
           hookFormRegister?.onBlur(e);
         }}
         disabled={disabled}
-        placeholder={!disabled && placeholder}
+        placeholder={disabled ? '' : placeholder}
         {...props}
       />
       {errors ? <Error style={classes.errors}>{errors}</Error> : null}

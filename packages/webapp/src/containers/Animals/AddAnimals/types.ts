@@ -46,7 +46,7 @@ export enum DetailsFields {
   BASICS_FIELD_ARRAY_ID = 'field_array_id', // remove before submitting
 
   // GENERAL
-  ID = 'id',
+  ID = 'internal_identifier', // todo: construct like in the inventory
   BATCH_NAME = 'batch_name',
   TYPE = 'type',
   BREED = 'breed',

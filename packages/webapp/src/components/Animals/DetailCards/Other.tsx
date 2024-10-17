@@ -50,7 +50,7 @@ const OtherDetails = ({
     register,
     getValues,
     setValue,
-    formState: { errors },
+    formState: { errors, defaultValues },
   } = useFormContext();
 
   const { field } = useController({ control, name: `${namePrefix}${DetailsFields.ANIMAL_IMAGE}` });
@@ -71,6 +71,20 @@ const OtherDetails = ({
       setValue(
         `${namePrefix}${DetailsFields.ORGANIC_STATUS}`,
         organicStatusOptions.find(({ value }) => value === 'Non-Organic'),
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (mode === 'add') {
+      return;
+    }
+
+    if (organicStatusOptions) {
+      setValue(
+        `${namePrefix}${DetailsFields.ORGANIC_STATUS}`,
+        organicStatusOptions.find(({ value }) => value === defaultValues?.organic_status),
+        { shouldValidate: true },
       );
     }
   }, []);

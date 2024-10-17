@@ -13,22 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import AnimalUse from '../models/animalUseModel.js';
+import express from 'express';
 
-const animalUseController = {
-  getAnimalUses() {
-    return async (_req, res) => {
-      try {
-        const uses = await AnimalUse.query();
-        return res.status(200).send(uses);
-      } catch (error) {
-        console.error(error);
-        return res.status(500).json({
-          error,
-        });
-      }
-    };
-  },
-};
+const router = express.Router();
+import checkScope from '../middleware/acl/checkScope.js';
+import animalTypeUseRelationshipController from '../controllers/animalTypeUseRelationshipController.js';
 
-export default animalUseController;
+router.get(
+  '/',
+  checkScope(['get:animal_uses']),
+  animalTypeUseRelationshipController.getAnimalTypeUseRelationships(),
+);
+
+export default router;

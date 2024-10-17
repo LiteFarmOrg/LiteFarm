@@ -12,15 +12,14 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
-import AnimalUse from '../models/animalUseModel.js';
+import AnimalTypeUseRelationship from '../models/animalTypeUseRelationshipModel.js';
 
 const animalUseController = {
-  getAnimalUses() {
+  getAnimalTypeUseRelationships() {
     return async (_req, res) => {
       try {
-        const uses = await AnimalUse.query();
-        return res.status(200).send(uses);
+        const useRelationships = await AnimalTypeUseRelationship.query();
+        return res.status(200).send(useRelationships);
       } catch (error) {
         console.error(error);
         return res.status(500).json({

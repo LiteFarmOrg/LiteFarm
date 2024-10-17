@@ -28,6 +28,7 @@ export default function DropdownButton({
   Menu,
   type,
   classes: propClasses = {},
+  menuPositionOffset,
 }) {
   const classes = useStyles();
   const [isOpen, setOpen] = useState(defaultOpen);
@@ -53,6 +54,7 @@ export default function DropdownButton({
     autoFocusItem: isOpen,
     id: 'composition-menu',
     'aria-labelledby': 'composition-button',
+    onCloseMenu: () => setOpen(false),
   };
 
   return (
@@ -63,8 +65,8 @@ export default function DropdownButton({
         inputRef={anchorRef}
         className={clsx(type && styles[type], propClasses.button)}
         id="composition-button"
-        aria-controls={open ? 'composition-menu' : undefined}
-        aria-expanded={open ? 'true' : undefined}
+        aria-controls={isOpen ? 'composition-menu' : undefined}
+        aria-expanded={isOpen ? 'true' : undefined}
         aria-haspopup="true"
       >
         {children}
@@ -82,6 +84,12 @@ export default function DropdownButton({
         role={undefined}
         disablePortal
         className={classes.popper}
+        // https://popper.js.org/docs/v2/modifiers/offset/#offset-1
+        modifiers={
+          menuPositionOffset
+            ? [{ name: 'offset', options: { offset: menuPositionOffset } }]
+            : undefined
+        }
       >
         <Paper>
           <ClickAwayListener onClickAway={handleClose}>
@@ -110,7 +118,7 @@ DropdownButton.propTypes = {
       onClick: PropTypes.func,
     }),
   ),
-  children: PropTypes.string,
+  children: PropTypes.node,
   defaultOpen: PropTypes.bool,
   noIcon: PropTypes.bool,
   Menu: PropTypes.elementType,
@@ -118,4 +126,5 @@ DropdownButton.propTypes = {
   classes: PropTypes.shape({
     button: PropTypes.string,
   }),
+  menuPositionOffset: PropTypes.arrayOf(PropTypes.number),
 };

@@ -67,7 +67,7 @@ const animalController = {
 
         for (const animal of req.body) {
           await checkAndAddCustomTypeAndBreed(req, animal, farm_id, trx);
-          // TODO: Comment out for animals v1?
+
           await checkAndAddGroup(req, animal, farm_id, trx);
 
           // Remove farm_id if it happens to be set in animal object since it should be obtained from header
@@ -80,7 +80,6 @@ const animalController = {
             { trx },
           );
 
-          // TODO: Comment out for animals v1?
           // Format group_ids
           const groupIdMap =
             individualAnimalResult.group_ids?.map((group) => group.animal_group_id) || [];

@@ -65,8 +65,6 @@ const animalBatchController = {
 
         for (const animalBatch of req.body) {
           await checkAndAddCustomTypeAndBreed(req, animalBatch, farm_id, trx);
-          // TODO: allow animal group addition on creation like animals
-          // await checkAndAddGroup(req, animal, farm_id, trx);
 
           // Remove farm_id if it happens to be set in animal object since it should be obtained from header
           delete animalBatch.farm_id;
@@ -77,12 +75,6 @@ const animalBatchController = {
             req,
             { trx },
           );
-
-          // TODO: allow animal group addition on creation like animals
-          // Format group_ids
-          // const groupIdMap =
-          //   individualAnimalBatchResult.group_ids?.map((group) => group.animal_group_id) || [];
-          // individualAnimalBatchResult.group_ids = groupIdMap;
 
           result.push(individualAnimalBatchResult);
         }
@@ -114,8 +106,6 @@ const animalBatchController = {
         // select only allowed properties to edit
         for (const animalBatch of req.body) {
           await checkAndAddCustomTypeAndBreed(req, animalBatch, farm_id, trx);
-          // TODO: allow animal group editing
-          // await checkAndAddGroup(req, animal, farm_id, trx);
 
           const desiredKeys = [
             'id',

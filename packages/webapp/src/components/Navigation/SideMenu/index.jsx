@@ -97,7 +97,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
             <Logo alt={'logo'} />
           </div>
         </ListItemButton>
-        {mainActions.map(({ icon, label, path, subMenu, key }) => {
+        {mainActions.map(({ icon, label, path, subMenu, key, badge }) => {
           if (!subMenu) {
             return (
               <MenuItem
@@ -115,6 +115,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
                     isCompact && styles.hiddenContent,
                   )}
                 />
+                {!isCompact && badge}
               </MenuItem>
             );
           }
@@ -126,6 +127,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
                 onClick={() => toggleExpanded(key)}
                 path={path}
                 ref={(el) => (expandableItemsRef.current[key] = el)}
+                className={badge && 'hasBadge'}
               >
                 <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
                 <ListItemText
@@ -136,6 +138,7 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
                     isCompact && styles.hiddenContent,
                   )}
                 />
+                {!isCompact && badge}
                 <ExpandMore
                   className={clsx(
                     styles.expandCollapseIcon,

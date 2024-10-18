@@ -36,7 +36,7 @@
     padding: 0;
   }
 
-  &.responsive {
+  &.compactView {
     height: 52px;
     padding: 0 16px;
     color: var(--White, #fff);
@@ -71,7 +71,7 @@
   gap: 64px;
 }
 
-.responsiveContent {
+.compactContent {
   padding-left: 8px;
 }
 
@@ -123,7 +123,7 @@
   position: relative;
   margin: 0 32px;
 
-  &.responsive {
+  &.compactView {
     margin: 0 16px;
   }
 }

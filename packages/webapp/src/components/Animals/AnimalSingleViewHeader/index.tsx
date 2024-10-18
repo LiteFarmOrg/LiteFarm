@@ -48,14 +48,14 @@ const MenuItem = ({ iconName, text }: MenuItemProps) => {
 };
 
 type AnimalImageWithCountProps = {
-  isResponsive: boolean;
+  isCompactView: boolean;
   photoUrl?: Animal['photo_url'];
   count?: AnimalBatch['count'];
 };
 
-const AnimalImageWithCount = ({ isResponsive, photoUrl, count }: AnimalImageWithCountProps) => {
+const AnimalImageWithCount = ({ isCompactView, photoUrl, count }: AnimalImageWithCountProps) => {
   return (
-    <div className={clsx(styles.animalImageWithCount, isResponsive && styles.responsive)}>
+    <div className={clsx(styles.animalImageWithCount, isCompactView && styles.compactView)}>
       <div className={styles.animalImageWrapper}>
         {photoUrl ? <img src={photoUrl} className={styles.animalImage} /> : null}
       </div>
@@ -82,7 +82,7 @@ const Location = ({ location, t }: { location?: string; t: TFunction }) => (
 type ContainerWithButtonsProps = {
   children: ReactNode;
   contentClassName?: string;
-  isResponsive?: boolean;
+  isCompactView?: boolean;
   isEditing?: boolean;
   options: { label: ReactNode; onClick: () => void }[];
   onBack: () => void;
@@ -92,20 +92,20 @@ type ContainerWithButtonsProps = {
 const ContainerWithButtons = ({
   children,
   contentClassName,
-  isResponsive,
+  isCompactView,
   isEditing,
   options,
   onBack,
   t,
 }: ContainerWithButtonsProps) => {
   return (
-    <div className={clsx(styles.containerWithButtons, isResponsive && styles.responsive)}>
+    <div className={clsx(styles.containerWithButtons, isCompactView && styles.compactView)}>
       <TextButton className={styles.backButton} onClick={onBack}>
         <Icon iconName="CHEVRON_LEFT" className={styles.backButtonIcon} />
       </TextButton>
       <div className={clsx(styles.content, contentClassName)}>{children}</div>
       <div className={styles.statusAndButton}>
-        {!isResponsive && isEditing ? <div>{t('common:EDITING')}</div> : null}
+        {!isCompactView && isEditing ? <div>{t('common:EDITING')}</div> : null}
         <ThreeDotsMenu
           options={options}
           classes={{ button: isEditing ? styles.editingStatusButton : '' }}
@@ -144,7 +144,7 @@ const AnimalSingleViewHeader = ({
 }: AnimalSingleViewHeaderProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const isResponsive = useMediaQuery(theme.breakpoints.down('md'));
+  const isCompactView = useMediaQuery(theme.breakpoints.down('md'));
 
   const isAnimalType = isAnimal(animalOrBatch);
 
@@ -159,7 +159,7 @@ const AnimalSingleViewHeader = ({
   const count = isAnimalType ? undefined : animalOrBatch.count;
 
   const animalImageWithCount = (
-    <AnimalImageWithCount photoUrl={photo_url} count={count} isResponsive={isResponsive} />
+    <AnimalImageWithCount photoUrl={photo_url} count={count} isCompactView={isCompactView} />
   );
   const age = <Age birthDate={birth_date} t={t} />;
   const location = <Location location={animalOrBatch.location} t={t} />;
@@ -169,11 +169,11 @@ const AnimalSingleViewHeader = ({
     { label: <MenuItem iconName="TRASH" text={t('common:REMOVE')} />, onClick: onRemove },
   ];
 
-  const commonProp = { t, isEditing, isResponsive, options: menuOptions, onBack };
+  const commonProp = { t, isEditing, isCompactView, options: menuOptions, onBack };
 
-  const renderResponsiveHeader = () => (
+  const renderCompactHeader = () => (
     <div>
-      <ContainerWithButtons contentClassName={styles.responsiveContent} {...commonProp}>
+      <ContainerWithButtons contentClassName={styles.compactContent} {...commonProp}>
         {nameAndID}
       </ContainerWithButtons>
       <div className={styles.mobileHeaderMain}>
@@ -200,7 +200,7 @@ const AnimalSingleViewHeader = ({
     </ContainerWithButtons>
   );
 
-  return isResponsive ? renderResponsiveHeader() : renderDesktopHeader();
+  return isCompactView ? renderCompactHeader() : renderDesktopHeader();
 };
 
 export default AnimalSingleViewHeader;

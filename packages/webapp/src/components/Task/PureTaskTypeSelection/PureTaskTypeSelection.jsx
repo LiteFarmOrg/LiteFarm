@@ -21,6 +21,7 @@ import { ReactComponent as SocialEvent } from '../../../assets/images/task/Socia
 import { ReactComponent as SoilAmendment } from '../../../assets/images/task/SoilAmendment.svg';
 import { ReactComponent as Transplant } from '../../../assets/images/task/Transplant.svg';
 import { ReactComponent as WashAndPack } from '../../../assets/images/task/WashAndPack.svg';
+import { ReactComponent as Movement } from '../../../assets/images/task/Movement.svg';
 import { ReactComponent as CustomTask } from '../../../assets/images/task/Custom.svg';
 import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
@@ -48,6 +49,7 @@ const icons = {
   FERTILIZE_TASK: <Fertilize />,
   COLLECT_SOIL_SAMPLE_TASK: <CollectSoilSample />,
   MAINTENANCE_TASK: <Maintenance />,
+  MOVEMENT_TASK: <Movement />,
 };
 
 export const PureTaskTypeSelection = ({

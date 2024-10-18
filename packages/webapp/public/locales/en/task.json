@@ -25,5 +25,6 @@
   "CLEANING_TASK": "Clean",
   "CLEANING_TASK_LOWER": "clean",
   "SOIL_AMENDMENT_TASK": "Soil Amendment",
-  "SOIL_AMENDMENT_TASK_LOWER": "soil amendment"
+  "SOIL_AMENDMENT_TASK_LOWER": "soil amendment",
+  "MOVEMENT_TASK": "Movement"
 }

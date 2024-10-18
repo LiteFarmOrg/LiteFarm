@@ -42,7 +42,8 @@ export const calculateAge = (birth: Date, today: Date = new Date()): Age => {
   const daysInPreviousMonth = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
 
   // Determine if an adjustment is needed based on the birth date and current date.
-  // For example, when today is 2024-10-15 and the birth date is 2024-08-31, an adjustment is needed.
+  // For example, when today is 2024-10-15 and the birth date is 2024-08-31, an adjustment
+  // is needed because the birth day of month did not occur in the previous month.
   const needsAdjustment =
     today.getDate() - birth.getDate() < 0 && daysInPreviousMonth < birth.getDate();
 

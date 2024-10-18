@@ -62,11 +62,18 @@ const animalController = {
         const result = [];
 
         // Create utility object used in type and breed
-        req.body.typeIdsMap = {};
-        req.body.typeBreedIdsMap = {};
+        const typeIdsMap = {};
+        const typeBreedIdsMap = {};
 
         for (const animal of req.body) {
-          await checkAndAddCustomTypeAndBreed(req, animal, farm_id, trx);
+          await checkAndAddCustomTypeAndBreed(
+            req,
+            typeIdsMap,
+            typeBreedIdsMap,
+            animal,
+            farm_id,
+            trx,
+          );
 
           await checkAndAddGroup(req, animal, farm_id, trx);
 
@@ -88,10 +95,6 @@ const animalController = {
           result.push(individualAnimalResult);
         }
 
-        // delete utility objects
-        delete req.body.typeIdsMap;
-        delete req.body.typeBreedIdsMap;
-
         await trx.commit();
 
         await assignInternalIdentifiers(result, 'animal');
@@ -109,12 +112,19 @@ const animalController = {
       try {
         const { farm_id } = req.headers;
         // Create utility object used in type and breed
-        req.body.typeIdsMap = {};
-        req.body.typeBreedIdsMap = {};
+        const typeIdsMap = {};
+        const typeBreedIdsMap = {};
 
         // select only allowed properties to edit
         for (const animal of req.body) {
-          await checkAndAddCustomTypeAndBreed(req, animal, farm_id, trx);
+          await checkAndAddCustomTypeAndBreed(
+            req,
+            typeIdsMap,
+            typeBreedIdsMap,
+            animal,
+            farm_id,
+            trx,
+          );
           // TODO: Comment out for animals v1?
           await checkAndAddGroup(req, animal, farm_id, trx);
 
@@ -153,9 +163,6 @@ const animalController = {
 
           await baseController.upsertGraph(AnimalModel, data, req, { trx });
         }
-        // delete utility objects
-        delete req.body.typeIdsMap;
-        delete req.body.typeBreedIdsMap;
 
         await trx.commit();
         // Do not send result revalidate using tags on frontend

@@ -53,10 +53,16 @@ export const assignInternalIdentifiers = async (records, kind) => {
  *
  * @throws {Error} - If any database operation fails.
  */
-export const checkAndAddCustomTypeAndBreed = async (req, animalOrBatch, farm_id, trx) => {
+export const checkAndAddCustomTypeAndBreed = async (
+  req,
+  typeIdsMap,
+  typeBreedIdsMap,
+  animalOrBatch,
+  farm_id,
+  trx,
+) => {
   // Avoid attempts to add an already created type or breed to the DB
   // where multiple animals have the same type_name or breed_name
-  const { typeIdsMap, typeBreedIdsMap } = req.body;
 
   if (animalOrBatch.type_name) {
     let typeId = typeIdsMap[animalOrBatch.type_name];

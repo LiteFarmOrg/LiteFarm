@@ -60,11 +60,18 @@ const animalBatchController = {
         const result = [];
 
         // Create utility object used in type and breed
-        req.body.typeIdsMap = {};
-        req.body.typeBreedIdsMap = {};
+        const typeIdsMap = {};
+        const typeBreedIdsMap = {};
 
         for (const animalBatch of req.body) {
-          await checkAndAddCustomTypeAndBreed(req, animalBatch, farm_id, trx);
+          await checkAndAddCustomTypeAndBreed(
+            req,
+            typeIdsMap,
+            typeBreedIdsMap,
+            animalBatch,
+            farm_id,
+            trx,
+          );
 
           // Remove farm_id if it happens to be set in animal object since it should be obtained from header
           delete animalBatch.farm_id;
@@ -78,9 +85,6 @@ const animalBatchController = {
 
           result.push(individualAnimalBatchResult);
         }
-        // delete utility objects
-        delete req.body.typeIdsMap;
-        delete req.body.typeBreedIdsMap;
 
         await trx.commit();
 
@@ -100,12 +104,19 @@ const animalBatchController = {
         const { farm_id } = req.headers;
 
         // Create utility object used in type and breed
-        req.body.typeIdsMap = {};
-        req.body.typeBreedIdsMap = {};
+        const typeIdsMap = {};
+        const typeBreedIdsMap = {};
 
         // select only allowed properties to edit
         for (const animalBatch of req.body) {
-          await checkAndAddCustomTypeAndBreed(req, animalBatch, farm_id, trx);
+          await checkAndAddCustomTypeAndBreed(
+            req,
+            typeIdsMap,
+            typeBreedIdsMap,
+            animalBatch,
+            farm_id,
+            trx,
+          );
 
           const desiredKeys = [
             'id',
@@ -130,10 +141,6 @@ const animalBatchController = {
 
           await baseController.upsertGraph(AnimalBatchModel, data, req, { trx });
         }
-
-        // delete utility objects
-        delete req.body.typeIdsMap;
-        delete req.body.typeBreedIdsMap;
 
         await trx.commit();
         // Do not send result revalidate using tags on frontend

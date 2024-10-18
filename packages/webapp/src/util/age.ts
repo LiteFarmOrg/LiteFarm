@@ -63,24 +63,10 @@ export const calculateAge = (birth: Date, today: Date = new Date()): Age => {
     years -= 1;
   }
 
-  const previousBirthDate = new Date(
-    today.getFullYear(),
-    today.getMonth() + (today.getDate() - birth.getDate() >= 0 ? 0 : -1),
-    adjustedBirthDate,
-  );
+  const daysInThisMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
 
-  const nextMonth = new Date(previousBirthDate.getFullYear(), previousBirthDate.getMonth() + 1, 0);
-  const daysInNextMonth = nextMonth.getDate();
-
-  const nextBirthDate = new Date(
-    previousBirthDate.getFullYear(),
-    previousBirthDate.getMonth() + 1,
-    Math.min(daysInNextMonth, birth.getDate()),
-  );
-
-  const daysBetweenBirthdays = Math.round(
-    (nextBirthDate.getTime() - previousBirthDate.getTime()) / (1000 * 60 * 60 * 24),
-  );
+  const daysBetweenBirthdays =
+    today.getDate() - birth.getDate() >= 0 ? daysInThisMonth : daysInPreviousMonth;
 
   return { years, months, days, daysBetweenBirthdays };
 };

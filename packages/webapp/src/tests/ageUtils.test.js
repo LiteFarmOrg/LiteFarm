@@ -21,8 +21,8 @@ const getDate = (dateString) => {
   return new Date(year, month - 1, day);
 };
 
-const generateAge = (years, months, days, daysBetweenBirthdays) => {
-  return { years, months, days, daysBetweenBirthdays };
+const generateAge = (years, months, days, daysInCalculationMonth) => {
+  return { years, months, days, daysInCalculationMonth };
 };
 
 describe('ageUtils test', () => {

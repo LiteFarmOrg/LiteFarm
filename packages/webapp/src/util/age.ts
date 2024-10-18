@@ -19,17 +19,22 @@ interface Age {
   years: number;
   months: number;
   days: number;
-  daysBetweenBirthdays: number;
+  /**
+   * Used in fractional month values (e.g., 1.7m)
+   * to calculate the proportion of the month that has passed.
+   * May equal the days in the previous month or the current month.
+   */
+  daysInCalculationMonth: number;
 }
 
 /**
  * Calculates the age in years, months, and days from the birth date
  * to the current date.
  *
- * @param {Date} birth - The birth date.
- * @param {Date} [today] - The current date (optional).
- * @returns {{ years: number; months: number; days: number, daysBetweenBirthdays }} - The calculated age.
- * @throws {Error} - If the current date is before the birth date.
+ * @param birth - The birth date.
+ * @param today - The current date (optional).
+ * @returns The calculated age.
+ * @throws Error - If the current date is before the birth date.
  */
 export const calculateAge = (birth: Date, today: Date = new Date()): Age => {
   if (today < birth) {
@@ -66,19 +71,19 @@ export const calculateAge = (birth: Date, today: Date = new Date()): Age => {
 
   const daysInThisMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
 
-  const daysBetweenBirthdays =
+  const daysInCalculationMonth =
     today.getDate() - birth.getDate() >= 0 ? daysInThisMonth : daysInPreviousMonth;
 
-  return { years, months, days, daysBetweenBirthdays };
+  return { years, months, days, daysInCalculationMonth };
 };
 
-export const formatAge = ({ years, months, days, daysBetweenBirthdays }: Age): string => {
+export const formatAge = ({ years, months, days, daysInCalculationMonth }: Age): string => {
   if (!years && !months) {
     return i18n.t('common:AGE_DAYS_COUNT', { count: days });
   }
 
   if (!years) {
-    const formattedMonths = Math.round((months + days / daysBetweenBirthdays) * 10) / 10;
+    const formattedMonths = Math.round((months + days / daysInCalculationMonth) * 10) / 10;
 
     if (formattedMonths === 12) {
       return i18n.t('common:AGE_YEARS_COUNT', { count: 1 });

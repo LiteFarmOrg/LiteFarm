@@ -1,4 +1,7 @@
 {
+  "ADD_ANIMAL": {
+    "EDIT_BASIC_INFO": "MISSING"
+  },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Adresse ist erforderlich",
     "DISABLE_GEO_LOCATION": "Die Standortdienste müssen aktiviert sein, um Ihren aktuellen Standort zu finden.",

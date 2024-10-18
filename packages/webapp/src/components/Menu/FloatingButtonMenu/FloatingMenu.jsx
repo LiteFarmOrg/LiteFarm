@@ -19,14 +19,17 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import styles from './styles.module.scss';
 
-const FloatingMenu = forwardRef(({ options, classes = {}, ...props }, ref) => {
+const FloatingMenu = forwardRef(({ options, classes = {}, onCloseMenu, ...props }, ref) => {
   return (
     <MenuList ref={ref} className={clsx(styles.menuList, classes.menuList)} {...props}>
       {options.map(({ label, onClick }, index) => {
         return (
           <MenuItem
             key={index}
-            onClick={onClick}
+            onClick={() => {
+              onClick();
+              onCloseMenu?.();
+            }}
             className={clsx(styles.menuItem, classes.menuItem)}
           >
             {label}
@@ -41,7 +44,7 @@ FloatingMenu.displayName = 'FloatingMenu';
 FloatingMenu.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      label: PropTypes.string,
+      label: PropTypes.node,
       onClick: PropTypes.func,
     }),
   ),
@@ -49,6 +52,7 @@ FloatingMenu.propTypes = {
     menuList: PropTypes.string,
     menuItem: PropTypes.string,
   }),
+  onCloseMenu: PropTypes.func,
 };
 
 export default FloatingMenu;

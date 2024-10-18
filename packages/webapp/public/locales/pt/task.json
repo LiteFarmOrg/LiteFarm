@@ -25,5 +25,6 @@
   "CLEANING_TASK": "Limpar",
   "CLEANING_TASK_LOWER": "limpar",
   "SOIL_AMENDMENT_TASK": "Adubação e correção de solo",
-  "SOIL_AMENDMENT_TASK_LOWER": "adubação e correção de solo"
+  "SOIL_AMENDMENT_TASK_LOWER": "adubação e correção de solo",
+  "MOVEMENT_TASK": "MISSING"
 }

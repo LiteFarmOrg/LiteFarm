@@ -25,5 +25,6 @@
   "CLEANING_TASK": "Limpiar",
   "CLEANING_TASK_LOWER": "limpiar",
   "SOIL_AMENDMENT_TASK": "Aditivo de suelo",
-  "SOIL_AMENDMENT_TASK_LOWER": "Aditivo de suelo"
+  "SOIL_AMENDMENT_TASK_LOWER": "Aditivo de suelo",
+  "MOVEMENT_TASK": "MISSING"
 }

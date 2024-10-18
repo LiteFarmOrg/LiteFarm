@@ -25,5 +25,6 @@
   "CLEANING_TASK": "വൃത്തിയാക്കൽ",
   "CLEANING_TASK_LOWER": "വൃത്തിയാക്കൽ",
   "SOIL_AMENDMENT_TASK": "മണ്ണ് ഭേദഗതികൾ",
-  "SOIL_AMENDMENT_TASK_LOWER": "മണ്ണ് ഭേദഗതികൾ"
+  "SOIL_AMENDMENT_TASK_LOWER": "മണ്ണ് ഭേദഗതികൾ",
+  "MOVEMENT_TASK": "MISSING"
 }

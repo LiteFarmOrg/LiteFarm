@@ -25,5 +25,6 @@
   "CLEANING_TASK": "सफाई",
   "CLEANING_TASK_LOWER": "सफाई",
   "SOIL_AMENDMENT_TASK": "मृदा संशोधन",
-  "SOIL_AMENDMENT_TASK_LOWER": "मृदा संशोधन"
+  "SOIL_AMENDMENT_TASK_LOWER": "मृदा संशोधन",
+  "MOVEMENT_TASK": "MISSING"
 }

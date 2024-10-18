@@ -25,5 +25,6 @@
   "CLEANING_TASK": "Reinigung",
   "CLEANING_TASK_LOWER": "reinigen",
   "SOIL_AMENDMENT_TASK": "Bodenverbesserung",
-  "SOIL_AMENDMENT_TASK_LOWER": "Bodenverbesserung"
+  "SOIL_AMENDMENT_TASK_LOWER": "Bodenverbesserung",
+  "MOVEMENT_TASK": "MISSING"
 }

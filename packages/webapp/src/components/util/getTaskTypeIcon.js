@@ -13,6 +13,7 @@ import { ReactComponent as Plant } from '../../assets/images/task/Plant.svg';
 import { ReactComponent as SocialEvent } from '../../assets/images/task/SocialEvent.svg';
 import { ReactComponent as Clean } from '../../assets/images/task/Clean.svg';
 import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
+import { ReactComponent as Movement } from '../../assets/images/task/Movement.svg';
 
 /**
  * Provides the appropriate icon for a specified task type.
@@ -40,6 +41,7 @@ export default function getTaskTypeIcon(key) {
     TRANSPORT_TASK: Transport,
     SOCIAL_TASK: SocialEvent,
     CUSTOM_TASK: CustomIcon,
+    MOVEMENT_TASK: Movement,
   };
 
   return iconDict[key] || CustomIcon;

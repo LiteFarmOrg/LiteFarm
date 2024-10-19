@@ -118,7 +118,7 @@ export const checkAndAddCustomTypeAndBreed = async (
  *
  * @throws {Error} - If any database operation fails.
  */
-export const checkAndAddGroup = async (req, animalOrBatch, farm_id, trx) => {
+export const upsertGroup = async (req, animalOrBatch, farm_id, trx) => {
   const groupName = checkAndTrimString(animalOrBatch.group_name);
   delete animalOrBatch.group_name;
 

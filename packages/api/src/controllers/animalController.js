@@ -18,7 +18,7 @@ import AnimalModel from '../models/animalModel.js';
 import baseController from './baseController.js';
 import {
   assignInternalIdentifiers,
-  checkAndAddGroup,
+  upsertGroup,
   checkAndAddCustomTypeAndBreed,
 } from '../util/animal.js';
 import { handleObjectionError } from '../util/errorCodes.js';
@@ -75,7 +75,7 @@ const animalController = {
             trx,
           );
 
-          await checkAndAddGroup(req, animal, farm_id, trx);
+          await upsertGroup(req, animal, farm_id, trx);
 
           // Remove farm_id if it happens to be set in animal object since it should be obtained from header
           delete animal.farm_id;
@@ -155,7 +155,7 @@ const animalController = {
             trx,
           );
 
-          await checkAndAddGroup(req, animal, farm_id, trx);
+          await upsertGroup(req, animal, farm_id, trx);
 
           const keysExisting = desiredKeys.filter((key) => key in animal);
           const data = _pick(animal, keysExisting);

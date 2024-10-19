@@ -98,7 +98,7 @@ const checkAnimalType = async (animalOrBatch, farm_id, creating = true) => {
 };
 
 const checkDefaultBreedMatchesType = async (
-  animalOrBatchRecord,
+  preexistingAnimalOrBatch,
   default_breed_id,
   default_type_id,
 ) => {
@@ -107,11 +107,11 @@ const checkDefaultBreedMatchesType = async (
   let defaultTypeId = default_type_id;
 
   // If breed or type is not changed get from record
-  if (!defaultBreedId && animalOrBatchRecord) {
-    defaultBreedId = animalOrBatchRecord.default_breed_id;
+  if (!defaultBreedId && preexistingAnimalOrBatch) {
+    defaultBreedId = preexistingAnimalOrBatch.default_breed_id;
   }
-  if (!defaultTypeId && animalOrBatchRecord) {
-    defaultTypeId = animalOrBatchRecord.default_type_id;
+  if (!defaultTypeId && preexistingAnimalOrBatch) {
+    defaultTypeId = preexistingAnimalOrBatch.default_type_id;
   }
 
   if (defaultTypeId && defaultBreedId) {
@@ -130,7 +130,7 @@ const checkDefaultBreedMatchesType = async (
 
 const checkCustomBreedMatchesType = (
   animalOrBatch,
-  animalOrBatchRecord,
+  preexistingAnimalOrBatch,
   customBreed,
   default_type_id,
   custom_type_id,
@@ -141,9 +141,9 @@ const checkCustomBreedMatchesType = (
   const typeKeyOptions = ['default_type_id', 'custom_type_id', 'type_name'];
 
   // If not editing type, check record type
-  if (!someExists(typeKeyOptions, animalOrBatch) && animalOrBatchRecord) {
-    defaultTypeId = animalOrBatchRecord.default_type_id;
-    customTypeId = animalOrBatchRecord.custom_type_id;
+  if (!someExists(typeKeyOptions, animalOrBatch) && preexistingAnimalOrBatch) {
+    defaultTypeId = preexistingAnimalOrBatch.default_type_id;
+    customTypeId = preexistingAnimalOrBatch.custom_type_id;
   }
 
   // Custom breed does not match type if defaultId OR customTypeId does not match
@@ -158,7 +158,7 @@ const checkCustomBreedMatchesType = (
 const checkAnimalBreed = async (
   animalOrBatch,
   farm_id,
-  animalOrBatchRecord = undefined,
+  preexistingAnimalOrBatch = undefined,
   creating = true,
 ) => {
   const {
@@ -199,7 +199,11 @@ const checkAnimalBreed = async (
       (someExists(breedKeyOptions, animalOrBatch) && default_breed_id) ||
       (someExists(typeKeyOptions, animalOrBatch) && default_type_id)
     ) {
-      await checkDefaultBreedMatchesType(animalOrBatchRecord, default_breed_id, default_type_id);
+      await checkDefaultBreedMatchesType(
+        preexistingAnimalOrBatch,
+        default_breed_id,
+        default_type_id,
+      );
     }
     // Check if custom breed or custom type is present
     if (
@@ -218,11 +222,11 @@ const checkAnimalBreed = async (
         if (!customBreed) {
           throw customError('Custom breed does not exist');
         }
-      } else if (animalOrBatchRecord?.custom_breed_id) {
-        checkIdIsNumber(animalOrBatchRecord?.custom_breed_id);
+      } else if (preexistingAnimalOrBatch?.custom_breed_id) {
+        checkIdIsNumber(preexistingAnimalOrBatch?.custom_breed_id);
         customBreed = await CustomAnimalBreedModel.query()
           .whereNotDeleted()
-          .findById(animalOrBatchRecord.custom_breed_id);
+          .findById(preexistingAnimalOrBatch.custom_breed_id);
         if (!customBreed) {
           // This should not be possible
           throw customError('Custom breed does not exist');
@@ -233,7 +237,7 @@ const checkAnimalBreed = async (
         await checkRecordBelongsToFarm(customBreed, farm_id, 'custom breed');
         checkCustomBreedMatchesType(
           animalOrBatch,
-          animalOrBatchRecord,
+          preexistingAnimalOrBatch,
           customBreed,
           default_type_id,
           custom_type_id,
@@ -243,27 +247,17 @@ const checkAnimalBreed = async (
   }
 };
 
-const checkBatchSexDetail = async (
+const checkAnimalSexDetail = async (
   animalOrBatch,
   animalOrBatchKey,
-  animalOrBatchRecord = undefined,
+  preexistingAnimalOrBatch = undefined,
 ) => {
   if (animalOrBatchKey === 'batch') {
-    let count = animalOrBatch.count;
-    let sexDetail = animalOrBatch.sex_detail;
-    if (!count && animalOrBatchRecord) {
-      count = animalOrBatchRecord.count;
-    }
-    if (!sexDetail && animalOrBatchRecord) {
-      sexDetail = animalOrBatchRecord.sex_detail;
-    }
+    const count = animalOrBatch.count ?? preexistingAnimalOrBatch?.count;
+    const sexDetail = animalOrBatch.sex_detail ?? preexistingAnimalOrBatch?.sex_detail;
     if (sexDetail?.length) {
-      let sexCount = 0;
-      const sexIdSet = new Set();
-      sexDetail.forEach((detail) => {
-        sexCount += detail.count;
-        sexIdSet.add(detail.sex_id);
-      });
+      const sexCount = sexDetail.reduce((sum, detail) => sum + detail.count, 0);
+      const sexIdSet = new Set(sexDetail.map((detail) => detail.sex_id));
       if (sexCount > count) {
         throw customError('Batch count must be greater than or equal to sex detail count');
       }
@@ -330,7 +324,7 @@ const checkAndAddCustomTypesOrBreeds = (
   animalOrBatch,
   newTypesSet,
   newBreedsSet,
-  animalOrBatchRecord = undefined,
+  preexistingAnimalOrBatch = undefined,
 ) => {
   const {
     type_name,
@@ -346,10 +340,10 @@ const checkAndAddCustomTypesOrBreeds = (
 
     if (
       !someExists(['default_breed_id', 'custom_breed_id'], animalOrBatch) &&
-      animalOrBatchRecord
+      preexistingAnimalOrBatch
     ) {
-      defaultBreedId = animalOrBatchRecord.default_breed_id;
-      customBreedId = animalOrBatchRecord.custom_breed_id;
+      defaultBreedId = preexistingAnimalOrBatch.default_breed_id;
+      customBreedId = preexistingAnimalOrBatch.custom_breed_id;
     }
 
     if (defaultBreedId || customBreedId) {
@@ -364,9 +358,12 @@ const checkAndAddCustomTypesOrBreeds = (
     let defaultTypeId = default_type_id;
     let customTypeId = custom_type_id;
 
-    if (!someExists(['default_type_id', 'custom_type_id'], animalOrBatch) && animalOrBatchRecord) {
-      defaultTypeId = animalOrBatchRecord.default_type_id;
-      customTypeId = animalOrBatchRecord.custom_type_id;
+    if (
+      !someExists(['default_type_id', 'custom_type_id'], animalOrBatch) &&
+      preexistingAnimalOrBatch
+    ) {
+      defaultTypeId = preexistingAnimalOrBatch.default_type_id;
+      customTypeId = preexistingAnimalOrBatch.custom_type_id;
     }
 
     const breedDetails = customTypeId
@@ -458,7 +455,7 @@ export function checkCreateAnimalOrBatch(animalOrBatchKey) {
 
         await checkAnimalType(animalOrBatch, farm_id);
         await checkAnimalBreed(animalOrBatch, farm_id);
-        await checkBatchSexDetail(animalOrBatch, animalOrBatchKey);
+        await checkAnimalSexDetail(animalOrBatch, animalOrBatchKey);
         await checkAnimalUseRelationship(animalOrBatch, animalOrBatchKey);
         await checkAnimalOrigin(animalOrBatch);
         await checkAnimalIdentifier(animalOrBatch, animalOrBatchKey);
@@ -504,19 +501,19 @@ export function checkEditAnimalOrBatch(animalOrBatchKey) {
       for (const animalOrBatch of req.body) {
         const { type_name, breed_name } = animalOrBatch;
         checkIdIsNumber(animalOrBatch.id);
-        const animalOrBatchRecord = await getRecordIfExists(
+        const preexistingAnimalOrBatch = await getRecordIfExists(
           animalOrBatch,
           animalOrBatchKey,
           farm_id,
         );
-        if (!animalOrBatchRecord) {
+        if (!preexistingAnimalOrBatch) {
           invalidIds.push(animalOrBatch.id);
           continue;
         }
 
         await checkAnimalType(animalOrBatch, farm_id, false);
-        await checkAnimalBreed(animalOrBatch, farm_id, animalOrBatchRecord, false);
-        await checkBatchSexDetail(animalOrBatch, animalOrBatchKey, animalOrBatchRecord);
+        await checkAnimalBreed(animalOrBatch, farm_id, preexistingAnimalOrBatch, false);
+        await checkAnimalSexDetail(animalOrBatch, animalOrBatchKey, preexistingAnimalOrBatch);
         await checkAnimalUseRelationship(animalOrBatch, animalOrBatchKey);
         await checkAnimalOrigin(animalOrBatch, false);
         await checkAnimalIdentifier(animalOrBatch, animalOrBatchKey, false);
@@ -529,7 +526,7 @@ export function checkEditAnimalOrBatch(animalOrBatchKey) {
           animalOrBatch,
           newTypesSet,
           newBreedsSet,
-          animalOrBatchRecord,
+          preexistingAnimalOrBatch,
         );
       }
 
@@ -567,12 +564,12 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
         checkRemovalDataProvided(animalOrBatch);
 
         checkIdIsNumber(animalOrBatch.id);
-        const animalOrBatchRecord = await getRecordIfExists(
+        const preexistingAnimalOrBatch = await getRecordIfExists(
           animalOrBatch,
           animalOrBatchKey,
           farm_id,
         );
-        if (!animalOrBatchRecord) {
+        if (!preexistingAnimalOrBatch) {
           invalidIds.push(animalOrBatch.id);
         }
       }

@@ -15,7 +15,7 @@
 
 import { Model, transaction } from 'objection';
 import { handleObjectionError } from '../../util/errorCodes.js';
-import { oneExists, oneTruthy, setFalsyValuesToNull } from '../../util/middleware.js';
+import { someExists, someTruthy, setFalsyValuesToNull } from '../../util/middleware.js';
 import {
   customError,
   checkIsArray,
@@ -77,13 +77,13 @@ const checkAnimalType = async (animalOrBatch, farm_id, creating = true) => {
   const { default_type_id, custom_type_id, type_name } = animalOrBatch;
   const typeKeyOptions = ['default_type_id', 'custom_type_id', 'type_name'];
   // Skip if all undefined or editing (!creating)
-  if (creating || oneTruthy([default_type_id, custom_type_id, type_name])) {
+  if (creating || someTruthy([default_type_id, custom_type_id, type_name])) {
     checkExactlyOneIsProvided(
       [default_type_id, custom_type_id, type_name],
       'default_type_id, custom_type_id, or type_name',
     );
   }
-  if (!creating && oneExists(typeKeyOptions, animalOrBatch)) {
+  if (!creating && someExists(typeKeyOptions, animalOrBatch)) {
     // Overwrite with null in db if editing
     setFalsyValuesToNull(typeKeyOptions, animalOrBatch);
   }
@@ -141,7 +141,7 @@ const checkCustomBreedMatchesType = (
   const typeKeyOptions = ['default_type_id', 'custom_type_id', 'type_name'];
 
   // If not editing type, check record type
-  if (!oneExists(typeKeyOptions, animalOrBatch) && animalOrBatchRecord) {
+  if (!someExists(typeKeyOptions, animalOrBatch) && animalOrBatchRecord) {
     defaultTypeId = animalOrBatchRecord.default_type_id;
     customTypeId = animalOrBatchRecord.custom_type_id;
   }
@@ -174,8 +174,8 @@ const checkAnimalBreed = async (
 
   // Check if breed is present
   if (
-    (creating && oneExists(breedKeyOptions, animalOrBatch)) ||
-    oneTruthy([default_breed_id, custom_breed_id, breed_name])
+    (creating && someExists(breedKeyOptions, animalOrBatch)) ||
+    someTruthy([default_breed_id, custom_breed_id, breed_name])
   ) {
     checkExactlyOneIsProvided(
       [default_breed_id, custom_breed_id, breed_name],
@@ -183,34 +183,34 @@ const checkAnimalBreed = async (
     );
   }
   // Check if breed is present
-  if (!creating && oneExists(breedKeyOptions, animalOrBatch)) {
+  if (!creating && someExists(breedKeyOptions, animalOrBatch)) {
     // Overwrite with null in db if editing
     setFalsyValuesToNull(breedKeyOptions, animalOrBatch);
   }
 
   if (
-    oneExists(breedKeyOptions, animalOrBatch) &&
-    !oneTruthy([default_breed_id, custom_breed_id, breed_name])
+    someExists(breedKeyOptions, animalOrBatch) &&
+    !someTruthy([default_breed_id, custom_breed_id, breed_name])
   ) {
     // do nothing if nulling breed
   } else {
     // Check if default breed or default type is present
     if (
-      (oneExists(breedKeyOptions, animalOrBatch) && default_breed_id) ||
-      (oneExists(typeKeyOptions, animalOrBatch) && default_type_id)
+      (someExists(breedKeyOptions, animalOrBatch) && default_breed_id) ||
+      (someExists(typeKeyOptions, animalOrBatch) && default_type_id)
     ) {
       await checkDefaultBreedMatchesType(animalOrBatchRecord, default_breed_id, default_type_id);
     }
     // Check if custom breed or custom type is present
     if (
-      (oneExists(breedKeyOptions, animalOrBatch) && custom_breed_id && !type_name) ||
-      (oneExists(typeKeyOptions, animalOrBatch) &&
+      (someExists(breedKeyOptions, animalOrBatch) && custom_breed_id && !type_name) ||
+      (someExists(typeKeyOptions, animalOrBatch) &&
         (default_type_id || custom_type_id) &&
         !breed_name)
     ) {
       let customBreed;
       // Find customBreed if exists
-      if (oneExists(breedKeyOptions, animalOrBatch) && custom_breed_id) {
+      if (someExists(breedKeyOptions, animalOrBatch) && custom_breed_id) {
         checkIdIsNumber(custom_breed_id);
         customBreed = await CustomAnimalBreedModel.query()
           .whereNotDeleted()
@@ -296,7 +296,7 @@ const checkAnimalUseRelationship = async (animalOrBatch, animalOrBatchKey) => {
 
 const checkAnimalOrigin = async (animalOrBatch, creating = true) => {
   const { origin_id, brought_in_date } = animalOrBatch;
-  if (oneExists(['origin_id', 'brought_in_date'], animalOrBatch)) {
+  if (someExists(['origin_id', 'brought_in_date'], animalOrBatch)) {
     const broughtInOrigin = await AnimalOriginModel.query().where({ key: 'BROUGHT_IN' }).first();
     // Overwrite date with null in db if editing origin_id
     if (!creating && origin_id != broughtInOrigin.id) {
@@ -312,7 +312,7 @@ const checkAnimalOrigin = async (animalOrBatch, creating = true) => {
 const checkAnimalIdentifier = async (animalOrBatch, animalOrBatchKey, creating = true) => {
   if (animalOrBatchKey === 'animal') {
     const { identifier_type_id, identifier_type_other } = animalOrBatch;
-    if (oneExists(['identifier_type_id', 'identifier_type_other'], animalOrBatch)) {
+    if (someExists(['identifier_type_id', 'identifier_type_other'], animalOrBatch)) {
       const otherIdentifier = await AnimalIdentifierType.query().where({ key: 'OTHER' }).first();
       // Overwrite date with null in db if editing origin_id
       if (!creating && identifier_type_id != otherIdentifier.id) {
@@ -344,7 +344,10 @@ const checkAndAddCustomTypesOrBreeds = (
     let defaultBreedId = default_breed_id;
     let customBreedId = custom_breed_id;
 
-    if (!oneExists(['default_breed_id', 'custom_breed_id'], animalOrBatch) && animalOrBatchRecord) {
+    if (
+      !someExists(['default_breed_id', 'custom_breed_id'], animalOrBatch) &&
+      animalOrBatchRecord
+    ) {
       defaultBreedId = animalOrBatchRecord.default_breed_id;
       customBreedId = animalOrBatchRecord.custom_breed_id;
     }
@@ -361,7 +364,7 @@ const checkAndAddCustomTypesOrBreeds = (
     let defaultTypeId = default_type_id;
     let customTypeId = custom_type_id;
 
-    if (!oneExists(['default_type_id', 'custom_type_id'], animalOrBatch) && animalOrBatchRecord) {
+    if (!someExists(['default_type_id', 'custom_type_id'], animalOrBatch) && animalOrBatchRecord) {
       defaultTypeId = animalOrBatchRecord.default_type_id;
       customTypeId = animalOrBatchRecord.custom_type_id;
     }

@@ -107,6 +107,25 @@ const animalBatchController = {
         const typeIdsMap = {};
         const typeBreedIdsMap = {};
 
+        const desiredKeys = [
+          'id',
+          'count',
+          'custom_breed_id',
+          'custom_type_id',
+          'default_breed_id',
+          'default_type_id',
+          'name',
+          'notes',
+          'photo_url',
+          'organic_status',
+          'supplier',
+          'price',
+          'sex_detail',
+          'origin_id',
+          'group_ids',
+          'animal_batch_use_relationships',
+        ];
+
         // select only allowed properties to edit
         for (const animalBatch of req.body) {
           await checkAndAddCustomTypeAndBreed(
@@ -118,24 +137,6 @@ const animalBatchController = {
             trx,
           );
 
-          const desiredKeys = [
-            'id',
-            'count',
-            'custom_breed_id',
-            'custom_type_id',
-            'default_breed_id',
-            'default_type_id',
-            'name',
-            'notes',
-            'photo_url',
-            'organic_status',
-            'supplier',
-            'price',
-            'sex_detail',
-            'origin_id',
-            'group_ids',
-            'animal_batch_use_relationships',
-          ];
           const keysExisting = desiredKeys.filter((key) => key in animalBatch);
           const data = _pick(animalBatch, keysExisting);
 

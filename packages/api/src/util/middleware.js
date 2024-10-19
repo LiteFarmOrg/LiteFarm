@@ -21,16 +21,18 @@ export const notExactlyOneValue = (values) => {
 };
 
 // Checks an array of object keys against object -- at least one of the properties is defined
-export const oneExists = (keys, object) => {
+export const someExists = (keys, object) => {
   return keys.some((key) => key in object);
 };
 
 // Checks an array for at least one truthy value
-export const oneTruthy = (values) => values.some((value) => !!value);
+export const someTruthy = (values) => values.some((value) => !!value);
 
-// Sets falsy values to null for editing values that may have values for exclusive constraints -- does not handle zeros yet
+// Sets falsy values to null for editing values that may have values for exclusive constraints
 export const setFalsyValuesToNull = (array, obj) => {
   for (const val of array) {
-    obj[val] = obj[val] || null;
+    if (obj[val] !== 0 && obj[val] !== false) {
+      obj[val] ??= null;
+    }
   }
 };

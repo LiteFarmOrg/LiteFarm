@@ -88,9 +88,8 @@ const animalController = {
           );
 
           // Format group_ids
-          const groupIdMap =
+          individualAnimalResult.group_ids =
             individualAnimalResult.group_ids?.map((group) => group.animal_group_id) || [];
-          individualAnimalResult.group_ids = groupIdMap;
 
           result.push(individualAnimalResult);
         }
@@ -115,6 +114,36 @@ const animalController = {
         const typeIdsMap = {};
         const typeBreedIdsMap = {};
 
+        const desiredKeys = [
+          'id',
+          'custom_breed_id',
+          'custom_type_id',
+          'default_breed_id',
+          'default_type_id',
+          'sex_id',
+          'name',
+          'birth_date',
+          'identifier',
+          'identifier_color_id',
+          'identifier_placement_id',
+          'identifier_type_id',
+          'identifier_type_other',
+          'origin_id',
+          'dam',
+          'sire',
+          'brought_in_date',
+          'weaning_date',
+          'notes',
+          'photo_url',
+          'organic_status',
+          'supplier',
+          'price',
+          'sex_detail',
+          'origin_id',
+          'group_ids',
+          'animal_use_relationships',
+        ];
+
         // select only allowed properties to edit
         for (const animal of req.body) {
           await checkAndAddCustomTypeAndBreed(
@@ -125,38 +154,8 @@ const animalController = {
             farm_id,
             trx,
           );
-          // TODO: Comment out for animals v1?
-          await checkAndAddGroup(req, animal, farm_id, trx);
 
-          const desiredKeys = [
-            'id',
-            'custom_breed_id',
-            'custom_type_id',
-            'default_breed_id',
-            'default_type_id',
-            'sex_id',
-            'name',
-            'birth_date',
-            'identifier',
-            'identifier_color_id',
-            'identifier_placement_id',
-            'identifier_type_id',
-            'identifier_type_other',
-            'origin_id',
-            'dam',
-            'sire',
-            'brought_in_date',
-            'weaning_date',
-            'notes',
-            'photo_url',
-            'organic_status',
-            'supplier',
-            'price',
-            'sex_detail',
-            'origin_id',
-            'group_ids',
-            'animal_use_relationships',
-          ];
+          await checkAndAddGroup(req, animal, farm_id, trx);
 
           const keysExisting = desiredKeys.filter((key) => key in animal);
           const data = _pick(animal, keysExisting);

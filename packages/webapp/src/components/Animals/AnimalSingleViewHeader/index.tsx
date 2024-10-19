@@ -115,10 +115,6 @@ const ContainerWithButtons = ({
   );
 };
 
-function isAnimal(animalOrBatch: Animal | AnimalBatch): animalOrBatch is Animal {
-  return 'identifier' in animalOrBatch;
-}
-
 export type AnimalSingleViewHeaderProps = {
   isEditing?: boolean;
   onEdit: () => void;
@@ -146,17 +142,15 @@ const AnimalSingleViewHeader = ({
   const theme = useTheme();
   const isCompactView = useMediaQuery(theme.breakpoints.down('md'));
 
-  const isAnimalType = isAnimal(animalOrBatch);
+  const isAnimal = 'identifier' in animalOrBatch;
 
   const { name, birth_date, photo_url } = animalOrBatch;
 
   const typeString = chooseAnimalTypeLabel(animalOrBatch, defaultTypes, customTypes);
   const breedString = chooseAnimalBreedLabel(animalOrBatch, defaultBreeds, customBreeds);
   const typeAndBreedString = [typeString, breedString].filter(Boolean).join(' | ');
-  const nameAndID = [name, isAnimalType ? animalOrBatch.identifier : '']
-    .filter(Boolean)
-    .join(' | ');
-  const count = isAnimalType ? undefined : animalOrBatch.count;
+  const nameAndID = [name, isAnimal ? animalOrBatch.identifier : ''].filter(Boolean).join(' | ');
+  const count = isAnimal ? undefined : animalOrBatch.count;
 
   const animalImageWithCount = (
     <AnimalImageWithCount photoUrl={photo_url} count={count} isCompactView={isCompactView} />

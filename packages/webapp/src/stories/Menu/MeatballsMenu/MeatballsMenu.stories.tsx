@@ -14,11 +14,11 @@
  */
 import { Meta, StoryObj } from '@storybook/react';
 import Icon from '../../../components/Icons';
-import ThreeDotsMenu, { ThreeDotsMenuProps } from '../../../components/Menu/ThreeDotsMenu';
+import MeatballsMenu, { MeatballsMenuProps } from '../../../components/Menu/MeatballsMenu';
 
-const meta: Meta<ThreeDotsMenuProps> = {
-  title: 'Components/Menu/ThreeDotsMenu',
-  component: ThreeDotsMenu,
+const meta: Meta<MeatballsMenuProps> = {
+  title: 'Components/Menu/MeatballsMenu',
+  component: MeatballsMenu,
   decorators: [
     (story) => {
       return (
@@ -29,7 +29,7 @@ const meta: Meta<ThreeDotsMenuProps> = {
 };
 export default meta;
 
-type Story = StoryObj<typeof ThreeDotsMenu>;
+type Story = StoryObj<typeof MeatballsMenu>;
 
 export const Primary: Story = {
   args: {

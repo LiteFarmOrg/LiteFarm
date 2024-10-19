@@ -20,7 +20,7 @@ import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import Icon, { IconName } from '../../Icons';
 import TextButton from '../../Form/Button/TextButton';
-import ThreeDotsMenu from '../../Menu/ThreeDotsMenu';
+import MeatballsMenu from '../../Menu/MeatballsMenu';
 import { getAge } from '../../../util/age';
 import {
   Animal,
@@ -106,7 +106,7 @@ const ContainerWithButtons = ({
       <div className={clsx(styles.content, contentClassName)}>{children}</div>
       <div className={styles.statusAndButton}>
         {!isCompactView && isEditing ? <div>{t('common:EDITING')}</div> : null}
-        <ThreeDotsMenu
+        <MeatballsMenu
           options={options}
           classes={{ button: isEditing ? styles.editingStatusButton : '' }}
         />

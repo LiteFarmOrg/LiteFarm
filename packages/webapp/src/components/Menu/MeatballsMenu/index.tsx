@@ -19,12 +19,12 @@ import FloatingMenu from '../FloatingButtonMenu/FloatingMenu';
 import DropdownButton from '../../Form/DropDownButton';
 import styles from './styles.module.scss';
 
-export type ThreeDotsMenuProps = {
+export type MeatballsMenuProps = {
   classes?: { button?: string };
   options: { label: ReactNode; onClick: () => void }[];
 };
 
-const ThreeDotsMenu = ({ options, classes }: ThreeDotsMenuProps) => {
+const MeatballsMenu = ({ options, classes }: MeatballsMenuProps) => {
   return (
     <DropdownButton
       type={'v2'}
@@ -45,4 +45,4 @@ const ThreeDotsMenu = ({ options, classes }: ThreeDotsMenuProps) => {
   );
 };
 
-export default ThreeDotsMenu;
+export default MeatballsMenu;

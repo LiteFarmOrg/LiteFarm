@@ -39,3 +39,16 @@ export const WithDefaultUrl: Story = {
     defaultUrl: '/src/assets/images/certification/Farmland.svg',
   },
 };
+
+export const DefaultDisabled: Story = {
+  args: {
+    isDisabled: true,
+  },
+};
+
+export const WithDefaultUrlDisabled: Story = {
+  args: {
+    defaultUrl: '/src/assets/images/certification/Farmland.svg',
+    isDisabled: true,
+  },
+};

@@ -23,7 +23,15 @@ import GeneralDetails, {
 import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
 
-import { sexOptions, sexDetailsOptions, useOptions, defaultValues } from './mockData';
+import {
+  typeOptions,
+  breedOptions,
+  sexOptions,
+  sexDetailsOptions,
+  useOptions,
+  addDefaults,
+  defaultValues,
+} from './mockData';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<GeneralDetailsProps> = {
@@ -31,11 +39,12 @@ const meta: Meta<GeneralDetailsProps> = {
   component: GeneralDetails,
   decorators: [
     ...componentDecorators,
-    (Story) => {
+    (Story, { args }) => {
       const { t } = useTranslation();
       const formMethods: FormMethods = useForm({
         mode: 'onBlur',
-        defaultValues,
+        defaultValues:
+          args.mode === 'readonly' || args.mode === 'edit' ? defaultValues : addDefaults,
       });
 
       return (
@@ -67,6 +76,48 @@ export const Batch: Story = {
     ...commonProps,
     animalOrBatch: AnimalOrBatchKeys.BATCH,
     sexDetailsOptions,
+  },
+  render: (args, context) => <GeneralDetails {...args} {...context} />,
+};
+
+export const AnimalReadOnly: Story = {
+  args: {
+    ...commonProps,
+    animalOrBatch: AnimalOrBatchKeys.ANIMAL,
+    mode: 'readonly',
+  },
+  render: (args, context) => <GeneralDetails {...args} {...context} />,
+};
+
+export const BatchReadOnly: Story = {
+  args: {
+    ...commonProps,
+    animalOrBatch: AnimalOrBatchKeys.BATCH,
+    sexDetailsOptions,
+    mode: 'readonly',
+  },
+  render: (args, context) => <GeneralDetails {...args} {...context} />,
+};
+
+export const AnimalEdit: Story = {
+  args: {
+    ...commonProps,
+    animalOrBatch: AnimalOrBatchKeys.ANIMAL,
+    mode: 'edit',
+    typeOptions,
+    breedOptions,
+  },
+  render: (args, context) => <GeneralDetails {...args} {...context} />,
+};
+
+export const BatchEdit: Story = {
+  args: {
+    ...commonProps,
+    animalOrBatch: AnimalOrBatchKeys.BATCH,
+    sexDetailsOptions,
+    mode: 'edit',
+    typeOptions,
+    breedOptions,
   },
   render: (args, context) => <GeneralDetails {...args} {...context} />,
 };

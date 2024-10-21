@@ -287,6 +287,7 @@
       "BATCH_NAME": "Batch name",
       "DAM": "Dam",
       "DATE_OF_BIRTH": "Date of birth",
+      "LITEFARM_ID": "LiteFarm ID",
       "ORGANIC_STATUS": "Organic status",
       "OTHER_DETAILS_ANIMAL": "Other animal details",
       "OTHER_DETAILS_BATCH": "Batch details",
@@ -311,7 +312,11 @@
     "SEARCH_INVENTORY_PLACEHOLDER": "Search your inventory",
     "SHOWING_RESULTS_WITH_COUNT_one": "Showing {{count}} result",
     "SHOWING_RESULTS_WITH_COUNT_many": "Showing {{count}} results",
-    "SHOWING_RESULTS_WITH_COUNT_other": "Showing {{count}} results"
+    "SHOWING_RESULTS_WITH_COUNT_other": "Showing {{count}} results",
+    "TABS": {
+      "BASIC_INFO": "Basic info",
+      "TASKS": "Tasks"
+    }
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",

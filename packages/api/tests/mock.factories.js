@@ -2281,22 +2281,27 @@ function fakeCustomAnimalBreed(defaultData = {}) {
 async function custom_animal_breedFactory(
   {
     promisedFarm = farmFactory(),
-    promisedAnimalType = custom_animal_typeFactory({ promisedFarm }),
+    promisedCustomAnimalType = custom_animal_typeFactory({ promisedFarm }),
+    promisedDefaultAnimalType = default_animal_typeFactory({ promisedFarm }),
     properties = {},
   } = {},
   animalBreed = fakeCustomAnimalBreed(properties),
+  customType = true,
 ) {
-  const [farm, user, animalType] = await Promise.all([
+  const [farm, user, customAnimalType, defaultAnimalType] = await Promise.all([
     promisedFarm,
     usersFactory(),
-    promisedAnimalType,
+    promisedCustomAnimalType,
+    promisedDefaultAnimalType,
   ]);
   const [{ farm_id }] = farm;
   const [{ user_id }] = user;
-  const [{ id: custom_type_id }] = animalType;
+  const [{ id: custom_type_id }] = customAnimalType;
+  const [{ id: default_type_id }] = defaultAnimalType;
+  const type = customType ? { custom_type_id } : { default_type_id };
   const base = baseProperties(user_id);
   return knex('custom_animal_breed')
-    .insert({ farm_id, custom_type_id, ...animalBreed, ...base })
+    .insert({ farm_id, ...type, ...animalBreed, ...base })
     .returning('*');
 }
 
@@ -2397,9 +2402,9 @@ async function animal_batchFactory(
     });
 }
 
-async function animal_identifier_typeFactory(rows = 1) {
+async function animal_identifier_typeFactory(rows = 1, key = faker.lorem.word()) {
   return knex('animal_identifier_type')
-    .insert(Array(rows).fill({ key: faker.lorem.word() }))
+    .insert(Array(rows).fill({ key, id: key === 'OTHER' ? 3 : undefined }))
     .returning('*');
 }
 
@@ -2411,8 +2416,10 @@ async function animal_sexFactory() {
   return knex('animal_sex').insert({ key: faker.lorem.word() }).returning('*');
 }
 
-async function animal_originFactory() {
-  return knex('animal_origin').insert({ key: faker.lorem.word() }).returning('*');
+async function animal_originFactory(key = faker.lorem.word()) {
+  return knex('animal_origin')
+    .insert({ key, id: key === 'BROUGHT_IN' ? 1 : undefined })
+    .returning('*');
 }
 
 function fakeAnimalGroup(defaultData = {}) {
@@ -2477,8 +2484,10 @@ async function animal_removal_reasonFactory() {
   return knex('animal_removal_reason').insert({ key: faker.lorem.word() }).returning('*');
 }
 
-async function animal_useFactory() {
-  return knex('animal_use').insert({ key: faker.lorem.word() }).returning('*');
+async function animal_useFactory(key = faker.lorem.word()) {
+  return knex('animal_use')
+    .insert({ key, id: key === 'OTHER' ? 10 : undefined })
+    .returning('*');
 }
 
 async function animal_type_use_relationshipFactory({

@@ -16,11 +16,10 @@
 import { Model, transaction } from 'objection';
 import AnimalBatchModel from '../models/animalBatchModel.js';
 import baseController from './baseController.js';
-import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
-import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import { handleObjectionError } from '../util/errorCodes.js';
-import { assignInternalIdentifiers } from '../util/animal.js';
+import { assignInternalIdentifiers, checkAndAddCustomTypeAndBreed } from '../util/animal.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
+import _pick from 'lodash/pick.js';
 
 const animalBatchController = {
   getFarmAnimalBatches() {
@@ -60,50 +59,19 @@ const animalBatchController = {
         const { farm_id } = req.headers;
         const result = [];
 
-        // avoid attempts to add an already created type or breed to the DB
-        // where multiple batches have the same type_name or breed_name
+        // Create utility object used in type and breed
         const typeIdsMap = {};
         const typeBreedIdsMap = {};
 
         for (const animalBatch of req.body) {
-          if (animalBatch.type_name) {
-            let typeId = typeIdsMap[animalBatch.type_name];
-
-            if (!typeId) {
-              const newType = await baseController.postWithResponse(
-                CustomAnimalTypeModel,
-                { type: animalBatch.type_name, farm_id },
-                req,
-                { trx },
-              );
-              typeId = newType.id;
-              typeIdsMap[animalBatch.type_name] = typeId;
-            }
-            animalBatch.custom_type_id = typeId;
-            delete animalBatch.type_name;
-          }
-
-          if (animalBatch.breed_name) {
-            const typeColumn = animalBatch.default_type_id ? 'default_type_id' : 'custom_type_id';
-            const typeId = animalBatch.type_name
-              ? typeIdsMap[animalBatch.type_name]
-              : animalBatch.default_type_id || animalBatch.custom_type_id;
-            const typeBreedKey = `${typeColumn}_${typeId}_${animalBatch.breed_name}`;
-            let breedId = typeBreedIdsMap[typeBreedKey];
-
-            if (!breedId) {
-              const newBreed = await baseController.postWithResponse(
-                CustomAnimalBreedModel,
-                { farm_id, [typeColumn]: typeId, breed: animalBatch.breed_name },
-                req,
-                { trx },
-              );
-              breedId = newBreed.id;
-              typeBreedIdsMap[typeBreedKey] = breedId;
-            }
-            animalBatch.custom_breed_id = breedId;
-            delete animalBatch.breed_name;
-          }
+          await checkAndAddCustomTypeAndBreed(
+            req,
+            typeIdsMap,
+            typeBreedIdsMap,
+            animalBatch,
+            farm_id,
+            trx,
+          );
 
           // Remove farm_id if it happens to be set in animal object since it should be obtained from header
           delete animalBatch.farm_id;
@@ -124,6 +92,62 @@ const animalBatchController = {
         return res.status(201).send(result);
       } catch (error) {
         await handleObjectionError(error, res, trx);
+      }
+    };
+  },
+
+  editAnimalBatches() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+
+      try {
+        const { farm_id } = req.headers;
+
+        // Create utility object used in type and breed
+        const typeIdsMap = {};
+        const typeBreedIdsMap = {};
+
+        const desiredKeys = [
+          'id',
+          'count',
+          'custom_breed_id',
+          'custom_type_id',
+          'default_breed_id',
+          'default_type_id',
+          'name',
+          'notes',
+          'photo_url',
+          'organic_status',
+          'supplier',
+          'price',
+          'sex_detail',
+          'origin_id',
+          'group_ids',
+          'animal_batch_use_relationships',
+        ];
+
+        // select only allowed properties to edit
+        for (const animalBatch of req.body) {
+          await checkAndAddCustomTypeAndBreed(
+            req,
+            typeIdsMap,
+            typeBreedIdsMap,
+            animalBatch,
+            farm_id,
+            trx,
+          );
+
+          const keysExisting = desiredKeys.filter((key) => key in animalBatch);
+          const data = _pick(animalBatch, keysExisting);
+
+          await baseController.upsertGraph(AnimalBatchModel, data, req, { trx });
+        }
+
+        await trx.commit();
+        // Do not send result revalidate using tags on frontend
+        return res.status(204).send();
+      } catch (error) {
+        handleObjectionError(error, res, trx);
       }
     };
   },

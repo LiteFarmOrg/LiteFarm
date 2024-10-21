@@ -609,7 +609,7 @@
         "DEFAULT": "Algo deu errado. Entre em contato com support@litefarm.org para obter assistência.",
         "PARTIAL_SUCCESS_BOTTOM_TEXT": "Eles agora devem estar visíveis no mapa da fazenda. Esses sensores serão ignorados em uploads futuros\n\n",
         "PARTIAL_SUCCESS_TOP_TEXT": "Os seguintes sensores em seu arquivo foram carregados com sucesso ou já existem em sua fazenda:\n\n",
-        "ROW": "[Row: {{ row }}][Column: {{ column }}] {{- errorMessage }} {{ value }}\n",
+        "ROW": "[Linha: {{ row }}][Coluna: {{ column }}] {{- errorMessage }} {{ value }}\n",
         "SOME_ERRORS": "Infelizmente, houve alguns erros com o seu upload:\n\n"
       },
       "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "Clique aqui para baixar o modelo",

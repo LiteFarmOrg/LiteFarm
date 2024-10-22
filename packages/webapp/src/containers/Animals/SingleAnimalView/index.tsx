@@ -16,29 +16,31 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
-import Button from '../../../components/Form/Button';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
+import AnimalSingleViewHeader from '../../../components/Animals/AnimalSingleViewHeader';
 import { generateFormDate } from './utils';
-
-// Form Submission
 import {
   useGetAnimalsQuery,
   useGetAnimalBatchesQuery,
   useGetAnimalOriginsQuery,
   useUpdateAnimalsMutation,
   useUpdateAnimalBatchesMutation,
+  useGetCustomAnimalBreedsQuery,
+  useGetCustomAnimalTypesQuery,
+  useGetDefaultAnimalBreedsQuery,
+  useGetDefaultAnimalTypesQuery,
 } from '../../../store/api/apiSlice';
 import {
   formatAnimalDetailsToDBStructure,
   formatBatchDetailsToDBStructure,
 } from '../AddAnimals/utils';
-import { AnimalOrBatchKeys } from '../types';
-import { useDispatch } from 'react-redux';
-import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { Animal, AnimalBatch } from '../../../store/api/types';
+import { AnimalOrBatchKeys } from '../types';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -55,6 +57,13 @@ interface AddAnimalsProps extends RouteComponentProps<RouteParams> {
 function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps) {
   const { t } = useTranslation(['translation', 'common', 'message']);
 
+  // Header
+  const { data: customAnimalTypes = [] } = useGetCustomAnimalTypesQuery();
+  const { data: customAnimalBreeds = [] } = useGetCustomAnimalBreedsQuery();
+  const { data: defaultAnimalTypes = [] } = useGetDefaultAnimalTypesQuery();
+  const { data: defaultAnimalBreeds = [] } = useGetDefaultAnimalBreedsQuery();
+
+  // Form
   const { data: animals = [] } = useGetAnimalsQuery();
   const { data: batches = [] } = useGetAnimalBatchesQuery();
 
@@ -67,9 +76,8 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
 
   const [isEditing, setIsEditing] = useState(false);
 
-  // For now, assuming that the only way to exit edit will be through the cancel button and not through the header
-  const initiateEdit = () => {
-    setIsEditing(true);
+  const toggleEdit = () => {
+    setIsEditing((prev) => !prev);
   };
 
   // Form submission logic, based on AddAnimals
@@ -174,16 +182,18 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
   return (
     <div className={styles.container}>
       <div>
-        {/* TODO: LF-4381 Header component */}
-        <h1>LF-4381 Header component</h1>
-        {isEditing ? (
-          <Button color={'primary'} disabled>
-            ...Editing
-          </Button>
-        ) : (
-          <Button color={'secondary-cta'} onClick={initiateEdit}>
-            Toggle Edit
-          </Button>
+        {defaultFormValues && (
+          <AnimalSingleViewHeader
+            onEdit={toggleEdit}
+            isEditing={isEditing}
+            onBack={() => history.push('/animals/inventory')}
+            /* @ts-ignore */
+            animalOrBatch={defaultFormValues}
+            defaultBreeds={defaultAnimalBreeds}
+            defaultTypes={defaultAnimalTypes}
+            customBreeds={customAnimalBreeds}
+            customTypes={customAnimalTypes}
+          />
         )}
       </div>
       <Tab

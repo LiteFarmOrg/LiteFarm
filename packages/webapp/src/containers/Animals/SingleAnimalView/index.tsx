@@ -116,20 +116,20 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     try {
       if (formattedAnimals.length) {
         animalsResult = await updateAnimals(formattedAnimals).unwrap();
-        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_CREATE_ANIMALS')));
+        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_UPDATE_ANIMAL')));
       }
     } catch (e) {
       console.error(e);
-      dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_CREATE_ANIMALS')));
+      dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_UPDATE_ANIMAL')));
     }
     try {
       if (formattedBatches.length) {
         batchesResult = await updateBatches(formattedBatches).unwrap();
-        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_CREATE_BATCHES')));
+        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_UPDATE_BATCH')));
       }
     } catch (e) {
       console.error(e);
-      dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_CREATE_BATCHES')));
+      dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_UPDATE_BATCH')));
     }
 
     if (!animalsResult.length && !batchesResult.length) {

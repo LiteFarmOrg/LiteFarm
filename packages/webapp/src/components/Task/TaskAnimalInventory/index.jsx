@@ -20,6 +20,7 @@ import Form from '../../Form';
 import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 import { Main } from '../../Typography';
+import AnimalInventory from '../../../containers/Animals/Inventory';
 
 export default function PureTaskAnimalInventory({
   onContinue,
@@ -28,28 +29,36 @@ export default function PureTaskAnimalInventory({
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
+  const ANIMAL_IDS = 'animalIds';
 
   const {
     register,
     handleSubmit,
     getValues,
-    watch,
-    formState: { isValid, errors },
+    setValue,
+    formState: { isValid },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: { ...persistedFormData },
+    defaultValues: {
+      ...persistedFormData,
+      [ANIMAL_IDS]: persistedFormData.animalIds ?? [],
+    },
   });
 
   //TODO: Calculate progress percentage
   const progress = 28;
-
   const { historyCancel } = useHookFormPersist(getValues);
 
   const disabled = !isValid;
 
   const onSubmit = () => {
     onContinue();
+  };
+
+  const onSelect = (selectedAnimalIds) => {
+    // TODO: convert string[] to number[] on submit
+    setValue(ANIMAL_IDS, selectedAnimalIds);
   };
 
   return (
@@ -71,6 +80,8 @@ export default function PureTaskAnimalInventory({
       />
 
       <Main style={{ marginBottom: '16px' }}>{t('TASK.SELECT_ANIMALS_TO_MOVE')}</Main>
+      <input type="hidden" {...register(ANIMAL_IDS)} />
+      <AnimalInventory onSelect={onSelect} />
     </Form>
   );
 }

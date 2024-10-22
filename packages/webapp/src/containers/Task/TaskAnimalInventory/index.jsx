@@ -27,7 +27,7 @@ function TaskAnimalInventory({ history, location }) {
 
   return (
     <HookFormPersistProvider>
-      <PureTaskAnimalInventory onGoBack={onGoBack} onContinue={onContinue} />
+      <PureTaskAnimalInventory onGoBack={onGoBack} onContinue={onContinue} history={history} />
     </HookFormPersistProvider>
   );
 }

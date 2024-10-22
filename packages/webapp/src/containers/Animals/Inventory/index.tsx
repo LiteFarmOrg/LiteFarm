@@ -41,7 +41,9 @@ import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 
 interface AnimalInventoryProps {
-  onSelect: (newIds: string[]) => void;
+  onSelect?: (newIds: string[]) => void;
+  showActionMenu?: boolean;
+  showKPI?: boolean;
   isCompactSideMenu: boolean;
   containerHeight: number;
   history: History;
@@ -56,7 +58,13 @@ const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: s
   return selectedIds.filter((id) => visibleRowIdsSet.has(id));
 };
 
-function AnimalInventory({ onSelect, isCompactSideMenu, history }: AnimalInventoryProps) {
+function AnimalInventory({
+  onSelect,
+  showActionMenu = true,
+  showKPI = true,
+  isCompactSideMenu,
+  history,
+}: AnimalInventoryProps) {
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>([]);
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
@@ -170,7 +178,7 @@ function AnimalInventory({ onSelect, isCompactSideMenu, history }: AnimalInvento
       newIds.push(selectedInventoryId);
     }
     setSelectedInventoryIds(newIds);
-    onSelect(newIds);
+    onSelect && onSelect(newIds);
   };
 
   const selectAllVisibleInventoryItems = () => {
@@ -223,7 +231,7 @@ function AnimalInventory({ onSelect, isCompactSideMenu, history }: AnimalInvento
 
   return (
     <FixedHeaderContainer
-      header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
+      header={showKPI ? <KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} /> : null}
       classes={{ paper: styles.paper }}
       kind={ContainerKind.PAPER}
     >
@@ -243,7 +251,7 @@ function AnimalInventory({ onSelect, isCompactSideMenu, history }: AnimalInvento
         history={history}
         onRowClick={onRowClick}
       />
-      {selectedInventoryIds.length ? (
+      {selectedInventoryIds.length && showActionMenu ? (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
           <ActionMenu
             headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}

@@ -27,6 +27,7 @@ export default function PureTaskAnimalInventory({
   onGoBack,
   persistedFormData,
   useHookFormPersist,
+  history,
 }) {
   const { t } = useTranslation();
   const ANIMAL_IDS = 'animalIds';
@@ -81,12 +82,17 @@ export default function PureTaskAnimalInventory({
 
       <Main style={{ marginBottom: '16px' }}>{t('TASK.SELECT_ANIMALS_TO_MOVE')}</Main>
       <input type="hidden" {...register(ANIMAL_IDS)} />
-      <AnimalInventory onSelect={onSelect} />
+      <AnimalInventory
+        onSelect={onSelect}
+        showActionMenu={false}
+        showKPI={false}
+        history={history}
+      />
     </Form>
   );
 }
 
-PureTaskAnimalInventory.PropTypes = {
+PureTaskAnimalInventory.propTypes = {
   onContinue: PropTypes.func,
   onGoBack: PropTypes.func,
   useHookFormPersist: PropTypes.func,

@@ -199,6 +199,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
         cancelModalTitle={t('ANIMALS.EDIT_ANIMAL_FLOW')}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
+        key={`${JSON.stringify(defaultFormValues)}${isEditing}`}
       />
     </div>
   );

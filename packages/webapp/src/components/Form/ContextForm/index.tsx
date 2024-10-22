@@ -117,6 +117,7 @@ export const ContextForm = ({
           formResultData={formResultData}
           history={history}
           isEditing={isEditing}
+          key={isEditing ? 'edit' : 'readonly'}
         />
       </FormProvider>
     </Component>

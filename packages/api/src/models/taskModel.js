@@ -28,6 +28,7 @@ import cleaningTaskModel from './cleaningTaskModel.js';
 import taskTypeModel from './taskTypeModel.js';
 import plantTaskModel from './plantTaskModel.js';
 import transplantTaskModel from './transplantTaskModel.js';
+import animalMovementTaskModel from './animalMovementTaskModel.js';
 import plantingManagementPlanModel from './plantingManagementPlanModel.js';
 import managementTasksModel from './managementTasksModel.js';
 import locationModel from './locationModel.js';
@@ -189,6 +190,14 @@ class TaskModel extends BaseModel {
           to: 'transplant_task.task_id',
         },
       },
+      animal_movement_task: {
+        relation: Model.HasOneRelation,
+        modelClass: animalMovementTaskModel,
+        join: {
+          from: 'task.task_id',
+          to: 'animal_movement_task.task_id',
+        },
+      },
       //TODO: rename to plantingManagementPlans
       managementPlans: {
         modelClass: plantingManagementPlanModel,
@@ -266,6 +275,7 @@ class TaskModel extends BaseModel {
       taskType: 'omit',
       plant_task: 'edit',
       transplant_task: 'edit',
+      animal_movement_task: 'omit',
       managementPlans: 'omit',
       locations: 'edit',
     };

@@ -595,7 +595,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
-            <Route path="/add_task/task_animals" exact component={TaskAnimals} />
+            <Route path="/add_task/task_animal_selection" exact component={TaskAnimals} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
@@ -890,7 +890,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
-            <Route path="/add_task/task_animals" exact component={TaskAnimals} />
+            <Route path="/add_task/task_animal_selection" exact component={TaskAnimals} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
@@ -995,7 +995,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
-            <Route path="/add_task/task_animals" exact component={TaskAnimals} />
+            <Route path="/add_task/task_animal_selection" exact component={TaskAnimals} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />

@@ -80,7 +80,6 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     setIsEditing((prev) => !prev);
   };
 
-  // Form submission logic, based on AddAnimals
   const dispatch = useDispatch();
 
   const [updateAnimals] = useUpdateAnimalsMutation();
@@ -88,11 +87,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
 
   const { data: orgins = [] } = useGetAnimalOriginsQuery();
 
-  const onSave = async (
-    data: any,
-    onGoForward: () => void,
-    // setFormResultData: (data: any) => void, // only needed for summary
-  ) => {
+  const onSave = async (data: any, onGoForward: () => void) => {
     const broughtInId = orgins.find((origin) => origin.key === 'BROUGHT_IN')?.id;
 
     const formattedAnimals: Partial<Animal>[] = [];
@@ -110,12 +105,9 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
       });
     }
 
-    let animalsResult: Animal[] = [];
-    let batchesResult: AnimalBatch[] = [];
-
     try {
       if (formattedAnimals.length) {
-        animalsResult = await updateAnimals(formattedAnimals).unwrap();
+        await updateAnimals(formattedAnimals).unwrap();
         dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_UPDATE_ANIMAL')));
       }
     } catch (e) {
@@ -124,7 +116,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     }
     try {
       if (formattedBatches.length) {
-        batchesResult = await updateBatches(formattedBatches).unwrap();
+        await updateBatches(formattedBatches).unwrap();
         dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_UPDATE_BATCH')));
       }
     } catch (e) {
@@ -132,12 +124,6 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
       dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_UPDATE_BATCH')));
     }
 
-    if (!animalsResult.length && !batchesResult.length) {
-      return;
-    }
-
-    // only needed for summary
-    // setFormResultData({ animals: animalsResult, batches: batchesResult });
     onGoForward();
   };
 

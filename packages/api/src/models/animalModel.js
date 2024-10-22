@@ -19,6 +19,8 @@ import AnimalGroupRelationshipModel from './animalGroupRelationshipModel.js';
 import Model from './baseFormatModel.js';
 import { checkAndTrimString } from '../util/util.js';
 import AnimalUseRelationshipModel from './animalUseRelationshipModel.js';
+import AnimalMovementTaskModel from './animalMovementTaskModel.js';
+import AnimalMovementTaskAnimalRelationshipModel from './animalMovementTaskAnimalRelationshipModel.js';
 
 class Animal extends baseModel {
   static get tableName() {
@@ -99,6 +101,7 @@ class Animal extends baseModel {
         organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
         supplier: { type: ['string', 'null'], maxLength: 255 },
         price: { type: ['number', 'null'] },
+        location_id: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -134,6 +137,19 @@ class Animal extends baseModel {
         join: {
           from: 'animal.id',
           to: 'animal_use_relationship.animal_id',
+        },
+      },
+      animal_movement_tasks: {
+        modelClass: AnimalMovementTaskModel,
+        relation: Model.ManyToManyRelation,
+        join: {
+          from: 'animal.id',
+          through: {
+            modelClass: AnimalMovementTaskAnimalRelationshipModel,
+            from: 'animal_movement_task_animal_relationship.animal_id',
+            to: 'animal_movement_task_animal_relationship.task_id',
+          },
+          to: 'animal_movement_task.task_id',
         },
       },
     };

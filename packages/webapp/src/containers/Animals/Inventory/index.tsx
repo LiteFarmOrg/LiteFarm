@@ -41,6 +41,7 @@ import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 
 interface AnimalInventoryProps {
+  onSelect: (newIds: string[]) => void;
   isCompactSideMenu: boolean;
   containerHeight: number;
   history: History;
@@ -55,7 +56,7 @@ const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: s
   return selectedIds.filter((id) => visibleRowIdsSet.has(id));
 };
 
-function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
+function AnimalInventory({ onSelect, isCompactSideMenu, history }: AnimalInventoryProps) {
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>([]);
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
@@ -169,6 +170,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
       newIds.push(selectedInventoryId);
     }
     setSelectedInventoryIds(newIds);
+    onSelect(newIds);
   };
 
   const selectAllVisibleInventoryItems = () => {

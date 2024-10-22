@@ -18,6 +18,7 @@
     "BREED_PLACEHOLDER_DISABLED": "Please select a type first",
     "CREATE_INDIVIDUAL_PROFILES": "Create individual animal profiles",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately",
+    "EDIT_BASIC_INFO": "Edit basic info",
     "GENERAL_DETAILS": "General details",
     "GENERAL_DETAILS_BATCH": "Batch general details",
     "GROUP_NAME": "Group name",

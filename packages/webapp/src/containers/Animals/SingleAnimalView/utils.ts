@@ -14,22 +14,13 @@
  */
 
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
-import type { Animal, AnimalBatch } from '../../../store/api/types';
+import { DetailsFields } from '../AddAnimals/types';
+import type { RequestBodyAnimal, RequestBodyAnimalBatch } from './types';
 
 export const generateFormDate = (date?: string | null) => {
   return date ? getLocalDateInYYYYDDMM(new Date(date)) : '';
   // Right now the new date validation logic will fail if null is maintained; may want to revisit/change that but for now an empty string will pass (and matches 'add' mode)
 };
-
-interface RequestBodyAnimal extends Animal {
-  type_name?: string;
-  breed_name?: string;
-}
-
-interface RequestBodyAnimalBatch extends AnimalBatch {
-  type_name?: string;
-  breed_name?: string;
-}
 
 interface FieldMappingDict {
   [key: string]: {
@@ -38,13 +29,16 @@ interface FieldMappingDict {
   };
 }
 
-// Mapping dictionary of form fields to fields returned by formatAnimalDetailsToDBStructure and their corresponding null values
-const fieldMappingDict: FieldMappingDict = {
-  use: { fields: ['animal_use_relationships', 'animal_batch_use_relationships'], nullValue: [] },
-  other_use: {
-    fields: ['animal_use_relationships', 'animal_batch_use_relationships'],
-    nullValue: '',
-  },
+/**
+ * Mapping dictionaries for field names and their corresponding null values.
+ *
+ * These dictionaries define the mappings between form fields and the fields returned by
+ * `formatAnimalDetailsToDBStructure` and the null values to be used when
+ * these fields are cleared.
+ *
+ **/
+
+const baseFieldMappingDict: FieldMappingDict = {
   identifier_type: {
     fields: ['identifier_type_id'],
     nullValue: null,
@@ -55,61 +49,76 @@ const fieldMappingDict: FieldMappingDict = {
       'custom_type_id',
       'default_type_id',
       'type_name',
-      'custom_breed_id',
+      'custom_breed_id', // adding breed fields here as they by necessity change if type is changed, but won't return isDirty in the form state when cleared with resetField
       'default_breed_id',
       'breed_name',
     ],
     nullValue: null,
   },
   breed: { fields: ['custom_breed_id', 'default_breed_id', 'breed_name'], nullValue: null },
-  sex_details: { fields: ['sex_detail'], nullValue: [] }, // sex_details has count property that needs updating
 };
 
-const keysToAlwaysInclude: (keyof RequestBodyAnimal | keyof RequestBodyAnimalBatch)[] = [
-  'custom_type_id',
-  'default_type_id', // never omit type, even if not dirtied
-  'identifier_type_id', // 'identifier_type_other' is dependent on this
-];
-
-// Convert dirtyFields to the field names returned by formatAnimalDetailsToDBStructure
-export const getChangedFields = (
-  dirtyFields: Partial<Record<keyof RequestBodyAnimal | keyof RequestBodyAnimalBatch, boolean>>,
-): (keyof RequestBodyAnimal | keyof RequestBodyAnimalBatch)[] => {
-  let changedFields: (keyof RequestBodyAnimal | keyof RequestBodyAnimalBatch)[] = [];
-
-  Object.keys(dirtyFields).forEach((key) => {
-    if (key in fieldMappingDict) {
-      changedFields = [...changedFields, ...fieldMappingDict[key].fields];
-    } else {
-      changedFields.push(key as keyof RequestBodyAnimal | keyof RequestBodyAnimalBatch);
-    }
-  });
-
-  changedFields = [...changedFields, ...keysToAlwaysInclude];
-
-  return changedFields;
+const animalFieldMappingDict: FieldMappingDict = {
+  use: { fields: ['animal_use_relationships'], nullValue: [] },
 };
 
-// Send appropriate null value for dirtied fields
-// (Note that manually cleared string inputs will not need adjust as the empty string is already sent)
+const batchFieldMappingDict: FieldMappingDict = {
+  use: { fields: ['animal_batch_use_relationships'], nullValue: [] },
+};
+
+// Function to combine base and specific dictionaries
+const generateFieldMappingDict = (isBatch: boolean): FieldMappingDict => {
+  return {
+    ...baseFieldMappingDict,
+    ...(isBatch ? batchFieldMappingDict : animalFieldMappingDict),
+  };
+};
+
+/**
+ * Adds null values to the cleared fields in the formatted object based on the dirty fields.
+ *
+ * This function takes a API-ready formatted animal/batch, a set of dirty fields, and a flag indicating whether the object is an animal or animal batch. It generates a field mapping dictionary based on the type (animal or batch), and then updates the formatted object by adding null values to any dirty fields that are missing from the formatted object
+ *
+ * @param formattedObject - The animal/batch with formatted data.
+ * @param dirtyFields - The React Hook Form-tracked changed fields
+ * @param {boolean} options.isBatch - Flag indicating whether the object is a batch.
+ *
+ * @returns {Partial<RequestBodyAnimal | RequestBodyAnimalBatch>} - The updated object with null values added to the cleared fields.
+ *
+ * @example
+ * const formattedAnimal = {
+    "default_type_id": 3,
+    // other fields, not including animal_use_relationships as it has been cleared
+    };
+ * const dirtyFields = { use: true };
+ * const animalWithNullFields = addNullsToClearedFields(formattedAnimal, dirtyFields, { isBatch: false });
+ * 
+ * @result animalWithNullFields = {
+    "default_type_id": 3,
+    "animal_use_relationships": [],
+    };
+    // other fields
+ */
 export const addNullsToClearedFields = (
-  formattedObject: Partial<Animal | AnimalBatch>,
-  dirtyFields: Partial<Record<keyof Animal | keyof AnimalBatch, boolean>>,
-): Partial<Animal | AnimalBatch> => {
+  formattedObject: Partial<RequestBodyAnimal | RequestBodyAnimalBatch>,
+  dirtyFields: Partial<Record<keyof DetailsFields, boolean>>,
+  { isBatch }: { isBatch: boolean },
+): Partial<RequestBodyAnimal | RequestBodyAnimalBatch> => {
   const updatedObject = { ...formattedObject };
+  const fieldMappingDict = generateFieldMappingDict(isBatch);
 
-  // for each dirtied field
   Object.keys(dirtyFields).forEach((key) => {
     if (key in fieldMappingDict) {
       fieldMappingDict[key].fields.forEach((mappedKey) => {
-        // if the (mapped) key has not been included, include it as a null value
         if (!(mappedKey in updatedObject)) {
           (updatedObject as any)[mappedKey] = fieldMappingDict[key].nullValue;
         }
       });
     } else {
-      // if the key has not been included, include it as a null value
-      if (!(key in updatedObject)) {
+      if (
+        !(key in updatedObject) ||
+        updatedObject[key as keyof typeof updatedObject] === undefined
+      ) {
         (updatedObject as any)[key] = null;
       }
     }

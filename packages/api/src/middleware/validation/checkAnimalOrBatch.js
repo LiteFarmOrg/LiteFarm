@@ -180,18 +180,19 @@ const checkAnimalBreed = async (
         'default_breed_id, custom_breed_id, or breed_name',
       );
     }
-    // Check if breed is present
+    // Overwrite all others with null in db if editing
     if (!creating && someExists(breedKeyOptions, animalOrBatch)) {
-      // Overwrite with null in db if editing
       setFalsyValuesToNull(breedKeyOptions, animalOrBatch);
     }
 
-    if (
+    const isNotNullingAllBreedOptions = !(
       someExists(breedKeyOptions, animalOrBatch) &&
       !someTruthy([default_breed_id, custom_breed_id, breed_name])
-    ) {
-      // do nothing if nulling breed
-    } else {
+    );
+    const isCreatingWithBreed =
+      creating && someTruthy([default_breed_id, custom_breed_id, breed_name]);
+    // Do checks on breed unless removing breed from existing record or
+    if (isNotNullingAllBreedOptions || isCreatingWithBreed) {
       // Check if default breed or default type is present
       if (
         (someExists(breedKeyOptions, animalOrBatch) && default_breed_id) ||

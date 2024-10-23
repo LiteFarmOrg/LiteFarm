@@ -26,16 +26,7 @@ export function noReqBodyCheckYet() {
 
 const checkProductsMiddlewareMap = {
   soil_amendment_task: checkSoilAmendmentTaskProducts,
-  cleaning_task: noReqBodyCheckYet,
-  pest_control_task: noReqBodyCheckYet,
-  irrigation_task: noReqBodyCheckYet,
-  scouting_task: noReqBodyCheckYet,
-  soil_task: noReqBodyCheckYet,
-  field_work_task: noReqBodyCheckYet,
-  harvest_task: noReqBodyCheckYet,
-  plant_task: noReqBodyCheckYet,
-  transplant_task: noReqBodyCheckYet,
-  custom_task: noReqBodyCheckYet,
+  default: noReqBodyCheckYet,
 };
 
 export function checkAbandonTask() {
@@ -137,7 +128,9 @@ export function checkCompleteTask(taskType) {
       }
 
       if (`${taskType}_products` in req.body) {
-        checkProductsMiddlewareMap[taskType]()(req, res, next);
+        const checkProducts =
+          checkProductsMiddlewareMap[taskType] || checkProductsMiddlewareMap['default'];
+        checkProducts()(req, res, next);
       } else {
         next();
       }
@@ -167,7 +160,9 @@ export function checkCreateTask(taskType) {
         return res.status(400).send('task type requires products');
       }
 
-      checkProductsMiddlewareMap[taskType]()(req, res, next);
+      const checkProducts =
+        checkProductsMiddlewareMap[taskType] || checkProductsMiddlewareMap['default'];
+      checkProducts()(req, res, next);
     } catch (error) {
       console.error(error);
       return res.status(500).json({

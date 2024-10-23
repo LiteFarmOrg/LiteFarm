@@ -173,11 +173,8 @@ const checkAnimalBreed = async (
   const typeKeyOptions = ['default_type_id', 'custom_type_id', 'type_name'];
   // If neither breed or type is specified, skip checks
   if (someExists(breedKeyOptions, animalOrBatch) || someExists(typeKeyOptions, animalOrBatch)) {
-    // Check if breed is present
-    if (
-      (creating && someExists(breedKeyOptions, animalOrBatch)) ||
-      someTruthy([default_breed_id, custom_breed_id, breed_name])
-    ) {
+    // Check only one breed option is truthy
+    if (someTruthy([default_breed_id, custom_breed_id, breed_name])) {
       checkExactlyOneIsProvided(
         [default_breed_id, custom_breed_id, breed_name],
         'default_breed_id, custom_breed_id, or breed_name',

@@ -1,3 +1,5 @@
+@import '../../../assets/mixin.scss';
+
 .input {
   width: 100%;
   border: 1px solid var(--grey400);
@@ -11,7 +13,7 @@
   background-color: var(--bgInputListTile);
   // set lastpass fill password icon
   background-position: calc(100% - 36px) calc(50%) !important;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
 }
 
 .input::-webkit-inner-spin-button,
@@ -124,7 +126,7 @@ input:focus::placeholder {
   color: var(--labels);
   font-style: normal;
   font-weight: normal;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   position: absolute;
   right: 0;
   transform: translate(-8px, 33px);
@@ -136,7 +138,7 @@ input:focus::placeholder {
   color: var(--labels);
   font-style: normal;
   font-weight: normal;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   position: absolute;
   left: 0;
   transform: translate(8px, 34px);

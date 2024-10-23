@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../../assets/mixin.scss';
+
 .insightContainer {
   width: 100%;
   max-width: 1024px;
@@ -33,7 +35,7 @@
 
 .titleTextContainer {
   margin: 0 auto 16px auto;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   font-size: 20px;
   font-style: normal;
   font-weight: 400;

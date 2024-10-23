@@ -229,6 +229,7 @@
     animation-name: menu-collapse;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
+    overflow: hidden;
 
     .listItem {
       padding-right: 16px;
@@ -243,6 +244,7 @@
     animation-name: menu-expand;
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
+    overflow: visible;
   }
 
   &.compactContainer, &.expandedContainer {
@@ -306,6 +308,10 @@
       background-color: var(--teal600);
       border-top: 1px solid var(--teal700);
     }
+  }
+
+  &:hover span {
+    overflow: visible;
   }
 }
 
@@ -431,11 +437,11 @@
   margin: 0;
   color: var(--teal700);
   margin-left: 8px;
-  overflow: hidden;
-  white-space: nowrap;
 
   span {
     font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 

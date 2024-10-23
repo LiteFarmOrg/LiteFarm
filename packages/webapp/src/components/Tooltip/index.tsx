@@ -31,7 +31,7 @@ const useStyles = ({ arrowOffset = 0, isChildrenIcon = false }) =>
       color: colors.grey900,
       fontStyle: 'normal',
       fontWeight: 'normal',
-      fontFamily: 'Open Sans, SansSerif, serif',
+      fontFamily: 'Open Sans, Manjari, SansSerif, serif',
     },
     childrenContainer: {
       userSelect: 'none',

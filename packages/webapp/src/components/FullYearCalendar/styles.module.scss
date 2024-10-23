@@ -1,3 +1,5 @@
+@import '../../../assets/mixin.scss';
+
 .stagesBox {
   background: #FAFAFD;
   border: 1px solid #D4DAE3;
@@ -27,7 +29,7 @@
 }
 
 .colorBoxFont {
-  font-family: Open Sans;
+  @include fontFamily();
   font-size: 11px;
   font-style: normal;
   font-weight: 400;
@@ -37,7 +39,7 @@
 }
 
 .targetDateFont {
-  font-family: Open Sans;
+  @include fontFamily();
   font-size: 16px;
   font-style: normal;
   font-weight: 900;

@@ -1,6 +1,8 @@
+@import '../../../assets/mixin.scss';
+
 .otherBrowserMessageTop {
   text-align: left;
-  font-family: Open Sans;
+  @include fontFamily();
   font-style: normal;
   font-weight: normal;
   font-size: 14px;

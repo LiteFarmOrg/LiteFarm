@@ -1,3 +1,5 @@
+@import '../../../assets/mixin.scss';
+
 .home .lander {
   text-align: center;
   color: var(--primary);
@@ -8,7 +10,7 @@
 .description {
   padding-top: 10px;
   color: #282b36;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
 }
 
 .home .lander h1 {

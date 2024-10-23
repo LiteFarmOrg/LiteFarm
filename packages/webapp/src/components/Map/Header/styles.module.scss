@@ -1,3 +1,5 @@
+@import '../../../assets/mixin.scss';
+
 .container {
   display: flex;
   height: var(--global-map-header-height);
@@ -10,7 +12,7 @@
 }
 
 .headerText {
-  font-family: Open Sans;
+  @include fontFamily();
   color: var(--grey900);
   font-style: normal;
   font-size: 14px;

@@ -1,3 +1,5 @@
+@import '../../../assets/mixin.scss';
+
 .textArea {
   border: 1px solid var(--grey400);
   box-sizing: border-box;
@@ -10,7 +12,7 @@
   padding-bottom: 11px;
   color: var(--fontColor);
   background-color: var(--bgInputListTile);
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
 }
 
 .container {

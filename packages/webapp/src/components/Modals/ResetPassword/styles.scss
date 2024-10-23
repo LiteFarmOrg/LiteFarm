@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../../assets/mixin.scss';
+
 .container {
   display: flex;
   align-items: center;
@@ -30,7 +32,7 @@
 }
 
 .title {
-  font-family: Open Sans;
+  @include fontFamily();
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
@@ -40,7 +42,7 @@
 }
 
 .descriptionTop {
-  font-family: Open Sans;
+  @include fontFamily();
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
@@ -53,7 +55,7 @@
 }
 
 .descriptionBottom {
-  font-family: Open Sans;
+  @include fontFamily();
   font-style: normal;
   font-weight: normal;
   font-size: 20px;

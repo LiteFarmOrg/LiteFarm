@@ -1,3 +1,5 @@
+@import '../../../assets/mixin.scss';
+
 .container {
   display: flex;
   order: 3;
@@ -34,7 +36,7 @@
   color: var(--teal700);
   font-weight: 600;
   text-align: left;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   font-size: 16px;
   line-height: 20px;
   margin-bottom: 8px;
@@ -43,13 +45,13 @@
 .spotlightText {
   margin-bottom: 8px;
   text-align: left;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   font-size: 14px;
   line-height: 20px;
 }
 
 .spotlightButton {
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   font-weight: 600;
   color: var(--grey900);
 }

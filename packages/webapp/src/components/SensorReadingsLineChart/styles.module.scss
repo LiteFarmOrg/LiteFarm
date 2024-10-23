@@ -1,3 +1,5 @@
+@import '../../../assets/mixin.scss';
+
 .lineChartWrapper {
   max-height: 650px;
 }
@@ -6,7 +8,7 @@
   font-weight: normal;
   font-size: 24px;
   line-height: 24px;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   text-transform: capitalize;
 }
 
@@ -16,7 +18,7 @@
   color: var(--grey600);
   font-size: 18px;
   line-height: 24px;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin-block: 8px;
 }
 
@@ -48,7 +50,7 @@
   color: var(--grey600);
   font-size: 14px;
   line-height: 24px;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   padding-top: 8px;
 }
 

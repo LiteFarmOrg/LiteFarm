@@ -13,9 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../../assets/mixin.scss';
+
 .reportButton {
   font-size: 14px;
-  font-family: 'Open Sans', ' SansSerif', serif;
+  @include fontFamily();
   color: var(--teal700);
   margin: 0 0 16px 8px;
   display: flex;

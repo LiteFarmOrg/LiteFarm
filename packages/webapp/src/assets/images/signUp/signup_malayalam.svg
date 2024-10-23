@@ -51,7 +51,7 @@
       }
 
       .cls-6 {
-        font-family: OpenSans-Semibold, 'Open Sans';
+        font-family: 'Manjari',
         font-weight: 600;
       }
 
@@ -65,7 +65,7 @@
       }
 
       .cls-7 {
-        font-family: ArialUnicodeMS, 'Arial Unicode MS';
+        font-family: 'Manjari',
       }
 
       .cls-8, .cls-16 {

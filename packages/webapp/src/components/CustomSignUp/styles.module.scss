@@ -13,6 +13,8 @@
 //  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
 //  */
 
+@import '../../assets/mixin.scss';
+
 .home .lander {
   color: var(--primary);
   display: flex;
@@ -45,7 +47,7 @@
 
 .otherBrowserMessageTop {
   padding-top: 70px;
-  font-family: Open Sans;
+  @include fontFamily();
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
@@ -60,7 +62,7 @@
 .lineBreak {
   padding-top: 30px;
   color: #282b36;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -70,7 +72,7 @@
 .continueButton {
   padding-top: 30px;
   color: #282b36;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin: auto;
   display: flex;
   flex-direction: column;

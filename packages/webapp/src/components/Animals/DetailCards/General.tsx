@@ -128,7 +128,17 @@ const GeneralDetails = ({
         },
       );
 
-      setValue(`${namePrefix}${DetailsFields.USE}`, animalUses);
+      const mapUses = (relationships: { use_id: number }[]) =>
+        relationships?.map(({ use_id }) =>
+          useOptionsForType?.uses.find(({ value }) => value === use_id),
+        );
+
+      setValue(
+        `${namePrefix}${DetailsFields.USE}`,
+        mapUses(
+          defaultValues?.animal_use_relationships || defaultValues?.animal_batch_use_relationships,
+        ),
+      );
       setUseOptionsState(useOptionsForType?.uses || []);
     }
   }, [defaultValues]);

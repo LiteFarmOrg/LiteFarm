@@ -1,4 +1,4 @@
-@import '../../../assets/mixin.scss';
+@import '../../assets/mixin.scss';
 
 .pageWrapper {
   display: flex;
@@ -49,17 +49,17 @@
   bufferZoneColour: #ffb800; // Yellow-700
   fenceColour: #66738a; // grey-600
   gardenColour: #66738a;
-  barnSelectedColour: #FFE8E8; // red-200
-  bufferZoneSelectedColour: #F8ECD0; // yellow-100
-  ceremonialSiteSelectedColour: #E3F8EC; // green-100
+  barnSelectedColour: #ffe8e8; // red-200
+  bufferZoneSelectedColour: #f8ecd0; // yellow-100
+  ceremonialSiteSelectedColour: #e3f8ec; // green-100
   // farmBoundSelectedColour: ;
-  fieldSelectedColour: #FFF6ED; // brown-200
-  gardenSelectedColour: #F3F6FB; //grey-200
-  greenhouseSelectedColour: #E3F8EC; // green-100
-  naturalAreaSelectedColour: #F8ECD0; // yellow-100
-  residenceSelectedColour: #F1FBF9; // teal-100
-  surfaceWaterSelectedColour: #E9F3FF; // blue-200
-  watercourseSelectedColour: #E9F3FF; // blue-200
+  fieldSelectedColour: #fff6ed; // brown-200
+  gardenSelectedColour: #f3f6fb; //grey-200
+  greenhouseSelectedColour: #e3f8ec; // green-100
+  naturalAreaSelectedColour: #f8ecd0; // yellow-100
+  residenceSelectedColour: #f1fbf9; // teal-100
+  surfaceWaterSelectedColour: #e9f3ff; // blue-200
+  watercourseSelectedColour: #e9f3ff; // blue-200
 }
 
 .drawingBar {
@@ -87,7 +87,6 @@
   justify-content: center;
   align-items: center;
 }
-
 
 .selectedClusterIcon {
   color: white;

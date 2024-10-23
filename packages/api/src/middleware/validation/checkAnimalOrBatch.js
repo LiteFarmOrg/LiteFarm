@@ -171,77 +171,79 @@ const checkAnimalBreed = async (
   } = animalOrBatch;
   const breedKeyOptions = ['default_breed_id', 'custom_breed_id', 'breed_name'];
   const typeKeyOptions = ['default_type_id', 'custom_type_id', 'type_name'];
-
-  // Check if breed is present
-  if (
-    (creating && someExists(breedKeyOptions, animalOrBatch)) ||
-    someTruthy([default_breed_id, custom_breed_id, breed_name])
-  ) {
-    checkExactlyOneIsProvided(
-      [default_breed_id, custom_breed_id, breed_name],
-      'default_breed_id, custom_breed_id, or breed_name',
-    );
-  }
-  // Check if breed is present
-  if (!creating && someExists(breedKeyOptions, animalOrBatch)) {
-    // Overwrite with null in db if editing
-    setFalsyValuesToNull(breedKeyOptions, animalOrBatch);
-  }
-
-  if (
-    someExists(breedKeyOptions, animalOrBatch) &&
-    !someTruthy([default_breed_id, custom_breed_id, breed_name])
-  ) {
-    // do nothing if nulling breed
-  } else {
-    // Check if default breed or default type is present
+  // If neither breed or type is specified, skip checks
+  if (someExists(breedKeyOptions, animalOrBatch) || someExists(typeKeyOptions, animalOrBatch)) {
+    // Check if breed is present
     if (
-      (someExists(breedKeyOptions, animalOrBatch) && default_breed_id) ||
-      (someExists(typeKeyOptions, animalOrBatch) && default_type_id)
+      (creating && someExists(breedKeyOptions, animalOrBatch)) ||
+      someTruthy([default_breed_id, custom_breed_id, breed_name])
     ) {
-      await checkDefaultBreedMatchesType(
-        preexistingAnimalOrBatch,
-        default_breed_id,
-        default_type_id,
+      checkExactlyOneIsProvided(
+        [default_breed_id, custom_breed_id, breed_name],
+        'default_breed_id, custom_breed_id, or breed_name',
       );
     }
-    // Check if custom breed or custom type is present
+    // Check if breed is present
+    if (!creating && someExists(breedKeyOptions, animalOrBatch)) {
+      // Overwrite with null in db if editing
+      setFalsyValuesToNull(breedKeyOptions, animalOrBatch);
+    }
+
     if (
-      (someExists(breedKeyOptions, animalOrBatch) && custom_breed_id && !type_name) ||
-      (someExists(typeKeyOptions, animalOrBatch) &&
-        (default_type_id || custom_type_id) &&
-        !breed_name)
+      someExists(breedKeyOptions, animalOrBatch) &&
+      !someTruthy([default_breed_id, custom_breed_id, breed_name])
     ) {
-      let customBreed;
-      // Find customBreed if exists
-      if (someExists(breedKeyOptions, animalOrBatch) && custom_breed_id) {
-        checkIdIsNumber(custom_breed_id);
-        customBreed = await CustomAnimalBreedModel.query()
-          .whereNotDeleted()
-          .findById(custom_breed_id);
-        if (!customBreed) {
-          throw customError('Custom breed does not exist');
-        }
-      } else if (preexistingAnimalOrBatch?.custom_breed_id) {
-        checkIdIsNumber(preexistingAnimalOrBatch?.custom_breed_id);
-        customBreed = await CustomAnimalBreedModel.query()
-          .whereNotDeleted()
-          .findById(preexistingAnimalOrBatch.custom_breed_id);
-        if (!customBreed) {
-          // This should not be possible
-          throw customError('Custom breed does not exist');
-        }
-      }
-      // Check custom breed if exists
-      if (customBreed) {
-        await checkRecordBelongsToFarm(customBreed, farm_id, 'custom breed');
-        checkCustomBreedMatchesType(
-          animalOrBatch,
+      // do nothing if nulling breed
+    } else {
+      // Check if default breed or default type is present
+      if (
+        (someExists(breedKeyOptions, animalOrBatch) && default_breed_id) ||
+        (someExists(typeKeyOptions, animalOrBatch) && default_type_id)
+      ) {
+        await checkDefaultBreedMatchesType(
           preexistingAnimalOrBatch,
-          customBreed,
+          default_breed_id,
           default_type_id,
-          custom_type_id,
         );
+      }
+      // Check if custom breed or custom type is present
+      if (
+        (someExists(breedKeyOptions, animalOrBatch) && custom_breed_id && !type_name) ||
+        (someExists(typeKeyOptions, animalOrBatch) &&
+          (default_type_id || custom_type_id) &&
+          !breed_name)
+      ) {
+        let customBreed;
+        // Find customBreed if exists
+        if (someExists(breedKeyOptions, animalOrBatch) && custom_breed_id) {
+          checkIdIsNumber(custom_breed_id);
+          customBreed = await CustomAnimalBreedModel.query()
+            .whereNotDeleted()
+            .findById(custom_breed_id);
+          if (!customBreed) {
+            throw customError('Custom breed does not exist');
+          }
+        } else if (preexistingAnimalOrBatch?.custom_breed_id) {
+          checkIdIsNumber(preexistingAnimalOrBatch?.custom_breed_id);
+          customBreed = await CustomAnimalBreedModel.query()
+            .whereNotDeleted()
+            .findById(preexistingAnimalOrBatch.custom_breed_id);
+          if (!customBreed) {
+            // This should not be possible
+            throw customError('Custom breed does not exist');
+          }
+        }
+        // Check custom breed if exists
+        if (customBreed) {
+          await checkRecordBelongsToFarm(customBreed, farm_id, 'custom breed');
+          checkCustomBreedMatchesType(
+            animalOrBatch,
+            preexistingAnimalOrBatch,
+            customBreed,
+            default_type_id,
+            custom_type_id,
+          );
+        }
       }
     }
   }

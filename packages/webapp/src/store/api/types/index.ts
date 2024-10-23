@@ -20,6 +20,7 @@ import { OrganicStatus } from '../../../types';
 export type Result = Array<{ [key: string]: any }>;
 
 export interface Animal {
+  animal_use_relationships?: { animal_id: number; use_id: number; other_use: null | string }[];
   birth_date: string | null;
   brought_in_date: string | null;
   custom_breed_id: number | null;
@@ -51,6 +52,11 @@ export interface Animal {
 }
 
 export interface AnimalBatch {
+  animal_batch_use_relationships?: {
+    animal_id: number;
+    use_id: number;
+    other_use: null | string;
+  }[];
   birth_date: string | null;
   brought_in_date: string | null;
   count: number;

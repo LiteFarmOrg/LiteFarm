@@ -134,6 +134,14 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     },
   ];
 
+  const otherAnimalUse =
+    selectedAnimal?.animal_use_relationships?.find(
+      (relationship) => relationship?.other_use !== null,
+    ) ||
+    selectedBatch?.animal_batch_use_relationships?.find(
+      (relationship) => relationship?.other_use !== null,
+    );
+
   const defaultFormValues = {
     ...(selectedAnimal
       ? {
@@ -142,6 +150,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
           birth_date: generateFormDate(selectedAnimal.birth_date),
           brought_in_date: generateFormDate(selectedAnimal.brought_in_date),
           weaning_date: generateFormDate(selectedAnimal.weaning_date),
+          other_use: otherAnimalUse ? otherAnimalUse.other_use : null,
         }
       : {}),
     ...(selectedBatch
@@ -150,6 +159,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
           animal_or_batch: AnimalOrBatchKeys.BATCH,
           birth_date: generateFormDate(selectedBatch.birth_date),
           brought_in_date: generateFormDate(selectedBatch.brought_in_date),
+          other_use: otherAnimalUse ? otherAnimalUse.other_use : null,
         }
       : {}),
   };

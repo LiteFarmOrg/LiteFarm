@@ -83,8 +83,8 @@ const checkAnimalType = async (animalOrBatch, farm_id, creating = true) => {
       'default_type_id, custom_type_id, or type_name',
     );
   }
+  // Overwrite with null in db if editing, post does not accept nulled values in oneOf schemas
   if (!creating && someExists(typeKeyOptions, animalOrBatch)) {
-    // Overwrite with null in db if editing
     setFalsyValuesToNull(typeKeyOptions, animalOrBatch);
   }
   if (custom_type_id) {
@@ -180,7 +180,7 @@ const checkAnimalBreed = async (
         'default_breed_id, custom_breed_id, or breed_name',
       );
     }
-    // Overwrite all others with null in db if editing
+    // Overwrite all others with null in db if editing, post does not accept nulled values in oneOf schemas
     if (!creating && someExists(breedKeyOptions, animalOrBatch)) {
       setFalsyValuesToNull(breedKeyOptions, animalOrBatch);
     }

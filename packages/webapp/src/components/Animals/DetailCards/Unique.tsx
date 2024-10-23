@@ -135,6 +135,7 @@ const UniqueDetails = ({
             type="text"
             hookFormRegister={register(`${namePrefix}${DetailsFields.TAG_TYPE_INFO}`, {
               maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+              shouldUnregister: true,
             })}
             trigger={trigger}
             optional

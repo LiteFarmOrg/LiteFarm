@@ -68,7 +68,7 @@ const UniqueDetails = ({
         { shouldValidate: true },
       );
     }
-  }, []);
+  }, [defaultValues]);
 
   return (
     <div className={styles.sectionWrapper}>

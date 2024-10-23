@@ -87,7 +87,7 @@ const OtherDetails = ({
         { shouldValidate: true },
       );
     }
-  }, []);
+  }, [defaultValues]);
 
   return (
     <div className={styles.sectionWrapper}>

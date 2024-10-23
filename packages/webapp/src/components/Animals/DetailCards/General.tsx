@@ -131,7 +131,7 @@ const GeneralDetails = ({
       setValue(`${namePrefix}${DetailsFields.USE}`, animalUses);
       setUseOptionsState(useOptionsForType?.uses || []);
     }
-  }, []);
+  }, [defaultValues]);
 
   const watchBatchCount = watch(`${namePrefix}${DetailsFields.COUNT}`) || 0;
   const watchedUse = watch(`${namePrefix}${DetailsFields.USE}`) as Option[DetailsFields.USE][];

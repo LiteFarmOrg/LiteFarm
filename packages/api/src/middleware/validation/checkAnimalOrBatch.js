@@ -140,7 +140,7 @@ const checkCustomBreedMatchesType = (
   let customTypeId = custom_type_id;
   const typeKeyOptions = ['default_type_id', 'custom_type_id', 'type_name'];
 
-  // If not editing type, check record type
+  // If not editing type, get record type
   if (!someExists(typeKeyOptions, animalOrBatch) && preexistingAnimalOrBatch) {
     defaultTypeId = preexistingAnimalOrBatch.default_type_id;
     customTypeId = preexistingAnimalOrBatch.custom_type_id;
@@ -194,26 +194,19 @@ const checkAnimalBreed = async (
     // Do checks on breed unless removing breed from existing record or
     if (isNotNullingAllBreedOptions || isCreatingWithBreed) {
       // Check if default breed or default type is present
-      if (
-        (someExists(breedKeyOptions, animalOrBatch) && default_breed_id) ||
-        (someExists(typeKeyOptions, animalOrBatch) && default_type_id)
-      ) {
+      if (default_breed_id || default_type_id) {
         await checkDefaultBreedMatchesType(
           preexistingAnimalOrBatch,
           default_breed_id,
           default_type_id,
         );
       }
-      // Check if custom breed or custom type is present
-      if (
-        (someExists(breedKeyOptions, animalOrBatch) && custom_breed_id && !type_name) ||
-        (someExists(typeKeyOptions, animalOrBatch) &&
-          (default_type_id || custom_type_id) &&
-          !breed_name)
-      ) {
+      // Check if custom breed or new type is present
+      // Skip checks in some cases where new custom type or breed is added
+      if ((custom_breed_id && !type_name) || ((default_type_id || custom_type_id) && !breed_name)) {
         let customBreed;
         // Find customBreed if exists
-        if (someExists(breedKeyOptions, animalOrBatch) && custom_breed_id) {
+        if (custom_breed_id) {
           checkIdIsNumber(custom_breed_id);
           customBreed = await CustomAnimalBreedModel.query()
             .whereNotDeleted()
@@ -227,7 +220,7 @@ const checkAnimalBreed = async (
             .whereNotDeleted()
             .findById(preexistingAnimalOrBatch.custom_breed_id);
           if (!customBreed) {
-            // This should not be possible
+            // This should not be possible unless concurrently deleted in between record get and this breed id check
             throw customError('Custom breed does not exist');
           }
         }

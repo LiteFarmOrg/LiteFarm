@@ -17,13 +17,14 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { pick as _pick } from 'lodash-es';
 import styles from './styles.module.scss';
 import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import AnimalSingleViewHeader from '../../../components/Animals/AnimalSingleViewHeader';
-import { generateFormDate } from './utils';
+import { generateFormDate, getChangedFields, addNullsToClearedFields } from './utils';
 import {
   useGetAnimalsQuery,
   useGetAnimalBatchesQuery,
@@ -87,20 +88,39 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
 
   const { data: orgins = [] } = useGetAnimalOriginsQuery();
 
-  const onSave = async (data: any, onGoForward: () => void) => {
+  const onSave = async (
+    data: any,
+    onGoForward: () => void,
+    _setFormResultData: () => void,
+    dirtyFields: any,
+  ) => {
     const broughtInId = orgins.find((origin) => origin.key === 'BROUGHT_IN')?.id;
 
     const formattedAnimals: Partial<Animal>[] = [];
     const formattedBatches: Partial<AnimalBatch>[] = [];
 
+    const changedFields = getChangedFields(dirtyFields);
+
     if (data.animal_or_batch === AnimalOrBatchKeys.ANIMAL) {
+      const formattedAnimal = _pick(
+        formatAnimalDetailsToDBStructure(data, broughtInId),
+        changedFields,
+      );
+      const animalWithNullFields = addNullsToClearedFields(formattedAnimal, dirtyFields);
+
       formattedAnimals.push({
-        ...formatAnimalDetailsToDBStructure(data, broughtInId),
-        id: data.id, // wasn't yet present on Add flow
+        ...animalWithNullFields,
+        id: data.id,
       });
     } else {
+      const formattedBatch = _pick(
+        formatBatchDetailsToDBStructure(data, broughtInId),
+        changedFields,
+      );
+      const batchWithNullFields = addNullsToClearedFields(formattedBatch, dirtyFields);
+
       formattedBatches.push({
-        ...formatBatchDetailsToDBStructure(data, broughtInId),
+        ...batchWithNullFields,
         id: data.id,
       });
     }

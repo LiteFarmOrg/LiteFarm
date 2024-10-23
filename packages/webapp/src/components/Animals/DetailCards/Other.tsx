@@ -60,7 +60,7 @@ const OtherDetails = ({
   };
 
   const handleRemoveImage = () => {
-    resetField(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`);
+    setValue(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`, '', { shouldDirty: true });
   };
 
   const onFileUpload = getOnFileUpload(imageUploadTargetRoute, handleSelectImage);

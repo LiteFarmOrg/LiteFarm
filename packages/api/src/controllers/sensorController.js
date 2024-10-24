@@ -43,11 +43,17 @@ import knex from '../util/knex.js';
 const getSensorTranslations = async (language) => {
   // Remove country identifier from language preference
   const parsedLanguage = language.includes('-') ? language.split('-')[0] : language;
-  let translations = await import(`../../../shared/locales/${parsedLanguage}/sensorCSV.json`, {
-    assert: { type: 'json' },
-  });
-  // Default to english in case where user language not supported
-  if (!translations) {
+  let translations;
+  try {
+    translations = await import(`../../../shared/locales/${parsedLanguage}/sensorCSV.json`, {
+      assert: { type: 'json' },
+    });
+    // Default to english in case where user language not supported
+    if (!translations) {
+      throw 'Translations not found';
+    }
+  } catch (error) {
+    console.log(error);
     translations = await import(`../../../shared/locales/en/sensorCSV.json`, {
       assert: { type: 'json' },
     });

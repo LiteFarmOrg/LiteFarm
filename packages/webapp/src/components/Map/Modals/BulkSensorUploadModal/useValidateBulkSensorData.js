@@ -23,11 +23,16 @@ import { getLanguageFromLocalStorage } from '../../../../util/getLanguageFromLoc
 import { languageCodes } from '../../../../hooks/useLanguageOptions';
 
 const getSensorTranslations = async (language) => {
-  // return english if language not supported
-  if (!languageCodes.includes(language)) {
+  try {
+    // return english if language not supported
+    if (!languageCodes.includes(language)) {
+      throw `LiteFarm sensors does not currently support language ${language}`;
+    }
+    return await import(`../../../../../../shared/locales/${language}/sensorCSV.json`);
+  } catch (error) {
+    console.log(error);
     return await import('../../../../../../shared/locales/en/sensorCSV.json');
   }
-  return await import(`../../../../../../shared/locales/${language}/sensorCSV.json`);
 };
 
 export function useValidateBulkSensorData(onUpload, t) {

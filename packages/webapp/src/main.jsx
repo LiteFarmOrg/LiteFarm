@@ -80,14 +80,14 @@ import { persistor, store } from './store/store';
 import { GlobalScss } from './components/GlobalScss';
 import irrigationTaskTypesSaga from './containers/Task/IrrigationTaskTypes/saga';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-
+import './polyfillDateTimeFormat';
 const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID;
 
 if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    release: '3.6.7',
+    release: '3.6.8',
     // Set tracesSampleRate to 1.0 to capture 100%
     // of transactions for performance monitoring.
     // We recommend adjusting this value in production

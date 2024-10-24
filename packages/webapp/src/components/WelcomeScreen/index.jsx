@@ -7,6 +7,7 @@ import { ReactComponent as SignupFrench } from '../../assets/images/signUp/signu
 import { ReactComponent as SignupGerman } from '../../assets/images/signUp/signup_german.svg';
 import { ReactComponent as SignupHindi } from '../../assets/images/signUp/signup_hindi.svg';
 import { ReactComponent as SignupPunjabi } from '../../assets/images/signUp/signup_punjabi.svg';
+import { ReactComponent as SignupMalayalam } from '../../assets/images/signUp/signup_malayalam.svg';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
@@ -19,8 +20,9 @@ export default function PureWelcomeScreen({ onClick }) {
     pt: <SignupPortuguese />,
     fr: <SignupFrench />,
     de: <SignupGerman />,
-    // hi: <SignupHindi />,
-    // pa: <SignupPunjabi />,
+    hi: <SignupHindi />,
+    pa: <SignupPunjabi />,
+    ml: <SignupMalayalam />,
   };
   const language = getLanguageFromLocalStorage();
   return (

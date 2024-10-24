@@ -57,7 +57,7 @@
   justify-content: center;
   gap: 2px;
 
-  font-family: Open Sans;
+  @include fontFamily();
   line-height: 24px;
   font-style: normal;
 }

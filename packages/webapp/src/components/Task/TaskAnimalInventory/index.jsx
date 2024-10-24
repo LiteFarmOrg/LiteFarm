@@ -86,6 +86,7 @@ export default function PureTaskAnimalInventory({
         onSelect={onSelect}
         showActionMenu={false}
         showKPI={false}
+        showFloaterButton={false}
         showLinks={false}
         history={history}
       />

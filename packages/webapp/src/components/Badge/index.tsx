@@ -17,10 +17,11 @@ import React, { useState } from 'react';
 import { Tooltip, ClickAwayListener, IconButton, tooltipClasses } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import styles from './styles.module.scss';
+import { Trans } from 'react-i18next';
 
 // Define the Props
 interface BadgeProps {
-  content?: string;
+  content?: string | React.ReactElement;
   title: string;
   showIcon?: boolean;
   style?: React.CSSProperties;
@@ -54,8 +55,9 @@ const Badge: React.FC<BadgeProps> = ({ content = '', title, showIcon = true, sty
       onMouseEnter={() => handleTooltipContentHover(true)}
       onMouseLeave={() => handleTooltipContentHover(false)}
       className={styles.tooltip}
-      dangerouslySetInnerHTML={{ __html: content }}
-    />
+    >
+      {content}
+    </div>
   );
   const slotProps = {
     tooltip: {

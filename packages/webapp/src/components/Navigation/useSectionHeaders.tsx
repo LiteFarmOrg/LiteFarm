@@ -19,7 +19,7 @@ import {
   ANIMALS_LOCATION_URL,
   ADD_ANIMALS_URL,
 } from '../../util/siteMapConstants';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import type { Pathname } from 'history';
 import Badge from '../Badge';
 import React from 'react';
@@ -50,7 +50,7 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
       <Badge
         style={{ marginLeft: '10px' }}
         title={t('BADGE.BETA.TITLE')}
-        content={t('BADGE.BETA.CONTENT')}
+        content={<Trans i18nKey={'BADGE.BETA.CONTENT'} components={{ a: <a href="#" /> }} />}
       />
     </>
   );

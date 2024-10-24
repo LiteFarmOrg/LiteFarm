@@ -2063,7 +2063,7 @@
   "BADGE": {
     "BETA": {
       "TITLE": "Beta",
-      "CONTENT": "Beta version: A pre-release version for testing and feedback. We're excited to bring you a sneak peek of our new animals management feature, now in beta! As we embark on this beta journey together, your insights are more valuable than ever. While we've worked hard to bring you this feature, the road to perfection is paved with feedback - and sometimes, a few bumps! If you encounter any quirks or bugs, please let us know. Your reports are crucial in helping us refine and improve. Thank you for your patience and for being an integral part of our community's growth.You can learn more about beta <a href=\"#\">here</a>"
+      "CONTENT": "Beta version: A pre-release version for testing and feedback. We're excited to bring you a sneak peek of our new animals management feature, now in beta! As we embark on this beta journey together, your insights are more valuable than ever. While we've worked hard to bring you this feature, the road to perfection is paved with feedback - and sometimes, a few bumps! If you encounter any quirks or bugs, please let us know. Your reports are crucial in helping us refine and improve. Thank you for your patience and for being an integral part of our community's growth. You can learn more about beta <a>here</a>"
     }
   }
 }

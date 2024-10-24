@@ -14,7 +14,7 @@
  */
 
 import { useMemo } from 'react';
-import { useTranslation, TFunction } from 'react-i18next';
+import { useTranslation, TFunction, Trans } from 'react-i18next';
 import {
   useGetDefaultAnimalTypesQuery,
   useGetCustomAnimalTypesQuery,
@@ -80,7 +80,7 @@ function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
       <Badge
         style={{ marginRight: '8px' }}
         title={t('BADGE.BETA.TITLE')}
-        content={t('BADGE.BETA.CONTENT')}
+        content={<Trans i18nKey={'BADGE.BETA.CONTENT'} components={{ a: <a href="#" /> }} />}
       />
       {t('SECTION_HEADER.ANIMALS_INVENTORY')}
     </>

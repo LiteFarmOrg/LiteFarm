@@ -190,6 +190,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
           brought_in_date: generateFormDate(selectedBatch.brought_in_date),
           other_use: otherAnimalUse ? otherAnimalUse.other_use : null,
           sex_details: transformedSexDetails,
+          batch_name: selectedBatch.name,
         }
       : {}),
   };

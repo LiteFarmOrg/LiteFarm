@@ -1,3 +1,5 @@
+@import '@assets/mixin.scss';
+
 .card {
   display: flex;
   flex-direction: row;
@@ -25,7 +27,7 @@
   font-size: 16px;
   line-height: 24px;
   font-style: normal;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin: 0;
   font-weight: 600;
   margin-bottom: 4px;

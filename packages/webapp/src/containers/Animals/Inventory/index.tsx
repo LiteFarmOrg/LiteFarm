@@ -254,6 +254,7 @@ function AnimalInventory({
         isLoading={isLoading}
         history={history}
         onRowClick={onRowClick}
+        showActionMenu={showActionMenu}
         showFloaterButton={showFloaterButton}
       />
       {selectedInventoryIds.length && showActionMenu ? (

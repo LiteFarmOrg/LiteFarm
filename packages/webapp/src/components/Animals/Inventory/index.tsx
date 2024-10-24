@@ -60,6 +60,7 @@ const PureAnimalInventory = ({
   isLoading,
   containerHeight,
   history,
+  showActionMenu,
   showFloaterButton,
 }: {
   filteredInventory: AnimalInventory[];
@@ -77,6 +78,7 @@ const PureAnimalInventory = ({
   isLoading: boolean;
   containerHeight?: number;
   history: History;
+  showActionMenu: boolean;
   showFloaterButton: boolean;
 }) => {
   const { t } = useTranslation();
@@ -89,6 +91,7 @@ const PureAnimalInventory = ({
   const hasSearchResults = filteredInventory.length !== 0;
 
   const tableMaxHeight = !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
+  const tableSpacerRowHeight = showActionMenu ? (isDesktop ? 96 : 120) : 0;
 
   return (
     <>
@@ -141,7 +144,7 @@ const PureAnimalInventory = ({
             selectedIds={selectedIds}
             stickyHeader={isDesktop}
             maxHeight={tableMaxHeight}
-            spacerRowHeight={isDesktop ? 96 : 120}
+            spacerRowHeight={tableSpacerRowHeight}
             headerClass={styles.headerClass}
             onRowClick={onRowClick}
           />

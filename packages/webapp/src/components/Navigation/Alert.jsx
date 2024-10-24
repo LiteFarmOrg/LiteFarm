@@ -13,7 +13,7 @@ export default function PureAlert({ alertCount }) {
       height: '12px',
     },
     alertCount: {
-      fontFamily: '"Open Sans"," SansSerif", serif',
+      fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',
       fontWeight: 700,
       fontSize: '8px',
       textAlign: 'center',

@@ -25,5 +25,6 @@
   "CLEANING_TASK": "ਸਾਫ਼",
   "CLEANING_TASK_LOWER": "ਸਾਫ਼",
   "SOIL_AMENDMENT_TASK": "ਮਿੱਟੀ ਸੋਧ",
-  "SOIL_AMENDMENT_TASK_LOWER": "ਮਿੱਟੀ ਸੋਧ"
+  "SOIL_AMENDMENT_TASK_LOWER": "ਮਿੱਟੀ ਸੋਧ",
+  "MOVEMENT_TASK": "MISSING"
 }

@@ -13,15 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import baseModel from './baseModel.js';
+import Model from './baseFormatModel.js';
 
-class AnimalUse extends baseModel {
+class AnimalTypeUseRelationshipModel extends Model {
   static get tableName() {
-    return 'animal_use';
+    return 'animal_type_use_relationship';
   }
 
   static get idColumn() {
-    return 'id';
+    return ['default_type_id', 'animal_use_id'];
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -30,14 +30,14 @@ class AnimalUse extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['key'],
+      required: ['default_type_id', 'animal_use_id'],
       properties: {
-        id: { type: 'integer' },
-        key: { type: 'string' },
+        default_type_id: { type: 'integer' },
+        animal_use_id: { type: 'integer' },
       },
       additionalProperties: false,
     };
   }
 }
 
-export default AnimalUse;
+export default AnimalTypeUseRelationshipModel;

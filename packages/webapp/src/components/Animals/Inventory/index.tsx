@@ -68,7 +68,7 @@ const PureAnimalInventory = ({
   searchProps: SearchProps;
   onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
   handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
-  onRowClick: (event: ChangeEvent, row: AnimalInventory) => void;
+  onRowClick: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
   selectedIds: string[];
   totalInventoryCount: number;
   isFilterActive: boolean;

@@ -44,6 +44,7 @@ interface AnimalInventoryProps {
   onSelect?: (newIds: string[]) => void;
   showActionMenu?: boolean;
   showKPI?: boolean;
+  showLinks?: boolean;
   isCompactSideMenu: boolean;
   containerHeight: number;
   history: History;
@@ -62,6 +63,7 @@ function AnimalInventory({
   onSelect,
   showActionMenu = true,
   showKPI = true,
+  showLinks = true,
   isCompactSideMenu,
   history,
 }: AnimalInventoryProps) {
@@ -133,7 +135,7 @@ function AnimalInventory({
         sortable: false,
       },
       {
-        id: 'path',
+        id: showLinks ? 'path' : null,
         label: '',
         format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
         columnProps: {
@@ -144,10 +146,6 @@ function AnimalInventory({
     ],
     [t, isDesktop],
   );
-
-  const onRowClick = (_event: ChangeEvent, row: AnimalInventory) => {
-    history.push(row.path);
-  };
 
   const makeAnimalsSearchableString = (animal: AnimalInventory) => {
     return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
@@ -205,6 +203,10 @@ function AnimalInventory({
     } else {
       clearAllSelectedVisibleInventoryItems();
     }
+  };
+
+  const onRowClick = (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => {
+    showLinks ? history.push(row.path) : onSelectInventory(event, row);
   };
 
   const iconActions: iconAction[] = [

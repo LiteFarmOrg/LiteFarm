@@ -57,7 +57,7 @@
   padding: 32px;
 
   p {
-    font-family: 'Open Sans';
+    @include fontFamily();
     line-height: normal;
     font-style: normal;
     font-size: 18px;

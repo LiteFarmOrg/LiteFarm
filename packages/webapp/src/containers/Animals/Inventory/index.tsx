@@ -37,7 +37,7 @@ import {
   isFilterCurrentlyActiveSelector,
   resetAnimalsFilter,
 } from '../../../containers/filterSlice';
-import { userFarmSelector } from '../../userFarmSlice';
+import { isAdminSelector } from '../../userFarmSlice';
 import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 
@@ -65,8 +65,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
-  const role = useSelector(userFarmSelector);
-  const isWorker = 'role_id' in role ? role.role_id === 3 : false;
+  const isAdmin = useSelector(isAdminSelector);
 
   const zIndexBase = theme.zIndex.drawer;
 
@@ -243,11 +242,11 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
         isFilterActive={isFilterActive}
         clearFilters={clearFilters}
         isLoading={isLoading}
-        isWorker={isWorker}
+        isWorker={!isAdmin}
         history={history}
         onRowClick={onRowClick}
       />
-      {!isWorker && selectedInventoryIds.length ? (
+      {isAdmin && selectedInventoryIds.length ? (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
           <ActionMenu
             headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}

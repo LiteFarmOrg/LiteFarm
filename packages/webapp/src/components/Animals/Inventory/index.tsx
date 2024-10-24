@@ -60,6 +60,7 @@ const PureAnimalInventory = ({
   isLoading,
   containerHeight,
   history,
+  showFloaterButton,
 }: {
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
@@ -76,6 +77,7 @@ const PureAnimalInventory = ({
   isLoading: boolean;
   containerHeight?: number;
   history: History;
+  showFloaterButton: boolean;
 }) => {
   const { t } = useTranslation();
 
@@ -151,15 +153,17 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
-      <FloatingButtonMenu
-        type={'add'}
-        options={[
-          {
-            label: t('ADD_ANIMAL.ADD_ANIMALS'),
-            onClick: () => history.push(ADD_ANIMALS_URL),
-          },
-        ]}
-      />
+      {showFloaterButton && (
+        <FloatingButtonMenu
+          type={'add'}
+          options={[
+            {
+              label: t('ADD_ANIMAL.ADD_ANIMALS'),
+              onClick: () => history.push(ADD_ANIMALS_URL),
+            },
+          ]}
+        />
+      )}
     </>
   );
 };

@@ -44,6 +44,7 @@ interface AnimalInventoryProps {
   onSelect?: (newIds: string[]) => void;
   showActionMenu?: boolean;
   showKPI?: boolean;
+  showFloaterButton?: boolean;
   showLinks?: boolean;
   isCompactSideMenu: boolean;
   containerHeight: number;
@@ -63,6 +64,7 @@ function AnimalInventory({
   onSelect,
   showActionMenu = true,
   showKPI = true,
+  showFloaterButton = true,
   showLinks = true,
   isCompactSideMenu,
   history,
@@ -252,6 +254,7 @@ function AnimalInventory({
         isLoading={isLoading}
         history={history}
         onRowClick={onRowClick}
+        showFloaterButton={showFloaterButton}
       />
       {selectedInventoryIds.length && showActionMenu ? (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>

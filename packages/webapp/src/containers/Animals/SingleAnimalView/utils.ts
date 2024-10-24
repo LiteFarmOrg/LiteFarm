@@ -22,12 +22,15 @@ export const generateFormDate = (date?: string | null) => {
   // Right now the new date validation logic will fail if null is maintained; may want to revisit/change that but for now an empty string will pass (and matches 'add' mode)
 };
 
-interface FieldMappingDict {
-  [key: string]: {
-    fields: (keyof RequestBodyAnimal | keyof RequestBodyAnimalBatch)[];
-    nullValue: [] | null | string;
-  };
-}
+type FieldMappingDict = Partial<
+  Record<
+    DetailsFields,
+    {
+      fields: (keyof RequestBodyAnimal | keyof RequestBodyAnimalBatch)[];
+      nullValue: [] | null | string;
+    }
+  >
+>;
 
 /**
  * Mapping dictionaries for field names and their corresponding null values.
@@ -64,6 +67,7 @@ const animalFieldMappingDict: FieldMappingDict = {
 
 const batchFieldMappingDict: FieldMappingDict = {
   use: { fields: ['animal_batch_use_relationships'], nullValue: [] },
+  sex_details: { fields: ['sex_detail'], nullValue: null },
 };
 
 // Function to combine base and specific dictionaries
@@ -101,17 +105,17 @@ const generateFieldMappingDict = (isBatch: boolean): FieldMappingDict => {
  */
 export const addNullsToClearedFields = (
   formattedObject: Partial<RequestBodyAnimal | RequestBodyAnimalBatch>,
-  dirtyFields: Partial<Record<keyof DetailsFields, boolean>>,
+  dirtyFields: Partial<Record<DetailsFields, boolean>>,
   { isBatch }: { isBatch: boolean },
 ): Partial<RequestBodyAnimal | RequestBodyAnimalBatch> => {
   const updatedObject = { ...formattedObject };
-  const fieldMappingDict = generateFieldMappingDict(isBatch);
+  const fieldMappingDict: FieldMappingDict = generateFieldMappingDict(isBatch);
 
   Object.keys(dirtyFields).forEach((key) => {
     if (key in fieldMappingDict) {
-      fieldMappingDict[key].fields.forEach((mappedKey) => {
+      fieldMappingDict[key as DetailsFields]?.fields.forEach((mappedKey) => {
         if (!(mappedKey in updatedObject)) {
-          (updatedObject as any)[mappedKey] = fieldMappingDict[key].nullValue;
+          (updatedObject as any)[mappedKey] = fieldMappingDict[key as DetailsFields]?.nullValue;
         }
       });
     } else {

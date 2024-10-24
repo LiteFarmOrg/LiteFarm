@@ -81,7 +81,7 @@ export function PureNotificationCard({
             height: '8px',
             left: '16px',
             top: '313px',
-            fontFamily: 'Open Sans',
+            fontFamily: '"Open Sans", "Manjari"',
             fontStyle: 'normal',
             fontWeight: '400',
             fontSize: '10px',

@@ -765,7 +765,7 @@
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
         "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
-        "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: soil_water_content, soil_water_potential, temperature."
+        "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: {{ allowed_reading_types }}."
       }
     },
     "BULK_UPLOAD_TRANSITION": {

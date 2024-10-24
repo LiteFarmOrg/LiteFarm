@@ -43,8 +43,7 @@ export default function PureInviteUser({ onInvite, onGoBack, userFarmEmails, rol
   const { t } = useTranslation(['translation', 'common', 'gender']);
   const title = t('INVITE_USER.TITLE');
 
-  const genderOptions = useGenderOptions();
-  const getGenderOptionLabel = (option) => t(option.label);
+  const { genderOptions, getGenderOptionLabel } = useGenderOptions();
 
   const languageOptions = useLanguageOptions();
 

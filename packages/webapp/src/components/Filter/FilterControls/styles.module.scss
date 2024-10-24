@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://wwwl.gnu.org/licenses/>.
  */
 
+@import '@assets/mixin.scss';
+
 .filterControlsContainer {
   display: flex;
   gap: 16px;
@@ -21,6 +23,6 @@
 
 .filterControl {
   text-decoration-line: underline;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   color: var(--brown700);
 }

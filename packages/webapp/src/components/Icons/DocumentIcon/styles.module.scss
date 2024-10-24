@@ -1,3 +1,4 @@
+@import '@assets/mixin.scss';
 
 .container {
   height: 65px;
@@ -8,7 +9,7 @@
   color: white;
   transform: translate(2px, -38px);
   width: 37px;
-  font-family: 'Open Sans', ' SansSerif', serif;
+  @include fontFamily();
   font-weight: 600;
   height: 20px;
   font-size: 12px;

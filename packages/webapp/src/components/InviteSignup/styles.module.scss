@@ -1,4 +1,5 @@
 @import '../../assets/mixin';
+
 .title {
   font-style: normal;
   font-weight: normal;
@@ -28,7 +29,7 @@
 .otherBrowserMessageTop {
   margin-bottom: 16px;
   transform: translateY(-8px);
-  font-family: Open Sans;
+  @include fontFamily();
   font-style: normal;
   font-weight: normal;
   font-size: 14px;

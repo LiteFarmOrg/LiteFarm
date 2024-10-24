@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -35,12 +35,14 @@ import {
   useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
 } from '../../../store/api/apiSlice';
+import { useAnimalOptions } from '../AddAnimals/useAnimalOptions';
 import {
   formatAnimalDetailsToDBStructure,
   formatBatchDetailsToDBStructure,
 } from '../AddAnimals/utils';
 import { Animal, AnimalBatch } from '../../../store/api/types';
 import { AnimalOrBatchKeys } from '../types';
+import type { Details } from '../../../components/Form/SexDetails/SexDetailsPopover';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -66,6 +68,8 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
   // Form
   const { data: animals = [] } = useGetAnimalsQuery();
   const { data: batches = [] } = useGetAnimalBatchesQuery();
+
+  const { sexDetailsOptions }: { sexDetailsOptions: Details } = useAnimalOptions('sexDetails');
 
   const selectedAnimal = animals.find(
     (animal) => animal.internal_identifier === Number(match.params.id),
@@ -103,9 +107,6 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
       const animalWithNullFields = addNullsToClearedFields(formattedAnimal, dirtyFields, {
         isBatch: false,
       });
-
-      debugger;
-
       formattedAnimals.push({
         ...animalWithNullFields,
         id: data.id,
@@ -159,6 +160,17 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
       (relationship) => relationship?.other_use !== null,
     );
 
+  const transformedSexDetails = sexDetailsOptions.map((option) => {
+    const detail = selectedBatch?.sex_detail.find((detail) => detail.sex_id === option.id);
+    if (detail) {
+      return {
+        ...option,
+        count: detail.count,
+      };
+    }
+    return option;
+  });
+
   const defaultFormValues = {
     ...(selectedAnimal
       ? {
@@ -177,10 +189,10 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
           birth_date: generateFormDate(selectedBatch.birth_date),
           brought_in_date: generateFormDate(selectedBatch.brought_in_date),
           other_use: otherAnimalUse ? otherAnimalUse.other_use : null,
+          sex_details: transformedSexDetails,
         }
       : {}),
   };
-
   const routerTabs = [
     {
       label: t('ANIMAL.TABS.BASIC_INFO'),

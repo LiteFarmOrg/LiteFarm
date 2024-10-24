@@ -122,12 +122,6 @@ const GeneralDetails = ({
         ({ default_type_id }) => default_type_id === defaultValues?.default_type_id,
       );
 
-      const animalUses = defaultValues?.animal_use_relationships?.map(
-        ({ use_id }: { use_id: number }) => {
-          return useOptionsForType?.uses.find(({ value }) => value === use_id);
-        },
-      );
-
       const mapUses = (relationships: { use_id: number }[]) =>
         relationships?.map(({ use_id }) =>
           useOptionsForType?.uses.find(({ value }) => value === use_id),
@@ -213,7 +207,7 @@ const GeneralDetails = ({
         />
       </div>
     );
-  }, [animalOrBatch, t, sexOptions, control, watchBatchCount]);
+  }, [animalOrBatch, t, sexOptions, control, watchBatchCount, defaultValues]);
 
   return (
     <div className={clsx(styles.sectionWrapper, mode === 'edit' && styles.edit)}>

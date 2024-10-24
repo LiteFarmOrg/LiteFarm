@@ -47,7 +47,7 @@ const AnimalBatchBasicInfo = ({
         {...commonProps}
         animalOrBatch={isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH}
       />
-      <UniqueDetails {...uniqueDetailsProps} {...commonProps} />
+      {isAnimal && <UniqueDetails {...uniqueDetailsProps} {...commonProps} />}
       <OtherDetails
         {...commonProps}
         {...otherDetailsProps}

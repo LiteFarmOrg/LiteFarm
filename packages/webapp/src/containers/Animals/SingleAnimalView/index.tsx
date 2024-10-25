@@ -23,10 +23,9 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/sna
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import AnimalSingleViewHeader from '../../../components/Animals/AnimalSingleViewHeader';
-import { generateFormDate, findMissingKeys, addNullstoMissingFields } from './utils';
+import { findMissingKeys, addNullstoMissingFields } from './utils';
+import useInitialAnimalData from './useInitialAnimalData';
 import {
-  useGetAnimalsQuery,
-  useGetAnimalBatchesQuery,
   useGetAnimalOriginsQuery,
   useUpdateAnimalsMutation,
   useUpdateAnimalBatchesMutation,
@@ -35,15 +34,13 @@ import {
   useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
 } from '../../../store/api/apiSlice';
-import { useAnimalOptions } from '../AddAnimals/useAnimalOptions';
 import {
   formatAnimalDetailsToDBStructure,
   formatBatchDetailsToDBStructure,
 } from '../AddAnimals/utils';
 import { Animal, AnimalBatch } from '../../../store/api/types';
 import { AnimalOrBatchKeys } from '../types';
-import type { Details } from '../../../components/Form/SexDetails/SexDetailsPopover';
-import { AnimalDetailsFormFields, DetailsFields } from '../AddAnimals/types';
+import { AnimalDetailsFormFields } from '../AddAnimals/types';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -57,36 +54,49 @@ interface AddAnimalsProps extends RouteComponentProps<RouteParams> {
   isCompactSideMenu: boolean;
 }
 
-function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps) {
+function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAnimalsProps) {
   const { t } = useTranslation(['translation', 'common', 'message']);
 
-  // Header
+  // Header logic + display
   const { data: customAnimalTypes = [] } = useGetCustomAnimalTypesQuery();
   const { data: customAnimalBreeds = [] } = useGetCustomAnimalBreedsQuery();
   const { data: defaultAnimalTypes = [] } = useGetDefaultAnimalTypesQuery();
   const { data: defaultAnimalBreeds = [] } = useGetDefaultAnimalBreedsQuery();
 
-  // Form
-  const { data: animals = [] } = useGetAnimalsQuery();
-  const { data: batches = [] } = useGetAnimalBatchesQuery();
-
-  const { sexDetailsOptions }: { sexDetailsOptions: Details } = useAnimalOptions('sexDetails');
-
-  const selectedAnimal = animals.find(
-    (animal) => animal.internal_identifier === Number(match.params.id),
-  );
-  const selectedBatch = batches.find(
-    (batch) => batch.internal_identifier === Number(match.params.id),
-  );
-
   const [isEditing, setIsEditing] = useState(false);
 
-  const toggleEdit = () => {
-    setIsEditing((prev) => !prev);
+  const initiateEdit = () => {
+    setIsEditing(true);
   };
 
+  const routerTabs = [
+    {
+      label: t('ANIMAL.TABS.BASIC_INFO'),
+      path: match.url,
+    },
+    {
+      label: t('ANIMAL.TABS.TASKS'),
+      path: `${match.url}/tasks`,
+    },
+  ];
+
+  // Form setup
   const dispatch = useDispatch();
 
+  const getFormSteps = () => [
+    {
+      FormContent: AnimalReadonlyEdit,
+      title: t('ADD_ANIMAL.ANIMAL_DETAILS'),
+    },
+  ];
+
+  const { defaultFormValues, selectedAnimal, selectedBatch } = useInitialAnimalData({
+    history,
+    match,
+    location,
+  });
+
+  // Form submission
   const [updateAnimals] = useUpdateAnimalsMutation();
   const [updateBatches] = useUpdateAnimalBatchesMutation();
 
@@ -144,73 +154,12 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     onGoForward();
   };
 
-  const getFormSteps = () => [
-    {
-      FormContent: AnimalReadonlyEdit,
-      title: t('ADD_ANIMAL.ANIMAL_DETAILS'),
-    },
-  ];
-
-  const otherAnimalUse =
-    selectedAnimal?.animal_use_relationships?.find(
-      (relationship) => relationship?.other_use !== null,
-    ) ||
-    selectedBatch?.animal_batch_use_relationships?.find(
-      (relationship) => relationship?.other_use !== null,
-    );
-
-  const transformedSexDetails = sexDetailsOptions.map((option) => {
-    const detail = selectedBatch?.sex_detail.find((detail) => detail.sex_id === option.id);
-    if (detail) {
-      return {
-        ...option,
-        count: detail.count,
-      };
-    }
-    return option;
-  });
-
-  const defaultFormValues = {
-    ...(selectedAnimal
-      ? {
-          ...selectedAnimal,
-          [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
-          [DetailsFields.DATE_OF_BIRTH]: generateFormDate(selectedAnimal.birth_date),
-          [DetailsFields.BROUGHT_IN_DATE]: generateFormDate(selectedAnimal.brought_in_date),
-          [DetailsFields.WEANING_DATE]: generateFormDate(selectedAnimal.weaning_date),
-          [DetailsFields.OTHER_USE]: otherAnimalUse ? otherAnimalUse.other_use : null,
-        }
-      : {}),
-    ...(selectedBatch
-      ? {
-          ...selectedBatch,
-          [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.BATCH,
-          [DetailsFields.DATE_OF_BIRTH]: generateFormDate(selectedBatch.birth_date),
-          [DetailsFields.BROUGHT_IN_DATE]: generateFormDate(selectedBatch.brought_in_date),
-          [DetailsFields.SEX_DETAILS]: transformedSexDetails,
-          [DetailsFields.BATCH_NAME]: selectedBatch.name,
-          [DetailsFields.OTHER_USE]: otherAnimalUse ? otherAnimalUse.other_use : null,
-        }
-      : {}),
-  };
-
-  const routerTabs = [
-    {
-      label: t('ANIMAL.TABS.BASIC_INFO'),
-      path: match.url,
-    },
-    {
-      label: t('ANIMAL.TABS.TASKS'),
-      path: `${match.url}/tasks`,
-    },
-  ];
-
   return (
     <div className={styles.container}>
       <div>
         {defaultFormValues && (
           <AnimalSingleViewHeader
-            onEdit={toggleEdit}
+            onEdit={initiateEdit}
             isEditing={isEditing}
             onBack={() => history.push('/animals/inventory')}
             /* @ts-ignore */

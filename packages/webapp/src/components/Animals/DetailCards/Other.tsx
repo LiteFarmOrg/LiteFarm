@@ -46,7 +46,6 @@ const OtherDetails = ({
 }: OtherDetailsProps) => {
   const {
     control,
-    resetField,
     register,
     getValues,
     setValue,
@@ -84,7 +83,6 @@ const OtherDetails = ({
       setValue(
         `${namePrefix}${DetailsFields.ORGANIC_STATUS}`,
         organicStatusOptions.find(({ value }) => value === defaultValues?.organic_status),
-        { shouldValidate: true },
       );
     }
   }, [defaultValues]);

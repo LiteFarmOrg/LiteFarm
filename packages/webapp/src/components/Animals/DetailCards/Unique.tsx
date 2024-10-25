@@ -57,7 +57,6 @@ const UniqueDetails = ({
       setValue(
         `${namePrefix}${DetailsFields.TAG_COLOR}`,
         tagColorOptions.find(({ value }) => value === defaultValues?.identifier_color_id),
-        { shouldValidate: true },
       );
     }
 
@@ -65,7 +64,6 @@ const UniqueDetails = ({
       setValue(
         `${namePrefix}${DetailsFields.TAG_TYPE}`,
         tagTypeOptions.find(({ value }) => value === defaultValues?.identifier_type_id),
-        { shouldValidate: true },
       );
     }
   }, [defaultValues]);

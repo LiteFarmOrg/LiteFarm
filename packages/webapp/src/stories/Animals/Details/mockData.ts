@@ -22,7 +22,6 @@ import {
 import { FileEvent } from '../../../components/ImagePicker';
 import { GetOnFileUpload } from '../../../components/ImagePicker/useImagePickerUpload';
 import { OrganicStatus } from '../../../types';
-import { Details } from '@mui/icons-material';
 
 export const typeOptions = [
   {

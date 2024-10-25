@@ -40,7 +40,6 @@ interface WithStepperProgressBarProps {
     data: FieldValues,
     onGoForward: () => void,
     setFormResultData?: (data: any) => void,
-    dirtyFields?: any,
   ) => void;
   onGoBack: () => void;
   onCancel: () => void;
@@ -69,7 +68,7 @@ export const WithStepperProgressBar = ({
   onCancel,
   onGoForward,
   handleSubmit,
-  formState: { isValid, isDirty, dirtyFields },
+  formState: { isValid, isDirty },
   setFormResultData,
   isEditing,
   setIsEditing,
@@ -105,9 +104,7 @@ export const WithStepperProgressBar = ({
 
   const onContinue = () => {
     if (isFinalStep) {
-      handleSubmit((data: FieldValues) =>
-        onSave(data, onGoForward, setFormResultData, dirtyFields),
-      )();
+      handleSubmit((data: FieldValues) => onSave(data, onGoForward, setFormResultData))();
       setIsEditing?.(false);
       return;
     }

@@ -23,7 +23,7 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/sna
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import AnimalSingleViewHeader from '../../../components/Animals/AnimalSingleViewHeader';
-import { generateFormDate, addNullsToClearedFields } from './utils';
+import { generateFormDate, findMissingKeys, addNullstoMissingFields } from './utils';
 import {
   useGetAnimalsQuery,
   useGetAnimalBatchesQuery,
@@ -96,7 +96,6 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     data: AnimalDetailsFormFields & Partial<Animal | AnimalBatch>,
     onGoForward: () => void,
     _setFormResultData: () => void,
-    dirtyFields: Partial<Record<DetailsFields, boolean>>,
   ) => {
     const broughtInId = orgins.find((origin) => origin.key === 'BROUGHT_IN')?.id;
 
@@ -105,18 +104,17 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
 
     if (data.animal_or_batch === AnimalOrBatchKeys.ANIMAL) {
       const formattedAnimal = formatAnimalDetailsToDBStructure(data, broughtInId);
-      const animalWithNullFields = addNullsToClearedFields(formattedAnimal, dirtyFields, {
-        isBatch: false,
-      });
+      const missingKeys = findMissingKeys(formattedAnimal, selectedAnimal!);
+      const animalWithNullFields = addNullstoMissingFields(formattedAnimal, missingKeys);
+
       formattedAnimals.push({
         ...animalWithNullFields,
         id: data.id,
       });
     } else {
       const formattedBatch = formatBatchDetailsToDBStructure(data, broughtInId);
-      const batchWithNullFields = addNullsToClearedFields(formattedBatch, dirtyFields, {
-        isBatch: true,
-      });
+      const missingKeys = findMissingKeys(formattedBatch, selectedBatch!);
+      const batchWithNullFields = addNullstoMissingFields(formattedBatch, missingKeys);
 
       formattedBatches.push({
         ...batchWithNullFields,
@@ -195,6 +193,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
         }
       : {}),
   };
+
   const routerTabs = [
     {
       label: t('ANIMAL.TABS.BASIC_INFO'),

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -43,6 +43,7 @@ import {
 import { Animal, AnimalBatch } from '../../../store/api/types';
 import { AnimalOrBatchKeys } from '../types';
 import type { Details } from '../../../components/Form/SexDetails/SexDetailsPopover';
+import { AnimalDetailsFormFields, DetailsFields } from '../AddAnimals/types';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -92,10 +93,10 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
   const { data: orgins = [] } = useGetAnimalOriginsQuery();
 
   const onSave = async (
-    data: any,
+    data: AnimalDetailsFormFields & Partial<Animal | AnimalBatch>,
     onGoForward: () => void,
     _setFormResultData: () => void,
-    dirtyFields: any,
+    dirtyFields: Partial<Record<DetailsFields, boolean>>,
   ) => {
     const broughtInId = orgins.find((origin) => origin.key === 'BROUGHT_IN')?.id;
 
@@ -175,22 +176,22 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     ...(selectedAnimal
       ? {
           ...selectedAnimal,
-          animal_or_batch: AnimalOrBatchKeys.ANIMAL,
-          birth_date: generateFormDate(selectedAnimal.birth_date),
-          brought_in_date: generateFormDate(selectedAnimal.brought_in_date),
-          weaning_date: generateFormDate(selectedAnimal.weaning_date),
-          other_use: otherAnimalUse ? otherAnimalUse.other_use : null,
+          [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
+          [DetailsFields.DATE_OF_BIRTH]: generateFormDate(selectedAnimal.birth_date),
+          [DetailsFields.BROUGHT_IN_DATE]: generateFormDate(selectedAnimal.brought_in_date),
+          [DetailsFields.WEANING_DATE]: generateFormDate(selectedAnimal.weaning_date),
+          [DetailsFields.OTHER_USE]: otherAnimalUse ? otherAnimalUse.other_use : null,
         }
       : {}),
     ...(selectedBatch
       ? {
           ...selectedBatch,
-          animal_or_batch: AnimalOrBatchKeys.BATCH,
-          birth_date: generateFormDate(selectedBatch.birth_date),
-          brought_in_date: generateFormDate(selectedBatch.brought_in_date),
-          other_use: otherAnimalUse ? otherAnimalUse.other_use : null,
-          sex_details: transformedSexDetails,
-          batch_name: selectedBatch.name,
+          [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.BATCH,
+          [DetailsFields.DATE_OF_BIRTH]: generateFormDate(selectedBatch.birth_date),
+          [DetailsFields.BROUGHT_IN_DATE]: generateFormDate(selectedBatch.brought_in_date),
+          [DetailsFields.SEX_DETAILS]: transformedSexDetails,
+          [DetailsFields.BATCH_NAME]: selectedBatch.name,
+          [DetailsFields.OTHER_USE]: otherAnimalUse ? otherAnimalUse.other_use : null,
         }
       : {}),
   };

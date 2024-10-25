@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -40,7 +40,7 @@ import {
   Option as AnimalSelectOption,
   AnimalBreedSelect,
 } from '../AddAnimalsFormCard/AnimalSelect';
-import { generateUniqueAnimalId } from '../../../util/animal';
+import { generateUniqueAnimalId, parseUniqueDefaultId } from '../../../util/animal';
 
 // Add Animals Flow
 type SingleAnimalTypeUses = Option[DetailsFields.USE][];
@@ -93,8 +93,6 @@ const GeneralDetails = ({
     formState: { errors, defaultValues },
   } = useFormContext();
 
-  const [useOptionsState, setUseOptionsState] = useState(useOptions);
-
   useEffect(() => {
     if (mode === 'add') {
       return;
@@ -120,25 +118,6 @@ const GeneralDetails = ({
         breedOptions.find(({ value }) => value === breedId),
       );
     }
-
-    if (isAnimalTypeUsesDictionary(useOptions)) {
-      const useOptionsForType = useOptions.find(
-        ({ default_type_id }) => default_type_id === defaultValues?.default_type_id,
-      );
-
-      const mapUses = (relationships: { use_id: number }[]) =>
-        relationships?.map(({ use_id }) =>
-          useOptionsForType?.uses.find(({ value }) => value === use_id),
-        );
-
-      setValue(
-        `${namePrefix}${DetailsFields.USE}`,
-        mapUses(
-          defaultValues?.animal_use_relationships || defaultValues?.animal_batch_use_relationships,
-        ),
-      );
-      setUseOptionsState(useOptionsForType?.uses || []);
-    }
   }, [defaultValues]);
 
   const watchBatchCount = watch(`${namePrefix}${DetailsFields.COUNT}`) || 0;
@@ -146,6 +125,14 @@ const GeneralDetails = ({
 
   const watchAnimalType = watch(`${namePrefix}${DetailsFields.TYPE}`);
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
+
+  const filteredUses = isAnimalTypeUsesDictionary(useOptions)
+    ? useOptions.find(
+        ({ default_type_id }) =>
+          default_type_id === parseUniqueDefaultId(watchAnimalType?.value) ||
+          default_type_id === null,
+      )?.uses
+    : useOptions;
 
   const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 
@@ -271,7 +258,7 @@ const GeneralDetails = ({
             isMulti
             value={value}
             onChange={onChange}
-            options={useOptionsState}
+            options={filteredUses}
             style={{ paddingBottom: '12px' }} // accomodate "Clear all" button space
             isDisabled={mode === 'readonly'}
           />

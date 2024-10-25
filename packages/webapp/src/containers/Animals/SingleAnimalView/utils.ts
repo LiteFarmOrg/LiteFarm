@@ -59,6 +59,7 @@ const baseFieldMappingDict: FieldMappingDict = {
     nullValue: null,
   },
   breed: { fields: ['custom_breed_id', 'default_breed_id', 'breed_name'], nullValue: null },
+  origin_id: { fields: ['brought_in_date', 'supplier', 'price', 'dam', 'sire'], nullValue: null },
 };
 
 const animalFieldMappingDict: FieldMappingDict = {

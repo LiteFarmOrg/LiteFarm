@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -56,7 +56,7 @@ export const PureTaskTypeSelection = ({
   onCustomTask,
   handleGoBack,
   history,
-
+  location,
   persistedFormData,
   useHookFormPersist,
   onContinue,
@@ -78,6 +78,9 @@ export const PureTaskTypeSelection = ({
   const TASK_TYPE_ID = 'task_type_id';
   register(TASK_TYPE_ID);
   const selected_task_type = watch(TASK_TYPE_ID);
+
+  const isMakingCropTask = location?.state?.management_plan_id ?? false;
+  const animalTasks = ['MOVEMENT_TASK'];
 
   const onSelectTask = (task_type_id) => {
     setValue(TASK_TYPE_ID, task_type_id);
@@ -123,7 +126,15 @@ export const PureTaskTypeSelection = ({
           {taskTypes
             ?.filter(({ farm_id, task_translation_key }) => {
               const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin);
-              return farm_id === null && supportedTaskTypes.has(task_translation_key);
+              // If trying to make a task through the crop management plan Add Task link -- exclude animal tasks from selection for now
+              const isNotAnimalTaskWhileCreatingCropTask = !(
+                isMakingCropTask && animalTasks.includes(task_translation_key)
+              );
+              return (
+                farm_id === null &&
+                supportedTaskTypes.has(task_translation_key) &&
+                isNotAnimalTaskWhileCreatingCropTask
+              );
             })
             .sort((firstTaskType, secondTaskType) =>
               t(`task:${firstTaskType.task_translation_key}`).localeCompare(

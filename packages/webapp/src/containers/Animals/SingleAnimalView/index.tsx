@@ -13,35 +13,136 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
-import Button from '../../../components/Form/Button';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
+import AnimalSingleViewHeader from '../../../components/Animals/AnimalSingleViewHeader';
+import { generateFormDate, addNullsToClearedFields } from './utils';
+import {
+  useGetAnimalsQuery,
+  useGetAnimalBatchesQuery,
+  useGetAnimalOriginsQuery,
+  useUpdateAnimalsMutation,
+  useUpdateAnimalBatchesMutation,
+  useGetCustomAnimalBreedsQuery,
+  useGetCustomAnimalTypesQuery,
+  useGetDefaultAnimalBreedsQuery,
+  useGetDefaultAnimalTypesQuery,
+} from '../../../store/api/apiSlice';
+import { useAnimalOptions } from '../AddAnimals/useAnimalOptions';
+import {
+  formatAnimalDetailsToDBStructure,
+  formatBatchDetailsToDBStructure,
+} from '../AddAnimals/utils';
+import { Animal, AnimalBatch } from '../../../store/api/types';
+import { AnimalOrBatchKeys } from '../types';
+import type { Details } from '../../../components/Form/SexDetails/SexDetailsPopover';
 
 export const STEPS = {
   DETAILS: 'details',
 } as const;
 
-interface AddAnimalsProps extends RouteComponentProps {
+interface RouteParams {
+  id: string;
+}
+
+interface AddAnimalsProps extends RouteComponentProps<RouteParams> {
   isCompactSideMenu: boolean;
 }
 
 function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps) {
   const { t } = useTranslation(['translation', 'common', 'message']);
 
+  // Header
+  const { data: customAnimalTypes = [] } = useGetCustomAnimalTypesQuery();
+  const { data: customAnimalBreeds = [] } = useGetCustomAnimalBreedsQuery();
+  const { data: defaultAnimalTypes = [] } = useGetDefaultAnimalTypesQuery();
+  const { data: defaultAnimalBreeds = [] } = useGetDefaultAnimalBreedsQuery();
+
+  // Form
+  const { data: animals = [] } = useGetAnimalsQuery();
+  const { data: batches = [] } = useGetAnimalBatchesQuery();
+
+  const { sexDetailsOptions }: { sexDetailsOptions: Details } = useAnimalOptions('sexDetails');
+
+  const selectedAnimal = animals.find(
+    (animal) => animal.internal_identifier === Number(match.params.id),
+  );
+  const selectedBatch = batches.find(
+    (batch) => batch.internal_identifier === Number(match.params.id),
+  );
+
   const [isEditing, setIsEditing] = useState(false);
 
-  // For now, assuming that the only way to exit edit will be through the cancel button and not through the header
-  const initiateEdit = () => {
-    setIsEditing(true);
+  const toggleEdit = () => {
+    setIsEditing((prev) => !prev);
   };
 
-  const onSave = async (data: any, onGoForward: () => void) => {
-    console.log(data);
+  const dispatch = useDispatch();
+
+  const [updateAnimals] = useUpdateAnimalsMutation();
+  const [updateBatches] = useUpdateAnimalBatchesMutation();
+
+  const { data: orgins = [] } = useGetAnimalOriginsQuery();
+
+  const onSave = async (
+    data: any,
+    onGoForward: () => void,
+    _setFormResultData: () => void,
+    dirtyFields: any,
+  ) => {
+    const broughtInId = orgins.find((origin) => origin.key === 'BROUGHT_IN')?.id;
+
+    const formattedAnimals: Partial<Animal>[] = [];
+    const formattedBatches: Partial<AnimalBatch>[] = [];
+
+    if (data.animal_or_batch === AnimalOrBatchKeys.ANIMAL) {
+      const formattedAnimal = formatAnimalDetailsToDBStructure(data, broughtInId);
+      const animalWithNullFields = addNullsToClearedFields(formattedAnimal, dirtyFields, {
+        isBatch: false,
+      });
+      formattedAnimals.push({
+        ...animalWithNullFields,
+        id: data.id,
+      });
+    } else {
+      const formattedBatch = formatBatchDetailsToDBStructure(data, broughtInId);
+      const batchWithNullFields = addNullsToClearedFields(formattedBatch, dirtyFields, {
+        isBatch: true,
+      });
+
+      formattedBatches.push({
+        ...batchWithNullFields,
+        id: data.id,
+      });
+    }
+
+    try {
+      if (formattedAnimals.length) {
+        await updateAnimals(formattedAnimals).unwrap();
+        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_UPDATE_ANIMAL')));
+      }
+    } catch (e) {
+      console.error(e);
+      dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_UPDATE_ANIMAL')));
+    }
+    try {
+      if (formattedBatches.length) {
+        await updateBatches(formattedBatches).unwrap();
+        dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_UPDATE_BATCH')));
+      }
+    } catch (e) {
+      console.error(e);
+      dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_UPDATE_BATCH')));
+    }
+
+    onGoForward();
   };
 
   const getFormSteps = () => [
@@ -51,10 +152,48 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
     },
   ];
 
-  const defaultFormValues = {
-    [STEPS.DETAILS]: [],
-  };
+  const otherAnimalUse =
+    selectedAnimal?.animal_use_relationships?.find(
+      (relationship) => relationship?.other_use !== null,
+    ) ||
+    selectedBatch?.animal_batch_use_relationships?.find(
+      (relationship) => relationship?.other_use !== null,
+    );
 
+  const transformedSexDetails = sexDetailsOptions.map((option) => {
+    const detail = selectedBatch?.sex_detail.find((detail) => detail.sex_id === option.id);
+    if (detail) {
+      return {
+        ...option,
+        count: detail.count,
+      };
+    }
+    return option;
+  });
+
+  const defaultFormValues = {
+    ...(selectedAnimal
+      ? {
+          ...selectedAnimal,
+          animal_or_batch: AnimalOrBatchKeys.ANIMAL,
+          birth_date: generateFormDate(selectedAnimal.birth_date),
+          brought_in_date: generateFormDate(selectedAnimal.brought_in_date),
+          weaning_date: generateFormDate(selectedAnimal.weaning_date),
+          other_use: otherAnimalUse ? otherAnimalUse.other_use : null,
+        }
+      : {}),
+    ...(selectedBatch
+      ? {
+          ...selectedBatch,
+          animal_or_batch: AnimalOrBatchKeys.BATCH,
+          birth_date: generateFormDate(selectedBatch.birth_date),
+          brought_in_date: generateFormDate(selectedBatch.brought_in_date),
+          other_use: otherAnimalUse ? otherAnimalUse.other_use : null,
+          sex_details: transformedSexDetails,
+          batch_name: selectedBatch.name,
+        }
+      : {}),
+  };
   const routerTabs = [
     {
       label: t('ANIMAL.TABS.BASIC_INFO'),
@@ -69,16 +208,18 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
   return (
     <div className={styles.container}>
       <div>
-        {/* TODO: LF-4381 Header component */}
-        <h1>LF-4381 Header component</h1>
-        {isEditing ? (
-          <Button color={'primary'} disabled>
-            ...Editing
-          </Button>
-        ) : (
-          <Button color={'secondary-cta'} onClick={initiateEdit}>
-            Toggle Edit
-          </Button>
+        {defaultFormValues && (
+          <AnimalSingleViewHeader
+            onEdit={toggleEdit}
+            isEditing={isEditing}
+            onBack={() => history.push('/animals/inventory')}
+            /* @ts-ignore */
+            animalOrBatch={defaultFormValues}
+            defaultBreeds={defaultAnimalBreeds}
+            defaultTypes={defaultAnimalTypes}
+            customBreeds={customAnimalBreeds}
+            customTypes={customAnimalTypes}
+          />
         )}
       </div>
       <Tab
@@ -98,7 +239,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match }: AddAnimalsProps
         cancelModalTitle={t('ANIMALS.EDIT_ANIMAL_FLOW')}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
-        key={isEditing ? 'edit' : 'readonly'}
+        key={`${JSON.stringify(defaultFormValues)}${isEditing}`}
       />
     </div>
   );

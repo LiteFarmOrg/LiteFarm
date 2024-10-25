@@ -136,7 +136,7 @@ const formatCommonDetails = (
     ...formatOrigin(data, broughtInId),
 
     // Unique (animal) | General (batch)
-    name: data[DetailsFields.NAME],
+    name: isAnimal ? data[DetailsFields.NAME] : data[DetailsFields.BATCH_NAME],
   };
 };
 

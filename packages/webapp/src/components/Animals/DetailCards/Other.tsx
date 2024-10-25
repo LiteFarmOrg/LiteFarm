@@ -50,7 +50,7 @@ const OtherDetails = ({
     register,
     getValues,
     setValue,
-    formState: { errors },
+    formState: { errors, defaultValues },
   } = useFormContext();
 
   const { field } = useController({ control, name: `${namePrefix}${DetailsFields.ANIMAL_IMAGE}` });
@@ -60,7 +60,7 @@ const OtherDetails = ({
   };
 
   const handleRemoveImage = () => {
-    resetField(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`);
+    setValue(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`, '', { shouldDirty: true });
   };
 
   const onFileUpload = getOnFileUpload(imageUploadTargetRoute, handleSelectImage);
@@ -74,6 +74,20 @@ const OtherDetails = ({
       );
     }
   }, []);
+
+  useEffect(() => {
+    if (mode === 'add') {
+      return;
+    }
+
+    if (organicStatusOptions) {
+      setValue(
+        `${namePrefix}${DetailsFields.ORGANIC_STATUS}`,
+        organicStatusOptions.find(({ value }) => value === defaultValues?.organic_status),
+        { shouldValidate: true },
+      );
+    }
+  }, [defaultValues]);
 
   return (
     <div className={styles.sectionWrapper}>

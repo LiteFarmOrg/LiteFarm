@@ -60,6 +60,8 @@ const PureAnimalInventory = ({
   isLoading,
   containerHeight,
   history,
+  showActionMenu,
+  showFloaterButton,
 }: {
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
@@ -68,7 +70,7 @@ const PureAnimalInventory = ({
   searchProps: SearchProps;
   onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
   handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
-  onRowClick: (event: ChangeEvent, row: AnimalInventory) => void;
+  onRowClick: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
   selectedIds: string[];
   totalInventoryCount: number;
   isFilterActive: boolean;
@@ -76,6 +78,8 @@ const PureAnimalInventory = ({
   isLoading: boolean;
   containerHeight?: number;
   history: History;
+  showActionMenu: boolean;
+  showFloaterButton: boolean;
 }) => {
   const { t } = useTranslation();
 
@@ -87,6 +91,7 @@ const PureAnimalInventory = ({
   const hasSearchResults = filteredInventory.length !== 0;
 
   const tableMaxHeight = !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
+  const tableSpacerRowHeight = showActionMenu ? (isDesktop ? 96 : 120) : 0;
 
   return (
     <>
@@ -139,7 +144,7 @@ const PureAnimalInventory = ({
             selectedIds={selectedIds}
             stickyHeader={isDesktop}
             maxHeight={tableMaxHeight}
-            spacerRowHeight={isDesktop ? 96 : 120}
+            spacerRowHeight={tableSpacerRowHeight}
             headerClass={styles.headerClass}
             onRowClick={onRowClick}
           />
@@ -151,15 +156,17 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
-      <FloatingButtonMenu
-        type={'add'}
-        options={[
-          {
-            label: t('ADD_ANIMAL.ADD_ANIMALS'),
-            onClick: () => history.push(ADD_ANIMALS_URL),
-          },
-        ]}
-      />
+      {showFloaterButton && (
+        <FloatingButtonMenu
+          type={'add'}
+          options={[
+            {
+              label: t('ADD_ANIMAL.ADD_ANIMALS'),
+              onClick: () => history.push(ADD_ANIMALS_URL),
+            },
+          ]}
+        />
+      )}
     </>
   );
 };

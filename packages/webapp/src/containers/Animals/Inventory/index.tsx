@@ -41,6 +41,11 @@ import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 
 interface AnimalInventoryProps {
+  onSelect?: (newIds: string[]) => void;
+  showActionMenu?: boolean;
+  showKPI?: boolean;
+  showFloaterButton?: boolean;
+  showLinks?: boolean;
   isCompactSideMenu: boolean;
   containerHeight: number;
   history: History;
@@ -55,7 +60,15 @@ const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: s
   return selectedIds.filter((id) => visibleRowIdsSet.has(id));
 };
 
-function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
+function AnimalInventory({
+  onSelect,
+  showActionMenu = true,
+  showKPI = true,
+  showFloaterButton = true,
+  showLinks = true,
+  isCompactSideMenu,
+  history,
+}: AnimalInventoryProps) {
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>([]);
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
@@ -124,7 +137,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
         sortable: false,
       },
       {
-        id: 'path',
+        id: showLinks ? 'path' : null,
         label: '',
         format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
         columnProps: {
@@ -135,10 +148,6 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
     ],
     [t, isDesktop],
   );
-
-  const onRowClick = (_event: ChangeEvent, row: AnimalInventory) => {
-    history.push(row.path);
-  };
 
   const makeAnimalsSearchableString = (animal: AnimalInventory) => {
     return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
@@ -169,6 +178,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
       newIds.push(selectedInventoryId);
     }
     setSelectedInventoryIds(newIds);
+    onSelect && onSelect(newIds);
   };
 
   const selectAllVisibleInventoryItems = () => {
@@ -197,6 +207,10 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
     }
   };
 
+  const onRowClick = (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => {
+    showLinks ? history.push(row.path) : onSelectInventory(event, row);
+  };
+
   const iconActions: iconAction[] = [
     { label: t(`common:ADD_TO_GROUP`), iconName: 'ADD_ANIMAL', onClick: () => ({}) },
     { label: t(`common:CREATE_A_TASK`), iconName: 'TASK_CREATION', onClick: () => ({}) },
@@ -221,7 +235,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
 
   return (
     <FixedHeaderContainer
-      header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
+      header={showKPI ? <KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} /> : null}
       classes={{ paper: styles.paper }}
       kind={ContainerKind.PAPER}
     >
@@ -240,8 +254,10 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
         isLoading={isLoading}
         history={history}
         onRowClick={onRowClick}
+        showActionMenu={showActionMenu}
+        showFloaterButton={showFloaterButton}
       />
-      {selectedInventoryIds.length ? (
+      {selectedInventoryIds.length && showActionMenu ? (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
           <ActionMenu
             headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}

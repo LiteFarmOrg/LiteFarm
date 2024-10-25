@@ -41,6 +41,7 @@ import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 
 interface AnimalInventoryProps {
+  preSelectedIds?: string[];
   onSelect?: (newIds: string[]) => void;
   showActionMenu?: boolean;
   showKPI?: boolean;
@@ -61,6 +62,7 @@ const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: s
 };
 
 function AnimalInventory({
+  preSelectedIds = [],
   onSelect,
   showActionMenu = true,
   showKPI = true,
@@ -69,7 +71,7 @@ function AnimalInventory({
   isCompactSideMenu,
   history,
 }: AnimalInventoryProps) {
-  const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>([]);
+  const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
 

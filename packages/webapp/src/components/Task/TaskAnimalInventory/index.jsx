@@ -89,6 +89,7 @@ export default function PureTaskAnimalInventory({
         showFloaterButton={false}
         showLinks={false}
         history={history}
+        preSelectedIds={persistedFormData?.animalIds ?? []}
       />
     </Form>
   );

@@ -47,8 +47,7 @@ export default function PureTaskAnimalInventory({
     },
   });
 
-  //TODO: Calculate progress percentage
-  const progress = 28;
+  const progress = 43;
   const { historyCancel } = useHookFormPersist(getValues);
 
   const disabled = !isValid;
@@ -58,7 +57,6 @@ export default function PureTaskAnimalInventory({
   };
 
   const onSelect = (selectedAnimalIds) => {
-    // TODO: convert string[] to number[] on submit
     setValue(ANIMAL_IDS, selectedAnimalIds);
   };
 

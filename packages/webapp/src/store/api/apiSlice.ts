@@ -192,11 +192,11 @@ export const api = createApi({
       }),
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
     }),
-    updateAnimals: build.mutation<Animal[], Partial<Animal>[]>({
+    updateAnimals: build.mutation<void, Partial<Animal>[]>({
       query: (body) => ({ url: `${animalsUrl}`, method: 'PATCH', body }),
       invalidatesTags: ['Animals', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
     }),
-    updateAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
+    updateAnimalBatches: build.mutation<void, Partial<AnimalBatch>[]>({
       query: (body) => ({ url: `${animalBatchesUrl}`, method: 'PATCH', body }),
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
     }),

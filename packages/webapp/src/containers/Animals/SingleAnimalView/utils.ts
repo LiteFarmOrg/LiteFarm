@@ -15,7 +15,7 @@
 
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import { DetailsFields } from '../AddAnimals/types';
-import type { RequestBodyAnimal, RequestBodyAnimalBatch } from './types';
+import type { Animal, AnimalBatch } from '../../../store/api/types';
 
 export const generateFormDate = (date?: string | null) => {
   return date ? getLocalDateInYYYYDDMM(new Date(date)) : '';
@@ -26,7 +26,7 @@ type FieldMappingDict = Partial<
   Record<
     DetailsFields,
     {
-      fields: (keyof RequestBodyAnimal | keyof RequestBodyAnimalBatch)[];
+      fields: (keyof Animal | keyof AnimalBatch)[];
       nullValue: [] | null | string;
     }
   >
@@ -88,7 +88,7 @@ const generateFieldMappingDict = (isBatch: boolean): FieldMappingDict => {
  * @param dirtyFields - The React Hook Form-tracked changed fields
  * @param {boolean} options.isBatch - Flag indicating whether the object is a batch.
  *
- * @returns {Partial<RequestBodyAnimal | RequestBodyAnimalBatch>} - The updated object with null values added to the cleared fields.
+ * @returns {Partial<Animal | AnimalBatch>} - The updated object with null values added to the cleared fields.
  *
  * @example
  * const formattedAnimal = {
@@ -105,10 +105,10 @@ const generateFieldMappingDict = (isBatch: boolean): FieldMappingDict => {
     // other fields
  */
 export const addNullsToClearedFields = (
-  formattedObject: Partial<RequestBodyAnimal | RequestBodyAnimalBatch>,
+  formattedObject: Partial<Animal | AnimalBatch>,
   dirtyFields: Partial<Record<DetailsFields, boolean>>,
   { isBatch }: { isBatch: boolean },
-): Partial<RequestBodyAnimal | RequestBodyAnimalBatch> => {
+): Partial<Animal | AnimalBatch> => {
   const updatedObject = { ...formattedObject };
   const fieldMappingDict: FieldMappingDict = generateFieldMappingDict(isBatch);
 

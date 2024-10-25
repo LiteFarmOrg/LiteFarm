@@ -20,7 +20,11 @@ import { OrganicStatus } from '../../../types';
 export type Result = Array<{ [key: string]: any }>;
 
 export interface Animal {
-  animal_use_relationships?: { animal_id: number; use_id: number; other_use: null | string }[];
+  animal_use_relationships?: {
+    animal_id: number;
+    use_id: number;
+    other_use: null | string;
+  }[];
   birth_date: string | null;
   brought_in_date: string | null;
   custom_breed_id: number | null;
@@ -49,11 +53,13 @@ export interface Animal {
   animal_removal_reason_id: number | null;
   removal_explanation: string | null;
   removal_date: string | null;
+  type_name?: string; // request only
+  breed_name?: string; // request only
 }
 
 export interface AnimalBatch {
   animal_batch_use_relationships?: {
-    animal_id: number;
+    animal_batch_id: number;
     use_id: number;
     other_use: null | string;
   }[];
@@ -73,7 +79,12 @@ export interface AnimalBatch {
   notes: string | null;
   origin_id: number;
   photo_url: string | null;
-  sex_detail: { sex_id: number; count: number }[];
+  sex_detail: {
+    id?: number; // response only
+    animal_batch_id?: number; // response only
+    sex_id: number;
+    count: number;
+  }[];
   sire: string | null;
   organic_status: OrganicStatus;
   supplier: string | null;
@@ -81,6 +92,8 @@ export interface AnimalBatch {
   animal_removal_reason_id: number | null;
   removal_explanation: string | null;
   removal_date: string | null;
+  type_name?: string; // request only
+  breed_name?: string; // request only
 }
 
 export interface AnimalGroup {

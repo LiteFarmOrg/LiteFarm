@@ -42,13 +42,23 @@ import {
 } from '../AddAnimalsFormCard/AnimalSelect';
 import { generateUniqueAnimalId } from '../../../util/animal';
 
-type UseOptions =
-  | Option[DetailsFields.USE][] // Add Animals Flow
-  | {
-      // Single Animal View
-      default_type_id: number;
-      uses: Option[DetailsFields.USE][];
-    }[];
+// Add Animals Flow
+type SingleAnimalTypeUses = Option[DetailsFields.USE][];
+
+// Single Animal View
+type AnimalTypeToUsesMapping = {
+  default_type_id: number;
+  uses: Option[DetailsFields.USE][];
+}[];
+
+type UseOptions = SingleAnimalTypeUses | AnimalTypeToUsesMapping;
+
+// type guard
+const isAnimalTypeUsesDictionary = (
+  useOptions: UseOptions,
+): useOptions is AnimalTypeToUsesMapping => {
+  return 'default_type_id' in useOptions[0];
+};
 
 export type GeneralDetailsProps = CommonDetailsProps & {
   sexOptions: Option[DetailsFields.SEX][];
@@ -58,12 +68,6 @@ export type GeneralDetailsProps = CommonDetailsProps & {
   typeOptions?: AnimalSelectOption[];
   breedOptions?: AnimalSelectOption[];
   onTypeChange?: (Option: AnimalSelectOption | null) => void;
-};
-
-const isUseOptionsAllTypes = (
-  useOptions: UseOptions,
-): useOptions is { default_type_id: number; uses: Option[DetailsFields.USE][] }[] => {
-  return typeof useOptions[0] === 'object';
 };
 
 const GeneralDetails = ({
@@ -117,7 +121,7 @@ const GeneralDetails = ({
       );
     }
 
-    if (isUseOptionsAllTypes(useOptions)) {
+    if (isAnimalTypeUsesDictionary(useOptions)) {
       const useOptionsForType = useOptions.find(
         ({ default_type_id }) => default_type_id === defaultValues?.default_type_id,
       );

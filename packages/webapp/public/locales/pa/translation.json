@@ -238,11 +238,11 @@
       "NO_CERTIFICATIONS": "ਤੁਸੀਂ ਵਰਤਮਾਨ ਵਿੱਚ ਕਿਸੇ ਪ੍ਰਮਾਣੀਕਰਣ ਦਾ ਪਿੱਛਾ ਨਹੀਂ ਕਰ ਰਹੇ ਹੋ।",
       "NO_LONGER_WORKING": "ਹੁਣ ਇਸ ਪ੍ਰਮਾਣੀਕਰਣ ਦਾ ਪਿੱਛਾ ਨਹੀਂ ਕਰ ਰਹੇ ਹੋ ਜਾਂ ਇਸ ਪ੍ਰਮਾਣੀਕਰਤਾ ਨਾਲ ਕੰਮ ਨਹੀਂ ਕਰ ਰਹੇ ਹੋ? ਕੋਈ ਸਮੱਸਿਆ ਨਹੀ!",
       "SUPPORTED_CERTIFICATION_ONE": "ਤੁਸੀਂ ਪਿੱਛਾ ਕਰ ਰਹੇ ਹੋ",
-      "SUPPORTED_CERTIFICATION_TWO": " ਤੋਂ ਪ੍ਰਮਾਣੀਕਰਣ:",
+      "SUPPORTED_CERTIFICATION_TWO": " ਦੇ ਪ੍ਰਮਾਣੀਕਰਣ ਲਈ:",
       "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "ਲਾਈਟਫਾਰਮ ਵਰਤਮਾਨ ਵਿੱਚ ਇਸ ਪ੍ਰਮਾਣੀਕਰਣ ਲਈ ਦਸਤਾਵੇਜ਼ ਤਿਆਰ ਨਹੀਂ ਕਰਦਾ ਹੈ। ਹਾਲਾਂਕਿ, ਅਸੀਂ ਆਮ ਫਾਰਮਾਂ ਨੂੰ ਨਿਰਯਾਤ ਕਰ ਸਕਦੇ ਹਾਂ ਜੋ ਜ਼ਿਆਦਾਤਰ ਪ੍ਰਮਾਣੀਕਰਤਾਵਾਂ ਲਈ ਉਪਯੋਗੀ ਹਨ। ਤੁਸੀਂ ਇਹਨਾਂ ਫਾਰਮਾਂ ਨੂੰ ਬਣਾਉਣ ਲਈ ਐਕਸਪੋਰਟ ਦੀ ਚੋਣ ਕਰ ਸਕਦੇ ਹੋ ਜਾਂ",
       "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "ਇਹ ਦੇਖਣ ਲਈ ਕਿ ਕੀ ਤੁਹਾਡੇ ਖੇਤਰ ਵਿੱਚ ਨਵੇਂ ਪ੍ਰਮਾਣੀਕਰਣ ਉਪਲਬਧ ਹਨ।",
       "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "ਤੁਸੀਂ ਬੇਨਤੀ ਕੀਤੀ ਹੈ",
-      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "ਤੋਂ ਪ੍ਰਮਾਣੀਕਰਣ",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "ਦੇ ਪ੍ਰਮਾਣੀਕਰਣ ਲਈ",
       "UPDATE_SUCCESS": "ਸਰਟੀਫਿਕੇਸ਼ਨ ਤਰਜੀਹਾਂ ਸੁਰੱਖਿਅਤ ਕੀਤੀਆਂ ਗਈਆਂ"
     },
     "CERTIFICATION_SELECTION": {
@@ -457,7 +457,7 @@
     "FROM": "ਤੋਂ",
     "REVENUE_HELP_BODY": "ਸਿਰਫ਼ ਉਹ ਯੋਜਨਾਵਾਂ ਦਿਖਾਈਆਂ ਜਾਣਗੀਆਂ ਜਿਨ੍ਹਾਂ ਵਿੱਚ ਦਰਸਾਈ ਮਿਤੀ ਸੀਮਾ ਦੇ ਅੰਦਰ ਵਾਢੀ ਦਾ ਇੱਕ ਯੋਜਨਾਬੱਧ ਜਾਂ ਪੂਰਾ ਕੰਮ ਹੈ।",
     "REVENUE_HELP_TITLE": "ਮਿਤੀ ਰੇਂਜ ਮਦਦ",
-    "TO": "ਤੋਂ",
+    "TO": "ਤਕ",
     "TO_MUST_BE_AFTER_FROM": "'ਤੋਂ' ਮਿਤੀ 'ਤੋਂ' ਮਿਤੀ ਤੋਂ ਬਾਅਦ ਆਉਣੀ ਚਾਹੀਦੀ ਹੈ"
   },
   "DATE_RANGE_SELECTOR": {
@@ -474,13 +474,13 @@
     "YEAR_TO_DATE": "ਸਾਲ ਦੀ ਮਿਤੀ ਤੱਕ"
   },
   "DAYS_OF_WEEK_SELECT": {
-    "FRIDAY": "ਸ਼ੁੱਕਰ",
-    "MONDAY": "ਸੋਮ",
-    "SATURDAY": "ਸ਼ਨੀ",
-    "SUNDAY": "ਐਤ",
-    "THURSDAY": "ਵੀਰ",
-    "TUESDAY": "ਮੰਗਲ",
-    "WEDNESDAY": "ਬੁੱਧ"
+    "FRIDAY": "ਸ਼ੁੱ",
+    "MONDAY": "ਸੋ",
+    "SATURDAY": "ਸ਼",
+    "SUNDAY": "ਐ",
+    "THURSDAY": "ਵੀ",
+    "TUESDAY": "ਮੰ",
+    "WEDNESDAY": "ਬੁ"
   },
   "DOCUMENTS": {
     "ADD": {
@@ -656,7 +656,7 @@
         "SENSOR_LONGITUDE": "ਅਵੈਧ ਲੰਬਕਾਰ ਮੁੱਲ, -180 ਅਤੇ 180 ਦੇ ਵਿਚਕਾਰ ਅਤੇ 10 ਦਸ਼ਮਲਵ ਤੋਂ ਘੱਟ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।",
         "SENSOR_MODEL": "ਅਵੈਧ ਮਾਡਲ ਨਾਮ, 1 ਅਤੇ 100 ਅੱਖਰਾਂ ਦੇ ਵਿਚਕਾਰ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।",
         "SENSOR_NAME": "ਅਵੈਧ ਸੈਂਸਰ ਨਾਮ, 1 ਅਤੇ 100 ਅੱਖਰਾਂ ਦੇ ਵਿਚਕਾਰ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।",
-        "SENSOR_READING_TYPES": "ਅਵੈਧ ਰੀਡਿੰਗ ਕਿਸਮ ਖੋਜੀ ਗਈ: {{ read_types }}। ਵੈਧ ਮੁੱਲਾਂ ਵਿੱਚ ਸ਼ਾਮਲ ਹਨ: ਮਿੱਟੀ_ਪਾਣੀ_ਸਮੱਗਰੀ, ਮਿੱਟੀ_ਪਾਣੀ_ਸੰਭਾਵੀ, ਤਾਪਮਾਨ।"
+        "SENSOR_READING_TYPES": "ਅਵੈਧ ਰੀਡਿੰਗ ਕਿਸਮ ਖੋਜੀ ਗਈ: {{ reading_types }}। ਵੈਧ ਮੁੱਲਾਂ ਵਿੱਚ ਸ਼ਾਮਲ ਹਨ: {{ allowed_reading_types }}।"
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -682,7 +682,7 @@
       "DOWNLOAD": "ਡਾਊਨਲੋਡ",
       "EMAIL_TO_ME": "ਮੈਨੂੰ ਈਮੇਲ ਕਰੋ",
       "EMAILING": "ਈਮੇਲ ਕਰਨਾ",
-      "TITLE": "ਆਪਣੇ ਖੇਤ ਦਾ ਨਕਸ਼ਾ ਨਿਰਯਾਤ ਕਰੋ"
+      "TITLE": "ਆਪਣੇ ਫਾਰਮ ਦਾ ਨਕਸ਼ਾ ਨਿਰਯਾਤ ਕਰੋ"
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "ਖੇਤ ਦੀ ਸੀਮਾ ਦਾ ਸੰਪਾਦਨ ਕਰੋ",
@@ -1076,7 +1076,7 @@
     "NOTES": "ਨੋਟਸ",
     "QUANTITY": "ਮਾਤਰਾ",
     "SELECT_LOCATION": "ਸਥਾਨ ਚੁਣੋ",
-    "TO": "ਤੋਂ"
+    "TO": "ਤਕ"
   },
   "LOG_DETAIL": {
     "NO": "ਨਹੀਂ",
@@ -1347,7 +1347,7 @@
     },
     "TASK_UNASSIGNED": {
       "BODY": "{{editor}} ਨੇ ਇੱਕ {{taskType}} ਟਾਸਕ ਨੂੰ ਅਸਾਈਨ ਨਾ ਕੀਤੇ ਵਜੋਂ ਚਿੰਨ੍ਹਿਤ ਕੀਤਾ ਹੈ।",
-      "TITLE": "ਕਾਰਜ ਅਸਾਈਨ ਨਹੀਂ ਕੀਤਾ ਗਿਆ"
+      "TITLE": "ਨਿਰਧਾਰਤ ਨਹੀਂ ਕੀਤੇ ਗਏ ਕੰਮ"
     },
     "TIMELINE": {
       "HEADING": "ਸੂਚਨਾ ਟਾਈਮਲਾਈਨ",
@@ -1355,8 +1355,8 @@
       "VIEW_NOW": "ਹੁਣੇ ਦੇਖੋ"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
-      "BODY": "ਇਸ ਹਫ਼ਤੇ ਤੁਹਾਡੇ ਕੋਲ ਅਸਾਈਨ ਕੀਤੇ ਕਾਰਜ ਹਨ।",
-      "TITLE": "ਅਣ-ਸਾਈਨ ਕੀਤੇ ਕੰਮ"
+      "BODY": "ਇਸ ਹਫ਼ਤੇ ਤੁਹਾਡੇ ਕੋਲ ਨਿਰਧਾਰਤ ਨਹੀਂ ਕੀਤੇ ਗਏ ਕੰਮ ਕਾਰਜ ਹਨ।",
+      "TITLE": "ਨਿਰਧਾਰਤ ਨਹੀਂ ਕੀਤੇ ਗਏ ਕੰਮ"
     }
   },
   "OUTRO": {
@@ -1685,20 +1685,20 @@
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
       "TITLE": "ਮਿੱਟੀ ਦੇ ਪਾਣੀ ਦੀ ਸਮੱਗਰੀ",
-      "Y_AXIS_LABEL": "{{ਇਕਾਈਆਂ}} ਵਿੱਚ"
+      "Y_AXIS_LABEL": "{{units}} ਵਿੱਚ"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
       "KPA": "ਕਿਲੋਪਾਸਕਲ (kPa)",
       "PSI": "ਪੌਂਡ ਪ੍ਰਤੀ ਵਰਗ ਇੰਚ (psi)",
       "TITLE": "ਮਿੱਟੀ ਦੇ ਪਾਣੀ ਦੀ ਸੰਭਾਵਨਾ",
-      "Y_AXIS_LABEL": "{{ਇਕਾਈਆਂ}} ਵਿੱਚ"
+      "Y_AXIS_LABEL": "{{units}} ਵਿੱਚ"
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
       "AMBIENT_TEMPERATURE_FOR": "ਲਈ ਅੰਬੀਨਟ ਤਾਪਮਾਨ",
       "C": "ਸੈਲਸੀਅਸ (°C)",
       "F": "ਫਾਰਨਹੀਟ (°F)",
       "TITLE": "ਮਿੱਟੀ ਦਾ ਤਾਪਮਾਨ",
-      "Y_AXIS_LABEL": "{{ਇਕਾਈਆਂ}} ਵਿੱਚ"
+      "Y_AXIS_LABEL": "{{units}} ਵਿੱਚ"
     },
     "VALIDATION": {
       "READING_TYPES": "ਸੈਂਸਰ ਰੀਡਿੰਗ ਕਿਸਮਾਂ ਦੀ ਲੋੜ ਹੈ"
@@ -1846,7 +1846,7 @@
       "STATUS": "ਸਥਿਤੀ",
       "TITLE": "ਟਾਸਕ ਫਿਲਟਰ",
       "TYPE": "ਕਿਸਮ",
-      "UNASSIGNED": "ਅਣ-ਸਾਈਨ ਕੀਤਾ",
+      "UNASSIGNED": "ਨਿਰਧਾਰਤ ਨਹੀਂ ਕੀਤਾ ਗਿਆ",
       "VIEW": "ਦੇਖੋ"
     },
     "HARVEST_USE": "ਵਾਢੀ ਵਰਤਣ",
@@ -1878,7 +1878,7 @@
     "TASKS_COUNT_other": "{{count}} ਕੰਮ",
     "TRANSPLANT": "ਟ੍ਰਾਂਸਪਲਾਂਟ",
     "TRANSPLANT_LOCATIONS": "ਟ੍ਰਾਂਸਪਲਾਂਟ ਸਥਾਨ ਚੁਣੋ",
-    "UNASSIGNED": "ਅਣ-ਸਾਈਨ ਕੀਤਾ"
+    "UNASSIGNED": "ਨਿਰਧਾਰਤ ਨਹੀਂ ਕੀਤਾ ਗਿਆ"
   },
   "UNIT": {
     "TIME": {

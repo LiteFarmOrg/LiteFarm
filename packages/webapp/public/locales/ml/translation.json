@@ -4,11 +4,11 @@
     "DISABLE_GEO_LOCATION": "നിങ്ങളുടെ നിലവിലെ സ്ഥാനം കണ്ടെത്താൻ സ്ഥാനം സേവനങ്ങൾ പ്രവർത്തനക്ഷമമാക്കിയിരിക്കണം.",
     "ENTER_A_VALID_ADDRESS": "സാധുവായ ഒരു വിലാസമോ കോർഡിനേറ്റുകളോ നൽകുക",
     "ENTER_LOCATION_PLACEHOLDER": "സ്ഥാനം നൽകുക",
-    "FARM_IS_REQUIRED": "ഫോമിൻ്റെ പേര് ആവശ്യമാണ്",
-    "FARM_LOCATION": "ഫോമിൻ്റെ സ്ഥാനം",
+    "FARM_IS_REQUIRED": "ഫാമിൻ്റെ പേര് ആവശ്യമാണ്",
+    "FARM_LOCATION": "ഫാമിൻ്റെ സ്ഥാനം",
     "FARM_LOCATION_INPUT_INFO": "തെരുവ് വിലാസം അല്ലെങ്കിൽ കോമയാൽ വേർതിരിച്ച അക്ഷാംശവും രേഖാംശവും (ഉദാ. 49.250945, -123.238492)",
-    "FARM_NAME": "ഫോമിൻ്റെ പേര്",
-    "FARM_NAME_ERROR": "ഫോമിൻ്റെ പേരിൻ്റെ പ്രതീക പരിധി കവിഞ്ഞു",
+    "FARM_NAME": "ഫാമിൻ്റെ പേര്",
+    "FARM_NAME_ERROR": "ഫാമിൻ്റെ പേരിൻ്റെ പ്രതീക പരിധി കവിഞ്ഞു",
     "INVALID_FARM_LOCATION": "ഈ സ്ഥാനത്തിന് രാജ്യമില്ല",
     "LOCATING": "കണ്ടെത്തുന്നു...",
     "TELL_US_ABOUT_YOUR_FARM": "നിങ്ങളുടെ ഫാമിനെ കുറിച്ച് ഞങ്ങളോട് പറയുക"
@@ -90,116 +90,116 @@
     "HOURLY_WAGE": {
       "ASSIGNEE_WAGE_WARNING": "{{name}} എന്നയാൾക്ക് നിലവിൽ ഒരു മണിക്കൂർ വേതനം നിശ്ചയിച്ചിട്ടില്ല.",
       "DONT_ASK": "ഇല്ല, ഈ ജീവനക്കാരനെ വീണ്ടും ആവശ്യപ്പെടരുത്",
-      "FOR_THIS_TASK": "",
-      "SET_HOURLY_WAGE": "",
-      "WANT_TO_SET_HOURLY_WAGE": ""
+      "FOR_THIS_TASK": "അതെ, ഈ ആവശ്യത്തിനായി മാത്രം",
+      "SET_HOURLY_WAGE": "അതെ, മണിക്കൂർ വേതനം നിശ്ചയിക്കുക",
+      "WANT_TO_SET_HOURLY_WAGE": "മണിക്കൂർ വേതനം നിശ്ചയിക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുണ്ടോ?"
     },
-    "HOW_MUCH_IS_HARVESTED": "",
-    "HR": "",
+    "HOW_MUCH_IS_HARVESTED": "എത്രയാണ് വിളവെടുക്കുന്നത്?",
+    "HR": "/മണിക്കൂർ",
     "IRRIGATION_VIEW": {
-      "BRAND_TOOLTIP": "",
-      "CALCULATE_WATER_USAGE": "",
-      "DEFAULT_APPLICATION_DEPTH": "",
-      "DEFAULT_LOCATION_FLOW_RATE": "",
-      "DEPTH": "",
-      "ESTIMATED_APPLICATION_DEPTH": "",
-      "ESTIMATED_DURATION": "",
-      "ESTIMATED_FLOW_RATE": "",
-      "ESTIMATED_WATER_USAGE": "",
-      "HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE": "",
-      "IRRIGATED_AREA": "",
-      "IRRIGATION_TYPE_CHAR_LIMIT": "",
-      "LOCATION_SIZE": "",
+      "BRAND_TOOLTIP": "നിങ്ങളുടെ സ്ഥലം നനയ്ക്കുന്നതിനാണ് ഈ ചുമതല. നിങ്ങൾക്ക് ജലസേചനം ഇൻസ്റ്റാൾ ചെയ്യണമെങ്കിൽ, പകരം ഒരു ഫീൽഡ് വർക്ക് ചുമതല സൃഷ്ടിക്കുക.",
+      "CALCULATE_WATER_USAGE": "ജല ഉപഭോഗം കണക്കാക്കുക",
+      "DEFAULT_APPLICATION_DEPTH": "ഈ സ്ഥലത്തിനായി ഡിഫോൾട്ട് ആപ്ലിക്കേഷൻ ആഴം ആയി സജ്ജീകരിക്കുക",
+      "DEFAULT_LOCATION_FLOW_RATE": "ഈ സ്ഥലത്തിനായി ഡിഫോൾട്ട് ഒഴുക്ക് നിരക്ക് ആയി സജ്ജീകരിക്കുക",
+      "DEPTH": "ആഴം",
+      "ESTIMATED_APPLICATION_DEPTH": "കണക്കാക്കിയ പ്രയോഗത്തിൻ്റെ ആഴം",
+      "ESTIMATED_DURATION": "കണക്കാക്കിയ ദൈർഘ്യം",
+      "ESTIMATED_FLOW_RATE": "കണക്കാക്കിയ ഒഴുക്ക് നിരക്ക്",
+      "ESTIMATED_WATER_USAGE": "കണക്കാക്കിയ ജല ഉപഭോഗം",
+      "HOW_DO_YOU_MEASURE_WATER_USE_FOR_THIS_IRRIGATION_TYPE": "ഈ തരത്തിലുള്ള ജലസേചനത്തിനുള്ള ജലത്തിൻ്റെ ഉപയോഗം നിങ്ങൾ എങ്ങനെയാണ് അളക്കുന്നത്?",
+      "IRRIGATED_AREA": "ജലസേചന പ്രദേശം",
+      "IRRIGATION_TYPE_CHAR_LIMIT": "ജലസേചന തരം 100 പ്രതീകങ്ങളിൽ കുറവായിരിക്കണം",
+      "LOCATION_SIZE": "സ്ഥലത്തിൻ്റെ വലിപ്പം\"",
       "NOT_SURE": "തീർച്ചയില്ല?",
-      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "",
-      "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "",
-      "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "",
-      "TOTAL_WATER_USAGE": "",
+      "PERCENTAGE_LOCATION_TO_BE_IRRIGATED": "ജലസേചനം നടത്തേണ്ട സ്ഥലത്തിൻ്റെ %",
+      "SET_AS_DEFAULT_MEASUREMENT_FOR_THIS_IRRIGATION_TYPE": "ഈ ജലസേചന തരത്തിന് ഡിഫോൾട്ട് അളവുകോലായി സജ്ജമാക്കുക",
+      "SET_AS_DEFAULT_TYPE_FOR_THIS_LOCATION": "ഈ ലൊക്കേഷനായി ഡിഫോൾട്ട് തരമായി സജ്ജമാക്കുക",
+      "TOTAL_WATER_USAGE": "ആകെ ജല ഉപയോഗം",
       "TYPE": {
-        "CHANNEL": "",
-        "DRIP": "",
-        "FLOOD": "",
-        "HAND_WATERING": "",
+        "CHANNEL": "ചാനൽ",
+        "DRIP": "ഡ്രിപ്പ്",
+        "FLOOD": "വെള്ളപ്പൊക്കം",
+        "HAND_WATERING": "കൈകൊണ്ട് വെള്ളമൊഴിക്കൽ",
         "OTHER": "മറ്റുള്ളവ",
-        "PIVOT": "",
-        "SPRINKLER": "",
-        "SUB_SURFACE": ""
+        "PIVOT": "പിവറ്റ്",
+        "SPRINKLER": "സ്പ്രിംഗളർ",
+        "SUB_SURFACE": "ഉപരിതലം"
       },
-      "TYPE_OF_IRRIGATION": "",
-      "VOLUME": "",
-      "WATER_USE_CALCULATOR": "",
+      "TYPE_OF_IRRIGATION": "ജലസേചനത്തിൻ്റെ തരം",
+      "VOLUME": "അളവ്",
+      "WATER_USE_CALCULATOR": "ജല ഉപയോഗ കാൽക്കുലേറ്റർ",
       "WATER_USE_CALCULATOR_INFO": {
-        "PHRASE1": "",
-        "PHRASE2": "",
-        "PHRASE3": ""
+        "PHRASE1": "എന്നതിനെ അടിസ്ഥാനമാക്കി ജല ഉപഭോഗം കണക്കാക്കാൻ ഈ കാൽക്കുലേറ്റർ നിങ്ങളെ സഹായിക്കുന്നു ",
+        "PHRASE2": "അടിസ്ഥാനമാക്കി കണക്കാക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുവെങ്കിൽ",
+        "PHRASE3": "ദയവായി തിരികെ പോയി തിരഞ്ഞെടുക്കുക"
       },
-      "WHAT_TYPE_OF_IRRIGATION": ""
+      "WHAT_TYPE_OF_IRRIGATION": "ഏത് തരത്തിലുള്ള ജലസേചനമാണ്?"
     },
-    "MANAGE_CUSTOM_TASKS": "",
-    "NEED_MANAGEMENT_PLAN": "",
-    "NO_MANAGEMENT_PLAN": "",
+    "MANAGE_CUSTOM_TASKS": "ഇഷ്‌ടാനുസൃത ജോലികൾ നിയന്ത്രിക്കുക",
+    "NEED_MANAGEMENT_PLAN": "ഒരു വിളവെടുപ്പ് ചുമതലയോ പറിച്ചുനടൽ ചുമതലയോ ഷെഡ്യൂൾ ചെയ്യുന്നതിന് മുമ്പ് നിങ്ങൾക്ക് സജീവമോ ആസൂത്രിതമോ ആയ ഒരു വിള പ്ലാൻ ആവശ്യമാണ്. ഇപ്പോൾ ഒരു പ്ലാൻ സൃഷ്‌ടിക്കാൻ ക്രോപ്പ് കാറ്റലോഗിലേക്ക് പോകുക. ദയവായി ചേർക്കുക.",
+    "NO_MANAGEMENT_PLAN": "യോഗ്യതയുള്ള ക്രോപ്പ് പ്ലാനുകളൊന്നുമില്ല",
     "PEST_CONTROL_VIEW": {
-      "BIOLOGICAL_CONTROL": "",
-      "FLAME_WEEDING": "",
-      "FOLIAR_SPRAY": "",
-      "HAND_WEEDING": "",
+      "BIOLOGICAL_CONTROL": "ജൈവ നിയന്ത്രണം",
+      "FLAME_WEEDING": "തീജ്വാല കളനിയന്ത്രണം",
+      "FOLIAR_SPRAY": "ഇല സ്പ്രേ",
+      "HAND_WEEDING": "കൈ കള പറിക്കൽ",
       "HEAT_TREATMENT": "വെട്ടിഒതുക്കുക",
-      "IS_PERMITTED": "",
+      "IS_PERMITTED": "അനുവദനീയമായ പദാർത്ഥങ്ങളുടെ പട്ടികയിൽ കീടങ്ങളുടെ ഏജൻ്റ് ഉണ്ടോ?",
       "OTHER": "മറ്റുള്ളവ",
-      "OTHER_PEST": "",
-      "PEST_CONTROL_METHOD": "",
-      "SOIL_FUMIGATION": "",
-      "SYSTEMIC_SPRAY": "",
-      "WHAT_PESTS": ""
+      "OTHER_PEST": "മറ്റ് രീതി",
+      "PEST_CONTROL_METHOD": "കീട നിയന്ത്രണ രീതി",
+      "SOIL_FUMIGATION": "മണ്ണ് ഫ്യൂമിഗേഷൻ",
+      "SYSTEMIC_SPRAY": "സിസ്റ്റമിക് സ്പ്രേ",
+      "WHAT_PESTS": "ഏത് കീട(ങ്ങളെ) യാണ് നിങ്ങൾ നിയന്ത്രിക്കാൻ ശ്രമിക്കുന്നത്"
     },
-    "PLANTING_FROM": "",
-    "PLANTING_METHOD": "",
-    "PLANTING_STOCK": "",
-    "PLANTING_TASK": "",
-    "PLANTING_TASK_MODAL": "",
-    "RETIRE_CUSTOM_TASK": "",
-    "RETIRE_CUSTOM_TASK_CONTENT": "",
-    "SEED": "",
-    "SELECT_ALL": "",
-    "SELECT_ALL_PLANS": "",
-    "SELECT_TASK_TYPE": "",
+    "PLANTING_FROM": "നടീൽ നിന്ന്",
+    "PLANTING_METHOD": "നടീൽ രീതി",
+    "PLANTING_STOCK": "നടീൽ സ്റ്റോക്ക്",
+    "PLANTING_TASK": "നടീൽ ചുമതല",
+    "PLANTING_TASK_MODAL": "ഒരു പുതിയ നടീൽ ചുമതല ആരംഭിക്കുന്നത് ഒരു പുതിയ വിള പ്ലാൻ സൃഷ്ടിക്കുന്നു. നിങ്ങൾ നടാൻ ആഗ്രഹിക്കുന്ന വിള തിരഞ്ഞെടുക്കുന്നതിന് ക്രോപ്പ് കാറ്റലോഗിലേക്ക് പോകുക.",
+    "RETIRE_CUSTOM_TASK": "ഇഷ്‌ടാനുസൃത ചുമതല റിറ്റൈർ ചെയ്യണോ?",
+    "RETIRE_CUSTOM_TASK_CONTENT": "ഈ ഇഷ്‌ടാനുസൃത ചുമതല ഇല്ലാതാക്കണമെന്ന് തീർച്ചയാണോ?",
+    "SEED": "വിത്ത്",
+    "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക",
+    "SELECT_ALL_PLANS": "എല്ലാ പ്ലാനുകളും തിരഞ്ഞെടുക്കുക",
+    "SELECT_TASK_TYPE": "ചുമതല തരം തിരഞ്ഞെടുക്കുക",
     "SOIL_AMENDMENT_VIEW": {
-      "ADVANCED": "",
-      "APPLICATION_METHOD": "",
-      "APPLICATION_RATE": "",
-      "APPLIED_TO": "",
-      "APPLIED_TO_MULTIPLE": "",
-      "BANDED": "",
-      "BROADCAST": "",
-      "FERTIGATION": "",
-      "FOLIAR": "",
-      "FURROW_HOLE": "",
-      "FURROW_HOLE_DEPTH": "",
-      "FURROW_HOLE_DEPTH_PLACEHOLDER": "",
-      "IS_PERMITTED": "",
-      "MOISTURE_RETENTION": "",
-      "NUTRIENT_AVAILABILITY": "",
-      "OTHER": "",
-      "OTHER_METHOD": "",
-      "OTHER_METHOD_PLACEHOLDER": "",
-      "OTHER_PURPOSE": "",
-      "PERECENT_TO_AMEND": "",
-      "PH": "",
-      "PURPOSE": "",
-      "QUANTITY": "",
-      "SIDE_DRESS": "",
-      "STRUCTURE": "",
-      "TOTAL_AREA": "",
-      "VOLUME": "",
-      "WEIGHT": ""
+      "ADVANCED": "വിപുലമായത്",
+      "APPLICATION_METHOD": "അപ്ലിക്കേഷൻ രീതി",
+      "APPLICATION_RATE": "അപ്ലിക്കേഷൻ നിരക്ക്",
+      "APPLIED_TO": "നിങ്ങളുടെ <4>{{locationArea}} {{locationAreaUnit}}</4> {{locationType}} എന്നതിലേക്ക് <1>{{percentOfArea}}%</1> പ്രയോഗിച്ചു",
+      "APPLIED_TO_MULTIPLE": "നിങ്ങളുടെ {{locationCount}} ലൊക്കേഷനുകളിൽ <1>{{ percentOfArea }}%</1> മൊത്തം ഏരിയ <5>{{ locationArea }}{{ locationAreaUnit }}</5> പ്രയോഗിച്ചു",
+      "BANDED": "ബാൻഡഡ്",
+      "BROADCAST": "ബ്രോഡ്കാസ്റ്റ്",
+      "FERTIGATION": "ഫെർട്ടിഗേഷൻ",
+      "FOLIAR": "ഇലകൾ",
+      "FURROW_HOLE": "ചാലുകൾ/ ദ്വാരം",
+      "FURROW_HOLE_DEPTH": "ചാലുകൾ/ ദ്വാരത്തിൻ്റെ ആഴം",
+      "FURROW_HOLE_DEPTH_PLACEHOLDER": "ഏത് ആഴത്തിലാണ് ഭേദഗതി പ്രയോഗിച്ചത്?",
+      "IS_PERMITTED": "അനുവദനീയമായ പദാർത്ഥങ്ങളുടെ പട്ടികയിലാണോ മണ്ണ് ഭേദഗതി?",
+      "MOISTURE_RETENTION": "ഈർപ്പം നിലനിർത്തൽ",
+      "NUTRIENT_AVAILABILITY": "പോഷക ലഭ്യത",
+      "OTHER": "മറ്റുള്ളവ",
+      "OTHER_METHOD": "ആപ്ലിക്കേഷൻ രീതിയെക്കുറിച്ച് ഞങ്ങളോട് കൂടുതൽ പറയുക",
+      "OTHER_METHOD_PLACEHOLDER": "നിങ്ങളുടെ മണ്ണ് ഭേദഗതി രീതി വിവരിക്കുക...",
+      "OTHER_PURPOSE": "ഉദ്ദേശ്യം വിവരിക്കുക",
+      "PERECENT_TO_AMEND": "ഭേദഗതി വരുത്തേണ്ട ലൊക്കേഷൻ ഏരിയയുടെ%",
+      "PH": "പിഎച്ച്",
+      "PURPOSE": "ഉദ്ദേശ്യം",
+      "QUANTITY": "പ്രയോഗിക്കാനുള്ള അളവ്",
+      "SIDE_DRESS": "സൈഡ്‌ഡ്രെസ് (ഉപരിതലം)",
+      "STRUCTURE": "ഘടന",
+      "TOTAL_AREA": "ആകെ ആപ്ലിക്കേഷൻ ഏരിയ",
+      "VOLUME": "അളവ്",
+      "WEIGHT": "ഭാരം"
     },
-    "TASK": "",
-    "TASK_NOTES_CHAR_LIMIT": "",
-    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "",
-    "TRANSPLANT_METHOD": "",
-    "WAGE_OVERRIDE": "",
-    "WHAT_PLANTING_METHOD": "",
-    "WILD_CROP": ""
+    "TASK": "ചുമതല",
+    "TASK_NOTES_CHAR_LIMIT": "കുറിപ്പുകൾ 10,000 പ്രതീകങ്ങളിൽ കുറവായിരിക്കണം",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "ഈ ചുമതലയെക്കുറിച്ച് ഞങ്ങളോട് പറയുക",
+    "TRANSPLANT_METHOD": "പറിച്ചുനടൽ രീതി",
+    "WAGE_OVERRIDE": "കൂലി അസാധുവാക്കൽ",
+    "WHAT_PLANTING_METHOD": "പറിച്ചുനടൽ രീതി എന്താണ്?",
+    "WILD_CROP": "കാട്ടുവിളകൾ"
   },
   "ANIMAL": {
     "ATTRIBUTE": {
@@ -211,1703 +211,1703 @@
     }
   },
   "BED_PLAN": {
-    "LENGTH_OF_BED": "",
-    "NUMBER_0F_BEDS": "",
-    "NUMBER_OF_ROWS": "",
-    "PLANT_SPACING": "",
-    "PLANTING_DETAILS": ""
+    "LENGTH_OF_BED": "വിത്തുതടത്തിൻ്റെ നീളം",
+    "NUMBER_0F_BEDS": "വിത്ത് കിടക്കകളുടെ എണ്ണം",
+    "NUMBER_OF_ROWS": "വിത്തുതടങ്ങളിലെ വരികളുടെ എണ്ണം",
+    "PLANT_SPACING": "ചെടികളുടെ അകലം",
+    "PLANTING_DETAILS": "നടീൽ വിശദാംശങ്ങൾ വ്യക്തമാക്കുക"
   },
   "BROADCAST_PLAN": {
-    "AREA_USED": "",
-    "HISTORICAL_PERCENTAGE_LOCATION": "",
-    "LOCATION_SIZE": "",
-    "PERCENTAGE_LABEL": "",
-    "PERCENTAGE_LOCATION": "",
-    "PLANTING_NOTES": "",
-    "SEEDING_RATE": ""
+    "AREA_USED": "ഉപയോഗിച്ച പ്രദേശം",
+    "HISTORICAL_PERCENTAGE_LOCATION": "എത്ര ശതമാനം സ്ഥലത്താണ് നട്ടത്?",
+    "LOCATION_SIZE": "സ്ഥലത്തിൻ്റെ വലിപ്പം\"",
+    "PERCENTAGE_LABEL": "സ്ഥലത്തിൻ്റെ ശതമാനം",
+    "PERCENTAGE_LOCATION": "എത്ര ശതമാനം സ്ഥലത്താണ് നിങ്ങൾ നടുന്നത്?",
+    "PLANTING_NOTES": "നടീൽ കുറിപ്പുകൾ",
+    "SEEDING_RATE": "വിത്ത് എണ്ണം"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "",
-    "TITLE": ""
+    "BODY": "നിങ്ങൾ നൽകിയ എല്ലാ വിവരങ്ങളും നിരസിക്കപ്പെടും. നിങ്ങൾക്ക് തുടരാൻ താൽപ്പര്യമുണ്ടോ?",
+    "TITLE": "നിങ്ങളുടെ {{flow}} റദ്ദാക്കണോ?"
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
-      "ADD": "",
-      "CHANGE_CERTIFICATION_PREFERENCE": "",
-      "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "",
-      "NO_CERTIFICATIONS": "",
-      "NO_LONGER_WORKING": "",
-      "SUPPORTED_CERTIFICATION_ONE": "",
-      "SUPPORTED_CERTIFICATION_TWO": "",
-      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "",
-      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "",
-      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "",
-      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "",
-      "UPDATE_SUCCESS": ""
+      "ADD": "സർട്ടിഫിക്കേഷൻ ചേർക്കുക",
+      "CHANGE_CERTIFICATION_PREFERENCE": "നിങ്ങളുടെ സർട്ടിഫിക്കേഷൻ മുൻഗണനകൾ മാറ്റുക",
+      "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "നിങ്ങളുടെ സർട്ടിഫിക്കേഷൻ മുൻഗണനകൾ മാറ്റുക",
+      "NO_CERTIFICATIONS": "നിങ്ങൾ നിലവിൽ ഒരു സർട്ടിഫിക്കേഷനും പിന്തുടരുന്നില്ല.",
+      "NO_LONGER_WORKING": "ഇനി ഈ സർട്ടിഫിക്കേഷൻ പിന്തുടരുന്നില്ലേ അല്ലെങ്കിൽ ഈ സർട്ടിഫയർക്കൊപ്പം പ്രവർത്തിക്കുന്നില്ലേ? ഒരു പ്രശ്നവുമില്ല!",
+      "SUPPORTED_CERTIFICATION_ONE": "നിങ്ങൾ പിന്തുടരുകയാണ് ",
+      "SUPPORTED_CERTIFICATION_TWO": " സർട്ടിഫിക്കേഷൻ നൽകിയത്:",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "ലൈറ്റ്ഫാം നിലവിൽ ഈ സർട്ടിഫിക്കറ്റിനായി ഡോക്യുമെൻ്റുകൾ സൃഷ്ടിക്കുന്നില്ല. എന്നിരുന്നാലും, മിക്ക സർട്ടിഫയർമാർക്കും ഉപയോഗപ്രദമായ ജനറിക് ഫോമുകൾ ഞങ്ങൾക്ക് കയറ്റുമതി ചെയ്യാൻ കഴിയും. ഈ ഫോമുകൾ സൃഷ്ടിക്കുന്നതിന് നിങ്ങൾക്ക് എക്‌സ്‌പോർട്ട് തിരഞ്ഞെടുക്കാം അല്ലെങ്കിൽ",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "നിങ്ങളുടെ പ്രദേശത്ത് പുതിയ സർട്ടിഫയറുകൾ ലഭ്യമാണോ എന്നറിയാൻ.",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "നിങ്ങൾ അഭ്യർത്ഥിച്ചു",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "സർട്ടിഫിക്കേഷൻ നൽകിയത്",
+      "UPDATE_SUCCESS": "സർട്ടിഫിക്കേഷൻ മുൻഗണനകൾ സംരക്ഷിക്കപ്പെട്ടു"
     },
     "CERTIFICATION_SELECTION": {
-      "REQUEST_CERTIFICATION": "",
-      "SUBTITLE_ONE": "",
-      "SUBTITLE_TWO": "",
-      "TITLE": "",
-      "TOOLTIP": ""
+      "REQUEST_CERTIFICATION": "മറ്റൊരു തരത്തിലുള്ള സർട്ടിഫിക്കേഷൻ അഭ്യർത്ഥിക്കുക",
+      "SUBTITLE_ONE": "ഇതിൻ്റെ ഒരു ലിസ്റ്റ് ഇതാ",
+      "SUBTITLE_TWO": "നിങ്ങളുടെ രാജ്യത്ത് ഞങ്ങൾ പ്രവർത്തിക്കുന്ന സർട്ടിഫയറുകൾ.",
+      "TITLE": "ഏത് തരത്തിലുള്ള സർട്ടിഫിക്കേഷൻ?",
+      "TOOLTIP": "നിങ്ങളുടെ സർട്ടിഫിക്കേഷൻ കാണുന്നില്ലേ? ലൈറ്റ്ഫാം സുസ്ഥിര കൃഷിയെ പിന്തുണയ്ക്കുന്നതിനായി സമർപ്പിക്കുന്നു, സർട്ടിഫിക്കേഷനുകൾ അതിൻ്റെ വലിയ ഭാഗമാണ്. ഇവിടെ മറ്റൊരു സർട്ടിഫിക്കേഷൻ അഭ്യർത്ഥിക്കുക, അത് ആപ്പിൽ ഉൾപ്പെടുത്താൻ ഞങ്ങൾ പരമാവധി ശ്രമിക്കും."
     },
     "CERTIFIER_SELECTION": {
-      "INFO": "",
-      "NOT_FOUND": "",
-      "REQUEST_CERTIFIER": "",
-      "TITLE": ""
+      "INFO": "അതിനർത്ഥം ലൈറ്റ്ഫാം നിലവിൽ നിങ്ങളുടെ സർട്ടിഫയറിനൊപ്പം പ്രവർത്തിക്കുന്നില്ല എന്നാണ് - ക്ഷമിക്കണം! ലൈറ്റ്ഫാം മിക്ക കേസുകളിലും സഹായകമായ പൊതുവായ ഫോമുകൾ നിർമ്മിക്കുന്നു.",
+      "NOT_FOUND": "നിങ്ങളുടെ സർട്ടിഫയറെ കാണുന്നില്ലേ?",
+      "REQUEST_CERTIFIER": "ഒരു സർട്ടിഫയർക്കായി അഭ്യർത്ഥിക്കുക",
+      "TITLE": "ആരാണ് നിങ്ങളുടെ സർട്ടിഫയർ?"
     },
-    "INPUT_PLACEHOLDER": "",
+    "INPUT_PLACEHOLDER": "തിരയാൻ ടൈപ്പ് ചെയ്യുക",
     "INTERESTED_IN_CERTIFICATION": {
-      "PARAGRAPH": "",
-      "TITLE": "",
-      "WHY_ANSWER": ""
+      "PARAGRAPH": "ഈ സീസണിൽ ഒരു സർട്ടിഫിക്കേഷൻ പിന്തുടരാനോ പുതുക്കാനോ നിങ്ങൾ ഉദ്ദേശിക്കുന്നുണ്ടോ?",
+      "TITLE": "സർട്ടിഫിക്കേഷനുകളിൽ താൽപ്പര്യമുണ്ടോ?",
+      "WHY_ANSWER": "ലൈറ്റ്ഫാം ജൈവ സർട്ടിഫിക്കേഷന് ആവശ്യമായ ഫോമുകൾ സൃഷ്ടിക്കുന്നു. ചില വിവരങ്ങൾ നിർബന്ധമായിരിക്കും."
     },
     "REQUEST_CERTIFIER": {
-      "LABEL": "",
-      "REQUEST": "",
-      "SORRY_ONE": "",
-      "SORRY_THREE": "",
-      "SORRY_TWO": "",
-      "TITLE": ""
+      "LABEL": "അഭ്യർത്ഥിച്ച സർട്ടിഫയർ",
+      "REQUEST": "ഏത് സർട്ടിഫയറാണ് നിങ്ങൾ അഭ്യർത്ഥിക്കാൻ ആഗ്രഹിക്കുന്നത്?",
+      "SORRY_ONE": "ഞങ്ങളോട് ക്ഷമിക്കൂ - ഞങ്ങൾ നിലവിൽ ആരുമായും പ്രവർത്തിക്കുന്നില്ല",
+      "SORRY_THREE": "നിങ്ങളുടെ രാജ്യത്തെ സർട്ടിഫയർമാർ. നിങ്ങൾക്ക് ഒരെണ്ണം അഭ്യർത്ഥിക്കാൻ താൽപ്പര്യമുണ്ടോ?",
+      "SORRY_TWO": "സർട്ടിഫയർമാർ. നിങ്ങൾക്ക് ഒരെണ്ണം അഭ്യർത്ഥിക്കാൻ താൽപ്പര്യമുണ്ടോ?",
+      "TITLE": "ഒരു സർട്ടിഫയർക്കായി അഭ്യർത്ഥിക്കുക"
     },
     "SUMMARY": {
-      "BAD_NEWS": "",
-      "BAD_NEWS_INFO": "",
-      "CERTIFICATION": "",
-      "GOOD_NEWS": "",
-      "INFORMATION": "",
-      "TITLE": "",
-      "YOUR_CERTIFICATION": ""
+      "BAD_NEWS": "നിങ്ങളുടെ സർട്ടിഫിക്കേഷൻ ഡോക്യുമെൻ്റുകൾ സൃഷ്ടിക്കുന്നതിന് ആവശ്യമായ വിവരങ്ങൾ ലൈറ്റ്ഫാം നിലവിൽ ശേഖരിക്കുന്നില്ല - ക്ഷമിക്കണം!",
+      "BAD_NEWS_INFO": "എന്നിരുന്നാലും, മിക്ക സർട്ടിഫയർമാർക്കും ഉപയോഗപ്രദമായ പൊതുവായ ഫോമുകൾ സൃഷ്ടിക്കാൻ ഞങ്ങൾക്ക് കഴിയും. ഒരു ഇല ഐക്കൺ ഉപയോഗിച്ച് ഞങ്ങൾ ഈ വിവരങ്ങൾ ആപ്പിലുടനീളം സൂചിപ്പിക്കും.",
+      "CERTIFICATION": "സർട്ടിഫിക്കേഷൻ",
+      "GOOD_NEWS": "സന്തോഷ വാർത്ത! ലൈറ്റ്ഫാമിന് നിങ്ങളുടെ സർട്ടിഫിക്കേഷൻ രേഖകൾ സൃഷ്ടിക്കുന്നതിന് ആവശ്യമായ വിവരങ്ങൾ ശേഖരിക്കാനാകും!",
+      "INFORMATION": "ഒരു ഇല ഐക്കൺ ഉപയോഗിച്ച് ഞങ്ങൾ ഈ വിവരങ്ങൾ ആപ്പിലുടനീളം സൂചിപ്പിക്കും.",
+      "TITLE": "അപേക്ഷിക്കാൻ നിങ്ങൾക്ക് താല്പര്യമുള്ളത്:",
+      "YOUR_CERTIFICATION": "നിങ്ങളുടെ സർട്ടിഫിക്കേഷൻ"
     }
   },
   "CERTIFICATIONS": {
-    "COULD_NOT_CONTACT_CERTIFIER": "",
-    "EXPORT": "",
-    "EXPORT_DOCS": "",
-    "EXPORT_DOWNLOADING_MESSAGE": "",
-    "EXPORT_FILE_TITLE": "",
-    "FILES_ARE_READY": "",
-    "FLOW_TITLE": "",
-    "GOOD_NEWS": "",
-    "HAVE_ALL_INFO": "",
-    "NEXT_WE_WILL_CHECK": "",
-    "NOTE_CANNOT_RESUBMIT": "",
-    "ORGANIC_CERTIFICATION_FROM": "",
-    "SELECT_REPORTING_PERIOD": "",
-    "UH_OH": "",
-    "WOULD_LIKE_ANSWERS": ""
+    "COULD_NOT_CONTACT_CERTIFIER": "ലൈറ്റ്ഫാം നിലവിൽ നിങ്ങളുടെ സർട്ടിഫയറിൻ്റെ ഫോർമാറ്റിൽ കയറ്റുമതി ചെയ്യുന്നില്ലെന്ന് തോന്നുന്നു. നിങ്ങൾക്ക് തുടർന്നും നിങ്ങളുടെ ഡോക്യുമെൻ്റുകൾ എക്‌സ്‌പോർട്ട് ചെയ്യാം, എന്നാൽ നിങ്ങളുടെ സർട്ടിഫയറിന് കൂടുതൽ വിവരങ്ങൾ ആവശ്യമായി വന്നേക്കാം. ഞങ്ങൾ അവ നിങ്ങൾക്ക് ഇവിടെ അയയ്‌ക്കും:",
+    "EXPORT": "കയറ്റുമതി ചെയ്യുക",
+    "EXPORT_DOCS": "സർട്ടിഫിക്കേഷൻ രേഖകൾ കയറ്റുമതി ചെയ്യുക",
+    "EXPORT_DOWNLOADING_MESSAGE": "നിങ്ങളുടെ ഓർഗാനിക് സർട്ടിഫിക്കേഷൻ ഫയലുകൾ ഡൗൺലോഡ് ചെയ്യുന്നു ...",
+    "EXPORT_FILE_TITLE": "ജൈവ സർട്ടിഫിക്കേഷൻ",
+    "FILES_ARE_READY": "നിങ്ങളുടെ സർട്ടിഫിക്കേഷൻ ഫയലുകൾ ഇപ്പോൾ കയറ്റുമതി ചെയ്യാൻ തയ്യാറാണ്. ഈ വിലാസത്തിൽ ഞങ്ങൾ അവ നിങ്ങൾക്ക് അയയ്ക്കും:",
+    "FLOW_TITLE": "സർട്ടിഫിക്കേഷൻ രേഖകളുടെ കയറ്റുമതി",
+    "GOOD_NEWS": "സന്തോഷ വാർത്ത!",
+    "HAVE_ALL_INFO": "നിങ്ങളുടെ സർട്ടിഫിക്കേഷൻ ഡോക്യുമെൻ്റുകൾ പ്രോസസ്സ് ചെയ്യുന്നതിന് ഞങ്ങൾക്ക് ആവശ്യമായ എല്ലാ വിവരങ്ങളും ലൈറ്റ്ഫാമിൽ ഉണ്ടെന്ന് തോന്നുന്നു. ഈ വിലാസത്തിൽ ഞങ്ങൾ അവ നിങ്ങൾക്ക് അയയ്ക്കും:",
+    "NEXT_WE_WILL_CHECK": "നിങ്ങളുടെ സർട്ടിഫിക്കേഷൻ സമർപ്പിക്കൽ പ്രോസസ്സ് ചെയ്യുന്നതിന് നിങ്ങളുടെ സർട്ടിഫയർക്ക് എന്തെങ്കിലും അധിക വിവരങ്ങൾ ആവശ്യമുണ്ടോ എന്ന് ഞങ്ങൾ അടുത്തതായി പരിശോധിക്കും.",
+    "NOTE_CANNOT_RESUBMIT": "ശ്രദ്ധിക്കുക: ഒരിക്കൽ നിങ്ങൾ സർവേ സമർപ്പിച്ചാൽ നിങ്ങളുടെ ഉത്തരങ്ങൾ എഡിറ്റ് ചെയ്യാൻ കഴിയില്ല. സമർപ്പിച്ചതിന് ശേഷം അവ മാറ്റുന്നതിന്, ഒരു പുതിയ കയറ്റുമതി ആരംഭിക്കുക.",
+    "ORGANIC_CERTIFICATION_FROM": "ജൈവ സർട്ടിഫിക്കേഷൻ ലഭിച്ചത്",
+    "SELECT_REPORTING_PERIOD": "നിങ്ങളുടെ റിപ്പോർട്ടിംഗ് കാലയളവ് തിരഞ്ഞെടുക്കുക",
+    "UH_OH": "അയ്യോ!",
+    "WOULD_LIKE_ANSWERS": "ഞങ്ങൾ നിങ്ങളുടെ ഡോക്യുമെൻ്റുകൾ എക്‌സ്‌പോർട്ടുചെയ്യുന്നതിന് മുമ്പ് കുറച്ച് ചോദ്യങ്ങൾക്ക് നിങ്ങൾ ഉത്തരം നൽകാൻ നിങ്ങളുടെ സർട്ടിഫയർ ആഗ്രഹിക്കുന്നു."
   },
   "CERTIFICATIONS_MODAL": {
-    "MAYBE_LATER": "",
+    "MAYBE_LATER": "ഒരുപക്ഷേ പിന്നീട്",
     "STEP_ONE": {
-      "DESCRIPTION": "",
-      "TITLE": ""
+      "DESCRIPTION": "സർട്ടിഫിക്കേഷനുകൾക്കും സർട്ടിഫയറുകൾക്കും ഞങ്ങൾ പിന്തുണ ചേർത്തു! നിങ്ങളുടെ പ്രദേശത്ത് എന്താണ് ലഭ്യമെന്ന് കാണണോ?",
+      "TITLE": "പുതിയ സവിശേഷത!"
     },
     "STEP_TWO": {
-      "DESCRIPTION": "",
-      "TITLE": ""
+      "DESCRIPTION": "അത് കുഴപ്പമില്ല! \"എൻ്റെ ഫാം\" എന്നതിന് കീഴിൽ നിങ്ങൾക്ക് പിന്നീട് സർട്ടിഫിക്കേഷനുകളും സർട്ടിഫയറുകളും ചേർക്കാം.",
+      "TITLE": "സർട്ടിഫിക്കേഷനുകൾ കാണുന്നു"
     }
   },
   "CHOOSE_FARM": {
-    "ADD_NEW": "",
-    "CHOOSE_TITLE": "",
-    "INPUT_PLACEHOLDER": "",
-    "SWITCH_TITLE": ""
+    "ADD_NEW": "പുതിയ ഫാം ചേർക്കുക",
+    "CHOOSE_TITLE": "നിങ്ങളുടെ ഫാം തിരഞ്ഞെടുക്കുക",
+    "INPUT_PLACEHOLDER": "തിരയുക",
+    "SWITCH_TITLE": "മറ്റൊരു ഫാമിലേക്ക് മാറുക"
   },
   "COMMON_ERRORS": {
     "UNIT": {
-      "NON_NEGATIVE": "",
-      "REQUIRED": "",
-      "TWO_DECIMALS": ""
+      "NON_NEGATIVE": "നെഗറ്റീവ് അല്ലാത്ത സംഖ്യയായിരിക്കണം",
+      "REQUIRED": "ആവശ്യമാണ്",
+      "TWO_DECIMALS": "അളവ് 2 ദശാംശ സ്ഥാനങ്ങൾ വരെ ആയിരിക്കണം"
     }
   },
   "CONSENT": {
-    "DATA_POLICY": "",
-    "LABEL": ""
+    "DATA_POLICY": "ഞങ്ങളുടെ ഡാറ്റ നയം",
+    "LABEL": "ഞാൻ അംഗീകരിക്കുന്നു"
   },
   "CREATE_USER": {
-    "BIRTH_YEAR": "",
-    "BIRTH_YEAR_ERROR": "",
-    "BIRTH_YEAR_TOOLTIP": "",
-    "CREATE_BUTTON": "",
+    "BIRTH_YEAR": "ജനിച്ച വർഷം",
+    "BIRTH_YEAR_ERROR": "ജനന വർഷം 1900-നും __ ഇടയിലായിരിക്കണം",
+    "BIRTH_YEAR_TOOLTIP": "ഗവേഷണ ആവശ്യങ്ങൾക്കായി മാത്രമാണ് പ്രായ വിവരങ്ങൾ ശേഖരിക്കുന്നത്, നീക്കംചെയ്ത വ്യക്തികളെ തിരിച്ചറിയുന്ന വിവരങ്ങളുമായി മാത്രമേ അവ പങ്കിടുകയുള്ളൂ",
+    "CREATE_BUTTON": "അക്കൗണ്ട് സൃഷ്ടിക്കുക",
     "DEFAULT_LANGUAGE": "മലയാളം",
     "DEFAULT_LANGUAGE_VALUE": "ml",
-    "EMAIL": "",
-    "FULL_NAME": "",
-    "GENDER": "",
-    "GENDER_TOOLTIP": "",
-    "LANGUAGE_PREFERENCE": "",
-    "PASSWORD": "",
-    "TITLE": ""
+    "EMAIL": "ഇമെയിൽ",
+    "FULL_NAME": "പൂർണ്ണമായ പേര്",
+    "GENDER": "ലിംഗം",
+    "GENDER_TOOLTIP": "ലിംഗവിവരങ്ങൾ ഗവേഷണ ആവശ്യങ്ങൾക്കായി മാത്രം ശേഖരിക്കുന്നു, നീക്കംചെയ്ത വ്യക്തിപരമായി തിരിച്ചറിയുന്ന വിവരങ്ങളുമായി മാത്രമേ അവ പങ്കിടുകയുള്ളൂ",
+    "LANGUAGE_PREFERENCE": "ഭാഷാ മുൻഗണന",
+    "PASSWORD": "പാസ്‌വേഡ്",
+    "TITLE": "പുതിയ ഉപയോക്തൃ അക്കൗണ്ട് സൃഷ്ടിക്കുക"
   },
   "CROP": {
-    "ADD_CROP": "",
-    "ADD_IMAGE": "",
-    "ANNUAL": "",
-    "ANNUAL_OR_PERENNIAL": "",
-    "CULTIVAR_PLACEHOLDER": "",
-    "CULTIVAR_SUBTEXT": "",
-    "DUPLICATE_VARIETY": "",
-    "EDIT_CROP": "",
+    "ADD_CROP": "ഒരു വിള ചേർക്കുക",
+    "ADD_IMAGE": "ഇഷ്ടാനുസൃത ചിത്രം ചേർക്കുക",
+    "ANNUAL": "വാർഷികം",
+    "ANNUAL_OR_PERENNIAL": "വിള വാർഷികമോ വറ്റാത്തതോ ആണോ?",
+    "CULTIVAR_PLACEHOLDER": "ഉദാ. റെഡ് ടെലിസിയസ്",
+    "CULTIVAR_SUBTEXT": "കൃഷി ഇനങ്ങളെക്കുറിച്ച് കൂടുതലറിയുക",
+    "DUPLICATE_VARIETY": "ഇതേ പേരിലുള്ള ഈ വിളയുടെ വൈവിധ്യം നിങ്ങളുടെ ഫാമിൽ ഇതിനകം നിലവിലുണ്ട്",
+    "EDIT_CROP": "വിള തിരുത്തുക",
     "EDIT_MODAL": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "ഈ വിള തിരുത്തുന്നത് നിലവിലുള്ള വിള പദ്ധതികളൊന്നും പരിഷ്കരിക്കില്ല. നിങ്ങളുടെ തിരുത്തലുകൾക്ക് ശേഷം സൃഷ്‌ടിച്ച വിള പദ്ധതികളെ മാത്രമേ ബാധിക്കൂ. തിരുത്തൽ തുടരണോ?",
+      "TITLE": "വിള തിരുത്തണോ?"
     },
-    "IS_GENETICALLY_ENGINEERED": "",
-    "IS_ORGANIC": "",
-    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "",
-    "NEED_DOCUMENT_PERFORM_SEARCH": "",
-    "NEED_DOCUMENT_TREATED": "",
-    "NUTRIENTS_IN_EDIBLE_PORTION": "",
-    "PERENNIAL": "",
-    "PERFORM_SEARCH": "",
-    "PHYSIOLOGY_AND_ANATOMY": "",
+    "IS_GENETICALLY_ENGINEERED": "ഈ വിള ജനിതകമാറ്റം വരുത്തിയതാണോ?",
+    "IS_ORGANIC": "വിത്തിനോ വിളയോ ജൈവ സർട്ടിഫൈഡ് ആണോ?",
+    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "വിള ജനിതകമാറ്റം വരുത്തിയിട്ടില്ലെന്ന അവകാശവാദത്തെ പിന്തുണയ്ക്കാൻ നിങ്ങളുടെ സർട്ടിഫയർ ഡോക്യുമെൻ്റേഷൻ ആവശ്യപ്പെട്ടേക്കാം.",
+    "NEED_DOCUMENT_PERFORM_SEARCH": "നിങ്ങളുടെ സർട്ടിഫയർ നിങ്ങളുടെ തിരയലിനെ പിന്തുണയ്ക്കുന്നതിനുള്ള രേഖകൾ ആവശ്യപ്പെട്ടേക്കാം.",
+    "NEED_DOCUMENT_TREATED": "നിങ്ങളുടെ സർട്ടിഫയർ ഏതെങ്കിലും ചികിത്സയെ വിവരിക്കുന്ന ഡോക്യുമെൻ്റേഷൻ ആവശ്യപ്പെട്ടേക്കാം.",
+    "NUTRIENTS_IN_EDIBLE_PORTION": "ഭക്ഷ്യയോഗ്യമായ ഭാഗത്തുള്ള പോഷകങ്ങൾ (100 ഗ്രാമിന്)",
+    "PERENNIAL": "വറ്റാത്തത്",
+    "PERFORM_SEARCH": "വാണിജ്യ ലഭ്യത നിങ്ങൾ പരിശോധിച്ചിട്ടുണ്ടോ?",
+    "PHYSIOLOGY_AND_ANATOMY": "ശരീരശാസ്ത്രവും ശരീരഘടനയും",
     "REPEAT_PLAN_MODAL": {
-      "DELETED_PLANS": ""
+      "DELETED_PLANS": "ഈ ആവർത്തനത്തിൻ്റെ ഭാഗമായ ഇല്ലാതാക്കിയവിള പദ്ധതികൾ കാണിക്കില്ല."
     },
-    "TREATED": "",
-    "VARIETAL_IMAGE": "",
-    "VARIETAL_IMAGE_INFO": "",
-    "VARIETAL_PLACEHOLDER": "",
-    "VARIETAL_SUBTEXT": "",
-    "VARIETAL_SUBTITLE": "",
-    "VARIETY_COMMON_NAME": "",
-    "VARIETY_CULTIVAR": "",
-    "VARIETY_VARIETAL": ""
+    "TREATED": "ഈ വിളയ്ക്ക് വിത്ത് സംസ്കരിച്ചിട്ടുണ്ടോ?",
+    "VARIETAL_IMAGE": "വൈവിധ്യത്തിനോ കൃഷിയിനത്തിനോ വേണ്ടി ചിത്രം ഇഷ്ടാനുസൃതമാക്കുക",
+    "VARIETAL_IMAGE_INFO": "ഈ തരത്തിലുള്ള അല്ലെങ്കിൽ ഉപജാതികളുടെ ചിത്രം ഡിഫോൾട്ട് വിളയിൽ നിന്ന് വ്യത്യസ്തമായിരിക്കണമെങ്കിൽ, നിങ്ങൾക്ക് ഇവിടെ ചിത്രം ഇഷ്ടാനുസൃതമാക്കാം.",
+    "VARIETAL_PLACEHOLDER": "ഉദാ. കാബർനെറ്റ് സോവിഗ്നൺ",
+    "VARIETAL_SUBTEXT": "ഇനങ്ങളെക്കുറിച്ച് കൂടുതലറിയുക",
+    "VARIETAL_SUBTITLE": "നിങ്ങൾ വളർത്താൻ ഉദ്ദേശിക്കുന്ന നിർദ്ദിഷ്ട ഇനത്തെക്കുറിച്ചോ ഇനത്തെക്കുറിച്ചോ ഞങ്ങളോട് പറയുക",
+    "VARIETY_COMMON_NAME": "പൊതുവായ പേര്",
+    "VARIETY_CULTIVAR": "കൃഷി",
+    "VARIETY_VARIETAL": "വൈവിധ്യമാർന്ന"
   },
   "CROP_CATALOGUE": {
-    "ADD_CROP": "",
-    "ADD_CROPS_T0_YOUR_FARM": "",
-    "ADD_TO_YOUR_FARM": "",
-    "CAN_NOT_FIND": "",
-    "CANCEL": "",
-    "COVER_CROP": "",
-    "CREATE_MANAGEMENT_PLANS": "",
-    "CROP_CATALOGUE": "",
-    "CROP_GROUP": "",
-    "CROP_GROUP_TOOL_TIP": "",
-    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "",
-    "DUPLICATE_CROP": "",
+    "ADD_CROP": "പുതിയ വിള ചേർക്കുക",
+    "ADD_CROPS_T0_YOUR_FARM": "നിങ്ങളുടെ കൃഷിയിടത്തിൽ വിളകൾ ചേർക്കുക",
+    "ADD_TO_YOUR_FARM": "നിങ്ങളുടെ കൃഷിയിടത്തിലേക്ക് ചേർക്കുക",
+    "CAN_NOT_FIND": "നിങ്ങൾ തിരയുന്നത് കണ്ടെത്താൻ കഴിയുന്നില്ലേ?",
+    "CANCEL": "വിളകളുടെ സൃഷ്ടി",
+    "COVER_CROP": "ഇത് ഒരു കവർ വിളയായി വളർത്താൻ കഴിയുമോ?",
+    "CREATE_MANAGEMENT_PLANS": "വിള പദ്ധതികൾ ഉണ്ടാക്കുക",
+    "CROP_CATALOGUE": "വിളവെടുപ്പ് നാമാവലി",
+    "CROP_GROUP": "വിള ഗ്രൂപ്പ്",
+    "CROP_GROUP_TOOL_TIP": "ഒരു വിളവ് ഗ്രൂപ്പ് തിരഞ്ഞെടുക്കുന്നത്, വളരുന്ന സീസൺ, പോഷക മൂല്യങ്ങൾ, കണക്കാക്കിയ വാർഷിക വിളവ് എന്നിങ്ങനെ ഈ വിളയെക്കുറിച്ചുള്ള ധാരാളം വിവരങ്ങൾ പ്രീ-പോപ്പുലേറ്റ് ചെയ്യാൻ ലൈറ്റ്ഫാമിനെ അനുവദിക്കുന്നു. വിഷമിക്കേണ്ട, നിങ്ങൾ ഒരു വിളവ് ഗ്രൂപ്പ് തിരഞ്ഞെടുത്തുകഴിഞ്ഞാൽ ഈ മൂല്യങ്ങൾ ചുവടെ മാറ്റാം.",
+    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "ജൈവ ഉൽപ്പാദനത്തിന് ആവശ്യമായ വിവരങ്ങൾ രേഖപ്പെടുത്തുക",
+    "DUPLICATE_CROP": "നിങ്ങളുടെ ഫാമിൽ ഇതേ പേരിലുള്ള ഒരു വിളയും ജനുസ്സും ഇനവും ഇതിനകം നിലവിലുണ്ട്",
     "FILTER": {
-      "LOCATION": "",
-      "STATUS": "",
-      "SUPPLIERS": "",
-      "TITLE": ""
+      "LOCATION": "സ്ഥലം",
+      "STATUS": "നില",
+      "SUPPLIERS": "വിതരണക്കാർ",
+      "TITLE": "ക്രോപ്പ് കാറ്റലോഗ് ഫിൽട്ടർ"
     },
-    "FILTER_TITLE": "",
-    "GENUS": "",
-    "HERE_YOU_CAN": "",
-    "LETS_BEGIN": "",
-    "NEW_CROP_NAME": "",
-    "NO_RESULTS_FOUND": "",
-    "NOMINATE_CROP": "",
-    "NOMINATE_CROP_TOOLTIP": "",
-    "ON_YOUR_FARM": "",
-    "SELECT_A_CROP": "",
-    "SPECIES": ""
+    "FILTER_TITLE": "ക്രോപ്പ് കാറ്റലോഗ് ഫിൽട്ടർ",
+    "GENUS": "ജനുസ്സ്",
+    "HERE_YOU_CAN": "ഇവിടെ നിങ്ങൾക്ക്:",
+    "LETS_BEGIN": "നമുക്ക് തുടങ്ങാം",
+    "NEW_CROP_NAME": "പുതിയ വിളയുടെ പേര്",
+    "NO_RESULTS_FOUND": "ഫലങ്ങളൊന്നും കണ്ടെത്തിയില്ല. ദയവായി നിങ്ങളുടെ ഫിൽട്ടറുകൾ മാറ്റുക.",
+    "NOMINATE_CROP": "ലൈറ്റ്ഫാം വിള കാറ്റലോഗിൽ ഉൾപ്പെടുത്തുന്നതിന് ഈ വിളയെ നാമനിർദ്ദേശം ചെയ്യുക",
+    "NOMINATE_CROP_TOOLTIP": "ലൈറ്റ്ഫാം ക്രോപ്പ് ലിസ്റ്റിൽ ഉൾപ്പെടുത്തുന്നതിന് ഈ വിളയെ നാമനിർദ്ദേശം ചെയ്യുന്നത് ലൈറ്റ്ഫാം ടീമിനെ ഈ വിളയെ കുറിച്ചുള്ള വിവരങ്ങൾ നിങ്ങളുടെ പ്രദേശത്തെ ഒരു വിദഗ്ദ്ധനുമായി പങ്കിടാൻ അനുവദിക്കുന്നു. അംഗീകൃത വിളകൾ എല്ലാ ഉപയോക്താക്കൾക്കും കാണിക്കുന്ന ക്രോപ്പ് ലിസ്റ്റിൻ്റെ ഭാഗമാകും.",
+    "ON_YOUR_FARM": "നിങ്ങളുടെ കൃഷിയിടത്തിൽ",
+    "SELECT_A_CROP": "നിങ്ങളുടെ ഫാമിലേക്ക് ചേർക്കാൻ ഒരു വിള തിരഞ്ഞെടുക്കുക. കൂടുതൽ വേഗത്തിൽ വിളകൾ കണ്ടെത്താൻ തിരയലും ഫിൽട്ടറുകളും ഉപയോഗിക്കുക.",
+    "SPECIES": "സ്പീഷീസ്"
   },
   "CROP_DETAIL": {
-    "ADD_PLAN": "",
-    "ANNUAL": "",
-    "ANNUAL_PERENNIAL": "",
-    "COMMERCIAL_AVAILABILITY": "",
-    "DETAIL_TAB": "",
-    "EDIT_CROP_DETAIL": "",
-    "GENETICALLY_ENGINEERED": "",
-    "HS_CODE": "",
-    "MANAGEMENT_PLANS": "",
-    "MANAGEMENT_TAB": "",
-    "ORGANIC": "",
-    "PERENNIAL": "",
-    "TREATED": ""
+    "ADD_PLAN": "ഒരു പ്ലാൻ ചേർക്കുക",
+    "ANNUAL": "വാർഷികം",
+    "ANNUAL_PERENNIAL": "വിള വാർഷികമോ വറ്റാത്തതോ ആണോ?",
+    "COMMERCIAL_AVAILABILITY": "വാണിജ്യ ലഭ്യത നിങ്ങൾ പരിശോധിച്ചിട്ടുണ്ടോ?",
+    "DETAIL_TAB": "വിശദാംശങ്ങൾ",
+    "EDIT_CROP_DETAIL": "വിള വിവരണം എഡിറ്റ് ചെയ്യുക",
+    "GENETICALLY_ENGINEERED": "ഈ വിള ജനിതകമാറ്റം വരുത്തിയതാണോ?",
+    "HS_CODE": "എച്എസ് കോഡ്",
+    "MANAGEMENT_PLANS": "വിള പദ്ധതികൾ",
+    "MANAGEMENT_TAB": "മാനേജ്മെൻ്റ്",
+    "ORGANIC": "വിത്തിനോ വിളയോ ജൈവ സർട്ടിഫൈഡ് ആണോ?",
+    "PERENNIAL": "വറ്റാത്തത്‌",
+    "TREATED": "ഈ വിളയ്ക്ക് വിത്ത് സംസ്കരിച്ചിട്ടുണ്ടോ?"
   },
   "CROP_MANAGEMENT": {
-    "GERMINATE": "",
-    "HARVEST": "",
-    "PLANT": "",
-    "SEED": "",
-    "TERMINATE": "",
-    "TRANSPLANT": ""
+    "GERMINATE": "മുളപ്പിക്കൽ",
+    "HARVEST": "വിളവെടുപ്പ്",
+    "PLANT": "ചെടി",
+    "SEED": "വിത്ത്",
+    "TERMINATE": "അവസാനിപ്പിക്കൽ",
+    "TRANSPLANT": "പറിച്ചുനടുക"
   },
   "CROP_STATUS_NON_ORGANIC_MISMATCH_MODAL": {
-    "SUBTITLE": "",
-    "TITLE": ""
+    "SUBTITLE": "നിങ്ങൾ ഒരു അജൈവ സ്ഥലത്ത് ഒരു ജൈവ വിള നടുമെന്ന് സൂചിപ്പിച്ചു. നിങ്ങൾക്ക് തുടരണോ?",
+    "TITLE": "നിങ്ങൾ ഒരു അജൈവ സ്ഥാനം തിരഞ്ഞെടുത്തു!"
   },
   "CROP_STATUS_ORGANIC_MISMATCH_MODAL": {
-    "SUBTITLE": "",
-    "TITLE": ""
+    "SUBTITLE": "നിങ്ങൾ ഒരു ജൈവ സ്ഥലത്ത് ഒരു അജൈവ വിള നടുമെന്ന് സൂചിപ്പിച്ചു. നിങ്ങൾക്ക് തുടരണോ?",
+    "TITLE": "നിങ്ങൾ ഒരു ജൈവ സ്ഥാനം തിരഞ്ഞെടുത്തു!"
   },
   "CROP_VARIETIES": {
-    "ADD_VARIETY": "",
-    "CROP_VARIETIES": "",
+    "ADD_VARIETY": "ഒരു പുതിയ ഇനം ചേർക്കുക",
+    "CROP_VARIETIES": "വൈവിധ്യം",
     "RETIRE": {
-      "CONFIRMATION": "",
-      "RETIRE_CROP_TITLE": "",
-      "UNABLE_TO_RETIRE": "",
-      "UNABLE_TO_RETIRE_TITLE": ""
+      "CONFIRMATION": "ഈ വിള നീക്കം ചെയ്യുന്നത് നിങ്ങളുടെ വിള ലിസ്റ്റിൽ നിന്ന് അതിനെയും അതിൻ്റെ എല്ലാ വിള പദ്ധതികളും നീക്കം ചെയ്യും. നിങ്ങൾക്ക് തുടരണോ?",
+      "RETIRE_CROP_TITLE": "വിള ഉപേക്ഷിക്കണോ?",
+      "UNABLE_TO_RETIRE": "സജീവമായ അല്ലെങ്കിൽ ഭാവിയിൽ വിളവെടുപ്പ് പദ്ധതികളില്ലാത്ത വിളകൾ മാത്രമേ നിങ്ങൾക്ക് ഇല്ലാതാക്കാൻ കഴിയൂ. ഈ വിളവെടുപ്പ് പൂർത്തിയാക്കാൻ നിങ്ങൾ ആ പദ്ധതികൾ നിറവേറ്റുകയോ ഉപേക്ഷിക്കുകയോ ചെയ്യേണ്ടിവരും",
+      "UNABLE_TO_RETIRE_TITLE": "നീക്കം ചെയ്യാനാകുന്നില്ല"
     },
-    "SUPPLIER": ""
+    "SUPPLIER": "വിതരണക്കാരൻ"
   },
   "DATE_RANGE": {
-    "INVALID_RANGE_MESSAGE": ""
+    "INVALID_RANGE_MESSAGE": "ഫലം ലഭിക്കുന്നതിന് അവസാന തീയതി ആരംഭ തീയതിക്ക് ശേഷമായിരിക്കണം"
   },
   "DATE_RANGE_PICKER": {
-    "FROM": "",
-    "REVENUE_HELP_BODY": "",
-    "REVENUE_HELP_TITLE": "",
-    "TO": "",
-    "TO_MUST_BE_AFTER_FROM": ""
+    "FROM": "നിന്ന്",
+    "REVENUE_HELP_BODY": "നിർദ്ദിഷ്ട തീയതി പരിധിക്കുള്ളിൽ ആസൂത്രണം ചെയ്തതോ പൂർത്തിയാക്കിയതോ ആയ വിളവെടുപ്പ് ജോലിയുള്ള പ്ലാനുകൾ മാത്രമേ കാണിക്കൂ.",
+    "REVENUE_HELP_TITLE": "തീയതി പരിധി സഹായം",
+    "TO": "വരെ",
+    "TO_MUST_BE_AFTER_FROM": "'വരെ' തീയതി 'മുതൽ' തീയതിക്ക് ശേഷം വരണം"
   },
   "DATE_RANGE_SELECTOR": {
-    "BACK": "",
-    "CLEAR_DATES": "",
-    "CUSTOM_RANGE": "",
-    "LAST_FOURTEEN_DAYS": "",
-    "LAST_MONTH": "",
-    "LAST_SEVEN_DAYS": "",
-    "LAST_THIRTY_DAYS": "",
-    "LAST_WEEK": "",
-    "THIS_MONTH": "",
-    "THIS_WEEK": "",
-    "YEAR_TO_DATE": ""
+    "BACK": "തിരികെ",
+    "CLEAR_DATES": "ചേർക്കപ്പെട്ട ദിനങ്ങൾ ഒഴിവാക്കുക",
+    "CUSTOM_RANGE": "ഇഷ്‌ടാനുസൃത ശ്രേണി തിരഞ്ഞെടുക്കുക",
+    "LAST_FOURTEEN_DAYS": "കഴിഞ്ഞ 14 ദിവസം",
+    "LAST_MONTH": "കഴിഞ്ഞ മാസം",
+    "LAST_SEVEN_DAYS": "കഴിഞ്ഞ 7 ദിവസം",
+    "LAST_THIRTY_DAYS": "കഴിഞ്ഞ 30 ദിവസം",
+    "LAST_WEEK": "കഴിഞ്ഞ ആഴ്ച",
+    "THIS_MONTH": "ഈ മാസം",
+    "THIS_WEEK": "ഈ ആഴ്ച",
+    "YEAR_TO_DATE": "വർഷാരംഭം മുതൽ ഇന്ന് വരെ"
   },
   "DAYS_OF_WEEK_SELECT": {
-    "FRIDAY": "",
-    "MONDAY": "",
-    "SATURDAY": "",
-    "SUNDAY": "",
-    "THURSDAY": "",
-    "TUESDAY": "",
-    "WEDNESDAY": ""
+    "FRIDAY": "വെള്ളി",
+    "MONDAY": "തിങ്കൾ",
+    "SATURDAY": "ശനി",
+    "SUNDAY": "ഞായർ",
+    "THURSDAY": "വ്യാഴം",
+    "TUESDAY": "ചൊവ്വ",
+    "WEDNESDAY": "ബുധൻ"
   },
   "DOCUMENTS": {
     "ADD": {
-      "ADD_MORE_PAGES": "",
-      "DOCUMENT_NAME": "",
-      "DOES_NOT_EXPIRE": "",
-      "TITLE": "",
-      "TYPE": "",
-      "VALID_UNTIL": ""
+      "ADD_MORE_PAGES": "കൂടുതൽ പേജുകൾ ചേർക്കുക",
+      "DOCUMENT_NAME": "പ്രമാണത്തിൻ്റെ പേര്",
+      "DOES_NOT_EXPIRE": "ഈ ഫയൽ കാലഹരണപ്പെടുന്നില്ല",
+      "TITLE": "പുതിയ പ്രമാണം ചേർക്കുക",
+      "TYPE": "തരം",
+      "VALID_UNTIL": "കാലാവധി തീരുന്നത് വരെ"
     },
-    "ADD_DOCUMENT": "",
-    "ARCHIVE": "",
-    "ARCHIVE_DOCUMENT": "",
-    "ARCHIVE_DOCUMENT_TEXT": "",
-    "ARCHIVED": "",
-    "CANCEL": "",
-    "CANCEL_MODAL": "",
-    "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "",
-    "DOCUMENTS": "",
-    "EDIT_DOCUMENT": "",
+    "ADD_DOCUMENT": "പുതിയ പ്രമാണം ചേർക്കുക",
+    "ARCHIVE": "ആർക്കൈവ്",
+    "ARCHIVE_DOCUMENT": "പ്രമാണം ആർക്കൈവ് ചെയ്യണോ?",
+    "ARCHIVE_DOCUMENT_TEXT": "ഈ രേഖകൾ ആർക്കൈവ് ചെയ്യുന്നത് വഴി അവ നിങ്ങളുടെ രേഖകളുടെ ആർക്കൈവ് ചെയ്ത വിഭാഗത്തിലേക്ക് നീക്കും, അത് ഡിലീൽറ്റ് ആയി പോകുന്നില്ല. പക്ഷെ ആർക്കൈവ് ചെയ്യപ്പെട്ട രേഖകൾ നിങ്ങളുടെ സർട്ടിഫിക്കേഷനുകൾക്കായി എക്‌സ്‌പോർട്ട് ചെയ്യില്ല. നിങ്ങൾക്ക് തുടരണോ?",
+    "ARCHIVED": "ആർക്കൈവ് ചെയ്തു",
+    "CANCEL": "റദ്ദാക്കുക",
+    "CANCEL_MODAL": "പ്രമാണ സൃഷ്ടി റദ്ദാക്കുക",
+    "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "പാലിക്കൽ രേഖകളും നിങ്ങളുടെ സർട്ടിഫിക്കേഷനും",
+    "DOCUMENTS": "പ്രമാണങ്ങൾ",
+    "EDIT_DOCUMENT": "പ്രമാണം എഡിറ്റ് ചെയ്യുക",
     "FILTER": {
-      "TITLE": "",
-      "TYPE": "",
-      "VALID_ON": ""
+      "TITLE": "പ്രമാണ ഫിൽട്ടർ",
+      "TYPE": "തരം",
+      "VALID_ON": "സാധുതയുള്ള"
     },
-    "NOTES_CHAR_LIMIT": "",
+    "NOTES_CHAR_LIMIT": "കുറിപ്പുകൾ 10,000 പ്രതീകങ്ങളിൽ കുറവായിരിക്കണം",
     "SPOTLIGHT": {
-      "CDC": "",
-      "HERE_YOU_CAN": "",
-      "YOU_CAN_ONE": "",
-      "YOU_CAN_THREE": "",
-      "YOU_CAN_TWO": ""
+      "CDC": "ഒരു സർട്ടിഫിക്കേഷൻ എക്‌സ്‌പോർട്ട് സൃഷ്‌ടിക്കാനുള്ള സമയമാകുമ്പോൾ, നിങ്ങൾ വ്യക്തമാക്കിയ എക്‌സ്‌പോർട്ട് തീയതിയിൽ സാധുതയുള്ള എല്ലാ കംപ്ലയിൻസ് പ്രമാണങ്ങളും ലൈറ്റ്ഫാം സ്വയമേവ എക്‌സ്‌പോർട്ട് ചെയ്യും. കാലഹരണപ്പെടുമ്പോൾ, പാലിക്കൽ പ്രമാണങ്ങൾ സ്വയമേവ ആർക്കൈവ് ചെയ്യപ്പെടും.",
+      "HERE_YOU_CAN": "ഇവിടെ നിങ്ങൾക്ക് കഴിയും:",
+      "YOU_CAN_ONE": "വെരിഫിക്കേഷൻ എക്സ്പോർട്ടിൽ ഉൾപെടുത്താൻ ആഗ്രഹിക്കുന്ന രേഖകൾ അപ്‌ലോഡ് ചെയുക",
+      "YOU_CAN_THREE": "ആവശ്യമില്ലാത്ത പ്രമാണങ്ങൾ ആർക്കൈവ് ചെയ്യുക",
+      "YOU_CAN_TWO": "നിങ്ങളുടെ പ്രമാണത്തിൻ്റെ കാലഹരണ തീയതികൾ തരംതിരിച്ച് സൂക്ഷിക്കുക"
     },
     "TYPE": {
-      "CLEANING_PRODUCT": "",
-      "CROP_COMPLIANCE": "",
-      "FERTILIZING_PRODUCT": "",
-      "INVOICES": "",
-      "OTHER": "",
-      "PEST_CONTROL_PRODUCT": "",
-      "RECEIPTS": "",
-      "SOIL_AMENDMENT": "",
-      "SOIL_SAMPLE_RESULTS": "",
-      "WATER_SAMPLE_RESULTS": ""
+      "CLEANING_PRODUCT": "ക്ലീനിംഗ് ഉൽപ്പന്നം",
+      "CROP_COMPLIANCE": "വിള പാലിക്കൽ",
+      "FERTILIZING_PRODUCT": "വളം ഉൽപ്പന്നങ്ങൾ",
+      "INVOICES": "ഇൻവോയ്സുകൾ",
+      "OTHER": "മറ്റുള്ളവ",
+      "PEST_CONTROL_PRODUCT": "കീട നിയന്ത്രണ ഉൽപ്പന്നങ്ങൾ",
+      "RECEIPTS": "രസീതുകൾ",
+      "SOIL_AMENDMENT": "മണ്ണ് ഭേദഗതി",
+      "SOIL_SAMPLE_RESULTS": "മണ്ണ് സാമ്പിൾ ഫലങ്ങൾ",
+      "WATER_SAMPLE_RESULTS": "വെള്ളം സാമ്പിൾ ഫലങ്ങൾ"
     },
-    "UNARCHIVE": "",
-    "UNARCHIVE_DOCUMENT": "",
-    "UNARCHIVE_DOCUMENT_TEXT": "",
-    "VALID": ""
+    "UNARCHIVE": "അൺആർക്കൈവ് ചെയ്യുക",
+    "UNARCHIVE_DOCUMENT": "പ്രമാണം അൺആർക്കൈവ് ചെയ്യണോ?",
+    "UNARCHIVE_DOCUMENT_TEXT": "ഈ ഡോക്യുമെൻ്റ് അൺആർക്കൈവ് ചെയ്യുന്നത് നിങ്ങളുടെ നിലവിലുള്ള സാധുവായ പ്രമാണങ്ങളുടെ പട്ടികയിലേക്ക് തിരികെ നൽകും. നിങ്ങളുടെ സർട്ടിഫിക്കേഷനുകൾക്കായി സാധുവായ രേഖകൾ കയറ്റുമതി ചെയ്യും. നിങ്ങൾക്ക് തുടരണോ?",
+    "VALID": "സാധുവായ"
   },
   "ENTER_PASSWORD": {
-    "FORGOT": "",
-    "HINT": "",
-    "LABEL": "",
-    "ONE_NUMBER": "",
-    "ONE_SPECIAL_CHARACTER": "",
-    "ONE_UPPER_CASE": "",
-    "TOO_SHORT": ""
+    "FORGOT": "പാസ്വേഡ് മറന്നോ?",
+    "HINT": "സൂചന",
+    "LABEL": "പാസ്സ്‌വേർഡ്",
+    "ONE_NUMBER": "കുറഞ്ഞത് ഒരു സംഖ്യ",
+    "ONE_SPECIAL_CHARACTER": "കുറഞ്ഞത് ഒരു പ്രത്യേക അക്ഷരമെങ്കിലും (! @ # $ % ^ & *)",
+    "ONE_UPPER_CASE": "കുറഞ്ഞത് ഒരു വലിയ അക്ഷരമെങ്കിലും",
+    "TOO_SHORT": "കുറഞ്ഞത് 8 അക്ഷരങ്ങൾ"
   },
   "ENTITY_TYPES": {
-    "LOCATION": "",
-    "TASK": ""
+    "LOCATION": "സ്ഥലം",
+    "TASK": "ചുമതല"
   },
   "ERROR_FALLBACK": {
-    "CONTACT": "",
-    "MAIN": "",
-    "RELOAD": "",
-    "SUBTITLE": "",
-    "TITLE": ""
+    "CONTACT": "ഇപ്പോഴും ചെളിയിൽ കുടുങ്ങിയിട്ടുണ്ടോ? വിഷമിക്കേണ്ട, നിങ്ങളെ പുറത്തെടുക്കാൻ ഞങ്ങൾ ഇവിടെയുണ്ട്: <1>{{supportEmail}}</1>",
+    "MAIN": "ചിലപ്പോൾ ലൈറ്റ്ഫാമിന് ആശയക്കുഴപ്പമുണ്ടാകാം, കുറച്ച് സഹായം ആവശ്യമാണ്. ഇവയിലൊന്ന് സാധാരണയായി പ്രശ്നം പരിഹരിക്കുന്നു:",
+    "RELOAD": "പേജ് വീണ്ടും ലോഡുചെയ്യുക",
+    "SUBTITLE": "വിഷമിക്കേണ്ട, ഇത് നിങ്ങളല്ല, ഞങ്ങളാണ്.",
+    "TITLE": "ശ്ശോ! ഈ പേജ് വഴിതെറ്റിപ്പോയതുപോലെ തോന്നുന്നു!"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "ADD_CUSTOM_EXPENSE": "",
-      "ADD_CUSTOM_EXPENSE_TYPE": "",
-      "CUSTOM_EXPENSE_NAME": "",
-      "CUSTOM_EXPENSE_TYPE": "",
-      "DUPLICATE_NAME": "",
-      "DUPLICATE_NAME_RETIRED": "",
-      "FLOW": "",
-      "MANAGE_CUSTOM_EXPENSE_TYPE": "",
-      "NEW_EXPENSE_ITEM": "",
-      "TITLE": "",
-      "WHICH_TYPES_TO_RECORD": ""
+      "ADD_CUSTOM_EXPENSE": "ഇഷ്ടാനുസൃത ചെലവ് ചേർക്കുക",
+      "ADD_CUSTOM_EXPENSE_TYPE": "ഇഷ്‌ടാനുസൃത ചെലവ് തരം ചേർക്കുക",
+      "CUSTOM_EXPENSE_NAME": "ഇഷ്‌ടാനുസൃത ചെലവ് നാമം",
+      "CUSTOM_EXPENSE_TYPE": "ഇഷ്‌ടാനുസൃത ചെലവ് തരം",
+      "DUPLICATE_NAME": "ഈ പേരിലുള്ള ഒരു ചെലവ് തരം ഇതിനകം നിലവിലുണ്ട്. ദയവായി മറ്റൊന്ന് തിരഞ്ഞെടുക്കുക.",
+      "DUPLICATE_NAME_RETIRED": "ഈ പേരിൽ ഒരു വിരമിച്ച ചെലവ് ഇതിനകം നിലവിലുണ്ട്. ദയവായി മറ്റൊന്ന് തിരഞ്ഞെടുക്കുക.",
+      "FLOW": "ചെലവ് സൃഷ്ടിക്കൽ",
+      "MANAGE_CUSTOM_EXPENSE_TYPE": "ഇഷ്‌ടാനുസൃത ചെലവ് തരങ്ങൾ നിയന്ത്രിക്കുക",
+      "NEW_EXPENSE_ITEM": "പുതിയ ചെലവ് ഇനം",
+      "TITLE": "ചെലവ് ചേർക്കുക",
+      "WHICH_TYPES_TO_RECORD": "നിങ്ങളുടെ ചെലവ് തരം താഴെ തിരഞ്ഞെടുക്കുക:"
     },
-    "CUSTOM_EXPENSE_DESCRIPTION": "",
+    "CUSTOM_EXPENSE_DESCRIPTION": "ഇഷ്‌ടാനുസൃത ചെലവ് വിവരണം",
     "DELETE": {
-      "CONFIRM": "",
-      "HEADER": "",
-      "LINK": "",
-      "MESSAGE": ""
+      "CONFIRM": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
+      "HEADER": "ചെലവ് ഇല്ലാതാക്കണോ?",
+      "LINK": "ചെലവ് ഇല്ലാതാക്കുക",
+      "MESSAGE": "ഇത് നിങ്ങളുടെ ഫാമിൻ്റെ രേഖകളിൽ നിന്ന് ചെലവ് നീക്കം ചെയ്യും. അത് ഇനി ഒരു സാമ്പത്തിക സംഗ്രഹത്തിലും പ്രതിഫലിക്കില്ല."
     },
-    "DETAILED_HISTORY": "",
+    "DETAILED_HISTORY": "വിശദമായ ചരിത്രം",
     "EDIT_EXPENSE": {
-      "RETIRE_EXPENSE_MESSAGE": "",
-      "RETIRE_EXPENSE_TYPE": "",
-      "RETIRED": "",
-      "TITLE": "",
-      "TITLE_1": "",
-      "TITLE_2": ""
+      "RETIRE_EXPENSE_MESSAGE": "ഈ ചെലവ് തരത്തിൽ നിന്ന് വിരമിക്കുന്നത് ഭാവിയിലെ ചെലവുകൾക്കുള്ള സാധ്യതയുള്ള തിരഞ്ഞെടുപ്പായി ഇത് നീക്കം ചെയ്യും. ഫിനാൻസ് ടാബിൽ ഈ ചെലവ് തരത്തിൻ്റെ ചരിത്രപരമായ സംഭവങ്ങൾ നിങ്ങൾക്ക് തുടർന്നും തിരയാനും ഫിൽട്ടർ ചെയ്യാനും കഴിയും.",
+      "RETIRE_EXPENSE_TYPE": "വിരമിക്കൽ ചെലവ് തരം",
+      "RETIRED": "(വിരമിച്ചു)",
+      "TITLE": "ചെലവ് തിരുത്തുക",
+      "TITLE_1": "ചെലവ് തിരുത്തുക(2-ൽ 1)",
+      "TITLE_2": "ചെലവ് തിരുത്തുക(2-ൽ 2)"
     },
-    "ITEM_NAME": "",
-    "NO_EXPENSE": "",
-    "NO_EXPENSE_YEAR": "",
-    "OTHER_EXPENSES_TITLE": "",
-    "SUMMARY": "",
-    "TYPE": "",
-    "VALUE": ""
+    "ITEM_NAME": "ഇനത്തിൻ്റെ പേര്",
+    "NO_EXPENSE": "ചെലവൊന്നും കണ്ടെത്തിയില്ല",
+    "NO_EXPENSE_YEAR": "ഈ വർഷത്തെ ചെലവുകളൊന്നും നിങ്ങൾ രേഖപ്പെടുത്തിയിട്ടില്ല",
+    "OTHER_EXPENSES_TITLE": "മറ്റ് ചെലവുകൾ",
+    "SUMMARY": "സംഗ്രഹം",
+    "TYPE": "തരം",
+    "VALUE": "മൂല്യം"
   },
   "EXPIRED_TOKEN": {
-    "RESET_PASSWORD": "",
-    "RESET_PASSWORD_LINK": ""
+    "RESET_PASSWORD": "ഈ ലിങ്ക് കാലഹരണപ്പെട്ടു.",
+    "RESET_PASSWORD_LINK": "പുതിയ പാസ്‌വേഡ് ലിങ്ക് അയയ്ക്കുക."
   },
   "FARM_MAP": {
     "AREA_DETAILS": {
-      "NETWORK": "",
-      "PERIMETER": "",
-      "TOTAL_AREA": ""
+      "NETWORK": "നെറ്റ്‌വർക്ക് കണക്റ്റിവിറ്റി പ്രശ്നങ്ങൾ.",
+      "PERIMETER": "ചുറ്റളവ്",
+      "TOTAL_AREA": "മൊത്തം ഏരിയ"
     },
     "BARN": {
-      "ANIMALS": "",
-      "COLD_STORAGE": "",
-      "EDIT_TITLE": "",
-      "NAME": "",
-      "TITLE": "",
-      "WASH_PACK": ""
+      "ANIMALS": "ഈ പ്രദേശം മൃഗങ്ങളെ പാർപ്പിക്കാൻ ഉപയോഗിക്കുന്നുണ്ടോ?",
+      "COLD_STORAGE": "ഈ കളപ്പുരയിൽ തണുത്ത സംഭരണം ഉണ്ടോ?",
+      "EDIT_TITLE": "കളപുരയുടെ വിവരങ്ങൾ തിരുത്തുക",
+      "NAME": "കളപ്പുരയുടെ പേര്",
+      "TITLE": "കളപുരയുടെ വിവരങ്ങൾ ചേർക്കുക",
+      "WASH_PACK": "ഈ കളപ്പുരയിൽ വാഷ് ആൻഡ് പാക്ക് സ്റ്റേഷൻ ഉണ്ടോ?"
     },
     "BUFFER_ZONE": {
-      "EDIT_TITLE": "",
-      "NAME": "",
-      "TITLE": "",
-      "WIDTH": ""
+      "EDIT_TITLE": "ബഫർ സോണിൽ ( ജൈവ കൃഷിയെ മറ്റുള്ളവയുടെ കൂടെ കലരാതെ സംരക്ഷിക്കുന്ന മേഖല) തിരുതൽ വരുത്തുക",
+      "NAME": "ബഫർ സോണിൻ്റെ പേര്",
+      "TITLE": "ബഫർ സോൺ ചേർക്കുക",
+      "WIDTH": "ബഫർ സോണിന്റെ വീതി"
     },
     "BULK_UPLOAD_SENSORS": {
       "DOWNLOAD_FILE": {
-        "DEFAULT": "",
-        "PARTIAL_SUCCESS_BOTTOM_TEXT": "",
-        "PARTIAL_SUCCESS_TOP_TEXT": "",
-        "ROW": "",
-        "SOME_ERRORS": ""
+        "DEFAULT": "നിങ്ങൾ ചെയ്തതിൽ എന്തെങ്കിലും തെറ്റ് സംഭവിച്ചോ? സഹായത്തിന് support@litefarm.org എന്നതിൽ ബന്ധപ്പെടുക.",
+        "PARTIAL_SUCCESS_BOTTOM_TEXT": "ഇപ്പോൾ നിങ്ങളുടെ ഫാം മാപ്പിൽ അവയെ കാണാനാകും. ഭാവിയിലെ അപ്‌ലോഡുകളിൽ ഈ സെൻസറുകൾ അവഗണിക്കപ്പെടും\n\n",
+        "PARTIAL_SUCCESS_TOP_TEXT": "നിങ്ങളുടെ ഫയലിലുള്ള സെൻസറുകൾ വിജയകരമായി അപ്‌ലോഡ് ചെയ്തിട്ടുണ്ട്. അല്ലെങ്കിൽ നിങ്ങളുടെ ഫാർമിൽ അവ നിലവിലുണ്ട്:\n\n",
+        "ROW": "[വരി: {{ row }}][നിര: {{ column }}] {{- errorMessage }} {{ value }}\n",
+        "SOME_ERRORS": "നിർഭാഗ്യവശാൽ, നിങ്ങളുടെ അപ്‌ലോഡിൽ ചില പിശകുകൾ ഉണ്ടായിരുന്നു:\n\n"
       },
-      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "",
-      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "",
-      "INVALID_FILE_TYPE": "",
+      "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "ടെംപ്ലേറ്റ് ഡൗൺലോഡ് ചെയ്യാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യുക",
+      "EMPTY_FILE_UPLOAD_ERROR_MESSAGE": "സെൻസറുകളൊന്നും കണ്ടെത്തിയില്ല, നിങ്ങളുടെ അപ്‌ലോഡ് പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.",
+      "INVALID_FILE_TYPE": "നിങ്ങൾ അപ്‌ലോഡ് ചെയ്യുന്നത് ഒരു. csv ഫയൽ ആയിരിക്കണം",
       "SENSOR_CLAIM_ERROR": {
-        "ALREADY_OCCUPIED": "",
-        "DOES_NOT_EXIST": "",
-        "INTERNAL_ERROR": ""
+        "ALREADY_OCCUPIED": "ഈ സെൻസർ \"{{ sensorId }}\" മറ്റൊരു സംഘടനയുമായി രജിസ്റ്റർ ചെയ്തിട്ടുണ്ട്. പ്രശ്‌നപരിഹാരത്തിനായി support@esci.io എന്ന വിലാസത്തിൽ ബന്ധപ്പെടുക.",
+        "DOES_NOT_EXIST": "എൻസെംബിൾ ഡാറ്റാബേസിൽ ഈ സെൻസർ \"{{ sensorId }}\" നിലവിലില്ല. നിങ്ങൾ നൽകിയിരിക്കുന്ന എക്സ്റ്റേർണൽ ഐഡിയിൽ തെറ്റുകളില്ലന്നും, മേൽ പറഞ്ഞ സെൻസർ ഒരു എൻസഎംബിൾ സെൻസർ ആണെന്നും ദയവായി ഉറപ്പുവരുത്തുക.",
+        "INTERNAL_ERROR": "സെൻസർ \"{{ sensorId }}\" അപ്‌ലോഡ് പരാജയപ്പെട്ടിരിക്കുന്നു, പ്രശ്നപരിഹാരത്തിനായി ലൈറ്റ് ഫാം സപ്പോർട്ടിൽ support@litefarm.org എന്ന ഇമെയിലിൽ ബന്ധപെടുക."
       },
       "SENSOR_FIELDS": {
-        "BRAND": "",
-        "DEPTH": "",
-        "LATITUDE": "",
-        "LONGITUDE": "",
-        "MODEL": "",
-        "NAME": "",
-        "READING_TYPES": "",
-        "SENSOR_EXTERNAL_ID": ""
+        "BRAND": "ബ്രാൻഡ്",
+        "DEPTH": "ആഴം_സെ.മീ",
+        "LATITUDE": "അക്ഷാംശം",
+        "LONGITUDE": "രേഖാംശം",
+        "MODEL": "മോഡൽ",
+        "NAME": "പേര്",
+        "READING_TYPES": "വായന_തരങ്ങൾ",
+        "SENSOR_EXTERNAL_ID": "ബാഹ്യ_ഐഡി"
       },
-      "TITLE": "",
-      "UPLOAD_ERROR_LINK": "",
-      "UPLOAD_ERROR_MESSAGE": "",
-      "UPLOAD_INSTRUCTION_MESSAGE": "",
-      "UPLOAD_LINK_MESSAGE": "",
-      "UPLOAD_PLACEHOLDER": "",
+      "TITLE": "മാപ്പിലേക്ക് സെൻസറുകൾ ചേർക്കുക",
+      "UPLOAD_ERROR_LINK": "അവ കാണുന്നതിന് ഇവിടെ ക്ലിക്ക് ചെയ്യുക.",
+      "UPLOAD_ERROR_MESSAGE": "നിങ്ങളുടെ അപ്‌ലോഡിൽ ചില പ്രശ്‌നങ്ങളുണ്ടായി. ",
+      "UPLOAD_INSTRUCTION_MESSAGE": "ശരിയായ മാറ്റം വരുത്തുന്നതിനായി.",
+      "UPLOAD_LINK_MESSAGE": "രൂപരേഖ ഡൗൺലോഡ് ചെയ്യുക",
+      "UPLOAD_PLACEHOLDER": "csv ഫയൽ അപ്‌ലോഡ് ചെയ്യുക",
       "VALIDATION": {
-        "EXTERNAL_ID": "",
-        "FILE_ROW_LIMIT_EXCEEDED": "",
-        "MISSING_COLUMNS": "",
-        "SENSOR_BRAND": "",
-        "SENSOR_DEPTH": "",
-        "SENSOR_HARDWARE_VERSION": "",
-        "SENSOR_LATITUDE": "",
-        "SENSOR_LONGITUDE": "",
-        "SENSOR_MODEL": "",
-        "SENSOR_NAME": "",
-        "SENSOR_READING_TYPES": ""
+        "EXTERNAL_ID": "തെറ്റായ എക്സ്റ്റേർണൽ ഐഡി, ശരിയായ ഐഡിയിൽ 1നും 40നും ഇടയിൽ ക്യാറക്ടറുകൾ ഉണ്ടായിരിക്കണം.",
+        "FILE_ROW_LIMIT_EXCEEDED": "ഫയൽ വരിയുടെ പരിധി കവിഞ്ഞു. ഒരു ഫയലിൽ നിന്ന് അപ്‌ലോഡ് ചെയ്യാൻ കഴിയുന്ന സെൻസറുകളുടെ പരമാവധി എണ്ണം 100 ആണ്.",
+        "MISSING_COLUMNS": ". നിരകൾ ആവശ്യമാണ്/നഷ്‌ടമായി.",
+        "SENSOR_BRAND": "ഉത്പന്നതിന്റെ പേര് തെറ്റായി രേഖപെടുത്തിയിരിക്കുന്നു, 1നും 100നും ഇടയിൽ ക്യാറക്ടറുകൾ ഉണ്ടായിരിക്കണം.",
+        "SENSOR_DEPTH": "തെറ്റായ ആഴ കണക്ക്, ശരിയായ കണക്കിന് 0നും 1000നും ഇടയിൽ വരേണ്ടതാണ്.",
+        "SENSOR_HARDWARE_VERSION": "തെറ്റായ ഹാർഡ്‌വെയർ വിവരണ നാമം. ശരിയായതിൽ 1നും 100നും ഇടയിൽ ക്യാറക്ടറുകൾ ഉണ്ടായിരിക്കണം.",
+        "SENSOR_LATITUDE": "തെറ്റായ അക്ഷാംശരേഖ. -85നും 85. നും ഇടയിലും ദശാംശമുണ്ടെങ്കിൽ 10 ദശാംശത്തിൽ താഴേയും വേണ്ടതാണ്.",
+        "SENSOR_LONGITUDE": "തെറ്റായ ദേശാന്തരരേഖ. -180നും 180. നും ഇടയിലും ദശാംശമുണ്ടെങ്കിൽ 10 ദശാംശത്തിൽ താഴേയും വേണ്ടതാണ്.",
+        "SENSOR_MODEL": "തെറ്റായ മോഡൽ നാമം. ശരിയായതിൽ 1നും 100നും ഇടയിൽ ക്യാറക്ടറുകൾ വരേണ്ടതാണ്.",
+        "SENSOR_NAME": "തെറ്റായ സെൻസർ നാമം. ശരിയായതിൽ 1നും 100നും ഇടയിൽ ക്യാറക്ടറുകൾ വരേണ്ടതാണ്.",
+        "SENSOR_READING_TYPES": "തെറ്റായ വായന ഇനം (reading type) കണ്ടെത്തിയിരിക്കുന്നു: {{ reading_types }}. ശരിയായ മൂല്യങ്ങൾ ഇവയിൽ ഉൾപെടുത്തിയിരിക്കുന്നു: {{ allowed_reading_types }}."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "നിങ്ങളുടെ അപ്‌ലോഡ് പൂർത്തിയാകുകയും സെൻസറുകൾ സൃഷ്‌ടിക്കുകയും ചെയ്‌തുകഴിഞ്ഞാൽ ഞങ്ങൾ നിങ്ങളെ അറിയിക്കും. ഈ വിൻഡോയിൽ നിന്ന് നാവിഗേറ്റ് ചെയ്യാൻ മടിക്കേണ്ടതില്ല.",
+      "TITLE": "ഇത് പ്രതീക്ഷിച്ചതിലും കൂടുതൽ സമയമെടുക്കുന്നു..."
     },
     "CEREMONIAL_AREA": {
-      "EDIT_TITLE": "",
-      "NAME": "",
-      "TITLE": ""
+      "EDIT_TITLE": "ആചാരപരമായ പ്രദേശത്തിൽ തിരുത്തൽ വരുത്തുക",
+      "NAME": "ആചാരപരമായ പ്രദേശത്തിൻ്റെ പേര്",
+      "TITLE": "ആചാരപരമായ പ്രദേശം ചേർക്കുക"
     },
     "CONFIRM_RETIRE": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "ഈ സ്ഥലത്ത് നിന്ന് മാറിയാൽ ഫാം മാപ്പിൽ നിന്ന് അത് നീക്കം ചെയ്യും.",
+      "TITLE": "മാറിയ സ്ഥലം?"
     },
     "DRAWING_MANAGER": {
-      "REDRAW": "",
-      "ZERO_AREA_DETECTED": "",
-      "ZERO_LENGTH_DETECTED": ""
+      "REDRAW": "വീണ്ടും വരയ്ക്കുക",
+      "ZERO_AREA_DETECTED": "ഒരു പ്രദേശവും കണ്ടെത്തിയിട്ടില്ലാത്ത ഫീൽഡ്. നിലവിലെ ഡ്രോയിംഗിലേക്ക് കൂടുതൽ പോയിൻ്റുകൾ ചേർക്കുക അല്ലെങ്കിൽ വീണ്ടും വരയ്ക്കുക.",
+      "ZERO_LENGTH_DETECTED": "ഈ ലൈനിൽ ദൈർഘ്യം കണ്ടെത്താനാകുന്നില്ല. ദയവായി വീണ്ടും വരയ്ക്കുക."
     },
     "EXPORT_MODAL": {
-      "BODY": "",
-      "DOWNLOAD": "",
-      "EMAIL_TO_ME": "",
-      "EMAILING": "",
-      "TITLE": ""
+      "BODY": "നിങ്ങളുടെ ഫാം മാപ്പ് എങ്ങനെ എക്സ്പോർട്ട് ചെയ്യണം?",
+      "DOWNLOAD": "ഡൗൺലോഡ് ചെയ്യുക",
+      "EMAIL_TO_ME": "എനിക്ക് ഇമെയിൽ ചെയ്യുക",
+      "EMAILING": "ഇമെയിൽ ചെയ്യുന്നു",
+      "TITLE": "നിങ്ങളുടെ ഫാം മാപ്പ് എക്സ്പോർട്ട് ചെയ്യുക"
     },
     "FARM_SITE_BOUNDARY": {
-      "EDIT_TITLE": "",
-      "NAME": "",
-      "TITLE": ""
+      "EDIT_TITLE": "ഫാം സൈറ്റിൻ്റെ അതിർത്തി എഡിറ്റ് ചെയ്യുക",
+      "NAME": "ഫാം സൈറ്റിൻ്റെ അതിർത്തി നാമം",
+      "TITLE": "ഫാം സൈറ്റിൻ്റെ അതിർത്തി ചേർക്കുക"
     },
     "FENCE": {
-      "EDIT_TITLE": "",
-      "LENGTH": "",
-      "NAME": "",
-      "PRESSURE_TREATED": "",
-      "TITLE": ""
+      "EDIT_TITLE": "വേലി എഡിറ്റ് ചെയ്യുക",
+      "LENGTH": "ആകെ നീളം",
+      "NAME": "വേലിയുടെ പേര്",
+      "PRESSURE_TREATED": "ഈ വേലി പ്രഷർ ട്രീറ്റഡ് ആണോ?",
+      "TITLE": "വേലി ചേർക്കുക"
     },
     "FIELD": {
-      "DATE": "",
-      "EDIT_TITLE": "",
-      "FIELD_TYPE": "",
-      "NAME": "",
-      "NON_ORGANIC": "",
-      "ORGANIC": "",
-      "TITLE": "",
-      "TRANSITIONING": ""
+      "DATE": "പരമ്പരാഗത കൃഷിരീതികൾ ഉപയോഗിക്കുന്ന ഒരു പ്രദേശം എന്നതിൽ നിന്ന് ജൈവ സർട്ടിഫൈഡ് ആയ ഒന്നിലേക്ക് മാറാൻ സാധ്യതയുള്ള തീയതി (യോഗ്യമായ പരിവർത്തന തീയതി)",
+      "EDIT_TITLE": "നിലം എഡിറ്റ്‌ ചെയുക",
+      "FIELD_TYPE": "ഇത് ഏത് തരത്തിലുള്ള പാടമാണ്?",
+      "NAME": "പാടത്തിൻ്റെ പേര്",
+      "NON_ORGANIC": "അജൈവ",
+      "ORGANIC": "ജൈവ",
+      "TITLE": "നിലം ചേർക്കുക",
+      "TRANSITIONING": "പരിവർത്തനം"
     },
     "GARDEN": {
-      "DATE": "",
-      "EDIT_TITLE": "",
-      "GARDEN_TYPE": "",
-      "NAME": "",
-      "NON_ORGANIC": "",
-      "ORGANIC": "",
-      "TITLE": "",
-      "TRANSITIONING": ""
+      "DATE": "പരമ്പരാഗത കൃഷിരീതികൾ ഉപയോഗിക്കുന്ന ഒരു പ്രദേശം എന്നതിൽ നിന്ന് ജൈവ സർട്ടിഫൈഡ് ആയ ഒന്നിലേക്ക് മാറാൻ സാധ്യതയുള്ള തീയതി (യോഗ്യമായ പരിവർത്തന തീയതി)",
+      "EDIT_TITLE": "പൂന്തോട്ടം എഡിറ്റ്‌ ചെയുക",
+      "GARDEN_TYPE": "ഇത് ഏത് തരത്തിലുള്ള പൂന്തോട്ടമാണ്?",
+      "NAME": "തോട്ടത്തിൻ്റെ പേര്",
+      "NON_ORGANIC": "അജൈവ",
+      "ORGANIC": "ജൈവ",
+      "TITLE": "പൂന്തോട്ടം ചേർക്കുക",
+      "TRANSITIONING": "പരിവർത്തനം"
     },
     "GATE": {
-      "EDIT_TITLE": "",
-      "NAME": "",
-      "TITLE": ""
+      "EDIT_TITLE": "ഗേറ്റ് എഡിറ്റ് ചെയ്യുക",
+      "NAME": "ഗേറ്റിൻ്റെ പേര്",
+      "TITLE": "ഗേറ്റ് ചേർക്കുക"
     },
     "GREENHOUSE": {
-      "CO2_ENRICHMENT": "",
-      "DATE": "",
-      "EDIT_TITLE": "",
-      "GREENHOUSE_HEATED": "",
-      "GREENHOUSE_TYPE": "",
-      "NAME": "",
-      "NON_ORGANIC": "",
-      "ORGANIC": "",
-      "SUPPLEMENTAL_LIGHTING": "",
-      "TITLE": "",
-      "TRANSITIONING": ""
+      "CO2_ENRICHMENT": "CO₂ സമ്പുഷ്ടീകരണം ഉണ്ടോ?",
+      "DATE": "യോഗ്യമായ പരിവർത്തന തീയതി",
+      "EDIT_TITLE": "ഹരിതഗൃഹം തിരുത്തുക",
+      "GREENHOUSE_HEATED": "ഹരിതഗൃഹം ചൂടാക്കിയിട്ടുണ്ടോ?",
+      "GREENHOUSE_TYPE": "ഇത് ഏത് തരം ഹരിതഗൃഹമാണ്?",
+      "NAME": "ഹരിതഗൃഹത്തിൻ്റെ പേര്",
+      "NON_ORGANIC": "അജൈവ",
+      "ORGANIC": "ജൈവ",
+      "SUPPLEMENTAL_LIGHTING": "അനുബന്ധ ലൈറ്റിംഗ് ഉണ്ടോ?",
+      "TITLE": "ഹരിതഗൃഹം ചേർക്കുക",
+      "TRANSITIONING": "പരിവർത്തനം"
     },
     "LINE_DETAILS": {
-      "BUFFER_TITLE": "",
-      "BUFFER_ZONE_WIDTH": "",
-      "RIPARIAN_BUFFER": "",
-      "WATERCOURSE": "",
-      "WATERCOURSE_TITLE": ""
+      "BUFFER_TITLE": "വീതി എന്താണ്?",
+      "BUFFER_ZONE_WIDTH": "ബഫർ സോൺ വീതി",
+      "RIPARIAN_BUFFER": "നദീതീരസംബന്ധിയായ ബഫർ",
+      "WATERCOURSE": "ജലപാത",
+      "WATERCOURSE_TITLE": "ഇനിപ്പറയുന്ന വീതികൾ എന്തൊക്കെയാണ്?"
     },
-    "LOCATION_CREATION_FLOW": "",
+    "LOCATION_CREATION_FLOW": "സ്ഥാനം സൃഷ്ടിക്കൽ",
     "MAP_FILTER": {
-      "ADD_TITLE": "",
-      "AREAS": "",
-      "BARN": "",
-      "BUFFER_ZONE": "",
-      "BZ": "",
-      "CA": "",
-      "CEREMONIAL_AREA": "",
-      "FARM_SITE_BOUNDARY": "",
-      "FENCE": "",
-      "FIELD": "",
-      "FSB": "",
-      "GARDEN": "",
-      "GATE": "",
-      "GREENHOUSE": "",
-      "HIDE_ALL": "",
-      "LABEL": "",
-      "LINES": "",
-      "NA": "",
-      "NATURAL_AREA": "",
-      "POINTS": "",
-      "RESIDENCE": "",
-      "SATELLITE": "",
-      "SENSOR": "",
-      "SHOW_ALL": "",
-      "SURFACE_WATER": "",
-      "TITLE": "",
-      "WATER_VALVE": "",
-      "WATERCOURSE": "",
-      "WV": ""
+      "ADD_TITLE": "നിങ്ങളുടെ ഭൂപടത്തിലേക്ക് ചേർക്കുക",
+      "AREAS": "വിസ്തീർണ്ണം",
+      "BARN": "കളപ്പുര",
+      "BUFFER_ZONE": "ബഫർ സോൺ",
+      "BZ": "ബഫർ സോൺ",
+      "CA": "ആചാരപരമായ പ്രദേശം",
+      "CEREMONIAL_AREA": "ആചാരപരമായ പ്രദേശം",
+      "FARM_SITE_BOUNDARY": "ഫാം സൈറ്റിൻ്റെ അതിർത്തി",
+      "FENCE": "വേലി",
+      "FIELD": "വയൽ",
+      "FSB": "ഫാം സൈറ്റിൻ്റെ അതിർത്തി",
+      "GARDEN": "പൂന്തോട്ടം",
+      "GATE": "ഗേറ്റ്",
+      "GREENHOUSE": "ഹരിതഗൃഹം",
+      "HIDE_ALL": "എല്ലാം മറയ്ക്കുക",
+      "LABEL": "ലേബലുകൾ",
+      "LINES": "വരികൾ",
+      "NA": "സ്വാഭാവിക പ്രദേശം",
+      "NATURAL_AREA": "സ്വാഭാവിക പ്രദേശം",
+      "POINTS": "പോയിൻ്റുകൾ",
+      "RESIDENCE": "താമസസ്ഥലം",
+      "SATELLITE": "ഉപഗ്രഹ പശ്ചാത്തലം",
+      "SENSOR": "സെൻസർ",
+      "SHOW_ALL": "എല്ലാം കാണിക്കുക",
+      "SURFACE_WATER": "ഉപരിതല ജലം",
+      "TITLE": "നിങ്ങളുടെ മാപ്പ് ഫിൽട്ടർ ചെയ്യുക",
+      "WATER_VALVE": "വാട്ടർ വാൽവ്",
+      "WATERCOURSE": "ജലപാത",
+      "WV": "വാട്ടർ വാൽവ്"
     },
     "NATURAL_AREA": {
-      "EDIT_TITLE": "",
-      "NAME": "",
-      "TITLE": ""
+      "EDIT_TITLE": "സ്വാഭാവിക പ്രദേശം എഡിറ്റ് ചെയ്യുക",
+      "NAME": "സ്വാഭാവിക പ്രദേശത്തിൻ്റെ പേര്",
+      "TITLE": "സ്വാഭാവിക പ്രദേശം ചേർക്കുക"
     },
-    "NOTES_CHAR_LIMIT": "",
+    "NOTES_CHAR_LIMIT": "കുറിപ്പുകളിൽ 10,000 ക്യാറക്ടറുകളിൽ കുറവായിരിക്കണം",
     "RESIDENCE": {
-      "EDIT_TITLE": "",
-      "NAME": "",
-      "TITLE": ""
+      "EDIT_TITLE": "താമസസ്ഥലം എഡിറ്റ് ചെയ്യുക",
+      "NAME": "വസതിയുടെ പേര്",
+      "TITLE": "താമസസ്ഥലം ചേർക്കുക"
     },
     "SPOTLIGHT": {
-      "ADD": "",
-      "ADD_TITLE": "",
-      "EXPORT": "",
-      "EXPORT_TITLE": "",
-      "FILTER": "",
-      "FILTER_TITLE": "",
-      "HERE_YOU_CAN": ""
+      "ADD": "നിങ്ങളുടെ മാപ്പിലേക്ക് ലൊക്കേഷനുകൾ ചേർക്കുക",
+      "ADD_TITLE": "നിങ്ങളുടെ മാപ്പിലേക്ക് ചേർക്കുക",
+      "EXPORT": "നിങ്ങളുടെ മാപ്പ് ഡൗൺലോഡ് ചെയ്യുക അല്ലെങ്കിൽ ഷെയർ ചെയ്യുക",
+      "EXPORT_TITLE": "നിങ്ങളുടെ മാപ് എക്സ്പോർട്ട് ചെയ്യുക",
+      "FILTER": "നിങ്ങളുടെ മാപ്പിൽ നിങ്ങൾ കാണുന്ന ലൊക്കേഷനുകൾ മാറ്റുക",
+      "FILTER_TITLE": "നിങ്ങളുടെ മാപ്പ് ഫിൽട്ടർ ചെയ്യുക",
+      "HERE_YOU_CAN": "ഇവിടെ നിങ്ങൾക്ക് കഴിയും:"
     },
     "SURFACE_WATER": {
-      "EDIT_TITLE": "",
-      "IRRIGATION": "",
-      "NAME": "",
-      "TITLE": ""
+      "EDIT_TITLE": "ഉപരിതല ജലം എഡിറ്റ് ചെയ്യുക",
+      "IRRIGATION": "ഈ പ്രദേശം ജലസേചനത്തിന് ഉപയോഗിക്കുന്നുണ്ടോ?",
+      "NAME": "ഉപരിതല ജലത്തിൻ്റെ പേര്",
+      "TITLE": "ഉപരിതല ജലം ചേർക്കുക"
     },
     "TAB": {
-      "CROPS": "",
-      "DETAILS": "",
-      "READINGS": "",
-      "TASKS": ""
+      "CROPS": "വിളകൾ",
+      "DETAILS": "വിശദാംശങ്ങൾ",
+      "READINGS": "റീഡിങ്സ്",
+      "TASKS": "ചുമതലകൾ"
     },
-    "TITLE": "",
+    "TITLE": "ഫാം മാപ്",
     "TUTORIAL": {
       "ADJUST_AREA": {
-        "TEXT": "",
-        "TITLE": ""
+        "TEXT": "ഏരിയ ക്രമീകരിക്കാൻ പോയിൻ്റുകൾ ക്ലിക്ക് ചെയ്ത് ഡ്രാഗ് ചെയ്തു ഇടുക",
+        "TITLE": "പ്രദേശം ക്രമീകരിക്കുക"
       },
       "ADJUST_LINE": {
-        "TEXT": "",
-        "TITLE": ""
+        "TEXT": "ലൈൻ ക്രമീകരിക്കാൻ പോയിൻ്റുകൾ ക്ലിക്ക് ചെയ്ത് വലിച്ചിടുക",
+        "TITLE": "ലൈൻ ക്രമീകരിക്കുക"
       },
       "AREA": {
-        "STEP_ONE": "",
-        "STEP_THREE": "",
-        "STEP_TWO": "",
-        "TITLE": ""
+        "STEP_ONE": "ഡ്രോയിംഗ് ആരംഭിക്കാൻ എവിടെയും ക്ലിക്ക് ചെയ്യുക",
+        "STEP_THREE": "ആകൃതി ക്രമീകരിക്കാൻ പോയിൻ്റുകൾ ക്ലിക്ക് ചെയ്ത് വലിച്ചിടുക",
+        "STEP_TWO": "ഏരിയ ക്ലോസ് ചെയ്യാൻ പ്രാരംഭ പോയിൻ്റിൽ ക്ലിക്കുചെയ്യുക",
+        "TITLE": "പ്രദേശം വരയ്ക്കുക"
       },
       "LINE": {
-        "STEP_FOUR": "",
-        "STEP_ONE": "",
-        "STEP_THREE": "",
-        "STEP_TWO": "",
-        "TITLE": ""
+        "STEP_FOUR": "(ചില ലൈൻ തരങ്ങൾക്ക്) വീതി ചേർക്കുക",
+        "STEP_ONE": "ഡ്രോയിംഗ് ആരംഭിക്കാൻ എവിടെയും ക്ലിക്ക് ചെയ്യുക",
+        "STEP_THREE": "ഓപ്ഷണലായി, നിങ്ങളുടെ ലൈൻ ക്രമീകരിക്കുക",
+        "STEP_TWO": "നിങ്ങളുടെ വരി പൂർത്തിയാക്കാൻ ഡബിൾ ക്ലിക്ക് ചെയ്യുക",
+        "TITLE": "ഒരു വര വരയ്ക്കുക"
       }
     },
-    "TUTORIALS": "",
+    "TUTORIALS": "മാപ്പ് ട്യൂട്ടോറിയലുകൾ",
     "UNABLE_TO_RETIRE": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "സജീവമായതോ ആസൂത്രണം ചെയ്തതോ ആയ വിളകളോ ടാസ്‌ക്കുകളോ ഇല്ലാത്ത ലൊക്കേഷനുകൾ മാത്രമേ നിങ്ങൾക്ക് മാറാൻ സാധിക്കു.",
+      "TITLE": "സ്ഥലം മാറാൻ സാധിക്കുന്നില്ല"
     },
     "WATER_VALVE": {
-      "EDIT_TITLE": "",
-      "GROUNDWATER": "",
-      "MAX_FLOW_RATE": "",
-      "MUNICIPAL_WATER": "",
-      "NAME": "",
-      "RAIN_WATER": "",
-      "SURFACE_WATER": "",
-      "TITLE": "",
-      "WATER_VALVE_TYPE": ""
+      "EDIT_TITLE": "ജല വാൽവ് എഡിറ്റ് ചെയ്യുക",
+      "GROUNDWATER": "ഭൂഗർഭജലം",
+      "MAX_FLOW_RATE": "പരമാവധി ഒഴുക്ക് നിരക്ക്",
+      "MUNICIPAL_WATER": "മുനിസിപ്പൽ വെള്ളം",
+      "NAME": "വാട്ടർ വാൽവിൻ്റെ പേര്",
+      "RAIN_WATER": "മഴവെള്ളം",
+      "SURFACE_WATER": "ഉപരിതല ജലം",
+      "TITLE": "വെള്ളത്തിനുള്ള വാൽവ് ചേർക്കുക",
+      "WATER_VALVE_TYPE": "ഉറവിടം എന്താണ്?"
     },
     "WATERCOURSE": {
-      "BUFFER": "",
-      "EDIT_TITLE": "",
-      "IRRIGATION": "",
-      "LENGTH": "",
-      "NAME": "",
-      "TITLE": "",
-      "WIDTH": ""
+      "BUFFER": "നദീതീരസംബന്ധിയായ ബഫർ",
+      "EDIT_TITLE": "ജലപാത തിരുത്തുക",
+      "IRRIGATION": "ഈ പ്രദേശം ജലസേചനത്തിന് ഉപയോഗിക്കുന്നുണ്ടോ?",
+      "LENGTH": "ആകെ നീളം",
+      "NAME": "ജലപാതയുടെ പേര്",
+      "TITLE": "ജലപാത ചേർക്കുക",
+      "WIDTH": "ജലപാതയുടെ വീതി"
     }
   },
   "FIELDS": {
     "EDIT_FIELD": {
-      "SUPPLIER": "",
-      "VARIETY": ""
+      "SUPPLIER": "വിതരണക്കാരൻ",
+      "VARIETY": "വൈവിധ്യം"
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "",
-    "TITLE": ""
+    "BODY": "ഫയലുകൾ 10MB-യിൽ കൂടുതലാകരുത്.",
+    "TITLE": "ഫയൽ വലുപ്പം വളരെ വലുതാണ്"
   },
   "FILTER": {
-    "CLEAR_ALL": "",
-    "CLEAR_ALL_FILTERS": "",
-    "SELECT_ALL": ""
+    "CLEAR_ALL": "എല്ലാം മായ്‌ക്കുക",
+    "CLEAR_ALL_FILTERS": "എല്ലാ ഫിൽട്ടറുകളും മായ്‌ക്കുക",
+    "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
-      "ADD_REVENUE": "",
-      "TITLE": ""
+      "ADD_REVENUE": "വരുമാനം ചേർക്കുക",
+      "TITLE": "യഥാർത്ഥ വരുമാനം"
     },
-    "ADD_EXPENSE": "",
-    "ADD_REVENUE": "",
-    "ADD_TRANSACTION": "",
+    "ADD_EXPENSE": "+ ചെലവ് ചേർക്കുക",
+    "ADD_REVENUE": "+ വരുമാനം ചേർക്കുക",
+    "ADD_TRANSACTION": "+ ഇടപാട് ചേർക്കുക",
     "CANT_FIND": {
-      "INFO_EXPENSE": "",
-      "INFO_REVENUE": "",
-      "MAIN": "",
-      "MANAGE_EXPENSE": "",
-      "MANAGE_REVENUE": "",
-      "MISC_EXPENSE": ""
+      "INFO_EXPENSE": "നിങ്ങൾക്ക് നിങ്ങളുടെ സ്വന്തം ഇഷ്‌ടാനുസൃത ചെലവ് തരങ്ങൾ സൃഷ്ടിക്കാനും കഴിയും!",
+      "INFO_REVENUE": "നിങ്ങൾക്ക് സ്വന്തമായി ഇഷ്‌ടാനുസൃത വരുമാന തരങ്ങൾ സൃഷ്‌ടിക്കാനും കഴിയും!",
+      "MAIN": "അനുയോജ്യമായ ഒരു വിഭാഗം കണ്ടെത്താൻ കഴിയുന്നില്ലേ?",
+      "MANAGE_EXPENSE": "നിങ്ങളുടെ ഇഷ്‌ടാനുസൃത ചെലവുകൾ നിയന്ത്രിക്കുക",
+      "MANAGE_REVENUE": "നിങ്ങളുടെ ഇഷ്‌ടാനുസൃത വരുമാനം നിയന്ത്രിക്കുക",
+      "MISC_EXPENSE": "അല്ലെങ്കിൽ<1>സൃഷ്ടിക്കുക<1>വിവിധ</1>ചെലവ്</1>"
     },
-    "COST": "",
-    "DATE": "",
+    "COST": "ചെലവ്",
+    "DATE": "തീയതി",
     "ESTIMATED_REVENUE": {
-      "ESTIMATED_ANNUAL_REVENUE": "",
-      "ESTIMATED_ANNUAL_YIELD": "",
-      "ESTIMATED_CROP_REVENUE": "",
-      "ESTIMATED_PRICE_PER_UNIT": "",
-      "TITLE": ""
+      "ESTIMATED_ANNUAL_REVENUE": "കണക്കാക്കിയ വാർഷിക വരുമാനം",
+      "ESTIMATED_ANNUAL_YIELD": "കണക്കാക്കിയ വാർഷിക വിളവെടുപ്പ്",
+      "ESTIMATED_CROP_REVENUE": "കണക്കാക്കിയ വിളവെടുപ്പ് വരുമാനം",
+      "ESTIMATED_PRICE_PER_UNIT": "യൂണിറ്റിന് കണക്കാക്കിയ വില",
+      "TITLE": "കണക്കാക്കിയ വരുമാനം"
     },
-    "EXPENSES": "",
+    "EXPENSES": "ചെലവുകൾ",
     "FILTER": {
-      "EXPENSE_TYPE": "",
-      "HELP_TEXT": "",
-      "REVENUE_TYPE": "",
-      "TITLE": ""
+      "EXPENSE_TYPE": "ചെലവ് തരങ്ങൾ",
+      "HELP_TEXT": "നിങ്ങളുടെ ഇടപാട് ലിസ്‌റ്റ് മികച്ചതാക്കാനും നിങ്ങൾ ആഗ്രഹിക്കുന്ന രീതിയിൽ പ്രവർത്തിക്കാനും ചുവടെയുള്ള ഫിൽട്ടറുകൾ ഉപയോഗിക്കാൻ മടിക്കേണ്ടതില്ല!",
+      "REVENUE_TYPE": "വരുമാന തരങ്ങൾ",
+      "TITLE": "ഇടപാടുകൾ ഫിൽട്ടർ ചെയ്യുക"
     },
     "REPORT": {
-      "DATES": "",
-      "FILE_TITLE": "",
-      "SETTINGS": "",
-      "TRANSACTION": "",
-      "TRANSACTIONS": ""
+      "DATES": "തീയതികൾ",
+      "FILE_TITLE": "സാമ്പത്തിക റിപ്പോർട്ട്",
+      "SETTINGS": "കയറ്റുമതി ക്രമീകരണങ്ങൾ",
+      "TRANSACTION": "ഇടപാട്",
+      "TRANSACTIONS": "ഇടപാടുകൾ"
     },
-    "REVENUE": "",
+    "REVENUE": "വരുമാനം",
     "SEARCH": {
-      "EXPENSE_TYPES": "",
-      "REVENUE_TYPES": ""
+      "EXPENSE_TYPES": "ചെലവ് തരം തിരയുക",
+      "REVENUE_TYPES": "വരുമാന തരത്തിനായി തിരയുക"
     },
     "TRANSACTION": {
-      "CROPS": "",
-      "DAILY_TOTAL": "",
-      "LABOUR_EXPENSE": "",
-      "VIEW_AND_EDIT": "",
-      "VIEW_LABOUR": ""
+      "CROPS": "വിളകൾ",
+      "DAILY_TOTAL": "പ്രതിദിന ആകെ",
+      "LABOUR_EXPENSE": "തൊഴിൽ ചെലവുകൾ",
+      "VIEW_AND_EDIT": "കാണുക & തിരുത്തുക",
+      "VIEW_LABOUR": "തൊഴിൽ ചെലവുകൾ കാണുക"
     },
-    "VIEW_WITHIN_DATE_RANGE": "",
-    "WHOLE_FARM_REVENUE": ""
+    "VIEW_WITHIN_DATE_RANGE": "ഈ തീയതി പരിധിക്കുള്ളിലെ വരുമാനം കാണുക",
+    "WHOLE_FARM_REVENUE": "മുഴുവൻ കാർഷിക വരുമാനവും"
   },
   "FORM_VALIDATION": {
-    "OVER_255_CHARS": ""
+    "OVER_255_CHARS": "വാചകം 255 ക്യാറക്‌ടറിൽ കവിയാൻ പാടില്ല"
   },
   "HELP": {
-    "ATTACHMENT_LABEL": "",
-    "EMAIL": "",
-    "MESSAGE_LABEL": "",
+    "ATTACHMENT_LABEL": "സ്ക്രീൻഷോട്ടോ ഫയലോ അപ്ലോഡ് ചെയ്യുക",
+    "EMAIL": "ഇമെയിൽ",
+    "MESSAGE_LABEL": "സന്ദേശം",
     "OPTIONS": {
-      "OTHER": "",
-      "REPORT_BUG": "",
-      "REQUEST_FEATURE": "",
-      "REQUEST_INFO": ""
+      "OTHER": "മറ്റുള്ളവ",
+      "REPORT_BUG": "ബഗ് റിപ്പോർട്ട്‌ ചെയ്യുക",
+      "REQUEST_FEATURE": "സവിശേഷതയ്ക്കായി അഭ്യർത്ഥിക്കുക",
+      "REQUEST_INFO": "വിവരങ്ങൾക്കായി അഭ്യർത്ഥിക്കുക"
     },
-    "PREFERRED_CONTACT": "",
-    "REQUIRED_LABEL": "",
-    "TITLE": "",
-    "TYPE_SUPPORT_LABEL": "",
-    "TYPE_SUPPORT_PLACEHOLDER": "",
-    "WHATSAPP": "",
-    "WHATSAPP_NUMBER_LABEL": ""
+    "PREFERRED_CONTACT": "കോൺടാക്ട് ചെയ്യാനുള്ള രീതി തിരഞ്ഞെടുക്കുക",
+    "REQUIRED_LABEL": "ആവശ്യമായ ഫീൽഡ്",
+    "TITLE": "സഹായം അഭ്യർത്ഥിക്കുക",
+    "TYPE_SUPPORT_LABEL": "എന്തുതരം സഹായമാണ് വേണ്ടത്",
+    "TYPE_SUPPORT_PLACEHOLDER": "എന്തുതരം സഹായമാണ് വേണ്ടതെന്ന് തിരഞ്ഞെടുക്കുക",
+    "WHATSAPP": "വാട്സ്ആപ്പ്",
+    "WHATSAPP_NUMBER_LABEL": "വാട്സ്ആപ്പ് നമ്പർ"
   },
   "HOME": {
-    "GREETING": ""
+    "GREETING": "ശുഭദിനം "
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
-      "AMPHIBIANS": "",
-      "API_OFFSET_LIMIT_ERROR_MESSAGE": "",
-      "BIRDS": "",
-      "CROP_VARIETIES": "",
-      "ERROR_TITLE": "",
-      "GENERIC_ERROR_MESSAGE": "",
-      "HEADER": "",
-      "INFO": "",
-      "INSECTS": "",
+      "AMPHIBIANS": "ഉഭയജീവകൾ",
+      "API_OFFSET_LIMIT_ERROR_MESSAGE": "നിങ്ങളുടെ കൃഷിയിടത്തിൻ്റെ അതിർത്തിക്കുള്ളിൽ നിരവധി ജൈവവൈവിധ്യ നിരീക്ഷണങ്ങൾ ഉണ്ട്, കൃത്യമായി റിപ്പോർട്ടുചെയ്യാൻ, ദയവായി നിങ്ങളുടെ കൃഷിയിടത്തിൻ്റെ അതിർത്തിയുടെ വലിപ്പം കുറച്ച് വീണ്ടും ശ്രമിക്കുക.",
+      "BIRDS": "പക്ഷികൾ",
+      "CROP_VARIETIES": "വിള ഇനങ്ങൾ",
+      "ERROR_TITLE": "അതിൽ ഒരു പ്രശ്‌നമുണ്ട്",
+      "GENERIC_ERROR_MESSAGE": "ലൈറ്റ് ഫാം നിരവധി സ്രോതസ്സുകളെ അടിസ്ഥാനമാക്കി ജൈവവൈവിധ്യ സ്ഥിതിവിവരക്കണക്കുകൾ സൃഷ്ടിക്കുന്നു, ഇപ്പോൾ അത് ചെയ്യാൻ കഴിഞ്ഞില്ല. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
+      "HEADER": "സ്പീഷിസുകളുടെ എണ്ണം",
+      "INFO": "മനുഷ്യർക്കും ഗ്രഹത്തിനും ജൈവവൈവിധ്യം മഹത്തരമാണ്. നിങ്ങളുടെ ഫാം അതിർത്തിക്കുള്ളിലെ ജൈവവൈവിധ്യത്തിൻ്റെ എല്ലാ അറിയപ്പെടുന്ന രേഖകളിൽ നിന്നും ഞങ്ങൾ സ്പീഷിസ് സമ്പന്നത കണക്കാക്കുന്നു. പുതിയ ഇനങ്ങൾ നട്ടുപിടിപ്പിച്ച് നിങ്ങളുടെ കൃഷിയിടത്തിൽ ജൈവവൈവിധ്യം വർദ്ധിപ്പിക്കാം. https://inaturalist.org/app എന്നതിൽ ദൃശ്യങ്ങൾ റെക്കോർഡ് ചെയ്യുന്നതിലൂടെ നിങ്ങളുടെ ഫാമിലെ വിള ഇതര ജൈവവൈവിധ്യം വർദ്ധിപ്പിക്കാൻ കഴിയും",
+      "INSECTS": "പ്രാണികൾ",
       "LOADING": {
-        "BODY": "",
-        "TITLE": ""
+        "BODY": "നിങ്ങളുടെ ഫാമിനായി ഞങ്ങൾ ഏറ്റവും പുതിയ ജൈവവൈവിധ്യ സ്ഥിതിവിവരക്കണക്കുകൾ സൃഷ്ടിക്കുകയാണ്. ഇതിന് 60 സെക്കൻഡ് വരെ എടുത്തേക്കാം.",
+        "TITLE": "ഏറ്റവും പുതിയ ജൈവവൈവിധ്യ സ്ഥിതിവിവരക്കണക്കുകൾ സൃഷ്ടിക്കുന്നു..."
       },
-      "MAMMALS": "",
-      "PLANTS": "",
-      "SPECIES_COUNT_one": "",
-      "SPECIES_COUNT_other": "",
-      "TITLE": ""
+      "MAMMALS": "സസ്തനികൾ",
+      "PLANTS": "ചെടികൾ",
+      "SPECIES_COUNT_one": "{{count}} ഇനങ്ങൾ",
+      "SPECIES_COUNT_other": "{{count}} ഇനങ്ങൾ",
+      "TITLE": "ജൈവവൈവിധ്യം"
     },
-    "CLICK_TO_CALCULATE": "",
-    "CURRENT": "",
-    "INFO": "",
+    "CLICK_TO_CALCULATE": "കണക്കുകൂട്ടാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യുക",
+    "CURRENT": "നിലവിലുള്ളത്",
+    "INFO": "സ്ഥിതിവിവരക്കണക്കുകൾ നിങ്ങളുടെ ഫാമിൽ എന്താണ് സംഭവിക്കുന്നത് എന്നതിനെക്കുറിച്ചുള്ള അധിക ഡാറ്റ ഉൾക്കാഴ്ചകൾ നൽകുന്നു. ആപ്ലിക്കേഷനിൽ നിങ്ങൾ നൽകുന്ന കൂടുതൽ ഡാറ്റ, കൂടുതൽ സ്ഥിതിവിവരക്കണക്കുകൾ സൃഷ്ടിക്കാൻ കഴിയും. കൂടുതൽ വിവരങ്ങൾക്ക് വ്യക്തിഗത സ്ഥിതിവിവരക്കണക്കുകൾ കാണുക.",
     "LABOUR_HAPPINESS": {
-      "HEADER": "",
-      "INFO": "",
-      "TITLE": ""
+      "HEADER": "ചുമതലകൾ",
+      "INFO": "ഒരു ടാസ്‌ക്ക് പൂർത്തിയായതായി അടയാളപ്പെടുത്തുമ്പോൾ വ്യക്തികൾ നൽകുന്ന സംതൃപ്തിയുടെ സ്‌കോറുകളുടെ ശരാശരി കണക്കാക്കി ലൈറ്റ്‌ഫാം തൊഴിൽ സന്തോഷം കണക്കാക്കുന്നു.",
+      "TITLE": "തൊഴിൽ സന്തോഷം"
     },
     "PRICES": {
-      "INFO": "",
-      "NEARBY_FARMS_one": "",
-      "NEARBY_FARMS_other": "",
-      "NETWORK_PRICE": "",
-      "NO_ADDRESS": "",
-      "OWN_PRICE": "",
-      "PERCENT_OF_MARKET": "",
-      "SALES_FROM_DISTANCE_AWAY": "",
-      "TITLE": "",
-      "Y_TITLE": ""
+      "INFO": "ലൈറ്റ് ഫാം നെറ്റ്‌വർക്കിൽ ഉടനീളം ശേഖരിച്ച നിങ്ങളുടെ നിശ്ചിത ദൂരത്തിനുള്ളിൽ ഒരേ സാധനങ്ങളുടെ വിൽപ്പന വിലയ്‌ക്കെതിരായ നിങ്ങളുടെ വിൽപ്പന വിലയുടെ പാത ഞങ്ങൾ കാണിക്കുന്നു.",
+      "NEARBY_FARMS_one": "നിങ്ങളുടെ പ്രദേശത്തെ {{count}} ഫാമിനെ അടിസ്ഥാനമാക്കിയാണ് നെറ്റ്‌വർക്ക് വില",
+      "NEARBY_FARMS_other": "നിങ്ങളുടെ പ്രദേശത്തെ {{count}} ഫാമിനെ അടിസ്ഥാനമാക്കിയാണ് നെറ്റ്‌വർക്ക് വില",
+      "NETWORK_PRICE": "നെറ്റ്‌വർക്ക് വില",
+      "NO_ADDRESS": "നിങ്ങൾക്ക് നിലവിൽ ലൈറ്റ് ഫാമിൽ വിലാസമില്ല. സമീപത്തുള്ള വില വിവരങ്ങൾ ലഭിക്കാൻ നിങ്ങളുടെ പ്രൊഫൈലിൽ ഇത് അപ്ഡേറ്റ് ചെയ്യുക!",
+      "OWN_PRICE": "അവകാശപ്പെടുന്ന വില",
+      "PERCENT_OF_MARKET": "വിപണിയുടെ {{percentage}}%",
+      "SALES_FROM_DISTANCE_AWAY": "{{distance}} {{unit}} അകലെ നിന്നുള്ള വിൽപ്പന",
+      "TITLE": "വിലകൾ",
+      "Y_TITLE": "വില ({{currency}}/{{mass}})"
     },
     "SOIL_OM": {
-      "ALTERNATE_TITLE": "",
-      "HEADER": "",
-      "INFO": "",
-      "TITLE": ""
+      "ALTERNATE_TITLE": "മണ്ണിലെ പദാർത്ഥങ്ങളുടെ അളവ്",
+      "HEADER": "മണ്ണിലെ ജൈവ പദാർത്ഥം",
+      "INFO": "നിങ്ങളുടെ വിളകൾക്ക് ആരോഗ്യകരമായ മണ്ണിന്റെ അന്തരീക്ഷം നിലനിർത്താൻ മണ്ണിലെ ജൈവവസ്തുക്കൾ ആവശ്യമാണ്. നിങ്ങളുടെ ഏറ്റവും പുതിയ മണ്ണ് വിശകലന ടാസ്‌ക് ഫലങ്ങളിൽ നിന്ന് ഞങ്ങൾ ഈ ഉൾക്കാഴ്ച നൽകുന്നു. നിങ്ങളുടെ പക്കൽ ഡാറ്റയൊന്നും ഇല്ലെങ്കിൽ, ആഗോളതലത്തിൽ നിങ്ങളുടെ സ്ഥലത്തിന് സാധ്യതയുള്ള മണ്ണിൻ്റെ ജൈവവസ്തുക്കൾ ഞങ്ങൾ പ്രവചിക്കുന്നു.",
+      "TITLE": "മണ്ണിലെ ജൈവ പദാർത്ഥം"
     },
-    "TITLE": "",
-    "UNAVAILABLE": ""
+    "TITLE": "ഉൾക്കാഴ്ചകൾ",
+    "UNAVAILABLE": "ലഭ്യമല്ല"
   },
   "INTRODUCE_MAP": {
-    "BODY": "",
-    "TITLE": ""
+    "BODY": "ഫാം മാപ്പിന് പുതിയ സവിശേഷതകളുണ്ട്. ഇത് ഇപ്പോൾ മൈ ഫാം മെനുവിന് കീഴിൽ കാണപ്പെടുന്നു.",
+    "TITLE": "ഞങ്ങൾ ഫാം മാപ്പുകൾ അപ്ഡേറ്റ് ചെയ്തിട്ടുണ്ട്!"
   },
   "INVITATION": {
-    "BIRTH_YEAR": "",
-    "BIRTH_YEAR_ERROR": "",
-    "BIRTH_YEAR_TOOLTIP": "",
-    "CREATE_ACCOUNT": "",
-    "CREATE_NEW_ACCOUNT": "",
-    "EMAIL": "",
-    "FULL_NAME": "",
-    "GENDER": "",
-    "GENDER_TOOLTIP": "",
-    "PASSWORD": "",
-    "YOUR_INFORMATION": ""
+    "BIRTH_YEAR": "ജനിച്ച വർഷം",
+    "BIRTH_YEAR_ERROR": "ജനന വർഷം 1900-നും _ ഇടയിലായിരിക്കണം",
+    "BIRTH_YEAR_TOOLTIP": "പ്രായത്തെക്കുറിച്ചുള്ള വിവരങ്ങൾ ഗവേഷണ ആവശ്യങ്ങൾക്കായി മാത്രം ശേഖരിക്കുന്നു, വ്യക്തിപരമായി തിരിച്ചറിയുന്ന വിവരങ്ങൾ നീക്കം ചെയ്‌തതിന് ശേഷം മാത്രമേ അത് പങ്കിടൂ",
+    "CREATE_ACCOUNT": "പുതിയ അക്കൗണ്ട് സൃഷ്ടിക്കുക",
+    "CREATE_NEW_ACCOUNT": "പുതിയ അക്കൗണ്ട് സൃഷ്ടിക്കുക",
+    "EMAIL": "ഇമെയിൽ",
+    "FULL_NAME": "പൂർണ്ണമായ പേര്",
+    "GENDER": "ലിംഗം",
+    "GENDER_TOOLTIP": "ലിംഗവിവരങ്ങൾ ഗവേഷണ ആവശ്യങ്ങൾക്കായി മാത്രമാണ് ശേഖരിക്കുന്നത്, വ്യക്തിപരമായി തിരിച്ചറിയുന്ന വിവരങ്ങൾ നീക്കം ചെയ്തതിന് ശേഷം മാത്രമേ അവ പങ്കിടുകയുള്ളൂ",
+    "PASSWORD": "പാസ്സ്‌വേർഡ്",
+    "YOUR_INFORMATION": "നിങ്ങളുടെ വിവരങ്ങൾ"
   },
   "INVITE_SIGN_UP": {
-    "ERROR0": "",
-    "ERROR1": "",
-    "HOW_TO_CREATE": "",
-    "LITEFARM_ACCOUNT": "",
-    "SIGN_IN_WITH": "",
-    "TITLE": ""
+    "ERROR0": "നിങ്ങൾക്ക് ഉപയോക്താവിനെ ആവശ്യമുണ്ട്",
+    "ERROR1": "ഫാം ഇൻവിറ്റേഷൻ സ്വീകരിക്കാൻ.",
+    "HOW_TO_CREATE": "നിങ്ങളുടെ പുതിയ അക്കൗണ്ട് എങ്ങനെ സൃഷ്ടിക്കണം?",
+    "LITEFARM_ACCOUNT": "ഒരു ലൈറ്റ് ഫാം അക്കൗണ്ട് സൃഷ്ടിക്കുക",
+    "SIGN_IN_WITH": "സൈൻ ഇൻ ചെയ്യാൻ ഉപയോഗിക്കാൻ",
+    "TITLE": "നിങ്ങളുടെ അക്കൗണ്ട് സൃഷ്ടിക്കുക"
   },
   "INVITE_USER": {
-    "ALREADY_EXISTING_EMAIL_ERROR": "",
-    "BIRTH_YEAR": "",
-    "BIRTH_YEAR_ERROR": "",
-    "BIRTH_YEAR_TOOLTIP": "",
-    "CHOOSE_ROLE": "",
+    "ALREADY_EXISTING_EMAIL_ERROR": "ആ ഇമെയിൽ ഉള്ള ഒരു ഉപയോക്താവിന് ഇതിനകം തന്നെ ഈ ഫാമിലേക്ക് ആക്‌സസ് ഉണ്ട്",
+    "BIRTH_YEAR": "ജനിച്ച വർഷം",
+    "BIRTH_YEAR_ERROR": "ജനന വർഷം 1900-നും __-നും ഇടയിലായിരിക്കണം",
+    "BIRTH_YEAR_TOOLTIP": "പ്രായത്തെക്കുറിച്ചുള്ള വിവരങ്ങൾ ഗവേഷണ ആവശ്യങ്ങൾക്കായി മാത്രം ശേഖരിക്കുന്നു, വ്യക്തിപരമായി തിരിച്ചറിയുന്ന വിവരങ്ങൾ നീക്കം ചെയ്‌തതിന് ശേഷം മാത്രമേ അത് പങ്കിടൂ",
+    "CHOOSE_ROLE": "പങ്ക് തിരഞ്ഞെടുക്കുക",
     "DEFAULT_LANGUAGE": "മലയാളം",
     "DEFAULT_LANGUAGE_VALUE": "ml",
-    "EMAIL": "",
-    "EMAIL_INFO": "",
-    "FULL_NAME": "",
-    "GENDER": "",
-    "GENDER_TOOLTIP": "",
-    "INVALID_EMAIL_ERROR": "",
-    "INVITE": "",
-    "LANGUAGE_OF_INVITE": "",
-    "PHONE": "",
-    "PHONE_ERROR": "",
-    "ROLE": "",
-    "TITLE": "",
-    "WAGE": "",
-    "WAGE_ERROR": "",
-    "WAGE_RANGE_ERROR": ""
+    "EMAIL": "ഇമെയിൽ",
+    "EMAIL_INFO": "ഇമെയിൽ ഇല്ലാത്ത ഉപയോക്താക്കൾക്ക് ലോഗിൻ ചെയ്യാൻ കഴിയില്ല",
+    "FULL_NAME": "പൂർണ്ണമായ പേര്",
+    "GENDER": "ലിംഗം",
+    "GENDER_TOOLTIP": "ലിംഗവിവരങ്ങൾ ഗവേഷണ ആവശ്യങ്ങൾക്കായി മാത്രം ശേഖരിക്കുന്നു, നീക്കംചെയ്ത വ്യക്തിപരമായി തിരിച്ചറിയുന്ന വിവരങ്ങളുമായി മാത്രമേ അവ പങ്കിടുകയുള്ളൂ",
+    "INVALID_EMAIL_ERROR": "സാധുവായ ഒരു ഇമെയിൽ നൽകുക",
+    "INVITE": "ക്ഷണം",
+    "LANGUAGE_OF_INVITE": "ക്ഷണത്തിനായുള്ള ഭാഷ",
+    "PHONE": "ഫോണ്‍",
+    "PHONE_ERROR": "ദയവായി സാധുവായ ഒരു ഫോൺ നമ്പർ നൽകുക",
+    "ROLE": "പങ്ക്",
+    "TITLE": "ഉപയോക്താവിനെ ക്ഷണിക്കുക",
+    "WAGE": "മണിക്കൂർ കൂലി",
+    "WAGE_ERROR": "വേതനം സാധുവായ സംഘ്യയാവണം, നെഗറ്റീവ് അല്ലാത്ത ദശാംശ സംഖ്യയായിരിക്കണം",
+    "WAGE_RANGE_ERROR": "ശമ്പളം പോസിറ്റീവ് മൂല്യമാവണം. 999,999,999-ൽ കുറവായിരിക്കണം"
   },
   "JOIN_FARM_SUCCESS": {
-    "IMPORTANT_THINGS": "",
-    "SUCCESSFULLY_JOINED": ""
+    "IMPORTANT_THINGS": "പ്രധാനപ്പെട്ട രണ്ട് കാര്യങ്ങൾ ഞങ്ങൾ നിങ്ങൾക്ക് കാണിച്ചുതരാം!",
+    "SUCCESSFULLY_JOINED": "നിങ്ങൾ വിജയകരമായി ചേർന്നു"
   },
   "LOCATION_CREATION": {
-    "CREATE_BUTTON": "",
-    "CROP_PLAN_BODY": "",
-    "GO_BACK_BUTTON": "",
-    "TASK_BODY": "",
-    "TASK_BODY_WORKER": "",
-    "TASK_TITLE": "",
-    "TITLE": ""
+    "CREATE_BUTTON": "സ്ഥലം സൃഷ്ടിക്കുക",
+    "CROP_PLAN_BODY": "ഈ ക്രോപ്പ് പ്ലാൻ പൂർത്തിയാക്കുന്നതിന് മുമ്പ് നിങ്ങൾക്ക് ഒരു ഫീൽഡ്, ഗാർഡൻ, ഗ്രീൻഹൗസ് അല്ലെങ്കിൽ ബഫർ സോൺ ആവശ്യമാണ്. നിങ്ങൾക്ക് ഇപ്പോൾ ഒരെണ്ണം സൃഷ്ടിക്കണോ?",
+    "GO_BACK_BUTTON": "പുറകിലേക്ക് പോകുക",
+    "TASK_BODY": "ഒരു ടാസ്‌ക് സൃഷ്‌ടിക്കുന്നതിന് മുമ്പ് നിങ്ങൾക്ക് ഒരു സ്ഥലമെങ്കിലും ആവശ്യമാണ്. നിങ്ങൾക്ക് ഇപ്പോൾ ഒരു സ്ഥലം സൃഷ്ടിക്കണോ?",
+    "TASK_BODY_WORKER": "നിങ്ങൾക്ക് ഒരു ടാസ്‌ക് സൃഷ്‌ടിക്കുന്നതിന് മുമ്പ് കുറഞ്ഞത് ഒരു ലൊക്കേഷനെങ്കിലും സൃഷ്‌ടിക്കാൻ മാനേജ്‌മെൻ്റ് ആവശ്യമാണ്.",
+    "TASK_TITLE": "ടാസ്‌ക്കുകൾക്കായി ലൊക്കേഷനുകളൊന്നുമില്ല",
+    "TITLE": "സ്ഥലങ്ങളൊന്നും കണ്ടെത്തിയില്ല!"
   },
   "LOCATION_CROPS": {
-    "ACTIVE_CROPS": "",
-    "ADD_NEW": "",
-    "INPUT_PLACEHOLDER": "",
-    "PAST_CROPS": "",
-    "PLANNED_CROPS": ""
+    "ACTIVE_CROPS": "സജീവ വിളകൾ",
+    "ADD_NEW": "വിള ചേർക്കുക",
+    "INPUT_PLACEHOLDER": "തിരയാനായി ടൈപ്പ് ചെയ്യുക",
+    "PAST_CROPS": "കഴിഞ്ഞ വിളകൾ",
+    "PLANNED_CROPS": "ആസൂത്രിത വിളകൾ"
   },
   "LOG_COMMON": {
-    "ADD_A_LOG": "",
-    "DELETE_CONFIRMATION": "",
-    "EDIT_A_LOG": "",
-    "FROM": "",
-    "LOCATION": "",
-    "NOTES": "",
-    "QUANTITY": "",
-    "SELECT_LOCATION": "",
-    "TO": ""
+    "ADD_A_LOG": "ലോഗ് ചേർക്കുക",
+    "DELETE_CONFIRMATION": "ഈ ലോഗ് ഡിലീറ്റ് ചെയ്യണമെന്ന് തീർച്ചയാണോ?",
+    "EDIT_A_LOG": "ലോഗ് എഡിറ്റ് ചെയ്യുക",
+    "FROM": "ഫ്രം",
+    "LOCATION": "സ്ഥലം",
+    "NOTES": "കുറിപ്പുകൾ",
+    "QUANTITY": "അളവ്",
+    "SELECT_LOCATION": "സ്ഥലം തിരഞ്ഞെടുക്കുക",
+    "TO": "ടു"
   },
   "LOG_DETAIL": {
-    "NO": "",
-    "YES": ""
+    "NO": "ഇല്ല",
+    "YES": "അതെ"
   },
   "LOG_HARVEST": {
-    "ADD_CUSTOM_HARVEST_USE": "",
-    "CROP": "",
-    "CROP_PLACEHOLDER": "",
-    "CUSTOM_HARVEST_USE": "",
-    "HARVEST_ALLOCATION_SUBTITLE": "",
-    "HARVEST_ALLOCATION_SUBTITLE_TWO": "",
-    "HARVEST_USE_TYPE_SUBTITLE": "",
-    "QUANTITY_ERROR": "",
-    "TITLE": ""
+    "ADD_CUSTOM_HARVEST_USE": "ഇഷ്ടാനുസൃത വിളവെടുപ്പ് ഉപയോഗം ചേർക്കുക",
+    "CROP": "വിള",
+    "CROP_PLACEHOLDER": "ഒരു വിള തിരഞ്ഞെടുക്കുക",
+    "CUSTOM_HARVEST_USE": "ഇഷ്ടാനുസൃത വിളവെടുപ്പ് ഉപയോഗങ്ങൾ",
+    "HARVEST_ALLOCATION_SUBTITLE": "ഓരോ ആവശ്യത്തിനും എത്ര വിളവെടുപ്പ് ഉപയോഗിക്കും?",
+    "HARVEST_ALLOCATION_SUBTITLE_TWO": "അനുവദിക്കേണ്ട തുക",
+    "HARVEST_USE_TYPE_SUBTITLE": "വിളവെടുത്ത ഫലങ്ങൾ എങ്ങനെ ഉപയോഗിക്കുന്നു?",
+    "QUANTITY_ERROR": "അളവ് 2 ദശാംശ സ്ഥാനങ്ങൾ വരെ ആയിരിക്കണം",
+    "TITLE": "വിളവെടുപ്പ് ലോഗ്"
   },
   "MANAGEMENT_DETAIL": {
-    "ABANDON_PLAN": "",
-    "ADD_A_TASK": "",
-    "DETAILS": "",
-    "TASKS": ""
+    "ABANDON_PLAN": "ഉപേക്ഷിക്കുക",
+    "ADD_A_TASK": "ചുമതല ചേർക്കുക",
+    "DETAILS": "വിശദാംശങ്ങൾ",
+    "TASKS": "ചുമതലകൾ"
   },
   "MANAGEMENT_PLAN": {
     "ABANDON": {
-      "CANT_ABANDON_COMPLETED": "",
-      "CANT_ABANDON_CONCURRENT_USER": ""
+      "CANT_ABANDON_COMPLETED": "വിള പദ്ധതി ഉപേക്ഷിക്കാൻ കഴിയില്ല",
+      "CANT_ABANDON_CONCURRENT_USER": "മറ്റൊരു ഉപയോക്താവ് ഈ പ്ലാൻ പൂർത്തിയാക്കി. പ്ലാനുകളുടെ ഏറ്റവും പുതിയ നില ലഭിക്കാൻ തിരികെ നാവിഗേറ്റ് ചെയ്യുക."
     },
-    "ABANDON_MANAGEMENT_PLAN_CONTENT": "",
-    "ABANDON_MANAGEMENT_PLAN_TITLE": "",
-    "ADD_MANAGEMENT_PLAN": "",
-    "AGE": "",
-    "AS_COVER_CROP": "",
-    "ASSIGN_ALL_TASKS": "",
-    "BEDS": "",
-    "BROADCAST": "",
+    "ABANDON_MANAGEMENT_PLAN_CONTENT": "ഈ വിള പദ്ധതി ഉപേക്ഷിക്കുന്നത് അതുമായി ബന്ധപ്പെട്ട എല്ലാ അപൂർണ്ണമായ ജോലികളും ഉപേക്ഷിക്കുകയും നിങ്ങളുടെ ഫാം മാപ്പിൽ നിന്ന് അത് നീക്കം ചെയ്യുകയും ചെയ്യും.",
+    "ABANDON_MANAGEMENT_PLAN_TITLE": "വിള പദ്ധതി ഉപേക്ഷിക്കണോ?",
+    "ADD_MANAGEMENT_PLAN": "വിള പദ്ധതി ചേർക്കുക",
+    "AGE": "പ്രായം",
+    "AS_COVER_CROP": "കവർ വിളയായി",
+    "ASSIGN_ALL_TASKS": "ഈ വിള പദ്ധതിയുടെ ഭാഗമായി സൃഷ്‌ടിക്കുന്ന എല്ലാ ജോലികളും ഈ വ്യക്തിയെ ഏൽപ്പിക്കും. നിങ്ങൾക്ക് ഈ നിയമനം പിന്നീട് പരിഷ്‌ക്കരിക്കാവുന്നതാണ്",
+    "BEDS": "കൃഷിയിടം",
+    "BROADCAST": "വിതക്കുക അല്ലെങ്കിൽ നടുക",
     "COMPLETE_PLAN": {
-      "ABANDON_DATE": "",
-      "ABANDON_NOTES": "",
-      "ABANDON_PLAN": "",
-      "ABANDON_REASON": "",
-      "CANT_COMPLETE_ABANDONED": "",
-      "CANT_COMPLETE_CONCURRENT_USER": "",
-      "COMPLETE_DATE": "",
-      "COMPLETE_PLAN": "",
-      "DATE_OF_CHANGE": "",
-      "FUTURE_DATE_INVALID": "",
-      "NOTES_CHAR_LIMIT": "",
-      "RATING": "",
+      "ABANDON_DATE": "ഉപേക്ഷിക്കൽ തീയതി",
+      "ABANDON_NOTES": "ഉപേക്ഷിക്കൽ കുറിപ്പുകൾ",
+      "ABANDON_PLAN": "പദ്ധതി ഉപേക്ഷിക്കുക",
+      "ABANDON_REASON": "ഉപേക്ഷിക്കാനുള്ള കാരണം",
+      "CANT_COMPLETE_ABANDONED": "ക്രോപ്പ് പ്ലാൻ പൂർത്തിയാക്കാൻ കഴിയില്ല",
+      "CANT_COMPLETE_CONCURRENT_USER": "മറ്റൊരു ഉപയോക്താവ് ഈ പ്ലാൻ ഉപേക്ഷിച്ചു. പ്ലാനുകളുടെ ഏറ്റവും പുതിയ നില ലഭിക്കാൻ തിരികെ നാവിഗേറ്റ് ചെയ്യുക.",
+      "COMPLETE_DATE": "പൂർത്തിയാക്കിയ തീയതി",
+      "COMPLETE_PLAN": "പ്ലാൻ പൂർത്തിയാക്കുക",
+      "DATE_OF_CHANGE": "സ്റ്റാറ്റസ് മാറ്റത്തിൻ്റെ തീയതി",
+      "FUTURE_DATE_INVALID": "ഭാവിയിൽ ഉണ്ടാകണമെന്നില്ല",
+      "NOTES_CHAR_LIMIT": "കുറിപ്പുകളിൽ 10,000 ക്യാരക്‌ടറുകളിൽ കുറവായിരിക്കണം",
+      "RATING": "ഈ ക്രോപ് പ്ലാൻ റേറ്റ് ചെയ്യുക",
       "REASON": {
-        "CROP_FAILURE": "",
-        "LABOUR_ISSUE": "",
-        "MACHINERY_ISSUE": "",
-        "MARKET_PROBLEM": "",
-        "SCHEDULING_ISSUE": "",
-        "SOMETHING_ELSE": "",
-        "WEATHER": ""
+        "CROP_FAILURE": "വിളനാശം",
+        "LABOUR_ISSUE": "തൊഴിൽ പ്രശ്നം",
+        "MACHINERY_ISSUE": "യന്ത്രങ്ങളുടെ പ്രശ്നം",
+        "MARKET_PROBLEM": "വിപണി പ്രശ്നം",
+        "SCHEDULING_ISSUE": "ഷെഡ്യൂളിംഗ് പ്രശ്നം",
+        "SOMETHING_ELSE": "മറ്റെന്തെങ്കിലും",
+        "WEATHER": "കാലാവസ്ഥ"
       },
-      "WHAT_HAPPENED": ""
+      "WHAT_HAPPENED": "എന്ത് സംഭവിച്ചു?"
     },
-    "COMPLETION_NOTES": "",
-    "CONTAINER": "",
-    "CONTAINER_OR_IN_GROUND": "",
-    "CONTAINER_TYPE": "",
-    "COVER_INFO": "",
-    "COVER_OR_HARVEST": "",
-    "CROP_PLAN_REPEAT": "",
-    "CROP_PLAN_REPEAT_SUBTEXT": "",
-    "DAYS_FROM_PLANTING": "",
-    "DAYS_FROM_SEEDING": "",
-    "DAYS_TO_HARVEST": "",
-    "DAYS_TO_TERMINATION": "",
+    "COMPLETION_NOTES": "പൂർത്തീകരണ കുറിപ്പുകൾ",
+    "CONTAINER": "കണ്ടെയ്നർ",
+    "CONTAINER_OR_IN_GROUND": "നിങ്ങൾ ഒരു കണ്ടെയ്നറിൽ നടുകയാണോ അതോ നിലത്ത് നടുകയാണോ?",
+    "CONTAINER_TYPE": "കണ്ടെയ്നറിൻ്റെ തരം",
+    "COVER_INFO": "കവർ വിള തിരഞ്ഞെടുക്കുന്നത് സീസണിൻ്റെ അവസാനത്തിൽ കവർ വിള അവസാനിപ്പിക്കുന്നതിന് ഒരു ഫീൽഡ് വർക്ക് ചുമതല സൃഷ്ടിക്കും. വിളവെടുപ്പിനായി തിരഞ്ഞെടുക്കുന്നത് പകരം വിളവെടുപ്പ് ചുമതല സൃഷ്ടിക്കും.",
+    "COVER_OR_HARVEST": "ഇത് ഒരു കവർ വിളയായാണോ അതോ വിളവെടുപ്പിന് വേണ്ടിയാണോ വളർത്തുന്നത്?",
+    "CROP_PLAN_REPEAT": "ഈ വിള പദ്ധതി ആവർത്തിക്കുന്നു",
+    "CROP_PLAN_REPEAT_SUBTEXT": "'സംരക്ഷിക്കുക' ക്ലിക്ക് ചെയ്യുന്നത് ഈ ക്രോപ്പ് പ്ലാൻ ഉടനടി സംരക്ഷിക്കും. അത് എങ്ങനെ ആവർത്തിക്കുന്നുവെന്ന് വിവരിക്കാൻ നിങ്ങളോട് ആവശ്യപ്പെടും.",
+    "DAYS_FROM_PLANTING": "നടീൽ മുതൽ ദിവസങ്ങൾ:",
+    "DAYS_FROM_SEEDING": "വിത്ത് മുതലുള്ള ദിവസങ്ങൾ:",
+    "DAYS_TO_HARVEST": "പറിച്ചുനടൽ മുതൽ അടുത്ത വിളവെടുപ്പ് വരെയുള്ള ദിവസങ്ങൾ:",
+    "DAYS_TO_TERMINATION": "പറിച്ചുനടൽ മുതൽ അവസാനിപ്പിക്കൽ വരെയുള്ള ദിവസങ്ങൾ:",
     "DELETE": {
-      "CANT_DELETE_ABANDON": "",
-      "CANT_DELETE_ABANDON_INSTEAD": "",
-      "CANT_DELETE_CONCURRENT_USER": "",
-      "CANT_DELETE_MODIFIED_PLAN": "",
-      "CONFIRM_DELETION": "",
-      "DELETE_PLAN": "",
-      "DELETE_PLAN_MESSAGE": "",
-      "DELETE_PLAN_QUESTION": ""
+      "CANT_DELETE_ABANDON": "ഉപേക്ഷിക്കുക",
+      "CANT_DELETE_ABANDON_INSTEAD": "പകരം ഈ വിള പദ്ധതി ഉപേക്ഷിക്കണോ?",
+      "CANT_DELETE_CONCURRENT_USER": "മറ്റൊരു ഉപയോക്താവ് ഈ പ്ലാനിലെ ഒരു ടാസ്ക് പൂർത്തിയാക്കുകയോ ഉപേക്ഷിക്കുകയോ ചെയ്തു. ഏറ്റവും പുതിയ സ്റ്റാറ്റസ് ലഭിക്കാൻ പേജ് പുതുക്കുക.",
+      "CANT_DELETE_MODIFIED_PLAN": "ക്രോപ്പ് പ്ലാൻ ഡിലീറ്റ് ചെയ്യനാകുന്നില്ല",
+      "CONFIRM_DELETION": "ഡിലീഷൻ സ്ഥിതീകരിക്കുക",
+      "DELETE_PLAN": "ക്രോപ്പ് പ്ലാൻ ഡിലീറ്റ് ചെയ്യുക",
+      "DELETE_PLAN_MESSAGE": "ഈ വിള പദ്ധതിയും അതിൻ്റെ എല്ലാ ജോലികളും നിങ്ങളുടെ ഫാമിൽ നിന്ന് നീക്കം ചെയ്യും. ഈ ക്രോപ്പ് പ്ലാനിൻ്റെ ഒരു റെക്കോർഡ് സൂക്ഷിക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുവെങ്കിൽ, പകരം \"ഉപേക്ഷിക്കുക\" ക്ലിക്ക് ചെയ്യുക.",
+      "DELETE_PLAN_QUESTION": "ക്രോപ്പ് പ്ലാൻ ഡിലീറ്റ് ചെയ്യുക?"
     },
-    "DETAIL_SPOTLIGHT_CONTENTS": "",
-    "DETAIL_SPOTLIGHT_TITLE": "",
-    "DO_YOU_WANT_TO_ABANDON_CONTENT": "",
-    "DROP_PIN": "",
-    "DURATION_TOOLTIP": "",
-    "EDITING_PLAN_WILL_NOT_MODIFY": "",
-    "ESTIMATED_SEED": "",
-    "ESTIMATED_YIELD": "",
+    "DETAIL_SPOTLIGHT_CONTENTS": "ഇവിടെ നിങ്ങൾക്ക് നിങ്ങളുടെ ക്രോപ്പ് വിശദാംശങ്ങൾ എഡിറ്റ് ചെയ്യാം.",
+    "DETAIL_SPOTLIGHT_TITLE": "വിശദാംശങ്ങൾ",
+    "DO_YOU_WANT_TO_ABANDON_CONTENT": "ഈ പ്ലാൻ ഉപേക്ഷിക്കണോ?",
+    "DROP_PIN": "പിൻ ഡ്രോപ്പ് ചെയ്യുക",
+    "DURATION_TOOLTIP": "ഇവ നിർദ്ദേശിച്ച മൂല്യങ്ങളാണ്. നിങ്ങളുടെ പ്രാദേശിക വ്യവസ്ഥകൾക്കായി ക്രമീകരിക്കുക.",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "ഈ പ്ലാൻ എഡിറ്റ് ചെയ്യുന്നത് അതിന് നിയുക്തമാക്കിയ ടാസ്‌ക്കുകൾ പരിഷ്‌ക്കരിക്കില്ല.",
+    "ESTIMATED_SEED": "കണക്കാക്കിയ ആവശ്യമായ വിത്തിന്റെ അളവ്",
+    "ESTIMATED_YIELD": "കണക്കാക്കിയ വാർഷിക വിളവെടുപ്പ്",
     "FIRST_MP_SPOTLIGHT": {
-      "BODY_PART1": "",
-      "BODY_PART2": "",
-      "TITLE": ""
+      "BODY_PART1": "ലൈറ്റ്ഫാം നിങ്ങളുടെ പ്ലാനിനെ അടിസ്ഥാനമാക്കി കുറച്ച് ടാസ്‌ക്കുകൾ സൃഷ്‌ടിച്ചു. നിങ്ങൾക്ക് ഈ സ്ക്രീനിൽ കൂടുതൽ ടാസ്ക്കുകൾ ചേർക്കാനോ അസൈൻ ചെയ്യാനോ കഴിയും.",
+      "BODY_PART2": "നിങ്ങൾ ഒരു ടാസ്ക് പൂർത്തിയാക്കിയാൽ മാത്രമേ നിങ്ങളുടെ പ്ലാൻ സജീവമാകൂ.",
+      "TITLE": "അഭിനന്ദനങ്ങൾ! നിങ്ങൾ നിങ്ങളുടെ ആദ്യ വിള പദ്ധതി തയ്യാറാക്കി!"
     },
-    "FOR_HARVEST": "",
-    "GERMINATION": "",
-    "HARVEST": "",
-    "HARVEST_DATE": "",
-    "HARVEST_TO_DATE": "",
-    "HARVEST_TO_DATE_INFO": "",
-    "HISTORICAL_CONTAINER_OR_IN_GROUND": "",
-    "IN_GROUND": "",
-    "INCOMPLETE_TASK_CONTENT": "",
-    "INCOMPLETE_TASK_TITLE": "",
-    "INDIVIDUAL_CONTAINER": "",
-    "IS_TRANSPLANT": "",
-    "KNOW_HOW_IS_CROP_PLANTED": "",
-    "LOCATION_SUBTEXT": "",
-    "MANAGEMENT_PLAN_FLOW": "",
-    "MANAGEMENT_SPOTLIGHT_1": "",
-    "MANAGEMENT_SPOTLIGHT_2": "",
-    "MANAGEMENT_SPOTLIGHT_3": "",
-    "MANAGEMENT_SPOTLIGHT_TITLE": "",
-    "NEXT_HARVEST": "",
-    "NOTES_CHAR_LIMIT": "",
-    "NUMBER_OF_CONTAINER": "",
-    "PENDING_TASK": "",
-    "PLAN_AND_ID": "",
-    "PLAN_NAME": "",
-    "PLAN_NOTES": "",
-    "PLANT_SPACING": "",
-    "PLANTED_ALREADY": "",
-    "PLANTING": "",
-    "PLANTING_DATE": "",
-    "PLANTING_DATE_INFO": "",
-    "PLANTING_DATE_LABEL": "",
-    "PLANTING_DEPTH": "",
-    "PLANTING_METHOD": "",
-    "PLANTING_METHOD_TOOLTIP": "",
-    "PLANTING_NOTE": "",
-    "PLANTING_SOIL": "",
-    "PLANTS_PER_CONTAINER": "",
-    "RATE_THIS_MANAGEMENT_PLAN": "",
-    "REMOVE_PIN": "",
+    "FOR_HARVEST": "വിളവെടുപ്പിനായി",
+    "GERMINATION": "മുളപ്പിക്കൽ",
+    "HARVEST": "പ്രാരംഭ വിളവെടുപ്പ്",
+    "HARVEST_DATE": "എപ്പോഴാണ് നിങ്ങളുടെ അടുത്ത വിളവെടുപ്പ് പ്രതീക്ഷിക്കുന്നത്?",
+    "HARVEST_TO_DATE": "ഇന്നുവരെയുള്ള വിളവെടുപ്പ്",
+    "HARVEST_TO_DATE_INFO": "ഈ വിള പദ്ധതിയിൽ പൂർത്തിയാക്കിയ വിളവെടുപ്പ് ജോലികൾ അടിസ്ഥാനമാക്കിയാണ് നാളിതുവരെയുള്ള വിളവെടുപ്പ് കണക്കാക്കുന്നത്",
+    "HISTORICAL_CONTAINER_OR_IN_GROUND": "ഒരു കണ്ടെയ്നറിലോ നിലത്തോ നട്ടതാണോ?",
+    "IN_GROUND": "നിലത്ത്",
+    "INCOMPLETE_TASK_CONTENT": "ഈ പ്ലാനിൽ ഇതുവരെ പൂർത്തിയാകാത്ത ടാസ്ക്കുകൾ ഉണ്ട്. ഈ ക്രോപ്പ് പ്ലാൻ പൂർത്തിയാക്കുന്നതിന് നിങ്ങൾ ടാസ്‌ക്കുകൾ പൂർത്തിയായതായി അടയാളപ്പെടുത്തേണ്ടതുണ്ട്.",
+    "INCOMPLETE_TASK_TITLE": "നിങ്ങൾ പൂർത്തിയാക്കാത്ത ജോലികളുണ്ട്",
+    "INDIVIDUAL_CONTAINER": "ഒറ്റയ്ക്ക് അല്ലെങ്കിൽ കണ്ടെയ്നർ",
+    "IS_TRANSPLANT": "ഈ വിള പറിച്ചു നടുമോ?",
+    "KNOW_HOW_IS_CROP_PLANTED": "എങ്ങനെയാണ് കൃഷിയിറക്കിയത്?",
+    "LOCATION_SUBTEXT": "വിളകൾ വളർത്താൻ കഴിയുന്ന സ്ഥലങ്ങൾ മാത്രം കാണിക്കുന്നു.",
+    "MANAGEMENT_PLAN_FLOW": "ക്രോപ് പ്ലാൻ സൃഷ്ട്ടി",
+    "MANAGEMENT_SPOTLIGHT_1": "ഈ വിളയുടെ കൃഷിക്കായി പുതിയ പ്ലാനുകൾ സൃഷ്ടിക്കുക",
+    "MANAGEMENT_SPOTLIGHT_2": "ഈ വിളയുടെ കൃഷിക്കായി പ്ലാനുകൾ കാണുക, പരിഷ്ക്കരിക്കുക",
+    "MANAGEMENT_SPOTLIGHT_3": "ടാസ്‌ക്കുകൾ സൃഷ്‌ടിക്കുകയും അസൈൻ ചെയ്യുകയും ചെയ്യുക",
+    "MANAGEMENT_SPOTLIGHT_TITLE": "കൈകാര്യം",
+    "NEXT_HARVEST": "എപ്പോഴാണ് നിങ്ങളുടെ അടുത്ത വിളവെടുപ്പ് പ്രതീക്ഷിക്കുന്നത്?",
+    "NOTES_CHAR_LIMIT": "കുറിപ്പുകളിൽ 10,000 ക്യാരക്ടറിൽ കുറവായിരിക്കണം",
+    "NUMBER_OF_CONTAINER": "കണ്ടെയ്നറുകളുടെ എണ്ണം",
+    "PENDING_TASK": "ചെയ്തു തീർക്കാനുള്ള ജോലികൾ",
+    "PLAN_AND_ID": "പ്ലാൻ {{id}}",
+    "PLAN_NAME": "വിള പദ്ധതിയുടെ പേര്",
+    "PLAN_NOTES": "ആസൂത്രണം കുറിപ്പുകൾ",
+    "PLANT_SPACING": "ചെടികളുടെ അകലം",
+    "PLANTED_ALREADY": "നിങ്ങൾ ഈ വിള നടുകയാണോ അതോ ഇതിനകം നട്ടതാണോ?",
+    "PLANTING": "നടീൽ",
+    "PLANTING_DATE": "നിങ്ങളുടെ നടീൽ തീയതി എന്താണ്?",
+    "PLANTING_DATE_INFO": "വിളകളുടെ പ്രായത്തെ അടിസ്ഥാനമാക്കി വിതയ്ക്കുന്ന തീയതി: {{seed_date}}",
+    "PLANTING_DATE_LABEL": "നടീൽ തീയതി",
+    "PLANTING_DEPTH": "നടീൽ ആഴം",
+    "PLANTING_METHOD": "നിങ്ങളുടെ നടീൽ രീതി എന്താണ്?",
+    "PLANTING_METHOD_TOOLTIP": "ശരിയായ നടീൽ രീതി തിരഞ്ഞെടുക്കുന്നത് ലൈറ്റ്ഫാമിനെ ആവശ്യമായ വിത്തിൻ്റെ അളവ്, വിളവ്, മറ്റ് സഹായകരമായ ഉൾക്കാഴ്ചകൾ എന്നിവ കൃത്യമായി കണക്കാക്കാൻ സഹായിക്കും.",
+    "PLANTING_NOTE": "നടീൽ കുറിപ്പുകൾ",
+    "PLANTING_SOIL": "നടീൽ മണ്ണ് ഉപയോഗിക്കണം",
+    "PLANTS_PER_CONTAINER": "ചെടികളുടെ/കണ്ടെയ്നറിൻ്റെ എണ്ണം",
+    "RATE_THIS_MANAGEMENT_PLAN": "പ്ലാൻ റേറ്റിംഗ്",
+    "REMOVE_PIN": "പിൻ നീക്കം ചെയ്യുക",
     "REPEATED_MP_SPOTLIGHT": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "ഈ ഗ്രൂപ്പിലെ എല്ലാ ക്രോപ്പ് പ്ലാനുകളും കാണാൻ നിങ്ങൾക്ക് ഇവിടെ ക്ലിക്ക് ചെയ്യാം. ഒരു വ്യക്തിഗത വിള പദ്ധതി പരിഷ്‌ക്കരിക്കുന്നത് ഗ്രൂപ്പിലെ മറ്റുള്ളവരെ സംബന്ധിച്ച് ഒരു മാറ്റവും വരുത്തില്ല.",
+      "TITLE": "അഭിനന്ദനങ്ങൾ! നിങ്ങളുടെ ആദ്യത്തെ ആവർത്തന ക്രോപ്പ് പ്ലാൻ നിങ്ങൾ സൃഷ്ടിച്ചു!"
     },
     "ROW_METHOD": {
-      "HISTORICAL_SAME_LENGTH": "",
-      "LENGTH_OF_ROW": "",
-      "NUMBER_OF_ROWS": "",
-      "SAME_LENGTH": "",
-      "TOTAL_LENGTH": ""
+      "HISTORICAL_SAME_LENGTH": "വരികൾക്കെല്ലാം ഒരേ നീളമായിരുന്നോ?",
+      "LENGTH_OF_ROW": "വരിയുടെ നീളം",
+      "NUMBER_OF_ROWS": "വരികളുടെ എണ്ണം",
+      "SAME_LENGTH": "നിങ്ങളുടെ വരികൾ എല്ലാം ഒരേ നീളമാണോ?",
+      "TOTAL_LENGTH": "വരികളുടെ ആകെ നീളം"
     },
-    "ROWS": "",
-    "SEED_DATE": "",
-    "SEED_OR_SEEDLING": "",
-    "SEEDING_DATE": "",
-    "SEEDLING": "",
-    "SEEDLING_AGE": "",
-    "SEEDLING_AGE_INFO": "",
-    "SELECT_A_PLANTING_LOCATION": "",
-    "SELECT_A_SEEDING_LOCATION": "",
-    "SELECT_CURRENT_LOCATION": "",
-    "SELECTED_STARTING_LOCATION": "",
-    "SPOTLIGHT_HERE_YOU_CAN": "",
-    "STARTED": "",
+    "ROWS": "വരികൾ",
+    "SEED_DATE": "നിങ്ങൾ വിത്തു വിതച്ച തീയതി?",
+    "SEED_OR_SEEDLING": "ഈ വിള എങ്ങനെ നടും?",
+    "SEEDING_DATE": "വിതയ്ക്കുന്ന തീയതി",
+    "SEEDLING": "തൈകൾ അല്ലെങ്കിൽ നടീൽ സ്റ്റോക്ക്",
+    "SEEDLING_AGE": "തൈയുടെയോ നടീൽ സ്റ്റോക്കിൻ്റെയോ ഏകദേശ പ്രായം എത്രയാണ്?",
+    "SEEDLING_AGE_INFO": "തൈകളുടെ വിളവെടുപ്പ് തീയതികൾ കണക്കാക്കാൻ ലൈറ്റ്ഫാമിനെ ഏകദേശ പ്രായം സഹായിക്കും. വ്യക്തമായ പ്രായം ഇല്ലാതെ വെട്ടിയെടുത്ത് മറ്റ് നടീൽ സ്റ്റോക്കുകൾക്കായി, നിങ്ങൾക്ക് 0 നൽകാം.",
+    "SELECT_A_PLANTING_LOCATION": "നടീൽ സ്ഥലം തിരഞ്ഞെടുക്കുക",
+    "SELECT_A_SEEDING_LOCATION": "വിത്ത് പാകുന്ന സ്ഥലം തിരഞ്ഞെടുക്കുക",
+    "SELECT_CURRENT_LOCATION": "വിളവെടുപ്പിൻ്റെ നിലവിലെ സ്ഥാനം തിരഞ്ഞെടുക്കുക",
+    "SELECTED_STARTING_LOCATION": "പറിച്ചുനടുന്ന വിളകളുടെ ആരംഭ സ്ഥലമായി എല്ലായ്പ്പോഴും ഇത് തിരഞ്ഞെടുക്കുക",
+    "SPOTLIGHT_HERE_YOU_CAN": "ഇവിടെ നിങ്ങൾക്ക്:",
+    "STARTED": "നമുക്ക് തുടങ്ങാം",
     "STATUS": {
-      "ABANDONED": "",
-      "ACTIVE": "",
-      "COMPLETED": "",
-      "PLANNED": ""
+      "ABANDONED": "ഉപേക്ഷിക്കപ്പെട്ടു",
+      "ACTIVE": "സജീവം",
+      "COMPLETED": "പൂർത്തിയായി",
+      "PLANNED": "പദ്ധതീകരിച്ച"
     },
-    "SUPPLIER": "",
-    "TERMINATION": "",
-    "TERMINATION_DATE": "",
-    "TOTAL_PLANTS": "",
-    "TRANSPLANT": "",
-    "TRANSPLANT_DATE": "",
-    "TRANSPLANT_LOCATION": "",
+    "SUPPLIER": "വിതരണക്കാരൻ",
+    "TERMINATION": "അവസാനിപ്പിക്കൽ",
+    "TERMINATION_DATE": "എന്നാണ് ഈ തരം കൃഷി നിങ്ങൾ അവസാനിപ്പിക്കുന്നത്?",
+    "TOTAL_PLANTS": "ചെടികളുടെ എണ്ണം",
+    "TRANSPLANT": "പറിച്ചുനടൽ",
+    "TRANSPLANT_DATE": "പറിച്ചു നട്ട ദിവസം?",
+    "TRANSPLANT_LOCATION": "എവിടേക്ക് പറിച്ചു നടും?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
-        "PLANTED": "",
-        "SEEDED": "",
-        "TEXT": ""
+        "PLANTED": "നട്ടു",
+        "SEEDED": "വിത്തുപാകി",
+        "TEXT": "ഈ വിള തുടക്കത്തിൽ എവിടെയാണെന്ന് ദയവായി സൂചിപ്പിക്കുക<1>{{fill}}</1>. നിങ്ങൾ അത് എവിടേക്കാണ് പറിച്ചു നടുന്നത് എന്നതിനെക്കുറിച്ച് ഞങ്ങൾ പിന്നീട് ചോദിക്കും."
       },
       "TITLE": {
-        "PLANTING": "",
-        "SEEDING": "",
-        "TEXT": ""
+        "PLANTING": "നടീൽ",
+        "SEEDING": "വിതയ്ക്കുന്നു",
+        "TEXT": "{{fill}} സ്ഥാനം"
       }
     },
-    "WHAT_IS_AGE": "",
-    "WHAT_WAS_PLANTING_METHOD": "",
-    "WHAT_WAS_PLANTING_METHOD_INFO": "",
-    "WHERE_START_LOCATION": "",
-    "WHERE_TRANSPLANT_LOCATION": "",
-    "WILD_CROP": ""
+    "WHAT_IS_AGE": "വിളയുടെ ഏകദേശ പ്രായം എത്രയാണ്?",
+    "WHAT_WAS_PLANTING_METHOD": "നടീൽ രീതി എന്തായിരുന്നു?",
+    "WHAT_WAS_PLANTING_METHOD_INFO": "ശരിയായ നടീൽ രീതി തിരഞ്ഞെടുക്കുന്നത്, ആവശ്യമായ വിത്തിൻ്റെ അളവ്, വിളവ്, മറ്റ് സഹായകരമായ ഉൾക്കാഴ്ചകൾ എന്നിവ കൂടുതൽ കൃത്യമായി കണക്കാക്കാൻ ലൈറ്റ്ഫാമിനെ സഹായിക്കും.",
+    "WHERE_START_LOCATION": "നിങ്ങളുടെ ആരംഭ സ്ഥാനം എവിടെയാണ്?",
+    "WHERE_TRANSPLANT_LOCATION": "എവിടേക്ക് പറിച്ചു നടും?",
+    "WILD_CROP": "നിങ്ങൾ ഒരു കാട്ടുവിള വിളവെടുക്കുകയാണോ?"
   },
   "MENU": {
-    "ACTUAL_REVENUES": "",
-    "CERTIFICATIONS": "",
-    "CROPS": "",
-    "DOCUMENTS": "",
-    "ESTIMATED_REVENUES": "",
-    "FARM_SETTINGS": "",
-    "FINANCES": "",
-    "INSIGHTS": "",
-    "LABOUR_EXPENSES": "",
-    "MAP": "",
-    "OTHER_EXPENSES": "",
-    "PEOPLE": "",
-    "TASKS": "",
-    "TRANSACTION_LIST": ""
+    "ACTUAL_REVENUES": "യഥാർത്ഥ വരുമാനം",
+    "CERTIFICATIONS": "സർട്ടിഫിക്കേഷനുകൾ",
+    "CROPS": "വിളകൾ",
+    "DOCUMENTS": "പ്രമാണങ്ങൾ",
+    "ESTIMATED_REVENUES": "കണക്കാക്കിയ വരുമാനം",
+    "FARM_SETTINGS": "ഫാം ക്രമീകരണങ്ങൾ",
+    "FINANCES": "സാമ്പത്തികം",
+    "INSIGHTS": "ഉൾക്കാഴ്ചകൾ",
+    "LABOUR_EXPENSES": "തൊഴിൽ ചെലവുകൾ",
+    "MAP": "ഭൂപടം",
+    "OTHER_EXPENSES": "മറ്റ് ചെലവുകൾ",
+    "PEOPLE": "ആളുകൾ",
+    "TASKS": "ചുമതലകൾ",
+    "TRANSACTION_LIST": "ഇടപാട് ലിസ്റ്റ്"
   },
   "MY_FARM": {
-    "CERTIFICATIONS": "",
-    "FARM_INFO": "",
-    "FARM_MAP": "",
-    "PEOPLE": ""
+    "CERTIFICATIONS": "സർട്ടിഫിക്കേഷനുകൾ",
+    "FARM_INFO": "ഫാം വിവരം",
+    "FARM_MAP": "ഫാം മാപ്പ്",
+    "PEOPLE": "ആളുകൾ"
   },
   "NAVIGATION": {
     "SPOTLIGHT": {
-      "COORDINATE_ACTIVITIES": "",
-      "EDIT_FARM_SETTING": "",
-      "FARM_TITLE": "",
-      "INFO": "",
-      "LOG_OUT": "",
-      "MANAGE_EMPLOYEE": "",
-      "MANAGE_TASK": "",
-      "MAP_FARM": "",
-      "NOTIFICATION_TITLE": "",
-      "PROFILE_TITLE": "",
-      "SEE_TASK": "",
-      "SEE_UPDATES": "",
-      "TASK_TITLE": "",
-      "TIPS": "",
-      "YOU_CAN": "",
-      "YOU_WILL_FIND": ""
+      "COORDINATE_ACTIVITIES": "കാർഷിക പ്രവർത്തനങ്ങൾ ഏകോപിപ്പിക്കുക",
+      "EDIT_FARM_SETTING": "നിങ്ങളുടെ ഫാം ക്രമീകരണങ്ങൾ എഡിറ്റ് ചെയ്യുക",
+      "FARM_TITLE": "ഇതാണ് നിങ്ങളുടെ ഫാം പ്രൊഫൈൽ",
+      "INFO": "നിങ്ങളുടെ വിവരങ്ങൾ",
+      "LOG_OUT": "ലോഗ് ഔട്ട് ബട്ടൺ",
+      "MANAGE_EMPLOYEE": "നിങ്ങളുടെ ജീവനക്കാരെ നിയന്ത്രിക്കുക",
+      "MANAGE_TASK": "നിങ്ങളുടെ ജോലികൾ കൈകാര്യം ചെയ്യുക",
+      "MAP_FARM": "നിങ്ങളുടെ ഫാം മാപ്പ് ചെയ്യുക",
+      "NOTIFICATION_TITLE": "ഇതാണ് നിങ്ങളുടെ അറിയിപ്പ് കേന്ദ്രം",
+      "PROFILE_TITLE": "ഇതാണ് നിങ്ങളുടെ പ്രൊഫൈൽ",
+      "SEE_TASK": "മറ്റെന്താണ് നടക്കുന്നതെന്ന് കാണുക",
+      "SEE_UPDATES": "പ്രധാനപ്പെട്ട അപ്ഡേറ്റുകൾ കാണുക",
+      "TASK_TITLE": "ഇതാണ് നിങ്ങളുടെ കാർഷിക ജോലികൾ",
+      "TIPS": "സഹായകരമായ നുറുങ്ങുകൾ",
+      "YOU_CAN": "ഇവിടെ നിങ്ങൾക്ക്:",
+      "YOU_WILL_FIND": "ഇവിടെ നിങ്ങൾ കണ്ടെത്തും:"
     }
   },
   "NOTIFICATION": {
     "DAILY_TASKS_DUE_TODAY": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "ഇന്ന് നിങ്ങൾക്ക് ടാസ്ക്കുകൾ ഉണ്ട്.",
+      "TITLE": "ഇന്നത്തെ ചുമതലകൾ"
     },
-    "NONE_TO_DISPLAY": "",
-    "PAGE_TITLE": "",
+    "NONE_TO_DISPLAY": "പ്രദർശിപ്പിക്കാൻ അറിയിപ്പുകളൊന്നുമില്ല.",
+    "PAGE_TITLE": "അറിയിപ്പുകൾ",
     "SENSOR_BULK_UPLOAD_FAIL": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "നിങ്ങളുടെ സെൻസർ അപ്‌ലോഡിന് ചില പിശകുകളുണ്ട്. വിശദാംശങ്ങൾ കാണുന്നതിന് \"എന്നെ അവിടെ കൊണ്ടുപോകുക\" ക്ലിക്ക് ചെയ്യുക.",
+      "TITLE": "സെൻസർ അപ്‌ലോഡ് പിശകുകൾ"
     },
     "SENSOR_BULK_UPLOAD_SUCCESS": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "നിങ്ങളുടെ സെൻസർ അപ്‌ലോഡ് വിജയകരമായി പൂർത്തിയായി.",
+      "TITLE": "സെൻസർ അപ്‌ലോഡ് പൂർത്തിയായി"
     },
-    "TAKE_ME_THERE": "",
+    "TAKE_ME_THERE": "എന്നെ അങ്ങോട്ട് കൊണ്ടുപോകൂ",
     "TASK_ABANDONED": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "നിങ്ങൾക്ക് ഏൽപ്പിച്ച {{taskType}} ടാസ്‌ക് {{abandoner}} ഉപേക്ഷിച്ചു.",
+      "TITLE": "ചുമതല ഉപേക്ഷിച്ചു"
     },
     "TASK_ASSIGNED": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "{{assigner}} നിങ്ങൾക്ക് ഒരു {{taskType}} ചുമതല ഏൽപ്പിച്ചു.",
+      "TITLE": "ചുമതലപ്പെടുത്തിയ ജോലി"
     },
     "TASK_COMPLETED_BY_OTHER_USER": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "നിങ്ങൾക്ക് അസൈൻ ചെയ്‌ത ഒരു {{taskType}} ടാസ്‌ക് {{assigner}} പൂർത്തിയാക്കിയതായി അടയാളപ്പെടുത്തി.",
+      "TITLE": "ടാസ്ക് പൂർത്തിയായി"
     },
     "TASK_DELETED": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "നിങ്ങൾക്ക് അസൈൻ ചെയ്‌ത ഒരു {{taskType}} ടാസ്‌ക് {{abandoner}} ഇല്ലാതാക്കി.",
+      "TITLE": "ടാസ്ക് ഇല്ലാതാക്കി"
     },
     "TASK_REASSIGNED": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "നിങ്ങൾക്ക് മുമ്പ് അസൈൻ ചെയ്‌ത ഒരു {{taskType}} ടാസ്‌ക് {{assigner}} മറ്റാരെയെങ്കിലും ഏൽപ്പിച്ചു.",
+      "TITLE": "ചുമതല വീണ്ടും ഏൽപ്പിച്ചു"
     },
     "TASK_UNASSIGNED": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "{{editor}} ഒരു {{taskType}} ടാസ്‌ക് അസൈൻ ചെയ്യാത്തതായി അടയാളപ്പെടുത്തി.",
+      "TITLE": "ചുമതല നൽകിയിട്ടില്ല"
     },
     "TIMELINE": {
-      "HEADING": "",
-      "MORE_RECENT_NOTIFICATION": "",
-      "VIEW_NOW": ""
+      "HEADING": "അറിയിപ്പ് ടൈംലൈൻ",
+      "MORE_RECENT_NOTIFICATION": "ഈ {{entityType}}-നെ കുറിച്ച് കൂടുതൽ സമീപകാല അറിയിപ്പുകൾ ഉണ്ട്.",
+      "VIEW_NOW": "ഇപ്പോൾ കാണുക"
     },
     "WEEKLY_UNASSIGNED_TASKS": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "ഈ ആഴ്‌ച നിങ്ങൾക്ക് അസൈൻ ചെയ്യാത്ത ടാസ്‌ക്കുകൾ ഉണ്ട്.",
+      "TITLE": "അസൈൻ ചെയ്യാത്ത ചുമതലകൾ"
     }
   },
   "OUTRO": {
-    "ALL_DONE": "",
-    "IMPORTANT_THINGS": ""
+    "ALL_DONE": "കൊള്ളാം! നിങ്ങൾ എല്ലാം പൂർത്തിയാക്കി. നിങ്ങളുടെ കൈകൾ കൊണ്ട് അല്പം ചെളി എടുത്താലോ?",
+    "IMPORTANT_THINGS": "അവസാനമായി, നിങ്ങൾക്ക് ചില പ്രധാന കാര്യങ്ങൾ കാണിക്കാം!"
   },
   "PASSWORD_RESET": {
-    "BUTTON": "",
-    "BUTTON_SENDING": "",
-    "DESCRIPTION_BOTTOM": "",
-    "DESCRIPTION_TOP": "",
-    "LABEL_EMAIL": "",
-    "LABEL_NEW_PASSWORD": "",
-    "NEW_ACCOUNT_BUTTON": "",
-    "NEW_ACCOUNT_TITLE": "",
-    "TITLE": ""
+    "BUTTON": "ലിങ്ക് വീണ്ടും അയയ്ക്കുക",
+    "BUTTON_SENDING": "അയയ്ക്കുന്നു...",
+    "DESCRIPTION_BOTTOM": "ദയവായി നിങ്ങളുടെ ഇമെയിൽ പരിശോധിക്കുക.",
+    "DESCRIPTION_TOP": "ഒരു ലിങ്ക് അയച്ചിട്ടുണ്ട്.",
+    "LABEL_EMAIL": "ഇമെയിൽ",
+    "LABEL_NEW_PASSWORD": "പുതിയ പാസ്വേഡ്",
+    "NEW_ACCOUNT_BUTTON": "അപ്ഡേറ്റ്",
+    "NEW_ACCOUNT_TITLE": "നിങ്ങളുടെ പുതിയ പാസ്‌വേഡ് സജ്ജമാക്കുക",
+    "TITLE": "ലിങ്ക് അയച്ചിട്ടുണ്ട്"
   },
   "PASSWORD_RESET_SUCCESS_MODAL": {
-    "BUTTON": "",
-    "DESCRIPTION": "",
-    "TITLE": ""
+    "BUTTON": "കൊള്ളാം!",
+    "DESCRIPTION": "നിങ്ങളുടെ പാസ്‌വേഡ് അപ്‌ഡേറ്റ് ചെയ്‌തു. 10 സെക്കൻഡിനുള്ളിൽ നിങ്ങളെ നിങ്ങളുടെ ഫാമുകളിലേക്ക് റീഡയറക്‌ട് ചെയ്യുന്നു...",
+    "TITLE": "വിജയം!"
   },
   "PLAN_GUIDANCE": {
-    "ADDITIONAL_GUIDANCE": "",
-    "BED": "",
-    "BEDS": "",
-    "NOTES": "",
-    "PLANTING_DEPTH": "",
-    "ROW": "",
-    "ROWS": "",
-    "SPACE_BETWEEN": "",
-    "SPECIFY": "",
-    "SPECIFY_PLACEHOLDER": "",
-    "TOOLTIP": "",
-    "WIDTH": "",
-    "WORD_LIMIT": ""
+    "ADDITIONAL_GUIDANCE": "ഈ സീഡിംഗ് ചുമതലക്കായി നിങ്ങൾക്ക് കൂടുതൽ മാർഗ്ഗനിർദ്ദേശം നൽകാൻ താൽപ്പര്യമുണ്ടോ?",
+    "BED": "ബെഡ്",
+    "BEDS": "ബെഡുകൾ",
+    "NOTES": "നടീൽ കുറിപ്പുകൾ",
+    "PLANTING_DEPTH": "നടീൽ ആഴം",
+    "ROW": "വരി",
+    "ROWS": "വരികൾ",
+    "SPACE_BETWEEN": "ഇടയിലുള്ള ഇടം {{types}}",
+    "SPECIFY": "വ്യക്തമാക്കുക {{types}}",
+    "SPECIFY_PLACEHOLDER": "ഉദാ. {{types}} 1-4",
+    "TOOLTIP": "ഈ ഫീൽഡിലെ ആദ്യത്തെ 40 അക്ഷരങ്ങൾ നിങ്ങളുടെ വിള പദ്ധതി ദൃശ്യമാകുന്നിടത്ത് പ്രദർശിപ്പിക്കും.",
+    "WIDTH": "{{type}} വീതി",
+    "WORD_LIMIT": "പ്രതീകങ്ങൾ {{limit}} മാത്രമേ പ്രദർശിപ്പിക്കാൻ കഴിയൂ"
   },
   "PREPARING_EXPORT": {
-    "MESSAGE": "",
-    "TITLE": ""
+    "MESSAGE": "ലൈറ്റ് ഫാം നിങ്ങളുടെ സർട്ടിഫിക്കേഷൻ ഡോക്യുമെൻ്റുകൾ പശ്ചാത്തലത്തിൽ കൂട്ടിച്ചേർക്കുന്നു, ഞങ്ങൾ പൂർത്തിയാക്കുമ്പോൾ നിങ്ങൾക്കൊരു ഇമെയിൽ ലഭിക്കും - ഇതിന് കുറച്ച് മിനിറ്റുകൾ എടുത്തേക്കാം... പ്രക്രിയയെ തടസ്സപ്പെടുത്താതെ ലൈറ്റ് ഫാം ഉപയോഗിക്കുന്നത് തുടരാൻ നിങ്ങൾക്ക് ഈ ബോക്‌സിന് പുറത്ത് ക്ലിക്ക് ചെയ്യാം.",
+    "TITLE": "നിങ്ങളുടെ എക്സ്പോർട്ട്ത യ്യാറാക്കുകയാണ്"
   },
   "PROFILE": {
     "ACCOUNT": {
-      "CONVERT_TO_HAVE_ACCOUNT": "",
-      "EDIT_USER": "",
-      "EMAIL": "",
-      "FIRST_NAME": "",
-      "FRENCH": "",
-      "LAST_NAME": "",
-      "PHONE_NUMBER": "",
-      "USER_ADDRESS": ""
+      "CONVERT_TO_HAVE_ACCOUNT": "ഈ തൊഴിലാളിയെ അക്കൗണ്ടുള്ള ഒരു ഉപയോക്താവാക്കി മാറ്റുക",
+      "EDIT_USER": "ഉപയോക്താവിനെ എഡിറ്റ് ചെയ്യുക",
+      "EMAIL": "ഇമെയിൽ",
+      "FIRST_NAME": "പേരിന്റെ ആദ്യഭാഗം",
+      "LANGUAGE": "ഭാഷ",
+      "LAST_NAME": "പേരിന്റെ അവസാന ഭാഗം",
+      "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+      "USER_ADDRESS": "വിലാസം"
     },
-    "ACCOUNT_TAB": "",
+    "ACCOUNT_TAB": "അക്കൗണ്ട്",
     "ERROR": {
-      "FARM_NAME_LENGTH": "",
-      "FIRST_NAME_LENGTH": "",
-      "LAST_NAME_LENGTH": "",
-      "PHONE_NUMBER_LENGTH": "",
-      "USER_ADDRESS_LENGTH": ""
+      "FARM_NAME_LENGTH": "ഫാമിൻ്റെ പേര് 255 അക്ഷരങ്ങളിൽ കൂടരുത്",
+      "FIRST_NAME_LENGTH": "പേരിന്റെ ആദ്യഭാഗം 255 അക്ഷരങ്ങളിൽ കവിയരുത്",
+      "LAST_NAME_LENGTH": "അവസാന നാമം 255 അക്ഷരങ്ങളിൽ കവിയരുത്",
+      "PHONE_NUMBER_LENGTH": "ഫോൺ നമ്പർ 20 പ്രതീകങ്ങളിൽ കുറവായിരിക്കണം",
+      "USER_ADDRESS_LENGTH": "ഉപയോക്തൃ വിലാസം 255 പ്രതീകങ്ങളിൽ കൂടരുത്"
     },
     "FARM": {
-      "ADDRESS": "",
-      "CHANGE_IMAGE": "",
-      "CLICK_TO_UPLOAD": "",
-      "CURRENCY": "",
-      "DRAG_DROP": "",
-      "FARM_IMAGE": "",
-      "FARM_NAME": "",
-      "IMPERIAL": "",
-      "METRIC": "",
-      "PHONE_NUMBER": "",
-      "REMOVE_IMAGE": "",
-      "UNITS": "",
-      "UPLOAD_IMAGE": ""
+      "ADDRESS": "വിലാസം",
+      "CHANGE_IMAGE": "ചിത്രം മാറ്റുക",
+      "CLICK_TO_UPLOAD": "അപ്‌ലോഡ് ചെയ്യാൻ ക്ലിക്ക് ചെയ്യുക",
+      "CURRENCY": "കറൻസി",
+      "DRAG_DROP": "അല്ലെങ്കിൽ വലിച്ചുകൊണ്ടുപോയി ഉദ്ദേശിച്ച സ്ഥലത്ത് ഇടുക",
+      "FARM_IMAGE": "ഫാം ചിത്രം",
+      "FARM_NAME": "ഫാമിൻ്റെ പേര്",
+      "IMPERIAL": "പരമാധികാരമുള്ള",
+      "METRIC": "മെട്രിക്",
+      "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+      "REMOVE_IMAGE": "ചിത്രം നീക്കം ചെയ്യുക",
+      "UNITS": "യൂണിറ്റുകൾ",
+      "UPLOAD_IMAGE": "ചിത്രം അപ്‌ലോഡ് ചെയ്യുക"
     },
-    "FARM_TAB": "",
+    "FARM_TAB": "ഫാം",
     "PEOPLE": {
-      "DO_YOU_WANT_TO_REMOVE": "",
-      "INVALID_REVOKE_ACCESS": "",
-      "INVITE_USER": "",
-      "LAST_ADMIN_ERROR": "",
-      "RESTORE_ACCESS": "",
-      "REVOKE_ACCESS": "",
-      "SEARCH": "",
-      "THIS_WILL_REMOVE": ""
+      "DO_YOU_WANT_TO_REMOVE": "ഈ ഉപയോക്താവിനെ നിങ്ങളുടെ ഫാമിൽ നിന്ന് നീക്കം ചെയ്യണോ?",
+      "INVALID_REVOKE_ACCESS": "ആക്‌സസ് പിൻവലിക്കാൻ കഴിയില്ല",
+      "INVITE_USER": "ഉപയോക്താവിനെ ക്ഷണിക്കുക",
+      "LAST_ADMIN_ERROR": "ഈ ഫാമിലെ അവസാന മാനേജർ ആയതിനാൽ ഈ ഉപയോക്താവിലേക്കുള്ള ആക്‌സസ് പിൻവലിക്കാൻ ഞങ്ങൾക്ക് കഴിയില്ല. നിങ്ങളുടെ ഫാം ഇല്ലാതാക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുവെങ്കിൽ, പകരം <1>ഇവിടെ</1> ക്ലിക്ക് ചെയ്ത് ഒരു ടിക്കറ്റ് സൃഷ്‌ടിക്കുക.",
+      "RESTORE_ACCESS": "ഉപയോക്തൃ ആക്സസ് പുനഃസ്ഥാപിക്കുക",
+      "REVOKE_ACCESS": "ഉപയോക്തൃ ആക്സസ് റദ്ദാക്കുക",
+      "SEARCH": "തിരയുക",
+      "THIS_WILL_REMOVE": "ഈ പ്രവർത്തനം ഉപയോക്താവിനെ നിങ്ങളുടെ ഫാമിൽ നിന്ന് നീക്കം ചെയ്യും."
     },
-    "PEOPLE_TAB": "",
+    "PEOPLE_TAB": "ആളുകൾ",
     "TABLE": {
-      "HEADER_EMAIL": "",
-      "HEADER_NAME": "",
-      "HEADER_ROLE": "",
-      "HEADER_STATUS": ""
+      "HEADER_EMAIL": "ഇമെയിൽ",
+      "HEADER_NAME": "പേര്",
+      "HEADER_ROLE": "പങ്ക്",
+      "HEADER_STATUS": "നില"
     }
   },
   "PROFILE_FLOATER": {
-    "HELP": "",
-    "INFO": "",
-    "LOG_OUT": "",
-    "SWITCH": "",
-    "TUTORIALS": ""
+    "HELP": "സഹായം",
+    "INFO": "എൻ്റെ വിവരം",
+    "LOG_OUT": "ലോഗ് ഔട്ട് ചെയ്യുക",
+    "SWITCH": "ഫാം മാറുക",
+    "TUTORIALS": "ട്യൂട്ടോറിയലുകൾ"
   },
   "REACT_SELECT": {
-    "CLEAR": "",
-    "CLEAR_ALL": ""
+    "CLEAR": "ക്ലിയർ",
+    "CLEAR_ALL": "എല്ലാം മായ്‌ക്കുക"
   },
   "RELEASE": {
-    "BETTER": "",
-    "LITEFARM_UPDATED": "",
-    "NOTES": ""
+    "BETTER": "ലൈറ്റ് ഫാം ഇപ്പോൾ മെച്ചപ്പെട്ടു!",
+    "LITEFARM_UPDATED": "ലൈറ്റ്ഫാമിൻ്റെ v{{version}} ഇപ്പോൾ ലഭ്യമാണ!",
+    "NOTES": "റിലീസ് നോട്ടുകൾ"
   },
   "REPEAT_PLAN": {
-    "AFTER": "",
-    "COMPLETION": "",
+    "AFTER": "ശേഷം",
+    "COMPLETION": "പൂർത്തീകരണം",
     "CONFIRMATION": {
-      "AFTER_REPETITIONS": "",
-      "BEGINNING": "",
-      "CROP_NAME": "",
-      "FINISHING": "",
-      "HEADER": "",
-      "ON_DATE": "",
-      "WILL_CREATE": "",
-      "WILL_CREATE_BODY": "",
-      "WILL_REPEAT": ""
+      "AFTER_REPETITIONS": "<1>{{number}}</1> ആവർത്തനങ്ങൾക്ക് ശേഷം.",
+      "BEGINNING": "തുടക്കം",
+      "CROP_NAME": "വിള പദ്ധതിയുടെ പേര്",
+      "FINISHING": "പൂർത്തിയാക്കുന്നു",
+      "HEADER": "ഈ പ്ലാൻ എങ്ങനെ ആവർത്തിക്കുന്നുവെന്ന് സ്ഥിരീകരിക്കുക",
+      "ON_DATE": "{{date}}-ന്",
+      "WILL_CREATE": "ഇത് സൃഷ്ടിക്കും",
+      "WILL_CREATE_BODY": "<0>{{numberOfPlans}}</0> പുതിയ ക്രോപ്പ് പ്ലാനുകളും <2>{{numberOfTasks}}</2> പുതിയ ടാസ്‌ക്കുകളും",
+      "WILL_REPEAT": "ഈ പ്ലാൻ ആവർത്തിക്കും"
     },
-    "DUE": "",
-    "DUPLICATE_NAME": "",
-    "EARLIEST_TASK": "",
-    "FINISH": "",
+    "DUE": "കാരണം",
+    "DUPLICATE_NAME": "ഈ പേരിലുള്ള ഒരു വിള പദ്ധതി ഇതിനകം നിലവിലുണ്ട്. ദയവായി മറ്റൊന്ന് തിരഞ്ഞെടുക്കുക.",
+    "EARLIEST_TASK": "യഥാർത്ഥ പ്ലാനിൽ നിന്ന് {{dateType}} ആദ്യ ടാസ്‌ക് തീയതിയാണ് {{date}}",
+    "FINISH": "പൂർത്തിയാക്കുക",
     "INTERVAL": {
-      "DAY": "",
-      "MONTH": "",
-      "WEEK": "",
-      "YEAR": ""
+      "DAY": "ദിവസം(കൾ)",
+      "MONTH": "മാസങ്ങ(ൾ)",
+      "WEEK": "ആഴ്ച(കൾ)",
+      "YEAR": "വർഷങ്ങ(ൾ)"
     },
-    "LATER_DATE_ERROR": "",
-    "MENU": "",
-    "ON": "",
-    "PLAN_NAME": "",
-    "REPEAT_EVERY": "",
-    "REPEAT_LIMIT_ERROR": "",
-    "REPEAT_ON": "",
-    "REPEAT_PLAN_FLOW": "",
-    "REPETITIONS": "",
-    "REPETITIONS_OF": "",
-    "START_DATE": "",
-    "SUBTITLE": "",
-    "TITLE": ""
+    "LATER_DATE_ERROR": "ആരംഭിക്കുന്ന തീയതിക്ക് ശേഷമുള്ള ഒരു തീയതി തിരഞ്ഞെടുക്കുക",
+    "MENU": "ക്രോപ്പ് പ്ലാൻ ആവർത്തിക്കുക",
+    "ON": "ഓൺ",
+    "PLAN_NAME": "വിള പദ്ധതിയുടെ പേര് ആവർത്തിക്കുന്നു",
+    "REPEAT_EVERY": "ഓരോന്നും ആവർത്തിക്കുക",
+    "REPEAT_LIMIT_ERROR": "ഈ പ്ലാൻ 20 തവണയിൽ കൂടുതൽ ആവർത്തിക്കാനാകില്ല",
+    "REPEAT_ON": "ആവർത്തിക്കുക",
+    "REPEAT_PLAN_FLOW": "വിള പദ്ധതി ആവർത്തനം",
+    "REPETITIONS": "ആവർത്തനങ്ങൾ",
+    "REPETITIONS_OF": "{{planName}} എന്നതിൻ്റെ ആവർത്തനങ്ങൾ",
+    "START_DATE": "തുടക്കം",
+    "SUBTITLE": "ഇനിപ്പറയുന്ന ഷെഡ്യൂൾ അനുസരിച്ച് ഈ വിള പദ്ധതിയും അതിൻ്റെ എല്ലാ ജോലികളും പകർത്തുക",
+    "TITLE": "ഒരു വിള പദ്ധതി ആവർത്തിക്കുക"
   },
   "REQUEST_CONFIRMATION_MODAL": {
-    "BUTTON": "",
-    "DESCRIPTION": "",
-    "TITLE": ""
+    "BUTTON": "മനസ്സിലായി",
+    "DESCRIPTION": "48 മണിക്കൂറിനുള്ളിൽ ആരെങ്കിലും ബന്ധപ്പെടും.",
+    "TITLE": "സഹായ അഭ്യർത്ഥന സമർപ്പിച്ചു"
   },
   "REVENUE": {
     "ADD_REVENUE": {
-      "ADD_CUSTOM_REVENUE": "",
-      "CANNOT_BE_CHANGED": "",
-      "CANNOT_BE_CHANGED_LATER": "",
-      "CROP_GENERATED": "",
-      "CUSTOM_REVENUE_NAME": "",
-      "CUSTOM_REVENUE_TYPE": "",
-      "DUPLICATE_NAME": "",
-      "DUPLICATE_NAME_RETIRED": ""
+      "ADD_CUSTOM_REVENUE": "ഇഷ്‌ടാനുസൃത വരുമാനം ചേർക്കുക",
+      "CANNOT_BE_CHANGED": "ഇത് മാറ്റാൻ കഴിയില്ല",
+      "CANNOT_BE_CHANGED_LATER": "ഇത് പിന്നീട് മാറ്റാൻ കഴിയില്ല",
+      "CROP_GENERATED": "ഈ വരുമാനം വിളകളിൽ നിന്നാണോ?",
+      "CUSTOM_REVENUE_NAME": "ഇഷ്‌ടാനുസൃത വരുമാന നാമം",
+      "CUSTOM_REVENUE_TYPE": "ഇഷ്‌ടാനുസൃത വരുമാന തരം",
+      "DUPLICATE_NAME": "ഈ പേരിലുള്ള ഒരു വരുമാനം തരം ഇതിനകം നിലവിലുണ്ട്. ദയവായി മറ്റൊന്ന് തിരഞ്ഞെടുക്കുക.",
+      "DUPLICATE_NAME_RETIRED": "ഈ പേരിൽ ഒരു വിരമിച്ച വരുമാന തരം ഇതിനകം നിലവിലുണ്ട്.  ദയവായി മറ്റൊന്ന് തിരഞ്ഞെടുക്കുക."
     },
-    "CUSTOM_REVENUE_DESCRIPTION": "",
+    "CUSTOM_REVENUE_DESCRIPTION": "ഇഷ്‌ടാനുസൃത വരുമാന വിവരണം",
     "DELETE": {
-      "CONFIRM": "",
-      "HEADER": "",
-      "LINK": "",
-      "MESSAGE": ""
+      "CONFIRM": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
+      "HEADER": "വരുമാനം ഡിലീറ്റ് ചെയ്യണോ?",
+      "LINK": "വരുമാനം ഡിലീറ്റ് ചെയ്യുക",
+      "MESSAGE": "ഇത് നിങ്ങളുടെ ഫാമിൻ്റെ രേഖകളിൽ നിന്നുള്ള വരുമാനം നീക്കം ചെയ്യും. അത് ഇനി ഒരു സാമ്പത്തിക സംഗ്രഹത്തിലും പ്രതിഫലിക്കില്ല."
     },
     "EDIT_REVENUE": {
-      "RETIRE_REVENUE_MESSAGE": "",
-      "RETIRE_REVENUE_TYPE": "",
-      "RETIRED": "",
-      "REVENUE_TYPE": ""
+      "RETIRE_REVENUE_MESSAGE": "ഈ വരുമാന തരത്തിൽ നിന്ന് വിരമിക്കുന്നത് ഭാവിയിലെ വരുമാനത്തിനുള്ള ഒരു സാധ്യതയായി ഇത് നീക്കം ചെയ്യും. ഫിനാൻസ് ടാബിൽ നിങ്ങൾക്ക് ഇപ്പോഴും ഈ വരുമാന തരത്തിൻ്റെ മുൻ വരുമാനങ്ങൾ തിരയാനും ഫിൽട്ടർ ചെയ്യാനും കഴിയും.",
+      "RETIRE_REVENUE_TYPE": "വരുമാന തരം ഇല്ലാതാക്കുക",
+      "RETIRED": "(പിൻവാങ്ങുക)",
+      "REVENUE_TYPE": "വരുമാന തരം"
     }
   },
   "ROLE_SELECTION": {
-    "FARM_EO": "",
-    "FARM_MANAGER": "",
-    "FARM_OWNER": "",
-    "IS_OWNER_OPERATED": "",
-    "TITLE": ""
+    "FARM_EO": "എക്സ്റ്റൻഷൻ ഓഫീസർ",
+    "FARM_MANAGER": "ഫാം മാനേജർ",
+    "FARM_OWNER": "ഫാം ഉടമ",
+    "IS_OWNER_OPERATED": "ഇത് ഫാം ഉടമയാണോ പ്രവർത്തിപ്പിക്കുന്നത്?",
+    "TITLE": "ഫാമിൽ നിങ്ങളുടെ പങ്ക് എന്താണ്?"
   },
   "SALE": {
     "ADD_SALE": {
-      "ADD_CUSTOM_REVENUE_TYPE": "",
-      "ADD_REVENUE": "",
-      "CROP_REQUIRED": "",
-      "CROP_VARIETY": "",
-      "FLOW": "",
-      "MANAGE_CUSTOM_REVENUE_TYPE": "",
-      "SALE_VALUE_ERROR": "",
+      "ADD_CUSTOM_REVENUE_TYPE": "ഇഷ്‌ടാനുസൃത വരുമാന തരം ചേർക്കുക",
+      "ADD_REVENUE": "വരുമാനം ചേർക്കുക",
+      "CROP_REQUIRED": "ആവശ്യമാണ്",
+      "CROP_VARIETY": "വിള ഇനം",
+      "FLOW": "വരുമാനം സൃഷ്ടിക്കൽ",
+      "MANAGE_CUSTOM_REVENUE_TYPE": "ഇഷ്‌ടാനുസൃത വരുമാന തരങ്ങൾ നിയന്ത്രിക്കുക",
+      "SALE_VALUE_ERROR": "വിൽപ്പന മൂല്യം 999,999,999-നേക്കാൾ കുറവായിരിക്കണം",
       "TABLE_HEADERS": {
-        "TOTAL": ""
+        "TOTAL": "ആകെ"
       },
-      "WHICH_TYPE_TO_RECORD": ""
+      "WHICH_TYPE_TO_RECORD": "നിങ്ങളുടെ വരുമാന തരം താഴെ തിരഞ്ഞെടുക്കുക:"
     },
     "DETAIL": {
-      "CUSTOMER_NAME": "",
-      "TITLE": "",
-      "VALUE": ""
+      "CUSTOMER_NAME": "ഉപഭോക്താവിൻ്റെ പേര്",
+      "TITLE": "വരുമാന വിശദാംശങ്ങൾ",
+      "VALUE": "മൂല്യം"
     },
     "EDIT_SALE": {
-      "TITLE": ""
+      "TITLE": "വരുമാനം എഡിറ്റ് ചെയ്യുക"
     },
     "EXPENSE_DETAIL": {
-      "TITLE": ""
+      "TITLE": "ചെലവ് വിശദാംശങ്ങൾ"
     },
     "FINANCES": {
       "CARROUSEL_TEXT": {
-        "ESTIMATED_REVENUE": "",
-        "GENERIC": ""
+        "ESTIMATED_REVENUE": "ഈ സംഖ്യ (സ്റ്റാറ്റിക്) നിങ്ങളുടെ ഭാവി കണക്കാക്കിയ വിളവെടുപ്പിനെ പ്രതിഫലിപ്പിക്കുന്നു",
+        "GENERIC": "*ഈ നമ്പറുകൾ നിങ്ങളുടെ തീയതി / ഫിൽട്ടർ തിരഞ്ഞെടുക്കൽ അടിസ്ഥാനമാക്കിയുള്ളതാണ്"
       },
-      "ESTIMATED_HARVEST_REVENUE": "",
-      "EXPENSES": "",
-      "EXPORT_REPORT": "",
-      "LABOUR_LABEL": "",
+      "ESTIMATED_HARVEST_REVENUE": "കണക്കാക്കിയ വിളവെടുപ്പ് വരുമാനം",
+      "EXPENSES": "ചെലവുകൾ",
+      "EXPORT_REPORT": "കയറ്റുമതി റിപ്പോർട്ട്",
+      "LABOUR_LABEL": "തൊഴിൽ",
       "MANAGE_CUSTOM_EXPENSE_TYPES_SPOTLIGHT": {
-        "BODY": "",
-        "TITLE": ""
+        "BODY": "നിങ്ങളുടെ ഫാമിലേക്ക് വ്യക്തിഗതമാക്കിയ ചെലവ് തരങ്ങൾ ഇവിടെ ചേർക്കാനോ പരിഷ്‌ക്കരിക്കാനോ റിട്ടയർ ചെയ്യാനോ കഴിയും.",
+        "TITLE": "ഇഷ്‌ടാനുസൃത ചെലവ് തരങ്ങൾ നിയന്ത്രിക്കുക"
       },
       "MANAGE_CUSTOM_REVENUE_TYPES_SPOTLIGHT": {
-        "BODY": "",
-        "TITLE": ""
+        "BODY": "ഇവിടെ നിങ്ങൾക്ക് നിങ്ങളുടെ ഫാമിലേക്ക് വ്യക്തിഗതമാക്കിയ വരുമാന തരങ്ങൾ ചേർക്കാനോ പരിഷ്‌ക്കരിക്കാനോ റിട്ടയർ ചെയ്യാനോ കഴിയും.",
+        "TITLE": "ഇഷ്‌ടാനുസൃത വരുമാന തരങ്ങൾ നിയന്ത്രിക്കുക"
       },
-      "PROFIT_LOSS": "",
-      "REPORT": "",
-      "REPORT_HELP_TEXT": "",
-      "TITLE": "",
-      "TOTAL_EXPENSES": "",
-      "TOTAL_LABOUR": "",
-      "TOTAL_OTHER": "",
-      "TOTAL_REVENUE": ""
+      "PROFIT_LOSS": "ലാഭം / നഷ്ടം",
+      "REPORT": "റിപ്പോർട്ട്",
+      "REPORT_HELP_TEXT": "ധനകാര്യ അവലോകനത്തിൽ നിങ്ങൾ കാണുന്നതിനെ ഈ ഫിൽട്ടറുകൾ പ്രതിഫലിപ്പിക്കുന്നു. ചുവടെ കയറ്റുമതി ചെയ്യുന്നത് നിങ്ങൾക്ക് പരിഷ്കരിക്കാനാകും.",
+      "TITLE": "സാമ്പത്തിക അവലോകനം",
+      "TOTAL_EXPENSES": "ആകെ ചെലവുകൾ",
+      "TOTAL_LABOUR": "ആകെ തൊഴിൽ",
+      "TOTAL_OTHER": "ആകെ മറ്റ്",
+      "TOTAL_REVENUE": "ആകെ വരുമാനം"
     },
     "LABOUR": {
-      "BY": "",
-      "EMPLOYEES": "",
+      "BY": "മുതൽപ്രകാരം",
+      "EMPLOYEES": "ജീവനക്കാർ",
       "TABLE": {
-        "DAILY_TOTAL": "",
-        "DATE": "",
-        "EMPLOYEE": "",
-        "LABOUR_COST": "",
-        "TASK": "",
-        "TIME": "",
-        "TYPE": ""
+        "DAILY_TOTAL": "മൊത്തത്തിൽ ദിവസേന",
+        "DATE": "തീയതി",
+        "EMPLOYEE": "ജീവനക്കാർ",
+        "LABOUR_COST": "തൊഴിൽ ചെലവ്",
+        "TASK": "ചുമതല",
+        "TIME": "സമയം",
+        "TYPE": "തരം"
       },
-      "TASKS": "",
-      "TITLE": ""
+      "TASKS": "ചുമതലകൾ",
+      "TITLE": "തൊഴിൽ"
     },
     "SUMMARY": {
-      "SUBTOTAL": "",
-      "TOTAL": "",
-      "TYPE": ""
+      "SUBTOTAL": "ഉപമൊത്തം",
+      "TOTAL": "ആകെ",
+      "TYPE": "തരം"
     }
   },
   "SEARCH": {
-    "CLEAR_TERMS": "",
-    "CLEAR_TERMS_AND_FILTERS": "",
-    "NO_RESULTS_FOR": "",
-    "ZERO": ""
+    "CLEAR_TERMS": "പുതിയ സാധ്യതകൾ കണ്ടെത്താൻ എന്തുകൊണ്ട് മറ്റൊരു തിരയൽ പരീക്ഷിച്ചുകൂടാ?",
+    "CLEAR_TERMS_AND_FILTERS": "എന്തുകൊണ്ട് വ്യത്യസ്ത നിബന്ധനകൾ പര്യവേക്ഷണം ചെയ്തുകൂടാ അല്ലെങ്കിൽ എന്തുകൊണ്ട് പുതിയ സാധ്യതകൾ കണ്ടെത്തുന്നതിനായി ഫിൽട്ടറുകൾ മായ്ച്ചുകൂടാ?",
+    "NO_RESULTS_FOR": "ക്ഷമിക്കണം, നിങ്ങളുടെ തിരയൽ പദമായ <1>'{{searchTerm}}'</1> എന്നതിന് ഞങ്ങൾക്ക് ഫലങ്ങളൊന്നും കണ്ടെത്താൻ കഴിഞ്ഞില്ല",
+    "ZERO": "0 ഫലങ്ങൾ"
   },
   "SENSOR": {
-    "BRAND": "",
-    "BRAND_HELPTEXT": "",
-    "DAYS_AGO": "",
-    "DEPTH": "",
+    "BRAND": "ബ്രാൻഡ്",
+    "BRAND_HELPTEXT": "ലൈറ്റ് ഫാം സംയോജിപ്പിക്കാൻ കഴിയുന്ന ബ്രാൻഡുകൾ ചുവടെ കാണിച്ചിരിക്കുന്നു. നിങ്ങൾക്ക് ഇനി ഈ സെൻസർ ബ്രാൻഡ് ഉപയോഗിക്കാൻ താൽപ്പര്യമില്ലെങ്കിൽ, പകരം ഈ സെൻസർ പിൻവലിക്കാൻ ശ്രമിക്കുക.",
+    "DAYS_AGO": "{{time}} ദിവസം(കൾ) മുമ്പ്",
+    "DEPTH": "ആഴം",
     "DETAIL": {
-      "BRAND": "",
-      "BRAND_TOOLTIP": "",
-      "DEPTH": "",
-      "EDIT": "",
-      "EXTERNAL_ID_TOOLTIP": "",
-      "EXTERNAL_IDENTIFIER": "",
-      "LATITUDE": "",
-      "LONGITUDE": "",
-      "MODEL": "",
-      "NAME": "",
-      "RETIRE": ""
+      "BRAND": "ബ്രാൻഡ്",
+      "BRAND_TOOLTIP": "ലൈറ്റ് ഫാം സംയോജിപ്പിക്കാൻ കഴിയുന്ന ബ്രാൻഡുകൾ ചുവടെ കാണിച്ചിരിക്കുന്നു. നിങ്ങൾക്ക് ഇനി ഈ സെൻസർ ബ്രാൻഡ് ഉപയോഗിക്കാൻ താൽപ്പര്യമില്ലെങ്കിൽ, പകരം ഈ സെൻസർ പിൻവലിക്കാൻ ശ്രമിക്കുക.",
+      "DEPTH": "ആഴം",
+      "EDIT": "തിരുത്തുക",
+      "EXTERNAL_ID_TOOLTIP": "മറ്റ് സംയോജിത സിസ്റ്റങ്ങളിൽ ഈ സെൻസറിനെ അദ്വിതീയമായി തിരിച്ചറിയാൻ ഈ ഐഡി ഉപയോഗിക്കുന്നു, മാറ്റാൻ കഴിയില്ല. ഇത് മേലിൽ ഉപയോഗിക്കുന്നില്ലെങ്കിൽ, ഈ സെൻസർ പിൻവലിച്ച് പുതിയൊരെണ്ണം ചേർക്കാൻ ശ്രമിക്കുക.",
+      "EXTERNAL_IDENTIFIER": "ബാഹ്യ ഐഡൻ്റിഫയർ",
+      "LATITUDE": "അക്ഷാംശം",
+      "LONGITUDE": "രേഖാംശം",
+      "MODEL": "മോഡൽ",
+      "NAME": "സെൻസറിൻ്റെ പേര്",
+      "RETIRE": "വിരമിക്കുക"
     },
-    "EXTERNAL_IDENTIFIER": "",
-    "HOURS_AGO": "",
-    "LAST_UPDATED": "",
-    "LATITUDE": "",
-    "LONGTITUDE": "",
-    "MINUTES_AGO": "",
+    "EXTERNAL_IDENTIFIER": "ബാഹ്യ ഐഡൻ്റിഫയർ",
+    "HOURS_AGO": "{{time}} മണിക്കൂർ(കൾ) മുമ്പ്",
+    "LAST_UPDATED": "അവസാനം അപ്ഡേറ്റ് ചെയ്തത് {{latestReadingUpdate}}",
+    "LATITUDE": "അക്ഷാംശം",
+    "LONGTITUDE": "രേഖാംശം",
+    "MINUTES_AGO": "{{time}} മിനിറ്റ്(കൾ) മുമ്പ്",
     "MODAL": {
-      "BODY": "",
-      "TITLE": ""
+      "BODY": "ഈ സെൻസറിനായുള്ള റീഡിംഗ് തരങ്ങൾ മാറ്റുന്നത് ലൈറ്റ് ഫാം കാണിക്കാനാകുന്ന റീഡിംഗുകളെ പരിഷ്‌ക്കരിക്കും. നിങ്ങൾക്ക് തുടരണോ?",
+      "TITLE": "റീഡിംഗ് തരങ്ങൾ മാറ്റണോ?"
     },
-    "MODEL": "",
-    "MODEL_HELPTEXT": "",
-    "MONTHS_AGO": "",
-    "NO_DATA": "",
-    "NO_DATA_FOUND": "",
+    "MODEL": "മോഡൽ",
+    "MODEL_HELPTEXT": "മറ്റ് സംയോജിത സിസ്റ്റങ്ങളിൽ ഈ സെൻസറിനെ അദ്വിതീയമായി തിരിച്ചറിയാൻ ഈ ഐഡി ഉപയോഗിക്കുന്നു, മാറ്റാൻ കഴിയില്ല. ഇത് മേലിൽ ഉപയോഗിക്കുന്നില്ലെങ്കിൽ, ഈ സെൻസർ പിൻവലിച്ച് പുതിയൊരെണ്ണം ചേർക്കാൻ ശ്രമിക്കുക.",
+    "MONTHS_AGO": "{{time}} മാസം(ങ്ങൾ) മുമ്പ്",
+    "NO_DATA": "(ഡാറ്റ ഇല്ല)",
+    "NO_DATA_FOUND": "സെൻസർ റീഡിംഗുകളൊന്നും കണ്ടെത്തിയില്ല",
     "READING": {
-      "SOIL_WATER_CONTENT": "",
-      "SOIL_WATER_POTENTIAL": "",
-      "TEMPERATURE": "",
-      "TYPES": "",
-      "UNKNOWN": ""
+      "SOIL_WATER_CONTENT": "മണ്ണിലെ ജലത്തിൻ്റെ അളവ്",
+      "SOIL_WATER_POTENTIAL": "മണ്ണിലെ ജല പോട്ടൻഷ്യൽ (സാധ്യത)",
+      "TEMPERATURE": "താപനില",
+      "TYPES": "റീഡിംഗ് തരങ്ങൾ",
+      "UNKNOWN": "അജ്ഞാതം"
     },
     "READINGS_PREVIEW": {
-      "SOIL_WATER_POTENTIAL": "",
-      "TEMPERATURE": ""
+      "SOIL_WATER_POTENTIAL": "നിലവിലെ മണ്ണിൻ്റെ ജല പോട്ടൻഷ്യൽ (സാധ്യത)",
+      "TEMPERATURE": "നിലവിലെ മണ്ണിൻ്റെ താപനില"
     },
     "RETIRE": {
-      "BODY": "",
-      "CANCEL": "",
-      "RETIRE": "",
-      "RETIRE_FAILURE": "",
-      "RETIRE_SUCCESS": "",
-      "TITLE": ""
+      "BODY": "ഈ സെൻസർ റിട്ടയർ ചെയ്യുന്നത് നിങ്ങളുടെ ഫാമിൽ നിന്ന് അതിനെയും അതുമായി ബന്ധപ്പെട്ട ഏതെങ്കിലും റീഡിംഗുകളും നീക്കംചെയ്യുകയും സെൻസർ ദാതാവുമായുള്ള ഏതെങ്കിലും കണക്ഷനുകൾ അവസാനിപ്പിക്കുകയും ചെയ്യും. നിങ്ങൾക്ക് തുടരണോ?",
+      "CANCEL": "റദ്ദാക്കുക",
+      "RETIRE": "പിൻവാങ്ങുക",
+      "RETIRE_FAILURE": "ഈ സെൻസർ പിൻവലിക്കുന്നതിൽ ഒരു പിശകുണ്ടായി",
+      "RETIRE_SUCCESS": "സെൻസർ വിജയകരമായി പിൻവലിച്ചിരിക്കുന്നു",
+      "TITLE": "പിൻവലിച്ച സെൻസർ?"
     },
-    "SECONDS_AGO": "",
+    "SECONDS_AGO": "{{time}} സെക്കൻഡ്(കൾ) മുമ്പ്",
     "SENSOR_FORECAST": {
-      "HIGH_AND_LOW_TEMPERATURE": "",
-      "TITLE": "",
-      "WEATHER_STATION": ""
+      "HIGH_AND_LOW_TEMPERATURE": "ഉയർന്നതും താഴ്ന്നതുമായ താപനില: {{high}}{{unit}} / {{low}}{{unit}}",
+      "TITLE": "ഇന്നത്തെ കാലാവസ്ഥാ പ്രവചനം",
+      "WEATHER_STATION": "കാലാവസ്ഥാ സ്റ്റേഷൻ: {{weatherStationLocation}}"
     },
-    "SENSOR_NAME": "",
+    "SENSOR_NAME": "സെൻസറിൻ്റെ പേര്",
     "SENSOR_READING_CHART_SPOTLIGHT": {
-      "CONTENT": "",
-      "TITLE": ""
+      "CONTENT": "വ്യക്തിഗത സെൻസറുകൾ അവയുടെ ലേബലുകൾ ഇവിടെ ക്ലിക്കുചെയ്തുകൊണ്ട് കാണിക്കുകയോ മറയ്ക്കുകയോ ചെയ്യാം.",
+      "TITLE": "ശ്രേണിയെ മറയ്ക്കാം"
     },
     "SOIL_WATER_CONTENT_READINGS_OF_SENSOR": {
-      "TITLE": "",
-      "Y_AXIS_LABEL": ""
+      "TITLE": "മണ്ണിലെ ജലത്തിൻ്റെ അളവ്",
+      "Y_AXIS_LABEL": "{{units}}"
     },
     "SOIL_WATER_POTENTIAL_READINGS_OF_SENSOR": {
-      "KPA": "",
-      "PSI": "",
-      "TITLE": "",
-      "Y_AXIS_LABEL": ""
+      "KPA": "കിലോപാസ്കലുകൾ (kPa)",
+      "PSI": "ഒരു ചതുരശ്ര ഇഞ്ചിന് പൗണ്ട് (psi)",
+      "TITLE": "മണ്ണിലെ ജല പോട്ടൻഷ്യൽ (സാധ്യത)",
+      "Y_AXIS_LABEL": "{{units}}"
     },
     "TEMPERATURE_READINGS_OF_SENSOR": {
-      "AMBIENT_TEMPERATURE_FOR": "",
-      "C": "",
-      "F": "",
-      "TITLE": "",
-      "Y_AXIS_LABEL": ""
+      "AMBIENT_TEMPERATURE_FOR": "പരിസരത്തിന്റെ താപനില",
+      "C": "സെൽഷ്യസ് (°C)",
+      "F": "ഫാരൻഹീറ്റ് (°F)",
+      "TITLE": "മണ്ണിൻ്റെ താപനില",
+      "Y_AXIS_LABEL": "{{units}}"
     },
     "VALIDATION": {
-      "READING_TYPES": ""
+      "READING_TYPES": "സെൻസർ റീഡിംഗ് തരങ്ങൾ ആവശ്യമാണ്"
     },
     "VIEW_HEADER": {
-      "DETAILS": "",
-      "READINGS": "",
-      "TASKS": ""
+      "DETAILS": "വിശദാംശങ്ങൾ",
+      "READINGS": "റീഡിങ്സ്",
+      "TASKS": "ചുമതലകൾ"
     }
   },
   "SIGNUP": {
-    "CHANGES": "",
-    "EMAIL_INVALID": "",
-    "ENTER_EMAIL": "",
-    "EXPIRED_ERROR": "",
-    "EXPIRED_INVITATION_LINK_ERROR": "",
-    "GOOGLE_BUTTON": "",
-    "INVITED_ERROR": "",
-    "LITEFARM_UPDATED": "",
-    "PASSWORD_ERROR": "",
-    "SIGN_IN": "",
-    "SSO_ERROR": "",
-    "USED_INVITATION_LINK_ERROR": "",
-    "WELCOME_BACK": "",
-    "WRONG_BROWSER": "",
-    "WRONG_BROWSER_BOTTOM": ""
+    "CHANGES": "മാറ്റങ്ങളെക്കുറിച്ച് വായിക്കുക",
+    "EMAIL_INVALID": "ഇമെയിൽ അസാധുവാണ്",
+    "ENTER_EMAIL": "നിങ്ങളുടെ ഇമെയിൽ വിലാസം നൽകുക",
+    "EXPIRED_ERROR": "ഞങ്ങൾ ഞങ്ങളുടെ ഇൻഫ്രാസ്ട്രക്ചർ അപ്ഡേറ്റ് ചെയ്തിട്ടുണ്ട്, നിങ്ങളുടെ പാസ്വേഡ് പുനഃസജ്ജമാക്കേണ്ടതുണ്ട്. തുടരാൻ നിങ്ങളുടെ ഇൻബോക്സ് പരിശോധിക്കുക.",
+    "EXPIRED_INVITATION_LINK_ERROR": "അസാധുവായ അല്ലെങ്കിൽ കാലഹരണപ്പെട്ട ക്ഷണം",
+    "GOOGLE_BUTTON": "GOOGLE-ൽ തുടരുക",
+    "INVITED_ERROR": "ഒരു ഫാം ക്ഷണം നിങ്ങൾക്ക് ഇമെയിൽ അയച്ചിട്ടുണ്ട്, ദയവായി നിങ്ങളുടെ ഇൻബോക്സും സ്പാം ഫോൾഡറും പരിശോധിക്കുക.",
+    "LITEFARM_UPDATED": "ലൈറ്റ്ഫാമിൻ്റെ v3.5 ഇപ്പോൾ ലഭ്യമാണ്!",
+    "PASSWORD_ERROR": "പാസ്‌വേഡ് തെറ്റാണ്",
+    "SIGN_IN": "സൈൻ ഇൻ",
+    "SSO_ERROR": "മുകളിലുള്ള ഗൂഗിൾ ബട്ടണിൽ ക്ലിക്ക് ചെയ്ത് ലോഗിൻ ചെയ്യുക",
+    "USED_INVITATION_LINK_ERROR": "ഈ ക്ഷണം ഇതിനകം ഉപയോഗിച്ചു, ഈ ഫാം ആക്സസ് ചെയ്യാൻ ലോഗിൻ ചെയ്യുക",
+    "WELCOME_BACK": "തിരികെ സ്വാഗതം",
+    "WRONG_BROWSER": "ഈ ബ്രൗസറിനായി ലൈറ്റ് ഫാം ഒപ്റ്റിമൈസ് ചെയ്തിട്ടില്ല.",
+    "WRONG_BROWSER_BOTTOM": "Chrome ഉപയോഗിച്ച് ലോഗിൻ ചെയ്യുക."
   },
   "SLIDE_MENU": {
-    "CROPS": "",
-    "DOCUMENTS": "",
-    "FINANCES": "",
-    "INSIGHTS": "",
-    "MANAGE": "",
-    "TASKS": ""
+    "CROPS": "വിളകൾ",
+    "DOCUMENTS": "പ്രമാണങ്ങൾ",
+    "FINANCES": "സാമ്പത്തികം",
+    "INSIGHTS": "ഉൾക്കാഴ്ചകൾ",
+    "MANAGE": "കൈകാര്യം ചെയ്യുക",
+    "TASKS": "ചുമതലകൾ"
   },
   "STATUS": {
-    "ACTIVE": "",
-    "INACTIVE": "",
-    "INVITED": ""
+    "ACTIVE": "സജീവം",
+    "INACTIVE": "നിഷ്ക്രിയം",
+    "INVITED": "ക്ഷണിച്ചു"
   },
   "SURVEY_STACK": {
-    "PRODUCED": "",
-    "SURVEY_ADDENDUM": "",
-    "TITLE": ""
+    "PRODUCED": "നിർമ്മിക്കുന്നത്",
+    "SURVEY_ADDENDUM": "സർവേ അനുബന്ധം",
+    "TITLE": "{{certification}} നിന്നുള്ള സർട്ടിഫിക്കേഷൻ {{certifier}}"
   },
   "SWITCH_OUTRO": {
-    "BUTTON": "",
-    "DESCRIPTION_BOTTOM": "",
-    "DESCRIPTION_TOP": "",
-    "TITLE": ""
+    "BUTTON": "നമുക്ക് പോകാം!",
+    "DESCRIPTION_BOTTOM": "ഇതിലേക്ക് പോകുന്നു: ",
+    "DESCRIPTION_TOP": "കളപ്പുരയുടെ വാതിൽ സുരക്ഷിതമാണ്.",
+    "TITLE": "ഫാമുകൾ മാറ്റുന്നു"
   },
   "TABLE": {
-    "LOAD_MORE": "",
-    "LOADING_TEXT": "",
-    "NEXT_TEXT": "",
-    "NO_DATA_TEXT": "",
-    "NUMBER_MORE": "",
-    "OF_TEXT": "",
-    "PAGE_TEXT": "",
-    "PREVIOUS_TEXT": "",
-    "ROWS_TEXT": ""
+    "LOAD_MORE": "+ കൂടുതൽ ലോഡുചെയ്യുക",
+    "LOADING_TEXT": "ലോഡ് ചെയ്യുന്നു...",
+    "NEXT_TEXT": "അടുത്തത്",
+    "NO_DATA_TEXT": "വരികളൊന്നും കണ്ടെത്തിയില്ല",
+    "NUMBER_MORE": "+ {{number}} കൂടുതൽ",
+    "OF_TEXT": "-ൽ",
+    "PAGE_TEXT": "പേജ്",
+    "PREVIOUS_TEXT": "മുമ്പത്തെ",
+    "ROWS_TEXT": "വരികൾ"
   },
   "TASK": {
     "ABANDON": {
-      "ABANDON": "",
-      "DATE": "",
-      "DATE_ANOTHER": "",
-      "DATE_ORIGINAL": "",
-      "DATE_TODAY": "",
-      "EXPLANATION": "",
-      "INFO": "",
-      "NOTES": "",
-      "NOTES_CHAR_LIMIT": "",
+      "ABANDON": "ഉപേക്ഷിക്കുക",
+      "DATE": "ഉപേക്ഷിക്കൽ തീയതി",
+      "DATE_ANOTHER": "മറ്റൊരു തീയതി",
+      "DATE_ORIGINAL": "യഥാർത്ഥ അവസാന തീയതി",
+      "DATE_TODAY": "ഇന്ന്",
+      "EXPLANATION": "വിശദീകരണം",
+      "INFO": "ഈ ടാസ്‌ക് ഉപേക്ഷിക്കുന്നത് അതിൻ്റെ സ്റ്റാറ്റസ് ഉപേക്ഷിച്ചതായി മാറ്റുകയും എല്ലാ ഉപയോക്താക്കളിൽ നിന്നും 'ചെയ്യേണ്ട', 'അൺസെസൈഡ് ചെയ്യാത്ത' ലിസ്റ്റുകളിൽ നിന്നും നീക്കം ചെയ്യുകയും ചെയ്യും.",
+      "NOTES": "ടാസ്ക് ഉപേക്ഷിക്കൽ കുറിപ്പുകൾ",
+      "NOTES_CHAR_LIMIT": "കുറിപ്പുകൾ 10,000 പ്രതീകങ്ങളിൽ കുറവായിരിക്കണം",
       "REASON": {
-        "CROP_FAILURE": "",
-        "LABOUR_ISSUE": "",
-        "MACHINERY_ISSUE": "",
-        "MARKET_PROBLEM": "",
-        "OTHER": "",
-        "SCHEDULING_ISSUE": "",
-        "WEATHER": ""
+        "CROP_FAILURE": "വിളനാശം",
+        "LABOUR_ISSUE": "തൊഴിൽ പ്രശ്നം",
+        "MACHINERY_ISSUE": "യന്ത്രങ്ങളുടെ പ്രശ്നം",
+        "MARKET_PROBLEM": "വിപണി പ്രശ്നം",
+        "OTHER": "മറ്റുള്ളവ",
+        "SCHEDULING_ISSUE": "ഷെഡ്യൂളിംഗ് പ്രശ്നം",
+        "WEATHER": "കാലാവസ്ഥ"
       },
-      "REASON_FOR_ABANDONMENT": "",
-      "TITLE": "",
-      "WHAT_HAPPENED": "",
-      "WHEN": "",
-      "WHICH_DATE": ""
+      "REASON_FOR_ABANDONMENT": "ഉപേക്ഷിക്കാനുള്ള കാരണം",
+      "TITLE": "ചുമതല ഉപേക്ഷിക്കുക",
+      "WHAT_HAPPENED": "എന്ത് സംഭവിച്ചു?",
+      "WHEN": "എപ്പോഴാണ് ചുമതല ഉപേക്ഷിച്ചത്?",
+      "WHICH_DATE": "ഏത് തീയതി?"
     },
-    "ABANDON_TASK": "",
-    "ABANDON_TASK_DURATION": "",
-    "ABANDON_TASK_HELPTEXT": "",
-    "ABANDONMENT_DETAILS": "",
-    "ADD_CUSTOM_HARVEST_USE": "",
-    "ADD_HARVEST_USE": "",
-    "ADD_TASK": "",
-    "ADD_TASK_FLOW": "",
-    "AMOUNT_TO_ALLOCATE": "",
+    "ABANDON_TASK": "ഈ ദൗത്യം ഉപേക്ഷിക്കുക",
+    "ABANDON_TASK_DURATION": "ഈ ദൗത്യത്തിനായി എന്തെങ്കിലും ജോലി പൂർത്തിയാക്കിയിട്ടുണ്ടോ?",
+    "ABANDON_TASK_HELPTEXT": "ഉപേക്ഷിക്കപ്പെട്ട ഈ ജോലിയിൽ പൂർത്തിയാക്കിയ ജോലി തൊഴിൽ ചെലവിൽ ഉൾപ്പെടുത്തും. ഒരു ജോലിയും പൂർത്തിയായിട്ടില്ലെങ്കിൽ, പകരം അത് തിരഞ്ഞെടുക്കുക.",
+    "ABANDONMENT_DETAILS": "ചുമതല ഉപേക്ഷിക്കൽ വിശദാംശങ്ങൾ",
+    "ADD_CUSTOM_HARVEST_USE": "ഒരു ഇഷ്‌ടാനുസൃത വിളവെടുപ്പ് ഉപയോഗം സൃഷ്‌ടിക്കുക",
+    "ADD_HARVEST_USE": "മറ്റൊരു വിളവെടുപ്പ് ഉപയോഗം ചേർക്കുക",
+    "ADD_TASK": "ഒരു ചുമതല സൃഷ്ടിക്കുക",
+    "ADD_TASK_FLOW": "ചുമതല സൃഷ്ടിക്കൽ",
+    "AMOUNT_TO_ALLOCATE": "അനുവദിക്കേണ്ട തുക",
     "CARD": {
-      "MULTIPLE_CROPS": "",
-      "MULTIPLE_LOCATIONS": ""
+      "MULTIPLE_CROPS": "ഒന്നിലധികം വിളകൾ",
+      "MULTIPLE_LOCATIONS": "ഒന്നിലധികം സ്ഥാനങ്ങൾ"
     },
     "COMPLETE": {
-      "DATE": "",
-      "WHEN": ""
+      "DATE": "പൂർത്തിയാക്കിയ തീയതി",
+      "WHEN": "എപ്പോഴാണ് ചുമതല പൂർത്തിയാക്കിയത്?"
     },
-    "COMPLETE_HARVEST_QUANTITY": "",
-    "COMPLETE_TASK": "",
-    "COMPLETE_TASK_CHANGES": "",
-    "COMPLETE_TASK_DURATION": "",
-    "COMPLETE_TASK_FLOW": "",
-    "COMPLETION_DETAILS": "",
-    "COMPLETION_NOTES": "",
-    "COMPLETION_NOTES_CHAR_LIMIT": "",
+    "COMPLETE_HARVEST_QUANTITY": "എത്ര വിളവെടുത്തു?",
+    "COMPLETE_TASK": "ചുമതല പൂർത്തിയാക്കുക",
+    "COMPLETE_TASK_CHANGES": "ഈ ചുമതലയിൽ എന്തെങ്കിലും മാറ്റങ്ങൾ വരുത്തേണ്ടതുണ്ടോ?",
+    "COMPLETE_TASK_DURATION": "ചുമതല പൂർത്തിയാക്കാൻ എത്ര സമയമെടുത്തു?",
+    "COMPLETE_TASK_FLOW": "ചുമതല പൂർത്തീകരണം",
+    "COMPLETION_DETAILS": "ചുമതല പൂർത്തീകരണ വിശദാംശങ്ങൾ",
+    "COMPLETION_NOTES": "ചുമതല പൂർത്തീകരണ കുറിപ്പുകൾ",
+    "COMPLETION_NOTES_CHAR_LIMIT": "കുറിപ്പുകൾ 10,000 പ്രതീകങ്ങളിൽ കുറവായിരിക്കണം",
     "CREATE": {
-      "FAILED": "",
-      "LOCATION_DELETED": ""
+      "FAILED": "ചുമതല സൃഷ്‌ടിക്കാനാവില്ല",
+      "LOCATION_DELETED": "നിങ്ങൾ തിരഞ്ഞെടുത്ത ലൊക്കേഷൻ മറ്റൊരു ഉപയോക്താവ് ഉപേക്ഷിച്ചു. ഏറ്റവും പുതിയ വിവരങ്ങൾ ലഭിക്കാൻ പേജ് പുതുക്കുക."
     },
-    "CREATE_CUSTOM_HARVEST_USE": "",
-    "CURRENT": "",
+    "CREATE_CUSTOM_HARVEST_USE": "ഒരു ഇഷ്‌ടാനുസൃത വിളവെടുപ്പ് ഉപയോഗം സൃഷ്‌ടിക്കുക",
+    "CURRENT": "നിലവിൽ",
     "DELETE": {
-      "CANT_DELETE_ABANDON": "",
-      "CANT_DELETE_ABANDON_INSTEAD": "",
-      "CANT_DELETE_PLANTING_TASK": "",
-      "CONFIRM_DELETION": "",
-      "DELETE_TASK": "",
-      "DELETE_TASK_MESSAGE": "",
-      "DELETE_TASK_QUESTION": "",
-      "FAILED": "",
-      "SUCCESS": ""
+      "CANT_DELETE_ABANDON": "വിള പദ്ധതിയിലേക്ക് പോകുക",
+      "CANT_DELETE_ABANDON_INSTEAD": "പകരം വിള പദ്ധതി ഉപേക്ഷിക്കണോ?",
+      "CANT_DELETE_PLANTING_TASK": "നടീൽ ചുമതല ഇല്ലാതാക്കാൻ കഴിയില്ല",
+      "CONFIRM_DELETION": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
+      "DELETE_TASK": "ചുമതല ഇല്ലാതാക്കുക",
+      "DELETE_TASK_MESSAGE": "ഈ ചുമതല നിങ്ങളുടെ ഫാമിൽ നിന്ന് നീക്കം ചെയ്യും. ഈ ചുമതലയുടെ ഒരു റെക്കോർഡ് സൂക്ഷിക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുവെങ്കിൽ, \"ഉപേക്ഷിക്കുക\" ക്ലിക്ക് ചെയ്യുക.",
+      "DELETE_TASK_QUESTION": "ചുമതല ഇല്ലാതാക്കണോ?",
+      "FAILED": "ചുമതല ഇല്ലാതാക്കുന്നതിൽ പരാജയപ്പെട്ടു",
+      "SUCCESS": "ചുമതല വിജയകരമായി ഇല്ലാതാക്കി"
     },
-    "DESCRIBE_HARVEST_USE": "",
-    "DETAILS": "",
-    "DID_YOU_ENJOY": "",
-    "DUE_DATE": "",
-    "DURATION": "",
+    "DESCRIBE_HARVEST_USE": "വിളവെടുപ്പ് ഉപയോഗം വിവരിക്കുക",
+    "DETAILS": "വിശദാംശങ്ങൾ",
+    "DID_YOU_ENJOY": "നിങ്ങൾ ഈ ടാസ്ക് ആസ്വദിച്ചോ?",
+    "DUE_DATE": "അവസാന തീയതി",
+    "DURATION": "ദൈർഘ്യം",
     "FILTER": {
-      "ASCENDING": "",
-      "ASSIGNEE": "",
-      "CROP": "",
-      "DATE_RANGE": "",
-      "DESCENDING": "",
-      "LOCATION": "",
-      "MY_TASK": "",
-      "SORT_BY": "",
-      "STATUS": "",
-      "TITLE": "",
-      "TYPE": "",
-      "UNASSIGNED": "",
-      "VIEW": ""
+      "ASCENDING": "ഏറ്റവും പഴയത് ആദ്യം",
+      "ASSIGNEE": "ചുമതലപ്പെടുത്തപ്പെട്ട ആൾ",
+      "CROP": "വിള",
+      "DATE_RANGE": "തീയതി ശ്രേണി അനുസരിച്ച് ഫിൽട്ടർ ചെയ്യുക",
+      "DESCENDING": "ഏറ്റവും പുതിയത് ആദ്യം",
+      "LOCATION": "സ്ഥലം",
+      "MY_TASK": "എൻ്റെ ചുമതലകൾ",
+      "SORT_BY": "ഇങ്ങനെ അടുക്കുക",
+      "STATUS": "നില",
+      "TITLE": "ടാസ്ക് ഫിൽട്ടർ",
+      "TYPE": "തരം",
+      "UNASSIGNED": "നിയോഗിച്ചിട്ടില്ല",
+      "VIEW": "കാണുക"
     },
-    "HARVEST_USE": "",
-    "HARVEST_USE_ALREADY_EXISTS": "",
-    "HOW_WILL_HARVEST_BE_USED": "",
-    "IRRIGATION_LOCATION": "",
-    "LOCATIONS": "",
-    "NO_TASKS_TO_DISPLAY": "",
-    "NO_WORK_DONE": "",
-    "PAGE_TITLE": "",
-    "PREFER_NOT_TO_SAY": "",
-    "PROVIDE_RATING": "",
-    "QUANTITY_CANNOT_EXCEED": "",
-    "RATE_THIS_TASK": "",
-    "REMOVE_HARVEST_USE": "",
-    "SELECT_DATE": "",
-    "SELECT_TASK_LOCATIONS": "",
-    "SELECT_WILD_CROP": "",
-    "SOIL_AMENDMENT_LOCATION": "",
+    "HARVEST_USE": "വിളവെടുപ്പ് ഉപയോഗം",
+    "HARVEST_USE_ALREADY_EXISTS": "വിളവെടുപ്പ് ഉപയോഗം ഇതിനകം നിലവിലുണ്ട്",
+    "HOW_WILL_HARVEST_BE_USED": "വിളവെടുപ്പ് എങ്ങനെ ഉപയോഗിക്കും?",
+    "IRRIGATION_LOCATION": "ഒരു ജലസേചന സ്ഥലം തിരഞ്ഞെടുക്കുക",
+    "LOCATIONS": "സ്ഥലം (ങ്ങൾ)",
+    "NO_TASKS_TO_DISPLAY": "പ്രദർശിപ്പിക്കാൻ ചുമതലകളൊന്നുമില്ല.",
+    "NO_WORK_DONE": "ഒരു പണിയും പൂർത്തിയായില്ല",
+    "PAGE_TITLE": "ചുമതലകൾ",
+    "PREFER_NOT_TO_SAY": "പറയാതിരിക്കാനാണ് എനിക്കിഷ്ടം",
+    "PROVIDE_RATING": "ഒരു റേറ്റിംഗ് നൽകുക",
+    "QUANTITY_CANNOT_EXCEED": "ഉപയോഗിച്ച വിളവെടുപ്പിൻ്റെ അളവ് അനുവദിക്കേണ്ട തുകയിൽ കവിയരുത്",
+    "RATE_THIS_TASK": "ഈ ടാസ്ക് റേറ്റുചെയ്യുക",
+    "REMOVE_HARVEST_USE": "നീക്കംചെയ്യുക",
+    "SELECT_DATE": "ചുമതലക്കുള്ള തീയതി തിരഞ്ഞെടുക്കുക",
+    "SELECT_TASK_LOCATIONS": "ടാസ്‌ക് ലൊക്കേഷൻ(കൾ) തിരഞ്ഞെടുക്കുക",
+    "SELECT_WILD_CROP": "ഈ ടാസ്ക് ഒരു കാട്ടുവിളയെ ലക്ഷ്യമിടുന്നു",
+    "SOIL_AMENDMENT_LOCATION": "മണ്ണ് ഭേദഗതി സ്ഥലം(കൾ) തിരഞ്ഞെടുക്കുക",
     "STATUS": {
-      "ABANDONED": "",
-      "COMPLETED": "",
-      "FOR_REVIEW": "",
-      "LATE": "",
-      "PLANNED": ""
+      "ABANDONED": "ഉപേക്ഷിക്കപ്പെട്ടു",
+      "COMPLETED": "പൂർത്തിയായി",
+      "FOR_REVIEW": "അവലോകനത്തിനായി",
+      "LATE": "വൈകി",
+      "PLANNED": "പദ്ധതീകരിച്ച"
     },
-    "TASK": "",
-    "TASKS_COUNT_one": "",
-    "TASKS_COUNT_other": "",
-    "TRANSPLANT": "",
-    "TRANSPLANT_LOCATIONS": "",
-    "UNASSIGNED": ""
+    "TASK": "ചുമതല",
+    "TASKS_COUNT_one": "{{count}} ചുമതല",
+    "TASKS_COUNT_other": "{{count}} ചുമതലകൾ",
+    "TRANSPLANT": "പറിച്ചുനടൽ",
+    "TRANSPLANT_LOCATIONS": "പറിച്ചു നടാനുള്ള സ്ഥലം തിരഞ്ഞെടുക്കുക",
+    "UNASSIGNED": "നിയോഗിച്ചിട്ടില്ല"
   },
   "UNIT": {
     "TIME": {
-      "DAY": "",
-      "MONTH": "",
-      "WEEK": "",
-      "YEAR": ""
+      "DAY": "ദിവസങ്ങൾ",
+      "MONTH": "മാസങ്ങൾ",
+      "WEEK": "ആഴ്ചകൾ",
+      "YEAR": "വർഷങ്ങൾ"
     },
-    "VALID_VALUE": ""
+    "VALID_VALUE": "ദയവായി 0-ന് ഇടയിലുള്ള ഒരു മൂല്യം നൽകുക"
   },
   "UNKNOWN_RECORD": {
-    "CANT_FIND": "",
-    "MAYBE_LATER": "",
-    "UNKNOWN_RECORD": ""
+    "CANT_FIND": "ശ്ശോ! ഞങ്ങൾക്ക് അത് കണ്ടെത്താൻ കഴിഞ്ഞില്ല.",
+    "MAYBE_LATER": "ഒരുപക്ഷേ നമുക്ക് അത് പിന്നീട് ലഭിക്കും.",
+    "UNKNOWN_RECORD": "അജ്ഞാത റെക്കോർഡ്"
   },
   "WAGE": {
-    "ERROR": "",
-    "HOURLY_WAGE": "",
-    "HOURLY_WAGE_RANGE_ERROR": "",
-    "HOURLY_WAGE_TOOLTIP": ""
+    "ERROR": "വേതനം സാധുവായ, നെഗറ്റീവ് അല്ലാത്ത ദശാംശ സംഖ്യയായിരിക്കണം",
+    "HOURLY_WAGE": "മണിക്കൂർ കൂലി",
+    "HOURLY_WAGE_RANGE_ERROR": "മണിക്കൂർ വേതനം 999,999,999-ൽ കുറവായിരിക്കണം",
+    "HOURLY_WAGE_TOOLTIP": "എൻ്റെ ഫാം' എന്നതിന് കീഴിലുള്ള പീപ്പിൾ ടാബിൽ ഒരു വ്യക്തിയെ തിരഞ്ഞെടുത്ത് മണിക്കൂർ വേതനം ക്രമീകരിക്കാം."
   },
   "WEATHER": {
-    "HUMIDITY": "",
-    "WIND": ""
+    "HUMIDITY": "ഈർപ്പം",
+    "WIND": "കാറ്റ്"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": ""
+    "BUTTON": "നമുക്ക് തുടങ്ങാം"
   },
   "YEAR_SELECTOR": {
-    "TITLE": ""
+    "TITLE": "വർഷം തിരഞ്ഞെടുക്കുക"
   }
 }

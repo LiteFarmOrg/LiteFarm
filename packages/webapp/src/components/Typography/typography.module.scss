@@ -1,3 +1,5 @@
+@import '@assets/mixin.scss';
+
 .underlined {
   font-size: 14px;
   line-height: 16px;
@@ -5,7 +7,7 @@
   color: var(--iconActive);
   cursor: pointer;
   display: inline-block;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin: 0;
 }
 
@@ -17,7 +19,7 @@
   font-size: 16px;
   line-height: 16px;
   color: var(--iconActive);
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin: 0;
   display: inline-block;
   border: none;
@@ -29,7 +31,7 @@
   font-size: 14px;
   line-height: 16px;
   color: var(--iconActive);
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin: 0;
   display: inline-block;
 }
@@ -47,7 +49,7 @@
   line-height: 32px;
   margin-bottom: 16px;
   color: var(--fontColor);
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin-top: 0;
 }
 
@@ -57,7 +59,7 @@
   font-size: 16px;
   line-height: 24px;
   color: var(--fontColor);
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin-top: 0;
 }
 
@@ -72,7 +74,7 @@
   color: var(--grey900);
   font-size: 14px;
   line-height: 16px;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin-bottom: 4px;
   margin-top: 0;
 }
@@ -83,7 +85,7 @@
   color: var(--labels);
   font-size: 11px;
   line-height: 15.5px;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin-bottom: 4px;
 }
 
@@ -94,7 +96,7 @@
   color: var(--error);
   font-style: normal;
   font-weight: normal;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin-bottom: 0;
 }
 
@@ -106,7 +108,7 @@
   color: var(--grey600);
   font-style: normal;
   font-weight: normal;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
 }
 
 .main {
@@ -115,7 +117,7 @@
   color: var(--fontColor);
   font-style: normal;
   font-weight: normal;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin: 0;
 }
 
@@ -125,7 +127,7 @@
   color: var(--fontColor);
   font-style: normal;
   font-weight: normal;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin: 0;
 }
 //Used to style react router Link component
@@ -134,7 +136,7 @@
   line-height: 16px;
   text-decoration-line: underline;
   color: var(--iconActive);
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   margin-top: 0;
 }
 

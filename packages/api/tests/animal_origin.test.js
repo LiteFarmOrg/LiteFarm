@@ -67,9 +67,7 @@ describe('Animal Origin Tests', () => {
   }
 
   async function makeAnimalOrigin(properties) {
-    const [animalOrigin] = await mocks.animal_originFactory({
-      properties,
-    });
+    const [animalOrigin] = await mocks.animal_originFactory();
     return animalOrigin;
   }
 

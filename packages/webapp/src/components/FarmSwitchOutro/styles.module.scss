@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '@assets/mixin.scss';
+
 .outroContainer {
   /* Rectangle 49 */
   display: flex;
@@ -29,7 +31,7 @@
 
 .descriptionTop {
   margin-top: -40px;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   justify-content: center;
   font-style: normal;
   font-weight: normal;
@@ -45,7 +47,7 @@
 .descriptionBottom {
   justify-content: center;
   text-align: center;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
@@ -56,7 +58,7 @@
 
 .bold {
   justify-content: center;
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
@@ -74,7 +76,7 @@
 }
 
 .title {
-  font-family: 'Open Sans', 'SansSerif', serif;
+  @include fontFamily();
   font-style: normal;
   font-weight: lighter;
   font-size: 20px;

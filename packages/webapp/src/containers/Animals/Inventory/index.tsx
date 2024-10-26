@@ -242,7 +242,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
         isFilterActive={isFilterActive}
         clearFilters={clearFilters}
         isLoading={isLoading}
-        isWorker={!isAdmin}
+        isAdmin={isAdmin}
         history={history}
         onRowClick={onRowClick}
       />

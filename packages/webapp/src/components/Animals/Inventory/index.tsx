@@ -59,7 +59,7 @@ const PureAnimalInventory = ({
   clearFilters,
   isLoading,
   containerHeight,
-  isWorker,
+  isAdmin,
   history,
 }: {
   filteredInventory: AnimalInventory[];
@@ -76,7 +76,7 @@ const PureAnimalInventory = ({
   clearFilters: () => void;
   isLoading: boolean;
   containerHeight?: number;
-  isWorker: boolean;
+  isAdmin: boolean;
   history: History;
 }) => {
   const { t } = useTranslation();
@@ -136,9 +136,9 @@ const PureAnimalInventory = ({
             minRows={totalInventoryCount}
             dense={false}
             showHeader={isDesktop}
-            onCheck={!isWorker ? onSelectInventory : undefined}
-            handleSelectAllClick={!isWorker ? handleSelectAllClick : undefined}
-            selectedIds={!isWorker ? selectedIds : undefined}
+            onCheck={isAdmin ? onSelectInventory : undefined}
+            handleSelectAllClick={isAdmin ? handleSelectAllClick : undefined}
+            selectedIds={isAdmin ? selectedIds : undefined}
             stickyHeader={isDesktop}
             maxHeight={tableMaxHeight}
             spacerRowHeight={isDesktop ? 96 : 120}
@@ -153,7 +153,7 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
-      {!isWorker && (
+      {isAdmin && (
         <FloatingButtonMenu
           type={'add'}
           options={[

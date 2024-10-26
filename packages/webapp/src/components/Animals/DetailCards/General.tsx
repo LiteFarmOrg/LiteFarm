@@ -118,6 +118,23 @@ const GeneralDetails = ({
         breedOptions.find(({ value }) => value === breedId),
       );
     }
+    if (isAnimalTypeUsesDictionary(useOptions)) {
+      const useOptionsForType = useOptions.find(
+        ({ default_type_id }) => default_type_id === defaultValues?.default_type_id,
+      );
+
+      const mapUses = (relationships: { use_id: number }[]) =>
+        relationships?.map(({ use_id }) =>
+          useOptionsForType?.uses.find(({ value }) => value === use_id),
+        );
+
+      setValue(
+        `${namePrefix}${DetailsFields.USE}`,
+        mapUses(
+          defaultValues?.animal_use_relationships || defaultValues?.animal_batch_use_relationships,
+        ),
+      );
+    }
   }, [defaultValues]);
 
   const watchBatchCount = watch(`${namePrefix}${DetailsFields.COUNT}`) || 0;
@@ -126,13 +143,14 @@ const GeneralDetails = ({
   const watchAnimalType = watch(`${namePrefix}${DetailsFields.TYPE}`);
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
-  const filteredUses = isAnimalTypeUsesDictionary(useOptions)
-    ? useOptions.find(
-        ({ default_type_id }) =>
-          default_type_id === parseUniqueDefaultId(watchAnimalType?.value) ||
-          default_type_id === null,
-      )?.uses
-    : useOptions;
+  const filteredUses =
+    watchAnimalType?.value && isAnimalTypeUsesDictionary(useOptions)
+      ? useOptions.find(
+          ({ default_type_id }) =>
+            default_type_id === parseUniqueDefaultId(watchAnimalType?.value) ||
+            default_type_id === null,
+        )?.uses
+      : useOptions;
 
   const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 

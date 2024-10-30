@@ -20,8 +20,8 @@
 export const up = async (knex) => {
   // Add new animal_movement entry to task_type table
   await knex('task_type').insert({
-    task_name: 'Animal Movement',
-    task_translation_key: 'ANIMAL_MOVEMENT',
+    task_name: 'Movement Task',
+    task_translation_key: 'MOVEMENT_TASK',
   });
 
   // Add location_id column to animal and animal_batch tables (foreign key to location table)

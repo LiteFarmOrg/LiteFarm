@@ -20,7 +20,7 @@
 export const up = async (knex) => {
   // Add new animal_movement entry to task_type table
   await knex('task_type').insert({
-    task_name: 'Movement Task',
+    task_name: 'Movement',
     task_translation_key: 'MOVEMENT_TASK',
   });
 

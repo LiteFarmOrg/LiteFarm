@@ -139,7 +139,7 @@ function AnimalInventory({
         sortable: false,
       },
       {
-        id: isTaskView ? 'path' : null,
+        id: !isTaskView ? 'path' : null,
         label: '',
         format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
         columnProps: {
@@ -213,7 +213,7 @@ function AnimalInventory({
   };
 
   const onRowClick = (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => {
-    isTaskView ? history.push(row.path) : onSelectInventory(event, row);
+    !isTaskView ? history.push(row.path) : onSelectInventory(event, row);
   };
 
   const iconActions: iconAction[] = [
@@ -241,7 +241,7 @@ function AnimalInventory({
   return (
     <FixedHeaderContainer
       header={
-        isTaskView ? <KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} /> : null
+        !isTaskView ? <KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} /> : null
       }
       classes={{ paper: styles.paper }}
       kind={ContainerKind.PAPER}
@@ -263,7 +263,7 @@ function AnimalInventory({
         onRowClick={onRowClick}
         view={view}
       />
-      {selectedInventoryIds.length && isTaskView ? (
+      {selectedInventoryIds.length && !isTaskView ? (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
           <ActionMenu
             headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}

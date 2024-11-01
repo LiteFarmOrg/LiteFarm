@@ -90,7 +90,7 @@ const PureAnimalInventory = ({
   const hasSearchResults = filteredInventory.length !== 0;
 
   const tableMaxHeight = !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
-  const tableSpacerRowHeight = isTaskView ? (isDesktop ? 96 : 120) : 0;
+  const tableSpacerRowHeight = !isTaskView ? (isDesktop ? 96 : 120) : 0;
 
   return (
     <>
@@ -155,7 +155,7 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
-      {isTaskView && (
+      {!isTaskView && (
         <FloatingButtonMenu
           type={'add'}
           options={[

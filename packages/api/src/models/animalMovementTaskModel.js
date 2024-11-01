@@ -14,7 +14,6 @@
  */
 
 import Model from './baseFormatModel.js';
-import baseModel from './baseModel.js';
 import TaskModel from './taskModel.js';
 import AnimalModel from './animalModel.js';
 import AnimalBatchModel from './animalBatchModel.js';
@@ -23,7 +22,7 @@ import AnimalMovementTaskPurposeRelationshipModel from './animalMovementTaskPurp
 import AnimalMovementTaskAnimalRelationshipModel from './animalMovementTaskAnimalRelationshipModel.js';
 import AnimalMovementTaskAnimalBatchRelationshipModel from './animalMovementTaskAnimalBatchRelationshipModel.js';
 
-class AnimalMovementTask extends baseModel {
+class AnimalMovementTask extends Model {
   static get tableName() {
     return 'animal_movement_task';
   }

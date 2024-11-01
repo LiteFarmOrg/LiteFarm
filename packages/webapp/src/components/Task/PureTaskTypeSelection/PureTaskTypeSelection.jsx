@@ -30,6 +30,7 @@ import { PlantingTaskModal } from '../../Modals/PlantingTaskModal';
 import { isTaskType } from '../../../containers/Task/useIsTaskType';
 import { NoCropManagementPlanModal } from '../../Modals/NoCropManagementPlanModal';
 import { getSupportedTaskTypesSet } from '../getSupportedTaskTypesSet';
+import { ANIMAL_TASKS } from '../../../containers/Task/constants';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -79,8 +80,7 @@ export const PureTaskTypeSelection = ({
   register(TASK_TYPE_ID);
   const selected_task_type = watch(TASK_TYPE_ID);
 
-  const isMakingCropTask = location?.state?.management_plan_id ?? false;
-  const animalTasks = ['MOVEMENT_TASK'];
+  const isMakingCropTask = !!location?.state?.management_plan_id;
 
   const onSelectTask = (task_type_id) => {
     setValue(TASK_TYPE_ID, task_type_id);
@@ -126,15 +126,16 @@ export const PureTaskTypeSelection = ({
           {taskTypes
             ?.filter(({ farm_id, task_translation_key }) => {
               const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin);
-              // If trying to make a task through the crop management plan Add Task link -- exclude animal tasks from selection for now
+              // If trying to make a task through the crop management plan 'Add Task' link -- exclude animal tasks from selection for now
               const isNotAnimalTaskWhileCreatingCropTask = !(
-                isMakingCropTask && animalTasks.includes(task_translation_key)
+                ANIMAL_TASKS.includes(task_translation_key) && isMakingCropTask
               );
-              return (
+              const shouldDisplayTaskType =
                 farm_id === null &&
                 supportedTaskTypes.has(task_translation_key) &&
-                isNotAnimalTaskWhileCreatingCropTask
-              );
+                isNotAnimalTaskWhileCreatingCropTask;
+
+              return shouldDisplayTaskType;
             })
             .sort((firstTaskType, secondTaskType) =>
               t(`task:${firstTaskType.task_translation_key}`).localeCompare(

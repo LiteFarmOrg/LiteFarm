@@ -188,6 +188,7 @@ function AnimalInventory({
     // Previously selected hidden rows + visible rows
     const newIdsSet = new Set([...selectedInventoryIds, ...visibleRowsIds]);
     setSelectedInventoryIds([...newIdsSet]);
+    onSelect?.([...newIdsSet]);
   };
 
   const clearAllSelectedVisibleInventoryItems = () => {
@@ -195,10 +196,12 @@ function AnimalInventory({
     const selectedIdsSet = new Set(selectedInventoryIds);
     searchAndFilteredInventory.forEach(({ id }) => selectedIdsSet.delete(id));
     setSelectedInventoryIds([...selectedIdsSet]);
+    onSelect?.([...selectedIdsSet]);
   };
 
   const clearSelectedInventoryItems = () => {
     setSelectedInventoryIds([]);
+    onSelect?.([]);
   };
 
   const handleSelectAllClick = (e: ChangeEvent<HTMLInputElement>) => {

@@ -30,6 +30,7 @@ import clsx from 'clsx';
 import { sumObjectValues } from '../../../util';
 import { useTranslation } from 'react-i18next';
 import { ADD_ANIMALS_URL } from '../../../util/siteMapConstants';
+import { View } from '../../../containers/Animals/Inventory';
 
 const HEIGHTS = {
   filterAndSearch: 64,
@@ -60,8 +61,7 @@ const PureAnimalInventory = ({
   isLoading,
   containerHeight,
   history,
-  showActionMenu,
-  showFloaterButton,
+  view = View.DEFAULT,
 }: {
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
@@ -78,11 +78,10 @@ const PureAnimalInventory = ({
   isLoading: boolean;
   containerHeight?: number;
   history: History;
-  showActionMenu: boolean;
-  showFloaterButton: boolean;
+  view?: View;
 }) => {
   const { t } = useTranslation();
-
+  const isTaskView = view === View.TASK;
   if (isLoading) {
     return null;
   }
@@ -91,7 +90,7 @@ const PureAnimalInventory = ({
   const hasSearchResults = filteredInventory.length !== 0;
 
   const tableMaxHeight = !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
-  const tableSpacerRowHeight = showActionMenu ? (isDesktop ? 96 : 120) : 0;
+  const tableSpacerRowHeight = isTaskView ? (isDesktop ? 96 : 120) : 0;
 
   return (
     <>
@@ -156,7 +155,7 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
-      {showFloaterButton && (
+      {isTaskView && (
         <FloatingButtonMenu
           type={'add'}
           options={[

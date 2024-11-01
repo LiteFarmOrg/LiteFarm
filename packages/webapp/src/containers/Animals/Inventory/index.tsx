@@ -40,13 +40,14 @@ import {
 import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 
+export enum View {
+  DEFAULT = 'default',
+  TASK = 'task',
+}
 interface AnimalInventoryProps {
   preSelectedIds?: string[];
   onSelect?: (newIds: string[]) => void;
-  showActionMenu?: boolean;
-  showKPI?: boolean;
-  showFloaterButton?: boolean;
-  showLinks?: boolean;
+  view?: View;
   isCompactSideMenu: boolean;
   containerHeight: number;
   history: History;
@@ -64,13 +65,12 @@ const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: s
 function AnimalInventory({
   preSelectedIds = [],
   onSelect,
-  showActionMenu = true,
-  showKPI = true,
-  showFloaterButton = true,
-  showLinks = true,
+  view = View.DEFAULT,
   isCompactSideMenu,
   history,
 }: AnimalInventoryProps) {
+  const isTaskView = view === View.TASK;
+
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
@@ -139,7 +139,7 @@ function AnimalInventory({
         sortable: false,
       },
       {
-        id: showLinks ? 'path' : null,
+        id: isTaskView ? 'path' : null,
         label: '',
         format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
         columnProps: {
@@ -210,7 +210,7 @@ function AnimalInventory({
   };
 
   const onRowClick = (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => {
-    showLinks ? history.push(row.path) : onSelectInventory(event, row);
+    isTaskView ? history.push(row.path) : onSelectInventory(event, row);
   };
 
   const iconActions: iconAction[] = [
@@ -237,7 +237,9 @@ function AnimalInventory({
 
   return (
     <FixedHeaderContainer
-      header={showKPI ? <KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} /> : null}
+      header={
+        isTaskView ? <KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} /> : null
+      }
       classes={{ paper: styles.paper }}
       kind={ContainerKind.PAPER}
     >
@@ -256,10 +258,9 @@ function AnimalInventory({
         isLoading={isLoading}
         history={history}
         onRowClick={onRowClick}
-        showActionMenu={showActionMenu}
-        showFloaterButton={showFloaterButton}
+        view={view}
       />
-      {selectedInventoryIds.length && showActionMenu ? (
+      {selectedInventoryIds.length && isTaskView ? (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
           <ActionMenu
             headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}

@@ -20,7 +20,7 @@ import Form from '../../Form';
 import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 import { Main } from '../../Typography';
-import AnimalInventory from '../../../containers/Animals/Inventory';
+import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 
 export default function PureTaskAnimalInventory({
   onContinue,
@@ -82,10 +82,7 @@ export default function PureTaskAnimalInventory({
       <input type="hidden" {...register(ANIMAL_IDS)} />
       <AnimalInventory
         onSelect={onSelect}
-        showActionMenu={false}
-        showKPI={false}
-        showFloaterButton={false}
-        showLinks={false}
+        view={View.TASK}
         history={history}
         preSelectedIds={persistedFormData?.animalIds ?? []}
       />

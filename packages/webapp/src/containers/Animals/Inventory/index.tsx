@@ -180,7 +180,7 @@ function AnimalInventory({
       newIds.push(selectedInventoryId);
     }
     setSelectedInventoryIds(newIds);
-    onSelect && onSelect(newIds);
+    onSelect?.(newIds);
   };
 
   const selectAllVisibleInventoryItems = () => {

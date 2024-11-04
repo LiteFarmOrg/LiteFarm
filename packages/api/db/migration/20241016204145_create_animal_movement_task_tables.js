@@ -20,8 +20,8 @@
 export const up = async (knex) => {
   // Add new animal_movement entry to task_type table
   await knex('task_type').insert({
-    task_name: 'Animal Movement',
-    task_translation_key: 'ANIMAL_MOVEMENT',
+    task_name: 'Movement',
+    task_translation_key: 'MOVEMENT_TASK',
   });
 
   // Add location_id column to animal and animal_batch tables (foreign key to location table)
@@ -59,7 +59,6 @@ export const up = async (knex) => {
   // Create animal_movement_task table
   await knex.schema.createTable('animal_movement_task', (table) => {
     table.integer('task_id').references('task_id').inTable('task').primary();
-    table.uuid('to_location_id').references('location_id').inTable('location');
   });
 
   const [{ id: otherPurposeId }] = await knex('animal_movement_purpose').where({ key: 'OTHER' });
@@ -77,14 +76,14 @@ export const up = async (knex) => {
     );
   });
 
-  // Create animal_movement_task_animal_relationship table (links the task to the animals that are to be moved)
-  await knex.schema.createTable('animal_movement_task_animal_relationship', (table) => {
+  // Create task_animal_relationship table (links the task to the animals that are to be moved)
+  await knex.schema.createTable('task_animal_relationship', (table) => {
     table.integer('task_id').references('task_id').inTable('task').notNullable();
     table.integer('animal_id').references('id').inTable('animal').notNullable();
   });
 
-  // Create animal_movement_task_animal_batch_relationship table (similar to above but for batches)
-  await knex.schema.createTable('animal_movement_task_animal_batch_relationship', (table) => {
+  // Create task_animal_batch_relationship table (similar to above but for batches)
+  await knex.schema.createTable('task_animal_batch_relationship', (table) => {
     table.integer('task_id').references('task_id').inTable('task').notNullable();
     table.integer('animal_batch_id').references('id').inTable('animal_batch').notNullable();
   });
@@ -103,8 +102,8 @@ export const down = async (knex) => {
     'animal_movement_task',
     'animal_movement_task_purpose_relationship',
     'animal_movement_purpose',
-    'animal_movement_task_animal_relationship',
-    'animal_movement_task_animal_batch_relationship',
+    'task_animal_relationship',
+    'task_animal_batch_relationship',
   ];
 
   for (const table of tablesToDelete) {

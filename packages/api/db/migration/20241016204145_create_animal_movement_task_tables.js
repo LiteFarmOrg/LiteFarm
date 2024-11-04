@@ -94,7 +94,10 @@ export const up = async (knex) => {
  * @returns { Promise<void> }
  */
 export const down = async (knex) => {
-  await knex('task_type').where({ task_translation_key: 'ANIMAL_MOVEMENT' }).del();
+  await knex('task_type')
+    .where({ task_translation_key: 'MOVEMENT_TASK' })
+    .andWhere({ farm_id: null })
+    .del();
   await knex.schema.alterTable('animal', (table) => table.dropColumn('location_id'));
   await knex.schema.alterTable('animal_batch', (table) => table.dropColumn('location_id'));
 

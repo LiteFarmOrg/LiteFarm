@@ -716,8 +716,8 @@ const taskController = {
           `[
             locations.[location_defaults],
             managementPlans,
-            animals,
-            animal_batches,
+            animals(filterDeleted, selectMinimalProperties).[internal_identifier, groups, default_type, custom_type, default_breed, custom_breed],
+            animal_batches(filterDeleted, selectMinimalProperties).[internal_identifier, groups, default_type, custom_type, default_breed, custom_breed],
             soil_amendment_task,
             soil_amendment_task_products(filterDeleted).[purpose_relationships],
             field_work_task.[field_work_task_type],
@@ -744,6 +744,8 @@ const taskController = {
         if (task.task_type_id !== soilAmendmentTypeId) {
           delete task.soil_amendment_task_products;
         }
+        task.animals?.forEach(flattenInternalIdentifier);
+        task.animal_batches?.forEach(flattenInternalIdentifier);
       });
 
       if (graphTasks) {
@@ -1098,3 +1100,7 @@ async function filterOutDeletedManagementPlans(data, req) {
     validPlantingMangementPlans.includes(planting_management_plan_id),
   );
 }
+
+const flattenInternalIdentifier = (animalOrBatch) => {
+  animalOrBatch.internal_identifier = animalOrBatch.internal_identifier.internal_identifier;
+};

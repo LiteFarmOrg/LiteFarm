@@ -392,6 +392,8 @@ const taskController = {
               ]`,
             )
             .where({ task_id });
+          task.animals?.forEach(flattenInternalIdentifier);
+          task.animal_batches?.forEach(flattenInternalIdentifier);
           return removeNullTypes(task);
         });
         if (result.assignee_user_id) {

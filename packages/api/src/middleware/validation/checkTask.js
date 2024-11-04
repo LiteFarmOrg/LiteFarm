@@ -123,6 +123,10 @@ export function checkCompleteTask(taskType) {
         return res.status(400).send('Task has already been completed or abandoned');
       }
 
+      if (animalTaskTypes.includes(taskType)) {
+        await checkAnimalTask(req, taskType, 'complete_date');
+      }
+
       const { assignee_user_id } = await TaskModel.query()
         .select('assignee_user_id')
         .where({ task_id })
@@ -172,7 +176,7 @@ export function checkCreateTask(taskType) {
       }
 
       if (animalTaskTypes.includes(taskType)) {
-        await checkAnimalTask(req, taskType);
+        await checkAnimalTask(req, taskType, 'due_date');
       }
 
       const checkProducts =
@@ -193,24 +197,37 @@ export function checkCreateTask(taskType) {
   };
 }
 
-async function checkAnimalTask(req, taskType) {
+async function checkAnimalTask(req, taskType, dateName) {
   const { farm_id } = req.headers;
-  const { related_animal_ids, related_batch_ids, managementPlans, due_date } = req.body;
+  const { related_animal_ids, related_batch_ids, managementPlans } = req.body;
 
   if (managementPlans?.length) {
     throw customError(`managementPlans cannot be added for ${taskType}`);
   }
 
-  await checkAnimalAndBatchIds(related_animal_ids, related_batch_ids, farm_id, true);
+  let isAnimalOrBatchRequired = true;
 
-  const isValidDueDate = await isOnOrAfterBirthAndBroughtInDates(
-    due_date,
+  if (dateName === 'complete_date') {
+    // Set isAnimalOrBatchRequired to false when both animals and batches won't be modified
+    const animalsOrBatchesProvided = !!(req.body.animals || req.body.animal_batches);
+    isAnimalOrBatchRequired = animalsOrBatchesProvided;
+  }
+
+  await checkAnimalAndBatchIds(
+    related_animal_ids,
+    related_batch_ids,
+    farm_id,
+    isAnimalOrBatchRequired,
+  );
+
+  const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
+    req.body[dateName],
     related_animal_ids,
     related_batch_ids,
   );
 
-  if (!isValidDueDate) {
-    throw customError("Due date must be on or after the animals' birth and brought-in dates");
+  if (!isValidDate) {
+    throw customError(`${dateName} must be on or after the animals' birth and brought-in dates`);
   }
 }
 

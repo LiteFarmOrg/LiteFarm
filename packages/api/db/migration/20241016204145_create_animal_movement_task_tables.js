@@ -80,22 +80,12 @@ export const up = async (knex) => {
   await knex.schema.createTable('animal_movement_task_animal_relationship', (table) => {
     table.integer('task_id').references('task_id').inTable('task').notNullable();
     table.integer('animal_id').references('id').inTable('animal').notNullable();
-    table.string('created_by_user_id').references('user_id').inTable('users');
-    table.string('updated_by_user_id').references('user_id').inTable('users');
-    table.dateTime('created_at').notNullable();
-    table.dateTime('updated_at').notNullable();
-    table.boolean('deleted').defaultTo(false);
   });
 
   // Create animal_movement_task_animal_batch_relationship table (similar to above but for batches)
   await knex.schema.createTable('animal_movement_task_animal_batch_relationship', (table) => {
     table.integer('task_id').references('task_id').inTable('task').notNullable();
     table.integer('animal_batch_id').references('id').inTable('animal_batch').notNullable();
-    table.string('created_by_user_id').references('user_id').inTable('users');
-    table.string('updated_by_user_id').references('user_id').inTable('users');
-    table.dateTime('created_at').notNullable();
-    table.dateTime('updated_at').notNullable();
-    table.boolean('deleted').defaultTo(false);
   });
 };
 

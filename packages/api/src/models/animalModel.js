@@ -19,8 +19,8 @@ import AnimalGroupRelationshipModel from './animalGroupRelationshipModel.js';
 import Model from './baseFormatModel.js';
 import { checkAndTrimString } from '../util/util.js';
 import AnimalUseRelationshipModel from './animalUseRelationshipModel.js';
-import AnimalMovementTaskModel from './animalMovementTaskModel.js';
-import AnimalMovementTaskAnimalRelationshipModel from './animalMovementTaskAnimalRelationshipModel.js';
+import TaskModel from './taskModel.js';
+import TaskAnimalRelationshipModel from './taskAnimalRelationshipModel.js';
 
 class Animal extends baseModel {
   static get tableName() {
@@ -139,17 +139,17 @@ class Animal extends baseModel {
           to: 'animal_use_relationship.animal_id',
         },
       },
-      animal_movement_tasks: {
-        modelClass: AnimalMovementTaskModel,
+      tasks: {
+        modelClass: TaskModel,
         relation: Model.ManyToManyRelation,
         join: {
           from: 'animal.id',
           through: {
-            modelClass: AnimalMovementTaskAnimalRelationshipModel,
-            from: 'animal_movement_task_animal_relationship.animal_id',
-            to: 'animal_movement_task_animal_relationship.task_id',
+            modelClass: TaskAnimalRelationshipModel,
+            from: 'task_animal_relationship.animal_id',
+            to: 'task_animal_relationship.task_id',
           },
-          to: 'animal_movement_task.task_id',
+          to: 'task.task_id',
         },
       },
     };

@@ -15,12 +15,8 @@
 
 import Model from './baseFormatModel.js';
 import TaskModel from './taskModel.js';
-import AnimalModel from './animalModel.js';
-import AnimalBatchModel from './animalBatchModel.js';
 import AnimalMovementPurposeModel from './animalMovementPurposeModel.js';
 import AnimalMovementTaskPurposeRelationshipModel from './animalMovementTaskPurposeRelationshipModel.js';
-import AnimalMovementTaskAnimalRelationshipModel from './animalMovementTaskAnimalRelationshipModel.js';
-import AnimalMovementTaskAnimalBatchRelationshipModel from './animalMovementTaskAnimalBatchRelationshipModel.js';
 
 class AnimalMovementTask extends Model {
   static get tableName() {
@@ -53,32 +49,6 @@ class AnimalMovementTask extends Model {
         join: {
           from: 'animal_movement_task.task_id',
           to: 'task.task_id',
-        },
-      },
-      animals: {
-        relation: Model.ManyToManyRelation,
-        modelClass: AnimalModel,
-        join: {
-          from: 'animal_movement_task.task_id',
-          through: {
-            modelClass: AnimalMovementTaskAnimalRelationshipModel,
-            from: 'animal_movement_task_animal_relationship.task_id',
-            to: 'animal_movement_task_animal_relationship.animal_id',
-          },
-          to: 'animal.id',
-        },
-      },
-      animal_batches: {
-        relation: Model.ManyToManyRelation,
-        modelClass: AnimalBatchModel,
-        join: {
-          from: 'animal_movement_task.task_id',
-          through: {
-            modelClass: AnimalMovementTaskAnimalBatchRelationshipModel,
-            from: 'animal_movement_task_animal_batch_relationship.task_id',
-            to: 'animal_movement_task_animal_batch_relationship.animal_batch_id',
-          },
-          to: 'animal_batch.id',
         },
       },
       purposes: {

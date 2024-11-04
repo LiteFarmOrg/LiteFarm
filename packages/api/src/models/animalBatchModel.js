@@ -20,8 +20,8 @@ import AnimalBatchGroupRelationshipModel from './animalBatchGroupRelationshipMod
 import AnimalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
 import { checkAndTrimString } from '../util/util.js';
 import AnimalBatchUseRelationshipModel from './animalBatchUseRelationshipModel.js';
-import AnimalMovementTaskModel from './animalMovementTaskModel.js';
-import AnimalMovementTaskAnimalBatchRelationshipModel from './animalMovementTaskAnimalBatchRelationshipModel.js';
+import TaskAnimalBatchRelationshipModel from './taskAnimalBatchRelationshipModel.js';
+import TaskModel from './taskModel.js';
 
 class AnimalBatchModel extends baseModel {
   static get tableName() {
@@ -144,17 +144,17 @@ class AnimalBatchModel extends baseModel {
           to: 'animal_batch_use_relationship.animal_batch_id',
         },
       },
-      animal_movement_tasks: {
-        modelClass: AnimalMovementTaskModel,
+      tasks: {
+        modelClass: TaskModel,
         relation: Model.ManyToManyRelation,
         join: {
           from: 'animal_batch.id',
           through: {
-            modelClass: AnimalMovementTaskAnimalBatchRelationshipModel,
-            from: 'animal_movement_task_animal_batch_relationship.animal_batch_id',
-            to: 'animal_movement_task_animal_batch_relationship.task_id',
+            modelClass: TaskAnimalBatchRelationshipModel,
+            from: 'task_animal_batch_relationship.animal_batch_id',
+            to: 'task_animal_batch_relationship.task_id',
           },
-          to: 'animal_movement_task.task_id',
+          to: 'task.task_id',
         },
       },
     };

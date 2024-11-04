@@ -14,16 +14,16 @@
  */
 
 import Model from './baseFormatModel.js';
-import TaskModel from '../models/taskModel.js';
-import AnimalBatchModel from '../models/animalBatchModel.js';
+import TaskModel from './taskModel.js';
+import AnimalModel from './animalModel.js';
 
-class AnimalMovementTaskAnimalBatchRelationshipModel extends Model {
+class TaskAnimalRelationshipModel extends Model {
   static get tableName() {
-    return 'animal_movement_task_animal_batch_relationship';
+    return 'task_animal_relationship';
   }
 
   static get idColumn() {
-    return ['task_id', 'animal_batch_id'];
+    return ['task_id', 'animal_id'];
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -32,10 +32,10 @@ class AnimalMovementTaskAnimalBatchRelationshipModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['task_id', 'animal_batch_id'],
+      required: ['task_id', 'animal_id'],
       properties: {
         task_id: { type: 'integer' },
-        animal_batch_id: { type: 'integer' },
+        animal_id: { type: 'integer' },
       },
       additionalProperties: false,
     };
@@ -47,20 +47,20 @@ class AnimalMovementTaskAnimalBatchRelationshipModel extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: TaskModel,
         join: {
-          from: 'animal_movement_task_animal_batch_relationship.task_id',
+          from: 'task_animal_relationship.task_id',
           to: 'task.task_id',
         },
       },
-      animal_batch: {
+      animal: {
         relation: Model.BelongsToOneRelation,
-        modelClass: AnimalBatchModel,
+        modelClass: AnimalModel,
         join: {
-          from: 'animal_movement_task_animal_batch_relationship.animal_batch_id',
-          to: 'animal_batch.id',
+          from: 'task_animal_relationship.animal_id',
+          to: 'animal.id',
         },
       },
     };
   }
 }
 
-export default AnimalMovementTaskAnimalBatchRelationshipModel;
+export default TaskAnimalRelationshipModel;

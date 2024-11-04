@@ -33,6 +33,10 @@ import plantingManagementPlanModel from './plantingManagementPlanModel.js';
 import managementTasksModel from './managementTasksModel.js';
 import locationModel from './locationModel.js';
 import locationTasksModel from './locationTasksModel.js';
+import AnimalModel from './animalModel.js';
+import AnimalBatchModel from './animalBatchModel.js';
+import TaskAnimalRelationshipModel from './taskAnimalRelationshipModel.js';
+import TaskAnimalBatchRelationshipModel from './taskAnimalBatchRelationshipModel.js';
 
 class TaskModel extends BaseModel {
   static get tableName() {
@@ -231,6 +235,32 @@ class TaskModel extends BaseModel {
         join: {
           from: 'task.task_id',
           to: 'location_tasks.task_id',
+        },
+      },
+      animals: {
+        relation: Model.ManyToManyRelation,
+        modelClass: AnimalModel,
+        join: {
+          from: 'task.task_id',
+          through: {
+            modelClass: TaskAnimalRelationshipModel,
+            from: 'task_animal_relationship.task_id',
+            to: 'task_animal_relationship.animal_id',
+          },
+          to: 'animal.id',
+        },
+      },
+      animal_batches: {
+        relation: Model.ManyToManyRelation,
+        modelClass: AnimalBatchModel,
+        join: {
+          from: 'task.task_id',
+          through: {
+            modelClass: TaskAnimalBatchRelationshipModel,
+            from: 'task_animal_batch_relationship.task_id',
+            to: 'task_animal_batch_relationship.animal_batch_id',
+          },
+          to: 'animal_batch.id',
         },
       },
     };

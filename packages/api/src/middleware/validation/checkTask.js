@@ -15,6 +15,13 @@
 
 import TaskModel from '../../models/taskModel.js';
 import { checkSoilAmendmentTaskProducts } from './checkSoilAmendmentTaskProducts.js';
+import {
+  animalTaskTypes,
+  checkAnimalAndBatchIds,
+  isOnOrAfterBirthAndBroughtInDates,
+} from '../../util/animal.js';
+import { customError } from '../../util/customErrors.js';
+
 const adminRoles = [1, 2, 5];
 const taskTypesRequiringProducts = ['soil_amendment_task'];
 
@@ -156,8 +163,16 @@ export function checkCreateTask(taskType) {
         return res.status(400).send('must have task details body');
       }
 
+      if (!req.body.due_date) {
+        return res.status(400).send('must have due date');
+      }
+
       if (taskTypesRequiringProducts.includes(taskType) && !(`${taskType}_products` in req.body)) {
         return res.status(400).send('task type requires products');
+      }
+
+      if (animalTaskTypes.includes(taskType)) {
+        await checkAnimalTask(req, taskType);
       }
 
       const checkProducts =
@@ -165,11 +180,38 @@ export function checkCreateTask(taskType) {
       checkProducts()(req, res, next);
     } catch (error) {
       console.error(error);
+
+      if (error.type === 'LiteFarmCustom') {
+        return error.body
+          ? res.status(error.code).json({ ...error.body, message: error.message })
+          : res.status(error.code).send(error.message);
+      }
       return res.status(500).json({
         error,
       });
     }
   };
+}
+
+async function checkAnimalTask(req, taskType) {
+  const { farm_id } = req.headers;
+  const { related_animal_ids, related_batch_ids, managementPlans, due_date } = req.body;
+
+  if (managementPlans?.length) {
+    throw customError(`managementPlans cannot be added for ${taskType}`);
+  }
+
+  await checkAnimalAndBatchIds(related_animal_ids, related_batch_ids, farm_id, true);
+
+  const isValidDueDate = await isOnOrAfterBirthAndBroughtInDates(
+    due_date,
+    related_animal_ids,
+    related_batch_ids,
+  );
+
+  if (!isValidDueDate) {
+    throw customError("Due date must be on or after the animals' birth and brought-in dates");
+  }
 }
 
 export function checkDeleteTask() {

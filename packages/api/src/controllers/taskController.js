@@ -32,6 +32,10 @@ import locationDefaultsModel from '../models/locationDefaultsModel.js';
 import Location from '../models/locationModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
 import baseController from './baseController.js';
+import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js';
+import { animalTaskTypes } from '../util/animal.js';
+import { checkIsArray, customError } from '../util/customErrors.js';
+
 const adminRoles = [1, 2, 5];
 
 async function getTaskAssigneeAndFinalWage(farm_id, user_id, task_id) {
@@ -348,6 +352,9 @@ const taskController = {
         }
 
         data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
+        if (animalTaskTypes.includes(typeOfTask)) {
+          data = this.formatAnimalAndBatchIds(data);
+        }
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
             .context({ user_id: req.auth.user_id })
@@ -355,14 +362,34 @@ const taskController = {
               noUpdate: true,
               noDelete: true,
               noInsert: nonModifiable,
-              relate: ['locations', 'managementPlans'],
+              relate: [
+                'locations',
+                'managementPlans',
+                'animals',
+                'animal_batches',
+                'animal_movement_task.purposes',
+              ],
             });
           const [task] = await TaskModel.query(trx)
             .withGraphFetched(
-              `
-          [locations.[location_defaults], managementPlans, taskType, soil_amendment_task, soil_amendment_task_products.[purpose_relationships], irrigation_task.[irrigation_type],scouting_task,
-          field_work_task.[field_work_task_type], cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
-          `,
+              `[
+                locations.[location_defaults],
+                managementPlans,
+                taskType,
+                animals(filterDeleted, selectMinimalProperties).[internal_identifier, groups, default_type, custom_type, default_breed, custom_breed],
+                animal_batches(filterDeleted, selectMinimalProperties).[internal_identifier, groups, default_type, custom_type, default_breed, custom_breed],
+                soil_amendment_task,
+                soil_amendment_task_products.[purpose_relationships],
+                irrigation_task.[irrigation_type],
+                scouting_task,
+                field_work_task.[field_work_task_type],
+                cleaning_task,
+                pest_control_task,
+                soil_task,
+                harvest_task,
+                plant_task,
+                animal_movement_task.[purposes],
+              ]`,
             )
             .where({ task_id });
           return removeNullTypes(task);
@@ -381,9 +408,29 @@ const taskController = {
         return res.status(201).send(result);
       } catch (error) {
         console.log(error);
+
+        if (error.type === 'LiteFarmCustom') {
+          return error.body
+            ? res.status(error.code).json({ ...error.body, message: error.message })
+            : res.status(error.code).send(error.message);
+        }
         return res.status(400).send({ error });
       }
     };
+  },
+
+  formatAnimalAndBatchIds(data) {
+    if (data.related_animal_ids) {
+      data.animals = data.related_animal_ids.map((id) => ({ id }));
+    }
+    if (data.related_batch_ids) {
+      data.animal_batches = data.related_batch_ids.map((id) => ({ id }));
+    }
+
+    delete data.related_animal_ids;
+    delete data.related_batch_ids;
+
+    return data;
   },
 
   async checkCustomDependencies(typeOfTask, data, farm_id) {
@@ -417,6 +464,9 @@ const taskController = {
           delete data.location_defaults;
           return data;
         })();
+      case 'animal_movement_task': {
+        return await this.formatAnimalMovementTaskForDB(data, farm_id);
+      }
       default: {
         return data;
       }
@@ -463,6 +513,30 @@ const taskController = {
       data.field_work_task.field_work_type_id = data.field_work_task.field_work_task_type;
       delete data.field_work_task.field_work_task_type;
     }
+    return data;
+  },
+
+  async formatAnimalMovementTaskForDB(data) {
+    if (!data.animal_movement_task?.purposes) {
+      return data;
+    }
+
+    checkIsArray(data.animal_movement_task.purposes, 'purposes');
+
+    if (data.animal_movement_task.purposes.length) {
+      const purposes = await AnimalMovementPurposeModel.query();
+      const purposesMap = purposes.reduce((map, { key, id }) => ({ ...map, [key]: id }), {});
+      const formattedPurposes = [];
+      for (const { key, other_purpose } of data.animal_movement_task.purposes) {
+        if (!purposesMap[key]) {
+          throw customError(`Purpose key "${key}" is not supported`);
+        }
+        formattedPurposes.push({ id: purposesMap[key], other_purpose });
+      }
+
+      data.animal_movement_task.purposes = formattedPurposes;
+    }
+
     return data;
   },
 

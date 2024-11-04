@@ -28,6 +28,7 @@ export default function PureTaskAnimalInventory({
   persistedFormData,
   useHookFormPersist,
   history,
+  isDesktop,
 }) {
   const { t } = useTranslation();
   const ANIMAL_IDS = 'animalIds';
@@ -68,9 +69,10 @@ export default function PureTaskAnimalInventory({
         </Button>
       }
       onSubmit={handleSubmit(onSubmit)}
+      fullWidthContent={!isDesktop}
     >
       <MultiStepPageTitle
-        style={{ marginBottom: '24px' }}
+        style={{ marginBottom: '24px', padding: !isDesktop && '24px 24px 0 24px' }}
         onGoBack={onGoBack}
         onCancel={historyCancel}
         cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
@@ -78,7 +80,9 @@ export default function PureTaskAnimalInventory({
         value={progress}
       />
 
-      <Main style={{ marginBottom: '16px' }}>{t('TASK.SELECT_ANIMALS_TO_MOVE')}</Main>
+      <Main style={{ marginBottom: '16px', padding: !isDesktop && '0 24px 0 24px' }}>
+        {t('TASK.SELECT_ANIMALS_TO_MOVE')}
+      </Main>
       <input type="hidden" {...register(ANIMAL_IDS)} />
       <AnimalInventory
         onSelect={onSelect}

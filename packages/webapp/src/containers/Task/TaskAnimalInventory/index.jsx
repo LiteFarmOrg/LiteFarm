@@ -15,6 +15,8 @@
 
 import PureTaskAnimalInventory from '../../../components/Task/TaskAnimalInventory';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { useTheme } from '@mui/styles';
+import { useMediaQuery } from '@mui/material';
 
 function TaskAnimalInventory({ history, location }) {
   const onGoBack = () => {
@@ -24,10 +26,17 @@ function TaskAnimalInventory({ history, location }) {
   const onContinue = () => {
     history.push('/add_task/task_locations', location?.state);
   };
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
     <HookFormPersistProvider>
-      <PureTaskAnimalInventory onGoBack={onGoBack} onContinue={onContinue} history={history} />
+      <PureTaskAnimalInventory
+        onGoBack={onGoBack}
+        onContinue={onContinue}
+        history={history}
+        isDesktop={isDesktop}
+      />
     </HookFormPersistProvider>
   );
 }

@@ -14,11 +14,10 @@
  */
 
 import Model from './baseFormatModel.js';
-import baseModel from './baseModel.js';
 import TaskModel from '../models/taskModel.js';
 import AnimalModel from '../models/animalModel.js';
 
-class AnimalMovementTaskAnimalRelationshipModel extends baseModel {
+class AnimalMovementTaskAnimalRelationshipModel extends Model {
   static get tableName() {
     return 'animal_movement_task_animal_relationship';
   }
@@ -37,7 +36,6 @@ class AnimalMovementTaskAnimalRelationshipModel extends baseModel {
       properties: {
         task_id: { type: 'integer' },
         animal_id: { type: 'integer' },
-        ...this.baseProperties,
       },
       additionalProperties: false,
     };

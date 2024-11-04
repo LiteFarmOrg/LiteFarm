@@ -19,6 +19,11 @@ import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
 import CustomAnimalTypeModel from '../models/customAnimalTypeModel.js';
 import AnimalGroupModel from '../models/animalGroupModel.js';
 import { checkAndTrimString } from './util.js';
+import AnimalModel from '../models/animalModel.js';
+import AnimalBatchModel from '../models/animalBatchModel.js';
+import { checkIsArray, customError } from './customErrors.js';
+
+export const animalTaskTypes = ['animal_movement_task'];
 
 /**
  * Assigns internal identifiers to records.
@@ -142,3 +147,82 @@ export const upsertGroup = async (req, animalOrBatch, farm_id, trx) => {
     animalOrBatch.group_ids = [{ animal_group_id: group.id }];
   }
 };
+
+const getInvalidAnimalOrBatchIds = async (idsSet, model, farmId) => {
+  if (!idsSet.size) {
+    return [];
+  }
+
+  const invalidIdsSet = new Set(idsSet); // create a copy
+  const records = await model
+    .query()
+    .select('id')
+    .where({ farm_id: farmId, removal_date: null })
+    .whereIn('id', [...idsSet])
+    .whereNotDeleted();
+
+  records?.forEach(({ id }) => invalidIdsSet.delete(id));
+
+  return [...invalidIdsSet];
+};
+
+export const checkAnimalAndBatchIds = async (animalIds, batchIds, farmId, isRequired) => {
+  if (animalIds) {
+    checkIsArray(animalIds, 'animalIds');
+  }
+  if (batchIds) {
+    checkIsArray(batchIds, 'batchIds');
+  }
+
+  const animalIdsSet = new Set(animalIds);
+  const batchIdsSet = new Set(batchIds);
+
+  if (isRequired && !animalIdsSet.size && !batchIdsSet.size) {
+    throw customError('At least one of the animal IDs or animal batch IDs is required');
+  }
+
+  const invalidAnimalIds = await getInvalidAnimalOrBatchIds(animalIdsSet, AnimalModel, farmId);
+  const invalidbatchIds = await getInvalidAnimalOrBatchIds(batchIdsSet, AnimalBatchModel, farmId);
+
+  if (invalidAnimalIds.length || invalidbatchIds.length) {
+    throw customError(
+      'Some animal IDs or animal batch IDs do not exist, are removed, or are not associated with the given farm.',
+      400,
+      { invalidAnimalIds, invalidbatchIds },
+    );
+  }
+};
+
+export async function isOnOrAfterBirthAndBroughtInDates(date, animalIds, batchIds) {
+  const animalDates = await AnimalModel.query()
+    .select('birth_date', 'brought_in_date')
+    .whereIn('id', [...new Set(animalIds)]);
+  const batchDates = await AnimalBatchModel.query()
+    .select('birth_date', 'brought_in_date')
+    .whereIn('id', [...new Set(batchIds)]);
+
+  const birthAndBroughtInDatesSet = new Set();
+  [...animalDates, ...batchDates].forEach(({ birth_date, brought_in_date }) => {
+    birth_date && birthAndBroughtInDatesSet.add(birth_date);
+    brought_in_date && birthAndBroughtInDatesSet.add(brought_in_date);
+  });
+
+  if (birthAndBroughtInDatesSet.size) {
+    const [y, m, d] = date.split('-');
+    const dateTimestamp = new Date(y, m - 1, d);
+
+    for (const dateToCompre of birthAndBroughtInDatesSet) {
+      const broughtInOrBirthdate = new Date(
+        dateToCompre.getFullYear(),
+        dateToCompre.getMonth(),
+        dateToCompre.getDate(),
+      );
+
+      if (dateTimestamp < broughtInOrBirthdate) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}

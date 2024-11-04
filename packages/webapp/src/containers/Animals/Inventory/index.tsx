@@ -245,6 +245,7 @@ function AnimalInventory({
       }
       classes={{ paper: styles.paper }}
       kind={ContainerKind.PAPER}
+      wrapperClassName={isTaskView ? styles.taskViewHeight : undefined}
     >
       <PureAnimalInventory
         filteredInventory={searchAndFilteredInventory}

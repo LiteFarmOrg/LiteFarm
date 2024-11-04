@@ -21,6 +21,7 @@ import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 import { Main } from '../../Typography';
 import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
+import styles from './styles.module.scss';
 
 export default function PureTaskAnimalInventory({
   onContinue,
@@ -62,35 +63,52 @@ export default function PureTaskAnimalInventory({
   };
 
   return (
-    <Form
-      buttonGroup={
-        <Button data-cy="addTask-continue" type={'submit'} disabled={disabled} fullLength>
-          {t('common:CONTINUE')}
-        </Button>
-      }
-      onSubmit={handleSubmit(onSubmit)}
-      fullWidthContent={!isDesktop}
-    >
-      <MultiStepPageTitle
-        style={{ marginBottom: '24px', padding: !isDesktop && '24px 24px 0 24px' }}
-        onGoBack={onGoBack}
-        onCancel={historyCancel}
-        cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
-        title={t('MANAGEMENT_DETAIL.ADD_A_TASK')}
-        value={progress}
-      />
-
-      <Main style={{ marginBottom: '16px', padding: !isDesktop && '0 24px 0 24px' }}>
-        {t('TASK.SELECT_ANIMALS_TO_MOVE')}
-      </Main>
-      <input type="hidden" {...register(ANIMAL_IDS)} />
-      <AnimalInventory
-        onSelect={onSelect}
-        view={View.TASK}
-        history={history}
-        preSelectedIds={persistedFormData?.animalIds ?? []}
-      />
-    </Form>
+    <div className={styles.wrapper}>
+      <Form
+        buttonGroup={
+          <Button
+            data-cy="addTask-continue"
+            type={'submit'}
+            disabled={disabled}
+            fullLength
+            className={styles.button}
+          >
+            {t('common:CONTINUE')}
+          </Button>
+        }
+        onSubmit={handleSubmit(onSubmit)}
+        fullWidthContent={!isDesktop}
+      >
+        <MultiStepPageTitle
+          style={{
+            marginBottom: '24px',
+            padding: !isDesktop && '24px 24px 0 24px',
+            maxHeight: '65px',
+          }}
+          onGoBack={onGoBack}
+          onCancel={historyCancel}
+          cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
+          title={t('MANAGEMENT_DETAIL.ADD_A_TASK')}
+          value={progress}
+        />
+        <Main
+          style={{
+            marginBottom: '16px',
+            padding: !isDesktop && '0 24px 0 24px',
+            maxHeight: '24px',
+          }}
+        >
+          {t('TASK.SELECT_ANIMALS_TO_MOVE')}
+        </Main>
+        <input type="hidden" {...register(ANIMAL_IDS)} />
+        <AnimalInventory
+          onSelect={onSelect}
+          view={View.TASK}
+          history={history}
+          preSelectedIds={persistedFormData?.animalIds ?? []}
+        />
+      </Form>
+    </div>
   );
 }
 

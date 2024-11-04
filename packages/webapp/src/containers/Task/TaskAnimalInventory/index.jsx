@@ -27,7 +27,7 @@ function TaskAnimalInventory({ history, location }) {
     history.push('/add_task/task_locations', location?.state);
   };
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
     <HookFormPersistProvider>

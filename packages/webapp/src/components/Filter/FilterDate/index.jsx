@@ -23,7 +23,6 @@ export function FilterDate({ defaultValue, onChange, subject, shouldReset, props
   useEffect(() => {
     if (shouldReset) {
       setDate('');
-      onChange('');
     }
   }, [shouldReset]);
 

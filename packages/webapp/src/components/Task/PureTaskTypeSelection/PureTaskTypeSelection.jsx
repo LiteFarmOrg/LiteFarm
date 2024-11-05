@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -21,6 +21,7 @@ import { ReactComponent as SocialEvent } from '../../../assets/images/task/Socia
 import { ReactComponent as SoilAmendment } from '../../../assets/images/task/SoilAmendment.svg';
 import { ReactComponent as Transplant } from '../../../assets/images/task/Transplant.svg';
 import { ReactComponent as WashAndPack } from '../../../assets/images/task/WashAndPack.svg';
+import { ReactComponent as Movement } from '../../../assets/images/task/Movement.svg';
 import { ReactComponent as CustomTask } from '../../../assets/images/task/Custom.svg';
 import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
@@ -29,6 +30,7 @@ import { PlantingTaskModal } from '../../Modals/PlantingTaskModal';
 import { isTaskType } from '../../../containers/Task/useIsTaskType';
 import { NoCropManagementPlanModal } from '../../Modals/NoCropManagementPlanModal';
 import { getSupportedTaskTypesSet } from '../getSupportedTaskTypesSet';
+import { ANIMAL_TASKS } from '../../../containers/Task/constants';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -48,13 +50,14 @@ const icons = {
   FERTILIZE_TASK: <Fertilize />,
   COLLECT_SOIL_SAMPLE_TASK: <CollectSoilSample />,
   MAINTENANCE_TASK: <Maintenance />,
+  MOVEMENT_TASK: <Movement />,
 };
 
 export const PureTaskTypeSelection = ({
   onCustomTask,
   handleGoBack,
   history,
-
+  location,
   persistedFormData,
   useHookFormPersist,
   onContinue,
@@ -76,6 +79,8 @@ export const PureTaskTypeSelection = ({
   const TASK_TYPE_ID = 'task_type_id';
   register(TASK_TYPE_ID);
   const selected_task_type = watch(TASK_TYPE_ID);
+
+  const isMakingCropTask = !!location?.state?.management_plan_id;
 
   const onSelectTask = (task_type_id) => {
     setValue(TASK_TYPE_ID, task_type_id);
@@ -121,7 +126,16 @@ export const PureTaskTypeSelection = ({
           {taskTypes
             ?.filter(({ farm_id, task_translation_key }) => {
               const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin);
-              return farm_id === null && supportedTaskTypes.has(task_translation_key);
+              // If trying to make a task through the crop management plan 'Add Task' link -- exclude animal tasks from selection for now
+              const isNotAnimalTaskWhileCreatingCropTask = !(
+                ANIMAL_TASKS.includes(task_translation_key) && isMakingCropTask
+              );
+              const shouldDisplayTaskType =
+                farm_id === null &&
+                supportedTaskTypes.has(task_translation_key) &&
+                isNotAnimalTaskWhileCreatingCropTask;
+
+              return shouldDisplayTaskType;
             })
             .sort((firstTaskType, secondTaskType) =>
               t(`task:${firstTaskType.task_translation_key}`).localeCompare(

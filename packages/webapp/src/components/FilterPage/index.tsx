@@ -52,6 +52,33 @@ const PureFilterPage = ({
   const resetFilter = () => {
     triggerReset();
     setIsDirty(true);
+    setTempFilter(
+      (() => {
+        const newTempFilter: ReduxFilterEntity = {};
+
+        filters.forEach((item) => {
+          if (item.filterKey === 'DATE_RANGE') {
+            newTempFilter['FROM_DATE'] = undefined;
+            newTempFilter['TO_DATE'] = undefined;
+          } else if (item.filterKey === 'VALID_ON') {
+            newTempFilter['VALID_ON'] = undefined;
+          } else {
+            newTempFilter[item.filterKey] = {};
+
+            if (item.options && item.options.length > 0) {
+              item.options.forEach((option) => {
+                newTempFilter[item.filterKey][option.value] = {
+                  active: false,
+                  label: option.label,
+                };
+              });
+            }
+          }
+        });
+
+        return newTempFilter;
+      })(),
+    );
   };
 
   const [isDirty, setIsDirty] = useState(false);
@@ -77,9 +104,13 @@ const PureFilterPage = ({
           if (filterKey === 'DATE_RANGE') {
             setTempFilter({
               ...tempFilter,
-              ...(filterState.fromDate && { FROM_DATE: filterState.fromDate }),
-              ...(filterState.toDate && { TO_DATE: filterState.toDate }),
-            });
+              ...((typeof filterState.fromDate === 'string' ||
+                typeof filterState.fromDate === 'undefined') && {
+                FROM_DATE: filterState.fromDate,
+              }),
+              ...((typeof filterState.fromDate === 'string' ||
+                typeof filterState.fromDate === 'undefined') && { TO_DATE: filterState.toDate }),
+            } as ReduxFilterEntity);
           } else {
             setTempFilter({
               ...tempFilter,

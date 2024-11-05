@@ -59,6 +59,7 @@ const PureAnimalInventory = ({
   clearFilters,
   isLoading,
   containerHeight,
+  isAdmin,
   history,
 }: {
   filteredInventory: AnimalInventory[];
@@ -75,6 +76,7 @@ const PureAnimalInventory = ({
   clearFilters: () => void;
   isLoading: boolean;
   containerHeight?: number;
+  isAdmin: boolean;
   history: History;
 }) => {
   const { t } = useTranslation();
@@ -134,9 +136,9 @@ const PureAnimalInventory = ({
             minRows={totalInventoryCount}
             dense={false}
             showHeader={isDesktop}
-            onCheck={onSelectInventory}
-            handleSelectAllClick={handleSelectAllClick}
-            selectedIds={selectedIds}
+            onCheck={isAdmin ? onSelectInventory : undefined}
+            handleSelectAllClick={isAdmin ? handleSelectAllClick : undefined}
+            selectedIds={isAdmin ? selectedIds : undefined}
             stickyHeader={isDesktop}
             maxHeight={tableMaxHeight}
             spacerRowHeight={isDesktop ? 96 : 120}
@@ -151,15 +153,17 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
-      <FloatingButtonMenu
-        type={'add'}
-        options={[
-          {
-            label: t('ADD_ANIMAL.ADD_ANIMALS'),
-            onClick: () => history.push(ADD_ANIMALS_URL),
-          },
-        ]}
-      />
+      {isAdmin && (
+        <FloatingButtonMenu
+          type={'add'}
+          options={[
+            {
+              label: t('ADD_ANIMAL.ADD_ANIMALS'),
+              onClick: () => history.push(ADD_ANIMALS_URL),
+            },
+          ]}
+        />
+      )}
     </>
   );
 };

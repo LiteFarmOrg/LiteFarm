@@ -37,6 +37,7 @@ import {
   isFilterCurrentlyActiveSelector,
   resetAnimalsFilter,
 } from '../../../containers/filterSlice';
+import { isAdminSelector } from '../../userFarmSlice';
 import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 
@@ -78,6 +79,9 @@ function AnimalInventory({
   const { t } = useTranslation(['translation', 'animal', 'common', 'message']);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+
+  const isAdmin = useSelector(isAdminSelector);
+
   const zIndexBase = theme.zIndex.drawer;
 
   const { inventory, isLoading } = useAnimalInventory();
@@ -260,11 +264,12 @@ function AnimalInventory({
         isFilterActive={isFilterActive}
         clearFilters={clearFilters}
         isLoading={isLoading}
+        isAdmin={isAdmin}
         history={history}
         onRowClick={onRowClick}
         view={view}
       />
-      {selectedInventoryIds.length && !isTaskView ? (
+      {isAdmin && selectedInventoryIds.length && !isTaskView ? (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
           <ActionMenu
             headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}

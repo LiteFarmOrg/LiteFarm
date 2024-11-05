@@ -60,6 +60,7 @@ const PureAnimalInventory = ({
   clearFilters,
   isLoading,
   containerHeight,
+  isAdmin,
   history,
   view = View.DEFAULT,
 }: {
@@ -77,6 +78,7 @@ const PureAnimalInventory = ({
   clearFilters: () => void;
   isLoading: boolean;
   containerHeight?: number;
+  isAdmin: boolean;
   history: History;
   view?: View;
 }) => {
@@ -138,9 +140,9 @@ const PureAnimalInventory = ({
             minRows={totalInventoryCount}
             dense={false}
             showHeader={isDesktop}
-            onCheck={onSelectInventory}
-            handleSelectAllClick={handleSelectAllClick}
-            selectedIds={selectedIds}
+            onCheck={isAdmin ? onSelectInventory : undefined}
+            handleSelectAllClick={isAdmin ? handleSelectAllClick : undefined}
+            selectedIds={isAdmin ? selectedIds : undefined}
             stickyHeader={isDesktop}
             maxHeight={tableMaxHeight}
             spacerRowHeight={tableSpacerRowHeight}
@@ -155,7 +157,7 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
-      {!isTaskView && (
+      {isAdmin && !isTaskView && (
         <FloatingButtonMenu
           type={'add'}
           options={[

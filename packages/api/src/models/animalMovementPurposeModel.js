@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import Model from './baseFormatModel.js';
-import AnimalMovementTaskPurposeRelationship from './animalMovementTaskPurposeRelationshipModel.js';
 
 class AnimalMovementPurpose extends Model {
   static get tableName() {
@@ -36,19 +35,6 @@ class AnimalMovementPurpose extends Model {
         key: { type: 'string' },
       },
       additionalProperties: false,
-    };
-  }
-
-  static get relationMappings() {
-    return {
-      animal_movement_task_purpose_relationships: {
-        relation: Model.HasManyRelation,
-        modelClass: AnimalMovementTaskPurposeRelationship,
-        join: {
-          from: 'animal_movement_purpose.id',
-          to: 'animal_movement_task_purpose_relationship.purpose_id',
-        },
-      },
     };
   }
 }

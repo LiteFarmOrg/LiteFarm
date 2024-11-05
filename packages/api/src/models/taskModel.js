@@ -308,6 +308,8 @@ class TaskModel extends BaseModel {
       animal_movement_task: 'omit',
       managementPlans: 'omit',
       locations: 'edit',
+      animals: 'omit',
+      animal_batches: 'omit',
     };
   }
 

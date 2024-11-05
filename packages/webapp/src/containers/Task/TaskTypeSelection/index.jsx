@@ -46,6 +46,7 @@ function TaskTypeSelection({ history, match, location }) {
       <HookFormPersistProvider>
         <PureTaskTypeSelection
           history={history}
+          location={location}
           onCustomTask={onCustomTask}
           handleGoBack={handleGoBack}
           persistedPaths={persistedPaths}

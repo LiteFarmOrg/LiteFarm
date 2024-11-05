@@ -128,6 +128,13 @@ const taskTypes = [
     farm_id: null,
     deleted: false,
   },
+  {
+    task_type_id: 95,
+    task_name: 'Movement',
+    task_translation_key: 'MOVEMENT_TASK',
+    farm_id: null,
+    deleted: false,
+  },
 ];
 const customTasks = [
   {

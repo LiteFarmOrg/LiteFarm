@@ -10,20 +10,16 @@
   "WEEDING": "Desmalezar",
   "WASH_AND_PACK_TASK": "Lavar y guardar",
   "PEST_CONTROL_TASK": "Control de pestes",
-  "PEST_CONTROL_TASK_LOWER": "control de pestes",
   "OTHER_TASK": "Otro",
   "BREAK_TASK": "Descansar",
   "SOIL_TASK": "Resultados de muestra de suelo",
   "IRRIGATION_TASK": "Regar",
-  "IRRIGATION_TASK_LOWER": "Riego",
   "TRANSPORT_TASK": "Transportar",
   "FIELD_WORK_TASK": "Trabajo de campo",
-  "FIELD_WORK_TASK_LOWER": "trabajo de campo",
   "PLANT_TASK": "Plantar",
   "TRANSPLANT_TASK": "Trasplantar",
   "SOCIAL_TASK": "Social",
   "CLEANING_TASK": "Limpiar",
-  "CLEANING_TASK_LOWER": "limpiar",
   "SOIL_AMENDMENT_TASK": "Aditivo de suelo",
-  "SOIL_AMENDMENT_TASK_LOWER": "Aditivo de suelo"
+  "MOVEMENT_TASK": "MISSING"
 }

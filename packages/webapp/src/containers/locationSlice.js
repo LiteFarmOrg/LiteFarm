@@ -274,6 +274,41 @@ export const cropLocationsSelector = createSelector(
   },
 );
 
+export const animalLocationsSelector = createSelector(
+  [
+    barnsSelector,
+    farmSiteBoundarysSelector,
+    fieldsSelector,
+    gardensSelector,
+    greenhousesSelector,
+    surfaceWatersSelector,
+    naturalAreasSelector,
+    residencesSelector,
+    bufferZonesSelector,
+  ],
+  (
+    barns,
+    farmSiteBoundaries,
+    fields,
+    gardens,
+    greenhouses,
+    surfaceWaters,
+    naturalAreas,
+    bufferzones,
+  ) => {
+    return [
+      ...barns,
+      ...farmSiteBoundaries,
+      ...fields,
+      ...gardens,
+      ...greenhouses,
+      ...surfaceWaters,
+      ...naturalAreas,
+      ...bufferzones,
+    ];
+  },
+);
+
 export const locationsSelector = createSelector(
   [areaSelector, lineSelector, pointSelector],
   (areas, lines, points) => {

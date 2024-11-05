@@ -15,7 +15,6 @@
 
 import Model from './baseFormatModel.js';
 import TaskModel from './taskModel.js';
-import AnimalMovementPurposeModel from './animalMovementPurposeModel.js';
 import AnimalMovementTaskPurposeRelationshipModel from './animalMovementTaskPurposeRelationshipModel.js';
 
 class AnimalMovementTask extends Model {
@@ -51,18 +50,12 @@ class AnimalMovementTask extends Model {
           to: 'task.task_id',
         },
       },
-      purposes: {
-        relation: Model.ManyToManyRelation,
-        modelClass: AnimalMovementPurposeModel,
+      purpose_relationships: {
+        relation: Model.HasManyRelation,
+        modelClass: AnimalMovementTaskPurposeRelationshipModel,
         join: {
           from: 'animal_movement_task.task_id',
-          through: {
-            modelClass: AnimalMovementTaskPurposeRelationshipModel,
-            from: 'animal_movement_task_purpose_relationship.task_id',
-            to: 'animal_movement_task_purpose_relationship.purpose_id',
-            extra: ['other_purpose'],
-          },
-          to: 'animal_movement_purpose.id',
+          to: 'animal_movement_task_purpose_relationship.task_id',
         },
       },
     };

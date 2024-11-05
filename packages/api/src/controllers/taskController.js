@@ -727,7 +727,7 @@ const taskController = {
             plant_task,
             transplant_task,
             irrigation_task.[irrigation_type],
-            animal_movement_task.[purposes],
+            animal_movement_task.[purpose_relationships],
           ]`,
         )
         .whereIn('task_id', taskIds);

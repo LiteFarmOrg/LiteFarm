@@ -519,11 +519,18 @@ const taskController = {
   },
 
   async formatAnimalMovementTaskForDB(data) {
-    if (!data.animal_movement_task?.purposes) {
+    if (!data.animal_movement_task) {
+      return data;
+    }
+
+    if (!data.animal_movement_task.purposes) {
+      delete data.animal_movement_task.purposes;
       return data;
     }
 
     checkIsArray(data.animal_movement_task.purposes, 'purposes');
+
+    const formattedPurposes = [];
 
     if (data.animal_movement_task.purposes.length) {
       const purposes = await AnimalMovementPurposeModel.query();
@@ -533,11 +540,11 @@ const taskController = {
         if (!purposesMap[key]) {
           throw customError(`Purpose key "${key}" is not supported`);
         }
-        formattedPurposes.push({ id: purposesMap[key], other_purpose });
+        formattedPurposes.push({ purpose_id: purposesMap[key], other_purpose });
       }
-
-      data.animal_movement_task.purposes = formattedPurposes;
     }
+    data.animal_movement_task.purposes = formattedPurposes;
+    delete data.animal_movement_task.purposes;
 
     return data;
   },

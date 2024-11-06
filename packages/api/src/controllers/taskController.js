@@ -62,6 +62,42 @@ async function getTaskAssigneeAndFinalWage(farm_id, user_id, task_id) {
   return { assignee_user_id, finalWage };
 }
 
+async function formatAnimalMovementTaskForDB(data) {
+  if (!data.animal_movement_task) {
+    return data;
+  }
+
+  if (!data.animal_movement_task.purposes) {
+    delete data.animal_movement_task.purposes;
+    return data;
+  }
+
+  checkIsArray(data.animal_movement_task.purposes, 'purposes');
+
+  const formattedPurposes = [];
+
+  if (data.animal_movement_task.purposes.length) {
+    const purposes = await AnimalMovementPurposeModel.query();
+    const purposesMap = purposes.reduce((map, { key, id }) => ({ ...map, [key]: id }), {});
+    for (const { key, other_purpose } of data.animal_movement_task.purposes) {
+      if (!purposesMap[key]) {
+        throw customError(`Purpose key "${key}" is not supported`);
+      }
+      const formattedPurpose = {
+        purpose_id: purposesMap[key],
+        ...(other_purpose ? { other_purpose } : {}),
+      };
+
+      formattedPurposes.push(formattedPurpose);
+    }
+  }
+
+  data.animal_movement_task.purpose_relationships = formattedPurposes;
+  delete data.animal_movement_task.purposes;
+
+  return data;
+}
+
 async function updateTaskWithCompletedData(
   trx,
   user_id,
@@ -101,19 +137,86 @@ async function updateTaskWithCompletedData(
         },
       );
     return task;
-  } else {
+  }
+
+  if (typeOfTask === 'animal_movement_task') {
+    const { locations, animals, animal_batches } = await TaskModel.query(trx)
+      .select('task_id')
+      .withGraphFetched(
+        `[locations(selectLocationId, filterDeleted), animals(selectId), animal_batches(selectId)]`,
+      )
+      .modifiers({
+        selectId(builder) {
+          builder.select('id');
+        },
+        selectLocationId(builder) {
+          builder.select('location.location_id');
+        },
+        filterDeleted(builder) {
+          builder.where('location.deleted', false);
+        },
+      })
+      .where({ task_id })
+      .first();
+
+    const locationId = locations?.[0]?.location_id;
+
+    if (!locationId) {
+      throw customError('location deleted');
+    }
+
+    if (!data.animals && !data.animal_batches) {
+      // Check if there are animals and batches in the DB to move
+      if (!animals?.length && !animal_batches?.length) {
+        throw customError('No animals and bathes to move');
+      }
+
+      data.animals = animals;
+      data.animal_batches = animal_batches;
+    }
+
+    data.animals?.forEach((animal) => (animal.location_id = locationId));
+    data.animal_batches?.forEach((batch) => (batch.location_id = locationId));
+
+    if (!data.animal_movement_task) {
+      data.animal_movement_task = {};
+    }
+    // Prevent deletion of animal_movement_task and allow proper updates on purpose relationships
+    data.animal_movement_task.task_id = task_id;
+
+    // If the request body do not have purposes, add 'animal_movement_task.purpose_relationships'
+    // to prevent existing purpose relationships from being deleted
+    const noDelete = data.animal_movement_task.purpose_relationships
+      ? nonModifiable
+      : [...nonModifiable, 'animal_movement_task.purpose_relationships'];
+
     const task = await TaskModel.query(trx)
       .context({ user_id })
       .upsertGraph(
         { task_id, ...data, ...wagePatchData },
         {
           noUpdate: nonModifiable,
-          noDelete: true,
-          noInsert: true,
+          noDelete,
+          noInsert: [...nonModifiable, 'animal_movement_task'],
+          relate: ['animals', 'animal_batches'],
+          unrelate: ['animals', 'animal_batches'],
         },
       );
+
     return task;
   }
+
+  const task = await TaskModel.query(trx)
+    .context({ user_id })
+    .upsertGraph(
+      { task_id, ...data, ...wagePatchData },
+      {
+        noUpdate: nonModifiable,
+        noDelete: true,
+        noInsert: true,
+      },
+    );
+  return task;
 }
 
 const taskController = {
@@ -388,7 +491,7 @@ const taskController = {
                 soil_task,
                 harvest_task,
                 plant_task,
-                animal_movement_task.[purposes],
+                animal_movement_task.[purpose_relationships],
               ]`,
             )
             .where({ task_id });
@@ -467,7 +570,7 @@ const taskController = {
           return data;
         })();
       case 'animal_movement_task': {
-        return await this.formatAnimalMovementTaskForDB(data, farm_id);
+        return await formatAnimalMovementTaskForDB(data);
       }
       default: {
         return data;
@@ -515,37 +618,6 @@ const taskController = {
       data.field_work_task.field_work_type_id = data.field_work_task.field_work_task_type;
       delete data.field_work_task.field_work_task_type;
     }
-    return data;
-  },
-
-  async formatAnimalMovementTaskForDB(data) {
-    if (!data.animal_movement_task) {
-      return data;
-    }
-
-    if (!data.animal_movement_task.purposes) {
-      delete data.animal_movement_task.purposes;
-      return data;
-    }
-
-    checkIsArray(data.animal_movement_task.purposes, 'purposes');
-
-    const formattedPurposes = [];
-
-    if (data.animal_movement_task.purposes.length) {
-      const purposes = await AnimalMovementPurposeModel.query();
-      const purposesMap = purposes.reduce((map, { key, id }) => ({ ...map, [key]: id }), {});
-      const formattedPurposes = [];
-      for (const { key, other_purpose } of data.animal_movement_task.purposes) {
-        if (!purposesMap[key]) {
-          throw customError(`Purpose key "${key}" is not supported`);
-        }
-        formattedPurposes.push({ purpose_id: purposesMap[key], other_purpose });
-      }
-    }
-    data.animal_movement_task.purposes = formattedPurposes;
-    delete data.animal_movement_task.purposes;
-
     return data;
   },
 
@@ -676,11 +748,14 @@ const taskController = {
           task_id,
         );
 
-        const data = await this.checkCustomDependencies(
+        let data = await this.checkCustomDependencies(
           typeOfTask,
           { ...req.body, owner_user_id: user_id },
           req.headers.farm_id,
         );
+        if (animalTaskTypes.includes(typeOfTask)) {
+          data = this.formatAnimalAndBatchIds(data);
+        }
         const result = await TaskModel.transaction(async (trx) => {
           const task = await updateTaskWithCompletedData(
             trx,

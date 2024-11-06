@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
 import Checkbox from '../../Form/Checkbox';
+import { ExpandableAnimalInventory, View } from '../../../containers/Animals/Inventory';
 export default function PureTaskLocations({
   locations,
   readOnlyPinCoordinates,
@@ -24,6 +25,7 @@ export default function PureTaskLocations({
   maxZoom,
   defaultLocation,
   targetsWildCrop,
+  isAnimalTask = false,
 }) {
   const { t } = useTranslation();
   const progress = 43;
@@ -124,7 +126,12 @@ export default function PureTaskLocations({
           title={t('MANAGEMENT_DETAIL.ADD_A_TASK')}
           value={progress}
         />
-
+        {isAnimalTask && (
+          <ExpandableAnimalInventory
+            view={View.TASK_SUMMARY}
+            preSelectedIds={persistedFormData?.animalIds || []}
+          />
+        )}
         <Main style={{ marginTop: '24px', marginBottom: '24px' }}>
           {title || t('TASK.SELECT_TASK_LOCATIONS')}
         </Main>

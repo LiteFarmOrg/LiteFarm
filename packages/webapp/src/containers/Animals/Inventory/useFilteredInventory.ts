@@ -22,7 +22,19 @@ import { animalMatchesFilter } from '../../Filter/Animals/utils';
 import { animalsFilterSelector } from '../../filterSlice';
 import { isInactive } from '../../Filter/utils';
 
-export const useFilteredInventory = (inventory: AnimalInventory[]) => {
+export const useFilteredInventory = (
+  inventory: AnimalInventory[],
+  isSummaryView: boolean,
+  selectedInventoryIds: string[],
+) => {
+  if (isSummaryView) {
+    return useMemo(() => {
+      return inventory.filter((entity) => {
+        return selectedInventoryIds.includes(entity.id);
+      });
+    }, [selectedInventoryIds]);
+  }
+
   const {
     [AnimalsFilterKeys.ANIMAL_OR_BATCH]: animalsOrBatchesFilter,
     [AnimalsFilterKeys.TYPE]: typesFilter,

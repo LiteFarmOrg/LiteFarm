@@ -28,3 +28,7 @@
     padding: 16px;
   }
 }
+
+.taskViewHeight {
+  height: calc(100vh - var(--global-navbar-height) - var(--global-multi-step-task-layout-aggregated-height));
+}

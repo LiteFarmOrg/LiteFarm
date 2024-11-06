@@ -91,7 +91,7 @@ function AnimalInventory({
 
   const { inventory, isLoading } = useAnimalInventory();
 
-  const filteredInventory = useFilteredInventory(inventory);
+  const filteredInventory = useFilteredInventory(inventory, isSummaryView, selectedInventoryIds);
 
   const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('animals'));
   const dispatch = useDispatch();
@@ -222,7 +222,15 @@ function AnimalInventory({
   };
 
   const onRowClick = (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => {
-    !isTaskView ? history.push(row.path) : onSelectInventory(event, row);
+    switch (view) {
+      case View.TASK:
+        onSelectInventory(event, row);
+        break;
+      case View.TASK_SUMMARY:
+        break;
+      default:
+        history.push(row.path);
+    }
   };
 
   const iconActions: iconAction[] = [

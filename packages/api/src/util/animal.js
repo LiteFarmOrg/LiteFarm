@@ -182,13 +182,13 @@ export const checkAnimalAndBatchIds = async (animalIds, batchIds, farmId, isRequ
   }
 
   const invalidAnimalIds = await getInvalidAnimalOrBatchIds(animalIdsSet, AnimalModel, farmId);
-  const invalidbatchIds = await getInvalidAnimalOrBatchIds(batchIdsSet, AnimalBatchModel, farmId);
+  const invalidBatchIds = await getInvalidAnimalOrBatchIds(batchIdsSet, AnimalBatchModel, farmId);
 
-  if (invalidAnimalIds.length || invalidbatchIds.length) {
+  if (invalidAnimalIds.length || invalidBatchIds.length) {
     throw customError(
       'Some animal IDs or animal batch IDs do not exist, are removed, or are not associated with the given farm.',
       400,
-      { invalidAnimalIds, invalidbatchIds },
+      { invalidAnimalIds, invalidBatchIds },
     );
   }
 };

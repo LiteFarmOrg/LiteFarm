@@ -40,29 +40,23 @@ describe('Animal Group Tests', () => {
   let farm;
   let newOwner;
 
-  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .get('/animal_groups')
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
 
-  const getRequestAsPromise = util.promisify(getRequest);
-
-  function postRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  function postRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .post('/animal_groups')
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
-
-  const postRequestAsPromise = util.promisify(postRequest);
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
@@ -127,10 +121,9 @@ describe('Animal Group Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   // GET TESTS
@@ -169,7 +162,7 @@ describe('Animal Group Tests', () => {
         // Create a third animal group belonging to a different farm
         await makeAnimalGroup(secondFarm);
 
-        const res = await getRequestAsPromise({
+        const res = await getRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
         });
@@ -206,7 +199,7 @@ describe('Animal Group Tests', () => {
       await makeAnimalGroup(mainFarm);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
-      const res = await getRequestAsPromise({
+      const res = await getRequest({
         user_id: unAuthorizedUser.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -228,7 +221,7 @@ describe('Animal Group Tests', () => {
       await makeAnimalGroupRelationship(group, animal);
       await makeAnimalBatchGroupRelationship(group, batch);
 
-      const res = await getRequestAsPromise({
+      const res = await getRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -263,7 +256,7 @@ describe('Animal Group Tests', () => {
         const related_animal_ids = [firstAnimal.id, secondAnimal.id];
         const related_batch_ids = [firstAnimalBatch.id, secondAnimalBatch.id];
 
-        const res = await postRequestAsPromise(
+        const res = await postRequest(
           {
             ...animalGroup,
             related_animal_ids,
@@ -320,7 +313,7 @@ describe('Animal Group Tests', () => {
 
       const animalGroup = mocks.fakeAnimalGroup();
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           ...animalGroup,
           related_animal_ids: [firstAnimal.id, secondAnimal.id],
@@ -343,7 +336,7 @@ describe('Animal Group Tests', () => {
 
       const animalGroup = mocks.fakeAnimalGroup();
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           ...animalGroup,
           related_animal_ids: [],
@@ -387,7 +380,7 @@ describe('Animal Group Tests', () => {
 
       const animalGroup = mocks.fakeAnimalGroup();
 
-      await postRequestAsPromise(
+      await postRequest(
         {
           ...animalGroup,
           related_animal_ids: [],
@@ -399,7 +392,7 @@ describe('Animal Group Tests', () => {
         },
       );
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           ...animalGroup,
           related_animal_ids: [],
@@ -427,7 +420,7 @@ describe('Animal Group Tests', () => {
 
       const animalGroup = mocks.fakeAnimalGroup();
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           ...animalGroup,
           related_animal_ids,
@@ -470,7 +463,7 @@ describe('Animal Group Tests', () => {
 
       const animalGroup = mocks.fakeAnimalGroup();
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           ...animalGroup,
           related_animal_ids,

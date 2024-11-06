@@ -55,14 +55,12 @@ describe('Animal identifier type tests', () => {
       [newOwner] = await mocks.usersFactory();
     });
 
-    afterEach(async (done) => {
+    afterEach(async () => {
       await tableCleanup(knex);
-      done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async () => {
       await knex.destroy();
-      done();
     });
 
     test('should return all animal identifiers for all users', async () => {

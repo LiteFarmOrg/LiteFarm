@@ -37,19 +37,13 @@ describe('Default Animal Breed Tests', () => {
   let farm;
   let newOwner;
 
-  function getRequest(
-    { user_id = newOwner.user_id, farm_id = farm.farm_id, query_params_string },
-    callback,
-  ) {
-    chai
+  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id, query_params_string }) {
+    return chai
       .request(server)
       .get(`/default_animal_breeds?${query_params_string}`)
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
-
-  const getRequestAsPromise = util.promisify(getRequest);
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
@@ -79,14 +73,12 @@ describe('Default Animal Breed Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await tableCleanup(knex);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await knex.destroy();
-    done();
   });
 
   // GET TESTS
@@ -101,7 +93,7 @@ describe('Default Animal Breed Tests', () => {
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
 
-        const res = await getRequestAsPromise({
+        const res = await getRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
           query_params_string: `default_type_id=${firstBreed.default_type_id}`,
@@ -124,7 +116,7 @@ describe('Default Animal Breed Tests', () => {
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
 
-        const res = await getRequestAsPromise({
+        const res = await getRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
         });

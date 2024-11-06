@@ -40,31 +40,30 @@ xdescribe('taskType Tests', () => {
     token = global.token;
   });
 
-  function postRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  function postRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .post(`/task_type`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
 
-  function getRequest(
-    { user_id = owner.user_id, farm_id = farm.farm_id, url = `/task_type/farm/${farm.farm_id}` },
-    callback,
-  ) {
-    chai.request(server).get(url).set('user_id', user_id).set('farm_id', farm_id).end(callback);
+  function getRequest({
+    user_id = owner.user_id,
+    farm_id = farm.farm_id,
+    url = `/task_type/farm/${farm.farm_id}`,
+  }) {
+    return chai.request(server).get(url).set('user_id', user_id).set('farm_id', farm_id);
   }
 
-  function deleteRequest({ user_id = owner.user_id, farm_id = farm.farm_id, task_id }, callback) {
-    chai
+  function deleteRequest({ user_id = owner.user_id, farm_id = farm.farm_id, task_id }) {
+    return chai
       .request(server)
       .delete(`/task_type/${task_id}`)
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
 
   function fakeUserFarm(role = 1) {
@@ -86,10 +85,9 @@ xdescribe('taskType Tests', () => {
     );
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('Get && delete taskType', () => {
@@ -98,7 +96,7 @@ xdescribe('taskType Tests', () => {
       [taskType] = await mocks.taskTypeFactory({ promisedFarm: [farm] });
     });
 
-    test('Get by farm_id should filter out deleted task types', async (done) => {
+    test('Get by farm_id should filter out deleted task types', async () => {
       await taskTypeModel
         .query()
         .context({
@@ -107,13 +105,11 @@ xdescribe('taskType Tests', () => {
         })
         .findById(taskType.task_id)
         .delete();
-      getRequest({ user_id: owner.user_id }, (err, res) => {
-        expect(res.status).toBe(404);
-        done();
-      });
+      const res = await getRequest({ user_id: owner.user_id });
+      expect(res.status).toBe(404);
     });
 
-    test('Get by task_id should filter out deleted task types', async (done) => {
+    test('Get by task_id should filter out deleted task types', async () => {
       await taskTypeModel
         .query()
         .context({
@@ -122,22 +118,21 @@ xdescribe('taskType Tests', () => {
         })
         .findById(taskType.task_id)
         .delete();
-      getRequest({ user_id: owner.user_id, url: `/task_type/${taskType.task_id}` }, (err, res) => {
-        expect(res.status).toBe(404);
-        done();
+      const res = await getRequest({
+        user_id: owner.user_id,
+        url: `/task_type/${taskType.task_id}`,
       });
+      expect(res.status).toBe(404);
     });
 
-    test('Workers should get seeded taskType', async (done) => {
+    test('Workers should get seeded taskType', async () => {
       let [seedtaskType] = await mocks.taskTypeFactory(
         { promisedFarm: [{ farm_id: null }] },
         mocks.fakeTaskType(),
       );
-      getRequest({ user_id: owner.user_id }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body[1].taskType_id).toBe(seedtaskType.taskType_id);
-        done();
-      });
+      const res = await getRequest({ user_id: owner.user_id });
+      expect(res.status).toBe(200);
+      expect(res.body[1].taskType_id).toBe(seedtaskType.taskType_id);
     });
 
     describe('Get task type  authorization tests', () => {
@@ -166,115 +161,93 @@ xdescribe('taskType Tests', () => {
         );
       });
 
-      test('Owner should get taskType by farm id', async (done) => {
-        getRequest({ user_id: owner.user_id }, (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body[0].task_id).toBe(taskType.task_id);
-          done();
+      test('Owner should get taskType by farm id', async () => {
+        const res = await getRequest({ user_id: owner.user_id });
+        expect(res.status).toBe(200);
+        expect(res.body[0].task_id).toBe(taskType.task_id);
+      });
+
+      test('Manager should get taskType by farm id', async () => {
+        const res = await getRequest({ user_id: manager.user_id });
+        expect(res.status).toBe(200);
+        expect(res.body[0].task_id).toBe(taskType.task_id);
+      });
+
+      test('Worker should get taskType by farm id', async () => {
+        const res = await getRequest({ user_id: worker.user_id });
+        expect(res.status).toBe(200);
+        expect(res.body[0].task_id).toBe(taskType.task_id);
+      });
+
+      test('Should get status 403 if an unauthorizedUser tries to get taskType by farm_id', async () => {
+        const res = await getRequest({ user_id: unAuthorizedUser.user_id });
+        expect(res.status).toBe(403);
+      });
+
+      test('Circumvent authorization by modifying farm_id', async () => {
+        const res = await getRequest({
+          user_id: unAuthorizedUser.user_id,
+          farm_id: farmunAuthorizedUser.farm_id,
         });
+
+        expect(res.status).toBe(403);
       });
 
-      test('Manager should get taskType by farm id', async (done) => {
-        getRequest({ user_id: manager.user_id }, (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body[0].task_id).toBe(taskType.task_id);
-          done();
+      test('Owner should get taskType by task_id', async () => {
+        const res = await getRequest({
+          user_id: owner.user_id,
+          url: `/task_type/${taskType.task_id}`,
         });
+        expect(res.status).toBe(200);
+        expect(res.body[0].task_id).toBe(taskType.task_id);
       });
 
-      test('Worker should get taskType by farm id', async (done) => {
-        getRequest({ user_id: worker.user_id }, (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body[0].task_id).toBe(taskType.task_id);
-          done();
+      test('Manager should get taskType by task_id', async () => {
+        const res = await getRequest({
+          user_id: manager.user_id,
+          url: `/task_type/${taskType.task_id}`,
         });
+        expect(res.status).toBe(200);
+        expect(res.body[0].task_id).toBe(taskType.task_id);
       });
 
-      test('Should get status 403 if an unauthorizedUser tries to get taskType by farm_id', async (done) => {
-        getRequest({ user_id: unAuthorizedUser.user_id }, (err, res) => {
-          expect(res.status).toBe(403);
-          done();
+      test('Worker should get taskType by task_id', async () => {
+        const res = await getRequest({
+          user_id: worker.user_id,
+          url: `/task_type/${taskType.task_id}`,
         });
+        expect(res.status).toBe(200);
+        expect(res.body[0].task_id).toBe(taskType.task_id);
       });
 
-      test('Circumvent authorization by modifying farm_id', async (done) => {
-        getRequest(
-          { user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id },
-          (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          },
-        );
+      test('Should get status 403 if an unauthorizedUser tries to get taskType by task_id', async () => {
+        const res = await getRequest({
+          user_id: unAuthorizedUser.user_id,
+          url: `/task_type/${taskType.task_id}`,
+        });
+
+        expect(res.status).toBe(403);
       });
 
-      test('Owner should get taskType by task_id', async (done) => {
-        getRequest(
-          { user_id: owner.user_id, url: `/task_type/${taskType.task_id}` },
-          (err, res) => {
-            expect(res.status).toBe(200);
-            expect(res.body[0].task_id).toBe(taskType.task_id);
-            done();
-          },
-        );
-      });
+      test('Get taskType by task_id circumvent authorization by modifying farm_id', async () => {
+        const res = await getRequest({
+          user_id: unAuthorizedUser.user_id,
+          farm_id: farmunAuthorizedUser.farm_id,
+          url: `/task_type/${taskType.task_id}`,
+        });
 
-      test('Manager should get taskType by task_id', async (done) => {
-        getRequest(
-          { user_id: manager.user_id, url: `/task_type/${taskType.task_id}` },
-          (err, res) => {
-            expect(res.status).toBe(200);
-            expect(res.body[0].task_id).toBe(taskType.task_id);
-            done();
-          },
-        );
-      });
-
-      test('Worker should get taskType by task_id', async (done) => {
-        getRequest(
-          { user_id: worker.user_id, url: `/task_type/${taskType.task_id}` },
-          (err, res) => {
-            expect(res.status).toBe(200);
-            expect(res.body[0].task_id).toBe(taskType.task_id);
-            done();
-          },
-        );
-      });
-
-      test('Should get status 403 if an unauthorizedUser tries to get taskType by task_id', async (done) => {
-        getRequest(
-          { user_id: unAuthorizedUser.user_id, url: `/task_type/${taskType.task_id}` },
-          (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          },
-        );
-      });
-
-      test('Get taskType by task_id circumvent authorization by modifying farm_id', async (done) => {
-        getRequest(
-          {
-            user_id: unAuthorizedUser.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-            url: `/task_type/${taskType.task_id}`,
-          },
-          (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          },
-        );
+        expect(res.status).toBe(403);
       });
     });
 
     describe('Delete task type', function () {
-      test('should return 403 if user tries to delete a seeded taskType', async (done) => {
+      test('should return 403 if user tries to delete a seeded taskType', async () => {
         let [seedTaskType] = await mocks.taskTypeFactory(
           { promisedFarm: [{ farm_id: null }] },
           mocks.fakeTaskType(),
         );
-        deleteRequest({ task_id: seedTaskType.task_id }, async (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        });
+        const res = await deleteRequest({ task_id: seedTaskType.task_id });
+        expect(res.status).toBe(403);
       });
 
       describe('Delete task type authorization tests', () => {
@@ -303,67 +276,49 @@ xdescribe('taskType Tests', () => {
           );
         });
 
-        test('Owner should delete a task type', async (done) => {
-          deleteRequest({ task_id: taskType.task_id }, async (err, res) => {
-            expect(res.status).toBe(200);
-            const taskTypeRes = await taskTypeModel
-              .query()
-              .context({ showHidden: true })
-              .where('task_id', taskType.task_id);
-            expect(taskTypeRes.length).toBe(1);
-            expect(taskTypeRes[0].deleted).toBe(true);
-            done();
+        test('Owner should delete a task type', async () => {
+          const res = await deleteRequest({ task_id: taskType.task_id });
+          expect(res.status).toBe(200);
+          const taskTypeRes = await taskTypeModel
+            .query()
+            .context({ showHidden: true })
+            .where('task_id', taskType.task_id);
+          expect(taskTypeRes.length).toBe(1);
+          expect(taskTypeRes[0].deleted).toBe(true);
+        });
+
+        test('Manager should delete a taskType', async () => {
+          const res = await deleteRequest({ user_id: manager.user_id, task_id: taskType.task_id });
+          expect(res.status).toBe(200);
+          const taskTypeRes = await taskTypeModel
+            .query()
+            .context({ showHidden: true })
+            .where('task_id', taskType.task_id);
+          expect(taskTypeRes.length).toBe(1);
+          expect(taskTypeRes[0].deleted).toBe(true);
+        });
+
+        test('should return 403 if an unauthorized user tries to delete a taskType', async () => {
+          const res = await deleteRequest({
+            user_id: unAuthorizedUser.user_id,
+            task_id: taskType.task_id,
           });
+          expect(res.status).toBe(403);
         });
 
-        test('Manager should delete a taskType', async (done) => {
-          deleteRequest(
-            { user_id: manager.user_id, task_id: taskType.task_id },
-            async (err, res) => {
-              expect(res.status).toBe(200);
-              const taskTypeRes = await taskTypeModel
-                .query()
-                .context({ showHidden: true })
-                .where('task_id', taskType.task_id);
-              expect(taskTypeRes.length).toBe(1);
-              expect(taskTypeRes[0].deleted).toBe(true);
-              done();
-            },
-          );
+        test('should return 403 if a worker tries to delete a taskType', async () => {
+          const res = await deleteRequest({ user_id: worker.user_id, task_id: taskType.task_id });
+          expect(res.status).toBe(403);
         });
 
-        test('should return 403 if an unauthorized user tries to delete a taskType', async (done) => {
-          deleteRequest(
-            { user_id: unAuthorizedUser.user_id, task_id: taskType.task_id },
-            async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            },
-          );
-        });
+        test('Circumvent authorization by modifying farm_id', async () => {
+          const res = await deleteRequest({
+            user_id: unAuthorizedUser.user_id,
+            farm_id: farmunAuthorizedUser.farm_id,
+            task_id: taskType.task_id,
+          });
 
-        test('should return 403 if a worker tries to delete a taskType', async (done) => {
-          deleteRequest(
-            { user_id: worker.user_id, task_id: taskType.task_id },
-            async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            },
-          );
-        });
-
-        test('Circumvent authorization by modifying farm_id', async (done) => {
-          deleteRequest(
-            {
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              task_id: taskType.task_id,
-            },
-            async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            },
-          );
+          expect(res.status).toBe(403);
         });
       });
     });
@@ -376,12 +331,10 @@ xdescribe('taskType Tests', () => {
       fakeTaskType = getfakeTaskType();
     });
 
-    test('should return 403 status if headers.farm_id is set to null', async (done) => {
+    test('should return 403 status if headers.farm_id is set to null', async () => {
       fakeTaskType.farm_id = null;
-      postRequest(fakeTaskType, {}, (err, res) => {
-        expect(res.status).toBe(403);
-        done();
-      });
+      const res = await postRequest(fakeTaskType, {});
+      expect(res.status).toBe(403);
     });
 
     describe('Post taskType authorization tests', () => {
@@ -410,61 +363,51 @@ xdescribe('taskType Tests', () => {
         );
       });
 
-      test('Owner should post and get a valid taskType', async (done) => {
-        postRequest(fakeTaskType, {}, async (err, res) => {
-          expect(res.status).toBe(201);
-          const taskTypes = await taskTypeModel
-            .query()
-            .context({ showHidden: true })
-            .where('farm_id', farm.farm_id);
-          expect(taskTypes.length).toBe(1);
-          expect(taskTypes[0].task_name).toBe(fakeTaskType.task_name);
-          done();
-        });
+      test('Owner should post and get a valid taskType', async () => {
+        const res = await postRequest(fakeTaskType, {});
+        expect(res.status).toBe(201);
+        const taskTypes = await taskTypeModel
+          .query()
+          .context({ showHidden: true })
+          .where('farm_id', farm.farm_id);
+        expect(taskTypes.length).toBe(1);
+        expect(taskTypes[0].task_name).toBe(fakeTaskType.task_name);
       });
 
-      test('Manager should post and get a valid taskType', async (done) => {
-        postRequest(fakeTaskType, { user_id: manager.user_id }, async (err, res) => {
-          expect(res.status).toBe(201);
-          const taskTypes = await taskTypeModel
-            .query()
-            .context({ showHidden: true })
-            .where('farm_id', farm.farm_id);
-          expect(taskTypes.length).toBe(1);
-          expect(taskTypes[0].task_name).toBe(fakeTaskType.task_name);
-          done();
-        });
+      test('Manager should post and get a valid taskType', async () => {
+        const res = await postRequest(fakeTaskType, { user_id: manager.user_id });
+        expect(res.status).toBe(201);
+        const taskTypes = await taskTypeModel
+          .query()
+          .context({ showHidden: true })
+          .where('farm_id', farm.farm_id);
+        expect(taskTypes.length).toBe(1);
+        expect(taskTypes[0].task_name).toBe(fakeTaskType.task_name);
       });
 
-      test('should return 403 status if taskType is posted by worker', async (done) => {
-        postRequest(fakeTaskType, { user_id: worker.user_id }, async (err, res) => {
-          expect(res.status).toBe(403);
-          expect(res.error.text).toBe(
-            'User does not have the following permission(s): add:task_types',
-          );
-          done();
-        });
-      });
-
-      test('should return 403 status if taskType is posted by unauthorized user', async (done) => {
-        postRequest(fakeTaskType, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
-          expect(res.status).toBe(403);
-          expect(res.error.text).toBe(
-            'User does not have the following permission(s): add:task_types',
-          );
-          done();
-        });
-      });
-
-      test('Circumvent authorization by modify farm_id', async (done) => {
-        postRequest(
-          fakeTaskType,
-          { user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id },
-          async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          },
+      test('should return 403 status if taskType is posted by worker', async () => {
+        const res = await postRequest(fakeTaskType, { user_id: worker.user_id });
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe(
+          'User does not have the following permission(s): add:task_types',
         );
+      });
+
+      test('should return 403 status if taskType is posted by unauthorized user', async () => {
+        const res = await postRequest(fakeTaskType, { user_id: unAuthorizedUser.user_id });
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe(
+          'User does not have the following permission(s): add:task_types',
+        );
+      });
+
+      test('Circumvent authorization by modify farm_id', async () => {
+        const res = await postRequest(fakeTaskType, {
+          user_id: unAuthorizedUser.user_id,
+          farm_id: farmunAuthorizedUser.farm_id,
+        });
+
+        expect(res.status).toBe(403);
       });
     });
   });

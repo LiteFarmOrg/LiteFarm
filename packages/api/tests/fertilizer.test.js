@@ -36,40 +36,30 @@ describe('Fertilizer Tests', () => {
   let owner;
   let farm;
 
-  function postFertilizerRequest(
-    data,
-    { user_id = owner.user_id, farm_id = farm.farm_id },
-    callback,
-  ) {
-    chai
+  function postFertilizerRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .post(`/fertilizer/farm/${farm_id}`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
 
-  function getRequest({ user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  function getRequest({ user_id = owner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .get(`/fertilizer/farm/${farm_id}`)
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
 
-  function deleteRequest(
-    { user_id = owner.user_id, farm_id = farm.farm_id, fertilizer_id },
-    callback,
-  ) {
-    chai
+  function deleteRequest({ user_id = owner.user_id, farm_id = farm.farm_id, fertilizer_id }) {
+    return chai
       .request(server)
       .delete(`/fertilizer/${fertilizer_id}`)
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
 
   function fakeUserFarm(role = 1) {
@@ -91,10 +81,9 @@ describe('Fertilizer Tests', () => {
     );
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('Get && delete fertilizer', () => {
@@ -103,7 +92,7 @@ describe('Fertilizer Tests', () => {
       [fertilizer] = await mocks.fertilizerFactory({ promisedFarm: [farm] });
     });
 
-    test('Should filter out deleted fertilizer', async (done) => {
+    test('Should filter out deleted fertilizer', async () => {
       await fertilizerModel
         .query()
         .context({
@@ -112,22 +101,18 @@ describe('Fertilizer Tests', () => {
         })
         .findById(fertilizer.fertilizer_id)
         .delete();
-      getRequest({ user_id: owner.user_id }, (err, res) => {
-        expect(res.status).toBe(404);
-        done();
-      });
+      const res = await getRequest({ user_id: owner.user_id });
+      expect(res.status).toBe(404);
     });
 
-    test('should get seeded fertilizer', async (done) => {
+    test('should get seeded fertilizer', async () => {
       let [seedFertilizer] = await mocks.fertilizerFactory(
         { promisedFarm: [{ farm_id: null }] },
         mocks.fakeFertilizer(),
       );
-      getRequest({ user_id: owner.user_id }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body[1].fertilizer_id).toBe(seedFertilizer.fertilizer_id);
-        done();
-      });
+      const res = await getRequest({ user_id: owner.user_id });
+      expect(res.status).toBe(200);
+      expect(res.body[1].fertilizer_id).toBe(seedFertilizer.fertilizer_id);
     });
 
     describe('Get fertilizer authorization tests', () => {
@@ -156,48 +141,38 @@ describe('Fertilizer Tests', () => {
         );
       });
 
-      test('Owner should get fertilizer by farm id', async (done) => {
-        getRequest({ user_id: owner.user_id }, (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
-          done();
-        });
+      test('Owner should get fertilizer by farm id', async () => {
+        const res = await getRequest({ user_id: owner.user_id });
+        expect(res.status).toBe(200);
+        expect(res.body[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
       });
 
-      test('Manager should get fertilizer by farm id', async (done) => {
-        getRequest({ user_id: manager.user_id }, (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
-          done();
-        });
+      test('Manager should get fertilizer by farm id', async () => {
+        const res = await getRequest({ user_id: manager.user_id });
+        expect(res.status).toBe(200);
+        expect(res.body[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
       });
 
-      test('Worker should get fertilizer by farm id', async (done) => {
-        getRequest({ user_id: worker.user_id }, (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
-          done();
-        });
+      test('Worker should get fertilizer by farm id', async () => {
+        const res = await getRequest({ user_id: worker.user_id });
+        expect(res.status).toBe(200);
+        expect(res.body[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
       });
 
-      test('Should get status 403 if an unauthorizedUser tries to get fertilizer by farm id', async (done) => {
-        getRequest({ user_id: unAuthorizedUser.user_id }, (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        });
+      test('Should get status 403 if an unauthorizedUser tries to get fertilizer by farm id', async () => {
+        const res = await getRequest({ user_id: unAuthorizedUser.user_id });
+        expect(res.status).toBe(403);
       });
     });
 
     describe('Delete fertlizer', function () {
-      test('should return 403 if user tries to delete a seeded fertilizer', async (done) => {
+      test('should return 403 if user tries to delete a seeded fertilizer', async () => {
         let [seedFertilizer] = await mocks.fertilizerFactory(
           { promisedFarm: [{ farm_id: null }] },
           mocks.fakeFertilizer(),
         );
-        deleteRequest({ fertilizer_id: seedFertilizer.fertilizer_id }, async (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        });
+        const res = await deleteRequest({ fertilizer_id: seedFertilizer.fertilizer_id });
+        expect(res.status).toBe(403);
       });
 
       describe('Delete fertlizer authorization tests', () => {
@@ -226,67 +201,56 @@ describe('Fertilizer Tests', () => {
           );
         });
 
-        test('Owner should delete a fertlizer', async (done) => {
-          deleteRequest({ fertilizer_id: fertilizer.fertilizer_id }, async (err, res) => {
-            expect(res.status).toBe(200);
-            const fertilizerRes = await fertilizerModel
-              .query()
-              .context({ showHidden: true })
-              .where('fertilizer_id', fertilizer.fertilizer_id);
-            expect(fertilizerRes.length).toBe(1);
-            expect(fertilizerRes[0].deleted).toBe(true);
-            done();
+        test('Owner should delete a fertlizer', async () => {
+          const res = await deleteRequest({ fertilizer_id: fertilizer.fertilizer_id });
+          expect(res.status).toBe(200);
+          const fertilizerRes = await fertilizerModel
+            .query()
+            .context({ showHidden: true })
+            .where('fertilizer_id', fertilizer.fertilizer_id);
+          expect(fertilizerRes.length).toBe(1);
+          expect(fertilizerRes[0].deleted).toBe(true);
+        });
+
+        test('Manager should delete a fertilizer', async () => {
+          const res = await deleteRequest({
+            user_id: manager.user_id,
+            fertilizer_id: fertilizer.fertilizer_id,
           });
+          expect(res.status).toBe(200);
+          const fertilizerRes = await fertilizerModel
+            .query()
+            .context({ showHidden: true })
+            .where('fertilizer_id', fertilizer.fertilizer_id);
+          expect(fertilizerRes.length).toBe(1);
+          expect(fertilizerRes[0].deleted).toBe(true);
         });
 
-        test('Manager should delete a fertilizer', async (done) => {
-          deleteRequest(
-            { user_id: manager.user_id, fertilizer_id: fertilizer.fertilizer_id },
-            async (err, res) => {
-              expect(res.status).toBe(200);
-              const fertilizerRes = await fertilizerModel
-                .query()
-                .context({ showHidden: true })
-                .where('fertilizer_id', fertilizer.fertilizer_id);
-              expect(fertilizerRes.length).toBe(1);
-              expect(fertilizerRes[0].deleted).toBe(true);
-              done();
-            },
-          );
+        test('should return 403 if an unauthorized user tries to delete a fertilizer', async () => {
+          const res = await deleteRequest({
+            user_id: unAuthorizedUser.user_id,
+            fertilizer_id: fertilizer.fertilizer_id,
+          });
+
+          expect(res.status).toBe(403);
         });
 
-        test('should return 403 if an unauthorized user tries to delete a fertilizer', async (done) => {
-          deleteRequest(
-            { user_id: unAuthorizedUser.user_id, fertilizer_id: fertilizer.fertilizer_id },
-            async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            },
-          );
+        test('should return 403 if a worker tries to delete a fertilizer', async () => {
+          const res = await deleteRequest({
+            user_id: worker.user_id,
+            fertilizer_id: fertilizer.fertilizer_id,
+          });
+          expect(res.status).toBe(403);
         });
 
-        test('should return 403 if a worker tries to delete a fertilizer', async (done) => {
-          deleteRequest(
-            { user_id: worker.user_id, fertilizer_id: fertilizer.fertilizer_id },
-            async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            },
-          );
-        });
+        test('Circumvent authorization by modifying farm_id', async () => {
+          const res = await deleteRequest({
+            user_id: unAuthorizedUser.user_id,
+            farm_id: farmunAuthorizedUser.farm_id,
+            fertilizer_id: fertilizer.fertilizer_id,
+          });
 
-        test('Circumvent authorization by modifying farm_id', async (done) => {
-          deleteRequest(
-            {
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              fertilizer_id: fertilizer.fertilizer_id,
-            },
-            async (err, res) => {
-              expect(res.status).toBe(403);
-              done();
-            },
-          );
+          expect(res.status).toBe(403);
         });
       });
     });
@@ -299,12 +263,10 @@ describe('Fertilizer Tests', () => {
       fakeFertilizer = getFakeFertilizer();
     });
 
-    test('should return 403 status if headers.farm_id is set to null', async (done) => {
+    test('should return 403 status if headers.farm_id is set to null', async () => {
       fakeFertilizer.farm_id = null;
-      postFertilizerRequest(fakeFertilizer, {}, (err, res) => {
-        expect(res.status).toBe(403);
-        done();
-      });
+      const res = await postFertilizerRequest(fakeFertilizer, {});
+      expect(res.status).toBe(403);
     });
 
     describe('Post fertilizer authorization tests', () => {
@@ -333,65 +295,53 @@ describe('Fertilizer Tests', () => {
         );
       });
 
-      test('Owner should post and get a valid crop', async (done) => {
-        postFertilizerRequest(fakeFertilizer, {}, async (err, res) => {
-          expect(res.status).toBe(201);
-          const fertilizers = await fertilizerModel
-            .query()
-            .context({ showHidden: true })
-            .where('farm_id', farm.farm_id);
-          expect(fertilizers.length).toBe(1);
-          expect(fertilizers[0].fertilizer_type).toBe(fakeFertilizer.fertilizer_type);
-          done();
-        });
+      test('Owner should post and get a valid crop', async () => {
+        const res = await postFertilizerRequest(fakeFertilizer, {});
+        expect(res.status).toBe(201);
+        const fertilizers = await fertilizerModel
+          .query()
+          .context({ showHidden: true })
+          .where('farm_id', farm.farm_id);
+        expect(fertilizers.length).toBe(1);
+        expect(fertilizers[0].fertilizer_type).toBe(fakeFertilizer.fertilizer_type);
       });
 
-      test('Manager should post and get a valid crop', async (done) => {
-        postFertilizerRequest(fakeFertilizer, { user_id: manager.user_id }, async (err, res) => {
-          expect(res.status).toBe(201);
-          const fertilizers = await fertilizerModel
-            .query()
-            .context({ showHidden: true })
-            .where('farm_id', farm.farm_id);
-          expect(fertilizers.length).toBe(1);
-          expect(fertilizers[0].fertilizer_type).toBe(fakeFertilizer.fertilizer_type);
-          done();
-        });
+      test('Manager should post and get a valid crop', async () => {
+        const res = await postFertilizerRequest(fakeFertilizer, { user_id: manager.user_id });
+        expect(res.status).toBe(201);
+        const fertilizers = await fertilizerModel
+          .query()
+          .context({ showHidden: true })
+          .where('farm_id', farm.farm_id);
+        expect(fertilizers.length).toBe(1);
+        expect(fertilizers[0].fertilizer_type).toBe(fakeFertilizer.fertilizer_type);
       });
 
-      test('should return 403 status if fertilizer is posted by worker', async (done) => {
-        postFertilizerRequest(fakeFertilizer, { user_id: worker.user_id }, async (err, res) => {
-          expect(res.status).toBe(403);
-          expect(res.error.text).toBe(
-            'User does not have the following permission(s): add:fertilizers',
-          );
-          done();
-        });
-      });
-
-      test('should return 403 status if fertilizer is posted by unauthorized user', async (done) => {
-        postFertilizerRequest(
-          fakeFertilizer,
-          { user_id: unAuthorizedUser.user_id },
-          async (err, res) => {
-            expect(res.status).toBe(403);
-            expect(res.error.text).toBe(
-              'User does not have the following permission(s): add:fertilizers',
-            );
-            done();
-          },
+      test('should return 403 status if fertilizer is posted by worker', async () => {
+        const res = await postFertilizerRequest(fakeFertilizer, { user_id: worker.user_id });
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe(
+          'User does not have the following permission(s): add:fertilizers',
         );
       });
 
-      test('Circumvent authorization by modify farm_id', async (done) => {
-        postFertilizerRequest(
-          fakeFertilizer,
-          { user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id },
-          async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          },
+      test('should return 403 status if fertilizer is posted by unauthorized user', async () => {
+        const res = await postFertilizerRequest(fakeFertilizer, {
+          user_id: unAuthorizedUser.user_id,
+        });
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe(
+          'User does not have the following permission(s): add:fertilizers',
         );
+      });
+
+      test('Circumvent authorization by modify farm_id', async () => {
+        const res = await postFertilizerRequest(fakeFertilizer, {
+          user_id: unAuthorizedUser.user_id,
+          farm_id: farmunAuthorizedUser.farm_id,
+        });
+
+        expect(res.status).toBe(403);
       });
     });
   });

@@ -21,14 +21,12 @@ import animalUnionBatchIdViewModel from '../src/models/animalUnionBatchIdViewMod
 import { makeAnimalOrBatchForFarm } from './utils/animalUtils.js';
 
 describe('Animal Union Batch Tests', () => {
-  afterEach(async (done) => {
+  afterEach(async () => {
     await tableCleanup(knex);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await knex.destroy();
-    done();
   });
 
   // MODEL TESTS

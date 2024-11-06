@@ -45,7 +45,7 @@ export default function PureTaskAnimalInventory({
     shouldUnregister: false,
     defaultValues: {
       ...persistedFormData,
-      [ANIMAL_IDS]: persistedFormData.animalIds ?? [],
+      [ANIMAL_IDS]: persistedFormData.animalIds || [],
     },
   });
 

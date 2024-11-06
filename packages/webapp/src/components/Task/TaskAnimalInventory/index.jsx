@@ -30,6 +30,7 @@ export default function PureTaskAnimalInventory({
   useHookFormPersist,
   history,
   isDesktop,
+  isRequired = false,
 }) {
   const { t } = useTranslation();
   const ANIMAL_IDS = 'animalIds';
@@ -38,6 +39,7 @@ export default function PureTaskAnimalInventory({
     register,
     handleSubmit,
     getValues,
+    watch,
     setValue,
     formState: { isValid },
   } = useForm({
@@ -51,8 +53,8 @@ export default function PureTaskAnimalInventory({
 
   const progress = 43;
   const { historyCancel } = useHookFormPersist(getValues);
-
-  const disabled = !isValid;
+  const animalIds = watch(ANIMAL_IDS);
+  const disabled = isRequired && !animalIds?.length;
 
   const onSubmit = () => {
     onContinue();

@@ -5,7 +5,7 @@
   "main": "./api/src/server.js",
   "type": "module",
   "scripts": {
-    "test": "node --inspect ./node_modules/.bin/jest --runInBand",
+    "test": "node --inspect ./node_modules/jest/bin/jest.js --runInBand",
     "test-ci": "NODE_ENV=pipeline jest --runInBand --forceExit",
     "test-end2end": "jest endToEnd",
     "jest-w": "jest --watch",
@@ -80,6 +80,7 @@
     "jwks-rsa": "^3.0.1",
     "knex": "^2.4.0",
     "lodash": "^4.17.20",
+    "moment": "^2.29.4",
     "multer": "^1.4.2",
     "node-schedule": "^1.3.2",
     "nodemailer": "^6.9.9",

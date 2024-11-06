@@ -40,10 +40,14 @@ import {
 import { isAdminSelector } from '../../userFarmSlice';
 import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
+import ExpandableItem from '../../../components/Expandable/ExpandableItem';
+import useExpandable from '../../../components/Expandable/useExpandableItem';
+import clsx from 'clsx';
 
 export enum View {
   DEFAULT = 'default',
   TASK = 'task',
+  TASK_SUMMARY = 'task_summary',
 }
 interface AnimalInventoryProps {
   preSelectedIds?: string[];
@@ -70,7 +74,8 @@ function AnimalInventory({
   isCompactSideMenu,
   history,
 }: AnimalInventoryProps) {
-  const isTaskView = view === View.TASK;
+  const isTaskView = [View.TASK, View.TASK_SUMMARY].includes(view);
+  const isSummaryView = view === View.TASK_SUMMARY;
 
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
@@ -285,6 +290,30 @@ function AnimalInventory({
         showSuccessMessage={false}
       />
     </FixedHeaderContainer>
+  );
+}
+
+export function ExpandableAnimalInventory(props: AnimalInventoryProps) {
+  const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
+  const isExpanded = expandedIds.includes(1);
+  return (
+    <div className={clsx(styles.section, isExpanded && styles.expanded)}>
+      {/* @ts-ignore */}
+      <ExpandableItem
+        isExpanded={isExpanded}
+        onClick={() => toggleExpanded(1)}
+        mainContent={'See detail list of animals to move'}
+        expandedContent={
+          <div className={styles.expandedContentWrapper}>
+            <AnimalInventory {...props} />
+          </div>
+        }
+        iconClickOnly={false}
+        // classes = {},
+        itemKey={1}
+        // leftCollapseIcon = false,
+      />
+    </div>
   );
 }
 

@@ -465,13 +465,7 @@ const taskController = {
               noUpdate: true,
               noDelete: true,
               noInsert: nonModifiable,
-              relate: [
-                'locations',
-                'managementPlans',
-                'animals',
-                'animal_batches',
-                'animal_movement_task.purposes',
-              ],
+              relate: ['locations', 'managementPlans', 'animals', 'animal_batches'],
             });
           const [task] = await TaskModel.query(trx)
             .withGraphFetched(

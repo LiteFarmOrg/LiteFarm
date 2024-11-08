@@ -20,6 +20,8 @@ import AnimalBatchGroupRelationshipModel from './animalBatchGroupRelationshipMod
 import AnimalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
 import { checkAndTrimString } from '../util/util.js';
 import AnimalBatchUseRelationshipModel from './animalBatchUseRelationshipModel.js';
+import TaskAnimalBatchRelationshipModel from './taskAnimalBatchRelationshipModel.js';
+import TaskModel from './taskModel.js';
 
 class AnimalBatchModel extends baseModel {
   static get tableName() {
@@ -95,6 +97,7 @@ class AnimalBatchModel extends baseModel {
         sire: { type: ['string', 'null'] },
         supplier: { type: ['string', 'null'], maxLength: 255 },
         price: { type: ['number', 'null'] },
+        location_id: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -139,6 +142,19 @@ class AnimalBatchModel extends baseModel {
         join: {
           from: 'animal_batch.id',
           to: 'animal_batch_use_relationship.animal_batch_id',
+        },
+      },
+      tasks: {
+        modelClass: TaskModel,
+        relation: Model.ManyToManyRelation,
+        join: {
+          from: 'animal_batch.id',
+          through: {
+            modelClass: TaskAnimalBatchRelationshipModel,
+            from: 'task_animal_batch_relationship.animal_batch_id',
+            to: 'task_animal_batch_relationship.task_id',
+          },
+          to: 'task.task_id',
         },
       },
     };

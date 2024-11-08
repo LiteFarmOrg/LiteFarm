@@ -32,3 +32,32 @@
 .taskViewHeight {
   height: calc(100vh - var(--global-navbar-height) - var(--global-multi-step-task-layout-aggregated-height));
 }
+
+.section {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--White);
+  border-radius: 4px;
+  border: 1px solid var(--Colors-Neutral-Neutral-100);
+}
+
+.expanded {
+  border: 1px solid var(--Form-focus);
+  box-shadow: 0px 0px 4px 0px var(--Colors-Neutral-Neutral-200);
+}
+
+.expandedContentWrapper {
+  margin-top: 16px;
+}
+
+.detailsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: var(--White);
+}
+
+.taskViewHeight {
+  height: calc(100vh - var(--global-navbar-height) - var(--global-multi-step-task-layout-aggregated-height));
+}

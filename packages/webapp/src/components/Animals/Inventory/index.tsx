@@ -83,7 +83,9 @@ const PureAnimalInventory = ({
   view?: View;
 }) => {
   const { t } = useTranslation();
-  const isTaskView = view === View.TASK;
+  const isTaskView = [View.TASK, View.TASK_SUMMARY].includes(view);
+  const isSummaryView = view === View.TASK_SUMMARY;
+
   if (isLoading) {
     return null;
   }
@@ -92,62 +94,68 @@ const PureAnimalInventory = ({
   const hasSearchResults = filteredInventory.length !== 0;
 
   const tableMaxHeight = !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
+
   const tableSpacerRowHeight = !isTaskView ? (isDesktop ? 96 : 120) : 0;
+
+  const showInventorySelection = isAdmin && !isSummaryView;
 
   return (
     <>
-      <div
-        className={clsx(
-          isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter,
-          styles.searchAndFilterCommon,
-        )}
-      >
-        <PureSearchBarWithBackdrop
-          value={searchString}
-          onChange={(e: any) => setSearchString(e.target.value)}
-          isSearchActive={!!searchString}
-          placeholderText={placeHolderText}
-          zIndexBase={zIndexBase}
-          isDesktop={isDesktop}
-          className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
-        />
-        <AnimalsFilter isFilterActive={isFilterActive} />
+      {!isSummaryView && (
         <div
           className={clsx(
-            isDesktop ? styles.searchResultsDesktop : styles.searchResults,
-            styles.searchResultsText,
-            isFilterActive ? styles.filterActive : '',
+            isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter,
+            styles.searchAndFilterCommon,
           )}
         >
-          {searchResultsText}
-        </div>
-        <div className={isDesktop ? styles.clearButtonWrapperDesktop : ''}>
-          <ClearFiltersButton
-            type={isDesktop ? ClearFiltersButtonType.TEXT : ClearFiltersButtonType.ICON}
-            isFilterActive={isFilterActive}
-            onClick={clearFilters}
+          <PureSearchBarWithBackdrop
+            value={searchString}
+            onChange={(e: any) => setSearchString(e.target.value)}
+            isSearchActive={!!searchString}
+            placeholderText={placeHolderText}
+            zIndexBase={zIndexBase}
+            isDesktop={isDesktop}
+            className={clsx(isDesktop ? styles.searchBarDesktop : styles.searchBar)}
           />
+          <AnimalsFilter isFilterActive={isFilterActive} />
+          <div
+            className={clsx(
+              isDesktop ? styles.searchResultsDesktop : styles.searchResults,
+              styles.searchResultsText,
+              isFilterActive ? styles.filterActive : '',
+            )}
+          >
+            {searchResultsText}
+          </div>
+          <div className={isDesktop ? styles.clearButtonWrapperDesktop : ''}>
+            <ClearFiltersButton
+              type={isDesktop ? ClearFiltersButtonType.TEXT : ClearFiltersButtonType.ICON}
+              isFilterActive={isFilterActive}
+              onClick={clearFilters}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div className={clsx(isDesktop ? '' : styles.tableWrapper, styles.tableWrapperCommon)}>
         {!totalInventoryCount || hasSearchResults ? (
           <Table
             kind={TableKind.V2}
-            alternatingRowColor={true}
+            alternatingRowColor={!isSummaryView && true}
             columns={animalsColumns}
             data={filteredInventory}
             shouldFixTableLayout={isDesktop}
             minRows={totalInventoryCount}
             dense={false}
-            showHeader={isDesktop}
-            onCheck={isAdmin ? onSelectInventory : undefined}
-            handleSelectAllClick={isAdmin ? handleSelectAllClick : undefined}
-            selectedIds={isAdmin ? selectedIds : undefined}
+            showHeader={isDesktop && !isSummaryView}
+            onCheck={showInventorySelection ? onSelectInventory : undefined}
+            handleSelectAllClick={showInventorySelection ? handleSelectAllClick : undefined}
+            selectedIds={showInventorySelection ? selectedIds : undefined}
             stickyHeader={isDesktop}
             maxHeight={tableMaxHeight}
             spacerRowHeight={tableSpacerRowHeight}
             headerClass={styles.headerClass}
             onRowClick={onRowClick}
+            listView={isSummaryView}
           />
         ) : (
           <NoSearchResults

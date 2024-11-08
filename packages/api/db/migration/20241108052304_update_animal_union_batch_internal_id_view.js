@@ -45,6 +45,8 @@ export const up = async function (knex) {
  * @returns { Promise<void> }
  */
 export const down = async (knex) => {
+  await knex.schema.dropView('animal_union_batch_id_view');
+
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
   const sqlFilePath = path.join(__dirname, '../sql/20240207214919_animal_union_batch_id_view.sql');

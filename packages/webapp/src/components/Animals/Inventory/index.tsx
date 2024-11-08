@@ -94,6 +94,7 @@ const PureAnimalInventory = ({
   const hasSearchResults = filteredInventory.length !== 0;
 
   const tableMaxHeight = !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
+
   const tableSpacerRowHeight = !isTaskView ? (isDesktop ? 96 : 120) : 0;
 
   const showInventorySelection = isAdmin && !isSummaryView;
@@ -139,13 +140,13 @@ const PureAnimalInventory = ({
         {!totalInventoryCount || hasSearchResults ? (
           <Table
             kind={TableKind.V2}
-            alternatingRowColor={true}
+            alternatingRowColor={!isSummaryView && true}
             columns={animalsColumns}
             data={filteredInventory}
             shouldFixTableLayout={isDesktop}
             minRows={totalInventoryCount}
             dense={false}
-            showHeader={isDesktop}
+            showHeader={isDesktop && !isSummaryView}
             onCheck={showInventorySelection ? onSelectInventory : undefined}
             handleSelectAllClick={showInventorySelection ? handleSelectAllClick : undefined}
             selectedIds={showInventorySelection ? selectedIds : undefined}
@@ -154,6 +155,7 @@ const PureAnimalInventory = ({
             spacerRowHeight={tableSpacerRowHeight}
             headerClass={styles.headerClass}
             onRowClick={onRowClick}
+            listView={isSummaryView}
           />
         ) : (
           <NoSearchResults

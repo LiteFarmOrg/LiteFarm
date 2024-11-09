@@ -10,7 +10,7 @@ jobs:
   api_unit_tests:
     name: API Unit Tests
     runs-on: ubuntu-20.04
-    container: node:18.16.1
+    container: node:20.18
     services:
       postgres:
         image: postgres:13
@@ -37,13 +37,18 @@ jobs:
     steps:
       # Checkout the current code in the repository
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      # Install pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
       # Install all the dependencies
       - name: Install dependencies
-        run: cd packages/api && npm ci && cd ../shared && npm ci
+        run: pnpm i
       # Run migrations on the database
       - name: Setup database
-        run: cd packages/api && npm run migrate:pipeline:db
+        run: pnpm -F '*api' migrate:pipeline:db
       # Run all the CI tests
       - name: Run tests
-        run: cd packages/api && npm run test-ci
+        run: pnpm -F '*api' test-ci

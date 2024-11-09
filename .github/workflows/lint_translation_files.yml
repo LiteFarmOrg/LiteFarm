@@ -17,18 +17,23 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.18
 
       - name: Set up pnpm
-        uses: pnpm/action-setup@v2.0.1
+        uses: pnpm/action-setup@v4
         with:
-          version: 6.26.1
+          version: 9
 
       - name: Install pnpm dependencies
         run: pnpm install
 
       - name: Run linters
-        run: npx eslint './public/locales/**/*.json'
+        run: pnpm exec eslint './public/locales/**/*.json'
 
   run-linters-in-api:
     name: Run linters in api
@@ -39,15 +44,20 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20.18
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Install dependencies for Node.js server
-        run: npm install
+        run: pnpm install
 
       - name: Run linters
-        run: npx eslint './src/jobs/locales/**/*.json' './src/templates/locales/**/*.json'
+        run: pnpm exec eslint './src/jobs/locales/**/*.json' './src/templates/locales/**/*.json'

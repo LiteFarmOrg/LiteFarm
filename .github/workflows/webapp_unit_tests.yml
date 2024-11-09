@@ -14,11 +14,15 @@ jobs:
         working-directory: packages/webapp
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2.0.1
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          version: 6.26.1
+          node-version: "20.18"
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
       - name: Install dependencies
         run: pnpm install
       - name: Run unit tests

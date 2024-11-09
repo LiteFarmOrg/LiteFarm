@@ -33,6 +33,7 @@ const MeatballsMenu = ({ options, classes }: MeatballsMenuProps) => {
       Menu={forwardRef((menuProps, ref) => (
         <FloatingMenu
           ref={ref}
+          //@ts-ignore
           options={options}
           classes={{ menuItem: styles.menuItem }}
           {...menuProps}

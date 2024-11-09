@@ -72,7 +72,7 @@ export default function PureTaskDate({
   );
 }
 
-PureTaskDate.prototype = {
+PureTaskDate.propTypes = {
   onContinue: PropTypes.func,
   onGoBack: PropTypes.func,
   onCancel: PropTypes.func,

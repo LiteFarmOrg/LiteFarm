@@ -237,6 +237,7 @@ const TaskDetails = React.lazy(() => import('../containers/Task/TaskDetails'));
 const TaskTypeSelection = React.lazy(() => import('../containers/Task/TaskTypeSelection'));
 const TaskDate = React.lazy(() => import('../containers/Task/TaskDate'));
 const TaskCrops = React.lazy(() => import('../containers/Task/TaskCrops'));
+const TaskAnimals = React.lazy(() => import('../containers/Task/TaskAnimalInventory'));
 const TaskLocations = React.lazy(() => import('../containers/Task/TaskLocations'));
 const Tasks = React.lazy(() => import('../containers/Task'));
 const ManageCustomTasks = React.lazy(() => import('../containers/Task/ManageCustomTasks'));
@@ -589,6 +590,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/task_animal_selection" exact component={TaskAnimals} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
@@ -883,6 +885,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/task_animal_selection" exact component={TaskAnimals} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
@@ -987,6 +990,7 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/task_animal_selection" exact component={TaskAnimals} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />

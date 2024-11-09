@@ -13,44 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.container {
-  width: 100%;
+.wrapper {
+  height: calc(100vh - var(--global-navbar-height));
   max-width: 100vw;
   display: flex;
   flex-direction: column;
-  flex: 1;
 }
 
-.padding {
-  padding: 24px 24px 0 24px;
-}
-
-.svgContainer {
-  padding: 24px 0px 0px 0px;
-  display: flex;
-  height: calc(100vh - 172px);
-  align-items: center;
-}
-
-@media only screen and (max-width: 567.98px) {
-  .svgContainer {
-    padding: 0 0 0 0;
-    padding-top: 64px;
-    height: calc(100vh - 196px);
-  }
-}
-
-@media only screen and (min-width: 567.98px) {
-  .svgContainer {
-    padding: 24px 10% 0px 10%;
-    justify-content: center;
-  }
-}
-
-.paddingBottom {
-  padding-bottom: 104px;
-}
-
-.marginBottom {
-  margin-bottom: 104px;
+.button {
+  max-height: 48px;
 }

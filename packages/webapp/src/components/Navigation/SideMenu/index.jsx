@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { matchPath } from 'react-router-dom';
 
 import useExpandable from '../../Expandable/useExpandableItem';
@@ -19,6 +19,7 @@ import { useGetMenuItems } from '../../../hooks/useGetMenuItems';
 import Drawer from '../../Drawer';
 import { ReactComponent as CollapseMenuIcon } from '../../../assets/images/nav/collapse-menu.svg';
 import styles from './styles.module.scss';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 const MenuItem = forwardRef(({ history, onClick, path, children, className }, ref) => {
   return (
@@ -212,6 +213,16 @@ const PureSideMenu = ({
   setIsCompact,
 }) => {
   const [hasBeenExpanded, setHasBeenExpanded] = useState(false);
+  const selectedLanguage = getLanguageFromLocalStorage();
+
+  useLayoutEffect(() => {
+    const rootElement = document.querySelector(':root');
+    if (selectedLanguage.includes('ml')) {
+      rootElement.style.setProperty('--global-side-menu-width', '224px');
+    } else {
+      rootElement.style.setProperty('--global-side-menu-width', '188px');
+    }
+  }, [selectedLanguage]);
 
   const toggleSideMenu = () => {
     setHasBeenExpanded(isCompact);

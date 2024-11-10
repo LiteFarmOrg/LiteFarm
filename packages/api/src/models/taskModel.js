@@ -28,10 +28,15 @@ import cleaningTaskModel from './cleaningTaskModel.js';
 import taskTypeModel from './taskTypeModel.js';
 import plantTaskModel from './plantTaskModel.js';
 import transplantTaskModel from './transplantTaskModel.js';
+import animalMovementTaskModel from './animalMovementTaskModel.js';
 import plantingManagementPlanModel from './plantingManagementPlanModel.js';
 import managementTasksModel from './managementTasksModel.js';
 import locationModel from './locationModel.js';
 import locationTasksModel from './locationTasksModel.js';
+import AnimalModel from './animalModel.js';
+import AnimalBatchModel from './animalBatchModel.js';
+import TaskAnimalRelationshipModel from './taskAnimalRelationshipModel.js';
+import TaskAnimalBatchRelationshipModel from './taskAnimalBatchRelationshipModel.js';
 
 class TaskModel extends BaseModel {
   static get tableName() {
@@ -189,6 +194,14 @@ class TaskModel extends BaseModel {
           to: 'transplant_task.task_id',
         },
       },
+      animal_movement_task: {
+        relation: Model.HasOneRelation,
+        modelClass: animalMovementTaskModel,
+        join: {
+          from: 'task.task_id',
+          to: 'animal_movement_task.task_id',
+        },
+      },
       //TODO: rename to plantingManagementPlans
       managementPlans: {
         modelClass: plantingManagementPlanModel,
@@ -222,6 +235,32 @@ class TaskModel extends BaseModel {
         join: {
           from: 'task.task_id',
           to: 'location_tasks.task_id',
+        },
+      },
+      animals: {
+        relation: Model.ManyToManyRelation,
+        modelClass: AnimalModel,
+        join: {
+          from: 'task.task_id',
+          through: {
+            modelClass: TaskAnimalRelationshipModel,
+            from: 'task_animal_relationship.task_id',
+            to: 'task_animal_relationship.animal_id',
+          },
+          to: 'animal.id',
+        },
+      },
+      animal_batches: {
+        relation: Model.ManyToManyRelation,
+        modelClass: AnimalBatchModel,
+        join: {
+          from: 'task.task_id',
+          through: {
+            modelClass: TaskAnimalBatchRelationshipModel,
+            from: 'task_animal_batch_relationship.task_id',
+            to: 'task_animal_batch_relationship.animal_batch_id',
+          },
+          to: 'animal_batch.id',
         },
       },
     };
@@ -266,8 +305,11 @@ class TaskModel extends BaseModel {
       taskType: 'omit',
       plant_task: 'edit',
       transplant_task: 'edit',
+      animal_movement_task: 'omit',
       managementPlans: 'omit',
       locations: 'edit',
+      animals: 'omit',
+      animal_batches: 'omit',
     };
   }
 

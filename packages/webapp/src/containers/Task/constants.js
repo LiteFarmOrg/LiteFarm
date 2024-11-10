@@ -29,3 +29,5 @@ export const TASK_TYPES = {
 export const TASK_TYPE_PRODUCT_MAP = {
   SOIL_AMENDMENT_TASK: 'soil_amendment_task_products',
 };
+
+export const ANIMAL_TASKS = ['MOVEMENT_TASK'];

@@ -99,6 +99,11 @@ const sensorCsvValidators = (translations) => {
       required: true,
       errorTranslationKey: sensorErrors.SENSOR_READING_TYPES,
       useParsedValForError: false,
+      additionalVariables: {
+        allowed_reading_types: Object.values(
+          translations.READING_TYPE_TRANSLATIONS
+        ).join(", "),
+      },
     },
     {
       key: "depth",

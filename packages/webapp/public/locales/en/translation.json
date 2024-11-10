@@ -18,6 +18,7 @@
     "BREED_PLACEHOLDER_DISABLED": "Please select a type first",
     "CREATE_INDIVIDUAL_PROFILES": "Create individual animal profiles",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately",
+    "EDIT_BASIC_INFO": "Edit basic info",
     "GENERAL_DETAILS": "General details",
     "GENERAL_DETAILS_BATCH": "Batch general details",
     "GROUP_NAME": "Group name",
@@ -764,7 +765,7 @@
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
         "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
-        "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: soil_water_content, soil_water_potential, temperature."
+        "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: {{ allowed_reading_types }}."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -2005,6 +2006,7 @@
     "QUANTITY_CANNOT_EXCEED": "Harvest quantity used cannot exceed amount to allocate",
     "RATE_THIS_TASK": "Rate this task",
     "REMOVE_HARVEST_USE": "Remove",
+    "SELECT_ANIMALS_TO_MOVE": "Select animals to move",
     "SELECT_DATE": "Select the task date",
     "SELECT_TASK_LOCATIONS": "Select the task location(s)",
     "SELECT_WILD_CROP": "This task targets a wild crop",

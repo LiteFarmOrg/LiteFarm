@@ -20,6 +20,7 @@
     "BREED_PLACEHOLDER_DISABLED": "MISSING",
     "CREATE_INDIVIDUAL_PROFILES": "MISSING",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "MISSING",
+    "EDIT_BASIC_INFO": "MISSING",
     "GENERAL_DETAILS": "MISSING",
     "GENERAL_DETAILS_BATCH": "MISSING",
     "GROUP_NAME": "MISSING",
@@ -769,7 +770,7 @@
         "SENSOR_LONGITUDE": "Valor de longitud no válido, debe estar entre -180 y 180. y menos de 10 decimales.",
         "SENSOR_MODEL": "Nombre de modelo no válido, debe tener entre 1 y 100 caracteres.",
         "SENSOR_NAME": "Nombre del sensor no válido, debe estar entre 1 y 100 caracteres.",
-        "SENSOR_READING_TYPES": "Tipo de lectura no válido detectado: {{ reading_types }} los valores válidos incluyen: contenido_de_agua_en_el_suelo, potencial_hídrico_del_suelo, temperatura."
+        "SENSOR_READING_TYPES": "Tipo de lectura no válido detectado: {{ reading_types }} los valores válidos incluyen: {{ allowed_reading_types }}."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -2012,6 +2013,7 @@
     "QUANTITY_CANNOT_EXCEED": "La cantidad de cosecha utilizada no puede exceder la cantidad a asignar",
     "RATE_THIS_TASK": "Califica esta tarea",
     "REMOVE_HARVEST_USE": "Quitar",
+    "SELECT_ANIMALS_TO_MOVE": "MISSING",
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la(s) ubicación(es) de la tarea",
     "SELECT_WILD_CROP": "Esta tarea se dirige a un cultivo silvestre",

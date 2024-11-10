@@ -14,7 +14,6 @@
  */
 
 import chai from 'chai';
-import util from 'util';
 import { faker } from '@faker-js/faker';
 
 import chaiHttp from 'chai-http';
@@ -38,6 +37,8 @@ import { makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
 import AnimalBatchModel from '../src/models/animalBatchModel.js';
 import CustomAnimalTypeModel from '../src/models/customAnimalTypeModel.js';
 import CustomAnimalBreedModel from '../src/models/customAnimalBreedModel.js';
+import AnimalBatchSexDetailModel from '../src/models/animalBatchSexDetailModel.js';
+import AnimalBatchUseRelationshipModel from '../src/models/animalBatchUseRelationshipModel.js';
 
 describe('Animal Batch Tests', () => {
   let farm;
@@ -45,6 +46,8 @@ describe('Animal Batch Tests', () => {
   let defaultBreedId;
   let defaultTypeId;
   let animalRemovalReasonId;
+  let animalUse1;
+  let animalOrigin1;
 
   const mockDate = new Date('2024/3/12').toISOString();
 
@@ -55,30 +58,28 @@ describe('Animal Batch Tests', () => {
 
     const [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
     animalRemovalReasonId = animalRemovalReason.id;
+
+    [animalUse1] = await mocks.animal_useFactory('OTHER');
+    [animalOrigin1] = await mocks.animal_originFactory('BROUGHT_IN');
   });
 
-  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  async function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
+    return await chai
       .request(server)
       .get('/animal_batches')
+      .set('Content-Type', 'application/json')
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
 
-  const getRequestAsPromise = util.promisify(getRequest);
-
-  function postRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data, callback) {
-    chai
+  async function postRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
+    return await chai
       .request(server)
       .post('/animal_batches')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
-
-  const postRequestAsPromise = util.promisify(postRequest);
 
   async function removeRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
     return await chai
@@ -189,7 +190,7 @@ describe('Animal Batch Tests', () => {
           default_type_id: defaultTypeId,
         });
 
-        const res = await getRequestAsPromise({
+        const res = await getRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
         });
@@ -224,7 +225,7 @@ describe('Animal Batch Tests', () => {
       });
       const [unAuthorizedUser] = await mocks.usersFactory();
 
-      const res = await getRequestAsPromise({
+      const res = await getRequest({
         user_id: unAuthorizedUser.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -274,7 +275,7 @@ describe('Animal Batch Tests', () => {
           ],
         });
 
-        const res = await postRequestAsPromise(
+        const res = await postRequest(
           {
             user_id: user.user_id,
             farm_id: mainFarm.farm_id,
@@ -303,7 +304,7 @@ describe('Animal Batch Tests', () => {
           default_type_id: defaultTypeId,
         });
 
-        const res = await postRequestAsPromise(
+        const res = await postRequest(
           {
             user_id: user.user_id,
             farm_id: mainFarm.farm_id,
@@ -325,7 +326,7 @@ describe('Animal Batch Tests', () => {
         default_type_id: defaultTypeId,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -333,7 +334,8 @@ describe('Animal Batch Tests', () => {
         animalBatch,
       );
 
-      expect(res.status).toBe(500);
+      expect(res.status).toBe(400);
+      expect(res.error.text).toBe('Request body should be an array');
     });
 
     test('Unique internal_identifier should be added within the same farm_id between animals and animalBatches', async () => {
@@ -348,7 +350,7 @@ describe('Animal Batch Tests', () => {
           farm_id: farm.farm_id,
           default_type_id: defaultTypeId,
         });
-        const res = await postRequestAsPromise({ user_id: user.user_id, farm_id: farm.farm_id }, [
+        const res = await postRequest({ user_id: user.user_id, farm_id: farm.farm_id }, [
           animalBatch,
         ]);
 
@@ -364,7 +366,7 @@ describe('Animal Batch Tests', () => {
         custom_type_id: null,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -387,7 +389,7 @@ describe('Animal Batch Tests', () => {
         custom_type_id: animalType.id,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -412,7 +414,7 @@ describe('Animal Batch Tests', () => {
         custom_breed_id: animalBreed.id,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -433,7 +435,7 @@ describe('Animal Batch Tests', () => {
         default_breed_id: animalBreed.id,
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -464,7 +466,7 @@ describe('Animal Batch Tests', () => {
         ],
       });
 
-      const res = await postRequestAsPromise(
+      const res = await postRequest(
         {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
@@ -486,7 +488,7 @@ describe('Animal Batch Tests', () => {
       });
 
       const postAnimalBatchesRequest = async (animalBatches) => {
-        const res = await postRequestAsPromise(
+        const res = await postRequest(
           { user_id: owner.user_id, farm_id: farm.farm_id },
           animalBatches,
         );
@@ -690,6 +692,308 @@ describe('Animal Batch Tests', () => {
     });
   });
 
+  // EDIT tests
+  describe('Edit animal batch tests', () => {
+    let animalGroup1;
+    let animalGroup2;
+    let animalSex1;
+    let animalSex2;
+    let animalOrigin2;
+    let animalRemovalReason;
+    let animalUse2;
+    let animalUse3;
+
+    beforeEach(async () => {
+      [animalGroup1] = await mocks.animal_groupFactory();
+      [animalGroup2] = await mocks.animal_groupFactory();
+      // Populate enums
+      [animalSex1] = await mocks.animal_sexFactory();
+      [animalSex2] = await mocks.animal_sexFactory();
+      [animalOrigin2] = await mocks.animal_originFactory();
+      [animalRemovalReason] = await mocks.animal_removal_reasonFactory();
+      [animalUse2] = await mocks.animal_useFactory();
+      [animalUse3] = await mocks.animal_useFactory();
+    });
+
+    async function addAnimalBatches(mainFarm, user) {
+      const [customAnimalType] = await mocks.custom_animal_typeFactory({
+        promisedFarm: [mainFarm],
+      });
+
+      // Create two batchess, one with a default type and one with a custom type
+      const firstBatch = mocks.fakeAnimalBatch({
+        name: 'edit test 1',
+        default_type_id: defaultTypeId,
+        animal_batch_use_relationships: [{ use_id: animalUse2.id }],
+        sire: 'Unchanged',
+        count: 4,
+        sex_detail: [
+          {
+            sex_id: animalSex1.id,
+            count: 2,
+          },
+          {
+            sex_id: animalSex2.id,
+            count: 2,
+          },
+        ],
+        group_name: animalGroup1.name,
+      });
+      const secondBatch = mocks.fakeAnimalBatch({
+        name: 'edit test 2',
+        custom_type_id: customAnimalType.id,
+        animal_batch_use_relationships: [{ use_id: animalUse2.id }],
+        sire: 'Unchanged',
+        count: 5,
+      });
+
+      const res = await postRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [firstBatch, secondBatch],
+      );
+
+      const returnedFirstBatch = res.body?.find((batch) => batch.name === 'edit test 1');
+      const returnedSecondBatch = res.body?.find((batch) => batch.name === 'edit test 2');
+
+      return { res, returnedFirstBatch, returnedSecondBatch };
+    }
+
+    async function editAnimalBatches(mainFarm, user, returnedFirstBatch, returnedSecondBatch) {
+      const [customAnimalType] = await mocks.custom_animal_typeFactory({
+        promisedFarm: [mainFarm],
+      });
+
+      // Make edits to batches - does not test all top level batch columns, but all relationships
+      const updatedFirstBatch = mocks.fakeAnimalBatch({
+        // Extra properties are silently removed
+        extra_non_existant_property: 'hello',
+        id: returnedFirstBatch.id,
+        default_type_id: defaultTypeId,
+        name: 'Update Name 1',
+        sire: returnedFirstBatch.sire,
+        sex_detail: [
+          {
+            id: returnedFirstBatch.sex_detail.find((detail) => detail.sex_id === animalSex1.id)?.id,
+            animal_batch_id: returnedFirstBatch.id,
+            sex_id: animalSex1.id,
+            count: 2,
+          },
+          {
+            id: returnedFirstBatch.sex_detail.find((detail) => detail.sex_id === animalSex2.id)?.id,
+            animal_batch_id: returnedFirstBatch.id,
+            sex_id: animalSex2.id,
+            count: 3,
+          },
+        ],
+        count: 5,
+        origin_id: animalOrigin2.id,
+        // Extra properties are silently removed
+        animal_removal_reason_id: animalRemovalReason.id,
+        organic_status: 'Organic',
+        animal_batch_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],
+        group_ids: [{ animal_group_id: animalGroup2.id }],
+      });
+      const updatedSecondBatch = mocks.fakeAnimalBatch({
+        id: returnedSecondBatch.id,
+        custom_type_id: customAnimalType.id,
+        name: 'Update Name 1',
+        sire: returnedSecondBatch.sire,
+        sex_detail: [
+          {
+            sex_id: animalSex1.id,
+            count: 2,
+          },
+          {
+            sex_id: animalSex2.id,
+            count: 3,
+          },
+        ],
+        count: 5,
+        origin_id: animalOrigin2.id,
+        // Extra properties are silently removed
+        animal_removal_reason_id: animalRemovalReason.id,
+        organic_status: 'Organic',
+        animal_batch_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],
+        group_ids: [{ animal_group_id: animalGroup2.id }],
+      });
+
+      const patchRes = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [updatedFirstBatch, updatedSecondBatch],
+      );
+
+      // Remove or add properties not actually expected from get request
+      [updatedFirstBatch, updatedSecondBatch].forEach((batch) => {
+        // Should not cause an error
+        delete batch.extra_non_existant_property;
+        // Should not be able to update on edit
+        batch.animal_removal_reason_id = null;
+        // Return format different than post format
+        batch.group_ids = batch.group_ids.map((groupId) => groupId.animal_group_id);
+        batch.animal_batch_use_relationships.forEach((rel) => {
+          rel.animal_batch_id = batch.id;
+          rel.other_use = null;
+        });
+      });
+
+      return { res: patchRes, updatedFirstBatch, updatedSecondBatch };
+    }
+
+    test('Admin users should be able to edit batches', async () => {
+      const roles = [1, 2, 5];
+
+      for (const role of roles) {
+        const { mainFarm, user } = await returnUserFarms(role);
+
+        // Add batches to db
+        const { res: addRes, returnedFirstBatch, returnedSecondBatch } = await addAnimalBatches(
+          mainFarm,
+          user,
+        );
+        expect(addRes.status).toBe(201);
+        expect(returnedFirstBatch).toBeTruthy();
+        expect(returnedSecondBatch).toBeTruthy();
+
+        // Edit batches in db
+        const { res: editRes, updatedFirstBatch, updatedSecondBatch } = await editAnimalBatches(
+          mainFarm,
+          user,
+          returnedFirstBatch,
+          returnedSecondBatch,
+        );
+        expect(editRes.status).toBe(204);
+
+        // Get updated batches
+        const { body: batchRecords } = await getRequest({
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        });
+        const filteredBatchRecords = batchRecords.filter((record) =>
+          [returnedFirstBatch.id, returnedSecondBatch.id].includes(record.id),
+        );
+
+        // Test data matches expected changes
+        filteredBatchRecords.forEach((record) => {
+          // Remove properties that were not updated
+          delete record.internal_identifier;
+          // Remove base properties
+          delete record.created_at;
+          delete record.created_by_user_id;
+          delete record.deleted;
+          delete record.updated_at;
+          delete record.updated_by;
+          const updatedRecord = [updatedFirstBatch, updatedSecondBatch].find(
+            (batch) => batch.id === record.id,
+          );
+          expect(record).toMatchObject(updatedRecord);
+        });
+      }
+    });
+
+    test('Non-admin users should not be able to edit batches', async () => {
+      const adminRole = 1;
+      const { mainFarm, user: admin } = await returnUserFarms(adminRole);
+      const workerRole = 3;
+      const [user] = await mocks.usersFactory();
+      await mocks.userFarmFactory(
+        {
+          promisedUser: [user],
+          promisedFarm: [mainFarm],
+        },
+        fakeUserFarm(workerRole),
+      );
+
+      // Add animals to db
+      const { res: addRes, returnedFirstBatch, returnedSecondBatch } = await addAnimalBatches(
+        mainFarm,
+        admin,
+      );
+      expect(addRes.status).toBe(201);
+      expect(returnedFirstBatch).toBeTruthy();
+      expect(returnedSecondBatch).toBeTruthy();
+
+      // Edit animals in db
+      const { res: editRes } = await editAnimalBatches(
+        mainFarm,
+        user,
+        returnedFirstBatch,
+        returnedSecondBatch,
+      );
+
+      // Test failure
+      expect(editRes.status).toBe(403);
+      expect(editRes.error.text).toBe(
+        'User does not have the following permission(s): edit:animal_batches',
+      );
+    });
+
+    test('Should not be able to send out an individual batch instead of an array', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+
+      // Add animals to db
+      const { res: addRes, returnedFirstBatch } = await addAnimalBatches(mainFarm, user);
+      expect(addRes.status).toBe(201);
+      expect(returnedFirstBatch).toBeTruthy();
+
+      // Change 1 thing
+      returnedFirstBatch.sire = 'Changed';
+
+      const res = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        {
+          ...returnedFirstBatch,
+        },
+      );
+
+      expect(res.status).toBe(400);
+      expect(res.error.text).toBe('Request body should be an array');
+    });
+
+    test('Should not be able to edit a batch belonging to a different farm', async () => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const [secondFarm] = await mocks.farmFactory();
+
+      const batch = await makeAnimalBatch(secondFarm, {
+        default_type_id: defaultTypeId,
+      });
+
+      const res = await patchRequest(
+        {
+          user_id: user.user_id,
+          farm_id: mainFarm.farm_id,
+        },
+        [
+          {
+            id: batch.id,
+            sire: 'Neighbours sire',
+          },
+        ],
+      );
+
+      expect(res).toMatchObject({
+        status: 400,
+        body: {
+          error: 'Invalid ids',
+          invalidIds: [batch.id],
+        },
+      });
+
+      // Check database
+      const batchRecord = await AnimalBatchModel.query().findById(batch.id);
+      expect(batchRecord.sire).toBeNull();
+    });
+  });
+
+  // REMOVE tests
   describe('Remove animal batch tests', () => {
     test('Admin users should be able to remove animal batches', async () => {
       const roles = [1, 2, 5];
@@ -815,12 +1119,8 @@ describe('Animal Batch Tests', () => {
         },
       );
 
-      expect(res).toMatchObject({
-        status: 400,
-        error: {
-          text: 'Request body should be an array',
-        },
-      });
+      expect(res.status).toBe(400);
+      expect(res.error.text).toBe('Request body should be an array');
 
       // Check database
       const batchRecord = await AnimalBatchModel.query().findById(animalBatch.id);
@@ -848,7 +1148,6 @@ describe('Animal Batch Tests', () => {
           },
         ],
       );
-
       expect(res.status).toBe(400);
       expect(res.error.text).toBe('Must send reason and date of removal');
 
@@ -1036,5 +1335,895 @@ describe('Animal Batch Tests', () => {
         },
       });
     });
+  });
+
+  // MIDDLEWARE tests
+  describe('Edit animal batch tests', () => {
+    let animalSex1;
+    let animalSex2;
+    let animalOrigin2;
+    let animalUse2;
+    let animalUse3;
+    let animalBreed;
+    let animalBreed2;
+
+    beforeEach(async () => {
+      // Populate enums
+      [animalSex1] = await mocks.animal_sexFactory();
+      [animalSex2] = await mocks.animal_sexFactory();
+      [animalOrigin2] = await mocks.animal_originFactory();
+      [animalUse2] = await mocks.animal_useFactory();
+      [animalUse3] = await mocks.animal_useFactory();
+      [animalBreed] = await mocks.default_animal_breedFactory();
+      [animalBreed2] = await mocks.default_animal_breedFactory();
+    });
+
+    // Top level structure is endpoint string with value as in caps, value is an array of tests
+    // Example: {'CREATE': [{test1}, {test2},...],'EDIT': [{test1}, {test2},...}
+    // Test structure to test 'CREATE' middleware is:
+    // { testName: 'name', getPostBody: function() {return [batch]}, postErr: {code: 400, message: 'errorMessage'}}
+    // Test structure to test 'EDIT' middleware is:
+    // { testName: 'name', getPostBody?: function() {return [batch]}, getPatchBody: function() {return [editedBatch]}, patchErr: {code: 400, message: 'errorMessage'}} }
+    // Test structure to test raw data expectations is:
+    // { testName: 'name', getPostBody?: function() {return [batch]}, getPatchBody?: function() {return [editedBatch]}, getRawRecordMismatch: function() return { model: Model, where: {id}, getMatchingBody: function() return [records] } } }
+    const middlewareErrors = {
+      CREATE: [
+        {
+          testName: 'Custom type cannot be used with default breed',
+          getPostBody: (customs) => [
+            {
+              custom_type_id: customs.customAnimalType.id,
+              default_breed_id: animalBreed.id,
+            },
+          ],
+          postErr: {
+            code: 400,
+            message: 'Default breed must use default type',
+          },
+        },
+        {
+          testName: 'Check create batch sex detail',
+          getPostBody: (customs) => [
+            {
+              default_type_id: defaultTypeId,
+              count: 3,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+          postErr: {
+            code: 400,
+            message: 'Batch count must be greater than or equal to sex detail count',
+          },
+        },
+      ],
+      EDIT: [
+        {
+          testName: 'Exactly one type provided',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              default_type_id: batch.default_type_id,
+              type_name: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Exactly one of default_type_id, custom_type_id, or type_name must be sent',
+          },
+        },
+        {
+          testName: 'Custom type id is number',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              custom_type_id: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Must send valid ids',
+          },
+        },
+        {
+          testName: 'Custom id exists',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              custom_type_id: 1000000,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Custom type does not exist',
+          },
+        },
+        {
+          testName: 'Custom type does not belong to farm',
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: batch.id,
+              custom_type_id: customs.otherFarm.otherCustomAnimalType.id,
+            },
+          ],
+          patchErr: {
+            code: 403,
+            message: 'Forbidden custom type does not belong to this farm',
+          },
+        },
+        {
+          testName: 'Exactly one breed provided',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed.id,
+              breed_name: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Exactly one of default_breed_id, custom_breed_id, or breed_name must be sent',
+          },
+        },
+        {
+          testName: 'Default type matches default breed -- default type is changed',
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              default_type_id: animalBreed2.default_type_id,
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+        {
+          testName: 'Default type matches default breed -- default breed is changed',
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              default_breed_id: animalBreed2.id,
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+        {
+          testName: 'Default breed is a number',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              default_breed_id: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Must send valid ids',
+          },
+        },
+        {
+          testName: 'Default breed provided exists (optional to provide)',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              default_breed_id: 1000000,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Default breed does not exist',
+          },
+        },
+        {
+          testName: 'Default type matches default breed -- both are changed but mismatch',
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed2.id,
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              default_breed_id: animalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+
+        {
+          testName: 'Custom breed is a number',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              custom_breed_id: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Must send valid ids',
+          },
+        },
+        {
+          testName: 'Custom breed provided exists (optional to provide)',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              custom_breed_id: 1000000,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Custom breed does not exist',
+          },
+        },
+        {
+          testName: 'Custom breed provided exists (optional to provide)',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              custom_breed_id: 1000000,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Custom breed does not exist',
+          },
+        },
+        {
+          testName: 'Custom breed does not belong to farm',
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: batch.id,
+              custom_breed_id: customs.otherFarm.otherCustomAnimalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 403,
+            message: 'Forbidden custom breed does not belong to this farm',
+          },
+        },
+        {
+          testName: 'Default type matches custom breed -- default type is changed',
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: existingBatches[0].id,
+              default_type_id: animalBreed.default_type_id,
+            },
+          ],
+          getPostBody: (customs) => [
+            {
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+        {
+          testName: 'Default type matches custom breed -- custom type is changed',
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: existingBatches[0].id,
+              custom_type_id: customs.customAnimalBreed2.custom_type_id,
+            },
+          ],
+          getPostBody: (customs) => [
+            {
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+        {
+          testName: 'Default type matches custom breed -- breed and type are changed',
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: existingBatches[0].id,
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed2.id,
+            },
+          ],
+          getPostBody: (customs) => [
+            {
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed.id,
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Breed does not match type',
+          },
+        },
+
+        {
+          testName: 'Check edit batch sex detail -- change count',
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              count: 3,
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              count: 4,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Batch count must be greater than or equal to sex detail count',
+          },
+        },
+        {
+          testName: 'Check edit batch sex detail -- change sex_detail',
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 5,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              count: 4,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Batch count must be greater than or equal to sex detail count',
+          },
+        },
+        {
+          testName: 'Check edit batch sex detail -- duplicate sex ids not allowed',
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 1,
+                },
+                {
+                  sex_id: animalSex1.id,
+                  count: 1,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              count: 4,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 1,
+                },
+              ],
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Duplicate sex ids in detail',
+          },
+        },
+        {
+          testName: 'Check edit batch sex detail -- patching sex id with record id updates record',
+          getRawRecordMismatch: (existingBatches) => {
+            return {
+              model: AnimalBatchSexDetailModel,
+              where: { animal_batch_id: existingBatches[0].id },
+              getMatchingBody: (existingBatches, records) => {
+                return [
+                  {
+                    ...records[0],
+                    id: existingBatches[0].sex_detail[0].id,
+                    sex_id: animalSex1.id,
+                    count: 1,
+                    animal_batch_id: existingBatches[0].id,
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              sex_detail: [
+                {
+                  id: existingBatches[0].sex_detail[0].id,
+                  sex_id: animalSex1.id,
+                  count: 1,
+                },
+              ],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              count: 4,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          testName:
+            'Check edit batch sex detail -- patching sex id without record id deletes previous record and adds new one',
+          getRawRecordMismatch: (existingBatches) => {
+            return {
+              model: AnimalBatchSexDetailModel,
+              where: { animal_batch_id: existingBatches[0].id },
+              getMatchingBody: (existingBatches, records) => {
+                const record1 = records.find(
+                  (record) => record.id === existingBatches[0].sex_detail[0].id,
+                );
+                const record2 = records.find(
+                  (record) => record.id != existingBatches[0].sex_detail[0].id,
+                );
+                return [
+                  {
+                    ...record1,
+                    id: existingBatches[0].sex_detail[0].id,
+                    sex_id: animalSex1.id,
+                    count: 2,
+                    animal_batch_id: existingBatches[0].id,
+                    deleted: true,
+                  },
+                  {
+                    ...record2,
+                    id: record2.id,
+                    sex_id: animalSex1.id,
+                    count: 1,
+                    animal_batch_id: existingBatches[0].id,
+                    deleted: false,
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 1,
+                },
+              ],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              count: 4,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          testName:
+            'Check edit batch sex detail -- patching sex detail with empty array deletes sex details',
+          getRawRecordMismatch: (existingBatches) => {
+            return {
+              model: AnimalBatchSexDetailModel,
+              where: { animal_batch_id: existingBatches[0].id },
+              getMatchingBody: (existingBatches, records) => {
+                return [
+                  {
+                    ...records[0],
+                    deleted: true,
+                  },
+                  {
+                    ...records[1],
+                    deleted: true,
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              sex_detail: [],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              count: 4,
+              sex_detail: [
+                {
+                  sex_id: animalSex1.id,
+                  count: 2,
+                },
+                {
+                  sex_id: animalSex2.id,
+                  count: 2,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          testName: 'Use relationships is an array',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              animal_batch_use_relationships: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'animal_batch_use_relationships should be an array',
+          },
+        },
+        {
+          testName: 'Other use notes is for other use type',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              animal_batch_use_relationships: [
+                {
+                  use_id: animalUse2.id,
+                  other_use: 'Leather',
+                },
+              ],
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'other_use notes is for other use type',
+          },
+        },
+        {
+          testName: 'Check edit use -- patching use relationship with empty array hard deletes use',
+          getRawRecordMismatch: (existingBatches) => {
+            return {
+              model: AnimalBatchUseRelationshipModel,
+              where: { animal_batch_id: existingBatches[0].id },
+              getMatchingBody: (existingBatches, records) => {
+                return [];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              animal_batch_use_relationships: [],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              animal_batch_use_relationships: [
+                {
+                  use_id: animalUse2.id,
+                },
+                {
+                  use_id: animalUse3.id,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          testName:
+            'Check edit use -- patching use relationship requires all pre-existing uses to be present hard deletes missing',
+          getRawRecordMismatch: (existingBatches) => {
+            return {
+              model: AnimalBatchUseRelationshipModel,
+              where: { animal_batch_id: existingBatches[0].id },
+              getMatchingBody: (existingBatches, records) => {
+                return [
+                  {
+                    ...records[0],
+                    use_id: animalUse1.id,
+                    other_use: 'Leather',
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches) => [
+            {
+              id: existingBatches[0].id,
+              animal_batch_use_relationships: [
+                {
+                  use_id: animalUse1.id,
+                  other_use: 'Leather',
+                },
+              ],
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: animalBreed.default_type_id,
+              animal_batch_use_relationships: [
+                {
+                  use_id: animalUse1.id,
+                },
+                {
+                  use_id: animalUse2.id,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          testName: 'Origin id must be brought in to have brought in date',
+          getPatchBody: (batch) => [
+            {
+              id: batch.id,
+              origin_id: animalOrigin2.id,
+              brought_in_date: new Date(),
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Brought in date must be used with brought in origin',
+          },
+        },
+        {
+          testName: 'Cannot create a new type associated with an existing breed',
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: batch.id,
+              custom_breed_id: customs.customAnimalBreed.id,
+              type_name: 'string',
+            },
+          ],
+          patchErr: {
+            code: 400,
+            message: 'Cannot create a new type associated with an existing breed',
+          },
+        },
+        {
+          testName: 'Change to custom type and null pre-existing breed',
+          getRawRecordMismatch: (existingBatches) => {
+            return {
+              model: AnimalBatchModel,
+              where: { id: existingBatches[0].id },
+              getMatchingBody: (existingBatches, records, customs) => {
+                return [
+                  {
+                    ...records[0],
+                    custom_type_id: customs.customAnimalType.id,
+                    custom_breed_id: null,
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: existingBatches[0].id,
+              custom_type_id: customs.customAnimalType.id,
+              custom_breed_id: null,
+            },
+          ],
+          getPostBody: (customs) => [
+            {
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              custom_breed_id: customs.customAnimalBreed.id,
+            },
+          ],
+        },
+        {
+          testName:
+            'Successfully edit Custom type matches new breed name -- previous breed not exist',
+          getRawRecordMismatch: (existingBatches, patchedBatches) => {
+            return {
+              model: CustomAnimalBreedModel,
+              where: { id: patchedBatches.custom_breed_id },
+              getMatchingBody: (existingBatches, records, customs) => {
+                return [
+                  {
+                    ...records[0],
+                    custom_type_id: customs.customAnimalType.id,
+                    breed: 'New breed here',
+                  },
+                ];
+              },
+            };
+          },
+          getPatchBody: (batch, existingBatches, customs) => [
+            {
+              id: existingBatches[0].id,
+              custom_type_id: customs.customAnimalType.id,
+              breed_name: 'New breed here',
+            },
+          ],
+          getPostBody: () => [
+            {
+              default_type_id: defaultTypeId,
+            },
+          ],
+        },
+      ],
+    };
+
+    // Takes middleWareErrors object and makes it into individual tests
+    for (const errorEndpoint in middlewareErrors) {
+      middlewareErrors[errorEndpoint].forEach(async (error) => {
+        await test(`${errorEndpoint} Middleware: ${error.testName}`, async () => {
+          // Create userFarms needed for tests
+          const { mainFarm, user } = await returnUserFarms(1);
+          const { mainFarm: otherFarm } = await returnUserFarms(1);
+
+          // Make, then group, farm specific resources
+          const [customAnimalType] = await mocks.custom_animal_typeFactory({
+            promisedFarm: [mainFarm],
+          });
+          const [customAnimalBreed] = await mocks.custom_animal_breedFactory(
+            {
+              promisedFarm: [mainFarm],
+            },
+            undefined,
+            false,
+          );
+          const [customAnimalBreed2] = await mocks.custom_animal_breedFactory({
+            promisedFarm: [mainFarm],
+          });
+          const [otherCustomAnimalType] = await mocks.custom_animal_typeFactory({
+            promisedFarm: [otherFarm],
+          });
+          const [otherCustomAnimalBreed] = await mocks.custom_animal_breedFactory({
+            promisedFarm: [otherFarm],
+          });
+          const customs = {
+            customAnimalType,
+            customAnimalBreed,
+            customAnimalBreed2,
+            otherFarm: { otherCustomAnimalType, otherCustomAnimalBreed },
+          };
+
+          // Post endpoint for testing CREATE or testing EDIT against existing record
+          const makeCheckGetBatch = async (getPostBody) => {
+            const batches = getPostBody(customs).map((batch) => mocks.fakeAnimalBatch(batch));
+            const postRes = await postRequest(
+              {
+                user_id: user.user_id,
+                farm_id: mainFarm.farm_id,
+              },
+              [...batches],
+            );
+            // If checking error body on post
+            expect(postRes.status).toBe(error.postErr?.code || 201);
+            expect(postRes.error.text).toBe(error.postErr?.message || undefined);
+            return postRes.body;
+          };
+
+          let existingBatches;
+          if (error.getPostBody) {
+            existingBatches = await makeCheckGetBatch(error.getPostBody);
+          }
+
+          // Patch endpoint for testing EDIT or testing raw successful records against
+          const editCheckBatch = async (getPatchBody) => {
+            // for skipping makeCheckGetBatch
+            const batch = await makeAnimalBatch(mainFarm, {
+              default_type_id: defaultTypeId,
+            });
+            const batches = getPatchBody(batch, existingBatches, customs);
+            const patchRes = await patchRequest(
+              {
+                user_id: user.user_id,
+                farm_id: mainFarm.farm_id,
+              },
+              [...batches],
+            );
+            // If checking error body on patch
+            expect(patchRes.status).toBe(error.patchErr?.code || 204);
+            expect(patchRes.error.text).toBe(error.patchErr?.message || undefined);
+            const batchesIds = batches.map((batch) => batch.id);
+            return await AnimalBatchModel.query().findById(batchesIds);
+          };
+
+          let patchedBatches;
+          if (error.getPatchBody) {
+            patchedBatches = await editCheckBatch(error.getPatchBody);
+          }
+
+          // For checking raw records made in CREATE or EDIT
+          const rawGetMatch = async (getRawRecordMismatch) => {
+            const rawRecordMatch = getRawRecordMismatch(existingBatches, patchedBatches);
+            // Include deleted
+            const records = await rawRecordMatch.model
+              .query()
+              .where(rawRecordMatch.where)
+              .context({ showHidden: true });
+            const expectedBody = rawRecordMatch.getMatchingBody(existingBatches, records, customs);
+            // No fallback if provided
+            expect(records).toEqual(expectedBody);
+          };
+
+          if (error.getRawRecordMismatch) {
+            await rawGetMatch(error.getRawRecordMismatch);
+          }
+        });
+      });
+    }
   });
 });

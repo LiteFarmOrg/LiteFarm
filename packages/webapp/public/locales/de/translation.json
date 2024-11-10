@@ -1,4 +1,7 @@
 {
+  "ADD_ANIMAL": {
+    "EDIT_BASIC_INFO": "MISSING"
+  },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Adresse ist erforderlich",
     "DISABLE_GEO_LOCATION": "Die Standortdienste müssen aktiviert sein, um Ihren aktuellen Standort zu finden.",
@@ -656,7 +659,7 @@
         "SENSOR_LONGITUDE": "Ungültiger Längengradwert, muss zwischen -180 und 180 liegen und weniger als 10 Dezimalstellen haben.",
         "SENSOR_MODEL": "Ungültiger Modellname, muss zwischen 1 und 100 Zeichen lang sein.",
         "SENSOR_NAME": "Ungültiger Sensorname, muss zwischen 1 und 100 Zeichen lang sein.",
-        "SENSOR_READING_TYPES": "Ungültiger Lesetyp erkannt:{{ reading_types }}. Gültige Werte sind: Bodenwassergehalt, Bodenwasserpotenzial, Temperatur."
+        "SENSOR_READING_TYPES": "Ungültiger Lesetyp erkannt:{{ reading_types }}. Gültige Werte sind: {{ allowed_reading_types }}."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -1862,6 +1865,7 @@
     "QUANTITY_CANNOT_EXCEED": "Die genutzte Erntemenge darf nicht größer sein als die zu verteilende Menge",
     "RATE_THIS_TASK": "Bewerten Sie diese Aufgabe",
     "REMOVE_HARVEST_USE": "Entfernen",
+    "SELECT_ANIMALS_TO_MOVE": "MISSING",
     "SELECT_DATE": "Wählen Sie das Datum der Aufgabe",
     "SELECT_TASK_LOCATIONS": "Wählen Sie die Aufgabenstellung(en)",
     "SELECT_WILD_CROP": "Diese Aufgabe zielt auf eine Wildpflanze ab",

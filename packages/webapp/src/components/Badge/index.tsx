@@ -17,43 +17,36 @@ import React, { useState } from 'react';
 import { Tooltip, ClickAwayListener, IconButton, tooltipClasses } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import styles from './styles.module.scss';
-import { Trans } from 'react-i18next';
+import clsx from 'clsx';
 
 // Define the Props
 interface BadgeProps {
-  content?: string | React.ReactElement;
   title: string;
+  content?: string | React.ReactElement;
   showIcon?: boolean;
-  style?: React.CSSProperties;
+  className?: string;
 }
 
-const Badge: React.FC<BadgeProps> = ({ content = '', title, showIcon = true, style }) => {
+const Badge: React.FC<BadgeProps> = ({ title, content = '', showIcon = true, className }) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [tooltipHover, setTooltipHover] = useState<boolean>(false);
+  const [focus, setFocus] = useState<boolean>(false);
 
-  const handleTooltipOpen = () => {
-    if (!tooltipHover) {
-      setOpen(true);
-    }
-  };
-  const handleTooltipClose = () => {
-    if (!tooltipHover) {
+  const handleTooltipCLick = (awayClicked?: boolean) => {
+    if (awayClicked) {
       setOpen(false);
+      setFocus(false);
+    } else {
+      setOpen((prevState) => {
+        setFocus(!prevState);
+        return !prevState;
+      });
     }
-  };
-  const handleTooltipContentHover = (hovering: boolean) => {
-    setTooltipHover(hovering);
-    setOpen(hovering);
   };
 
   const tooltipContent = (
     <div
-      onClick={(e) => {
-        e.stopPropagation();
-        handleTooltipContentHover(true);
-      }}
-      onMouseEnter={() => handleTooltipContentHover(true)}
-      onMouseLeave={() => handleTooltipContentHover(false)}
+      onClick={(e) => e.stopPropagation()}
+      onTouchEnd={(e) => e.stopPropagation()}
       className={styles.tooltip}
     >
       {content}
@@ -78,12 +71,11 @@ const Badge: React.FC<BadgeProps> = ({ content = '', title, showIcon = true, sty
   };
 
   return (
-    <ClickAwayListener onClickAway={handleTooltipClose}>
+    <ClickAwayListener onClickAway={() => handleTooltipCLick(true)}>
       <Tooltip
         title={tooltipContent}
         open={open}
-        onClose={handleTooltipClose}
-        disableHoverListener={false} // Keep hover for desktop
+        disableHoverListener
         disableFocusListener
         disableTouchListener
         enterTouchDelay={0}
@@ -91,19 +83,13 @@ const Badge: React.FC<BadgeProps> = ({ content = '', title, showIcon = true, sty
         slotProps={slotProps}
       >
         <IconButton
-          className={styles.badge}
-          style={{ ...style }}
+          className={clsx(styles.badge, focus && styles.focus, className ? styles[className] : '')}
           onClick={(e) => {
             if (showIcon) {
               e.stopPropagation();
-              handleTooltipOpen();
+              handleTooltipCLick();
             }
           }} // Toggle on click for both desktop and mobile
-          onMouseEnter={() => {
-            if (showIcon) {
-              handleTooltipOpen();
-            }
-          }} // Show on hover (desktop)
         >
           <span>{title}</span> {showIcon && <InfoOutlinedIcon />}
         </IconButton>

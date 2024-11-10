@@ -77,7 +77,7 @@ export const useGetMenuItems = () => {
             key: 'animals_groups',
           },
         ],
-        badge: <Badge title={t('BADGE.BETA.TITLE')} showIcon={false} />,
+        badge: <Badge className="menuItem" title={t('BADGE.BETA.TITLE')} showIcon={false} />,
       },
       { label: t('MENU.INSIGHTS'), icon: <InsightsIcon />, path: '/Insights', key: 'insights' },
     ];

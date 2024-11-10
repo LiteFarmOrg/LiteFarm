@@ -39,35 +39,40 @@
     background: #ffeab2;
     color: var(--Colors-Accent-Accent-yellow-700);
   }
-  &:focus {
+  &.focus {
     background: var(--Colors-Accent-Accent-yellow-500);
     color: var(--Colors-Accent-Accent-yellow-50);
     border-radius: 8px 8px 4px 4px !important;
   }
-}
 
-:global(.hasBadge) .badge {
-  height: 12px;
-  font-size: 11px;
-  padding: 6px;
-  position: absolute;
-  left: 50px;
-  top: 8px;
-  border-radius: 16px;
-  &:focus,
-  &:hover {
-    color: var(--Colors-Accent-Accent-yellow-600);
-    background: #fffbf2;
-    border-radius: 16px !important;
-  }
-
-  @include xs-breakpoint {
-    height: 16px;
-    position: relative;
-    font-size: 14px;
-    top: initial;
-    left: initial;
+  &.menuItem {
+    height: 12px;
+    font-size: 11px;
     padding: 6px;
-    margin-right: 6px;
+    position: absolute;
+    left: 50px;
+    top: 8px;
+    border-radius: 16px;
+    &:hover {
+      color: var(--Colors-Accent-Accent-yellow-600);
+      background: #fffbf2;
+      border-radius: 16px !important;
+    }
+
+    @include xs-breakpoint {
+      height: 16px;
+      position: relative;
+      font-size: 14px;
+      top: initial;
+      left: initial;
+      padding: 6px;
+      margin-right: 6px;
+    }
   }
+}
+.positionRight {
+  margin-left: 10px;
+}
+.positionLeft {
+  margin-right: 10px;
 }

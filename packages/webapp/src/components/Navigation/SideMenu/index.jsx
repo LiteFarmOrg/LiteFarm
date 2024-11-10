@@ -127,7 +127,6 @@ const SideMenuContent = ({ history, closeDrawer, isCompact, hasBeenExpanded }) =
                 onClick={() => toggleExpanded(key)}
                 path={path}
                 ref={(el) => (expandableItemsRef.current[key] = el)}
-                className={badge && 'hasBadge'}
               >
                 <ListItemIcon className={styles.icon}>{icon}</ListItemIcon>
                 <ListItemText

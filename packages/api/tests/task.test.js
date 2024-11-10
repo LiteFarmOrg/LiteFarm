@@ -16,22 +16,17 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 import mocks from './mock.factories.js';
 import { tableCleanup } from './testEnvironment.js';
 import { faker } from '@faker-js/faker';
+import {
+  toLocal8601Extended,
+  fakeUserFarm,
+  customFieldWorkTask,
+  userFarmTaskGenerator,
+  generateUserFarms,
+  getTask,
+  fakeCompletionData,
+} from './utils/taskUtils.js';
 
 describe('Task tests', () => {
-  /**
-   * Converts a given Date to the local date in ISO-8601 extended format (YYYY-MM-DD).
-   * Date.prototype.toISOString() returns the same format of the UTC (not local) date.
-   * @param {Date} date - The date to be converted.
-   * @returns {string} The input's local date in YYYY-MM-DD format.
-   */
-  function toLocal8601Extended(date) {
-    return (
-      `${date.getFullYear()}-` +
-      `${(date.getMonth() + 1).toString().padStart(2, '0')}-` +
-      `${date.getDate().toString().padStart(2, '0')}`
-    );
-  }
-
   function assignTaskRequest({ user_id, farm_id }, data, task_id, callback) {
     chai
       .request(server)
@@ -149,63 +144,7 @@ describe('Task tests', () => {
       .end(callback);
   }
 
-  function fakeUserFarm(role = 1) {
-    return { ...mocks.fakeUserFarm(), role_id: role };
-  }
-
-  function customFieldWorkTask(task) {
-    return { ...mocks.fakeFieldWorkTask(), field_work_task_type: task };
-  }
-
-  async function userFarmTaskGenerator(linkPlan = true) {
-    const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
-    const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
-    const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
-    const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
-    const [{ crop_variety_id }] = await mocks.crop_varietyFactory({ promisedFarm: [{ farm_id }] });
-
-    const [{ management_plan_id }] = linkPlan
-      ? await mocks.crop_management_planFactory({
-          promisedFarm: [{ farm_id }],
-          promisedLocation: [{ location_id }],
-          crop_variety: [{ crop_variety_id }],
-        })
-      : [{ management_plan_id: null }];
-    const [{ planting_management_plan_id }] = linkPlan
-      ? await knex('planting_management_plan').where({ management_plan_id })
-      : [{ planting_management_plan_id: null }];
-    return {
-      user_id,
-      farm_id,
-      location_id,
-      management_plan_id,
-      planting_management_plan_id,
-      task_type_id,
-    };
-  }
-
-  const generateUserFarms = async (number) => {
-    const userFarms = [];
-    const [user] = await mocks.usersFactory();
-
-    for (let i = 0; i < number; i++) {
-      const [farm] = await mocks.farmFactory();
-      const [{ farm_id }] = await mocks.userFarmFactory(
-        { promisedUser: [user], promisedFarm: [farm] },
-        { role_id: 1, status: 'Active' },
-      );
-
-      userFarms.push({ user_id: user.user_id, farm_id });
-    }
-
-    return userFarms;
-  };
-
   const tasksWithProducts = ['soil_amendment_task'];
-
-  async function getTask(task_id) {
-    return knex('task').where({ task_id }).first();
-  }
 
   beforeAll(async () => {
     // Check in controller expects Soil Amendment Task to exist
@@ -1807,17 +1746,7 @@ describe('Task tests', () => {
       plant_task: () => mocks.fakePlantTask(),
     };
 
-    const complete_date = '2222-01-01';
-    const duration = 15;
-    const happiness = 5;
-    const notes = faker.lorem.sentence();
-
-    const fakeCompletionData = {
-      complete_date,
-      duration,
-      happiness,
-      completion_notes: notes,
-    };
+    const { complete_date, duration, happiness, completion_notes: notes } = fakeCompletionData;
 
     test('should return 403 if non-assignee tries to complete task', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));

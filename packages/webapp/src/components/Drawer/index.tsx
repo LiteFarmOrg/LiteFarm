@@ -28,6 +28,7 @@ interface DrawerProps {
   buttonGroup?: React.ReactNode;
   fullHeight?: boolean;
   responsiveModal?: boolean;
+  addBackdrop?: boolean;
   classes?: {
     modal?: string;
     drawer?: string;
@@ -54,6 +55,7 @@ const Drawer = ({
   },
   fullHeight,
   responsiveModal = true,
+  addBackdrop = true,
 }: DrawerProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
@@ -74,10 +76,16 @@ const Drawer = ({
     </ModalComponent>
   ) : (
     <>
-      <div
-        className={clsx(styles.drawerBackdrop, isOpen ? styles.openC : '', classes.drawerBackdrop)}
-        onClick={onClose}
-      ></div>
+      {addBackdrop && (
+        <div
+          className={clsx(
+            styles.drawerBackdrop,
+            isOpen ? styles.openC : '',
+            classes.drawerBackdrop,
+          )}
+          onClick={onClose}
+        ></div>
+      )}
       <div
         className={clsx(
           styles.drawer,

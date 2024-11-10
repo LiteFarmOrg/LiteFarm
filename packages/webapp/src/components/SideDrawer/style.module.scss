@@ -1,0 +1,86 @@
+/*
+ *  Copyright (c) 2023 LiteFarm.org
+ *  This file is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+  .drawer {
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: -100%;
+    right: 0;
+    transition: bottom 0.2s ease-in-out;
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding: 16px;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
+
+    width: 416px;
+  
+    &.openD {
+      bottom: 0;
+    }
+  
+    &.fullHeight {
+      height: calc(100% - 64px);
+  
+      .drawerContent {
+        max-height: 100%;
+        flex-grow: 1;
+      }
+    }
+
+    &.mobile {
+      height: fit-content;
+      transform: translateY(calc(-50% + 38px));
+      top: 50%;
+    }
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    height: 35px;
+  }
+  
+  .title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+  }
+  
+  .drawerContent {
+    overflow-y: auto;
+    margin: 0 -16px;
+    padding: 16px;
+  }
+  
+  .modalContent {
+    overflow-y: auto;
+    margin: 0 -24px;
+    padding: 0 24px;
+  }
+  
+  .close {
+    width: 36px;
+    height: 36px;
+  
+    svg {
+      width: 28px;
+      height: 28px;
+      color: var(--grey600);
+    }
+  }
+  

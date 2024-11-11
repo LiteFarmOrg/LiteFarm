@@ -160,6 +160,15 @@ router.post(
 );
 
 router.post(
+  '/animal_movement_task',
+  modelMapping['animal_movement_task'],
+  hasFarmAccess({ body: 'locations' }),
+  isWorkerToSelfOrAdmin(),
+  checkCreateTask('animal_movement_task'),
+  taskController.createTask('animal_movement_task'),
+);
+
+router.post(
   '/custom_task',
   modelMapping['custom_task'],
   hasFarmAccess({ mixed: 'taskManagementPlanAndLocation' }),
@@ -248,6 +257,15 @@ router.patch(
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
   taskController.completeTask('transplant_task'),
+);
+
+router.patch(
+  '/complete/animal_movement_task/:task_id',
+  modelMapping['animal_movement_task'],
+  hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']),
+  checkCompleteTask('animal_movement_task'),
+  taskController.completeTask('animal_movement_task'),
 );
 
 router.patch(

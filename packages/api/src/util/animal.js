@@ -23,7 +23,7 @@ import AnimalModel from '../models/animalModel.js';
 import AnimalBatchModel from '../models/animalBatchModel.js';
 import { checkIsArray, customError } from './customErrors.js';
 
-export const animalTaskTypes = ['animal_movement_task'];
+export const ANIMAL_TASKS = ['animal_movement_task'];
 
 /**
  * Assigns internal identifiers to records.

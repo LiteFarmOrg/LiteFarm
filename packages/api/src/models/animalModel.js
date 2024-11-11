@@ -220,6 +220,10 @@ class Animal extends baseModel {
         const { ref } = Animal;
         query.select(ref('id'), ref('name'), ref('location_id'));
       },
+      selectId(query) {
+        const { ref } = Animal;
+        query.select(ref('id'));
+      },
     };
   }
 }

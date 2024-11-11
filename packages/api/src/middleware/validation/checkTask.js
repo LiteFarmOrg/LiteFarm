@@ -16,7 +16,7 @@
 import TaskModel from '../../models/taskModel.js';
 import { checkSoilAmendmentTaskProducts } from './checkSoilAmendmentTaskProducts.js';
 import {
-  animalTaskTypes,
+  ANIMAL_TASKS,
   checkAnimalAndBatchIds,
   isOnOrAfterBirthAndBroughtInDates,
 } from '../../util/animal.js';
@@ -123,7 +123,7 @@ export function checkCompleteTask(taskType) {
         return res.status(400).send('Task has already been completed or abandoned');
       }
 
-      if (animalTaskTypes.includes(taskType)) {
+      if (ANIMAL_TASKS.includes(taskType)) {
         await checkAnimalTask(req, taskType, 'complete_date');
       }
 
@@ -181,7 +181,7 @@ export function checkCreateTask(taskType) {
         return res.status(400).send('task type requires products');
       }
 
-      if (animalTaskTypes.includes(taskType)) {
+      if (ANIMAL_TASKS.includes(taskType)) {
         await checkAnimalTask(req, taskType, 'due_date');
       }
 

@@ -33,7 +33,7 @@ import Location from '../models/locationModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
 import baseController from './baseController.js';
 import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js';
-import { animalTaskTypes, isOnOrAfterBirthAndBroughtInDates } from '../util/animal.js';
+import { ANIMAL_TASKS, isOnOrAfterBirthAndBroughtInDates } from '../util/animal.js';
 import { checkIsArray, customError } from '../util/customErrors.js';
 
 const adminRoles = [1, 2, 5];
@@ -117,128 +117,121 @@ async function updateTaskWithCompletedData(
   nonModifiable,
   typeOfTask,
 ) {
-  if (typeOfTask === 'soil_amendment_task') {
-    const { soil_amendment_task_products } = data;
+  switch (typeOfTask) {
+    case 'soil_amendment_task': {
+      const { soil_amendment_task_products } = data;
 
-    if (soil_amendment_task_products) {
-      // Temporarily soft delete all with task_id since there is no constraint on deletions
-      await SoilAmendmentTaskProductsModel.query(trx)
-        .context({ user_id })
-        .update({ deleted: true })
-        .where('task_id', task_id);
+      if (soil_amendment_task_products) {
+        // Temporarily soft delete all with task_id since there is no constraint on deletions
+        await SoilAmendmentTaskProductsModel.query(trx)
+          .context({ user_id })
+          .update({ deleted: true })
+          .where('task_id', task_id);
 
-      // Set deleted false for all in update query
-      soil_amendment_task_products.forEach((taskProduct) => {
-        taskProduct.deleted = false;
-      });
-    }
-
-    // Allows the insertion of missing data if no id present
-    // Soft deletes table rows with soft delete option and hard deletes ones without
-    const task = await TaskModel.query(trx)
-      .context({ user_id })
-      .upsertGraph(
-        { task_id, ...data, ...wagePatchData },
-        {
-          noUpdate: nonModifiable,
-          noDelete: nonModifiable,
-          noInsert: nonModifiable,
-          insertMissing: true,
-        },
-      );
-    return task;
-  }
-
-  if (typeOfTask === 'animal_movement_task') {
-    const { locations, animals, animal_batches } = await TaskModel.query(trx)
-      .select('task_id')
-      .withGraphFetched(
-        `[locations(selectLocationId, filterDeleted), animals(selectId), animal_batches(selectId)]`,
-      )
-      .modifiers({
-        selectId(builder) {
-          builder.select('id');
-        },
-        selectLocationId(builder) {
-          builder.select('location.location_id');
-        },
-        filterDeleted(builder) {
-          builder.where('location.deleted', false);
-        },
-      })
-      .where({ task_id })
-      .first();
-
-    const locationId = locations?.[0]?.location_id;
-
-    if (!locationId) {
-      throw customError('location deleted');
-    }
-
-    if (!data.animals && !data.animal_batches) {
-      // Check if there are animals and batches in the DB to move
-      if (!animals?.length && !animal_batches?.length) {
-        throw customError('No animals and bathes to move');
+        // Set deleted false for all in update query
+        soil_amendment_task_products.forEach((taskProduct) => {
+          taskProduct.deleted = false;
+        });
       }
 
-      data.animals = animals;
-      data.animal_batches = animal_batches;
+      // Allows the insertion of missing data if no id present
+      // Soft deletes table rows with soft delete option and hard deletes ones without
+      const task = await TaskModel.query(trx)
+        .context({ user_id })
+        .upsertGraph(
+          { task_id, ...data, ...wagePatchData },
+          {
+            noUpdate: nonModifiable,
+            noDelete: nonModifiable,
+            noInsert: nonModifiable,
+            insertMissing: true,
+          },
+        );
+      return task;
     }
 
-    const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
-      data.complete_date,
-      (data.animals || []).map(({ id }) => id),
-      (data.animal_batches || []).map(({ id }) => id),
-    );
+    case 'animal_movement_task': {
+      const { locations, animals, animal_batches } = await TaskModel.query(trx)
+        .select('task_id')
+        .withGraphFetched(
+          '[locations(selectLocationId, filterDeleted), animals(selectId), animal_batches(selectId)]',
+        )
+        .where({ task_id })
+        .first();
 
-    if (!isValidDate) {
-      throw customError(
-        `complete_date must be on or after the animals' birth and brought-in dates`,
+      const locationId = locations?.[0]?.location_id;
+
+      if (!locationId) {
+        throw customError('location deleted');
+      }
+
+      if (!data.animals && !data.animal_batches) {
+        // Check if there are animals and batches in the DB to move
+        if (!animals?.length && !animal_batches?.length) {
+          throw customError('No animals and bathes to move');
+        }
+
+        data.animals = animals;
+        data.animal_batches = animal_batches;
+      }
+
+      const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
+        data.complete_date,
+        (data.animals || []).map(({ id }) => id),
+        (data.animal_batches || []).map(({ id }) => id),
       );
+
+      if (!isValidDate) {
+        throw customError(
+          `complete_date must be on or after the animals' birth and brought-in dates`,
+        );
+      }
+
+      data.animals?.forEach((animal) => (animal.location_id = locationId));
+      data.animal_batches?.forEach((batch) => (batch.location_id = locationId));
+
+      if (!data.animal_movement_task) {
+        data.animal_movement_task = {};
+      }
+      // Prevent deletion of animal_movement_task and allow proper updates on purpose relationships
+      data.animal_movement_task.task_id = task_id;
+
+      // If the request body do not have purposes, add 'animal_movement_task.purpose_relationships'
+      // to prevent existing purpose relationships from being deleted
+      const noDelete = data.animal_movement_task.purpose_relationships
+        ? nonModifiable
+        : [...nonModifiable, 'animal_movement_task.purpose_relationships'];
+
+      const task = await TaskModel.query(trx)
+        .context({ user_id })
+        .upsertGraph(
+          { task_id, ...data, ...wagePatchData },
+          {
+            noUpdate: nonModifiable,
+            noDelete,
+            noInsert: [...nonModifiable, 'animal_movement_task'],
+            relate: ['animals', 'animal_batches'],
+            unrelate: ['animals', 'animal_batches'],
+          },
+        );
+
+      return task;
     }
 
-    data.animals?.forEach((animal) => (animal.location_id = locationId));
-    data.animal_batches?.forEach((batch) => (batch.location_id = locationId));
-
-    if (!data.animal_movement_task) {
-      data.animal_movement_task = {};
+    default: {
+      const task = await TaskModel.query(trx)
+        .context({ user_id })
+        .upsertGraph(
+          { task_id, ...data, ...wagePatchData },
+          {
+            noUpdate: nonModifiable,
+            noDelete: true,
+            noInsert: true,
+          },
+        );
+      return task;
     }
-    // Prevent deletion of animal_movement_task and allow proper updates on purpose relationships
-    data.animal_movement_task.task_id = task_id;
-
-    // If the request body do not have purposes, add 'animal_movement_task.purpose_relationships'
-    // to prevent existing purpose relationships from being deleted
-    const noDelete = data.animal_movement_task.purpose_relationships
-      ? nonModifiable
-      : [...nonModifiable, 'animal_movement_task.purpose_relationships'];
-
-    const task = await TaskModel.query(trx)
-      .context({ user_id })
-      .upsertGraph(
-        { task_id, ...data, ...wagePatchData },
-        {
-          noUpdate: nonModifiable,
-          noDelete,
-          noInsert: [...nonModifiable, 'animal_movement_task'],
-          relate: ['animals', 'animal_batches'],
-          unrelate: ['animals', 'animal_batches'],
-        },
-      );
-
-    return task;
   }
-
-  const task = await TaskModel.query(trx)
-    .context({ user_id })
-    .upsertGraph(
-      { task_id, ...data, ...wagePatchData },
-      {
-        noUpdate: nonModifiable,
-        noDelete: true,
-        noInsert: true,
-      },
-    );
-  return task;
 }
 
 const taskController = {
@@ -477,7 +470,7 @@ const taskController = {
         }
 
         data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
-        if (animalTaskTypes.includes(typeOfTask)) {
+        if (ANIMAL_TASKS.includes(typeOfTask)) {
           data = this.formatAnimalAndBatchIds(data);
         }
         const result = await TaskModel.transaction(async (trx) => {
@@ -542,10 +535,10 @@ const taskController = {
 
   formatAnimalAndBatchIds(data) {
     if (data.related_animal_ids) {
-      data.animals = data.related_animal_ids.map((id) => ({ id }));
+      data.animals = [...new Set(data.related_animal_ids)].map((id) => ({ id }));
     }
     if (data.related_batch_ids) {
-      data.animal_batches = data.related_batch_ids.map((id) => ({ id }));
+      data.animal_batches = [...new Set(data.related_batch_ids)].map((id) => ({ id }));
     }
 
     delete data.related_animal_ids;
@@ -769,7 +762,7 @@ const taskController = {
           { ...req.body, owner_user_id: user_id },
           req.headers.farm_id,
         );
-        if (animalTaskTypes.includes(typeOfTask)) {
+        if (ANIMAL_TASKS.includes(typeOfTask)) {
           data = this.formatAnimalAndBatchIds(data);
         }
         const result = await TaskModel.transaction(async (trx) => {

@@ -20,7 +20,7 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 
 // Define the Props
-interface BadgeProps {
+export interface BadgeProps {
   title: string;
   content?: string | React.ReactElement;
   showIcon?: boolean;

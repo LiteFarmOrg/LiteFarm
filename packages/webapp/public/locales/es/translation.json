@@ -208,6 +208,12 @@
       "WHAT_TYPE_OF_IRRIGATION": "¿Qué tipo de riego?"
     },
     "MANAGE_CUSTOM_TASKS": "Administrar tareas personalizadas",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "MISSING",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "MISSING"
+    },
     "NEED_MANAGEMENT_PLAN": "Necesitará un plan de cultivo que está activo o planificado antes de poder programar una tarea de cosecha o una tarea de trasplante. Vaya al catálogo de cultivos para crear un plan ahora.",
     "NO_MANAGEMENT_PLAN": "No hay ningun plan de cultivo de cultivos elegibles",
     "PEST_CONTROL_VIEW": {

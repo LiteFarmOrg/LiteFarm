@@ -203,6 +203,12 @@
       "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?"
     },
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "What's the purpose of this movement?",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "Select the purpose for this movement",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "Explanation",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Please describe the reason for this movement"
+    },
     "NEED_MANAGEMENT_PLAN": "You'll need an active or planned crop plan before you can schedule a harvest task or transplant task. Go to the crop catalogue to create a plan now.",
     "NO_MANAGEMENT_PLAN": "No eligible crop plans",
     "PEST_CONTROL_VIEW": {

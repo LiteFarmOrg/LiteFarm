@@ -17,6 +17,22 @@
     "BORN_AT_FARM": "Born at the farm",
     "BROUGHT_IN": "Brought in"
   },
+  "PURPOSE": {
+    "GRAZING": "Grazing",
+    "MILKING": "Milking",
+    "MANURE_MANAGEMENT": "Manure management",
+    "PEST_OR_DISEASE_CONTROL": "Pest or disease control",
+    "BREEDING": "Breeding",
+    "FEEDING": "Feeding",
+    "VETERINARY_CARE": "Veterinary care",
+    "BIRTHING": "Birthing",
+    "WEANING": "Weaning",
+    "TRANSPORTATION": "Transportation",
+    "BEHAVIORAL_AND_SOCIAL_MANAGEMENT": "Behavioral and social management",
+    "EXERCISE": "Exercise",
+    "QUARANTINE": "Quarantine",
+    "OTHER": "Other"
+  },
   "SEX": {
     "MALE": "Male",
     "FEMALE": "Female"

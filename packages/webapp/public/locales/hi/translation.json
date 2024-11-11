@@ -136,6 +136,12 @@
       "WHAT_TYPE_OF_IRRIGATION": "सिंचाई का कौन सा प्रकार?"
     },
     "MANAGE_CUSTOM_TASKS": "कस्टम कार्यों का प्रबंधन करें",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "MISSING",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "MISSING"
+    },
     "NEED_MANAGEMENT_PLAN": "आपको कटाई कार्य या प्रत्यारोपण कार्य निर्धारित करने से पहले एक सक्रिय या योजनाबद्ध फसल योजना की आवश्यकता होगी। अब योजना बनाने के लिए फसल कैटलॉग पर जाएँ।",
     "NO_MANAGEMENT_PLAN": "कोई योग्य फसल योजना नहीं",
     "PEST_CONTROL_VIEW": {

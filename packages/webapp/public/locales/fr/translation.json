@@ -208,6 +208,12 @@
       "WHAT_TYPE_OF_IRRIGATION": "Quel type d'irrigation ?"
     },
     "MANAGE_CUSTOM_TASKS": "Gérer les tâches personnalisées",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "MISSING",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "MISSING"
+    },
     "NEED_MANAGEMENT_PLAN": "Vous avez besoin d'un plan de culture actif ou planifié avant de pouvoir programmer une tâche de récolte ou une tâche de plantation. Accédez au catalogue de cultures pour créer un plan maintenant.",
     "NO_MANAGEMENT_PLAN": "Aucun plan de culture éligible",
     "PEST_CONTROL_VIEW": {

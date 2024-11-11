@@ -147,6 +147,12 @@ export function checkCompleteTask(taskType) {
       }
     } catch (error) {
       console.error(error);
+
+      if (error.type === 'LiteFarmCustom') {
+        return error.body
+          ? res.status(error.code).json({ ...error.body, message: error.message })
+          : res.status(error.code).send(error.message);
+      }
       return res.status(500).json({
         error,
       });
@@ -209,7 +215,7 @@ async function checkAnimalTask(req, taskType, dateName) {
 
   if (dateName === 'complete_date') {
     // Set isAnimalOrBatchRequired to false when both animals and batches won't be modified
-    const animalsOrBatchesProvided = !!(req.body.animals || req.body.animal_batches);
+    const animalsOrBatchesProvided = !!(req.body.related_animal_ids || req.body.related_batch_ids);
     isAnimalOrBatchRequired = animalsOrBatchesProvided;
   }
 
@@ -220,14 +226,16 @@ async function checkAnimalTask(req, taskType, dateName) {
     isAnimalOrBatchRequired,
   );
 
-  const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
-    req.body[dateName],
-    related_animal_ids,
-    related_batch_ids,
-  );
+  if (dateName === 'due_date') {
+    const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
+      req.body[dateName],
+      related_animal_ids,
+      related_batch_ids,
+    );
 
-  if (!isValidDate) {
-    throw customError(`${dateName} must be on or after the animals' birth and brought-in dates`);
+    if (!isValidDate) {
+      throw customError(`${dateName} must be on or after the animals' birth and brought-in dates`);
+    }
   }
 }
 

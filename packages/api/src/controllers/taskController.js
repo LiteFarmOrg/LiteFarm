@@ -33,7 +33,7 @@ import Location from '../models/locationModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
 import baseController from './baseController.js';
 import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js';
-import { animalTaskTypes } from '../util/animal.js';
+import { animalTaskTypes, isOnOrAfterBirthAndBroughtInDates } from '../util/animal.js';
 import { checkIsArray, customError } from '../util/customErrors.js';
 
 const adminRoles = [1, 2, 5];
@@ -63,8 +63,18 @@ async function getTaskAssigneeAndFinalWage(farm_id, user_id, task_id) {
 }
 
 async function formatAnimalMovementTaskForDB(data) {
+  if (data.locations && data.locations.length > 1) {
+    throw customError('Only one location can be assigned to this task type', 400);
+  }
+
   if (!data.animal_movement_task) {
     return data;
+  }
+
+  if (data.animal_movement_task.purpose_relationships) {
+    throw customError(
+      `Invalid field: "purpose_relationships" should not be included. Use "purposes" instead`,
+    );
   }
 
   if (!data.animal_movement_task.purposes) {
@@ -173,6 +183,18 @@ async function updateTaskWithCompletedData(
 
       data.animals = animals;
       data.animal_batches = animal_batches;
+    }
+
+    const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
+      data.complete_date,
+      (data.animals || []).map(({ id }) => id),
+      (data.animal_batches || []).map(({ id }) => id),
+    );
+
+    if (!isValidDate) {
+      throw customError(
+        `complete_date must be on or after the animals' birth and brought-in dates`,
+      );
     }
 
     data.animals?.forEach((animal) => (animal.location_id = locationId));
@@ -780,6 +802,11 @@ const taskController = {
           return res.status(404).send('Task not found');
         }
       } catch (error) {
+        if (error.type === 'LiteFarmCustom') {
+          return error.body
+            ? res.status(error.code).json({ ...error.body, message: error.message })
+            : res.status(error.code).send(error.message);
+        }
         if (error.message === "Not authorized to complete other people's task") {
           return res.status(403).send(error.message);
         }

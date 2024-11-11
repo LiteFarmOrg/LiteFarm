@@ -36,12 +36,45 @@ export function toLocal8601Extended(date) {
   );
 }
 
+const today = new Date();
+export const todayWithTimezone = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+export const yesterdayInYYYYMMDD = toLocal8601Extended(yesterday);
+
 export const fakeCompletionData = {
   complete_date: '2222-01-01',
   duration: 15,
   happiness: 5,
   completion_notes: faker.lorem.sentence(),
 };
+
+export async function postTaskRequest({ user_id, farm_id }, type, data) {
+  return chai
+    .request(server)
+    .post(`/task/${type}`)
+    .set('user_id', user_id)
+    .set('farm_id', farm_id)
+    .send(data);
+}
+
+export async function getTasksRequest({ user_id, farm_id }) {
+  return chai
+    .request(server)
+    .get(`/task/${farm_id}`)
+    .set('user_id', user_id)
+    .set('farm_id', farm_id);
+}
+
+export async function completeTaskRequest({ user_id, farm_id }, data, task_id, type) {
+  return chai
+    .request(server)
+    .patch(`/task/complete/${type}/${task_id}`)
+    .set('user_id', user_id)
+    .set('farm_id', farm_id)
+    .send(data);
+}
 
 export function fakeUserFarm(role = 1) {
   return { ...mocks.fakeUserFarm(), role_id: role };
@@ -77,6 +110,87 @@ export async function userFarmTaskGenerator(linkPlan = true) {
     task_type_id,
   };
 }
+
+const generateAnimalMovementTask = async (taskId, animalMovementTask) => {
+  if (!animalMovementTask) {
+    return;
+  }
+
+  // Insert animal_movement_task
+  await mocks.animal_movement_taskFactory({ promisedTask: [{ task_id: taskId }] });
+
+  if (!animalMovementTask.purpose_relationships) {
+    return { animal_movement_task: { task_id: taskId } };
+  }
+
+  // Handle relationships with purposes
+  await Promise.all(
+    animalMovementTask.purpose_relationships.map(({ purpose_id, other_purpose }) =>
+      mocks.animal_movement_task_purpose_relationshipFactory({
+        promisedTask: [{ task_id: taskId }],
+        promisedPurpose: [{ id: purpose_id }],
+        other_purpose,
+      }),
+    ),
+  );
+
+  const purposeRelationships = await knex('animal_movement_task_purpose_relationship').where({
+    task_id: taskId,
+  });
+
+  return { task_id: taskId, purpose_relationships: purposeRelationships };
+};
+
+export const animalTaskGenerator = async (taskData) => {
+  const { animals, animal_batches, locations, animal_movement_task, ...otherData } = taskData;
+
+  // Insert the main task record
+  const [task] = await mocks.taskFactory({}, otherData);
+  const { task_id } = task;
+
+  // Handle relationships with locations
+  await Promise.all(
+    locations.map(({ location_id }) =>
+      mocks.location_tasksFactory({
+        promisedTask: [{ task_id }],
+        promisedField: [{ location_id }],
+      }),
+    ),
+  );
+
+  // Handle relationships with animals
+  if (animals?.length) {
+    await Promise.all(
+      animals.map(({ id }) =>
+        mocks.task_animal_relationshipFactory({
+          promisedTask: [{ task_id }],
+          promisedAnimal: [{ id }],
+        }),
+      ),
+    );
+  }
+
+  // Handle relationships with animal_batches
+  if (animal_batches?.length) {
+    await Promise.all(
+      animal_batches.map(({ id }) =>
+        mocks.task_animal_batch_relationshipFactory({
+          promisedTask: [{ task_id }],
+          promisedBatch: [{ id }],
+        }),
+      ),
+    );
+  }
+
+  // Handle animal_movement_task
+  const movementTask = await generateAnimalMovementTask(task_id, animal_movement_task);
+
+  const createdTask = { ...task, locations, animals, animal_batches };
+  if (movementTask) {
+    createdTask.animal_movement_task = movementTask;
+  }
+  return createdTask;
+};
 
 export const generateUserFarms = async (number) => {
   const userFarms = [];

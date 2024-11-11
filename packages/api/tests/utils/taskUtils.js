@@ -160,26 +160,16 @@ export const animalTaskGenerator = async (taskData) => {
 
   // Handle relationships with animals
   if (animals?.length) {
-    await Promise.all(
-      animals.map(({ id }) =>
-        mocks.task_animal_relationshipFactory({
-          promisedTask: [{ task_id }],
-          promisedAnimal: [{ id }],
-        }),
-      ),
-    );
+    await knex('task_animal_relationship')
+      .insert(animals.map(({ id }) => ({ task_id, animal_id: id })))
+      .returning('*');
   }
 
   // Handle relationships with animal_batches
   if (animal_batches?.length) {
-    await Promise.all(
-      animal_batches.map(({ id }) =>
-        mocks.task_animal_batch_relationshipFactory({
-          promisedTask: [{ task_id }],
-          promisedBatch: [{ id }],
-        }),
-      ),
-    );
+    await knex('task_animal_batch_relationship')
+      .insert(animal_batches.map(({ id }) => ({ task_id, animal_batch_id: id })))
+      .returning('*');
   }
 
   // Handle animal_movement_task

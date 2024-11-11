@@ -67,6 +67,15 @@ export async function getTasksRequest({ user_id, farm_id }) {
     .set('farm_id', farm_id);
 }
 
+export async function patchTaskDateRequest({ user_id, farm_id }, data, task_id) {
+  return chai
+    .request(server)
+    .patch(`/task/patch_due_date/${task_id}`)
+    .set('user_id', user_id)
+    .set('farm_id', farm_id)
+    .send(data);
+}
+
 export async function completeTaskRequest({ user_id, farm_id }, data, task_id, type) {
   return chai
     .request(server)
@@ -179,6 +188,7 @@ export const animalTaskGenerator = async (taskData) => {
   if (movementTask) {
     createdTask.animal_movement_task = movementTask;
   }
+  debugger;
   return createdTask;
 };
 

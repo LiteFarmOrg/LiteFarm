@@ -1768,26 +1768,6 @@ function fakeScoutingTask(defaultData = {}) {
   };
 }
 
-async function task_animal_relationshipFactory({
-  promisedTask = taskFactory(),
-  promisedAnimal = animalFactory(),
-} = {}) {
-  const [[{ task_id }], [{ id: animal_id }]] = await Promise.all([promisedTask, promisedAnimal]);
-
-  return knex('task_animal_relationship').insert({ task_id, animal_id }).returning('*');
-}
-
-async function task_animal_batch_relationshipFactory({
-  promisedTask = taskFactory(),
-  promisedBatch = animal_batchFactory(),
-} = {}) {
-  const [[{ task_id }], [{ id }]] = await Promise.all([promisedTask, promisedBatch]);
-
-  return knex('task_animal_batch_relationship')
-    .insert({ task_id, animal_batch_id: id })
-    .returning('*');
-}
-
 async function animal_movement_taskFactory(
   { promisedTask = taskFactory() } = {},
   animal_movement_task = fakeAnimalMovementTask(),
@@ -2633,8 +2613,6 @@ export default {
   fakeIrrigationTask,
   scouting_taskFactory,
   fakeScoutingTask,
-  task_animal_relationshipFactory,
-  task_animal_batch_relationshipFactory,
   animal_movement_taskFactory,
   fakeAnimalMovementTask,
   animal_movement_purposeFactory,

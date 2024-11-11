@@ -285,3 +285,49 @@ async function checkAnimalMovementTask(req) {
     checkIsArray(req.body.animal_movement_task.purposes, 'purposes');
   }
 }
+
+export function checkDueDate() {
+  const animalTaskTranslationKeys = ['MOVEMENT_TASK'];
+
+  return async (req, res, next) => {
+    try {
+      const { due_date } = req.body;
+      const { task_id } = req.params;
+
+      const { taskType, animals, animal_batches } = await TaskModel.query()
+        .select('task_id')
+        .withGraphFetched(
+          '[taskType(selectTranslationKey), animals(selectId), animal_batches(selectId)]',
+        )
+        .modifiers({
+          selectTranslationKey(builder) {
+            builder.select('task_translation_key');
+          },
+        })
+        .where({ task_id })
+        .first();
+
+      if (animalTaskTranslationKeys.includes(taskType.task_translation_key)) {
+        const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
+          due_date.split('T')[0],
+          animals.map(({ id }) => id),
+          animal_batches.map(({ id }) => id),
+        );
+
+        if (!isValidDate) {
+          throw customError(`due_date must be on or after the animals' birth and brought-in dates`);
+        }
+      }
+      next();
+    } catch (error) {
+      console.error(error);
+
+      if (error.type === 'LiteFarmCustom') {
+        return error.body
+          ? res.status(error.code).json({ ...error.body, message: error.message })
+          : res.status(error.code).send(error.message);
+      }
+      return res.status(500).json({ error });
+    }
+  };
+}

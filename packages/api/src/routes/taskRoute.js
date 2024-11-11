@@ -30,6 +30,7 @@ import {
   checkCompleteTask,
   checkCreateTask,
   checkDeleteTask,
+  checkDueDate,
 } from '../middleware/validation/checkTask.js';
 
 router.patch(
@@ -54,6 +55,7 @@ router.patch(
   '/patch_due_date/:task_id',
   hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']),
+  checkDueDate(),
   taskController.patchTaskDate,
 );
 

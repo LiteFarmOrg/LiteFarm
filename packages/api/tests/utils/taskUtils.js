@@ -188,7 +188,7 @@ export const animalTaskGenerator = async (taskData) => {
   if (movementTask) {
     createdTask.animal_movement_task = movementTask;
   }
-  debugger;
+
   return createdTask;
 };
 

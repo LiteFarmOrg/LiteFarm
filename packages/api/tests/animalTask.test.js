@@ -786,7 +786,7 @@ describe('Animal task tests', () => {
             ),
           );
           const { task_id } = task;
-          debugger;
+
           const patchRes = await completeMovementTaskReq(
             {
               ...fakeCompletionData,
@@ -800,7 +800,7 @@ describe('Animal task tests', () => {
           );
           expect(patchRes.status).toBe(200);
           const res = await getTasksRequest({ user_id, farm_id });
-          debugger;
+
           const completedTask = res.body.find((retrievedTask) => retrievedTask.task_id === task_id);
           checkAnimalMovement(task, completedTask);
           expect(completedTask.animal_movement_task.task_id).toBe(task_id);

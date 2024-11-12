@@ -10,20 +10,16 @@
   "WEEDING": "കള",
   "WASH_AND_PACK_TASK": "കഴുകി പായ്ക്ക് ചെയ്യുക",
   "PEST_CONTROL_TASK": "കീട നിയന്ത്രണം",
-  "PEST_CONTROL_TASK_LOWER": "കീട നിയന്ത്രണം",
   "OTHER_TASK": "മറ്റുള്ളവ",
   "BREAK_TASK": "താൽക്കാലികമായി നിർത്തുക",
   "SOIL_TASK": "മണ്ണ് സാമ്പിൾ ഫലങ്ങൾ",
   "IRRIGATION_TASK": "ജലസേചനം",
-  "IRRIGATION_TASK_LOWER": "ജലസേചനം",
   "TRANSPORT_TASK": "ഗതാഗതം",
   "FIELD_WORK_TASK": "കൃഷി ജോലി",
-  "FIELD_WORK_TASK_LOWER": "കൃഷി ജോലി",
   "PLANT_TASK": "നടീൽ",
   "TRANSPLANT_TASK": "പറിച്ചുനടുക",
   "SOCIAL_TASK": "സാമൂഹിക",
   "CLEANING_TASK": "വൃത്തിയാക്കൽ",
-  "CLEANING_TASK_LOWER": "വൃത്തിയാക്കൽ",
   "SOIL_AMENDMENT_TASK": "മണ്ണ് ഭേദഗതികൾ",
-  "SOIL_AMENDMENT_TASK_LOWER": "മണ്ണ് ഭേദഗതികൾ"
+  "MOVEMENT_TASK": "MISSING"
 }

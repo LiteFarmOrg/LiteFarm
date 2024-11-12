@@ -1,5 +1,5 @@
 /*
- *  Copyright 2021 - 2024 LiteFarm.org
+ *  Copyright 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,21 +13,28 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const TODO = 'TODO';
-export const UNASSIGNED = 'UNASSIGNED';
-export const ALL = 'ALL';
+CREATE VIEW animal_union_batch_id_view AS
+SELECT
+  *,
+  ROW_NUMBER() OVER (PARTITION BY farm_id ORDER BY created_at, id, batch)::INTEGER AS internal_identifier
+FROM (
+  SELECT
+    id,
+    farm_id,
+    FALSE AS batch,
+    created_at
+  FROM
+    animal a
 
-export const TASK_TYPES = {
-  CLEANING: 'cleaning_task',
-  FIELD_WORK: 'field_work_task',
-  PEST_CONTROL: 'pest_control_task',
-  SOIL_AMENDMENT: 'soil_amendment_task',
-  HARVEST: 'harvest_tasks',
-  IRRIGATION: 'irrigation_task',
-};
+  UNION ALL
 
-export const TASK_TYPE_PRODUCT_MAP = {
-  SOIL_AMENDMENT_TASK: 'soil_amendment_task_products',
-};
-
-export const ANIMAL_TASKS = ['MOVEMENT_TASK'];
+  SELECT
+    id,
+    farm_id,
+    TRUE AS batch,
+    created_at
+  FROM
+    animal_batch ab
+) animal_union_batch_id_view
+ORDER BY
+  created_at, id, batch;

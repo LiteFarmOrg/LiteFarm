@@ -1,5 +1,5 @@
 /*
- *  Copyright 2021 - 2024 LiteFarm.org
+ *  Copyright 2024 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -13,21 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const TODO = 'TODO';
-export const UNASSIGNED = 'UNASSIGNED';
-export const ALL = 'ALL';
+.wrapper {
+  height: calc(100vh - var(--global-navbar-height));
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
 
-export const TASK_TYPES = {
-  CLEANING: 'cleaning_task',
-  FIELD_WORK: 'field_work_task',
-  PEST_CONTROL: 'pest_control_task',
-  SOIL_AMENDMENT: 'soil_amendment_task',
-  HARVEST: 'harvest_tasks',
-  IRRIGATION: 'irrigation_task',
-};
-
-export const TASK_TYPE_PRODUCT_MAP = {
-  SOIL_AMENDMENT_TASK: 'soil_amendment_task_products',
-};
-
-export const ANIMAL_TASKS = ['MOVEMENT_TASK'];
+.button {
+  max-height: 48px;
+}

@@ -77,7 +77,7 @@ export const sexDetailsOptions = [
   { id: 1, label: 'Female', count: 2 },
 ];
 
-export const useOptions = [
+export const animalUseOptions = [
   { label: 'A', value: 0 },
   { label: 'B', value: 1 },
   { label: 'Other', value: 2, key: 'OTHER' },

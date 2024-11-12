@@ -106,7 +106,7 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
   }
 
   if (optionTypes.includes('use')) {
-    options.useOptions = uses.map((animalType) => ({
+    options.animalUseOptions = uses.map((animalType) => ({
       default_type_id: animalType.default_type_id,
       uses: animalType.uses.map((use) => ({
         value: use.id,

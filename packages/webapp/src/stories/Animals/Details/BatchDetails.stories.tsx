@@ -24,7 +24,7 @@ import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
 import {
   sexOptions,
   sexDetailsOptions,
-  useOptions,
+  animalUseOptions,
   organicStatusOptions,
   originOptions,
   addDefaults,
@@ -53,7 +53,7 @@ export const Default: Story = {
             <BatchDetails
               generalDetailProps={{
                 sexOptions,
-                useOptions,
+                animalUseOptions,
                 sexDetailsOptions,
               }}
               otherDetailsProps={{

@@ -37,7 +37,7 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
     breedOptions,
     sexOptions,
     sexDetailsOptions,
-    useOptions,
+    animalUseOptions,
     tagTypeOptions,
     tagColorOptions,
     organicStatusOptions,
@@ -67,7 +67,7 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
     breedOptions,
     sexOptions,
     sexDetailsOptions,
-    useOptions,
+    animalUseOptions,
   };
   const otherDetailsProps = {
     organicStatusOptions,

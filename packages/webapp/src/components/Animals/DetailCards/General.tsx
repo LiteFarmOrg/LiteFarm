@@ -51,18 +51,18 @@ type AnimalTypeToUsesMapping = {
   uses: Option[DetailsFields.USE][];
 }[];
 
-type UseOptions = SingleAnimalTypeUses | AnimalTypeToUsesMapping;
+type AnimalUseOptions = SingleAnimalTypeUses | AnimalTypeToUsesMapping;
 
 // type guard
 const isAnimalTypeUsesDictionary = (
-  useOptions: UseOptions,
-): useOptions is AnimalTypeToUsesMapping => {
-  return 'default_type_id' in useOptions[0];
+  animalUseOptions: AnimalUseOptions,
+): animalUseOptions is AnimalTypeToUsesMapping => {
+  return 'default_type_id' in animalUseOptions[0];
 };
 
 export type GeneralDetailsProps = CommonDetailsProps & {
   sexOptions: Option[DetailsFields.SEX][];
-  useOptions: UseOptions;
+  animalUseOptions: AnimalUseOptions;
   animalOrBatch: AnimalOrBatchKeys;
   sexDetailsOptions?: SexDetailsType;
   typeOptions?: AnimalSelectOption[];
@@ -73,7 +73,7 @@ export type GeneralDetailsProps = CommonDetailsProps & {
 const GeneralDetails = ({
   t,
   sexOptions,
-  useOptions,
+  animalUseOptions,
   animalOrBatch,
   sexDetailsOptions,
   namePrefix = '',
@@ -118,14 +118,14 @@ const GeneralDetails = ({
         breedOptions.find(({ value }) => value === breedId),
       );
     }
-    if (isAnimalTypeUsesDictionary(useOptions)) {
-      const useOptionsForType = useOptions.find(
+    if (isAnimalTypeUsesDictionary(animalUseOptions)) {
+      const animalUseOptionsForType = animalUseOptions.find(
         ({ default_type_id }) => default_type_id === defaultValues?.default_type_id,
       );
 
       const mapUses = (relationships: { use_id: number }[]) =>
         relationships?.map(({ use_id }) =>
-          useOptionsForType?.uses.find(({ value }) => value === use_id),
+          animalUseOptionsForType?.uses.find(({ value }) => value === use_id),
         );
 
       setValue(
@@ -144,13 +144,13 @@ const GeneralDetails = ({
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
   const filteredUses =
-    watchAnimalType?.value && isAnimalTypeUsesDictionary(useOptions)
-      ? useOptions.find(
+    watchAnimalType?.value && isAnimalTypeUsesDictionary(animalUseOptions)
+      ? animalUseOptions.find(
           ({ default_type_id }) =>
             default_type_id === parseUniqueDefaultId(watchAnimalType?.value) ||
             default_type_id === null,
         )?.uses
-      : useOptions;
+      : animalUseOptions;
 
   const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 

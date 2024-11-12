@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { raw } from 'objection';
 import knex from './knex.js';
 import baseController from '../controllers/baseController.js';
 import CustomAnimalBreedModel from '../models/customAnimalBreedModel.js';
@@ -194,35 +195,39 @@ export const checkAnimalAndBatchIds = async (animalIds, batchIds, farmId, isRequ
 };
 
 export async function isOnOrAfterBirthAndBroughtInDates(date, animalIds, batchIds) {
-  const animalDates = await AnimalModel.query()
-    .select('birth_date', 'brought_in_date')
-    .whereIn('id', [...new Set(animalIds)]);
-  const batchDates = await AnimalBatchModel.query()
-    .select('birth_date', 'brought_in_date')
-    .whereIn('id', [...new Set(batchIds)]);
+  const animalRelevantDate = await AnimalModel.query()
+    .select(raw('GREATEST(birth_date, brought_in_date)').as('date'))
+    .whereIn('id', [...new Set(animalIds)])
+    .whereNotNull('birth_date')
+    .orWhereNotNull('brought_in_date')
+    .first();
 
-  const birthAndBroughtInDatesSet = new Set();
-  [...animalDates, ...batchDates].forEach(({ birth_date, brought_in_date }) => {
-    birth_date && birthAndBroughtInDatesSet.add(birth_date);
-    brought_in_date && birthAndBroughtInDatesSet.add(brought_in_date);
-  });
+  const batchRelevantDate = await AnimalBatchModel.query()
+    .select(raw('GREATEST(birth_date, brought_in_date)').as('date'))
+    .whereIn('id', [...new Set(batchIds)])
+    .whereNotNull('birth_date')
+    .orWhereNotNull('brought_in_date')
+    .first();
 
-  if (birthAndBroughtInDatesSet.size) {
-    const [y, m, d] = date.split('-');
-    const dateTimestamp = new Date(y, m - 1, d);
-
-    for (const dateToCompre of birthAndBroughtInDatesSet) {
-      const broughtInOrBirthdate = new Date(
-        dateToCompre.getFullYear(),
-        dateToCompre.getMonth(),
-        dateToCompre.getDate(),
-      );
-
-      if (dateTimestamp < broughtInOrBirthdate) {
-        return false;
-      }
-    }
+  if (!animalRelevantDate && !batchRelevantDate) {
+    return true;
   }
 
-  return true;
+  const latestRelevantDate = new Date(
+    Math.max(
+      animalRelevantDate?.date?.getTime() ?? -Infinity,
+      batchRelevantDate?.date?.getTime() ?? -Infinity,
+    ),
+  );
+
+  const latestRelevantDateAtMidnight = new Date(
+    latestRelevantDate.getFullYear(),
+    latestRelevantDate.getMonth(),
+    latestRelevantDate.getDate(),
+  );
+
+  const [y, m, d] = date.split('-');
+  const inputDateAtMidnight = new Date(y, m - 1, d);
+
+  return inputDateAtMidnight >= latestRelevantDateAtMidnight;
 }

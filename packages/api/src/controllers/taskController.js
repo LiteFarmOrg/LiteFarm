@@ -34,7 +34,7 @@ import TaskTypeModel from '../models/taskTypeModel.js';
 import baseController from './baseController.js';
 import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js';
 import { ANIMAL_TASKS, isOnOrAfterBirthAndBroughtInDates } from '../util/animal.js';
-import { checkIsArray, customError } from '../util/customErrors.js';
+import { customError } from '../util/customErrors.js';
 
 const adminRoles = [1, 2, 5];
 
@@ -63,26 +63,14 @@ async function getTaskAssigneeAndFinalWage(farm_id, user_id, task_id) {
 }
 
 async function formatAnimalMovementTaskForDB(data) {
-  if (data.locations && data.locations.length > 1) {
-    throw customError('Only one location can be assigned to this task type', 400);
-  }
-
   if (!data.animal_movement_task) {
     return data;
-  }
-
-  if (data.animal_movement_task.purpose_relationships) {
-    throw customError(
-      `Invalid field: "purpose_relationships" should not be included. Use "purposes" instead`,
-    );
   }
 
   if (!data.animal_movement_task.purposes) {
     delete data.animal_movement_task.purposes;
     return data;
   }
-
-  checkIsArray(data.animal_movement_task.purposes, 'purposes');
 
   const formattedPurposes = [];
 

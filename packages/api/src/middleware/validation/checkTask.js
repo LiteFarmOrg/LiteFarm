@@ -20,7 +20,7 @@ import {
   checkAnimalAndBatchIds,
   isOnOrAfterBirthAndBroughtInDates,
 } from '../../util/animal.js';
-import { customError } from '../../util/customErrors.js';
+import { checkIsArray, customError } from '../../util/customErrors.js';
 
 const adminRoles = [1, 2, 5];
 const taskTypesRequiringProducts = ['soil_amendment_task'];
@@ -237,6 +237,12 @@ async function checkAnimalTask(req, taskType, dateName) {
       throw customError(`${dateName} must be on or after the animals' birth and brought-in dates`);
     }
   }
+
+  const taskTypeCheck = {
+    animal_movement_task: checkAnimalMovementTask,
+  }[taskType];
+
+  await taskTypeCheck?.(req);
 }
 
 export function checkDeleteTask() {
@@ -262,4 +268,20 @@ export function checkDeleteTask() {
       });
     }
   };
+}
+
+async function checkAnimalMovementTask(req) {
+  if (req.body.locations && req.body.locations.length > 1) {
+    throw customError('Only one location can be assigned to this task type', 400);
+  }
+
+  if (req.body.animal_movement_task?.purpose_relationships) {
+    throw customError(
+      `Invalid field: "purpose_relationships" should not be included. Use "purposes" instead`,
+    );
+  }
+
+  if (req.body.animal_movement_task?.purposes) {
+    checkIsArray(req.body.animal_movement_task.purposes, 'purposes');
+  }
 }

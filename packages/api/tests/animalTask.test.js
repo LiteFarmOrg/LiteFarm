@@ -95,6 +95,14 @@ const simulateTaskCompletion = (task, type) => {
   return complete?.(task) || { ...task, ...expectedCompletedTaskData };
 };
 
+const createFakeMovementTask = (purposeRelationships) => {
+  const movementTask = { animal_movement_task: {} };
+  if (purposeRelationships) {
+    movementTask.animal_movement_task = { purpose_relationships: purposeRelationships };
+  }
+  return mocks.fakeAnimalMovementTask(movementTask);
+};
+
 describe('Animal task tests', () => {
   let user_id, farm_id, location_id, task_type_id, planting_management_plan_id;
   let animal1, animal2, animal3, animal4, batch1, batch2, batch3, batch4;
@@ -204,21 +212,19 @@ describe('Animal task tests', () => {
         [{ task_type_id: movementTaskId }],
         // Destructure other types as needed
       ] = await Promise.all(
-        typesToTest.fill().map(() => mocks.task_typeFactory({ promisedFarm: [{ farm_id }] })),
+        typesToTest.map(() => mocks.task_typeFactory({ promisedFarm: [{ farm_id }] })),
       );
 
       // Add more cases here for new task types as needed
       const taskDataBlueprint = [
         {
           task_type_id: movementTaskId,
-          animal_movement_task: {
-            purpose_relationships: [
-              { purpose_id: purpose1.id },
-              { purpose_id: otherPurpose.id, other_purpose: faker.lorem.sentence() },
-            ],
-          },
+          ...createFakeMovementTask([
+            { purpose_id: purpose1.id },
+            { purpose_id: otherPurpose.id, other_purpose: faker.lorem.sentence() },
+          ]),
         },
-        { task_type_id: movementTaskId, animal_movement_task: {} },
+        { task_type_id: movementTaskId, ...createFakeMovementTask() },
       ];
 
       const expectedTasks = await Promise.all(
@@ -770,14 +776,6 @@ describe('Animal task tests', () => {
           [...completedTask.animals, ...completedTask.animal_batches].forEach((animalOrBatch) => {
             expect(animalOrBatch.location_id).toBe(location_id);
           });
-        };
-
-        const createFakeMovementTask = (purposeRelationships) => {
-          const movementTask = { animal_movement_task: {} };
-          if (purposeRelationships) {
-            movementTask.animal_movement_task = { purpose_relationships: purposeRelationships };
-          }
-          return mocks.fakeAnimalMovementTask(movementTask);
         };
 
         const checkCompletedMovementTask = async (initialPurposes, purposesInPatchReq) => {

@@ -28,17 +28,21 @@ interface RouteParams {
 interface UseInitialFormValuesProps extends RouteComponentProps<RouteParams> {}
 
 const useInitialFormValues = ({ match }: UseInitialFormValuesProps) => {
-  const { data: animals = [] } = useGetAnimalsQuery();
-  const { data: batches = [] } = useGetAnimalBatchesQuery();
+  const { selectedAnimal } = useGetAnimalsQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      selectedAnimal: data?.find(
+        (animal) => animal.internal_identifier === Number(match.params.id),
+      ),
+    }),
+  });
+
+  const { selectedBatch } = useGetAnimalBatchesQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      selectedBatch: data?.find((batch) => batch.internal_identifier === Number(match.params.id)),
+    }),
+  });
 
   const { sexDetailsOptions }: { sexDetailsOptions: Details } = useAnimalOptions('sexDetails');
-
-  const selectedAnimal = animals.find(
-    (animal) => animal.internal_identifier === Number(match.params.id),
-  );
-  const selectedBatch = batches.find(
-    (batch) => batch.internal_identifier === Number(match.params.id),
-  );
 
   const otherAnimalUse =
     selectedAnimal?.animal_use_relationships?.find(

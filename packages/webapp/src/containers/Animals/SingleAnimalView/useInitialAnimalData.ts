@@ -25,9 +25,9 @@ interface RouteParams {
   id: string;
 }
 
-interface UseInitialFormValuesProps extends RouteComponentProps<RouteParams> {}
+interface UseInitialAnimalDataProps extends RouteComponentProps<RouteParams> {}
 
-const useInitialFormValues = ({ match }: UseInitialFormValuesProps) => {
+export const useInitialAnimalData = ({ match }: UseInitialAnimalDataProps) => {
   const { selectedAnimal } = useGetAnimalsQuery(undefined, {
     selectFromResult: ({ data }) => ({
       selectedAnimal: data?.find(
@@ -89,5 +89,3 @@ const useInitialFormValues = ({ match }: UseInitialFormValuesProps) => {
 
   return { defaultFormValues, selectedAnimal, selectedBatch };
 };
-
-export default useInitialFormValues;

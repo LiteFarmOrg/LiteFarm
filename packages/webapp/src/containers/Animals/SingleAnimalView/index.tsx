@@ -24,7 +24,7 @@ import AnimalReadonlyEdit from './AnimalReadonlyEdit';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import AnimalSingleViewHeader from '../../../components/Animals/AnimalSingleViewHeader';
 import { findMissingKeys, addNullstoMissingFields } from './utils';
-import useInitialAnimalData from './useInitialAnimalData';
+import { useInitialAnimalData } from './useInitialAnimalData';
 import {
   useGetAnimalOriginsQuery,
   useUpdateAnimalsMutation,

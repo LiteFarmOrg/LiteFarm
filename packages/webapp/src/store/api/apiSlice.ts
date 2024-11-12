@@ -182,7 +182,7 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Animals', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+      invalidatesTags: ['Animals', 'DefaultAnimalTypes', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
     }),
     addAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
       query: (body) => ({
@@ -190,15 +190,30 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+      invalidatesTags: [
+        'AnimalBatches',
+        'DefaultAnimalTypes',
+        'CustomAnimalTypes',
+        'CustomAnimalBreeds',
+      ],
     }),
     updateAnimals: build.mutation<void, Partial<Animal>[]>({
       query: (body) => ({ url: `${animalsUrl}`, method: 'PATCH', body }),
-      invalidatesTags: ['Animals', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+      invalidatesTags: [
+        'AnimalBatches',
+        'DefaultAnimalTypes',
+        'CustomAnimalTypes',
+        'CustomAnimalBreeds',
+      ],
     }),
     updateAnimalBatches: build.mutation<void, Partial<AnimalBatch>[]>({
       query: (body) => ({ url: `${animalBatchesUrl}`, method: 'PATCH', body }),
-      invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+      invalidatesTags: [
+        'AnimalBatches',
+        'DefaultAnimalTypes',
+        'CustomAnimalTypes',
+        'CustomAnimalBreeds',
+      ],
     }),
     getSoilAmendmentMethods: build.query<SoilAmendmentMethod[], void>({
       query: () => `${soilAmendmentMethodsUrl}`,

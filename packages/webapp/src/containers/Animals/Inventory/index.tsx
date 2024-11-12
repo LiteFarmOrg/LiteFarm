@@ -146,6 +146,11 @@ function AnimalInventory({
         sortable: false,
       },
       {
+        id: isDesktop ? 'location' : null,
+        label: t('ANIMAL.ANIMAL_LOCATIONS').toLocaleUpperCase(),
+        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.location} />,
+      },
+      {
         id: !isTaskView ? 'path' : null,
         label: '',
         format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,

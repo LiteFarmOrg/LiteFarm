@@ -164,7 +164,14 @@ function AnimalInventory({
   );
 
   const makeAnimalsSearchableString = (animal: AnimalInventory) => {
-    return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
+    return [
+      animal.identification,
+      animal.type,
+      animal.breed,
+      ...animal.groups,
+      animal.count,
+      animal.location,
+    ]
       .filter(Boolean)
       .join(' ');
   };

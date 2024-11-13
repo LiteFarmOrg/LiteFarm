@@ -78,6 +78,7 @@ export const api = createApi({
     'CustomAnimalTypes',
     'DefaultAnimalBreeds',
     'DefaultAnimalTypes',
+    'DefaultAnimalTypesCount',
     'AnimalSexes',
     'AnimalIdentifierTypes',
     'AnimalIdentifierColors',
@@ -111,6 +112,10 @@ export const api = createApi({
     getCustomAnimalTypes: build.query<CustomAnimalType[], string | void>({
       query: (param = '') => `${customAnimalTypesUrl}${param}`,
       providesTags: ['CustomAnimalTypes'],
+    }),
+    getDefaultAnimalTypesCount: build.query<DefaultAnimalType[], string | void>({
+      query: () => `${defaultAnimalTypesUrl}?count=true`,
+      providesTags: ['DefaultAnimalTypesCount'],
     }),
     getCustomAnimalBreeds: build.query<CustomAnimalBreed[], void>({
       query: () => `${customAnimalBreedsUrl}`,
@@ -182,7 +187,12 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Animals', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+      invalidatesTags: [
+        'Animals',
+        'DefaultAnimalTypesCount',
+        'CustomAnimalTypes',
+        'CustomAnimalBreeds',
+      ],
     }),
     addAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
       query: (body) => ({
@@ -190,7 +200,12 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+      invalidatesTags: [
+        'AnimalBatches',
+        'DefaultAnimalTypesCount',
+        'CustomAnimalTypes',
+        'CustomAnimalBreeds',
+      ],
     }),
     getSoilAmendmentMethods: build.query<SoilAmendmentMethod[], void>({
       query: () => `${soilAmendmentMethodsUrl}`,
@@ -231,6 +246,7 @@ export const {
   useGetCustomAnimalTypesQuery,
   useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
+  useGetDefaultAnimalTypesCountQuery,
   useGetAnimalSexesQuery,
   useGetAnimalIdentifierTypesQuery,
   useGetAnimalIdentifierColorsQuery,

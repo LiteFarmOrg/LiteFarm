@@ -18,6 +18,7 @@ import { useTranslation, TFunction } from 'react-i18next';
 import {
   useGetDefaultAnimalTypesQuery,
   useGetCustomAnimalTypesQuery,
+  useGetDefaultAnimalTypesCountQuery,
 } from '../../../../store/api/apiSlice';
 import { PureTileDashboard, TypeCountTile } from '../../../../components/TileDashboard';
 import useQueries from '../../../../hooks/api/useQueries';
@@ -58,7 +59,7 @@ interface KPIProps {
 function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
   const { t } = useTranslation(['translation', 'common', 'animal']);
   const { data, isLoading } = useQueries([
-    { label: 'defaultAnimalTypes', hook: useGetDefaultAnimalTypesQuery, params: '?count=true' },
+    { label: 'defaultAnimalTypes', hook: useGetDefaultAnimalTypesCountQuery },
     { label: 'customAnimalTypes', hook: useGetCustomAnimalTypesQuery, params: '?count=true' },
   ]);
 

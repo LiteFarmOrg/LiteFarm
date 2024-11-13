@@ -17,11 +17,11 @@ import clsx from 'clsx';
 import styles from '../styles.module.scss';
 
 export type PlainCellProps = {
-  text: ReactNode;
+  content: ReactNode;
 };
 
-const Plain = ({ text }: PlainCellProps) => {
-  return <div className={clsx(styles.text, styles.overflowText)}>{text}</div>;
+const Plain = ({ content }: PlainCellProps) => {
+  return <div className={clsx(styles.text, styles.overflowText)}>{content}</div>;
 };
 
 export default Plain;

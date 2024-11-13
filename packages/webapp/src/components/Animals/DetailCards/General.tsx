@@ -155,7 +155,7 @@ const GeneralDetails = ({
         />
       </div>
     );
-  }, [animalOrBatch, t, sexOptions, control, watchBatchCount, defaultValues]);
+  }, [animalOrBatch, t, sexOptions, control, watchBatchCount]);
 
   return (
     <div className={clsx(styles.sectionWrapper, mode === 'edit' && styles.edit)}>

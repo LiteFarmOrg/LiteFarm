@@ -19,7 +19,6 @@ import { useAnimalOptions } from '../AddAnimals/useAnimalOptions';
 import { DetailsFields } from '../AddAnimals/types';
 import { generateFormDate } from './utils';
 import { ANIMAL_ID_PREFIX, AnimalOrBatchKeys } from '../types';
-import type { Details } from '../../../components/Form/SexDetails/SexDetailsPopover';
 import { generateUniqueAnimalId } from '../../../util/animal';
 
 interface RouteParams {
@@ -95,18 +94,14 @@ export const useInitialAnimalData = ({ match }: UseInitialAnimalDataProps) => {
       : generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, selectedEntity?.default_breed_id!);
   }
 
-  const animalUseOptionsForType = animalUseOptions.find(
-    ({ default_type_id }) => default_type_id === selectedEntity?.default_type_id,
-  );
+  // Show all uses that have been selected, regardless of whether they are appropriate to the given animal type
+  const allAnimalUses =
+    animalUseOptions.find(({ default_type_id }) => default_type_id === null)?.uses || [];
 
-  // Only return uses that exist in the current type
   const mapUses = (relationships: { use_id: number }[]) =>
-    relationships?.flatMap(({ use_id }) => {
-      const found = animalUseOptionsForType?.uses.find(
-        ({ value }: { value: number }) => value === use_id,
-      );
-      return found ? [found] : [];
-    });
+    relationships?.flatMap(
+      ({ use_id }) => allAnimalUses?.find(({ value }) => value === use_id) || [],
+    );
 
   const commonFields = {
     [DetailsFields.DATE_OF_BIRTH]: generateFormDate(selectedEntity?.birth_date),

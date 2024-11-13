@@ -306,6 +306,7 @@
       "WEANING_DATE": "MISSING"
     },
     "BATCH": "MISSING",
+    "EDIT_ANIMAL_FLOW": "MISSING",
     "FILTER": {
       "BATCHES": "MISSING",
       "BATCHES_OR_INDIVIDUALS": "MISSING",

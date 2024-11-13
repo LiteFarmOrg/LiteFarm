@@ -67,31 +67,30 @@ async function formatAnimalMovementTaskForDB(data) {
     return data;
   }
 
-  if (!data.animal_movement_task.purposes) {
-    delete data.animal_movement_task.purposes;
+  if (!data.animal_movement_task.purpose_ids) {
+    delete data.animal_movement_task.purpose_ids;
+    delete data.animal_movement_task.other_purpose;
     return data;
   }
 
-  const formattedPurposes = [];
+  data.animal_movement_task.purpose_relationships = [];
 
-  if (data.animal_movement_task.purposes.length) {
-    const purposes = await AnimalMovementPurposeModel.query();
-    const purposesMap = purposes.reduce((map, { key, id }) => ({ ...map, [key]: id }), {});
-    for (const { key, other_purpose } of data.animal_movement_task.purposes) {
-      if (!purposesMap[key]) {
-        throw customError(`Purpose key "${key}" is not supported`);
+  if (data.animal_movement_task.purpose_ids.length) {
+    const { id: otherPurposeId } = await AnimalMovementPurposeModel.query()
+      .select('id')
+      .where({ key: 'OTHER' })
+      .first();
+
+    data.animal_movement_task.purpose_ids.forEach((id) => {
+      const purposeRelationship = { purpose_id: id };
+      if (id === otherPurposeId) {
+        purposeRelationship.other_purpose = data.animal_movement_task.other_purpose;
       }
-      const formattedPurpose = {
-        purpose_id: purposesMap[key],
-        ...(other_purpose ? { other_purpose } : {}),
-      };
-
-      formattedPurposes.push(formattedPurpose);
-    }
+      data.animal_movement_task.purpose_relationships.push(purposeRelationship);
+    });
   }
-
-  data.animal_movement_task.purpose_relationships = formattedPurposes;
-  delete data.animal_movement_task.purposes;
+  delete data.animal_movement_task.purpose_ids;
+  delete data.animal_movement_task.other_purpose;
 
   return data;
 }

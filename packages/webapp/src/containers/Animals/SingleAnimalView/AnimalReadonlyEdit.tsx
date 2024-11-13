@@ -67,20 +67,26 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
     sexOptions,
     sexDetailsOptions,
     animalUseOptions,
+    animalOrBatch: isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH,
+    ...commonProps,
   };
   const otherDetailsProps = {
     organicStatusOptions,
     getOnFileUpload,
     imageUploadTargetRoute: isAnimal ? 'animal' : 'animalBatch',
+    animalOrBatch: isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH,
+    ...commonProps,
   };
   const originProps = {
     currency: currency,
     originOptions,
+    ...commonProps,
   };
 
   const uniqueDetailsProps = {
     tagTypeOptions,
     tagColorOptions,
+    ...commonProps,
   };
 
   return (
@@ -91,7 +97,6 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
         uniqueDetailsProps={uniqueDetailsProps}
         otherDetailsProps={otherDetailsProps}
         originProps={originProps}
-        commonProps={commonProps}
       />
     </>
   );

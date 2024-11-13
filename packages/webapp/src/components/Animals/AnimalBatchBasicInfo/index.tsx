@@ -25,11 +25,11 @@ import OtherDetails, { OtherDetailsProps } from '../../../components/Animals/Det
 
 interface AnimalBatchBasicInfoProps {
   isAnimal: boolean;
-  generalDetailProps: Omit<GeneralDetailsProps, 't' | 'animalOrBatch'>;
-  uniqueDetailsProps: Omit<UniqueDetailsProps, 't'>;
-  otherDetailsProps: Omit<OtherDetailsProps, 't' | 'animalOrBatch'>;
-  originProps: Omit<OriginProps, 't'>;
-  commonProps: CommonDetailsProps;
+  generalDetailProps: GeneralDetailsProps &
+    CommonDetailsProps & { animalOrBatch: AnimalOrBatchKeys };
+  uniqueDetailsProps: UniqueDetailsProps & CommonDetailsProps;
+  otherDetailsProps: OtherDetailsProps & CommonDetailsProps & { animalOrBatch: AnimalOrBatchKeys };
+  originProps: OriginProps & CommonDetailsProps;
 }
 
 const AnimalBatchBasicInfo = ({
@@ -38,22 +38,19 @@ const AnimalBatchBasicInfo = ({
   uniqueDetailsProps,
   otherDetailsProps,
   originProps,
-  commonProps,
 }: AnimalBatchBasicInfoProps) => {
   return (
     <div className={styles.container}>
       <GeneralDetails
         {...generalDetailProps}
-        {...commonProps}
         animalOrBatch={isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH}
       />
-      {isAnimal && <UniqueDetails {...uniqueDetailsProps} {...commonProps} />}
+      {isAnimal && <UniqueDetails {...uniqueDetailsProps} />}
       <OtherDetails
-        {...commonProps}
         {...otherDetailsProps}
         animalOrBatch={isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH}
       />
-      <Origin {...originProps} {...commonProps} />
+      <Origin {...originProps} />
     </div>
   );
 };

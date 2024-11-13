@@ -96,11 +96,6 @@ const AddAnimalDetails = () => {
 
     const watchedCount = watch(`${namePrefix}${DetailsFields.COUNT}`);
 
-    const animalUseOptionsForType = animalUseOptions.find(
-      ({ default_type_id }: { default_type_id: number | null }) =>
-        default_type_id === parseUniqueDefaultId(field.type.value) || default_type_id === null,
-    );
-
     const mainContent = (
       <AnimalFormHeaderItem
         showRemove={fields.length > 1}
@@ -123,7 +118,7 @@ const AddAnimalDetails = () => {
       generalDetailProps: {
         sexOptions,
         sexDetailsOptions,
-        animalUseOptions: animalUseOptionsForType.uses,
+        animalUseOptions,
       },
       otherDetailsProps: {
         organicStatusOptions,

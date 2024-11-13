@@ -78,9 +78,14 @@ export const sexDetailsOptions = [
 ];
 
 export const animalUseOptions = [
-  { label: 'A', value: 0 },
-  { label: 'B', value: 1 },
-  { label: 'Other', value: 2, key: 'OTHER' },
+  {
+    default_type_id: 1,
+    uses: [
+      { label: 'A', value: 0 },
+      { label: 'B', value: 1 },
+      { label: 'Other', value: 2, key: 'OTHER' },
+    ],
+  },
 ];
 
 export const tagTypeOptions = [

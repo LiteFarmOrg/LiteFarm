@@ -42,23 +42,10 @@ import {
 } from '../AddAnimalsFormCard/AnimalSelect';
 import { generateUniqueAnimalId, parseUniqueDefaultId } from '../../../util/animal';
 
-// Add Animals Flow
-type SingleAnimalTypeUses = Option[DetailsFields.USE][];
-
-// Single Animal View
-type AnimalTypeToUsesMapping = {
+export type AnimalUseOptions = {
   default_type_id: number;
   uses: Option[DetailsFields.USE][];
 }[];
-
-type AnimalUseOptions = SingleAnimalTypeUses | AnimalTypeToUsesMapping;
-
-// type guard
-const isAnimalTypeUsesDictionary = (
-  animalUseOptions: AnimalUseOptions,
-): animalUseOptions is AnimalTypeToUsesMapping => {
-  return 'default_type_id' in animalUseOptions[0];
-};
 
 export type GeneralDetailsProps = CommonDetailsProps & {
   sexOptions: Option[DetailsFields.SEX][];
@@ -118,23 +105,24 @@ const GeneralDetails = ({
         breedOptions.find(({ value }) => value === breedId),
       );
     }
-    if (isAnimalTypeUsesDictionary(animalUseOptions)) {
-      const animalUseOptionsForType = animalUseOptions.find(
-        ({ default_type_id }) => default_type_id === defaultValues?.default_type_id,
-      );
 
-      const mapUses = (relationships: { use_id: number }[]) =>
-        relationships?.map(({ use_id }) =>
-          animalUseOptionsForType?.uses.find(({ value }) => value === use_id),
-        );
+    const animalUseOptionsForType = animalUseOptions.find(
+      ({ default_type_id }) => default_type_id === defaultValues?.default_type_id,
+    );
 
-      setValue(
-        `${namePrefix}${DetailsFields.USE}`,
-        mapUses(
-          defaultValues?.animal_use_relationships || defaultValues?.animal_batch_use_relationships,
-        ),
-      );
-    }
+    // Only return uses that exist in the current type
+    const mapUses = (relationships: { use_id: number }[]) =>
+      relationships?.flatMap(({ use_id }) => {
+        const found = animalUseOptionsForType?.uses.find(({ value }) => value === use_id);
+        return found ? [found] : [];
+      });
+
+    setValue(
+      `${namePrefix}${DetailsFields.USE}`,
+      mapUses(
+        defaultValues?.animal_use_relationships || defaultValues?.animal_batch_use_relationships,
+      ),
+    );
   }, [defaultValues]);
 
   const watchBatchCount = watch(`${namePrefix}${DetailsFields.COUNT}`) || 0;
@@ -143,14 +131,11 @@ const GeneralDetails = ({
   const watchAnimalType = watch(`${namePrefix}${DetailsFields.TYPE}`);
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
-  const filteredUses =
-    watchAnimalType?.value && isAnimalTypeUsesDictionary(animalUseOptions)
-      ? animalUseOptions.find(
-          ({ default_type_id }) =>
-            default_type_id === parseUniqueDefaultId(watchAnimalType?.value) ||
-            default_type_id === null,
-        )?.uses
-      : animalUseOptions;
+  const filteredUses = watchAnimalType?.value
+    ? animalUseOptions.find(
+        ({ default_type_id }) => default_type_id === parseUniqueDefaultId(watchAnimalType?.value),
+      )?.uses
+    : animalUseOptions.find(({ default_type_id }) => default_type_id === null)?.uses;
 
   const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 

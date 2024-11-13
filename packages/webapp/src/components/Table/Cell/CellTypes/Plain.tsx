@@ -12,11 +12,12 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { ReactNode } from 'react';
 import clsx from 'clsx';
 import styles from '../styles.module.scss';
 
 export type PlainCellProps = {
-  text: string | number | null;
+  text: ReactNode;
 };
 
 const Plain = ({ text }: PlainCellProps) => {

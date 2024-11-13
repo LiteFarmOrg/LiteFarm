@@ -120,7 +120,7 @@ class AnimalBatchModel extends baseModel {
           to: 'animal_batch_sex_detail.animal_batch_id',
         },
       },
-      internal_identifier: {
+      animal_union_batch: {
         relation: Model.HasOneRelation,
         modelClass: AnimalUnionBatchIdViewModel,
         join: {

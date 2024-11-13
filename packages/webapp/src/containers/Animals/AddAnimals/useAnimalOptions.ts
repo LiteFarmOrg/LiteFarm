@@ -27,6 +27,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { generateUniqueAnimalId } from '../../../util/animal';
 import { ANIMAL_ID_PREFIX } from '../types';
+import { OrganicStatus } from '../../../types';
 
 type OptionType =
   | 'default_types'
@@ -40,7 +41,78 @@ type OptionType =
   | 'organicStatus'
   | 'origin';
 
-export const useAnimalOptions = (...optionTypes: OptionType[]) => {
+interface DefaultType {
+  id: number;
+  key: string;
+}
+
+interface TypeOption {
+  label: string;
+  value: string;
+}
+
+interface BreedOption {
+  label: string;
+  value: string;
+  type: string;
+}
+
+interface SexOption {
+  value: number;
+  label: string;
+}
+
+interface SexDetailsOption {
+  id: number;
+  label: string;
+  count: number;
+}
+
+interface AnimalUseOption {
+  default_type_id: number | null;
+  uses: {
+    value: number;
+    label: string;
+    key: string;
+  }[];
+}
+
+interface TagTypeOption {
+  value: number;
+  label: string;
+  key?: string;
+}
+
+interface TagColorOption {
+  value: number;
+  label: string;
+}
+
+interface OrganicStatusOption {
+  value: OrganicStatus;
+  label: string;
+}
+
+interface OriginOption {
+  value: number;
+  label: string;
+  key: string;
+}
+
+interface AnimalOptions {
+  defaultTypes: DefaultType[];
+  typeOptions: TypeOption[];
+  breedOptions: BreedOption[];
+  sexOptions: SexOption[];
+  sexDetailsOptions: SexDetailsOption[];
+  animalUseOptions: AnimalUseOption[];
+  tagTypeOptions: TagTypeOption[];
+  tagColorOptions: TagColorOption[];
+  organicStatusOptions: OrganicStatusOption[];
+  originOptions: OriginOption[];
+}
+
+export const useAnimalOptions = (...optionTypes: OptionType[]): AnimalOptions => {
   const { t } = useTranslation(['animal', 'common', 'translation']);
 
   const { data: defaultTypes = [] } = useGetDefaultAnimalTypesQuery();
@@ -53,7 +125,18 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
   const { data: orgins = [] } = useGetAnimalOriginsQuery();
   const { data: uses = [] } = useGetAnimalUsesQuery();
 
-  const options: any = {};
+  const options: AnimalOptions = {
+    defaultTypes: [],
+    typeOptions: [],
+    breedOptions: [],
+    sexOptions: [],
+    sexDetailsOptions: [],
+    animalUseOptions: [],
+    tagTypeOptions: [],
+    tagColorOptions: [],
+    organicStatusOptions: [],
+    originOptions: [],
+  };
 
   // For icons
   if (optionTypes.includes('default_types')) {
@@ -141,9 +224,9 @@ export const useAnimalOptions = (...optionTypes: OptionType[]) => {
   // A string enum on the animal + animal_batch tables
   if (optionTypes.includes('organicStatus')) {
     options.organicStatusOptions = [
-      { value: 'Non-Organic', label: t('common:NON_ORGANIC') },
-      { value: 'Organic', label: t('common:ORGANIC') },
-      { value: 'Transitional', label: t('common:TRANSITIONING') },
+      { value: OrganicStatus.NON_ORGANIC, label: t('common:NON_ORGANIC') },
+      { value: OrganicStatus.ORGANIC, label: t('common:ORGANIC') },
+      { value: OrganicStatus.TRANSITIONAL, label: t('common:TRANSITIONING') },
     ];
   }
 

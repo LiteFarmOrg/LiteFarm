@@ -109,7 +109,9 @@ const AddAnimalDetails = () => {
         iconKey={getDefaultAnimalIconName(defaultTypes, parseUniqueDefaultId(field.type.value))}
         isBatch={!isAnimal}
         count={!isAnimal ? watchedCount : undefined}
-        sex={sexOptions.label}
+        {...(isAnimal && {
+          sex: sexOptions.find(({ value }) => value === field.sex_id)?.label,
+        })}
       />
     );
 

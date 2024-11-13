@@ -163,7 +163,7 @@ const formatAnimalsData = (
         path: createSingleAnimalViewURL(animal.internal_identifier),
         count: 1,
         batch: false,
-        location: animal.location_id ? locationsMap[animal.location_id] : 'TODO',
+        location: animal.location_id ? locationsMap[animal.location_id] : '',
         // preserve some untransformed data for filtering
         group_ids: animal.group_ids,
         sex_id: animal.sex_id,
@@ -202,7 +202,7 @@ const formatAnimalBatchesData = (
         path: createSingleAnimalViewURL(batch.internal_identifier),
         count: batch.count,
         batch: true,
-        location: batch.location_id ? locationsMap[batch.location_id] : 'TODO',
+        location: batch.location_id ? locationsMap[batch.location_id] : '',
         // preserve some untransformed data for filtering
         group_ids: batch.group_ids,
         sex_detail: batch.sex_detail,

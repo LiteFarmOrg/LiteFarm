@@ -30,7 +30,9 @@
 }
 
 .taskViewHeight {
-  height: calc(100vh - var(--global-navbar-height) - var(--global-multi-step-task-layout-aggregated-height));
+  height: calc(
+    100vh - var(--global-navbar-height) - var(--global-multi-step-task-layout-aggregated-height)
+  );
 }
 
 .buttonText {
@@ -47,4 +49,29 @@
 
 .disableHover {
   pointer-events: none;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--Colors-Neutral-Neutral-600);
+
+  &.unknown {
+    font-style: italic;
+    font-weight: normal;
+  }
+}
+
+.locationIcon {
+  padding: 0;
+  min-width: 16px;
+  background-color: transparent;
+}
+
+.locationText {
+  width: calc(100% - 20px); // icon width 16px + gap 4px
+  @include truncateText();
 }

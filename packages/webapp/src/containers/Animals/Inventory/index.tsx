@@ -14,6 +14,7 @@
  */
 import { useCallback, useMemo, useState, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import clsx from 'clsx';
 import PureAnimalInventory, { SearchProps } from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
@@ -41,6 +42,7 @@ import { isAdminSelector } from '../../userFarmSlice';
 import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
+import Icon from '../../../components/Icons';
 
 export enum View {
   DEFAULT = 'default',
@@ -148,7 +150,23 @@ function AnimalInventory({
       {
         id: isDesktop ? 'location' : null,
         label: t('ANIMAL.ANIMAL_LOCATIONS').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.location} />,
+        format: (d: AnimalInventory) => (
+          <Cell
+            kind={CellKind.PLAIN}
+            text={
+              <div className={clsx(styles.location, !d.location && styles.unknown)}>
+                {d.location ? (
+                  <>
+                    <Icon iconName="LOCATION" className={styles.locationIcon} />
+                    <span className={styles.locationText}>{d.location}</span>
+                  </>
+                ) : (
+                  t('common:UNKNOWN')
+                )}
+              </div>
+            }
+          />
+        ),
       },
       {
         id: !isTaskView ? 'path' : null,

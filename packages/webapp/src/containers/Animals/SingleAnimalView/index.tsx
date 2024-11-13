@@ -23,7 +23,7 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/sna
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import AnimalSingleViewHeader from '../../../components/Animals/AnimalSingleViewHeader';
-import { findMissingKeys, addNullstoMissingFields } from './utils';
+import { addNullstoMissingFields } from './utils';
 import { useInitialAnimalData } from './useInitialAnimalData';
 import {
   useGetAnimalOriginsQuery,
@@ -114,8 +114,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
 
     if (data.animal_or_batch === AnimalOrBatchKeys.ANIMAL) {
       const formattedAnimal = formatAnimalDetailsToDBStructure(data, broughtInId);
-      const missingKeys = findMissingKeys(formattedAnimal, selectedAnimal!);
-      const animalWithNullFields = addNullstoMissingFields(formattedAnimal, missingKeys);
+      const animalWithNullFields = addNullstoMissingFields(formattedAnimal, selectedAnimal!);
 
       formattedAnimals.push({
         ...animalWithNullFields,
@@ -123,8 +122,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
       });
     } else {
       const formattedBatch = formatBatchDetailsToDBStructure(data, broughtInId);
-      const missingKeys = findMissingKeys(formattedBatch, selectedBatch!);
-      const batchWithNullFields = addNullstoMissingFields(formattedBatch, missingKeys);
+      const batchWithNullFields = addNullstoMissingFields(formattedBatch, selectedBatch!);
 
       formattedBatches.push({
         ...batchWithNullFields,

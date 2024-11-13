@@ -30,37 +30,35 @@ const excludeKeys = [
 
 type AnimalBatchKey = keyof (Animal | AnimalBatch);
 
-export const findMissingKeys = (
+export const addNullstoMissingFields = (
   updatedAnimalOrBatch: Partial<Animal | AnimalBatch>,
   originalAnimalOrBatch: Partial<Animal | AnimalBatch>,
-): AnimalBatchKey[] => {
-  const updatedAnimalOrBatchKeys = Object.keys(updatedAnimalOrBatch);
-  const originalAnimalOrBatchKeys = Object.keys(originalAnimalOrBatch);
-
-  const missingKeys = originalAnimalOrBatchKeys.filter((key) => {
-    const value = originalAnimalOrBatch[key as AnimalBatchKey];
-    return (
-      !updatedAnimalOrBatchKeys.includes(key) &&
-      value &&
-      (!Array.isArray(value) || value.length > 0) &&
-      !excludeKeys.includes(key)
-    );
-  });
-
-  return missingKeys as AnimalBatchKey[];
-};
-
-export const addNullstoMissingFields = (
-  animalOrBatch: Partial<Animal | AnimalBatch>,
-  missingFields: AnimalBatchKey[],
 ): Partial<Animal | AnimalBatch> => {
-  const updatedObject = { ...animalOrBatch };
+  const formattedObject = { ...updatedAnimalOrBatch };
 
-  missingFields.forEach((key: AnimalBatchKey) => {
-    if (!(key in updatedObject) || updatedObject[key] === undefined) {
-      (updatedObject as any)[key] = null;
+  const updatedKeys = Object.keys(updatedAnimalOrBatch) as AnimalBatchKey[];
+  const originalKeys = Object.keys(originalAnimalOrBatch) as AnimalBatchKey[];
+
+  const isMissing = (key: AnimalBatchKey): boolean => {
+    const originalValue = originalAnimalOrBatch[key];
+
+    const isKeyMissing = !updatedKeys.includes(key) || updatedAnimalOrBatch[key] === undefined;
+
+    const wasValidValue =
+      originalValue !== null &&
+      originalValue !== undefined &&
+      (!Array.isArray(originalValue) || originalValue.length > 0);
+
+    const isNotExcluded = !excludeKeys.includes(key);
+
+    return isKeyMissing && wasValidValue && isNotExcluded;
+  };
+
+  originalKeys.forEach((key) => {
+    if (isMissing(key)) {
+      (formattedObject as any)[key] = null;
     }
   });
 
-  return updatedObject;
+  return formattedObject;
 };

@@ -281,8 +281,8 @@ async function checkAnimalMovementTask(req) {
     );
   }
 
-  if (req.body.animal_movement_task?.purposes) {
-    checkIsArray(req.body.animal_movement_task.purposes, 'purposes');
+  if (req.body.animal_movement_task?.purpose_ids) {
+    checkIsArray(req.body.animal_movement_task.purpose_ids, 'purpose_ids');
   }
 }
 

@@ -115,7 +115,7 @@ class Animal extends baseModel {
 
   static get relationMappings() {
     return {
-      internal_identifier: {
+      animal_union_batch: {
         relation: Model.HasOneRelation,
         modelClass: AnimalUnionBatchIdViewModel,
         join: {

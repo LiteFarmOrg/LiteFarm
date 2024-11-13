@@ -50,11 +50,14 @@ const expectedCompletedTaskData = {
   complete_date: `${fakeCompletionData.complete_date}T00:00:00.000`,
 };
 
-const createMovementTaskForReqBody = (purposes) => {
+const createMovementTaskForReqBody = (purposeIds, otherPurpose) => {
   const animalMovementTask = { animal_movement_task: {} };
 
-  if (purposes) {
-    animalMovementTask.animal_movement_task.purposes = purposes;
+  if (purposeIds) {
+    animalMovementTask.animal_movement_task.purpose_ids = purposeIds;
+  }
+  if (otherPurpose) {
+    animalMovementTask.animal_movement_task.other_purpose = otherPurpose;
   }
   return animalMovementTask;
 };
@@ -231,7 +234,7 @@ describe('Animal task tests', () => {
         taskDataBlueprint.map((data) => generateAnimalTask(data)),
       );
       const res = await getTasksRequest({ farm_id, user_id });
-
+      debugger;
       expect(res.status).toBe(200);
       expect(res.body.length).toBe(taskDataBlueprint.length);
 
@@ -476,19 +479,19 @@ describe('Animal task tests', () => {
         });
       };
 
-      const createMovementTaskPostBody = (purposes) => {
-        return createFakeTask(createMovementTaskForReqBody(purposes));
+      const createMovementTaskPostBody = (purposeIds, otherPurpose) => {
+        return createFakeTask(createMovementTaskForReqBody(purposeIds, otherPurpose));
       };
 
-      test('should create a movement task without purposes', async () => {
+      test('should create a movement task without purpose_ids', async () => {
         const data = createMovementTaskPostBody();
         const res = await postTaskRequest({ user_id, farm_id }, type, data);
         expect(res.status).toBe(201);
         await checkAnimalMovementTaskInDB(res.body.task_id);
       });
 
-      test('should create a movement task with purposes', async () => {
-        const data = createMovementTaskPostBody([{ key: purpose1.key }, { key: purpose2.key }]);
+      test('should create a movement task with purpose_ids', async () => {
+        const data = createMovementTaskPostBody([purpose1.id, purpose2.id]);
         const res = await postTaskRequest({ user_id, farm_id }, type, data);
         await checkAnimalMovementTaskInDB(res.body.task_id);
         await checkPurposeRelationshipsInDB(res.body.task_id, [purpose1, purpose2]);
@@ -496,31 +499,33 @@ describe('Animal task tests', () => {
 
       test('should create a movement task with other_purpose', async () => {
         const otherPurposeData = faker.lorem.sentence();
-        const data = createMovementTaskPostBody([
-          { key: otherPurpose.key, other_purpose: otherPurposeData },
-        ]);
+        const data = createMovementTaskPostBody([otherPurpose.id], otherPurposeData);
         const res = await postTaskRequest({ user_id, farm_id }, type, data);
+        debugger;
         await checkAnimalMovementTaskInDB(res.body.task_id);
         await checkPurposeRelationshipsInDB(res.body.task_id, [
           { ...otherPurpose, other_purpose: otherPurposeData },
         ]);
       });
 
-      test('should not create a movement task with invalid purpose key', async () => {
-        const unknownPurposeKey = new Date().getTime().toString();
-        const data = createMovementTaskPostBody([{ key: unknownPurposeKey }]);
+      test('should not create a movement task with invalid purpose id', async () => {
+        const unknownPurposeId = 1234567;
+        const data = createMovementTaskPostBody([unknownPurposeId]);
         const res = await postTaskRequest({ user_id, farm_id }, type, data);
         expect(res.status).toBe(400);
-        expect(res.error.text).toBe(`Purpose key "${unknownPurposeKey}" is not supported`);
       });
 
-      test('should not create a movement task with an incorrect purpose key for other_purpose', async () => {
+      test('should ignore other_purpose without ccorrect purpose id', async () => {
         const otherPurposeData = faker.lorem.sentence();
-        const data = createMovementTaskPostBody([
-          { key: purpose1.key, other_purpose: otherPurposeData },
-        ]);
+        const data = createMovementTaskPostBody([purpose1.id], otherPurposeData);
         const res = await postTaskRequest({ user_id, farm_id }, type, data);
-        expect(res.status).toBe(400);
+        const purposeRelationships = await knex('animal_movement_task_purpose_relationship').where({
+          task_id: res.body.task_id,
+        });
+        expect(res.status).toBe(201);
+        expect(purposeRelationships.length).toBe(1);
+        expect(purposeRelationships[0].purpose_id).toBe(purpose1.id);
+        expect(purposeRelationships[0].other_purpose).toBe(null);
       });
 
       test('should not create a movement task without a location', async () => {
@@ -778,10 +783,18 @@ describe('Animal task tests', () => {
           });
         };
 
-        const checkCompletedMovementTask = async (initialPurposes, purposesInPatchReq) => {
+        const checkCompletedMovementTask = async (
+          initialPurposes,
+          initialOtherPurpose,
+          purposesInPatchReq,
+          otherPurposeInPatchReq,
+        ) => {
           const task = await generateAnimalTask(
             createFakeMovementTask(
-              initialPurposes?.map(({ id, other_purpose }) => ({ purpose_id: id, other_purpose })),
+              initialPurposes?.map(({ id }) => ({
+                purpose_id: id,
+                other_purpose: id === otherPurpose.id ? initialOtherPurpose : null,
+              })),
             ),
           );
           const { task_id } = task;
@@ -791,12 +804,14 @@ describe('Animal task tests', () => {
               ...fakeCompletionData,
               ...(purposesInPatchReq
                 ? createMovementTaskForReqBody(
-                    purposesInPatchReq.map(({ key, other_purpose }) => ({ key, other_purpose })),
+                    purposesInPatchReq.map(({ id }) => id),
+                    otherPurposeInPatchReq,
                   )
                 : {}),
             },
             task_id,
           );
+          debugger;
           expect(patchRes.status).toBe(200);
           const res = await getTasksRequest({ user_id, farm_id });
 
@@ -815,7 +830,11 @@ describe('Animal task tests', () => {
                 expect(expectedRelationship.length).toBe(1);
 
                 if (other_purpose) {
-                  expect(other_purpose).toBe(expectedRelationship[0].other_purpose);
+                  expect(other_purpose).toBe(
+                    purposesInPatchReq.map(({ id }) => id).includes(otherPurpose.id)
+                      ? otherPurposeInPatchReq
+                      : initialOtherPurpose,
+                  );
                 }
               },
             );
@@ -825,11 +844,11 @@ describe('Animal task tests', () => {
         };
 
         test('should complete an animal task without purpose relations and no updates', async () => {
-          await checkCompletedMovementTask(null, null);
+          await checkCompletedMovementTask(null, null, null, null);
         });
 
         test('should complete a movement task without modifying purposes', async () => {
-          await checkCompletedMovementTask([purpose1], null);
+          await checkCompletedMovementTask([purpose1], null, null, null);
         });
 
         test('should complete a movement task with updated purposes', async () => {
@@ -840,62 +859,66 @@ describe('Animal task tests', () => {
           ];
 
           for (let { before, after } of purposes) {
-            await checkCompletedMovementTask(before, after);
+            await checkCompletedMovementTask(before, null, after, null);
           }
         });
 
         test('should complete a movement task with purposes removed', async () => {
-          await checkCompletedMovementTask([purpose1], []);
+          await checkCompletedMovementTask([purpose1], null, [], null);
         });
 
         test('should complete a movement task with the addition of other_purpose', async () => {
           await checkCompletedMovementTask(
             [otherPurpose],
-            [{ ...otherPurpose, other_purpose: faker.lorem.sentence() }],
+            null,
+            [otherPurpose],
+            faker.lorem.sentence(),
           );
         });
 
         test('should complete a movement task with modifying other_purpose', async () => {
           const otherPurposeText = faker.lorem.word();
           await checkCompletedMovementTask(
-            [{ ...otherPurpose, other_purpose: otherPurposeText }],
-            [{ ...otherPurpose, other_purpose: otherPurposeText + faker.lorem.word() }],
+            [otherPurpose],
+            otherPurposeText,
+            [otherPurpose],
+            otherPurposeText + faker.lorem.word(),
           );
         });
 
         test('should complete a movement task with deleting other_purpose', async () => {
-          await checkCompletedMovementTask(
-            [{ ...otherPurpose, other_purpose: faker.lorem.word() }],
-            [{ ...otherPurpose, other_purpose: '' }],
-          );
+          await checkCompletedMovementTask([otherPurpose], faker.lorem.word(), [otherPurpose], '');
         });
 
-        test('should not complete a movement task with an invalid purpose key', async () => {
+        test('should not complete a movement task with an invalid purpose id', async () => {
           const { task_id } = await generateAnimalTask(createFakeMovementTask());
-          const unknownPurposeKey = faker.lorem.word();
+          const unknownPurposeId = 123456;
           const patchRes = await completeMovementTaskReq(
             {
               ...fakeCompletionData,
-              ...createMovementTaskForReqBody([{ key: unknownPurposeKey }]),
+              ...createMovementTaskForReqBody([unknownPurposeId]),
             },
             task_id,
           );
           expect(patchRes.status).toBe(400);
-          expect(patchRes.error.text).toBe(`Purpose key "${unknownPurposeKey}" is not supported`);
         });
 
-        test('should not complete a movement task with an incorrect purpose key for other_purpose', async () => {
+        test('should ignore other_purpose without ccorrect purpose id', async () => {
           const { task_id } = await generateAnimalTask(createFakeMovementTask());
           const patchRes = await completeMovementTaskReq(
             {
               ...fakeCompletionData,
-              ...createMovementTaskForReqBody([
-                { key: purpose1.key, other_purpose: faker.lorem.sentence() },
-              ]),
+              ...createMovementTaskForReqBody([purpose1.id], faker.lorem.sentence()),
             },
             task_id,
           );
-          expect(patchRes.status).toBe(400);
+          const purposeRelationships = await knex(
+            'animal_movement_task_purpose_relationship',
+          ).where({ task_id });
+          expect(patchRes.status).toBe(200);
+          expect(purposeRelationships.length).toBe(1);
+          expect(purposeRelationships[0].purpose_id).toBe(purpose1.id);
+          expect(purposeRelationships[0].other_purpose).toBe(null);
         });
 
         test('should not complete a movement task for a deleted location', async () => {

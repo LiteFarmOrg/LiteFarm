@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import styles from './styles.module.scss';
 import ReactSelect from '../../Form/ReactSelect';
@@ -41,32 +40,11 @@ const UniqueDetails = ({
     register,
     trigger,
     watch,
-    setValue,
-    formState: { errors, defaultValues },
+    formState: { errors },
   } = useFormContext();
 
   const watchedTagType = watch(`${namePrefix}${DetailsFields.TAG_TYPE}`);
   const shouldShowTagTypeInput = watchedTagType?.key === 'OTHER';
-
-  useEffect(() => {
-    if (mode === 'add') {
-      return;
-    }
-
-    if (tagColorOptions && defaultValues?.identifier_color_id) {
-      setValue(
-        `${namePrefix}${DetailsFields.TAG_COLOR}`,
-        tagColorOptions.find(({ value }) => value === defaultValues?.identifier_color_id),
-      );
-    }
-
-    if (tagTypeOptions && defaultValues?.identifier_type_id) {
-      setValue(
-        `${namePrefix}${DetailsFields.TAG_TYPE}`,
-        tagTypeOptions.find(({ value }) => value === defaultValues?.identifier_type_id),
-      );
-    }
-  }, [defaultValues]);
 
   return (
     <div className={styles.sectionWrapper}>

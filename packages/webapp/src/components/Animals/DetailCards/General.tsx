@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -23,7 +23,7 @@ import InputBaseLabel from '../../Form/InputBase/InputBaseLabel';
 import NumberInput from '../../Form/NumberInput';
 import SexDetails from '../../Form/SexDetails';
 import { type Details as SexDetailsType } from '../../Form/SexDetails/SexDetailsPopover';
-import { ANIMAL_ID_PREFIX, AnimalOrBatchKeys } from '../../../containers/Animals/types';
+import { AnimalOrBatchKeys } from '../../../containers/Animals/types';
 import {
   DetailsFields,
   type Option,
@@ -40,10 +40,10 @@ import {
   Option as AnimalSelectOption,
   AnimalBreedSelect,
 } from '../AddAnimalsFormCard/AnimalSelect';
-import { generateUniqueAnimalId, parseUniqueDefaultId } from '../../../util/animal';
+import { parseUniqueDefaultId } from '../../../util/animal';
 
 export type AnimalUseOptions = {
-  default_type_id: number;
+  default_type_id: number | null;
   uses: Option[DetailsFields.USE][];
 }[];
 
@@ -76,54 +76,8 @@ const GeneralDetails = ({
     watch,
     getValues,
     resetField,
-    setValue,
     formState: { errors, defaultValues },
   } = useFormContext();
-
-  useEffect(() => {
-    if (mode === 'add') {
-      return;
-    }
-    if ((typeOptions && defaultValues?.custom_type_id) || defaultValues?.default_type_id) {
-      const typeId = defaultValues?.custom_type_id
-        ? generateUniqueAnimalId(ANIMAL_ID_PREFIX.CUSTOM, defaultValues?.custom_type_id)
-        : generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, defaultValues?.default_type_id);
-      setValue(
-        `${namePrefix}${DetailsFields.TYPE}`,
-        typeOptions.find(({ value }) => value === typeId),
-        { shouldValidate: true },
-      );
-    }
-
-    if ((breedOptions && defaultValues?.custom_breed_id) || defaultValues?.default_breed_id) {
-      const breedId = defaultValues?.custom_breed_id
-        ? generateUniqueAnimalId(ANIMAL_ID_PREFIX.CUSTOM, defaultValues?.custom_breed_id)
-        : generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, defaultValues?.default_breed_id);
-
-      setValue(
-        `${namePrefix}${DetailsFields.BREED}`,
-        breedOptions.find(({ value }) => value === breedId),
-      );
-    }
-
-    const animalUseOptionsForType = animalUseOptions.find(
-      ({ default_type_id }) => default_type_id === defaultValues?.default_type_id,
-    );
-
-    // Only return uses that exist in the current type
-    const mapUses = (relationships: { use_id: number }[]) =>
-      relationships?.flatMap(({ use_id }) => {
-        const found = animalUseOptionsForType?.uses.find(({ value }) => value === use_id);
-        return found ? [found] : [];
-      });
-
-    setValue(
-      `${namePrefix}${DetailsFields.USE}`,
-      mapUses(
-        defaultValues?.animal_use_relationships || defaultValues?.animal_batch_use_relationships,
-      ),
-    );
-  }, [defaultValues]);
 
   const watchBatchCount = watch(`${namePrefix}${DetailsFields.COUNT}`) || 0;
   const watchedUse = watch(`${namePrefix}${DetailsFields.USE}`) as Option[DetailsFields.USE][];

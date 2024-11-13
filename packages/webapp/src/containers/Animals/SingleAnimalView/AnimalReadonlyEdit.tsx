@@ -45,7 +45,6 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
   } = useAnimalOptions(
     'type',
     'breed',
-    'default_types',
     'sex',
     'sexDetails',
     'use',

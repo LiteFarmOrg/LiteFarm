@@ -18,8 +18,9 @@ import { useGetAnimalBatchesQuery, useGetAnimalsQuery } from '../../../store/api
 import { useAnimalOptions } from '../AddAnimals/useAnimalOptions';
 import { DetailsFields } from '../AddAnimals/types';
 import { generateFormDate } from './utils';
-import { AnimalOrBatchKeys } from '../types';
+import { ANIMAL_ID_PREFIX, AnimalOrBatchKeys } from '../types';
 import type { Details } from '../../../components/Form/SexDetails/SexDetailsPopover';
+import { generateUniqueAnimalId } from '../../../util/animal';
 
 interface RouteParams {
   id: string;
@@ -42,7 +43,23 @@ export const useInitialAnimalData = ({ match }: UseInitialAnimalDataProps) => {
     }),
   });
 
-  const { sexDetailsOptions }: { sexDetailsOptions: Details } = useAnimalOptions('sexDetails');
+  const {
+    sexDetailsOptions,
+    animalUseOptions,
+    typeOptions,
+    breedOptions,
+    organicStatusOptions,
+    tagTypeOptions,
+    tagColorOptions,
+  } = useAnimalOptions(
+    'sexDetails',
+    'use',
+    'type',
+    'breed',
+    'organicStatus',
+    'tagType',
+    'tagColor',
+  );
 
   const otherAnimalUse =
     selectedAnimal?.animal_use_relationships?.find(
@@ -63,26 +80,69 @@ export const useInitialAnimalData = ({ match }: UseInitialAnimalDataProps) => {
     return option;
   });
 
+  const selectedEntity = selectedAnimal || selectedBatch;
+  let typeId: string, breedId: string;
+
+  if ((typeOptions && selectedEntity?.custom_type_id) || selectedEntity?.default_type_id) {
+    typeId = selectedEntity?.custom_type_id
+      ? generateUniqueAnimalId(ANIMAL_ID_PREFIX.CUSTOM, selectedEntity?.custom_type_id)
+      : generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, selectedEntity.default_type_id!);
+  }
+
+  if ((breedOptions && selectedEntity?.custom_breed_id) || selectedEntity?.default_breed_id) {
+    breedId = selectedEntity?.custom_breed_id
+      ? generateUniqueAnimalId(ANIMAL_ID_PREFIX.CUSTOM, selectedEntity?.custom_breed_id)
+      : generateUniqueAnimalId(ANIMAL_ID_PREFIX.DEFAULT, selectedEntity?.default_breed_id!);
+  }
+
+  const animalUseOptionsForType = animalUseOptions.find(
+    ({ default_type_id }) => default_type_id === selectedEntity?.default_type_id,
+  );
+
+  // Only return uses that exist in the current type
+  const mapUses = (relationships: { use_id: number }[]) =>
+    relationships?.flatMap(({ use_id }) => {
+      const found = animalUseOptionsForType?.uses.find(
+        ({ value }: { value: number }) => value === use_id,
+      );
+      return found ? [found] : [];
+    });
+
+  const commonFields = {
+    [DetailsFields.DATE_OF_BIRTH]: generateFormDate(selectedEntity?.birth_date),
+    [DetailsFields.BROUGHT_IN_DATE]: generateFormDate(selectedEntity?.brought_in_date),
+    [DetailsFields.OTHER_USE]: otherAnimalUse ? otherAnimalUse.other_use : null,
+    [DetailsFields.TYPE]: typeOptions.find(({ value }) => value === typeId),
+    [DetailsFields.BREED]: breedOptions.find(({ value }) => value === breedId),
+    [DetailsFields.ORGANIC_STATUS]: organicStatusOptions.find(
+      ({ value }) => value === selectedEntity?.organic_status,
+    ),
+  };
+
   const defaultFormValues = {
     ...(selectedAnimal
       ? {
           ...selectedAnimal,
+          ...commonFields,
           [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
-          [DetailsFields.DATE_OF_BIRTH]: generateFormDate(selectedAnimal.birth_date),
-          [DetailsFields.BROUGHT_IN_DATE]: generateFormDate(selectedAnimal.brought_in_date),
           [DetailsFields.WEANING_DATE]: generateFormDate(selectedAnimal.weaning_date),
-          [DetailsFields.OTHER_USE]: otherAnimalUse ? otherAnimalUse.other_use : null,
+          [DetailsFields.USE]: mapUses(selectedAnimal?.animal_use_relationships ?? []),
+          [DetailsFields.TAG_TYPE]: tagTypeOptions.find(
+            ({ value }) => value === selectedAnimal?.identifier_type_id,
+          ),
+          [DetailsFields.TAG_COLOR]: tagColorOptions.find(
+            ({ value }) => value === selectedAnimal?.identifier_color_id,
+          ),
         }
       : {}),
     ...(selectedBatch
       ? {
           ...selectedBatch,
+          ...commonFields,
           [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.BATCH,
-          [DetailsFields.DATE_OF_BIRTH]: generateFormDate(selectedBatch.birth_date),
-          [DetailsFields.BROUGHT_IN_DATE]: generateFormDate(selectedBatch.brought_in_date),
           [DetailsFields.SEX_DETAILS]: transformedSexDetails,
           [DetailsFields.BATCH_NAME]: selectedBatch.name,
-          [DetailsFields.OTHER_USE]: otherAnimalUse ? otherAnimalUse.other_use : null,
+          [DetailsFields.USE]: mapUses(selectedBatch?.animal_batch_use_relationships ?? []),
         }
       : {}),
   };

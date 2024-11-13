@@ -50,7 +50,7 @@ const OtherDetails = ({
     getValues,
     setValue,
     resetField,
-    formState: { errors, defaultValues },
+    formState: { errors },
   } = useFormContext();
 
   const { field } = useController({ control, name: `${namePrefix}${DetailsFields.ANIMAL_IMAGE}` });
@@ -74,19 +74,6 @@ const OtherDetails = ({
       );
     }
   }, []);
-
-  useEffect(() => {
-    if (mode === 'add') {
-      return;
-    }
-
-    if (organicStatusOptions) {
-      setValue(
-        `${namePrefix}${DetailsFields.ORGANIC_STATUS}`,
-        organicStatusOptions.find(({ value }) => value === defaultValues?.organic_status),
-      );
-    }
-  }, [defaultValues]);
 
   return (
     <div className={styles.sectionWrapper}>

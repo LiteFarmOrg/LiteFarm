@@ -79,6 +79,7 @@ export const WithStepperProgressBar = ({
     unblock: undefined,
     retry: undefined,
   });
+  const [isSaving, setIsSaving] = useState(false);
 
   const isSummaryPage = hasSummaryWithinForm && activeStepIndex === steps.length - 1;
   const isSingleStep = steps.length === 1;
@@ -102,9 +103,11 @@ export const WithStepperProgressBar = ({
 
   const shouldShowFormNavigationButtons = !isSummaryPage && isEditing;
 
-  const onContinue = () => {
+  const onContinue = async () => {
     if (isFinalStep) {
-      handleSubmit((data: FieldValues) => onSave(data, onGoForward, setFormResultData))();
+      setIsSaving(true);
+      await handleSubmit((data: FieldValues) => onSave(data, onGoForward, setFormResultData))();
+      setIsSaving(false);
       setIsEditing?.(false);
       return;
     }
@@ -148,7 +151,7 @@ export const WithStepperProgressBar = ({
             onPrevious={isSingleStep ? undefined : onGoBack}
             isFirstStep={!activeStepIndex}
             isFinalStep={isFinalStep}
-            isDisabled={!isValid}
+            isDisabled={!isValid || isSaving}
           />
         </FloatingContainer>
       )}

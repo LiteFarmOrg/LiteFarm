@@ -16,7 +16,6 @@ import React from 'react';
 import { v2TableDecorator } from '../Pages/config/Decorators';
 import Table from '../../components/Table';
 import Cell from '../../components/Table/Cell';
-import { ReactComponent as CropIcon } from '../../assets/images/nav/crops.svg';
 import { TableKind, CellKind } from '../../components/Table/types';
 
 export default {
@@ -30,7 +29,7 @@ const getFakeColumns = () => {
     {
       id: 'crop',
       label: 'Crops',
-      format: (d) => <Cell kind={CellKind.ICON_TEXT} icon={d.icon} text={d.crop} />,
+      format: (d) => <Cell kind={CellKind.ICON_TEXT} iconName={d.iconName} text={d.crop} />,
     },
     {
       id: 'tasks',
@@ -56,29 +55,34 @@ const getFakeData = (length) => {
   return [
     {
       crop: 'White corn, Corn',
-      icon: CropIcon,
+      iconName: 'CROP',
       tasks: ['Task 1', 'Task 2', 'Task 3'],
       revenue: 8796.0,
     },
     {
       crop: 'Koto, Buckwheat',
-      icon: CropIcon,
+      iconName: 'CROP',
       tasks: ['Task 1', 'Task 2', 'Task 3'],
       revenue: 692.5,
     },
     {
       crop: 'Lutz green leaf, Beetroot',
-      icon: CropIcon,
+      iconName: 'CROP',
       tasks: ['Task 1', 'Task 2'],
       revenue: 210.0,
     },
-    { crop: 'Cox’s orange pippin, Apple', icon: CropIcon, tasks: ['Task 1'], revenue: 340.0 },
-    { crop: 'Macoun, Apples', icon: CropIcon, tasks: [], revenue: 1234.0 },
-    { crop: 'Butter Boy Hybrid, Butternut ', icon: CropIcon, tasks: ['Task 1'], revenue: 785.5 },
-    { crop: 'King Edward, Potato', icon: CropIcon, tasks: ['Task 1'], revenue: 237.0 },
-    { crop: 'Blanco Veneto, Celeriac', icon: CropIcon, tasks: ['Task 1'], revenue: 895.0 },
-    { crop: 'Hollow Crown, Parsnips ', icon: CropIcon, tasks: ['Task 1'], revenue: 354.0 },
-    { crop: 'Early White Hybrid, Cauliflower', icon: CropIcon, tasks: ['Task 1'], revenue: 789.5 },
+    { crop: 'Cox’s orange pippin, Apple', iconName: 'CROP', tasks: ['Task 1'], revenue: 340.0 },
+    { crop: 'Macoun, Apples', iconName: 'CROP', tasks: [], revenue: 1234.0 },
+    { crop: 'Butter Boy Hybrid, Butternut ', iconName: 'CROP', tasks: ['Task 1'], revenue: 785.5 },
+    { crop: 'King Edward, Potato', iconName: 'CROP', tasks: ['Task 1'], revenue: 237.0 },
+    { crop: 'Blanco Veneto, Celeriac', iconName: 'CROP', tasks: ['Task 1'], revenue: 895.0 },
+    { crop: 'Hollow Crown, Parsnips ', iconName: 'CROP', tasks: ['Task 1'], revenue: 354.0 },
+    {
+      crop: 'Early White Hybrid, Cauliflower',
+      iconName: 'CROP',
+      tasks: ['Task 1'],
+      revenue: 789.5,
+    },
   ].slice(0, length);
 };
 

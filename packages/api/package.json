@@ -125,8 +125,5 @@
     "*.js": [
       "eslint --quiet --fix"
     ]
-  },
-  "overrides": {
-    "glob-parent@<5.1.2": ">=5.1.2"
   }
 }

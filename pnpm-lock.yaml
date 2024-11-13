@@ -160,9 +160,6 @@ importers:
       rxjs:
         specifier: ^6.6.3
         version: 6.6.7
-      shared:
-        specifier: workspace:*
-        version: link:../shared
       sinon:
         specifier: ^9.1.0
         version: 9.2.4

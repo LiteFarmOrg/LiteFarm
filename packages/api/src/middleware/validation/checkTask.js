@@ -277,7 +277,7 @@ async function checkAnimalMovementTask(req) {
 
   if (req.body.animal_movement_task?.purpose_relationships) {
     throw customError(
-      `Invalid field: "purpose_relationships" should not be included. Use "purposes" instead`,
+      `Invalid field: "purpose_relationships" should not be included. Use "purpose_ids" instead`,
     );
   }
 

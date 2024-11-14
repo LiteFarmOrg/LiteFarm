@@ -681,17 +681,24 @@ describe('Animal task tests', () => {
         });
 
         test('should not complete an animal task with an attempt to remove all animals and batches from the task', async () => {
-          const { task_id } = await animalTaskFactory(fakeTaskData[type]());
-          const patchRes = await completeTaskRequest(
-            { user_id, farm_id },
-            { ...fakeCompletionData, related_animal_ids: [], related_animal_batch_ids: [] },
-            task_id,
-            type,
-          );
-          expect(patchRes.status).toBe(400);
-          expect(patchRes.error.text).toBe(
-            'At least one of the animal IDs or animal batch IDs is required',
-          );
+          const emptyIdsVariants = [[], null];
+          for (let emptyIds of emptyIdsVariants) {
+            const { task_id } = await animalTaskFactory(fakeTaskData[type]());
+            const patchRes = await completeTaskRequest(
+              { user_id, farm_id },
+              {
+                ...fakeCompletionData,
+                related_animal_ids: emptyIds,
+                related_animal_batch_ids: emptyIds,
+              },
+              task_id,
+              type,
+            );
+            expect(patchRes.status).toBe(400);
+            expect(patchRes.error.text).toBe(
+              'At least one of the animal IDs or animal batch IDs is required',
+            );
+          }
         });
 
         test('should not complete an animal task for a removed animal', async () => {
@@ -867,7 +874,10 @@ describe('Animal task tests', () => {
         });
 
         test('should complete a movement task with purposes removed', async () => {
+          // remove purposes with []
           await checkCompletedMovementTask([purpose1], null, [], null);
+          // remove purposes with null
+          await checkCompletedMovementTask([purpose1], null, null, null);
         });
 
         test('should complete a movement task with the addition of other_purpose', async () => {

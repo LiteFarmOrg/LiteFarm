@@ -69,16 +69,17 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
     setIsEditing(true);
   };
 
-  const routerTabs = [
-    {
-      label: t('ANIMAL.TABS.BASIC_INFO'),
-      path: match.url,
-    },
-    {
-      label: t('ANIMAL.TABS.TASKS'),
-      path: `${match.url}/tasks`,
-    },
-  ];
+  /* Temporarily removed for Animals v1 release */
+  // const routerTabs = [
+  //   {
+  //     label: t('ANIMAL.TABS.BASIC_INFO'),
+  //     path: match.url,
+  //   },
+  //   {
+  //     label: t('ANIMAL.TABS.TASKS'),
+  //     path: `${match.url}/tasks`,
+  //   },
+  // ];
 
   // Form setup
   const dispatch = useDispatch();
@@ -169,12 +170,12 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
           />
         )}
       </div>
-      <Tab
+      {/* <Tab
         tabs={routerTabs}
         variant={TabVariants.UNDERLINE}
         isSelected={(tab) => tab.path === match.url}
         onClick={(tab) => history.push(tab.path)}
-      />
+      /> */}
       <ContextForm
         onSave={onSave}
         hasSummaryWithinForm={false}

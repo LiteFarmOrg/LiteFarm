@@ -25,11 +25,10 @@ import OtherDetails, { OtherDetailsProps } from '../../../components/Animals/Det
 
 interface AnimalBatchBasicInfoProps {
   isAnimal: boolean;
-  generalDetailProps: GeneralDetailsProps &
-    CommonDetailsProps & { animalOrBatch: AnimalOrBatchKeys };
-  uniqueDetailsProps: UniqueDetailsProps & CommonDetailsProps;
-  otherDetailsProps: OtherDetailsProps & CommonDetailsProps & { animalOrBatch: AnimalOrBatchKeys };
-  originProps: OriginProps & CommonDetailsProps;
+  generalDetailProps: GeneralDetailsProps;
+  uniqueDetailsProps: UniqueDetailsProps;
+  otherDetailsProps: OtherDetailsProps;
+  originProps: OriginProps;
 }
 
 const AnimalBatchBasicInfo = ({

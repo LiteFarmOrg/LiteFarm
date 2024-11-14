@@ -45,41 +45,13 @@ import {
   animalTaskGenerator,
 } from './utils/taskUtils.js';
 
+// expected task data returned by GET request
 const expectedCompletedTaskData = {
   ...fakeCompletionData,
   complete_date: `${fakeCompletionData.complete_date}T00:00:00.000`,
 };
 
-const createMovementTaskForReqBody = (purposeIds, otherPurpose) => {
-  const animalMovementTask = { animal_movement_task: {} };
-
-  if (purposeIds) {
-    animalMovementTask.animal_movement_task.purpose_ids = purposeIds;
-  }
-  if (otherPurpose) {
-    animalMovementTask.animal_movement_task.other_purpose = otherPurpose;
-  }
-  return animalMovementTask;
-};
-
-const checkMovementPurposeRelationships = (expectedRelationships, actualRelationships) => {
-  if (!expectedRelationships) {
-    return;
-  }
-  expect(actualRelationships.length).toBe(expectedRelationships.length);
-
-  expectedRelationships.forEach(({ purpose_id, other_purpose }) => {
-    const actualRelationship = actualRelationships.filter(
-      (resRelation) => resRelation.purpose_id === purpose_id,
-    );
-    expect(actualRelationship.length).toBe(1);
-
-    if (other_purpose) {
-      expect(actualRelationship[0].other_purpose).toBe(other_purpose);
-    }
-  });
-};
-
+// return expected task data returned by GET request
 const simulateMovementTaskCompletion = (task) => {
   const { location_id } = task.locations[0];
   return {
@@ -98,12 +70,46 @@ const simulateTaskCompletion = (task, type) => {
   return complete?.(task) || { ...task, ...expectedCompletedTaskData };
 };
 
+// for direct insertion into the DB
 const createFakeMovementTask = (purposeRelationships) => {
   const movementTask = { animal_movement_task: {} };
   if (purposeRelationships) {
     movementTask.animal_movement_task = { purpose_relationships: purposeRelationships };
   }
   return mocks.fakeAnimalMovementTask(movementTask);
+};
+
+const createMovementTaskForReqBody = (purposeIds, otherPurpose) => {
+  const animalMovementTask = {};
+
+  if (purposeIds) {
+    animalMovementTask.purpose_ids = purposeIds;
+  }
+  if (otherPurpose) {
+    animalMovementTask.other_purpose = otherPurpose;
+  }
+
+  return { animal_movement_task: animalMovementTask };
+};
+
+const checkMovementPurposeRelationships = (expectedRelationships, actualRelationships) => {
+  if (!expectedRelationships) {
+    return;
+  }
+  expect(actualRelationships.length).toBe(expectedRelationships.length);
+
+  expectedRelationships.forEach(
+    ({ purpose_id: expectedPurposeId, other_purpose: expectedOtherPurpose }) => {
+      const actualRelationship = actualRelationships.filter(
+        (relation) => relation.purpose_id === expectedPurposeId,
+      );
+      expect(actualRelationship.length).toBe(1);
+
+      if (expectedOtherPurpose) {
+        expect(actualRelationship[0].other_purpose).toBe(expectedOtherPurpose);
+      }
+    },
+  );
 };
 
 describe('Animal task tests', () => {
@@ -193,7 +199,8 @@ describe('Animal task tests', () => {
     await knex.destroy();
   });
 
-  const generateAnimalTask = async (data) => {
+  // generate and insert animal task data into the DB
+  const animalTaskFactory = async (data) => {
     return animalTaskGenerator({
       due_date: faker.date.future().toISOString().split('T')[0],
       task_type_id,
@@ -218,7 +225,7 @@ describe('Animal task tests', () => {
         typesToTest.map(() => mocks.task_typeFactory({ promisedFarm: [{ farm_id }] })),
       );
 
-      // Add more cases here for new task types as needed
+      // Add more cases (data to add to the DB) here for new task types as needed
       const taskDataBlueprint = [
         {
           task_type_id: movementTaskId,
@@ -231,10 +238,10 @@ describe('Animal task tests', () => {
       ];
 
       const expectedTasks = await Promise.all(
-        taskDataBlueprint.map((data) => generateAnimalTask(data)),
+        taskDataBlueprint.map((data) => animalTaskFactory(data)),
       );
       const res = await getTasksRequest({ farm_id, user_id });
-      debugger;
+
       expect(res.status).toBe(200);
       expect(res.body.length).toBe(taskDataBlueprint.length);
 
@@ -258,7 +265,7 @@ describe('Animal task tests', () => {
   });
 
   describe('POST Task', () => {
-    const createFakeTask = (extraData = {}) => {
+    const createAnimalTaskForReqBody = (extraData = {}) => {
       return mocks.fakeTask({
         related_animal_ids: [animal1, animal2, animal3, animal4].map(({ id }) => id),
         related_batch_ids: [batch1, batch2, batch3, batch4].map(({ id }) => id),
@@ -312,7 +319,7 @@ describe('Animal task tests', () => {
       };
 
       test(`should create a(n) ${type} with animals`, async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
           related_batch_ids: [],
         });
@@ -320,7 +327,7 @@ describe('Animal task tests', () => {
       });
 
       test(`should create a(n) ${type} with batches`, async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
           related_animal_ids: [],
         });
@@ -328,12 +335,12 @@ describe('Animal task tests', () => {
       });
 
       test(`should create a(n) ${type} with both animals and batches`, async () => {
-        const data = createFakeTask({ [type]: fakeTaskData[type]() });
+        const data = createAnimalTaskForReqBody({ [type]: fakeTaskData[type]() });
         await checkValidPostRequest(type, data);
       });
 
       test(`should not create a(n) ${type} for a removed animal`, async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
           related_animal_ids: [removedAnimal1.id],
           related_batch_ids: [],
@@ -342,7 +349,7 @@ describe('Animal task tests', () => {
       });
 
       test(`should not create a(n) ${type} for a deleted animal`, async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
           related_animal_ids: [deletedAnimal1.id],
           related_batch_ids: [],
@@ -351,7 +358,7 @@ describe('Animal task tests', () => {
       });
 
       test(`should not create a(n) ${type} for a removed batch`, async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
           related_animal_ids: [],
           related_batch_ids: [removedBatch1.id],
@@ -360,7 +367,7 @@ describe('Animal task tests', () => {
       });
 
       test(`should not create a(n) ${type} for a deleted batch`, async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
           related_animal_ids: [],
           related_batch_ids: [deletedBatch1.id],
@@ -369,7 +376,7 @@ describe('Animal task tests', () => {
       });
 
       test(`should not create a(n) ${type} for animals in a different farm`, async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
           related_animal_ids: [farmBAnimal1.id],
           related_batch_ids: [],
@@ -378,7 +385,7 @@ describe('Animal task tests', () => {
       });
 
       test(`should not create a(n) ${type} for batches in a different farm`, async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
           related_animal_ids: [],
           related_batch_ids: [farmBBatch1.id],
@@ -387,7 +394,7 @@ describe('Animal task tests', () => {
       });
 
       test(`should not create a(n) ${type} without animals and batches`, async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
           related_animal_ids: [],
           related_batch_ids: [],
@@ -400,7 +407,7 @@ describe('Animal task tests', () => {
       });
 
       test(`should not create a(n) ${type} without a due date`, async () => {
-        const data = createFakeTask({ [type]: fakeTaskData[type](), due_date: null });
+        const data = createAnimalTaskForReqBody({ [type]: fakeTaskData[type](), due_date: null });
         const res = await postTaskRequest({ user_id, farm_id }, type, data);
         expect(res.status).toBe(400);
         expect(res.error.text).toBe('must have due date');
@@ -409,7 +416,7 @@ describe('Animal task tests', () => {
       test(`should create a(n) ${type} with a due date equal to the animals' birth and brought-in dates`, async () => {
         const today = new Date();
         const todayInYYYYMMDD = toLocal8601Extended(today);
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
           due_date: todayInYYYYMMDD,
           related_animal_ids: [animalBornToday.id, animalBroughtInToday.id],
@@ -418,7 +425,7 @@ describe('Animal task tests', () => {
       });
 
       test(`should not create a(n) ${type} with a due date earlier than the animal's birth date`, async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
           due_date: yesterdayInYYYYMMDD,
         });
@@ -431,7 +438,7 @@ describe('Animal task tests', () => {
       });
 
       test(`should not create a(n) ${type} with a due date earlier than the animal's brought-in date`, async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
           due_date: yesterdayInYYYYMMDD,
         });
@@ -444,7 +451,7 @@ describe('Animal task tests', () => {
       });
 
       test(`should not create a(n) ${type} with managementPlans`, async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
           due_date: yesterdayInYYYYMMDD,
           managementPlans: [{ planting_management_plan_id }],
@@ -474,13 +481,13 @@ describe('Animal task tests', () => {
           expect(foundRelationship.length).toBe(1);
 
           if (other_purpose) {
-            expect(other_purpose).toBe(foundRelationship[0].other_purpose);
+            expect(foundRelationship[0].other_purpose).toBe(other_purpose);
           }
         });
       };
 
       const createMovementTaskPostBody = (purposeIds, otherPurpose) => {
-        return createFakeTask(createMovementTaskForReqBody(purposeIds, otherPurpose));
+        return createAnimalTaskForReqBody(createMovementTaskForReqBody(purposeIds, otherPurpose));
       };
 
       test('should create a movement task without purpose_ids', async () => {
@@ -501,7 +508,7 @@ describe('Animal task tests', () => {
         const otherPurposeData = faker.lorem.sentence();
         const data = createMovementTaskPostBody([otherPurpose.id], otherPurposeData);
         const res = await postTaskRequest({ user_id, farm_id }, type, data);
-        debugger;
+
         await checkAnimalMovementTaskInDB(res.body.task_id);
         await checkPurposeRelationshipsInDB(res.body.task_id, [
           { ...otherPurpose, other_purpose: otherPurposeData },
@@ -529,7 +536,7 @@ describe('Animal task tests', () => {
       });
 
       test('should not create a movement task without a location', async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           animal_movement_task: {},
           locations: [],
         });
@@ -539,7 +546,7 @@ describe('Animal task tests', () => {
       });
 
       test('should not create a movement task with a location in a different farm', async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           animal_movement_task: {},
           locations: [{ location_id: farmBLocationId }],
         });
@@ -549,7 +556,7 @@ describe('Animal task tests', () => {
       });
 
       test('should not create a movement task with multiple locations', async () => {
-        const data = createFakeTask({
+        const data = createAnimalTaskForReqBody({
           animal_movement_task: {},
           locations: [{ location_id }, { location_id: location2Id }],
         });
@@ -569,14 +576,10 @@ describe('Animal task tests', () => {
     describe('Completion of animal tasks', () => {
       const fakeTaskData = {
         animal_movement_task: () =>
-          mocks.fakeAnimalMovementTask({
-            animal_movement_task: {
-              purpose_relationships: [
-                { purpose_id: purpose1.id },
-                { purpose_id: otherPurpose.id, other_purpose: faker.lorem.sentence() },
-              ],
-            },
-          }),
+          createFakeMovementTask([
+            { purpose_id: purpose1.id },
+            { purpose_id: otherPurpose.id, other_purpose: faker.lorem.sentence() },
+          ]),
       };
 
       describe.each(Object.keys(fakeTaskData))('animal tasks common validation tests', (type) => {
@@ -586,7 +589,7 @@ describe('Animal task tests', () => {
           afterAnimalIds = [],
           afterBatchIds = [],
         }) => {
-          const { task_id } = await generateAnimalTask({
+          const { task_id } = await animalTaskFactory({
             animals: beforeAnimalIds.map((id) => ({ id })),
             animal_batches: beforeBatchIds.map((id) => ({ id })),
             ...fakeTaskData[type](),
@@ -610,7 +613,7 @@ describe('Animal task tests', () => {
         };
 
         const checkInvalidAnimalsToComplete = async (animalOrBatch, ids, invalidIds) => {
-          const { task_id } = await generateAnimalTask();
+          const { task_id } = await animalTaskFactory();
           const patchRes = await completeTaskRequest(
             { user_id, farm_id },
             { ...fakeCompletionData, [`related_${animalOrBatch}_ids`]: ids },
@@ -626,7 +629,7 @@ describe('Animal task tests', () => {
         };
 
         test('should complete an animal task without modifying animals, batches and task type specific details', async () => {
-          const { task_id } = await generateAnimalTask(fakeTaskData[type]());
+          const { task_id } = await animalTaskFactory(fakeTaskData[type]());
           const getResBefore = await getTasksRequest({ user_id, farm_id });
           const patchRes = await completeTaskRequest(
             { user_id, farm_id },
@@ -678,7 +681,7 @@ describe('Animal task tests', () => {
         });
 
         test('should not complete an animal task with an attempt to remove all animals and batches from the task', async () => {
-          const { task_id } = await generateAnimalTask(fakeTaskData[type]());
+          const { task_id } = await animalTaskFactory(fakeTaskData[type]());
           const patchRes = await completeTaskRequest(
             { user_id, farm_id },
             { ...fakeCompletionData, related_animal_ids: [], related_animal_batch_ids: [] },
@@ -724,7 +727,7 @@ describe('Animal task tests', () => {
         });
 
         test(`should not complete an animal task without a complete date`, async () => {
-          const { task_id } = await generateAnimalTask(fakeTaskData[type]());
+          const { task_id } = await animalTaskFactory(fakeTaskData[type]());
           const patchRes = await completeTaskRequest(
             { user_id, farm_id },
             { ...fakeCompletionData, complete_date: null },
@@ -736,7 +739,7 @@ describe('Animal task tests', () => {
         });
 
         test(`should not complete an animal task with a complete date earlier than the animal's birth date`, async () => {
-          const { task_id } = await generateAnimalTask({
+          const { task_id } = await animalTaskFactory({
             ...fakeTaskData[type](),
             animals: [{ id: animalBornToday.id }],
           });
@@ -753,7 +756,7 @@ describe('Animal task tests', () => {
         });
 
         test(`should not complete an animal task with a complete date earlier than the animal's brought-in date`, async () => {
-          const { task_id } = await generateAnimalTask({
+          const { task_id } = await animalTaskFactory({
             ...fakeTaskData[type](),
             animals: [{ id: animalBroughtInToday.id }],
           });
@@ -789,7 +792,7 @@ describe('Animal task tests', () => {
           purposesInPatchReq,
           otherPurposeInPatchReq,
         ) => {
-          const task = await generateAnimalTask(
+          const task = await animalTaskFactory(
             createFakeMovementTask(
               initialPurposes?.map(({ id }) => ({
                 purpose_id: id,
@@ -811,7 +814,7 @@ describe('Animal task tests', () => {
             },
             task_id,
           );
-          debugger;
+
           expect(patchRes.status).toBe(200);
           const res = await getTasksRequest({ user_id, farm_id });
 
@@ -891,7 +894,7 @@ describe('Animal task tests', () => {
         });
 
         test('should not complete a movement task with an invalid purpose id', async () => {
-          const { task_id } = await generateAnimalTask(createFakeMovementTask());
+          const { task_id } = await animalTaskFactory(createFakeMovementTask());
           const unknownPurposeId = 123456;
           const patchRes = await completeMovementTaskReq(
             {
@@ -904,7 +907,7 @@ describe('Animal task tests', () => {
         });
 
         test('should ignore other_purpose without ccorrect purpose id', async () => {
-          const { task_id } = await generateAnimalTask(createFakeMovementTask());
+          const { task_id } = await animalTaskFactory(createFakeMovementTask());
           const patchRes = await completeMovementTaskReq(
             {
               ...fakeCompletionData,
@@ -925,7 +928,7 @@ describe('Animal task tests', () => {
           const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
           await knex('location').update({ deleted: true }).where({ location_id });
 
-          const { task_id } = await generateAnimalTask({
+          const { task_id } = await animalTaskFactory({
             ...createFakeMovementTask(),
             locations: [{ location_id }],
           });
@@ -946,7 +949,7 @@ describe('Animal task tests', () => {
         { promisedFarm: [{ farm_id }] },
         { task_name: faker.lorem.word(), task_translation_key: key },
       );
-      ({ task_id } = await generateAnimalTask({
+      ({ task_id } = await animalTaskFactory({
         task_type_id,
         due_date: faker.date.future().toISOString().split('T')[0],
         animals: [{ id: animalBornToday.id }, { id: animalBroughtInToday.id }],

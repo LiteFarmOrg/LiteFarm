@@ -215,7 +215,8 @@ async function checkAnimalTask(req, taskType, dateName) {
 
   if (dateName === 'complete_date') {
     // Set isAnimalOrBatchRequired to false when both animals and batches won't be modified
-    const animalsOrBatchesProvided = !!(req.body.related_animal_ids || req.body.related_batch_ids);
+    const animalsOrBatchesProvided =
+      'related_animal_ids' in req.body || 'related_batch_ids' in req.body;
     isAnimalOrBatchRequired = animalsOrBatchesProvided;
   }
 

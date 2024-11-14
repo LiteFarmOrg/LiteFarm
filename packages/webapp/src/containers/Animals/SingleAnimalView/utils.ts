@@ -36,13 +36,12 @@ export const addNullstoMissingFields = (
 ): Partial<Animal | AnimalBatch> => {
   const formattedObject = { ...updatedAnimalOrBatch };
 
-  const updatedKeys = Object.keys(updatedAnimalOrBatch) as AnimalBatchKey[];
   const originalKeys = Object.keys(originalAnimalOrBatch) as AnimalBatchKey[];
 
   const isMissing = (key: AnimalBatchKey): boolean => {
     const originalValue = originalAnimalOrBatch[key];
 
-    const isKeyMissing = !updatedKeys.includes(key) || updatedAnimalOrBatch[key] === undefined;
+    const isKeyMissing = !(key in updatedAnimalOrBatch) || updatedAnimalOrBatch[key] === undefined;
 
     const wasValidValue =
       originalValue !== null &&

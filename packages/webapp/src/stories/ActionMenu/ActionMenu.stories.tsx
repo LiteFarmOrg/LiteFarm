@@ -14,7 +14,7 @@
  */
 
 import { Meta, StoryObj } from '@storybook/react';
-import ActionMenu, { ActionMenuProps } from '../../components/ActionMenu';
+import ActionMenu, { ActionMenuProps, iconAction } from '../../components/ActionMenu';
 
 // https://storybook.js.org/docs/writing-stories/typescript
 const meta: Meta<ActionMenuProps> = {
@@ -32,7 +32,7 @@ const createLabelAndOnClick = (label: string): { label: string; onClick: () => v
   };
 };
 
-const iconActions = [
+const iconActions: iconAction[] = [
   {
     iconName: 'ADD_ANIMAL',
     ...createLabelAndOnClick('Add to group'),

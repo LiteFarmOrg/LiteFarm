@@ -20,6 +20,7 @@
     "BREED_PLACEHOLDER_DISABLED": "MISSING",
     "CREATE_INDIVIDUAL_PROFILES": "MISSING",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "MISSING",
+    "EDIT_BASIC_INFO": "MISSING",
     "GENERAL_DETAILS": "MISSING",
     "GENERAL_DETAILS_BATCH": "MISSING",
     "GROUP_NAME": "MISSING",
@@ -292,6 +293,7 @@
       "BATCH_NAME": "MISSING",
       "DAM": "MISSING",
       "DATE_OF_BIRTH": "MISSING",
+      "LITEFARM_ID": "MISSING",
       "ORGANIC_STATUS": "MISSING",
       "OTHER_DETAILS_ANIMAL": "MISSING",
       "OTHER_DETAILS_BATCH": "MISSING",
@@ -316,7 +318,11 @@
     "SEARCH_INVENTORY_PLACEHOLDER": "MISSING",
     "SHOWING_RESULTS_WITH_COUNT_one": "MISSING",
     "SHOWING_RESULTS_WITH_COUNT_many": "MISSING",
-    "SHOWING_RESULTS_WITH_COUNT_other": "MISSING"
+    "SHOWING_RESULTS_WITH_COUNT_other": "MISSING",
+    "TABS": {
+      "BASIC_INFO": "MISSING",
+      "TASKS": "MISSING"
+    }
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Comprimento dos canteiros ",
@@ -726,7 +732,7 @@
         "DEFAULT": "Algo deu errado. Entre em contato com support@litefarm.org para obter assistência.",
         "PARTIAL_SUCCESS_BOTTOM_TEXT": "Eles agora devem estar visíveis no mapa da fazenda. Esses sensores serão ignorados em uploads futuros\n\n",
         "PARTIAL_SUCCESS_TOP_TEXT": "Os seguintes sensores em seu arquivo foram carregados com sucesso ou já existem em sua fazenda:\n\n",
-        "ROW": "[Row: {{ row }}][Column: {{ column }}] {{- errorMessage }} {{ value }}\n",
+        "ROW": "[Linha: {{ row }}][Coluna: {{ column }}] {{- errorMessage }} {{ value }}\n",
         "SOME_ERRORS": "Infelizmente, houve alguns erros com o seu upload:\n\n"
       },
       "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "Clique aqui para baixar o modelo",
@@ -764,7 +770,7 @@
         "SENSOR_LONGITUDE": " Valor de longitude inválido, deve estar entre -180 e 180. e menos de 10 casas decimais.",
         "SENSOR_MODEL": "Nome de modelo inválido, deve ter entre 1 e 100 caracteres.",
         "SENSOR_NAME": "Nome do sensor inválido, deve ter entre 1 e 100 caracteres.",
-        "SENSOR_READING_TYPES": "Tipo de leitura inválido detectado: {{ reading_types }}. Valores válidos incluem: teor_de_água_no_solo, potencial_de_água_do_solo, temperatura."
+        "SENSOR_READING_TYPES": "Tipo de leitura inválido detectado: {{ reading_types }}. Valores válidos incluem: {{ allowed_reading_types }}."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -1526,14 +1532,10 @@
       "CONVERT_TO_HAVE_ACCOUNT": "Converter este trabalhador para usuário com conta",
       "EDIT_USER": "Editar usuário",
       "EMAIL": "E-mail",
-      "ENGLISH": "Inglês",
       "FIRST_NAME": "Primeiro nome",
-      "FRENCH": "Francês",
       "LANGUAGE": "Idioma",
       "LAST_NAME": "Sobrenome",
       "PHONE_NUMBER": "Número de telefone",
-      "PORTUGUESE": "Português",
-      "SPANISH": "Espanhol",
       "USER_ADDRESS": "Endereço"
     },
     "ACCOUNT_TAB": "Conta",
@@ -1870,7 +1872,7 @@
     "SIGN_IN": "Conecte-se",
     "SSO_ERROR": "Faça login clicando no botão do Google acima",
     "USED_INVITATION_LINK_ERROR": "Este convite já foi utilizado, por favor, faça o login para acessar essa fazenda",
-    "WELCOME_BACK": "Bem-vindo de volta",
+    "WELCOME_BACK": "Te damos as boas-vindas de volta",
     "WRONG_BROWSER": "LiteFarm não é otimizado para este navegador.",
     "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
   },
@@ -2010,6 +2012,7 @@
     "QUANTITY_CANNOT_EXCEED": "A quantidade de colheita usada não pode exceder a quantidade a ser alocada",
     "RATE_THIS_TASK": "Avalie esta tarefa",
     "REMOVE_HARVEST_USE": "Remover",
+    "SELECT_ANIMALS_TO_MOVE": "MISSING",
     "SELECT_DATE": "Selecionar a data da tarefa",
     "SELECT_TASK_LOCATIONS": "Selecionar o(s) local(is) da tarefa",
     "SELECT_WILD_CROP": "Esta tarefa é para um cultivo silvestre",

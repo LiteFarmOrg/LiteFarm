@@ -12,13 +12,13 @@ i18n
     defaultNS: 'translation',
     nsSeparator: ':',
     fallbackLng: 'en',
-    locales: ['en', 'pt', 'es', 'fr'],
+    supportedLngs: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml'], // i18n allow list
+    locales: ['en', 'pt', 'es', 'fr', 'de', 'hi', 'pa', 'ml'],
     debug: false,
     detection: {
       order: ['localStorage', 'navigator', 'querystring'],
       lookupLocalStorage: 'litefarm_lang',
     },
-    supportedLngs: ['en', 'pt', 'es', 'fr'],
     react: {
       useSuspense: true,
     },

@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { FC, useMemo } from 'react';
+import { useMemo } from 'react';
 import i18n from '../../../locales/i18n';
 import {
   useGetAnimalsQuery,
@@ -35,12 +35,14 @@ import {
   DefaultAnimalType,
 } from '../../../store/api/types';
 import { getComparator, orderEnum } from '../../../util/sort';
-import { AnimalOrBatchKeys, AnimalTranslationKey } from '../types';
+import { AnimalOrBatchKeys } from '../types';
 import { generateInventoryId } from '../../../util/animal';
+import { AnimalTypeIconKey, isAnimalTypeIconKey } from '../../../components/Icons/icons';
+import { createSingleAnimalViewURL } from '../../../util/siteMapConstants';
 
 export type AnimalInventory = {
   id: string;
-  iconName: string;
+  iconName: AnimalTypeIconKey;
   identification: string;
   type: string;
   breed: string;
@@ -63,17 +65,8 @@ export const getDefaultAnimalIconName = (
   defaultAnimalTypes: DefaultAnimalType[],
   defaultTypeId: number | null,
 ) => {
-  const key = defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key;
-  switch (key) {
-    case AnimalTranslationKey.CATTLE:
-      return 'CATTLE';
-    case AnimalTranslationKey.CHICKEN:
-      return 'CHICKEN';
-    case AnimalTranslationKey.PIGS:
-      return 'PIG';
-    default:
-      return 'CUSTOM_ANIMAL';
-  }
+  const typeKey = defaultAnimalTypes.find(({ id }) => id === defaultTypeId)?.key || 'CUSTOM_ANIMAL';
+  return isAnimalTypeIconKey(typeKey) ? typeKey : 'CUSTOM_ANIMAL';
 };
 
 type hasId = {
@@ -146,7 +139,7 @@ const formatAnimalsData = (
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
-) => {
+): AnimalInventory[] => {
   return animals
     .filter(
       (animal: Animal) =>
@@ -161,7 +154,7 @@ const formatAnimalsData = (
         type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
         groups: animal.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
-        path: `/animal/${animal.internal_identifier}`,
+        path: createSingleAnimalViewURL(animal.internal_identifier),
         count: 1,
         batch: false,
         // preserve some untransformed data for filtering
@@ -182,7 +175,7 @@ const formatAnimalBatchesData = (
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
-) => {
+): AnimalInventory[] => {
   return animalBatches
     .filter(
       (batch: AnimalBatch) =>
@@ -197,7 +190,7 @@ const formatAnimalBatchesData = (
         type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),
         groups: batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
-        path: `/batch/${batch.internal_identifier}`,
+        path: createSingleAnimalViewURL(batch.internal_identifier),
         count: batch.count,
         batch: true,
         // preserve some untransformed data for filtering

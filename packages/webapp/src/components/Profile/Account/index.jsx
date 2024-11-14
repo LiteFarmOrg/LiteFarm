@@ -8,24 +8,19 @@ import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import ProfileLayout from '../ProfileLayout';
 import useGenderOptions from '../../../hooks/useGenderOptions';
+import useLanguageOptionsMap from '../../../hooks/useLanguageOptions';
 
 const useLanguageOptions = (language_preference) => {
-  const { t } = useTranslation();
-  const languageOptionMap = {
-    en: { label: t('PROFILE.ACCOUNT.ENGLISH'), value: 'en' },
-    es: { label: t('PROFILE.ACCOUNT.SPANISH'), value: 'es' },
-    pt: { label: t('PROFILE.ACCOUNT.PORTUGUESE'), value: 'pt' },
-    fr: { label: t('PROFILE.ACCOUNT.FRENCH'), value: 'fr' },
-  };
-  const languageOptions = Object.values(languageOptionMap);
+  const languageOptions = useLanguageOptionsMap();
   const languagePreferenceOptionRef = useRef();
   languagePreferenceOptionRef.current =
-    languageOptionMap[language_preference] || language_preference;
-  return { languageOptionMap, languageOptions, languagePreferenceOptionRef };
+    languageOptions.find(({ value }) => value === language_preference) || language_preference;
+  return { languageOptions, languagePreferenceOptionRef };
 };
 
 export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
-  const genderOptions = useGenderOptions();
+  const { genderOptions, getGenderOptionLabel, getGenderOption } = useGenderOptions();
+
   const { languageOptions, languagePreferenceOptionRef } = useLanguageOptions(
     userFarm.language_preference,
   );
@@ -40,22 +35,17 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
     mode: 'onChange',
     defaultValues: {
       ...userFarm,
-      [userFarmEnum.gender]: genderOptions.find(
-        ({ value }) => value === userFarm[userFarmEnum.gender],
-      ),
+      [userFarmEnum.gender]: getGenderOption(userFarm, userFarmEnum.gender),
     },
     shouldUnregister: true,
   });
   useEffect(() => {
-    // get proper translations for the selected options right after language preference is updated
-    setValue(userFarmEnum.language_preference, null, { shouldValidate: false, shouldDirty: false });
-    setTimeout(() => {
-      setValue(userFarmEnum.language_preference, languagePreferenceOptionRef.current, {
-        shouldValidate: false,
-        shouldDirty: false,
-      });
-    }, 100);
+    setValue(userFarmEnum.language_preference, languagePreferenceOptionRef.current, {
+      shouldValidate: false,
+      shouldDirty: false,
+    });
   }, [userFarm.language_preference]);
+
   const disabled = !isDirty || !isValid;
   return (
     <ProfileLayout
@@ -136,6 +126,7 @@ export default function PureAccount({ userFarm, onSubmit, history, isAdmin }) {
             onChange={onChange}
             value={value}
             toolTipContent={t('CREATE_USER.GENDER_TOOLTIP')}
+            getOptionLabel={getGenderOptionLabel}
           />
         )}
       />

@@ -26,6 +26,7 @@ type SexDetailsProps = {
   maxCount: number;
   onConfirm: (d: Details) => void;
   onCancel?: () => void;
+  isDisabled?: boolean;
 };
 
 const initialize = (details: Details) => () => structuredClone(details) as Details;
@@ -35,6 +36,7 @@ export default function SexDetails({
   initialDetails,
   onCancel,
   onConfirm,
+  isDisabled = false,
 }: SexDetailsProps) {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const [details, setDetails] = useState(initialize(initialDetails));
@@ -71,8 +73,13 @@ export default function SexDetails({
         error={total > maxCount ? t('ADD_ANIMAL.SEX_DETAIL_ERROR', { count: maxCount }) : undefined}
         showResetIcon={false}
         rightSection={<ChevronDown className={styles.chevronDownIcon} />}
+        disabled={isDisabled}
         mainSection={
-          <TextButton onClick={(e) => setAnchor(e.currentTarget)} className={styles.button}>
+          <TextButton
+            onClick={isDisabled ? () => {} : (e) => setAnchor(e.currentTarget)}
+            className={styles.button}
+            disabled={isDisabled}
+          >
             {!total ? (
               <span className={isPopoverOpen ? styles.placeholderDark : styles.placeholder}>
                 {t('ADD_ANIMAL.SPECIFY_SEX')}

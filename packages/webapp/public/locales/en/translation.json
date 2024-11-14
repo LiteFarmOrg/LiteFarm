@@ -18,6 +18,7 @@
     "BREED_PLACEHOLDER_DISABLED": "Please select a type first",
     "CREATE_INDIVIDUAL_PROFILES": "Create individual animal profiles",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately",
+    "EDIT_BASIC_INFO": "Edit basic info",
     "GENERAL_DETAILS": "General details",
     "GENERAL_DETAILS_BATCH": "Batch general details",
     "GROUP_NAME": "Group name",
@@ -287,6 +288,7 @@
       "BATCH_NAME": "Batch name",
       "DAM": "Dam",
       "DATE_OF_BIRTH": "Date of birth",
+      "LITEFARM_ID": "LiteFarm ID",
       "ORGANIC_STATUS": "Organic status",
       "OTHER_DETAILS_ANIMAL": "Other animal details",
       "OTHER_DETAILS_BATCH": "Batch details",
@@ -311,7 +313,11 @@
     "SEARCH_INVENTORY_PLACEHOLDER": "Search your inventory",
     "SHOWING_RESULTS_WITH_COUNT_one": "Showing {{count}} result",
     "SHOWING_RESULTS_WITH_COUNT_many": "Showing {{count}} results",
-    "SHOWING_RESULTS_WITH_COUNT_other": "Showing {{count}} results"
+    "SHOWING_RESULTS_WITH_COUNT_other": "Showing {{count}} results",
+    "TABS": {
+      "BASIC_INFO": "Basic info",
+      "TASKS": "Tasks"
+    }
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
@@ -759,7 +765,7 @@
         "SENSOR_LONGITUDE": "Invalid longitude value, must be between -180 and 180. and fewer than 10 decimals.",
         "SENSOR_MODEL": "Invalid model name, must be between 1 and 100 characters.",
         "SENSOR_NAME": "Invalid sensor name, must be between 1 and 100 characters.",
-        "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: soil_water_content, soil_water_potential, temperature."
+        "SENSOR_READING_TYPES": "Invalid reading type detected: {{ reading_types }}. Valid values include: {{ allowed_reading_types }}."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -1520,14 +1526,10 @@
       "CONVERT_TO_HAVE_ACCOUNT": "Convert this worker to a user with account",
       "EDIT_USER": "Edit user",
       "EMAIL": "Email",
-      "ENGLISH": "English",
       "FIRST_NAME": "First Name",
-      "FRENCH": "French",
       "LANGUAGE": "Language",
       "LAST_NAME": "Last Name",
       "PHONE_NUMBER": "Phone Number",
-      "PORTUGUESE": "Portuguese",
-      "SPANISH": "Spanish",
       "USER_ADDRESS": "Address"
     },
     "ACCOUNT_TAB": "Account",
@@ -2004,6 +2006,7 @@
     "QUANTITY_CANNOT_EXCEED": "Harvest quantity used cannot exceed amount to allocate",
     "RATE_THIS_TASK": "Rate this task",
     "REMOVE_HARVEST_USE": "Remove",
+    "SELECT_ANIMALS_TO_MOVE": "Select animals to move",
     "SELECT_DATE": "Select the task date",
     "SELECT_TASK_LOCATIONS": "Select the task location(s)",
     "SELECT_WILD_CROP": "This task targets a wild crop",

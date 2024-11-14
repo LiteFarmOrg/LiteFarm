@@ -4,12 +4,13 @@ on:
   pull_request:
     branches:
       - integration
+      - "patch/**"
 
 jobs:
   api_unit_tests:
     name: API Unit Tests
     runs-on: ubuntu-20.04
-    container: node:16.15.0
+    container: node:18.16.1
     services:
       postgres:
         image: postgres:13

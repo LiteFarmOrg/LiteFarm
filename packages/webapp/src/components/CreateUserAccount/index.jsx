@@ -11,20 +11,29 @@ import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../locales/i18n';
 import useGenderOptions from '../../hooks/useGenderOptions';
+import useLanguageOptions from '../../hooks/useLanguageOptions';
 
 export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNotSSO }) {
+  const { genderOptions, getGenderOptionLabel } = useGenderOptions();
+
+  const GENDER = 'gender';
+
   const {
     register,
     handleSubmit,
     watch,
     control,
+    setValue,
+    getValues,
     formState: { isDirty, isValid, errors },
   } = useForm({
     mode: 'onTouched',
+    defaultValues: {
+      [GENDER]: genderOptions.find(({ value }) => value === 'PREFER_NOT_TO_SAY'),
+    },
   });
 
   const NAME = 'name';
-  const GENDER = 'gender';
   const LANGUAGE = 'language';
   const BIRTHYEAR = 'birth_year';
   const PASSWORD = 'password';
@@ -40,14 +49,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
     isTooShort,
   } = validatePasswordWithErrors(password);
 
-  const genderOptions = useGenderOptions();
-
-  const languageOptions = [
-    { value: 'en', label: t('PROFILE.ACCOUNT.ENGLISH') },
-    { value: 'es', label: t('PROFILE.ACCOUNT.SPANISH') },
-    { value: 'pt', label: t('PROFILE.ACCOUNT.PORTUGUESE') },
-    { value: 'fr', label: t('PROFILE.ACCOUNT.FRENCH') },
-  ];
+  const languageOptions = useLanguageOptions();
 
   const getLanguageOption = (language) => {
     return languageOptions.findIndex((object) => object.value === language);
@@ -121,7 +123,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack, isNot
             value={value}
             toolTipContent={t('CREATE_USER.GENDER_TOOLTIP')}
             style={{ marginBottom: '28px' }}
-            defaultValue={genderOptions[3]}
+            getOptionLabel={getGenderOptionLabel}
           />
         )}
       />

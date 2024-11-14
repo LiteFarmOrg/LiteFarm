@@ -10,6 +10,7 @@ const Layout = ({
   buttonGroup,
   hasWhiteBackground,
   isSVG,
+  fullWidthContent = false,
   footer = true,
 }) => {
   return (
@@ -17,6 +18,7 @@ const Layout = ({
       <div
         className={clsx(
           styles.container,
+          !fullWidthContent && styles.padding,
           isSVG && styles.svgContainer,
           hasWhiteBackground && styles.paddingBottom,
           !footer && styles.marginBottom,

@@ -36,6 +36,8 @@ const getDate = (date, language = 'en') => {
   return new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(new Date(date));
 };
 
+import useLanguageOptions, { languageCodes } from '../../../hooks/useLanguageOptions';
+
 export const PureTaskCard = ({
   taskType,
   status,
@@ -173,5 +175,5 @@ PureTaskCard.propTypes = {
   onClickAssignee: PropTypes.func,
   onClickCompleteOrDueDate: PropTypes.func,
   selected: PropTypes.bool,
-  language: PropTypes.oneOf(['en', 'es', 'fr', 'pt']),
+  language: PropTypes.oneOf(languageCodes),
 };

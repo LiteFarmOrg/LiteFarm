@@ -6,9 +6,16 @@ import PropTypes from 'prop-types';
 import { Semibold } from '../Typography';
 import YearSelectorModal from '../Modals/YearSelectorModal';
 import { getNewDate } from '../Form/InputDuration/utils';
-import 'rc-year-calendar/locales/rc-year-calendar.es';
-import 'rc-year-calendar/locales/rc-year-calendar.pt';
-import 'rc-year-calendar/locales/rc-year-calendar.fr';
+import { languageCodes } from '../../hooks/useLanguageOptions';
+const languageJsonFiles = import.meta.glob('../../locales/*/rcYearCalendar.json', { eager: true });
+
+languageCodes.forEach((language) => {
+  const translationJson = languageJsonFiles[`../../locales/${language}/rcYearCalendar.json`];
+  if (translationJson) {
+    // Instead of importing rc-year-calendar/locales we can apply our own locales directly to the Calendar component object
+    Calendar.locales[language] = translationJson;
+  }
+});
 
 function FullYearCalendarView({
   seed_date,

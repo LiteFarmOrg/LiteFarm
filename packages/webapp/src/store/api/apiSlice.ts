@@ -182,7 +182,7 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Animals'],
+      invalidatesTags: ['Animals', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
     }),
     addAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
       query: (body) => ({
@@ -190,7 +190,7 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['AnimalBatches'],
+      invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
     }),
     getSoilAmendmentMethods: build.query<SoilAmendmentMethod[], void>({
       query: () => `${soilAmendmentMethodsUrl}`,

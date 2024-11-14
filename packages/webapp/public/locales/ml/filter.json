@@ -1,0 +1,41 @@
+{
+  "CROP_CATALOGUE": {
+    "LOCATION": "സ്ഥലം",
+    "STATUS": "സാഹചര്യം",
+    "SUPPLIERS": "വിതരണക്കാരൻ",
+    "ACTIVE": "സജീവമാണ്",
+    "ABANDONED": "ഉപേക്ഷിക്കപ്പെട്ടു",
+    "COMPLETE": "പൂർത്തിയായി",
+    "PLANNED": "പദ്ധതീകരിച്ച",
+    "NEEDS_PLAN": "ആസൂത്രണം ആവശ്യമാണ്"
+  },
+  "DOCUMENTS": {
+    "CLEANING_PRODUCT": "ക്ലീനിംഗ് ഉൽപ്പന്നം",
+    "CROP_COMPLIANCE": "വിള പാലിക്കൽ",
+    "FERTILIZING_PRODUCT": "വളം ഉൽപ്പന്നങ്ങൾ",
+    "OTHER": "മറ്റുള്ളവ",
+    "PEST_CONTROL_PRODUCT": "കീട നിയന്ത്രണ ഉൽപ്പന്നങ്ങൾ",
+    "SOIL_AMENDMENT": "മണ്ണ് ഭേദഗതികൾ",
+    "SOIL_SAMPLE_RESULTS": "മണ്ണ് സാമ്പിൾ ഫലങ്ങൾ",
+    "WATER_SAMPLE_RESULTS": "വെള്ളം സാമ്പിൾ ഫലങ്ങൾ",
+    "UNCATEGORIZED": "തരംതിരിക്കാത്തത്",
+    "RECEIPTS": "രസീതുകൾ",
+    "INVOICES": "ഇൻവോയ്സുകൾ"
+  },
+  "TASKS": {
+    "LOCATION": "സ്ഥാനം",
+    "STATUS": "സാഹചര്യം",
+    "SUPPLIERS": "വിതരണക്കാരൻ",
+    "ACTIVE": "സജീവമാണ്",
+    "ABANDONED": "ഉപേക്ഷിക്കപ്പെട്ടു",
+    "COMPLETED": "പൂർത്തിയാക്കി",
+    "LATE": "വൈകി",
+    "PLANNED": "പദ്ധതീകരിച്ച",
+    "FOR_REVIEW": "അവലോകനത്തിനായി"
+  },
+  "FILTER": {
+    "VALID_ON": "സാധുതയുള്ള",
+    "FROM_DATE": "നിന്ന്",
+    "TO_DATE": "വരെ"
+  }
+}

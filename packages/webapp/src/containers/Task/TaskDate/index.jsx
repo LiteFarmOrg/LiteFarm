@@ -10,10 +10,19 @@ function TaskDate({ history, match, location }) {
     history.back();
   };
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
+  const isMovementTask = useIsTaskType('MOVEMENT_TASK');
 
   const tasks = location.state.management_plan_id
     ? useSelector(tasksByManagementPlanIdSelector(location.state.management_plan_id))
     : [];
+
+  const getNextStepPath = () => {
+    return isTransplantTask
+      ? '/add_task/task_crops'
+      : isMovementTask
+        ? '/add_task/task_animal_selection'
+        : '/add_task/task_locations';
+  };
 
   const onContinue = (date) => () => {
     if (tasks.length > 0) {
@@ -61,10 +70,7 @@ function TaskDate({ history, match, location }) {
       }
     }
 
-    history.push(
-      isTransplantTask ? '/add_task/task_crops' : '/add_task/task_locations',
-      location?.state,
-    );
+    history.push(getNextStepPath(), location?.state);
   };
 
   return (

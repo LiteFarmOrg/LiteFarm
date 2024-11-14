@@ -50,7 +50,8 @@ function App() {
                 root: clsx(styles.root, isCompactSideMenu ? styles.isCompact : styles.isExpanded),
                 containerRoot: styles[`containerRoot${isCompactSideMenu ? 'WithCompactMenu' : ''}`],
               }}
-              content={(key, message) => <NotistackSnackbar id={key} message={message} />}
+              // https://notistack.com/features/customization#custom-component
+              Components={{ common: NotistackSnackbar }}
             >
               <Routes isCompactSideMenu={isCompactSideMenu} />
             </SnackbarProvider>

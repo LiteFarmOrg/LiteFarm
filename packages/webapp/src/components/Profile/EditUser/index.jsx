@@ -13,6 +13,7 @@ import Checkbox from '../../Form/Checkbox';
 import { useSelector } from 'react-redux';
 import { userFarmsByFarmSelector } from '../../../containers/userFarmSlice';
 import useGenderOptions from '../../../hooks/useGenderOptions';
+import useLanguageOptions from '../../../hooks/useLanguageOptions';
 
 export default function PureEditUser({
   userFarm,
@@ -42,13 +43,10 @@ export default function PureEditUser({
   const userFarms = useSelector(userFarmsByFarmSelector);
   const adminRoles = [1, 2, 5];
 
-  const genderOptions = useGenderOptions();
-  const languageOptions = [
-    { value: 'en', label: t('PROFILE.ACCOUNT.ENGLISH') },
-    { value: 'es', label: t('PROFILE.ACCOUNT.SPANISH') },
-    { value: 'pt', label: t('PROFILE.ACCOUNT.PORTUGUESE') },
-    { value: 'fr', label: t('PROFILE.ACCOUNT.FRENCH') },
-  ];
+  const { genderOptions, getGenderOptionLabel, getGenderOption } = useGenderOptions();
+
+  const languageOptions = useLanguageOptions();
+
   const isPseudoUser = userFarm.role_id === 4;
   const roleOptions = Object.keys(dropDownMap).map((role_id) => ({
     value: role_id,
@@ -57,19 +55,6 @@ export default function PureEditUser({
   const roleOption = isPseudoUser
     ? { value: 3, label: dropDownMap[3] }
     : { value: userFarm.role_id, label: dropDownMap[userFarm.role_id] };
-
-  const getDefaultGender = () => {
-    switch (userFarm.gender) {
-      case 'MALE':
-        return genderOptions[0];
-      case 'FEMALE':
-        return genderOptions[1];
-      case 'OTHER':
-        return genderOptions[2];
-      case 'PREFER_NOT_TO_SAY':
-        return genderOptions[3];
-    }
-  };
 
   const isUserLastAdmin = () => {
     if (userFarm.status === 'Invited') return false;
@@ -92,7 +77,7 @@ export default function PureEditUser({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
-    defaultValues: { ...userFarm, role_id: roleOption, gender: getDefaultGender() },
+    defaultValues: { ...userFarm, role_id: roleOption, gender: getGenderOption(userFarm) },
     shouldUnregister: true,
   });
 
@@ -237,6 +222,7 @@ export default function PureEditUser({
               toolTipContent={t('INVITE_USER.GENDER_TOOLTIP')}
               style={{ marginBottom: '24px' }}
               defaultValue={genderOptions[3]}
+              getOptionLabel={getGenderOptionLabel}
               {...field}
               optional
             />

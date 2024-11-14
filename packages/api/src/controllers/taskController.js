@@ -67,15 +67,14 @@ async function formatAnimalMovementTaskForDB(data) {
     return data;
   }
 
-  if (!data.animal_movement_task.purpose_ids) {
-    delete data.animal_movement_task.purpose_ids;
+  if (!('purpose_ids' in data.animal_movement_task)) {
     delete data.animal_movement_task.other_purpose;
     return data;
   }
 
   data.animal_movement_task.purpose_relationships = [];
 
-  if (data.animal_movement_task.purpose_ids.length) {
+  if (data.animal_movement_task.purpose_ids?.length) {
     const { id: otherPurposeId } = await AnimalMovementPurposeModel.query()
       .select('id')
       .where({ key: 'OTHER' })

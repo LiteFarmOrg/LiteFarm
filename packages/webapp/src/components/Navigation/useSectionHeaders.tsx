@@ -48,7 +48,6 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
     <>
       {t('SECTION_HEADER.ANIMALS_INVENTORY')}
       <Badge
-        className="positionRight"
         title={t('BADGE.BETA.TITLE')}
         content={<Trans i18nKey={'BADGE.BETA.CONTENT'} components={{ a: <a href="#" /> }} />}
       />

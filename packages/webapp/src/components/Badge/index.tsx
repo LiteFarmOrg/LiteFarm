@@ -24,10 +24,17 @@ export interface BadgeProps {
   title: string;
   content?: string | React.ReactElement;
   showIcon?: boolean;
-  className?: string;
+  isMenuItem?: boolean;
+  position?: 'left' | 'right';
 }
 
-const Badge: React.FC<BadgeProps> = ({ title, content = '', showIcon = true, className }) => {
+const Badge: React.FC<BadgeProps> = ({
+  title,
+  content = '',
+  showIcon = true,
+  isMenuItem = false,
+  position = 'right',
+}) => {
   const [open, setOpen] = useState<boolean>(false);
   const [focus, setFocus] = useState<boolean>(false);
 
@@ -83,7 +90,12 @@ const Badge: React.FC<BadgeProps> = ({ title, content = '', showIcon = true, cla
         slotProps={slotProps}
       >
         <IconButton
-          className={clsx(styles.badge, focus && styles.focus, className ? styles[className] : '')}
+          className={clsx(
+            styles.badge,
+            focus && styles.focus,
+            !isMenuItem && styles[position + 'Position'],
+            isMenuItem && styles.menuItem,
+          )}
           onClick={(e) => {
             if (showIcon) {
               e.stopPropagation();

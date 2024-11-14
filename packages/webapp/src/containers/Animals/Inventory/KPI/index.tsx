@@ -78,7 +78,7 @@ function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
   const animalInventoryTitle = (
     <>
       <Badge
-        className="positionLeft"
+        position="left"
         title={t('BADGE.BETA.TITLE')}
         content={<Trans i18nKey={'BADGE.BETA.CONTENT'} components={{ a: <a href="#" /> }} />}
       />

@@ -53,6 +53,6 @@ export const MenuItem: Story = {
     title: 'Badge Title',
     content: 'This is the tooltip content.',
     showIcon: false,
-    className: 'menuItem',
+    isMenuItem: true,
   },
 };

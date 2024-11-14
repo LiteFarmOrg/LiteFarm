@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -76,7 +75,7 @@ const GeneralDetails = ({
     watch,
     getValues,
     resetField,
-    formState: { errors, defaultValues },
+    formState: { errors },
   } = useFormContext();
 
   const watchBatchCount = watch(`${namePrefix}${DetailsFields.COUNT}`) || 0;
@@ -93,26 +92,20 @@ const GeneralDetails = ({
 
   const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 
-  const sexInputs = useMemo(() => {
-    if (animalOrBatch === AnimalOrBatchKeys.ANIMAL) {
-      return (
-        <>
-          <div>
-            <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
-            {/* @ts-ignore */}
-            <RadioGroup
-              name={`${namePrefix}${DetailsFields.SEX}`}
-              radios={sexOptions}
-              hookFormControl={control}
-              row
-              disabled={mode === 'readonly'}
-            />
-          </div>
-        </>
-      );
-    }
-
-    return (
+  const sexInputs =
+    animalOrBatch === AnimalOrBatchKeys.ANIMAL ? (
+      <div>
+        <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
+        {/* @ts-ignore */}
+        <RadioGroup
+          name={`${namePrefix}${DetailsFields.SEX}`}
+          radios={sexOptions}
+          hookFormControl={control}
+          row
+          disabled={mode === 'readonly'}
+        />
+      </div>
+    ) : (
       <div className={styles.countAndSexDetailsWrapper}>
         <NumberInput
           name={`${namePrefix}${DetailsFields.COUNT}`}
@@ -142,20 +135,17 @@ const GeneralDetails = ({
               return total <= watchBatchCount || 'Invalid sexDetails for count';
             },
           }}
-          render={({ field: { onChange, value } }) => {
-            return (
-              <SexDetails
-                initialDetails={value || sexDetailsOptions}
-                maxCount={watchBatchCount}
-                onConfirm={(details) => onChange(details)}
-                isDisabled={mode === 'readonly'}
-              />
-            );
-          }}
+          render={({ field: { onChange, value } }) => (
+            <SexDetails
+              initialDetails={value || sexDetailsOptions}
+              maxCount={watchBatchCount}
+              onConfirm={onChange}
+              isDisabled={mode === 'readonly'}
+            />
+          )}
         />
       </div>
     );
-  }, [animalOrBatch, t, sexOptions, control, watchBatchCount]);
 
   return (
     <div className={clsx(styles.sectionWrapper, mode === 'edit' && styles.edit)}>

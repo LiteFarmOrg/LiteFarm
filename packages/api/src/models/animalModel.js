@@ -226,6 +226,18 @@ class Animal extends baseModel {
       },
     };
   }
+
+  // Get animals with final (completed or abandoned) tasks
+  static async getAnimalsWithFinalTasks(trx, batchIds) {
+    return Animal.query(trx)
+      .withGraphFetched('tasks')
+      .whereIn('animal.id', batchIds)
+      .whereExists(
+        Animal.relatedQuery('tasks')
+          .where('tasks.deleted', false)
+          .whereRaw('tasks.complete_date IS NOT NULL OR tasks.abandon_date IS NOT NULL'),
+      );
+  }
 }
 
 export default Animal;

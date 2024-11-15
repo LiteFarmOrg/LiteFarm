@@ -232,6 +232,18 @@ class AnimalBatchModel extends baseModel {
       },
     };
   }
+
+  // Get batches with final (completed or abandoned) tasks
+  static async getBatchesWithFinalTasks(trx, batchIds) {
+    return AnimalBatchModel.query(trx)
+      .withGraphFetched('tasks')
+      .whereIn('animal_batch.id', batchIds)
+      .whereExists(
+        AnimalBatchModel.relatedQuery('tasks')
+          .where('tasks.deleted', false)
+          .whereRaw('tasks.complete_date IS NOT NULL OR tasks.abandon_date IS NOT NULL'),
+      );
+  }
 }
 
 export default AnimalBatchModel;

@@ -93,7 +93,8 @@ const PureAnimalInventory = ({
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
 
-  const tableMaxHeight = !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
+  const tableMaxHeight =
+    !isDesktop || !containerHeight || isSummaryView ? undefined : containerHeight - usedHeight;
 
   const tableSpacerRowHeight = !isTaskView ? (isDesktop ? 96 : 120) : 0;
 

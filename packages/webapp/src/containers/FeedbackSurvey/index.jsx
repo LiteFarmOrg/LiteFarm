@@ -14,12 +14,11 @@
  */
 
 import { useState } from 'react';
+import { useMediaQuery, useTheme } from '@mui/material';
 import TextButton from '../../components/Form/Button/TextButton';
 import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
-import Drawer from '../../components/Drawer';
 import styles from './styles.module.scss';
-import ModalComponent from '../../components/Modals/ModalComponent/v2';
-import { ContainerWithIcon } from '../../components/ContainerWithIcon/ContainerWithIcon';
+import Drawer from '../../components/Drawer';
 import SideDrawer from '../../components/SideDrawer';
 
 export default function FeedbackSurvey() {
@@ -32,13 +31,28 @@ export default function FeedbackSurvey() {
     </div>
   );
 
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+
+  const drawerContent = <div className={styles.content}>this is some content</div>;
+
   return (
     <div>
       <TextButton className={styles.surveyButton} onClick={toggleSurveyOpen}>
-        <SendIcon className={styles.surveyButtonIcon} />
+        <SendIcon />
       </TextButton>
-      {isSurveyOpen && (
+      {isDesktop && (
         <SideDrawer
+          isOpen={isSurveyOpen}
+          onClose={() => setIsSurveyOpen(false)}
+          title={title}
+          fullHeight={false}
+        >
+          {drawerContent}
+        </SideDrawer>
+      )}
+      {!isDesktop && (
+        <Drawer
           isOpen={isSurveyOpen}
           onClose={() => setIsSurveyOpen(false)}
           title={title}
@@ -46,8 +60,8 @@ export default function FeedbackSurvey() {
           responsiveModal={false}
           fullHeight={true}
         >
-          <div className={styles.content}>this is some content</div>
-        </SideDrawer>
+          {drawerContent}
+        </Drawer>
       )}
     </div>
   );

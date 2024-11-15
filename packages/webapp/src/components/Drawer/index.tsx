@@ -21,7 +21,7 @@ import { IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Close } from '@mui/icons-material';
 
 interface DrawerProps {
-  title: string;
+  title: NonNullable<string | React.ReactNode>;
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;

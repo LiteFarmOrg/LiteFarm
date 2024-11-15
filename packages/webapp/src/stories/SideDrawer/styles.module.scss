@@ -18,43 +18,42 @@
 .wrapper {
   position: relative;
   transform: translateZ(0); // Create context for position: fixed
-  height: 300px;
+  height: 400px;
+  overflow-x: clip;
   outline: 1px solid black;
-  padding: 24px;
+}
+
+.fakeMenuBar {
+  height: var(--global-navbar-height);
+  background-color: var(--Colors-Accent---singles-Blue-light);
+  padding-inline: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .content {
-  background-color: var(--Colors-Secondary-Secondary-green-700);
-  color: white;
+  background-color: var(--Colors-Neutral-Neutral-50);
+  color: black;
   display: grid;
   place-content: center;
 
   width: 264px;
   height: 80px;
   border-radius: 16px;
-
-  @include xs-breakpoint {
-    width: 100%;
-  }
-}
-
-.customModal {
-  background-color: var(--Colors-Secondary-Secondary-green-200);
-}
-
-.customDrawerBackdrop {
-  background-color: hsla(43, 86%, 16%, 0.4);
 }
 
 .customDrawerHeader {
   outline: 2px var(--Colors-Accent---singles-Red-full) dashed;
-  margin: 8px;
+  margin: 4px;
 }
 
 .customDrawerContent {
   outline: 2px var(--Colors-Accent---singles-Blue-dark) dashed;
+  margin: 4px;
 }
 
 .customDrawerContainer {
-  background-color: var(--Colors-Accent---singles-Blue-light);
+  background-color: var(--Colors-Accent-Accent-yellow-50);
 }

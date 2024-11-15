@@ -29,9 +29,11 @@ const meta: Meta<typeof SideDrawer> = {
 
     return (
       <div className={styles.wrapper}>
-        <Button color="secondary-cta" onClick={() => setIsDrawerOpen(true)}>
-          Open SideDrawer
-        </Button>
+        <div className={styles.fakeMenuBar}>
+          <Button color="secondary" onClick={() => setIsDrawerOpen(true)}>
+            Open SideDrawer
+          </Button>
+        </div>
         <SideDrawer {...args} isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)}>
           <div className={styles.content}>SideDrawer content</div>
         </SideDrawer>
@@ -53,7 +55,6 @@ export const CustomClasses: Story = {
   args: {
     title: 'Custom classes',
     classes: {
-      modal: styles.customModal,
       drawerBackdrop: styles.customDrawerBackdrop,
       drawerHeader: styles.customDrawerHeader,
       drawerContent: styles.customDrawerContent,

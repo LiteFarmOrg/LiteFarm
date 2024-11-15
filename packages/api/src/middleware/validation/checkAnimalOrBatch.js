@@ -592,6 +592,24 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
   };
 }
 
+// Check animals or batches with completed and abandoned tasks
+const checkAnimalsOrBatchesWithFinalTasks = async (animalOrBatchKey, ids, trx) => {
+  const getAnimalsOrBatchesWithFinalTasks =
+    animalOrBatchKey === 'animal'
+      ? AnimalModel.getAnimalsWithFinalTasks
+      : AnimalBatchModel.getBatchesWithFinalTasks;
+
+  const animalsOrBatches = await getAnimalsOrBatchesWithFinalTasks(trx, [
+    ...new Set(ids.split(',').map((id) => +id)),
+  ]);
+
+  for (const { tasks } of animalsOrBatches) {
+    if (tasks.length) {
+      throw customError('animals with completed or abandoned tasks cannot be deleted'); // TODO: finalize
+    }
+  }
+};
+
 /**
  * Middleware function to check if the provided animal entities exist and belong to the farm. The IDs must be passed as a comma-separated query string.
  *
@@ -616,6 +634,7 @@ export function checkDeleteAnimalOrBatch(animalOrBatchKey) {
       const { ids } = req.query;
 
       await checkValidAnimalOrBatchIds(animalOrBatchKey, ids, farm_id, trx);
+      await checkAnimalsOrBatchesWithFinalTasks(animalOrBatchKey, ids, trx);
 
       await trx.commit();
       next();

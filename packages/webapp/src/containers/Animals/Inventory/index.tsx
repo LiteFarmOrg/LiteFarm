@@ -22,7 +22,7 @@ import { History } from 'history';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
-import type { AnimalInventory } from './useAnimalInventory';
+import type { AnimalInventory as AnimalInventoryType } from './useAnimalInventory';
 import ActionMenu, { iconAction } from '../../../components/ActionMenu';
 import FixedHeaderContainer, {
   ContainerKind,
@@ -42,6 +42,7 @@ import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 import ExpandableItem from '../../../components/Expandable/ExpandableItem';
 import useExpandable from '../../../components/Expandable/useExpandableItem';
+import Pill from '../../../components/Pill';
 import clsx from 'clsx';
 
 export enum View {
@@ -58,7 +59,7 @@ interface AnimalInventoryProps {
   history: History;
 }
 
-const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: string[]) => {
+const getVisibleSelectedIds = (visibleRowData: AnimalInventoryType[], selectedIds: string[]) => {
   if (!visibleRowData.length || !selectedIds.length) {
     return [];
   }
@@ -114,7 +115,7 @@ function AnimalInventory({
       {
         id: 'identification',
         label: t('ANIMAL.ANIMAL_IDENTIFICATION').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => (
+        format: (d: AnimalInventoryType) => (
           <Cell
             kind={CellKind.ICON_TEXT}
             text={d.identification}
@@ -128,17 +129,17 @@ function AnimalInventory({
       {
         id: isDesktop ? 'type' : null,
         label: t('ANIMAL.ANIMAL_TYPE').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.type} />,
+        format: (d: AnimalInventoryType) => <Cell kind={CellKind.PLAIN} text={d.type} />,
       },
       {
         id: isDesktop ? 'breed' : null,
         label: t('ANIMAL.ANIMAL_BREED').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
+        format: (d: AnimalInventoryType) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
       },
       {
         id: isDesktop ? 'groups' : null,
         label: t('ANIMAL.ANIMAL_GROUPS').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => (
+        format: (d: AnimalInventoryType) => (
           <Cell
             kind={CellKind.HOVER_PILL_OVERFLOW}
             items={d.groups}
@@ -150,7 +151,9 @@ function AnimalInventory({
       {
         id: !isTaskView ? 'path' : null,
         label: '',
-        format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
+        format: (d: AnimalInventoryType) => (
+          <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />
+        ),
         columnProps: {
           style: { width: '40px', padding: `0 ${isDesktop ? 12 : 8}px` },
         },
@@ -160,7 +163,7 @@ function AnimalInventory({
     [t, isDesktop],
   );
 
-  const makeAnimalsSearchableString = (animal: AnimalInventory) => {
+  const makeAnimalsSearchableString = (animal: AnimalInventoryType) => {
     return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
       .filter(Boolean)
       .join(' ');
@@ -169,7 +172,7 @@ function AnimalInventory({
   const [searchAndFilteredInventory, searchString, setSearchString] = useSearchFilter(
     filteredInventory,
     makeAnimalsSearchableString,
-  ) as [AnimalInventory[], SearchProps['searchString'], SearchProps['setSearchString']];
+  ) as [AnimalInventoryType[], SearchProps['searchString'], SearchProps['setSearchString']];
 
   const searchProps: SearchProps = {
     searchString,
@@ -180,7 +183,7 @@ function AnimalInventory({
     }),
   };
 
-  const onSelectInventory = (e: ChangeEvent<HTMLInputElement>, row: AnimalInventory): void => {
+  const onSelectInventory = (e: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType): void => {
     const selectedInventoryId = row.id;
     let newIds = selectedInventoryIds.slice();
     if (selectedInventoryIds.includes(selectedInventoryId)) {
@@ -221,7 +224,7 @@ function AnimalInventory({
     }
   };
 
-  const onRowClick = (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => {
+  const onRowClick = (event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
     switch (view) {
       case View.TASK:
         onSelectInventory(event, row);
@@ -260,9 +263,15 @@ function AnimalInventory({
       header={
         !isTaskView ? <KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} /> : null
       }
-      classes={{ paper: styles.paper }}
+      classes={{ paper: isSummaryView ? styles.removePaper : styles.paper }}
       kind={ContainerKind.PAPER}
-      wrapperClassName={isTaskView ? styles.taskViewHeight : undefined}
+      wrapperClassName={
+        isSummaryView
+          ? styles.summaryViewHeight
+          : isTaskView && !isSummaryView
+            ? styles.taskViewHeight
+            : undefined
+      }
     >
       <PureAnimalInventory
         filteredInventory={searchAndFilteredInventory}
@@ -310,16 +319,21 @@ export function ExpandableAnimalInventory(props: AnimalInventoryProps) {
       <ExpandableItem
         isExpanded={isExpanded}
         onClick={() => toggleExpanded(1)}
-        mainContent={'See detail list of animals to move'}
+        mainContent={
+          <>
+            <div className={styles.blueColor}>See detail list of animals to move</div>
+            <Pill body={'5 animals'} className={styles.pill} />
+          </>
+        }
         expandedContent={
           <div className={styles.expandedContentWrapper}>
             <AnimalInventory {...props} />
           </div>
         }
         iconClickOnly={false}
-        // classes = {},
+        classes={{ mainContentWrapper: styles.mainContentWrapper, icon: styles.blueColor }}
         itemKey={1}
-        // leftCollapseIcon = false,
+        leftCollapseIcon
       />
     </div>
   );

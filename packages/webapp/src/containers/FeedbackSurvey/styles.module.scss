@@ -13,14 +13,30 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+@import '../../assets/mixin.scss';
+
 .surveyButton {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 48px;
+  width: 32px;
   height: 48px;
-  background: var(--blue700);
+
   border-radius: 8px;
+  background-color: var(--Colors-Accent---singles-Blue-light);
+  @include svgColorFill(var(--Colors-Accent---singles-Blue-full));
+
+  transition: width 100ms ease-out, background-color 100ms ease-out;
+
+  &:hover {
+    width: 48px;
+    background-color: var(--Colors-Accent---singles-Blue-full);
+    @include svgColorFill(var(--White));
+  }
+
+  @include xs-breakpoint {
+    width: 48px;
+  }
 }
 
 .surveyButtonIcon {

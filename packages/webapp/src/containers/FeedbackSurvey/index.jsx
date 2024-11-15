@@ -15,7 +15,7 @@
 
 import { useState } from 'react';
 import TextButton from '../../components/Form/Button/TextButton';
-import { FiSend } from 'react-icons/fi';
+import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import Drawer from '../../components/Drawer';
 import styles from './styles.module.scss';
 import ModalComponent from '../../components/Modals/ModalComponent/v2';
@@ -27,7 +27,7 @@ export default function FeedbackSurvey() {
   const toggleSurveyOpen = () => setIsSurveyOpen(!isSurveyOpen);
   const title = (
     <div className={styles.surveyTitleWrapper}>
-      <FiSend className={styles.surveyButtonTitleIcon} />
+      <SendIcon className={styles.surveyButtonTitleIcon} />
       Get help or give us feedback
     </div>
   );
@@ -35,7 +35,7 @@ export default function FeedbackSurvey() {
   return (
     <div>
       <TextButton className={styles.surveyButton} onClick={toggleSurveyOpen}>
-        <FiSend className={styles.surveyButtonIcon} />
+        <SendIcon className={styles.surveyButtonIcon} />
       </TextButton>
       {isSurveyOpen && (
         <SideDrawer

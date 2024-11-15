@@ -24,6 +24,9 @@ import {
   generateUserFarms,
   getTask,
   fakeCompletionData,
+  CROP_FAILURE,
+  sampleNote,
+  abandonTaskBody,
 } from './utils/taskUtils.js';
 
 describe('Task tests', () => {
@@ -2712,15 +2715,6 @@ describe('Task tests', () => {
   });
 
   describe('PATCH abandon task tests', () => {
-    const CROP_FAILURE = 'CROP_FAILURE';
-    const sampleNote = 'This is a sample note';
-    const abandonTaskBody = {
-      abandonment_reason: CROP_FAILURE,
-      other_abandonment_reason: null,
-      abandonment_notes: sampleNote,
-      abandon_date: new Date(),
-    };
-
     test('An unassigned task should not abandoned with a rating', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const date = faker.date.future().toISOString().split('T')[0];

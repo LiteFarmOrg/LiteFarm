@@ -50,6 +50,15 @@ export const fakeCompletionData = {
   completion_notes: faker.lorem.sentence(),
 };
 
+export const CROP_FAILURE = 'CROP_FAILURE';
+export const sampleNote = 'This is a sample note';
+export const abandonTaskBody = {
+  abandonment_reason: CROP_FAILURE,
+  other_abandonment_reason: null,
+  abandonment_notes: sampleNote,
+  abandon_date: new Date(),
+};
+
 export async function postTaskRequest({ user_id, farm_id }, type, data) {
   return chai
     .request(server)
@@ -80,6 +89,15 @@ export async function completeTaskRequest({ user_id, farm_id }, data, task_id, t
   return chai
     .request(server)
     .patch(`/task/complete/${type}/${task_id}`)
+    .set('user_id', user_id)
+    .set('farm_id', farm_id)
+    .send(data);
+}
+
+export async function abandonTaskRequest({ user_id, farm_id }, data, task_id) {
+  return chai
+    .request(server)
+    .patch(`/task/abandon/${task_id}`)
     .set('user_id', user_id)
     .set('farm_id', farm_id)
     .send(data);

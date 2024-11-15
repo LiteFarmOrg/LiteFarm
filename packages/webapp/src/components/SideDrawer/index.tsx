@@ -81,16 +81,4 @@ const SideDrawer = ({
   );
 };
 
-SideDrawer.propTypes = {
-  title: PropTypes.string,
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  buttonGroup: PropTypes.node,
-  fullHeight: PropTypes.bool,
-  classes: PropTypes.object,
-  responsiveModal: PropTypes.bool,
-};
-
 export default SideDrawer;

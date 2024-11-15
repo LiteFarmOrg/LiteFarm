@@ -3,4 +3,5 @@
     margin-bottom: 16px;
     flex-grow: 1;
     display: flex;
+    min-height: var(--global-min-location-picker-height);
 }

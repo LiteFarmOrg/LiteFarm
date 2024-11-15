@@ -40,6 +40,13 @@ import mocks from './mock.factories.js';
 import CustomAnimalTypeModel from '../src/models/customAnimalTypeModel.js';
 import CustomAnimalBreedModel from '../src/models/customAnimalBreedModel.js';
 import AnimalUseRelationshipModel from '../src/models/animalUseRelationshipModel.js';
+import {
+  animalGetRequest,
+  animalPostRequest,
+  animalRemoveRequest,
+  animalPatchRequest,
+  animalDeleteRequest,
+} from './utils/animalUtils.js';
 
 describe('Animal Tests', () => {
   let farm;
@@ -66,50 +73,23 @@ describe('Animal Tests', () => {
   });
 
   async function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
-    return await chai
-      .request(server)
-      .get('/animals')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id);
+    return await animalGetRequest({ user_id, farm_id });
   }
 
   async function postRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
-    return await chai
-      .request(server)
-      .post('/animals')
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(data);
+    return await animalPostRequest({ user_id, farm_id }, data);
   }
 
   async function removeRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
-    return await chai
-      .request(server)
-      .patch('/animals/remove')
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(data);
+    return await animalRemoveRequest({ user_id, farm_id }, data);
   }
 
   async function patchRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
-    return await chai
-      .request(server)
-      .patch('/animals')
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(data);
+    return await animalPatchRequest({ user_id, farm_id }, data);
   }
 
   async function deleteRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id, query = '' }) {
-    return await chai
-      .request(server)
-      .delete(`/animals?${query}`)
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id);
+    return await animalDeleteRequest({ user_id, farm_id, query });
   }
 
   function fakeUserFarm(role = 1) {

@@ -24,7 +24,7 @@
     "migrate:pipeline:db": "NODE_ENV=test knex migrate:latest --env=pipeline --knexfile=./.knex/knexfile.js",
     "migrate:testing:seed": "knex seed:run --env=test --knexfile=./.knex/knexfile.js",
     "migrate:rollback:testing:db": "NODE_ENV=test knex migrate:rollback --env=test --knexfile=./.knex/knexfile.js",
-    "i18n-scheduler": "npx i18next 'src/jobs/certification/**/*.js' -c 'src/jobs/locales/i18next-parser.config.js'",
+    "i18n-scheduler": "pnpm exec i18next 'src/jobs/certification/**/*.js' -c 'src/jobs/locales/i18next-parser.config.js'",
     "scheduler": "cp ../webapp/public/locales/en/crop.json src/jobs/locales/en && cp ../webapp/public/locales/es/crop.json src/jobs/locales/es && cp ../webapp/public/locales/pt/crop.json src/jobs/locales/pt && cp ../webapp/public/locales/fr/crop.json src/jobs/locales/fr && cp ../webapp/public/locales/de/crop.json src/jobs/locales/de && cp ../webapp/public/locales/de/crop.json src/jobs/locales/de && cp ../webapp/public/locales/hi/crop.json src/jobs/locales/hi && cp ../webapp/public/locales/hi/crop.json src/jobs/locales/pa && cp ../webapp/public/locales/ml/crop.json src/jobs/locales/ml && node src/jobs/index.js",
     "lint": "eslint src",
     "fix-lint": "eslint src --fix",

@@ -47,16 +47,25 @@
 
 .section {
   margin-top: 24px;
-  padding: 8px 16px;
+  padding: 8px 0;
   background: var(--White);
   border-radius: 8px;
   border: 1px solid var(--Colors-Neutral-Neutral-50);
   gap: 8px;
+
+  @include lg-breakpoint {
+    margin: 24px 24px 0 24px;
+    padding: 8px 16px;
+  }
 }
 
-.expanded {
-  border: 1px solid var(--Form-focus);
-  box-shadow: 0px 0px 4px 0px var(--Colors-Neutral-Neutral-200);
+.alwaysVisibleContent {
+  padding: 0 16px;
+  @include lg-breakpoint {
+    align-items: center;
+    gap: 8px;
+    display: flex;
+  }
 }
 
 .expandedContentWrapper {
@@ -76,11 +85,26 @@
   padding: 8px 16px;
   background: var(--Colors-Neutral-Neutral-50);
   color: var(--Colors-Neutral-Neutral-600);
+  width: 100%;
+  justify-content: center;
+  @include lg-breakpoint {
+    width: unset;
+    justify-content: unset;
+  }
 }
 
 .mainContentWrapper {
-  display: flex;
+  width: auto !important;
   gap: 8px;
+  @include lg-breakpoint {
+    display: flex;
+  }
+}
+
+.mainContentWithIcon {
+  text-align: center;
+  gap: 8px;
+  justify-content: center;
 }
 
 .blueColor {

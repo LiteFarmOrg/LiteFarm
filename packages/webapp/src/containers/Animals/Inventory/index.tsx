@@ -314,24 +314,25 @@ export function ExpandableAnimalInventory(props: AnimalInventoryProps) {
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const isExpanded = expandedIds.includes(1);
   return (
-    <div className={clsx(styles.section, isExpanded && styles.expanded)}>
+    <div className={clsx(styles.section)}>
       {/* @ts-ignore */}
       <ExpandableItem
         isExpanded={isExpanded}
         onClick={() => toggleExpanded(1)}
-        mainContent={
-          <>
-            <div className={styles.blueColor}>See detail list of animals to move</div>
-            <Pill body={'5 animals'} className={styles.pill} />
-          </>
-        }
+        mainContent={<div className={styles.blueColor}>See detail list of animals to move</div>}
+        pillBody={'5 animals'}
         expandedContent={
           <div className={styles.expandedContentWrapper}>
             <AnimalInventory {...props} />
           </div>
         }
         iconClickOnly={false}
-        classes={{ mainContentWrapper: styles.mainContentWrapper, icon: styles.blueColor }}
+        classes={{
+          mainContentWrapper: styles.mainContentWrapper,
+          mainContentWithIcon: styles.mainContentWithIcon,
+          icon: styles.blueColor,
+          alwaysVisibleContent: styles.alwaysVisibleContent,
+        }}
         itemKey={1}
         leftCollapseIcon
       />

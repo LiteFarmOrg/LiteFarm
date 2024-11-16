@@ -930,6 +930,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "स्क्रीनशॉट या फाइल अपलोड करें",
     "EMAIL": "ईमेल",
+    "FEEDBACK_INVITATION": "MISSING",
     "MESSAGE_LABEL": "संदेश",
     "OPTIONS": {
       "OTHER": "कुछ और",

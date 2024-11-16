@@ -14,6 +14,7 @@
  */
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import TextButton from '../../components/Form/Button/TextButton';
 import { ReactComponent as SendIcon } from '../../assets/images/send-icon.svg';
 import styles from './styles.module.scss';
@@ -21,12 +22,15 @@ import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import HelpRequest from '../Help';
 
 export default function FeedbackSurvey() {
+  const { t } = useTranslation();
+
   const [isSurveyOpen, setIsSurveyOpen] = useState(false);
   const toggleSurveyOpen = () => setIsSurveyOpen(!isSurveyOpen);
+
   const title = (
     <div className={styles.surveyTitleWrapper}>
       <SendIcon className={styles.surveyButtonTitleIcon} />
-      Get help or give us feedback
+      {t('HELP.FEEDBACK_INVITATION')}
     </div>
   );
 

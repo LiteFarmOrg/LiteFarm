@@ -1044,6 +1044,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",
     "EMAIL": "Email",
+    "FEEDBACK_INVITATION": "Get help or give us feedback",
     "MESSAGE_LABEL": "Message",
     "OPTIONS": {
       "OTHER": "Other",

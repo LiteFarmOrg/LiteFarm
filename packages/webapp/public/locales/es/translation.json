@@ -1051,6 +1051,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
     "EMAIL": "Correo electrónico",
+    "FEEDBACK_INVITATION": "MISSING",
     "MESSAGE_LABEL": "Mensaje",
     "OPTIONS": {
       "OTHER": "Otro",

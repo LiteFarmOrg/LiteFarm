@@ -80,19 +80,6 @@
   background: var(--White);
 }
 
-.pill {
-  height: 24px;
-  padding: 8px 16px;
-  background: var(--Colors-Neutral-Neutral-50);
-  color: var(--Colors-Neutral-Neutral-600);
-  width: 100%;
-  justify-content: center;
-  @include lg-breakpoint {
-    width: unset;
-    justify-content: unset;
-  }
-}
-
 .mainContentWrapper {
   width: auto !important;
   gap: 8px;

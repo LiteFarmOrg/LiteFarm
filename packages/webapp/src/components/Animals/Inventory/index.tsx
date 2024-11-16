@@ -141,7 +141,7 @@ const PureAnimalInventory = ({
         {!totalInventoryCount || hasSearchResults ? (
           <Table
             kind={TableKind.V2}
-            alternatingRowColor={!isSummaryView && true}
+            alternatingRowColor={isSummaryView ? (isDesktop ? false : true) : true}
             columns={animalsColumns}
             data={filteredInventory}
             shouldFixTableLayout={isDesktop}
@@ -156,7 +156,7 @@ const PureAnimalInventory = ({
             spacerRowHeight={tableSpacerRowHeight}
             headerClass={styles.headerClass}
             onRowClick={onRowClick}
-            listView={isSummaryView}
+            listView={isSummaryView && isDesktop}
           />
         ) : (
           <NoSearchResults

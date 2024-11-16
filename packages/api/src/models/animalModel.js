@@ -21,6 +21,11 @@ import { checkAndTrimString } from '../util/util.js';
 import AnimalUseRelationshipModel from './animalUseRelationshipModel.js';
 import TaskModel from './taskModel.js';
 import TaskAnimalRelationshipModel from './taskAnimalRelationshipModel.js';
+import DefaultAnimalTypeModel from './defaultAnimalTypeModel.js';
+import CustomAnimalTypeModel from './customAnimalTypeModel.js';
+import DefaultAnimalBreedModel from './defaultAnimalBreedModel.js';
+import CustomAnimalBreedModel from './customAnimalBreedModel.js';
+import AnimalGroupModel from './animalGroupModel.js';
 
 class Animal extends baseModel {
   static get tableName() {
@@ -110,7 +115,7 @@ class Animal extends baseModel {
 
   static get relationMappings() {
     return {
-      internal_identifier: {
+      animal_union_batch: {
         relation: Model.HasOneRelation,
         modelClass: AnimalUnionBatchIdViewModel,
         join: {
@@ -130,6 +135,20 @@ class Animal extends baseModel {
           query.select('animal_group_id').whereIn('animal_group_id', function () {
             this.select('id').from('animal_group').where('deleted', false);
           }),
+      },
+      groups: {
+        modelClass: AnimalGroupModel,
+        relation: Model.ManyToManyRelation,
+        join: {
+          from: 'animal.id',
+          through: {
+            modelClass: AnimalGroupRelationshipModel,
+            from: 'animal_group_relationship.animal_id',
+            to: 'animal_group_relationship.animal_group_id',
+          },
+          to: 'animal_group.id',
+        },
+        modify: (query) => query.select('name').where('deleted', false),
       },
       animal_use_relationships: {
         relation: Model.HasManyRelation,
@@ -151,6 +170,59 @@ class Animal extends baseModel {
           },
           to: 'task.task_id',
         },
+      },
+      default_type: {
+        modelClass: DefaultAnimalTypeModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'animal.default_type_id',
+          to: 'default_animal_type.id',
+        },
+        modify: (query) => query.select('key'),
+      },
+      custom_type: {
+        modelClass: CustomAnimalTypeModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'animal.custom_type_id',
+          to: 'custom_animal_type.id',
+        },
+        modify: (query) => query.select('type'),
+      },
+      default_breed: {
+        modelClass: DefaultAnimalBreedModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'animal.default_breed_id',
+          to: 'default_animal_breed.id',
+        },
+        modify: (query) => query.select('key'),
+      },
+      custom_breed: {
+        modelClass: CustomAnimalBreedModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'animal.custom_breed_id',
+          to: 'custom_animal_breed.id',
+        },
+        modify: (query) => query.select('breed'),
+      },
+    };
+  }
+
+  static get modifiers() {
+    return {
+      filterDeleted(query) {
+        const { ref } = Animal;
+        query.where(ref('deleted'), false);
+      },
+      selectMinimalProperties(query) {
+        const { ref } = Animal;
+        query.select(ref('id'), ref('name'), ref('location_id'));
+      },
+      selectId(query) {
+        const { ref } = Animal;
+        query.select(ref('id'));
       },
     };
   }

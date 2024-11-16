@@ -32,6 +32,10 @@ import locationDefaultsModel from '../models/locationDefaultsModel.js';
 import Location from '../models/locationModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
 import baseController from './baseController.js';
+import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js';
+import { ANIMAL_TASKS, isOnOrAfterBirthAndBroughtInDates } from '../util/animal.js';
+import { customError } from '../util/customErrors.js';
+
 const adminRoles = [1, 2, 5];
 
 async function getTaskAssigneeAndFinalWage(farm_id, user_id, task_id) {
@@ -58,6 +62,38 @@ async function getTaskAssigneeAndFinalWage(farm_id, user_id, task_id) {
   return { assignee_user_id, finalWage };
 }
 
+async function formatAnimalMovementTaskForDB(data) {
+  if (!data.animal_movement_task) {
+    return data;
+  }
+
+  if (!('purpose_ids' in data.animal_movement_task)) {
+    delete data.animal_movement_task.other_purpose;
+    return data;
+  }
+
+  data.animal_movement_task.purpose_relationships = [];
+
+  if (data.animal_movement_task.purpose_ids?.length) {
+    const { id: otherPurposeId } = await AnimalMovementPurposeModel.query()
+      .select('id')
+      .where({ key: 'OTHER' })
+      .first();
+
+    data.animal_movement_task.purpose_ids.forEach((id) => {
+      const purposeRelationship = { purpose_id: id };
+      if (id === otherPurposeId) {
+        purposeRelationship.other_purpose = data.animal_movement_task.other_purpose;
+      }
+      data.animal_movement_task.purpose_relationships.push(purposeRelationship);
+    });
+  }
+  delete data.animal_movement_task.purpose_ids;
+  delete data.animal_movement_task.other_purpose;
+
+  return data;
+}
+
 async function updateTaskWithCompletedData(
   trx,
   user_id,
@@ -67,48 +103,120 @@ async function updateTaskWithCompletedData(
   nonModifiable,
   typeOfTask,
 ) {
-  if (typeOfTask === 'soil_amendment_task') {
-    const { soil_amendment_task_products } = data;
+  switch (typeOfTask) {
+    case 'soil_amendment_task': {
+      const { soil_amendment_task_products } = data;
 
-    if (soil_amendment_task_products) {
-      // Temporarily soft delete all with task_id since there is no constraint on deletions
-      await SoilAmendmentTaskProductsModel.query(trx)
+      if (soil_amendment_task_products) {
+        // Temporarily soft delete all with task_id since there is no constraint on deletions
+        await SoilAmendmentTaskProductsModel.query(trx)
+          .context({ user_id })
+          .update({ deleted: true })
+          .where('task_id', task_id);
+
+        // Set deleted false for all in update query
+        soil_amendment_task_products.forEach((taskProduct) => {
+          taskProduct.deleted = false;
+        });
+      }
+
+      // Allows the insertion of missing data if no id present
+      // Soft deletes table rows with soft delete option and hard deletes ones without
+      const task = await TaskModel.query(trx)
         .context({ user_id })
-        .update({ deleted: true })
-        .where('task_id', task_id);
-
-      // Set deleted false for all in update query
-      soil_amendment_task_products.forEach((taskProduct) => {
-        taskProduct.deleted = false;
-      });
+        .upsertGraph(
+          { task_id, ...data, ...wagePatchData },
+          {
+            noUpdate: nonModifiable,
+            noDelete: nonModifiable,
+            noInsert: nonModifiable,
+            insertMissing: true,
+          },
+        );
+      return task;
     }
 
-    // Allows the insertion of missing data if no id present
-    // Soft deletes table rows with soft delete option and hard deletes ones without
-    const task = await TaskModel.query(trx)
-      .context({ user_id })
-      .upsertGraph(
-        { task_id, ...data, ...wagePatchData },
-        {
-          noUpdate: nonModifiable,
-          noDelete: nonModifiable,
-          noInsert: nonModifiable,
-          insertMissing: true,
-        },
+    case 'animal_movement_task': {
+      const { locations, animals, animal_batches } = await TaskModel.query(trx)
+        .select('task_id')
+        .withGraphFetched(
+          '[locations(selectLocationId, filterDeleted), animals(selectId), animal_batches(selectId)]',
+        )
+        .where({ task_id })
+        .first();
+
+      const locationId = locations?.[0]?.location_id;
+
+      if (!locationId) {
+        throw customError('location deleted');
+      }
+
+      if (!data.animals && !data.animal_batches) {
+        // Check if there are animals and batches in the DB to move
+        if (!animals?.length && !animal_batches?.length) {
+          throw customError('No animals and bathes to move');
+        }
+
+        data.animals = animals;
+        data.animal_batches = animal_batches;
+      }
+
+      const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
+        data.complete_date,
+        (data.animals || []).map(({ id }) => id),
+        (data.animal_batches || []).map(({ id }) => id),
       );
-    return task;
-  } else {
-    const task = await TaskModel.query(trx)
-      .context({ user_id })
-      .upsertGraph(
-        { task_id, ...data, ...wagePatchData },
-        {
-          noUpdate: nonModifiable,
-          noDelete: true,
-          noInsert: true,
-        },
-      );
-    return task;
+
+      if (!isValidDate) {
+        throw customError(
+          `complete_date must be on or after the animals' birth and brought-in dates`,
+        );
+      }
+
+      data.animals?.forEach((animal) => (animal.location_id = locationId));
+      data.animal_batches?.forEach((batch) => (batch.location_id = locationId));
+
+      if (!data.animal_movement_task) {
+        data.animal_movement_task = {};
+      }
+      // Prevent deletion of animal_movement_task and allow proper updates on purpose relationships
+      data.animal_movement_task.task_id = task_id;
+
+      // If the request body do not have purposes, add 'animal_movement_task.purpose_relationships'
+      // to prevent existing purpose relationships from being deleted
+      const noDelete = data.animal_movement_task.purpose_relationships
+        ? nonModifiable
+        : [...nonModifiable, 'animal_movement_task.purpose_relationships'];
+
+      const task = await TaskModel.query(trx)
+        .context({ user_id })
+        .upsertGraph(
+          { task_id, ...data, ...wagePatchData },
+          {
+            noUpdate: nonModifiable,
+            noDelete,
+            noInsert: [...nonModifiable, 'animal_movement_task'],
+            relate: ['animals', 'animal_batches'],
+            unrelate: ['animals', 'animal_batches'],
+          },
+        );
+
+      return task;
+    }
+
+    default: {
+      const task = await TaskModel.query(trx)
+        .context({ user_id })
+        .upsertGraph(
+          { task_id, ...data, ...wagePatchData },
+          {
+            noUpdate: nonModifiable,
+            noDelete: true,
+            noInsert: true,
+          },
+        );
+      return task;
+    }
   }
 }
 
@@ -348,6 +456,9 @@ const taskController = {
         }
 
         data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
+        if (ANIMAL_TASKS.includes(typeOfTask)) {
+          data = this.formatAnimalAndBatchIds(data);
+        }
         const result = await TaskModel.transaction(async (trx) => {
           const { task_id } = await TaskModel.query(trx)
             .context({ user_id: req.auth.user_id })
@@ -355,16 +466,32 @@ const taskController = {
               noUpdate: true,
               noDelete: true,
               noInsert: nonModifiable,
-              relate: ['locations', 'managementPlans'],
+              relate: ['locations', 'managementPlans', 'animals', 'animal_batches'],
             });
           const [task] = await TaskModel.query(trx)
             .withGraphFetched(
-              `
-          [locations.[location_defaults], managementPlans, taskType, soil_amendment_task, soil_amendment_task_products.[purpose_relationships], irrigation_task.[irrigation_type],scouting_task,
-          field_work_task.[field_work_task_type], cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
-          `,
+              `[
+                locations.[location_defaults],
+                managementPlans,
+                taskType,
+                animals(filterDeleted, selectMinimalProperties).[animal_union_batch, groups, default_type, custom_type, default_breed, custom_breed],
+                animal_batches(filterDeleted, selectMinimalProperties).[animal_union_batch, groups, default_type, custom_type, default_breed, custom_breed],
+                soil_amendment_task,
+                soil_amendment_task_products.[purpose_relationships],
+                irrigation_task.[irrigation_type],
+                scouting_task,
+                field_work_task.[field_work_task_type],
+                cleaning_task,
+                pest_control_task,
+                soil_task,
+                harvest_task,
+                plant_task,
+                animal_movement_task.[purpose_relationships],
+              ]`,
             )
             .where({ task_id });
+          task.animals?.forEach(flattenInternalIdentifier);
+          task.animal_batches?.forEach(flattenInternalIdentifier);
           return removeNullTypes(task);
         });
         if (result.assignee_user_id) {
@@ -381,9 +508,29 @@ const taskController = {
         return res.status(201).send(result);
       } catch (error) {
         console.log(error);
+
+        if (error.type === 'LiteFarmCustom') {
+          return error.body
+            ? res.status(error.code).json({ ...error.body, message: error.message })
+            : res.status(error.code).send(error.message);
+        }
         return res.status(400).send({ error });
       }
     };
+  },
+
+  formatAnimalAndBatchIds(data) {
+    if (data.related_animal_ids) {
+      data.animals = [...new Set(data.related_animal_ids)].map((id) => ({ id }));
+    }
+    if (data.related_batch_ids) {
+      data.animal_batches = [...new Set(data.related_batch_ids)].map((id) => ({ id }));
+    }
+
+    delete data.related_animal_ids;
+    delete data.related_batch_ids;
+
+    return data;
   },
 
   async checkCustomDependencies(typeOfTask, data, farm_id) {
@@ -417,6 +564,9 @@ const taskController = {
           delete data.location_defaults;
           return data;
         })();
+      case 'animal_movement_task': {
+        return await formatAnimalMovementTaskForDB(data);
+      }
       default: {
         return data;
       }
@@ -593,11 +743,14 @@ const taskController = {
           task_id,
         );
 
-        const data = await this.checkCustomDependencies(
+        let data = await this.checkCustomDependencies(
           typeOfTask,
           { ...req.body, owner_user_id: user_id },
           req.headers.farm_id,
         );
+        if (ANIMAL_TASKS.includes(typeOfTask)) {
+          data = this.formatAnimalAndBatchIds(data);
+        }
         const result = await TaskModel.transaction(async (trx) => {
           const task = await updateTaskWithCompletedData(
             trx,
@@ -628,6 +781,11 @@ const taskController = {
           return res.status(404).send('Task not found');
         }
       } catch (error) {
+        if (error.type === 'LiteFarmCustom') {
+          return error.body
+            ? res.status(error.code).json({ ...error.body, message: error.message })
+            : res.status(error.code).send(error.message);
+        }
         if (error.message === "Not authorized to complete other people's task") {
           return res.status(403).send(error.message);
         }
@@ -716,8 +874,8 @@ const taskController = {
           `[
             locations.[location_defaults],
             managementPlans,
-            animals,
-            animal_batches,
+            animals(filterDeleted, selectMinimalProperties).[animal_union_batch, groups, default_type, custom_type, default_breed, custom_breed],
+            animal_batches(filterDeleted, selectMinimalProperties).[animal_union_batch, groups, default_type, custom_type, default_breed, custom_breed],
             soil_amendment_task,
             soil_amendment_task_products(filterDeleted).[purpose_relationships],
             field_work_task.[field_work_task_type],
@@ -744,6 +902,8 @@ const taskController = {
         if (task.task_type_id !== soilAmendmentTypeId) {
           delete task.soil_amendment_task_products;
         }
+        task.animals?.forEach(flattenInternalIdentifier);
+        task.animal_batches?.forEach(flattenInternalIdentifier);
       });
 
       if (graphTasks) {
@@ -1098,3 +1258,7 @@ async function filterOutDeletedManagementPlans(data, req) {
     validPlantingMangementPlans.includes(planting_management_plan_id),
   );
 }
+
+const flattenInternalIdentifier = (animalOrBatch) => {
+  animalOrBatch.internal_identifier = animalOrBatch.animal_union_batch.internal_identifier;
+};

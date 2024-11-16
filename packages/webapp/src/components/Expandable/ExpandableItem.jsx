@@ -16,6 +16,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Collapse } from '@mui/material';
+import Pill from '../Pill';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import styles from './styles.module.scss';
@@ -29,6 +30,7 @@ export default function ExpandableItem({
   isExpanded,
   onClick,
   mainContent,
+  pillBody,
   expandedContent,
   iconClickOnly = true,
   classes = {},
@@ -52,31 +54,35 @@ export default function ExpandableItem({
   return (
     <div className={clsx(classes.container, isExpanded && classes.expandedContainer)}>
       <div
-        className={clsx(
-          styles.mainContentWithIcon,
-          !iconClickOnly && styles.clickable,
-          classes.mainContentWithIcon,
-          isExpanded && classes.expandedMainContentWithIcon,
-        )}
+        className={clsx(classes.alwaysVisibleContent, !iconClickOnly && styles.clickable)}
         onClick={onElementClick}
-        aria-controls={id}
-        aria-expanded={isExpanded}
       >
         <div
           className={clsx(
-            styles.mainContentWrapper,
-            classes.mainContentWrapper,
-            leftCollapseIcon && styles.leftCollapse,
+            styles.mainContentWithIcon,
+            classes.mainContentWithIcon,
+            isExpanded && classes.expandedMainContentWithIcon,
           )}
+          aria-controls={id}
+          aria-expanded={isExpanded}
         >
-          {mainContent}
+          <div
+            className={clsx(
+              styles.mainContentWrapper,
+              classes.mainContentWrapper,
+              leftCollapseIcon && styles.leftCollapse,
+            )}
+          >
+            {mainContent}
+          </div>
+          <div
+            onClick={onIconClick}
+            className={clsx(styles.iconWrapper, iconClickOnly && styles.clickable, classes.icon)}
+          >
+            {icons[isExpanded ? 'up' : 'down']}
+          </div>
         </div>
-        <div
-          onClick={onIconClick}
-          className={clsx(styles.iconWrapper, iconClickOnly && styles.clickable, classes.icon)}
-        >
-          {icons[isExpanded ? 'up' : 'down']}
-        </div>
+        {pillBody && leftCollapseIcon && <Pill body={pillBody} className={styles.pill} />}
       </div>
       <Collapse id={id} in={isExpanded} timeout="auto" unmountOnExit>
         {expandedContent}
@@ -89,10 +95,12 @@ ExpandableItem.propTypes = {
   isExpanded: PropTypes.bool,
   onClick: PropTypes.func,
   mainContent: PropTypes.node,
+  pillBody: PropTypes.string,
   expandedContent: PropTypes.node,
   iconClickOnly: PropTypes.bool,
   classes: PropTypes.shape({
     container: PropTypes.string,
+    alwaysVisibleContent: PropTypes.string,
     expandedContainer: PropTypes.string,
     expandedMainContentWithIcon: PropTypes.string,
     mainContentWithIcon: PropTypes.string,

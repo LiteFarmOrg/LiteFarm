@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+@import '@assets/mixin.scss';
 
 .mainContentWithIcon {
   display: flex;
@@ -35,4 +36,16 @@
 
 .mainContentWrapper.leftCollapse {
   order: 1;
+}
+
+.pill {
+  height: 24px;
+  padding: 8px 16px;
+  background: var(--Colors-Neutral-Neutral-50);
+  color: var(--Colors-Neutral-Neutral-600);
+  width: 100%;
+  justify-content: center;
+  @include lg-breakpoint {
+    width: unset;
+  }
 }

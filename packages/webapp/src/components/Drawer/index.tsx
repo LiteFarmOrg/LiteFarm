@@ -14,7 +14,6 @@
  */
 
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import ModalComponent from '../Modals/ModalComponent/v2';
 import styles from './style.module.scss';
 import { IconButton, useMediaQuery, useTheme } from '@mui/material';
@@ -31,7 +30,6 @@ interface DrawerProps {
   addBackdrop?: boolean;
   classes?: {
     modal?: string;
-    drawer?: string;
     drawerBackdrop?: string;
     drawerHeader?: string;
     drawerContent?: string;
@@ -47,7 +45,6 @@ const Drawer = ({
   buttonGroup,
   classes = {
     modal: '',
-    drawer: '',
     drawerBackdrop: '',
     drawerHeader: '',
     drawerContent: '',
@@ -102,18 +99,6 @@ const Drawer = ({
       </div>
     </>
   );
-};
-
-Drawer.propTypes = {
-  title: PropTypes.string,
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  buttonGroup: PropTypes.node,
-  fullHeight: PropTypes.bool,
-  classes: PropTypes.object,
-  responsiveModal: PropTypes.bool,
 };
 
 export default Drawer;

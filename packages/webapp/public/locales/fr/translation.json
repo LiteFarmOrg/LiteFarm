@@ -1766,9 +1766,7 @@
     "ZERO": "Aucun résultat"
   },
   "SECTION_HEADER": {
-    "ANIMALS_GROUPS": "MISSING",
-    "ANIMALS_INVENTORY": "MISSING",
-    "ANIMALS_LOCATION": "MISSING"
+    "ANIMALS_INVENTORY": "MISSING"
   },
   "SENSOR": {
     "BRAND": "Marque",

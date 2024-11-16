@@ -1760,9 +1760,7 @@
     "ZERO": "0 results"
   },
   "SECTION_HEADER": {
-    "ANIMALS_GROUPS": "Animal groups",
-    "ANIMALS_INVENTORY": "Animal inventory",
-    "ANIMALS_LOCATION": "Animal locations"
+    "ANIMALS_INVENTORY": "Animal inventory"
   },
   "SENSOR": {
     "BRAND": "Brand",

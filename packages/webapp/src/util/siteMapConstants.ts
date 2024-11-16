@@ -20,8 +20,6 @@
 
 export const ANIMALS_URL = '/animals';
 export const ANIMALS_INVENTORY_URL = '/animals/inventory';
-export const ANIMALS_LOCATION_URL = '/animals/location';
-export const ANIMALS_GROUPS_URL = '/animals/groups';
 export const ADD_ANIMALS_URL = '/animals/inventory/add_animals';
 export const createSingleAnimalViewURL = (id: string | number): string => {
   return `/animals/${id}`;

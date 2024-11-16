@@ -131,18 +131,6 @@ function AnimalInventory({
         format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
       },
       {
-        id: isDesktop ? 'groups' : null,
-        label: t('ANIMAL.ANIMAL_GROUPS').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => (
-          <Cell
-            kind={CellKind.HOVER_PILL_OVERFLOW}
-            items={d.groups}
-            noneText={t('NONE', { ns: 'common' })}
-          />
-        ),
-        sortable: false,
-      },
-      {
         id: !isTaskView ? 'path' : null,
         label: '',
         format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,

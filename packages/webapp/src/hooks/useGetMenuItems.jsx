@@ -29,9 +29,7 @@ import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
 import {
   ACTUAL_REVENUE_URL,
-  ANIMALS_GROUPS_URL,
   ANIMALS_INVENTORY_URL,
-  ANIMALS_LOCATION_URL,
   ANIMALS_URL,
   ESTIMATED_REVENUE_URL,
   FINANCES_HOME_URL,
@@ -64,16 +62,6 @@ export const useGetMenuItems = () => {
             label: t('MENU.ANIMALS_INVENTORY'),
             path: ANIMALS_INVENTORY_URL,
             key: 'animals_inventory',
-          },
-          {
-            label: t('MENU.ANIMALS_LOCATION'),
-            path: ANIMALS_LOCATION_URL,
-            key: 'animals_location',
-          },
-          {
-            label: t('MENU.ANIMALS_GROUPS'),
-            path: ANIMALS_GROUPS_URL,
-            key: 'animals_groups',
           },
         ],
       },

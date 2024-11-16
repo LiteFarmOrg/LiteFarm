@@ -13,12 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  ANIMALS_GROUPS_URL,
-  ANIMALS_INVENTORY_URL,
-  ANIMALS_LOCATION_URL,
-  ADD_ANIMALS_URL,
-} from '../../util/siteMapConstants';
+import { ANIMALS_INVENTORY_URL, ADD_ANIMALS_URL } from '../../util/siteMapConstants';
 import { useTranslation } from 'react-i18next';
 import type { Pathname } from 'history';
 
@@ -43,9 +38,7 @@ export function useSectionHeader(path: Pathname): string | null {
   const { t } = useTranslation(['translation']);
 
   const HEADERS_BY_PATH: PathHeaderKVP = {
-    [ANIMALS_GROUPS_URL]: t('SECTION_HEADER.ANIMALS_GROUPS'),
     [ANIMALS_INVENTORY_URL]: t('SECTION_HEADER.ANIMALS_INVENTORY'),
-    [ANIMALS_LOCATION_URL]: t('SECTION_HEADER.ANIMALS_LOCATION'),
     [ADD_ANIMALS_URL]: t('SECTION_HEADER.ANIMALS_INVENTORY'),
   };
 

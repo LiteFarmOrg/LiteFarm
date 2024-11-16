@@ -60,11 +60,7 @@ const Drawer = ({
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
-  if (!isOpen) {
-    return null;
-  }
-
-  return isDesktop && responsiveModal ? (
+  return isDesktop && responsiveModal && isOpen ? (
     <ModalComponent
       className={classes.modal}
       title={title}

@@ -13,31 +13,34 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '../../assets/mixin';
-
 .wrapper {
   position: relative;
   transform: translateZ(0); // Create context for position: fixed
   height: 400px;
+  overflow: clip;
   outline: 1px solid black;
-  padding: 24px;
-  overflow-y: clip;
 }
 
-.floatingContent {
-  background-color: var(--Colors-Secondary-Secondary-green-700);
-  color: white;
+.fakeMenuBar {
+  height: var(--global-navbar-height);
+  background-color: var(--Colors-Accent---singles-Blue-light);
+  padding-inline: 8px;
+  gap: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.content {
+  background-color: var(--Colors-Neutral-Neutral-50);
+  color: black;
   display: grid;
   place-content: center;
 
   width: 264px;
   height: 80px;
   border-radius: 16px;
-
-  /* If a fixed width is defined on the component, make sure it is removed or set to 100%/100vw on its mobile state. Alternatively define a width only on the desktop state (as done in ActionMenu) */
-  @include xs-breakpoint {
-    width: 100%;
-  }
 }
 
 .customModal {

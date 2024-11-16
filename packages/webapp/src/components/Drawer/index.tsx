@@ -19,6 +19,12 @@ import styles from './style.module.scss';
 import { IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Close } from '@mui/icons-material';
 
+export enum DesktopDrawerVariants {
+  DRAWER = 'drawer',
+  SIDE_DRAWER = 'sideDrawer',
+  MODAL = 'modal',
+}
+
 interface DrawerProps {
   title: NonNullable<string | React.ReactNode>;
   isOpen: boolean;
@@ -26,7 +32,7 @@ interface DrawerProps {
   children: React.ReactNode;
   buttonGroup?: React.ReactNode;
   fullHeight?: boolean;
-  responsiveModal?: boolean;
+  desktopVariant?: DesktopDrawerVariants;
   addBackdrop?: boolean;
   classes?: {
     modal?: string;
@@ -51,13 +57,13 @@ const Drawer = ({
     drawerContainer: '',
   },
   fullHeight,
-  responsiveModal = true,
+  desktopVariant = DesktopDrawerVariants.MODAL,
   addBackdrop = true,
 }: DrawerProps) => {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
-  return isDesktop && responsiveModal && isOpen ? (
+  return isDesktop && desktopVariant === DesktopDrawerVariants.MODAL && isOpen ? (
     <ModalComponent
       className={classes.modal}
       title={title}
@@ -82,6 +88,9 @@ const Drawer = ({
       <div
         className={clsx(
           styles.drawer,
+          isDesktop && desktopVariant === DesktopDrawerVariants.SIDE_DRAWER
+            ? styles.sideDrawer
+            : styles.bottomDrawer,
           fullHeight && styles.fullHeight,
           isOpen ? styles.openD : '',
           classes.drawerContainer,

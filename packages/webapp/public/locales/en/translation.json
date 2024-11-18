@@ -1922,6 +1922,7 @@
         "LABOUR_ISSUE": "Labour issue",
         "MACHINERY_ISSUE": "Machinery issue",
         "MARKET_PROBLEM": "Market problem",
+        "NO_ANIMALS_AVAILABLE": "No animals available (automatic)",
         "OTHER": "Other",
         "SCHEDULING_ISSUE": "Scheduling issue",
         "WEATHER": "Weather"

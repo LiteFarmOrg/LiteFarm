@@ -74,8 +74,9 @@ function AnimalInventory({
   isCompactSideMenu,
   history,
 }: AnimalInventoryProps) {
-  const isTaskView = [View.TASK, View.TASK_SUMMARY].includes(view);
+  const isTaskInventoryView = view === View.TASK;
   const isSummaryView = view === View.TASK_SUMMARY;
+  const isTaskView = isTaskInventoryView || isSummaryView;
 
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
@@ -262,15 +263,12 @@ function AnimalInventory({
       header={
         !isTaskView ? <KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} /> : null
       }
-      classes={{ paper: isSummaryView ? styles.removePaper : styles.paper }}
+      classes={{ paper: isSummaryView ? styles.hidePaperBorder : styles.paper }}
       kind={ContainerKind.PAPER}
-      wrapperClassName={
-        isSummaryView
-          ? styles.summaryViewHeight
-          : isTaskView && !isSummaryView
-            ? styles.taskViewHeight
-            : undefined
-      }
+      wrapperClassName={clsx(
+        isTaskInventoryView && styles.taskViewMaxHeight,
+        isSummaryView && styles.summaryViewHeight,
+      )}
     >
       <PureAnimalInventory
         filteredInventory={searchAndFilteredInventory}

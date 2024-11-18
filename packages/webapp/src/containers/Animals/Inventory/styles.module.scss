@@ -29,20 +29,18 @@
   }
 }
 
-.removePaper {
+.hidePaperBorder {
   border-radius: 0;
   border: none;
   margin: 0;
 }
 
-.taskViewHeight {
+.taskViewMaxHeight {
   max-height: calc(100vh - var(--global-navbar-height) - var(--global-multi-step-task-layout-aggregated-height));
 }
 
 .summaryViewHeight {
   height: auto;
-  // 58 px is border 2px, expanded content padding 16px, 24px collapse content title, 16px margin between table and title
-  max-height: calc(100vh - var(--global-navbar-height) - var(--global-multi-step-task-layout-aggregated-height) - var(--global-min-location-picker-height) - 58px);
 }
 
 .section {
@@ -60,6 +58,7 @@
 }
 
 .alwaysVisibleContent {
+  max-height: 56px;
   padding: 0 16px;
   @include lg-breakpoint {
     align-items: center;
@@ -92,6 +91,11 @@
   text-align: center;
   gap: 8px;
   justify-content: center;
+  margin-bottom: 8px;
+  
+  @include lg-breakpoint {
+    margin-bottom: 0px;
+  }
 }
 
 .blueColor {

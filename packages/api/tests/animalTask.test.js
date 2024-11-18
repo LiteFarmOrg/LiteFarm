@@ -45,13 +45,13 @@ import {
   animalTaskGenerator,
 } from './utils/taskUtils.js';
 
-// expected task data returned by GET request
+// data representing a completed task, formatted as expected in a GET response
 const expectedCompletedTaskData = {
   ...fakeCompletionData,
   complete_date: `${fakeCompletionData.complete_date}T00:00:00.000`,
 };
 
-// return expected task data returned by GET request
+// simulates the data for a completed movement task as returned by a GET request
 const simulateMovementTaskCompletion = (task) => {
   const { location_id } = task.locations[0];
   return {
@@ -70,7 +70,7 @@ const simulateTaskCompletion = (task, type) => {
   return complete?.(task) || { ...task, ...expectedCompletedTaskData };
 };
 
-// for direct insertion into the DB
+// generates a fake movement task for direct insertion into the DB
 const createFakeMovementTask = (purposeRelationships) => {
   const movementTask = { animal_movement_task: {} };
   if (purposeRelationships) {
@@ -453,7 +453,6 @@ describe('Animal task tests', () => {
       test(`should not create a(n) ${type} with managementPlans`, async () => {
         const data = createAnimalTaskForReqBody({
           [type]: fakeTaskData[type](),
-          due_date: yesterdayInYYYYMMDD,
           managementPlans: [{ planting_management_plan_id }],
         });
         const res = await postTaskRequest({ user_id, farm_id }, type, data);
@@ -522,7 +521,7 @@ describe('Animal task tests', () => {
         expect(res.status).toBe(400);
       });
 
-      test('should ignore other_purpose without ccorrect purpose id', async () => {
+      test('should ignore other_purpose without correct purpose id', async () => {
         const otherPurposeData = faker.lorem.sentence();
         const data = createMovementTaskPostBody([purpose1.id], otherPurposeData);
         const res = await postTaskRequest({ user_id, farm_id }, type, data);
@@ -916,7 +915,7 @@ describe('Animal task tests', () => {
           expect(patchRes.status).toBe(400);
         });
 
-        test('should ignore other_purpose without ccorrect purpose id', async () => {
+        test('should ignore other_purpose without correct purpose id', async () => {
           const { task_id } = await animalTaskFactory(createFakeMovementTask());
           const patchRes = await completeMovementTaskReq(
             {
@@ -977,7 +976,7 @@ describe('Animal task tests', () => {
       expect(res.status).toBe(200);
       const [{ due_date }] = await knex('task').select('due_date').where({ task_id });
 
-      let expectedDueDate = new Date(today);
+      const expectedDueDate = new Date(today);
       expectedDueDate.setUTCHours(0, 0, 0, 0);
       expect(due_date.toISOString()).toBe(expectedDueDate.toISOString());
     });

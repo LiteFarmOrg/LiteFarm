@@ -132,7 +132,7 @@ export default function PureTaskLocations({
         {isAnimalTask && (
           <ExpandableAnimalInventory
             view={View.TASK_SUMMARY}
-            preSelectedIds={persistedFormData?.animalIds || []}
+            preSelectedIds={persistedFormData?.animalIds}
           />
         )}
         <Main

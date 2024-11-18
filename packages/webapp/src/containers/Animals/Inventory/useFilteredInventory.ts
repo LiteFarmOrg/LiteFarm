@@ -32,7 +32,7 @@ export const useFilteredInventory = (
       return inventory.filter((entity) => {
         return selectedInventoryIds.includes(entity.id);
       });
-    }, [selectedInventoryIds]);
+    }, [inventory, selectedInventoryIds]);
   }
 
   const {

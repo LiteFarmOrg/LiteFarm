@@ -42,7 +42,6 @@ import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 import ExpandableItem from '../../../components/Expandable/ExpandableItem';
 import useExpandable from '../../../components/Expandable/useExpandableItem';
-import Pill from '../../../components/Pill';
 import clsx from 'clsx';
 
 export enum View {

@@ -107,6 +107,7 @@ const ContainerWithButtons = ({
       <div className={styles.statusAndButton}>
         {!isCompactView && isEditing ? <div>{t('common:EDITING')}</div> : null}
         <MeatballsMenu
+          disabled={!!isEditing}
           options={options}
           classes={{ button: isEditing ? styles.editingStatusButton : '' }}
         />

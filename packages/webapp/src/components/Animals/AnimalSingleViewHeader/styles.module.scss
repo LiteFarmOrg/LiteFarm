@@ -82,7 +82,8 @@
   padding-left: 16px;
 }
 
-.editingStatusButton {
+.editingStatusButton,
+.editingStatusButton:disabled {
   background: var(--Btn-primary-hover);
   box-shadow: 1px 1px 0px 0px var(--Colors-Primary-Primary-teal-300);
 

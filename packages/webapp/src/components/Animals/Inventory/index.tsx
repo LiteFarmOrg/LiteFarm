@@ -94,7 +94,6 @@ const PureAnimalInventory = ({
           showSearchBarAndFilter: true,
           alternatingRowColor: true,
           showTableHeader: isDesktop,
-          extraRowSpacing: false,
           showActionFloaterButton: false,
         };
       case View.TASK_SUMMARY:
@@ -116,7 +115,6 @@ const PureAnimalInventory = ({
           showSearchBarAndFilter: true,
           alternatingRowColor: true,
           showTableHeader: isDesktop,
-          extraRowSpacing: false,
           showActionFloaterButton: isAdmin,
         };
     }

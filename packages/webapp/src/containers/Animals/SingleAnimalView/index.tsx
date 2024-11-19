@@ -15,7 +15,6 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
@@ -45,6 +44,7 @@ import { AnimalDetailsFormFields } from '../AddAnimals/types';
 import RemoveAnimalsModal, { FormFields } from '../../../components/Animals/RemoveAnimalsModal';
 import useAnimalOrBatchRemoval from '../Inventory/useAnimalOrBatchRemoval';
 import { generateInventoryId } from '../../../util/animal';
+import { CustomRouteComponentProps } from '../../../types';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -54,7 +54,7 @@ interface RouteParams {
   id: string;
 }
 
-interface AddAnimalsProps extends RouteComponentProps<RouteParams> {
+interface AddAnimalsProps extends CustomRouteComponentProps<RouteParams> {
   isCompactSideMenu: boolean;
 }
 

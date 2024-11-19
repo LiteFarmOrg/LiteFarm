@@ -13,19 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { RouteComponentProps } from 'react-router-dom';
 import { useGetAnimalBatchesQuery, useGetAnimalsQuery } from '../../../store/api/apiSlice';
 import { useAnimalOptions } from '../AddAnimals/useAnimalOptions';
 import { DetailsFields } from '../AddAnimals/types';
 import { generateFormDate } from './utils';
 import { ANIMAL_ID_PREFIX, AnimalOrBatchKeys } from '../types';
 import { generateUniqueAnimalId } from '../../../util/animal';
+import { CustomRouteComponentProps } from '../../../types';
 
 interface RouteParams {
   id: string;
 }
 
-interface UseInitialAnimalDataProps extends RouteComponentProps<RouteParams> {}
+interface UseInitialAnimalDataProps extends CustomRouteComponentProps<RouteParams> {}
 
 export const useInitialAnimalData = ({ match }: UseInitialAnimalDataProps) => {
   const { selectedAnimal } = useGetAnimalsQuery(undefined, {

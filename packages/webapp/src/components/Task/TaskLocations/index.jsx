@@ -11,6 +11,7 @@ import { cloneObject } from '../../../util';
 import Checkbox from '../../Form/Checkbox';
 import { ExpandableAnimalInventory, View } from '../../../containers/Animals/Inventory';
 import styles from './styles.module.scss';
+import clsx from 'clsx';
 export default function PureTaskLocations({
   locations,
   readOnlyPinCoordinates,
@@ -135,14 +136,7 @@ export default function PureTaskLocations({
             preSelectedIds={persistedFormData?.animalIds}
           />
         )}
-        <Main
-          style={{
-            marginTop: '24px',
-            marginBottom: '24px',
-            paddingLeft: '24px',
-            paddingRight: '24px',
-          }}
-        >
+        <Main className={clsx(styles.locationPickerText, isAnimalTask && styles.fullWidthPadding)}>
           {title || t('TASK.SELECT_TASK_LOCATIONS')}
         </Main>
         <LocationPicker

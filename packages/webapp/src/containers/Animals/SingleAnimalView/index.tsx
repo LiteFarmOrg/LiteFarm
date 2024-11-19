@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
@@ -100,6 +100,12 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
     match,
     location,
   });
+
+  useEffect(() => {
+    if (!selectedAnimal && !selectedBatch) {
+      history.replace('/unknown_record');
+    }
+  }, [selectedAnimal, selectedBatch, history]);
 
   // Form submission
   const [updateAnimals] = useUpdateAnimalsMutation();

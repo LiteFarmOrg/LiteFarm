@@ -153,6 +153,8 @@
   bottom: 8px;
 
   height: 24px;
+  min-width: 20px;
+  max-width: 48px;
   padding: 4px;
   border-radius: 2px;
   background: var(--Colors-Accent---singles-Purple-light);
@@ -161,6 +163,10 @@
   color: var(--Colors-Accent---singles-Purple-full);
   font-size: 12px;
   font-weight: 600;
+  text-align: center;
+
+  /* Counts with more than six digits will be visually cut off */
+  overflow: hidden;
 }
 
 .desktopBasicInfo {

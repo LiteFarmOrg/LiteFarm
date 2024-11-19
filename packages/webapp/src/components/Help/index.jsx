@@ -13,7 +13,13 @@ import Radio from '../Form/Radio';
 import { Label } from '../Typography/index';
 import ImagePicker from '../ImagePicker';
 
-export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_number, isLoading }) {
+export default function PureHelpRequestPage({
+  onSubmit,
+  onCancel,
+  email,
+  phone_number,
+  isLoading,
+}) {
   const [file, setFile] = useState(null);
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const { register, handleSubmit, watch, control, setValue, formState } = useForm({
@@ -40,10 +46,15 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
     console.log(error);
   };
 
+  const handleCancel = () => {
+    onCancel?.();
+  };
+
   useEffect(() => {
     const contactInformation = contactMethodSelection === 'email' ? email : phone_number;
     setValue(CONTACT_INFO, contactInformation);
   }, [contactMethodSelection]);
+
   const submit = (data) => {
     data.support_type = data.support_type.value;
     data[data[CONTACT_METHOD]] = data.contactInfo;
@@ -51,15 +62,17 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
     delete data.contactInfo;
     onSubmit(file, data);
   };
+
   const supportType = watch(SUPPORT_TYPE);
   const message = watch(MESSAGE);
   const disabled = Object.keys(errors).length || !supportType || !message || formState.isSubmitting;
+
   return (
     <Form
       onSubmit={handleSubmit(submit, onError)}
       buttonGroup={
         <>
-          <Button fullLength color={'secondary'} onClick={goBack}>
+          <Button fullLength color={'secondary'} onClick={handleCancel}>
             {t('common:CANCEL')}
           </Button>
           <Button type={'submit'} disabled={isLoading || disabled} fullLength>

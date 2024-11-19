@@ -167,13 +167,14 @@ export default function PureTaskDetails({
         {!isHarvest && (
           <InputAutoSize
             style={{ paddingTop: '36px' }}
-            label={t('LOG_COMMON.NOTES')}
+            label={t('ADD_TASK.NOTES_LABEL')}
             optional={true}
             hookFormRegister={register(NOTES, {
               maxLength: { value: 10000, message: t('ADD_TASK.TASK_NOTES_CHAR_LIMIT') },
             })}
             name={NOTES}
             errors={errors[NOTES]?.message}
+            placeholder={t('ADD_TASK.NOTES_PLACEHOLDER')}
           />
         )}
       </Form>

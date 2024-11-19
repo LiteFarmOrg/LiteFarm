@@ -74,76 +74,88 @@ export default function PureHelpRequestPage({
       onSubmit={handleSubmit(submit, onError)}
       buttonGroup={
         <>
-          <Button fullLength color={'secondary'} onClick={handleCancel}>
+          <Button fullLength color={'secondary-cta'} onClick={handleCancel} md>
             {t('common:CANCEL')}
           </Button>
-          <Button type={'submit'} disabled={isLoading || disabled} fullLength>
+          <Button type={'submit'} disabled={isLoading || disabled} fullLength md>
             {isLoading ? t('common:SUBMITTING') : t('common:SUBMIT')}
           </Button>
         </>
       }
+      fullWidthContent={true}
+      classes={{
+        container: {
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '36px',
+          padding: '16px 24px 36px 24px',
+        },
+      }}
     >
-      <Controller
-        control={control}
-        name={SUPPORT_TYPE}
-        rules={{ required: true }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <ReactSelect
-            label={t('HELP.TYPE_SUPPORT_LABEL')}
-            placeholder={t('HELP.TYPE_SUPPORT_PLACEHOLDER')}
-            options={supportTypeOptions}
-            onChange={onChange}
-            value={value}
-          />
-        )}
-      />
-      {errors[SUPPORT_TYPE] ? <Error>{t('HELP.REQUIRED_LABEL')}</Error> : ''}
-      <TextArea
-        label={t('HELP.MESSAGE_LABEL')}
-        hookFormRegister={register(MESSAGE, { required: true })}
-        style={{ marginTop: '30px', marginBottom: '36px' }}
-      />
-      {errors[MESSAGE] ? (
-        <Error style={{ marginTop: '-36px', marginBottom: '30px' }}>
-          {t('HELP.REQUIRED_LABEL')}
-        </Error>
-      ) : (
-        ''
-      )}
-      <div style={{ marginBottom: '36px' }}>
+      <div>
+        <Controller
+          control={control}
+          name={SUPPORT_TYPE}
+          rules={{ required: true }}
+          render={({ field: { onChange, value } }) => (
+            <ReactSelect
+              label={t('HELP.TYPE_SUPPORT_LABEL')}
+              placeholder={t('HELP.TYPE_SUPPORT_PLACEHOLDER')}
+              options={supportTypeOptions}
+              onChange={onChange}
+              value={value}
+            />
+          )}
+        />
+        {errors[SUPPORT_TYPE] ? <Error>{t('HELP.REQUIRED_LABEL')}</Error> : ''}
+      </div>
+      <div>
+        <TextArea
+          label={t('HELP.MESSAGE_LABEL')}
+          hookFormRegister={register(MESSAGE, { required: true })}
+        />
+        {errors[MESSAGE] ? <Error>{t('HELP.REQUIRED_LABEL')}</Error> : ''}
+      </div>
+      <div>
         <ImagePicker
           label={t('HELP.ATTACHMENT_LABEL')}
           onSelectImage={setFile}
           onRemoveImage={() => setFile(null)}
         />
       </div>
-      <Label style={{ marginBottom: '16px' }}>{t('HELP.PREFERRED_CONTACT')}</Label>
-      <Radio
-        label={t('HELP.EMAIL')}
-        value={'email'}
-        hookFormRegister={register(CONTACT_METHOD, { required: true })}
-        defaultChecked={true}
-      />
-      <Radio
-        label={t('HELP.WHATSAPP')}
-        value={'whatsapp'}
-        hookFormRegister={register(CONTACT_METHOD, { required: true })}
-      />
-      <Input
-        label={
-          contactMethodSelection === 'email' ? t('HELP.EMAIL') : t('HELP.WHATSAPP_NUMBER_LABEL')
-        }
-        hookFormRegister={register(CONTACT_INFO, {
-          required: true,
-          pattern: contactMethodSelection === 'email' ? validEmailRegex : /./g,
-        })}
-      />
-      {errors[CONTACT_INFO] && errors[CONTACT_INFO].type !== 'pattern' ? (
-        <Error>{t('HELP.REQUIRED_LABEL')}</Error>
-      ) : (
-        ''
-      )}
-      {errors[CONTACT_INFO]?.type === 'pattern' ? <Error>Invalid Email</Error> : ''}
+      <div>
+        <Label>{t('HELP.PREFERRED_CONTACT')}</Label>
+        <div className={styles.contactMethods}>
+          <Radio
+            label={t('HELP.EMAIL')}
+            value={'email'}
+            hookFormRegister={register(CONTACT_METHOD, { required: true })}
+            defaultChecked={true}
+          />
+          <Radio
+            label={t('HELP.WHATSAPP')}
+            value={'whatsapp'}
+            hookFormRegister={register(CONTACT_METHOD, { required: true })}
+          />
+        </div>
+      </div>
+      <div>
+        <Input
+          label={
+            contactMethodSelection === 'email' ? t('HELP.EMAIL') : t('HELP.WHATSAPP_NUMBER_LABEL')
+          }
+          hookFormRegister={register(CONTACT_INFO, {
+            required: true,
+            pattern: contactMethodSelection === 'email' ? validEmailRegex : /./g,
+          })}
+        />
+        {errors[CONTACT_INFO] && errors[CONTACT_INFO].type !== 'pattern' ? (
+          <Error>{t('HELP.REQUIRED_LABEL')}</Error>
+        ) : (
+          ''
+        )}
+        {errors[CONTACT_INFO]?.type === 'pattern' ? <Error>Invalid Email</Error> : ''}
+      </div>
     </Form>
   );
 }

@@ -13,8 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { RouteComponentProps } from 'react-router-dom';
+import { History } from 'history';
+
 export enum OrganicStatus {
   'NON_ORGANIC' = 'Non-Organic',
   'TRANSITIONAL' = 'Transitional',
   'ORGANIC' = 'Organic',
 }
+
+// Custom RouteComponentProps with a custom history type from the 'history' library
+export type CustomRouteComponentProps<T extends { [K in keyof T]?: string | undefined }> = Omit<
+  RouteComponentProps<T>,
+  'history'
+> & {
+  history: History; // Custom history type
+};

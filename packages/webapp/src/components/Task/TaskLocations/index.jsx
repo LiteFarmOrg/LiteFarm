@@ -127,7 +127,7 @@ export default function PureTaskLocations({
           cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
           title={t('MANAGEMENT_DETAIL.ADD_A_TASK')}
           value={progress}
-          className={isAnimalTask && styles.titlePadding}
+          classes={{ container: isAnimalTask && styles.titlePadding }}
         />
         {isAnimalTask && (
           <ExpandableAnimalInventory

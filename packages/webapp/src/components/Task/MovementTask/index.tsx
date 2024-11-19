@@ -19,6 +19,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import Input, { getInputErrors } from '../../Form/Input';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import styles from './styles.module.scss';
+import { useGetAnimalMovementPurposesQuery } from '../../../store/api/apiSlice';
 
 type PureMovementTaskProps = UseFormReturn;
 
@@ -31,14 +32,8 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
   } = props;
 
   const { t } = useTranslation(['translation', 'message', 'animal']);
+  const { data: purposes = [] } = useGetAnimalMovementPurposesQuery();
 
-  // TODO: Replace this with RTK Query to fetch actual purposes once BE is done
-  const MOCK_PURPOSES = [
-    { id: 1, key: 'GRAZING' },
-    { id: 2, key: 'FEEDING' },
-    { id: 3, key: 'BREEDING' },
-    { id: 4, key: 'OTHER' },
-  ];
   const PURPOSE = `movement_task.purpose`;
   const OTHER_PURPOSE_EXPLANATION = `movement_task.other_purpose_explanation`;
 
@@ -54,12 +49,13 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
           <ReactSelect
             value={value}
             label={t('ADD_TASK.MOVEMENT_VIEW.MOVEMENT_PURPOSE_LABEL')}
-            options={MOCK_PURPOSES.map((purpose) => ({
-              ...purpose,
+            options={purposes.map((purpose) => ({
+              value: purpose.id,
               label: t(`animal:PURPOSE.${purpose.key}`),
             }))}
             onChange={onChange}
             placeholder={t('ADD_TASK.MOVEMENT_VIEW.MOVEMENT_PURPOSE_PLACEHOLDER')}
+            isMulti
           />
         )}
       />

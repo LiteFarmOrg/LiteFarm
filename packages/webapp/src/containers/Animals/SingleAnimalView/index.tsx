@@ -23,6 +23,7 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/sna
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import AnimalSingleViewHeader from '../../../components/Animals/AnimalSingleViewHeader';
+import FixedHeaderContainer from '../../../components/Animals/FixedHeaderContainer';
 import { addNullstoMissingFields } from './utils';
 import { useInitialAnimalData } from './useInitialAnimalData';
 import {
@@ -155,39 +156,45 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
 
   return (
     <div className={styles.container}>
-      <div>
-        {defaultFormValues && (
-          <AnimalSingleViewHeader
-            onEdit={initiateEdit}
-            isEditing={isEditing}
-            onBack={() => history.push('/animals/inventory')}
-            /* @ts-ignore */
-            animalOrBatch={defaultFormValues}
-            defaultBreeds={defaultAnimalBreeds}
-            defaultTypes={defaultAnimalTypes}
-            customBreeds={customAnimalBreeds}
-            customTypes={customAnimalTypes}
-          />
-        )}
-      </div>
-      {/* <Tab
-        tabs={routerTabs}
-        variant={TabVariants.UNDERLINE}
-        isSelected={(tab) => tab.path === match.url}
-        onClick={(tab) => history.push(tab.path)}
-      /> */}
-      <ContextForm
-        onSave={onSave}
-        hasSummaryWithinForm={false}
-        isCompactSideMenu={isCompactSideMenu}
-        variant={Variant.STEPPER_PROGRESS_BAR}
-        history={history}
-        getSteps={getFormSteps}
-        defaultFormValues={defaultFormValues}
-        cancelModalTitle={t('ANIMAL.EDIT_ANIMAL_FLOW')}
-        isEditing={isEditing}
-        setIsEditing={setIsEditing}
-      />
+      <FixedHeaderContainer
+        classes={{ divWrapper: styles.contentWrapper }}
+        header={
+          <>
+            {defaultFormValues && (
+              <AnimalSingleViewHeader
+                onEdit={initiateEdit}
+                isEditing={isEditing}
+                onBack={() => history.push('/animals/inventory')}
+                /* @ts-ignore */
+                animalOrBatch={defaultFormValues}
+                defaultBreeds={defaultAnimalBreeds}
+                defaultTypes={defaultAnimalTypes}
+                customBreeds={customAnimalBreeds}
+                customTypes={customAnimalTypes}
+              />
+            )}
+            {/* <Tab
+              tabs={routerTabs}
+              variant={TabVariants.UNDERLINE}
+              isSelected={(tab) => tab.path === match.url}
+              onClick={(tab) => history.push(tab.path)}
+            /> */}
+          </>
+        }
+      >
+        <ContextForm
+          onSave={onSave}
+          hasSummaryWithinForm={false}
+          isCompactSideMenu={isCompactSideMenu}
+          variant={Variant.STEPPER_PROGRESS_BAR}
+          history={history}
+          getSteps={getFormSteps}
+          defaultFormValues={defaultFormValues}
+          cancelModalTitle={t('ANIMAL.EDIT_ANIMAL_FLOW')}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+        />
+      </FixedHeaderContainer>
     </div>
   );
 }

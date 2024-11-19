@@ -133,26 +133,8 @@ export const WithStepperProgressBar = ({
     setShowCancelFlow?.(false);
   };
 
-  const Wrapper = ({ children }: { children: ReactNode }) =>
-    isSingleStep ? (
-      <>{children}</>
-    ) : (
-      <FixedHeaderContainer
-        header={
-          <StepperProgressBar
-            {...stepperProgressBarConfig}
-            title={stepperProgressBarTitle}
-            steps={steps.map(({ title }) => title)}
-            activeStep={activeStepIndex}
-          />
-        }
-      >
-        {children}
-      </FixedHeaderContainer>
-    );
-
-  return (
-    <Wrapper>
+  const renderContent = () => (
+    <>
       <div className={styles.contentWrapper}>{children}</div>
       {shouldShowFormNavigationButtons && (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
@@ -173,6 +155,23 @@ export const WithStepperProgressBar = ({
           handleCancel={handleCancel}
         />
       )}
-    </Wrapper>
+    </>
+  );
+
+  return isSingleStep ? (
+    renderContent()
+  ) : (
+    <FixedHeaderContainer
+      header={
+        <StepperProgressBar
+          {...stepperProgressBarConfig}
+          title={stepperProgressBarTitle}
+          steps={steps.map(({ title }) => title)}
+          activeStep={activeStepIndex}
+        />
+      }
+    >
+      {renderContent()}
+    </FixedHeaderContainer>
   );
 };

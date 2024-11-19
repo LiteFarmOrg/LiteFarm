@@ -30,7 +30,7 @@ export default function PureTaskAnimalInventory({
   useHookFormPersist,
   history,
   isDesktop,
-  isRequired = false,
+  isRequired = true,
 }) {
   const { t } = useTranslation();
   const ANIMAL_IDS = 'animalIds';

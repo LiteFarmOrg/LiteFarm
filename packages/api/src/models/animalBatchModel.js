@@ -20,6 +20,13 @@ import AnimalBatchGroupRelationshipModel from './animalBatchGroupRelationshipMod
 import AnimalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
 import { checkAndTrimString } from '../util/util.js';
 import AnimalBatchUseRelationshipModel from './animalBatchUseRelationshipModel.js';
+import TaskAnimalBatchRelationshipModel from './taskAnimalBatchRelationshipModel.js';
+import TaskModel from './taskModel.js';
+import DefaultAnimalTypeModel from './defaultAnimalTypeModel.js';
+import CustomAnimalTypeModel from './customAnimalTypeModel.js';
+import DefaultAnimalBreedModel from './defaultAnimalBreedModel.js';
+import CustomAnimalBreedModel from './customAnimalBreedModel.js';
+import AnimalGroupModel from './animalGroupModel.js';
 
 class AnimalBatchModel extends baseModel {
   static get tableName() {
@@ -95,6 +102,7 @@ class AnimalBatchModel extends baseModel {
         sire: { type: ['string', 'null'] },
         supplier: { type: ['string', 'null'], maxLength: 255 },
         price: { type: ['number', 'null'] },
+        location_id: { type: ['string', 'null'] },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -112,7 +120,7 @@ class AnimalBatchModel extends baseModel {
           to: 'animal_batch_sex_detail.animal_batch_id',
         },
       },
-      internal_identifier: {
+      animal_union_batch: {
         relation: Model.HasOneRelation,
         modelClass: AnimalUnionBatchIdViewModel,
         join: {
@@ -133,6 +141,20 @@ class AnimalBatchModel extends baseModel {
             this.select('id').from('animal_group').where('deleted', false);
           }),
       },
+      groups: {
+        modelClass: AnimalGroupModel,
+        relation: Model.ManyToManyRelation,
+        join: {
+          from: 'animal_batch.id',
+          through: {
+            modelClass: AnimalBatchGroupRelationshipModel,
+            from: 'animal_batch_group_relationship.animal_batch_id',
+            to: 'animal_batch_group_relationship.animal_group_id',
+          },
+          to: 'animal_group.id',
+        },
+        modify: (query) => query.select('name').where('deleted', false),
+      },
       animal_batch_use_relationships: {
         relation: Model.HasManyRelation,
         modelClass: AnimalBatchUseRelationshipModel,
@@ -140,6 +162,72 @@ class AnimalBatchModel extends baseModel {
           from: 'animal_batch.id',
           to: 'animal_batch_use_relationship.animal_batch_id',
         },
+      },
+      tasks: {
+        modelClass: TaskModel,
+        relation: Model.ManyToManyRelation,
+        join: {
+          from: 'animal_batch.id',
+          through: {
+            modelClass: TaskAnimalBatchRelationshipModel,
+            from: 'task_animal_batch_relationship.animal_batch_id',
+            to: 'task_animal_batch_relationship.task_id',
+          },
+          to: 'task.task_id',
+        },
+      },
+      default_type: {
+        modelClass: DefaultAnimalTypeModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'animal_batch.default_type_id',
+          to: 'default_animal_type.id',
+        },
+        modify: (query) => query.select('key'),
+      },
+      custom_type: {
+        modelClass: CustomAnimalTypeModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'animal_batch.custom_type_id',
+          to: 'custom_animal_type.id',
+        },
+        modify: (query) => query.select('type'),
+      },
+      default_breed: {
+        modelClass: DefaultAnimalBreedModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'animal_batch.default_breed_id',
+          to: 'default_animal_breed.id',
+        },
+        modify: (query) => query.select('key'),
+      },
+      custom_breed: {
+        modelClass: CustomAnimalBreedModel,
+        relation: Model.BelongsToOneRelation,
+        join: {
+          from: 'animal_batch.custom_breed_id',
+          to: 'custom_animal_breed.id',
+        },
+        modify: (query) => query.select('breed'),
+      },
+    };
+  }
+
+  static get modifiers() {
+    return {
+      filterDeleted(query) {
+        const { ref } = AnimalBatchModel;
+        query.where(ref('deleted'), false);
+      },
+      selectMinimalProperties(query) {
+        const { ref } = AnimalBatchModel;
+        query.select(ref('id'), ref('name'), ref('location_id'));
+      },
+      selectId(query) {
+        const { ref } = AnimalBatchModel;
+        query.select(ref('id'));
       },
     };
   }

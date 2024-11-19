@@ -31,7 +31,6 @@ import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 
 //dynamic imports
 const Home = React.lazy(() => import('../containers/Home'));
-const HelpRequest = React.lazy(() => import('../containers/Help'));
 const Account = React.lazy(() => import('../containers/Profile/Account'));
 const Farm = React.lazy(() => import('../containers/Profile/Farm/Farm'));
 const People = React.lazy(() => import('../containers/Profile/People/People'));
@@ -560,7 +559,6 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
             <Route path="/insights/prices" exact component={Prices} />
-            <Route path="/help" exact component={HelpRequest} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
@@ -642,7 +640,6 @@ const Routes = ({ isCompactSideMenu }) => {
 
             <Route path="/farm" exact component={Farm} />
             <Route path="/consent" exact component={ConsentForm} />
-            <Route path="/help" exact component={HelpRequest} />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/tasks" exact component={Tasks} />
             <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
@@ -977,7 +974,6 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
-            <Route path="/help" exact component={HelpRequest} />
             <Route path="/tasks" exact component={Tasks} />
             <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />

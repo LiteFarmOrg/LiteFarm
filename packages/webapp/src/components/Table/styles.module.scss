@@ -121,13 +121,11 @@
   }
 }
 
-.listViewRow {
+.extraRowSpacing {
   padding: 4px 8px;
   border-spacing: 8px;
   border: solid 1px var(---Colors-Neutral-Neutral-50);
-  &.clickable {
-    cursor: default;
-  }
+  
   & > td {
     border-top: solid 1px var(--Colors-Neutral-Neutral-50);
     border-bottom: solid 1px var(--Colors-Neutral-Neutral-50);
@@ -145,7 +143,7 @@
   };
 }
 
-.listViewTable {
+.extraRowSpacingTable {
   border-spacing: 0 8px;
   .tableBody::before {
     content: none;

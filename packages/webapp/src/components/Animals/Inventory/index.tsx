@@ -71,7 +71,7 @@ const PureAnimalInventory = ({
   searchProps: SearchProps;
   onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
   handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
-  onRowClick: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
+  onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
   selectedIds: string[];
   totalInventoryCount: number;
   isFilterActive: boolean;
@@ -94,7 +94,7 @@ const PureAnimalInventory = ({
           showSearchBarAndFilter: true,
           alternatingRowColor: true,
           showTableHeader: isDesktop,
-          listView: false,
+          extraRowSpacing: false,
           showActionFloaterButton: false,
         };
       case View.TASK_SUMMARY:
@@ -105,7 +105,7 @@ const PureAnimalInventory = ({
           showSearchBarAndFilter: false,
           alternatingRowColor: isDesktop ? false : true,
           showTableHeader: false,
-          listView: isDesktop,
+          extraRowSpacing: isDesktop,
           showActionFloaterButton: false,
         };
       default:
@@ -116,7 +116,7 @@ const PureAnimalInventory = ({
           showSearchBarAndFilter: true,
           alternatingRowColor: true,
           showTableHeader: isDesktop,
-          listView: false,
+          extraRowSpacing: false,
           showActionFloaterButton: isAdmin,
         };
     }
@@ -129,7 +129,7 @@ const PureAnimalInventory = ({
     showSearchBarAndFilter,
     alternatingRowColor,
     showTableHeader,
-    listView,
+    extraRowSpacing,
     showActionFloaterButton,
   } = viewConfig();
 
@@ -196,7 +196,7 @@ const PureAnimalInventory = ({
             spacerRowHeight={tableSpacerRowHeight}
             headerClass={styles.headerClass}
             onRowClick={onRowClick}
-            listView={listView}
+            extraRowSpacing={extraRowSpacing}
           />
         ) : (
           <NoSearchResults

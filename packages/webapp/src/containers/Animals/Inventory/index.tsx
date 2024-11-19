@@ -96,6 +96,9 @@ function AnimalInventory({
     switch (view) {
       case View.TASK:
         return {
+          onRowClick: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
+            onSelectInventory(event, row);
+          },
           showOnlySelected: false,
           showDetailLink: false,
           showPaperBorder: true,
@@ -106,6 +109,7 @@ function AnimalInventory({
         };
       case View.TASK_SUMMARY:
         return {
+          onRowClick: undefined,
           showOnlySelected: true,
           showDetailLink: false,
           headerContainerKind: ContainerKind.OVERFLOW,
@@ -115,6 +119,9 @@ function AnimalInventory({
         };
       default:
         return {
+          onRowClick: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
+            history.push(row.path);
+          },
           showOnlySelected: false,
           showDetailLink: true,
           showPaperBorder: true,
@@ -127,6 +134,7 @@ function AnimalInventory({
   };
 
   const {
+    onRowClick,
     showOnlySelected,
     showDetailLink,
     headerContainerKind,
@@ -264,18 +272,6 @@ function AnimalInventory({
       selectAllVisibleInventoryItems();
     } else {
       clearAllSelectedVisibleInventoryItems();
-    }
-  };
-
-  const onRowClick = (event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
-    switch (view) {
-      case View.TASK:
-        onSelectInventory(event, row);
-        break;
-      case View.TASK_SUMMARY:
-        break;
-      default:
-        history.push(row.path);
     }
   };
 

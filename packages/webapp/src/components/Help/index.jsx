@@ -11,6 +11,7 @@ import TextArea from '../Form/TextArea';
 import Input from '../Form/Input';
 import Radio from '../Form/Radio';
 import { Label } from '../Typography/index';
+import ImagePicker from '../ImagePicker';
 
 export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_number, isLoading }) {
   const [file, setFile] = useState(null);
@@ -49,9 +50,6 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
     data.attachments = {};
     delete data.contactInfo;
     onSubmit(file, data);
-  };
-  const fileChangeHandler = (event) => {
-    setFile(event.target.files[0]);
   };
   const supportType = watch(SUPPORT_TYPE);
   const message = watch(MESSAGE);
@@ -97,26 +95,12 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
       ) : (
         ''
       )}
-      <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '36px' }}>
-        <Input
+      <div style={{ marginBottom: '36px' }}>
+        <ImagePicker
           label={t('HELP.ATTACHMENT_LABEL')}
-          optional={true}
-          style={{ flexGrow: 4 }}
-          disabled={!!file}
-          value={file ? file.name : ''}
+          onSelectImage={setFile}
+          onRemoveImage={() => setFile(null)}
         />
-        <div style={{ flexGrow: 1, marginTop: '21px', marginLeft: '8px', marginRight: '-8px' }}>
-          <label htmlFor="uploader">
-            <AddFile />
-          </label>
-          <input
-            id="uploader"
-            name="_file_"
-            type="file"
-            onChange={fileChangeHandler}
-            style={{ display: 'none' }}
-          />
-        </div>
       </div>
       <Label style={{ marginBottom: '16px' }}>{t('HELP.PREFERRED_CONTACT')}</Label>
       <Radio

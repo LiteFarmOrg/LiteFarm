@@ -83,8 +83,55 @@ const PureAnimalInventory = ({
   view?: View;
 }) => {
   const { t } = useTranslation();
-  const isTaskView = [View.TASK, View.TASK_SUMMARY].includes(view);
-  const isSummaryView = view === View.TASK_SUMMARY;
+
+  const viewConfig = () => {
+    switch (view) {
+      case View.TASK:
+        return {
+          tableMaxHeight: !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight,
+          tableSpacerRowHeight: 0,
+          showInventorySelection: isAdmin,
+          showSearchBarAndFilter: true,
+          alternatingRowColor: true,
+          showTableHeader: isDesktop,
+          listView: false,
+          showActionFloaterButton: false,
+        };
+      case View.TASK_SUMMARY:
+        return {
+          tableMaxHeight: undefined,
+          tableSpacerRowHeight: 0,
+          showInventorySelection: false,
+          showSearchBarAndFilter: false,
+          alternatingRowColor: isDesktop ? false : true,
+          showTableHeader: false,
+          listView: isDesktop,
+          showActionFloaterButton: false,
+        };
+      default:
+        return {
+          tableMaxHeight: !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight,
+          tableSpacerRowHeight: isDesktop ? 96 : 120,
+          showInventorySelection: isAdmin,
+          showSearchBarAndFilter: true,
+          alternatingRowColor: true,
+          showTableHeader: isDesktop,
+          listView: false,
+          showActionFloaterButton: isAdmin,
+        };
+    }
+  };
+
+  const {
+    tableMaxHeight,
+    tableSpacerRowHeight,
+    showInventorySelection,
+    showSearchBarAndFilter,
+    alternatingRowColor,
+    showTableHeader,
+    listView,
+    showActionFloaterButton,
+  } = viewConfig();
 
   if (isLoading) {
     return null;
@@ -93,16 +140,9 @@ const PureAnimalInventory = ({
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
 
-  const tableMaxHeight =
-    !isDesktop || !containerHeight || isSummaryView ? undefined : containerHeight - usedHeight;
-
-  const tableSpacerRowHeight = !isTaskView ? (isDesktop ? 96 : 120) : 0;
-
-  const showInventorySelection = isAdmin && !isSummaryView;
-
   return (
     <>
-      {!isSummaryView && (
+      {showSearchBarAndFilter && (
         <div
           className={clsx(
             isDesktop ? styles.searchAndFilterDesktop : styles.searchAndFilter,
@@ -141,13 +181,13 @@ const PureAnimalInventory = ({
         {!totalInventoryCount || hasSearchResults ? (
           <Table
             kind={TableKind.V2}
-            alternatingRowColor={isSummaryView ? (isDesktop ? false : true) : true}
+            alternatingRowColor={alternatingRowColor}
             columns={animalsColumns}
             data={filteredInventory}
             shouldFixTableLayout={isDesktop}
             minRows={totalInventoryCount}
             dense={false}
-            showHeader={isDesktop && !isSummaryView}
+            showHeader={showTableHeader}
             onCheck={showInventorySelection ? onSelectInventory : undefined}
             handleSelectAllClick={showInventorySelection ? handleSelectAllClick : undefined}
             selectedIds={showInventorySelection ? selectedIds : undefined}
@@ -156,7 +196,7 @@ const PureAnimalInventory = ({
             spacerRowHeight={tableSpacerRowHeight}
             headerClass={styles.headerClass}
             onRowClick={onRowClick}
-            listView={isSummaryView && isDesktop}
+            listView={listView}
           />
         ) : (
           <NoSearchResults
@@ -166,7 +206,7 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
-      {isAdmin && !isTaskView && (
+      {showActionFloaterButton && (
         <FloatingButtonMenu
           type={'add'}
           options={[

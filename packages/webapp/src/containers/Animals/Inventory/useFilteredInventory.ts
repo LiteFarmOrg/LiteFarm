@@ -24,10 +24,10 @@ import { isInactive } from '../../Filter/utils';
 
 export const useFilteredInventory = (
   inventory: AnimalInventory[],
-  isSummaryView: boolean,
+  showOnlySelected: boolean,
   selectedInventoryIds: string[],
 ) => {
-  if (isSummaryView) {
+  if (showOnlySelected) {
     return useMemo(() => {
       return inventory.filter((entity) => {
         return selectedInventoryIds.includes(entity.id);

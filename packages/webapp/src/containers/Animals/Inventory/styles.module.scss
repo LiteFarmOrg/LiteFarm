@@ -29,10 +29,9 @@
   }
 }
 
-.hidePaperBorder {
-  border-radius: 0;
-  border: none;
-  margin: 0;
+.divWrapper {
+  height: auto;
+  overflow-y: auto;
 }
 
 .taskViewMaxHeight {

@@ -78,10 +78,6 @@ function AnimalInventory({
   isCompactSideMenu,
   history,
 }: AnimalInventoryProps) {
-  const isTaskInventoryView = view === View.TASK;
-  const isSummaryView = view === View.TASK_SUMMARY;
-  const isTaskView = isTaskInventoryView || isSummaryView;
-
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
@@ -96,7 +92,50 @@ function AnimalInventory({
 
   const { inventory, isLoading } = useAnimalInventory();
 
-  const filteredInventory = useFilteredInventory(inventory, isSummaryView, selectedInventoryIds);
+  const viewConfig = () => {
+    switch (view) {
+      case View.TASK:
+        return {
+          showOnlySelected: false,
+          showDetailLink: false,
+          showPaperBorder: true,
+          headerContainerKind: ContainerKind.PAPER,
+          wrapperClass: styles.taskViewMaxHeight,
+          showActionMenu: false,
+          showKPI: false,
+        };
+      case View.TASK_SUMMARY:
+        return {
+          showOnlySelected: true,
+          showDetailLink: false,
+          headerContainerKind: ContainerKind.OVERFLOW,
+          wrapperClass: styles.summaryViewHeight,
+          showActionMenu: false,
+          showKPI: false,
+        };
+      default:
+        return {
+          showOnlySelected: false,
+          showDetailLink: true,
+          showPaperBorder: true,
+          headerContainerKind: ContainerKind.PAPER,
+          wrapperClass: undefined,
+          showActionMenu: isAdmin && selectedInventoryIds.length,
+          showKPI: true,
+        };
+    }
+  };
+
+  const {
+    showOnlySelected,
+    showDetailLink,
+    headerContainerKind,
+    wrapperClass,
+    showActionMenu,
+    showKPI,
+  } = viewConfig();
+
+  const filteredInventory = useFilteredInventory(inventory, showOnlySelected, selectedInventoryIds);
 
   const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('animals'));
   const dispatch = useDispatch();
@@ -153,7 +192,7 @@ function AnimalInventory({
         sortable: false,
       },
       {
-        id: !isTaskView ? 'path' : null,
+        id: showDetailLink ? 'path' : null,
         label: '',
         format: (d: AnimalInventoryType) => (
           <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />
@@ -264,15 +303,9 @@ function AnimalInventory({
 
   return (
     <FixedHeaderContainer
-      header={
-        !isTaskView ? <KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} /> : null
-      }
-      classes={{ paper: isSummaryView ? styles.hidePaperBorder : styles.paper }}
-      kind={ContainerKind.PAPER}
-      wrapperClassName={clsx(
-        isTaskInventoryView && styles.taskViewMaxHeight,
-        isSummaryView && styles.summaryViewHeight,
-      )}
+      header={showKPI ? <KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} /> : null}
+      classes={{ paper: styles.paper, divWrapper: styles.divWrapper, wrapper: wrapperClass }}
+      kind={headerContainerKind}
     >
       <PureAnimalInventory
         filteredInventory={searchAndFilteredInventory}
@@ -292,7 +325,7 @@ function AnimalInventory({
         onRowClick={onRowClick}
         view={view}
       />
-      {isAdmin && selectedInventoryIds.length && !isTaskView ? (
+      {showActionMenu ? (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
           <ActionMenu
             headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}

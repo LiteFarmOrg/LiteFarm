@@ -30,6 +30,7 @@ import clsx from 'clsx';
 import { sumObjectValues } from '../../../util';
 import { useTranslation } from 'react-i18next';
 import { ADD_ANIMALS_URL } from '../../../util/siteMapConstants';
+import { View } from '../../../containers/Animals/Inventory';
 
 const HEIGHTS = {
   filterAndSearch: 64,
@@ -61,6 +62,7 @@ const PureAnimalInventory = ({
   containerHeight,
   isAdmin,
   history,
+  view = View.DEFAULT,
 }: {
   filteredInventory: AnimalInventory[];
   animalsColumns: TableV2Column[];
@@ -69,7 +71,7 @@ const PureAnimalInventory = ({
   searchProps: SearchProps;
   onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
   handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
-  onRowClick: (event: ChangeEvent, row: AnimalInventory) => void;
+  onRowClick: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
   selectedIds: string[];
   totalInventoryCount: number;
   isFilterActive: boolean;
@@ -78,9 +80,10 @@ const PureAnimalInventory = ({
   containerHeight?: number;
   isAdmin: boolean;
   history: History;
+  view?: View;
 }) => {
   const { t } = useTranslation();
-
+  const isTaskView = view === View.TASK;
   if (isLoading) {
     return null;
   }
@@ -89,6 +92,7 @@ const PureAnimalInventory = ({
   const hasSearchResults = filteredInventory.length !== 0;
 
   const tableMaxHeight = !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight;
+  const tableSpacerRowHeight = !isTaskView ? (isDesktop ? 96 : 120) : 0;
 
   return (
     <>
@@ -141,7 +145,7 @@ const PureAnimalInventory = ({
             selectedIds={isAdmin ? selectedIds : undefined}
             stickyHeader={isDesktop}
             maxHeight={tableMaxHeight}
-            spacerRowHeight={isDesktop ? 96 : 120}
+            spacerRowHeight={tableSpacerRowHeight}
             headerClass={styles.headerClass}
             onRowClick={onRowClick}
           />
@@ -153,7 +157,7 @@ const PureAnimalInventory = ({
           />
         )}
       </div>
-      {isAdmin && (
+      {isAdmin && !isTaskView && (
         <FloatingButtonMenu
           type={'add'}
           options={[

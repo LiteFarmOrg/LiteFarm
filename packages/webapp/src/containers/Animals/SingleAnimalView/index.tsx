@@ -177,9 +177,12 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
     () => ({}),
   );
 
-  const onConfirmRemoval = (formData: FormFields) => {
-    onConfirmRemoveAnimals(formData);
-    history.back();
+  const onConfirmRemoval = async (formData: FormFields) => {
+    const result = await onConfirmRemoveAnimals(formData);
+
+    if (!result.error) {
+      history.back();
+    }
   };
 
   return (

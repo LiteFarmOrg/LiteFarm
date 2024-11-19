@@ -1,11 +1,11 @@
-import Form from '../Form';
-import Button from '../Form/Button';
-import { ReactComponent as AddFile } from './../../assets/images/help/AddFile.svg';
-import React, { useEffect, useState } from 'react';
-import { Error } from '../Typography';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import styles from './styles.module.scss';
+import Form from '../Form';
+import Button from '../Form/Button';
+import { Error } from '../Typography';
 import ReactSelect from '../Form/ReactSelect';
 import TextArea from '../Form/TextArea';
 import Input from '../Form/Input';
@@ -24,7 +24,9 @@ export default function PureHelpRequestPage({
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const { register, handleSubmit, watch, control, setValue, formState } = useForm({
     mode: 'onTouched',
-    defaultValues: { contact_method: 'email' },
+    defaultValues: {
+      contact_method: 'email',
+    },
   });
 
   const { errors } = formState;
@@ -148,4 +150,8 @@ export default function PureHelpRequestPage({
 
 PureHelpRequestPage.prototype = {
   onSubmit: PropTypes.func,
+  onCancel: PropTypes.func,
+  email: PropTypes.string,
+  phone_number: PropTypes.string,
+  isLoading: PropTypes.bool,
 };

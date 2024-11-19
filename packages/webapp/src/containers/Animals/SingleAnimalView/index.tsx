@@ -101,6 +101,8 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
     location,
   });
 
+  const isRemoved = !!defaultFormValues.animal_removal_reason_id;
+
   useEffect(() => {
     if (!selectedAnimal && !selectedBatch) {
       history.replace('/unknown_record');
@@ -193,6 +195,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
           <>
             {defaultFormValues && (
               <AnimalSingleViewHeader
+                hideMenu={isRemoved}
                 onEdit={initiateEdit}
                 onRemove={() => setRemovalModalOpen(true)}
                 isEditing={isEditing}

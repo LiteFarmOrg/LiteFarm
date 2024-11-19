@@ -42,6 +42,9 @@ import {
 import { Animal, AnimalBatch } from '../../../store/api/types';
 import { AnimalOrBatchKeys } from '../types';
 import { AnimalDetailsFormFields } from '../AddAnimals/types';
+import RemoveAnimalsModal, { FormFields } from '../../../components/Animals/RemoveAnimalsModal';
+import useAnimalOrBatchRemoval from '../Inventory/useAnimalOrBatchRemoval';
+import { generateInventoryId } from '../../../util/animal';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -154,6 +157,25 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
     onGoForward();
   };
 
+  const getInventoryId = () => {
+    if (!selectedAnimal && !selectedBatch) {
+      return '';
+    }
+
+    const animalOrBatch = AnimalOrBatchKeys[selectedAnimal ? 'ANIMAL' : 'BATCH'];
+    return generateInventoryId(animalOrBatch, (selectedAnimal || selectedBatch)!);
+  };
+
+  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen } = useAnimalOrBatchRemoval(
+    [getInventoryId()],
+    () => ({}),
+  );
+
+  const onConfirmRemoval = (formData: FormFields) => {
+    onConfirmRemoveAnimals(formData);
+    history.push('/animals/inventory');
+  };
+
   return (
     <div className={styles.container}>
       <FixedHeaderContainer
@@ -163,6 +185,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
             {defaultFormValues && (
               <AnimalSingleViewHeader
                 onEdit={initiateEdit}
+                onRemove={() => setRemovalModalOpen(true)}
                 isEditing={isEditing}
                 onBack={() => history.push('/animals/inventory')}
                 /* @ts-ignore */
@@ -193,6 +216,12 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
           cancelModalTitle={t('ANIMAL.EDIT_ANIMAL_FLOW')}
           isEditing={isEditing}
           setIsEditing={setIsEditing}
+        />
+        <RemoveAnimalsModal
+          isOpen={removalModalOpen}
+          onClose={() => setRemovalModalOpen(false)}
+          onConfirm={onConfirmRemoval}
+          showSuccessMessage={false}
         />
       </FixedHeaderContainer>
     </div>

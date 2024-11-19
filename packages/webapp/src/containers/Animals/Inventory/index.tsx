@@ -58,6 +58,10 @@ interface AnimalInventoryProps {
   history: History;
 }
 
+interface ExpandableAnimalInventoryProps extends AnimalInventoryProps {
+  preSelectedIds: string[];
+}
+
 const getVisibleSelectedIds = (visibleRowData: AnimalInventoryType[], selectedIds: string[]) => {
   if (!visibleRowData.length || !selectedIds.length) {
     return [];
@@ -307,17 +311,26 @@ function AnimalInventory({
   );
 }
 
-export function ExpandableAnimalInventory(props: AnimalInventoryProps) {
+export function ExpandableAnimalInventory(props: ExpandableAnimalInventoryProps) {
+  const { t } = useTranslation();
+  const { inventory } = useAnimalInventory();
+  const animalCount = props.preSelectedIds.reduce((acc, cur) => {
+    return acc + (inventory.find((animalOrBatch) => animalOrBatch.id === cur)?.count || 0);
+  }, 0);
+
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const isExpanded = expandedIds.includes(1);
   return (
     <div className={clsx(styles.section)}>
-      {/* @ts-ignore */}
       <ExpandableItem
         isExpanded={isExpanded}
         onClick={() => toggleExpanded(1)}
-        mainContent={<div className={styles.blueColor}>See detail list of animals to move</div>}
-        pillBody={'5 animals'}
+        mainContent={
+          <div className={styles.blueColor}>
+            {t('TASK.ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE')}
+          </div>
+        }
+        pillBody={t('ANIMAL.ANIMAL_COUNT', { count: animalCount })}
         expandedContent={
           <div className={styles.expandedContentWrapper}>
             <AnimalInventory {...props} />

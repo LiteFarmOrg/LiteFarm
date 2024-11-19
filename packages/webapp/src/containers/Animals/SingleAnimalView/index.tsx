@@ -173,7 +173,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
 
   const onConfirmRemoval = (formData: FormFields) => {
     onConfirmRemoveAnimals(formData);
-    history.push('/animals/inventory');
+    history.back();
   };
 
   return (
@@ -187,7 +187,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
                 onEdit={initiateEdit}
                 onRemove={() => setRemovalModalOpen(true)}
                 isEditing={isEditing}
-                onBack={() => history.push('/animals/inventory')}
+                onBack={history.back}
                 /* @ts-ignore */
                 animalOrBatch={defaultFormValues}
                 defaultBreeds={defaultAnimalBreeds}

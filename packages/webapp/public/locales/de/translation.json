@@ -1805,6 +1805,7 @@
     "ADD_TASK": "Erstellen Sie eine Aufgabe",
     "ADD_TASK_FLOW": "Aufgabenerstellung",
     "AMOUNT_TO_ALLOCATE": "Zuzuweisender Betrag",
+    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "Mehrere Kulturpflanzen",
       "MULTIPLE_LOCATIONS": "Mehrere Standorte"

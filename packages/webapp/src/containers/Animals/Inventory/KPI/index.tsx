@@ -14,7 +14,7 @@
  */
 
 import { useMemo } from 'react';
-import { useTranslation, TFunction } from 'react-i18next';
+import { useTranslation, TFunction, Trans } from 'react-i18next';
 import {
   useGetDefaultAnimalTypesQuery,
   useGetCustomAnimalTypesQuery,
@@ -25,6 +25,7 @@ import { CustomAnimalType, DefaultAnimalType } from '../../../../store/api/types
 import { getComparator } from '../../../../util/sort';
 import { generateUniqueAnimalId } from '../../../../util/animal';
 import { isAnimalTypeIconKey } from '../../../../components/Icons/icons';
+import Badge from '../../../../components/Badge';
 
 const formatAnimalTypes = (
   types: (DefaultAnimalType | CustomAnimalType)[],
@@ -74,10 +75,21 @@ function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
     return types;
   }, [data, isLoading, onTypeClick]);
 
+  const animalInventoryTitle = (
+    <>
+      <Badge
+        position="left"
+        title={t('BADGE.BETA.TITLE')}
+        content={<Trans i18nKey={'BADGE.BETA.CONTENT'} components={{ a: <a href="#" /> }} />}
+      />
+      {t('SECTION_HEADER.ANIMALS_INVENTORY')}
+    </>
+  );
+
   return (
     <PureTileDashboard
       typeCountTiles={types}
-      dashboardTitle={t('SECTION_HEADER.ANIMALS_INVENTORY')}
+      dashboardTitle={animalInventoryTitle}
       categoryLabel={t('common:TYPES')}
       selectedFilterIds={selectedTypeIds}
     />

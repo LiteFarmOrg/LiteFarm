@@ -1910,5 +1910,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "വർഷം തിരഞ്ഞെടുക്കുക"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "MISSING",
+      "CONTENT": "MISSING"
+    }
   }
 }

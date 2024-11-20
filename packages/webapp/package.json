@@ -8,8 +8,8 @@
     "build": "tsc && NODE_OPTIONS=--max_old_space_size=3000 vite build",
     "preview": "vite preview",
     "lint": "eslint src",
-    "i18n": "npx i18next 'src/**/*.{js,jsx,ts,tsx}' -c src/locales/i18next-parser.config.cjs",
-    "format": "npx prettier --write ./src",
+    "i18n": "pnpm exec i18next 'src/**/*.{js,jsx,ts,tsx}' -c src/locales/i18next-parser.config.cjs",
+    "format": "pnpm exec prettier --write ./src",
     "storybook": "storybook dev -p 6006 public",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
@@ -121,18 +121,10 @@
     "react-select-event": "^5.5.1",
     "sass": "^1.56.1",
     "storybook": "^8.2.8",
-    "typescript": "^4.9.5",
     "vite": "^4.5.5",
     "vite-plugin-istanbul": "^4.0.0",
     "vite-plugin-pwa": "^0.14.3",
     "vite-plugin-svgr": "^2.4.0",
     "vitest": "^0.34.5"
-  },
-  "pnpm": {
-    "overrides": {
-      "trim@<0.0.3": ">=0.0.3",
-      "glob-parent@<5.1.2": ">=5.1.2",
-      "semver@<7.5.2": ">=7.5.2"
-    }
   }
 }

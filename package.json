@@ -1,9 +1,13 @@
 {
+  "engines": {
+    "node": "20.18",
+    "pnpm": ">=9"
+  },
   "devDependencies": {
     "husky": "^7.0.4",
-    "lerna": "^5.0.0",
     "lint-staged": "^13.2.2",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "typescript": "^5.6.3"
   },
   "scripts": {
     "test": "lerna run test",
@@ -24,5 +28,12 @@
     "verbose": true,
     "testURL": "http://localhost/",
     "testEnvironment": "node"
+  },
+  "pnpm": {
+    "overrides": {
+      "trim@<0.0.3": ">=0.0.3",
+      "glob-parent@<5.1.2": ">=5.1.2",
+      "semver@<7.5.2": ">=7.5.2"
+    }
   }
 }

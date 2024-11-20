@@ -7,7 +7,7 @@ describe('Factories tests', () => {
   const tableNames = factories.map((factoryName) => factoryName.replace('Factory', ''));
 
   tableNames.map((tableName, i) => {
-    test(`should create one row of ${tableName} using its factory`, async (done) => {
+    test(`should create one row of ${tableName} using its factory`, async () => {
       const [result] = await mocks[factories[i]](); // factories[i] will be the table name factory as defined in the mock.factories
       expect(result).toBeDefined();
       const ids = Object.keys(result).reduce(
@@ -16,15 +16,13 @@ describe('Factories tests', () => {
       );
       const checker = await knex(tableName).where(ids);
       expect(checker.length).toBe(1);
-      done();
     });
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     try {
       await tableCleanup(knex);
       await knex.destroy();
-      done();
     } catch (e) {
       console.log(e);
       console.log('Failed cleanup');

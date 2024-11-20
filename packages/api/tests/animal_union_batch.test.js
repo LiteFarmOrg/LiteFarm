@@ -66,14 +66,12 @@ const patchBatches = async (user_id, farm_id, data) => {
 };
 
 describe('Animal Union Batch Tests', () => {
-  afterEach(async (done) => {
+  afterEach(async () => {
     await tableCleanup(knex);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await knex.destroy();
-    done();
   });
 
   // MODEL TESTS

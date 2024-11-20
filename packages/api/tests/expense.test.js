@@ -44,60 +44,47 @@ describe('Expense Tests', () => {
 
   // FUNCTIONS
 
-  function postExpenseRequest(
-    data,
-    { user_id = newOwner.user_id, farm_id = farm.farm_id },
-    callback,
-  ) {
-    chai
+  function postExpenseRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .post(`/expense/farm/${farm_id}`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
 
-  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .get(`/expense/farm/${farm_id}`)
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
 
-  function deleteRequest(
-    farm_expense_id,
-    { user_id = newOwner.user_id, farm_id = farm.farm_id },
-    callback,
-  ) {
-    chai
+  function deleteRequest(farm_expense_id, { user_id = newOwner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .delete(`/expense/${farm_expense_id}`)
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
 
   function patchRequest(
     data,
     farm_expense_id,
     { user_id = newOwner.user_id, farm_id = farm.farm_id },
-    callback,
   ) {
-    chai
+    return chai
       .request(server)
       .patch(`/expense/${farm_expense_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
 
   async function returnUserFarms(role) {
@@ -139,85 +126,75 @@ describe('Expense Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   // POST TESTS
 
   describe('Post expense tests', () => {
-    test('Owner should post expense', async (done) => {
+    test('Owner should post expense', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const { expense_type } = await returnExpenseType(mainFarm);
       const expense = getFakeExpense(expense_type.expense_type_id, mainFarm.farm_id);
       const expensesArray = [];
       expensesArray.push(expense);
 
-      postExpenseRequest(
-        expensesArray,
-        { user_id: user.user_id, farm_id: mainFarm.farm_id },
-        async (err, res) => {
-          expect(res.status).toBe(201);
-          const expenses = await farmExpenseModel
-            .query()
-            .context({ showHidden: true })
-            .where('farm_id', mainFarm.farm_id);
-          expect(expenses.length).toBe(1);
-          expect(expenses[0].value).toBe(expense.value);
-          done();
-        },
-      );
+      const res = await postExpenseRequest(expensesArray, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(201);
+      const expenses = await farmExpenseModel
+        .query()
+        .context({ showHidden: true })
+        .where('farm_id', mainFarm.farm_id);
+      expect(expenses.length).toBe(1);
+      expect(expenses[0].value).toBe(expense.value);
     });
 
-    test('Manager should post expense', async (done) => {
+    test('Manager should post expense', async () => {
       const { mainFarm, user } = await returnUserFarms(2);
       const { expense_type } = await returnExpenseType(mainFarm);
       const expense = getFakeExpense(expense_type.expense_type_id, mainFarm.farm_id);
       const expensesArray = [];
       expensesArray.push(expense);
 
-      postExpenseRequest(
-        expensesArray,
-        { user_id: user.user_id, farm_id: mainFarm.farm_id },
-        async (err, res) => {
-          expect(res.status).toBe(201);
-          const expenses = await farmExpenseModel
-            .query()
-            .context({ showHidden: true })
-            .where('farm_id', mainFarm.farm_id);
-          expect(expenses.length).toBe(1);
-          expect(expenses[0].value).toBe(expense.value);
-          done();
-        },
-      );
+      const res = await postExpenseRequest(expensesArray, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(201);
+      const expenses = await farmExpenseModel
+        .query()
+        .context({ showHidden: true })
+        .where('farm_id', mainFarm.farm_id);
+      expect(expenses.length).toBe(1);
+      expect(expenses[0].value).toBe(expense.value);
     });
 
-    test('Worker should post expense', async (done) => {
+    test('Worker should post expense', async () => {
       const { mainFarm, user } = await returnUserFarms(3);
       const { expense_type } = await returnExpenseType(mainFarm);
       const expense = getFakeExpense(expense_type.expense_type_id, mainFarm.farm_id);
       const expensesArray = [];
       expensesArray.push(expense);
 
-      postExpenseRequest(
-        expensesArray,
-        { user_id: user.user_id, farm_id: mainFarm.farm_id },
-        async (err, res) => {
-          expect(res.status).toBe(201);
-          const expenses = await farmExpenseModel
-            .query()
-            .context({ showHidden: true })
-            .where('farm_id', mainFarm.farm_id);
-          expect(expenses.length).toBe(1);
-          expect(expenses[0].value).toBe(expense.value);
-          done();
-        },
-      );
+      const res = await postExpenseRequest(expensesArray, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+      expect(res.status).toBe(201);
+      const expenses = await farmExpenseModel
+        .query()
+        .context({ showHidden: true })
+        .where('farm_id', mainFarm.farm_id);
+      expect(expenses.length).toBe(1);
+      expect(expenses[0].value).toBe(expense.value);
     });
 
-    test('Should return 403 when unauthorized user tries to post expense', async (done) => {
+    test('Should return 403 when unauthorized user tries to post expense', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const { expense_type } = await returnExpenseType(mainFarm);
       const [unAuthorizedUser] = await mocks.usersFactory();
@@ -225,125 +202,107 @@ describe('Expense Tests', () => {
       const expensesArray = [];
       expensesArray.push(expense);
 
-      postExpenseRequest(
-        expensesArray,
-        {
-          user_id: unAuthorizedUser.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          expect(res.error.text).toBe(
-            'User does not have the following permission(s): add:expenses',
-          );
-          done();
-        },
-      );
+      const res = await postExpenseRequest(expensesArray, {
+        user_id: unAuthorizedUser.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe('User does not have the following permission(s): add:expenses');
     });
   });
 
   // GET TESTS
 
   describe('Get expense tests', () => {
-    test('Owner should get expense by farm id', async (done) => {
+    test('Owner should get expense by farm id', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const { expense } = await returnExpense(user, mainFarm);
 
-      getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body[0].farm_id).toBe(expense.farm_id);
-        done();
-      });
+      const res = await getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id });
+      expect(res.status).toBe(200);
+      expect(res.body[0].farm_id).toBe(expense.farm_id);
     });
-    test('Manager should get expense by farm id', async (done) => {
+    test('Manager should get expense by farm id', async () => {
       const { mainFarm, user } = await returnUserFarms(2);
       const { expense } = await returnExpense(user, mainFarm);
 
-      getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body[0].farm_id).toBe(expense.farm_id);
-        done();
-      });
+      const res = await getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id });
+      expect(res.status).toBe(200);
+      expect(res.body[0].farm_id).toBe(expense.farm_id);
     });
-    test('ManWorkerager should get expense by farm id', async (done) => {
+    test('ManWorkerager should get expense by farm id', async () => {
       const { mainFarm, user } = await returnUserFarms(3);
       const { expense } = await returnExpense(user, mainFarm);
 
-      getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body[0].farm_id).toBe(expense.farm_id);
-        done();
-      });
+      const res = await getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id });
+      expect(res.status).toBe(200);
+      expect(res.body[0].farm_id).toBe(expense.farm_id);
     });
-    test('Should get status 403 if an unauthorizedUser tries to get expense by farm id', async (done) => {
+    test('Should get status 403 if an unauthorizedUser tries to get expense by farm id', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const [unAuthorizedUser] = await mocks.usersFactory();
-      getRequest({ user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
-        expect(res.status).toBe(403);
-        expect(res.error.text).toBe('User does not have the following permission(s): get:expenses');
-        done();
+      const res = await getRequest({
+        user_id: unAuthorizedUser.user_id,
+        farm_id: mainFarm.farm_id,
       });
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe('User does not have the following permission(s): get:expenses');
     });
   });
 
   // DELETE TESTS
 
   describe('Delete expense tests', () => {
-    test('Owner should delete their expense', async (done) => {
+    test('Owner should delete their expense', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const { expense } = await returnExpense(user, mainFarm);
 
-      deleteRequest(
-        expense.farm_expense_id,
-        { user_id: user.user_id, farm_id: mainFarm.farm_id },
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const [deletedField] = await farmExpenseModel
-            .query()
-            .context({ showHidden: true })
-            .where('farm_expense_id', expense.farm_expense_id);
-          expect(deletedField.deleted).toBe(true);
-          done();
-        },
-      );
+      const res = await deleteRequest(expense.farm_expense_id, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(200);
+      const [deletedField] = await farmExpenseModel
+        .query()
+        .context({ showHidden: true })
+        .where('farm_expense_id', expense.farm_expense_id);
+      expect(deletedField.deleted).toBe(true);
     });
-    test('Manager should delete their expense', async (done) => {
+    test('Manager should delete their expense', async () => {
       const { mainFarm, user } = await returnUserFarms(2);
       const { expense } = await returnExpense(user, mainFarm);
 
-      deleteRequest(
-        expense.farm_expense_id,
-        { user_id: user.user_id, farm_id: mainFarm.farm_id },
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const [deletedField] = await farmExpenseModel
-            .query()
-            .context({ showHidden: true })
-            .where('farm_expense_id', expense.farm_expense_id);
-          expect(deletedField.deleted).toBe(true);
-          done();
-        },
-      );
+      const res = await deleteRequest(expense.farm_expense_id, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(200);
+      const [deletedField] = await farmExpenseModel
+        .query()
+        .context({ showHidden: true })
+        .where('farm_expense_id', expense.farm_expense_id);
+      expect(deletedField.deleted).toBe(true);
     });
-    test('Worker should delete their own expense', async (done) => {
+    test('Worker should delete their own expense', async () => {
       const { mainFarm, user } = await returnUserFarms(3);
       const { expense } = await returnExpense(user, mainFarm);
 
-      deleteRequest(
-        expense.farm_expense_id,
-        { user_id: user.user_id, farm_id: mainFarm.farm_id },
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const [deletedField] = await farmExpenseModel
-            .query()
-            .context({ showHidden: true })
-            .where('farm_expense_id', expense.farm_expense_id);
-          expect(deletedField.deleted).toBe(true);
-          done();
-        },
-      );
+      const res = await deleteRequest(expense.farm_expense_id, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(200);
+      const [deletedField] = await farmExpenseModel
+        .query()
+        .context({ showHidden: true })
+        .where('farm_expense_id', expense.farm_expense_id);
+      expect(deletedField.deleted).toBe(true);
     });
-    test("Worker should get 403 if they try to delete another user's expense", async (done) => {
+    test("Worker should get 403 if they try to delete another user's expense", async () => {
       const { mainFarm, user } = await returnUserFarms(3);
       const [otherUser] = await mocks.usersFactory();
       const [otherUserFarm] = await mocks.userFarmFactory(
@@ -355,40 +314,33 @@ describe('Expense Tests', () => {
       );
       const { expense } = await returnExpense(otherUser, mainFarm);
 
-      deleteRequest(
-        expense.farm_expense_id,
-        { user_id: user.user_id, farm_id: mainFarm.farm_id },
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          expect(res.error.text).toBe('user not authorized to access record they did not create');
-          done();
-        },
-      );
+      const res = await deleteRequest(expense.farm_expense_id, {
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe('user not authorized to access record they did not create');
     });
-    test('Unauthorized user should get 403 if they try to delete their expense', async (done) => {
+    test('Unauthorized user should get 403 if they try to delete their expense', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const [unAuthorizedUser] = await mocks.usersFactory();
       const { expense } = await returnExpense(user, mainFarm);
 
-      deleteRequest(
-        expense.farm_expense_id,
-        {
-          user_id: unAuthorizedUser.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          expect(res.error.text).toBe(
-            'User does not have the following permission(s): delete:expenses',
-          );
-          done();
-        },
+      const res = await deleteRequest(expense.farm_expense_id, {
+        user_id: unAuthorizedUser.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe(
+        'User does not have the following permission(s): delete:expenses',
       );
     });
   });
 
   describe('Patch expense tests', () => {
-    test('Owner should patch their expense', async (done) => {
+    test('Owner should patch their expense', async () => {
       const { mainFarm, user: owner } = await returnUserFarms(1);
       const { expense } = await returnExpense(owner, mainFarm);
 
@@ -397,26 +349,20 @@ describe('Expense Tests', () => {
         note: 'patched in note',
       };
 
-      patchRequest(
-        patchData,
-        expense.farm_expense_id,
-        {
-          user_id: owner.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const [updatedField] = await farmExpenseModel
-            .query()
-            .where('farm_expense_id', expense.farm_expense_id);
-          expect(updatedField.value).toBe(patchData.value);
-          expect(updatedField.note).toBe(patchData.note);
-          done();
-        },
-      );
+      const res = await patchRequest(patchData, expense.farm_expense_id, {
+        user_id: owner.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(200);
+      const [updatedField] = await farmExpenseModel
+        .query()
+        .where('farm_expense_id', expense.farm_expense_id);
+      expect(updatedField.value).toBe(patchData.value);
+      expect(updatedField.note).toBe(patchData.note);
     });
 
-    test("Owner should patch another user's expense", async (done) => {
+    test("Owner should patch another user's expense", async () => {
       const { mainFarm, user: owner } = await returnUserFarms(1);
       const [otherUser] = await mocks.usersFactory();
       const [otherUserFarm] = await mocks.userFarmFactory(
@@ -433,26 +379,20 @@ describe('Expense Tests', () => {
         note: 'patched in note',
       };
 
-      patchRequest(
-        patchData,
-        expense.farm_expense_id,
-        {
-          user_id: owner.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const [updatedField] = await farmExpenseModel
-            .query()
-            .where('farm_expense_id', expense.farm_expense_id);
-          expect(updatedField.value).toBe(patchData.value);
-          expect(updatedField.note).toBe(patchData.note);
-          done();
-        },
-      );
+      const res = await patchRequest(patchData, expense.farm_expense_id, {
+        user_id: owner.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(200);
+      const [updatedField] = await farmExpenseModel
+        .query()
+        .where('farm_expense_id', expense.farm_expense_id);
+      expect(updatedField.value).toBe(patchData.value);
+      expect(updatedField.note).toBe(patchData.note);
     });
 
-    test('Manager should patch their expense', async (done) => {
+    test('Manager should patch their expense', async () => {
       const { mainFarm, user: manager } = await returnUserFarms(2);
       const { expense } = await returnExpense(manager, mainFarm);
 
@@ -461,26 +401,20 @@ describe('Expense Tests', () => {
         note: 'patched in note',
       };
 
-      patchRequest(
-        patchData,
-        expense.farm_expense_id,
-        {
-          user_id: manager.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const [updatedField] = await farmExpenseModel
-            .query()
-            .where('farm_expense_id', expense.farm_expense_id);
-          expect(updatedField.value).toBe(patchData.value);
-          expect(updatedField.note).toBe(patchData.note);
-          done();
-        },
-      );
+      const res = await patchRequest(patchData, expense.farm_expense_id, {
+        user_id: manager.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(200);
+      const [updatedField] = await farmExpenseModel
+        .query()
+        .where('farm_expense_id', expense.farm_expense_id);
+      expect(updatedField.value).toBe(patchData.value);
+      expect(updatedField.note).toBe(patchData.note);
     });
 
-    test("Manager should patch another user's expense", async (done) => {
+    test("Manager should patch another user's expense", async () => {
       const { mainFarm, user: manager } = await returnUserFarms(2);
       const [otherUser] = await mocks.usersFactory();
       const [otherUserFarm] = await mocks.userFarmFactory(
@@ -497,26 +431,20 @@ describe('Expense Tests', () => {
         note: 'patched in note',
       };
 
-      patchRequest(
-        patchData,
-        expense.farm_expense_id,
-        {
-          user_id: manager.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const [updatedField] = await farmExpenseModel
-            .query()
-            .where('farm_expense_id', expense.farm_expense_id);
-          expect(updatedField.value).toBe(patchData.value);
-          expect(updatedField.note).toBe(patchData.note);
-          done();
-        },
-      );
+      const res = await patchRequest(patchData, expense.farm_expense_id, {
+        user_id: manager.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(200);
+      const [updatedField] = await farmExpenseModel
+        .query()
+        .where('farm_expense_id', expense.farm_expense_id);
+      expect(updatedField.value).toBe(patchData.value);
+      expect(updatedField.note).toBe(patchData.note);
     });
 
-    test('Worker should patch their own expense', async (done) => {
+    test('Worker should patch their own expense', async () => {
       const { mainFarm, user: worker } = await returnUserFarms(3);
       const { expense } = await returnExpense(worker, mainFarm);
 
@@ -525,26 +453,20 @@ describe('Expense Tests', () => {
         note: 'patched in note',
       };
 
-      patchRequest(
-        patchData,
-        expense.farm_expense_id,
-        {
-          user_id: worker.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        async (err, res) => {
-          expect(res.status).toBe(200);
-          const [updatedField] = await farmExpenseModel
-            .query()
-            .where('farm_expense_id', expense.farm_expense_id);
-          expect(updatedField.value).toBe(patchData.value);
-          expect(updatedField.note).toBe(patchData.note);
-          done();
-        },
-      );
+      const res = await patchRequest(patchData, expense.farm_expense_id, {
+        user_id: worker.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(200);
+      const [updatedField] = await farmExpenseModel
+        .query()
+        .where('farm_expense_id', expense.farm_expense_id);
+      expect(updatedField.value).toBe(patchData.value);
+      expect(updatedField.note).toBe(patchData.note);
     });
 
-    test("Worker should get 403 if they try to patch another user's expense", async (done) => {
+    test("Worker should get 403 if they try to patch another user's expense", async () => {
       const { mainFarm, user: worker } = await returnUserFarms(3);
       const [otherUser] = await mocks.usersFactory();
       const [otherUserFarm] = await mocks.userFarmFactory(
@@ -561,22 +483,16 @@ describe('Expense Tests', () => {
         note: 'patched in note',
       };
 
-      patchRequest(
-        patchData,
-        expense.farm_expense_id,
-        {
-          user_id: worker.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          expect(res.error.text).toBe('user not authorized to access record they did not create');
-          done();
-        },
-      );
+      const res = await patchRequest(patchData, expense.farm_expense_id, {
+        user_id: worker.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe('user not authorized to access record they did not create');
     });
 
-    test('Unauthorized user should get 403 if they try to patch expense', async (done) => {
+    test('Unauthorized user should get 403 if they try to patch expense', async () => {
       const { mainFarm, user: owner } = await returnUserFarms(1);
       const [unauthorizedUser] = await mocks.usersFactory();
       const { expense } = await returnExpense(owner, mainFarm);
@@ -586,20 +502,14 @@ describe('Expense Tests', () => {
         note: 'patched in note',
       };
 
-      patchRequest(
-        patchData,
-        expense.farm_expense_id,
-        {
-          user_id: unauthorizedUser.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        async (err, res) => {
-          expect(res.status).toBe(403);
-          expect(res.error.text).toBe(
-            'User does not have the following permission(s): delete:expenses',
-          );
-          done();
-        },
+      const res = await patchRequest(patchData, expense.farm_expense_id, {
+        user_id: unauthorizedUser.user_id,
+        farm_id: mainFarm.farm_id,
+      });
+
+      expect(res.status).toBe(403);
+      expect(res.error.text).toBe(
+        'User does not have the following permission(s): delete:expenses',
       );
     });
   });

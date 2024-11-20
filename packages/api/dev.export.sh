@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-npm install
+pnpm install
 
 cp ../webapp/public/locales/en/crop.json src/jobs/locales/en
 cp ../webapp/public/locales/es/crop.json src/jobs/locales/es
@@ -15,4 +15,4 @@ cp ../webapp/public/locales/ml/crop.json src/jobs/locales/ml
 # Give nodemon time to restart the API
 sleep 10
 
-npx nodemon --inspect=0.0.0.0:9229 src/jobs/index.js
+pnpm dlx nodemon --inspect=0.0.0.0:9229 src/jobs/index.js

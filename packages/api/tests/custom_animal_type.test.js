@@ -42,10 +42,9 @@ describe('Custom Animal Type Tests', () => {
     token = global.token;
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   async function getRequest({ user_id, farm_id }, query = '') {
@@ -56,18 +55,15 @@ describe('Custom Animal Type Tests', () => {
       .set('farm_id', farm_id);
   }
 
-  function postRequest(data, { user_id, farm_id }, callback) {
-    chai
+  function postRequest(data, { user_id, farm_id }) {
+    return chai
       .request(server)
       .post(`/custom_animal_types`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
-
-  const postRequestAsPromise = util.promisify(postRequest);
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
@@ -271,7 +267,7 @@ describe('Custom Animal Type Tests', () => {
         const { mainFarm, user } = await returnUserFarms(role);
 
         const animal_type = mocks.fakeCustomAnimalType();
-        const res = await postRequestAsPromise(animal_type, {
+        const res = await postRequest(animal_type, {
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
         });
@@ -300,7 +296,7 @@ describe('Custom Animal Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(3);
 
       const animal_type = mocks.fakeCustomAnimalType();
-      const res = await postRequestAsPromise(animal_type, {
+      const res = await postRequest(animal_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -326,12 +322,12 @@ describe('Custom Animal Type Tests', () => {
 
       const animal_type = mocks.fakeCustomAnimalType();
 
-      await postRequestAsPromise(animal_type, {
+      await postRequest(animal_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
 
-      const res = await postRequestAsPromise(animal_type, {
+      const res = await postRequest(animal_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -354,7 +350,7 @@ describe('Custom Animal Type Tests', () => {
 
       const animal_type = mocks.fakeCustomAnimalType();
 
-      await postRequestAsPromise(animal_type, {
+      await postRequest(animal_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -366,7 +362,7 @@ describe('Custom Animal Type Tests', () => {
         .andWhere('type', animal_type.type)
         .delete();
 
-      const res = await postRequestAsPromise(animal_type, {
+      const res = await postRequest(animal_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });

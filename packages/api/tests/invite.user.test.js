@@ -24,21 +24,19 @@ import { tableCleanup } from './testEnvironment.js';
 describe('Invite user', () => {
   let axios;
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
-  function postCreateUser({ user_id, farm_id }, data, callback) {
-    chai
+  function postCreateUser({ user_id, farm_id }, data) {
+    return chai
       .request(server)
       .post('/user/invite')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .set('Content-Type', 'application/json')
-      .send(data)
-      .end(callback);
+      .send(data);
   }
 
   function fakeUser(farm_id, role_id) {
@@ -75,33 +73,27 @@ describe('Invite user', () => {
       });
     });
 
-    test('Owner should be able to invite a user', async (done) => {
-      postCreateUser({ user_id: user, farm_id: farm }, fakeUser(farm, 2), (err, res) => {
-        expect(res.status).toBe(201);
-        done();
-      });
+    test('Owner should be able to invite a user', async () => {
+      const res = await postCreateUser({ user_id: user, farm_id: farm }, fakeUser(farm, 2));
+      expect(res.status).toBe(201);
     });
 
-    test('Manager should be able to invite a user', async (done) => {
+    test('Manager should be able to invite a user', async () => {
       let [{ user_id }] = await mocks.userFarmFactory(
         { promisedFarm: [{ farm_id: farm }] },
         { role_id: 2, status: 'Active' },
       );
-      postCreateUser({ user_id, farm_id: farm }, fakeUser(farm, 2), (err, res) => {
-        expect(res.status).toBe(201);
-        done();
-      });
+      const res = await postCreateUser({ user_id, farm_id: farm }, fakeUser(farm, 2));
+      expect(res.status).toBe(201);
     });
 
-    test('Worker should fail to invite a user', async (done) => {
+    test('Worker should fail to invite a user', async () => {
       let [{ user_id }] = await mocks.userFarmFactory(
         { promisedFarm: [{ farm_id: farm }] },
         { role_id: 3, status: 'Active' },
       );
-      postCreateUser({ user_id, farm_id: farm }, fakeUser(farm, 3), (err, res) => {
-        expect(res.status).toBe(403);
-        done();
-      });
+      const res = await postCreateUser({ user_id, farm_id: farm }, fakeUser(farm, 3));
+      expect(res.status).toBe(403);
     });
   });
 });

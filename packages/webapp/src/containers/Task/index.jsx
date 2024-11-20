@@ -49,6 +49,7 @@ import { locationsSelector } from '../locationSlice';
 import Drawer from '../../components/Drawer';
 import FloatingActionButton from '../../components/Button/FloatingActionButton';
 import styles from './styles.module.scss';
+import LocationCreationModal from '../../components/LocationCreationModal';
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
@@ -72,6 +73,20 @@ export default function TaskPage({ history }) {
   };
   const onFilterOpen = () => {
     setIsFilterOpen(true);
+  };
+
+  const [createLocation, setCreateLocation] = useState(false);
+
+  const dismissLocationCreationModal = () => {
+    setCreateLocation(false);
+  };
+
+  const handleAddTask = () => {
+    if (locations.length) {
+      onAddTask(dispatch, history, {})();
+    } else {
+      setCreateLocation(true);
+    }
   };
 
   const taskTypes = useMemo(() => {
@@ -183,11 +198,7 @@ export default function TaskPage({ history }) {
           onFilterOpen={onFilterOpen}
           isFilterActive={isFilterCurrentlyActive}
         />
-        <TaskCount
-          count={taskCardContents.length}
-          handleAddTask={onAddTask(dispatch, history, {})}
-          isAdmin={isAdmin}
-        />
+        <TaskCount count={taskCardContents.length} />
         <Drawer title={t('TASK.FILTER.TITLE')} isOpen={isFilterOpen} onClose={onFilterClose}>
           <TasksFilterPage onGoBack={onFilterClose} />
         </Drawer>
@@ -216,8 +227,19 @@ export default function TaskPage({ history }) {
         )}
       </Layout>
 
+      {createLocation && (
+        <LocationCreationModal
+          title={t('LOCATION_CREATION.TASK_TITLE')}
+          body={
+            isAdmin ? t('LOCATION_CREATION.TASK_BODY') : t('LOCATION_CREATION.TASK_BODY_WORKER')
+          }
+          dismissModal={dismissLocationCreationModal}
+          isAdmin={isAdmin}
+        />
+      )}
+
       <div className={styles.buttonWrapper}>
-        <FloatingActionButton type={'add'} onClick={onAddTask(dispatch, history, {})} />
+        <FloatingActionButton type={'add'} onClick={handleAddTask} />
       </div>
     </>
   );

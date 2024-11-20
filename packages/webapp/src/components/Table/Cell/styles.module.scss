@@ -6,7 +6,8 @@
   font-weight: 400;
 }
 
-.overflowText, .overflowText div {
+.overflowText,
+.overflowText div {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -45,7 +46,6 @@
   width: 32px;
   padding: 4px;
   @include svgColorFill(var(--Colors-Primary-Primary-teal-300));
-  
 }
 
 .withSubtextText {
@@ -73,7 +73,7 @@
   padding: 4px;
   border-radius: 2px;
   background: var(--Colors-Accent---singles-Purple-light);
-  box-shadow: 1px 1px 0px 0px #FFF;
+  box-shadow: 1px 1px 0px 0px #fff;
   color: var(--Colors-Accent---singles-Purple-full);
   font-size: 12px;
   font-weight: 700;
@@ -83,8 +83,4 @@
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.italics {
-  font-style: italic;
 }

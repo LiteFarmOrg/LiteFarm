@@ -38,7 +38,7 @@ const Badge: React.FC<BadgeProps> = ({
   const [open, setOpen] = useState<boolean>(false);
   const [focus, setFocus] = useState<boolean>(false);
 
-  const handleTooltipCLick = (awayClicked?: boolean) => {
+  const handleTooltipClick = (awayClicked?: boolean) => {
     if (awayClicked) {
       setOpen(false);
       setFocus(false);
@@ -78,7 +78,7 @@ const Badge: React.FC<BadgeProps> = ({
   };
 
   return (
-    <ClickAwayListener onClickAway={() => handleTooltipCLick(true)}>
+    <ClickAwayListener onClickAway={() => handleTooltipClick(true)}>
       <Tooltip
         title={tooltipContent}
         open={open}
@@ -99,7 +99,7 @@ const Badge: React.FC<BadgeProps> = ({
           onClick={(e) => {
             if (showIcon) {
               e.stopPropagation();
-              handleTooltipCLick();
+              handleTooltipClick();
             }
           }} // Toggle on click for both desktop and mobile
         >

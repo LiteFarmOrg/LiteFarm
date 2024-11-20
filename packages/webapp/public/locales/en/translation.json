@@ -2065,7 +2065,7 @@
   "BADGE": {
     "BETA": {
       "TITLE": "Beta",
-      "CONTENT": "Get a sneak peek at our new animal management feature—now in beta! Your feedback is crucial as we refine this feature. Please share any bugs or suggestions you encounter. We appreciate your help in improving liteFarm! You can learn more about beta here <a>here</a>"
+      "CONTENT": "Get a sneak peek at our new animal management feature—now in beta! Your feedback is crucial as we refine this feature. Please share any bugs or suggestions you encounter. We appreciate your help in improving liteFarm! You can learn more about beta <a>here</a>"
     }
   }
 }

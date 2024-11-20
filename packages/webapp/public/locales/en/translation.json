@@ -1940,6 +1940,7 @@
     "ADD_TASK": "Create a task",
     "ADD_TASK_FLOW": "task creation",
     "AMOUNT_TO_ALLOCATE": "Amount to allocate",
+    "ANIMAL_MOVING_TO_LOCATION": "Moving to:",
     "CARD": {
       "MULTIPLE_CROPS": "Multiple crops",
       "MULTIPLE_LOCATIONS": "Multiple locations"

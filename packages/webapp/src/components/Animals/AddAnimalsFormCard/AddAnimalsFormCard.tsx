@@ -66,6 +66,8 @@ export default function AddAnimalsFormCard({
     resetField,
     formState: { errors },
   } = useFormContext();
+
+  const ANIMAL_COUNT_LIMIT = 1000;
   const { t } = useTranslation();
   const watchAnimalCount = watch(`${namePrefix}${BasicsFields.COUNT}`);
   const watchAnimalType = watch(`${namePrefix}${BasicsFields.TYPE}`);
@@ -112,6 +114,7 @@ export default function AddAnimalsFormCard({
         <NumberInput
           name={`${namePrefix}${BasicsFields.COUNT}`}
           control={control}
+          max={ANIMAL_COUNT_LIMIT}
           label={t('common:COUNT')}
           className={styles.countInput}
           allowDecimal={false}

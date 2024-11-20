@@ -242,7 +242,13 @@ export const buildInventory = ({
     ),
   ];
 
-  const sortedInventory = inventory.sort(getComparator(orderEnum.ASC, 'identification'));
+  const sortedInventory = inventory.sort((a, b) => {
+    if (a.identification.length > b.identification.length) {
+      return 1;
+    } else {
+      return a.identification.localeCompare(b.identification);
+    }
+  });
 
   return sortedInventory;
 };

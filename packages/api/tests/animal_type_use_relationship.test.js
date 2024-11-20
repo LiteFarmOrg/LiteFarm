@@ -32,14 +32,14 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 );
 import mocks from './mock.factories.js';
 
-describe('Animal Use Tests', () => {
+describe('Animal Type Use Relationship Tests', () => {
   let farm;
   let newOwner;
 
   const getRequest = async ({ user_id = newOwner.user_id, farm_id = farm.farm_id }) => {
     const response = await chai
       .request(server)
-      .get('/animal_uses')
+      .get('/animal_type_use_relationships')
       .set('user_id', user_id)
       .set('farm_id', farm_id);
 
@@ -71,6 +71,14 @@ describe('Animal Use Tests', () => {
     return animalUse;
   }
 
+  async function makeAnimalTypeUseRelationship(defaultType, use) {
+    const [animalTypeUseRelationship] = await mocks.animal_type_use_relationshipFactory({
+      promisedDefaultAnimalType: [defaultType],
+      promisedAnimalUse: [use],
+    });
+    return animalTypeUseRelationship;
+  }
+
   beforeEach(async () => {
     [farm] = await mocks.farmFactory();
     [newOwner] = await mocks.usersFactory();
@@ -86,12 +94,28 @@ describe('Animal Use Tests', () => {
     done();
   });
 
-  describe('Get animal use tests', () => {
-    test('All users should get animal uses', async () => {
+  describe('Get animal type use relationship tests', () => {
+    test('All users should get animal type use relationships', async () => {
       const roles = [1, 2, 3, 5];
       const [use1, use2, use3, use4, use5, use6, use7, use8] = await Promise.all(
         [1, 2, 3, 4, 5, 6, 7, 8].map(async () => await makeAnimalUse()),
       );
+
+      const [defaultType1] = await mocks.default_animal_typeFactory();
+      const [defaultType2] = await mocks.default_animal_typeFactory();
+
+      const testCase = [
+        { defaultType: defaultType1, uses: [use1, use2, use3, use6, use7, use8] },
+        { defaultType: defaultType2, uses: [use1, use5, use6, use7, use8] },
+      ];
+
+      for (let { defaultType, uses } of testCase) {
+        if (defaultType) {
+          for (let use of uses) {
+            await makeAnimalTypeUseRelationship(defaultType, use);
+          }
+        }
+      }
 
       for (const role of roles) {
         const { mainFarm, user } = await returnUserFarms(role);
@@ -102,7 +126,15 @@ describe('Animal Use Tests', () => {
         });
 
         expect(res.status).toBe(200);
-        expect(res.body.length).toBe(8);
+        expect(res.body.length).toBe(11);
+        const filteredDefaultType1 = res.body.filter(
+          (useRelationship) => useRelationship.default_type_id === defaultType1.id,
+        );
+        expect(filteredDefaultType1.length).toBe(6);
+        const filteredDefaultType2 = res.body.filter(
+          (useRelationship) => useRelationship.default_type_id === defaultType2.id,
+        );
+        expect(filteredDefaultType2.length).toBe(5);
       }
     });
   });

@@ -287,7 +287,6 @@ describe('Animal task tests', () => {
       expect(createdTask).toBeDefined();
       const location = await knex('location_tasks').where({ task_id }).first();
       expect(location.location_id).toBe(postData.locations[0].location_id);
-      expect(location.task_id).toBe(task_id);
       const specificTask = await knex(type).where({ task_id });
       expect(specificTask.length).toBe(1);
       expect(specificTask[0].task_id).toBe(task_id);

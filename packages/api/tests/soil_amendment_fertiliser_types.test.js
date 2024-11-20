@@ -39,14 +39,12 @@ describe('Soil Amendment FertiliserType Test', () => {
     token = global.token;
   });
 
-  afterEach(async (done) => {
+  afterEach(async () => {
     await tableCleanup(knex);
-    done();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await knex.destroy();
-    done();
   });
 
   async function getRequest({ user_id, farm_id }) {

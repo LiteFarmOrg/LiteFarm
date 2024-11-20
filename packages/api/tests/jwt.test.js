@@ -43,48 +43,45 @@ describe('JWT Tests', () => {
   let newUser;
   let accessToken;
 
-  async function deleteFarmRequest(data, user_id, callback) {
+  async function deleteFarmRequest(data, user_id) {
     const token = await getAuthorizationHeader(user_id);
-    chai
+
+    return chai
       .request(server)
       .delete(`/farm/${data.farm_id}`)
       .set('farm_id', data.farm_id)
       .set('user_id', user_id)
-      .set('Authorization', token)
-      .end(callback);
+      .set('Authorization', token);
   }
 
-  function deleteFarmRequestWithoutToken(data, user, callback) {
-    chai
+  function deleteFarmRequestWithoutToken(data, user) {
+    return chai
       .request(server)
       .delete(`/farm/${data.farm_id}`)
       .set('farm_id', data.farm_id)
       .set('user_id', user)
-      .set('Authorization', 'token')
-      .end(callback);
+      .set('Authorization', 'token');
   }
 
-  function postResetPasswordRequest(email, callback) {
-    chai.request(server).post(`/password_reset/send_email`).send({ email }).end(callback);
+  function postResetPasswordRequest(email) {
+    return chai.request(server).post(`/password_reset/send_email`).send({ email });
   }
 
-  function getValidateRequest(resetPasswordToken, user_id, callback) {
-    chai
+  function getValidateRequest(resetPasswordToken, user_id) {
+    return chai
       .request(server)
       .get(`/password_reset/validate`)
       .set('user_id', user_id)
-      .set('Authorization', `Bearer ${resetPasswordToken}`)
-      .end(callback);
+      .set('Authorization', `Bearer ${resetPasswordToken}`);
   }
 
-  function putPasswordRequest(resetPasswordToken, user, callback) {
-    chai
+  function putPasswordRequest(resetPasswordToken, user) {
+    return chai
       .request(server)
       .put(`/password_reset`)
       .set('user_id', user.user_id)
       .set('Authorization', `Bearer ${resetPasswordToken}`)
-      .send(user)
-      .end(callback);
+      .send(user);
   }
 
   async function insertPasswordRow({
@@ -138,46 +135,41 @@ describe('JWT Tests', () => {
     [newUser] = await usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('Access jwt test', () => {
-    test('should succeed on deleting a farm with valid token', async (done) => {
+    test('should succeed on deleting a farm with valid token', async () => {
       const [farm] = await farmFactory();
       await userFarmFactory(
         { promisedUser: [newUser], promisedFarm: [farm] },
         { role_id: 1, status: 'Active' },
       );
-      deleteFarmRequest(farm, newUser.user_id, async (err, res) => {
-        expect(res.status).toBe(200);
-        const [farmQuery] = await knex.select().from('farm').where({ farm_id: farm.farm_id });
-        expect(farmQuery.deleted).toBe(true);
-        done();
-      });
+      const res = await deleteFarmRequest(farm, newUser.user_id);
+      expect(res.status).toBe(200);
+      const [farmQuery] = await knex.select().from('farm').where({ farm_id: farm.farm_id });
+      expect(farmQuery.deleted).toBe(true);
     });
 
-    test('should fail on deleting a farm without valid token', async (done) => {
+    test('should fail on deleting a farm without valid token', async () => {
       const [farm] = await farmFactory();
       await userFarmFactory(
         { promisedUser: [newUser], promisedFarm: [farm] },
         { role_id: 1, status: 'Active' },
       );
-      deleteFarmRequestWithoutToken(farm, newUser.user_id, async (err, res) => {
-        expect(res.status).toBe(401);
-        const [farmQuery] = await knex.select().from('farm').where({ farm_id: farm.farm_id });
-        expect(farmQuery.deleted).toBe(false);
-        done();
-      });
+      const res = await deleteFarmRequestWithoutToken(farm, newUser.user_id);
+      expect(res.status).toBe(401);
+      const [farmQuery] = await knex.select().from('farm').where({ farm_id: farm.farm_id });
+      expect(farmQuery.deleted).toBe(false);
     });
   });
 
   describe('Reset password jwt test', () => {
     let resetPasswordToken;
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       const { createToken } = require('../src/util/jwt');
       createToken.mockImplementation(async (type, user) => {
         if (user.reset_token_version === undefined) {
@@ -193,73 +185,71 @@ describe('JWT Tests', () => {
 
       resetPasswordToken = undefined;
       knex('password').delete();
-      done();
     });
-    test('Validate a valid token', async (done) => {
+    test('Validate a valid token', async () => {
       const resetPasswordToken = await createToken('passwordReset', newUser);
       const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
       expect(user.user_id).toEqual(newUser.user_id);
-      done();
     });
 
-    test('Should send a valid token through email when reset_token_version === 0', async (done) => {
+    test('Should send a valid token through email when reset_token_version === 0', async () => {
       const oldRow = await insertPasswordRow({ reset_token_version: 0, user_id: newUser.user_id });
-      postResetPasswordRequest(newUser.email, async (err, res) => {
+      const res = await postResetPasswordRequest(newUser.email);
+      expect(res.status).toBe(200);
+      const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
+      expect(user.reset_token_version).toBe(0);
+      const { reset_token_version, created_at } = await knex('password')
+        .where({ user_id: newUser.user_id })
+        .first();
+      expect(reset_token_version).toBe(1);
+      expect(created_at.getTime()).toBeGreaterThanOrEqual(oldRow.created_at.getTime());
+
+      {
+        const res = await getValidateRequest(resetPasswordToken, newUser.user_id);
         expect(res.status).toBe(200);
-        const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
-        expect(user.reset_token_version).toBe(0);
-        const { reset_token_version, created_at } = await knex('password')
-          .where({ user_id: newUser.user_id })
-          .first();
-        expect(reset_token_version).toBe(1);
-        expect(created_at.getTime()).toBeGreaterThanOrEqual(oldRow.created_at.getTime());
-        getValidateRequest(resetPasswordToken, newUser.user_id, async (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.isValid).toBe(true);
-          done();
-        });
-      });
+        expect(res.body.isValid).toBe(true);
+      }
     });
 
-    test('Should send a valid token through email when reset_token_version === 1', async (done) => {
+    test('Should send a valid token through email when reset_token_version === 1', async () => {
       const oldRow = await insertPasswordRow({ reset_token_version: 1, user_id: newUser.user_id });
-      postResetPasswordRequest(newUser.email, async (err, res) => {
+      const res = await postResetPasswordRequest(newUser.email);
+      expect(res.status).toBe(200);
+      const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
+      expect(user.reset_token_version).toBe(1);
+      const { reset_token_version, created_at } = await knex('password')
+        .where({ user_id: newUser.user_id })
+        .first();
+      expect(reset_token_version).toBe(2);
+      expect(created_at.getTime()).toBe(oldRow.created_at.getTime());
+
+      {
+        const res = await getValidateRequest(resetPasswordToken, newUser.user_id);
         expect(res.status).toBe(200);
-        const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
-        expect(user.reset_token_version).toBe(1);
-        const { reset_token_version, created_at } = await knex('password')
-          .where({ user_id: newUser.user_id })
-          .first();
-        expect(reset_token_version).toBe(2);
-        expect(created_at.getTime()).toBe(oldRow.created_at.getTime());
-        getValidateRequest(resetPasswordToken, newUser.user_id, async (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.isValid).toBe(true);
-          done();
-        });
-      });
+        expect(res.body.isValid).toBe(true);
+      }
     });
 
-    test('Should send a valid token through email when reset_token_version === 2', async (done) => {
+    test('Should send a valid token through email when reset_token_version === 2', async () => {
       const oldRow = await insertPasswordRow({ reset_token_version: 2, user_id: newUser.user_id });
-      postResetPasswordRequest(newUser.email, async (err, res) => {
-        console.log(resetPasswordToken);
-        const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
-        expect(user.reset_token_version).toBe(2);
-        const { reset_token_version, created_at } = await knex('password')
-          .where({ user_id: newUser.user_id })
-          .first();
-        expect(reset_token_version).toBe(3);
-        expect(created_at.getTime()).toBe(oldRow.created_at.getTime());
-        getValidateRequest(resetPasswordToken, newUser.user_id, async (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.isValid).toBe(true);
-          done();
-        });
-      });
+      const res = await postResetPasswordRequest(newUser.email);
+      console.log(resetPasswordToken);
+      const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
+      expect(user.reset_token_version).toBe(2);
+      const { reset_token_version, created_at } = await knex('password')
+        .where({ user_id: newUser.user_id })
+        .first();
+      expect(reset_token_version).toBe(3);
+      expect(created_at.getTime()).toBe(oldRow.created_at.getTime());
+
+      {
+        const res = await getValidateRequest(resetPasswordToken, newUser.user_id);
+        expect(res.status).toBe(200);
+        expect(res.body.isValid).toBe(true);
+      }
     });
 
-    test('Should reject when reset_token_version === 3', async (done) => {
+    test('Should reject when reset_token_version === 3', async () => {
       const oldRow = await insertPasswordRow({ reset_token_version: 3, user_id: newUser.user_id });
       const tokenPayload = {
         user_id: newUser.user_id,
@@ -269,23 +259,23 @@ describe('JWT Tests', () => {
       };
       const localResetPasswordToken = await createToken('passwordReset', tokenPayload);
       resetPasswordToken = undefined;
-      postResetPasswordRequest(newUser.email, async (err, res) => {
-        expect(res.status).toBe(400);
-        expect(resetPasswordToken).toBe(undefined);
-        const { reset_token_version, created_at } = await knex('password')
-          .where({ user_id: newUser.user_id })
-          .first();
-        expect(reset_token_version).toBe(oldRow.reset_token_version);
-        expect(created_at.getTime()).toBe(oldRow.created_at.getTime());
-        getValidateRequest(localResetPasswordToken, newUser.user_id, async (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.isValid).toBe(true);
-          done();
-        });
-      });
+      const res = await postResetPasswordRequest(newUser.email);
+      expect(res.status).toBe(400);
+      expect(resetPasswordToken).toBe(undefined);
+      const { reset_token_version, created_at } = await knex('password')
+        .where({ user_id: newUser.user_id })
+        .first();
+      expect(reset_token_version).toBe(oldRow.reset_token_version);
+      expect(created_at.getTime()).toBe(oldRow.created_at.getTime());
+
+      {
+        const res = await getValidateRequest(localResetPasswordToken, newUser.user_id);
+        expect(res.status).toBe(200);
+        expect(res.body.isValid).toBe(true);
+      }
     });
 
-    test('Should reset reset_token_version and created_at when created_at is one day before current date', async (done) => {
+    test('Should reset reset_token_version and created_at when created_at is one day before current date', async () => {
       const oneDay = 1000 * 3600 * 24;
       const oldDate = new Date(new Date().getTime() - oneDay - 1);
       const oldRow = await insertPasswordRow({
@@ -293,86 +283,76 @@ describe('JWT Tests', () => {
         user_id: newUser.user_id,
         created_at: oldDate,
       });
-      postResetPasswordRequest(newUser.email, async (err, res) => {
+      const res = await postResetPasswordRequest(newUser.email);
+      expect(res.status).toBe(200);
+      const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
+      expect(user.reset_token_version).toBe(0);
+      const { reset_token_version, created_at } = await knex('password')
+        .where({ user_id: newUser.user_id })
+        .first();
+      expect(reset_token_version).toBe(1);
+      expect(created_at.getTime()).toBeGreaterThan(oldRow.created_at.getTime());
+
+      {
+        const res = await getValidateRequest(resetPasswordToken, newUser.user_id);
         expect(res.status).toBe(200);
-        const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
-        expect(user.reset_token_version).toBe(0);
-        const { reset_token_version, created_at } = await knex('password')
-          .where({ user_id: newUser.user_id })
-          .first();
-        expect(reset_token_version).toBe(1);
-        expect(created_at.getTime()).toBeGreaterThan(oldRow.created_at.getTime());
-        getValidateRequest(resetPasswordToken, newUser.user_id, async (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.isValid).toBe(true);
-          done();
-        });
-      });
+        expect(res.body.isValid).toBe(true);
+      }
     });
 
-    test('Should reset reset_token_version and created_at when reset token is used', async (done) => {
+    test('Should reset reset_token_version and created_at when reset token is used', async () => {
       const newPassword = 'newPassword';
       const oldRow = await insertPasswordRow({ reset_token_version: 2, user_id: newUser.user_id });
-      postResetPasswordRequest(newUser.email, async (err, res) => {
-        const verified = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
-        expect(verified.user_id).toBe(newUser.user_id);
-        putPasswordRequest(
-          resetPasswordToken,
-          {
+      const res = await postResetPasswordRequest(newUser.email);
+      const verified = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
+      expect(verified.user_id).toBe(newUser.user_id);
+
+      {
+        const res = await putPasswordRequest(resetPasswordToken, {
+          password: newPassword,
+          user_id: newUser.user_id,
+        });
+
+        expect(res.status).toBe(200);
+        const { reset_token_version, created_at, password_hash } = await knex('password')
+          .where({ user_id: newUser.user_id })
+          .first();
+        const isMatch = await bcrypt.compare(newPassword, password_hash);
+        expect(isMatch).toBeTruthy();
+        expect(reset_token_version).toBe(0);
+        expect(created_at.getTime()).toBeGreaterThan(oldRow.created_at.getTime());
+
+        {
+          const res = await putPasswordRequest(resetPasswordToken, {
             password: newPassword,
             user_id: newUser.user_id,
-          },
-          async (err, res) => {
-            expect(res.status).toBe(200);
-            const { reset_token_version, created_at, password_hash } = await knex('password')
-              .where({ user_id: newUser.user_id })
-              .first();
-            const isMatch = await bcrypt.compare(newPassword, password_hash);
-            expect(isMatch).toBeTruthy();
-            expect(reset_token_version).toBe(0);
-            expect(created_at.getTime()).toBeGreaterThan(oldRow.created_at.getTime());
-            putPasswordRequest(
-              resetPasswordToken,
-              {
-                password: newPassword,
-                user_id: newUser.user_id,
-              },
-              async (err, res) => {
-                expect(res.status).toBe(401);
-                done();
-              },
-            );
-          },
-        );
-      });
+          });
+
+          expect(res.status).toBe(401);
+        }
+      }
     });
 
-    test('Should reject when an invited user tries to get reset password token', async (done) => {
+    test('Should reject when an invited user tries to get reset password token', async () => {
       const [invitedUser] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
-      postResetPasswordRequest(invitedUser.email, async (err, res) => {
-        expect(res.status).toBe(400);
-        done();
-      });
+      const res = await postResetPasswordRequest(invitedUser.email);
+      expect(res.status).toBe(400);
     });
 
-    test('Should reject when a pseudo user tries to get reset password token', async (done) => {
+    test('Should reject when a pseudo user tries to get reset password token', async () => {
       const [pseudoUser] = await mocks.usersFactory({
         ...mocks.fakeUser(),
         status_id: 1,
         email: `${faker.datatype.uuid()}@pseudo.com`,
       });
-      postResetPasswordRequest(pseudoUser.email, async (err, res) => {
-        expect(res.status).toBe(400);
-        done();
-      });
+      const res = await postResetPasswordRequest(pseudoUser.email);
+      expect(res.status).toBe(400);
     });
 
-    test('Should reject when an auth0 legacy user tries to get reset password token', async (done) => {
+    test('Should reject when an auth0 legacy user tries to get reset password token', async () => {
       const [invitedUser] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 3 });
-      postResetPasswordRequest(newUser.email, async (err, res) => {
-        expect(res.status).toBe(400);
-        done();
-      });
+      const res = await postResetPasswordRequest(newUser.email);
+      expect(res.status).toBe(400);
     });
   });
 
@@ -381,26 +361,25 @@ describe('JWT Tests', () => {
     let reqBody;
     let googleUser;
 
-    function postAcceptInvitationWithPasswordRequest(invitationToken, callback) {
-      chai
+    function postAcceptInvitationWithPasswordRequest(invitationToken) {
+      return chai
         .request(server)
         .post(`/user/accept_invitation`)
         .set('Authorization', `Bearer ${invitationToken}`)
-        .send(reqBody)
-        .end(callback);
+        .send(reqBody);
     }
 
-    function putAcceptInvitationWithGoogleAccountRequest(invitationToken, callback) {
+    function putAcceptInvitationWithGoogleAccountRequest(invitationToken) {
       delete reqBody.password;
-      chai
+
+      return chai
         .request(server)
         .put(`/user/accept_invitation`)
-        .send({ ...reqBody, invite_token: invitationToken })
-        .end(callback);
+        .send({ ...reqBody, invite_token: invitationToken });
     }
 
-    function getRequest({ email = user.email }, callback) {
-      chai.request(server).get(`/login/user/${email}`).set('email', email).end(callback);
+    function getRequest({ email = user.email }) {
+      return chai.request(server).get(`/login/user/${email}`).set('email', email);
     }
 
     function fakeGoogleTokenContent() {
@@ -425,7 +404,7 @@ describe('JWT Tests', () => {
       };
     }
 
-    beforeEach(async (done) => {
+    beforeEach(async () => {
       const { createToken } = require('../src/util/jwt');
       createToken.mockImplementation(async (type, user) => {
         const localInvitationToken = sign(user, tokenType[type], {
@@ -447,16 +426,14 @@ describe('JWT Tests', () => {
       // emailMiddleware.sendEmail.mockClear();
       invitationToken = undefined;
       reqBody = fakeReqBody();
-      done();
     });
-    test('Validate a valid token', async (done) => {
+    test('Validate a valid token', async () => {
       const resetPasswordToken = await createToken('invite', newUser);
       const user = jsonwebtoken.verify(resetPasswordToken, tokenType.invite);
       expect(user.user_id).toEqual(newUser.user_id);
-      done();
     });
 
-    test('Should create password and spotlight when user status is invited', async (done) => {
+    test('Should create password and spotlight when user status is invited', async () => {
       const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
       const [userFarm] = await mocks.userFarmFactory(
         { promisedUser: [user] },
@@ -466,67 +443,30 @@ describe('JWT Tests', () => {
         },
       );
       const { user_id, farm_id } = userFarm;
-      getRequest(user, async (err, res) => {
-        const verified = jsonwebtoken.verify(invitationToken, tokenType.invite);
-        expect(verified.user_id).toBe(user.user_id);
-        postAcceptInvitationWithPasswordRequest(invitationToken, async (err, res) => {
-          const [resUser] = await userModel.query().where({ user_id: user.user_id });
-          validate({ ...user, ...reqBody, status_id: 1 }, res, 201, resUser);
-          const { password_hash } = await knex('password').where({ user_id: user.user_id }).first();
-          const isMatch = await bcrypt.compare(reqBody.password, password_hash);
-          expect(isMatch).toBeTruthy();
-          const [resUserFarm] = await knex('userFarm').where({ user_id, farm_id });
-          expect(resUserFarm.status).toBe('Active');
-          const showedSpotlight = await showedSpotlightModel.query().findById(user_id);
-          expect(showedSpotlight.user_id).toBe(user_id);
-          postAcceptInvitationWithPasswordRequest(invitationToken, async (err, res) => {
-            expect(res.status).toBe(401);
-            done();
-          });
-        });
-      });
-    });
+      const res = await getRequest(user);
+      const verified = jsonwebtoken.verify(invitationToken, tokenType.invite);
+      expect(verified.user_id).toBe(user.user_id);
 
-    test('User should accept invitation when birth year is undefined', async (done) => {
-      const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
-      const [userFarm] = await mocks.userFarmFactory(
-        { promisedUser: [user] },
-        {
-          ...mocks.fakeUserFarm(),
-          status: 'Invited',
-        },
-      );
-      getRequest(user, async (err, res) => {
-        delete reqBody.birth_year;
-        postAcceptInvitationWithPasswordRequest(invitationToken, async (err, res) => {
-          const [resUser] = await userModel.query().where({ user_id: user.user_id });
-          validate({ ...user, ...reqBody, status_id: 1 }, res, 201, resUser);
-          done();
-        });
-      });
-    });
+      {
+        const res = await postAcceptInvitationWithPasswordRequest(invitationToken);
+        const [resUser] = await userModel.query().where({ user_id: user.user_id });
+        validate({ ...user, ...reqBody, status_id: 1 }, res, 201, resUser);
+        const { password_hash } = await knex('password').where({ user_id: user.user_id }).first();
+        const isMatch = await bcrypt.compare(reqBody.password, password_hash);
+        expect(isMatch).toBeTruthy();
+        const [resUserFarm] = await knex('userFarm').where({ user_id, farm_id });
+        expect(resUserFarm.status).toBe('Active');
+        const showedSpotlight = await showedSpotlightModel.query().findById(user_id);
+        expect(showedSpotlight.user_id).toBe(user_id);
 
-    test('Should return 401 when userFarm status Inactive', async (done) => {
-      const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
-      const [userFarm] = await mocks.userFarmFactory(
-        { promisedUser: [user] },
         {
-          ...mocks.fakeUserFarm(),
-          status: 'Invited',
-        },
-      );
-      getRequest(user, async (err, res) => {
-        const { farm_id, user_id } = userFarm;
-        delete reqBody.birth_year;
-        await userFarmModel.query().findById([user_id, farm_id]).patch({ status: 'Inactive' });
-        postAcceptInvitationWithPasswordRequest(invitationToken, async (err, res) => {
+          const res = await postAcceptInvitationWithPasswordRequest(invitationToken);
           expect(res.status).toBe(401);
-          done();
-        });
-      });
+        }
+      }
     });
 
-    test('Should return 401 when userFarm status Active', async (done) => {
+    test('User should accept invitation when birth year is undefined', async () => {
       const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
       const [userFarm] = await mocks.userFarmFactory(
         { promisedUser: [user] },
@@ -535,18 +475,57 @@ describe('JWT Tests', () => {
           status: 'Invited',
         },
       );
-      getRequest(user, async (err, res) => {
-        const { farm_id, user_id } = userFarm;
-        delete reqBody.birth_year;
-        await userFarmModel.query().findById([user_id, farm_id]).patch({ status: 'Active' });
-        postAcceptInvitationWithPasswordRequest(invitationToken, async (err, res) => {
-          expect(res.status).toBe(401);
-          done();
-        });
-      });
+      const res = await getRequest(user);
+      delete reqBody.birth_year;
+
+      {
+        const res = await postAcceptInvitationWithPasswordRequest(invitationToken);
+        const [resUser] = await userModel.query().where({ user_id: user.user_id });
+        validate({ ...user, ...reqBody, status_id: 1 }, res, 201, resUser);
+      }
     });
 
-    test('Should modify user_id and insert spotlight when login with google and user status is invited', async (done) => {
+    test('Should return 401 when userFarm status Inactive', async () => {
+      const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
+      const [userFarm] = await mocks.userFarmFactory(
+        { promisedUser: [user] },
+        {
+          ...mocks.fakeUserFarm(),
+          status: 'Invited',
+        },
+      );
+      const res = await getRequest(user);
+      const { farm_id, user_id } = userFarm;
+      delete reqBody.birth_year;
+      await userFarmModel.query().findById([user_id, farm_id]).patch({ status: 'Inactive' });
+
+      {
+        const res = await postAcceptInvitationWithPasswordRequest(invitationToken);
+        expect(res.status).toBe(401);
+      }
+    });
+
+    test('Should return 401 when userFarm status Active', async () => {
+      const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
+      const [userFarm] = await mocks.userFarmFactory(
+        { promisedUser: [user] },
+        {
+          ...mocks.fakeUserFarm(),
+          status: 'Invited',
+        },
+      );
+      const res = await getRequest(user);
+      const { farm_id, user_id } = userFarm;
+      delete reqBody.birth_year;
+      await userFarmModel.query().findById([user_id, farm_id]).patch({ status: 'Active' });
+
+      {
+        const res = await postAcceptInvitationWithPasswordRequest(invitationToken);
+        expect(res.status).toBe(401);
+      }
+    });
+
+    test('Should modify user_id and insert spotlight when login with google and user status is invited', async () => {
       const [user] = await mocks.usersFactory({
         ...mocks.fakeUser(),
         status_id: 2,
@@ -567,51 +546,51 @@ describe('JWT Tests', () => {
         },
       );
       const { user_id, farm_id } = userFarm;
-      getRequest(user, async (err, res) => {
-        const verified = await jsonwebtoken.verify(invitationToken, tokenType.invite);
-        expect(verified.user_id).toBe(user.user_id);
-        const getUserFarmStatus = (farm_id) =>
-          verified.farm_id === farm_id ? 'Active' : 'Invited';
-        putAcceptInvitationWithGoogleAccountRequest(invitationToken, async (err, res) => {
-          const oldUserRows = await userModel.query().where({ user_id: user.user_id });
-          expect(oldUserRows.length).toBe(0);
-          const [resUser] = await userModel.query().where({ user_id: googleUser.sub });
-          validate(
-            {
-              ...user,
-              ...reqBody,
-              email: googleUser.email,
-              user_id: googleUser.user_id,
-              status_id: 1,
-            },
-            res,
-            200,
-            resUser,
-          );
-          const oldUserFarms = await knex('userFarm').where({ user_id });
-          expect(oldUserFarms.length).toBe(0);
-          const [resUserFarm] = await knex('userFarm').where({ user_id: googleUser.sub, farm_id });
-          expect(resUserFarm.status).toBe(getUserFarmStatus(farm_id));
-          const [resUserFarm1] = await knex('userFarm').where({
-            user_id: googleUser.sub,
-            farm_id: userFarm1.farm_id,
-          });
-          expect(resUserFarm1.status).toBe(getUserFarmStatus(userFarm1.farm_id));
-          const emailTokens = await knex('emailToken').where({ user_id: googleUser.sub });
-          expect(emailTokens.length).toBe(2);
-          const oldEmailTokens = await knex('emailToken').where({ user_id });
-          expect(oldEmailTokens.length).toBe(0);
-          expect(resUserFarm1.status).toBe(getUserFarmStatus(userFarm1.farm_id));
+      const res = await getRequest(user);
+      const verified = await jsonwebtoken.verify(invitationToken, tokenType.invite);
+      expect(verified.user_id).toBe(user.user_id);
+      const getUserFarmStatus = (farm_id) => (verified.farm_id === farm_id ? 'Active' : 'Invited');
 
-          putAcceptInvitationWithGoogleAccountRequest(invitationToken, async (err, res) => {
-            expect(res.status).toBe(401);
-            done();
-          });
+      {
+        const res = await putAcceptInvitationWithGoogleAccountRequest(invitationToken);
+        const oldUserRows = await userModel.query().where({ user_id: user.user_id });
+        expect(oldUserRows.length).toBe(0);
+        const [resUser] = await userModel.query().where({ user_id: googleUser.sub });
+        validate(
+          {
+            ...user,
+            ...reqBody,
+            email: googleUser.email,
+            user_id: googleUser.user_id,
+            status_id: 1,
+          },
+          res,
+          200,
+          resUser,
+        );
+        const oldUserFarms = await knex('userFarm').where({ user_id });
+        expect(oldUserFarms.length).toBe(0);
+        const [resUserFarm] = await knex('userFarm').where({ user_id: googleUser.sub, farm_id });
+        expect(resUserFarm.status).toBe(getUserFarmStatus(farm_id));
+        const [resUserFarm1] = await knex('userFarm').where({
+          user_id: googleUser.sub,
+          farm_id: userFarm1.farm_id,
         });
-      });
+        expect(resUserFarm1.status).toBe(getUserFarmStatus(userFarm1.farm_id));
+        const emailTokens = await knex('emailToken').where({ user_id: googleUser.sub });
+        expect(emailTokens.length).toBe(2);
+        const oldEmailTokens = await knex('emailToken').where({ user_id });
+        expect(oldEmailTokens.length).toBe(0);
+        expect(resUserFarm1.status).toBe(getUserFarmStatus(userFarm1.farm_id));
+
+        {
+          const res = await putAcceptInvitationWithGoogleAccountRequest(invitationToken);
+          expect(res.status).toBe(401);
+        }
+      }
     });
 
-    test('Should modify user_id when pseudo user accept invitation with google account', async (done) => {
+    test('Should modify user_id when pseudo user accept invitation with google account', async () => {
       const [user] = await mocks.usersFactory({
         ...mocks.fakeUser(),
         status_id: 2,
@@ -632,12 +611,16 @@ describe('JWT Tests', () => {
         },
       );
       const { user_id, farm_id } = userFarm1;
-      getRequest(user, async (err, res) => {
+
+      {
+        const res = await getRequest(user);
         const verified = await jsonwebtoken.verify(invitationToken, tokenType.invite);
         expect(verified.user_id).toBe(user.user_id);
         const userFarm1 = await userFarmModel.query().where({ user_id, farm_id }).first();
         expect(userFarm1.status).toBe('Invited');
-        putAcceptInvitationWithGoogleAccountRequest(invitationToken, async (err, res) => {
+
+        {
+          const res = await putAcceptInvitationWithGoogleAccountRequest(invitationToken);
           const oldUserRows = await userModel.query().where({ user_id: user.user_id });
           expect(oldUserRows.length).toBe(0);
           const [resUser] = await userModel.query().where({ user_id: googleUser.sub });
@@ -653,12 +636,13 @@ describe('JWT Tests', () => {
             200,
             resUser,
           );
-          putAcceptInvitationWithGoogleAccountRequest(invitationToken, async (err, res) => {
+
+          {
+            const res = await putAcceptInvitationWithGoogleAccountRequest(invitationToken);
             expect(res.status).toBe(401);
-            done();
-          });
-        });
-      });
+          }
+        }
+      }
     });
   });
 });

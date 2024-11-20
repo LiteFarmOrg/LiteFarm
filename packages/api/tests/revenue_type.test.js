@@ -45,62 +45,47 @@ describe('Revenue Type Tests', () => {
 
   // FUNCTIONS
 
-  function postRevenueTypeRequest(
-    data,
-    { user_id = newOwner.user_id, farm_id = farm.farm_id },
-    callback,
-  ) {
-    chai
+  function postRevenueTypeRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .post(`/revenue_type`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
-  const postRevenueTypeRequestAsPromise = util.promisify(postRevenueTypeRequest);
 
-  function patchRevenueTypeRequest(
-    data,
-    { user_id = newOwner.user_id, farm_id = farm.farm_id },
-    callback,
-  ) {
-    chai
+  function patchRevenueTypeRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .patch(`/revenue_type/${data.revenue_type_id}`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
-      .end(callback);
+      .send(data);
   }
-  const patchRevenueTypeRequestAsPromise = util.promisify(patchRevenueTypeRequest);
 
   function fakeUserFarm(role = 1) {
     return { ...mocks.fakeUserFarm(), role_id: role };
   }
 
-  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .get(`/revenue_type/farm/${farm_id}`)
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
-  const getRequestAsPromise = util.promisify(getRequest);
 
-  function deleteRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
+  function deleteRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }) {
     const { revenue_type_id } = data;
-    chai
+
+    return chai
       .request(server)
       .delete(`/revenue_type/${revenue_type_id}`)
       .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback);
+      .set('farm_id', farm_id);
   }
-  const deleteRequestAsPromise = util.promisify(deleteRequest);
 
   async function returnUserFarms(role) {
     const [mainFarm] = await mocks.farmFactory();
@@ -144,10 +129,9 @@ describe('Revenue Type Tests', () => {
     [newOwner] = await mocks.usersFactory();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   // POST TESTS
@@ -156,7 +140,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const revenue_type = getFakeRevenueType(mainFarm.farm_id);
 
-      const res = await postRevenueTypeRequestAsPromise(revenue_type, {
+      const res = await postRevenueTypeRequest(revenue_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -174,7 +158,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(2);
       const revenue_type = getFakeRevenueType(mainFarm.farm_id);
 
-      const res = await postRevenueTypeRequestAsPromise(revenue_type, {
+      const res = await postRevenueTypeRequest(revenue_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -192,7 +176,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(3);
       const revenue_type = getFakeRevenueType(mainFarm.farm_id);
 
-      const res = await postRevenueTypeRequestAsPromise(revenue_type, {
+      const res = await postRevenueTypeRequest(revenue_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -208,7 +192,7 @@ describe('Revenue Type Tests', () => {
       const revenue_type = getFakeRevenueType(mainFarm.farm_id);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
-      const res = await postRevenueTypeRequestAsPromise(revenue_type, {
+      const res = await postRevenueTypeRequest(revenue_type, {
         user_id: unAuthorizedUser.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -226,7 +210,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const revenue = await returnRevenueType(mainFarm);
 
-      const res = await getRequestAsPromise({ user_id: user.user_id, farm_id: mainFarm.farm_id });
+      const res = await getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id });
       expect(res.status).toBe(200);
       expect(res.body[0].farm_id).toBe(revenue.revenue_type.farm_id);
     });
@@ -235,7 +219,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(2);
       const revenue = await returnRevenueType(mainFarm);
 
-      const res = await getRequestAsPromise({ user_id: user.user_id, farm_id: mainFarm.farm_id });
+      const res = await getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id });
       expect(res.status).toBe(200);
       expect(res.body[0].farm_id).toBe(revenue.revenue_type.farm_id);
     });
@@ -244,7 +228,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(3);
       const revenue = await returnRevenueType(mainFarm);
 
-      const res = await getRequestAsPromise({ user_id: user.user_id, farm_id: mainFarm.farm_id });
+      const res = await getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id });
       expect(res.status).toBe(200);
       expect(res.body[0].farm_id).toBe(revenue.revenue_type.farm_id);
     });
@@ -254,7 +238,7 @@ describe('Revenue Type Tests', () => {
       const revenue = await returnRevenueType(mainFarm);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
-      const res = await getRequestAsPromise({
+      const res = await getRequest({
         user_id: unAuthorizedUser.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -270,7 +254,7 @@ describe('Revenue Type Tests', () => {
     test('Owner should get 403 if they try to delete default revenue type', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const revenue = await returnDefaultRevenueType();
-      const res = await deleteRequestAsPromise(revenue.revenue_type, { user_id: revenue.user_id });
+      const res = await deleteRequest(revenue.revenue_type, { user_id: revenue.user_id });
       expect(res.status).toBe(403);
     });
 
@@ -278,7 +262,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(2);
       const revenue = await returnDefaultRevenueType();
 
-      const res = await deleteRequestAsPromise(revenue.revenue_type, { user_id: user.user_id });
+      const res = await deleteRequest(revenue.revenue_type, { user_id: user.user_id });
       expect(res.status).toBe(403);
     });
 
@@ -286,7 +270,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(3);
       const revenue = await returnDefaultRevenueType();
 
-      const res = await deleteRequestAsPromise(revenue.revenue_type, { user_id: user.user_id });
+      const res = await deleteRequest(revenue.revenue_type, { user_id: user.user_id });
       expect(res.status).toBe(403);
     });
 
@@ -295,7 +279,7 @@ describe('Revenue Type Tests', () => {
       const revenue = await returnDefaultRevenueType();
       const [unAuthorizedUser] = await mocks.usersFactory();
 
-      const res = await deleteRequestAsPromise(revenue.revenue_type, {
+      const res = await deleteRequest(revenue.revenue_type, {
         user_id: unAuthorizedUser.user_id,
       });
       expect(res.status).toBe(403);
@@ -308,7 +292,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const revenue = await returnRevenueType(mainFarm);
 
-      const res = await deleteRequestAsPromise(revenue.revenue_type, {
+      const res = await deleteRequest(revenue.revenue_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -325,7 +309,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(2);
       const revenue = await returnRevenueType(mainFarm);
 
-      const res = await deleteRequestAsPromise(revenue.revenue_type, {
+      const res = await deleteRequest(revenue.revenue_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -342,7 +326,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(3);
       const revenue = await returnRevenueType(mainFarm);
 
-      const res = await deleteRequestAsPromise(revenue.revenue_type, {
+      const res = await deleteRequest(revenue.revenue_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -358,7 +342,7 @@ describe('Revenue Type Tests', () => {
       const [unAuthorizedUser] = await mocks.usersFactory();
       const revenue = await returnRevenueType(mainFarm);
 
-      const res = await deleteRequestAsPromise(revenue.revenue_type, {
+      const res = await deleteRequest(revenue.revenue_type, {
         user_id: unAuthorizedUser.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -387,7 +371,7 @@ describe('Revenue Type Tests', () => {
         associatedSale,
       );
 
-      const res = await deleteRequestAsPromise(revenue_type, {
+      const res = await deleteRequest(revenue_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -419,7 +403,7 @@ describe('Revenue Type Tests', () => {
         associatedDeletedSale,
       );
 
-      const res = await deleteRequestAsPromise(revenue_type, {
+      const res = await deleteRequest(revenue_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -442,7 +426,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const revenue = await returnRevenueType(mainFarm);
 
-      const res = await patchRevenueTypeRequestAsPromise(revenue.revenue_type, {
+      const res = await patchRevenueTypeRequest(revenue.revenue_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -460,7 +444,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(2);
       const revenue = await returnRevenueType(mainFarm);
 
-      const res = await patchRevenueTypeRequestAsPromise(revenue.revenue_type, {
+      const res = await patchRevenueTypeRequest(revenue.revenue_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -478,7 +462,7 @@ describe('Revenue Type Tests', () => {
       const { mainFarm, user } = await returnUserFarms(3);
       const revenue = await returnRevenueType(mainFarm);
 
-      const res = await patchRevenueTypeRequestAsPromise(revenue.revenue_type, {
+      const res = await patchRevenueTypeRequest(revenue.revenue_type, {
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
       });
@@ -494,7 +478,7 @@ describe('Revenue Type Tests', () => {
       const revenue = await returnRevenueType(mainFarm);
       const [unAuthorizedUser] = await mocks.usersFactory();
 
-      const res = await patchRevenueTypeRequestAsPromise(revenue.revenue_type, {
+      const res = await patchRevenueTypeRequest(revenue.revenue_type, {
         user_id: unAuthorizedUser.user_id,
         farm_id: mainFarm.farm_id,
       });

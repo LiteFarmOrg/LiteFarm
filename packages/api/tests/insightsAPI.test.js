@@ -39,90 +39,71 @@ import insigntController from '../src/controllers/insightController';
 describe('insights test', () => {
   const emptyNutrients = { energy: 0, lipid: 0, protein: 0, vitc: 0, vita_rae: 0 };
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('Soil Om', () => {
-    test('Should get soil om if Im on my farm as an owner', async (done) => {
+    test('Should get soil om if Im on my farm as an owner', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(1);
-      getInsight(farm_id, user_id, 'soil_om', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
+      const res = await getInsight(farm_id, user_id, 'soil_om');
+      expect(res.status).toBe(200);
     });
-    test('Should get soil om if Im on my farm as a manager', async (done) => {
+    test('Should get soil om if Im on my farm as a manager', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(2);
-      getInsight(farm_id, user_id, 'soil_om', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
+      const res = await getInsight(farm_id, user_id, 'soil_om');
+      expect(res.status).toBe(200);
     });
 
-    test('Should get soil om if Im on my farm as a worker', async (done) => {
+    test('Should get soil om if Im on my farm as a worker', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(3);
-      getInsight(farm_id, user_id, 'soil_om', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
+      const res = await getInsight(farm_id, user_id, 'soil_om');
+      expect(res.status).toBe(200);
     });
   });
 
   describe('labour happiness', () => {
-    test('Should get labour happiness if Im on my farm as an owner', async (done) => {
+    test('Should get labour happiness if Im on my farm as an owner', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(1);
-      getInsight(farm_id, user_id, 'labour_happiness', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
+      const res = await getInsight(farm_id, user_id, 'labour_happiness');
+      expect(res.status).toBe(200);
     });
-    test('Should get labour happiness if Im on my farm as a manager', async (done) => {
+    test('Should get labour happiness if Im on my farm as a manager', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(2);
-      getInsight(farm_id, user_id, 'labour_happiness', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
+      const res = await getInsight(farm_id, user_id, 'labour_happiness');
+      expect(res.status).toBe(200);
     });
 
-    test('Should get labour happiness if Im on my farm as a worker', async (done) => {
+    test('Should get labour happiness if Im on my farm as a worker', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(3);
-      getInsight(farm_id, user_id, 'labour_happiness', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
+      const res = await getInsight(farm_id, user_id, 'labour_happiness');
+      expect(res.status).toBe(200);
     });
   });
 
   describe('biodiversity', () => {
-    test('Should get biodiversity if Im on my farm as an owner', async (done) => {
+    test('Should get biodiversity if Im on my farm as an owner', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(1);
-      getInsight(farm_id, user_id, 'biodiversity', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
+      const res = await getInsight(farm_id, user_id, 'biodiversity');
+      expect(res.status).toBe(200);
     });
-    test('Should get biodiversity if Im on my farm as a manager', async (done) => {
+    test('Should get biodiversity if Im on my farm as a manager', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(2);
-      getInsight(farm_id, user_id, 'biodiversity', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
+      const res = await getInsight(farm_id, user_id, 'biodiversity');
+      expect(res.status).toBe(200);
     });
 
-    test('Should get biodiversity if Im on my farm as a worker', async (done) => {
+    test('Should get biodiversity if Im on my farm as a worker', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(3);
-      getInsight(farm_id, user_id, 'biodiversity', (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
+      const res = await getInsight(farm_id, user_id, 'biodiversity');
+      expect(res.status).toBe(200);
     });
   });
 
   describe('prices distance', () => {
     describe('Unit tests', () => {
-      test('Distance between two coordinate test', async (done) => {
+      test('Distance between two coordinate test', async () => {
         expect(
           insightHelpers.distance(62.990967, -71.463767, 52.990967, -91.463767) - 1612.09,
         ).toBeLessThan(0.5);
@@ -130,10 +111,9 @@ describe('insights test', () => {
           insightHelpers.distance(-62.990967, 171.463767, -52.990967, 191.463767) - 1612.09,
         ).toBeLessThan(0.5);
         expect(insightHelpers.distance(62.990967, -71.463767, 62.990967, -71.463767)).toBe(0);
-        done();
       });
 
-      test('FormatPricesNearByData Test', async (done) => {
+      test('FormatPricesNearByData Test', async () => {
         const salesByCropsFarmIdMonth = [
           {
             year_month: '2020-12',
@@ -266,13 +246,12 @@ describe('insights test', () => {
         };
 
         expect(formatted2).toEqual(expected2);
-        done();
       });
 
       // FIXME: these tests are incomplete and skipped, seems a mocks.cropSaleFactory
       // doesn't exist anywhere in the project, perhaps someone forgot to push
       // that implementation.
-      xtest('queryCropSalesNearByStartDateAndFarmId test', async (done) => {
+      xtest('queryCropSalesNearByStartDateAndFarmId test', async () => {
         const startdate = moment('2020-12-01').format('YYYY-MM-DD');
         const gridPoint0 = { lat: 62.990967, lng: -71.463767 };
         const gridPoint5West = { lat: 62.990967, lng: -71.553767 };
@@ -388,29 +367,80 @@ describe('insights test', () => {
           startdate,
         });
 
-        getInsightWithQuery(farm_id, user_id, 'prices/distance', getQuery(5), (err, res) => {
+        const res = await getInsightWithQuery(farm_id, user_id, 'prices/distance', getQuery(5));
+        expect(res.status).toBe(200);
+        const crop0CommonName = crops[0].crop_common_name;
+        const crop0TotalPrice =
+          crop0Sales[0].sale_value + crop0Sales[1].sale_value + crop0Sales[7].sale_value;
+        const crop0TotalQuantity =
+          crop0Sales[0].quantity + crop0Sales[1].quantity + crop0Sales[7].quantity;
+
+        const crop1CommonName = crops[1].crop_common_name;
+        const crop1TotalPrice =
+          crop1Sales[0].sale_value +
+          crop1Sales[1].sale_value +
+          crop1Sales[2].sale_value +
+          crop1Sales[3].sale_value;
+        const crop1TotalQuantity =
+          crop1Sales[0].quantity +
+          crop1Sales[1].quantity +
+          crop1Sales[2].quantity +
+          crop1Sales[3].quantity;
+
+        const crop12020CommonName = crops[1].crop_common_name;
+        const crop12020TotalPrice = crop12020Sales[0].sale_value + crop12020Sales[1].sale_value;
+        const crop12020TotalQuantity = crop12020Sales[0].quantity + crop12020Sales[1].quantity;
+        const data = res.body.data;
+        for (const cropSaleRes of data) {
+          if (cropSaleRes[crop0CommonName]) {
+            expect(cropSaleRes[crop0CommonName][0].crop_date).toBe(
+              moment('2020-12-01').format('YYYY-MM'),
+            );
+            expect(
+              cropSaleRes[crop0CommonName][0].crop_price -
+                crop0Sales[0].sale_value / crop0Sales[0].quantity,
+            ).toBeLessThan(0.01);
+            expect(
+              cropSaleRes[crop0CommonName][0].network_price - crop0TotalPrice / crop0TotalQuantity,
+            ).toBeLessThan(0.01);
+          } else if (cropSaleRes[crop1CommonName]) {
+            expect(cropSaleRes[crop1CommonName][0].crop_date).toBe(
+              moment('2020-12-01').format('YYYY-MM'),
+            );
+            expect(
+              cropSaleRes[crop1CommonName][0].crop_price -
+                crop12020Sales[0].sale_value / crop12020Sales[0].quantity,
+            ).toBeLessThan(0.01);
+            expect(
+              cropSaleRes[crop1CommonName][0].network_price -
+                crop12020TotalPrice / crop12020TotalQuantity,
+            ).toBeLessThan(0.01);
+            expect(cropSaleRes[crop1CommonName][1].crop_date).toBe(moment().format('YYYY-MM'));
+            expect(
+              cropSaleRes[crop1CommonName][1].crop_price -
+                (crop1Sales[0].sale_value + crop1Sales[1].sale_value) /
+                  (crop1Sales[0].quantity + crop1Sales[1].quantity),
+            ).toBeLessThan(0.01);
+            expect(
+              cropSaleRes[crop1CommonName][1].network_price - crop1TotalPrice / crop1TotalQuantity,
+            ).toBeLessThan(0.01);
+          }
+        }
+
+        {
+          const res = await getInsightWithQuery(farm_id, user_id, 'prices/distance', getQuery(10));
           expect(res.status).toBe(200);
           const crop0CommonName = crops[0].crop_common_name;
           const crop0TotalPrice =
-            crop0Sales[0].sale_value + crop0Sales[1].sale_value + crop0Sales[7].sale_value;
+            crop0Sales[0].sale_value +
+            crop0Sales[1].sale_value +
+            crop0Sales[2].sale_value +
+            crop0Sales[7].sale_value;
           const crop0TotalQuantity =
-            crop0Sales[0].quantity + crop0Sales[1].quantity + crop0Sales[7].quantity;
-
-          const crop1CommonName = crops[1].crop_common_name;
-          const crop1TotalPrice =
-            crop1Sales[0].sale_value +
-            crop1Sales[1].sale_value +
-            crop1Sales[2].sale_value +
-            crop1Sales[3].sale_value;
-          const crop1TotalQuantity =
-            crop1Sales[0].quantity +
-            crop1Sales[1].quantity +
-            crop1Sales[2].quantity +
-            crop1Sales[3].quantity;
-
-          const crop12020CommonName = crops[1].crop_common_name;
-          const crop12020TotalPrice = crop12020Sales[0].sale_value + crop12020Sales[1].sale_value;
-          const crop12020TotalQuantity = crop12020Sales[0].quantity + crop12020Sales[1].quantity;
+            crop0Sales[0].quantity +
+            crop0Sales[1].quantity +
+            crop0Sales[2].quantity +
+            crop0Sales[7].quantity;
           const data = res.body.data;
           for (const cropSaleRes of data) {
             if (cropSaleRes[crop0CommonName]) {
@@ -425,91 +455,31 @@ describe('insights test', () => {
                 cropSaleRes[crop0CommonName][0].network_price -
                   crop0TotalPrice / crop0TotalQuantity,
               ).toBeLessThan(0.01);
-            } else if (cropSaleRes[crop1CommonName]) {
-              expect(cropSaleRes[crop1CommonName][0].crop_date).toBe(
-                moment('2020-12-01').format('YYYY-MM'),
-              );
-              expect(
-                cropSaleRes[crop1CommonName][0].crop_price -
-                  crop12020Sales[0].sale_value / crop12020Sales[0].quantity,
-              ).toBeLessThan(0.01);
-              expect(
-                cropSaleRes[crop1CommonName][0].network_price -
-                  crop12020TotalPrice / crop12020TotalQuantity,
-              ).toBeLessThan(0.01);
-              expect(cropSaleRes[crop1CommonName][1].crop_date).toBe(moment().format('YYYY-MM'));
-              expect(
-                cropSaleRes[crop1CommonName][1].crop_price -
-                  (crop1Sales[0].sale_value + crop1Sales[1].sale_value) /
-                    (crop1Sales[0].quantity + crop1Sales[1].quantity),
-              ).toBeLessThan(0.01);
-              expect(
-                cropSaleRes[crop1CommonName][1].network_price -
-                  crop1TotalPrice / crop1TotalQuantity,
-              ).toBeLessThan(0.01);
             }
           }
-
-          getInsightWithQuery(farm_id, user_id, 'prices/distance', getQuery(10), (err, res) => {
-            expect(res.status).toBe(200);
-            const crop0CommonName = crops[0].crop_common_name;
-            const crop0TotalPrice =
-              crop0Sales[0].sale_value +
-              crop0Sales[1].sale_value +
-              crop0Sales[2].sale_value +
-              crop0Sales[7].sale_value;
-            const crop0TotalQuantity =
-              crop0Sales[0].quantity +
-              crop0Sales[1].quantity +
-              crop0Sales[2].quantity +
-              crop0Sales[7].quantity;
-            const data = res.body.data;
-            for (const cropSaleRes of data) {
-              if (cropSaleRes[crop0CommonName]) {
-                expect(cropSaleRes[crop0CommonName][0].crop_date).toBe(
-                  moment('2020-12-01').format('YYYY-MM'),
-                );
-                expect(
-                  cropSaleRes[crop0CommonName][0].crop_price -
-                    crop0Sales[0].sale_value / crop0Sales[0].quantity,
-                ).toBeLessThan(0.01);
-                expect(
-                  cropSaleRes[crop0CommonName][0].network_price -
-                    crop0TotalPrice / crop0TotalQuantity,
-                ).toBeLessThan(0.01);
-              }
-            }
-            done();
-          });
-        });
+        }
       });
     });
 
-    test('Should get prices distance if Im on my farm as an owner', async (done) => {
+    test('Should get prices distance if Im on my farm as an owner', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(1);
       const query = mocks.fakePriceInsightForTests();
 
-      getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
+      const res = await getInsightWithQuery(farm_id, user_id, 'prices/distance', query);
+      expect(res.status).toBe(200);
     });
-    test('Should get prices distance if Im on my farm as a manager', async (done) => {
+    test('Should get prices distance if Im on my farm as a manager', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(2);
       const query = mocks.fakePriceInsightForTests();
-      getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
+      const res = await getInsightWithQuery(farm_id, user_id, 'prices/distance', query);
+      expect(res.status).toBe(200);
     });
 
-    test('Should get prices distance if Im on my farm as a worker', async (done) => {
+    test('Should get prices distance if Im on my farm as a worker', async () => {
       const [{ user_id, farm_id }] = await createUserFarm(3);
       const query = mocks.fakePriceInsightForTests();
-      getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
+      const res = await getInsightWithQuery(farm_id, user_id, 'prices/distance', query);
+      expect(res.status).toBe(200);
     });
   });
 });
@@ -524,17 +494,16 @@ function createUserFarm(role) {
   );
 }
 
-function getInsight(farmId, userId, route, callback) {
-  chai
+function getInsight(farmId, userId, route) {
+  return chai
     .request(server)
     .get(`/insight/${route}/${farmId}`)
     .set('farm_id', farmId)
-    .set('user_id', userId)
-    .end(callback);
+    .set('user_id', userId);
 }
 
-function getInsightWithQuery(farmId, userId, route, query, callback) {
-  chai
+function getInsightWithQuery(farmId, userId, route, query) {
+  return chai
     .request(server)
     .get(
       `/insight/${route}/${farmId}?distance=${query.distance}&lat=${query.lat}&long=${
@@ -542,6 +511,5 @@ function getInsightWithQuery(farmId, userId, route, query, callback) {
       }&startdate=${query.startdate || '2020-1-1'}`,
     )
     .set('farm_id', farmId)
-    .set('user_id', userId)
-    .end(callback);
+    .set('user_id', userId);
 }

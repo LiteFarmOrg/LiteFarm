@@ -50,8 +50,8 @@ describe('Sign Up Tests', () => {
 
   // FUNCTIONS
 
-  function getRequest({ email = newOwner.email }, callback) {
-    chai.request(server).get(`/login/user/${email}`).set('email', email).end(callback);
+  function getRequest({ email = newOwner.email }) {
+    return chai.request(server).get(`/login/user/${email}`).set('email', email);
   }
 
   beforeEach(async () => {
@@ -61,41 +61,36 @@ describe('Sign Up Tests', () => {
     emailMiddleware.sendEmail.mockClear();
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   // GET TESTS
 
   describe('Sign up tests', () => {
-    test('Get status of user from email address should return 200 and SSO false', async (done) => {
+    test('Get status of user from email address should return 200 and SSO false', async () => {
       const [user] = await mocks.usersFactory();
       const name = user.first_name;
-      getRequest({ email: user.email }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body.exists).toBe(true);
-        expect(res.body.sso).toBe(false);
-        expect(res.body.first_name).toBe(name);
-        expect(res.body.language).toBe('en'); // Default language
-        done();
-      });
+      const res = await getRequest({ email: user.email });
+      expect(res.status).toBe(200);
+      expect(res.body.exists).toBe(true);
+      expect(res.body.sso).toBe(false);
+      expect(res.body.first_name).toBe(name);
+      expect(res.body.language).toBe('en'); // Default language
     });
 
-    test('Get status of user from email address should return 200 and SSO true', async (done) => {
+    test('Get status of user from email address should return 200 and SSO true', async () => {
       const [user] = await mocks.usersFactory(mocks.fakeSSOUser());
       const name = user.first_name;
-      getRequest({ email: user.email }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body.exists).toBe(true);
-        expect(res.body.sso).toBe(true);
-        expect(res.body.first_name).toBe(name);
-        done();
-      });
+      const res = await getRequest({ email: user.email });
+      expect(res.status).toBe(200);
+      expect(res.body.exists).toBe(true);
+      expect(res.body.sso).toBe(true);
+      expect(res.body.first_name).toBe(name);
     });
 
-    test('Get status of user from email address should return 200 and sso false because user does not exist', async (done) => {
+    test('Get status of user from email address should return 200 and sso false because user does not exist', async () => {
       const user = {
         first_name: 'Bobby',
         last_name: 'McBobson',
@@ -104,32 +99,28 @@ describe('Sign Up Tests', () => {
         phone_number: '899-903-2343',
       };
 
-      getRequest({ email: user.email }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body.exists).toBe(false);
-        expect(res.body.sso).toBe(false);
-        done();
-      });
+      const res = await getRequest({ email: user.email });
+      expect(res.status).toBe(200);
+      expect(res.body.exists).toBe(false);
+      expect(res.body.sso).toBe(false);
     });
   });
 
   describe('Exists', () => {
-    test('should send missing invitation to user if checks existance and has no farms', async (done) => {
+    test('should send missing invitation to user if checks existance and has no farms', async () => {
       const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
       const [userFarm] = await mocks.userFarmFactory(
         { promisedUser: [user] },
         { status: 'Invited' },
       );
-      getRequest({ email: user.email }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body.exists).toBe(false);
-        expect(res.body.invited).toBe(true);
-        expect(emailMiddleware.sendEmail).toHaveBeenCalled();
-        done();
-      });
+      const res = await getRequest({ email: user.email });
+      expect(res.status).toBe(200);
+      expect(res.body.exists).toBe(false);
+      expect(res.body.invited).toBe(true);
+      expect(emailMiddleware.sendEmail).toHaveBeenCalled();
     });
 
-    test('should send missing invitation(s) to user if checks existance and has no farms but many invites', async (done) => {
+    test('should send missing invitation(s) to user if checks existance and has no farms but many invites', async () => {
       const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
       const [userFarm1] = await mocks.userFarmFactory(
         { promisedUser: [user] },
@@ -147,83 +138,78 @@ describe('Sign Up Tests', () => {
         { promisedUser: [user] },
         { status: 'Invited' },
       );
-      getRequest({ email: user.email }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body.exists).toBe(false);
-        expect(res.body.invited).toBe(true);
-        expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(4);
-        done();
-      });
+      const res = await getRequest({ email: user.email });
+      expect(res.status).toBe(200);
+      expect(res.body.exists).toBe(false);
+      expect(res.body.invited).toBe(true);
+      expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(4);
     });
 
-    test('should send a password reset email to user if he was legacy ', async (done) => {
+    test('should send a password reset email to user if he was legacy ', async () => {
       const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 3 });
       const [userFarm1] = await mocks.userFarmFactory({ promisedUser: [user] });
-      getRequest({ email: user.email }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body.exists).toBe(false);
-        expect(res.body.expired).toBe(true);
-        expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(1);
-        done();
-      });
+      const res = await getRequest({ email: user.email });
+      expect(res.status).toBe(200);
+      expect(res.body.exists).toBe(false);
+      expect(res.body.expired).toBe(true);
+      expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(1);
     });
 
-    test('should resend a password reset email to user if he was legacy ', async (done) => {
+    test('should resend a password reset email to user if he was legacy ', async () => {
       const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 3 });
       const [userFarm1] = await mocks.userFarmFactory({ promisedUser: [user] });
-      getRequest({ email: user.email }, (err, res) => {
-        getRequest({ email: user.email }, (err2, res2) => {
-          expect(res2.status).toBe(200);
-          expect(res2.body.exists).toBe(false);
-          expect(res2.body.expired).toBe(true);
-          expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(2);
-          done();
-        });
-      });
+      const res = await getRequest({ email: user.email });
+      const res2 = await getRequest({ email: user.email });
+      expect(res2.status).toBe(200);
+      expect(res2.body.exists).toBe(false);
+      expect(res2.body.expired).toBe(true);
+      expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(2);
     });
 
-    test('should reject when a pseudo user tries to login', async (done) => {
+    test('should reject when a pseudo user tries to login', async () => {
       const [user] = await mocks.usersFactory({
         ...mocks.fakeUser(),
         status_id: 1,
         email: `${faker.datatype.uuid()}@pseudo.com`,
       });
       const [userFarm1] = await mocks.userFarmFactory({ promisedUser: [user] });
-      getRequest({ email: user.email }, (err, res) => {
-        expect(res.status).toBe(400);
-        expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(0);
-        done();
-      });
+      const res = await getRequest({ email: user.email });
+      expect(res.status).toBe(400);
+      expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(0);
     });
 
-    test('should fail at the 4th request of a user who had a pending invitation', async (done) => {
+    test('should fail at the 4th request of a user who had a pending invitation', async () => {
       const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
       const [userFarm] = await mocks.userFarmFactory(
         { promisedUser: [user] },
         { status: 'Invited' },
       );
       const { user_id, farm_id } = userFarm;
-      getRequest({ email: user.email }, async () => {
+      await getRequest({ email: user.email });
+      const [emailTokenRow] = await knex('emailToken').where({ user_id, farm_id });
+      expect(emailTokenRow.times_sent).toBe(1);
+
+      {
+        await getRequest({ email: user.email });
         const [emailTokenRow] = await knex('emailToken').where({ user_id, farm_id });
-        expect(emailTokenRow.times_sent).toBe(1);
-        getRequest({ email: user.email }, async () => {
+        expect(emailTokenRow.times_sent).toBe(2);
+
+        {
+          await getRequest({ email: user.email });
           const [emailTokenRow] = await knex('emailToken').where({ user_id, farm_id });
-          expect(emailTokenRow.times_sent).toBe(2);
-          getRequest({ email: user.email }, async () => {
+          expect(emailTokenRow.times_sent).toBe(3);
+
+          {
+            const res = await getRequest({ email: user.email });
+            expect(res.status).toBe(200);
             const [emailTokenRow] = await knex('emailToken').where({ user_id, farm_id });
             expect(emailTokenRow.times_sent).toBe(3);
-            getRequest({ email: user.email }, async (err, res) => {
-              expect(res.status).toBe(200);
-              const [emailTokenRow] = await knex('emailToken').where({ user_id, farm_id });
-              expect(emailTokenRow.times_sent).toBe(3);
-              expect(res.body.exists).toBe(false);
-              expect(res.body.invited).toBe(true);
-              expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(3);
-              done();
-            });
-          });
-        });
-      });
+            expect(res.body.exists).toBe(false);
+            expect(res.body.invited).toBe(true);
+            expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(3);
+          }
+        }
+      }
     });
   });
 });

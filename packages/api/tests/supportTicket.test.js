@@ -46,8 +46,8 @@ describe('supportTicket Tests', () => {
     token = global.token;
   });
 
-  function postRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai
+  function postRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }) {
+    return chai
       .request(server)
       .post(`/support_ticket`)
       .set('Content-Type', 'multipart/form-data')
@@ -56,8 +56,7 @@ describe('supportTicket Tests', () => {
       .field({
         _file_: data.attachments,
         data: JSON.stringify(data),
-      })
-      .end(callback);
+      });
   }
 
   function fakeUserFarm(role = 1) {
@@ -73,10 +72,9 @@ describe('supportTicket Tests', () => {
     );
   });
 
-  afterAll(async (done) => {
+  afterAll(async () => {
     await tableCleanup(knex);
     await knex.destroy();
-    done();
   });
 
   describe('Post support ticket', () => {
@@ -86,17 +84,15 @@ describe('supportTicket Tests', () => {
       fakeSupportTicket = mocks.fakeSupportTicket(farm.farm_id);
     });
 
-    test('Owner post support ticket', async (done) => {
-      postRequest(fakeSupportTicket, {}, async (err, res) => {
-        expect(res.status).toBe(201);
-        const supportTickets = await supportTicketModel
-          .query()
-          .context({ showHidden: true })
-          .where('support_ticket_id', res.body.support_ticket_id);
-        expect(supportTickets.length).toBe(1);
-        expect(supportTickets[0].created_by_user_id).toBe(owner.user_id);
-        done();
-      });
+    test('Owner post support ticket', async () => {
+      const res = await postRequest(fakeSupportTicket, {});
+      expect(res.status).toBe(201);
+      const supportTickets = await supportTicketModel
+        .query()
+        .context({ showHidden: true })
+        .where('support_ticket_id', res.body.support_ticket_id);
+      expect(supportTickets.length).toBe(1);
+      expect(supportTickets[0].created_by_user_id).toBe(owner.user_id);
     });
   });
 });

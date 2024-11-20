@@ -1947,6 +1947,7 @@
     "ADD_TASK": "Crear una tarea",
     "ADD_TASK_FLOW": "creación de tareas",
     "AMOUNT_TO_ALLOCATE": "Cantidad a asignar",
+    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "Múltiples cultivos",
       "MULTIPLE_LOCATIONS": "Múltiples ubicaciones"
@@ -2013,6 +2014,7 @@
     "QUANTITY_CANNOT_EXCEED": "La cantidad de cosecha utilizada no puede exceder la cantidad a asignar",
     "RATE_THIS_TASK": "Califica esta tarea",
     "REMOVE_HARVEST_USE": "Quitar",
+    "SELECT_ANIMALS_TO_MOVE": "MISSING",
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la(s) ubicación(es) de la tarea",
     "SELECT_WILD_CROP": "Esta tarea se dirige a un cultivo silvestre",

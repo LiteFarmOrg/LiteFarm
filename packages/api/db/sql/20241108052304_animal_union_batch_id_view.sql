@@ -12,23 +12,29 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-@import '../../../assets/mixin.scss';
 
-.mainContent {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1024px;
-}
+CREATE VIEW animal_union_batch_id_view AS
+SELECT
+  *,
+  ROW_NUMBER() OVER (PARTITION BY farm_id ORDER BY created_at, id, batch)::INTEGER AS internal_identifier
+FROM (
+  SELECT
+    id,
+    farm_id,
+    FALSE AS batch,
+    created_at
+  FROM
+    animal a
 
-.paper {
-  display: flex;
-  flex-direction: column;
+  UNION ALL
 
-  @include lg-breakpoint {
-    padding: 16px;
-  }
-}
-
-.taskViewHeight {
-  height: calc(100vh - var(--global-navbar-height) - var(--global-multi-step-task-layout-aggregated-height));
-}
+  SELECT
+    id,
+    farm_id,
+    TRUE AS batch,
+    created_at
+  FROM
+    animal_batch ab
+) animal_union_batch_id_view
+ORDER BY
+  created_at, id, batch;

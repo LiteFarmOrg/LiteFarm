@@ -1796,6 +1796,7 @@
     "ADD_TASK": "एक कार्य बनाएँ",
     "ADD_TASK_FLOW": "कार्य निर्माण",
     "AMOUNT_TO_ALLOCATE": "आवंटित राशि",
+    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "कई फसलें",
       "MULTIPLE_LOCATIONS": "कई स्थान"
@@ -1862,6 +1863,7 @@
     "QUANTITY_CANNOT_EXCEED": "फसल उपयोग की मात्रा आवंटित राशि से अधिक नहीं हो सकती",
     "RATE_THIS_TASK": "इस कार्य को रेट करें",
     "REMOVE_HARVEST_USE": "हटाएं",
+    "SELECT_ANIMALS_TO_MOVE": "MISSING",
     "SELECT_DATE": "कार्य तिथि चुनें",
     "SELECT_TASK_LOCATIONS": "कार्य स्थान(ओं) का चयन करें",
     "SELECT_WILD_CROP": "यह कार्य एक जंगली फसल को लक्षित करता है",

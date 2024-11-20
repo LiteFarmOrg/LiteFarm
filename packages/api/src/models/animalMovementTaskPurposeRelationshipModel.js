@@ -14,8 +14,6 @@
  */
 
 import Model from './baseFormatModel.js';
-import TaskModel from './taskModel.js';
-import AnimalMovementPurposeModel from './animalMovementPurposeModel.js';
 
 class AnimalMovementTaskPurposeRelationship extends Model {
   static get tableName() {
@@ -39,27 +37,6 @@ class AnimalMovementTaskPurposeRelationship extends Model {
         other_purpose: { type: ['string', 'null'], minLength: 1, maxLength: 255 },
       },
       additionalProperties: false,
-    };
-  }
-
-  static get relationMappings() {
-    return {
-      task: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: TaskModel,
-        join: {
-          from: 'animal_movement_task_purpose_relationship.task_id',
-          to: 'task.task_id',
-        },
-      },
-      purpose: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: AnimalMovementPurposeModel,
-        join: {
-          from: 'animal_movement_task_purpose_relationship.purpose_id',
-          to: 'animal_movement_purpose.id',
-        },
-      },
     };
   }
 }

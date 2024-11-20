@@ -1946,6 +1946,7 @@
     "ADD_TASK": "Criar tarefa",
     "ADD_TASK_FLOW": "criação de tarefa",
     "AMOUNT_TO_ALLOCATE": "Quantidade a ser alocada",
+    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "Múltiplos cultivos",
       "MULTIPLE_LOCATIONS": "Múltiplos locais"
@@ -2012,6 +2013,7 @@
     "QUANTITY_CANNOT_EXCEED": "A quantidade de colheita usada não pode exceder a quantidade a ser alocada",
     "RATE_THIS_TASK": "Avalie esta tarefa",
     "REMOVE_HARVEST_USE": "Remover",
+    "SELECT_ANIMALS_TO_MOVE": "MISSING",
     "SELECT_DATE": "Selecionar a data da tarefa",
     "SELECT_TASK_LOCATIONS": "Selecionar o(s) local(is) da tarefa",
     "SELECT_WILD_CROP": "Esta tarefa é para um cultivo silvestre",

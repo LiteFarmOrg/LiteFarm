@@ -1946,6 +1946,7 @@
     "ADD_TASK": "Créer une tâche",
     "ADD_TASK_FLOW": "création de tâche",
     "AMOUNT_TO_ALLOCATE": "Montant à allouer",
+    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "Plusieurs cultures",
       "MULTIPLE_LOCATIONS": "Plusieurs emplacements"
@@ -2012,6 +2013,7 @@
     "QUANTITY_CANNOT_EXCEED": "La quantité de récolte utilisée ne peut pas dépasser la quantité à allouer",
     "RATE_THIS_TASK": "Évaluez cette tâche",
     "REMOVE_HARVEST_USE": "Supprimer",
+    "SELECT_ANIMALS_TO_MOVE": "MISSING",
     "SELECT_DATE": "Sélectionnez la date de la tâche",
     "SELECT_TASK_LOCATIONS": "Sélectionnez le(s) emplacement(s) de la tâche",
     "SELECT_WILD_CROP": "Cette tâche cible une culture sauvage",

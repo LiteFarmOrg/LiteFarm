@@ -14,8 +14,6 @@
  */
 
 import Model from './baseFormatModel.js';
-import TaskModel from './taskModel.js';
-import AnimalBatchModel from './animalBatchModel.js';
 
 class TaskAnimalBatchRelationshipModel extends Model {
   static get tableName() {
@@ -38,27 +36,6 @@ class TaskAnimalBatchRelationshipModel extends Model {
         animal_batch_id: { type: 'integer' },
       },
       additionalProperties: false,
-    };
-  }
-
-  static get relationMappings() {
-    return {
-      task: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: TaskModel,
-        join: {
-          from: 'task_animal_batch_relationship.task_id',
-          to: 'task.task_id',
-        },
-      },
-      animal_batch: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: AnimalBatchModel,
-        join: {
-          from: 'task_animal_batch_relationship.animal_batch_id',
-          to: 'animal_batch.id',
-        },
-      },
     };
   }
 }

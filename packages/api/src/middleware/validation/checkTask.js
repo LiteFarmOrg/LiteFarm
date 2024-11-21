@@ -24,6 +24,7 @@ import { checkIsArray, customError } from '../../util/customErrors.js';
 
 const adminRoles = [1, 2, 5];
 const taskTypesRequiringProducts = ['soil_amendment_task'];
+const clientRestrictedReasons = ['NO_ANIMALS'];
 
 export function noReqBodyCheckYet() {
   return async (req, res, next) => {
@@ -60,6 +61,10 @@ export function checkAbandonTask() {
 
       if (abandonment_reason.toUpperCase() === 'OTHER' && !other_abandonment_reason) {
         return res.status(400).send('must have other_abandonment_reason');
+      }
+
+      if (clientRestrictedReasons.includes(abandonment_reason.toUpperCase())) {
+        return res.status(400).send('The provided abandonment_reason is not allowed');
       }
 
       if (!abandon_date) {

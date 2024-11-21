@@ -26,7 +26,7 @@ export const up = async (knex) => {
     'WEATHER',
     'MACHINERY_ISSUE',
     'SCHEDULING_ISSUE',
-    'NO_ANIMALS_AVAILABLE',
+    'NO_ANIMALS',
   ];
   await knex.raw(`
     ALTER TABLE task ADD CONSTRAINT abandonment_reason_check 

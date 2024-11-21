@@ -164,8 +164,6 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
       console.error(e);
       dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_UPDATE_BATCH')));
     }
-
-    onGoForward();
   };
 
   const getInventoryId = () => {

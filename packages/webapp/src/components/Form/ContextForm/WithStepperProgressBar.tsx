@@ -13,8 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import { UseFormHandleSubmit, FieldValues, FormState, UseFormReset } from 'react-hook-form';
+import { ReactNode, useEffect, useState } from 'react';
+import {
+  UseFormHandleSubmit,
+  FieldValues,
+  FormState,
+  UseFormReset,
+  UseFormGetValues,
+} from 'react-hook-form';
 import { History } from 'history';
 import StepperProgressBar from '../../StepperProgressBar';
 import FloatingContainer from '../../FloatingContainer';
@@ -45,6 +51,7 @@ interface WithStepperProgressBarProps {
   onCancel: () => void;
   onGoForward: () => void;
   reset: UseFormReset<FieldValues>;
+  getValues: UseFormGetValues<FieldValues>;
   formState: FormState<FieldValues>;
   handleSubmit: UseFormHandleSubmit<FieldValues>;
   setFormResultData: (data: any) => void;
@@ -70,6 +77,7 @@ export const WithStepperProgressBar = ({
   onGoForward,
   handleSubmit,
   reset,
+  getValues,
   formState: { isValid, isDirty },
   setFormResultData,
   isEditing,
@@ -109,6 +117,7 @@ export const WithStepperProgressBar = ({
     if (isFinalStep) {
       setIsSaving(true);
       await handleSubmit((data: FieldValues) => onSave(data, onGoForward, setFormResultData))();
+      reset(getValues());
       setIsSaving(false);
       setIsEditing?.(false);
       return;

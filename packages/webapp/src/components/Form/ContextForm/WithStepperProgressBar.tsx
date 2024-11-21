@@ -14,7 +14,7 @@
  */
 
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { UseFormHandleSubmit, FieldValues, FormState } from 'react-hook-form';
+import { UseFormHandleSubmit, FieldValues, FormState, UseFormReset } from 'react-hook-form';
 import { History } from 'history';
 import StepperProgressBar from '../../StepperProgressBar';
 import FloatingContainer from '../../FloatingContainer';
@@ -44,6 +44,7 @@ interface WithStepperProgressBarProps {
   onGoBack: () => void;
   onCancel: () => void;
   onGoForward: () => void;
+  reset: UseFormReset<FieldValues>;
   formState: FormState<FieldValues>;
   handleSubmit: UseFormHandleSubmit<FieldValues>;
   setFormResultData: (data: any) => void;
@@ -68,6 +69,7 @@ export const WithStepperProgressBar = ({
   onCancel,
   onGoForward,
   handleSubmit,
+  reset,
   formState: { isValid, isDirty },
   setFormResultData,
   isEditing,
@@ -121,7 +123,9 @@ export const WithStepperProgressBar = ({
     } catch (e) {
       console.error(`Error during canceling ${cancelModalTitle}: ${e}`);
     }
+    reset();
     setIsEditing?.(false);
+    setShowCancelFlow?.(false);
   };
 
   const handleDismissModal = () => {

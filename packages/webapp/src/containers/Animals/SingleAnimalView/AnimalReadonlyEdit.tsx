@@ -13,33 +13,38 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useTranslation } from 'react-i18next';
+import { useFormContext } from 'react-hook-form';
+import AnimalBatchBasicInfo from '../../../components/Animals/AnimalBatchBasicInfo';
 import useImagePickerUpload from '../../../components/ImagePicker/useImagePickerUpload';
 import { useAnimalOptions } from '../AddAnimals/useAnimalOptions';
 import { useCurrencySymbol } from '../../hooks/useCurrencySymbol';
-import { useTranslation } from 'react-i18next';
-import { AnimalOrBatchKeys } from '../types';
 import { CommonDetailsProps } from '../AddAnimals/types';
-import GeneralDetails from '../../../components/Animals/DetailCards/General';
-import UniqueDetails from '../../../components/Animals/DetailCards/Unique';
-import Origin from '../../../components/Animals/DetailCards/Origin';
-import OtherDetails from '../../../components/Animals/DetailCards/Other';
+import { AnimalOrBatchKeys } from '../types';
 
-// TODO: LF-4383 Animal Details Form Container. This is placeholder
 const AnimalReadonlyEdit = ({ isEditing = false }) => {
   const { getOnFileUpload } = useImagePickerUpload();
   const { t } = useTranslation(['translation', 'common', 'animal']);
 
-  const isAnimal = true; // TODO LF-4383 decide how to handle animals vs batches
+  const {
+    formState: { defaultValues },
+  } = useFormContext();
+
+  const isAnimal = defaultValues?.animal_or_batch === AnimalOrBatchKeys.ANIMAL;
 
   const {
+    typeOptions,
+    breedOptions,
     sexOptions,
     sexDetailsOptions,
-    useOptions,
+    animalUseOptions,
     tagTypeOptions,
     tagColorOptions,
     organicStatusOptions,
     originOptions,
   } = useAnimalOptions(
+    'type',
+    'breed',
     'sex',
     'sexDetails',
     'use',
@@ -49,8 +54,6 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
     'origin',
   );
 
-  // TODO: LF-4383 Form container -- useOptions per type used to be narrowed in the container; now since type can be altered this will have to be moved to the component
-
   const currency = useCurrencySymbol();
 
   const commonProps: CommonDetailsProps = {
@@ -59,41 +62,42 @@ const AnimalReadonlyEdit = ({ isEditing = false }) => {
   };
 
   const generalDetailProps = {
+    typeOptions,
+    breedOptions,
     sexOptions,
     sexDetailsOptions,
-    useOptions,
+    animalUseOptions,
+    animalOrBatch: isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH,
+    ...commonProps,
   };
   const otherDetailsProps = {
     organicStatusOptions,
     getOnFileUpload,
     imageUploadTargetRoute: isAnimal ? 'animal' : 'animalBatch',
+    animalOrBatch: isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH,
+    ...commonProps,
   };
   const originProps = {
     currency: currency,
     originOptions,
+    ...commonProps,
   };
 
   const uniqueDetailsProps = {
     tagTypeOptions,
     tagColorOptions,
+    ...commonProps,
   };
 
-  // TODO: LF-4383 Animal details Form container -- Create a real wrapping component with styles for these cards, passing of readonly and edit modes in child components, and decision about whether Animal + Batch will be handled via prop or via separate components (as in AnimalDetails and BatchDetails). ExpandableItem is not necessary for this component as they will never collapse
   return (
     <>
-      <h2>LF-4383 Animal Details Form Container</h2>
-      <GeneralDetails
-        {...generalDetailProps}
-        {...commonProps}
-        animalOrBatch={isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH}
+      <AnimalBatchBasicInfo
+        isAnimal={isAnimal}
+        generalDetailProps={generalDetailProps}
+        uniqueDetailsProps={uniqueDetailsProps}
+        otherDetailsProps={otherDetailsProps}
+        originProps={originProps}
       />
-      <UniqueDetails {...uniqueDetailsProps} {...commonProps} />
-      <OtherDetails
-        {...commonProps}
-        {...otherDetailsProps}
-        animalOrBatch={isAnimal ? AnimalOrBatchKeys.ANIMAL : AnimalOrBatchKeys.BATCH}
-      />
-      <Origin {...originProps} {...commonProps} />
     </>
   );
 };

@@ -119,6 +119,7 @@ class AnimalBatchModel extends baseModel {
           from: 'animal_batch.id',
           to: 'animal_batch_sex_detail.animal_batch_id',
         },
+        modify: (query) => query.where('deleted', false),
       },
       animal_union_batch: {
         relation: Model.HasOneRelation,

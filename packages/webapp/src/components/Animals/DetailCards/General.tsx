@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useMemo } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -40,10 +39,16 @@ import {
   Option as AnimalSelectOption,
   AnimalBreedSelect,
 } from '../AddAnimalsFormCard/AnimalSelect';
+import { parseUniqueDefaultId } from '../../../util/animal';
+
+export type AnimalUseOptions = {
+  default_type_id: number | null;
+  uses: Option[DetailsFields.USE][];
+}[];
 
 export type GeneralDetailsProps = CommonDetailsProps & {
   sexOptions: Option[DetailsFields.SEX][];
-  useOptions: Option[DetailsFields.USE][];
+  animalUseOptions: AnimalUseOptions;
   animalOrBatch: AnimalOrBatchKeys;
   sexDetailsOptions?: SexDetailsType;
   typeOptions?: AnimalSelectOption[];
@@ -54,7 +59,7 @@ export type GeneralDetailsProps = CommonDetailsProps & {
 const GeneralDetails = ({
   t,
   sexOptions,
-  useOptions,
+  animalUseOptions,
   animalOrBatch,
   sexDetailsOptions,
   namePrefix = '',
@@ -79,28 +84,28 @@ const GeneralDetails = ({
   const watchAnimalType = watch(`${namePrefix}${DetailsFields.TYPE}`);
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
+  const filteredUses = watchAnimalType?.value
+    ? animalUseOptions.find(
+        ({ default_type_id }) => default_type_id === parseUniqueDefaultId(watchAnimalType?.value),
+      )?.uses
+    : animalUseOptions.find(({ default_type_id }) => default_type_id === null)?.uses;
+
   const isOtherUseSelected = !watchedUse ? false : watchedUse.some((use) => use.key === 'OTHER');
 
-  const sexInputs = useMemo(() => {
-    if (animalOrBatch === AnimalOrBatchKeys.ANIMAL) {
-      return (
-        <>
-          <div>
-            <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
-            {/* @ts-ignore */}
-            <RadioGroup
-              name={`${namePrefix}${DetailsFields.SEX}`}
-              radios={sexOptions}
-              hookFormControl={control}
-              row
-              disabled={mode === 'readonly'}
-            />
-          </div>
-        </>
-      );
-    }
-
-    return (
+  const sexInputs =
+    animalOrBatch === AnimalOrBatchKeys.ANIMAL ? (
+      <div>
+        <InputBaseLabel optional label={t('ANIMAL.ANIMAL_SEXES')} />
+        {/* @ts-ignore */}
+        <RadioGroup
+          name={`${namePrefix}${DetailsFields.SEX}`}
+          radios={sexOptions}
+          hookFormControl={control}
+          row
+          disabled={mode === 'readonly'}
+        />
+      </div>
+    ) : (
       <div className={styles.countAndSexDetailsWrapper}>
         <NumberInput
           name={`${namePrefix}${DetailsFields.COUNT}`}
@@ -130,20 +135,17 @@ const GeneralDetails = ({
               return total <= watchBatchCount || 'Invalid sexDetails for count';
             },
           }}
-          render={({ field: { onChange, value } }) => {
-            return (
-              <SexDetails
-                initialDetails={value || sexDetailsOptions}
-                maxCount={watchBatchCount}
-                onConfirm={(details) => onChange(details)}
-                isDisabled={mode === 'readonly'}
-              />
-            );
-          }}
+          render={({ field: { onChange, value } }) => (
+            <SexDetails
+              initialDetails={value || sexDetailsOptions}
+              maxCount={watchBatchCount}
+              onConfirm={onChange}
+              isDisabled={mode === 'readonly'}
+            />
+          )}
         />
       </div>
     );
-  }, [animalOrBatch, t, sexOptions, control, watchBatchCount]);
 
   return (
     <div className={clsx(styles.sectionWrapper, mode === 'edit' && styles.edit)}>
@@ -152,7 +154,7 @@ const GeneralDetails = ({
           {/* @ts-ignore */}
           <LockedInput
             label={t('ANIMAL.ATTRIBUTE.LITEFARM_ID')}
-            placeholder={getValues(`${namePrefix}${DetailsFields.ID}`)}
+            placeholder={`${t('ANIMAL.ANIMAL_ID')}${getValues(`${namePrefix}${DetailsFields.ID}`)}`}
           />
         </>
       )}
@@ -203,7 +205,7 @@ const GeneralDetails = ({
             isMulti
             value={value}
             onChange={onChange}
-            options={useOptions}
+            options={filteredUses}
             style={{ paddingBottom: '12px' }} // accomodate "Clear all" button space
             isDisabled={mode === 'readonly'}
           />

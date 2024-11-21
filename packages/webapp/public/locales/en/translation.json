@@ -301,6 +301,7 @@
       "WEANING_DATE": "Weaning date"
     },
     "BATCH": "Batch",
+    "EDIT_ANIMAL_FLOW": "editing",
     "FILTER": {
       "BATCHES": "Batches",
       "BATCHES_OR_INDIVIDUALS": "Batches or Individuals",

@@ -38,7 +38,7 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
   const PURPOSE = `movement_task.purpose`;
   const OTHER_PURPOSE_EXPLANATION = `movement_task.other_purpose_explanation`;
 
-  const selectedPurposes: AnimalMovementPurpose[] & { value: number; label: string } =
+  const selectedPurposes: (AnimalMovementPurpose & { value: number; label: string })[] =
     watch(PURPOSE);
 
   return (

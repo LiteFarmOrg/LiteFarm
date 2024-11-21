@@ -14,7 +14,6 @@
     "BATCH_NAME": "Batch name",
     "BATCH_NAME_PLACEHOLDER": "Type in batch name",
     "BREED": "Breed",
-    "BREED_PLACEHOLDER": "Add your animal breed",
     "BREED_PLACEHOLDER_DISABLED": "Please select a type first",
     "CREATE_INDIVIDUAL_PROFILES": "Create individual animal profiles",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately",
@@ -62,7 +61,6 @@
       "MAIN": "You successfully added {{animalCount}} {{and}} {{batchCount}} to your inventory."
     },
     "TYPE": "Type",
-    "TYPE_PLACEHOLDER": "Select the animal type",
     "UNIQUE_DETAILS": "Unique details"
   },
   "ADD_FARM": {

@@ -20,6 +20,7 @@ import Input, { getInputErrors } from '../../Form/Input';
 import { hookFormMaxCharsValidation } from '../../Form/hookformValidationUtils';
 import styles from './styles.module.scss';
 import { useGetAnimalMovementPurposesQuery } from '../../../store/api/apiSlice';
+import { AnimalMovementPurpose } from '../../../store/api/types';
 
 type PureMovementTaskProps = UseFormReturn;
 
@@ -37,7 +38,8 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
   const PURPOSE = `movement_task.purpose`;
   const OTHER_PURPOSE_EXPLANATION = `movement_task.other_purpose_explanation`;
 
-  const selectedPurpose = watch(PURPOSE);
+  const selectedPurposes: AnimalMovementPurpose[] & { value: number; label: string } =
+    watch(PURPOSE);
 
   return (
     <div className={styles.movementTaskDetailsContainer}>
@@ -50,6 +52,7 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
             value={value}
             label={t('ADD_TASK.MOVEMENT_VIEW.MOVEMENT_PURPOSE_LABEL')}
             options={purposes.map((purpose) => ({
+              ...purpose,
               value: purpose.id,
               label: t(`animal:PURPOSE.${purpose.key}`),
             }))}
@@ -59,7 +62,7 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
           />
         )}
       />
-      {selectedPurpose?.key === 'OTHER' && (
+      {selectedPurposes?.some((purpose) => purpose.key === 'OTHER') && (
         <>
           {/* @ts-ignore */}
           <Input

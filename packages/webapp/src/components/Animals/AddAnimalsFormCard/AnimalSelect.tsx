@@ -51,7 +51,6 @@ export function AnimalTypeSelect<T extends FieldValues>({
         render={({ field: { onChange, value } }) => (
           <CreatableSelect
             label={t('ADD_ANIMAL.TYPE')}
-            placeholder={t('ADD_ANIMAL.TYPE_PLACEHOLDER')}
             options={typeOptions}
             onChange={(option) => {
               onChange(option);
@@ -94,11 +93,7 @@ export function AnimalBreedSelect<T extends FieldValues>({
           label={t('ADD_ANIMAL.BREED')}
           optional
           controlShouldRenderValue={isTypeSelected}
-          placeholder={
-            isTypeSelected
-              ? t('ADD_ANIMAL.BREED_PLACEHOLDER')
-              : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')
-          }
+          placeholder={isTypeSelected ? undefined : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')}
           isDisabled={!isTypeSelected || isDisabled}
           onChange={(option) => onChange(option)}
           value={value}

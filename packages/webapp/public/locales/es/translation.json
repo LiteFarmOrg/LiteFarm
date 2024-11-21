@@ -944,7 +944,7 @@
     },
     "TUTORIALS": "Tutoriales de mapas",
     "UNABLE_TO_RETIRE": {
-      "BODY": "Solo puede retirar ubicaciones que no tengan cultivos o tareas activos o planificados.",
+      "BODY": "MISSING",
       "TITLE": "No se pudo retirar"
     },
     "WATER_VALVE": {

@@ -1049,6 +1049,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",
     "EMAIL": "E-mail",
+    "FEEDBACK_INVITATION": "MISSING",
     "MESSAGE_LABEL": "Mensagem",
     "OPTIONS": {
       "OTHER": "Outro",

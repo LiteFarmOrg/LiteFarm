@@ -933,6 +933,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Bildschirmfoto oder Datei hochladen",
     "EMAIL": "E-Mail",
+    "FEEDBACK_INVITATION": "MISSING",
     "MESSAGE_LABEL": "Nachricht",
     "OPTIONS": {
       "OTHER": "Andere",

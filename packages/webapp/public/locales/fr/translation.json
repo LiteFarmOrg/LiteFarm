@@ -1049,6 +1049,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Télécharger une capture d'écran ou un fichier",
     "EMAIL": "Courriel",
+    "FEEDBACK_INVITATION": "MISSING",
     "MESSAGE_LABEL": "Message",
     "OPTIONS": {
       "OTHER": "Autre",

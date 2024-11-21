@@ -158,7 +158,7 @@ const PureAnimalInventory = ({
         )}
       </div>
       {isAdmin && !isTaskView && (
-        <div className={styles.buttonWrapper}>
+        <div className={styles.ctaButtonWrapper}>
           <FloatingActionButton
             // @ts-ignore
             type={'add'}

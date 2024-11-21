@@ -238,7 +238,7 @@ export default function TaskPage({ history }) {
         />
       )}
 
-      <div className={styles.buttonWrapper}>
+      <div className={styles.ctaButtonWrapper}>
         <FloatingActionButton
           type={'add'}
           onClick={handleAddTask}

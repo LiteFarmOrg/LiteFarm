@@ -239,7 +239,11 @@ export default function TaskPage({ history }) {
       )}
 
       <div className={styles.buttonWrapper}>
-        <FloatingActionButton type={'add'} onClick={handleAddTask} />
+        <FloatingActionButton
+          type={'add'}
+          onClick={handleAddTask}
+          aria-label={t('TASK.ADD_TASK')}
+        />
       </div>
     </>
   );

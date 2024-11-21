@@ -144,6 +144,8 @@
     },
     "NEED_MANAGEMENT_PLAN": "ਵਾਢੀ ਦੇ ਕੰਮ ਜਾਂ ਟ੍ਰਾਂਸਪਲਾਂਟ ਦੇ ਕੰਮ ਨੂੰ ਨਿਯਤ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਇੱਕ ਕਿਰਿਆਸ਼ੀਲ ਜਾਂ ਯੋਜਨਾਬੱਧ ਫਸਲ ਯੋਜਨਾ ਦੀ ਲੋੜ ਪਵੇਗੀ। ਹੁਣੇ ਇੱਕ ਯੋਜਨਾ ਬਣਾਉਣ ਲਈ ਫਸਲ ਕੈਟਾਲਾਗ 'ਤੇ ਜਾਓ।",
     "NO_MANAGEMENT_PLAN": "ਕੋਈ ਯੋਗ ਫਸਲ ਯੋਜਨਾ ਨਹੀਂ",
+    "NOTES_LABEL": "MISSING",
+    "NOTES_PLACEHOLDER": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "ਜੈਵਿਕ ਨਿਯੰਤਰਣ",
       "FLAME_WEEDING": "ਬਲਦੀ ਬੂਟੀ",

@@ -216,6 +216,8 @@
     },
     "NEED_MANAGEMENT_PLAN": "Necesitará un plan de cultivo que está activo o planificado antes de poder programar una tarea de cosecha o una tarea de trasplante. Vaya al catálogo de cultivos para crear un plan ahora.",
     "NO_MANAGEMENT_PLAN": "No hay ningun plan de cultivo de cultivos elegibles",
+    "NOTES_LABEL": "MISSING",
+    "NOTES_PLACEHOLDER": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Control biológico",
       "FLAME_WEEDING": "Deshierbe de llama",

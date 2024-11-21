@@ -144,6 +144,8 @@
     },
     "NEED_MANAGEMENT_PLAN": "आपको कटाई कार्य या प्रत्यारोपण कार्य निर्धारित करने से पहले एक सक्रिय या योजनाबद्ध फसल योजना की आवश्यकता होगी। अब योजना बनाने के लिए फसल कैटलॉग पर जाएँ।",
     "NO_MANAGEMENT_PLAN": "कोई योग्य फसल योजना नहीं",
+    "NOTES_LABEL": "MISSING",
+    "NOTES_PLACEHOLDER": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "जैविक नियंत्रण",
       "FLAME_WEEDING": "लौ निराई",

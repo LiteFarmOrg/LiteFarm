@@ -147,6 +147,8 @@
     },
     "NEED_MANAGEMENT_PLAN": "Sie benötigen einen aktiven oder geplanten Anbauplan, bevor Sie eine Ernteaufgabe oder eine Umpflanzaufgabe planen können. Rufen Sie den Pflanzenkatalog auf, um jetzt einen Plan zu erstellen.",
     "NO_MANAGEMENT_PLAN": "Keine förderfähigen Anbaupläne",
+    "NOTES_LABEL": "MISSING",
+    "NOTES_PLACEHOLDER": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Biologische Kontrolle",
       "FLAME_WEEDING": "Flammenunkrautbekämpfung",

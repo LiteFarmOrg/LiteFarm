@@ -15,7 +15,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
@@ -45,6 +45,7 @@ import RemoveAnimalsModal, { FormFields } from '../../../components/Animals/Remo
 import useAnimalOrBatchRemoval from '../Inventory/useAnimalOrBatchRemoval';
 import { generateInventoryId } from '../../../util/animal';
 import { CustomRouteComponentProps } from '../../../types';
+import { isAdminSelector } from '../../userFarmSlice';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -68,6 +69,8 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
   const { data: defaultAnimalBreeds = [] } = useGetDefaultAnimalBreedsQuery();
 
   const [isEditing, setIsEditing] = useState(false);
+
+  const isAdmin = useSelector(isAdminSelector);
 
   const initiateEdit = () => {
     setIsEditing(true);
@@ -195,7 +198,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
           <>
             {defaultFormValues && (
               <AnimalSingleViewHeader
-                hideMenu={isRemoved}
+                hideMenu={!isAdmin || isRemoved}
                 onEdit={initiateEdit}
                 onRemove={() => setRemovalModalOpen(true)}
                 isEditing={isEditing}

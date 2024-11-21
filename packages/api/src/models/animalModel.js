@@ -227,16 +227,65 @@ class Animal extends baseModel {
     };
   }
 
-  // Get animals with final (completed or abandoned) tasks
-  static async getAnimalsWithFinalTasks(trx, batchIds) {
+  static async getAnimalsWithTasks(trx, animalIds, taskFilterCondition) {
+    if (taskFilterCondition) {
+      return Animal.query(trx)
+        .withGraphFetched('tasks')
+        .modifyGraph('tasks', (builder) => {
+          builder.where('deleted', false).whereRaw(taskFilterCondition);
+        })
+        .whereIn('animal.id', animalIds);
+    }
+
     return Animal.query(trx)
       .withGraphFetched('tasks')
-      .whereIn('animal.id', batchIds)
-      .whereExists(
-        Animal.relatedQuery('tasks')
-          .where('tasks.deleted', false)
-          .whereRaw('tasks.complete_date IS NOT NULL OR tasks.abandon_date IS NOT NULL'),
-      );
+      .modifyGraph('tasks', (builder) => {
+        builder.where('deleted', false);
+      })
+      .whereIn('animal.id', animalIds)
+      .transacting(trx);
+  }
+
+  // Get animals with final (completed or abandoned) tasks
+  static async getAnimalsWithFinalTasks(trx, animalIds) {
+    return Animal.getAnimalsWithTasks(
+      trx,
+      animalIds,
+      'complete_date IS NOT NULL OR abandon_date IS NOT NULL',
+    );
+  }
+
+  static async getAnimalsWithIncompleteTasks(trx, animalIds) {
+    return Animal.getAnimalsWithTasks(
+      trx,
+      animalIds,
+      'complete_date IS NULL AND abandon_date IS NULL',
+    );
+  }
+
+  static async unrelateIncompleteTasksForAnimals(trx, animalIds) {
+    const animals = await Animal.getAnimalsWithIncompleteTasks(trx, animalIds);
+    if (!animals) {
+      return { unrelatedTaskIds: [] };
+    }
+
+    let unrelatedTaskIds = [];
+
+    // Delete relationships
+    await Promise.all(
+      animals.map(({ id, tasks }) => {
+        const taskIds = tasks.map(({ task_id }) => task_id);
+        unrelatedTaskIds = [...unrelatedTaskIds, ...taskIds];
+
+        return Animal.relatedQuery('tasks')
+          .for(id)
+          .unrelate()
+          .whereIn('task.task_id', taskIds)
+          .transacting(trx);
+      }),
+    );
+
+    return { unrelatedTaskIds: [...new Set(unrelatedTaskIds)] };
   }
 }
 

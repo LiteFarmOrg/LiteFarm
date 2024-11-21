@@ -233,16 +233,59 @@ class AnimalBatchModel extends baseModel {
     };
   }
 
-  // Get batches with final (completed or abandoned) tasks
-  static async getBatchesWithFinalTasks(trx, batchIds) {
+  static async getBatchesWithTasks(trx, animalIds, taskFilterCondition) {
+    if (taskFilterCondition) {
+      return AnimalBatchModel.query(trx)
+        .withGraphFetched('tasks')
+        .modifyGraph('tasks', (builder) => {
+          builder.where('deleted', false).whereRaw(taskFilterCondition);
+        })
+        .whereIn('animal_batch.id', animalIds);
+    }
+
     return AnimalBatchModel.query(trx)
       .withGraphFetched('tasks')
-      .whereIn('animal_batch.id', batchIds)
-      .whereExists(
-        AnimalBatchModel.relatedQuery('tasks')
-          .where('tasks.deleted', false)
-          .whereRaw('tasks.complete_date IS NOT NULL OR tasks.abandon_date IS NOT NULL'),
-      );
+      .modifyGraph('tasks', (builder) => {
+        builder.where('deleted', false);
+      })
+      .whereIn('animal_batch.id', animalIds);
+  }
+
+  // Get animals with final (completed or abandoned) tasks
+  static async getBatchesWithFinalTasks(trx, animalIds) {
+    return AnimalBatchModel.getBatchesWithTasks(
+      trx,
+      animalIds,
+      'complete_date IS NOT NULL OR abandon_date IS NOT NULL',
+    );
+  }
+
+  static async getBatchesWithIncompleteTasks(trx, animalIds) {
+    return AnimalBatchModel.getBatchesWithTasks(
+      trx,
+      animalIds,
+      'complete_date IS NULL AND abandon_date IS NULL',
+    );
+  }
+
+  static async unrelateIncompleteTasksForBatches(trx, batchIds) {
+    const batches = await AnimalBatchModel.getBatchesWithIncompleteTasks(trx, batchIds);
+    let unrelatedTaskIds = [];
+
+    // Delete relationships
+    await Promise.all(
+      batches.map(({ id, tasks }) => {
+        const taskIds = tasks.map(({ task_id }) => task_id);
+        unrelatedTaskIds = [...unrelatedTaskIds, ...taskIds];
+
+        return AnimalBatchModel.relatedQuery('tasks', trx)
+          .for(id)
+          .unrelate()
+          .whereIn('task.task_id', taskIds);
+      }),
+    );
+
+    return { unrelatedTaskIds };
   }
 }
 

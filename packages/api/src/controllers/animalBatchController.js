@@ -17,7 +17,11 @@ import { Model, transaction } from 'objection';
 import AnimalBatchModel from '../models/animalBatchModel.js';
 import baseController from './baseController.js';
 import { handleObjectionError } from '../util/errorCodes.js';
-import { assignInternalIdentifiers, checkAndAddCustomTypeAndBreed } from '../util/animal.js';
+import {
+  assignInternalIdentifiers,
+  checkAndAddCustomTypeAndBreed,
+  handleIncompleteTasksForAnimalsAndBatches,
+} from '../util/animal.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
 import _pick from 'lodash/pick.js';
 
@@ -155,6 +159,7 @@ const animalBatchController = {
   removeAnimalBatches() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
+      const ids = [];
 
       try {
         for (const animalBatch of req.body) {
@@ -171,7 +176,13 @@ const animalBatchController = {
             req,
             { trx },
           );
+
+          ids.push(id);
         }
+
+        // assume removal_date is the same for all batches
+        const { removal_date } = req.body[0];
+        await handleIncompleteTasksForAnimalsAndBatches(req, trx, 'batch', ids, removal_date);
         await trx.commit();
         return res.status(204).send();
       } catch (error) {

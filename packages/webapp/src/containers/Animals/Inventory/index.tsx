@@ -51,6 +51,7 @@ interface AnimalInventoryProps {
   onSelect?: (newIds: string[]) => void;
   view?: View;
   isCompactSideMenu: boolean;
+  setFeedbackSurveyOpen: () => void;
   containerHeight: number;
   history: History;
 }
@@ -69,6 +70,7 @@ function AnimalInventory({
   onSelect,
   view = View.DEFAULT,
   isCompactSideMenu,
+  setFeedbackSurveyOpen,
   history,
 }: AnimalInventoryProps) {
   const isTaskView = view === View.TASK;
@@ -244,7 +246,7 @@ function AnimalInventory({
   ];
 
   return (
-    <AnimalsBetaSpotlight>
+    <AnimalsBetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
       <FixedHeaderContainer
         header={
           !isTaskView ? (

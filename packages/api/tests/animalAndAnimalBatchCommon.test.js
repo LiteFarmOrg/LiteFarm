@@ -50,6 +50,10 @@ const abandonTaskBody = {
   abandonment_reason: 'SCHEDULING_ISSUE',
   abandon_date: new Date(2024, 10, 30),
 };
+const TASK_STATE = {
+  COMPLETE: 'complete',
+  ABANDONED: 'abandoned',
+};
 
 const getIds = (animalsOrBatches) => animalsOrBatches.map(({ id }) => id);
 
@@ -92,8 +96,8 @@ describe('Animal and Animal Batch Tests', () => {
       );
     };
 
-    const createAnimalTask = async ({ animalIds = [], batchIds = [] }) => {
-      return postTaskRequest({ user_id, farm_id }, 'animal_movement_task', {
+    const createAnimalTask = async ({ animalIds = [], batchIds = [], taskState }) => {
+      const postRes = await postTaskRequest({ user_id, farm_id }, 'animal_movement_task', {
         ...mocks.fakeTask(),
         assignee_user_id: user_id,
         owner_user_id: user_id,
@@ -103,6 +107,16 @@ describe('Animal and Animal Batch Tests', () => {
         related_batch_ids: batchIds,
         animal_movement_task: {},
       });
+      const { task_id: taskId } = postRes.body;
+
+      if (taskState === TASK_STATE.COMPLETE) {
+        await completeAnimalTask(taskId);
+      }
+      if (taskState === TASK_STATE.ABANDONED) {
+        await abandonAnimalTask(taskId);
+      }
+
+      return { taskId };
     };
 
     const completeAnimalTask = async (taskId) => {
@@ -178,26 +192,28 @@ describe('Animal and Animal Batch Tests', () => {
     describe.each(['animal', 'batch'])('Remove %s with tasks', (animalOrBatch) => {
       test(`Should remove ${animalOrBatch} with incomplete task`, async () => {
         const [[entity1], [entity2]] = await createAnimalsOrBatches(animalOrBatch, 2);
-        const ids = [entity1, entity2].map(({ id }) => id);
-        const postRes = await createAnimalTask({ [`${animalOrBatch}Ids`]: ids });
+        const ids = getIds([entity1, entity2]);
+        const { taskId } = await createAnimalTask({ [`${animalOrBatch}Ids`]: ids });
         const res = await removeAnimalsOrBatches(animalOrBatch, ids);
         expect(res.status).toBe(204);
         await checkAnimalOrBatchAndTaskRelationships(animalOrBatch, ids, [
-          { taskId: postRes.body.task_id, remainingAnimalOrBatchIds: [] },
+          { taskId, remainingAnimalOrBatchIds: [] },
         ]);
       });
 
       test(`Should remove ${animalOrBatch} with abandoned task`, async () => {
         const [[entity1], [entity2]] = await createAnimalsOrBatches(animalOrBatch, 2);
-        const ids = [entity1, entity2].map(({ id }) => id);
-        const postRes = await createAnimalTask({ [`${animalOrBatch}Ids`]: ids });
-        await abandonAnimalTask(postRes.body.task_id);
+        const ids = getIds([entity1, entity2]);
+        const { taskId } = await createAnimalTask({
+          [`${animalOrBatch}Ids`]: ids,
+          taskState: TASK_STATE.ABANDONED,
+        });
         const res = await removeAnimalsOrBatches(animalOrBatch, ids);
 
         expect(res.status).toBe(204);
         await checkAnimalOrBatchAndTaskRelationships(animalOrBatch, ids, [
           {
-            taskId: postRes.body.task_id,
+            taskId,
             remainingAnimalOrBatchIds: ids, // animals or batches should not be removed from abandoned tasks
             abandonDate: new Date(abandonTaskBody.abandon_date).toISOString(),
             abandonmentReason: abandonTaskBody.abandonment_reason,
@@ -207,15 +223,17 @@ describe('Animal and Animal Batch Tests', () => {
 
       test(`Should remove ${animalOrBatch} with completed task`, async () => {
         const [[entity1], [entity2]] = await createAnimalsOrBatches(animalOrBatch, 2);
-        const ids = [entity1, entity2].map(({ id }) => id);
-        const postRes = await createAnimalTask({ [`${animalOrBatch}Ids`]: ids });
-        await completeAnimalTask(postRes.body.task_id);
+        const ids = getIds([entity1, entity2]);
+        const { taskId } = await createAnimalTask({
+          [`${animalOrBatch}Ids`]: ids,
+          taskState: TASK_STATE.COMPLETE,
+        });
         const res = await removeAnimalsOrBatches(animalOrBatch, ids);
 
         expect(res.status).toBe(204);
         await checkAnimalOrBatchAndTaskRelationships(animalOrBatch, ids, [
           {
-            taskId: postRes.body.task_id,
+            taskId,
             remainingAnimalOrBatchIds: ids, // animals or batches should not be removed from completed tasks
           },
         ]);
@@ -230,6 +248,12 @@ describe('Animal and Animal Batch Tests', () => {
         const testCases = [];
         const relationshipsWithExistingEntities = [];
 
+        const addRelationships = (entities, animalOrBatch, taskId) => {
+          entities.forEach(({ id }) =>
+            relationshipsWithExistingEntities.push({ animalOrBatch, id, taskId }),
+          );
+        };
+
         const animalIds = getIds([
           animal1,
           animal2,
@@ -243,22 +267,19 @@ describe('Animal and Animal Batch Tests', () => {
 
         // task1 (Incomplete task for all animals or all batches)
         const task1EntityIds = animalOrBatch === 'animal' ? animalIds : batchIds;
-        const task1PostRes = await createAnimalTask({ [`${animalOrBatch}Ids`]: task1EntityIds });
-        const { task_id: task1Id } = task1PostRes.body;
+        const { taskId: task1Id } = await createAnimalTask({
+          [`${animalOrBatch}Ids`]: task1EntityIds,
+        });
         const remainingAnimalOrBatchIds = task1EntityIds.filter((id) => !idsToRemove.includes(id));
 
-        testCases.push({
-          taskId: task1Id,
-          remainingAnimalOrBatchIds: remainingAnimalOrBatchIds,
-        });
+        testCases.push({ taskId: task1Id, remainingAnimalOrBatchIds });
 
         remainingAnimalOrBatchIds.forEach((id) =>
           relationshipsWithExistingEntities.push({ animalOrBatch, id, taskId: task1Id }),
         );
 
         // task2 (Incomplete task for all animals and batches)
-        const task2PostRes = await createAnimalTask({ animalIds, batchIds });
-        const { task_id: task2Id } = task2PostRes.body;
+        const { taskId: task2Id } = await createAnimalTask({ animalIds, batchIds });
 
         testCases.push({
           taskId: task2Id,
@@ -267,34 +288,30 @@ describe('Animal and Animal Batch Tests', () => {
           ),
         });
 
-        [animal1, animal2].forEach(({ id }) =>
-          relationshipsWithExistingEntities.push({ animalOrBatch: 'animal', id, taskId: task2Id }),
-        );
-        [batch1, batch2].forEach(({ id }) =>
-          relationshipsWithExistingEntities.push({ animalOrBatch: 'batch', id, taskId: task2Id }),
-        );
+        addRelationships([animal1, animal2], 'animal', task2Id);
+        addRelationships([batch1, batch2], 'batch', task2Id);
 
         // task3 (Completed task for all animals and batches)
-        const task3PostRes = await createAnimalTask({ animalIds, batchIds });
-        const { task_id: task3Id } = task3PostRes.body;
-        await completeAnimalTask(task3Id);
+        const { taskId: task3Id } = await createAnimalTask({
+          animalIds,
+          batchIds,
+          taskState: TASK_STATE.COMPLETE,
+        });
 
         testCases.push({
           taskId: task3Id,
           remainingAnimalOrBatchIds: animalOrBatch === 'animal' ? animalIds : batchIds,
         });
 
-        [animal1, animal2].forEach(({ id }) =>
-          relationshipsWithExistingEntities.push({ animalOrBatch: 'animal', id, taskId: task3Id }),
-        );
-        [batch1, batch2].forEach(({ id }) =>
-          relationshipsWithExistingEntities.push({ animalOrBatch: 'batch', id, taskId: task3Id }),
-        );
+        addRelationships([animal1, animal2], 'animal', task3Id);
+        addRelationships([batch1, batch2], 'batch', task3Id);
 
         // task4 (Abandoned task for all animals and batches)
-        const task4PostRes = await createAnimalTask({ animalIds, batchIds });
-        const { task_id: task4Id } = task4PostRes.body;
-        await abandonAnimalTask(task4Id);
+        const { taskId: task4Id } = await createAnimalTask({
+          animalIds,
+          batchIds,
+          taskState: TASK_STATE.ABANDONED,
+        });
 
         testCases.push({
           taskId: task4Id,
@@ -303,22 +320,15 @@ describe('Animal and Animal Batch Tests', () => {
           abandonmentReason: abandonTaskBody.abandonment_reason,
         });
 
-        [animal1, animal2].forEach(({ id }) =>
-          relationshipsWithExistingEntities.push({ animalOrBatch: 'animal', id, taskId: task4Id }),
-        );
-        [batch1, batch2].forEach(({ id }) =>
-          relationshipsWithExistingEntities.push({ animalOrBatch: 'batch', id, taskId: task4Id }),
-        );
+        addRelationships([animal1, animal2], 'animal', task4Id);
+        addRelationships([batch1, batch2], 'batch', task4Id);
 
         //  task5 (Incomplete task for only entities that will be removed)
-        const task5PostRes = await createAnimalTask({
+        const { taskId: task5Id } = await createAnimalTask({
           [`${animalOrBatch}Ids`]: getIds([entity1, entity2]),
         });
 
-        testCases.push({
-          taskId: task5PostRes.body.task_id,
-          remainingAnimalOrBatchIds: [],
-        });
+        testCases.push({ taskId: task5Id, remainingAnimalOrBatchIds: [] });
 
         const res = await removeAnimalsOrBatches(animalOrBatch, idsToRemove);
 
@@ -338,22 +348,22 @@ describe('Animal and Animal Batch Tests', () => {
     describe.each(['animal', 'batch'])('Delete %s with tasks', (animalOrBatch) => {
       test(`Should delete ${animalOrBatch} with incomplete tasks`, async () => {
         const [[entity1], [entity2]] = await createAnimalsOrBatches(animalOrBatch, 2);
-        const ids = [entity1, entity2].map(({ id }) => id);
-        const postRes = await createAnimalTask({ [`${animalOrBatch}Ids`]: ids });
+        const ids = getIds([entity1, entity2]);
+        const { taskId } = await createAnimalTask({ [`${animalOrBatch}Ids`]: ids });
         const res = await deleteAnimalsOrBatches(animalOrBatch, [entity1.id, entity2.id]);
 
         expect(res.status).toBe(204);
         await checkAnimalOrBatchAndTaskRelationships(animalOrBatch, ids, [
-          { taskId: postRes.body.task_id, remainingAnimalOrBatchIds: [] },
+          { taskId, remainingAnimalOrBatchIds: [] },
         ]);
       });
 
       test(`Should not delete ${animalOrBatch} with abandoned tasks`, async () => {
         const [[entity1], [entity2]] = await createAnimalsOrBatches(animalOrBatch, 2);
-        const postRes = await createAnimalTask({
+        await createAnimalTask({
           [`${animalOrBatch}Ids`]: [entity1.id, entity2.id],
+          taskState: TASK_STATE.ABANDONED,
         });
-        await abandonAnimalTask(postRes.body.task_id);
         const res = await deleteAnimalsOrBatches(animalOrBatch, [entity1.id, entity2.id]);
 
         expect(res.status).toBe(400);
@@ -362,10 +372,10 @@ describe('Animal and Animal Batch Tests', () => {
 
       test(`Should not delete ${animalOrBatch} with completed tasks`, async () => {
         const [[entity1], [entity2]] = await createAnimalsOrBatches(animalOrBatch, 2);
-        const postRes = await createAnimalTask({
+        await createAnimalTask({
           [`${animalOrBatch}Ids`]: [entity1.id, entity2.id],
+          taskState: TASK_STATE.COMPLETE,
         });
-        await completeAnimalTask(postRes.body.task_id);
         const res = await deleteAnimalsOrBatches(animalOrBatch, [entity1.id, entity2.id]);
 
         expect(res.status).toBe(400);

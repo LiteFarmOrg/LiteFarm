@@ -13,6 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+ @import '@assets/mixin.scss';
+
 .mainColumn {
   display: flex;
   flex-direction: column;
@@ -22,4 +24,22 @@
   min-height: -webkit-fill-available;
   overflow: clip;
   min-width: 0;
+}
+
+.animalInventoryTitle {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.badge {
+  @include xs-breakpoint {
+    order: 1;
+  }
+}
+
+.text {
+  @include xs-breakpoint {
+    order: 2;
+  }
 }

@@ -367,7 +367,7 @@ describe('Animal and Animal Batch Tests', () => {
         const res = await deleteAnimalsOrBatches(animalOrBatch, [entity1.id, entity2.id]);
 
         expect(res.status).toBe(400);
-        expect(res.error.text).toBe('animals with completed or abandoned tasks cannot be deleted');
+        expect(res.error.text).toBe('Animals with completed or abandoned tasks cannot be deleted');
       });
 
       test(`Should not delete ${animalOrBatch} with completed tasks`, async () => {
@@ -379,7 +379,7 @@ describe('Animal and Animal Batch Tests', () => {
         const res = await deleteAnimalsOrBatches(animalOrBatch, [entity1.id, entity2.id]);
 
         expect(res.status).toBe(400);
-        expect(res.error.text).toBe('animals with completed or abandoned tasks cannot be deleted');
+        expect(res.error.text).toBe('Animals with completed or abandoned tasks cannot be deleted');
       });
     });
   });

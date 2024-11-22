@@ -605,7 +605,7 @@ const checkAnimalsOrBatchesWithFinalTasks = async (animalOrBatchKey, ids, trx) =
 
   for (const { tasks } of animalsOrBatches) {
     if (tasks.length) {
-      throw customError('animals with completed or abandoned tasks cannot be deleted'); // TODO: finalize
+      throw customError('Animals with completed or abandoned tasks cannot be deleted');
     }
   }
 };

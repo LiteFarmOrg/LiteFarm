@@ -247,7 +247,9 @@ function AnimalInventory({
     <AnimalsBetaSpotlight>
       <FixedHeaderContainer
         header={
-          !isTaskView ? <KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} /> : null
+          !isTaskView ? (
+            <KPI history={history} onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />
+          ) : null
         }
         classes={{ paper: styles.paper }}
         kind={ContainerKind.PAPER}

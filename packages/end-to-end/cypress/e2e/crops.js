@@ -49,7 +49,7 @@ describe('Crops', () => {
       .find('input')
       .type(crops['CEREALS'] + '{enter}');
 
-    cy.get(Selectors.CAN_BE_COVER_CROP).check({ force: true });
+    cy.get(Selectors.CAN_BE_COVER_CROP).first().check({ force: true });
 
     cy.get(Selectors.CROP_SUBMIT).should('exist').and('not.be.disabled').click();
     cy.url().should('include', '/crop/new/add_crop_variety');

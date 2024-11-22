@@ -196,12 +196,14 @@ const animalBatchController = {
       const trx = await transaction.start(Model.knex());
 
       try {
-        const { ids } = req.query;
+        const { ids, date } = req.query;
         const idsSet = new Set(ids.split(','));
 
         for (const batchId of idsSet) {
           await baseController.delete(AnimalBatchModel, batchId, req, { trx });
         }
+
+        await handleIncompleteTasksForAnimalsAndBatches(req, trx, 'batch', [...idsSet], date);
         await trx.commit();
         return res.status(204).send();
       } catch (error) {

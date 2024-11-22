@@ -212,12 +212,14 @@ const animalController = {
       const trx = await transaction.start(Model.knex());
 
       try {
-        const { ids } = req.query;
+        const { ids, date } = req.query;
         const idsSet = new Set(ids.split(','));
 
         for (const animalId of idsSet) {
           await baseController.delete(AnimalModel, animalId, req, { trx });
         }
+
+        await handleIncompleteTasksForAnimalsAndBatches(req, trx, 'animal', [...idsSet], date);
         await trx.commit();
         return res.status(204).send();
       } catch (error) {

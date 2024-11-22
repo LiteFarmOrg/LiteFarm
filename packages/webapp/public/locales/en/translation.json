@@ -299,6 +299,7 @@
       "WEANING_DATE": "Weaning date"
     },
     "BATCH": "Batch",
+    "BETA_SPOTLIGHT_HEADING": "Introducing the new Animals feature",
     "EDIT_ANIMAL_FLOW": "editing",
     "FILTER": {
       "BATCHES": "Batches",
@@ -1044,6 +1045,7 @@
     "ATTACHMENT_LABEL": "Upload screenshot or file",
     "EMAIL": "Email",
     "FEEDBACK_INVITATION": "Get help or give us feedback",
+    "SEND_US_FEEDBACK": "Send us feedback",
     "MESSAGE_LABEL": "Message",
     "OPTIONS": {
       "OTHER": "Other",

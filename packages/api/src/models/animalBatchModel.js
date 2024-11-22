@@ -233,35 +233,39 @@ class AnimalBatchModel extends baseModel {
     };
   }
 
-  static async getBatchesWithTasks(trx, animalIds, taskFilterCondition) {
+  static async getBatchIdsWithTasks(trx, animalIds, taskFilterCondition) {
     if (taskFilterCondition) {
       return AnimalBatchModel.query(trx)
+        .select('id')
         .withGraphFetched('tasks')
         .modifyGraph('tasks', (builder) => {
+          builder.select('task.task_id', 'task.complete_date', 'task.abandon_date');
           builder.where('deleted', false).whereRaw(taskFilterCondition);
         })
         .whereIn('animal_batch.id', animalIds);
     }
 
     return AnimalBatchModel.query(trx)
+      .select('id')
       .withGraphFetched('tasks')
       .modifyGraph('tasks', (builder) => {
+        builder.select('task.task_id', 'task.complete_date', 'task.abandon_date');
         builder.where('deleted', false);
       })
       .whereIn('animal_batch.id', animalIds);
   }
 
   // Get animals with final (completed or abandoned) tasks
-  static async getBatchesWithFinalTasks(trx, animalIds) {
-    return AnimalBatchModel.getBatchesWithTasks(
+  static async getBatchIdsWithFinalTasks(trx, animalIds) {
+    return AnimalBatchModel.getBatchIdsWithTasks(
       trx,
       animalIds,
       'complete_date IS NOT NULL OR abandon_date IS NOT NULL',
     );
   }
 
-  static async getBatchesWithIncompleteTasks(trx, animalIds) {
-    return AnimalBatchModel.getBatchesWithTasks(
+  static async getBatchIdsWithIncompleteTasks(trx, animalIds) {
+    return AnimalBatchModel.getBatchIdsWithTasks(
       trx,
       animalIds,
       'complete_date IS NULL AND abandon_date IS NULL',
@@ -269,7 +273,7 @@ class AnimalBatchModel extends baseModel {
   }
 
   static async unrelateIncompleteTasksForBatches(trx, batchIds) {
-    const batches = await AnimalBatchModel.getBatchesWithIncompleteTasks(trx, batchIds);
+    const batches = await AnimalBatchModel.getBatchIdsWithIncompleteTasks(trx, batchIds);
     if (!batches) {
       return { unrelatedTaskIds: [] };
     }

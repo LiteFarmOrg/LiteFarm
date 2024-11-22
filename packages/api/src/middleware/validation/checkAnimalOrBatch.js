@@ -594,12 +594,12 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
 
 // Check animals or batches with completed and abandoned tasks
 const checkAnimalsOrBatchesWithFinalTasks = async (animalOrBatchKey, ids, trx) => {
-  const getAnimalsOrBatchesWithFinalTasks =
+  const getAnimalOrBatchIdsWithFinalTasks =
     animalOrBatchKey === 'animal'
-      ? AnimalModel.getAnimalsWithFinalTasks
-      : AnimalBatchModel.getBatchesWithFinalTasks;
+      ? AnimalModel.getAnimalIdsWithFinalTasks
+      : AnimalBatchModel.getBatchIdsWithFinalTasks;
 
-  const animalsOrBatches = await getAnimalsOrBatchesWithFinalTasks(trx, [
+  const animalsOrBatches = await getAnimalOrBatchIdsWithFinalTasks(trx, [
     ...new Set(ids.split(',').map((id) => +id)),
   ]);
 

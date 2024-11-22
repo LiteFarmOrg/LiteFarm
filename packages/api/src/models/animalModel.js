@@ -227,19 +227,23 @@ class Animal extends baseModel {
     };
   }
 
-  static async getAnimalsWithTasks(trx, animalIds, taskFilterCondition) {
+  static async getAnimalIdsWithTasks(trx, animalIds, taskFilterCondition) {
     if (taskFilterCondition) {
       return Animal.query(trx)
+        .select('id')
         .withGraphFetched('tasks')
         .modifyGraph('tasks', (builder) => {
+          builder.select('task.task_id', 'task.complete_date', 'task.abandon_date');
           builder.where('deleted', false).whereRaw(taskFilterCondition);
         })
         .whereIn('animal.id', animalIds);
     }
 
     return Animal.query(trx)
+      .select('id')
       .withGraphFetched('tasks')
       .modifyGraph('tasks', (builder) => {
+        builder.select('task.task_id', 'task.complete_date', 'task.abandon_date');
         builder.where('deleted', false);
       })
       .whereIn('animal.id', animalIds)
@@ -247,16 +251,16 @@ class Animal extends baseModel {
   }
 
   // Get animals with final (completed or abandoned) tasks
-  static async getAnimalsWithFinalTasks(trx, animalIds) {
-    return Animal.getAnimalsWithTasks(
+  static async getAnimalIdsWithFinalTasks(trx, animalIds) {
+    return Animal.getAnimalIdsWithTasks(
       trx,
       animalIds,
       'complete_date IS NOT NULL OR abandon_date IS NOT NULL',
     );
   }
 
-  static async getAnimalsWithIncompleteTasks(trx, animalIds) {
-    return Animal.getAnimalsWithTasks(
+  static async getAnimalIdsWithIncompleteTasks(trx, animalIds) {
+    return Animal.getAnimalIdsWithTasks(
       trx,
       animalIds,
       'complete_date IS NULL AND abandon_date IS NULL',
@@ -264,7 +268,7 @@ class Animal extends baseModel {
   }
 
   static async unrelateIncompleteTasksForAnimals(trx, animalIds) {
-    const animals = await Animal.getAnimalsWithIncompleteTasks(trx, animalIds);
+    const animals = await Animal.getAnimalIdsWithIncompleteTasks(trx, animalIds);
     if (!animals) {
       return { unrelatedTaskIds: [] };
     }

@@ -270,6 +270,10 @@ class AnimalBatchModel extends baseModel {
 
   static async unrelateIncompleteTasksForBatches(trx, batchIds) {
     const batches = await AnimalBatchModel.getBatchesWithIncompleteTasks(trx, batchIds);
+    if (!batches) {
+      return { unrelatedTaskIds: [] };
+    }
+
     let unrelatedTaskIds = [];
 
     // Delete relationships
@@ -281,11 +285,12 @@ class AnimalBatchModel extends baseModel {
         return AnimalBatchModel.relatedQuery('tasks', trx)
           .for(id)
           .unrelate()
-          .whereIn('task.task_id', taskIds);
+          .whereIn('task.task_id', taskIds)
+          .transacting(trx);
       }),
     );
 
-    return { unrelatedTaskIds };
+    return { unrelatedTaskIds: [...new Set(unrelatedTaskIds)] };
   }
 }
 

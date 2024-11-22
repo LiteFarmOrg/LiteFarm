@@ -28,6 +28,7 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/sna
 import { AnimalOrBatchKeys } from '../types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { getLocalDateInYYYYDDMM } from '../../../util/date';
 
 const useAnimalOrBatchRemoval = (
   selectedInventoryIds: string[],
@@ -108,6 +109,7 @@ const useAnimalOrBatchRemoval = (
     const selectedAnimalIds: string[] = [];
     const animalBatchIds: number[] = [];
     const selectedBatchIds: string[] = [];
+    const date = getLocalDateInYYYYDDMM();
 
     for (const id of selectedInventoryIds) {
       const { kind, id: entity_id } = parseInventoryId(id);
@@ -122,7 +124,7 @@ const useAnimalOrBatchRemoval = (
 
     try {
       if (animalIds.length) {
-        await mutations['deleteAnimals'].trigger(animalIds).unwrap();
+        await mutations['deleteAnimals'].trigger({ ids: animalIds, date }).unwrap();
         setSelectedInventoryIds((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)),
         );
@@ -135,7 +137,7 @@ const useAnimalOrBatchRemoval = (
 
     try {
       if (animalBatchIds.length) {
-        await mutations['deleteBatches'].trigger(animalBatchIds).unwrap();
+        await mutations['deleteBatches'].trigger({ ids: animalBatchIds, date }).unwrap();
         setSelectedInventoryIds((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)),
         );

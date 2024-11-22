@@ -1160,6 +1160,8 @@ describe('Animal Tests', () => {
 
   // DELETE tests
   describe('Delete animal tests', () => {
+    const deleteDateParam = `date=2024-11-22`;
+
     test('Admin users should be able to delete animals', async () => {
       const roles = [1, 2, 5];
 
@@ -1179,7 +1181,7 @@ describe('Animal Tests', () => {
         const res = await deleteRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
-          query: `ids=${firstAnimal.id},${secondAnimal.id}`,
+          query: `ids=${firstAnimal.id},${secondAnimal.id}&${deleteDateParam}`,
         });
 
         expect(res.status).toBe(204);
@@ -1199,7 +1201,7 @@ describe('Animal Tests', () => {
         const res = await deleteRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
-          query: `ids=${animal.ids}`,
+          query: `ids=${animal.ids}&${deleteDateParam}`,
         });
 
         expect(res.status).toBe(403);
@@ -1215,7 +1217,7 @@ describe('Animal Tests', () => {
       const res = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: ``,
+        query: `${deleteDateParam}`,
       });
 
       expect(res).toMatchObject({
@@ -1236,7 +1238,7 @@ describe('Animal Tests', () => {
       const res1 = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: `ids=${animal.id},,`,
+        query: `ids=${animal.id},,&${deleteDateParam}`,
       });
 
       expect(res1).toMatchObject({
@@ -1250,13 +1252,27 @@ describe('Animal Tests', () => {
       const res2 = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: `ids=},a,`,
+        query: `ids=},a,&${deleteDateParam}`,
       });
 
       expect(res2).toMatchObject({
         status: 400,
         error: {
           text: 'Must send valid ids',
+        },
+      });
+
+      // Without date
+      const res3 = await deleteRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+        query: `ids=${animal.id}`,
+      });
+
+      expect(res3).toMatchObject({
+        status: 400,
+        error: {
+          text: 'Must send date',
         },
       });
     });
@@ -1272,7 +1288,7 @@ describe('Animal Tests', () => {
       const res = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: `ids=${animal.id}`,
+        query: `ids=${animal.id}&${deleteDateParam}`,
       });
 
       expect(res).toMatchObject({
@@ -1296,7 +1312,7 @@ describe('Animal Tests', () => {
       const res = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: `ids=${animal.id}`,
+        query: `ids=${animal.id}&${deleteDateParam}`,
       });
 
       expect(res).toMatchObject({

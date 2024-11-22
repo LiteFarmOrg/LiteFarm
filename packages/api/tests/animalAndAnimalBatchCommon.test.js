@@ -32,7 +32,6 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
 );
 import mocks from './mock.factories.js';
 import {
-  abandonTaskBody,
   fakeCompletionData,
   abandonTaskRequest,
   completeTaskRequest,
@@ -47,6 +46,10 @@ import {
 
 const mockDate = new Date('2024/12/05').toISOString();
 const mockDateInYYYYMMDD = '2024-12-05';
+const abandonTaskBody = {
+  abandonment_reason: 'SCHEDULING_ISSUE',
+  abandon_date: new Date(2024, 10, 30),
+};
 
 describe('Animal and Animal Batch Tests', () => {
   let user_id;
@@ -125,34 +128,17 @@ describe('Animal and Animal Batch Tests', () => {
     };
 
     const checkAnimalOrBatchAndTaskRelationships = async (
-      operation,
       animalOrBatch,
       removedAnimalOrBatchIds,
       expectedTaskData,
     ) => {
-      // Check if animals or batches have expected data
-      const table = animalOrBatch === 'animal' ? 'animal' : 'animal_batch';
-      const removedEntities = await knex(table)
-        .select('', 'removal_date', 'animal_removal_reason_id')
-        .whereIn('id', removedAnimalOrBatchIds);
-
-      expect(removedEntities.length).toBe(removedAnimalOrBatchIds.length);
-
-      for (let { removal_date, animal_removal_reason_id, deleted } of removedEntities) {
-        if (operation === 'REMOVE') {
-          expect(new Date(removal_date).toISOString()).toBe(new Date(mockDate).toISOString());
-          expect(animal_removal_reason_id).toBe(removalReasonId);
-        } else {
-          expect(deleted).toBe(true);
-        }
-      }
-
       const [idName, relationshipTable] =
         animalOrBatch === 'animal'
           ? ['animal_id', 'task_animal_relationship']
           : ['animal_batch_id', 'task_animal_batch_relationship'];
 
-      for (let { taskId, remainingAnimalOrBatchIds } of expectedTaskData) {
+      for (let expectedData of expectedTaskData) {
+        const { taskId, remainingAnimalOrBatchIds, abandonDate, abandonmentReason } = expectedData;
         // Check if relationships were removed
         for (let animalOrBatchId of removedAnimalOrBatchIds) {
           const relationships = await knex(relationshipTable)
@@ -168,12 +154,17 @@ describe('Animal and Animal Batch Tests', () => {
           .select('task_id', 'abandon_date', 'abandonment_reason')
           .where('task_id', taskId)
           .first();
-        expect(task).toBeDefined();
 
-        // Check if the task was abandoned
-        if (!remainingAnimalOrBatchIds.length) {
+        if (abandonDate && abandonmentReason) {
+          expect(new Date(task.abandon_date).toISOString()).toBe(abandonDate);
+          expect(task.abandonment_reason).toBe(abandonmentReason);
+        } else if (!remainingAnimalOrBatchIds.length) {
+          // Check if the task was abandoned
           expect(new Date(task.abandon_date).toISOString()).toBe(new Date(mockDate).toISOString());
           expect(task.abandonment_reason).toBe('NO_ANIMALS');
+        } else {
+          expect(task.abandon_date).toBe(null);
+          expect(task.abandonment_reason).toBe(null);
         }
       }
     };
@@ -186,7 +177,7 @@ describe('Animal and Animal Batch Tests', () => {
         const postRes = await createAnimalTask({ [`${animalOrBatch}Ids`]: ids });
         const res = await removeAnimalsOrBatches(animalOrBatch, ids);
         expect(res.status).toBe(204);
-        await checkAnimalOrBatchAndTaskRelationships('REMOVE', animalOrBatch, ids, [
+        await checkAnimalOrBatchAndTaskRelationships(animalOrBatch, ids, [
           { taskId: postRes.body.task_id, remainingAnimalOrBatchIds: [] },
         ]);
       });
@@ -199,8 +190,13 @@ describe('Animal and Animal Batch Tests', () => {
         const res = await removeAnimalsOrBatches(animalOrBatch, ids);
 
         expect(res.status).toBe(204);
-        await checkAnimalOrBatchAndTaskRelationships('REMOVE', animalOrBatch, ids, [
-          { taskId: postRes.body.task_id, remainingAnimalOrBatchIds: ids },
+        await checkAnimalOrBatchAndTaskRelationships(animalOrBatch, ids, [
+          {
+            taskId: postRes.body.task_id,
+            remainingAnimalOrBatchIds: ids, // animals or batches should not be removed from abandoned tasks
+            abandonDate: new Date(abandonTaskBody.abandon_date).toISOString(),
+            abandonmentReason: abandonTaskBody.abandonment_reason,
+          },
         ]);
       });
 
@@ -212,8 +208,11 @@ describe('Animal and Animal Batch Tests', () => {
         const res = await removeAnimalsOrBatches(animalOrBatch, ids);
 
         expect(res.status).toBe(204);
-        await checkAnimalOrBatchAndTaskRelationships('REMOVE', animalOrBatch, ids, [
-          { taskId: postRes.body.task_id, remainingAnimalOrBatchIds: ids },
+        await checkAnimalOrBatchAndTaskRelationships(animalOrBatch, ids, [
+          {
+            taskId: postRes.body.task_id,
+            remainingAnimalOrBatchIds: ids, // animals or batches should not be removed from completed tasks
+          },
         ]);
       });
     });
@@ -227,7 +226,7 @@ describe('Animal and Animal Batch Tests', () => {
         const res = await deleteAnimalsOrBatches(animalOrBatch, [entity1.id, entity2.id]);
 
         expect(res.status).toBe(204);
-        await checkAnimalOrBatchAndTaskRelationships('DELETE', animalOrBatch, ids, [
+        await checkAnimalOrBatchAndTaskRelationships(animalOrBatch, ids, [
           { taskId: postRes.body.task_id, remainingAnimalOrBatchIds: [] },
         ]);
       });

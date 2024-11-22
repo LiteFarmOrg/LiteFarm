@@ -631,8 +631,11 @@ export function checkDeleteAnimalOrBatch(animalOrBatchKey) {
 
     try {
       const { farm_id } = req.headers;
-      const { ids } = req.query;
+      const { ids, date } = req.query;
 
+      if (!date) {
+        throw customError('Must send date');
+      }
       await checkValidAnimalOrBatchIds(animalOrBatchKey, ids, farm_id, trx);
       await checkAnimalsOrBatchesWithFinalTasks(animalOrBatchKey, ids, trx);
 

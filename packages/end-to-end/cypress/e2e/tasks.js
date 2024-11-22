@@ -53,7 +53,10 @@ describe('Tasks', () => {
     cy.contains(translation['MENU']['TASKS']).should('exist').click();
     cy.waitForReact();
 
-    cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();
+    cy.get(`[aria-label="${translation['TASK']['ADD_TASK']}"]`)
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
     cy.waitForReact();
     cy.get(Selectors.TASK_SELECTION).contains(tasks['CLEANING_TASK']).should('exist').click();
 
@@ -92,7 +95,10 @@ describe('Tasks', () => {
   it('it should successfully create a field work task', () => {
     cy.contains(translation['MENU']['TASKS']).should('exist').click();
     cy.waitForReact();
-    cy.contains(translation['TASK']['ADD_TASK']).should('exist').and('not.be.disabled').click();
+    cy.get(`[aria-label="${translation['TASK']['ADD_TASK']}"]`)
+      .should('exist')
+      .and('not.be.disabled')
+      .click();
     cy.waitForReact();
     cy.get(Selectors.TASK_SELECTION)
       .contains(tasks['FIELD_WORK_TASK'])

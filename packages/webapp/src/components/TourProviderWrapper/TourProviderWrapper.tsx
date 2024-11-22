@@ -108,6 +108,7 @@ type TourProviderWrapperProps = ReactourChildrenWrapperProps &
   Omit<ProviderProps, 'children' | 'steps'> & {
     steps: Step[];
     onFinish?(): void;
+    showCloseButton?: boolean;
   };
 
 export function TourProviderWrapper({
@@ -115,6 +116,7 @@ export function TourProviderWrapper({
   children = <div />,
   open,
   onFinish,
+  showCloseButton = false,
   ...props
 }: TourProviderWrapperProps) {
   if (!open) return children;
@@ -151,10 +153,14 @@ export function TourProviderWrapper({
       }}
       showBadge={false}
       showNavigation={false}
-      showCloseButton={false}
+      showCloseButton={showCloseButton}
       defaultOpen={open}
       steps={processedSteps}
       className={styles.popover}
+      onClickClose={({ setIsOpen }) => {
+        setIsOpen(false);
+        onFinish?.();
+      }}
       {...props}
     >
       <ReactourChildrenWrapper open={open}>{children}</ReactourChildrenWrapper>
@@ -202,6 +208,7 @@ export function TourContentBody({
     }
     onNext?.();
   };
+
   return (
     <>
       {!!title && (

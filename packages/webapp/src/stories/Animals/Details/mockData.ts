@@ -22,7 +22,6 @@ import {
 import { FileEvent } from '../../../components/ImagePicker';
 import { GetOnFileUpload } from '../../../components/ImagePicker/useImagePickerUpload';
 import { OrganicStatus } from '../../../types';
-import { Details } from '@mui/icons-material';
 
 export const typeOptions = [
   {
@@ -78,10 +77,15 @@ export const sexDetailsOptions = [
   { id: 1, label: 'Female', count: 2 },
 ];
 
-export const useOptions = [
-  { label: 'A', value: 0 },
-  { label: 'B', value: 1 },
-  { label: 'Other', value: 2, key: 'OTHER' },
+export const animalUseOptions = [
+  {
+    default_type_id: 1,
+    uses: [
+      { label: 'A', value: 0 },
+      { label: 'B', value: 1 },
+      { label: 'Other', value: 2, key: 'OTHER' },
+    ],
+  },
 ];
 
 export const tagTypeOptions = [

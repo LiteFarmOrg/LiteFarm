@@ -834,7 +834,7 @@
     },
     "TUTORIALS": "Kartenanleitungen",
     "UNABLE_TO_RETIRE": {
-      "BODY": "Sie können nur Standorte zurückziehen, die keine aktiven oder geplanten Pflanzen oder Aufgaben haben.",
+      "BODY": "MISSING",
       "TITLE": "Nicht möglich, zurückzuziehen"
     },
     "WATER_VALVE": {
@@ -933,6 +933,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Bildschirmfoto oder Datei hochladen",
     "EMAIL": "E-Mail",
+    "FEEDBACK_INVITATION": "MISSING",
     "MESSAGE_LABEL": "Nachricht",
     "OPTIONS": {
       "OTHER": "Andere",

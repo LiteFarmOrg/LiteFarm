@@ -14,7 +14,6 @@
     "BATCH_NAME": "Batch name",
     "BATCH_NAME_PLACEHOLDER": "Type in batch name",
     "BREED": "Breed",
-    "BREED_PLACEHOLDER": "Add your animal breed",
     "BREED_PLACEHOLDER_DISABLED": "Please select a type first",
     "CREATE_INDIVIDUAL_PROFILES": "Create individual animal profiles",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately",
@@ -62,7 +61,6 @@
       "MAIN": "You successfully added {{animalCount}} {{and}} {{batchCount}} to your inventory."
     },
     "TYPE": "Type",
-    "TYPE_PLACEHOLDER": "Select the animal type",
     "UNIQUE_DETAILS": "Unique details"
   },
   "ADD_FARM": {
@@ -301,6 +299,7 @@
       "WEANING_DATE": "Weaning date"
     },
     "BATCH": "Batch",
+    "EDIT_ANIMAL_FLOW": "editing",
     "FILTER": {
       "BATCHES": "Batches",
       "BATCHES_OR_INDIVIDUALS": "Batches or Individuals",
@@ -940,7 +939,7 @@
     },
     "TUTORIALS": "Map Tutorials",
     "UNABLE_TO_RETIRE": {
-      "BODY": "You can only retire locations that have no active or planned crops or tasks.",
+      "BODY": "You can only retire locations that have no active or planned crops, no animals or tasks.",
       "TITLE": "Unable to retire"
     },
     "WATER_VALVE": {
@@ -1044,6 +1043,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",
     "EMAIL": "Email",
+    "FEEDBACK_INVITATION": "Get help or give us feedback",
     "MESSAGE_LABEL": "Message",
     "OPTIONS": {
       "OTHER": "Other",

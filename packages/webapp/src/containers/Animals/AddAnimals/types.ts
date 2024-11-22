@@ -46,8 +46,8 @@ export enum DetailsFields {
   BASICS_FIELD_ARRAY_ID = 'field_array_id', // remove before submitting
 
   // GENERAL
-  ID = 'id',
-  BATCH_NAME = 'batch_name',
+  ID = 'internal_identifier',
+  BATCH_NAME = 'batch_name', // stored in the database as name, but needs a unique identifier in the form to differentiate from animal name
   TYPE = 'type',
   BREED = 'breed',
   SEX = 'sex_id',

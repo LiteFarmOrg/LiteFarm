@@ -9,7 +9,7 @@ import React, { ReactNode, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Label, Semibold } from '../Typography';
 import { colors } from '../../assets/theme';
-import Button from '../Form/Button';
+import Button, { ButtonProps } from '../Form/Button';
 import styles from './styles.module.scss';
 
 const opositeSide = {
@@ -98,6 +98,7 @@ type TourContentBodyStep = {
   isOrdered?: boolean;
   list?: ReactNode[];
   buttonText?: ReactNode;
+  buttonProps?: ButtonProps;
   icon?: ReactNode;
   onNext?(): void;
 };
@@ -189,7 +190,7 @@ type TourContentBodyProps = {
 };
 
 export function TourContentBody({
-  step: { title, children, contents, isOrdered, list, buttonText, icon, onNext },
+  step: { title, children, contents, isOrdered, list, buttonText, buttonProps, icon, onNext },
   continuous,
   primaryProps,
   isLastStep,
@@ -254,6 +255,7 @@ export function TourContentBody({
             sm
             id={continuous ? 'next' : 'close'}
             {...primaryProps}
+            {...buttonProps}
           >
             {buttonText || (isLastStep ? t('common:GOT_IT') : t('common:NEXT'))}
           </Button>

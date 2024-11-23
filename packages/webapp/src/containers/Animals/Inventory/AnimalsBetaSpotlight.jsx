@@ -19,8 +19,11 @@ import { TourProviderWrapper } from '../../../components/TourProviderWrapper/Tou
 import { setSpotlightToShown } from '../../Map/saga';
 import { showedSpotlightSelector } from '../../showedSpotlightSlice';
 import { Trans } from 'react-i18next';
+import Badge from '../../../components/Badge';
+import { ReactComponent as SendIcon } from '../../../assets/images/send-icon.svg';
+import styles from './styles.module.scss';
 
-export default function AnimalsBetaSpotlight({ children }) {
+export default function AnimalsBetaSpotlight({ children, setFeedbackSurveyOpen }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { animals_beta } = useSelector(showedSpotlightSelector);
@@ -28,19 +31,39 @@ export default function AnimalsBetaSpotlight({ children }) {
 
   return (
     <TourProviderWrapper
+      showCloseButton
       open={!animals_beta}
       steps={[
         {
-          title: t('BADGE.BETA.TITLE'),
+          title: (
+            <Badge
+              title={t('BADGE.BETA.TITLE')}
+              showIcon={false}
+              position={'left'}
+              disableHover
+              classes={{ iconButton: styles.disableHover }}
+            />
+          ),
           contents: [
+            <b key={'animals_beta_step_1_heading'}>{t('ANIMAL.BETA_SPOTLIGHT_HEADING')}</b>,
             <Trans
-              key={'animals_beta_step_1'}
+              key={'animals_beta_step_1_content'}
               i18nKey={'BADGE.BETA.ANIMALS_CONTENT'}
               components={{ a: <a href="#" /> }}
             />,
           ],
-          selector: `#animalsBeta`,
+          selector: '#animalsBeta',
           position: 'center',
+          buttonText: (
+            <div className={styles.buttonText}>
+              {t('HELP.SEND_US_FEEDBACK')}
+              <SendIcon />
+            </div>
+          ),
+          buttonProps: {
+            color: 'secondary',
+          },
+          onNext: () => setFeedbackSurveyOpen(true),
         },
       ]}
       onFinish={onFinish}

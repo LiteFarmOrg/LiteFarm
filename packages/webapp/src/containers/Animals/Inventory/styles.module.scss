@@ -32,3 +32,19 @@
 .taskViewHeight {
   height: calc(100vh - var(--global-navbar-height) - var(--global-multi-step-task-layout-aggregated-height));
 }
+
+.buttonText {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  // If core button styles change this will match icon
+  line-height: 16px;
+  > svg {
+    // Match line height of button
+    max-height: 16px;
+  }
+}
+
+.disableHover {
+  pointer-events: none;
+}

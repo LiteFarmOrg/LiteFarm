@@ -17,7 +17,7 @@ import React, { ReactNode } from 'react';
 import styles from './button.module.scss';
 import clsx from 'clsx';
 
-type ButtonProps = {
+export type ButtonProps = {
   color?: 'primary' | 'secondary' | 'secondary-2' | 'secondary-cta' | 'warning' | 'error' | 'none';
   children?: ReactNode;
   sm?: boolean;

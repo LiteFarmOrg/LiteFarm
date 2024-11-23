@@ -439,6 +439,41 @@ const checkInvalidIds = async (invalidIds) => {
   }
 };
 
+export async function checkDateWithTaskDueDate(animalOrBatch, animalOrBatchKey) {
+  const { id, birth_date, brought_in_date } = animalOrBatch;
+
+  if (!birth_date && !brought_in_date) {
+    return;
+  }
+
+  const oldestDueDateTask = await AnimalOrBatchModel[animalOrBatchKey]
+    .relatedQuery('tasks')
+    .select('due_date')
+    .for(id)
+    .whereNotDeleted()
+    .orderBy('due_date', 'asc')
+    .first();
+
+  // return if no associated tasks
+  if (!oldestDueDateTask?.due_date) {
+    return;
+  }
+
+  const dueDate = new Date(oldestDueDateTask.due_date);
+  const dueDateAtMidnight = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
+
+  for (const item of [birth_date, brought_in_date].filter(Boolean)) {
+    const date = new Date(item);
+    const dateAtMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+    if (dueDateAtMidnight < dateAtMidnight) {
+      throw customError(
+        `Birth and brought-in dates must be on or before associated tasks' due dates`,
+      );
+    }
+  }
+}
+
 export function checkCreateAnimalOrBatch(animalOrBatchKey) {
   return async (req, res, next) => {
     const trx = await transaction.start(Model.knex());
@@ -517,6 +552,7 @@ export function checkEditAnimalOrBatch(animalOrBatchKey) {
         await checkAnimalUseRelationship(animalOrBatch, animalOrBatchKey);
         await checkAnimalOrigin(animalOrBatch, false);
         await checkAnimalIdentifier(animalOrBatch, animalOrBatchKey, false);
+        await checkDateWithTaskDueDate(animalOrBatch, animalOrBatchKey);
 
         // Skip the process if type_name and breed_name are not passed
         if (!type_name && !breed_name) {

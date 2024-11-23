@@ -36,11 +36,15 @@ import {
   abandonTaskRequest,
   completeTaskRequest,
   postTaskRequest,
+  toLocal8601Extended,
+  yesterdayInYYYYMMDD,
 } from './utils/taskUtils.js';
 import {
   animalDeleteRequest,
+  animalPatchRequest,
   animalRemoveRequest,
   batchDeleteRequest,
+  batchPatchRequest,
   batchRemoveRequest,
 } from './utils/animalUtils.js';
 
@@ -67,10 +71,12 @@ describe('Animal and Animal Batch Tests', () => {
   let user_id;
   let farm_id;
   let removalReasonId;
+  let broughtInOrigin;
 
   beforeAll(async () => {
     [{ user_id, farm_id }] = await mocks.userFarmFactory({ roleId: 1 });
     [{ id: removalReasonId }] = await mocks.animal_removal_reasonFactory();
+    [broughtInOrigin] = await mocks.animal_originFactory('BROUGHT_IN');
   });
 
   afterAll(async (done) => {
@@ -96,7 +102,12 @@ describe('Animal and Animal Batch Tests', () => {
       );
     };
 
-    const createAnimalTask = async ({ animalIds = [], batchIds = [], taskState }) => {
+    const createAnimalTask = async ({
+      animalIds = [],
+      batchIds = [],
+      taskState,
+      taskData = {},
+    }) => {
       const postRes = await postTaskRequest({ user_id, farm_id }, 'animal_movement_task', {
         ...mocks.fakeTask(),
         assignee_user_id: user_id,
@@ -106,6 +117,7 @@ describe('Animal and Animal Batch Tests', () => {
         related_animal_ids: animalIds,
         related_batch_ids: batchIds,
         animal_movement_task: {},
+        ...taskData,
       });
       const { task_id: taskId } = postRes.body;
 
@@ -187,6 +199,79 @@ describe('Animal and Animal Batch Tests', () => {
         }
       }
     };
+
+    // PATCH
+    describe.each(['animal', 'batch'])('Patch %s', (animalOrBatch) => {
+      const today = new Date();
+      const todayInYYYYMMDD = toLocal8601Extended(today);
+
+      test(`should be able to update ${animalOrBatch}'s birth or brough-in date to the same date as tasks' due date`, async () => {
+        const [[entity1]] = await createAnimalsOrBatches(animalOrBatch, 1);
+
+        // Create a task with due date
+        await createAnimalTask({
+          [`${animalOrBatch}Ids`]: [entity1.id],
+          taskData: { due_date: todayInYYYYMMDD },
+        });
+
+        // Update birth_date to the same date as task's due date
+        const patchReq = animalOrBatch === 'animal' ? animalPatchRequest : batchPatchRequest;
+        const resWithBirthDate = await patchReq({ user_id, farm_id }, [
+          { id: entity1.id, birth_date: `${todayInYYYYMMDD}T00:00:00.000-08:00` },
+        ]);
+
+        expect(resWithBirthDate.status).toBe(204);
+
+        // Update brought_in_date to the same date as task's due date
+        const resWithBroughtInDate = await patchReq({ user_id, farm_id }, [
+          {
+            id: entity1.id,
+            origin_id: broughtInOrigin.id,
+            brought_in_date: `${todayInYYYYMMDD}T00:00:00.000-08:00`,
+          },
+        ]);
+        expect(resWithBroughtInDate.status).toBe(204);
+      });
+
+      test(`should not be able to update ${animalOrBatch}'s birth or brough-in date after tasks' due date`, async () => {
+        const [[entity1]] = await createAnimalsOrBatches(animalOrBatch, 1);
+
+        // Create tasks with due dates
+        await createAnimalTask({
+          [`${animalOrBatch}Ids`]: [entity1.id],
+          taskData: { due_date: todayInYYYYMMDD },
+        });
+        const { taskId: task2Id } = await createAnimalTask({
+          [`${animalOrBatch}Ids`]: [entity1.id],
+        });
+        await knex('task').update('due_date', yesterdayInYYYYMMDD).where('task_id', task2Id);
+
+        const patchReq = animalOrBatch === 'animal' ? animalPatchRequest : batchPatchRequest;
+
+        // Try to update to an invalid birth_date
+        const resWithBirthDate = await patchReq({ user_id, farm_id }, [
+          { id: entity1.id, birth_date: `${todayInYYYYMMDD}T00:00:00.000-08:00` },
+        ]);
+
+        expect(resWithBirthDate.status).toBe(400);
+        expect(resWithBirthDate.error.text).toBe(
+          `Birth and brought-in dates must be on or before associated tasks' due dates`,
+        );
+
+        // Try to update to an invalid brought_in_date
+        const resWithBroughtInDate = await patchReq({ user_id, farm_id }, [
+          {
+            id: entity1.id,
+            origin_id: broughtInOrigin.id,
+            brought_in_date: `${todayInYYYYMMDD}T00:00:00.000-08:00`,
+          },
+        ]);
+        expect(resWithBroughtInDate.status).toBe(400);
+        expect(resWithBroughtInDate.error.text).toBe(
+          `Birth and brought-in dates must be on or before associated tasks' due dates`,
+        );
+      });
+    });
 
     // REMOVE
     describe.each(['animal', 'batch'])('Remove %s with tasks', (animalOrBatch) => {

@@ -31,7 +31,7 @@ import { useTranslation } from 'react-i18next';
 
 const useAnimalOrBatchRemoval = (
   selectedInventoryIds: string[],
-  setSelectedInventoryIds: Dispatch<SetStateAction<string[]>>,
+  setSelectedInventoryIds?: Dispatch<SetStateAction<string[]>>,
 ) => {
   const dispatch = useDispatch();
   const { t } = useTranslation(['message']);
@@ -82,7 +82,7 @@ const useAnimalOrBatchRemoval = (
         console.log(result.error);
         dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
       } else {
-        setSelectedInventoryIds((selectedInventoryIds) =>
+        setSelectedInventoryIds?.((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)),
         );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_ANIMALS', { ns: 'message' })));
@@ -96,7 +96,7 @@ const useAnimalOrBatchRemoval = (
         console.log(result.error);
         dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
       } else {
-        setSelectedInventoryIds((selectedInventoryIds) =>
+        setSelectedInventoryIds?.((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)),
         );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_BATCHES', { ns: 'message' })));
@@ -132,7 +132,7 @@ const useAnimalOrBatchRemoval = (
         console.log(result.error);
         dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
       } else {
-        setSelectedInventoryIds((selectedInventoryIds) =>
+        setSelectedInventoryIds?.((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)),
         );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_ANIMALS', { ns: 'message' })));
@@ -145,7 +145,7 @@ const useAnimalOrBatchRemoval = (
         console.log(result.error);
         dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
       } else {
-        setSelectedInventoryIds((selectedInventoryIds) =>
+        setSelectedInventoryIds?.((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)),
         );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_BATCHES', { ns: 'message' })));

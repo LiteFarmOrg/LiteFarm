@@ -84,6 +84,14 @@ export default function AddAnimalsFormCard({
     }
   }, []);
 
+  useEffect(() => {
+    if (shouldCreateIndividualProfiles && watchAnimalCount > ANIMAL_COUNT_LIMIT) {
+      setValue(`${namePrefix}${BasicsFields.COUNT}`, ANIMAL_COUNT_LIMIT, {
+        shouldValidate: true,
+      });
+    }
+  }, [shouldCreateIndividualProfiles]);
+
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
   return (
@@ -114,10 +122,11 @@ export default function AddAnimalsFormCard({
         <NumberInput
           name={`${namePrefix}${BasicsFields.COUNT}`}
           control={control}
-          max={ANIMAL_COUNT_LIMIT}
+          max={shouldCreateIndividualProfiles ? ANIMAL_COUNT_LIMIT : undefined}
           label={t('common:COUNT')}
           className={styles.countInput}
           allowDecimal={false}
+          value={watchAnimalCount}
           showStepper
           rules={{
             required: {

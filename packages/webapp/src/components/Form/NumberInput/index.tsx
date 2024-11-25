@@ -36,6 +36,8 @@ export type NumberInputProps<T extends FieldValues> = UseControllerProps<T> &
     showStepper?: boolean;
 
     className?: string;
+
+    value?: number;
   };
 
 export default function NumberInput<T extends FieldValues>({
@@ -57,6 +59,7 @@ export default function NumberInput<T extends FieldValues>({
   className,
   onChange,
   onBlur,
+  value,
   ...props
 }: NumberInputProps<T>) {
   const { field, fieldState, formState } = useController({ name, control, rules, defaultValue });
@@ -87,6 +90,7 @@ export default function NumberInput<T extends FieldValues>({
       className={className}
       error={fieldState.error?.message}
       onResetIconClick={reset}
+      value={value}
       leftSection={currencySymbol}
       rightSection={
         <>

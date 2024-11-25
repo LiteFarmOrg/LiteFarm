@@ -118,7 +118,7 @@ describe('Tasks', () => {
     cy.get(Selectors.ADD_TASK_CROPS_CONTINUE).should('exist').and('not.be.disabled').click();
 
     // Select type of work
-    cy.get(Selectors.REACT_SELECT).find('input').click({ force: true });
+    cy.getVisible(Selectors.REACT_SELECT).find('input').click({ force: true });
     cy.contains(translation['ADD_TASK']['FIELD_WORK_VIEW']['TYPE']['PRUNING']).click({
       force: true,
     });

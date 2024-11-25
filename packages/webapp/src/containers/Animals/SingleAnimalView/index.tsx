@@ -98,16 +98,17 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
     },
   ];
 
-  const { defaultFormValues, selectedAnimal, selectedBatch } = useInitialAnimalData({
-    history,
-    match,
-    location,
-  });
+  const { defaultFormValues, selectedAnimal, selectedBatch, isFetchingAnimalsOrBatches } =
+    useInitialAnimalData({
+      history,
+      match,
+      location,
+    });
 
-  const isRemoved = !!defaultFormValues.animal_removal_reason_id;
+  const isRemoved = !!defaultFormValues?.animal_removal_reason_id;
 
   useEffect(() => {
-    if (!selectedAnimal && !selectedBatch) {
+    if (!isFetchingAnimalsOrBatches && !selectedAnimal && !selectedBatch) {
       history.replace('/unknown_record');
     }
   }, [selectedAnimal, selectedBatch, history]);
@@ -218,18 +219,20 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
           </>
         }
       >
-        <ContextForm
-          onSave={onSave}
-          hasSummaryWithinForm={false}
-          isCompactSideMenu={isCompactSideMenu}
-          variant={Variant.STEPPER_PROGRESS_BAR}
-          history={history}
-          getSteps={getFormSteps}
-          defaultFormValues={defaultFormValues}
-          cancelModalTitle={t('ANIMAL.EDIT_ANIMAL_FLOW')}
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
-        />
+        {defaultFormValues && (
+          <ContextForm
+            onSave={onSave}
+            hasSummaryWithinForm={false}
+            isCompactSideMenu={isCompactSideMenu}
+            variant={Variant.STEPPER_PROGRESS_BAR}
+            history={history}
+            getSteps={getFormSteps}
+            defaultFormValues={defaultFormValues}
+            cancelModalTitle={t('ANIMAL.EDIT_ANIMAL_FLOW')}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+          />
+        )}
         <RemoveAnimalsModal
           isOpen={removalModalOpen}
           onClose={() => setRemovalModalOpen(false)}

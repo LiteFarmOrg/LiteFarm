@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useMemo } from 'react';
 import { useGetAnimalBatchesQuery, useGetAnimalsQuery } from '../../../store/api/apiSlice';
 import { useAnimalOptions } from '../AddAnimals/useAnimalOptions';
 import { DetailsFields } from '../AddAnimals/types';
@@ -28,17 +29,19 @@ interface RouteParams {
 interface UseInitialAnimalDataProps extends CustomRouteComponentProps<RouteParams> {}
 
 export const useInitialAnimalData = ({ match }: UseInitialAnimalDataProps) => {
-  const { selectedAnimal } = useGetAnimalsQuery(undefined, {
-    selectFromResult: ({ data }) => ({
+  const { selectedAnimal, isFetchingAnimals } = useGetAnimalsQuery(undefined, {
+    selectFromResult: ({ data, isFetching }) => ({
       selectedAnimal: data?.find(
         (animal) => animal.internal_identifier === Number(match.params.id),
       ),
+      isFetchingAnimals: isFetching,
     }),
   });
 
-  const { selectedBatch } = useGetAnimalBatchesQuery(undefined, {
-    selectFromResult: ({ data }) => ({
+  const { selectedBatch, isFetchingBatches } = useGetAnimalBatchesQuery(undefined, {
+    selectFromResult: ({ data, isFetching }) => ({
       selectedBatch: data?.find((batch) => batch.internal_identifier === Number(match.params.id)),
+      isFetchingBatches: isFetching,
     }),
   });
 
@@ -59,6 +62,16 @@ export const useInitialAnimalData = ({ match }: UseInitialAnimalDataProps) => {
     'tagType',
     'tagColor',
   );
+
+  const isOptionsLoading = [
+    sexDetailsOptions,
+    animalUseOptions,
+    typeOptions,
+    breedOptions,
+    organicStatusOptions,
+    tagTypeOptions,
+    tagColorOptions,
+  ].some((config) => config.length === 0);
 
   const otherAnimalUse =
     selectedAnimal?.animal_use_relationships?.find(
@@ -114,33 +127,51 @@ export const useInitialAnimalData = ({ match }: UseInitialAnimalDataProps) => {
     ),
   };
 
-  const defaultFormValues = {
-    ...(selectedAnimal
-      ? {
-          ...selectedAnimal,
-          ...commonFields,
-          [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
-          [DetailsFields.WEANING_DATE]: generateFormDate(selectedAnimal.weaning_date),
-          [DetailsFields.USE]: mapUses(selectedAnimal?.animal_use_relationships ?? []),
-          [DetailsFields.TAG_TYPE]: tagTypeOptions.find(
-            ({ value }) => value === selectedAnimal?.identifier_type_id,
-          ),
-          [DetailsFields.TAG_COLOR]: tagColorOptions.find(
-            ({ value }) => value === selectedAnimal?.identifier_color_id,
-          ),
-        }
-      : {}),
-    ...(selectedBatch
-      ? {
-          ...selectedBatch,
-          ...commonFields,
-          [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.BATCH,
-          [DetailsFields.SEX_DETAILS]: transformedSexDetails,
-          [DetailsFields.BATCH_NAME]: selectedBatch.name,
-          [DetailsFields.USE]: mapUses(selectedBatch?.animal_batch_use_relationships ?? []),
-        }
-      : {}),
-  };
+  const defaultFormValues = useMemo(() => {
+    if (isOptionsLoading || !selectedEntity) {
+      return null;
+    }
 
-  return { defaultFormValues, selectedAnimal, selectedBatch };
+    return {
+      ...(selectedAnimal
+        ? {
+            ...selectedAnimal,
+            ...commonFields,
+            [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.ANIMAL,
+            [DetailsFields.WEANING_DATE]: generateFormDate(selectedAnimal.weaning_date),
+            [DetailsFields.USE]: mapUses(selectedAnimal?.animal_use_relationships ?? []),
+            [DetailsFields.TAG_TYPE]: tagTypeOptions.find(
+              ({ value }) => value === selectedAnimal?.identifier_type_id,
+            ),
+            [DetailsFields.TAG_COLOR]: tagColorOptions.find(
+              ({ value }) => value === selectedAnimal?.identifier_color_id,
+            ),
+          }
+        : {}),
+      ...(selectedBatch
+        ? {
+            ...selectedBatch,
+            ...commonFields,
+            [DetailsFields.ANIMAL_OR_BATCH]: AnimalOrBatchKeys.BATCH,
+            [DetailsFields.SEX_DETAILS]: transformedSexDetails,
+            [DetailsFields.BATCH_NAME]: selectedBatch.name,
+            [DetailsFields.USE]: mapUses(selectedBatch?.animal_batch_use_relationships ?? []),
+          }
+        : {}),
+    };
+  }, [
+    isOptionsLoading,
+    selectedEntity,
+    commonFields,
+    transformedSexDetails,
+    tagTypeOptions,
+    tagColorOptions,
+  ]);
+
+  return {
+    defaultFormValues,
+    selectedAnimal,
+    selectedBatch,
+    isFetchingAnimalsOrBatches: isFetchingAnimals || isFetchingBatches,
+  };
 };

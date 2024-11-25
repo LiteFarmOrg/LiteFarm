@@ -101,6 +101,8 @@ function sendEmail(
       ? `${homeUrl()}${buttonLink}`
       : `${homeUrl()}/?email=${encodeURIComponent(email_to)}`;
     replacements.imgBaseUrl = homeUrl('https://beta.litefarm.org');
+    replacements.oooSupportMessage = process.env.OOO_SUPPORT_MESSAGE;
+    replacements.oooSupportMessageEnabled = process.env.OOO_SUPPORT_MESSAGE_ENABLED;
     const mailOptions = {
       message: {
         from: 'LiteFarm <' + sender + '>',

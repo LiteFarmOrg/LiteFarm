@@ -1,5 +1,8 @@
 extends ../template
 block content
+  #oooSupportMessageEnabled
+    if oooSupportMessageEnabled
+      | #{oooSupportMessage}
     .support-container
         .support-content
             span=`${t('HELP_REQUEST.RESPONSE')}`

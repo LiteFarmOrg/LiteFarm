@@ -197,7 +197,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
           <>
             {defaultFormValues && (
               <AnimalSingleViewHeader
-                hideMenu={!isAdmin || isRemoved}
+                showMenu={isAdmin && !isRemoved}
                 onEdit={initiateEdit}
                 onRemove={() => setRemovalModalOpen(true)}
                 isEditing={isEditing}

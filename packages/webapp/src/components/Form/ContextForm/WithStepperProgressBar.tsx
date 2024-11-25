@@ -22,7 +22,7 @@ import {
   UseFormGetValues,
 } from 'react-hook-form';
 import { History } from 'history';
-import StepperProgressBar from '../../StepperProgressBar';
+import StepperProgressBar, { StepperProgressBarProps } from '../../StepperProgressBar';
 import FloatingContainer from '../../FloatingContainer';
 import FormNavigationButtons from '../FormNavigationButtons';
 import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
@@ -142,8 +142,14 @@ export const WithStepperProgressBar = ({
     setShowCancelFlow?.(false);
   };
 
-  const renderContent = () => (
-    <>
+  return (
+    <StepperProgressBarWrapper
+      isSingleStep={isSingleStep}
+      {...stepperProgressBarConfig}
+      title={stepperProgressBarTitle}
+      steps={steps.map(({ title }) => title)}
+      activeStep={activeStepIndex}
+    >
       <div className={styles.contentWrapper}>{children}</div>
       {shouldShowFormNavigationButtons && (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
@@ -164,23 +170,27 @@ export const WithStepperProgressBar = ({
           handleCancel={handleCancel}
         />
       )}
-    </>
+    </StepperProgressBarWrapper>
   );
+};
 
-  return isSingleStep ? (
-    renderContent()
-  ) : (
-    <FixedHeaderContainer
-      header={
-        <StepperProgressBar
-          {...stepperProgressBarConfig}
-          title={stepperProgressBarTitle}
-          steps={steps.map(({ title }) => title)}
-          activeStep={activeStepIndex}
-        />
-      }
-    >
-      {renderContent()}
+type StepperProgressBarWrapperProps = StepperProgressBarProps & {
+  children: ReactNode;
+  isSingleStep: boolean;
+};
+
+const StepperProgressBarWrapper = ({
+  children,
+  isSingleStep,
+  ...stepperProgressBarProps
+}: StepperProgressBarWrapperProps) => {
+  if (isSingleStep) {
+    return <>{children}</>;
+  }
+
+  return (
+    <FixedHeaderContainer header={<StepperProgressBar {...stepperProgressBarProps} />}>
+      {children}
     </FixedHeaderContainer>
   );
 };

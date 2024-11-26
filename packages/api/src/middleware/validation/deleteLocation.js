@@ -14,6 +14,8 @@
  */
 
 import { Model } from 'objection';
+import AnimalBatchModel from '../../models/animalBatchModel.js';
+import AnimalModel from '../../models/animalModel.js';
 
 import managementPlanModel from '../../models/managementPlanModel.js';
 
@@ -108,6 +110,19 @@ async function validateLocationDependency(req, res, next) {
     if (managementPlanLocationId === location_id) {
       return res.status(400).send('Location cannot be deleted when it has a managementPlan');
     }
+  }
+
+  const animals = await AnimalModel.query()
+    .where('location_id', location_id)
+    .where('removal_date', null)
+    .whereNotDeleted();
+  const batches = await AnimalBatchModel.query()
+    .where('location_id', location_id)
+    .where('removal_date', null)
+    .whereNotDeleted();
+
+  if (animals.length || batches.length) {
+    return res.status(400).send('Location cannot be deleted when it has animals');
   }
 
   return next();

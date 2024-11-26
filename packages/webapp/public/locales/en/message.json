@@ -4,10 +4,14 @@
     "FAILED_CREATE_BATCHES": "Failed to create batches",
     "FAILED_REMOVE_ANIMALS": "Failed to remove selected animals",
     "FAILED_REMOVE_BATCHES": "Failed to remove selected batches",
+    "FAILED_UPDATE_ANIMAL": "Failed to update animal",
+    "FAILED_UPDATE_BATCH": "Failed to update batch",
     "SUCCESS_CREATE_ANIMALS": "Successfully created animals",
     "SUCCESS_CREATE_BATCHES": "Successfully created batches",
     "SUCCESS_REMOVE_ANIMALS": "Successfully removed selected animals",
-    "SUCCESS_REMOVE_BATCHES": "Successfully removed selected batches"
+    "SUCCESS_REMOVE_BATCHES": "Successfully removed selected batches",
+    "SUCCESS_UPDATE_ANIMAL": "Successfully updated animal",
+    "SUCCESS_UPDATE_BATCH": "Successfully updated batch"
   },
   "ASSIGN_TASK": {
     "ERROR": "Failed to assign tasks",

@@ -23,7 +23,7 @@ import AnimalDetails from '../../../components/Animals/AddAnimalsDetails';
 import { FormMethods } from '../../../containers/Animals/AddAnimals/types';
 import {
   sexOptions,
-  useOptions,
+  animalUseOptions,
   tagTypeOptions,
   tagColorOptions,
   organicStatusOptions,
@@ -54,7 +54,7 @@ export const Default: Story = {
             <AnimalDetails
               generalDetailProps={{
                 sexOptions,
-                useOptions,
+                animalUseOptions,
               }}
               uniqueDetailsProps={{
                 tagTypeOptions,

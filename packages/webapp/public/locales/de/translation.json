@@ -139,8 +139,16 @@
       "WHAT_TYPE_OF_IRRIGATION": "Welche Art der Bewässerung?"
     },
     "MANAGE_CUSTOM_TASKS": "Verwalten von benutzerdefinierten Aufgaben",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "MISSING",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "MISSING"
+    },
     "NEED_MANAGEMENT_PLAN": "Sie benötigen einen aktiven oder geplanten Anbauplan, bevor Sie eine Ernteaufgabe oder eine Umpflanzaufgabe planen können. Rufen Sie den Pflanzenkatalog auf, um jetzt einen Plan zu erstellen.",
     "NO_MANAGEMENT_PLAN": "Keine förderfähigen Anbaupläne",
+    "NOTES_LABEL": "MISSING",
+    "NOTES_PLACEHOLDER": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Biologische Kontrolle",
       "FLAME_WEEDING": "Flammenunkrautbekämpfung",
@@ -834,7 +842,7 @@
     },
     "TUTORIALS": "Kartenanleitungen",
     "UNABLE_TO_RETIRE": {
-      "BODY": "Sie können nur Standorte zurückziehen, die keine aktiven oder geplanten Pflanzen oder Aufgaben haben.",
+      "BODY": "MISSING",
       "TITLE": "Nicht möglich, zurückzuziehen"
     },
     "WATER_VALVE": {
@@ -933,6 +941,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Bildschirmfoto oder Datei hochladen",
     "EMAIL": "E-Mail",
+    "FEEDBACK_INVITATION": "MISSING",
     "MESSAGE_LABEL": "Nachricht",
     "OPTIONS": {
       "OTHER": "Andere",
@@ -1915,5 +1924,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Jahr auswählen"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "MISSING",
+      "CONTENT": "MISSING"
+    }
   }
 }

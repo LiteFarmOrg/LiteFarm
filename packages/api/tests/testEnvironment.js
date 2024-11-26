@@ -76,6 +76,11 @@ async function tableCleanup(knex) {
     DELETE FROM "plant_task";
     DELETE FROM "transplant_task";
     DELETE FROM "soil_task";
+    DELETE FROM "animal_movement_task_purpose_relationship"; 
+    DELETE FROM "animal_movement_purpose"; 
+    DELETE FROM "animal_movement_task";
+    DELETE FROM "task_animal_relationship";
+    DELETE FROM "task_animal_batch_relationship";
     DELETE FROM "task";
     DELETE FROM "yield";
     DELETE FROM "cropDisease";
@@ -112,7 +117,6 @@ async function tableCleanup(knex) {
     DELETE FROM "surface_water";
     DELETE FROM "natural_area";
     DELETE FROM "organic_history";
-    DELETE FROM "location";
     DELETE FROM "fertilizer";
     DELETE FROM "farmExpense";
     DELETE FROM "farmExpenseType";
@@ -140,6 +144,7 @@ async function tableCleanup(knex) {
     DELETE FROM "default_animal_type";
     DELETE FROM "custom_animal_type";
     DELETE FROM "animal_removal_reason";
+    DELETE FROM "location";
     DELETE FROM "userFarm";
     DELETE FROM "farm";
     DELETE FROM "users" WHERE user_id <> '1';

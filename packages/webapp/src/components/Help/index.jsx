@@ -15,6 +15,8 @@ import ImagePicker from '../ImagePicker';
 
 export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNumber, isLoading }) {
   const [file, setFile] = useState(null);
+  const [resetForm, setResetForm] = useState(false);
+
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const { register, handleSubmit, watch, control, setValue, reset, formState } = useForm({
     mode: 'onTouched',
@@ -45,13 +47,14 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
 
   const handleCancel = () => {
     reset();
+    setResetForm(true);
     onCancel?.();
   };
 
   useEffect(() => {
     const contactInformation = contactMethodSelection === 'email' ? email : phoneNumber;
     setValue(CONTACT_INFO, contactInformation);
-  }, [contactMethodSelection]);
+  }, [contactMethodSelection, resetForm]);
 
   const submit = (data) => {
     data.support_type = data.support_type.value;
@@ -60,6 +63,7 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
     delete data.contactInfo;
     onSubmit(file, data);
     reset();
+    setResetForm(true);
   };
 
   const supportType = watch(SUPPORT_TYPE);
@@ -120,8 +124,12 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
       <div>
         <ImagePicker
           label={t('HELP.ATTACHMENT_LABEL')}
-          onSelectImage={setFile}
+          onSelectImage={(imageFile) => {
+            setFile(imageFile);
+            setResetForm(false);
+          }}
           onRemoveImage={() => setFile(null)}
+          shouldReset={resetForm}
         />
       </div>
       <div>

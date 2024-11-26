@@ -26,7 +26,7 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
     },
   });
 
-  const { errors, dirtyFields } = formState;
+  const { errors } = formState;
 
   const CONTACT_METHOD = 'contact_method';
   const contactMethodSelection = watch(CONTACT_METHOD);
@@ -110,18 +110,14 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
             />
           )}
         />
-        {errors[SUPPORT_TYPE] && SUPPORT_TYPE in dirtyFields ? (
-          <Error>{t('HELP.REQUIRED_LABEL')}</Error>
-        ) : (
-          ''
-        )}
+        {errors[SUPPORT_TYPE] ? <Error>{t('HELP.REQUIRED_LABEL')}</Error> : ''}
       </div>
       <div>
         <TextArea
           label={t('HELP.MESSAGE_LABEL')}
           hookFormRegister={register(MESSAGE, { required: true })}
         />
-        {errors[MESSAGE] && MESSAGE in dirtyFields ? <Error>{t('HELP.REQUIRED_LABEL')}</Error> : ''}
+        {errors[MESSAGE] ? <Error>{t('HELP.REQUIRED_LABEL')}</Error> : ''}
       </div>
       <div>
         <ImagePicker
@@ -160,9 +156,7 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
             pattern: contactMethodSelection === 'email' ? validEmailRegex : /./g,
           })}
         />
-        {errors[CONTACT_INFO] &&
-        CONTACT_INFO in dirtyFields &&
-        errors[CONTACT_INFO].type !== 'pattern' ? (
+        {errors[CONTACT_INFO] && errors[CONTACT_INFO].type !== 'pattern' ? (
           <Error>{t('HELP.REQUIRED_LABEL')}</Error>
         ) : (
           ''

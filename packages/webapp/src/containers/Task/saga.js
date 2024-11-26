@@ -79,7 +79,7 @@ import {
 } from '../../util/siteMapConstants';
 import { setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { formatSoilAmendmentProductToDBStructure } from '../../util/task';
-import { api } from '../../store/api/apiSlice';
+import { getEndpoint, getMovementTaskBody } from './sagaUtils';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -88,6 +88,7 @@ const taskTypeEndpoint = [
   'soil_amendment_task',
   'harvest_tasks',
   'irrigation_task',
+  'animal_movement_task',
 ];
 
 // TypeScript complains without payload.
@@ -394,7 +395,7 @@ export function* getAllTasksSuccessSaga({ payload: tasks }) {
   yield handleGetTasksSuccess(tasks, addAllTasksFromGetReq);
 }
 
-const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
+export const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
   return getObjectInnerValues(
     produce(data, (data) => {
       const propertiesToRemove = taskTypeEndpoint.filter((taskType) => taskType !== endpoint);
@@ -521,6 +522,7 @@ const taskTypeGetPostTaskBodyFunctionMap = {
   HARVEST_TASK: getPostHarvestTaskBody,
   TRANSPLANT_TASK: getTransplantTaskBody,
   IRRIGATION_TASK: getIrrigationTaskBody,
+  MOVEMENT_TASK: getMovementTaskBody,
 };
 
 const getPostTaskReqBody = (
@@ -560,11 +562,7 @@ export function* createTaskSaga({ payload }) {
   const header = getHeader(user_id, farm_id);
   const isCustomTask = !!task_farm_id;
   const isHarvest = task_translation_key === 'HARVEST_TASK';
-  const endpoint = isCustomTask
-    ? 'custom_task'
-    : isHarvest
-    ? 'harvest_tasks'
-    : task_translation_key.toLowerCase();
+  const endpoint = getEndpoint(isCustomTask, task_translation_key);
   try {
     const managementPlanWithCurrentLocationEntities = yield select(
       managementPlanWithCurrentLocationEntitiesSelector,

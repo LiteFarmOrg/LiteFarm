@@ -26,7 +26,7 @@ export default function HelpRequest({ closeDrawer }) {
       onSubmit={handleSubmit}
       onCancel={onCancel}
       email={email}
-      phone_number={phone_number}
+      phoneNumber={phone_number}
       isLoading={loading}
       key={key}
     />

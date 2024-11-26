@@ -13,13 +13,7 @@ import Radio from '../Form/Radio';
 import { Label } from '../Typography/index';
 import ImagePicker from '../ImagePicker';
 
-export default function PureHelpRequestPage({
-  onSubmit,
-  onCancel,
-  email,
-  phone_number,
-  isLoading,
-}) {
+export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNumber, isLoading }) {
   const [file, setFile] = useState(null);
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const { register, handleSubmit, watch, control, setValue, formState } = useForm({
@@ -53,7 +47,7 @@ export default function PureHelpRequestPage({
   };
 
   useEffect(() => {
-    const contactInformation = contactMethodSelection === 'email' ? email : phone_number;
+    const contactInformation = contactMethodSelection === 'email' ? email : phoneNumber;
     setValue(CONTACT_INFO, contactInformation);
   }, [contactMethodSelection]);
 
@@ -164,6 +158,6 @@ PureHelpRequestPage.prototype = {
   onSubmit: PropTypes.func,
   onCancel: PropTypes.func,
   email: PropTypes.string,
-  phone_number: PropTypes.string,
+  phoneNumber: PropTypes.string,
   isLoading: PropTypes.bool,
 };

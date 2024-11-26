@@ -18,7 +18,7 @@ import { onLoadingFail, onLoadingStart, onLoadingSuccess } from '../../userFarmS
 import { createSelector } from 'reselect';
 import { pick } from '../../../util/pick';
 
-const animalMovementTaskProperties = ['purpose_relationships'];
+const animalMovementTaskProperties = ['task_id', 'purpose_relationships'];
 
 const getAnimalMovementTask = (task) => {
   return pick(task, animalMovementTaskProperties);

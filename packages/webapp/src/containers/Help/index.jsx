@@ -7,10 +7,18 @@ import { userFarmSelector } from '../userFarmSlice';
 export default function HelpRequest({ closeDrawer }) {
   const dispatch = useDispatch();
 
-  const handleSubmit = (file, data) => {
+  const handleSubmit = (file, data, resetForm) => {
     dispatch(startSendHelp());
-    dispatch(supportFileUpload({ file, form: data }));
-    closeDrawer?.();
+    dispatch(
+      supportFileUpload({
+        file,
+        form: data,
+        onSuccess: () => {
+          resetForm();
+          closeDrawer?.();
+        },
+      }),
+    );
   };
   const onCancel = () => {
     closeDrawer?.();

@@ -26,7 +26,7 @@ const supportUrl = () => `${url}/support_ticket`;
 
 export const supportFileUpload = createAction(`supportFileUploadSaga`);
 
-export function* supportFileUploadSaga({ payload: { file, form } }) {
+export function* supportFileUploadSaga({ payload: { file, form, onSuccess } }) {
   try {
     const formData = new FormData();
     formData.append('_file_', file);
@@ -39,6 +39,7 @@ export function* supportFileUploadSaga({ payload: { file, form } }) {
     });
     if (result) {
       yield put(postHelpRequestSuccess());
+      onSuccess();
       history.push('/');
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));

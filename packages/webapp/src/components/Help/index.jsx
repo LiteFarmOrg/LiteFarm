@@ -61,9 +61,11 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
     data[data[CONTACT_METHOD]] = data.contactInfo;
     data.attachments = {};
     delete data.contactInfo;
-    onSubmit(file, data);
-    reset();
-    setResetForm(true);
+    onSubmit(file, data, () => {
+      reset();
+      setFile(null);
+      setResetForm(true);
+    });
   };
 
   const supportType = watch(SUPPORT_TYPE);

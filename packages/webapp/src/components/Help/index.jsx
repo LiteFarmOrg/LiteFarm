@@ -77,7 +77,7 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
       onSubmit={handleSubmit(submit, onError)}
       buttonGroup={
         <>
-          <Button fullLength color={'secondary-cta'} onClick={handleCancel} md>
+          <Button fullLength color={'secondary-cta'} onClick={handleCancel} md type={'button'}>
             {t('common:CANCEL')}
           </Button>
           <Button type={'submit'} disabled={isLoading || disabled} fullLength md>

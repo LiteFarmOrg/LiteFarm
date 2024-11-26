@@ -28,6 +28,7 @@ import { ANIMALS_INVENTORY_URL } from './util/siteMapConstants';
 
 function App() {
   const [isCompactSideMenu, setIsCompactSideMenu] = useState(false);
+  const [isFeedbackSurveyOpen, setFeedbackSurveyOpen] = useState(false);
   const FULL_WIDTH_ROUTES = ['/map', ANIMALS_INVENTORY_URL];
   const isFullWidth = FULL_WIDTH_ROUTES.some((path) => matchPath(history.location.pathname, path));
 
@@ -38,6 +39,8 @@ function App() {
           history={history}
           isCompactSideMenu={isCompactSideMenu}
           setIsCompactSideMenu={setIsCompactSideMenu}
+          isFeedbackSurveyOpen={isFeedbackSurveyOpen}
+          setFeedbackSurveyOpen={setFeedbackSurveyOpen}
         >
           <div className={clsx(styles.app, isFullWidth && styles.fullWidthApp)}>
             <OfflineDetector />
@@ -53,7 +56,11 @@ function App() {
               // https://notistack.com/features/customization#custom-component
               Components={{ common: NotistackSnackbar }}
             >
-              <Routes isCompactSideMenu={isCompactSideMenu} />
+              <Routes
+                isCompactSideMenu={isCompactSideMenu}
+                isFeedbackSurveyOpen={isFeedbackSurveyOpen}
+                setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+              />
             </SnackbarProvider>
           </div>
         </Navigation>

@@ -26,6 +26,10 @@ export interface BadgeProps {
   showIcon?: boolean;
   isMenuItem?: boolean;
   position?: 'left' | 'right';
+  id?: string;
+  classes?: {
+    iconButton: string;
+  };
 }
 
 const Badge: React.FC<BadgeProps> = ({
@@ -33,7 +37,9 @@ const Badge: React.FC<BadgeProps> = ({
   content = '',
   showIcon = true,
   isMenuItem = false,
-  position = 'right',
+  position,
+  id,
+  classes,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [focus, setFocus] = useState<boolean>(false);
@@ -90,11 +96,13 @@ const Badge: React.FC<BadgeProps> = ({
         slotProps={slotProps}
       >
         <IconButton
+          id={id}
           className={clsx(
             styles.badge,
             focus && styles.focus,
-            !isMenuItem && styles[position + 'Position'],
+            !isMenuItem && position && styles[position + 'Position'],
             isMenuItem && styles.menuItem,
+            classes?.iconButton,
           )}
           onClick={(e) => {
             if (showIcon) {

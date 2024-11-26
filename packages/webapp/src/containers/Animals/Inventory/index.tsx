@@ -43,6 +43,7 @@ import FloatingContainer from '../../../components/FloatingContainer';
 import ExpandableItem from '../../../components/Expandable/ExpandableItem';
 import useExpandable from '../../../components/Expandable/useExpandableItem';
 import clsx from 'clsx';
+import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
 
 export enum View {
   DEFAULT = 'default',
@@ -54,6 +55,7 @@ interface AnimalInventoryProps {
   onSelect?: (newIds: string[]) => void;
   view?: View;
   isCompactSideMenu: boolean;
+  setFeedbackSurveyOpen: () => void;
   containerHeight: number;
   history: History;
 }
@@ -76,6 +78,7 @@ function AnimalInventory({
   onSelect,
   view = View.DEFAULT,
   isCompactSideMenu,
+  setFeedbackSurveyOpen,
   history,
 }: AnimalInventoryProps) {
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
@@ -298,45 +301,51 @@ function AnimalInventory({
   ];
 
   return (
-    <FixedHeaderContainer
-      header={showKPI ? <KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} /> : null}
-      classes={{ paper: styles.paper, divWrapper: styles.divWrapper, wrapper: wrapperClass }}
-      kind={headerContainerKind}
-    >
-      <PureAnimalInventory
-        filteredInventory={searchAndFilteredInventory}
-        animalsColumns={animalsColumns}
-        searchProps={searchProps}
-        zIndexBase={zIndexBase}
-        isDesktop={isDesktop}
-        onSelectInventory={onSelectInventory}
-        handleSelectAllClick={handleSelectAllClick}
-        selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
-        totalInventoryCount={inventory.length}
-        isFilterActive={isFilterActive}
-        clearFilters={clearFilters}
-        isLoading={isLoading}
-        isAdmin={isAdmin}
-        history={history}
-        onRowClick={onRowClick}
-        view={view}
-      />
-      {showActionMenu ? (
-        <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
-          <ActionMenu
-            headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
-            textActions={textActions}
-            iconActions={iconActions}
-          />
-        </FloatingContainer>
-      ) : null}
-      <RemoveAnimalsModal
-        isOpen={removalModalOpen}
-        onClose={() => setRemovalModalOpen(false)}
-        onConfirm={onConfirmRemoveAnimals}
-        showSuccessMessage={false}
-      />
-    </FixedHeaderContainer>
+    <AnimalsBetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
+      <FixedHeaderContainer
+        header={
+          showKPI ? (
+            <KPI history={history} onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />
+          ) : null
+        }
+        classes={{ paper: styles.paper, divWrapper: styles.divWrapper, wrapper: wrapperClass }}
+        kind={headerContainerKind}
+      >
+        <PureAnimalInventory
+          filteredInventory={searchAndFilteredInventory}
+          animalsColumns={animalsColumns}
+          searchProps={searchProps}
+          zIndexBase={zIndexBase}
+          isDesktop={isDesktop}
+          onSelectInventory={onSelectInventory}
+          handleSelectAllClick={handleSelectAllClick}
+          selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
+          totalInventoryCount={inventory.length}
+          isFilterActive={isFilterActive}
+          clearFilters={clearFilters}
+          isLoading={isLoading}
+          isAdmin={isAdmin}
+          history={history}
+          onRowClick={onRowClick}
+          view={view}
+        />
+        {showActionMenu ? (
+          <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
+            <ActionMenu
+              headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
+              textActions={textActions}
+              iconActions={iconActions}
+            />
+          </FloatingContainer>
+        ) : null}
+        <RemoveAnimalsModal
+          isOpen={removalModalOpen}
+          onClose={() => setRemovalModalOpen(false)}
+          onConfirm={onConfirmRemoveAnimals}
+          showSuccessMessage={false}
+        />
+      </FixedHeaderContainer>
+    </AnimalsBetaSpotlight>
   );
 }
 

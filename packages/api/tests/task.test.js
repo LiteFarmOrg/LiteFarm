@@ -2949,6 +2949,27 @@ describe('Task tests', () => {
         done();
       });
     });
+
+    test('Should not be able to abandon a task with disallowed reason', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory(
+        { promisedUser: [{ user_id }] },
+        mocks.fakeTask({ due_date: date, assignee_user_id: user_id }),
+      );
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      abandonTaskRequest(
+        { user_id, farm_id },
+        { abandonTaskBody, abandonment_reason: 'NO_ANIMALS' },
+        task.task_id,
+        async (err, res) => {
+          expect(res.status).toBe(400);
+          expect(res.error.text).toBe('The provided abandonment_reason is not allowed');
+          done();
+        },
+      );
+    });
   });
 
   describe('DELETE task tests', () => {

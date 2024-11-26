@@ -13,8 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
 import styles from './styles.module.scss';
 import { IconLink, Semibold, Text } from '../../../Typography';
@@ -23,12 +21,28 @@ import { ReactComponent as Edit } from '../../../../assets/images/edit.svg';
 import { ReactComponent as UncheckedEnabled } from '../../../../assets/images/unchecked-enabled.svg';
 import { ReactComponent as CheckedEnabled } from '../../../../assets/images/checked-enabled.svg';
 
+// Handlers for when when 'miscelleneous' can be selected using this component (e.g. in Expense Types)
+interface MiscellaneousConfig {
+  addRemove: () => void;
+  selected: boolean;
+}
+
+export interface CantFindCustomTypeProps {
+  customTypeMessages: {
+    info: string;
+    manage: string;
+  };
+  miscellaneousConfig?: MiscellaneousConfig;
+  iconLinkId?: string; // used by spotlight
+  onGoToManageCustomType: () => void;
+}
+
 export const CantFindCustomType = ({
   customTypeMessages,
   miscellaneousConfig,
   iconLinkId,
   onGoToManageCustomType,
-}) => {
+}: CantFindCustomTypeProps) => {
   const { t } = useTranslation();
 
   const isChecked = miscellaneousConfig?.selected;
@@ -81,17 +95,4 @@ export const CantFindCustomType = ({
       </div>
     </div>
   );
-};
-
-CantFindCustomType.propTypes = {
-  customTypeMessages: PropTypes.shape({
-    info: PropTypes.string,
-    manage: PropTypes.string,
-  }),
-  miscellaneousConfig: PropTypes.shape({
-    addRemove: PropTypes.func,
-    selected: PropTypes.bool,
-  }),
-  iconLinkId: PropTypes.string, // id used by spotlight
-  onGoToManageCustomType: PropTypes.func,
 };

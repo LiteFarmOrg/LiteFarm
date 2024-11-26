@@ -117,6 +117,7 @@
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
     "CANCEL": "task creation",
+    "CANT_FIND_INFO_TASK": "You can also create your own custom task types!",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Estimated water usage",
       "IS_PERMITTED": "Is the cleaning agent in the permitted substances list?",
@@ -200,7 +201,7 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?"
     },
-    "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
+    "MANAGE_CUSTOM_TASKS": "Manage your custom tasks",
     "MOVEMENT_VIEW": {
       "MOVEMENT_PURPOSE_LABEL": "What's the purpose of this movement?",
       "MOVEMENT_PURPOSE_PLACEHOLDER": "Select the purpose for this movement",
@@ -307,6 +308,7 @@
       "WEANING_DATE": "Weaning date"
     },
     "BATCH": "Batch",
+    "BETA_SPOTLIGHT_HEADING": "Introducing the new Animals feature",
     "EDIT_ANIMAL_FLOW": "editing",
     "FILTER": {
       "BATCHES": "Batches",
@@ -1052,6 +1054,7 @@
     "ATTACHMENT_LABEL": "Upload screenshot or file",
     "EMAIL": "Email",
     "FEEDBACK_INVITATION": "Get help or give us feedback",
+    "SEND_US_FEEDBACK": "Send us feedback",
     "MESSAGE_LABEL": "Message",
     "OPTIONS": {
       "OTHER": "Other",
@@ -1929,6 +1932,7 @@
         "LABOUR_ISSUE": "Labour issue",
         "MACHINERY_ISSUE": "Machinery issue",
         "MARKET_PROBLEM": "Market problem",
+        "NO_ANIMALS": "Auto-abandoned: No animals for this task",
         "OTHER": "Other",
         "SCHEDULING_ISSUE": "Scheduling issue",
         "WEATHER": "Weather"
@@ -2075,7 +2079,7 @@
   "BADGE": {
     "BETA": {
       "TITLE": "Beta",
-      "CONTENT": "Get a sneak peek at our new animal management feature—now in beta! Your feedback is crucial as we refine this feature. Please share any bugs or suggestions you encounter. We appreciate your help in improving liteFarm! You can learn more about beta <a>here</a>"
+      "ANIMALS_CONTENT": "Get a sneak peek at our new animal management feature—now in beta! Your feedback is crucial as we refine this feature. Please share any bugs or suggestions you encounter. We appreciate your help in improving liteFarm! You can learn more about beta <a>here</a>"
     }
   }
 }

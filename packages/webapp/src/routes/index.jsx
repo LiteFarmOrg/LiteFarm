@@ -285,7 +285,7 @@ const UnknownRecord = React.lazy(
   () => import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
-const Routes = ({ isCompactSideMenu }) => {
+const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen }) => {
   useScrollToTop();
   useReduxSnackbar();
   const userFarm = useSelector(
@@ -620,7 +620,13 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/animals/*"
               exact
-              render={(props) => <Animals isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => (
+                <Animals
+                  isCompactSideMenu={isCompactSideMenu}
+                  setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+                  {...props}
+                />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
@@ -915,7 +921,13 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/animals/*"
               exact
-              render={(props) => <Animals isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => (
+                <Animals
+                  isCompactSideMenu={isCompactSideMenu}
+                  setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+                  {...props}
+                />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
@@ -1019,7 +1031,13 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/animals/*"
               exact
-              render={(props) => <Animals isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => (
+                <Animals
+                  isCompactSideMenu={isCompactSideMenu}
+                  setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+                  {...props}
+                />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />

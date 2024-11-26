@@ -64,6 +64,11 @@ import {
   onLoadingTransplantTaskFail,
   onLoadingTransplantTaskStart,
 } from '../slice/taskSlice/transplantTaskSlice';
+import {
+  getAnimalMovementTasksSuccess,
+  onLoadingAnimalMovementTaskFail,
+  onLoadingAnimalMovementTaskStart,
+} from '../slice/taskSlice/animalMovementTaskSlice';
 import { getPlantingMethodReqBody } from '../Crop/AddManagementPlan/ManagementPlanName/getManagementPlanReqBody';
 
 import {
@@ -78,7 +83,7 @@ import {
   createCompleteTaskUrl,
 } from '../../util/siteMapConstants';
 import { setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import { formatSoilAmendmentProductToDBStructure } from '../../util/task';
+import { formatSoilAmendmentProductToDBStructure, getSubtaskName } from '../../util/task';
 import { getEndpoint, getMovementTaskBody } from './sagaUtils';
 
 const taskTypeEndpoint = [
@@ -326,6 +331,11 @@ const taskTypeActionMap = {
     fail: onLoadingTransplantTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
+  MOVEMENT_TASK: {
+    success: (tasks) => put(getAnimalMovementTasksSuccess(tasks)),
+    fail: onLoadingAnimalMovementTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
+  },
 };
 
 export const onLoadingTaskStart = createAction('onLoadingTaskStartSaga');
@@ -339,6 +349,7 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingPlantTaskStart());
   yield put(onLoadingTransplantTaskStart());
   yield put(onLoadingIrrigationTaskStart());
+  yield put(onLoadingAnimalMovementTaskStart());
 }
 
 function* handleGetTasksSuccess(tasks, successAction) {
@@ -353,7 +364,7 @@ function* handleGetTasksSuccess(tasks, successAction) {
   const tasksByTranslationKey = tasks.reduce((tasksByTranslationKey, task) => {
     const { task_translation_key } = taskTypeEntities[task.task_type_id];
     if (taskTypeActionMap[task_translation_key]) {
-      tasksByTranslationKey[task_translation_key].push(task[task_translation_key.toLowerCase()]);
+      tasksByTranslationKey[task_translation_key].push(task[getSubtaskName(task_translation_key)]);
     }
     return tasksByTranslationKey;
   }, tasksByTranslationKeyDefault);

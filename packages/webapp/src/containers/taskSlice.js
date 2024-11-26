@@ -21,6 +21,8 @@ import { plantTaskEntitiesSelector } from './slice/taskSlice/plantTaskSlice';
 import { transplantTaskEntitiesSelector } from './slice/taskSlice/transplantTaskSlice';
 import { plantingManagementPlanEntitiesSelector } from './plantingManagementPlanSlice';
 import { irrigationTaskEntitiesSelector } from './slice/taskSlice/irrigationTaskSlice';
+import { animalMovementTaskEntitiesSelector } from './slice/taskSlice/animalMovementTaskSlice';
+import { getSubtaskName } from '../util/task';
 
 export const getTask = (obj) => {
   const task = pick(obj, [
@@ -179,6 +181,7 @@ export const taskEntitiesSelector = createSelector(
     soilAmendmentTaskEntitiesSelector,
     plantTaskEntitiesSelector,
     transplantTaskEntitiesSelector,
+    animalMovementTaskEntitiesSelector,
     plantingManagementPlanEntitiesSelector,
   ],
   (
@@ -196,6 +199,7 @@ export const taskEntitiesSelector = createSelector(
     soilAmendmentTaskEntities,
     plantTaskEntities,
     transplantTaskEntities,
+    animalMovementTaskEntities,
     plantingManagementPlanEntities,
   ) => {
     const subTaskEntities = {
@@ -207,6 +211,7 @@ export const taskEntitiesSelector = createSelector(
       ...soilAmendmentTaskEntities,
       ...plantTaskEntities,
       ...transplantTaskEntities,
+      ...animalMovementTaskEntities,
     };
 
     const getManagementPlanByPlantingManagementPlan = ({
@@ -236,7 +241,7 @@ export const taskEntitiesSelector = createSelector(
         taskEntities[task_id].taskType = taskType;
         const { task_translation_key, farm_id } = taskType;
         const subtask = subTaskEntities[task_id];
-        !farm_id && (taskEntities[task_id][task_translation_key.toLowerCase()] = subtask);
+        !farm_id && (taskEntities[task_id][getSubtaskName(task_translation_key)] = subtask);
         if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
           taskEntities[task_id].locations = subtask.planting_management_plan.location_id
             ? [locationEntities[subtask.planting_management_plan.location_id]]

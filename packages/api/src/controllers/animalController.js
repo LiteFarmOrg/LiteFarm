@@ -196,7 +196,6 @@ const animalController = {
           ids.push(id);
         }
 
-        // assume removal_date is the same for all animals
         const { removal_date } = req.body[0];
         await handleIncompleteTasksForAnimalsAndBatches(req, trx, 'animal', ids, removal_date);
         await trx.commit();

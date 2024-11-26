@@ -595,6 +595,7 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
       // Check that all animals exist and belong to the farm
       // Done in its own loop to provide a list of all invalid ids
       const invalidIds = [];
+      const removalDatesSet = new Set();
 
       for (const animalOrBatch of req.body) {
         checkRemovalDataProvided(animalOrBatch);
@@ -608,9 +609,18 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
         if (!preexistingAnimalOrBatch) {
           invalidIds.push(animalOrBatch.id);
         }
+        removalDatesSet.add(animalOrBatch.removal_date);
       }
 
       await checkInvalidIds(invalidIds);
+
+      // Assumption: All removal_date values are identical.
+      // This check ensures that if this assumption ever changes, it triggers an error.
+      // If the error is triggered, re-implement handleIncompleteTasksForAnimalsAndBatches to handle multiple dates.
+      if (removalDatesSet.size > 1) {
+        throw customError('removal_date is expected to be the same in all animals/batches');
+      }
+
       next();
     } catch (error) {
       if (error.type === 'LiteFarmCustom') {

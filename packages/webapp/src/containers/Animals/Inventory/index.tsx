@@ -41,6 +41,9 @@ import { isAdminSelector } from '../../userFarmSlice';
 import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
 import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
+import { parseInventoryId } from '../../../util/animal';
+import { AnimalOrBatchKeys } from '../types';
+import { Animal } from '../../../store/api/types';
 
 export enum View {
   DEFAULT = 'default',
@@ -102,9 +105,18 @@ function AnimalInventory({
     [updateSelectedTypeIds],
   );
 
+  const onRemovalSuccess = (animalOrBatchKey: AnimalOrBatchKeys, ids: Animal['id'][]) => {
+    setSelectedInventoryIds((selectedInventoryIds) => {
+      return selectedInventoryIds.filter((i) => {
+        const { kind, id } = parseInventoryId(i);
+        return kind === animalOrBatchKey && ids.includes(id);
+      });
+    });
+  };
+
   const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen } = useAnimalOrBatchRemoval(
-    selectedInventoryIds,
-    setSelectedInventoryIds,
+    selectedInventoryIds.map(parseInventoryId),
+    onRemovalSuccess,
   );
 
   const animalsColumns = useMemo(

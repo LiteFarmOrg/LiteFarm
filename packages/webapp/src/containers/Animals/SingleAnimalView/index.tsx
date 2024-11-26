@@ -43,7 +43,6 @@ import { AnimalOrBatchKeys } from '../types';
 import { AnimalDetailsFormFields } from '../AddAnimals/types';
 import RemoveAnimalsModal, { FormFields } from '../../../components/Animals/RemoveAnimalsModal';
 import useAnimalOrBatchRemoval from '../Inventory/useAnimalOrBatchRemoval';
-import { generateInventoryId } from '../../../util/animal';
 import { CustomRouteComponentProps } from '../../../types';
 import { isAdminSelector } from '../../userFarmSlice';
 
@@ -169,13 +168,13 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
     }
   };
 
-  const getInventoryId = () => {
-    const animalOrBatch = AnimalOrBatchKeys[selectedAnimal ? 'ANIMAL' : 'BATCH'];
-    return generateInventoryId(animalOrBatch, (selectedAnimal || selectedBatch)!);
-  };
-
   const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen } = useAnimalOrBatchRemoval(
-    [getInventoryId()],
+    [
+      {
+        kind: AnimalOrBatchKeys[selectedAnimal ? 'ANIMAL' : 'BATCH'],
+        id: (selectedAnimal || selectedBatch)!.id,
+      },
+    ],
   );
 
   const onConfirmRemoval = async (formData: FormFields) => {

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import {
   useDeleteAnimalBatchesMutation,
   useDeleteAnimalsMutation,
@@ -21,17 +21,24 @@ import {
   useRemoveAnimalsMutation,
 } from '../../../store/api/apiSlice';
 import { toLocalISOString } from '../../../util/moment';
-import { parseInventoryId } from '../../../util/animal';
 import { CREATED_IN_ERROR_ID, FormFields } from '../../../components/Animals/RemoveAnimalsModal';
 import useMutations from '../../../hooks/api/useMutations';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { AnimalOrBatchKeys } from '../types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { Animal } from '../../../store/api/types';
+
+interface Removal {
+  id: Animal['id'];
+  animal_removal_reason_id: number;
+  removal_explanation: string;
+  removal_date: string;
+}
 
 const useAnimalOrBatchRemoval = (
-  selectedInventoryIds: string[],
-  setSelectedInventoryIds?: Dispatch<SetStateAction<string[]>>,
+  selectedIds: { kind: AnimalOrBatchKeys; id: Animal['id'] }[],
+  onSuccess?: (kind: AnimalOrBatchKeys, ids: Animal['id'][]) => void,
 ) => {
   const dispatch = useDispatch();
   const { t } = useTranslation(['message']);
@@ -48,31 +55,25 @@ const useAnimalOrBatchRemoval = (
   const handleAnimalOrBatchRemoval = async (formData: FormFields) => {
     const timestampedDate = toLocalISOString(formData.date);
 
-    const animalRemovalArray = [];
-    const animalBatchRemovalArray = [];
-    const selectedAnimalIds: string[] = [];
-    const selectedBatchIds: string[] = [];
+    const animalRemovalArray: Removal[] = [];
+    const animalBatchRemovalArray: Removal[] = [];
+    const selectedAnimalIds: Animal['id'][] = [];
+    const selectedBatchIds: Animal['id'][] = [];
     let result;
 
-    for (const id of selectedInventoryIds) {
-      const { kind, id: entity_id } = parseInventoryId(id);
-      if (kind === AnimalOrBatchKeys.ANIMAL) {
-        animalRemovalArray.push({
-          id: entity_id,
-          animal_removal_reason_id: Number(formData.reason), // mobile UI uses a native radio input & will always generate a string
-          removal_explanation: formData.explanation,
-          removal_date: timestampedDate,
-        });
-        selectedAnimalIds.push(id);
-      } else if (kind === AnimalOrBatchKeys.BATCH) {
-        animalBatchRemovalArray.push({
-          id: entity_id,
-          animal_removal_reason_id: Number(formData.reason),
-          removal_explanation: formData.explanation,
-          removal_date: timestampedDate,
-        });
-        selectedBatchIds.push(id);
-      }
+    for (const { kind, id } of selectedIds) {
+      const [removalArray, selectedIdsArray] =
+        kind === AnimalOrBatchKeys.ANIMAL
+          ? [animalRemovalArray, selectedAnimalIds]
+          : [animalBatchRemovalArray, selectedBatchIds];
+
+      removalArray.push({
+        id,
+        animal_removal_reason_id: Number(formData.reason), // mobile UI uses a native radio input & will always generate a string
+        removal_explanation: formData.explanation,
+        removal_date: timestampedDate,
+      });
+      selectedIdsArray.push(id);
     }
 
     if (animalRemovalArray.length) {
@@ -82,9 +83,7 @@ const useAnimalOrBatchRemoval = (
         console.log(result.error);
         dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
       } else {
-        setSelectedInventoryIds?.((selectedInventoryIds) =>
-          selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)),
-        );
+        onSuccess?.(AnimalOrBatchKeys.ANIMAL, selectedAnimalIds);
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_ANIMALS', { ns: 'message' })));
       }
     }
@@ -96,9 +95,7 @@ const useAnimalOrBatchRemoval = (
         console.log(result.error);
         dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
       } else {
-        setSelectedInventoryIds?.((selectedInventoryIds) =>
-          selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)),
-        );
+        onSuccess?.(AnimalOrBatchKeys.BATCH, selectedBatchIds);
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_BATCHES', { ns: 'message' })));
       }
     }
@@ -109,20 +106,12 @@ const useAnimalOrBatchRemoval = (
 
   const handleAnimalOrBatchDeletion = async () => {
     const animalIds: number[] = [];
-    const selectedAnimalIds: string[] = [];
     const animalBatchIds: number[] = [];
-    const selectedBatchIds: string[] = [];
     let result;
 
-    for (const id of selectedInventoryIds) {
-      const { kind, id: entity_id } = parseInventoryId(id);
-      if (kind === AnimalOrBatchKeys.ANIMAL) {
-        animalIds.push(entity_id);
-        selectedAnimalIds.push(id);
-      } else if (AnimalOrBatchKeys.BATCH) {
-        animalBatchIds.push(entity_id);
-        selectedBatchIds.push(id);
-      }
+    for (const { kind, id } of selectedIds) {
+      const idsArray = kind === AnimalOrBatchKeys.ANIMAL ? animalIds : animalBatchIds;
+      idsArray.push(id);
     }
 
     if (animalIds.length) {
@@ -132,9 +121,7 @@ const useAnimalOrBatchRemoval = (
         console.log(result.error);
         dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
       } else {
-        setSelectedInventoryIds?.((selectedInventoryIds) =>
-          selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)),
-        );
+        onSuccess?.(AnimalOrBatchKeys.ANIMAL, animalIds);
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_ANIMALS', { ns: 'message' })));
       }
     }
@@ -145,9 +132,7 @@ const useAnimalOrBatchRemoval = (
         console.log(result.error);
         dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
       } else {
-        setSelectedInventoryIds?.((selectedInventoryIds) =>
-          selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)),
-        );
+        onSuccess?.(AnimalOrBatchKeys.BATCH, animalBatchIds);
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_BATCHES', { ns: 'message' })));
       }
     }

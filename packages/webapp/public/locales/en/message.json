@@ -82,6 +82,11 @@
       "UPDATE": "Successfully updated farm info!"
     }
   },
+  "HELP_REQUEST": {
+    "ERROR": {
+      "SEND": "Something went wrong while submitting your feedback. Please try again."
+    }
+  },
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Failed to add custom harvest use type",

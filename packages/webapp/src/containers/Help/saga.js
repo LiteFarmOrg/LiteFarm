@@ -42,11 +42,11 @@ export function* supportFileUploadSaga({ payload: { file, form, onSuccess } }) {
       onSuccess();
       history.push('/');
     } else {
-      yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
+      yield put(enqueueErrorSnackbar(i18n.t('message:HELP_REQUEST.ERROR.SEND')));
     }
     yield put(finishSendHelp());
   } catch (e) {
-    yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
+    yield put(enqueueErrorSnackbar(i18n.t('message:HELP_REQUEST.ERROR.SEND')));
     yield put(finishSendHelp());
     console.log(e);
   }

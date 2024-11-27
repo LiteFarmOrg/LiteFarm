@@ -265,6 +265,7 @@ const getAllowedOrigin = () => {
       return 'https://app.litefarm.org';
   }
 };
+
 app
   .use(applyExpressJSON)
   .use(express.urlencoded({ extended: true }))

@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
 import Checkbox from '../../Form/Checkbox';
-import { ExpandableAnimalInventory, View } from '../../../containers/Animals/Inventory';
+import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 export default function PureTaskLocations({
@@ -131,9 +131,11 @@ export default function PureTaskLocations({
           classes={{ container: isAnimalTask && styles.titlePadding }}
         />
         {isAnimalTask && (
-          <ExpandableAnimalInventory
+          <AnimalInventory
             view={View.TASK_SUMMARY}
             preSelectedIds={persistedFormData?.animalIds}
+            showLinks={false}
+            showOnlySelected={true}
           />
         )}
         <Main className={clsx(styles.locationPickerText, isAnimalTask && styles.fullWidthPadding)}>

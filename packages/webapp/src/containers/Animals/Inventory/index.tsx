@@ -12,12 +12,15 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useCallback, useMemo, useState, ChangeEvent } from 'react';
+import { useCallback, useMemo, useState, ChangeEvent, ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PureAnimalInventory, { SearchProps } from '../../../components/Animals/Inventory';
+import PureAnimalInventory, {
+  PureAnimalInventoryProps,
+  SearchProps,
+} from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
-import { useMediaQuery } from '@mui/material';
+import { Paper, useMediaQuery } from '@mui/material';
 import { History } from 'history';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
@@ -58,11 +61,134 @@ interface AnimalInventoryProps {
   setFeedbackSurveyOpen: () => void;
   containerHeight: number;
   history: History;
+  showOnlySelected?: boolean;
+  showLinks?: boolean;
 }
 
-interface ExpandableAnimalInventoryProps extends AnimalInventoryProps {
-  preSelectedIds: string[];
-}
+const CoreAnimalInventory = ({
+  filteredInventory,
+  animalsColumns,
+  searchProps,
+  zIndexBase,
+  isDesktop,
+  onSelectInventory,
+  handleSelectAllClick,
+  selectedIds,
+  totalInventoryCount,
+  isFilterActive,
+  clearFilters,
+  isLoading,
+  isAdmin,
+  history,
+  onRowClick,
+  view,
+  siblings,
+}: PureAnimalInventoryProps & { siblings?: ReactNode }) => {
+  return (
+    <>
+      <PureAnimalInventory
+        filteredInventory={filteredInventory}
+        animalsColumns={animalsColumns}
+        searchProps={searchProps}
+        zIndexBase={zIndexBase}
+        isDesktop={isDesktop}
+        onSelectInventory={onSelectInventory}
+        handleSelectAllClick={handleSelectAllClick}
+        selectedIds={selectedIds}
+        totalInventoryCount={totalInventoryCount}
+        isFilterActive={isFilterActive}
+        clearFilters={clearFilters}
+        isLoading={isLoading}
+        isAdmin={isAdmin}
+        history={history}
+        onRowClick={onRowClick}
+        view={view}
+      />
+      {siblings}
+    </>
+  );
+};
+
+const SelectedAnimalSummaryInventory = ({
+  expandableTitle,
+  animalCountString,
+  ...coreProps
+}: {
+  expandableTitle: ReactNode;
+  animalCountString: string | undefined;
+} & PureAnimalInventoryProps) => {
+  const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
+  const isExpanded = expandedIds.includes(1);
+  return (
+    <div className={clsx(styles.section)}>
+      <ExpandableItem
+        isExpanded={isExpanded}
+        onClick={() => toggleExpanded(1)}
+        mainContent={expandableTitle}
+        pillBody={animalCountString}
+        expandedContent={
+          <div className={styles.expandedContentWrapper}>
+            <CoreAnimalInventory {...coreProps} />
+          </div>
+        }
+        iconClickOnly={false}
+        classes={{
+          mainContentWrapper: styles.mainContentWrapper,
+          mainContentWithIcon: styles.mainContentWithIcon,
+          icon: styles.blueColor,
+          alwaysVisibleContent: styles.alwaysVisibleContent,
+        }}
+        itemKey={1}
+        leftCollapseIcon
+      />
+    </div>
+  );
+};
+
+const TaskAnimalInventory = ({ ...coreProps }: PureAnimalInventoryProps) => {
+  return (
+    <FixedHeaderContainer
+      header={null}
+      classes={{
+        paper: styles.paper,
+        divWrapper: styles.divWrapper,
+        wrapper: styles.taskViewMaxHeight,
+      }}
+      kind={ContainerKind.PAPER}
+    >
+      <CoreAnimalInventory {...coreProps} />
+    </FixedHeaderContainer>
+  );
+};
+
+const MainAnimalInventory = ({
+  setFeedbackSurveyOpen,
+  history,
+  onTypeClick,
+  selectedTypeIds,
+  actionMenuAndRemoveModal,
+  ...coreProps
+}: {
+  setFeedbackSurveyOpen: () => void;
+  history: History;
+  onTypeClick: (typeId: string) => void;
+  selectedTypeIds: string[];
+  actionMenuAndRemoveModal: ReactNode;
+} & PureAnimalInventoryProps) => {
+  return (
+    <AnimalsBetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
+      <FixedHeaderContainer
+        header={
+          <KPI history={history} onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />
+        }
+        classes={{ paper: styles.paper, divWrapper: styles.divWrapper }}
+        kind={ContainerKind.PAPER}
+      >
+        <CoreAnimalInventory history={history} siblings={actionMenuAndRemoveModal} {...coreProps} />
+      </FixedHeaderContainer>
+    </AnimalsBetaSpotlight>
+  );
+};
 
 const getVisibleSelectedIds = (visibleRowData: AnimalInventoryType[], selectedIds: string[]) => {
   if (!visibleRowData.length || !selectedIds.length) {
@@ -80,6 +206,8 @@ function AnimalInventory({
   isCompactSideMenu,
   setFeedbackSurveyOpen,
   history,
+  showOnlySelected = false,
+  showLinks = true,
 }: AnimalInventoryProps) {
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
@@ -94,57 +222,11 @@ function AnimalInventory({
   const zIndexBase = theme.zIndex.drawer;
 
   const { inventory, isLoading } = useAnimalInventory();
-
-  const viewConfig = () => {
-    switch (view) {
-      case View.TASK:
-        return {
-          onRowClick: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
-            onSelectInventory(event, row);
-          },
-          showOnlySelected: false,
-          showDetailLink: false,
-          showPaperBorder: true,
-          headerContainerKind: ContainerKind.PAPER,
-          wrapperClass: styles.taskViewMaxHeight,
-          showActionMenu: false,
-          showKPI: false,
-        };
-      case View.TASK_SUMMARY:
-        return {
-          onRowClick: undefined,
-          showOnlySelected: true,
-          showDetailLink: false,
-          headerContainerKind: ContainerKind.OVERFLOW,
-          wrapperClass: styles.summaryViewHeight,
-          showActionMenu: false,
-          showKPI: false,
-        };
-      default:
-        return {
-          onRowClick: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
-            history.push(row.path);
-          },
-          showOnlySelected: false,
-          showDetailLink: true,
-          showPaperBorder: true,
-          headerContainerKind: ContainerKind.PAPER,
-          wrapperClass: undefined,
-          showActionMenu: isAdmin && selectedInventoryIds.length,
-          showKPI: true,
-        };
-    }
-  };
-
-  const {
-    onRowClick,
-    showOnlySelected,
-    showDetailLink,
-    headerContainerKind,
-    wrapperClass,
-    showActionMenu,
-    showKPI,
-  } = viewConfig();
+  const totalInventoryCount = inventory.length;
+  const animalCount = preSelectedIds.reduce((acc, cur) => {
+    return acc + (inventory.find((animalOrBatch) => animalOrBatch.id === cur)?.count || 0);
+  }, 0);
+  const animalCountString = t('ANIMAL.ANIMAL_COUNT', { count: animalCount });
 
   const filteredInventory = useFilteredInventory(inventory, showOnlySelected, selectedInventoryIds);
 
@@ -203,7 +285,7 @@ function AnimalInventory({
         sortable: false,
       },
       {
-        id: showDetailLink ? 'path' : null,
+        id: showLinks ? 'path' : null,
         label: '',
         format: (d: AnimalInventoryType) => (
           <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />
@@ -214,7 +296,7 @@ function AnimalInventory({
         sortable: false,
       },
     ],
-    [t, isDesktop],
+    [t, isDesktop, showLinks],
   );
 
   const makeAnimalsSearchableString = (animal: AnimalInventoryType) => {
@@ -300,91 +382,107 @@ function AnimalInventory({
     },
   ];
 
-  return (
-    <AnimalsBetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
-      <FixedHeaderContainer
-        header={
-          showKPI ? (
-            <KPI history={history} onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />
-          ) : null
-        }
-        classes={{ paper: styles.paper, divWrapper: styles.divWrapper, wrapper: wrapperClass }}
-        kind={headerContainerKind}
-      >
-        <PureAnimalInventory
-          filteredInventory={searchAndFilteredInventory}
-          animalsColumns={animalsColumns}
-          searchProps={searchProps}
-          zIndexBase={zIndexBase}
-          isDesktop={isDesktop}
-          onSelectInventory={onSelectInventory}
-          handleSelectAllClick={handleSelectAllClick}
-          selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
-          totalInventoryCount={inventory.length}
-          isFilterActive={isFilterActive}
-          clearFilters={clearFilters}
-          isLoading={isLoading}
-          isAdmin={isAdmin}
-          history={history}
-          onRowClick={onRowClick}
-          view={view}
-        />
-        {showActionMenu ? (
-          <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
-            <ActionMenu
-              headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
-              textActions={textActions}
-              iconActions={iconActions}
-            />
-          </FloatingContainer>
-        ) : null}
-        <RemoveAnimalsModal
-          isOpen={removalModalOpen}
-          onClose={() => setRemovalModalOpen(false)}
-          onConfirm={onConfirmRemoveAnimals}
-          showSuccessMessage={false}
-        />
-      </FixedHeaderContainer>
-    </AnimalsBetaSpotlight>
+  const expandableTitle = (
+    <div className={styles.blueColor}>{t('TASK.ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE')}</div>
   );
-}
 
-export function ExpandableAnimalInventory(props: ExpandableAnimalInventoryProps) {
-  const { t } = useTranslation();
-  const { inventory } = useAnimalInventory();
-  const animalCount = props.preSelectedIds.reduce((acc, cur) => {
-    return acc + (inventory.find((animalOrBatch) => animalOrBatch.id === cur)?.count || 0);
-  }, 0);
-
-  const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
-  const isExpanded = expandedIds.includes(1);
-  return (
-    <div className={clsx(styles.section)}>
-      <ExpandableItem
-        isExpanded={isExpanded}
-        onClick={() => toggleExpanded(1)}
-        mainContent={
-          <div className={styles.blueColor}>
-            {t('TASK.ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE')}
-          </div>
-        }
-        pillBody={t('ANIMAL.ANIMAL_COUNT', { count: animalCount })}
-        expandedContent={
-          <div className={styles.expandedContentWrapper}>
-            <AnimalInventory {...props} />
-          </div>
-        }
-        iconClickOnly={false}
-        classes={{
-          mainContentWrapper: styles.mainContentWrapper,
-          mainContentWithIcon: styles.mainContentWithIcon,
-          icon: styles.blueColor,
-          alwaysVisibleContent: styles.alwaysVisibleContent,
-        }}
-        itemKey={1}
-        leftCollapseIcon
+  const actionMenuAndRemoveModal = (
+    <>
+      {isAdmin && selectedInventoryIds.length ? (
+        <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
+          <ActionMenu
+            headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
+            textActions={textActions}
+            iconActions={iconActions}
+          />
+        </FloatingContainer>
+      ) : null}
+      <RemoveAnimalsModal
+        isOpen={removalModalOpen}
+        onClose={() => setRemovalModalOpen(false)}
+        onConfirm={onConfirmRemoveAnimals}
+        showSuccessMessage={false}
       />
-    </div>
+    </>
+  );
+
+  if (view == View.TASK) {
+    return (
+      <TaskAnimalInventory
+        //core props
+        filteredInventory={searchAndFilteredInventory}
+        animalsColumns={animalsColumns}
+        searchProps={searchProps}
+        zIndexBase={zIndexBase}
+        isDesktop={isDesktop}
+        onSelectInventory={onSelectInventory}
+        handleSelectAllClick={handleSelectAllClick}
+        selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
+        totalInventoryCount={totalInventoryCount}
+        isFilterActive={isFilterActive}
+        clearFilters={clearFilters}
+        isLoading={isLoading}
+        isAdmin={isAdmin}
+        history={history}
+        onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
+          onSelectInventory(event, row);
+        }}
+        view={view}
+      />
+    );
+  }
+  if (view == View.TASK_SUMMARY) {
+    return (
+      <SelectedAnimalSummaryInventory
+        expandableTitle={expandableTitle}
+        animalCountString={animalCountString}
+        //core props
+        filteredInventory={searchAndFilteredInventory}
+        animalsColumns={animalsColumns}
+        searchProps={searchProps}
+        zIndexBase={zIndexBase}
+        isDesktop={isDesktop}
+        onSelectInventory={onSelectInventory}
+        handleSelectAllClick={handleSelectAllClick}
+        selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
+        totalInventoryCount={totalInventoryCount}
+        isFilterActive={isFilterActive}
+        clearFilters={clearFilters}
+        isLoading={isLoading}
+        isAdmin={isAdmin}
+        history={history}
+        onRowClick={undefined}
+        view={view}
+      />
+    );
+  }
+
+  return (
+    <MainAnimalInventory
+      setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+      onTypeClick={onTypeClick}
+      selectedTypeIds={selectedTypeIds}
+      actionMenuAndRemoveModal={actionMenuAndRemoveModal}
+      //core props
+      filteredInventory={searchAndFilteredInventory}
+      animalsColumns={animalsColumns}
+      searchProps={searchProps}
+      zIndexBase={zIndexBase}
+      isDesktop={isDesktop}
+      onSelectInventory={onSelectInventory}
+      handleSelectAllClick={handleSelectAllClick}
+      selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
+      totalInventoryCount={totalInventoryCount}
+      isFilterActive={isFilterActive}
+      clearFilters={clearFilters}
+      isLoading={isLoading}
+      isAdmin={isAdmin}
+      history={history}
+      onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
+        history.push(row.path);
+      }}
+      view={view}
+    />
   );
 }
 

@@ -108,6 +108,7 @@ export default function PureTaskAnimalInventory({
           view={View.TASK}
           history={history}
           preSelectedIds={persistedFormData?.animalIds}
+          showLinks={false}
         />
       </Form>
     </div>

@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Controller, UseFormReturn } from 'react-hook-form';
 import ReactSelect from '../../Form/ReactSelect';
@@ -22,7 +23,9 @@ import styles from './styles.module.scss';
 import { useGetAnimalMovementPurposesQuery } from '../../../store/api/apiSlice';
 import { AnimalMovementPurpose } from '../../../store/api/types';
 
-type PureMovementTaskProps = UseFormReturn;
+type PureMovementTaskProps = UseFormReturn & {
+  disabled?: boolean;
+};
 
 const PureMovementTask = (props: PureMovementTaskProps) => {
   const {
@@ -30,6 +33,7 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
     register,
     watch,
     formState: { errors },
+    disabled = false,
   } = props;
 
   const { t } = useTranslation(['translation', 'message', 'animal']);
@@ -42,7 +46,7 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
     watch(PURPOSE);
 
   return (
-    <div className={styles.movementTaskDetailsContainer}>
+    <div className={clsx(styles.movementTaskDetailsContainer, disabled && styles.readonly)}>
       <Controller
         control={control}
         name={PURPOSE}
@@ -59,6 +63,7 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
             onChange={onChange}
             placeholder={t('ADD_TASK.MOVEMENT_VIEW.MOVEMENT_PURPOSE_PLACEHOLDER')}
             isMulti
+            isDisabled={disabled}
           />
         )}
       />
@@ -75,6 +80,7 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
             errors={getInputErrors(errors, OTHER_PURPOSE_EXPLANATION)}
             optional
             placeholder={t('ADD_TASK.MOVEMENT_VIEW.OTHER_PURPOSE_EXPLANATION_PLACEHOLDER')}
+            disabled={disabled}
           />
         </>
       )}

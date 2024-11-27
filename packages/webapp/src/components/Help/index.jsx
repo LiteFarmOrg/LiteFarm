@@ -15,24 +15,28 @@ import ImagePicker from '../ImagePicker';
 
 export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNumber, isLoading }) {
   const [file, setFile] = useState(null);
-  const [resetForm, setResetForm] = useState(false);
+  const [resetImage, setResetImage] = useState(false);
+
+  const CONTACT_METHOD = 'contact_method';
+  const MESSAGE = 'message';
+  const SUPPORT_TYPE = 'support_type';
+  const CONTACT_INFO = 'contactInfo';
 
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const { register, handleSubmit, watch, control, setValue, reset, formState } = useForm({
     mode: 'onTouched',
     defaultValues: {
-      support_type: null,
-      contact_method: 'email',
+      [SUPPORT_TYPE]: null,
+      [CONTACT_METHOD]: 'email',
+      [CONTACT_INFO]: email,
+      [MESSAGE]: '',
     },
   });
 
   const { errors } = formState;
 
-  const CONTACT_METHOD = 'contact_method';
   const contactMethodSelection = watch(CONTACT_METHOD);
-  const MESSAGE = 'message';
-  const SUPPORT_TYPE = 'support_type';
-  const CONTACT_INFO = 'contactInfo';
+
   const { t } = useTranslation(['translation', 'common']);
   const supportTypeOptions = [
     { value: 'Request information', label: t('HELP.OPTIONS.REQUEST_INFO') },
@@ -47,14 +51,15 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
 
   const handleCancel = () => {
     reset();
-    setResetForm(true);
+    setFile(null);
+    setResetImage(true);
     onCancel?.();
   };
 
   useEffect(() => {
     const contactInformation = contactMethodSelection === 'email' ? email : phoneNumber;
     setValue(CONTACT_INFO, contactInformation);
-  }, [contactMethodSelection, resetForm]);
+  }, [contactMethodSelection]);
 
   const submit = (data) => {
     data.support_type = data.support_type.value;
@@ -64,7 +69,7 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
     onSubmit(file, data, () => {
       reset();
       setFile(null);
-      setResetForm(true);
+      setResetImage(true);
     });
   };
 
@@ -124,10 +129,10 @@ export default function PureHelpRequestPage({ onSubmit, onCancel, email, phoneNu
           label={t('HELP.ATTACHMENT_LABEL')}
           onSelectImage={(imageFile) => {
             setFile(imageFile);
-            setResetForm(false);
+            setResetImage(false);
           }}
           onRemoveImage={() => setFile(null)}
-          shouldReset={resetForm}
+          shouldReset={resetImage}
         />
       </div>
       <div>

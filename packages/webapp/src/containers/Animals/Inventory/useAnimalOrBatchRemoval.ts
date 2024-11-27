@@ -29,6 +29,7 @@ import { AnimalOrBatchKeys } from '../types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
+import { getTasks } from '../../Task/saga';
 
 const useAnimalOrBatchRemoval = (
   selectedInventoryIds: string[],
@@ -151,12 +152,13 @@ const useAnimalOrBatchRemoval = (
     setRemovalModalOpen(false);
   };
 
-  const onConfirmRemoveAnimals = (formData: FormFields) => {
+  const onConfirmRemoveAnimals = async (formData: FormFields) => {
     if (Number(formData.reason) === CREATED_IN_ERROR_ID) {
-      handleAnimalOrBatchDeletion();
+      await handleAnimalOrBatchDeletion();
     } else {
-      handleAnimalOrBatchRemoval(formData);
+      await handleAnimalOrBatchRemoval(formData);
     }
+    dispatch(getTasks());
   };
 
   return { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen };

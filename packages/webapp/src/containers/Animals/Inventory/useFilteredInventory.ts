@@ -27,13 +27,11 @@ export const useFilteredInventory = (
   showOnlySelected: boolean,
   selectedInventoryIds: string[],
 ) => {
-  if (showOnlySelected) {
-    return useMemo(() => {
-      return inventory.filter((entity) => {
-        return selectedInventoryIds.includes(entity.id);
-      });
-    }, [inventory, selectedInventoryIds]);
-  }
+  const idMatches = useMemo(() => {
+    return inventory.filter((entity) => {
+      return selectedInventoryIds.includes(entity.id);
+    });
+  }, [inventory, selectedInventoryIds]);
 
   const {
     [AnimalsFilterKeys.ANIMAL_OR_BATCH]: animalsOrBatchesFilter,
@@ -44,9 +42,10 @@ export const useFilteredInventory = (
     [AnimalsFilterKeys.LOCATION]: locationsFilter,
   } = useSelector(animalsFilterSelector);
 
-  return useMemo(() => {
+  const filterMatches = useMemo(() => {
     return inventory.filter((entity) => {
       const animalOrBatchMatches =
+        (showOnlySelected && selectedInventoryIds.includes(entity.id)) ||
         isInactive(animalsOrBatchesFilter) ||
         (entity.batch
           ? animalsOrBatchesFilter[AnimalOrBatchKeys.BATCH]?.active
@@ -73,6 +72,10 @@ export const useFilteredInventory = (
       // const locationMatches =
       //   isInactive(locationsFilter) || locationsFilter[entity.location]?.active;
 
+      if (showOnlySelected) {
+        return animalOrBatchMatches;
+      }
+
       return (
         animalOrBatchMatches &&
         typeMatches &&
@@ -91,4 +94,10 @@ export const useFilteredInventory = (
     groupsFilter,
     locationsFilter,
   ]);
+
+  if (showOnlySelected) {
+    return idMatches;
+  }
+
+  return filterMatches;
 };

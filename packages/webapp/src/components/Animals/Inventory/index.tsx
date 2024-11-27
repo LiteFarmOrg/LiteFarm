@@ -27,22 +27,40 @@ import { TableV2Column, TableKind } from '../../Table/types';
 import type { Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
-import { sumObjectValues } from '../../../util';
 import { useTranslation } from 'react-i18next';
 import { ADD_ANIMALS_URL } from '../../../util/siteMapConstants';
-import { View } from '../../../containers/Animals/Inventory';
-
-const HEIGHTS = {
-  filterAndSearch: 64,
-  containerPadding: 32,
-};
-const usedHeight = sumObjectValues(HEIGHTS);
 
 export type SearchProps = {
   searchString: string | null | undefined;
   setSearchString: Dispatch<SetStateAction<string[]>>;
   placeHolderText: string;
   searchResultsText: string;
+};
+
+export type PureAnimalInventoryProps = {
+  filteredInventory: AnimalInventory[];
+  animalsColumns: TableV2Column[];
+  zIndexBase: number;
+  isDesktop: boolean;
+  searchProps: SearchProps;
+  onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
+  handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
+  onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
+  selectedIds: string[];
+  totalInventoryCount: number;
+  isFilterActive: boolean;
+  clearFilters: () => void;
+  isLoading: boolean;
+  containerHeight?: number;
+  history: History;
+  tableMaxHeight?: number;
+  tableSpacerRowHeight: number;
+  showInventorySelection: boolean;
+  showSearchBarAndFilter?: boolean;
+  alternatingRowColor?: boolean;
+  showTableHeader: boolean;
+  showActionFloaterButton: boolean;
+  extraRowSpacing?: boolean;
 };
 
 const PureAnimalInventory = ({
@@ -59,86 +77,22 @@ const PureAnimalInventory = ({
   isFilterActive,
   clearFilters,
   isLoading,
-  containerHeight,
-  isAdmin,
   history,
-  view = View.DEFAULT,
-}: {
-  filteredInventory: AnimalInventory[];
-  animalsColumns: TableV2Column[];
-  zIndexBase: number;
-  isDesktop: boolean;
-  searchProps: SearchProps;
-  onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
-  handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
-  onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
-  selectedIds: string[];
-  totalInventoryCount: number;
-  isFilterActive: boolean;
-  clearFilters: () => void;
-  isLoading: boolean;
-  containerHeight?: number;
-  isAdmin: boolean;
-  history: History;
-  view?: View;
-}) => {
+  tableMaxHeight,
+  tableSpacerRowHeight,
+  showInventorySelection,
+  showSearchBarAndFilter = true,
+  alternatingRowColor = true,
+  showTableHeader,
+  showActionFloaterButton,
+  extraRowSpacing,
+}: PureAnimalInventoryProps) => {
   const { t } = useTranslation();
-
-  const viewConfig = () => {
-    switch (view) {
-      case View.TASK:
-        return {
-          tableMaxHeight: !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight,
-          tableSpacerRowHeight: 0,
-          showInventorySelection: isAdmin,
-          showSearchBarAndFilter: true,
-          alternatingRowColor: true,
-          showTableHeader: isDesktop,
-          showActionFloaterButton: false,
-        };
-      case View.TASK_SUMMARY:
-        return {
-          tableMaxHeight: undefined,
-          tableSpacerRowHeight: 0,
-          showInventorySelection: false,
-          showSearchBarAndFilter: false,
-          alternatingRowColor: isDesktop ? false : true,
-          showTableHeader: false,
-          extraRowSpacing: isDesktop,
-          showActionFloaterButton: false,
-        };
-      default:
-        return {
-          tableMaxHeight: !isDesktop || !containerHeight ? undefined : containerHeight - usedHeight,
-          tableSpacerRowHeight: isDesktop ? 96 : 120,
-          showInventorySelection: isAdmin,
-          showSearchBarAndFilter: true,
-          alternatingRowColor: true,
-          showTableHeader: isDesktop,
-          showActionFloaterButton: isAdmin,
-        };
-    }
-  };
-
-  const {
-    tableMaxHeight,
-    tableSpacerRowHeight,
-    showInventorySelection,
-    showSearchBarAndFilter,
-    alternatingRowColor,
-    showTableHeader,
-    extraRowSpacing,
-    showActionFloaterButton,
-  } = viewConfig();
-
-  if (isLoading) {
-    return null;
-  }
 
   const { searchString, setSearchString, placeHolderText, searchResultsText } = searchProps;
   const hasSearchResults = filteredInventory.length !== 0;
 
-  return (
+  return isLoading ? null : (
     <>
       {showSearchBarAndFilter && (
         <div

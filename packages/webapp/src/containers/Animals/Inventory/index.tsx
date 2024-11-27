@@ -47,6 +47,13 @@ import ExpandableItem from '../../../components/Expandable/ExpandableItem';
 import useExpandable from '../../../components/Expandable/useExpandableItem';
 import clsx from 'clsx';
 import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
+import { sumObjectValues } from '../../../util';
+
+const HEIGHTS = {
+  filterAndSearch: 64,
+  containerPadding: 32,
+};
+const usedHeight = sumObjectValues(HEIGHTS);
 
 export enum View {
   DEFAULT = 'default',
@@ -78,10 +85,15 @@ const CoreAnimalInventory = ({
   isFilterActive,
   clearFilters,
   isLoading,
-  isAdmin,
   history,
   onRowClick,
-  view,
+  tableSpacerRowHeight,
+  showInventorySelection,
+  showSearchBarAndFilter,
+  alternatingRowColor,
+  showTableHeader,
+  showActionFloaterButton,
+  containerHeight,
   siblings,
 }: PureAnimalInventoryProps & { siblings?: ReactNode }) => {
   return (
@@ -99,10 +111,15 @@ const CoreAnimalInventory = ({
         isFilterActive={isFilterActive}
         clearFilters={clearFilters}
         isLoading={isLoading}
-        isAdmin={isAdmin}
         history={history}
         onRowClick={onRowClick}
-        view={view}
+        tableMaxHeight={!isDesktop || !containerHeight ? undefined : containerHeight - usedHeight}
+        tableSpacerRowHeight={tableSpacerRowHeight}
+        showInventorySelection={showInventorySelection}
+        showSearchBarAndFilter={showSearchBarAndFilter}
+        alternatingRowColor={alternatingRowColor}
+        showTableHeader={showTableHeader}
+        showActionFloaterButton={showActionFloaterButton}
       />
       {siblings}
     </>
@@ -422,12 +439,16 @@ function AnimalInventory({
         isFilterActive={isFilterActive}
         clearFilters={clearFilters}
         isLoading={isLoading}
-        isAdmin={isAdmin}
         history={history}
         onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
           onSelectInventory(event, row);
         }}
-        view={view}
+        tableSpacerRowHeight={0}
+        showInventorySelection={isAdmin}
+        showSearchBarAndFilter={true}
+        alternatingRowColor={true}
+        showTableHeader={isDesktop}
+        showActionFloaterButton={false}
       />
     );
   }
@@ -449,10 +470,15 @@ function AnimalInventory({
         isFilterActive={isFilterActive}
         clearFilters={clearFilters}
         isLoading={isLoading}
-        isAdmin={isAdmin}
         history={history}
         onRowClick={undefined}
-        view={view}
+        tableSpacerRowHeight={0}
+        showInventorySelection={false}
+        showSearchBarAndFilter={false}
+        alternatingRowColor={isDesktop ? false : true}
+        showTableHeader={false}
+        extraRowSpacing={isDesktop}
+        showActionFloaterButton={false}
       />
     );
   }
@@ -476,12 +502,16 @@ function AnimalInventory({
       isFilterActive={isFilterActive}
       clearFilters={clearFilters}
       isLoading={isLoading}
-      isAdmin={isAdmin}
       history={history}
       onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
         history.push(row.path);
       }}
-      view={view}
+      tableSpacerRowHeight={isDesktop ? 96 : 120}
+      showInventorySelection={isAdmin}
+      showSearchBarAndFilter={true}
+      alternatingRowColor={true}
+      showTableHeader={isDesktop}
+      showActionFloaterButton={isAdmin}
     />
   );
 }

@@ -13,6 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { useEffect } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Controller, UseFormReturn } from 'react-hook-form';
@@ -32,12 +33,29 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
     control,
     register,
     watch,
+    getValues,
+    setValue,
     formState: { errors },
     disabled = false,
   } = props;
 
   const { t } = useTranslation(['translation', 'message', 'animal']);
   const { data: purposes = [] } = useGetAnimalMovementPurposesQuery();
+
+  const purposeOptions = purposes.map((purpose) => ({
+    ...purpose,
+    value: purpose.id,
+    label: t(`animal:PURPOSE.${purpose.key}`),
+  }));
+
+  useEffect(() => {
+    if (!purposeOptions.length) return;
+    const purposeIds = getValues('movement_task.purpose_ids');
+    if (purposeIds?.length) {
+      const filteredPurposes = purposeOptions.filter(({ id }) => purposeIds.includes(id));
+      setValue(PURPOSE, filteredPurposes);
+    }
+  }, []);
 
   const PURPOSE = `movement_task.purpose`;
   const OTHER_PURPOSE_EXPLANATION = `movement_task.other_purpose_explanation`;
@@ -55,11 +73,7 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
           <ReactSelect
             value={value}
             label={t('ADD_TASK.MOVEMENT_VIEW.MOVEMENT_PURPOSE_LABEL')}
-            options={purposes.map((purpose) => ({
-              ...purpose,
-              value: purpose.id,
-              label: t(`animal:PURPOSE.${purpose.key}`),
-            }))}
+            options={purposeOptions}
             onChange={onChange}
             placeholder={t('ADD_TASK.MOVEMENT_VIEW.MOVEMENT_PURPOSE_PLACEHOLDER')}
             isMulti

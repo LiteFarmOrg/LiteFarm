@@ -57,6 +57,25 @@ type FormSoilAmendmentTaskProduct = {
   [key: string]: any;
 };
 
+interface DBAnimalMovementPurposeRelationships {
+  task_id: number;
+  purpose_id: number;
+  other_purpose: string | null;
+}
+
+type DBAnimalMovementTask = {
+  animal_movement_task: {
+    task_id: number;
+    purpose_relationships: DBAnimalMovementPurposeRelationships[];
+  };
+};
+
+interface FormAnimalMovementTask {
+  movement_task: {
+    purpose_ids: number[]; // React Select component actually 'purposes' but I wanted to reserve that for the select component format
+    other_purpose_explanation?: string | null;
+  };
+}
 type DBSoilAmendmentTask = {
   soil_amendment_task_products: DBSoilAmendmentTaskProduct[];
   [key: string]: any;
@@ -183,6 +202,8 @@ export const formatTaskReadOnlyDefaultValues = (task: {
 }) => {
   if (task.taskType?.task_translation_key === 'SOIL_AMENDMENT_TASK') {
     return formatSoilAmendmentTaskToFormStructure(task as DBSoilAmendmentTask);
+  } else if (task.taskType?.task_translation_key === 'MOVEMENT_TASK') {
+    return formatMovementTaskToFormStructure(task as DBAnimalMovementTask);
   }
 
   return structuredClone(task);
@@ -213,4 +234,31 @@ const subtaskNames: { [key: string]: string } = {
 
 export const getSubtaskName = (translationKey: string) => {
   return subtaskNames[translationKey] || translationKey.toLowerCase();
+};
+
+export const formatMovementTaskToFormStructure = (
+  task: DBAnimalMovementTask,
+): FormAnimalMovementTask => {
+  const taskClone = structuredClone(task);
+  const {
+    animal_movement_task: { purpose_relationships },
+    ...rest
+  } = taskClone;
+
+  let other_purpose_explanation;
+
+  const purpose_ids = purpose_relationships.map(({ purpose_id, other_purpose }) => {
+    if (other_purpose) {
+      other_purpose_explanation = other_purpose;
+    }
+    return purpose_id;
+  });
+
+  return {
+    ...rest,
+    movement_task: {
+      purpose_ids,
+      other_purpose_explanation,
+    },
+  };
 };

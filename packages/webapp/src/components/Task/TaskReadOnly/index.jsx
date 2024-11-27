@@ -54,6 +54,7 @@ import DeleteBox from './DeleteBox';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { certifierSurveySelector } from '../../../containers/OrganicCertifierSurvey/slice';
 import { formatTaskReadOnlyDefaultValues } from '../../../util/task';
+import PureMovementTask from '../MovementTask';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -514,4 +515,5 @@ const taskComponents = {
   TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
   HARVEST_TASK: (props) => <PureHarvestingTaskReadOnly {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
+  MOVEMENT_TASK: (props) => <PureMovementTask disabled {...props} />,
 };

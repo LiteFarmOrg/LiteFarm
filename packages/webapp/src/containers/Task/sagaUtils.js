@@ -67,3 +67,15 @@ export const getMovementTaskBody = (data, endpoint) => {
   const { movement_task, ...formattedData } = formatAnimalTask(data, endpoint);
   return { ...formattedData, ...formatMovementTask(movement_task) };
 };
+
+export const getCompleteMovementTaskBody = (data) => {
+  // Only differs from the above (POST body) in where the completion parameters are found; they should be at the top level
+  const { taskData } = formatAnimalTask(data);
+
+  const { movement_task, ...restTaskData } = taskData;
+
+  return {
+    ...restTaskData,
+    ...formatMovementTask(movement_task),
+  };
+};

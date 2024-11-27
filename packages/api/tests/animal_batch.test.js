@@ -207,12 +207,14 @@ describe('Animal Batch Tests', () => {
           internal_identifier: 1,
           group_ids: [],
           animal_batch_use_relationships: [],
+          tasks: [],
         }).toMatchObject(res.body[0]);
         expect({
           ...secondAnimalBatch,
           internal_identifier: 2,
           group_ids: [],
           animal_batch_use_relationships: [],
+          tasks: [],
         }).toMatchObject(res.body[1]);
       }
     });

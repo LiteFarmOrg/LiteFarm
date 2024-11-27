@@ -36,8 +36,17 @@ import { useTranslation } from 'react-i18next';
 import { useSectionHeader } from '../useSectionHeaders';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
+import FeedbackSurvey from '../../../containers/FeedbackSurvey';
 
-const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) => {
+const TopMenu = ({
+  history,
+  isMobile,
+  showNavActions,
+  onClickBurger,
+  showNav,
+  isFeedbackSurveyOpen,
+  setFeedbackSurveyOpen,
+}) => {
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const selectedLanguage = getLanguageFromLocalStorage();
@@ -243,6 +252,10 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
       >
         <ProfilePicture />
       </IconButton>
+      <FeedbackSurvey
+        isFeedbackSurveyOpen={isFeedbackSurveyOpen}
+        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+      />
       {isMobile ? drawerMenu : floaterMenu}
     </>
   );

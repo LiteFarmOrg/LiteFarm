@@ -80,6 +80,7 @@ class TaskModel extends BaseModel {
             'WEATHER',
             'MACHINERY_ISSUE',
             'SCHEDULING_ISSUE',
+            'NO_ANIMALS',
           ],
         },
         other_abandonment_reason: { type: ['string', 'null'] },

@@ -136,8 +136,16 @@
       "WHAT_TYPE_OF_IRRIGATION": "ਕਿਸ ਕਿਸਮ ਦੀ ਸਿੰਚਾਈ?"
     },
     "MANAGE_CUSTOM_TASKS": "ਕਸਟਮ ਕੰਮਾਂ ਦਾ ਪ੍ਰਬੰਧਨ ਕਰੋ",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "MISSING",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "MISSING"
+    },
     "NEED_MANAGEMENT_PLAN": "ਵਾਢੀ ਦੇ ਕੰਮ ਜਾਂ ਟ੍ਰਾਂਸਪਲਾਂਟ ਦੇ ਕੰਮ ਨੂੰ ਨਿਯਤ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਇੱਕ ਕਿਰਿਆਸ਼ੀਲ ਜਾਂ ਯੋਜਨਾਬੱਧ ਫਸਲ ਯੋਜਨਾ ਦੀ ਲੋੜ ਪਵੇਗੀ। ਹੁਣੇ ਇੱਕ ਯੋਜਨਾ ਬਣਾਉਣ ਲਈ ਫਸਲ ਕੈਟਾਲਾਗ 'ਤੇ ਜਾਓ।",
     "NO_MANAGEMENT_PLAN": "ਕੋਈ ਯੋਗ ਫਸਲ ਯੋਜਨਾ ਨਹੀਂ",
+    "NOTES_LABEL": "MISSING",
+    "NOTES_PLACEHOLDER": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "ਜੈਵਿਕ ਨਿਯੰਤਰਣ",
       "FLAME_WEEDING": "ਬਲਦੀ ਬੂਟੀ",
@@ -831,7 +839,7 @@
     },
     "TUTORIALS": "ਨਕਸ਼ਾ ਟਿਊਟੋਰਿਯਲ",
     "UNABLE_TO_RETIRE": {
-      "BODY": "ਤੁਸੀਂ ਸਿਰਫ਼ ਉਹਨਾਂ ਟਿਕਾਣਿਆਂ ਨੂੰ ਰਿਟਾਇਰ ਕਰ ਸਕਦੇ ਹੋ ਜਿਨ੍ਹਾਂ ਵਿੱਚ ਕੋਈ ਕਿਰਿਆਸ਼ੀਲ ਜਾਂ ਯੋਜਨਾਬੱਧ ਫਸਲਾਂ ਜਾਂ ਕਾਰਜ ਨਹੀਂ ਹਨ।",
+      "BODY": "MISSING",
       "TITLE": "ਰਿਟਾਇਰ ਹੋਣ ਵਿੱਚ ਅਸਮਰੱਥ"
     },
     "WATER_VALVE": {
@@ -930,6 +938,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "ਸਕ੍ਰੀਨਸ਼ੌਟ ਜਾਂ ਫ਼ਾਈਲ ਅੱਪਲੋਡ ਕਰੋ",
     "EMAIL": "ਈਮੇਲ",
+    "FEEDBACK_INVITATION": "MISSING",
     "MESSAGE_LABEL": "ਸੁਨੇਹਾ",
     "OPTIONS": {
       "OTHER": "ਕੋਈ ਹੋਰ",
@@ -1915,7 +1924,7 @@
   "BADGE": {
     "BETA": {
       "TITLE": "MISSING",
-      "CONTENT": "MISSING"
+      "ANIMALS_CONTENT": "MISSING"
     }
   }
 }

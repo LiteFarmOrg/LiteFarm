@@ -23,6 +23,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import type { Pathname } from 'history';
 import Badge from '../Badge';
 import React from 'react';
+import styles from './styles.module.scss';
 
 // Key value pair for path and its header
 interface PathHeaderKVP {
@@ -45,13 +46,17 @@ export function useSectionHeader(path: Pathname): string | React.ReactElement | 
   const { t } = useTranslation(['translation']);
 
   const animalInventoryTitle = (
-    <>
-      {t('SECTION_HEADER.ANIMALS_INVENTORY')}
+    <div className={styles.animalInventoryTitle}>
+      <div className={styles.text}>{t('SECTION_HEADER.ANIMALS_INVENTORY')}</div>
       <Badge
         title={t('BADGE.BETA.TITLE')}
-        content={<Trans i18nKey={'BADGE.BETA.CONTENT'} components={{ a: <a href="#" /> }} />}
+        content={
+          <Trans i18nKey={'BADGE.BETA.ANIMALS_CONTENT'} components={{ a: <a href="#" /> }} />
+        }
+        id="animalsBeta"
+        classes={{ iconButton: styles.badge }}
       />
-    </>
+    </div>
   );
 
   const HEADERS_BY_PATH: PathHeaderKVP = {

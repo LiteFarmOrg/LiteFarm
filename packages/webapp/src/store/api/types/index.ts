@@ -147,6 +147,11 @@ export interface AnimalIdentifierColor {
   key: string;
 }
 
+export interface AnimalMovementPurpose {
+  id: number;
+  key: string;
+}
+
 export interface AnimalOrigin {
   id: number;
   key: string;

@@ -32,12 +32,18 @@ const SingleAnimalView = React.lazy(() => import('../containers/Animals/SingleAn
 //   import('../containers/Animals/SingleAnimalView/AnimalTasks'),
 // );
 
-const AnimalsRoutes = ({ isCompactSideMenu }) => (
+const AnimalsRoutes = ({ isCompactSideMenu, setFeedbackSurveyOpen }) => (
   <Switch>
     <Route
       path={ANIMALS_INVENTORY_URL}
       exact
-      render={(props) => <Inventory isCompactSideMenu={isCompactSideMenu} {...props} />}
+      render={(props) => (
+        <Inventory
+          isCompactSideMenu={isCompactSideMenu}
+          setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+          {...props}
+        />
+      )}
     />
     <Route path={ANIMALS_LOCATION_URL} exact component={Location} />
     <Route path={ANIMALS_GROUPS_URL} exact component={Groups} />

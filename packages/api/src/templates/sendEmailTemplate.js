@@ -112,7 +112,7 @@ function sendEmail(
       locals: replacements,
     };
     if (template_path.path === emails.HELP_REQUEST_EMAIL.path) {
-      mailOptions.message.cc = 'support@litefarm.org';
+      // mailOptions.message.cc = 'support@litefarm.org';
     }
     if (
       attachments.length &&

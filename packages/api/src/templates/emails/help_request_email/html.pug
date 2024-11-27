@@ -5,7 +5,7 @@ block content
       .support-content
         #ooo_message_enabled
           if ooo_message_enabled
-            span=`${t('HELP_REQUEST.OOO_RESPONSE', { backToOfficeDate: back_to_office_date_string })}`  
+            span=`${t('HELP_REQUEST.OOO_RESPONSE', { oooStartDate: ooo_start_date, oooEndDate: ooo_end_date })}`  
           else
             span=`${t('HELP_REQUEST.RESPONSE')}`
   .support-container

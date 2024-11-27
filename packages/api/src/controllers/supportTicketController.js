@@ -30,9 +30,6 @@ const supportTicketController = {
         .context({ user_id })
         .insert(data)
         .returning('*');
-      const { ooo_message_enabled, back_to_office_date_string } = getOOOMessageReplacements(
-        user.language_preference,
-      );
       const replacements = {
         first_name: user.first_name,
         support_type: result.support_type,
@@ -40,8 +37,7 @@ const supportTicketController = {
         contact_method: capitalize(result.contact_method),
         contact: result[result.contact_method],
         locale: user.language_preference,
-        ooo_message_enabled,
-        back_to_office_date_string,
+        ...getOOOMessageReplacements(user.language_preference),
       };
       const email = data.contact_method === 'email' && data.email;
       if (email && email !== user.email) {
@@ -65,25 +61,16 @@ const supportTicketController = {
   },
 };
 
-const isDateIncludedInOOO = (date = new Date()) => {
-  const oooDates = process.env.OOO_DATES.split(',');
-  const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  const isDateIncluded = oooDates.includes(dateString);
-  return isDateIncluded;
-};
-
 const getOOOMessageReplacements = (locale) => {
-  const ooo_message_enabled = isDateIncludedInOOO();
-  const backToOfficeDate = new Date();
-  while (isDateIncludedInOOO(backToOfficeDate)) {
-    backToOfficeDate.setDate(backToOfficeDate.getDate() + 1);
+  const ooo_message_enabled = process.env.OOO_MESSAGE_ENABLED === 'true';
+  let ooo_start_date = process.env.OOO_START_DATE;
+  let ooo_end_date = process.env.OOO_END_DATE;
+  if (ooo_message_enabled && ooo_start_date && ooo_end_date) {
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    ooo_start_date = new Date(ooo_start_date).toLocaleDateString(locale, dateOptions);
+    ooo_end_date = new Date(ooo_end_date).toLocaleDateString(locale, dateOptions);
   }
-  const back_to_office_date_string = backToOfficeDate.toLocaleDateString(locale, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-  return { ooo_message_enabled, back_to_office_date_string };
+  return { ooo_message_enabled, ooo_start_date, ooo_end_date };
 };
 
 const capitalize = (string) => {

@@ -30,6 +30,9 @@ const supportTicketController = {
         .context({ user_id })
         .insert(data)
         .returning('*');
+      const { ooo_message_enabled, back_to_office_date_string } = getOOOMessageReplacements(
+        user.language_preference,
+      );
       const replacements = {
         first_name: user.first_name,
         support_type: result.support_type,
@@ -37,6 +40,8 @@ const supportTicketController = {
         contact_method: capitalize(result.contact_method),
         contact: result[result.contact_method],
         locale: user.language_preference,
+        ooo_message_enabled,
+        back_to_office_date_string,
       };
       const email = data.contact_method === 'email' && data.email;
       if (email && email !== user.email) {
@@ -58,6 +63,27 @@ const supportTicketController = {
       });
     }
   },
+};
+
+const isDateIncludedInOOO = (date = new Date()) => {
+  const oooDates = process.env.OOO_DATES.split(',');
+  const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  const isDateIncluded = oooDates.includes(dateString);
+  return isDateIncluded;
+};
+
+const getOOOMessageReplacements = (locale) => {
+  const ooo_message_enabled = isDateIncludedInOOO();
+  const backToOfficeDate = new Date();
+  while (isDateIncludedInOOO(backToOfficeDate)) {
+    backToOfficeDate.setDate(backToOfficeDate.getDate() + 1);
+  }
+  const back_to_office_date_string = backToOfficeDate.toLocaleDateString(locale, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  return { ooo_message_enabled, back_to_office_date_string };
 };
 
 const capitalize = (string) => {

@@ -639,13 +639,13 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
 }
 
 // Check animals or batches with completed and abandoned tasks
-const checkAnimalsOrBatchesWithFinalTasks = async (animalOrBatchKey, ids, trx) => {
-  const getAnimalOrBatchIdsWithFinalTasks =
+const checkAnimalsOrBatchesWithFinalizedTasks = async (animalOrBatchKey, ids, trx) => {
+  const getAnimalOrBatchIdsWithFinalizedTasks =
     animalOrBatchKey === 'animal'
-      ? AnimalModel.getAnimalIdsWithFinalTasks
-      : AnimalBatchModel.getBatchIdsWithFinalTasks;
+      ? AnimalModel.getAnimalIdsWithFinalizedTasks
+      : AnimalBatchModel.getBatchIdsWithFinalizedTasks;
 
-  const animalsOrBatches = await getAnimalOrBatchIdsWithFinalTasks(trx, [
+  const animalsOrBatches = await getAnimalOrBatchIdsWithFinalizedTasks(trx, [
     ...new Set(ids.split(',').map((id) => +id)),
   ]);
 
@@ -683,7 +683,7 @@ export function checkDeleteAnimalOrBatch(animalOrBatchKey) {
         throw customError('Must send date');
       }
       await checkValidAnimalOrBatchIds(animalOrBatchKey, ids, farm_id, trx);
-      await checkAnimalsOrBatchesWithFinalTasks(animalOrBatchKey, ids, trx);
+      await checkAnimalsOrBatchesWithFinalizedTasks(animalOrBatchKey, ids, trx);
 
       await trx.commit();
       next();

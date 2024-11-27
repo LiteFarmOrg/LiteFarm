@@ -255,8 +255,8 @@ class AnimalBatchModel extends baseModel {
       .whereIn('animal_batch.id', animalIds);
   }
 
-  // Get animals with final (completed or abandoned) tasks
-  static async getBatchIdsWithFinalTasks(trx, animalIds) {
+  // Get animals with finalized (completed or abandoned) tasks
+  static async getBatchIdsWithFinalizedTasks(trx, animalIds) {
     return AnimalBatchModel.getBatchIdsWithTasks(
       trx,
       animalIds,

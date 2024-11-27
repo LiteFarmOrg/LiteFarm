@@ -250,8 +250,8 @@ class Animal extends baseModel {
       .transacting(trx);
   }
 
-  // Get animals with final (completed or abandoned) tasks
-  static async getAnimalIdsWithFinalTasks(trx, animalIds) {
+  // Get animals with finalized (completed or abandoned) tasks
+  static async getAnimalIdsWithFinalizedTasks(trx, animalIds) {
     return Animal.getAnimalIdsWithTasks(
       trx,
       animalIds,

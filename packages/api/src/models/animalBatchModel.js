@@ -273,26 +273,24 @@ class AnimalBatchModel extends baseModel {
   }
 
   static async unrelateIncompleteTasksForBatches(trx, batchIds) {
-    const batches = await AnimalBatchModel.getBatchIdsWithIncompleteTasks(trx, batchIds);
-    if (!batches) {
-      return { unrelatedTaskIds: [] };
-    }
-
     let unrelatedTaskIds = [];
+    const batches = await AnimalBatchModel.getBatchIdsWithIncompleteTasks(trx, batchIds);
 
-    // Delete relationships
-    await Promise.all(
-      batches.map(({ id, tasks }) => {
-        const taskIds = tasks.map(({ task_id }) => task_id);
-        unrelatedTaskIds = [...unrelatedTaskIds, ...taskIds];
+    if (batches)
+      // Delete relationships
+      await Promise.all(
+        batches.map(({ id, tasks }) => {
+          const taskIds = tasks.map(({ task_id }) => task_id);
+          unrelatedTaskIds = [...unrelatedTaskIds, ...taskIds];
 
-        return AnimalBatchModel.relatedQuery('tasks', trx)
-          .for(id)
-          .unrelate()
-          .whereIn('task.task_id', taskIds)
-          .transacting(trx);
-      }),
-    );
+          return AnimalBatchModel.relatedQuery('tasks', trx)
+            .for(id)
+            .unrelate()
+            .whereIn('task.task_id', taskIds)
+            .transacting(trx);
+        }),
+      );
+    }
 
     return { unrelatedTaskIds: [...new Set(unrelatedTaskIds)] };
   }

@@ -268,26 +268,24 @@ class Animal extends baseModel {
   }
 
   static async unrelateIncompleteTasksForAnimals(trx, animalIds) {
-    const animals = await Animal.getAnimalIdsWithIncompleteTasks(trx, animalIds);
-    if (!animals) {
-      return { unrelatedTaskIds: [] };
-    }
-
     let unrelatedTaskIds = [];
+    const animals = await Animal.getAnimalIdsWithIncompleteTasks(trx, animalIds);
 
-    // Delete relationships
-    await Promise.all(
-      animals.map(({ id, tasks }) => {
-        const taskIds = tasks.map(({ task_id }) => task_id);
-        unrelatedTaskIds = [...unrelatedTaskIds, ...taskIds];
+    if (animals) {
+      // Delete relationships
+      await Promise.all(
+        animals.map(({ id, tasks }) => {
+          const taskIds = tasks.map(({ task_id }) => task_id);
+          unrelatedTaskIds = [...unrelatedTaskIds, ...taskIds];
 
-        return Animal.relatedQuery('tasks')
-          .for(id)
-          .unrelate()
-          .whereIn('task.task_id', taskIds)
-          .transacting(trx);
-      }),
-    );
+          return Animal.relatedQuery('tasks')
+            .for(id)
+            .unrelate()
+            .whereIn('task.task_id', taskIds)
+            .transacting(trx);
+        }),
+      );
+    }
 
     return { unrelatedTaskIds: [...new Set(unrelatedTaskIds)] };
   }

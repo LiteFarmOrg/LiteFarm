@@ -276,7 +276,7 @@ class AnimalBatchModel extends baseModel {
     let unrelatedTaskIds = [];
     const batches = await AnimalBatchModel.getBatchIdsWithIncompleteTasks(trx, batchIds);
 
-    if (batches)
+    if (batches) {
       // Delete relationships
       await Promise.all(
         batches.map(({ id, tasks }) => {

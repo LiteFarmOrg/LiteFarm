@@ -44,7 +44,7 @@ interface WithStepperProgressBarProps {
   stepperProgressBarTitle?: ReactNode;
   onSave: (
     data: FieldValues,
-    onGoForward: () => void,
+    onSuccess: () => void,
     setFormResultData?: (data: any) => void,
   ) => void;
   onGoBack: () => void;
@@ -113,13 +113,20 @@ export const WithStepperProgressBar = ({
 
   const shouldShowFormNavigationButtons = !isSummaryPage && isEditing;
 
+  const onSuccess = () => {
+    reset(getValues());
+    setIsEditing?.(false);
+
+    if (hasSummaryWithinForm) {
+      onGoForward();
+    }
+  };
+
   const onContinue = async () => {
     if (isFinalStep) {
       setIsSaving(true);
-      await handleSubmit((data: FieldValues) => onSave(data, onGoForward, setFormResultData))();
-      reset(getValues());
+      await handleSubmit((data: FieldValues) => onSave(data, onSuccess, setFormResultData))();
       setIsSaving(false);
-      setIsEditing?.(false);
       return;
     }
     onGoForward();

@@ -121,7 +121,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
 
   const onSave = async (
     data: AnimalDetailsFormFields & Partial<Animal | AnimalBatch>,
-    onGoForward: () => void,
+    onSuccess: () => void,
     _setFormResultData: () => void,
   ) => {
     const broughtInId = orgins.find((origin) => origin.key === 'BROUGHT_IN')?.id;
@@ -151,6 +151,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
       if (formattedAnimals.length) {
         await updateAnimals(formattedAnimals).unwrap();
         dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_UPDATE_ANIMAL')));
+        onSuccess();
       }
     } catch (e) {
       console.error(e);
@@ -160,6 +161,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
       if (formattedBatches.length) {
         await updateBatches(formattedBatches).unwrap();
         dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_UPDATE_BATCH')));
+        onSuccess();
       }
     } catch (e) {
       console.error(e);

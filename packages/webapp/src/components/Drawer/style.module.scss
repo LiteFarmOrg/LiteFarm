@@ -67,6 +67,7 @@
 
 .sideDrawer {
   top: var(--global-navbar-height);
+  max-height: calc(100vh - var(--global-navbar-height));
   right: -100%;
   border-bottom-left-radius: 10px;
   width: 416px;

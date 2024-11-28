@@ -56,16 +56,6 @@
   }
 }
 
-.alwaysVisibleContent {
-  max-height: 56px;
-  padding: 0 16px;
-  @include lg-breakpoint {
-    align-items: center;
-    gap: 8px;
-    display: flex;
-  }
-}
-
 .expandedContentWrapper {
   margin-top: 16px;
 }
@@ -76,25 +66,6 @@
   gap: 8px;
   padding: 16px;
   background: var(--White);
-}
-
-.mainContentWrapper {
-  width: auto !important;
-  gap: 8px;
-  @include lg-breakpoint {
-    display: flex;
-  }
-}
-
-.mainContentWithIcon {
-  text-align: center;
-  gap: 8px;
-  justify-content: center;
-  margin-bottom: 8px;
-  
-  @include lg-breakpoint {
-    margin-bottom: 0px;
-  }
 }
 
 .blueColor {

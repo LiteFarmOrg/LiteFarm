@@ -54,7 +54,11 @@ export default function ExpandableItem({
   return (
     <div className={clsx(classes.container, isExpanded && classes.expandedContainer)}>
       <div
-        className={clsx(classes.alwaysVisibleContent, !iconClickOnly && styles.clickable)}
+        className={clsx(
+          classes.alwaysVisibleContent,
+          !iconClickOnly && styles.clickable,
+          pillBody && styles.pillAlwaysVisibleContent,
+        )}
         onClick={onElementClick}
       >
         <div
@@ -62,6 +66,7 @@ export default function ExpandableItem({
             styles.mainContentWithIcon,
             classes.mainContentWithIcon,
             isExpanded && classes.expandedMainContentWithIcon,
+            pillBody && styles.pillMainContentWithIcon,
           )}
           aria-controls={id}
           aria-expanded={isExpanded}
@@ -71,6 +76,7 @@ export default function ExpandableItem({
               styles.mainContentWrapper,
               classes.mainContentWrapper,
               leftCollapseIcon && styles.leftCollapse,
+              pillBody && styles.pillMainContentWrapper,
             )}
           >
             {mainContent}

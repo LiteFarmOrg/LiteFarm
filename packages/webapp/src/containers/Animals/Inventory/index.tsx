@@ -115,10 +115,7 @@ const SelectedAnimalsSummaryInventory = ({
         }
         iconClickOnly={false}
         classes={{
-          mainContentWrapper: styles.mainContentWrapper,
-          mainContentWithIcon: styles.mainContentWithIcon,
           icon: styles.blueColor,
-          alwaysVisibleContent: styles.alwaysVisibleContent,
         }}
         itemKey={1}
         leftCollapseIcon

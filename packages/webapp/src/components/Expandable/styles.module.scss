@@ -49,3 +49,32 @@
     width: unset;
   }
 }
+
+.pillAlwaysVisibleContent {
+  max-height: 56px;
+  padding: 0 16px;
+  @include lg-breakpoint {
+    align-items: center;
+    gap: 8px;
+    display: flex;
+  }
+}
+
+.pillMainContentWrapper {
+  width: auto;
+  gap: 8px;
+  @include lg-breakpoint {
+    display: flex;
+  }
+}
+
+.pillMainContentWithIcon {
+  text-align: center;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 8px;
+  
+  @include lg-breakpoint {
+    margin-bottom: 0px;
+  }
+}

@@ -1768,6 +1768,39 @@ function fakeScoutingTask(defaultData = {}) {
   };
 }
 
+async function animal_movement_taskFactory(
+  { promisedTask = taskFactory() } = {},
+  animal_movement_task = fakeAnimalMovementTask(),
+) {
+  const [activity] = await Promise.all([promisedTask]);
+  const [{ task_id }] = activity;
+  return knex('animal_movement_task')
+    .insert({ task_id, ...animal_movement_task })
+    .returning('*');
+}
+
+function fakeAnimalMovementTask(defaultData = {}) {
+  return defaultData;
+}
+
+async function animal_movement_purposeFactory(key = faker.lorem.word()) {
+  return knex('animal_movement_purpose')
+    .insert({ key, id: key === 'OTHER' ? 14 : undefined })
+    .returning('*');
+}
+
+async function animal_movement_task_purpose_relationshipFactory({
+  promisedTask = taskFactory(),
+  promisedPurpose = animal_movement_purposeFactory(),
+  other_purpose = null,
+} = {}) {
+  const [[{ task_id }], [{ id: purpose_id }]] = await Promise.all([promisedTask, promisedPurpose]);
+
+  return knex('animal_movement_task_purpose_relationship')
+    .insert({ task_id, purpose_id, other_purpose })
+    .returning('*');
+}
+
 async function saleFactory({ promisedUserFarm = userFarmFactory() } = {}, sale = fakeSale()) {
   const [userFarm] = await Promise.all([promisedUserFarm]);
   const [{ user_id, farm_id }] = userFarm;
@@ -2580,6 +2613,10 @@ export default {
   fakeIrrigationTask,
   scouting_taskFactory,
   fakeScoutingTask,
+  animal_movement_taskFactory,
+  fakeAnimalMovementTask,
+  animal_movement_purposeFactory,
+  animal_movement_task_purpose_relationshipFactory,
   saleFactory,
   fakeSale,
   locationFactory,

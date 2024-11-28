@@ -25,12 +25,12 @@ import { ReactComponent as Movement } from '../../../assets/images/task/Movement
 import { ReactComponent as CustomTask } from '../../../assets/images/task/Custom.svg';
 import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
-import Button from '../../Form/Button';
 import { PlantingTaskModal } from '../../Modals/PlantingTaskModal';
 import { isTaskType } from '../../../containers/Task/useIsTaskType';
 import { NoCropManagementPlanModal } from '../../Modals/NoCropManagementPlanModal';
 import { getSupportedTaskTypesSet } from '../getSupportedTaskTypesSet';
 import { ANIMAL_TASKS } from '../../../containers/Task/constants';
+import { CantFindCustomType } from '../../Finances/PureFinanceTypeSelection/CantFindCustomType';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -189,9 +189,15 @@ export const PureTaskTypeSelection = ({
             })}
         </div>
         {isAdmin && (
-          <Button color={'secondary-2'} onClick={onCustomTask}>
-            {t('ADD_TASK.MANAGE_CUSTOM_TASKS')}
-          </Button>
+          <div className={styles.cantFindCustomTypeWrapper}>
+            <CantFindCustomType
+              customTypeMessages={{
+                info: t('ADD_TASK.CANT_FIND_INFO_TASK'),
+                manage: t('ADD_TASK.MANAGE_CUSTOM_TASKS'),
+              }}
+              onGoToManageCustomType={onCustomTask}
+            />
+          </div>
         )}
       </Form>
       {showPlantTaskModal && shouldShowPlantTaskSpotLight && (

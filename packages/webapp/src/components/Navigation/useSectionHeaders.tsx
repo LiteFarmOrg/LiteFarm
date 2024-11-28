@@ -19,19 +19,22 @@ import {
   ANIMALS_LOCATION_URL,
   ADD_ANIMALS_URL,
 } from '../../util/siteMapConstants';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import type { Pathname } from 'history';
+import Badge from '../Badge';
+import React from 'react';
+import styles from './styles.module.scss';
 
 // Key value pair for path and its header
 interface PathHeaderKVP {
-  [key: string]: string;
+  [key: string]: string | React.ReactElement;
 }
 
 /**
  * Retrieves the translated section header based on the provided path.
  *
  * @param {Pathname} path - The pathname to match against specific sections.
- * @returns {string | null} Returns the translated section header if the path matches a known section, otherwise returns null.
+ * @returns {string | React.ReactElement | null} Returns the translated section header if the path matches a known section, otherwise returns null.
  *
  * @example
  * const currentPath = '/animals';
@@ -39,12 +42,26 @@ interface PathHeaderKVP {
  * console.log(sectionHeader); // Output: 'Translated Animals Section Header'
  */
 
-export function useSectionHeader(path: Pathname): string | null {
+export function useSectionHeader(path: Pathname): string | React.ReactElement | null {
   const { t } = useTranslation(['translation']);
+
+  const animalInventoryTitle = (
+    <div className={styles.animalInventoryTitle}>
+      <div className={styles.text}>{t('SECTION_HEADER.ANIMALS_INVENTORY')}</div>
+      <Badge
+        title={t('BADGE.BETA.TITLE')}
+        content={
+          <Trans i18nKey={'BADGE.BETA.ANIMALS_CONTENT'} components={{ a: <a href="#" /> }} />
+        }
+        id="animalsBeta"
+        classes={{ iconButton: styles.badge }}
+      />
+    </div>
+  );
 
   const HEADERS_BY_PATH: PathHeaderKVP = {
     [ANIMALS_GROUPS_URL]: t('SECTION_HEADER.ANIMALS_GROUPS'),
-    [ANIMALS_INVENTORY_URL]: t('SECTION_HEADER.ANIMALS_INVENTORY'),
+    [ANIMALS_INVENTORY_URL]: animalInventoryTitle,
     [ANIMALS_LOCATION_URL]: t('SECTION_HEADER.ANIMALS_LOCATION'),
     [ADD_ANIMALS_URL]: t('SECTION_HEADER.ANIMALS_INVENTORY'),
   };

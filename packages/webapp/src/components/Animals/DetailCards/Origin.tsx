@@ -86,6 +86,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '', mode = 'add' }: O
           label={t('ANIMAL.ATTRIBUTE.SUPPLIER')}
           hookFormRegister={register(`${namePrefix}${DetailsFields.SUPPLIER}`, {
             maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+            shouldUnregister: true,
           })}
           trigger={trigger}
           optional
@@ -99,7 +100,9 @@ const Origin = ({ t, currency, originOptions, namePrefix = '', mode = 'add' }: O
           type="number"
           currency={currency}
           label={t('common:PRICE')}
-          hookFormRegister={register(`${namePrefix}${DetailsFields.PRICE}`)}
+          hookFormRegister={register(`${namePrefix}${DetailsFields.PRICE}`, {
+            shouldUnregister: true,
+          })}
           max={9999999999}
           optional
           placeholder={t('ADD_ANIMAL.PLACEHOLDER.PRICE')}
@@ -116,6 +119,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '', mode = 'add' }: O
           label={t('ANIMAL.ATTRIBUTE.DAM')}
           hookFormRegister={register(`${namePrefix}${DetailsFields.DAM}`, {
             maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+            shouldUnregister: true,
           })}
           trigger={trigger}
           optional
@@ -130,6 +134,7 @@ const Origin = ({ t, currency, originOptions, namePrefix = '', mode = 'add' }: O
           label={t('ANIMAL.ATTRIBUTE.SIRE')}
           hookFormRegister={register(`${namePrefix}${DetailsFields.SIRE}`, {
             maxLength: { value: 255, message: t('common:CHAR_LIMIT_ERROR', { value: 255 }) },
+            shouldUnregister: true,
           })}
           trigger={trigger}
           optional

@@ -22,7 +22,7 @@ import ClearFiltersButton, {
 } from '../../../components/Button/ClearFiltersButton';
 import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import AnimalsFilter from '../../../containers/Animals/AnimalsFilter';
-import FloatingButtonMenu from '../../Menu/FloatingButtonMenu';
+import FloatingActionButton from '../../Button/FloatingActionButton';
 import { TableV2Column, TableKind } from '../../Table/types';
 import type { Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.scss';
@@ -158,15 +158,14 @@ const PureAnimalInventory = ({
         )}
       </div>
       {isAdmin && !isTaskView && (
-        <FloatingButtonMenu
-          type={'add'}
-          options={[
-            {
-              label: t('ADD_ANIMAL.ADD_ANIMALS'),
-              onClick: () => history.push(ADD_ANIMALS_URL),
-            },
-          ]}
-        />
+        <div className={styles.ctaButtonWrapper}>
+          <FloatingActionButton
+            // @ts-ignore
+            type={'add'}
+            onClick={() => history.push(ADD_ANIMALS_URL)}
+            aria-label={t('ADD_ANIMAL.ADD_ANIMALS')}
+          />
+        </div>
       )}
     </>
   );

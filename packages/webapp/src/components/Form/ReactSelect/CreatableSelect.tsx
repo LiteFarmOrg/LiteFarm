@@ -54,7 +54,7 @@ const CreatableSelect = React.forwardRef((props, ref) => {
     optional,
     components,
     createPromptText = t('common:CREATE'),
-    placeholder = t('common:SELECT') + '...',
+    placeholder = t('common:SELECT_OR_ADD_YOUR_OWN'),
     ...restProps
   } = props;
 

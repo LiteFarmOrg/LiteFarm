@@ -31,7 +31,6 @@ import { useReduxSnackbar } from '../containers/Snackbar/useReduxSnackbar';
 
 //dynamic imports
 const Home = React.lazy(() => import('../containers/Home'));
-const HelpRequest = React.lazy(() => import('../containers/Help'));
 const Account = React.lazy(() => import('../containers/Profile/Account'));
 const Farm = React.lazy(() => import('../containers/Profile/Farm/Farm'));
 const People = React.lazy(() => import('../containers/Profile/People/People'));
@@ -285,7 +284,7 @@ const UnknownRecord = React.lazy(
   () => import('../containers/ErrorHandler/UnknownRecord/UnknownRecord'),
 );
 
-const Routes = ({ isCompactSideMenu }) => {
+const Routes = ({ isCompactSideMenu, isFeedbackSurveyOpen, setFeedbackSurveyOpen }) => {
   useScrollToTop();
   useReduxSnackbar();
   const userFarm = useSelector(
@@ -560,7 +559,6 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
             <Route path="/insights/biodiversity" exact component={Biodiversity} />
             <Route path="/insights/prices" exact component={Prices} />
-            <Route path="/help" exact component={HelpRequest} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
@@ -620,7 +618,13 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/animals/*"
               exact
-              render={(props) => <Animals isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => (
+                <Animals
+                  isCompactSideMenu={isCompactSideMenu}
+                  setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+                  {...props}
+                />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect
@@ -642,7 +646,6 @@ const Routes = ({ isCompactSideMenu }) => {
 
             <Route path="/farm" exact component={Farm} />
             <Route path="/consent" exact component={ConsentForm} />
-            <Route path="/help" exact component={HelpRequest} />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/tasks" exact component={Tasks} />
             <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
@@ -915,7 +918,13 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/animals/*"
               exact
-              render={(props) => <Animals isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => (
+                <Animals
+                  isCompactSideMenu={isCompactSideMenu}
+                  setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+                  {...props}
+                />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />
@@ -977,7 +986,6 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
-            <Route path="/help" exact component={HelpRequest} />
             <Route path="/tasks" exact component={Tasks} />
             <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
@@ -1019,7 +1027,13 @@ const Routes = ({ isCompactSideMenu }) => {
             <Route
               path="/animals/*"
               exact
-              render={(props) => <Animals isCompactSideMenu={isCompactSideMenu} {...props} />}
+              render={(props) => (
+                <Animals
+                  isCompactSideMenu={isCompactSideMenu}
+                  setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+                  {...props}
+                />
+              )}
             />
             <Route path="/unknown_record" exact component={UnknownRecord} />
             <Redirect to={'/'} />

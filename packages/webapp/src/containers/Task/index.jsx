@@ -47,6 +47,9 @@ import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../taskT
 import { getSupportedTaskTypesSet } from '../../components/Task/getSupportedTaskTypesSet';
 import { locationsSelector } from '../locationSlice';
 import Drawer from '../../components/Drawer';
+import FloatingActionButton from '../../components/Button/FloatingActionButton';
+import styles from './styles.module.scss';
+import LocationCreationModal from '../../components/LocationCreationModal';
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
@@ -70,6 +73,20 @@ export default function TaskPage({ history }) {
   };
   const onFilterOpen = () => {
     setIsFilterOpen(true);
+  };
+
+  const [createLocation, setCreateLocation] = useState(false);
+
+  const dismissLocationCreationModal = () => {
+    setCreateLocation(false);
+  };
+
+  const handleAddTask = () => {
+    if (locations.length) {
+      onAddTask(dispatch, history, {})();
+    } else {
+      setCreateLocation(true);
+    }
   };
 
   const taskTypes = useMemo(() => {
@@ -170,47 +187,64 @@ export default function TaskPage({ history }) {
   };
   const resetFilter = () => dispatch(clearTasksFilter());
   return (
-    <Layout>
-      <PageTitle title={t('TASK.PAGE_TITLE')} style={{ paddingBottom: '20px' }} />
-      <PureTaskDropdownFilter
-        onDateOrderChange={onDateOrderChange}
-        isAscending={tasksFilter[IS_ASCENDING]}
-        onAssigneeChange={onAssigneeChange}
-        assigneeValue={assigneeValue}
-        onFilterOpen={onFilterOpen}
-        isFilterActive={isFilterCurrentlyActive}
-      />
-      <TaskCount
-        count={taskCardContents.length}
-        handleAddTask={onAddTask(dispatch, history, {})}
-        isAdmin={isAdmin}
-      />
-      <Drawer title={t('TASK.FILTER.TITLE')} isOpen={isFilterOpen} onClose={onFilterClose}>
-        <TasksFilterPage onGoBack={onFilterClose} />
-      </Drawer>
-      {isFilterCurrentlyActive && (
-        <div style={{ marginBottom: '32px' }}>
-          <ActiveFilterBox pageFilter={tasksFilter} pageFilterKey={'tasks'} />
-          <div style={{ marginTop: '12px' }}>
-            <Underlined style={{ color: '#AA5F04' }} onClick={resetFilter}>
-              {t('FILTER.CLEAR_ALL_FILTERS')}
-            </Underlined>
+    <>
+      <Layout>
+        <PageTitle title={t('TASK.PAGE_TITLE')} style={{ paddingBottom: '20px' }} />
+        <PureTaskDropdownFilter
+          onDateOrderChange={onDateOrderChange}
+          isAscending={tasksFilter[IS_ASCENDING]}
+          onAssigneeChange={onAssigneeChange}
+          assigneeValue={assigneeValue}
+          onFilterOpen={onFilterOpen}
+          isFilterActive={isFilterCurrentlyActive}
+        />
+        <TaskCount count={taskCardContents.length} />
+        <Drawer title={t('TASK.FILTER.TITLE')} isOpen={isFilterOpen} onClose={onFilterClose}>
+          <TasksFilterPage onGoBack={onFilterClose} />
+        </Drawer>
+        {isFilterCurrentlyActive && (
+          <div style={{ marginBottom: '32px' }}>
+            <ActiveFilterBox pageFilter={tasksFilter} pageFilterKey={'tasks'} />
+            <div style={{ marginTop: '12px' }}>
+              <Underlined style={{ color: '#AA5F04' }} onClick={resetFilter}>
+                {t('FILTER.CLEAR_ALL_FILTERS')}
+              </Underlined>
+            </div>
           </div>
-        </div>
+        )}
+
+        {taskCardContents.length > 0 ? (
+          taskCardContents.map((task) => (
+            <TaskCard
+              key={task.task_id}
+              onClick={() => history.push(`/tasks/${task.task_id}/read_only`)}
+              style={{ marginBottom: '14px' }}
+              {...task}
+            />
+          ))
+        ) : (
+          <Semibold style={{ color: 'var(--teal700)' }}>{t('TASK.NO_TASKS_TO_DISPLAY')}</Semibold>
+        )}
+      </Layout>
+
+      {createLocation && (
+        <LocationCreationModal
+          title={t('LOCATION_CREATION.TASK_TITLE')}
+          body={
+            isAdmin ? t('LOCATION_CREATION.TASK_BODY') : t('LOCATION_CREATION.TASK_BODY_WORKER')
+          }
+          dismissModal={dismissLocationCreationModal}
+          isAdmin={isAdmin}
+        />
       )}
 
-      {taskCardContents.length > 0 ? (
-        taskCardContents.map((task) => (
-          <TaskCard
-            key={task.task_id}
-            onClick={() => history.push(`/tasks/${task.task_id}/read_only`)}
-            style={{ marginBottom: '14px' }}
-            {...task}
-          />
-        ))
-      ) : (
-        <Semibold style={{ color: 'var(--teal700)' }}>{t('TASK.NO_TASKS_TO_DISPLAY')}</Semibold>
-      )}
-    </Layout>
+      <div className={styles.ctaButtonWrapper}>
+        <FloatingActionButton
+          type={'add'}
+          onClick={handleAddTask}
+          aria-label={t('TASK.ADD_TASK')}
+        />
+      </div>
+    </>
   );
 }

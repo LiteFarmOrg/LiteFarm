@@ -44,6 +44,7 @@ export type AnimalInventory = {
   id: string;
   iconName: AnimalTypeIconKey;
   identification: string;
+  name: string | null;
   type: string;
   breed: string;
   groups: string[];
@@ -157,6 +158,7 @@ const formatAnimalsData = (
         path: createSingleAnimalViewURL(animal.internal_identifier),
         count: 1,
         batch: false,
+        name: animal.name,
         // preserve some untransformed data for filtering
         group_ids: animal.group_ids,
         sex_id: animal.sex_id,
@@ -192,6 +194,7 @@ const formatAnimalBatchesData = (
         groups: batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
         path: createSingleAnimalViewURL(batch.internal_identifier),
         count: batch.count,
+        name: batch.name,
         batch: true,
         // preserve some untransformed data for filtering
         group_ids: batch.group_ids,
@@ -213,6 +216,22 @@ interface BuildInventoryArgs {
   defaultAnimalBreeds: DefaultAnimalBreed[];
   defaultAnimalTypes: DefaultAnimalType[];
 }
+
+const sortAnimalsIDs = (inventory: AnimalInventory[]) => {
+  return inventory.sort((a, b) => {
+    if (a.name && !b.name) {
+      return -1;
+    } else if (!a.name && b.name) {
+      return 1;
+    } else {
+      if (a.identification.length > b.identification.length) {
+        return 1;
+      } else {
+        return a.identification.localeCompare(b.identification);
+      }
+    }
+  });
+};
 
 export const buildInventory = ({
   animals,
@@ -242,13 +261,7 @@ export const buildInventory = ({
     ),
   ];
 
-  const sortedInventory = inventory.sort((a, b) => {
-    if (a.identification.length > b.identification.length) {
-      return 1;
-    } else {
-      return a.identification.localeCompare(b.identification);
-    }
-  });
+  const sortedInventory = sortAnimalsIDs(inventory);
 
   return sortedInventory;
 };

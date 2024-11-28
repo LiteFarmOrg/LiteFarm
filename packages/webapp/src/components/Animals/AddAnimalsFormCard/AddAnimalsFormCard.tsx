@@ -84,14 +84,6 @@ export default function AddAnimalsFormCard({
     }
   }, []);
 
-  useEffect(() => {
-    if (shouldCreateIndividualProfiles && watchAnimalCount > ANIMAL_COUNT_LIMIT) {
-      setValue(`${namePrefix}${BasicsFields.COUNT}`, ANIMAL_COUNT_LIMIT, {
-        shouldValidate: true,
-      });
-    }
-  }, [shouldCreateIndividualProfiles]);
-
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
   return (
@@ -160,7 +152,14 @@ export default function AddAnimalsFormCard({
         label={t('ADD_ANIMAL.CREATE_INDIVIDUAL_PROFILES')}
         tooltipContent={t('ADD_ANIMAL.CREATE_INDIVIDUAL_PROFILES_TOOLTIP')}
         hookFormRegister={register(`${namePrefix}${BasicsFields.CREATE_INDIVIDUAL_PROFILES}`)}
-        onChange={(e) => onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked)}
+        onChange={(e) => {
+          onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked);
+          if ((e.target as HTMLInputElement).checked && watchAnimalCount > ANIMAL_COUNT_LIMIT) {
+            setValue(`${namePrefix}${BasicsFields.COUNT}`, ANIMAL_COUNT_LIMIT, {
+              shouldValidate: true,
+            });
+          }
+        }}
       />
       {shouldCreateIndividualProfiles ? (
         // @ts-ignore

@@ -13,10 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import { UseFormHandleSubmit, FieldValues, FormState, UseFormReset } from 'react-hook-form';
+import { ReactNode, useEffect, useState } from 'react';
+import {
+  UseFormHandleSubmit,
+  FieldValues,
+  FormState,
+  UseFormReset,
+  UseFormGetValues,
+} from 'react-hook-form';
 import { History } from 'history';
-import StepperProgressBar from '../../StepperProgressBar';
+import StepperProgressBar, { StepperProgressBarProps } from '../../StepperProgressBar';
 import FloatingContainer from '../../FloatingContainer';
 import FormNavigationButtons from '../FormNavigationButtons';
 import FixedHeaderContainer from '../../Animals/FixedHeaderContainer';
@@ -38,13 +44,14 @@ interface WithStepperProgressBarProps {
   stepperProgressBarTitle?: ReactNode;
   onSave: (
     data: FieldValues,
-    onGoForward: () => void,
+    onSuccess: () => void,
     setFormResultData?: (data: any) => void,
   ) => void;
   onGoBack: () => void;
   onCancel: () => void;
   onGoForward: () => void;
   reset: UseFormReset<FieldValues>;
+  getValues: UseFormGetValues<FieldValues>;
   formState: FormState<FieldValues>;
   handleSubmit: UseFormHandleSubmit<FieldValues>;
   setFormResultData: (data: any) => void;
@@ -70,6 +77,7 @@ export const WithStepperProgressBar = ({
   onGoForward,
   handleSubmit,
   reset,
+  getValues,
   formState: { isValid, isDirty },
   setFormResultData,
   isEditing,
@@ -105,12 +113,20 @@ export const WithStepperProgressBar = ({
 
   const shouldShowFormNavigationButtons = !isSummaryPage && isEditing;
 
+  const onSuccess = () => {
+    reset(getValues());
+    setIsEditing?.(false);
+
+    if (hasSummaryWithinForm) {
+      onGoForward();
+    }
+  };
+
   const onContinue = async () => {
     if (isFinalStep) {
       setIsSaving(true);
-      await handleSubmit((data: FieldValues) => onSave(data, onGoForward, setFormResultData))();
+      await handleSubmit((data: FieldValues) => onSave(data, onSuccess, setFormResultData))();
       setIsSaving(false);
-      setIsEditing?.(false);
       return;
     }
     onGoForward();
@@ -134,17 +150,12 @@ export const WithStepperProgressBar = ({
   };
 
   return (
-    <FixedHeaderContainer
-      header={
-        isSingleStep ? null : (
-          <StepperProgressBar
-            {...stepperProgressBarConfig}
-            title={stepperProgressBarTitle}
-            steps={steps.map(({ title }) => title)}
-            activeStep={activeStepIndex}
-          />
-        )
-      }
+    <StepperProgressBarWrapper
+      isSingleStep={isSingleStep}
+      {...stepperProgressBarConfig}
+      title={stepperProgressBarTitle}
+      steps={steps.map(({ title }) => title)}
+      activeStep={activeStepIndex}
     >
       <div className={styles.contentWrapper}>{children}</div>
       {shouldShowFormNavigationButtons && (
@@ -166,6 +177,27 @@ export const WithStepperProgressBar = ({
           handleCancel={handleCancel}
         />
       )}
+    </StepperProgressBarWrapper>
+  );
+};
+
+type StepperProgressBarWrapperProps = StepperProgressBarProps & {
+  children: ReactNode;
+  isSingleStep: boolean;
+};
+
+const StepperProgressBarWrapper = ({
+  children,
+  isSingleStep,
+  ...stepperProgressBarProps
+}: StepperProgressBarWrapperProps) => {
+  if (isSingleStep) {
+    return <>{children}</>;
+  }
+
+  return (
+    <FixedHeaderContainer header={<StepperProgressBar {...stepperProgressBarProps} />}>
+      {children}
     </FixedHeaderContainer>
   );
 };

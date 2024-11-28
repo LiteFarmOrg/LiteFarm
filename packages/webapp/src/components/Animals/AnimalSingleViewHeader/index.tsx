@@ -83,6 +83,7 @@ type ContainerWithButtonsProps = {
   children: ReactNode;
   contentClassName?: string;
   isCompactView?: boolean;
+  showMenu: boolean;
   isEditing?: boolean;
   options: { label: ReactNode; onClick: () => void }[];
   onBack: () => void;
@@ -93,6 +94,7 @@ const ContainerWithButtons = ({
   children,
   contentClassName,
   isCompactView,
+  showMenu = true,
   isEditing,
   options,
   onBack,
@@ -106,16 +108,20 @@ const ContainerWithButtons = ({
       <div className={clsx(styles.content, contentClassName)}>{children}</div>
       <div className={styles.statusAndButton}>
         {!isCompactView && isEditing ? <div>{t('common:EDITING')}</div> : null}
-        <MeatballsMenu
-          options={options}
-          classes={{ button: isEditing ? styles.editingStatusButton : '' }}
-        />
+        {showMenu && (
+          <MeatballsMenu
+            disabled={!!isEditing}
+            options={options}
+            classes={{ button: isEditing ? styles.editingStatusButton : '' }}
+          />
+        )}
       </div>
     </div>
   );
 };
 
 export type AnimalSingleViewHeaderProps = {
+  showMenu: boolean;
   isEditing?: boolean;
   onEdit: () => void;
   onRemove: () => void;
@@ -128,6 +134,7 @@ export type AnimalSingleViewHeaderProps = {
 };
 
 const AnimalSingleViewHeader = ({
+  showMenu = true,
   isEditing,
   onEdit,
   onRemove,
@@ -163,7 +170,7 @@ const AnimalSingleViewHeader = ({
     { label: <MenuItem iconName="TRASH" text={t('common:REMOVE')} />, onClick: onRemove },
   ];
 
-  const commonProp = { t, isEditing, isCompactView, options: menuOptions, onBack };
+  const commonProp = { t, showMenu, isEditing, isCompactView, options: menuOptions, onBack };
 
   const renderCompactHeader = () => (
     <div>

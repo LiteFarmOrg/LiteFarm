@@ -151,21 +151,16 @@ function AnimalInventory({
         id: isDesktop ? 'location' : null,
         label: t('ANIMAL.ANIMAL_LOCATIONS').toLocaleUpperCase(),
         format: (d: AnimalInventory) => (
-          <Cell
-            kind={CellKind.PLAIN}
-            content={
-              <div className={clsx(styles.location, !d.location && styles.unknown)}>
-                {d.location ? (
-                  <>
-                    <Icon iconName="LOCATION" className={styles.locationIcon} />
-                    <span className={styles.locationText}>{d.location}</span>
-                  </>
-                ) : (
-                  t('common:UNKNOWN')
-                )}
-              </div>
-            }
-          />
+          <div className={clsx(styles.location, !d.location && styles.unknown)}>
+            {d.location ? (
+              <>
+                <Icon iconName="LOCATION" className={styles.locationIcon} />
+                <span className={styles.locationText}>{d.location}</span>
+              </>
+            ) : (
+              t('common:UNKNOWN')
+            )}
+          </div>
         ),
       },
       {

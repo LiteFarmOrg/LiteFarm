@@ -128,7 +128,7 @@ export default function PureTaskLocations({
           cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
           title={t('MANAGEMENT_DETAIL.ADD_A_TASK')}
           value={progress}
-          classes={{ container: isAnimalTask && styles.titlePadding }}
+          classes={{ container: isAnimalTask ? styles.titlePadding : null }}
         />
         {isAnimalTask && (
           <AnimalInventory
@@ -151,7 +151,7 @@ export default function PureTaskLocations({
           maxZoomRef={maxZoomRef}
           getMaxZoom={getMaxZoom}
           maxZoom={maxZoom}
-          style={isAnimalTask && { marginLeft: '24px', marginRight: '24px' }}
+          style={isAnimalTask ? { marginLeft: '24px', marginRight: '24px' } : null}
         />
         {showWildCropCheckBox && (
           <Checkbox

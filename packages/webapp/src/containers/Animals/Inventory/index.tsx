@@ -60,6 +60,23 @@ export enum View {
   TASK = 'task',
   TASK_SUMMARY = 'task_summary',
 }
+
+type CommonPureAnimalInventoryProps = Pick<
+  PureAnimalInventoryProps,
+  | 'filteredInventory'
+  | 'animalsColumns'
+  | 'zIndexBase'
+  | 'isDesktop'
+  | 'searchProps'
+  | 'onSelectInventory'
+  | 'handleSelectAllClick'
+  | 'selectedIds'
+  | 'totalInventoryCount'
+  | 'isFilterActive'
+  | 'clearFilters'
+  | 'isLoading'
+  | 'history'
+>;
 interface AnimalInventoryProps {
   preSelectedIds?: string[];
   onSelect?: (newIds: string[]) => void;
@@ -76,17 +93,17 @@ const BaseAnimalInventory = ({
   isDesktop,
   // containerHeight provided by FixedHeaderContainer if exists
   containerHeight,
-  siblings,
-  ...baseProps
-}: PureAnimalInventoryProps & { siblings?: ReactNode }) => {
+  children,
+  ...props
+}: PureAnimalInventoryProps & { children?: ReactNode }) => {
   return (
     <>
       <PureAnimalInventory
         isDesktop={isDesktop}
         tableMaxHeight={!isDesktop || !containerHeight ? undefined : containerHeight - usedHeight}
-        {...baseProps}
+        {...props}
       />
-      {siblings}
+      {children}
     </>
   );
 };
@@ -94,11 +111,12 @@ const BaseAnimalInventory = ({
 const SelectedAnimalsSummaryInventory = ({
   expandableTitle,
   animalCountString,
-  ...baseProps
+  ...commonProps
 }: {
   expandableTitle: ReactNode;
   animalCountString: string | undefined;
-} & PureAnimalInventoryProps) => {
+} & CommonPureAnimalInventoryProps) => {
+  // @ts-ignore
   const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
   const isExpanded = expandedIds.includes(1);
   return (
@@ -110,7 +128,17 @@ const SelectedAnimalsSummaryInventory = ({
         pillBody={animalCountString}
         expandedContent={
           <div className={styles.expandedContentWrapper}>
-            <BaseAnimalInventory {...baseProps} />
+            <BaseAnimalInventory
+              onRowClick={undefined}
+              tableSpacerRowHeight={0}
+              showInventorySelection={false}
+              showSearchBarAndFilter={false}
+              alternatingRowColor={commonProps.isDesktop ? false : true}
+              showTableHeader={false}
+              extraRowSpacing={commonProps.isDesktop}
+              showActionFloaterButton={false}
+              {...commonProps}
+            />
           </div>
         }
         iconClickOnly={false}
@@ -124,7 +152,10 @@ const SelectedAnimalsSummaryInventory = ({
   );
 };
 
-const TaskAnimalInventory = ({ ...baseProps }: PureAnimalInventoryProps) => {
+const TaskAnimalInventory = ({
+  isAdmin,
+  ...commonProps
+}: { isAdmin: boolean } & CommonPureAnimalInventoryProps) => {
   return (
     <FixedHeaderContainer
       header={null}
@@ -135,7 +166,18 @@ const TaskAnimalInventory = ({ ...baseProps }: PureAnimalInventoryProps) => {
       }}
       kind={ContainerKind.PAPER}
     >
-      <BaseAnimalInventory {...baseProps} />
+      <BaseAnimalInventory
+        onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
+          commonProps.onSelectInventory(event, row);
+        }}
+        tableSpacerRowHeight={0}
+        showInventorySelection={isAdmin}
+        showSearchBarAndFilter={true}
+        alternatingRowColor={true}
+        showTableHeader={commonProps.isDesktop}
+        showActionFloaterButton={false}
+        {...commonProps}
+      />
     </FixedHeaderContainer>
   );
 };
@@ -146,14 +188,16 @@ const MainAnimalInventory = ({
   onTypeClick,
   selectedTypeIds,
   actionMenuAndRemoveModal,
-  ...baseProps
+  isAdmin,
+  ...commonProps
 }: {
   setFeedbackSurveyOpen: () => void;
   history: History;
   onTypeClick: (typeId: string) => void;
   selectedTypeIds: string[];
   actionMenuAndRemoveModal: ReactNode;
-} & PureAnimalInventoryProps) => {
+  isAdmin: boolean;
+} & CommonPureAnimalInventoryProps) => {
   return (
     <AnimalsBetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
       <FixedHeaderContainer
@@ -163,7 +207,21 @@ const MainAnimalInventory = ({
         classes={{ paper: styles.paper, divWrapper: styles.divWrapper }}
         kind={ContainerKind.PAPER}
       >
-        <BaseAnimalInventory history={history} siblings={actionMenuAndRemoveModal} {...baseProps} />
+        <BaseAnimalInventory
+          history={history}
+          {...commonProps}
+          onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
+            history.push(row.path);
+          }}
+          tableSpacerRowHeight={commonProps.isDesktop ? 96 : 120}
+          showInventorySelection={isAdmin}
+          showSearchBarAndFilter={true}
+          alternatingRowColor={true}
+          showTableHeader={commonProps.isDesktop}
+          showActionFloaterButton={isAdmin}
+        >
+          {actionMenuAndRemoveModal}
+        </BaseAnimalInventory>
       </FixedHeaderContainer>
     </AnimalsBetaSpotlight>
   );
@@ -402,37 +460,14 @@ export default function AnimalInventory({
   };
 
   if (view == View.TASK) {
-    return (
-      <TaskAnimalInventory
-        //base props
-        {...commonProps}
-        onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
-          onSelectInventory(event, row);
-        }}
-        tableSpacerRowHeight={0}
-        showInventorySelection={isAdmin}
-        showSearchBarAndFilter={true}
-        alternatingRowColor={true}
-        showTableHeader={isDesktop}
-        showActionFloaterButton={false}
-      />
-    );
+    return <TaskAnimalInventory isAdmin={isAdmin} {...commonProps} />;
   }
   if (view == View.TASK_SUMMARY) {
     return (
       <SelectedAnimalsSummaryInventory
         expandableTitle={expandableTitle}
         animalCountString={animalCountString}
-        //base props
         {...commonProps}
-        onRowClick={undefined}
-        tableSpacerRowHeight={0}
-        showInventorySelection={false}
-        showSearchBarAndFilter={false}
-        alternatingRowColor={isDesktop ? false : true}
-        showTableHeader={false}
-        extraRowSpacing={isDesktop}
-        showActionFloaterButton={false}
       />
     );
   }
@@ -443,17 +478,8 @@ export default function AnimalInventory({
       onTypeClick={onTypeClick}
       selectedTypeIds={selectedTypeIds}
       actionMenuAndRemoveModal={actionMenuAndRemoveModal}
-      //base props
+      isAdmin={isAdmin}
       {...commonProps}
-      onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
-        history.push(row.path);
-      }}
-      tableSpacerRowHeight={isDesktop ? 96 : 120}
-      showInventorySelection={isAdmin}
-      showSearchBarAndFilter={true}
-      alternatingRowColor={true}
-      showTableHeader={isDesktop}
-      showActionFloaterButton={isAdmin}
     />
   );
 }

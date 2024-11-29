@@ -828,21 +828,25 @@ describe('Animal Batch Tests', () => {
         [updatedFirstBatch, updatedSecondBatch],
       );
 
-      // Remove or add properties not actually expected from get request
-      [updatedFirstBatch, updatedSecondBatch].forEach((batch) => {
-        // Should not cause an error
-        delete batch.extra_non_existant_property;
-        // Should not be able to update on edit
-        batch.animal_removal_reason_id = null;
-        // Return format different than post format
-        batch.group_ids = batch.group_ids.map((groupId) => groupId.animal_group_id);
-        batch.animal_batch_use_relationships.forEach((rel) => {
-          rel.animal_batch_id = batch.id;
-          rel.other_use = null;
-        });
-      });
+      const [expectedFirstBatch, expectedSecondBatch] = [updatedFirstBatch, updatedSecondBatch].map(
+        (batch) => {
+          const { extra_non_existant_property, ...rest } = batch;
+          return {
+            ...rest,
+            animal_removal_reason_id: null,
+            group_ids: rest.group_ids.map((groupId) => groupId.animal_group_id),
+            animal_batch_use_relationships: rest.animal_batch_use_relationships.map((rel) => {
+              return {
+                animal_batch_id: rest.id,
+                use_id: rel.use_id,
+                other_use: null,
+              };
+            }),
+          };
+        },
+      );
 
-      return { res: patchRes, updatedFirstBatch, updatedSecondBatch };
+      return { res: patchRes, expectedFirstBatch, expectedSecondBatch };
     }
 
     test('Admin users should be able to edit batches', async () => {
@@ -857,11 +861,9 @@ describe('Animal Batch Tests', () => {
           user,
         );
         expect(addRes.status).toBe(201);
-        expect(returnedFirstBatch).toBeTruthy();
-        expect(returnedSecondBatch).toBeTruthy();
 
         // Edit batches in db
-        const { res: editRes, updatedFirstBatch, updatedSecondBatch } = await editAnimalBatches(
+        const { res: editRes, expectedFirstBatch, expectedSecondBatch } = await editAnimalBatches(
           mainFarm,
           user,
           returnedFirstBatch,
@@ -888,7 +890,7 @@ describe('Animal Batch Tests', () => {
           delete record.deleted;
           delete record.updated_at;
           delete record.updated_by;
-          const updatedRecord = [updatedFirstBatch, updatedSecondBatch].find(
+          const updatedRecord = [expectedFirstBatch, expectedSecondBatch].find(
             (batch) => batch.id === record.id,
           );
           expect(record).toMatchObject(updatedRecord);
@@ -909,16 +911,14 @@ describe('Animal Batch Tests', () => {
         fakeUserFarm(workerRole),
       );
 
-      // Add animals to db
+      // Add animals to db with admin
       const { res: addRes, returnedFirstBatch, returnedSecondBatch } = await addAnimalBatches(
         mainFarm,
         admin,
       );
       expect(addRes.status).toBe(201);
-      expect(returnedFirstBatch).toBeTruthy();
-      expect(returnedSecondBatch).toBeTruthy();
 
-      // Edit animals in db
+      // Edit animals in db with non-admin
       const { res: editRes } = await editAnimalBatches(
         mainFarm,
         user,
@@ -939,7 +939,6 @@ describe('Animal Batch Tests', () => {
       // Add animals to db
       const { res: addRes, returnedFirstBatch } = await addAnimalBatches(mainFarm, user);
       expect(addRes.status).toBe(201);
-      expect(returnedFirstBatch).toBeTruthy();
 
       // Change 1 thing
       returnedFirstBatch.sire = 'Changed';

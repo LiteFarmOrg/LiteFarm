@@ -835,21 +835,26 @@ describe('Animal Tests', () => {
         [updatedFirstAnimal, updatedSecondAnimal],
       );
 
-      // Remove or add properties not actually expected from get request
-      [updatedFirstAnimal, updatedSecondAnimal].forEach((animal) => {
-        // Should not cause an error
-        delete animal.extra_non_existant_property;
-        // Should not be able to update on edit
-        animal.animal_removal_reason_id = null;
-        // Return format different than post format
-        animal.group_ids = animal.group_ids.map((groupId) => groupId.animal_group_id);
-        animal.animal_use_relationships.forEach((rel) => {
-          rel.animal_id = animal.id;
-          rel.other_use = null;
-        });
+      const [expectedFirstAnimal, expectedSecondAnimal] = [
+        updatedFirstAnimal,
+        updatedSecondAnimal,
+      ].map((animal) => {
+        const { extra_non_existant_property, ...rest } = animal;
+        return {
+          ...rest,
+          animal_removal_reason_id: null,
+          group_ids: rest.group_ids.map((groupId) => groupId.animal_group_id),
+          animal_use_relationships: rest.animal_use_relationships.map((rel) => {
+            return {
+              animal_id: rest.id,
+              use_id: rel.use_id,
+              other_use: null,
+            };
+          }),
+        };
       });
 
-      return { res: patchRes, updatedFirstAnimal, updatedSecondAnimal };
+      return { res: patchRes, expectedFirstAnimal, expectedSecondAnimal };
     }
 
     test('Admin users should be able to edit animals', async () => {
@@ -866,7 +871,7 @@ describe('Animal Tests', () => {
         expect(addRes.status).toBe(201);
 
         // Edit animals in db
-        const { res: editRes, updatedFirstAnimal, updatedSecondAnimal } = await editAnimals(
+        const { res: editRes, expectedFirstAnimal, expectedSecondAnimal } = await editAnimals(
           mainFarm,
           user,
           returnedFirstAnimal,
@@ -893,7 +898,7 @@ describe('Animal Tests', () => {
           delete record.deleted;
           delete record.updated_at;
           delete record.updated_by;
-          const updatedRecord = [updatedFirstAnimal, updatedSecondAnimal].find(
+          const updatedRecord = [expectedFirstAnimal, expectedSecondAnimal].find(
             (animal) => animal.id === record.id,
           );
           expect(record).toMatchObject(updatedRecord);

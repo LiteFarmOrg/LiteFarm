@@ -109,7 +109,7 @@ function AnimalInventory({
     setSelectedInventoryIds((selectedInventoryIds) => {
       return selectedInventoryIds.filter((i) => {
         const { kind, id } = parseInventoryId(i);
-        return kind === animalOrBatchKey && ids.includes(id);
+        return !(kind === animalOrBatchKey && ids.includes(id));
       });
     });
   };

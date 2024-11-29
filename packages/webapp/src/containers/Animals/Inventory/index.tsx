@@ -128,12 +128,12 @@ function AnimalInventory({
       {
         id: isDesktop ? 'type' : null,
         label: t('ANIMAL.ANIMAL_TYPE').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} content={d.type} />,
+        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.type} />,
       },
       {
         id: isDesktop ? 'breed' : null,
         label: t('ANIMAL.ANIMAL_BREED').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} content={d.breed} />,
+        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
       },
       {
         id: isDesktop ? 'groups' : null,

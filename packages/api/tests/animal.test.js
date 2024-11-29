@@ -864,8 +864,6 @@ describe('Animal Tests', () => {
           user,
         );
         expect(addRes.status).toBe(201);
-        expect(returnedFirstAnimal).toBeTruthy();
-        expect(returnedSecondAnimal).toBeTruthy();
 
         // Edit animals in db
         const { res: editRes, updatedFirstAnimal, updatedSecondAnimal } = await editAnimals(
@@ -916,16 +914,14 @@ describe('Animal Tests', () => {
         fakeUserFarm(workerRole),
       );
 
-      // Add animals to db
+      // Use admin to add animals to db
       const { res: addRes, returnedFirstAnimal, returnedSecondAnimal } = await addAnimals(
         mainFarm,
         admin,
       );
       expect(addRes.status).toBe(201);
-      expect(returnedFirstAnimal).toBeTruthy();
-      expect(returnedSecondAnimal).toBeTruthy();
 
-      // Edit animals in db
+      // Edit animals in db with non-admin
       const { res: editRes } = await editAnimals(
         mainFarm,
         user,

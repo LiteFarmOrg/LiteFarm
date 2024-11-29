@@ -49,7 +49,6 @@ export const useFilteredInventory = (
   const filterMatches = useMemo(() => {
     return inventory.filter((entity) => {
       const animalOrBatchMatches =
-        (showOnlySelected && selectedInventoryIds.includes(entity.id)) ||
         isInactive(animalsOrBatchesFilter) ||
         (entity.batch
           ? animalsOrBatchesFilter[AnimalOrBatchKeys.BATCH]?.active

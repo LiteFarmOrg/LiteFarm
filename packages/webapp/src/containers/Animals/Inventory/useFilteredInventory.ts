@@ -33,6 +33,10 @@ export const useFilteredInventory = (
     });
   }, [inventory, selectedInventoryIds]);
 
+  if (showOnlySelected) {
+    return idMatches;
+  }
+
   const {
     [AnimalsFilterKeys.ANIMAL_OR_BATCH]: animalsOrBatchesFilter,
     [AnimalsFilterKeys.TYPE]: typesFilter,
@@ -72,10 +76,6 @@ export const useFilteredInventory = (
       // const locationMatches =
       //   isInactive(locationsFilter) || locationsFilter[entity.location]?.active;
 
-      if (showOnlySelected) {
-        return animalOrBatchMatches;
-      }
-
       return (
         animalOrBatchMatches &&
         typeMatches &&
@@ -94,10 +94,6 @@ export const useFilteredInventory = (
     groupsFilter,
     locationsFilter,
   ]);
-
-  if (showOnlySelected) {
-    return idMatches;
-  }
 
   return filterMatches;
 };

@@ -102,7 +102,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Open Sans"," SansSerif", serif',
+    fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',
   },
   components: {
     MuiButtonBase: {

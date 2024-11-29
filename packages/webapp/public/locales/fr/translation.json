@@ -16,7 +16,6 @@
     "BATCH_NAME": "MISSING",
     "BATCH_NAME_PLACEHOLDER": "MISSING",
     "BREED": "MISSING",
-    "BREED_PLACEHOLDER": "MISSING",
     "BREED_PLACEHOLDER_DISABLED": "MISSING",
     "CREATE_INDIVIDUAL_PROFILES": "MISSING",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "MISSING",
@@ -67,7 +66,6 @@
       "MAIN": "MISSING"
     },
     "TYPE": "MISSING",
-    "TYPE_PLACEHOLDER": "MISSING",
     "UNIQUE_DETAILS": "MISSING"
   },
   "ADD_FARM": {
@@ -208,8 +206,16 @@
       "WHAT_TYPE_OF_IRRIGATION": "Quel type d'irrigation ?"
     },
     "MANAGE_CUSTOM_TASKS": "Gérer les tâches personnalisées",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "MISSING",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "MISSING"
+    },
     "NEED_MANAGEMENT_PLAN": "Vous avez besoin d'un plan de culture actif ou planifié avant de pouvoir programmer une tâche de récolte ou une tâche de plantation. Accédez au catalogue de cultures pour créer un plan maintenant.",
     "NO_MANAGEMENT_PLAN": "Aucun plan de culture éligible",
+    "NOTES_LABEL": "MISSING",
+    "NOTES_PLACEHOLDER": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Lutte biologique",
       "FLAME_WEEDING": "Sarclage à la flamme",
@@ -306,6 +312,7 @@
       "WEANING_DATE": "MISSING"
     },
     "BATCH": "MISSING",
+    "EDIT_ANIMAL_FLOW": "MISSING",
     "FILTER": {
       "BATCHES": "MISSING",
       "BATCHES_OR_INDIVIDUALS": "MISSING",
@@ -593,8 +600,8 @@
     "SATURDAY": "S",
     "SUNDAY": "D",
     "THURSDAY": "J",
-    "TUESDAY": "Ma",
-    "WEDNESDAY": "Me"
+    "TUESDAY": "M",
+    "WEDNESDAY": "M"
   },
   "DOCUMENTS": {
     "ADD": {
@@ -770,7 +777,7 @@
         "SENSOR_LONGITUDE": "La valeur de longitude n'est pas valide, elle doit être comprise entre -180 et 180 et avec moins de 10 décimales.",
         "SENSOR_MODEL": "Nom de modèle non valide, il doit être compris entre 1 et 100 caractères.",
         "SENSOR_NAME": "Nom de capteur non valide, if doit être compris entre 1 et 100 caractères.",
-        "SENSOR_READING_TYPES": "Type de données relevées non valide détecté : {{ reading_types }}. Les valeurs valides sont : teneur_en_eau_du_sol, potentiel_hydrique_du_sol, température."
+        "SENSOR_READING_TYPES": "Type de données relevées non valide détecté : {{ reading_types }}. Les valeurs valides sont : {{ allowed_reading_types }}."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -1050,6 +1057,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Télécharger une capture d'écran ou un fichier",
     "EMAIL": "Courriel",
+    "FEEDBACK_INVITATION": "MISSING",
     "MESSAGE_LABEL": "Message",
     "OPTIONS": {
       "OTHER": "Autre",
@@ -1059,7 +1067,6 @@
     },
     "PREFERRED_CONTACT": "Méthode de contact préférée",
     "REQUIRED_LABEL": "Champ obligatoire",
-    "TITLE": "Demander de l'aide",
     "TYPE_SUPPORT_LABEL": "Type de support",
     "TYPE_SUPPORT_PLACEHOLDER": "Choisissez le type de support",
     "WHATSAPP": "Whatsapp",
@@ -1946,6 +1953,7 @@
     "ADD_TASK": "Créer une tâche",
     "ADD_TASK_FLOW": "création de tâche",
     "AMOUNT_TO_ALLOCATE": "Montant à allouer",
+    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "Plusieurs cultures",
       "MULTIPLE_LOCATIONS": "Plusieurs emplacements"
@@ -2012,6 +2020,7 @@
     "QUANTITY_CANNOT_EXCEED": "La quantité de récolte utilisée ne peut pas dépasser la quantité à allouer",
     "RATE_THIS_TASK": "Évaluez cette tâche",
     "REMOVE_HARVEST_USE": "Supprimer",
+    "SELECT_ANIMALS_TO_MOVE": "MISSING",
     "SELECT_DATE": "Sélectionnez la date de la tâche",
     "SELECT_TASK_LOCATIONS": "Sélectionnez le(s) emplacement(s) de la tâche",
     "SELECT_WILD_CROP": "Cette tâche cible une culture sauvage",
@@ -2066,5 +2075,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Selectionnez une année"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "MISSING",
+      "ANIMALS_CONTENT": "MISSING"
+    }
   }
 }

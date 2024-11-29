@@ -58,7 +58,7 @@ const managementPlanController = {
         const managementPlanGraph = await ManagementPlanModel.query(trx)
           .where('management_plan_id', management_plan_id)
           .withGraphFetched(
-            'crop_management_plan.[planting_management_plans.[managementTasks.[task.[pest_control_task, irrigation_task, scouting_task, soil_task, soil_amendment_task, soil_amendment_task_products.[purpose_relationships], field_work_task, harvest_task, cleaning_task, locationTasks]], plant_task.[task.[locationTasks]], transplant_task.[task.[locationTasks]], bed_method, container_method, broadcast_method, row_method]]',
+            'crop_management_plan.[planting_management_plans.[managementTasks.[task.[pest_control_task, irrigation_task, scouting_task, soil_task, soil_amendment_task, soil_amendment_task_products(filterDeleted).[purpose_relationships], field_work_task, harvest_task, cleaning_task, locationTasks]], plant_task.[task.[locationTasks]], transplant_task.[task.[locationTasks]], bed_method, container_method, broadcast_method, row_method]]',
           )
           .modifyGraph(
             'crop_management_plan.[planting_management_plans.managementTasks]',

@@ -12,13 +12,23 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useTranslation } from 'react-i18next';
+
+const genderOptions = [
+  { value: 'MALE', label: 'MALE' },
+  { value: 'FEMALE', label: 'FEMALE' },
+  { value: 'OTHER', label: 'OTHER' },
+  { value: 'PREFER_NOT_TO_SAY', label: 'PREFER_NOT_TO_SAY' },
+];
+
+const getGenderOption = (record, genderKey = 'gender') =>
+  genderOptions.find(({ value }) => value === record[genderKey]);
+
 const useGenderOptions = () => {
-  return [
-    { value: 'MALE', label: 'gender:MALE' },
-    { value: 'FEMALE', label: 'gender:FEMALE' },
-    { value: 'OTHER', label: 'gender:OTHER' },
-    { value: 'PREFER_NOT_TO_SAY', label: 'gender:PREFER_NOT_TO_SAY' },
-  ];
+  const { t } = useTranslation();
+  const getGenderOptionLabel = (option) => t(option.label, { ns: 'gender' });
+
+  return { genderOptions, getGenderOptionLabel, getGenderOption };
 };
 
 export default useGenderOptions;

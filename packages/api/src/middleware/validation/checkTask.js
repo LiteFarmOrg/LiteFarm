@@ -15,8 +15,16 @@
 
 import TaskModel from '../../models/taskModel.js';
 import { checkSoilAmendmentTaskProducts } from './checkSoilAmendmentTaskProducts.js';
+import {
+  ANIMAL_TASKS,
+  checkAnimalAndBatchIds,
+  isOnOrAfterBirthAndBroughtInDates,
+} from '../../util/animal.js';
+import { checkIsArray, customError } from '../../util/customErrors.js';
+
 const adminRoles = [1, 2, 5];
 const taskTypesRequiringProducts = ['soil_amendment_task'];
+const clientRestrictedReasons = ['NO_ANIMALS'];
 
 export function noReqBodyCheckYet() {
   return async (req, res, next) => {
@@ -26,16 +34,7 @@ export function noReqBodyCheckYet() {
 
 const checkProductsMiddlewareMap = {
   soil_amendment_task: checkSoilAmendmentTaskProducts,
-  cleaning_task: noReqBodyCheckYet,
-  pest_control_task: noReqBodyCheckYet,
-  irrigation_task: noReqBodyCheckYet,
-  scouting_task: noReqBodyCheckYet,
-  soil_task: noReqBodyCheckYet,
-  field_work_task: noReqBodyCheckYet,
-  harvest_task: noReqBodyCheckYet,
-  plant_task: noReqBodyCheckYet,
-  transplant_task: noReqBodyCheckYet,
-  custom_task: noReqBodyCheckYet,
+  default: noReqBodyCheckYet,
 };
 
 export function checkAbandonTask() {
@@ -62,6 +61,10 @@ export function checkAbandonTask() {
 
       if (abandonment_reason.toUpperCase() === 'OTHER' && !other_abandonment_reason) {
         return res.status(400).send('must have other_abandonment_reason');
+      }
+
+      if (clientRestrictedReasons.includes(abandonment_reason.toUpperCase())) {
+        return res.status(400).send('The provided abandonment_reason is not allowed');
       }
 
       if (!abandon_date) {
@@ -125,6 +128,10 @@ export function checkCompleteTask(taskType) {
         return res.status(400).send('Task has already been completed or abandoned');
       }
 
+      if (ANIMAL_TASKS.includes(taskType)) {
+        await checkAnimalTask(req, taskType, 'complete_date');
+      }
+
       const { assignee_user_id } = await TaskModel.query()
         .select('assignee_user_id')
         .where({ task_id })
@@ -137,12 +144,20 @@ export function checkCompleteTask(taskType) {
       }
 
       if (`${taskType}_products` in req.body) {
-        checkProductsMiddlewareMap[taskType]()(req, res, next);
+        const checkProducts =
+          checkProductsMiddlewareMap[taskType] || checkProductsMiddlewareMap['default'];
+        checkProducts()(req, res, next);
       } else {
         next();
       }
     } catch (error) {
       console.error(error);
+
+      if (error.type === 'LiteFarmCustom') {
+        return error.body
+          ? res.status(error.code).json({ ...error.body, message: error.message })
+          : res.status(error.code).send(error.message);
+      }
       return res.status(500).json({
         error,
       });
@@ -163,18 +178,77 @@ export function checkCreateTask(taskType) {
         return res.status(400).send('must have task details body');
       }
 
+      if (!req.body.due_date) {
+        return res.status(400).send('must have due date');
+      }
+
       if (taskTypesRequiringProducts.includes(taskType) && !(`${taskType}_products` in req.body)) {
         return res.status(400).send('task type requires products');
       }
 
-      checkProductsMiddlewareMap[taskType]()(req, res, next);
+      if (ANIMAL_TASKS.includes(taskType)) {
+        await checkAnimalTask(req, taskType, 'due_date');
+      }
+
+      const checkProducts =
+        checkProductsMiddlewareMap[taskType] || checkProductsMiddlewareMap['default'];
+      checkProducts()(req, res, next);
     } catch (error) {
       console.error(error);
+
+      if (error.type === 'LiteFarmCustom') {
+        return error.body
+          ? res.status(error.code).json({ ...error.body, message: error.message })
+          : res.status(error.code).send(error.message);
+      }
       return res.status(500).json({
         error,
       });
     }
   };
+}
+
+async function checkAnimalTask(req, taskType, dateName) {
+  const { farm_id } = req.headers;
+  const { related_animal_ids, related_batch_ids, managementPlans } = req.body;
+
+  if (managementPlans?.length) {
+    throw customError(`managementPlans cannot be added for ${taskType}`);
+  }
+
+  let isAnimalOrBatchRequired = true;
+
+  if (dateName === 'complete_date') {
+    // Set isAnimalOrBatchRequired to false when both animals and batches won't be modified
+    const animalsOrBatchesProvided =
+      'related_animal_ids' in req.body || 'related_batch_ids' in req.body;
+    isAnimalOrBatchRequired = animalsOrBatchesProvided;
+  }
+
+  await checkAnimalAndBatchIds(
+    related_animal_ids,
+    related_batch_ids,
+    farm_id,
+    isAnimalOrBatchRequired,
+  );
+
+  if (dateName === 'due_date') {
+    const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
+      req.body[dateName],
+      related_animal_ids,
+      related_batch_ids,
+    );
+
+    if (!isValidDate) {
+      throw customError(`${dateName} must be on or after the animals' birth and brought-in dates`);
+    }
+  }
+
+  const taskTypeCheck = {
+    animal_movement_task: checkAnimalMovementTask,
+  }[taskType];
+
+  await taskTypeCheck?.(req);
 }
 
 export function checkDeleteTask() {
@@ -198,6 +272,68 @@ export function checkDeleteTask() {
       return res.status(500).json({
         error,
       });
+    }
+  };
+}
+
+async function checkAnimalMovementTask(req) {
+  if (req.body.locations && req.body.locations.length > 1) {
+    throw customError('Only one location can be assigned to this task type', 400);
+  }
+
+  if (req.body.animal_movement_task?.purpose_relationships) {
+    throw customError(
+      `Invalid field: "purpose_relationships" should not be included. Use "purpose_ids" instead`,
+    );
+  }
+
+  if (req.body.animal_movement_task?.purpose_ids) {
+    checkIsArray(req.body.animal_movement_task.purpose_ids, 'purpose_ids');
+  }
+}
+
+export function checkDueDate() {
+  const animalTaskTranslationKeys = ['MOVEMENT_TASK'];
+
+  return async (req, res, next) => {
+    try {
+      const { due_date } = req.body;
+      const { task_id } = req.params;
+
+      const { taskType, animals, animal_batches } = await TaskModel.query()
+        .select('task_id')
+        .withGraphFetched(
+          '[taskType(selectTranslationKey), animals(selectId), animal_batches(selectId)]',
+        )
+        .modifiers({
+          selectTranslationKey(builder) {
+            builder.select('task_translation_key');
+          },
+        })
+        .where({ task_id })
+        .first();
+
+      if (animalTaskTranslationKeys.includes(taskType.task_translation_key)) {
+        const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
+          due_date.split('T')[0],
+          animals.map(({ id }) => id),
+          animal_batches.map(({ id }) => id),
+        );
+
+        if (!isValidDate) {
+          throw customError(`due_date must be on or after the animals' birth and brought-in dates`);
+        }
+      }
+      next();
+    } catch (error) {
+      console.error(error);
+
+      if (error.type === 'LiteFarmCustom') {
+        return error.body
+          ? res.status(error.code).json({ ...error.body, message: error.message })
+          : res.status(error.code).send(error.message);
+      }
+      return res.status(500).json({ error });
     }
   };
 }

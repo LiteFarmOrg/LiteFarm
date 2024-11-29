@@ -23,7 +23,7 @@ export enum Variant {
   STEPPER_PROGRESS_BAR = 'stepper_progress_bar',
 }
 
-const components = {
+const COMPONENTS = {
   [Variant.PAGE_TITLE]: (props: any) => <WithPageTitle {...props} />,
   [Variant.STEPPER_PROGRESS_BAR]: (props: any) => <WithStepperProgressBar {...props} />,
 };
@@ -45,6 +45,7 @@ export const ContextForm = ({
   variant = Variant.PAGE_TITLE,
   isEditing = true,
   setIsEditing,
+  onSave,
   ...props
 }: ContextFormProps) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
@@ -92,7 +93,7 @@ export const ContextForm = ({
 
   const { FormContent } = steps[activeStepIndex];
 
-  const Component = components[variant];
+  const Component = COMPONENTS[variant];
 
   return (
     <Component
@@ -107,6 +108,10 @@ export const ContextForm = ({
       setIsEditing={setIsEditing}
       showCancelFlow={showCancelFlow}
       setShowCancelFlow={setShowCancelFlow}
+      onSave={(...args: any) => {
+        setActiveStepIndex(0);
+        onSave?.(...args);
+      }}
       {...form}
       {...props}
     >

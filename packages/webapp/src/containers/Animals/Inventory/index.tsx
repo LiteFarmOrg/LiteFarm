@@ -37,11 +37,21 @@ import {
   isFilterCurrentlyActiveSelector,
   resetAnimalsFilter,
 } from '../../../containers/filterSlice';
+import { isAdminSelector } from '../../userFarmSlice';
 import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
+import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
 
+export enum View {
+  DEFAULT = 'default',
+  TASK = 'task',
+}
 interface AnimalInventoryProps {
+  preSelectedIds?: string[];
+  onSelect?: (newIds: string[]) => void;
+  view?: View;
   isCompactSideMenu: boolean;
+  setFeedbackSurveyOpen: () => void;
   containerHeight: number;
   history: History;
 }
@@ -55,14 +65,26 @@ const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: s
   return selectedIds.filter((id) => visibleRowIdsSet.has(id));
 };
 
-function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
-  const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>([]);
+function AnimalInventory({
+  preSelectedIds = [],
+  onSelect,
+  view = View.DEFAULT,
+  isCompactSideMenu,
+  setFeedbackSurveyOpen,
+  history,
+}: AnimalInventoryProps) {
+  const isTaskView = view === View.TASK;
+
+  const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
 
   const { t } = useTranslation(['translation', 'animal', 'common', 'message']);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+
+  const isAdmin = useSelector(isAdminSelector);
+
   const zIndexBase = theme.zIndex.drawer;
 
   const { inventory, isLoading } = useAnimalInventory();
@@ -124,7 +146,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
         sortable: false,
       },
       {
-        id: 'path',
+        id: !isTaskView ? 'path' : null,
         label: '',
         format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
         columnProps: {
@@ -135,10 +157,6 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
     ],
     [t, isDesktop],
   );
-
-  const onRowClick = (_event: ChangeEvent, row: AnimalInventory) => {
-    history.push(row.path);
-  };
 
   const makeAnimalsSearchableString = (animal: AnimalInventory) => {
     return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
@@ -169,6 +187,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
       newIds.push(selectedInventoryId);
     }
     setSelectedInventoryIds(newIds);
+    onSelect?.(newIds);
   };
 
   const selectAllVisibleInventoryItems = () => {
@@ -176,6 +195,7 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
     // Previously selected hidden rows + visible rows
     const newIdsSet = new Set([...selectedInventoryIds, ...visibleRowsIds]);
     setSelectedInventoryIds([...newIdsSet]);
+    onSelect?.([...newIdsSet]);
   };
 
   const clearAllSelectedVisibleInventoryItems = () => {
@@ -183,10 +203,12 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
     const selectedIdsSet = new Set(selectedInventoryIds);
     searchAndFilteredInventory.forEach(({ id }) => selectedIdsSet.delete(id));
     setSelectedInventoryIds([...selectedIdsSet]);
+    onSelect?.([...selectedIdsSet]);
   };
 
   const clearSelectedInventoryItems = () => {
     setSelectedInventoryIds([]);
+    onSelect?.([]);
   };
 
   const handleSelectAllClick = (e: ChangeEvent<HTMLInputElement>) => {
@@ -195,6 +217,10 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
     } else {
       clearAllSelectedVisibleInventoryItems();
     }
+  };
+
+  const onRowClick = (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => {
+    !isTaskView ? history.push(row.path) : onSelectInventory(event, row);
   };
 
   const iconActions: iconAction[] = [
@@ -220,43 +246,52 @@ function AnimalInventory({ isCompactSideMenu, history }: AnimalInventoryProps) {
   ];
 
   return (
-    <FixedHeaderContainer
-      header={<KPI onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />}
-      classes={{ paper: styles.paper }}
-      kind={ContainerKind.PAPER}
-    >
-      <PureAnimalInventory
-        filteredInventory={searchAndFilteredInventory}
-        animalsColumns={animalsColumns}
-        searchProps={searchProps}
-        zIndexBase={zIndexBase}
-        isDesktop={isDesktop}
-        onSelectInventory={onSelectInventory}
-        handleSelectAllClick={handleSelectAllClick}
-        selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
-        totalInventoryCount={inventory.length}
-        isFilterActive={isFilterActive}
-        clearFilters={clearFilters}
-        isLoading={isLoading}
-        history={history}
-        onRowClick={onRowClick}
-      />
-      {selectedInventoryIds.length ? (
-        <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
-          <ActionMenu
-            headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
-            textActions={textActions}
-            iconActions={iconActions}
-          />
-        </FloatingContainer>
-      ) : null}
-      <RemoveAnimalsModal
-        isOpen={removalModalOpen}
-        onClose={() => setRemovalModalOpen(false)}
-        onConfirm={onConfirmRemoveAnimals}
-        showSuccessMessage={false}
-      />
-    </FixedHeaderContainer>
+    <AnimalsBetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
+      <FixedHeaderContainer
+        header={
+          !isTaskView ? (
+            <KPI history={history} onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />
+          ) : null
+        }
+        classes={{ paper: styles.paper }}
+        kind={ContainerKind.PAPER}
+        wrapperClassName={isTaskView ? styles.taskViewHeight : undefined}
+      >
+        <PureAnimalInventory
+          filteredInventory={searchAndFilteredInventory}
+          animalsColumns={animalsColumns}
+          searchProps={searchProps}
+          zIndexBase={zIndexBase}
+          isDesktop={isDesktop}
+          onSelectInventory={onSelectInventory}
+          handleSelectAllClick={handleSelectAllClick}
+          selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
+          totalInventoryCount={inventory.length}
+          isFilterActive={isFilterActive}
+          clearFilters={clearFilters}
+          isLoading={isLoading}
+          isAdmin={isAdmin}
+          history={history}
+          onRowClick={onRowClick}
+          view={view}
+        />
+        {isAdmin && selectedInventoryIds.length && !isTaskView ? (
+          <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
+            <ActionMenu
+              headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
+              textActions={textActions}
+              iconActions={iconActions}
+            />
+          </FloatingContainer>
+        ) : null}
+        <RemoveAnimalsModal
+          isOpen={removalModalOpen}
+          onClose={() => setRemovalModalOpen(false)}
+          onConfirm={onConfirmRemoveAnimals}
+          showSuccessMessage={false}
+        />
+      </FixedHeaderContainer>
+    </AnimalsBetaSpotlight>
   );
 }
 

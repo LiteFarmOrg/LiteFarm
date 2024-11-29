@@ -36,7 +36,10 @@ import useImagePickerUpload from '../../../../components/ImagePicker/useImagePic
 type AnimalDetailsField = FieldArrayWithId<AddAnimalsFormFields, 'details'>;
 
 const AddAnimalDetails = () => {
-  const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
+  const { expandedIds, toggleExpanded } = useExpandable(
+    // @ts-ignore
+    { isSingleExpandable: true },
+  );
 
   const { control, watch } = useFormContext<AddAnimalsFormFields>();
 
@@ -55,7 +58,7 @@ const AddAnimalDetails = () => {
     defaultTypes,
     sexOptions,
     sexDetailsOptions,
-    useOptions,
+    animalUseOptions,
     tagTypeOptions,
     tagColorOptions,
     organicStatusOptions,
@@ -93,11 +96,6 @@ const AddAnimalDetails = () => {
 
     const watchedCount = watch(`${namePrefix}${DetailsFields.COUNT}`);
 
-    const useOptionsForType = useOptions.find(
-      ({ default_type_id }: { default_type_id: number | null }) =>
-        default_type_id === parseUniqueDefaultId(field.type.value) || default_type_id === null,
-    );
-
     const mainContent = (
       <AnimalFormHeaderItem
         showRemove={fields.length > 1}
@@ -111,7 +109,9 @@ const AddAnimalDetails = () => {
         iconKey={getDefaultAnimalIconName(defaultTypes, parseUniqueDefaultId(field.type.value))}
         isBatch={!isAnimal}
         count={!isAnimal ? watchedCount : undefined}
-        sex={sexOptions.label}
+        {...(isAnimal && {
+          sex: sexOptions.find(({ value }) => value === field.sex_id)?.label,
+        })}
       />
     );
 
@@ -120,7 +120,7 @@ const AddAnimalDetails = () => {
       generalDetailProps: {
         sexOptions,
         sexDetailsOptions,
-        useOptions: useOptionsForType.uses,
+        animalUseOptions,
       },
       otherDetailsProps: {
         organicStatusOptions,

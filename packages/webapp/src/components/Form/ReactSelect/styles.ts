@@ -19,7 +19,7 @@ import { colors } from '../../../assets/theme';
 export const styles: StylesConfig = {
   option: (provided, state) => ({
     ...provided,
-    backgroundColor: 'white',
+    backgroundColor: state.isFocused ? 'var(--Colors-Secondary-Secondary-green-100)' : 'white',
     '&:hover': {
       backgroundColor: 'var(--Colors-Secondary-Secondary-green-100)',
     },
@@ -28,7 +28,7 @@ export const styles: StylesConfig = {
     color: state.isDisabled ? 'var(--grey400)' : 'var(--fontColor)',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontFamily: '"Open Sans", "SansSerif", serif',
+    fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',
     paddingLeft: '10px',
     minHeight: '40px',
   }),
@@ -40,7 +40,7 @@ export const styles: StylesConfig = {
     color: 'var(--fontColor)',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontFamily: '"Open Sans", "SansSerif", serif',
+    fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',
     paddingLeft: '10px',
     '&:hover': {
       backgroundColor: 'var(--Colors-Secondary-Secondary-green-100)',
@@ -85,7 +85,7 @@ export const styles: StylesConfig = {
     color: 'var(--iconDefault)',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontFamily: '"Open Sans", "SansSerif", serif',
+    fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',
   }),
 
   singleValue: (provided) => ({
@@ -95,7 +95,7 @@ export const styles: StylesConfig = {
     color: 'var(--fontColor)',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontFamily: '"Open Sans", "SansSerif", serif',
+    fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',
   }),
 
   multiValueRemove: (provided) => ({

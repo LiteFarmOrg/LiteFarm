@@ -16,7 +16,6 @@
     "BATCH_NAME": "MISSING",
     "BATCH_NAME_PLACEHOLDER": "MISSING",
     "BREED": "MISSING",
-    "BREED_PLACEHOLDER": "MISSING",
     "BREED_PLACEHOLDER_DISABLED": "MISSING",
     "CREATE_INDIVIDUAL_PROFILES": "MISSING",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "MISSING",
@@ -67,7 +66,6 @@
       "MAIN": "MISSING"
     },
     "TYPE": "MISSING",
-    "TYPE_PLACEHOLDER": "MISSING",
     "UNIQUE_DETAILS": "MISSING"
   },
   "ADD_FARM": {
@@ -208,8 +206,16 @@
       "WHAT_TYPE_OF_IRRIGATION": "Qual o tipo de irrigação?"
     },
     "MANAGE_CUSTOM_TASKS": "Gerenciar tarefas personalizadas",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "MISSING",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "MISSING"
+    },
     "NEED_MANAGEMENT_PLAN": "Você precisará de um plano de cultivo ativo ou planejado antes de poder agendar uma tarefa de colheita ou tarefa de transplante. Vá para o catálogo de safras para criar um plano agora.",
     "NO_MANAGEMENT_PLAN": "Não há plano de cultivo de safra elegível",
+    "NOTES_LABEL": "MISSING",
+    "NOTES_PLACEHOLDER": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Controle biológico",
       "FLAME_WEEDING": "Capina com fogo",
@@ -306,6 +312,7 @@
       "WEANING_DATE": "MISSING"
     },
     "BATCH": "MISSING",
+    "EDIT_ANIMAL_FLOW": "MISSING",
     "FILTER": {
       "BATCHES": "MISSING",
       "BATCHES_OR_INDIVIDUALS": "MISSING",
@@ -732,7 +739,7 @@
         "DEFAULT": "Algo deu errado. Entre em contato com support@litefarm.org para obter assistência.",
         "PARTIAL_SUCCESS_BOTTOM_TEXT": "Eles agora devem estar visíveis no mapa da fazenda. Esses sensores serão ignorados em uploads futuros\n\n",
         "PARTIAL_SUCCESS_TOP_TEXT": "Os seguintes sensores em seu arquivo foram carregados com sucesso ou já existem em sua fazenda:\n\n",
-        "ROW": "[Row: {{ row }}][Column: {{ column }}] {{- errorMessage }} {{ value }}\n",
+        "ROW": "[Linha: {{ row }}][Coluna: {{ column }}] {{- errorMessage }} {{ value }}\n",
         "SOME_ERRORS": "Infelizmente, houve alguns erros com o seu upload:\n\n"
       },
       "DOWNLOAD_TEMPLATE_LINK_MESSAGE": "Clique aqui para baixar o modelo",
@@ -770,7 +777,7 @@
         "SENSOR_LONGITUDE": " Valor de longitude inválido, deve estar entre -180 e 180. e menos de 10 casas decimais.",
         "SENSOR_MODEL": "Nome de modelo inválido, deve ter entre 1 e 100 caracteres.",
         "SENSOR_NAME": "Nome do sensor inválido, deve ter entre 1 e 100 caracteres.",
-        "SENSOR_READING_TYPES": "Tipo de leitura inválido detectado: {{ reading_types }}. Valores válidos incluem: teor_de_água_no_solo, potencial_de_água_do_solo, temperatura."
+        "SENSOR_READING_TYPES": "Tipo de leitura inválido detectado: {{ reading_types }}. Valores válidos incluem: {{ allowed_reading_types }}."
       }
     },
     "BULK_UPLOAD_TRANSITION": {
@@ -945,7 +952,7 @@
     },
     "TUTORIALS": "Tutoriais de mapas",
     "UNABLE_TO_RETIRE": {
-      "BODY": "Você só pode retirar locais que não tenham cultivos, tarefas ativas ou planejadas.",
+      "BODY": "MISSING",
       "TITLE": "Não é possível retirar"
     },
     "WATER_VALVE": {
@@ -1050,6 +1057,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",
     "EMAIL": "E-mail",
+    "FEEDBACK_INVITATION": "MISSING",
     "MESSAGE_LABEL": "Mensagem",
     "OPTIONS": {
       "OTHER": "Outro",
@@ -1059,7 +1067,6 @@
     },
     "PREFERRED_CONTACT": "Método de contato preferido",
     "REQUIRED_LABEL": "Campo Obrigatório",
-    "TITLE": "Solicite Ajuda",
     "TYPE_SUPPORT_LABEL": "Tipo de suporte",
     "TYPE_SUPPORT_PLACEHOLDER": "Escolha o tipo de suporte",
     "WHATSAPP": "WhatsApp",
@@ -1946,6 +1953,7 @@
     "ADD_TASK": "Criar tarefa",
     "ADD_TASK_FLOW": "criação de tarefa",
     "AMOUNT_TO_ALLOCATE": "Quantidade a ser alocada",
+    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "Múltiplos cultivos",
       "MULTIPLE_LOCATIONS": "Múltiplos locais"
@@ -2012,6 +2020,7 @@
     "QUANTITY_CANNOT_EXCEED": "A quantidade de colheita usada não pode exceder a quantidade a ser alocada",
     "RATE_THIS_TASK": "Avalie esta tarefa",
     "REMOVE_HARVEST_USE": "Remover",
+    "SELECT_ANIMALS_TO_MOVE": "MISSING",
     "SELECT_DATE": "Selecionar a data da tarefa",
     "SELECT_TASK_LOCATIONS": "Selecionar o(s) local(is) da tarefa",
     "SELECT_WILD_CROP": "Esta tarefa é para um cultivo silvestre",
@@ -2066,5 +2075,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Selecione o ano"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "MISSING",
+      "ANIMALS_CONTENT": "MISSING"
+    }
   }
 }

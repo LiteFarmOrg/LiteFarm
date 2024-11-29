@@ -74,7 +74,7 @@ export type TableV2Props<RowData extends TableRowData> = {
   FooterCell?: ReactComponentLike;
   onClickMore?: () => void;
   itemsToAddPerLoadMoreClick?: number;
-  onRowClick?: (event: ChangeEvent<HTMLElement>, row: RowData) => void;
+  onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: RowData) => void;
   shouldFixTableLayout?: boolean;
   defaultOrderBy?: string;
   showHeader?: boolean;

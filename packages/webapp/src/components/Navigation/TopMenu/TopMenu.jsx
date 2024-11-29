@@ -3,7 +3,6 @@ import { logout } from '../../../util/jwt';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 import { ReactComponent as LogoutIcon } from '../../../assets/images/navbar/logout.svg';
 import { ReactComponent as MyInfoIcon } from '../../../assets/images/navbar/my-info.svg';
-import { ReactComponent as HelpIcon } from '../../../assets/images/navbar/help.svg';
 import { ReactComponent as VideoIcon } from '../../../assets/images/navbar/play-square.svg';
 import { ReactComponent as SwitchFarmIcon } from '../../../assets/images/navbar/switch-farm.svg';
 import { ReactComponent as LaunchIcon } from '../../../assets/images/icon_launch.svg';
@@ -36,8 +35,17 @@ import { useTranslation } from 'react-i18next';
 import { useSectionHeader } from '../useSectionHeaders';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
+import FeedbackSurvey from '../../../containers/FeedbackSurvey';
 
-const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) => {
+const TopMenu = ({
+  history,
+  isMobile,
+  showNavActions,
+  onClickBurger,
+  showNav,
+  isFeedbackSurveyOpen,
+  setFeedbackSurveyOpen,
+}) => {
   const { t } = useTranslation(['translation']);
   const profileIconRef = useRef(null);
   const selectedLanguage = getLanguageFromLocalStorage();
@@ -100,13 +108,6 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
       onClick: () => handleClick('/farm_selection'),
       icon: <SwitchFarmIcon />,
       label: t('PROFILE_FLOATER.SWITCH'),
-      externalLink: false,
-    },
-    {
-      id: 'help',
-      onClick: () => handleClick('/help'),
-      icon: <HelpIcon />,
-      label: t('PROFILE_FLOATER.HELP'),
       externalLink: false,
     },
     {
@@ -243,6 +244,10 @@ const TopMenu = ({ history, isMobile, showNavActions, onClickBurger, showNav }) 
       >
         <ProfilePicture />
       </IconButton>
+      <FeedbackSurvey
+        isFeedbackSurveyOpen={isFeedbackSurveyOpen}
+        setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+      />
       {isMobile ? drawerMenu : floaterMenu}
     </>
   );

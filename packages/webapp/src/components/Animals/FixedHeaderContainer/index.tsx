@@ -45,8 +45,8 @@ type FixedHeaderContainerProps = {
   classes?: {
     paper?: string;
     divWrapper?: string;
+    wrapper?: string;
   };
-  wrapperClassName?: string;
 };
 
 type WrapperProps = Pick<FixedHeaderContainerProps, 'children' | 'classes'> & {
@@ -77,7 +77,6 @@ const FixedHeaderContainer = ({
   children,
   classes = {},
   kind = ContainerKind.OVERFLOW,
-  wrapperClassName,
 }: FixedHeaderContainerProps) => {
   const [paperHeightInPx, setPaperHeightInPx] = useState<number | null>(null);
   const paperRef = useRef<HTMLDivElement>(null);
@@ -123,7 +122,7 @@ const FixedHeaderContainer = ({
   const Wrapper = kind === ContainerKind.OVERFLOW ? DivWrapper : PaperWrapper;
 
   return (
-    <div className={clsx(styles.wrapper, wrapperClassName)}>
+    <div className={clsx(styles.wrapper, classes.wrapper)}>
       {header}
       <Wrapper paperRef={paperRef} classes={classes} hasMaxWidth={!isFullWidth}>
         {childrenWithProps}

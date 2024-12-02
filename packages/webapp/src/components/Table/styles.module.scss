@@ -121,6 +121,35 @@
   }
 }
 
+.extraRowSpacing {
+  padding: 4px 8px;
+  border-spacing: 8px;
+  border: solid 1px var(---Colors-Neutral-Neutral-50);
+  
+  & > td {
+    border-top: solid 1px var(--Colors-Neutral-Neutral-50);
+    border-bottom: solid 1px var(--Colors-Neutral-Neutral-50);
+
+    &:first-child {
+      border-radius: 4px 0 0 4px;
+      border: solid 1px var(--Colors-Neutral-Neutral-50);
+      border-right: none;
+    }
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+      border: solid 1px var(--Colors-Neutral-Neutral-50);
+      border-left: none;
+    }
+  };
+}
+
+.extraRowSpacingTable {
+  border-spacing: 0 4px;
+  .tableBody::before {
+    content: none;
+  }
+}
+
 .tableCell {
   padding: 0 12px;
   height: 56px;

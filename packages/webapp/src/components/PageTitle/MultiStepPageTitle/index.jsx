@@ -16,11 +16,12 @@ function MultiStepPageTitle({
   cancelModalTitle,
   showConfirmCancelModal,
   setShowConfirmCancelModal,
+  classes,
 }) {
   const [localShowModal, setLocalShowModal] = useState(false); // original form flow
 
   return (
-    <div style={style}>
+    <div style={style} className={classes?.container}>
       <div className={styles.titleContainer}>
         <div className={styles.leftContainer}>
           {onGoBack && (
@@ -54,4 +55,5 @@ MultiStepPageTitle.prototype = {
   cancelModalTitle: PropTypes.string,
   showConfirmCancelModal: PropTypes.bool,
   setShowConfirmCancelModal: PropTypes.func,
+  classes: PropTypes.object,
 };

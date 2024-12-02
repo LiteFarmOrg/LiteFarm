@@ -29,8 +29,66 @@
   }
 }
 
-.taskViewHeight {
-  height: calc(100vh - var(--global-navbar-height) - var(--global-multi-step-task-layout-aggregated-height));
+.divWrapper {
+  height: auto;
+  overflow-y: auto;
+}
+ 
+.taskViewMaxHeight {
+  max-height: calc(100vh - var(--global-navbar-height) - var(--global-multi-step-task-layout-aggregated-height));
+}
+
+.summaryViewHeight {
+  height: auto;
+}
+
+.section {
+  margin-top: 24px;
+  padding: 8px 0;
+  background: var(--White);
+  border-radius: 8px;
+  border: 1px solid var(--Colors-Neutral-Neutral-50);
+  gap: 8px;
+
+  @include lg-breakpoint {
+    margin: 24px 24px 0 24px;
+    padding: 8px 16px;
+  }
+}
+
+.expandedContentWrapper {
+  margin-top: 16px;
+}
+
+.detailsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: var(--White);
+}
+
+.blueColor {
+  color: var(--Colors-Accent---singles-Blue-full);
+  svg {
+    color: var(--Colors-Accent---singles-Blue-full);
+  }
+}
+
+.buttonText {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  // If core button styles change this will match icon
+  line-height: 16px;
+  > svg {
+    // Match line height of button
+    max-height: 16px;
+  }
+}
+
+.disableHover {
+  pointer-events: none;
 }
 
 .buttonText {

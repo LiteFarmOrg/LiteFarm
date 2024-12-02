@@ -37,7 +37,7 @@ export default function FeedbackSurvey({
 
   const drawerContent = (
     <div className={styles.content}>
-      <HelpRequest />
+      <HelpRequest closeDrawer={() => setIsSurveyOpen(false)} />
     </div>
   );
 

@@ -948,7 +948,6 @@
     },
     "PREFERRED_CONTACT": "पसंदीदा संपर्क विधि",
     "REQUIRED_LABEL": "आवश्यक फील्ड",
-    "TITLE": "सहायता का अनुरोध",
     "TYPE_SUPPORT_LABEL": "समर्थन का प्रकार",
     "TYPE_SUPPORT_PLACEHOLDER": "समर्थन का प्रकार चुनें",
     "WHATSAPP": "व्हाट्सएप",
@@ -1806,6 +1805,7 @@
     "ADD_TASK_FLOW": "कार्य निर्माण",
     "AMOUNT_TO_ALLOCATE": "आवंटित राशि",
     "ANIMAL_MOVING_TO_LOCATION": "MISSING",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "कई फसलें",
       "MULTIPLE_LOCATIONS": "कई स्थान"

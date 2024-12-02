@@ -948,7 +948,6 @@
     },
     "PREFERRED_CONTACT": "ਪਸੰਦੀਦਾ ਸੰਪਰਕ ਵਿਧੀ",
     "REQUIRED_LABEL": "ਲੋੜੀਂਦਾ ਖੇਤਰ",
-    "TITLE": "ਮਦਦ ਲਈ ਬੇਨਤੀ ਕਰੋ",
     "TYPE_SUPPORT_LABEL": "ਸਹਾਇਤਾ ਦੀ ਕਿਸਮ",
     "TYPE_SUPPORT_PLACEHOLDER": "ਸਹਾਇਤਾ ਦੀ ਕਿਸਮ ਚੁਣੋ",
     "WHATSAPP": "ਵਟਸਐਪ",
@@ -1806,6 +1805,7 @@
     "ADD_TASK_FLOW": "ਕਾਰਜ ਰਚਨਾ",
     "AMOUNT_TO_ALLOCATE": "ਅਲਾਟ ਕਰਨ ਲਈ ਰਕਮ",
     "ANIMAL_MOVING_TO_LOCATION": "MISSING",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "ਕਈ ਫਸਲਾਂ",
       "MULTIPLE_LOCATIONS": "ਕਈ ਸਥਾਨਾਂ"

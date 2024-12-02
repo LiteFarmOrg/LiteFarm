@@ -1064,7 +1064,6 @@
     },
     "PREFERRED_CONTACT": "Preferred contact method",
     "REQUIRED_LABEL": "Required Field",
-    "TITLE": "Request Help",
     "TYPE_SUPPORT_LABEL": "Type of support",
     "TYPE_SUPPORT_PLACEHOLDER": "Choose type of support",
     "WHATSAPP": "Whatsapp",
@@ -1953,6 +1952,7 @@
     "ADD_TASK_FLOW": "task creation",
     "AMOUNT_TO_ALLOCATE": "Amount to allocate",
     "ANIMAL_MOVING_TO_LOCATION": "Moving to:",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "See detail list of animals to move",
     "CARD": {
       "MULTIPLE_CROPS": "Multiple crops",
       "MULTIPLE_LOCATIONS": "Multiple locations"

@@ -29,12 +29,12 @@ import { AnimalOrBatchKeys } from '../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { completedTasksSelector, abandonedTasksSelector } from '../../taskSlice';
-import { AnimalInventory } from './useAnimalInventory';
+import { Animal } from '../../../store/api/types';
 
 const useAnimalOrBatchRemoval = (
   selectedInventoryIds: string[],
-  setSelectedInventoryIds: Dispatch<SetStateAction<string[]>>,
-  inventory: AnimalInventory[],
+  animalTasksWithInventoryIds: { id: string; tasks: Animal['tasks'] }[],
+  setSelectedInventoryIds?: Dispatch<SetStateAction<string[]>>,
 ) => {
   const dispatch = useDispatch();
   const { t } = useTranslation(['message']);
@@ -57,6 +57,7 @@ const useAnimalOrBatchRemoval = (
     const animalBatchRemovalArray = [];
     const selectedAnimalIds: string[] = [];
     const selectedBatchIds: string[] = [];
+    let result;
 
     for (const id of selectedInventoryIds) {
       const { kind, id: entity_id } = parseInventoryId(id);
@@ -79,33 +80,36 @@ const useAnimalOrBatchRemoval = (
       }
     }
 
-    try {
-      if (animalRemovalArray.length) {
-        await mutations['removeAnimals'].trigger(animalRemovalArray).unwrap();
-        setSelectedInventoryIds((selectedInventoryIds) =>
+    if (animalRemovalArray.length) {
+      result = await mutations['removeAnimals'].trigger(animalRemovalArray);
+
+      if (result.error) {
+        console.log(result.error);
+        dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
+      } else {
+        setSelectedInventoryIds?.((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)),
         );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_ANIMALS', { ns: 'message' })));
       }
-    } catch (e) {
-      console.log(e);
-      dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
     }
 
-    try {
-      if (animalBatchRemovalArray.length) {
-        await mutations['removeBatches'].trigger(animalBatchRemovalArray).unwrap();
-        setSelectedInventoryIds((selectedInventoryIds) =>
+    if (animalBatchRemovalArray.length) {
+      result = await mutations['removeBatches'].trigger(animalBatchRemovalArray);
+
+      if (result.error) {
+        console.log(result.error);
+        dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
+      } else {
+        setSelectedInventoryIds?.((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)),
         );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_BATCHES', { ns: 'message' })));
       }
-    } catch (e) {
-      console.log(e);
-      dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
     }
 
     setRemovalModalOpen(false);
+    return result;
   };
 
   const handleAnimalOrBatchDeletion = async () => {
@@ -113,6 +117,7 @@ const useAnimalOrBatchRemoval = (
     const selectedAnimalIds: string[] = [];
     const animalBatchIds: number[] = [];
     const selectedBatchIds: string[] = [];
+    let result;
 
     for (const id of selectedInventoryIds) {
       const { kind, id: entity_id } = parseInventoryId(id);
@@ -125,40 +130,42 @@ const useAnimalOrBatchRemoval = (
       }
     }
 
-    try {
-      if (animalIds.length) {
-        await mutations['deleteAnimals'].trigger(animalIds).unwrap();
-        setSelectedInventoryIds((selectedInventoryIds) =>
+    if (animalIds.length) {
+      result = await mutations['deleteAnimals'].trigger(animalIds);
+
+      if (result.error) {
+        console.log(result.error);
+        dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
+      } else {
+        setSelectedInventoryIds?.((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedAnimalIds.includes(i)),
         );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_ANIMALS', { ns: 'message' })));
       }
-    } catch (e) {
-      console.log(e);
-      dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_ANIMALS', { ns: 'message' })));
     }
 
-    try {
-      if (animalBatchIds.length) {
-        await mutations['deleteBatches'].trigger(animalBatchIds).unwrap();
-        setSelectedInventoryIds((selectedInventoryIds) =>
+    if (animalBatchIds.length) {
+      result = await mutations['deleteBatches'].trigger(animalBatchIds);
+      if (result.error) {
+        console.log(result.error);
+        dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
+      } else {
+        setSelectedInventoryIds?.((selectedInventoryIds) =>
           selectedInventoryIds.filter((i) => !selectedBatchIds.includes(i)),
         );
         dispatch(enqueueSuccessSnackbar(t('ANIMALS.SUCCESS_REMOVE_BATCHES', { ns: 'message' })));
       }
-    } catch (e) {
-      console.log(e);
-      dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
     }
 
     setRemovalModalOpen(false);
+    return result;
   };
 
-  const onConfirmRemoveAnimals = (formData: FormFields) => {
+  const onConfirmRemoveAnimals = async (formData: FormFields) => {
     if (Number(formData.reason) === CREATED_IN_ERROR_ID) {
-      handleAnimalOrBatchDeletion();
+      return handleAnimalOrBatchDeletion();
     } else {
-      handleAnimalOrBatchRemoval(formData);
+      return handleAnimalOrBatchRemoval(formData);
     }
   };
 
@@ -175,7 +182,7 @@ const useAnimalOrBatchRemoval = (
     const finalizedTaskIdsSet = getFinalizedTaskIdsSet();
 
     let inventoryFoundCount = 0;
-    for (let { id, tasks } of inventory) {
+    for (let { id, tasks } of animalTasksWithInventoryIds) {
       if (selectedInventoryIdsSet.has(id)) {
         inventoryFoundCount++;
 

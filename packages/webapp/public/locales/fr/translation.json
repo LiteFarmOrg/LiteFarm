@@ -1067,7 +1067,6 @@
     },
     "PREFERRED_CONTACT": "Méthode de contact préférée",
     "REQUIRED_LABEL": "Champ obligatoire",
-    "TITLE": "Demander de l'aide",
     "TYPE_SUPPORT_LABEL": "Type de support",
     "TYPE_SUPPORT_PLACEHOLDER": "Choisissez le type de support",
     "WHATSAPP": "Whatsapp",
@@ -1955,6 +1954,7 @@
     "ADD_TASK_FLOW": "création de tâche",
     "AMOUNT_TO_ALLOCATE": "Montant à allouer",
     "ANIMAL_MOVING_TO_LOCATION": "MISSING",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "Plusieurs cultures",
       "MULTIPLE_LOCATIONS": "Plusieurs emplacements"

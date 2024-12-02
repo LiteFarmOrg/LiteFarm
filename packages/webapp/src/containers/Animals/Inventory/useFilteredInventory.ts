@@ -22,7 +22,21 @@ import { animalMatchesFilter } from '../../Filter/Animals/utils';
 import { animalsFilterSelector } from '../../filterSlice';
 import { isInactive } from '../../Filter/utils';
 
-export const useFilteredInventory = (inventory: AnimalInventory[]) => {
+export const useFilteredInventory = (
+  inventory: AnimalInventory[],
+  showOnlySelected: boolean,
+  selectedInventoryIds: string[],
+) => {
+  const idMatches = useMemo(() => {
+    return inventory.filter((entity) => {
+      return selectedInventoryIds.includes(entity.id);
+    });
+  }, [inventory, selectedInventoryIds]);
+
+  if (showOnlySelected) {
+    return idMatches;
+  }
+
   const {
     [AnimalsFilterKeys.ANIMAL_OR_BATCH]: animalsOrBatchesFilter,
     [AnimalsFilterKeys.TYPE]: typesFilter,
@@ -32,7 +46,7 @@ export const useFilteredInventory = (inventory: AnimalInventory[]) => {
     [AnimalsFilterKeys.LOCATION]: locationsFilter,
   } = useSelector(animalsFilterSelector);
 
-  return useMemo(() => {
+  const filterMatches = useMemo(() => {
     return inventory.filter((entity) => {
       const animalOrBatchMatches =
         isInactive(animalsOrBatchesFilter) ||
@@ -79,4 +93,6 @@ export const useFilteredInventory = (inventory: AnimalInventory[]) => {
     groupsFilter,
     locationsFilter,
   ]);
+
+  return filterMatches;
 };

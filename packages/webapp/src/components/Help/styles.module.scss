@@ -13,13 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.container {
+.contactMethods {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.contentWrapper {
-  // avoid hiding header's box-shadow or border
-  margin-top: 1px;
+  gap: 36px;
+  font-weight: bold;
 }

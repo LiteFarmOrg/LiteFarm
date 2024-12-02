@@ -82,7 +82,8 @@
   padding-left: 16px;
 }
 
-.editingStatusButton {
+.editingStatusButton,
+.editingStatusButton:disabled {
   background: var(--Btn-primary-hover);
   box-shadow: 1px 1px 0px 0px var(--Colors-Primary-Primary-teal-300);
 
@@ -152,6 +153,8 @@
   bottom: 8px;
 
   height: 24px;
+  min-width: 20px;
+  max-width: 44px;
   padding: 4px;
   border-radius: 2px;
   background: var(--Colors-Accent---singles-Purple-light);
@@ -160,6 +163,10 @@
   color: var(--Colors-Accent---singles-Purple-full);
   font-size: 12px;
   font-weight: 600;
+  text-align: center;
+
+  /* Counts with more than five digits will be visually cut off */
+  overflow: hidden;
 }
 
 .desktopBasicInfo {

@@ -1261,4 +1261,5 @@ async function filterOutDeletedManagementPlans(data, req) {
 
 const flattenInternalIdentifier = (animalOrBatch) => {
   animalOrBatch.internal_identifier = animalOrBatch.animal_union_batch.internal_identifier;
+  delete animalOrBatch.animal_union_batch;
 };

@@ -63,14 +63,12 @@ const supportTicketController = {
 
 const getOOOMessageReplacements = (locale) => {
   const ooo_message_enabled = process.env.OOO_MESSAGE_ENABLED === 'true';
-  let ooo_start_date = process.env.OOO_START_DATE;
   let ooo_end_date = process.env.OOO_END_DATE;
-  if (ooo_message_enabled && ooo_start_date && ooo_end_date) {
+  if (ooo_message_enabled && ooo_end_date) {
     const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-    ooo_start_date = new Date(ooo_start_date).toLocaleDateString(locale, dateOptions);
     ooo_end_date = new Date(ooo_end_date).toLocaleDateString(locale, dateOptions);
   }
-  return { ooo_message_enabled, ooo_start_date, ooo_end_date };
+  return { ooo_message_enabled, ooo_end_date };
 };
 
 const capitalize = (string) => {

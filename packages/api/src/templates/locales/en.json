@@ -19,7 +19,7 @@
     "OTHER": "Other",
     "CONTACT_METHOD_HEADER": "Preferred contact method",
     "SUBJECT": "Your LiteFarm request for help at",
-    "OOO_RESPONSE": "Thanks for reaching out. Please note that our team will be out of the office from {{oooStartDate}} to {{oooEndDate}}. If your message was sent during this period, we will respond to your message as soon as possible after we return. Thank you for your understanding! A summary of your request is shown below."
+    "OOO_RESPONSE": "Thanks for reaching out. Please note that our team is out of the office until {{oooEndDate}}. We will respond to your message as soon as possible after we return. Thank you for your understanding! A summary of your request is shown below."
   },
   "INVITE": {
     "GREAT_FOLK": "The great folks at",

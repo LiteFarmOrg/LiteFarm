@@ -76,7 +76,6 @@ export const clearAlertsUrl = `${URI}/notification_user/clear_alerts`;
 export const sensorUrl = `${URI}/sensor`;
 export const animalsUrl = `${URI}/animals`;
 export const animalBatchesUrl = `${URI}/animal_batches`;
-export const animalGroupsUrl = `${URI}/animal_groups`;
 export const customAnimalBreedsUrl = `${URI}/custom_animal_breeds`;
 export const customAnimalTypesUrl = `${URI}/custom_animal_types`;
 export const defaultAnimalBreedsUrl = `${URI}/default_animal_breeds`;
@@ -137,7 +136,6 @@ export default {
   sensorUrl,
   animalsUrl,
   animalBatchesUrl,
-  animalGroupsUrl,
   customAnimalBreedsUrl,
   customAnimalTypesUrl,
   defaultAnimalBreedsUrl,

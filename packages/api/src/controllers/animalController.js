@@ -16,11 +16,7 @@
 import { Model, transaction } from 'objection';
 import AnimalModel from '../models/animalModel.js';
 import baseController from './baseController.js';
-import {
-  assignInternalIdentifiers,
-  upsertGroup,
-  checkAndAddCustomTypeAndBreed,
-} from '../util/animal.js';
+import { assignInternalIdentifiers, checkAndAddCustomTypeAndBreed } from '../util/animal.js';
 import { handleObjectionError } from '../util/errorCodes.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
 import _pick from 'lodash/pick.js';
@@ -35,14 +31,12 @@ const animalController = {
           .whereNotDeleted()
           .withGraphFetched({
             animal_union_batch: true,
-            group_ids: true,
             animal_use_relationships: true,
           });
         return res.status(200).send(
-          rows.map(({ animal_union_batch, group_ids, ...rest }) => ({
+          rows.map(({ animal_union_batch, ...rest }) => ({
             ...rest,
             internal_identifier: animal_union_batch.internal_identifier,
-            group_ids: group_ids.map(({ animal_group_id }) => animal_group_id),
           })),
         );
       } catch (error) {
@@ -74,9 +68,6 @@ const animalController = {
             farm_id,
             trx,
           );
-
-          await upsertGroup(req, animal, farm_id, trx);
-
           // Remove farm_id if it happens to be set in animal object since it should be obtained from header
           delete animal.farm_id;
 
@@ -86,10 +77,6 @@ const animalController = {
             req,
             { trx },
           );
-
-          // Format group_ids
-          individualAnimalResult.group_ids =
-            individualAnimalResult.group_ids?.map((group) => group.animal_group_id) || [];
 
           result.push(individualAnimalResult);
         }
@@ -140,7 +127,6 @@ const animalController = {
           'price',
           'sex_detail',
           'origin_id',
-          'group_ids',
           'animal_use_relationships',
         ];
 
@@ -154,8 +140,6 @@ const animalController = {
             farm_id,
             trx,
           );
-
-          await upsertGroup(req, animal, farm_id, trx);
 
           const keysExisting = desiredKeys.filter((key) => key in animal);
           const data = _pick(animal, keysExisting);

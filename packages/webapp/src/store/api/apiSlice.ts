@@ -18,7 +18,6 @@ import { RootState } from '../store';
 import {
   animalsUrl,
   animalBatchesUrl,
-  animalGroupsUrl,
   customAnimalBreedsUrl,
   customAnimalTypesUrl,
   defaultAnimalBreedsUrl,
@@ -38,7 +37,6 @@ import {
 import type {
   Animal,
   AnimalBatch,
-  AnimalGroup,
   CustomAnimalBreed,
   CustomAnimalType,
   DefaultAnimalBreed,
@@ -73,7 +71,6 @@ export const api = createApi({
   tagTypes: [
     'Animals',
     'AnimalBatches',
-    'AnimalGroups',
     'CustomAnimalBreeds',
     'CustomAnimalTypes',
     'DefaultAnimalBreeds',
@@ -99,10 +96,6 @@ export const api = createApi({
     getAnimalBatches: build.query<AnimalBatch[], void>({
       query: () => `${animalBatchesUrl}`,
       providesTags: ['AnimalBatches'],
-    }),
-    getAnimalGroups: build.query<AnimalGroup[], void>({
-      query: () => `${animalGroupsUrl}`,
-      providesTags: ['AnimalGroups'],
     }),
     getDefaultAnimalTypes: build.query<DefaultAnimalType[], string | void>({
       query: (param = '') => `${defaultAnimalTypesUrl}${param}`,
@@ -226,7 +219,6 @@ export const api = createApi({
 export const {
   useGetAnimalsQuery,
   useGetAnimalBatchesQuery,
-  useGetAnimalGroupsQuery,
   useGetCustomAnimalBreedsQuery,
   useGetCustomAnimalTypesQuery,
   useGetDefaultAnimalBreedsQuery,

@@ -20,7 +20,7 @@ import NoSearchResults from '../../../components/Card/NoSearchResults';
 import ClearFiltersButton, {
   ClearFiltersButtonType,
 } from '../../../components/Button/ClearFiltersButton';
-import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
+import type { AnimalInventoryItem } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import AnimalsFilter from '../../../containers/Animals/AnimalsFilter';
 import FloatingButtonMenu from '../../Menu/FloatingButtonMenu';
 import { TableV2Column, TableKind } from '../../Table/types';
@@ -64,14 +64,14 @@ const PureAnimalInventory = ({
   history,
   view = View.DEFAULT,
 }: {
-  filteredInventory: AnimalInventory[];
+  filteredInventory: AnimalInventoryItem[];
   animalsColumns: TableV2Column[];
   zIndexBase: number;
   isDesktop: boolean;
   searchProps: SearchProps;
-  onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
+  onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => void;
   handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
-  onRowClick: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
+  onRowClick: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => void;
   selectedIds: string[];
   totalInventoryCount: number;
   isFilterActive: boolean;

@@ -22,7 +22,7 @@ import { History } from 'history';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
-import type { AnimalInventory } from './useAnimalInventory';
+import type { AnimalInventoryItem } from './useAnimalInventory';
 import ActionMenu, { iconAction } from '../../../components/ActionMenu';
 import FixedHeaderContainer, {
   ContainerKind,
@@ -54,7 +54,7 @@ interface AnimalInventoryProps {
   history: History;
 }
 
-const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: string[]) => {
+const getVisibleSelectedIds = (visibleRowData: AnimalInventoryItem[], selectedIds: string[]) => {
   if (!visibleRowData.length || !selectedIds.length) {
     return [];
   }
@@ -109,7 +109,7 @@ function AnimalInventory({
       {
         id: 'identification',
         label: t('ANIMAL.ANIMAL_IDENTIFICATION').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => (
+        format: (d: AnimalInventoryItem) => (
           <Cell
             kind={CellKind.ICON_TEXT}
             text={d.identification}
@@ -123,17 +123,19 @@ function AnimalInventory({
       {
         id: isDesktop ? 'type' : null,
         label: t('ANIMAL.ANIMAL_TYPE').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.type} />,
+        format: (d: AnimalInventoryItem) => <Cell kind={CellKind.PLAIN} text={d.type} />,
       },
       {
         id: isDesktop ? 'breed' : null,
         label: t('ANIMAL.ANIMAL_BREED').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
+        format: (d: AnimalInventoryItem) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
       },
       {
         id: !isTaskView ? 'path' : null,
         label: '',
-        format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
+        format: (d: AnimalInventoryItem) => (
+          <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />
+        ),
         columnProps: {
           style: { width: '40px', padding: `0 ${isDesktop ? 12 : 8}px` },
         },
@@ -143,8 +145,8 @@ function AnimalInventory({
     [t, isDesktop],
   );
 
-  const makeAnimalsSearchableString = (animal: AnimalInventory) => {
-    return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
+  const makeAnimalsSearchableString = (animal: AnimalInventoryItem) => {
+    return [animal.identification, animal.type, animal.breed, animal.count]
       .filter(Boolean)
       .join(' ');
   };
@@ -152,7 +154,7 @@ function AnimalInventory({
   const [searchAndFilteredInventory, searchString, setSearchString] = useSearchFilter(
     filteredInventory,
     makeAnimalsSearchableString,
-  ) as [AnimalInventory[], SearchProps['searchString'], SearchProps['setSearchString']];
+  ) as [AnimalInventoryItem[], SearchProps['searchString'], SearchProps['setSearchString']];
 
   const searchProps: SearchProps = {
     searchString,
@@ -163,7 +165,7 @@ function AnimalInventory({
     }),
   };
 
-  const onSelectInventory = (e: ChangeEvent<HTMLInputElement>, row: AnimalInventory): void => {
+  const onSelectInventory = (e: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem): void => {
     const selectedInventoryId = row.id;
     let newIds = selectedInventoryIds.slice();
     if (selectedInventoryIds.includes(selectedInventoryId)) {
@@ -204,7 +206,7 @@ function AnimalInventory({
     }
   };
 
-  const onRowClick = (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => {
+  const onRowClick = (event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => {
     !isTaskView ? history.push(row.path) : onSelectInventory(event, row);
   };
 

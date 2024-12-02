@@ -205,13 +205,11 @@ describe('Animal Batch Tests', () => {
         expect({
           ...firstAnimalBatch,
           internal_identifier: 1,
-          group_ids: [],
           animal_batch_use_relationships: [],
         }).toMatchObject(res.body[0]);
         expect({
           ...secondAnimalBatch,
           internal_identifier: 2,
-          group_ids: [],
           animal_batch_use_relationships: [],
         }).toMatchObject(res.body[1]);
       }
@@ -694,8 +692,6 @@ describe('Animal Batch Tests', () => {
 
   // EDIT tests
   describe('Edit animal batch tests', () => {
-    let animalGroup1;
-    let animalGroup2;
     let animalSex1;
     let animalSex2;
     let animalOrigin2;
@@ -704,8 +700,6 @@ describe('Animal Batch Tests', () => {
     let animalUse3;
 
     beforeEach(async () => {
-      [animalGroup1] = await mocks.animal_groupFactory();
-      [animalGroup2] = await mocks.animal_groupFactory();
       // Populate enums
       [animalSex1] = await mocks.animal_sexFactory();
       [animalSex2] = await mocks.animal_sexFactory();
@@ -737,7 +731,6 @@ describe('Animal Batch Tests', () => {
             count: 2,
           },
         ],
-        group_name: animalGroup1.name,
       });
       const secondBatch = mocks.fakeAnimalBatch({
         name: 'edit test 2',
@@ -794,7 +787,6 @@ describe('Animal Batch Tests', () => {
         animal_removal_reason_id: animalRemovalReason.id,
         organic_status: 'Organic',
         animal_batch_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],
-        group_ids: [{ animal_group_id: animalGroup2.id }],
       });
       const updatedSecondBatch = mocks.fakeAnimalBatch({
         id: returnedSecondBatch.id,
@@ -817,7 +809,6 @@ describe('Animal Batch Tests', () => {
         animal_removal_reason_id: animalRemovalReason.id,
         organic_status: 'Organic',
         animal_batch_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],
-        group_ids: [{ animal_group_id: animalGroup2.id }],
       });
 
       const patchRes = await patchRequest(
@@ -835,7 +826,6 @@ describe('Animal Batch Tests', () => {
         // Should not be able to update on edit
         batch.animal_removal_reason_id = null;
         // Return format different than post format
-        batch.group_ids = batch.group_ids.map((groupId) => groupId.animal_group_id);
         batch.animal_batch_use_relationships.forEach((rel) => {
           rel.animal_batch_id = batch.id;
           rel.other_use = null;

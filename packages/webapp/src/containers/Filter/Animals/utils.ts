@@ -14,9 +14,8 @@
  */
 
 import { ANIMAL_ID_PREFIX } from '../../Animals/types';
-import { AnimalsFilterKeys } from './types';
-import type { AnimalInventory } from '../../Animals/Inventory/useAnimalInventory';
-import type { ReduxFilterEntity, FilterState } from '../types';
+import type { AnimalInventoryItem } from '../../Animals/Inventory/useAnimalInventory';
+import type { FilterState } from '../types';
 
 /**
  * Checks if the given animal or animal batch matches the passed type or breed filter state.
@@ -28,7 +27,7 @@ import type { ReduxFilterEntity, FilterState } from '../types';
  */
 
 export const animalMatchesFilter = (
-  entity: AnimalInventory,
+  entity: AnimalInventoryItem,
   filter: FilterState,
   attribute: 'type' | 'breed',
 ): boolean => {

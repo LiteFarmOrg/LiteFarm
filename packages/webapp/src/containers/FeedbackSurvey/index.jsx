@@ -21,10 +21,11 @@ import styles from './styles.module.scss';
 import Drawer, { DesktopDrawerVariants } from '../../components/Drawer';
 import HelpRequest from '../Help';
 
-export default function FeedbackSurvey() {
+export default function FeedbackSurvey({
+  isFeedbackSurveyOpen: isSurveyOpen,
+  setFeedbackSurveyOpen: setIsSurveyOpen,
+}) {
   const { t } = useTranslation();
-
-  const [isSurveyOpen, setIsSurveyOpen] = useState(false);
   const toggleSurveyOpen = () => setIsSurveyOpen(!isSurveyOpen);
 
   const title = (
@@ -36,7 +37,7 @@ export default function FeedbackSurvey() {
 
   const drawerContent = (
     <div className={styles.content}>
-      <HelpRequest />
+      <HelpRequest closeDrawer={() => setIsSurveyOpen(false)} />
     </div>
   );
 

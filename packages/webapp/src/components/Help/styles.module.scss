@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.ctaButtonWrapper {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
+.contactMethods {
+  display: flex;
+  gap: 36px;
+  font-weight: bold;
 }

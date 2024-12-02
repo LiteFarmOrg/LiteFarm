@@ -156,6 +156,7 @@ function TaskAnimalLocations({ history, location }) {
       title={t('TASK.ANIMAL_MOVING_TO_LOCATION')}
       onContinue={onContinue}
       location={location}
+      isAnimalTask={true}
     />
   );
 }
@@ -206,6 +207,7 @@ function TaskLocations({
   onContinue,
   readOnlyPinCoordinates,
   location,
+  isAnimalTask = false,
 }) {
   const { grid_points } = useSelector(userFarmSelector);
   const { maxZoomRef, getMaxZoom, maxZoom } = useMaxZoom();
@@ -231,6 +233,7 @@ function TaskLocations({
         maxZoom={maxZoom}
         defaultLocation={location?.state?.location ?? null}
         targetsWildCrop={managementPlan?.crop_management_plan?.is_wild ?? false}
+        isAnimalTask={isAnimalTask}
       />
     </HookFormPersistProvider>
   );

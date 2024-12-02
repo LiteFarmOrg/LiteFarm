@@ -64,6 +64,11 @@ import {
   onLoadingTransplantTaskFail,
   onLoadingTransplantTaskStart,
 } from '../slice/taskSlice/transplantTaskSlice';
+import {
+  getAnimalMovementTasksSuccess,
+  onLoadingAnimalMovementTaskFail,
+  onLoadingAnimalMovementTaskStart,
+} from '../slice/taskSlice/animalMovementTaskSlice';
 import { getPlantingMethodReqBody } from '../Crop/AddManagementPlan/ManagementPlanName/getManagementPlanReqBody';
 
 import {
@@ -78,8 +83,8 @@ import {
   createCompleteTaskUrl,
 } from '../../util/siteMapConstants';
 import { setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import { formatSoilAmendmentProductToDBStructure } from '../../util/task';
-import { api } from '../../store/api/apiSlice';
+import { formatSoilAmendmentProductToDBStructure, getSubtaskName } from '../../util/task';
+import { getEndpoint, getMovementTaskBody } from './sagaUtils';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -88,6 +93,7 @@ const taskTypeEndpoint = [
   'soil_amendment_task',
   'harvest_tasks',
   'irrigation_task',
+  'animal_movement_task',
 ];
 
 // TypeScript complains without payload.
@@ -325,6 +331,11 @@ const taskTypeActionMap = {
     fail: onLoadingTransplantTaskFail,
     completeUrl: (id) => createBeforeCompleteTaskUrl(id),
   },
+  MOVEMENT_TASK: {
+    success: (tasks) => put(getAnimalMovementTasksSuccess(tasks)),
+    fail: onLoadingAnimalMovementTaskFail,
+    completeUrl: (id) => createBeforeCompleteTaskUrl(id),
+  },
 };
 
 export const onLoadingTaskStart = createAction('onLoadingTaskStartSaga');
@@ -338,6 +349,7 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingPlantTaskStart());
   yield put(onLoadingTransplantTaskStart());
   yield put(onLoadingIrrigationTaskStart());
+  yield put(onLoadingAnimalMovementTaskStart());
 }
 
 function* handleGetTasksSuccess(tasks, successAction) {
@@ -352,7 +364,7 @@ function* handleGetTasksSuccess(tasks, successAction) {
   const tasksByTranslationKey = tasks.reduce((tasksByTranslationKey, task) => {
     const { task_translation_key } = taskTypeEntities[task.task_type_id];
     if (taskTypeActionMap[task_translation_key]) {
-      tasksByTranslationKey[task_translation_key].push(task[task_translation_key.toLowerCase()]);
+      tasksByTranslationKey[task_translation_key].push(task[getSubtaskName(task_translation_key)]);
     }
     return tasksByTranslationKey;
   }, tasksByTranslationKeyDefault);
@@ -394,7 +406,7 @@ export function* getAllTasksSuccessSaga({ payload: tasks }) {
   yield handleGetTasksSuccess(tasks, addAllTasksFromGetReq);
 }
 
-const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
+export const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
   return getObjectInnerValues(
     produce(data, (data) => {
       const propertiesToRemove = taskTypeEndpoint.filter((taskType) => taskType !== endpoint);
@@ -521,6 +533,7 @@ const taskTypeGetPostTaskBodyFunctionMap = {
   HARVEST_TASK: getPostHarvestTaskBody,
   TRANSPLANT_TASK: getTransplantTaskBody,
   IRRIGATION_TASK: getIrrigationTaskBody,
+  MOVEMENT_TASK: getMovementTaskBody,
 };
 
 const getPostTaskReqBody = (
@@ -560,11 +573,7 @@ export function* createTaskSaga({ payload }) {
   const header = getHeader(user_id, farm_id);
   const isCustomTask = !!task_farm_id;
   const isHarvest = task_translation_key === 'HARVEST_TASK';
-  const endpoint = isCustomTask
-    ? 'custom_task'
-    : isHarvest
-    ? 'harvest_tasks'
-    : task_translation_key.toLowerCase();
+  const endpoint = getEndpoint(isCustomTask, task_translation_key);
   try {
     const managementPlanWithCurrentLocationEntities = yield select(
       managementPlanWithCurrentLocationEntitiesSelector,

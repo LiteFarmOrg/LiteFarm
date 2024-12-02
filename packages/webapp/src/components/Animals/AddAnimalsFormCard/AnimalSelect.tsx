@@ -96,7 +96,7 @@ export function AnimalBreedSelect<T extends FieldValues>({
           placeholder={isTypeSelected ? undefined : t('ADD_ANIMAL.BREED_PLACEHOLDER_DISABLED')}
           isDisabled={!isTypeSelected || isDisabled}
           onChange={(option) => onChange(option)}
-          value={value}
+          value={value || null}
         />
       )}
     />

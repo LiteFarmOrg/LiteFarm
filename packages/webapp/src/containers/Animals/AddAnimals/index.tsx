@@ -55,7 +55,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
 
   const onSave = async (
     data: any,
-    onGoForward: () => void,
+    onSuccess: () => void,
     setFormResultData: (data: any) => void,
   ) => {
     const details = data[STEPS.DETAILS] as AnimalDetailsFormFields[];
@@ -99,7 +99,7 @@ function AddAnimals({ isCompactSideMenu, history }: AddAnimalsProps) {
     }
 
     setFormResultData({ animals: animalsResult, batches: batchesResult });
-    onGoForward();
+    onSuccess();
   };
 
   const getFormSteps = () => [

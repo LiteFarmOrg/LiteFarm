@@ -191,7 +191,7 @@ const checkAnimalBreed = async (
     );
     const isCreatingWithBreed =
       creating && someTruthy([default_breed_id, custom_breed_id, breed_name]);
-    // Do checks on breed unless removing breed from existing record or
+    // Do checks on breed unless removing breed from the existing record or creating animal without breed
     if (isNotNullingAllBreedOptions || isCreatingWithBreed) {
       // Check if default breed or default type is present
       if (default_breed_id || default_type_id) {

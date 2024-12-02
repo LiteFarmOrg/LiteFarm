@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const hasValue = (value: any) => value || value === 0;
+const hasValue = (value: string | number) => value || value === 0;
 
 export enum orderEnum {
   ASC = 'asc',

@@ -70,10 +70,9 @@ export const useFilteredInventory = (
         isInactive(groupsFilter) ||
         entity.group_ids.some((groupId) => groupsFilter[groupId]?.active);
 
-      // *** Location is not yet implemented as a property on animal or batch  ***
-      const locationMatches = isInactive(locationsFilter);
-      // const locationMatches =
-      //   isInactive(locationsFilter) || locationsFilter[entity.location]?.active;
+      const locationMatches =
+        isInactive(locationsFilter) ||
+        (entity.location_id && locationsFilter[entity.location_id]?.active);
 
       return (
         animalOrBatchMatches &&

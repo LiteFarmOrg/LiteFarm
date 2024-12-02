@@ -1952,6 +1952,7 @@
     "ADD_TASK_FLOW": "task creation",
     "AMOUNT_TO_ALLOCATE": "Amount to allocate",
     "ANIMAL_MOVING_TO_LOCATION": "Moving to:",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "See detail list of animals to move",
     "CARD": {
       "MULTIPLE_CROPS": "Multiple crops",
       "MULTIPLE_LOCATIONS": "Multiple locations"

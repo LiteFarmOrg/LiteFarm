@@ -3,4 +3,6 @@
     margin-bottom: 16px;
     flex-grow: 1;
     display: flex;
+    // Based on animals summary view: 98px = 24px margin top, 2px border, 16 px padding, 24px mobile max-height pill and 24px expandable item text, 8px margin-bottom 
+    min-height: calc(100vh - var(--global-navbar-height) - var(--global-multi-step-task-layout-aggregated-height) - 98px);
 }

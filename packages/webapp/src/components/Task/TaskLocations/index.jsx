@@ -9,6 +9,9 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
 import Checkbox from '../../Form/Checkbox';
+import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
+import styles from './styles.module.scss';
+import clsx from 'clsx';
 export default function PureTaskLocations({
   locations,
   readOnlyPinCoordinates,
@@ -24,6 +27,7 @@ export default function PureTaskLocations({
   maxZoom,
   defaultLocation,
   targetsWildCrop,
+  isAnimalTask = false,
 }) {
   const { t } = useTranslation();
   const progress = 43;
@@ -116,6 +120,7 @@ export default function PureTaskLocations({
             </Button>
           </>
         }
+        fullWidthContent={isAnimalTask}
       >
         <MultiStepPageTitle
           onGoBack={onGoBack}
@@ -123,9 +128,17 @@ export default function PureTaskLocations({
           cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
           title={t('MANAGEMENT_DETAIL.ADD_A_TASK')}
           value={progress}
+          classes={{ container: isAnimalTask ? styles.titlePadding : null }}
         />
-
-        <Main style={{ marginTop: '24px', marginBottom: '24px' }}>
+        {isAnimalTask && (
+          <AnimalInventory
+            view={View.TASK_SUMMARY}
+            preSelectedIds={persistedFormData?.animalIds}
+            showLinks={false}
+            showOnlySelected={true}
+          />
+        )}
+        <Main className={clsx(styles.locationPickerText, isAnimalTask && styles.fullWidthPadding)}>
           {title || t('TASK.SELECT_TASK_LOCATIONS')}
         </Main>
         <LocationPicker
@@ -138,6 +151,7 @@ export default function PureTaskLocations({
           maxZoomRef={maxZoomRef}
           getMaxZoom={getMaxZoom}
           maxZoom={maxZoom}
+          style={isAnimalTask ? { marginLeft: '24px', marginRight: '24px' } : null}
         />
         {showWildCropCheckBox && (
           <Checkbox

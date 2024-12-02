@@ -274,3 +274,14 @@ export const stickyHeader = {
     maxHeight: 200,
   },
 };
+
+export const extraRowSpacing = {
+  args: {
+    kind: TableKind.V2,
+    columns: getCropSalesColumns(false),
+    data: getCropSalesData(10),
+    minRows: 10,
+    maxHeight: 200,
+    extraRowSpacing: true,
+  },
+};

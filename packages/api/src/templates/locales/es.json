@@ -18,7 +18,8 @@
     "REQUEST_A_FEATURE": "Solicitar una característica",
     "OTHER": "Otro",
     "CONTACT_METHOD_HEADER": "Método de contacto preferido",
-    "SUBJECT": "Su solicitud de ayuda a LiteFarm a las"
+    "SUBJECT": "Su solicitud de ayuda a LiteFarm a las",
+    "OOO_RESPONSE": "MISSING"
   },
   "INVITE": {
     "GREAT_FOLK": "Las personas de",

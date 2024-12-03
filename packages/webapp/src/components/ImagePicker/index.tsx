@@ -44,16 +44,19 @@ type CommonProps = {
   optional?: boolean;
   defaultUrl?: string;
   isDisabled?: boolean;
+  shouldReset?: boolean;
 };
 
 type CustomFileUpload = CommonProps & {
   onSelectImage?: never;
   onFileUpload: OnFileUpload;
+  shouldReset?: never;
 };
 
 type DirectImageUpload = CommonProps & {
   onSelectImage: (file: File) => void;
   onFileUpload?: never;
+  shouldReset?: boolean;
 };
 
 export type ImagePickerProps = CustomFileUpload | DirectImageUpload;
@@ -66,11 +69,18 @@ export default function ImagePicker({
   optional = true, // false is not yet supported
   onFileUpload,
   isDisabled = false,
+  shouldReset,
 }: ImagePickerProps) {
   const [previewUrl, setPreviewUrl] = useState(defaultUrl);
   const [showFileSizeExceedsModal, setShowFileSizeExceedsModal] = useState(false);
   const dropContainerRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (shouldReset) {
+      removeImage();
+    }
+  }, [shouldReset]);
 
   const removeImage = () => {
     onRemoveImage();

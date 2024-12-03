@@ -45,7 +45,6 @@ export const ContextForm = ({
   variant = Variant.PAGE_TITLE,
   isEditing = true,
   setIsEditing,
-  onSave,
   ...props
 }: ContextFormProps) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
@@ -108,10 +107,6 @@ export const ContextForm = ({
       setIsEditing={setIsEditing}
       showCancelFlow={showCancelFlow}
       setShowCancelFlow={setShowCancelFlow}
-      onSave={(...args: any) => {
-        setActiveStepIndex(0);
-        onSave?.(...args);
-      }}
       {...form}
       {...props}
     >

@@ -13,6 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { AnimalOrBatchKeys } from '../containers/Animals/types';
+import { Animal, AnimalBatch } from '../store/api/types';
+import { generateInventoryId } from './animal';
+
 interface UnitOption {
   label: string;
   value: string;
@@ -64,6 +68,8 @@ interface DBAnimalMovementPurposeRelationships {
 }
 
 type DBAnimalMovementTask = {
+  animals: Animal[];
+  animal_batches: AnimalBatch[];
   animal_movement_task: {
     task_id: number;
     purpose_relationships: DBAnimalMovementPurposeRelationships[];
@@ -71,10 +77,12 @@ type DBAnimalMovementTask = {
 };
 
 interface FormAnimalMovementTask {
+  animal_ids: string[];
   movement_task: {
     purpose_ids: number[]; // React Select component actually 'purposes' but I wanted to reserve that for the select component format
     other_purpose_explanation?: string | null;
   };
+  animal_movement_task: DBAnimalMovementTask['animal_movement_task']; // Otherwise going back and forth between readonly and edit the form will crash
 }
 type DBSoilAmendmentTask = {
   soil_amendment_task_products: DBSoilAmendmentTaskProduct[];
@@ -240,10 +248,9 @@ export const formatMovementTaskToFormStructure = (
   task: DBAnimalMovementTask,
 ): FormAnimalMovementTask => {
   const taskClone = structuredClone(task);
-  const {
-    animal_movement_task: { purpose_relationships },
-    ...rest
-  } = taskClone;
+  const { animal_movement_task, animals, animal_batches, ...rest } = taskClone;
+
+  const { purpose_relationships } = animal_movement_task;
 
   let other_purpose_explanation;
 
@@ -256,9 +263,24 @@ export const formatMovementTaskToFormStructure = (
 
   return {
     ...rest,
+    animal_ids: formatTaskAnimalsAsInventoryIds(animals, animal_batches),
     movement_task: {
       purpose_ids,
       other_purpose_explanation,
     },
+    animal_movement_task,
   };
+};
+
+export const formatTaskAnimalsAsInventoryIds = (
+  associatedAnimals?: Animal[],
+  associatedBatches?: AnimalBatch[],
+): string[] => {
+  const animalInventoryIds =
+    associatedAnimals?.map((animal) => generateInventoryId(AnimalOrBatchKeys.ANIMAL, animal)) || [];
+
+  const batchInventoryIds =
+    associatedBatches?.map((batch) => generateInventoryId(AnimalOrBatchKeys.BATCH, batch)) || [];
+
+  return [...animalInventoryIds, ...batchInventoryIds];
 };

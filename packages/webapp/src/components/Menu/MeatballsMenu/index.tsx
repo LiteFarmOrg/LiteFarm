@@ -22,9 +22,10 @@ import styles from './styles.module.scss';
 export type MeatballsMenuProps = {
   classes?: { button?: string };
   options: { label: ReactNode; onClick: () => void }[];
+  disabled: boolean;
 };
 
-const MeatballsMenu = ({ options, classes }: MeatballsMenuProps) => {
+const MeatballsMenu = ({ options, classes, disabled = false }: MeatballsMenuProps) => {
   return (
     <DropdownButton
       type={'v2'}
@@ -39,6 +40,7 @@ const MeatballsMenu = ({ options, classes }: MeatballsMenuProps) => {
         />
       ))}
       menuPositionOffset={[0, 1]}
+      disabled={disabled}
     >
       <BsThreeDots className={styles.menuIcon} />
     </DropdownButton>

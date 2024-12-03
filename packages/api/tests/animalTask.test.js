@@ -292,6 +292,7 @@ describe('Animal task tests', () => {
     };
     const fakeTaskData = {
       animal_movement_task: () => mocks.fakeAnimalMovementTask(),
+      custom_task: () => {},
     };
 
     const checkValidPostRequest = async (type, postData) => {
@@ -302,8 +303,10 @@ describe('Animal task tests', () => {
       expect(createdTask).toBeDefined();
       const location = await knex('location_tasks').where({ task_id }).first();
       expect(location.location_id).toBe(postData.locations[0].location_id);
-      const specificTask = await knex(type).where({ task_id });
-      expect(specificTask.length).toBe(1);
+      if (type !== 'custom_task') {
+        const specificTask = await knex(type).where({ task_id });
+        expect(specificTask.length).toBe(1);
+      }
       const relatedAnimals = await knex('task_animal_relationship')
         .select('animal_id')
         .where({ task_id });
@@ -406,18 +409,20 @@ describe('Animal task tests', () => {
         await checkPostRequestWithInvalidAnimals('batch', data, [farmBBatch1.id]);
       });
 
-      test(`should not create a(n) ${type} without animals and batches`, async () => {
-        const data = createAnimalTaskForReqBody({
-          [type]: fakeTaskData[type](),
-          related_animal_ids: [],
-          related_batch_ids: [],
+      if (type !== 'custom_task') {
+        test(`should not create a(n) ${type} without animals and batches`, async () => {
+          const data = createAnimalTaskForReqBody({
+            [type]: fakeTaskData[type](),
+            related_animal_ids: [],
+            related_batch_ids: [],
+          });
+          const res = await postTaskRequest({ user_id, farm_id }, type, data);
+          expect(res.status).toBe(400);
+          expect(res.error.text).toBe(
+            'At least one of the animal IDs or animal batch IDs is required',
+          );
         });
-        const res = await postTaskRequest({ user_id, farm_id }, type, data);
-        expect(res.status).toBe(400);
-        expect(res.error.text).toBe(
-          'At least one of the animal IDs or animal batch IDs is required',
-        );
-      });
+      }
 
       test(`should not create a(n) ${type} without a due date`, async () => {
         const data = createAnimalTaskForReqBody({ [type]: fakeTaskData[type](), due_date: null });
@@ -463,15 +468,17 @@ describe('Animal task tests', () => {
         );
       });
 
-      test(`should not create a(n) ${type} with managementPlans`, async () => {
-        const data = createAnimalTaskForReqBody({
-          [type]: fakeTaskData[type](),
-          managementPlans: [{ planting_management_plan_id }],
+      if (type !== 'custom_task') {
+        test(`should not create a(n) ${type} with managementPlans`, async () => {
+          const data = createAnimalTaskForReqBody({
+            [type]: fakeTaskData[type](),
+            managementPlans: [{ planting_management_plan_id }],
+          });
+          const res = await postTaskRequest({ user_id, farm_id }, type, data);
+          expect(res.status).toBe(400);
+          expect(res.error.text).toBe(`managementPlans cannot be added for ${type}`);
         });
-        const res = await postTaskRequest({ user_id, farm_id }, type, data);
-        expect(res.status).toBe(400);
-        expect(res.error.text).toBe(`managementPlans cannot be added for ${type}`);
-      });
+      }
     });
 
     describe('animal movement task tests', () => {

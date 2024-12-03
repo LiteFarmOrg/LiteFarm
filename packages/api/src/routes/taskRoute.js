@@ -175,6 +175,7 @@ router.post(
   modelMapping['custom_task'],
   hasFarmAccess({ mixed: 'taskManagementPlanAndLocation' }),
   isWorkerToSelfOrAdmin(),
+  checkCreateTask('custom_task'),
   taskController.createTask('custom_task'),
 );
 

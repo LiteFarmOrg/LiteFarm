@@ -456,7 +456,10 @@ const taskController = {
         }
 
         data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
-        if (ANIMAL_TASKS.includes(typeOfTask)) {
+        if (
+          [...ANIMAL_TASKS, 'custom_task'].includes(typeOfTask) &&
+          ('related_animal_ids' in data || 'related_batch_ids' in data)
+        ) {
           data = this.formatAnimalAndBatchIds(data);
         }
         const result = await TaskModel.transaction(async (trx) => {

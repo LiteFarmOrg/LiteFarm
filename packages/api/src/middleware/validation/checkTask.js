@@ -186,7 +186,7 @@ export function checkCreateTask(taskType) {
         return res.status(400).send('task type requires products');
       }
 
-      if (ANIMAL_TASKS.includes(taskType)) {
+      if ([...ANIMAL_TASKS, 'custom_task'].includes(taskType)) {
         await checkAnimalTask(req, taskType, 'due_date');
       }
 
@@ -211,12 +211,13 @@ export function checkCreateTask(taskType) {
 async function checkAnimalTask(req, taskType, dateName) {
   const { farm_id } = req.headers;
   const { related_animal_ids, related_batch_ids, managementPlans } = req.body;
+  const ALLOWED_TYPES_WITH_MANAGEMENT_PLANS = ['custom_task'];
 
-  if (managementPlans?.length) {
+  if (!ALLOWED_TYPES_WITH_MANAGEMENT_PLANS.includes(taskType) && managementPlans?.length) {
     throw customError(`managementPlans cannot be added for ${taskType}`);
   }
 
-  let isAnimalOrBatchRequired = true;
+  let isAnimalOrBatchRequired = taskType !== 'custom_task';
 
   if (dateName === 'complete_date') {
     // Set isAnimalOrBatchRequired to false when both animals and batches won't be modified
@@ -232,7 +233,7 @@ async function checkAnimalTask(req, taskType, dateName) {
     isAnimalOrBatchRequired,
   );
 
-  if (dateName === 'due_date') {
+  if ((related_animal_ids?.length || related_batch_ids?.length) && dateName === 'due_date') {
     const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
       req.body[dateName],
       related_animal_ids,

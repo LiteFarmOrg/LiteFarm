@@ -1955,7 +1955,8 @@
     "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "See detail list of animals to move",
     "CARD": {
       "MULTIPLE_CROPS": "Multiple crops",
-      "MULTIPLE_LOCATIONS": "Multiple locations"
+      "MULTIPLE_LOCATIONS": "Multiple locations",
+      "NO_LOCATION": "No location"
     },
     "COMPLETE": {
       "DATE": "Completion date",

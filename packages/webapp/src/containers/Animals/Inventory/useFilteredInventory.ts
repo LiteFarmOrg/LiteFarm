@@ -72,4 +72,6 @@ export const useFilteredInventory = (
       return animalOrBatchMatches && typeMatches && breedMatches && sexMatches && locationMatches;
     });
   }, [inventory, animalsOrBatchesFilter, typesFilter, breedsFilter, sexFilter, locationsFilter]);
+
+  return filterMatches;
 };

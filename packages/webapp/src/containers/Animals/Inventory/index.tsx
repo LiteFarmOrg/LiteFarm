@@ -48,6 +48,7 @@ import useExpandable from '../../../components/Expandable/useExpandableItem';
 import clsx from 'clsx';
 import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
 import { sumObjectValues } from '../../../util';
+import Icon from '../../../components/Icons';
 
 const HEIGHTS = {
   filterAndSearch: 64,
@@ -320,6 +321,22 @@ export default function AnimalInventory({
         sortable: false,
       },
       {
+        id: isDesktop ? 'location' : null,
+        label: t('ANIMAL.ANIMAL_LOCATIONS').toLocaleUpperCase(),
+        format: (d: AnimalInventoryType) => (
+          <div className={clsx(styles.location, !d.location && styles.unknown)}>
+            {d.location ? (
+              <>
+                <Icon iconName="LOCATION" className={styles.locationIcon} />
+                <span className={styles.locationText}>{d.location}</span>
+              </>
+            ) : (
+              t('common:UNKNOWN')
+            )}
+          </div>
+        ),
+      },
+      {
         id: showLinks ? 'path' : null,
         label: '',
         format: (d: AnimalInventoryType) => (
@@ -335,7 +352,14 @@ export default function AnimalInventory({
   );
 
   const makeAnimalsSearchableString = (animal: AnimalInventoryType) => {
-    return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
+    return [
+      animal.identification,
+      animal.type,
+      animal.breed,
+      ...animal.groups,
+      animal.count,
+      animal.location,
+    ]
       .filter(Boolean)
       .join(' ');
   };

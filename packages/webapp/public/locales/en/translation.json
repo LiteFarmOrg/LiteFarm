@@ -1656,7 +1656,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Got it",
-    "DESCRIPTION": "Someone will be in touch within 48 hours.",
+    "DESCRIPTION": "Someone will be in touch soon.",
     "TITLE": "Help request submitted"
   },
   "REVENUE": {

@@ -121,6 +121,11 @@ const animalBatchController = {
           'sex_detail',
           'origin_id',
           'animal_batch_use_relationships',
+          'birth_date',
+          'dam',
+          'sire',
+          'brought_in_date',
+          'weaning_date',
         ];
 
         // select only allowed properties to edit

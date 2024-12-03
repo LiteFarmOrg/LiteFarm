@@ -23,7 +23,7 @@ export enum Variant {
   STEPPER_PROGRESS_BAR = 'stepper_progress_bar',
 }
 
-const components = {
+const COMPONENTS = {
   [Variant.PAGE_TITLE]: (props: any) => <WithPageTitle {...props} />,
   [Variant.STEPPER_PROGRESS_BAR]: (props: any) => <WithStepperProgressBar {...props} />,
 };
@@ -92,7 +92,7 @@ export const ContextForm = ({
 
   const { FormContent } = steps[activeStepIndex];
 
-  const Component = components[variant];
+  const Component = COMPONENTS[variant];
 
   return (
     <Component

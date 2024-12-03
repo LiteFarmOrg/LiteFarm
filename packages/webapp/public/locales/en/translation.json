@@ -14,7 +14,6 @@
     "BATCH_NAME": "Batch name",
     "BATCH_NAME_PLACEHOLDER": "Type in batch name",
     "BREED": "Breed",
-    "BREED_PLACEHOLDER": "Add your animal breed",
     "BREED_PLACEHOLDER_DISABLED": "Please select a type first",
     "CREATE_INDIVIDUAL_PROFILES": "Create individual animal profiles",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Select this option if you want to track and manage each animal separately",
@@ -60,7 +59,6 @@
       "MAIN": "You successfully added {{animalCount}} {{and}} {{batchCount}} to your inventory."
     },
     "TYPE": "Type",
-    "TYPE_PLACEHOLDER": "Select the animal type",
     "UNIQUE_DETAILS": "Unique details"
   },
   "ADD_FARM": {
@@ -117,6 +115,7 @@
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
     "CANCEL": "task creation",
+    "CANT_FIND_INFO_TASK": "You can also create your own custom task types!",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Estimated water usage",
       "IS_PERMITTED": "Is the cleaning agent in the permitted substances list?",
@@ -200,9 +199,17 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "What type of irrigation?"
     },
-    "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
+    "MANAGE_CUSTOM_TASKS": "Manage your custom tasks",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "What's the purpose of this movement?",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "Select the purpose for this movement",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "Explanation",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Please describe the reason for this movement"
+    },
     "NEED_MANAGEMENT_PLAN": "You'll need an active or planned crop plan before you can schedule a harvest task or transplant task. Go to the crop catalogue to create a plan now.",
     "NO_MANAGEMENT_PLAN": "No eligible crop plans",
+    "NOTES_LABEL": "Anything specific to add related to this task?",
+    "NOTES_PLACEHOLDER": "Add any instructions or specifics for the assignee",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Biological control",
       "FLAME_WEEDING": "Flame weeding",
@@ -299,6 +306,8 @@
       "WEANING_DATE": "Weaning date"
     },
     "BATCH": "Batch",
+    "BETA_SPOTLIGHT_HEADING": "Introducing the new Animals feature",
+    "EDIT_ANIMAL_FLOW": "editing",
     "FILTER": {
       "BATCHES": "Batches",
       "BATCHES_OR_INDIVIDUALS": "Batches or Individuals",
@@ -938,7 +947,7 @@
     },
     "TUTORIALS": "Map Tutorials",
     "UNABLE_TO_RETIRE": {
-      "BODY": "You can only retire locations that have no active or planned crops or tasks.",
+      "BODY": "You can only retire locations that have no active or planned crops, no animals or tasks.",
       "TITLE": "Unable to retire"
     },
     "WATER_VALVE": {
@@ -1042,6 +1051,8 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",
     "EMAIL": "Email",
+    "FEEDBACK_INVITATION": "Get help or give us feedback",
+    "SEND_US_FEEDBACK": "Send us feedback",
     "MESSAGE_LABEL": "Message",
     "OPTIONS": {
       "OTHER": "Other",
@@ -1051,7 +1062,6 @@
     },
     "PREFERRED_CONTACT": "Preferred contact method",
     "REQUIRED_LABEL": "Required Field",
-    "TITLE": "Request Help",
     "TYPE_SUPPORT_LABEL": "Type of support",
     "TYPE_SUPPORT_PLACEHOLDER": "Choose type of support",
     "WHATSAPP": "Whatsapp",
@@ -1917,6 +1927,7 @@
         "LABOUR_ISSUE": "Labour issue",
         "MACHINERY_ISSUE": "Machinery issue",
         "MARKET_PROBLEM": "Market problem",
+        "NO_ANIMALS": "Auto-abandoned: No animals for this task",
         "OTHER": "Other",
         "SCHEDULING_ISSUE": "Scheduling issue",
         "WEATHER": "Weather"
@@ -1936,6 +1947,8 @@
     "ADD_TASK": "Create a task",
     "ADD_TASK_FLOW": "task creation",
     "AMOUNT_TO_ALLOCATE": "Amount to allocate",
+    "ANIMAL_MOVING_TO_LOCATION": "Moving to:",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "See detail list of animals to move",
     "CARD": {
       "MULTIPLE_CROPS": "Multiple crops",
       "MULTIPLE_LOCATIONS": "Multiple locations"
@@ -2057,5 +2070,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "Beta",
+      "ANIMALS_CONTENT": "Get a sneak peek at our new animal management feature—now in beta! Your feedback is crucial as we refine this feature. Please share any bugs or suggestions you encounter. We appreciate your help in improving liteFarm! You can learn more about beta <a>here</a>"
+    }
   }
 }

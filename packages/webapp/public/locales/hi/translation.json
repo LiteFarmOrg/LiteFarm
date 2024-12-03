@@ -136,8 +136,16 @@
       "WHAT_TYPE_OF_IRRIGATION": "सिंचाई का कौन सा प्रकार?"
     },
     "MANAGE_CUSTOM_TASKS": "कस्टम कार्यों का प्रबंधन करें",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "MISSING",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "MISSING"
+    },
     "NEED_MANAGEMENT_PLAN": "आपको कटाई कार्य या प्रत्यारोपण कार्य निर्धारित करने से पहले एक सक्रिय या योजनाबद्ध फसल योजना की आवश्यकता होगी। अब योजना बनाने के लिए फसल कैटलॉग पर जाएँ।",
     "NO_MANAGEMENT_PLAN": "कोई योग्य फसल योजना नहीं",
+    "NOTES_LABEL": "MISSING",
+    "NOTES_PLACEHOLDER": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "जैविक नियंत्रण",
       "FLAME_WEEDING": "लौ निराई",
@@ -831,7 +839,7 @@
     },
     "TUTORIALS": "नक्शे के ट्यूटोरियल",
     "UNABLE_TO_RETIRE": {
-      "BODY": "आप केवल उन स्थानों को सेवानिवृत्त कर सकते हैं जिनमें कोई सक्रिय या योजनाबद्ध फसल या कार्य नहीं है।",
+      "BODY": "MISSING",
       "TITLE": "सेवानिवृत्त करने में असमर्थ"
     },
     "WATER_VALVE": {
@@ -930,6 +938,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "स्क्रीनशॉट या फाइल अपलोड करें",
     "EMAIL": "ईमेल",
+    "FEEDBACK_INVITATION": "MISSING",
     "MESSAGE_LABEL": "संदेश",
     "OPTIONS": {
       "OTHER": "कुछ और",
@@ -939,7 +948,6 @@
     },
     "PREFERRED_CONTACT": "पसंदीदा संपर्क विधि",
     "REQUIRED_LABEL": "आवश्यक फील्ड",
-    "TITLE": "सहायता का अनुरोध",
     "TYPE_SUPPORT_LABEL": "समर्थन का प्रकार",
     "TYPE_SUPPORT_PLACEHOLDER": "समर्थन का प्रकार चुनें",
     "WHATSAPP": "व्हाट्सएप",
@@ -1796,6 +1804,8 @@
     "ADD_TASK": "एक कार्य बनाएँ",
     "ADD_TASK_FLOW": "कार्य निर्माण",
     "AMOUNT_TO_ALLOCATE": "आवंटित राशि",
+    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "कई फसलें",
       "MULTIPLE_LOCATIONS": "कई स्थान"
@@ -1910,5 +1920,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "वर्ष चुनें"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "MISSING",
+      "ANIMALS_CONTENT": "MISSING"
+    }
   }
 }

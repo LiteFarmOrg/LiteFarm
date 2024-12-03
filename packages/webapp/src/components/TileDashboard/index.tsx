@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReactNode, useRef } from 'react';
+import React, { useRef } from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { Title } from '../Typography';
@@ -35,7 +35,7 @@ export interface TypeCountTile {
 
 export interface PureTileDashboardProps {
   typeCountTiles: TypeCountTile[];
-  dashboardTitle: string;
+  dashboardTitle: string | React.ReactElement;
   categoryLabel: string;
   selectedFilterIds?: FilterId[];
 }

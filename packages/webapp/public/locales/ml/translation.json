@@ -136,8 +136,16 @@
       "WHAT_TYPE_OF_IRRIGATION": "ഏത് തരത്തിലുള്ള ജലസേചനമാണ്?"
     },
     "MANAGE_CUSTOM_TASKS": "ഇഷ്‌ടാനുസൃത ജോലികൾ നിയന്ത്രിക്കുക",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "MISSING",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "MISSING"
+    },
     "NEED_MANAGEMENT_PLAN": "ഒരു വിളവെടുപ്പ് ചുമതലയോ പറിച്ചുനടൽ ചുമതലയോ ഷെഡ്യൂൾ ചെയ്യുന്നതിന് മുമ്പ് നിങ്ങൾക്ക് സജീവമോ ആസൂത്രിതമോ ആയ ഒരു വിള പ്ലാൻ ആവശ്യമാണ്. ഇപ്പോൾ ഒരു പ്ലാൻ സൃഷ്‌ടിക്കാൻ ക്രോപ്പ് കാറ്റലോഗിലേക്ക് പോകുക. ദയവായി ചേർക്കുക.",
     "NO_MANAGEMENT_PLAN": "യോഗ്യതയുള്ള ക്രോപ്പ് പ്ലാനുകളൊന്നുമില്ല",
+    "NOTES_LABEL": "MISSING",
+    "NOTES_PLACEHOLDER": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "ജൈവ നിയന്ത്രണം",
       "FLAME_WEEDING": "തീജ്വാല കളനിയന്ത്രണം",
@@ -831,7 +839,7 @@
     },
     "TUTORIALS": "മാപ്പ് ട്യൂട്ടോറിയലുകൾ",
     "UNABLE_TO_RETIRE": {
-      "BODY": "സജീവമായതോ ആസൂത്രണം ചെയ്തതോ ആയ വിളകളോ ടാസ്‌ക്കുകളോ ഇല്ലാത്ത ലൊക്കേഷനുകൾ മാത്രമേ നിങ്ങൾക്ക് മാറാൻ സാധിക്കു.",
+      "BODY": "MISSING",
       "TITLE": "സ്ഥലം മാറാൻ സാധിക്കുന്നില്ല"
     },
     "WATER_VALVE": {
@@ -930,6 +938,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "സ്ക്രീൻഷോട്ടോ ഫയലോ അപ്ലോഡ് ചെയ്യുക",
     "EMAIL": "ഇമെയിൽ",
+    "FEEDBACK_INVITATION": "MISSING",
     "MESSAGE_LABEL": "സന്ദേശം",
     "OPTIONS": {
       "OTHER": "മറ്റുള്ളവ",
@@ -939,7 +948,6 @@
     },
     "PREFERRED_CONTACT": "കോൺടാക്ട് ചെയ്യാനുള്ള രീതി തിരഞ്ഞെടുക്കുക",
     "REQUIRED_LABEL": "ആവശ്യമായ ഫീൽഡ്",
-    "TITLE": "സഹായം അഭ്യർത്ഥിക്കുക",
     "TYPE_SUPPORT_LABEL": "എന്തുതരം സഹായമാണ് വേണ്ടത്",
     "TYPE_SUPPORT_PLACEHOLDER": "എന്തുതരം സഹായമാണ് വേണ്ടതെന്ന് തിരഞ്ഞെടുക്കുക",
     "WHATSAPP": "വാട്സ്ആപ്പ്",
@@ -1796,6 +1804,8 @@
     "ADD_TASK": "ഒരു ചുമതല സൃഷ്ടിക്കുക",
     "ADD_TASK_FLOW": "ചുമതല സൃഷ്ടിക്കൽ",
     "AMOUNT_TO_ALLOCATE": "അനുവദിക്കേണ്ട തുക",
+    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "ഒന്നിലധികം വിളകൾ",
       "MULTIPLE_LOCATIONS": "ഒന്നിലധികം സ്ഥാനങ്ങൾ"
@@ -1909,5 +1919,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "വർഷം തിരഞ്ഞെടുക്കുക"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "MISSING",
+      "ANIMALS_CONTENT": "MISSING"
+    }
   }
 }

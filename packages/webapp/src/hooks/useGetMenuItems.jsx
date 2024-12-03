@@ -36,6 +36,7 @@ import {
   LABOUR_URL,
   OTHER_EXPENSE_URL,
 } from '../util/siteMapConstants';
+import Badge from '../components/Badge';
 
 export const useGetMenuItems = () => {
   const { t } = useTranslation();
@@ -56,6 +57,7 @@ export const useGetMenuItems = () => {
         icon: <AnimalsIcon />,
         path: ANIMALS_INVENTORY_URL,
         key: 'animals',
+        badge: <Badge isMenuItem={true} title={t('BADGE.BETA.TITLE')} showIcon={false} />,
       },
       { label: t('MENU.INSIGHTS'), icon: <InsightsIcon />, path: '/Insights', key: 'insights' },
     ];

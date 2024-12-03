@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   hookFormPersistSelector,
   setManagementPlansData,
@@ -9,6 +8,7 @@ import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
 import {
+  animalLocationsSelector,
   cropLocationEntitiesSelector,
   cropLocationsSelector,
   locationsSelector,
@@ -28,6 +28,7 @@ export default function TaskLocationsSwitch({ history, match, location }) {
   const isIrrigationLocation = useIsTaskType('IRRIGATION_TASK');
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
   const isSoilAmendmentLocation = useIsTaskType('SOIL_AMENDMENT_TASK');
+  const isAnimalLocation = useIsTaskType('MOVEMENT_TASK');
 
   if (isHarvestLocation) {
     return <TaskActiveAndPlannedCropLocations history={history} location={location} />;
@@ -43,6 +44,10 @@ export default function TaskLocationsSwitch({ history, match, location }) {
 
   if (isSoilAmendmentLocation) {
     return <TaskSoilAmendmentLocations history={history} location={location} />;
+  }
+
+  if (isAnimalLocation) {
+    return <TaskAnimalLocations history={history} location={location} />;
   }
 
   return <TaskAllLocations history={history} location={location} />;
@@ -136,6 +141,26 @@ function TaskSoilAmendmentLocations({ history, location }) {
   );
 }
 
+function TaskAnimalLocations({ history, location }) {
+  const { t } = useTranslation();
+  const animalLocations = useSelector(animalLocationsSelector);
+  const onContinue = () => {
+    history.push('/add_task/task_details', location.state);
+  };
+
+  return (
+    <TaskLocations
+      locations={animalLocations}
+      history={history}
+      isMulti={false}
+      title={t('TASK.ANIMAL_MOVING_TO_LOCATION')}
+      onContinue={onContinue}
+      location={location}
+      isAnimalTask={true}
+    />
+  );
+}
+
 function TaskAllLocations({ history, location }) {
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
@@ -182,6 +207,7 @@ function TaskLocations({
   onContinue,
   readOnlyPinCoordinates,
   location,
+  isAnimalTask = false,
 }) {
   const { grid_points } = useSelector(userFarmSelector);
   const { maxZoomRef, getMaxZoom, maxZoom } = useMaxZoom();
@@ -207,6 +233,7 @@ function TaskLocations({
         maxZoom={maxZoom}
         defaultLocation={location?.state?.location ?? null}
         targetsWildCrop={managementPlan?.crop_management_plan?.is_wild ?? false}
+        isAnimalTask={isAnimalTask}
       />
     </HookFormPersistProvider>
   );

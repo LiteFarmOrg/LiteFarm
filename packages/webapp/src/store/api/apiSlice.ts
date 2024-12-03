@@ -33,6 +33,7 @@ import {
   soilAmendmentFertiliserTypesUrl,
   productUrl,
   url,
+  animalMovementPurposesUrl,
 } from '../../apiConfig';
 import type {
   Animal,
@@ -51,6 +52,7 @@ import type {
   AnimalIdentifierColor,
   AnimalOrigin,
   AnimalUse,
+  AnimalMovementPurpose,
 } from './types';
 
 export const api = createApi({
@@ -78,6 +80,7 @@ export const api = createApi({
     'AnimalSexes',
     'AnimalIdentifierTypes',
     'AnimalIdentifierColors',
+    'AnimalMovementPurposes',
     'AnimalOrigins',
     'AnimalUses',
     'AnimalRemovalReasons',
@@ -124,6 +127,10 @@ export const api = createApi({
     getAnimalIdentifierColors: build.query<AnimalIdentifierColor[], void>({
       query: () => `${animalIdentifierColorsUrl}`,
       providesTags: ['AnimalIdentifierColors'],
+    }),
+    getAnimalMovementPurposes: build.query<AnimalMovementPurpose[], void>({
+      query: () => `${animalMovementPurposesUrl}`,
+      providesTags: ['AnimalMovementPurposes'],
     }),
     getAnimalOrigins: build.query<AnimalOrigin[], void>({
       query: () => `${animalOriginsUrl}`,
@@ -175,7 +182,7 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Animals', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+      invalidatesTags: ['Animals', 'DefaultAnimalTypes', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
     }),
     addAnimalBatches: build.mutation<AnimalBatch[], Partial<AnimalBatch>[]>({
       query: (body) => ({
@@ -183,7 +190,25 @@ export const api = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+      invalidatesTags: [
+        'AnimalBatches',
+        'DefaultAnimalTypes',
+        'CustomAnimalTypes',
+        'CustomAnimalBreeds',
+      ],
+    }),
+    updateAnimals: build.mutation<void, Partial<Animal>[]>({
+      query: (body) => ({ url: `${animalsUrl}`, method: 'PATCH', body }),
+      invalidatesTags: ['Animals', 'DefaultAnimalTypes', 'CustomAnimalTypes', 'CustomAnimalBreeds'],
+    }),
+    updateAnimalBatches: build.mutation<void, Partial<AnimalBatch>[]>({
+      query: (body) => ({ url: `${animalBatchesUrl}`, method: 'PATCH', body }),
+      invalidatesTags: [
+        'AnimalBatches',
+        'DefaultAnimalTypes',
+        'CustomAnimalTypes',
+        'CustomAnimalBreeds',
+      ],
     }),
     getSoilAmendmentMethods: build.query<SoilAmendmentMethod[], void>({
       query: () => `${soilAmendmentMethodsUrl}`,
@@ -226,6 +251,7 @@ export const {
   useGetAnimalSexesQuery,
   useGetAnimalIdentifierTypesQuery,
   useGetAnimalIdentifierColorsQuery,
+  useGetAnimalMovementPurposesQuery,
   useGetAnimalOriginsQuery,
   useGetAnimalUsesQuery,
   useGetAnimalRemovalReasonsQuery,
@@ -235,6 +261,8 @@ export const {
   useDeleteAnimalBatchesMutation,
   useAddAnimalsMutation,
   useAddAnimalBatchesMutation,
+  useUpdateAnimalsMutation,
+  useUpdateAnimalBatchesMutation,
   useGetSoilAmendmentMethodsQuery,
   useGetSoilAmendmentPurposesQuery,
   useGetSoilAmendmentFertiliserTypesQuery,

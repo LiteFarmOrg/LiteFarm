@@ -36,7 +36,7 @@
 .searchAndFilterDesktop {
   align-items: center;
   gap: 8px;
-  margin-bottom: 16px; 
+  margin-bottom: 16px;
 }
 
 .searchAndFilter {
@@ -79,4 +79,10 @@
 
 .headerClass {
   background-color: var(--tableV2Header);
+}
+
+.ctaButtonWrapper {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
 }

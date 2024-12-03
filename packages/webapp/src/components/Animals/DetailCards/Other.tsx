@@ -46,10 +46,10 @@ const OtherDetails = ({
 }: OtherDetailsProps) => {
   const {
     control,
-    resetField,
     register,
     getValues,
     setValue,
+    resetField,
     formState: { errors },
   } = useFormContext();
 
@@ -60,7 +60,7 @@ const OtherDetails = ({
   };
 
   const handleRemoveImage = () => {
-    resetField(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`);
+    resetField(`${namePrefix}${DetailsFields.ANIMAL_IMAGE}`, { defaultValue: '' });
   };
 
   const onFileUpload = getOnFileUpload(imageUploadTargetRoute, handleSelectImage);

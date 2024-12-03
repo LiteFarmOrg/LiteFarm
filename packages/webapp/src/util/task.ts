@@ -206,3 +206,11 @@ export const getRemovedTaskProductIds = (
 
   return oldIds.filter((id) => !newIds.includes(id));
 };
+
+const subtaskNames: { [key: string]: string } = {
+  MOVEMENT_TASK: 'animal_movement_task',
+};
+
+export const getSubtaskName = (translationKey: string) => {
+  return subtaskNames[translationKey] || translationKey.toLowerCase();
+};

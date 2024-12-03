@@ -154,7 +154,7 @@ async function updateTaskWithCompletedData(
       if (!data.animals && !data.animal_batches) {
         // Check if there are animals and batches in the DB to move
         if (!animals?.length && !animal_batches?.length) {
-          throw customError('No animals and bathes to move');
+          throw customError('No animals and batches to move');
         }
 
         data.animals = animals;
@@ -1261,4 +1261,5 @@ async function filterOutDeletedManagementPlans(data, req) {
 
 const flattenInternalIdentifier = (animalOrBatch) => {
   animalOrBatch.internal_identifier = animalOrBatch.animal_union_batch.internal_identifier;
+  delete animalOrBatch.animal_union_batch;
 };

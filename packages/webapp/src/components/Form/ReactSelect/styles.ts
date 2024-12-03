@@ -19,7 +19,7 @@ import { colors } from '../../../assets/theme';
 export const styles: StylesConfig = {
   option: (provided, state) => ({
     ...provided,
-    backgroundColor: 'white',
+    backgroundColor: state.isFocused ? 'var(--Colors-Secondary-Secondary-green-100)' : 'white',
     '&:hover': {
       backgroundColor: 'var(--Colors-Secondary-Secondary-green-100)',
     },

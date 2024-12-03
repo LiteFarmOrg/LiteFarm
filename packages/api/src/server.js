@@ -144,6 +144,7 @@ import taskTypeRoutes from './routes/taskTypeRoute.js';
 import soilAmendmentMethodRoute from './routes/soilAmendmentMethodRoute.js';
 import soilAmendmentPurposeRoute from './routes/soilAmendmentPurposeRoute.js';
 import soilAmendmentFertiliserTypeRoute from './routes/soilAmendmentFertiliserTypeRoute.js';
+import animalMovementPurposeRoute from './routes/animalMovementPurposeRoute.js';
 import userRoutes from './routes/userRoute.js';
 import farmExpenseRoute from './routes/farmExpenseRoute.js';
 import farmExpenseTypeRoute from './routes/farmExpenseTypeRoute.js';
@@ -302,6 +303,7 @@ app
   .use('/soil_amendment_purposes', soilAmendmentPurposeRoute)
   .use('/soil_amendment_methods', soilAmendmentMethodRoute)
   .use('/soil_amendment_fertiliser_types', soilAmendmentFertiliserTypeRoute)
+  .use('/animal_movement_purposes', animalMovementPurposeRoute)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)
   .use('/expense_type', farmExpenseTypeRoute)

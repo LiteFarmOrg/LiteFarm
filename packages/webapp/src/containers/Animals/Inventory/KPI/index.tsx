@@ -14,7 +14,7 @@
  */
 
 import { useMemo } from 'react';
-import { useTranslation, TFunction } from 'react-i18next';
+import { useTranslation, TFunction, Trans } from 'react-i18next';
 import {
   useGetDefaultAnimalTypesQuery,
   useGetCustomAnimalTypesQuery,
@@ -25,6 +25,8 @@ import { CustomAnimalType, DefaultAnimalType } from '../../../../store/api/types
 import { getComparator } from '../../../../util/sort';
 import { generateUniqueAnimalId } from '../../../../util/animal';
 import { isAnimalTypeIconKey } from '../../../../components/Icons/icons';
+import { useSectionHeader } from '../../../../components/Navigation/useSectionHeaders';
+import { History } from 'history';
 
 const formatAnimalTypes = (
   types: (DefaultAnimalType | CustomAnimalType)[],
@@ -51,11 +53,12 @@ const formatAnimalTypes = (
 };
 
 interface KPIProps {
+  history: History;
   selectedTypeIds: string[];
   onTypeClick: (typeId: string) => void;
 }
 
-function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
+function KPI({ history, selectedTypeIds, onTypeClick }: KPIProps) {
   const { t } = useTranslation(['translation', 'common', 'animal']);
   const { data, isLoading } = useQueries([
     { label: 'defaultAnimalTypes', hook: useGetDefaultAnimalTypesQuery, params: '?count=true' },
@@ -74,10 +77,12 @@ function KPI({ selectedTypeIds, onTypeClick }: KPIProps) {
     return types;
   }, [data, isLoading, onTypeClick]);
 
+  const animalInventoryTitle = useSectionHeader(history.location.pathname) || '';
+
   return (
     <PureTileDashboard
       typeCountTiles={types}
-      dashboardTitle={t('SECTION_HEADER.ANIMALS_INVENTORY')}
+      dashboardTitle={animalInventoryTitle}
       categoryLabel={t('common:TYPES')}
       selectedFilterIds={selectedTypeIds}
     />

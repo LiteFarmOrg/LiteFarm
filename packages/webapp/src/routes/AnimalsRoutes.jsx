@@ -19,21 +19,27 @@ import {
   ANIMALS_INVENTORY_URL,
   ADD_ANIMALS_URL,
   createSingleAnimalViewURL,
-  createSingleAnimalTasksURL,
+  // createSingleAnimalTasksURL,
 } from '../util/siteMapConstants';
 const Inventory = React.lazy(() => import('../containers/Animals/Inventory'));
 const AddAnimals = React.lazy(() => import('../containers/Animals/AddAnimals'));
 const SingleAnimalView = React.lazy(() => import('../containers/Animals/SingleAnimalView'));
-const SingleAnimalTasks = React.lazy(() =>
-  import('../containers/Animals/SingleAnimalView/AnimalTasks'),
-);
+// const SingleAnimalTasks = React.lazy(() =>
+//   import('../containers/Animals/SingleAnimalView/AnimalTasks'),
+// );
 
-const AnimalsRoutes = ({ isCompactSideMenu }) => (
+const AnimalsRoutes = ({ isCompactSideMenu, setFeedbackSurveyOpen }) => (
   <Switch>
     <Route
       path={ANIMALS_INVENTORY_URL}
       exact
-      render={(props) => <Inventory isCompactSideMenu={isCompactSideMenu} {...props} />}
+      render={(props) => (
+        <Inventory
+          isCompactSideMenu={isCompactSideMenu}
+          setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+          {...props}
+        />
+      )}
     />
     <Route
       path={ADD_ANIMALS_URL}
@@ -45,11 +51,12 @@ const AnimalsRoutes = ({ isCompactSideMenu }) => (
       exact
       render={(props) => <SingleAnimalView isCompactSideMenu={isCompactSideMenu} {...props} />}
     />
-    <Route
+    {/* Temporarily removed for Animals v1 release */}
+    {/* <Route
       path={createSingleAnimalTasksURL(':id')}
       exact
       render={(props) => <SingleAnimalTasks isCompactSideMenu={isCompactSideMenu} {...props} />}
-    />
+    /> */}
   </Switch>
 );
 

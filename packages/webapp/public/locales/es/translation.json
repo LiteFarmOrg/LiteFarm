@@ -16,7 +16,6 @@
     "BATCH_NAME": "MISSING",
     "BATCH_NAME_PLACEHOLDER": "MISSING",
     "BREED": "MISSING",
-    "BREED_PLACEHOLDER": "MISSING",
     "BREED_PLACEHOLDER_DISABLED": "MISSING",
     "CREATE_INDIVIDUAL_PROFILES": "MISSING",
     "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "MISSING",
@@ -65,7 +64,6 @@
       "MAIN": "MISSING"
     },
     "TYPE": "MISSING",
-    "TYPE_PLACEHOLDER": "MISSING",
     "UNIQUE_DETAILS": "MISSING"
   },
   "ADD_FARM": {
@@ -206,8 +204,16 @@
       "WHAT_TYPE_OF_IRRIGATION": "¿Qué tipo de riego?"
     },
     "MANAGE_CUSTOM_TASKS": "Administrar tareas personalizadas",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "MISSING",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "MISSING",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "MISSING"
+    },
     "NEED_MANAGEMENT_PLAN": "Necesitará un plan de cultivo que está activo o planificado antes de poder programar una tarea de cosecha o una tarea de trasplante. Vaya al catálogo de cultivos para crear un plan ahora.",
     "NO_MANAGEMENT_PLAN": "No hay ningun plan de cultivo de cultivos elegibles",
+    "NOTES_LABEL": "MISSING",
+    "NOTES_PLACEHOLDER": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Control biológico",
       "FLAME_WEEDING": "Deshierbe de llama",
@@ -304,6 +310,7 @@
       "WEANING_DATE": "MISSING"
     },
     "BATCH": "MISSING",
+    "EDIT_ANIMAL_FLOW": "MISSING",
     "FILTER": {
       "BATCHES": "MISSING",
       "BATCHES_OR_INDIVIDUALS": "MISSING",
@@ -943,7 +950,7 @@
     },
     "TUTORIALS": "Tutoriales de mapas",
     "UNABLE_TO_RETIRE": {
-      "BODY": "Solo puede retirar ubicaciones que no tengan cultivos o tareas activos o planificados.",
+      "BODY": "MISSING",
       "TITLE": "No se pudo retirar"
     },
     "WATER_VALVE": {
@@ -1049,6 +1056,7 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
     "EMAIL": "Correo electrónico",
+    "FEEDBACK_INVITATION": "MISSING",
     "MESSAGE_LABEL": "Mensaje",
     "OPTIONS": {
       "OTHER": "Otro",
@@ -1058,7 +1066,6 @@
     },
     "PREFERRED_CONTACT": "Método de contacto preferido",
     "REQUIRED_LABEL": "Campo solicitado",
-    "TITLE": "Solicitar ayuda",
     "TYPE_SUPPORT_LABEL": "Tipo de ayuda",
     "TYPE_SUPPORT_PLACEHOLDER": "Elija tipo de ayuda",
     "WHATSAPP": "Whatsapp",
@@ -1943,6 +1950,8 @@
     "ADD_TASK": "Crear una tarea",
     "ADD_TASK_FLOW": "creación de tareas",
     "AMOUNT_TO_ALLOCATE": "Cantidad a asignar",
+    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "Múltiples cultivos",
       "MULTIPLE_LOCATIONS": "Múltiples ubicaciones"
@@ -2064,5 +2073,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "MISSING",
+      "ANIMALS_CONTENT": "MISSING"
+    }
   }
 }

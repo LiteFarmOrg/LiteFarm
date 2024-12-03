@@ -119,6 +119,8 @@ const getLocationNameOfTask = (managementPlans, locations, taskType) => {
     if (locationNameSet.size > 1) return i18n.t('TASK.CARD.MULTIPLE_LOCATIONS');
   }
 
+  if (locationNameSet.size == 0) return i18n.t('TASK.CARD.NO_LOCATION');
+
   return locationNameSet.values()?.next()?.value;
 };
 

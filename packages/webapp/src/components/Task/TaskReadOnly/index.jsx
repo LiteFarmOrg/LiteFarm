@@ -353,12 +353,12 @@ export default function PureTaskReadOnly({
       )}
 
       {task.animals || task.animal_batches ? (
-        <div style={{ marginBottom: '24px' }}>
-          <Semibold>{'Animals'}</Semibold>
+        <div className={styles.section}>
+          <Semibold>{t('TASK.ANIMALS')}</Semibold>
           <AnimalInventory
             view={View.TASK_SUMMARY}
             preSelectedIds={
-              formatTaskAnimalsAsInventoryIds(task?.animals, task?.animal_batches) || []
+              formatTaskAnimalsAsInventoryIds(task.animals, task.animal_batches) || []
             }
             showLinks={false}
             showOnlySelected={true}

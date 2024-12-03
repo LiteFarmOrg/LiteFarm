@@ -224,9 +224,10 @@ describe('Animal task tests', () => {
         // Destructure other types as needed
       ] = await Promise.all(
         typesToTest.map((type) =>
-          mocks.task_typeFactory({
-            taskType: { ...mocks.fakeTaskType, farm_id: type === 'custom_task' ? farm_id : null },
-          }),
+          mocks.task_typeFactory(
+            {},
+            { ...mocks.fakeTaskType(), farm_id: type === 'custom_task' ? farm_id : null },
+          ),
         ),
       );
 

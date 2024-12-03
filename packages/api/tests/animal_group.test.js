@@ -32,7 +32,6 @@ jest.mock('../src/middleware/acl/checkJwt.js', () =>
   }),
 );
 import mocks from './mock.factories.js';
-import animalGroupModel from '../src/models/animalGroupModel.js';
 import animalGroupRelationshipModel from '../src/models/animalGroupRelationshipModel.js';
 import animalBatchGroupRelationshipModel from '../src/models/animalBatchGroupRelationshipModel.js';
 
@@ -135,7 +134,7 @@ describe('Animal Group Tests', () => {
 
   // GET TESTS
   describe('Get animal groups tests', () => {
-    skip('All users should get animal groups for their farm', async () => {
+    test.skip('All users should get animal groups for their farm', async () => {
       const roles = [1, 2, 3, 5];
 
       for (const role of roles) {
@@ -201,7 +200,7 @@ describe('Animal Group Tests', () => {
       }
     });
 
-    skip('Unauthorized user should get 403 if they try to get animals', async () => {
+    test.skip('Unauthorized user should get 403 if they try to get animals', async () => {
       const { mainFarm } = await returnUserFarms(1);
       await makeAnimalGroup(mainFarm);
       const [unAuthorizedUser] = await mocks.usersFactory();
@@ -217,7 +216,7 @@ describe('Animal Group Tests', () => {
       );
     });
 
-    skip('Groups should not include deleted animals or batches', async () => {
+    test.skip('Groups should not include deleted animals or batches', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
 
       const group = await makeAnimalGroup(mainFarm);
@@ -246,7 +245,7 @@ describe('Animal Group Tests', () => {
 
   // POST TESTS
   describe('POST animal groups tests', () => {
-    skip('Admin users should create animal groups for their farm', async () => {
+    test.skip('Admin users should create animal groups for their farm', async () => {
       const adminRoles = [1, 2, 5];
 
       for (const role of adminRoles) {
@@ -309,7 +308,7 @@ describe('Animal Group Tests', () => {
       }
     });
 
-    skip('Workers should not be able to create animal groups', async () => {
+    test.skip('Workers should not be able to create animal groups', async () => {
       const { mainFarm, user } = await returnUserFarms(3);
 
       const firstAnimal = await makeAnimal(mainFarm);
@@ -338,7 +337,7 @@ describe('Animal Group Tests', () => {
       );
     });
 
-    skip('Should be possible to create empty groups', async () => {
+    test.skip('Should be possible to create empty groups', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
 
       const animalGroup = mocks.fakeAnimalGroup();
@@ -382,7 +381,7 @@ describe('Animal Group Tests', () => {
       expect(animal_batch_group_relationship).toHaveLength(0);
     });
 
-    skip('Should not be possible to create groups with the same name as existing animal groups', async () => {
+    test.skip('Should not be possible to create groups with the same name as existing animal groups', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
 
       const animalGroup = mocks.fakeAnimalGroup();
@@ -415,7 +414,7 @@ describe('Animal Group Tests', () => {
       expect(res.status).toBe(409);
     });
 
-    skip('Should not be possible to created animal groups with animals from other farms', async () => {
+    test.skip('Should not be possible to created animal groups with animals from other farms', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const [secondFarm] = await mocks.farmFactory();
 
@@ -458,7 +457,7 @@ describe('Animal Group Tests', () => {
       expect(animal_group_relationship).toHaveLength(0);
     });
 
-    skip('Should not be possible to created animal groups with batches from other farms', async () => {
+    test.skip('Should not be possible to created animal groups with batches from other farms', async () => {
       const { mainFarm, user } = await returnUserFarms(1);
       const [secondFarm] = await mocks.farmFactory();
 

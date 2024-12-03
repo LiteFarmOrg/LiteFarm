@@ -55,7 +55,7 @@ const PureMovementTask = (props: PureMovementTaskProps) => {
       const filteredPurposes = purposeOptions.filter(({ id }) => purposeIds.includes(id));
       setValue(PURPOSE, filteredPurposes);
     }
-  }, [purposeOptions]);
+  }, [purposes]);
 
   const PURPOSE = `movement_task.purpose`;
   const OTHER_PURPOSE_EXPLANATION = `movement_task.other_purpose_explanation`;

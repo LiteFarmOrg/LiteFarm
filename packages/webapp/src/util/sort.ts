@@ -21,7 +21,7 @@ export enum orderEnum {
 }
 
 type Comparable<T extends string | number> = {
-  [key in T]: string | number;
+  [key in T]: any;
 };
 
 /**

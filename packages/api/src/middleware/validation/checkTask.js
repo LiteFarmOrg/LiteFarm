@@ -294,27 +294,18 @@ async function checkAnimalMovementTask(req) {
 }
 
 export function checkDueDate() {
-  const animalTaskTranslationKeys = ['MOVEMENT_TASK'];
-
   return async (req, res, next) => {
     try {
       const { due_date } = req.body;
       const { task_id } = req.params;
 
-      const { taskType, animals, animal_batches } = await TaskModel.query()
+      const { animals, animal_batches } = await TaskModel.query()
         .select('task_id')
-        .withGraphFetched(
-          '[taskType(selectTranslationKey), animals(selectId), animal_batches(selectId)]',
-        )
-        .modifiers({
-          selectTranslationKey(builder) {
-            builder.select('task_translation_key');
-          },
-        })
+        .withGraphFetched('[animals(selectId), animal_batches(selectId)]')
         .where({ task_id })
         .first();
 
-      if (animalTaskTranslationKeys.includes(taskType.task_translation_key)) {
+      if (animals.length || animal_batches.length) {
         const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
           due_date.split('T')[0],
           animals.map(({ id }) => id),

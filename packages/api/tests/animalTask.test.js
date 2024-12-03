@@ -969,14 +969,18 @@ describe('Animal task tests', () => {
     });
   });
 
-  const animalTaskTranslationKeys = ['MOVEMENT_TASK'];
+  const animalTaskTranslationKeys = ['MOVEMENT_TASK', 'custom_task'];
   describe.each(animalTaskTranslationKeys)('Patch task due date test', (key) => {
     let task_id;
 
     beforeAll(async () => {
       const [{ task_type_id }] = await mocks.task_typeFactory(
-        { promisedFarm: [{ farm_id }] },
-        { task_name: faker.lorem.word(), task_translation_key: key },
+        {},
+        {
+          task_name: faker.lorem.word(),
+          task_translation_key: key,
+          farm_id: key === 'custom_task' ? farm_id : null,
+        },
       );
       ({ task_id } = await animalTaskFactory({
         task_type_id,

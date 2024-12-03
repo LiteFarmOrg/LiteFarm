@@ -217,12 +217,17 @@ describe('Animal task tests', () => {
 
   describe('GET tasks', () => {
     test('should get all tasks for a farm with correct task-specific details', async () => {
-      const typesToTest = ['animal_movement_task'];
+      const typesToTest = ['animal_movement_task', 'custom_task'];
       const [
         [{ task_type_id: movementTaskId }],
+        [{ task_type_id: customTaskId }],
         // Destructure other types as needed
       ] = await Promise.all(
-        typesToTest.map(() => mocks.task_typeFactory({ promisedFarm: [{ farm_id }] })),
+        typesToTest.map((type) =>
+          mocks.task_typeFactory({
+            taskType: { ...mocks.fakeTaskType, farm_id: type === 'custom_task' ? farm_id : null },
+          }),
+        ),
       );
 
       // Add more cases (data to add to the DB) here for new task types as needed
@@ -235,6 +240,7 @@ describe('Animal task tests', () => {
           ]),
         },
         { task_type_id: movementTaskId, ...createFakeMovementTask() },
+        { task_type_id: customTaskId, notes: faker.lorem.sentence() },
       ];
 
       const expectedTasks = await Promise.all(
@@ -247,6 +253,12 @@ describe('Animal task tests', () => {
 
       res.body.forEach((resTask) => {
         const expectedTask = expectedTasks.find(({ task_id }) => resTask.task_id === task_id);
+        expect(resTask.animals.map(({ id }) => id).sort()).toEqual(
+          expectedTask.animals.map(({ id }) => id).sort(),
+        );
+        expect(resTask.animal_batches.map(({ id }) => id).sort()).toEqual(
+          expectedTask.animal_batches.map(({ id }) => id).sort(),
+        );
 
         switch (resTask.task_type_id) {
           case movementTaskId:
@@ -255,6 +267,9 @@ describe('Animal task tests', () => {
               expectedTask.animal_movement_task.purpose_relationships,
               resTask.animal_movement_task.purpose_relationships,
             );
+            break;
+          case customTaskId:
+            expect(resTask.notes).toBe(expectedTask.notes);
             break;
           // Add more cases here for other task types added to taskDataBlueprint
           default:

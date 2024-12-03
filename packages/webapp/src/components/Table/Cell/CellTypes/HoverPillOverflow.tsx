@@ -22,7 +22,7 @@ const HoverPillOverFlow = ({ items, noneText = '' }: HoverPillOverflowProps) => 
   return (
     <div className={clsx(styles.text)}>
       {items.length === 0 ? (
-        <span className={styles.italics}>{noneText}</span>
+        <span>{noneText}</span>
       ) : (
         <span className={styles.marginRight8px}>{items[0]}</span>
       )}

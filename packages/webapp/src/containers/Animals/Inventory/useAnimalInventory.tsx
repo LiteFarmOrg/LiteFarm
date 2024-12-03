@@ -39,6 +39,9 @@ import { AnimalOrBatchKeys } from '../types';
 import { generateInventoryId } from '../../../util/animal';
 import { AnimalTypeIconKey, isAnimalTypeIconKey } from '../../../components/Icons/icons';
 import { createSingleAnimalViewURL } from '../../../util/siteMapConstants';
+import { useSelector } from 'react-redux';
+import { locationsSelector } from '../../locationSlice';
+import { Location } from '../../../types';
 
 export type AnimalInventory = {
   id: string;
@@ -51,12 +54,14 @@ export type AnimalInventory = {
   count: number;
   batch: boolean;
   group_ids: number[];
+  location: string;
   sex_id?: number;
   sex_detail?: { sex_id: number; count: number }[];
   custom_type_id: number | null;
   default_type_id: number | null;
   custom_breed_id: number | null;
   default_breed_id: number | null;
+  location_id?: string | null;
 };
 
 const { t } = i18n;
@@ -139,6 +144,7 @@ const formatAnimalsData = (
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
+  locationsMap: { [key: string]: string },
 ): AnimalInventory[] => {
   return animals
     .filter(
@@ -157,6 +163,7 @@ const formatAnimalsData = (
         path: createSingleAnimalViewURL(animal.internal_identifier),
         count: 1,
         batch: false,
+        location: animal.location_id ? locationsMap[animal.location_id] : '',
         // preserve some untransformed data for filtering
         group_ids: animal.group_ids,
         sex_id: animal.sex_id,
@@ -164,6 +171,7 @@ const formatAnimalsData = (
         default_type_id: animal.default_type_id,
         custom_breed_id: animal.custom_breed_id,
         default_breed_id: animal.default_breed_id,
+        location_id: animal.location_id,
       };
     });
 };
@@ -175,6 +183,7 @@ const formatAnimalBatchesData = (
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
+  locationsMap: { [key: string]: string },
 ): AnimalInventory[] => {
   return animalBatches
     .filter(
@@ -193,6 +202,7 @@ const formatAnimalBatchesData = (
         path: createSingleAnimalViewURL(batch.internal_identifier),
         count: batch.count,
         batch: true,
+        location: batch.location_id ? locationsMap[batch.location_id] : '',
         // preserve some untransformed data for filtering
         group_ids: batch.group_ids,
         sex_detail: batch.sex_detail,
@@ -200,6 +210,7 @@ const formatAnimalBatchesData = (
         default_type_id: batch.default_type_id,
         custom_breed_id: batch.custom_breed_id,
         default_breed_id: batch.default_breed_id,
+        location_id: batch.location_id,
       };
     });
 };
@@ -212,6 +223,7 @@ interface BuildInventoryArgs {
   customAnimalTypes: CustomAnimalType[];
   defaultAnimalBreeds: DefaultAnimalBreed[];
   defaultAnimalTypes: DefaultAnimalType[];
+  locationsMap: { [key: string]: string };
 }
 
 export const buildInventory = ({
@@ -222,6 +234,7 @@ export const buildInventory = ({
   customAnimalTypes,
   defaultAnimalBreeds,
   defaultAnimalTypes,
+  locationsMap,
 }: BuildInventoryArgs) => {
   const inventory = [
     ...formatAnimalsData(
@@ -231,6 +244,7 @@ export const buildInventory = ({
       customAnimalTypes,
       defaultAnimalBreeds,
       defaultAnimalTypes,
+      locationsMap,
     ),
     ...formatAnimalBatchesData(
       animalBatches,
@@ -239,6 +253,7 @@ export const buildInventory = ({
       customAnimalTypes,
       defaultAnimalBreeds,
       defaultAnimalTypes,
+      locationsMap,
     ),
   ];
 
@@ -269,6 +284,12 @@ const useAnimalInventory = () => {
     defaultAnimalTypes,
   } = data;
 
+  const locations: Location[] = useSelector(locationsSelector);
+  const locationsMap = locations?.reduce(
+    (map, { location_id, name }) => ({ ...map, [location_id]: name }),
+    {},
+  );
+
   const inventory = useMemo(() => {
     if (isLoading) {
       return [];
@@ -280,7 +301,8 @@ const useAnimalInventory = () => {
       customAnimalBreeds &&
       customAnimalTypes &&
       defaultAnimalBreeds &&
-      defaultAnimalTypes
+      defaultAnimalTypes &&
+      locationsMap
     ) {
       return buildInventory({
         animals,
@@ -290,6 +312,7 @@ const useAnimalInventory = () => {
         customAnimalTypes,
         defaultAnimalBreeds,
         defaultAnimalTypes,
+        locationsMap,
       });
     }
     return [];

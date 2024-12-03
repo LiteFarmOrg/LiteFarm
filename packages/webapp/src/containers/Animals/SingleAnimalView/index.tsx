@@ -13,16 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import { ContextForm, Variant } from '../../../components/Form/ContextForm/';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import AnimalReadonlyEdit from './AnimalReadonlyEdit';
 import Tab, { Variant as TabVariants } from '../../../components/RouterTab/Tab';
 import AnimalSingleViewHeader from '../../../components/Animals/AnimalSingleViewHeader';
+import FixedHeaderContainer from '../../../components/Animals/FixedHeaderContainer';
 import { addNullstoMissingFields } from './utils';
 import { useInitialAnimalData } from './useInitialAnimalData';
 import {
@@ -34,6 +34,7 @@ import {
   useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
 } from '../../../store/api/apiSlice';
+import { locationsSelector } from '../../locationSlice';
 import {
   formatAnimalDetailsToDBStructure,
   formatBatchDetailsToDBStructure,
@@ -41,6 +42,11 @@ import {
 import { Animal, AnimalBatch } from '../../../store/api/types';
 import { AnimalOrBatchKeys } from '../types';
 import { AnimalDetailsFormFields } from '../AddAnimals/types';
+import RemoveAnimalsModal, { FormFields } from '../../../components/Animals/RemoveAnimalsModal';
+import useAnimalOrBatchRemoval from '../Inventory/useAnimalOrBatchRemoval';
+import { generateInventoryId } from '../../../util/animal';
+import { CustomRouteComponentProps, Location } from '../../../types';
+import { isAdminSelector } from '../../userFarmSlice';
 
 export const STEPS = {
   DETAILS: 'details',
@@ -50,7 +56,7 @@ interface RouteParams {
   id: string;
 }
 
-interface AddAnimalsProps extends RouteComponentProps<RouteParams> {
+interface AddAnimalsProps extends CustomRouteComponentProps<RouteParams> {
   isCompactSideMenu: boolean;
 }
 
@@ -64,6 +70,8 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
   const { data: defaultAnimalBreeds = [] } = useGetDefaultAnimalBreedsQuery();
 
   const [isEditing, setIsEditing] = useState(false);
+
+  const isAdmin = useSelector(isAdminSelector);
 
   const initiateEdit = () => {
     setIsEditing(true);
@@ -83,6 +91,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
 
   // Form setup
   const dispatch = useDispatch();
+  const locations: Location[] = useSelector(locationsSelector);
 
   const getFormSteps = () => [
     {
@@ -91,11 +100,23 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
     },
   ];
 
-  const { defaultFormValues, selectedAnimal, selectedBatch } = useInitialAnimalData({
-    history,
-    match,
-    location,
-  });
+  const { defaultFormValues, selectedAnimal, selectedBatch, isFetchingAnimalsOrBatches } =
+    useInitialAnimalData({
+      history,
+      match,
+      location,
+    });
+
+  const isRemoved = !!defaultFormValues?.animal_removal_reason_id;
+  const locationText = locations?.find(
+    ({ location_id }) => location_id === defaultFormValues?.location_id,
+  )?.name;
+
+  useEffect(() => {
+    if (!isFetchingAnimalsOrBatches && !selectedAnimal && !selectedBatch) {
+      history.replace('/unknown_record');
+    }
+  }, [selectedAnimal, selectedBatch, history]);
 
   // Form submission
   const [updateAnimals] = useUpdateAnimalsMutation();
@@ -105,7 +126,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
 
   const onSave = async (
     data: AnimalDetailsFormFields & Partial<Animal | AnimalBatch>,
-    onGoForward: () => void,
+    onSuccess: () => void,
     _setFormResultData: () => void,
   ) => {
     const broughtInId = orgins.find((origin) => origin.key === 'BROUGHT_IN')?.id;
@@ -135,6 +156,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
       if (formattedAnimals.length) {
         await updateAnimals(formattedAnimals).unwrap();
         dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_UPDATE_ANIMAL')));
+        onSuccess();
       }
     } catch (e) {
       console.error(e);
@@ -144,50 +166,83 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
       if (formattedBatches.length) {
         await updateBatches(formattedBatches).unwrap();
         dispatch(enqueueSuccessSnackbar(t('message:ANIMALS.SUCCESS_UPDATE_BATCH')));
+        onSuccess();
       }
     } catch (e) {
       console.error(e);
       dispatch(enqueueErrorSnackbar(t('message:ANIMALS.FAILED_UPDATE_BATCH')));
     }
+  };
 
-    onGoForward();
+  const getInventoryId = () => {
+    const animalOrBatch = AnimalOrBatchKeys[selectedAnimal ? 'ANIMAL' : 'BATCH'];
+    return generateInventoryId(animalOrBatch, (selectedAnimal || selectedBatch)!);
+  };
+
+  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen } = useAnimalOrBatchRemoval(
+    [getInventoryId()],
+  );
+
+  const onConfirmRemoval = async (formData: FormFields) => {
+    const result = await onConfirmRemoveAnimals(formData);
+
+    if (!result.error) {
+      history.back();
+    }
   };
 
   return (
     <div className={styles.container}>
-      <div>
+      <FixedHeaderContainer
+        classes={{ divWrapper: styles.contentWrapper }}
+        header={
+          <>
+            {defaultFormValues && (
+              <AnimalSingleViewHeader
+                showMenu={isAdmin && !isRemoved}
+                onEdit={initiateEdit}
+                onRemove={() => setRemovalModalOpen(true)}
+                isEditing={isEditing}
+                onBack={history.back}
+                /* @ts-ignore */
+                animalOrBatch={defaultFormValues}
+                locationText={locationText}
+                defaultBreeds={defaultAnimalBreeds}
+                defaultTypes={defaultAnimalTypes}
+                customBreeds={customAnimalBreeds}
+                customTypes={customAnimalTypes}
+              />
+            )}
+            {/* <Tab
+              tabs={routerTabs}
+              variant={TabVariants.UNDERLINE}
+              isSelected={(tab) => tab.path === match.url}
+              onClick={(tab) => history.push(tab.path)}
+            /> */}
+          </>
+        }
+      >
         {defaultFormValues && (
-          <AnimalSingleViewHeader
-            onEdit={initiateEdit}
+          <ContextForm
+            onSave={onSave}
+            hasSummaryWithinForm={false}
+            isCompactSideMenu={isCompactSideMenu}
+            variant={Variant.STEPPER_PROGRESS_BAR}
+            history={history}
+            getSteps={getFormSteps}
+            defaultFormValues={defaultFormValues}
+            cancelModalTitle={t('ANIMAL.EDIT_ANIMAL_FLOW')}
             isEditing={isEditing}
-            onBack={() => history.push('/animals/inventory')}
-            /* @ts-ignore */
-            animalOrBatch={defaultFormValues}
-            defaultBreeds={defaultAnimalBreeds}
-            defaultTypes={defaultAnimalTypes}
-            customBreeds={customAnimalBreeds}
-            customTypes={customAnimalTypes}
+            setIsEditing={setIsEditing}
           />
         )}
-      </div>
-      {/* <Tab
-        tabs={routerTabs}
-        variant={TabVariants.UNDERLINE}
-        isSelected={(tab) => tab.path === match.url}
-        onClick={(tab) => history.push(tab.path)}
-      /> */}
-      <ContextForm
-        onSave={onSave}
-        hasSummaryWithinForm={false}
-        isCompactSideMenu={isCompactSideMenu}
-        variant={Variant.STEPPER_PROGRESS_BAR}
-        history={history}
-        getSteps={getFormSteps}
-        defaultFormValues={defaultFormValues}
-        cancelModalTitle={t('ANIMAL.EDIT_ANIMAL_FLOW')}
-        isEditing={isEditing}
-        setIsEditing={setIsEditing}
-      />
+        <RemoveAnimalsModal
+          isOpen={removalModalOpen}
+          onClose={() => setRemovalModalOpen(false)}
+          onConfirm={onConfirmRemoval}
+          showSuccessMessage={false}
+        />
+      </FixedHeaderContainer>
     </div>
   );
 }

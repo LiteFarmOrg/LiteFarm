@@ -18,7 +18,8 @@
     "REQUEST_A_FEATURE": "एक सुविधा का अनुरोध करें",
     "OTHER": "कुछ और",
     "CONTACT_METHOD_HEADER": "पसंदीदा संपर्क विधि",
-    "SUBJECT": "आपका लाइटफार्म सहायता के लिए अनुरोध"
+    "SUBJECT": "आपका लाइटफार्म सहायता के लिए अनुरोध",
+    "OOO_RESPONSE": "MISSING"
   },
   "INVITE": {
     "GREAT_FOLK": "लाइटफार्म के उपयोगकर्ता",

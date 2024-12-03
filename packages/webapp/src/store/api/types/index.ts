@@ -53,6 +53,7 @@ export interface Animal {
   animal_removal_reason_id: number | null;
   removal_explanation: string | null;
   removal_date: string | null;
+  location_id: string | null;
   type_name?: string; // request only
   breed_name?: string; // request only
 }
@@ -92,6 +93,7 @@ export interface AnimalBatch {
   animal_removal_reason_id: number | null;
   removal_explanation: string | null;
   removal_date: string | null;
+  location_id: string | null;
   type_name?: string; // request only
   breed_name?: string; // request only
 }

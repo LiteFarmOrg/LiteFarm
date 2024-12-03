@@ -1,22 +1,27 @@
 extends ../template
+
 block content
-    .support-container
-        .support-content
+  .support-container
+      .support-content
+        #ooo_message_enabled
+          if ooo_message_enabled
+            span=`${t('HELP_REQUEST.OOO_RESPONSE', { oooEndDate: ooo_end_date })}`  
+          else
             span=`${t('HELP_REQUEST.RESPONSE')}`
-    .support-container
-        .support-header
-            span=`${t('HELP_REQUEST.TYPE_HEADER')}:`
-        .support-content
-            p=`${t('HELP_REQUEST.' + support_type.toUpperCase().replace(/\s/g, '_'))}`
-    .support-container
-        .support-header
-            span=`${t('HELP_REQUEST.MESSAGE_HEADER')}:`
-        .support-content
-            | #{message}
-    .support-container
-        .support-header
-            span=`${t('HELP_REQUEST.CONTACT_METHOD_HEADER')}:`
-        .support-content
-            | #{contact_method}
-        .support-content
-            | #{contact}
+  .support-container
+      .support-header
+          span=`${t('HELP_REQUEST.TYPE_HEADER')}:`
+      .support-content
+          p=`${t('HELP_REQUEST.' + support_type.toUpperCase().replace(/\s/g, '_'))}`
+  .support-container
+      .support-header
+          span=`${t('HELP_REQUEST.MESSAGE_HEADER')}:`
+      .support-content
+          | #{message}
+  .support-container
+      .support-header
+          span=`${t('HELP_REQUEST.CONTACT_METHOD_HEADER')}:`
+      .support-content
+          | #{contact_method}
+      .support-content
+          | #{contact}

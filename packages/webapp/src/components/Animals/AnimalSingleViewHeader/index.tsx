@@ -83,6 +83,7 @@ type ContainerWithButtonsProps = {
   children: ReactNode;
   contentClassName?: string;
   isCompactView?: boolean;
+  showMenu: boolean;
   isEditing?: boolean;
   options: { label: ReactNode; onClick: () => void }[];
   onBack: () => void;
@@ -93,6 +94,7 @@ const ContainerWithButtons = ({
   children,
   contentClassName,
   isCompactView,
+  showMenu = true,
   isEditing,
   options,
   onBack,
@@ -106,21 +108,26 @@ const ContainerWithButtons = ({
       <div className={clsx(styles.content, contentClassName)}>{children}</div>
       <div className={styles.statusAndButton}>
         {!isCompactView && isEditing ? <div>{t('common:EDITING')}</div> : null}
-        <MeatballsMenu
-          options={options}
-          classes={{ button: isEditing ? styles.editingStatusButton : '' }}
-        />
+        {showMenu && (
+          <MeatballsMenu
+            disabled={!!isEditing}
+            options={options}
+            classes={{ button: isEditing ? styles.editingStatusButton : '' }}
+          />
+        )}
       </div>
     </div>
   );
 };
 
 export type AnimalSingleViewHeaderProps = {
+  showMenu: boolean;
   isEditing?: boolean;
   onEdit: () => void;
   onRemove: () => void;
   onBack: () => void;
-  animalOrBatch: (Animal | AnimalBatch) & { location?: string }; // TODO: LF-4481
+  animalOrBatch: Animal | AnimalBatch;
+  locationText?: string;
   defaultTypes: DefaultAnimalType[];
   customTypes: CustomAnimalType[];
   defaultBreeds: DefaultAnimalBreed[];
@@ -128,11 +135,13 @@ export type AnimalSingleViewHeaderProps = {
 };
 
 const AnimalSingleViewHeader = ({
+  showMenu = true,
   isEditing,
   onEdit,
   onRemove,
   onBack,
   animalOrBatch,
+  locationText,
   defaultTypes,
   customTypes,
   defaultBreeds,
@@ -156,14 +165,14 @@ const AnimalSingleViewHeader = ({
     <AnimalImageWithCount photoUrl={photo_url} count={count} isCompactView={isCompactView} />
   );
   const age = <Age birthDate={birth_date} t={t} />;
-  const location = <Location location={animalOrBatch.location} t={t} />;
+  const location = <Location location={locationText} t={t} />;
 
   const menuOptions = [
     { label: <MenuItem iconName="EDIT" text={t('ADD_ANIMAL.EDIT_BASIC_INFO')} />, onClick: onEdit },
     { label: <MenuItem iconName="TRASH" text={t('common:REMOVE')} />, onClick: onRemove },
   ];
 
-  const commonProp = { t, isEditing, isCompactView, options: menuOptions, onBack };
+  const commonProp = { t, showMenu, isEditing, isCompactView, options: menuOptions, onBack };
 
   const renderCompactHeader = () => (
     <div>

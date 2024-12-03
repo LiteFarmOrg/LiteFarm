@@ -948,7 +948,6 @@
     },
     "PREFERRED_CONTACT": "കോൺടാക്ട് ചെയ്യാനുള്ള രീതി തിരഞ്ഞെടുക്കുക",
     "REQUIRED_LABEL": "ആവശ്യമായ ഫീൽഡ്",
-    "TITLE": "സഹായം അഭ്യർത്ഥിക്കുക",
     "TYPE_SUPPORT_LABEL": "എന്തുതരം സഹായമാണ് വേണ്ടത്",
     "TYPE_SUPPORT_PLACEHOLDER": "എന്തുതരം സഹായമാണ് വേണ്ടതെന്ന് തിരഞ്ഞെടുക്കുക",
     "WHATSAPP": "വാട്സ്ആപ്പ്",
@@ -1516,7 +1515,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "മനസ്സിലായി",
-    "DESCRIPTION": "48 മണിക്കൂറിനുള്ളിൽ ആരെങ്കിലും ബന്ധപ്പെടും.",
+    "DESCRIPTION": "MISSING",
     "TITLE": "സഹായ അഭ്യർത്ഥന സമർപ്പിച്ചു"
   },
   "REVENUE": {
@@ -1806,6 +1805,7 @@
     "ADD_TASK_FLOW": "ചുമതല സൃഷ്ടിക്കൽ",
     "AMOUNT_TO_ALLOCATE": "അനുവദിക്കേണ്ട തുക",
     "ANIMAL_MOVING_TO_LOCATION": "MISSING",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "ഒന്നിലധികം വിളകൾ",
       "MULTIPLE_LOCATIONS": "ഒന്നിലധികം സ്ഥാനങ്ങൾ"

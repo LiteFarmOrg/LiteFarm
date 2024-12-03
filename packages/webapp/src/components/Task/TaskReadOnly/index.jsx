@@ -352,7 +352,7 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
-      {task.animals || task.animal_batches ? (
+      {task.animals?.length || task.animal_batches?.length ? (
         <div className={styles.section}>
           <Semibold>{t('TASK.ANIMALS')}</Semibold>
           <AnimalInventory

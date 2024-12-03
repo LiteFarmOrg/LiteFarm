@@ -358,7 +358,7 @@ export default function PureTaskReadOnly({
           <AnimalInventory
             view={View.TASK_SUMMARY}
             preSelectedIds={
-              formatTaskAnimalsAsInventoryIds(task?.animals, task?.animal_batches) || []
+              formatTaskAnimalsAsInventoryIds(task.animals, task.animal_batches) || []
             }
             showLinks={false}
             showOnlySelected={true}

@@ -53,8 +53,12 @@ import PureIrrigationTask from '../PureIrrigationTask';
 import DeleteBox from './DeleteBox';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { certifierSurveySelector } from '../../../containers/OrganicCertifierSurvey/slice';
-import { formatTaskReadOnlyDefaultValues } from '../../../util/task';
+import {
+  formatTaskAnimalsAsInventoryIds,
+  formatTaskReadOnlyDefaultValues,
+} from '../../../util/task';
 import PureMovementTask from '../MovementTask';
+import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -166,6 +170,9 @@ export default function PureTaskReadOnly({
   const preDelete = () => {
     setIsDeleting(true);
   };
+
+  const ANIMAL_TASKS = ['MOVEMENT_TASK'];
+  const isAnimalTask = ANIMAL_TASKS.includes(taskType.task_translation_key);
 
   return (
     <Layout
@@ -345,6 +352,20 @@ export default function PureTaskReadOnly({
               task,
               isCompleted,
             })}
+        </div>
+      )}
+
+      {isAnimalTask && (
+        <div style={{ marginBottom: '24px' }}>
+          <Semibold>{'Animals'}</Semibold>
+          <AnimalInventory
+            view={View.TASK_SUMMARY}
+            preSelectedIds={
+              formatTaskAnimalsAsInventoryIds(task?.animals, task?.animal_batches) || []
+            }
+            showLinks={false}
+            showOnlySelected={true}
+          />
         </div>
       )}
 

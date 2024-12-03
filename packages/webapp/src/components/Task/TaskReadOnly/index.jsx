@@ -353,7 +353,7 @@ export default function PureTaskReadOnly({
       )}
 
       {task.animals || task.animal_batches ? (
-        <div style={{ marginBottom: '24px' }}>
+        <div className={styles.section}>
           <Semibold>{t('TASK.ANIMALS')}</Semibold>
           <AnimalInventory
             view={View.TASK_SUMMARY}

@@ -171,9 +171,6 @@ export default function PureTaskReadOnly({
     setIsDeleting(true);
   };
 
-  const ANIMAL_TASKS = ['MOVEMENT_TASK'];
-  const isAnimalTask = ANIMAL_TASKS.includes(taskType.task_translation_key);
-
   return (
     <Layout
       buttonGroup={
@@ -355,7 +352,7 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
-      {isAnimalTask && (
+      {task.animals || task.animal_batches ? (
         <div style={{ marginBottom: '24px' }}>
           <Semibold>{'Animals'}</Semibold>
           <AnimalInventory
@@ -367,7 +364,7 @@ export default function PureTaskReadOnly({
             showOnlySelected={true}
           />
         </div>
-      )}
+      ) : null}
 
       {isAbandoned && (
         <div>

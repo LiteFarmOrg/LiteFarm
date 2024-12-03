@@ -18,3 +18,8 @@
   flex-direction: column;
   gap: 20px;
 }
+
+.contentWrapper {
+  // avoid hiding header's box-shadow or border
+  margin-top: 1px;
+}

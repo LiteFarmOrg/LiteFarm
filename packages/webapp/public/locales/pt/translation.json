@@ -1067,7 +1067,6 @@
     },
     "PREFERRED_CONTACT": "Método de contato preferido",
     "REQUIRED_LABEL": "Campo Obrigatório",
-    "TITLE": "Solicite Ajuda",
     "TYPE_SUPPORT_LABEL": "Tipo de suporte",
     "TYPE_SUPPORT_PLACEHOLDER": "Escolha o tipo de suporte",
     "WHATSAPP": "WhatsApp",
@@ -1660,7 +1659,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Entendi",
-    "DESCRIPTION": "Alguém entrará em contato em 48 horas.",
+    "DESCRIPTION": "MISSING",
     "TITLE": "Pedido de ajuda enviado"
   },
   "REVENUE": {
@@ -1955,6 +1954,7 @@
     "ADD_TASK_FLOW": "criação de tarefa",
     "AMOUNT_TO_ALLOCATE": "Quantidade a ser alocada",
     "ANIMAL_MOVING_TO_LOCATION": "MISSING",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "Múltiplos cultivos",
       "MULTIPLE_LOCATIONS": "Múltiplos locais"

@@ -12,17 +12,20 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useCallback, useMemo, useState, ChangeEvent } from 'react';
+import { useCallback, useMemo, useState, ChangeEvent, ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PureAnimalInventory, { SearchProps } from '../../../components/Animals/Inventory';
+import PureAnimalInventory, {
+  PureAnimalInventoryProps,
+  SearchProps,
+} from '../../../components/Animals/Inventory';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
-import { useMediaQuery } from '@mui/material';
+import { Paper, useMediaQuery } from '@mui/material';
 import { History } from 'history';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
-import type { AnimalInventory } from './useAnimalInventory';
+import type { AnimalInventory as AnimalInventoryType } from './useAnimalInventory';
 import ActionMenu, { iconAction } from '../../../components/ActionMenu';
 import FixedHeaderContainer, {
   ContainerKind,
@@ -40,12 +43,41 @@ import {
 import { isAdminSelector } from '../../userFarmSlice';
 import { useAnimalsFilterReduxState } from './KPI/useAnimalsFilterReduxState';
 import FloatingContainer from '../../../components/FloatingContainer';
+import ExpandableItem from '../../../components/Expandable/ExpandableItem';
+import useExpandable from '../../../components/Expandable/useExpandableItem';
+import clsx from 'clsx';
 import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
+import { sumObjectValues } from '../../../util';
+import Icon from '../../../components/Icons';
+
+const HEIGHTS = {
+  filterAndSearch: 64,
+  containerPadding: 32,
+};
+const usedHeight = sumObjectValues(HEIGHTS);
 
 export enum View {
   DEFAULT = 'default',
   TASK = 'task',
+  TASK_SUMMARY = 'task_summary',
 }
+
+type CommonPureAnimalInventoryProps = Pick<
+  PureAnimalInventoryProps,
+  | 'filteredInventory'
+  | 'animalsColumns'
+  | 'zIndexBase'
+  | 'isDesktop'
+  | 'searchProps'
+  | 'onSelectInventory'
+  | 'handleSelectAllClick'
+  | 'selectedIds'
+  | 'totalInventoryCount'
+  | 'isFilterActive'
+  | 'clearFilters'
+  | 'isLoading'
+  | 'history'
+>;
 interface AnimalInventoryProps {
   preSelectedIds?: string[];
   onSelect?: (newIds: string[]) => void;
@@ -54,9 +86,149 @@ interface AnimalInventoryProps {
   setFeedbackSurveyOpen: () => void;
   containerHeight: number;
   history: History;
+  showOnlySelected?: boolean;
+  showLinks?: boolean;
 }
 
-const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: string[]) => {
+const BaseAnimalInventory = ({
+  isDesktop,
+  // containerHeight provided by FixedHeaderContainer if exists
+  containerHeight,
+  children,
+  ...props
+}: PureAnimalInventoryProps & { children?: ReactNode }) => {
+  return (
+    <>
+      <PureAnimalInventory
+        isDesktop={isDesktop}
+        tableMaxHeight={!isDesktop || !containerHeight ? undefined : containerHeight - usedHeight}
+        {...props}
+      />
+      {children}
+    </>
+  );
+};
+
+const SelectedAnimalsSummaryInventory = ({
+  expandableTitle,
+  animalCountString,
+  ...commonProps
+}: {
+  expandableTitle: ReactNode;
+  animalCountString: string | undefined;
+} & CommonPureAnimalInventoryProps) => {
+  // @ts-ignore
+  const { expandedIds, toggleExpanded } = useExpandable({ isSingleExpandable: true });
+  const isExpanded = expandedIds.includes(1);
+  return (
+    <div className={clsx(styles.section)}>
+      <ExpandableItem
+        isExpanded={isExpanded}
+        onClick={() => toggleExpanded(1)}
+        mainContent={expandableTitle}
+        pillBody={animalCountString}
+        expandedContent={
+          <div className={styles.expandedContentWrapper}>
+            <BaseAnimalInventory
+              onRowClick={undefined}
+              tableSpacerRowHeight={0}
+              showInventorySelection={false}
+              showSearchBarAndFilter={false}
+              alternatingRowColor={commonProps.isDesktop ? false : true}
+              showTableHeader={false}
+              extraRowSpacing={commonProps.isDesktop}
+              showActionFloaterButton={false}
+              {...commonProps}
+            />
+          </div>
+        }
+        iconClickOnly={false}
+        classes={{
+          icon: styles.blueColor,
+        }}
+        itemKey={1}
+        leftCollapseIcon
+      />
+    </div>
+  );
+};
+
+const TaskAnimalInventory = ({
+  isAdmin,
+  ...commonProps
+}: { isAdmin: boolean } & CommonPureAnimalInventoryProps) => {
+  return (
+    <FixedHeaderContainer
+      header={null}
+      classes={{
+        paper: styles.paper,
+        divWrapper: styles.divWrapper,
+        wrapper: styles.taskViewMaxHeight,
+      }}
+      kind={ContainerKind.PAPER}
+    >
+      <BaseAnimalInventory
+        onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
+          commonProps.onSelectInventory(event, row);
+        }}
+        tableSpacerRowHeight={0}
+        showInventorySelection={isAdmin}
+        showSearchBarAndFilter={true}
+        alternatingRowColor={true}
+        showTableHeader={commonProps.isDesktop}
+        showActionFloaterButton={false}
+        {...commonProps}
+      />
+    </FixedHeaderContainer>
+  );
+};
+
+const MainAnimalInventory = ({
+  setFeedbackSurveyOpen,
+  history,
+  onTypeClick,
+  selectedTypeIds,
+  actionMenuAndRemoveModal,
+  isAdmin,
+  ...commonProps
+}: {
+  setFeedbackSurveyOpen: () => void;
+  history: History;
+  onTypeClick: (typeId: string) => void;
+  selectedTypeIds: string[];
+  actionMenuAndRemoveModal: ReactNode;
+  isAdmin: boolean;
+} & CommonPureAnimalInventoryProps) => {
+  return (
+    <AnimalsBetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
+      <FixedHeaderContainer
+        header={
+          <KPI history={history} onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />
+        }
+        classes={{ paper: styles.paper, divWrapper: styles.divWrapper }}
+        kind={ContainerKind.PAPER}
+      >
+        <BaseAnimalInventory
+          history={history}
+          {...commonProps}
+          onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
+            history.push(row.path);
+          }}
+          tableSpacerRowHeight={commonProps.isDesktop ? 96 : 120}
+          showInventorySelection={isAdmin}
+          showSearchBarAndFilter={true}
+          alternatingRowColor={true}
+          showTableHeader={commonProps.isDesktop}
+          showActionFloaterButton={isAdmin}
+        >
+          {actionMenuAndRemoveModal}
+        </BaseAnimalInventory>
+      </FixedHeaderContainer>
+    </AnimalsBetaSpotlight>
+  );
+};
+
+const getVisibleSelectedIds = (visibleRowData: AnimalInventoryType[], selectedIds: string[]) => {
   if (!visibleRowData.length || !selectedIds.length) {
     return [];
   }
@@ -65,16 +237,16 @@ const getVisibleSelectedIds = (visibleRowData: AnimalInventory[], selectedIds: s
   return selectedIds.filter((id) => visibleRowIdsSet.has(id));
 };
 
-function AnimalInventory({
+export default function AnimalInventory({
   preSelectedIds = [],
   onSelect,
   view = View.DEFAULT,
   isCompactSideMenu,
   setFeedbackSurveyOpen,
   history,
+  showOnlySelected = false,
+  showLinks = true,
 }: AnimalInventoryProps) {
-  const isTaskView = view === View.TASK;
-
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
@@ -88,8 +260,13 @@ function AnimalInventory({
   const zIndexBase = theme.zIndex.drawer;
 
   const { inventory, isLoading } = useAnimalInventory();
+  const totalInventoryCount = inventory.length;
+  const animalCount = preSelectedIds.reduce((acc, cur) => {
+    return acc + (inventory.find((animalOrBatch) => animalOrBatch.id === cur)?.count || 0);
+  }, 0);
+  const animalCountString = t('ANIMAL.ANIMAL_COUNT', { count: animalCount });
 
-  const filteredInventory = useFilteredInventory(inventory);
+  const filteredInventory = useFilteredInventory(inventory, showOnlySelected, selectedInventoryIds);
 
   const isFilterActive = useSelector(isFilterCurrentlyActiveSelector('animals'));
   const dispatch = useDispatch();
@@ -112,7 +289,7 @@ function AnimalInventory({
       {
         id: 'identification',
         label: t('ANIMAL.ANIMAL_IDENTIFICATION').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => (
+        format: (d: AnimalInventoryType) => (
           <Cell
             kind={CellKind.ICON_TEXT}
             text={d.identification}
@@ -126,17 +303,17 @@ function AnimalInventory({
       {
         id: isDesktop ? 'type' : null,
         label: t('ANIMAL.ANIMAL_TYPE').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.type} />,
+        format: (d: AnimalInventoryType) => <Cell kind={CellKind.PLAIN} text={d.type} />,
       },
       {
         id: isDesktop ? 'breed' : null,
         label: t('ANIMAL.ANIMAL_BREED').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
+        format: (d: AnimalInventoryType) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
       },
       {
         id: isDesktop ? 'groups' : null,
         label: t('ANIMAL.ANIMAL_GROUPS').toLocaleUpperCase(),
-        format: (d: AnimalInventory) => (
+        format: (d: AnimalInventoryType) => (
           <Cell
             kind={CellKind.HOVER_PILL_OVERFLOW}
             items={d.groups}
@@ -146,20 +323,45 @@ function AnimalInventory({
         sortable: false,
       },
       {
-        id: !isTaskView ? 'path' : null,
+        id: isDesktop ? 'location' : null,
+        label: t('ANIMAL.ANIMAL_LOCATIONS').toLocaleUpperCase(),
+        format: (d: AnimalInventoryType) => (
+          <div className={clsx(styles.location, !d.location && styles.unknown)}>
+            {d.location ? (
+              <>
+                <Icon iconName="LOCATION" className={styles.locationIcon} />
+                <span className={styles.locationText}>{d.location}</span>
+              </>
+            ) : (
+              t('common:UNKNOWN')
+            )}
+          </div>
+        ),
+      },
+      {
+        id: showLinks ? 'path' : null,
         label: '',
-        format: (d: AnimalInventory) => <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />,
+        format: (d: AnimalInventoryType) => (
+          <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />
+        ),
         columnProps: {
           style: { width: '40px', padding: `0 ${isDesktop ? 12 : 8}px` },
         },
         sortable: false,
       },
     ],
-    [t, isDesktop],
+    [t, isDesktop, showLinks],
   );
 
-  const makeAnimalsSearchableString = (animal: AnimalInventory) => {
-    return [animal.identification, animal.type, animal.breed, ...animal.groups, animal.count]
+  const makeAnimalsSearchableString = (animal: AnimalInventoryType) => {
+    return [
+      animal.identification,
+      animal.type,
+      animal.breed,
+      ...animal.groups,
+      animal.count,
+      animal.location,
+    ]
       .filter(Boolean)
       .join(' ');
   };
@@ -167,7 +369,7 @@ function AnimalInventory({
   const [searchAndFilteredInventory, searchString, setSearchString] = useSearchFilter(
     filteredInventory,
     makeAnimalsSearchableString,
-  ) as [AnimalInventory[], SearchProps['searchString'], SearchProps['setSearchString']];
+  ) as [AnimalInventoryType[], SearchProps['searchString'], SearchProps['setSearchString']];
 
   const searchProps: SearchProps = {
     searchString,
@@ -178,7 +380,7 @@ function AnimalInventory({
     }),
   };
 
-  const onSelectInventory = (e: ChangeEvent<HTMLInputElement>, row: AnimalInventory): void => {
+  const onSelectInventory = (e: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType): void => {
     const selectedInventoryId = row.id;
     let newIds = selectedInventoryIds.slice();
     if (selectedInventoryIds.includes(selectedInventoryId)) {
@@ -219,10 +421,6 @@ function AnimalInventory({
     }
   };
 
-  const onRowClick = (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => {
-    !isTaskView ? history.push(row.path) : onSelectInventory(event, row);
-  };
-
   const iconActions: iconAction[] = [
     { label: t(`common:ADD_TO_GROUP`), iconName: 'ADD_ANIMAL', onClick: () => ({}) },
     { label: t(`common:CREATE_A_TASK`), iconName: 'TASK_CREATION', onClick: () => ({}) },
@@ -245,54 +443,67 @@ function AnimalInventory({
     },
   ];
 
+  const expandableTitle = (
+    <div className={styles.blueColor}>{t('TASK.ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE')}</div>
+  );
+
+  const actionMenuAndRemoveModal = (
+    <>
+      {isAdmin && selectedInventoryIds.length ? (
+        <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
+          <ActionMenu
+            headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
+            textActions={textActions}
+            iconActions={iconActions}
+          />
+        </FloatingContainer>
+      ) : null}
+      <RemoveAnimalsModal
+        isOpen={removalModalOpen}
+        onClose={() => setRemovalModalOpen(false)}
+        onConfirm={onConfirmRemoveAnimals}
+        showSuccessMessage={false}
+      />
+    </>
+  );
+
+  const commonProps = {
+    filteredInventory: searchAndFilteredInventory,
+    animalsColumns: animalsColumns,
+    searchProps: searchProps,
+    zIndexBase: zIndexBase,
+    isDesktop: isDesktop,
+    onSelectInventory: onSelectInventory,
+    handleSelectAllClick: handleSelectAllClick,
+    selectedIds: getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds),
+    totalInventoryCount: totalInventoryCount,
+    isFilterActive: isFilterActive,
+    clearFilters: clearFilters,
+    isLoading: isLoading,
+    history: history,
+  };
+
+  if (view == View.TASK) {
+    return <TaskAnimalInventory isAdmin={isAdmin} {...commonProps} />;
+  }
+  if (view == View.TASK_SUMMARY) {
+    return (
+      <SelectedAnimalsSummaryInventory
+        expandableTitle={expandableTitle}
+        animalCountString={animalCountString}
+        {...commonProps}
+      />
+    );
+  }
+
   return (
-    <AnimalsBetaSpotlight setFeedbackSurveyOpen={setFeedbackSurveyOpen}>
-      <FixedHeaderContainer
-        header={
-          !isTaskView ? (
-            <KPI history={history} onTypeClick={onTypeClick} selectedTypeIds={selectedTypeIds} />
-          ) : null
-        }
-        classes={{ paper: styles.paper }}
-        kind={ContainerKind.PAPER}
-        wrapperClassName={isTaskView ? styles.taskViewHeight : undefined}
-      >
-        <PureAnimalInventory
-          filteredInventory={searchAndFilteredInventory}
-          animalsColumns={animalsColumns}
-          searchProps={searchProps}
-          zIndexBase={zIndexBase}
-          isDesktop={isDesktop}
-          onSelectInventory={onSelectInventory}
-          handleSelectAllClick={handleSelectAllClick}
-          selectedIds={getVisibleSelectedIds(searchAndFilteredInventory, selectedInventoryIds)}
-          totalInventoryCount={inventory.length}
-          isFilterActive={isFilterActive}
-          clearFilters={clearFilters}
-          isLoading={isLoading}
-          isAdmin={isAdmin}
-          history={history}
-          onRowClick={onRowClick}
-          view={view}
-        />
-        {isAdmin && selectedInventoryIds.length && !isTaskView ? (
-          <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
-            <ActionMenu
-              headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
-              textActions={textActions}
-              iconActions={iconActions}
-            />
-          </FloatingContainer>
-        ) : null}
-        <RemoveAnimalsModal
-          isOpen={removalModalOpen}
-          onClose={() => setRemovalModalOpen(false)}
-          onConfirm={onConfirmRemoveAnimals}
-          showSuccessMessage={false}
-        />
-      </FixedHeaderContainer>
-    </AnimalsBetaSpotlight>
+    <MainAnimalInventory
+      setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+      onTypeClick={onTypeClick}
+      selectedTypeIds={selectedTypeIds}
+      actionMenuAndRemoveModal={actionMenuAndRemoveModal}
+      isAdmin={isAdmin}
+      {...commonProps}
+    />
   );
 }
-
-export default AnimalInventory;

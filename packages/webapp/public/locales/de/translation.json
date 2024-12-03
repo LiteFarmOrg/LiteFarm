@@ -951,7 +951,6 @@
     },
     "PREFERRED_CONTACT": "Bevorzugte Kontaktmethode",
     "REQUIRED_LABEL": "Erforderliches Feld",
-    "TITLE": "Anfrage einreichen",
     "TYPE_SUPPORT_LABEL": "Art der Anfrage",
     "TYPE_SUPPORT_PLACEHOLDER": "Wählen Sie die Art der Unterstützung",
     "WHATSAPP": "Whatsapp",
@@ -1519,7 +1518,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Verstanden",
-    "DESCRIPTION": "Jemand wird sich innerhalb von 48 Stunden mit Ihnen in Verbindung setzen.",
+    "DESCRIPTION": "MISSING",
     "TITLE": "Anfrage abgeschickt"
   },
   "REVENUE": {
@@ -1809,6 +1808,7 @@
     "ADD_TASK_FLOW": "Aufgabenerstellung",
     "AMOUNT_TO_ALLOCATE": "Zuzuweisender Betrag",
     "ANIMAL_MOVING_TO_LOCATION": "MISSING",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "MISSING",
     "CARD": {
       "MULTIPLE_CROPS": "Mehrere Kulturpflanzen",
       "MULTIPLE_LOCATIONS": "Mehrere Standorte"

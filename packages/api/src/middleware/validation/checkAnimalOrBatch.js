@@ -396,7 +396,7 @@ const getRecordIfExists = async (animalOrBatch, animalOrBatchKey, farm_id) => {
   return await AnimalOrBatchModel[animalOrBatchKey]
     .query()
     .findById(animalOrBatch.id)
-    .where({ farm_id })
+    .where({ farm_id, animal_removal_reason_id: null })
     .whereNotDeleted()
     .withGraphFetched(relations);
 };

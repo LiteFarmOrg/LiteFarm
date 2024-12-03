@@ -233,7 +233,7 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
-      {task?.locations?.length || task?.pinCoordinates?.length ? (
+      {task.locations?.length || task.pinCoordinates?.length ? (
         <>
           <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
           {isTaskType(taskType, 'TRANSPLANT_TASK') && (

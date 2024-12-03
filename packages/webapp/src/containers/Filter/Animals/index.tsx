@@ -17,7 +17,8 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import FilterGroup from '../../../components/Filter/FilterGroup';
-import type { ReduxFilterEntity, ContainerOnChangeCallback, Location, FilterState } from '../types';
+import type { ReduxFilterEntity, ContainerOnChangeCallback, FilterState } from '../types';
+import { Location } from '../../../types';
 import { FilterType, type ComponentFilter } from '../../../components/Filter/types';
 import {
   useGetDefaultAnimalTypesQuery,

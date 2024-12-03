@@ -75,6 +75,7 @@ export const mockAnimal1: Animal = {
   supplier: 'supplier name',
   price: 1000,
   internal_identifier: 12,
+  location_id: 'xxxxx',
 };
 
 export const mockAnimal2: Animal = {
@@ -116,4 +117,5 @@ export const mockBatch1: AnimalBatch = {
     { sex_id: 1, count: 30 },
     { sex_id: 2, count: 40 },
   ],
+  location_id: 'xxxxx',
 };

@@ -65,10 +65,9 @@ export const useFilteredInventory = (
           ? entity.sex_detail!.some(({ sex_id }) => sexFilter[sex_id]?.active)
           : sexFilter[entity.sex_id!]?.active);
 
-      // *** Location is not yet implemented as a property on animal or batch  ***
-      const locationMatches = isInactive(locationsFilter);
-      // const locationMatches =
-      //   isInactive(locationsFilter) || locationsFilter[entity.location]?.active;
+      const locationMatches =
+        isInactive(locationsFilter) ||
+        (entity.location_id && locationsFilter[entity.location_id]?.active);
 
       return animalOrBatchMatches && typeMatches && breedMatches && sexMatches && locationMatches;
     });

@@ -131,12 +131,14 @@ export default function PureTaskLocations({
           classes={{ container: isAnimalTask ? styles.titlePadding : null }}
         />
         {isAnimalTask && (
-          <AnimalInventory
-            view={View.TASK_SUMMARY}
-            preSelectedIds={persistedFormData?.animalIds}
-            showLinks={false}
-            showOnlySelected={true}
-          />
+          <div className={styles.animalInventoryWrapper}>
+            <AnimalInventory
+              view={View.TASK_SUMMARY}
+              preSelectedIds={persistedFormData?.animalIds}
+              showLinks={false}
+              showOnlySelected={true}
+            />
+          </div>
         )}
         <Main className={clsx(styles.locationPickerText, isAnimalTask && styles.fullWidthPadding)}>
           {title || t('TASK.SELECT_TASK_LOCATIONS')}

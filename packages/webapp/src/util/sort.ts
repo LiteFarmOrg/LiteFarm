@@ -12,12 +12,15 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+
+const hasValue = (value: string | number) => value || value === 0;
+
 export enum orderEnum {
   ASC = 'asc',
   DESC = 'desc',
 }
 
-type Object<T extends string | number> = {
+type Comparable<T extends string | number> = {
   [key in T]: any;
 };
 
@@ -29,11 +32,17 @@ type Object<T extends string | number> = {
  * @param {string} orderBy - The property by which to compare the objects.
  * @returns {number} - A negative number if a should come before b, a positive number if b should come before a, or 0 if they are equal.
  */
-function descendingComparator<T extends string | number>(
-  a: Object<T>,
-  b: Object<T>,
+export function descendingComparator<T extends string | number>(
+  a: Comparable<T>,
+  b: Comparable<T>,
   orderBy: T,
 ): number {
+  if (!hasValue(b[orderBy]) && hasValue(a[orderBy])) {
+    return 1;
+  }
+  if (!hasValue(a[orderBy]) && hasValue(b[orderBy])) {
+    return -1;
+  }
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -53,8 +62,8 @@ function descendingComparator<T extends string | number>(
 export function getComparator<T extends string | number>(
   order: 'asc' | 'desc',
   orderBy: T,
-): (a: Object<T>, b: Object<T>) => number {
+): (a: Comparable<T>, b: Comparable<T>) => number {
   return order === 'desc'
-    ? (a: Object<T>, b: Object<T>) => descendingComparator(a, b, orderBy)
-    : (a: Object<T>, b: Object<T>) => -descendingComparator(a, b, orderBy);
+    ? (a: Comparable<T>, b: Comparable<T>) => descendingComparator(a, b, orderBy)
+    : (a: Comparable<T>, b: Comparable<T>) => -descendingComparator(a, b, orderBy);
 }

@@ -23,6 +23,7 @@ import { useReadOnlyPinCoordinates } from '../useReadOnlyPinCoordinates';
 import { useMaxZoom } from '../../Map/useMaxZoom';
 import { managementPlanSelector } from '../../managementPlanSlice';
 import useAnimalInventory from '../../Animals/Inventory/useAnimalInventory';
+import { getProgress } from '../util';
 
 export default function TaskLocationsSwitch({ history, match, location }) {
   const isHarvestLocation = useIsTaskType('HARVEST_TASK');
@@ -192,6 +193,8 @@ function TaskCustomLocations({ history, location }) {
     history.push('/add_task/task_crops', location?.state);
   };
 
+  const progress = getProgress('CUSTOM_TASK', 'task_locations');
+
   return (
     <TaskLocations
       locations={locations}
@@ -200,6 +203,7 @@ function TaskCustomLocations({ history, location }) {
       readOnlyPinCoordinates={readOnlyPinCoordinates}
       location={location}
       optionalLocation
+      progress={progress}
     />
   );
 }
@@ -252,6 +256,7 @@ function TaskLocations({
   location,
   isAnimalTask = false,
   optionalLocation,
+  progress,
 }) {
   const { grid_points } = useSelector(userFarmSelector);
   const { maxZoomRef, getMaxZoom, maxZoom } = useMaxZoom();
@@ -279,6 +284,7 @@ function TaskLocations({
         targetsWildCrop={managementPlan?.crop_management_plan?.is_wild ?? false}
         isAnimalTask={isAnimalTask}
         optionalLocation={optionalLocation}
+        progress={progress}
       />
     </HookFormPersistProvider>
   );

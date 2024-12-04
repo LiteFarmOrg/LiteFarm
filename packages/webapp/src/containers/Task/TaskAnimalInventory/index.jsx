@@ -18,9 +18,11 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import { useIsTaskType } from '../useIsTaskType';
+import { getProgress } from '../util';
 
 function TaskAnimalInventory({ history, location }) {
   const isCustomTask = useIsTaskType('CUSTOM_TASK');
+  const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_animal_selection') : undefined;
 
   const onGoBack = () => {
     history.back();
@@ -43,6 +45,7 @@ function TaskAnimalInventory({ history, location }) {
         history={history}
         isDesktop={isDesktop}
         isRequired={!isCustomTask}
+        progress={progress}
       />
     </HookFormPersistProvider>
   );

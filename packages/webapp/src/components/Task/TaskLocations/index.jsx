@@ -30,9 +30,9 @@ export default function PureTaskLocations({
   targetsWildCrop,
   isAnimalTask = false,
   optionalLocation = false,
+  progress = 43,
 }) {
   const { t } = useTranslation();
-  const progress = 43;
 
   const defaultLocations = useMemo(() => {
     const locationIdsSet = new Set(locations.map(({ location_id }) => location_id));

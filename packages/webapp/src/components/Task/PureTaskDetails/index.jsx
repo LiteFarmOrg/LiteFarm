@@ -15,6 +15,7 @@ import PureIrrigationTask from '../PureIrrigationTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PureMovementTask from '../MovementTask';
 import { defaultValues as soilAmendmentProductDefaultValues } from '../AddSoilAmendmentProducts';
+import { getProgress } from '../../../containers/Task/util';
 
 export default function PureTaskDetails({
   handleGoBack,
@@ -32,10 +33,11 @@ export default function PureTaskDetails({
 }) {
   const { t } = useTranslation();
   const taskType = selectedTaskType.task_translation_key;
-  const taskName = selectedTaskType.task_name;
   const isCustomType = !!selectedTaskType.farm_id;
   const isHarvest = isTaskType(selectedTaskType, 'HARVEST_TASK');
   const isIrrigationTask = isTaskType(selectedTaskType, 'IRRIGATION_TASK');
+  const isCustomTask = isTaskType(selectedTaskType, 'CUSTOM_TASK');
+  const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_details') : isHarvest ? 67 : 71;
 
   const defaults = {
     CLEANING_TASK: { cleaning_task: { agent_used: false } },
@@ -134,7 +136,7 @@ export default function PureTaskDetails({
           onCancel={historyCancel}
           title={t('ADD_TASK.ADD_A_TASK')}
           cancelModalTitle={t('ADD_TASK.CANCEL')}
-          value={isHarvest ? 67 : 71}
+          value={progress}
         />
 
         <Main

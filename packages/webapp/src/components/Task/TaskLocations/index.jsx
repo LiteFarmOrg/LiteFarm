@@ -12,6 +12,7 @@ import Checkbox from '../../Form/Checkbox';
 import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
+import Switch from '../../Form/Switch';
 export default function PureTaskLocations({
   locations,
   readOnlyPinCoordinates,
@@ -28,9 +29,11 @@ export default function PureTaskLocations({
   defaultLocation,
   targetsWildCrop,
   isAnimalTask = false,
+  optionalLocation = false,
 }) {
   const { t } = useTranslation();
   const progress = 43;
+
   const defaultLocations = useMemo(() => {
     const locationIdsSet = new Set(locations.map(({ location_id }) => location_id));
     if (isMulti) {
@@ -59,7 +62,21 @@ export default function PureTaskLocations({
     [selectedLocations],
   );
 
+  const [noLocationsChecked, setNoLocationsChecked] = useState(false);
+  const onNoLocationsChecked = () => {
+    setNoLocationsChecked((prev) => {
+      if (prev === false) {
+        setValue(LOCATIONS, []);
+        setValue(SHOW_WILD_CROP, false);
+      }
+      return !prev;
+    });
+  };
+
   const onSelectLocation = (location_id) => {
+    if (noLocationsChecked) {
+      return;
+    }
     if (!isMulti) {
       if (getValues('show_wild_crop')) {
         setValue(SHOW_WILD_CROP, false);
@@ -112,7 +129,11 @@ export default function PureTaskLocations({
           <>
             <Button
               data-cy="addTask-locationContinue"
-              disabled={!selectedLocations?.length && !(showWildCropCheckBox && show_wild_crop)}
+              disabled={
+                !selectedLocations?.length &&
+                !(showWildCropCheckBox && show_wild_crop) &&
+                !noLocationsChecked
+              }
               onClick={() => onContinue(getValues())}
               fullLength
             >
@@ -141,6 +162,15 @@ export default function PureTaskLocations({
         <Main className={clsx(styles.locationPickerText, isAnimalTask && styles.fullWidthPadding)}>
           {title || t('TASK.SELECT_TASK_LOCATIONS')}
         </Main>
+        {optionalLocation && (
+          <Switch
+            label={t('TASK.NO_LOCATIONS_FOR_TASK')}
+            checked={noLocationsChecked}
+            onChange={onNoLocationsChecked}
+            hideInnerText
+            classes={{ container: styles.switchContainer }}
+          />
+        )}
         <LocationPicker
           onSelectLocation={onSelectLocation}
           clearLocations={clearLocations}
@@ -152,6 +182,7 @@ export default function PureTaskLocations({
           getMaxZoom={getMaxZoom}
           maxZoom={maxZoom}
           style={isAnimalTask ? { marginLeft: '24px', marginRight: '24px' } : null}
+          disabled={noLocationsChecked}
         />
         {showWildCropCheckBox && (
           <Checkbox
@@ -159,6 +190,7 @@ export default function PureTaskLocations({
             style={{ paddingBottom: '25px' }}
             hookFormRegister={register(SHOW_WILD_CROP)}
             onChange={onChange}
+            disabled={noLocationsChecked}
           />
         )}
       </Layout>

@@ -1,10 +1,10 @@
+import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
+import styles from './styles.module.scss';
 import Button from '../../Form/Button';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { Main } from '../../Typography';
-import React from 'react';
 import Form from '../../Form';
-import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
 import RadioGroup from '../../Form/RadioGroup';
 import PureCleaningTask from '../CleaningTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
@@ -12,8 +12,13 @@ import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
 import { PurePlantingTask } from '../PlantingTask';
 import PureIrrigationTask from '../PureIrrigationTask';
-import { formatTaskReadOnlyDefaultValues } from '../../../util/task';
+import {
+  formatTaskAnimalsAsInventoryIds,
+  formatTaskReadOnlyDefaultValues,
+} from '../../../util/task';
 import PureMovementTask from '../MovementTask';
+import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
+import { ANIMAL_IDS } from '../TaskAnimalInventory';
 
 const soilAmendmentContinueDisabled = (needsChange, isValid) => {
   if (!needsChange) {
@@ -77,6 +82,10 @@ export default function PureCompleteStepOne({
     }
   };
 
+  const onSelectAnimals = (selectedAnimalIds) => {
+    setValue(ANIMAL_IDS, selectedAnimalIds);
+  };
+
   return (
     <Form
       buttonGroup={
@@ -102,6 +111,27 @@ export default function PureCompleteStepOne({
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_CHANGES')}</Main>
       <RadioGroup hookFormControl={control} required name={CHANGES_NEEDED} />
+
+      {selectedTask.animals?.length || selectedTask.animal_batches?.length ? (
+        <div className={styles.animalInventoryWrapper}>
+          {changesRequired ? (
+            <Main>{t('TASK.ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE')}</Main>
+          ) : null}
+          <AnimalInventory
+            onSelect={changesRequired ? onSelectAnimals : undefined}
+            view={changesRequired ? View.TASK : View.TASK_SUMMARY}
+            preSelectedIds={
+              formatTaskAnimalsAsInventoryIds(selectedTask.animals, selectedTask.animal_batches) ||
+              []
+            }
+            showLinks={false}
+            showOnlySelected={!changesRequired}
+            key={changesRequired}
+            isCompleteView={true}
+          />
+        </div>
+      ) : null}
+
       {taskType &&
         taskComponents[taskType]({
           setValue,

@@ -11,9 +11,14 @@ import { useIsTaskType } from '../useIsTaskType';
 
 export default function ManagementPlanSelector({ history, match, location }) {
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
+  const isCustomTask = useIsTaskType('CUSTOM_TASK');
   if (isTransplantTask)
     return (
       <TransplantManagementPlansSelector history={history} match={match} location={location} />
+    );
+  if (isCustomTask)
+    return (
+      <CustomTaskManagementPlansSelector history={history} match={match} location={location} />
     );
   return <TaskCrops history={history} match={match} location={location} />;
 }
@@ -30,6 +35,18 @@ function TransplantManagementPlansSelector({ history, match, location }) {
       history={history}
       match={match}
       isMulti={false}
+      location={location}
+    />
+  );
+}
+
+function CustomTaskManagementPlansSelector({ history, match, location }) {
+  const onContinuePath = '/add_task/task_animal_selection';
+  return (
+    <TaskCrops
+      onContinuePath={onContinuePath}
+      history={history}
+      match={match}
       location={location}
     />
   );

@@ -38,6 +38,7 @@ const animalController = {
             animal_union_batch: true,
             group_ids: true,
             animal_use_relationships: true,
+            tasks: true,
           });
         return res.status(200).send(
           rows.map(({ animal_union_batch, group_ids, ...rest }) => ({

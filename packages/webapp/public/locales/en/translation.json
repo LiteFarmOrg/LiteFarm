@@ -1955,7 +1955,8 @@
     "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "See detail list of animals to move",
     "CARD": {
       "MULTIPLE_CROPS": "Multiple crops",
-      "MULTIPLE_LOCATIONS": "Multiple locations"
+      "MULTIPLE_LOCATIONS": "Multiple locations",
+      "NO_LOCATION": "No location"
     },
     "COMPLETE": {
       "DATE": "Completion date",
@@ -2011,6 +2012,7 @@
     "HOW_WILL_HARVEST_BE_USED": "How will the harvest be used?",
     "IRRIGATION_LOCATION": "Select an irrigation location",
     "LOCATIONS": "Location(s)",
+    "NO_LOCATIONS_FOR_TASK": "No specific location required for this task",
     "NO_TASKS_TO_DISPLAY": "There are no tasks to display.",
     "NO_WORK_DONE": "No work was completed",
     "PAGE_TITLE": "Tasks",

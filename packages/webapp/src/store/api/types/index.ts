@@ -54,6 +54,7 @@ export interface Animal {
   removal_explanation: string | null;
   removal_date: string | null;
   location_id: string | null;
+  tasks: { task_id: number }[];
   type_name?: string; // request only
   breed_name?: string; // request only
 }
@@ -94,6 +95,7 @@ export interface AnimalBatch {
   removal_explanation: string | null;
   removal_date: string | null;
   location_id: string | null;
+  tasks: { task_id: number }[];
   type_name?: string; // request only
   breed_name?: string; // request only
 }

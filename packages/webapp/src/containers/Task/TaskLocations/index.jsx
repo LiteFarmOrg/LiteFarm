@@ -22,6 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { useReadOnlyPinCoordinates } from '../useReadOnlyPinCoordinates';
 import { useMaxZoom } from '../../Map/useMaxZoom';
 import { managementPlanSelector } from '../../managementPlanSlice';
+import useAnimalInventory from '../../Animals/Inventory/useAnimalInventory';
 
 export default function TaskLocationsSwitch({ history, match, location }) {
   const isHarvestLocation = useIsTaskType('HARVEST_TASK');
@@ -173,6 +174,7 @@ function TaskCustomLocations({ history, location }) {
   const activeAndCurrentManagementPlansByLocationIds =
     useActiveAndCurrentManagementPlanTilesByLocationIds(locations);
   const wildManagementPlanTiles = useCurrentWildManagementPlanTiles();
+  const animalsExistOnFarm = useAnimalInventory().inventory.length > 0;
 
   const onContinue = (formData) => {
     const hasLocationManagementPlans = formData.locations.some(
@@ -182,7 +184,10 @@ function TaskCustomLocations({ history, location }) {
     const hasManagementPlans = hasLocationManagementPlans || hasWildManagementPlans;
     if (!readOnlyPinCoordinates?.length || !hasManagementPlans) {
       dispatch(setManagementPlansData([]));
-      return history.push('/add_task/task_animal_selection', location?.state);
+      if (animalsExistOnFarm) {
+        return history.push('/add_task/task_animal_selection', location?.state);
+      }
+      return history.push('/add_task/task_details', location?.state);
     }
     history.push('/add_task/task_crops', location?.state);
   };

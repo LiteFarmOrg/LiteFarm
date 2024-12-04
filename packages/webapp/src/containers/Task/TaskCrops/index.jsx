@@ -8,6 +8,7 @@ import {
 } from './useManagementPlanTilesByLocationIds';
 import { cropLocationsSelector } from '../../locationSlice';
 import { useIsTaskType } from '../useIsTaskType';
+import useAnimalInventory from '../../Animals/Inventory/useAnimalInventory';
 
 export default function ManagementPlanSelector({ history, match, location }) {
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
@@ -41,7 +42,8 @@ function TransplantManagementPlansSelector({ history, match, location }) {
 }
 
 function CustomTaskManagementPlansSelector({ history, match, location }) {
-  const onContinuePath = '/add_task/task_animal_selection';
+  const animalsExistOnFarm = useAnimalInventory().inventory.length > 0;
+  const onContinuePath = animalsExistOnFarm ? '/add_task/task_animal_selection' : undefined;
   return (
     <TaskCrops
       onContinuePath={onContinuePath}

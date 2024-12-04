@@ -25,7 +25,11 @@ interface SwitchProps {
   label?: ReactNode | string;
   leftLabel?: ReactNode | string;
   isToggleVariant?: boolean;
+  hideInnerText?: boolean;
   disabled?: boolean;
+  classes?: {
+    container?: string;
+  };
 }
 
 const Switch = ({
@@ -34,13 +38,15 @@ const Switch = ({
   label,
   leftLabel,
   isToggleVariant,
+  hideInnerText,
   disabled,
+  classes,
   ...props
 }: SwitchProps) => {
   const { t } = useTranslation();
 
   return (
-    <div className={styles.container} {...props}>
+    <div className={clsx(styles.container, classes?.container)} {...props}>
       {leftLabel && <Main>{leftLabel}</Main>}
       <label className={styles.switch}>
         <input onChange={onChange} checked={checked} type="checkbox" disabled={disabled} />
@@ -49,6 +55,7 @@ const Switch = ({
             styles.track,
             isToggleVariant && styles.toggle,
             disabled && styles.disabled,
+            (hideInnerText || isToggleVariant) && styles.hideInnerText,
           )}
         >
           <span className={clsx(styles.innerText, styles.yes)}>{t('common:YES')}</span>

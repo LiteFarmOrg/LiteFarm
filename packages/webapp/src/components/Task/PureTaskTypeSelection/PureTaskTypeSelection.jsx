@@ -61,7 +61,6 @@ export const PureTaskTypeSelection = ({
   persistedFormData,
   useHookFormPersist,
   onContinue,
-  onError,
   taskTypes,
   customTasks,
   isAdmin,
@@ -80,7 +79,11 @@ export const PureTaskTypeSelection = ({
   register(TASK_TYPE_ID);
   const selected_task_type = watch(TASK_TYPE_ID);
 
+  console.log(location.state);
+
   const isMakingCropTask = !!location?.state?.management_plan_id;
+  const isMakingAnimalTask = !!location?.state?.animal_ids;
+  console.log(isMakingCropTask);
 
   const onSelectTask = (task_type_id) => {
     setValue(TASK_TYPE_ID, task_type_id);
@@ -127,13 +130,15 @@ export const PureTaskTypeSelection = ({
             ?.filter(({ farm_id, task_translation_key }) => {
               const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin);
               // If trying to make a task through the crop management plan 'Add Task' link -- exclude animal tasks from selection for now
-              const isNotAnimalTaskWhileCreatingCropTask = !(
-                ANIMAL_TASKS.includes(task_translation_key) && isMakingCropTask
-              );
+              const isNotAnimalTaskWhileCreatingCropTask =
+                isMakingCropTask && !ANIMAL_TASKS.includes(task_translation_key);
+              // If trying to make a task through the animal inventory 'Create a task' action -- exclude crop tasks from selection
+              const isAnimalTaskWhileCreatingAnimalTask =
+                isMakingAnimalTask && ANIMAL_TASKS.includes(task_translation_key);
               const shouldDisplayTaskType =
                 farm_id === null &&
                 supportedTaskTypes.has(task_translation_key) &&
-                isNotAnimalTaskWhileCreatingCropTask;
+                (isNotAnimalTaskWhileCreatingCropTask || isAnimalTaskWhileCreatingAnimalTask);
 
               return shouldDisplayTaskType;
             })
@@ -143,7 +148,7 @@ export const PureTaskTypeSelection = ({
               ),
             )
             .map((taskType) => {
-              const { task_translation_key, task_type_id, farm_id } = taskType;
+              const { task_translation_key, task_type_id } = taskType;
               return (
                 <div
                   data-cy="task-selection"
@@ -167,7 +172,7 @@ export const PureTaskTypeSelection = ({
             ?.sort((firstTaskType, secondTaskType) =>
               firstTaskType.task_name.localeCompare(secondTaskType.task_name),
             )
-            .map(({ task_translation_key, task_type_id, task_name }) => {
+            .map(({ task_type_id, task_name }) => {
               return (
                 <div
                   onClick={() => {

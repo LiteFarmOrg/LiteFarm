@@ -33,7 +33,7 @@ import Location from '../models/locationModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
 import baseController from './baseController.js';
 import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js';
-import { ANIMAL_TASKS, isOnOrAfterBirthAndBroughtInDates } from '../util/animal.js';
+import { ANIMAL_TASKS } from '../util/animal.js';
 import { customError } from '../util/customErrors.js';
 
 const adminRoles = [1, 2, 5];
@@ -152,25 +152,8 @@ async function updateTaskWithCompletedData(
       }
 
       if (!data.animals && !data.animal_batches) {
-        // Check if there are animals and batches in the DB to move
-        if (!animals?.length && !animal_batches?.length) {
-          throw customError('No animals and batches to move');
-        }
-
         data.animals = animals;
         data.animal_batches = animal_batches;
-      }
-
-      const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
-        data.complete_date,
-        (data.animals || []).map(({ id }) => id),
-        (data.animal_batches || []).map(({ id }) => id),
-      );
-
-      if (!isValidDate) {
-        throw customError(
-          `complete_date must be on or after the animals' birth and brought-in dates`,
-        );
       }
 
       data.animals?.forEach((animal) => (animal.location_id = locationId));

@@ -130,6 +130,7 @@ export function checkCompleteTask(taskType) {
 
       if (ANIMAL_TASKS.includes(taskType)) {
         await checkAnimalTask(req, taskType, 'complete_date');
+        await checkAnimalCompleteTask(req, taskType, task_id);
       }
 
       const { assignee_user_id } = await TaskModel.query()
@@ -250,6 +251,42 @@ async function checkAnimalTask(req, taskType, dateName) {
   }[taskType];
 
   await taskTypeCheck?.(req);
+}
+
+async function checkAnimalCompleteTask(req, taskType, taskId) {
+  let finalizedAnimals = req.body.animals ?? undefined;
+  let finalizedBatches = req.body.animal_batches ?? undefined;
+
+  if (finalizedAnimals === undefined && finalizedBatches === undefined) {
+    // If animals or batches are not being modified, retrieve them from the DB
+    const { animals, animal_batches } = await TaskModel.query()
+      .select('task_id')
+      .withGraphFetched('[animals(selectId), animal_batches(selectId)]')
+      .where({ task_id: taskId })
+      .first();
+
+    finalizedAnimals = animals;
+    finalizedBatches = animal_batches;
+  }
+
+  // Animal tasks require animals or batches, but custom tasks do not
+  if (ANIMAL_TASKS.includes(taskType) && !finalizedAnimals?.length && !finalizedBatches?.length) {
+    throw customError('No animals or batches to apply the task to');
+  }
+
+  if (finalizedAnimals || finalizedBatches) {
+    const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
+      req.body.complete_date,
+      (finalizedAnimals.animals || []).map(({ id }) => id),
+      (finalizedBatches.animal_batches || []).map(({ id }) => id),
+    );
+
+    if (!isValidDate) {
+      throw customError(
+        `complete_date must be on or after the animals' birth and brought-in dates`,
+      );
+    }
+  }
 }
 
 export function checkDeleteTask() {

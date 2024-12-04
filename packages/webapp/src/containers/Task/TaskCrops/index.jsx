@@ -42,7 +42,7 @@ function TransplantManagementPlansSelector({ history, match, location }) {
 }
 
 function CustomTaskManagementPlansSelector({ history, match, location }) {
-  const animalsExistOnFarm = useAnimalInventory().inventory.length > 0;
+  const { animalsExistOnFarm } = useAnimalInventory();
   const onContinuePath = animalsExistOnFarm ? '/add_task/task_animal_selection' : undefined;
   return (
     <TaskCrops

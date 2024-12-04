@@ -174,7 +174,7 @@ function TaskCustomLocations({ history, location }) {
   const activeAndCurrentManagementPlansByLocationIds =
     useActiveAndCurrentManagementPlanTilesByLocationIds(locations);
   const wildManagementPlanTiles = useCurrentWildManagementPlanTiles();
-  const animalsExistOnFarm = useAnimalInventory().inventory.length > 0;
+  const { animalsExistOnFarm } = useAnimalInventory();
 
   const onContinue = (formData) => {
     const hasLocationManagementPlans = formData.locations.some(

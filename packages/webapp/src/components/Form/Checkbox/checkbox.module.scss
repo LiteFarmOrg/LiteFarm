@@ -25,7 +25,7 @@
   -ms-user-select: none;
   user-select: none;
 
-  &:hover input:not(:checked) {
+  &:hover input:not(:checked):not(:disabled) {
     ~ .label {
       color: var(--Colors-Neutral-Neutral-900);
     }

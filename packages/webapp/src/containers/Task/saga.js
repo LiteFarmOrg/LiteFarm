@@ -84,7 +84,12 @@ import {
 } from '../../util/siteMapConstants';
 import { setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { formatSoilAmendmentProductToDBStructure, getSubtaskName } from '../../util/task';
-import { getCompleteMovementTaskBody, getEndpoint, getMovementTaskBody } from './sagaUtils';
+import {
+  formatAnimalIdsForReqBody,
+  getCompleteMovementTaskBody,
+  getEndpoint,
+  getMovementTaskBody,
+} from './sagaUtils';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -772,6 +777,11 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   const { task_translation_key, isCustomTaskType } = data;
   const header = getHeader(user_id, farm_id);
   const endpoint = getEndpoint(isCustomTaskType, task_translation_key);
+
+  if (data.animalIds) {
+    const formattedAnimalIds = formatAnimalIdsForReqBody(data.animalIds);
+    data.taskData = { ...data.taskData, ...formattedAnimalIds };
+  }
 
   const taskData = taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key]
     ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data)

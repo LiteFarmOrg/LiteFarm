@@ -403,9 +403,7 @@ export default function AnimalInventory({
   };
 
   const iconActions: iconAction[] = [
-    { label: t(`common:ADD_TO_GROUP`), iconName: 'ADD_ANIMAL', onClick: () => ({}) },
     { label: t(`common:CREATE_A_TASK`), iconName: 'TASK_CREATION', onClick: () => ({}) },
-    { label: t(`common:CLONE`), iconName: 'CLONE', onClick: () => ({}) },
     {
       label: t(`ANIMAL.REMOVE_ANIMAL`),
       iconName: 'REMOVE_ANIMAL',

@@ -186,12 +186,14 @@ describe('Animal Tests', () => {
           internal_identifier: res.body[0].internal_identifier,
           group_ids: [],
           animal_use_relationships: [],
+          tasks: [],
         }).toMatchObject(res.body[0]);
         expect({
           ...secondAnimal,
           internal_identifier: res.body[1].internal_identifier,
           group_ids: [],
           animal_use_relationships: [],
+          tasks: [],
         }).toMatchObject(res.body[1]);
       }
     });

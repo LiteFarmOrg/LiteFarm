@@ -52,7 +52,7 @@ export default function TaskLocationsSwitch({ history, match, location }) {
   }
 
   if (isCustomLocation) {
-    return <TaskAllLocations history={history} location={location} optionalLocation />;
+    return <TaskCustomLocations history={history} location={location} />;
   }
 
   return <TaskAllLocations history={history} location={location} />;
@@ -166,7 +166,40 @@ function TaskAnimalLocations({ history, location }) {
   );
 }
 
-function TaskAllLocations({ history, location, optionalLocation }) {
+function TaskCustomLocations({ history, location }) {
+  const dispatch = useDispatch();
+  const locations = useSelector(locationsSelector);
+  const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
+  const activeAndCurrentManagementPlansByLocationIds =
+    useActiveAndCurrentManagementPlanTilesByLocationIds(locations);
+  const wildManagementPlanTiles = useCurrentWildManagementPlanTiles();
+
+  const onContinue = (formData) => {
+    const hasLocationManagementPlans = formData.locations.some(
+      ({ location_id }) => activeAndCurrentManagementPlansByLocationIds[location_id]?.length,
+    );
+    const hasWildManagementPlans = formData.show_wild_crop && wildManagementPlanTiles.length;
+    const hasManagementPlans = hasLocationManagementPlans || hasWildManagementPlans;
+    if (!readOnlyPinCoordinates?.length || !hasManagementPlans) {
+      dispatch(setManagementPlansData([]));
+      return history.push('/add_task/task_animal_selection', location?.state);
+    }
+    history.push('/add_task/task_crops', location?.state);
+  };
+
+  return (
+    <TaskLocations
+      locations={locations}
+      history={history}
+      onContinue={onContinue}
+      readOnlyPinCoordinates={readOnlyPinCoordinates}
+      location={location}
+      optionalLocation
+    />
+  );
+}
+
+function TaskAllLocations({ history, location }) {
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -200,7 +233,6 @@ function TaskAllLocations({ history, location, optionalLocation }) {
       onContinue={onContinue}
       readOnlyPinCoordinates={readOnlyPinCoordinates}
       location={location}
-      optionalLocation={optionalLocation}
     />
   );
 }

@@ -253,8 +253,10 @@ export default function AnimalInventory({
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
   useEffect(() => {
-    setSelectedInventoryIds(preSelectedIds);
-  }, [preSelectedIds]);
+    if (view === View.TASK_SUMMARY) {
+      setSelectedInventoryIds(preSelectedIds);
+    }
+  }, [preSelectedIds, view]);
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
 

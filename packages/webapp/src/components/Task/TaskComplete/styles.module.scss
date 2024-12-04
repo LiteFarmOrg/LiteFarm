@@ -4,13 +4,20 @@
   display: flex;
 }
 
-.animalInventoryWrapper {
+.animalInventorySection {
   padding-bottom: 24px;
 
-  // AnimalInventory component
+  // At least one animal selected warning
   > :nth-child(2) {
-    padding-top: 8px;
+    color: var(--Brand-Accents-colors-and-overlays-Accent-red);
+    padding: 16px;
+  }
+}
 
+.animalInventoryWrapper {
+  // AnimalInventory component
+
+  > :nth-child(1) {
     // FixedHeaderContainer styles (didn't dare mess with!)
     > :nth-child(1) {
       @include lg-breakpoint {

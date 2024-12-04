@@ -59,16 +59,25 @@ export default function PureCompleteStepOne({
     defaultValues: { need_changes: false, ...defaultsToUse },
   });
 
+  const watchedSelectedAnimals = watch(ANIMAL_IDS) || [];
+  const noAnimalsSelected = !watchedSelectedAnimals.length;
+
   const { historyCancel } = useHookFormPersist(getValues);
 
   const CHANGES_NEEDED = 'need_changes';
   const changesRequired = watch(CHANGES_NEEDED);
   const taskType = selectedTaskType?.task_translation_key;
 
-  const continueDisabled =
-    taskType === 'SOIL_AMENDMENT_TASK'
-      ? soilAmendmentContinueDisabled(getValues(CHANGES_NEEDED), isValid)
-      : !isValid;
+  const continueDisabled = (() => {
+    switch (taskType) {
+      case 'SOIL_AMENDMENT_TASK':
+        return soilAmendmentContinueDisabled(getValues(CHANGES_NEEDED), isValid);
+      case 'MOVEMENT_TASK':
+        return !isValid || (changesRequired && noAnimalsSelected);
+      default:
+        return !isValid;
+    }
+  })();
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -82,8 +91,6 @@ export default function PureCompleteStepOne({
       handleSubmit(onContinue)();
     }
   };
-
-  const watchedSelectedAnimals = watch(ANIMAL_IDS) || [];
 
   const onSelectAnimals = (selectedAnimalIds) => {
     setValue(ANIMAL_IDS, selectedAnimalIds);
@@ -124,7 +131,7 @@ export default function PureCompleteStepOne({
       <RadioGroup hookFormControl={control} required name={CHANGES_NEEDED} />
 
       {selectedTask.animals?.length || selectedTask.animal_batches?.length ? (
-        <div className={styles.animalInventoryWrapper}>
+        <div className={styles.animalInventorySection}>
           <AnimalInventory
             onSelect={changesRequired ? onSelectAnimals : undefined}
             view={View.TASK_SUMMARY}
@@ -136,6 +143,9 @@ export default function PureCompleteStepOne({
             showLinks={false}
             showOnlySelected={true}
           />
+          {taskType === 'MOVEMENT_TASK' && noAnimalsSelected && (
+            <Main>{t('TASK.ANIMALS_AT_LEAST_ONE_TO_COMPLETE')}</Main>
+          )}
           {changesRequired && (
             <div className={styles.animalInventoryWrapper}>
               <AnimalInventory

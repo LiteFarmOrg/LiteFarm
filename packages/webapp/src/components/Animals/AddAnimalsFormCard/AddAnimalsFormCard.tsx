@@ -64,6 +64,8 @@ export default function AddAnimalsFormCard({
     getValues,
     setValue,
     resetField,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useFormContext();
 
@@ -83,6 +85,22 @@ export default function AddAnimalsFormCard({
       setValue(uuidFieldName, uuidv4());
     }
   }, []);
+
+  const countMaxValidation = () => ({
+    value: ANIMAL_COUNT_LIMIT,
+    message: t('animal:COUNT.MAX', { max: ANIMAL_COUNT_LIMIT }),
+  });
+
+  useEffect(() => {
+    if (shouldCreateIndividualProfiles && watchAnimalCount > ANIMAL_COUNT_LIMIT) {
+      setError(`${namePrefix}${BasicsFields.COUNT}`, {
+        type: 'manual',
+        message: t('animal:COUNT.MAX', { max: ANIMAL_COUNT_LIMIT }),
+      });
+    } else {
+      clearErrors(`${namePrefix}${BasicsFields.COUNT}`);
+    }
+  }, [watchAnimalCount, shouldCreateIndividualProfiles, setError, clearErrors]);
 
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
@@ -114,17 +132,16 @@ export default function AddAnimalsFormCard({
         <NumberInput
           name={`${namePrefix}${BasicsFields.COUNT}`}
           control={control}
-          max={shouldCreateIndividualProfiles ? ANIMAL_COUNT_LIMIT : undefined}
           label={t('common:COUNT')}
           className={styles.countInput}
           allowDecimal={false}
-          value={watchAnimalCount}
           showStepper
           rules={{
             required: {
               value: true,
               message: t('common:REQUIRED'),
             },
+            max: shouldCreateIndividualProfiles ? countMaxValidation() : undefined,
             min: hookFormMinValidation(1),
           }}
           onChange={() => trigger(`${namePrefix}${BasicsFields.COUNT}`)}
@@ -154,11 +171,6 @@ export default function AddAnimalsFormCard({
         hookFormRegister={register(`${namePrefix}${BasicsFields.CREATE_INDIVIDUAL_PROFILES}`)}
         onChange={(e) => {
           onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked);
-          if ((e.target as HTMLInputElement).checked && watchAnimalCount > ANIMAL_COUNT_LIMIT) {
-            setValue(`${namePrefix}${BasicsFields.COUNT}`, ANIMAL_COUNT_LIMIT, {
-              shouldValidate: true,
-            });
-          }
         }}
       />
       {shouldCreateIndividualProfiles ? (

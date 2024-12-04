@@ -49,5 +49,8 @@
     "RECREATIONAL_OR_CULTURAL_USE": "MISSING",
     "COMPANIONSHIP": "MISSING",
     "OTHER": "MISSING"
+  },
+  "COUNT": {
+    "MAX": "MISSING"
   }
 }

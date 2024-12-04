@@ -49,5 +49,8 @@
     "RECREATIONAL_OR_CULTURAL_USE": "Recreational or Cultural Use",
     "COMPANIONSHIP": "Companionship",
     "OTHER": "Other"
+  },
+  "COUNT": {
+    "MAX": "You can only add up to {{max}} animals at a time"
   }
 }

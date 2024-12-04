@@ -227,6 +227,69 @@ class Animal extends baseModel {
       },
     };
   }
+
+  static async getAnimalIdsWithTasks(trx, animalIds, taskFilterCondition) {
+    if (taskFilterCondition) {
+      return Animal.query(trx)
+        .select('id')
+        .withGraphFetched('tasks')
+        .modifyGraph('tasks', (builder) => {
+          builder.select('task.task_id', 'task.complete_date', 'task.abandon_date');
+          builder.where('deleted', false).whereRaw(taskFilterCondition);
+        })
+        .whereIn('animal.id', animalIds);
+    }
+
+    return Animal.query(trx)
+      .select('id')
+      .withGraphFetched('tasks')
+      .modifyGraph('tasks', (builder) => {
+        builder.select('task.task_id', 'task.complete_date', 'task.abandon_date');
+        builder.where('deleted', false);
+      })
+      .whereIn('animal.id', animalIds)
+      .transacting(trx);
+  }
+
+  // Get animals with finalized (completed or abandoned) tasks
+  static async getAnimalIdsWithFinalizedTasks(trx, animalIds) {
+    return Animal.getAnimalIdsWithTasks(
+      trx,
+      animalIds,
+      'complete_date IS NOT NULL OR abandon_date IS NOT NULL',
+    );
+  }
+
+  static async getAnimalIdsWithIncompleteTasks(trx, animalIds) {
+    return Animal.getAnimalIdsWithTasks(
+      trx,
+      animalIds,
+      'complete_date IS NULL AND abandon_date IS NULL',
+    );
+  }
+
+  static async unrelateIncompleteTasksForAnimals(trx, animalIds) {
+    let unrelatedTaskIds = [];
+    const animals = await Animal.getAnimalIdsWithIncompleteTasks(trx, animalIds);
+
+    if (animals) {
+      // Delete relationships
+      await Promise.all(
+        animals.map(({ id, tasks }) => {
+          const taskIds = tasks.map(({ task_id }) => task_id);
+          unrelatedTaskIds = [...unrelatedTaskIds, ...taskIds];
+
+          return Animal.relatedQuery('tasks')
+            .for(id)
+            .unrelate()
+            .whereIn('task.task_id', taskIds)
+            .transacting(trx);
+        }),
+      );
+    }
+
+    return { unrelatedTaskIds: [...new Set(unrelatedTaskIds)] };
+  }
 }
 
 export default Animal;

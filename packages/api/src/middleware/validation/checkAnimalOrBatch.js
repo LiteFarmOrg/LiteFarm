@@ -439,6 +439,41 @@ const checkInvalidIds = async (invalidIds) => {
   }
 };
 
+export async function checkDateWithTaskDueDate(animalOrBatch, animalOrBatchKey) {
+  const { id, birth_date, brought_in_date } = animalOrBatch;
+
+  if (!birth_date && !brought_in_date) {
+    return;
+  }
+
+  const oldestDueDateTask = await AnimalOrBatchModel[animalOrBatchKey]
+    .relatedQuery('tasks')
+    .select('due_date')
+    .for(id)
+    .whereNotDeleted()
+    .orderBy('due_date', 'asc')
+    .first();
+
+  // return if no associated tasks
+  if (!oldestDueDateTask?.due_date) {
+    return;
+  }
+
+  const dueDate = new Date(oldestDueDateTask.due_date);
+  const dueDateAtMidnight = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
+
+  for (const item of [birth_date, brought_in_date].filter(Boolean)) {
+    const date = new Date(item);
+    const dateAtMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+    if (dueDateAtMidnight < dateAtMidnight) {
+      throw customError(
+        `Birth and brought-in dates must be on or before associated tasks' due dates`,
+      );
+    }
+  }
+}
+
 export function checkCreateAnimalOrBatch(animalOrBatchKey) {
   return async (req, res, next) => {
     const trx = await transaction.start(Model.knex());
@@ -517,6 +552,7 @@ export function checkEditAnimalOrBatch(animalOrBatchKey) {
         await checkAnimalUseRelationship(animalOrBatch, animalOrBatchKey);
         await checkAnimalOrigin(animalOrBatch, false);
         await checkAnimalIdentifier(animalOrBatch, animalOrBatchKey, false);
+        await checkDateWithTaskDueDate(animalOrBatch, animalOrBatchKey);
 
         // Skip the process if type_name and breed_name are not passed
         if (!type_name && !breed_name) {
@@ -559,6 +595,7 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
       // Check that all animals exist and belong to the farm
       // Done in its own loop to provide a list of all invalid ids
       const invalidIds = [];
+      const removalDatesSet = new Set();
 
       for (const animalOrBatch of req.body) {
         checkRemovalDataProvided(animalOrBatch);
@@ -572,9 +609,18 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
         if (!preexistingAnimalOrBatch) {
           invalidIds.push(animalOrBatch.id);
         }
+        removalDatesSet.add(animalOrBatch.removal_date);
       }
 
       await checkInvalidIds(invalidIds);
+
+      // Assumption: All removal_date values are identical.
+      // This check ensures that if this assumption ever changes, it triggers an error.
+      // If the error is triggered, re-implement handleIncompleteTasksForAnimalsAndBatches to handle multiple dates.
+      if (removalDatesSet.size > 1) {
+        throw customError('removal_date is expected to be the same in all animals/batches');
+      }
+
       next();
     } catch (error) {
       if (error.type === 'LiteFarmCustom') {
@@ -591,6 +637,24 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
     }
   };
 }
+
+// Check animals or batches with completed and abandoned tasks
+const checkAnimalsOrBatchesWithFinalizedTasks = async (animalOrBatchKey, ids, trx) => {
+  const getAnimalOrBatchIdsWithFinalizedTasks =
+    animalOrBatchKey === 'animal'
+      ? AnimalModel.getAnimalIdsWithFinalizedTasks
+      : AnimalBatchModel.getBatchIdsWithFinalizedTasks;
+
+  const animalsOrBatches = await getAnimalOrBatchIdsWithFinalizedTasks(trx, [
+    ...new Set(ids.split(',').map((id) => +id)),
+  ]);
+
+  for (const { tasks } of animalsOrBatches) {
+    if (tasks.length) {
+      throw customError('Animals with completed or abandoned tasks cannot be deleted');
+    }
+  }
+};
 
 /**
  * Middleware function to check if the provided animal entities exist and belong to the farm. The IDs must be passed as a comma-separated query string.
@@ -613,9 +677,13 @@ export function checkDeleteAnimalOrBatch(animalOrBatchKey) {
 
     try {
       const { farm_id } = req.headers;
-      const { ids } = req.query;
+      const { ids, date } = req.query;
 
+      if (!date) {
+        throw customError('Must send date');
+      }
       await checkValidAnimalOrBatchIds(animalOrBatchKey, ids, farm_id, trx);
+      await checkAnimalsOrBatchesWithFinalizedTasks(animalOrBatchKey, ids, trx);
 
       await trx.commit();
       next();

@@ -171,7 +171,7 @@ export const api = createApi({
       query: (del) => ({
         url: `${animalsUrl}`,
         method: 'DELETE',
-        params: { ids: del },
+        params: del,
       }),
       invalidatesTags: ['Animals', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
@@ -179,7 +179,7 @@ export const api = createApi({
       query: (del) => ({
         url: `${animalBatchesUrl}`,
         method: 'DELETE',
-        params: { ids: del },
+        params: del,
       }),
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),

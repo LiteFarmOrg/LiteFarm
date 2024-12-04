@@ -503,6 +503,13 @@ class TaskModel extends BaseModel {
       return TaskModel.deleteTask(task_id, user, trx);
     }
   }
+
+  static async getTaskIdsWithAnimalAndBatchIds(trx, taskIds) {
+    return await TaskModel.query(trx)
+      .select('task_id')
+      .withGraphFetched('[animals(selectId), animal_batches(selectId)]')
+      .whereIn('task_id', taskIds);
+  }
 }
 
 export default TaskModel;

@@ -144,7 +144,9 @@ export default function PureCompleteStepOne({
             showOnlySelected={true}
           />
           {taskType === 'MOVEMENT_TASK' && noAnimalsSelected && (
-            <Main>{t('TASK.ANIMALS_AT_LEAST_ONE_TO_COMPLETE')}</Main>
+            <Main className={styles.noAnimalsSelectedWarning}>
+              {t('TASK.ANIMALS_AT_LEAST_ONE_TO_COMPLETE')}
+            </Main>
           )}
           {changesRequired && (
             <div className={styles.animalInventoryWrapper}>

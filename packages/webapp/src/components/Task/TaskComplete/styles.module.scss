@@ -7,16 +7,17 @@
 .animalInventorySection {
   padding-bottom: 24px;
 
-  // At least one animal selected warning
-  > :nth-child(2) {
+  .noAnimalsSelectedWarning {
     color: var(--Brand-Accents-colors-and-overlays-Accent-red);
     padding: 16px;
+    padding-bottom: 0;
   }
 }
 
 .animalInventoryWrapper {
-  // AnimalInventory component
+  padding-top: 16px;
 
+  // AnimalInventory component
   > :nth-child(1) {
     // FixedHeaderContainer styles (didn't dare mess with!)
     > :nth-child(1) {

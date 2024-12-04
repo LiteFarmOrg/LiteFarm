@@ -53,7 +53,12 @@ import PureIrrigationTask from '../PureIrrigationTask';
 import DeleteBox from './DeleteBox';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { certifierSurveySelector } from '../../../containers/OrganicCertifierSurvey/slice';
-import { formatTaskReadOnlyDefaultValues } from '../../../util/task';
+import {
+  formatTaskAnimalsAsInventoryIds,
+  formatTaskReadOnlyDefaultValues,
+} from '../../../util/task';
+import PureMovementTask from '../MovementTask';
+import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -351,6 +356,20 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
+      {task.animals?.length || task.animal_batches?.length ? (
+        <div className={styles.section}>
+          <Semibold>{t('TASK.ANIMALS')}</Semibold>
+          <AnimalInventory
+            view={View.TASK_SUMMARY}
+            preSelectedIds={
+              formatTaskAnimalsAsInventoryIds(task.animals, task.animal_batches) || []
+            }
+            showLinks={false}
+            showOnlySelected={true}
+          />
+        </div>
+      ) : null}
+
       {isAbandoned && (
         <div>
           <Semibold style={{ marginBottom: '24px' }}>{t('TASK.ABANDONMENT_DETAILS')}</Semibold>
@@ -518,4 +537,5 @@ const taskComponents = {
   TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
   HARVEST_TASK: (props) => <PureHarvestingTaskReadOnly {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
+  MOVEMENT_TASK: (props) => <PureMovementTask disabled {...props} />,
 };

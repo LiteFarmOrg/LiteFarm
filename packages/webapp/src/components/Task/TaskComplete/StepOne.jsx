@@ -13,6 +13,7 @@ import PurePestControlTask from '../PestControlTask';
 import { PurePlantingTask } from '../PlantingTask';
 import PureIrrigationTask from '../PureIrrigationTask';
 import { formatTaskReadOnlyDefaultValues } from '../../../util/task';
+import PureMovementTask from '../MovementTask';
 
 const soilAmendmentContinueDisabled = (needsChange, isValid) => {
   if (!needsChange) {
@@ -132,4 +133,5 @@ const taskComponents = {
   PLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={true} {...props} />,
   TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
+  MOVEMENT_TASK: (props) => <PureMovementTask {...props} />,
 };

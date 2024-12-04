@@ -98,7 +98,7 @@ export const styles: StylesConfig = {
     fontFamily: '"Open Sans", "SansSerif", serif, "Manjari"',
   }),
 
-  multiValueRemove: (provided) => ({
+  multiValueRemove: (provided, state) => ({
     ...provided,
     color: 'white',
     cursor: 'pointer',
@@ -107,6 +107,7 @@ export const styles: StylesConfig = {
       backgroundColor: 'transparent',
       color: 'white',
     },
+    display: state.isDisabled ? 'none' : 'block',
   }),
 
   multiValueLabel: (provided) => ({
@@ -116,10 +117,10 @@ export const styles: StylesConfig = {
     color: 'white',
     padding: 0,
   }),
-  multiValue: (provided) => ({
+  multiValue: (provided, state) => ({
     ...provided,
     borderRadius: '32px',
-    padding: '0 4px 0 12px',
+    padding: state.isDisabled ? '0 18px 0 12px' : '0 4px 0 12px',
     border: '1px solid var(--teal700)',
     fontWeight: 600,
     backgroundColor: colors.teal600,
@@ -139,9 +140,10 @@ export const styles: StylesConfig = {
     ...provided,
     alignItems: 'flex-start',
   }),
-  dropdownIndicator: (provided) => ({
+  dropdownIndicator: (provided, state) => ({
     ...provided,
     paddingTop: '14px',
+    display: state.isDisabled ? 'none' : 'block',
   }),
   menuPortal: (base) => ({ ...base, zIndex: 9999 }),
   container: (provided, state) => ({

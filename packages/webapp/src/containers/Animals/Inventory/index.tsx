@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useCallback, useMemo, useState, ChangeEvent, ReactNode } from 'react';
+import { useCallback, useMemo, useState, ChangeEvent, ReactNode, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureAnimalInventory, {
   PureAnimalInventoryProps,
@@ -251,6 +251,10 @@ export default function AnimalInventory({
   isCompleteView,
 }: AnimalInventoryProps) {
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
+
+  useEffect(() => {
+    setSelectedInventoryIds(preSelectedIds);
+  }, [preSelectedIds]);
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
 

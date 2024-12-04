@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import styles from './styles.module.scss';
@@ -82,9 +83,19 @@ export default function PureCompleteStepOne({
     }
   };
 
+  const watchedSelectedAnimals = watch(ANIMAL_IDS) || [];
+
   const onSelectAnimals = (selectedAnimalIds) => {
     setValue(ANIMAL_IDS, selectedAnimalIds);
   };
+
+  // Reset the initial value of the animal inventory to the original task animals
+  useEffect(() => {
+    setValue(
+      ANIMAL_IDS,
+      formatTaskAnimalsAsInventoryIds(selectedTask.animals, selectedTask.animal_batches),
+    );
+  }, [changesRequired]);
 
   return (
     <Form
@@ -114,21 +125,29 @@ export default function PureCompleteStepOne({
 
       {selectedTask.animals?.length || selectedTask.animal_batches?.length ? (
         <div className={styles.animalInventoryWrapper}>
-          {changesRequired ? (
-            <Main>{t('TASK.ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE')}</Main>
-          ) : null}
           <AnimalInventory
             onSelect={changesRequired ? onSelectAnimals : undefined}
-            view={changesRequired ? View.TASK : View.TASK_SUMMARY}
+            view={View.TASK_SUMMARY}
             preSelectedIds={
-              formatTaskAnimalsAsInventoryIds(selectedTask.animals, selectedTask.animal_batches) ||
-              []
+              changesRequired
+                ? watchedSelectedAnimals
+                : formatTaskAnimalsAsInventoryIds(selectedTask.animals, selectedTask.animal_batches)
             }
             showLinks={false}
-            showOnlySelected={!changesRequired}
-            key={changesRequired}
-            isCompleteView={true}
+            showOnlySelected={true}
           />
+          {changesRequired && (
+            <div className={styles.animalInventoryWrapper}>
+              <AnimalInventory
+                onSelect={onSelectAnimals}
+                view={View.TASK}
+                preSelectedIds={watchedSelectedAnimals}
+                showLinks={false}
+                showOnlySelected={false}
+                isCompleteView={true}
+              />
+            </div>
+          )}
         </div>
       ) : null}
 

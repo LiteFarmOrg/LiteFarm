@@ -7,14 +7,9 @@
 .animalInventoryWrapper {
   padding-bottom: 24px;
 
-  // Animal inventory label
-  > :first-child {
-    padding-top: 16px;
-  }
-
   // AnimalInventory component
   > :nth-child(2) {
-    margin-top: 8px;
+    padding-top: 8px;
 
     // FixedHeaderContainer styles (didn't dare mess with!)
     > :nth-child(1) {

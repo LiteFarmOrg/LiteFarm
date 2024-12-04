@@ -72,7 +72,7 @@ export const getCompleteMovementTaskBody = ({ taskData }) => {
   const { movement_task, ...restTaskData } = taskData;
 
   return {
-    ...restTaskData, // completion properties, animalIds
+    ...restTaskData, // completion properties, related_animal_ids, related_batch_ids
     ...formatMovementTask(movement_task),
   };
 };

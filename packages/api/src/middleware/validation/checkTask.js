@@ -128,7 +128,7 @@ export function checkCompleteTask(taskType) {
         return res.status(400).send('Task has already been completed or abandoned');
       }
 
-      if (ANIMAL_TASKS.includes(taskType)) {
+      if ([...ANIMAL_TASKS, 'custom_task'].includes(taskType)) {
         await checkAnimalTask(req, taskType, 'complete_date');
         await checkAnimalCompleteTask(req, taskType, task_id);
       }
@@ -220,7 +220,7 @@ async function checkAnimalTask(req, taskType, dateName) {
 
   let isAnimalOrBatchRequired = taskType !== 'custom_task';
 
-  if (dateName === 'complete_date') {
+  if (isAnimalOrBatchRequired && dateName === 'complete_date') {
     // Set isAnimalOrBatchRequired to false when both animals and batches won't be modified
     const animalsOrBatchesProvided =
       'related_animal_ids' in req.body || 'related_batch_ids' in req.body;

@@ -1949,11 +1949,13 @@ describe('Task tests', () => {
           }),
         );
 
+        const { animals, animal_batches, ...patchTaskData } = createdTask;
+
         // Update the task
         completeTaskRequest(
           { user_id, farm_id },
           {
-            ...createdTask,
+            ...patchTaskData,
             ...fakeCompletionData,
           },
           task_id,
@@ -2332,10 +2334,12 @@ describe('Task tests', () => {
         createdTask.soil_amendment_task_products[indexOfFirstProduct].product_id =
           soilAmendmentProductTwo.product_id;
 
+        const { animals, animal_batches, ...patchTaskData } = createdTask;
+
         completeTaskRequest(
           { user_id, farm_id },
           {
-            ...createdTask,
+            ...patchTaskData,
             ...fakeCompletionData,
           },
           task_id,

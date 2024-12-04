@@ -600,6 +600,7 @@ describe('Animal task tests', () => {
             { purpose_id: purpose1.id },
             { purpose_id: otherPurpose.id, other_purpose: faker.lorem.sentence() },
           ]),
+        custom_task: () => ({ notes: faker.lorem.sentence() }),
       };
 
       describe.each(Object.keys(fakeTaskData))('animal tasks common validation tests', (type) => {
@@ -625,11 +626,31 @@ describe('Animal task tests', () => {
             type,
           );
           expect(patchRes.status).toBe(200);
-          const res = await getTasksRequest({ user_id, farm_id });
-          const returnedAnimals = res.body.find((task) => task.task_id === task_id).animals;
-          expect(returnedAnimals.map(({ id }) => id).sort()).toEqual(afterAnimalIds.sort());
-          const returnedbatches = res.body.find((task) => task.task_id === task_id).animal_batches;
-          expect(returnedbatches.map(({ id }) => id).sort()).toEqual(afterBatchIds.sort());
+
+          const animalRelationships = await knex('task_animal_relationship')
+            .select('animal_id')
+            .where({ task_id });
+          expect(animalRelationships.map(({ animal_id }) => animal_id).sort()).toEqual(
+            (afterAnimalIds || []).sort(),
+          );
+          const batchRelationships = await knex('task_animal_batch_relationship')
+            .select('animal_batch_id')
+            .where({ task_id });
+          expect(batchRelationships.map(({ animal_batch_id }) => animal_batch_id).sort()).toEqual(
+            (afterBatchIds || []).sort(),
+          );
+
+          // Ensure the original animals/batches are not deleted or marked as deleted
+          const animals = await knex('animal')
+            .select('id')
+            .whereIn('id', beforeAnimalIds)
+            .andWhereNot('deleted', true);
+          expect(animals.length).toBe(beforeAnimalIds.length);
+          const batches = await knex('animal_batch')
+            .select('id')
+            .whereIn('id', beforeBatchIds)
+            .andWhereNot('deleted', true);
+          expect(batches.length).toBe(beforeBatchIds.length);
         };
 
         const checkInvalidAnimalsToComplete = async (animalOrBatch, ids, invalidIds) => {
@@ -700,26 +721,40 @@ describe('Animal task tests', () => {
           });
         });
 
-        test('should not complete an animal task with an attempt to remove all animals and batches from the task', async () => {
-          const emptyIdsVariants = [[], null];
-          for (let emptyIds of emptyIdsVariants) {
-            const { task_id } = await animalTaskFactory(fakeTaskData[type]());
-            const patchRes = await completeTaskRequest(
-              { user_id, farm_id },
-              {
-                ...fakeCompletionData,
-                related_animal_ids: emptyIds,
-                related_animal_batch_ids: emptyIds,
-              },
-              task_id,
-              type,
-            );
-            expect(patchRes.status).toBe(400);
-            expect(patchRes.error.text).toBe(
-              'At least one of the animal IDs or animal batch IDs is required',
-            );
-          }
-        });
+        if (type === 'custom_task') {
+          test('should complete a custom task with an attempt to remove all animals and batches from the task', async () => {
+            const emptyIdsVariants = [[], null];
+            for (let emptyIds of emptyIdsVariants) {
+              await checkBeforeAfterAnimals({
+                beforeAnimalIds: [animal1.id, animal2.id, animal3.id],
+                beforeBatchIds: [batch1.id, batch2.id, batch3.id],
+                afterAnimalIds: emptyIds,
+                afterBatchIds: emptyIds,
+              });
+            }
+          });
+        } else {
+          test('should not complete an animal task with an attempt to remove all animals and batches from the task', async () => {
+            const emptyIdsVariants = [[], null];
+            for (let emptyIds of emptyIdsVariants) {
+              const { task_id } = await animalTaskFactory(fakeTaskData[type]());
+              const patchRes = await completeTaskRequest(
+                { user_id, farm_id },
+                {
+                  ...fakeCompletionData,
+                  related_animal_ids: emptyIds,
+                  related_batch_ids: emptyIds,
+                },
+                task_id,
+                type,
+              );
+              expect(patchRes.status).toBe(400);
+              expect(patchRes.error.text).toBe(
+                'At least one of the animal IDs or animal batch IDs is required',
+              );
+            }
+          });
+        }
 
         test('should not complete an animal task for a removed animal', async () => {
           await checkInvalidAnimalsToComplete(

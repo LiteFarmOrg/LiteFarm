@@ -276,6 +276,7 @@ router.patch(
   modelMapping['custom_task'],
   hasFarmAccess({ mixed: 'taskIdTaskType' }),
   checkScope(['edit:task']),
+  checkCompleteTask('custom_task'),
   taskController.completeTask('custom_task'),
 );
 

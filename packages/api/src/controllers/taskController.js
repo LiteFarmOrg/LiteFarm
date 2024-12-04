@@ -196,6 +196,8 @@ async function updateTaskWithCompletedData(
             noUpdate: nonModifiable,
             noDelete: true,
             noInsert: true,
+            relate: ['animals', 'animal_batches'],
+            unrelate: ['animals', 'animal_batches'],
           },
         );
       return task;
@@ -506,11 +508,15 @@ const taskController = {
   },
 
   formatAnimalAndBatchIds(data) {
-    if (data.related_animal_ids) {
-      data.animals = [...new Set(data.related_animal_ids)].map((id) => ({ id }));
+    if ('related_animal_ids' in data) {
+      data.animals = data.related_animal_ids
+        ? [...new Set(data.related_animal_ids)].map((id) => ({ id }))
+        : null;
     }
-    if (data.related_batch_ids) {
-      data.animal_batches = [...new Set(data.related_batch_ids)].map((id) => ({ id }));
+    if ('related_batch_ids' in data) {
+      data.animal_batches = data.related_batch_ids
+        ? [...new Set(data.related_batch_ids)].map((id) => ({ id }))
+        : null;
     }
 
     delete data.related_animal_ids;
@@ -520,6 +526,11 @@ const taskController = {
   },
 
   async checkCustomDependencies(typeOfTask, data, farm_id) {
+    // TODO: Move this validation to checkCreateTask and checkCompleteTask and apply the middleware to all relevant routes.
+    if ('animals' in data || 'animal_batches' in data) {
+      throw customError(`Invalid field: "animals" or "animal_batches" should not be included.`);
+    }
+
     switch (typeOfTask) {
       case 'field_work_task': {
         return await this.checkAndAddCustomFieldWork(data, farm_id);
@@ -734,7 +745,7 @@ const taskController = {
           { ...req.body, owner_user_id: user_id },
           req.headers.farm_id,
         );
-        if (ANIMAL_TASKS.includes(typeOfTask)) {
+        if ([...ANIMAL_TASKS, 'custom_task'].includes(typeOfTask)) {
           data = this.formatAnimalAndBatchIds(data);
         }
         const result = await TaskModel.transaction(async (trx) => {

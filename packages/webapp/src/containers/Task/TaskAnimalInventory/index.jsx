@@ -17,15 +17,21 @@ import PureTaskAnimalInventory from '../../../components/Task/TaskAnimalInventor
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
+import { useIsTaskType } from '../useIsTaskType';
 
 function TaskAnimalInventory({ history, location }) {
+  const isCustomTask = useIsTaskType('CUSTOM_TASK');
+
   const onGoBack = () => {
     history.back();
   };
 
   const onContinue = () => {
-    history.push('/add_task/task_locations', location?.state);
+    isCustomTask
+      ? history.push('/add_task/task_details', location?.state)
+      : history.push('/add_task/task_locations', location?.state);
   };
+
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
@@ -36,6 +42,7 @@ function TaskAnimalInventory({ history, location }) {
         onContinue={onContinue}
         history={history}
         isDesktop={isDesktop}
+        isRequired={!isCustomTask}
       />
     </HookFormPersistProvider>
   );

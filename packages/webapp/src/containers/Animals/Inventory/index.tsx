@@ -88,6 +88,7 @@ interface AnimalInventoryProps {
   history: History;
   showOnlySelected?: boolean;
   showLinks?: boolean;
+  isCompleteView?: boolean;
 }
 
 const BaseAnimalInventory = ({
@@ -155,15 +156,16 @@ const SelectedAnimalsSummaryInventory = ({
 
 const TaskAnimalInventory = ({
   isAdmin,
+  isCompleteView,
   ...commonProps
-}: { isAdmin: boolean } & CommonPureAnimalInventoryProps) => {
+}: { isAdmin: boolean; isCompleteView?: boolean } & CommonPureAnimalInventoryProps) => {
   return (
     <FixedHeaderContainer
       header={null}
       classes={{
         paper: styles.paper,
         divWrapper: styles.divWrapper,
-        wrapper: styles.taskViewMaxHeight,
+        wrapper: isCompleteView ? styles.completeViewMaxHeight : styles.taskViewMaxHeight,
       }}
       kind={ContainerKind.PAPER}
     >
@@ -246,6 +248,7 @@ export default function AnimalInventory({
   history,
   showOnlySelected = false,
   showLinks = true,
+  isCompleteView,
 }: AnimalInventoryProps) {
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
@@ -484,7 +487,9 @@ export default function AnimalInventory({
   };
 
   if (view == View.TASK) {
-    return <TaskAnimalInventory isAdmin={isAdmin} {...commonProps} />;
+    return (
+      <TaskAnimalInventory isAdmin={isAdmin} isCompleteView={isCompleteView} {...commonProps} />
+    );
   }
   if (view == View.TASK_SUMMARY) {
     return (

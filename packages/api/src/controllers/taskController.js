@@ -34,6 +34,7 @@ import TaskTypeModel from '../models/taskTypeModel.js';
 import baseController from './baseController.js';
 import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js';
 import { ANIMAL_TASKS } from '../util/animal.js';
+import { CUSTOM_TASK } from '../util/task.js';
 import { customError } from '../util/customErrors.js';
 
 const adminRoles = [1, 2, 5];
@@ -442,7 +443,7 @@ const taskController = {
 
         data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
         if (
-          [...ANIMAL_TASKS, 'custom_task'].includes(typeOfTask) &&
+          [...ANIMAL_TASKS, CUSTOM_TASK].includes(typeOfTask) &&
           ('related_animal_ids' in data || 'related_batch_ids' in data)
         ) {
           data = this.formatAnimalAndBatchIds(data);
@@ -745,7 +746,7 @@ const taskController = {
           { ...req.body, owner_user_id: user_id },
           req.headers.farm_id,
         );
-        if ([...ANIMAL_TASKS, 'custom_task'].includes(typeOfTask)) {
+        if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(typeOfTask)) {
           data = this.formatAnimalAndBatchIds(data);
         }
         const result = await TaskModel.transaction(async (trx) => {

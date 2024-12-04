@@ -20,6 +20,7 @@ import {
   checkAnimalAndBatchIds,
   isOnOrAfterBirthAndBroughtInDates,
 } from '../../util/animal.js';
+import { CUSTOM_TASK } from '../../util/task.js';
 import { checkIsArray, customError } from '../../util/customErrors.js';
 
 const adminRoles = [1, 2, 5];
@@ -128,7 +129,7 @@ export function checkCompleteTask(taskType) {
         return res.status(400).send('Task has already been completed or abandoned');
       }
 
-      if ([...ANIMAL_TASKS, 'custom_task'].includes(taskType)) {
+      if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(taskType)) {
         await checkAnimalTask(req, taskType, 'complete_date');
         await checkAnimalCompleteTask(req, taskType, task_id);
       }
@@ -175,7 +176,7 @@ export function checkCreateTask(taskType) {
         return res.status(400).send('must have user_id');
       }
 
-      if (!(taskType in req.body) && taskType !== 'custom_task') {
+      if (!(taskType in req.body) && taskType !== CUSTOM_TASK) {
         return res.status(400).send('must have task details body');
       }
 
@@ -187,7 +188,7 @@ export function checkCreateTask(taskType) {
         return res.status(400).send('task type requires products');
       }
 
-      if ([...ANIMAL_TASKS, 'custom_task'].includes(taskType)) {
+      if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(taskType)) {
         await checkAnimalTask(req, taskType, 'due_date');
       }
 
@@ -212,13 +213,13 @@ export function checkCreateTask(taskType) {
 async function checkAnimalTask(req, taskType, dateName) {
   const { farm_id } = req.headers;
   const { related_animal_ids, related_batch_ids, managementPlans } = req.body;
-  const ALLOWED_TYPES_WITH_MANAGEMENT_PLANS = ['custom_task'];
+  const ALLOWED_TYPES_WITH_MANAGEMENT_PLANS = [CUSTOM_TASK];
 
   if (!ALLOWED_TYPES_WITH_MANAGEMENT_PLANS.includes(taskType) && managementPlans?.length) {
     throw customError(`managementPlans cannot be added for ${taskType}`);
   }
 
-  let isAnimalOrBatchRequired = taskType !== 'custom_task';
+  let isAnimalOrBatchRequired = taskType !== CUSTOM_TASK;
 
   if (isAnimalOrBatchRequired && dateName === 'complete_date') {
     // Set isAnimalOrBatchRequired to false when both animals and batches won't be modified

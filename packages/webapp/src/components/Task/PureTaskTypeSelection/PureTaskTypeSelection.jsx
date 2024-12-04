@@ -79,11 +79,8 @@ export const PureTaskTypeSelection = ({
   register(TASK_TYPE_ID);
   const selected_task_type = watch(TASK_TYPE_ID);
 
-  console.log(location.state);
-
   const isMakingCropTask = !!location?.state?.management_plan_id;
   const isMakingAnimalTask = !!location?.state?.animal_ids;
-  console.log(isMakingCropTask);
 
   const onSelectTask = (task_type_id) => {
     setValue(TASK_TYPE_ID, task_type_id);

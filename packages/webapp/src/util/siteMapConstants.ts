@@ -17,7 +17,7 @@
 //   as well as accomodating UUID types.
 
 // Animals
-
+export const ANIMALS_URL = '/animals';
 export const ANIMALS_INVENTORY_URL = '/animals/inventory';
 export const ADD_ANIMALS_URL = '/animals/inventory/add_animals';
 export const createSingleAnimalViewURL = (id: string | number): string => {

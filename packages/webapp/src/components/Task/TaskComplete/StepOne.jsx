@@ -133,13 +133,8 @@ export default function PureCompleteStepOne({
       {selectedTask.animals?.length || selectedTask.animal_batches?.length ? (
         <div className={styles.animalInventorySection}>
           <AnimalInventory
-            onSelect={changesRequired ? onSelectAnimals : undefined}
             view={View.TASK_SUMMARY}
-            preSelectedIds={
-              changesRequired
-                ? watchedSelectedAnimals
-                : formatTaskAnimalsAsInventoryIds(selectedTask.animals, selectedTask.animal_batches)
-            }
+            preSelectedIds={watchedSelectedAnimals}
             showLinks={false}
             showOnlySelected={true}
           />

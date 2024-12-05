@@ -85,6 +85,7 @@ import {
 import { setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { formatSoilAmendmentProductToDBStructure, getSubtaskName } from '../../util/task';
 import { getEndpoint, getMovementTaskBody } from './sagaUtils';
+import { api } from '../../store/api/apiSlice';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -790,6 +791,10 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
         message: i18n.t('message:TASK.COMPLETE.SUCCESS'),
         pathname: returnPath ?? '/tasks',
       });
+
+      if (task_translation_key === 'MOVEMENT_TASK') {
+        yield put(api.util.invalidateTags(['Animals', 'AnimalBatches']));
+      }
     }
   } catch (e) {
     console.log(e);

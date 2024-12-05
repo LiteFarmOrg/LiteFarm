@@ -421,6 +421,7 @@ export const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocatio
       }));
       delete data['show_wild_crop'];
       if (data.animalIds) {
+        // Format animalIds for the request body
         const { related_animal_ids, related_batch_ids } = formatAnimalIdsForReqBody(data.animalIds);
         data.related_animal_ids = related_animal_ids;
         data.related_batch_ids = related_batch_ids;

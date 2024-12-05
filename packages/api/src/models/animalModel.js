@@ -15,7 +15,6 @@
 
 import baseModel from './baseModel.js';
 import AnimalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
-import AnimalGroupRelationshipModel from './animalGroupRelationshipModel.js';
 import Model from './baseFormatModel.js';
 import { checkAndTrimString } from '../util/util.js';
 import AnimalUseRelationshipModel from './animalUseRelationshipModel.js';
@@ -25,7 +24,6 @@ import DefaultAnimalTypeModel from './defaultAnimalTypeModel.js';
 import CustomAnimalTypeModel from './customAnimalTypeModel.js';
 import DefaultAnimalBreedModel from './defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from './customAnimalBreedModel.js';
-import AnimalGroupModel from './animalGroupModel.js';
 
 class Animal extends baseModel {
   static get tableName() {
@@ -123,32 +121,6 @@ class Animal extends baseModel {
           to: 'animal_union_batch_id_view.id',
         },
         modify: (query) => query.select('internal_identifier').where('batch', false),
-      },
-      group_ids: {
-        relation: Model.HasManyRelation,
-        modelClass: AnimalGroupRelationshipModel,
-        join: {
-          from: 'animal.id',
-          to: 'animal_group_relationship.animal_id',
-        },
-        modify: (query) =>
-          query.select('animal_group_id').whereIn('animal_group_id', function () {
-            this.select('id').from('animal_group').where('deleted', false);
-          }),
-      },
-      groups: {
-        modelClass: AnimalGroupModel,
-        relation: Model.ManyToManyRelation,
-        join: {
-          from: 'animal.id',
-          through: {
-            modelClass: AnimalGroupRelationshipModel,
-            from: 'animal_group_relationship.animal_id',
-            to: 'animal_group_relationship.animal_group_id',
-          },
-          to: 'animal_group.id',
-        },
-        modify: (query) => query.select('name').where('deleted', false),
       },
       animal_use_relationships: {
         relation: Model.HasManyRelation,

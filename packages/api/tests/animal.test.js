@@ -25,8 +25,6 @@ import { tableCleanup } from './testEnvironment.js';
 
 import { makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
 import AnimalModel from '../src/models/animalModel.js';
-import AnimalGroupModel from '../src/models/animalGroupModel.js';
-import AnimalGroupRelationshipModel from '../src/models/animalGroupRelationshipModel.js';
 
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
@@ -164,14 +162,12 @@ describe('Animal Tests', () => {
         expect({
           ...firstAnimal,
           internal_identifier: res.body[0].internal_identifier,
-          group_ids: [],
           animal_use_relationships: [],
           tasks: [],
         }).toMatchObject(res.body[0]);
         expect({
           ...secondAnimal,
           internal_identifier: res.body[1].internal_identifier,
-          group_ids: [],
           animal_use_relationships: [],
           tasks: [],
         }).toMatchObject(res.body[1]);
@@ -615,104 +611,10 @@ describe('Animal Tests', () => {
         expect(res.body[6].custom_breed_id).toBe(newBreed5.id);
       });
     });
-
-    test('Add animals to groups while adding animals', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-
-      const groupNames = [...Array(3)].map(() => faker.lorem.word());
-      const [existingGroupName, newGroupName1, newGroupName2] = groupNames;
-
-      const [existingGroup] = await mocks.animal_groupFactory({
-        promisedFarm: [mainFarm],
-        properties: { name: existingGroupName },
-      });
-
-      // insert a deleted group
-      await mocks.animal_groupFactory({
-        promisedFarm: [mainFarm],
-        properties: { name: newGroupName1, deleted: true },
-      });
-
-      const animalsGroups = [
-        { group_name: newGroupName1 },
-        { group_name: existingGroupName },
-        { group_name: newGroupName2 },
-        {},
-        { group_name: newGroupName1 },
-        { group_name: newGroupName1 },
-      ];
-
-      const animals = animalsGroups.map(({ group_name }) => {
-        const data = { default_type_id: defaultTypeId };
-        return mocks.fakeAnimal(group_name ? { ...data, group_name } : data);
-      });
-
-      const res = await postRequest(
-        {
-          user_id: user.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        animals,
-      );
-
-      const expectedGroupNameAnimalIdsMap = {}; // { [newGroupName1]: [<animal_id>, ...], [newGroupName2]: [<animal_id>], ... }
-      animalsGroups.forEach(({ group_name }, index) => {
-        if (group_name) {
-          if (!expectedGroupNameAnimalIdsMap[group_name]) {
-            expectedGroupNameAnimalIdsMap[group_name] = [];
-          }
-          expectedGroupNameAnimalIdsMap[group_name].push(res.body[index].id);
-        }
-      });
-
-      const groupNameIdMap = { [existingGroupName]: existingGroup.id };
-      for (let groupName of [newGroupName1, newGroupName2]) {
-        const [group] = await AnimalGroupModel.query()
-          .where('farm_id', mainFarm.farm_id)
-          .andWhere('name', groupName)
-          .andWhere('deleted', false);
-        groupNameIdMap[groupName] = group.id;
-      }
-
-      // check if animal_group_relationship table has expected data
-      for (let groupName of groupNames) {
-        const foundRelationships = await AnimalGroupRelationshipModel.query().where(
-          'animal_group_id',
-          groupNameIdMap[groupName],
-        );
-        const animalIdsInGroup = foundRelationships.map(({ animal_id }) => animal_id);
-        expect(animalIdsInGroup).toEqual(expectedGroupNameAnimalIdsMap[groupName]);
-      }
-
-      // animalIds of animals that didn't have group_name in request body should not exist in animal_group_relationship table
-      const animalsWithoutGroups = res.body.filter((animal, index) => {
-        return !animalsGroups[index].group_name;
-      });
-      for (let animal of animalsWithoutGroups) {
-        const foundRelationships = await AnimalGroupRelationshipModel.query().where(
-          'animal_id',
-          animal.id,
-        );
-        expect(foundRelationships.length).toBe(0);
-      }
-
-      // check if each animal has correct group_ids
-      res.body.forEach((animal, index) => {
-        const { group_name } = animalsGroups[index];
-
-        if (group_name) {
-          expect(animal.group_ids).toEqual([groupNameIdMap[group_name]]);
-        } else {
-          expect(animal.group_ids.length).toBe(0);
-        }
-      });
-    });
   });
 
   // EDIT tests
   describe('Edit animal tests', () => {
-    let animalGroup1;
-    let animalGroup2;
     let animalSex;
     let animalIdentifierColor;
     let animalIdentifierType;
@@ -722,8 +624,6 @@ describe('Animal Tests', () => {
     let animalUse3;
 
     beforeEach(async () => {
-      [animalGroup1] = await mocks.animal_groupFactory();
-      [animalGroup2] = await mocks.animal_groupFactory();
       // Populate enums
       [animalSex] = await mocks.animal_sexFactory();
       [animalIdentifierColor] = await mocks.animal_identifier_colorFactory();
@@ -745,7 +645,6 @@ describe('Animal Tests', () => {
         default_type_id: defaultTypeId,
         animal_use_relationships: [{ use_id: animalUse1.id }],
         sire: 'Unchanged',
-        group_name: animalGroup1.name,
       });
       const secondAnimal = mocks.fakeAnimal({
         name: 'edit test 2',
@@ -790,7 +689,6 @@ describe('Animal Tests', () => {
         identifier_type_id: animalIdentifierType.id,
         organic_status: 'Organic',
         animal_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],
-        group_ids: [{ animal_group_id: animalGroup2.id }],
       });
       const updatedSecondAnimal = mocks.fakeAnimal({
         id: returnedSecondAnimal.id,
@@ -806,7 +704,6 @@ describe('Animal Tests', () => {
         identifier_type_id: animalIdentifierType.id,
         organic_status: 'Organic',
         animal_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],
-        group_ids: [{ animal_group_id: animalGroup2.id }],
       });
 
       const patchRes = await patchRequest(
@@ -825,7 +722,6 @@ describe('Animal Tests', () => {
         return {
           ...rest,
           animal_removal_reason_id: null,
-          group_ids: rest.group_ids.map((groupId) => groupId.animal_group_id),
           animal_use_relationships: rest.animal_use_relationships.map((rel) => {
             return {
               animal_id: rest.id,

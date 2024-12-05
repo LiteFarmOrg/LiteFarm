@@ -25,7 +25,7 @@ import { History } from 'history';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
-import type { AnimalInventory as AnimalInventoryType } from './useAnimalInventory';
+import type { AnimalInventoryItem } from './useAnimalInventory';
 import ActionMenu, { iconAction } from '../../../components/ActionMenu';
 import FixedHeaderContainer, {
   ContainerKind,
@@ -172,7 +172,7 @@ const TaskAnimalInventory = ({
       kind={ContainerKind.PAPER}
     >
       <BaseAnimalInventory
-        onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
+        onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => {
           commonProps.onSelectInventory(event, row);
         }}
         tableSpacerRowHeight={0}
@@ -215,7 +215,7 @@ const MainAnimalInventory = ({
         <BaseAnimalInventory
           history={history}
           {...commonProps}
-          onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
+          onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => {
             history.push(row.path);
           }}
           tableSpacerRowHeight={commonProps.isDesktop ? 96 : 120}
@@ -232,7 +232,7 @@ const MainAnimalInventory = ({
   );
 };
 
-const getVisibleSelectedIds = (visibleRowData: AnimalInventoryType[], selectedIds: string[]) => {
+const getVisibleSelectedIds = (visibleRowData: AnimalInventoryItem[], selectedIds: string[]) => {
   if (!visibleRowData.length || !selectedIds.length) {
     return [];
   }
@@ -299,7 +299,7 @@ export default function AnimalInventory({
       {
         id: 'identification',
         label: t('ANIMAL.ANIMAL_IDENTIFICATION').toLocaleUpperCase(),
-        format: (d: AnimalInventoryType) => (
+        format: (d: AnimalInventoryItem) => (
           <Cell
             kind={CellKind.ICON_TEXT}
             text={d.identification}
@@ -313,29 +313,17 @@ export default function AnimalInventory({
       {
         id: isDesktop ? 'type' : null,
         label: t('ANIMAL.ANIMAL_TYPE').toLocaleUpperCase(),
-        format: (d: AnimalInventoryType) => <Cell kind={CellKind.PLAIN} text={d.type} />,
+        format: (d: AnimalInventoryItem) => <Cell kind={CellKind.PLAIN} text={d.type} />,
       },
       {
         id: isDesktop ? 'breed' : null,
         label: t('ANIMAL.ANIMAL_BREED').toLocaleUpperCase(),
-        format: (d: AnimalInventoryType) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
-      },
-      {
-        id: isDesktop ? 'groups' : null,
-        label: t('ANIMAL.ANIMAL_GROUPS').toLocaleUpperCase(),
-        format: (d: AnimalInventoryType) => (
-          <Cell
-            kind={CellKind.HOVER_PILL_OVERFLOW}
-            items={d.groups}
-            noneText={t('NONE', { ns: 'common' })}
-          />
-        ),
-        sortable: false,
+        format: (d: AnimalInventoryItem) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
       },
       {
         id: isDesktop ? 'location' : null,
         label: t('ANIMAL.ANIMAL_LOCATIONS').toLocaleUpperCase(),
-        format: (d: AnimalInventoryType) => (
+        format: (d: AnimalInventoryItem) => (
           <div className={clsx(styles.location, !d.location && styles.unknown)}>
             {d.location ? (
               <>
@@ -351,7 +339,7 @@ export default function AnimalInventory({
       {
         id: showLinks ? 'path' : null,
         label: '',
-        format: (d: AnimalInventoryType) => (
+        format: (d: AnimalInventoryItem) => (
           <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />
         ),
         columnProps: {
@@ -363,15 +351,8 @@ export default function AnimalInventory({
     [t, isDesktop, showLinks],
   );
 
-  const makeAnimalsSearchableString = (animal: AnimalInventoryType) => {
-    return [
-      animal.identification,
-      animal.type,
-      animal.breed,
-      ...animal.groups,
-      animal.count,
-      animal.location,
-    ]
+  const makeAnimalsSearchableString = (animal: AnimalInventoryItem) => {
+    return [animal.identification, animal.type, animal.breed, animal.count, animal.location]
       .filter(Boolean)
       .join(' ');
   };
@@ -379,7 +360,7 @@ export default function AnimalInventory({
   const [searchAndFilteredInventory, searchString, setSearchString] = useSearchFilter(
     filteredInventory,
     makeAnimalsSearchableString,
-  ) as [AnimalInventoryType[], SearchProps['searchString'], SearchProps['setSearchString']];
+  ) as [AnimalInventoryItem[], SearchProps['searchString'], SearchProps['setSearchString']];
 
   const searchProps: SearchProps = {
     searchString,
@@ -390,7 +371,7 @@ export default function AnimalInventory({
     }),
   };
 
-  const onSelectInventory = (e: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType): void => {
+  const onSelectInventory = (e: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem): void => {
     const selectedInventoryId = row.id;
     let newIds = selectedInventoryIds.slice();
     if (selectedInventoryIds.includes(selectedInventoryId)) {

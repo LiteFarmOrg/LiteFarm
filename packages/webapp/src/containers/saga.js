@@ -624,7 +624,6 @@ export function* clearOldFarmStateSaga() {
     api.util.invalidateTags([
       'Animals',
       'AnimalBatches',
-      'AnimalGroups',
       'CustomAnimalBreeds',
       'CustomAnimalTypes',
       'DefaultAnimalTypes', // needs to be cleared for KPI count

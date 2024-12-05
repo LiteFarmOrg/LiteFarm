@@ -35,16 +35,14 @@ const animalBatchController = {
           .whereNotDeleted()
           .withGraphFetched({
             animal_union_batch: true,
-            group_ids: true,
             sex_detail: true,
             animal_batch_use_relationships: true,
             tasks: true,
           });
         return res.status(200).send(
-          rows.map(({ animal_union_batch, group_ids, ...rest }) => ({
+          rows.map(({ animal_union_batch, ...rest }) => ({
             ...rest,
             internal_identifier: animal_union_batch.internal_identifier,
-            group_ids: group_ids.map(({ animal_group_id }) => animal_group_id),
           })),
         );
       } catch (error) {
@@ -127,7 +125,6 @@ const animalBatchController = {
           'price',
           'sex_detail',
           'origin_id',
-          'group_ids',
           'animal_batch_use_relationships',
           'birth_date',
           'dam',

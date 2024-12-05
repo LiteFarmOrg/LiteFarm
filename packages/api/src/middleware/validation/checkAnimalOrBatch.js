@@ -378,12 +378,10 @@ const getRecordIfExists = async (animalOrBatch, animalOrBatchKey, farm_id) => {
   const relations =
     animalOrBatchKey === 'batch'
       ? {
-          group_ids: true,
           sex_detail: true,
           animal_batch_use_relationships: true,
         }
       : {
-          group_ids: true,
           animal_use_relationships: true,
         };
   return await AnimalOrBatchModel[animalOrBatchKey]

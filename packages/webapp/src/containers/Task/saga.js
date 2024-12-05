@@ -84,7 +84,7 @@ import {
 } from '../../util/siteMapConstants';
 import { setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { formatSoilAmendmentProductToDBStructure, getSubtaskName } from '../../util/task';
-import { getEndpoint, getMovementTaskBody } from './sagaUtils';
+import { formatAnimalIdsForReqBody, getEndpoint, getMovementTaskBody } from './sagaUtils';
 import { api } from '../../store/api/apiSlice';
 
 const taskTypeEndpoint = [
@@ -421,6 +421,13 @@ export const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocatio
             .planting_management_plan_id,
       }));
       delete data['show_wild_crop'];
+      if (data.animalIds) {
+        // Format animalIds for the request body
+        const { related_animal_ids, related_batch_ids } = formatAnimalIdsForReqBody(data.animalIds);
+        data.related_animal_ids = related_animal_ids;
+        data.related_batch_ids = related_batch_ids;
+        delete data['animalIds'];
+      }
     }),
   );
 };

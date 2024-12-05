@@ -50,6 +50,11 @@ router.patch(
   AnimalBatchController.removeAnimalBatches(),
 );
 router.delete(
+  '/check_delete',
+  checkScope(['delete:animal_batches']),
+  checkDeleteAnimalOrBatch('batch', true),
+);
+router.delete(
   '/',
   checkScope(['delete:animal_batches']),
   checkDeleteAnimalOrBatch('batch'),

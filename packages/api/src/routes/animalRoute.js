@@ -50,6 +50,11 @@ router.patch(
   AnimalController.removeAnimals(),
 );
 router.delete(
+  '/check_delete',
+  checkScope(['delete:animals']),
+  checkDeleteAnimalOrBatch('animal', true),
+);
+router.delete(
   '/',
   checkScope(['delete:animals']),
   checkDeleteAnimalOrBatch('animal'),

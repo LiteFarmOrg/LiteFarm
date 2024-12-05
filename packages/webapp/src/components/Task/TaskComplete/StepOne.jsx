@@ -71,7 +71,7 @@ export default function PureCompleteStepOne({
   const continueDisabled = (() => {
     switch (taskType) {
       case 'SOIL_AMENDMENT_TASK':
-        return soilAmendmentContinueDisabled(getValues(CHANGES_NEEDED), isValid);
+        return soilAmendmentContinueDisabled(changesRequired, isValid);
       case 'MOVEMENT_TASK':
         return !isValid || (changesRequired && noAnimalsSelected);
       default:

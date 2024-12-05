@@ -168,7 +168,10 @@ describe('Task tests', () => {
     test('Owners should be able to assign person to task', async (done) => {
       const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -199,7 +202,10 @@ describe('Task tests', () => {
         },
       );
 
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -213,7 +219,10 @@ describe('Task tests', () => {
 
     test('Managers should be able to assign person to task', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -234,7 +243,10 @@ describe('Task tests', () => {
 
     test('EO should be able to assign person to task', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -255,7 +267,10 @@ describe('Task tests', () => {
 
     test('Worker should be able to assign self to task', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -280,7 +295,10 @@ describe('Task tests', () => {
         { promisedFarm: [{ farm_id }] },
         fakeUserFarm(3),
       );
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -311,7 +329,13 @@ describe('Task tests', () => {
         owner_user_id: admin_user_id,
         assignee_user_id: other_user_id,
       });
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, fakeTask);
+      const [{ task_id }] = await mocks.taskFactory(
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
+        fakeTask,
+      );
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -338,7 +362,13 @@ describe('Task tests', () => {
         assignee_user_id: user_id,
         complete_date: faker.date.future(),
       });
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, fakeTask);
+      const [{ task_id }] = await mocks.taskFactory(
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
+        fakeTask,
+      );
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -365,7 +395,13 @@ describe('Task tests', () => {
         assignee_user_id: user_id,
         abandon_date: faker.date.future(),
       });
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, fakeTask);
+      const [{ task_id }] = await mocks.taskFactory(
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
+        fakeTask,
+      );
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -386,11 +422,17 @@ describe('Task tests', () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task_1] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [task_2] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [location_1] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -421,11 +463,17 @@ describe('Task tests', () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task_1] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [task_2] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [location_1] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -456,11 +504,17 @@ describe('Task tests', () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task_1] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [task_2] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [location_1] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -494,15 +548,24 @@ describe('Task tests', () => {
       });
       const date = faker.date.future().toISOString().split('T')[0];
       const [task_1] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [task_2] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [task_3] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({
           due_date: date,
           assignee_user_id: another_user,
@@ -540,11 +603,17 @@ describe('Task tests', () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task_1] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [task_2] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [location_1] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -579,11 +648,17 @@ describe('Task tests', () => {
       );
       const date = faker.date.future().toISOString().split('T')[0];
       const [task_1] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [task_2] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [location_1] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -620,19 +695,31 @@ describe('Task tests', () => {
         due_date: date,
       });
       const [task_1] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [task_2] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [completed_task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         fakeTask_completed,
       );
       const [abandoned_task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         fakeTask_abandoned,
       );
       const [location_1] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -680,15 +767,24 @@ describe('Task tests', () => {
       const date = faker.date.future().toISOString().split('T')[0];
 
       const [assignedTask] = await mocks.taskFactory(
-        { promisedUser: [{ user_id: ownerUserId }] },
+        {
+          promisedUser: [{ user_id: ownerUserId }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date, assignee_user_id: ownerUserId }),
       );
       const [unassignedTask1] = await mocks.taskFactory(
-        { promisedUser: [{ user_id: ownerUserId }] },
+        {
+          promisedUser: [{ user_id: ownerUserId }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date, assignee_user_id: null }),
       );
       const [unassignedTask2] = await mocks.taskFactory(
-        { promisedUser: [{ user_id: ownerUserId }] },
+        {
+          promisedUser: [{ user_id: ownerUserId }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date, assignee_user_id: null }),
       );
 
@@ -733,15 +829,24 @@ describe('Task tests', () => {
       const date = faker.date.future().toISOString().split('T')[0];
 
       const [assignedTaskBefore] = await mocks.taskFactory(
-        { promisedUser: [{ user_id: ownerUserId }] },
+        {
+          promisedUser: [{ user_id: ownerUserId }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date, assignee_user_id: ownerUserId }),
       );
       const [unassignedTask1Before] = await mocks.taskFactory(
-        { promisedUser: [{ user_id: ownerUserId }] },
+        {
+          promisedUser: [{ user_id: ownerUserId }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date, assignee_user_id: null }),
       );
       const [unassignedTask2Before] = await mocks.taskFactory(
-        { promisedUser: [{ user_id: ownerUserId }] },
+        {
+          promisedUser: [{ user_id: ownerUserId }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date, assignee_user_id: null }),
       );
 
@@ -792,7 +897,10 @@ describe('Task tests', () => {
       await Promise.all(
         [...Array(3)].map(async () => {
           const [{ task_id }] = await mocks.taskFactory(
-            { promisedUser: [{ user_id }], promisedTaskType: [{ task_type_id }] },
+            {
+              promisedUser: [{ user_id }],
+              promisedTaskType: [{ task_type_id }],
+            },
             fakeTask,
           );
           await mocks.location_tasksFactory({
@@ -1784,7 +1892,10 @@ describe('Task tests', () => {
         { promisedFarm: [{ farm_id }] },
         fakeUserFarm(1),
       );
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -2746,7 +2857,10 @@ describe('Task tests', () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -2770,7 +2884,10 @@ describe('Task tests', () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -2796,6 +2913,7 @@ describe('Task tests', () => {
       const [task] = await mocks.taskFactory(
         {
           promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
         },
         mocks.fakeTask({ due_date: date, assignee_user_id: user_id }),
       );
@@ -2816,7 +2934,10 @@ describe('Task tests', () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -2836,7 +2957,10 @@ describe('Task tests', () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -2860,7 +2984,10 @@ describe('Task tests', () => {
       );
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id: other_user_id }] },
+        {
+          promisedUser: [{ user_id: other_user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -2886,6 +3013,7 @@ describe('Task tests', () => {
       const [task] = await mocks.taskFactory(
         {
           promisedUser: [{ user_id: other_user_id }],
+          promisedFarm: [{ farm_id }],
         },
         mocks.fakeTask({ due_date: date, assignee_user_id: other_user_id }),
       );
@@ -2908,6 +3036,7 @@ describe('Task tests', () => {
       const [task] = await mocks.taskFactory(
         {
           promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
         },
         mocks.fakeTask({ due_date: date }),
       );
@@ -2934,6 +3063,7 @@ describe('Task tests', () => {
       const [task] = await mocks.taskFactory(
         {
           promisedUser: [{ user_id: other_user_id }],
+          promisedFarm: [{ farm_id }],
         },
         mocks.fakeTask({ due_date: date, assignee_user_id: user_id }),
       );
@@ -2960,6 +3090,7 @@ describe('Task tests', () => {
       const [task] = await mocks.taskFactory(
         {
           promisedUser: [{ user_id: other_user_id }],
+          promisedFarm: [{ farm_id }],
         },
         mocks.fakeTask({ due_date: date, assignee_user_id: other_user_id }),
       );
@@ -2975,7 +3106,10 @@ describe('Task tests', () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date, assignee_user_id: user_id }),
       );
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -2998,7 +3132,10 @@ describe('Task tests', () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date, assignee_user_id: user_id }),
       );
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -3015,7 +3152,10 @@ describe('Task tests', () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -3032,7 +3172,10 @@ describe('Task tests', () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -3053,7 +3196,10 @@ describe('Task tests', () => {
       );
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id: other_user_id }] },
+        {
+          promisedUser: [{ user_id: other_user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date }),
       );
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -3074,7 +3220,10 @@ describe('Task tests', () => {
       );
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id: other_user_id }] },
+        {
+          promisedUser: [{ user_id: other_user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date, assignee_user_id: other_user_id }),
       );
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -3091,7 +3240,10 @@ describe('Task tests', () => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory(
-        { promisedUser: [{ user_id }] },
+        {
+          promisedUser: [{ user_id }],
+          promisedFarm: [{ farm_id }],
+        },
         mocks.fakeTask({ due_date: date, assignee_user_id: user_id }),
       );
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
@@ -3109,7 +3261,10 @@ describe('Task tests', () => {
       const due_date = today.toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -3128,7 +3283,10 @@ describe('Task tests', () => {
       const due_date = faker.date.future().toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -3148,7 +3306,10 @@ describe('Task tests', () => {
       const due_date = past.toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -3166,7 +3327,10 @@ describe('Task tests', () => {
       const due_date = today.toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -3185,7 +3349,10 @@ describe('Task tests', () => {
       const due_date = faker.date.future().toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -3205,7 +3372,10 @@ describe('Task tests', () => {
       const due_date = past.toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -3223,7 +3393,10 @@ describe('Task tests', () => {
       const due_date = today.toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -3242,7 +3415,10 @@ describe('Task tests', () => {
       const due_date = faker.date.future().toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -3262,7 +3438,10 @@ describe('Task tests', () => {
       const due_date = past.toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -3279,7 +3458,10 @@ describe('Task tests', () => {
       const due_date = faker.date.future().toISOString().split('T')[0];
       const patchTaskDateBody = { due_date };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],
@@ -3297,7 +3479,10 @@ describe('Task tests', () => {
     const testWithRole = async (userRoleId, wage_at_moment, done) => {
       const patchTaskWageBody = { wage_at_moment };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(userRoleId));
-      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedFarm: [{ farm_id }],
+      });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({
         promisedTask: [{ task_id }],

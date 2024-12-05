@@ -279,8 +279,13 @@ export default function AnimalInventory({
     [updateSelectedTypeIds],
   );
 
-  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasFinalizedTasks } =
-    useAnimalOrBatchRemoval(selectedInventoryIds, inventory, setSelectedInventoryIds);
+  const {
+    onConfirmRemoveAnimals,
+    removalModalOpen,
+    setRemovalModalOpen,
+    hasFinalizedTasks,
+    onClickRemoveAnimals,
+  } = useAnimalOrBatchRemoval(selectedInventoryIds, setSelectedInventoryIds);
 
   const animalsColumns = useMemo(
     () => [
@@ -426,7 +431,7 @@ export default function AnimalInventory({
     {
       label: t(`ANIMAL.REMOVE_ANIMAL`),
       iconName: 'REMOVE_ANIMAL',
-      onClick: () => setRemovalModalOpen(true),
+      onClick: () => onClickRemoveAnimals(),
     },
   ];
 

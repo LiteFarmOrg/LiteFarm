@@ -43,13 +43,6 @@ export const formatAnimalIdsForReqBody = (ids) => {
   return { related_animal_ids: animalIds, related_batch_ids: batchIds };
 };
 
-export const formatAnimalTask = (data, endpoint) => {
-  const { animalIds, managementPlans, ...formattedData } = getPostTaskBody(data, endpoint);
-
-  // Remove managementPlans from the data and format animalIds for the request body
-  return { ...formattedData, ...formatAnimalIdsForReqBody(animalIds) };
-};
-
 export const formatMovementTask = (movementTask) => {
   if (!movementTask || !('purpose' in movementTask)) {
     return { animal_movement_task: {} };
@@ -64,7 +57,8 @@ export const formatMovementTask = (movementTask) => {
 };
 
 export const getMovementTaskBody = (data, endpoint) => {
-  const { movement_task, ...formattedData } = formatAnimalTask(data, endpoint);
+  const { movement_task, managementPlans, ...formattedData } = getPostTaskBody(data, endpoint);
+  // Remove managementPlans from the data
   return { ...formattedData, ...formatMovementTask(movement_task) };
 };
 

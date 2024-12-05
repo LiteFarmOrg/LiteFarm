@@ -49,6 +49,7 @@ import clsx from 'clsx';
 import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
 import { sumObjectValues } from '../../../util';
 import Icon from '../../../components/Icons';
+import { onAddTask } from '../../Task/onAddTask';
 
 const HEIGHTS = {
   filterAndSearch: 64,
@@ -431,9 +432,11 @@ export default function AnimalInventory({
   };
 
   const iconActions: iconAction[] = [
-    { label: t(`common:ADD_TO_GROUP`), iconName: 'ADD_ANIMAL', onClick: () => ({}) },
-    { label: t(`common:CREATE_A_TASK`), iconName: 'TASK_CREATION', onClick: () => ({}) },
-    { label: t(`common:CLONE`), iconName: 'CLONE', onClick: () => ({}) },
+    {
+      label: t(`common:CREATE_A_TASK`),
+      iconName: 'TASK_CREATION',
+      onClick: () => onAddTask(dispatch, history, { animal_ids: selectedInventoryIds })(),
+    },
     {
       label: t(`ANIMAL.REMOVE_ANIMAL`),
       iconName: 'REMOVE_ANIMAL',

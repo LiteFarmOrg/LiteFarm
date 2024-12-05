@@ -189,10 +189,6 @@ class Animal extends baseModel {
         const { ref } = Animal;
         query.where(ref('deleted'), false);
       },
-      selectMinimalProperties(query) {
-        const { ref } = Animal;
-        query.select(ref('id'), ref('name'), ref('location_id'));
-      },
       selectId(query) {
         const { ref } = Animal;
         query.select(ref('id'));

@@ -195,10 +195,6 @@ class AnimalBatchModel extends baseModel {
         const { ref } = AnimalBatchModel;
         query.where(ref('deleted'), false);
       },
-      selectMinimalProperties(query) {
-        const { ref } = AnimalBatchModel;
-        query.select(ref('id'), ref('name'), ref('location_id'));
-      },
       selectId(query) {
         const { ref } = AnimalBatchModel;
         query.select(ref('id'));

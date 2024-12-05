@@ -217,12 +217,18 @@ describe('Animal task tests', () => {
 
   describe('GET tasks', () => {
     test('should get all tasks for a farm with correct task-specific details', async () => {
-      const typesToTest = ['animal_movement_task'];
+      const typesToTest = ['animal_movement_task', 'custom_task'];
       const [
         [{ task_type_id: movementTaskId }],
+        [{ task_type_id: customTaskId }],
         // Destructure other types as needed
       ] = await Promise.all(
-        typesToTest.map(() => mocks.task_typeFactory({ promisedFarm: [{ farm_id }] })),
+        typesToTest.map((type) =>
+          mocks.task_typeFactory(
+            {},
+            { ...mocks.fakeTaskType(), farm_id: type === 'custom_task' ? farm_id : null },
+          ),
+        ),
       );
 
       // Add more cases (data to add to the DB) here for new task types as needed
@@ -235,6 +241,7 @@ describe('Animal task tests', () => {
           ]),
         },
         { task_type_id: movementTaskId, ...createFakeMovementTask() },
+        { task_type_id: customTaskId, notes: faker.lorem.sentence() },
       ];
 
       const expectedTasks = await Promise.all(
@@ -247,6 +254,12 @@ describe('Animal task tests', () => {
 
       res.body.forEach((resTask) => {
         const expectedTask = expectedTasks.find(({ task_id }) => resTask.task_id === task_id);
+        expect(resTask.animals.map(({ id }) => id).sort()).toEqual(
+          expectedTask.animals.map(({ id }) => id).sort(),
+        );
+        expect(resTask.animal_batches.map(({ id }) => id).sort()).toEqual(
+          expectedTask.animal_batches.map(({ id }) => id).sort(),
+        );
 
         switch (resTask.task_type_id) {
           case movementTaskId:
@@ -255,6 +268,9 @@ describe('Animal task tests', () => {
               expectedTask.animal_movement_task.purpose_relationships,
               resTask.animal_movement_task.purpose_relationships,
             );
+            break;
+          case customTaskId:
+            expect(resTask.notes).toBe(expectedTask.notes);
             break;
           // Add more cases here for other task types added to taskDataBlueprint
           default:
@@ -277,6 +293,7 @@ describe('Animal task tests', () => {
     };
     const fakeTaskData = {
       animal_movement_task: () => mocks.fakeAnimalMovementTask(),
+      custom_task: () => {},
     };
 
     const checkValidPostRequest = async (type, postData) => {
@@ -287,8 +304,10 @@ describe('Animal task tests', () => {
       expect(createdTask).toBeDefined();
       const location = await knex('location_tasks').where({ task_id }).first();
       expect(location.location_id).toBe(postData.locations[0].location_id);
-      const specificTask = await knex(type).where({ task_id });
-      expect(specificTask.length).toBe(1);
+      if (type !== 'custom_task') {
+        const specificTask = await knex(type).where({ task_id });
+        expect(specificTask.length).toBe(1);
+      }
       const relatedAnimals = await knex('task_animal_relationship')
         .select('animal_id')
         .where({ task_id });
@@ -391,18 +410,20 @@ describe('Animal task tests', () => {
         await checkPostRequestWithInvalidAnimals('batch', data, [farmBBatch1.id]);
       });
 
-      test(`should not create a(n) ${type} without animals and batches`, async () => {
-        const data = createAnimalTaskForReqBody({
-          [type]: fakeTaskData[type](),
-          related_animal_ids: [],
-          related_batch_ids: [],
+      if (type !== 'custom_task') {
+        test(`should not create a(n) ${type} without animals and batches`, async () => {
+          const data = createAnimalTaskForReqBody({
+            [type]: fakeTaskData[type](),
+            related_animal_ids: [],
+            related_batch_ids: [],
+          });
+          const res = await postTaskRequest({ user_id, farm_id }, type, data);
+          expect(res.status).toBe(400);
+          expect(res.error.text).toBe(
+            'At least one of the animal IDs or animal batch IDs is required',
+          );
         });
-        const res = await postTaskRequest({ user_id, farm_id }, type, data);
-        expect(res.status).toBe(400);
-        expect(res.error.text).toBe(
-          'At least one of the animal IDs or animal batch IDs is required',
-        );
-      });
+      }
 
       test(`should not create a(n) ${type} without a due date`, async () => {
         const data = createAnimalTaskForReqBody({ [type]: fakeTaskData[type](), due_date: null });
@@ -448,15 +469,17 @@ describe('Animal task tests', () => {
         );
       });
 
-      test(`should not create a(n) ${type} with managementPlans`, async () => {
-        const data = createAnimalTaskForReqBody({
-          [type]: fakeTaskData[type](),
-          managementPlans: [{ planting_management_plan_id }],
+      if (type !== 'custom_task') {
+        test(`should not create a(n) ${type} with managementPlans`, async () => {
+          const data = createAnimalTaskForReqBody({
+            [type]: fakeTaskData[type](),
+            managementPlans: [{ planting_management_plan_id }],
+          });
+          const res = await postTaskRequest({ user_id, farm_id }, type, data);
+          expect(res.status).toBe(400);
+          expect(res.error.text).toBe(`managementPlans cannot be added for ${type}`);
         });
-        const res = await postTaskRequest({ user_id, farm_id }, type, data);
-        expect(res.status).toBe(400);
-        expect(res.error.text).toBe(`managementPlans cannot be added for ${type}`);
-      });
+      }
     });
 
     describe('animal movement task tests', () => {
@@ -577,6 +600,7 @@ describe('Animal task tests', () => {
             { purpose_id: purpose1.id },
             { purpose_id: otherPurpose.id, other_purpose: faker.lorem.sentence() },
           ]),
+        custom_task: () => ({ notes: faker.lorem.sentence() }),
       };
 
       describe.each(Object.keys(fakeTaskData))('animal tasks common validation tests', (type) => {
@@ -602,11 +626,31 @@ describe('Animal task tests', () => {
             type,
           );
           expect(patchRes.status).toBe(200);
-          const res = await getTasksRequest({ user_id, farm_id });
-          const returnedAnimals = res.body.find((task) => task.task_id === task_id).animals;
-          expect(returnedAnimals.map(({ id }) => id).sort()).toEqual(afterAnimalIds.sort());
-          const returnedbatches = res.body.find((task) => task.task_id === task_id).animal_batches;
-          expect(returnedbatches.map(({ id }) => id).sort()).toEqual(afterBatchIds.sort());
+
+          const animalRelationships = await knex('task_animal_relationship')
+            .select('animal_id')
+            .where({ task_id });
+          expect(animalRelationships.map(({ animal_id }) => animal_id).sort()).toEqual(
+            (afterAnimalIds || []).sort(),
+          );
+          const batchRelationships = await knex('task_animal_batch_relationship')
+            .select('animal_batch_id')
+            .where({ task_id });
+          expect(batchRelationships.map(({ animal_batch_id }) => animal_batch_id).sort()).toEqual(
+            (afterBatchIds || []).sort(),
+          );
+
+          // Ensure the original animals/batches are not deleted or marked as deleted
+          const animals = await knex('animal')
+            .select('id')
+            .whereIn('id', beforeAnimalIds)
+            .andWhereNot('deleted', true);
+          expect(animals.length).toBe(beforeAnimalIds.length);
+          const batches = await knex('animal_batch')
+            .select('id')
+            .whereIn('id', beforeBatchIds)
+            .andWhereNot('deleted', true);
+          expect(batches.length).toBe(beforeBatchIds.length);
         };
 
         const checkInvalidAnimalsToComplete = async (animalOrBatch, ids, invalidIds) => {
@@ -677,26 +721,40 @@ describe('Animal task tests', () => {
           });
         });
 
-        test('should not complete an animal task with an attempt to remove all animals and batches from the task', async () => {
-          const emptyIdsVariants = [[], null];
-          for (let emptyIds of emptyIdsVariants) {
-            const { task_id } = await animalTaskFactory(fakeTaskData[type]());
-            const patchRes = await completeTaskRequest(
-              { user_id, farm_id },
-              {
-                ...fakeCompletionData,
-                related_animal_ids: emptyIds,
-                related_animal_batch_ids: emptyIds,
-              },
-              task_id,
-              type,
-            );
-            expect(patchRes.status).toBe(400);
-            expect(patchRes.error.text).toBe(
-              'At least one of the animal IDs or animal batch IDs is required',
-            );
-          }
-        });
+        if (type === 'custom_task') {
+          test('should complete a custom task with an attempt to remove all animals and batches from the task', async () => {
+            const emptyIdsVariants = [[], null];
+            for (let emptyIds of emptyIdsVariants) {
+              await checkBeforeAfterAnimals({
+                beforeAnimalIds: [animal1.id, animal2.id, animal3.id],
+                beforeBatchIds: [batch1.id, batch2.id, batch3.id],
+                afterAnimalIds: emptyIds,
+                afterBatchIds: emptyIds,
+              });
+            }
+          });
+        } else {
+          test('should not complete an animal task with an attempt to remove all animals and batches from the task', async () => {
+            const emptyIdsVariants = [[], null];
+            for (let emptyIds of emptyIdsVariants) {
+              const { task_id } = await animalTaskFactory(fakeTaskData[type]());
+              const patchRes = await completeTaskRequest(
+                { user_id, farm_id },
+                {
+                  ...fakeCompletionData,
+                  related_animal_ids: emptyIds,
+                  related_batch_ids: emptyIds,
+                },
+                task_id,
+                type,
+              );
+              expect(patchRes.status).toBe(400);
+              expect(patchRes.error.text).toBe(
+                'At least one of the animal IDs or animal batch IDs is required',
+              );
+            }
+          });
+        }
 
         test('should not complete an animal task for a removed animal', async () => {
           await checkInvalidAnimalsToComplete(
@@ -947,14 +1005,18 @@ describe('Animal task tests', () => {
     });
   });
 
-  const animalTaskTranslationKeys = ['MOVEMENT_TASK'];
+  const animalTaskTranslationKeys = ['MOVEMENT_TASK', 'custom_task'];
   describe.each(animalTaskTranslationKeys)('Patch task due date test', (key) => {
     let task_id;
 
     beforeAll(async () => {
       const [{ task_type_id }] = await mocks.task_typeFactory(
-        { promisedFarm: [{ farm_id }] },
-        { task_name: faker.lorem.word(), task_translation_key: key },
+        {},
+        {
+          task_name: faker.lorem.word(),
+          task_translation_key: key,
+          farm_id: key === 'custom_task' ? farm_id : null,
+        },
       );
       ({ task_id } = await animalTaskFactory({
         task_type_id,

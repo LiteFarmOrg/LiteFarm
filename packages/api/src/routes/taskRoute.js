@@ -175,6 +175,7 @@ router.post(
   modelMapping['custom_task'],
   hasFarmAccess({ mixed: 'taskManagementPlanAndLocation' }),
   isWorkerToSelfOrAdmin(),
+  checkCreateTask('custom_task'),
   taskController.createTask('custom_task'),
 );
 
@@ -275,6 +276,7 @@ router.patch(
   modelMapping['custom_task'],
   hasFarmAccess({ mixed: 'taskIdTaskType' }),
   checkScope(['edit:task']),
+  checkCompleteTask('custom_task'),
   taskController.completeTask('custom_task'),
 );
 

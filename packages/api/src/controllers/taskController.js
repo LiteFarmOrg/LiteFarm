@@ -33,7 +33,8 @@ import Location from '../models/locationModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
 import baseController from './baseController.js';
 import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js';
-import { ANIMAL_TASKS, isOnOrAfterBirthAndBroughtInDates } from '../util/animal.js';
+import { ANIMAL_TASKS } from '../util/animal.js';
+import { CUSTOM_TASK } from '../util/task.js';
 import { customError } from '../util/customErrors.js';
 
 const adminRoles = [1, 2, 5];
@@ -152,25 +153,8 @@ async function updateTaskWithCompletedData(
       }
 
       if (!data.animals && !data.animal_batches) {
-        // Check if there are animals and batches in the DB to move
-        if (!animals?.length && !animal_batches?.length) {
-          throw customError('No animals and batches to move');
-        }
-
         data.animals = animals;
         data.animal_batches = animal_batches;
-      }
-
-      const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
-        data.complete_date,
-        (data.animals || []).map(({ id }) => id),
-        (data.animal_batches || []).map(({ id }) => id),
-      );
-
-      if (!isValidDate) {
-        throw customError(
-          `complete_date must be on or after the animals' birth and brought-in dates`,
-        );
       }
 
       data.animals?.forEach((animal) => (animal.location_id = locationId));
@@ -213,6 +197,8 @@ async function updateTaskWithCompletedData(
             noUpdate: nonModifiable,
             noDelete: true,
             noInsert: true,
+            relate: ['animals', 'animal_batches'],
+            unrelate: ['animals', 'animal_batches'],
           },
         );
       return task;
@@ -456,7 +442,10 @@ const taskController = {
         }
 
         data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
-        if (ANIMAL_TASKS.includes(typeOfTask)) {
+        if (
+          [...ANIMAL_TASKS, CUSTOM_TASK].includes(typeOfTask) &&
+          ('related_animal_ids' in data || 'related_batch_ids' in data)
+        ) {
           data = this.formatAnimalAndBatchIds(data);
         }
         const result = await TaskModel.transaction(async (trx) => {
@@ -520,11 +509,15 @@ const taskController = {
   },
 
   formatAnimalAndBatchIds(data) {
-    if (data.related_animal_ids) {
-      data.animals = [...new Set(data.related_animal_ids)].map((id) => ({ id }));
+    if ('related_animal_ids' in data) {
+      data.animals = data.related_animal_ids
+        ? [...new Set(data.related_animal_ids)].map((id) => ({ id }))
+        : null;
     }
-    if (data.related_batch_ids) {
-      data.animal_batches = [...new Set(data.related_batch_ids)].map((id) => ({ id }));
+    if ('related_batch_ids' in data) {
+      data.animal_batches = data.related_batch_ids
+        ? [...new Set(data.related_batch_ids)].map((id) => ({ id }))
+        : null;
     }
 
     delete data.related_animal_ids;
@@ -534,6 +527,11 @@ const taskController = {
   },
 
   async checkCustomDependencies(typeOfTask, data, farm_id) {
+    // TODO: Move this validation to checkCreateTask and checkCompleteTask and apply the middleware to all relevant routes.
+    if ('animals' in data || 'animal_batches' in data) {
+      throw customError(`Invalid field: "animals" or "animal_batches" should not be included.`);
+    }
+
     switch (typeOfTask) {
       case 'field_work_task': {
         return await this.checkAndAddCustomFieldWork(data, farm_id);
@@ -748,7 +746,7 @@ const taskController = {
           { ...req.body, owner_user_id: user_id },
           req.headers.farm_id,
         );
-        if (ANIMAL_TASKS.includes(typeOfTask)) {
+        if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(typeOfTask)) {
           data = this.formatAnimalAndBatchIds(data);
         }
         const result = await TaskModel.transaction(async (trx) => {

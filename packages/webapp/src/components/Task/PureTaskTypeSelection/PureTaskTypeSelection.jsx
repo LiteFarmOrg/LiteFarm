@@ -108,6 +108,24 @@ export const PureTaskTypeSelection = ({
     }
     return onSelectTask(taskType.task_type_id);
   };
+
+  const shouldDisplayTaskType = (taskType) => {
+    const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin);
+    const { farm_id, task_translation_key } = taskType;
+
+    if (farm_id === null && supportedTaskTypes.has(task_translation_key)) {
+      // If trying to make a task through the crop management plan 'Add Task' link -- exclude animal tasks from selection for now
+      if (isMakingCropTask) {
+        return !ANIMAL_TASKS.includes(task_translation_key);
+      }
+      // If trying to make a task through the animal inventory 'Create a task' action -- only include animal tasks in selection
+      if (isMakingAnimalTask) {
+        return ANIMAL_TASKS.includes(task_translation_key);
+      }
+      return true;
+    }
+  };
+
   return (
     <>
       <Form>
@@ -124,21 +142,7 @@ export const PureTaskTypeSelection = ({
 
         <div style={{ paddingBottom: '20px' }} className={styles.matrixContainer}>
           {taskTypes
-            ?.filter(({ farm_id, task_translation_key }) => {
-              const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin);
-              // If trying to make a task through the crop management plan 'Add Task' link -- exclude animal tasks from selection for now
-              const isNotAnimalTaskWhileCreatingCropTask =
-                isMakingCropTask && !ANIMAL_TASKS.includes(task_translation_key);
-              // If trying to make a task through the animal inventory 'Create a task' action -- exclude crop tasks from selection
-              const isAnimalTaskWhileCreatingAnimalTask =
-                isMakingAnimalTask && ANIMAL_TASKS.includes(task_translation_key);
-              const shouldDisplayTaskType =
-                farm_id === null &&
-                supportedTaskTypes.has(task_translation_key) &&
-                (isNotAnimalTaskWhileCreatingCropTask || isAnimalTaskWhileCreatingAnimalTask);
-
-              return shouldDisplayTaskType;
-            })
+            ?.filter(shouldDisplayTaskType)
             .sort((firstTaskType, secondTaskType) =>
               t(`task:${firstTaskType.task_translation_key}`).localeCompare(
                 t(`task:${secondTaskType.task_translation_key}`),

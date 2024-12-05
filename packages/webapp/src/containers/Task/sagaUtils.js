@@ -61,3 +61,12 @@ export const getMovementTaskBody = (data, endpoint) => {
   // Remove managementPlans from the data
   return { ...formattedData, ...formatMovementTask(movement_task) };
 };
+
+export const getCompleteMovementTaskBody = ({ taskData }) => {
+  const { movement_task, ...restTaskData } = taskData;
+
+  return {
+    ...restTaskData, // completion properties, related_animal_ids, related_batch_ids
+    ...formatMovementTask(movement_task),
+  };
+};

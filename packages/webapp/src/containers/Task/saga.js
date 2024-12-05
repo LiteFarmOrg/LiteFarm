@@ -84,7 +84,12 @@ import {
 } from '../../util/siteMapConstants';
 import { setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { formatSoilAmendmentProductToDBStructure, getSubtaskName } from '../../util/task';
-import { formatAnimalIdsForReqBody, getEndpoint, getMovementTaskBody } from './sagaUtils';
+import {
+  formatAnimalIdsForReqBody,
+  getCompleteMovementTaskBody,
+  getEndpoint,
+  getMovementTaskBody,
+} from './sagaUtils';
 import { api } from '../../store/api/apiSlice';
 
 const taskTypeEndpoint = [
@@ -769,6 +774,7 @@ const taskTypeGetCompleteTaskBodyFunctionMap = {
   PLANT_TASK: getCompletePlantingTaskBody('PLANT_TASK'),
   IRRIGATION_TASK: getCompleteIrrigationTaskBody('IRRIGATION_TASK'),
   SOIL_AMENDMENT_TASK: getCompleteSoilAmendmentTaskBody,
+  MOVEMENT_TASK: getCompleteMovementTaskBody,
 };
 
 export const completeTask = createAction('completeTaskSaga');
@@ -778,7 +784,12 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, isCustomTaskType } = data;
   const header = getHeader(user_id, farm_id);
-  const endpoint = isCustomTaskType ? 'custom_task' : task_translation_key.toLowerCase();
+  const endpoint = getEndpoint(isCustomTaskType, task_translation_key);
+
+  if (data.animalIds) {
+    const formattedAnimalIds = formatAnimalIdsForReqBody(data.animalIds);
+    data.taskData = { ...data.taskData, ...formattedAnimalIds };
+  }
 
   const taskData = taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key]
     ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data)

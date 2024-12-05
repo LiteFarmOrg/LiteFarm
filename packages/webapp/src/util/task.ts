@@ -77,7 +77,7 @@ type DBAnimalMovementTask = {
 };
 
 interface FormAnimalMovementTask {
-  animal_ids: string[];
+  animalIds: string[];
   movement_task: {
     purpose_ids: number[]; // React Select component actually 'purposes' but I wanted to reserve that for the select component format
     other_purpose_explanation?: string | null;
@@ -263,7 +263,7 @@ export const formatMovementTaskToFormStructure = (
 
   return {
     ...rest,
-    animal_ids: formatTaskAnimalsAsInventoryIds(animals, animal_batches),
+    animalIds: formatTaskAnimalsAsInventoryIds(animals, animal_batches),
     movement_task: {
       purpose_ids,
       other_purpose_explanation,

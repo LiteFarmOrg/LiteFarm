@@ -111,7 +111,7 @@ export default function PureTaskComplete({
       isFieldWork && persistedFormData?.field_work_task?.field_work_task_type.value === 'OTHER';
 
     // Won't send task type details if need_changes is false
-    if (persistedFormData?.need_changes && !isOtherFieldWork) {
+    if (!data.isCustomTaskType && persistedFormData?.need_changes && !isOtherFieldWork) {
       data.taskData[task_type_name] = getObjectInnerValues(persistedFormData[task_type_name]);
     } else if (isOtherFieldWork) {
       data.taskData[task_type_name] = { ...persistedFormData[task_type_name] };

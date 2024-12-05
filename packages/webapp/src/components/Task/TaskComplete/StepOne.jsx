@@ -165,7 +165,7 @@ export default function PureCompleteStepOne({
         </div>
       ) : null}
 
-      {taskType &&
+      {taskType && taskComponents[taskType] ? (
         taskComponents[taskType]({
           setValue,
           getValues,
@@ -183,7 +183,10 @@ export default function PureCompleteStepOne({
           disabled: !changesRequired,
           isModified: changesRequired,
           locations: selectedTask.locations,
-        })}
+        })
+      ) : (
+        <></>
+      )}
     </Form>
   );
 }

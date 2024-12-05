@@ -77,7 +77,6 @@ export const mockAnimal1: Animal = {
   internal_identifier: 12,
   group_ids: [],
   location_id: 'xxxxx',
-  tasks: [],
 };
 
 export const mockAnimal2: Animal = {
@@ -121,5 +120,4 @@ export const mockBatch1: AnimalBatch = {
     { sex_id: 2, count: 40 },
   ],
   location_id: 'xxxxx',
-  tasks: [],
 };

@@ -167,6 +167,13 @@ export const api = createApi({
       }),
       invalidatesTags: ['AnimalBatches', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
     }),
+    checkDeleteAnimals: build.mutation<Animal[], number[]>({
+      query: (del) => ({
+        url: `${animalsUrl}/check_delete`,
+        method: 'DELETE',
+        params: { ids: del },
+      }),
+    }),
     deleteAnimals: build.mutation<Animal[], number[]>({
       query: (del) => ({
         url: `${animalsUrl}`,
@@ -174,6 +181,13 @@ export const api = createApi({
         params: { ids: del },
       }),
       invalidatesTags: ['Animals', 'CustomAnimalTypes', 'DefaultAnimalTypes'],
+    }),
+    checkDeleteAnimalBatches: build.mutation<AnimalBatch[], number[]>({
+      query: (del) => ({
+        url: `${animalBatchesUrl}/check_delete`,
+        method: 'DELETE',
+        params: { ids: del },
+      }),
     }),
     deleteAnimalBatches: build.mutation<AnimalBatch[], number[]>({
       query: (del) => ({
@@ -265,7 +279,9 @@ export const {
   useGetAnimalRemovalReasonsQuery,
   useRemoveAnimalsMutation,
   useRemoveAnimalBatchesMutation,
+  useCheckDeleteAnimalsMutation,
   useDeleteAnimalsMutation,
+  useCheckDeleteAnimalBatchesMutation,
   useDeleteAnimalBatchesMutation,
   useAddAnimalsMutation,
   useAddAnimalBatchesMutation,

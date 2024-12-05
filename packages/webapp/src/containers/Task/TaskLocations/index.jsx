@@ -29,6 +29,7 @@ export default function TaskLocationsSwitch({ history, match, location }) {
   const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
   const isSoilAmendmentLocation = useIsTaskType('SOIL_AMENDMENT_TASK');
   const isAnimalLocation = useIsTaskType('MOVEMENT_TASK');
+  const isCustomLocation = useIsTaskType('CUSTOM_TASK');
 
   if (isHarvestLocation) {
     return <TaskActiveAndPlannedCropLocations history={history} location={location} />;
@@ -48,6 +49,10 @@ export default function TaskLocationsSwitch({ history, match, location }) {
 
   if (isAnimalLocation) {
     return <TaskAnimalLocations history={history} location={location} />;
+  }
+
+  if (isCustomLocation) {
+    return <TaskAllLocations history={history} location={location} optionalLocation />;
   }
 
   return <TaskAllLocations history={history} location={location} />;
@@ -161,7 +166,7 @@ function TaskAnimalLocations({ history, location }) {
   );
 }
 
-function TaskAllLocations({ history, location }) {
+function TaskAllLocations({ history, location, optionalLocation }) {
   const dispatch = useDispatch();
   const locations = useSelector(locationsSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -195,6 +200,7 @@ function TaskAllLocations({ history, location }) {
       onContinue={onContinue}
       readOnlyPinCoordinates={readOnlyPinCoordinates}
       location={location}
+      optionalLocation={optionalLocation}
     />
   );
 }
@@ -208,6 +214,7 @@ function TaskLocations({
   readOnlyPinCoordinates,
   location,
   isAnimalTask = false,
+  optionalLocation,
 }) {
   const { grid_points } = useSelector(userFarmSelector);
   const { maxZoomRef, getMaxZoom, maxZoom } = useMaxZoom();
@@ -234,6 +241,7 @@ function TaskLocations({
         defaultLocation={location?.state?.location ?? null}
         targetsWildCrop={managementPlan?.crop_management_plan?.is_wild ?? false}
         isAnimalTask={isAnimalTask}
+        optionalLocation={optionalLocation}
       />
     </HookFormPersistProvider>
   );

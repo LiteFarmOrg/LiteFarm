@@ -53,7 +53,12 @@ import PureIrrigationTask from '../PureIrrigationTask';
 import DeleteBox from './DeleteBox';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { certifierSurveySelector } from '../../../containers/OrganicCertifierSurvey/slice';
-import { formatTaskReadOnlyDefaultValues } from '../../../util/task';
+import {
+  formatTaskAnimalsAsInventoryIds,
+  formatTaskReadOnlyDefaultValues,
+} from '../../../util/task';
+import PureMovementTask from '../MovementTask';
+import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -233,26 +238,30 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
-      <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
-      {isTaskType(taskType, 'TRANSPLANT_TASK') && (
-        <TransplantLocationLabel
-          locations={task.locations}
-          selectedLocationId={task.selectedLocationIds[0]}
-          pinCoordinate={task.pinCoordinates[0]}
-        />
-      )}
-      <LocationPicker
-        onSelectLocation={() => {
-          //  TODO: fix onSelectLocationRef in LocationPicker
-        }}
-        readOnlyPinCoordinates={task.pinCoordinates}
-        style={{ minHeight: '160px', marginBottom: '40px' }}
-        locations={task.locations}
-        selectedLocationIds={task.selectedLocationIds || []}
-        farmCenterCoordinate={user.grid_points}
-        maxZoomRef={maxZoomRef}
-        getMaxZoom={getMaxZoom}
-      />
+      {task.locations?.length || task.pinCoordinates?.length ? (
+        <>
+          <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
+          {isTaskType(taskType, 'TRANSPLANT_TASK') && (
+            <TransplantLocationLabel
+              locations={task.locations}
+              selectedLocationId={task.selectedLocationIds[0]}
+              pinCoordinate={task.pinCoordinates[0]}
+            />
+          )}
+          <LocationPicker
+            onSelectLocation={() => {
+              //  TODO: fix onSelectLocationRef in LocationPicker
+            }}
+            readOnlyPinCoordinates={task.pinCoordinates}
+            style={{ minHeight: '160px', marginBottom: '40px' }}
+            locations={task.locations}
+            selectedLocationIds={task.selectedLocationIds || []}
+            farmCenterCoordinate={user.grid_points}
+            maxZoomRef={maxZoomRef}
+            getMaxZoom={getMaxZoom}
+          />
+        </>
+      ) : null}
 
       {Object.keys(task.managementPlansByLocation).map((location_id) => {
         return (
@@ -346,6 +355,20 @@ export default function PureTaskReadOnly({
             })}
         </div>
       )}
+
+      {task.animals?.length || task.animal_batches?.length ? (
+        <div className={styles.section}>
+          <Semibold>{t('TASK.ANIMALS')}</Semibold>
+          <AnimalInventory
+            view={View.TASK_SUMMARY}
+            preSelectedIds={
+              formatTaskAnimalsAsInventoryIds(task.animals, task.animal_batches) || []
+            }
+            showLinks={false}
+            showOnlySelected={true}
+          />
+        </div>
+      ) : null}
 
       {isAbandoned && (
         <div>
@@ -514,4 +537,5 @@ const taskComponents = {
   TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
   HARVEST_TASK: (props) => <PureHarvestingTaskReadOnly {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
+  MOVEMENT_TASK: (props) => <PureMovementTask disabled {...props} />,
 };

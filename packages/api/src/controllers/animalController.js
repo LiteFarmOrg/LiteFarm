@@ -16,7 +16,11 @@
 import { Model, transaction } from 'objection';
 import AnimalModel from '../models/animalModel.js';
 import baseController from './baseController.js';
-import { assignInternalIdentifiers, checkAndAddCustomTypeAndBreed } from '../util/animal.js';
+import {
+  assignInternalIdentifiers,
+  checkAndAddCustomTypeAndBreed,
+  handleIncompleteTasksForAnimalsAndBatches,
+} from '../util/animal.js';
 import { handleObjectionError } from '../util/errorCodes.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
 import _pick from 'lodash/pick.js';
@@ -32,6 +36,7 @@ const animalController = {
           .withGraphFetched({
             animal_union_batch: true,
             animal_use_relationships: true,
+            tasks: true,
           });
         return res.status(200).send(
           rows.map(({ animal_union_batch, ...rest }) => ({
@@ -158,6 +163,7 @@ const animalController = {
   removeAnimals() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
+      const ids = [];
 
       try {
         for (const animal of req.body) {
@@ -174,7 +180,12 @@ const animalController = {
             req,
             { trx },
           );
+
+          ids.push(id);
         }
+
+        const { removal_date } = req.body[0];
+        await handleIncompleteTasksForAnimalsAndBatches(req, trx, 'animal', ids, removal_date);
         await trx.commit();
         return res.status(204).send();
       } catch (error) {
@@ -188,12 +199,14 @@ const animalController = {
       const trx = await transaction.start(Model.knex());
 
       try {
-        const { ids } = req.query;
+        const { ids, date } = req.query;
         const idsSet = new Set(ids.split(','));
 
         for (const animalId of idsSet) {
           await baseController.delete(AnimalModel, animalId, req, { trx });
         }
+
+        await handleIncompleteTasksForAnimalsAndBatches(req, trx, 'animal', [...idsSet], date);
         await trx.commit();
         return res.status(204).send();
       } catch (error) {

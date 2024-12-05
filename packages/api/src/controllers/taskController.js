@@ -1002,7 +1002,16 @@ function removeNullTypes(task) {
 
 //TODO: optimize after plant_task and transplant_task refactor
 async function getTasksForFarm(farm_id) {
-  const [managementTasks, locationTasks, plantTasks, transplantTasks] = await Promise.all([
+  const customTaskTypesForFarm = await TaskTypeModel.query()
+    .select('task_type_id')
+    .where({ farm_id });
+  const [
+    managementTasks,
+    locationTasks,
+    plantTasks,
+    transplantTasks,
+    customTasks,
+  ] = await Promise.all([
     TaskModel.query()
       .select('task.task_id')
       .whereNotDeleted()
@@ -1055,8 +1064,15 @@ async function getTasksForFarm(farm_id) {
       )
       .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
       .where('crop_variety.farm_id', farm_id),
+    TaskModel.query()
+      .select('task.task_id')
+      .whereNotDeleted()
+      .whereIn(
+        'task_type_id',
+        customTaskTypesForFarm.map(({ task_type_id }) => task_type_id),
+      ),
   ]);
-  return [...managementTasks, ...locationTasks, ...plantTasks, ...transplantTasks];
+  return [...managementTasks, ...locationTasks, ...plantTasks, ...transplantTasks, ...customTasks];
 }
 
 async function getManagementPlans(task_id, typeOfTask) {

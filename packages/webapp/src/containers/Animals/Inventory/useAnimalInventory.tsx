@@ -58,6 +58,7 @@ export type AnimalInventoryItem = {
   custom_breed_id: number | null;
   default_breed_id: number | null;
   location_id?: string | null;
+  tasks: Animal['tasks'];
 };
 
 const { t } = i18n;
@@ -165,6 +166,7 @@ const formatAnimalsData = (
         custom_breed_id: animal.custom_breed_id,
         default_breed_id: animal.default_breed_id,
         location_id: animal.location_id,
+        tasks: animal.tasks,
       };
     });
 };
@@ -201,6 +203,7 @@ const formatAnimalBatchesData = (
         custom_breed_id: batch.custom_breed_id,
         default_breed_id: batch.default_breed_id,
         location_id: batch.location_id,
+        tasks: batch.tasks,
       };
     });
 };

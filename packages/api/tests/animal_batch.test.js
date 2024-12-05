@@ -39,6 +39,13 @@ import CustomAnimalTypeModel from '../src/models/customAnimalTypeModel.js';
 import CustomAnimalBreedModel from '../src/models/customAnimalBreedModel.js';
 import AnimalBatchSexDetailModel from '../src/models/animalBatchSexDetailModel.js';
 import AnimalBatchUseRelationshipModel from '../src/models/animalBatchUseRelationshipModel.js';
+import {
+  batchGetRequest,
+  batchPostRequest,
+  batchRemoveRequest,
+  batchPatchRequest,
+  batchDeleteRequest,
+} from './utils/animalUtils.js';
 
 describe('Animal Batch Tests', () => {
   let farm;
@@ -64,50 +71,23 @@ describe('Animal Batch Tests', () => {
   });
 
   async function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
-    return await chai
-      .request(server)
-      .get('/animal_batches')
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id);
+    return await batchGetRequest({ user_id, farm_id });
   }
 
   async function postRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
-    return await chai
-      .request(server)
-      .post('/animal_batches')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(data);
+    return await batchPostRequest({ user_id, farm_id }, data);
   }
 
   async function removeRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
-    return await chai
-      .request(server)
-      .patch('/animal_batches/remove')
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(data);
+    return await batchRemoveRequest({ user_id, farm_id }, data);
   }
 
   async function patchRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
-    return await chai
-      .request(server)
-      .patch('/animal_batches')
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(data);
+    return await batchPatchRequest({ user_id, farm_id }, data);
   }
 
   async function deleteRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id, query = '' }) {
-    return await chai
-      .request(server)
-      .delete(`/animal_batches?${query}`)
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id);
+    return await batchDeleteRequest({ user_id, farm_id, query });
   }
 
   function fakeUserFarm(role = 1) {
@@ -206,11 +186,13 @@ describe('Animal Batch Tests', () => {
           ...firstAnimalBatch,
           internal_identifier: 1,
           animal_batch_use_relationships: [],
+          tasks: [],
         }).toMatchObject(res.body[0]);
         expect({
           ...secondAnimalBatch,
           internal_identifier: 2,
           animal_batch_use_relationships: [],
+          tasks: [],
         }).toMatchObject(res.body[1]);
       }
     });
@@ -819,20 +801,24 @@ describe('Animal Batch Tests', () => {
         [updatedFirstBatch, updatedSecondBatch],
       );
 
-      // Remove or add properties not actually expected from get request
-      [updatedFirstBatch, updatedSecondBatch].forEach((batch) => {
-        // Should not cause an error
-        delete batch.extra_non_existant_property;
-        // Should not be able to update on edit
-        batch.animal_removal_reason_id = null;
-        // Return format different than post format
-        batch.animal_batch_use_relationships.forEach((rel) => {
-          rel.animal_batch_id = batch.id;
-          rel.other_use = null;
-        });
-      });
+      const [expectedFirstBatch, expectedSecondBatch] = [updatedFirstBatch, updatedSecondBatch].map(
+        (batch) => {
+          const { extra_non_existant_property, ...rest } = batch;
+          return {
+            ...rest,
+            animal_removal_reason_id: null,
+            animal_batch_use_relationships: rest.animal_batch_use_relationships.map((rel) => {
+              return {
+                animal_batch_id: rest.id,
+                use_id: rel.use_id,
+                other_use: null,
+              };
+            }),
+          };
+        },
+      );
 
-      return { res: patchRes, updatedFirstBatch, updatedSecondBatch };
+      return { res: patchRes, expectedFirstBatch, expectedSecondBatch };
     }
 
     test('Admin users should be able to edit batches', async () => {
@@ -847,11 +833,9 @@ describe('Animal Batch Tests', () => {
           user,
         );
         expect(addRes.status).toBe(201);
-        expect(returnedFirstBatch).toBeTruthy();
-        expect(returnedSecondBatch).toBeTruthy();
 
         // Edit batches in db
-        const { res: editRes, updatedFirstBatch, updatedSecondBatch } = await editAnimalBatches(
+        const { res: editRes, expectedFirstBatch, expectedSecondBatch } = await editAnimalBatches(
           mainFarm,
           user,
           returnedFirstBatch,
@@ -878,7 +862,7 @@ describe('Animal Batch Tests', () => {
           delete record.deleted;
           delete record.updated_at;
           delete record.updated_by;
-          const updatedRecord = [updatedFirstBatch, updatedSecondBatch].find(
+          const updatedRecord = [expectedFirstBatch, expectedSecondBatch].find(
             (batch) => batch.id === record.id,
           );
           expect(record).toMatchObject(updatedRecord);
@@ -899,16 +883,14 @@ describe('Animal Batch Tests', () => {
         fakeUserFarm(workerRole),
       );
 
-      // Add animals to db
+      // Add animals to db with admin
       const { res: addRes, returnedFirstBatch, returnedSecondBatch } = await addAnimalBatches(
         mainFarm,
         admin,
       );
       expect(addRes.status).toBe(201);
-      expect(returnedFirstBatch).toBeTruthy();
-      expect(returnedSecondBatch).toBeTruthy();
 
-      // Edit animals in db
+      // Edit animals in db with non-admin
       const { res: editRes } = await editAnimalBatches(
         mainFarm,
         user,
@@ -929,7 +911,6 @@ describe('Animal Batch Tests', () => {
       // Add animals to db
       const { res: addRes, returnedFirstBatch } = await addAnimalBatches(mainFarm, user);
       expect(addRes.status).toBe(201);
-      expect(returnedFirstBatch).toBeTruthy();
 
       // Change 1 thing
       returnedFirstBatch.sire = 'Changed';
@@ -1186,6 +1167,8 @@ describe('Animal Batch Tests', () => {
 
   // DELETE tests
   describe('Delete animal batch tests', () => {
+    const deleteDateParam = `date=2024-11-22`;
+
     test('Admin users should be able to delete animal batches', async () => {
       const roles = [1, 2, 5];
       const animalSex1 = await makeAnimalSex();
@@ -1218,7 +1201,7 @@ describe('Animal Batch Tests', () => {
         const res = await deleteRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
-          query: `ids=${firstAnimalBatch.id},${secondAnimalBatch.id}`,
+          query: `ids=${firstAnimalBatch.id},${secondAnimalBatch.id}&${deleteDateParam}`,
         });
 
         expect(res.status).toBe(204);
@@ -1239,7 +1222,7 @@ describe('Animal Batch Tests', () => {
         const res = await deleteRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
-          query: `ids=${animalBatch.id}`,
+          query: `ids=${animalBatch.id}&${deleteDateParam}`,
         });
 
         expect(res.status).toBe(403);
@@ -1255,7 +1238,7 @@ describe('Animal Batch Tests', () => {
       const res = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: ``,
+        query: `${deleteDateParam}`,
       });
 
       expect(res).toMatchObject({
@@ -1277,7 +1260,7 @@ describe('Animal Batch Tests', () => {
       const res1 = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: `ids=${animalBatch.id},,`,
+        query: `ids=${animalBatch.id},,&${deleteDateParam}`,
       });
 
       expect(res1).toMatchObject({
@@ -1291,13 +1274,27 @@ describe('Animal Batch Tests', () => {
       const res2 = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: `ids=},a,`,
+        query: `ids=},a,&${deleteDateParam}`,
       });
 
       expect(res2).toMatchObject({
         status: 400,
         error: {
           text: 'Must send valid ids',
+        },
+      });
+
+      // Without date
+      const res3 = await deleteRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+        query: `ids=${animalBatch.id}`,
+      });
+
+      expect(res3).toMatchObject({
+        status: 400,
+        error: {
+          text: 'Must send date',
         },
       });
     });
@@ -1314,7 +1311,7 @@ describe('Animal Batch Tests', () => {
       const res = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: `ids=${animalBatch.id}`,
+        query: `ids=${animalBatch.id}&${deleteDateParam}`,
       });
 
       expect(res).toMatchObject({

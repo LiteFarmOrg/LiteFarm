@@ -17,6 +17,8 @@ import { Dispatch, SetStateAction, useState, useCallback, useMemo } from 'react'
 import {
   useDeleteAnimalBatchesMutation,
   useDeleteAnimalsMutation,
+  useCheckDeleteAnimalsMutation,
+  useCheckDeleteAnimalBatchesMutation,
   useRemoveAnimalBatchesMutation,
   useRemoveAnimalsMutation,
 } from '../../../store/api/apiSlice';
@@ -33,7 +35,6 @@ import { Animal } from '../../../store/api/types';
 
 const useAnimalOrBatchRemoval = (
   selectedInventoryIds: string[],
-  animalTasksWithInventoryIds: { id: string; tasks: Animal['tasks'] }[],
   setSelectedInventoryIds?: Dispatch<SetStateAction<string[]>>,
 ) => {
   const dispatch = useDispatch();
@@ -42,6 +43,8 @@ const useAnimalOrBatchRemoval = (
   const abandonedTasks = useSelector(abandonedTasksSelector) || [];
 
   const { mutations } = useMutations([
+    { label: 'checkDeleteAnimals', hook: useCheckDeleteAnimalsMutation },
+    { label: 'checkDeleteAnimalBatches', hook: useCheckDeleteAnimalBatchesMutation },
     { label: 'deleteAnimals', hook: useDeleteAnimalsMutation },
     { label: 'deleteBatches', hook: useDeleteAnimalBatchesMutation },
     { label: 'removeAnimals', hook: useRemoveAnimalsMutation },
@@ -49,6 +52,7 @@ const useAnimalOrBatchRemoval = (
   ]);
 
   const [removalModalOpen, setRemovalModalOpen] = useState(false);
+  const [hasFinalizedTasks, setHasFinalizedTasks] = useState(false);
 
   const handleAnimalOrBatchRemoval = async (formData: FormFields) => {
     const timestampedDate = toLocalISOString(formData.date);
@@ -173,31 +177,52 @@ const useAnimalOrBatchRemoval = (
     return new Set([...completedTasks, ...abandonedTasks].map(({ task_id }) => task_id));
   }, [completedTasks, abandonedTasks]);
 
-  const hasFinalizedTasks = useMemo(() => {
-    if (!removalModalOpen) {
-      return false;
-    }
+  const checkHasFinalizedTasks = async () => {
+    const animalIds: number[] = [];
+    const selectedAnimalIds: string[] = [];
+    const animalBatchIds: number[] = [];
+    const selectedBatchIds: string[] = [];
+    let result;
 
-    const selectedInventoryIdsSet = new Set(selectedInventoryIds);
-    const finalizedTaskIdsSet = getFinalizedTaskIdsSet();
-
-    let inventoryFoundCount = 0;
-    for (let { id, tasks } of animalTasksWithInventoryIds) {
-      if (selectedInventoryIdsSet.has(id)) {
-        inventoryFoundCount++;
-
-        if (tasks.some(({ task_id }) => finalizedTaskIdsSet.has(task_id))) {
-          return true;
-        }
-      }
-      // Stop iterating once all selected inventory IDs have been processed.
-      if (inventoryFoundCount === selectedInventoryIdsSet.size) {
-        return false;
+    for (const id of selectedInventoryIds) {
+      const { kind, id: entity_id } = parseInventoryId(id);
+      if (kind === AnimalOrBatchKeys.ANIMAL) {
+        animalIds.push(entity_id);
+        selectedAnimalIds.push(id);
+      } else if (AnimalOrBatchKeys.BATCH) {
+        animalBatchIds.push(entity_id);
+        selectedBatchIds.push(id);
       }
     }
-  }, [removalModalOpen, completedTasks, abandonedTasks, selectedInventoryIds]);
 
-  return { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasFinalizedTasks };
+    if (animalIds.length) {
+      result = await mutations['checkDeleteAnimals'].trigger(animalIds);
+      if (result.error.data === 'Cannot delete animal with completed or abandoned tasks') {
+        return true;
+      }
+    }
+    if (animalBatchIds.length) {
+      result = await mutations['checkDeleteAnimalBatches'].trigger(animalBatchIds);
+      if (result.error.data === 'Cannot delete animal with completed or abandoned tasks') {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const onClickRemoveAnimals = async () => {
+    const hideDelete = await checkHasFinalizedTasks();
+    setHasFinalizedTasks(hideDelete);
+    setRemovalModalOpen(true);
+  };
+
+  return {
+    onConfirmRemoveAnimals,
+    removalModalOpen,
+    setRemovalModalOpen,
+    hasFinalizedTasks,
+    onClickRemoveAnimals,
+  };
 };
 
 export default useAnimalOrBatchRemoval;

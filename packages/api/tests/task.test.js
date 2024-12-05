@@ -918,6 +918,20 @@ describe('Task tests', () => {
       });
     });
 
+    test(`should get custom tasks that don't have locations, managementPlans, or animals`, async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+        promisedTaskType: [{ task_type_id }],
+      });
+      getTasksRequest({ farm_id, user_id }, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(1);
+        done();
+      });
+    });
+
     xtest('should get all tasks related to a farm, but not from different farms of that user', async (done) => {
       const [firstUserFarm] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const [secondUserFarmWithSameUser] = await mocks.userFarmFactory(
@@ -1619,6 +1633,19 @@ describe('Task tests', () => {
           expect(isTaskRelatedToManagementPlans.length).toBe(3);
           const specificProduct = await knex('product').where({ product_id }).first();
           expect(specificProduct.name).toBe('pestProduct2');
+          done();
+        });
+      });
+
+      test('should create a custom task without locations, managementPlans or animals', async (done) => {
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+        const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
+        const data = { ...mocks.fakeTask({ task_type_id }) };
+
+        postTaskRequest({ user_id, farm_id }, 'custom_task', data, async (err, res) => {
+          expect(res.status).toBe(201);
+          const createdTask = await knex('task').where({ task_id: res.body.task_id }).first();
+          expect(createdTask).toBeDefined();
           done();
         });
       });

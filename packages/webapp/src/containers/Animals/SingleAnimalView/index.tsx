@@ -179,9 +179,11 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
     return generateInventoryId(animalOrBatch, (selectedAnimal || selectedBatch)!);
   };
 
-  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen } = useAnimalOrBatchRemoval(
-    [getInventoryId()],
-  );
+  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasFinalizedTasks } =
+    useAnimalOrBatchRemoval(
+      [getInventoryId()],
+      [{ ...(selectedAnimal || selectedBatch)!, id: getInventoryId() }],
+    );
 
   const onConfirmRemoval = async (formData: FormFields) => {
     const result = await onConfirmRemoveAnimals(formData);
@@ -241,6 +243,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
           onClose={() => setRemovalModalOpen(false)}
           onConfirm={onConfirmRemoval}
           showSuccessMessage={false}
+          hideDeleteOption={hasFinalizedTasks}
         />
       </FixedHeaderContainer>
     </div>

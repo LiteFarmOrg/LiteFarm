@@ -238,26 +238,30 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
-      <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
-      {isTaskType(taskType, 'TRANSPLANT_TASK') && (
-        <TransplantLocationLabel
-          locations={task.locations}
-          selectedLocationId={task.selectedLocationIds[0]}
-          pinCoordinate={task.pinCoordinates[0]}
-        />
-      )}
-      <LocationPicker
-        onSelectLocation={() => {
-          //  TODO: fix onSelectLocationRef in LocationPicker
-        }}
-        readOnlyPinCoordinates={task.pinCoordinates}
-        style={{ minHeight: '160px', marginBottom: '40px' }}
-        locations={task.locations}
-        selectedLocationIds={task.selectedLocationIds || []}
-        farmCenterCoordinate={user.grid_points}
-        maxZoomRef={maxZoomRef}
-        getMaxZoom={getMaxZoom}
-      />
+      {task.locations?.length || task.pinCoordinates?.length ? (
+        <>
+          <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
+          {isTaskType(taskType, 'TRANSPLANT_TASK') && (
+            <TransplantLocationLabel
+              locations={task.locations}
+              selectedLocationId={task.selectedLocationIds[0]}
+              pinCoordinate={task.pinCoordinates[0]}
+            />
+          )}
+          <LocationPicker
+            onSelectLocation={() => {
+              //  TODO: fix onSelectLocationRef in LocationPicker
+            }}
+            readOnlyPinCoordinates={task.pinCoordinates}
+            style={{ minHeight: '160px', marginBottom: '40px' }}
+            locations={task.locations}
+            selectedLocationIds={task.selectedLocationIds || []}
+            farmCenterCoordinate={user.grid_points}
+            maxZoomRef={maxZoomRef}
+            getMaxZoom={getMaxZoom}
+          />
+        </>
+      ) : null}
 
       {Object.keys(task.managementPlansByLocation).map((location_id) => {
         return (

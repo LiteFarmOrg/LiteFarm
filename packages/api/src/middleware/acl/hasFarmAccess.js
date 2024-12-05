@@ -30,6 +30,7 @@ const entitiesGetters = {
   nomination_id: fromNomination,
   transplant_task: fromTransPlantTask,
   product_id: fromProduct,
+  taskIdTaskType: fromTaskIdTaskType,
 };
 import userFarmModel from '../../models/userFarmModel.js';
 
@@ -199,6 +200,28 @@ async function fromLocations(locations) {
       .distinct('location.farm_id');
     if (userFarms.length !== 1) return {};
     return userFarms[0];
+  } catch (e) {
+    return {};
+  }
+}
+
+async function fromTaskIdTaskType(req) {
+  if (!req.params || !req.params.task_id) {
+    return {};
+  }
+
+  try {
+    const task_id = req.params.task_id;
+
+    const task = await knex('task').where({ task_id }).first();
+
+    if (!task) return {};
+
+    const taskType = await knex('task_type').where({ task_type_id: task.task_type_id }).first();
+
+    if (!taskType) return {};
+
+    return { farm_id: taskType.farm_id };
   } catch (e) {
     return {};
   }

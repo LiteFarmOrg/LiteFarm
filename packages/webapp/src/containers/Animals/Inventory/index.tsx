@@ -288,10 +288,8 @@ export default function AnimalInventory({
     [updateSelectedTypeIds],
   );
 
-  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen } = useAnimalOrBatchRemoval(
-    selectedInventoryIds,
-    setSelectedInventoryIds,
-  );
+  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasFinalizedTasks } =
+    useAnimalOrBatchRemoval(selectedInventoryIds, inventory, setSelectedInventoryIds);
 
   const animalsColumns = useMemo(
     () => [
@@ -472,6 +470,7 @@ export default function AnimalInventory({
         onClose={() => setRemovalModalOpen(false)}
         onConfirm={onConfirmRemoveAnimals}
         showSuccessMessage={false}
+        hideDeleteOption={hasFinalizedTasks}
       />
     </>
   );

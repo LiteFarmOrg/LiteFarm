@@ -176,7 +176,6 @@ class AnimalBatchModel extends baseModel {
           },
           to: 'task.task_id',
         },
-        modify: (query) => query.select('task.task_id').where('deleted', false),
       },
       default_type: {
         modelClass: DefaultAnimalTypeModel,

@@ -43,12 +43,10 @@ const checkValidAnimalOrBatchIds = async (animalOrBatchKey, ids, farm_id, trx) =
     throw customError('Must send ids');
   }
 
-  const idsSet = new Set(ids.split(','));
-
   // Check that all animals/batches exist and belong to the farm
   const invalidIds = [];
 
-  for (const id of idsSet) {
+  for (const id of ids) {
     // For query syntax like ids=,,, which will pass the above check
     checkIdIsNumber(id);
 
@@ -381,6 +379,15 @@ const checkRemovalDataProvided = (animalOrBatch) => {
   }
 };
 
+const checkAssociatedTasks = async (animalOrBatchIds, animalOrBatchKey) => {
+  const hasCompletedOrAbandonedTasks = await AnimalOrBatchModel[
+    animalOrBatchKey
+  ].hasCompletedOrAbandonedTasksById(animalOrBatchIds);
+  if (hasCompletedOrAbandonedTasks) {
+    throw customError('Cannot delete animal with completed or abandoned tasks');
+  }
+};
+
 const getRecordIfExists = async (animalOrBatch, animalOrBatchKey, farm_id) => {
   const relations =
     animalOrBatchKey === 'batch'
@@ -607,18 +614,24 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
  * );
  *
  */
-export function checkDeleteAnimalOrBatch(animalOrBatchKey) {
+export function checkDeleteAnimalOrBatch(animalOrBatchKey, dryRun = false) {
   return async (req, res, next) => {
     const trx = await transaction.start(Model.knex());
 
     try {
       const { farm_id } = req.headers;
       const { ids } = req.query;
+      const idsSet = [...new Set(ids.split(',').map(Number))];
 
-      await checkValidAnimalOrBatchIds(animalOrBatchKey, ids, farm_id, trx);
+      await checkValidAnimalOrBatchIds(animalOrBatchKey, idsSet, farm_id, trx);
+      await checkAssociatedTasks(idsSet, animalOrBatchKey);
 
       await trx.commit();
-      next();
+      if (dryRun) {
+        res.sendStatus(200);
+      } else {
+        next();
+      }
     } catch (error) {
       if (error.type === 'LiteFarmCustom') {
         console.error(error);

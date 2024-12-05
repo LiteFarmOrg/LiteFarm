@@ -89,6 +89,7 @@ interface AnimalInventoryProps {
   showOnlySelected?: boolean;
   showLinks?: boolean;
   isCompleteView?: boolean;
+  hideNoResultsBlock?: boolean;
 }
 
 const BaseAnimalInventory = ({
@@ -249,6 +250,7 @@ export default function AnimalInventory({
   showOnlySelected = false,
   showLinks = true,
   isCompleteView,
+  hideNoResultsBlock,
 }: AnimalInventoryProps) {
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
 
@@ -489,6 +491,7 @@ export default function AnimalInventory({
     clearFilters: clearFilters,
     isLoading: isLoading,
     history: history,
+    hideNoResultsBlock,
   };
 
   if (view == View.TASK) {

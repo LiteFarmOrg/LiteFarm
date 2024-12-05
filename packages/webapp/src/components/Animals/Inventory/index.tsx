@@ -61,6 +61,7 @@ export type PureAnimalInventoryProps = {
   showTableHeader: boolean;
   showActionFloaterButton: boolean;
   extraRowSpacing?: boolean;
+  hideNoResultsBlock?: boolean;
 };
 
 const PureAnimalInventory = ({
@@ -86,6 +87,7 @@ const PureAnimalInventory = ({
   showTableHeader,
   showActionFloaterButton,
   extraRowSpacing,
+  hideNoResultsBlock,
 }: PureAnimalInventoryProps) => {
   const { t } = useTranslation();
 
@@ -130,7 +132,7 @@ const PureAnimalInventory = ({
         </div>
       )}
       <div className={clsx(isDesktop ? '' : styles.tableWrapper, styles.tableWrapperCommon)}>
-        {!totalInventoryCount || hasSearchResults ? (
+        {!totalInventoryCount || hasSearchResults || hideNoResultsBlock ? (
           <Table
             kind={TableKind.V2}
             alternatingRowColor={alternatingRowColor}

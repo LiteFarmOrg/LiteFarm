@@ -143,6 +143,7 @@ export default function PureCompleteStepOne({
             showLinks={false}
             showOnlySelected={true}
             isCompleteView={true}
+            hideNoResultsBlock={true}
           />
           {taskType === 'MOVEMENT_TASK' && noAnimalsSelected && (
             <Main className={styles.noAnimalsSelectedWarning}>

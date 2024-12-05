@@ -20,6 +20,7 @@ import {
   assignInternalIdentifiers,
   upsertGroup,
   checkAndAddCustomTypeAndBreed,
+  handleIncompleteTasksForAnimalsAndBatches,
 } from '../util/animal.js';
 import { handleObjectionError } from '../util/errorCodes.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
@@ -175,6 +176,7 @@ const animalController = {
   removeAnimals() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
+      const ids = [];
 
       try {
         for (const animal of req.body) {
@@ -191,7 +193,12 @@ const animalController = {
             req,
             { trx },
           );
+
+          ids.push(id);
         }
+
+        const { removal_date } = req.body[0];
+        await handleIncompleteTasksForAnimalsAndBatches(req, trx, 'animal', ids, removal_date);
         await trx.commit();
         return res.status(204).send();
       } catch (error) {
@@ -205,12 +212,14 @@ const animalController = {
       const trx = await transaction.start(Model.knex());
 
       try {
-        const { ids } = req.query;
+        const { ids, date } = req.query;
         const idsSet = new Set(ids.split(','));
 
         for (const animalId of idsSet) {
           await baseController.delete(AnimalModel, animalId, req, { trx });
         }
+
+        await handleIncompleteTasksForAnimalsAndBatches(req, trx, 'animal', [...idsSet], date);
         await trx.commit();
         return res.status(204).send();
       } catch (error) {

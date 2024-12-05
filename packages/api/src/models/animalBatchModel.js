@@ -233,6 +233,68 @@ class AnimalBatchModel extends baseModel {
       },
     };
   }
+
+  static async getBatchIdsWithTasks(trx, animalIds, taskFilterCondition) {
+    if (taskFilterCondition) {
+      return AnimalBatchModel.query(trx)
+        .select('id')
+        .withGraphFetched('tasks')
+        .modifyGraph('tasks', (builder) => {
+          builder.select('task.task_id', 'task.complete_date', 'task.abandon_date');
+          builder.where('deleted', false).whereRaw(taskFilterCondition);
+        })
+        .whereIn('animal_batch.id', animalIds);
+    }
+
+    return AnimalBatchModel.query(trx)
+      .select('id')
+      .withGraphFetched('tasks')
+      .modifyGraph('tasks', (builder) => {
+        builder.select('task.task_id', 'task.complete_date', 'task.abandon_date');
+        builder.where('deleted', false);
+      })
+      .whereIn('animal_batch.id', animalIds);
+  }
+
+  // Get animals with finalized (completed or abandoned) tasks
+  static async getBatchIdsWithFinalizedTasks(trx, animalIds) {
+    return AnimalBatchModel.getBatchIdsWithTasks(
+      trx,
+      animalIds,
+      'complete_date IS NOT NULL OR abandon_date IS NOT NULL',
+    );
+  }
+
+  static async getBatchIdsWithIncompleteTasks(trx, animalIds) {
+    return AnimalBatchModel.getBatchIdsWithTasks(
+      trx,
+      animalIds,
+      'complete_date IS NULL AND abandon_date IS NULL',
+    );
+  }
+
+  static async unrelateIncompleteTasksForBatches(trx, batchIds) {
+    let unrelatedTaskIds = [];
+    const batches = await AnimalBatchModel.getBatchIdsWithIncompleteTasks(trx, batchIds);
+
+    if (batches) {
+      // Delete relationships
+      await Promise.all(
+        batches.map(({ id, tasks }) => {
+          const taskIds = tasks.map(({ task_id }) => task_id);
+          unrelatedTaskIds = [...unrelatedTaskIds, ...taskIds];
+
+          return AnimalBatchModel.relatedQuery('tasks', trx)
+            .for(id)
+            .unrelate()
+            .whereIn('task.task_id', taskIds)
+            .transacting(trx);
+        }),
+      );
+    }
+
+    return { unrelatedTaskIds: [...new Set(unrelatedTaskIds)] };
+  }
 }
 
 export default AnimalBatchModel;

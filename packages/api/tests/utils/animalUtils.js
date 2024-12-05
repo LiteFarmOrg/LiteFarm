@@ -13,7 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import chai from 'chai';
 import mocks from '../mock.factories.js';
+
+import chaiHttp from 'chai-http';
+chai.use(chaiHttp);
+
+import server from '../../src/server.js';
 
 export const makeFarmsWithAnimalsAndBatches = async (user) => {
   const [firstFarm] = await mocks.userFarmFactory({ promisedUser: [user], roleId: 1 });
@@ -55,3 +61,67 @@ export const makeAnimalOrBatchForFarm = async ({ kind, farm }) => {
 
   return data;
 };
+
+const entityEndpoints = {
+  animal: 'animals',
+  batch: 'animal_batches',
+};
+
+const getGetRequest = (entity) => async ({ user_id, farm_id }) => {
+  return await chai
+    .request(server)
+    .get(`/${entity}`)
+    .set('user_id', user_id)
+    .set('farm_id', farm_id);
+};
+
+const getPostRequest = (entity) => async ({ user_id, farm_id }, data) => {
+  return await chai
+    .request(server)
+    .post(`/${entity}`)
+    .set('user_id', user_id)
+    .set('farm_id', farm_id)
+    .send(data);
+};
+
+const getRemoveRequest = (entity) => async ({ user_id, farm_id }, data) => {
+  return await chai
+    .request(server)
+    .patch(`/${entity}/remove`)
+    .set('Content-Type', 'application/json')
+    .set('user_id', user_id)
+    .set('farm_id', farm_id)
+    .send(data);
+};
+
+const getPatchRequest = (entity) => async ({ user_id, farm_id }, data) => {
+  return await chai
+    .request(server)
+    .patch(`/${entity}`)
+    .set('Content-Type', 'application/json')
+    .set('user_id', user_id)
+    .set('farm_id', farm_id)
+    .send(data);
+};
+
+const getDeleteRequest = (entity) => async ({ user_id, farm_id, query = '' }) => {
+  return await chai
+    .request(server)
+    .delete(`/${entity}?${query}`)
+    .set('Content-Type', 'application/json')
+    .set('user_id', user_id)
+    .set('farm_id', farm_id);
+};
+
+export const {
+  animalGetRequest = getGetRequest(entityEndpoints['animal']),
+  animalPostRequest = getPostRequest(entityEndpoints['animal']),
+  animalRemoveRequest = getRemoveRequest(entityEndpoints['animal']),
+  animalPatchRequest = getPatchRequest(entityEndpoints['animal']),
+  animalDeleteRequest = getDeleteRequest(entityEndpoints['animal']),
+  batchGetRequest = getGetRequest(entityEndpoints['batch']),
+  batchPostRequest = getPostRequest(entityEndpoints['batch']),
+  batchRemoveRequest = getRemoveRequest(entityEndpoints['batch']),
+  batchPatchRequest = getPatchRequest(entityEndpoints['batch']),
+  batchDeleteRequest = getDeleteRequest(entityEndpoints['batch']),
+} = {};

@@ -56,7 +56,11 @@ export default function PureCompleteStepOne({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: { need_changes: false, ...defaultsToUse },
+    defaultValues: {
+      need_changes: false,
+      ...defaultsToUse,
+      ...(persistedFormData[ANIMAL_IDS] && { [ANIMAL_IDS]: persistedFormData[ANIMAL_IDS] }),
+    },
   });
 
   const watchedSelectedAnimals = watch(ANIMAL_IDS) || [];
@@ -96,12 +100,13 @@ export default function PureCompleteStepOne({
     setValue(ANIMAL_IDS, selectedAnimalIds);
   };
 
-  // Reset the initial value of the animal inventory to the original task animals
   useEffect(() => {
-    setValue(
-      ANIMAL_IDS,
-      formatTaskAnimalsAsInventoryIds(selectedTask.animals, selectedTask.animal_batches),
-    );
+    if (!changesRequired) {
+      setValue(
+        ANIMAL_IDS,
+        formatTaskAnimalsAsInventoryIds(selectedTask.animals, selectedTask.animal_batches),
+      );
+    }
   }, [changesRequired]);
 
   return (
@@ -137,6 +142,7 @@ export default function PureCompleteStepOne({
             preSelectedIds={watchedSelectedAnimals}
             showLinks={false}
             showOnlySelected={true}
+            isCompleteView={true}
           />
           {taskType === 'MOVEMENT_TASK' && noAnimalsSelected && (
             <Main className={styles.noAnimalsSelectedWarning}>

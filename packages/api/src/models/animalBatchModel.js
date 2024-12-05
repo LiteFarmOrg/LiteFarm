@@ -232,6 +232,21 @@ class AnimalBatchModel extends baseModel {
       },
     };
   }
+
+  static async hasCompletedOrAbandonedTasksById(ids) {
+    const batches = await AnimalBatchModel.query()
+      .withGraphFetched('tasks')
+      .whereIn('id', [...ids])
+      .modifyGraph('tasks', (builder) => {
+        builder.whereNotNull('complete_date').orWhereNotNull('abandon_date');
+      });
+    for (const batch of batches) {
+      if (batch.tasks.length) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 export default AnimalBatchModel;

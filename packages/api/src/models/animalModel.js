@@ -226,6 +226,21 @@ class Animal extends baseModel {
       },
     };
   }
+
+  static async hasCompletedOrAbandonedTasksById(ids) {
+    const animals = await Animal.query()
+      .withGraphFetched('tasks')
+      .whereIn('id', [...ids])
+      .modifyGraph('tasks', (builder) => {
+        builder.whereNotNull('complete_date').orWhereNotNull('abandon_date');
+      });
+    for (const animal of animals) {
+      if (animal.tasks.length) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 export default Animal;

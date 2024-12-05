@@ -304,9 +304,7 @@ const useAnimalInventory = () => {
     defaultAnimalTypes,
   ]);
 
-  const animalsExistOnFarm = inventory.length > 0;
-
-  return { inventory, animalsExistOnFarm, isLoading };
+  return { inventory, isLoading };
 };
 
 export default useAnimalInventory;

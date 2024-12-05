@@ -22,8 +22,8 @@ import { useTranslation } from 'react-i18next';
 import { useReadOnlyPinCoordinates } from '../useReadOnlyPinCoordinates';
 import { useMaxZoom } from '../../Map/useMaxZoom';
 import { managementPlanSelector } from '../../managementPlanSlice';
-import useAnimalInventory from '../../Animals/Inventory/useAnimalInventory';
 import { getProgress } from '../util';
+import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 
 export default function TaskLocationsSwitch({ history, match, location }) {
   const isHarvestLocation = useIsTaskType('HARVEST_TASK');
@@ -175,7 +175,7 @@ function TaskCustomLocations({ history, location }) {
   const activeAndCurrentManagementPlansByLocationIds =
     useActiveAndCurrentManagementPlanTilesByLocationIds(locations);
   const wildManagementPlanTiles = useCurrentWildManagementPlanTiles();
-  const { animalsExistOnFarm } = useAnimalInventory();
+  const { animalsExistOnFarm } = useAnimalsExist();
 
   const onContinue = (formData) => {
     const hasLocationManagementPlans = formData.locations.some(

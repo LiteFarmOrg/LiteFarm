@@ -100,7 +100,7 @@ export default function PureTaskAnimalInventory({
             maxHeight: '24px',
           }}
         >
-          {t('TASK.SELECT_ANIMALS_TO_MOVE')}
+          {t('TASK.SELECT_ANIMALS')}
         </Main>
         <input type="hidden" {...register(ANIMAL_IDS)} />
         <AnimalInventory

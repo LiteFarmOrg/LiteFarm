@@ -1875,7 +1875,7 @@
     "QUANTITY_CANNOT_EXCEED": "Die genutzte Erntemenge darf nicht größer sein als die zu verteilende Menge",
     "RATE_THIS_TASK": "Bewerten Sie diese Aufgabe",
     "REMOVE_HARVEST_USE": "Entfernen",
-    "SELECT_ANIMALS_TO_MOVE": "MISSING",
+    "SELECT_ANIMALS": "MISSING",
     "SELECT_DATE": "Wählen Sie das Datum der Aufgabe",
     "SELECT_TASK_LOCATIONS": "Wählen Sie die Aufgabenstellung(en)",
     "SELECT_WILD_CROP": "Diese Aufgabe zielt auf eine Wildpflanze ab",

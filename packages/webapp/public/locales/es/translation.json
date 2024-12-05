@@ -2022,7 +2022,7 @@
     "QUANTITY_CANNOT_EXCEED": "La cantidad de cosecha utilizada no puede exceder la cantidad a asignar",
     "RATE_THIS_TASK": "Califica esta tarea",
     "REMOVE_HARVEST_USE": "Quitar",
-    "SELECT_ANIMALS_TO_MOVE": "MISSING",
+    "SELECT_ANIMALS": "MISSING",
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la(s) ubicación(es) de la tarea",
     "SELECT_WILD_CROP": "Esta tarea se dirige a un cultivo silvestre",

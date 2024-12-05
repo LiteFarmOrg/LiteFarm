@@ -1,3 +1,29 @@
+@import '@assets/mixin.scss';
+
 .rating {
   display: flex;
+}
+
+.animalInventorySection {
+  padding-bottom: 24px;
+
+  .noAnimalsSelectedWarning {
+    color: var(--Brand-Accents-colors-and-overlays-Accent-red);
+    padding: 16px;
+    padding-bottom: 0;
+  }
+}
+
+.animalInventoryWrapper {
+  padding-top: 16px;
+
+  // AnimalInventory component
+  > :nth-child(1) {
+    // FixedHeaderContainer styles (didn't dare mess with!)
+    > :nth-child(1) {
+      @include lg-breakpoint {
+        margin-top: 0;
+      }
+    }
+  }
 }

@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useCallback, useMemo, useState, ChangeEvent, ReactNode } from 'react';
+import { useCallback, useMemo, useState, ChangeEvent, ReactNode, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureAnimalInventory, {
   PureAnimalInventoryProps,
@@ -49,6 +49,7 @@ import clsx from 'clsx';
 import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
 import { sumObjectValues } from '../../../util';
 import Icon from '../../../components/Icons';
+import { onAddTask } from '../../Task/onAddTask';
 
 const HEIGHTS = {
   filterAndSearch: 64,
@@ -88,6 +89,8 @@ interface AnimalInventoryProps {
   history: History;
   showOnlySelected?: boolean;
   showLinks?: boolean;
+  isCompleteView?: boolean;
+  hideNoResultsBlock?: boolean;
 }
 
 const BaseAnimalInventory = ({
@@ -155,15 +158,16 @@ const SelectedAnimalsSummaryInventory = ({
 
 const TaskAnimalInventory = ({
   isAdmin,
+  isCompleteView,
   ...commonProps
-}: { isAdmin: boolean } & CommonPureAnimalInventoryProps) => {
+}: { isAdmin: boolean; isCompleteView?: boolean } & CommonPureAnimalInventoryProps) => {
   return (
     <FixedHeaderContainer
       header={null}
       classes={{
         paper: styles.paper,
         divWrapper: styles.divWrapper,
-        wrapper: styles.taskViewMaxHeight,
+        wrapper: isCompleteView ? styles.completeViewMaxHeight : styles.taskViewMaxHeight,
       }}
       kind={ContainerKind.PAPER}
     >
@@ -246,8 +250,16 @@ export default function AnimalInventory({
   history,
   showOnlySelected = false,
   showLinks = true,
+  isCompleteView,
+  hideNoResultsBlock,
 }: AnimalInventoryProps) {
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
+
+  useEffect(() => {
+    if (isCompleteView) {
+      setSelectedInventoryIds(preSelectedIds);
+    }
+  }, [preSelectedIds, isCompleteView]);
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
 
@@ -401,7 +413,11 @@ export default function AnimalInventory({
   };
 
   const iconActions: iconAction[] = [
-    { label: t(`common:CREATE_A_TASK`), iconName: 'TASK_CREATION', onClick: () => ({}) },
+    {
+      label: t(`common:CREATE_A_TASK`),
+      iconName: 'TASK_CREATION',
+      onClick: () => onAddTask(dispatch, history, { animal_ids: selectedInventoryIds })(),
+    },
     {
       label: t(`ANIMAL.REMOVE_ANIMAL`),
       iconName: 'REMOVE_ANIMAL',
@@ -459,10 +475,13 @@ export default function AnimalInventory({
     clearFilters: clearFilters,
     isLoading: isLoading,
     history: history,
+    hideNoResultsBlock,
   };
 
   if (view == View.TASK) {
-    return <TaskAnimalInventory isAdmin={isAdmin} {...commonProps} />;
+    return (
+      <TaskAnimalInventory isAdmin={isAdmin} isCompleteView={isCompleteView} {...commonProps} />
+    );
   }
   if (view == View.TASK_SUMMARY) {
     return (

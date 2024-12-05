@@ -124,6 +124,7 @@ export const PureTaskTypeSelection = ({
       }
       return true;
     }
+    return false;
   };
 
   return (

@@ -21,7 +21,9 @@ const useAnimalsExist = () => {
     { label: 'animalBatches', hook: useGetAnimalBatchesQuery },
   ]);
 
-  const animalsExistOnFarm = !isLoading && (data.animals.length || data.animalBatches.length);
+  const animalsExistOnFarm =
+    !isLoading &&
+    [...data.animals, ...data.animalBatches].some((entity) => !entity.animal_removal_reason_id);
 
   return { animalsExistOnFarm };
 };

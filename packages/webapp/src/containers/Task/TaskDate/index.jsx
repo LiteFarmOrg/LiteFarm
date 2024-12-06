@@ -4,6 +4,7 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { useIsTaskType } from '../useIsTaskType';
 import { useSelector } from 'react-redux';
 import { tasksByManagementPlanIdSelector } from '../../taskSlice';
+import { getProgress } from '../util';
 
 function TaskDate({ history, match, location }) {
   const onGoBack = () => {
@@ -11,6 +12,7 @@ function TaskDate({ history, match, location }) {
   };
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   const isMovementTask = useIsTaskType('MOVEMENT_TASK');
+  const isCustomTask = useIsTaskType('CUSTOM_TASK');
 
   const tasks = location.state.management_plan_id
     ? useSelector(tasksByManagementPlanIdSelector(location.state.management_plan_id))
@@ -73,9 +75,11 @@ function TaskDate({ history, match, location }) {
     history.push(getNextStepPath(), location?.state);
   };
 
+  const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_date') : undefined;
+
   return (
     <HookFormPersistProvider>
-      <PureTaskDate onGoBack={onGoBack} onContinue={onContinue} />
+      <PureTaskDate onGoBack={onGoBack} onContinue={onContinue} progress={progress} />
     </HookFormPersistProvider>
   );
 }

@@ -33,6 +33,7 @@ export default function PureTaskAnimalInventory({
   history,
   isDesktop,
   isRequired = true,
+  progress = 43,
 }) {
   const { t } = useTranslation();
   const preSelectedIds = persistedFormData.animalIds || history.location?.state?.animal_ids;
@@ -46,7 +47,6 @@ export default function PureTaskAnimalInventory({
     },
   });
 
-  const progress = 43;
   const { historyCancel } = useHookFormPersist(getValues);
   const animalIds = watch(ANIMAL_IDS);
   const disabled = isRequired && !animalIds?.length;
@@ -95,7 +95,7 @@ export default function PureTaskAnimalInventory({
             maxHeight: '24px',
           }}
         >
-          {t('TASK.SELECT_ANIMALS_TO_MOVE')}
+          {t('TASK.SELECT_ANIMALS')}
         </Main>
         <input type="hidden" {...register(ANIMAL_IDS)} />
         <AnimalInventory

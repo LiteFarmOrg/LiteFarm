@@ -25,6 +25,7 @@ const PureTaskCrops = ({
   isMulti = true,
   isRequired,
   defaultManagementPlanId,
+  progress = 57,
   history,
   location,
 }) => {
@@ -111,8 +112,8 @@ const PureTaskCrops = ({
           .map((management_plan) => management_plan.management_plan_id)
           .filter((management_plan_id) => managementPlanIds.includes(management_plan_id))
       : getValues(MANAGEMENT_PLANS)?.length
-      ? [getValues(MANAGEMENT_PLANS)?.[0]?.management_plan_id]
-      : [],
+        ? [getValues(MANAGEMENT_PLANS)?.[0]?.management_plan_id]
+        : [],
   );
 
   const onSelectManagementPlan = (management_plan_id) => {
@@ -249,7 +250,7 @@ const PureTaskCrops = ({
           onCancel={historyCancel}
           title={t('ADD_TASK.ADD_A_TASK')}
           cancelModalTitle={t('ADD_TASK.CANCEL')}
-          value={57}
+          value={progress}
         />
 
         <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.AFFECT_PLANS')}</Main>

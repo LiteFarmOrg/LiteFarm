@@ -13,6 +13,7 @@ export default function PureTaskDate({
   onGoBack,
   persistedFormData,
   useHookFormPersist,
+  progress = 28,
 }) {
   const { t } = useTranslation();
 
@@ -27,8 +28,6 @@ export default function PureTaskDate({
     shouldUnregister: false,
     defaultValues: { ...persistedFormData },
   });
-
-  const progress = 28;
 
   const { historyCancel } = useHookFormPersist(getValues);
 

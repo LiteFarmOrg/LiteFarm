@@ -29,7 +29,7 @@ import { AnimalOrBatchKeys } from '../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { completedTasksSelector, abandonedTasksSelector } from '../../taskSlice';
-import { Animal } from '../../../store/api/types';
+import { Animal, AnimalBatch } from '../../../store/api/types';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import { getTasks } from '../../Task/saga';
 
@@ -174,8 +174,8 @@ const useAnimalOrBatchRemoval = (
     }
   };
 
-  const getFinalizedTaskIdsSet = useCallback(() => {
-    return new Set([...completedTasks, ...abandonedTasks].map(({ task_id }) => task_id));
+  const getFinalizedTasks = useCallback(() => {
+    return Array.from(new Set([...completedTasks, ...abandonedTasks]));
   }, [completedTasks, abandonedTasks]);
 
   const hasFinalizedTasks = useMemo(() => {
@@ -183,23 +183,17 @@ const useAnimalOrBatchRemoval = (
       return false;
     }
 
-    const selectedInventoryIdsSet = new Set(selectedInventoryIds);
-    const finalizedTaskIdsSet = getFinalizedTaskIdsSet();
+    const finalizedTasks = getFinalizedTasks();
 
-    let inventoryFoundCount = 0;
-    for (let { id, tasks } of animalTasksWithInventoryIds) {
-      if (selectedInventoryIdsSet.has(id)) {
-        inventoryFoundCount++;
-
-        if (tasks.some(({ task_id }) => finalizedTaskIdsSet.has(task_id))) {
-          return true;
-        }
-      }
-      // Stop iterating once all selected inventory IDs have been processed.
-      if (inventoryFoundCount === selectedInventoryIdsSet.size) {
-        return false;
-      }
-    }
+    return selectedInventoryIds.some((id) =>
+      finalizedTasks.filter(
+        ({ animals, animal_batches }: { animals: Animal[]; animal_batches: AnimalBatch[] }) => {
+          const animalIds = animals.map(({ id }) => `${id}`);
+          const batchIds = animal_batches.map(({ id }) => `${id}`);
+          return animalIds.includes(id) || batchIds.includes(id);
+        },
+      ),
+    );
   }, [removalModalOpen, completedTasks, abandonedTasks, selectedInventoryIds]);
 
   return { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasFinalizedTasks };

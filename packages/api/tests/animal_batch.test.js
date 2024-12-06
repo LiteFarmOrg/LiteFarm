@@ -186,13 +186,11 @@ describe('Animal Batch Tests', () => {
           ...firstAnimalBatch,
           internal_identifier: 1,
           animal_batch_use_relationships: [],
-          tasks: [],
         }).toMatchObject(res.body[0]);
         expect({
           ...secondAnimalBatch,
           internal_identifier: 2,
           animal_batch_use_relationships: [],
-          tasks: [],
         }).toMatchObject(res.body[1]);
       }
     });

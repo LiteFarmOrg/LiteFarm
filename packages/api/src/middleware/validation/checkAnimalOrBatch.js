@@ -42,11 +42,12 @@ const checkValidAnimalOrBatchIds = async (animalOrBatchKey, ids, farm_id, trx) =
   if (!ids || !ids.length) {
     throw customError('Must send ids');
   }
+  const idsSet = new Set(ids.split(','));
 
   // Check that all animals/batches exist and belong to the farm
   const invalidIds = [];
 
-  for (const id of ids) {
+  for (const id of idsSet) {
     // For query syntax like ids=,,, which will pass the above check
     checkIdIsNumber(id);
 
@@ -662,12 +663,12 @@ export function checkDeleteAnimalOrBatch(animalOrBatchKey, dryRun = false) {
     try {
       const { farm_id } = req.headers;
       const { ids, date } = req.query;
-      const idsSet = [...new Set(ids.split(',').map(Number))];
 
       if (!date && !dryRun) {
         throw customError('Must send date');
       }
-      await checkValidAnimalOrBatchIds(animalOrBatchKey, idsSet, farm_id, trx);
+      await checkValidAnimalOrBatchIds(animalOrBatchKey, ids, farm_id, trx);
+      const idsSet = [...new Set(ids.split(',').map(Number))];
       await checkAnimalsOrBatchesWithFinalizedTasks(animalOrBatchKey, idsSet, trx);
 
       await trx.commit();

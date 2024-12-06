@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Dispatch, SetStateAction, useState, useCallback, useMemo } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import {
   useDeleteAnimalBatchesMutation,
   useDeleteAnimalsMutation,
@@ -28,10 +28,8 @@ import { CREATED_IN_ERROR_ID, FormFields } from '../../../components/Animals/Rem
 import useMutations from '../../../hooks/api/useMutations';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { AnimalOrBatchKeys } from '../types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { completedTasksSelector, abandonedTasksSelector } from '../../taskSlice';
-import { Animal } from '../../../store/api/types';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import { getTasks } from '../../Task/saga';
 
@@ -41,8 +39,6 @@ const useAnimalOrBatchRemoval = (
 ) => {
   const dispatch = useDispatch();
   const { t } = useTranslation(['message']);
-  const completedTasks = useSelector(completedTasksSelector) || [];
-  const abandonedTasks = useSelector(abandonedTasksSelector) || [];
 
   const { mutations } = useMutations([
     { label: 'checkDeleteAnimals', hook: useCheckDeleteAnimalsMutation },

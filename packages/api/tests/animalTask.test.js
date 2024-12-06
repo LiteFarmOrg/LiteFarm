@@ -51,20 +51,9 @@ const expectedCompletedTaskData = {
   complete_date: `${fakeCompletionData.complete_date}T00:00:00.000`,
 };
 
-// simulates the data for a completed movement task as returned by a GET request
-const simulateMovementTaskCompletion = (task) => {
-  const { location_id } = task.locations[0];
-  return {
-    ...task,
-    ...expectedCompletedTaskData,
-    animals: task.animals.map((animal) => ({ ...animal, location_id })),
-    animal_batches: task.animal_batches.map((batch) => ({ ...batch, location_id })),
-  };
-};
-
 const simulateTaskCompletion = (task, type) => {
   const complete = {
-    animal_movement_task: simulateMovementTaskCompletion,
+    // Add a function here for task types requiring custom completion logic
   }[type];
 
   return complete?.(task) || { ...task, ...expectedCompletedTaskData };
@@ -840,11 +829,26 @@ describe('Animal task tests', () => {
           return completeTaskRequest({ user_id, farm_id }, data, task_id, 'animal_movement_task');
         };
 
-        const checkAnimalMovement = (original, completedTask) => {
+        const checkAnimalMovement = async (original, completedTask) => {
           expect(completedTask.animals.length).toBe(original.animals.length);
           expect(completedTask.animal_batches.length).toBe(original.animal_batches.length);
-          [...completedTask.animals, ...completedTask.animal_batches].forEach((animalOrBatch) => {
-            expect(animalOrBatch.location_id).toBe(location_id);
+          const animalsData = await knex('animal')
+            .select('location_id')
+            .whereIn(
+              'id',
+              completedTask.animals.map(({ id }) => id),
+            );
+          const batchesData = await knex('animal_batch')
+            .select('location_id')
+            .whereIn(
+              'id',
+              completedTask.animal_batches.map(({ id }) => id),
+            );
+          expect(completedTask.animals.length + completedTask.animal_batches.length).toBe(
+            animalsData.length + batchesData.length,
+          );
+          [...animalsData, ...batchesData].forEach((data) => {
+            expect(data.location_id).toBe(location_id);
           });
         };
 
@@ -881,7 +885,7 @@ describe('Animal task tests', () => {
           const res = await getTasksRequest({ user_id, farm_id });
 
           const completedTask = res.body.find((retrievedTask) => retrievedTask.task_id === task_id);
-          checkAnimalMovement(task, completedTask);
+          await checkAnimalMovement(task, completedTask);
           expect(completedTask.animal_movement_task.task_id).toBe(task_id);
 
           const finalPurposes = purposesInPatchReq || initialPurposes || [];

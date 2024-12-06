@@ -18,10 +18,12 @@ import useQueries from '../../../hooks/api/useQueries';
 const useAnimalsExist = () => {
   const { data, isLoading } = useQueries([
     { label: 'animals', hook: useGetAnimalsQuery },
-    { label: 'animalBatches', hook: useGetAnimalBatchesQuery },
+    { label: 'batches', hook: useGetAnimalBatchesQuery },
   ]);
 
-  const animalsExistOnFarm = !isLoading && (data.animals.length || data.animalBatches.length);
+  const animalsExistOnFarm =
+    !isLoading &&
+    [...data.animals, ...data.batches].filter((entity) => !entity.animal_removal_reason_id).length;
 
   return { animalsExistOnFarm };
 };

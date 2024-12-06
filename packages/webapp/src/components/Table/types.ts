@@ -58,6 +58,7 @@ export type TableV2Column = {
   columnProps?: Object;
   label?: string;
   sortable?: boolean;
+  comparator?: any;
 };
 
 export type TableRowData = { id?: string | number };

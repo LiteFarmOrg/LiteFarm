@@ -44,6 +44,7 @@ export type AnimalInventory = {
   id: string;
   iconName: AnimalTypeIconKey;
   identification: string;
+  internal_identifier: number;
   name: string | null;
   type: string;
   breed: string;
@@ -152,6 +153,7 @@ const formatAnimalsData = (
         id: generateInventoryId(AnimalOrBatchKeys.ANIMAL, animal),
         iconName: getDefaultAnimalIconName(defaultAnimalTypes, animal.default_type_id),
         identification: chooseIdentification(animal),
+        internal_identifier: animal.internal_identifier,
         type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
         groups: animal.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
@@ -189,6 +191,7 @@ const formatAnimalBatchesData = (
         id: generateInventoryId(AnimalOrBatchKeys.BATCH, batch),
         iconName: 'BATCH',
         identification: chooseIdentification(batch),
+        internal_identifier: batch.internal_identifier,
         type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),
         groups: batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
@@ -217,20 +220,32 @@ interface BuildInventoryArgs {
   defaultAnimalTypes: DefaultAnimalType[];
 }
 
+export const animalIDComparator = (a: AnimalInventory, b: AnimalInventory) => {
+  if (a.name && !b.name) {
+    return -1;
+  }
+  if (b.name && !a.name) {
+    return 1;
+  }
+  if (a.identification && !b.identification) {
+    return -1;
+  }
+  if (b.identification && !a.identification) {
+    return 1;
+  }
+
+  return (
+    (a.name && b.name && (a.name.length - b.name.length || a.name.localeCompare(b.name))) ||
+    (a.identification &&
+      b.identification &&
+      (a.identification.length - b.identification.length ||
+        a.identification.localeCompare(b.identification))) ||
+    a.internal_identifier - b.internal_identifier
+  );
+};
+
 const sortAnimalsIDs = (inventory: AnimalInventory[]) => {
-  return inventory.sort((a, b) => {
-    if (a.name && !b.name) {
-      return -1;
-    } else if (!a.name && b.name) {
-      return 1;
-    } else {
-      if (a.identification.length > b.identification.length) {
-        return 1;
-      } else {
-        return a.identification.localeCompare(b.identification);
-      }
-    }
-  });
+  return inventory.sort(animalIDComparator);
 };
 
 export const buildInventory = ({

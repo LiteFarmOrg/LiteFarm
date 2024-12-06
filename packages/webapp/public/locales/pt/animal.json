@@ -1,69 +1,69 @@
 {
   "BREED": {
-    "ANGUS": "MISSING",
-    "CHAROLAIS": "MISSING",
-    "COBB_500": "MISSING",
-    "CORNISH_CROSS": "MISSING",
-    "DUROC": "MISSING",
-    "HEREFORD": "MISSING",
-    "LANDRACE": "MISSING",
-    "LEGHORN": "MISSING",
-    "PLYMOUTH_ROCK": "MISSING",
-    "RHODE_ISLAND_RED": "MISSING",
-    "ROSS_308": "MISSING",
-    "YORKSHIRE_LARGE_WHITE": "MISSING"
+    "ANGUS": "Angus",
+    "CHAROLAIS": "Charolais",
+    "COBB_500": "Cobb 500",
+    "CORNISH_CROSS": "Cornish Cross",
+    "DUROC": "Duroc",
+    "HEREFORD": "Hareford",
+    "LANDRACE": "Landrace",
+    "LEGHORN": "Leghorn",
+    "PLYMOUTH_ROCK": "Plymouth Rock",
+    "RHODE_ISLAND_RED": "Rhode Island Red",
+    "ROSS_308": "Ross 308",
+    "YORKSHIRE_LARGE_WHITE": "Yorkshire Large White"
   },
   "ORIGIN": {
-    "BORN_AT_FARM": "MISSING",
-    "BROUGHT_IN": "MISSING"
+    "BORN_AT_FARM": "Nascido no sítio",
+    "BROUGHT_IN": "Trazido de"
   },
   "PURPOSE": {
-    "GRAZING": "MISSING",
-    "MILKING": "MISSING",
-    "MANURE_MANAGEMENT": "MISSING",
-    "PEST_OR_DISEASE_CONTROL": "MISSING",
-    "BREEDING": "MISSING",
-    "FEEDING": "MISSING",
-    "VETERINARY_CARE": "MISSING",
-    "BIRTHING": "MISSING",
-    "WEANING": "MISSING",
-    "TRANSPORTATION": "MISSING",
-    "BEHAVIORAL_AND_SOCIAL_MANAGEMENT": "MISSING",
-    "EXERCISE": "MISSING",
-    "QUARANTINE": "MISSING",
-    "OTHER": "MISSING"
+    "GRAZING": "Pastejo",
+    "MILKING": "Ordenha",
+    "MANURE_MANAGEMENT": "Manejo de esterco",
+    "PEST_OR_DISEASE_CONTROL": "Controle de pragas e doenças",
+    "BREEDING": "Reprodução",
+    "FEEDING": "Alimentação",
+    "VETERINARY_CARE": "Cuidado veterinário",
+    "BIRTHING": "Parto",
+    "WEANING": "Desmame",
+    "TRANSPORTATION": "Transporte",
+    "BEHAVIORAL_AND_SOCIAL_MANAGEMENT": "Manejo comportamental e social",
+    "EXERCISE": "Exercício",
+    "QUARANTINE": "Quarentena",
+    "OTHER": "Outro"
   },
   "SEX": {
-    "MALE": "MISSING",
-    "FEMALE": "MISSING"
+    "MALE": "Macho",
+    "FEMALE": "Fêmea"
   },
   "TAG_COLOR": {
-    "BLUE": "MISSING",
-    "GREEN": "MISSING",
-    "ORANGE": "MISSING",
-    "RED": "MISSING",
-    "WHITE": "MISSING",
-    "YELLOW": "MISSING"
+    "BLUE": "Azul",
+    "GREEN": "Verde",
+    "ORANGE": "Laranja",
+    "RED": "Vermelho",
+    "WHITE": "Branco",
+    "YELLOW": "Amarelo"
   },
   "TAG_TYPE": {
-    "EAR_TAG": "MISSING",
-    "LEG_BAND": "MISSING"
+    "EAR_TAG": "Etiqueta de orelha",
+    "LEG_BAND": "Faixa de perna"
   },
   "TYPE": {
-    "CATTLE": "MISSING",
-    "CHICKEN": "MISSING",
-    "PIGS": "MISSING"
+    "CATTLE": "Gado",
+    "CHICKEN": "Galinha",
+    "PIGS": "Porcos"
   },
   "USE": {
-    "MILK": "MISSING",
-    "EGGS": "MISSING",
-    "FAT": "MISSING",
-    "MEAT": "MISSING",
-    "ANIMAL_FIBERS_AND_SKINS": "MISSING",
-    "LABOUR_AND_DRAFT": "MISSING",
-    "BREEDING": "MISSING",
-    "RECREATIONAL_OR_CULTURAL_USE": "MISSING",
-    "COMPANIONSHIP": "MISSING",
-    "OTHER": "MISSING"
+    "MILK": "Leite",
+    "EGGS": "Ovos",
+    "FAT": "Gordura",
+    "MEAT": "Carne",
+    "ANIMAL_FIBERS_AND_SKINS": "Fibras e peles de animais",
+    "LABOUR_AND_DRAFT": "Trabalho e Tração",
+    "BREEDING": "Reprodução",
+    "RECREATIONAL_OR_CULTURAL_USE": "Uso Recreativo ou Cultural",
+    "COMPANIONSHIP": "Companhia",
+    "OTHER": "Outro"
   }
 }

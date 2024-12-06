@@ -1,17 +1,17 @@
 {
   "ANIMALS": {
-    "FAILED_CREATE_ANIMALS": "MISSING",
-    "FAILED_CREATE_BATCHES": "MISSING",
-    "FAILED_REMOVE_ANIMALS": "MISSING",
-    "FAILED_REMOVE_BATCHES": "MISSING",
-    "FAILED_UPDATE_ANIMAL": "MISSING",
-    "FAILED_UPDATE_BATCH": "MISSING",
-    "SUCCESS_CREATE_ANIMALS": "MISSING",
-    "SUCCESS_CREATE_BATCHES": "MISSING",
-    "SUCCESS_REMOVE_ANIMALS": "MISSING",
-    "SUCCESS_REMOVE_BATCHES": "MISSING",
-    "SUCCESS_UPDATE_ANIMAL": "MISSING",
-    "SUCCESS_UPDATE_BATCH": "MISSING"
+    "FAILED_CREATE_ANIMALS": "Error al crear animales",
+    "FAILED_CREATE_BATCHES": "Error al crear lotes",
+    "FAILED_REMOVE_ANIMALS": "Error al eliminar los animales seleccionados",
+    "FAILED_REMOVE_BATCHES": "Error al eliminar los lotes seleccionados",
+    "FAILED_UPDATE_ANIMAL": "Error al actualizar el animal",
+    "FAILED_UPDATE_BATCH": "Error al actualizar el lote",
+    "SUCCESS_CREATE_ANIMALS": "Animales creados con éxito",
+    "SUCCESS_CREATE_BATCHES": "Lotes creados con éxito",
+    "SUCCESS_REMOVE_ANIMALS": "Eliminados con éxito los animales seleccionados",
+    "SUCCESS_REMOVE_BATCHES": "Eliminados con éxito los lotes seleccionados",
+    "SUCCESS_UPDATE_ANIMAL": "Animal actualizado con éxito",
+    "SUCCESS_UPDATE_BATCH": "Lote actualizado con éxito"
   },
   "ASSIGN_TASK": {
     "ERROR": "Error al asignar tareas",
@@ -55,8 +55,8 @@
       "ADD": "No se pudo agregar nuevos gastos",
       "DELETE": "No se pudo borrar gastos",
       "UPDATE": "No se pudo actualizar gastos!",
-      "EXPENSE_DELETED": "MISSING",
-      "EXPENSE_TYPE_DELETED": "MISSING"
+      "EXPENSE_DELETED": "Este gasto ha dejado de existir",
+      "EXPENSE_TYPE_DELETED": "Este tipo de gasto se ha eliminado"
     },
     "SUCCESS": {
       "ADD": "¡Nuevos gastos agregados exitosamente!",
@@ -84,6 +84,11 @@
     },
     "SUCCESS": {
       "UPDATE": "Información sobre la finca actualizada exitosamente!"
+    }
+  },
+  "HELP_REQUEST": {
+    "ERROR": {
+      "SEND": "Algo ha fallado al enviar su comentario. Por favor, inténtelo de nuevo."
     }
   },
   "LOG_HARVEST": {
@@ -158,7 +163,7 @@
   "REVENUE": {
     "ERROR": {
       "EDIT": "No se pudieron actualizar los ingresos",
-      "REVENUE_TYPE_DELETED": "MISSING"
+      "REVENUE_TYPE_DELETED": "Este tipo de ingreso ha sido eliminado"
     },
     "SUCCESS": {
       "EDIT": "Ingresos actualizados correctamente"
@@ -181,7 +186,7 @@
       "ADD": "No se pudo agregar venta",
       "DELETE": "No se pudo borrar nueva venta",
       "UPDATE": "No se pudo actualizar venta",
-      "SALE_DELETED": "MISSING"
+      "SALE_DELETED": "Esta venta ya no existe"
     },
     "SUCCESS": {
       "ADD": "Venta agregada exitosamente",

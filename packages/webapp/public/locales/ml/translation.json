@@ -1,4 +1,68 @@
 {
+  "ADD_ANIMAL": {
+    "ADD_ANIMALS": "മൃഗങ്ങളെ ചേർക്കുക",
+    "ADD_ANIMALS_FLOW": "മൃഗങ്ങളുടെ കൂട്ടിച്ചേർക്കൽ",
+    "ADD_ANIMALS_TITLE": "മൃഗങ്ങളെ ചേർക്കുക",
+    "ADD_DETAILS_INFO": "നിങ്ങളുടെ മൃഗങ്ങളുടെ വിശദാംശങ്ങൾ ചുവടെ പൂരിപ്പിക്കുക അല്ലെങ്കിൽ സംരക്ഷിച്ച് ഇത് പിന്നീട് എടുക്കുക.",
+    "ADD_TO_INVENTORY": "നിങ്ങളുടെ ഇൻവെൻ്ററിയിലേക്ക് മൃഗങ്ങളെ ചേർക്കുക",
+    "ANIMAL_BASICS": "മൃഗങ്ങളുടെ അടിസ്ഥാനകാര്യങ്ങൾ",
+    "ANIMAL_DETAILS": "മൃഗങ്ങളുടെ വിശദാംശങ്ങൾ",
+    "ANIMALS_TOTAL_one": "{{count}} ആകെ മൃഗങ്ങൾ",
+    "ANIMALS_TOTAL_other": "{{count}} ആകെ മൃഗങ്ങൾ",
+    "ANIMALS_UNSPECIFIED_one": "{{count}} വ്യക്തമാക്കിയിട്ടില്ല",
+    "ANIMALS_UNSPECIFIED_other": "{{count}} വ്യക്തമാക്കിയിട്ടില്ല",
+    "BATCH_NAME": "ബാച്ചിൻ്റെ പേര്",
+    "BATCH_NAME_PLACEHOLDER": "ബാച്ചിൻ്റെ പേര് ടൈപ്പ് ചെയ്യുക",
+    "BREED": "ഇനം",
+    "BREED_PLACEHOLDER_DISABLED": "ആദ്യം ഒരു തരം തിരഞ്ഞെടുക്കുക",
+    "CREATE_INDIVIDUAL_PROFILES": "വ്യക്തിഗത മൃഗ പ്രൊഫൈലുകൾ സൃഷ്ടിക്കുക",
+    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "ഓരോ മൃഗത്തെയും വെവ്വേറെ ട്രാക്ക് ചെയ്യാനും നിയന്ത്രിക്കാനും നിങ്ങൾ ആഗ്രഹിക്കുന്നുവെങ്കിൽ ഈ ഓപ്ഷൻ തിരഞ്ഞെടുക്കുക",
+    "EDIT_BASIC_INFO": "അടിസ്ഥാന വിവരങ്ങൾ എഡിറ്റ് തിരുത്തുക",
+    "GENERAL_DETAILS": "പൊതുവായ വിശദാംശങ്ങൾ",
+    "GENERAL_DETAILS_BATCH": "ബാച്ച് പൊതുവായ വിശദാംശങ്ങൾ",
+    "GROUP_NAME": "ഗ്രൂപ്പിൻ്റെ പേര്",
+    "GROUP_NAME_PLACEHOLDER": "ഗ്രൂപ്പിൻ്റെ പേര് ടൈപ്പ് ചെയ്യുക",
+    "ORIGIN": "ഉത്ഭവം",
+    "ORIGIN_BATCH": "ബാച്ച് ഉത്ഭവം",
+    "OTHER_DETAILS": "മറ്റ് വിശദാംശങ്ങൾ",
+    "OTHER_DETAILS_BATCH": "ബാച്ച് മറ്റ് വിശദാംശങ്ങൾ",
+    "OUT_OF_COUNT_one": "{{count}}-ൽ {{animalNumber}}",
+    "OUT_OF_COUNT_other": "{{count}}-ൽ {{animalNumber}}",
+    "PLACEHOLDER": {
+      "BATCH_NAME": "ബാച്ചിൻ്റെ പേര് ടൈപ്പ് ചെയ്യുക",
+      "DAM": "ഒരു ഡാമിൽ ടൈപ്പ് ചെയ്യുക",
+      "NAME": "ഒരു പേരിലെ തരം",
+      "OTHER_DETAILS": "ഒരു വിവരണം നൽകുക",
+      "OTHER_USE": "മറ്റ് ഉപയോഗം വിവരിക്കുക",
+      "PRICE": "എത്ര ചിലവായി?",
+      "SIRE": "ഒരു മൃഗത്തിൻ്റെ ആൺ രക്ഷിതാവിൻറെ ടൈപ്പ് ചെയ്യുക",
+      "SUPPLIER": "ഒരു വിതരണക്കാരനെ ടൈപ്പ് ചെയ്യുക",
+      "TAG_COLOUR": "ടാഗ് ഏത് നിറമാണ്?",
+      "TAG_NUMBER": "ടാഗ് നമ്പർ ടൈപ്പ് ചെയ്യുക",
+      "TAG_TYPE": "ടാഗ് തരം എന്താണ്?",
+      "TAG_TYPE_INFO": "നിങ്ങളുടെ ടാഗ് തരം വിവരിക്കുക"
+    },
+    "REMOVE_CONFIRM": "നിങ്ങൾക്ക് ശരിക്കും നീക്കം ചെയ്യണോ?",
+    "SELECT_SEXES": "ലിംഗഭേദം തിരഞ്ഞെടുക്കുക",
+    "SEX_DETAIL": "ലിംഗഭേദ വിശദാംശങ്ങൾ",
+    "SEX_DETAIL_ERROR_one": "പരമാവധി മൃഗങ്ങളുടെ എണ്ണം: {{count}}",
+    "SEX_DETAIL_ERROR_other": "പരമാവധി മൃഗങ്ങളുടെ എണ്ണം: {{count}}",
+    "SEX_DETAIL_ERROR_POPOVER_one": "നിങ്ങൾക്ക് {{count}} ൽ കൂടുതൽ മൃഗങ്ങൾ ഉണ്ടാകരുത്",
+    "SEX_DETAIL_ERROR_POPOVER_other": "നിങ്ങൾക്ക് {{count}} ൽ കൂടുതൽ മൃഗങ്ങൾ ഉണ്ടാകരുത്",
+    "SPECIFY_SEX": "ലിംഗഭേദം വ്യക്തമാക്കുക",
+    "SUMMARY": {
+      "ADD_MORE_DETAILS": "നിങ്ങളുടെ മൃഗങ്ങൾക്ക് കൂടുതൽ വിശദാംശങ്ങൾ ചേർക്കുക",
+      "ALL_DONE": "എല്ലാം ചെയ്‌തു!",
+      "ANIMAL_SUMMARY_COUNT_one": "{{count}} വ്യക്തിഗത മൃഗം",
+      "ANIMAL_SUMMARY_COUNT_other": "{{count}} വ്യക്തിഗത മൃഗങ്ങൾ",
+      "BATCH_SUMMARY_COUNT_one": "{{count}} ബാച്ച്",
+      "BATCH_SUMMARY_COUNT_other": "{{count}} ബാച്ചുകൾ",
+      "HERE_IS_SUMMARY": "നിങ്ങൾ ചേർത്ത മൃഗങ്ങളുടെ ഒരു സംഗ്രഹം ഇതാ:",
+      "MAIN": "നിങ്ങളുടെ ഇൻവെൻ്ററിയിലേക്ക് {{animalCount}} {{and}} {{batchCount}} വിജയകരമായി ചേർത്തു."
+    },
+    "TYPE": "തരം",
+    "UNIQUE_DETAILS": "അതുല്യമായ വിശദാംശങ്ങൾ"
+  },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "വിലാസം ആവശ്യമാണ്",
     "DISABLE_GEO_LOCATION": "നിങ്ങളുടെ നിലവിലെ സ്ഥാനം കണ്ടെത്താൻ സ്ഥാനം സേവനങ്ങൾ പ്രവർത്തനക്ഷമമാക്കിയിരിക്കണം.",
@@ -53,6 +117,7 @@
     "ASSIGN_TASK": "ചുമതല ഏൽപ്പിക്കുക",
     "ASSIGNEE": "ഏൽപ്പിക്കപ്പെട്ട ആൾ",
     "CANCEL": "ചുമതല സൃഷ്ടിക്കൽ",
+    "CANT_FIND_INFO_TASK": "നിങ്ങൾക്ക് നിങ്ങളുടെ സ്വന്തം ഇഷ്‌ടാനുസൃത ചുമതല തരങ്ങൾ സൃഷ്‌ടിക്കാനും കഴിയും!",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "കണക്കാക്കിയ ജല ഉപഭോഗം",
       "IS_PERMITTED": "ക്ലീനിംഗ് ഏജൻ്റ് അനുവദനീയമായ വസ്തുക്കളുടെ പട്ടികയിലാണോ?",
@@ -99,6 +164,7 @@
     "IRRIGATION_VIEW": {
       "BRAND_TOOLTIP": "നിങ്ങളുടെ സ്ഥലം നനയ്ക്കുന്നതിനാണ് ഈ ചുമതല. നിങ്ങൾക്ക് ജലസേചനം ഇൻസ്റ്റാൾ ചെയ്യണമെങ്കിൽ, പകരം ഒരു ഫീൽഡ് വർക്ക് ചുമതല സൃഷ്ടിക്കുക.",
       "CALCULATE_WATER_USAGE": "ജല ഉപഭോഗം കണക്കാക്കുക",
+      "CALCULATE_WATER_USAGE_WARNING": "കാട്ടുവിളകൾക്ക്, ആഴം തിരിച്ചുള്ള ജല ഉപഭോഗ കണക്കുകൾ ലഭ്യമല്ല.",
       "DEFAULT_APPLICATION_DEPTH": "ഈ സ്ഥലത്തിനായി ഡിഫോൾട്ട് ആപ്ലിക്കേഷൻ ആഴം ആയി സജ്ജീകരിക്കുക",
       "DEFAULT_LOCATION_FLOW_RATE": "ഈ സ്ഥലത്തിനായി ഡിഫോൾട്ട് ഒഴുക്ക് നിരക്ക് ആയി സജ്ജീകരിക്കുക",
       "DEPTH": "ആഴം",
@@ -135,17 +201,17 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "ഏത് തരത്തിലുള്ള ജലസേചനമാണ്?"
     },
-    "MANAGE_CUSTOM_TASKS": "ഇഷ്‌ടാനുസൃത ജോലികൾ നിയന്ത്രിക്കുക",
+    "MANAGE_CUSTOM_TASKS": "നിങ്ങളുടെ ഇഷ്ടാനുസൃത ചുമതലകൾ നിയന്ത്രിക്കുക",
     "MOVEMENT_VIEW": {
-      "MOVEMENT_PURPOSE_LABEL": "MISSING",
-      "MOVEMENT_PURPOSE_PLACEHOLDER": "MISSING",
-      "OTHER_PURPOSE_EXPLANATION_LABEL": "MISSING",
-      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "MISSING"
+      "MOVEMENT_PURPOSE_LABEL": "ഈ പ്രസ്ഥാനത്തിൻ്റെ ഉദ്ദേശം എന്താണ്?",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "ഈ പ്രസ്ഥാനത്തിൻ്റെ ഉദ്ദേശ്യം തിരഞ്ഞെടുക്കുക",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "വിശദീകരണം",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "ഈ പ്രസ്ഥാനത്തിൻ്റെ കാരണം ദയവായി വിശദീകരിക്കുക"
     },
     "NEED_MANAGEMENT_PLAN": "ഒരു വിളവെടുപ്പ് ചുമതലയോ പറിച്ചുനടൽ ചുമതലയോ ഷെഡ്യൂൾ ചെയ്യുന്നതിന് മുമ്പ് നിങ്ങൾക്ക് സജീവമോ ആസൂത്രിതമോ ആയ ഒരു വിള പ്ലാൻ ആവശ്യമാണ്. ഇപ്പോൾ ഒരു പ്ലാൻ സൃഷ്‌ടിക്കാൻ ക്രോപ്പ് കാറ്റലോഗിലേക്ക് പോകുക. ദയവായി ചേർക്കുക.",
     "NO_MANAGEMENT_PLAN": "യോഗ്യതയുള്ള ക്രോപ്പ് പ്ലാനുകളൊന്നുമില്ല",
-    "NOTES_LABEL": "MISSING",
-    "NOTES_PLACEHOLDER": "MISSING",
+    "NOTES_LABEL": "ഈ ചുമതലയുമായി ബന്ധപ്പെട്ട് എന്തെങ്കിലും പ്രത്യേകമായി ചേർക്കേണ്ടതുണ്ടോ?",
+    "NOTES_PLACEHOLDER": "നിയോഗിക്കപ്പെട്ടവർക്കായി എന്തെങ്കിലും നിർദ്ദേശങ്ങളോ പ്രത്യേകതകളോ ചേർക്കുക",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "ജൈവ നിയന്ത്രണം",
       "FLAME_WEEDING": "തീജ്വാല കളനിയന്ത്രണം",
@@ -204,18 +270,62 @@
     "TASK": "ചുമതല",
     "TASK_NOTES_CHAR_LIMIT": "കുറിപ്പുകൾ 10,000 പ്രതീകങ്ങളിൽ കുറവായിരിക്കണം",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "ഈ ചുമതലയെക്കുറിച്ച് ഞങ്ങളോട് പറയുക",
+    "THIS_TASK_IS_COMPLETED": "ഈ ചുമതല ഇതിനകം പൂർത്തിയായി",
+    "THIS_TASK_IS_COMPLETED_EXPLANATION": "'സംരക്ഷിക്കുക' ക്ലിക്കുചെയ്യുന്നത്ഈ വഴി ഈ ചുമതല ഉടനടി സംരക്ഷിക്കും. തുടർന്ന് അത് പൂർത്തിയാക്കാൻ നിങ്ങളോട് ആവശ്യപ്പെടും.",
     "TRANSPLANT_METHOD": "പറിച്ചുനടൽ രീതി",
     "WAGE_OVERRIDE": "കൂലി അസാധുവാക്കൽ",
     "WHAT_PLANTING_METHOD": "പറിച്ചുനടൽ രീതി എന്താണ്?",
     "WILD_CROP": "കാട്ടുവിളകൾ"
   },
   "ANIMAL": {
+    "ADD_MORE_BODY_TEXT": "നിങ്ങൾക്ക് മറ്റൊരു തരം മൃഗം അല്ലെങ്കിൽ മറ്റൊരു ഇനം ഉണ്ടോ?",
+    "ADD_MORE_BUTTON": "കൂടുതൽ മൃഗങ്ങളെ ചേർക്കുക",
+    "ANIMAL_BREED": "ഇനം",
+    "ANIMAL_COUNT_one": "{{count}} മൃഗം",
+    "ANIMAL_COUNT_other": "{{count}} മൃഗങ്ങൾ",
+    "ANIMAL_GROUPS": "ഗ്രൂപ്പ്",
+    "ANIMAL_ID": "ഐഡി",
+    "ANIMAL_IDENTIFICATION": "തിരിച്ചറിയൽ",
+    "ANIMAL_LOCATIONS": "സ്ഥാനം",
+    "ANIMAL_SEXES": "ലിംഗഭേദം",
+    "ANIMAL_TYPE": "തരം",
     "ATTRIBUTE": {
-      "LITEFARM_ID": "MISSING"
+      "ANIMAL_IMAGE": "മൃഗ ചിത്രം",
+      "BATCH_IMAGE": "ബാച്ച് ചിത്രം",
+      "BATCH_NAME": "ബാച്ചിൻ്റെ പേര്",
+      "DAM": "ഡാം",
+      "DATE_OF_BIRTH": "ജനനത്തീയതി",
+      "LITEFARM_ID": "ലൈറ്റ്ഫാം ഐഡി",
+      "ORGANIC_STATUS": "ജൈവ നില",
+      "OTHER_DETAILS_ANIMAL": "മറ്റ് മൃഗങ്ങളുടെ വിശദാംശങ്ങൾ",
+      "OTHER_DETAILS_BATCH": "ബാച്ച് വിശദാംശങ്ങൾ",
+      "OTHER_USE": "മറ്റ് ഉപയോഗം",
+      "SIRE": "ഒരു മൃഗത്തിൻ്റെ ആൺ രക്ഷിതാവ്",
+      "SUPPLIER": "വിതരണക്കാരൻ",
+      "TAG_COLOUR": "ടാഗ് നിറം",
+      "TAG_NUMBER": "ടാഗ് നമ്പർ",
+      "TAG_TYPE": "ടാഗ് തരം",
+      "WEANING_DATE": "മുലകുടി മാറുന്ന തീയതി"
     },
+    "BATCH": "ബാച്ച്",
+    "BETA_SPOTLIGHT_HEADING": "പുതിയ മൃഗങ്ങളുടെ സവിശേഷത അവതരിപ്പിക്കുന്നു",
+    "EDIT_ANIMAL_FLOW": "എഡിറ്റിംഗ്",
+    "FILTER": {
+      "BATCHES": "ബാച്ചുകൾ",
+      "BATCHES_OR_INDIVIDUALS": "ബാച്ചുകൾ അല്ലെങ്കിൽ വ്യക്തികൾ",
+      "FEMALE": "സ്ത്രീ",
+      "INDIVIDUALS": "വ്യക്തികൾ",
+      "MALE": "ആൺ",
+      "TITLE": "മൃഗങ്ങളെ ഫിൽട്ടർ ചെയ്യുക"
+    },
+    "REMOVE_ANIMAL": "മൃഗങ്ങളെ നീക്കം ചെയ്യുക",
+    "SEARCH_INVENTORY_PLACEHOLDER": "നിങ്ങളുടെ ഇൻവെൻ്ററി തിരയുക",
+    "SHOWING_RESULTS_WITH_COUNT_one": "{{count}} ഫലം കാണിക്കുന്നു",
+    "SHOWING_RESULTS_WITH_COUNT_many": "{{count}} ഫലം കാണിക്കുന്നു",
+    "SHOWING_RESULTS_WITH_COUNT_other": "{{count}} ഫലം കാണിക്കുന്നു",
     "TABS": {
-      "BASIC_INFO": "MISSING",
-      "TASKS": "MISSING"
+      "BASIC_INFO": "അടിസ്ഥാന വിവരങ്ങൾ",
+      "TASKS": "ചുമതലകൾ"
     }
   },
   "BED_PLAN": {
@@ -839,7 +949,7 @@
     },
     "TUTORIALS": "മാപ്പ് ട്യൂട്ടോറിയലുകൾ",
     "UNABLE_TO_RETIRE": {
-      "BODY": "MISSING",
+      "BODY": "സജീവമായതോ ആസൂത്രിതമായതോ ആയ വിളകളോ മൃഗങ്ങളോ ജോലികളോ ഇല്ലാത്ത ലൊക്കേഷനുകൾ മാത്രമേ നിങ്ങൾക്ക് റിട്ടയർ ചെയ്യാൻ കഴിയൂ.",
       "TITLE": "സ്ഥലം മാറാൻ സാധിക്കുന്നില്ല"
     },
     "WATER_VALVE": {
@@ -870,13 +980,18 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "ഫയലുകൾ 10MB-യിൽ കൂടുതലാകരുത്.",
+    "BODY": "ഫയലുകൾ {{size}} MB-യേക്കാൾ വലുതായിരിക്കരുത്.",
     "TITLE": "ഫയൽ വലുപ്പം വളരെ വലുതാണ്"
   },
   "FILTER": {
+    "CLEAR": "മായ്ക്കുക",
     "CLEAR_ALL": "എല്ലാം മായ്‌ക്കുക",
     "CLEAR_ALL_FILTERS": "എല്ലാ ഫിൽട്ടറുകളും മായ്‌ക്കുക",
-    "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക"
+    "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക",
+    "SELECTED_one": "{{count}} തിരഞ്ഞെടുത്തു",
+    "SELECTED_other": "{{count}} തിരഞ്ഞെടുത്തു",
+    "SHOWING_ALL": "എല്ലാം കാണിക്കുന്നു",
+    "SHOWING_ALL_DEFAULT": "എല്ലാം കാണിക്കുന്നു (സ്ഥിരസ്ഥിതി)"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
@@ -938,7 +1053,8 @@
   "HELP": {
     "ATTACHMENT_LABEL": "സ്ക്രീൻഷോട്ടോ ഫയലോ അപ്ലോഡ് ചെയ്യുക",
     "EMAIL": "ഇമെയിൽ",
-    "FEEDBACK_INVITATION": "MISSING",
+    "FEEDBACK_INVITATION": "സഹായം നേടുക അല്ലെങ്കിൽ ഞങ്ങൾക്ക് പ്രതികരണം നൽകുക",
+    "SEND_US_FEEDBACK": "ഞങ്ങൾക്ക് പ്രതികരണം അയയ്‌ക്കുക",
     "MESSAGE_LABEL": "സന്ദേശം",
     "OPTIONS": {
       "OTHER": "മറ്റുള്ളവ",
@@ -955,6 +1071,11 @@
   },
   "HOME": {
     "GREETING": "ശുഭദിനം "
+  },
+  "HOVERPILL": {
+    "PLUS_OTHERS_COUNT_one": "+ {{count}} മറ്റ്",
+    "PLUS_OTHERS_COUNT_many": "+ മറ്റ് {{count}}",
+    "PLUS_OTHERS_COUNT_other": "+ മറ്റ് {{count}}"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1277,6 +1398,10 @@
   },
   "MENU": {
     "ACTUAL_REVENUES": "യഥാർത്ഥ വരുമാനം",
+    "ANIMALS": "മൃഗങ്ങൾ",
+    "ANIMALS_GROUPS": "ഗ്രൂപ്പുകൾ",
+    "ANIMALS_INVENTORY": "ഇൻവെൻ്ററി",
+    "ANIMALS_LOCATION": "സ്ഥാനങ്ങൾ",
     "CERTIFICATIONS": "സർട്ടിഫിക്കേഷനുകൾ",
     "CROPS": "വിളകൾ",
     "DOCUMENTS": "പ്രമാണങ്ങൾ",
@@ -1475,6 +1600,22 @@
     "LITEFARM_UPDATED": "ലൈറ്റ്ഫാമിൻ്റെ v{{version}} ഇപ്പോൾ ലഭ്യമാണ!",
     "NOTES": "റിലീസ് നോട്ടുകൾ"
   },
+  "REMOVE_ANIMALS": {
+    "CREATED_IN_ERROR": "തെറ്റായി സൃഷ്ടിച്ചു",
+    "CULLED": "കളഞ്ഞു",
+    "EXPLANATION": "വിശദീകരണം",
+    "MORE_DETAILS": "കൂടുതൽ വിശദാംശങ്ങൾ നൽകണോ?",
+    "NATURAL_DEATH": "സ്വാഭാവിക മരണം",
+    "REMOVAL_REASONS": "നീക്കംചെയ്യൽ കാരണങ്ങൾ",
+    "REMOVE_ANIMALS": "മൃഗങ്ങൾ നീക്കംചെയ്യൽ",
+    "REMOVED_AND_ARCHIVED": "ഈ മൃഗങ്ങളെ നിങ്ങളുടെ ഫാമിൽ നിന്ന് വിജയകരമായി നീക്കം ചെയ്‌തു, അവ നിങ്ങളുടെ ചരിത്രപരമായ ഇൻവെൻ്ററിയിൽ ലഭ്യമാകും.",
+    "SLAUGHTERED_FOR_CONSUMPTION": "ഉപഭോഗത്തിനായി അറുത്തു",
+    "SLAUGHTERED_FOR_SALE": "വിൽപനയ്ക്കായി അറുത്തു",
+    "SOLD": "വിറ്റു",
+    "WHY": "എന്തുകൊണ്ടാണ് നിങ്ങൾ ഈ മൃഗങ്ങളെ നീക്കം ചെയ്യുന്നതെന്ന് ഞങ്ങളോട് പറയുക",
+    "WILL_BE_ARCHIVED": "ഈ മൃഗങ്ങൾ ആർക്കൈവുചെയ്‌ത് ഭാവിയിലെ റഫറൻസിനായി ആക്‌സസ് ചെയ്യാനാകും",
+    "WILL_BE_PERMANENTLY_REMOVED": "ഈ മൃഗങ്ങളെ നിങ്ങളുടെ ഫാമിൽ നിന്ന് ശാശ്വതമായി നീക്കം ചെയ്യും"
+  },
   "REPEAT_PLAN": {
     "AFTER": "ശേഷം",
     "COMPLETION": "പൂർത്തീകരണം",
@@ -1515,7 +1656,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "മനസ്സിലായി",
-    "DESCRIPTION": "MISSING",
+    "DESCRIPTION": "ആരെങ്കിലും ഉടൻ ബന്ധപ്പെടും.",
     "TITLE": "സഹായ അഭ്യർത്ഥന സമർപ്പിച്ചു"
   },
   "REVENUE": {
@@ -1627,6 +1768,11 @@
     "CLEAR_TERMS_AND_FILTERS": "എന്തുകൊണ്ട് വ്യത്യസ്ത നിബന്ധനകൾ പര്യവേക്ഷണം ചെയ്തുകൂടാ അല്ലെങ്കിൽ എന്തുകൊണ്ട് പുതിയ സാധ്യതകൾ കണ്ടെത്തുന്നതിനായി ഫിൽട്ടറുകൾ മായ്ച്ചുകൂടാ?",
     "NO_RESULTS_FOR": "ക്ഷമിക്കണം, നിങ്ങളുടെ തിരയൽ പദമായ <1>'{{searchTerm}}'</1> എന്നതിന് ഞങ്ങൾക്ക് ഫലങ്ങളൊന്നും കണ്ടെത്താൻ കഴിഞ്ഞില്ല",
     "ZERO": "0 ഫലങ്ങൾ"
+  },
+  "SECTION_HEADER": {
+    "ANIMALS_GROUPS": "മൃഗ ഗ്രൂപ്പുകൾ",
+    "ANIMALS_INVENTORY": "മൃഗങ്ങളുടെ ഇൻവെൻ്ററി",
+    "ANIMALS_LOCATION": "മൃഗങ്ങളുടെ സ്ഥാനങ്ങൾ"
   },
   "SENSOR": {
     "BRAND": "ബ്രാൻഡ്",
@@ -1785,6 +1931,7 @@
         "LABOUR_ISSUE": "തൊഴിൽ പ്രശ്നം",
         "MACHINERY_ISSUE": "യന്ത്രങ്ങളുടെ പ്രശ്നം",
         "MARKET_PROBLEM": "വിപണി പ്രശ്നം",
+        "NO_ANIMALS": "സ്വയമേവ ഉപേക്ഷിക്കപ്പെട്ടു: ഈ ചുമതലക്കായി മൃഗങ്ങളൊന്നുമില്ല",
         "OTHER": "മറ്റുള്ളവ",
         "SCHEDULING_ISSUE": "ഷെഡ്യൂളിംഗ് പ്രശ്നം",
         "WEATHER": "കാലാവസ്ഥ"
@@ -1804,11 +1951,14 @@
     "ADD_TASK": "ഒരു ചുമതല സൃഷ്ടിക്കുക",
     "ADD_TASK_FLOW": "ചുമതല സൃഷ്ടിക്കൽ",
     "AMOUNT_TO_ALLOCATE": "അനുവദിക്കേണ്ട തുക",
-    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
-    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "MISSING",
+    "ANIMALS": "",
+    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "",
+    "ANIMAL_MOVING_TO_LOCATION": "ഇതിലേക്ക് നീങ്ങുന്നു:",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "",
     "CARD": {
       "MULTIPLE_CROPS": "ഒന്നിലധികം വിളകൾ",
-      "MULTIPLE_LOCATIONS": "ഒന്നിലധികം സ്ഥാനങ്ങൾ"
+      "MULTIPLE_LOCATIONS": "ഒന്നിലധികം സ്ഥാനങ്ങൾ",
+      "NO_LOCATION": "സ്ഥാനമില്ല"
     },
     "COMPLETE": {
       "DATE": "പൂർത്തിയാക്കിയ തീയതി",
@@ -1864,6 +2014,7 @@
     "HOW_WILL_HARVEST_BE_USED": "വിളവെടുപ്പ് എങ്ങനെ ഉപയോഗിക്കും?",
     "IRRIGATION_LOCATION": "ഒരു ജലസേചന സ്ഥലം തിരഞ്ഞെടുക്കുക",
     "LOCATIONS": "സ്ഥലം (ങ്ങൾ)",
+    "NO_LOCATIONS_FOR_TASK": "",
     "NO_TASKS_TO_DISPLAY": "പ്രദർശിപ്പിക്കാൻ ചുമതലകളൊന്നുമില്ല.",
     "NO_WORK_DONE": "ഒരു പണിയും പൂർത്തിയായില്ല",
     "PAGE_TITLE": "ചുമതലകൾ",
@@ -1872,6 +2023,7 @@
     "QUANTITY_CANNOT_EXCEED": "ഉപയോഗിച്ച വിളവെടുപ്പിൻ്റെ അളവ് അനുവദിക്കേണ്ട തുകയിൽ കവിയരുത്",
     "RATE_THIS_TASK": "ഈ ടാസ്ക് റേറ്റുചെയ്യുക",
     "REMOVE_HARVEST_USE": "നീക്കംചെയ്യുക",
+    "SELECT_ANIMALS": "",
     "SELECT_DATE": "ചുമതലക്കുള്ള തീയതി തിരഞ്ഞെടുക്കുക",
     "SELECT_TASK_LOCATIONS": "ടാസ്‌ക് ലൊക്കേഷൻ(കൾ) തിരഞ്ഞെടുക്കുക",
     "SELECT_WILD_CROP": "ഈ ടാസ്ക് ഒരു കാട്ടുവിളയെ ലക്ഷ്യമിടുന്നു",
@@ -1904,6 +2056,13 @@
     "MAYBE_LATER": "ഒരുപക്ഷേ നമുക്ക് അത് പിന്നീട് ലഭിക്കും.",
     "UNKNOWN_RECORD": "അജ്ഞാത റെക്കോർഡ്"
   },
+  "UPLOADER": {
+    "CHANGE_IMAGE": "ചിത്രം മാറ്റുക",
+    "CLICK_TO_UPLOAD": "അപ്‌ലോഡ് ചെയ്യാൻ ക്ലിക്ക് ചെയ്യുക",
+    "DRAG_DROP": "അല്ലെങ്കിൽ വലിച്ചിടുക",
+    "REMOVE_IMAGE": "ചിത്രം നീക്കം ചെയ്യുക",
+    "UPLOAD_IMAGE": "ചിത്രം അപ്‌ലോഡ് ചെയ്യുക"
+  },
   "WAGE": {
     "ERROR": "വേതനം സാധുവായ, നെഗറ്റീവ് അല്ലാത്ത ദശാംശ സംഖ്യയായിരിക്കണം",
     "HOURLY_WAGE": "മണിക്കൂർ കൂലി",
@@ -1922,8 +2081,8 @@
   },
   "BADGE": {
     "BETA": {
-      "TITLE": "MISSING",
-      "ANIMALS_CONTENT": "MISSING"
+      "TITLE": "ബീറ്റ",
+      "ANIMALS_CONTENT": "ഞങ്ങളുടെ പുതിയ മൃഗ പരിപാലന ഫീച്ചറിന്റെ ഒരു ആദ്യദൃഷ്ടി നോട്ടം ലഭിക്കൂ—ഇപ്പോൾ ബീറ്റയിൽ ലഭ്യമാണ്! ഞങ്ങൾ ഈ ഫീച്ചർ പരിഷ്കരിക്കുമ്പോൾ നിങ്ങളുടെ ഫീഡ്ബാക്ക് നിർണായകമാണ്. നിങ്ങൾ നേരിടുന്ന ഏതെങ്കിലും ബഗുകളോ നിർദ്ദേശങ്ങളോ ദയവായി പങ്കിടുക. liteFarm മെച്ചപ്പെടുത്തുന്നതിനുള്ള നിങ്ങളുടെ സഹായത്തെ ഞങ്ങൾ അഭിനന്ദിക്കുന്നു! നിങ്ങൾക്ക് ബീറ്റയെക്കുറിച്ച് <a>ഇവിടെ</a> കൂടുതലറിയാനാകും"
     }
   }
 }

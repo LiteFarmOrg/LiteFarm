@@ -3,39 +3,39 @@
     "ANGUS": "Angus",
     "CHAROLAIS": "Charolais",
     "COBB_500": "Cobb 500",
-    "CORNISH_CROSS": "Cornisch Kreuz",
-    "DUROC": "Duroc",
-    "HEREFORD": "Hereford",
-    "LANDRACE": "Landrasse",
+    "CORNISH_CROSS": "Cornish Cross",
+    "DUROC": "Duroc-Schwein",
+    "HEREFORD": "Hereford-Rind",
+    "LANDRACE": "Landrace",
     "LEGHORN": "Leghorn",
     "PLYMOUTH_ROCK": "Plymouth Rock",
-    "RHODE_ISLAND_RED": "Rhode Island Red",
+    "RHODE_ISLAND_RED": "Rhodeländer",
     "ROSS_308": "Ross 308",
-    "YORKSHIRE_LARGE_WHITE": "Yorkshire Großes Weißes"
+    "YORKSHIRE_LARGE_WHITE": "Yorkshire Large White"
   },
   "ORIGIN": {
     "BORN_AT_FARM": "Auf dem Bauernhof geboren",
-    "BROUGHT_IN": "Eingebracht"
+    "BROUGHT_IN": "Eingeführt in"
   },
   "PURPOSE": {
-    "GRAZING": "MISSING",
-    "MILKING": "MISSING",
-    "MANURE_MANAGEMENT": "MISSING",
-    "PEST_OR_DISEASE_CONTROL": "MISSING",
-    "BREEDING": "MISSING",
-    "FEEDING": "MISSING",
-    "VETERINARY_CARE": "MISSING",
-    "BIRTHING": "MISSING",
-    "WEANING": "MISSING",
-    "TRANSPORTATION": "MISSING",
-    "BEHAVIORAL_AND_SOCIAL_MANAGEMENT": "MISSING",
-    "EXERCISE": "MISSING",
-    "QUARANTINE": "MISSING",
-    "OTHER": "MISSING"
+    "GRAZING": "Weiden",
+    "MILKING": "Melken",
+    "MANURE_MANAGEMENT": "Mistwirtschaft",
+    "PEST_OR_DISEASE_CONTROL": "Schädlings- und Krankheitsbekämpfung",
+    "BREEDING": "Zucht",
+    "FEEDING": "Fütterung",
+    "VETERINARY_CARE": "Tierärztliche Versorgung",
+    "BIRTHING": "Geburt",
+    "WEANING": "Absetzen",
+    "TRANSPORTATION": "Transport",
+    "BEHAVIORAL_AND_SOCIAL_MANAGEMENT": "Verhaltens- und Sozialmanagement",
+    "EXERCISE": "Training",
+    "QUARANTINE": "Quarantäne",
+    "OTHER": "Anderes"
   },
   "SEX": {
-    "FEMALE": "Weiblich",
-    "MALE": "Männlich"
+    "MALE": "Männlich",
+    "FEMALE": "Weiblich"
   },
   "TAG_COLOR": {
     "BLUE": "Blau",
@@ -45,31 +45,25 @@
     "WHITE": "Weiß",
     "YELLOW": "Gelb"
   },
-  "TAG_PLACEMENT": {
-    "LEFT_EAR": "Linkes Ohr",
-    "LEFT_LEG": "Linkes Bein",
-    "RIGHT_EAR": "Rechtes Ohr",
-    "RIGHT_LEG": "Rechtes Bein"
-  },
   "TAG_TYPE": {
-    "EAR_TAG": "Ohrmarke",
-    "LEG_BAND": "Beinband"
+    "EAR_TAG": "Ohrschild",
+    "LEG_BAND": "Fußband"
   },
   "TYPE": {
     "CATTLE": "Rinder",
-    "CHICKEN": "Huhn",
+    "CHICKEN": "Hühner",
     "PIGS": "Schweine"
   },
   "USE": {
-    "ANIMAL_FIBERS_AND_SKINS": "Tierische Fasern und Felle",
-    "BREEDING": "Aufzucht",
-    "COMPANIONSHIP": "Geselligkeit",
+    "MILK": "Milch",
     "EGGS": "Eier",
     "FAT": "Fett",
-    "LABOUR_AND_DRAFT": "Arbeit und Entwürfe",
     "MEAT": "Fleisch",
-    "MILK": "Milch",
-    "OTHER": "Andere",
-    "RECREATIONAL_OR_CULTURAL_USE": "Kulturelle oder Freizeitnutzung"
+    "ANIMAL_FIBERS_AND_SKINS": "Tierfasern und Felle",
+    "LABOUR_AND_DRAFT": "Arbeitsaufwand und Entwurf",
+    "BREEDING": "Zucht",
+    "RECREATIONAL_OR_CULTURAL_USE": "Freizeit- oder Kulturnutzung",
+    "COMPANIONSHIP": "Begleitung",
+    "OTHER": "Andere"
   }
 }

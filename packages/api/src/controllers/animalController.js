@@ -36,7 +36,6 @@ const animalController = {
           .withGraphFetched({
             animal_union_batch: true,
             animal_use_relationships: true,
-            tasks: true,
           });
         return res.status(200).send(
           rows.map(({ animal_union_batch, ...rest }) => ({

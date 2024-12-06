@@ -37,7 +37,6 @@ const animalBatchController = {
             animal_union_batch: true,
             sex_detail: true,
             animal_batch_use_relationships: true,
-            tasks: true,
           });
         return res.status(200).send(
           rows.map(({ animal_union_batch, ...rest }) => ({

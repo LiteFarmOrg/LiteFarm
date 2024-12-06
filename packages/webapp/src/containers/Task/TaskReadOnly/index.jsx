@@ -56,6 +56,7 @@ function TaskReadOnly({ history, match, location }) {
   const [isTaskTypeCustom, setIsTaskTypeCustom] = useState(false);
   const [isHarvest, setIsHarvest] = useState(undefined);
   const [wageAtMoment, setWageAtMoment] = useState(undefined);
+  const [hasAnimals, setHasAnimals] = useState(false);
 
   useEffect(() => {
     if (task === undefined) {
@@ -64,6 +65,7 @@ function TaskReadOnly({ history, match, location }) {
       setIsTaskTypeCustom(!!task.taskType.farm_id);
       setIsHarvest(isTaskType(task.taskType, 'HARVEST_TASK'));
       setWageAtMoment(task.wage_at_moment);
+      setHasAnimals(task.animals?.length || task.animal_batches?.length);
     }
   }, [task, history]);
 
@@ -74,7 +76,7 @@ function TaskReadOnly({ history, match, location }) {
   const onComplete = () => {
     if (isHarvest) {
       history.push(`/tasks/${task_id}/complete_harvest_quantity`, location?.state);
-    } else if (isTaskTypeCustom) {
+    } else if (isTaskTypeCustom && !hasAnimals) {
       dispatch(setFormData({ task_id, taskType: task.taskType }));
       history.push(`/tasks/${task_id}/complete`, location?.state);
     } else {

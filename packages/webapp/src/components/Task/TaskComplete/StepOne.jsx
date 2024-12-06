@@ -165,25 +165,26 @@ export default function PureCompleteStepOne({
         </div>
       ) : null}
 
-      {taskType &&
-        taskComponents[taskType]({
-          setValue,
-          getValues,
-          watch,
-          control,
-          register,
-          reset,
-          getFieldState,
-          formState: { errors, isValid },
-          errors,
-          system,
-          products,
-          farm,
-          task: selectedTask,
-          disabled: !changesRequired,
-          isModified: changesRequired,
-          locations: selectedTask.locations,
-        })}
+      {taskType && taskComponents[taskType]
+        ? taskComponents[taskType]({
+            setValue,
+            getValues,
+            watch,
+            control,
+            register,
+            reset,
+            getFieldState,
+            formState: { errors, isValid },
+            errors,
+            system,
+            products,
+            farm,
+            task: selectedTask,
+            disabled: !changesRequired,
+            isModified: changesRequired,
+            locations: selectedTask.locations,
+          })
+        : null}
     </Form>
   );
 }

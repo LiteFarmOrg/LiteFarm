@@ -185,15 +185,18 @@ const useAnimalOrBatchRemoval = (
 
     const finalizedTasks = getFinalizedTasks();
 
-    return selectedInventoryIds.some((id) =>
-      finalizedTasks.filter(
+    return selectedInventoryIds.some((animalOrBatchId) => {
+      const { id, kind } = parseInventoryId(animalOrBatchId);
+      return finalizedTasks.filter(
         ({ animals, animal_batches }: { animals: Animal[]; animal_batches: AnimalBatch[] }) => {
           const animalIds = animals.map(({ id }) => `${id}`);
           const batchIds = animal_batches.map(({ id }) => `${id}`);
-          return animalIds.includes(id) || batchIds.includes(id);
+          return kind === AnimalOrBatchKeys.ANIMAL
+            ? animalIds.includes(`${id}`)
+            : batchIds.includes(`${id}`);
         },
-      ),
-    );
+      ).length;
+    });
   }, [removalModalOpen, completedTasks, abandonedTasks, selectedInventoryIds]);
 
   return { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasFinalizedTasks };

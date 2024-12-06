@@ -8,5 +8,9 @@ export const useIsTaskType = (task_translation_key) => {
   return isTaskType(taskType, task_translation_key);
 };
 
-export const isTaskType = (taskType, task_translation_key) =>
-  !taskType?.farm_id && taskType?.task_translation_key === task_translation_key;
+export const isTaskType = (taskType, task_translation_key) => {
+  if (task_translation_key === 'CUSTOM_TASK') {
+    return !!taskType?.farm_id;
+  }
+  return !taskType?.farm_id && taskType?.task_translation_key === task_translation_key;
+};

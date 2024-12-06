@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useCallback, useMemo, useState, ChangeEvent, ReactNode } from 'react';
+import { useCallback, useMemo, useState, ChangeEvent, ReactNode, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureAnimalInventory, {
   PureAnimalInventoryProps,
@@ -25,7 +25,7 @@ import { History } from 'history';
 import Cell from '../../../components/Table/Cell';
 import { CellKind } from '../../../components/Table/types';
 import useAnimalInventory from './useAnimalInventory';
-import type { AnimalInventory as AnimalInventoryType } from './useAnimalInventory';
+import type { AnimalInventoryItem } from './useAnimalInventory';
 import ActionMenu, { iconAction } from '../../../components/ActionMenu';
 import FixedHeaderContainer, {
   ContainerKind,
@@ -49,6 +49,7 @@ import clsx from 'clsx';
 import AnimalsBetaSpotlight from './AnimalsBetaSpotlight';
 import { sumObjectValues } from '../../../util';
 import Icon from '../../../components/Icons';
+import { onAddTask } from '../../Task/onAddTask';
 
 const HEIGHTS = {
   filterAndSearch: 64,
@@ -88,6 +89,8 @@ interface AnimalInventoryProps {
   history: History;
   showOnlySelected?: boolean;
   showLinks?: boolean;
+  isCompleteView?: boolean;
+  hideNoResultsBlock?: boolean;
 }
 
 const BaseAnimalInventory = ({
@@ -155,20 +158,21 @@ const SelectedAnimalsSummaryInventory = ({
 
 const TaskAnimalInventory = ({
   isAdmin,
+  isCompleteView,
   ...commonProps
-}: { isAdmin: boolean } & CommonPureAnimalInventoryProps) => {
+}: { isAdmin: boolean; isCompleteView?: boolean } & CommonPureAnimalInventoryProps) => {
   return (
     <FixedHeaderContainer
       header={null}
       classes={{
         paper: styles.paper,
         divWrapper: styles.divWrapper,
-        wrapper: styles.taskViewMaxHeight,
+        wrapper: isCompleteView ? styles.completeViewMaxHeight : styles.taskViewMaxHeight,
       }}
       kind={ContainerKind.PAPER}
     >
       <BaseAnimalInventory
-        onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
+        onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => {
           commonProps.onSelectInventory(event, row);
         }}
         tableSpacerRowHeight={0}
@@ -211,7 +215,7 @@ const MainAnimalInventory = ({
         <BaseAnimalInventory
           history={history}
           {...commonProps}
-          onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType) => {
+          onRowClick={(event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => {
             history.push(row.path);
           }}
           tableSpacerRowHeight={commonProps.isDesktop ? 96 : 120}
@@ -228,7 +232,7 @@ const MainAnimalInventory = ({
   );
 };
 
-const getVisibleSelectedIds = (visibleRowData: AnimalInventoryType[], selectedIds: string[]) => {
+const getVisibleSelectedIds = (visibleRowData: AnimalInventoryItem[], selectedIds: string[]) => {
   if (!visibleRowData.length || !selectedIds.length) {
     return [];
   }
@@ -246,8 +250,16 @@ export default function AnimalInventory({
   history,
   showOnlySelected = false,
   showLinks = true,
+  isCompleteView,
+  hideNoResultsBlock,
 }: AnimalInventoryProps) {
   const [selectedInventoryIds, setSelectedInventoryIds] = useState<string[]>(preSelectedIds);
+
+  useEffect(() => {
+    if (isCompleteView) {
+      setSelectedInventoryIds(preSelectedIds);
+    }
+  }, [preSelectedIds, isCompleteView]);
 
   const { selectedTypeIds, updateSelectedTypeIds } = useAnimalsFilterReduxState();
 
@@ -292,7 +304,7 @@ export default function AnimalInventory({
       {
         id: 'identification',
         label: t('ANIMAL.ANIMAL_IDENTIFICATION').toLocaleUpperCase(),
-        format: (d: AnimalInventoryType) => (
+        format: (d: AnimalInventoryItem) => (
           <Cell
             kind={CellKind.ICON_TEXT}
             text={d.identification}
@@ -306,29 +318,17 @@ export default function AnimalInventory({
       {
         id: isDesktop ? 'type' : null,
         label: t('ANIMAL.ANIMAL_TYPE').toLocaleUpperCase(),
-        format: (d: AnimalInventoryType) => <Cell kind={CellKind.PLAIN} text={d.type} />,
+        format: (d: AnimalInventoryItem) => <Cell kind={CellKind.PLAIN} text={d.type} />,
       },
       {
         id: isDesktop ? 'breed' : null,
         label: t('ANIMAL.ANIMAL_BREED').toLocaleUpperCase(),
-        format: (d: AnimalInventoryType) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
-      },
-      {
-        id: isDesktop ? 'groups' : null,
-        label: t('ANIMAL.ANIMAL_GROUPS').toLocaleUpperCase(),
-        format: (d: AnimalInventoryType) => (
-          <Cell
-            kind={CellKind.HOVER_PILL_OVERFLOW}
-            items={d.groups}
-            noneText={t('NONE', { ns: 'common' })}
-          />
-        ),
-        sortable: false,
+        format: (d: AnimalInventoryItem) => <Cell kind={CellKind.PLAIN} text={d.breed} />,
       },
       {
         id: isDesktop ? 'location' : null,
         label: t('ANIMAL.ANIMAL_LOCATIONS').toLocaleUpperCase(),
-        format: (d: AnimalInventoryType) => (
+        format: (d: AnimalInventoryItem) => (
           <div className={clsx(styles.location, !d.location && styles.unknown)}>
             {d.location ? (
               <>
@@ -344,7 +344,7 @@ export default function AnimalInventory({
       {
         id: showLinks ? 'path' : null,
         label: '',
-        format: (d: AnimalInventoryType) => (
+        format: (d: AnimalInventoryItem) => (
           <Cell kind={CellKind.RIGHT_CHEVRON_LINK} path={d.path} />
         ),
         columnProps: {
@@ -356,15 +356,8 @@ export default function AnimalInventory({
     [t, isDesktop, showLinks],
   );
 
-  const makeAnimalsSearchableString = (animal: AnimalInventoryType) => {
-    return [
-      animal.identification,
-      animal.type,
-      animal.breed,
-      ...animal.groups,
-      animal.count,
-      animal.location,
-    ]
+  const makeAnimalsSearchableString = (animal: AnimalInventoryItem) => {
+    return [animal.identification, animal.type, animal.breed, animal.count, animal.location]
       .filter(Boolean)
       .join(' ');
   };
@@ -372,7 +365,7 @@ export default function AnimalInventory({
   const [searchAndFilteredInventory, searchString, setSearchString] = useSearchFilter(
     filteredInventory,
     makeAnimalsSearchableString,
-  ) as [AnimalInventoryType[], SearchProps['searchString'], SearchProps['setSearchString']];
+  ) as [AnimalInventoryItem[], SearchProps['searchString'], SearchProps['setSearchString']];
 
   const searchProps: SearchProps = {
     searchString,
@@ -383,7 +376,7 @@ export default function AnimalInventory({
     }),
   };
 
-  const onSelectInventory = (e: ChangeEvent<HTMLInputElement>, row: AnimalInventoryType): void => {
+  const onSelectInventory = (e: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem): void => {
     const selectedInventoryId = row.id;
     let newIds = selectedInventoryIds.slice();
     if (selectedInventoryIds.includes(selectedInventoryId)) {
@@ -425,9 +418,11 @@ export default function AnimalInventory({
   };
 
   const iconActions: iconAction[] = [
-    { label: t(`common:ADD_TO_GROUP`), iconName: 'ADD_ANIMAL', onClick: () => ({}) },
-    { label: t(`common:CREATE_A_TASK`), iconName: 'TASK_CREATION', onClick: () => ({}) },
-    { label: t(`common:CLONE`), iconName: 'CLONE', onClick: () => ({}) },
+    {
+      label: t(`common:CREATE_A_TASK`),
+      iconName: 'TASK_CREATION',
+      onClick: () => onAddTask(dispatch, history, { animal_ids: selectedInventoryIds })(),
+    },
     {
       label: t(`ANIMAL.REMOVE_ANIMAL`),
       iconName: 'REMOVE_ANIMAL',
@@ -485,10 +480,13 @@ export default function AnimalInventory({
     clearFilters: clearFilters,
     isLoading: isLoading,
     history: history,
+    hideNoResultsBlock,
   };
 
   if (view == View.TASK) {
-    return <TaskAnimalInventory isAdmin={isAdmin} {...commonProps} />;
+    return (
+      <TaskAnimalInventory isAdmin={isAdmin} isCompleteView={isCompleteView} {...commonProps} />
+    );
   }
   if (view == View.TASK_SUMMARY) {
     return (

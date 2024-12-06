@@ -14,7 +14,7 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Controller, get, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import NumberInput from '../../Form/NumberInput';
@@ -34,6 +34,7 @@ import {
   type AnimalTypeSelectProps,
 } from './AnimalSelect';
 import { hookFormMinValidation } from '../../Form/hookformValidationUtils';
+import clsx from 'clsx';
 
 type AddAnimalsFormCardProps = AnimalTypeSelectProps &
   AnimalBreedSelectProps & {
@@ -85,7 +86,10 @@ export default function AddAnimalsFormCard({
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
   return (
-    <Card className={styles.form} isActive={isActive}>
+    <Card
+      className={clsx([styles.form, shouldCreateIndividualProfiles && styles.extraBottomPadding])}
+      isActive={isActive}
+    >
       <div className={styles.formHeader}>
         <Main>{t('ADD_ANIMAL.ADD_TO_INVENTORY')}</Main>
         {showRemoveButton && <SmallButton variant="remove" onClick={onRemoveButtonClick} />}
@@ -150,15 +154,7 @@ export default function AddAnimalsFormCard({
         hookFormRegister={register(`${namePrefix}${BasicsFields.CREATE_INDIVIDUAL_PROFILES}`)}
         onChange={(e) => onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked)}
       />
-      {shouldCreateIndividualProfiles ? (
-        // @ts-ignore
-        <Input
-          label={t('ADD_ANIMAL.GROUP_NAME')}
-          optional
-          placeholder={t('ADD_ANIMAL.GROUP_NAME_PLACEHOLDER')}
-          hookFormRegister={register(`${namePrefix}${BasicsFields.GROUP_NAME}`)}
-        />
-      ) : (
+      {!shouldCreateIndividualProfiles && (
         // @ts-ignore
         <Input
           label={t('ADD_ANIMAL.BATCH_NAME')}

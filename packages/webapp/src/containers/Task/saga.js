@@ -84,7 +84,13 @@ import {
 } from '../../util/siteMapConstants';
 import { setFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { formatSoilAmendmentProductToDBStructure, getSubtaskName } from '../../util/task';
-import { getEndpoint, getMovementTaskBody } from './sagaUtils';
+import {
+  formatAnimalIdsForReqBody,
+  getCompleteMovementTaskBody,
+  getEndpoint,
+  getMovementTaskBody,
+} from './sagaUtils';
+import { api } from '../../store/api/apiSlice';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -420,6 +426,13 @@ export const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocatio
             .planting_management_plan_id,
       }));
       delete data['show_wild_crop'];
+      if (data.animalIds) {
+        // Format animalIds for the request body
+        const { related_animal_ids, related_batch_ids } = formatAnimalIdsForReqBody(data.animalIds);
+        data.related_animal_ids = related_animal_ids;
+        data.related_batch_ids = related_batch_ids;
+        delete data['animalIds'];
+      }
     }),
   );
 };
@@ -761,6 +774,7 @@ const taskTypeGetCompleteTaskBodyFunctionMap = {
   PLANT_TASK: getCompletePlantingTaskBody('PLANT_TASK'),
   IRRIGATION_TASK: getCompleteIrrigationTaskBody('IRRIGATION_TASK'),
   SOIL_AMENDMENT_TASK: getCompleteSoilAmendmentTaskBody,
+  MOVEMENT_TASK: getCompleteMovementTaskBody,
 };
 
 export const completeTask = createAction('completeTaskSaga');
@@ -770,7 +784,12 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, isCustomTaskType } = data;
   const header = getHeader(user_id, farm_id);
-  const endpoint = isCustomTaskType ? 'custom_task' : task_translation_key.toLowerCase();
+  const endpoint = getEndpoint(isCustomTaskType, task_translation_key);
+
+  if (data.animalIds) {
+    const formattedAnimalIds = formatAnimalIdsForReqBody(data.animalIds);
+    data.taskData = { ...data.taskData, ...formattedAnimalIds };
+  }
 
   const taskData = taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key]
     ? taskTypeGetCompleteTaskBodyFunctionMap[task_translation_key](data)
@@ -790,6 +809,10 @@ export function* completeTaskSaga({ payload: { task_id, data, returnPath } }) {
         message: i18n.t('message:TASK.COMPLETE.SUCCESS'),
         pathname: returnPath ?? '/tasks',
       });
+
+      if (task_translation_key === 'MOVEMENT_TASK') {
+        yield put(api.util.invalidateTags(['Animals', 'AnimalBatches']));
+      }
     }
   } catch (e) {
     console.log(e);

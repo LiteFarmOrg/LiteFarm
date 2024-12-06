@@ -48,7 +48,6 @@ export const initialAnimalsFilter = {
   TYPE: {},
   BREED: {},
   SEX: {},
-  GROUPS: {},
   LOCATION: {},
 };
 

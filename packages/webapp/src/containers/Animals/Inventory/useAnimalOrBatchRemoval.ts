@@ -32,6 +32,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { completedTasksSelector, abandonedTasksSelector } from '../../taskSlice';
 import { Animal } from '../../../store/api/types';
+import { getLocalDateInYYYYDDMM } from '../../../util/date';
+import { getTasks } from '../../Task/saga';
 
 const useAnimalOrBatchRemoval = (
   selectedInventoryIds: string[],
@@ -113,6 +115,7 @@ const useAnimalOrBatchRemoval = (
     }
 
     setRemovalModalOpen(false);
+    dispatch(getTasks());
     return result;
   };
 
@@ -121,6 +124,7 @@ const useAnimalOrBatchRemoval = (
     const selectedAnimalIds: string[] = [];
     const animalBatchIds: number[] = [];
     const selectedBatchIds: string[] = [];
+    const date = getLocalDateInYYYYDDMM();
     let result;
 
     for (const id of selectedInventoryIds) {
@@ -135,7 +139,7 @@ const useAnimalOrBatchRemoval = (
     }
 
     if (animalIds.length) {
-      result = await mutations['deleteAnimals'].trigger(animalIds);
+      result = await mutations['deleteAnimals'].trigger({ ids: animalIds, date });
 
       if (result.error) {
         console.log(result.error);
@@ -149,7 +153,7 @@ const useAnimalOrBatchRemoval = (
     }
 
     if (animalBatchIds.length) {
-      result = await mutations['deleteBatches'].trigger(animalBatchIds);
+      result = await mutations['deleteBatches'].trigger({ ids: animalBatchIds, date });
       if (result.error) {
         console.log(result.error);
         dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
@@ -162,6 +166,7 @@ const useAnimalOrBatchRemoval = (
     }
 
     setRemovalModalOpen(false);
+    dispatch(getTasks());
     return result;
   };
 

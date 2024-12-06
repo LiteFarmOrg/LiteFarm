@@ -23,6 +23,8 @@ import { Main } from '../../Typography';
 import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 import styles from './styles.module.scss';
 
+export const ANIMAL_IDS = 'animalIds';
+
 export default function PureTaskAnimalInventory({
   onContinue,
   onGoBack,
@@ -33,21 +35,14 @@ export default function PureTaskAnimalInventory({
   isRequired = true,
 }) {
   const { t } = useTranslation();
-  const ANIMAL_IDS = 'animalIds';
+  const preSelectedIds = persistedFormData.animalIds || history.location?.state?.animal_ids;
 
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    watch,
-    setValue,
-    formState: { isValid },
-  } = useForm({
+  const { register, handleSubmit, getValues, watch, setValue } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
     defaultValues: {
       ...persistedFormData,
-      [ANIMAL_IDS]: persistedFormData.animalIds || [],
+      [ANIMAL_IDS]: preSelectedIds || [],
     },
   });
 
@@ -107,7 +102,7 @@ export default function PureTaskAnimalInventory({
           onSelect={onSelect}
           view={View.TASK}
           history={history}
-          preSelectedIds={persistedFormData?.animalIds}
+          preSelectedIds={preSelectedIds}
           showLinks={false}
         />
       </Form>

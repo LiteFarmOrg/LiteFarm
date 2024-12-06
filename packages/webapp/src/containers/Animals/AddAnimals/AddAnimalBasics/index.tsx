@@ -30,7 +30,6 @@ export const animalBasicsDefaultValues = {
   [BasicsFields.SEX_DETAILS]: undefined,
   [BasicsFields.COUNT]: 1,
   [BasicsFields.CREATE_INDIVIDUAL_PROFILES]: false,
-  [BasicsFields.GROUP_NAME]: '',
   [BasicsFields.BATCH_NAME]: '',
 };
 

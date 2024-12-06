@@ -20,7 +20,7 @@ import NoSearchResults from '../../../components/Card/NoSearchResults';
 import ClearFiltersButton, {
   ClearFiltersButtonType,
 } from '../../../components/Button/ClearFiltersButton';
-import type { AnimalInventory } from '../../../containers/Animals/Inventory/useAnimalInventory';
+import type { AnimalInventoryItem } from '../../../containers/Animals/Inventory/useAnimalInventory';
 import AnimalsFilter from '../../../containers/Animals/AnimalsFilter';
 import FloatingActionButton from '../../Button/FloatingActionButton';
 import { TableV2Column, TableKind } from '../../Table/types';
@@ -38,14 +38,14 @@ export type SearchProps = {
 };
 
 export type PureAnimalInventoryProps = {
-  filteredInventory: AnimalInventory[];
+  filteredInventory: AnimalInventoryItem[];
   animalsColumns: TableV2Column[];
   zIndexBase: number;
   isDesktop: boolean;
   searchProps: SearchProps;
-  onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
+  onSelectInventory: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => void;
   handleSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void;
-  onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventory) => void;
+  onRowClick?: (event: ChangeEvent<HTMLInputElement>, row: AnimalInventoryItem) => void;
   selectedIds: string[];
   totalInventoryCount: number;
   isFilterActive: boolean;
@@ -61,6 +61,7 @@ export type PureAnimalInventoryProps = {
   showTableHeader: boolean;
   showActionFloaterButton: boolean;
   extraRowSpacing?: boolean;
+  hideNoResultsBlock?: boolean;
 };
 
 const PureAnimalInventory = ({
@@ -86,6 +87,7 @@ const PureAnimalInventory = ({
   showTableHeader,
   showActionFloaterButton,
   extraRowSpacing,
+  hideNoResultsBlock,
 }: PureAnimalInventoryProps) => {
   const { t } = useTranslation();
 
@@ -130,7 +132,7 @@ const PureAnimalInventory = ({
         </div>
       )}
       <div className={clsx(isDesktop ? '' : styles.tableWrapper, styles.tableWrapperCommon)}>
-        {!totalInventoryCount || hasSearchResults ? (
+        {!totalInventoryCount || hasSearchResults || hideNoResultsBlock ? (
           <Table
             kind={TableKind.V2}
             alternatingRowColor={alternatingRowColor}

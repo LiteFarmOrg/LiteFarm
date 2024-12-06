@@ -372,15 +372,6 @@ const checkRemovalDataProvided = (animalOrBatch) => {
   }
 };
 
-const checkAssociatedTasks = async (animalOrBatchIds, animalOrBatchKey) => {
-  const hasCompletedOrAbandonedTasks = await AnimalOrBatchModel[
-    animalOrBatchKey
-  ].hasCompletedOrAbandonedTasksById(animalOrBatchIds);
-  if (hasCompletedOrAbandonedTasks) {
-    throw customError('Cannot delete animal with completed or abandoned tasks');
-  }
-};
-
 const getRecordIfExists = async (animalOrBatch, animalOrBatchKey, farm_id) => {
   const relations =
     animalOrBatchKey === 'batch'
@@ -638,15 +629,10 @@ export function checkRemoveAnimalOrBatch(animalOrBatchKey) {
 
 // Check animals or batches with completed and abandoned tasks
 const checkAnimalsOrBatchesWithFinalizedTasks = async (animalOrBatchKey, ids, trx) => {
-  const getAnimalOrBatchIdsWithFinalizedTasks =
-    animalOrBatchKey === 'animal'
-      ? AnimalModel.getAnimalIdsWithFinalizedTasks
-      : AnimalBatchModel.getBatchIdsWithFinalizedTasks;
-
-  const animalsOrBatches = await getAnimalOrBatchIdsWithFinalizedTasks(trx, [
-    ...new Set(ids.split(',').map((id) => +id)),
-  ]);
-
+  const animalsOrBatches = await AnimalOrBatchModel[animalOrBatchKey].getIdsWithFinalizedTasks(
+    trx,
+    ids,
+  );
   for (const { tasks } of animalsOrBatches) {
     if (tasks.length) {
       throw customError('Animals with completed or abandoned tasks cannot be deleted');
@@ -678,12 +664,11 @@ export function checkDeleteAnimalOrBatch(animalOrBatchKey, dryRun = false) {
       const { ids, date } = req.query;
       const idsSet = [...new Set(ids.split(',').map(Number))];
 
-      if (!date) {
+      if (!date && !dryRun) {
         throw customError('Must send date');
       }
       await checkValidAnimalOrBatchIds(animalOrBatchKey, idsSet, farm_id, trx);
-      await checkAssociatedTasks(idsSet, animalOrBatchKey);
-      await checkAnimalsOrBatchesWithFinalizedTasks(animalOrBatchKey, ids, trx);
+      await checkAnimalsOrBatchesWithFinalizedTasks(animalOrBatchKey, idsSet, trx);
 
       await trx.commit();
       if (dryRun) {

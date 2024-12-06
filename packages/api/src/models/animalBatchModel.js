@@ -205,21 +205,6 @@ class AnimalBatchModel extends baseModel {
     };
   }
 
-  static async hasCompletedOrAbandonedTasksById(ids) {
-    const batches = await AnimalBatchModel.query()
-      .withGraphFetched('tasks')
-      .whereIn('id', [...ids])
-      .modifyGraph('tasks', (builder) => {
-        builder.whereNotNull('complete_date').orWhereNotNull('abandon_date');
-      });
-    for (const batch of batches) {
-      if (batch.tasks.length) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   static async getBatchIdsWithTasks(trx, animalIds, taskFilterCondition) {
     if (taskFilterCondition) {
       return AnimalBatchModel.query(trx)
@@ -243,7 +228,7 @@ class AnimalBatchModel extends baseModel {
   }
 
   // Get animals with finalized (completed or abandoned) tasks
-  static async getBatchIdsWithFinalizedTasks(trx, animalIds) {
+  static async getIdsWithFinalizedTasks(trx, animalIds) {
     return AnimalBatchModel.getBatchIdsWithTasks(
       trx,
       animalIds,

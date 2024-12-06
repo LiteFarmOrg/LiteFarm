@@ -199,21 +199,6 @@ class Animal extends baseModel {
     };
   }
 
-  static async hasCompletedOrAbandonedTasksById(ids) {
-    const animals = await Animal.query()
-      .withGraphFetched('tasks')
-      .whereIn('id', [...ids])
-      .modifyGraph('tasks', (builder) => {
-        builder.whereNotNull('complete_date').orWhereNotNull('abandon_date');
-      });
-    for (const animal of animals) {
-      if (animal.tasks.length) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   static async getAnimalIdsWithTasks(trx, animalIds, taskFilterCondition) {
     if (taskFilterCondition) {
       return Animal.query(trx)
@@ -238,7 +223,7 @@ class Animal extends baseModel {
   }
 
   // Get animals with finalized (completed or abandoned) tasks
-  static async getAnimalIdsWithFinalizedTasks(trx, animalIds) {
+  static async getIdsWithFinalizedTasks(trx, animalIds) {
     return Animal.getAnimalIdsWithTasks(
       trx,
       animalIds,

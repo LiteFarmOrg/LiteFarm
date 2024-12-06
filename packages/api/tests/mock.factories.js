@@ -1101,9 +1101,12 @@ function fakeFertilizer(defaultData = {}) {
 }
 
 async function taskFactory(
-  { promisedUser = usersFactory(), promisedTaskType = task_typeFactory() } = {},
+  { promisedUser = usersFactory(), promisedTaskType, promisedFarm } = {},
   task = fakeTask(),
 ) {
+  if (!promisedTaskType) {
+    promisedTaskType = task_typeFactory({ promisedFarm });
+  }
   const [user, taskType] = await Promise.all([promisedUser, promisedTaskType]);
   const [{ user_id }] = user;
   const [{ task_type_id }] = taskType;

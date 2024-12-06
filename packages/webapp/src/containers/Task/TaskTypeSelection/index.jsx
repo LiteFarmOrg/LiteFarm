@@ -8,6 +8,7 @@ import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../../ta
 import { showedSpotlightSelector } from '../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../Map/saga';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
+import useAnimalsExist from '../../Animals/Inventory/useAnimalsExist';
 
 function TaskTypeSelection({ history, match, location }) {
   const userFarm = useSelector(userFarmSelector);
@@ -19,6 +20,7 @@ function TaskTypeSelection({ history, match, location }) {
   const persistedPaths = [continuePath, customTaskPath];
   const { planting_task } = useSelector(showedSpotlightSelector);
   const isAdmin = useSelector(isAdminSelector);
+  const { animalsExistOnFarm } = useAnimalsExist();
 
   useEffect(() => {
     dispatch(getTaskTypes());
@@ -58,6 +60,7 @@ function TaskTypeSelection({ history, match, location }) {
           shouldShowPlantTaskSpotLight={!planting_task}
           updatePlantTaskSpotlight={updatePlantTaskSpotlight}
           hasCurrentManagementPlans={hasCurrentManagementPlans}
+          hasAnimals={animalsExistOnFarm}
         />
       </HookFormPersistProvider>
     </>

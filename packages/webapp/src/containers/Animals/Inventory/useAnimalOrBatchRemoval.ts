@@ -178,10 +178,6 @@ const useAnimalOrBatchRemoval = (
     }
   };
 
-  const getFinalizedTaskIdsSet = useCallback(() => {
-    return new Set([...completedTasks, ...abandonedTasks].map(({ task_id }) => task_id));
-  }, [completedTasks, abandonedTasks]);
-
   const checkHasFinalizedTasks = async () => {
     const animalIds: number[] = [];
     const selectedAnimalIds: string[] = [];
@@ -202,13 +198,13 @@ const useAnimalOrBatchRemoval = (
 
     if (animalIds.length) {
       result = await mutations['checkDeleteAnimals'].trigger(animalIds);
-      if (result.error.data === 'Cannot delete animal with completed or abandoned tasks') {
+      if (result.error.data === 'Animals with completed or abandoned tasks cannot be deleted') {
         return true;
       }
     }
     if (animalBatchIds.length) {
       result = await mutations['checkDeleteAnimalBatches'].trigger(animalBatchIds);
-      if (result.error.data === 'Cannot delete animal with completed or abandoned tasks') {
+      if (result.error.data === 'Animals with completed or abandoned tasks cannot be deleted') {
         return true;
       }
     }

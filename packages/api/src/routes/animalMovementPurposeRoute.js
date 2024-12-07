@@ -13,8 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-function AnimalGroups() {
-  return null;
-}
+import express from 'express';
 
-export default AnimalGroups;
+const router = express.Router();
+import animalMovementPurposeController from '../controllers/animalMovementPurposeController.js';
+
+router.get('/', animalMovementPurposeController.getAnimalMovementPurposes());
+
+export default router;

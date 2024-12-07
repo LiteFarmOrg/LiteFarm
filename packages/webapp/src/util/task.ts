@@ -13,6 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+import { AnimalOrBatchKeys } from '../containers/Animals/types';
+import { Animal, AnimalBatch } from '../store/api/types';
+import { generateInventoryId } from './animal';
+
 interface UnitOption {
   label: string;
   value: string;
@@ -57,6 +61,29 @@ type FormSoilAmendmentTaskProduct = {
   [key: string]: any;
 };
 
+interface DBAnimalMovementPurposeRelationships {
+  task_id: number;
+  purpose_id: number;
+  other_purpose: string | null;
+}
+
+type DBAnimalMovementTask = {
+  animals: Animal[];
+  animal_batches: AnimalBatch[];
+  animal_movement_task: {
+    task_id: number;
+    purpose_relationships: DBAnimalMovementPurposeRelationships[];
+  };
+};
+
+interface FormAnimalMovementTask {
+  animalIds: string[];
+  movement_task: {
+    purpose_ids: number[]; // React Select component actually 'purposes' but I wanted to reserve that for the select component format
+    other_purpose_explanation?: string | null;
+  };
+  animal_movement_task: DBAnimalMovementTask['animal_movement_task']; // Otherwise going back and forth between readonly and edit the form will crash
+}
 type DBSoilAmendmentTask = {
   soil_amendment_task_products: DBSoilAmendmentTaskProduct[];
   [key: string]: any;
@@ -183,6 +210,8 @@ export const formatTaskReadOnlyDefaultValues = (task: {
 }) => {
   if (task.taskType?.task_translation_key === 'SOIL_AMENDMENT_TASK') {
     return formatSoilAmendmentTaskToFormStructure(task as DBSoilAmendmentTask);
+  } else if (task.taskType?.task_translation_key === 'MOVEMENT_TASK') {
+    return formatMovementTaskToFormStructure(task as DBAnimalMovementTask);
   }
 
   return structuredClone(task);
@@ -205,4 +234,53 @@ export const getRemovedTaskProductIds = (
   const [oldIds, newIds] = [oldTaskProducts, newTaskProducts].map(extractTaskProductIds);
 
   return oldIds.filter((id) => !newIds.includes(id));
+};
+
+const subtaskNames: { [key: string]: string } = {
+  MOVEMENT_TASK: 'animal_movement_task',
+};
+
+export const getSubtaskName = (translationKey: string) => {
+  return subtaskNames[translationKey] || translationKey.toLowerCase();
+};
+
+export const formatMovementTaskToFormStructure = (
+  task: DBAnimalMovementTask,
+): FormAnimalMovementTask => {
+  const taskClone = structuredClone(task);
+  const { animal_movement_task, animals, animal_batches, ...rest } = taskClone;
+
+  const { purpose_relationships } = animal_movement_task;
+
+  let other_purpose_explanation;
+
+  const purpose_ids = purpose_relationships.map(({ purpose_id, other_purpose }) => {
+    if (other_purpose) {
+      other_purpose_explanation = other_purpose;
+    }
+    return purpose_id;
+  });
+
+  return {
+    ...rest,
+    animalIds: formatTaskAnimalsAsInventoryIds(animals, animal_batches),
+    movement_task: {
+      purpose_ids,
+      other_purpose_explanation,
+    },
+    animal_movement_task,
+  };
+};
+
+export const formatTaskAnimalsAsInventoryIds = (
+  associatedAnimals?: Animal[],
+  associatedBatches?: AnimalBatch[],
+): string[] => {
+  const animalInventoryIds =
+    associatedAnimals?.map((animal) => generateInventoryId(AnimalOrBatchKeys.ANIMAL, animal)) || [];
+
+  const batchInventoryIds =
+    associatedBatches?.map((batch) => generateInventoryId(AnimalOrBatchKeys.BATCH, batch)) || [];
+
+  return [...animalInventoryIds, ...batchInventoryIds];
 };

@@ -1,0 +1,69 @@
+{
+  "BREED": {
+    "ANGUS": "അംഗസ്",
+    "CHAROLAIS": "കരോലൈസ്",
+    "COBB_500": "കോബ് 500 കോഴി ഇനം",
+    "CORNISH_CROSS": "കോർണിഷ് ക്രോസ് കോഴി ഇനം",
+    "DUROC": "ഡ്യൂറോക്ക് പന്നി ഇനം",
+    "HEREFORD": "ഹെയർഫോർഡ് കന്നുകാലി",
+    "LANDRACE": "പരമ്പരാഗത ഇനം",
+    "LEGHORN": "ലെഗോൺ",
+    "PLYMOUTH_ROCK": "പ്ലൈമൗത്ത് റോക്ക്",
+    "RHODE_ISLAND_RED": "റോഡ് ഐലൻഡ് റെഡ്",
+    "ROSS_308": "റോസ് 308",
+    "YORKSHIRE_LARGE_WHITE": "യോർക്ക്ഷയർ ലാർജ് വൈറ്റ് പന്നി ഇനം"
+  },
+  "ORIGIN": {
+    "BORN_AT_FARM": "ഫാമിൽ ജനിച്ചവ",
+    "BROUGHT_IN": "കൊണ്ടുവന്നവ"
+  },
+  "PURPOSE": {
+    "GRAZING": "മേച്ചിൽ",
+    "MILKING": "കറവ",
+    "MANURE_MANAGEMENT": "വള നിയന്ത്രണം",
+    "PEST_OR_DISEASE_CONTROL": "കീടങ്ങൾ അല്ലെങ്കിൽ രോഗ നിയന്ത്രണം",
+    "BREEDING": "പ്രജനനം",
+    "FEEDING": "തീറ്റ",
+    "VETERINARY_CARE": "മൃഗസംരക്ഷണം",
+    "BIRTHING": "ജനനം",
+    "WEANING": "മുലകുടി മാറൽ",
+    "TRANSPORTATION": "ഗതാഗതം",
+    "BEHAVIORAL_AND_SOCIAL_MANAGEMENT": "പെരുമാറ്റപരവും സാമൂഹികവുമായ നിയന്ത്രണം",
+    "EXERCISE": "വ്യായാമം",
+    "QUARANTINE": "ക്വാറന്റീൻ",
+    "OTHER": "മറ്റുള്ളവ"
+  },
+  "SEX": {
+    "MALE": "ആൺ",
+    "FEMALE": "പെൺ"
+  },
+  "TAG_COLOR": {
+    "BLUE": "നീല",
+    "GREEN": "പച്ച",
+    "ORANGE": "ഓറഞ്ച്",
+    "RED": "ചുവപ്പ്",
+    "WHITE": "വെള്ള",
+    "YELLOW": "മഞ്ഞ"
+  },
+  "TAG_TYPE": {
+    "EAR_TAG": "ചെവി ടാഗ്",
+    "LEG_BAND": "ലെഗ് ബാൻഡ്"
+  },
+  "TYPE": {
+    "CATTLE": "കന്നുകാലി",
+    "CHICKEN": "കോഴി",
+    "PIGS": "പന്നികൾ"
+  },
+  "USE": {
+    "MILK": "പാൽ",
+    "EGGS": "മുട്ട",
+    "FAT": "കൊഴുപ്പ്",
+    "MEAT": "മാംസം",
+    "ANIMAL_FIBERS_AND_SKINS": "മൃഗങ്ങളുടെ നാരുകളും തൊലികളും",
+    "LABOUR_AND_DRAFT": "അധ്വാനവും ചുമക്കലും",
+    "BREEDING": "പ്രജനനം",
+    "RECREATIONAL_OR_CULTURAL_USE": "വിനോദ അല്ലെങ്കിൽ സാംസ്കാരിക ഉപയോഗം",
+    "COMPANIONSHIP": "സൗഹൃദം",
+    "OTHER": "മറ്റുള്ളവ"
+  }
+}

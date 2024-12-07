@@ -15,6 +15,7 @@
 
 .floatingActionButton {
   position: relative;
+  z-index: 100;
 
   @media (hover: hover) {
     &:hover {

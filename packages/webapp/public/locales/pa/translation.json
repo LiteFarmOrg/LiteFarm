@@ -1,4 +1,68 @@
 {
+  "ADD_ANIMAL": {
+    "ADD_ANIMALS": "ਜਾਨਵਰ ਸ਼ਾਮਲ ਕਰੋ",
+    "ADD_ANIMALS_FLOW": "ਜਾਨਵਰਾਂ ਦੀ ਸ਼ਾਮਲਤ",
+    "ADD_ANIMALS_TITLE": "ਜਾਨਵਰ ਸ਼ਾਮਲ ਕਰੋ",
+    "ADD_DETAILS_INFO": "ਹੇਠਾਂ ਆਪਣੇ ਜਾਨਵਰਾਂ ਦੇ ਵੇਰਵੇ ਭਰੋ ਜਾਂ ਇਸਨੂੰ ਸੇਵ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਜਾਰੀ ਰੱਖੋ।",
+    "ADD_TO_INVENTORY": "ਆਪਣੇ ਸਟਾਕ ਵਿੱਚ ਜਾਨਵਰ ਸ਼ਾਮਲ ਕਰੋ",
+    "ANIMAL_BASICS": "ਜਾਨਵਰਾਂ ਦੇ ਮੂਲ ਵੇਰਵੇ",
+    "ANIMAL_DETAILS": "ਜਾਨਵਰਾਂ ਦੇ ਵੇਰਵੇ",
+    "ANIMALS_TOTAL_one": "{{count}} ਜਾਨਵਰਾਂ ਦਾ ਕੁੱਲ",
+    "ANIMALS_TOTAL_other": "{{count}} ਜਾਨਵਰਾਂ ਦਾ ਕੁੱਲ",
+    "ANIMALS_UNSPECIFIED_one": "{{count}} ਅਣਨਿਰਧਾਰਤ",
+    "ANIMALS_UNSPECIFIED_other": "{{count}} ਅਣਨਿਰਧਾਰਤ",
+    "BATCH_NAME": "ਬੈਚ ਦਾ ਨਾਮ",
+    "BATCH_NAME_PLACEHOLDER": "ਬੈਚ ਦਾ ਨਾਮ ਲਿਖੋ",
+    "BREED": "ਨਸਲ",
+    "BREED_PLACEHOLDER_DISABLED": "ਕਿਰਪਾ ਕਰਕੇ ਪਹਿਲਾਂ ਇੱਕ ਕਿਸਮ ਚੁਣੋ",
+    "CREATE_INDIVIDUAL_PROFILES": "ਵਿਅਕਤੀਗਤ ਜਾਨਵਰਾਂ ਦੇ ਪ੍ਰੋਫਾਈਲ ਬਣਾਓ",
+    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "ਤੁਸੀਂ ਹਰ ਜਾਨਵਰ ਨੂੰ ਅਲੱਗ ਟਰੈਕ ਅਤੇ ਪ੍ਰਬੰਧਿਤ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ ਤਾਂ ਇਹ ਵਿਕਲਪ ਚੁਣੋ",
+    "EDIT_BASIC_INFO": "ਮੂਲ ਜਾਣਕਾਰੀ ਸੋਧੋ",
+    "GENERAL_DETAILS": "ਆਮ ਵੇਰਵੇ",
+    "GENERAL_DETAILS_BATCH": "ਬੈਚ ਦੇ ਆਮ ਵੇਰਵੇ",
+    "GROUP_NAME": "ਸਮੂਹ ਦਾ ਨਾਮ",
+    "GROUP_NAME_PLACEHOLDER": "ਸਮੂਹ ਦਾ ਨਾਮ ਲਿਖੋ",
+    "ORIGIN": "ਮੂਲ",
+    "ORIGIN_BATCH": "ਬੈਚ ਦਾ ਮੂਲ",
+    "OTHER_DETAILS": "ਹੋਰ ਵੇਰਵੇ",
+    "OTHER_DETAILS_BATCH": "ਬੈਚ ਦੇ ਹੋਰ ਵੇਰਵੇ",
+    "OUT_OF_COUNT_one": "{{count}} ਵਿੱਚੋਂ {{animalNumber}}",
+    "OUT_OF_COUNT_other": "{{count}} ਵਿੱਚੋਂ {{animalNumber}}",
+    "PLACEHOLDER": {
+      "BATCH_NAME": "ਬੈਚ ਦਾ ਨਾਮ ਲਿਖੋ",
+      "DAM": "ਮਾਂ ਦਾ ਨਾਮ ਲਿਖੋ",
+      "NAME": "ਨਾਮ ਲਿਖੋ",
+      "OTHER_DETAILS": "ਵੇਰਵਾ ਦਰਜ ਕਰੋ",
+      "OTHER_USE": "ਹੋਰ ਵਰਤੋਂ ਦਾ ਵੇਰਵਾ ਦਿਓ",
+      "PRICE": "ਇਸ ਦੀ ਕੀਮਤ ਕਿੰਨੀ ਸੀ?",
+      "SIRE": "ਪਿਤਾ ਦਾ ਨਾਮ ਲਿਖੋ",
+      "SUPPLIER": "ਸਪਲਾਇਰ ਦਾ ਨਾਮ ਲਿਖੋ",
+      "TAG_COLOUR": "ਟੈਗ ਦਾ ਰੰਗ ਕੀ ਹੈ?",
+      "TAG_NUMBER": "ਟੈਗ ਨੰਬਰ ਲਿਖੋ",
+      "TAG_TYPE": "ਟੈਗ ਦੀ ਕਿਸਮ ਕੀ ਹੈ?",
+      "TAG_TYPE_INFO": "ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਟੈਗ ਦੀ ਕਿਸਮ ਵੇਰਵਾ ਕਰੋ"
+    },
+    "REMOVE_CONFIRM": "ਕੀ ਤੁਸੀਂ ਵਾਕਈ ਹਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?",
+    "SELECT_SEXES": "ਲਿੰਗ ਚੁਣੋ",
+    "SEX_DETAIL": "ਲਿੰਗ ਦਾ ਵੇਰਵਾ",
+    "SEX_DETAIL_ERROR_one": "ਜਾਨਵਰਾਂ ਦੀ ਵੱਧ ਤੋਂ ਵੱਧ ਗਿਣਤੀ: {{count}}",
+    "SEX_DETAIL_ERROR_other": "ਜਾਨਵਰਾਂ ਦੀ ਵੱਧ ਤੋਂ ਵੱਧ ਗਿਣਤੀ: {{count}}",
+    "SEX_DETAIL_ERROR_POPOVER_one": "ਤੁਸੀਂ {{count}} ਤੋਂ ਵੱਧ ਜਾਨਵਰ ਨਹੀਂ ਰੱਖ ਸਕਦੇ",
+    "SEX_DETAIL_ERROR_POPOVER_other": "ਤੁਸੀਂ {{count}} ਤੋਂ ਵੱਧ ਜਾਨਵਰ ਨਹੀਂ ਰੱਖ ਸਕਦੇ",
+    "SPECIFY_SEX": "ਲਿੰਗ ਨਿਰਧਾਰਤ ਕਰੋ",
+    "SUMMARY": {
+      "ADD_MORE_DETAILS": "ਆਪਣੇ ਜਾਨਵਰਾਂ ਵਿੱਚ ਹੋਰ ਵੇਰਵੇ ਸ਼ਾਮਲ ਕਰੋ",
+      "ALL_DONE": "ਸਾਰਾ ਮੁਕੰਮਲ!",
+      "ANIMAL_SUMMARY_COUNT_one": "{{count}} ਵਿਅਕਤੀਗਤ ਜਾਨਵਰ",
+      "ANIMAL_SUMMARY_COUNT_other": "{{count}} ਵਿਅਕਤੀਗਤ ਜਾਨਵਰ",
+      "BATCH_SUMMARY_COUNT_one": "{{count}} ਬੈਚ",
+      "BATCH_SUMMARY_COUNT_other": "{{count}} ਬੈਚ",
+      "HERE_IS_SUMMARY": "ਇਹ ਰਹੀ ਤੁਹਾਡੇ ਸ਼ਾਮਲ ਕੀਤੇ ਜਾਨਵਰਾਂ ਦੀ ਸੰਖੇਪ ਜਾਣਕਾਰੀ:",
+      "MAIN": "ਤੁਸੀਂ ਆਪਣੇ ਸਟਾਕ ਵਿੱਚ {{animalCount}} {{and}} {{batchCount}} ਸਫਲਤਾਪੂਰਵਕ ਸ਼ਾਮਲ ਕੀਤੇ।"
+    },
+    "TYPE": "ਕਿਸਮ",
+    "UNIQUE_DETAILS": "ਵਿਲੱਖਣ ਵੇਰਵੇ"
+  },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "ਪਤਾ ਲਾਜ਼ਮੀ ਹੈ",
     "DISABLE_GEO_LOCATION": "ਤੁਹਾਡੇ ਮੌਜੂਦਾ ਟਿਕਾਣੇ ਨੂੰ ਲੱਭਣ ਲਈ ਟਿਕਾਣਾ ਸੇਵਾਵਾਂ ਨੂੰ ਚਾਲੂ ਕੀਤਾ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ।",
@@ -53,6 +117,7 @@
     "ASSIGN_TASK": "ਕੰਮ ਸੌਂਪੋ",
     "ASSIGNEE": "ਸੌਂਪਣ ਵਾਲਾ",
     "CANCEL": "ਕਾਰਜ ਰਚਨਾ",
+    "CANT_FIND_INFO_TASK": "ਤੁਸੀਂ ਆਪਣੀਆਂ ਕਸਟਮ ਕੰਮ ਦੀਆਂ ਕਿਸਮਾਂ ਵੀ ਬਣਾ ਸਕਦੇ ਹੋ!",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "ਅਨੁਮਾਨਿਤ ਪਾਣੀ ਦੀ ਵਰਤੋਂ",
       "IS_PERMITTED": "ਕੀ ਸਫ਼ਾਈ ਏਜੰਟ ਮਨਜ਼ੂਰ ਪਦਾਰਥਾਂ ਦੀ ਸੂਚੀ ਵਿੱਚ ਹੈ?",
@@ -99,6 +164,7 @@
     "IRRIGATION_VIEW": {
       "BRAND_TOOLTIP": "ਇਹ ਕੰਮ ਤੁਹਾਡੇ ਸਥਾਨ ਨੂੰ ਪਾਣੀ ਦੇਣ ਲਈ ਹੈ. ਜੇਕਰ ਤੁਸੀਂ ਸਿੰਚਾਈ ਲਗਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਇਸਦੀ ਬਜਾਏ ਫੀਲਡ ਵਰਕ ਟਾਸਕ ਬਣਾਓ।",
       "CALCULATE_WATER_USAGE": "ਪਾਣੀ ਦੀ ਵਰਤੋਂ ਦੀ ਗਣਨਾ ਕਰੋ",
+      "CALCULATE_WATER_USAGE_WARNING": "ਜੰਗਲੀ ਫਸਲਾਂ ਲਈ, ਗਹਿਰਾਈ ਦੁਆਰਾ ਪਾਣੀ ਦੀ ਵਰਤੋਂ ਦਾ ਅੰਦਾਜਾ ਉਪਲਬਧ ਨਹੀਂ ਹੈ.",
       "DEFAULT_APPLICATION_DEPTH": "ਇਸ ਟਿਕਾਣੇ ਲਈ ਡਿਫੌਲਟ ਐਪਲੀਕੇਸ਼ਨ ਡੂੰਘਾਈ ਵਜੋਂ ਸੈੱਟ ਕਰੋ",
       "DEFAULT_LOCATION_FLOW_RATE": "ਇਸ ਟਿਕਾਣੇ ਲਈ ਪੂਰਵ-ਨਿਰਧਾਰਤ ਵਹਾਅ ਦਰ ਵਜੋਂ ਸੈੱਟ ਕਰੋ",
       "DEPTH": "ਡੂੰਘਾਈ",
@@ -135,9 +201,17 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "ਕਿਸ ਕਿਸਮ ਦੀ ਸਿੰਚਾਈ?"
     },
-    "MANAGE_CUSTOM_TASKS": "ਕਸਟਮ ਕੰਮਾਂ ਦਾ ਪ੍ਰਬੰਧਨ ਕਰੋ",
+    "MANAGE_CUSTOM_TASKS": "ਆਪਣੇ ਕਸਟਮ ਕੰਮ ਪ੍ਰਬੰਧਿਤ ਕਰੋ",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "ਇਸ ਚਲਹਾਅ ਦਾ ਮਕਸਦ ਕੀ ਹੈ?",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "ਇਸ ਚਲਹਾਅ ਲਈ ਮਕਸਦ ਚੁਣੋ",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "ਵਿਆਖਿਆ",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "ਕਿਰਪਾ ਕਰਕੇ ਇਸ ਚਲਹਾਅ ਦਾ ਕਾਰਨ ਦਰਜ ਕਰੋ"
+    },
     "NEED_MANAGEMENT_PLAN": "ਵਾਢੀ ਦੇ ਕੰਮ ਜਾਂ ਟ੍ਰਾਂਸਪਲਾਂਟ ਦੇ ਕੰਮ ਨੂੰ ਨਿਯਤ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਇੱਕ ਕਿਰਿਆਸ਼ੀਲ ਜਾਂ ਯੋਜਨਾਬੱਧ ਫਸਲ ਯੋਜਨਾ ਦੀ ਲੋੜ ਪਵੇਗੀ। ਹੁਣੇ ਇੱਕ ਯੋਜਨਾ ਬਣਾਉਣ ਲਈ ਫਸਲ ਕੈਟਾਲਾਗ 'ਤੇ ਜਾਓ।",
     "NO_MANAGEMENT_PLAN": "ਕੋਈ ਯੋਗ ਫਸਲ ਯੋਜਨਾ ਨਹੀਂ",
+    "NOTES_LABEL": "ਇਸ ਕੰਮ ਨਾਲ ਸੰਬੰਧਤ ਕੁਝ ਵਿਸ਼ੇਸ਼ ਸ਼ਾਮਲ ਕਰਨਾ ਹੈ?",
+    "NOTES_PLACEHOLDER": "ਜਿੰਮੇਵਾਰ ਲਈ ਕੋਈ ਹਦਾਇਤਾਂ ਜਾਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਸ਼ਾਮਲ ਕਰੋ",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "ਜੈਵਿਕ ਨਿਯੰਤਰਣ",
       "FLAME_WEEDING": "ਬਲਦੀ ਬੂਟੀ",
@@ -196,18 +270,62 @@
     "TASK": "ਕੰਮ",
     "TASK_NOTES_CHAR_LIMIT": "ਨੋਟਸ 10,000 ਅੱਖਰਾਂ ਤੋਂ ਘੱਟ ਹੋਣੇ ਚਾਹੀਦੇ ਹਨ",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "ਸਾਨੂੰ ਇਸ ਕੰਮ ਬਾਰੇ ਦੱਸੋ",
+    "THIS_TASK_IS_COMPLETED": "ਇਹ ਕੰਮ ਪਹਿਲਾਂ ਹੀ ਮੁਕੰਮਲ ਕੀਤਾ ਜਾ ਚੁੱਕਾ ਹੈ",
+    "THIS_TASK_IS_COMPLETED_EXPLANATION": "'ਸੇਵ' ਤੇ ਕਲਿਕ ਕਰਨ ਨਾਲ ਇਹ ਕੰਮ ਤੁਰੰਤ ਸੇਵ ਹੋ ਜਾਵੇਗਾ। ਇਸ ਤੋਂ ਬਾਅਦ ਤੁਹਾਨੂੰ ਇਸਨੂੰ ਪੂਰਾ ਕਰਨ ਲਈ ਕਿਹਾ ਜਾਵੇਗਾ।",
     "TRANSPLANT_METHOD": "ਟ੍ਰਾਂਸਪਲਾਂਟ ਵਿਧੀ",
     "WAGE_OVERRIDE": "ਤਨਖਾਹ ਓਵਰਰਾਈਡ",
     "WHAT_PLANTING_METHOD": "ਟ੍ਰਾਂਸਪਲਾਂਟ ਕਰਨ ਦਾ ਤਰੀਕਾ ਕੀ ਹੈ?",
     "WILD_CROP": "ਜੰਗਲੀ ਫਸਲ"
   },
   "ANIMAL": {
+    "ADD_MORE_BODY_TEXT": "ਕੀ ਤੁਹਾਡੇ ਕੋਲ ਕੋਈ ਹੋਰ ਜਾਨਵਰ ਦੀ ਕਿਸਮ ਜਾਂ ਵੱਖ-ਵੱਖ ਨਸਲ ਹੈ?",
+    "ADD_MORE_BUTTON": "ਹੋਰ ਜਾਨਵਰ ਸ਼ਾਮਲ ਕਰੋ",
+    "ANIMAL_BREED": "ਨਸਲ",
+    "ANIMAL_COUNT_one": "{{count}} ਜਾਨਵਰ",
+    "ANIMAL_COUNT_other": "{{count}} ਜਾਨਵਰ",
+    "ANIMAL_GROUPS": "ਸਮੂਹ",
+    "ANIMAL_ID": "ਪਛਾਣ ਨੰਬਰ ID",
+    "ANIMAL_IDENTIFICATION": "ਪਛਾਣ",
+    "ANIMAL_LOCATIONS": "ਸਥਾਨ",
+    "ANIMAL_SEXES": "ਲਿੰਗ",
+    "ANIMAL_TYPE": "ਕਿਸਮ",
     "ATTRIBUTE": {
-      "LITEFARM_ID": "MISSING"
+      "ANIMAL_IMAGE": "ਜਾਨਵਰ ਦੀ ਤਸਵੀਰ",
+      "BATCH_IMAGE": "ਬੈਚ ਦੀ ਤਸਵੀਰ",
+      "BATCH_NAME": "ਬੈਚ ਦਾ ਨਾਮ",
+      "DAM": "ਮਾਂ",
+      "DATE_OF_BIRTH": "ਜਨਮ ਤਾਰੀਖ",
+      "LITEFARM_ID": "ਲਾਈਟਫਾਰਮ ਪਛਾਣ ਨੰਬਰ ID",
+      "ORGANIC_STATUS": "ਜੈਵਿਕ ਸਥਿਤੀ",
+      "OTHER_DETAILS_ANIMAL": "ਹੋਰ ਜਾਨਵਰਾਂ ਦੇ ਵੇਰਵੇ",
+      "OTHER_DETAILS_BATCH": "ਬੈਚ ਦੇ ਵੇਰਵੇ",
+      "OTHER_USE": "ਹੋਰ ਵਰਤੋਂ",
+      "SIRE": "ਪਿਤਾ",
+      "SUPPLIER": "ਸਪਲਾਇਰ",
+      "TAG_COLOUR": "ਟੈਗ ਦਾ ਰੰਗ",
+      "TAG_NUMBER": "ਟੈਗ ਨੰਬਰ",
+      "TAG_TYPE": "ਟੈਗ ਦੀ ਕਿਸਮ",
+      "WEANING_DATE": "ਛੁਟਕਾਰਾ ਤਾਰੀਖ"
     },
+    "BATCH": "ਬੈਚ",
+    "BETA_SPOTLIGHT_HEADING": "ਨਵੇਂ ਜਾਨਵਰਾਂ ਦੇ ਫੀਚਰ ਦਾ ਪਰਚੇ ਕਰਵਾਇਆ ਜਾ ਰਿਹਾ ਹੈ",
+    "EDIT_ANIMAL_FLOW": "ਸੋਧਣਾ",
+    "FILTER": {
+      "BATCHES": "ਬੈਚ",
+      "BATCHES_OR_INDIVIDUALS": "ਬੈਚ ਜਾਂ ਵਿਅਕਤੀਗਤ",
+      "FEMALE": "ਮਾਦਾ",
+      "INDIVIDUALS": "ਵਿਅਕਤੀਗਤ",
+      "MALE": "ਨਰ",
+      "TITLE": "ਜਾਨਵਰਾਂ ਨੂੰ ਫਿਲਟਰ ਕਰੋ"
+    },
+    "REMOVE_ANIMAL": "ਜਾਨਵਰ ਹਟਾਓ",
+    "SEARCH_INVENTORY_PLACEHOLDER": "ਆਪਣੇ ਸਟਾਕ ਵਿੱਚ ਖੋਜ ਕਰੋ",
+    "SHOWING_RESULTS_WITH_COUNT_one": "{{count}} ਨਤੀਜਾ ਵੇਖਾਇਆ ਜਾ ਰਿਹਾ ਹੈ",
+    "SHOWING_RESULTS_WITH_COUNT_many": "{{count}} ਨਤੀਜੇ ਵੇਖਾਏ ਜਾ ਰਹੇ ਹਨ",
+    "SHOWING_RESULTS_WITH_COUNT_other": "{{count}} ਨਤੀਜੇ ਵੇਖਾਏ ਜਾ ਰਹੇ ਹਨ",
     "TABS": {
-      "BASIC_INFO": "MISSING",
-      "TASKS": "MISSING"
+      "BASIC_INFO": "ਮੂਲ ਜਾਣਕਾਰੀ",
+      "TASKS": "ਕੰਮ"
     }
   },
   "BED_PLAN": {
@@ -831,7 +949,7 @@
     },
     "TUTORIALS": "ਨਕਸ਼ਾ ਟਿਊਟੋਰਿਯਲ",
     "UNABLE_TO_RETIRE": {
-      "BODY": "ਤੁਸੀਂ ਸਿਰਫ਼ ਉਹਨਾਂ ਟਿਕਾਣਿਆਂ ਨੂੰ ਰਿਟਾਇਰ ਕਰ ਸਕਦੇ ਹੋ ਜਿਨ੍ਹਾਂ ਵਿੱਚ ਕੋਈ ਕਿਰਿਆਸ਼ੀਲ ਜਾਂ ਯੋਜਨਾਬੱਧ ਫਸਲਾਂ ਜਾਂ ਕਾਰਜ ਨਹੀਂ ਹਨ।",
+      "BODY": "ਤੁਸੀਂ ਸਿਰਫ਼ ਉਹ ਸਥਾਨ ਸੇਵਾ-ਨਿਵ੍ਰਿਤ ਕਰ ਸਕਦੇ ਹੋ ਜਿੱਥੇ ਕੋਈ ਸਰਗਰਮ ਜਾਂ ਯੋਜਿਤ ਫਸਲਾਂ, ਜਾਨਵਰ ਜਾਂ ਕੰਮ ਨਹੀਂ ਹਨ।",
       "TITLE": "ਰਿਟਾਇਰ ਹੋਣ ਵਿੱਚ ਅਸਮਰੱਥ"
     },
     "WATER_VALVE": {
@@ -862,13 +980,18 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "ਫ਼ਾਈਲਾਂ 10MB ਤੋਂ ਵੱਡੀਆਂ ਨਹੀਂ ਹੋ ਸਕਦੀਆਂ।",
+    "BODY": "ਫਾਇਲਾਂ {{size}} MB ਤੋਂ ਵੱਡੀਆਂ ਨਹੀਂ ਹੋ ਸਕਦੀਆਂ।",
     "TITLE": "ਫ਼ਾਈਲ ਦਾ ਆਕਾਰ ਬਹੁਤ ਵੱਡਾ ਹੈ"
   },
   "FILTER": {
+    "CLEAR": "ਸਾਫ ਕਰੋ",
     "CLEAR_ALL": "ਸਭ ਸਾਫ਼ ਕਰੋ",
     "CLEAR_ALL_FILTERS": "ਸਾਰੇ ਫਿਲਟਰ ਸਾਫ਼ ਕਰੋ",
-    "SELECT_ALL": "ਸਾਰਿਆ ਨੂੰ ਚੁਣੋ"
+    "SELECT_ALL": "ਸਾਰਿਆ ਨੂੰ ਚੁਣੋ",
+    "SELECTED_one": "{{count}} ਚੁਣਿਆ ਗਿਆ",
+    "SELECTED_other": "{{count}} ਚੁਣਿਆ ਗਿਆ",
+    "SHOWING_ALL": "ਸਾਰੇ ਵੇਖਾਏ ਜਾ ਰਹੇ ਹਨ",
+    "SHOWING_ALL_DEFAULT": "ਸਾਰੇ ਵੇਖਾਏ ਜਾ ਰਹੇ ਹਨ (ਮੂਲ ਰੂਪ ਵਿੱਚ)"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
@@ -930,6 +1053,8 @@
   "HELP": {
     "ATTACHMENT_LABEL": "ਸਕ੍ਰੀਨਸ਼ੌਟ ਜਾਂ ਫ਼ਾਈਲ ਅੱਪਲੋਡ ਕਰੋ",
     "EMAIL": "ਈਮੇਲ",
+    "FEEDBACK_INVITATION": "ਮਦਦ ਲਵੋ ਜਾਂ ਸਾਨੂੰ ਫੀਡਬੈਕ ਦਿਓ",
+    "SEND_US_FEEDBACK": "ਸਾਨੂੰ ਫੀਡਬੈਕ ਭੇਜੋ",
     "MESSAGE_LABEL": "ਸੁਨੇਹਾ",
     "OPTIONS": {
       "OTHER": "ਕੋਈ ਹੋਰ",
@@ -939,7 +1064,6 @@
     },
     "PREFERRED_CONTACT": "ਪਸੰਦੀਦਾ ਸੰਪਰਕ ਵਿਧੀ",
     "REQUIRED_LABEL": "ਲੋੜੀਂਦਾ ਖੇਤਰ",
-    "TITLE": "ਮਦਦ ਲਈ ਬੇਨਤੀ ਕਰੋ",
     "TYPE_SUPPORT_LABEL": "ਸਹਾਇਤਾ ਦੀ ਕਿਸਮ",
     "TYPE_SUPPORT_PLACEHOLDER": "ਸਹਾਇਤਾ ਦੀ ਕਿਸਮ ਚੁਣੋ",
     "WHATSAPP": "ਵਟਸਐਪ",
@@ -947,6 +1071,11 @@
   },
   "HOME": {
     "GREETING": "ਚੰਗਾ ਦਿਨ, "
+  },
+  "HOVERPILL": {
+    "PLUS_OTHERS_COUNT_one": "+ {{count}} ਹੋਰ",
+    "PLUS_OTHERS_COUNT_many": "+ {{count}} ਹੋਰ",
+    "PLUS_OTHERS_COUNT_other": "+ {{count}} ਹੋਰ"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1269,6 +1398,10 @@
   },
   "MENU": {
     "ACTUAL_REVENUES": "ਅਸਲ ਆਮਦਨ",
+    "ANIMALS": "ਜਾਨਵਰ",
+    "ANIMALS_GROUPS": "ਸਮੂਹ",
+    "ANIMALS_INVENTORY": "ਸਟਾਕ",
+    "ANIMALS_LOCATION": "ਸਥਾਨ",
     "CERTIFICATIONS": "ਪ੍ਰਮਾਣੀਕਰਣ",
     "CROPS": "ਫਸਲਾਂ",
     "DOCUMENTS": "ਦਸਤਾਵੇਜ਼",
@@ -1467,6 +1600,22 @@
     "LITEFARM_UPDATED": "ਲਾਈਟਫਾਰਮ v{{version}} ਹੁਣ ਉਪਲਬਧ ਹੈ!",
     "NOTES": "ਰੀਲੀਜ਼ ਨੋਟਸ"
   },
+  "REMOVE_ANIMALS": {
+    "CREATED_IN_ERROR": "ਗਲਤੀ ਵਿੱਚ ਬਣਾਇਆ ਗਿਆ",
+    "CULLED": "ਛਾਂਟਿਆ ਗਿਆ",
+    "EXPLANATION": "ਵਿਆਖਿਆ",
+    "MORE_DETAILS": "ਕੀ ਤੁਸੀਂ ਹੋਰ ਵੇਰਵੇ ਦੇਣੇ ਚਾਹੁੰਦੇ ਹੋ?",
+    "NATURAL_DEATH": "ਕੁਦਰਤੀ ਮੌਤ",
+    "REMOVAL_REASONS": "ਹਟਾਉਣ ਦੇ ਕਾਰਨ",
+    "REMOVE_ANIMALS": "ਜਾਨਵਰ ਹਟਾਓ",
+    "REMOVED_AND_ARCHIVED": "ਇਹ ਜਾਨਵਰ ਤੁਹਾਡੇ ਫਾਰਮ ਤੋਂ ਸਫਲਤਾਪੂਰਵਕ ਹਟਾਏ ਗਏ ਹਨ ਅਤੇ ਇਹ ਤੁਹਾਡੇ ਇਤਿਹਾਸਕ ਸਟਾਕ ਵਿੱਚ ਉਪਲਬਧ ਹੋਣਗੇ।",
+    "SLAUGHTERED_FOR_CONSUMPTION": "ਖਪਤ ਲਈ ਜਬਾਹ ਕੀਤਾ ਗਿਆ",
+    "SLAUGHTERED_FOR_SALE": "ਵਿਕਰੀ ਲਈ ਜਬਾਹ ਕੀਤਾ ਗਿਆ",
+    "SOLD": "ਵੇਚਿਆ ਗਿਆ",
+    "WHY": "ਸਾਨੂੰ ਦੱਸੋ ਕਿ ਤੁਸੀਂ ਇਹ ਜਾਨਵਰ ਕਿਉਂ ਹਟਾ ਰਹੇ ਹੋ",
+    "WILL_BE_ARCHIVED": "ਇਹ ਜਾਨਵਰ ਸੰਗ੍ਰਹਿਤ ਕੀਤੇ ਜਾਣਗੇ ਅਤੇ ਭਵਿੱਖ ਦੇ ਹਵਾਲੇ ਲਈ ਉਪਲਬਧ ਹੋਣਗੇ",
+    "WILL_BE_PERMANENTLY_REMOVED": "ਇਹ ਜਾਨਵਰ ਤੁਹਾਡੇ ਫਾਰਮ ਤੋਂ ਸਥਾਈ ਤੌਰ 'ਤੇ ਹਟਾਏ ਜਾਣਗੇ"
+  },
   "REPEAT_PLAN": {
     "AFTER": "ਤੋਂ ਬਾਅਦ",
     "COMPLETION": "ਸੰਪੂਰਨਤਾ",
@@ -1507,7 +1656,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "ਸਮਝ ਗਿਆ",
-    "DESCRIPTION": "ਕੋਈ ਵਿਅਕਤੀ 48 ਘੰਟਿਆਂ ਦੇ ਅੰਦਰ ਸੰਪਰਕ ਵਿੱਚ ਹੋਵੇਗਾ।",
+    "DESCRIPTION": "",
     "TITLE": "ਮਦਦ ਦੀ ਬੇਨਤੀ ਸਪੁਰਦ ਕੀਤੀ ਗਈ"
   },
   "REVENUE": {
@@ -1619,6 +1768,11 @@
     "CLEAR_TERMS_AND_FILTERS": "ਕਿਉਂ ਨਾ ਵੱਖ-ਵੱਖ ਸ਼ਬਦਾਂ ਦੀ ਪੜਚੋਲ ਕਰੋ ਜਾਂ ਨਵੀਆਂ ਸੰਭਾਵਨਾਵਾਂ ਖੋਜਣ ਲਈ ਫਿਲਟਰਾਂ ਨੂੰ ਸਾਫ਼ ਕਰੋ?",
     "NO_RESULTS_FOR": "ਮਾਫ਼ ਕਰਨਾ, ਅਸੀਂ ਤੁਹਾਡੇ ਖੋਜ ਸ਼ਬਦ <1>'{{searchTerm}}'</1> ਲਈ ਕੋਈ ਨਤੀਜਾ ਨਹੀਂ ਲੱਭ ਸਕੇ।",
     "ZERO": "0 ਨਤੀਜੇ"
+  },
+  "SECTION_HEADER": {
+    "ANIMALS_GROUPS": "ਜਾਨਵਰ ਸਮੂਹ",
+    "ANIMALS_INVENTORY": "ਜਾਨਵਰ ਸਟਾਕ",
+    "ANIMALS_LOCATION": "ਜਾਨਵਰ ਸਥਾਨ"
   },
   "SENSOR": {
     "BRAND": "ਬ੍ਰਾਂਡ",
@@ -1777,6 +1931,7 @@
         "LABOUR_ISSUE": "ਮਜ਼ਦੂਰ ਮੁੱਦਾ",
         "MACHINERY_ISSUE": "ਮਸ਼ੀਨਰੀ ਦਾ ਮੁੱਦਾ",
         "MARKET_PROBLEM": "ਮਾਰਕੀਟ ਸਮੱਸਿਆ",
+        "NO_ANIMALS": "ਸਵੈ-ਛੱਡਿਆ: ਇਸ ਕੰਮ ਲਈ ਕੋਈ ਜਾਨਵਰ ਨਹੀਂ",
         "OTHER": "ਕੋਈ ਹੋਰ",
         "SCHEDULING_ISSUE": "ਸਮਾਂ-ਸੂਚੀ ਸੰਬੰਧੀ ਸਮੱਸਿਆ",
         "WEATHER": "ਮੌਸਮ"
@@ -1796,10 +1951,14 @@
     "ADD_TASK": "ਇੱਕ ਕਾਰਜ ਬਣਾਓ",
     "ADD_TASK_FLOW": "ਕਾਰਜ ਰਚਨਾ",
     "AMOUNT_TO_ALLOCATE": "ਅਲਾਟ ਕਰਨ ਲਈ ਰਕਮ",
-    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
+    "ANIMALS": "",
+    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "",
+    "ANIMAL_MOVING_TO_LOCATION": "ਇੱਥੇ ਲੈ ਜਾ ਰਿਹਾ ਹੈ:",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "",
     "CARD": {
       "MULTIPLE_CROPS": "ਕਈ ਫਸਲਾਂ",
-      "MULTIPLE_LOCATIONS": "ਕਈ ਸਥਾਨਾਂ"
+      "MULTIPLE_LOCATIONS": "ਕਈ ਸਥਾਨਾਂ",
+      "NO_LOCATION": ""
     },
     "COMPLETE": {
       "DATE": "ਮੁਕੰਮਲ ਹੋਣ ਦੀ ਮਿਤੀ",
@@ -1855,6 +2014,7 @@
     "HOW_WILL_HARVEST_BE_USED": "ਵਾਢੀ ਦੀ ਵਰਤੋਂ ਕਿਵੇਂ ਕੀਤੀ ਜਾਵੇਗੀ?",
     "IRRIGATION_LOCATION": "ਇੱਕ ਸਿੰਚਾਈ ਸਥਾਨ ਚੁਣੋ",
     "LOCATIONS": "ਸਥਾਨ",
+    "NO_LOCATIONS_FOR_TASK": "",
     "NO_TASKS_TO_DISPLAY": "ਪ੍ਰਦਰਸ਼ਿਤ ਕਰਨ ਲਈ ਕੋਈ ਕੰਮ ਨਹੀਂ ਹਨ।",
     "NO_WORK_DONE": "ਕੋਈ ਕੰਮ ਪੂਰਾ ਨਹੀਂ ਹੋਇਆ",
     "PAGE_TITLE": "ਕੰਮ",
@@ -1863,7 +2023,7 @@
     "QUANTITY_CANNOT_EXCEED": "ਵਰਤੇ ਗਏ ਵਾਢੀ ਦੀ ਮਾਤਰਾ ਨਿਰਧਾਰਤ ਕੀਤੀ ਰਕਮ ਤੋਂ ਵੱਧ ਨਹੀਂ ਹੋ ਸਕਦੀ",
     "RATE_THIS_TASK": "ਇਸ ਕੰਮ ਨੂੰ ਦਰਜਾ ਦਿਓ",
     "REMOVE_HARVEST_USE": "ਹਟਾਓ",
-    "SELECT_ANIMALS_TO_MOVE": "MISSING",
+    "SELECT_ANIMALS": "",
     "SELECT_DATE": "ਕੰਮ ਦੀ ਮਿਤੀ ਚੁਣੋ",
     "SELECT_TASK_LOCATIONS": "ਕੰਮ ਦੇ ਟਿਕਾਣੇ ਚੁਣੋ",
     "SELECT_WILD_CROP": "ਇਹ ਕੰਮ ਜੰਗਲੀ ਫਸਲ ਨੂੰ ਨਿਸ਼ਾਨਾ ਬਣਾਉਂਦਾ ਹੈ",
@@ -1896,6 +2056,13 @@
     "MAYBE_LATER": "ਹੋ ਸਕਦਾ ਹੈ ਕਿ ਇਹ ਬਾਅਦ ਵਿੱਚ ਟਰਨਿਪ ਹੋ ਜਾਵੇ।",
     "UNKNOWN_RECORD": "ਅਗਿਆਤ ਰਿਕਾਰਡ"
   },
+  "UPLOADER": {
+    "CHANGE_IMAGE": "ਤਸਵੀਰ ਬਦਲੋ",
+    "CLICK_TO_UPLOAD": "ਅੱਪਲੋਡ ਕਰਨ ਲਈ ਕਲਿਕ ਕਰੋ",
+    "DRAG_DROP": "ਜਾਂ ਖਿੱਚੋ ਅਤੇ ਛੱਡੋ",
+    "REMOVE_IMAGE": "ਤਸਵੀਰ ਹਟਾਓ",
+    "UPLOAD_IMAGE": "ਤਸਵੀਰ ਅੱਪਲੋਡ ਕਰੋ"
+  },
   "WAGE": {
     "ERROR": "ਮਜ਼ਦੂਰੀ ਇੱਕ ਵੈਧ, ਗੈਰ-ਨੈਗੇਟਿਵ ਦਸ਼ਮਲਵ ਸੰਖਿਆ ਹੋਣੀ ਚਾਹੀਦੀ ਹੈ",
     "HOURLY_WAGE": "ਘੰਟਾਵਾਰ ਤਨਖਾਹ",
@@ -1911,5 +2078,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "ਸਾਲ ਚੁਣੋ"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "ਬੀਟਾ",
+      "ANIMALS_CONTENT": "ਸਾਡੇ ਨਵੇਂ ਜਾਨਵਰ ਪ੍ਰਬੰਧਨ ਫੀਚਰ ਦੀ ਇੱਕ ਝਲਕ ਪ੍ਰਾਪਤ ਕਰੋ—ਹੁਣ ਬੀਟਾ ਵਿੱਚ। ਜਿਵੇਂ ਜਿਵੇਂ ਅਸੀਂ ਇਸ ਫੀਚਰ ਨੂੰ ਸੁਧਾਰਦੇ ਹਾਂ, ਤੁਹਾਡਾ ਫੀਡਬੈਕ ਬਹੁਤ ਮਹੱਤਵਪੂਰਨ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਵੀ ਬੱਗ ਜਾਂ ਸੁਝਾਅ ਸਾਂਝੇ ਕਰੋ ਜੋ ਤੁਹਾਨੂੰ ਮਿਲਦਾ ਹੈ। ਲਾਈਟਫਾਰਮ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਵਿੱਚ ਮਦਦ ਕਰਨ ਲਈ ਅਸੀਂ ਤੁਹਾਡਾ ਧੰਨਵਾਦ ਕਰਦੇ ਹਾਂ। ਤੁਸੀਂ ਬੀਟਾ ਬਾਰੇ ਹੋਰ ਜਾਣ ਸਕਦੇ ਹੋ <a>ਇੱਥੇ</a>"
+    }
   }
 }

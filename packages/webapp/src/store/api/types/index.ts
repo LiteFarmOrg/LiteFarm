@@ -20,6 +20,11 @@ import { OrganicStatus } from '../../../types';
 export type Result = Array<{ [key: string]: any }>;
 
 export interface Animal {
+  animal_use_relationships?: {
+    animal_id: number;
+    use_id: number;
+    other_use: null | string;
+  }[];
   birth_date: string | null;
   brought_in_date: string | null;
   custom_breed_id: number | null;
@@ -28,7 +33,6 @@ export interface Animal {
   default_breed_id: number | null;
   default_type_id: number | null;
   farm_id: string;
-  group_ids: number[];
   id: number;
   identifier: string | null;
   identifier_type_id: number | null;
@@ -48,9 +52,18 @@ export interface Animal {
   animal_removal_reason_id: number | null;
   removal_explanation: string | null;
   removal_date: string | null;
+  location_id: string | null;
+  tasks: { task_id: number }[];
+  type_name?: string; // request only
+  breed_name?: string; // request only
 }
 
 export interface AnimalBatch {
+  animal_batch_use_relationships?: {
+    animal_batch_id: number;
+    use_id: number;
+    other_use: null | string;
+  }[];
   birth_date: string | null;
   brought_in_date: string | null;
   count: number;
@@ -60,14 +73,18 @@ export interface AnimalBatch {
   default_breed_id: number | null;
   default_type_id: number | null;
   farm_id: string;
-  group_ids: number[];
   id: number;
   internal_identifier: number;
   name: string | null;
   notes: string | null;
   origin_id: number;
   photo_url: string | null;
-  sex_detail: { sex_id: number; count: number }[];
+  sex_detail: {
+    id?: number; // response only
+    animal_batch_id?: number; // response only
+    sex_id: number;
+    count: number;
+  }[];
   sire: string | null;
   organic_status: OrganicStatus;
   supplier: string | null;
@@ -75,15 +92,10 @@ export interface AnimalBatch {
   animal_removal_reason_id: number | null;
   removal_explanation: string | null;
   removal_date: string | null;
-}
-
-export interface AnimalGroup {
-  farm_id: string;
-  id: number;
-  name: string;
-  notes: string | null;
-  related_animal_ids: number[];
-  related_batch_ids: number[];
+  location_id: string | null;
+  tasks: { task_id: number }[];
+  type_name?: string; // request only
+  breed_name?: string; // request only
 }
 
 export interface CustomAnimalBreed {
@@ -124,6 +136,11 @@ export interface AnimalIdentifierType {
 }
 
 export interface AnimalIdentifierColor {
+  id: number;
+  key: string;
+}
+
+export interface AnimalMovementPurpose {
   id: number;
   key: string;
 }

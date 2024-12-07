@@ -17,7 +17,6 @@ import i18n from '../../../locales/i18n';
 import {
   useGetAnimalsQuery,
   useGetAnimalBatchesQuery,
-  useGetAnimalGroupsQuery,
   useGetCustomAnimalBreedsQuery,
   useGetCustomAnimalTypesQuery,
   useGetDefaultAnimalBreedsQuery,
@@ -28,7 +27,6 @@ import useQueries from '../../../hooks/api/useQueries';
 import {
   Animal,
   AnimalBatch,
-  AnimalGroup,
   CustomAnimalBreed,
   CustomAnimalType,
   DefaultAnimalBreed,
@@ -39,24 +37,28 @@ import { AnimalOrBatchKeys } from '../types';
 import { generateInventoryId } from '../../../util/animal';
 import { AnimalTypeIconKey, isAnimalTypeIconKey } from '../../../components/Icons/icons';
 import { createSingleAnimalViewURL } from '../../../util/siteMapConstants';
+import { useSelector } from 'react-redux';
+import { locationsSelector } from '../../locationSlice';
+import { Location } from '../../../types';
 
-export type AnimalInventory = {
+export type AnimalInventoryItem = {
   id: string;
   iconName: AnimalTypeIconKey;
   identification: string;
   type: string;
   breed: string;
-  groups: string[];
   path: string;
   count: number;
   batch: boolean;
-  group_ids: number[];
+  location: string;
   sex_id?: number;
   sex_detail?: { sex_id: number; count: number }[];
   custom_type_id: number | null;
   default_type_id: number | null;
   custom_breed_id: number | null;
   default_breed_id: number | null;
+  location_id?: string | null;
+  tasks: Animal['tasks'];
 };
 
 const { t } = i18n;
@@ -134,12 +136,12 @@ export const chooseAnimalBreedLabel = (
 
 const formatAnimalsData = (
   animals: Animal[],
-  animalGroups: AnimalGroup[],
   customAnimalBreeds: CustomAnimalBreed[],
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
-): AnimalInventory[] => {
+  locationsMap: { [key: string]: string },
+): AnimalInventoryItem[] => {
   return animals
     .filter(
       (animal: Animal) =>
@@ -153,29 +155,30 @@ const formatAnimalsData = (
         identification: chooseIdentification(animal),
         type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
-        groups: animal.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
         path: createSingleAnimalViewURL(animal.internal_identifier),
         count: 1,
         batch: false,
+        location: animal.location_id ? locationsMap[animal.location_id] : '',
         // preserve some untransformed data for filtering
-        group_ids: animal.group_ids,
         sex_id: animal.sex_id,
         custom_type_id: animal.custom_type_id,
         default_type_id: animal.default_type_id,
         custom_breed_id: animal.custom_breed_id,
         default_breed_id: animal.default_breed_id,
+        location_id: animal.location_id,
+        tasks: animal.tasks,
       };
     });
 };
 
 const formatAnimalBatchesData = (
   animalBatches: AnimalBatch[],
-  animalGroups: AnimalGroup[],
   customAnimalBreeds: CustomAnimalBreed[],
   customAnimalTypes: CustomAnimalType[],
   defaultAnimalBreeds: DefaultAnimalBreed[],
   defaultAnimalTypes: DefaultAnimalType[],
-): AnimalInventory[] => {
+  locationsMap: { [key: string]: string },
+): AnimalInventoryItem[] => {
   return animalBatches
     .filter(
       (batch: AnimalBatch) =>
@@ -189,17 +192,18 @@ const formatAnimalBatchesData = (
         identification: chooseIdentification(batch),
         type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),
-        groups: batch.group_ids.map((id: number) => getProperty(animalGroups, id, 'name')),
         path: createSingleAnimalViewURL(batch.internal_identifier),
         count: batch.count,
         batch: true,
+        location: batch.location_id ? locationsMap[batch.location_id] : '',
         // preserve some untransformed data for filtering
-        group_ids: batch.group_ids,
         sex_detail: batch.sex_detail,
         custom_type_id: batch.custom_type_id,
         default_type_id: batch.default_type_id,
         custom_breed_id: batch.custom_breed_id,
         default_breed_id: batch.default_breed_id,
+        location_id: batch.location_id,
+        tasks: batch.tasks,
       };
     });
 };
@@ -207,38 +211,38 @@ const formatAnimalBatchesData = (
 interface BuildInventoryArgs {
   animals: Animal[];
   animalBatches: AnimalBatch[];
-  animalGroups: AnimalGroup[];
   customAnimalBreeds: CustomAnimalBreed[];
   customAnimalTypes: CustomAnimalType[];
   defaultAnimalBreeds: DefaultAnimalBreed[];
   defaultAnimalTypes: DefaultAnimalType[];
+  locationsMap: { [key: string]: string };
 }
 
 export const buildInventory = ({
   animals,
   animalBatches,
-  animalGroups,
   customAnimalBreeds,
   customAnimalTypes,
   defaultAnimalBreeds,
   defaultAnimalTypes,
+  locationsMap,
 }: BuildInventoryArgs) => {
   const inventory = [
     ...formatAnimalsData(
       animals,
-      animalGroups,
       customAnimalBreeds,
       customAnimalTypes,
       defaultAnimalBreeds,
       defaultAnimalTypes,
+      locationsMap,
     ),
     ...formatAnimalBatchesData(
       animalBatches,
-      animalGroups,
       customAnimalBreeds,
       customAnimalTypes,
       defaultAnimalBreeds,
       defaultAnimalTypes,
+      locationsMap,
     ),
   ];
 
@@ -251,7 +255,6 @@ const useAnimalInventory = () => {
   const { data, isLoading } = useQueries([
     { label: 'animals', hook: useGetAnimalsQuery },
     { label: 'animalBatches', hook: useGetAnimalBatchesQuery },
-    { label: 'animalGroups', hook: useGetAnimalGroupsQuery },
     { label: 'customAnimalBreeds', hook: useGetCustomAnimalBreedsQuery },
     { label: 'customAnimalTypes', hook: useGetCustomAnimalTypesQuery },
     { label: 'defaultAnimalBreeds', hook: useGetDefaultAnimalBreedsQuery },
@@ -262,12 +265,17 @@ const useAnimalInventory = () => {
   const {
     animals,
     animalBatches,
-    animalGroups,
     customAnimalBreeds,
     customAnimalTypes,
     defaultAnimalBreeds,
     defaultAnimalTypes,
   } = data;
+
+  const locations: Location[] = useSelector(locationsSelector);
+  const locationsMap = locations?.reduce(
+    (map, { location_id, name }) => ({ ...map, [location_id]: name }),
+    {},
+  );
 
   const inventory = useMemo(() => {
     if (isLoading) {
@@ -276,20 +284,20 @@ const useAnimalInventory = () => {
     if (
       animals &&
       animalBatches &&
-      animalGroups &&
       customAnimalBreeds &&
       customAnimalTypes &&
       defaultAnimalBreeds &&
-      defaultAnimalTypes
+      defaultAnimalTypes &&
+      locationsMap
     ) {
       return buildInventory({
         animals,
         animalBatches,
-        animalGroups,
         customAnimalBreeds,
         customAnimalTypes,
         defaultAnimalBreeds,
         defaultAnimalTypes,
+        locationsMap,
       });
     }
     return [];
@@ -297,7 +305,6 @@ const useAnimalInventory = () => {
     isLoading,
     animals,
     animalBatches,
-    animalGroups,
     customAnimalBreeds,
     customAnimalTypes,
     defaultAnimalBreeds,

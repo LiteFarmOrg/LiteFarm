@@ -16,7 +16,6 @@
 import Model from './baseFormatModel.js';
 import baseModel from './baseModel.js';
 import AnimalBatchSexDetailModel from './animalBatchSexDetailModel.js';
-import AnimalBatchGroupRelationshipModel from './animalBatchGroupRelationshipModel.js';
 import AnimalUnionBatchIdViewModel from './animalUnionBatchIdViewModel.js';
 import { checkAndTrimString } from '../util/util.js';
 import AnimalBatchUseRelationshipModel from './animalBatchUseRelationshipModel.js';
@@ -26,7 +25,6 @@ import DefaultAnimalTypeModel from './defaultAnimalTypeModel.js';
 import CustomAnimalTypeModel from './customAnimalTypeModel.js';
 import DefaultAnimalBreedModel from './defaultAnimalBreedModel.js';
 import CustomAnimalBreedModel from './customAnimalBreedModel.js';
-import AnimalGroupModel from './animalGroupModel.js';
 
 class AnimalBatchModel extends baseModel {
   static get tableName() {
@@ -119,6 +117,7 @@ class AnimalBatchModel extends baseModel {
           from: 'animal_batch.id',
           to: 'animal_batch_sex_detail.animal_batch_id',
         },
+        modify: (query) => query.where('deleted', false),
       },
       animal_union_batch: {
         relation: Model.HasOneRelation,
@@ -128,32 +127,6 @@ class AnimalBatchModel extends baseModel {
           to: 'animal_union_batch_id_view.id',
         },
         modify: (query) => query.select('internal_identifier').where('batch', true),
-      },
-      group_ids: {
-        relation: Model.HasManyRelation,
-        modelClass: AnimalBatchGroupRelationshipModel,
-        join: {
-          from: 'animal_batch.id',
-          to: 'animal_batch_group_relationship.animal_batch_id',
-        },
-        modify: (query) =>
-          query.select('animal_group_id').whereIn('animal_group_id', function () {
-            this.select('id').from('animal_group').where('deleted', false);
-          }),
-      },
-      groups: {
-        modelClass: AnimalGroupModel,
-        relation: Model.ManyToManyRelation,
-        join: {
-          from: 'animal_batch.id',
-          through: {
-            modelClass: AnimalBatchGroupRelationshipModel,
-            from: 'animal_batch_group_relationship.animal_batch_id',
-            to: 'animal_batch_group_relationship.animal_group_id',
-          },
-          to: 'animal_group.id',
-        },
-        modify: (query) => query.select('name').where('deleted', false),
       },
       animal_batch_use_relationships: {
         relation: Model.HasManyRelation,
@@ -175,6 +148,7 @@ class AnimalBatchModel extends baseModel {
           },
           to: 'task.task_id',
         },
+        modify: (query) => query.select('task.task_id').where('deleted', false),
       },
       default_type: {
         modelClass: DefaultAnimalTypeModel,
@@ -221,15 +195,73 @@ class AnimalBatchModel extends baseModel {
         const { ref } = AnimalBatchModel;
         query.where(ref('deleted'), false);
       },
-      selectMinimalProperties(query) {
-        const { ref } = AnimalBatchModel;
-        query.select(ref('id'), ref('name'), ref('location_id'));
-      },
       selectId(query) {
         const { ref } = AnimalBatchModel;
         query.select(ref('id'));
       },
     };
+  }
+
+  static async getBatchIdsWithTasks(trx, animalIds, taskFilterCondition) {
+    if (taskFilterCondition) {
+      return AnimalBatchModel.query(trx)
+        .select('id')
+        .withGraphFetched('tasks')
+        .modifyGraph('tasks', (builder) => {
+          builder.select('task.task_id', 'task.complete_date', 'task.abandon_date');
+          builder.where('deleted', false).whereRaw(taskFilterCondition);
+        })
+        .whereIn('animal_batch.id', animalIds);
+    }
+
+    return AnimalBatchModel.query(trx)
+      .select('id')
+      .withGraphFetched('tasks')
+      .modifyGraph('tasks', (builder) => {
+        builder.select('task.task_id', 'task.complete_date', 'task.abandon_date');
+        builder.where('deleted', false);
+      })
+      .whereIn('animal_batch.id', animalIds);
+  }
+
+  // Get animals with finalized (completed or abandoned) tasks
+  static async getBatchIdsWithFinalizedTasks(trx, animalIds) {
+    return AnimalBatchModel.getBatchIdsWithTasks(
+      trx,
+      animalIds,
+      'complete_date IS NOT NULL OR abandon_date IS NOT NULL',
+    );
+  }
+
+  static async getBatchIdsWithIncompleteTasks(trx, animalIds) {
+    return AnimalBatchModel.getBatchIdsWithTasks(
+      trx,
+      animalIds,
+      'complete_date IS NULL AND abandon_date IS NULL',
+    );
+  }
+
+  static async unrelateIncompleteTasksForBatches(trx, batchIds) {
+    let unrelatedTaskIds = [];
+    const batches = await AnimalBatchModel.getBatchIdsWithIncompleteTasks(trx, batchIds);
+
+    if (batches) {
+      // Delete relationships
+      await Promise.all(
+        batches.map(({ id, tasks }) => {
+          const taskIds = tasks.map(({ task_id }) => task_id);
+          unrelatedTaskIds = [...unrelatedTaskIds, ...taskIds];
+
+          return AnimalBatchModel.relatedQuery('tasks', trx)
+            .for(id)
+            .unrelate()
+            .whereIn('task.task_id', taskIds)
+            .transacting(trx);
+        }),
+      );
+    }
+
+    return { unrelatedTaskIds: [...new Set(unrelatedTaskIds)] };
   }
 }
 

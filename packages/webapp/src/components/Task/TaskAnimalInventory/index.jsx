@@ -23,6 +23,8 @@ import { Main } from '../../Typography';
 import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
 import styles from './styles.module.scss';
 
+export const ANIMAL_IDS = 'animalIds';
+
 export default function PureTaskAnimalInventory({
   onContinue,
   onGoBack,
@@ -31,27 +33,20 @@ export default function PureTaskAnimalInventory({
   history,
   isDesktop,
   isRequired = true,
+  progress = 43,
 }) {
   const { t } = useTranslation();
-  const ANIMAL_IDS = 'animalIds';
+  const preSelectedIds = persistedFormData.animalIds || history.location?.state?.animal_ids;
 
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    watch,
-    setValue,
-    formState: { isValid },
-  } = useForm({
+  const { register, handleSubmit, getValues, watch, setValue } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
     defaultValues: {
       ...persistedFormData,
-      [ANIMAL_IDS]: persistedFormData.animalIds || [],
+      [ANIMAL_IDS]: preSelectedIds || [],
     },
   });
 
-  const progress = 43;
   const { historyCancel } = useHookFormPersist(getValues);
   const animalIds = watch(ANIMAL_IDS);
   const disabled = isRequired && !animalIds?.length;
@@ -100,14 +95,15 @@ export default function PureTaskAnimalInventory({
             maxHeight: '24px',
           }}
         >
-          {t('TASK.SELECT_ANIMALS_TO_MOVE')}
+          {t('TASK.SELECT_ANIMALS')}
         </Main>
         <input type="hidden" {...register(ANIMAL_IDS)} />
         <AnimalInventory
           onSelect={onSelect}
           view={View.TASK}
           history={history}
-          preSelectedIds={persistedFormData?.animalIds ?? []}
+          preSelectedIds={preSelectedIds}
+          showLinks={false}
         />
       </Form>
     </div>

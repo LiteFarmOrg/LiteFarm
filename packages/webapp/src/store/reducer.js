@@ -55,6 +55,7 @@ import pestControlTaskReducer from '../containers/slice/taskSlice/pestControlTas
 import soilAmendmentTaskReducer from '../containers/slice/taskSlice/soilAmendmentTaskSlice';
 import plantTaskReducer from '../containers/slice/taskSlice/plantTaskSlice';
 import transplantTaskReducer from '../containers/slice/taskSlice/transplantTaskSlice';
+import animalMovementTaskReducer from '../containers/slice/taskSlice/animalMovementTaskSlice';
 import harvestUseTypeReducer from '../containers/harvestUseTypeSlice';
 import taskTypeReducer from '../containers/taskTypeSlice';
 import productReducer from '../containers/productSlice';
@@ -203,6 +204,7 @@ const entitiesReducer = combineReducers({
   soilAmendmentTaskReducer,
   plantTaskReducer,
   transplantTaskReducer,
+  animalMovementTaskReducer,
   taskTypeReducer,
   harvestUseTypeReducer,
   productReducer,

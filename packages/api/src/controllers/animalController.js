@@ -18,8 +18,8 @@ import AnimalModel from '../models/animalModel.js';
 import baseController from './baseController.js';
 import {
   assignInternalIdentifiers,
-  upsertGroup,
   checkAndAddCustomTypeAndBreed,
+  handleIncompleteTasksForAnimalsAndBatches,
 } from '../util/animal.js';
 import { handleObjectionError } from '../util/errorCodes.js';
 import { uploadPublicImage } from '../util/imageUpload.js';
@@ -35,14 +35,12 @@ const animalController = {
           .whereNotDeleted()
           .withGraphFetched({
             animal_union_batch: true,
-            group_ids: true,
             animal_use_relationships: true,
           });
         return res.status(200).send(
-          rows.map(({ animal_union_batch, group_ids, ...rest }) => ({
+          rows.map(({ animal_union_batch, ...rest }) => ({
             ...rest,
             internal_identifier: animal_union_batch.internal_identifier,
-            group_ids: group_ids.map(({ animal_group_id }) => animal_group_id),
           })),
         );
       } catch (error) {
@@ -74,9 +72,6 @@ const animalController = {
             farm_id,
             trx,
           );
-
-          await upsertGroup(req, animal, farm_id, trx);
-
           // Remove farm_id if it happens to be set in animal object since it should be obtained from header
           delete animal.farm_id;
 
@@ -86,10 +81,6 @@ const animalController = {
             req,
             { trx },
           );
-
-          // Format group_ids
-          individualAnimalResult.group_ids =
-            individualAnimalResult.group_ids?.map((group) => group.animal_group_id) || [];
 
           result.push(individualAnimalResult);
         }
@@ -140,7 +131,6 @@ const animalController = {
           'price',
           'sex_detail',
           'origin_id',
-          'group_ids',
           'animal_use_relationships',
         ];
 
@@ -154,8 +144,6 @@ const animalController = {
             farm_id,
             trx,
           );
-
-          await upsertGroup(req, animal, farm_id, trx);
 
           const keysExisting = desiredKeys.filter((key) => key in animal);
           const data = _pick(animal, keysExisting);
@@ -174,6 +162,7 @@ const animalController = {
   removeAnimals() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
+      const ids = [];
 
       try {
         for (const animal of req.body) {
@@ -190,7 +179,12 @@ const animalController = {
             req,
             { trx },
           );
+
+          ids.push(id);
         }
+
+        const { removal_date } = req.body[0];
+        await handleIncompleteTasksForAnimalsAndBatches(req, trx, 'animal', ids, removal_date);
         await trx.commit();
         return res.status(204).send();
       } catch (error) {
@@ -204,12 +198,14 @@ const animalController = {
       const trx = await transaction.start(Model.knex());
 
       try {
-        const { ids } = req.query;
+        const { ids, date } = req.query;
         const idsSet = new Set(ids.split(','));
 
         for (const animalId of idsSet) {
           await baseController.delete(AnimalModel, animalId, req, { trx });
         }
+
+        await handleIncompleteTasksForAnimalsAndBatches(req, trx, 'animal', [...idsSet], date);
         await trx.commit();
         return res.status(204).send();
       } catch (error) {

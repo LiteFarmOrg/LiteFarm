@@ -15,24 +15,37 @@
 
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import type { AnimalInventory } from './useAnimalInventory';
+import type { AnimalInventoryItem } from './useAnimalInventory';
 import { AnimalOrBatchKeys } from '../types';
 import { AnimalsFilterKeys } from '../../Filter/Animals/types';
 import { animalMatchesFilter } from '../../Filter/Animals/utils';
 import { animalsFilterSelector } from '../../filterSlice';
 import { isInactive } from '../../Filter/utils';
 
-export const useFilteredInventory = (inventory: AnimalInventory[]) => {
+export const useFilteredInventory = (
+  inventory: AnimalInventoryItem[],
+  showOnlySelected: boolean,
+  selectedInventoryIds: string[],
+) => {
+  const idMatches = useMemo(() => {
+    return inventory.filter((entity) => {
+      return selectedInventoryIds.includes(entity.id);
+    });
+  }, [inventory, selectedInventoryIds]);
+
+  if (showOnlySelected) {
+    return idMatches;
+  }
+
   const {
     [AnimalsFilterKeys.ANIMAL_OR_BATCH]: animalsOrBatchesFilter,
     [AnimalsFilterKeys.TYPE]: typesFilter,
     [AnimalsFilterKeys.BREED]: breedsFilter,
     [AnimalsFilterKeys.SEX]: sexFilter,
-    [AnimalsFilterKeys.GROUPS]: groupsFilter,
     [AnimalsFilterKeys.LOCATION]: locationsFilter,
   } = useSelector(animalsFilterSelector);
 
-  return useMemo(() => {
+  const filterMatches = useMemo(() => {
     return inventory.filter((entity) => {
       const animalOrBatchMatches =
         isInactive(animalsOrBatchesFilter) ||
@@ -52,31 +65,13 @@ export const useFilteredInventory = (inventory: AnimalInventory[]) => {
           ? entity.sex_detail!.some(({ sex_id }) => sexFilter[sex_id]?.active)
           : sexFilter[entity.sex_id!]?.active);
 
-      const groupMatches =
-        isInactive(groupsFilter) ||
-        entity.group_ids.some((groupId) => groupsFilter[groupId]?.active);
+      const locationMatches =
+        isInactive(locationsFilter) ||
+        (entity.location_id && locationsFilter[entity.location_id]?.active);
 
-      // *** Location is not yet implemented as a property on animal or batch  ***
-      const locationMatches = isInactive(locationsFilter);
-      // const locationMatches =
-      //   isInactive(locationsFilter) || locationsFilter[entity.location]?.active;
-
-      return (
-        animalOrBatchMatches &&
-        typeMatches &&
-        breedMatches &&
-        sexMatches &&
-        groupMatches &&
-        locationMatches
-      );
+      return animalOrBatchMatches && typeMatches && breedMatches && sexMatches && locationMatches;
     });
-  }, [
-    inventory,
-    animalsOrBatchesFilter,
-    typesFilter,
-    breedsFilter,
-    sexFilter,
-    groupsFilter,
-    locationsFilter,
-  ]);
+  }, [inventory, animalsOrBatchesFilter, typesFilter, breedsFilter, sexFilter, locationsFilter]);
+
+  return filterMatches;
 };

@@ -80,6 +80,7 @@ class TaskModel extends BaseModel {
             'WEATHER',
             'MACHINERY_ISSUE',
             'SCHEDULING_ISSUE',
+            'NO_ANIMALS',
           ],
         },
         other_abandonment_reason: { type: ['string', 'null'] },
@@ -501,6 +502,13 @@ class TaskModel extends BaseModel {
       // If the task is custom or does not have associated product, delete just the task
       return TaskModel.deleteTask(task_id, user, trx);
     }
+  }
+
+  static async getTaskIdsWithAnimalAndBatchIds(trx, taskIds) {
+    return await TaskModel.query(trx)
+      .select('task_id')
+      .withGraphFetched('[animals(selectId), animal_batches(selectId)]')
+      .whereIn('task_id', taskIds);
   }
 }
 

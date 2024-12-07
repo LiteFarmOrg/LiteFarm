@@ -17,30 +17,30 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import {
   ANIMALS_INVENTORY_URL,
-  ANIMALS_LOCATION_URL,
-  ANIMALS_GROUPS_URL,
   ADD_ANIMALS_URL,
   createSingleAnimalViewURL,
-  createSingleAnimalTasksURL,
+  // createSingleAnimalTasksURL,
 } from '../util/siteMapConstants';
 const Inventory = React.lazy(() => import('../containers/Animals/Inventory'));
-const Location = React.lazy(() => import('../containers/Animals/Location'));
-const Groups = React.lazy(() => import('../containers/Animals/Groups'));
 const AddAnimals = React.lazy(() => import('../containers/Animals/AddAnimals'));
 const SingleAnimalView = React.lazy(() => import('../containers/Animals/SingleAnimalView'));
-const SingleAnimalTasks = React.lazy(() =>
-  import('../containers/Animals/SingleAnimalView/AnimalTasks'),
-);
+// const SingleAnimalTasks = React.lazy(() =>
+//   import('../containers/Animals/SingleAnimalView/AnimalTasks'),
+// );
 
-const AnimalsRoutes = ({ isCompactSideMenu }) => (
+const AnimalsRoutes = ({ isCompactSideMenu, setFeedbackSurveyOpen }) => (
   <Switch>
     <Route
       path={ANIMALS_INVENTORY_URL}
       exact
-      render={(props) => <Inventory isCompactSideMenu={isCompactSideMenu} {...props} />}
+      render={(props) => (
+        <Inventory
+          isCompactSideMenu={isCompactSideMenu}
+          setFeedbackSurveyOpen={setFeedbackSurveyOpen}
+          {...props}
+        />
+      )}
     />
-    <Route path={ANIMALS_LOCATION_URL} exact component={Location} />
-    <Route path={ANIMALS_GROUPS_URL} exact component={Groups} />
     <Route
       path={ADD_ANIMALS_URL}
       exact
@@ -51,11 +51,12 @@ const AnimalsRoutes = ({ isCompactSideMenu }) => (
       exact
       render={(props) => <SingleAnimalView isCompactSideMenu={isCompactSideMenu} {...props} />}
     />
-    <Route
+    {/* Temporarily removed for Animals v1 release */}
+    {/* <Route
       path={createSingleAnimalTasksURL(':id')}
       exact
       render={(props) => <SingleAnimalTasks isCompactSideMenu={isCompactSideMenu} {...props} />}
-    />
+    /> */}
   </Switch>
 );
 

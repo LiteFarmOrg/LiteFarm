@@ -20,10 +20,12 @@ import {
   checkAnimalAndBatchIds,
   isOnOrAfterBirthAndBroughtInDates,
 } from '../../util/animal.js';
+import { CUSTOM_TASK } from '../../util/task.js';
 import { checkIsArray, customError } from '../../util/customErrors.js';
 
 const adminRoles = [1, 2, 5];
 const taskTypesRequiringProducts = ['soil_amendment_task'];
+const clientRestrictedReasons = ['NO_ANIMALS'];
 
 export function noReqBodyCheckYet() {
   return async (req, res, next) => {
@@ -60,6 +62,10 @@ export function checkAbandonTask() {
 
       if (abandonment_reason.toUpperCase() === 'OTHER' && !other_abandonment_reason) {
         return res.status(400).send('must have other_abandonment_reason');
+      }
+
+      if (clientRestrictedReasons.includes(abandonment_reason.toUpperCase())) {
+        return res.status(400).send('The provided abandonment_reason is not allowed');
       }
 
       if (!abandon_date) {
@@ -123,8 +129,9 @@ export function checkCompleteTask(taskType) {
         return res.status(400).send('Task has already been completed or abandoned');
       }
 
-      if (ANIMAL_TASKS.includes(taskType)) {
+      if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(taskType)) {
         await checkAnimalTask(req, taskType, 'complete_date');
+        await checkAnimalCompleteTask(req, taskType, task_id);
       }
 
       const { assignee_user_id } = await TaskModel.query()
@@ -169,7 +176,7 @@ export function checkCreateTask(taskType) {
         return res.status(400).send('must have user_id');
       }
 
-      if (!(taskType in req.body) && taskType !== 'custom_task') {
+      if (!(taskType in req.body) && taskType !== CUSTOM_TASK) {
         return res.status(400).send('must have task details body');
       }
 
@@ -181,7 +188,7 @@ export function checkCreateTask(taskType) {
         return res.status(400).send('task type requires products');
       }
 
-      if (ANIMAL_TASKS.includes(taskType)) {
+      if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(taskType)) {
         await checkAnimalTask(req, taskType, 'due_date');
       }
 
@@ -206,14 +213,15 @@ export function checkCreateTask(taskType) {
 async function checkAnimalTask(req, taskType, dateName) {
   const { farm_id } = req.headers;
   const { related_animal_ids, related_batch_ids, managementPlans } = req.body;
+  const ALLOWED_TYPES_WITH_MANAGEMENT_PLANS = [CUSTOM_TASK];
 
-  if (managementPlans?.length) {
+  if (!ALLOWED_TYPES_WITH_MANAGEMENT_PLANS.includes(taskType) && managementPlans?.length) {
     throw customError(`managementPlans cannot be added for ${taskType}`);
   }
 
-  let isAnimalOrBatchRequired = true;
+  let isAnimalOrBatchRequired = taskType !== CUSTOM_TASK;
 
-  if (dateName === 'complete_date') {
+  if (isAnimalOrBatchRequired && dateName === 'complete_date') {
     // Set isAnimalOrBatchRequired to false when both animals and batches won't be modified
     const animalsOrBatchesProvided =
       'related_animal_ids' in req.body || 'related_batch_ids' in req.body;
@@ -227,7 +235,7 @@ async function checkAnimalTask(req, taskType, dateName) {
     isAnimalOrBatchRequired,
   );
 
-  if (dateName === 'due_date') {
+  if ((related_animal_ids?.length || related_batch_ids?.length) && dateName === 'due_date') {
     const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
       req.body[dateName],
       related_animal_ids,
@@ -244,6 +252,42 @@ async function checkAnimalTask(req, taskType, dateName) {
   }[taskType];
 
   await taskTypeCheck?.(req);
+}
+
+async function checkAnimalCompleteTask(req, taskType, taskId) {
+  let finalizedAnimals = req.body.animals ?? undefined;
+  let finalizedBatches = req.body.animal_batches ?? undefined;
+
+  if (finalizedAnimals === undefined && finalizedBatches === undefined) {
+    // If animals or batches are not being modified, retrieve them from the DB
+    const { animals, animal_batches } = await TaskModel.query()
+      .select('task_id')
+      .withGraphFetched('[animals(selectId), animal_batches(selectId)]')
+      .where({ task_id: taskId })
+      .first();
+
+    finalizedAnimals = animals;
+    finalizedBatches = animal_batches;
+  }
+
+  // Animal tasks require animals or batches, but custom tasks do not
+  if (ANIMAL_TASKS.includes(taskType) && !finalizedAnimals?.length && !finalizedBatches?.length) {
+    throw customError('No animals or batches to apply the task to');
+  }
+
+  if (finalizedAnimals || finalizedBatches) {
+    const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
+      req.body.complete_date,
+      (finalizedAnimals.animals || []).map(({ id }) => id),
+      (finalizedBatches.animal_batches || []).map(({ id }) => id),
+    );
+
+    if (!isValidDate) {
+      throw customError(
+        `complete_date must be on or after the animals' birth and brought-in dates`,
+      );
+    }
+  }
 }
 
 export function checkDeleteTask() {
@@ -285,4 +329,41 @@ async function checkAnimalMovementTask(req) {
   if (req.body.animal_movement_task?.purpose_ids) {
     checkIsArray(req.body.animal_movement_task.purpose_ids, 'purpose_ids');
   }
+}
+
+export function checkDueDate() {
+  return async (req, res, next) => {
+    try {
+      const { due_date } = req.body;
+      const { task_id } = req.params;
+
+      const { animals, animal_batches } = await TaskModel.query()
+        .select('task_id')
+        .withGraphFetched('[animals(selectId), animal_batches(selectId)]')
+        .where({ task_id })
+        .first();
+
+      if (animals.length || animal_batches.length) {
+        const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
+          due_date.split('T')[0],
+          animals.map(({ id }) => id),
+          animal_batches.map(({ id }) => id),
+        );
+
+        if (!isValidDate) {
+          throw customError(`due_date must be on or after the animals' birth and brought-in dates`);
+        }
+      }
+      next();
+    } catch (error) {
+      console.error(error);
+
+      if (error.type === 'LiteFarmCustom') {
+        return error.body
+          ? res.status(error.code).json({ ...error.body, message: error.message })
+          : res.status(error.code).send(error.message);
+      }
+      return res.status(500).json({ error });
+    }
+  };
 }

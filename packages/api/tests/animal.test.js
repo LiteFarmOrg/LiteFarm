@@ -25,8 +25,6 @@ import { tableCleanup } from './testEnvironment.js';
 
 import { makeFarmsWithAnimalsAndBatches } from './utils/animalUtils.js';
 import AnimalModel from '../src/models/animalModel.js';
-import AnimalGroupModel from '../src/models/animalGroupModel.js';
-import AnimalGroupRelationshipModel from '../src/models/animalGroupRelationshipModel.js';
 
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt.js', () =>
@@ -41,6 +39,13 @@ import CustomAnimalTypeModel from '../src/models/customAnimalTypeModel.js';
 import CustomAnimalBreedModel from '../src/models/customAnimalBreedModel.js';
 import AnimalUseRelationshipModel from '../src/models/animalUseRelationshipModel.js';
 import { ANIMAL_CREATE_LIMIT } from '../src/util/animal.js';
+import {
+  animalGetRequest,
+  animalPostRequest,
+  animalRemoveRequest,
+  animalPatchRequest,
+  animalDeleteRequest,
+} from './utils/animalUtils.js';
 
 describe('Animal Tests', () => {
   let farm;
@@ -67,50 +72,23 @@ describe('Animal Tests', () => {
   });
 
   async function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }) {
-    return await chai
-      .request(server)
-      .get('/animals')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id);
+    return await animalGetRequest({ user_id, farm_id });
   }
 
   async function postRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
-    return await chai
-      .request(server)
-      .post('/animals')
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(data);
+    return await animalPostRequest({ user_id, farm_id }, data);
   }
 
   async function removeRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
-    return await chai
-      .request(server)
-      .patch('/animals/remove')
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(data);
+    return await animalRemoveRequest({ user_id, farm_id }, data);
   }
 
   async function patchRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, data) {
-    return await chai
-      .request(server)
-      .patch('/animals')
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(data);
+    return await animalPatchRequest({ user_id, farm_id }, data);
   }
 
   async function deleteRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id, query = '' }) {
-    return await chai
-      .request(server)
-      .delete(`/animals?${query}`)
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id);
+    return await animalDeleteRequest({ user_id, farm_id, query });
   }
 
   function fakeUserFarm(role = 1) {
@@ -185,13 +163,11 @@ describe('Animal Tests', () => {
         expect({
           ...firstAnimal,
           internal_identifier: res.body[0].internal_identifier,
-          group_ids: [],
           animal_use_relationships: [],
         }).toMatchObject(res.body[0]);
         expect({
           ...secondAnimal,
           internal_identifier: res.body[1].internal_identifier,
-          group_ids: [],
           animal_use_relationships: [],
         }).toMatchObject(res.body[1]);
       }
@@ -666,104 +642,10 @@ describe('Animal Tests', () => {
         expect(res.body[6].custom_breed_id).toBe(newBreed5.id);
       });
     });
-
-    test('Add animals to groups while adding animals', async () => {
-      const { mainFarm, user } = await returnUserFarms(1);
-
-      const groupNames = [...Array(3)].map(() => faker.lorem.word());
-      const [existingGroupName, newGroupName1, newGroupName2] = groupNames;
-
-      const [existingGroup] = await mocks.animal_groupFactory({
-        promisedFarm: [mainFarm],
-        properties: { name: existingGroupName },
-      });
-
-      // insert a deleted group
-      await mocks.animal_groupFactory({
-        promisedFarm: [mainFarm],
-        properties: { name: newGroupName1, deleted: true },
-      });
-
-      const animalsGroups = [
-        { group_name: newGroupName1 },
-        { group_name: existingGroupName },
-        { group_name: newGroupName2 },
-        {},
-        { group_name: newGroupName1 },
-        { group_name: newGroupName1 },
-      ];
-
-      const animals = animalsGroups.map(({ group_name }) => {
-        const data = { default_type_id: defaultTypeId };
-        return mocks.fakeAnimal(group_name ? { ...data, group_name } : data);
-      });
-
-      const res = await postRequest(
-        {
-          user_id: user.user_id,
-          farm_id: mainFarm.farm_id,
-        },
-        animals,
-      );
-
-      const expectedGroupNameAnimalIdsMap = {}; // { [newGroupName1]: [<animal_id>, ...], [newGroupName2]: [<animal_id>], ... }
-      animalsGroups.forEach(({ group_name }, index) => {
-        if (group_name) {
-          if (!expectedGroupNameAnimalIdsMap[group_name]) {
-            expectedGroupNameAnimalIdsMap[group_name] = [];
-          }
-          expectedGroupNameAnimalIdsMap[group_name].push(res.body[index].id);
-        }
-      });
-
-      const groupNameIdMap = { [existingGroupName]: existingGroup.id };
-      for (let groupName of [newGroupName1, newGroupName2]) {
-        const [group] = await AnimalGroupModel.query()
-          .where('farm_id', mainFarm.farm_id)
-          .andWhere('name', groupName)
-          .andWhere('deleted', false);
-        groupNameIdMap[groupName] = group.id;
-      }
-
-      // check if animal_group_relationship table has expected data
-      for (let groupName of groupNames) {
-        const foundRelationships = await AnimalGroupRelationshipModel.query().where(
-          'animal_group_id',
-          groupNameIdMap[groupName],
-        );
-        const animalIdsInGroup = foundRelationships.map(({ animal_id }) => animal_id);
-        expect(animalIdsInGroup).toEqual(expectedGroupNameAnimalIdsMap[groupName]);
-      }
-
-      // animalIds of animals that didn't have group_name in request body should not exist in animal_group_relationship table
-      const animalsWithoutGroups = res.body.filter((animal, index) => {
-        return !animalsGroups[index].group_name;
-      });
-      for (let animal of animalsWithoutGroups) {
-        const foundRelationships = await AnimalGroupRelationshipModel.query().where(
-          'animal_id',
-          animal.id,
-        );
-        expect(foundRelationships.length).toBe(0);
-      }
-
-      // check if each animal has correct group_ids
-      res.body.forEach((animal, index) => {
-        const { group_name } = animalsGroups[index];
-
-        if (group_name) {
-          expect(animal.group_ids).toEqual([groupNameIdMap[group_name]]);
-        } else {
-          expect(animal.group_ids.length).toBe(0);
-        }
-      });
-    });
   });
 
   // EDIT tests
   describe('Edit animal tests', () => {
-    let animalGroup1;
-    let animalGroup2;
     let animalSex;
     let animalIdentifierColor;
     let animalIdentifierType;
@@ -773,8 +655,6 @@ describe('Animal Tests', () => {
     let animalUse3;
 
     beforeEach(async () => {
-      [animalGroup1] = await mocks.animal_groupFactory();
-      [animalGroup2] = await mocks.animal_groupFactory();
       // Populate enums
       [animalSex] = await mocks.animal_sexFactory();
       [animalIdentifierColor] = await mocks.animal_identifier_colorFactory();
@@ -796,7 +676,6 @@ describe('Animal Tests', () => {
         default_type_id: defaultTypeId,
         animal_use_relationships: [{ use_id: animalUse1.id }],
         sire: 'Unchanged',
-        group_name: animalGroup1.name,
       });
       const secondAnimal = mocks.fakeAnimal({
         name: 'edit test 2',
@@ -841,7 +720,6 @@ describe('Animal Tests', () => {
         identifier_type_id: animalIdentifierType.id,
         organic_status: 'Organic',
         animal_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],
-        group_ids: [{ animal_group_id: animalGroup2.id }],
       });
       const updatedSecondAnimal = mocks.fakeAnimal({
         id: returnedSecondAnimal.id,
@@ -857,7 +735,6 @@ describe('Animal Tests', () => {
         identifier_type_id: animalIdentifierType.id,
         organic_status: 'Organic',
         animal_use_relationships: [{ use_id: animalUse2.id }, { use_id: animalUse3.id }],
-        group_ids: [{ animal_group_id: animalGroup2.id }],
       });
 
       const patchRes = await patchRequest(
@@ -868,21 +745,25 @@ describe('Animal Tests', () => {
         [updatedFirstAnimal, updatedSecondAnimal],
       );
 
-      // Remove or add properties not actually expected from get request
-      [updatedFirstAnimal, updatedSecondAnimal].forEach((animal) => {
-        // Should not cause an error
-        delete animal.extra_non_existant_property;
-        // Should not be able to update on edit
-        animal.animal_removal_reason_id = null;
-        // Return format different than post format
-        animal.group_ids = animal.group_ids.map((groupId) => groupId.animal_group_id);
-        animal.animal_use_relationships.forEach((rel) => {
-          rel.animal_id = animal.id;
-          rel.other_use = null;
-        });
+      const [expectedFirstAnimal, expectedSecondAnimal] = [
+        updatedFirstAnimal,
+        updatedSecondAnimal,
+      ].map((animal) => {
+        const { extra_non_existant_property, ...rest } = animal;
+        return {
+          ...rest,
+          animal_removal_reason_id: null,
+          animal_use_relationships: rest.animal_use_relationships.map((rel) => {
+            return {
+              animal_id: rest.id,
+              use_id: rel.use_id,
+              other_use: null,
+            };
+          }),
+        };
       });
 
-      return { res: patchRes, updatedFirstAnimal, updatedSecondAnimal };
+      return { res: patchRes, expectedFirstAnimal, expectedSecondAnimal };
     }
 
     test('Admin users should be able to edit animals', async () => {
@@ -897,11 +778,9 @@ describe('Animal Tests', () => {
           user,
         );
         expect(addRes.status).toBe(201);
-        expect(returnedFirstAnimal).toBeTruthy();
-        expect(returnedSecondAnimal).toBeTruthy();
 
         // Edit animals in db
-        const { res: editRes, updatedFirstAnimal, updatedSecondAnimal } = await editAnimals(
+        const { res: editRes, expectedFirstAnimal, expectedSecondAnimal } = await editAnimals(
           mainFarm,
           user,
           returnedFirstAnimal,
@@ -928,7 +807,7 @@ describe('Animal Tests', () => {
           delete record.deleted;
           delete record.updated_at;
           delete record.updated_by;
-          const updatedRecord = [updatedFirstAnimal, updatedSecondAnimal].find(
+          const updatedRecord = [expectedFirstAnimal, expectedSecondAnimal].find(
             (animal) => animal.id === record.id,
           );
           expect(record).toMatchObject(updatedRecord);
@@ -949,16 +828,14 @@ describe('Animal Tests', () => {
         fakeUserFarm(workerRole),
       );
 
-      // Add animals to db
+      // Use admin to add animals to db
       const { res: addRes, returnedFirstAnimal, returnedSecondAnimal } = await addAnimals(
         mainFarm,
         admin,
       );
       expect(addRes.status).toBe(201);
-      expect(returnedFirstAnimal).toBeTruthy();
-      expect(returnedSecondAnimal).toBeTruthy();
 
-      // Edit animals in db
+      // Edit animals in db with non-admin
       const { res: editRes } = await editAnimals(
         mainFarm,
         user,
@@ -1213,6 +1090,8 @@ describe('Animal Tests', () => {
 
   // DELETE tests
   describe('Delete animal tests', () => {
+    const deleteDateParam = `date=2024-11-22`;
+
     test('Admin users should be able to delete animals', async () => {
       const roles = [1, 2, 5];
 
@@ -1232,7 +1111,7 @@ describe('Animal Tests', () => {
         const res = await deleteRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
-          query: `ids=${firstAnimal.id},${secondAnimal.id}`,
+          query: `ids=${firstAnimal.id},${secondAnimal.id}&${deleteDateParam}`,
         });
 
         expect(res.status).toBe(204);
@@ -1252,7 +1131,7 @@ describe('Animal Tests', () => {
         const res = await deleteRequest({
           user_id: user.user_id,
           farm_id: mainFarm.farm_id,
-          query: `ids=${animal.ids}`,
+          query: `ids=${animal.ids}&${deleteDateParam}`,
         });
 
         expect(res.status).toBe(403);
@@ -1268,7 +1147,7 @@ describe('Animal Tests', () => {
       const res = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: ``,
+        query: `${deleteDateParam}`,
       });
 
       expect(res).toMatchObject({
@@ -1289,7 +1168,7 @@ describe('Animal Tests', () => {
       const res1 = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: `ids=${animal.id},,`,
+        query: `ids=${animal.id},,&${deleteDateParam}`,
       });
 
       expect(res1).toMatchObject({
@@ -1303,13 +1182,27 @@ describe('Animal Tests', () => {
       const res2 = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: `ids=},a,`,
+        query: `ids=},a,&${deleteDateParam}`,
       });
 
       expect(res2).toMatchObject({
         status: 400,
         error: {
           text: 'Must send valid ids',
+        },
+      });
+
+      // Without date
+      const res3 = await deleteRequest({
+        user_id: user.user_id,
+        farm_id: mainFarm.farm_id,
+        query: `ids=${animal.id}`,
+      });
+
+      expect(res3).toMatchObject({
+        status: 400,
+        error: {
+          text: 'Must send date',
         },
       });
     });
@@ -1325,7 +1218,7 @@ describe('Animal Tests', () => {
       const res = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: `ids=${animal.id}`,
+        query: `ids=${animal.id}&${deleteDateParam}`,
       });
 
       expect(res).toMatchObject({
@@ -1349,7 +1242,7 @@ describe('Animal Tests', () => {
       const res = await deleteRequest({
         user_id: user.user_id,
         farm_id: mainFarm.farm_id,
-        query: `ids=${animal.id}`,
+        query: `ids=${animal.id}&${deleteDateParam}`,
       });
 
       expect(res).toMatchObject({

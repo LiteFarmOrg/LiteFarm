@@ -22,6 +22,7 @@ import AnimalGroupModel from '../models/animalGroupModel.js';
 import { checkAndTrimString } from './util.js';
 import AnimalModel from '../models/animalModel.js';
 import AnimalBatchModel from '../models/animalBatchModel.js';
+import TaskModel from '../models/taskModel.js';
 import { checkIsArray, customError } from './customErrors.js';
 
 export const ANIMAL_TASKS = ['animal_movement_task'];
@@ -232,3 +233,34 @@ export async function isOnOrAfterBirthAndBroughtInDates(date, animalIds, batchId
 
   return inputDateAtMidnight >= latestRelevantDateAtMidnight;
 }
+
+export const handleIncompleteTasksForAnimalsAndBatches = async (
+  req,
+  trx,
+  animalOrBatch,
+  ids,
+  date,
+) => {
+  const unrelate =
+    animalOrBatch === 'animal'
+      ? AnimalModel.unrelateIncompleteTasksForAnimals
+      : AnimalBatchModel.unrelateIncompleteTasksForBatches;
+  const { unrelatedTaskIds } = await unrelate(trx, ids);
+
+  if (!unrelatedTaskIds.length) {
+    return;
+  }
+
+  const tasks = await TaskModel.getTaskIdsWithAnimalAndBatchIds(trx, unrelatedTaskIds);
+  const taskIdsToAbandon = tasks.flatMap(({ task_id, animals, animal_batches }) => {
+    // Abandon the task if it has no associated animals or batches
+    return animals.length + animal_batches.length === 0 ? task_id : [];
+  });
+
+  if (taskIdsToAbandon.length) {
+    await TaskModel.query(trx).context(req.auth).whereIn('task_id', taskIdsToAbandon).patch({
+      abandon_date: date,
+      abandonment_reason: 'NO_ANIMALS',
+    });
+  }
+};

@@ -19,6 +19,8 @@ import {
   ASSIGNEE,
   ALREADY_COMPLETED,
 } from '../../../components/Task/AssignTask/constants';
+import { getProgress } from '../util';
+import { useIsTaskType } from '../useIsTaskType';
 
 export default function TaskManagement({ history, match, location }) {
   const userFarms = useSelector(userFarmEntitiesSelector);
@@ -31,7 +33,8 @@ export default function TaskManagement({ history, match, location }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const [isFarmWorker] = useState(userFarm.role_id === 3);
   const worker = users[userFarm.user_id];
-
+  const isCustomTask = useIsTaskType('CUSTOM_TASK');
+  const progress = isCustomTask ? getProgress('CUSTOM_TASK', 'task_assignment') : undefined;
   const [showCannotCreateModal, setShowCannotCreateModal] = useState(false);
 
   const defaultAssignee = useMemo(() => {
@@ -184,6 +187,7 @@ export default function TaskManagement({ history, match, location }) {
           override={override}
           {...taskAssignForm}
           additionalContent={taskCompleted}
+          progress={progress}
         />
       </HookFormPersistProvider>
       {showCannotCreateModal && (

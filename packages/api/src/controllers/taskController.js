@@ -33,7 +33,8 @@ import Location from '../models/locationModel.js';
 import TaskTypeModel from '../models/taskTypeModel.js';
 import baseController from './baseController.js';
 import AnimalMovementPurposeModel from '../models/animalMovementPurposeModel.js';
-import { ANIMAL_TASKS, isOnOrAfterBirthAndBroughtInDates } from '../util/animal.js';
+import { ANIMAL_TASKS } from '../util/animal.js';
+import { CUSTOM_TASK } from '../util/task.js';
 import { customError } from '../util/customErrors.js';
 
 const adminRoles = [1, 2, 5];
@@ -152,25 +153,8 @@ async function updateTaskWithCompletedData(
       }
 
       if (!data.animals && !data.animal_batches) {
-        // Check if there are animals and batches in the DB to move
-        if (!animals?.length && !animal_batches?.length) {
-          throw customError('No animals and bathes to move');
-        }
-
         data.animals = animals;
         data.animal_batches = animal_batches;
-      }
-
-      const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
-        data.complete_date,
-        (data.animals || []).map(({ id }) => id),
-        (data.animal_batches || []).map(({ id }) => id),
-      );
-
-      if (!isValidDate) {
-        throw customError(
-          `complete_date must be on or after the animals' birth and brought-in dates`,
-        );
       }
 
       data.animals?.forEach((animal) => (animal.location_id = locationId));
@@ -213,6 +197,8 @@ async function updateTaskWithCompletedData(
             noUpdate: nonModifiable,
             noDelete: true,
             noInsert: true,
+            relate: ['animals', 'animal_batches'],
+            unrelate: ['animals', 'animal_batches'],
           },
         );
       return task;
@@ -456,7 +442,10 @@ const taskController = {
         }
 
         data = await this.checkCustomDependencies(typeOfTask, data, req.headers.farm_id);
-        if (ANIMAL_TASKS.includes(typeOfTask)) {
+        if (
+          [...ANIMAL_TASKS, CUSTOM_TASK].includes(typeOfTask) &&
+          ('related_animal_ids' in data || 'related_batch_ids' in data)
+        ) {
           data = this.formatAnimalAndBatchIds(data);
         }
         const result = await TaskModel.transaction(async (trx) => {
@@ -474,8 +463,8 @@ const taskController = {
                 locations.[location_defaults],
                 managementPlans,
                 taskType,
-                animals(filterDeleted, selectMinimalProperties).[animal_union_batch, groups, default_type, custom_type, default_breed, custom_breed],
-                animal_batches(filterDeleted, selectMinimalProperties).[animal_union_batch, groups, default_type, custom_type, default_breed, custom_breed],
+                animals(filterDeleted, selectId).[animal_union_batch],
+                animal_batches(filterDeleted, selectId).[animal_union_batch],
                 soil_amendment_task,
                 soil_amendment_task_products.[purpose_relationships],
                 irrigation_task.[irrigation_type],
@@ -520,11 +509,15 @@ const taskController = {
   },
 
   formatAnimalAndBatchIds(data) {
-    if (data.related_animal_ids) {
-      data.animals = [...new Set(data.related_animal_ids)].map((id) => ({ id }));
+    if ('related_animal_ids' in data) {
+      data.animals = data.related_animal_ids
+        ? [...new Set(data.related_animal_ids)].map((id) => ({ id }))
+        : null;
     }
-    if (data.related_batch_ids) {
-      data.animal_batches = [...new Set(data.related_batch_ids)].map((id) => ({ id }));
+    if ('related_batch_ids' in data) {
+      data.animal_batches = data.related_batch_ids
+        ? [...new Set(data.related_batch_ids)].map((id) => ({ id }))
+        : null;
     }
 
     delete data.related_animal_ids;
@@ -534,6 +527,11 @@ const taskController = {
   },
 
   async checkCustomDependencies(typeOfTask, data, farm_id) {
+    // TODO: Move this validation to checkCreateTask and checkCompleteTask and apply the middleware to all relevant routes.
+    if ('animals' in data || 'animal_batches' in data) {
+      throw customError(`Invalid field: "animals" or "animal_batches" should not be included.`);
+    }
+
     switch (typeOfTask) {
       case 'field_work_task': {
         return await this.checkAndAddCustomFieldWork(data, farm_id);
@@ -748,7 +746,7 @@ const taskController = {
           { ...req.body, owner_user_id: user_id },
           req.headers.farm_id,
         );
-        if (ANIMAL_TASKS.includes(typeOfTask)) {
+        if ([...ANIMAL_TASKS, CUSTOM_TASK].includes(typeOfTask)) {
           data = this.formatAnimalAndBatchIds(data);
         }
         const result = await TaskModel.transaction(async (trx) => {
@@ -874,8 +872,8 @@ const taskController = {
           `[
             locations.[location_defaults],
             managementPlans,
-            animals(filterDeleted, selectMinimalProperties).[animal_union_batch, groups, default_type, custom_type, default_breed, custom_breed],
-            animal_batches(filterDeleted, selectMinimalProperties).[animal_union_batch, groups, default_type, custom_type, default_breed, custom_breed],
+            animals(filterDeleted, selectId).[animal_union_batch],
+            animal_batches(filterDeleted, selectId).[animal_union_batch],
             soil_amendment_task,
             soil_amendment_task_products(filterDeleted).[purpose_relationships],
             field_work_task.[field_work_task_type],
@@ -1002,7 +1000,16 @@ function removeNullTypes(task) {
 
 //TODO: optimize after plant_task and transplant_task refactor
 async function getTasksForFarm(farm_id) {
-  const [managementTasks, locationTasks, plantTasks, transplantTasks] = await Promise.all([
+  const customTaskTypesForFarm = await TaskTypeModel.query()
+    .select('task_type_id')
+    .where({ farm_id });
+  const [
+    managementTasks,
+    locationTasks,
+    plantTasks,
+    transplantTasks,
+    customTasks,
+  ] = await Promise.all([
     TaskModel.query()
       .select('task.task_id')
       .whereNotDeleted()
@@ -1055,8 +1062,15 @@ async function getTasksForFarm(farm_id) {
       )
       .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
       .where('crop_variety.farm_id', farm_id),
+    TaskModel.query()
+      .select('task.task_id')
+      .whereNotDeleted()
+      .whereIn(
+        'task_type_id',
+        customTaskTypesForFarm.map(({ task_type_id }) => task_type_id),
+      ),
   ]);
-  return [...managementTasks, ...locationTasks, ...plantTasks, ...transplantTasks];
+  return [...managementTasks, ...locationTasks, ...plantTasks, ...transplantTasks, ...customTasks];
 }
 
 async function getManagementPlans(task_id, typeOfTask) {
@@ -1261,4 +1275,5 @@ async function filterOutDeletedManagementPlans(data, req) {
 
 const flattenInternalIdentifier = (animalOrBatch) => {
   animalOrBatch.internal_identifier = animalOrBatch.animal_union_batch.internal_identifier;
+  delete animalOrBatch.animal_union_batch;
 };

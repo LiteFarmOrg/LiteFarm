@@ -134,7 +134,6 @@ import animalIdentifierColorRoute from './routes/animalIdentifierColorRoute.js';
 import animalIdentifierTypeRoute from './routes/animalIdentifierTypeRoute.js';
 import animalSexRoute from './routes/animalSexRoute.js';
 import animalOriginRoute from './routes/animalOriginRoute.js';
-import animalGroupRoute from './routes/animalGroupRoute.js';
 import animalRemovalReasonRoute from './routes/animalRemovalReasonRoute.js';
 import animalUseRoute from './routes/animalUseRoute.js';
 import cropRoutes from './routes/cropRoute.js';
@@ -145,6 +144,7 @@ import taskTypeRoutes from './routes/taskTypeRoute.js';
 import soilAmendmentMethodRoute from './routes/soilAmendmentMethodRoute.js';
 import soilAmendmentPurposeRoute from './routes/soilAmendmentPurposeRoute.js';
 import soilAmendmentFertiliserTypeRoute from './routes/soilAmendmentFertiliserTypeRoute.js';
+import animalMovementPurposeRoute from './routes/animalMovementPurposeRoute.js';
 import userRoutes from './routes/userRoute.js';
 import farmExpenseRoute from './routes/farmExpenseRoute.js';
 import farmExpenseTypeRoute from './routes/farmExpenseTypeRoute.js';
@@ -290,7 +290,6 @@ app
   .use('/animal_identifier_colors', animalIdentifierColorRoute)
   .use('/animal_sexes', animalSexRoute)
   .use('/animal_origins', animalOriginRoute)
-  .use('/animal_groups', animalGroupRoute)
   .use('/animal_removal_reasons', animalRemovalReasonRoute)
   .use('/animal_uses', animalUseRoute)
   .use('/location', locationRoute)
@@ -304,6 +303,7 @@ app
   .use('/soil_amendment_purposes', soilAmendmentPurposeRoute)
   .use('/soil_amendment_methods', soilAmendmentMethodRoute)
   .use('/soil_amendment_fertiliser_types', soilAmendmentFertiliserTypeRoute)
+  .use('/animal_movement_purposes', animalMovementPurposeRoute)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)
   .use('/expense_type', farmExpenseTypeRoute)

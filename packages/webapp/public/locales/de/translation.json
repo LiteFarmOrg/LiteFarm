@@ -1,6 +1,67 @@
 {
   "ADD_ANIMAL": {
-    "EDIT_BASIC_INFO": "MISSING"
+    "ADD_ANIMALS": "Tiere hinzufügen",
+    "ADD_ANIMALS_FLOW": "Hinzufügen von Tieren",
+    "ADD_ANIMALS_TITLE": "Tiere Hinzufügen",
+    "ADD_DETAILS_INFO": "Füllen Sie unterhalb Ihre Tierdaten aus oder speichern Sie sie und machen Sie später weiter.",
+    "ADD_TO_INVENTORY": "Fügen Sie Tiere zu Ihrem Bestand hinzu",
+    "ANIMAL_BASICS": "Tiergrundlagen",
+    "ANIMAL_DETAILS": "Tierdetails",
+    "ANIMALS_TOTAL_one": "{{count}} Tier gesamt",
+    "ANIMALS_TOTAL_other": "{{count}} Tiere gesamt",
+    "ANIMALS_UNSPECIFIED_one": "{{count}} nicht spezifiziert",
+    "ANIMALS_UNSPECIFIED_other": "{{count}} nicht spezifiziert",
+    "BATCH_NAME": "Chargenname",
+    "BATCH_NAME_PLACEHOLDER": "Chargennamen eingeben",
+    "BREED": "Zucht",
+    "BREED_PLACEHOLDER_DISABLED": "Bitte wählen Sie zuerst einen Typ",
+    "CREATE_INDIVIDUAL_PROFILES": "Individuelle Tierprofile erstellen",
+    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Wählen Sie diese Option, wenn Sie jedes Tier einzeln verfolgen und verwalten möchten",
+    "EDIT_BASIC_INFO": "Basis-Info bearbeiten",
+    "GENERAL_DETAILS": "Allgemeine Details",
+    "GENERAL_DETAILS_BATCH": "Allgemeine Chargendetails",
+    "GROUP_NAME": "Gruppenname",
+    "GROUP_NAME_PLACEHOLDER": "Gruppenname eingeben",
+    "ORIGIN": "Ursprung",
+    "ORIGIN_BATCH": "Chargen-Herkunft",
+    "OTHER_DETAILS": "Sonstige Details",
+    "OTHER_DETAILS_BATCH": "Weitere Chargendetails",
+    "OUT_OF_COUNT_one": "{{animalNumber}} von {{count}}",
+    "OUT_OF_COUNT_other": "{{animalNumber}} von {{count}}",
+    "PLACEHOLDER": {
+      "BATCH_NAME": "Chargennamen eingeben",
+      "DAM": "Tippe ein Muttertier ein",
+      "NAME": "Namen eingeben",
+      "OTHER_DETAILS": "Beschreibung eingeben",
+      "OTHER_USE": "Beschreiben Sie die andere Verwendung",
+      "PRICE": "Wie viel hat es gekostet?",
+      "SIRE": "Vatertier eingeben",
+      "SUPPLIER": "Lieferant eingeben",
+      "TAG_COLOUR": "Welche Farbe hat die Marke?",
+      "TAG_NUMBER": "Markennummer eingeben",
+      "TAG_TYPE": "Was ist der Markentyp?",
+      "TAG_TYPE_INFO": "Bitte beschreiben Sie Ihren Markentyp"
+    },
+    "REMOVE_CONFIRM": "Möchten Sie wirklich entfernen?",
+    "SELECT_SEXES": "Geschlechter auswählen",
+    "SEX_DETAIL": "Geschlechtsdetails",
+    "SEX_DETAIL_ERROR_one": "Maximale Tieranzahl: {{count}}",
+    "SEX_DETAIL_ERROR_other": "Maximale Tieranzahl: {{count}}",
+    "SEX_DETAIL_ERROR_POPOVER_one": "Sie können nicht mehr als {{count}} Tier haben",
+    "SEX_DETAIL_ERROR_POPOVER_other": "Sie können nicht mehr als {{count}} Tiere haben",
+    "SPECIFY_SEX": "Geschlecht spezifizieren",
+    "SUMMARY": {
+      "ADD_MORE_DETAILS": "Weitere Details zu Ihren Tieren hinzufügen",
+      "ALL_DONE": "Alles fertig!",
+      "ANIMAL_SUMMARY_COUNT_one": "{{count}} einzelnes Tier",
+      "ANIMAL_SUMMARY_COUNT_other": "{{count}} einzelne Tiere",
+      "BATCH_SUMMARY_COUNT_one": "{{count}} Charge",
+      "BATCH_SUMMARY_COUNT_other": "{{count}} Chargen",
+      "HERE_IS_SUMMARY": "Hier ist eine Zusammenfassung Ihrer hinzugefügten Tiere:",
+      "MAIN": "Sie haben erfolgreich {{animalCount}} {{and}} {{batchCount}} zu Ihrem Bestand hinzugefügt."
+    },
+    "TYPE": "Typ",
+    "UNIQUE_DETAILS": "Einzigartige Details"
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Adresse ist erforderlich",
@@ -56,6 +117,7 @@
     "ASSIGN_TASK": "Aufgabe zuweisen",
     "ASSIGNEE": "Beauftragter",
     "CANCEL": "Aufgabenerstellung",
+    "CANT_FIND_INFO_TASK": "Sie können auch Ihre eigenen benutzerdefinierten Aufgabentypen erstellen!",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Geschätzter Wasserverbrauch",
       "IS_PERMITTED": "Steht das Reinigungsmittel auf der Liste der zulässigen Stoffe?",
@@ -102,6 +164,7 @@
     "IRRIGATION_VIEW": {
       "BRAND_TOOLTIP": "Diese Aufgabe ist für die Bewässerung Ihres Standorts gedacht. Wenn Sie eine Bewässerung installieren möchten, erstellen Sie stattdessen eine Feldarbeitsaufgabe.",
       "CALCULATE_WATER_USAGE": "Berechnung des Wasserverbrauchs",
+      "CALCULATE_WATER_USAGE_WARNING": "Für Wildpflanzen ist eine Schätzung der Wassernutzung nach Tiefe nicht verfügbar.",
       "DEFAULT_APPLICATION_DEPTH": "Als Standardanwendungstiefe für diesen Standort festlegen",
       "DEFAULT_LOCATION_FLOW_RATE": "Als Standardflussrate für diesen Standort festlegen",
       "DEPTH": "Tiefe",
@@ -138,9 +201,17 @@
       },
       "WHAT_TYPE_OF_IRRIGATION": "Welche Art der Bewässerung?"
     },
-    "MANAGE_CUSTOM_TASKS": "Verwalten von benutzerdefinierten Aufgaben",
+    "MANAGE_CUSTOM_TASKS": "Verwalten Sie Ihre benutzerdefinierten Aufgaben",
+    "MOVEMENT_VIEW": {
+      "MOVEMENT_PURPOSE_LABEL": "Was ist der Zweck dieser Bewegung?",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "Wählen Sie den Zweck für diese Bewegung",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "Erklärung",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Bitte beschreiben Sie den Grund für diese Bewegung"
+    },
     "NEED_MANAGEMENT_PLAN": "Sie benötigen einen aktiven oder geplanten Anbauplan, bevor Sie eine Ernteaufgabe oder eine Umpflanzaufgabe planen können. Rufen Sie den Pflanzenkatalog auf, um jetzt einen Plan zu erstellen.",
     "NO_MANAGEMENT_PLAN": "Keine förderfähigen Anbaupläne",
+    "NOTES_LABEL": "Gibt es etwas Spezielles, das zu dieser Aufgabe hinzugefügt werden sollte?",
+    "NOTES_PLACEHOLDER": "Anweisungen oder Spezifikationen für den Beauftragten hinzufügen",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Biologische Kontrolle",
       "FLAME_WEEDING": "Flammenunkrautbekämpfung",
@@ -199,18 +270,62 @@
     "TASK": "Aufgabe",
     "TASK_NOTES_CHAR_LIMIT": "Notizen müssen weniger als 10.000 Zeichen umfassen",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Erzählen Sie uns von dieser Aufgabe",
+    "THIS_TASK_IS_COMPLETED": "Diese Aufgabe ist bereits abgeschlossen",
+    "THIS_TASK_IS_COMPLETED_EXPLANATION": "Wenn Sie auf \"Speichern\" klicken, wird diese Aufgabe sofort gespeichert. Sie werden dann aufgefordert, sie abzuschließen.",
     "TRANSPLANT_METHOD": "Umpflanzsmethode",
     "WAGE_OVERRIDE": "Lohnaufhebung",
     "WHAT_PLANTING_METHOD": "Was ist die Umpflanzmethode?",
     "WILD_CROP": "Wildfrüchte"
   },
   "ANIMAL": {
+    "ADD_MORE_BODY_TEXT": "Haben Sie einen anderen Tiertyp oder eine andere Rasse?",
+    "ADD_MORE_BUTTON": "Mehr Tiere hinzufügen",
+    "ANIMAL_BREED": "Rasse",
+    "ANIMAL_COUNT_one": "{{count}} Tier",
+    "ANIMAL_COUNT_other": "{{count}} Tiere",
+    "ANIMAL_GROUPS": "Gruppe",
+    "ANIMAL_ID": "ID",
+    "ANIMAL_IDENTIFICATION": "Identifizierung",
+    "ANIMAL_LOCATIONS": "Standort",
+    "ANIMAL_SEXES": "Geschlecht",
+    "ANIMAL_TYPE": "Typ",
     "ATTRIBUTE": {
-      "LITEFARM_ID": "MISSING"
+      "ANIMAL_IMAGE": "Tierbild",
+      "BATCH_IMAGE": "Chargenbild",
+      "BATCH_NAME": "Chargenname",
+      "DAM": "Muttertier",
+      "DATE_OF_BIRTH": "Geburtsdatum",
+      "LITEFARM_ID": "LiteFarm ID",
+      "ORGANIC_STATUS": "Bio-Status",
+      "OTHER_DETAILS_ANIMAL": "Andere Tierdetails",
+      "OTHER_DETAILS_BATCH": "Chargendetails",
+      "OTHER_USE": "Andere Verwendung",
+      "SIRE": "Vatertier",
+      "SUPPLIER": "Lieferant",
+      "TAG_COLOUR": "Markenfarbe",
+      "TAG_NUMBER": "Markennummer",
+      "TAG_TYPE": "Markentyp",
+      "WEANING_DATE": "Absetzdatum"
     },
+    "BATCH": "Charge",
+    "BETA_SPOTLIGHT_HEADING": "Einführung der neuen Tierfunktion",
+    "EDIT_ANIMAL_FLOW": "bearbeite",
+    "FILTER": {
+      "BATCHES": "Chargen",
+      "BATCHES_OR_INDIVIDUALS": "Chargen oder Einzeltiere",
+      "FEMALE": "Weiblich",
+      "INDIVIDUALS": "Einzeltiere",
+      "MALE": "Männlich",
+      "TITLE": "Tiere filtern"
+    },
+    "REMOVE_ANIMAL": "Tiere entfernen",
+    "SEARCH_INVENTORY_PLACEHOLDER": "Durchsuche Ihren Bestand",
+    "SHOWING_RESULTS_WITH_COUNT_one": "{{count}} Ergebnis wird angezeigt",
+    "SHOWING_RESULTS_WITH_COUNT_many": "{{count}} Ergebnisse werden angezeigt",
+    "SHOWING_RESULTS_WITH_COUNT_other": "{{count}} Ergebnisse werden angezeigt",
     "TABS": {
-      "BASIC_INFO": "MISSING",
-      "TASKS": "MISSING"
+      "BASIC_INFO": "Grundinfo",
+      "TASKS": "Aufgaben"
     }
   },
   "BED_PLAN": {
@@ -834,7 +949,7 @@
     },
     "TUTORIALS": "Kartenanleitungen",
     "UNABLE_TO_RETIRE": {
-      "BODY": "Sie können nur Standorte zurückziehen, die keine aktiven oder geplanten Pflanzen oder Aufgaben haben.",
+      "BODY": "Sie können nur Standorte zurückziehen, die keine aktiven oder geplanten Pflanzen, Tiere oder Aufgaben haben.",
       "TITLE": "Nicht möglich, zurückzuziehen"
     },
     "WATER_VALVE": {
@@ -865,13 +980,18 @@
     }
   },
   "FILE_SIZE_MODAL": {
-    "BODY": "Dateien dürfen nicht größer als 10 MB sein.",
+    "BODY": "Dateien können nicht größer als {{size}} MB sein.",
     "TITLE": "Dateigröße zu groß"
   },
   "FILTER": {
+    "CLEAR": "entfernen",
     "CLEAR_ALL": "Alle löschen",
     "CLEAR_ALL_FILTERS": "Alle Filter löschen",
-    "SELECT_ALL": "Alle auswählen"
+    "SELECT_ALL": "Alle auswählen",
+    "SELECTED_one": "{{count}} ausgewählt",
+    "SELECTED_other": "{{count}} ausgewählt",
+    "SHOWING_ALL": "Zeige alle",
+    "SHOWING_ALL_DEFAULT": "Zeige alle (Standard)"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
@@ -933,6 +1053,8 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Bildschirmfoto oder Datei hochladen",
     "EMAIL": "E-Mail",
+    "FEEDBACK_INVITATION": "Hilfe erhalten oder Feedback geben",
+    "SEND_US_FEEDBACK": "Senden Sie uns Feedback",
     "MESSAGE_LABEL": "Nachricht",
     "OPTIONS": {
       "OTHER": "Andere",
@@ -942,7 +1064,6 @@
     },
     "PREFERRED_CONTACT": "Bevorzugte Kontaktmethode",
     "REQUIRED_LABEL": "Erforderliches Feld",
-    "TITLE": "Anfrage einreichen",
     "TYPE_SUPPORT_LABEL": "Art der Anfrage",
     "TYPE_SUPPORT_PLACEHOLDER": "Wählen Sie die Art der Unterstützung",
     "WHATSAPP": "Whatsapp",
@@ -950,6 +1071,11 @@
   },
   "HOME": {
     "GREETING": "Guten Tag, "
+  },
+  "HOVERPILL": {
+    "PLUS_OTHERS_COUNT_one": "+ {{count}} andere",
+    "PLUS_OTHERS_COUNT_many": "+ {{count}} andere",
+    "PLUS_OTHERS_COUNT_other": "+ {{count}} andere"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1272,6 +1398,10 @@
   },
   "MENU": {
     "ACTUAL_REVENUES": "Tatsächliche Einnahmen",
+    "ANIMALS": "Tiere",
+    "ANIMALS_GROUPS": "Gruppen",
+    "ANIMALS_INVENTORY": "Bestand",
+    "ANIMALS_LOCATION": "Standorte",
     "CERTIFICATIONS": "Zertifizierungen",
     "CROPS": "Kulturpflanzen",
     "DOCUMENTS": "Dokumente",
@@ -1470,6 +1600,22 @@
     "LITEFARM_UPDATED": "LiteFarm v{{version}} ist jetzt verfügbar!",
     "NOTES": "Hinweise zur Veröffentlichung"
   },
+  "REMOVE_ANIMALS": {
+    "CREATED_IN_ERROR": "In Fehler erstellt",
+    "CULLED": "Ausgemustert",
+    "EXPLANATION": "Erklärung",
+    "MORE_DETAILS": "Möchten Sie weitere Details angeben?",
+    "NATURAL_DEATH": "Natürlicher Tod",
+    "REMOVAL_REASONS": "Entfernungsgründe",
+    "REMOVE_ANIMALS": "Tiere entfernen",
+    "REMOVED_AND_ARCHIVED": "Diese Tiere wurden erfolgreich aus Ihrem Bauernhof entfernt und werden in Ihrem historischen Bestand verfügbar sein.",
+    "SLAUGHTERED_FOR_CONSUMPTION": "Zum Verbrauch geschlachtet",
+    "SLAUGHTERED_FOR_SALE": "Zum Verkauf geschlachtet",
+    "SOLD": "Verkauft",
+    "WHY": "Teilen Sie uns mit, warum Sie diese Tiere entfernen",
+    "WILL_BE_ARCHIVED": "Diese Tiere werden archiviert und für zukünftige Referenz zugänglich sein",
+    "WILL_BE_PERMANENTLY_REMOVED": "Diese Tiere werden dauerhaft aus Ihrem Bauernhof entfernt"
+  },
   "REPEAT_PLAN": {
     "AFTER": "Nach",
     "COMPLETION": "Fertigstellung",
@@ -1510,7 +1656,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Verstanden",
-    "DESCRIPTION": "Jemand wird sich innerhalb von 48 Stunden mit Ihnen in Verbindung setzen.",
+    "DESCRIPTION": "Jemand wird in Kürze Kontakt aufnehmen.",
     "TITLE": "Anfrage abgeschickt"
   },
   "REVENUE": {
@@ -1622,6 +1768,11 @@
     "CLEAR_TERMS_AND_FILTERS": "Warum probieren Sie nicht verschiedene Begriffe aus oder löschen Sie einfach die Filter, um neue Möglichkeiten zu entdecken?",
     "NO_RESULTS_FOR": "Es wurden leider keine Ergebnisse für Ihren Suchbegriff gefunden <1>'{{searchTerm}}'</1>",
     "ZERO": "0 Ergebnisse"
+  },
+  "SECTION_HEADER": {
+    "ANIMALS_GROUPS": "Tiergruppen",
+    "ANIMALS_INVENTORY": "Tierbestand",
+    "ANIMALS_LOCATION": "Tierstandorte"
   },
   "SENSOR": {
     "BRAND": "Marke",
@@ -1780,6 +1931,7 @@
         "LABOUR_ISSUE": "Arbeitsproblem",
         "MACHINERY_ISSUE": "Maschinenproblem",
         "MARKET_PROBLEM": "Marktproblem",
+        "NO_ANIMALS": "Automatisch aufgegeben: Keine Tiere für diese Aufgabe",
         "OTHER": "Andere",
         "SCHEDULING_ISSUE": "Terminplanungsproblem",
         "WEATHER": "Wetter"
@@ -1799,10 +1951,14 @@
     "ADD_TASK": "Erstellen Sie eine Aufgabe",
     "ADD_TASK_FLOW": "Aufgabenerstellung",
     "AMOUNT_TO_ALLOCATE": "Zuzuweisender Betrag",
-    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
+    "ANIMALS": "",
+    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "",
+    "ANIMAL_MOVING_TO_LOCATION": "Verschieben nach:",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "",
     "CARD": {
       "MULTIPLE_CROPS": "Mehrere Kulturpflanzen",
-      "MULTIPLE_LOCATIONS": "Mehrere Standorte"
+      "MULTIPLE_LOCATIONS": "Mehrere Standorte",
+      "NO_LOCATION": "Kein Standort"
     },
     "COMPLETE": {
       "DATE": "Datum der Fertigstellung",
@@ -1858,6 +2014,7 @@
     "HOW_WILL_HARVEST_BE_USED": "Wie wird die Ernte genutzt?",
     "IRRIGATION_LOCATION": "Wählen Sie einen Bewässerungsstandort",
     "LOCATIONS": "Standort(e)",
+    "NO_LOCATIONS_FOR_TASK": "Kein spezieller Standort für diese Aufgabe erforderlich",
     "NO_TASKS_TO_DISPLAY": "Es gibt keine Aufgaben anzuzeigen.",
     "NO_WORK_DONE": "Keine Arbeit wurde abgeschlossen",
     "PAGE_TITLE": "Aufgaben",
@@ -1866,7 +2023,7 @@
     "QUANTITY_CANNOT_EXCEED": "Die genutzte Erntemenge darf nicht größer sein als die zu verteilende Menge",
     "RATE_THIS_TASK": "Bewerten Sie diese Aufgabe",
     "REMOVE_HARVEST_USE": "Entfernen",
-    "SELECT_ANIMALS_TO_MOVE": "MISSING",
+    "SELECT_ANIMALS": "",
     "SELECT_DATE": "Wählen Sie das Datum der Aufgabe",
     "SELECT_TASK_LOCATIONS": "Wählen Sie die Aufgabenstellung(en)",
     "SELECT_WILD_CROP": "Diese Aufgabe zielt auf eine Wildpflanze ab",
@@ -1899,6 +2056,13 @@
     "MAYBE_LATER": "Vielleicht taucht es später noch auf.",
     "UNKNOWN_RECORD": "Unbekannter Nachweis"
   },
+  "UPLOADER": {
+    "CHANGE_IMAGE": "Bild Ändern",
+    "CLICK_TO_UPLOAD": "Zum Hochladen klicken",
+    "DRAG_DROP": "oder ziehen und ablegen",
+    "REMOVE_IMAGE": "Bild Entfernen",
+    "UPLOAD_IMAGE": "Bild Hochladen"
+  },
   "WAGE": {
     "ERROR": "Der Lohn muss eine gültige, nicht-negative Dezimalzahl sein",
     "HOURLY_WAGE": "Stundenlohn",
@@ -1914,5 +2078,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Jahr auswählen"
+  },
+  "BADGE": {
+    "BETA": {
+      "TITLE": "Beta",
+      "ANIMALS_CONTENT": "Erhalten Sie einen ersten Einblick in unsere neue Funktion zur Tierverwaltung – jetzt in der Beta-Phase! Ihr Feedback ist entscheidend, während wir diese Funktion weiterentwickeln. Bitte teilen Sie uns eventuelle Fehler oder Verbesserungsvorschläge mit. Wir schätzen Ihre Hilfe bei der Verbesserung von LiteFarm sehr! Mehr über die Beta erfahren Sie <a>hier</a>"
+    }
   }
 }

@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import Drawer from '../../Drawer';
 import Button from '../../Form/Button';
 import ReactSelect from '../../Form/ReactSelect';
@@ -24,7 +24,6 @@ import Input, { getInputErrors } from '../../Form/Input';
 import { ReactComponent as WarningIcon } from '../../../assets/images/warning.svg';
 import { ReactComponent as CheckIcon } from '../../../assets/images/check-circle.svg';
 import { useTranslation } from 'react-i18next';
-import { ClassNamesConfig } from 'react-select';
 import { getLocalDateInYYYYDDMM } from '../../../util/date';
 import { useGetAnimalRemovalReasonsQuery } from '../../../store/api/apiSlice';
 import type { AnimalRemovalReasonKeys } from '../../../store/api/types';
@@ -54,6 +53,7 @@ type RemoveAnimalsModalProps = {
   onClose: () => void;
   onConfirm: SubmitHandler<FormFields>;
   showSuccessMessage: boolean;
+  hideDeleteOption?: boolean;
 };
 
 export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
@@ -62,7 +62,6 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
     handleSubmit,
     control,
     watch,
-    reset,
     formState: { errors, isValid },
   } = useForm<FormFields>({
     mode: 'onChange',
@@ -110,10 +109,14 @@ export default function RemoveAnimalsModal(props: RemoveAnimalsModalProps) {
       label: t('common:OTHER'),
       value: RemovalReasons.OTHER,
     },
-    {
-      label: t('REMOVE_ANIMALS.CREATED_IN_ERROR'),
-      value: RemovalReasons.CREATED_IN_ERROR,
-    },
+    ...(props.hideDeleteOption
+      ? []
+      : [
+          {
+            label: t('REMOVE_ANIMALS.CREATED_IN_ERROR'),
+            value: RemovalReasons.CREATED_IN_ERROR,
+          },
+        ]),
   ];
 
   const selectedOption = watch(REASON);

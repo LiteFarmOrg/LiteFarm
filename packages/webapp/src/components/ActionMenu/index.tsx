@@ -26,6 +26,7 @@ interface action {
 
 export interface iconAction extends action {
   iconName: IconName;
+  visible: boolean;
 }
 
 export interface ActionMenuProps {
@@ -54,14 +55,16 @@ const ActionMenu = ({ headerLeftText, textActions = [], iconActions }: ActionMen
         </div>
       </div>
       <div className={styles.iconButtons}>
-        {iconActions.map(({ iconName, label, onClick }) => {
+        {iconActions.map(({ iconName, label, onClick, visible }) => {
           return (
-            <div key={label} className={clsx(styles.iconGroup, iconCountClassName)}>
-              <TextButton onClick={onClick}>
-                <Icon iconName={iconName} className={styles.icon} />
-              </TextButton>
-              <div className={styles.iconLabel}>{label}</div>
-            </div>
+            visible && (
+              <div key={label} className={clsx(styles.iconGroup, iconCountClassName)}>
+                <TextButton onClick={onClick}>
+                  <Icon iconName={iconName} className={styles.icon} />
+                </TextButton>
+                <div className={styles.iconLabel}>{label}</div>
+              </div>
+            )
           );
         })}
       </div>

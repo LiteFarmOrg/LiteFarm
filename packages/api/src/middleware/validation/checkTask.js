@@ -235,18 +235,6 @@ async function checkAnimalTask(req, taskType, dateName) {
     isAnimalOrBatchRequired,
   );
 
-  if ((related_animal_ids?.length || related_batch_ids?.length) && dateName === 'due_date') {
-    const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
-      req.body[dateName],
-      related_animal_ids,
-      related_batch_ids,
-    );
-
-    if (!isValidDate) {
-      throw customError(`${dateName} must be on or after the animals' birth and brought-in dates`);
-    }
-  }
-
   const taskTypeCheck = {
     animal_movement_task: checkAnimalMovementTask,
   }[taskType];

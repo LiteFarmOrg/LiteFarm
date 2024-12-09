@@ -15,11 +15,7 @@
 
 import TaskModel from '../../models/taskModel.js';
 import { checkSoilAmendmentTaskProducts } from './checkSoilAmendmentTaskProducts.js';
-import {
-  ANIMAL_TASKS,
-  checkAnimalAndBatchIds,
-  isOnOrAfterBirthAndBroughtInDates,
-} from '../../util/animal.js';
+import { ANIMAL_TASKS, checkAnimalAndBatchIds } from '../../util/animal.js';
 import { CUSTOM_TASK } from '../../util/task.js';
 import { checkIsArray, customError } from '../../util/customErrors.js';
 
@@ -303,41 +299,4 @@ async function checkAnimalMovementTask(req) {
   if (req.body.animal_movement_task?.purpose_ids) {
     checkIsArray(req.body.animal_movement_task.purpose_ids, 'purpose_ids');
   }
-}
-
-export function checkDueDate() {
-  return async (req, res, next) => {
-    try {
-      const { due_date } = req.body;
-      const { task_id } = req.params;
-
-      const { animals, animal_batches } = await TaskModel.query()
-        .select('task_id')
-        .withGraphFetched('[animals(selectId), animal_batches(selectId)]')
-        .where({ task_id })
-        .first();
-
-      if (animals.length || animal_batches.length) {
-        const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
-          due_date.split('T')[0],
-          animals.map(({ id }) => id),
-          animal_batches.map(({ id }) => id),
-        );
-
-        if (!isValidDate) {
-          throw customError(`due_date must be on or after the animals' birth and brought-in dates`);
-        }
-      }
-      next();
-    } catch (error) {
-      console.error(error);
-
-      if (error.type === 'LiteFarmCustom') {
-        return error.body
-          ? res.status(error.code).json({ ...error.body, message: error.message })
-          : res.status(error.code).send(error.message);
-      }
-      return res.status(500).json({ error });
-    }
-  };
 }

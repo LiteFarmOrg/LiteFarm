@@ -262,20 +262,6 @@ async function checkAnimalCompleteTask(req, taskType, taskId) {
   if (ANIMAL_TASKS.includes(taskType) && !finalizedAnimals?.length && !finalizedBatches?.length) {
     throw customError('No animals or batches to apply the task to');
   }
-
-  if (finalizedAnimals || finalizedBatches) {
-    const isValidDate = await isOnOrAfterBirthAndBroughtInDates(
-      req.body.complete_date,
-      (finalizedAnimals.animals || []).map(({ id }) => id),
-      (finalizedBatches.animal_batches || []).map(({ id }) => id),
-    );
-
-    if (!isValidDate) {
-      throw customError(
-        `complete_date must be on or after the animals' birth and brought-in dates`,
-      );
-    }
-  }
 }
 
 export function checkDeleteTask() {

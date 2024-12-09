@@ -751,40 +751,6 @@ describe('Animal task tests', () => {
           expect(patchRes.status).toBe(400);
           expect(patchRes.error.text).toBe('must have completion date');
         });
-
-        test(`should not complete an animal task with a complete date earlier than the animal's birth date`, async () => {
-          const { task_id } = await animalTaskFactory({
-            ...fakeTaskData[type](),
-            animals: [{ id: animalBornToday.id }],
-          });
-          const patchRes = await completeTaskRequest(
-            { user_id, farm_id },
-            { ...fakeCompletionData, complete_date: yesterdayInYYYYMMDD },
-            task_id,
-            type,
-          );
-          expect(patchRes.status).toBe(400);
-          expect(patchRes.error.text).toBe(
-            `complete_date must be on or after the animals' birth and brought-in dates`,
-          );
-        });
-
-        test(`should not complete an animal task with a complete date earlier than the animal's brought-in date`, async () => {
-          const { task_id } = await animalTaskFactory({
-            ...fakeTaskData[type](),
-            animals: [{ id: animalBroughtInToday.id }],
-          });
-          const patchRes = await completeTaskRequest(
-            { user_id, farm_id },
-            { ...fakeCompletionData, complete_date: yesterdayInYYYYMMDD },
-            task_id,
-            type,
-          );
-          expect(patchRes.status).toBe(400);
-          expect(patchRes.error.text).toBe(
-            `complete_date must be on or after the animals' birth and brought-in dates`,
-          );
-        });
       });
 
       describe('animal movement task tests', () => {

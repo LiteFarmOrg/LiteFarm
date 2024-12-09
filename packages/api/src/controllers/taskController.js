@@ -900,6 +900,12 @@ const taskController = {
         if (task.task_type_id !== soilAmendmentTypeId) {
           delete task.soil_amendment_task_products;
         }
+        if (task.animals?.length === 0) {
+          delete task.animals;
+        }
+        if (task.animal_batches?.length === 0) {
+          delete task.animal_batches;
+        }
         task.animals?.forEach(flattenInternalIdentifier);
         task.animal_batches?.forEach(flattenInternalIdentifier);
       });

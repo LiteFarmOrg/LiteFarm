@@ -55,7 +55,7 @@ export type PureAnimalInventoryProps = {
   history: History;
   tableMaxHeight?: number;
   tableSpacerRowHeight: number;
-  showInventorySelection: boolean;
+  showInventorySelection?: boolean;
   showSearchBarAndFilter?: boolean;
   alternatingRowColor?: boolean;
   showTableHeader: boolean;
@@ -81,7 +81,7 @@ const PureAnimalInventory = ({
   history,
   tableMaxHeight,
   tableSpacerRowHeight,
-  showInventorySelection,
+  showInventorySelection = true,
   showSearchBarAndFilter = true,
   alternatingRowColor = true,
   showTableHeader,

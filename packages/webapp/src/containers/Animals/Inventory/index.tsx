@@ -157,10 +157,9 @@ const SelectedAnimalsSummaryInventory = ({
 };
 
 const TaskAnimalInventory = ({
-  isAdmin,
   isCompleteView,
   ...commonProps
-}: { isAdmin: boolean; isCompleteView?: boolean } & CommonPureAnimalInventoryProps) => {
+}: { isCompleteView?: boolean } & CommonPureAnimalInventoryProps) => {
   return (
     <FixedHeaderContainer
       header={null}
@@ -176,7 +175,6 @@ const TaskAnimalInventory = ({
           commonProps.onSelectInventory(event, row);
         }}
         tableSpacerRowHeight={0}
-        showInventorySelection={isAdmin}
         showSearchBarAndFilter={true}
         alternatingRowColor={true}
         showTableHeader={commonProps.isDesktop}
@@ -219,7 +217,6 @@ const MainAnimalInventory = ({
             history.push(row.path);
           }}
           tableSpacerRowHeight={commonProps.isDesktop ? 96 : 120}
-          showInventorySelection={isAdmin}
           showSearchBarAndFilter={true}
           alternatingRowColor={true}
           showTableHeader={commonProps.isDesktop}
@@ -417,11 +414,13 @@ export default function AnimalInventory({
       label: t(`common:CREATE_A_TASK`),
       iconName: 'TASK_CREATION',
       onClick: () => onAddTask(dispatch, history, { animal_ids: selectedInventoryIds })(),
+      visible: true,
     },
     {
       label: t(`ANIMAL.REMOVE_ANIMAL`),
       iconName: 'REMOVE_ANIMAL',
       onClick: () => setRemovalModalOpen(true),
+      visible: isAdmin,
     },
   ];
 
@@ -442,7 +441,7 @@ export default function AnimalInventory({
 
   const actionMenuAndRemoveModal = (
     <>
-      {isAdmin && selectedInventoryIds.length ? (
+      {selectedInventoryIds.length ? (
         <FloatingContainer isCompactSideMenu={isCompactSideMenu}>
           <ActionMenu
             headerLeftText={t('common:SELECTED_COUNT', { count: selectedInventoryIds.length })}
@@ -479,9 +478,7 @@ export default function AnimalInventory({
   };
 
   if (view == View.TASK) {
-    return (
-      <TaskAnimalInventory isAdmin={isAdmin} isCompleteView={isCompleteView} {...commonProps} />
-    );
+    return <TaskAnimalInventory isCompleteView={isCompleteView} {...commonProps} />;
   }
   if (view == View.TASK_SUMMARY) {
     return (

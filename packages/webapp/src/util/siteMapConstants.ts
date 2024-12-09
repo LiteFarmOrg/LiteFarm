@@ -85,6 +85,6 @@ export const createCompleteHarvestQuantityTaskUrl = (id: string | number): strin
 };
 
 // First complete page for custom tasks
-export const createCompleteTaskUrl = (id: string | number): string => {
-  return `/tasks/${id}/complete`;
+export const createCompleteTaskUrl = (id: string | number, hasAnimals: boolean): string => {
+  return hasAnimals ? `/tasks/${id}/before_complete` : `/tasks/${id}/complete`;
 };

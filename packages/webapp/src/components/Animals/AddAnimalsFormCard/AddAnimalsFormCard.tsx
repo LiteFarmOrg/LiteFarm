@@ -33,7 +33,7 @@ import {
   type AnimalBreedSelectProps,
   type AnimalTypeSelectProps,
 } from './AnimalSelect';
-import { hookFormMinValidation } from '../../Form/hookformValidationUtils';
+import { hookFormMaxValidation, hookFormMinValidation } from '../../Form/hookformValidationUtils';
 import clsx from 'clsx';
 
 type AddAnimalsFormCardProps = AnimalTypeSelectProps &
@@ -87,21 +87,13 @@ export default function AddAnimalsFormCard({
     }
   }, []);
 
-  const countMaxValidation = () => ({
-    value: ANIMAL_COUNT_LIMIT,
-    message: t('animal:COUNT.MAX', { max: ANIMAL_COUNT_LIMIT }),
-  });
-
   useEffect(() => {
     if (shouldCreateIndividualProfiles && watchAnimalCount > ANIMAL_COUNT_LIMIT) {
-      setError(`${namePrefix}${BasicsFields.COUNT}`, {
-        type: 'manual',
-        message: t('animal:COUNT.MAX', { max: ANIMAL_COUNT_LIMIT }),
-      });
+      trigger(`${namePrefix}${BasicsFields.COUNT}`);
     } else {
       clearErrors(`${namePrefix}${BasicsFields.COUNT}`);
     }
-  }, [watchAnimalCount, shouldCreateIndividualProfiles, setError, clearErrors]);
+  }, [watchAnimalCount, shouldCreateIndividualProfiles, clearErrors]);
 
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
@@ -145,7 +137,12 @@ export default function AddAnimalsFormCard({
               value: true,
               message: t('common:REQUIRED'),
             },
-            max: shouldCreateIndividualProfiles ? countMaxValidation() : undefined,
+            max: shouldCreateIndividualProfiles
+              ? hookFormMaxValidation(
+                  ANIMAL_COUNT_LIMIT,
+                  t('animal:COUNT.MAX', { max: ANIMAL_COUNT_LIMIT }),
+                )
+              : undefined,
             min: hookFormMinValidation(1),
           }}
           onChange={() => trigger(`${namePrefix}${BasicsFields.COUNT}`)}

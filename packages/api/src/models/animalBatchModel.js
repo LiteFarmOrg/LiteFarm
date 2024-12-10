@@ -241,6 +241,20 @@ class AnimalBatchModel extends baseModel {
     );
   }
 
+  static async getBatchesWithNewerCompletedTasks(batchIds, taskTypeId, completedDate) {
+    return AnimalBatchModel.query()
+      .select('id', 'location_id')
+      .withGraphFetched('tasks')
+      .modifyGraph('tasks', (builder) => {
+        builder.select('task.task_id', 'task.complete_date');
+        builder
+          .where('deleted', false)
+          .where('complete_date', '>', completedDate)
+          .where('task_type_id', taskTypeId);
+      })
+      .whereIn('id', batchIds);
+  }
+
   static async unrelateIncompleteTasksForBatches(trx, batchIds) {
     let unrelatedTaskIds = [];
     const batches = await AnimalBatchModel.getBatchIdsWithIncompleteTasks(trx, batchIds);

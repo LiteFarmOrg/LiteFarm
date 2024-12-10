@@ -82,8 +82,8 @@ interface FormAnimalMovementTask {
     purpose_ids: number[]; // For processing by component
     other_purpose_explanation?: string | null;
   };
-  animal_movement_task: DBAnimalMovementTask['animal_movement_task']; // Otherwise going back and forth between readonly and edit the form will crash
 }
+
 type DBSoilAmendmentTask = {
   soil_amendment_task_products: DBSoilAmendmentTaskProduct[];
   [key: string]: any;
@@ -278,7 +278,6 @@ export const formatMovementTaskToFormStructure = (
       purpose_ids,
       other_purpose_explanation,
     },
-    animal_movement_task,
   };
 };
 

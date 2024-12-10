@@ -938,10 +938,10 @@ describe('Animal task tests', () => {
 
         test(`should complete a movement task without updating animals' location if there's newer completed task`, async () => {
           const [[animalA], [animalB], [animalC]] = await Promise.all(
-            new Array(4).fill().map(() => mocks.animalFactory({ promisedFarm: [{ farm_id }] })),
+            new Array(3).fill().map(() => mocks.animalFactory({ promisedFarm: [{ farm_id }] })),
           );
           const [[batchA], [batchB]] = await Promise.all(
-            new Array(4)
+            new Array(2)
               .fill()
               .map(() => mocks.animal_batchFactory({ promisedFarm: [{ farm_id }] })),
           );

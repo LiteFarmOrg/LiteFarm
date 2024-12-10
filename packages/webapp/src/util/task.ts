@@ -276,10 +276,6 @@ export const formatTaskAnimalsAsInventoryIds = (
   associatedAnimals?: Animal[],
   associatedBatches?: AnimalBatch[],
 ): string[] | undefined => {
-  if (!associatedAnimals?.length && !associatedBatches?.length) {
-    return;
-  }
-
   const animalInventoryIds =
     associatedAnimals?.map((animal) => generateInventoryId(AnimalOrBatchKeys.ANIMAL, animal)) || [];
 

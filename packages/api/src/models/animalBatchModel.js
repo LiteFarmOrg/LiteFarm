@@ -243,7 +243,7 @@ class AnimalBatchModel extends baseModel {
 
   static async getBatchesWithNewerCompletedTasks(batchIds, taskTypeId, completedDate) {
     return AnimalBatchModel.query()
-      .select('id', 'location_id')
+      .select('id')
       .withGraphFetched('tasks')
       .modifyGraph('tasks', (builder) => {
         builder.select('task.task_id', 'task.complete_date');

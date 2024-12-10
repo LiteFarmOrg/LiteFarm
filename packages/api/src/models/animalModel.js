@@ -238,7 +238,7 @@ class Animal extends baseModel {
 
   static async getAnimalsWithNewerCompletedTasks(animalIds, taskTypeId, completedDate) {
     return Animal.query()
-      .select('id', 'location_id')
+      .select('id')
       .withGraphFetched('tasks')
       .modifyGraph('tasks', (builder) => {
         builder.select('task.task_id', 'task.complete_date');

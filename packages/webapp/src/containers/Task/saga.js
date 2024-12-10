@@ -1,4 +1,4 @@
-import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, call, delay, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
 import { axios, getHeader, getPlantingManagementPlansSuccessSaga, onReqSuccessSaga } from '../saga';
@@ -623,6 +623,7 @@ export function* createTaskSaga({ payload }) {
           yield put(
             setPersistedPaths([`/tasks/${task_id}/complete`, `/tasks/${task_id}/before_complete`]),
           );
+          yield delay(500);
           yield put(setFormData({ task_id, taskType }));
         }
       } else {

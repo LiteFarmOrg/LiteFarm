@@ -199,5 +199,5 @@ const taskComponents = {
   PLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={true} {...props} />,
   TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
-  MOVEMENT_TASK: (props) => <PureMovementTask {...props} />,
+  MOVEMENT_TASK: (props) => <PureMovementTask disabled {...props} />,
 };

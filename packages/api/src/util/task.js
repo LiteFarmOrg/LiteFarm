@@ -13,8 +13,4 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-function AnimalGroups() {
-  return null;
-}
-
-export default AnimalGroups;
+export const CUSTOM_TASK = 'custom_task';

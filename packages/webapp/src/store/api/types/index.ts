@@ -33,7 +33,6 @@ export interface Animal {
   default_breed_id: number | null;
   default_type_id: number | null;
   farm_id: string;
-  group_ids: number[];
   id: number;
   identifier: string | null;
   identifier_type_id: number | null;
@@ -53,6 +52,8 @@ export interface Animal {
   animal_removal_reason_id: number | null;
   removal_explanation: string | null;
   removal_date: string | null;
+  location_id: string | null;
+  tasks: { task_id: number }[];
   type_name?: string; // request only
   breed_name?: string; // request only
 }
@@ -72,7 +73,6 @@ export interface AnimalBatch {
   default_breed_id: number | null;
   default_type_id: number | null;
   farm_id: string;
-  group_ids: number[];
   id: number;
   internal_identifier: number;
   name: string | null;
@@ -92,17 +92,10 @@ export interface AnimalBatch {
   animal_removal_reason_id: number | null;
   removal_explanation: string | null;
   removal_date: string | null;
+  location_id: string | null;
+  tasks: { task_id: number }[];
   type_name?: string; // request only
   breed_name?: string; // request only
-}
-
-export interface AnimalGroup {
-  farm_id: string;
-  id: number;
-  name: string;
-  notes: string | null;
-  related_animal_ids: number[];
-  related_batch_ids: number[];
 }
 
 export interface CustomAnimalBreed {

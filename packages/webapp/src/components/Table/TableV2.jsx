@@ -101,6 +101,7 @@ export default function TableV2(props) {
     maxHeight,
     spacerRowHeight,
     headerClass,
+    extraRowSpacing,
   } = props;
 
   const [order, setOrder] = useState('asc');
@@ -174,6 +175,7 @@ export default function TableV2(props) {
             styles.table,
             shouldFixTableLayout && styles.fixed,
             alternatingRowColor && styles.alternatingRowColorStyle,
+            extraRowSpacing && styles.extraRowSpacingTable,
           )}
           stickyHeader={stickyHeader && maxHeight ? true : false}
         >
@@ -206,6 +208,7 @@ export default function TableV2(props) {
                     styles.itemRow,
                     onRowClick && styles.clickable,
                     alternatingRowColor ? styles.alternatingRowColor : styles.plainRowColor,
+                    extraRowSpacing && styles.extraRowSpacing,
                   )}
                 >
                   {shouldShowCheckbox && (
@@ -337,6 +340,7 @@ TableV2.propTypes = {
   spacerRowHeight: PropTypes.number,
   /** Cheating here  using any since it is not meshing well with ts type */
   headerClass: PropTypes.any,
+  extraRowSpacing: PropTypes.bool,
 };
 
 TableV2.defaultProps = {
@@ -348,4 +352,5 @@ TableV2.defaultProps = {
   defaultOrderBy: '',
   alternatingRowColor: false,
   showHeader: true,
+  extraRowSpacing: false,
 };

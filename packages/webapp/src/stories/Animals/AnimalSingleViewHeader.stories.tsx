@@ -49,13 +49,15 @@ type Story = StoryObj<typeof AnimalSingleViewHeader>;
 
 export const AnimalHeader: Story = {
   args: {
-    animalOrBatch: { ...mockAnimal1, location: 'Pig House' },
+    locationText: 'Pig House',
+    animalOrBatch: mockAnimal1,
   },
 };
 
 export const AnimalWithoutPhoto: Story = {
   args: {
-    animalOrBatch: { ...mockAnimal1, location: 'Pig House', photo_url: null },
+    locationText: 'Pig House',
+    animalOrBatch: { ...mockAnimal1, photo_url: null },
   },
 };
 
@@ -67,32 +69,37 @@ export const AnimalWithoutLocation: Story = {
 
 export const AnimalWithoutAge: Story = {
   args: {
-    animalOrBatch: { ...mockAnimal1, location: 'Pig House', birth_date: null },
+    locationText: 'Pig House',
+    animalOrBatch: { ...mockAnimal1, birth_date: null },
   },
 };
 
 export const AnimalWithLongTexts: Story = {
   args: {
-    animalOrBatch: { ...mockAnimal2, location: 'Pig House ABCDEFG', birth_date: null },
+    locationText: 'Pig House ABCDEFG',
+    animalOrBatch: { ...mockAnimal2, birth_date: null },
   },
 };
 
 export const EditMode: Story = {
   args: {
-    animalOrBatch: { ...mockAnimal1, location: 'Pig House' },
+    locationText: 'Pig House',
+    animalOrBatch: mockAnimal1,
     isEditing: true,
   },
 };
 
 export const EditModeWithLongText: Story = {
   args: {
-    animalOrBatch: { ...mockAnimal2, location: 'Pig House ABCDEFG', birth_date: null },
+    locationText: 'Pig House ABCDEFG',
+    animalOrBatch: { ...mockAnimal2, birth_date: null },
     isEditing: true,
   },
 };
 
 export const BatchHeader: Story = {
   args: {
-    animalOrBatch: { ...mockBatch1, location: 'Chicken coop' },
+    locationText: 'Chicken coop',
+    animalOrBatch: mockBatch1,
   },
 };

@@ -126,7 +126,8 @@ export type AnimalSingleViewHeaderProps = {
   onEdit: () => void;
   onRemove: () => void;
   onBack: () => void;
-  animalOrBatch: (Animal | AnimalBatch) & { location?: string }; // TODO: LF-4481
+  animalOrBatch: Animal | AnimalBatch;
+  locationText?: string;
   defaultTypes: DefaultAnimalType[];
   customTypes: CustomAnimalType[];
   defaultBreeds: DefaultAnimalBreed[];
@@ -140,6 +141,7 @@ const AnimalSingleViewHeader = ({
   onRemove,
   onBack,
   animalOrBatch,
+  locationText,
   defaultTypes,
   customTypes,
   defaultBreeds,
@@ -163,7 +165,7 @@ const AnimalSingleViewHeader = ({
     <AnimalImageWithCount photoUrl={photo_url} count={count} isCompactView={isCompactView} />
   );
   const age = <Age birthDate={birth_date} t={t} />;
-  const location = <Location location={animalOrBatch.location} t={t} />;
+  const location = <Location location={locationText} t={t} />;
 
   const menuOptions = [
     { label: <MenuItem iconName="EDIT" text={t('ADD_ANIMAL.EDIT_BASIC_INFO')} />, onClick: onEdit },

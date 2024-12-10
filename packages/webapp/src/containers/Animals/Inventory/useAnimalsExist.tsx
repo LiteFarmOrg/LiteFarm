@@ -12,9 +12,20 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+import { useGetAnimalsQuery, useGetAnimalBatchesQuery } from '../../../store/api/apiSlice';
+import useQueries from '../../../hooks/api/useQueries';
 
-function AnimalLocation() {
-  return null;
-}
+const useAnimalsExist = () => {
+  const { data, isLoading } = useQueries([
+    { label: 'animals', hook: useGetAnimalsQuery },
+    { label: 'animalBatches', hook: useGetAnimalBatchesQuery },
+  ]);
 
-export default AnimalLocation;
+  const animalsExistOnFarm =
+    !isLoading &&
+    [...data.animals, ...data.animalBatches].some((entity) => !entity.animal_removal_reason_id);
+
+  return { animalsExistOnFarm };
+};
+
+export default useAnimalsExist;

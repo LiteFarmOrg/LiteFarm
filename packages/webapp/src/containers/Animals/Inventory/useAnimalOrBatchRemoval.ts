@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useState, useCallback, useMemo } from 'react';
 import {
   useDeleteAnimalBatchesMutation,
   useDeleteAnimalsMutation,
@@ -26,15 +26,22 @@ import { CREATED_IN_ERROR_ID, FormFields } from '../../../components/Animals/Rem
 import useMutations from '../../../hooks/api/useMutations';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 import { AnimalOrBatchKeys } from '../types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { completedTasksSelector, abandonedTasksSelector } from '../../taskSlice';
+import { Animal, AnimalBatch } from '../../../store/api/types';
+import { getLocalDateInYYYYDDMM } from '../../../util/date';
+import { getTasks } from '../../Task/saga';
 
 const useAnimalOrBatchRemoval = (
   selectedInventoryIds: string[],
+  animalTasksWithInventoryIds: { id: string; tasks: Animal['tasks'] }[],
   setSelectedInventoryIds?: Dispatch<SetStateAction<string[]>>,
 ) => {
   const dispatch = useDispatch();
   const { t } = useTranslation(['message']);
+  const completedTasks = useSelector(completedTasksSelector) || [];
+  const abandonedTasks = useSelector(abandonedTasksSelector) || [];
 
   const { mutations } = useMutations([
     { label: 'deleteAnimals', hook: useDeleteAnimalsMutation },
@@ -104,6 +111,7 @@ const useAnimalOrBatchRemoval = (
     }
 
     setRemovalModalOpen(false);
+    dispatch(getTasks());
     return result;
   };
 
@@ -112,6 +120,7 @@ const useAnimalOrBatchRemoval = (
     const selectedAnimalIds: string[] = [];
     const animalBatchIds: number[] = [];
     const selectedBatchIds: string[] = [];
+    const date = getLocalDateInYYYYDDMM();
     let result;
 
     for (const id of selectedInventoryIds) {
@@ -126,7 +135,7 @@ const useAnimalOrBatchRemoval = (
     }
 
     if (animalIds.length) {
-      result = await mutations['deleteAnimals'].trigger(animalIds);
+      result = await mutations['deleteAnimals'].trigger({ ids: animalIds, date });
 
       if (result.error) {
         console.log(result.error);
@@ -140,7 +149,7 @@ const useAnimalOrBatchRemoval = (
     }
 
     if (animalBatchIds.length) {
-      result = await mutations['deleteBatches'].trigger(animalBatchIds);
+      result = await mutations['deleteBatches'].trigger({ ids: animalBatchIds, date });
       if (result.error) {
         console.log(result.error);
         dispatch(enqueueErrorSnackbar(t('ANIMALS.FAILED_REMOVE_BATCHES', { ns: 'message' })));
@@ -153,6 +162,7 @@ const useAnimalOrBatchRemoval = (
     }
 
     setRemovalModalOpen(false);
+    dispatch(getTasks());
     return result;
   };
 
@@ -164,7 +174,32 @@ const useAnimalOrBatchRemoval = (
     }
   };
 
-  return { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen };
+  const getFinalizedTasks = useCallback(() => {
+    return Array.from(new Set([...completedTasks, ...abandonedTasks]));
+  }, [completedTasks, abandonedTasks]);
+
+  const hasFinalizedTasks = useMemo(() => {
+    if (!removalModalOpen) {
+      return false;
+    }
+
+    const finalizedTasks = getFinalizedTasks();
+
+    return selectedInventoryIds.some((animalOrBatchId) => {
+      const { id, kind } = parseInventoryId(animalOrBatchId);
+      return finalizedTasks.filter(
+        ({ animals, animal_batches }: { animals: Animal[]; animal_batches: AnimalBatch[] }) => {
+          const animalIds = animals.map(({ id }) => `${id}`);
+          const batchIds = animal_batches.map(({ id }) => `${id}`);
+          return kind === AnimalOrBatchKeys.ANIMAL
+            ? animalIds.includes(`${id}`)
+            : batchIds.includes(`${id}`);
+        },
+      ).length;
+    });
+  }, [removalModalOpen, completedTasks, abandonedTasks, selectedInventoryIds]);
+
+  return { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasFinalizedTasks };
 };
 
 export default useAnimalOrBatchRemoval;

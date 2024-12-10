@@ -110,6 +110,9 @@ input:checked + .track .yes {
   background-color: var(--Colors-Neutral-Neutral-50);
   outline: 1px solid var(--Colors-Neutral-Neutral-100);
 
+}
+
+.track.track.hideInnerText {
   .innerText {
     display: none;
   }

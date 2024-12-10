@@ -13,37 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-@import '../../../assets/mixin';
+import { TASK_STEPS } from './constants';
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  &.extraBottomPadding {
-    padding-bottom: 108px;
-  }
-}
-
-.formHeader {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-
-  p {
-    @include truncateText();
-  }
-}
-
-.countAndSexDetailsWrapper {
-  display: flex;
-  align-items: start;
-  gap: 16px;
-}
-
-.countInput {
-  flex-basis: 104px;
-  & + div {
-    flex: 1;
-  }
-}
+export const getProgress = (taskType, stepPath) => {
+  return TASK_STEPS[taskType]
+    ? Math.round((100 * TASK_STEPS[taskType][stepPath]) / Object.keys(TASK_STEPS[taskType]).length)
+    : undefined;
+};

@@ -1,10 +1,11 @@
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
+import styles from './styles.module.scss';
 import Button from '../../Form/Button';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { Main } from '../../Typography';
-import React from 'react';
 import Form from '../../Form';
-import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
 import RadioGroup from '../../Form/RadioGroup';
 import PureCleaningTask from '../CleaningTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
@@ -12,7 +13,13 @@ import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
 import { PurePlantingTask } from '../PlantingTask';
 import PureIrrigationTask from '../PureIrrigationTask';
-import { formatTaskReadOnlyDefaultValues } from '../../../util/task';
+import {
+  formatTaskAnimalsAsInventoryIds,
+  formatTaskReadOnlyDefaultValues,
+} from '../../../util/task';
+import PureMovementTask from '../MovementTask';
+import AnimalInventory, { View } from '../../../containers/Animals/Inventory';
+import { ANIMAL_IDS } from '../TaskAnimalInventory';
 
 const soilAmendmentContinueDisabled = (needsChange, isValid) => {
   if (!needsChange) {
@@ -49,8 +56,15 @@ export default function PureCompleteStepOne({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: { need_changes: false, ...defaultsToUse },
+    defaultValues: {
+      need_changes: false,
+      ...defaultsToUse,
+      ...(persistedFormData[ANIMAL_IDS] && { [ANIMAL_IDS]: persistedFormData[ANIMAL_IDS] }),
+    },
   });
+
+  const watchedSelectedAnimals = watch(ANIMAL_IDS) || [];
+  const noAnimalsSelected = !watchedSelectedAnimals.length;
 
   const { historyCancel } = useHookFormPersist(getValues);
 
@@ -58,10 +72,16 @@ export default function PureCompleteStepOne({
   const changesRequired = watch(CHANGES_NEEDED);
   const taskType = selectedTaskType?.task_translation_key;
 
-  const continueDisabled =
-    taskType === 'SOIL_AMENDMENT_TASK'
-      ? soilAmendmentContinueDisabled(getValues(CHANGES_NEEDED), isValid)
-      : !isValid;
+  const continueDisabled = (() => {
+    switch (taskType) {
+      case 'SOIL_AMENDMENT_TASK':
+        return soilAmendmentContinueDisabled(changesRequired, isValid);
+      case 'MOVEMENT_TASK':
+        return !isValid || (changesRequired && noAnimalsSelected);
+      default:
+        return !isValid;
+    }
+  })();
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -75,6 +95,19 @@ export default function PureCompleteStepOne({
       handleSubmit(onContinue)();
     }
   };
+
+  const onSelectAnimals = (selectedAnimalIds) => {
+    setValue(ANIMAL_IDS, selectedAnimalIds);
+  };
+
+  useEffect(() => {
+    if (!changesRequired) {
+      setValue(
+        ANIMAL_IDS,
+        formatTaskAnimalsAsInventoryIds(selectedTask.animals, selectedTask.animal_batches),
+      );
+    }
+  }, [changesRequired]);
 
   return (
     <Form
@@ -101,25 +134,57 @@ export default function PureCompleteStepOne({
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_CHANGES')}</Main>
       <RadioGroup hookFormControl={control} required name={CHANGES_NEEDED} />
-      {taskType &&
-        taskComponents[taskType]({
-          setValue,
-          getValues,
-          watch,
-          control,
-          register,
-          reset,
-          getFieldState,
-          formState: { errors, isValid },
-          errors,
-          system,
-          products,
-          farm,
-          task: selectedTask,
-          disabled: !changesRequired,
-          isModified: changesRequired,
-          locations: selectedTask.locations,
-        })}
+
+      {selectedTask.animals?.length || selectedTask.animal_batches?.length ? (
+        <div className={styles.animalInventorySection}>
+          <AnimalInventory
+            view={View.TASK_SUMMARY}
+            preSelectedIds={watchedSelectedAnimals}
+            showLinks={false}
+            showOnlySelected={true}
+            isCompleteView={true}
+            hideNoResultsBlock={true}
+          />
+          {taskType === 'MOVEMENT_TASK' && noAnimalsSelected && (
+            <Main className={styles.noAnimalsSelectedWarning}>
+              {t('TASK.ANIMALS_AT_LEAST_ONE_TO_COMPLETE')}
+            </Main>
+          )}
+          {changesRequired && (
+            <div className={styles.animalInventoryWrapper}>
+              <AnimalInventory
+                onSelect={onSelectAnimals}
+                view={View.TASK}
+                preSelectedIds={watchedSelectedAnimals}
+                showLinks={false}
+                showOnlySelected={false}
+                isCompleteView={true}
+              />
+            </div>
+          )}
+        </div>
+      ) : null}
+
+      {taskType && taskComponents[taskType]
+        ? taskComponents[taskType]({
+            setValue,
+            getValues,
+            watch,
+            control,
+            register,
+            reset,
+            getFieldState,
+            formState: { errors, isValid },
+            errors,
+            system,
+            products,
+            farm,
+            task: selectedTask,
+            disabled: !changesRequired,
+            isModified: changesRequired,
+            locations: selectedTask.locations,
+          })
+        : null}
     </Form>
   );
 }
@@ -132,4 +197,5 @@ const taskComponents = {
   PLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={true} {...props} />,
   TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
   IRRIGATION_TASK: (props) => <PureIrrigationTask {...props} />,
+  MOVEMENT_TASK: (props) => <PureMovementTask {...props} />,
 };

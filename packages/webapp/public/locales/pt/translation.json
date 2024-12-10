@@ -1,72 +1,67 @@
 {
   "ADD_ANIMAL": {
-    "ADD_ANIMALS": "MISSING",
-    "ADD_ANIMALS_FLOW": "MISSING",
-    "ADD_ANIMALS_TITLE": "MISSING",
-    "ADD_DETAILS_INFO": "MISSING",
-    "ADD_TO_INVENTORY": "MISSING",
-    "ANIMAL_BASICS": "MISSING",
-    "ANIMAL_DETAILS": "MISSING",
-    "ANIMALS_TOTAL_one": "MISSING",
-    "ANIMALS_TOTAL_many": "MISSING",
-    "ANIMALS_TOTAL_other": "MISSING",
-    "ANIMALS_UNSPECIFIED_one": "MISSING",
-    "ANIMALS_UNSPECIFIED_many": "MISSING",
-    "ANIMALS_UNSPECIFIED_other": "MISSING",
-    "BATCH_NAME": "MISSING",
-    "BATCH_NAME_PLACEHOLDER": "MISSING",
-    "BREED": "MISSING",
-    "BREED_PLACEHOLDER_DISABLED": "MISSING",
-    "CREATE_INDIVIDUAL_PROFILES": "MISSING",
-    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "MISSING",
-    "EDIT_BASIC_INFO": "MISSING",
-    "GENERAL_DETAILS": "MISSING",
-    "GENERAL_DETAILS_BATCH": "MISSING",
-    "GROUP_NAME": "MISSING",
-    "GROUP_NAME_PLACEHOLDER": "MISSING",
-    "ORIGIN": "MISSING",
-    "ORIGIN_BATCH": "MISSING",
-    "OTHER_DETAILS": "MISSING",
-    "OTHER_DETAILS_BATCH": "MISSING",
-    "OUT_OF_COUNT_one": "MISSING",
-    "OUT_OF_COUNT_many": "MISSING",
-    "OUT_OF_COUNT_other": "MISSING",
+    "ADD_ANIMALS": "Adicionar animais",
+    "ADD_ANIMALS_FLOW": "adição de animais",
+    "ADD_ANIMALS_TITLE": "Adicionar Animais",
+    "ADD_DETAILS_INFO": "Preencha os detalhes dos animais abaixo ou salve e continue mais tarde.",
+    "ADD_TO_INVENTORY": "Adicionar animais ao seu inventário",
+    "ANIMAL_BASICS": "Informações básicas sobre os animais",
+    "ANIMAL_DETAILS": "Detalhes sobre os animais",
+    "ANIMALS_TOTAL_one": "{{count}} total de animais",
+    "ANIMALS_TOTAL_other": "{{count}} total de animais",
+    "ANIMALS_UNSPECIFIED_one": "{{count}} não especificado",
+    "ANIMALS_UNSPECIFIED_other": "{{count}} não especificado",
+    "BATCH_NAME": "Nome do lote",
+    "BATCH_NAME_PLACEHOLDER": "Digite o nome do lote",
+    "BREED": "Raça",
+    "BREED_PLACEHOLDER_DISABLED": "Por favor, selecione um tipo primeiro",
+    "CREATE_INDIVIDUAL_PROFILES": "Criar perfis individuais de animais",
+    "CREATE_INDIVIDUAL_PROFILES_TOOLTIP": "Selecione esta opção se quiser acompanhar e gerenciar cada animal separadamente",
+    "EDIT_BASIC_INFO": "Editar informações básicas",
+    "GENERAL_DETAILS": "Detalhes gerais",
+    "GENERAL_DETAILS_BATCH": "Detalhes gerais do lote",
+    "GROUP_NAME": "Nome do grupo",
+    "GROUP_NAME_PLACEHOLDER": "Digite o nome do grupo",
+    "ORIGIN": "Origem",
+    "ORIGIN_BATCH": "Origem do lote",
+    "OTHER_DETAILS": "Outros detalhes",
+    "OTHER_DETAILS_BATCH": "Outros detalhes do lote",
+    "OUT_OF_COUNT_one": "{{animalNumber}} de {{count}}",
+    "OUT_OF_COUNT_other": "{{animalNumber}} de {{count}}",
     "PLACEHOLDER": {
-      "BATCH_NAME": "MISSING",
-      "DAM": "MISSING",
-      "NAME": "MISSING",
-      "OTHER_DETAILS": "MISSING",
-      "OTHER_USE": "MISSING",
-      "PRICE": "MISSING",
-      "SIRE": "MISSING",
-      "SUPPLIER": "MISSING",
-      "TAG_COLOUR": "MISSING",
-      "TAG_NUMBER": "MISSING",
-      "TAG_TYPE": "MISSING",
-      "TAG_TYPE_INFO": "MISSING"
+      "BATCH_NAME": "Digite o nome do lote",
+      "DAM": "Digite uma matriz",
+      "NAME": "Digite um nome",
+      "OTHER_DETAILS": "Insira uma descrição",
+      "OTHER_USE": "Descreva o outro uso",
+      "PRICE": "Quanto isso custou?",
+      "SIRE": "Digite um reprodutor",
+      "SUPPLIER": "Digite um fornecedor",
+      "TAG_COLOUR": "De que cor é a etiqueta?",
+      "TAG_NUMBER": "Digite o número da etiqueta",
+      "TAG_TYPE": "Qual é o tipo da etiqueta?",
+      "TAG_TYPE_INFO": "Por favor, descreva seu tipo de etiqueta"
     },
-    "REMOVE_CONFIRM": "MISSING",
-    "SELECT_SEXES": "MISSING",
-    "SEX_DETAIL": "MISSING",
-    "SEX_DETAIL_ERROR_one": "MISSING",
-    "SEX_DETAIL_ERROR_many": "MISSING",
-    "SEX_DETAIL_ERROR_other": "MISSING",
-    "SEX_DETAIL_ERROR_POPOVER_one": "MISSING",
-    "SEX_DETAIL_ERROR_POPOVER_many": "MISSING",
-    "SEX_DETAIL_ERROR_POPOVER_other": "MISSING",
-    "SPECIFY_SEX": "MISSING",
+    "REMOVE_CONFIRM": "Realmente deseja eliminar?",
+    "SELECT_SEXES": "Selecione os sexos",
+    "SEX_DETAIL": "Detalhe do sexo",
+    "SEX_DETAIL_ERROR_one": "Número máximo de animais: {{count}}",
+    "SEX_DETAIL_ERROR_other": "Número máximo de animais: {{count}}",
+    "SEX_DETAIL_ERROR_POPOVER_one": "Você não pode ter mais do que {{count}} animal",
+    "SEX_DETAIL_ERROR_POPOVER_other": "Você não pode ter mais do que {{count}} animais",
+    "SPECIFY_SEX": "Especifique o sexo",
     "SUMMARY": {
-      "ADD_MORE_DETAILS": "MISSING",
-      "ALL_DONE": "MISSING",
-      "ANIMAL_SUMMARY_COUNT_one": "MISSING",
-      "ANIMAL_SUMMARY_COUNT_other": "MISSING",
-      "BATCH_SUMMARY_COUNT_one": "MISSING",
-      "BATCH_SUMMARY_COUNT_other": "MISSING",
-      "HERE_IS_SUMMARY": "MISSING",
-      "MAIN": "MISSING"
+      "ADD_MORE_DETAILS": "Adicione mais detalhes aos seus animais",
+      "ALL_DONE": "Tudo pronto!",
+      "ANIMAL_SUMMARY_COUNT_one": "{{count}} animal individual",
+      "ANIMAL_SUMMARY_COUNT_other": "{{count}} animais individuais",
+      "BATCH_SUMMARY_COUNT_one": "{{count}} lote",
+      "BATCH_SUMMARY_COUNT_other": "{{count}} lotes",
+      "HERE_IS_SUMMARY": "Aqui está um resumo dos seus animais adicionados:",
+      "MAIN": "Você adicionou {{animalCount}} {{and}} {{batchCount}} ao seu inventário com sucesso."
     },
-    "TYPE": "MISSING",
-    "UNIQUE_DETAILS": "MISSING"
+    "TYPE": "Tipo",
+    "UNIQUE_DETAILS": "Detalhes únicos"
   },
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "É necessário informar um endereço",
@@ -122,6 +117,7 @@
     "ASSIGN_TASK": "Atribuir tarefa",
     "ASSIGNEE": "Responsável",
     "CANCEL": "criação de tarefa",
+    "CANT_FIND_INFO_TASK": "Você também pode criar seus tipos de tarefa personalizados!",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Uso estimado de água",
       "IS_PERMITTED": "O agente de limpeza está na lista de substâncias permitidas?",
@@ -168,7 +164,7 @@
     "IRRIGATION_VIEW": {
       "BRAND_TOOLTIP": "Esta tarefa é para regar seu cultivo. Se você deseja instalar a irrigação, crie uma tarefa de trabalho de campo.",
       "CALCULATE_WATER_USAGE": "Calcular uso de água",
-      "CALCULATE_WATER_USAGE_WARNING": "MISSING",
+      "CALCULATE_WATER_USAGE_WARNING": "Para os cultivos silvestres, a estimativa do consumo de água pela profundidade não está disponível.",
       "DEFAULT_APPLICATION_DEPTH": "Definir como profundidade de aplicação padrão para esta área",
       "DEFAULT_LOCATION_FLOW_RATE": "Definir como vazão padrão para esta área",
       "DEPTH": "Profundidade",
@@ -207,15 +203,15 @@
     },
     "MANAGE_CUSTOM_TASKS": "Gerenciar tarefas personalizadas",
     "MOVEMENT_VIEW": {
-      "MOVEMENT_PURPOSE_LABEL": "MISSING",
-      "MOVEMENT_PURPOSE_PLACEHOLDER": "MISSING",
-      "OTHER_PURPOSE_EXPLANATION_LABEL": "MISSING",
-      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "MISSING"
+      "MOVEMENT_PURPOSE_LABEL": "Qual é a finalidade deste movimento?",
+      "MOVEMENT_PURPOSE_PLACEHOLDER": "Selecione a finalidade deste movimento",
+      "OTHER_PURPOSE_EXPLANATION_LABEL": "Explicação",
+      "OTHER_PURPOSE_EXPLANATION_PLACEHOLDER": "Por favor, descreva a finalidade deste movimento"
     },
     "NEED_MANAGEMENT_PLAN": "Você precisará de um plano de cultivo ativo ou planejado antes de poder agendar uma tarefa de colheita ou tarefa de transplante. Vá para o catálogo de safras para criar um plano agora.",
     "NO_MANAGEMENT_PLAN": "Não há plano de cultivo de safra elegível",
-    "NOTES_LABEL": "MISSING",
-    "NOTES_PLACEHOLDER": "MISSING",
+    "NOTES_LABEL": "Algo específico para adicionar relacionado a esta tarefa?",
+    "NOTES_PLACEHOLDER": "Adicione quaisquer instruções ou especificações para o responsável",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Controle biológico",
       "FLAME_WEEDING": "Capina com fogo",
@@ -274,61 +270,62 @@
     "TASK": "tarefa",
     "TASK_NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Conte-nos sobre esta tarefa",
-    "THIS_TASK_IS_COMPLETED": "MISSING",
-    "THIS_TASK_IS_COMPLETED_EXPLANATION": "MISSING",
+    "THIS_TASK_IS_COMPLETED": "Esta tarefa já foi concluída",
+    "THIS_TASK_IS_COMPLETED_EXPLANATION": "Ao clicar em \"Salvar\", esta tarefa será salva imediatamente. Em seguida, será solicitado que você a conclua.",
     "TRANSPLANT_METHOD": "Método de transplante",
     "WAGE_OVERRIDE": "Substituição de salário",
     "WHAT_PLANTING_METHOD": "Qual é o método de transplante?",
     "WILD_CROP": "Cultivos silvestres"
   },
   "ANIMAL": {
-    "ADD_MORE_BODY_TEXT": "MISSING",
-    "ADD_MORE_BUTTON": "MISSING",
-    "ANIMAL_BREED": "MISSING",
-    "ANIMAL_COUNT_one": "MISSING",
-    "ANIMAL_COUNT_other": "MISSING",
-    "ANIMAL_GROUPS": "MISSING",
-    "ANIMAL_ID": "MISSING",
-    "ANIMAL_IDENTIFICATION": "MISSING",
-    "ANIMAL_LOCATIONS": "MISSING",
-    "ANIMAL_SEXES": "MISSING",
-    "ANIMAL_TYPE": "MISSING",
+    "ADD_MORE_BODY_TEXT": "Você tem outro tipo de animal ou uma raça diferente?",
+    "ADD_MORE_BUTTON": "Adicionar mais animais",
+    "ANIMAL_BREED": "Raça",
+    "ANIMAL_COUNT_one": "{{count}} animal",
+    "ANIMAL_COUNT_other": "{{count}} animais",
+    "ANIMAL_GROUPS": "Grupo",
+    "ANIMAL_ID": "ID",
+    "ANIMAL_IDENTIFICATION": "Identificação",
+    "ANIMAL_LOCATIONS": "Local",
+    "ANIMAL_SEXES": "Sexo",
+    "ANIMAL_TYPE": "Tipo",
     "ATTRIBUTE": {
-      "ANIMAL_IMAGE": "MISSING",
-      "BATCH_IMAGE": "MISSING",
-      "BATCH_NAME": "MISSING",
-      "DAM": "MISSING",
-      "DATE_OF_BIRTH": "MISSING",
-      "LITEFARM_ID": "MISSING",
-      "ORGANIC_STATUS": "MISSING",
-      "OTHER_DETAILS_ANIMAL": "MISSING",
-      "OTHER_DETAILS_BATCH": "MISSING",
-      "OTHER_USE": "MISSING",
-      "SIRE": "MISSING",
-      "SUPPLIER": "MISSING",
-      "TAG_COLOUR": "MISSING",
-      "TAG_NUMBER": "MISSING",
-      "TAG_TYPE": "MISSING",
-      "WEANING_DATE": "MISSING"
+      "ANIMAL_IMAGE": "Imagem do animal",
+      "BATCH_IMAGE": "Imagem do lote",
+      "BATCH_NAME": "Nome do lote",
+      "DAM": "Matriz",
+      "DATE_OF_BIRTH": "Data de nascimento",
+      "LITEFARM_ID": "LiteFarm ID",
+      "ORGANIC_STATUS": "Status de transição orgânica",
+      "OTHER_DETAILS_ANIMAL": "Outros detalhes sobre os animais",
+      "OTHER_DETAILS_BATCH": "Detalhes do lote",
+      "OTHER_USE": "Outro uso",
+      "SIRE": "Reprodutor",
+      "SUPPLIER": "Fornecedor",
+      "TAG_COLOUR": "Cor da etiqueta",
+      "TAG_NUMBER": "Número da etiqueta",
+      "TAG_TYPE": "Tipo de etiqueta",
+      "WEANING_DATE": "Data de desmame"
     },
-    "BATCH": "MISSING",
-    "EDIT_ANIMAL_FLOW": "MISSING",
+    "BATCH": "Lote",
+    "BETA_SPOTLIGHT_HEADING": "Apresentando o Novo Recurso de Animais",
+    "EDIT_ANIMAL_FLOW": "edição",
     "FILTER": {
-      "BATCHES": "MISSING",
-      "BATCHES_OR_INDIVIDUALS": "MISSING",
-      "FEMALE": "MISSING",
-      "INDIVIDUALS": "MISSING",
-      "MALE": "MISSING",
-      "TITLE": "MISSING"
+      "BATCHES": "Lotes",
+      "BATCHES_OR_INDIVIDUALS": "Lotes ou Indivíduos",
+      "FEMALE": "Fêmea",
+      "INDIVIDUALS": "Indivíduos",
+      "MALE": "Macho",
+      "TITLE": "Filtrar animais"
     },
-    "REMOVE_ANIMAL": "MISSING",
-    "SEARCH_INVENTORY_PLACEHOLDER": "MISSING",
-    "SHOWING_RESULTS_WITH_COUNT_one": "MISSING",
-    "SHOWING_RESULTS_WITH_COUNT_many": "MISSING",
-    "SHOWING_RESULTS_WITH_COUNT_other": "MISSING",
+    "REMOVE_ANIMAL": "Remover animais",
+    "SEARCH_INVENTORY_PLACEHOLDER": "Pesquise em seu inventário",
+    "SHOWING_RESULTS_WITH_COUNT_one": "Mostrando {{count}} resultado",
+    "SHOWING_RESULTS_WITH_COUNT_many": "Mostrando {{count}} resultado",
+    "SHOWING_RESULTS_WITH_COUNT_other": "Mostrando {{count}} resultados",
     "TABS": {
-      "BASIC_INFO": "MISSING",
-      "TASKS": "MISSING"
+      "BASIC_INFO": "Informações básicas",
+      "TASKS": "Tarefas"
     }
   },
   "BED_PLAN": {
@@ -952,7 +949,7 @@
     },
     "TUTORIALS": "Tutoriais de mapas",
     "UNABLE_TO_RETIRE": {
-      "BODY": "MISSING",
+      "BODY": "Você só pode remover áreas que não tenham cultivos, tarefas ativas ou planejadas.",
       "TITLE": "Não é possível retirar"
     },
     "WATER_VALVE": {
@@ -991,11 +988,10 @@
     "CLEAR_ALL": "Limpar tudo",
     "CLEAR_ALL_FILTERS": "Remover todos os filtros",
     "SELECT_ALL": "Selecionar tudo",
-    "SELECTED_one": "MISSING",
-    "SELECTED_many": "MISSING",
-    "SELECTED_other": "MISSING",
-    "SHOWING_ALL": "MISSING",
-    "SHOWING_ALL_DEFAULT": "MISSING"
+    "SELECTED_one": "{{count}} selecionado",
+    "SELECTED_other": "{{count}} selecionado",
+    "SHOWING_ALL": "Mostrando tudo",
+    "SHOWING_ALL_DEFAULT": "Mostrando Tudo (Padrão)"
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
@@ -1057,7 +1053,8 @@
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",
     "EMAIL": "E-mail",
-    "FEEDBACK_INVITATION": "MISSING",
+    "FEEDBACK_INVITATION": "Obtenha ajuda ou nos dê a sua opinião",
+    "SEND_US_FEEDBACK": "Envie-nos sua opinião",
     "MESSAGE_LABEL": "Mensagem",
     "OPTIONS": {
       "OTHER": "Outro",
@@ -1076,9 +1073,9 @@
     "GREETING": "Bom dia, "
   },
   "HOVERPILL": {
-    "PLUS_OTHERS_COUNT_one": "MISSING",
-    "PLUS_OTHERS_COUNT_many": "MISSING",
-    "PLUS_OTHERS_COUNT_other": "MISSING"
+    "PLUS_OTHERS_COUNT_one": "+ {{count}} outro",
+    "PLUS_OTHERS_COUNT_many": "+ {{count}} outros",
+    "PLUS_OTHERS_COUNT_other": "+ {{count}} outros"
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -1175,7 +1172,7 @@
     "PHONE_ERROR": "Por favor entre um número de telefone válido",
     "ROLE": "Função",
     "TITLE": "Convide um usuário",
-    "WAGE": "Salário por hora",
+    "WAGE": "Salário/vencimento por hora trabalhada",
     "WAGE_ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo",
     "WAGE_RANGE_ERROR": "O salário deve ser um número positivo menor que 999.999.999"
   },
@@ -1401,10 +1398,10 @@
   },
   "MENU": {
     "ACTUAL_REVENUES": "Receitas atuais",
-    "ANIMALS": "MISSING",
-    "ANIMALS_GROUPS": "MISSING",
-    "ANIMALS_INVENTORY": "MISSING",
-    "ANIMALS_LOCATION": "MISSING",
+    "ANIMALS": "Animais",
+    "ANIMALS_GROUPS": "Grupos",
+    "ANIMALS_INVENTORY": "Inventário",
+    "ANIMALS_LOCATION": "Locais",
     "CERTIFICATIONS": "Certificações",
     "CROPS": "Cultivos",
     "DOCUMENTS": "Documentos",
@@ -1604,20 +1601,20 @@
     "NOTES": "Nota de lançamento"
   },
   "REMOVE_ANIMALS": {
-    "CREATED_IN_ERROR": "MISSING",
-    "CULLED": "MISSING",
-    "EXPLANATION": "MISSING",
-    "MORE_DETAILS": "MISSING",
-    "NATURAL_DEATH": "MISSING",
-    "REMOVAL_REASONS": "MISSING",
-    "REMOVE_ANIMALS": "MISSING",
-    "REMOVED_AND_ARCHIVED": "MISSING",
-    "SLAUGHTERED_FOR_CONSUMPTION": "MISSING",
-    "SLAUGHTERED_FOR_SALE": "MISSING",
-    "SOLD": "MISSING",
-    "WHY": "MISSING",
-    "WILL_BE_ARCHIVED": "MISSING",
-    "WILL_BE_PERMANENTLY_REMOVED": "MISSING"
+    "CREATED_IN_ERROR": "Criado por engano",
+    "CULLED": "Abatido",
+    "EXPLANATION": "Explicação",
+    "MORE_DETAILS": "Você quer fornecer mais detalhes?",
+    "NATURAL_DEATH": "Morte natural",
+    "REMOVAL_REASONS": "Motivos da remoção",
+    "REMOVE_ANIMALS": "Remover animais",
+    "REMOVED_AND_ARCHIVED": "Estes animais foram removidos com sucesso de seu sítio e estarão disponíveis no histórico do seu inventário.",
+    "SLAUGHTERED_FOR_CONSUMPTION": "Abatido para consumo",
+    "SLAUGHTERED_FOR_SALE": "Abatido para venda",
+    "SOLD": "Vendido",
+    "WHY": "Conte-nos por que você está removendo esses animais",
+    "WILL_BE_ARCHIVED": "Estes animais serão arquivados e estarão acessíveis para referência futura",
+    "WILL_BE_PERMANENTLY_REMOVED": "Estes animais serão permanentemente removidos de seu sítio"
   },
   "REPEAT_PLAN": {
     "AFTER": "Após",
@@ -1659,7 +1656,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Entendi",
-    "DESCRIPTION": "Alguém entrará em contato em 48 horas.",
+    "DESCRIPTION": "Alguém entrará em contato em breve.",
     "TITLE": "Pedido de ajuda enviado"
   },
   "REVENUE": {
@@ -1773,9 +1770,9 @@
     "ZERO": "0 resultados"
   },
   "SECTION_HEADER": {
-    "ANIMALS_GROUPS": "MISSING",
-    "ANIMALS_INVENTORY": "MISSING",
-    "ANIMALS_LOCATION": "MISSING"
+    "ANIMALS_GROUPS": "Grupos de animais",
+    "ANIMALS_INVENTORY": "Inventário de animais",
+    "ANIMALS_LOCATION": "Localização dos animais"
   },
   "SENSOR": {
     "BRAND": "Marca",
@@ -1934,6 +1931,7 @@
         "LABOUR_ISSUE": "Questão trabalhista",
         "MACHINERY_ISSUE": "Problema de maquinário",
         "MARKET_PROBLEM": "Problema na comercialização",
+        "NO_ANIMALS": "Auto-abandonado: Nenhum animal para esta tarefa",
         "OTHER": "Outro",
         "SCHEDULING_ISSUE": "Problema de planejamento",
         "WEATHER": "Clima"
@@ -1953,10 +1951,14 @@
     "ADD_TASK": "Criar tarefa",
     "ADD_TASK_FLOW": "criação de tarefa",
     "AMOUNT_TO_ALLOCATE": "Quantidade a ser alocada",
-    "ANIMAL_MOVING_TO_LOCATION": "MISSING",
+    "ANIMALS": "",
+    "ANIMALS_AT_LEAST_ONE_TO_COMPLETE": "",
+    "ANIMAL_MOVING_TO_LOCATION": "Movendo para:",
+    "ANIMAL_MOVEMENT_EXPANDING_SUMMARY_TITLE": "",
     "CARD": {
       "MULTIPLE_CROPS": "Múltiplos cultivos",
-      "MULTIPLE_LOCATIONS": "Múltiplos locais"
+      "MULTIPLE_LOCATIONS": "Múltiplos locais",
+      "NO_LOCATION": "Sem localização"
     },
     "COMPLETE": {
       "DATE": "Data de conclusão",
@@ -2012,6 +2014,7 @@
     "HOW_WILL_HARVEST_BE_USED": "Como a colheita vai ser utilizada?",
     "IRRIGATION_LOCATION": "Selecione uma área de irrigação",
     "LOCATIONS": "Local (is)",
+    "NO_LOCATIONS_FOR_TASK": "",
     "NO_TASKS_TO_DISPLAY": "Não há tarefas para exibir.",
     "NO_WORK_DONE": "Nenhum trabalho foi concluído",
     "PAGE_TITLE": "Tarefas",
@@ -2020,7 +2023,7 @@
     "QUANTITY_CANNOT_EXCEED": "A quantidade de colheita usada não pode exceder a quantidade a ser alocada",
     "RATE_THIS_TASK": "Avalie esta tarefa",
     "REMOVE_HARVEST_USE": "Remover",
-    "SELECT_ANIMALS_TO_MOVE": "MISSING",
+    "SELECT_ANIMALS": "",
     "SELECT_DATE": "Selecionar a data da tarefa",
     "SELECT_TASK_LOCATIONS": "Selecionar o(s) local(is) da tarefa",
     "SELECT_WILD_CROP": "Esta tarefa é para um cultivo silvestre",
@@ -2078,8 +2081,8 @@
   },
   "BADGE": {
     "BETA": {
-      "TITLE": "MISSING",
-      "ANIMALS_CONTENT": "MISSING"
+      "TITLE": "Beta",
+      "ANIMALS_CONTENT": "Dê uma olhada nas nossas novas funcionalidades de gestão de animais — agora em beta! Seu feedback é crucial à medida que melhoramos este recurso. Por favor, compartilhe quaisquer erros ou sugestões que você encontre. Agradecemos sua ajuda para melhorar o LiteFarm! Você pode aprender mais sobre a versão beta <a>aqui</a>"
     }
   }
 }

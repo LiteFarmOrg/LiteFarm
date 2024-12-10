@@ -34,6 +34,7 @@ import {
   useGetDefaultAnimalBreedsQuery,
   useGetDefaultAnimalTypesQuery,
 } from '../../../store/api/apiSlice';
+import { locationsSelector } from '../../locationSlice';
 import {
   formatAnimalDetailsToDBStructure,
   formatBatchDetailsToDBStructure,
@@ -44,7 +45,7 @@ import { AnimalDetailsFormFields } from '../AddAnimals/types';
 import RemoveAnimalsModal, { FormFields } from '../../../components/Animals/RemoveAnimalsModal';
 import useAnimalOrBatchRemoval from '../Inventory/useAnimalOrBatchRemoval';
 import { generateInventoryId } from '../../../util/animal';
-import { CustomRouteComponentProps } from '../../../types';
+import { CustomRouteComponentProps, Location } from '../../../types';
 import { isAdminSelector } from '../../userFarmSlice';
 
 export const STEPS = {
@@ -90,6 +91,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
 
   // Form setup
   const dispatch = useDispatch();
+  const locations: Location[] = useSelector(locationsSelector);
 
   const getFormSteps = () => [
     {
@@ -106,6 +108,9 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
     });
 
   const isRemoved = !!defaultFormValues?.animal_removal_reason_id;
+  const locationText = locations?.find(
+    ({ location_id }) => location_id === defaultFormValues?.location_id,
+  )?.name;
 
   useEffect(() => {
     if (!isFetchingAnimalsOrBatches && !selectedAnimal && !selectedBatch) {
@@ -174,9 +179,11 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
     return generateInventoryId(animalOrBatch, (selectedAnimal || selectedBatch)!);
   };
 
-  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen } = useAnimalOrBatchRemoval(
-    [getInventoryId()],
-  );
+  const { onConfirmRemoveAnimals, removalModalOpen, setRemovalModalOpen, hasFinalizedTasks } =
+    useAnimalOrBatchRemoval(
+      [getInventoryId()],
+      [{ ...(selectedAnimal || selectedBatch)!, id: getInventoryId() }],
+    );
 
   const onConfirmRemoval = async (formData: FormFields) => {
     const result = await onConfirmRemoveAnimals(formData);
@@ -201,6 +208,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
                 onBack={history.back}
                 /* @ts-ignore */
                 animalOrBatch={defaultFormValues}
+                locationText={locationText}
                 defaultBreeds={defaultAnimalBreeds}
                 defaultTypes={defaultAnimalTypes}
                 customBreeds={customAnimalBreeds}
@@ -235,6 +243,7 @@ function SingleAnimalView({ isCompactSideMenu, history, match, location }: AddAn
           onClose={() => setRemovalModalOpen(false)}
           onConfirm={onConfirmRemoval}
           showSuccessMessage={false}
+          hideDeleteOption={hasFinalizedTasks}
         />
       </FixedHeaderContainer>
     </div>

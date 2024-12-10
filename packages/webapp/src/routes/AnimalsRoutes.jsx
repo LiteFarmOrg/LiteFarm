@@ -17,15 +17,11 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import {
   ANIMALS_INVENTORY_URL,
-  ANIMALS_LOCATION_URL,
-  ANIMALS_GROUPS_URL,
   ADD_ANIMALS_URL,
   createSingleAnimalViewURL,
   // createSingleAnimalTasksURL,
 } from '../util/siteMapConstants';
 const Inventory = React.lazy(() => import('../containers/Animals/Inventory'));
-const Location = React.lazy(() => import('../containers/Animals/Location'));
-const Groups = React.lazy(() => import('../containers/Animals/Groups'));
 const AddAnimals = React.lazy(() => import('../containers/Animals/AddAnimals'));
 const SingleAnimalView = React.lazy(() => import('../containers/Animals/SingleAnimalView'));
 // const SingleAnimalTasks = React.lazy(() =>
@@ -45,8 +41,6 @@ const AnimalsRoutes = ({ isCompactSideMenu, setFeedbackSurveyOpen }) => (
         />
       )}
     />
-    <Route path={ANIMALS_LOCATION_URL} exact component={Location} />
-    <Route path={ANIMALS_GROUPS_URL} exact component={Groups} />
     <Route
       path={ADD_ANIMALS_URL}
       exact

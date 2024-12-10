@@ -613,17 +613,13 @@ export function* createTaskSaga({ payload }) {
         task_translation_key === 'HARVEST_TASK' ? result.data[0] : result.data;
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
       if (alreadyCompleted) {
+        const isCustomTaskWithAnimals =
+          isCustomTask && (result.data.animals?.length || result.data.animal_batches?.length);
+        yield call(onReqSuccessSaga, {
+          message: i18n.t('message:TASK.CREATE.SUCCESS'),
+          pathname: getTaskCompletePathname(task_id, task_translation_key, isCustomTaskWithAnimals),
+        });
         if (isCustomTask) {
-          const isCustomTaskWithAnimals =
-            isCustomTask && (result.data.animals?.length || result.data.animal_batches?.length);
-          yield call(onReqSuccessSaga, {
-            message: i18n.t('message:TASK.CREATE.SUCCESS'),
-            pathname: getTaskCompletePathname(
-              task_id,
-              task_translation_key,
-              isCustomTaskWithAnimals,
-            ),
-          });
           yield put(
             setPersistedPaths([`/tasks/${task_id}/complete`, `/tasks/${task_id}/before_complete`]),
           );

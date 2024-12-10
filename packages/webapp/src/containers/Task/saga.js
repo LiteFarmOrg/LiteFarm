@@ -619,9 +619,6 @@ export function* createTaskSaga({ payload }) {
           message: i18n.t('message:TASK.CREATE.SUCCESS'),
           pathname: getTaskCompletePathname(task_id, task_translation_key, isCustomTaskWithAnimals),
         });
-        if (isCustomTask) {
-          yield put(setFormData({ task_id, taskType }));
-        }
       } else {
         yield call(onReqSuccessSaga, {
           message: i18n.t('message:TASK.CREATE.SUCCESS'),

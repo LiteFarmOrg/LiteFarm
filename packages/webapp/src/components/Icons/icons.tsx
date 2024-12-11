@@ -50,6 +50,7 @@ import { ReactComponent as GoatIcon } from '../../assets/images/animals/goat-ico
 import { ReactComponent as RabbitIcon } from '../../assets/images/animals/rabbit-icon.svg';
 import { ReactComponent as SheepIcon } from '../../assets/images/animals/sheep-icon.svg';
 import { ReactComponent as LocationIcon } from '../../assets/images/location.svg';
+import { ReactComponent as RemovedAnimalIcon } from '../../assets/images/animals/removed-animal-icon.svg';
 
 // Animal Inventory KPI
 import { ReactComponent as AddAnimalIcon } from '../../assets/images/animals/add-animal.svg';
@@ -83,6 +84,7 @@ const animalTypeIcons = {
   GOAT: GoatIcon,
   RABBIT: RabbitIcon,
   SHEEP: SheepIcon,
+  REMOVED_ANIMAL: RemovedAnimalIcon,
 };
 
 // Animal type: type key

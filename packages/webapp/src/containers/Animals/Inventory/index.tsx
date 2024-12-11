@@ -303,7 +303,7 @@ export default function AnimalInventory({
             kind={CellKind.ICON_TEXT}
             text={d.identification}
             iconName={d.iconName}
-            iconBorder={!d.batch}
+            iconBorder={!d.batch && !d.removed}
             subtext={isDesktop ? null : `${d.type} / ${d.breed}`}
             highlightedText={d.batch ? d.count : null}
           />

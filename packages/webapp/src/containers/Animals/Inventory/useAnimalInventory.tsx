@@ -59,6 +59,7 @@ export type AnimalInventoryItem = {
   default_breed_id: number | null;
   location_id?: string | null;
   tasks: Animal['tasks'];
+  removed?: boolean;
 };
 
 const { t } = i18n;
@@ -152,7 +153,9 @@ const formatAnimalsData = (
     .map((animal: Animal) => {
       return {
         id: generateInventoryId(AnimalOrBatchKeys.ANIMAL, animal),
-        iconName: getDefaultAnimalIconName(defaultAnimalTypes, animal.default_type_id),
+        iconName: !!animal.animal_removal_reason_id
+          ? 'REMOVED_ANIMAL'
+          : getDefaultAnimalIconName(defaultAnimalTypes, animal.default_type_id),
         identification: chooseIdentification(animal),
         type: chooseAnimalTypeLabel(animal, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(animal, defaultAnimalBreeds, customAnimalBreeds),
@@ -168,6 +171,7 @@ const formatAnimalsData = (
         default_breed_id: animal.default_breed_id,
         location_id: animal.location_id,
         tasks: animal.tasks,
+        removed: !!animal.animal_removal_reason_id,
       };
     });
 };
@@ -190,7 +194,7 @@ const formatAnimalBatchesData = (
     .map((batch: AnimalBatch) => {
       return {
         id: generateInventoryId(AnimalOrBatchKeys.BATCH, batch),
-        iconName: 'BATCH',
+        iconName: !!batch.animal_removal_reason_id ? 'REMOVED_ANIMAL' : 'BATCH',
         identification: chooseIdentification(batch),
         type: chooseAnimalTypeLabel(batch, defaultAnimalTypes, customAnimalTypes),
         breed: chooseAnimalBreedLabel(batch, defaultAnimalBreeds, customAnimalBreeds),
@@ -206,6 +210,7 @@ const formatAnimalBatchesData = (
         default_breed_id: batch.default_breed_id,
         location_id: batch.location_id,
         tasks: batch.tasks,
+        removed: !!batch.animal_removal_reason_id,
       };
     });
 };

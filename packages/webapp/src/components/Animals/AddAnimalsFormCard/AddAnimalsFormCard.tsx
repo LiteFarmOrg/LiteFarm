@@ -65,8 +65,6 @@ export default function AddAnimalsFormCard({
     getValues,
     setValue,
     resetField,
-    setError,
-    clearErrors,
     formState: { errors },
   } = useFormContext();
 
@@ -86,14 +84,6 @@ export default function AddAnimalsFormCard({
       setValue(uuidFieldName, uuidv4());
     }
   }, []);
-
-  useEffect(() => {
-    if (shouldCreateIndividualProfiles && watchAnimalCount > ANIMAL_COUNT_LIMIT) {
-      trigger(`${namePrefix}${BasicsFields.COUNT}`);
-    } else {
-      clearErrors(`${namePrefix}${BasicsFields.COUNT}`);
-    }
-  }, [watchAnimalCount, shouldCreateIndividualProfiles, clearErrors]);
 
   const filteredBreeds = breedOptions.filter(({ type }) => type === watchAnimalType?.value);
 
@@ -172,6 +162,10 @@ export default function AddAnimalsFormCard({
         hookFormRegister={register(`${namePrefix}${BasicsFields.CREATE_INDIVIDUAL_PROFILES}`)}
         onChange={(e) => {
           onIndividualProfilesCheck?.((e.target as HTMLInputElement).checked);
+          // Trigger validation after the change is reflected in the form state
+          setTimeout(() => {
+            trigger(`${namePrefix}${BasicsFields.COUNT}`);
+          }, 0);
         }}
       />
       {!shouldCreateIndividualProfiles && (

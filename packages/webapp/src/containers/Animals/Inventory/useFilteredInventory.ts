@@ -62,7 +62,9 @@ export const useFilteredInventory = (
       const sexMatches =
         isInactive(sexFilter) ||
         (entity.batch
-          ? entity.sex_detail!.some(({ sex_id }) => sexFilter[sex_id]?.active)
+          ? entity.sex_detail!.some(({ sex_id, count }) => {
+              return sexFilter[sex_id]?.active && count > 0;
+            })
           : sexFilter[entity.sex_id!]?.active);
 
       const locationMatches =

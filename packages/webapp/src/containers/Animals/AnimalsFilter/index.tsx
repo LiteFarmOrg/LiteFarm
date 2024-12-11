@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
@@ -40,6 +40,10 @@ const AnimalsFilter = ({ isFilterActive }: { isFilterActive: boolean }) => {
     setIsFilterOpen(false);
     setIsDirty(false);
   };
+
+  useEffect(() => {
+    setTempAnimalsFilter(animalsFilter);
+  }, [animalsFilter]);
 
   return (
     <div className={styles.filterButton}>

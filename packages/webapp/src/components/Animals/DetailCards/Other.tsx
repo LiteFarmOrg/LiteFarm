@@ -113,13 +113,15 @@ const OtherDetails = ({
         errors={errors?.[`${namePrefix}${DetailsFields.OTHER_DETAILS}`]?.message}
         disabled={mode === 'readonly'}
       />
-      <ImagePicker
-        label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}
-        onFileUpload={onFileUpload}
-        onRemoveImage={handleRemoveImage}
-        defaultUrl={field.value}
-        isDisabled={mode === 'readonly'}
-      />
+      {(!!field.value || mode !== 'readonly') && (
+        <ImagePicker
+          label={t(`ANIMAL.ATTRIBUTE.${animalOrBatch.toUpperCase()}_IMAGE`)}
+          onFileUpload={onFileUpload}
+          onRemoveImage={handleRemoveImage}
+          defaultUrl={field.value}
+          isDisabled={mode === 'readonly'}
+        />
+      )}
     </div>
   );
 };

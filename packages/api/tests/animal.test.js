@@ -1264,6 +1264,31 @@ describe('Animal Tests', () => {
             message: 'Default breed must use default type',
           },
         },
+        {
+          testName: 'Cannot create a duplicate custom type',
+          getPostBody: (customs) => [
+            {
+              type_name: customs.customAnimalType.type,
+            },
+          ],
+          postErr: {
+            code: 409,
+            message: 'Animal type already exists',
+          },
+        },
+        {
+          testName: 'Cannot create a duplicate custom breed',
+          getPostBody: (customs) => [
+            {
+              default_type_id: customs.customAnimalBreed.default_type_id,
+              breed_name: customs.customAnimalBreed.breed,
+            },
+          ],
+          postErr: {
+            code: 409,
+            message: 'Animal breed already exists',
+          },
+        },
       ],
       EDIT: [
         {

@@ -60,6 +60,7 @@ export type AnimalInventoryItem = {
   location_id?: string | null;
   tasks: Animal['tasks'];
   removed?: boolean;
+  photo_url: string | null;
 };
 
 const { t } = i18n;
@@ -172,6 +173,7 @@ const formatAnimalsData = (
         location_id: animal.location_id,
         tasks: animal.tasks,
         removed: !!animal.animal_removal_reason_id,
+        photo_url: animal.photo_url,
       };
     });
 };
@@ -211,6 +213,7 @@ const formatAnimalBatchesData = (
         location_id: batch.location_id,
         tasks: batch.tasks,
         removed: !!batch.animal_removal_reason_id,
+        photo_url: batch.photo_url,
       };
     });
 };

@@ -33,6 +33,15 @@
   gap: 8px;
 }
 
+.photoUrl {
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  border-radius: 8px;
+  border: 1px solid #fff;
+  box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.15);
+}
+
 .iconTextIcon {
   background: transparent;
 }
